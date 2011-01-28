@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.4 $"/>
-		<generation date="$Date: 2009/06/15 03:46:24 $"/>
+		<version number="$Revision: 5094 $"/>
+		<generation date="$Date: 2010-10-13 11:33:36 -0500 (Wed, 13 Oct 2010) $"/>
 		<language type="nds"/>
 	</identity>
 	<localeDisplayNames>
@@ -610,7 +610,6 @@
 			<script type="Phnx" draft="unconfirmed">Phönieksch</script>
 			<script type="Plrd" draft="unconfirmed">Pollard-Phönieksch</script>
 			<script type="Prti" draft="unconfirmed">Inschriften-Parthsch</script>
-			<script type="Qaai" draft="unconfirmed">Arvt Schriftweert</script>
 			<script type="Rjng" draft="unconfirmed">Rejang</script>
 			<script type="Roro" draft="unconfirmed">Rongorongo</script>
 			<script type="Runr" draft="unconfirmed">Runenschrift</script>
@@ -644,6 +643,7 @@
 			<script type="Xpeo" draft="unconfirmed">Ooldpers’sch</script>
 			<script type="Xsux" draft="unconfirmed">Sumeroakkadsch Kielschrift</script>
 			<script type="Yiii" draft="unconfirmed">Yi</script>
+			<script type="Zinh" draft="unconfirmed">Arvt Schriftweert</script>
 			<script type="Zmth" draft="unconfirmed">Mathemaatsch Teken</script>
 			<script type="Zsym" draft="unconfirmed">Symbolen</script>
 			<script type="Zxxx" draft="unconfirmed">Schriftlose Spraken</script>
@@ -749,6 +749,7 @@
 			<territory type="ER" draft="unconfirmed">Eritrea</territory>
 			<territory type="ES" draft="unconfirmed">Spanien</territory>
 			<territory type="ET" draft="unconfirmed">Äthiopien</territory>
+			<territory type="EU" draft="unconfirmed">Europääsche Union</territory>
 			<territory type="FI" draft="unconfirmed">Finnland</territory>
 			<territory type="FJ" draft="unconfirmed">Fidschi</territory>
 			<territory type="FK" draft="unconfirmed">Falkland-Eilannen</territory>
@@ -870,7 +871,6 @@
 			<territory type="PY" draft="unconfirmed">Paraguay</territory>
 			<territory type="QA" draft="unconfirmed">Katar</territory>
 			<territory type="QO" draft="unconfirmed">Büter Ozeanien</territory>
-			<territory type="QU" draft="unconfirmed">Europääsche Union</territory>
 			<territory type="RE" draft="unconfirmed">Reunion</territory>
 			<territory type="RO" draft="unconfirmed">Rumänien</territory>
 			<territory type="RS" draft="unconfirmed">Serbien</territory>
@@ -996,8 +996,9 @@
 		</codePatterns>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters draft="unconfirmed">[a å ä b-o ö p-s ß t u ü v-z]</exemplarCharacters>
+		<exemplarCharacters draft="unconfirmed">[a å ä b c d e f g h i j k l m n o ö p q r s t u ü v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary" draft="unconfirmed">[á à ă â ā æ ç é è ĕ ê ë ę ē í ì ĭ î ï ī ñ ó ò ŏ ô ø ō œ ú ù ŭ û ū ÿ]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S ẞ T U V W X Y Z]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart draft="unconfirmed">„</quotationStart>

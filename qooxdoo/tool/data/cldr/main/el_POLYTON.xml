@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.10 $"/>
-		<generation date="$Date: 2009/05/05 23:06:35 $"/>
+		<version number="$Revision: 4753 $"/>
+		<generation date="$Date: 2010-02-26 00:32:00 -0600 (Fri, 26 Feb 2010) $"/>
 		<language type="el"/>
 		<variant type="POLYTON"/>
 	</identity>
@@ -85,6 +85,7 @@
 			<territory type="ER">Ἐρυθραία</territory>
 			<territory type="ES">Ἱσπανία</territory>
 			<territory type="ET">Αἰθιοπία</territory>
+			<territory type="EU" draft="provisional">Εὐρωπαϊκὴ  ᾿Ένωση</territory>
 			<territory type="FM">Μικρονησία, Ὁμόσπονδες Πολιτεῖες τῆς</territory>
 			<territory type="FO">Νῆσοι Φερόες</territory>
 			<territory type="GB">Ἡνωμένο Βασίλειο</territory>
@@ -170,7 +171,7 @@
 		</types>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[α ἀ ἄ ἂ ἆ ἁ ἅ ἃ ἇ ά ὰ ᾶ β-ε ἐ ἔ ἒ ἑ ἕ ἓ έ ὲ ζ η ἠ ἤ ἢ ἦ ἡ ἥ ἣ ἧ ή ὴ ῆ θ ι ἰ ἴ ἲ ἶ ἱ ἵ ἳ ἷ ί ὶ ῖ ϊ ΐ ῒ ῗ κ-ο ὄ ὂ ὃ ό ὸ π ρ σ ς τ υ ὐ ὔ ὒ ὖ ὑ ὕ ὓ ὗ ύ ὺ ῦ ϋ ΰ ῢ ῧ φ-ω ὤ ὢ ὦ ὥ ὣ ὧ ώ ὼ ῶ]</exemplarCharacters>
+		<exemplarCharacters>[α ἀ ἄ ἂ ἆ ἁ ἅ ἃ ἇ ά ὰ ᾶ β γ δ ε ἐ ἔ ἒ ἑ ἕ ἓ έ ὲ ζ η ἠ ἤ ἢ ἦ ἡ ἥ ἣ ἧ ή ὴ ῆ θ ι ἰ ἴ ἲ ἶ ἱ ἵ ἳ ἷ ί ὶ ῖ ϊ ΐ ῒ ῗ κ λ μ ν ξ ο ὄ ὂ ὃ ό ὸ π ρ σ ς τ υ ὐ ὔ ὒ ὖ ὑ ὕ ὓ ὗ ύ ὺ ῦ ϋ ΰ ῢ ῧ φ χ ψ ω ὤ ὢ ὦ ὥ ὣ ὧ ώ ὼ ῶ]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<alternateQuotationStart>‛</alternateQuotationStart>
@@ -181,36 +182,16 @@
 				<months>
 					<monthContext type="format">
 						<monthWidth type="abbreviated">
-							<month type="1">Ἰαν</month>
-							<month type="4">Ἀπρ</month>
-							<month type="6">Ἰουν</month>
-							<month type="7">Ἰουλ</month>
 							<month type="8">Αὐγ</month>
 							<month type="10">Ὀκτ</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">Ἰανουαρίου</month>
-							<month type="4">Ἀπριλίου</month>
-							<month type="6">Ἰουνίου</month>
-							<month type="7">Ἰουλίου</month>
 							<month type="8">Αὐγούστου</month>
 							<month type="10">Ὀκτωβρίου</month>
 						</monthWidth>
 					</monthContext>
 					<monthContext type="stand-alone">
-						<monthWidth type="abbreviated">
-							<month type="1">Ἰαν</month>
-							<month type="4">Ἀπρ</month>
-							<month type="6">Ἰουν</month>
-							<month type="7">Ἰουλ</month>
-							<month type="8">Αὐγ</month>
-							<month type="10">Ὀκτ</month>
-						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">Ἰανουάριος</month>
-							<month type="4">Ἀπρίλιος</month>
-							<month type="6">Ἰούνιος</month>
-							<month type="7">Ἰούλιος</month>
 							<month type="8">Αὔγουστος</month>
 							<month type="10">Ὀκτώβριος</month>
 						</monthWidth>

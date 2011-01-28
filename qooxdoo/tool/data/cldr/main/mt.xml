@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.91 $"/>
-		<generation date="$Date: 2009/06/15 03:46:25 $"/>
+		<version number="$Revision: 4767 $"/>
+		<generation date="$Date: 2010-02-27 20:54:27 -0600 (Sat, 27 Feb 2010) $"/>
 		<language type="mt"/>
 	</identity>
 	<localeDisplayNames>
@@ -597,6 +597,7 @@
 			<territory type="ER">Eritreja</territory>
 			<territory type="ES">Spanja</territory>
 			<territory type="ET">Etijopja</territory>
+			<territory type="EU">Unjoni Ewropea</territory>
 			<territory type="FI">Finlandja</territory>
 			<territory type="FJ">Fiġi</territory>
 			<territory type="FK">Falkland Islands</territory>
@@ -622,6 +623,7 @@
 			<territory type="GW">Ginea-Bissaw</territory>
 			<territory type="GY">Gujana</territory>
 			<territory type="HK">Ħong Kong S.A.R., Ċina</territory>
+			<territory type="HK" alt="short" draft="unconfirmed">Ħong Kong</territory>
 			<territory type="HM">Heard Island and McDonald Islands</territory>
 			<territory type="HN">Ħonduras</territory>
 			<territory type="HR">Kroazja</territory>
@@ -672,6 +674,7 @@
 			<territory type="MM">Mjanmar</territory>
 			<territory type="MN">Mongolja</territory>
 			<territory type="MO">Macao S.A.R., China</territory>
+			<territory type="MO" alt="short" draft="unconfirmed">Macao</territory>
 			<territory type="MP">Gżejjer Marjana ta’ Fuq</territory>
 			<territory type="MQ">Martinik</territory>
 			<territory type="MR">Mawritanja</territory>
@@ -711,7 +714,6 @@
 			<territory type="PW">Palau</territory>
 			<territory type="PY">Paragwaj</territory>
 			<territory type="QA">Qatar</territory>
-			<territory type="QU">Unjoni Ewropea</territory>
 			<territory type="RE">Réunion</territory>
 			<territory type="RO">Rumanija</territory>
 			<territory type="RU">Russja</territory>
@@ -799,6 +801,7 @@
 		</types>
 		<measurementSystemNames>
 			<measurementSystemName type="metric">Metriku</measurementSystemName>
+			<measurementSystemName type="US" draft="unconfirmed">US</measurementSystemName>
 		</measurementSystemNames>
 		<codePatterns>
 			<codePattern type="language">Lingwa: {0}</codePattern>
@@ -807,9 +810,16 @@
 		</codePatterns>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[a à b ċ d e è f ġ g {għ} h ħ i ì j-o ò p-u ù v-x ż z]</exemplarCharacters>
+		<exemplarCharacters>[a à b ċ d e è f ġ g {għ} h ħ i ì j k l m n o ò p q r s t u ù v w x ż z]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[c y]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="contributed">[A B C Ċ D E F Ġ G {GĦ} H Ħ I {IE} J K L M N O P Q R S T U V W X Y Ż Z]</exemplarCharacters>
 	</characters>
+	<delimiters>
+		<quotationStart draft="unconfirmed">“</quotationStart>
+		<quotationEnd draft="unconfirmed">”</quotationEnd>
+		<alternateQuotationStart draft="unconfirmed">‘</alternateQuotationStart>
+		<alternateQuotationEnd draft="unconfirmed">’</alternateQuotationEnd>
+	</delimiters>
 	<dates>
 		<calendars>
 			<calendar type="gregorian">
@@ -910,8 +920,14 @@
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
-				<am>QN</am>
-				<pm>WN</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">QN</dayPeriod>
+							<dayPeriod type="pm">WN</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<era type="0">Qabel Kristu</era>
@@ -968,11 +984,7 @@
 				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="MMdd" draft="unconfirmed">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMMMd" draft="unconfirmed">d 'ta'’ MMMM</dateFormatItem>
-						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
-						<dateFormatItem id="yyyyMM" draft="unconfirmed">MM/yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMM" draft="unconfirmed">MMM y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="unconfirmed">{0} - {1}</intervalFormatFallback>
@@ -980,18 +992,32 @@
 							<greatestDifference id="d" draft="unconfirmed">d-d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
-							<greatestDifference id="h" draft="unconfirmed">HH-HH</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">h-h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H" draft="unconfirmed">HH-HH</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
-							<greatestDifference id="h" draft="unconfirmed">HH:mm-HH:mm</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">h:mm-h:mm a</greatestDifference>
+							<greatestDifference id="m" draft="unconfirmed">h:mm-h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="H" draft="unconfirmed">HH:mm-HH:mm</greatestDifference>
 							<greatestDifference id="m" draft="unconfirmed">HH:mm-HH:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
-							<greatestDifference id="h" draft="unconfirmed">HH:mm-HH:mm v</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">h:mm-h:mm a v</greatestDifference>
+							<greatestDifference id="m" draft="unconfirmed">h:mm-h:mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="H" draft="unconfirmed">HH:mm-HH:mm v</greatestDifference>
 							<greatestDifference id="m" draft="unconfirmed">HH:mm-HH:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
-							<greatestDifference id="h" draft="unconfirmed">HH-HH v</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">h-h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H" draft="unconfirmed">HH-HH v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M" draft="unconfirmed">M-M</greatestDifference>

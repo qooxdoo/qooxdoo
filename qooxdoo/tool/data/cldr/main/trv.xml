@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.12 $"/>
-		<generation date="$Date: 2009/06/15 03:46:25 $"/>
+		<version number="$Revision: 4765 $"/>
+		<generation date="$Date: 2010-02-27 18:03:30 -0600 (Sat, 27 Feb 2010) $"/>
 		<language type="trv"/>
 	</identity>
 	<localeDisplayNames>
@@ -74,9 +74,10 @@
 		</codePatterns>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters draft="provisional">[a-e g-n {ng} o-u w-y]</exemplarCharacters>
+		<exemplarCharacters draft="provisional">[a b c d e g h i j k l m n {ng} o p q r s t u w x y]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary" draft="provisional">[ḏ f ɨ ḻ ṟ ṯ ʉ v z ʼ]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol" draft="unconfirmed">[a-z]</exemplarCharacters>
+		<exemplarCharacters type="currencySymbol" draft="unconfirmed">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart draft="provisional">“</quotationStart>
@@ -183,17 +184,15 @@
 							<quarter type="4" draft="provisional">mnspat</quarter>
 						</quarterWidth>
 					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="narrow">
-							<quarter type="1" draft="provisional">1</quarter>
-							<quarter type="2" draft="provisional">2</quarter>
-							<quarter type="3" draft="provisional">3</quarter>
-							<quarter type="4" draft="provisional">4</quarter>
-						</quarterWidth>
-					</quarterContext>
 				</quarters>
-				<am draft="provisional">Brax kndaax</am>
-				<pm draft="provisional">Baubau kndaax</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am" draft="provisional">Brax kndaax</dayPeriod>
+							<dayPeriod type="pm" draft="provisional">Baubau kndaax</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<era type="0" draft="provisional">Brah jikan Yisu Thulang</era>

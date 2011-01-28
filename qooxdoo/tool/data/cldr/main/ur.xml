@@ -3,8 +3,8 @@
 <!-- Data donated by Mr.Raymond Doctor, CDAC, Pune, India ! -->
 <ldml>
 	<identity>
-		<version number="$Revision: 1.66 $"/>
-		<generation date="$Date: 2009/06/15 04:15:33 $"/>
+		<version number="$Revision: 4765 $"/>
+		<generation date="$Date: 2010-02-27 18:03:30 -0600 (Sat, 27 Feb 2010) $"/>
 		<language type="ur"/>
 	</identity>
 	<localeDisplayNames>
@@ -362,8 +362,9 @@
 		<orientation characters="right-to-left"/>
 	</layout>
 	<characters>
-		<exemplarCharacters>[أ ؤ ا آ ب پ ت ٹ ث ج چ ح-د ڈ ذ ر ڑ ز ژ س-غ ف ق ک گ ل-ن ں و ہ ی ء ئ ے ٻ ة ٺ ټ ٽ ه ھ ي]</exemplarCharacters>
+		<exemplarCharacters>[أ ؤ ا آ ب پ ت ٹ ث ج چ ح خ د ڈ ذ ر ڑ ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں و ہ ی ء ئ ے ٻ ة ٺ ټ ٽ ه ھ ي]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary" draft="unconfirmed">[\u0610 \u0611 \u0613 \u0614 \u064E \u0650 \u064F \u0670 \u064B \u0651]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="unconfirmed">[أ ؤ ا آ ب پ ت ٹ ث ج چ ح خ د ڈ ذ ر ڑ ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں و ہ ی ء ئ ے ٻ ة ٺ ټ ٽ ه ھ ي]</exemplarCharacters>
 	</characters>
 	<dates>
 		<calendars>
@@ -404,15 +405,6 @@
 				</months>
 				<days>
 					<dayContext type="format">
-						<dayWidth type="narrow">
-							<day type="sun" draft="provisional">ا</day>
-							<day type="mon" draft="provisional">پ</day>
-							<day type="tue" draft="provisional">م</day>
-							<day type="wed" draft="provisional">ب</day>
-							<day type="thu" draft="provisional">ج</day>
-							<day type="fri" draft="provisional">ج</day>
-							<day type="sat" draft="provisional">ہ</day>
-						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun">اتوار</day>
 							<day type="mon">پير</day>
@@ -421,6 +413,17 @@
 							<day type="thu">جمعرات</day>
 							<day type="fri">جمعہ</day>
 							<day type="sat">ہفتہ</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun" draft="provisional">ا</day>
+							<day type="mon" draft="provisional">پ</day>
+							<day type="tue" draft="provisional">م</day>
+							<day type="wed" draft="provisional">ب</day>
+							<day type="thu" draft="provisional">ج</day>
+							<day type="fri" draft="provisional">ج</day>
+							<day type="sat" draft="provisional">ہ</day>
 						</dayWidth>
 					</dayContext>
 				</days>
@@ -440,8 +443,14 @@
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
-				<am draft="unconfirmed">قبل دوپہر</am>
-				<pm draft="unconfirmed">بعد دوپہر</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am" draft="unconfirmed">قبل دوپہر</dayPeriod>
+							<dayPeriod type="pm" draft="unconfirmed">بعد دوپہر</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<era type="0">قبل مسيح</era>
@@ -665,20 +674,14 @@
 					</monthContext>
 				</months>
 				<eras>
-					<eraNames>
-						<era type="1" draft="unconfirmed">عيسوی سن</era>
-					</eraNames>
 					<eraAbbr>
 						<era type="0" draft="unconfirmed">ق م</era>
-						<era type="1" draft="unconfirmed">CE</era>
+						<era type="1" draft="unconfirmed">عيسوی سن</era>
 					</eraAbbr>
 				</eras>
 			</calendar>
 		</calendars>
 		<timeZoneNames>
-			<hourFormat draft="unconfirmed">+HH:mm;-HH:mm</hourFormat>
-			<gmtFormat draft="unconfirmed">GMT{0}</gmtFormat>
-			<regionFormat draft="unconfirmed">{0}</regionFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity draft="provisional">Unknown</exemplarCity>
 			</zone>

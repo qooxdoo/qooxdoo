@@ -2,16 +2,11 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.54 $"/>
-		<generation date="$Date: 2009/06/15 03:46:25 $"/>
+		<version number="$Revision: 4849 $"/>
+		<generation date="$Date: 2010-04-14 15:58:43 -0500 (Wed, 14 Apr 2010) $"/>
 		<language type="ar"/>
 		<territory type="TN"/>
 	</identity>
-	<localeDisplayNames>
-		<scripts>
-			<script type="Ital">اللأيطالية القديمة</script>
-		</scripts>
-	</localeDisplayNames>
 	<dates>
 		<calendars>
 			<calendar type="gregorian">
@@ -28,7 +23,25 @@
 						</dayWidth>
 					</dayContext>
 				</days>
+				<dateFormats>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>yyyy/MM/dd</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>yyyy/M/d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
 				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="Md">M/d</dateFormatItem>
+						<dateFormatItem id="MMdd">MM/dd</dateFormatItem>
+						<dateFormatItem id="yM">yyyy/M</dateFormatItem>
+						<dateFormatItem id="yyyyMM">yyyy/MM</dateFormatItem>
+					</availableFormats>
 					<intervalFormats>
 						<intervalFormatItem id="d">
 							<greatestDifference id="d">d‏-d</greatestDifference>
@@ -52,10 +65,6 @@
 	</dates>
 	<numbers>
 		<defaultNumberingSystem>latn</defaultNumberingSystem>
-		<symbols>
-			<nativeZeroDigit>0</nativeZeroDigit>
-			<exponential draft="provisional">E</exponential>
-		</symbols>
 		<decimalFormats>
 			<decimalFormatLength>
 				<decimalFormat>
@@ -72,4 +81,3 @@
 		</currencyFormats>
 	</numbers>
 </ldml>
-

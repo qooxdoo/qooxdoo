@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.116 $"/>
-		<generation date="$Date: 2009/06/15 20:34:50 $"/>
+		<version number="$Revision: 5096 $"/>
+		<generation date="$Date: 2010-10-13 19:10:15 -0500 (Wed, 13 Oct 2010) $"/>
 		<language type="el"/>
 	</identity>
 	<localeDisplayNames>
@@ -43,6 +43,7 @@
 			<language type="awa">Αγουαντί</language>
 			<language type="ay">Αϊμάρα</language>
 			<language type="az">Αζερμπαϊτζανικά</language>
+			<language type="az" alt="proposed-x1001" draft="unconfirmed">Αζερικά</language>
 			<language type="ba">Μπασκίρ</language>
 			<language type="bad">Μπάντα</language>
 			<language type="bai">Γλώσσα Μπαμιλέκ</language>
@@ -101,6 +102,7 @@
 			<language type="crh">Τουρκικά Κριμαίας</language>
 			<language type="crp">Κρεόλ ή Πίντγκιν</language>
 			<language type="cs">Τσεχικά</language>
+			<language type="cs" alt="proposed-x1001" draft="unconfirmed">Τσέχικα</language>
 			<language type="csb">Κασούμπιαν</language>
 			<language type="cu">Εκκλησιαστικά Σλαβικά</language>
 			<language type="cus">Γλώσσα Κουσιτίκ</language>
@@ -243,6 +245,7 @@
 			<language type="kj">Κουανιγιάμα</language>
 			<language type="kk">Καζακικά</language>
 			<language type="kl">Καλααλισούτ</language>
+			<language type="kl" alt="proposed-x1001" draft="unconfirmed">Καλαάλισουτ</language>
 			<language type="km">Καμποτζιανά</language>
 			<language type="kmb">Κιμπούντου</language>
 			<language type="kn">Κανάντα</language>
@@ -441,6 +444,7 @@
 			<language type="sux">Σουμερικά</language>
 			<language type="sv">Σουηδικά</language>
 			<language type="sw">Σουαχίλι</language>
+			<language type="swb">Κομόρρια</language>
 			<language type="syc">Κλασικά Συριακά</language>
 			<language type="syr">Συριακά</language>
 			<language type="ta">Ταμίλ</language>
@@ -502,13 +506,17 @@
 			<language type="yi">Γίντις</language>
 			<language type="yo">Γιορούμπα</language>
 			<language type="ypk">Γλώσσα Γιούπικ</language>
+			<language type="yue">Καντονέζικα</language>
+			<language type="yue" alt="proposed-x1001" draft="unconfirmed">Καντονεζικά</language>
 			<language type="za">Ζουάνγκ</language>
 			<language type="zap">Ζάποτεκ</language>
 			<language type="zbl">Σύμβολα Bliss</language>
 			<language type="zen">Ζενάγκα</language>
 			<language type="zh">Κινεζικά</language>
 			<language type="zh_Hans">Απλοποιημένα Κινεζικά</language>
+			<language type="zh_Hans" alt="proposed-x1001" draft="unconfirmed">Κινέζικα (απλοποιημένα)</language>
 			<language type="zh_Hant">Παραδοσιακά Κινεζικά</language>
+			<language type="zh_Hant" alt="proposed-x1001" draft="unconfirmed">Κινέζικα (παραδοσιακά)</language>
 			<language type="znd">Ζάντε</language>
 			<language type="zu">Ζουλού</language>
 			<language type="zun">Ζούνι</language>
@@ -607,7 +615,6 @@
 			<script type="Phnx">Φοινικικό</script>
 			<script type="Plrd">Φωνητικό Πόλαρντ</script>
 			<script type="Prti">Επιγραφικό Παρθιάν</script>
-			<script type="Qaai">Κληρονομημένο</script>
 			<script type="Rjng">Ρετζάνγκ</script>
 			<script type="Roro">Ρονγκορόνγκο</script>
 			<script type="Runr">Ρουνίκ</script>
@@ -641,6 +648,7 @@
 			<script type="Xpeo">Παλαιό Περσικό</script>
 			<script type="Xsux">Σούμερο-Ακάντιαν Κουνεϊφόρμ</script>
 			<script type="Yiii">Γι</script>
+			<script type="Zinh">Κληρονομημένο</script>
 			<script type="Zmth">Μαθηματική παράσταση</script>
 			<script type="Zsym">Σύμβολα</script>
 			<script type="Zxxx">Άγραφο</script>
@@ -664,6 +672,7 @@
 			<territory type="029">Καραϊβική</territory>
 			<territory type="030">Ανατολική Ασία</territory>
 			<territory type="034">Νότια Ασία</territory>
+			<territory type="034" alt="proposed-x1001" draft="unconfirmed">Νότιος Ασία</territory>
 			<territory type="035">Νοτιοανατολική Ασία</territory>
 			<territory type="039">Νότια Ευρώπη</territory>
 			<territory type="053">Αυστραλία και Νέα Ζηλανδία</territory>
@@ -671,6 +680,7 @@
 			<territory type="057">Περιοχή Μικρονησίας</territory>
 			<territory type="061">Πολυνησία</territory>
 			<territory type="062">Νότια Κεντρική Ασία</territory>
+			<territory type="062" alt="proposed-x1001" draft="unconfirmed">Νοτιοκεντρική Ασία</territory>
 			<territory type="142">Ασία</territory>
 			<territory type="143">Κεντρική Ασία</territory>
 			<territory type="145">Δυτική Ασία</territory>
@@ -681,6 +691,7 @@
 			<territory type="172">Κοινοπολιτεία Ανεξαρτήτων Πολιτειών</territory>
 			<territory type="419">Λατινική Αμερική και Καραϊβική</territory>
 			<territory type="830">Νησιά Τσάνελ</territory>
+			<territory type="AC">Νήσος Ασενσιόν</territory>
 			<territory type="AD">Ανδόρα</territory>
 			<territory type="AE">Ηνωμένα Αραβικά Εμιράτα</territory>
 			<territory type="AF">Αφγανιστάν</territory>
@@ -721,15 +732,19 @@
 			<territory type="CA">Καναδάς</territory>
 			<territory type="CC">Νήσοι Κόκος</territory>
 			<territory type="CD">Κονγκό - Κινσάσα</territory>
+			<territory type="CD" alt="variant">Κονγκό</territory>
 			<territory type="CF">Κεντροαφρικανική Δημοκρατία</territory>
 			<territory type="CG">Κονγκό - Μπραζαβίλ</territory>
+			<territory type="CG" alt="variant">Κόνγκο [Δημοκρατία του]</territory>
 			<territory type="CH">Ελβετία</territory>
 			<territory type="CI">Ακτή Ελεφαντοστού</territory>
+			<territory type="CI" alt="variant">Ακτή Ελεφαντοστού</territory>
 			<territory type="CK">Νήσοι Κουκ</territory>
 			<territory type="CL">Χιλή</territory>
 			<territory type="CM">Καμερούν</territory>
 			<territory type="CN">Κίνα</territory>
 			<territory type="CO">Κολομβία</territory>
+			<territory type="CP">Νήσος Κλίπερτον</territory>
 			<territory type="CR">Κόστα Ρίκα</territory>
 			<territory type="CS">Σερβία και Μαυροβούνιο</territory>
 			<territory type="CU">Κούβα</territory>
@@ -738,28 +753,35 @@
 			<territory type="CY">Κύπρος</territory>
 			<territory type="CZ">Τσεχία</territory>
 			<territory type="DE">Γερμανία</territory>
+			<territory type="DG">Ντιέγκο Γκαρσία</territory>
 			<territory type="DJ">Τζιμπουτί</territory>
 			<territory type="DK">Δανία</territory>
 			<territory type="DM">Ντομίνικα</territory>
 			<territory type="DO">Δομινικανή Δημοκρατία</territory>
 			<territory type="DZ">Αλγερία</territory>
-			<territory type="EC">Ισημερινός</territory>
+			<territory type="EA">Θεούτα και Μελίλα</territory>
+			<territory type="EA" alt="proposed-x1001" draft="unconfirmed">Ceuta και Melilla</territory>
+			<territory type="EC">Εκουαδόρ</territory>
 			<territory type="EE">Εσθονία</territory>
 			<territory type="EG">Αίγυπτος</territory>
 			<territory type="EH">Δυτική Σαχάρα</territory>
 			<territory type="ER">Ερυθραία</territory>
 			<territory type="ES">Ισπανία</territory>
 			<territory type="ET">Αιθιοπία</territory>
+			<territory type="EU">Ευρωπαϊκή Ένωση</territory>
 			<territory type="FI">Φινλανδία</territory>
 			<territory type="FJ">Φίτζι</territory>
 			<territory type="FK">Νήσοι Φώκλαντ</territory>
+			<territory type="FK" alt="variant">Νήσοι Φώκλαντ</territory>
 			<territory type="FM">Μικρονησία</territory>
 			<territory type="FO">Νήσοι Φερόε</territory>
 			<territory type="FR">Γαλλία</territory>
+			<territory type="FX">Γαλλία, Μητροπολιτική</territory>
 			<territory type="GA">Γκαμπόν</territory>
 			<territory type="GB">Ηνωμένο Βασίλειο</territory>
 			<territory type="GD">Γρενάδα</territory>
 			<territory type="GE">Γεωργία</territory>
+			<territory type="GE" alt="proposed-x1001" draft="unconfirmed">Νότια Γεωργία και Νότιες Νήσοι Σάντουιτς</territory>
 			<territory type="GF">Γαλλική Γουιάνα</territory>
 			<territory type="GG">Γκερνσέι</territory>
 			<territory type="GH">Γκάνα</territory>
@@ -782,12 +804,14 @@
 			<territory type="HR">Κροατία</territory>
 			<territory type="HT">Αϊτή</territory>
 			<territory type="HU">Ουγγαρία</territory>
+			<territory type="IC">Κανάριοι Νήσοι</territory>
 			<territory type="ID">Ινδονησία</territory>
 			<territory type="IE">Ιρλανδία</territory>
 			<territory type="IL">Ισραήλ</territory>
 			<territory type="IM">Νήσος Μαν</territory>
 			<territory type="IN">Ινδία</territory>
 			<territory type="IO">Βρετανικά Εδάφη Ινδικού Ωκεανού</territory>
+			<territory type="IO" alt="proposed-x1001" draft="unconfirmed">Βρετανικά Εδάφη Ινδικού Ωκεανού</territory>
 			<territory type="IQ">Ιράκ</territory>
 			<territory type="IR">Ιράν</territory>
 			<territory type="IS">Ισλανδία</territory>
@@ -797,7 +821,7 @@
 			<territory type="JO">Ιορδανία</territory>
 			<territory type="JP">Ιαπωνία</territory>
 			<territory type="KE">Κένυα</territory>
-			<territory type="KG">Κιργιζία</territory>
+			<territory type="KG">Κιργιστάν</territory>
 			<territory type="KH">Καμπότζη</territory>
 			<territory type="KI">Κιριμπάτι</territory>
 			<territory type="KM">Κομόρος</territory>
@@ -825,7 +849,8 @@
 			<territory type="MF">Άγιος Μαρτίνος</territory>
 			<territory type="MG">Μαδαγασκάρη</territory>
 			<territory type="MH">Νήσοι Μάρσαλ</territory>
-			<territory type="MK">ΠΓΔ Μακεδονίας</territory>
+			<territory type="MK">ΠΓΔΜ</territory>
+			<territory type="MK" alt="variant">ΠΓΔΜ</territory>
 			<territory type="ML">Μάλι</territory>
 			<territory type="MM">Μιανμάρ</territory>
 			<territory type="MN">Μογγολία</territory>
@@ -871,11 +896,11 @@
 			<territory type="PY">Παραγουάη</territory>
 			<territory type="QA">Κατάρ</territory>
 			<territory type="QO">Περιφερειακή Ωκεανία</territory>
-			<territory type="QU">Ευρωπαϊκή Ένωση</territory>
 			<territory type="RE">Ρεϋνιόν</territory>
 			<territory type="RO">Ρουμανία</territory>
 			<territory type="RS">Σερβία</territory>
 			<territory type="RU">Ρωσία</territory>
+			<territory type="RU" alt="proposed-x1001" draft="unconfirmed">Ρωσική Ομοσπονδία</territory>
 			<territory type="RW">Ρουάντα</territory>
 			<territory type="SA">Σαουδική Αραβία</territory>
 			<territory type="SB">Νήσοι Σολομώντος</territory>
@@ -885,7 +910,7 @@
 			<territory type="SG">Σιγκαπούρη</territory>
 			<territory type="SH">Αγία Ελένη</territory>
 			<territory type="SI">Σλοβενία</territory>
-			<territory type="SJ">Σβαλμπάρντ και Γιαν Μαγιέν</territory>
+			<territory type="SJ">Σβάλμπαρντ και Νήσοι Γιάν Μέϋεν</territory>
 			<territory type="SK">Σλοβακία</territory>
 			<territory type="SL">Σιέρα Λεόνε</territory>
 			<territory type="SM">Άγιος Μαρίνος</territory>
@@ -897,6 +922,8 @@
 			<territory type="SY">Συρία</territory>
 			<territory type="SZ">Ζουαζηλάνδη</territory>
 			<territory type="SZ" alt="proposed-x1001" draft="unconfirmed">Σουαζιλάνδη</territory>
+			<territory type="TA">Τριστάν ντα Κούνια</territory>
+			<territory type="TA" alt="proposed-x1001" draft="unconfirmed">Tristan da Cunha</territory>
 			<territory type="TC">Νήσοι Τερκς και Κάικος</territory>
 			<territory type="TD">Τσαντ</territory>
 			<territory type="TF">Γαλλικά Νότια Εδάφη</territory>
@@ -905,6 +932,7 @@
 			<territory type="TJ">Τατζικιστάν</territory>
 			<territory type="TK">Τοκελάου</territory>
 			<territory type="TL">Ανατολικό Τιμόρ</territory>
+			<territory type="TL" alt="variant">Ανατολικό Τιμόρ</territory>
 			<territory type="TM">Τουρκμενιστάν</territory>
 			<territory type="TN">Τυνησία</territory>
 			<territory type="TO">Τόνγκα</territory>
@@ -917,6 +945,7 @@
 			<territory type="UG">Ουγκάντα</territory>
 			<territory type="UM">Απομακρυσμένες Νησίδες Η.Π.Α.</territory>
 			<territory type="US">Ηνωμένες Πολιτείες της Αμερικής</territory>
+			<territory type="US" alt="proposed-x1001" draft="unconfirmed">Ηνωμένες Πολιτείες της Αμερικής</territory>
 			<territory type="UY">Ουρουγουάη</territory>
 			<territory type="UZ">Ουζμπεκιστάν</territory>
 			<territory type="VA">Βατικανό</territory>
@@ -941,6 +970,8 @@
 			<variant type="1996">Γερμανική ορθογραφία του 1996</variant>
 			<variant type="1606NICT">Νεότερα Μέσα Γαλλικά του 1606</variant>
 			<variant type="1694ACAD">Πρώιμα Σύγχρονα Γαλλικά</variant>
+			<variant type="1959ACAD">Ακαδημαϊκά</variant>
+			<variant type="1959ACAD" alt="proposed-x1001" draft="unconfirmed">Ακασημαϊκά</variant>
 			<variant type="AREVELA">Ανατολικά Αρμενικά</variant>
 			<variant type="AREVMDA">Δυτικά Αρμενικά</variant>
 			<variant type="BAKU1926">Ενοποιημένη τουρκική λατινική αλφάβητος</variant>
@@ -948,11 +979,14 @@
 			<variant type="BOONT">Μπούντλινγκ</variant>
 			<variant type="FONIPA">Διεθνής φωνητική αλφάβητος</variant>
 			<variant type="FONUPA">Ουραλική φωνητική αλφάβητος</variant>
+			<variant type="KKCOR">Κοινή ορθογραφία</variant>
 			<variant type="LIPAW">Διάλεκτος Λιποβάζ της Ρεσιάν</variant>
 			<variant type="MONOTON">Μονοτονικό</variant>
 			<variant type="NEDIS">Διάλεκτος Νατισόνε</variant>
 			<variant type="NJIVA">Διάλεκτος Γκνιβά/Ντζιβά</variant>
 			<variant type="OSOJS">Διάλεκτος Οσεακό/Οσοτζάν</variant>
+			<variant type="PINYIN">Εκλατινισμένα Πινγίν</variant>
+			<variant type="PINYIN" alt="proposed-x1001" draft="unconfirmed">Απλοποιημένα Κινέζικα εκλατινισμένα</variant>
 			<variant type="POLYTON">Πολυτονικό</variant>
 			<variant type="POSIX">Υπολογιστής</variant>
 			<variant type="REVISED">Αναθεωρημένη ορθογραφία</variant>
@@ -962,7 +996,11 @@
 			<variant type="SCOUSE">Σκουζ</variant>
 			<variant type="SOLBA">Διάλεκτος Στολβιτζά/Σολμπικά</variant>
 			<variant type="TARASK">Ταρασκιεβική ορθογραφία</variant>
+			<variant type="UCCOR">Ενωποιημένη ορθογραφία</variant>
+			<variant type="UCRCOR">Ενωποιημένη αναθεωρημένη ορθογραφία</variant>
 			<variant type="VALENCIA">Βαλενθιανά</variant>
+			<variant type="WADEGILE">Εκλατινισμένα Γουάντ-Γκιλς</variant>
+			<variant type="WADEGILE" alt="proposed-x1001" draft="unconfirmed">Απλοποιημένα Κινέζικα εκλατινισμένα</variant>
 		</variants>
 		<keys>
 			<key type="calendar">ημερολόγιο</key>
@@ -1001,7 +1039,12 @@
 		<inText type="languages">lowercase-words</inText>
 	</layout>
 	<characters>
-		<exemplarCharacters>[α ά β-ε έ ζ η ή θ ι ί ϊ ΐ κ-ο ό π ρ σ ς τ υ ύ ϋ ΰ φ-ω ώ]</exemplarCharacters>
+		<exemplarCharacters>[α ά β γ δ ε έ ζ η ή θ ι ί ϊ ΐ κ λ μ ν ξ ο ό π ρ σ ς τ υ ύ ϋ ΰ φ χ ψ ω ώ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary" alt="proposed-x1001" draft="unconfirmed">[α ν]</exemplarCharacters>
+		<exemplarCharacters type="index">[Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω]</exemplarCharacters>
+		<exemplarCharacters alt="proposed-x1001" draft="unconfirmed">[a b c d e f g h i j k l m n o p q r s t u v w x y z α ά β γ δ ε έ ζ η ή θ ι ί ϊ ΐ κ λ μ ν ξ ο ό π ρ σ ς τ υ ύ ϋ ΰ φ χ ψ ω ώ]</exemplarCharacters>
+		<exemplarCharacters alt="proposed-x1002" draft="unconfirmed">[α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ σ ς τ υ φ χ ψ ω]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>«</quotationStart>
@@ -1012,8 +1055,6 @@
 	<dates>
 		<calendars>
 			<calendar type="buddhist">
-				<am>π.μ.</am>
-				<pm>μ.μ.</pm>
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
@@ -1036,31 +1077,6 @@
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, d MMMM</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d/M/y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMM">LLLL, y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="chinese">
-				<am>π.μ.</am>
-				<pm>μ.μ.</pm>
-			</calendar>
-			<calendar type="coptic">
-				<am>π.μ.</am>
-				<pm>μ.μ.</pm>
-			</calendar>
-			<calendar type="ethiopic">
-				<am>π.μ.</am>
-				<pm>μ.μ.</pm>
 			</calendar>
 			<calendar type="gregorian">
 				<months>
@@ -1173,28 +1189,16 @@
 							<quarter type="4">4ο τρίμηνο</quarter>
 						</quarterWidth>
 					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">Τ1</quarter>
-							<quarter type="2">Τ2</quarter>
-							<quarter type="3">Τ3</quarter>
-							<quarter type="4">Τ4</quarter>
-						</quarterWidth>
-						<quarterWidth type="narrow">
-							<quarter type="1">1</quarter>
-							<quarter type="2">2</quarter>
-							<quarter type="3">3</quarter>
-							<quarter type="4">4</quarter>
-						</quarterWidth>
-					</quarterContext>
 				</quarters>
-				<am>π.μ.</am>
-				<pm>μ.μ.</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">π.μ.</dayPeriod>
+							<dayPeriod type="pm">μ.μ.</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
-					<eraNames>
-						<era type="0">π.Χ.</era>
-						<era type="1">μ.Χ.</era>
-					</eraNames>
 					<eraAbbr>
 						<era type="0">π.Χ.</era>
 						<era type="1">μ.Χ.</era>
@@ -1203,22 +1207,22 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>EEEE, dd MMMM y</pattern>
+							<pattern>EEEE, d MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern>dd MMMM y</pattern>
+							<pattern>d MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern>dd MMM y</pattern>
+							<pattern>d MMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
+							<pattern>d/M/yy</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -1249,10 +1253,13 @@
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E d</dateFormatItem>
 						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
-						<dateFormatItem id="H">H</dateFormatItem>
+						<dateFormatItem id="H">HH</dateFormatItem>
 						<dateFormatItem id="HHmm">HH:mm</dateFormatItem>
 						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="Hm">H:mm</dateFormatItem>
+						<dateFormatItem id="hm" draft="provisional">h:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms" draft="provisional">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms" draft="provisional">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
 						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
@@ -1268,18 +1275,17 @@
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/yyyy</dateFormatItem>
 						<dateFormatItem id="yMEd">EEE, d/M/yyyy</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMM">LLL y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">EEE, d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMM">LLLL y</dateFormatItem>
 						<dateFormatItem id="yQ">y Q</dateFormatItem>
 						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/yy</dateFormatItem>
-						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
+						<dateFormatItem id="yyMMM">LLL yy</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
 						<dateFormatItem id="yyQQQQ">QQQQ yy</dateFormatItem>
 						<dateFormatItem id="yyyy">y</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM/yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM">MMMM y</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">LLLL y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback>{0} - {1}</intervalFormatFallback>
@@ -1361,8 +1367,8 @@
 							<greatestDifference id="y">E, dd MMM y - E, dd MMM y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MM-MM/yyyy</greatestDifference>
-							<greatestDifference id="y">MM/yyyy-MM/yyyy</greatestDifference>
+							<greatestDifference id="M">LLLL-LLLL y</greatestDifference>
+							<greatestDifference id="y" draft="contributed">LLLL y - LLLL y</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -1383,7 +1389,9 @@
 						<displayName>Ημέρα</displayName>
 						<relative type="-3">Πριν από τρεις ημέρες</relative>
 						<relative type="-2">Προχτές</relative>
+						<relative type="-2" alt="proposed-x1001" draft="unconfirmed">Προχθές</relative>
 						<relative type="-1">Χτες</relative>
+						<relative type="-1" alt="proposed-x1001" draft="unconfirmed">Χθες</relative>
 						<relative type="0">Σήμερα</relative>
 						<relative type="1">Αύριο</relative>
 						<relative type="2">Μεθαύριο</relative>
@@ -1410,25 +1418,13 @@
 				</fields>
 			</calendar>
 			<calendar type="hebrew">
-				<am>π.μ.</am>
-				<pm>μ.μ.</pm>
 				<eras>
 					<eraAbbr>
 						<era type="0">π.μ.</era>
 					</eraAbbr>
 				</eras>
 			</calendar>
-			<calendar type="indian">
-				<am>π.μ.</am>
-				<pm>μ.μ.</pm>
-			</calendar>
-			<calendar type="islamic">
-				<am>π.μ.</am>
-				<pm>μ.μ.</pm>
-			</calendar>
 			<calendar type="japanese">
-				<am>π.μ.</am>
-				<pm>μ.μ.</pm>
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
@@ -1453,25 +1449,21 @@
 				</dateFormats>
 				<dateTimeFormats>
 					<availableFormats>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="yyyyM">MM/yy GGGGG</dateFormatItem>
-						<dateFormatItem id="yyyyMMM">MMM yy GGGGG</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">LLL yy GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyQ">yy GGGGG Q</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
-			<calendar type="persian">
-				<am>π.μ.</am>
-				<pm>μ.μ.</pm>
-			</calendar>
 			<calendar type="roc">
-				<am>π.μ.</am>
-				<pm>μ.μ.</pm>
 				<eras>
 					<eraAbbr>
 						<era type="0">Πριν R.O.C.</era>
+						<era type="1">R.O.C.</era>
 					</eraAbbr>
 				</eras>
 				<dateFormats>
@@ -1498,6 +1490,7 @@
 				</dateFormats>
 				<dateTimeFormats>
 					<availableFormats>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
 						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
@@ -1505,7 +1498,7 @@
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMEd">EEE, d/M/y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMM">MMM, y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">LLL, y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMEd">EEE, d MMM, y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">y G Q</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
@@ -1514,9 +1507,8 @@
 			</calendar>
 		</calendars>
 		<timeZoneNames>
-			<hourFormat>+HHmm;-HHmm</hourFormat>
+			<hourFormat>+HH:mm;-HH:mm</hourFormat>
 			<gmtFormat>GMT{0}</gmtFormat>
-			<regionFormat>{0}</regionFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity>Άγνωστη</exemplarCity>
 			</zone>
@@ -2702,12 +2694,14 @@
 			</metazone>
 			<metazone type="Bering">
 				<short>
+					<generic>BT (Μπερίνγκ)</generic>
 					<standard>BST (Μπερίνγκ)</standard>
 					<daylight>BDT (Μπερίνγκ)</daylight>
 				</short>
 			</metazone>
 			<metazone type="Cuba">
 				<short>
+					<generic>CT (Κούβα)</generic>
 					<standard>CST (Κούβα)</standard>
 					<daylight>CDT (Κούβα)</daylight>
 				</short>
@@ -2731,10 +2725,18 @@
 			<plusSign>+</plusSign>
 			<minusSign>-</minusSign>
 			<exponential>e</exponential>
+			<exponential alt="proposed-x1001" draft="unconfirmed">E</exponential>
 			<perMille>‰</perMille>
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
 		</symbols>
+		<decimalFormats>
+			<decimalFormatLength>
+				<decimalFormat>
+					<pattern draft="provisional">#,##0.###</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+		</decimalFormats>
 		<percentFormats>
 			<percentFormatLength>
 				<percentFormat>
@@ -2754,7 +2756,9 @@
 			<currency type="ADP">
 				<displayName>Πεσέτα Ανδόρας</displayName>
 				<displayName count="one">πεσέτα Ανδόρας</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">Πεσέτα Ανδόρας</displayName>
 				<displayName count="other">πεσέτες Ανδόρας</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">Πεσέτες Ανδόρας</displayName>
 			</currency>
 			<currency type="AED">
 				<displayName>Ντιράμ Ηνωμένων Αραβικών Εμιράτων</displayName>
@@ -2765,12 +2769,16 @@
 				<displayName>Αφγανί Αφγανιστάν (1927-2002)</displayName>
 				<displayName count="one">αφγάνι Αφγανιστάν (AFA)</displayName>
 				<displayName count="other">αφγάνι Αφγανιστάν (AFA)</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">αφγάνις Αφγανιστάν (AFA)</displayName>
 			</currency>
 			<currency type="AFN">
 				<displayName>Αφγανί Αφγανιστάν</displayName>
 				<displayName count="one">αφγάνι Αφγανιστάν</displayName>
 				<displayName count="other">Αφγάνι Αφγανιστάν</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">αφγάνι Αφγανιστάν</displayName>
+			</currency>
+			<currency type="ALK">
+				<displayName count="one" draft="provisional">Παλαιό λεκ Αλβανίας</displayName>
+				<displayName count="other" draft="provisional">Παλαιά λεκ Αλβανίας</displayName>
 			</currency>
 			<currency type="ALL">
 				<displayName>Λεκ Αλβανίας</displayName>
@@ -2795,32 +2803,36 @@
 			<currency type="AOK">
 				<displayName>Κουάνζα Ανγκόλας (1977-1990)</displayName>
 				<displayName count="one">κουάνζα Ανγκόλας (AOK)</displayName>
-				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">Κουάνζα Ανγκόλας (AOK)</displayName>
 				<displayName count="other">κουάνζα Ανγκόλας (AOK)</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">Κουάνζες Ανγκόλας (AOK)</displayName>
 			</currency>
 			<currency type="AON">
 				<displayName>Νέα Κουάνζα Ανγκόλας (1990-2000)</displayName>
 				<displayName count="one">νέο κουάνζα Ανγκόλας (AON)</displayName>
-				<displayName count="other" draft="unconfirmed">νέα κουάνζα Ανγκόλας (AON)</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">νέες κουάνζες Ανγκόλας (AON)</displayName>
+				<displayName count="other" draft="provisional">νέα κουάνζα Ανγκόλας (AON)</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Νέα κουάνζα Ανγκόλας (1990-2000)</displayName>
 			</currency>
 			<currency type="AOR">
 				<displayName>Κουάνζα Reajustado Ανγκόλας (1995-1999)</displayName>
 				<displayName count="one">κουάνζα Reajustado Ανγκόλας (AOR)</displayName>
 				<displayName count="other">κουάνζα Reajustado Ανγκόλας (AOR)</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">κουάνζες Reajustado Ανγκόλας (AOR)</displayName>
 			</currency>
 			<currency type="ARA">
 				<displayName>Ωστράλ Αργετινής</displayName>
 				<displayName count="one">αουστράλ Αργεντινής</displayName>
 				<displayName count="other">αουστράλ Αργεντινής</displayName>
 			</currency>
+			<currency type="ARL">
+				<displayName count="one" draft="provisional">Πέσο λέι Αργετινής</displayName>
+				<displayName count="other" draft="provisional">Πέσο λέι Αργετινής</displayName>
+			</currency>
+			<currency type="ARM">
+				<displayName count="one" draft="provisional">Πέσο moneda nacional Αργετινής</displayName>
+				<displayName count="other" draft="provisional">Πέσο moneda nacional Αργετινής</displayName>
+			</currency>
 			<currency type="ARP">
 				<displayName>Πέσο Αργεντινής (1983-1985)</displayName>
 				<displayName count="one">πέσο Αργεντινής (ARP)</displayName>
 				<displayName count="other">πέσο Αργεντινής (ARP)</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">πέσος Αργεντινής (ARP)</displayName>
 			</currency>
 			<currency type="ARS">
 				<displayName>Πέσο Αργεντινής</displayName>
@@ -2845,9 +2857,7 @@
 			<currency type="AZM">
 				<displayName>Μανάτ Αζερμπαϊτζάν (1993-2006)</displayName>
 				<displayName count="one">μανάτ Αζερμπαϊτζάν (1993-2006)</displayName>
-				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">μανάτ Αζερμπαϊτζάν (AZM)</displayName>
 				<displayName count="other">μανάτ Αζερμπαϊτζάν (1993-2006)</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">μανάτ Αζερμπαϊτζάν (AZM)</displayName>
 			</currency>
 			<currency type="AZN">
 				<displayName>Μανάτ Αζερμπαϊτζάν</displayName>
@@ -2863,6 +2873,11 @@
 				<displayName>Μετατρέψιμο Μάρκο Βοσνίας-Ερζεγοβίνης</displayName>
 				<displayName count="one">μάρκο Βοσνίας-Ερζεγοβίνης</displayName>
 				<displayName count="other">μάρκα Βοσνίας-Ερζεγοβίνης</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Μετατρέψιμο μάρκο Βοσνίας-Ερζεγοβίνης</displayName>
+			</currency>
+			<currency type="BAN">
+				<displayName count="one" draft="provisional">Νέο δινάριο Βοσνίας-Ερζεγοβίνης</displayName>
+				<displayName count="other" draft="provisional">Νέα δινάρια Βοσνίας-Ερζεγοβίνης</displayName>
 			</currency>
 			<currency type="BBD">
 				<displayName>Δολάριο Μπαρμπάντος</displayName>
@@ -2893,11 +2908,21 @@
 				<displayName>Μεταλλικό Λεβ Βουλγαρίας</displayName>
 				<displayName count="one">μεταλλικό λεβ Βουλγαρίας</displayName>
 				<displayName count="other">μεταλλικά λεβ Βουλγαρίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Μεταλλικό λεβ Βουλγαρίας</displayName>
+			</currency>
+			<currency type="BGM">
+				<displayName count="one" draft="provisional">Σοσιαλιστικό λεβ Βουλγαρίας</displayName>
+				<displayName count="other" draft="provisional">Σοσιαλιστικά λεβ Βουλγαρίας</displayName>
 			</currency>
 			<currency type="BGN">
 				<displayName>Νέο Λεβ Βουλγαρίας</displayName>
 				<displayName count="one">νέο λεβ Βουλγαρίας</displayName>
 				<displayName count="other">νέα λεβ Βουλγαρίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Λεβ Βουλγαρίας</displayName>
+			</currency>
+			<currency type="BGO">
+				<displayName count="one" draft="provisional">Παλαιό λεβ Βουλγαρίας</displayName>
+				<displayName count="other" draft="provisional">Παλαιά λεβ Βουλγαρίας</displayName>
 			</currency>
 			<currency type="BHD">
 				<displayName>Δηνάριο Μπαχρέιν</displayName>
@@ -2924,6 +2949,10 @@
 				<displayName count="one">μπολιβιάνο Βολιβίας</displayName>
 				<displayName count="other">μπολιβιάνο Βολιβίας</displayName>
 			</currency>
+			<currency type="BOL">
+				<displayName count="one" draft="provisional">Παλαιό βολιβιάνο Βολιβίας</displayName>
+				<displayName count="other" draft="provisional">Παλαιά βολιβιάνο Βολιβίας</displayName>
+			</currency>
 			<currency type="BOP">
 				<displayName>Πέσο Βολιβίας</displayName>
 				<displayName count="one">πέσο Βολιβίας</displayName>
@@ -2938,7 +2967,7 @@
 				<displayName>Νέο Κρουζιέρο Βραζιλίας (1967-1986)</displayName>
 				<displayName count="one">νέο κρουζέιρο Βραζιλίας (BRB)</displayName>
 				<displayName count="other">νέα κρουζέιρο Βραζιλίας (BRB)</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">νέα κρουζέιρος Βραζιλίας (BRB)</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Νέο κρουζιέρο Βραζιλίας (1967-1986)</displayName>
 			</currency>
 			<currency type="BRC">
 				<displayName>Κρουζάντο Βραζιλίας</displayName>
@@ -2949,7 +2978,6 @@
 				<displayName>Κρουζιέρο Βραζιλίας (1990-1993)</displayName>
 				<displayName count="one">κρουζέιρο Βραζιλίας (BRE)</displayName>
 				<displayName count="other">κρουζέιρο Βραζιλίας (BRE)</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">κρουζέιρος Βραζιλίας (BRE)</displayName>
 			</currency>
 			<currency type="BRL">
 				<displayName>Ρεάλ Βραζιλίας</displayName>
@@ -2960,11 +2988,16 @@
 				<displayName>Νέο Κρουζάντο Βραζιλίας</displayName>
 				<displayName count="one">νέο κρουζάντο Βραζιλίας</displayName>
 				<displayName count="other">νέα κρουζάντο Βραζιλίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Νέο κρουζάντο Βραζιλίας</displayName>
 			</currency>
 			<currency type="BRR">
 				<displayName>Κρουζιέρο Βραζιλίας</displayName>
 				<displayName count="one">κρουζέιρο Βραζιλίας</displayName>
 				<displayName count="other">κρουζέιρο Βραζιλίας</displayName>
+			</currency>
+			<currency type="BRZ">
+				<displayName count="one" draft="provisional">Παλαιό κρουζέιρο Βραζιλίας</displayName>
+				<displayName count="other" draft="provisional">Παλαιά κρουζέιρο Βραζιλίας</displayName>
 			</currency>
 			<currency type="BSD">
 				<displayName>Δολάριο Μπαχάμες</displayName>
@@ -2990,6 +3023,7 @@
 				<displayName>Νέο Ρούβλι Λευκορωσίας (1994-1999)</displayName>
 				<displayName count="one">νέο ρούβλι Λευκορωσίας (1994-1999)</displayName>
 				<displayName count="other">νέα ρούβλια Λευκορωσίας (1994-1999)</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Νέο ρούβλι Λευκορωσίας (1994-1999)</displayName>
 			</currency>
 			<currency type="BYR">
 				<displayName>Ρούβλι Λευκορωσίας</displayName>
@@ -3026,6 +3060,10 @@
 				<displayName count="one">φράγκο WIR</displayName>
 				<displayName count="other">φράγκα WIR</displayName>
 			</currency>
+			<currency type="CLE">
+				<displayName count="one" draft="provisional">Εσκούδο Χιλής</displayName>
+				<displayName count="other" draft="provisional">Εσκούδο Χιλής</displayName>
+			</currency>
 			<currency type="CLF">
 				<displayName>Unidades de Fomento Χιλής</displayName>
 				<displayName count="one">ουνιδάδες ντε φομέντο Χιλής</displayName>
@@ -3036,10 +3074,15 @@
 				<displayName count="one">πέσο Χιλής</displayName>
 				<displayName count="other">πέσο Χιλής</displayName>
 			</currency>
+			<currency type="CNX">
+				<displayName count="one" draft="provisional">Δολάριο Λαϊκής Τράπεζας Κίνας</displayName>
+				<displayName count="other" draft="provisional">Δολάρια Λαϊκής Τράπεζας Κίνας</displayName>
+			</currency>
 			<currency type="CNY">
 				<displayName>Γιουάν Ρενμίμπι Κίνας</displayName>
 				<displayName count="one">γιουάν Κίνας</displayName>
 				<displayName count="other">γιουάν Κίνας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Γιουάν ρενμίμπι Κίνας</displayName>
 			</currency>
 			<currency type="COP">
 				<displayName>Πέσο Κολομβίας</displayName>
@@ -3050,6 +3093,7 @@
 				<displayName>unidad de valor real</displayName>
 				<displayName count="one">unidad de valor real</displayName>
 				<displayName count="other">unidad de valor reals</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Unidad de Valor Real</displayName>
 			</currency>
 			<currency type="CRC">
 				<displayName>Κολόν Κόστα Ρίκα</displayName>
@@ -3060,11 +3104,18 @@
 				<displayName>Παλαιό Δηνάριο Σερβίας</displayName>
 				<displayName count="one">παλιό δινάρη Σερβίας</displayName>
 				<displayName count="other">παλιά δινάρια Σερβίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Παλαιό δηνάριο Σερβίας</displayName>
 			</currency>
 			<currency type="CSK">
 				<displayName>Σκληρή Κορόνα Τσεχοσλοβακίας</displayName>
 				<displayName count="one">σκληρή κορόνα Τσεχοσλοβακίας</displayName>
 				<displayName count="other">σκληρές κορόνες Τσεχοσλοβακίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Σκληρή κορόνα Τσεχοσλοβακίας</displayName>
+			</currency>
+			<currency type="CUC">
+				<displayName>Μετατρέψιμο πέσο Κούβας</displayName>
+				<displayName count="one">Μετατρέψιμο πέσο Κούβας</displayName>
+				<displayName count="other">Μετατρέψιμα πέσο Κούβας</displayName>
 			</currency>
 			<currency type="CUP">
 				<displayName>Πέσο Κούβας</displayName>
@@ -3125,7 +3176,6 @@
 				<displayName>Unidad de Valor Constante (UVC) Ισημερινού</displayName>
 				<displayName count="one">Unidad de Valor Constante (UVC) Ισημερινού</displayName>
 				<displayName count="other">Unidads de Valor Constante (UVC) Ισημερινού</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">Unidad de Valor Constante (UVC) Ισημερινού</displayName>
 			</currency>
 			<currency type="EEK">
 				<displayName>Κορόνα Εσθονίας</displayName>
@@ -3146,11 +3196,13 @@
 				<displayName>πεσέτα Ισπανίας (λογαριασμός Α)</displayName>
 				<displayName count="one">πεσέτα Ισπανίας (λογαριασμός Α)</displayName>
 				<displayName count="other">πεσέτες Ισπανίας (λογαριασμός Α)</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Πεσέτα Ισπανίας (λογαριασμός Α)</displayName>
 			</currency>
 			<currency type="ESB">
 				<displayName>πεσέτα Ισπανίας (μετατρέψιμος λογαριασμός)</displayName>
 				<displayName count="one">πεσέτα Ισπανίας (μετατρέψιμος λογαριασμός)</displayName>
 				<displayName count="other">πεσέτες Ισπανίας (μετατρέψιμες)</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Πεσέτα Ισπανίας (μετατρέψιμος λογαριασμός)</displayName>
 			</currency>
 			<currency type="ESP">
 				<displayName>Πεσέτα Ισπανίας</displayName>
@@ -3191,11 +3243,13 @@
 				<displayName>Λίρα Στερλίνα Βρετανίας</displayName>
 				<displayName count="one">λίρα στερλίνα Βρετανίας</displayName>
 				<displayName count="other">λίρες στερλίνες Βρετανίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Λίρα στερλίνα Βρετανίας</displayName>
 			</currency>
 			<currency type="GEK">
 				<displayName>Κούπον Λάρι Γεωργίας</displayName>
 				<displayName count="one">κούπον λάρι Γεωργίας</displayName>
 				<displayName count="other">κούπον λάρι Γεωργίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Κούπον λάρι Γεωργίας</displayName>
 			</currency>
 			<currency type="GEL">
 				<displayName>Λάρι Γεωργίας</displayName>
@@ -3206,7 +3260,6 @@
 				<displayName>Σέντι Γκάνας (1979-2007)</displayName>
 				<displayName count="one">σέντι Γκάνας (GHC)</displayName>
 				<displayName count="other">σέντι Γκάνας (GHC)</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">σέντις Γκάνας (GHC)</displayName>
 			</currency>
 			<currency type="GHS">
 				<displayName>Σέντι Γκάνας</displayName>
@@ -3256,6 +3309,7 @@
 				<displayName>Γκινέα Εσκούδο Πορτογαλίας</displayName>
 				<displayName count="one">γκινέα εσκούδο Πορτογαλίας</displayName>
 				<displayName count="other">γκινέα εσκούδο Πορτογαλίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Γκινέα εσκούδο Πορτογαλίας</displayName>
 			</currency>
 			<currency type="GWP">
 				<displayName>Πέσο Γουινέας-Μπισάου</displayName>
@@ -3316,11 +3370,13 @@
 				<displayName>παλιό σεκέλ Ισραήλ</displayName>
 				<displayName count="one">παλιό σεκέλ Ισραήλ</displayName>
 				<displayName count="other">παλιά σεκέλ Ισραήλ</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Παλαιό σεκέλ Ισραήλ</displayName>
 			</currency>
 			<currency type="ILS">
 				<displayName>Νέο Σέκελ Ισραήλ</displayName>
 				<displayName count="one">νέο σέκελ Ισραήλ</displayName>
 				<displayName count="other">νέα σέκελ Ισραήλ</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Νέο σέκελ Ισραήλ</displayName>
 			</currency>
 			<currency type="INR">
 				<displayName>Ρούπια Ινδίας</displayName>
@@ -3341,6 +3397,8 @@
 				<displayName>Παλιά κορόνα Ισλανδίας</displayName>
 				<displayName count="one">Παλιά κορόνα Ισλανδίας</displayName>
 				<displayName count="other">παλιές κορόνες Ισλανδίας</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">Παλιές κορόνες Ισλανδίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Παλαιά κορόνα Ισλανδίας</displayName>
 			</currency>
 			<currency type="ISK">
 				<displayName>Κορόνα Ισλανδίας</displayName>
@@ -3392,10 +3450,16 @@
 				<displayName count="one">γουόν Βόρειας Κορέας</displayName>
 				<displayName count="other">γουόν Βόρειας Κορέας</displayName>
 			</currency>
+			<currency type="KRO">
+				<displayName count="one" draft="provisional">Παλιό γον Νότιας Κορέας</displayName>
+				<displayName count="other" draft="provisional">Παλιά γον Νότιας Κορέας</displayName>
+			</currency>
 			<currency type="KRW">
 				<displayName>Γον Νότιας Κορέας</displayName>
 				<displayName count="one">γουόν Νότιας Κορέας</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">γον Νότιας Κορέας</displayName>
 				<displayName count="other">γουόν Νότιας Κορέας</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">γον Νότιας Κορέας</displayName>
 			</currency>
 			<currency type="KWD">
 				<displayName>Δηνάριο Κουβέιτ</displayName>
@@ -3450,7 +3514,10 @@
 			<currency type="LUC">
 				<displayName>Μετατρέψιμο Φράγκο Λουξεμβούργου</displayName>
 				<displayName count="one">LUC</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">Μετατρέψιμο φράγκο Λουξεμβούργου</displayName>
 				<displayName count="other">LUC</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">Μετατρέψιμα φράγκα Λουξεμβούργου</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Μετατρέψιμο φράγκο Λουξεμβούργου</displayName>
 			</currency>
 			<currency type="LUF">
 				<displayName>Φράγκο Λουξεμβούργου</displayName>
@@ -3460,7 +3527,10 @@
 			<currency type="LUL">
 				<displayName>Οικονομικό Φράγκο Λουξεμβούργου</displayName>
 				<displayName count="one">LUL</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">Οικονομικό φράγκο Λουξεμβούργου</displayName>
 				<displayName count="other">LUL</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">Οικονομικά φράγκα Λουξεμβούργου</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Οικονομικό φράγκο Λουξεμβούργου</displayName>
 			</currency>
 			<currency type="LVL">
 				<displayName>Λατς Λετονίας</displayName>
@@ -3487,6 +3557,14 @@
 				<displayName count="one">φράγκο Μαρόκου</displayName>
 				<displayName count="other">φράγκα Μαρόκου</displayName>
 			</currency>
+			<currency type="MCF">
+				<displayName count="one" draft="provisional">Φράγκο Μονακό</displayName>
+				<displayName count="other" draft="provisional">Φράγκα Μονακό</displayName>
+			</currency>
+			<currency type="MDC">
+				<displayName count="one" draft="provisional">Κούπον Μολδαβίας</displayName>
+				<displayName count="other" draft="provisional">Κούπον Μολδαβίας</displayName>
+			</currency>
 			<currency type="MDL">
 				<displayName>Λέι Μολδαβίας</displayName>
 				<displayName count="one">λέι Μολδαβίας</displayName>
@@ -3506,6 +3584,10 @@
 				<displayName>Δηνάριο Π.Γ.Δ.Μ.</displayName>
 				<displayName count="one">δηνάριο Π.Γ.Δ.Μ.</displayName>
 				<displayName count="other">δηνάρια Π.Γ.Δ.Μ.</displayName>
+			</currency>
+			<currency type="MKN">
+				<displayName count="one" draft="provisional">Παλιό δηνάριο ΠΓΔΜ</displayName>
+				<displayName count="other" draft="provisional">Παλιά δηνάρια ΠΓΔΜ</displayName>
 			</currency>
 			<currency type="MLF">
 				<displayName>Φράγκο Μαλί</displayName>
@@ -3566,13 +3648,12 @@
 				<displayName>Ασημένιο Πέσο Μεξικού (1861-1992)</displayName>
 				<displayName count="one">ασημένιο πέσο Μεξικού (MXP)</displayName>
 				<displayName count="other">ασημένια πέσο Μεξικού (MXP)</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">ασημένια πέσος Μεξικού (MXP)</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Ασημένιο πέσο Μεξικού (1861-1992)</displayName>
 			</currency>
 			<currency type="MXV">
 				<displayName>Unidad de Inversion (UDI) Μεξικού</displayName>
 				<displayName count="one">Unidad de Inversion (UDI) Μεξικού</displayName>
 				<displayName count="other">Unidads de Inversion (UDI) Μεξικού</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">Unidad de Inversion (UDI) Μεξικού</displayName>
 			</currency>
 			<currency type="MYR">
 				<displayName>Ρινγκίτ Μαλαισίας</displayName>
@@ -3587,9 +3668,8 @@
 			<currency type="MZM">
 				<displayName>Παλαιό Μετικάλ Μοζαμβίκης</displayName>
 				<displayName count="one">παλιό μετικάλ Μοζαμβίκης</displayName>
-				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">μετικάλ Μοζαμβίκης</displayName>
 				<displayName count="other">παλιά μετικάλ Μοζαμβίκης</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">μετικάλ Μοζαμβίκης</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Παλαιό μετικάλ Μοζαμβίκης</displayName>
 			</currency>
 			<currency type="MZN">
 				<displayName>Μετικάλ Μοζαμβίκης</displayName>
@@ -3615,6 +3695,7 @@
 				<displayName>Χρυσή Κόρδοβα Νικαράγουας</displayName>
 				<displayName count="one">χρυσή κόρδοβα Νικαράγουας</displayName>
 				<displayName count="other">χρυσές κόρδοβα Νικαράγουας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Χρυσή κόρδοβα Νικαράγουας</displayName>
 			</currency>
 			<currency type="NLG">
 				<displayName>Γκίλντα Ολλανδίας</displayName>
@@ -3655,6 +3736,7 @@
 				<displayName>Νέο Σολ Περού</displayName>
 				<displayName count="one">νέο σολ Περού</displayName>
 				<displayName count="other">νέα Σολ Περού</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Νέο σολ Περού</displayName>
 			</currency>
 			<currency type="PES">
 				<displayName>Σολ Περού</displayName>
@@ -3685,7 +3767,6 @@
 				<displayName>Ζλότυ Πολωνίας (1950-1995)</displayName>
 				<displayName count="one">ζλότυ Πολωνίας (PLZ)</displayName>
 				<displayName count="other">ζλότυ Πολωνίας (PLZ)</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">ζλότυς Πολωνίας (PLZ)</displayName>
 			</currency>
 			<currency type="PTE">
 				<displayName>Εσκούδο Πορτογαλίας</displayName>
@@ -3766,6 +3847,7 @@
 				<displayName>Παλαιά Λίρα Σουδάν</displayName>
 				<displayName count="one">παλιά λίρα Σουδάν</displayName>
 				<displayName count="other">παλαιές λίρες Σουδάν</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Παλαιά λίρα Σουδάν</displayName>
 			</currency>
 			<currency type="SEK">
 				<displayName>Κορόνα Σουηδίας</displayName>
@@ -3857,6 +3939,11 @@
 				<displayName count="one">μανάτ Τουρκμενιστάν</displayName>
 				<displayName count="other">μανάτ Τουρκμενιστάν</displayName>
 			</currency>
+			<currency type="TMT">
+				<displayName>Νέο μανάτ Τουρκμενιστάν</displayName>
+				<displayName count="one">Νέο μανάτ Τουρκμενιστάν</displayName>
+				<displayName count="other">Νέα μανάτ Τουρκμενιστάν</displayName>
+			</currency>
 			<currency type="TND">
 				<displayName>Δηνάριο Τυνησίας</displayName>
 				<displayName count="one">δηνάριο Τυνησίας</displayName>
@@ -3876,6 +3963,7 @@
 				<displayName>Παλιά Λίρα Τουρκίας</displayName>
 				<displayName count="one">παλιά λίρα Τουρκίας</displayName>
 				<displayName count="other">παλιές λίρες Τουρκίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Παλαιά λίρα Τουρκίας</displayName>
 			</currency>
 			<currency type="TRY">
 				<displayName>Τουρκική Λίρα</displayName>
@@ -3891,6 +3979,7 @@
 				<displayName>Νέο Δολάριο Ταϊβάν</displayName>
 				<displayName count="one">νέο δολάριο Ταϊβάν</displayName>
 				<displayName count="other">νέα δολάρια Ταϊβάν</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Νέο δολάριο Ταϊβάν</displayName>
 			</currency>
 			<currency type="TZS">
 				<displayName>Σελίνι Τανζανίας</displayName>
@@ -3936,13 +4025,11 @@
 				<displayName>Peso en Unidades Indexadas Ουρουγουάης</displayName>
 				<displayName count="one">peso en unidades indexadas Ουρουγκουάης</displayName>
 				<displayName count="other">pesos en unidades indexadas Ουρουγκουάης</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">peso en unidades indexadas Ουρουγκουάης</displayName>
 			</currency>
 			<currency type="UYP">
 				<displayName>Πέσο Ουρουγουάης (1975-1993)</displayName>
 				<displayName count="one">πέσο Ουρουγουάης (UYP)</displayName>
 				<displayName count="other">πέσο Ουρουγουάης (UYP)</displayName>
-				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">πέσος Ουρουγουάης (UYP)</displayName>
 			</currency>
 			<currency type="UYU">
 				<displayName>Πέσο Ουρουγουάης</displayName>
@@ -3963,28 +4050,36 @@
 				<displayName>Βολιβάρ Φουέρτε Βενεζουέλας</displayName>
 				<displayName count="one">βολιβάρ φουέρτε Βενεζουέλας</displayName>
 				<displayName count="other">βολιβάρ φουέρτε Βενεζουέλας</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">VEF</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Βολιβάρ φουέρτε Βενεζουέλας</displayName>
 			</currency>
 			<currency type="VND">
 				<displayName>Ντονγκ Βιετνάμ</displayName>
 				<displayName count="one">ντονγκ Βιετνάμ</displayName>
 				<displayName count="other">ντονγκ Βιετνάμ</displayName>
 			</currency>
+			<currency type="VNN">
+				<displayName count="one" draft="provisional">Παλαιό ντονγκ Βιετνάμ</displayName>
+				<displayName count="other" draft="provisional">Παλαιά ντονγκ Βιετνάμ</displayName>
+			</currency>
 			<currency type="VUV">
 				<displayName>Βατού Βανουάτου</displayName>
 				<displayName count="one">βατού Βανουάτου</displayName>
 				<displayName count="other">βατού Βανουάτου</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">VUV</displayName>
 			</currency>
 			<currency type="WST">
 				<displayName>Ταλά Δυτικής Σαμόας</displayName>
 				<displayName count="one">Τάλα Σαμόας</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">τάλα Σαμόας</displayName>
 				<displayName count="other">τάλα Σαμόας</displayName>
 			</currency>
 			<currency type="XAF">
 				<displayName>Φράγκο BEAC CFA</displayName>
 				<displayName count="one">φράγκο BEAC CFA</displayName>
 				<displayName count="other">φράγκα BEAC CFA</displayName>
+			</currency>
+			<currency type="XAG">
+				<displayName count="one" draft="provisional">XAG</displayName>
+				<displayName count="other" draft="provisional">XAG</displayName>
 			</currency>
 			<currency type="XAU">
 				<displayName>Χρυσός</displayName>
@@ -3995,11 +4090,13 @@
 				<displayName>Ευρωπαϊκή Σύνθετη Μονάδα</displayName>
 				<displayName count="one">ευρωπαϊκή σύνθετη μονάδα</displayName>
 				<displayName count="other">ευρωπαϊκές σύνθετες μονάδες</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Ευρωπαϊκή σύνθετη μονάδα</displayName>
 			</currency>
 			<currency type="XBB">
 				<displayName>Ευρωπαϊκή Νομισματική Μονάδα</displayName>
 				<displayName count="one">ευρωπαϊκή νομισματική μονάδα</displayName>
 				<displayName count="other">ευρωπαϊκές νομισματικές μονάδες</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Ευρωπαϊκή νομισματική μονάδα</displayName>
 			</currency>
 			<currency type="XBC">
 				<displayName>Ευρωπαϊκή μονάδα λογαριασμού (XBC)</displayName>
@@ -4020,16 +4117,19 @@
 				<displayName>Ειδικά Δικαιώματα Ανάληψης</displayName>
 				<displayName count="one">ειδικό δικαίωμα ανάληψης</displayName>
 				<displayName count="other">ειδικά δικαιώματα ανάληψης</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Ειδικά δικαιώματα ανάληψης</displayName>
 			</currency>
 			<currency type="XEU">
 				<displayName>Ευρωπαϊκή Συναλλαγματική Μονάδα</displayName>
 				<displayName count="one">ευρωπαϊκή συναλλαγματική μονάδα</displayName>
 				<displayName count="other">ευρωπαϊκές συναλλαγματικές μονάδες</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Ευρωπαϊκή συναλλαγματική μονάδα</displayName>
 			</currency>
 			<currency type="XFO">
 				<displayName>Χρυσό Φράγκο Γαλλίας</displayName>
 				<displayName count="one">χρυσό φράγκο Γαλλίας</displayName>
 				<displayName count="other">χρυσά φράγκα Γαλλίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Χρυσό φράγκο Γαλλίας</displayName>
 			</currency>
 			<currency type="XFU">
 				<displayName>UIC-Φράγκο Γαλλίας</displayName>
@@ -4041,10 +4141,26 @@
 				<displayName count="one">φράγκο BCEAO CFA</displayName>
 				<displayName count="other">φράγκα BCEAO CFA</displayName>
 			</currency>
+			<currency type="XPD">
+				<displayName count="one" draft="provisional">XPD</displayName>
+				<displayName count="other" draft="provisional">XPD</displayName>
+			</currency>
 			<currency type="XPF">
 				<displayName>Φράγκο CFP</displayName>
 				<displayName count="one">φράγκο CFP</displayName>
 				<displayName count="other">φράγκα CFP</displayName>
+			</currency>
+			<currency type="XPT">
+				<displayName count="one" draft="provisional">XPT</displayName>
+				<displayName count="other" draft="provisional">XPT</displayName>
+			</currency>
+			<currency type="XRE">
+				<displayName count="one" draft="provisional">Ταμείο RINET</displayName>
+				<displayName count="other" draft="provisional">Ταμείο RINET</displayName>
+			</currency>
+			<currency type="XTS">
+				<displayName count="one" draft="provisional">XTS</displayName>
+				<displayName count="other" draft="provisional">XTS</displayName>
 			</currency>
 			<currency type="XXX">
 				<displayName>Άγνωστο ή μη έγκυρο νόμισμα</displayName>
@@ -4065,16 +4181,23 @@
 				<displayName>Μεταλλικό Δηνάριο Γιουγκοσλαβίας</displayName>
 				<displayName count="one">μεταλλικό δηνάριο Γιουγκοσλαβίας</displayName>
 				<displayName count="other">μεταλλικά δηνάρια Γιουγκοσλαβίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Μεταλλικό δηνάριο Γιουγκοσλαβίας</displayName>
 			</currency>
 			<currency type="YUM">
 				<displayName>Νέο Δηνάριο Γιουγκοσλαβίας</displayName>
 				<displayName count="one">νέο δηνάριο Γιουγκοσλαβίας</displayName>
 				<displayName count="other">νέο δηνάριο Γιουγκοσλαβίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Νέο δηνάριο Γιουγκοσλαβίας</displayName>
 			</currency>
 			<currency type="YUN">
 				<displayName>Μετατρέψιμο Δηνάριο Γιουγκοσλαβίας</displayName>
 				<displayName count="one">μετατρέψιμο δινάριο Γιουγκοσλαβίας</displayName>
 				<displayName count="other">μετατρέψιμο δηνάριο Γιουγκοσλαβίας</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Μετατρέψιμο δηνάριο Γιουγκοσλαβίας</displayName>
+			</currency>
+			<currency type="YUR">
+				<displayName count="one" draft="provisional">Αναμορφωμένο δηνάριο Γιουγκοσλαβίας</displayName>
+				<displayName count="other" draft="provisional">Αναμορφωμένα δηνάρια Γιουγκοσλαβίας</displayName>
 			</currency>
 			<currency type="ZAL">
 				<displayName>Ραντ Νότιας Αφρικής (οικονομικό)</displayName>
@@ -4095,6 +4218,7 @@
 				<displayName>Νέο Ζαΐρ Ζαΐρ</displayName>
 				<displayName count="one">νέο ζαΐρ Ζαΐρ</displayName>
 				<displayName count="other">νέα ζαΐρ Ζαΐρ</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Νέο ζαΐρ Ζαΐρ</displayName>
 			</currency>
 			<currency type="ZRZ">
 				<displayName>Ζαΐρ Ζαΐρ</displayName>
@@ -4105,6 +4229,15 @@
 				<displayName>Δολάριο Ζιμπάμπουε</displayName>
 				<displayName count="one">δολάριο Ζιμπάμπουε</displayName>
 				<displayName count="other">δολάρια Ζιμπάμπουε</displayName>
+			</currency>
+			<currency type="ZWL">
+				<displayName>Δολάριο Ζιμπάμπουε (2009)</displayName>
+				<displayName count="one">Δολάριο Ζιμπάμπουε (2009)</displayName>
+				<displayName count="other">Δολάριο Ζιμπάμπουε (2009)</displayName>
+			</currency>
+			<currency type="ZWR">
+				<displayName count="one" draft="provisional">Δολάριο Ζιμπάμπουε (2008)</displayName>
+				<displayName count="other" draft="provisional">Δολάρια Ζιμπάμπουε (2008)</displayName>
 			</currency>
 		</currencies>
 	</numbers>
@@ -4138,6 +4271,13 @@
 			<unitPattern count="other">{0} έτη</unitPattern>
 		</unit>
 	</units>
+	<listPatterns>
+		<listPattern>
+			<listPatternPart type="2">{0} και {1}</listPatternPart>
+			<listPatternPart type="end">{0} και {1}</listPatternPart>
+			<listPatternPart type="end" alt="proposed-x1001" draft="unconfirmed">{0}, και  {1}</listPatternPart>
+		</listPattern>
+	</listPatterns>
 	<posix>
 		<messages>
 			<yesstr>ναι:ν</yesstr>

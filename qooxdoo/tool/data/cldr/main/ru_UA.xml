@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.58 $"/>
-		<generation date="$Date: 2009/06/15 03:46:24 $"/>
+		<version number="$Revision: 4763 $"/>
+		<generation date="$Date: 2010-02-27 01:03:37 -0600 (Sat, 27 Feb 2010) $"/>
 		<language type="ru"/>
 		<territory type="UA"/>
 	</identity>
@@ -14,10 +14,6 @@
 			<language type="mh">маршальский</language>
 			<language type="tlh">клингон</language>
 		</languages>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">Metric</measurementSystemName>
-			<measurementSystemName type="US">US</measurementSystemName>
-		</measurementSystemNames>
 	</localeDisplayNames>
 	<dates>
 		<calendars>
@@ -59,10 +55,16 @@
 				<dateTimeFormats>
 					<intervalFormats>
 						<intervalFormatItem id="h">
-							<greatestDifference id="h" draft="unconfirmed">HH-HH 'ч.'</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">h-h 'ч.' a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H" draft="unconfirmed">HH-HH 'ч.'</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
-							<greatestDifference id="h" draft="unconfirmed">HH-HH 'ч.', v</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">h-h 'ч.' a, v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H" draft="unconfirmed">HH-HH 'ч.', v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MEd">
 							<greatestDifference id="d" draft="unconfirmed">E, dd.MM - E, dd.MM</greatestDifference>
@@ -100,18 +102,4 @@
 			</calendar>
 		</calendars>
 	</dates>
-	<numbers>
-		<currencies>
-			<currency type="ESB">
-				<displayName>ESB</displayName>
-			</currency>
-			<currency type="RHD">
-				<displayName>RHD</displayName>
-			</currency>
-			<currency type="YUM">
-				<displayName>YUM</displayName>
-			</currency>
-		</currencies>
-	</numbers>
 </ldml>
-

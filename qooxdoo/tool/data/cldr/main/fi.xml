@@ -2,10 +2,11 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.137 $"/>
-		<generation date="$Date: 2009/06/15 03:46:25 $"/>
+		<version number="$Revision: 5109 $"/>
+		<generation date="$Date: 2010-10-15 18:03:27 -0500 (Fri, 15 Oct 2010) $"/>
 		<language type="fi"/>
 	</identity>
+	<fallback/>
 	<localeDisplayNames>
 		<localeDisplayPattern>
 			<localePattern>{0} ({1})</localePattern>
@@ -14,19 +15,19 @@
 		<languages>
 			<language type="aa">afar</language>
 			<language type="ab">abhaasi</language>
-			<language type="ace">aceh</language>
+			<language type="ace">atšeh</language>
 			<language type="ach">atšoli</language>
 			<language type="ada">adangme</language>
 			<language type="ady">adyge</language>
 			<language type="ae">avesta</language>
 			<language type="af">afrikaans</language>
-			<language type="afa">afro-aasialainen kieli</language>
+			<language type="afa">afroaasialainen kieli</language>
 			<language type="afh">afrihili</language>
 			<language type="ain">ainu</language>
 			<language type="ak">akan</language>
 			<language type="akk">akkadi</language>
 			<language type="ale">aleutti</language>
-			<language type="alg">algonkin-kieli</language>
+			<language type="alg">algonkikieli</language>
 			<language type="alt">altai</language>
 			<language type="am">amhara</language>
 			<language type="an">aragonia</language>
@@ -34,14 +35,15 @@
 			<language type="anp">angika</language>
 			<language type="apa">apaššikieli</language>
 			<language type="ar">arabia</language>
-			<language type="arc">aramea</language>
-			<language type="arn">araukaani</language>
+			<language type="arc">valtakunnanaramea</language>
+			<language type="arn">mapudungun</language>
+			<language type="arn" alt="proposed-x1001" draft="unconfirmed">araukaani</language>
 			<language type="arp">arapaho</language>
 			<language type="art">keinotekoinen kieli</language>
 			<language type="arw">arawak</language>
 			<language type="as">assami</language>
 			<language type="ast">asturia</language>
-			<language type="ath">athabasca-kieli</language>
+			<language type="ath">athabascakieli</language>
 			<language type="aus">australialainen kieli</language>
 			<language type="av">avaari</language>
 			<language type="awa">awadhi</language>
@@ -49,7 +51,7 @@
 			<language type="az">azeri</language>
 			<language type="ba">baškiiri</language>
 			<language type="bad">banda</language>
-			<language type="bai">bamileke-kieli</language>
+			<language type="bai">bamilekekieli</language>
 			<language type="bal">belutši</language>
 			<language type="ban">bali</language>
 			<language type="bas">basa</language>
@@ -64,7 +66,7 @@
 			<language type="bi">bislama</language>
 			<language type="bik">bikol</language>
 			<language type="bin">bini</language>
-			<language type="bla">mustajalka</language>
+			<language type="bla">siksika</language>
 			<language type="bm">bambara</language>
 			<language type="bn">bengali</language>
 			<language type="bnt">bantukieli</language>
@@ -72,7 +74,7 @@
 			<language type="br">bretoni</language>
 			<language type="bra">bradž</language>
 			<language type="bs">bosnia</language>
-			<language type="btk">batak</language>
+			<language type="btk">batakkieli</language>
 			<language type="bua">burjaatti</language>
 			<language type="bug">bugi</language>
 			<language type="byn">bilin</language>
@@ -91,11 +93,12 @@
 			<language type="chk">chuuk</language>
 			<language type="chm">mari</language>
 			<language type="chn">chinook-jargon</language>
+			<language type="chn" alt="proposed-x1001" draft="unconfirmed">chinook wawa</language>
 			<language type="cho">choctaw</language>
 			<language type="chp">chipewyan</language>
 			<language type="chr">cherokee</language>
 			<language type="chy">cheyenne</language>
-			<language type="cmc">tšam-kieli</language>
+			<language type="cmc">tšamkieli</language>
 			<language type="co">korsika</language>
 			<language type="cop">kopti</language>
 			<language type="cpe">englantiin perustuva kreoli- tai pidgin-kieli</language>
@@ -114,8 +117,7 @@
 			<language type="da">tanska</language>
 			<language type="dak">dakota</language>
 			<language type="dar">dargi</language>
-			<language type="day">dajakki</language>
-			<language type="day" alt="proposed-x1001" draft="unconfirmed">bidayuh kieli</language>
+			<language type="day">land-dajakki-kieli</language>
 			<language type="de">saksa</language>
 			<language type="de_AT">itävallansaksa</language>
 			<language type="de_CH">sveitsinyläsaksa</language>
@@ -189,7 +191,7 @@
 			<language type="grc">muinaiskreikka</language>
 			<language type="gsw">sveitsinsaksa</language>
 			<language type="gu" references="R054">gudžarati</language>
-			<language type="gv">manx</language>
+			<language type="gv">manksi</language>
 			<language type="gwi">gwitšin</language>
 			<language type="ha">hausa</language>
 			<language type="hai">haida</language>
@@ -214,8 +216,8 @@
 			<language type="ie">interlingue</language>
 			<language type="ig">igbo</language>
 			<language type="ii">sichuanin-yi</language>
-			<language type="ijo">idžo</language>
-			<language type="ik">inupiatun</language>
+			<language type="ijo">idžokieli</language>
+			<language type="ik">inupiaq</language>
 			<language type="ilo">iloko</language>
 			<language type="inc">indoarjalainen kieli</language>
 			<language type="ine">indoeurooppalainen kieli</language>
@@ -234,7 +236,7 @@
 			<language type="ka">georgia</language>
 			<language type="kaa">karakalpakki</language>
 			<language type="kab">kabyyli</language>
-			<language type="kac">kachin</language>
+			<language type="kac">katšin</language>
 			<language type="kaj">jju</language>
 			<language type="kam">kamba</language>
 			<language type="kar">karen</language>
@@ -244,14 +246,14 @@
 			<language type="kfo">norsunluurannikonkoro</language>
 			<language type="kg">kongo</language>
 			<language type="kha">khasi</language>
-			<language type="khi">khoisan-kieli</language>
+			<language type="khi">khoisankieli</language>
 			<language type="kho">khotani</language>
 			<language type="ki">kikuju</language>
 			<language type="kj">kuanjama</language>
 			<language type="kk">kazakki</language>
 			<language type="kl">kalaallisut</language>
 			<language type="kl" alt="secondary">grönlanti</language>
-			<language type="km">khmer</language>
+			<language type="km">keskikhmer</language>
 			<language type="kmb">kimbundu</language>
 			<language type="kn">kannada</language>
 			<language type="ko">korea</language>
@@ -314,8 +316,8 @@
 			<language type="mn">mongoli</language>
 			<language type="mnc">mantšu</language>
 			<language type="mni">manipuri</language>
-			<language type="mno">manobo-kieli</language>
-			<language type="mo">moldavia</language>
+			<language type="mno">manobokieli</language>
+			<language type="mo">moldova</language>
 			<language type="moh">mohawk</language>
 			<language type="mos">mossi</language>
 			<language type="mr">marathi</language>
@@ -327,10 +329,10 @@
 			<language type="mwl">mirandeesi</language>
 			<language type="mwr">marwari</language>
 			<language type="my">burma</language>
-			<language type="myn">maya-kieli</language>
+			<language type="myn">mayakieli</language>
 			<language type="myv">ersä</language>
 			<language type="na">nauru</language>
-			<language type="nah">nahuatl</language>
+			<language type="nah">nahuatlkieli</language>
 			<language type="nai">pohjoisamerikkalainen intiaanikieli</language>
 			<language type="nap">napoli</language>
 			<language type="nb">norjan bokmål</language>
@@ -366,7 +368,7 @@
 			<language type="os">osseetti</language>
 			<language type="osa">osage</language>
 			<language type="ota">osmani</language>
-			<language type="oto">otomi-kieli</language>
+			<language type="oto">otomikieli</language>
 			<language type="pa">pandžabi</language>
 			<language type="paa">papualaiskieli</language>
 			<language type="pag">pangasinan</language>
@@ -375,22 +377,24 @@
 			<language type="pap">papiamentu</language>
 			<language type="pau">palau</language>
 			<language type="peo">muinaispersia</language>
-			<language type="phi">filippiiniläinen kieli</language>
+			<language type="phi">filippiiniläiskieli</language>
 			<language type="phn">foinikia</language>
 			<language type="pi">paali</language>
 			<language type="pl">puola</language>
 			<language type="pon">pohnpei</language>
-			<language type="pra">prakrit-kieli</language>
+			<language type="pra">prakritkieli</language>
 			<language type="pro">muinaisprovensaali</language>
 			<language type="ps">paštu</language>
 			<language type="pt">portugali</language>
 			<language type="pt_BR">brasilianportugali</language>
 			<language type="pt_PT">portugalinportugali</language>
+			<language type="pt_PT" alt="proposed-x1001" draft="unconfirmed">iberianportugali</language>
 			<language type="qu">ketšua</language>
 			<language type="raj">radžastani</language>
 			<language type="rap">rapanui</language>
 			<language type="rar">rarotonga</language>
 			<language type="rm">retoromaani</language>
+			<language type="rm" alt="proposed-x1001" draft="unconfirmed">rumantš</language>
 			<language type="rn">rundi</language>
 			<language type="ro">romania</language>
 			<language type="roa">romaaninen kieli</language>
@@ -419,9 +423,9 @@
 			<language type="sgn">viittomakieli</language>
 			<language type="sh">serbokroaatti</language>
 			<language type="shn">shan</language>
-			<language type="si">sinhali</language>
+			<language type="si">sinhala</language>
 			<language type="sid">sidamo</language>
-			<language type="sio">sioux-kieli</language>
+			<language type="sio">siouxkieli</language>
 			<language type="sit">sinotiibetiläinen kieli</language>
 			<language type="sk">slovakki</language>
 			<language type="sl">sloveeni</language>
@@ -436,7 +440,7 @@
 			<language type="snk">soninke</language>
 			<language type="so">somali</language>
 			<language type="sog">sogdi</language>
-			<language type="son">songhai</language>
+			<language type="son">songhaikieli</language>
 			<language type="sq">albania</language>
 			<language type="sr">serbia</language>
 			<language type="srn">sranan</language>
@@ -450,9 +454,11 @@
 			<language type="sux">sumeri</language>
 			<language type="sv">ruotsi</language>
 			<language type="sw">swahili</language>
+			<language type="swb">komori</language>
+			<language type="swb" alt="proposed-x1001" draft="unconfirmed">shimaori</language>
 			<language type="syc">muinaissyyria</language>
 			<language type="syr">syyria</language>
-			<language type="ta">tamil</language>
+			<language type="ta">tamili</language>
 			<language type="tai">thaikieli</language>
 			<language type="te">telugu</language>
 			<language type="tem">temne</language>
@@ -478,7 +484,7 @@
 			<language type="tsi">tsimši</language>
 			<language type="tt">tataari</language>
 			<language type="tum">tumbuka</language>
-			<language type="tup">tupi-kieli</language>
+			<language type="tup">tupikieli</language>
 			<language type="tut">altailainen kieli</language>
 			<language type="tvl">tuvalu</language>
 			<language type="tw">twi</language>
@@ -488,8 +494,8 @@
 			<language type="ug">uiguuri</language>
 			<language type="uga">ugarit</language>
 			<language type="uk">ukraina</language>
-			<language type="umb">umbundu</language>
-			<language type="und">määrittämätön</language>
+			<language type="umb">mbundu</language>
+			<language type="und">määrittämätön kieli</language>
 			<language type="ur">urdu</language>
 			<language type="uz">uzbekki</language>
 			<language type="vai">vai</language>
@@ -498,11 +504,12 @@
 			<language type="vo">volapük</language>
 			<language type="vot">vatja</language>
 			<language type="wa">valloni</language>
-			<language type="wak">wakash-kieli</language>
-			<language type="wal">walamo</language>
+			<language type="wak">wakashkieli</language>
+			<language type="wal">wolaitta</language>
+			<language type="wal" alt="proposed-x1001" draft="unconfirmed">walamo</language>
 			<language type="war">waray</language>
 			<language type="was">washo</language>
-			<language type="wen">sorbin kieli</language>
+			<language type="wen">sorbikieli</language>
 			<language type="wo">wolof</language>
 			<language type="xal">kalmukki</language>
 			<language type="xh">xhosa</language>
@@ -511,14 +518,17 @@
 			<language type="yi">jiddiš</language>
 			<language type="yo">joruba</language>
 			<language type="ypk">jupikkikieli</language>
+			<language type="yue">kantoninkiina</language>
 			<language type="za">zhuang</language>
-			<language type="zap">sapoteekki</language>
+			<language type="zap">zapoteekki</language>
 			<language type="zbl">blisskieli</language>
 			<language type="zen">zenaga</language>
 			<language type="zh">kiina</language>
 			<language type="zh_Hans">yksinkertaistettu kiina</language>
+			<language type="zh_Hans" alt="proposed-x1001" draft="unconfirmed">kiina (yksinkertaistettu)</language>
 			<language type="zh_Hant">perinteinen kiina</language>
-			<language type="znd">zande</language>
+			<language type="zh_Hant" alt="proposed-x1001" draft="unconfirmed">kiina (perinteinen)</language>
+			<language type="znd">zandekieli</language>
 			<language type="zu">zulu</language>
 			<language type="zun">zuni</language>
 			<language type="zxx">ei kielellistä sisältöä</language>
@@ -620,7 +630,6 @@
 			<script type="Phnx">foinikialainen</script>
 			<script type="Plrd">Pollardin foneettinen</script>
 			<script type="Prti">piirtokirjoitusparthialainen</script>
-			<script type="Qaai">peritty</script>
 			<script type="Rjng">rejang</script>
 			<script type="Roro">rongorongo</script>
 			<script type="Runr">riimukirjoitus</script>
@@ -655,6 +664,7 @@
 			<script type="Xpeo">muinaispersialainen</script>
 			<script type="Xsux">sumerilais-akkadilainen nuolenpääkirjoitus</script>
 			<script type="Yiii">yiläinen</script>
+			<script type="Zinh">peritty</script>
 			<script type="Zmth">matemaattinen</script>
 			<script type="Zsym">symbolit</script>
 			<script type="Zxxx">kirjoittamaton</script>
@@ -695,6 +705,8 @@
 			<territory type="172">Itsenäisten valtioiden yhteisö</territory>
 			<territory type="419">Latinalainen Amerikka ja Karibia</territory>
 			<territory type="830">Kanaalisaaret</territory>
+			<territory type="AC">Ascension-saari</territory>
+			<territory type="AC" alt="proposed-x1001" draft="unconfirmed">Ascensionsaari</territory>
 			<territory type="AD">Andorra</territory>
 			<territory type="AE">Arabiemiirikunnat</territory>
 			<territory type="AF">Afganistan</territory>
@@ -722,6 +734,7 @@
 			<territory type="BI">Burundi</territory>
 			<territory type="BJ">Benin</territory>
 			<territory type="BL">Saint-Barthélemy</territory>
+			<territory type="BL" alt="proposed-x1001" draft="unconfirmed">Saint Barthélemy</territory>
 			<territory type="BM">Bermuda</territory>
 			<territory type="BN">Brunei</territory>
 			<territory type="BO">Bolivia</territory>
@@ -729,21 +742,29 @@
 			<territory type="BS">Bahama</territory>
 			<territory type="BT">Bhutan</territory>
 			<territory type="BV">Bouvet’nsaari</territory>
+			<territory type="BV" alt="proposed-x1001" draft="unconfirmed">Bouvet'nsaari</territory>
 			<territory type="BW">Botswana</territory>
 			<territory type="BY">Valko-Venäjä</territory>
 			<territory type="BZ">Belize</territory>
 			<territory type="CA">Kanada</territory>
 			<territory type="CC">Kookossaaret</territory>
-			<territory type="CD">Kongo-Kinshasa</territory>
+			<territory type="CD">Kongon demokraattinen tasavalta</territory>
+			<territory type="CD" alt="proposed-x1001" draft="unconfirmed">Kongo-Kinshasa</territory>
+			<territory type="CD" alt="variant">Kongo-Kinshasa</territory>
 			<territory type="CF">Keski-Afrikan tasavalta</territory>
-			<territory type="CG">Kongo-Brazzaville</territory>
+			<territory type="CG">Kongon tasavalta</territory>
+			<territory type="CG" alt="proposed-x1001" draft="unconfirmed">Kongo-Brazzaville</territory>
+			<territory type="CG" alt="variant">Kongo-Brazzaville</territory>
 			<territory type="CH">Sveitsi</territory>
 			<territory type="CI">Norsunluurannikko</territory>
+			<territory type="CI" alt="variant">Côte d'Ivoire</territory>
+			<territory type="CI" alt="variant-proposed-x1001" draft="unconfirmed">Norsunluurannikko</territory>
 			<territory type="CK">Cookinsaaret</territory>
 			<territory type="CL">Chile</territory>
 			<territory type="CM">Kamerun</territory>
 			<territory type="CN">Kiina</territory>
 			<territory type="CO">Kolumbia</territory>
+			<territory type="CP">Clippertoninsaari</territory>
 			<territory type="CR">Costa Rica</territory>
 			<territory type="CS">Serbia ja Montenegro</territory>
 			<territory type="CU">Kuuba</territory>
@@ -752,11 +773,13 @@
 			<territory type="CY">Kypros</territory>
 			<territory type="CZ">Tšekki</territory>
 			<territory type="DE">Saksa</territory>
+			<territory type="DG">Diego Garcia</territory>
 			<territory type="DJ">Djibouti</territory>
 			<territory type="DK">Tanska</territory>
 			<territory type="DM">Dominica</territory>
 			<territory type="DO">Dominikaaninen tasavalta</territory>
 			<territory type="DZ">Algeria</territory>
+			<territory type="EA">Ceuta ja Melilla</territory>
 			<territory type="EC">Ecuador</territory>
 			<territory type="EE">Viro</territory>
 			<territory type="EG">Egypti</territory>
@@ -764,12 +787,19 @@
 			<territory type="ER">Eritrea</territory>
 			<territory type="ES">Espanja</territory>
 			<territory type="ET">Etiopia</territory>
+			<territory type="EU">EU</territory>
+			<territory type="EU" alt="proposed-x1001" draft="unconfirmed">Euroopan unioni</territory>
 			<territory type="FI">Suomi</territory>
 			<territory type="FJ">Fidži</territory>
 			<territory type="FK">Falklandinsaaret</territory>
+			<territory type="FK" alt="variant">Falklandinsaaret [Malvinassaaret]</territory>
+			<territory type="FK" alt="variant-proposed-x1001" draft="unconfirmed">FK</territory>
+			<territory type="FK" alt="variant-proposed-x1002" draft="unconfirmed">Falklandinsaaret</territory>
+			<territory type="FK" alt="variant-proposed-x1003" draft="unconfirmed">Falklandinsaaret [Islas Malvinas]</territory>
 			<territory type="FM">Mikronesian liittovaltio</territory>
 			<territory type="FO">Färsaaret</territory>
 			<territory type="FR">Ranska</territory>
+			<territory type="FX">Ranskan Eurooppaan kuuluvat osat</territory>
 			<territory type="GA">Gabon</territory>
 			<territory type="GB">Britannia</territory>
 			<territory type="GD">Grenada</territory>
@@ -789,13 +819,17 @@
 			<territory type="GU">Guam</territory>
 			<territory type="GW">Guinea-Bissau</territory>
 			<territory type="GY">Guyana</territory>
-			<territory type="HK">Hongkong – Kiinan erityishallintoalue</territory>
+			<territory type="HK">Hongkong – Kiinan e.h.a.</territory>
+			<territory type="HK" alt="proposed-x1001" draft="unconfirmed">Hongkong</territory>
+			<territory type="HK" alt="proposed-x1002" draft="unconfirmed">Hongkong – Kiinan erityishallintoalue</territory>
+			<territory type="HK" alt="proposed-x1003" draft="unconfirmed">Hongkongin erityishallintoalue</territory>
 			<territory type="HK" alt="short">Hongkong</territory>
 			<territory type="HM">Heard- ja McDonaldinsaaret</territory>
 			<territory type="HN">Honduras</territory>
 			<territory type="HR">Kroatia</territory>
 			<territory type="HT">Haiti</territory>
 			<territory type="HU">Unkari</territory>
+			<territory type="IC">Kanariansaaret</territory>
 			<territory type="ID">Indonesia</territory>
 			<territory type="IE">Irlanti</territory>
 			<territory type="IL">Israel</territory>
@@ -837,13 +871,21 @@
 			<territory type="MD">Moldova</territory>
 			<territory type="ME">Montenegro</territory>
 			<territory type="MF">Saint-Martin</territory>
+			<territory type="MF" alt="proposed-x1001" draft="unconfirmed">Saint Martin</territory>
 			<territory type="MG">Madagaskar</territory>
 			<territory type="MH">Marshallinsaaret</territory>
 			<territory type="MK">Makedonia</territory>
+			<territory type="MK" alt="variant">EJT Makedonia</territory>
+			<territory type="MK" alt="variant-proposed-x1001" draft="unconfirmed">Makedonia</territory>
+			<territory type="MK" alt="variant-proposed-x1002" draft="unconfirmed">Entinen Jugoslavian tasavalta Makedonia</territory>
 			<territory type="ML">Mali</territory>
 			<territory type="MM">Myanmar</territory>
+			<territory type="MM" alt="proposed-x1001" draft="unconfirmed">Burma</territory>
 			<territory type="MN">Mongolia</territory>
-			<territory type="MO">Macao – Kiinan erityishallintoalue</territory>
+			<territory type="MO">Macao – Kiinan e.h.a.</territory>
+			<territory type="MO" alt="proposed-x1001" draft="unconfirmed">Macaon erityishallintoalue</territory>
+			<territory type="MO" alt="proposed-x1002" draft="unconfirmed">Macao</territory>
+			<territory type="MO" alt="proposed-x1003" draft="unconfirmed">Macao – Kiinan erityishallintoalue</territory>
 			<territory type="MO" alt="short">Macao</territory>
 			<territory type="MP">Pohjois-Mariaanit</territory>
 			<territory type="MQ">Martinique</territory>
@@ -873,10 +915,12 @@
 			<territory type="PE">Peru</territory>
 			<territory type="PF">Ranskan Polynesia</territory>
 			<territory type="PG">Papua-Uusi-Guinea</territory>
+			<territory type="PG" alt="proposed-x1001" draft="unconfirmed">Papua Uusi-Guinea</territory>
 			<territory type="PH">Filippiinit</territory>
 			<territory type="PK">Pakistan</territory>
 			<territory type="PL">Puola</territory>
 			<territory type="PM">Saint-Pierre ja Miquelon</territory>
+			<territory type="PM" alt="proposed-x1001" draft="unconfirmed">Saint Pierre ja Miquelon</territory>
 			<territory type="PN">Pitcairn</territory>
 			<territory type="PR">Puerto Rico</territory>
 			<territory type="PS">Palestiina</territory>
@@ -885,7 +929,6 @@
 			<territory type="PY">Paraguay</territory>
 			<territory type="QA">Qatar</territory>
 			<territory type="QO">ulkomeri</territory>
-			<territory type="QU">Euroopan unioni</territory>
 			<territory type="RE">Réunion</territory>
 			<territory type="RO">Romania</territory>
 			<territory type="RS">Serbia</territory>
@@ -910,6 +953,7 @@
 			<territory type="SV">El Salvador</territory>
 			<territory type="SY">Syyria</territory>
 			<territory type="SZ">Swazimaa</territory>
+			<territory type="TA">Tristan da Cunha</territory>
 			<territory type="TC">Turks- ja Caicossaaret</territory>
 			<territory type="TD">Tšad</territory>
 			<territory type="TF">Ranskan ulkopuoliset eteläiset alueet</territory>
@@ -918,6 +962,8 @@
 			<territory type="TJ">Tadžikistan</territory>
 			<territory type="TK">Tokelau</territory>
 			<territory type="TL">Itä-Timor</territory>
+			<territory type="TL" alt="variant">Timor-Leste</territory>
+			<territory type="TL" alt="variant-proposed-x1001" draft="unconfirmed">Itä-Timor</territory>
 			<territory type="TM">Turkmenistan</territory>
 			<territory type="TN">Tunisia</territory>
 			<territory type="TO">Tonga</territory>
@@ -994,6 +1040,8 @@
 			<type type="buddhist" key="calendar">buddhalainen kalenteri</type>
 			<type type="chinese" key="calendar">kiinalainen kalenteri</type>
 			<type type="direct" key="collation">suora järjestys</type>
+			<type type="ethiopic" key="calendar">etiopialainen kalenteri</type>
+			<type type="ethiopic-amete-alem" key="calendar">etiopialainen amete alem -kalenteri</type>
 			<type type="gb2312han" key="collation">yksinkertaistettu kiinalainen järjestys GB2312</type>
 			<type type="gregorian" key="calendar">gregoriaaninen kalenteri</type>
 			<type type="hebrew" key="calendar">juutalainen kalenteri</type>
@@ -1001,6 +1049,8 @@
 			<type type="islamic" key="calendar">islamilainen kalenteri</type>
 			<type type="islamic-civil" key="calendar">islamilainen siviilikalenteri</type>
 			<type type="japanese" key="calendar">japanilainen kalenteri</type>
+			<type type="latn" key="numbers">länsimaiset numerot</type>
+			<type type="persian" key="calendar">persialainen kalenteri</type>
 			<type type="phonebook" key="collation">puhelinluettelojärjestys</type>
 			<type type="pinyin" key="collation">pinyin-järjestys</type>
 			<type type="roc" key="calendar">kiinan tasavallan kalenteri 1912–1949</type>
@@ -1022,9 +1072,11 @@
 		<inText type="languages" alt="proposed-x1001" draft="unconfirmed">mixed</inText>
 	</layout>
 	<characters>
-		<exemplarCharacters>[a-s š t-z ž å ä ö]</exemplarCharacters>
+		<exemplarCharacters>[a b c d e f g h i j k l m n o p q r s š t u v w x y z ž å ä ö]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[á à â ã č ç đ é è ë ǧ ǥ ȟ í ï ǩ ń ñ ŋ ô õ œ ř ŧ ú ü ʒ ǯ æ ø]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a-z]</exemplarCharacters>
+		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="currencySymbol" alt="proposed-x1001" draft="unconfirmed">[a b c č d e f g h i j k l ł m n o p q r s t u v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="contributed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Å Ä Ö]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>”</quotationStart>
@@ -1035,22 +1087,111 @@
 	<dates>
 		<dateRangePattern>{0}–{1}</dateRangePattern>
 		<calendars>
+			<calendar type="buddhist">
+				<dateFormats> <!-- per cldrbug 2835, accept provisional formats, add G for short -->
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>cccc d. MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d. MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d.M.y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d.M.y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats> <!-- per cldrbug 2835, accept provisional, add others from gregorian and adjust -->
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="Ed">ccc d.</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
+						<dateFormatItem id="H">H</dateFormatItem>
+						<dateFormatItem id="hm">h.mm a</dateFormatItem>
+						<dateFormatItem id="Hm">H.mm</dateFormatItem>
+						<dateFormatItem id="hms">h.mm.ss a</dateFormatItem>
+						<dateFormatItem id="Hms">H.mm.ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d.M.</dateFormatItem>
+						<dateFormatItem id="MEd">E d.M.</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d. MMM</dateFormatItem>
+						<dateFormatItem id="ms">mm.ss</dateFormatItem>
+						<dateFormatItem id="y">y G</dateFormatItem>
+						<dateFormatItem id="yM">L.y G</dateFormatItem>
+						<dateFormatItem id="yMEd">EEE d.M.y G</dateFormatItem>
+						<dateFormatItem id="yMMM">LLLL y G</dateFormatItem>
+						<dateFormatItem id="yMMMEd">EEE d. MMM y G</dateFormatItem>
+						<dateFormatItem id="yMMMMccccd">cccc, d. MMMM y G</dateFormatItem>
+						<dateFormatItem id="yQ">Q/y G</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y G</dateFormatItem>
+						<dateFormatItem id="yyMM">M.y G</dateFormatItem>
+						<dateFormatItem id="yyMMM">LLLL y G</dateFormatItem>
+						<dateFormatItem id="yyQ">Q/y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEEEd">EEE d.M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">LLLL y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQQ">QQQQ y G</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="chinese">
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="Hms" draft="provisional">H.mm.ss</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
 						<monthWidth type="abbreviated">
 							<month type="1">tammikuuta</month>
+							<month type="1" alt="proposed-x1001" draft="unconfirmed">tammi'ta</month>
+							<month type="1" alt="proposed-x1002" draft="unconfirmed">tam</month>
 							<month type="2">helmikuuta</month>
+							<month type="2" alt="proposed-x1001" draft="unconfirmed">helmi'ta</month>
+							<month type="2" alt="proposed-x1002" draft="unconfirmed">hel</month>
 							<month type="3">maaliskuuta</month>
+							<month type="3" alt="proposed-x1001" draft="unconfirmed">maa</month>
+							<month type="3" alt="proposed-x1002" draft="unconfirmed">maalis'ta</month>
 							<month type="4">huhtikuuta</month>
+							<month type="4" alt="proposed-x1001" draft="unconfirmed">huhti'ta</month>
+							<month type="4" alt="proposed-x1002" draft="unconfirmed">huh</month>
 							<month type="5">toukokuuta</month>
+							<month type="5" alt="proposed-x1001" draft="unconfirmed">tou</month>
+							<month type="5" alt="proposed-x1002" draft="unconfirmed">touko'ta</month>
 							<month type="6">kesäkuuta</month>
+							<month type="6" alt="proposed-x1001" draft="unconfirmed">kes</month>
+							<month type="6" alt="proposed-x1002" draft="unconfirmed">kesä'ta</month>
 							<month type="7">heinäkuuta</month>
+							<month type="7" alt="proposed-x1001" draft="unconfirmed">heinä'ta</month>
+							<month type="7" alt="proposed-x1002" draft="unconfirmed">hei</month>
 							<month type="8">elokuuta</month>
+							<month type="8" alt="proposed-x1001" draft="unconfirmed">elo'ta</month>
+							<month type="8" alt="proposed-x1002" draft="unconfirmed">elo</month>
 							<month type="9">syyskuuta</month>
+							<month type="9" alt="proposed-x1001" draft="unconfirmed">syys'ta</month>
+							<month type="9" alt="proposed-x1002" draft="unconfirmed">syy</month>
 							<month type="10">lokakuuta</month>
+							<month type="10" alt="proposed-x1001" draft="unconfirmed">lok</month>
+							<month type="10" alt="proposed-x1002" draft="unconfirmed">loka'ta</month>
 							<month type="11">marraskuuta</month>
+							<month type="11" alt="proposed-x1001" draft="unconfirmed">marras'ta</month>
+							<month type="11" alt="proposed-x1002" draft="unconfirmed">mar</month>
 							<month type="12">joulukuuta</month>
+							<month type="12" alt="proposed-x1001" draft="unconfirmed">jou</month>
+							<month type="12" alt="proposed-x1002" draft="unconfirmed">joulu'ta</month>
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">tammikuuta</month>
@@ -1169,17 +1310,31 @@
 							<quarter type="4">4. neljännes</quarter>
 						</quarterWidth>
 					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="narrow">
-							<quarter type="1">1</quarter>
-							<quarter type="2">2</quarter>
-							<quarter type="3">3</quarter>
-							<quarter type="4">4</quarter>
-						</quarterWidth>
-					</quarterContext>
 				</quarters>
-				<am>ap.</am>
-				<pm>ip.</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="abbreviated">
+							<dayPeriod type="am">ap.</dayPeriod>
+							<dayPeriod type="am" alt="proposed-x1001" draft="unconfirmed">a.p.</dayPeriod>
+							<dayPeriod type="pm">ip.</dayPeriod>
+							<dayPeriod type="pm" alt="proposed-x1001" draft="unconfirmed">i.p.</dayPeriod>
+						</dayPeriodWidth>
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">ap.</dayPeriod>
+							<dayPeriod type="am" alt="proposed-x1001" draft="unconfirmed">aamupäivään</dayPeriod>
+							<dayPeriod type="pm">ip.</dayPeriod>
+							<dayPeriod type="pm" alt="proposed-x1001" draft="unconfirmed">iltapäivään</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+					<dayPeriodContext type="stand-alone">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">ap.</dayPeriod>
+							<dayPeriod type="am" alt="proposed-x1001" draft="unconfirmed">aamupäivä</dayPeriod>
+							<dayPeriod type="pm">ip.</dayPeriod>
+							<dayPeriod type="pm" alt="proposed-x1001" draft="unconfirmed">iltapäivä</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<era type="0">ennen Kristuksen syntymää</era>
@@ -1187,13 +1342,15 @@
 					</eraNames>
 					<eraAbbr>
 						<era type="0">eKr.</era>
+						<era type="0" alt="proposed-x1001" draft="unconfirmed">e.Kr.</era>
 						<era type="1">jKr.</era>
+						<era type="1" alt="proposed-x1001" draft="unconfirmed">j.Kr.</era>
 					</eraAbbr>
 				</eras>
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>EEEE d. MMMM y</pattern>
+							<pattern>cccc d. MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
@@ -1237,31 +1394,29 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="EEEd">EEE d.</dateFormatItem>
-						<dateFormatItem id="HHmmss">HH.mm.ss</dateFormatItem>
+						<dateFormatItem id="Ed">ccc d.</dateFormatItem>
+						<dateFormatItem id="H">H</dateFormatItem>
 						<dateFormatItem id="hm">h.mm a</dateFormatItem>
 						<dateFormatItem id="Hm">H.mm</dateFormatItem>
 						<dateFormatItem id="hms">h.mm.ss a</dateFormatItem>
+						<dateFormatItem id="Hms">H.mm.ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d.M.</dateFormatItem>
 						<dateFormatItem id="MEd">E d.M.</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d. MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d. MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E d. MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm.ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">L.yyyy</dateFormatItem>
 						<dateFormatItem id="yMEd">EEE d.M.yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM">LLL y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">EEE d. MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMM">LLLL y</dateFormatItem>
 						<dateFormatItem id="yMMMMccccd">cccc, d. MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q/yyyy</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yyMM">M/yy</dateFormatItem>
-						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
+						<dateFormatItem id="yyMMM">LLLL yy</dateFormatItem>
 						<dateFormatItem id="yyQ">Q/yy</dateFormatItem>
 						<dateFormatItem id="yyyyM">M/yyyy</dateFormatItem>
 						<dateFormatItem id="yyyyMEEEd">EEE d.M.yyyy</dateFormatItem>
@@ -1274,22 +1429,40 @@
 							<greatestDifference id="d">d.–d.</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
+							<greatestDifference id="a">h a – h a</greatestDifference>
+							<greatestDifference id="h">h–h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
 							<greatestDifference id="a">H–H</greatestDifference>
-							<greatestDifference id="h">H–H</greatestDifference>
+							<greatestDifference id="H">H–H</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
+							<greatestDifference id="a">h.mm a – h.mm a</greatestDifference>
+							<greatestDifference id="h">h.mm–h.mm a</greatestDifference>
+							<greatestDifference id="m">h.mm–h.mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
 							<greatestDifference id="a">H.mm–H.mm</greatestDifference>
-							<greatestDifference id="h">H.mm–H.mm</greatestDifference>
+							<greatestDifference id="H">H.mm–H.mm</greatestDifference>
 							<greatestDifference id="m">H.mm–H.mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
+							<greatestDifference id="a">h.mm a – h.mm a v</greatestDifference>
+							<greatestDifference id="h">h.mm–h.mm a v</greatestDifference>
+							<greatestDifference id="m">h.mm–h.mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
 							<greatestDifference id="a">H.mm–H.mm v</greatestDifference>
-							<greatestDifference id="h">H.mm–H.mm v</greatestDifference>
+							<greatestDifference id="H">H.mm–H.mm v</greatestDifference>
 							<greatestDifference id="m">H.mm–H.mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
+							<greatestDifference id="a">h a – h a v</greatestDifference>
+							<greatestDifference id="h">h–h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
 							<greatestDifference id="a">H–H v</greatestDifference>
-							<greatestDifference id="h">H–H v</greatestDifference>
+							<greatestDifference id="H">H–H v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M">L.–L.</greatestDifference>
@@ -1299,7 +1472,7 @@
 							<greatestDifference id="M">d.M.–d.M.</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MEd">
-							<greatestDifference id="d">E d. – E d.M</greatestDifference>
+							<greatestDifference id="d">E d. – E d.M.</greatestDifference>
 							<greatestDifference id="M">E d.M. – E d.M.</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MMM">
@@ -1378,7 +1551,8 @@
 						<displayName>viikonpäivä</displayName>
 					</field>
 					<field type="dayperiod">
-						<displayName>ap/ip</displayName>
+						<displayName>ap./ip.</displayName>
+						<displayName alt="proposed-x1001" draft="unconfirmed">a.p./i.p.</displayName>
 					</field>
 					<field type="hour">
 						<displayName>tunti</displayName>
@@ -1397,14 +1571,33 @@
 			<calendar type="hebrew">
 				<months>
 					<monthContext type="format">
+						<monthWidth type="wide">
+							<month type="1" references="R053">tišríkuuta</month>
+							<month type="2">hešvánkuuta</month>
+							<month type="3">kislévkuuta</month>
+							<month type="4">tevétkuuta</month>
+							<month type="5">ševátkuuta</month>
+							<month type="6">adárkuuta I</month>
+							<month type="7">adárkuuta</month>
+							<month type="7" yeartype="leap">adárkuuta II</month>
+							<month type="8">nisánkuuta</month>
+							<month type="9">ijjárkuuta</month>
+							<month type="10">sivánkuuta</month>
+							<month type="11">tammúzkuuta</month>
+							<month type="12">abkuuta</month>
+							<month type="13">elúlkuuta</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
 						<monthWidth type="abbreviated">
 							<month type="1" references="R053">tišrí</month>
 							<month type="2">hešván</month>
 							<month type="3">kislév</month>
 							<month type="4">tevét</month>
 							<month type="5">ševát</month>
-							<month type="6">adár</month>
-							<month type="7">adár II</month>
+							<month type="6">adár I</month>
+							<month type="7">adár</month>
+							<month type="7" yeartype="leap">adár II</month>
 							<month type="8">nisán</month>
 							<month type="9">ijjár</month>
 							<month type="10">siván</month>
@@ -1412,14 +1605,31 @@
 							<month type="12">ab</month>
 							<month type="13">elúl</month>
 						</monthWidth>
+						<monthWidth type="narrow">
+							<month type="1">T</month>
+							<month type="2">H</month>
+							<month type="3">K</month>
+							<month type="4">T</month>
+							<month type="5">S</month>
+							<month type="6">A</month>
+							<month type="7">A</month>
+							<month type="7" yeartype="leap">A</month>
+							<month type="8">N</month>
+							<month type="9">I</month>
+							<month type="10">S</month>
+							<month type="11">T</month>
+							<month type="12">A</month>
+							<month type="13">E</month>
+						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1" references="R053">tišríkuu</month>
 							<month type="2">hešvánkuu</month>
 							<month type="3">kislévkuu</month>
 							<month type="4">tevétkuu</month>
 							<month type="5">ševátkuu</month>
-							<month type="6">adárkuu</month>
-							<month type="7">adárkuu II</month>
+							<month type="6">adárkuu I</month>
+							<month type="7">adárkuu</month>
+							<month type="7" yeartype="leap">adárkuu II</month>
 							<month type="8">nisánkuu</month>
 							<month type="9">ijjárkuu</month>
 							<month type="10">sivánkuu</month>
@@ -1449,6 +1659,149 @@
 						</monthWidth>
 					</monthContext>
 				</months>
+				<dateFormats> <!-- per cldrbug 2835, copied from buddhist -->
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>cccc d. MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d. MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d.M.y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d.M.y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats> <!-- per cldrbug 2835, copied from buddhist, adjusted skeleton y length -->
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="Ed">ccc d.</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
+						<dateFormatItem id="H">H</dateFormatItem>
+						<dateFormatItem id="hm">h.mm a</dateFormatItem>
+						<dateFormatItem id="Hm">H.mm</dateFormatItem>
+						<dateFormatItem id="hms">h.mm.ss a</dateFormatItem>
+						<dateFormatItem id="Hms">H.mm.ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d.M.</dateFormatItem>
+						<dateFormatItem id="MEd">E d.M.</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d. MMM</dateFormatItem>
+						<dateFormatItem id="ms">mm.ss</dateFormatItem>
+						<dateFormatItem id="y">y G</dateFormatItem>
+						<dateFormatItem id="yyyy">y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">EEE d.M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMM">M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">LLLL y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">EEE d. MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">LLLL y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMMccccd">cccc, d. MMMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyQ">Q/y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQQ">QQQQ y G</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="japanese">
+				<dateFormats> <!-- per cldrbug 2835, accept provisional formats -->
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>cccc d. MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d. MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d.M.y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d.M.y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats> <!-- per cldrbug 2835, accept provisional formats -->
+						<dateFormatItem id="Ed">ccc d.</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
+						<dateFormatItem id="hm">h.mm a</dateFormatItem>
+						<dateFormatItem id="Hm">H.mm</dateFormatItem>
+						<dateFormatItem id="hms">h.mm.ss a</dateFormatItem>
+						<dateFormatItem id="Hms">H.mm.ss</dateFormatItem>
+						<dateFormatItem id="Md">d.M</dateFormatItem>
+						<dateFormatItem id="MEd">E d.M.</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d. MMM</dateFormatItem>
+						<dateFormatItem id="MMMMd">d. MMMM</dateFormatItem>
+						<dateFormatItem id="ms">mm.ss</dateFormatItem>
+						<dateFormatItem id="yyyy">y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMd">d.M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E d.M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">LLLL yy G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">d. MMM yy G</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="roc">
+				<dateFormats> <!-- per cldrbug 2835, accept provisional formats -->
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>cccc d. MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d. MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d.M.y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d.M.y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats> <!-- per cldrbug 2835, accept provisional formats -->
+						<dateFormatItem id="Ed">ccc d.</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
+						<dateFormatItem id="hm">h.mm a</dateFormatItem>
+						<dateFormatItem id="Hm">H.mm</dateFormatItem>
+						<dateFormatItem id="hms">h.mm.ss a</dateFormatItem>
+						<dateFormatItem id="Hms">H.mm.ss</dateFormatItem>
+						<dateFormatItem id="Md">d.M.</dateFormatItem>
+						<dateFormatItem id="MEd">E d.M.</dateFormatItem>
+						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d. MMM</dateFormatItem>
+						<dateFormatItem id="ms">mm.ss</dateFormatItem>
+						<dateFormatItem id="yyyy">y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E d.M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">LLLL y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">EEE d. MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMd">d.M.y G</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
 			</calendar>
 		</calendars>
 		<timeZoneNames>
@@ -1456,7 +1809,6 @@
 			<hourFormat alt="proposed-x1001" draft="unconfirmed">+HH:mm;−HH:mm</hourFormat>
 			<gmtFormat>UTC{0}</gmtFormat>
 			<gmtZeroFormat>UTC</gmtZeroFormat>
-			<regionFormat>{0}</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
 			<fallbackFormat alt="proposed-x1001" draft="unconfirmed">{0} ({1})</fallbackFormat>
 			<zone type="Etc/Unknown">
@@ -1536,6 +1888,7 @@
 				<exemplarCity>Lontoo</exemplarCity>
 			</zone>
 			<zone type="America/Thule">
+				<exemplarCity>Thule</exemplarCity>
 				<exemplarCity alt="secondary">Qaanaaq</exemplarCity>
 			</zone>
 			<zone type="America/Godthab">
@@ -1675,6 +2028,12 @@
 			<zone type="America/St_Thomas">
 				<exemplarCity draft="provisional">Saint Thomas</exemplarCity>
 			</zone>
+			<metazone type="Acre">
+				<long>
+					<standard draft="provisional">Acren aika</standard>
+					<daylight draft="provisional">Acren kesäaika</daylight>
+				</long>
+			</metazone>
 			<metazone type="Africa_Central">
 				<long>
 					<standard>Keski-Afrikan aika</standard>
@@ -1699,14 +2058,22 @@
 			</metazone>
 			<metazone type="Alaska">
 				<long>
+					<generic draft="provisional">Alaskan aika</generic>
 					<standard>Alaskan normaaliaika</standard>
 					<daylight>Alaskan kesäaika</daylight>
 				</long>
 			</metazone>
+			<metazone type="Alaska_Hawaii">
+				<long>
+					<generic draft="provisional">Alaskan ja Havaijin aika</generic>
+					<standard draft="provisional">Alaskan ja Havaijin normaaliaika</standard>
+					<daylight draft="provisional">Alaskan ja Havaijin kesäaika</daylight>
+				</long>
+			</metazone>
 			<metazone type="Amazon">
 				<long>
-					<standard draft="unconfirmed">Amazonin aika</standard>
-					<daylight draft="unconfirmed">Amazonin kesäaika</daylight>
+					<standard>Amazonin aika</standard>
+					<daylight>Amazonin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Central">
@@ -1715,11 +2082,6 @@
 					<standard>Yhdysvaltain keskinen normaaliaika</standard>
 					<daylight>Yhdysvaltain keskinen kesäaika</daylight>
 				</long>
-				<short>
-					<generic draft="unconfirmed">CT</generic>
-					<standard draft="unconfirmed">CST</standard>
-					<daylight draft="unconfirmed">CDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Eastern">
 				<long>
@@ -1727,11 +2089,6 @@
 					<standard>Yhdysvaltain itäinen normaaliaika</standard>
 					<daylight>Yhdysvaltain itäinen kesäaika</daylight>
 				</long>
-				<short>
-					<generic draft="unconfirmed">ET</generic>
-					<standard draft="unconfirmed">EST</standard>
-					<daylight draft="unconfirmed">EDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Mountain">
 				<long>
@@ -1739,11 +2096,6 @@
 					<standard>Kalliovuorten normaaliaika</standard>
 					<daylight>Kalliovuorten kesäaika</daylight>
 				</long>
-				<short>
-					<generic draft="unconfirmed">MT</generic>
-					<standard draft="unconfirmed">MST</standard>
-					<daylight draft="unconfirmed">MDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Pacific">
 				<long>
@@ -1751,31 +2103,34 @@
 					<standard>Yhdysvaltain Tyynenmeren normaaliaika</standard>
 					<daylight>Yhdysvaltain Tyynenmeren kesäaika</daylight>
 				</long>
-				<short>
-					<generic draft="unconfirmed">PT</generic>
-					<standard draft="unconfirmed">PST</standard>
-					<daylight draft="unconfirmed">PDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Arabian">
 				<long>
-					<generic draft="unconfirmed">Saudi-Arabian aika</generic>
-					<standard draft="unconfirmed">Saudi-Arabian normaaliaika</standard>
-					<daylight draft="unconfirmed">Saudi-Arabian kesäaika</daylight>
+					<generic>Saudi-Arabian aika</generic>
+					<standard>Saudi-Arabian normaaliaika</standard>
+					<daylight>Saudi-Arabian kesäaika</daylight>
 				</long>
-				<short>
-					<generic draft="unconfirmed">AT (SA)</generic>
-				</short>
+			</metazone>
+			<metazone type="Argentina">
+				<long>
+					<standard draft="provisional">Argentiinan aika</standard>
+					<daylight draft="provisional">Argentiinan kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Argentina_Western">
+				<long>
+					<standard draft="provisional">Länsi-Argentiinan aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Armenia">
 				<long>
-					<standard draft="unconfirmed">Armenian aika</standard>
+					<standard>Armenian aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Ashkhabad">
 				<long>
-					<standard draft="unconfirmed">Ašgabatin aika</standard>
-					<daylight draft="unconfirmed">Ašgabatin kesäaika</daylight>
+					<standard>Ašgabatin aika</standard>
+					<daylight>Ašgabatin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Atlantic">
@@ -1784,116 +2139,161 @@
 					<standard>Kanadan Atlantin normaaliaika</standard>
 					<daylight>Kanadan Atlantin kesäaika</daylight>
 				</long>
-				<short>
-					<generic draft="unconfirmed">AT</generic>
-					<standard draft="unconfirmed">AST</standard>
-					<daylight draft="unconfirmed">ADT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Australia_Central">
 				<long>
-					<generic draft="unconfirmed">Keski-Australian aika</generic>
-					<daylight draft="unconfirmed">Keski-Australian kesäaika</daylight>
+					<generic>Keski-Australian aika</generic>
+					<standard draft="provisional">Australian keskinen normaaliaika</standard>
+					<daylight>Keski-Australian kesäaika</daylight>
 				</long>
-				<short>
-					<generic draft="unconfirmed">ACT</generic>
-				</short>
 			</metazone>
 			<metazone type="Australia_CentralWestern">
 				<long>
-					<generic draft="unconfirmed">Läntisen Keski-Australian aika</generic>
-					<standard draft="unconfirmed">Läntisen Keski-Australian normaaliaika</standard>
-					<daylight draft="unconfirmed">Läntisen Keski-Australian kesäaika</daylight>
+					<generic>Läntisen Keski-Australian aika</generic>
+					<standard>Läntisen Keski-Australian normaaliaika</standard>
+					<daylight>Läntisen Keski-Australian kesäaika</daylight>
 				</long>
-				<short>
-					<generic draft="unconfirmed">ACWT</generic>
-				</short>
 			</metazone>
 			<metazone type="Australia_Eastern">
 				<long>
-					<generic draft="unconfirmed">Itä-Australian aika</generic>
-					<standard draft="unconfirmed">Itä-Australian normaaliaika</standard>
-					<daylight draft="unconfirmed">Itä-Australian kesäaika</daylight>
+					<generic>Itä-Australian aika</generic>
+					<standard>Itä-Australian normaaliaika</standard>
+					<daylight>Itä-Australian kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Australia_Western">
 				<long>
-					<standard draft="unconfirmed">Länsi-Australian normaaliaika</standard>
-					<daylight draft="unconfirmed">Länsi-Australian kesäaika</daylight>
+					<generic>Länsi-Australian aika</generic>
+					<standard>Länsi-Australian normaaliaika</standard>
+					<daylight>Länsi-Australian kesäaika</daylight>
 				</long>
-				<short>
-					<generic draft="unconfirmed">AWT</generic>
-				</short>
 			</metazone>
 			<metazone type="Azerbaijan">
 				<long>
-					<standard draft="unconfirmed">Azerbaidžanin aika</standard>
-					<daylight draft="unconfirmed">Azerbaidžanin kesäaika</daylight>
+					<standard>Azerbaidžanin aika</standard>
+					<daylight>Azerbaidžanin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Azores">
 				<long>
-					<standard draft="unconfirmed">Azorien aika</standard>
-					<daylight draft="unconfirmed">Azorien kesäaika</daylight>
+					<standard>Azorien aika</standard>
+					<daylight>Azorien kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Baku">
 				<long>
-					<daylight draft="unconfirmed">Bakun kesäaika</daylight>
+					<daylight>Bakun kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bangladesh">
 				<long>
-					<standard draft="unconfirmed">Bangladeshin aika</standard>
+					<standard>Bangladeshin aika</standard>
+				</long>
+			</metazone>
+			<metazone type="Bering">
+				<long>
+					<generic draft="provisional">Beringin aika</generic>
+					<standard draft="provisional">Beringin normaaliaika</standard>
+					<daylight draft="provisional">Beringin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bhutan">
 				<long>
-					<standard draft="unconfirmed">Bhutanin aika</standard>
+					<standard>Bhutanin aika</standard>
+				</long>
+			</metazone>
+			<metazone type="Bolivia">
+				<long>
+					<standard draft="provisional">Bolivian aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Borneo">
 				<long>
-					<standard draft="unconfirmed">Borneon aika</standard>
-					<daylight draft="unconfirmed">Borneon kesäaika</daylight>
+					<standard>Borneon aika</standard>
+					<daylight>Borneon kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Brasilia">
+				<long>
+					<standard draft="provisional">Brasilian aika</standard>
+					<daylight draft="provisional">Brasilian kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Brunei">
 				<long>
-					<standard draft="unconfirmed">Brunein aika</standard>
+					<standard>Brunein aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Cape_Verde">
 				<long>
-					<standard draft="unconfirmed">Kap Verden aika</standard>
-					<daylight draft="unconfirmed">Kap Verden kesäaika</daylight>
+					<standard>Kap Verden aika</standard>
+					<daylight>Kap Verden kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Chile">
+				<long>
+					<standard draft="provisional">Chilen aika</standard>
+					<daylight draft="provisional">Chilen kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="China">
 				<long>
-					<generic draft="unconfirmed">Kiinan aika</generic>
+					<generic>Kiinan aika</generic>
 					<standard>Kiinan normaaliaika</standard>
 					<daylight>Kiinan kesäaika</daylight>
 				</long>
 				<short>
-					<generic draft="unconfirmed">CT</generic>
+					<generic>CT (Kiina)</generic>
 					<standard>CST (Kiina)</standard>
 					<daylight>CDT (Kiina)</daylight>
 				</short>
 			</metazone>
 			<metazone type="Choibalsan">
 				<long>
-					<daylight draft="unconfirmed">Tšoibalsan kesäaika</daylight>
+					<daylight>Tšoibalsan kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Christmas">
 				<long>
-					<standard draft="unconfirmed">Joulusaaren aika</standard>
+					<standard>Joulusaaren aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Cocos">
 				<long>
-					<standard draft="unconfirmed">Kookossaarten aika</standard>
+					<standard>Kookossaarten aika</standard>
+				</long>
+			</metazone>
+			<metazone type="Colombia">
+				<long>
+					<standard draft="provisional">Kolumbian aika</standard>
+					<daylight draft="provisional">Kolumbian kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Cuba">
+				<long>
+					<generic draft="provisional">Kuuban aika</generic>
+					<standard draft="provisional">Kuuban normaaliaika</standard>
+					<daylight draft="provisional">Kuuban kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Davis">
+				<long>
+					<standard draft="provisional">Davisin aika</standard>
+				</long>
+			</metazone>
+			<metazone type="DumontDUrville">
+				<long>
+					<standard draft="provisional">Dumont-d'Urvillen aika</standard>
+				</long>
+			</metazone>
+			<metazone type="Dutch_Guiana">
+				<long>
+					<standard draft="provisional">Hollannin Guianan aika</standard>
+				</long>
+			</metazone>
+			<metazone type="Ecuador">
+				<long>
+					<standard draft="provisional">Ecuadorin aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Europe_Central">
@@ -1901,103 +2301,114 @@
 					<standard>Keski-Euroopan normaaliaika</standard>
 					<daylight>Keski-Euroopan kesäaika</daylight>
 				</long>
-				<short>
-					<standard draft="unconfirmed">CET</standard>
-					<daylight draft="unconfirmed">CEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
 					<standard>Itä-Euroopan normaaliaika</standard>
 					<daylight>Itä-Euroopan kesäaika</daylight>
 				</long>
-				<short>
-					<standard draft="unconfirmed">EET</standard>
-					<daylight draft="unconfirmed">EEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<standard draft="unconfirmed">Länsi-Euroopan aika</standard>
-					<daylight draft="unconfirmed">Länsi-Euroopan kesäaika</daylight>
+					<standard>Länsi-Euroopan aika</standard>
+					<daylight>Länsi-Euroopan kesäaika</daylight>
 				</long>
-				<short>
-					<standard draft="unconfirmed">WET</standard>
-					<daylight draft="unconfirmed">WEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Falkland">
 				<long>
-					<daylight draft="unconfirmed">Falklandinsaarten kesäaika</daylight>
+					<standard draft="provisional">Falklandinsaarten aika</standard>
+					<daylight>Falklandinsaarten kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="French_Guiana">
+				<long>
+					<standard draft="provisional">Ranskan Guianan aika</standard>
 				</long>
 			</metazone>
 			<metazone type="French_Southern">
 				<long>
-					<standard draft="unconfirmed">Ranskan eteläisten ja antarktisten alueiden aika</standard>
+					<standard>Ranskan eteläisten ja antarktisten alueiden aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Frunze">
 				<long>
-					<standard draft="unconfirmed">Biškekin aika</standard>
-					<daylight draft="unconfirmed">Biškekin kesäaika</daylight>
+					<standard>Biškekin aika</standard>
+					<daylight>Biškekin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Georgia">
 				<long>
-					<standard draft="unconfirmed">Georgian aika</standard>
-					<daylight draft="unconfirmed">Georgian kesäaika</daylight>
+					<standard>Georgian aika</standard>
+					<daylight>Georgian kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="GMT">
 				<long>
 					<standard>Greenwichin normaaliaika</standard>
 				</long>
-				<short>
-					<standard draft="unconfirmed">GMT</standard>
-				</short>
+			</metazone>
+			<metazone type="Greenland_Central">
+				<long>
+					<standard draft="provisional">Keski-Grönlannin aika</standard>
+					<daylight draft="provisional">Keski-Grönlannin kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Greenland_Eastern">
+				<long>
+					<standard draft="provisional">Itä-Grönlannin aika</standard>
+					<daylight draft="provisional">Itä-Grönlannin kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Greenland_Western">
+				<long>
+					<standard draft="provisional">Länsi-Grönlannin aika</standard>
+					<daylight draft="provisional">Länsi-Grönlannin kesäaika</daylight>
+				</long>
 			</metazone>
 			<metazone type="Gulf">
 				<long>
-					<standard draft="unconfirmed">Arabiemiirikuntien normaaliaika</standard>
+					<standard>Arabiemiirikuntien normaaliaika</standard>
 				</long>
-				<short>
-					<generic draft="unconfirmed">GT</generic>
-				</short>
+			</metazone>
+			<metazone type="Guyana">
+				<long>
+					<standard draft="provisional">Guyanan aika</standard>
+				</long>
 			</metazone>
 			<metazone type="Hong_Kong">
 				<long>
-					<standard draft="unconfirmed">Hongkongin aika</standard>
-					<daylight draft="unconfirmed">Hongkongin kesäaika</daylight>
+					<standard>Hongkongin aika</standard>
+					<daylight>Hongkongin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
-					<daylight draft="unconfirmed">Hovdin kesäaika</daylight>
+					<daylight>Hovdin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="India">
 				<long>
-					<standard draft="unconfirmed">Intian normaaliaika</standard>
+					<standard>Intian normaaliaika</standard>
 				</long>
 			</metazone>
 			<metazone type="Indochina">
 				<long>
-					<standard draft="unconfirmed">In</standard>
+					<standard>Indokiinan aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<standard draft="unconfirmed">Keski-Indonesian aika</standard>
+					<standard>Keski-Indonesian aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<standard draft="unconfirmed">Itä-Indonesian aika</standard>
+					<standard>Itä-Indonesian aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<standard draft="unconfirmed">Länsi-Indonesian aika</standard>
+					<standard>Länsi-Indonesian aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Israel">
@@ -2017,212 +2428,275 @@
 			</metazone>
 			<metazone type="Karachi">
 				<long>
-					<standard draft="unconfirmed">Karachin aika</standard>
+					<standard>Karachin aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Korea">
 				<long>
-					<generic draft="unconfirmed">Korean aika</generic>
-					<standard draft="unconfirmed">Korean normaaliaika</standard>
+					<generic>Korean aika</generic>
+					<standard>Korean normaaliaika</standard>
 				</long>
-				<short>
-					<generic draft="unconfirmed">KT</generic>
-				</short>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
-					<standard draft="unconfirmed">Krasnojarskin aika</standard>
-					<daylight draft="unconfirmed">Krasnojarskin kesäaika</daylight>
+					<standard>Krasnojarskin aika</standard>
+					<daylight>Krasnojarskin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kuybyshev">
 				<long>
-					<standard draft="unconfirmed">Kuybyshevin aika</standard>
-					<daylight draft="unconfirmed">Kuybyshevin kesäaika</daylight>
+					<standard>Kuybyshevin aika</standard>
+					<daylight>Kuybyshevin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Lanka">
 				<long>
-					<standard draft="unconfirmed">Sri Lankan aika</standard>
+					<standard>Sri Lankan aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Lord_Howe">
 				<long>
-					<generic draft="unconfirmed">Lord Howen aika</generic>
-					<standard draft="unconfirmed">Lord Howen normaaliaika</standard>
-					<daylight draft="unconfirmed">Lord Howen kesäaika</daylight>
+					<generic>Lord Howen aika</generic>
+					<standard>Lord Howen normaaliaika</standard>
+					<daylight>Lord Howen kesäaika</daylight>
 				</long>
-				<short>
-					<generic draft="unconfirmed">LHT</generic>
-				</short>
 			</metazone>
 			<metazone type="Macau">
 				<long>
-					<daylight draft="unconfirmed">Macaon kesäaika</daylight>
+					<daylight>Macaon kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Malaya">
 				<long>
-					<standard draft="unconfirmed">Malaijan aika</standard>
+					<standard>Malaijan aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Maldives">
 				<long>
-					<standard draft="unconfirmed">Malediivien aika</standard>
+					<standard>Malediivien aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Mauritius">
 				<long>
-					<standard draft="unconfirmed">Mauritiuksen aika</standard>
+					<standard>Mauritiuksen aika</standard>
+				</long>
+			</metazone>
+			<metazone type="Mawson">
+				<long>
+					<standard draft="provisional">Mawsonin aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<daylight draft="unconfirmed">Ulan Batorin kesäaika</daylight>
+					<daylight>Ulaanbaatarin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Moscow">
 				<long>
-					<generic draft="unconfirmed">Moskovan aika</generic>
-					<standard draft="unconfirmed">Moskovan normaaliaika</standard>
-					<daylight draft="unconfirmed">Moskovan kesäaika</daylight>
+					<generic>Moskovan aika</generic>
+					<standard>Moskovan normaaliaika</standard>
+					<daylight>Moskovan kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Myanmar">
 				<long>
-					<standard draft="unconfirmed">Myanmarin aikaMa</standard>
+					<standard>Myanmarin aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Nepal">
 				<long>
-					<standard draft="unconfirmed">Nepalin aika</standard>
+					<standard>Nepalin aika</standard>
 				</long>
 			</metazone>
 			<metazone type="New_Zealand">
 				<long>
-					<standard draft="unconfirmed">Uuden-Seelannin normaaliaika</standard>
+					<generic>Uuden-Seelannin aika</generic>
+					<standard>Uuden-Seelannin normaaliaika</standard>
+					<daylight>Uuden-Seelannin kesäaika</daylight>
 				</long>
-				<short>
-					<generic draft="unconfirmed">NZT</generic>
-				</short>
 			</metazone>
 			<metazone type="Newfoundland">
 				<long>
+					<generic draft="provisional">Newfoundlandin aika</generic>
 					<standard>Newfoundlandin normaaliaika</standard>
 					<daylight>Newfoundlandin kesäaika</daylight>
 				</long>
 			</metazone>
+			<metazone type="Noronha">
+				<long>
+					<standard draft="provisional">Fernando de Noronhan aika</standard>
+					<daylight draft="provisional">Fernando de Noronhan kesäaika</daylight>
+				</long>
+			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
-					<standard draft="unconfirmed">Novosibirskin aika</standard>
-					<daylight draft="unconfirmed">Novosibirskin kesäaika</daylight>
+					<standard>Novosibirskin aika</standard>
+					<daylight>Novosibirskin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
-					<standard draft="unconfirmed">Omskin aika</standard>
-					<daylight draft="unconfirmed">Omskin kesäaika</daylight>
+					<standard>Omskin aika</standard>
+					<daylight>Omskin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Pakistan">
 				<long>
-					<standard draft="unconfirmed">Pakistanin aika</standard>
-					<daylight draft="unconfirmed">Pakistanin kesäaika</daylight>
+					<standard>Pakistanin aika</standard>
+					<daylight>Pakistanin kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Paraguay">
+				<long>
+					<standard draft="provisional">Paraguayn aika</standard>
+					<daylight draft="provisional">Paraguayn kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Peru">
+				<long>
+					<standard draft="provisional">Perun aika</standard>
+					<daylight draft="provisional">Perun kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Philippines">
 				<long>
-					<standard draft="unconfirmed">Filippiinien aika</standard>
-					<daylight draft="unconfirmed">Filippiinien kesäaika</daylight>
+					<standard>Filippiinien aika</standard>
+					<daylight>Filippiinien kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Pierre_Miquelon">
+				<long>
+					<generic draft="provisional">Pierren ja Miquelonin aika</generic>
+					<standard draft="provisional">Pierren ja Miquelonin normaaliaika</standard>
+					<daylight draft="provisional">Pierren ja Miquelonin kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Rothera">
+				<long>
+					<standard draft="provisional">Rotheran aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
-					<standard draft="unconfirmed">Sahalinin aika</standard>
+					<standard>Sahalinin aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
-					<standard draft="unconfirmed">Samaran aika</standard>
-					<daylight draft="unconfirmed">Samaran kesäaika</daylight>
+					<standard>Samaran aika</standard>
+					<daylight>Samaran kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="South_Georgia">
 				<long>
-					<standard draft="unconfirmed">Etelä-Georgian aika</standard>
+					<standard>Etelä-Georgian aika</standard>
+				</long>
+			</metazone>
+			<metazone type="Suriname">
+				<long>
+					<standard draft="provisional">Surinamin aika</standard>
+				</long>
+			</metazone>
+			<metazone type="Syowa">
+				<long>
+					<standard draft="provisional">Syowan aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Tajikistan">
 				<long>
-					<standard draft="unconfirmed">Tadžikistanin aika</standard>
+					<standard>Tadžikistanin aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Tashkent">
 				<long>
-					<standard draft="unconfirmed">Taškentin aika</standard>
-					<daylight draft="unconfirmed">Taškentin kesäaika</daylight>
+					<standard>Taškentin aika</standard>
+					<daylight>Taškentin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Tbilisi">
 				<long>
-					<standard draft="unconfirmed">Tbilisin aika</standard>
+					<standard>Tbilisin aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Turkey">
 				<long>
-					<daylight draft="unconfirmed">Turkin kesäaika</daylight>
+					<standard draft="provisional">Turkin aika</standard>
+					<daylight>Turkin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Turkmenistan">
 				<long>
-					<standard draft="unconfirmed">Turkmenistanin aika</standard>
-					<daylight draft="unconfirmed">Turkmenistanin kesäaika</daylight>
+					<standard>Turkmenistanin aika</standard>
+					<daylight>Turkmenistanin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Uralsk">
 				<long>
-					<standard draft="unconfirmed">Oralin aika</standard>
-					<daylight draft="unconfirmed">Oralin kesäaika</daylight>
+					<standard>Oralin aika</standard>
+					<daylight>Oralin kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Uruguay">
+				<long>
+					<standard draft="provisional">Uruguayn aika</standard>
+					<daylight draft="provisional">Uruguayn kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Urumqi">
 				<long>
-					<standard draft="unconfirmed">Ürümqin aika</standard>
+					<standard>Ürümqin aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Uzbekistan">
 				<long>
-					<standard draft="unconfirmed">Uzbekistanin aika</standard>
-					<daylight draft="unconfirmed">Uzbekistanin kesäaika</daylight>
+					<standard>Uzbekistanin aika</standard>
+					<daylight>Uzbekistanin kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Venezuela">
+				<long>
+					<standard draft="provisional">Venezuelan aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
-					<standard draft="unconfirmed">Vladivostokin aika</standard>
+					<standard>Vladivostokin aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
-					<standard draft="unconfirmed">Volgogradin aika</standard>
-					<daylight draft="unconfirmed">Volgogradin kesäaika</daylight>
+					<standard>Volgogradin aika</standard>
+					<daylight>Volgogradin kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Vostok">
+				<long>
+					<standard draft="provisional">Vostokin aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
-					<standard draft="unconfirmed">Jakutskin aika</standard>
-					<daylight draft="unconfirmed">Jakutskin kesäaika</daylight>
+					<standard>Jakutskin aika</standard>
+					<daylight>Jakutskin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
-					<standard draft="unconfirmed">Jekaterinburgin aika</standard>
-					<daylight draft="unconfirmed">Jekaterinburgin kesäaika</daylight>
+					<standard>Jekaterinburgin aika</standard>
+					<daylight>Jekaterinburgin kesäaika</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yerevan">
 				<long>
-					<standard draft="unconfirmed">Jerevanin aika</standard>
-					<daylight draft="unconfirmed">Jerevanin kesäaika</daylight>
+					<standard>Jerevanin aika</standard>
+					<daylight>Jerevanin kesäaika</daylight>
+				</long>
+			</metazone>
+			<metazone type="Yukon">
+				<long>
+					<generic draft="provisional">Yukonin aika</generic>
+					<standard draft="provisional">Yukonin normaaliaika</standard>
+					<daylight draft="provisional">Yukonin kesäaika</daylight>
 				</long>
 			</metazone>
 		</timeZoneNames>
@@ -2243,6 +2717,7 @@
 			<perMille>‰</perMille>
 			<infinity>∞</infinity>
 			<nan>epäluku</nan>
+			<nan alt="proposed-x1001" draft="unconfirmed">¤¤¤</nan>
 		</symbols>
 		<decimalFormats>
 			<decimalFormatLength>
@@ -2269,6 +2744,7 @@
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>#,##0.00 ¤</pattern>
+					<pattern alt="proposed-x1001" draft="unconfirmed">#,###,#0.00 ¤‎</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
 			<unitPattern count="one">{0} {1}</unitPattern>
@@ -2284,6 +2760,7 @@
 				<displayName>Arabiemiirikuntien dirhami</displayName>
 				<displayName count="one">Arabiemiirikuntien dirhami</displayName>
 				<displayName count="other">Arabiemiirikuntien dirhamia</displayName>
+				<symbol>AED</symbol>
 			</currency>
 			<currency type="AFA">
 				<displayName>Afganistanin afgaani (1927–2002)</displayName>
@@ -2296,15 +2773,23 @@
 				<displayName count="other">Afganistanin afgaania</displayName>
 				<symbol>AFN</symbol>
 			</currency>
+			<currency type="ALK">
+				<displayName>Albanian vanha lek</displayName>
+				<displayName count="one">Albanian vanha lek</displayName>
+				<displayName count="other">Albanian vanhaa lekiä</displayName>
+				<symbol>ALK</symbol>
+			</currency>
 			<currency type="ALL">
 				<displayName>Albanian lek</displayName>
 				<displayName count="one">Albanian lek</displayName>
 				<displayName count="other">Albanian lekiä</displayName>
+				<symbol>ALL</symbol>
 			</currency>
 			<currency type="AMD">
 				<displayName>Armenian dram</displayName>
 				<displayName count="one">Armenian dram</displayName>
 				<displayName count="other">Armenian dramia</displayName>
+				<symbol>AMD</symbol>
 			</currency>
 			<currency type="ANG">
 				<displayName>Alankomaiden Antillien guldeni</displayName>
@@ -2340,9 +2825,13 @@
 				<symbol>ARA</symbol>
 			</currency>
 			<currency type="ARL">
+				<displayName count="one">Argentiinan ley-peso</displayName>
+				<displayName count="other">Argentiinan ley-pesoa</displayName>
 				<symbol>ARL</symbol>
 			</currency>
 			<currency type="ARM">
+				<displayName count="one">Argentiinan moneda nacional -peso</displayName>
+				<displayName count="other">Argentiinan moneda nacional -pesoa</displayName>
 				<symbol>ARM</symbol>
 			</currency>
 			<currency type="ARP">
@@ -2377,6 +2866,7 @@
 				<displayName>Azerbaidžanin manat (1993–2006)</displayName>
 				<displayName count="one">Azerbaidžanin manat (1993–2006)</displayName>
 				<displayName count="other">Azerbaidžanin manatia (1993–2006)</displayName>
+				<symbol>AZM</symbol>
 			</currency>
 			<currency type="AZN">
 				<displayName>Azerbaidžanin manat</displayName>
@@ -2394,6 +2884,12 @@
 				<displayName count="one">Bosnia-Hertsegovinan vaihdettava markka</displayName>
 				<displayName count="other">Bosnia-Hertsegovinan vaihdettavaa markkaa</displayName>
 				<symbol>BAM</symbol>
+			</currency>
+			<currency type="BAN">
+				<displayName>Bosnia-Hertsegovinan uusi dinaari</displayName>
+				<displayName count="one">Bosnia-Hertsegovinan uusi dinaari</displayName>
+				<displayName count="other">Bosnia-Hertsegovinan uutta dinaaria</displayName>
+				<symbol>BAN</symbol>
 			</currency>
 			<currency type="BBD">
 				<displayName>Barbadosin dollari</displayName>
@@ -2426,12 +2922,25 @@
 			<currency type="BGL">
 				<displayName>Bulgarian kova lev</displayName>
 				<displayName count="one">Bulgarian kova lev</displayName>
-				<displayName count="other">Bulgarian kovaa levaa</displayName>
+				<displayName count="other">Bulgarian kovaa leviä</displayName>
+			</currency>
+			<currency type="BGM">
+				<displayName>Bulgarian sosialistinen lev</displayName>
+				<displayName count="one">Bulgarian sosialistinen lev</displayName>
+				<displayName count="other">Bulgarian sosialistista leviä</displayName>
+				<symbol>BGM</symbol>
 			</currency>
 			<currency type="BGN">
 				<displayName>Bulgarian uusi lev</displayName>
 				<displayName count="one">Bulgarian uusi lev</displayName>
-				<displayName count="other">Bulgarian uutta levaa</displayName>
+				<displayName count="other">Bulgarian uutta leviä</displayName>
+				<symbol>BGN</symbol>
+			</currency>
+			<currency type="BGO">
+				<displayName>Bulgarian vanha lev</displayName>
+				<displayName count="one">Bulgarian vanha lev</displayName>
+				<displayName count="other">Bulgarian vanhaa leviä</displayName>
+				<symbol>BGO</symbol>
 			</currency>
 			<currency type="BHD">
 				<displayName>Bahrainin dinaari</displayName>
@@ -2462,6 +2971,12 @@
 				<displayName count="one">Bolivian boliviano</displayName>
 				<displayName count="other">Bolivian bolivianoa</displayName>
 				<symbol>BOB</symbol>
+			</currency>
+			<currency type="BOL">
+				<displayName>Bolivian vanha boliviano</displayName>
+				<displayName count="one">Bolivian vanha boliviano</displayName>
+				<displayName count="other">Bolivian vanhaa bolivianoa</displayName>
+				<symbol>BOL</symbol>
 			</currency>
 			<currency type="BOP">
 				<displayName>Bolivian peso</displayName>
@@ -2511,6 +3026,8 @@
 				<symbol>BRR</symbol>
 			</currency>
 			<currency type="BRZ">
+				<displayName count="one">Brasilian vanha cruzeiro</displayName>
+				<displayName count="other">Brasilian vanhaa cruzeiroa</displayName>
 				<symbol>BRZ</symbol>
 			</currency>
 			<currency type="BSD">
@@ -2534,6 +3051,7 @@
 				<displayName>Botswanan pula</displayName>
 				<displayName count="one">Botswanan pula</displayName>
 				<displayName count="other">Botswanan pulaa</displayName>
+				<symbol>BWP</symbol>
 			</currency>
 			<currency type="BYB">
 				<displayName>Valko-Venäjän uusi rupla (1994–1999)</displayName>
@@ -2544,6 +3062,7 @@
 				<displayName>Valko-Venäjän rupla</displayName>
 				<displayName count="one">Valko-Venäjän rupla</displayName>
 				<displayName count="other">Valko-Venäjän ruplaa</displayName>
+				<symbol>BYR</symbol>
 			</currency>
 			<currency type="BZD">
 				<displayName>Belizen dollari</displayName>
@@ -2561,6 +3080,7 @@
 				<displayName>Kongon frangi</displayName>
 				<displayName count="one">Kongon frangi</displayName>
 				<displayName count="other">Kongon frangia</displayName>
+				<symbol>CDF</symbol>
 			</currency>
 			<currency type="CHE">
 				<displayName>Sveitsin WIR-euro</displayName>
@@ -2579,6 +3099,8 @@
 				<displayName count="other">Sveitsin WIR-frangia</displayName>
 			</currency>
 			<currency type="CLE">
+				<displayName count="one">Chilen escudo</displayName>
+				<displayName count="other">Chilen escudoa</displayName>
 				<symbol>CLE</symbol>
 			</currency>
 			<currency type="CLF">
@@ -2591,6 +3113,12 @@
 				<displayName count="one">Chilen peso</displayName>
 				<displayName count="other">Chilen pesoa</displayName>
 				<symbol>CLP</symbol>
+			</currency>
+			<currency type="CNX">
+				<displayName>Kiinan kansanpankin dollari</displayName>
+				<displayName count="one">Kiinan kansanpankin dollari</displayName>
+				<displayName count="other">Kiinan kansanpankin dollaria</displayName>
+				<symbol>CNX</symbol>
 			</currency>
 			<currency type="CNY">
 				<displayName>Kiinan yuan</displayName>
@@ -2626,6 +3154,9 @@
 				<displayName count="other">Tšekkoslovakian kovaa korunaa</displayName>
 			</currency>
 			<currency type="CUC">
+				<displayName>Kuuban vaihdettava peso</displayName>
+				<displayName count="one">Kuuban vaihdettava peso</displayName>
+				<displayName count="other">Kuuban vaihdettavaa pesoa</displayName>
 				<symbol>CUC</symbol>
 			</currency>
 			<currency type="CUP">
@@ -2741,6 +3272,7 @@
 				<displayName>euro</displayName>
 				<displayName count="one">euro</displayName>
 				<displayName count="other">euroa</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">euro</displayName>
 			</currency>
 			<currency type="FIM">
 				<displayName>Suomen markka</displayName>
@@ -2779,6 +3311,7 @@
 				<displayName>Georgian lari</displayName>
 				<displayName count="one">Georgian lari</displayName>
 				<displayName count="other">Georgian laria</displayName>
+				<symbol>GEL</symbol>
 			</currency>
 			<currency type="GHC">
 				<displayName>Ghanan cedi (1979–2007)</displayName>
@@ -2802,6 +3335,7 @@
 				<displayName>Gambian dalasi</displayName>
 				<displayName count="one">Gambian dalasi</displayName>
 				<displayName count="other">Gambian dalasia</displayName>
+				<symbol>GMD</symbol>
 			</currency>
 			<currency type="GNF">
 				<displayName>Guinean frangi</displayName>
@@ -2829,6 +3363,7 @@
 				<displayName>Guatemalan quetzal</displayName>
 				<displayName count="one">Guatemalan quetzal</displayName>
 				<displayName count="other">Guatemalan quetzalia</displayName>
+				<symbol>GTQ</symbol>
 			</currency>
 			<currency type="GWE">
 				<displayName>Portugalin Guinean escudo</displayName>
@@ -2856,6 +3391,7 @@
 				<displayName>Hondurasin lempira</displayName>
 				<displayName count="one">Hondurasin lempira</displayName>
 				<displayName count="other">Hondurasin lempiraa</displayName>
+				<symbol>HNL</symbol>
 			</currency>
 			<currency type="HRD">
 				<displayName>Kroatian dinaari</displayName>
@@ -2872,6 +3408,7 @@
 				<displayName>Haitin gourde</displayName>
 				<displayName count="one">Haitin gourde</displayName>
 				<displayName count="other">Haitin gourdea</displayName>
+				<symbol>HTG</symbol>
 			</currency>
 			<currency type="HUF">
 				<displayName>Unkarin forintti</displayName>
@@ -2918,11 +3455,13 @@
 				<displayName>Irakin dinaari</displayName>
 				<displayName count="one">Irakin dinaari</displayName>
 				<displayName count="other">Irakin dinaaria</displayName>
+				<symbol>IQD</symbol>
 			</currency>
 			<currency type="IRR">
 				<displayName>Iranin rial</displayName>
 				<displayName count="one">Iranin rial</displayName>
 				<displayName count="other">Iranin rialia</displayName>
+				<symbol>IRR</symbol>
 			</currency>
 			<currency type="ISJ">
 				<displayName>Islannin vanha kruunu</displayName>
@@ -2969,11 +3508,13 @@
 				<displayName>Kirgisian som</displayName>
 				<displayName count="one">Kirgisian som</displayName>
 				<displayName count="other">Kirgisian somia</displayName>
+				<symbol>KGS</symbol>
 			</currency>
 			<currency type="KHR">
 				<displayName>Kambodžan riel</displayName>
 				<displayName count="one">Kambodžan riel</displayName>
 				<displayName count="other">Kambodžan rieliä</displayName>
+				<symbol>KHR</symbol>
 			</currency>
 			<currency type="KMF">
 				<displayName>Komorien frangi</displayName>
@@ -2986,6 +3527,18 @@
 				<displayName count="one">Pohjois-Korean won</displayName>
 				<displayName count="other">Pohjois-Korean wonia</displayName>
 				<symbol>KPW</symbol>
+			</currency>
+			<currency type="KRH">
+				<displayName>Etelä-Korean hwan</displayName>
+				<displayName count="one">Etelä-Korean hwan</displayName>
+				<displayName count="other">Etelä-Korean hwania</displayName>
+				<symbol>KRH</symbol>
+			</currency>
+			<currency type="KRO">
+				<displayName>Etelä-Korean vanha won</displayName>
+				<displayName count="one">Etelä-Korean vanha won</displayName>
+				<displayName count="other">Etelä-Korean vanhaa wonia</displayName>
+				<symbol>KRO</symbol>
 			</currency>
 			<currency type="KRW">
 				<displayName>Etelä-Korean won</displayName>
@@ -3009,6 +3562,7 @@
 				<displayName>Kazakstanin tenge</displayName>
 				<displayName count="one">Kazakstanin tenge</displayName>
 				<displayName count="other">Kazakstanin tengeä</displayName>
+				<symbol>KZT</symbol>
 			</currency>
 			<currency type="LAK">
 				<displayName>Laosin kip</displayName>
@@ -3038,6 +3592,7 @@
 				<displayName>Lesothon loti</displayName>
 				<displayName count="one">Lesothon loti</displayName>
 				<displayName count="other">Lesothon lotia</displayName>
+				<symbol>LSL</symbol>
 			</currency>
 			<currency type="LTL">
 				<displayName>Liettuan liti</displayName>
@@ -3086,21 +3641,36 @@
 				<displayName>Marokon dirhami</displayName>
 				<displayName count="one">Marokon dirhami</displayName>
 				<displayName count="other">Marokon dirhamia</displayName>
+				<symbol>MAD</symbol>
 			</currency>
 			<currency type="MAF">
 				<displayName>Marokon frangi</displayName>
 				<displayName count="one">Marokon frangi</displayName>
 				<displayName count="other">Marokon frangia</displayName>
 			</currency>
+			<currency type="MCF">
+				<displayName>Monacon frangi</displayName>
+				<displayName count="one">Monacon frangi</displayName>
+				<displayName count="other">Monacon frangia</displayName>
+				<symbol>MCF</symbol>
+			</currency>
+			<currency type="MDC">
+				<displayName>Moldovan kuponkileu</displayName>
+				<displayName count="one">Moldovan kuponkileu</displayName>
+				<displayName count="other">Moldovan kuponkileuta</displayName>
+				<symbol>MDC</symbol>
+			</currency>
 			<currency type="MDL">
 				<displayName>Moldovan leu</displayName>
 				<displayName count="one">Moldovan leu</displayName>
 				<displayName count="other">Moldovan leuta</displayName>
+				<symbol>MDL</symbol>
 			</currency>
 			<currency type="MGA">
 				<displayName>Madagaskarin ariary</displayName>
 				<displayName count="one">Madagaskarin ariary</displayName>
 				<displayName count="other">Madagaskarin ariarya</displayName>
+				<symbol>MGA</symbol>
 			</currency>
 			<currency type="MGF">
 				<displayName>Madagaskarin frangi</displayName>
@@ -3111,6 +3681,13 @@
 				<displayName>Makedonian dinaari</displayName>
 				<displayName count="one">Makedonian dinaari</displayName>
 				<displayName count="other">Makedonian dinaaria</displayName>
+				<symbol>MKD</symbol>
+			</currency>
+			<currency type="MKN">
+				<displayName>Makedonian vanha dinaari</displayName>
+				<displayName count="one">Makedonian vanha dinaari</displayName>
+				<displayName count="other">Makedonian vanhaa dinaaria</displayName>
+				<symbol>MKN</symbol>
 			</currency>
 			<currency type="MLF">
 				<displayName>Malin frangi</displayName>
@@ -3121,6 +3698,7 @@
 				<displayName>Myanmarin kyat</displayName>
 				<displayName count="one">Myanmarin kyat</displayName>
 				<displayName count="other">Myanmarin kyatia</displayName>
+				<symbol>MMK</symbol>
 			</currency>
 			<currency type="MNT">
 				<displayName>Mongolian tugrik</displayName>
@@ -3174,6 +3752,7 @@
 				<displayName>Meksikon peso</displayName>
 				<displayName count="one">Meksikon peso</displayName>
 				<displayName count="other">Meksikon pesoa</displayName>
+				<symbol>MXN</symbol>
 			</currency>
 			<currency type="MXP">
 				<displayName>Meksikon hopeapeso (1861–1992)</displayName>
@@ -3259,6 +3838,7 @@
 				<displayName>Omanin rial</displayName>
 				<displayName count="one">Omanin rial</displayName>
 				<displayName count="other">Omanin rialia</displayName>
+				<symbol>OMR</symbol>
 			</currency>
 			<currency type="PAB">
 				<displayName>Panaman balboa</displayName>
@@ -3287,6 +3867,7 @@
 				<displayName>Papua-Uuden-Guinean kina</displayName>
 				<displayName count="one">Papua-Uuden-Guinean kina</displayName>
 				<displayName count="other">Papua-Uuden-Guinean kinaa</displayName>
+				<symbol>PGK</symbol>
 			</currency>
 			<currency type="PHP">
 				<displayName>Filippiinien peso</displayName>
@@ -3339,11 +3920,13 @@
 				<displayName>Romanian vanha leu</displayName>
 				<displayName count="one">Romanian vanha leu</displayName>
 				<displayName count="other">Romanian vanhaa leuta</displayName>
+				<symbol>ROL</symbol>
 			</currency>
 			<currency type="RON">
 				<displayName>Romanian uusi leu</displayName>
 				<displayName count="one">Romanian uusi leu</displayName>
 				<displayName count="other">Romanian uutta leuta</displayName>
+				<symbol>RON</symbol>
 			</currency>
 			<currency type="RSD">
 				<displayName>Serbian dinaari</displayName>
@@ -3355,6 +3938,7 @@
 				<displayName>Venäjän rupla</displayName>
 				<displayName count="one">Venäjän rupla</displayName>
 				<displayName count="other">Venäjän ruplaa</displayName>
+				<symbol>RUB</symbol>
 			</currency>
 			<currency type="RUR">
 				<displayName>Venäjän rupla (1991–1998)</displayName>
@@ -3395,6 +3979,7 @@
 				<displayName>Sudanin punta</displayName>
 				<displayName count="one">Sudanin punta</displayName>
 				<displayName count="other">Sudanin puntaa</displayName>
+				<symbol>SDG</symbol>
 			</currency>
 			<currency type="SDP">
 				<displayName>Sudanin punta (1957–1999)</displayName>
@@ -3481,6 +4066,7 @@
 				<displayName>Swazimaan lilangeni</displayName>
 				<displayName count="one">Swazimaan lilangeni</displayName>
 				<displayName count="other">Swazimaan lilangenia</displayName>
+				<symbol>SZL</symbol>
 			</currency>
 			<currency type="THB">
 				<displayName>Thaimaan baht</displayName>
@@ -3497,16 +4083,19 @@
 				<displayName>Tadžikistanin somoni</displayName>
 				<displayName count="one">Tadžikistanin somoni</displayName>
 				<displayName count="other">Tadžikistanin somonia</displayName>
+				<symbol>TJS</symbol>
 			</currency>
 			<currency type="TMM">
 				<displayName>Turkmenistanin manat</displayName>
 				<displayName count="one">Turkmenistanin manat</displayName>
 				<displayName count="other">Turkmenistanin manatia</displayName>
+				<symbol>TMM</symbol>
 			</currency>
 			<currency type="TMT">
 				<displayName>Turkmenistanin uusi manat</displayName>
 				<displayName count="one">Turkmenistanin uusi manat</displayName>
 				<displayName count="other">Turkmenistanin uutta manatia</displayName>
+				<symbol>TMT</symbol>
 			</currency>
 			<currency type="TND">
 				<displayName>Tunisian dinaari</displayName>
@@ -3529,6 +4118,7 @@
 				<displayName>Turkin vanha liira</displayName>
 				<displayName count="one">Turkin vanha liira</displayName>
 				<displayName count="other">Turkin vanhaa liiraa</displayName>
+				<symbol>TRL</symbol>
 			</currency>
 			<currency type="TRY">
 				<displayName>Turkin liira</displayName>
@@ -3612,6 +4202,7 @@
 				<displayName>Uzbekistanin som</displayName>
 				<displayName count="one">Uzbekistanin som</displayName>
 				<displayName count="other">Uzbekistanin somia</displayName>
+				<symbol>UZS</symbol>
 			</currency>
 			<currency type="VEB">
 				<displayName>Venezuelan bolivar</displayName>
@@ -3630,6 +4221,12 @@
 				<displayName count="one">Vietnamin dong</displayName>
 				<displayName count="other">Vietnamin dongia</displayName>
 				<symbol>VND</symbol>
+			</currency>
+			<currency type="VNN">
+				<displayName>Vietnamin vanha dong</displayName>
+				<displayName count="one">Vietnamin vanha dong</displayName>
+				<displayName count="other">Vietnamin vanhaa dongia</displayName>
+				<symbol>VNN</symbol>
 			</currency>
 			<currency type="VUV">
 				<displayName>Vanuatun vatu</displayName>
@@ -3652,32 +4249,42 @@
 			<currency type="XAG">
 				<displayName>hopea</displayName>
 				<displayName count="one">hopeayksikkö</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">unssi hopea</displayName>
 				<displayName count="other">hopeayksikköä</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">unssia hopea</displayName>
+				<symbol>XAG</symbol>
 			</currency>
 			<currency type="XAU">
 				<displayName>kulta</displayName>
 				<displayName count="one">kultayksikkö</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">unssi kulta</displayName>
 				<displayName count="other">kultayksikköä</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">unssia kulta</displayName>
+				<symbol>XAU</symbol>
 			</currency>
 			<currency type="XBA">
 				<displayName>EURCO</displayName>
 				<displayName count="one">EURCO</displayName>
 				<displayName count="other">EURCO'a</displayName>
+				<symbol>XBA</symbol>
 			</currency>
 			<currency type="XBB">
 				<displayName>Euroopan rahayksikkö (EMU)</displayName>
 				<displayName count="one">Euroopan rahayksikkö (EMU)</displayName>
 				<displayName count="other">Euroopan rahayksikköä (EMU)</displayName>
+				<symbol>XBB</symbol>
 			</currency>
 			<currency type="XBC">
 				<displayName>EUA (XBC)</displayName>
 				<displayName count="one">EUA (XBC)</displayName>
 				<displayName count="other">EUA'ta (XBC)</displayName>
+				<symbol>XBC</symbol>
 			</currency>
 			<currency type="XBD">
 				<displayName>EUA (XBD)</displayName>
 				<displayName count="one">EUA (XBD)</displayName>
 				<displayName count="other">EUA'ta (XBD)</displayName>
+				<symbol>XBD</symbol>
 			</currency>
 			<currency type="XCD">
 				<displayName>Itä-Karibian dollari</displayName>
@@ -3688,6 +4295,7 @@
 				<displayName>erityisnosto-oikeus (SDR)</displayName>
 				<displayName count="one">erityisnosto-oikeus (SDR)</displayName>
 				<displayName count="other">erityisnosto-oikeutta (SDR)</displayName>
+				<symbol>XDR</symbol>
 			</currency>
 			<currency type="XEU">
 				<displayName>Euroopan valuuttayksikkö (ECU)</displayName>
@@ -3698,21 +4306,27 @@
 				<displayName>Ranskan kultafrangi</displayName>
 				<displayName count="one">Ranskan kultafrangi</displayName>
 				<displayName count="other">Ranskan kultafrangia</displayName>
+				<symbol>XFO</symbol>
 			</currency>
 			<currency type="XFU">
 				<displayName>Ranskan UIC-frangi</displayName>
 				<displayName count="one">Ranskan UIC-frangi</displayName>
 				<displayName count="other">Ranskan UIC-frangia</displayName>
+				<symbol>XFU</symbol>
 			</currency>
 			<currency type="XOF">
 				<displayName>CFA-frangi BCEAO</displayName>
 				<displayName count="one">CFA-frangi BCEAO</displayName>
 				<displayName count="other">CFA-frangia BCEAO</displayName>
+				<symbol>CFA</symbol>
 			</currency>
 			<currency type="XPD">
 				<displayName>palladium</displayName>
 				<displayName count="one">palladiumyksikkö</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">unssi palladium</displayName>
 				<displayName count="other">palladiumyksikköä</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">unssia palladium</displayName>
+				<symbol>XPD</symbol>
 			</currency>
 			<currency type="XPF">
 				<displayName>CFP-frangi</displayName>
@@ -3722,7 +4336,10 @@
 			<currency type="XPT">
 				<displayName>platina</displayName>
 				<displayName count="one">platinayksikkö</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">unssi platina</displayName>
 				<displayName count="other">platinayksikköä</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">unssia platina</displayName>
+				<symbol>XPT</symbol>
 			</currency>
 			<currency type="XRE">
 				<displayName>RINET-rahastot</displayName>
@@ -3733,11 +4350,13 @@
 				<displayName>testaustarkoitukseen varattu valuuttakoodi</displayName>
 				<displayName count="one">testaustarkoitukseen varattu valuuttakoodi</displayName>
 				<displayName count="other">testaustarkoitukseen varattua valuuttakoodia</displayName>
+				<symbol>XTS</symbol>
 			</currency>
 			<currency type="XXX">
 				<displayName>tuntematon tai virheellinen rahayksikkö</displayName>
 				<displayName count="one">tuntematon tai virheellinen rahayksikkö</displayName>
 				<displayName count="other">tuntematonta tai virheellistä rahayksikköä</displayName>
+				<symbol>XXX</symbol>
 			</currency>
 			<currency type="YDD">
 				<displayName>Jemenin dinaari</displayName>
@@ -3764,6 +4383,12 @@
 				<displayName>Jugoslavian vaihdettava dinaari</displayName>
 				<displayName count="one">Jugoslavian vaihdettava dinaari</displayName>
 				<displayName count="other">Jugoslavian vaihdettavaa dinaaria</displayName>
+			</currency>
+			<currency type="YUR">
+				<displayName>Jugoslavian uudistettu dinaari</displayName>
+				<displayName count="one">Jugoslavian uudistettu dinaari</displayName>
+				<displayName count="other">Jugoslavian uudistettua dinaaria</displayName>
+				<symbol>YUR</symbol>
 			</currency>
 			<currency type="ZAL">
 				<displayName>Etelä-Afrikan rahoitusrandi</displayName>
@@ -3792,6 +4417,7 @@
 				<displayName>Zairen zaire</displayName>
 				<displayName count="one">Zairen zaire</displayName>
 				<displayName count="other">Zairen zairea</displayName>
+				<symbol>ZRZ</symbol>
 			</currency>
 			<currency type="ZWD">
 				<displayName>Zimbabwen dollari</displayName>
@@ -3803,6 +4429,7 @@
 				<displayName>Zimbabwen dollari (2009)</displayName>
 				<displayName count="one">Zimbabwen dollari (2009)</displayName>
 				<displayName count="other">Zimbabwen dollaria (2009)</displayName>
+				<symbol>ZWL</symbol>
 			</currency>
 			<currency type="ZWR">
 				<displayName>Zimbabwen dollari (2008)</displayName>
@@ -3814,9 +4441,13 @@
 	<units>
 		<unit type="day">
 			<unitPattern count="one">{0} päivä</unitPattern>
+			<unitPattern count="one" alt="proposed-x1001" draft="unconfirmed">{0} vuorokausi</unitPattern>
 			<unitPattern count="one" alt="short">{0} pv</unitPattern>
+			<unitPattern count="one" alt="short-proposed-x1001" draft="unconfirmed">{0} vrk</unitPattern>
 			<unitPattern count="other">{0} päivää</unitPattern>
+			<unitPattern count="other" alt="proposed-x1001" draft="unconfirmed">{0} vuorokautta</unitPattern>
 			<unitPattern count="other" alt="short">{0} pv</unitPattern>
+			<unitPattern count="other" alt="short-proposed-x1001" draft="unconfirmed">{0} vrk</unitPattern>
 		</unit>
 		<unit type="hour">
 			<unitPattern count="one">{0} tunti</unitPattern>
@@ -3855,16 +4486,22 @@
 			<unitPattern count="other" alt="short">{0} v</unitPattern>
 		</unit>
 	</units>
+	<listPatterns>
+		<listPattern>
+			<listPatternPart type="2" draft="contributed">{0} ja {1}</listPatternPart>
+			<listPatternPart type="end" draft="contributed">{0} ja {1}</listPatternPart>
+		</listPattern>
+	</listPatterns>
 	<posix>
 		<messages>
-			<yesstr>kyllä:kylla:k</yesstr>
+			<yesstr>kyllä:k</yesstr>
 			<nostr>ei:e</nostr>
 		</messages>
 	</posix>
 	<references>
 		<reference type="R052"/>
 		<reference type="R054">Consensus of Open National Review (Kotoistus)</reference>
-		<reference type="R055" uri="http://kontu.merri.net/wiki/Etusivu">KontuWiki</reference>
+		<reference type="R055">(obsolete)</reference>
 	</references>
 </ldml>
 

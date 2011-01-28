@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.78 $"/>
-		<generation date="$Date: 2009/06/15 03:46:23 $"/>
+		<version number="$Revision: 4625 $"/>
+		<generation date="$Date: 2010-02-06 13:07:05 -0600 (Sat, 06 Feb 2010) $"/>
 		<language type="zh"/>
 		<script type="Hant"/>
 		<territory type="HK"/>
@@ -20,11 +20,8 @@
 			<variant type="1901" draft="contributed">傳統德國拼字法</variant>
 			<variant type="1996" draft="contributed">1996 德國拼字法</variant>
 			<variant type="BISKE" draft="contributed">San Giorgio/Bila 方言</variant>
-			<variant type="NJIVA" draft="contributed">Gniva/Njiva 方言</variant>
-			<variant type="OSOJS" draft="contributed">Oseacco/Osojane 方言</variant>
 			<variant type="REVISED" draft="contributed">已修訂拼字法</variant>
 			<variant type="SCOTLAND" draft="contributed">蘇格蘭標準英語</variant>
-			<variant type="SOLBA" draft="contributed">Stolvizza/Solbica 方言</variant>
 		</variants>
 		<types>
 			<type type="big5han" key="collation">繁體中文順序 - Big5</type>
@@ -39,7 +36,6 @@
 			<calendar type="chinese">
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="MMMMEd" draft="contributed">M月d日E</dateFormatItem>
 						<dateFormatItem id="yMEd" draft="contributed">y年M月d日，E</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
@@ -78,11 +74,13 @@
 					<dateTimeFormatLength type="medium">
 						<dateTimeFormat>
 							<pattern>{1}{0}</pattern>
+							<pattern alt="proposed-x1001" draft="unconfirmed">{1} {0}</pattern>
 						</dateTimeFormat>
 					</dateTimeFormatLength>
 					<dateTimeFormatLength type="short">
 						<dateTimeFormat>
 							<pattern>{1}{0}</pattern>
+							<pattern alt="proposed-x1001" draft="unconfirmed">{1} {0}</pattern>
 						</dateTimeFormat>
 					</dateTimeFormatLength>
 					<availableFormats>

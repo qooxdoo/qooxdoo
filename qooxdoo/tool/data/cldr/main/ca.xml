@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.109 $"/>
-		<generation date="$Date: 2009/06/15 03:46:24 $"/>
+		<version number="$Revision: 5094 $"/>
+		<generation date="$Date: 2010-10-13 11:33:36 -0500 (Wed, 13 Oct 2010) $"/>
 		<language type="ca"/>
 	</identity>
 	<fallback>es_ES</fallback>
@@ -78,13 +78,14 @@
 			<language type="bug">bugui</language>
 			<language type="byn">bilin</language>
 			<language type="ca">català</language>
+			<language type="ca" alt="proposed-x1001" draft="unconfirmed">catalą</language>
 			<language type="cad">caddo</language>
 			<language type="cai">llengua ameríndia d'Amèrica Central</language>
 			<language type="car">carib</language>
 			<language type="cau">llengua caucàsica</language>
 			<language type="cch">atsam</language>
 			<language type="ce">txetxè</language>
-			<language type="ceb">cebuano</language>
+			<language type="ceb">cebuà</language>
 			<language type="cel">llengua cèltica</language>
 			<language type="ch">chamorro</language>
 			<language type="chb">txibtxa</language>
@@ -112,6 +113,7 @@
 			<language type="cv">txuvaix</language>
 			<language type="cy">gal·lès</language>
 			<language type="da">danès</language>
+			<language type="da" alt="proposed-x1001" draft="unconfirmed">dančs</language>
 			<language type="dak">dakota</language>
 			<language type="dar">darguà</language>
 			<language type="day">daiak</language>
@@ -154,6 +156,7 @@
 			<language type="fat">fanti</language>
 			<language type="ff">ful</language>
 			<language type="fi">finès</language>
+			<language type="fi" alt="proposed-x1001" draft="unconfirmed">finčs</language>
 			<language type="fil">filipí</language>
 			<language type="fiu">llengua finoúgrica</language>
 			<language type="fj">fijià</language>
@@ -203,6 +206,7 @@
 			<language type="hsb">alt sòrab</language>
 			<language type="ht">haitià</language>
 			<language type="hu">hongarès</language>
+			<language type="hu" alt="proposed-x1001" draft="unconfirmed">hongarčs</language>
 			<language type="hup">hupa</language>
 			<language type="hy">armeni</language>
 			<language type="hz">herero</language>
@@ -223,8 +227,10 @@
 			<language type="iro">iroquès</language>
 			<language type="is">islandès</language>
 			<language type="it">italià</language>
+			<language type="it" alt="proposed-x1001" draft="unconfirmed">itlalią</language>
 			<language type="iu">inuktitut</language>
 			<language type="ja">japonès</language>
+			<language type="ja" alt="proposed-x1001" draft="unconfirmed">japončs</language>
 			<language type="jbo">lojban</language>
 			<language type="jpr">judeopersa</language>
 			<language type="jrb">judeoàrab</language>
@@ -339,6 +345,7 @@
 			<language type="nic">llengua nigerokurdufaniana</language>
 			<language type="niu">niueà</language>
 			<language type="nl">neerlandès</language>
+			<language type="nl" alt="proposed-x1001" draft="unconfirmed">neerlandčs</language>
 			<language type="nl_BE">flamenc</language>
 			<language type="nn">noruec nynorsk</language>
 			<language type="no">noruec</language>
@@ -421,6 +428,7 @@
 			<language type="sit">llengua sinotibetana</language>
 			<language type="sk">eslovac</language>
 			<language type="sl">eslovè</language>
+			<language type="sl" alt="proposed-x1001" draft="unconfirmed">eslovč</language>
 			<language type="sla">llengua eslava</language>
 			<language type="sm">samoà</language>
 			<language type="sma">sami meridional</language>
@@ -446,6 +454,7 @@
 			<language type="sux">sumeri</language>
 			<language type="sv">suec</language>
 			<language type="sw">suahili</language>
+			<language type="swb">comorià</language>
 			<language type="syc">siríac clàssic</language>
 			<language type="syr">siríac</language>
 			<language type="ta">tàmil</language>
@@ -484,6 +493,7 @@
 			<language type="ug">uigur</language>
 			<language type="uga">ugarític</language>
 			<language type="uk">ucraïnès</language>
+			<language type="uk" alt="proposed-x1001" draft="unconfirmed">ucraďnčs</language>
 			<language type="umb">umbundu</language>
 			<language type="und">idioma desconegut o no vàlid</language>
 			<language type="ur">urdú</language>
@@ -507,13 +517,17 @@
 			<language type="yi">jiddisch</language>
 			<language type="yo">ioruba</language>
 			<language type="ypk">llengua iupik</language>
+			<language type="yue">cantonès</language>
 			<language type="za">zhuang</language>
 			<language type="zap">zapoteca</language>
 			<language type="zbl">símbols Bliss</language>
 			<language type="zen">zenaga</language>
 			<language type="zh" references="R012">xinès</language>
+			<language type="zh" alt="proposed-x1001" draft="unconfirmed">xinčs</language>
 			<language type="zh_Hans">xinès simplificat</language>
+			<language type="zh_Hans" alt="proposed-x1001" draft="unconfirmed">xinčs (xinčs simplificat)</language>
 			<language type="zh_Hant">xinès tradicional</language>
+			<language type="zh_Hant" alt="proposed-x1001" draft="unconfirmed">xinčs (xinčs tradicional)</language>
 			<language type="znd">zande</language>
 			<language type="zu">zulu</language>
 			<language type="zun">zuni</language>
@@ -611,8 +625,8 @@
 			<script type="Phlv">pahlavi</script>
 			<script type="Phnx">fenici</script>
 			<script type="Plrd">Pollard Miao</script>
+			<script type="Plrd" alt="proposed-x1001" draft="unconfirmed">escriptura de Pollard</script>
 			<script type="Prti">parthià inscripcional</script>
-			<script type="Qaai">heretat</script>
 			<script type="Rjng">rejang</script>
 			<script type="Roro">rongo-rongo</script>
 			<script type="Runr">rúnic</script>
@@ -646,6 +660,7 @@
 			<script type="Xpeo">persa antic</script>
 			<script type="Xsux">cuneïforme sumeri-accadi</script>
 			<script type="Yiii">yi</script>
+			<script type="Zinh">heretat</script>
 			<script type="Zmth">notació matemàtica</script>
 			<script type="Zsym">símbols</script>
 			<script type="Zxxx">sense escriptura</script>
@@ -685,6 +700,7 @@
 			<territory type="155">Europa Occidental</territory>
 			<territory type="172">Comunitat d'Estats Independents</territory>
 			<territory type="419">Amèrica Llatina i Carib</territory>
+			<territory type="AC">Illa de l'Ascensió</territory>
 			<territory type="AD">Andorra</territory>
 			<territory type="AE">Unió dels Emirats Àrabs</territory>
 			<territory type="AF">Afganistan</territory>
@@ -693,6 +709,7 @@
 			<territory type="AL">Albània</territory>
 			<territory type="AM">Armènia</territory>
 			<territory type="AN">Antilles Neerlandeses</territory>
+			<territory type="AN" alt="proposed-x1001" draft="unconfirmed">Antilles Holandeses, les</territory>
 			<territory type="AO">Angola</territory>
 			<territory type="AQ">Antàrtida</territory>
 			<territory type="AR">Argentina</territory>
@@ -701,7 +718,6 @@
 			<territory type="AU">Austràlia</territory>
 			<territory type="AW">Aruba</territory>
 			<territory type="AX">Illes Åland</territory>
-			<territory type="AX" alt="proposed-x1001" draft="unconfirmed">Illes Aland</territory>
 			<territory type="AZ">Azerbaidjan</territory>
 			<territory type="BA">Bòsnia i Hercegovina</territory>
 			<territory type="BB">Barbados</territory>
@@ -714,10 +730,12 @@
 			<territory type="BJ">Benín</territory>
 			<territory type="BL">Saint Barthélemy</territory>
 			<territory type="BM">Bermudes</territory>
+			<territory type="BM" alt="proposed-x1001" draft="unconfirmed">Bermudes, les</territory>
 			<territory type="BN">Brunei</territory>
 			<territory type="BO">Bolívia</territory>
 			<territory type="BR">Brasil</territory>
 			<territory type="BS">Bahames</territory>
+			<territory type="BS" alt="proposed-x1001" draft="unconfirmed">Bahames, les</territory>
 			<territory type="BT">Bhutan</territory>
 			<territory type="BV">Illa Bouvet</territory>
 			<territory type="BW">Botswana</territory>
@@ -725,16 +743,20 @@
 			<territory type="BZ">Belize</territory>
 			<territory type="CA">Canadà</territory>
 			<territory type="CC">Illes Cocos</territory>
-			<territory type="CD">República Democràtica del Congo</territory>
+			<territory type="CD">Congo - Kinshasa</territory>
+			<territory type="CD" alt="variant">Congo [República Democràtica del Congo]</territory>
 			<territory type="CF">República Centreafricana</territory>
-			<territory type="CG">Congo</territory>
+			<territory type="CG">Congo - Brazzaville</territory>
+			<territory type="CG" alt="variant">Congo [República del Congo]</territory>
 			<territory type="CH">Suïssa</territory>
 			<territory type="CI">Costa d’Ivori</territory>
+			<territory type="CI" alt="variant">Costa d’Ivori</territory>
 			<territory type="CK">Illes Cook</territory>
 			<territory type="CL">Xile</territory>
 			<territory type="CM">Camerun</territory>
 			<territory type="CN">Xina</territory>
 			<territory type="CO">Colòmbia</territory>
+			<territory type="CP">Illa Clipperton</territory>
 			<territory type="CR">Costa Rica</territory>
 			<territory type="CS">Sèrbia i Montenegro</territory>
 			<territory type="CU">Cuba</territory>
@@ -743,11 +765,13 @@
 			<territory type="CY">Xipre</territory>
 			<territory type="CZ">República Txeca</territory>
 			<territory type="DE">Alemanya</territory>
+			<territory type="DG">Diego Garcia</territory>
 			<territory type="DJ">Djibouti</territory>
 			<territory type="DK">Dinamarca</territory>
 			<territory type="DM">Dominica</territory>
 			<territory type="DO">República Dominicana</territory>
 			<territory type="DZ">Algèria</territory>
+			<territory type="EA">Ceuta i Melilla</territory>
 			<territory type="EC">Equador</territory>
 			<territory type="EE">Estònia</territory>
 			<territory type="EG">Egipte</territory>
@@ -755,12 +779,15 @@
 			<territory type="ER">Eritrea</territory>
 			<territory type="ES">Espanya</territory>
 			<territory type="ET">Etiòpia</territory>
+			<territory type="EU">Unió Europea</territory>
 			<territory type="FI">Finlàndia</territory>
 			<territory type="FJ">Fiji</territory>
 			<territory type="FK">Illes Malvines</territory>
+			<territory type="FK" alt="variant">Illes Malvines [Illes Falkland]</territory>
 			<territory type="FM">Micronèsia</territory>
 			<territory type="FO">Illes Fèroe</territory>
 			<territory type="FR">França</territory>
+			<territory type="FX" draft="provisional">França metropolitana</territory>
 			<territory type="GA">Gabon</territory>
 			<territory type="GB">Regne Unit</territory>
 			<territory type="GD">Grenada</territory>
@@ -774,6 +801,7 @@
 			<territory type="GM">Gàmbia</territory>
 			<territory type="GN">Guinea</territory>
 			<territory type="GP">Guadeloupe</territory>
+			<territory type="GP" alt="proposed-x1001" draft="unconfirmed">Guadalope</territory>
 			<territory type="GQ">Guinea Equatorial</territory>
 			<territory type="GR">Grècia</territory>
 			<territory type="GS">Illes Geòrgia del Sud i Sandwich del Sud</territory>
@@ -788,12 +816,15 @@
 			<territory type="HR">Croàcia</territory>
 			<territory type="HT">Haití</territory>
 			<territory type="HU">Hongria</territory>
+			<territory type="IC">Illes Canàries</territory>
+			<territory type="IC" alt="proposed-x1001" draft="unconfirmed">Canàries, les</territory>
 			<territory type="ID">Indonèsia</territory>
 			<territory type="IE">Irlanda</territory>
 			<territory type="IL">Israel</territory>
 			<territory type="IM">Illa de Man</territory>
 			<territory type="IN">Índia</territory>
 			<territory type="IO">Territori Britànic de l'Oceà Índic</territory>
+			<territory type="IO" alt="proposed-x1001" draft="unconfirmed">Territori britànic de l'oceà Índic</territory>
 			<territory type="IQ">Iraq</territory>
 			<territory type="IR">Iran</territory>
 			<territory type="IS">Islàndia</territory>
@@ -832,8 +863,9 @@
 			<territory type="MG">Madagascar</territory>
 			<territory type="MH">Illes Marshall</territory>
 			<territory type="MK">Macedònia</territory>
+			<territory type="MK" alt="variant">Macedònia [Exrepública Iugoslava de Macedònia]</territory>
 			<territory type="ML">Mali</territory>
-			<territory type="MM">Myanmar</territory>
+			<territory type="MM">Myanmar [Birmània]</territory>
 			<territory type="MN">Mongòlia</territory>
 			<territory type="MO">Regió administrativa especial xinesa de Macau</territory>
 			<territory type="MO" alt="short">Macau</territory>
@@ -870,6 +902,7 @@
 			<territory type="PL">Polònia</territory>
 			<territory type="PM">Saint Pierre i Miquelon</territory>
 			<territory type="PN">Illes Pitcairn</territory>
+			<territory type="PN" alt="proposed-x1001" draft="unconfirmed">Pitcairn</territory>
 			<territory type="PR">Puerto Rico</territory>
 			<territory type="PS">Palestina</territory>
 			<territory type="PT">Portugal</territory>
@@ -877,11 +910,11 @@
 			<territory type="PY">Paraguai</territory>
 			<territory type="QA">Qatar</territory>
 			<territory type="QO">Territoris allunyats d'Oceania</territory>
-			<territory type="QU">Unió Europea</territory>
 			<territory type="RE">Illa de la Reunió</territory>
 			<territory type="RO">Romania</territory>
 			<territory type="RS">Sèrbia</territory>
 			<territory type="RU">Rússia</territory>
+			<territory type="RU" alt="proposed-x1001" draft="unconfirmed">Federació Russa</territory>
 			<territory type="RW">Rwanda</territory>
 			<territory type="SA">Aràbia Saudita</territory>
 			<territory type="SB">Illes Salomó</territory>
@@ -892,6 +925,7 @@
 			<territory type="SH">Saint Helena</territory>
 			<territory type="SI">Eslovènia</territory>
 			<territory type="SJ">Svalbard i Jan Mayen</territory>
+			<territory type="SJ" alt="proposed-x1001" draft="unconfirmed">Illes Svalbard i Jan Mayen</territory>
 			<territory type="SK">Eslovàquia</territory>
 			<territory type="SL">Sierra Leone</territory>
 			<territory type="SM">San Marino</territory>
@@ -902,6 +936,7 @@
 			<territory type="SV">El Salvador</territory>
 			<territory type="SY">Síria</territory>
 			<territory type="SZ">Swazilàndia</territory>
+			<territory type="TA">Tristão da Cunha</territory>
 			<territory type="TC">Illes Turks i Caicos</territory>
 			<territory type="TD">Txad</territory>
 			<territory type="TF">Territoris Francesos del Sud</territory>
@@ -910,6 +945,7 @@
 			<territory type="TJ">Tadjikistan</territory>
 			<territory type="TK">Tokelau</territory>
 			<territory type="TL">Timor Oriental</territory>
+			<territory type="TL" alt="variant">Timor Oriental</territory>
 			<territory type="TM">Turkmenistan</territory>
 			<territory type="TN">Tunísia</territory>
 			<territory type="TO">Tonga</territory>
@@ -928,6 +964,7 @@
 			<territory type="VC">Saint Vincent i les Grenadines</territory>
 			<territory type="VE">Veneçuela</territory>
 			<territory type="VG">Illes Verges Britàniques</territory>
+			<territory type="VG" alt="proposed-x1001" draft="unconfirmed">Verges, Illes</territory>
 			<territory type="VI">Illes Verges Nord-americanes</territory>
 			<territory type="VN">Vietnam</territory>
 			<territory type="VU">Vanuatu</territory>
@@ -947,21 +984,24 @@
 			<variant type="1996">ortografia alemanya de 1996</variant>
 			<variant type="1606NICT">francès mitjà tardà fins el 1606</variant>
 			<variant type="1694ACAD">francès modern primerenc</variant>
+			<variant type="1959ACAD" draft="provisional">acadèmica</variant>
 			<variant type="AREVELA">armeni oriental</variant>
 			<variant type="AREVMDA">armeni occidental</variant>
 			<variant type="BAKU1926">alfabet llatí turc unificat</variant>
 			<variant type="BISKE">dialecte de San Giorgio/Bila</variant>
 			<variant type="BOONT">Boontling</variant>
+			<variant type="BOONT" alt="proposed-x1001" draft="unconfirmed">boontling</variant>
 			<variant type="FONIPA">alfabet fonètic internacional</variant>
 			<variant type="FONUPA">sistema fonètic UPA</variant>
+			<variant type="KKCOR" draft="provisional">ortografia comuna</variant>
 			<variant type="LIPAW">dialecte Lipovaz del resià</variant>
 			<variant type="MONOTON">monotònic</variant>
 			<variant type="NEDIS">dialecte de Natisone</variant>
 			<variant type="NJIVA">dialecte de Gniva/Njiva</variant>
 			<variant type="OSOJS">dialecte d'Oseacco/Osojane</variant>
+			<variant type="PINYIN">romanització Pinyin</variant>
 			<variant type="POLYTON">politònic</variant>
 			<variant type="POSIX">ordenador</variant>
-			<variant type="POSIX" alt="proposed-x1001" draft="unconfirmed">ordinador</variant>
 			<variant type="REVISED">ortografia revisada</variant>
 			<variant type="ROZAJ">resià</variant>
 			<variant type="SAAHO">saho</variant>
@@ -969,7 +1009,10 @@
 			<variant type="SCOUSE">scouse</variant>
 			<variant type="SOLBA">dialecte de Stolvizza/Solbica</variant>
 			<variant type="TARASK">ortografia taraskievica</variant>
+			<variant type="UCCOR" draft="provisional">ortografia unificada</variant>
+			<variant type="UCRCOR" draft="provisional">ortografia revisada unificada</variant>
 			<variant type="VALENCIA">valencià</variant>
+			<variant type="WADEGILE">romanització Wade-Giles</variant>
 		</variants>
 		<keys>
 			<key type="calendar">calendari</key>
@@ -1004,12 +1047,24 @@
 			<codePattern type="territory">Regió: {0}</codePattern>
 		</codePatterns>
 	</localeDisplayNames>
+	<layout>
+		<inList draft="provisional">titlecase-firstword</inList>
+		<inText type="currency" draft="provisional">lowercase-words</inText>
+		<inText type="fields" draft="provisional">lowercase-words</inText>
+		<inText type="keys" draft="provisional">lowercase-words</inText>
+		<inText type="languages" draft="provisional">lowercase-words</inText>
+		<inText type="long" draft="provisional">lowercase-words</inText>
+		<inText type="measurementSystemNames" draft="provisional">lowercase-words</inText>
+		<inText type="scripts" draft="provisional">lowercase-words</inText>
+		<inText type="types" draft="provisional">lowercase-words</inText>
+	</layout>
 	<characters>
-		<exemplarCharacters>[a à b c ç d e é è f-i í ï j-l ŀ m-o ó ò p-u ú ü v-z]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[á ă â å ä ã ā æ ĕ ê ë ē ì ĭ î ī ñ º ŏ ô ö ø ō œ ß ù ŭ û ū ÿ]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary" alt="proposed-x1001" draft="unconfirmed">[à ă â å ä ã ā æ-è ĕ ê ë ē ì ĭ î ï ī ñ º ò ŏ ô ö ø ō œ ß ù ŭ û ū ÿ]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a-c č d-l ł m-o º p-z]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol" alt="proposed-x1001" draft="unconfirmed">[a-z]</exemplarCharacters>
+		<exemplarCharacters>[a à b c ç d e é è f g h i í ï j k l ŀ m n o ó ò p q r s t u ú ü v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[á ă â å ä ã ā æ ĕ ê ë ē ì ĭ î ī ñ º ŏ ô ö ø ō œ ù ŭ û ū ÿ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary" alt="proposed-x1001" draft="unconfirmed">[á ă â å ä ã ā æ ĕ ê ë ē ì ĭ î ī ł ñ º ŏ ô ö ø ō œ ù ŭ û ū ÿ]</exemplarCharacters>
+		<exemplarCharacters type="currencySymbol">[a b c č d e f g h i j k l ł m n o º p q r s t u v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
+		<exemplarCharacters alt="proposed-x1001" draft="unconfirmed">[· a à b c ç d e é è f g h i í ï j k l m n o ó ò p q r s t u ú ü v w x y z]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>‘</quotationStart>
@@ -1023,6 +1078,50 @@
 				<months>
 					<monthContext type="format">
 						<monthWidth type="abbreviated">
+							<month type="1">de gen.</month>
+							<month type="2">de febr.</month>
+							<month type="3">de març</month>
+							<month type="4">d’abr.</month>
+							<month type="5">de maig</month>
+							<month type="6">de juny</month>
+							<month type="7">de jul.</month>
+							<month type="8">d’ag.</month>
+							<month type="9">de set.</month>
+							<month type="10">d’oct.</month>
+							<month type="11">de nov.</month>
+							<month type="12">de des.</month>
+						</monthWidth>
+						<monthWidth type="narrow">
+							<month type="1" draft="provisional">G</month>
+							<month type="2" draft="provisional">F</month>
+							<month type="3" draft="provisional">M</month>
+							<month type="4" draft="provisional">A</month>
+							<month type="5" draft="provisional">M</month>
+							<month type="6" draft="provisional">J</month>
+							<month type="7" draft="provisional">J</month>
+							<month type="8" draft="provisional">A</month>
+							<month type="9" draft="provisional">S</month>
+							<month type="10" draft="provisional">O</month>
+							<month type="11" draft="provisional">N</month>
+							<month type="12" draft="provisional">D</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">de gener</month>
+							<month type="2">de febrer</month>
+							<month type="3">de març</month>
+							<month type="4">d’abril</month>
+							<month type="5">de maig</month>
+							<month type="6">de juny</month>
+							<month type="7">de juliol</month>
+							<month type="8">d’agost</month>
+							<month type="9">de setembre</month>
+							<month type="10">d’octubre</month>
+							<month type="11">de novembre</month>
+							<month type="12">de desembre</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="abbreviated">
 							<month type="1">gen.</month>
 							<month type="2">febr.</month>
 							<month type="3">març</month>
@@ -1035,6 +1134,32 @@
 							<month type="10">oct.</month>
 							<month type="11">nov.</month>
 							<month type="12">des.</month>
+						</monthWidth>
+						<monthWidth type="narrow">
+							<month type="1">g</month>
+							<month type="1" alt="proposed-x1001" draft="unconfirmed">G</month>
+							<month type="2">f</month>
+							<month type="2" alt="proposed-x1001" draft="unconfirmed">F</month>
+							<month type="3">m</month>
+							<month type="3" alt="proposed-x1001" draft="unconfirmed">M</month>
+							<month type="4">a</month>
+							<month type="4" alt="proposed-x1001" draft="unconfirmed">A</month>
+							<month type="5">m</month>
+							<month type="5" alt="proposed-x1001" draft="unconfirmed">M</month>
+							<month type="6">j</month>
+							<month type="6" alt="proposed-x1001" draft="unconfirmed">J</month>
+							<month type="7">j</month>
+							<month type="7" alt="proposed-x1001" draft="unconfirmed">J</month>
+							<month type="8">a</month>
+							<month type="8" alt="proposed-x1001" draft="unconfirmed">A</month>
+							<month type="9">s</month>
+							<month type="9" alt="proposed-x1001" draft="unconfirmed">S</month>
+							<month type="10">o</month>
+							<month type="10" alt="proposed-x1001" draft="unconfirmed">O</month>
+							<month type="11">n</month>
+							<month type="11" alt="proposed-x1001" draft="unconfirmed">N</month>
+							<month type="12">d</month>
+							<month type="12" alt="proposed-x1001" draft="unconfirmed">D</month>
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">gener</month>
@@ -1051,42 +1176,48 @@
 							<month type="12">desembre</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1">g</month>
-							<month type="2">f</month>
-							<month type="3">m</month>
-							<month type="4">a</month>
-							<month type="5">m</month>
-							<month type="6">j</month>
-							<month type="7">j</month>
-							<month type="8">a</month>
-							<month type="9">s</month>
-							<month type="10">o</month>
-							<month type="11">n</month>
-							<month type="12">d</month>
-						</monthWidth>
-					</monthContext>
 				</months>
 				<days>
 					<dayContext type="format">
 						<dayWidth type="abbreviated">
 							<day type="sun">dg.</day>
+							<day type="sun" alt="proposed-x1001" draft="unconfirmed">Dg.</day>
 							<day type="mon">dl.</day>
+							<day type="mon" alt="proposed-x1001" draft="unconfirmed">Dl.</day>
 							<day type="tue">dt.</day>
+							<day type="tue" alt="proposed-x1001" draft="unconfirmed">Dt.</day>
 							<day type="wed">dc.</day>
+							<day type="wed" alt="proposed-x1001" draft="unconfirmed">Dc.</day>
 							<day type="thu">dj.</day>
+							<day type="thu" alt="proposed-x1001" draft="unconfirmed">Dj.</day>
 							<day type="fri">dv.</day>
+							<day type="fri" alt="proposed-x1001" draft="unconfirmed">Dv.</day>
 							<day type="sat">ds.</day>
+							<day type="sat" alt="proposed-x1001" draft="unconfirmed">Ds.</day>
+						</dayWidth>
+						<dayWidth type="narrow">
+							<day type="sun" draft="provisional">G</day>
+							<day type="tue" draft="provisional">T</day>
+							<day type="wed" draft="provisional">C</day>
+							<day type="thu" draft="provisional">J</day>
+							<day type="fri" draft="provisional">V</day>
+							<day type="sat" draft="provisional">S</day>
 						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun">diumenge</day>
+							<day type="sun" alt="proposed-x1001" draft="unconfirmed">Diumenge</day>
 							<day type="mon">dilluns</day>
+							<day type="mon" alt="proposed-x1001" draft="unconfirmed">Dilluns</day>
 							<day type="tue">dimarts</day>
+							<day type="tue" alt="proposed-x1001" draft="unconfirmed">Dimarts</day>
 							<day type="wed">dimecres</day>
+							<day type="wed" alt="proposed-x1001" draft="unconfirmed">Dimecres</day>
 							<day type="thu">dijous</day>
+							<day type="thu" alt="proposed-x1001" draft="unconfirmed">Dijous</day>
 							<day type="fri">divendres</day>
+							<day type="fri" alt="proposed-x1001" draft="unconfirmed">Divendres</day>
 							<day type="sat">dissabte</day>
+							<day type="sat" alt="proposed-x1001" draft="unconfirmed">Dissabte</day>
 						</dayWidth>
 					</dayContext>
 					<dayContext type="stand-alone">
@@ -1101,12 +1232,27 @@
 						</dayWidth>
 						<dayWidth type="narrow">
 							<day type="sun">g</day>
+							<day type="sun" alt="proposed-x1001" draft="unconfirmed">G</day>
 							<day type="mon">l</day>
 							<day type="tue">t</day>
+							<day type="tue" alt="proposed-x1001" draft="unconfirmed">T</day>
 							<day type="wed">c</day>
+							<day type="wed" alt="proposed-x1001" draft="unconfirmed">G</day>
 							<day type="thu">j</day>
+							<day type="thu" alt="proposed-x1001" draft="unconfirmed">J</day>
 							<day type="fri">v</day>
+							<day type="fri" alt="proposed-x1001" draft="unconfirmed">V</day>
 							<day type="sat">s</day>
+							<day type="sat" alt="proposed-x1001" draft="unconfirmed">S</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="provisional">Diumenge</day>
+							<day type="mon" draft="provisional">Dilluns</day>
+							<day type="tue" draft="provisional">Dimarts</day>
+							<day type="wed" draft="provisional">Dimecres</day>
+							<day type="thu" draft="provisional">Dijous</day>
+							<day type="fri" draft="provisional">Divendres</day>
+							<day type="sat" draft="provisional">dissabte</day>
 						</dayWidth>
 					</dayContext>
 				</days>
@@ -1125,18 +1271,20 @@
 							<quarter type="4">4t trimestre</quarter>
 						</quarterWidth>
 					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="narrow">
-							<quarter type="1">1</quarter>
-							<quarter type="2">2</quarter>
-							<quarter type="3">3</quarter>
-							<quarter type="4">4</quarter>
-						</quarterWidth>
-					</quarterContext>
 				</quarters>
-				<am>a.m.</am>
-				<pm>p.m.</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">a.m.</dayPeriod>
+							<dayPeriod type="pm">p.m.</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
+					<eraNames>
+						<era type="0" draft="provisional">abans de Crist</era>
+						<era type="1" draft="provisional">després de Crist</era>
+					</eraNames>
 					<eraAbbr>
 						<era type="0" references="R012">aC</era>
 						<era type="1" references="R012">dC</era>
@@ -1145,12 +1293,12 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>EEEE d 'de' MMMM 'de' y</pattern>
+							<pattern>EEEE d MMMM 'de' y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern>d 'de' MMMM 'de' y</pattern>
+							<pattern>d MMMM 'de' y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
@@ -1190,24 +1338,28 @@
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
-						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="H">H</dateFormatItem>
+						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">H:mm</dateFormatItem>
+						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
 						<dateFormatItem id="MEd">E d/M</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d 'de' MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/yyyy</dateFormatItem>
 						<dateFormatItem id="yMEd">E d/M/yyyy</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMM">LLL y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">EEE d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM">LLLL 'del' y</dateFormatItem>
+						<dateFormatItem id="yMMMM" alt="proposed-x1001" draft="unconfirmed">LLLL 'de' y</dateFormatItem>
 						<dateFormatItem id="yQ">Q yyyy</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yyQ" draft="contributed">Q yy</dateFormatItem>
@@ -1219,22 +1371,40 @@
 							<greatestDifference id="d">d-d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
+							<greatestDifference id="a">h a - h a</greatestDifference>
+							<greatestDifference id="h">h-h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
 							<greatestDifference id="a">HH-HH</greatestDifference>
-							<greatestDifference id="h">H-H</greatestDifference>
+							<greatestDifference id="H">H-H</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
+							<greatestDifference id="a">h:mm a -h:mm a</greatestDifference>
+							<greatestDifference id="h">h:mm-h:mm a</greatestDifference>
+							<greatestDifference id="m">h:mm-h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
 							<greatestDifference id="a">HH:mm-HH:mm</greatestDifference>
-							<greatestDifference id="h">HH:mm-HH:mm</greatestDifference>
+							<greatestDifference id="H">HH:mm-HH:mm</greatestDifference>
 							<greatestDifference id="m">HH:mm-HH:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
+							<greatestDifference id="a">h:mm a - h:mm a v</greatestDifference>
+							<greatestDifference id="h">h:mm-h:mm a v</greatestDifference>
+							<greatestDifference id="m">h:mm-h:mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
 							<greatestDifference id="a">HH:mm-HH:mm v</greatestDifference>
-							<greatestDifference id="h">HH:mm-HH:mm v</greatestDifference>
+							<greatestDifference id="H">HH:mm-HH:mm v</greatestDifference>
 							<greatestDifference id="m">HH:mm-HH:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
+							<greatestDifference id="a">h a - h a v</greatestDifference>
+							<greatestDifference id="h">h-h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
 							<greatestDifference id="a">HH-HH v</greatestDifference>
-							<greatestDifference id="h">H-H v</greatestDifference>
+							<greatestDifference id="H">H-H v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M">M-M</greatestDifference>
@@ -1248,15 +1418,15 @@
 							<greatestDifference id="M">E dd/MM - E dd/MM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MMM">
-							<greatestDifference id="M">MMM-MMM</greatestDifference>
+							<greatestDifference id="M">LLL-LLL</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d">d-d 'de' MMM</greatestDifference>
-							<greatestDifference id="M">d 'de' MMM - d 'de' MMM</greatestDifference>
+							<greatestDifference id="d">d-d MMM</greatestDifference>
+							<greatestDifference id="M">d MMM - d MMM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d">E d - E d 'de' MMM</greatestDifference>
-							<greatestDifference id="M">E d 'de' MMM - E d 'de' MMM</greatestDifference>
+							<greatestDifference id="d">E d - E d MMM</greatestDifference>
+							<greatestDifference id="M">E d MMM - E d MMM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MMMM">
 							<greatestDifference id="M">LLLL-LLLL</greatestDifference>
@@ -1279,22 +1449,22 @@
 							<greatestDifference id="y">E dd/MM/yy - E dd/MM/yy</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">MMM-MMM 'de' y</greatestDifference>
-							<greatestDifference id="y">MMM 'de' y - MMM 'de' y</greatestDifference>
+							<greatestDifference id="M">LLL-LLL 'de' y</greatestDifference>
+							<greatestDifference id="y">LLL 'de' y - LLL 'de' y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">d-d 'de' MMM 'de' y</greatestDifference>
-							<greatestDifference id="M">d 'de' MMM - d 'de' MMM 'de' y</greatestDifference>
-							<greatestDifference id="y">d 'de' MMM 'de' y - d 'de' MMM 'de' y</greatestDifference>
+							<greatestDifference id="d">d-d MMM 'de' y</greatestDifference>
+							<greatestDifference id="M">d MMM - d MMM 'de' y</greatestDifference>
+							<greatestDifference id="y">d MMM 'de' y - d MMM 'de' y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E d - E d 'de' MMM 'de' y</greatestDifference>
-							<greatestDifference id="M">E d 'de' MMM - E d 'de' MMM 'de' y</greatestDifference>
-							<greatestDifference id="y">E d 'de' MMM 'de' y - E d 'de' MMM 'de' y</greatestDifference>
+							<greatestDifference id="d">E d - E d MMM 'de' y</greatestDifference>
+							<greatestDifference id="M">E d MMM - E d MMM 'de' y</greatestDifference>
+							<greatestDifference id="y">E d MMM 'de' y - E d MMM 'de' y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MM – MM-yyyy</greatestDifference>
-							<greatestDifference id="y">MM-yyyy – MM-yyyy</greatestDifference>
+							<greatestDifference id="M">LLLL-LLLL 'de' y</greatestDifference>
+							<greatestDifference id="y">LLLL 'de' y - LLLL 'de' y</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -1493,6 +1663,7 @@
 			</zone>
 			<zone type="Asia/Aqtobe">
 				<exemplarCity>Aķtöbe</exemplarCity>
+				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Aqtobe</exemplarCity>
 			</zone>
 			<zone type="America/St_Lucia">
 				<exemplarCity draft="provisional">St. Lucia</exemplarCity>
@@ -1502,6 +1673,9 @@
 			</zone>
 			<zone type="Europe/Monaco">
 				<exemplarCity draft="provisional">Mònaco</exemplarCity>
+			</zone>
+			<zone type="Asia/Ulaanbaatar">
+				<exemplarCity draft="provisional">Ulan Bator</exemplarCity>
 			</zone>
 			<zone type="America/Martinique">
 				<exemplarCity draft="provisional">Martinica</exemplarCity>
@@ -1644,11 +1818,6 @@
 					<standard>Hora estàndard central</standard>
 					<daylight>Hora d'estiu central</daylight>
 				</long>
-				<short>
-					<generic>CT</generic>
-					<standard>CST</standard>
-					<daylight>CDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Eastern">
 				<long>
@@ -1656,11 +1825,6 @@
 					<standard>Hora estàndard oriental</standard>
 					<daylight>Hora d'estiu oriental</daylight>
 				</long>
-				<short>
-					<generic>ET</generic>
-					<standard>EST</standard>
-					<daylight>EDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Mountain">
 				<long>
@@ -1668,11 +1832,6 @@
 					<standard>Hora estàndard de muntanya</standard>
 					<daylight>Hora d'estiu de muntanya</daylight>
 				</long>
-				<short>
-					<generic>MT</generic>
-					<standard>MST</standard>
-					<daylight>MDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Pacific">
 				<long>
@@ -1680,11 +1839,6 @@
 					<standard>Hora estàndard del Pacífic</standard>
 					<daylight>Hora d'estiu del Pacífic</daylight>
 				</long>
-				<short>
-					<generic>PT</generic>
-					<standard>PST</standard>
-					<daylight>PDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Arabian">
 				<long>
@@ -1704,59 +1858,39 @@
 					<standard>Hora estàndard de l'Atlàntic</standard>
 					<daylight>Hora d'estiu de l'Atlàntic</daylight>
 				</long>
-				<short>
-					<generic>AT</generic>
-					<standard>AST</standard>
-					<daylight>ADT</daylight>
-				</short>
 			</metazone>
 			<metazone type="China">
 				<long>
 					<standard>Hora estàndard de la Xina</standard>
 				</long>
 				<short>
+					<generic>CT (Xina)</generic>
 					<standard>CST (Xina)</standard>
+					<daylight>CDT (Xina)</daylight>
 				</short>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<generic draft="contributed">Hora d'Espanya</generic>
 					<standard>Hora Central Europea</standard>
 					<daylight>Hora Central Europea de l'estiu</daylight>
 				</long>
-				<short>
-					<generic draft="contributed">Hora d'Espanya</generic>
-					<standard>CET</standard>
-					<daylight>CEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
 					<standard>Hora d'Europa de l'Est</standard>
 					<daylight>Hora d'estiu d'Europa de l'Est</daylight>
 				</long>
-				<short>
-					<standard>EET</standard>
-					<daylight>EEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
 					<standard>Hora d'Europa Occidental</standard>
 					<daylight>Hora d'estiu d'Europa Occidental</daylight>
 				</long>
-				<short>
-					<standard>WET</standard>
-					<daylight>WEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="GMT">
 				<long>
 					<standard>Hora mitjana de Greenwich</standard>
 				</long>
-				<short>
-					<standard>GMT</standard>
-				</short>
 			</metazone>
 			<metazone type="India">
 				<long>
@@ -1880,6 +2014,10 @@
 				<displayName count="one">afgani afganès</displayName>
 				<displayName count="other">afganis afganesos</displayName>
 			</currency>
+			<currency type="ALK">
+				<displayName count="one" draft="provisional">antic lek albanès</displayName>
+				<displayName count="other" draft="provisional">antics lekë albanesos</displayName>
+			</currency>
 			<currency type="ALL">
 				<displayName>lek albanès</displayName>
 				<displayName count="one">lek albanès</displayName>
@@ -1919,6 +2057,14 @@
 				<displayName>austral argentí</displayName>
 				<displayName count="one">austral argentí</displayName>
 				<displayName count="other">australs argentins</displayName>
+			</currency>
+			<currency type="ARL">
+				<displayName count="one" draft="provisional">peso ley argentí</displayName>
+				<displayName count="other" draft="provisional">pesos ley argentins</displayName>
+			</currency>
+			<currency type="ARM">
+				<displayName count="one" draft="provisional">peso moneda nacional argentí</displayName>
+				<displayName count="other" draft="provisional">pesos moneda nacional argentins</displayName>
 			</currency>
 			<currency type="ARP">
 				<displayName>peso argentí (1983-1985)</displayName>
@@ -1965,6 +2111,10 @@
 				<displayName count="one">marc convertible de Bòsnia i Hercegovina</displayName>
 				<displayName count="other">marcs convertibles de Bòsnia i Hercegovina</displayName>
 			</currency>
+			<currency type="BAN">
+				<displayName count="one" draft="provisional">nou dinar de Bòsnia i Hercegovina</displayName>
+				<displayName count="other" draft="provisional">nous dinars de Bòsnia i Hercegovina</displayName>
+			</currency>
 			<currency type="BBD">
 				<displayName>dòlar de Barbados</displayName>
 				<displayName count="one">dòlar de Barbados</displayName>
@@ -1995,10 +2145,18 @@
 				<displayName count="one">lev fort búlgar</displayName>
 				<displayName count="other">leva forts búlgars</displayName>
 			</currency>
+			<currency type="BGM">
+				<displayName count="one" draft="provisional">lev socialista búlgar</displayName>
+				<displayName count="other" draft="provisional">leva socialistes búlgars</displayName>
+			</currency>
 			<currency type="BGN">
 				<displayName>lev búlgar</displayName>
 				<displayName count="one">lev búlgar</displayName>
 				<displayName count="other">leva búlgars</displayName>
+			</currency>
+			<currency type="BGO">
+				<displayName count="one" draft="provisional">antic lev búlgar</displayName>
+				<displayName count="other" draft="provisional">antics leva búlgars</displayName>
 			</currency>
 			<currency type="BHD">
 				<displayName>dinar de Bahrain</displayName>
@@ -2024,6 +2182,10 @@
 				<displayName>boliviano</displayName>
 				<displayName count="one">boliviano</displayName>
 				<displayName count="other">bolivianos</displayName>
+			</currency>
+			<currency type="BOL">
+				<displayName count="one" draft="provisional">antic peso bolivià</displayName>
+				<displayName count="other" draft="provisional">antics pesos bolivians</displayName>
 			</currency>
 			<currency type="BOP">
 				<displayName>peso bolivià</displayName>
@@ -2064,6 +2226,10 @@
 				<displayName>cruzeiro brasiler</displayName>
 				<displayName count="one">cruzeiro brasiler</displayName>
 				<displayName count="other">cruzeiros brasilers</displayName>
+			</currency>
+			<currency type="BRZ">
+				<displayName count="one" draft="provisional">antic cruzeiro brasiler</displayName>
+				<displayName count="other" draft="provisional">antics cruzeiros brasilers</displayName>
 			</currency>
 			<currency type="BSD">
 				<displayName>dòlar de les Bahames</displayName>
@@ -2125,6 +2291,10 @@
 				<displayName count="one">franc WIR</displayName>
 				<displayName count="other">francs WIR</displayName>
 			</currency>
+			<currency type="CLE">
+				<displayName count="one" draft="provisional">escudo xilè</displayName>
+				<displayName count="other" draft="provisional">escudos xilens</displayName>
+			</currency>
 			<currency type="CLF">
 				<displayName>unidad de fomento xilena</displayName>
 				<displayName count="one">unidad de fomento xilena</displayName>
@@ -2164,6 +2334,11 @@
 				<displayName>corona forta txecoslovaca</displayName>
 				<displayName count="one">corona forta txecoslovaca</displayName>
 				<displayName count="other">corones fortes txecoslovaques</displayName>
+			</currency>
+			<currency type="CUC">
+				<displayName>peso convertible cubà</displayName>
+				<displayName count="one">peso convertible cubà</displayName>
+				<displayName count="other">pesos convertibles cubans</displayName>
 			</currency>
 			<currency type="CUP">
 				<displayName>peso cubà</displayName>
@@ -2268,6 +2443,7 @@
 				<displayName>euro</displayName>
 				<displayName count="one">euro</displayName>
 				<displayName count="other">euros</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Euro</displayName>
 			</currency>
 			<currency type="FIM">
 				<displayName>marc finlandès</displayName>
@@ -2489,6 +2665,14 @@
 				<displayName count="one">won nord-coreà</displayName>
 				<displayName count="other">wons nord-coreans</displayName>
 			</currency>
+			<currency type="KRH">
+				<displayName count="one" draft="provisional">hwan sud-coreà</displayName>
+				<displayName count="other" draft="provisional">hwans sud-coreans</displayName>
+			</currency>
+			<currency type="KRO">
+				<displayName count="one" draft="provisional">antic won sud-coreà</displayName>
+				<displayName count="other" draft="provisional">antics wons sud-coreans</displayName>
+			</currency>
 			<currency type="KRW">
 				<displayName>won sud-coreà</displayName>
 				<displayName count="one">won sud-coreà</displayName>
@@ -2584,6 +2768,14 @@
 				<displayName count="one">franc marroquí</displayName>
 				<displayName count="other">francs marroquins</displayName>
 			</currency>
+			<currency type="MCF">
+				<displayName count="one" draft="provisional">franc monegasc</displayName>
+				<displayName count="other" draft="provisional">francs monegascos</displayName>
+			</currency>
+			<currency type="MDC">
+				<displayName count="one" draft="provisional">cupó moldau</displayName>
+				<displayName count="other" draft="provisional">cupons moldaus</displayName>
+			</currency>
 			<currency type="MDL">
 				<displayName>leu moldau</displayName>
 				<displayName count="one">leu moldau</displayName>
@@ -2603,6 +2795,10 @@
 				<displayName>denar macedoni</displayName>
 				<displayName count="one">denar macedoni</displayName>
 				<displayName count="other">denari macedonis</displayName>
+			</currency>
+			<currency type="MKN">
+				<displayName count="one" draft="provisional">antic denar macedoni</displayName>
+				<displayName count="other" draft="provisional">antics denari macedonis</displayName>
 			</currency>
 			<currency type="MLF">
 				<displayName>franc malià</displayName>
@@ -2949,6 +3145,11 @@
 				<displayName count="one">manat turcman</displayName>
 				<displayName count="other">manats turcmans</displayName>
 			</currency>
+			<currency type="TMT">
+				<displayName>nou manat turcman</displayName>
+				<displayName count="one">nou manat turcman</displayName>
+				<displayName count="other">nous manats turcmans</displayName>
+			</currency>
 			<currency type="TND">
 				<displayName>dinar tunisià</displayName>
 				<displayName count="one">dinar tunisià</displayName>
@@ -3058,6 +3259,10 @@
 				<displayName>dong vietnamita</displayName>
 				<displayName count="one">dong vietnamita</displayName>
 				<displayName count="other">dongs vietnamites</displayName>
+			</currency>
+			<currency type="VNN">
+				<displayName count="one" draft="provisional">antic dong vietnamita</displayName>
+				<displayName count="other" draft="provisional">antics dongs vietnamites</displayName>
 			</currency>
 			<currency type="VUV">
 				<displayName>vatu de Vanuatu</displayName>
@@ -3189,6 +3394,10 @@
 				<displayName count="one">dinar convertible iugoslau</displayName>
 				<displayName count="other">dinars convertibles iugoslaus</displayName>
 			</currency>
+			<currency type="YUR">
+				<displayName count="one" draft="provisional">dinar reformat iugoslau</displayName>
+				<displayName count="other" draft="provisional">dinars reformats iugoslaus</displayName>
+			</currency>
 			<currency type="ZAL">
 				<displayName>rand sud-africà (financer)</displayName>
 				<displayName count="one">rand sud-africà (financer)</displayName>
@@ -3218,6 +3427,15 @@
 				<displayName>dòlar zimbabuès</displayName>
 				<displayName count="one">dòlar zimbabuès</displayName>
 				<displayName count="other">dòlars zimbabuesos</displayName>
+			</currency>
+			<currency type="ZWL">
+				<displayName>dòlar zimbabuès (2009)</displayName>
+				<displayName count="one">dòlar zimbabuès (2009)</displayName>
+				<displayName count="other">dòlars zimbabuesos (2009)</displayName>
+			</currency>
+			<currency type="ZWR">
+				<displayName count="one" draft="provisional">dòlar zimbabuès (2008)</displayName>
+				<displayName count="other" draft="provisional">dòlars zimbabuesos (2008)</displayName>
 			</currency>
 		</currencies>
 	</numbers>
@@ -3265,6 +3483,12 @@
 			<unitPattern count="other" alt="short">{0} anys</unitPattern>
 		</unit>
 	</units>
+	<listPatterns>
+		<listPattern>
+			<listPatternPart type="2">{0} i {1}</listPatternPart>
+			<listPatternPart type="end">{0} i {1}</listPatternPart>
+		</listPattern>
+	</listPatterns>
 	<posix>
 		<messages>
 			<yesstr>sí:s</yesstr>

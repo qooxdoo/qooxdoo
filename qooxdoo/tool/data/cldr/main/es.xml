@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.128 $"/>
-		<generation date="$Date: 2009/06/15 03:46:25 $"/>
+		<version number="$Revision: 5159 $"/>
+		<generation date="$Date: 2010-10-27 19:16:55 -0500 (Wed, 27 Oct 2010) $"/>
 		<language type="es"/>
 	</identity>
 	<localeDisplayNames>
@@ -36,7 +36,6 @@
 			<language type="ar">árabe</language>
 			<language type="arc">arameo</language>
 			<language type="arn">araucano</language>
-			<language type="arn" alt="proposed-x1001" draft="unconfirmed">mapudungun</language>
 			<language type="arp">arapaho</language>
 			<language type="art">lengua artificial</language>
 			<language type="arw">arahuaco</language>
@@ -156,7 +155,6 @@
 			<language type="fi">finés</language>
 			<language type="fil">filipino</language>
 			<language type="fiu">lengua finoúgria</language>
-			<language type="fiu" alt="proposed-x1001" draft="unconfirmed">lengua fino-ugria</language>
 			<language type="fj" references="R039">fidjiano</language>
 			<language type="fo">feroés</language>
 			<language type="fon">fon</language>
@@ -177,7 +175,6 @@
 			<language type="gem">lengua germánica</language>
 			<language type="gez">geez</language>
 			<language type="gil">gilbertés</language>
-			<language type="gil" alt="proposed-x1001" draft="unconfirmed">gilbertense</language>
 			<language type="gl">gallego</language>
 			<language type="gmh">alemán de la alta edad media</language>
 			<language type="gn">guaraní</language>
@@ -448,6 +445,7 @@
 			<language type="sux">sumerio</language>
 			<language type="sv">sueco</language>
 			<language type="sw">swahili</language>
+			<language type="swb">comorense</language>
 			<language type="syc">siríaco clásico</language>
 			<language type="syr">siriaco</language>
 			<language type="ta">tamil</language>
@@ -509,13 +507,16 @@
 			<language type="yi" references="R039">yídish</language>
 			<language type="yo">yoruba</language>
 			<language type="ypk">lenguas yupik</language>
+			<language type="yue">cantonés</language>
 			<language type="za">zhuang</language>
 			<language type="zap">zapoteco</language>
 			<language type="zbl">símbolos Bliss</language>
 			<language type="zen">zenaga</language>
 			<language type="zh">chino</language>
 			<language type="zh_Hans" references="R039">chino simplificado</language>
+			<language type="zh_Hans" alt="proposed-x1001" draft="unconfirmed">chino (simplificado)</language>
 			<language type="zh_Hant" references="R039">chino tradicional</language>
+			<language type="zh_Hant" alt="proposed-x1001" draft="unconfirmed">chino (tradicional)</language>
 			<language type="znd">zande</language>
 			<language type="zu">zulú</language>
 			<language type="zun">zuni</language>
@@ -568,6 +569,7 @@
 			<script type="Hrkt" references="R039">katakana o hiragana</script>
 			<script type="Hung" references="R040">húngaro antiguo</script>
 			<script type="Inds">Indio (harappan)</script>
+			<script type="Inds" alt="proposed-x1001" draft="unconfirmed">escritura del Indo</script>
 			<script type="Ital">antigua bastardilla</script>
 			<script type="Java" references="R039">javanés</script>
 			<script type="Jpan" references="RP1">japonés</script>
@@ -582,6 +584,7 @@
 			<script type="Latf">latino fraktur</script>
 			<script type="Latg">latino gaélico</script>
 			<script type="Latn">latín</script>
+			<script type="Latn" alt="proposed-x1001" draft="unconfirmed">latino</script>
 			<script type="Lepc" references="RP1">lepcha</script>
 			<script type="Limb">limbu</script>
 			<script type="Lina">lineal A</script>
@@ -606,7 +609,6 @@
 			<script type="Phag" references="RP1">phags-pa</script>
 			<script type="Phnx" references="R040">fenicio</script>
 			<script type="Plrd" references="R040">Pollard Miao</script>
-			<script type="Qaai">heredado</script>
 			<script type="Rjng" references="RP1" draft="contributed">rejang</script>
 			<script type="Roro" references="RP1" draft="contributed">rongo-rongo</script>
 			<script type="Runr">rúnico</script>
@@ -638,6 +640,7 @@
 			<script type="Xpeo" references="RP1">persa antiguo</script>
 			<script type="Xsux" references="R040" draft="contributed">cuneiforme sumerio-acadio</script>
 			<script type="Yiii">yi</script>
+			<script type="Zinh">heredado</script>
 			<script type="Zsym">símbolos</script>
 			<script type="Zxxx">no escrito</script>
 			<script type="Zyyy">común</script>
@@ -676,6 +679,7 @@
 			<territory type="155">Europa occidental</territory>
 			<territory type="172">Comunidad de Estados Independientes</territory>
 			<territory type="419">Latinoamérica y el Caribe</territory>
+			<territory type="AC">Isla de la Ascensión</territory>
 			<territory type="AD">Andorra</territory>
 			<territory type="AE">Emiratos Árabes Unidos</territory>
 			<territory type="AF">Afganistán</territory>
@@ -716,15 +720,21 @@
 			<territory type="CA">Canadá</territory>
 			<territory type="CC">Islas Cocos</territory>
 			<territory type="CD">República Democrática del Congo</territory>
+			<territory type="CD" alt="proposed-x1001" draft="unconfirmed">Congo - Kinshasa</territory>
+			<territory type="CD" alt="proposed-x1002" draft="unconfirmed">Congo, República Democrática del</territory>
+			<territory type="CD" alt="variant">Congo [República Democrática del Congo]</territory>
 			<territory type="CF">República Centroafricana</territory>
-			<territory type="CG">Congo</territory>
+			<territory type="CG">Congo - Brazzaville</territory>
+			<territory type="CG" alt="variant">Congo [República]</territory>
 			<territory type="CH">Suiza</territory>
 			<territory type="CI">Costa de Marfil</territory>
+			<territory type="CI" alt="variant">Costa de Marfil</territory>
 			<territory type="CK">Islas Cook</territory>
 			<territory type="CL">Chile</territory>
 			<territory type="CM">Camerún</territory>
 			<territory type="CN">China</territory>
 			<territory type="CO">Colombia</territory>
+			<territory type="CP">Isla Clipperton</territory>
 			<territory type="CR">Costa Rica</territory>
 			<territory type="CS">Serbia y Montenegro</territory>
 			<territory type="CU">Cuba</territory>
@@ -733,11 +743,13 @@
 			<territory type="CY">Chipre</territory>
 			<territory type="CZ">República Checa</territory>
 			<territory type="DE">Alemania</territory>
+			<territory type="DG">Diego García</territory>
 			<territory type="DJ">Yibuti</territory>
 			<territory type="DK">Dinamarca</territory>
 			<territory type="DM">Dominica</territory>
 			<territory type="DO">República Dominicana</territory>
 			<territory type="DZ">Argelia</territory>
+			<territory type="EA">Ceuta y Melilla</territory>
 			<territory type="EC">Ecuador</territory>
 			<territory type="EE">Estonia</territory>
 			<territory type="EG">Egipto</territory>
@@ -745,12 +757,15 @@
 			<territory type="ER">Eritrea</territory>
 			<territory type="ES">España</territory>
 			<territory type="ET">Etiopía</territory>
+			<territory type="EU">Unión Europea</territory>
 			<territory type="FI">Finlandia</territory>
 			<territory type="FJ">Fiyi</territory>
 			<territory type="FK">Islas Malvinas</territory>
+			<territory type="FK" alt="variant">Islas Malvinas [Islas Falkland]</territory>
 			<territory type="FM">Micronesia</territory>
 			<territory type="FO">Islas Feroe</territory>
 			<territory type="FR">Francia</territory>
+			<territory type="FX" draft="provisional">Francia metropolitana</territory>
 			<territory type="GA">Gabón</territory>
 			<territory type="GB">Reino Unido</territory>
 			<territory type="GD">Granada</territory>
@@ -766,17 +781,21 @@
 			<territory type="GQ">Guinea Ecuatorial</territory>
 			<territory type="GR">Grecia</territory>
 			<territory type="GS">Islas Georgia del Sur y Sandwich del Sur</territory>
+			<territory type="GS" alt="proposed-x1001" draft="unconfirmed">Georgia del Sur e Islas Sandwich del Sur</territory>
 			<territory type="GT">Guatemala</territory>
 			<territory type="GU">Guam</territory>
 			<territory type="GW">Guinea-Bissau</territory>
 			<territory type="GY">Guyana</territory>
 			<territory type="HK" references="R039">Región Administrativa Especial de Hong Kong de la República Popular China</territory>
-			<territory type="HK" references="RP2" alt="short">Hong Kong</territory>
+			<territory type="HK" alt="proposed-x1001" draft="unconfirmed">Región Administrativa Especial [RAE] de Hong Kong de la República Popular China</territory>
+			<territory type="HK" alt="proposed-x1002" draft="unconfirmed">Región Administrativa Especial de Hong Kong de la República Popular China</territory>
+			<territory type="HK" alt="short">Hong Kong</territory>
 			<territory type="HM">Islas Heard y McDonald</territory>
 			<territory type="HN">Honduras</territory>
 			<territory type="HR">Croacia</territory>
 			<territory type="HT">Haití</territory>
 			<territory type="HU">Hungría</territory>
+			<territory type="IC">Islas Canarias</territory>
 			<territory type="ID">Indonesia</territory>
 			<territory type="IE">Irlanda</territory>
 			<territory type="IL">Israel</territory>
@@ -804,6 +823,7 @@
 			<territory type="KZ">Kazajistán</territory>
 			<territory type="LA">Laos</territory>
 			<territory type="LB">Líbano</territory>
+			<territory type="LB" alt="proposed-x1001" draft="unconfirmed">Líbano, el</territory>
 			<territory type="LC">Santa Lucía</territory>
 			<territory type="LI">Liechtenstein</territory>
 			<territory type="LK">Sri Lanka</territory>
@@ -821,11 +841,12 @@
 			<territory type="MG">Madagascar</territory>
 			<territory type="MH">Islas Marshall</territory>
 			<territory type="MK">Macedonia</territory>
+			<territory type="MK" alt="variant">Macedonia [ERYM]</territory>
 			<territory type="ML">Mali</territory>
-			<territory type="MM">Myanmar</territory>
+			<territory type="MM">Myanmar [Birmania]</territory>
 			<territory type="MN">Mongolia</territory>
-			<territory type="MO" references="R040">Región Administrativa Especial de Macao de la República Popular China</territory>
-			<territory type="MO" references="RP2" alt="short">Macao</territory>
+			<territory type="MO">Región Administrativa Especial de Macao de la República Popular China</territory>
+			<territory type="MO" alt="short">Macao</territory>
 			<territory type="MP">Islas Marianas del Norte</territory>
 			<territory type="MQ">Martinica</territory>
 			<territory type="MR">Mauritania</territory>
@@ -854,23 +875,26 @@
 			<territory type="PE">Perú</territory>
 			<territory type="PF">Polinesia Francesa</territory>
 			<territory type="PG">Papúa Nueva Guinea</territory>
+			<territory type="PG" alt="proposed-x1001" draft="unconfirmed">Papúa-Nueva Guinea</territory>
 			<territory type="PH">Filipinas</territory>
 			<territory type="PK">Pakistán</territory>
 			<territory type="PL">Polonia</territory>
 			<territory type="PM">San Pedro y Miquelón</territory>
 			<territory type="PN">Pitcairn</territory>
+			<territory type="PN" alt="proposed-x1001" draft="unconfirmed">Islas Pitcairn</territory>
 			<territory type="PR">Puerto Rico</territory>
-			<territory type="PS">Palestina</territory>
+			<territory type="PS">Territorios Palestinos</territory>
 			<territory type="PT">Portugal</territory>
 			<territory type="PW">Palau</territory>
+			<territory type="PW" alt="proposed-x1001" draft="unconfirmed">Palaos</territory>
 			<territory type="PY">Paraguay</territory>
 			<territory type="QA">Qatar</territory>
 			<territory type="QO">Territorios alejados de Oceanía</territory>
-			<territory type="QU">Unión Europea</territory>
 			<territory type="RE">Reunión</territory>
 			<territory type="RO">Rumanía</territory>
 			<territory type="RS">Serbia</territory>
 			<territory type="RU">Rusia</territory>
+			<territory type="RU" alt="proposed-x1001" draft="unconfirmed">Federación de Rusia</territory>
 			<territory type="RW">Ruanda</territory>
 			<territory type="SA">Arabia Saudí</territory>
 			<territory type="SB">Islas Salomón</territory>
@@ -891,6 +915,7 @@
 			<territory type="SV">El Salvador</territory>
 			<territory type="SY">Siria</territory>
 			<territory type="SZ">Suazilandia</territory>
+			<territory type="TA">Tristán da Cunha</territory>
 			<territory type="TC">Islas Turcas y Caicos</territory>
 			<territory type="TD">Chad</territory>
 			<territory type="TF">Territorios Australes Franceses</territory>
@@ -899,6 +924,8 @@
 			<territory type="TJ">Tayikistán</territory>
 			<territory type="TK">Tokelau</territory>
 			<territory type="TL">Timor Oriental</territory>
+			<territory type="TL" alt="proposed-x1001" draft="unconfirmed">Timor-Leste</territory>
+			<territory type="TL" alt="variant">Timor Oriental</territory>
 			<territory type="TM">Turkmenistán</territory>
 			<territory type="TN">Túnez</territory>
 			<territory type="TO">Tonga</territory>
@@ -931,14 +958,39 @@
 		</territories>
 		<variants>
 			<variant type="1901">Ortografía alemana tradicional</variant>
+			<variant type="1994" draft="provisional">Ortografía estandarizada del resiano</variant>
 			<variant type="1996">Ortografía alemana de 1996</variant>
+			<variant type="1606NICT" draft="provisional">Francés medieval tardío hasta 1606</variant>
+			<variant type="1694ACAD" draft="provisional">Francés moderno temprano</variant>
+			<variant type="1959ACAD" draft="provisional">Académico</variant>
 			<variant type="AREVELA">Armenio oriental</variant>
+			<variant type="AREVMDA" draft="provisional">Armenio occidental</variant>
+			<variant type="BAKU1926" draft="provisional">Alfabeto latino túrquico unificado</variant>
+			<variant type="BISKE" draft="provisional">Dialecto de San Giorgio/Bila</variant>
+			<variant type="BOONT" draft="provisional">Boontling</variant>
 			<variant type="FONIPA">alfabeto fonético internacional IPA</variant>
+			<variant type="FONIPA" alt="proposed-x1001" draft="unconfirmed">Alfabeto fonético internacional IPA</variant>
+			<variant type="FONUPA" draft="provisional">Alfabeto fonético urálico UPA</variant>
+			<variant type="KKCOR" draft="provisional">Ortografía común</variant>
+			<variant type="LIPAW" draft="provisional">Dialecto Lipovaz del resiano</variant>
 			<variant type="MONOTON">Monotónico</variant>
+			<variant type="NEDIS" draft="provisional">Dialecto del Natisone</variant>
+			<variant type="NJIVA" draft="provisional">Dialecto de Gniva/Njiva</variant>
+			<variant type="OSOJS" draft="provisional">Dialecto de Oseacco/Osoane</variant>
+			<variant type="PINYIN">Romanización pinyin</variant>
 			<variant type="POLYTON">Politónico</variant>
 			<variant type="POSIX">Ordenador</variant>
 			<variant type="REVISED" references="R040">Ortografía revisada</variant>
+			<variant type="ROZAJ" draft="provisional">Resiano</variant>
+			<variant type="SAAHO" draft="provisional">Saho</variant>
+			<variant type="SCOTLAND" draft="provisional">Inglés escocés estándar</variant>
+			<variant type="SCOUSE" draft="provisional">Scouse</variant>
+			<variant type="SOLBA" draft="provisional">Dialecto de Stolvizza/Solbica</variant>
+			<variant type="TARASK" draft="provisional">Ortografía taraskievica</variant>
+			<variant type="UCCOR" draft="provisional">Ortografía unificada</variant>
+			<variant type="UCRCOR" draft="provisional">Ortografía unificada revisada</variant>
 			<variant type="VALENCIA">Valenciano</variant>
+			<variant type="WADEGILE">Romanización Wade-Giles</variant>
 		</variants>
 		<keys>
 			<key type="calendar">calendario</key>
@@ -986,9 +1038,10 @@
 		<inText type="types">lowercase-words</inText>
 	</layout>
 	<characters>
-		<exemplarCharacters>[a á b-e é f-i í j-n ñ o ó p-u ú ü v-z]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[à ă â å ä ã ā æ-è ĕ ê ë ē ì ĭ î ï ī º ò ŏ ô ö ø ō œ ß ù ŭ û ū ÿ]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a-z]</exemplarCharacters>
+		<exemplarCharacters>[a á b c d e é f g h i í j k l m n ñ o ó p q r s t u ú ü v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[à ă â å ä ã ā æ ç è ĕ ê ë ē ì ĭ î ï ī º ò ŏ ô ö ø ō œ ù ŭ û ū ÿ]</exemplarCharacters>
+		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="index">[A B C D E F G H I J K L M N Ñ O P Q R S T U V W X Y Z]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>‘</quotationStart>
@@ -999,6 +1052,66 @@
 	<dates>
 		<dateRangePattern>{0} – {1}</dateRangePattern>
 		<calendars>
+			<calendar type="buddhist">
+				<dateFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE d 'de' MMMM 'de' y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d 'de' MMMM 'de' y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd/MM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd/MM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
+						<dateFormatItem id="h">hh a</dateFormatItem>
+						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
+						<dateFormatItem id="MMd">d/MM</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMdd">dd-MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMd">d 'de' MMMM</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">y G</dateFormatItem>
+						<dateFormatItem id="yM">M/y G</dateFormatItem>
+						<dateFormatItem id="yMd">d/M/y G</dateFormatItem>
+						<dateFormatItem id="yMEd">EEE d/M/y G</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM y G</dateFormatItem>
+						<dateFormatItem id="yMMMEd">EEE, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yMMMM">MMMM 'de' y G</dateFormatItem>
+						<dateFormatItem id="yQ">Q y G</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y G</dateFormatItem>
+						<dateFormatItem id="yyMM">MM/y G</dateFormatItem>
+						<dateFormatItem id="yyMMM">MMM-y G</dateFormatItem>
+						<dateFormatItem id="yyQ">Q y G</dateFormatItem>
+						<dateFormatItem id="yyQQQQ">QQQQ 'de' y G</dateFormatItem>
+						<dateFormatItem id="yyyyMM">MM/y G</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -1096,17 +1209,15 @@
 							<quarter type="4">4º trimestre</quarter>
 						</quarterWidth>
 					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="narrow">
-							<quarter type="1">1</quarter>
-							<quarter type="2">2</quarter>
-							<quarter type="3">3</quarter>
-							<quarter type="4">4</quarter>
-						</quarterWidth>
-					</quarterContext>
 				</quarters>
-				<am references="R039">a.m.</am>
-				<pm references="R039">p.m.</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am" references="R039">a.m.</dayPeriod>
+							<dayPeriod type="pm" references="R039">p.m.</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<era type="0">antes de Cristo</era>
@@ -1131,6 +1242,7 @@
 					<dateFormatLength type="medium">
 						<dateFormat>
 							<pattern>dd/MM/yyyy</pattern>
+							<pattern alt="proposed-x1001" draft="unconfirmed">dd/MM/y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -1165,32 +1277,30 @@
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
-						<dateFormatItem id="hhmm">hh:mm a</dateFormatItem>
-						<dateFormatItem id="HHmm">HH:mm</dateFormatItem>
-						<dateFormatItem id="hhmmss">hh:mm:ss a</dateFormatItem>
-						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="Hm">H:mm</dateFormatItem>
+						<dateFormatItem id="h">hh a</dateFormatItem>
+						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">E, d-M</dateFormatItem>
+						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
 						<dateFormatItem id="MMd">d/MM</dateFormatItem>
-						<dateFormatItem id="MMdd" draft="unconfirmed">MM/dd</dateFormatItem>
+						<dateFormatItem id="MMdd" draft="provisional">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMdd">dd-MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d 'de' MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
-						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE d/M/yyyy</dateFormatItem>
+						<dateFormatItem id="yM">M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">EEE d/M/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">EEE, d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM 'de' y</dateFormatItem>
-						<dateFormatItem id="yQ">Q yyyy</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ yyyy</dateFormatItem>
+						<dateFormatItem id="yQ">Q y</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/yy</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM-yy</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
@@ -1203,22 +1313,32 @@
 							<greatestDifference id="d">d–d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
-							<greatestDifference id="a">H–H</greatestDifference>
-							<greatestDifference id="h">H–H</greatestDifference>
+							<greatestDifference id="a">h a – h a</greatestDifference>
+							<greatestDifference id="h">h–h a</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
-							<greatestDifference id="a">H:mm – H:mm</greatestDifference>
-							<greatestDifference id="h">H:mm – H:mm</greatestDifference>
-							<greatestDifference id="m">H:mm – H:mm</greatestDifference>
+							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
+							<greatestDifference id="h">h:mm – h:mm a</greatestDifference>
+							<greatestDifference id="m">h:mm – h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="a">HH:mm – HH:mm</greatestDifference>
+							<greatestDifference id="H">HH:mm – HH:mm</greatestDifference>
+							<greatestDifference id="m">HH:mm – HH:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
-							<greatestDifference id="a">H:mm – H:mm v</greatestDifference>
-							<greatestDifference id="h">H:mm – H:mm v</greatestDifference>
-							<greatestDifference id="m">H:mm – H:mm v</greatestDifference>
+							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
+							<greatestDifference id="h">h:mm – h:mm a v</greatestDifference>
+							<greatestDifference id="m">h:mm – h:mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="a">HH:mm – HH:mm v</greatestDifference>
+							<greatestDifference id="H">HH:mm – HH:mm v</greatestDifference>
+							<greatestDifference id="m">HH:mm – HH:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
-							<greatestDifference id="a">H–H v</greatestDifference>
-							<greatestDifference id="h">H–H v</greatestDifference>
+							<greatestDifference id="a">h a – h a v</greatestDifference>
+							<greatestDifference id="h">h–h a v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M">M–M</greatestDifference>
@@ -1277,8 +1397,8 @@
 							<greatestDifference id="y">E d MMM y – E d MMM y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MM–MM yyyy</greatestDifference>
-							<greatestDifference id="y">MM-yyyy – MM-yyyy</greatestDifference>
+							<greatestDifference id="M">MMMM–MMMM y</greatestDifference>
+							<greatestDifference id="y">MMMM y – MMMM y</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -1324,6 +1444,248 @@
 						<displayName>zona</displayName>
 					</field>
 				</fields>
+			</calendar>
+			<calendar type="islamic">
+				<months>
+					<default choice="format"/>
+					<monthContext type="format">
+						<default choice="wide"/>
+						<monthWidth type="abbreviated">
+							<month type="1">Muh.</month>
+							<month type="2">Saf.</month>
+							<month type="3">Rab. I</month>
+							<month type="4">Rab. II</month>
+							<month type="5">Jum. I</month>
+							<month type="6">Jum. II</month>
+							<month type="7">Raj.</month>
+							<month type="8">Sha.</month>
+							<month type="9">Ram.</month>
+							<month type="10">Shaw.</month>
+							<month type="11">Dhuʻl-Q.</month>
+							<month type="12">Dhuʻl-H.</month>
+						</monthWidth>
+						<monthWidth type="narrow">
+							<alias source="locale" path="../../monthContext[@type='stand-alone']/monthWidth[@type='narrow']"/>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">Muharram</month>
+							<month type="2">Safar</month>
+							<month type="3">Rabiʻ I</month>
+							<month type="4">Rabiʻ II</month>
+							<month type="5">Jumada I</month>
+							<month type="6">Jumada II</month>
+							<month type="7">Rajab</month>
+							<month type="8">Shaʻban</month>
+							<month type="9">Ramadan</month>
+							<month type="10">Shawwal</month>
+							<month type="11">Dhuʻl-Qiʻdah</month>
+							<month type="12">Dhuʻl-Hijjah</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="abbreviated">
+							<alias source="locale" path="../../monthContext[@type='format']/monthWidth[@type='abbreviated']"/>
+						</monthWidth>
+						<monthWidth type="narrow">
+							<month type="1">1</month>
+							<month type="2">2</month>
+							<month type="3">3</month>
+							<month type="4">4</month>
+							<month type="5">5</month>
+							<month type="6">6</month>
+							<month type="7">7</month>
+							<month type="8">8</month>
+							<month type="9">9</month>
+							<month type="10">10</month>
+							<month type="11">11</month>
+							<month type="12">12</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<alias source="locale" path="../../monthContext[@type='format']/monthWidth[@type='wide']"/>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraNames>
+						<alias source="locale" path="../eraAbbr"/>
+					</eraNames>
+					<eraAbbr>
+						<era type="0">AH</era>
+					</eraAbbr>
+					<eraNarrow>
+						<alias source="locale" path="../eraAbbr"/>
+					</eraNarrow>
+				</eras>
+				<dateFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE d 'de' MMMM 'de' y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d 'de' MMMM 'de' y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd/MM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd/MM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
+						<dateFormatItem id="h">hh a</dateFormatItem>
+						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
+						<dateFormatItem id="MMd">d/MM</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMdd">dd-MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMd">d 'de' MMMM</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="yyMM">MM/y G</dateFormatItem>
+						<dateFormatItem id="yyMMM">MMM-y G</dateFormatItem>
+						<dateFormatItem id="yyQ">Q y G</dateFormatItem>
+						<dateFormatItem id="yyQQQQ">QQQQ 'de' y G</dateFormatItem>
+						<dateFormatItem id="yyyy">y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">EEE d/M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">EEE, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM 'de' y G</dateFormatItem>
+						<dateFormatItem id="yyyyQ">Q y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="japanese">
+				<dateFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE d 'de' MMMM 'de' y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d 'de' MMMM 'de' y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd/MM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd/MM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
+						<dateFormatItem id="h">hh a</dateFormatItem>
+						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
+						<dateFormatItem id="MMd">d/MM</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMdd">dd-MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMd">d 'de' MMMM</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="yyMM">MM/y G</dateFormatItem>
+						<dateFormatItem id="yyMMM">MMM-y G</dateFormatItem>
+						<dateFormatItem id="yyQ">Q y G</dateFormatItem>
+						<dateFormatItem id="yyQQQQ">QQQQ 'de' y G</dateFormatItem>
+						<dateFormatItem id="yyyy">y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">EEE d/M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">EEE, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM 'de' y G</dateFormatItem>
+						<dateFormatItem id="yyyyQ">Q y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="roc">
+				<dateFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE d 'de' MMMM 'de' y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d 'de' MMMM 'de' y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd/MM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd/MM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
+						<dateFormatItem id="h">hh a</dateFormatItem>
+						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
+						<dateFormatItem id="MMd">d/MM</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMdd">dd-MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMd">d 'de' MMMM</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="yyMM">MM/y G</dateFormatItem>
+						<dateFormatItem id="yyMMM">MMM-y G</dateFormatItem>
+						<dateFormatItem id="yyQ">Q y G</dateFormatItem>
+						<dateFormatItem id="yyQQQQ">QQQQ 'de' y G</dateFormatItem>
+						<dateFormatItem id="yyyy">y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">EEE d/M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMM">MM/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">EEE, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM 'de' y G</dateFormatItem>
+						<dateFormatItem id="yyyyQ">Q y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
 			</calendar>
 		</calendars>
 		<timeZoneNames>
@@ -1801,6 +2163,7 @@
 			<metazone type="America_Mountain">
 				<long>
 					<generic draft="contributed">Hora de las Montañas</generic>
+					<generic alt="proposed-x1001" draft="unconfirmed">Hora de Montaña</generic>
 					<standard>Hora estándar de Montaña</standard>
 					<daylight>Hora de verano de Montaña</daylight>
 				</long>
@@ -1985,7 +2348,9 @@
 					<daylight>Hora de verano de China</daylight>
 				</long>
 				<short>
+					<generic>CT (China)</generic>
 					<standard>CST (China)</standard>
+					<daylight>CDT (China)</daylight>
 				</short>
 			</metazone>
 			<metazone type="Choibalsan">
@@ -2006,6 +2371,11 @@
 					<standard>Hora estándar de Cuba</standard>
 					<daylight>Hora de verano de Cuba</daylight>
 				</long>
+				<short>
+					<generic draft="provisional">CT (Cuba)</generic>
+					<standard draft="provisional">CST (Cuba)</standard>
+					<daylight draft="provisional">CDT (Cuba)</daylight>
+				</short>
 			</metazone>
 			<metazone type="Dacca">
 				<long>
@@ -2038,20 +2408,12 @@
 					<standard>Hora estándar de Europa Central</standard>
 					<daylight>Hora de verano de Europa Central</daylight>
 				</long>
-				<short>
-					<standard>CET</standard>
-					<daylight>CEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
 					<standard>Hora estándar de Europa del Este</standard>
 					<daylight>Hora de verano de Europa del Este</daylight>
 				</long>
-				<short>
-					<standard>EET</standard>
-					<daylight>EEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
@@ -2337,8 +2699,11 @@
 			<metazone type="Pierre_Miquelon">
 				<long>
 					<generic draft="contributed">Hora de San Pedro y Miquelón</generic>
+					<generic alt="proposed-x1001" draft="unconfirmed">Hora de San Pedro y Miguelón</generic>
 					<standard draft="contributed">Hora estándar de San Pedro y Miquelón</standard>
+					<standard alt="proposed-x1001" draft="unconfirmed">Hora estándar de San Pedro y Miguelón</standard>
 					<daylight draft="contributed">Hora de verano de San Pedro y Miquelón</daylight>
+					<daylight alt="proposed-x1001" draft="unconfirmed">Hora de verano de San Pedro y Miguelón</daylight>
 				</long>
 			</metazone>
 			<metazone type="Qyzylorda">
@@ -2513,8 +2878,10 @@
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤ #,##0.00</pattern>
+					<pattern alt="proposed-x1001" draft="unconfirmed">#,##0.00 ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
+			<unitPattern count="one" draft="provisional">{0} {1}</unitPattern>
 			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
@@ -2535,6 +2902,7 @@
 				<displayName>afgani</displayName>
 				<displayName count="one">afgani afgano</displayName>
 				<displayName count="other">afganis afganos</displayName>
+				<symbol draft="provisional">AFN</symbol>
 			</currency>
 			<currency type="ALL">
 				<displayName>lek albanés</displayName>
@@ -2550,11 +2918,13 @@
 				<displayName>florín de las Antillas Neerlandesas</displayName>
 				<displayName count="one">florín de las Antillas Neerlandesas</displayName>
 				<displayName count="other">florines de las Antillas Neerlandesas</displayName>
+				<symbol draft="provisional">ANG</symbol>
 			</currency>
 			<currency type="AOA">
 				<displayName>kwanza angoleño</displayName>
 				<displayName count="one">kwanza angoleño</displayName>
 				<displayName count="other">kwanzas angoleños</displayName>
+				<symbol draft="provisional">AOA</symbol>
 			</currency>
 			<currency type="AOK">
 				<displayName>kwanza angoleño (1977-1990)</displayName>
@@ -2579,6 +2949,7 @@
 				<displayName>peso argentino</displayName>
 				<displayName count="one">peso argentino</displayName>
 				<displayName count="other">pesos argentinos</displayName>
+				<symbol draft="provisional">ARS</symbol>
 			</currency>
 			<currency type="ATS">
 				<displayName>chelín austriaco</displayName>
@@ -2589,11 +2960,13 @@
 				<displayName>dólar australiano</displayName>
 				<displayName count="one">dólar australiano</displayName>
 				<displayName count="other">dólares australianos</displayName>
+				<symbol draft="provisional">AUD</symbol>
 			</currency>
 			<currency type="AWG">
 				<displayName>florín de Aruba</displayName>
 				<displayName count="one">florín de Aruba</displayName>
 				<displayName count="other">florines de Aruba</displayName>
+				<symbol draft="provisional">AWG</symbol>
 			</currency>
 			<currency type="AZM">
 				<displayName>manat azerí (1993-2006)</displayName>
@@ -2602,6 +2975,7 @@
 				<displayName references="R039">manat azerí</displayName>
 				<displayName count="one">manat azerí</displayName>
 				<displayName count="other">manat azeríes</displayName>
+				<symbol draft="provisional">AZN</symbol>
 			</currency>
 			<currency type="BAD">
 				<displayName>dinar bosnio</displayName>
@@ -2812,6 +3186,9 @@
 				<displayName count="one">corona fuerte checoslovaca</displayName>
 				<displayName count="other">coronas fuertes checoslovacas</displayName>
 			</currency>
+			<currency type="CUC">
+				<displayName>peso cubano convertible</displayName>
+			</currency>
 			<currency type="CUP">
 				<displayName>peso cubano</displayName>
 				<displayName count="one">peso cubano</displayName>
@@ -2937,6 +3314,9 @@
 				<displayName>lari georgiano</displayName>
 			</currency>
 			<currency type="GHC">
+				<displayName>cedi ghanés (1979-2007)</displayName>
+			</currency>
+			<currency type="GHS">
 				<displayName>cedi ghanés</displayName>
 			</currency>
 			<currency type="GIP">
@@ -3390,7 +3770,6 @@
 			<currency type="SDP">
 				<displayName>libra sudanesa antigua</displayName>
 				<displayName count="one">libra sudanesa antigua</displayName>
-				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">libra sudanesa</displayName>
 				<displayName count="other">libras sudanesas antiguas</displayName>
 			</currency>
 			<currency type="SEK">
@@ -3462,6 +3841,9 @@
 			</currency>
 			<currency type="TMM">
 				<displayName>manat turcomano</displayName>
+			</currency>
+			<currency type="TMT">
+				<displayName>nuevo manat turcomano</displayName>
 			</currency>
 			<currency type="TND">
 				<displayName>dinar tunecino</displayName>
@@ -3679,6 +4061,9 @@
 			<currency type="ZWD">
 				<displayName>dólar de Zimbabue</displayName>
 			</currency>
+			<currency type="ZWL">
+				<displayName>dólar zimbabuense</displayName>
+			</currency>
 		</currencies>
 	</numbers>
 	<units>
@@ -3725,6 +4110,12 @@
 			<unitPattern count="other" alt="short">{0} años</unitPattern>
 		</unit>
 	</units>
+	<listPatterns>
+		<listPattern>
+			<listPatternPart type="2">{0} y {1}</listPatternPart>
+			<listPatternPart type="end">{0} y {1}</listPatternPart>
+		</listPattern>
+	</listPatterns>
 	<posix>
 		<messages>
 			<yesstr>sí:si:s</yesstr>

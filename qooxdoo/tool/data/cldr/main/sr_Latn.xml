@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.91 $"/>
-		<generation date="$Date: 2009/06/15 20:34:50 $"/>
+		<version number="$Revision: 5094 $"/>
+		<generation date="$Date: 2010-10-13 11:33:36 -0500 (Wed, 13 Oct 2010) $"/>
 		<language type="sr"/>
 		<script type="Latn"/>
 	</identity>
@@ -101,6 +101,7 @@
 			<language type="cr">Kri</language>
 			<language type="crh">Krimeanski turski</language>
 			<language type="crp">kreolski ili pidžin</language>
+			<language type="crp" alt="proposed-x1001" draft="unconfirmed">Kreolski ili pidžin</language>
 			<language type="cs">Češki</language>
 			<language type="csb">Kašubijanski</language>
 			<language type="cu">Staroslovenski</language>
@@ -185,6 +186,7 @@
 			<language type="gu">Gudžarati</language>
 			<language type="gv">Manks</language>
 			<language type="gwi">Gvich'in</language>
+			<language type="gwi" alt="proposed-x1001" draft="unconfirmed">Gvičin</language>
 			<language type="ha">Hausa</language>
 			<language type="hai">Haida</language>
 			<language type="haw">Havajski</language>
@@ -326,6 +328,7 @@
 			<language type="nai">Jezik severno-američkih Indijanaca</language>
 			<language type="nap">Neapolitanski</language>
 			<language type="nb">Norveški bokmål</language>
+			<language type="nb" alt="proposed-x1001" draft="unconfirmed">Norveški bokmal</language>
 			<language type="nd">Severni ndebele</language>
 			<language type="nds">Niski nemački</language>
 			<language type="ne">Nepalski</language>
@@ -442,6 +445,7 @@
 			<language type="sux">Sumerski</language>
 			<language type="sv">Švedski</language>
 			<language type="sw">Svahili</language>
+			<language type="swb" draft="provisional">Komorski</language>
 			<language type="syc">Klasični sirijski</language>
 			<language type="syr">Sirijski</language>
 			<language type="ta">Tamilski</language>
@@ -488,6 +492,7 @@
 			<language type="ve">Venda</language>
 			<language type="vi">Vijetnamski</language>
 			<language type="vo">Volapük</language>
+			<language type="vo" alt="proposed-x1001" draft="unconfirmed">Volapuk</language>
 			<language type="vot">Votski</language>
 			<language type="wa">Valun</language>
 			<language type="wak">Vakašanski jezik</language>
@@ -503,6 +508,7 @@
 			<language type="yi">Jidiš</language>
 			<language type="yo">Jorubanski</language>
 			<language type="ypk">Jupik</language>
+			<language type="yue" draft="provisional">Kantonski</language>
 			<language type="za">Zuang</language>
 			<language type="zap">Zapotečki</language>
 			<language type="zbl">Blisimboli</language>
@@ -527,6 +533,7 @@
 			<script type="Blis">blisimbolično pismo</script>
 			<script type="Bopo">bopomofo pismo</script>
 			<script type="Brah">Bramansko pismo</script>
+			<script type="Brah" alt="proposed-x1001" draft="unconfirmed">bramansko pismo</script>
 			<script type="Brai">Brajevo pismo</script>
 			<script type="Bugi">buginsko pismo</script>
 			<script type="Buhd">buhidsko pismo</script>
@@ -539,12 +546,16 @@
 			<script type="Copt">koptičko pismo</script>
 			<script type="Cprt">kiparsko pismo</script>
 			<script type="Cyrl">Ćirilica</script>
+			<script type="Cyrl" alt="proposed-x1001" draft="unconfirmed">ćirilica</script>
 			<script type="Cyrs">Staroslovenska crkvena ćirilica</script>
 			<script type="Deva">Devanagari</script>
+			<script type="Deva" alt="proposed-x1001" draft="unconfirmed">devanagari</script>
 			<script type="Dsrt">Dezeret</script>
+			<script type="Dsrt" alt="proposed-x1001" draft="unconfirmed">dezeret</script>
 			<script type="Egyd">egipatsko narodno pismo</script>
 			<script type="Egyh">egipatsko hijeratsko pismo</script>
 			<script type="Egyp">Egipatski hijeroglifi</script>
+			<script type="Egyp" alt="proposed-x1001" draft="unconfirmed">egipatski hijeroglifi</script>
 			<script type="Ethi">etiopsko pismo</script>
 			<script type="Geok">gruzijsko khutsuri pismo</script>
 			<script type="Geor">gruzijsko pismo</script>
@@ -573,12 +584,17 @@
 			<script type="Khmr">kmersko pismo</script>
 			<script type="Knda">kannada pismo</script>
 			<script type="Kore">Korejsko pismo</script>
+			<script type="Kore" alt="proposed-x1001" draft="unconfirmed">korejsko pismo</script>
 			<script type="Kthi">kaićansko pismo</script>
 			<script type="Lana">lanna pismo</script>
+			<script type="Lana" alt="proposed-x1001" draft="unconfirmed">lana pismo</script>
 			<script type="Laoo">lao pismo</script>
 			<script type="Latf">Latinica (Fraktur varijanta)</script>
+			<script type="Latf" alt="proposed-x1001" draft="unconfirmed">latinica (fraktur varijanta)</script>
 			<script type="Latg">Galska latinica</script>
+			<script type="Latg" alt="proposed-x1001" draft="unconfirmed">galska latinica</script>
 			<script type="Latn">Latinica</script>
+			<script type="Latn" alt="proposed-x1001" draft="unconfirmed">latinica</script>
 			<script type="Lepc">lepča pismo</script>
 			<script type="Limb">limbu pismo</script>
 			<script type="Lina">linearno A pismo</script>
@@ -591,6 +607,7 @@
 			<script type="Mero">meroitik pismo</script>
 			<script type="Mlym">malajalam pismo</script>
 			<script type="Mong">Mongolsko pismo</script>
+			<script type="Mong" alt="proposed-x1001" draft="unconfirmed">mongolsko pismo</script>
 			<script type="Moon">mesečevo pismo</script>
 			<script type="Mtei">meitei majek pismo</script>
 			<script type="Mymr">mianmarko pismo</script>
@@ -600,15 +617,16 @@
 			<script type="Orkh">orkhon pismo</script>
 			<script type="Orya">orija pismo</script>
 			<script type="Osma">osmanja pismo</script>
+			<script type="Osma" alt="proposed-x1001" draft="unconfirmed">pahav hmong pismo</script>
 			<script type="Perm">staro permiksko pismo</script>
 			<script type="Phag">phags-pa pismo</script>
 			<script type="Phli">pisani pahlavi</script>
 			<script type="Phlp">psalter pahlavi</script>
 			<script type="Phlv">pahlavi pismo</script>
 			<script type="Phnx">Feničansko pismo</script>
+			<script type="Phnx" alt="proposed-x1001" draft="unconfirmed">feničansko pismo</script>
 			<script type="Plrd">polard fonetsko pismo</script>
 			<script type="Prti">pisani partian</script>
-			<script type="Qaai">nasledno pismo</script>
 			<script type="Rjng">rejang pismo</script>
 			<script type="Roro">rongorongo pismo</script>
 			<script type="Runr">runsko pismo</script>
@@ -623,6 +641,7 @@
 			<script type="Syrc">sirijsko pismo</script>
 			<script type="Syre">sirijsko estrangelo pismo</script>
 			<script type="Syrj">Zapadnosirijsko pismo</script>
+			<script type="Syrj" alt="proposed-x1001" draft="unconfirmed">zapadnosirijsko pismo</script>
 			<script type="Syrn">pismo istočne Sirije</script>
 			<script type="Tagb">tagbanva pismo</script>
 			<script type="Tale">tai le pismo</script>
@@ -635,13 +654,16 @@
 			<script type="Tglg">tagalog</script>
 			<script type="Thaa">thana pismo</script>
 			<script type="Thai">Tajlandsko pismo</script>
+			<script type="Thai" alt="proposed-x1001" draft="unconfirmed">tajlandsko pismo</script>
 			<script type="Tibt">tibetansko pismo</script>
 			<script type="Ugar">ugaritsko pismo</script>
 			<script type="Vaii">vai pismo</script>
 			<script type="Visp">vidljivi govor</script>
 			<script type="Xpeo">Staropersijsko pismo</script>
+			<script type="Xpeo" alt="proposed-x1001" draft="unconfirmed">staropersijsko pismo</script>
 			<script type="Xsux">sumersko-akadsko kuneiform pismo</script>
 			<script type="Yiii">ji pismo</script>
+			<script type="Zinh">nasledno pismo</script>
 			<script type="Zmth">matematička notacija</script>
 			<script type="Zsym">simboli</script>
 			<script type="Zxxx">Nepisani jezik</script>
@@ -682,6 +704,7 @@
 			<territory type="172">Komonvelt nezavisnih država</territory>
 			<territory type="419">Latinska Amerika i Karibi</territory>
 			<territory type="830">Kanalska ostrva</territory>
+			<territory type="AC" draft="provisional">Ostrvo Asension</territory>
 			<territory type="AD">Andora</territory>
 			<territory type="AE">Ujedinjeni Arapski Emirati</territory>
 			<territory type="AF">Avganistan</territory>
@@ -721,16 +744,23 @@
 			<territory type="BZ">Belise</territory>
 			<territory type="CA">Kanada</territory>
 			<territory type="CC">Kokos (Keling) Ostrva</territory>
+			<territory type="CC" alt="proposed-x1001" draft="unconfirmed">Kokos Keling Ostrva</territory>
 			<territory type="CD">Demokratska Republika Kongo</territory>
+			<territory type="CD" alt="proposed-x1001" draft="unconfirmed">Kongo - Kinšasa</territory>
+			<territory type="CD" alt="variant" draft="provisional">Kongo [DRC]</territory>
 			<territory type="CF">Centralno Afrička Republika</territory>
 			<territory type="CG">Kongo</territory>
+			<territory type="CG" alt="proposed-x1001" draft="unconfirmed">Kongo - Brazavil</territory>
+			<territory type="CG" alt="variant" draft="provisional">Republika Kongo</territory>
 			<territory type="CH">Švajcarska</territory>
 			<territory type="CI">Obala Slonovače</territory>
+			<territory type="CI" alt="variant" draft="provisional">Obala Slonovače</territory>
 			<territory type="CK">Kukova Ostrva</territory>
 			<territory type="CL">Čile</territory>
 			<territory type="CM">Kamerun</territory>
 			<territory type="CN">Kina</territory>
 			<territory type="CO">Kolumbija</territory>
+			<territory type="CP" draft="provisional">Ostrvo Kliperton</territory>
 			<territory type="CR">Kostarika</territory>
 			<territory type="CS">Srbija i Crna Gora</territory>
 			<territory type="CU">Kuba</territory>
@@ -739,11 +769,13 @@
 			<territory type="CY">Kipar</territory>
 			<territory type="CZ">Češka</territory>
 			<territory type="DE">Nemačka</territory>
+			<territory type="DG" draft="provisional">Dijego Garsija</territory>
 			<territory type="DJ">Džibuti</territory>
 			<territory type="DK">Danska</territory>
 			<territory type="DM">Dominika</territory>
 			<territory type="DO">Dominikanska Republika</territory>
 			<territory type="DZ">Alžir</territory>
+			<territory type="EA" draft="provisional">Seuta i Melilja</territory>
 			<territory type="EC">Ekvador</territory>
 			<territory type="EE">Estonija</territory>
 			<territory type="EG">Egipat</territory>
@@ -751,9 +783,12 @@
 			<territory type="ER">Eritreja</territory>
 			<territory type="ES">Španija</territory>
 			<territory type="ET">Etiopija</territory>
+			<territory type="EU">Evropska unija</territory>
 			<territory type="FI">Finska</territory>
 			<territory type="FJ">Fidži</territory>
 			<territory type="FK">Folklandska Ostrva</territory>
+			<territory type="FK" alt="proposed-x1001" draft="unconfirmed">Folklandska ostrva</territory>
+			<territory type="FK" alt="variant" draft="provisional">Folklandska ostrva (Malvinska ostrva)</territory>
 			<territory type="FM">Mikronezija</territory>
 			<territory type="FO">Farska Ostrva</territory>
 			<territory type="FR">Francuska</territory>
@@ -777,12 +812,14 @@
 			<territory type="GW">Gvineja-Bisao</territory>
 			<territory type="GY">Gvajana</territory>
 			<territory type="HK">Hong Kong (S. A. R. Kina)</territory>
+			<territory type="HK" alt="proposed-x1001" draft="unconfirmed">Hong Kong (SAR Kina)</territory>
 			<territory type="HK" alt="short">Hong Kong</territory>
 			<territory type="HM">Herd i Mekdonald Ostrva</territory>
 			<territory type="HN">Honduras</territory>
 			<territory type="HR">Hrvatska</territory>
 			<territory type="HT">Haiti</territory>
 			<territory type="HU">Mađarska</territory>
+			<territory type="IC" draft="provisional">Kanarska ostrva</territory>
 			<territory type="ID">Indonezija</territory>
 			<territory type="IE">Irska</territory>
 			<territory type="IL">Izrael</territory>
@@ -827,10 +864,13 @@
 			<territory type="MG">Madagaskar</territory>
 			<territory type="MH">Maršalska Ostrva</territory>
 			<territory type="MK">Makedonija</territory>
+			<territory type="MK" alt="variant" draft="provisional">Makedonija (BJR)</territory>
 			<territory type="ML">Mali</territory>
 			<territory type="MM">Mijanmar</territory>
+			<territory type="MM" alt="proposed-x1001" draft="unconfirmed">Mijanmar Burma</territory>
 			<territory type="MN">Mongolija</territory>
 			<territory type="MO">Makao (S. A. R. Kina)</territory>
+			<territory type="MO" alt="proposed-x1001" draft="unconfirmed">Makao (SAR Kina)</territory>
 			<territory type="MO" alt="short">Makao</territory>
 			<territory type="MP">Severna Marijanska Ostrva</territory>
 			<territory type="MQ">Martinik</territory>
@@ -872,7 +912,6 @@
 			<territory type="PY">Paragvaj</territory>
 			<territory type="QA">Katar</territory>
 			<territory type="QO">Ostala okeanija</territory>
-			<territory type="QU">Evropska unija</territory>
 			<territory type="RE">Rejunion</territory>
 			<territory type="RO">Rumunija</territory>
 			<territory type="RS">Srbija</territory>
@@ -897,6 +936,7 @@
 			<territory type="SV">Salvador</territory>
 			<territory type="SY">Sirija</territory>
 			<territory type="SZ">Svazilend</territory>
+			<territory type="TA" draft="provisional">Tristan da Kunja</territory>
 			<territory type="TC">Turks i Kajkos Ostrva</territory>
 			<territory type="TD">Čad</territory>
 			<territory type="TF">Francuske Južne Teritorije</territory>
@@ -905,6 +945,8 @@
 			<territory type="TJ">Tadžikistan</territory>
 			<territory type="TK">Tokelau</territory>
 			<territory type="TL">Istočni Timor</territory>
+			<territory type="TL" alt="proposed-x1001" draft="unconfirmed">Timor Leste</territory>
+			<territory type="TL" alt="variant" draft="provisional">Istočni Timor</territory>
 			<territory type="TM">Turkmenistan</territory>
 			<territory type="TN">Tunis</territory>
 			<territory type="TO">Tonga</territory>
@@ -941,6 +983,7 @@
 			<variant type="1996">Nemačka ortografija 1996</variant>
 			<variant type="1606NICT">Francuski iz kasnog srednjeg veka do 1606.</variant>
 			<variant type="1694ACAD">Rani moderni francuski</variant>
+			<variant type="1959ACAD" draft="provisional">Akademski</variant>
 			<variant type="AREVELA">Istočni jermenski</variant>
 			<variant type="AREVMDA">Zapadno-jermenski</variant>
 			<variant type="BAKU1926">Ujedinjeni turski latinični alfabet</variant>
@@ -948,11 +991,13 @@
 			<variant type="BOONT">Buntling</variant>
 			<variant type="FONIPA">IPA fonetika</variant>
 			<variant type="FONUPA">UPA fonetika</variant>
+			<variant type="KKCOR" draft="provisional">Uobičajena ortografija</variant>
 			<variant type="LIPAW">Lipovac dijalekt rezijanski</variant>
 			<variant type="MONOTON">Monotonik</variant>
 			<variant type="NEDIS">Natison dijalekt</variant>
 			<variant type="NJIVA">Gnjiva/Njiva dijalekt</variant>
 			<variant type="OSOJS">Oseako/Osojane dijalekt</variant>
+			<variant type="PINYIN" draft="provisional">Pinjinska romanizacija</variant>
 			<variant type="POLYTON">Politonik</variant>
 			<variant type="POSIX">Kompjuter</variant>
 			<variant type="REVISED">Revidirana ortigrafija</variant>
@@ -962,7 +1007,10 @@
 			<variant type="SCOUSE">Skauz</variant>
 			<variant type="SOLBA">Stolvica/Solbica dijalekt</variant>
 			<variant type="TARASK">Taraskijevica ortografija</variant>
+			<variant type="UCCOR" draft="provisional">Ujedinjena ortografija</variant>
+			<variant type="UCRCOR" draft="provisional">Ujedinjena revidirana ortografija</variant>
 			<variant type="VALENCIA">Valencijski</variant>
+			<variant type="WADEGILE" draft="provisional">Vejd-Žajl romanizacija</variant>
 		</variants>
 		<keys>
 			<key type="calendar">Kalendar</key>
@@ -998,26 +1046,60 @@
 		</codePatterns>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[a-c č ć d đ {dž} e-l {lj} m n {nj} o p r s š t-v z ž]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[q w-y]</exemplarCharacters>
+		<exemplarCharacters>[a b c č ć d đ {dž} e f g h i j k l {lj} m n {nj} o p r s š t u v z ž]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[q w x y]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="provisional">[A B C Č Ć D {DŽ} E F G H I J K L {LJ} M N {NJ} O P Q R S Š T U V W X Y Z Ž]</exemplarCharacters>
 	</characters>
 	<dates>
 		<calendars>
 			<calendar type="buddhist">
-				<am>pre podne</am>
-				<pm>popodne</pm>
-			</calendar>
-			<calendar type="chinese">
-				<am>pre podne</am>
-				<pm>popodne</pm>
+				<eras>
+					<eraAbbr>
+						<era type="0" draft="provisional">BE</era>
+					</eraAbbr>
+				</eras>
 			</calendar>
 			<calendar type="coptic">
-				<am>pre podne</am>
-				<pm>popodne</pm>
+				<months>
+					<monthContext type="format">
+						<monthWidth type="wide">
+							<month type="1" draft="provisional">Taut</month>
+							<month type="2" draft="provisional">Baba</month>
+							<month type="3" draft="provisional">Hator</month>
+							<month type="4" draft="provisional">Kiahk</month>
+							<month type="5" draft="provisional">Toba</month>
+							<month type="6" draft="provisional">Amšir</month>
+							<month type="7" draft="provisional">Baramhat</month>
+							<month type="8" draft="provisional">Baramuda</month>
+							<month type="9" draft="provisional">Bašans</month>
+							<month type="10" draft="provisional">Paona</month>
+							<month type="11" draft="provisional">Epep</month>
+							<month type="12" draft="provisional">Mesra</month>
+							<month type="13" draft="provisional">Nasi</month>
+						</monthWidth>
+					</monthContext>
+				</months>
 			</calendar>
 			<calendar type="ethiopic">
-				<am>pre podne</am>
-				<pm>popodne</pm>
+				<months>
+					<monthContext type="format">
+						<monthWidth type="wide">
+							<month type="1" draft="provisional">Meskerem</month>
+							<month type="2" draft="provisional">Tekemt</month>
+							<month type="3" draft="provisional">Hedar</month>
+							<month type="4" draft="provisional">Tahsas</month>
+							<month type="5" draft="provisional">Ter</month>
+							<month type="6" draft="provisional">Jekatit</month>
+							<month type="7" draft="provisional">Megabit</month>
+							<month type="8" draft="provisional">Miazia</month>
+							<month type="9" draft="provisional">Genbot</month>
+							<month type="10" draft="provisional">Sene</month>
+							<month type="11" draft="provisional">Hamle</month>
+							<month type="12" draft="provisional">Nehase</month>
+							<month type="13" draft="provisional">Pagumen</month>
+						</monthWidth>
+					</monthContext>
+				</months>
 			</calendar>
 			<calendar type="gregorian">
 				<months>
@@ -1117,8 +1199,14 @@
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
-				<am>pre podne</am>
-				<pm>popodne</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">pre podne</dayPeriod>
+							<dayPeriod type="pm">popodne</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<era type="0">Pre nove ere</era>
@@ -1128,18 +1216,196 @@
 						<era type="0">p. n. e.</era>
 						<era type="1">n. e</era>
 					</eraAbbr>
+					<eraNarrow>
+						<era type="0" draft="provisional">p.n.e.</era>
+						<era type="1" draft="provisional">n.e.</era>
+					</eraNarrow>
 				</eras>
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, dd. MMMM y.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>dd. MMMM y.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd.MM.y.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d.M.yy.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern>HH.mm.ss zzzz</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="long">
+						<timeFormat>
+							<pattern>HH.mm.ss z</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="medium">
+						<timeFormat>
+							<pattern>HH.mm.ss</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="short">
+						<timeFormat>
+							<pattern>HH.mm</pattern>
+						</timeFormat>
+					</timeFormatLength>
+				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
+						<dateFormatItem id="d" draft="provisional">d</dateFormatItem>
+						<dateFormatItem id="Ed" draft="provisional">E d.</dateFormatItem>
 						<dateFormatItem id="EEEd">d EEE</dateFormatItem>
-						<dateFormatItem id="Hm">H.mm</dateFormatItem>
+						<dateFormatItem id="hm" draft="provisional">hh.mm a</dateFormatItem>
+						<dateFormatItem id="hm" alt="proposed-x1001" draft="unconfirmed">h:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH.mm</dateFormatItem>
+						<dateFormatItem id="hms" draft="provisional">hh.mm.ss a</dateFormatItem>
+						<dateFormatItem id="hms" alt="proposed-x1001" draft="unconfirmed">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH.mm.ss</dateFormatItem>
+						<dateFormatItem id="Hms" alt="proposed-x1001" draft="unconfirmed">H:mm:ss</dateFormatItem>
+						<dateFormatItem id="M" draft="provisional">L</dateFormatItem>
+						<dateFormatItem id="Md" draft="provisional">d/M</dateFormatItem>
+						<dateFormatItem id="MEd" draft="provisional">E, M-d</dateFormatItem>
+						<dateFormatItem id="MMdd" draft="provisional">MM-dd</dateFormatItem>
+						<dateFormatItem id="MMM" draft="provisional">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd" draft="provisional">MMM d.</dateFormatItem>
+						<dateFormatItem id="MMMdd" draft="provisional">dd.MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd" draft="provisional">E d. MMM</dateFormatItem>
+						<dateFormatItem id="MMMMd" draft="provisional">MMMM d.</dateFormatItem>
+						<dateFormatItem id="MMMMdd" draft="provisional">dd. MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd" draft="provisional">E MMMM d</dateFormatItem>
+						<dateFormatItem id="ms" draft="provisional">mm.ss</dateFormatItem>
+						<dateFormatItem id="y" draft="provisional">y.</dateFormatItem>
+						<dateFormatItem id="yM" draft="provisional">y-M</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="provisional">EEE, d. M. yyyy.</dateFormatItem>
 						<dateFormatItem id="yMMM">y MMM</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="provisional">EEE, d. MMM y.</dateFormatItem>
+						<dateFormatItem id="yMMMM" draft="provisional">y MMMM</dateFormatItem>
+						<dateFormatItem id="yQ" draft="provisional">y Q</dateFormatItem>
 						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
+						<dateFormatItem id="yyMM" draft="provisional">MM.yy</dateFormatItem>
+						<dateFormatItem id="yyMMdd" draft="provisional">dd.MM.yy</dateFormatItem>
+						<dateFormatItem id="yyMMMd" draft="provisional">d. MMM yy.</dateFormatItem>
+						<dateFormatItem id="yyQ" draft="provisional">Q yy</dateFormatItem>
+						<dateFormatItem id="yyQQQQ" draft="provisional">QQQQ yy</dateFormatItem>
+						<dateFormatItem id="yyyy" draft="provisional">y.</dateFormatItem>
+						<dateFormatItem id="yyyyMM" draft="provisional">yyyy-MM</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM" draft="provisional">MMMM y.</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
+						<intervalFormatFallback draft="provisional">{0} - {1}</intervalFormatFallback>
+						<intervalFormatItem id="d">
+							<greatestDifference id="d" draft="provisional">d-d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="h">
+							<greatestDifference id="a" draft="provisional">h a - h a</greatestDifference>
+							<greatestDifference id="h" draft="provisional">h-h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="a" draft="provisional">HH-HH</greatestDifference>
+							<greatestDifference id="H" draft="provisional">HH-HH</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hm">
+							<greatestDifference id="a" draft="provisional">h.mm a - h.mm a</greatestDifference>
+							<greatestDifference id="h" draft="provisional">h.mm-h.mm a</greatestDifference>
+							<greatestDifference id="m" draft="provisional">h.mm-h.mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="a" draft="provisional">HH.mm-HH.mm</greatestDifference>
+							<greatestDifference id="H" draft="provisional">HH.mm-HH.mm</greatestDifference>
+							<greatestDifference id="m" draft="provisional">HH.mm-HH.mm</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hmv">
+							<greatestDifference id="a" draft="provisional">h.mm a - h.mm a v</greatestDifference>
+							<greatestDifference id="h" draft="provisional">h.mm-h.mm a v</greatestDifference>
+							<greatestDifference id="m" draft="provisional">h.mm-h.mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="a" draft="provisional">HH.mm-HH.mm v</greatestDifference>
+							<greatestDifference id="H" draft="provisional">HH.mm-HH.mm v</greatestDifference>
+							<greatestDifference id="m" draft="provisional">HH.mm-HH.mm v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hv">
+							<greatestDifference id="a" draft="provisional">h a - h a v</greatestDifference>
+							<greatestDifference id="h" draft="provisional">h-h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="a" draft="provisional">HH-HH v</greatestDifference>
+							<greatestDifference id="H" draft="provisional">HH-HH v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M" draft="provisional">M-M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d" draft="provisional">d.M - d.M</greatestDifference>
+							<greatestDifference id="M" draft="provisional">d.M - d.M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d" draft="provisional">E, d.M - E, d.M</greatestDifference>
+							<greatestDifference id="M" draft="provisional">E, d.M - E, d.M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M" draft="provisional">MMM-MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="d" draft="provisional">dd.-dd. MMM</greatestDifference>
+							<greatestDifference id="M" draft="provisional">dd. MMM - dd. MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="d" draft="provisional">E, dd. - E, dd. MMM</greatestDifference>
+							<greatestDifference id="M" draft="provisional">E, dd. MMM - E, dd. MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMM">
+							<greatestDifference id="M" draft="provisional">LLLL-LLLL</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="y">
+							<greatestDifference id="y" draft="provisional">y-y</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="yM">
 							<greatestDifference id="M">M.yy - M.yy</greatestDifference>
 							<greatestDifference id="y">M.yy - M.yy</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="d" draft="provisional">d.M.yy. - d.M.yy.</greatestDifference>
+							<greatestDifference id="M" draft="provisional">d.M.yy. - d.M.yy.</greatestDifference>
+							<greatestDifference id="y" draft="provisional">d.M.yy. - d.M.yy.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMEd">
+							<greatestDifference id="d" draft="provisional">E, d.M.yy. - E, d.M.yy.</greatestDifference>
+							<greatestDifference id="M" draft="provisional">E, d.M.yy. - E, d.M.yy.</greatestDifference>
+							<greatestDifference id="y" draft="provisional">E, d.M.yy. - E, d.M.yy.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMM">
+							<greatestDifference id="M" draft="provisional">MMM-MMM y.</greatestDifference>
+							<greatestDifference id="y" draft="provisional">MMM y. - MMM y.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMd">
+							<greatestDifference id="d" draft="provisional">dd.-dd. MMM y.</greatestDifference>
+							<greatestDifference id="M" draft="provisional">dd. MMM - dd. MMM y.</greatestDifference>
+							<greatestDifference id="y" draft="provisional">dd. MMM y. - dd. MMM y.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="d" draft="provisional">E, dd. - E, dd. MMM y.</greatestDifference>
+							<greatestDifference id="M" draft="provisional">E, dd. MMM - E, dd. MMM y.</greatestDifference>
+							<greatestDifference id="y" draft="provisional">E, dd. MMM y. - E, dd. MMM y.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMM">
+							<greatestDifference id="M" draft="provisional">yyyy-MM – MM</greatestDifference>
+							<greatestDifference id="y" draft="provisional">yyyy-MM – yyyy-MM</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -1187,28 +1453,389 @@
 				</fields>
 			</calendar>
 			<calendar type="hebrew">
-				<am>pre podne</am>
-				<pm>popodne</pm>
+				<months>
+					<monthContext type="format">
+						<monthWidth type="wide">
+							<month type="1" draft="provisional">Tišri</month>
+							<month type="2" draft="provisional">Hešvan</month>
+							<month type="3" draft="provisional">Kislev</month>
+							<month type="4" draft="provisional">Tevet</month>
+							<month type="5" draft="provisional">Ševat</month>
+							<month type="6" draft="provisional">Adar I</month>
+							<month type="7" draft="provisional">Adar</month>
+							<month type="7" draft="provisional" yeartype="leap">Adar II</month>
+							<month type="8" draft="provisional">Nisan</month>
+							<month type="9" draft="provisional">Ijar</month>
+							<month type="10" draft="provisional">Sivan</month>
+							<month type="11" draft="provisional">Tamuz</month>
+							<month type="12" draft="provisional">Av</month>
+							<month type="13" draft="provisional">Elul</month>
+						</monthWidth>
+					</monthContext>
+				</months>
 			</calendar>
 			<calendar type="indian">
-				<am>pre podne</am>
-				<pm>popodne</pm>
+				<months>
+					<monthContext type="format">
+						<monthWidth type="wide">
+							<month type="1" draft="provisional">Čaitra</month>
+							<month type="2" draft="provisional">Vaisakha</month>
+							<month type="3" draft="provisional">Jiaista</month>
+							<month type="4" draft="provisional">Asada</month>
+							<month type="5" draft="provisional">Sravana</month>
+							<month type="6" draft="provisional">Badra</month>
+							<month type="7" draft="provisional">Asvina</month>
+							<month type="8" draft="provisional">Kartika</month>
+							<month type="9" draft="provisional">Argajana</month>
+							<month type="10" draft="provisional">Pauza</month>
+							<month type="11" draft="provisional">Maga</month>
+							<month type="12" draft="provisional">Falguna</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraAbbr>
+						<era type="0" draft="provisional">SAKA</era>
+					</eraAbbr>
+				</eras>
 			</calendar>
 			<calendar type="islamic">
-				<am>pre podne</am>
-				<pm>popodne</pm>
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="provisional">Muh.</month>
+							<month type="2" draft="provisional">Saf.</month>
+							<month type="3" draft="provisional">Rab. I</month>
+							<month type="4" draft="provisional">Rab. II</month>
+							<month type="5" draft="provisional">Džum. I</month>
+							<month type="6" draft="provisional">Džum. II</month>
+							<month type="7" draft="provisional">Redž.</month>
+							<month type="8" draft="provisional">Ša.</month>
+							<month type="9" draft="provisional">Ram.</month>
+							<month type="10" draft="provisional">Še.</month>
+							<month type="11" draft="provisional">Zul-k.</month>
+							<month type="12" draft="provisional">Zul-h.</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="provisional">Muharem</month>
+							<month type="2" draft="provisional">Safer</month>
+							<month type="3" draft="provisional">Rabiʻ I</month>
+							<month type="4" draft="provisional">Rabiʻ II</month>
+							<month type="5" draft="provisional">Džumade I</month>
+							<month type="6" draft="provisional">Džumade II</month>
+							<month type="7" draft="provisional">Redžeb</month>
+							<month type="8" draft="provisional">Šaʻban</month>
+							<month type="9" draft="provisional">Ramazan</month>
+							<month type="10" draft="provisional">Ševal</month>
+							<month type="11" draft="provisional">Zul-kade</month>
+							<month type="12" draft="provisional">Zul-hidže</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="provisional">Muh.</month>
+							<month type="2" draft="provisional">Saf.</month>
+							<month type="3" draft="provisional">Rab. I</month>
+							<month type="4" draft="provisional">Rab. II</month>
+							<month type="5" draft="provisional">Jum. I</month>
+							<month type="6" draft="provisional">Jum. II</month>
+							<month type="7" draft="provisional">Raj.</month>
+							<month type="8" draft="provisional">Ša.</month>
+							<month type="9" draft="provisional">Ram.</month>
+							<month type="10" draft="provisional">Šo.</month>
+							<month type="11" draft="provisional">Dhuʻl-kju</month>
+							<month type="12" draft="provisional">Dhuʻl-H.</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="provisional">Muharam</month>
+							<month type="2" draft="provisional">Safar</month>
+							<month type="3" draft="provisional">Rabiʻ I</month>
+							<month type="4" draft="provisional">Rabiʻ II</month>
+							<month type="5" draft="provisional">Jumada I</month>
+							<month type="6" draft="provisional">Jumada I</month>
+							<month type="7" draft="provisional">Rađab</month>
+							<month type="8" draft="provisional">Šaʻban</month>
+							<month type="9" draft="provisional">Ramadan</month>
+							<month type="10" draft="provisional">Šaval</month>
+							<month type="11" draft="provisional">Dhuʻl-kviʻdah</month>
+							<month type="12" draft="provisional">Dhuʻl-Hiđah</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraAbbr>
+						<era type="0" draft="provisional">AH</era>
+					</eraAbbr>
+				</eras>
 			</calendar>
 			<calendar type="japanese">
-				<am>pre podne</am>
-				<pm>popodne</pm>
+				<eras>
+					<eraAbbr>
+						<era type="0" draft="provisional">Taika</era>
+						<era type="1" draft="provisional">Hakuči</era>
+						<era type="2" draft="provisional">Hakuho</era>
+						<era type="3" draft="provisional">Šučo</era>
+						<era type="4" draft="provisional">Taiho</era>
+						<era type="5" draft="provisional">Keiun</era>
+						<era type="6" draft="provisional">Vado</era>
+						<era type="7" draft="provisional">Reiki</era>
+						<era type="8" draft="provisional">Joro</era>
+						<era type="9" draft="provisional">Jinki</era>
+						<era type="10" draft="provisional">Tempjo</era>
+						<era type="11" draft="provisional">Tempjo-kampo</era>
+						<era type="12" draft="provisional">Tempjo-šoho</era>
+						<era type="13" draft="provisional">Tempjo-hođi</era>
+						<era type="14" draft="provisional">Tempo-džingo</era>
+						<era type="15" draft="provisional">Džingo-keijun</era>
+						<era type="16" draft="provisional">Hoki</era>
+						<era type="17" draft="provisional">Teno</era>
+						<era type="18" draft="provisional">Enrjaku</era>
+						<era type="19" draft="provisional">Daido</era>
+						<era type="20" draft="provisional">Konin</era>
+						<era type="21" draft="provisional">Tenčo</era>
+						<era type="22" draft="provisional">Šova</era>
+						<era type="23" draft="provisional">Kađo</era>
+						<era type="24" draft="provisional">Ninju</era>
+						<era type="25" draft="provisional">Saiko</era>
+						<era type="26" draft="provisional">Tenan</era>
+						<era type="27" draft="provisional">Jogan</era>
+						<era type="28" draft="provisional">Genkei</era>
+						<era type="29" draft="provisional">Nina</era>
+						<era type="30" draft="provisional">Kampjo</era>
+						<era type="31" draft="provisional">Šotai</era>
+						<era type="32" draft="provisional">Engi</era>
+						<era type="33" draft="provisional">Enčo</era>
+						<era type="34" draft="provisional">Šohei</era>
+						<era type="35" draft="provisional">Tengjo</era>
+						<era type="36" draft="provisional">Tenrjaku</era>
+						<era type="37" draft="provisional">Tentoku</era>
+						<era type="38" draft="provisional">Ova</era>
+						<era type="39" draft="provisional">Koho</era>
+						<era type="40" draft="provisional">Ana</era>
+						<era type="41" draft="provisional">Tenroku</era>
+						<era type="42" draft="provisional">Tenen</era>
+						<era type="43" draft="provisional">Jogen</era>
+						<era type="44" draft="provisional">Tengen</era>
+						<era type="45" draft="provisional">Eikan</era>
+						<era type="46" draft="provisional">Kana</era>
+						<era type="47" draft="provisional">Eien</era>
+						<era type="48" draft="provisional">Eiso</era>
+						<era type="49" draft="provisional">Šorjaku</era>
+						<era type="50" draft="provisional">Čotoku</era>
+						<era type="51" draft="provisional">Čoho</era>
+						<era type="52" draft="provisional">Kanko</era>
+						<era type="53" draft="provisional">Čova</era>
+						<era type="54" draft="provisional">Kanin</era>
+						<era type="55" draft="provisional">Đian</era>
+						<era type="56" draft="provisional">Manju</era>
+						<era type="57" draft="provisional">Čogen</era>
+						<era type="58" draft="provisional">Čorjaku</era>
+						<era type="59" draft="provisional">Čokju</era>
+						<era type="60" draft="provisional">Kantoku</era>
+						<era type="61" draft="provisional">Eišo</era>
+						<era type="62" draft="provisional">Tengi</era>
+						<era type="63" draft="provisional">Kohei</era>
+						<era type="64" draft="provisional">Đirjaku</era>
+						<era type="65" draft="provisional">Enkju</era>
+						<era type="66" draft="provisional">Šoho</era>
+						<era type="67" draft="provisional">Šorjaku</era>
+						<era type="68" draft="provisional">Eišo</era>
+						<era type="69" draft="provisional">Otoku</era>
+						<era type="70" draft="provisional">Kanđi</era>
+						<era type="71" draft="provisional">Kaho</era>
+						<era type="72" draft="provisional">Eičo</era>
+						<era type="73" draft="provisional">Šotaku</era>
+						<era type="74" draft="provisional">Kova</era>
+						<era type="75" draft="provisional">Čođi</era>
+						<era type="76" draft="provisional">Kašo</era>
+						<era type="77" draft="provisional">Tenin</era>
+						<era type="78" draft="provisional">Tenei</era>
+						<era type="79" draft="provisional">Eikju</era>
+						<era type="80" draft="provisional">Đenei</era>
+						<era type="81" draft="provisional">Hoan</era>
+						<era type="82" draft="provisional">Tenđi</era>
+						<era type="83" draft="provisional">Daiđi</era>
+						<era type="84" draft="provisional">Tenšo</era>
+						<era type="85" draft="provisional">Čošao</era>
+						<era type="86" draft="provisional">Hoen</era>
+						<era type="87" draft="provisional">Eiđi</era>
+						<era type="88" draft="provisional">Kođi</era>
+						<era type="89" draft="provisional">Tenjo</era>
+						<era type="90" draft="provisional">Kjuan</era>
+						<era type="91" draft="provisional">Ninpei</era>
+						<era type="92" draft="provisional">Kjuju</era>
+						<era type="93" draft="provisional">Hogen</era>
+						<era type="94" draft="provisional">Heiđi</era>
+						<era type="95" draft="provisional">Eirjaku</era>
+						<era type="96" draft="provisional">Oho</era>
+						<era type="97" draft="provisional">Čokan</era>
+						<era type="98" draft="provisional">Eiman</era>
+						<era type="99" draft="provisional">Ninan</era>
+						<era type="100" draft="provisional">Kao</era>
+						<era type="101" draft="provisional">Šoan</era>
+						<era type="102" draft="provisional">Angen</era>
+						<era type="103" draft="provisional">Đišo</era>
+						<era type="104" draft="provisional">Jova</era>
+						<era type="105" draft="provisional">Đuei</era>
+						<era type="106" draft="provisional">Genrjuku</era>
+						<era type="107" draft="provisional">Bunđi</era>
+						<era type="108" draft="provisional">Kenkju</era>
+						<era type="109" draft="provisional">Šođi</era>
+						<era type="110" draft="provisional">Kenin</era>
+						<era type="111" draft="provisional">Genkju</era>
+						<era type="112" draft="provisional">Kenei</era>
+						<era type="113" draft="provisional">Šogen</era>
+						<era type="114" draft="provisional">Kenrjaku</era>
+						<era type="115" draft="provisional">Kenpo</era>
+						<era type="116" draft="provisional">Šokju</era>
+						<era type="117" draft="provisional">Đu</era>
+						<era type="118" draft="provisional">Đenin</era>
+						<era type="119" draft="provisional">Karoku</era>
+						<era type="120" draft="provisional">Antei</era>
+						<era type="121" draft="provisional">Kanki</era>
+						<era type="122" draft="provisional">Đoei</era>
+						<era type="123" draft="provisional">Tempuku</era>
+						<era type="124" draft="provisional">Bunrjaku</era>
+						<era type="125" draft="provisional">Katei</era>
+						<era type="126" draft="provisional">Rjakunin</era>
+						<era type="127" draft="provisional">Eno</era>
+						<era type="128" draft="provisional">Ninji</era>
+						<era type="129" draft="provisional">Kangen</era>
+						<era type="130" draft="provisional">Hođi</era>
+						<era type="131" draft="provisional">Kenčo</era>
+						<era type="132" draft="provisional">Kogen</era>
+						<era type="133" draft="provisional">Šoka</era>
+						<era type="134" draft="provisional">Šogen</era>
+						<era type="135" draft="provisional">Buno</era>
+						<era type="136" draft="provisional">Kočo</era>
+						<era type="137" draft="provisional">Bunei</era>
+						<era type="138" draft="provisional">Kenđi</era>
+						<era type="139" draft="provisional">Koan</era>
+						<era type="140" draft="provisional">Šu</era>
+						<era type="141" draft="provisional">Einin</era>
+						<era type="142" draft="provisional">Šoan</era>
+						<era type="143" draft="provisional">Kengen</era>
+						<era type="144" draft="provisional">Kagen</era>
+						<era type="145" draft="provisional">Tokuđi</era>
+						<era type="146" draft="provisional">Enkei</era>
+						<era type="147" draft="provisional">Očo</era>
+						<era type="148" draft="provisional">Šova</era>
+						<era type="149" draft="provisional">Bunpo</era>
+						<era type="150" draft="provisional">Đeno</era>
+						<era type="151" draft="provisional">Đenkjo</era>
+						<era type="152" draft="provisional">Šoču</era>
+						<era type="153" draft="provisional">Kareki</era>
+						<era type="154" draft="provisional">Gentoku</era>
+						<era type="155" draft="provisional">Genko</era>
+						<era type="156" draft="provisional">Kemu</era>
+						<era type="157" draft="provisional">Engen</era>
+						<era type="158" draft="provisional">Kokoku</era>
+						<era type="159" draft="provisional">Šohei</era>
+						<era type="160" draft="provisional">Kentoku</era>
+						<era type="161" draft="provisional">Buču</era>
+						<era type="162" draft="provisional">Tenju</era>
+						<era type="163" draft="provisional">Korjaku</era>
+						<era type="164" draft="provisional">Kova</era>
+						<era type="165" draft="provisional">Genču</era>
+						<era type="166" draft="provisional">Meitoku</era>
+						<era type="167" draft="provisional">Kakei</era>
+						<era type="168" draft="provisional">Ku</era>
+						<era type="169" draft="provisional">Meitoku</era>
+						<era type="170" draft="provisional">Oei</era>
+						<era type="171" draft="provisional">Šočo</era>
+						<era type="172" draft="provisional">Eikjo</era>
+						<era type="173" draft="provisional">Kakitsu</era>
+						<era type="174" draft="provisional">Bunan</era>
+						<era type="175" draft="provisional">Hotaku</era>
+						<era type="176" draft="provisional">Kjotoku</era>
+						<era type="177" draft="provisional">Košo</era>
+						<era type="178" draft="provisional">Čoroku</era>
+						<era type="179" draft="provisional">Kanšo</era>
+						<era type="180" draft="provisional">Bunšo</era>
+						<era type="181" draft="provisional">Onin</era>
+						<era type="182" draft="provisional">Bunmei</era>
+						<era type="183" draft="provisional">Čokjo</era>
+						<era type="184" draft="provisional">Entoku</era>
+						<era type="185" draft="provisional">Meio</era>
+						<era type="186" draft="provisional">Bunki</era>
+						<era type="187" draft="provisional">Eišo</era>
+						<era type="188" draft="provisional">Taiei</era>
+						<era type="189" draft="provisional">Kjoroku</era>
+						<era type="190" draft="provisional">Tenmon</era>
+						<era type="191" draft="provisional">Kođi</era>
+						<era type="192" draft="provisional">Eiroku</era>
+						<era type="193" draft="provisional">Genki</era>
+						<era type="194" draft="provisional">Tenšo</era>
+						<era type="195" draft="provisional">Bunroku</era>
+						<era type="196" draft="provisional">Keičo</era>
+						<era type="197" draft="provisional">Genva</era>
+						<era type="198" draft="provisional">Kanei</era>
+						<era type="199" draft="provisional">Šoho</era>
+						<era type="200" draft="provisional">Keian</era>
+						<era type="201" draft="provisional">Šu</era>
+						<era type="202" draft="provisional">Meirjaku</era>
+						<era type="203" draft="provisional">Manji</era>
+						<era type="204" draft="provisional">Kanbun</era>
+						<era type="205" draft="provisional">Enpo</era>
+						<era type="206" draft="provisional">Tenva</era>
+						<era type="207" draft="provisional">Jokjo</era>
+						<era type="208" draft="provisional">Genroku</era>
+						<era type="209" draft="provisional">Hoei</era>
+						<era type="210" draft="provisional">Šotoku</era>
+						<era type="211" draft="provisional">Kjoho</era>
+						<era type="212" draft="provisional">Genbun</era>
+						<era type="213" draft="provisional">Kanpo</era>
+						<era type="214" draft="provisional">Enkjo</era>
+						<era type="215" draft="provisional">Kanen</era>
+						<era type="216" draft="provisional">Horjaku</era>
+						<era type="217" draft="provisional">Meiva</era>
+						<era type="218" draft="provisional">Anei</era>
+						<era type="219" draft="provisional">Tenmei</era>
+						<era type="220" draft="provisional">Kansei</era>
+						<era type="221" draft="provisional">Kjova</era>
+						<era type="222" draft="provisional">Bunka</era>
+						<era type="223" draft="provisional">Bunsei</era>
+						<era type="224" draft="provisional">Tenpo</era>
+						<era type="225" draft="provisional">Koka</era>
+						<era type="226" draft="provisional">Kaei</era>
+						<era type="227" draft="provisional">Ansei</era>
+						<era type="228" draft="provisional">Manen</era>
+						<era type="229" draft="provisional">Bunkju</era>
+						<era type="230" draft="provisional">Genđi</era>
+						<era type="231" draft="provisional">Keiko</era>
+						<era type="232" draft="provisional">Meiđi</era>
+						<era type="233" draft="provisional">Taišo</era>
+						<era type="234" draft="provisional">Šova</era>
+						<era type="235" draft="provisional">Haisei</era>
+					</eraAbbr>
+				</eras>
 			</calendar>
 			<calendar type="persian">
-				<am>pre podne</am>
-				<pm>popodne</pm>
+				<months>
+					<monthContext type="format">
+						<monthWidth type="wide">
+							<month type="1" draft="provisional">Farvardin</month>
+							<month type="2" draft="provisional">Ordibehešt</month>
+							<month type="3" draft="provisional">Khordad</month>
+							<month type="4" draft="provisional">Tir</month>
+							<month type="5" draft="provisional">Mordad</month>
+							<month type="6" draft="provisional">Šahrivar</month>
+							<month type="7" draft="provisional">Mehr</month>
+							<month type="8" draft="provisional">Aban</month>
+							<month type="9" draft="provisional">Azar</month>
+							<month type="10" draft="provisional">Dej</month>
+							<month type="11" draft="provisional">Bahman</month>
+							<month type="12" draft="provisional">Esfand</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraAbbr>
+						<era type="0" draft="provisional">AP</era>
+					</eraAbbr>
+				</eras>
 			</calendar>
 			<calendar type="roc">
-				<am>pre podne</am>
-				<pm>popodne</pm>
 				<eras>
 					<eraAbbr>
 						<era type="0">Pre RK</era>
@@ -1218,6 +1845,11 @@
 			</calendar>
 		</calendars>
 		<timeZoneNames>
+			<hourFormat draft="provisional">+HHmm;-HHmm</hourFormat>
+			<gmtFormat draft="provisional">GMT{0}</gmtFormat>
+			<gmtZeroFormat draft="provisional">GMT</gmtZeroFormat>
+			<regionFormat draft="provisional">{0}</regionFormat>
+			<fallbackFormat draft="provisional">{1} ({0})</fallbackFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity>Nepoznat ili nevažeći grad</exemplarCity>
 			</zone>
@@ -2372,28 +3004,41 @@
 				<long>
 					<standard>Avganistan vreme</standard>
 				</long>
+				<short>
+					<standard draft="provisional">Avganistan vreme</standard>
+				</short>
 			</metazone>
 			<metazone type="Africa_Central">
 				<long>
 					<standard>Centralna Afrika vreme</standard>
+					<standard alt="proposed-x1001" draft="unconfirmed">Centralno-afričko  vreme</standard>
 				</long>
+				<commonlyUsed draft="provisional">true</commonlyUsed>
 			</metazone>
 			<metazone type="Africa_Eastern">
 				<long>
 					<standard>Istočna Afrika vreme</standard>
+					<standard alt="proposed-x1001" draft="unconfirmed">Istočno-afričko vreme</standard>
 				</long>
+				<commonlyUsed draft="provisional">true</commonlyUsed>
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
 					<generic>Južna Afrika vreme</generic>
+					<generic alt="proposed-x1001" draft="unconfirmed">Južno-afričko vreme</generic>
 					<standard>Južna Afrika standardno vreme</standard>
+					<standard alt="proposed-x1001" draft="unconfirmed">Južno-afričko standardno vreme</standard>
 				</long>
+				<commonlyUsed draft="provisional">true</commonlyUsed>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
 					<standard>Zapadna Afrika vreme</standard>
+					<standard alt="proposed-x1001" draft="unconfirmed">Zapadno-afričko vreme</standard>
 					<daylight>Zapadna Afrika letnje računanje vremena</daylight>
+					<daylight alt="proposed-x1001" draft="unconfirmed">Zapadno-afričko letnje računanje vremena</daylight>
 				</long>
+				<commonlyUsed draft="provisional">true</commonlyUsed>
 			</metazone>
 			<metazone type="Aktyubinsk">
 				<long>
@@ -2529,6 +3174,10 @@
 					<standard>Armenija vreme</standard>
 					<daylight>Armenija letnje računanje vremena</daylight>
 				</long>
+				<short>
+					<standard draft="provisional">AMT (Armenija)</standard>
+					<daylight draft="provisional">AMST (Armenija)</daylight>
+				</short>
 			</metazone>
 			<metazone type="Ashkhabad">
 				<long>
@@ -2549,6 +3198,9 @@
 					<standard>Centralno australijsko standardno vreme</standard>
 					<daylight>Centralno australijsko letnje računanje vremena</daylight>
 				</long>
+				<short>
+					<generic draft="provisional">ACT (Australija (Adelaida (Australija))</generic>
+				</short>
 			</metazone>
 			<metazone type="Australia_CentralWestern">
 				<long>
@@ -2556,6 +3208,9 @@
 					<standard>Australijsko centralno zapadno standardno vreme</standard>
 					<daylight>Australijsko centralno zapadno letnje računanje vremena</daylight>
 				</long>
+				<short>
+					<generic draft="provisional">ACWT Australija (Iukla (Australija))</generic>
+				</short>
 			</metazone>
 			<metazone type="Australia_Eastern">
 				<long>
@@ -2563,6 +3218,9 @@
 					<standard>Australijsko istočno standardno vreme</standard>
 					<daylight>Australijsko istočno letnje računanje vremena</daylight>
 				</long>
+				<short>
+					<generic draft="provisional">AET Australija (Sidnej (Australija))</generic>
+				</short>
 			</metazone>
 			<metazone type="Australia_Western">
 				<long>
@@ -2570,6 +3228,9 @@
 					<standard>Australijsko zapadno standardno vreme</standard>
 					<daylight>Australijsko zapadno letnje računanje vremena</daylight>
 				</long>
+				<short>
+					<generic draft="provisional">AWT Australija (Pert (Australija))</generic>
+				</short>
 			</metazone>
 			<metazone type="Azerbaijan">
 				<long>
@@ -2592,7 +3253,11 @@
 			<metazone type="Bangladesh">
 				<long>
 					<standard>Bangladeš vreme</standard>
+					<daylight draft="provisional">Bangladeš letnje računanje vremena</daylight>
 				</long>
+				<short>
+					<standard draft="provisional">Bangladeš vreme</standard>
+				</short>
 			</metazone>
 			<metazone type="Bering">
 				<long>
@@ -2602,8 +3267,6 @@
 				</long>
 				<short>
 					<generic>BT (Bering)</generic>
-					<standard>BST (Bering)</standard>
-					<daylight>BDT (Bering)</daylight>
 				</short>
 			</metazone>
 			<metazone type="Bhutan">
@@ -2644,6 +3307,9 @@
 					<generic>Čamoro vreme</generic>
 					<standard>Čamoro standardno vreme</standard>
 				</long>
+				<short>
+					<generic draft="provisional">ChT (Severna Marijanska Ostrva)</generic>
+				</short>
 			</metazone>
 			<metazone type="Changbai">
 				<long>
@@ -2813,6 +3479,11 @@
 					<daylight>Gruzija letnje računanje vremena</daylight>
 				</long>
 			</metazone>
+			<metazone type="Gilbert_Islands">
+				<long>
+					<standard draft="provisional">Gilbert ostrva vreme</standard>
+				</long>
+			</metazone>
 			<metazone type="GMT">
 				<long>
 					<standard>Grinvič vreme</standard>
@@ -2846,6 +3517,9 @@
 					<generic>Zaliv vreme</generic>
 					<standard>Zaliv standardno vreme</standard>
 				</long>
+				<short>
+					<generic draft="provisional">GT (Ujedinjeni Arapski Emirati)</generic>
+				</short>
 			</metazone>
 			<metazone type="Guyana">
 				<long>
@@ -2855,6 +3529,7 @@
 			<metazone type="Hawaii_Aleutian">
 				<long>
 					<standard>Havaǰsko-aleućansko standardno vreme</standard>
+					<standard alt="proposed-x1001" draft="unconfirmed">Havajsko-aleućansko standardno vreme</standard>
 				</long>
 			</metazone>
 			<metazone type="Hong_Kong">
@@ -2913,6 +3588,7 @@
 			</metazone>
 			<metazone type="Israel">
 				<long>
+					<generic draft="provisional">Izrael vreme</generic>
 					<standard>Izraelsko standardno vreme</standard>
 					<daylight>Izraelsko letnje računanje vremena</daylight>
 				</long>
@@ -2923,6 +3599,9 @@
 					<standard>Japansko standardno vreme</standard>
 					<daylight>Japan letnje računanje vremena</daylight>
 				</long>
+				<short>
+					<generic draft="provisional">JT (Japan)</generic>
+				</short>
 			</metazone>
 			<metazone type="Kamchatka">
 				<long>
@@ -2964,6 +3643,9 @@
 					<standard>Korejsko standardno vreme</standard>
 					<daylight>Korejsko letnje računanje vremena</daylight>
 				</long>
+				<short>
+					<generic draft="provisional">KT (Južna Koreja)</generic>
+				</short>
 			</metazone>
 			<metazone type="Kosrae">
 				<long>
@@ -2997,6 +3679,9 @@
 					<standard>Lanka vreme</standard>
 				</long>
 			</metazone>
+			<metazone type="Liberia">
+				<commonlyUsed draft="provisional">true</commonlyUsed>
+			</metazone>
 			<metazone type="Line_Islands">
 				<long>
 					<standard>Lajn ostrva vreme</standard>
@@ -3013,6 +3698,9 @@
 					<standard>Lord Hov standardno vreme</standard>
 					<daylight>Lord Hov letnje računanje vremena</daylight>
 				</long>
+				<short>
+					<generic draft="provisional">LHT Australija (Lord Hov)</generic>
+				</short>
 			</metazone>
 			<metazone type="Macau">
 				<long>
@@ -3102,6 +3790,9 @@
 					<standard>Novi Zeland standardno vreme</standard>
 					<daylight>Novi Zeland letnje računanje vremena</daylight>
 				</long>
+				<short>
+					<generic draft="provisional">NZT (Novi Zeland)</generic>
+				</short>
 			</metazone>
 			<metazone type="Newfoundland">
 				<long>
@@ -3223,6 +3914,7 @@
 			</metazone>
 			<metazone type="Samara">
 				<long>
+					<generic draft="provisional">Samara vreme</generic>
 					<standard>Samara vreme</standard>
 					<daylight>Samara letnje računanje vremena</daylight>
 				</long>
@@ -3232,6 +3924,10 @@
 					<standard>Samarkand vreme</standard>
 					<daylight>Samarkand letnje računanje vremena</daylight>
 				</long>
+				<short>
+					<standard draft="provisional">SAMT (Samarkand)</standard>
+					<daylight draft="provisional">SAMST (Samarkand)</daylight>
+				</short>
 			</metazone>
 			<metazone type="Samoa">
 				<long>
@@ -3288,6 +3984,16 @@
 					<standard>Tahiti vreme</standard>
 				</long>
 			</metazone>
+			<metazone type="Taipei">
+				<long>
+					<generic draft="provisional">Teipei veme</generic>
+					<standard draft="provisional">Taipei standardno vreme</standard>
+					<daylight draft="provisional">Taipei letnje računanje vremena</daylight>
+				</long>
+				<short>
+					<generic draft="provisional">CT (Taipei)</generic>
+				</short>
+			</metazone>
 			<metazone type="Tajikistan">
 				<long>
 					<standard>Tadžikistan vreme</standard>
@@ -3332,6 +4038,9 @@
 					<standard>Turkmenistan vreme</standard>
 					<daylight>Turkmenistan letnje računanje vremena</daylight>
 				</long>
+				<short>
+					<standard draft="provisional">TMT (Turkmenistan vreme)</standard>
+				</short>
 			</metazone>
 			<metazone type="Tuvalu">
 				<long>
@@ -3360,6 +4069,9 @@
 					<standard>Uzbekistan vreme</standard>
 					<daylight>Uzbekistan letnje računanje vremena</daylight>
 				</long>
+				<short>
+					<standard draft="provisional">UZT (Uzbekistan vreme)</standard>
+				</short>
 			</metazone>
 			<metazone type="Vanuatu">
 				<long>
@@ -3452,15 +4164,24 @@
 			<currency type="AFN">
 				<displayName>Avganistanski avgani (AFN)</displayName>
 				<displayName count="few">Avganistanska avgana</displayName>
+				<displayName count="many" draft="provisional">avganistanskih avgana</displayName>
 				<displayName count="one">Avganistanski avgan</displayName>
 				<displayName count="other">Avganistanski avgan</displayName>
+			</currency>
+			<currency type="ALK">
+				<displayName count="few" draft="provisional">stara albanska leka</displayName>
+				<displayName count="many" draft="provisional">starih albanskih leka</displayName>
+				<displayName count="one" draft="provisional">stari albanski lek</displayName>
+				<displayName count="other" draft="provisional">starih albanskih lekova</displayName>
 			</currency>
 			<currency type="ALL">
 				<displayName>Albanski lek</displayName>
 				<displayName count="few">Albanska leka</displayName>
 				<displayName count="many">Albanskih leka</displayName>
 				<displayName count="one">albanski lek</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">Albanski lek</displayName>
 				<displayName count="other">albanski lek</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">Albanski lek</displayName>
 			</currency>
 			<currency type="AMD">
 				<displayName>Jermenski dram</displayName>
@@ -3510,6 +4231,18 @@
 				<displayName count="many">argentinskih australa (ARA)</displayName>
 				<displayName count="one">argentinski austral (ARA)</displayName>
 				<displayName count="other">argentinski australs (ARA)</displayName>
+			</currency>
+			<currency type="ARL">
+				<displayName count="few" draft="provisional">argentinski pezos lej</displayName>
+				<displayName count="many" draft="provisional">argentinskih pezosa lej</displayName>
+				<displayName count="one" draft="provisional">argentinski pezos lej</displayName>
+				<displayName count="other" draft="provisional">argentinski pezos lej</displayName>
+			</currency>
+			<currency type="ARM">
+				<displayName count="few" draft="provisional">argentinski pezos moneda nacional</displayName>
+				<displayName count="many" draft="provisional">argentinskih pezosa moneda nacional</displayName>
+				<displayName count="one" draft="provisional">argentinski pezo monedo nacional</displayName>
+				<displayName count="other" draft="provisional">argentinskih pezosa moneda nacional</displayName>
 			</currency>
 			<currency type="ARP">
 				<displayName>Argentinski pezo (1983-1985) (ARP)</displayName>
@@ -3574,6 +4307,12 @@
 				<displayName count="one">bosansko-hercegovačka konvertibilna marka</displayName>
 				<displayName count="other">bosansko-hercegovačkih konvertibilnih maraka</displayName>
 			</currency>
+			<currency type="BAN">
+				<displayName count="few" draft="provisional">bosansko-hercegovački novi dinari</displayName>
+				<displayName count="many" draft="provisional">bosansko-hercegovački novi dinari</displayName>
+				<displayName count="one" draft="provisional">bosansko-hercegovački novi dinar</displayName>
+				<displayName count="other" draft="provisional">bosansko-hercegovački novi dinar</displayName>
+			</currency>
 			<currency type="BBD">
 				<displayName>Barbadoski dolar (BBD)</displayName>
 				<displayName count="few">barbadoška dolara</displayName>
@@ -3616,12 +4355,24 @@
 				<displayName count="one">bugarski tvrdi lev</displayName>
 				<displayName count="other">bugarskih tvrdih leva</displayName>
 			</currency>
+			<currency type="BGM">
+				<displayName count="few" draft="provisional">bugarska socijalistička leva</displayName>
+				<displayName count="many" draft="provisional">bugarskih socijalističkih leva</displayName>
+				<displayName count="one" draft="provisional">bugarski socijalistički lev</displayName>
+				<displayName count="other" draft="provisional">bugarskih socijalističkih leva</displayName>
+			</currency>
 			<currency type="BGN">
 				<displayName>Bugarski lev</displayName>
 				<displayName count="few">Bugarska leva</displayName>
 				<displayName count="many">Bugarskih leva</displayName>
 				<displayName count="one">bugarski lev</displayName>
 				<displayName count="other">Bugarskih leva</displayName>
+			</currency>
+			<currency type="BGO">
+				<displayName count="few" draft="provisional">stara bugarska leva</displayName>
+				<displayName count="many" draft="provisional">starih bugarskih leva</displayName>
+				<displayName count="one" draft="provisional">stari bugarski lev</displayName>
+				<displayName count="other" draft="provisional">starih bugarskih leva</displayName>
 			</currency>
 			<currency type="BHD">
 				<displayName>Bahreinski dinar (BHD)</displayName>
@@ -3657,6 +4408,12 @@
 				<displayName count="many">bolivijskih boliviana</displayName>
 				<displayName count="one">bolivijski boliviano</displayName>
 				<displayName count="other">bolivijskih boliviana</displayName>
+			</currency>
+			<currency type="BOL">
+				<displayName count="few" draft="provisional">stara bolivijska bolivijana</displayName>
+				<displayName count="many" draft="provisional">starih bolivijskih bolivijana</displayName>
+				<displayName count="one" draft="provisional">stari bolivijski bolivijano</displayName>
+				<displayName count="other" draft="provisional">starih bolivijskih bolivijana</displayName>
 			</currency>
 			<currency type="BOP">
 				<displayName>Bolivijski pezo (BOP)</displayName>
@@ -3713,6 +4470,12 @@
 				<displayName count="many">brazilskih kruzeira</displayName>
 				<displayName count="one">brazilski kruzeiro</displayName>
 				<displayName count="other">brazilskih kruzeira</displayName>
+			</currency>
+			<currency type="BRZ">
+				<displayName count="few" draft="provisional">stari brazilski kruzeirosi</displayName>
+				<displayName count="many" draft="provisional">stari brazilski kruzeirosi</displayName>
+				<displayName count="one" draft="provisional">stari brazilski kruzeiro</displayName>
+				<displayName count="other" draft="provisional">stari brazilski kruzeirosi</displayName>
 			</currency>
 			<currency type="BSD">
 				<displayName>Bahamski dolar (BSD)</displayName>
@@ -3798,6 +4561,12 @@
 				<displayName count="one">WIR franak</displayName>
 				<displayName count="other">WIR franak</displayName>
 			</currency>
+			<currency type="CLE">
+				<displayName count="few" draft="provisional">čileanska eskuda</displayName>
+				<displayName count="many" draft="provisional">čileanskih eskuda</displayName>
+				<displayName count="one" draft="provisional">čileanski eskudo</displayName>
+				<displayName count="other" draft="provisional">čileanskih eskuda</displayName>
+			</currency>
 			<currency type="CLF">
 				<displayName>Čileanski unidades de fomento (CLF)</displayName>
 				<displayName count="few">čileanska unidades de fomentos</displayName>
@@ -3811,6 +4580,12 @@
 				<displayName count="many">čileanskih pezosa</displayName>
 				<displayName count="one">čileanski pezos</displayName>
 				<displayName count="other">čileanski pezos</displayName>
+			</currency>
+			<currency type="CNX">
+				<displayName count="few" draft="provisional">dolari kineske narodne banke</displayName>
+				<displayName count="many" draft="provisional">dolari kineske narodne banke</displayName>
+				<displayName count="one" draft="provisional">dolar kineske narodne banke</displayName>
+				<displayName count="other" draft="provisional">dolar kineske narodne banke</displayName>
 			</currency>
 			<currency type="CNY">
 				<displayName>Kineski Juan Renminbi</displayName>
@@ -3854,6 +4629,13 @@
 				<displayName count="one">čehoslovačka tvrda kruna</displayName>
 				<displayName count="other">čehoslovačka tvrda kruna</displayName>
 			</currency>
+			<currency type="CUC">
+				<displayName draft="provisional">kubanski konvertibilni pezos</displayName>
+				<displayName count="few" draft="provisional">kubanska konvertibilna pezosa</displayName>
+				<displayName count="many" draft="provisional">kubanskih konvertibilnih pezosa</displayName>
+				<displayName count="one" draft="provisional">kubanski konvertibilni pezo</displayName>
+				<displayName count="other" draft="provisional">kubanskih konvertibilnih pezosa</displayName>
+			</currency>
 			<currency type="CUP">
 				<displayName>Kubanski pezo (CUP)</displayName>
 				<displayName count="few">kubanska pezosa</displayName>
@@ -3881,6 +4663,7 @@
 				<displayName count="many">čeških kruna</displayName>
 				<displayName count="one">češka kruna</displayName>
 				<displayName count="other">čeških kruna</displayName>
+				<symbol draft="provisional">Kč</symbol>
 			</currency>
 			<currency type="DDM">
 				<displayName>Istočnoevropska marka (DDM)</displayName>
@@ -3892,7 +4675,9 @@
 			<currency type="DEM">
 				<displayName>Nemačka marka</displayName>
 				<displayName count="few">Nemačke marke</displayName>
+				<displayName count="few" alt="proposed-x1001" draft="unconfirmed">nemačke marke</displayName>
 				<displayName count="many">Nemačkih maraka</displayName>
+				<displayName count="many" alt="proposed-x1001" draft="unconfirmed">nemačkih maraka</displayName>
 				<displayName count="one">nemačka marka</displayName>
 				<displayName count="other">nemačkih maraka</displayName>
 			</currency>
@@ -3916,6 +4701,7 @@
 				<displayName count="many">dominikanskih pezosa</displayName>
 				<displayName count="one">dominikanski pezo</displayName>
 				<displayName count="other">dominikanskih pezosa</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">dominikanski pezos</displayName>
 			</currency>
 			<currency type="DZD">
 				<displayName>Alžirski dinar (DZD)</displayName>
@@ -3978,7 +4764,9 @@
 				<displayName count="few">španska pezeta</displayName>
 				<displayName count="many">španskih pezeta</displayName>
 				<displayName count="one">španskа pezetа</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">španska pezeta</displayName>
 				<displayName count="other">španskе pezetе</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">španske pezete</displayName>
 			</currency>
 			<currency type="ETB">
 				<displayName>Etopijski bir (ETB)</displayName>
@@ -4088,9 +4876,13 @@
 			<currency type="GQE">
 				<displayName>Evatorijalna gvineja ekvele (GQE)</displayName>
 				<displayName count="few">evatorijаlno-gvinejska ekvelа</displayName>
+				<displayName count="few" alt="proposed-x1001" draft="unconfirmed">ekvatorijalno-gvinejske ekvela</displayName>
 				<displayName count="many">evatorijаlno-gvinejskih ekvelа</displayName>
+				<displayName count="many" alt="proposed-x1001" draft="unconfirmed">ekvatorijalno-gvinejska ekvela</displayName>
 				<displayName count="one">evatorijаlno-gvinejski ekvele</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">ekvatorijalno-gvinejska ekvela</displayName>
 				<displayName count="other">evatorijаlno-gvinejskih ekvelа</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">ekvatorijalno-gvinejska ekvela</displayName>
 			</currency>
 			<currency type="GRD">
 				<displayName>Drahma</displayName>
@@ -4116,8 +4908,11 @@
 			<currency type="GWP">
 				<displayName>Gvineja bisao pezo (GWP)</displayName>
 				<displayName count="few">gvinejа-bisaoška pezosa</displayName>
+				<displayName count="few" alt="proposed-x1001" draft="unconfirmed">gvineja-bisaoški pezosi</displayName>
 				<displayName count="many">gvinejа-bisaoških pezosa</displayName>
+				<displayName count="many" alt="proposed-x1001" draft="unconfirmed">gvineja-bisaoški pezosi</displayName>
 				<displayName count="one">gvinejа-bisaoški pezo</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">gvineja-bisaoški pezosi</displayName>
 				<displayName count="other">gvinejsko-bisaoski pezos</displayName>
 			</currency>
 			<currency type="GYD">
@@ -4137,21 +4932,28 @@
 			<currency type="HNL">
 				<displayName>Honduranska lempira (HNL)</displayName>
 				<displayName count="few">honduraškа lempirа</displayName>
+				<displayName count="few" alt="proposed-x1001" draft="unconfirmed">honduraški lempiri</displayName>
 				<displayName count="many">honduraških lempirа</displayName>
+				<displayName count="many" alt="proposed-x1001" draft="unconfirmed">honduraški lempiri</displayName>
 				<displayName count="one">honduraški lempir</displayName>
 				<displayName count="other">honduraških lempirа</displayName>
+				<displayName count="other" alt="proposed-x1001" draft="unconfirmed">honduraški lempiri</displayName>
 			</currency>
 			<currency type="HRD">
 				<displayName>Hrvatski dinar</displayName>
 				<displayName count="few">Hrvatska dinara</displayName>
+				<displayName count="few" alt="proposed-x1001" draft="unconfirmed">hrvatski dinari</displayName>
 				<displayName count="many">Hrvatskih dinara</displayName>
+				<displayName count="many" alt="proposed-x1001" draft="unconfirmed">hrvatskih dinara</displayName>
 				<displayName count="one">hrvatski dinar</displayName>
 				<displayName count="other">hrvatskih dinara</displayName>
 			</currency>
 			<currency type="HRK">
 				<displayName>Hrvatska kuna</displayName>
 				<displayName count="few">Hrvatske kune</displayName>
+				<displayName count="few" alt="proposed-x1001" draft="unconfirmed">hrvatske kune</displayName>
 				<displayName count="many">Hrvatskih kuna</displayName>
+				<displayName count="many" alt="proposed-x1001" draft="unconfirmed">hrvatskih kuna</displayName>
 				<displayName count="one">hrvatska kuna</displayName>
 				<displayName count="other">hrvatskih kuna</displayName>
 			</currency>
@@ -4263,7 +5065,9 @@
 			<currency type="JPY">
 				<displayName>Japanski jen</displayName>
 				<displayName count="few">Japanska jena</displayName>
+				<displayName count="few" alt="proposed-x1001" draft="unconfirmed">japanska jena</displayName>
 				<displayName count="many">Japanskih jena</displayName>
+				<displayName count="many" alt="proposed-x1001" draft="unconfirmed">japanskih jena</displayName>
 				<displayName count="one">japanski jen</displayName>
 				<displayName count="other">japanski jen</displayName>
 			</currency>
@@ -4301,6 +5105,18 @@
 				<displayName count="many">severnokorejskih vona</displayName>
 				<displayName count="one">severnokorejski von</displayName>
 				<displayName count="other">severnokorejski von</displayName>
+			</currency>
+			<currency type="KRH">
+				<displayName count="few" draft="provisional">južnokorejska hvana</displayName>
+				<displayName count="many" draft="provisional">južnokorejskih hvana</displayName>
+				<displayName count="one" draft="provisional">južnokorejski hvan</displayName>
+				<displayName count="other" draft="provisional">južnokorejskih hvana</displayName>
+			</currency>
+			<currency type="KRO">
+				<displayName count="few" draft="provisional">stara južnokorejska vona</displayName>
+				<displayName count="many" draft="provisional">starih južnokorejskih vona</displayName>
+				<displayName count="one" draft="provisional">stari južnokorejski von</displayName>
+				<displayName count="other" draft="provisional">starih južnokorejskih vona</displayName>
 			</currency>
 			<currency type="KRW">
 				<displayName>Južno-korejski Von</displayName>
@@ -4418,7 +5234,9 @@
 				<displayName>Libijski dinar</displayName>
 				<displayName count="few">libijska dinara</displayName>
 				<displayName count="many">Libijskih dinara</displayName>
+				<displayName count="many" alt="proposed-x1001" draft="unconfirmed">libijskih dinara</displayName>
 				<displayName count="one">Libijskih dinara</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">libijskih dinara</displayName>
 				<displayName count="other">libijskih dinara</displayName>
 			</currency>
 			<currency type="MAD">
@@ -4434,6 +5252,18 @@
 				<displayName count="many">marokanskih franaka</displayName>
 				<displayName count="one">marokanski franak</displayName>
 				<displayName count="other">marokanski franak</displayName>
+			</currency>
+			<currency type="MCF">
+				<displayName count="few" draft="provisional">monegaskaška franka</displayName>
+				<displayName count="many" draft="provisional">monegaskaških franaka</displayName>
+				<displayName count="one" draft="provisional">monegaskaški franak</displayName>
+				<displayName count="other" draft="provisional">monegaskaških franaka</displayName>
+			</currency>
+			<currency type="MDC">
+				<displayName count="few" draft="provisional">moldovanska kupona</displayName>
+				<displayName count="many" draft="provisional">moldovanskih kupona</displayName>
+				<displayName count="one" draft="provisional">moldovanski kupon</displayName>
+				<displayName count="other" draft="provisional">moldovanskih kupona</displayName>
 			</currency>
 			<currency type="MDL">
 				<displayName>Moldovski lju (MDL)</displayName>
@@ -4460,8 +5290,16 @@
 				<displayName>Makedonski denar</displayName>
 				<displayName count="few">makedonska denara</displayName>
 				<displayName count="many">Makedonskih denara</displayName>
+				<displayName count="many" alt="proposed-x1001" draft="unconfirmed">makedonskih denara</displayName>
 				<displayName count="one">Makedonski denar</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">makedonski denar</displayName>
 				<displayName count="other">makedonskih dinara</displayName>
+			</currency>
+			<currency type="MKN">
+				<displayName count="few" draft="provisional">stara makedonska denara</displayName>
+				<displayName count="many" draft="provisional">starih makedonskih denara</displayName>
+				<displayName count="one" draft="provisional">stari makedonski denar</displayName>
+				<displayName count="other" draft="provisional">starih makedonskih denara</displayName>
 			</currency>
 			<currency type="MLF">
 				<displayName>Malijanski franak (MLF)</displayName>
@@ -4620,8 +5458,11 @@
 			<currency type="NOK">
 				<displayName>Norveška kruna</displayName>
 				<displayName count="few">Norveške kune</displayName>
+				<displayName count="few" alt="proposed-x1001" draft="unconfirmed">norveške krune</displayName>
 				<displayName count="many">Norveških kuna</displayName>
+				<displayName count="many" alt="proposed-x1001" draft="unconfirmed">norveških kruna</displayName>
 				<displayName count="one">Norveška kuna</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">norveška kruna</displayName>
 				<displayName count="other">norveških kruna</displayName>
 			</currency>
 			<currency type="NPR">
@@ -4700,6 +5541,7 @@
 				<displayName count="many">poljskih zlota</displayName>
 				<displayName count="one">poljski zlot</displayName>
 				<displayName count="other">poljski zlot</displayName>
+				<symbol draft="provisional">zl</symbol>
 			</currency>
 			<currency type="PLZ">
 				<displayName>Poljski zloti (1950-1995) (PLZ)</displayName>
@@ -4768,8 +5610,10 @@
 			<currency type="RUR">
 				<displayName>Ruska rublja (1991-1998)</displayName>
 				<displayName count="few">ruske rublje (RUR)</displayName>
+				<displayName count="few" alt="proposed-x1001" draft="unconfirmed">ruske rublje</displayName>
 				<displayName count="many">ruskih rublji (RUR)</displayName>
 				<displayName count="one">ruska rublja (RUR)</displayName>
+				<displayName count="one" alt="proposed-x1001" draft="unconfirmed">ruske rublje</displayName>
 				<displayName count="other">ruskih rublji (RUR)</displayName>
 			</currency>
 			<currency type="RWF">
@@ -4806,6 +5650,7 @@
 				<displayName count="many">starih sudanskih dinara</displayName>
 				<displayName count="one">stari sudanski dinar</displayName>
 				<displayName count="other">stari sudanski dinar</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">stari sudanski dinar</displayName>
 			</currency>
 			<currency type="SDG">
 				<displayName>Sudanska funta (SDG)</displayName>
@@ -4947,6 +5792,13 @@
 				<displayName count="one">turkmenistanski manat</displayName>
 				<displayName count="other">turkmenistanski manat</displayName>
 			</currency>
+			<currency type="TMT">
+				<displayName draft="provisional">turkmenistanski novi manat</displayName>
+				<displayName count="few" draft="provisional">turkmenistanska mova manata</displayName>
+				<displayName count="many" draft="provisional">turkmenistanskih novih manata</displayName>
+				<displayName count="one" draft="provisional">turkmenistanski novi manat</displayName>
+				<displayName count="other" draft="provisional">turkmenistanskih novih manata</displayName>
+			</currency>
 			<currency type="TND">
 				<displayName>Tunizijski dinar (TND)</displayName>
 				<displayName count="few">tunizijska dinara</displayName>
@@ -4981,6 +5833,7 @@
 				<displayName count="many">turskih lira</displayName>
 				<displayName count="one">turska lira</displayName>
 				<displayName count="other">novih turskih lira</displayName>
+				<symbol draft="provisional">TL</symbol>
 			</currency>
 			<currency type="TTD">
 				<displayName>Trinidad i Tobago dolar (TTD)</displayName>
@@ -5100,6 +5953,12 @@
 				<displayName count="many">vijetnamskih donga</displayName>
 				<displayName count="one">vijetnamski dong</displayName>
 				<displayName count="other">vijetnamski dong</displayName>
+			</currency>
+			<currency type="VNN">
+				<displayName count="few" draft="provisional">stara vijetnamska donga</displayName>
+				<displayName count="many" draft="provisional">starih vijetnamskih donga</displayName>
+				<displayName count="one" draft="provisional">stari vijetnamski dong</displayName>
+				<displayName count="other" draft="provisional">starih vijetnamskih donga</displayName>
 			</currency>
 			<currency type="VUV">
 				<displayName>Vanatuški vatu (VUV)</displayName>
@@ -5283,6 +6142,12 @@
 				<displayName count="one">jugoslovenski konvertibilni dinar</displayName>
 				<displayName count="other">jugoslovenskih konvertibilnih dinara</displayName>
 			</currency>
+			<currency type="YUR">
+				<displayName count="few" draft="provisional">jugoslovenska reformirana dinara</displayName>
+				<displayName count="many" draft="provisional">jugoslovenskih reformiranih dinara</displayName>
+				<displayName count="one" draft="provisional">jugoslovenski reformirani dinar</displayName>
+				<displayName count="other" draft="provisional">jugoslovenskih reformiranih dinara</displayName>
+			</currency>
 			<currency type="ZAL">
 				<displayName>Južnoafrički rand (finansijski) ZAL</displayName>
 				<displayName count="few">južnoafrička randa (financijska)</displayName>
@@ -5325,53 +6190,99 @@
 				<displayName count="one">zimbabvejski dolar</displayName>
 				<displayName count="other">zimbabvejski dolari</displayName>
 			</currency>
+			<currency type="ZWL">
+				<displayName draft="provisional">zimbabvejski dolar (2009)</displayName>
+				<displayName count="few" draft="provisional">zimbabvejska dolara (2009)</displayName>
+				<displayName count="many" draft="provisional">zimbabvejskih dolara (2009)</displayName>
+				<displayName count="one" draft="provisional">zimbabvejski dolaz (2009)</displayName>
+				<displayName count="other" draft="provisional">zimbabvejskih dolara (2009)</displayName>
+			</currency>
+			<currency type="ZWR">
+				<displayName count="few" draft="provisional">zimbabvejska dolara (2008)</displayName>
+				<displayName count="many" draft="provisional">zimbabvejskih dolara (2008)</displayName>
+				<displayName count="one" draft="provisional">zimbabvejski dolar (2008)</displayName>
+				<displayName count="other" draft="provisional">zimbabvejskih dolara (2008)</displayName>
+			</currency>
 		</currencies>
 	</numbers>
 	<units>
 		<unit type="day">
 			<unitPattern count="few">{0} dana</unitPattern>
+			<unitPattern count="few" alt="short" draft="provisional">{0} dana</unitPattern>
 			<unitPattern count="many">{0} dana</unitPattern>
+			<unitPattern count="many" alt="short" draft="provisional">{0} dana</unitPattern>
 			<unitPattern count="one">{0} dan</unitPattern>
+			<unitPattern count="one" alt="short" draft="provisional">{0} dan</unitPattern>
 			<unitPattern count="other">{0} dana</unitPattern>
+			<unitPattern count="other" alt="short" draft="provisional">{0} dan</unitPattern>
 		</unit>
 		<unit type="hour">
 			<unitPattern count="few">{0} sata</unitPattern>
+			<unitPattern count="few" alt="short" draft="provisional">{0} sata</unitPattern>
 			<unitPattern count="many">{0} sati</unitPattern>
+			<unitPattern count="many" alt="short" draft="provisional">{0} sati</unitPattern>
 			<unitPattern count="one">{0} sat</unitPattern>
+			<unitPattern count="one" alt="short" draft="provisional">{0} sat</unitPattern>
 			<unitPattern count="other">{0} sati</unitPattern>
+			<unitPattern count="other" alt="short" draft="provisional">{0} sat</unitPattern>
 		</unit>
 		<unit type="minute">
 			<unitPattern count="few">{0} minute</unitPattern>
+			<unitPattern count="few" alt="short" draft="provisional">{0} min</unitPattern>
 			<unitPattern count="many">{0} minuta</unitPattern>
+			<unitPattern count="many" alt="short" draft="provisional">{0} min</unitPattern>
 			<unitPattern count="one">{0} minut</unitPattern>
+			<unitPattern count="one" alt="short" draft="provisional">{0} min</unitPattern>
 			<unitPattern count="other">{0} minuta</unitPattern>
+			<unitPattern count="other" alt="short" draft="provisional">{0} min</unitPattern>
 		</unit>
 		<unit type="month">
 			<unitPattern count="few">{0} meseca</unitPattern>
+			<unitPattern count="few" alt="short" draft="provisional">{0} mes</unitPattern>
 			<unitPattern count="many">{0} meseci</unitPattern>
+			<unitPattern count="many" alt="short" draft="provisional">{0} mes</unitPattern>
 			<unitPattern count="one">{0} mesec</unitPattern>
+			<unitPattern count="one" alt="short" draft="provisional">{0} mes</unitPattern>
 			<unitPattern count="other">{0} meseci</unitPattern>
+			<unitPattern count="other" alt="short" draft="provisional">{0} mes</unitPattern>
 		</unit>
 		<unit type="second">
 			<unitPattern count="few">{0} sekunde</unitPattern>
+			<unitPattern count="few" alt="short" draft="provisional">{0} sek</unitPattern>
 			<unitPattern count="many">{0} sekundi</unitPattern>
+			<unitPattern count="many" alt="short" draft="provisional">{0} sek</unitPattern>
 			<unitPattern count="one">{0} sekunda</unitPattern>
+			<unitPattern count="one" alt="short" draft="provisional">{0} sek</unitPattern>
 			<unitPattern count="other">{0} sekundi</unitPattern>
+			<unitPattern count="other" alt="short" draft="provisional">{0} sek</unitPattern>
 		</unit>
 		<unit type="week">
 			<unitPattern count="few">{0} nedelje</unitPattern>
+			<unitPattern count="few" alt="short" draft="provisional">{0} ned</unitPattern>
 			<unitPattern count="many">{0} nedelja</unitPattern>
+			<unitPattern count="many" alt="short" draft="provisional">{0} ned</unitPattern>
 			<unitPattern count="one">{0} nedelja</unitPattern>
+			<unitPattern count="one" alt="short" draft="provisional">{0} ned</unitPattern>
 			<unitPattern count="other">{0} nedelja</unitPattern>
+			<unitPattern count="other" alt="short" draft="provisional">{0} ned</unitPattern>
 		</unit>
 		<unit type="year">
 			<unitPattern count="few">{0} godine</unitPattern>
+			<unitPattern count="few" alt="short" draft="provisional">{0} god</unitPattern>
 			<unitPattern count="many">{0} godina</unitPattern>
+			<unitPattern count="many" alt="short" draft="provisional">{0} god</unitPattern>
 			<unitPattern count="one">{0} godina</unitPattern>
+			<unitPattern count="one" alt="short" draft="provisional">{0} god</unitPattern>
 			<unitPattern count="other">{0} godina</unitPattern>
 			<unitPattern count="other" alt="short">{0} god</unitPattern>
 		</unit>
 	</units>
+	<listPatterns>
+		<listPattern>
+			<listPatternPart type="2" draft="contributed">{0} i {1}</listPatternPart>
+			<listPatternPart type="end" draft="contributed">{0} i {1}</listPatternPart>
+		</listPattern>
+	</listPatterns>
 	<posix>
 		<messages>
 			<yesstr>da:d</yesstr>

@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.68 $"/>
-		<generation date="$Date: 2009/06/15 04:15:33 $"/>
+		<version number="$Revision: 5094 $"/>
+		<generation date="$Date: 2010-10-13 11:33:36 -0500 (Wed, 13 Oct 2010) $"/>
 		<language type="dz"/>
 	</identity>
 	<localeDisplayNames>
@@ -84,12 +84,12 @@
 			<script type="Mong" draft="unconfirmed">སོག་པོ</script>
 			<script type="Mymr" draft="unconfirmed">མི་མར</script>
 			<script type="Orya" draft="unconfirmed">ཨོ་རི་ཡ</script>
-			<script type="Qaai" draft="unconfirmed">སྔར་རྒྱུན</script>
 			<script type="Sinh" draft="unconfirmed">སིན་ཧ་ལ</script>
 			<script type="Taml" draft="unconfirmed">ཏ་མིལ</script>
 			<script type="Telu" draft="unconfirmed">ཏེ་ལུ་གུ</script>
 			<script type="Thaa" draft="unconfirmed">ཐཱ་ན</script>
 			<script type="Tibt" draft="unconfirmed">བོད</script>
+			<script type="Zinh" draft="unconfirmed">སྔར་རྒྱུན</script>
 			<script type="Zyyy" draft="unconfirmed">སྤྱིར</script>
 		</scripts>
 		<territories>
@@ -172,8 +172,9 @@
 		</types>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[ཀ \u0F90 ཁ \u0F91 ག \u0F92 ང \u0F94 ཅ-ཇ \u0F97 ཉ \u0F99 ཏ \u0F9F ཐ ད \u0FA1 ན \u0FA3 པ \u0FA4 ཕ བ \u0FA6 མ \u0FA8 ཙ \u0FA9 ཚ ཛ \u0FAB ཝ \u0FAD ཞ-ཡ \u0FB1 ར \u0FB2 ལ \u0FB3 ཤ \u0FB5 ས ཧ \u0FB7 ཨ \u0F72 \u0F74 \u0F7A \u0F7C]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[ཊ-ཌ ཎ ཥ]</exemplarCharacters>
+		<exemplarCharacters>[ཀ \u0F90 ཁ \u0F91 ག \u0F92 ང \u0F94 ཅ ཆ ཇ \u0F97 ཉ \u0F99 ཏ \u0F9F ཐ ད \u0FA1 ན \u0FA3 པ \u0FA4 ཕ བ \u0FA6 མ \u0FA8 ཙ \u0FA9 ཚ ཛ \u0FAB ཝ \u0FAD ཞ ཟ འ ཡ \u0FB1 ར \u0FB2 ལ \u0FB3 ཤ \u0FB5 ས ཧ \u0FB7 ཨ \u0F72 \u0F74 \u0F7A \u0F7C]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[ཊ ཋ ཌ ཎ ཥ]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="contributed">[ཀ ཁ ག ང ཅ ཆ ཇ ཉ ཏ ཐ ད ན པ ཕ བ མ ཙ ཚ ཛ ཝ ཞ ཟ འ ཡ ར ལ ཤ ས ཧ ཨ]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart draft="unconfirmed">&quot;</quotationStart>
@@ -215,22 +216,6 @@
 							<month type="12" draft="unconfirmed">སྤྱི་ཟླཝ་བཅུ་གཉིས་པ་</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1" draft="unconfirmed">1</month>
-							<month type="2" draft="unconfirmed">2</month>
-							<month type="3" draft="unconfirmed">3</month>
-							<month type="4" draft="unconfirmed">4</month>
-							<month type="5" draft="unconfirmed">5</month>
-							<month type="6" draft="unconfirmed">6</month>
-							<month type="7" draft="unconfirmed">7</month>
-							<month type="8" draft="unconfirmed">8</month>
-							<month type="9" draft="unconfirmed">9</month>
-							<month type="10" draft="unconfirmed">10</month>
-							<month type="11" draft="unconfirmed">11</month>
-							<month type="12" draft="unconfirmed">12</month>
-						</monthWidth>
-					</monthContext>
 				</months>
 				<days>
 					<dayContext type="format">
@@ -253,17 +238,6 @@
 							<day type="sat" draft="unconfirmed">གཟའ་ཉི་མ་</day>
 						</dayWidth>
 					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun" draft="unconfirmed">1</day>
-							<day type="mon" draft="unconfirmed">2</day>
-							<day type="tue" draft="unconfirmed">3</day>
-							<day type="wed" draft="unconfirmed">4</day>
-							<day type="thu" draft="unconfirmed">5</day>
-							<day type="fri" draft="unconfirmed">6</day>
-							<day type="sat" draft="unconfirmed">7</day>
-						</dayWidth>
-					</dayContext>
 				</days>
 				<quarters>
 					<quarterContext type="format">
@@ -281,14 +255,14 @@
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
-				<am draft="unconfirmed">སྔ་ཆ་</am>
-				<pm draft="unconfirmed">ཕྱི་ཆ་</pm>
-				<eras>
-					<eraAbbr>
-						<era type="0" draft="unconfirmed">BCE</era>
-						<era type="1" draft="unconfirmed">CE</era>
-					</eraAbbr>
-				</eras>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am" draft="unconfirmed">སྔ་ཆ་</dayPeriod>
+							<dayPeriod type="pm" draft="unconfirmed">ཕྱི་ཆ་</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
@@ -334,29 +308,15 @@
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
-				<dateTimeFormats>
-					<default choice="long" draft="unconfirmed"/>
-					<availableFormats>
-						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
 			</calendar>
 		</calendars>
 		<timeZoneNames>
-			<hourFormat draft="unconfirmed">+HH:mm;-HH:mm</hourFormat>
-			<gmtFormat draft="unconfirmed">GMT{0}</gmtFormat>
-			<regionFormat draft="unconfirmed">{0}</regionFormat>
 			<zone type="Asia/Thimphu">
 				<exemplarCity draft="unconfirmed">ཐིམ་ཕུག</exemplarCity>
 			</zone>
 			<metazone type="Bhutan">
-				<long>
-					<generic draft="unconfirmed">Bhutan Time</generic>
-					<standard draft="unconfirmed">Bhutan Standard Time</standard>
-				</long>
 				<short>
 					<generic draft="unconfirmed">BT</generic>
-					<standard draft="unconfirmed">BST</standard>
 				</short>
 			</metazone>
 		</timeZoneNames>
@@ -364,15 +324,15 @@
 	<numbers>
 		<symbols>
 			<list draft="unconfirmed">;</list>
-			<list alt="tibt" draft="unconfirmed">དང་</list>
 			<percentSign draft="unconfirmed">%</percentSign>
-			<percentSign alt="tibt" draft="unconfirmed">བརྒ་ཆཱ</percentSign>
-			<nativeZeroDigit draft="unconfirmed">0</nativeZeroDigit>
-			<nativeZeroDigit alt="tibt" draft="unconfirmed">༠</nativeZeroDigit>
 			<infinity draft="unconfirmed">∞</infinity>
-			<infinity alt="tibt" draft="unconfirmed">གྲངས་མེད</infinity>
 			<nan draft="unconfirmed">NaN</nan>
-			<nan alt="tibt" draft="unconfirmed">ཨང་མད</nan>
+		</symbols>
+		<symbols numberSystem="tibt">
+			<list draft="unconfirmed">དང་</list>
+			<percentSign draft="unconfirmed">བརྒ་ཆཱ</percentSign>
+			<infinity draft="unconfirmed">གྲངས་མེད</infinity>
+			<nan draft="unconfirmed">ཨང་མད</nan>
 		</symbols>
 		<decimalFormats>
 			<decimalFormatLength>

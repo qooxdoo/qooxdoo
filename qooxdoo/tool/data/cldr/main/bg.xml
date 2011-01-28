@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.122 $"/>
-		<generation date="$Date: 2009/06/15 20:34:50 $"/>
+		<version number="$Revision: 4923 $"/>
+		<generation date="$Date: 2010-05-25 18:47:25 -0500 (Tue, 25 May 2010) $"/>
 		<language type="bg"/>
 	</identity>
 	<localeDisplayNames>
@@ -153,6 +153,7 @@
 			<language type="fat">фанти</language>
 			<language type="ff">фула</language>
 			<language type="fi">фински</language>
+			<language type="fi" alt="proposed-x1001" draft="unconfirmed">финландски</language>
 			<language type="fil">филипински</language>
 			<language type="fiu">угрофински</language>
 			<language type="fj">фиджийски</language>
@@ -264,6 +265,7 @@
 			<language type="kum">кумикски</language>
 			<language type="kut">кутенай</language>
 			<language type="kv">Коми</language>
+			<language type="kv" alt="proposed-x1001" draft="unconfirmed">коми</language>
 			<language type="kw" draft="contributed">корнуолски келтски</language>
 			<language type="ky">киргизски</language>
 			<language type="la">латински</language>
@@ -338,6 +340,7 @@
 			<language type="nic">нигер-кордофански</language>
 			<language type="niu">ниуеан</language>
 			<language type="nl">холандски</language>
+			<language type="nl" alt="proposed-x1001" draft="unconfirmed">нидерландски</language>
 			<language type="nl_BE">фламандски</language>
 			<language type="nn" draft="contributed">съвременен норвежки</language>
 			<language type="no">норвежки</language>
@@ -371,6 +374,7 @@
 			<language type="pau">палауан</language>
 			<language type="peo">староперсийски</language>
 			<language type="phi">филипински (други)</language>
+			<language type="phi" alt="proposed-x1001" draft="unconfirmed">филипински други</language>
 			<language type="phn">финикийски</language>
 			<language type="pi">пали</language>
 			<language type="pl">полски</language>
@@ -379,6 +383,8 @@
 			<language type="pro" draft="contributed">провансалски</language>
 			<language type="ps">пущу</language>
 			<language type="pt">португалски</language>
+			<language type="pt_BR">бразилски португалски</language>
+			<language type="pt_PT">европейски португалски</language>
 			<language type="qu">кечуа</language>
 			<language type="raj">раджастански</language>
 			<language type="rap">рапа нуи</language>
@@ -443,6 +449,7 @@
 			<language type="sux">шумерски</language>
 			<language type="sv">шведски</language>
 			<language type="sw">суахили</language>
+			<language type="swb">коморски</language>
 			<language type="syc">класически сирийски</language>
 			<language type="syr">сирийски</language>
 			<language type="ta">тамилски</language>
@@ -504,13 +511,16 @@
 			<language type="yi">идиш</language>
 			<language type="yo">йоруба</language>
 			<language type="ypk">юпик</language>
+			<language type="yue">кантонски</language>
 			<language type="za">зуанг</language>
 			<language type="zap">запотек</language>
 			<language type="zbl">блис символи</language>
 			<language type="zen">зенага</language>
 			<language type="zh">китайски</language>
 			<language type="zh_Hans">опростен китайски</language>
+			<language type="zh_Hans" alt="proposed-x1001" draft="unconfirmed">китайски (опростен)</language>
 			<language type="zh_Hant">традиционен китайски</language>
+			<language type="zh_Hant" alt="proposed-x1001" draft="unconfirmed">китайски (традиционен)</language>
 			<language type="znd">занде</language>
 			<language type="zu">зулуски</language>
 			<language type="zun">зуни</language>
@@ -540,7 +550,7 @@
 			<script type="Copt">Коптска</script>
 			<script type="Cprt">Кипърска</script>
 			<script type="Cyrl">Кирилица</script>
-			<script type="Cyrs" draft="provisional">Кирилица (Стар църковно-славянски вариант)</script>
+			<script type="Cyrs" draft="provisional">Стар църковно-славянски вариант Кирилица</script>
 			<script type="Deva">Деванагари</script>
 			<script type="Dsrt">Дезерет</script>
 			<script type="Egyd">Египетско демотично писмо</script>
@@ -661,6 +671,7 @@
 			<territory type="053">Австралия и Нова Зеландия</territory>
 			<territory type="054">Меланезия</territory>
 			<territory type="057">Микронезия</territory>
+			<territory type="057" alt="proposed-x1001" draft="unconfirmed">Регион Микронезия</territory>
 			<territory type="061">Полинезия</territory>
 			<territory type="062">Южна Азия [062]</territory>
 			<territory type="142">Азия</territory>
@@ -673,6 +684,8 @@
 			<territory type="172" draft="contributed">Общност на независимите държави</territory>
 			<territory type="419">Латинска Америка и Карибски басейн</territory>
 			<territory type="830">Нормандски о-ви</territory>
+			<territory type="AC">Остров Възнесение</territory>
+			<territory type="AC" alt="proposed-x1001" draft="unconfirmed">Възнесение (остров)</territory>
 			<territory type="AD">Андора</territory>
 			<territory type="AE">Обединени арабски емирства</territory>
 			<territory type="AF">Афганистан</territory>
@@ -681,6 +694,7 @@
 			<territory type="AL">Албания</territory>
 			<territory type="AM">Армения</territory>
 			<territory type="AN">Холандски Антили</territory>
+			<territory type="AN" alt="proposed-x1001" draft="unconfirmed">Нидерландски Антили</territory>
 			<territory type="AO">Ангола</territory>
 			<territory type="AQ">Антарктика</territory>
 			<territory type="AR">Аржентина</territory>
@@ -701,6 +715,7 @@
 			<territory type="BJ">Бенин</territory>
 			<territory type="BL">Сейнт Бартоломей</territory>
 			<territory type="BM">Бермуда</territory>
+			<territory type="BM" alt="proposed-x1001" draft="unconfirmed">Бермуди</territory>
 			<territory type="BN">Бруней Дарусалам</territory>
 			<territory type="BO">Боливия</territory>
 			<territory type="BR">Бразилия</territory>
@@ -708,20 +723,26 @@
 			<territory type="BT">Бутан</territory>
 			<territory type="BV">Остров Буве</territory>
 			<territory type="BW">Ботсуана</territory>
+			<territory type="BW" alt="proposed-x1001" draft="unconfirmed">Ботсвана</territory>
 			<territory type="BY">Беларус</territory>
 			<territory type="BZ">Белиз</territory>
 			<territory type="CA">Канада</territory>
 			<territory type="CC">Кокосови (Кийлинг) острови</territory>
+			<territory type="CC" alt="proposed-x1001" draft="unconfirmed">Кокосови [Кийлинг] острови</territory>
 			<territory type="CD">Демократична република Конго</territory>
 			<territory type="CF">Централноафриканска Република</territory>
 			<territory type="CG">Конго</territory>
+			<territory type="CG" alt="proposed-x1001" draft="unconfirmed">Конго - Бразавил</territory>
 			<territory type="CH">Швейцария</territory>
 			<territory type="CI">Бряг на слоновата кост</territory>
+			<territory type="CI" alt="proposed-x1001" draft="unconfirmed">Кот д'Ивоар</territory>
 			<territory type="CK">Острови Кук</territory>
 			<territory type="CL">Чили</territory>
 			<territory type="CM">Камерун</territory>
 			<territory type="CN">Китай</territory>
 			<territory type="CO">Колумбия</territory>
+			<territory type="CP">Остров Клипертон</territory>
+			<territory type="CP" alt="proposed-x1001" draft="unconfirmed">Клипертон (остров)</territory>
 			<territory type="CR">Коста Рика</territory>
 			<territory type="CS">Сърбия и Черна гора</territory>
 			<territory type="CU">Куба</territory>
@@ -730,11 +751,13 @@
 			<territory type="CY">Кипър</territory>
 			<territory type="CZ">Чешка република</territory>
 			<territory type="DE">Германия</territory>
+			<territory type="DG">Диего Гарсия</territory>
 			<territory type="DJ">Джибути</territory>
 			<territory type="DK">Дания</territory>
 			<territory type="DM">Доминика</territory>
 			<territory type="DO">Доминиканска република</territory>
 			<territory type="DZ">Алжир</territory>
+			<territory type="EA">Сеута и Мелия</territory>
 			<territory type="EC">Еквадор</territory>
 			<territory type="EE">Естония</territory>
 			<territory type="EG">Египет</territory>
@@ -742,12 +765,15 @@
 			<territory type="ER">Еритрея</territory>
 			<territory type="ES">Испания</territory>
 			<territory type="ET">Етиопия</territory>
+			<territory type="EU">Европейски съюз</territory>
 			<territory type="FI">Финландия</territory>
 			<territory type="FJ">Фиджи</territory>
 			<territory type="FK">Фолклендски острови</territory>
 			<territory type="FM">Микронезия, Обединени Щати</territory>
+			<territory type="FM" alt="proposed-x1001" draft="unconfirmed">Микронезия</territory>
 			<territory type="FO">Фарьорски острови</territory>
 			<territory type="FR">Франция</territory>
+			<territory type="FX" draft="provisional">Континентална Франция</territory>
 			<territory type="GA">Габон</territory>
 			<territory type="GB">Обединено кралство</territory>
 			<territory type="GD">Гренада</territory>
@@ -763,17 +789,20 @@
 			<territory type="GQ">Екваториална Гвинея</territory>
 			<territory type="GR">Гърция</territory>
 			<territory type="GS">Южна Джорджия и Южни Сандвичеви Острови</territory>
+			<territory type="GS" alt="proposed-x1001" draft="unconfirmed">Южна Джорджия и Южни Сандвичеви острови</territory>
 			<territory type="GT">Гватемала</territory>
 			<territory type="GU">Гуам</territory>
 			<territory type="GW">Гвинея-Бисау</territory>
 			<territory type="GY">Гвиана</territory>
 			<territory type="HK">Хонг-Конг О.А.Р. на Китай</territory>
+			<territory type="HK" alt="proposed-x1001" draft="unconfirmed">Хонконг О.А.Р. на Китай</territory>
 			<territory type="HK" alt="short" draft="provisional">Хонг-Конг</territory>
 			<territory type="HM">Остров Хърд и Острови Макдоналд</territory>
 			<territory type="HN">Хондурас</territory>
 			<territory type="HR">Хърватска</territory>
 			<territory type="HT">Хаити</territory>
 			<territory type="HU">Унгария</territory>
+			<territory type="IC">Канарски острови</territory>
 			<territory type="ID">Индонезия</territory>
 			<territory type="IE">Ирландия</territory>
 			<territory type="IL">Израел</territory>
@@ -782,6 +811,7 @@
 			<territory type="IO">Британски територии в Индийския океан</territory>
 			<territory type="IQ">Ирак</territory>
 			<territory type="IR">Иран, Ислямска република</territory>
+			<territory type="IR" alt="proposed-x1001" draft="unconfirmed">Иран</territory>
 			<territory type="IS">Исландия</territory>
 			<territory type="IT">Италия</territory>
 			<territory type="JE">о. Джързи</territory>
@@ -794,14 +824,16 @@
 			<territory type="KI">Кирибати</territory>
 			<territory type="KM">Комори</territory>
 			<territory type="KN">Сейнт Китс и Невис</territory>
-			<territory type="KP">Корея, Северна</territory>
+			<territory type="KP">Северна Корея</territory>
 			<territory type="KR">Корея, Южна</territory>
+			<territory type="KR" alt="proposed-x1001" draft="unconfirmed">Южна Корея</territory>
 			<territory type="KW">Кувейт</territory>
 			<territory type="KY">Кайманови острови</territory>
 			<territory type="KZ">Казахстан</territory>
 			<territory type="LA">Народна демократична република Лаос</territory>
 			<territory type="LB">Ливан</territory>
 			<territory type="LC">Сейнт Лусия</territory>
+			<territory type="LC" alt="proposed-x1001" draft="unconfirmed">Света Лусия</territory>
 			<territory type="LI">Лихтенщайн</territory>
 			<territory type="LK">Шри Ланка</territory>
 			<territory type="LR">Либерия</territory>
@@ -810,19 +842,21 @@
 			<territory type="LU">Люксембург</territory>
 			<territory type="LV">Латвия</territory>
 			<territory type="LY">Либийска арабска джамахирия</territory>
+			<territory type="LY" alt="proposed-x1001" draft="unconfirmed">Либия</territory>
 			<territory type="MA">Мароко</territory>
 			<territory type="MC">Монако</territory>
 			<territory type="MD">Молдова, Република</territory>
+			<territory type="MD" alt="proposed-x1001" draft="unconfirmed">Молдова</territory>
 			<territory type="ME">Черна гора</territory>
 			<territory type="MF">Сейнт Мартин</territory>
 			<territory type="MG">Мадагаскар</territory>
 			<territory type="MH">Маршалови острови</territory>
-			<territory type="MK">Македония, Република</territory>
+			<territory type="MK">Македония</territory>
 			<territory type="ML">Мали</territory>
-			<territory type="MM">Мианмар</territory>
+			<territory type="MM">Мианмар [Бирма]</territory>
 			<territory type="MN">Монголия</territory>
 			<territory type="MO">Макао О.А.Р. на Китай</territory>
-			<territory type="MO" alt="short" draft="provisional">Макао</territory>
+			<territory type="MO" alt="short">Макао</territory>
 			<territory type="MP">Северни Мариански Острови</territory>
 			<territory type="MQ">Мартиника</territory>
 			<territory type="MR">Мавритания</territory>
@@ -856,6 +890,7 @@
 			<territory type="PL">Полша</territory>
 			<territory type="PM">Сен Пиер и Мигелон</territory>
 			<territory type="PN">Питкайрн</territory>
+			<territory type="PN" alt="proposed-x1001" draft="unconfirmed">Питкерн</territory>
 			<territory type="PR">Пуерто Рико</territory>
 			<territory type="PS">Палестински територии</territory>
 			<territory type="PT">Португалия</territory>
@@ -863,7 +898,6 @@
 			<territory type="PY">Парагвай</territory>
 			<territory type="QA">Катар</territory>
 			<territory type="QO">Океания [QO]</territory>
-			<territory type="QU">Европейски съюз</territory>
 			<territory type="RE">Реюниън</territory>
 			<territory type="RO">Румъния</territory>
 			<territory type="RS">Сърбия</territory>
@@ -888,6 +922,7 @@
 			<territory type="SV">Ел Салвадор</territory>
 			<territory type="SY">Сирийска арабска република</territory>
 			<territory type="SZ">Суазиленд</territory>
+			<territory type="TA">Тристан да Куня</territory>
 			<territory type="TC">Острови Туркс и Кайкос</territory>
 			<territory type="TD">Чад</territory>
 			<territory type="TF">Френски южни територии</territory>
@@ -907,13 +942,18 @@
 			<territory type="UA">Украйна</territory>
 			<territory type="UG">Уганда</territory>
 			<territory type="UM">САЩ - външни острови</territory>
+			<territory type="UM" alt="proposed-x1001" draft="unconfirmed">Малки отдалечени острови на САЩ</territory>
 			<territory type="US">САЩ</territory>
+			<territory type="US" alt="proposed-x1001" draft="unconfirmed">Съединени щати</territory>
 			<territory type="UY">Уругвай</territory>
 			<territory type="UZ">Узбекистан</territory>
 			<territory type="VA">Свещено море (Ватиканска държава)</territory>
+			<territory type="VA" alt="proposed-x1001" draft="unconfirmed">Ватиканска държава</territory>
 			<territory type="VC">Сейнт Винсънт и Гренадини</territory>
+			<territory type="VC" alt="proposed-x1001" draft="unconfirmed">Сейнт Винсент и Гренадини</territory>
 			<territory type="VE">Венецуела</territory>
 			<territory type="VG">Британски Вирджински острони</territory>
+			<territory type="VG" alt="proposed-x1001" draft="unconfirmed">Британски Вирджински острови</territory>
 			<territory type="VI">САЩ, Вирджински острови</territory>
 			<territory type="VN">Виетнам</territory>
 			<territory type="VU">Вануату</territory>
@@ -921,6 +961,7 @@
 			<territory type="WS">Самоа</territory>
 			<territory type="YE">Йемен</territory>
 			<territory type="YT">Мейот</territory>
+			<territory type="YT" alt="proposed-x1001" draft="unconfirmed">Майот</territory>
 			<territory type="ZA">Южна Африка</territory>
 			<territory type="ZM">Замбия</territory>
 			<territory type="ZW">Зимбабве</territory>
@@ -932,6 +973,7 @@
 			<variant type="1996">Немски правопис от 1996</variant>
 			<variant type="1606NICT">Късен средновековен френски до 1606</variant>
 			<variant type="1694ACAD">Ранен съвременен френски</variant>
+			<variant type="1959ACAD" draft="provisional">Академичен</variant>
 			<variant type="AREVELA">Източно арменски</variant>
 			<variant type="AREVMDA">Западно арменски</variant>
 			<variant type="BAKU1926">Унифицирана тюркска азбука</variant>
@@ -939,11 +981,13 @@
 			<variant type="BOONT">Бунтлинг</variant>
 			<variant type="FONIPA">Международна фонетична азбука</variant>
 			<variant type="FONUPA">Уралска фонетична азбука</variant>
+			<variant type="KKCOR" draft="provisional">Общ правопис</variant>
 			<variant type="LIPAW">Диалект Липовац</variant>
 			<variant type="MONOTON">Монотонично</variant>
 			<variant type="NEDIS">Диалект Натисоне</variant>
 			<variant type="NJIVA">Диалект Нджива</variant>
 			<variant type="OSOJS">Диалект Осеако/Осояне</variant>
+			<variant type="PINYIN">Пинин романизация</variant>
 			<variant type="POLYTON">Политонично</variant>
 			<variant type="POSIX">Компютърен</variant>
 			<variant type="REVISED">Променен правопис</variant>
@@ -954,6 +998,7 @@
 			<variant type="SOLBA">Диалект Столвиза</variant>
 			<variant type="TARASK">Тарашкевица</variant>
 			<variant type="VALENCIA">Валенсиански</variant>
+			<variant type="WADEGILE">Уейд-Джайлс романизация</variant>
 		</variants>
 		<keys>
 			<key type="calendar">Календар</key>
@@ -962,10 +1007,12 @@
 		</keys>
 		<types>
 			<type type="big5han" key="collation">Традиционен китайски (Big5)</type>
+			<type type="big5han" key="collation" alt="proposed-x1001" draft="unconfirmed">Традиционен китайски - Big5</type>
 			<type type="buddhist" key="calendar">Будистки календар</type>
 			<type type="chinese" key="calendar">Китайски календар</type>
 			<type type="direct" key="collation">Директно</type>
 			<type type="gb2312han" key="collation">Опростен китайски (GB2312)</type>
+			<type type="gb2312han" key="collation" alt="proposed-x1001" draft="unconfirmed">Опростен китайски - GB2312</type>
 			<type type="gregorian" key="calendar">Григориански календар</type>
 			<type type="hebrew" key="calendar">Еврейски календар</type>
 			<type type="indian" key="calendar">Индийски граждански календар</type>
@@ -987,8 +1034,10 @@
 		<inText type="languages">lowercase-words</inText>
 	</layout>
 	<characters>
-		<exemplarCharacters>[а-ъ ь ю я]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[i v x {а\u0300} ѐ ѝ {о\u0300} {у\u0300} {ъ\u0300} ѣ {ю\u0300} {я\u0300} ѫ]</exemplarCharacters>
+		<exemplarCharacters>[а б в г д е ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ь ю я]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[{а̀} ѐ ѝ {о̀} {у̀} { ъ̀} ѣ {ю̀} {я̀} ѫ]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="contributed">[А Б В Г Д Е Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ю Я]</exemplarCharacters>
+		<exemplarCharacters alt="proposed-x1001" draft="unconfirmed">[а б в г д е ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>„</quotationStart>
@@ -1096,8 +1145,14 @@
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
-				<am>пр. об.</am>
-				<pm>сл. об.</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">пр. об.</dayPeriod>
+							<dayPeriod type="pm">сл. об.</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<era type="0" draft="contributed">пр.Хр.</era>
@@ -1158,11 +1213,11 @@
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="H">H</dateFormatItem>
-						<dateFormatItem id="HHmm">HH:mm</dateFormatItem>
-						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="hmm">h:mm a</dateFormatItem>
-						<dateFormatItem id="hmmss">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="H">HH</dateFormatItem>
+						<dateFormatItem id="hm">h:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="MMdd">dd.MM</dateFormatItem>
 						<dateFormatItem id="MMMEd">d MMM, E</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
@@ -1181,18 +1236,32 @@
 							<greatestDifference id="d">d-d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
-							<greatestDifference id="h">HH-HH</greatestDifference>
+							<greatestDifference id="h">h-h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H">HH-HH</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
-							<greatestDifference id="h">HH:mm-HH:mm</greatestDifference>
+							<greatestDifference id="h">h:mm-h:mm a</greatestDifference>
+							<greatestDifference id="m">h:mm-h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="H">HH:mm-HH:mm</greatestDifference>
 							<greatestDifference id="m">HH:mm-HH:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
-							<greatestDifference id="h">HH:mm-HH:mm v</greatestDifference>
+							<greatestDifference id="h">h:mm-h:mm a v</greatestDifference>
+							<greatestDifference id="m">h:mm-h:mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="H">HH:mm-HH:mm v</greatestDifference>
 							<greatestDifference id="m">HH:mm-HH:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
-							<greatestDifference id="h">HH-HH v</greatestDifference>
+							<greatestDifference id="h">h-h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H">HH-HH v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M">M-M</greatestDifference>
@@ -1293,19 +1362,6 @@
 			<calendar type="hebrew">
 				<months>
 					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">тишри</month>
-							<month type="2">хешван</month>
-							<month type="3">кислев</month>
-							<month type="4">тебет</month>
-							<month type="5">шебат</month>
-							<month type="6">адар I</month>
-							<month type="7">адар</month>
-							<month type="8">нисан</month>
-							<month type="9">иар</month>
-							<month type="10">сиван</month>
-							<month type="11">тамуз</month>
-						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">тишри</month>
 							<month type="2">хешван</month>
@@ -1314,21 +1370,7 @@
 							<month type="5">шебат</month>
 							<month type="6">адар I</month>
 							<month type="7">адар</month>
-							<month type="8">нисан</month>
-							<month type="9">иар</month>
-							<month type="10">сиван</month>
-							<month type="11">тамуз</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="wide">
-							<month type="1">тишри</month>
-							<month type="2">хешван</month>
-							<month type="3">кислев</month>
-							<month type="4">тебет</month>
-							<month type="5">шебат</month>
-							<month type="6">адар I</month>
-							<month type="7">адар</month>
+							<month type="7" yeartype="leap">адар II</month>
 							<month type="8">нисан</month>
 							<month type="9">иар</month>
 							<month type="10">сиван</month>
@@ -1340,35 +1382,6 @@
 			<calendar type="indian">
 				<months>
 					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">чайтра</month>
-							<month type="2">вайсакха</month>
-							<month type="3">джаинтха</month>
-							<month type="4">асадха</month>
-							<month type="5">сравана</month>
-							<month type="6">бхада</month>
-							<month type="7">азвина</month>
-							<month type="8">картика</month>
-							<month type="9">аграхайана</month>
-							<month type="10">пауза</month>
-							<month type="11">магха</month>
-							<month type="12">пхалгуна</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">чайтра</month>
-							<month type="2">вайсакха</month>
-							<month type="3">джаинтха</month>
-							<month type="4">асадха</month>
-							<month type="5">сравана</month>
-							<month type="6">бхада</month>
-							<month type="7">азвина</month>
-							<month type="8">картика</month>
-							<month type="9">аграхайана</month>
-							<month type="10">пауза</month>
-							<month type="12">пхалгуна</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
 						<monthWidth type="wide">
 							<month type="1">чайтра</month>
 							<month type="2">вайсакха</month>
@@ -1389,20 +1402,6 @@
 			<calendar type="islamic">
 				<months>
 					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">мухарам</month>
-							<month type="2">сафар</month>
-							<month type="3">раби-1</month>
-							<month type="4">раби-2</month>
-							<month type="5">джумада-1</month>
-							<month type="6">джумада-2</month>
-							<month type="7">раджаб</month>
-							<month type="8">шабан</month>
-							<month type="9">рамазан</month>
-							<month type="10">Шавал</month>
-							<month type="11">Дхул-Каада</month>
-							<month type="12">Дхул-хиджа</month>
-						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">мухарам</month>
 							<month type="2">сафар</month>
@@ -1413,31 +1412,6 @@
 							<month type="7">раджаб</month>
 							<month type="8">шабан</month>
 							<month type="9">рамазан</month>
-							<month type="10">Шавал</month>
-							<month type="11">Дхул-Каада</month>
-							<month type="12">Дхул-хиджа</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="abbreviated">
-							<month type="3">раби-1</month>
-							<month type="4">раби-2</month>
-							<month type="5">джумада-1</month>
-							<month type="6">джумада-2</month>
-							<month type="7">раджаб</month>
-							<month type="8">шабан</month>
-							<month type="9">рамазан</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">мухарам</month>
-							<month type="2">сафар</month>
-							<month type="3">раби-1</month>
-							<month type="4">раби-2</month>
-							<month type="5">джумада-1</month>
-							<month type="6">джумада-2</month>
-							<month type="7">раджаб</month>
-							<month type="8">шабан</month>
-							<month type="9">Рамазан</month>
 							<month type="10">Шавал</month>
 							<month type="11">Дхул-Каада</month>
 							<month type="12">Дхул-хиджа</month>
@@ -1449,8 +1423,8 @@
 		<timeZoneNames>
 			<hourFormat>+HHmm;-HHmm</hourFormat>
 			<gmtFormat>Гриинуич{0}</gmtFormat>
+			<gmtFormat alt="proposed-x1001" draft="unconfirmed">Гринуич{0}</gmtFormat>
 			<gmtZeroFormat>Гриинуич</gmtZeroFormat>
-			<regionFormat>{0}</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity>Неизвестен</exemplarCity>
@@ -2604,6 +2578,27 @@
 			<zone type="Africa/Harare">
 				<exemplarCity draft="provisional">Хараре</exemplarCity>
 			</zone>
+			<metazone type="Africa_Central">
+				<long>
+					<standard draft="provisional">Централноафриканска часова зона</standard>
+				</long>
+			</metazone>
+			<metazone type="Africa_Eastern">
+				<long>
+					<standard draft="provisional">Източноафриканска часова зона</standard>
+				</long>
+			</metazone>
+			<metazone type="Africa_Southern">
+				<long>
+					<standard draft="provisional">Южноафриканска часова зона</standard>
+				</long>
+			</metazone>
+			<metazone type="Africa_Western">
+				<long>
+					<standard draft="provisional">Западноафриканска часова зона</standard>
+					<daylight draft="provisional">Западноафриканска лятна часова зона</daylight>
+				</long>
+			</metazone>
 			<metazone type="Alaska">
 				<long>
 					<standard>Часова зона Аляска</standard>
@@ -2612,24 +2607,28 @@
 			</metazone>
 			<metazone type="America_Central">
 				<long>
+					<generic draft="provisional">Американска централна часова зона</generic>
 					<standard>Американска централна часова зона</standard>
 					<daylight>Американска централна лятна часова зона</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Eastern">
 				<long>
+					<generic draft="provisional">Американска източна часова зона</generic>
 					<standard>Американска източна часова зона</standard>
 					<daylight>Американска източна лятна часова зона</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Mountain">
 				<long>
+					<generic draft="provisional">Американска планинска часова зона</generic>
 					<standard>Американска планинска часова зона</standard>
 					<daylight>Американска планинска лятна часова зона</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Pacific">
 				<long>
+					<generic draft="provisional">Тихоокеанска часова зона</generic>
 					<standard>Тихоокеанска часова зона</standard>
 					<daylight>Тихоокеанска лятна часова зона</daylight>
 				</long>
@@ -2647,6 +2646,11 @@
 				</short>
 			</metazone>
 			<metazone type="Arabian">
+				<long>
+					<generic draft="provisional">Арабска часова зона</generic>
+					<standard draft="provisional">Арабска часова зона</standard>
+					<daylight draft="provisional">Арабска лятна часова зона</daylight>
+				</long>
 				<short>
 					<standard>AST (Саудитска Арабия)</standard>
 					<daylight>ADT (Саудитска Арабия)</daylight>
@@ -2660,6 +2664,7 @@
 			</metazone>
 			<metazone type="Atlantic">
 				<long>
+					<generic draft="provisional">Атлантическа часова зона</generic>
 					<standard>Атлантическа часова зона</standard>
 					<daylight>Атлантическа лятна часова зона</daylight>
 				</long>
@@ -2669,12 +2674,14 @@
 					<standard>Китайска часова зона</standard>
 				</long>
 				<short>
+					<generic>CT (Китай)</generic>
 					<standard>CST (Китай)</standard>
 					<daylight>CDT (Китай)</daylight>
 				</short>
 			</metazone>
 			<metazone type="Cuba">
 				<short>
+					<generic>CT (Куба)</generic>
 					<standard>CST (Куба)</standard>
 					<daylight>CDT (Куба)</daylight>
 				</short>
@@ -2691,15 +2698,28 @@
 					<daylight>Източноевропейска лятна часова зона</daylight>
 				</long>
 			</metazone>
+			<metazone type="Europe_Western">
+				<long>
+					<standard draft="provisional">Западноевропейска часова зона</standard>
+					<daylight>Западноевропейско лятно време</daylight>
+					<daylight alt="proposed-x1001" draft="unconfirmed">Западноевропейска лятна часова зона</daylight>
+				</long>
+			</metazone>
 			<metazone type="GMT">
 				<long>
 					<standard>Часова зона Гринуич</standard>
+					<standard alt="proposed-x1001" draft="unconfirmed">Средно време по Гринуич</standard>
 				</long>
 			</metazone>
 			<metazone type="Guam">
 				<short>
 					<standard>GST (Гуам)</standard>
 				</short>
+			</metazone>
+			<metazone type="India">
+				<long>
+					<standard draft="provisional">Индийска часова зона</standard>
+				</long>
 			</metazone>
 			<metazone type="Israel">
 				<long>
@@ -2714,6 +2734,11 @@
 				<long>
 					<standard>Японска часова зона</standard>
 					<daylight>Японска часова зона</daylight>
+				</long>
+			</metazone>
+			<metazone type="Korea">
+				<long>
+					<standard draft="provisional">Корейска часова зона</standard>
 				</long>
 			</metazone>
 			<metazone type="Newfoundland">
@@ -3050,6 +3075,11 @@
 				<displayName>Чехословашка конвертируема крона</displayName>
 				<displayName count="one">чехословашка конвертируема крона</displayName>
 				<displayName count="other">чехословашки конвертируеми крони</displayName>
+			</currency>
+			<currency type="CUC">
+				<displayName>Кубинско конвертируемо песо</displayName>
+				<displayName count="one">кубинско конвертируемо песо</displayName>
+				<displayName count="other">кубински конвертируеми песо</displayName>
 			</currency>
 			<currency type="CUP">
 				<displayName>Кубинско песо</displayName>
@@ -3740,6 +3770,11 @@
 				<displayName count="one">туркменистански манат</displayName>
 				<displayName count="other">туркменистански маната</displayName>
 			</currency>
+			<currency type="TMT">
+				<displayName>Туркменистански нов манат</displayName>
+				<displayName count="one">туркменистански нов манат</displayName>
+				<displayName count="other">туркменистански нови маната</displayName>
+			</currency>
 			<currency type="TND">
 				<displayName>Тунизийски динар</displayName>
 				<displayName count="one">тунизийски динар</displayName>
@@ -3841,13 +3876,31 @@
 			<currency type="XAF">
 				<displayName>Буркина Фасо - CFA - франк</displayName>
 			</currency>
+			<currency type="XAG">
+				<displayName>Сребро</displayName>
+			</currency>
 			<currency type="XAU">
 				<displayName>Злато</displayName>
+			</currency>
+			<currency type="XBA">
+				<displayName>Европейска съставна единица</displayName>
+			</currency>
+			<currency type="XBB">
+				<displayName>Европейска валутна единица</displayName>
+			</currency>
+			<currency type="XBC">
+				<displayName>Европейска единица по сметка (XBC)</displayName>
+			</currency>
+			<currency type="XBD">
+				<displayName>Европейска единица по сметка (XBD)</displayName>
 			</currency>
 			<currency type="XCD">
 				<displayName>Източнокарибски долар - Антигуа</displayName>
 				<displayName count="one">източнокарибски долар</displayName>
 				<displayName count="other">източнокарибски долара</displayName>
+			</currency>
+			<currency type="XDR">
+				<displayName>Специални права на тираж</displayName>
 			</currency>
 			<currency type="XEU">
 				<displayName>Еку на ЕИО</displayName>
@@ -3860,10 +3913,19 @@
 			<currency type="XOF">
 				<displayName>Бенин - CFA франк</displayName>
 			</currency>
+			<currency type="XPD">
+				<displayName>Паладий</displayName>
+			</currency>
 			<currency type="XPF">
 				<displayName>Френскополинезийски франк</displayName>
 				<displayName count="one">френскополинезийски франк</displayName>
 				<displayName count="other">френскополинезийски франка</displayName>
+			</currency>
+			<currency type="XPT">
+				<displayName>Платина</displayName>
+			</currency>
+			<currency type="XTS">
+				<displayName>Код резервиран за целите на тестване</displayName>
 			</currency>
 			<currency type="XXX">
 				<displayName>Непозната или невалидна валута</displayName>
@@ -3921,6 +3983,11 @@
 				<displayName count="one">зимбабвийски долар</displayName>
 				<displayName count="other">зимбабвийски долара</displayName>
 			</currency>
+			<currency type="ZWL">
+				<displayName>Зимбабвийски долар (2009)</displayName>
+				<displayName count="one">зимбабвийски долар (2009)</displayName>
+				<displayName count="other">зимбабвийски долара (2009)</displayName>
+			</currency>
 		</currencies>
 	</numbers>
 	<units>
@@ -3967,6 +4034,12 @@
 			<unitPattern count="other" alt="short">{0} год.</unitPattern>
 		</unit>
 	</units>
+	<listPatterns>
+		<listPattern>
+			<listPatternPart type="2" draft="contributed">{0} и {1}</listPatternPart>
+			<listPatternPart type="end" draft="contributed">{0} и {1}</listPatternPart>
+		</listPattern>
+	</listPatterns>
 	<posix>
 		<messages>
 			<yesstr>да:д</yesstr>

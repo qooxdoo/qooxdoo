@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.61 $"/>
-		<generation date="$Date: 2009/05/05 23:06:34 $"/>
+		<version number="$Revision: 4753 $"/>
+		<generation date="$Date: 2010-02-26 00:32:00 -0600 (Fri, 26 Feb 2010) $"/>
 		<language type="bn"/>
 		<territory type="IN"/>
 	</identity>
@@ -33,4 +33,37 @@
 			<language type="zbl" draft="contributed">ব্লিসসিম্বলস</language>
 		</languages>
 	</localeDisplayNames>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1">ত্রৈমাসিক</quarter>
+							<quarter type="2">ষাণ্মাসিক</quarter>
+							<quarter type="4">বার্ষিক</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1">ত্রৈমাসিক</quarter>
+							<quarter type="2">ষাণ্মাসিক</quarter>
+							<quarter type="4">বার্ষিক</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<fields>
+					<field type="day">
+						<relative type="-3">গততরশু</relative>
+						<relative type="-2">গতপরশু</relative>
+					</field>
+					<field type="hour">
+						<displayName>ঘণ্টা</displayName>
+					</field>
+					<field type="second">
+						<displayName>সেকেণ্ড</displayName>
+					</field>
+				</fields>
+			</calendar>
+		</calendars>
+	</dates>
 </ldml>
+

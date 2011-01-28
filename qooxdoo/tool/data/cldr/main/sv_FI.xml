@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.60 $"/>
-		<generation date="$Date: 2009/06/12 23:03:31 $"/>
+		<version number="$Revision: 4599 $"/>
+		<generation date="$Date: 2010-02-05 18:15:28 -0600 (Fri, 05 Feb 2010) $"/>
 		<language type="sv"/>
 		<territory type="FI"/>
 	</identity>
@@ -27,7 +27,7 @@
 		</measurementSystemNames>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters draft="unconfirmed">[a à b-e é f-v x-z å ä ö]</exemplarCharacters>
+		<exemplarCharacters draft="unconfirmed">[a à b c d e é f g h i j k l m n o p q r s t u v x y z å ä ö]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[ã ç ë í ñ ó š ÿ ü ž]</exemplarCharacters>
 	</characters>
 	<dates>

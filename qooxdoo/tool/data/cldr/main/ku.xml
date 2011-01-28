@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.25 $"/>
-		<generation date="$Date: 2009/05/05 23:06:38 $"/>
+		<version number="$Revision: 4763 $"/>
+		<generation date="$Date: 2010-02-27 01:03:37 -0600 (Sat, 27 Feb 2010) $"/>
 		<language type="ku"/>
 	</identity>
 	<localeDisplayNames>
@@ -113,25 +113,60 @@
 			<language type="yi" draft="unconfirmed">یوددی</language>
 			<language type="zu" draft="unconfirmed">زولو</language>
 		</languages>
+		<scripts>
+			<script type="Arab" draft="unconfirmed">عەرەبی</script>
+			<script type="Armn" draft="unconfirmed">ئەرمەنیی</script>
+			<script type="Beng" draft="unconfirmed">بەنگالی</script>
+			<script type="Grek" draft="unconfirmed">یوونانی</script>
+			<script type="Hebr" draft="unconfirmed">عیبری</script>
+			<script type="Jpan" draft="unconfirmed">ژاپۆنی</script>
+			<script type="Kore" draft="unconfirmed">کۆرەیی</script>
+			<script type="Latn" draft="unconfirmed">لاتین</script>
+		</scripts>
+		<territories>
+			<territory type="002" draft="unconfirmed">ئەفریقا</territory>
+			<territory type="142" draft="unconfirmed">ئاسیا</territory>
+			<territory type="AF" draft="unconfirmed">ئەفغانیستان</territory>
+			<territory type="AL" draft="unconfirmed">ئەڵبانیا</territory>
+			<territory type="AM" draft="unconfirmed">ئەرمەنیا</territory>
+			<territory type="AR" draft="unconfirmed">ئارجەنتینا</territory>
+			<territory type="AT" draft="unconfirmed">ئۆتریش</territory>
+			<territory type="AU" draft="unconfirmed">ئۆستۆڕاڵیا</territory>
+			<territory type="AZ" draft="unconfirmed">ئازەربایجان</territory>
+			<territory type="BE" draft="unconfirmed">بەلژیک</territory>
+			<territory type="BH" draft="unconfirmed">بەحرەین</territory>
+			<territory type="BR" draft="unconfirmed">بڕازیل</territory>
+			<territory type="CA" draft="unconfirmed">کانەدا</territory>
+			<territory type="CL" draft="unconfirmed">شیلی</territory>
+			<territory type="CN" draft="unconfirmed">چین</territory>
+			<territory type="CU" draft="unconfirmed">کووبا</territory>
+			<territory type="CY" draft="unconfirmed">قیبرس</territory>
+			<territory type="DE" draft="unconfirmed">ئەڵمانیا</territory>
+			<territory type="DZ" draft="unconfirmed">ئەلجەزایر</territory>
+			<territory type="FR" draft="unconfirmed">فەڕەنسا</territory>
+			<territory type="GB" draft="unconfirmed">بەڕیتانیا</territory>
+			<territory type="IN" draft="unconfirmed">ھیند</territory>
+			<territory type="IQ" draft="unconfirmed">عێراق</territory>
+			<territory type="IT" draft="unconfirmed">ئیتاڵی</territory>
+			<territory type="JP" draft="unconfirmed">ژاپۆن</territory>
+			<territory type="RU" draft="unconfirmed">ڕووسیا</territory>
+			<territory type="US" draft="unconfirmed">وڵاتە یەکگرتووەکان</territory>
+			<territory type="ZZ" draft="unconfirmed">نەناسراو</territory>
+		</territories>
 	</localeDisplayNames>
 	<layout>
 		<orientation characters="right-to-left"/>
 	</layout>
 	<characters>
-		<exemplarCharacters>[ئ-ب پ ت ج چ ح-د ر ز ڕ ژ س ش ع غ ف ڤ ق ک گ ل ڵ م-ه ھ و ۆ ی ێ]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[\u064B-\u0652 ء-ة ث ذ ص-ظ ك ى ي]</exemplarCharacters>
+		<exemplarCharacters>[ئ ا ب پ ت ج چ ح خ د ر ز ڕ ژ س ش ع غ ف ڤ ق ک گ ل ڵ م ن ه ھ و ۆ ی ێ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 ء آ أ ؤ إ ئ ا ب ة ث ذ ص ض ط ظ ك ى ي]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="unconfirmed">[ئ ا ب پ ت ج چ ح خ د ر ز ڕ ژ س ش ع غ ف ڤ ق ک گ ل ڵ م ن ه ھ و ۆ ی ێ]</exemplarCharacters>
 	</characters>
 	<dates>
 		<calendars>
 			<calendar type="gregorian">
 				<days>
 					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="unconfirmed">یەکشەممە</day>
-							<day type="mon" draft="unconfirmed">دووشەممە</day>
-							<day type="tue" draft="unconfirmed">سێشەممە</day>
-							<day type="wed" draft="unconfirmed">چوارشەممە</day>
-						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun" draft="unconfirmed">یەکشەممە</day>
 							<day type="mon" draft="unconfirmed">دووشەممە</day>
@@ -147,11 +182,6 @@
 						</dayWidth>
 					</dayContext>
 				</days>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
 			</calendar>
 		</calendars>
 	</dates>

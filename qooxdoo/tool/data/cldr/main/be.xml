@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.93 $"/>
-		<generation date="$Date: 2009/06/15 03:46:25 $"/>
+		<version number="$Revision: 4768 $"/>
+		<generation date="$Date: 2010-02-27 21:22:52 -0600 (Sat, 27 Feb 2010) $"/>
 		<language type="be"/>
 	</identity>
 	<localeDisplayNames>
@@ -54,7 +54,6 @@
 			<language type="de_AT">нямецкая (аўстр.)</language>
 			<language type="de_CH">нямецкая (швейц.)</language>
 			<language type="egy" draft="contributed">стараэгіпецкая</language>
-			<language type="egy" alt="proposed-x1001" draft="unconfirmed">старажытна-егіпецкая</language>
 			<language type="el">грэцкая</language>
 			<language type="en">англійская</language>
 			<language type="en_AU">англійская (аўстрал.)</language>
@@ -80,7 +79,6 @@
 			<language type="gl">галісійская</language>
 			<language type="gn">гуарані</language>
 			<language type="grc" draft="contributed">старагрэцкая</language>
-			<language type="grc" alt="proposed-x1001" draft="unconfirmed">старагрэчаская</language>
 			<language type="gu">гуяраці</language>
 			<language type="he">іўрыт</language>
 			<language type="hi">хіндзі</language>
@@ -121,7 +119,6 @@
 			<language type="mt">мальтыйская</language>
 			<language type="nai" draft="unconfirmed">мова індзейцаў Паўночнай Амерыкі</language>
 			<language type="nb" draft="contributed">нарвэская букмал</language>
-			<language type="nb" alt="proposed-x1001" draft="unconfirmed">нарвежская (букмал)</language>
 			<language type="ne">непальская</language>
 			<language type="nl">галандская</language>
 			<language type="nl_BE">фламандская</language>
@@ -304,6 +301,7 @@
 			<territory type="ER">Эрытрэя</territory>
 			<territory type="ES">Іспанія</territory>
 			<territory type="ET">Эфіопія</territory>
+			<territory type="EU">Еўрапейскі Звяз</territory>
 			<territory type="FI">Фінляндыя</territory>
 			<territory type="FJ">Фіджы</territory>
 			<territory type="FK">Фолклэндскія астравы</territory>
@@ -416,7 +414,6 @@
 			<territory type="PY">Парагвай</territory>
 			<territory type="QA">Катар</territory>
 			<territory type="QO">Вонкавая Акіянія</territory>
-			<territory type="QU">Еўрапейскі Звяз</territory>
 			<territory type="RE">Рэюньён</territory>
 			<territory type="RO">Румынія</territory>
 			<territory type="RS">Сербія</territory>
@@ -504,9 +501,10 @@
 		<inText type="languages" draft="contributed">lowercase-words</inText>
 	</layout>
 	<characters>
-		<exemplarCharacters>[а-д {дж} {дз} е ё ж з і й-у ў ф-ш ы-я]</exemplarCharacters>
+		<exemplarCharacters>[а б в г д {дж} {дз} е ё ж з і й к л м н о п р с т у ў ф х ц ч ш ы ь э ю я]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a-z]</exemplarCharacters>
+		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="contributed">[А Б В Г Д Е Ж З І Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Ы Э Ю Я]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart draft="contributed">„</quotationStart>
@@ -646,30 +644,26 @@
 							<quarter type="4">4-ты квартал</quarter>
 						</quarterWidth>
 					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="narrow">
-							<quarter type="1">1</quarter>
-							<quarter type="2">2</quarter>
-							<quarter type="3">3</quarter>
-							<quarter type="4">4</quarter>
-						</quarterWidth>
-					</quarterContext>
 				</quarters>
-				<am>да палудня</am>
-				<pm>пасля палудня</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">да палудня</dayPeriod>
+							<dayPeriod type="pm">пасля палудня</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+					<dayPeriodContext type="stand-alone">
+						<dayPeriodWidth type="abbreviated">
+							<dayPeriod type="am">раніцы</dayPeriod>
+							<dayPeriod type="pm">вечара</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
-					<eraNames>
-						<era type="0">да н.э.</era>
-						<era type="1">н.э.</era>
-					</eraNames>
 					<eraAbbr>
-						<era type="0">да н.е.</era>
-						<era type="1">н.е.</era>
-					</eraAbbr>
-					<eraNarrow>
 						<era type="0">да н.э.</era>
 						<era type="1">н.э.</era>
-					</eraNarrow>
+					</eraAbbr>
 				</eras>
 				<dateFormats>
 					<dateFormatLength type="full">
@@ -719,9 +713,9 @@
 					<availableFormats>
 						<dateFormatItem id="d" draft="contributed">d</dateFormatItem>
 						<dateFormatItem id="hm">h.mm a</dateFormatItem>
-						<dateFormatItem id="Hm">H.mm</dateFormatItem>
+						<dateFormatItem id="Hm">HH.mm</dateFormatItem>
 						<dateFormatItem id="hms">h.mm.ss a</dateFormatItem>
-						<dateFormatItem id="Hms">H.mm.ss</dateFormatItem>
+						<dateFormatItem id="Hms">HH.mm.ss</dateFormatItem>
 						<dateFormatItem id="M" draft="contributed">L</dateFormatItem>
 						<dateFormatItem id="Md" draft="unconfirmed">d.M</dateFormatItem>
 						<dateFormatItem id="MEd" draft="contributed">E, d MMM</dateFormatItem>
@@ -730,7 +724,7 @@
 						<dateFormatItem id="MMMEd" draft="contributed">E, d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd" draft="contributed">MMMM d</dateFormatItem>
 						<dateFormatItem id="MMMMEd" draft="contributed">MMMM d, EEEE</dateFormatItem>
-						<dateFormatItem id="ms" draft="contributed">mm:ss</dateFormatItem>
+						<dateFormatItem id="ms" draft="contributed">mm.ss</dateFormatItem>
 						<dateFormatItem id="y" draft="contributed">y</dateFormatItem>
 						<dateFormatItem id="yM" draft="contributed">MM/yyyy</dateFormatItem>
 						<dateFormatItem id="yMEd" draft="contributed">EEE, dd/MM/yyyy</dateFormatItem>
@@ -739,9 +733,7 @@
 						<dateFormatItem id="yMMMM" draft="contributed">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ" draft="contributed">Q 'кв'. y</dateFormatItem>
 						<dateFormatItem id="yQQQ" draft="contributed">QQQ y</dateFormatItem>
-						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
 						<dateFormatItem id="yyyyM" draft="contributed">MM/yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="unconfirmed">{0} - {1}</intervalFormatFallback>
@@ -749,18 +741,32 @@
 							<greatestDifference id="d" draft="unconfirmed">d-d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
-							<greatestDifference id="h" draft="unconfirmed">HH-HH</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">h-h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H" draft="unconfirmed">HH-HH</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
-							<greatestDifference id="h" draft="unconfirmed">HH.mm-HH.mm</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">h.mm-h.mm a</greatestDifference>
+							<greatestDifference id="m" draft="unconfirmed">h.mm-h.mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="H" draft="unconfirmed">HH.mm-HH.mm</greatestDifference>
 							<greatestDifference id="m" draft="unconfirmed">HH.mm-HH.mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
-							<greatestDifference id="h" draft="unconfirmed">HH.mm-HH.mm v</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">h.mm-h.mm a v</greatestDifference>
+							<greatestDifference id="m" draft="unconfirmed">h.mm-h.mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="H" draft="unconfirmed">HH.mm-HH.mm v</greatestDifference>
 							<greatestDifference id="m" draft="unconfirmed">HH.mm-HH.mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
-							<greatestDifference id="h" draft="unconfirmed">HH-HH v</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">h-h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H" draft="unconfirmed">HH-HH v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M" draft="unconfirmed">M-M</greatestDifference>
@@ -861,7 +867,7 @@
 		</calendars>
 		<timeZoneNames>
 			<hourFormat draft="contributed">+HH:mm;-HH:mm</hourFormat>
-			<gmtFormat draft="contributed">GMT{0}</gmtFormat>
+			<gmtFormat>GMT{0}</gmtFormat>
 			<regionFormat draft="contributed">Час: {0}</regionFormat>
 			<fallbackFormat draft="contributed">{1} ({0})</fallbackFormat>
 			<zone type="Etc/Unknown">

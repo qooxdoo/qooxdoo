@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.57 $"/>
-		<generation date="$Date: 2009/06/09 06:08:19 $"/>
+		<version number="$Revision: 4767 $"/>
+		<generation date="$Date: 2010-02-27 20:54:27 -0600 (Sat, 27 Feb 2010) $"/>
 		<language type="de"/>
 		<territory type="CH"/>
 	</identity>
@@ -27,27 +27,12 @@
 			<territory type="ZW">Zimbabwe</territory>
 		</territories>
 	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a ä b-o ö p-u ü v-z]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[á à ă â å ā æ ç é è ĕ ê ë ē í ì ĭ î ï ī ñ ó ò ŏ ô ø ō œ ß ú ù ŭ û ū ÿ]</exemplarCharacters>
-	</characters>
 	<delimiters>
 		<quotationStart>«</quotationStart>
 		<quotationEnd>»</quotationEnd>
 		<alternateQuotationStart>‹</alternateQuotationStart>
 		<alternateQuotationEnd>›</alternateQuotationEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="MMdd" draft="unconfirmed">MM-dd</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-	</dates>
 	<numbers>
 		<symbols>
 			<decimal>.</decimal>

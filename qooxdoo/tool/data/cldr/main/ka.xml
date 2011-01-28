@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.67 $"/>
-		<generation date="$Date: 2009/06/15 03:46:25 $"/>
+		<version number="$Revision: 4864 $"/>
+		<generation date="$Date: 2010-04-21 11:26:30 -0500 (Wed, 21 Apr 2010) $"/>
 		<language type="ka"/>
 	</identity>
 	<localeDisplayNames>
@@ -312,6 +312,7 @@
 			<territory type="ER">ერიტრეა</territory>
 			<territory type="ES">ესპანეთი</territory>
 			<territory type="ET">ეთიოპია</territory>
+			<territory type="EU">ევროკავშირი</territory>
 			<territory type="FI">ფინეთი</territory>
 			<territory type="FJ">ფიჯი</territory>
 			<territory type="FK">ფალკლენდის კუნძულები</territory>
@@ -427,7 +428,6 @@
 			<territory type="PY">პარაგვაი</territory>
 			<territory type="QA">კატარი</territory>
 			<territory type="QO" draft="contributed">დაშორებული ოკეანია</territory>
-			<territory type="QU">ევროკავშირი</territory>
 			<territory type="RE" draft="contributed">რეიუნიონი</territory>
 			<territory type="RO">რუმინეთი</territory>
 			<territory type="RS">სერბია</territory>
@@ -504,13 +504,11 @@
 			<type type="roc" key="calendar" draft="contributed">ჩინეთის რესპუბლიკის კალენდარი</type>
 			<type type="traditional" key="collation">ტრადიციული</type>
 		</types>
-		<measurementSystemNames>
-			<measurementSystemName type="metric" draft="contributed">Metric</measurementSystemName>
-			<measurementSystemName type="US" draft="contributed">US</measurementSystemName>
-		</measurementSystemNames>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[ა ⴀ ბ ⴁ გ ⴂ დ ⴃ ე ⴄ ვ ⴅ ზ ⴆ ჱ ⴡ თ ⴇ ი ⴈ კ ⴉ ლ ⴊ მ ⴋ ნ ⴌ ჲ ⴢ ო ⴍ პ ⴎ ჟ ⴏ რ ⴐ ს ⴑ ტ ⴒ ჳ ⴣ უ ⴓ ფ ⴔ ქ ⴕ ღ ⴖ ყ ⴗ შ ⴘ ჩ ⴙ ც ⴚ ძ ⴛ წ ⴜ ჭ ⴝ ხ ⴞ ჴ ⴤ ჯ ⴟ ჰ ⴠ ჵ ⴥ ჶ-ჺ]</exemplarCharacters>
+		<exemplarCharacters>[ა ბ გ დ ე ვ ზ ჱ თ ი კ ლ მ ნ ჲ ო პ ჟ რ ს ტ ჳ უ ფ ქ ღ ყ შ ჩ ც ძ წ ჭ ხ ჴ ჯ ჰ ჵ ჶ ჷ ჸ ჹ ჺ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[ⴀ ⴁ ⴂ ⴃ ⴄ ⴅ ⴆ ⴡ ⴇ ⴈ ⴉ ⴊ ⴋ ⴌ ⴢ ⴍ ⴎ ⴏ ⴐ ⴑ ⴒ ⴣ ⴓ ⴔ ⴕ ⴖ ⴗ ⴘ ⴙ ⴚ ⴛ ⴜ ⴝ ⴞ ⴤ ⴟ ⴠ ⴥ]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="unconfirmed">[ა ბ გ დ ე ვ ზ ჱ თ ი კ ლ მ ნ ჲ ო პ ჟ რ ს ტ ჳ უ ფ ქ ღ ყ შ ჩ ც ძ წ ჭ ხ ჴ ჯ ჰ ჵ ჶ ჷ ჸ ჹ ჺ]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart draft="contributed">“</quotationStart>
@@ -626,21 +624,19 @@
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
-				<am draft="provisional">დილის</am>
-				<pm draft="provisional">საღამოს</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am" draft="provisional">დილის</dayPeriod>
+							<dayPeriod type="pm" draft="provisional">საღამოს</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
-					<eraNames>
-						<era type="0" draft="provisional">ჩვენს წელთაღრიცხვამდე</era>
-						<era type="1" draft="provisional">ჩვენი წელთაღრიცხვით</era>
-					</eraNames>
 					<eraAbbr>
 						<era type="0" draft="provisional">ჩვენს წელთაღრიცხვამდე</era>
 						<era type="1" draft="provisional">ჩვენი წელთაღრიცხვით</era>
 					</eraAbbr>
-					<eraNarrow>
-						<era type="0" draft="provisional">ჩვენს წელთაღრიცხვამდე</era>
-						<era type="1" draft="provisional">ჩვენი წელთაღრიცხვით</era>
-					</eraNarrow>
 				</eras>
 				<dateFormats>
 					<dateFormatLength type="full">
@@ -686,22 +682,6 @@
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="hhmm" draft="unconfirmed">hh:mm a</dateFormatItem>
-						<dateFormatItem id="HHmm" draft="unconfirmed">HH:mm</dateFormatItem>
-						<dateFormatItem id="hhmmss" draft="unconfirmed">hh:mm:ss a</dateFormatItem>
-						<dateFormatItem id="HHmmss" draft="unconfirmed">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="MMdd" draft="contributed">dd/MM</dateFormatItem>
-						<dateFormatItem id="MMMdd" draft="unconfirmed">dd MMM</dateFormatItem>
-						<dateFormatItem id="yyMM" draft="unconfirmed">MM/yy</dateFormatItem>
-						<dateFormatItem id="yyMMdd" draft="unconfirmed">dd/MM/yy</dateFormatItem>
-						<dateFormatItem id="yyMMMd" draft="unconfirmed">d MMM, yy</dateFormatItem>
-						<dateFormatItem id="yyMMMEEEd" draft="unconfirmed">EEE, d MMM, yy</dateFormatItem>
-						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
-						<dateFormatItem id="yyQQQQ" draft="unconfirmed">QQQQ yy</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
 				<fields>
 					<field type="era">
 						<displayName draft="provisional">ხანა</displayName>
@@ -748,8 +728,6 @@
 		</calendars>
 		<timeZoneNames>
 			<hourFormat draft="contributed">+HH:mm;-HH:mm</hourFormat>
-			<gmtFormat draft="unconfirmed">GMT{0}</gmtFormat>
-			<regionFormat draft="contributed">{0}</regionFormat>
 			<fallbackFormat draft="contributed">{1} ({0})</fallbackFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity draft="contributed">უცნობი</exemplarCity>
@@ -1137,9 +1115,6 @@
 			</zone>
 			<zone type="Africa/Bissau">
 				<exemplarCity draft="provisional">გინეა-ბისაუ</exemplarCity>
-			</zone>
-			<zone type="America/Guyana">
-				<exemplarCity draft="provisional">გუიანა</exemplarCity>
 			</zone>
 			<zone type="Asia/Jakarta">
 				<exemplarCity draft="contributed">ჯაკარტა</exemplarCity>

@@ -2,13 +2,13 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.62 $"/>
-		<generation date="$Date: 2009/06/15 03:46:23 $"/>
+		<version number="$Revision: 4767 $"/>
+		<generation date="$Date: 2010-02-27 20:54:27 -0600 (Sat, 27 Feb 2010) $"/>
 		<language type="en"/>
 		<territory type="ZA"/>
 	</identity>
 	<characters>
-		<exemplarCharacters type="auxiliary" draft="contributed">[á à ă â å ä ā æ ç ḓ é è ĕ ê ë ē í ì ĭ î ï ī ḽ ñ ṅ ṋ ó ò ŏ ô ö ø ō œ š ß ṱ ú ù ŭ û ü ū ÿ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary" draft="contributed">[á à ă â å ä ā æ ç ḓ é è ĕ ê ë ē í ì ĭ î ï ī ḽ ñ ṅ ṋ ó ò ŏ ô ö ø ō œ š ṱ ú ù ŭ û ü ū ÿ]</exemplarCharacters>
 	</characters>
 	<dates>
 		<calendars>
@@ -36,11 +36,6 @@
 					</dateFormatLength>
 				</dateFormats>
 				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="MMdd" draft="unconfirmed">MM/dd</dateFormatItem>
-						<dateFormatItem id="yyyyMM" draft="unconfirmed">yyyy/MM</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM y</dateFormatItem>
-					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="unconfirmed">{0} - {1}</intervalFormatFallback>
 						<intervalFormatItem id="d">

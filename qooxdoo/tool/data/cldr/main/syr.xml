@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.50 $"/>
-		<generation date="$Date: 2009/06/15 03:46:25 $"/>
+		<version number="$Revision: 5101 $"/>
+		<generation date="$Date: 2010-10-14 17:44:17 -0500 (Thu, 14 Oct 2010) $"/>
 		<language type="syr"/>
 	</identity>
 	<localeDisplayNames>
@@ -18,8 +18,9 @@
 		<orientation characters="right-to-left"/>
 	</layout>
 	<characters>
-		<exemplarCharacters>[\u0711 \u0730-\u074A ܃-܉ ܁ ܂ ܀ ܊-܍ ܐ ܒ-ܔ ܖ ܕ ܗ-ܬ]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[܏\u200C \u200D ܭ-ܯ ݍ-ݏ]</exemplarCharacters>
+		<exemplarCharacters>[\u0740\u0743\u0744\u0747\u0748\u0749\u074A \u0741\u0745 \u0742\u0746 \u0711 \u0730 \u0731 \u0732 \u0733 \u0734 \u0735 \u0736 \u0737 \u0738 \u0739 \u073A \u073B \u073C \u073D \u073E \u073F ܃ ܄ ܅ ܆ ܇ ܈ ܉ ܁ ܂ ܀ ܊ ܋ ܌ ܍ ܐ ܒ ܓ ܔ ܖ ܕ ܗ ܘ ܙ ܚ ܛ ܜ ܝ ܞ ܟ ܠ ܡ ܢ ܣ ܤ ܥ ܦ ܧ ܨ ܩ ܪ ܫ ܬ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[܏ \u200C \u200D ܭ ܮ ܯ ݍ ݎ ݏ]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="unconfirmed">[ܐ ܒ ܓ ܖ ܕ ܗ ܘ ܙ ܚ ܛ ܝ ܞ ܟ ܠ ܡ ܢ ܣ ܥ ܦ ܨ ܩ ܪ ܫ ܬ]</exemplarCharacters>
 	</characters>
 	<dates>
 		<calendars>
@@ -77,32 +78,17 @@
 					</timeFormatLength>
 					<timeFormatLength type="medium">
 						<timeFormat>
-							<pattern draft="unconfirmed">h:mm:ss</pattern>
+							<pattern draft="unconfirmed">h:mm:ss a</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="short">
 						<timeFormat>
-							<pattern draft="unconfirmed">h:mm</pattern>
+							<pattern draft="unconfirmed">h:mm a</pattern>
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="MMdd" draft="unconfirmed">dd/MM</dateFormatItem>
-						<dateFormatItem id="MMMMdd" draft="unconfirmed">dd MMMM</dateFormatItem>
-						<dateFormatItem id="mmss" draft="unconfirmed">mm:ss</dateFormatItem>
-						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
-						<dateFormatItem id="yyyyMM" draft="unconfirmed">MM/yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM, y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
 			</calendar>
 		</calendars>
-		<timeZoneNames>
-			<hourFormat draft="unconfirmed">+HH:mm;-HH:mm</hourFormat>
-			<gmtFormat draft="unconfirmed">GMT{0}</gmtFormat>
-			<regionFormat draft="unconfirmed">{0}</regionFormat>
-		</timeZoneNames>
 	</dates>
 	<numbers>
 		<decimalFormats>

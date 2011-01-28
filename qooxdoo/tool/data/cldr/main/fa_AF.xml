@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.66 $"/>
-		<generation date="$Date: 2009/06/15 05:50:27 $"/>
+		<version number="$Revision: 4753 $"/>
+		<generation date="$Date: 2010-02-26 00:32:00 -0600 (Fri, 26 Feb 2010) $"/>
 		<language type="fa"/>
 		<territory type="AF"/>
 	</identity>
@@ -142,7 +142,6 @@
 						<monthWidth type="abbreviated">
 							<month type="1">جنو</month>
 							<month type="5">مـی</month>
-							<month type="6">جون</month>
 							<month type="7">جول</month>
 							<month type="12">دسم</month>
 						</monthWidth>
@@ -211,20 +210,6 @@
 							<month type="11">د</month>
 							<month type="12">ح</month>
 						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">حمل</month>
-							<month type="2">ثور</month>
-							<month type="3">جوزا</month>
-							<month type="4">سرطان</month>
-							<month type="5">اسد</month>
-							<month type="6">سنبله</month>
-							<month type="7">میزان</month>
-							<month type="8">عقرب</month>
-							<month type="9">قوس</month>
-							<month type="10">جدی</month>
-							<month type="11">دلو</month>
-							<month type="12">حوت</month>
-						</monthWidth>
 					</monthContext>
 				</months>
 				<eras>
@@ -239,17 +224,6 @@
 		</calendars>
 	</dates>
 	<numbers>
-		<symbols>
-			<decimal>,</decimal>
-			<decimal alt="arabext">٫</decimal>
-			<group>.</group>
-			<group alt="arabext">٬</group>
-			<percentSign>%</percentSign>
-			<percentSign alt="arabext">٪</percentSign>
-			<nativeZeroDigit>0</nativeZeroDigit>
-			<nativeZeroDigit alt="arabext">۰</nativeZeroDigit>
-			<minusSign>−</minusSign>
-		</symbols>
 		<percentFormats>
 			<percentFormatLength>
 				<percentFormat>

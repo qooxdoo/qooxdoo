@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.23 $"/>
-		<generation date="$Date: 2009/05/05 23:06:36 $"/>
+		<version number="$Revision: 4599 $"/>
+		<generation date="$Date: 2010-02-05 18:15:28 -0600 (Fri, 05 Feb 2010) $"/>
 		<language type="ha"/>
 		<script type="Arab"/>
 	</identity>
@@ -11,7 +11,8 @@
 		<orientation characters="right-to-left"/>
 	</layout>
 	<characters>
-		<exemplarCharacters draft="unconfirmed">[ا ب ت-غ ف ڢ ك-ن]</exemplarCharacters>
+		<exemplarCharacters draft="unconfirmed">[ا ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ڢ ك ل م ن]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="unconfirmed">[ا ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ڢ ك ل م ن]</exemplarCharacters>
 	</characters>
 	<dates>
 		<calendars>
@@ -70,8 +71,14 @@
 						</dayWidth>
 					</dayContext>
 				</days>
-				<am draft="unconfirmed">A.M.</am>
-				<pm draft="unconfirmed">P.M.</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am" draft="unconfirmed">A.M.</dayPeriod>
+							<dayPeriod type="pm" draft="unconfirmed">P.M.</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<era type="0" draft="unconfirmed">غَبَنِنْ مِلَدِ</era>
@@ -93,3 +100,4 @@
 		</currencies>
 	</numbers>
 </ldml>
+

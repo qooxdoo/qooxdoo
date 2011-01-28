@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.192 $"/>
-		<generation date="$Date: 2009/06/15 21:39:59 $"/>
+		<version number="$Revision: 5209 $"/>
+		<generation date="$Date: 2010-11-19 10:49:14 -0600 (Fri, 19 Nov 2010) $"/>
 		<language type="root"/>
 	</identity>
 	<fallback/>
@@ -14,6 +14,7 @@
 		</localeDisplayPattern>
 		<measurementSystemNames>
 			<measurementSystemName type="metric">Metric</measurementSystemName>
+			<measurementSystemName type="UK">UK</measurementSystemName>
 			<measurementSystemName type="US">US</measurementSystemName>
 		</measurementSystemNames>
 		<codePatterns>
@@ -42,7 +43,12 @@
 	<characters>
 		<exemplarCharacters>[]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a-c č d-l ł m-o º p-z]</exemplarCharacters>
+        <exemplarCharacters type="punctuation">[\- , ; \: ! ? . ( ) \[ \] \{ \}]</exemplarCharacters>
+        <exemplarCharacters type="currencySymbol">[a b c č d e f g h i j k l ł m n o º p q r s t u v w x y z]</exemplarCharacters>
+        <ellipsis type="initial">…{0}</ellipsis>
+        <ellipsis type="medial">{0}…{1}</ellipsis>
+		<ellipsis type="final">{0}…</ellipsis>
+		<moreInformation>?</moreInformation>
 	</characters>
 	<delimiters>
 		<quotationStart>“</quotationStart>
@@ -51,7 +57,6 @@
 		<alternateQuotationEnd>’</alternateQuotationEnd>
 	</delimiters>
 	<dates>
-		<dateRangePattern>{0} - {1}</dateRangePattern>
 		<calendars>
 			<default choice="gregorian"/>
 			<calendar type="buddhist">
@@ -64,8 +69,9 @@
 				<quarters>
 					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
 				</quarters>
-				<am>AM</am>
-				<pm>PM</pm>
+				<dayPeriods>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dayPeriods"/>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<alias source="locale" path="../eraAbbr"/>
@@ -105,50 +111,7 @@
 					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
-						<alias source="locale" path="../../../calendar[@type='gregorian']/dateTimeFormats/dateTimeFormatLength"/>
-					</dateTimeFormatLength>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">H:mm</dateFormatItem>
-						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">M-d</dateFormatItem>
-						<dateFormatItem id="MEd">E, M-d</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
-						<dateFormatItem id="MMMEd">E MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E MMMM d</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, M/d/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, MMM d, y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM, y</dateFormatItem>
-						<dateFormatItem id="yQ">y Q</dateFormatItem>
-						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
-					</availableFormats>
-					<appendItems>
-						<appendItem request="Day">{0} ({2}: {1})</appendItem>
-						<appendItem request="Day-Of-Week">{0} {1}</appendItem>
-						<appendItem request="Era">{0} {1}</appendItem>
-						<appendItem request="Hour">{0} ({2}: {1})</appendItem>
-						<appendItem request="Minute">{0} ({2}: {1})</appendItem>
-						<appendItem request="Month">{0} ({2}: {1})</appendItem>
-						<appendItem request="Quarter">{0} ({2}: {1})</appendItem>
-						<appendItem request="Second">{0} ({2}: {1})</appendItem>
-						<appendItem request="Timezone">{0} {1}</appendItem>
-						<appendItem request="Week">{0} ({2}: {1})</appendItem>
-						<appendItem request="Year">{0} {1}</appendItem>
-					</appendItems>
-					<intervalFormats>
-						<alias source="locale" path="../../../calendar[@type='gregorian']/dateTimeFormats/intervalFormats"/>
-					</intervalFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
 				</dateTimeFormats>
 			</calendar>
 			<calendar type="chinese">
@@ -206,8 +169,9 @@
 				<quarters>
 					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
 				</quarters>
-				<am>AM</am>
-				<pm>PM</pm>
+				<dayPeriods>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dayPeriods"/>
+				</dayPeriods>
 				<!-- chinese eras are computed, and don't fall back to gregorian -->
 				<dateFormats>
 					<default choice="medium"/>
@@ -296,8 +260,9 @@
 				<quarters>
 					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
 				</quarters>
-				<am>AM</am>
-				<pm>PM</pm>
+				<dayPeriods>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dayPeriods"/>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<alias source="locale" path="../eraAbbr"/>
@@ -377,8 +342,9 @@
 				<quarters>
 					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
 				</quarters>
-				<am>AM</am>
-				<pm>PM</pm>
+				<dayPeriods>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dayPeriods"/>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<alias source="locale" path="../eraAbbr"/>
@@ -411,8 +377,9 @@
 				<quarters>
 					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
 				</quarters>
-				<am>AM</am>
-				<pm>PM</pm>
+				<dayPeriods>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dayPeriods"/>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<alias source="locale" path="../eraAbbr"/>
@@ -551,8 +518,23 @@
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
-				<am>AM</am>
-				<pm>PM</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="abbreviated">
+							<alias source="locale" path="../dayPeriodWidth[@type='wide']"/>
+						</dayPeriodWidth>
+						<dayPeriodWidth type="narrow">
+							<alias source="locale" path="../dayPeriodWidth[@type='abbreviated']"/>
+						</dayPeriodWidth>
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">AM</dayPeriod>
+							<dayPeriod type="pm">PM</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+					<dayPeriodContext type="stand-alone">
+						<alias source="locale" path="../dayPeriodContext[@type='format']"/>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<alias source="locale" path="../eraAbbr"/>
@@ -636,25 +618,24 @@
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="EEEd">d EEE</dateFormatItem>
+						<dateFormatItem id="h">h a</dateFormatItem>
+						<dateFormatItem id="H">HH</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">H:mm</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">M-d</dateFormatItem>
 						<dateFormatItem id="MEd">E, M-d</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
 						<dateFormatItem id="MMMEd">E MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E MMMM d</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">y-M</dateFormatItem>
 						<dateFormatItem id="yMEd">EEE, y-M-d</dateFormatItem>
 						<dateFormatItem id="yMMM">y MMM</dateFormatItem>
 						<dateFormatItem id="yMMMEd">EEE, y MMM d</dateFormatItem>
-						<dateFormatItem id="yMMMM">y MMMM</dateFormatItem>
 						<dateFormatItem id="yQ">y Q</dateFormatItem>
 						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
 					</availableFormats>
@@ -674,28 +655,46 @@
 					<intervalFormats>
 						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
 						<intervalFormatItem id="d">
-							<greatestDifference id="d">d-d</greatestDifference>
+							<greatestDifference id="d">d–d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
-							<greatestDifference id="a">HH-HH</greatestDifference>
-							<greatestDifference id="h">HH-HH</greatestDifference>
+							<greatestDifference id="a">h a – h a</greatestDifference>
+							<greatestDifference id="h">h–h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="a">HH–HH</greatestDifference>
+							<greatestDifference id="H">HH–HH</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
-							<greatestDifference id="a">HH:mm-HH:mm</greatestDifference>
-							<greatestDifference id="h">HH:mm-HH:mm</greatestDifference>
-							<greatestDifference id="m">HH:mm-HH:mm</greatestDifference>
+							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
+							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
+							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="a">HH:mm–HH:mm</greatestDifference>
+							<greatestDifference id="H">HH:mm–HH:mm</greatestDifference>
+							<greatestDifference id="m">HH:mm–HH:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
-							<greatestDifference id="a">HH:mm-HH:mm v</greatestDifference>
-							<greatestDifference id="h">HH:mm-HH:mm v</greatestDifference>
-							<greatestDifference id="m">HH:mm-HH:mm v</greatestDifference>
+							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
+							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
+							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="a">HH:mm–HH:mm v</greatestDifference>
+							<greatestDifference id="H">HH:mm–HH:mm v</greatestDifference>
+							<greatestDifference id="m">HH:mm–HH:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
-							<greatestDifference id="a">HH-HH v</greatestDifference>
-							<greatestDifference id="h">HH-HH v</greatestDifference>
+							<greatestDifference id="a">h a – h a v</greatestDifference>
+							<greatestDifference id="h">h–h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="a">HH–HH v</greatestDifference>
+							<greatestDifference id="H">HH–HH v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
-							<greatestDifference id="M">M-M</greatestDifference>
+							<greatestDifference id="M">M–M</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="Md">
 							<greatestDifference id="d">MM-dd – dd</greatestDifference>
@@ -706,7 +705,7 @@
 							<greatestDifference id="M">E, MM-dd – E, MM-dd</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MMM">
-							<greatestDifference id="M">LLL-LLL</greatestDifference>
+							<greatestDifference id="M">LLL–LLL</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MMMd">
 							<greatestDifference id="d">MM-d – d</greatestDifference>
@@ -717,10 +716,10 @@
 							<greatestDifference id="M">E, MM-d – E, MM-d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MMMM">
-							<greatestDifference id="M">LLLL-LLLL</greatestDifference>
+							<greatestDifference id="M">LLLL–LLLL</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="y">
-							<greatestDifference id="y">y-y</greatestDifference>
+							<greatestDifference id="y">y–y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yM">
 							<greatestDifference id="M">yyyy-MM – MM</greatestDifference>
@@ -804,7 +803,7 @@
 							<alias source="locale" path="../monthWidth[@type='wide']"/>
 						</monthWidth>
 						<monthWidth type="narrow">
-							<alias source="locale" path="../../monthContext[@type='stand-alone']/monthWidth[@type='narrow']"/>
+							<alias source="locale" path="../monthWidth[@type='wide']"/>
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">Tishri</month>
@@ -814,6 +813,7 @@
 							<month type="5">Shevat</month>
 							<month type="6">Adar I</month>
 							<month type="7">Adar</month>
+							<month type="7" yeartype="leap">Adar II</month>
 							<month type="8">Nisan</month>
 							<month type="9">Iyar</month>
 							<month type="10">Sivan</month>
@@ -827,19 +827,7 @@
 							<alias source="locale" path="../../monthContext[@type='format']/monthWidth[@type='abbreviated']"/>
 						</monthWidth>
 						<monthWidth type="narrow">
-							<month type="1">1</month>
-							<month type="2">2</month>
-							<month type="3">3</month>
-							<month type="4">4</month>
-							<month type="5">5</month>
-							<month type="6">6</month>
-							<month type="7">7</month>
-							<month type="8">8</month>
-							<month type="9">9</month>
-							<month type="10">10</month>
-							<month type="11">11</month>
-							<month type="12">12</month>
-							<month type="13">13</month>
+							<alias source="locale" path="../../monthContext[@type='format']/monthWidth[@type='narrow']"/>
 						</monthWidth>
 						<monthWidth type="wide">
 							<alias source="locale" path="../../monthContext[@type='format']/monthWidth[@type='wide']"/>
@@ -852,8 +840,9 @@
 				<quarters>
 					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
 				</quarters>
-				<am>AM</am>
-				<pm>PM</pm>
+				<dayPeriods>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dayPeriods"/>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<alias source="locale" path="../eraAbbr"/>
@@ -933,8 +922,9 @@
 				<quarters>
 					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
 				</quarters>
-				<am>AM</am>
-				<pm>PM</pm>
+				<dayPeriods>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dayPeriods"/>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<alias source="locale" path="../eraAbbr"/>
@@ -962,7 +952,18 @@
 					<monthContext type="format">
 						<default choice="wide"/>
 						<monthWidth type="abbreviated">
-							<alias source="locale" path="../monthWidth[@type='wide']"/>
+							<month type="1">Muh.</month>
+							<month type="2">Saf.</month>
+							<month type="3">Rab. I</month>
+							<month type="4">Rab. II</month>
+							<month type="5">Jum. I</month>
+							<month type="6">Jum. II</month>
+							<month type="7">Raj.</month>
+							<month type="8">Sha.</month>
+							<month type="9">Ram.</month>
+							<month type="10">Shaw.</month>
+							<month type="11">Dhuʻl-Q.</month>
+							<month type="12">Dhuʻl-H.</month>
 						</monthWidth>
 						<monthWidth type="narrow">
 							<alias source="locale" path="../../monthContext[@type='stand-alone']/monthWidth[@type='narrow']"/>
@@ -1011,8 +1012,9 @@
 				<quarters>
 					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
 				</quarters>
-				<am>AM</am>
-				<pm>PM</pm>
+				<dayPeriods>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dayPeriods"/>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<alias source="locale" path="../eraAbbr"/>
@@ -1050,8 +1052,9 @@
 				<quarters>
 					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
 				</quarters>
-				<am>AM</am>
-				<pm>PM</pm>
+				<dayPeriods>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dayPeriods"/>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<alias source="locale" path="../eraAbbr"/>
@@ -1355,7 +1358,8 @@
 					</dateTimeFormatLength>
 					<availableFormats>
 						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="H">H</dateFormatItem>
+						<dateFormatItem id="h">hh a</dateFormatItem>
+						<dateFormatItem id="H">HH</dateFormatItem>
 						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
@@ -1441,8 +1445,9 @@
 				<quarters>
 					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
 				</quarters>
-				<am>AM</am>
-				<pm>PM</pm>
+				<dayPeriods>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dayPeriods"/>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<alias source="locale" path="../eraAbbr"/>
@@ -1474,8 +1479,9 @@
 				<quarters>
 					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
 				</quarters>
-				<am>AM</am>
-				<pm>PM</pm>
+				<dayPeriods>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dayPeriods"/>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<alias source="locale" path="../eraAbbr"/>
@@ -1520,10 +1526,13 @@
 						<alias source="locale" path="../../../calendar[@type='gregorian']/dateTimeFormats/dateTimeFormatLength"/>
 					</dateTimeFormatLength>
 					<availableFormats>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
+						<dateFormatItem id="h">h a</dateFormatItem>
+						<dateFormatItem id="H">HH</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">H:mm</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="Md">M/d</dateFormatItem>
 						<dateFormatItem id="MEd">E, M/d</dateFormatItem>
 						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
@@ -1558,13 +1567,10 @@
 		</calendars>
 		<timeZoneNames>
 			<hourFormat>+HH:mm;-HH:mm</hourFormat>
-			<hoursFormat>{0}/{1}</hoursFormat>
 			<gmtFormat>GMT{0}</gmtFormat>
 			<gmtZeroFormat>GMT</gmtZeroFormat>
-			<regionFormat>{0}</regionFormat>
+			<regionFormat>({0})</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
-			<abbreviationFallback choice="standard"/>
-			<preferenceOrdering choice=""/>
 			<singleCountries list="Europe/Kiev Pacific/Majuro Africa/Bamako America/Godthab America/Santiago America/Guayaquil Asia/Shanghai Asia/Tashkent Asia/Kuala_Lumpur Europe/Madrid Europe/Lisbon Europe/London Pacific/Auckland Pacific/Tahiti"/>
 			<zone type="Etc/Unknown">
 				<exemplarCity>Unknown</exemplarCity>
@@ -1628,6 +1634,7 @@
 			</metazone>
 			<metazone type="Africa_Southern">
 				<short>
+					<generic>SAT</generic>
 					<standard>SAST</standard>
 				</short>
 			</metazone>
@@ -1645,12 +1652,14 @@
 			</metazone>
 			<metazone type="Alaska">
 				<short>
+					<generic>AKT</generic>
 					<standard>AKST</standard>
 					<daylight>AKDT</daylight>
 				</short>
 			</metazone>
 			<metazone type="Alaska_Hawaii">
 				<short>
+					<generic>AHT</generic>
 					<standard>AHST</standard>
 					<daylight>AHDT</daylight>
 				</short>
@@ -1669,24 +1678,28 @@
 			</metazone>
 			<metazone type="America_Central">
 				<short>
+					<generic>CT</generic>
 					<standard>CST</standard>
 					<daylight>CDT</daylight>
 				</short>
 			</metazone>
 			<metazone type="America_Eastern">
 				<short>
+					<generic>ET</generic>
 					<standard>EST</standard>
 					<daylight>EDT</daylight>
 				</short>
 			</metazone>
 			<metazone type="America_Mountain">
 				<short>
+					<generic>MT</generic>
 					<standard>MST</standard>
 					<daylight>MDT</daylight>
 				</short>
 			</metazone>
 			<metazone type="America_Pacific">
 				<short>
+					<generic>PT</generic>
 					<standard>PST</standard>
 					<daylight>PDT</daylight>
 				</short>
@@ -1711,6 +1724,7 @@
 			</metazone>
 			<metazone type="Arabian">
 				<short>
+					<generic>AT (SA)</generic>
 					<standard>AST (SA)</standard>
 					<daylight>ADT (SA)</daylight>
 				</short>
@@ -1740,30 +1754,35 @@
 			</metazone>
 			<metazone type="Atlantic">
 				<short>
+					<generic>AT</generic>
 					<standard>AST</standard>
 					<daylight>ADT</daylight>
 				</short>
 			</metazone>
 			<metazone type="Australia_Central">
 				<short>
+					<generic>ACT</generic>
 					<standard>ACST</standard>
 					<daylight>ACDT</daylight>
 				</short>
 			</metazone>
 			<metazone type="Australia_CentralWestern">
 				<short>
+					<generic>ACWT</generic>
 					<standard>ACWST</standard>
 					<daylight>ACWDT</daylight>
 				</short>
 			</metazone>
 			<metazone type="Australia_Eastern">
 				<short>
+					<generic>AET</generic>
 					<standard>AEST</standard>
 					<daylight>AEDT</daylight>
 				</short>
 			</metazone>
 			<metazone type="Australia_Western">
 				<short>
+					<generic>AWT</generic>
 					<standard>AWST</standard>
 					<daylight>AWDT</daylight>
 				</short>
@@ -1794,6 +1813,7 @@
 			</metazone>
 			<metazone type="Bering">
 				<short>
+					<generic>BT (Bering)</generic>
 					<standard>BST (Bering)</standard>
 					<daylight>BDT (Bering)</daylight>
 				</short>
@@ -1831,8 +1851,14 @@
 					<daylight>CVST</daylight>
 				</short>
 			</metazone>
+			<metazone type="Casey">
+				<short>
+					<standard>CAST</standard>
+				</short>
+			</metazone>
 			<metazone type="Chamorro">
 				<short>
+					<generic>ChT</generic>
 					<standard>ChST</standard>
 				</short>
 			</metazone>
@@ -1855,6 +1881,7 @@
 			</metazone>
 			<metazone type="China">
 				<short>
+					<generic>CT (CN)</generic>
 					<standard>CST (CN)</standard>
 					<daylight>CDT (CN)</daylight>
 				</short>
@@ -1889,6 +1916,7 @@
 			</metazone>
 			<metazone type="Cuba">
 				<short>
+					<generic>CT (CU)</generic>
 					<standard>CST (CU)</standard>
 					<daylight>CDT (CU)</daylight>
 				</short>
@@ -2032,6 +2060,7 @@
 			</metazone>
 			<metazone type="Gulf">
 				<short>
+					<generic>GT</generic>
 					<standard>GST</standard>
 				</short>
 			</metazone>
@@ -2107,6 +2136,7 @@
 			</metazone>
 			<metazone type="Japan">
 				<short>
+					<generic>JT</generic>
 					<standard>JST</standard>
 					<daylight>JDT</daylight>
 				</short>
@@ -2145,6 +2175,7 @@
 			</metazone>
 			<metazone type="Korea">
 				<short>
+					<generic>KT</generic>
 					<standard>KST</standard>
 					<daylight>KDT</daylight>
 				</short>
@@ -2193,6 +2224,7 @@
 			</metazone>
 			<metazone type="Lord_Howe">
 				<short>
+					<generic>LHT</generic>
 					<standard>LHST</standard>
 					<daylight>LHDT</daylight>
 				</short>
@@ -2280,12 +2312,14 @@
 			</metazone>
 			<metazone type="New_Zealand">
 				<short>
+					<generic>NZT</generic>
 					<standard>NZST</standard>
 					<daylight>NZDT</daylight>
 				</short>
 			</metazone>
 			<metazone type="Newfoundland">
 				<short>
+					<generic>NT</generic>
 					<standard>NST</standard>
 					<daylight>NDT</daylight>
 				</short>
@@ -2364,6 +2398,7 @@
 			</metazone>
 			<metazone type="Pierre_Miquelon">
 				<short>
+					<generic>PMT</generic>
 					<standard>PMST</standard>
 					<daylight>PMDT</daylight>
 				</short>
@@ -2466,6 +2501,7 @@
 			</metazone>
 			<metazone type="Taipei">
 				<short>
+					<generic>CT (TW)</generic>
 					<standard>CST (TW)</standard>
 					<daylight>CDT (TW)</daylight>
 				</short>
@@ -2601,6 +2637,7 @@
 			</metazone>
 			<metazone type="Yukon">
 				<short>
+					<generic>YT</generic>
 					<standard>YST</standard>
 					<daylight>YDT</daylight>
 				</short>
@@ -2629,6 +2666,22 @@
 					<pattern>#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
+            <decimalFormatLength type="short">
+                <decimalFormat>
+                    <pattern type="1000">0.0K</pattern>
+                    <pattern type="10000">00K</pattern>
+                    <pattern type="100000">000K</pattern>
+                    <pattern type="1000000">0.0M</pattern>
+                    <pattern type="10000000">00M</pattern>
+                    <pattern type="100000000">000M</pattern>
+                    <pattern type="1000000000">0.0G</pattern>
+                    <pattern type="10000000000">00G</pattern>
+                    <pattern type="100000000000">000G</pattern>
+                    <pattern type="1000000000000">0.0T</pattern>
+                    <pattern type="10000000000000">00T</pattern>
+                    <pattern type="100000000000000">000T</pattern>
+                </decimalFormat>
+            </decimalFormatLength>
 		</decimalFormats>
 		<scientificFormats>
 			<scientificFormatLength>
@@ -2746,9 +2799,6 @@
 			<currency type="CDF">
 				<symbol>CDF</symbol>
 			</currency>
-			<currency type="CHF">
-				<symbol>Fr.</symbol>
-			</currency>
 			<currency type="CLE">
 				<symbol>Eº</symbol>
 			</currency>
@@ -2796,9 +2846,6 @@
 			</currency>
 			<currency type="EEK">
 				<symbol>Ekr</symbol>
-			</currency>
-			<currency type="EGP">
-				<symbol>EG£</symbol>
 			</currency>
 			<currency type="ERN">
 				<symbol>Nfk</symbol>
@@ -2880,6 +2927,7 @@
 			</currency>
 			<currency type="INR">
 				<symbol>Rs</symbol>
+				<symbol alt="new">₹</symbol>
 			</currency>
 			<currency type="ISK">
 				<symbol>Ikr</symbol>
@@ -2956,7 +3004,7 @@
 			<currency type="MUR">
 				<symbol>MURs</symbol>
 			</currency>
-			<currency type="MXP">
+			<currency type="MXN">
 				<symbol>MX$</symbol>
 			</currency>
 			<currency type="MYR">
@@ -3183,6 +3231,14 @@
 			<unitPattern count="other">{0} y</unitPattern>
 		</unit>
 	</units>
+	<listPatterns>
+		<listPattern>
+			<listPatternPart type="2">{0}, {1}</listPatternPart>
+			<listPatternPart type="end">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="start">{0}, {1}</listPatternPart>
+		</listPattern>
+	</listPatterns>
 	<posix>
 		<messages>
 			<yesstr>yes:y</yesstr>

@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.116 $"/>
-		<generation date="$Date: 2009/06/15 03:46:25 $"/>
+		<version number="$Revision: 5094 $"/>
+		<generation date="$Date: 2010-10-13 11:33:36 -0500 (Wed, 13 Oct 2010) $"/>
 		<language type="ro"/>
 	</identity>
 	<localeDisplayNames>
@@ -150,6 +150,7 @@
 			<language type="myn">limbă mayașă</language>
 			<language type="nai">limbă nord-amerindiană</language>
 			<language type="nap">napolitană</language>
+			<language type="nb" draft="provisional">norvegiana bokmål</language>
 			<language type="ne">nepaleză</language>
 			<language type="nl">olandeză</language>
 			<language type="nl_BE">flamandă</language>
@@ -187,6 +188,7 @@
 			<language type="scn">siciliană</language>
 			<language type="sco">scots</language>
 			<language type="sd">sindhi</language>
+			<language type="se" draft="provisional">sami nordică</language>
 			<language type="sem">limbă semitică</language>
 			<language type="sga">irlandeză veche</language>
 			<language type="sgn">limbaj mimico-gestual</language>
@@ -205,6 +207,7 @@
 			<language type="sux">sumeriană</language>
 			<language type="sv">suedeză</language>
 			<language type="sw">swahili</language>
+			<language type="swb">comoreză</language>
 			<language type="syr">siriacă</language>
 			<language type="ta">tamilă</language>
 			<language type="tai">limbă thai</language>
@@ -234,6 +237,7 @@
 			<language type="xh">xhosa</language>
 			<language type="yi">idiș</language>
 			<language type="yo">yoruba</language>
+			<language type="yue">cantoneză</language>
 			<language type="zap">zapotecă</language>
 			<language type="zh">chineză</language>
 			<language type="zh_Hans">chineză simplificată</language>
@@ -264,7 +268,10 @@
 			<script type="Glag">glagolitică</script>
 			<script type="Goth">gotică</script>
 			<script type="Grek">greacă</script>
-			<script type="Hang">coreeană</script>
+			<script type="Gujr" draft="provisional">gujarati</script>
+			<script type="Guru" draft="provisional">gurmukhi</script>
+			<script type="Hang">hangul</script>
+			<script type="Hang" alt="proposed-x1001" draft="unconfirmed">Hangul</script>
 			<script type="Hani">ideografică</script>
 			<script type="Hans">ideografică simplificată</script>
 			<script type="Hant">ideografică tradițională</script>
@@ -278,6 +285,8 @@
 			<script type="Jpan">japoneză</script>
 			<script type="Kana">katakana</script>
 			<script type="Khmr">khmeră</script>
+			<script type="Knda" draft="provisional">kannada</script>
+			<script type="Kore">coreeană</script>
 			<script type="Laoo">laoțiană</script>
 			<script type="Latf">latină Fraktur</script>
 			<script type="Latg">latină gaelică</script>
@@ -286,20 +295,26 @@
 			<script type="Linb">lineară B</script>
 			<script type="Lydi">lidiană</script>
 			<script type="Maya">hieroglife maya</script>
+			<script type="Mlym" draft="provisional">malayalam</script>
 			<script type="Mong">mongolă</script>
 			<script type="Mymr">birmană</script>
+			<script type="Orya" draft="provisional">oriya</script>
 			<script type="Phnx">feniciană</script>
-			<script type="Qaai">moștenită</script>
 			<script type="Runr">runică</script>
 			<script type="Sinh">singaleză</script>
 			<script type="Syrc">siriacă</script>
 			<script type="Syrj">siriacă occidentală</script>
 			<script type="Syrn">siriacă orientală</script>
+			<script type="Taml" draft="provisional">tamil</script>
+			<script type="Telu" draft="provisional">telugu</script>
 			<script type="Tfng">berberă</script>
+			<script type="Thaa" draft="provisional">thaana</script>
 			<script type="Thai">Thai</script>
 			<script type="Tibt">tibetană</script>
 			<script type="Xpeo">persană veche</script>
 			<script type="Xsux">cuneiformă sumero-akkadiană</script>
+			<script type="Zinh">moștenită</script>
+			<script type="Zsym" draft="provisional">simboluri</script>
 			<script type="Zxxx">nescrisă</script>
 			<script type="Zyyy">comună</script>
 			<script type="Zzzz">scriere necunoscută sau nevalidă</script>
@@ -338,6 +353,7 @@
 			<territory type="172">Comunitatea Statelor Independente</territory>
 			<territory type="419">America Latină și Caraibe</territory>
 			<territory type="830">Insulele Anglo-Normande</territory>
+			<territory type="AC">Insula Ascension</territory>
 			<territory type="AD">Andorra</territory>
 			<territory type="AE">Emiratele Arabe Unite</territory>
 			<territory type="AF">Afganistan</territory>
@@ -366,6 +382,7 @@
 			<territory type="BJ">Benin</territory>
 			<territory type="BL">Sfântul Bartolomeu</territory>
 			<territory type="BM">Bermuda</territory>
+			<territory type="BM" alt="proposed-x1001" draft="unconfirmed">Insulele Bermude</territory>
 			<territory type="BN">Brunei</territory>
 			<territory type="BO">Bolivia</territory>
 			<territory type="BR">Brazilia</territory>
@@ -378,8 +395,11 @@
 			<territory type="CA">Canada</territory>
 			<territory type="CC">Insulele Cocos</territory>
 			<territory type="CD">Republica Democrată Congo</territory>
+			<territory type="CD" alt="proposed-x1001" draft="unconfirmed">Republica Democrată Congo - Kinshasa</territory>
 			<territory type="CF">Republica Centrafricană</territory>
 			<territory type="CG">Congo</territory>
+			<territory type="CG" alt="proposed-x1001" draft="unconfirmed">Republica Democrată Congo - Brazzaville</territory>
+			<territory type="CG" alt="proposed-x1002" draft="unconfirmed">Republica Congo</territory>
 			<territory type="CH">Eleveția</territory>
 			<territory type="CI">Coasta de Fildeș</territory>
 			<territory type="CK">Insulele Cook</territory>
@@ -387,6 +407,7 @@
 			<territory type="CM">Camerun</territory>
 			<territory type="CN">China</territory>
 			<territory type="CO">Columbia</territory>
+			<territory type="CP">Insula Clipperton</territory>
 			<territory type="CR">Costa Rica</territory>
 			<territory type="CS">Serbia și Muntenegru</territory>
 			<territory type="CU">Cuba</territory>
@@ -395,11 +416,13 @@
 			<territory type="CY">Cipru</territory>
 			<territory type="CZ">Republica Cehă</territory>
 			<territory type="DE">Germania</territory>
+			<territory type="DG">Diego Garcia</territory>
 			<territory type="DJ">Djibouti</territory>
 			<territory type="DK">Danemarca</territory>
 			<territory type="DM">Dominica</territory>
 			<territory type="DO">Republica Dominicană</territory>
 			<territory type="DZ">Algeria</territory>
+			<territory type="EA">Ceuta şi Melilla</territory>
 			<territory type="EC">Ecuador</territory>
 			<territory type="EE">Estonia</territory>
 			<territory type="EG">Egipt</territory>
@@ -407,17 +430,19 @@
 			<territory type="ER">Eritreea</territory>
 			<territory type="ES">Spania</territory>
 			<territory type="ET">Etiopia</territory>
+			<territory type="EU">Uniunea Europeană</territory>
 			<territory type="FI">Finlanda</territory>
 			<territory type="FJ">Fiji</territory>
 			<territory type="FK">Insulele Falkland</territory>
 			<territory type="FM">Micronezia</territory>
 			<territory type="FO">Insulele Feroe</territory>
 			<territory type="FR">Franța</territory>
+			<territory type="FX">Franța metropolitană</territory>
 			<territory type="GA">Gabon</territory>
 			<territory type="GB">Marea Britanie</territory>
-			<territory type="GB" alt="proposed-x1001" draft="unconfirmed">Regatul Unit</territory>
 			<territory type="GD">Grenada</territory>
 			<territory type="GE">Georgia</territory>
+			<territory type="GE" alt="proposed-x1001" draft="unconfirmed">Georgia de Sud Ĺźi Insulele Sandwich de Sud</territory>
 			<territory type="GF">Guyana Franceză</territory>
 			<territory type="GG">Guernsey</territory>
 			<territory type="GH">Ghana</territory>
@@ -428,7 +453,8 @@
 			<territory type="GP">Guadelupa</territory>
 			<territory type="GQ">Guineea Ecuatorială</territory>
 			<territory type="GR">Grecia</territory>
-			<territory type="GS">Insulele Georgia de Sud și Sandwich de Sud</territory>
+			<territory type="GS">Georgia de Sud şi Insulele Sandwich de Sud</territory>
+			<territory type="GS" alt="proposed-x1001" draft="unconfirmed">Georgia de Sud Ĺźi Insulele Sandwich de Sud</territory>
 			<territory type="GT">Guatemala</territory>
 			<territory type="GU">Guam</territory>
 			<territory type="GW">Guineea-Bissau</territory>
@@ -440,6 +466,7 @@
 			<territory type="HR">Croația</territory>
 			<territory type="HT">Haiti</territory>
 			<territory type="HU">Ungaria</territory>
+			<territory type="IC">Insulele Canare</territory>
 			<territory type="ID">Indonezia</territory>
 			<territory type="IE">Irlanda</territory>
 			<territory type="IL">Israel</territory>
@@ -499,6 +526,7 @@
 			<territory type="MW">Malawi</territory>
 			<territory type="MX">Mexic</territory>
 			<territory type="MY">Malaezia</territory>
+			<territory type="MY" alt="proposed-x1001" draft="unconfirmed">Malaysia</territory>
 			<territory type="MZ">Mozambic</territory>
 			<territory type="NA">Namibia</territory>
 			<territory type="NC">Noua Caledonie</territory>
@@ -517,20 +545,20 @@
 			<territory type="PE">Peru</territory>
 			<territory type="PF">Polinezia Franceză</territory>
 			<territory type="PG">Papua Noua Guinee</territory>
+			<territory type="PG" alt="proposed-x1001" draft="unconfirmed">Papua-Noua Guinee</territory>
 			<territory type="PH">Filipine</territory>
 			<territory type="PK">Pakistan</territory>
 			<territory type="PL">Polonia</territory>
 			<territory type="PM">Sfântul Pierre și Miquelon</territory>
-			<territory type="PM" alt="proposed-x1001" draft="unconfirmed">Sfântul Petre și Miquelon</territory>
 			<territory type="PN">Pitcairn</territory>
 			<territory type="PR">Porto Rico</territory>
+			<territory type="PR" alt="proposed-x1001" draft="unconfirmed">Puerto Rico</territory>
 			<territory type="PS">Teritoriul Palestinian</territory>
 			<territory type="PT">Portugalia</territory>
 			<territory type="PW">Palau</territory>
 			<territory type="PY">Paraguay</territory>
 			<territory type="QA">Qatar</territory>
 			<territory type="QO">Oceania Periferică</territory>
-			<territory type="QU">Uniunea Europeană</territory>
 			<territory type="RE">Reunion</territory>
 			<territory type="RO">România</territory>
 			<territory type="RS">Serbia</territory>
@@ -555,6 +583,7 @@
 			<territory type="SV">El Salvador</territory>
 			<territory type="SY">Siria</territory>
 			<territory type="SZ">Swaziland</territory>
+			<territory type="TA">Tristan da Cunha</territory>
 			<territory type="TC">Insulele Turks și Caicos</territory>
 			<territory type="TD">Ciad</territory>
 			<territory type="TF">Teritoriile Australe și Antarctice Franceze</territory>
@@ -573,7 +602,7 @@
 			<territory type="TZ">Tanzania</territory>
 			<territory type="UA">Ucraina</territory>
 			<territory type="UG">Uganda</territory>
-			<territory type="UM">Insulele mici îndepărtate ale Statelor Unite ale Americii</territory>
+			<territory type="UM">Insulele Minore Îndepărtate ale Statelor Unite ale Americii</territory>
 			<territory type="US">Statele Unite ale Americii</territory>
 			<territory type="UY">Uruguay</territory>
 			<territory type="UZ">Uzbekistan</territory>
@@ -593,6 +622,41 @@
 			<territory type="ZW">Zimbabwe</territory>
 			<territory type="ZZ">Regiune necunoscută sau nevalidă</territory>
 		</territories>
+		<variants>
+			<variant type="1901" draft="provisional">ortografie germană tradițională</variant>
+			<variant type="1994" draft="provisional">ortografie resiană standardizată</variant>
+			<variant type="1996" draft="provisional">ortografie germană de la 1996</variant>
+			<variant type="1606NICT" draft="provisional">franceză medievală târzie până la 1606</variant>
+			<variant type="1694ACAD" draft="provisional">franceză modernă veche</variant>
+			<variant type="1959ACAD" draft="provisional">belarusă academică</variant>
+			<variant type="AREVELA" draft="provisional">armeană orientală</variant>
+			<variant type="AREVMDA" draft="provisional">armeană occidentală</variant>
+			<variant type="BAKU1926" draft="provisional">alfabet latin altaic unificat</variant>
+			<variant type="BISKE" draft="provisional">dialect San Giorgio/Bila</variant>
+			<variant type="BOONT" draft="provisional">boontling</variant>
+			<variant type="FONIPA" draft="provisional">alfabet fonetic internațional</variant>
+			<variant type="FONUPA" draft="provisional">alfabet fonetic uralic</variant>
+			<variant type="KKCOR" draft="provisional">ortografie comuna cornish</variant>
+			<variant type="LIPAW" draft="provisional">dialect lipovaz din resiană</variant>
+			<variant type="MONOTON" draft="provisional">monotonică</variant>
+			<variant type="NEDIS" draft="provisional">dialect Natisone</variant>
+			<variant type="NJIVA" draft="provisional">dialect Gniva/Njiva</variant>
+			<variant type="OSOJS" draft="provisional">dialect Oseacco/Osojane</variant>
+			<variant type="PINYIN">Pinyin</variant>
+			<variant type="POLYTON" draft="provisional">politonică</variant>
+			<variant type="POSIX" draft="provisional">informantică</variant>
+			<variant type="REVISED" draft="provisional">ortografie revizuită</variant>
+			<variant type="ROZAJ" draft="provisional">dialect resian</variant>
+			<variant type="SAAHO" draft="provisional">dialect saho</variant>
+			<variant type="SCOTLAND" draft="provisional">engleză standard scoțiană</variant>
+			<variant type="SCOUSE" draft="provisional">dialect scouse</variant>
+			<variant type="SOLBA" draft="provisional">dialet Stolvizza/Solbica</variant>
+			<variant type="TARASK" draft="provisional">ortografie taraskievica</variant>
+			<variant type="UCCOR" draft="provisional">ortografie unificată cornish</variant>
+			<variant type="UCRCOR" draft="provisional">ortografie revizuită unificată cornish</variant>
+			<variant type="VALENCIA" draft="provisional">valenciană</variant>
+			<variant type="WADEGILE">Wade-Giles</variant>
+		</variants>
 		<keys>
 			<key type="collation">ordine de sortare</key>
 			<key type="currency">monedă</key>
@@ -633,9 +697,10 @@
 		<inText type="territories">titlecase-firstword</inText>
 	</layout>
 	<characters>
-		<exemplarCharacters>[a ă â b-i î j-p r s ș t ț u v x z]</exemplarCharacters>
+		<exemplarCharacters>[a ă â b c d e f g h i î j k l m n o p r s ș t ț u v x z]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[á à å ä ç é è ê ë ñ ö q ş ţ ü w y]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a ă â b-i î j-s ș t ț u-z]</exemplarCharacters>
+		<exemplarCharacters type="currencySymbol">[a ă â b c d e f g h i î j k l m n o p q r s ș t ț u v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="index">[A Ă Â B C D E F G H I Î J K L M N O P Q R S Ș T Ț U V W X Y Z]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>„</quotationStart>
@@ -677,18 +742,6 @@
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d/M/y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">EEE, d MMM Y</dateFormatItem>
-						<dateFormatItem id="yQ">'T'Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
 			</calendar>
 			<calendar type="gregorian">
 				<months>
@@ -761,10 +814,6 @@
 						</dayWidth>
 					</dayContext>
 					<dayContext type="stand-alone">
-						<dayWidth type="abbreviated">
-							<day type="sun">Du</day>
-							<day type="mon">Lu</day>
-						</dayWidth>
 						<dayWidth type="narrow">
 							<day type="sun">D</day>
 							<day type="mon">L</day>
@@ -773,9 +822,6 @@
 							<day type="thu">J</day>
 							<day type="fri">V</day>
 							<day type="sat">S</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sat">sâmbătă</day>
 						</dayWidth>
 					</dayContext>
 				</days>
@@ -786,12 +832,6 @@
 							<quarter type="2">trim. II</quarter>
 							<quarter type="3">trim. III</quarter>
 							<quarter type="4">trim. IV</quarter>
-						</quarterWidth>
-						<quarterWidth type="narrow">
-							<quarter type="1">T1</quarter>
-							<quarter type="2">T2</quarter>
-							<quarter type="3">T3</quarter>
-							<quarter type="4">T4</quarter>
 						</quarterWidth>
 						<quarterWidth type="wide">
 							<quarter type="1">trimestrul I</quarter>
@@ -807,16 +847,18 @@
 							<quarter type="3">T3</quarter>
 							<quarter type="4">T4</quarter>
 						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">trimestrul I</quarter>
-							<quarter type="2">trimestrul al II-lea</quarter>
-							<quarter type="3">trimestrul al III-lea</quarter>
-							<quarter type="4">trimestrul al IV-lea</quarter>
-						</quarterWidth>
 					</quarterContext>
 				</quarters>
-				<am>AM</am>
-				<pm>PM</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">AM</dayPeriod>
+							<dayPeriod type="am" alt="proposed-x1001" draft="unconfirmed">a.m.</dayPeriod>
+							<dayPeriod type="pm">PM</dayPeriod>
+							<dayPeriod type="pm" alt="proposed-x1001" draft="unconfirmed">p.m.</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<era type="0">înainte de Hristos</era>
@@ -895,7 +937,10 @@
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="EEEd">EEE d</dateFormatItem>
-						<dateFormatItem id="Hm">H:mm</dateFormatItem>
+						<dateFormatItem id="hm" draft="provisional">h:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms" draft="provisional">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms" draft="provisional">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d.M</dateFormatItem>
 						<dateFormatItem id="MEd">E, d MMM</dateFormatItem>
@@ -927,22 +972,40 @@
 							<greatestDifference id="d">d-d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
+							<greatestDifference id="a">h a - h a</greatestDifference>
+							<greatestDifference id="h">h-h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
 							<greatestDifference id="a">HH-HH</greatestDifference>
-							<greatestDifference id="h">HH-HH</greatestDifference>
+							<greatestDifference id="H">HH-HH</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
+							<greatestDifference id="a">h:mm a - h:mm a</greatestDifference>
+							<greatestDifference id="h">h:mm-h:mm a</greatestDifference>
+							<greatestDifference id="m">h:mm-h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
 							<greatestDifference id="a">HH:mm-HH:mm</greatestDifference>
-							<greatestDifference id="h">HH:mm-HH:mm</greatestDifference>
+							<greatestDifference id="H">HH:mm-HH:mm</greatestDifference>
 							<greatestDifference id="m">HH:mm-HH:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
+							<greatestDifference id="a">h:mm a - h:mm a v</greatestDifference>
+							<greatestDifference id="h">h:mm-h:mm a v</greatestDifference>
+							<greatestDifference id="m">h:mm-h:mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
 							<greatestDifference id="a">HH:mm-HH:mm v</greatestDifference>
-							<greatestDifference id="h">HH:mm-HH:mm v</greatestDifference>
+							<greatestDifference id="H">HH:mm-HH:mm v</greatestDifference>
 							<greatestDifference id="m">HH:mm-HH:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
+							<greatestDifference id="a">h a - h a v</greatestDifference>
+							<greatestDifference id="h">h-h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
 							<greatestDifference id="a">HH-HH v</greatestDifference>
-							<greatestDifference id="h">HH-HH v</greatestDifference>
+							<greatestDifference id="H">HH-HH v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M">M-M</greatestDifference>
@@ -1223,6 +1286,11 @@
 					<daylight>Ora de vară Acre</daylight>
 				</long>
 			</metazone>
+			<metazone type="Afghanistan">
+				<long>
+					<standard draft="provisional">Ora Afganistanului</standard>
+				</long>
+			</metazone>
 			<metazone type="Africa_Central">
 				<long>
 					<standard>Ora Africii Centrale</standard>
@@ -1245,6 +1313,12 @@
 					<daylight>Ora de vară a Africii Occidentale</daylight>
 				</long>
 			</metazone>
+			<metazone type="Aktyubinsk">
+				<long>
+					<standard draft="provisional">Ora zonei Aktyubinsk</standard>
+					<daylight draft="provisional">Ora de vară a zonei Aktyubinsk</daylight>
+				</long>
+			</metazone>
 			<metazone type="Alaska">
 				<long>
 					<generic>Ora zonei Alaska</generic>
@@ -1257,6 +1331,12 @@
 					<generic>Ora zonei Alaska-Hawaii</generic>
 					<standard>Ora standard în zona Alaska-Hawaii</standard>
 					<daylight>Ora de vară în zona Alaska-Hawaii</daylight>
+				</long>
+			</metazone>
+			<metazone type="Almaty">
+				<long>
+					<standard draft="provisional">Ora zonei Almaty</standard>
+					<daylight draft="provisional">Ora de vară a zonei Almaty</daylight>
 				</long>
 			</metazone>
 			<metazone type="Amazon">
@@ -1293,6 +1373,36 @@
 					<daylight>Ora de vară în zona Pacific</daylight>
 				</long>
 			</metazone>
+			<metazone type="Anadyr">
+				<long>
+					<standard draft="provisional">Ora zonei Anadyr</standard>
+					<daylight draft="provisional">Ora de vară a zonei Anadyr</daylight>
+				</long>
+			</metazone>
+			<metazone type="Aqtau">
+				<long>
+					<standard draft="provisional">Ora zonei Aqtau</standard>
+					<daylight draft="provisional">Ora de vară a zonei Aqtau</daylight>
+				</long>
+			</metazone>
+			<metazone type="Aqtobe">
+				<long>
+					<standard draft="provisional">Ora zonei Aqtobe</standard>
+					<daylight draft="provisional">Ora de vară a zonei Aqtobe</daylight>
+				</long>
+			</metazone>
+			<metazone type="Arabian">
+				<long>
+					<generic draft="provisional">Ora arabă</generic>
+					<standard draft="provisional">Ora standard arrabă</standard>
+					<daylight draft="provisional">Ora de vară arabă</daylight>
+				</long>
+				<short>
+					<generic draft="provisional">AT (arabă)</generic>
+					<standard draft="provisional">AST (arabă)</standard>
+					<daylight draft="provisional">ADT (arabă)</daylight>
+				</short>
+			</metazone>
 			<metazone type="Argentina">
 				<long>
 					<standard>Ora Argentinei</standard>
@@ -1302,6 +1412,21 @@
 			<metazone type="Argentina_Western">
 				<long>
 					<standard>Ora Argentinei Occidentale</standard>
+				</long>
+			</metazone>
+			<metazone type="Armenia">
+				<long>
+					<standard draft="provisional">Ora Armeniei</standard>
+					<daylight draft="provisional">Ora de vară a Armeniei</daylight>
+				</long>
+				<short>
+					<standard draft="provisional">AMT (Armenia)</standard>
+				</short>
+			</metazone>
+			<metazone type="Ashkhabad">
+				<long>
+					<standard draft="provisional">Ora dzonei Ashkhabad</standard>
+					<daylight draft="provisional">Ora de vară a zonei Ashkhabad</daylight>
 				</long>
 			</metazone>
 			<metazone type="Atlantic">
@@ -1337,6 +1462,24 @@
 					<daylight>Ora de vară a Australiei Occidentale</daylight>
 				</long>
 			</metazone>
+			<metazone type="Azerbaijan">
+				<long>
+					<standard draft="provisional">Ora Azerbaijanului</standard>
+					<daylight draft="provisional">Ora de vară a Azerbaijanului</daylight>
+				</long>
+			</metazone>
+			<metazone type="Baku">
+				<long>
+					<standard draft="provisional">Ora zonei Baku</standard>
+					<daylight draft="provisional">Ora de vară a zonei Baku</daylight>
+				</long>
+			</metazone>
+			<metazone type="Bangladesh">
+				<long>
+					<standard draft="provisional">Ora statului Bangladesh</standard>
+					<daylight draft="provisional">Ora de vară a statului Bangladesh</daylight>
+				</long>
+			</metazone>
 			<metazone type="Bering">
 				<long>
 					<generic>Ora Bering</generic>
@@ -1344,9 +1487,78 @@
 					<daylight>Ora de vară Bering</daylight>
 				</long>
 			</metazone>
+			<metazone type="Bhutan">
+				<long>
+					<standard draft="provisional">Ora Bhutanului</standard>
+				</long>
+			</metazone>
 			<metazone type="Bolivia">
 				<long>
 					<standard>Ora Boliviei</standard>
+				</long>
+			</metazone>
+			<metazone type="Borneo">
+				<long>
+					<standard draft="provisional">Ora zonei Borneo</standard>
+					<daylight draft="provisional">Ora de vară a zonei Borneo</daylight>
+				</long>
+			</metazone>
+			<metazone type="Brasilia">
+				<long>
+					<standard draft="provisional">Ora Brasiliei</standard>
+					<daylight draft="provisional">Ora de vară a Brasiliei</daylight>
+				</long>
+			</metazone>
+			<metazone type="Brunei">
+				<long>
+					<standard draft="provisional">Ora Brunei Darussalam</standard>
+				</long>
+			</metazone>
+			<metazone type="Changbai">
+				<long>
+					<standard draft="provisional">Ora Changbai</standard>
+				</long>
+			</metazone>
+			<metazone type="Chile">
+				<long>
+					<standard draft="provisional">Ora statului Chile</standard>
+					<daylight draft="provisional">Ora de vară a statului Chile</daylight>
+				</long>
+			</metazone>
+			<metazone type="China">
+				<long>
+					<generic draft="provisional">Ora Chinei</generic>
+					<standard draft="provisional">Ora standard a Chinei</standard>
+					<daylight draft="provisional">Ora de vară a Chinei</daylight>
+				</long>
+				<short>
+					<generic draft="provisional">CT (China)</generic>
+					<standard draft="provisional">CST (China)</standard>
+					<daylight draft="provisional">CDT (China)</daylight>
+				</short>
+			</metazone>
+			<metazone type="Choibalsan">
+				<long>
+					<standard draft="provisional">Ora Choibalsan</standard>
+					<daylight draft="provisional">Ora de vară Choibalsan</daylight>
+				</long>
+			</metazone>
+			<metazone type="Colombia">
+				<long>
+					<standard draft="provisional">Ora Columbiei</standard>
+					<daylight draft="provisional">Ora de vară a Columbiei</daylight>
+				</long>
+			</metazone>
+			<metazone type="Cuba">
+				<long>
+					<generic draft="provisional">Ora Cubei</generic>
+					<standard draft="provisional">Ora standard a Cubei</standard>
+					<daylight draft="provisional">Ora de vară a Cubei</daylight>
+				</long>
+			</metazone>
+			<metazone type="Dacca">
+				<long>
+					<standard draft="provisional">Ora zonei Dacca</standard>
 				</long>
 			</metazone>
 			<metazone type="Davis">
@@ -1357,6 +1569,27 @@
 			<metazone type="DumontDUrville">
 				<long>
 					<standard>Ora Dumont-d'Urville</standard>
+				</long>
+			</metazone>
+			<metazone type="Dushanbe">
+				<long>
+					<standard draft="provisional">Ora Dușanbe</standard>
+					<daylight draft="provisional">Ora de vară Dușanbe</daylight>
+				</long>
+			</metazone>
+			<metazone type="Dutch_Guiana">
+				<long>
+					<standard draft="provisional">Ora Guianei Olandeze</standard>
+				</long>
+			</metazone>
+			<metazone type="East_Timor">
+				<long>
+					<standard draft="provisional">Ora Timorului de Est</standard>
+				</long>
+			</metazone>
+			<metazone type="Ecuador">
+				<long>
+					<standard draft="provisional">Ora Ecuadorului</standard>
 				</long>
 			</metazone>
 			<metazone type="Europe_Central">
@@ -1376,19 +1609,73 @@
 					<standard>Ora Europei Occidentale</standard>
 					<daylight>Ora de vară a Europei Occidentale</daylight>
 				</long>
-				<short>
-					<standard>WET</standard>
-					<daylight>WEST</daylight>
-				</short>
+			</metazone>
+			<metazone type="French_Guiana">
+				<long>
+					<standard draft="provisional">Ora Guianei Franceze</standard>
+				</long>
+			</metazone>
+			<metazone type="Frunze">
+				<long>
+					<standard draft="provisional">Ora Frunze</standard>
+					<daylight draft="provisional">Ora de vară Frunze</daylight>
+				</long>
+			</metazone>
+			<metazone type="Georgia">
+				<long>
+					<standard draft="provisional">Ora Georgiei</standard>
+					<daylight draft="provisional">Ora de vară a Georgiei</daylight>
+				</long>
 			</metazone>
 			<metazone type="GMT">
+				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="Greenland_Central">
 				<long>
-					<standard>Greenwich Mean Time</standard>
+					<standard draft="provisional">Ora Groenlandei centrale</standard>
+					<daylight draft="provisional">Ora de vară a Groenlandei centrale</daylight>
+				</long>
+			</metazone>
+			<metazone type="Greenland_Eastern">
+				<long>
+					<standard draft="provisional">Ora Groenlandei orientale</standard>
+					<daylight draft="provisional">Ora de vară a Groenlandei orientale</daylight>
+				</long>
+			</metazone>
+			<metazone type="Greenland_Western">
+				<long>
+					<standard draft="provisional">Ora Groenlandei occidentale</standard>
+					<daylight draft="provisional">Ora de vară a Groenlandei occidentale</daylight>
+				</long>
+			</metazone>
+			<metazone type="Guyana">
+				<long>
+					<standard draft="provisional">Ora Guianei</standard>
+				</long>
+			</metazone>
+			<metazone type="India">
+				<long>
+					<standard draft="provisional">Ora standard a Indiei</standard>
+				</long>
+			</metazone>
+			<metazone type="Israel">
+				<long>
+					<standard draft="provisional">Ora standard a Israelului</standard>
+					<daylight draft="provisional">Ora de vară a Israelului</daylight>
 				</long>
 				<short>
-					<standard>GMT</standard>
+					<standard draft="provisional">IST (Israel)</standard>
 				</short>
-				<commonlyUsed>true</commonlyUsed>
+			</metazone>
+			<metazone type="Japan">
+				<long>
+					<standard draft="provisional">Ora standard a Japoniei</standard>
+				</long>
+			</metazone>
+			<metazone type="Korea">
+				<long>
+					<standard draft="provisional">Ora standard a Coreei</standard>
+				</long>
 			</metazone>
 			<metazone type="Lord_Howe">
 				<long>
@@ -1402,9 +1689,53 @@
 					<standard>Ora Mawson</standard>
 				</long>
 			</metazone>
+			<metazone type="Moscow">
+				<long>
+					<generic draft="provisional">Ora Moscovei</generic>
+					<standard draft="provisional">Ora standard a Moscovei</standard>
+					<daylight draft="provisional">Ora de vară a Moscovei</daylight>
+				</long>
+			</metazone>
+			<metazone type="Newfoundland">
+				<long>
+					<generic draft="provisional">Ora Newfoundland</generic>
+					<standard draft="provisional">Ora standard Newfoundland</standard>
+					<daylight draft="provisional">Ora de vară Newfoundland</daylight>
+				</long>
+			</metazone>
+			<metazone type="Noronha">
+				<long>
+					<standard draft="provisional">Ora Fernando de Noronha</standard>
+					<daylight draft="provisional">Ora de vară Fernando de Noronha</daylight>
+				</long>
+			</metazone>
+			<metazone type="Paraguay">
+				<long>
+					<standard draft="provisional">Ora statului Paraguay</standard>
+					<daylight draft="provisional">Ora de vară a statului Paraguay</daylight>
+				</long>
+			</metazone>
+			<metazone type="Peru">
+				<long>
+					<standard draft="provisional">Ora statului Peru</standard>
+					<daylight draft="provisional">Ora de vară a statului Peru</daylight>
+				</long>
+			</metazone>
+			<metazone type="Pierre_Miquelon">
+				<long>
+					<generic draft="provisional">Ora Pierre și Miquelon</generic>
+					<standard draft="provisional">Ora Pierre și Miquelon</standard>
+					<daylight draft="provisional">Ora de vară Pierre și Miquelon</daylight>
+				</long>
+			</metazone>
 			<metazone type="Rothera">
 				<long>
 					<standard>Ora Rothera</standard>
+				</long>
+			</metazone>
+			<metazone type="Suriname">
+				<long>
+					<standard draft="provisional">Ora Surinamului</standard>
 				</long>
 			</metazone>
 			<metazone type="Syowa">
@@ -1412,9 +1743,34 @@
 					<standard>Ora Syowa</standard>
 				</long>
 			</metazone>
+			<metazone type="Taipei">
+				<short>
+					<generic draft="provisional">CT (Taipei)</generic>
+					<standard draft="provisional">CST (Taipei)</standard>
+					<daylight draft="provisional">CDT (Taipei)</daylight>
+				</short>
+			</metazone>
+			<metazone type="Uruguay">
+				<long>
+					<standard draft="provisional">Ora statului Uruguay</standard>
+					<daylight draft="provisional">Ora de vară a statului Uruguay</daylight>
+				</long>
+			</metazone>
+			<metazone type="Venezuela">
+				<long>
+					<standard draft="provisional">Ora Venezuelei</standard>
+				</long>
+			</metazone>
 			<metazone type="Vostok">
 				<long>
 					<standard>Ora Vostok</standard>
+				</long>
+			</metazone>
+			<metazone type="Yukon">
+				<long>
+					<generic draft="provisional">Ora Yukonului</generic>
+					<standard draft="provisional">Ora standard a Yukonului</standard>
+					<daylight draft="provisional">Ora de vară a Yukonului</daylight>
 				</long>
 			</metazone>
 		</timeZoneNames>
@@ -2141,6 +2497,7 @@
 				<displayName>leu</displayName>
 				<displayName count="few">lei</displayName>
 				<displayName count="other">lei</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">RON</displayName>
 			</currency>
 			<currency type="RSD">
 				<displayName>dinar sârbesc</displayName>
@@ -2502,14 +2859,14 @@
 	</posix>
 	<references>
 		<reference type="RP1" uri="http://www.secarica.ro/misc/InstitLingvTastatura-20031008.pdf" draft="contributed">Romanian Academy: &quot;1., 2. in the Romanian language the quotes are (as specified by the normative document actually valid in the field, the Romanian Academy, the Institute of Linguistics „Iorgu Iordan”, Guide of orthography, orthographic, and punctuation, 5th edition, published by Univers Enciclopedic, Bucharest, 1995), „...” [99 down, 99 up] or «...» (p. 79), with the specification that the quotes «...» are to be used inside the text contained already between the quotes „...” (p. 81);&quot;</reference>
-		<reference type="RP2" uri="http://dexonline.ro/" draft="unconfirmed">DEX online (Romanian dictionaries)</reference>
-		<reference type="RP3" uri="http://www.lingv.ro/noutati/Ce_e_nou_in_DOOM.pdf" draft="unconfirmed">What's new in DOOM (PDF)</reference>
-		<reference type="RP4" uri="http://www.acad.ro/alteInfo/nouDOOM.doc" draft="unconfirmed">What's new in DOOM (Word doc)</reference>
+		<reference type="RP2" uri="http://dexonline.ro/" draft="provisional">DEX online (Romanian dictionaries)</reference>
+		<reference type="RP3" uri="http://www.lingv.ro/noutati/Ce_e_nou_in_DOOM.pdf" draft="provisional">What's new in DOOM (PDF)</reference>
+		<reference type="RP4" uri="http://www.acad.ro/alteInfo/nouDOOM.doc" draft="provisional">What's new in DOOM (Word doc)</reference>
 		<reference type="RP5" uri="http://www.bnro.ro/Ro/Raportari/StatMon/Nomenclator_valute.pdf" draft="unconfirmed">Currencies</reference>
 		<reference type="RP6" uri="http://www.bnro.ro/Ro/Raportari/StatMon/Nomenclator_tari_v2.pdf" draft="unconfirmed">Territories and international organizations</reference>
 		<reference type="RP7" uri="http://www.bnro.ro/Ro/Raportari/StatMon/Nomenclator_UE.pdf" draft="unconfirmed">EU countries and organizations</reference>
-		<reference type="RP8" uri="http://www.unibuc.ro/eBooks/Filologie.htm" draft="unconfirmed">Linguistics texts (University of Bucharest)</reference>
-		<reference type="RP9" uri="http://www.seelrc.org:8080/grammar/pdf/stand_alone_romanian.pdf" draft="unconfirmed">Romanian grammar</reference>
+		<reference type="RP8" uri="http://www.unibuc.ro/eBooks/Filologie.htm" draft="provisional">Linguistics texts (University of Bucharest)</reference>
+		<reference type="RP9" uri="http://www.seelrc.org:8080/grammar/pdf/stand_alone_romanian.pdf" draft="provisional">Romanian grammar</reference>
 	</references>
 </ldml>
 

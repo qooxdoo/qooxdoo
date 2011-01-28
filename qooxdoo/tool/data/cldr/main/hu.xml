@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.122 $"/>
-		<generation date="$Date: 2009/06/15 03:46:25 $"/>
+		<version number="$Revision: 5094 $"/>
+		<generation date="$Date: 2010-10-13 11:33:36 -0500 (Wed, 13 Oct 2010) $"/>
 		<language type="hu"/>
 	</identity>
 	<localeDisplayNames>
@@ -187,6 +187,7 @@
 			<language type="gsw">svájci német</language>
 			<language type="gu">gudzsarati</language>
 			<language type="gv" references="R078">Man-szigeti</language>
+			<language type="gv" alt="proposed-x1001" draft="unconfirmed">man-szigeti</language>
 			<language type="gwi">gvicsin</language>
 			<language type="ha">hausza</language>
 			<language type="hai">haida</language>
@@ -371,6 +372,7 @@
 			<language type="pau">palaui</language>
 			<language type="peo">óperzsa</language>
 			<language type="phi">Fülöp-szigeteki nyelv</language>
+			<language type="phi" alt="proposed-x1001" draft="unconfirmed">fülöp-szigeteki nyelv</language>
 			<language type="phn">főniciai</language>
 			<language type="pi">pali</language>
 			<language type="pl">lengyel</language>
@@ -445,6 +447,7 @@
 			<language type="sux">sumér</language>
 			<language type="sv">svéd</language>
 			<language type="sw">szuahéli</language>
+			<language type="swb">comorei</language>
 			<language type="syc">klasszikus szír</language>
 			<language type="syr">szíriai</language>
 			<language type="ta">tamil</language>
@@ -489,7 +492,7 @@
 			<language type="uz">üzbég</language>
 			<language type="vai">vai</language>
 			<language type="ve">venda</language>
-			<language type="vi">vietnámi</language>
+			<language type="vi">vietnami</language>
 			<language type="vo">volapük</language>
 			<language type="vot">votják</language>
 			<language type="wa">vallon</language>
@@ -506,13 +509,16 @@
 			<language type="yi">jiddis</language>
 			<language type="yo">joruba</language>
 			<language type="ypk">jupik nyelv</language>
+			<language type="yue">kantoni</language>
 			<language type="za">zsuang</language>
 			<language type="zap">zapoték</language>
 			<language type="zbl">Bliss jelképrendszer</language>
 			<language type="zen">zenaga</language>
 			<language type="zh">kínai</language>
 			<language type="zh_Hans">egyszerűsített kínai</language>
+			<language type="zh_Hans" alt="proposed-x1001" draft="unconfirmed">kínai (egyszerűsített)</language>
 			<language type="zh_Hant">hagyományos kínai</language>
+			<language type="zh_Hant" alt="proposed-x1001" draft="unconfirmed">kínai (hagyományos)</language>
 			<language type="znd">zande</language>
 			<language type="zu">zulu</language>
 			<language type="zun">zuni</language>
@@ -531,6 +537,7 @@
 			<script type="Bopo">Bopomofo</script>
 			<script type="Brah">Brámi</script>
 			<script type="Brai">Vakírás</script>
+			<script type="Brai" alt="proposed-x1001" draft="unconfirmed">Braille</script>
 			<script type="Bugi">Buginéz</script>
 			<script type="Buhd">Buhid</script>
 			<script type="Cakm">Csakma</script>
@@ -611,7 +618,6 @@
 			<script type="Phnx">Főniciai</script>
 			<script type="Plrd">Pollard fonetikus</script>
 			<script type="Prti">Feliratos parthian</script>
-			<script type="Qaai">Származtatott</script>
 			<script type="Rjng">Redzsang</script>
 			<script type="Roro">Rongorongo</script>
 			<script type="Runr">Runikus</script>
@@ -645,10 +651,12 @@
 			<script type="Xpeo">Óperzsa</script>
 			<script type="Xsux">Ékírásos suméro-akkád</script>
 			<script type="Yiii">Ji</script>
+			<script type="Zinh">Származtatott</script>
 			<script type="Zmth">Matematikai jelrendszer</script>
 			<script type="Zsym">Szimbólum</script>
 			<script type="Zxxx">Íratlan nyelvek kódja</script>
 			<script type="Zyyy">Meghatározatlan</script>
+			<script type="Zyyy" alt="proposed-x1001" draft="unconfirmed">Általános</script>
 			<script type="Zzzz">Ismeretlen vagy érvénytelen írásrendszer</script>
 		</scripts>
 		<territories>
@@ -685,6 +693,7 @@
 			<territory type="172">Független Államok Közössége</territory>
 			<territory type="419">Latin-Amerika és a Karib-térség</territory>
 			<territory type="830">Csatorna-szigetek</territory>
+			<territory type="AC">Ascension-sziget</territory>
 			<territory type="AD">Andorra</territory>
 			<territory type="AE">Egyesült Arab Emirátus</territory>
 			<territory type="AF">Afganisztán</territory>
@@ -716,7 +725,7 @@
 			<territory type="BN" references="R076">Brunei</territory>
 			<territory type="BO">Bolívia</territory>
 			<territory type="BR">Brazília</territory>
-			<territory type="BS">Bahamák</territory>
+			<territory type="BS">Bahama-szigetek</territory>
 			<territory type="BT">Bhután</territory>
 			<territory type="BV">Bouvet-sziget</territory>
 			<territory type="BW">Botswana</territory>
@@ -725,15 +734,20 @@
 			<territory type="CA">Kanada</territory>
 			<territory type="CC">Kókusz-szigetek</territory>
 			<territory type="CD">Kongó - Kinshasa</territory>
+			<territory type="CD" alt="variant">Kongó [KDK]</territory>
+			<territory type="CD" alt="variant-proposed-x1001" draft="unconfirmed">Kongó [Kongói Demokratikus Köztársaság]</territory>
 			<territory type="CF">Közép-afrikai Köztársaság</territory>
-			<territory type="CG">Kongó</territory>
+			<territory type="CG">Kongó - Brazzaville</territory>
+			<territory type="CG" alt="variant">Kongó [Köztársaság]</territory>
 			<territory type="CH">Svájc</territory>
 			<territory type="CI">Elefántcsontpart</territory>
+			<territory type="CI" alt="variant">Elefántcsontpart</territory>
 			<territory type="CK">Cook-szigetek</territory>
 			<territory type="CL">Chile</territory>
 			<territory type="CM">Kamerun</territory>
 			<territory type="CN">Kína</territory>
 			<territory type="CO">Kolumbia</territory>
+			<territory type="CP">Clipperton-sziget</territory>
 			<territory type="CR">Costa Rica</territory>
 			<territory type="CS" references="R076">Szerbia és Montenegró</territory>
 			<territory type="CU">Kuba</territory>
@@ -742,11 +756,13 @@
 			<territory type="CY">Ciprus</territory>
 			<territory type="CZ" references="R076">Csehország</territory>
 			<territory type="DE">Németország</territory>
+			<territory type="DG">Diego Garcia</territory>
 			<territory type="DJ">Dzsibuti</territory>
 			<territory type="DK">Dánia</territory>
 			<territory type="DM">Dominika</territory>
 			<territory type="DO">Dominikai Köztársaság</territory>
 			<territory type="DZ">Algéria</territory>
+			<territory type="EA">Ceuta és Melilla</territory>
 			<territory type="EC">Ecuador</territory>
 			<territory type="EE">Észtország</territory>
 			<territory type="EG">Egyiptom</territory>
@@ -754,9 +770,11 @@
 			<territory type="ER">Eritrea</territory>
 			<territory type="ES">Spanyolország</territory>
 			<territory type="ET">Etiópia</territory>
+			<territory type="EU">Európai Unió</territory>
 			<territory type="FI">Finnország</territory>
 			<territory type="FJ">Fidzsi</territory>
 			<territory type="FK">Falkland-szigetek</territory>
+			<territory type="FK" alt="variant">Falkland-szigetek [Malvin-szigetek]</territory>
 			<territory type="FM">Mikronézia</territory>
 			<territory type="FO">Feröer-szigetek</territory>
 			<territory type="FR">Franciaország</territory>
@@ -775,23 +793,25 @@
 			<territory type="GQ" references="R076">Egyenlítői-Guinea</territory>
 			<territory type="GR">Görögország</territory>
 			<territory type="GS">Dél Grúzia és a Déli Szendvics-szigetek</territory>
+			<territory type="GS" alt="proposed-x1001" draft="unconfirmed">Dél-Georgia és Déli-Sandwich-szigetek</territory>
 			<territory type="GT">Guatemala</territory>
 			<territory type="GU">Guam</territory>
 			<territory type="GW">Guinea-Bissau</territory>
 			<territory type="GY">Guyana</territory>
-			<territory type="HK">Hongkong S.A.R, Kína</territory>
+			<territory type="HK">Hongkong SAR Kína</territory>
 			<territory type="HK" alt="short">Hongkong</territory>
 			<territory type="HM">Heard és McDonald Szigetek</territory>
 			<territory type="HN">Honduras</territory>
 			<territory type="HR">Horvátország</territory>
 			<territory type="HT">Haiti</territory>
 			<territory type="HU">Magyarország</territory>
+			<territory type="IC">Kanári-szigetek</territory>
 			<territory type="ID">Indonézia</territory>
 			<territory type="IE">Írország</territory>
 			<territory type="IL">Izrael</territory>
 			<territory type="IM">Man-sziget</territory>
 			<territory type="IN">India</territory>
-			<territory type="IO">Brit Indiai Oceán</territory>
+			<territory type="IO">Brit Indiai-óceáni Terület</territory>
 			<territory type="IQ">Irak</territory>
 			<territory type="IR">Irán</territory>
 			<territory type="IS">Izland</territory>
@@ -814,6 +834,7 @@
 			<territory type="LA" references="R076">Laosz</territory>
 			<territory type="LB">Libanon</territory>
 			<territory type="LC">Santa Lucia</territory>
+			<territory type="LC" alt="proposed-x1001" draft="unconfirmed">Saint Lucia</territory>
 			<territory type="LI">Liechtenstein</territory>
 			<territory type="LK" references="R076">Srí Lanka</territory>
 			<territory type="LR">Libéria</territory>
@@ -829,9 +850,11 @@
 			<territory type="MF">Saint Martin</territory>
 			<territory type="MG">Madagaszkár</territory>
 			<territory type="MH">Marshall-szigetek</territory>
-			<territory type="MK" references="R076">Macedónia</territory>
+			<territory type="MK">Macedónia</territory>
+			<territory type="MK" alt="variant">Macedónia [MVJK]</territory>
+			<territory type="MK" alt="variant-proposed-x1001" draft="unconfirmed">Macedónia [Volt Jugoszláv Köztársaság]</territory>
 			<territory type="ML">Mali</territory>
-			<territory type="MM">Mianmar</territory>
+			<territory type="MM">Mianmar [Burma]</territory>
 			<territory type="MN">Mongólia</territory>
 			<territory type="MO">Makaó SAR Kína</territory>
 			<territory type="MO" alt="short">Makaó</territory>
@@ -867,7 +890,7 @@
 			<territory type="PK">Pakisztán</territory>
 			<territory type="PL">Lengyelország</territory>
 			<territory type="PM">Saint Pierre és Miquelon</territory>
-			<territory type="PN">Pitcairn-sziget</territory>
+			<territory type="PN">Pitcairn-szigetek</territory>
 			<territory type="PR">Puerto Rico</territory>
 			<territory type="PS" references="R077">Palesztin Terület</territory>
 			<territory type="PT">Portugália</territory>
@@ -875,11 +898,10 @@
 			<territory type="PY">Paraguay</territory>
 			<territory type="QA">Katar</territory>
 			<territory type="QO">Külső-Óceánia</territory>
-			<territory type="QU">Európai Unió</territory>
 			<territory type="RE">Reunion</territory>
 			<territory type="RO">Románia</territory>
 			<territory type="RS">Szerbia</territory>
-			<territory type="RU" references="R076">Oroszország</territory>
+			<territory type="RU">Oroszországi Föderáció</territory>
 			<territory type="RW">Ruanda</territory>
 			<territory type="SA" references="R076">Szaúd-Arábia</territory>
 			<territory type="SB">Salamon-szigetek</territory>
@@ -888,8 +910,9 @@
 			<territory type="SE">Svédország</territory>
 			<territory type="SG">Szingapúr</territory>
 			<territory type="SH">Szent Helena</territory>
+			<territory type="SH" alt="proposed-x1001" draft="unconfirmed">Szent Ilona</territory>
 			<territory type="SI">Szlovénia</territory>
-			<territory type="SJ">Svalbard és Jan Mayen</territory>
+			<territory type="SJ">Spitzbergák és Jan Mayen-szigetek</territory>
 			<territory type="SK">Szlovákia</territory>
 			<territory type="SL">Sierra Leone</territory>
 			<territory type="SM">San Marino</territory>
@@ -900,6 +923,7 @@
 			<territory type="SV" references="R076">Salvador</territory>
 			<territory type="SY" references="R076">Szíria</territory>
 			<territory type="SZ">Szváziföld</territory>
+			<territory type="TA">Tristan da Cunha</territory>
 			<territory type="TC" references="R076">Turks- és Caicos-szigetek</territory>
 			<territory type="TD">Csád</territory>
 			<territory type="TF">Francia Déli Területek</territory>
@@ -908,6 +932,7 @@
 			<territory type="TJ">Tadzsikisztán</territory>
 			<territory type="TK">Tokelau</territory>
 			<territory type="TL">Kelet-Timor</territory>
+			<territory type="TL" alt="variant">Kelet-Timor</territory>
 			<territory type="TM">Türkmenisztán</territory>
 			<territory type="TN">Tunézia</territory>
 			<territory type="TO">Tonga</territory>
@@ -919,21 +944,22 @@
 			<territory type="UA">Ukrajna</territory>
 			<territory type="UG">Uganda</territory>
 			<territory type="UM" references="R076">Amerikai Csendes-óceáni Szigetek</territory>
+			<territory type="UM" alt="proposed-x1001" draft="unconfirmed">Amerikai Egyesült Államok lakatlan külbirtokai</territory>
 			<territory type="US">Egyesült Államok</territory>
 			<territory type="UY">Uruguay</territory>
 			<territory type="UZ">Üzbegisztán</territory>
 			<territory type="VA">Vatikán</territory>
-			<territory type="VC">Saint Vincent és Grenadines</territory>
+			<territory type="VC">Saint Vincent és a Grenadine-szigetek</territory>
 			<territory type="VE">Venezuela</territory>
 			<territory type="VG">Brit Virgin-szigetek</territory>
 			<territory type="VI">Amerikai Virgin-szigetek</territory>
 			<territory type="VN" references="R076">Vietnam</territory>
 			<territory type="VU">Vanuatu</territory>
-			<territory type="WF" references="R076">Wallis és Futuna</territory>
+			<territory type="WF">Wallis- és Futuna-szigetek</territory>
 			<territory type="WS">Szamoa</territory>
 			<territory type="YE">Jemen</territory>
 			<territory type="YT">Mayotte</territory>
-			<territory type="ZA">Dél-Afrika</territory>
+			<territory type="ZA">Dél-afrikai Köztársaság</territory>
 			<territory type="ZM">Zambia</territory>
 			<territory type="ZW">Zimbabwe</territory>
 			<territory type="ZZ">Ismeretlen vagy érvénytelen körzet</territory>
@@ -943,6 +969,8 @@
 			<variant type="1994">Szabványosított reziján helyesírás</variant>
 			<variant type="1996">1996-os német helyesírás</variant>
 			<variant type="1606NICT">Késői közép francia 1606-ig</variant>
+			<variant type="1694ACAD" draft="provisional">Korai modern francia</variant>
+			<variant type="1959ACAD" draft="provisional">Akadémikus</variant>
 			<variant type="AREVELA">Keleti örmény</variant>
 			<variant type="AREVMDA">Nyugati örmény</variant>
 			<variant type="BAKU1926">Egyesített türkic latin ábécé</variant>
@@ -950,11 +978,13 @@
 			<variant type="BOONT">Boontling</variant>
 			<variant type="FONIPA">IPA fonetika</variant>
 			<variant type="FONUPA">UPA fonetika</variant>
+			<variant type="KKCOR" draft="provisional">Meghatározatlan helyesírás</variant>
 			<variant type="LIPAW">Reziján lipovaz tájszólás</variant>
 			<variant type="MONOTON">Monoton</variant>
 			<variant type="NEDIS">Natisone dialektus</variant>
 			<variant type="NJIVA">Gniva/Njiva tájszólás</variant>
 			<variant type="OSOJS">Oseacco/Osojane tájszólás</variant>
+			<variant type="PINYIN">pinjin átírás</variant>
 			<variant type="POLYTON">Politonikus</variant>
 			<variant type="POSIX">Számítógép</variant>
 			<variant type="REVISED">Átdolgozott helyesírás</variant>
@@ -964,34 +994,51 @@
 			<variant type="SCOUSE">Scouse</variant>
 			<variant type="SOLBA">Stolvizza/Solbica tájszólás</variant>
 			<variant type="TARASK">Taraskijevica helyesírás</variant>
+			<variant type="UCCOR" draft="provisional">Egyesített helyesírás</variant>
+			<variant type="UCRCOR" draft="provisional">Egyesített átdolgozott helyesírás</variant>
 			<variant type="VALENCIA">Valencia</variant>
+			<variant type="WADEGILE">Wade-Giles átírás</variant>
 		</variants>
 		<keys>
 			<key type="calendar">Naptár</key>
+			<key type="calendar" alt="proposed-x1001" draft="unconfirmed">naptár</key>
 			<key type="collation">Rendezés</key>
+			<key type="collation" alt="proposed-x1001" draft="unconfirmed">rendezés</key>
 			<key type="currency">Pénznem</key>
+			<key type="currency" alt="proposed-x1001" draft="unconfirmed">pénznem</key>
 		</keys>
 		<types>
 			<type type="big5han" key="collation">Hagyományos kínai sorrend - Big5</type>
+			<type type="big5han" key="collation" alt="proposed-x1001" draft="unconfirmed">hagyományos kínai sorrend - Big5</type>
 			<type type="buddhist" key="calendar">buddhista naptár</type>
 			<type type="chinese" key="calendar">kínai naptár</type>
 			<type type="direct" key="collation">Közvetlen sorrend</type>
+			<type type="direct" key="collation" alt="proposed-x1001" draft="unconfirmed">közvetlen sorrend</type>
 			<type type="gb2312han" key="collation">Egyszerűsített kínai sorrend - GB2312</type>
+			<type type="gb2312han" key="collation" alt="proposed-x1001" draft="unconfirmed">egyszerűsített kínai sorrend - GB2312</type>
 			<type type="gregorian" key="calendar">Gergely-naptár</type>
+			<type type="gregorian" key="calendar" alt="proposed-x1001" draft="unconfirmed">gergely-naptár</type>
 			<type type="hebrew" key="calendar">héber naptár</type>
 			<type type="indian" key="calendar">Indiai nemzeti naptár</type>
 			<type type="islamic" key="calendar">iszlám naptár</type>
 			<type type="islamic-civil" key="calendar">iszlám civil naptár</type>
 			<type type="japanese" key="calendar">japán naptár</type>
 			<type type="phonebook" key="collation">Telefonkönyv sorrend</type>
+			<type type="phonebook" key="collation" alt="proposed-x1001" draft="unconfirmed">telefonkönyv sorrend</type>
 			<type type="pinyin" key="collation">Pinyin sorrend</type>
+			<type type="pinyin" key="collation" alt="proposed-x1001" draft="unconfirmed">egyszerűsített kínai pinjin sorrend</type>
 			<type type="roc" key="calendar">Kínai köztársasági naptár</type>
+			<type type="roc" key="calendar" alt="proposed-x1001" draft="unconfirmed">kínai köztársasági naptár</type>
 			<type type="stroke" key="collation" references="R080">Vonássorrend</type>
+			<type type="stroke" key="collation" alt="proposed-x1001" draft="unconfirmed">hagyományos kínai vonássorrend</type>
 			<type type="traditional" key="collation">Hagyományos</type>
+			<type type="traditional" key="collation" alt="proposed-x1001" draft="unconfirmed">hagyományos sorrend</type>
 		</types>
 		<measurementSystemNames>
 			<measurementSystemName type="metric">metrikus</measurementSystemName>
+			<measurementSystemName type="metric" alt="proposed-x1001" draft="unconfirmed">Metrikus</measurementSystemName>
 			<measurementSystemName type="US">amerikai</measurementSystemName>
+			<measurementSystemName type="US" alt="proposed-x1001" draft="unconfirmed">Amerikai</measurementSystemName>
 		</measurementSystemNames>
 		<codePatterns>
 			<codePattern type="language">Nyelv: {0}</codePattern>
@@ -1002,17 +1049,20 @@
 	<layout>
 		<inList>titlecase-firstword</inList>
 		<inText type="currency">lowercase-words</inText>
+		<inText type="fields" draft="provisional">titlecase-firstword</inText>
 		<inText type="keys">titlecase-firstword</inText>
 		<inText type="languages">lowercase-words</inText>
 		<inText type="measurementSystemNames">lowercase-words</inText>
+		<inText type="monthWidth" draft="provisional">lowercase-words</inText>
 		<inText type="scripts">lowercase-words</inText>
+		<inText type="territories" draft="provisional">lowercase-words</inText>
 		<inText type="types">lowercase-words</inText>
 		<inText type="variants">lowercase-words</inText>
 	</layout>
 	<characters>
-		<exemplarCharacters references="R079">[a á b c {cs} {ccs} d {dz} {ddz} {dzs} {ddzs} e é f g {gy} {ggy} h i í j-l {ly} {lly} m n {ny} {nny} o ó ö ő p r s {sz} {ssz} t {ty} {tty} u ú ü ű v z {zs} {zzs}]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[q w-y]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a-z]</exemplarCharacters>
+		<exemplarCharacters>[a á b c {cs} {ccs} d {dz} {ddz} {dzs} {ddzs} e é f g {gy} {ggy} h i í j k l {ly} {lly} m n {ny} {nny} o ó ö ő p r s {sz} {ssz} t {ty} {tty} u ú ü ű v z {zs} {zzs}]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[q w x y]</exemplarCharacters>
+		<exemplarCharacters type="index">[A B C {CS} D {DZ} {DZS} E F G {GY} H I J K L {LY} M N {NY} O Ö P Q R S {SZ} T {TY} U Ü V W X Y Z {ZS}]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>„</quotationStart>
@@ -1071,7 +1121,7 @@
 							<month type="6">J</month>
 							<month type="7">J</month>
 							<month type="8">A</month>
-							<month type="9">S</month>
+							<month type="9">Sz</month>
 							<month type="10">O</month>
 							<month type="11">N</month>
 							<month type="12">D</month>
@@ -1104,10 +1154,10 @@
 							<day type="sun">V</day>
 							<day type="mon">H</day>
 							<day type="tue">K</day>
-							<day type="wed">S</day>
-							<day type="thu">C</day>
+							<day type="wed">Sz</day>
+							<day type="thu">Cs</day>
 							<day type="fri">P</day>
-							<day type="sat">S</day>
+							<day type="sat">Sz</day>
 						</dayWidth>
 					</dayContext>
 				</days>
@@ -1126,17 +1176,15 @@
 							<quarter type="4">IV. negyedév</quarter>
 						</quarterWidth>
 					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="narrow">
-							<quarter type="1">1</quarter>
-							<quarter type="2">2</quarter>
-							<quarter type="3">3</quarter>
-							<quarter type="4">4</quarter>
-						</quarterWidth>
-					</quarterContext>
 				</quarters>
-				<am references="R077">de.</am>
-				<pm references="R077">du.</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">de.</dayPeriod>
+							<dayPeriod type="pm">du.</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<era type="0" references="R077">időszámításunk előtt</era>
@@ -1161,6 +1209,7 @@
 					<dateFormatLength type="medium">
 						<dateFormat>
 							<pattern>yyyy.MM.dd.</pattern>
+							<pattern alt="proposed-x1001" draft="unconfirmed">y. MMM d.</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -1173,36 +1222,46 @@
 					<timeFormatLength type="full">
 						<timeFormat>
 							<pattern>H:mm:ss zzzz</pattern>
+							<pattern alt="proposed-x1001" draft="unconfirmed">HH:mm:ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
 						<timeFormat>
 							<pattern>H:mm:ss z</pattern>
+							<pattern alt="proposed-x1001" draft="unconfirmed">HH:mm:ss z</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="medium">
 						<timeFormat>
 							<pattern>H:mm:ss</pattern>
+							<pattern alt="proposed-x1001" draft="unconfirmed">HH:mm:ss</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="short">
 						<timeFormat>
 							<pattern>H:mm</pattern>
+							<pattern alt="proposed-x1001" draft="unconfirmed">HH:mm</pattern>
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="Ed">d., E</dateFormatItem>
+						<dateFormatItem id="H">H</dateFormatItem>
+						<dateFormatItem id="Hm">H:mm</dateFormatItem>
+						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">M. d.</dateFormatItem>
 						<dateFormatItem id="MEd">M. d., E</dateFormatItem>
 						<dateFormatItem id="MMdd">MM.dd.</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">MMM d.</dateFormatItem>
+						<dateFormatItem id="MMMEd">MMM d., E</dateFormatItem>
 						<dateFormatItem id="MMMMd">MMMM d.</dateFormatItem>
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
+						<dateFormatItem id="yMEd">yyyy.MM.dd., E</dateFormatItem>
+						<dateFormatItem id="yMMMEd">y. MMM d., E</dateFormatItem>
 						<dateFormatItem id="yyQ">yy/Q</dateFormatItem>
 						<dateFormatItem id="yyyyMM">yyyy.MM</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">y. MMMM</dateFormatItem>
@@ -1213,18 +1272,32 @@
 							<greatestDifference id="d">d-d.</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
-							<greatestDifference id="h">HH-HH</greatestDifference>
+							<greatestDifference id="h">h a - h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H">H-H</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
-							<greatestDifference id="h">HH:mm-HH:mm</greatestDifference>
-							<greatestDifference id="m">HH:mm-HH:mm</greatestDifference>
+							<greatestDifference id="h">h:mm-h:mm a</greatestDifference>
+							<greatestDifference id="m">h:mm-h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="H">H:mm-H:mm</greatestDifference>
+							<greatestDifference id="m">H:mm-H:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
-							<greatestDifference id="h">HH:mm-HH:mm v</greatestDifference>
-							<greatestDifference id="m">HH:mm-HH:mm v</greatestDifference>
+							<greatestDifference id="h">h:mm-h:mm a v</greatestDifference>
+							<greatestDifference id="m">h:mm-h:mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="H">H:mm-H:mm v</greatestDifference>
+							<greatestDifference id="m">H:mm-H:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
-							<greatestDifference id="h">HH-HH v</greatestDifference>
+							<greatestDifference id="h">h-h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H">H-H v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M">M-M.</greatestDifference>
@@ -1334,7 +1407,8 @@
 							<month type="4">Tévész</month>
 							<month type="5">Svát</month>
 							<month type="6">Ádár risón</month>
-							<month type="7">Ádár séni</month>
+							<month type="7">Ádár</month>
+							<month type="7" yeartype="leap">Ádár séni</month>
 							<month type="8">Niszán</month>
 							<month type="9">Ijár</month>
 							<month type="10">Sziván</month>
@@ -1376,7 +1450,6 @@
 		<timeZoneNames>
 			<hourFormat>+HH:mm;-HH:mm</hourFormat>
 			<gmtFormat>GMT{0}</gmtFormat>
-			<regionFormat>{0}</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity>ismeretlen</exemplarCity>
@@ -1805,6 +1878,12 @@
 					<daylight>Alaszkai-hawaii nyári idő</daylight>
 				</long>
 			</metazone>
+			<metazone type="Almaty">
+				<long>
+					<standard>Almati idő</standard>
+					<daylight>Almati nyári idő</daylight>
+				</long>
+			</metazone>
 			<metazone type="Amazon">
 				<long>
 					<standard>Amazóniai idő</standard>
@@ -1931,6 +2010,12 @@
 					<daylight>Ausztrál nyugati nyári idő</daylight>
 				</long>
 			</metazone>
+			<metazone type="Azerbaijan">
+				<long>
+					<standard>Azerbajdzsáni idő</standard>
+					<daylight>Azerbajdzsáni nyári idő</daylight>
+				</long>
+			</metazone>
 			<metazone type="Azores">
 				<long>
 					<standard>Azori idő</standard>
@@ -1946,6 +2031,7 @@
 			<metazone type="Bangladesh">
 				<long>
 					<standard>Bangladesi idő</standard>
+					<daylight>Bangladeshi nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bering">
@@ -1955,6 +2041,7 @@
 					<daylight>Beringi nyári idő</daylight>
 				</long>
 				<short>
+					<generic>BT (Beringi)</generic>
 					<standard>BST (Beringi)</standard>
 					<daylight>BDT (Beringi)</daylight>
 				</short>
@@ -1988,12 +2075,13 @@
 			</metazone>
 			<metazone type="Cape_Verde">
 				<long>
-					<standard>Cape verdei idő</standard>
-					<daylight>Cape verdei nyári idő</daylight>
+					<standard>Zöld-foki-szigeteki idő</standard>
+					<daylight>Zöld-foki-szigeteki nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chamorro">
 				<long>
+					<generic>Chamorroi idő</generic>
 					<standard>Chamorroi zónaidő</standard>
 				</long>
 			</metazone>
@@ -2016,10 +2104,12 @@
 			</metazone>
 			<metazone type="China">
 				<long>
+					<generic>Kínai idő</generic>
 					<standard>Kínai zónaidő</standard>
 					<daylight>Kínai nyári idő</daylight>
 				</long>
 				<short>
+					<generic>CT (Kína)</generic>
 					<standard>CST (Kína)</standard>
 					<daylight>CDT (Kína)</daylight>
 				</short>
@@ -2059,6 +2149,7 @@
 					<daylight>Kubai nyári idő</daylight>
 				</long>
 				<short>
+					<generic>CT (Kuba)</generic>
 					<standard>CST (Kuba)</standard>
 					<daylight>CDT (Kuba)</daylight>
 				</short>
@@ -2209,6 +2300,7 @@
 			</metazone>
 			<metazone type="Gulf">
 				<long>
+					<generic>Arab-öbölbeli idő</generic>
 					<standard>Öbölbeli zónaidő</standard>
 				</long>
 			</metazone>
@@ -2244,6 +2336,11 @@
 					<standard>Indiai-óceáni idő</standard>
 				</long>
 			</metazone>
+			<metazone type="Indochina">
+				<long>
+					<standard>Indokínai idő</standard>
+				</long>
+			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
 					<standard>Közép-indonéziai idő</standard>
@@ -2273,6 +2370,7 @@
 			</metazone>
 			<metazone type="Israel">
 				<long>
+					<generic>Izraeli idő</generic>
 					<standard>Izraeli zónaidő</standard>
 					<daylight>Izraeli nyári idő</daylight>
 				</long>
@@ -2282,6 +2380,7 @@
 			</metazone>
 			<metazone type="Japan">
 				<long>
+					<generic>Japán idő</generic>
 					<standard>Japán zónaidő</standard>
 					<daylight>Japán nyári idő</daylight>
 				</long>
@@ -2304,11 +2403,13 @@
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
+					<generic>Kelet-kazahsztáni idő</generic>
 					<standard>Kelet-kazahsztáni zónaidő</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
+					<generic>Nyugat-kazahsztáni idő</generic>
 					<standard>Nyugat-kazahsztáni zónaidő</standard>
 				</long>
 			</metazone>
@@ -2361,9 +2462,6 @@
 				<long>
 					<generic>Libériai idő</generic>
 				</long>
-				<short>
-					<generic>Libériai idő</generic>
-				</short>
 			</metazone>
 			<metazone type="Line_Islands">
 				<long>
@@ -2422,6 +2520,7 @@
 			<metazone type="Mauritius">
 				<long>
 					<standard>Mauritiusi idő</standard>
+					<daylight>Mauritiusi nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mawson">
@@ -2633,6 +2732,7 @@
 			<metazone type="South_Georgia">
 				<long>
 					<standard>Dél-grúziai idő</standard>
+					<standard alt="proposed-x1001" draft="unconfirmed">Dél-Georgiai idő</standard>
 				</long>
 				<short>
 					<standard>GST (Dél-grúziai)</standard>
@@ -2817,6 +2917,7 @@
 			<decimalFormatLength>
 				<decimalFormat>
 					<pattern references="R079">#,##0.###</pattern>
+					<pattern alt="proposed-x1001" draft="unconfirmed">#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
@@ -2831,6 +2932,7 @@
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern references="R079">#,##0.00 ¤</pattern>
+					<pattern alt="proposed-x1001" draft="unconfirmed">#,##0.00 ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
 			<unitPattern count="other">{0} {1}</unitPattern>
@@ -3058,6 +3160,9 @@
 			</currency>
 			<currency type="CSK">
 				<displayName>Csehszlovák kemény korona</displayName>
+			</currency>
+			<currency type="CUC">
+				<displayName>Kubai konvertibilis peso</displayName>
 			</currency>
 			<currency type="CUP">
 				<displayName>Kubai peso</displayName>
@@ -3533,6 +3638,9 @@
 			<currency type="TMM">
 				<displayName>Türkmenisztáni manat</displayName>
 			</currency>
+			<currency type="TMT">
+				<displayName>Türkmenisztáni új manat</displayName>
+			</currency>
 			<currency type="TND">
 				<displayName>Tunéziai dínár</displayName>
 			</currency>
@@ -3649,6 +3757,7 @@
 			<currency type="XEU">
 				<displayName>európai pénznemegység</displayName>
 				<displayName count="other">Európai pénznemegység</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Európai pénznemegység</displayName>
 			</currency>
 			<currency type="XFO">
 				<displayName>Francia arany frank</displayName>
@@ -3713,6 +3822,9 @@
 			<currency type="ZWD">
 				<displayName>Zimbabwei dollár</displayName>
 			</currency>
+			<currency type="ZWL">
+				<displayName>Zimbabwei dollár (2009)</displayName>
+			</currency>
 		</currencies>
 	</numbers>
 	<units>
@@ -3745,6 +3857,12 @@
 			<unitPattern count="other" alt="short">{0} év</unitPattern>
 		</unit>
 	</units>
+	<listPatterns>
+		<listPattern>
+			<listPatternPart type="2">{0} és {1}</listPatternPart>
+			<listPatternPart type="end">{0} és {1}</listPatternPart>
+		</listPattern>
+	</listPatterns>
 	<posix>
 		<messages>
 			<yesstr>igen:i</yesstr>
@@ -3757,10 +3875,10 @@
 		<reference type="R078">Angol-magyar nagyszótár, Tizenegyedik kiadás (az ötödik, teljesen átdolgozott és bővített kiadás változatlan lenyomata), Akadémiai Kiadó, Budapest, 1992, ISBN 963 05 6349 5 (I-II. kötet)</reference>
 		<reference type="R079" uri="http://www.akademiaikiado.hu/">A magyar helyesírás szabályai, Tizenegyedik kiadás, Tizenkettedik (szótári anyagában bővített) lenyomat, Akadémiai Kiadó, Budapest, 2000, ISBN 963 05 7735 6</reference>
 		<reference type="R080" uri="http://web.tvnetwork.hu/~aguti/shufa.htm">Kalligráfia</reference>
-		<reference type="RP1" uri="http://hu.wikipedia.org/wiki/ÃƒÆ’Ã¯Â¿Â½rÃƒÆ’Ã‚Â¡sjel">Wikipédia - Különleges írásjelek</reference>
-		<reference type="RP2" uri="http://hu.wikipedia.org/wiki/Magyar_helyesÃƒÆ’Ã‚Â­rÃƒÆ’Ã‚Â¡s">Wikipédia - Magyar helyesírás</reference>
-		<reference type="RP3" uri="http://hu.wikipedia.org/wiki/HelyesÃƒÆ’Ã‚Â­rÃƒÆ’Ã‚Â¡s">Wikipédia - Helyesírás</reference>
-		<reference type="RP4" uri="http://hu.wikipedia.org/wiki/IdÃƒÆ’Ã‚Â©zÃƒâ€¦Ã¢â‚¬Ëœjel">Wikipédia - Idézőjel</reference>
+		<reference type="RP1" uri="http://hu.wikipedia.org/wiki/ÃƒÆ’Ã†â€™ÃƒÂ¯Ã‚Â¿Ã‚Â½rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡sjel">Wikipédia - Különleges írásjelek</reference>
+		<reference type="RP2" uri="http://hu.wikipedia.org/wiki/Magyar_helyesÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡s">Wikipédia - Magyar helyesírás</reference>
+		<reference type="RP3" uri="http://hu.wikipedia.org/wiki/HelyesÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡s">Wikipédia - Helyesírás</reference>
+		<reference type="RP4" uri="http://hu.wikipedia.org/wiki/IdÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©zÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã‹Å“jel">Wikipédia - Idézőjel</reference>
 		<reference type="RP5" uri="www.osiriskiado.hu">Helyesírás, Laczkó Krisztina - Mártonfi Attila, Osiris Kiadó, Budapest, 2005, ISBN 963 389 541 3</reference>
 	</references>
 </ldml>

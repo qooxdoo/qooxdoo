@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.124 $"/>
-		<generation date="$Date: 2009/06/15 20:34:50 $"/>
+		<version number="$Revision: 5159 $"/>
+		<generation date="$Date: 2010-10-27 19:16:55 -0500 (Wed, 27 Oct 2010) $"/>
 		<language type="it"/>
 	</identity>
 	<localeDisplayNames>
@@ -442,6 +442,9 @@
 			<language type="sux">sumero</language>
 			<language type="sv">svedese</language>
 			<language type="sw">swahili</language>
+			<language type="swb">Comoriano</language>
+			<language type="swb" alt="proposed-x1001" draft="unconfirmed">Comoria</language>
+			<language type="swb" alt="proposed-x1002" draft="unconfirmed">swb</language>
 			<language type="syr">siriaco</language>
 			<language type="ta">tamil</language>
 			<language type="tai">lingua tailandese</language>
@@ -487,6 +490,7 @@
 			<language type="ve">venda</language>
 			<language type="vi">vietnamita</language>
 			<language type="vo" references="R087">volapük</language>
+			<language type="vo" alt="proposed-x1001" draft="unconfirmed">volapuk</language>
 			<language type="vot">voto</language>
 			<language type="wa">vallone</language>
 			<language type="wak">lingue wakash</language>
@@ -498,10 +502,12 @@
 			<language type="xal">kalmyk</language>
 			<language type="xh">xosa</language>
 			<language type="yao">yao (bantu)</language>
+			<language type="yao" alt="proposed-x1001" draft="unconfirmed">yao</language>
 			<language type="yap">yapese</language>
 			<language type="yi">yiddish</language>
 			<language type="yo">yoruba</language>
 			<language type="ypk">lingue yupik</language>
+			<language type="yue">Cantonese</language>
 			<language type="za">zhuang</language>
 			<language type="zap">zapotec</language>
 			<language type="zen">zenaga</language>
@@ -567,6 +573,7 @@
 			<script type="Khar" draft="contributed">kharoshthi</script>
 			<script type="Khmr">khmer</script>
 			<script type="Knda">kannada</script>
+			<script type="Kore" draft="provisional">coreano</script>
 			<script type="Lana" draft="contributed">lanna</script>
 			<script type="Laoo">lao</script>
 			<script type="Latf">variante fraktur del latino</script>
@@ -596,7 +603,6 @@
 			<script type="Phag" draft="contributed">phags-pa</script>
 			<script type="Phnx" draft="contributed">fenicio</script>
 			<script type="Plrd" draft="contributed">fonetica di pollard</script>
-			<script type="Qaai">ereditato</script>
 			<script type="Rjng" draft="contributed">rejang</script>
 			<script type="Roro" draft="contributed">rongorongo</script>
 			<script type="Runr">runico</script>
@@ -628,6 +634,7 @@
 			<script type="Xpeo" draft="contributed">persiano antico</script>
 			<script type="Xsux" draft="contributed">sumero-accadiano cuneiforme</script>
 			<script type="Yiii">yi</script>
+			<script type="Zinh">ereditato</script>
 			<script type="Zxxx" draft="contributed">non scritto</script>
 			<script type="Zyyy">comune</script>
 			<script type="Zzzz" draft="contributed">ignoto o non valido</script>
@@ -665,6 +672,7 @@
 			<territory type="155" references="R085">Europa occidentale</territory>
 			<territory type="172" references="R085">Comunità di Stati Indipendenti</territory>
 			<territory type="419" references="R085">America Latina e Caraibi</territory>
+			<territory type="AC">Isola di Ascensione</territory>
 			<territory type="AD">Andorra</territory>
 			<territory type="AE">Emirati Arabi Uniti</territory>
 			<territory type="AF">Afghanistan</territory>
@@ -673,6 +681,7 @@
 			<territory type="AL">Albania</territory>
 			<territory type="AM">Armenia</territory>
 			<territory type="AN">Antille Olandesi</territory>
+			<territory type="AN" alt="proposed-x1001" draft="unconfirmed">Antille olandesi</territory>
 			<territory type="AO">Angola</territory>
 			<territory type="AQ">Antartide</territory>
 			<territory type="AR">Argentina</territory>
@@ -705,15 +714,20 @@
 			<territory type="CA">Canada</territory>
 			<territory type="CC">Isole Cocos</territory>
 			<territory type="CD">Repubblica Democratica del Congo</territory>
+			<territory type="CD" alt="proposed-x1001" draft="unconfirmed">Congo belga</territory>
 			<territory type="CF">Repubblica Centrafricana</territory>
 			<territory type="CG">Congo</territory>
+			<territory type="CG" alt="proposed-x1001" draft="unconfirmed">Repubblica Popolare del Congo</territory>
+			<territory type="CG" alt="variant" draft="provisional">Repubblica del Congo</territory>
 			<territory type="CH">Svizzera</territory>
 			<territory type="CI">Costa d’Avorio</territory>
+			<territory type="CI" alt="variant" draft="provisional">Costa d’Avorio</territory>
 			<territory type="CK">Isole Cook</territory>
 			<territory type="CL">Cile</territory>
 			<territory type="CM">Camerun</territory>
 			<territory type="CN">Cina</territory>
 			<territory type="CO">Colombia</territory>
+			<territory type="CP">Isola di Clipperton</territory>
 			<territory type="CR">Costa Rica</territory>
 			<territory type="CS">Serbia e Montenegro</territory>
 			<territory type="CU">Cuba</territory>
@@ -722,11 +736,13 @@
 			<territory type="CY">Cipro</territory>
 			<territory type="CZ">Repubblica Ceca</territory>
 			<territory type="DE">Germania</territory>
+			<territory type="DG">Diego Garcia</territory>
 			<territory type="DJ">Gibuti</territory>
 			<territory type="DK">Danimarca</territory>
 			<territory type="DM">Dominica</territory>
 			<territory type="DO">Repubblica Dominicana</territory>
 			<territory type="DZ">Algeria</territory>
+			<territory type="EA">Ceuta e Melilla</territory>
 			<territory type="EC">Ecuador</territory>
 			<territory type="EE">Estonia</territory>
 			<territory type="EG">Egitto</territory>
@@ -734,16 +750,19 @@
 			<territory type="ER">Eritrea</territory>
 			<territory type="ES">Spagna</territory>
 			<territory type="ET">Etiopia</territory>
+			<territory type="EU">Unione Europea</territory>
 			<territory type="FI">Finlandia</territory>
 			<territory type="FJ">Figi</territory>
 			<territory type="FK">Isole Falkland</territory>
 			<territory type="FM">Micronesia</territory>
 			<territory type="FO">Isole Faroe</territory>
 			<territory type="FR">Francia</territory>
+			<territory type="FX" draft="provisional">Francia metropolitana</territory>
 			<territory type="GA">Gabon</territory>
 			<territory type="GB">Regno Unito</territory>
 			<territory type="GD">Grenada</territory>
 			<territory type="GE">Georgia</territory>
+			<territory type="GE" alt="proposed-x1001" draft="unconfirmed">Georgia del Sud e isole Sandwich meridionali</territory>
 			<territory type="GF">Guiana Francese</territory>
 			<territory type="GG">Guernsey</territory>
 			<territory type="GH">Ghana</territory>
@@ -755,24 +774,26 @@
 			<territory type="GQ">Guinea Equatoriale</territory>
 			<territory type="GR">Grecia</territory>
 			<territory type="GS">Georgia del Sud e Isole Sandwich del Sud</territory>
+			<territory type="GS" alt="proposed-x1001" draft="unconfirmed">Georgia del Sud e isole Sandwich meridionali</territory>
 			<territory type="GT">Guatemala</territory>
 			<territory type="GU">Guam</territory>
 			<territory type="GW">Guinea-Bissau</territory>
 			<territory type="GY">Guyana</territory>
 			<territory type="HK">Regione Amministrativa Speciale di Hong Kong della Repubblica Popolare Cinese</territory>
-			<territory type="HK" alt="short" draft="contributed">Hong-Kong</territory>
-			<territory type="HK" alt="short-proposed-x1001" draft="unconfirmed">Hong Kong</territory>
+			<territory type="HK" alt="short">Hong-Kong</territory>
 			<territory type="HM">Isole Heard ed Isole McDonald</territory>
 			<territory type="HN">Honduras</territory>
 			<territory type="HR">Croazia</territory>
 			<territory type="HT">Haiti</territory>
 			<territory type="HU">Ungheria</territory>
+			<territory type="IC">Isole Canarie</territory>
 			<territory type="ID">Indonesia</territory>
 			<territory type="IE">Irlanda</territory>
 			<territory type="IL">Israele</territory>
 			<territory type="IM">Isola di Man</territory>
 			<territory type="IN">India</territory>
 			<territory type="IO">Territorio Britannico dell’Oceano Indiano</territory>
+			<territory type="IO" alt="proposed-x1001" draft="unconfirmed">Territorio britannico dell’Oceano Indiano</territory>
 			<territory type="IQ">Iraq</territory>
 			<territory type="IR">Iran</territory>
 			<territory type="IS">Islanda</territory>
@@ -849,13 +870,12 @@
 			<territory type="PM">Saint Pierre e Miquelon</territory>
 			<territory type="PN">Pitcairn</territory>
 			<territory type="PR">Portorico</territory>
-			<territory type="PS">Palestina</territory>
+			<territory type="PS">Territori palestinesi</territory>
 			<territory type="PT">Portogallo</territory>
 			<territory type="PW">Palau</territory>
 			<territory type="PY">Paraguay</territory>
 			<territory type="QA">Qatar</territory>
 			<territory type="QO" references="R087">Oceania lontana</territory>
-			<territory type="QU">Unione Europea</territory>
 			<territory type="RE">Réunion</territory>
 			<territory type="RO">Romania</territory>
 			<territory type="RS">Serbia</territory>
@@ -880,6 +900,7 @@
 			<territory type="SV">El Salvador</territory>
 			<territory type="SY">Siria</territory>
 			<territory type="SZ">Swaziland</territory>
+			<territory type="TA">Tristan da Cunha</territory>
 			<territory type="TC">Isole Turks e Caicos</territory>
 			<territory type="TD">Ciad</territory>
 			<territory type="TF">Territori australi francesi</territory>
@@ -888,6 +909,8 @@
 			<territory type="TJ">Tagikistan</territory>
 			<territory type="TK">Tokelau</territory>
 			<territory type="TL">Timor Est</territory>
+			<territory type="TL" alt="variant">Timor Est</territory>
+			<territory type="TL" alt="variant-proposed-x1001" draft="unconfirmed">TL</territory>
 			<territory type="TM">Turkmenistan</territory>
 			<territory type="TN">Tunisia</territory>
 			<territory type="TO">Tonga</territory>
@@ -899,13 +922,16 @@
 			<territory type="UA">Ucraina</territory>
 			<territory type="UG">Uganda</territory>
 			<territory type="UM">Isole Minori lontane dagli Stati Uniti</territory>
+			<territory type="UM" alt="proposed-x1001" draft="unconfirmed">Isole minori esterne degli Stati Uniti</territory>
 			<territory type="US">Stati Uniti</territory>
 			<territory type="UY">Uruguay</territory>
 			<territory type="UZ">Uzbekistan</territory>
 			<territory type="VA">Vaticano</territory>
 			<territory type="VC">Saint Vincent e Grenadines</territory>
+			<territory type="VC" alt="proposed-x1001" draft="unconfirmed">Saint Vincent e Grenadine</territory>
 			<territory type="VE">Venezuela</territory>
 			<territory type="VG">Isole Vergini Britanniche</territory>
+			<territory type="VG" alt="proposed-x1001" draft="unconfirmed">Isole Vergini britanniche</territory>
 			<territory type="VI">Isole Vergini Americane</territory>
 			<territory type="VN">Vietnam</territory>
 			<territory type="VU">Vanuatu</territory>
@@ -960,6 +986,11 @@
 			<measurementSystemName type="metric">metrico</measurementSystemName>
 			<measurementSystemName type="US">USA</measurementSystemName>
 		</measurementSystemNames>
+		<codePatterns>
+			<codePattern type="language" draft="unconfirmed">Lingua: {0}</codePattern>
+			<codePattern type="script" draft="unconfirmed">Scrittura: {0}</codePattern>
+			<codePattern type="territory" draft="unconfirmed">Regione: {0}</codePattern>
+		</codePatterns>
 	</localeDisplayNames>
 	<layout>
 		<inText type="keys">lowercase-words</inText>
@@ -967,10 +998,10 @@
 		<inText type="types">lowercase-words</inText>
 	</layout>
 	<characters>
-		<exemplarCharacters>[a à b-e é è f-i ì j-o ó ò p-u ù v-z]</exemplarCharacters>
+		<exemplarCharacters>[a à b c d e é è f g h i ì j k l m n o ó ò p q r s t u ù v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[í ï ú]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary" alt="proposed-x1001" draft="unconfirmed">[í ï ú ü]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a-z]</exemplarCharacters>
+		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>‘</quotationStart>
@@ -980,6 +1011,63 @@
 	</delimiters>
 	<dates>
 		<calendars>
+			<calendar type="buddhist">
+				<dateFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>dd MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd/MMM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd/MM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
+						<dateFormatItem id="h">hh a</dateFormatItem>
+						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MEd">EEE d/M</dateFormatItem>
+						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">EEE d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMdd">dd MMMM</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">y G</dateFormatItem>
+						<dateFormatItem id="yM">M/y G</dateFormatItem>
+						<dateFormatItem id="yMd">d/M/y G</dateFormatItem>
+						<dateFormatItem id="yMEd">EEE, d/M/y G</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM y G</dateFormatItem>
+						<dateFormatItem id="yMMMEd">EEE d MMM y G</dateFormatItem>
+						<dateFormatItem id="yQ">Q-y G</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y G</dateFormatItem>
+						<dateFormatItem id="yyMM">MM/y G</dateFormatItem>
+						<dateFormatItem id="yyQ">Q y G</dateFormatItem>
+						<dateFormatItem id="yyQQQQ">QQQQ y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -1100,17 +1188,15 @@
 							<quarter type="4">4o trimestre</quarter>
 						</quarterWidth>
 					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="narrow">
-							<quarter type="1">1</quarter>
-							<quarter type="2">2</quarter>
-							<quarter type="3">3</quarter>
-							<quarter type="4">4</quarter>
-						</quarterWidth>
-					</quarterContext>
 				</quarters>
-				<am>m.</am>
-				<pm>p.</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">m.</dayPeriod>
+							<dayPeriod type="pm">p.</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<era type="0" draft="contributed">a.C.</era>
@@ -1146,33 +1232,36 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern>HH.mm.ss zzzz</pattern>
+							<pattern>HH:mm:ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
 						<timeFormat>
-							<pattern>HH.mm.ss z</pattern>
+							<pattern>HH:mm:ss z</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="medium">
 						<timeFormat>
-							<pattern>HH.mm.ss</pattern>
+							<pattern>HH:mm:ss</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="short">
 						<timeFormat>
-							<pattern>HH.mm</pattern>
+							<pattern>HH:mm</pattern>
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="hhmm">hh.mm a</dateFormatItem>
-						<dateFormatItem id="HHmm">HH.mm</dateFormatItem>
-						<dateFormatItem id="hhmmss">hh.mm.ss a</dateFormatItem>
-						<dateFormatItem id="HHmmss">HH.mm.ss</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
+						<dateFormatItem id="h">hh a</dateFormatItem>
+						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
+						<dateFormatItem id="hm" alt="proposed-x1001" draft="unconfirmed">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
+						<dateFormatItem id="hms" alt="proposed-x1001" draft="unconfirmed">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
 						<dateFormatItem id="MEd">EEE d/M</dateFormatItem>
@@ -1180,16 +1269,13 @@
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">EEE d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMMdd">dd MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">EEE d MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, d-M-yyyy</dateFormatItem>
+						<dateFormatItem id="yM">M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">EEE, d/M/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">EEE d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q-yyyy</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/yy</dateFormatItem>
@@ -1203,22 +1289,40 @@
 							<greatestDifference id="d">d-d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
+							<greatestDifference id="a">h a - h a</greatestDifference>
+							<greatestDifference id="h">h-h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
 							<greatestDifference id="a">HH-HH</greatestDifference>
-							<greatestDifference id="h">HH-HH</greatestDifference>
+							<greatestDifference id="H">HH-HH</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
+							<greatestDifference id="a">h:mm a - h:mm a</greatestDifference>
+							<greatestDifference id="h">h:mm-h:mm a</greatestDifference>
+							<greatestDifference id="m">h:mm-h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
 							<greatestDifference id="a">HH:mm-HH:mm</greatestDifference>
-							<greatestDifference id="h">HH:mm-HH:mm</greatestDifference>
+							<greatestDifference id="H">HH:mm-HH:mm</greatestDifference>
 							<greatestDifference id="m">HH:mm-HH:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
+							<greatestDifference id="a">h:mm a - h:mm a v</greatestDifference>
+							<greatestDifference id="h">h:mm-h:mm a v</greatestDifference>
+							<greatestDifference id="m">h:mm-h:mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
 							<greatestDifference id="a">HH:mm-HH:mm v</greatestDifference>
-							<greatestDifference id="h">HH:mm-HH:mm v</greatestDifference>
+							<greatestDifference id="H">HH:mm-HH:mm v</greatestDifference>
 							<greatestDifference id="m">HH:mm-HH:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
+							<greatestDifference id="a">h a - h a v</greatestDifference>
+							<greatestDifference id="h">h-h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
 							<greatestDifference id="a">HH-HH v</greatestDifference>
-							<greatestDifference id="h">HH-HH v</greatestDifference>
+							<greatestDifference id="H">HH-HH v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M">M-M</greatestDifference>
@@ -1277,8 +1381,8 @@
 							<greatestDifference id="y">E d MMM y - E d MMM y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">yyyy-MM – MM</greatestDifference>
-							<greatestDifference id="y">yyyy-MM – yyyy-MM</greatestDifference>
+							<greatestDifference id="M">MMMM-MMMM y</greatestDifference>
+							<greatestDifference id="y">MMMM y - MMMM y</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -1325,9 +1429,246 @@
 					</field>
 				</fields>
 			</calendar>
+			<calendar type="islamic">
+				<months>
+					<default choice="format"/>
+					<monthContext type="format">
+						<default choice="wide"/>
+						<monthWidth type="abbreviated">
+							<month type="1">Muh.</month>
+							<month type="2">Saf.</month>
+							<month type="3">Rab. I</month>
+							<month type="4">Rab. II</month>
+							<month type="5">Jum. I</month>
+							<month type="6">Jum. II</month>
+							<month type="7">Raj.</month>
+							<month type="8">Sha.</month>
+							<month type="9">Ram.</month>
+							<month type="10">Shaw.</month>
+							<month type="11">Dhuʻl-Q.</month>
+							<month type="12">Dhuʻl-H.</month>
+						</monthWidth>
+						<monthWidth type="narrow">
+							<alias source="locale" path="../../monthContext[@type='stand-alone']/monthWidth[@type='narrow']"/>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">Muharram</month>
+							<month type="2">Safar</month>
+							<month type="3">Rabiʻ I</month>
+							<month type="4">Rabiʻ II</month>
+							<month type="5">Jumada I</month>
+							<month type="6">Jumada II</month>
+							<month type="7">Rajab</month>
+							<month type="8">Shaʻban</month>
+							<month type="9">Ramadan</month>
+							<month type="10">Shawwal</month>
+							<month type="11">Dhuʻl-Qiʻdah</month>
+							<month type="12">Dhuʻl-Hijjah</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="abbreviated">
+							<alias source="locale" path="../../monthContext[@type='format']/monthWidth[@type='abbreviated']"/>
+						</monthWidth>
+						<monthWidth type="narrow">
+							<month type="1">1</month>
+							<month type="2">2</month>
+							<month type="3">3</month>
+							<month type="4">4</month>
+							<month type="5">5</month>
+							<month type="6">6</month>
+							<month type="7">7</month>
+							<month type="8">8</month>
+							<month type="9">9</month>
+							<month type="10">10</month>
+							<month type="11">11</month>
+							<month type="12">12</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<alias source="locale" path="../../monthContext[@type='format']/monthWidth[@type='wide']"/>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraNames>
+						<alias source="locale" path="../eraAbbr"/>
+					</eraNames>
+					<eraAbbr>
+						<era type="0">AH</era>
+					</eraAbbr>
+					<eraNarrow>
+						<alias source="locale" path="../eraAbbr"/>
+					</eraNarrow>
+				</eras>
+				<dateFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>dd MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd/MMM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd/MM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
+						<dateFormatItem id="h">hh a</dateFormatItem>
+						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MEd">EEE d/M</dateFormatItem>
+						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">EEE d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMdd">dd MMMM</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="yQ">Q-y G</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y G</dateFormatItem>
+						<dateFormatItem id="yyMM">MM/y G</dateFormatItem>
+						<dateFormatItem id="yyQ">Q y G</dateFormatItem>
+						<dateFormatItem id="yyQQQQ">QQQQ y G</dateFormatItem>
+						<dateFormatItem id="yyyy">y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">EEE, d/M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">EEE d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="japanese">
+				<dateFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>dd MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd/MMM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd/MM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
+						<dateFormatItem id="h">hh a</dateFormatItem>
+						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MEd">EEE d/M</dateFormatItem>
+						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">EEE d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMdd">dd MMMM</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="yQ">Q-y G</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y G</dateFormatItem>
+						<dateFormatItem id="yyMM">MM/y G</dateFormatItem>
+						<dateFormatItem id="yyQ">Q y G</dateFormatItem>
+						<dateFormatItem id="yyQQQQ">QQQQ y G</dateFormatItem>
+						<dateFormatItem id="yyyy">y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">EEE, d/M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">EEE d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="roc">
+				<dateFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>dd MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd/MMM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd/MM/y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
+						<dateFormatItem id="h">hh a</dateFormatItem>
+						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MEd">EEE d/M</dateFormatItem>
+						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">EEE d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMdd">dd MMMM</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="yQ">Q-y G</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y G</dateFormatItem>
+						<dateFormatItem id="yyMM">MM/y G</dateFormatItem>
+						<dateFormatItem id="yyQ">Q y G</dateFormatItem>
+						<dateFormatItem id="yyQQQQ">QQQQ y G</dateFormatItem>
+						<dateFormatItem id="yyyy">y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">EEE, d/M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">EEE d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
 		</calendars>
 		<timeZoneNames>
-			<hourFormat>+HH.mm;-HH.mm</hourFormat>
+			<hourFormat>+HH:mm;-HH:mm</hourFormat>
 			<gmtFormat>GMT{0}</gmtFormat>
 			<regionFormat draft="contributed">{0}</regionFormat>
 			<zone type="Etc/Unknown">
@@ -1519,224 +1860,23 @@
 			<zone type="America/St_Thomas">
 				<exemplarCity>St. Thomas</exemplarCity>
 			</zone>
-			<metazone type="Acre">
-				<long>
-					<standard draft="provisional">Acre Time</standard>
-					<daylight draft="provisional">Acre Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Africa_Central">
-				<long>
-					<standard draft="provisional">Central Africa Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Africa_Eastern">
-				<long>
-					<standard draft="provisional">East Africa Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Africa_Southern">
-				<long>
-					<standard draft="provisional">South Africa Standard Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Africa_Western">
-				<long>
-					<standard draft="provisional">West Africa Time</standard>
-					<daylight draft="provisional">West Africa Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Aktyubinsk">
-				<long>
-					<standard draft="provisional">Aktyubinsk Time</standard>
-					<daylight draft="provisional">Aktyubinsk Summer Time</daylight>
-				</long>
-			</metazone>
 			<metazone type="Alaska">
 				<long>
-					<generic draft="provisional">Alaska Time</generic>
 					<standard>Ora Standard Alaska</standard>
 					<daylight>Ora Legale Alaska</daylight>
 				</long>
 			</metazone>
-			<metazone type="Alaska_Hawaii">
-				<long>
-					<standard draft="provisional">Alaska-Hawaii Standard Time</standard>
-					<daylight draft="provisional">Alaska-Hawaii Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Amazon">
-				<long>
-					<standard draft="provisional">Amazon Time</standard>
-					<daylight draft="provisional">Amazon Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="America_Central">
-				<long>
-					<generic draft="provisional">Central Time</generic>
-					<standard draft="provisional">Central Standard Time</standard>
-					<daylight draft="provisional">Central Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="America_Eastern">
-				<long>
-					<generic draft="provisional">Eastern Time</generic>
-					<standard draft="provisional">Eastern Standard Time</standard>
-					<daylight draft="provisional">Eastern Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="America_Mountain">
-				<long>
-					<generic draft="provisional">Mountain Time</generic>
-					<standard draft="provisional">Mountain Standard Time</standard>
-					<daylight draft="provisional">Mountain Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="America_Pacific">
-				<long>
-					<generic draft="provisional">Pacific Time</generic>
-					<standard draft="provisional">Pacific Standard Time</standard>
-					<daylight draft="provisional">Pacific Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Aqtau">
-				<long>
-					<standard draft="provisional">Aqtau Time</standard>
-					<daylight draft="provisional">Aqtau Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Aqtobe">
-				<long>
-					<standard draft="provisional">Aqtobe Time</standard>
-					<daylight draft="provisional">Aqtobe Summer Time</daylight>
-				</long>
-			</metazone>
 			<metazone type="Arabian">
-				<long>
-					<generic draft="provisional">Arabian Time</generic>
-					<standard draft="provisional">Arabian Standard Time</standard>
-					<daylight draft="provisional">Arabian Daylight Time</daylight>
-				</long>
 				<short>
-					<standard draft="provisional">ST arabo</standard>
+					<standard draft="provisional">AST arabo</standard>
 					<daylight draft="provisional">ADT arabo</daylight>
 				</short>
 			</metazone>
-			<metazone type="Argentina">
-				<long>
-					<standard draft="provisional">Argentina Time</standard>
-					<daylight draft="provisional">Argentina Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Argentina_Western">
-				<long>
-					<standard draft="provisional">Western Argentina Time</standard>
-				</long>
-			</metazone>
 			<metazone type="Armenia">
-				<long>
-					<standard draft="provisional">Armenia Time</standard>
-					<daylight draft="provisional">Armenia Summer Time</daylight>
-				</long>
 				<short>
 					<standard draft="provisional">AMT Armenia</standard>
 					<daylight draft="provisional">AMST Armenia</daylight>
 				</short>
-			</metazone>
-			<metazone type="Ashkhabad">
-				<long>
-					<standard draft="provisional">Ashkhabad Time</standard>
-					<daylight draft="provisional">Ashkhabad Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Atlantic">
-				<long>
-					<generic draft="provisional">Atlantic Time</generic>
-					<standard draft="provisional">Atlantic Standard Time</standard>
-					<daylight draft="provisional">Atlantic Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Australia_Central">
-				<long>
-					<generic draft="provisional">Central Australia Time</generic>
-					<standard draft="provisional">Australian Central Standard Time</standard>
-					<daylight draft="provisional">Australian Central Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Australia_Eastern">
-				<long>
-					<generic draft="provisional">Eastern Australia Time</generic>
-					<standard draft="provisional">Australian Eastern Standard Time</standard>
-					<daylight draft="provisional">Australian Eastern Daylight Tim</daylight>
-				</long>
-			</metazone>
-			<metazone type="Australia_Western">
-				<long>
-					<generic draft="provisional">Western Australia Time</generic>
-					<standard draft="provisional">Australian Western Standard Time</standard>
-					<daylight draft="provisional">Australian Western Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Azores">
-				<long>
-					<standard draft="provisional">Azores Time</standard>
-					<daylight draft="provisional">Azores Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Baku">
-				<long>
-					<standard draft="provisional">Baku Time</standard>
-					<daylight draft="provisional">Baku Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Bangladesh">
-				<long>
-					<standard draft="provisional">Bangladesh Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Bering">
-				<long>
-					<generic draft="provisional">Bering Time</generic>
-					<standard draft="provisional">Bering Standard Time</standard>
-					<daylight draft="provisional">Bering Daylight Time</daylight>
-				</long>
-				<short>
-					<standard draft="provisional">BST Bering</standard>
-					<daylight draft="provisional">BDT Bering</daylight>
-				</short>
-			</metazone>
-			<metazone type="Bhutan">
-				<long>
-					<standard draft="provisional">Bhutan Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Borneo">
-				<long>
-					<standard draft="provisional">Borneo Time</standard>
-					<daylight draft="provisional">Borneo Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Brasilia">
-				<long>
-					<standard draft="provisional">Brasilia Time</standard>
-					<daylight draft="provisional">Brasilia Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Chamorro">
-				<long>
-					<standard draft="provisional">Chamorro Standard Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Changbai">
-				<long>
-					<standard draft="provisional">Changbai Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Chile">
-				<long>
-					<standard draft="provisional">Chile Time</standard>
-					<daylight draft="provisional">Chile Summer Time</daylight>
-				</long>
 			</metazone>
 			<metazone type="China">
 				<long>
@@ -1747,38 +1887,6 @@
 					<standard>CST (Cina)</standard>
 					<daylight>CDT (Cina)</daylight>
 				</short>
-			</metazone>
-			<metazone type="Choibalsan">
-				<long>
-					<standard draft="provisional">Choibalsan Time</standard>
-					<daylight draft="provisional">Choibalsan Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Dacca">
-				<long>
-					<standard draft="provisional">Dacca Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Dushanbe">
-				<long>
-					<standard draft="provisional">Dushanbe Time</standard>
-					<daylight draft="provisional">Dushanbe Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Dutch_Guiana">
-				<long>
-					<standard draft="provisional">Dutch Guiana Time</standard>
-				</long>
-			</metazone>
-			<metazone type="East_Timor">
-				<long>
-					<standard draft="provisional">East Timor Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Ecuador">
-				<long>
-					<standard draft="provisional">Ecuador Time</standard>
-				</long>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
@@ -1792,98 +1900,10 @@
 					<daylight>Ora Legale Europa Orientale</daylight>
 				</long>
 			</metazone>
-			<metazone type="Europe_Western">
-				<long>
-					<standard draft="provisional">Western European Time</standard>
-					<daylight draft="provisional">Western European Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Frunze">
-				<long>
-					<standard draft="provisional">Frunze Time</standard>
-					<daylight draft="provisional">Frunze Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Galapagos">
-				<long>
-					<standard draft="provisional">Galapagos Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Georgia">
-				<long>
-					<standard draft="provisional">Georgia Time</standard>
-					<daylight draft="provisional">Georgia Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="GMT">
-				<long>
-					<standard draft="provisional">Greenwich Mean Time</standard>
-				</long>
-				<commonlyUsed draft="provisional">true</commonlyUsed>
-			</metazone>
-			<metazone type="Greenland_Central">
-				<long>
-					<standard draft="provisional">Central Greenland Time</standard>
-					<daylight draft="provisional">Central Greenland Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Greenland_Eastern">
-				<long>
-					<standard draft="provisional">East Greenland Time</standard>
-					<daylight draft="provisional">East Greenland Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Greenland_Western">
-				<long>
-					<standard draft="provisional">West Greenland Time</standard>
-					<daylight draft="provisional">West Greenland Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Guam">
-				<long>
-					<standard draft="provisional">Guam Standard Time</standard>
-				</long>
-				<short>
-					<standard draft="provisional">GST Guam</standard>
-				</short>
-			</metazone>
-			<metazone type="Gulf">
-				<long>
-					<standard draft="provisional">Gulf Standard Time</standard>
-				</long>
-			</metazone>
 			<metazone type="Hawaii">
 				<long>
-					<generic draft="provisional">Hawaii Time</generic>
 					<standard>Ora Standard Hawaii</standard>
 					<daylight>Ora Legale Hawaii</daylight>
-				</long>
-			</metazone>
-			<metazone type="Hawaii_Aleutian">
-				<long>
-					<generic draft="provisional">Hawaii-Aleutian Time</generic>
-					<standard draft="provisional">Hawaii-Aleutian Standard Time</standard>
-					<daylight draft="provisional">Hawaii-Aleutian Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="India">
-				<long>
-					<standard draft="provisional">India Standard Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Indonesia_Central">
-				<long>
-					<standard draft="provisional">Central Indonesia Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Indonesia_Eastern">
-				<long>
-					<standard draft="provisional">Eastern Indonesia Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Indonesia_Western">
-				<long>
-					<standard draft="provisional">Western Indonesia Time</standard>
 				</long>
 			</metazone>
 			<metazone type="Israel">
@@ -1898,246 +1918,19 @@
 					<daylight>Ora Legale Giappone</daylight>
 				</long>
 			</metazone>
-			<metazone type="Karachi">
-				<long>
-					<standard draft="provisional">Karachi Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Kashgar">
-				<long>
-					<standard draft="provisional">Kashgar Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Kazakhstan_Eastern">
-				<long>
-					<standard draft="provisional">East Kazakhstan Standard Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Kazakhstan_Western">
-				<long>
-					<standard draft="provisional">West Kazakhstan Standard Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Kizilorda">
-				<long>
-					<standard draft="provisional">Kizilorda Time</standard>
-					<daylight draft="provisional">Kizilorda Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Korea">
-				<long>
-					<generic draft="provisional">Korean Time</generic>
-					<standard draft="provisional">Korean Standard Time</standard>
-					<daylight draft="provisional">Korean Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Kuybyshev">
-				<long>
-					<standard draft="provisional">Kuybyshev Time</standard>
-					<daylight draft="provisional">Kuybyshev Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Kwajalein">
-				<long>
-					<standard draft="provisional">Kwajalein Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Kyrgystan">
-				<long>
-					<standard draft="provisional">Kyrgystan Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Lanka">
-				<long>
-					<standard draft="provisional">Lanka Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Long_Shu">
-				<long>
-					<standard draft="provisional">Long-Shu Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Lord_Howe">
-				<long>
-					<generic draft="provisional">Lord Howe Time</generic>
-					<standard draft="provisional">Lord Howe Standard Time</standard>
-					<daylight draft="provisional">Lord Howe Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Macau">
-				<long>
-					<standard draft="provisional">Macau Time</standard>
-					<daylight draft="provisional">Macau Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Malaya">
-				<long>
-					<standard draft="provisional">Malaya Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Malaysia">
-				<long>
-					<standard draft="provisional">Malaysia Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Marshall_Islands">
-				<long>
-					<standard draft="provisional">Marshall Islands Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Mongolia">
-				<long>
-					<standard draft="provisional">Ulan Bator Time</standard>
-					<daylight draft="provisional">Ulan Bator Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="New_Zealand">
-				<long>
-					<generic draft="provisional">New Zealand Time</generic>
-					<standard draft="provisional">New Zealand Standard Time</standard>
-					<daylight draft="provisional">New Zealand Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Newfoundland">
-				<long>
-					<generic draft="provisional">Newfoundland Time</generic>
-					<standard draft="provisional">Newfoundland Standard Time</standard>
-					<daylight draft="provisional">Newfoundland Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="North_Mariana">
-				<long>
-					<standard draft="provisional">North Mariana Islands Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Pakistan">
-				<long>
-					<standard draft="provisional">Pakistan Time</standard>
-					<daylight draft="provisional">Pakistan Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Pierre_Miquelon">
-				<long>
-					<generic draft="provisional">Pierre and Miquelon Time</generic>
-					<standard draft="provisional">Pierre and Miquelon Standard Time</standard>
-					<daylight draft="provisional">Pierre and Miquelon Daylight Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Qyzylorda">
-				<long>
-					<standard draft="provisional">Qyzylorda Time</standard>
-					<daylight draft="provisional">Qyzylorda Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Samara">
-				<long>
-					<standard draft="provisional">Samara Time</standard>
-					<daylight draft="provisional">Samara Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Samarkand">
-				<long>
-					<standard draft="provisional">Samarkand Time</standard>
-					<daylight draft="provisional">Samarkand Summer Time</daylight>
-				</long>
-				<short>
-					<standard draft="provisional">SAMT Samarkand</standard>
-					<daylight draft="provisional">SAMST Samarkand</daylight>
-				</short>
-			</metazone>
-			<metazone type="Samoa">
-				<long>
-					<standard draft="provisional">Samoa Standard Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Shevchenko">
-				<long>
-					<standard draft="provisional">Shevchenko Time</standard>
-					<daylight draft="provisional">Shevchenko Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Suriname">
-				<long>
-					<standard draft="provisional">Suriname Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Sverdlovsk">
-				<long>
-					<standard draft="provisional">Sverdlovsk Time</standard>
-					<daylight draft="provisional">Sverdlovsk Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Tajikistan">
-				<long>
-					<standard draft="provisional">Tajikistan Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Tashkent">
-				<long>
-					<standard draft="provisional">Tashkent Time</standard>
-					<daylight draft="provisional">Tashkent Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Tbilisi">
-				<long>
-					<standard draft="provisional">Tbilisi Time</standard>
-					<daylight draft="provisional">Tbilisi Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Turkey">
-				<long>
-					<standard draft="provisional">Turkey Time</standard>
-					<daylight draft="provisional">Turkey Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Turkmenistan">
-				<long>
-					<standard draft="provisional">Turkmenistan Time</standard>
-					<daylight draft="provisional">Turkmenistan Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Uralsk">
-				<long>
-					<standard draft="provisional">Ural'sk Time</standard>
-					<daylight draft="provisional">Ural'sk Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Urumqi">
-				<long>
-					<standard draft="provisional">Urumqi Time</standard>
-				</long>
-			</metazone>
-			<metazone type="Uzbekistan">
-				<long>
-					<standard draft="provisional">Uzbekistan Time</standard>
-					<daylight draft="provisional">Uzbekistan Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Yekaterinburg">
-				<long>
-					<standard draft="provisional">Yekaterinburg Time</standard>
-					<daylight draft="provisional">Yekaterinburg Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Yerevan">
-				<long>
-					<standard draft="provisional">Yerevan Time</standard>
-					<daylight draft="provisional">Yerevan Summer Time</daylight>
-				</long>
-			</metazone>
-			<metazone type="Yukon">
-				<long>
-					<generic draft="provisional">Yukon Time</generic>
-					<standard draft="provisional">Yukon Standard Time</standard>
-					<daylight draft="provisional">Yukon Daylight Time</daylight>
-				</long>
-			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
 		<symbols>
 			<decimal>,</decimal>
 			<group>.</group>
+			<percentSign draft="unconfirmed">%</percentSign>
+			<nativeZeroDigit draft="unconfirmed">0</nativeZeroDigit>
+			<patternDigit draft="unconfirmed">#</patternDigit>
+			<plusSign draft="unconfirmed">+</plusSign>
+			<minusSign draft="unconfirmed">-</minusSign>
+			<perMille draft="unconfirmed">‰</perMille>
+			<infinity draft="unconfirmed">∞</infinity>
 		</symbols>
 		<decimalFormats>
 			<decimalFormatLength>
@@ -2166,6 +1959,8 @@
 					<pattern>¤ #,##0.00</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
+			<unitPattern count="one" draft="unconfirmed">{0} {1}</unitPattern>
+			<unitPattern count="other" draft="unconfirmed">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="ADP">
@@ -2224,6 +2019,7 @@
 			</currency>
 			<currency type="AZN">
 				<displayName draft="contributed">manat azero</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Manat Azero</displayName>
 			</currency>
 			<currency type="BAD">
 				<displayName>Dinar Bosnia-Herzegovina</displayName>
@@ -2341,6 +2137,9 @@
 			</currency>
 			<currency type="CSK">
 				<displayName>Corona forte cecoslovacca</displayName>
+			</currency>
+			<currency type="CUC">
+				<displayName draft="unconfirmed">Peso Cubano Convertibile</displayName>
 			</currency>
 			<currency type="CUP">
 				<displayName>Peso Cubano</displayName>
@@ -2566,12 +2365,14 @@
 			</currency>
 			<currency type="LUC">
 				<displayName draft="contributed">franco convertibile del Lussemburgo</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Franco Convertibile Lussemburghese</displayName>
 			</currency>
 			<currency type="LUF">
 				<displayName>Franco del Lussemburgo</displayName>
 			</currency>
 			<currency type="LUL">
 				<displayName draft="contributed">franco finanziario del Lussemburgo</displayName>
+				<displayName alt="proposed-x1001" draft="unconfirmed">Franco Finanziario Lussemburghese</displayName>
 			</currency>
 			<currency type="LVL">
 				<displayName>Lat Lettone</displayName>
@@ -2801,6 +2602,9 @@
 			<currency type="TMM">
 				<displayName>Manat Turkmeno</displayName>
 			</currency>
+			<currency type="TMT">
+				<displayName draft="unconfirmed">Nuovo Manat Turkmeno</displayName>
+			</currency>
 			<currency type="TND">
 				<displayName>Dinaro Tunisino</displayName>
 			</currency>
@@ -2965,6 +2769,9 @@
 			<currency type="ZWD">
 				<displayName>Dollaro dello Zimbabwe</displayName>
 			</currency>
+			<currency type="ZWL">
+				<displayName draft="unconfirmed">Dollaro Zimbabwiano (2009)</displayName>
+			</currency>
 		</currencies>
 	</numbers>
 	<units>
@@ -3011,6 +2818,12 @@
 			<unitPattern count="other" alt="short">{0} anni</unitPattern>
 		</unit>
 	</units>
+	<listPatterns>
+		<listPattern>
+			<listPatternPart type="2">{0} e {1}</listPatternPart>
+			<listPatternPart type="end">{0}, e {1}</listPatternPart>
+		</listPattern>
+	</listPatterns>
 	<posix>
 		<messages>
 			<yesstr>sì:si:s</yesstr>
@@ -3022,7 +2835,7 @@
 		<reference type="R086" uri="http://www.intercultura.it/">RF1</reference>
 		<reference type="R087" uri="http://it.wikipedia.org/wiki/Pagina_principale">Wikipedia</reference>
 		<reference type="R088" uri="http://www.portalingua.info/it/recherche/recherche_avancee/1/index.php">Portalingua</reference>
-		<reference type="RP1" uri="http://de.wikipedia.org/wiki/AnfÃƒÆ’Ã‚Â¼hrungszeichen#Schweiz" draft="unconfirmed">Quotation marks in Swiss German/French/Italian</reference>
+		<reference type="RP1" uri="http://de.wikipedia.org/wiki/AnfÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼hrungszeichen#Schweiz" draft="unconfirmed">Quotation marks in Swiss German/French/Italian</reference>
 	</references>
 </ldml>
 

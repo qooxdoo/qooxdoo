@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.77 $"/>
-		<generation date="$Date: 2009/06/15 03:46:25 $"/>
+		<version number="$Revision: 4753 $"/>
+		<generation date="$Date: 2010-02-26 00:32:00 -0600 (Fri, 26 Feb 2010) $"/>
 		<language type="az"/>
 	</identity>
 	<localeDisplayNames>
@@ -737,6 +737,7 @@
 			<territory type="ER" draft="contributed">Eritreya</territory>
 			<territory type="ES" draft="contributed">İspaniya</territory>
 			<territory type="ET" draft="contributed">Efiopiya</territory>
+			<territory type="EU" draft="contributed">Avropa Birləşliyi</territory>
 			<territory type="FI" draft="contributed">Finlandiya</territory>
 			<territory type="FJ" draft="contributed">Fici</territory>
 			<territory type="FK" draft="contributed">Folkland Adaları</territory>
@@ -858,7 +859,6 @@
 			<territory type="PY" draft="contributed">Paraqvay</territory>
 			<territory type="QA" draft="contributed">Qatar</territory>
 			<territory type="QO" draft="contributed">Uzak Okeyaniya</territory>
-			<territory type="QU" draft="contributed">Avropa Birləşliyi</territory>
 			<territory type="RE" draft="contributed">Reyunion</territory>
 			<territory type="RO" draft="contributed">Romaniya</territory>
 			<territory type="RS" draft="contributed">Serbiya</territory>
@@ -944,8 +944,9 @@
 		</codePatterns>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[a-c ç d e ə f g ğ h x ı i İ {i\u0307} j k q l-o ö p r s ş t u ü v y z]</exemplarCharacters>
+		<exemplarCharacters>[a b c ç d e ə f g ğ h x ı i {i\u0307} j k q l m n o ö p r s ş t u ü v y z]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[w]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="contributed">[A B C Ç D E Ə F G Ğ H X I İ J K Q L M N O Ö P R S Ş T U Ü V W Y Z]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart draft="contributed">“</quotationStart>
@@ -985,22 +986,6 @@
 							<month type="10">Oktyabr</month>
 							<month type="11">Noyabr</month>
 							<month type="12">Dekabr</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1">1</month>
-							<month type="2">2</month>
-							<month type="3">3</month>
-							<month type="4">4</month>
-							<month type="5">5</month>
-							<month type="6">6</month>
-							<month type="7">7</month>
-							<month type="8">8</month>
-							<month type="9">9</month>
-							<month type="10">10</month>
-							<month type="11">11</month>
-							<month type="12">12</month>
 						</monthWidth>
 					</monthContext>
 				</months>
@@ -1053,8 +1038,6 @@
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
-				<am draft="unconfirmed">AM</am>
-				<pm draft="unconfirmed">PM</pm>
 				<eras>
 					<eraNames>
 						<era type="0">eramızdan əvvəl</era>
@@ -1109,11 +1092,6 @@
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
 				<fields>
 					<field type="era">
 						<displayName>era</displayName>
@@ -1154,10 +1132,6 @@
 			</calendar>
 		</calendars>
 		<timeZoneNames>
-			<hourFormat draft="contributed">+HH:mm;-HH:mm</hourFormat>
-			<gmtFormat draft="contributed">GMT{0}</gmtFormat>
-			<regionFormat draft="contributed">{0}</regionFormat>
-			<fallbackFormat draft="contributed">{1} ({0})</fallbackFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity draft="contributed">Bilinmir</exemplarCity>
 			</zone>
