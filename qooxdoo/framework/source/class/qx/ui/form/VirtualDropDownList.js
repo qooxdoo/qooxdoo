@@ -323,7 +323,6 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
       }
 
       var listSelection = this.getChildControl("list").getSelection();
-      var model = this.getChildControl("list").getModel();
 
       if (this.isVisible()) {
         this._preselected = listSelection.getItem(0);
