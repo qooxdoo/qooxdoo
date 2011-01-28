@@ -28,9 +28,10 @@
 ##
 
 import sys, collections
-from misc                   import util
-from generator.code.Part    import Part
-from generator.code.Package import Package
+from misc                    import util
+from generator.code.Part     import Part
+from generator.code.Package  import Package
+from generator.config.Config import ConfigurationError
 
 class PartBuilder(object):
 
@@ -62,11 +63,12 @@ class PartBuilder(object):
         # Preprocess part data
         script.parts    = {}  # map of Parts
         script.parts    = self._getParts(partIncludes, partsCfg, script)
+        self._checkPartsConfig(script.parts)
         script.parts    = self._getPartDeps(script, smartExclude)
 
         # Compute packages
         script.packages = []  # array of Packages
-        script.packages = self._getPackages(script)
+        script.packages = self._createPackages(script)
         script.sortParts()
 
         self._printPartStats(script)
@@ -109,6 +111,19 @@ class PartBuilder(object):
         # {Array} resultClasses[packageId] = [class1, class2]
         #return boot, resultParts, resultClasses
         return resultParts, script
+
+
+    ##
+    # Check head lists are non-overlapping
+    # @param {Map} { partId : generator.code.Part }
+    def _checkPartsConfig(self, parts):
+        headclasses = dict((x.name,set(x.initial_deps)) for x in parts.values())
+        for partid, parthead in headclasses.items():
+            for partid1, parthead1 in ((x,y) for x,y in headclasses.items() if x!=partid):
+                print "Checking %s - %s" % (partid, partid1)
+                overlap = parthead.intersection(parthead1)
+                if overlap:
+                    raise ConfigurationError("Part '%s' and '%s' have overlapping includes: %r" % (partid, partid1, list(overlap)))
 
 
     def verifyParts(self, partsMap, script):
@@ -254,7 +269,7 @@ class PartBuilder(object):
     ##
     # Cut an initial set of packages out of the set of classes needed by the parts
     # @returns {Array} [ Package ]
-    def _getPackages(self, script):
+    def _createPackages(self, script):
 
         ##
         # Collect classes from parts, recording which class is used in which part
