@@ -34,7 +34,7 @@
       ],
       "asset-let" : {
         "qx.icontheme" : ["Oxygen", "Tango"],
-        "qx.theme"     : ["Classic", "Modern"]
+        "qx.theme"     : ["Classic", "Modern", "Simple"]
       },
       "cache" : { "compile" : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache" },
       "settings" : {
