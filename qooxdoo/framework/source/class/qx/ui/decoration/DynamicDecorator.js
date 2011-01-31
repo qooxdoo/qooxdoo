@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
     tint : function(element, bgcolor) {
       for (var name in this) {
         if (name.indexOf("_tint") == 0 && this[name] instanceof Function) {
-          this[name](element, bgcolor);
+          this[name](element, bgcolor, element.style);
         }
       }
     },
