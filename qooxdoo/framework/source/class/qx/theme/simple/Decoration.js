@@ -273,6 +273,141 @@ qx.Theme.define("qx.theme.simple.Decoration",
         radius : [0, 3, 3, 0]
       }
     },
+    
+    
+    "button-box-right-borderless" : 
+    {
+      include : "button-box",
+      
+      style : 
+      {
+        radius : [0, 3, 3, 0],
+        width: [1, 1, 1, 0]
+      }
+    },
+    
+    "button-box-pressed-right-borderless" : 
+    {
+      include : "button-box-pressed",
+      
+      style : 
+      {
+        radius : [0, 3, 3, 0],
+        width: [1, 1, 1, 0]
+      }
+    },
+    
+    "button-box-pressed-hovered-right-borderless" : 
+    {
+      include : "button-box-pressed-hovered",
+      
+      style : 
+      {
+        radius : [0, 3, 3, 0],
+        width: [1, 1, 1, 0]
+      }
+    },
+    
+    "button-box-hovered-right-borderless" : 
+    {
+      include : "button-box-hovered",
+      
+      style : 
+      {
+        radius : [0, 3, 3, 0],
+        width: [1, 1, 1, 0]
+      }
+    },    
+    
+    
+    "button-box-top-right" : 
+    {
+      include : "button-box",
+      
+      style : 
+      {
+        radius : [0, 3, 0, 0],
+        width: [1, 1, 1, 0]
+      }
+    },
+    
+    "button-box-pressed-top-right" : 
+    {
+      include : "button-box-pressed",
+      
+      style : 
+      {
+        radius : [0, 3, 0, 0],
+        width: [1, 1, 1, 0]
+      }
+    },
+    
+    "button-box-pressed-hovered-top-right" : 
+    {
+      include : "button-box-pressed-hovered",
+      
+      style : 
+      {
+        radius : [0, 3, 0, 0],
+        width: [1, 1, 1, 0]
+      }
+    },
+    
+    "button-box-hovered-top-right" : 
+    {
+      include : "button-box-hovered",
+      
+      style : 
+      {
+        radius : [0, 3, 0, 0],
+        width: [1, 1, 1, 0]
+      }
+    },
+
+
+    "button-box-bottom-right" : 
+    {
+      include : "button-box",
+      
+      style : 
+      {
+        radius : [0, 0, 3, 0],
+        width : [0, 1, 1, 0]
+      }
+    },
+    
+    "button-box-pressed-bottom-right" : 
+    {
+      include : "button-box-pressed",
+      
+      style : 
+      {
+        radius : [0, 0, 3, 0],
+        width : [0, 1, 1, 0]
+      }
+    },
+    
+    "button-box-pressed-hovered-bottom-right" : 
+    {
+      include : "button-box-pressed-hovered",
+      
+      style : 
+      {
+        radius : [0, 0, 3, 0],
+        width : [0, 1, 1, 0]
+      }
+    },
+    
+    "button-box-hovered-bottom-right" : 
+    {
+      include : "button-box-hovered",
+      
+      style : 
+      {
+        radius : [0, 0, 3, 0],
+        width : [0, 1, 1, 0]
+      }
+    },
 
 
     "button-box-middle" : 

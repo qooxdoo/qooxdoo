@@ -201,45 +201,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "textfield" :
-    {
-      style : function(states)
-      {
-        var textColor;
-        if (states.disabled) {
-          textColor = "text-disabled";
-        } else if (states.showingPlaceholder) {
-          textColor = "text-placeholder";
-        } else {
-          textColor = undefined;
-        }
-        
-        var decorator;
-        var padding;
-        if (states.disabled) {
-          decorator = "inset";
-          padding = [2, 3];
-        } else if (states.invalid) {
-          decorator = "border-invalid";
-          padding = [1, 2];
-        } else if (states.focused) {
-          decorator = "focused-inset";
-          padding = [1, 2];
-        } else {
-          padding = [2, 3];
-          decorator = "inset";
-        }
 
-        return {
-          decorator : decorator,
-          padding   : padding,
-          textColor : textColor,
-          backgroundColor : states.disabled ? "background-disabled" : undefined
-        };
-      }
-    },
-
-    "textarea" : "textfield",
 
     "checkbox":
     {
@@ -358,221 +320,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      TABVIEW
-    ---------------------------------------------------------------------------
-    */
-
-    "tabview" : {},
-
-    "tabview/bar" :
-    {
-      alias : "slidebar",
-
-      style : function(states)
-      {
-        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
-
-        if (states.barTop) {
-          marginBottom -= 2;
-        } else if (states.barBottom) {
-          marginTop -= 2;
-        } else if (states.barRight) {
-          marginLeft -= 2;
-        } else {
-          marginRight -= 2;
-        }
-
-        return {
-          marginBottom : marginBottom,
-          marginTop : marginTop,
-          marginLeft : marginLeft,
-          marginRight : marginRight
-        };
-      }
-    },
-
-
-    "tabview/bar/button-forward" :
-    {
-      include : "slidebar/button-forward",
-      alias : "slidebar/button-forward",
-
-      style : function(states)
-      {
-        if (states.barTop || states.barBottom)
-        {
-          return {
-            marginTop : 2,
-            marginBottom: 2
-          }
-        }
-        else
-        {
-          return {
-            marginLeft : 2,
-            marginRight : 2
-          }
-        }
-      }
-    },
-
-    "tabview/bar/button-backward" :
-    {
-      include : "slidebar/button-backward",
-      alias : "slidebar/button-backward",
-
-      style : function(states)
-      {
-        if (states.barTop || states.barBottom)
-        {
-          return {
-            marginTop : 2,
-            marginBottom: 2
-          }
-        }
-        else
-        {
-          return {
-            marginLeft : 2,
-            marginRight : 2
-          }
-        }
-      }
-    },
-
-    "tabview/pane" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor : "background",
-          decorator : "border-blue",
-          padding : 10
-        };
-      }
-    },
-
-    "tabview-page" : "widget",
-
-    "tabview-page/button" :
-    {
-      style : function(states)
-      {
-        var decorator;
-        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
-
-        if (states.barTop || states.barBottom) {
-          var paddingTop=2, paddingBottom=2, paddingLeft=6, paddingRight=6;
-        } else {
-          var paddingTop=6, paddingBottom=6, paddingLeft=6, paddingRight=6;
-        }
-
-        if (states.barTop)
-        {
-          decorator = "tabview-page-button-top";
-        }
-        else if (states.barRight)
-        {
-          decorator = "tabview-page-button-right";
-        }
-        else if (states.barBottom)
-        {
-          decorator = "tabview-page-button-bottom";
-        }
-        else
-        {
-          decorator = "tabview-page-button-left";
-        }
-
-        if (states.checked)
-        {
-          if (states.barTop || states.barBottom)
-          {
-            paddingLeft += 2;
-            paddingRight += 2;
-          }
-          else
-          {
-            paddingTop += 2;
-            paddingBottom += 2;
-          }
-        }
-        else
-        {
-          if (states.barTop || states.barBottom)
-          {
-            marginBottom += 2;
-            marginTop += 2;
-          }
-          else if (states.barLeft || states.barRight)
-          {
-            marginRight += 2;
-            marginLeft += 2;
-          }
-        }
-
-        if (states.checked)
-        {
-          if (!states.firstTab)
-          {
-            if (states.barTop || states.barBottom) {
-              marginLeft = -4;
-            } else {
-              marginTop = -4;
-            }
-          }
-
-          if (!states.lastTab)
-          {
-            if (states.barTop || states.barBottom) {
-              marginRight = -4;
-            } else {
-              marginBottom = -4;
-            }
-          }
-        }
-
-        return {
-          zIndex : states.checked ? 10 : 5,
-          decorator : decorator,
-          backgroundColor : "dark-blue",
-          textColor: "white",
-          font: "bold",
-          padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
-          margin : [ marginTop, marginRight, marginBottom, marginLeft ]
-        };
-      }
-    },
-
-    "tabview-page/button/label" :
-    {
-      alias : "label",
-
-      style : function(states)
-      {
-        return {
-          padding : [0, 1, 0, 1],
-          margin : states.focused ? 0 : 1,
-          decorator : states.focused ? "keyboard-focus" : undefined
-        };
-      }
-    },
-
-    "tabview-page/button/icon" : "image",
-    "tabview-page/button/close-button" :
-    {
-      alias : "atom",
-      style : function(states)
-      {
-        return {
-          icon : "qx/icon/Oxygen/16/actions/window-close.png"
-        };
-      }
-    },
 
 
 
@@ -1478,6 +1225,52 @@ qx.Theme.define("qx.theme.simple.Appearance",
     ////  DONE  /////
     /////////////////
 
+
+
+
+
+    "textfield" :
+    {
+      style : function(states)
+      {
+        var textColor;
+        if (states.disabled) {
+          textColor = "text-disabled";
+        } else if (states.showingPlaceholder) {
+          textColor = "text-placeholder";
+        } else {
+          textColor = undefined;
+        }
+        
+        var decorator;
+        var padding;
+        if (states.disabled) {
+          decorator = "inset";
+          padding = [2, 3];
+        } else if (states.invalid) {
+          decorator = "border-invalid";
+          padding = [1, 2];
+        } else if (states.focused) {
+          decorator = "focused-inset";
+          padding = [1, 2];
+        } else {
+          padding = [2, 3];
+          decorator = "inset";
+        }
+
+        return {
+          decorator : decorator,
+          padding   : padding,
+          textColor : textColor,
+          backgroundColor : states.disabled ? "background-disabled" : undefined
+        };
+      }
+    },
+
+    "textarea" : "textfield",
+
+
+
     /*
     ---------------------------------------------------------------------------
       RADIO BUTTON
@@ -1553,8 +1346,19 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
+        var decorator = "button-box-top-right";
+
+        if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered-top-right";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered-top-right";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed-top-right";
+        }
+        
         return {
           icon : "decoration/arrows/up-small.gif",
+          decorator : decorator,
           width: 17
         }
       }
@@ -1567,8 +1371,19 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
+        var decorator = "button-box-bottom-right";
+
+        if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered-bottom-right";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered-bottom-right";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed-bottom-right";
+        }
+        
         return {
           icon : "decoration/arrows/down-small.gif",
+          decorator : decorator,
           width: 17
         }
       }
@@ -1699,12 +1514,22 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
+        var decorator = "button-box-right-borderless";
+
+        if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered-right-borderless";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered-right-borderless";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed-right-borderless";
+        }
+        
         return {
           icon : states.hovered ? "data:image/png;base64,R0lGODlhBwAEAIABAAAAAP///yH5BAEAAAEALAAAAAAHAAQAAAIIhA+BGWoNWSgAOw==" : undefined,
           cursor : "pointer",
+          decorator : decorator,
           padding : [0, 5],
-          width: 19,
-          marginLeft: 4
+          width: 19
         };
       }
     },
@@ -2618,6 +2443,220 @@ qx.Theme.define("qx.theme.simple.Appearance",
       }
     },
 
+
+    /*
+    ---------------------------------------------------------------------------
+      TABVIEW
+    ---------------------------------------------------------------------------
+    */
+
+    "tabview" : {},
+
+    "tabview/bar" :
+    {
+      alias : "slidebar",
+
+      style : function(states)
+      {
+        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
+
+        if (states.barTop) {
+          marginBottom -= 2;
+        } else if (states.barBottom) {
+          marginTop -= 2;
+        } else if (states.barRight) {
+          marginLeft -= 2;
+        } else {
+          marginRight -= 2;
+        }
+
+        return {
+          marginBottom : marginBottom,
+          marginTop : marginTop,
+          marginLeft : marginLeft,
+          marginRight : marginRight
+        };
+      }
+    },
+
+
+    "tabview/bar/button-forward" :
+    {
+      include : "slidebar/button-forward",
+      alias : "slidebar/button-forward",
+
+      style : function(states)
+      {
+        if (states.barTop || states.barBottom)
+        {
+          return {
+            marginTop : 2,
+            marginBottom: 2
+          }
+        }
+        else
+        {
+          return {
+            marginLeft : 2,
+            marginRight : 2
+          }
+        }
+      }
+    },
+
+    "tabview/bar/button-backward" :
+    {
+      include : "slidebar/button-backward",
+      alias : "slidebar/button-backward",
+
+      style : function(states)
+      {
+        if (states.barTop || states.barBottom)
+        {
+          return {
+            marginTop : 2,
+            marginBottom: 2
+          }
+        }
+        else
+        {
+          return {
+            marginLeft : 2,
+            marginRight : 2
+          }
+        }
+      }
+    },
+
+    "tabview/pane" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "background",
+          decorator : "border-blue",
+          padding : 10
+        };
+      }
+    },
+
+    "tabview-page" : "widget",
+
+    "tabview-page/button" :
+    {
+      style : function(states)
+      {
+        var decorator;
+        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
+
+        if (states.barTop || states.barBottom) {
+          var paddingTop=2, paddingBottom=2, paddingLeft=6, paddingRight=6;
+        } else {
+          var paddingTop=6, paddingBottom=6, paddingLeft=6, paddingRight=6;
+        }
+
+        if (states.barTop)
+        {
+          decorator = "tabview-page-button-top";
+        }
+        else if (states.barRight)
+        {
+          decorator = "tabview-page-button-right";
+        }
+        else if (states.barBottom)
+        {
+          decorator = "tabview-page-button-bottom";
+        }
+        else
+        {
+          decorator = "tabview-page-button-left";
+        }
+
+        if (states.checked)
+        {
+          if (states.barTop || states.barBottom)
+          {
+            paddingLeft += 2;
+            paddingRight += 2;
+          }
+          else
+          {
+            paddingTop += 2;
+            paddingBottom += 2;
+          }
+        }
+        else
+        {
+          if (states.barTop || states.barBottom)
+          {
+            marginBottom += 2;
+            marginTop += 2;
+          }
+          else if (states.barLeft || states.barRight)
+          {
+            marginRight += 2;
+            marginLeft += 2;
+          }
+        }
+
+        if (states.checked)
+        {
+          if (!states.firstTab)
+          {
+            if (states.barTop || states.barBottom) {
+              marginLeft = -4;
+            } else {
+              marginTop = -4;
+            }
+          }
+
+          if (!states.lastTab)
+          {
+            if (states.barTop || states.barBottom) {
+              marginRight = -4;
+            } else {
+              marginBottom = -4;
+            }
+          }
+        }
+
+        return {
+          zIndex : states.checked ? 10 : 5,
+          decorator : decorator,
+          backgroundColor : "dark-blue",
+          textColor: "white",
+          font: "bold",
+          padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
+          margin : [ marginTop, marginRight, marginBottom, marginLeft ]
+        };
+      }
+    },
+
+    "tabview-page/button/label" :
+    {
+      alias : "label",
+
+      style : function(states)
+      {
+        return {
+          padding : [0, 1, 0, 1],
+          margin : states.focused ? 0 : 1,
+          decorator : states.focused ? "keyboard-focus" : undefined
+        };
+      }
+    },
+
+    "tabview-page/button/icon" : "image",
+    "tabview-page/button/close-button" :
+    {
+      alias : "atom",
+      style : function(states)
+      {
+        return {
+          icon : "qx/icon/Oxygen/16/actions/window-close.png"
+        };
+      }
+    },
 
 
     /*
