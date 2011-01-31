@@ -174,6 +174,49 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
 
 
+    "button-box-middle" : 
+    {
+      include : "button-box",
+      
+      style : 
+      {
+        radius : 0,
+        width : [1, 0, 1, 1]
+      }
+    },
+    
+    "button-box-pressed-middle" : 
+    {
+      include : "button-box-pressed",
+      
+      style : 
+      {
+        radius : 0,
+        width : [1, 0, 1, 1]
+      }
+    },
+    
+    "button-box-pressed-hovered-middle" : 
+    {
+      include : "button-box-pressed-hovered",
+      
+      style : 
+      {
+        radius : 0,
+        width : [1, 0, 1, 1]
+      }
+    },
+    
+    "button-box-hovered-middle" : 
+    {
+      include : "button-box-hovered",
+      
+      style : 
+      {
+        radius : 0,
+        width : [1, 0, 1, 1]
+      }
+    },
 
 
     "button-box-left" : 

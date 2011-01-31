@@ -698,35 +698,32 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "light-blue"
+          backgroundColor : "light-blue",
+          padding : [0, 10]
         };
       }
     },
 
-    "toolbar/part" : {},
-    "toolbar/part/container" : {},
-
-    "toolbar/part/handle" :
-    {
+    "toolbar/part" : {
       style : function(states)
       {
         return {
-          decorator : "toolbar-part-handle",
-          backgroundColor : "light-blue",
-          padding   : [ 0, 1 ],
-          margin    : [ 3, 2 ],
-          allowGrowY : true
+          margin : [0 , 15]
         };
       }
     },
+
+    "toolbar/part/container" : {},
+    "toolbar/part/handle" : {},
 
     "toolbar-separator" :
     {
       style : function(states)
       {
         return {
-          margin    : [ 3, 2 ],
-          decorator : "toolbar-separator"
+          decorator : "toolbar-separator",
+          margin: [7, 0],
+          width: 3
         };
       }
     },
@@ -737,35 +734,41 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
-        if (states.pressed || states.checked || states.abandoned)
-        {
-          var border = "inset-thin";
-          var padding = [4, 5, 5, 4];
-        }
-        else if (states.hovered)
-        {
-          var border = "outset-thin";
-          var padding = [5, 4, 4, 5];
-        }
-        else
-        {
-          var border = undefined;
-          var padding = 5;
+        var decorator = "button-box";
+
+        if (states.disabled) {
+          decorator = "button-box";
+        } else if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
         }
 
+        // set the right left and right decoratos
+        if (states.left) {
+          decorator += "-left";
+        } else if (states.right) {
+          decorator += "-right";
+        } else if (states.middle) {
+          decorator += "-middle";
+        }
+
+        console.log("decorator", decorator);
         return {
           cursor  : "pointer",
-          decorator : border,
-          padding : padding,
-          margin : 3
+          decorator : decorator,
+          margin : [7, 0],
+          padding: [3, 5]
         };
       }
     },
 
     "toolbar-menubutton" :
     {
-      alias : "button",
-      include : "button",
+      alias : "toolbar-button",
+      include : "toolbar-button",
 
       style : function(states)
       {
@@ -792,7 +795,42 @@ qx.Theme.define("qx.theme.simple.Appearance",
     },
 
     "toolbar-splitbutton" : {},
-    "toolbar-splitbutton/button" : "toolbar-button",
+    "toolbar-splitbutton/button" : 
+    {
+      alias : "toolbar-button",
+      include : "toolbar-button",
+
+      style : function(states)
+      {
+        var decorator = "button-box";
+        
+        if (states.disabled) {
+          decorator = "button-box";
+        } else if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
+        }
+        
+        // set the right left and right decoratos
+        if (states.left) {
+          decorator += "-left";
+        } else if (states.right) {
+          decorator += "-middle";
+        } else if (states.middle) {
+          decorator += "-middle";
+        }
+        
+        return {
+          icon : "decoration/arrows/down.gif",
+          decorator : decorator
+        };
+      }
+    },
+
+
     "toolbar-splitbutton/arrow" :
     {
       alias : "toolbar-button",
@@ -800,8 +838,30 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
+        var decorator = "button-box";
+        
+        if (states.disabled) {
+          decorator = "button-box";
+        } else if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
+        }
+        
+        // set the right left and right decoratos
+        if (states.left) {
+          decorator += "-middle";
+        } else if (states.right) {
+          decorator += "-right";
+        } else if (states.middle) {
+          decorator += "-middle";
+        }
+        
         return {
-          icon : "decoration/arrows/down.gif"
+          icon : "decoration/arrows/down.gif",
+          decorator : decorator
         };
       }
     },
