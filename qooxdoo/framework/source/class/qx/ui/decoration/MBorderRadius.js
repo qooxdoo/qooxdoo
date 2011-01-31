@@ -72,7 +72,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
   
   members :
   {
-    _getMarkupBorderRadius : function(styles, element) {
+    _getMarkupBorderRadius : function(styles) {
       // radius handling
       var radius = this.getRadiusTopLeft();
       if (radius > 0) {

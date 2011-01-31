@@ -198,7 +198,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
 
   members :
   {
-    _getMarkupSingleBorder : function(styles, element) {
+    _getMarkupSingleBorder : function(styles) {
       var Color = qx.theme.manager.Color.getInstance();
 
       // Add borders
