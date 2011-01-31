@@ -28,7 +28,8 @@ qx.Class.define("qx.ui.decoration.Single",
   include : [
     qx.ui.decoration.MBackgroundImage, 
     qx.ui.decoration.MBorderRadius,
-    qx.ui.decoration.MBackgroundColor
+    qx.ui.decoration.MBackgroundColor,
+    qx.ui.decoration.MSingleBorder
   ],
 
 
@@ -63,193 +64,6 @@ qx.Class.define("qx.ui.decoration.Single",
 
 
 
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY: WIDTH
-    ---------------------------------------------------------------------------
-    */
-
-    /** top width of border */
-    widthTop :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyWidth"
-    },
-
-    /** right width of border */
-    widthRight :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyWidth"
-    },
-
-    /** bottom width of border */
-    widthBottom :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyWidth"
-    },
-
-    /** left width of border */
-    widthLeft :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyWidth"
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY: STYLE
-    ---------------------------------------------------------------------------
-    */
-
-    /** top style of border */
-    styleTop :
-    {
-      nullable : true,
-      check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid",
-      apply : "_applyStyle"
-    },
-
-    /** right style of border */
-    styleRight :
-    {
-      nullable : true,
-      check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid",
-      apply : "_applyStyle"
-    },
-
-    /** bottom style of border */
-    styleBottom :
-    {
-      nullable : true,
-      check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid",
-      apply : "_applyStyle"
-    },
-
-    /** left style of border */
-    styleLeft :
-    {
-      nullable : true,
-      check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid",
-      apply : "_applyStyle"
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY: COLOR
-    ---------------------------------------------------------------------------
-    */
-
-    /** top color of border */
-    colorTop :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyStyle"
-    },
-
-    /** right color of border */
-    colorRight :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyStyle"
-    },
-
-    /** bottom color of border */
-    colorBottom :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyStyle"
-    },
-
-    /** left color of border */
-    colorLeft :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyStyle"
-    },
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY GROUP: EDGE
-    ---------------------------------------------------------------------------
-    */
-
-    /** Property group to configure the left border */
-    left : {
-      group : [ "widthLeft", "styleLeft", "colorLeft" ]
-    },
-
-    /** Property group to configure the right border */
-    right : {
-      group : [ "widthRight", "styleRight", "colorRight" ]
-    },
-
-    /** Property group to configure the top border */
-    top : {
-      group : [ "widthTop", "styleTop", "colorTop" ]
-    },
-
-    /** Property group to configure the bottom border */
-    bottom : {
-      group : [ "widthBottom", "styleBottom", "colorBottom" ]
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY GROUP: TYPE
-    ---------------------------------------------------------------------------
-    */
-
-    /** Property group to set the border width of all sides */
-    width :
-    {
-      group : [ "widthTop", "widthRight", "widthBottom", "widthLeft" ],
-      mode : "shorthand"
-    },
-
-    /** Property group to set the border style of all sides */
-    style :
-    {
-      group : [ "styleTop", "styleRight", "styleBottom", "styleLeft" ],
-      mode : "shorthand"
-    },
-
-    /** Property group to set the border color of all sides */
-    color :
-    {
-      group : [ "colorTop", "colorRight", "colorBottom", "colorLeft" ],
-      mode : "shorthand"
-    }
-  },
-
-
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -258,25 +72,7 @@ qx.Class.define("qx.ui.decoration.Single",
 
   members :
   {
-    __markup : null,
-
-
-    // overridden
-    _getDefaultInsets : function()
-    {
-      return {
-        top : this.getWidthTop(),
-        right : this.getWidthRight(),
-        bottom : this.getWidthBottom(),
-        left : this.getWidthLeft()
-      };
-    },
-
-
-    // overridden
-    _isInitialized: function() {
-      return !!this.__markup;
-    },
+    _markup : null,
 
 
     /*
@@ -288,125 +84,33 @@ qx.Class.define("qx.ui.decoration.Single",
     // interface implementation
     getMarkup : function(element)
     {
-
-      if (this.__markup) {
-        return this.__markup;
+      if (this._markup) {
+        return this._markup;
       }
-
-      var Color = qx.theme.manager.Color.getInstance();
-
-      // Styles
+      
       var styles = {};
 
-      // Add borders
-      var width = this.getWidthTop();
-      if (width > 0) {
-        styles["border-top"] = width + "px " + this.getStyleTop() + " " + (Color.resolve(this.getColorTop()) || "");
-      }
-
-      var width = this.getWidthRight();
-      if (width > 0) {
-        styles["border-right"] = width + "px " + this.getStyleRight() + " " + (Color.resolve(this.getColorRight()) || "");
-      }
-
-      var width = this.getWidthBottom();
-      if (width > 0) {
-        styles["border-bottom"] = width + "px " + this.getStyleBottom() + " " + (Color.resolve(this.getColorBottom()) || "");
-      }
-
-      var width = this.getWidthLeft();
-      if (width > 0) {
-        styles["border-left"] = width + "px " + this.getStyleLeft() + " " + (Color.resolve(this.getColorLeft()) || "");
-      }
-
-      // Check if valid
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (styles.length === 0) {
-          throw new Error("Invalid Single decorator (zero border width). Use qx.ui.decorator.Background instead!");
-        }
-      }
-
-      // Add basic styles
-      styles.position = "absolute";
-      styles.top = 0;
-      styles.left = 0;
+      // get the single border styles
+      this._getMarkupSingleBorder(styles, element);
 
       // get the broder radius styles
       this._getMarkupBorderRadius(styles, element);
 
       var html = this._generateBackgroundMarkup(styles);
 
-      return this.__markup = html;
+      return this._markup = html;
     },
 
 
     // interface implementation
-    resize : function(element, width, height)
-    {
-      var insets = this.getInsets();
-      width -= insets.left + insets.right;
-      height -= insets.top + insets.bottom;
-
-      // Fix to keep applied size above zero
-      // Makes issues in IE7 when applying value like '-4px'
-      if (width < 0) {
-        width = 0;
-      }
-
-      if (height < 0) {
-        height = 0;
-      }
-
-      element.style.width = width + "px";
-      element.style.height = height + "px";
-
-      element.style.left =
-        (parseInt(element.style.left, 10) +
-        insets.left -
-        this.getWidthLeft()) + "px";
-      element.style.top =
-        (parseInt(element.style.top, 10) +
-        insets.top -
-        this.getWidthTop()) + "px";
+    resize : function(element, width, height) {
+      this._resizeSingleBorder(element, width, height);
     },
 
 
     // interface implementation
     tint : function(element, bgcolor) {
       this._tintBackgroundColor(element, bgcolor, element.style);
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyWidth : function()
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__markup) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
-        }
-      }
-
-      this._resetInsets();
-    },
-
-
-    // property apply
-    _applyStyle : function()
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__markup) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
-        }
-      }
     }
   },
 
@@ -419,6 +123,6 @@ qx.Class.define("qx.ui.decoration.Single",
   */
 
   destruct : function() {
-    this.__markup = null;
+    this._markup = null;
   }
 });
