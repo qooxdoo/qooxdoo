@@ -35,16 +35,24 @@ qx.Class.define("demobrowser.demo.virtual.SelectBox",
       this.base(arguments);
 
       var scroller = new qx.ui.container.Scroll();
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+      scroller.add(container, {edge: 0});
 
-      var box = new qx.ui.container.Composite(new qx.ui.layout.HBox(50));
-      box.setPadding(20);
+      var standard = new qx.ui.container.Composite(new qx.ui.layout.HBox(50));
+      standard.setPadding(20);
 
-      box.add(this.createBox1());
-      box.add(this.createBox2());
-      box.add(this.createBox3());
-      box.add(this.createBox4());
+      var advanced = new qx.ui.container.Composite(new qx.ui.layout.HBox(50));
+      advanced.setPadding(20);
 
-      scroller.add(box, {left : 20, top : 20});
+      standard.add(this.createBox1());
+      standard.add(this.createBox2());
+      standard.add(this.createBox3());
+      standard.add(this.createBox4());
+
+      advanced.add(this.createBox5());
+
+      container.add(standard, {left : 20, top : 20});
+      container.add(advanced, {left : 20, top : 200});
       this.getRoot().add(scroller, {edge : 0});
     },
 
@@ -149,6 +157,35 @@ qx.Class.define("demobrowser.demo.virtual.SelectBox",
       // Creates the select box
       var selectBox = new qx.ui.form.VirtualSelectBox(model);
       container.add(selectBox);
+
+      return container;
+    },
+
+
+    createBox5 : function()
+    {
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
+      container.add(new qx.ui.basic.Label("Sorted"));
+
+      // Creates the model data
+      var model = new qx.data.Array();
+
+      for (var i = 0; i < 300; i++) {
+        model.push("Item " + i);
+      }
+
+      // Creates the select box
+      var selectBox = new qx.ui.form.VirtualSelectBox(model);
+      container.add(selectBox);
+
+      // Creates the delegate for sorting
+      var delegate = {
+        // Changes the order (downwards)
+        sorter : function(a, b) {
+          return a < b ? 1 : a > b ? -1 : 0;
+        }
+      }
+      selectBox.setDelegate(delegate);
 
       return container;
     }
