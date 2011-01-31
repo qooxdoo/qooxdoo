@@ -1,6 +1,6 @@
 #
 # ElementTree
-# $Id: ElementInclude.py 1862 2004-06-18 07:31:02Z Fredrik $
+# $Id: ElementInclude.py 3265 2007-09-06 20:42:00Z fredrik $
 #
 # limited xinclude support for element trees
 #
@@ -16,7 +16,7 @@
 # --------------------------------------------------------------------
 # The ElementTree toolkit is
 #
-# Copyright (c) 1999-2004 by Fredrik Lundh
+# Copyright (c) 1999-2007 by Fredrik Lundh
 #
 # By obtaining, using, and/or copying this software and/or its
 # associated documentation, you agree that you have read, understood,
@@ -138,4 +138,3 @@ def include(elem, loader=None):
         else:
             include(e, loader)
         i = i + 1
-
