@@ -119,14 +119,14 @@ qx.Class.define("qx.ui.toolbar.Part",
           break;
 
         case "container":
-          control = new qx.ui.toolbar.PartContainer;
+          control = new qx.ui.toolbar.PartContainer();
+          control.addListener("syncAppearance", this.__onSyncAppearance, this);
           this._add(control);
           break;
       }
 
       return control || this.base(arguments, id);
     },
-
 
     // overridden
     getChildrenContainer : function() {
@@ -156,6 +156,36 @@ qx.Class.define("qx.ui.toolbar.Part",
       UTILITIES
     ---------------------------------------------------------------------------
     */
+    /**
+     * Helper which applies the left, right and middle states.
+     */
+    __onSyncAppearance : function() {
+      // check every child
+      var children = this.getChildrenContainer().getChildren();
+      for (var i = 0; i < children.length; i++) {
+        // if its the first child
+        if (i == 0 && i != children.length - 1) {
+          children[i].addState("left");
+          children[i].removeState("right");
+          children[i].removeState("middle");
+        // if its the last child
+        } else if (i == children.length - 1 && i != 0) {
+          children[i].addState("right");
+          children[i].removeState("left");
+          children[i].removeState("middle");
+        // if there is only one child
+        } else if (i == 0 && i == children.length - 1) {
+          children[i].removeState("left");
+          children[i].removeState("middle");
+          children[i].removeState("right");          
+        } else {
+          children[i].addState("middle");
+          children[i].removeState("right");
+          children[i].removeState("left");
+        }
+      };
+    },
+
 
     /**
      * Adds a separator to the toolbar part.
