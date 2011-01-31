@@ -99,6 +99,10 @@
 #
 #    rrdtool fetch nightly_builds.rrd AVERAGE --start 1263318964 --end 1294854964
 #
+#  Re-apply the update.log to a fresh RRD db:
+#
+#    cat update.log |while read line; do eval $line; done
+#
 #  Create graphs like this:
 #
 #    rrdtool graph nightly_builds.png --start 920804400 --end 922100700 \
