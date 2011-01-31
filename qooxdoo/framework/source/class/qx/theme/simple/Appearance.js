@@ -724,7 +724,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           decorator : "toolbar-separator",
           margin: [7, 0],
-          width: 3
+          width: 4
         };
       }
     },
@@ -755,11 +755,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
         } else if (states.middle) {
           decorator += "-middle";
         }
+        
+        // set the margin
+        var margin = [7, 10];
+        if (states.left || states.middle || states.right) {
+          margin = [7, 0];
+        }
 
         return {
           cursor  : "pointer",
           decorator : decorator,
-          margin : [7, 0],
+          margin : margin,
           padding: [3, 5]
         };
       }
