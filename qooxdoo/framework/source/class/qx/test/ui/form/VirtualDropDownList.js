@@ -93,19 +93,29 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
 
     testCreation : function()
     {
-      var model = this.__dropdown.getChildControl("list").getModel();
+      var model = this.__model;
+      var listModel = this.__dropdown.getChildControl("list").getModel();
 
-      this.assertEquals(this.__model.getLength(), model.getLength(), "Model length not equals!");
-      this.assertEquals(this.__model, model, "Model instance not equals!");
+      this.assertEquals(model, listModel, "Model instance not equals!");
 
-      this.__checkSelection(model.getItem(0));
+      this.__testCreation(model);
     },
 
 
     testCreationWithSorter : function()
     {
       var sortedModel = this.__applySortingAndReturnSortedModel();
-      this.__checkSelection(sortedModel.getItem(0));
+      this.__testCreation(sortedModel);
+    },
+
+
+    __testCreation : function(model)
+    {
+      var listModel = this.__dropdown.getChildControl("list").getModel();
+
+      this.assertEquals(model.getLength(), listModel.getLength(), "Model length not equals!");
+
+      this.__checkSelection(model.getItem(0));
     },
 
 
