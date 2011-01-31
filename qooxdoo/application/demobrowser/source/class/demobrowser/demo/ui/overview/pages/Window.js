@@ -50,7 +50,9 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Window",
     this.setLabel("Window");
     this.setLayout(new qx.ui.layout.Canvas());
 
-    this.__container = new qx.ui.window.Desktop();
+    this.__container = new qx.ui.window.Desktop().set({
+      decorator: new qx.ui.decoration.Single(10, null, "#ddd")
+    });
     this.add(this.__container, {edge: 0, top: 40});
 
     this._initWidgets();
