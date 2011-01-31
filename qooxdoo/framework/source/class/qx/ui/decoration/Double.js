@@ -236,10 +236,7 @@ qx.Class.define("qx.ui.decoration.Double",
       }
 
       // get the broder radius styles
-      this._getMarkupBorderRadius(innerStyles, element);
-
-      // get the shadow styles
-      this._getMarkupBoxShadow(innerStyles, element);
+      this._getMarkupBorderRadius(innerStyles);
 
       // Generate inner HTML
       var innerHtml = this._generateBackgroundMarkup(innerStyles);
@@ -282,9 +279,12 @@ qx.Class.define("qx.ui.decoration.Double",
         }
       }
 
-
+      // shadow styles
+      var shadowStyles = {};
+      this._getMarkupBoxShadow(shadowStyles);
+      var shadow = qx.bom.element.Style.compile(shadowStyles);
       // Store
-      return this.__ownMarkup = '<div style="position:absolute;top:0;left:0;' + outerStyles + '">' + innerHtml + '</div>';
+      return this.__ownMarkup = '<div style="' + shadow + 'position:absolute;top:0;left:0;' + outerStyles + '">' + innerHtml + '</div>';
     },
 
 

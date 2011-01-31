@@ -74,14 +74,15 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
   members :
   {
     _getMarkupBoxShadow : function(styles) {
-      var color = this.getShadowColor();
+      var Color = qx.theme.manager.Color.getInstance();
+      var color = Color.resolve(this.getShadowColor());
 
       if (color != null) {
         var vLength = this.getShadowVerticalLength() || 0;
         var hLength = this.getShadowHorizontalLength() || 0;
         var blur = this.getShadowBlurRadius() || 0;
         var value = hLength + "px " + vLength + "px " + blur + "px " + color;
-        
+
         styles["-moz-box-shadow"] = value;
         styles["-webkit-box-shadow"] = value;
         styles["box-shadow"] = value;

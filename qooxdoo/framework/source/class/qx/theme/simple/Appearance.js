@@ -700,7 +700,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           backgroundColor : "light-blue",
-          padding : [0, 10]
+          padding : 0
         };
       }
     },
@@ -2613,7 +2613,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           font : "headline",
-          textColor : "dark-blue",
+          textColor : "text-selected",
+          backgroundColor: "dark-blue",
           padding : [8, 12]
         };
       }
