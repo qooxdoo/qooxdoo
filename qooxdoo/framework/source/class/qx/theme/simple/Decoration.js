@@ -91,6 +91,33 @@ qx.Theme.define("qx.theme.simple.Decoration",
         radius : 3
       }
     },
+    
+    
+    "button-invalid" : 
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style : 
+      {
+        backgroundColor : "button",
+        width : 2,
+        color : "invalid",
+        radius : 3
+      }
+    },
+    
+    "button-focused" : 
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style : 
+      {
+        backgroundColor : "button",
+        width : 2,
+        color : "blue",
+        radius : 3
+      }
+    },
 
 
     /*
@@ -155,7 +182,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
       style :
       {
-        width : 1,
+        width : [1, 0, 0, 1],
         color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ]
       }
     },
@@ -166,7 +193,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
       style :
       {
-        width : 1,
+        width : [0, 1, 1, 0],
         color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
       }
     },

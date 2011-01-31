@@ -228,14 +228,13 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
     "hover-button" :
     {
-      alias : "atom",
-      include : "atom",
+      alias : "button",
+      include : "button",
 
       style : function(states)
       {
         return {
-          backgroundColor : states.hovered ? "background-selected" : undefined,
-          textColor : states.hovered ? "text-selected" : undefined
+          decorator : states.hovered ? "button" : undefined
         }
       }
     },
@@ -283,14 +282,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
     "list" :
     {
       alias : "scrollarea",
-
-      style : function(states)
-      {
-        return {
-          decorator : states.focused ? "focused-inset" : "inset",
-          padding   : states.focused ? [0, 0] : [1, 1]
-        };
-      }
+      include : "textfield"
     },
 
     "listitem" :
@@ -420,6 +412,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
       }
     },
+
 
     "radiobutton":
     {
@@ -654,7 +647,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "background"
+          backgroundColor : "light-blue"
         };
       }
     },
@@ -668,7 +661,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           decorator : "toolbar-part-handle",
-          backgroundColor : "background",
+          backgroundColor : "light-blue",
           padding   : [ 0, 1 ],
           margin    : [ 3, 2 ],
           allowGrowY : true
@@ -696,32 +689,32 @@ qx.Theme.define("qx.theme.simple.Appearance",
         if (states.pressed || states.checked || states.abandoned)
         {
           var border = "inset-thin";
-          var padding = [ 3, 2, 1, 4 ];
+          var padding = [4, 5, 5, 4];
         }
         else if (states.hovered)
         {
           var border = "outset-thin";
-          var padding = [ 2, 3 ];
+          var padding = [5, 4, 4, 5];
         }
         else
         {
           var border = undefined;
-          var padding = [ 3, 4 ];
+          var padding = 5;
         }
 
         return {
-          cursor  : "default",
+          cursor  : "pointer",
           decorator : border,
           padding : padding,
-          backgroundColor : states.abandoned ? "button-abandoned" : states.checked ? "background-light" : "button"
+          margin : 3
         };
       }
     },
 
     "toolbar-menubutton" :
     {
-      alias : "toolbar-button",
-      include : "toolbar-button",
+      alias : "button",
+      include : "button",
 
       style : function(states)
       {
@@ -731,7 +724,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       }
     },
 
-    "toolbar-menubutton/arrow" :
+    "toolbar-menubutton/arrow" : 
     {
       alias : "image",
       include : "image",
@@ -739,7 +732,10 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : "decoration/arrows/down-small.gif"
+          source : "decoration/arrows/down.gif",
+          cursor : "pointer",
+          padding : [0, 5],
+          marginLeft: 2
         };
       }
     },
@@ -1031,29 +1027,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
     */
 
     "scrollbar" : {},
-
-    "scrollbar/slider" :
-    {
-      alias : "slider",
-
-      style : function(states)
-      {
-        return {
-          backgroundColor : "background-light"
-        }
-      }
-    },
+    "scrollbar/slider" : {},
 
     "scrollbar/slider/knob" :
     {
-      include : "button-frame",
-
       style : function(states)
       {
         return {
           height    : 14,
           width     : 14,
-
+          decorator : "button",
+          cursor : "pointer",
           minHeight : states.horizontal ? undefined : 9,
           minWidth  : states.horizontal ? 9 : undefined
         };
@@ -1063,44 +1047,33 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
     "scrollbar/button" :
     {
-      alias : "button",
-      include : "button",
-
       style : function(states)
       {
-        var padding;
-        if (states.up || states.down)
-        {
-          if (states.pressed || states.abandoned || states.checked) {
-            padding = [ 5, 2, 3, 4 ];
-          } else {
-            padding = [ 4, 3 ];
-          }
+        var styles = {};
+        if (states.up || states.down) {
+          styles.padding = [ 4, 3 ];
         }
-        else
-        {
-          if (states.pressed || states.abandoned || states.checked) {
-            padding = [ 4, 3, 2, 5 ];
-          } else {
-            padding = [ 3, 4 ];
-          }
+        else {
+          styles.padding = [ 3, 4 ];
         }
 
-        var icon = "decoration/arrows/";
+        styles.icon = "decoration/arrows/";
         if (states.left) {
-          icon += "left.gif";
+          styles.icon += "left.gif";
+          styles.marginRight = 2;
         } else if (states.right) {
-          icon += "right.gif";
+          styles.icon += "right.gif";
+          styles.marginLeft = 2;
         } else if (states.up) {
-          icon += "up.gif";
+          styles.icon += "up.gif";
+          styles.marginBottom = 2;
         } else {
-          icon += "down.gif";
+          styles.icon += "down.gif";
+          styles.marginTop = 2;
         }
-
-        return {
-          padding : padding,
-          icon : icon
-        }
+        
+        styles.decorator = "button";
+        return styles;
       }
     },
 
@@ -1120,36 +1093,38 @@ qx.Theme.define("qx.theme.simple.Appearance",
     {
       style : function(states)
       {
-        var backgroundColor;
-
+        var decorator;
+        var padding;
         if (states.disabled) {
-          backgroundColor = "background-disabled";
+          decorator = "inset";
+          padding = [2, 3];
         } else if (states.invalid) {
-          backgroundColor = "background-invalid";
+          decorator = "border-invalid";
+          padding = [1, 2];
         } else if (states.focused) {
-          backgroundColor = "background-light";
+          decorator = "focused-inset";
+          padding = [1, 2];
         } else {
-          backgroundColor = "background-field";
+          padding = [2, 3];
+          decorator = "inset";
         }
 
         return {
-          backgroundColor :  backgroundColor,
-          decorator : states.focused ? "focused-inset" : "inset",
-          padding   : states.focused ? [0, 0] : [1, 1]
+          decorator : decorator,
+          padding   : padding
         }
       }
     },
 
     "slider/knob" :
     {
-      include : "button-frame",
-
       style : function(states)
       {
         return {
           width: 14,
           height: 14,
-          decorator : "outset"
+          decorator : "button",
+          cursor : "pointer"
         }
       }
     },
@@ -1614,8 +1589,10 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator : "button",
-          padding: 4
+          decorator : states.invalid ? "button-invalid" : 
+            states.focused ? "button-focused" : "button",
+          cursor : "pointer",
+          padding: states.invalid || states.focused ? 2 : 4
         };
       }
     },
@@ -1812,6 +1789,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           icon : "decoration/arrows/down.gif",
           decorator : "button",
+          cursor : "pointer",
           padding : [0, 5],
           marginLeft: 4
         };
