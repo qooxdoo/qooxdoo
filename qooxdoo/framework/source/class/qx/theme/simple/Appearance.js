@@ -28,8 +28,6 @@
 #asset(qx/icon/Tango/16/actions/dialog-cancel.png)
 #asset(qx/icon/Tango/16/actions/dialog-ok.png)
 
-#asset(qx/decoration/Classic/*)
-
 ************************************************************************* */
 
 /**
@@ -171,7 +169,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
 
         return {
-          source : "decoration/cursors/" + icon + ".gif",
+          source : qx.theme.simple.Icons.ICONS["cursor-" + icon],
           position : "right-top",
           offset : [ 2, 16, 2, 6 ]
         };
@@ -194,76 +192,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      FORM FIELDS
-    ---------------------------------------------------------------------------
-    */
-
-
-
-    "checkbox":
-    {
-      alias : "atom",
-
-      style : function(states)
-      {
-        // The "disabled" icon is set to an icon **without** the -disabled
-        // suffix on purpose. This is because the Image widget handles this
-        // already by replacing the current image with a disabled version
-        // (if available). If no disabled image is found, the opacity style
-        // is used.
-        var icon;
-
-        // Checked
-        if (states.checked) {
-          if (states.disabled) {
-            icon = "checkbox-checked";
-          } else if (states.focused) {
-            icon = "checkbox-checked-focused";
-          } else if (states.pressed) {
-            icon = "checkbox-checked-pressed";
-          } else if (states.hovered) {
-            icon = "checkbox-checked-hovered";
-          } else {
-            icon = "checkbox-checked";
-          }
-
-        // Undetermined
-        } else if (states.undetermined) {
-          if (states.disabled) {
-            icon = "checkbox-undetermined";
-          } else if (states.focused) {
-            icon = "checkbox-undetermined-focused";
-          } else if (states.hovered) {
-            icon = "checkbox-undetermined-hovered";
-          } else {
-            icon = "checkbox-undetermined";
-          }
-
-        // Focused & Pressed & Hovered (when enabled)
-        } else if (!states.disabled) {
-          if (states.focused) {
-            icon = "checkbox-focused";
-          } else if (states.pressed) {
-            icon = "checkbox-pressed";
-          } else if (states.hovered ) {
-            icon = "checkbox-hovered";
-          }
-        }
-
-        // Unchecked
-        icon = icon || "checkbox";
-
-        var invalid = states.invalid && !states.disabled ? "-invalid" : "";
-
-        return {
-          icon: "decoration/form/" + icon + invalid + ".png",
-          gap: 6
-        }
-      }
-    },
 
 
 
@@ -296,9 +224,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : states.vertical ?
-            "decoration/arrows/down.gif" :
-            "decoration/arrows/next.gif"
+          icon : qx.theme.simple.Icons.ICONS["arrow-" + states.vertical ? "down" : "right"]
         };
       }
     },
@@ -311,9 +237,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : states.vertical ?
-            "decoration/arrows/up.gif" :
-           "decoration/arrows/left.gif"
+          icon : qx.theme.simple.Icons.ICONS["arrow-" + states.vertical ? "up" : "left"]
         };
       }
     },
@@ -538,9 +462,9 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : states.horizontal ? 
-            "decoration/splitpane/knob-horizontal.png" : 
-            "decoration/splitpane/knob-vertical.png",
+          source : qx.theme.simple.Icons.ICONS[
+            "knob-" + (states.horizontal ? "horizontal" : "vertical")
+          ],
           padding : 2
         };
       }
@@ -1315,7 +1239,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         // set an empty icon to be sure that the icon image is rendered
         return {
-          icon : "data:image/gif;base64,R0lGODlhAQABAJH/AP///wAAAMDAwAAAACH5BAEAAAIALAAAAAABAAEAAAICVAEAOw=="
+          icon : qx.theme.simple.Icons.ICONS["blank"]
         }
       }
     },
@@ -1357,7 +1281,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : "decoration/arrows/up-small.gif",
+          icon : qx.theme.simple.Icons.ICONS["arrow-up-small"],
           decorator : decorator,
           width: 17
         }
@@ -1382,7 +1306,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : "decoration/arrows/down-small.gif",
+          icon : qx.theme.simple.Icons.ICONS["arrow-down-small"],
           decorator : decorator,
           width: 17
         }
@@ -1435,20 +1359,22 @@ qx.Theme.define("qx.theme.simple.Appearance",
         var styles = {};
         styles.padding = 4;
 
-        styles.icon = "decoration/arrows/";
+        var icon = "";
         if (states.left) {
-          styles.icon += "left.gif";
+          icon = "left";
           styles.marginRight = 2;
         } else if (states.right) {
-          styles.icon += "right.gif";
+          icon += "right";
           styles.marginLeft = 2;
         } else if (states.up) {
-          styles.icon += "up.gif";
+          icon += "up";
           styles.marginBottom = 2;
         } else {
-          styles.icon += "down.gif";
+          icon += "down";
           styles.marginTop = 2;
         }
+        
+        styles.icon = qx.theme.simple.Icons.ICONS["arrow-" + icon]
         
         styles.cursor = "pointer";
         styles.decorator = "button-box";
@@ -1491,7 +1417,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : "decoration/arrows/down.gif",
+          source : qx.theme.simple.Icons.ICONS["arrow-down"],
           paddingRight : 4,
           paddingLeft : 5
         };
@@ -1525,7 +1451,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : states.hovered ? "data:image/png;base64,R0lGODlhBwAEAIABAAAAAP///yH5BAEAAAEALAAAAAAHAAQAAAIIhA+BGWoNWSgAOw==" : undefined,
+          icon : states.hovered ? qx.theme.simple.Icons.ICONS["arrow-down"] : undefined,
           cursor : "pointer",
           decorator : decorator,
           padding : [0, 5],
@@ -1796,7 +1722,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         decorator += "-right";
         
         return {
-          icon : "decoration/arrows/down.gif",
+          icon : qx.theme.simple.Icons.ICONS["arrow-down"],
           decorator : decorator,
           cursor : "pointer",
           padding: [3, 4]
@@ -1891,7 +1817,9 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : states.opened ? "decoration/tree/minus.gif" : "decoration/tree/plus.gif"
+          source : states.opened ? 
+            qx.theme.simple.Icons.ICONS["tree-minus"] : 
+            qx.theme.simple.Icons.ICONS["tree-plus"]
         };
       }
     },
@@ -2022,7 +1950,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "data:image/png;base64,R0lGODlhCQAJAIABAAAAAAAAACH5BAEAAAEALAAAAAAJAAkAAAILjI+py+0NojxyhgIAOw==",
+          icon : qx.theme.simple.Icons.ICONS["window-minimize"],
           padding : [ 1, 2 ],
           cursor : states.disabled ? undefined : "pointer"
         };
@@ -2036,7 +1964,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "data:image/png;base64,R0lGODlhCAAJAPABAAAAAAAAACH5BAUAAAEALAAAAAAIAAkAQAIQTICpaAvXTHuSTqeO1ayaAgA7",
+          icon : qx.theme.simple.Icons.ICONS["window-restore"],
           padding : [ 1, 2 ],
           cursor : states.disabled ? undefined : "pointer"
         };
@@ -2050,7 +1978,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "data:image/png;base64,R0lGODlhCQAJAIABAAAAAAAAACH5BAEAAAEALAAAAAAJAAkAAAIPhI+JwR3mGowP0HpnVKgAADs=",
+          icon : qx.theme.simple.Icons.ICONS["window-maximize"],
           padding : [ 1, 2 ],
           cursor : states.disabled ? undefined : "pointer"
         };
@@ -2065,7 +1993,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           marginLeft : 2,
-          icon : "data:image/png;base64,R0lGODlhCgAJAIABAAAAAAAAACH5BAEAAAEALAAAAAAKAAkAAAIRjI8BgHuuWFsyQUuxuTemXwAAOw==",
+          icon : qx.theme.simple.Icons.ICONS["window-close"],
           padding : [ 1, 2 ],
           cursor : states.disabled ? undefined : "pointer"
         };
@@ -2136,13 +2064,13 @@ qx.Theme.define("qx.theme.simple.Appearance",
         };
 
         if (states.lastYear) {
-          result.icon = "decoration/arrows/rewind.gif";
+          result.icon = qx.theme.simple.Icons.ICONS["arrow-rewind"];
         } else if (states.lastMonth) {
-          result.icon = "decoration/arrows/left.gif";
+          result.icon = qx.theme.simple.Icons.ICONS["arrow-left"];
         } else if (states.nextYear) {
-          result.icon = "decoration/arrows/forward.gif";
+          result.icon = qx.theme.simple.Icons.ICONS["arrow-forward"];
         } else if (states.nextMonth) {
-          result.icon = "decoration/arrows/right.gif";
+          result.icon = qx.theme.simple.Icons.ICONS["arrow-right"];
         }
 
         if (states.pressed || states.checked || states.abandoned) {
@@ -2363,7 +2291,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : "decoration/arrows/down.gif",
+          source : qx.theme.simple.Icons.ICONS["arrow-down"],
           cursor : "pointer",
           padding : [0, 5],
           marginLeft: 2
@@ -2401,7 +2329,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : "decoration/arrows/down.gif",
+          icon : qx.theme.simple.Icons.ICONS["arrow-down"],
           decorator : decorator
         };
       }
@@ -2437,7 +2365,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : "decoration/arrows/down.gif",
+          icon : qx.theme.simple.Icons.ICONS["arrow-down"],
           decorator : decorator
         };
       }

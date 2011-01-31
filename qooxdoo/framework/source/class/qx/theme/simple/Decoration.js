@@ -17,19 +17,13 @@
 
 ************************************************************************* */
 
-/* ************************************************************************
-
-#asset(qx/decoration/Classic/*)
-
-************************************************************************* */
-
 /**
  * The simple qooxdoo decoration theme.
  */
 qx.Theme.define("qx.theme.simple.Decoration",
 {
   aliases : {
-    decoration : "qx/decoration/Classic"
+    decoration : "qx/decoration/Simple"
   },
 
   decorations :
@@ -60,6 +54,25 @@ qx.Theme.define("qx.theme.simple.Decoration",
       {
         width : 1,
         color : "blue"
+      }
+    },
+    
+    
+    "popup" : 
+    {
+      decorator : [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBoxShadow,
+        qx.ui.decoration.MBackgroundColor
+      ],
+      
+      style : 
+      {
+        width: 1,
+        color: "window-border",
+        shadowLength : 2,
+        shadowBlurRadius : 5,
+        shadowColor : "shadow"        
       }
     },
 
@@ -1114,7 +1127,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
     {
       decorator : [
         qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MDoubleBorder,
         qx.ui.decoration.MBackgroundColor
       ],
       
@@ -1122,28 +1135,10 @@ qx.Theme.define("qx.theme.simple.Decoration",
       {
         radius : 10,
         width : 1,
-        color : "#BBB"
+        color : "#BBB",
+        innerColor: "background",
+        innerWidth: 2
       }      
-    },
-    
-    "radiobutton-checked" : 
-    {
-      include : "radiobutton",
-      
-      style : 
-      {
-        width : 0
-      }
-    },
-    
-    "radiobutton-checked-invalid" : 
-    {
-      include : "radiobutton-checked",
-      
-      style : 
-      {
-        color : "invalid"
-      }
     },
     
     "radiobutton-focused" : 
@@ -1158,6 +1153,44 @@ qx.Theme.define("qx.theme.simple.Decoration",
     "radiobutton-invalid" : 
     {
       include : "radiobutton",
+      style : 
+      {
+        color : "invalid"
+      }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      CHECK BOX
+    ---------------------------------------------------------------------------
+    */
+    
+    "checkbox" : 
+    {
+      decorator : [
+        qx.ui.decoration.MSingleBorder
+      ],
+      
+      style : 
+      {
+        width : 1,
+        color : "#BBB"
+      }      
+    },
+    
+    "checkbox-focused" : 
+    {
+      include : "checkbox",
+      style : 
+      {
+        color : "blue"
+      }
+    },
+    
+    "checkbox-invalid" : 
+    {
+      include : "checkbox",
       style : 
       {
         color : "invalid"
