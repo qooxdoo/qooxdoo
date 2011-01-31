@@ -25,7 +25,10 @@
 qx.Class.define("qx.ui.decoration.Background",
 {
   extend : qx.ui.decoration.Abstract,
-  include : [qx.ui.decoration.MBackgroundImage, qx.ui.decoration.MBackgroundColor],
+  include : [
+    qx.ui.decoration.MBackgroundImage, 
+    qx.ui.decoration.MBackgroundColor
+  ],
 
 
 
@@ -115,24 +118,6 @@ qx.Class.define("qx.ui.decoration.Background",
     // interface implementation
     tint : function(element, bgcolor) {
       this._tintBackgroundColor(element, bgcolor, element.style);
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyStyle : function()
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this._isInitialized()) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
-        }
-      }
     }
   },
 

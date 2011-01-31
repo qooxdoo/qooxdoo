@@ -16,6 +16,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * Border implementation with two CSS borders. Both borders can be styled
+ * independent of each other.
+ * This mixin is usually used by {@link qx.ui.decoration.DynamicDecorator}.
+ */
 qx.Mixin.define("qx.ui.decoration.MDoubleBorder", 
 {
   include : [qx.ui.decoration.MSingleBorder, qx.ui.decoration.MBackgroundImage],
@@ -130,6 +135,13 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
   {
     __ownMarkup : null,
     
+    /**
+     * Takes a styles map and adds the inner border styles styles in place 
+     * to the given map. This is the needed behavior for 
+     * {@link qx.ui.decoration.DynamicDecorator}.
+     * 
+     * @param styles {Map} A map to add the styles.
+     */
     __getMarkupDoubleBorder : function(styles)
     {
       var Color = qx.theme.manager.Color.getInstance();
@@ -170,6 +182,13 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     },
     
     
+    /**
+     * Special generator for the markup which creates the containing div and 
+     * the sourrounding div as well. 
+     * 
+     * @param styles {Map} The styles for the inner 
+     * @return {String} The generated decorator HTML.
+     */
     __generateMarkupDoubleBorder : function(styles) {
       var innerHtml = this._generateBackgroundMarkup(styles);
       var Color = qx.theme.manager.Color.getInstance();
@@ -230,7 +249,17 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     
 
 
-
+    /**
+     * Resize function for the decorator. This is suitable for the
+     * {@link qx.ui.decoration.DynamicDecorator}.
+     * 
+     * @param element {Element} The element which could be resized.
+     * @param width {Number} The new width.
+     * @param height {Number} The new height.
+     * @return {Map} A map containing the desired position and dimension and a 
+     *   emelent to resize.
+     *   (width, height, top, left, elementToApplyDimensions).
+     */
     __resizeDoubleBorder : function(element, width, height)
     {
       var insets = this.getInsets();
@@ -258,6 +287,12 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     },   
    
    
+   /**
+    * Implementation of the interface for the double border.
+    * 
+    * @return {Map} A map containing the default insets. 
+    *   (top, right, bottom, left)
+    */
     __getDefaultInsetsForDoubleBorder : function()
     {
       return {

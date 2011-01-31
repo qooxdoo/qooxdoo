@@ -16,6 +16,10 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * A basic decorator featuring simple borders based on CSS styles.
+ * This mixin is usually used by {@link qx.ui.decoration.DynamicDecorator}.
+ */
 qx.Mixin.define("qx.ui.decoration.MSingleBorder", 
 {
   properties : 
@@ -198,6 +202,13 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
 
   members :
   {
+    /**
+     * Takes a styles map and adds the border styles styles in place 
+     * to the given map. This is the needed behavior for 
+     * {@link qx.ui.decoration.DynamicDecorator}.
+     * 
+     * @param styles {Map} A map to add the styles.
+     */
     _getMarkupBorder : function(styles) {
       var Color = qx.theme.manager.Color.getInstance();
 
@@ -235,8 +246,18 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
       styles.top = 0;
       styles.left = 0;
     },
-    
-    
+
+
+    /**
+     * Resize function for the decorator. This is suitable for the
+     * {@link qx.ui.decoration.DynamicDecorator}.
+     * 
+     * @param element {Element} The element which could be resized.
+     * @param width {Number} The new width.
+     * @param height {Number} The new height.
+     * @return {Map} A map containing the desired position and dimension.
+     *   (width, height, top, left).
+     */    
     _resizeBorder : function(element, width, height) {
       var insets = this.getInsets();
       width -= insets.left + insets.right;
@@ -251,7 +272,12 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     
     
     
-    // overridden
+    /**
+     * Implementation of the interface for the single border.
+     * 
+     * @return {Map} A map containing the default insets. 
+     *   (top, right, bottom, left)
+     */
     _getDefaultInsetsForBorder : function()
     {
       return {

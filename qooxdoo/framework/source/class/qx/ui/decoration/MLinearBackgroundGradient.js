@@ -18,11 +18,13 @@
 ************************************************************************ */
 /**
  * Mixin for the linear background gradient CSS property.
+ * This mixin is usually used by {@link qx.ui.decoration.DynamicDecorator}.
  * 
  * Keep in mind that this is not supported by all browsers:
- *   * Safari 4.0+
- *   * Chrome 4.0+
- *   * Firefox 3.6+
+ *
+ * * Safari 4.0+
+ * * Chrome 4.0+
+ * * Firefox 3.6+
  */
 qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient", 
 {
@@ -87,6 +89,13 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 
   members :
   {
+    /**
+     * Takes a styles map and adds the linear background styles in place to the 
+     * given map. This is the needed behavior for 
+     * {@link qx.ui.decoration.DynamicDecorator}.
+     * 
+     * @param styles {Map} A map to add the styles.
+     */
     _getMarkupLinearBackgroundGradient : function(styles) {
       var Color = qx.theme.manager.Color.getInstance();
 

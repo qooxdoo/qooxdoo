@@ -18,13 +18,15 @@
 ************************************************************************ */
 /**
  * Mixin for the border radius CSS property.
+ * This mixin is usually used by {@link qx.ui.decoration.DynamicDecorator}.
  * 
  * Keep in mind that this is not supported by all browsers:
- *   * Firefox 3,5+
- *   * IE9+
- *   * Safari 3.0+
- *   * Opera 10.5+
- *   * Chrome 4.0+
+ * 
+ * * Firefox 3,5+
+ * * IE9+
+ * * Safari 3.0+
+ * * Opera 10.5+
+ * * Chrome 4.0+
  */
 qx.Mixin.define("qx.ui.decoration.MBorderRadius", 
 {
@@ -72,6 +74,13 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
   
   members :
   {
+    /**
+     * Takes a styles map and adds the broder radius styles in place to the 
+     * given map. This is the needed behavior for 
+     * {@link qx.ui.decoration.DynamicDecorator}.
+     * 
+     * @param styles {Map} A map to add the styles.
+     */
     _getMarkupBorderRadius : function(styles) {
       // radius handling
       var radius = this.getRadiusTopLeft();

@@ -18,6 +18,7 @@
 ************************************************************************ */
 /**
  * Mixin responsible for setting the background color of a widget.
+ * This mixin is usually used by {@link qx.ui.decoration.DynamicDecorator}.
  */
 qx.Mixin.define("qx.ui.decoration.MBackgroundColor", 
 {
@@ -35,6 +36,14 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
 
   members :
   {
+    /**
+     * Tint function for the background color. This is suitable for the
+     * {@link qx.ui.decoration.DynamicDecorator}.
+     * 
+     * @param element {Element} The element which could be resized.
+     * @param bgcolor {Color} The new background color.
+     * @param styles {Map} A map of styles to apply.
+     */
     _tintBackgroundColor : function(element, bgcolor, styles) {
       var Color = qx.theme.manager.Color.getInstance();
 
@@ -46,6 +55,16 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
     },
 
     
+    /**
+     * Resize function for the background color. This is suitable for the
+     * {@link qx.ui.decoration.DynamicDecorator}.
+     * 
+     * @param element {Element} The element which could be resized.
+     * @param width {Number} The new width.
+     * @param height {Number} The new height.
+     * @return {Map} A map containing the desired position and dimension 
+     *   (width, height, top, left).
+     */
     _resizeBackgroundColor : function(element, width, height) {
       var insets = this.getInsets();
       width -= insets.left + insets.right;
