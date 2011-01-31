@@ -59,14 +59,25 @@ def extractQuarter(calendarElement):
 def extractAmPm(calendarElement):
     data = {}
 
-    amNode = calendarElement.find(".//am")
-    #amNode = calendarElement.find(".//dayPeriods/dayPeriodContext[@type='format']/dayPeriodwidth[@type='wide']/dayPeriod[@type='am'")
+    # This is an approximation, as attribute filters don't work in elementtree
+    # before 1.3, so path expressions like 'node[@attrib=value]' do not work
+
+    # desired XPath = ".//dayPeriods/dayPeriodContext[@type='format']/dayPeriodWidth[@type='wide']/dayPeriod[@type='am'"
+    amNode  = None
+    dayPeriods = calendarElement.findall(".//dayPeriod")
+    for node in dayPeriods:
+        if node.attrib["type"] == "am":
+            amNode = node
+            break
     if amNode != None:
         data['cldr_am'] = amNode.text
-    #else:
-    #    import pydb; pydb.debugger()
 
-    pmNode = calendarElement.find(".//pm")
+    # desired XPath = ".//dayPeriods/dayPeriodContext[@type='format']/dayPeriodWidth[@type='wide']/dayPeriod[@type='pm'"
+    pmNode = None
+    for node in dayPeriods:
+        if node.attrib["type"] == "pm":
+            pmNode = node
+            break
     if pmNode != None:
         data["cldr_pm"] = pmNode.text
 
