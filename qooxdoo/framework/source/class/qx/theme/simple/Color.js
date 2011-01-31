@@ -36,6 +36,10 @@ qx.Theme.define("qx.theme.simple.Color",
     "background-disabled-checked" : "#BBBBBB",
     "background-pane" : "#FAFBFE",
 
+    // tabview
+    "tabview-unselected" : "#1866B5",
+    "tabview-button-border" : "#134983",
+
     // text colors
     "link" : "#24B",
     
@@ -49,6 +53,8 @@ qx.Theme.define("qx.theme.simple.Color",
     "invalid" : "#FF0000",
     "button-box-bright" : "#F9F9F9",
     "button-box-dark" : "#E3E3E3",
+    "button-box-bright-pressed" : "#DDDDDD",
+    "button-box-dark-pressed" : "#F5F5F5",    
     "border-lead" : "#888888",
 
     // window
@@ -63,7 +69,7 @@ qx.Theme.define("qx.theme.simple.Color",
     
     // borders
     "border-light" : "#B7B7B7",
-    "border-light-shadow" : "#464646",
+    "border-light-shadow" : "#686868",
 
     // separator
     "border-separator" : "#808080",

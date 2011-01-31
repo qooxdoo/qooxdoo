@@ -1345,9 +1345,10 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : "icon/16/apps/office-calendar.png",
-          padding : [0, 3],
+          padding : [0, 0, 0, 3],
           backgroundColor : undefined,
-          decorator : undefined
+          decorator : undefined,
+          width: 19
         };
       }
     },
@@ -1740,7 +1741,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           contentPadding : [ 10, 10, 10, 10 ],
           backgroundColor : "background",
-          decorator : states.maximized ? undefined : "window"
+          decorator : states.maximized ? undefined : states.active ? "window-active" : "window"
         };
       }
     },
@@ -1752,7 +1753,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "light-background",
+          backgroundColor : states.active ? "light-background" : "background-disabled",
           padding : 8,
           font: "bold",
           decorator : "window-caption"
@@ -2243,19 +2244,41 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
-        if (states.barTop || states.barBottom)
+        var decorator = "button-box";
+
+        if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
+        }
+        
+        if (states.barTop)
         {
+          return {
+            marginTop : 4,
+            marginBottom: 2,    
+            decorator : decorator + "-top-right"
+          }
+        } else if (states.barBottom) {
           return {
             marginTop : 2,
-            marginBottom: 2
+            marginBottom: 4,
+            decorator : decorator + "-bottom-right"
+          }          
+        } else if (states.barLeft) {
+          return {
+            marginLeft : 4,
+            marginRight : 2,
+            decorator : decorator + "-bottom-left"
           }
-        }
-        else
-        {
+        } else {
           return {
             marginLeft : 2,
-            marginRight : 2
-          }
+            marginRight : 4,
+            decorator : decorator + "-bottom-right"
+          }          
         }
       }
     },
@@ -2267,19 +2290,40 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
-        if (states.barTop || states.barBottom)
-        {
+        var decorator = "button-box";
+
+        if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
+        }
+        
+        if (states.barTop) {
+          return {
+            marginTop : 4,
+            marginBottom: 2,
+            decorator : decorator + "-top-left"
+          }
+        } else if (states.barBottom) {
           return {
             marginTop : 2,
-            marginBottom: 2
+            marginBottom: 4,
+            decorator : decorator + "-bottom-left"
+          }          
+        } else if (states.barLeft) {
+          return {
+            marginLeft : 4,
+            marginRight : 2,
+            decorator : decorator + "-top-left"
           }
-        }
-        else
-        {
+        } else {
           return {
             marginLeft : 2,
-            marginRight : 2
-          }
+            marginRight : 4,
+            decorator : decorator + "-top-right"
+          }          
         }
       }
     },
@@ -2305,83 +2349,66 @@ qx.Theme.define("qx.theme.simple.Appearance",
         var decorator;
         var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
 
+        // default padding
         if (states.barTop || states.barBottom) {
-          var paddingTop=2, paddingBottom=2, paddingLeft=6, paddingRight=6;
+          var paddingTop=5, paddingBottom=5, paddingLeft=9, paddingRight=9;
         } else {
-          var paddingTop=6, paddingBottom=6, paddingLeft=6, paddingRight=6;
+          var paddingTop=8, paddingBottom=8, paddingLeft=4, paddingRight=4;
         }
 
-        if (states.barTop)
-        {
-          decorator = "tabview-page-button-top";
-        }
-        else if (states.barRight)
-        {
-          decorator = "tabview-page-button-right";
-        }
-        else if (states.barBottom)
-        {
-          decorator = "tabview-page-button-bottom";
-        }
-        else
-        {
-          decorator = "tabview-page-button-left";
+        // decorator
+        if (states.barTop || states.barBottom) {
+          decorator = "tabview-page-button-top-bottom";
+        } else if (states.barRight || states.barLeft) {
+          decorator = "tabview-page-button-right-left";
         }
 
-        if (states.checked)
-        {
-          if (states.barTop || states.barBottom)
-          {
-            paddingLeft += 2;
-            paddingRight += 2;
-          }
-          else
-          {
+        // checked padding / margin
+        if (states.checked) {
+          if (states.barTop) {
+            paddingLeft += 1;
+            paddingRight += 1;
+            paddingTop += 4;
+          } else if (states.barBottom) {
+            paddingLeft += 1;
+            paddingRight += 1;
             paddingTop += 2;
-            paddingBottom += 2;
+          } else if (states.barLeft) {
+            paddingTop += 1;
+            paddingBottom += 1;
+            paddingLeft += 4;
+          } else if (states.barRight) {
+            paddingTop += 1;
+            paddingBottom += 1;
+            paddingLeft += 2;
           }
-        }
-        else
-        {
-          if (states.barTop || states.barBottom)
-          {
+        } else {
+          if (states.barTop) {
             marginBottom += 2;
+            marginTop += 4;
+          } else if (states.barBottom) {
+            marginBottom += 4;
             marginTop += 2;
-          }
-          else if (states.barLeft || states.barRight)
-          {
+          } else if (states.barLeft) {
             marginRight += 2;
+            marginLeft += 4;
+          } else if (states.barRight) {
+            marginRight += 4;
             marginLeft += 2;
           }
         }
-
-        if (states.checked)
-        {
-          if (!states.firstTab)
-          {
-            if (states.barTop || states.barBottom) {
-              marginLeft = -4;
-            } else {
-              marginTop = -4;
-            }
-          }
-
-          if (!states.lastTab)
-          {
-            if (states.barTop || states.barBottom) {
-              marginRight = -4;
-            } else {
-              marginBottom = -4;
-            }
-          }
+        
+        if (states.firstTab && !states.checked) {
+          decorator += "-first";
+        } else if (states.lastTab && !states.checked) {
+          decorator += "-last";
         }
 
         return {
           zIndex : states.checked ? 10 : 5,
-          decorator : decorator,
-          backgroundColor : "background-selected-dark",
+          decorator : states.checked ? undefined : decorator,
+          backgroundColor : states.checked ? "background-selected" : "tabview-unselected",
           textColor: "white",
-          font: "bold",
           padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
           margin : [ marginTop, marginRight, marginBottom, marginLeft ]
         };
@@ -2409,7 +2436,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "qx/icon/Oxygen/16/actions/window-close.png"
+          cursor : states.disabled ? undefined : "pointer",
+          icon : qx.theme.simple.Image.ICONS["tabview-close"]
         };
       }
     },

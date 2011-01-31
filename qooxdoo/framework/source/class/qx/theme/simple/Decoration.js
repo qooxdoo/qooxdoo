@@ -119,9 +119,9 @@ qx.Theme.define("qx.theme.simple.Decoration",
       
       style : 
       {
-        gradientStart : ["button-box-dark", 40],
-        gradientEnd : ["button-box-bright", 70],
-        backgroundColor : "button-box-dark"
+        gradientStart : ["button-box-bright-pressed", 40],
+        gradientEnd : ["button-box-dark-pressed", 70],
+        backgroundColor : "button-box-bright-pressed"
       }
     },
     
@@ -404,6 +404,106 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     /*
     ---------------------------------------------------------------------------
+      BUTTON BOTOM LEFT
+    ---------------------------------------------------------------------------
+    */
+    "button-box-bottom-left" : 
+    {
+      include : "button-box",
+      
+      style : 
+      {
+        radius : [0, 0, 0, 3],
+        width : [0, 0, 1, 1]
+      }
+    },
+    
+    "button-box-pressed-bottom-left" : 
+    {
+      include : "button-box-pressed",
+      
+      style : 
+      {
+        radius : [0, 0, 0, 3],
+        width : [0, 0, 1, 1]
+      }
+    },
+    
+    "button-box-pressed-hovered-bottom-left" : 
+    {
+      include : "button-box-pressed-hovered",
+      
+      style : 
+      {
+        radius : [0, 0, 0, 3],
+        width : [0, 0, 1, 1]
+      }
+    },
+    
+    "button-box-hovered-bottom-left" : 
+    {
+      include : "button-box-hovered",
+      
+      style : 
+      {
+        radius : [0, 0, 0, 3],
+        width : [0, 0, 1, 1]
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON TOP LEFT
+    ---------------------------------------------------------------------------
+    */
+    "button-box-top-left" : 
+    {
+      include : "button-box",
+      
+      style : 
+      {
+        radius : [3, 0, 0, 0],
+        width : [1, 0, 0, 1]
+      }
+    },
+    
+    "button-box-pressed-top-left" : 
+    {
+      include : "button-box-pressed",
+      
+      style : 
+      {
+        radius : [3, 0, 0, 0],
+        width : [1, 0, 0, 1]
+      }
+    },
+    
+    "button-box-pressed-hovered-top-left" : 
+    {
+      include : "button-box-pressed-hovered",
+      
+      style : 
+      {
+        radius : [3, 0, 0, 0],
+        width : [1, 0, 0, 1]
+      }
+    },
+    
+    "button-box-hovered-top-left" : 
+    {
+      include : "button-box-hovered",
+      
+      style : 
+      {
+        radius : [3, 0, 0, 0],
+        width : [1, 0, 0, 1]
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
       BUTTON MIDDLE
     ---------------------------------------------------------------------------
     */
@@ -622,10 +722,21 @@ qx.Theme.define("qx.theme.simple.Decoration",
         color : "window-border",
         innerWidth : 4,
         innerColor: "window-border-inner",
-        shadowLength : 2,
-        shadowBlurRadius : 5,
+        shadowLength : 1,
+        shadowBlurRadius : 3,
         shadowColor : "shadow",
         backgroundColor : "background"
+      }
+    },
+    
+    "window-active" : 
+    {
+      include : "window",
+      
+      style : 
+      {
+        shadowLength : 2,
+        shadowBlurRadius : 5
       }
     },
     
@@ -781,7 +892,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         widthLeft : 1,
-        colorLeft : "background-selected"
+        colorLeft : "button-border"
       }
     },
 
@@ -905,71 +1016,75 @@ qx.Theme.define("qx.theme.simple.Decoration",
     ---------------------------------------------------------------------------
     */
 
-    "tabview-page-button-top" :
+    "tabview-page-button-top-bottom" :
     {
-      decorator : qx.ui.decoration.Double,
+      decorator : qx.ui.decoration.Single,
 
       style :
       {
-        width : 1,
-        color : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
-
-        innerWidth : 1,
-        innerColor : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
-
-        widthBottom : 0,
-        innerWidthBottom : 0
+        width : [0, 1],
+        color : "tabview-button-border"
+      }
+    },
+    
+    "tabview-page-button-top-bottom-first" : 
+    {
+      include : "tabview-page-button-top-bottom",
+      
+      style : 
+      {
+        color : [
+          "tabview-button-border", "tabview-button-border", 
+          "tabview-button-border", "tabview-unselected"
+        ]
       }
     },
 
-    "tabview-page-button-bottom" :
+    "tabview-page-button-top-bottom-last" : 
     {
-      decorator : qx.ui.decoration.Double,
-
-      style :
+      include : "tabview-page-button-top-bottom",
+      
+      style : 
       {
-        width : 1,
-        color : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
-
-        innerWidth : 1,
-        innerColor : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
-
-        widthTop : 0,
-        innerWidthTop : 0
+        color : [
+          "tabview-button-border", "tabview-unselected",
+          "tabview-button-border", "tabview-button-border"
+        ]
       }
     },
 
-    "tabview-page-button-left" :
+    "tabview-page-button-right-left" :
     {
-      decorator : qx.ui.decoration.Double,
+      decorator : qx.ui.decoration.Single,
 
       style :
       {
-        width : 1,
-        color : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
-
-        innerWidth : 1,
-        innerColor : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
-
-        widthRight : 0,
-        innerWidthRight : 0
+        width : [1, 0],
+        color : "tabview-button-border"
       }
     },
-
-    "tabview-page-button-right" :
+    
+    "tabview-page-button-right-left-first" : 
     {
-      decorator : qx.ui.decoration.Double,
-
-      style :
-      {
-        width : 1,
-        color : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
-
-        innerWidth : 1,
-        innerColor : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
-
-        widthLeft : 0,
-        innerWidthLeft : 0
+      include : "tabview-page-button-right-left",
+      
+      style : {
+        color : [
+          "tabview-unselected", "tabview-button-border", 
+          "tabview-button-border", "tabview-button-border"
+        ]
+      }
+    },
+    
+    "tabview-page-button-right-left-last" : 
+    {
+      include : "tabview-page-button-right-left",
+      
+      style : {
+        color : [
+          "tabview-button-border", "tabview-button-border",
+          "tabview-unselected", "tabview-button-border"
+        ]
       }
     },
 
