@@ -537,16 +537,19 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         var t1 = new qx.ui.menu.RadioButton("Modern Theme");
         var t2 = new qx.ui.menu.RadioButton("Classic Theme");
+        var t3 = new qx.ui.menu.RadioButton("Simple Theme");
 
         t1.setUserData("value", "qx.theme.Modern");
         t1.setValue(true);
         t2.setUserData("value", "qx.theme.Classic");
-
-        var group = new qx.ui.form.RadioGroup(t1, t2);
+        t3.setUserData("value", "qx.theme.Simple");
+        
+        var group = new qx.ui.form.RadioGroup(t1, t2, t3);
         group.addListener("changeSelection", this.__onChangeTheme, this);
 
         themeMenu.add(t1);
         themeMenu.add(t2);
+        themeMenu.add(t3);
 
         var themeButton = new qx.ui.toolbar.MenuButton(this.tr("Theme"), "icon/22/apps/utilities-color-chooser.png", themeMenu);
         themeButton.setToolTipText("Choose theme");
