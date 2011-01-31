@@ -25,7 +25,11 @@
 qx.Class.define("qx.ui.decoration.Single",
 {
   extend : qx.ui.decoration.Abstract,
-  include : [qx.ui.decoration.MBackgroundImage],
+  include : [
+    qx.ui.decoration.MBackgroundImage, 
+    qx.ui.decoration.MBorderRadius,
+    qx.ui.decoration.MBackgroundColor
+  ],
 
 
   /*
@@ -39,7 +43,7 @@ qx.Class.define("qx.ui.decoration.Single",
    * @param style {String} Any supported border style
    * @param color {Color} The border color
    */
-  construct : function(width, style, color, radius)
+  construct : function(width, style, color)
   {
     this.base(arguments);
 
@@ -54,10 +58,6 @@ qx.Class.define("qx.ui.decoration.Single",
 
     if (color != null) {
       this.setColor(color);
-    }
-    
-    if (radius != null) {
-      this.setRadius(radius);
     }
   },
 
@@ -192,61 +192,6 @@ qx.Class.define("qx.ui.decoration.Single",
       apply : "_applyStyle"
     },
 
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY: COLOR
-    ---------------------------------------------------------------------------
-    */
-
-    /** top left corner radius */
-    radiusTopLeft :
-    {
-      nullable : true,
-      check : "Integer",
-      apply : "_applyStyle"
-    },
-
-    /** top right corner radius */
-    radiusTopRight :
-    {
-      nullable : true,
-      check : "Integer",
-      apply : "_applyStyle"
-    },
-
-    /** bottom left corner radius */
-    radiusBottomLeft :
-    {
-      nullable : true,
-      check : "Integer",
-      apply : "_applyStyle"
-    },
-
-    /** bottom right corner radius */
-    radiusBottomRight :
-    {
-      nullable : true,
-      check : "Integer",
-      apply : "_applyStyle"
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY: BACKGROUND COLOR
-    ---------------------------------------------------------------------------
-    */
-
-    /** Color of the background */
-    backgroundColor :
-    {
-      check : "Color",
-      nullable : true,
-      apply : "_applyStyle"
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       PROPERTY GROUP: EDGE
@@ -298,13 +243,6 @@ qx.Class.define("qx.ui.decoration.Single",
     color :
     {
       group : [ "colorTop", "colorRight", "colorBottom", "colorLeft" ],
-      mode : "shorthand"
-    },
-    
-    /** Property group to set the corner radius of all sides */
-    radius :
-    {
-      group : [ "radiusTopLeft", "radiusTopRight", "radiusBottomRight", "radiusBottomLeft" ],
       mode : "shorthand"
     }
   },
@@ -394,34 +332,8 @@ qx.Class.define("qx.ui.decoration.Single",
       styles.top = 0;
       styles.left = 0;
 
-      // radius handling
-      var radius = this.getRadiusTopLeft();
-      if (radius > 0) {
-        styles["-moz-border-radius-topleft"] = radius + "px";
-        styles["-webkit-border-top-left-radius"] = radius + "px";
-        styles["border-top-left-radius"] = radius + "px";
-      }
-      
-      radius = this.getRadiusTopRight();
-      if (radius > 0) {
-        styles["-moz-border-radius-topright"] = radius + "px";
-        styles["-webkit-border-top-right-radius"] = radius + "px";
-        styles["border-top-right-radius"] = radius + "px";
-      }
-      
-      radius = this.getRadiusBottomLeft();
-      if (radius > 0) {
-        styles["-moz-border-radius-bottomleft"] = radius + "px";
-        styles["-webkit-border-bottom-left-radius"] = radius + "px";
-        styles["border-bottom-left-radius"] = radius + "px";
-      }
-      
-      radius = this.getRadiusBottomRight();
-      if (radius > 0) {
-        styles["-moz-border-radius-bottomright"] = radius + "px";
-        styles["-webkit-border-bottom-right-radius"] = radius + "px";
-        styles["border-bottom-right-radius"] = radius + "px";
-      }
+      // get the broder radius styles
+      this._getMarkupBorderRadius(styles, element);
 
       var html = this._generateBackgroundMarkup(styles);
 
@@ -461,15 +373,8 @@ qx.Class.define("qx.ui.decoration.Single",
 
 
     // interface implementation
-    tint : function(element, bgcolor)
-    {
-      var Color = qx.theme.manager.Color.getInstance();
-
-      if (bgcolor == null) {
-        bgcolor = this.getBackgroundColor();
-      }
-
-      element.style.backgroundColor = Color.resolve(bgcolor) || "";
+    tint : function(element, bgcolor) {
+      this._tintBackgroundColor(element, bgcolor, element.style);
     },
 
 

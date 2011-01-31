@@ -25,7 +25,7 @@
 qx.Class.define("qx.ui.decoration.Background",
 {
   extend : qx.ui.decoration.Abstract,
-  include : [qx.ui.decoration.MBackgroundImage],
+  include : [qx.ui.decoration.MBackgroundImage, qx.ui.decoration.MBackgroundColor],
 
 
 
@@ -46,28 +46,6 @@ qx.Class.define("qx.ui.decoration.Background",
       this.setBackgroundColor(backgroundColor);
     }
   },
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /** Color of the background */
-    backgroundColor :
-    {
-      check : "Color",
-      nullable : true,
-      apply : "_applyStyle"
-    }
-  },
-
-
 
 
   /*
@@ -135,15 +113,8 @@ qx.Class.define("qx.ui.decoration.Background",
 
 
     // interface implementation
-    tint : function(element, bgcolor)
-    {
-      var Color = qx.theme.manager.Color.getInstance();
-
-      if (bgcolor == null) {
-        bgcolor = this.getBackgroundColor();
-      }
-
-      element.style.backgroundColor = Color.resolve(bgcolor) || "";
+    tint : function(element, bgcolor) {
+      this._tintBackgroundColor(element, bgcolor, element.style);
     },
 
 
