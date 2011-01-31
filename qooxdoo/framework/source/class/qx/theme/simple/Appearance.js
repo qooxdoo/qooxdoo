@@ -1271,8 +1271,9 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          padding : [2, 3, 2, 0],
+          padding : [2, 8, 2, 5],
           icon : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png",
+          backgroundColor : states.selected ? "background-selected" : undefined,
           iconOpened : "icon/16/places/folder-open.png"
         };
       }
@@ -1294,7 +1295,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           padding : [ 1, 2 ],
-          backgroundColor : states.selected ? "background-selected" : undefined,
           textColor : states.selected ? "text-selected" : undefined
         };
       }
@@ -1321,7 +1321,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          contentPadding : [4, 4, 4, 4]
+          contentPadding : [4, 0],
+          padding : 0
         };
       }
     },
