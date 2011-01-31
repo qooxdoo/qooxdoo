@@ -76,5 +76,11 @@
       "let"     : {"DTHEME" : "qx.theme.Modern"},
       "compile" : { "type"  : "${BUILDTYPE}" }
     }
+    
+    ,"default-Simple" :
+    {
+      "let"     : {"DTHEME" : "qx.theme.Simple"},
+      "compile" : { "type"  : "${BUILDTYPE}" }
+    }
   }
 }
