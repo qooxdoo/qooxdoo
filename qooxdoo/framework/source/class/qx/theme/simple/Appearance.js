@@ -756,7 +756,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator += "-middle";
         }
 
-        console.log("decorator", decorator);
         return {
           cursor  : "pointer",
           decorator : decorator,

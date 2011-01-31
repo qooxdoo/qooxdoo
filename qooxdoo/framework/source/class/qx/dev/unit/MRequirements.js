@@ -106,7 +106,6 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
       }
 
       var url = qx.util.ResourceManager.getInstance().toUri("qx/test/xmlhttp/php_version.php");
-      console.log(url);
       var req = new qx.bom.Request();
 
       req.onload = qx.lang.Function.bind(function() {
