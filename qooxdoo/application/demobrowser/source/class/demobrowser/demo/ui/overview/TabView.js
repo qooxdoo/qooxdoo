@@ -63,6 +63,10 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
       var control = new demobrowser.demo.ui.overview.pages.Control();
       this.add(control);
 
+      // TreeVirtual
+      var treeVirtual = new demobrowser.demo.ui.overview.pages.TreeVirtual();
+      this.add(treeVirtual);
+
       // SplitPane
       var splitPane = new demobrowser.demo.ui.overview.pages.SplitPane();
       this.add(splitPane);
