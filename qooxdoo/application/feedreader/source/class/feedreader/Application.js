@@ -24,6 +24,7 @@
 #asset(feedreader/*)
 #asset(qx/icon/Tango/22/apps/internet-feed-reader.png)
 #asset(qx/icon/Tango/22/actions/process-stop.png)
+#asset(qx/icon/Tango/22/places/folder.png)
 
 ************************************************************************ */
 
