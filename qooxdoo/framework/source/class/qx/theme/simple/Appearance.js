@@ -803,21 +803,31 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "light-blue"
+          backgroundColor : "light-blue",
+          padding: [4, 2]
         };
       }
     },
 
     "menubar-button" :
     {
-      alias : "toolbar-button",
-      include : "toolbar-button",
-
       style : function(states)
       {
+        var decorator;
+        var padding = [2, 6];
+        if (states.pressed) {
+          decorator = "menubar-button-pressed";
+          padding = [1, 5, 2, 5];
+        } else if (states.hovered) {
+          decorator = "menubar-button-hovered";
+          padding = [1, 5];          
+        }
+        
         return {
-          padding : [ 2, 6 ],
-          cursor : "pointer"
+          padding : padding,
+          cursor : "pointer",
+          textColor : "link",
+          decorator : decorator
         };
       }
     },
@@ -912,8 +922,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
     "scrollbar/slider/knob" :
     {
-      include : "button-frame",      
-      
       style : function(states)
       {
         var decorator = "scroll-knob";
@@ -933,8 +941,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
           width : 14,
           cursor : "pointer",
           decorator : decorator,
-          minHeight : states.horizontal ? undefined : 9,
-          minWidth : states.horizontal ? 9 : undefined
+          minHeight : states.horizontal ? undefined : 20,
+          minWidth : states.horizontal ? 20 : undefined
         };
       }
     },
@@ -1434,7 +1442,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator = "button-box-pressed";
         }
         
-        if (states.invalid) {
+        if (states.invalid && !states.disabled) {
           decorator += "-invalid";
         } else if (states.focused) {
           decorator += "-focused";
@@ -1700,7 +1708,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          contentPadding : [4, 0],
+          contentPadding : states.invalid && !states.disabled? [3, 0] : [4, 1],
           padding : states.focused ? 0 : 1
         };
       }
@@ -1735,7 +1743,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           backgroundColor : "light-blue",
           padding : 8,
-          font: "bold"
+          font: "bold",
+          decorator : "window-caption"
         };
       }
     },
@@ -1929,7 +1938,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
           font            : "bold",
           textAlign       : "center",
           textColor       : states.disabled ? "text-disabled" : states.weekend ? "dark-blue" : "background",
-          backgroundColor : states.weekend ? "background" : "dark-blue"
+          backgroundColor : states.weekend ? "background" : "dark-blue",
+          paddingTop: 2
         };
       }
     },

@@ -590,7 +590,10 @@ qx.Theme.define("qx.theme.simple.Decoration",
     */
     "button-hover" : 
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [
+        qx.ui.decoration.MBackgroundColor,
+        qx.ui.decoration.MBorderRadius
+      ],
       
       style : 
       {
@@ -623,6 +626,17 @@ qx.Theme.define("qx.theme.simple.Decoration",
         shadowBlurRadius : 5,
         shadowColor : "shadow",
         backgroundColor : "background"
+      }
+    },
+    
+    
+    "window-caption" : {
+      decorator : qx.ui.decoration.Single,
+      
+      style : 
+      {
+        width : [0, 0, 2, 0],
+        color : "window-border-inner"
       }
     },
     
@@ -787,7 +801,42 @@ qx.Theme.define("qx.theme.simple.Decoration",
         colorTop : "blue"
       }
     },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      MENU BAR
+    ---------------------------------------------------------------------------
+    */    
+    "menubar-button-hovered" : 
+    {
+      decorator : [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MBackgroundColor
+      ],
+      
+      style : 
+      {
+        width : 1,
+        color : "blue",
+        radius : 3,
+        backgroundColor : "white"
+      }
+    },
 
+
+    "menubar-button-pressed" : 
+    {
+      include : "menubar-button-hovered",
+      
+      style : 
+      {
+        radius : [3, 3, 0, 0],
+        width : [1, 1, 0, 1]
+      }
+    },
+  
 
     /*
     ---------------------------------------------------------------------------
@@ -842,7 +891,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
         colorBottom : "gray",
         widthRight: 1,
         colorRight : "gray",
-
         style : "solid"
       }
     },

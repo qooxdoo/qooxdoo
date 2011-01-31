@@ -33,6 +33,7 @@ qx.Theme.define("qx.theme.simple.Color",
     "background-disabled" : "#F7F7F7",
     "background-disabled-checked" : "#BBBBBB",
 
+    "link" : "#24B",
     
     "scrollbar-bright" : "#F1F1F1",
     "scrollbar-dark" : "#EBEBEB",
