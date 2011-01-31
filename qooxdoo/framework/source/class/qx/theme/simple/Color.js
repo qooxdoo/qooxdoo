@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Windows classic color theme
+ * Simple color theme
  */
 qx.Theme.define("qx.theme.simple.Color",
 {

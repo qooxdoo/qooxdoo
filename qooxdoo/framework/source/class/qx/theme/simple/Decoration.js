@@ -5,8 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
-     2006 STZ-IDA, Germany, http://www.stz-ida.de
+     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,9 +13,6 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-   * Sebastian Werner (wpbasti)
-   * Andreas Ecker (ecker)
-   * Til Schneider (til132)
    * Martin Wittemann (martinwittemann)
 
 ************************************************************************* */
@@ -28,7 +24,7 @@
 ************************************************************************* */
 
 /**
- * The classic qooxdoo decoration theme.
+ * The simple qooxdoo decoration theme.
  */
 qx.Theme.define("qx.theme.simple.Decoration",
 {

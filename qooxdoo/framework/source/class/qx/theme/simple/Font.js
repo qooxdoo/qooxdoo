@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,13 +13,12 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-   * Sebastian Werner (wpbasti)
-   * Andreas Ecker (ecker)
+   * Martin Wittemann (martinwittemann)
 
 ************************************************************************* */
 
 /**
- * The classic qooxdoo font theme.
+ * The simple qooxdoo font theme.
  */
 qx.Theme.define("qx.theme.simple.Font",
 {
