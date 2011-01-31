@@ -275,7 +275,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
         
         return {
           decorator : decorator,
-          padding : [3, 8]
+          padding : [3, 8],
+          cursor : states.disabled ? undefined : "pointer"
         };
       }
     },
@@ -1183,7 +1184,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           styles.marginTop = 2;
         }
         
-        styles.decorator = "button";
+        styles.decorator = "button-box";
         return styles;
       }
     },
