@@ -218,10 +218,13 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.ToolBar",
       var menubar = new qx.ui.menubar.MenuBar;
       frame.add(menubar);
 
-      var button = new qx.ui.menubar.Button("Menubar Button", null, this.getButtonMenu());
-      this.__widgets.push(button);
+      var button;
 
-      menubar.add(button);
+      for (var i=0; i<3; i++) {
+        button = new qx.ui.menubar.Button("Menubar Button", null, this.getButtonMenu());
+        this.__widgets.push(button);
+        menubar.add(button);
+      }
 
       return frame;
     },
