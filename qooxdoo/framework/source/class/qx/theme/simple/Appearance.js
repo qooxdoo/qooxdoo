@@ -19,14 +19,14 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/16/apps/office-calendar.png)
-#asset(qx/icon/Oxygen/16/places/folder-open.png)
-#asset(qx/icon/Oxygen/16/places/folder.png)
-#asset(qx/icon/Oxygen/16/mimetypes/text-plain.png)
-#asset(qx/icon/Oxygen/16/actions/view-refresh.png)
-#asset(qx/icon/Oxygen/16/actions/window-close.png)
-#asset(qx/icon/Oxygen/16/actions/dialog-cancel.png)
-#asset(qx/icon/Oxygen/16/actions/dialog-ok.png)
+#asset(qx/icon/Tango/16/apps/office-calendar.png)
+#asset(qx/icon/Tango/16/places/folder-open.png)
+#asset(qx/icon/Tango/16/places/folder.png)
+#asset(qx/icon/Tango/16/mimetypes/text-plain.png)
+#asset(qx/icon/Tango/16/actions/view-refresh.png)
+#asset(qx/icon/Tango/16/actions/window-close.png)
+#asset(qx/icon/Tango/16/actions/dialog-cancel.png)
+#asset(qx/icon/Tango/16/actions/dialog-ok.png)
 
 #asset(qx/decoration/Classic/*)
 
@@ -1496,57 +1496,57 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
     "window/minimize-button" :
     {
-      include : "button",
       alias : "button",
 
       style : function(states)
       {
         return {
-          icon : "decoration/window/minimize.gif",
-          padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
+          icon : "data:image/png;base64,R0lGODlhCQAJAIABAAAAAAAAACH5BAEAAAEALAAAAAAJAAkAAAILjI+py+0NojxyhgIAOw==",
+          padding : [ 1, 2 ],
+          cursor : states.disabled ? undefined : "pointer"
         };
       }
     },
 
     "window/restore-button" :
     {
-      include : "button",
       alias : "button",
 
       style : function(states)
       {
         return {
-          icon : "decoration/window/restore.gif",
-          padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
+          icon : "data:image/png;base64,R0lGODlhCAAJAPABAAAAAAAAACH5BAUAAAEALAAAAAAIAAkAQAIQTICpaAvXTHuSTqeO1ayaAgA7",
+          padding : [ 1, 2 ],
+          cursor : states.disabled ? undefined : "pointer"
         };
       }
     },
 
     "window/maximize-button" :
     {
-      include : "button",
       alias : "button",
 
       style : function(states)
       {
         return {
-          icon : "decoration/window/maximize.gif",
-          padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
+          icon : "data:image/png;base64,R0lGODlhCQAJAIABAAAAAAAAACH5BAEAAAEALAAAAAAJAAkAAAIPhI+JwR3mGowP0HpnVKgAADs=",
+          padding : [ 1, 2 ],
+          cursor : states.disabled ? undefined : "pointer"
         };
       }
     },
 
     "window/close-button" :
     {
-      include : "button",
       alias : "button",
 
       style : function(states)
       {
         return {
           marginLeft : 2,
-          icon : "decoration/window/close.gif",
-          padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
+          icon : "data:image/png;base64,R0lGODlhCgAJAIABAAAAAAAAACH5BAEAAAEALAAAAAAKAAkAAAIRjI8BgHuuWFsyQUuxuTemXwAAOw==",
+          padding : [ 1, 2 ],
+          cursor : states.disabled ? undefined : "pointer"
         };
       }
     },
@@ -1598,7 +1598,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "background"
+          backgroundColor : "light-blue"
         };
       }
     },
@@ -1608,7 +1608,9 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : states.horizontal ? "decoration/splitpane/knob-horizontal.png" : "decoration/splitpane/knob-vertical.png",
+          source : states.horizontal ? 
+            "decoration/splitpane/knob-horizontal.png" : 
+            "decoration/splitpane/knob-vertical.png",
           padding : 2
         };
       }
