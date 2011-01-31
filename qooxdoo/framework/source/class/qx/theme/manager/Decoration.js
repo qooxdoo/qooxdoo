@@ -101,7 +101,7 @@ qx.Class.define("qx.theme.manager.Decoration",
       if (!entry.style) {
         entry.style = {};
       }
-      
+
       // check for inheritance
       var currentEntry = entry;
       while (currentEntry.include) {
@@ -114,7 +114,7 @@ qx.Class.define("qx.theme.manager.Decoration",
         // styles key
         if (currentEntry.style) {
           for (var key in currentEntry.style) {
-            if (!entry.style[key]) {
+            if (entry.style[key] == undefined) {
               entry.style[key] = currentEntry.style[key];
             }
           }
@@ -135,7 +135,7 @@ qx.Class.define("qx.theme.manager.Decoration",
         for (var i=0; i < names.length; i++) {
           names[i] = names[i].basename.replace(".", "");
         };
-        var name = "qx.ui.decoration." + names.join("-");
+        var name = "qx.ui.decoration." + names.join("_");
         if (!qx.Class.getByName(name)) {
           qx.Class.define(name, {
             extend : qx.ui.decoration.DynamicDecorator,
