@@ -241,7 +241,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           decorator : "table-header",
           padding : 3,
-          icon : "decoration/table/select-column-order.png"
+          icon : qx.theme.simple.Image.ICONS["select-column-order"]
         };
       }
     },
@@ -309,8 +309,9 @@ qx.Theme.define("qx.theme.simple.Appearance",
           paddingLeft: 5,
           cursor : "pointer",
           sortIcon : states.sorted ?
-              (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
-              : undefined
+              (qx.theme.simple.Image.ICONS["table-" + 
+                 (states.sortedAscending ? "ascending" : "descending")
+              ]) : undefined
         }
       }
     },
@@ -416,7 +417,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon       : "decoration/treevirtual/line.gif"
+          icon : qx.theme.simple.Image.ICONS["treevirtual-line"]
         }
       }
     },
@@ -426,7 +427,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/tree/minus.gif"
+          icon : qx.theme.simple.Image.ICONS["tree-minus"]
         }
       }
     },
@@ -436,7 +437,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/tree/plus.gif"
+          icon : qx.theme.simple.Image.ICONS["tree-plus"]
         }
       }
     },
@@ -446,7 +447,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/treevirtual/only_minus.gif"
+          icon : qx.theme.simple.Image.ICONS["treevirtual-minus-only"]
         }
       }
     },
@@ -456,7 +457,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/treevirtual/only_plus.gif"
+          icon : qx.theme.simple.Image.ICONS["treevirtual-plus-only"]
         }
       }
     },
@@ -466,7 +467,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/treevirtual/start_minus.gif"
+          icon : qx.theme.simple.Image.ICONS["treevirtual-minus-start"]
         }
       }
     },
@@ -476,7 +477,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/treevirtual/start_plus.gif"
+          icon : qx.theme.simple.Image.ICONS["treevirtual-plus-start"]
         }
       }
     },
@@ -486,7 +487,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/treevirtual/end_minus.gif"
+          icon : qx.theme.simple.Image.ICONS["treevirtual-minus-end"]
         }
       }
     },
@@ -496,7 +497,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/treevirtual/end_plus.gif"
+          icon : qx.theme.simple.Image.ICONS["treevirtual-plus-end"]
         }
       }
     },
@@ -506,7 +507,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/treevirtual/cross_minus.gif"
+          icon : qx.theme.simple.Image.ICONS["treevirtual-minus-cross"]
         }
       }
     },
@@ -516,7 +517,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/treevirtual/cross_plus.gif"
+          icon : qx.theme.simple.Image.ICONS["treevirtual-plus-cross"]
         }
       }
     },
@@ -527,7 +528,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/treevirtual/end.gif"
+          icon : qx.theme.simple.Image.ICONS["treevirtual-end"]
         }
       }
     },
@@ -537,7 +538,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/treevirtual/cross.gif"
+          icon : qx.theme.simple.Image.ICONS["treevirtual-cross"]
         }
       }
     },
@@ -663,7 +664,9 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : states.hovered ? "decoration/arrows/up-invert.gif" : "decoration/arrows/up.gif"
+          icon : qx.theme.simple.Image.ICONS[
+            "arrow-up" + (states.hovered ? "-invert" : "")
+          ]
         };
       }
     },
@@ -675,7 +678,9 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : states.hovered ? "decoration/arrows/down-invert.gif" : "decoration/arrows/down.gif"
+          icon : qx.theme.simple.Image.ICONS[
+            "arrow-down" + (states.hovered ? "-invert" : "")
+          ]
         };
       }
     },
@@ -755,7 +760,9 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : states.selected ? "decoration/arrows/right-invert.gif" : "decoration/arrows/right.gif",
+          source : qx.theme.simple.Image.ICONS[
+            "arrow-right" + (states.selected ? "-invert" : "")
+          ],
           alignY : "middle"
         };
       }
@@ -770,8 +777,9 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : !states.checked ? undefined :
-            states.selected ? "decoration/menu/checkbox-invert.gif" :
-              "decoration/menu/checkbox.gif"
+            qx.theme.simple.Image.ICONS[
+              "menu-checkbox" + (states.selected ?  "-invert" : "")
+            ]
         }
       }
     },
@@ -785,8 +793,9 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : !states.checked ? undefined :
-            states.selected ? "decoration/menu/radiobutton-invert.gif" :
-              "decoration/menu/radiobutton.gif"
+            qx.theme.simple.Image.ICONS[
+              "menu-radiobutton" + (states.selected ?  "-invert" : "")
+            ]
         }
       }
     },

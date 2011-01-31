@@ -674,7 +674,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
     */
     "inset" :
     {
-      decorator : qx.ui.decoration.Double,
+      decorator : qx.ui.decoration.Single,
 
       style :
       {
@@ -781,7 +781,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         widthLeft : 1,
-        colorLeft : "border-licenses"
+        colorLeft : "background-selected"
       }
     },
 
