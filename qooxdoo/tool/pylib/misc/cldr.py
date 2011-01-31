@@ -19,7 +19,8 @@
 #
 ################################################################################
 
-from elementtree import ElementTree
+#from elementtree import ElementTree
+from xml.etree import cElementTree as ElementTree
 
 def getLocale(calendarElement):
     locale = calendarElement.find("identity/language").attrib["type"]
@@ -62,7 +63,9 @@ def extractAmPm(calendarElement):
     # This is an approximation, as attribute filters don't work in elementtree
     # before 1.3, so path expressions like 'node[@attrib=value]' do not work
 
-    # desired XPath = ".//dayPeriods/dayPeriodContext[@type='format']/dayPeriodWidth[@type='wide']/dayPeriod[@type='am'"
+    # desired XPath = ".//dayPeriods/dayPeriodContext[@type='format']/dayPeriodWidth[@type='wide']/dayPeriod[@type='am']"
+    #amNode = calendarElement.find(".//dayPeriods/dayPeriodContext[@type='format']/dayPeriodWidth[@type='wide']/dayPeriod[@type='am']")
+    # 1.2.6 version:
     amNode  = None
     dayPeriods = calendarElement.findall(".//dayPeriod")
     for node in dayPeriods:
@@ -72,7 +75,9 @@ def extractAmPm(calendarElement):
     if amNode != None:
         data['cldr_am'] = amNode.text
 
-    # desired XPath = ".//dayPeriods/dayPeriodContext[@type='format']/dayPeriodWidth[@type='wide']/dayPeriod[@type='pm'"
+    # desired XPath = ".//dayPeriods/dayPeriodContext[@type='format']/dayPeriodWidth[@type='wide']/dayPeriod[@type='pm']"
+    #pmNode = calendarElement.find(".//dayPeriods/dayPeriodContext[@type='format']/dayPeriodWidth[@type='wide']/dayPeriod[@type='pm']")
+    # 1.2.6 version:
     pmNode = None
     for node in dayPeriods:
         if node.attrib["type"] == "pm":
