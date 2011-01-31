@@ -86,9 +86,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator : "main",
-          backgroundColor : "background-pane",
-          shadow : "shadow-small"
+          decorator : "popup",
+          backgroundColor : "background-pane"
         }
       }
     },
@@ -103,7 +102,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
           backgroundColor : "tooltip",
           textColor : "tooltip-text",
           decorator : "tooltip",
-          shadow : "shadow-small",
           padding : [ 1, 3, 2, 3 ],
           offset : [ 15, 5, 5, 5 ]
         };
@@ -137,7 +135,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           backgroundColor : "white",
-          decorator : "inset"
+          decorator : "main-dark"
         };
       }
     },
@@ -147,7 +145,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator : "main"
+          decorator : "main-dark"
         };
       }
     },
@@ -169,41 +167,12 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
 
         return {
-          source : qx.theme.simple.Icons.ICONS["cursor-" + icon],
+          source : qx.theme.simple.Image.ICONS["cursor-" + icon],
           position : "right-top",
           offset : [ 2, 16, 2, 6 ]
         };
       }
     },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /*
@@ -224,7 +193,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Icons.ICONS["arrow-" + states.vertical ? "down" : "right"]
+          icon : qx.theme.simple.Image.ICONS["arrow-" + (states.vertical ? "down" : "right")]
         };
       }
     },
@@ -237,14 +206,176 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Icons.ICONS["arrow-" + states.vertical ? "up" : "left"]
+          icon : qx.theme.simple.Image.ICONS["arrow-" + (states.vertical ? "up" : "left")]
         };
       }
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      TABLE
+    ---------------------------------------------------------------------------
+    */
 
+    "table" : "widget",
 
+    "table/statusbar" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "statusbar",
+          padding : [2, 5],
+          backgroundColor: "light-blue"
+        };
+      }
+    },
+
+    "table/column-button" :
+    {
+      alias : "button",
+      
+      style : function(states)
+      {
+        return {
+          decorator : "table-header",
+          padding : 3,
+          icon : "decoration/table/select-column-order.png"
+        };
+      }
+    },
+
+    "table-column-reset-button" :
+    {
+      include : "menu-button",
+      alias : "menu-button",
+
+      style : function()
+      {
+        return {
+          icon : "icon/16/actions/view-refresh.png"
+        }
+      }
+    },
+
+    "table-scroller/scrollbar-x": "scrollbar",
+    "table-scroller/scrollbar-y": "scrollbar",
+
+    "table-scroller" : "widget",
+
+    "table-scroller/header": {
+      style : function() {
+        return {
+          decorator : "table-header"
+        }
+      }
+    },
+
+    "table-scroller/pane" : {},
+
+    "table-scroller/focus-indicator" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "main"
+        };
+      }
+    },
+
+    "table-scroller/resize-line" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor: "button-border",
+          width: 3
+        };
+      }
+    },
+
+    "table-header-cell" :
+    {
+      alias : "atom",
+      
+      style : function(states)
+      {
+        return {
+          decorator : "table-header-cell",
+          minWidth: 13,
+          font : "bold",
+          paddingTop: 3,
+          paddingLeft: 5,
+          cursor : "pointer",
+          sortIcon : states.sorted ?
+              (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
+              : undefined
+        }
+      }
+    },
+    
+    "table-header-cell/icon" : 
+    {
+      include : "atom/icon", 
+      
+      style : function(states) {
+        return {
+          paddingRight : 5
+        }
+      }
+    },
+
+    "table-header-cell/sort-icon" : 
+    {
+      style : function(states)
+      {
+        return {
+          alignY : "middle",
+          alignX : "right",
+          paddingRight : 5
+        }
+      }
+    },
+
+    "table-editor-textfield" :
+    {
+      include : "textfield",
+
+      style : function(states)
+      {
+        return {
+          decorator : undefined,
+          padding : [ 2, 2 ]
+        };
+      }
+    },
+
+    "table-editor-selectbox" :
+    {
+      include : "selectbox",
+      alias : "selectbox",
+
+      style : function(states)
+      {
+        return {
+          padding : [ 0, 2 ]
+        };
+      }
+    },
+
+    "table-editor-combobox" :
+    {
+      include : "combobox",
+      alias : "combobox",
+
+      style : function(states)
+      {
+        return {
+          decorator : undefined
+        };
+      }
+    },
 
 
     /*
@@ -253,15 +384,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "treevirtual" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "main"
-        }
-      }
-    },
+    "treevirtual" : {},
 
     "treevirtual-folder" :
     {
@@ -303,7 +426,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/tree/minus.gif"
+          icon : "decoration/tree/minus.gif"
         }
       }
     },
@@ -313,7 +436,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/tree/plus.gif"
+          icon : "decoration/tree/plus.gif"
         }
       }
     },
@@ -323,7 +446,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/treevirtual/only_minus.gif"
+          icon : "decoration/treevirtual/only_minus.gif"
         }
       }
     },
@@ -333,7 +456,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/treevirtual/only_plus.gif"
+          icon : "decoration/treevirtual/only_plus.gif"
         }
       }
     },
@@ -343,7 +466,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/treevirtual/start_minus.gif"
+          icon : "decoration/treevirtual/start_minus.gif"
         }
       }
     },
@@ -353,7 +476,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/treevirtual/start_plus.gif"
+          icon : "decoration/treevirtual/start_plus.gif"
         }
       }
     },
@@ -363,7 +486,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/treevirtual/end_minus.gif"
+          icon : "decoration/treevirtual/end_minus.gif"
         }
       }
     },
@@ -373,7 +496,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/treevirtual/end_plus.gif"
+          icon : "decoration/treevirtual/end_plus.gif"
         }
       }
     },
@@ -383,7 +506,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/treevirtual/cross_minus.gif"
+          icon : "decoration/treevirtual/cross_minus.gif"
         }
       }
     },
@@ -393,7 +516,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/treevirtual/cross_plus.gif"
+          icon : "decoration/treevirtual/cross_plus.gif"
         }
       }
     },
@@ -404,7 +527,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/treevirtual/end.gif"
+          icon : "decoration/treevirtual/end.gif"
         }
       }
     },
@@ -414,11 +537,10 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/treevirtual/cross.gif"
+          icon : "decoration/treevirtual/cross.gif"
         }
       }
     },
-
 
 
     /*
@@ -432,11 +554,10 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator : "outset"
+          decorator : "main-dark"
         };
       }
     },
-
 
 
     /*
@@ -462,7 +583,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : qx.theme.simple.Icons.ICONS[
+          source : qx.theme.simple.Image.ICONS[
             "knob-" + (states.horizontal ? "horizontal" : "vertical")
           ],
           padding : 2
@@ -496,7 +617,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
         var result =
         {
           backgroundColor : "background",
-          shadow : "shadow-small",
           decorator : "main",
           spacingX : 6,
           spacingY : 1,
@@ -670,10 +790,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
       }
     },
-
-
-
-
+    
+    
     /*
     ---------------------------------------------------------------------------
       MENU BAR
@@ -685,379 +803,25 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "background",
-          decorator       : "outset"
+          backgroundColor : "light-blue"
         };
       }
     },
 
     "menubar-button" :
     {
-      alias : "atom",
+      alias : "toolbar-button",
+      include : "toolbar-button",
 
       style : function(states)
       {
         return {
           padding : [ 2, 6 ],
-          backgroundColor : states.pressed || states.hovered ? "background-selected" : undefined,
-          textColor : states.pressed || states.hovered ? "text-selected" : undefined
+          cursor : "pointer"
         };
       }
     },
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      COLOR SELECTOR
-    ---------------------------------------------------------------------------
-    */
-
-    "colorselector" : "widget",
-    "colorselector/control-bar" : "widget",
-    "colorselector/visual-pane" : "groupbox",
-    "colorselector/control-pane": "widget",
-    "colorselector/preset-grid" : "widget",
-
-    "colorselector/colorbucket":
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "inset-thin",
-          width : 16,
-          height : 16
-        }
-      }
-    },
-
-    "colorselector/preset-field-set" : "groupbox",
-    "colorselector/input-field-set" : "groupbox",
-    "colorselector/preview-field-set" : "groupbox",
-
-    "colorselector/hex-field-composite" : "widget",
-    "colorselector/hex-field" : "textfield",
-
-    "colorselector/rgb-spinner-composite" : "widget",
-    "colorselector/rgb-spinner-red" : "spinner",
-    "colorselector/rgb-spinner-green" : "spinner",
-    "colorselector/rgb-spinner-blue" : "spinner",
-
-    "colorselector/hsb-spinner-composite" : "widget",
-    "colorselector/hsb-spinner-hue" : "spinner",
-    "colorselector/hsb-spinner-saturation" : "spinner",
-    "colorselector/hsb-spinner-brightness" : "spinner",
-
-    "colorselector/preview-content-old":
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "inset-thin",
-          width : 50,
-          height : 10
-        }
-      }
-    },
-
-    "colorselector/preview-content-new":
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "inset-thin",
-          backgroundColor : "white",
-          width : 50,
-          height : 10
-        }
-      }
-    },
-
-    "colorselector/hue-saturation-field":
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "inset-thin",
-          margin : 5
-        }
-      }
-    },
-
-    "colorselector/brightness-field":
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "inset-thin",
-          margin : [5, 7]
-        }
-      }
-    },
-
-    "colorselector/hue-saturation-pane": "widget",
-    "colorselector/hue-saturation-handle" : "widget",
-    "colorselector/brightness-pane": "widget",
-    "colorselector/brightness-handle" : "widget",
-
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      TABLE
-    ---------------------------------------------------------------------------
-    */
-
-    "table" : "widget",
-
-    "table/statusbar" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "table-statusbar",
-          paddingLeft : 2,
-          paddingRight : 2,
-          backgroundColor: "light-blue"
-        };
-      }
-    },
-
-    "table/column-button" :
-    {
-      alias : "button",
-      style : function(states)
-      {
-        return {
-          decorator : "button",
-          padding : 4,
-          margin: [3, 5],
-          icon : "decoration/table/select-column-order.png"
-        };
-      }
-    },
-
-    "table-column-reset-button" :
-    {
-      extend : "menu-button",
-      alias : "menu-button",
-
-      style : function()
-      {
-        return {
-          icon : "icon/16/actions/view-refresh.png"
-        }
-      }
-    },
-
-    "table-scroller/scrollbar-x": "scrollbar",
-    "table-scroller/scrollbar-y": "scrollbar",
-
-    "table-scroller" : "widget",
-
-    "table-scroller/header": {},
-
-    "table-scroller/pane" : {},
-
-    "table-scroller/focus-indicator" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "main"
-        };
-      }
-    },
-
-    "table-scroller/resize-line" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor: "middle-blue",
-          width: 3
-        };
-      }
-    },
-
-    "table-header-cell" :
-    {
-      alias : "atom",
-      
-      style : function(states)
-      {
-        return {
-          minWidth: 13,
-          font : "bold",
-          paddingTop: 3,
-          paddingLeft: 5,
-          cursor : "pointer",
-          sortIcon : states.sorted ?
-              (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
-              : undefined
-        }
-      }
-    },
-    
-    "table-header-cell/icon" : 
-    {
-      include : "atom/icon", 
-      
-      style : function(states) {
-        return {
-          paddingRight : 5
-        }
-      }
-    },
-
-    "table-header-cell/sort-icon" : {
-      style : function(states)
-      {
-        return {
-          alignY : "middle"
-        }
-      }
-    },
-
-    "table-editor-textfield" :
-    {
-      include : "textfield",
-
-      style : function(states)
-      {
-        return {
-          decorator : undefined,
-          padding : [ 2, 2 ]
-        };
-      }
-    },
-
-    "table-editor-selectbox" :
-    {
-      include : "selectbox",
-      alias : "selectbox",
-
-      style : function(states)
-      {
-        return {
-          padding : [ 0, 2 ]
-        };
-      }
-    },
-
-    "table-editor-combobox" :
-    {
-      include : "combobox",
-      alias : "combobox",
-
-      style : function(states)
-      {
-        return {
-          decorator : undefined
-        };
-      }
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      COLOR POPUP
-    ---------------------------------------------------------------------------
-    */
-
-
-    "colorpopup" :
-    {
-      alias : "popup",
-      include : "popup",
-
-      style : function(states)
-      {
-        return {
-          decorator : "outset",
-          padding : 5,
-          backgroundColor : "background"
-        }
-      }
-    },
-
-    "colorpopup/field":
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "inset-thin",
-          margin : 2,
-          width : 14,
-          height : 14,
-          backgroundColor : "background"
-        }
-      }
-    },
-
-    "colorpopup/selector-button" : "button",
-    "colorpopup/auto-button" : "button",
-
-    "colorpopup/preview-pane" : "groupbox",
-
-    "colorpopup/current-preview":
-    {
-      style : function(state)
-      {
-        return {
-          height : 20,
-          padding: 4,
-          marginLeft : 4,
-          decorator : "inset-thin",
-          allowGrowX : true
-        }
-      }
-    },
-
-    "colorpopup/selected-preview":
-    {
-      style : function(state)
-      {
-        return {
-          height : 20,
-          padding: 4,
-          marginRight : 4,
-          decorator : "inset-thin",
-          allowGrowX : true
-        }
-      }
-    },
-
-    "colorpopup/colorselector-okbutton":
-    {
-      alias : "button",
-      include : "button",
-
-      style : function(states)
-      {
-        return {
-          icon : "icon/16/actions/dialog-ok.png"
-        };
-      }
-    },
-
-    "colorpopup/colorselector-cancelbutton":
-   {
-      alias : "button",
-      include : "button",
-
-      style : function(states)
-      {
-        return {
-          icon : "icon/16/actions/dialog-cancel.png"
-        };
-      }
-    },
 
     /*
     ---------------------------------------------------------------------------
@@ -1137,21 +901,106 @@ qx.Theme.define("qx.theme.simple.Appearance",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      SCROLLBAR
+    ---------------------------------------------------------------------------
+    */
+
+    "scrollbar" : {},
+    "scrollbar/slider" : {},
+
+    "scrollbar/slider/knob" :
+    {
+      include : "button-frame",      
+      
+      style : function(states)
+      {
+        var decorator = "scroll-knob";
+        
+        if (!states.disabled) {
+          if (states.hovered && !states.pressed && !states.checked) {
+            decorator = "scroll-knob-hovered";
+          } else if (states.hovered && (states.pressed || states.checked)) {
+            decorator = "scroll-knob-pressed-hovered";
+          } else if (states.pressed || states.checked) {
+            decorator = "scroll-knob-pressed";
+          }
+        }
+        
+        return {
+          height : 14,
+          width : 14,
+          cursor : "pointer",
+          decorator : decorator,
+          minHeight : states.horizontal ? undefined : 9,
+          minWidth : states.horizontal ? 9 : undefined
+        };
+      }
+    },
 
 
+    "scrollbar/button" :
+    {
+      style : function(states)
+      {
+        var styles = {};
+        styles.padding = 4;
+
+        var icon = "";
+        if (states.left) {
+          icon = "left";
+          styles.marginRight = 2;
+        } else if (states.right) {
+          icon += "right";
+          styles.marginLeft = 2;
+        } else if (states.up) {
+          icon += "up";
+          styles.marginBottom = 2;
+        } else {
+          icon += "down";
+          styles.marginTop = 2;
+        }
+        
+        styles.icon = qx.theme.simple.Image.ICONS["arrow-" + icon];
+        
+        styles.cursor = "pointer";
+        styles.decorator = "button-box";
+        return styles;
+      }
+    },
+
+    "scrollbar/button-begin" : "scrollbar/button",
+    "scrollbar/button-end" : "scrollbar/button",    
 
 
+    /*
+    ---------------------------------------------------------------------------
+      SCROLLAREA
+    ---------------------------------------------------------------------------
+    */
+
+    "scrollarea/corner" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "background"
+        }
+      }
+    },
+
+    "scrollarea" : "widget",
+    "scrollarea/pane" : "widget",
+    "scrollarea/scrollbar-x" : "scrollbar",
+    "scrollarea/scrollbar-y" : "scrollbar",
 
 
-
-    /////////////////
-    //// ^ TODO /////
-    ////  DONE  /////
-    /////////////////
-
-
-
-
+    /*
+    ---------------------------------------------------------------------------
+      TEXT FIELD
+    ---------------------------------------------------------------------------
+    */
 
     "textfield" :
     {
@@ -1186,7 +1035,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator : decorator,
           padding   : padding,
           textColor : textColor,
-          backgroundColor : states.disabled ? "background-disabled" : undefined
+          backgroundColor : states.disabled ? "background-disabled" : "white"
         };
       }
     },
@@ -1235,7 +1084,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         // set an empty icon to be sure that the icon image is rendered
         return {
-          icon : qx.theme.simple.Icons.ICONS["blank"]
+          icon : qx.theme.simple.Image.ICONS["blank"]
         }
       }
     },
@@ -1261,14 +1110,14 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
         // Checked
         if (states.checked) {
-          icon = qx.theme.simple.Icons.ICONS["checkbox-checked"];
+          icon = qx.theme.simple.Image.ICONS["checkbox-checked"];
         // Undetermined
         } else if (states.undetermined) {
-          icon = qx.theme.simple.Icons.ICONS["checkbox-undetermined"];
+          icon = qx.theme.simple.Image.ICONS["checkbox-undetermined"];
         // Unchecked
         } else {
           // empty icon
-          icon = qx.theme.simple.Icons.ICONS["blank"];
+          icon = qx.theme.simple.Image.ICONS["blank"];
         }
 
         return {
@@ -1303,7 +1152,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator : decorator,
           width: 12,
           height: 12,
-          padding: padding
+          padding: padding,
+          backgroundColor : "white"
         }
       }
     },
@@ -1345,7 +1195,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : qx.theme.simple.Icons.ICONS["arrow-up-small"],
+          icon : qx.theme.simple.Image.ICONS["arrow-up-small"],
           decorator : decorator,
           width: 17
         }
@@ -1370,7 +1220,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : qx.theme.simple.Icons.ICONS["arrow-down-small"],
+          icon : qx.theme.simple.Image.ICONS["arrow-down-small"],
           decorator : decorator,
           width: 17
         }
@@ -1378,80 +1228,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
     },
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      SCROLLBAR
-    ---------------------------------------------------------------------------
-    */
-
-    "scrollbar" : {},
-    "scrollbar/slider" : {},
-
-    "scrollbar/slider/knob" :
-    {
-      include : "button-frame",      
-      
-      style : function(states)
-      {
-        var decorator = "scroll-knob";
-        
-        if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "scroll-knob-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "scroll-knob-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "scroll-knob-pressed";
-        }
-        
-        return {
-          height : 14,
-          width : 14,
-          cursor : "pointer",
-          decorator : decorator,
-          minHeight : states.horizontal ? undefined : 9,
-          minWidth : states.horizontal ? 9 : undefined
-        };
-      }
-    },
-
-
-    "scrollbar/button" :
-    {
-      style : function(states)
-      {
-        var styles = {};
-        styles.padding = 4;
-
-        var icon = "";
-        if (states.left) {
-          icon = "left";
-          styles.marginRight = 2;
-        } else if (states.right) {
-          icon += "right";
-          styles.marginLeft = 2;
-        } else if (states.up) {
-          icon += "up";
-          styles.marginBottom = 2;
-        } else {
-          icon += "down";
-          styles.marginTop = 2;
-        }
-        
-        styles.icon = qx.theme.simple.Icons.ICONS["arrow-" + icon]
-        
-        styles.cursor = "pointer";
-        styles.decorator = "button-box";
-        return styles;
-      }
-    },
-
-    "scrollbar/button-begin" : "scrollbar/button",
-    "scrollbar/button-end" : "scrollbar/button",
-
-
-   
-   
     /*
     ---------------------------------------------------------------------------
       SELECTBOX
@@ -1481,7 +1257,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : qx.theme.simple.Icons.ICONS["arrow-down"],
+          source : qx.theme.simple.Image.ICONS["arrow-down"],
           paddingRight : 4,
           paddingLeft : 5
         };
@@ -1491,7 +1267,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
     
     /*
     ---------------------------------------------------------------------------
-      COMBOBOX
+      COMBO BOX
     ---------------------------------------------------------------------------
     */
 
@@ -1515,7 +1291,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : states.hovered ? qx.theme.simple.Icons.ICONS["arrow-down"] : undefined,
+          icon : qx.theme.simple.Image.ICONS["arrow-down"],
           cursor : "pointer",
           decorator : decorator,
           padding : [0, 5],
@@ -1601,37 +1377,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
     },
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      SCROLLAREA
-    ---------------------------------------------------------------------------
-    */
-
-    "scrollarea/corner" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor : "background"
-        }
-      }
-    },
-
-    "scrollarea" : "widget",
-    "scrollarea/pane" : "widget",
-    "scrollarea/scrollbar-x" : "scrollbar",
-    "scrollarea/scrollbar-y" : "scrollbar",
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      BUTTON
-    ---------------------------------------------------------------------------
-    */
-
-
     /*
     ---------------------------------------------------------------------------
       SLIDER
@@ -1668,6 +1413,11 @@ qx.Theme.define("qx.theme.simple.Appearance",
     "slider/knob" : "scrollbar/slider/knob",
 
 
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON
+    ---------------------------------------------------------------------------
+    */
     "button-frame" :
     {
       alias : "atom",
@@ -1732,11 +1482,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.hovered ? "button" : undefined
+          decorator : states.hovered ? "button-hover" : undefined
         }
       }
     },
 
+
+    /*
+    ---------------------------------------------------------------------------
+      SPLIT BUTTON
+    ---------------------------------------------------------------------------
+    */
     "splitbutton" : {},
 
     "splitbutton/button" : 
@@ -1786,7 +1542,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         decorator += "-right";
         
         return {
-          icon : qx.theme.simple.Icons.ICONS["arrow-down"],
+          icon : qx.theme.simple.Image.ICONS["arrow-down"],
           decorator : decorator,
           cursor : "pointer",
           padding: [3, 4]
@@ -1882,8 +1638,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           source : states.opened ? 
-            qx.theme.simple.Icons.ICONS["tree-minus"] : 
-            qx.theme.simple.Icons.ICONS["tree-plus"]
+            qx.theme.simple.Image.ICONS["tree-minus"] : 
+            qx.theme.simple.Image.ICONS["tree-plus"]
         };
       }
     },
@@ -2014,7 +1770,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Icons.ICONS["window-minimize"],
+          icon : qx.theme.simple.Image.ICONS["window-minimize"],
           padding : [ 1, 2 ],
           cursor : states.disabled ? undefined : "pointer"
         };
@@ -2028,7 +1784,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Icons.ICONS["window-restore"],
+          icon : qx.theme.simple.Image.ICONS["window-restore"],
           padding : [ 1, 2 ],
           cursor : states.disabled ? undefined : "pointer"
         };
@@ -2042,7 +1798,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Icons.ICONS["window-maximize"],
+          icon : qx.theme.simple.Image.ICONS["window-maximize"],
           padding : [ 1, 2 ],
           cursor : states.disabled ? undefined : "pointer"
         };
@@ -2057,7 +1813,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           marginLeft : 2,
-          icon : qx.theme.simple.Icons.ICONS["window-close"],
+          icon : qx.theme.simple.Image.ICONS["window-close"],
           padding : [ 1, 2 ],
           cursor : states.disabled ? undefined : "pointer"
         };
@@ -2069,7 +1825,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator : "inset-thin",
+          decorator : "statusbar",
           padding : [ 2, 6 ]
         };
       }
@@ -2124,33 +1880,18 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         var result = {
           width  : 17,
-          show   : "icon"
+          show   : "icon",
+          cursor : "pointer"
         };
 
         if (states.lastYear) {
-          result.icon = qx.theme.simple.Icons.ICONS["arrow-rewind"];
+          result.icon = qx.theme.simple.Image.ICONS["arrow-rewind"];
         } else if (states.lastMonth) {
-          result.icon = qx.theme.simple.Icons.ICONS["arrow-left"];
+          result.icon = qx.theme.simple.Image.ICONS["arrow-left"];
         } else if (states.nextYear) {
-          result.icon = qx.theme.simple.Icons.ICONS["arrow-forward"];
+          result.icon = qx.theme.simple.Image.ICONS["arrow-forward"];
         } else if (states.nextMonth) {
-          result.icon = qx.theme.simple.Icons.ICONS["arrow-right"];
-        }
-
-        if (states.pressed || states.checked || states.abandoned) {
-          result.decorator = "inset-thin";
-        } else if (states.hovered) {
-          result.decorator = "outset-thin";
-        } else {
-          result.decorator = undefined;
-        }
-
-        if (states.pressed || states.checked || states.abandoned) {
-          result.padding = [ 2, 0, 0, 2 ];
-        } else if (states.hovered) {
-          result.padding = 1;
-        } else {
-          result.padding = 2;
+          result.icon = qx.theme.simple.Image.ICONS["arrow-right"];
         }
 
         return result;
@@ -2234,7 +1975,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style: function(states) {
         return {
           decorator: "progressbar",
-          padding: [1],
+          padding: 1,
           backgroundColor: "white"
         }
       }
@@ -2244,7 +1985,9 @@ qx.Theme.define("qx.theme.simple.Appearance",
     {
       style: function(states) {
         return {
-          backgroundColor: "background-selected"
+          backgroundColor: states.disabled ? 
+            "background-disabled-checked" : 
+            "background-selected"
         }
       }
     },
@@ -2355,7 +2098,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : qx.theme.simple.Icons.ICONS["arrow-down"],
+          source : qx.theme.simple.Image.ICONS["arrow-down"],
           cursor : "pointer",
           padding : [0, 5],
           marginLeft: 2
@@ -2393,7 +2136,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : qx.theme.simple.Icons.ICONS["arrow-down"],
+          icon : qx.theme.simple.Image.ICONS["arrow-down"],
           decorator : decorator
         };
       }
@@ -2429,7 +2172,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : qx.theme.simple.Icons.ICONS["arrow-down"],
+          icon : qx.theme.simple.Image.ICONS["arrow-down"],
           decorator : decorator
         };
       }
@@ -2649,6 +2392,195 @@ qx.Theme.define("qx.theme.simple.Appearance",
         };
       }
     },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COLOR POPUP
+    ---------------------------------------------------------------------------
+    */
+
+
+    "colorpopup" :
+    {
+      alias : "popup",
+      include : "popup",
+
+      style : function(states)
+      {
+        return {
+          padding : 5
+        }
+      }
+    },
+
+    "colorpopup/field":
+    {
+      style : function(states)
+      {
+        return {
+          margin : 2,
+          width : 14,
+          height : 14,
+          backgroundColor : "background",
+          decorator : "main-dark"
+        }
+      }
+    },
+
+    "colorpopup/selector-button" : "button",
+    "colorpopup/auto-button" : "button",
+
+    "colorpopup/preview-pane" : "groupbox",
+
+    "colorpopup/current-preview":
+    {
+      style : function(state)
+      {
+        return {
+          height : 20,
+          padding: 4,
+          marginLeft : 4,
+          decorator : "main-dark",
+          allowGrowX : true
+        }
+      }
+    },
+
+    "colorpopup/selected-preview":
+    {
+      style : function(state)
+      {
+        return {
+          height : 20,
+          padding: 4,
+          marginRight : 4,
+          decorator : "main-dark",
+          allowGrowX : true
+        }
+      }
+    },
+
+    "colorpopup/colorselector-okbutton":
+    {
+      alias : "button",
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/actions/dialog-ok.png"
+        };
+      }
+    },
+
+    "colorpopup/colorselector-cancelbutton":
+    {
+      alias : "button",
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/actions/dialog-cancel.png"
+        };
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COLOR SELECTOR
+    ---------------------------------------------------------------------------
+    */
+
+    "colorselector" : "widget",
+    "colorselector/control-bar" : "widget",
+    "colorselector/visual-pane" : "groupbox",
+    "colorselector/control-pane": "widget",
+    "colorselector/preset-grid" : "widget",
+
+    "colorselector/colorbucket":
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "main-dark",
+          width : 16,
+          height : 16
+        }
+      }
+    },
+
+    "colorselector/preset-field-set" : "groupbox",
+    "colorselector/input-field-set" : "groupbox",
+    "colorselector/preview-field-set" : "groupbox",
+
+    "colorselector/hex-field-composite" : "widget",
+    "colorselector/hex-field" : "textfield",
+
+    "colorselector/rgb-spinner-composite" : "widget",
+    "colorselector/rgb-spinner-red" : "spinner",
+    "colorselector/rgb-spinner-green" : "spinner",
+    "colorselector/rgb-spinner-blue" : "spinner",
+
+    "colorselector/hsb-spinner-composite" : "widget",
+    "colorselector/hsb-spinner-hue" : "spinner",
+    "colorselector/hsb-spinner-saturation" : "spinner",
+    "colorselector/hsb-spinner-brightness" : "spinner",
+
+    "colorselector/preview-content-old":
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "main-dark",
+          width : 50,
+          height : 10
+        }
+      }
+    },
+
+    "colorselector/preview-content-new":
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "main-dark",
+          backgroundColor : "white",
+          width : 50,
+          height : 10
+        }
+      }
+    },
+
+    "colorselector/hue-saturation-field":
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "main-dark",
+          margin : 5
+        }
+      }
+    },
+
+    "colorselector/brightness-field":
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "main-dark",
+          margin : [5, 7]
+        }
+      }
+    },
+
+    "colorselector/hue-saturation-pane": "widget",
+    "colorselector/hue-saturation-handle" : "widget",
+    "colorselector/brightness-pane": "widget",
+    "colorselector/brightness-handle" : "widget",
+
 
 
     /*

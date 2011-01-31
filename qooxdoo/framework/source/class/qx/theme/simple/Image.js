@@ -21,13 +21,13 @@
 #asset(qx/decoration/Simple/*)
 
 ************************************************************************* */
-qx.Class.define("qx.theme.simple.Icons", 
+qx.Class.define("qx.theme.simple.Image", 
 {
   extend : qx.core.Object,
 
   statics :
   {
-    BASE64_ICONS : 
+    BASE64 : 
     {
       "blank" : "data:image/gif;base64,R0lGODlhAQABAJH/AP///wAAAMDAwAAAACH5BAEAAAIALAAAAAABAAEAAAICVAEAOw==",
       
@@ -64,7 +64,7 @@ qx.Class.define("qx.theme.simple.Icons",
       "tree-plus" : "decoration/tree/plus.gif"      
     },
     
-    ICON_URLS : 
+    URLS : 
     {
       "blank" : "qx/static/blank.gif",
       
@@ -103,6 +103,6 @@ qx.Class.define("qx.theme.simple.Icons",
   
   defer : function(statics) {
     var base64support = qx.bom.client.Feature.DATA_URL;
-    statics.ICONS = base64support ? statics.BASE64_ICONS : statics.ICON_URLS;
+    statics.ICONS = base64support ? statics.BASE64 : statics.URLS;
   }
 });

@@ -57,6 +57,17 @@ qx.Theme.define("qx.theme.simple.Decoration",
       }
     },
     
+    "main-dark" :
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "button-border"
+      }
+    },
+    
     
     "popup" : 
     {
@@ -77,19 +88,11 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
 
 
-    "keyboard-focus" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        width : 1,
-        color : "black",
-        style : "dotted"
-      }
-    },
-
-
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON
+    ---------------------------------------------------------------------------
+    */
     "button-box" : 
     {
       decorator : [
@@ -103,7 +106,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       {
         radius : 3,
         width : 1,
-        color : "#BBB",
+        color : "button-border",
         gradientStart : ["button-box-bright", 40],
         gradientEnd : ["button-box-dark", 70],
         backgroundColor : "button-box-bright"
@@ -143,7 +146,11 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
     
     
-    // invalid buttons //
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON INVALID
+    ---------------------------------------------------------------------------
+    */
     "button-box-invalid" : 
     {
       include : "button-box",
@@ -167,10 +174,13 @@ qx.Theme.define("qx.theme.simple.Decoration",
     "button-box-hovered-invalid" : {include: "button-box-invalid"},
     
     "button-box-pressed-hovered-invalid" : {include: "button-box-pressed-invalid"},
-    // ///////////////////
     
     
-    // focused buttons //
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON FOCUSED
+    ---------------------------------------------------------------------------
+    */
     "button-box-focused" : 
     {
       include : "button-box",
@@ -194,59 +204,13 @@ qx.Theme.define("qx.theme.simple.Decoration",
     "button-box-hovered-focused" : {include: "button-box-focused"},
     
     "button-box-pressed-hovered-focused" : {include: "button-box-pressed-focused"},
-    // ///////////////////
-    
-    
-    // vertical buttons //
-    "scroll-knob" : 
-    {
-      decorator : [
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBackgroundColor
-      ],
-      
-      style : 
-      {
-        radius : 3,
-        width : 1,
-        color : "#BBB",
-        backgroundColor : "scrollbar-bright"
-      }
-    },
-    
-    "scroll-knob-pressed" : 
-    {
-      include : "scroll-knob",
-      
-      style : 
-      {
-        backgroundColor : "scrollbar-dark"
-      }
-    },
-    
-    "scroll-knob-hovered" : 
-    {
-      include: "scroll-knob",
-
-      style : 
-      {
-        color : "#939393"
-      }
-    },
-    
-    "scroll-knob-pressed-hovered" : 
-    {
-      include: "scroll-knob-pressed",
-
-      style : 
-      {
-        color : "#939393"
-      }
-    },
-    // ///////////////////    
 
 
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON RIGHT
+    ---------------------------------------------------------------------------
+    */
     "button-box-right" : 
     {
       include : "button-box",
@@ -288,6 +252,11 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
     
     
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON BORDERLESS RIGHT
+    ---------------------------------------------------------------------------
+    */    
     "button-box-right-borderless" : 
     {
       include : "button-box",
@@ -333,6 +302,11 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },    
     
     
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON TOP RIGHT
+    ---------------------------------------------------------------------------
+    */
     "button-box-top-right" : 
     {
       include : "button-box",
@@ -378,6 +352,11 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON BOTOM RIGHT
+    ---------------------------------------------------------------------------
+    */
     "button-box-bottom-right" : 
     {
       include : "button-box",
@@ -423,6 +402,11 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON MIDDLE
+    ---------------------------------------------------------------------------
+    */
     "button-box-middle" : 
     {
       include : "button-box",
@@ -468,6 +452,11 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON LEFT
+    ---------------------------------------------------------------------------
+    */
     "button-box-left" : 
     {
       include : "button-box",
@@ -513,14 +502,64 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      SCROLL KNOB
+    ---------------------------------------------------------------------------
+    */    
+    "scroll-knob" : 
+    {
+      decorator : [
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBackgroundColor
+      ],
+      
+      style : 
+      {
+        radius : 3,
+        width : 1,
+        color : "button-border",
+        backgroundColor : "scrollbar-bright"
+      }
+    },
+    
+    "scroll-knob-pressed" : 
+    {
+      include : "scroll-knob",
+      
+      style : 
+      {
+        backgroundColor : "scrollbar-dark"
+      }
+    },
+    
+    "scroll-knob-hovered" : 
+    {
+      include: "scroll-knob",
 
+      style : 
+      {
+        color : "#939393"
+      }
+    },
+    
+    "scroll-knob-pressed-hovered" : 
+    {
+      include: "scroll-knob-pressed",
 
+      style : 
+      {
+        color : "#939393"
+      }
+    },
 
-
-
-
-
-    "button" : 
+    /*
+    ---------------------------------------------------------------------------
+      HOVER BUTTON
+    ---------------------------------------------------------------------------
+    */
+    "button-hover" : 
     {
       decorator : qx.ui.decoration.Single,
       
@@ -530,35 +569,13 @@ qx.Theme.define("qx.theme.simple.Decoration",
         radius : 3
       }
     },
-    
-    
-    "button-invalid" : 
-    {
-      decorator : qx.ui.decoration.Single,
-      
-      style : 
-      {
-        backgroundColor : "button",
-        width : 2,
-        color : "invalid",
-        radius : 3
-      }
-    },
-    
-    "button-focused" : 
-    {
-      decorator : qx.ui.decoration.Single,
-      
-      style : 
-      {
-        backgroundColor : "button",
-        width : 2,
-        color : "blue",
-        radius : 3
-      }
-    },
-    
-    
+
+
+    /*
+    ---------------------------------------------------------------------------
+      WINDOW
+    ---------------------------------------------------------------------------
+    */    
     "window" :
     {
       decorator: [
@@ -579,21 +596,13 @@ qx.Theme.define("qx.theme.simple.Decoration",
         backgroundColor : "background"
       }
     },
-
-
-    "table-header" :
-    {
-      decorator: qx.ui.decoration.Single,
-
-      style :
-      {
-        width : 1,
-        color : "table-header-border"
-      }
-    },
     
     
-    
+    /*
+    ---------------------------------------------------------------------------
+      GROUP BOX
+    ---------------------------------------------------------------------------
+    */
     "white-box" : 
     {
       decorator : [
@@ -612,12 +621,12 @@ qx.Theme.define("qx.theme.simple.Decoration",
       }
     },
 
+
     /*
     ---------------------------------------------------------------------------
-      THREE DIMENSIONAL
+      TEXT FIELD
     ---------------------------------------------------------------------------
     */
-
     "inset" :
     {
       decorator : qx.ui.decoration.Double,
@@ -629,79 +638,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       }
     },
 
-    "outset" :
-    {
-      decorator : qx.ui.decoration.Double,
-
-      style :
-      {
-        width : 1,
-        innerWidth: 1,
-        color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
-        innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
-      }
-    },
-
-    "groove" :
-    {
-      decorator : qx.ui.decoration.Double,
-
-      style :
-      {
-        width : 1,
-        innerWidth: 1,
-        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
-        innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
-      }
-    },
-
-    "ridge" :
-    {
-      decorator : qx.ui.decoration.Double,
-
-      style :
-      {
-        width : 1,
-        innerWidth: 1,
-        color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ],
-        innerColor : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ]
-      }
-    },
-
-    "inset-thin" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        width : [1, 0, 0, 1],
-        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ]
-      }
-    },
-
-    "outset-thin" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        width : [0, 1, 1, 0],
-        color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
-      }
-    },
-
     "focused-inset" :
-    {
-      decorator: qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 2,
-        color : "blue"
-      }
-    },
-
-    "focused-outset" :
     {
       decorator: qx.ui.decoration.Uniform,
 
@@ -720,55 +657,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
       {
         width : 2,
         color : "invalid"
-      }
-    },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      SEPARATOR
-    ---------------------------------------------------------------------------
-    */
-
-    "separator-horizontal" :
-    {
-      decorator: qx.ui.decoration.Single,
-
-      style :
-      {
-        widthLeft : 1,
-        colorLeft : "border-separator"
-      }
-    },
-
-    "separator-vertical" :
-    {
-      decorator: qx.ui.decoration.Single,
-
-      style :
-      {
-        widthTop : 1,
-        colorTop : "border-separator"
-      }
-    },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      SHADOWS
-    ---------------------------------------------------------------------------
-    */
-
-    "shadow-small" :
-    {
-      decorator : [qx.ui.decoration.MBoxShadow],
-
-      style : {
-        shadowLength : 2,
-        shadowBlurRadius : 5,
-        shadowColor : "shadow"
       }
     },
 
@@ -802,12 +690,19 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "tooltip" :
     {
-      decorator: qx.ui.decoration.Uniform,
-
+      decorator : [
+        qx.ui.decoration.MSingleBorder, 
+        qx.ui.decoration.MBackgroundColor,
+        qx.ui.decoration.MBoxShadow
+      ],
+      
       style :
       {
         width : 1,
-        color : "tooltip-text"
+        color : "tooltip-text",
+        shadowLength : 1,
+        shadowBlurRadius : 2,
+        shadowColor : "shadow"
       }
     },
 
@@ -845,32 +740,12 @@ qx.Theme.define("qx.theme.simple.Decoration",
       }
     },
 
-    "toolbar-part-handle" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        width : 1,
-        style : "solid",
-
-        colorTop    : "white",
-        colorLeft   : "white",
-        colorRight  : "border-dark-shadow",
-        colorBottom : "border-dark-shadow"
-      }
-    },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
       MENU
     ---------------------------------------------------------------------------
     */
-
     "menu-separator" :
     {
       decorator : qx.ui.decoration.Single,
@@ -878,14 +753,9 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         widthTop: 1,
-        widthBottom: 1,
-        colorTop : "border-dark",
-        colorBottom : "border-light"
+        colorTop : "blue"
       }
     },
-
-
-
 
 
     /*
@@ -1024,7 +894,17 @@ qx.Theme.define("qx.theme.simple.Decoration",
       }
     },
 
+    "keyboard-focus" :
+    {
+      decorator : qx.ui.decoration.Single,
 
+      style :
+      {
+        width : 1,
+        color : "black",
+        style : "dotted"
+      }
+    },
 
 
 
@@ -1034,7 +914,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
     ---------------------------------------------------------------------------
     */
 
-    "table-statusbar" :
+    "statusbar" :
     {
       decorator : qx.ui.decoration.Single,
 
@@ -1043,18 +923,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
         widthTop : 1,
         colorTop : "middle-blue",
         styleTop : "solid"
-      }
-    },
-
-    "table-scroller-header" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthBottom : 1,
-        colorBottom : "table-header-border",
-        styleBottom : "solid"
       }
     },
 
@@ -1070,33 +938,29 @@ qx.Theme.define("qx.theme.simple.Decoration",
       }
     },
 
+    "table-header" :
+    {
+      include : "button-box",
+
+      style :
+      {
+        radius : 0,
+        width : [1, 1, 1, 0]
+      }
+    },
+
     "table-header-cell" :
     {
       decorator : qx.ui.decoration.Single,
 
       style :
       {
-        widthRight : 1,
-        colorRight : "table-header-border",
+        widthLeft : 1,
+        colorLeft : "button-border",
         styleRight : "solid"
       }
-    },
+    }, 
 
-    "table-header-cell-hovered" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthRight : 1,
-        colorRight : "table-header-border",
-        styleRight : "solid",
-
-        widthBottom : 2,
-        colorBottom : "effect",
-        styleBottom : "solid"
-      }
-    },
 
     /*
     ---------------------------------------------------------------------------
@@ -1135,7 +999,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       {
         radius : 10,
         width : 1,
-        color : "#BBB",
+        color : "button-border",
         innerColor: "background",
         innerWidth: 2
       }      
@@ -1169,13 +1033,14 @@ qx.Theme.define("qx.theme.simple.Decoration",
     "checkbox" : 
     {
       decorator : [
-        qx.ui.decoration.MSingleBorder
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBackgroundColor
       ],
       
       style : 
       {
         width : 1,
-        color : "#BBB"
+        color : "button-border"
       }      
     },
     

@@ -38,6 +38,7 @@ qx.Theme.define("qx.theme.simple.Color",
     "scrollbar-dark" : "#EBEBEB",
     
     "button" : "#E8F0E3",
+    "button-border" : "#BBB",
 
     "invalid" : "#FF0000",
     
