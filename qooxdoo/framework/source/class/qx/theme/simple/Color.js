@@ -28,6 +28,7 @@ qx.Theme.define("qx.theme.simple.Color",
     "blue" : "#6694E3",
     "dark-blue" : "#5685D6",
     "light-blue" : "#E0ECFF",
+    "middle-blue" : "#AEC3DA",
     "background-selected" : "#6694E3",    
     "background-disabled" : "#F7F7F7",
     
@@ -38,6 +39,10 @@ qx.Theme.define("qx.theme.simple.Color",
 
     "invalid" : "#FF0000",
     
+    "window-border" : "#2E3A46",
+    "window-border-inner" : "#9DCBFE",
+    
+    "white-box-border" : "#BCBCBC",
     
     
     "background-light" : "#F3F0F5",
@@ -76,7 +81,6 @@ qx.Theme.define("qx.theme.simple.Color",
 
     "tooltip" : "#FFFFE1",
     "tooltip-text" : "black",
-    "tooltip-invalid" : "#C82C2C",
 
 
     "button-hovered" : "#F6F5F7",
@@ -89,7 +93,6 @@ qx.Theme.define("qx.theme.simple.Color",
     "window-inactive-caption" : [ 111, 161, 217 ],
 
     "effect" : [ 254, 200, 60 ],
-    "table-pane" : "white",
     "table-header" : [ 242, 242, 242 ],
     "table-header-border" : [ 214, 213, 217 ],
     "table-header-cell" : [ 235, 234, 219 ],
@@ -98,12 +101,12 @@ qx.Theme.define("qx.theme.simple.Color",
     "table-row-background-focused-selected" : [ 90, 138, 211 ],
     "table-row-background-focused" : [ 221, 238, 255 ],
     "table-row-background-selected" : [ 51, 94, 168 ],
-    "table-row-background-even" : [ 250, 248, 243 ],
-    "table-row-background-odd" : [ 255, 255, 255 ],
+    "table-row-background-even" : "white",
+    "table-row-background-odd" : "white",
     "table-row-selected" : [ 255, 255, 255 ],
     "table-row" : [ 0, 0, 0],
     "table-row-line" : "#EEE",
-    "table-column-line" : "#EEE",
+    "table-column-line" : "white",
 
     "progressive-table-header" : "#AAAAAA",
 

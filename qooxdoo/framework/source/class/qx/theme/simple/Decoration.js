@@ -120,6 +120,18 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
 
 
+    "table-header" :
+    {
+      decorator: qx.ui.decoration.Single,
+
+      style :
+      {
+        width : 1,
+        color : "table-header-border"
+      }
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       THREE DIMENSIONAL
@@ -354,11 +366,10 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "tooltip-error" :
     {
-      decorator : qx.ui.decoration.Uniform,
+      decorator : qx.ui.decoration.Single,
 
       style : {
-        width : 1,
-        color : "tooltip-text"
+        radius: 5
       }
     },
 
@@ -578,7 +589,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         widthTop : 1,
-        colorTop : "border-dark-shadow",
+        colorTop : "middle-blue",
         styleTop : "solid"
       }
     },

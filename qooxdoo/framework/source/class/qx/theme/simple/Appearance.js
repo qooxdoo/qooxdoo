@@ -126,7 +126,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           hideTimeout: 10000,
           decorator: "tooltip-error",
           font: "bold",
-          backgroundColor: "tooltip-invalid"
+          backgroundColor: "invalid"
         };
       }
     },
@@ -1398,8 +1398,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           contentPadding : [ 10, 10, 10, 10 ],
           backgroundColor : "background",
-          decorator : states.maximized ? undefined : "outset",
-          shadow : states.maximized ? undefined : "shadow-small"
+          decorator : states.maximized ? undefined : "window"
         };
       }
     },
@@ -1411,9 +1410,9 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          padding : 1,
-          backgroundColor : states.active ? "window-active-caption" : "window-inactive-caption",
-          textColor : states.active ? "window-active-caption-text" : "window-inactive-caption-text"
+          backgroundColor : "light-blue",
+          padding : 8,
+          font: "bold"
         };
       }
     },
@@ -1586,10 +1585,10 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.invalid ? "button-invalid" : 
-            states.focused ? "button-focused" : "button",
+          decorator : states.invalid && !states.disabled ? "button-invalid" : 
+            states.focused && !states.disabled ? "button-focused" : "button",
           cursor : "pointer",
-          padding: states.invalid || states.focused ? 2 : 4
+          padding: (states.invalid || states.focused) && !states.disabled ? 2 : 4
         };
       }
     },
@@ -2140,7 +2139,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           decorator : "table-statusbar",
           paddingLeft : 2,
-          paddingRight : 2
+          paddingRight : 2,
+          backgroundColor: "light-blue"
         };
       }
     },
@@ -2150,28 +2150,10 @@ qx.Theme.define("qx.theme.simple.Appearance",
       alias : "button",
       style : function(states)
       {
-        var border, padding;
-
-        if (states.pressed || states.checked || states.abandoned)
-        {
-          border = "inset-thin";
-          padding = [ 3, 2, 1, 4 ];
-        }
-        else if (states.hovered)
-        {
-          border = "outset-thin";
-          padding = [ 2, 3 ];
-        }
-        else
-        {
-          border = undefined;
-          padding = [ 3, 4 ];
-        }
-
         return {
-          decorator : border,
-          padding : padding,
-          backgroundColor : states.abandoned ? "button-abandoned" : "button",
+          decorator : "button",
+          padding : 4,
+          margin: [3, 5],
           icon : "decoration/table/select-column-order.png"
         };
       }
@@ -2195,33 +2177,16 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
     "table-scroller" : "widget",
 
-    "table-scroller/header":
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "table-scroller-header",
-          backgroundColor : "table-header"
-        };
-      }
-    },
+    "table-scroller/header": {},
 
-    "table-scroller/pane" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor : "table-pane"
-        };
-      }
-    },
+    "table-scroller/pane" : {},
 
     "table-scroller/focus-indicator" :
     {
       style : function(states)
       {
         return {
-          decorator : "table-scroller-focus-indicator"
+          decorator : "main"
         };
       }
     },
@@ -2231,7 +2196,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor: "table-header-border",
+          backgroundColor: "middle-blue",
           width: 3
         };
       }
@@ -2240,18 +2205,29 @@ qx.Theme.define("qx.theme.simple.Appearance",
     "table-header-cell" :
     {
       alias : "atom",
+      
       style : function(states)
       {
         return {
           minWidth: 13,
-          paddingLeft : 2,
-          paddingRight : 2,
-          paddingBottom : states.hovered ? 0 : 2,
-          decorator : states.hovered ? "table-header-cell-hovered" : "table-header-cell",
-          backgroundColor : states.hovered ? "table-header-cell-hover" : "table-header-cell",
+          font : "bold",
+          paddingTop: 3,
+          paddingLeft: 5,
+          cursor : "pointer",
           sortIcon : states.sorted ?
               (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
               : undefined
+        }
+      }
+    },
+    
+    "table-header-cell/icon" : 
+    {
+      include : "atom/icon", 
+      
+      style : function(states) {
+        return {
+          paddingRight : 5
         }
       }
     },
