@@ -25,7 +25,11 @@
  */
 qx.Class.define("qx.ui.decoration.Double",
 {
-  extend : qx.ui.decoration.Single,
+  extend : qx.ui.decoration.Abstract,
+  include : [
+    qx.ui.decoration.MBackgroundColor,
+    qx.ui.decoration.MDoubleBorder
+  ],
 
 
   /*
@@ -57,106 +61,6 @@ qx.Class.define("qx.ui.decoration.Double",
 
 
 
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY: INNER WIDTH
-    ---------------------------------------------------------------------------
-    */
-
-    /** top width of border */
-    innerWidthTop :
-    {
-      check : "Number",
-      init : 0
-    },
-
-    /** right width of border */
-    innerWidthRight :
-    {
-      check : "Number",
-      init : 0
-    },
-
-    /** bottom width of border */
-    innerWidthBottom :
-    {
-      check : "Number",
-      init : 0
-    },
-
-    /** left width of border */
-    innerWidthLeft :
-    {
-      check : "Number",
-      init : 0
-    },
-
-    /** Property group to set the inner border width of all sides */
-    innerWidth :
-    {
-      group : [ "innerWidthTop", "innerWidthRight", "innerWidthBottom", "innerWidthLeft" ],
-      mode : "shorthand"
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY: INNER COLOR
-    ---------------------------------------------------------------------------
-    */
-
-    /** top inner color of border */
-    innerColorTop :
-    {
-      nullable : true,
-      check : "Color"
-    },
-
-    /** right inner color of border */
-    innerColorRight :
-    {
-      nullable : true,
-      check : "Color"
-    },
-
-    /** bottom inner color of border */
-    innerColorBottom :
-    {
-      nullable : true,
-      check : "Color"
-    },
-
-    /** left inner color of border */
-    innerColorLeft :
-    {
-      nullable : true,
-      check : "Color"
-    },
-
-    /**
-     * Property group for the inner color properties.
-     */
-    innerColor :
-    {
-      group : [ "innerColorTop", "innerColorRight", "innerColorBottom", "innerColorLeft" ],
-      mode : "shorthand"
-    }
-  },
-
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -165,24 +69,19 @@ qx.Class.define("qx.ui.decoration.Double",
 
   members :
   {
-    __ownMarkup : null,
+    __markup : null,
 
 
     // overridden
     _getDefaultInsets : function()
     {
-      return {
-        top : this.getWidthTop() + this.getInnerWidthTop(),
-        right : this.getWidthRight() + this.getInnerWidthRight(),
-        bottom : this.getWidthBottom() + this.getInnerWidthBottom(),
-        left : this.getWidthLeft() + this.getInnerWidthLeft()
-      };
+      return this._getDefaultInsetsForBorder();
     },
 
 
     // overridden
     _isInitialized: function() {
-      return !!this.__ownMarkup;
+      return !!this.__markup;
     },
 
 
@@ -195,102 +94,20 @@ qx.Class.define("qx.ui.decoration.Double",
     // interface implementation
     getMarkup : function(element)
     {
-      if (this.__ownMarkup) {
-        return this.__ownMarkup;
+      if (this.__markup) {
+        return this.__markup;
       }
+      
+      var innerStyles = {};
+      this._getMarkupBorder(innerStyles);
 
-      var Color = qx.theme.manager.Color.getInstance();
-
-
-      // Inner styles
-      // Inner image must be relative to be compatible with qooxdoo 0.8.x
-      // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3450 for details
-      var innerStyles = { position : "relative" };
-
-      // Add inner borders
-      var width = this.getInnerWidthTop();
-      if (width > 0) {
-        innerStyles["border-top"] = width + "px " + this.getStyleTop() + " " + Color.resolve(this.getInnerColorTop());
-      }
-
-      var width = this.getInnerWidthRight();
-      if (width > 0) {
-        innerStyles["border-right"] = width + "px " + this.getStyleRight() + " " + Color.resolve(this.getInnerColorRight());
-      }
-
-      var width = this.getInnerWidthBottom();
-      if (width > 0) {
-        innerStyles["border-bottom"] = width + "px " + this.getStyleBottom() + " " + Color.resolve(this.getInnerColorBottom());
-      }
-
-      var width = this.getInnerWidthLeft();
-      if (width > 0) {
-        innerStyles["border-left"] = width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getInnerColorLeft());
-      }
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (innerStyles.length === 0) {
-          throw new Error("Invalid Double decorator (zero inner border width). Use qx.ui.decoration.Single instead!");
-        }
-      }
-
-      // get the broder radius styles
-      this._getMarkupBorderRadius(innerStyles);
-
-      // Generate inner HTML
-      var innerHtml = this._generateBackgroundMarkup(innerStyles);
-
-
-      // Generate outer HTML
-      var outerStyles = 'line-height:0;';
-
-      // Do not set the line-height on IE6, IE7, IE8 in Quirks Mode and IE8 in IE7 Standard Mode
-      // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3450 for details
-      if ((qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION < 8) ||
-          (qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.DOCUMENT_MODE < 8)) {
-        outerStyles = '';
-      }
-
-      var width = this.getWidthTop();
-      if (width > 0) {
-        outerStyles += "border-top:" + width + "px " + this.getStyleTop() + " " + Color.resolve(this.getColorTop()) + ";";
-      }
-
-      var width = this.getWidthRight();
-      if (width > 0) {
-        outerStyles += "border-right:" + width + "px " + this.getStyleRight() + " " + Color.resolve(this.getColorRight()) + ";";
-      }
-
-      var width = this.getWidthBottom();
-      if (width > 0) {
-        outerStyles += "border-bottom:" + width + "px " + this.getStyleBottom() + " " + Color.resolve(this.getColorBottom()) + ";";
-      }
-
-      var width = this.getWidthLeft();
-      if (width > 0) {
-        outerStyles += "border-left:" + width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft()) + ";";
-      }
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (outerStyles.length === 0) {
-          throw new Error("Invalid Double decorator (zero outer border width). Use qx.ui.decoration.Single instead!");
-        }
-      }
-
-      // shadow styles
-      var shadowStyles = {};
-      this._getMarkupBoxShadow(shadowStyles);
-      var shadow = qx.bom.element.Style.compile(shadowStyles);
-      // Store
-      return this.__ownMarkup = '<div style="' + shadow + 'position:absolute;top:0;left:0;' + outerStyles + '">' + innerHtml + '</div>';
+      return this.__markup = this._generateMarkup(innerStyles);
     },
 
 
     // interface implementation
     resize : function(element, width, height)
-    {
+    {      
       // Fix box model
       // Note: Scaled images are always using content box
       var scaledImage = this.getBackgroundImage() && this.getBackgroundRepeat() == "scale";
@@ -337,7 +154,12 @@ qx.Class.define("qx.ui.decoration.Double",
         insets.top -
         this.getWidthTop() -
         this.getInnerWidthTop()) + "px";
-    }
+    },
+    
+    // interface implementation
+    tint : function(element, bgcolor) {
+      this._tintBackgroundColor(element, bgcolor, element.style);
+    }    
   },
 
 
@@ -349,6 +171,6 @@ qx.Class.define("qx.ui.decoration.Double",
   */
 
   destruct : function() {
-    this.__ownMarkup = null;
+    this.__markup = null;
   }
 });

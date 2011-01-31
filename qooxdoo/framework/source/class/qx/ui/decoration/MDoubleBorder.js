@@ -25,7 +25,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     this._getDefaultInsetsForBorder = this.__getDefaultInsetsForDoubleBorder;
     this._resizeBorder = this.__resizeDoubleBorder;
     this._getMarkupBorder = this.__getMarkupDoubleBorder;
-    this._generateMarkup = this._generateMarkupDoubleBorder;
+    this._generateMarkup = this.__generateMarkupDoubleBorder;
   },
   
   
@@ -170,7 +170,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     },
     
     
-    _generateMarkupDoubleBorder : function(styles) {
+    __generateMarkupDoubleBorder : function(styles) {
       var innerHtml = this._generateBackgroundMarkup(styles);
       var Color = qx.theme.manager.Color.getInstance();
 
