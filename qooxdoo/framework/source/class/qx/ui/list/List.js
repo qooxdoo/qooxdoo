@@ -60,7 +60,7 @@
  * }, this);
  * </pre>
  *
- * @childControl row-layer {qx.ui.virtual.Row} layer for all rows
+ * @childControl row-layer {qx.ui.virtual.layer.Row} layer for all rows
  */
 qx.Class.define("qx.ui.list.List",
 {
