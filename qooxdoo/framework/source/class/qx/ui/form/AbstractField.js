@@ -516,7 +516,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       // check for the max length
       if (value.length > this.getMaxLength())
       {
-        var fireEvents = false;
+        fireEvents = false;
         this.getContentElement().setValue(
           value.substr(0, this.getMaxLength())
         );
