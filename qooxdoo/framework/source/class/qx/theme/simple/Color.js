@@ -50,6 +50,7 @@ qx.Theme.define("qx.theme.simple.Color",
     // form 
     "button" : "#E8F0E3",
     "button-border" : "#BBB",
+    "button-border-hovered" : "#939393",
     "invalid" : "#FF0000",
     "button-box-bright" : "#F9F9F9",
     "button-box-dark" : "#E3E3E3",

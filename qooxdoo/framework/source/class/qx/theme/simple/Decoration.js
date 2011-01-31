@@ -131,7 +131,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
       style : 
       {
-        color : "#939393"
+        color : "button-border-hovered"
       }
     },
     
@@ -141,7 +141,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       
       style : 
       {
-        color : "#939393"
+        color : "button-border-hovered"
       }
     },
     
@@ -669,7 +669,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
       style : 
       {
-        color : "#939393"
+        color : "button-border-hovered"
       }
     },
     
@@ -679,7 +679,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
       style : 
       {
-        color : "#939393"
+        color : "button-border-hovered"
       }
     },
 
