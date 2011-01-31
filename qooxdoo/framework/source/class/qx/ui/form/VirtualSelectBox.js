@@ -43,14 +43,8 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     // Register listener
     this.addListener("mouseover", this._onMouseOver, this);
     this.addListener("mouseout", this._onMouseOut, this);
-    this.addListener("changeLabelPath", this.__bindAtom, this);
-    this.addListener("changeLabelOptions", this.__bindAtom, this);
-    this.addListener("changeIconPath", this.__bindAtom, this);
-    this.addListener("changeIconOptions", this.__bindAtom, this);
 
     this.initSelection(this.getChildControl("dropdown").getSelection());
-
-    qx.ui.core.queue.Widget.add(this);
   },
 
 
@@ -113,12 +107,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
   members :
   {
     // overridden
-    syncWidget : function() {
-      this.__bindAtom();
-    },
-
-
-    // overridden
     _createChildControlImpl : function(id, hash)
     {
       var control;
@@ -151,6 +139,22 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     },
 
 
+    // overridden
+    _bindWidget : function() {
+      var atom = this.getChildControl("atom");
+
+      this.removeAllBindings();
+
+      var labelSourcePath = this._getBindPath(this.getLabelPath());
+      this.bind(labelSourcePath, atom, "label", this.getLabelOptions());
+
+      if (this.getIconPath() != null) {
+        var iconSourcePath = this._getBindPath(this.getIconPath());
+        this.bind(iconSourcePath, atom, "icon", this.getIconOptions());
+      }
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -159,20 +163,26 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
 
     // property apply
-    _applySelection : function(value, old) {
+    _applySelection : function(value, old)
+    {
       this.getChildControl("dropdown").setSelection(value);
+      qx.ui.core.queue.Widget.add(this);
     },
 
 
     // property apply
-    _applyIconPath : function(value, old) {
+    _applyIconPath : function(value, old)
+    {
       this.getChildControl("dropdown").getChildControl("list").setIconPath(value);
+      qx.ui.core.queue.Widget.add(this);
     },
 
 
     // property apply
-    _applyIconOptions : function(value, old) {
+    _applyIconOptions : function(value, old)
+    {
       this.getChildControl("dropdown").getChildControl("list").setIconOptions(value);
+      qx.ui.core.queue.Widget.add(this);
     },
 
 
@@ -263,42 +273,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       } else {
         return this.base(arguments, event);
       }
-    },
-
-
-    /**
-     * Helper method to bind the selected item with the atom.
-     */
-    __bindAtom : function() {
-      var atom = this.getChildControl("atom");
-
-      this.removeAllBindings();
-
-      var labelSourcePath = this.__getBindPath(this.getLabelPath());
-      this.bind(labelSourcePath, atom, "label", this.getLabelOptions());
-
-      if (this.getIconPath() != null) {
-        var iconSourcePath = this.__getBindPath(this.getIconPath());
-        this.bind(iconSourcePath, atom, "icon", this.getIconOptions());
-      }
-    },
-
-
-    /**
-     * Helper Method to create bind path depended on the passed path.
-     *
-     * @param path {String?null} The path to the property.
-     * @return {String} The created path.
-     */
-    __getBindPath : function(path)
-    {
-      var bindPath = "selection[0]";
-
-      if (path != null && path != "") {
-        bindPath += "." + path;
-      }
-
-      return bindPath;
     }
   },
 

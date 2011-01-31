@@ -207,6 +207,20 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
     },
 
 
+    // overridden
+    syncWidget : function() {
+      this._bindWidget();
+    },
+
+
+    /**
+     * Method to bind the selected item from the drop-down with the widget.
+     */
+    _bindWidget : function() {
+      throw new Error("Abstract method: '_bindWidget()' on called!");
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -215,8 +229,10 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
 
     // property apply
-    _applyModel : function(value, old) {
+    _applyModel : function(value, old)
+    {
       this.getChildControl("dropdown").getChildControl("list").setModel(value);
+      qx.ui.core.queue.Widget.add(this);
     },
 
 
@@ -227,8 +243,10 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
 
     // property apply
-    _applyLabelPath : function(value, old) {
+    _applyLabelPath : function(value, old)
+    {
       this.getChildControl("dropdown").getChildControl("list").setLabelPath(value);
+      qx.ui.core.queue.Widget.add(this);
     },
 
 
@@ -239,8 +257,10 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
 
     // property apply
-    _applyLabelOptions : function(value, old) {
+    _applyLabelOptions : function(value, old)
+    {
       this.getChildControl("dropdown").getChildControl("list").setLabelOptions(value);
+      qx.ui.core.queue.Widget.add(this);
     },
 
 
@@ -422,6 +442,24 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
       } else {
         return null;
       }
+    },
+
+
+    /**
+     * Helper Method to create bind path depended on the passed path.
+     *
+     * @param path {String?null} The path to the property.
+     * @return {String} The created path.
+     */
+    _getBindPath : function(path)
+    {
+      var bindPath = "selection[0]";
+
+      if (path != null && path != "") {
+        bindPath += "." + path;
+      }
+
+      return bindPath;
     }
   }
 });
