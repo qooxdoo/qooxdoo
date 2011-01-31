@@ -687,7 +687,7 @@ class PartBuilder(object):
         for toId, fromId in enumerate(packageIds):
             for partId in parts:
                 if fromId in parts[partId].packages:
-                    if not resultParts.has_key(partId):
+                    if not partId in resultParts:
                         resultParts[partId] = [toId]
                     else:
                         resultParts[partId].append(toId)

@@ -1007,7 +1007,7 @@ class CompactHTML:
 
         title = "The %s Module" % module.get("name")
 
-        zone = self.options.has_key("zone")
+        zone = "zone" in self.options
 
         if type(file) is str:
             if zone:

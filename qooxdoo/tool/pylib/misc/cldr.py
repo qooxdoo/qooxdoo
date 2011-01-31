@@ -36,7 +36,7 @@ def extractMonth(calendarElement):
     for monthContext in calendarElement.findall(".//monthContext"):
         for monthWidth in monthContext.findall("monthWidth"):
             for month in monthWidth.findall("month"):
-                if month.attrib.has_key("alt"): continue
+                if "alt" in month.attrib: continue
                 cldr_key = "cldr_month_%s_%s_%s" % (monthContext.attrib["type"], monthWidth.attrib["type"], month.attrib["type"])
                 data[cldr_key] = month.text
     return data
@@ -47,7 +47,7 @@ def extractDay(calendarElement):
     for dayContext in calendarElement.findall(".//dayContext"):
         for dayWidth in dayContext.findall(".//dayWidth"):
             for day in dayWidth.findall("day"):
-                if day.attrib.has_key("alt"): continue
+                if "alt" in day.attrib: continue
                 cldr_key = "cldr_day_%s_%s_%s" % (dayContext.attrib["type"], dayWidth.attrib["type"], day.attrib["type"])
                 data[cldr_key] = day.text
     return data
@@ -94,7 +94,7 @@ def extractDateFormat(calendarElement):
     for dateFormatLength in calendarElement.findall(".//dateFormatLength"):
         dateType = dateFormatLength.attrib["type"]
         for dateFormat in dateFormatLength.findall("dateFormat/pattern"):
-            if dateFormat.attrib.has_key("alt"): continue
+            if "alt" in dateFormat.attrib: continue
             data['cldr_date_format_%s'% dateType] = dateFormat.text
     return data
 
@@ -104,7 +104,7 @@ def extractTimeFormat(calendarElement):
     for timeFormatLength in calendarElement.findall(".//timeFormatLength"):
         timeType = timeFormatLength.attrib["type"]
         for timeFormat in timeFormatLength.findall("timeFormat/pattern"):
-            if timeFormat.attrib.has_key("alt"): continue
+            if "alt" in timeFormat.attrib: continue
             data['cldr_time_format_%s' % timeType] = timeFormat.text
     return data
 
@@ -159,7 +159,7 @@ def parseCldrFile(filename, outputDirectory=None):
     data = {}
 
     for cal in tree.findall('dates/calendars/calendar'):
-        if not cal.attrib.has_key("type"): continue
+        if not "type" in cal.attrib: continue
         if cal.attrib["type"] != "gregorian": continue
 
         data.update(extractMonth(cal))

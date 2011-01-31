@@ -59,7 +59,7 @@ def transfer(id, properties, members):
 
         propDefinition = treeutil.mapNodeToMap(value)
     
-        if propDefinition.has_key("group"):
+        if "group" in propDefinition:
             continue
 
         if propDefinition.get("refine", False) != "true":
@@ -81,7 +81,7 @@ def generateProperty(name, config, members, method):
     
     code = "function(){"
     
-    if config.has_key("inheritable"):
+    if "inheritable" in config:
         code += 'if(this.$$inherit_' + name + '!==undefined)'
         code += 'return this.$$inherit_' + name + ';'
         code += 'else '
@@ -89,17 +89,17 @@ def generateProperty(name, config, members, method):
     code += 'if(this.$$user_' + name + '!==undefined)'
     code += 'return this.$$user_' + name + ';'
 
-    if config.has_key("themeable"):
+    if "themeable" in config:
         code += 'else if(this.$$theme_' + name + '!==undefined)'
         code += 'return this.$$theme_' + name + ';'
 
-    if not config.has_key("init") and config.has_key("deferredInit"):
+    if not "init" in config and "deferredInit" in config:
         code += 'else if(this.$$init_' + name + '!==undefined)'
         code += 'return this.$$init_' + name + ';'
 
     code += 'else '
 
-    if config.has_key("init"):
+    if "init" in config:
         code += 'return this.$$init_' + name + ';'
     else:
         code += 'return null;'

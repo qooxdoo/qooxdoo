@@ -32,7 +32,7 @@ def load(data):
     # Dynamically fill used data
     for name in names:
         (id, iden) = name.split(":")
-        if not used.has_key(iden):
+        if not iden in used:
             used[iden] = [id]
         elif not id in used[iden]:
             used[iden].append(id)
@@ -67,7 +67,7 @@ def patch(tree, id):
     
 def crypt(id, name):
     combined = "%s:%s" % (id, name)
-    if names.has_key(combined):
+    if combined in names:
         return names[combined]
 
     repl = "__%s" % convert(len(names))
@@ -95,10 +95,10 @@ def lookup(id, node, privates):
                 if last.type == "identifier":
                     name = last.get("name")
         
-    if name and name.startswith("__") and not privates.has_key(name):
+    if name and name.startswith("__") and not name in privates:
         privates[name] = crypt(id, name)
         
-        if not used.has_key(name):
+        if not name in used:
             used[name] = [id]
         elif not id in used[name]:
             used[name].append(id)
@@ -130,7 +130,7 @@ def update(node, privates):
         name = node.get("value", False)
     
         # Replace occurrences of privates in larger strings:
-        #if not privates.has_key(name):
+        #if not name in privates:
         #    for key in privates:
         #        if key in name and re.compile(r"\b%s\b" % key).search(name):
         #            name = re.sub(r"(\b%s\b)" % key, privates[key], name)
@@ -142,7 +142,7 @@ def update(node, privates):
     if not name or name[:2] != "__":
         return
         
-    if not privates.has_key(name):
+    if not name in privates:
         return
         
     repl = privates[name]

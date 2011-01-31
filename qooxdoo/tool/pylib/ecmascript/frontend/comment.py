@@ -287,7 +287,7 @@ def qt2javadoc(text):
     res = "/**"
 
     desc = getAttrib(attribList, "description")
-    if desc.has_key("text"):
+    if "text" in desc:
         desc = desc["text"]
     else:
         desc = ""
@@ -561,13 +561,13 @@ def getAttrib(attribList, category):
 def getParam(attribList, name):
     for attrib in attribList:
         if attrib["category"] == "param":
-            if attrib.has_key("name") and attrib["name"] == name:
+            if "name" in attrib and attrib["name"] == name:
                 return attrib
 
 
 
 def attribHas(attrib, key):
-    if attrib != None and attrib.has_key(key) and not attrib[key] in ["", None]:
+    if attrib != None and key in attrib and not attrib[key] in ["", None]:
         return True
 
     return False
@@ -607,7 +607,7 @@ def parseType(vtype):
 
         typeText += entry["type"]
 
-        if entry.has_key("dimensions") and entry["dimensions"] > 0:
+        if "dimensions" in entry and entry["dimensions"] > 0:
             typeText += "[]" * entry["dimensions"]
 
         firstType = False

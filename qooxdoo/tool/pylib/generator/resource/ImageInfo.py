@@ -49,7 +49,7 @@ class ImageInfo(object):
     def getImageInfo(self, fileName, assetId):
         img = fileName
         
-        #if memcache.has_key(img):
+        #if img in memcache:
         #    return memcache[img]
 
         cacheId = "img-%s" % fileName

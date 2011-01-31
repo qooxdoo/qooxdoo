@@ -217,7 +217,7 @@ def getData():
             alternative = []
             key = line
 
-        if result.has_key(key):
+        if key in result:
             console.error("Duplicate key found: %s" % key)
             sys.exit(1)
 

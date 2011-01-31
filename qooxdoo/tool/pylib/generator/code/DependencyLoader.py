@@ -289,10 +289,10 @@ class DependencyLoader(object):
                     break
 
         # add config dependencies
-        if self._require.has_key(fileId):
+        if fileId in self._require:
             loadFinal.extend(DependencyItem(x, '', "|config|") for x in self._require[fileId])
 
-        if self._use.has_key(fileId):
+        if fileId in self._use:
             runFinal.extend(DependencyItem(x, '', "|config|") for x in self._use[fileId])
 
         # result dict

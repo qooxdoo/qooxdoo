@@ -1036,19 +1036,19 @@ class Textiler:
                         if extending and not captures.get('dot', None):
                             output[-1][1]['text'] += block
                             break
-                        elif captures.has_key('dot'):
+                        elif 'dot' in captures:
                             del captures['dot']
 
                         # If a signature matches, we are not extending a block.
                         extending = 0
 
                         # Check if we should extend this block.
-                        if captures.has_key('extend'):
+                        if 'extend' in captures:
                             extending = captures['extend']
                             del captures['extend']
 
                         # Apply head_offset.
-                        if captures.has_key('header'):
+                        if 'header' in captures:
                             captures['header'] = int(captures['header']) + self.head_offset
 
                         # Apply clear.
@@ -1217,7 +1217,7 @@ class Textiler:
         output['style'] = output.get('style', '') + ''.join(style)
 
         # Remove excess whitespace.
-        if output.has_key('class'):
+        if 'class' in output:
             output['class'] = output['class'].strip()
 
         return output
@@ -1289,7 +1289,7 @@ class Textiler:
                 close_tag = '</p>'
 
                 # Pop the id because it must be unique.
-                if attributes.has_key('id'): del attributes['id']
+                if 'id' in attributes: del attributes['id']
 
                 # Break lines.
                 # line = preg_replace(r'(<br />|\n)+', '<br />\n', line)
@@ -1393,7 +1393,7 @@ class Textiler:
         attributes = self.parse_params(parameters, clear)
 
         # XHTML <code> can't have the attribute lang.
-        if attributes.has_key('lang'):
+        if 'lang' in attributes:
             lang = attributes['lang']
             del attributes['lang']
         else:
@@ -2851,7 +2851,7 @@ class Textiler:
                 query = query.replace(' ', '+')
 
                 # Look for smart search.
-                if self.searches.has_key(proto):
+                if proto in self.searches:
                     link = self.searches[proto] % query
 
                 # Fix URL.

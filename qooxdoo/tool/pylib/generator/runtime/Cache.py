@@ -196,7 +196,7 @@ class Cache(object):
         multiId = "multi" + baseId
         
         saved, _ = self.read(multiId, None, True)
-        if saved and saved.has_key(contentId):
+        if saved and contentId in saved:
             temp = saved[contentId]
             
             if os.stat(dependsOn).st_mtime > temp["time"]:

@@ -370,18 +370,18 @@ class Locale(object):
                 #msgid = self.parseAsUnicodeString(source["id"])  # parse raw data as string, to translate \escapes
                 msgid = source["id"]
 
-                if result.has_key(msgid):
+                if msgid in result:
                     target = result[msgid]
                 else:
                     target = result[msgid] = {
                         "occurrences" : []
                     }
 
-                    if source.has_key("plural"):
+                    if "plural" in source:
                         #target["plural"] = self.parseAsUnicodeString(source["plural"])
                         target["plural"] = source["plural"]
 
-                    if source.has_key("hint"):
+                    if "hint" in source:
                         target["hint"] = source["hint"]
 
                 target["occurrences"].append({

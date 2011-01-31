@@ -247,7 +247,7 @@ def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUr
 
     # Register to module database
     for moduleId in fileEntry["modules"]:
-        if moduleDb.has_key(moduleId):
+        if moduleId in moduleDb:
             moduleDb[moduleId].append(fileId)
         else:
             moduleDb[moduleId] = [fileId]
@@ -633,7 +633,7 @@ def migrate(fileList, options, migrationTarget,
     if len(htmlList) > 0:
         logging.info("  * Processing HTML files:")
         for filePath in htmlList:
-            if not patchedFiles.has_key(os.path.abspath(filePath)):
+            if not os.path.abspath(filePath) in patchedFiles:
                 migrateFile(filePath, compiledPatches, compiledInfos)
         logging.info("  * Done")
 

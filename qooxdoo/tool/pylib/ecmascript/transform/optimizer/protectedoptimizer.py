@@ -45,7 +45,7 @@ def process(classes, loader):
     
     
 def crypt(name):
-    if names.has_key(name):
+    if name in names:
         return names[name]
 
     repl = "_%s" % convert(len(names))
@@ -66,7 +66,7 @@ def lookup(id, node, protected):
     elif node.type == "keyvalue":
         name = node.get("key", False)
         
-    if name and name.startswith("_") and not name.startswith("__") and not protected.has_key(name):
+    if name and name.startswith("_") and not name.startswith("__") and not name in protected:
         protected[name] = crypt(name)
         
     if node.hasChildren():
@@ -98,7 +98,7 @@ def update(node, protected):
 
         # Try it a bit more compex
         # Look whether the found string contains any of the
-        if not protected.has_key(name):
+        if not name in protected:
             for key in protected:
                 if key in name and re.compile(r"\b%s\b" % key).search(name):
                     name = re.sub(r"(\b%s\b)" % key, protected[key], name)
@@ -110,7 +110,7 @@ def update(node, protected):
     if not name or not name.startswith("_") or name.startswith("__"):
         return
     
-    if not protected.has_key(name):
+    if not name in protected:
         return
         
     repl = protected[name]

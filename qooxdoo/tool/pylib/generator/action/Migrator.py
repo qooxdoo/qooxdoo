@@ -364,7 +364,7 @@ class Migrator(object):
         if len(htmlList) > 0:
             logging.info("  * Processing HTML files:")
             for filePath in htmlList:
-                if not patchedFiles.has_key(os.path.abspath(filePath)):
+                if not os.path.abspath(filePath) in patchedFiles:
                     self.migrateFile(filePath, compiledPatches, compiledInfos)
             logging.info("  * Done")
 

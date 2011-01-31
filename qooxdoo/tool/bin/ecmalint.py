@@ -82,7 +82,7 @@ class Lint:
                 for child in node.children:
                     if child.type == "keyvalue":
                         key = child.get("key")
-                        if knownkeys.has_key(key):
+                        if key in knownkeys:
                             self.log(child, "Map key '%s' redefined." % key)
                         else:
                             knownkeys[key] = child

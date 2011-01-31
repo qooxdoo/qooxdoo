@@ -89,12 +89,12 @@ def createPackageDoc(text, packageName, docTree = None):
     for attrib in commentAttributes:
         # Add description
         if attrib["category"] == "description":
-            if attrib.has_key("text"):
+            if "text" in attrib:
                 descNode = tree.Node("desc").set("text", attrib["text"])
                 package.addChild(descNode)
 
         elif attrib["category"] == "see":
-            if not attrib.has_key("name"):
+            if not "name" in attrib:
                 printDocError(package, "Missing target for see.")
                 return docTree
 
@@ -468,27 +468,27 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
     node = tree.Node("property")
     node.set("name", propName)
 
-    if propDefinition.has_key("init"):
+    if "init" in propDefinition:
         node.set("defaultValue", getValue(propDefinition["init"].getFirstChild()))
 
-    if propDefinition.has_key("nullable"):
+    if "nullable" in propDefinition:
         node.set("allowNull", propDefinition["nullable"].getChild("constant").get("value"))
 
-    if propDefinition.has_key("inheritable"):
+    if "inheritable" in propDefinition:
         node.set("inheritable", propDefinition["inheritable"].getChild("constant").get("value"))
 
-    if propDefinition.has_key("themeable"):
+    if "themeable" in propDefinition:
         node.set("themeable", propDefinition["themeable"].getChild("constant").get("value"))
 
-    if propDefinition.has_key("refine"):
+    if "refine" in propDefinition:
         refineValue = propDefinition["refine"].getChild("constant").get("value")
         if refineValue == "true":
             node.set("refine", "true")
 
-    if propDefinition.has_key("apply"):
+    if "apply" in propDefinition:
         node.set("apply", propDefinition["apply"].getChild("constant").get("value"))
 
-    if propDefinition.has_key("event"):
+    if "event" in propDefinition:
         eventName = propDefinition["event"].getChild("constant").get("value")
         node.set("event", eventName)
         event = tree.Node("event")
@@ -503,7 +503,7 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
         classNode.addListChild("events", event)
 
     #checkBasic = None
-    if propDefinition.has_key("check"):
+    if "check" in propDefinition:
         check = propDefinition["check"].getFirstChild()
         if check.type == "array":
             values = [getValue(arrayItem) for arrayItem in check.children]
@@ -574,10 +574,10 @@ def handlePropertyGroup(propName, propDefinition, classNode):
 
     node.set("group", ",".join(groupMembers));
 
-    if propDefinition.has_key("mode"):
+    if "mode" in propDefinition:
         node.set("mode", propDefinition["mode"].getChild("constant").get("value"))
 
-    if propDefinition.has_key("themeable"):
+    if "themeable" in propDefinition:
         node.set("themeable", propDefinition["themeable"].getChild("constant").get("value"))
 
     return node
@@ -594,7 +594,7 @@ def handleProperties(item, classNode):
         propDefinition = mapNodeToMap(value)
         #print propName, propDefinition
 
-        if propDefinition.has_key("group"):
+        if "group" in propDefinition:
             node = handlePropertyGroup(propName, propDefinition, classNode)
             node.set("propertyType", "group")
             groupMembers = [member[1:-1] for member in node.get("group").split(",")]
@@ -673,7 +673,7 @@ def handleAppearance(item, classNode, className, commentAttributes):
         if attrib["category"] == "appearance":
             appearanceName = attrib["name"]
             appearances[appearanceName] = attrib
-            if not attrib.has_key("type"):
+            if not "type" in attrib:
                 attrib["type"] = className
             else:
                 attrib["type"] = attrib["type"][0]["type"]
@@ -688,7 +688,7 @@ def handleAppearance(item, classNode, className, commentAttributes):
     # parse states
     for attrib in commentAttributes:
         if attrib["category"] == "state":
-            if not attrib.has_key("type"):
+            if not "type" in attrib:
                 if thisAppearance == []:
                     printDocError(item,
                        "The default state '%s' of the class '%s' is defined but no default appearance is defined"
@@ -708,13 +708,13 @@ def handleAppearance(item, classNode, className, commentAttributes):
             appearanceNode.set("name", name)
             appearanceNode.set("type", appearance["type"])
 
-            if appearance.has_key("text"):
+            if "text" in appearance:
                 appearanceNode.addChild(tree.Node("desc").set("text", appearance["text"]))
 
             for state in appearance["states"]:
                 stateNode = tree.Node("state")
                 stateNode.set("name", state["name"])
-                if state.has_key("text"):
+                if "text" in state:
                     stateNode.addChild(tree.Node("desc").set("text", state["text"]))
                 appearanceNode.addListChild("states", stateNode)
 
@@ -725,7 +725,7 @@ def handleDeprecated(docNode, commentAttributes):
     for docItem in commentAttributes:
         if docItem["category"] == "deprecated":
             deprecatedNode = tree.Node("deprecated")
-            if docItem.has_key("text"):
+            if "text" in docItem:
                 descNode = tree.Node("desc").set("text", docItem["text"])
                 deprecatedNode.addChild(descNode)
             docNode.addChild(deprecatedNode)
@@ -763,7 +763,7 @@ def handleChildControls(item, classNode, className, commentAttributes):
             childControlNode = tree.Node("childControl")
             childControlNode.set("name", childControlName)
             
-            if not attrib.has_key("type"):
+            if not "type" in attrib:
                 printDocError(item, "No type defined for child control '%s' of class %s" %(childControlName,className))
             addTypeInfo(childControlNode, attrib, item)            
             
@@ -840,14 +840,14 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 
         # Add description
         if attrib["category"] == "description":
-            if attrib.has_key("text"):
+            if "text" in attrib:
                 if "TODOC" in attrib["text"]:
                     addError(node, "Documentation is missing.", funcItem)
                 descNode = tree.Node("desc").set("text", attrib["text"])
                 node.addChild(descNode)
 
         elif attrib["category"] == "see":
-            if not attrib.has_key("name"):
+            if not "name" in attrib:
                 printDocError(funcItem, "Missing target for see.")
                 return node
 
@@ -855,7 +855,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             node.addChild(seeNode)
 
         elif attrib["category"] == "param":
-            if not attrib.has_key("name"):
+            if not "name" in attrib:
                 printDocError(funcItem, "Missing name of parameter.")
                 return node
 
@@ -1033,11 +1033,11 @@ def addTypeInfo(node, commentAttrib=None, item=None):
         return
 
     # add description
-    if commentAttrib.has_key("text"):
+    if "text" in commentAttrib:
         node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
 
     # add types
-    if commentAttrib.has_key("type"):
+    if "type" in commentAttrib:
         typesNode = tree.Node("types")
         node.addChild(typesNode)
 
@@ -1051,7 +1051,7 @@ def addTypeInfo(node, commentAttrib=None, item=None):
                 itemNode.set("dimensions", item["dimensions"])
 
     # add default value
-    if commentAttrib.has_key("defaultValue"):
+    if "defaultValue" in commentAttrib:
         defaultValue = commentAttrib["defaultValue"]
         if defaultValue != None:
             # print "defaultValue: %s" % defaultValue
@@ -1064,11 +1064,11 @@ def addEventNode(classNode, classItem, commentAttrib):
 
     node.set("name", commentAttrib["name"])
 
-    if commentAttrib.has_key("text"):
+    if "text" in commentAttrib:
         node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
 
     # add types
-    if commentAttrib.has_key("type"):
+    if "type" in commentAttrib:
         typesNode = tree.Node("types")
         node.addChild(typesNode)
 
@@ -1157,12 +1157,12 @@ def getClassNode(docTree, fullClassName, commentAttributes = None):
         for attrib in commentAttributes:
             # Add description
             if attrib["category"] == "description":
-                if attrib.has_key("text"):
+                if "text" in attrib:
                     descNode = tree.Node("desc").set("text", attrib["text"])
                     classNode.addChild(descNode)
 
             elif attrib["category"] == "see":
-                if not attrib.has_key("name"):
+                if not "name" in attrib:
                     printDocError(classNode, "Missing target for see.")
                     return classNode
 

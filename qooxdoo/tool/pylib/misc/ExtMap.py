@@ -38,7 +38,7 @@ class ExtMap(object):
 
         
     def __getitem__(self, key):
-        if self._data.has_key(key):
+        if key in self._data:
             return self._data[key]
 
         data = self._data
@@ -46,7 +46,7 @@ class ExtMap(object):
         for part in splits:
             if part == "." or part == "":
                 pass
-            elif isinstance(data, types.DictType) and data.has_key(part):
+            elif isinstance(data, types.DictType) and part in data:
                 data = data[part]
             else:
                 raise KeyError, key

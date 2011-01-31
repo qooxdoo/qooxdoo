@@ -151,14 +151,14 @@ class Config(object):
         else:
             data = self._data
             
-        if data.has_key(key):
+        if key in data:
             return data[key]
 
         splits = key.split(self.NS_SEP)
         for part in splits:
             if part == "." or part == "":
                 pass
-            elif isinstance(data, types.DictType) and data.has_key(part):
+            elif isinstance(data, types.DictType) and part in data:
                 data = data[part]
             else:
                 return default
@@ -178,7 +178,7 @@ class Config(object):
         # wpbasti: What should this do?
         for item in splits[:-1]:
             if isinstance(container, types.DictType):
-                if container.has_key(item):
+                if item in container:
                     container = container[item]
                 else:
                     if AddKeys:
@@ -204,7 +204,7 @@ class Config(object):
 
         # local job?
         # this also finds imported jobs, namespaced or not
-        if self._data.has_key(Key.JOBS_KEY) and self._data[Key.JOBS_KEY].has_key(job):
+        if Key.JOBS_KEY in self._data and job in self._data[Key.JOBS_KEY]:
             jobEntry = self._data[Key.JOBS_KEY][job]
             if isinstance(jobEntry, Job):
                 # make sure it has link to this config
@@ -361,7 +361,7 @@ class Config(object):
         if self._fname:   # we stem from a file
             includeTrace.append(self._fname)   # expand the include trace
             
-        if config.has_key('include'):
+        if 'include' in config:
             for i in range(len(config['include'])):
                 incspec = config['include'][i] # need this indirection so that later macro expansions in config['inlcude'] take effect
                 # analyse value of ['include'][key]
@@ -382,7 +382,7 @@ class Config(object):
                 fpath = self.absPath(fname)
         
                 # see if we use a namespace prefix for the imported jobs
-                if isinstance(incspec, types.DictType) and incspec.has_key('as'):
+                if isinstance(incspec, types.DictType) and 'as' in incspec:
                     namespace = incspec['as']
                 else:
                     namespace = ""
@@ -390,12 +390,12 @@ class Config(object):
                 econfig = Config(self._console, fpath.decode('utf-8'))
                 econfig.resolveIncludes(includeTrace)   # recursive include
                 # check include/import
-                if incspec.has_key('import'):
+                if 'import' in incspec:
                     importList = incspec['import']
                 else:
                     importList = None
                 # check include/block
-                if incspec.has_key('block'):
+                if 'block' in incspec:
                     blockList = incspec['block']
                 else:
                     blockList = None
@@ -636,7 +636,7 @@ class Config(object):
                         if manidir.startswith("contrib://"): # it's a contrib:// lib
                             contrib = manidir.replace("contrib://","")
                             cacheMap = jobObj.getFeature('cache')
-                            if cacheMap and cacheMap.has_key('downloads'):
+                            if cacheMap and 'downloads' in cacheMap:
                                 contribCachePath = cacheMap['downloads']
                                 contribCachePath = self.absPath(contribCachePath)
                             else:

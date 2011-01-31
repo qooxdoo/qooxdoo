@@ -439,7 +439,7 @@ class Job(object):
         return Job(self.name, self._data.copy(), self._console, self._config)
 
     def hasFeature(self, feature):
-        return self._data.has_key(feature)
+        return feature in self._data
 
     def setFeature(self, feature, value):
         self._data[feature]=value

@@ -94,7 +94,7 @@ class Node(object):
             raise NodeAccessException("Node " + self.type + " has no attribute " + key, self)
 
     def remove(self, key):
-        if not self.attributes.has_key(key):
+        if not key in self.attributes:
             return
 
         del self.attributes[key]
