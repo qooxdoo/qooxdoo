@@ -36,7 +36,6 @@ def extractMonth(calendarElement):
         for monthWidth in monthContext.findall("monthWidth"):
             for month in monthWidth.findall("month"):
                 if month.attrib.has_key("alt"): continue
-                #data["cldr_month_%s_%s" % (monthWidth.attrib["type"], month.attrib["type"])] = month.text
                 cldr_key = "cldr_month_%s_%s_%s" % (monthContext.attrib["type"], monthWidth.attrib["type"], month.attrib["type"])
                 data[cldr_key] = month.text
     return data
@@ -45,10 +44,9 @@ def extractMonth(calendarElement):
 def extractDay(calendarElement):
     data = {}
     for dayContext in calendarElement.findall(".//dayContext"):
-        for dayWidth in calendarElement.findall(".//dayWidth"):
+        for dayWidth in dayContext.findall(".//dayWidth"):
             for day in dayWidth.findall("day"):
                 if day.attrib.has_key("alt"): continue
-                #data['cldr_day_%s_%s' % (dayWidth.attrib["type"], day.attrib["type"])] = day.text
                 cldr_key = "cldr_day_%s_%s_%s" % (dayContext.attrib["type"], dayWidth.attrib["type"], day.attrib["type"])
                 data[cldr_key] = day.text
     return data
@@ -62,8 +60,11 @@ def extractAmPm(calendarElement):
     data = {}
 
     amNode = calendarElement.find(".//am")
+    #amNode = calendarElement.find(".//dayPeriods/dayPeriodContext[@type='format']/dayPeriodwidth[@type='wide']/dayPeriod[@type='am'")
     if amNode != None:
         data['cldr_am'] = amNode.text
+    #else:
+    #    import pydb; pydb.debugger()
 
     pmNode = calendarElement.find(".//pm")
     if pmNode != None:
