@@ -132,7 +132,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
         innerColor: "window-border-inner",
         shadowLength : 2,
         shadowBlurRadius : 5,
-        shadowColor : "#666666"
+        shadowColor : "shadow"
       }
     },    
 
@@ -317,47 +317,14 @@ qx.Theme.define("qx.theme.simple.Decoration",
     ---------------------------------------------------------------------------
     */
 
-    "shadow" :
-    {
-      decorator : qx.ui.decoration.Background,
-
-      style : {
-        shadowLength : [4, 8],
-        shadowBlurRadius : 10,
-        shadowColor : "black"
-      }
-    },
-
-    "shadow-window" :
-    {
-      decorator : qx.ui.decoration.Grid,
-
-      style : {
-        baseImage : "decoration/shadow/shadow.png",
-        insets    : [ 4, 8, 8, 4 ]
-      }
-    },
-
-
     "shadow-small" :
     {
-      decorator : qx.ui.decoration.Grid,
+      decorator : [qx.ui.decoration.MBoxShadow],
 
       style : {
-        baseImage : "decoration/shadow/shadow-small.png",
-        insets    : [ 0, 3, 3, 0 ]
-      }
-    },
-
-    "checkbox-invalid-shadow" :
-    {
-      decorator : qx.ui.decoration.Beveled,
-
-      style :
-      {
-        outerColor : "invalid",
-        innerColor : "border-focused-invalid",
-        insets: [0]
+        shadowLength : 2,
+        shadowBlurRadius : 5,
+        shadowColor : "shadow"
       }
     },
 

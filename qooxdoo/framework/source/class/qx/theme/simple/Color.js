@@ -44,6 +44,7 @@ qx.Theme.define("qx.theme.simple.Color",
     
     "white-box-border" : "#BCBCBC",
     
+    "shadow" : "#666666",
     
     "background-light" : "#F3F0F5",
     "background-focused" : "#F3F8FD",
