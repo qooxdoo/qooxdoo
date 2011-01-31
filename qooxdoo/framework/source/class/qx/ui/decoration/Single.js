@@ -125,7 +125,9 @@ qx.Class.define("qx.ui.decoration.Single",
 
 
     // overridden
-    _getDefaultInsets : this._getDefaultInsetsForSingleBorder
+    _getDefaultInsets : function() {
+      return this._getDefaultInsetsForSingleBorder();
+    }
   },
 
 

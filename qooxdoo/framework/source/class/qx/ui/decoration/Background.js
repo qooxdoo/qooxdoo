@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.decoration.Background",
     */
 
     // interface implementation
-    getMarkup : function()
+    getMarkup : function(element)
     {
       if (this.__markup) {
         return this.__markup;
