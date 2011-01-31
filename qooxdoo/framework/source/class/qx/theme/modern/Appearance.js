@@ -2804,6 +2804,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "virtual-selectbox/dropdown/list" : {
       alias : "virtual-list"
     },
+    
+    "virtual-combobox" : "combobox",
+    "virtual-combobox/dropdown" : "popup",
+    "virtual-combobox/dropdown/list" : {
+      alias : "virtual-list"
+    },
         
     "column-layer" : "widget",
 
