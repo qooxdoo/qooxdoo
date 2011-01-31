@@ -62,6 +62,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Misc",
     _initWidgets: function()
     {
       var widgets = this.__widgets = new qx.type.Array();
+      var subcontainer;
 
       // ProgressBar
       var label = new qx.ui.basic.Label("ProgressBar");
@@ -109,9 +110,28 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Misc",
       this.__container.add(popup);
       popup.show();
 
+      // Resizer
+      label = new qx.ui.basic.Label("Resizer")
+      subcontainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+      var resizer = new qx.ui.container.Resizer().set({
+        resizable: false,
+        resizableRight: true
+      });
+      resizer.setLayout(new qx.ui.layout.Grow());
+      resizer.add(new qx.ui.core.Widget().set({
+        width: 50,
+        maxWidth: 200,
+        height: 50,
+        maxHeight: 200
+      }));
+      subcontainer.add(resizer);
+      widgets.push(resizer);
+      this.__container.add(label);
+      this.__container.add(subcontainer);
+
       // DragDrop
       label = new qx.ui.basic.Label("DragDrop");
-      var subcontainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
+      subcontainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
       subcontainer.set({
         allowStretchY : false,
         allowStretchX : false
