@@ -304,102 +304,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
     },
 
 
-    "radiobutton":
-    {
-      alias : "checkbox",
-      include : "checkbox",
-
-      style : function(states)
-      {
-        // "disabled" state is not handled here with purpose. The image widget
-        // does handle this already by replacing the current image with a
-        // disabled version (if available). If no disabled image is found the
-        // opacity style is used.
-        var icon;
-        if (states.checked && states.focused) {
-          icon = "radiobutton-checked-focused";
-        } else if (states.checked && states.disabled) {
-          icon = "radiobutton-checked-disabled";
-        } else if (states.checked && states.pressed) {
-          icon = "radiobutton-checked-pressed";
-        } else if (states.checked && states.hovered) {
-          icon = "radiobutton-checked-hovered";
-        } else if (states.checked) {
-          icon = "radiobutton-checked";
-        } else if (states.focused) {
-          icon = "radiobutton-focused";
-        } else if (states.pressed) {
-          icon = "radiobutton-pressed";
-        } else if (states.hovered) {
-          icon = "radiobutton-hovered";
-        } else {
-          icon = "radiobutton";
-        }
-
-        var invalid = states.invalid && !states.disabled ? "-invalid" : "";
-
-        return {
-          icon: "decoration/form/" + icon + invalid + ".png",
-          shadow: undefined
-        }
-      }
-    },
 
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      SPINNER
-    ---------------------------------------------------------------------------
-    */
-
-    "spinner" :
-    {
-      style : function(states)
-      {
-        return {
-          textColor : states.disabled ? "text-disabled" : undefined
-        };
-      }
-    },
-
-    "spinner/textfield" : "textfield",
-
-    "spinner/upbutton" :
-    {
-      alias : "combobox/button",
-      include : "combobox/button",
-
-      style : function(states)
-      {
-        return {
-          icon : "decoration/arrows/up-small.gif"
-        }
-      }
-    },
-
-    "spinner/downbutton" : 
-    {
-      alias : "combobox/button",
-      include : "combobox/button",
-
-      style : function(states)
-      {
-        return {
-          icon : "decoration/arrows/down-small.gif"
-        }
-      }
-    },
-
-
-
-
-
-
-
-    
 
 
 
@@ -669,116 +575,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
     },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      SCROLLBAR
-    ---------------------------------------------------------------------------
-    */
-
-    "scrollbar" : {},
-    "scrollbar/slider" : {},
-
-    "scrollbar/slider/knob" :
-    {
-      style : function(states)
-      {
-        return {
-          height    : 14,
-          width     : 14,
-          decorator : "button",
-          cursor : "pointer",
-          minHeight : states.horizontal ? undefined : 9,
-          minWidth  : states.horizontal ? 9 : undefined
-        };
-      }
-    },
-
-
-    "scrollbar/button" :
-    {
-      style : function(states)
-      {
-        var styles = {};
-        if (states.up || states.down) {
-          styles.padding = [ 4, 3 ];
-        }
-        else {
-          styles.padding = [ 3, 4 ];
-        }
-
-        styles.icon = "decoration/arrows/";
-        if (states.left) {
-          styles.icon += "left.gif";
-          styles.marginRight = 2;
-        } else if (states.right) {
-          styles.icon += "right.gif";
-          styles.marginLeft = 2;
-        } else if (states.up) {
-          styles.icon += "up.gif";
-          styles.marginBottom = 2;
-        } else {
-          styles.icon += "down.gif";
-          styles.marginTop = 2;
-        }
-        
-        styles.decorator = "button-box";
-        return styles;
-      }
-    },
-
-    "scrollbar/button-begin" : "scrollbar/button",
-    "scrollbar/button-end" : "scrollbar/button",
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      SLIDER
-    ---------------------------------------------------------------------------
-    */
-
-    "slider" :
-    {
-      style : function(states)
-      {
-        var decorator;
-        var padding;
-        if (states.disabled) {
-          decorator = "inset";
-          padding = [2, 3];
-        } else if (states.invalid) {
-          decorator = "border-invalid";
-          padding = [1, 2];
-        } else if (states.focused) {
-          decorator = "focused-inset";
-          padding = [1, 2];
-        } else {
-          padding = [2, 3];
-          decorator = "inset";
-        }
-
-        return {
-          decorator : decorator,
-          padding   : padding
-        }
-      }
-    },
-
-    "slider/knob" :
-    {
-      style : function(states)
-      {
-        return {
-          width: 14,
-          height: 14,
-          decorator : "button",
-          cursor : "pointer"
-        }
-      }
-    },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1010,56 +806,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           backgroundColor : "border-dark",
           opacity : 0.3
-        };
-      }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      SELECTBOX
-    ---------------------------------------------------------------------------
-    */
-
-    "selectbox" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : states.invalid && !states.disabled ? "button-invalid" : 
-            states.focused && !states.disabled ? "button-focused" : "button",
-          cursor : "pointer",
-          padding: (states.invalid || states.focused) && !states.disabled ? 2 : 4
-        };
-      }
-    },
-
-    "selectbox/atom" : "atom",
-    "selectbox/popup" : "popup",
-    "selectbox/list" : {
-      alias : "list",
-      include : "list",
-      
-      style : function() 
-      {
-        return {
-          decorator : undefined
-        };
-      }
-    },
-
-    "selectbox/arrow" :
-    {
-      include : "image",
-
-      style : function(states)
-      {
-        return {
-          source : "decoration/arrows/down.gif",
-          paddingRight : 4,
-          paddingLeft : 5
         };
       }
     },
@@ -1722,10 +1468,255 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
 
 
+
+
+
+
+
     /////////////////
     //// ^ TODO /////
     ////  DONE  /////
     /////////////////
+
+    /*
+    ---------------------------------------------------------------------------
+      RADIO BUTTON
+    ---------------------------------------------------------------------------
+    */
+    "radiobutton/icon" : {
+      style : function(states) 
+      {
+        var decorator = "radiobutton";
+        
+        if (states.checked) {
+          decorator = "radiobutton-checked";
+        } else if (states.focused && !states.invalid) {
+          decorator = "radiobutton-focused";
+        }
+
+        decorator += states.invalid && !states.disabled ? "-invalid" : "";
+        
+        var backgroundColor;
+        if (states.disabled && states.checked) {
+          backgroundColor = "background-disabled-checked";
+        } else if (states.disabled) {
+          backgroundColor = "background-disabled";
+        } else if (states.checked && !states.invalid) {
+          backgroundColor = "background-selected";
+        } else if (states.checked) {
+          backgroundColor  = "invalid";
+        }
+        
+        return {
+          decorator : decorator,
+          width: 12,
+          height: 12,
+          backgroundColor : backgroundColor
+        }
+      }
+    },
+
+    "radiobutton":
+    {      
+      style : function(states)
+      {
+        // set an empty icon to be sure that the icon image is rendered
+        return {
+          icon : "data:image/gif;base64,R0lGODlhAQABAJH/AP///wAAAMDAwAAAACH5BAEAAAIALAAAAAABAAEAAAICVAEAOw=="
+        }
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SPINNER
+    ---------------------------------------------------------------------------
+    */
+
+    "spinner" :
+    {
+      style : function(states)
+      {
+        return {
+          textColor : states.disabled ? "text-disabled" : undefined
+        };
+      }
+    },
+
+    "spinner/textfield" : "textfield",
+
+    "spinner/upbutton" :
+    {
+      alias : "combobox/button",
+      include : "combobox/button",
+
+      style : function(states)
+      {
+        return {
+          icon : "decoration/arrows/up-small.gif",
+          width: 17
+        }
+      }
+    },
+
+    "spinner/downbutton" : 
+    {
+      alias : "combobox/button",
+      include : "combobox/button",
+
+      style : function(states)
+      {
+        return {
+          icon : "decoration/arrows/down-small.gif",
+          width: 17
+        }
+      }
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SCROLLBAR
+    ---------------------------------------------------------------------------
+    */
+
+    "scrollbar" : {},
+    "scrollbar/slider" : {},
+
+    "scrollbar/slider/knob" :
+    {
+      include : "button-frame",      
+      
+      style : function(states)
+      {
+        var decorator = "scroll-knob";
+        
+        if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "scroll-knob-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "scroll-knob-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "scroll-knob-pressed";
+        }
+        
+        return {
+          height : 14,
+          width : 14,
+          cursor : "pointer",
+          decorator : decorator,
+          minHeight : states.horizontal ? undefined : 9,
+          minWidth : states.horizontal ? 9 : undefined
+        };
+      }
+    },
+
+
+    "scrollbar/button" :
+    {
+      style : function(states)
+      {
+        var styles = {};
+        styles.padding = 4;
+
+        styles.icon = "decoration/arrows/";
+        if (states.left) {
+          styles.icon += "left.gif";
+          styles.marginRight = 2;
+        } else if (states.right) {
+          styles.icon += "right.gif";
+          styles.marginLeft = 2;
+        } else if (states.up) {
+          styles.icon += "up.gif";
+          styles.marginBottom = 2;
+        } else {
+          styles.icon += "down.gif";
+          styles.marginTop = 2;
+        }
+        
+        styles.cursor = "pointer";
+        styles.decorator = "button-box";
+        return styles;
+      }
+    },
+
+    "scrollbar/button-begin" : "scrollbar/button",
+    "scrollbar/button-end" : "scrollbar/button",
+
+
+   
+   
+    /*
+    ---------------------------------------------------------------------------
+      SELECTBOX
+    ---------------------------------------------------------------------------
+    */
+
+    "selectbox" : "button-frame",
+
+    "selectbox/atom" : "atom",
+    "selectbox/popup" : "popup",
+    "selectbox/list" : {
+      alias : "list",
+      include : "list",
+      
+      style : function() 
+      {
+        return {
+          decorator : undefined
+        };
+      }
+    },
+
+    "selectbox/arrow" :
+    {
+      include : "image",
+
+      style : function(states)
+      {
+        return {
+          source : "decoration/arrows/down.gif",
+          paddingRight : 4,
+          paddingLeft : 5
+        };
+      }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      COMBOBOX
+    ---------------------------------------------------------------------------
+    */
+
+    "combobox" :{},
+
+    "combobox/button" :
+    {
+      alias : "button-frame",
+      include : "button-frame",
+
+      style : function(states)
+      {
+        return {
+          icon : states.hovered ? "data:image/png;base64,R0lGODlhBwAEAIABAAAAAP///yH5BAEAAAEALAAAAAAHAAQAAAIIhA+BGWoNWSgAOw==" : undefined,
+          cursor : "pointer",
+          padding : [0, 5],
+          width: 19,
+          marginLeft: 4
+        };
+      }
+    },
+
+    "combobox/popup" : "popup",
+    "combobox/list" : 
+    {
+      alias : "list"
+    },
+
+    "combobox/textfield" : "textfield",
+    
     
     /*
     ---------------------------------------------------------------------------
@@ -1825,6 +1816,43 @@ qx.Theme.define("qx.theme.simple.Appearance",
     ---------------------------------------------------------------------------
     */
 
+
+    /*
+    ---------------------------------------------------------------------------
+      SLIDER
+    ---------------------------------------------------------------------------
+    */
+
+    "slider" :
+    {
+      style : function(states)
+      {
+        var decorator;
+        var padding;
+        if (states.disabled) {
+          decorator = "inset";
+          padding = [2, 3];
+        } else if (states.invalid) {
+          decorator = "border-invalid";
+          padding = [1, 2];
+        } else if (states.focused) {
+          decorator = "focused-inset";
+          padding = [1, 2];
+        } else {
+          padding = [2, 3];
+          decorator = "inset";
+        }
+
+        return {
+          decorator : decorator,
+          padding   : padding
+        }
+      }
+    },
+
+    "slider/knob" : "scrollbar/slider/knob",
+
+
     "button-frame" :
     {
       alias : "atom",
@@ -1832,10 +1860,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         var decorator = "button-box";
-        
-        if (states.disabled) {
-          decorator = "button-box";
-        } else if (states.hovered && !states.pressed && !states.checked) {
+
+        if (states.hovered && !states.pressed && !states.checked) {
           decorator = "button-box-hovered";
         } else if (states.hovered && (states.pressed || states.checked)) {
           decorator = "button-box-pressed-hovered";
@@ -1843,10 +1869,18 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator = "button-box-pressed";
         }
         
+        if (states.invalid) {
+          decorator += "-invalid";
+        } else if (states.focused) {
+          decorator += "-focused";
+        }
+        
         return {
           decorator : decorator,
           padding : [3, 8],
-          cursor: states.disabled ? undefined : "pointer"
+          cursor: states.disabled ? undefined : "pointer",
+          minWidth: 5,
+          minHeight: 5
         };
       }
     },
@@ -2370,40 +2404,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
     },
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      COMBOBOX
-    ---------------------------------------------------------------------------
-    */
-
-    "combobox" :{},
-
-    "combobox/button" :
-    {
-      alias : "button-frame",
-      include : "button-frame",
-
-      style : function(states)
-      {
-        return {
-          icon : states.hovered ? "data:image/png;base64,R0lGODlhBwAEAIABAAAAAP///yH5BAEAAAEALAAAAAAHAAQAAAIIhA+BGWoNWSgAOw==" : undefined,
-          decorator : "button",
-          cursor : "pointer",
-          padding : [0, 5],
-          width: 17,
-          marginLeft: 4
-        };
-      }
-    },
-
-    "combobox/popup" : "popup",
-    "combobox/list" : 
-    {
-      alias : "list"
-    },
-
-    "combobox/textfield" : "textfield",
 
 
 

@@ -130,6 +130,108 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
     
     
+    // invalid buttons //
+    "button-box-invalid" : 
+    {
+      include : "button-box",
+      
+      style : 
+      {
+        color : "invalid"
+      }
+    },
+    
+    "button-box-pressed-invalid" : 
+    {
+      include : "button-box-pressed",
+      
+      style : 
+      {
+        color : "invalid"
+      }
+    },
+    
+    "button-box-hovered-invalid" : {include: "button-box-invalid"},
+    
+    "button-box-pressed-hovered-invalid" : {include: "button-box-pressed-invalid"},
+    // ///////////////////
+    
+    
+    // focused buttons //
+    "button-box-focused" : 
+    {
+      include : "button-box",
+      
+      style : 
+      {
+        color : "blue"
+      }
+    },
+    
+    "button-box-pressed-focused" : 
+    {
+      include : "button-box-pressed",
+      
+      style : 
+      {
+        color : "blue"
+      }
+    },
+    
+    "button-box-hovered-focused" : {include: "button-box-focused"},
+    
+    "button-box-pressed-hovered-focused" : {include: "button-box-pressed-focused"},
+    // ///////////////////
+    
+    
+    // vertical buttons //
+    "scroll-knob" : 
+    {
+      decorator : [
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBackgroundColor
+      ],
+      
+      style : 
+      {
+        radius : 3,
+        width : 1,
+        color : "#BBB",
+        backgroundColor : "scrollbar-bright"
+      }
+    },
+    
+    "scroll-knob-pressed" : 
+    {
+      include : "scroll-knob",
+      
+      style : 
+      {
+        backgroundColor : "scrollbar-dark"
+      }
+    },
+    
+    "scroll-knob-hovered" : 
+    {
+      include: "scroll-knob",
+
+      style : 
+      {
+        color : "#939393"
+      }
+    },
+    
+    "scroll-knob-pressed-hovered" : 
+    {
+      include: "scroll-knob-pressed",
+
+      style : 
+      {
+        color : "#939393"
+      }
+    },
+    // ///////////////////    
 
 
     "button-box-right" : 
@@ -858,6 +960,67 @@ qx.Theme.define("qx.theme.simple.Decoration",
         backgroundColor: "#FFF",
         width: 1,
         color: "border-separator"
+      }
+    },
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      RADIO BUTTON
+    ---------------------------------------------------------------------------
+    */
+    "radiobutton" : 
+    {
+      decorator : [
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBackgroundColor
+      ],
+      
+      style : 
+      {
+        radius : 10,
+        width : 1,
+        color : "#BBB"
+      }      
+    },
+    
+    "radiobutton-checked" : 
+    {
+      include : "radiobutton",
+      
+      style : 
+      {
+        width : 0
+      }
+    },
+    
+    "radiobutton-checked-invalid" : 
+    {
+      include : "radiobutton-checked",
+      
+      style : 
+      {
+        color : "invalid"
+      }
+    },
+    
+    "radiobutton-focused" : 
+    {
+      include : "radiobutton",
+      style : 
+      {
+        color : "blue"
+      }
+    },
+    
+    "radiobutton-invalid" : 
+    {
+      include : "radiobutton",
+      style : 
+      {
+        color : "invalid"
       }
     }
   }
