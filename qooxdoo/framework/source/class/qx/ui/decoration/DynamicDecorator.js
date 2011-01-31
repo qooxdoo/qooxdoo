@@ -52,10 +52,42 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
 
     // overridden
     resize : function(element, width, height) {
+      var insets = this.getInsets();
+      width -= insets.left + insets.right;
+      height -= insets.top + insets.bottom;
+
+      // Fix to keep applied size above zero
+      // Makes issues in IE7 when applying value like '-4px'
+      if (width < 0) {
+        width = 0;
+      }
+
+      if (height < 0) {
+        height = 0;
+      }
+
+      element.style.width = width + "px";
+      element.style.height = height + "px";
+      
+      // get the left and top of the mixins
+      var pos = {};
       for (var name in this) {
         if (name.indexOf("_resize") == 0 && this[name] instanceof Function) {
-          this[name](element, width, height);
+          var currentPos = this[name](element, width, height);
+          if (!pos.left) {
+            pos.left = currentPos.left;
+            pos.top = currentPos.top;
+          }
+          // use the lowest left and top coordinate to make sure everything
+          // is visible
+          pos.left = currentPos.left < pos.left ? currentPos.left : pos.left;
+          pos.top = currentPos.top < pos.top ? currentPos.left : pos.top;
         }
+      }
+      // apply only if a mixin requires
+      if (pos.left != undefined) {
+        element.style.left = pos.left + "px";
+        element.style.top = pos.top + "px";
       }
     },
 
