@@ -34,9 +34,6 @@ qx.Theme.define("qx.theme.simple.Color",
     
     "button" : "#E8F0E3",
 
-    "link" : "#0065CC",
-    "link-pressed" : "#3F186A",
-
     "invalid" : "#FF0000",
     
     "window-border" : "#2E3A46",

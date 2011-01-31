@@ -2592,6 +2592,25 @@ qx.Theme.define("qx.theme.simple.Appearance",
           backgroundColor: "background-selected"
         }
       }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      APPLICATION
+    ---------------------------------------------------------------------------
+    */
+
+    "app-header" :
+    {
+      style : function(states)
+      {
+        return {
+          font : "headline",
+          textColor : "dark-blue",
+          padding : [8, 12]
+        };
+      }
     }
   }
 });

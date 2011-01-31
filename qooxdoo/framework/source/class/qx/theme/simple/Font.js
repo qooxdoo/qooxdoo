@@ -29,19 +29,18 @@ qx.Theme.define("qx.theme.simple.Font",
       size : 13,
       family : ["arial", "sans-serif"]
     },
-    
-    "link" :
-    {
-      size : 13,
-      family : ["arial", "sans-serif"],
-      decoration : "underline"
-    },
 
     "bold" :
     {
       size : 13,
       family : ["arial", "sans-serif"],
       bold : true
+    },
+
+    "headline" :
+    {
+      size : 24,
+      family : ["sans-serif", "arial"]
     },
 
     "small" :
