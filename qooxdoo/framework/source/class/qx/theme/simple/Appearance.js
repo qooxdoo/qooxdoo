@@ -182,189 +182,14 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      BUTTON
-    ---------------------------------------------------------------------------
-    */
-
-    "button-frame" :
-    {
-      alias : "atom",
-
-      style : function(states)
-      {
-        var decorator = "button-box";
-        
-        if (states.disabled) {
-          decorator = "button-box";
-        } else if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "button-box-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "button-box-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "button-box-pressed";
-        }
-        
-        return {
-          decorator : decorator,
-          padding : [3, 8],
-          cursor: states.disabled ? undefined : "pointer"
-        };
-      }
-    },
-    
-    "button-frame/label" : {
-      alias : "atom/label",
-
-      style : function(states)
-      {
-        return {
-          textColor : states.disabled ? "text-disabled" : undefined
-        };
-      }
-    },
-
-    "button" :
-    {
-      alias : "button-frame",
-      include : "button-frame",
-
-      style : function(states)
-      {
-        return {
-          center : true
-        };
-      }
-    },
-
-    "hover-button" :
-    {
-      alias : "button",
-      include : "button",
-
-      style : function(states)
-      {
-        return {
-          decorator : states.hovered ? "button" : undefined
-        }
-      }
-    },
-
-    "splitbutton" : {},
-
-    "splitbutton/button" : 
-    {
-      alias : "atom",
-
-      style : function(states)
-      {
-        var decorator = "button-box";
-        
-        if (states.disabled) {
-          decorator = "button-box";
-        } else if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "button-box-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "button-box-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "button-box-pressed";
-        }
-        
-        decorator += "-left";
-        
-        return {
-          decorator : decorator,
-          padding : [3, 8],
-          cursor : states.disabled ? undefined : "pointer"
-        };
-      }
-    },
-
-    "splitbutton/arrow" : {
-
-      style : function(states)
-      {
-        var decorator = "button-box";
-        
-        if (states.disabled) {
-          decorator = "button-box";
-        } else if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "button-box-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "button-box-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "button-box-pressed";
-        }
-        
-        decorator += "-right";
-        
-        return {
-          icon : "decoration/arrows/down.gif",
-          decorator : decorator,
-          cursor : "pointer",
-          padding: [3, 4]
-        };
-      }
-    },
 
 
 
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      SCROLLAREA
-    ---------------------------------------------------------------------------
-    */
-
-    "scrollarea/corner" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor : "background"
-        }
-      }
-    },
-
-    "scrollarea" : "widget",
-    "scrollarea/pane" : "widget",
-    "scrollarea/scrollbar-x" : "scrollbar",
-    "scrollarea/scrollbar-y" : "scrollbar",
 
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LIST
-    ---------------------------------------------------------------------------
-    */
-
-    "list" :
-    {
-      alias : "scrollarea",
-      include : "textfield"
-    },
-
-    "listitem" :
-    {
-      alias : "atom",
-
-      style : function(states)
-      {
-        return {
-          gap             : 4,
-          padding         : states.lead ? [ 2, 4 ] : [ 3, 5 ],
-          backgroundColor : states.selected ? "background-selected" : undefined,
-          textColor       : states.selected ? "text-selected" : undefined,
-          decorator       : states.lead ? "lead-item" : undefined
-        };
-      }
-    },
 
 
 
@@ -573,304 +398,11 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      DATEFIELD
-    ---------------------------------------------------------------------------
-    */
 
-    "datefield" : "combobox",
-
-    "datefield/button" :
-    {
-      alias : "combobox/button",
-      include : "combobox/button",
-
-      style : function(states)
-      {
-        return {
-          icon : "icon/16/apps/office-calendar.png",
-          padding : [0, 3],
-          backgroundColor : undefined,
-          decorator : undefined
-        };
-      }
-    },
-
-    "datefield/list" : 
-    {
-      alias : "datechooser",
-      include : "datechooser",
-
-      style : function(states)
-      {
-        return {
-          decorator : undefined
-        };
-      }
-    },
     
 
 
-    /*
-    ---------------------------------------------------------------------------
-      GROUP BOX
-    ---------------------------------------------------------------------------
-    */
 
-    "groupbox" : {},
-
-    "groupbox/legend" :
-    {
-      alias : "atom",
-
-      style : function(states)
-      {
-        return {
-          textColor : states.invalid ? "invalid" : undefined,
-          padding : 5,
-          margin : 4,
-          font: "bold"
-        };
-      }
-    },
-
-    "groupbox/frame" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor : "background",
-          padding : [6, 9],
-          margin: [18, 2, 2, 2],
-          decorator  : "white-box"
-        };
-      }
-    },
-
-    "check-groupbox" : "groupbox",
-
-    "check-groupbox/legend" :
-    {
-      alias : "checkbox",
-      include : "checkbox",
-
-      style : function(states)
-      {
-        return {
-          textColor : states.invalid ? "invalid" : undefined,
-          padding : 5,
-          margin : 4,
-          font: "bold"
-        };
-      }
-    },
-
-    "radio-groupbox" : "groupbox",
-
-    "radio-groupbox/legend" :
-    {
-      alias : "radiobutton",
-      include : "radiobutton",
-
-      style : function(states)
-      {
-        return {
-          textColor : states.invalid ? "invalid" : undefined,
-          padding : 5,
-          margin : 4,
-          font: "bold"
-        };
-      }
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      TOOLBAR
-    ---------------------------------------------------------------------------
-    */
-
-    "toolbar" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor : "light-blue",
-          padding : 0
-        };
-      }
-    },
-
-    "toolbar/part" : {
-      style : function(states)
-      {
-        return {
-          margin : [0 , 15]
-        };
-      }
-    },
-
-    "toolbar/part/container" : {},
-    "toolbar/part/handle" : {},
-
-    "toolbar-separator" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "toolbar-separator",
-          margin: [7, 0],
-          width: 4
-        };
-      }
-    },
-
-    "toolbar-button" :
-    {
-      alias : "atom",
-
-      style : function(states)
-      {
-        var decorator = "button-box";
-
-        if (states.disabled) {
-          decorator = "button-box";
-        } else if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "button-box-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "button-box-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "button-box-pressed";
-        }
-
-        // set the right left and right decoratos
-        if (states.left) {
-          decorator += "-left";
-        } else if (states.right) {
-          decorator += "-right";
-        } else if (states.middle) {
-          decorator += "-middle";
-        }
-        
-        // set the margin
-        var margin = [7, 10];
-        if (states.left || states.middle || states.right) {
-          margin = [7, 0];
-        }
-
-        return {
-          cursor  : "pointer",
-          decorator : decorator,
-          margin : margin,
-          padding: [3, 5]
-        };
-      }
-    },
-
-    "toolbar-menubutton" :
-    {
-      alias : "toolbar-button",
-      include : "toolbar-button",
-
-      style : function(states)
-      {
-        return {
-          showArrow : true
-        };
-      }
-    },
-
-    "toolbar-menubutton/arrow" : 
-    {
-      alias : "image",
-      include : "image",
-
-      style : function(states)
-      {
-        return {
-          source : "decoration/arrows/down.gif",
-          cursor : "pointer",
-          padding : [0, 5],
-          marginLeft: 2
-        };
-      }
-    },
-
-    "toolbar-splitbutton" : {},
-    "toolbar-splitbutton/button" : 
-    {
-      alias : "toolbar-button",
-      include : "toolbar-button",
-
-      style : function(states)
-      {
-        var decorator = "button-box";
-        
-        if (states.disabled) {
-          decorator = "button-box";
-        } else if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "button-box-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "button-box-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "button-box-pressed";
-        }
-        
-        // set the right left and right decoratos
-        if (states.left) {
-          decorator += "-left";
-        } else if (states.right) {
-          decorator += "-middle";
-        } else if (states.middle) {
-          decorator += "-middle";
-        }
-        
-        return {
-          icon : "decoration/arrows/down.gif",
-          decorator : decorator
-        };
-      }
-    },
-
-
-    "toolbar-splitbutton/arrow" :
-    {
-      alias : "toolbar-button",
-      include : "toolbar-button",
-
-      style : function(states)
-      {
-        var decorator = "button-box";
-        
-        if (states.disabled) {
-          decorator = "button-box";
-        } else if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "button-box-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "button-box-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "button-box-pressed";
-        }
-        
-        // set the right left and right decoratos
-        if (states.left) {
-          decorator += "-middle";
-        } else if (states.right) {
-          decorator += "-right";
-        } else if (states.middle) {
-          decorator += "-middle";
-        }
-        
-        return {
-          icon : "decoration/arrows/down.gif",
-          decorator : decorator
-        };
-      }
-    },
 
 
 
@@ -1248,89 +780,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      TREE
-    ---------------------------------------------------------------------------
-    */
-
-    "tree-folder/open" :
-    {
-      style : function(states)
-      {
-        return {
-          source : states.opened ? "decoration/tree/minus.gif" : "decoration/tree/plus.gif"
-        };
-      }
-    },
-
-
-    "tree-folder" :
-    {
-      style : function(states)
-      {
-        return {
-          padding : [2, 8, 2, 5],
-          icon : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png",
-          backgroundColor : states.selected ? "background-selected" : undefined,
-          iconOpened : "icon/16/places/folder-open.png"
-        };
-      }
-    },
-
-    "tree-folder/icon" :
-    {
-      style : function(states)
-      {
-        return {
-          padding : [0, 4, 0, 0]
-        };
-      }
-    },
-
-    "tree-folder/label" :
-    {
-      style : function(states)
-      {
-        return {
-          padding : [ 1, 2 ],
-          textColor : states.selected ? "text-selected" : undefined
-        };
-      }
-    },
-
-    "tree-file" :
-    {
-      include : "tree-folder",
-      alias : "tree-folder",
-
-      style : function(states)
-      {
-        return {
-          icon : "icon/16/mimetypes/text-plain.png"
-        };
-      }
-    },
-
-    "tree" :
-    {
-      include : "list",
-      alias : "list",
-
-      style : function(states)
-      {
-        return {
-          contentPadding : [4, 0],
-          padding : 0
-        };
-      }
-    },
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       TREEVIRTUAL
@@ -1505,135 +954,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      WINDOW
-    ---------------------------------------------------------------------------
-    */
-
-    "window" :
-    {
-      style : function(states)
-      {
-        return {
-          contentPadding : [ 10, 10, 10, 10 ],
-          backgroundColor : "background",
-          decorator : states.maximized ? undefined : "window"
-        };
-      }
-    },
-
-    "window/pane" : {},
-
-    "window/captionbar" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor : "light-blue",
-          padding : 8,
-          font: "bold"
-        };
-      }
-    },
-
-    "window/icon" :
-    {
-      style : function(states)
-      {
-        return {
-          marginRight : 4
-        };
-      }
-    },
-
-    "window/title" :
-    {
-      style : function(states)
-      {
-        return {
-          cursor : "default",
-          font : "bold",
-          marginRight : 20,
-          alignY: "middle"
-        };
-      }
-    },
-
-    "window/minimize-button" :
-    {
-      alias : "button",
-
-      style : function(states)
-      {
-        return {
-          icon : "data:image/png;base64,R0lGODlhCQAJAIABAAAAAAAAACH5BAEAAAEALAAAAAAJAAkAAAILjI+py+0NojxyhgIAOw==",
-          padding : [ 1, 2 ],
-          cursor : states.disabled ? undefined : "pointer"
-        };
-      }
-    },
-
-    "window/restore-button" :
-    {
-      alias : "button",
-
-      style : function(states)
-      {
-        return {
-          icon : "data:image/png;base64,R0lGODlhCAAJAPABAAAAAAAAACH5BAUAAAEALAAAAAAIAAkAQAIQTICpaAvXTHuSTqeO1ayaAgA7",
-          padding : [ 1, 2 ],
-          cursor : states.disabled ? undefined : "pointer"
-        };
-      }
-    },
-
-    "window/maximize-button" :
-    {
-      alias : "button",
-
-      style : function(states)
-      {
-        return {
-          icon : "data:image/png;base64,R0lGODlhCQAJAIABAAAAAAAAACH5BAEAAAEALAAAAAAJAAkAAAIPhI+JwR3mGowP0HpnVKgAADs=",
-          padding : [ 1, 2 ],
-          cursor : states.disabled ? undefined : "pointer"
-        };
-      }
-    },
-
-    "window/close-button" :
-    {
-      alias : "button",
-
-      style : function(states)
-      {
-        return {
-          marginLeft : 2,
-          icon : "data:image/png;base64,R0lGODlhCgAJAIABAAAAAAAAACH5BAEAAAEALAAAAAAKAAkAAAIRjI8BgHuuWFsyQUuxuTemXwAAOw==",
-          padding : [ 1, 2 ],
-          cursor : states.disabled ? undefined : "pointer"
-        };
-      }
-    },
-
-    "window/statusbar" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "inset-thin",
-          padding : [ 2, 6 ]
-        };
-      }
-    },
-
-    "window/statusbar-text" : "label",
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       RESIZER
@@ -1743,183 +1063,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
         };
       }
     },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DATE CHOOSER
-    ---------------------------------------------------------------------------
-    */
-
-    "datechooser" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "main"
-        }
-      }
-    },
-
-    "datechooser/navigation-bar" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor : "background",
-          textColor : states.disabled ? "text-disabled" : states.invalid ? "invalid" : undefined,
-          padding : [2, 10]
-        };
-      }
-    },
-
-    "datechooser/last-year-button-tooltip" : "tooltip",
-    "datechooser/last-month-button-tooltip" : "tooltip",
-    "datechooser/next-year-button-tooltip" : "tooltip",
-    "datechooser/next-month-button-tooltip" : "tooltip",
-
-    "datechooser/last-year-button"  : "datechooser/button",
-    "datechooser/last-month-button" : "datechooser/button",
-    "datechooser/next-year-button"  : "datechooser/button",
-    "datechooser/next-month-button" : "datechooser/button",
-    "datechooser/button/icon" : {},
-
-    "datechooser/button" :
-    {
-      style : function(states)
-      {
-        var result = {
-          width  : 17,
-          show   : "icon"
-        };
-
-        if (states.lastYear) {
-          result.icon = "decoration/arrows/rewind.gif";
-        } else if (states.lastMonth) {
-          result.icon = "decoration/arrows/left.gif";
-        } else if (states.nextYear) {
-          result.icon = "decoration/arrows/forward.gif";
-        } else if (states.nextMonth) {
-          result.icon = "decoration/arrows/right.gif";
-        }
-
-        if (states.pressed || states.checked || states.abandoned) {
-          result.decorator = "inset-thin";
-        } else if (states.hovered) {
-          result.decorator = "outset-thin";
-        } else {
-          result.decorator = undefined;
-        }
-
-        if (states.pressed || states.checked || states.abandoned) {
-          result.padding = [ 2, 0, 0, 2 ];
-        } else if (states.hovered) {
-          result.padding = 1;
-        } else {
-          result.padding = 2;
-        }
-
-        return result;
-      }
-    },
-
-    "datechooser/month-year-label" :
-    {
-      style : function(states)
-      {
-        return {
-          font          : "bold",
-          textAlign     : "center"
-        };
-      }
-    },
-
-    "datechooser/date-pane" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator       : "datechooser-date-pane",
-          backgroundColor : "background"
-        };
-      }
-    },
-
-    "datechooser/weekday" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator       : "datechooser-weekday",
-          font            : "bold",
-          textAlign       : "center",
-          textColor       : states.disabled ? "text-disabled" : states.weekend ? "dark-blue" : "background",
-          backgroundColor : states.weekend ? "background" : "dark-blue"
-        };
-      }
-    },
-
-    "datechooser/day" :
-    {
-      style : function(states)
-      {
-        return {
-          textAlign       : "center",
-          decorator       : states.today ? "main" : undefined,
-          textColor       : states.disabled ? "text-disabled" : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : undefined,
-          backgroundColor : states.disabled ? undefined : states.selected ? "blue" : undefined,
-          padding         : [ 2, 4 ]
-        };
-      }
-    },
-
-    "datechooser/week" :
-    {
-      style : function(states)
-      {
-        return {
-          textAlign : "center",
-          textColor : "dark-blue",
-          padding   : [ 2, 4 ],
-          decorator : states.header ? "datechooser-week-header" : "datechooser-week"
-        };
-      }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      COMBOBOX
-    ---------------------------------------------------------------------------
-    */
-
-    "combobox" :{},
-
-    "combobox/button" :
-    {
-      alias : "button",
-      include : "button",
-
-      style : function(states)
-      {
-        return {
-          icon : "decoration/arrows/down.gif",
-          decorator : "button",
-          cursor : "pointer",
-          padding : [0, 5],
-          marginLeft: 4
-        };
-      }
-    },
-
-    "combobox/popup" : "popup",
-    "combobox/list" : {},
-
-    "combobox/textfield" : "textfield",
-
 
 
 
@@ -2576,6 +1719,694 @@ qx.Theme.define("qx.theme.simple.Appearance",
       }
     },
 
+
+
+
+    /////////////////
+    //// ^ TODO /////
+    ////  DONE  /////
+    /////////////////
+    
+    /*
+    ---------------------------------------------------------------------------
+      DATEFIELD
+    ---------------------------------------------------------------------------
+    */
+
+    "datefield" : "combobox",
+
+    "datefield/button" :
+    {
+      alias : "combobox/button",
+      include : "combobox/button",
+
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/apps/office-calendar.png",
+          padding : [0, 3],
+          backgroundColor : undefined,
+          decorator : undefined
+        };
+      }
+    },
+
+    "datefield/list" : 
+    {
+      alias : "datechooser",
+      include : "datechooser",
+
+      style : function(states)
+      {
+        return {
+          decorator : undefined
+        };
+      }
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LIST
+    ---------------------------------------------------------------------------
+    */
+
+    "list" :
+    {
+      alias : "scrollarea",
+      include : "textfield"
+    },
+
+    "listitem" :
+    {
+      alias : "atom",
+
+      style : function(states)
+      {
+        return {
+          gap             : 4,
+          padding         : states.lead ? [ 2, 4 ] : [ 3, 5 ],
+          backgroundColor : states.selected ? "background-selected" : undefined,
+          textColor       : states.selected ? "text-selected" : undefined,
+          decorator       : states.lead ? "lead-item" : undefined
+        };
+      }
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SCROLLAREA
+    ---------------------------------------------------------------------------
+    */
+
+    "scrollarea/corner" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "background"
+        }
+      }
+    },
+
+    "scrollarea" : "widget",
+    "scrollarea/pane" : "widget",
+    "scrollarea/scrollbar-x" : "scrollbar",
+    "scrollarea/scrollbar-y" : "scrollbar",
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON
+    ---------------------------------------------------------------------------
+    */
+
+    "button-frame" :
+    {
+      alias : "atom",
+
+      style : function(states)
+      {
+        var decorator = "button-box";
+        
+        if (states.disabled) {
+          decorator = "button-box";
+        } else if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
+        }
+        
+        return {
+          decorator : decorator,
+          padding : [3, 8],
+          cursor: states.disabled ? undefined : "pointer"
+        };
+      }
+    },
+    
+    "button-frame/label" : {
+      alias : "atom/label",
+
+      style : function(states)
+      {
+        return {
+          textColor : states.disabled ? "text-disabled" : undefined
+        };
+      }
+    },
+
+    "button" :
+    {
+      alias : "button-frame",
+      include : "button-frame",
+
+      style : function(states)
+      {
+        return {
+          center : true
+        };
+      }
+    },
+
+    "hover-button" :
+    {
+      alias : "button",
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          decorator : states.hovered ? "button" : undefined
+        }
+      }
+    },
+
+    "splitbutton" : {},
+
+    "splitbutton/button" : 
+    {
+      alias : "atom",
+
+      style : function(states)
+      {
+        var decorator = "button-box";
+        
+        if (states.disabled) {
+          decorator = "button-box";
+        } else if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
+        }
+        
+        decorator += "-left";
+        
+        return {
+          decorator : decorator,
+          padding : [3, 8],
+          cursor : states.disabled ? undefined : "pointer"
+        };
+      }
+    },
+
+    "splitbutton/arrow" : {
+
+      style : function(states)
+      {
+        var decorator = "button-box";
+        
+        if (states.disabled) {
+          decorator = "button-box";
+        } else if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
+        }
+        
+        decorator += "-right";
+        
+        return {
+          icon : "decoration/arrows/down.gif",
+          decorator : decorator,
+          cursor : "pointer",
+          padding: [3, 4]
+        };
+      }
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      GROUP BOX
+    ---------------------------------------------------------------------------
+    */
+
+    "groupbox" : {},
+
+    "groupbox/legend" :
+    {
+      alias : "atom",
+
+      style : function(states)
+      {
+        return {
+          textColor : states.invalid ? "invalid" : undefined,
+          padding : 5,
+          margin : 4,
+          font: "bold"
+        };
+      }
+    },
+
+    "groupbox/frame" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "background",
+          padding : [6, 9],
+          margin: [18, 2, 2, 2],
+          decorator  : "white-box"
+        };
+      }
+    },
+
+    "check-groupbox" : "groupbox",
+
+    "check-groupbox/legend" :
+    {
+      alias : "checkbox",
+      include : "checkbox",
+
+      style : function(states)
+      {
+        return {
+          textColor : states.invalid ? "invalid" : undefined,
+          padding : 5,
+          margin : 4,
+          font: "bold"
+        };
+      }
+    },
+
+    "radio-groupbox" : "groupbox",
+
+    "radio-groupbox/legend" :
+    {
+      alias : "radiobutton",
+      include : "radiobutton",
+
+      style : function(states)
+      {
+        return {
+          textColor : states.invalid ? "invalid" : undefined,
+          padding : 5,
+          margin : 4,
+          font: "bold"
+        };
+      }
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TREE
+    ---------------------------------------------------------------------------
+    */
+
+    "tree-folder/open" :
+    {
+      style : function(states)
+      {
+        return {
+          source : states.opened ? "decoration/tree/minus.gif" : "decoration/tree/plus.gif"
+        };
+      }
+    },
+
+
+    "tree-folder" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : [2, 8, 2, 5],
+          icon : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png",
+          backgroundColor : states.selected ? "background-selected" : undefined,
+          iconOpened : "icon/16/places/folder-open.png"
+        };
+      }
+    },
+
+    "tree-folder/icon" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : [0, 4, 0, 0]
+        };
+      }
+    },
+
+    "tree-folder/label" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : [ 1, 2 ],
+          textColor : states.selected ? "text-selected" : undefined
+        };
+      }
+    },
+
+    "tree-file" :
+    {
+      include : "tree-folder",
+      alias : "tree-folder",
+
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/mimetypes/text-plain.png"
+        };
+      }
+    },
+
+    "tree" :
+    {
+      include : "list",
+      alias : "list",
+
+      style : function(states)
+      {
+        return {
+          contentPadding : [4, 0],
+          padding : states.focused ? 0 : 1
+        };
+      }
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      WINDOW
+    ---------------------------------------------------------------------------
+    */
+
+    "window" :
+    {
+      style : function(states)
+      {
+        return {
+          contentPadding : [ 10, 10, 10, 10 ],
+          backgroundColor : "background",
+          decorator : states.maximized ? undefined : "window"
+        };
+      }
+    },
+
+    "window/pane" : {},
+
+    "window/captionbar" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "light-blue",
+          padding : 8,
+          font: "bold"
+        };
+      }
+    },
+
+    "window/icon" :
+    {
+      style : function(states)
+      {
+        return {
+          marginRight : 4
+        };
+      }
+    },
+
+    "window/title" :
+    {
+      style : function(states)
+      {
+        return {
+          cursor : "default",
+          font : "bold",
+          marginRight : 20,
+          alignY: "middle"
+        };
+      }
+    },
+
+    "window/minimize-button" :
+    {
+      alias : "button",
+
+      style : function(states)
+      {
+        return {
+          icon : "data:image/png;base64,R0lGODlhCQAJAIABAAAAAAAAACH5BAEAAAEALAAAAAAJAAkAAAILjI+py+0NojxyhgIAOw==",
+          padding : [ 1, 2 ],
+          cursor : states.disabled ? undefined : "pointer"
+        };
+      }
+    },
+
+    "window/restore-button" :
+    {
+      alias : "button",
+
+      style : function(states)
+      {
+        return {
+          icon : "data:image/png;base64,R0lGODlhCAAJAPABAAAAAAAAACH5BAUAAAEALAAAAAAIAAkAQAIQTICpaAvXTHuSTqeO1ayaAgA7",
+          padding : [ 1, 2 ],
+          cursor : states.disabled ? undefined : "pointer"
+        };
+      }
+    },
+
+    "window/maximize-button" :
+    {
+      alias : "button",
+
+      style : function(states)
+      {
+        return {
+          icon : "data:image/png;base64,R0lGODlhCQAJAIABAAAAAAAAACH5BAEAAAEALAAAAAAJAAkAAAIPhI+JwR3mGowP0HpnVKgAADs=",
+          padding : [ 1, 2 ],
+          cursor : states.disabled ? undefined : "pointer"
+        };
+      }
+    },
+
+    "window/close-button" :
+    {
+      alias : "button",
+
+      style : function(states)
+      {
+        return {
+          marginLeft : 2,
+          icon : "data:image/png;base64,R0lGODlhCgAJAIABAAAAAAAAACH5BAEAAAEALAAAAAAKAAkAAAIRjI8BgHuuWFsyQUuxuTemXwAAOw==",
+          padding : [ 1, 2 ],
+          cursor : states.disabled ? undefined : "pointer"
+        };
+      }
+    },
+
+    "window/statusbar" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "inset-thin",
+          padding : [ 2, 6 ]
+        };
+      }
+    },
+
+    "window/statusbar-text" : "label",
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DATE CHOOSER
+    ---------------------------------------------------------------------------
+    */
+
+    "datechooser" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "main"
+        }
+      }
+    },
+
+    "datechooser/navigation-bar" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "background",
+          textColor : states.disabled ? "text-disabled" : states.invalid ? "invalid" : undefined,
+          padding : [2, 10]
+        };
+      }
+    },
+
+    "datechooser/last-year-button-tooltip" : "tooltip",
+    "datechooser/last-month-button-tooltip" : "tooltip",
+    "datechooser/next-year-button-tooltip" : "tooltip",
+    "datechooser/next-month-button-tooltip" : "tooltip",
+
+    "datechooser/last-year-button"  : "datechooser/button",
+    "datechooser/last-month-button" : "datechooser/button",
+    "datechooser/next-year-button"  : "datechooser/button",
+    "datechooser/next-month-button" : "datechooser/button",
+    "datechooser/button/icon" : {},
+
+    "datechooser/button" :
+    {
+      style : function(states)
+      {
+        var result = {
+          width  : 17,
+          show   : "icon"
+        };
+
+        if (states.lastYear) {
+          result.icon = "decoration/arrows/rewind.gif";
+        } else if (states.lastMonth) {
+          result.icon = "decoration/arrows/left.gif";
+        } else if (states.nextYear) {
+          result.icon = "decoration/arrows/forward.gif";
+        } else if (states.nextMonth) {
+          result.icon = "decoration/arrows/right.gif";
+        }
+
+        if (states.pressed || states.checked || states.abandoned) {
+          result.decorator = "inset-thin";
+        } else if (states.hovered) {
+          result.decorator = "outset-thin";
+        } else {
+          result.decorator = undefined;
+        }
+
+        if (states.pressed || states.checked || states.abandoned) {
+          result.padding = [ 2, 0, 0, 2 ];
+        } else if (states.hovered) {
+          result.padding = 1;
+        } else {
+          result.padding = 2;
+        }
+
+        return result;
+      }
+    },
+
+    "datechooser/month-year-label" :
+    {
+      style : function(states)
+      {
+        return {
+          font          : "bold",
+          textAlign     : "center"
+        };
+      }
+    },
+
+    "datechooser/date-pane" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator       : "datechooser-date-pane",
+          backgroundColor : "background"
+        };
+      }
+    },
+
+    "datechooser/weekday" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator       : "datechooser-weekday",
+          font            : "bold",
+          textAlign       : "center",
+          textColor       : states.disabled ? "text-disabled" : states.weekend ? "dark-blue" : "background",
+          backgroundColor : states.weekend ? "background" : "dark-blue"
+        };
+      }
+    },
+
+    "datechooser/day" :
+    {
+      style : function(states)
+      {
+        return {
+          textAlign       : "center",
+          decorator       : states.today ? "main" : undefined,
+          textColor       : states.disabled ? "text-disabled" : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : undefined,
+          backgroundColor : states.disabled ? undefined : states.selected ? "blue" : undefined,
+          padding         : [ 2, 4 ]
+        };
+      }
+    },
+
+    "datechooser/week" :
+    {
+      style : function(states)
+      {
+        return {
+          textAlign : "center",
+          textColor : "dark-blue",
+          padding   : [ 2, 4 ],
+          decorator : states.header ? "datechooser-week-header" : "datechooser-week"
+        };
+      }
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COMBOBOX
+    ---------------------------------------------------------------------------
+    */
+
+    "combobox" :{},
+
+    "combobox/button" :
+    {
+      alias : "button-frame",
+      include : "button-frame",
+
+      style : function(states)
+      {
+        return {
+          icon : states.hovered ? "data:image/png;base64,R0lGODlhBwAEAIABAAAAAP///yH5BAEAAAEALAAAAAAHAAQAAAIIhA+BGWoNWSgAOw==" : undefined,
+          decorator : "button",
+          cursor : "pointer",
+          padding : [0, 5],
+          width: 17,
+          marginLeft: 4
+        };
+      }
+    },
+
+    "combobox/popup" : "popup",
+    "combobox/list" : 
+    {
+      alias : "list"
+    },
+
+    "combobox/textfield" : "textfield",
+
+
+
     /*
     ---------------------------------------------------------------------------
       PROGRESSBAR
@@ -2600,6 +2431,193 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
       }
     },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TOOLBAR
+    ---------------------------------------------------------------------------
+    */
+
+    "toolbar" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "light-blue",
+          padding : 0
+        };
+      }
+    },
+
+    "toolbar/part" : {
+      style : function(states)
+      {
+        return {
+          margin : [0 , 15]
+        };
+      }
+    },
+
+    "toolbar/part/container" : {},
+    "toolbar/part/handle" : {},
+
+    "toolbar-separator" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "toolbar-separator",
+          margin: [7, 0],
+          width: 4
+        };
+      }
+    },
+
+    "toolbar-button" :
+    {
+      alias : "atom",
+
+      style : function(states)
+      {
+        var decorator = "button-box";
+
+        if (states.disabled) {
+          decorator = "button-box";
+        } else if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
+        }
+
+        // set the right left and right decoratos
+        if (states.left) {
+          decorator += "-left";
+        } else if (states.right) {
+          decorator += "-right";
+        } else if (states.middle) {
+          decorator += "-middle";
+        }
+        
+        // set the margin
+        var margin = [7, 10];
+        if (states.left || states.middle || states.right) {
+          margin = [7, 0];
+        }
+
+        return {
+          cursor  : "pointer",
+          decorator : decorator,
+          margin : margin,
+          padding: [3, 5]
+        };
+      }
+    },
+
+    "toolbar-menubutton" :
+    {
+      alias : "toolbar-button",
+      include : "toolbar-button",
+
+      style : function(states)
+      {
+        return {
+          showArrow : true
+        };
+      }
+    },
+
+    "toolbar-menubutton/arrow" : 
+    {
+      alias : "image",
+      include : "image",
+
+      style : function(states)
+      {
+        return {
+          source : "decoration/arrows/down.gif",
+          cursor : "pointer",
+          padding : [0, 5],
+          marginLeft: 2
+        };
+      }
+    },
+
+    "toolbar-splitbutton" : {},
+    "toolbar-splitbutton/button" : 
+    {
+      alias : "toolbar-button",
+      include : "toolbar-button",
+
+      style : function(states)
+      {
+        var decorator = "button-box";
+        
+        if (states.disabled) {
+          decorator = "button-box";
+        } else if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
+        }
+        
+        // set the right left and right decoratos
+        if (states.left) {
+          decorator += "-left";
+        } else if (states.right) {
+          decorator += "-middle";
+        } else if (states.middle) {
+          decorator += "-middle";
+        }
+        
+        return {
+          icon : "decoration/arrows/down.gif",
+          decorator : decorator
+        };
+      }
+    },
+
+
+    "toolbar-splitbutton/arrow" :
+    {
+      alias : "toolbar-button",
+      include : "toolbar-button",
+
+      style : function(states)
+      {
+        var decorator = "button-box";
+        
+        if (states.disabled) {
+          decorator = "button-box";
+        } else if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
+        }
+        
+        // set the right left and right decoratos
+        if (states.left) {
+          decorator += "-middle";
+        } else if (states.right) {
+          decorator += "-right";
+        } else if (states.middle) {
+          decorator += "-middle";
+        }
+        
+        return {
+          icon : "decoration/arrows/down.gif",
+          decorator : decorator
+        };
+      }
+    },
+
 
 
     /*
