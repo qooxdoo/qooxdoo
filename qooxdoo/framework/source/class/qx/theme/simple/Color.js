@@ -29,7 +29,10 @@ qx.Theme.define("qx.theme.simple.Color",
     "dark-blue" : "#5685D6",
     "light-blue" : "#E0ECFF",
     "background-selected" : "#6694E3",    
-    
+
+    "link" : "#0065CC",
+    "link-pressed" : "#3F186A",
+
     
     "background-light" : "#F3F0F5",
     "background-focused" : "#F3F8FD",

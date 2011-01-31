@@ -30,6 +30,13 @@ qx.Theme.define("qx.theme.simple.Font",
       size : 13,
       family : ["arial", "sans-serif"]
     },
+    
+    "link" :
+    {
+      size : 13,
+      family : ["arial", "sans-serif"],
+      decoration : "underline"
+    },
 
     "bold" :
     {

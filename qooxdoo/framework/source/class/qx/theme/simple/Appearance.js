@@ -194,18 +194,21 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
-        if (states.pressed || states.abandoned || states.checked) {
-          var decorator = !states.inner && states.focused ? "focused-inset" : "inset";
-          var padding = [ 4, 3, 2, 5 ];
-        } else {
-          var decorator = !states.inner && states.focused ? "focused-outset" : "outset";
-          var padding = [ 3, 4 ];
-        }
-
         return {
-          backgroundColor : states.abandoned ? "button-abandoned" : states.hovered ? "button-hovered" : states.checked ? "button-checked" : "button",
-          decorator : decorator,
-          padding : padding
+          textColor : "link"
+        };
+      }
+    },
+    
+    "button-frame/label" : {
+      alias : "atom/label",
+
+      style : function(states)
+      {
+        return {
+          textColor : states.disabled ? "text-disabled" : states.pressed ? "link-pressed": undefined,
+          font : "link",
+          cursor: "pointer"
         };
       }
     },
@@ -296,7 +299,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           decorator : states.focused ? "focused-inset" : "inset",
-          padding   : states.focused ? [0, 0] : [1, 1],
+          padding   : states.focused ? [0, 0] : [1, 1]
         };
       }
     },
@@ -470,7 +473,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           decorator : states.focused ? "focused-inset" : "inset",
           textColor : states.disabled ? "text-disabled" : undefined,
-          padding   : states.focused ? [0, 0] : [1, 1],
+          padding   : states.focused ? [0, 0] : [1, 1]
         };
       }
     },
@@ -1145,7 +1148,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           backgroundColor :  backgroundColor,
           decorator : states.focused ? "focused-inset" : "inset",
-          padding   : states.focused ? [0, 0] : [1, 1],
+          padding   : states.focused ? [0, 0] : [1, 1]
         }
       }
     },
@@ -1832,7 +1835,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator       : states.focused ? "focused-inset" : "inset",
           textColor       : states.disabled ? "text-disabled" : undefined,
           backgroundColor : backgroundColor,
-          padding         : states.focused ? [0, 0] : [1, 1],
+          padding         : states.focused ? [0, 0] : [1, 1]
         };
       }
     },
