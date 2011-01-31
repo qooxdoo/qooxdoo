@@ -128,7 +128,7 @@ class PartBuilder(object):
 
     ##
     # Check all classes from the global class list are contained in
-    # *some* package
+    # *some* package.
     def _checkPackagesAgainstClassList(self, script):
         allpackageclasses = set([])
         for package in script.packages:
