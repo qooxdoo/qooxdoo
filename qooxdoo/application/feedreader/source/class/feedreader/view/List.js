@@ -48,7 +48,7 @@ qx.Class.define("feedreader.view.List",
 
     // Create the header of the list
     var listHeader = new qx.ui.basic.Label(this.tr("Posts"));
-    listHeader.setBackgroundColor("background-medium");
+    listHeader.setBackgroundColor("#EEEEEE");
     listHeader.setPadding(5);
     listHeader.setAllowGrowX(true);
     listHeader.setFont("bold");
