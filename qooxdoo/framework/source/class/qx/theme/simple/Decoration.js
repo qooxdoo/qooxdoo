@@ -548,7 +548,11 @@ qx.Theme.define("qx.theme.simple.Decoration",
     
     "window" :
     {
-      decorator: qx.ui.decoration.Double,
+      decorator: [
+        qx.ui.decoration.MDoubleBorder,
+        qx.ui.decoration.MBoxShadow,
+        qx.ui.decoration.MBackgroundColor
+      ],
 
       style :
       {
@@ -558,9 +562,10 @@ qx.Theme.define("qx.theme.simple.Decoration",
         innerColor: "window-border-inner",
         shadowLength : 2,
         shadowBlurRadius : 5,
-        shadowColor : "shadow"
+        shadowColor : "shadow",
+        backgroundColor : "background"
       }
-    },    
+    },
 
 
     "table-header" :

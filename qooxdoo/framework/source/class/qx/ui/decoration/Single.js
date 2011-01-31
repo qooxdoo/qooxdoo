@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.decoration.Single",
       var styles = {};
 
       // get the single border styles
-      this._getMarkupSingleBorder(styles, element);
+      this._getMarkupBorder(styles, element);
 
       // get the broder radius styles
       this._getMarkupBorderRadius(styles, element);
@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.decoration.Single",
       element.style.height = height + "px";
       
       // get the left and top of the mixins
-      var pos = this._resizeSingleBorder(element, width, height);
+      var pos = this._resizeBorder(element, width, height);
       element.style.left = pos.left + "px";
       element.style.top = pos.top + "px";
     },
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.decoration.Single",
 
     // overridden
     _getDefaultInsets : function() {
-      return this._getDefaultInsetsForSingleBorder();
+      return this._getDefaultInsetsForBorder();
     }
   },
 

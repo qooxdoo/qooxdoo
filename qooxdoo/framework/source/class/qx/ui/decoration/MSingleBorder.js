@@ -198,7 +198,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
 
   members :
   {
-    _getMarkupSingleBorder : function(styles) {
+    _getMarkupBorder : function(styles) {
       var Color = qx.theme.manager.Color.getInstance();
 
       // Add borders
@@ -237,18 +237,22 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     },
     
     
-    _resizeSingleBorder : function(element, width, height) {
+    _resizeBorder : function(element, width, height) {
       var insets = this.getInsets();
+      width -= insets.left + insets.right;
+      height -= insets.top + insets.bottom;
       return {
         left : (parseInt(element.style.left, 10) + insets.left - this.getWidthLeft()),
-        top : (parseInt(element.style.top, 10) + insets.top - this.getWidthTop())
+        top : (parseInt(element.style.top, 10) + insets.top - this.getWidthTop()),
+        width : width,
+        height : height
       };
     },
     
     
     
     // overridden
-    _getDefaultInsetsForSingleBorder : function()
+    _getDefaultInsetsForBorder : function()
     {
       return {
         top : this.getWidthTop(),

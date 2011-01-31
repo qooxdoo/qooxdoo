@@ -48,10 +48,13 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
     
     _resizeBackgroundColor : function(element, width, height) {
       var insets = this.getInsets();
-
+      width -= insets.left + insets.right;
+      height -= insets.top + insets.bottom;
       return {
         left : (parseInt(element.style.left, 10)) + insets.left,
-        top : (parseInt(element.style.top, 10)) + insets.top
+        top : (parseInt(element.style.top, 10)) + insets.top,
+        width : width,
+        height : height
       };
     },
 

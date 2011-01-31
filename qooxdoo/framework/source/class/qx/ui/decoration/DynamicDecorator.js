@@ -36,39 +36,23 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
           this[name](styles);
         }
       }
-
+      
       // build the markup
       if (!this._generateMarkup) {
         var html = ['<div style="'];
         html.push(qx.bom.element.Style.compile(styles));
         html.push('"></div>');
+        html = html.join("");
       } else {
         var html = this._generateMarkup(styles);
       }
 
-      return this._markup = html.join("");
+      return this._markup = html;
     },
 
 
     // overridden
-    resize : function(element, width, height) {
-      var insets = this.getInsets();
-      width -= insets.left + insets.right;
-      height -= insets.top + insets.bottom;
-
-      // Fix to keep applied size above zero
-      // Makes issues in IE7 when applying value like '-4px'
-      if (width < 0) {
-        width = 0;
-      }
-
-      if (height < 0) {
-        height = 0;
-      }
-
-      element.style.width = width + "px";
-      element.style.height = height + "px";
-      
+    resize : function(element, width, height) {  
       // get the left and top of the mixins
       var pos = {};
       for (var name in this) {
@@ -78,16 +62,49 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
             pos.left = currentPos.left;
             pos.top = currentPos.top;
           }
+          
+          if (pos.width == undefined) {
+            pos.width = currentPos.width;
+            pos.height = currentPos.height;
+          }
+          
+          if (currentPos.elementToApplyDimensions) {
+            pos.elementToApplyDimensions = currentPos.elementToApplyDimensions;
+          }
+          
           // use the lowest left and top coordinate to make sure everything
           // is visible
           pos.left = currentPos.left < pos.left ? currentPos.left : pos.left;
-          pos.top = currentPos.top < pos.top ? currentPos.left : pos.top;
+          pos.top = currentPos.top < pos.top ? currentPos.top : pos.top;
+          
+          // use the bigest width and height
+          pos.width = currentPos.width > pos.width ? currentPos.width : pos.width;
+          pos.height = currentPos.height > pos.height ? currentPos.height : pos.height;
         }
       }
       // apply only if a mixin requires
       if (pos.left != undefined) {
         element.style.left = pos.left + "px";
         element.style.top = pos.top + "px";
+      }
+      
+      // apply the width if required
+      if (pos.width != undefined) {
+        // Fix to keep applied size above zero
+        // Makes issues in IE7 when applying value like '-4px'
+        if (pos.width < 0) {
+          pos.width = 0;
+        }
+
+        if (pos.height < 0) {
+          pos.height = 0;
+        }
+
+        if (pos.elementToApplyDimensions) {
+          element = pos.elementToApplyDimensions;
+        }
+        element.style.width = pos.width + "px";
+        element.style.height = pos.height + "px";
       }
     },
 
