@@ -84,6 +84,12 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
   members :
   {
     /**
+     * Mapping for the dynamic decorator.
+     */
+    _generateMarkup : this._generateBackgroundMarkup,
+
+
+    /**
      * Responsible for generating the markup for the background.
      * This method just uses the settings in the properties to generate
      * the markup.

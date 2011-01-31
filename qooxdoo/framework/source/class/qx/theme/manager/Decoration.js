@@ -123,7 +123,26 @@ qx.Class.define("qx.theme.manager.Decoration",
 
       var clazz = entry.decorator;
       if (clazz == null) {
-        throw new Error("Missing definition of which decorator to use in entry: " + value + "!");
+        throw new Error(
+          "Missing definition of which decorator to use in entry: "
+           + value + "!"
+        );
+      }
+
+      // check if an array is given and the decorator should be build on runtime
+      if (clazz instanceof Array) {
+        var names = clazz.concat([]);
+        for (var i=0; i < names.length; i++) {
+          names[i] = names[i].basename.replace(".", "");
+        };
+        var name = "qx.ui.decoration." + names.join("-");
+        if (!qx.Class.getByName(name)) {
+          qx.Class.define(name, {
+            extend : qx.ui.decoration.DynamicDecorator,
+            include : clazz
+          });
+        }
+        clazz = qx.Class.getByName(name);
       }
 
       return cache[value] = (new clazz).set(entry.style);
