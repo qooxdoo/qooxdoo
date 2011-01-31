@@ -34,7 +34,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
     {
       nullable : true,
       check : "Integer",
-      apply : "_applyStyle"
+      apply : "_applyBorderRadius"
     },
 
     /** top right corner radius */
@@ -42,7 +42,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
     {
       nullable : true,
       check : "Integer",
-      apply : "_applyStyle"
+      apply : "_applyBorderRadius"
     },
 
     /** bottom left corner radius */
@@ -50,7 +50,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
     {
       nullable : true,
       check : "Integer",
-      apply : "_applyStyle"
+      apply : "_applyBorderRadius"
     },
 
     /** bottom right corner radius */
@@ -58,7 +58,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
     {
       nullable : true,
       check : "Integer",
-      apply : "_applyStyle"
+      apply : "_applyBorderRadius"
     },
     
     /** Property group to set the corner radius of all sides */
@@ -100,6 +100,17 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
         styles["-moz-border-radius-bottomright"] = radius + "px";
         styles["-webkit-border-bottom-right-radius"] = radius + "px";
         styles["border-bottom-right-radius"] = radius + "px";
+      }
+    },
+
+    // property apply
+    _applyBorderRadius : function()
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (this._isInitialized()) {
+          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+        }
       }
     }
   }

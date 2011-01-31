@@ -28,7 +28,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
     {
       check : "Color",
       nullable : true,
-      apply : "_applyStyle"
+      apply : "_applyBackgroundColor"
     }    
   },
 
@@ -43,6 +43,18 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
       }
       
       styles.backgroundColor = Color.resolve(bgcolor) || "";
+    },
+
+
+    // property apply
+    _applyBackgroundColor : function()
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (this._isInitialized()) {
+          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+        }
+      }
     }
   }
 });
