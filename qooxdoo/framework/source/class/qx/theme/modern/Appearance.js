@@ -2077,7 +2077,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         var ret = {
           icon : "decoration/arrows/down.png",
-          padding : 2
+          padding : 2,
+          shadow : undefined
         };
 
         if (states.selected) {

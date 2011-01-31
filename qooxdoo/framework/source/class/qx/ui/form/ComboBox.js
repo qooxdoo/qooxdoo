@@ -180,7 +180,8 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @lint ignoreReferenceField(_forwardStates)
      */
     _forwardStates : {
-      focused : true
+      focused : true,
+      invalid : true
     },
 
 
