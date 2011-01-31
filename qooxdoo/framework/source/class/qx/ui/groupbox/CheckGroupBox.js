@@ -69,11 +69,12 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
         case "legend":
           control = new qx.ui.form.CheckBox();
           control.setValue(true);
+          control.setAllowGrowX(true);
           control.addListener("changeValue", this._onRadioChangeValue, this);
           control.addListener("resize", this._repositionFrame, this);
           control.addListener("execute", this._onExecute, this);
 
-          this._add(control);
+          this._add(control, {left: 0, right: 0});
       }
 
       return control || this.base(arguments, id);

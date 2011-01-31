@@ -574,7 +574,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
           textColor : states.invalid ? "invalid" : "white",
           padding : 5,
           margin : 4,
-          width: 350,    // TODO 100%
           font: "bold"
         };
       }
@@ -602,12 +601,11 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "background",
-          textColor : states.invalid ? "invalid" : undefined,
-          paddingRight    : 3,
-          paddingLeft     : 3,
-          marginRight     : 10,
-          marginLeft      : 10
+          backgroundColor : "dark-blue",
+          textColor : states.invalid ? "invalid" : "white",
+          padding : 5,
+          margin : 4,
+          font: "bold"
         };
       }
     },
@@ -622,12 +620,11 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "background",
-          textColor : states.invalid ? "invalid" : undefined,
-          paddingRight    : 3,
-          paddingLeft     : 3,
-          marginRight     : 10,
-          marginLeft      : 10
+          backgroundColor : "dark-blue",
+          textColor : states.invalid ? "invalid" : "white",
+          padding : 5,
+          margin : 4,
+          font: "bold"
         };
       }
     },

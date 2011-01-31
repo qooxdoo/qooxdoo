@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
         case "legend":
           control = new qx.ui.basic.Atom();
           control.addListener("resize", this._repositionFrame, this);
-          this._add(control);
+          this._add(control, {left: 0, right: 0});
           break;
       }
 
