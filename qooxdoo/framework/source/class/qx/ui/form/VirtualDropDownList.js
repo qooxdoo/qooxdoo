@@ -49,6 +49,8 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     var list = this._createChildControl("list");
     list.getSelection().addListener("change", this._onListChangeSelection, this);
     list.addListener("mousedown", this._handleMouse, this);
+    list.addListener("changeModel", this._onChangeModel, this);
+    list.addListener("changeDelegate", this._onChangeDelegate, this);
 
     this.addListener("changeVisibility", this.__onChangeVisibility, this);
 
@@ -353,6 +355,26 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
         this.__synchronizeSelection(selection, listSelection);
         this.__adjustSize();
       }
+    },
+
+
+    /**
+     * Handler for the model change event.
+     * 
+     * @param event {qx.event.type.Data} The change event.
+     */
+    _onChangeModel : function(event) {
+      this.getSelection().removeAll();
+    },
+
+
+    /**
+     * Handler for the delegate change event.
+     * 
+     * @param event {qx.event.type.Data} The change event.
+     */
+    _onChangeDelegate : function(event) {
+      this.getSelection().removeAll();
     },
 
 

@@ -229,8 +229,8 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       catch(e)
       {
         this._manager.selectItem(newSelection[newSelection.length - 1]);
-        this.__synchronizeSelection();
       }
+      this.__synchronizeSelection();
 
       this.__ignoreChangeSelection = false;
     },
