@@ -81,6 +81,17 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
 
 
+    "button" : 
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style : 
+      {
+        backgroundColor : "button",
+        radius : 3
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -184,14 +195,12 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "border-invalid" :
     {
-      decorator: qx.ui.decoration.Double,
+      decorator: qx.ui.decoration.Uniform,
 
       style :
       {
-        width : 1,
-        innerWidth: 1,
-        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
-        innerColor : "invalid"
+        width : 2,
+        color : "invalid"
       }
     },
 

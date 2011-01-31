@@ -195,7 +195,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          textColor : "link"
+          textColor : states.checked ? "link-pressed" : "link"
         };
       }
     },
@@ -208,7 +208,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           textColor : states.disabled ? "text-disabled" : states.pressed ? "link-pressed": undefined,
           font : "link",
-          cursor: "pointer"
+          cursor: states.disabled ? undefined : "pointer"
         };
       }
     },
@@ -242,18 +242,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
     "splitbutton" : {},
     "splitbutton/button" : "button",
-    "splitbutton/arrow" :
-    {
-      alias : "button",
-      include : "button",
-
-      style : function(states)
-      {
-        return {
-          icon : "decoration/arrows/down.gif"
-        };
-      }
-    },
+    "splitbutton/arrow" : "combobox/button",
 
 
 
@@ -342,11 +331,28 @@ qx.Theme.define("qx.theme.simple.Appearance",
         } else {
           textColor = undefined;
         }
+        
+        var decorator;
+        var padding;
+        if (states.disabled) {
+          decorator = "inset";
+          padding = [2, 3];
+        } else if (states.invalid) {
+          decorator = "border-invalid";
+          padding = [1, 2];
+        } else if (states.focused) {
+          decorator = "focused-inset";
+          padding = [1, 2];
+        } else {
+          padding = [2, 3];
+          decorator = "inset";
+        }
 
         return {
-          decorator       : states.focused ? "focused-inset" : "inset",
-          padding         : states.focused ? [1, 2] : [2, 3],
-          textColor       : textColor
+          decorator : decorator,
+          padding   : padding,
+          textColor : textColor,
+          backgroundColor : states.disabled ? "background-disabled" : undefined
         };
       }
     },
@@ -471,53 +477,36 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.focused ? "focused-inset" : "inset",
-          textColor : states.disabled ? "text-disabled" : undefined,
-          padding   : states.focused ? [0, 0] : [1, 1]
+          textColor : states.disabled ? "text-disabled" : undefined
         };
       }
     },
 
-    "spinner/textfield" :
-    {
-      include : "textfield",
-
-      style : function(states)
-      {
-        return {
-          decorator : undefined,
-          padding: [2, 3]
-        };
-      }
-    },
+    "spinner/textfield" : "textfield",
 
     "spinner/upbutton" :
     {
-      alias : "button",
-      include : "button",
+      alias : "combobox/button",
+      include : "combobox/button",
 
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/up-small.gif",
-          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
-          backgroundColor : states.hovered ? "button-hovered" : "button"
+          icon : "decoration/arrows/up-small.gif"
         }
       }
     },
 
-    "spinner/downbutton" :
+    "spinner/downbutton" : 
     {
-      alias : "button",
-      include : "button",
+      alias : "combobox/button",
+      include : "combobox/button",
 
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/down-small.gif",
-          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
-          backgroundColor : states.hovered ? "button-hovered" : "button"
-        };
+          icon : "decoration/arrows/down-small.gif"
+        }
       }
     },
 
@@ -550,7 +539,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       }
     },
 
-    "datefield/list" :
+    "datefield/list" : 
     {
       alias : "datechooser",
       include : "datechooser",
@@ -558,13 +547,11 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator: states.focused ? "focused-inset" : "inset"
-        }
+          decorator : undefined
+        };
       }
     },
-
-
-
+    
 
 
     /*
@@ -1624,30 +1611,28 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
     "selectbox" :
     {
-      include: "button-frame",
-
       style : function(states)
       {
-        var background = "button";
-        if (states.invalid && !states.disabled) {
-          background = "background-invalid";
-        } else if (states.abandoned) {
-          background = "button-abandoned";
-        } else if (!states.abandoned && states.hovered) {
-          background = "button-hovered";
-        } else if (!states.abandoned && !states.hovered && states.checked) {
-          background = "button-checked";
-        }
-
         return {
-          backgroundColor : background
+          decorator : "button",
+          padding: 4
         };
       }
     },
 
     "selectbox/atom" : "atom",
     "selectbox/popup" : "popup",
-    "selectbox/list" : "list",
+    "selectbox/list" : {
+      alias : "list",
+      include : "list",
+      
+      style : function() 
+      {
+        return {
+          decorator : undefined
+        };
+      }
+    },
 
     "selectbox/arrow" :
     {
@@ -1676,7 +1661,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator : "outset"
+          decorator : "main"
         }
       }
     },
@@ -1686,7 +1671,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "date-chooser",
+          backgroundColor : "background",
           textColor : states.disabled ? "text-disabled" : states.invalid ? "invalid" : undefined,
           padding : [2, 10]
         };
@@ -1760,7 +1745,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           decorator       : "datechooser-date-pane",
-          backgroundColor : "date-chooser"
+          backgroundColor : "background"
         };
       }
     },
@@ -1773,8 +1758,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator       : "datechooser-weekday",
           font            : "bold",
           textAlign       : "center",
-          textColor       : states.disabled ? "text-disabled" : states.weekend ? "date-chooser-title" : "date-chooser",
-          backgroundColor : states.weekend ? "date-chooser" : "date-chooser-title"
+          textColor       : states.disabled ? "text-disabled" : states.weekend ? "dark-blue" : "background",
+          backgroundColor : states.weekend ? "background" : "dark-blue"
         };
       }
     },
@@ -1787,7 +1772,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           textAlign       : "center",
           decorator       : states.today ? "main" : undefined,
           textColor       : states.disabled ? "text-disabled" : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : undefined,
-          backgroundColor : states.disabled ? undefined : states.selected ? "date-chooser-selected" : undefined,
+          backgroundColor : states.disabled ? undefined : states.selected ? "blue" : undefined,
           padding         : [ 2, 4 ]
         };
       }
@@ -1799,7 +1784,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           textAlign : "center",
-          textColor : "date-chooser-title",
+          textColor : "dark-blue",
           padding   : [ 2, 4 ],
           decorator : states.header ? "datechooser-week-header" : "datechooser-week"
         };
@@ -1815,30 +1800,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "combobox" :
-    {
-      style : function(states)
-      {
-        var backgroundColor;
-
-        if (states.disabled) {
-          backgroundColor = "background-disabled";
-        } else if (states.invalid) {
-          backgroundColor = "background-invalid";
-        } else if (states.focused) {
-          backgroundColor = "background-light";
-        } else {
-          backgroundColor = "background-field";
-        }
-
-        return {
-          decorator       : states.focused ? "focused-inset" : "inset",
-          textColor       : states.disabled ? "text-disabled" : undefined,
-          backgroundColor : backgroundColor,
-          padding         : states.focused ? [0, 0] : [1, 1]
-        };
-      }
-    },
+    "combobox" :{},
 
     "combobox/button" :
     {
@@ -1849,27 +1811,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : "decoration/arrows/down.gif",
-          backgroundColor : states.hovered ? "button-hovered" : "button"
+          decorator : "button",
+          padding : [0, 5],
+          marginLeft: 4
         };
       }
     },
 
     "combobox/popup" : "popup",
-    "combobox/list" : "list",
+    "combobox/list" : {},
 
-    "combobox/textfield" :
-    {
-      include : "textfield",
-
-      style : function(states)
-      {
-        return {
-          decorator : undefined,
-          padding: [2, 3],
-          backgroundColor: undefined
-        };
-      }
-    },
+    "combobox/textfield" : "textfield",
 
 
 
@@ -1888,7 +1840,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         {
           backgroundColor : "background",
           shadow : "shadow-small",
-          decorator : "outset",
+          decorator : "main",
           spacingX : 6,
           spacingY : 1,
           iconColumnWidth : 16,

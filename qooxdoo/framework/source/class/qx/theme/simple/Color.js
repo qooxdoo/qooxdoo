@@ -29,15 +29,20 @@ qx.Theme.define("qx.theme.simple.Color",
     "dark-blue" : "#5685D6",
     "light-blue" : "#E0ECFF",
     "background-selected" : "#6694E3",    
+    "background-disabled" : "#F7F7F7",
+    
+    "button" : "#E8F0E3",
 
     "link" : "#0065CC",
     "link-pressed" : "#3F186A",
 
+    "invalid" : "#FF0000",
+    
+    
     
     "background-light" : "#F3F0F5",
     "background-focused" : "#F3F8FD",
     "background-focused-inner" : "#DBEAF9",
-    "background-disabled" : "#F4F4F4",
 
     "background-field" : "white",
     "background-pane" : "#FAFBFE",
@@ -60,7 +65,7 @@ qx.Theme.define("qx.theme.simple.Color",
 
     "border-separator" : "#808080",
 
-    "invalid" : "#990000",
+    
     "border-focused-invalid" : "#FF9999",
 
     "text" : "black",
@@ -73,7 +78,7 @@ qx.Theme.define("qx.theme.simple.Color",
     "tooltip-text" : "black",
     "tooltip-invalid" : "#C82C2C",
 
-    "button" : "#EBE9ED",
+
     "button-hovered" : "#F6F5F7",
     "button-abandoned" : "#F9F8E9",
     "button-checked" : "#F3F0F5",
@@ -82,10 +87,6 @@ qx.Theme.define("qx.theme.simple.Color",
     "window-inactive-caption-text" : [ 255, 255, 255 ],
     "window-active-caption" : [ 51, 94, 168 ],
     "window-inactive-caption" : [ 111, 161, 217 ],
-
-    "date-chooser" : "white",
-    "date-chooser-title" : [ 116, 116, 116 ],
-    "date-chooser-selected" : [ 52, 52, 52 ],
 
     "effect" : [ 254, 200, 60 ],
     "table-pane" : "white",
