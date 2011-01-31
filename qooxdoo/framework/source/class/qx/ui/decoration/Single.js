@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.decoration.Single",
    * @param style {String} Any supported border style
    * @param color {Color} The border color
    */
-  construct : function(width, style, color)
+  construct : function(width, style, color, radius)
   {
     this.base(arguments);
 
@@ -54,6 +54,10 @@ qx.Class.define("qx.ui.decoration.Single",
 
     if (color != null) {
       this.setColor(color);
+    }
+    
+    if (radius != null) {
+      this.setRadius(radius);
     }
   },
 
@@ -191,6 +195,45 @@ qx.Class.define("qx.ui.decoration.Single",
 
     /*
     ---------------------------------------------------------------------------
+      PROPERTY: COLOR
+    ---------------------------------------------------------------------------
+    */
+
+    /** top left corner radius */
+    radiusTopLeft :
+    {
+      nullable : true,
+      check : "Integer",
+      apply : "_applyStyle"
+    },
+
+    /** top right corner radius */
+    radiusTopRight :
+    {
+      nullable : true,
+      check : "Integer",
+      apply : "_applyStyle"
+    },
+
+    /** bottom left corner radius */
+    radiusBottomLeft :
+    {
+      nullable : true,
+      check : "Integer",
+      apply : "_applyStyle"
+    },
+
+    /** bottom right corner radius */
+    radiusBottomRight :
+    {
+      nullable : true,
+      check : "Integer",
+      apply : "_applyStyle"
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
       PROPERTY: BACKGROUND COLOR
     ---------------------------------------------------------------------------
     */
@@ -255,6 +298,13 @@ qx.Class.define("qx.ui.decoration.Single",
     color :
     {
       group : [ "colorTop", "colorRight", "colorBottom", "colorLeft" ],
+      mode : "shorthand"
+    },
+    
+    /** Property group to set the corner radius of all sides */
+    radius :
+    {
+      group : [ "radiusTopLeft", "radiusTopRight", "radiusBottomRight", "radiusBottomLeft" ],
       mode : "shorthand"
     }
   },
@@ -343,6 +393,35 @@ qx.Class.define("qx.ui.decoration.Single",
       styles.position = "absolute";
       styles.top = 0;
       styles.left = 0;
+
+      // radius handling
+      var radius = this.getRadiusTopLeft();
+      if (radius > 0) {
+        styles["-moz-border-radius-topleft"] = radius + "px";
+        styles["-webkit-border-top-left-radius"] = radius + "px";
+        styles["border-top-left-radius"] = radius + "px";
+      }
+      
+      radius = this.getRadiusTopRight();
+      if (radius > 0) {
+        styles["-moz-border-radius-topright"] = radius + "px";
+        styles["-webkit-border-top-right-radius"] = radius + "px";
+        styles["border-top-right-radius"] = radius + "px";
+      }
+      
+      radius = this.getRadiusBottomLeft();
+      if (radius > 0) {
+        styles["-moz-border-radius-bottomleft"] = radius + "px";
+        styles["-webkit-border-bottom-left-radius"] = radius + "px";
+        styles["border-bottom-left-radius"] = radius + "px";
+      }
+      
+      radius = this.getRadiusBottomRight();
+      if (radius > 0) {
+        styles["-moz-border-radius-bottomright"] = radius + "px";
+        styles["-webkit-border-bottom-right-radius"] = radius + "px";
+        styles["border-bottom-right-radius"] = radius + "px";
+      }
 
       var html = this._generateBackgroundMarkup(styles);
 
