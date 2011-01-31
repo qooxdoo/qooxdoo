@@ -88,6 +88,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
   members :
   {
     _getMarkupLinearBackgroundGradient : function(styles) {
+      var Color = qx.theme.manager.Color.getInstance();
 
       if (qx.bom.client.Engine.WEBKIT) {
         
@@ -99,15 +100,17 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
           var endPos = "0% " + this.getEndColorPosition() + "%";
         }
 
-        var color = "from(" + this.getStartColor() + "), to(" + this.getEndColor() + ")";
+        var color = 
+          "from(" + Color.resolve(this.getStartColor()) + 
+          "), to(" + Color.resolve(this.getEndColor()) + ")";
 
         var value = "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")";
         styles["background"] = value;
 
       } else {
         var deg = this.getOrientation() == "horizontal" ? 0 : 270;
-        var start = this.getStartColor() + " " + this.getStartColorPosition() + "%";
-        var end = this.getEndColor() + " " + this.getEndColorPosition() + "%";
+        var start = Color.resolve(this.getStartColor()) + " " + this.getStartColorPosition() + "%";
+        var end = Color.resolve(this.getEndColor()) + " " + this.getEndColorPosition() + "%";
 
         var prefix = qx.bom.client.Engine.GECKO ? "-moz-" : "";
         styles["background"] = 
