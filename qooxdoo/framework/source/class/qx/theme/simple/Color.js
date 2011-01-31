@@ -39,6 +39,9 @@ qx.Theme.define("qx.theme.simple.Color",
     "window-border" : "#2E3A46",
     "window-border-inner" : "#9DCBFE",
     
+    "button-box-bright" : "#F9F9F9",
+    "button-box-dark" : "#E3E3E3",
+    
     "white-box-border" : "#BCBCBC",
     
     "shadow" : "#666666",

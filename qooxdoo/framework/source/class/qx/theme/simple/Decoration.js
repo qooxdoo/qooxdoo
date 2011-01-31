@@ -82,7 +82,8 @@ qx.Theme.define("qx.theme.simple.Decoration",
       decorator : [
         qx.ui.decoration.MLinearBackgroundGradient,
         qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MSingleBorder
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBackgroundColor
       ],
       
       style : 
@@ -90,8 +91,9 @@ qx.Theme.define("qx.theme.simple.Decoration",
         radius : 3,
         width : 1,
         color : "#BBB",
-        gradientStart : ["#F9F9F9", 40],
-        gradientEnd : ["#E3E3E3", 70]
+        gradientStart : ["button-box-bright", 40],
+        gradientEnd : ["button-box-dark", 70],
+        backgroundColor : "button-box-bright"
       }
     },
     
@@ -101,8 +103,9 @@ qx.Theme.define("qx.theme.simple.Decoration",
       
       style : 
       {
-        gradientStart : ["#E3E3E3", 40],
-        gradientEnd : ["#F9F9F9", 70]
+        gradientStart : ["button-box-dark", 40],
+        gradientEnd : ["button-box-bright", 70],
+        backgroundColor : "button-box-dark"
       }
     },
     
