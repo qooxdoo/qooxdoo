@@ -1205,9 +1205,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         var decorator = "radiobutton";
         
-        if (states.checked) {
-          decorator = "radiobutton-checked";
-        } else if (states.focused && !states.invalid) {
+        if (states.focused && !states.invalid) {
           decorator = "radiobutton-focused";
         }
 
@@ -1218,10 +1216,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
           backgroundColor = "background-disabled-checked";
         } else if (states.disabled) {
           backgroundColor = "background-disabled";
-        } else if (states.checked && !states.invalid) {
-          backgroundColor = "background-selected";
         } else if (states.checked) {
-          backgroundColor  = "invalid";
+          backgroundColor = "background-selected";
         }
         
         return {
@@ -1240,6 +1236,74 @@ qx.Theme.define("qx.theme.simple.Appearance",
         // set an empty icon to be sure that the icon image is rendered
         return {
           icon : qx.theme.simple.Icons.ICONS["blank"]
+        }
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      CHECK BOX
+    ---------------------------------------------------------------------------
+    */
+    "checkbox":
+    {
+      alias : "atom",
+
+      style : function(states)
+      {
+        // The "disabled" icon is set to an icon **without** the -disabled
+        // suffix on purpose. This is because the Image widget handles this
+        // already by replacing the current image with a disabled version
+        // (if available). If no disabled image is found, the opacity style
+        // is used.
+        var icon;
+
+        // Checked
+        if (states.checked) {
+          icon = qx.theme.simple.Icons.ICONS["checkbox-checked"];
+        // Undetermined
+        } else if (states.undetermined) {
+          icon = qx.theme.simple.Icons.ICONS["checkbox-undetermined"];
+        // Unchecked
+        } else {
+          // empty icon
+          icon = qx.theme.simple.Icons.ICONS["blank"];
+        }
+
+        return {
+          icon: icon,
+          gap: 6
+        }
+      }
+    },
+    
+    
+    "checkbox/icon" : {
+      style : function(states) 
+      {
+        var decorator = "checkbox";
+        
+        if (states.focused && !states.invalid) {
+          decorator = "checkbox-focused";
+        }
+
+        decorator += states.invalid && !states.disabled ? "-invalid" : "";
+        
+        var padding;
+        // Checked
+        if (states.checked) {
+          padding = 2;
+        // Undetermined
+        } else if (states.undetermined) {
+          padding = [4, 2];
+        }
+        
+        return {
+          decorator : decorator,
+          width: 12,
+          height: 12,
+          padding: padding
         }
       }
     },

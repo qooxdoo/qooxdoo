@@ -95,9 +95,10 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
      * the markup.
      *
      * @param styles {Map} CSS styles as map
+     * @param content {String?null} The content of the created div as HTML
      * @return {String} The generated HTML fragment
      */
-    _generateBackgroundMarkup: function(styles)
+    _generateBackgroundMarkup: function(styles, content)
     {
       var markup = "";
 
@@ -141,7 +142,12 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
             styles.overflow = "hidden";
           }
         }
-        markup = '<div style="' + qx.bom.element.Style.compile(styles) + '"></div>';
+        
+        if (!content) {
+          content = "";
+        }
+
+        markup = '<div style="' + qx.bom.element.Style.compile(styles) + '">' + content + '</div>';
       }
 
       return markup;

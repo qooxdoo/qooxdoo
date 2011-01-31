@@ -162,56 +162,69 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (styles.length === 0) {
+        if (!styles["border-top"] && !styles["border-right"] &&
+          !styles["border-bottom"] && !styles["border-left"]) {
           throw new Error("Invalid Double decorator (zero inner border width). Use qx.ui.decoration.Single instead!");
         }
       }
     },
     
     
-    _generateMarkupDoubleBorder : function(innerStyles) {
-      var innerHtml = this._generateBackgroundMarkup(innerStyles);
+    _generateMarkupDoubleBorder : function(styles) {
+      var innerHtml = this._generateBackgroundMarkup(styles);
       var Color = qx.theme.manager.Color.getInstance();
 
+      // get rid of the old borders
+      styles["border-top"] = '';
+      styles["border-right"] = '';
+      styles["border-bottom"] = '';
+      styles["border-left"] = '';
+
       // Generate outer HTML
-      var outerStyles = 'line-height:0;';
+      styles["line-height"] = 0;
 
       // Do not set the line-height on IE6, IE7, IE8 in Quirks Mode and IE8 in IE7 Standard Mode
       // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3450 for details
       if ((qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION < 8) ||
           (qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.DOCUMENT_MODE < 8)) {
-        outerStyles = '';
+        styles["line-height"] = '';
       }
 
       var width = this.getWidthTop();
       if (width > 0) {
-        outerStyles += "border-top:" + width + "px " + this.getStyleTop() + " " + Color.resolve(this.getColorTop()) + ";";
+        styles["border-top"] = width + "px " + this.getStyleTop() + " " + Color.resolve(this.getColorTop());
       }
 
       var width = this.getWidthRight();
       if (width > 0) {
-        outerStyles += "border-right:" + width + "px " + this.getStyleRight() + " " + Color.resolve(this.getColorRight()) + ";";
+        styles["border-right"] = width + "px " + this.getStyleRight() + " " + Color.resolve(this.getColorRight());
       }
 
       var width = this.getWidthBottom();
       if (width > 0) {
-        outerStyles += "border-bottom:" + width + "px " + this.getStyleBottom() + " " + Color.resolve(this.getColorBottom()) + ";";
+        styles["border-bottom"] = width + "px " + this.getStyleBottom() + " " + Color.resolve(this.getColorBottom());
       }
 
       var width = this.getWidthLeft();
       if (width > 0) {
-        outerStyles += "border-left:" + width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft()) + ";";
+        styles["border-left"] = width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft());
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (outerStyles.length === 0) {
+        if (styles["border-top"] == '' && styles["border-right"] == '' &&
+          styles["border-bottom"] == '' && styles["border-left"] == '') {
           throw new Error("Invalid Double decorator (zero outer border width). Use qx.ui.decoration.Single instead!");
         }
       }
 
+      // final default styles
+      styles["position"] = "absolute";
+      styles["top"] = 0;
+      styles["left"] = 0;
+
       // Store
-      return this.__ownMarkup = '<div style="position:absolute;top:0;left:0;' + outerStyles + '">' + innerHtml + '</div>';
+      return this.__ownMarkup = this._generateBackgroundMarkup(styles, innerHtml);
     },
     
     

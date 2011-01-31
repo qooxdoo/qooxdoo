@@ -80,5 +80,21 @@ qx.Class.define("qx.ui.form.CheckBox",
       refine : true,
       init : false
     }
+  },
+  
+  
+  members : 
+  {
+    // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates)
+     */
+    _forwardStates :
+    {
+      invalid : true,
+      focused : true,
+      undetermined : true,
+      checked : true
+    }
   }
 });
