@@ -104,21 +104,8 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
 
     testCreationWithSorter : function()
     {
-      var sorter = function(a, b) {
-        return a < b ? 1 : a > b ? -1 : 0;
-      };
-
-      this.__dropdown.getChildControl("list").setDelegate({sorter : sorter});
-
-      var model = this.__dropdown.getChildControl("list").getModel();
-
-      this.assertEquals(this.__model.getLength(), model.getLength(), "Model length not equals!");
-      this.assertEquals(this.__model, model, "Model instance not equals!");
-
-      var modelSorted = model.copy();
-      modelSorted.sort(sorter);
-
-      this.__checkSelection(modelSorted.getItem(0));
+      var sortedModel = this.__applySortingAndReturnSortedModel();
+      this.__checkSelection(sortedModel.getItem(0));
     },
 
 
@@ -145,13 +132,24 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     },
 
 
-    testSelectFirst : function()
+    testSelectFirst : function() {
+      this.__testSelectFirst(this.__model);
+    },
+
+
+    testSelectFirstWithSorter : function()
     {
+      var sortedModel = this.__applySortingAndReturnSortedModel();
+      this.__testSelectFirst(sortedModel);
+    },
+
+
+    __testSelectFirst : function(model) {
       var selection = this.__dropdown.getSelection();
-      selection.push(this.__model.getItem(2));
+      selection.push(model.getItem(2));
 
       var that = this;
-      var newItem = this.__model.getItem(0);
+      var newItem = model.getItem(0);
       this.__checkEvent(selection, function() {
         that.__dropdown.selectFirst();
       }, 1);
@@ -166,12 +164,25 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     },
 
 
-    testSelectLast : function()
+    testSelectLast : function() {
+      this.__testSelectLast(this.__model);
+    },
+
+
+    testSelectLastWithSorting : function()
+    {
+      var sortedModel = this.__applySortingAndReturnSortedModel();
+      this.__testSelectLast(sortedModel);
+    },
+
+
+    __testSelectLast : function(model)
     {
       var selection = this.__dropdown.getSelection();
+      selection.push(model.getItem(2));
 
       var that = this;
-      var newItem = this.__model.getItem(this.__model.getLength() - 1);
+      var newItem = model.getItem(model.getLength() - 1);
       this.__checkEvent(selection, function() {
         that.__dropdown.selectLast();
       }, 1);
@@ -187,7 +198,19 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     },
 
 
-    testSelectPrevious : function()
+    testSelectPrevious : function() {
+      this.__testSelectPrevious(this.__model);
+    },
+
+
+    testSelectPreviousWithSorter : function()
+    {
+      var sortedModel = this.__applySortingAndReturnSortedModel();
+      this.__testSelectPrevious(sortedModel);
+    },
+
+
+    __testSelectPrevious : function(model)
     {
       var selection = this.__dropdown.getSelection();
 
@@ -196,21 +219,33 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
         that.__dropdown.selectPrevious();
       });
 
-      this.__checkSelection(this.__model.getItem(0));
+      this.__checkSelection(model.getItem(0));
 
       var index = 1;
-      selection.push(this.__model.getItem(index));
+      selection.push(model.getItem(index));
 
       var that = this;
       this.__checkEvent(selection, function() {
         that.__dropdown.selectPrevious();
       }, 1);
 
-      this.__checkSelection(this.__model.getItem(index - 1));
+      this.__checkSelection(model.getItem(index - 1));
     },
 
 
-    testSelectNext : function()
+    testSelectNext : function() {
+      this.__testSelectNext(this.__model);
+    },
+
+
+    testSelectNextWithSorter : function()
+    {
+      var sortedModel = this.__applySortingAndReturnSortedModel();
+      this.__testSelectNext(sortedModel);
+    },
+
+
+    __testSelectNext : function(model)
     {
       var selection = this.__dropdown.getSelection();
 
@@ -219,17 +254,17 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
         that.__dropdown.selectNext();
       }, 1);
 
-      this.__checkSelection(this.__model.getItem(1));
+      this.__checkSelection(model.getItem(1));
 
-      var index = this.__model.getLength() - 1;
-      selection.push(this.__model.getItem(index));
+      var index = model.getLength() - 1;
+      selection.push(model.getItem(index));
 
       var that = this;
       this.assertEventNotFired(selection, "change", function() {
         that.__dropdown.selectNext();
       });
 
-      this.__checkSelection(this.__model.getItem(index));
+      this.__checkSelection(model.getItem(index));
     },
 
 
@@ -249,7 +284,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     {
       this.assertTrue(this.__model.contains(item), "The itme '" + item + "' is not in the model!");
       var modelIndex = this.__model.indexOf(item);
-      
+
       var selection = this.__dropdown.getSelection();
       var listSelection = this.__dropdown.getChildControl("list").getSelection();
 
@@ -268,6 +303,21 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
         count++;
       });
       this.assertEquals(fired, count, "The event is not fired the expected times!");
+    },
+
+
+    __applySortingAndReturnSortedModel : function()
+    {
+      var sorter = function(a, b) {
+        return a < b ? 1 : a > b ? -1 : 0;
+      };
+
+      this.__dropdown.getChildControl("list").setDelegate({sorter : sorter});
+
+      var sortedModel = this.__model.copy();
+      sortedModel.sort(sorter);
+
+      return sortedModel;
     }
   },
 

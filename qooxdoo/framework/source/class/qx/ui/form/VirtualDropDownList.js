@@ -198,7 +198,9 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
       if (model.contains(this.getSelection().getItem(0)))
       {
-        var index = model.indexOf(this.getSelection().getItem(0));
+        var modelIndex = model.indexOf(this.getSelection().getItem(0));
+
+        var index = this.getChildControl("list")._reverseLookup(modelIndex);
         index = index - 1;
 
         if (index < 0) {
@@ -221,7 +223,9 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
       if (model.contains(this.getSelection().getItem(0)))
       {
-        var index = model.indexOf(this.getSelection().getItem(0));
+        var modelIndex = model.indexOf(this.getSelection().getItem(0));
+
+        var index = this.getChildControl("list")._reverseLookup(modelIndex);
         index = index + 1;
 
         if (index >= model.getLength()) {
@@ -360,7 +364,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
     /**
      * Handler for the model change event.
-     * 
+     *
      * @param event {qx.event.type.Data} The change event.
      */
     _onChangeModel : function(event) {
@@ -370,7 +374,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
     /**
      * Handler for the delegate change event.
-     * 
+     *
      * @param event {qx.event.type.Data} The change event.
      */
     _onChangeDelegate : function(event) {
@@ -397,7 +401,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
       if (model.getLength() > index)
       {
-        var item = model.getItem(index);
+        var item = model.getItem(this.getChildControl("list")._lookup(index));
 
         if (!selection.contains(item)) {
           selection.splice(0, 1, item);
