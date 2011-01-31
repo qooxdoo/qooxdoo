@@ -504,6 +504,35 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     /*
     ---------------------------------------------------------------------------
+      SEPARATOR
+    ---------------------------------------------------------------------------
+    */
+
+    "separator-horizontal" :
+    {
+      decorator: qx.ui.decoration.Single,
+
+      style :
+      {
+        widthLeft : 1,
+        colorLeft : "border-separator"
+      }
+    },
+
+    "separator-vertical" :
+    {
+      decorator: qx.ui.decoration.Single,
+
+      style :
+      {
+        widthTop : 1,
+        colorTop : "border-separator"
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
       SCROLL KNOB
     ---------------------------------------------------------------------------
     */    
@@ -608,7 +637,8 @@ qx.Theme.define("qx.theme.simple.Decoration",
       decorator : [
         qx.ui.decoration.MBorderRadius,
         qx.ui.decoration.MBoxShadow,
-        qx.ui.decoration.MSingleBorder
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBackgroundColor
       ],
       
       style : 
@@ -617,7 +647,8 @@ qx.Theme.define("qx.theme.simple.Decoration",
         color: "white-box-border",
         shadowBlurRadius : 2,
         shadowColor : "#999999",
-        radius: 7
+        radius: 7,
+        backgroundColor : "white"
       }
     },
 
