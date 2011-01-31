@@ -114,7 +114,7 @@ def extractDateTimeFormat(calendarElement):
 def extractFields(calendarElement):
     fields = {}
     for field in calendarElement.findall(".//fields/field"):
-        if not field.find("displayName"): break
+        if field.find("displayName") is None: break
         fields[field.attrib["type"]] = field.find("displayName").text
 
     return fields
