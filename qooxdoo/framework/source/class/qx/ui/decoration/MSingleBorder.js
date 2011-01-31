@@ -268,7 +268,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     
     
     // overridden
-    _getDefaultInsets : function()
+    _getDefaultInsetsForSingleBorder : function()
     {
       return {
         top : this.getWidthTop(),
@@ -276,12 +276,6 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
         bottom : this.getWidthBottom(),
         left : this.getWidthLeft()
       };
-    },
-    
-    
-    // overridden
-    _isInitialized: function() {
-      return !!this._markup;
     },
     
     
@@ -294,12 +288,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     // property apply
     _applyWidth : function()
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this._markup) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
-        }
-      }
+      this._applyStyle();
 
       this._resetInsets();
     },

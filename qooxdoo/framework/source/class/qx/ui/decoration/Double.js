@@ -193,7 +193,7 @@ qx.Class.define("qx.ui.decoration.Double",
     */
 
     // interface implementation
-    getMarkup : function()
+    getMarkup : function(element)
     {
       if (this.__ownMarkup) {
         return this.__ownMarkup;
@@ -234,6 +234,12 @@ qx.Class.define("qx.ui.decoration.Double",
           throw new Error("Invalid Double decorator (zero inner border width). Use qx.ui.decoration.Single instead!");
         }
       }
+
+      // get the broder radius styles
+      this._getMarkupBorderRadius(innerStyles, element);
+
+      // get the shadow styles
+      this._getMarkupBoxShadow(innerStyles, element);
 
       // Generate inner HTML
       var innerHtml = this._generateBackgroundMarkup(innerStyles);

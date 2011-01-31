@@ -27,9 +27,10 @@ qx.Class.define("qx.ui.decoration.Single",
   extend : qx.ui.decoration.Abstract,
   include : [
     qx.ui.decoration.MBackgroundImage, 
-    qx.ui.decoration.MBorderRadius,
+    qx.ui.decoration.MBorderRadius,  // TODO remove
     qx.ui.decoration.MBackgroundColor,
-    qx.ui.decoration.MSingleBorder
+    qx.ui.decoration.MSingleBorder,
+    qx.ui.decoration.MBoxShadow  // TODO remove
   ],
 
 
@@ -96,6 +97,9 @@ qx.Class.define("qx.ui.decoration.Single",
       // get the broder radius styles
       this._getMarkupBorderRadius(styles, element);
 
+      // get the shadow styles
+      this._getMarkupBoxShadow(styles, element);
+      
       var html = this._generateBackgroundMarkup(styles);
 
       return this._markup = html;
@@ -111,7 +115,17 @@ qx.Class.define("qx.ui.decoration.Single",
     // interface implementation
     tint : function(element, bgcolor) {
       this._tintBackgroundColor(element, bgcolor, element.style);
-    }
+    },
+    
+    
+    // overridden
+    _isInitialized: function() {
+      return !!this._markup;
+    },
+
+
+    // overridden
+    _getDefaultInsets : this._getDefaultInsetsForSingleBorder
   },
 
 

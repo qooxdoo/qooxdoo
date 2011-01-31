@@ -118,6 +118,23 @@ qx.Theme.define("qx.theme.simple.Decoration",
         radius : 3
       }
     },
+    
+    
+    "window" :
+    {
+      decorator: qx.ui.decoration.Double,
+
+      style :
+      {
+        width : 1,
+        color : "window-border",
+        innerWidth : 4,
+        innerColor: "window-border-inner",
+        shadowLength : 2,
+        shadowBlurRadius : 5,
+        shadowColor : "#666666"
+      }
+    },    
 
 
     "table-header" :
@@ -283,11 +300,12 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "shadow" :
     {
-      decorator : qx.ui.decoration.Grid,
+      decorator : qx.ui.decoration.Background,
 
       style : {
-        baseImage : "decoration/shadow/shadow.png",
-        insets    : [ 4, 8, 8, 4 ]
+        shadowLength : [4, 8],
+        shadowBlurRadius : 10,
+        shadowColor : "black"
       }
     },
 
