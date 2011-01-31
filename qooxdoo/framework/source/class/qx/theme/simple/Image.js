@@ -21,12 +21,19 @@
 #asset(qx/decoration/Simple/*)
 
 ************************************************************************* */
+/**
+ * Mapping class for all images used in the simple theme.
+ */
 qx.Class.define("qx.theme.simple.Image", 
 {
   extend : qx.core.Object,
 
   statics :
   {
+    /**
+     * Contains a map holding all images as base64 sings.
+     * @internal
+     */
     BASE64 : 
     {
       "blank" : "data:image/gif;base64,R0lGODlhAQABAJH/AP///wAAAMDAwAAAACH5BAEAAAIALAAAAAABAAEAAAICVAEAOw==",
@@ -63,7 +70,12 @@ qx.Class.define("qx.theme.simple.Image",
       "tree-minus" : "decoration/tree/minus.gif",
       "tree-plus" : "decoration/tree/plus.gif"      
     },
-    
+
+
+    /**
+     * Holds a map containig all the URL to the images.
+     * @internal
+     */
     URLS : 
     {
       "blank" : "qx/static/blank.gif",
@@ -98,8 +110,14 @@ qx.Class.define("qx.theme.simple.Image",
       "tree-plus" : "decoration/tree/plus.gif"
     },
     
+    /**
+     * Holds a map containings all the source of used images in the simple
+     * theme. The value of the map will be assigned on startup depending
+     * on the capabilities of the browser to use data urls for images.
+     */
     ICONS : null
   },
+  
   
   defer : function(statics) {
     var base64support = qx.bom.client.Feature.DATA_URL;
