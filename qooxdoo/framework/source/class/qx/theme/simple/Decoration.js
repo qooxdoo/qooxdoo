@@ -94,8 +94,8 @@ qx.Theme.define("qx.theme.simple.Decoration",
         radius : 3,
         width : 1,
         color : "#BBB",
-        gradientPosition : [0, 40, 0, 70],
-        gradientColor : ["#F9F9F9", "#E3E3E3"]
+        gradientStart : ["#F9F9F9", 40],
+        gradientEnd : ["#E3E3E3", 70]
       }
     },
     
@@ -105,7 +105,8 @@ qx.Theme.define("qx.theme.simple.Decoration",
       
       style : 
       {
-        gradientColor : ["#E3E3E3", "#F9F9F9"]
+        gradientStart : ["#E3E3E3", 40],
+        gradientEnd : ["#F9F9F9", 70]
       }
     },
     

@@ -22,12 +22,13 @@
  * Keep in mind that this is not supported by all browsers:
  *   * Safari 4.0+
  *   * Chrome 4.0+
+ *   * Firefox 3.6+
  */
 qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient", 
 {
   properties : 
   {
-    /** Start color of the background */
+    /** Start start color of the background */
     startColor :
     {
       check : "Color",
@@ -35,7 +36,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       apply : "_applyLinearBackgroundGradient"
     },
     
-    /** End color of the background */
+    /** End end color of the background */
     endColor :
     {
       check : "Color",
@@ -43,49 +44,42 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       apply : "_applyLinearBackgroundGradient"
     },
     
-    /** Property group to set the colors. */
-    gradientColor :
+    /** The orientation of the gradient. */
+    orientation : 
     {
-      group : ["startColor", "endColor"],
+      check : ["horizontal", "vertical"],
+      init : "vertical",
+      apply : "_applyLinearBackgroundGradient"
+    },
+    
+    /** Position in percent where to start the color. */
+    startColorPosition : 
+    {
+      check : "Number", 
+      init : 0,
+      apply : "_applyLinearBackgroundGradient"
+    },
+    
+    /** Position in percent where to start the color. */
+    endColorPosition : 
+    {
+      check : "Number", 
+      init : 100,
+      apply : "_applyLinearBackgroundGradient"
+    },
+    
+    
+    /** Property group to set the start color inluding its start position. */
+    gradientStart :
+    {
+      group : ["startColor", "startColorPosition"],
       mode : "shorthand"
     },
     
-    /** Horizontal start position in percent of the gradient. */
-    startPosHorizontal :
+    /** Property group to set the end color inluding its end position. */
+    gradientEnd :
     {
-      check : "Number",
-      nullable : true,
-      apply : "_applyLinearBackgroundGradient"
-    },
-    
-    /** Vertical start position in percent of the gradient. */
-    startPosVertical :
-    {
-      check : "Number",
-      nullable : true,
-      apply : "_applyLinearBackgroundGradient"
-    },
-    
-    /** Horizontal end position in percent of the gradient. */
-    endPosHorizontal :
-    {
-      check : "Number",
-      nullable : true,
-      apply : "_applyLinearBackgroundGradient"
-    },
-    
-    /** Vertical end position in percent of the gradient. */
-    endPosVertical :
-    {
-      check : "Number",
-      nullable : true,
-      apply : "_applyLinearBackgroundGradient"
-    },
-    
-    /** Position of the gradient in percent. */
-    gradientPosition :
-    {
-      group : ["startPosHorizontal", "startPosVertical", "endPosHorizontal", "endPosVertical"],
+      group : ["endColor", "endColorPosition"],
       mode : "shorthand"
     }
   },
@@ -94,15 +88,31 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
   members :
   {
     _getMarkupLinearBackgroundGradient : function(styles) {
-      
-      var startPos = 
-        (this.getStartPosHorizontal() || 0) + "% " + (this.getStartPosVertical() || 0) + "%";
-      var endPos = 
-        (this.getEndPosHorizontal() || 0) + "% " + (this.getEndPosVertical() || 0) + "%";
-      var color = "from(" + this.getStartColor() + "), to(" + this.getEndColor() + ")";
-      var value = "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")";
-      
-      styles["background"] = value;      
+
+      if (qx.bom.client.Engine.WEBKIT) {
+        
+        if (this.getOrientation() == "horizontal") {
+          var startPos = this.getStartColorPosition() + "% 0%";
+          var endPos = this.getEndColorPosition() + "% 0%";
+        } else {
+          var startPos = "0% " + this.getStartColorPosition() + "%";
+          var endPos = "0% " + this.getEndColorPosition() + "%";
+        }
+
+        var color = "from(" + this.getStartColor() + "), to(" + this.getEndColor() + ")";
+
+        var value = "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")";
+        styles["background"] = value;
+
+      } else {
+        var deg = this.getOrientation() == "horizontal" ? 0 : 270;
+        var start = this.getStartColor() + " " + this.getStartColorPosition() + "%";
+        var end = this.getEndColor() + " " + this.getEndColorPosition() + "%";
+
+        var prefix = qx.bom.client.Engine.GECKO ? "-moz-" : "";
+        styles["background"] = 
+          prefix + "linear-gradient(" + deg + "deg, " + start + "," + end + ")";
+      }
     },
 
 
