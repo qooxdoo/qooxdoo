@@ -227,7 +227,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           decorator : "statusbar",
           padding : [2, 5],
-          backgroundColor: "light-blue"
+          backgroundColor: "light-background"
         };
       }
     },
@@ -573,7 +573,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "light-blue"
+          backgroundColor : "light-background"
         };
       }
     },
@@ -596,7 +596,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "border-dark",
+          backgroundColor : "border-light-shadow",
           opacity : 0.3
         };
       }
@@ -803,7 +803,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "light-blue",
+          backgroundColor : "light-background",
           padding: [4, 2]
         };
       }
@@ -815,17 +815,19 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         var decorator;
         var padding = [2, 6];
-        if (states.pressed) {
-          decorator = "menubar-button-pressed";
-          padding = [1, 5, 2, 5];
-        } else if (states.hovered) {
-          decorator = "menubar-button-hovered";
-          padding = [1, 5];          
+        if (!states.disabled) {
+          if (states.pressed) {
+            decorator = "menubar-button-pressed";
+            padding = [1, 5, 2, 5];
+          } else if (states.hovered) {
+            decorator = "menubar-button-hovered";
+            padding = [1, 5];          
+          }
         }
         
         return {
           padding : padding,
-          cursor : "pointer",
+          cursor : states.disabled ? undefined : "pointer",
           textColor : "link",
           decorator : decorator
         };
@@ -1741,7 +1743,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "light-blue",
+          backgroundColor : "light-background",
           padding : 8,
           font: "bold",
           decorator : "window-caption"
@@ -1937,8 +1939,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator       : "datechooser-weekday",
           font            : "bold",
           textAlign       : "center",
-          textColor       : states.disabled ? "text-disabled" : states.weekend ? "dark-blue" : "background",
-          backgroundColor : states.weekend ? "background" : "dark-blue",
+          textColor       : states.disabled ? "text-disabled" : states.weekend ? "background-selected-dark" : "background",
+          backgroundColor : states.weekend ? "background" : "background-selected-dark",
           paddingTop: 2
         };
       }
@@ -1952,7 +1954,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           textAlign       : "center",
           decorator       : states.today ? "main" : undefined,
           textColor       : states.disabled ? "text-disabled" : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : undefined,
-          backgroundColor : states.disabled ? undefined : states.selected ? "blue" : undefined,
+          backgroundColor : states.disabled ? undefined : states.selected ? "background-selected" : undefined,
           padding         : [ 2, 4 ]
         };
       }
@@ -1964,7 +1966,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           textAlign : "center",
-          textColor : "dark-blue",
+          textColor : "background-selected-dark",
           padding   : [ 2, 4 ],
           decorator : states.header ? "datechooser-week-header" : "datechooser-week"
         };
@@ -2015,7 +2017,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "light-blue",
+          backgroundColor : "light-background",
           padding : 0
         };
       }
@@ -2368,7 +2370,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           zIndex : states.checked ? 10 : 5,
           decorator : decorator,
-          backgroundColor : "dark-blue",
+          backgroundColor : "background-selected-dark",
           textColor: "white",
           font: "bold",
           padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
@@ -2606,7 +2608,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           font : "headline",
           textColor : "text-selected",
-          backgroundColor: "dark-blue",
+          backgroundColor: "background-selected-dark",
           padding : [8, 12]
         };
       }

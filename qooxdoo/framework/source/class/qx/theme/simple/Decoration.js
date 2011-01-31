@@ -41,7 +41,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         width : 4,
-        color : "blue"
+        color : "background-selected"
       }
     },
 
@@ -53,7 +53,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         width : 1,
-        color : "blue"
+        color : "background-selected"
       }
     },
     
@@ -187,7 +187,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       
       style : 
       {
-        color : "blue"
+        color : "background-selected"
       }
     },
     
@@ -197,7 +197,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       
       style : 
       {
-        color : "blue"
+        color : "background-selected"
       }
     },
     
@@ -690,7 +690,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         width : 2,
-        color : "blue"
+        color : "background-selected"
       }
     },
 
@@ -781,7 +781,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         widthLeft : 1,
-        colorLeft : "border-dark-shadow"
+        colorLeft : "border-licenses"
       }
     },
 
@@ -798,7 +798,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         widthTop: 1,
-        colorTop : "blue"
+        colorTop : "background-selected"
       }
     },
     
@@ -819,7 +819,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style : 
       {
         width : 1,
-        color : "blue",
+        color : "background-selected",
         radius : 3,
         backgroundColor : "white"
       }
@@ -912,10 +912,10 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         width : 1,
-        color : [ "blue", "blue", "blue", "blue" ],
+        color : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
 
         innerWidth : 1,
-        innerColor : [ "blue", "blue", "blue", "blue" ],
+        innerColor : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
 
         widthBottom : 0,
         innerWidthBottom : 0
@@ -929,10 +929,10 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         width : 1,
-        color : [ "blue", "blue", "blue", "blue" ],
+        color : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
 
         innerWidth : 1,
-        innerColor : [ "blue", "blue", "blue", "blue" ],
+        innerColor : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
 
         widthTop : 0,
         innerWidthTop : 0
@@ -946,10 +946,10 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         width : 1,
-        color : [ "blue", "blue", "blue", "blue" ],
+        color : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
 
         innerWidth : 1,
-        innerColor : [ "blue", "blue", "blue", "blue" ],
+        innerColor : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
 
         widthRight : 0,
         innerWidthRight : 0
@@ -963,10 +963,10 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         width : 1,
-        color : [ "blue", "blue", "blue", "blue" ],
+        color : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
 
         innerWidth : 1,
-        innerColor : [ "blue", "blue", "blue", "blue" ],
+        innerColor : [ "background-selected", "background-selected", "background-selected", "background-selected" ],
 
         widthLeft : 0,
         innerWidthLeft : 0
@@ -1000,7 +1000,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         widthTop : 1,
-        colorTop : "middle-blue",
+        colorTop : "background-selected",
         styleTop : "solid"
       }
     },
@@ -1089,7 +1089,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       include : "radiobutton",
       style : 
       {
-        color : "blue"
+        color : "background-selected"
       }
     },
     
@@ -1128,7 +1128,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       include : "checkbox",
       style : 
       {
-        color : "blue"
+        color : "background-selected"
       }
     },
     
