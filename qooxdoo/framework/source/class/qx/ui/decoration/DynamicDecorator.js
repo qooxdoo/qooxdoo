@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
       for (var name in this) {
         if (name.indexOf("_resize") == 0 && this[name] instanceof Function) {
           var currentPos = this[name](element, width, height);
-          if (!pos.left) {
+          if (pos.left == undefined) {
             pos.left = currentPos.left;
             pos.top = currentPos.top;
           }
@@ -112,10 +112,6 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
     _getDefaultInsets : function() {
       var directions = ["top", "right", "bottom", "left"];
       var defaultInsets = {};
-      // initialize with 0
-      for (var i=0; i < directions.length; i++) {
-        defaultInsets[directions[i]] = 0;
-      };
 
       for (var name in this) {
         if (name.indexOf("_getDefaultInsetsFor") == 0 && this[name] instanceof Function) {
@@ -123,14 +119,24 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
 
           for (var i=0; i < directions.length; i++) {
             var direction = directions[i];
-            if (currentInsets[direction] > defaultInsets[direction]) {
+            // initialize with the first insets found
+            if (defaultInsets[direction] == undefined) {
+              defaultInsets[direction] = currentInsets[direction];
+            }
+            // take the smalest inset
+            if (currentInsets[direction] < defaultInsets[direction]) {
               defaultInsets[direction] = currentInsets[direction];
             }
           };
         }
       }
       
-      return defaultInsets;
+      // check if the mixins have created a default insets
+      if (defaultInsets["top"] != undefined) {
+        return defaultInsets;        
+      }
+      // return a fallback which is 0 for all insets
+      return {top: 0, right: 0, bottom: 0, left: 0};
     }
   }
 });

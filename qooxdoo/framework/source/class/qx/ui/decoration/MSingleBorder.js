@@ -239,7 +239,6 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     
     _resizeSingleBorder : function(element, width, height) {
       var insets = this.getInsets();
-      
       return {
         left : (parseInt(element.style.left, 10) + insets.left - this.getWidthLeft()),
         top : (parseInt(element.style.top, 10) + insets.top - this.getWidthTop())
