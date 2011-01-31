@@ -194,8 +194,22 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
+        var decorator = "button-box";
+        
+        if (states.disabled) {
+          decorator = "button-box";
+        } else if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
+        }
+        
         return {
-          textColor : states.checked ? "link-pressed" : "link"
+          decorator : decorator,
+          padding : [3, 8],
+          cursor: states.disabled ? undefined : "pointer"
         };
       }
     },
@@ -206,9 +220,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          textColor : states.disabled ? "text-disabled" : states.pressed ? "link-pressed": undefined,
-          font : "link",
-          cursor: states.disabled ? undefined : "pointer"
+          textColor : states.disabled ? "text-disabled" : undefined
         };
       }
     },
@@ -240,8 +252,60 @@ qx.Theme.define("qx.theme.simple.Appearance",
     },
 
     "splitbutton" : {},
-    "splitbutton/button" : "button",
-    "splitbutton/arrow" : "combobox/button",
+
+    "splitbutton/button" : 
+    {
+      alias : "atom",
+
+      style : function(states)
+      {
+        var decorator = "button-box";
+        
+        if (states.disabled) {
+          decorator = "button-box";
+        } else if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
+        }
+        
+        decorator += "-left";
+        
+        return {
+          decorator : decorator,
+          padding : [3, 8]
+        };
+      }
+    },
+
+    "splitbutton/arrow" : {
+
+      style : function(states)
+      {
+        var decorator = "button-box";
+        
+        if (states.disabled) {
+          decorator = "button-box";
+        } else if (states.hovered && !states.pressed && !states.checked) {
+          decorator = "button-box-hovered";
+        } else if (states.hovered && (states.pressed || states.checked)) {
+          decorator = "button-box-pressed-hovered";
+        } else if (states.pressed || states.checked) {
+          decorator = "button-box-pressed";
+        }
+        
+        decorator += "-right";
+        
+        return {
+          icon : "decoration/arrows/down.gif",
+          decorator : decorator,
+          cursor : "pointer",
+          padding: [3, 4]
+        };
+      }
+    },
 
 
 

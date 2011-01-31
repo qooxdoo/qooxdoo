@@ -81,6 +81,152 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
 
 
+    "button-box" : 
+    {
+      decorator : [
+        qx.ui.decoration.MLinearBackgroundGradient,
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MSingleBorder
+      ],
+      
+      style : 
+      {
+        radius : 3,
+        width : 1,
+        color : "#BBB",
+        gradientPosition : [0, 40, 0, 70],
+        gradientColor : ["#F9F9F9", "#E3E3E3"]
+      }
+    },
+    
+    "button-box-pressed" : 
+    {
+      include : "button-box",
+      
+      style : 
+      {
+        gradientColor : ["#E3E3E3", "#F9F9F9"]
+      }
+    },
+    
+    "button-box-pressed-hovered" : 
+    {
+      include : "button-box-pressed",
+
+      style : 
+      {
+        color : "#939393"
+      }
+    },
+    
+    "button-box-hovered" : 
+    {
+      include : "button-box",
+      
+      style : 
+      {
+        color : "#939393"
+      }
+    },
+    
+    
+
+
+    "button-box-right" : 
+    {
+      include : "button-box",
+      
+      style : 
+      {
+        radius : [0, 3, 3, 0]
+      }
+    },
+    
+    "button-box-pressed-right" : 
+    {
+      include : "button-box-pressed",
+      
+      style : 
+      {
+        radius : [0, 3, 3, 0]
+      }
+    },
+    
+    "button-box-pressed-hovered-right" : 
+    {
+      include : "button-box-pressed-hovered",
+      
+      style : 
+      {
+        radius : [0, 3, 3, 0]
+      }
+    },
+    
+    "button-box-hovered-right" : 
+    {
+      include : "button-box-hovered",
+      
+      style : 
+      {
+        radius : [0, 3, 3, 0]
+      }
+    },
+
+
+
+
+    "button-box-left" : 
+    {
+      include : "button-box",
+      
+      style : 
+      {
+        radius : [3, 0, 0, 3],
+        width : [1, 0, 1, 1]
+      }
+    },
+    
+    "button-box-pressed-left" : 
+    {
+      include : "button-box-pressed",
+      
+      style : 
+      {
+        radius : [3, 0, 0, 3],
+        width : [1, 0, 1, 1]
+      }
+    },
+    
+    "button-box-pressed-hovered-left" : 
+    {
+      include : "button-box-pressed-hovered",
+      
+      style : 
+      {
+        radius : [3, 0, 0, 3],
+        width : [1, 0, 1, 1]
+      }
+    },
+    
+    "button-box-hovered-left" : 
+    {
+      include : "button-box-hovered",
+      
+      style : 
+      {
+        radius : [3, 0, 0, 3],
+        width : [1, 0, 1, 1]
+      }
+    },
+
+
+
+
+
+
+
+
+
     "button" : 
     {
       decorator : qx.ui.decoration.Single,
