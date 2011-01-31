@@ -217,7 +217,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
      * Method to bind the selected item from the drop-down with the widget.
      */
     _bindWidget : function() {
-      throw new Error("Abstract method: '_bindWidget()' on called!");
+      throw new Error("Abstract method: '_bindWidget()' called!");
     },
 
 
