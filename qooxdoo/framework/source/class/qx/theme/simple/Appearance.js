@@ -553,15 +553,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "groupbox" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor : "blue"
-        };
-      }
-    },
+    "groupbox" : {},
 
     "groupbox/legend" :
     {
@@ -570,8 +562,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "dark-blue",
-          textColor : states.invalid ? "invalid" : "white",
+          textColor : states.invalid ? "invalid" : undefined,
           padding : 5,
           margin : 4,
           font: "bold"
@@ -585,8 +576,9 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           backgroundColor : "background",
-          padding : [ 18, 9 , 12, 9],
-          decorator  : "border-blue"
+          padding : [6, 9],
+          margin: [18, 2, 2, 2],
+          decorator  : "white-box"
         };
       }
     },
@@ -601,8 +593,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "dark-blue",
-          textColor : states.invalid ? "invalid" : "white",
+          textColor : states.invalid ? "invalid" : undefined,
           padding : 5,
           margin : 4,
           font: "bold"
@@ -620,8 +611,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "dark-blue",
-          textColor : states.invalid ? "invalid" : "white",
+          textColor : states.invalid ? "invalid" : undefined,
           padding : 5,
           margin : 4,
           font: "bold"

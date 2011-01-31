@@ -149,6 +149,25 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
     
     
+    
+    "white-box" : 
+    {
+      decorator : [
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MBoxShadow,
+        qx.ui.decoration.MSingleBorder
+      ],
+      
+      style : 
+      {
+        width: 1,
+        color: "white-box-border",
+        shadowBlurRadius : 2,
+        shadowColor : "#999999",
+        radius: 7
+      }
+    },
+
     /*
     ---------------------------------------------------------------------------
       THREE DIMENSIONAL
