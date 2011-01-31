@@ -41,8 +41,33 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
       if (bgcolor == null) {
         bgcolor = this.getBackgroundColor();
       }
-      
+
       styles.backgroundColor = Color.resolve(bgcolor) || "";
+    },
+
+    
+    _resizeBackgroundColor : function(element, width, height) {
+      var insets = this.getInsets();
+      width -= insets.left + insets.right;
+      height -= insets.top + insets.bottom;
+
+      // Fix to keep applied size above zero
+      // Makes issues in IE7 when applying value like '-4px'
+      if (width < 0) {
+        width = 0;
+      }
+
+      if (height < 0) {
+        height = 0;
+      }
+
+      element.style.width = width + "px";
+      element.style.height = height + "px";
+
+      element.style.left =
+        (parseInt(element.style.left, 10)) + insets.left;
+      element.style.top =
+        (parseInt(element.style.top, 10)) + insets.top;      
     },
 
 

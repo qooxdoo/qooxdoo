@@ -370,10 +370,14 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "tooltip-error" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [
+        qx.ui.decoration.MBorderRadius, 
+        qx.ui.decoration.MBackgroundColor
+      ],
 
       style : {
-        radius: 5
+        radius: 5,
+        backgroundColor: "invalid"
       }
     },
 

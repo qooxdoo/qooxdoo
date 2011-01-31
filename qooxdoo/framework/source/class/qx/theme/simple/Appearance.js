@@ -126,7 +126,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           hideTimeout: 10000,
           decorator: "tooltip-error",
           font: "bold",
-          backgroundColor: "invalid"
+          backgroundColor: undefined
         };
       }
     },
