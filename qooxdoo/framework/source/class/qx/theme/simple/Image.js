@@ -186,7 +186,9 @@ qx.Class.define("qx.theme.simple.Image",
   
   
   defer : function(statics) {
-    var base64support = qx.bom.client.Feature.DATA_URL;
-    statics.ICONS = base64support ? statics.BASE64 : statics.URLS;
+    // TODO check for this feature (async check)
+    // var base64support = qx.bom.client.Feature.DATA_URL;
+    // statics.ICONS = base64support ? statics.BASE64 : statics.URLS;
+    statics.ICONS = statics.URLS;
   }
 });

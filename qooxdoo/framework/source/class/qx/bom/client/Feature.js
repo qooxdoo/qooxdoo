@@ -106,6 +106,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
 
     /** {BOOLEAN} Whether the client supports data urls or not. */
     DATA_URL : (function() {
+      // TODO test is async... WATCH IT!
       var data = new Image();
       data.onload = data.onerror = function() {
         if (data.width == 1 && data.height == 1) {
