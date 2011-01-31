@@ -21,6 +21,7 @@
 
 #asset(qx/icon/${qx.icontheme}/32/apps/media-photo-album.png)
 #asset(qx/icon/${qx.icontheme}/48/devices/*)
+#asset(qx/icon/${qx.icontheme}/16/places/folder.png)
 
 ************************************************************************ */
 
@@ -107,6 +108,80 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Misc",
       this.__container.add(label);
       this.__container.add(popup);
       popup.show();
+
+      // DragDrop
+      label = new qx.ui.basic.Label("DragDrop");
+      var subcontainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
+      subcontainer.set({
+        allowStretchY : false,
+        allowStretchX : false
+      });
+      this.__container.add(label);
+      this.__container.add(subcontainer);
+
+      var source = new qx.ui.form.List;
+      source.setDraggable(true);
+      source.setSelectionMode("multi");
+      for (var i=0; i<10; i++) {
+        source.add(new qx.ui.form.ListItem("Item " + i, "icon/16/places/folder.png"));
+      }
+
+      source.addListener("dragstart", function(e)
+      {
+        e.addType("items");
+        e.addAction("copy");
+        e.addAction("move");
+      });
+
+      source.addListener("droprequest", function(e)
+      {
+
+        var action = e.getCurrentAction();
+        var type = e.getCurrentType();
+        var result;
+
+        switch(type)
+        {
+          case "items":
+            result = this.getSelection();
+
+            if (action == "copy")
+            {
+              var copy = [];
+              for (var i=0, l=result.length; i<l; i++) {
+                copy[i] = result[i].clone();
+              }
+              result = copy;
+            }
+            break;
+        }
+
+        if (action == "move")
+        {
+          var selection = this.getSelection();
+          for (var i=0, l=selection.length; i<l; i++) {
+            this.remove(selection[i]);
+          }
+        }
+
+        e.addData(type, result);
+      });
+
+      subcontainer.add(source);
+
+      var target = new qx.ui.form.List;
+      target.setDroppable(true);
+      target.setSelectionMode("multi");
+
+      target.addListener("drop", function(e)
+      {
+        var items = e.getData("items");
+        for (var i=0, l=items.length; i<l; i++) {
+          this.add(items[i]);
+        }
+      });
+
+      subcontainer.add(target);
 
     }
   }
