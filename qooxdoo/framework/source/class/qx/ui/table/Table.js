@@ -724,6 +724,8 @@ qx.Class.define("qx.ui.table.Table",
 
     __hadVerticalScrollBar : null,
 
+    __timer : null,
+
 
 
     // overridden
@@ -2023,11 +2025,12 @@ qx.Class.define("qx.ui.table.Table",
           // ... then get the current (old) use of vertical scroll bar
           if (this.__hadVerticalScrollBar == null) {
             this.__hadVerticalScrollBar = scrollerArr[i].getVerticalScrollBarVisible();
-            qx.event.Timer.once(function()
+            this.__timer = qx.event.Timer.once(function()
             {
               // reset the last visible state of the vertical scroll bar
               // in a timeout to prevent infinite loops.
               this.__hadVerticalScrollBar = null;
+              this.__timer = null;
             }, this, 0);
           }
         }
@@ -2239,7 +2242,7 @@ qx.Class.define("qx.ui.table.Table",
     this._disposeObjects(
       "__selectionManager", "__scrollerParent",
       "__emptyTableModel", "__emptyTableModel",
-      "__columnModel"
+      "__columnModel", "__timer"
     );
     this._disposeMap("__columnMenuButtons");
   }
