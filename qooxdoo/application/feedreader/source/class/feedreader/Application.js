@@ -404,7 +404,7 @@ qx.Class.define("feedreader.Application",
       this.__treeView = new qx.ui.tree.Tree();
       this.__treeView.setWidth(250);
       this.__treeView.setDecorator("main");
-      this.__treeView.setPadding(3);
+      this.__treeView.setPadding(0);
       this.__horizontalSplitPane.add(this.__treeView, 0);
 
       // Create vertical splitpane for list and detail view
