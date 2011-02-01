@@ -153,11 +153,19 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
     _selectFirstMatch : function()
     {
       var value = this.getValue();
+      var labelPath = this.getLabelPath();
       if (this.__selection.getItem(0) !== value) {
         var model = this.getModel();
         for (var i = 0, l = model.length; i < l; i++) {
           var modelItem = model.getItem(i);
-          if (modelItem.indexOf(value) == 0) {
+          var itemLabel = null;
+          if (labelPath) {
+            itemLabel = modelItem.get(labelPath);
+          }
+          else if (typeof(modelItem) == "string") {
+            itemLabel = modelItem;
+          }
+          if (itemLabel && itemLabel.indexOf(value) == 0) {
             this.__selection.setItem(0, modelItem);
             break;
           }
