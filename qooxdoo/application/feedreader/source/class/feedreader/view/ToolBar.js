@@ -114,7 +114,7 @@ qx.Class.define("feedreader.view.ToolBar",
     
     // add the listener
     this.addListener("hideItem", this._onHideItem, this);
-    this.addListener("showItem", this._onShowItem, this);    
+    this.addListener("showItem", this._onShowItem, this);
   },
 
 

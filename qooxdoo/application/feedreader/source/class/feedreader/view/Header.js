@@ -40,6 +40,7 @@ qx.Class.define("feedreader.view.Header",
 
     var title = new qx.ui.basic.Label("Feed Reader");
     var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Setting.get("qx.version"));
+    version.setFont("default");
 
     this.add(title);
     this.add(new qx.ui.core.Spacer, {flex : 1});

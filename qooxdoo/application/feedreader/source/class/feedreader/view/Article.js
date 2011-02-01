@@ -47,7 +47,7 @@ qx.Class.define("feedreader.view.Article",
     // Configure
     this.setCssClass("blogEntry");
     this.setOverflowY("auto");
-    this.setBackgroundColor("#FFFDED");
+    this.setBackgroundColor("white");
 
     var font = new qx.bom.Font(14, [ "Candara", "Verdana", "sans-serif" ]);
     font.setLineHeight(1.8);
