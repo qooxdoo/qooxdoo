@@ -3,10 +3,11 @@
 Theming
 *******
 
-qooxdoo includes two themes:
+qooxdoo includes three themes:
 
 * ``Modern`` - a graphically rich theme, showcasing many UI capabilities of qooxdoo %{version}
-* ``Classic`` - a more lightweight, MS Windows oriented theme
+* ``Classic`` - MS Windows oriented theme
+* ``Simple`` - a lightweight theme, which looks more like a website.
 
 Here some screenshots:
 
@@ -18,7 +19,11 @@ Here some screenshots:
 
 .. |Classic theme| image:: window_classic_theme.png
 
-While those two themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  :ref:`extending existing ones <pages/gui_toolkit/ui_custom_themes#extending_themes>` or they can be :ref:`created from scratch <pages/gui_toolkit/ui_custom_themes#custom_themes>`.
+|Simple theme|
+
+.. |Simple theme| image:: window_simple_theme.png
+
+While those three themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  :ref:`extending existing ones <pages/gui_toolkit/ui_custom_themes#extending_themes>` or they can be :ref:`created from scratch <pages/gui_toolkit/ui_custom_themes#custom_themes>`.
 
 A complete theme (a so-called *meta theme*) consists of several special themes, each designed to play a dedicated role and to setup the different parts of the whole theming. These special themes are described at the subsequent sections followed by a description of how to create own themes.
 
@@ -103,7 +108,7 @@ The color values are set in the class `qx.util.ColorUtil <http://demo.qooxdoo.or
 Decoration Theme
 ================
 
-Each widget can be equipped with an independent decoration which can be used to set a background-color or -image, define a border or add a shadow. 
+Each widget can be equipped with an independent decoration which can be used to set a background-color or -image, define a border, add a shadow and much more. 
 In a decoration theme you can use several different decorators depending on the results you wish to achieve. Please take a look at the :doc:`decorator article <ui_decorators>` to get more information.
 
 .. note::
@@ -129,17 +134,6 @@ What a decoration theme can look like:
 
       decorations :
      {
-        "uniform" :
-        {
-          decorator: qx.ui.decoration.Uniform,
-
-          style :
-          {
-            width : 1,
-            color : "border-main"
-          }
-        },
-
        "single" :
         {
           decorator: qx.ui.decoration.Single,
@@ -156,43 +150,6 @@ What a decoration theme can look like:
           }
         },
 
-        "double" :
-        {
-          decorator : qx.ui.decoration.Double,
-
-          style :
-          {
-            width : 1,
-            innerWidth: 1,
-            color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
-            innerColor : [ "border-dark", "border-light-shadow", "border-light-shadow", "border-dark" ]
-          }
-        },
-
-        "background" :
-        {
-          decorator : qx.ui.decoration.Background,
-
-          style :
-          {
-            backgroundImage  : "decoration/background.png",
-            backgroundRepeat : "scale"
-          }
-        },
-
-        "beveled" :
-        {
-          decorator : qx.ui.decoration.Beveled,
-
-          style : {
-            backgroundImage : "decoration/beveled.png",
-            backgroundRepeat : "scale",
-            outerColor : "border-main",
-            innerColor : "white",
-            innerOpacity : 0.5
-          }
-        },
-
         "grid" :
         {
           decorator : qx.ui.decoration.Grid,
@@ -200,6 +157,21 @@ What a decoration theme can look like:
           style :
           {
             baseImage : "decoration/pane/grid.png"
+          }
+        },
+        
+        
+        "combined" : 
+        {
+          decorator : [
+            qx.ui.decoration.MBackgroundColor,
+            qx.ui.decoration.MBorderRadius
+          ],
+          
+          style : 
+          {
+            backgroundColor : "button",
+            radius : 3
           }
         }
     });
@@ -217,7 +189,7 @@ This theme is all about the information of the fonts used throughout your applic
 
     It is always a good idea to limit the number of types or variants of fonts to create a homogenous look.
 
-To demonstrate how compact and powerful a font theme can look like, take a look at the **complete** font theme of the Modern theme:
+To demonstrate how compact and powerful a font theme can look like, take a look at the example font theme:
 
 ::
 
@@ -230,42 +202,22 @@ To demonstrate how compact and powerful a font theme can look like, take a look 
       {
         "default" :
         {
-          size : qx.bom.client.System.WINVISTA ? 12 : 11,
+          size : 11,
           lineHeight : 1.4,
-          family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
-            qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
-            [ "Tahoma", "Liberation Sans", "Arial" ]
+          family : [ "Tahoma", "Liberation Sans", "Arial" ]
         },
 
         "bold" :
         {
-          size : qx.bom.client.System.WINVISTA ? 12 : 11,
+          size : 12,
           lineHeight : 1.4,
-          family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
-            qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
-            [ "Tahoma", "Liberation Sans", "Arial" ],
+          family : [ "Lucida Grande" ],
           bold : true
-        },
-
-        "small" :
-        {
-          size : qx.bom.client.System.WINVISTA ? 11 : 10,
-          lineHeight : 1.4,
-          family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
-            qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
-            [ "Tahoma", "Liberation Sans", "Arial" ]
-        },
-
-        "monospace" :
-        {
-          size: 11,
-          lineHeight : 1.4,
-          family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
-            qx.bom.client.System.WINVISTA ? [ "Consolas" ] :
-            [ "Consolas", "DejaVu Sans Mono", "Courier New", "monospace" ]
         }
       }
     });
+
+It is important to note that you can only specify values available as property on `qx.bom.Font <http://demo.qooxdoo.org/current/apiviewer/#qx.bom.Font>`_.
 
 .. _pages/ui_theming#icon_theme:
 

@@ -12,7 +12,7 @@ Basically you have two choices to create a custom theme depending on your needs 
 Extending Themes
 ================
 
-If you want to stick with an existing theme and only like to add or modify some appearances, change colors or or fonts the best way to go is to extend a theme and to create an own meta theme which sets your extended theme.
+If you want to stick with an existing theme and only like to add or modify some appearances, change colors or fonts the best way to go is to extend a theme and to create an own meta theme which sets your extended theme.
 
 For example you like to add some appearances (of your own widgets) to the Modern theme you can simply extend the appearance theme of the Modern theme.
 
@@ -89,3 +89,5 @@ Creating the meta theme is a no-brainer and when creating the several themes you
 * every widget has to be equipped with an appearance, otherwise you'll get a warning at application startup
 * every used color, decorator or font has to be defined, otherwise you'll get an error at application startup. So be sure to define all used colors, fonts and decorators and to test your application always in the source version to get the error messages
 * be sure to include every image you use in your appearance theme by defining corresponding ``#asset`` directives.
+* Be sure to check all build in widgets with all states. A Widget may have a different looks and feel when disabled or invalid.
+* Its a good idea to copy a existing appearance theme and edit all the stuff you need. That way, you can be sure that you have all the appearance keys included the framework needs.

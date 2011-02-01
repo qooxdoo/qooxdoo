@@ -3,12 +3,19 @@
 Appearance
 **********
 
+.. _pages/gui_toolkit/ui_appearance#what_is_it:
+
+What is it?
+===========
+
+An appearance theme is the main part of the theme. It contains all appearance definitions which are responsible for holding all styling informations for the wigets. Usually the apperance theme is the biggest theme and uses all other theme classes like the Decorator- or Font-theme.
+
 .. _pages/gui_toolkit/ui_appearance#theme_structure:
 
 Theme Structure
 ===============
 
-A theme normally consists of a set of entries. Each entry has a key which is basically some kind of selector which matches to a specific widgets. Missing selectors are presented as a warning when developing with debug code enabled.
+A theme normally consists of a set of entries. Each entry has a key which is basically some kind of selector which matches to a specific widget. Missing selectors are presented as a warning when developing with debug code enabled.
 
 ::
 
