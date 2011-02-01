@@ -1,6 +1,7 @@
 Development
 ***********
 
+
 .. _index#debugging:
 
 Debugging
@@ -11,6 +12,7 @@ Debugging
 
    development/logging
    development/debugging
+
 
 .. _index#performance:
 
@@ -23,6 +25,7 @@ Performance
    development/memory_management
    development/profiling
 
+
 Testing
 =======
 
@@ -32,6 +35,7 @@ Testing
    development/unit_testing
    development/frame_apps_testrunner
    development/framework_unit_testing
+
 
 .. _index#parts:
 
@@ -44,12 +48,21 @@ Parts
    development/parts_overview
    development/parts_using
 
+
 Further Resources
 -----------------
 
 * :ref:`Generator Configuration <pages/tool/generator_config_ref#packages>`
 * `qooxdoo API <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.io.PartLoader>`_
 
+
+Internationalization
+====================
+
+.. toctree::
+   :maxdepth: 2
+
+   Internationalization, Localization <development/internationalization>
 
 .. _index#other:
 
@@ -60,7 +73,6 @@ Miscellaneous
    :maxdepth: 2
 
    development/variants
-   Internationalization, Localization <development/internationalization>
    development/image_clipping_and_combining
 
    development/write_api_documentation

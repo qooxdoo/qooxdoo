@@ -1,9 +1,33 @@
 .. _pages/internationalization#internationalization:
 
 Internationalization
-********************
+++++++++++++++++++++
 
-This page describes how to translate either a new or an existing qooxdoo-based application. It shows how to *prepare* the application, *extract* and *translate* the messages and finally *update* and *run* the translated application.
+We define internationalization (a.k.a. *"I18N"*) as composed of two distinct areas:
+
+**Localization**
+  Adapting software to suit regional customs regarding date, time and number formatting, names for time units, countries, languages and so forth.
+
+**Translation**
+  Translating user-visible strings in software, like labels on buttons, pop-up messages, headings, help texts, and so forth.
+
+Localization largely relies on approved standards that are in use in any given regional and/or cultural area, and can therefore take advantage of standardized data and information. Translation is much more application-specific, and the relevant strings of an application have to be translated in any target language individually.
+
+
+Localization
+************
+
+Localization is the effort of displaying data in a way that conforms to regional and/or cultural habits. This mostly affects data of everyday life: monetary currencies, names and display formats used in dates and time, number formats and naming conventions in general (e.g. names of countries and languages in the world), to list the most common use cases. Writing a date as 01/31/1970 rather than 1970/01/31, or starting the week with Sunday rather than Monday fall in this category.
+
+A coherent set of these conventions taken together is usually referred to as a *locale*, and they are signified by a country code or some derivative thereof. *en*, *en_US* and *en_UK* for example signify three distinct locales that are used in English speaking countries. The understanding is that there is a sort of inheritance relation between more general and more specific locales, so that e.g. *en_US* only needs to specify the items in which it deviates from the more general *en* locale, and relies on the *en* settings for all other on which they agree. For historical reasons there is a common "ancestor" to all locales which is called *C*. If not specified all locale settings fall back to those given in *C* (which is mostly a copy of *en*). qooxdoo supports this fall-back chain of locale settings by looking up a specific item e.g first in *en_US* (if that were the current locale), then *en* and then in *C*.
+
+To support such regional settings, qooxdoo uses data from the CLDR project, the *"Common Locale Data Repository"*, which collects data for known locales in a set of XML files. See the project's `home page <http://cldr.unicode.org>`__ and `terms of use <http://www.unicode.org/copyright.html>`__.
+
+
+Translation
+***********
+
+While translating a sentence from one human language into another is still a task mostly done by humans, qooxoo tries to provide tools to help in managing this process. This section describes how to translate either a new or an existing qooxdoo-based application. It shows how to *prepare* the application, *extract* the messages that shall be translated, and finally *update* and *run* the translated application.
 
 .. _pages/internationalization#prepare_the_application:
 
