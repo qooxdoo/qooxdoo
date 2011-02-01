@@ -19,8 +19,8 @@
 #
 ################################################################################
 
-#from elementtree import ElementTree
-from xml.etree import cElementTree as ElementTree
+#from xml.etree import cElementTree as ElementTree
+from elementtree import ElementTree
 
 def getLocale(calendarElement):
     locale = calendarElement.find("identity/language").attrib["type"]
