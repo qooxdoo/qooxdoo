@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.decoration.Single",
       var styles = {};
 
       // get the single border styles
-      this._getMarkupBorder(styles, element);
+      this._styleBorder(styles, element);
       
       var html = this._generateBackgroundMarkup(styles);
 

@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.decoration.Double",
       }
       
       var innerStyles = {};
-      this._getMarkupBorder(innerStyles);
+      this._styleBorder(innerStyles);
 
       return this.__markup = this._generateMarkup(innerStyles);
     },
