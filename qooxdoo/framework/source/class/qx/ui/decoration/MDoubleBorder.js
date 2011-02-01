@@ -29,7 +29,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     // override the methods of single border and background image
     this._getDefaultInsetsForBorder = this.__getDefaultInsetsForDoubleBorder;
     this._resizeBorder = this.__resizeDoubleBorder;
-    this._getMarkupBorder = this.__getMarkupDoubleBorder;
+    this._styleBorder = this.__styleDoubleBorder;
     this._generateMarkup = this.__generateMarkupDoubleBorder;
   },
   
@@ -142,7 +142,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
      * 
      * @param styles {Map} A map to add the styles.
      */
-    __getMarkupDoubleBorder : function(styles)
+    __styleDoubleBorder : function(styles)
     {
       var Color = qx.theme.manager.Color.getInstance();
 

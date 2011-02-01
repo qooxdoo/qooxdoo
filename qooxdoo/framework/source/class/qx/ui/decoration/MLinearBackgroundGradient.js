@@ -96,7 +96,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
      * 
      * @param styles {Map} A map to add the styles.
      */
-    _getMarkupLinearBackgroundGradient : function(styles) {
+    _styleLinearBackgroundGradient : function(styles) {
       var Color = qx.theme.manager.Color.getInstance();
 
       if (qx.bom.client.Engine.WEBKIT) {

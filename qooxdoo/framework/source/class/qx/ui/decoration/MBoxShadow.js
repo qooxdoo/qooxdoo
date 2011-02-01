@@ -82,7 +82,7 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
      * 
      * @param styles {Map} A map to add the styles.
      */
-    _getMarkupBoxShadow : function(styles) {
+    _styleBoxShadow : function(styles) {
       var Color = qx.theme.manager.Color.getInstance();
       var color = Color.resolve(this.getShadowColor());
 

@@ -81,7 +81,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
      * 
      * @param styles {Map} A map to add the styles.
      */
-    _getMarkupBorderRadius : function(styles) {
+    _styleBorderRadius : function(styles) {
       // radius handling
       var radius = this.getRadiusTopLeft();
       if (radius > 0) {

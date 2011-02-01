@@ -209,7 +209,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
      * 
      * @param styles {Map} A map to add the styles.
      */
-    _getMarkupBorder : function(styles) {
+    _styleBorder : function(styles) {
       var Color = qx.theme.manager.Color.getInstance();
 
       // Add borders

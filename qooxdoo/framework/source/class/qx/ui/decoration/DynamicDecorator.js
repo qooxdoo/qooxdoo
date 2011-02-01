@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
       // get the styles
       var styles = {};
       for (var name in this) {
-        if (name.indexOf("_getMarkup") == 0 && this[name] instanceof Function) {
+        if (name.indexOf("_style") == 0 && this[name] instanceof Function) {
           this[name](styles);
         }
       }
