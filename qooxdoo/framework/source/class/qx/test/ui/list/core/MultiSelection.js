@@ -50,12 +50,12 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
 
       // check selection on list
       this.assertEquals(3, this._list.getSelection().getLength(), "On List");
-      this.assertTrue(selection.equals(new qx.data.Array(
+      this.assertDataArrayEquals(selection, new qx.data.Array(
       [
         this._model.getItem(1),
         this._model.getItem(2),
         this._model.getItem(3)
-      ])), "On List");
+      ]), "On List");
 
       // check selection on manager
       var selectionFromManager = this._list._manager.getSelection();
