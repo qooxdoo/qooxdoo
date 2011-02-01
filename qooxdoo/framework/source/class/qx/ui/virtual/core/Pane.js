@@ -778,8 +778,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
       for (var i=0; i<this.__layers.length; i++)
       {
-        var start = new Date();
-
         var layer = this.__layers[i];
         layer.setUserBounds(0, 0, layerWidth, layerHeight);
 
