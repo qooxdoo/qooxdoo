@@ -52,9 +52,9 @@ qx.Bootstrap.define("qx.event.GlobalError",
             this.__originalOnError = window.onerror;
           }
           var self = this;
-          window.onerror = function(e) {
-            self.__originalOnError(e);
-            wrappedHandler(e);
+          window.onerror = function(msg, uri, lineNumber) {
+            self.__originalOnError(msg, uri, lineNumber);
+            wrappedHandler(msg, uri, lineNumber);
           };
         }
 

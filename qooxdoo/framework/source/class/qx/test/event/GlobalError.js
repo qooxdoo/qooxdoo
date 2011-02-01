@@ -196,10 +196,21 @@ qx.Class.define("qx.test.event.GlobalError",
       var wasNativeHandled = false;
 
       var self = this;
+      var originalMsg = null;
+      var originalUri = null;
+      var originalLineNumber = null;
       // append a native onerror method
-      window.onerror = function(ex) {
+      window.onerror = function(msg, uri, lineNumber)
+      {
         wasNativeHandled = true;
-        self.assertEquals("Doofer Fehler", ex.toString());
+
+        self.assertEquals("Doofer Fehler", msg);
+        self.assertString(uri);
+        self.assertInteger(lineNumber);
+
+        originalMsg = msg;
+        originalUri = uri;
+        originalLineNumber = lineNumber;
       }
 
       var handler = function(ex) { this.resume(function()
@@ -207,10 +218,10 @@ qx.Class.define("qx.test.event.GlobalError",
         wasHandled = true;
         this.assertTrue(wasNativeHandled, "native handler not called.");
         this.assertInstance(ex, qx.core.WindowError);
-        this.assertEquals("Doofer Fehler", ex.toString());
 
-        this.assertString(ex.getUri());
-        this.assertInteger(ex.getLineNumber());
+        this.assertEquals(originalMsg, ex.toString());
+        this.assertEquals(originalUri, ex.getUri());
+        this.assertEquals(originalLineNumber, ex.getLineNumber());
 
         this.debug(ex.toString() + " at " + ex.getUri() + ":" + ex.getLineNumber());
       }, this); }
