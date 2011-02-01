@@ -870,6 +870,20 @@ qx.Theme.define("qx.theme.simple.Appearance",
         };
       }
     },
+    
+    "virtual-selectbox" : "selectbox",
+    "virtual-selectbox/dropdown" : "popup",
+    "virtual-selectbox/dropdown/list" : {
+      alias : "virtual-list"
+    },
+    
+    "virtual-combobox" : "combobox",
+    "virtual-combobox/dropdown" : "popup",
+    "virtual-combobox/dropdown/list" : {
+      alias : "virtual-list"
+    },
+        
+    "column-layer" : "widget",
 
     "cell" :
     {
