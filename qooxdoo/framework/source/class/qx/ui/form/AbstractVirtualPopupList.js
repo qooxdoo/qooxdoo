@@ -448,12 +448,13 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
     /**
      * Helper Method to create bind path depended on the passed path.
      *
-     * @param path {String?null} The path to the property.
+     * @param source {String} The path to the selection.
+     * @param path {String?null} The path to the item's property.
      * @return {String} The created path.
      */
-    _getBindPath : function(path)
+    _getBindPath : function(source, path)
     {
-      var bindPath = "selection[0]";
+      var bindPath = source + "[0]";
 
       if (path != null && path != "") {
         bindPath += "." + path;

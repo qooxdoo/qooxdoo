@@ -145,11 +145,11 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
       this.removeAllBindings();
 
-      var labelSourcePath = this._getBindPath(this.getLabelPath());
+      var labelSourcePath = this._getBindPath("selection", this.getLabelPath());
       this.bind(labelSourcePath, atom, "label", this.getLabelOptions());
 
       if (this.getIconPath() != null) {
-        var iconSourcePath = this._getBindPath(this.getIconPath());
+        var iconSourcePath = this._getBindPath("selection", this.getIconPath());
         this.bind(iconSourcePath, atom, "icon", this.getIconOptions());
       }
     },
