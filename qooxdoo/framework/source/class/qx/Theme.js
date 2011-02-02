@@ -25,6 +25,10 @@
  * Supported themes are: colors, decorations, fonts, icons, appearances.
  * The additional meta theme allows for grouping of the individual
  * themes.
+ * 
+ * For more details, take a look at the 
+ * <a href='http://manual.qooxdoo.org/1.4/pages/gui_toolkit/ui_theming.html' target='_blank'>
+ * documentation of the theme system in the qooxdoo wiki.</a>
  */
 qx.Bootstrap.define("qx.Theme",
 {
@@ -58,7 +62,11 @@ qx.Bootstrap.define("qx.Theme",
      *   meta : {}
      * });
      * </pre>
-     *
+     * 
+     * For more details, take a look at the 
+     * <a href='http://manual.qooxdoo.org/1.4/pages/gui_toolkit/ui_theming.html' target='_blank'>
+     * documentation of the theme system in the qooxdoo wiki.</a>
+     * 
      * @param name {String} name of the mixin
      * @param config {Map} config structure
      * @return {void}
