@@ -51,6 +51,9 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
       init : 120
     },
 
+    /**
+     * The currently selected or entered value. 
+     */
     value : {
       nullable : true,
       event : "changeValue",
