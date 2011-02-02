@@ -145,8 +145,7 @@ class DependencyLoader(object):
             self._console.indent()
             deps, cached = self.getCombinedDeps(depsItem.name, variants, buildType)
             self._console.outdent()
-            if self._console.getLevel() is "info":
-                self._console.dot("%s" % "." if cached else "*")
+            if logInfos: self._console.dot("%s" % "." if cached else "*")
 
             # and evaluate them
             deps["warn"] = self._checkDepsAreKnown(deps)  # add 'warn' key to deps
@@ -159,7 +158,6 @@ class DependencyLoader(object):
             # process lists
             try:
               skipNames = [x.name for x in deps["warn"] + deps["ignore"]]
-              #skipList = deps["warn"] + deps["ignore"]
 
               for subitem in deps["load"]:
                   if subitem.name not in resultNames and subitem.name not in skipNames:
@@ -187,6 +185,7 @@ class DependencyLoader(object):
         result = []
         resultNames = []
         warn_deps = []
+        logInfos = self._console.getLevel() == "info"
 
         # No dependency calculation
         if len(includeWithDeps) == 0:
