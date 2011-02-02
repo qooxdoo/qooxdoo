@@ -55,6 +55,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.TreeVirtual",
       var widgets = this.__widgets = new qx.type.Array();
 
       var tree = new qx.ui.treevirtual.TreeVirtual("TreeVirtual");
+      widgets.push(tree);
       tree.setWidth(300);
       tree.setHeight(300);
       this.__setupTreeDataModel(tree);
@@ -68,7 +69,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.TreeVirtual",
         null, "Inbox", true, false
       );
 
-      te = dataModel.addBranch(te2, "Spam", false);
+      var te = dataModel.addBranch(te2, "Spam", false);
 
       for (var i = 1; i < 3000; i++)
       {
