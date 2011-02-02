@@ -28,7 +28,7 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
       var model = new qx.data.Array();
 
       for (var i = 0; i < 100; i++) {
-        model.push("item " + (i));
+        model.push("item " + i);
       }
 
       return model;
