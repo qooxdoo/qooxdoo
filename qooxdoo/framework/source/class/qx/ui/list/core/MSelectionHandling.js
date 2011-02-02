@@ -220,7 +220,11 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
       {
         var item = selection.getItem(i);
         var index = this.getModel().indexOf(item);
-        newSelection.push(this._reverseLookup(index));
+        var row = this._reverseLookup(index);
+
+        if (row >= 0) {
+          newSelection.push(row);
+        }
       }
 
       try {

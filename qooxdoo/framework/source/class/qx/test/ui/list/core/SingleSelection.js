@@ -28,7 +28,7 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
       var model = new qx.data.Array();
 
       for (var i = 0; i < 100; i++) {
-        model.push("item " + (i + 1));
+        model.push("item " + (i));
       }
 
       return model;
@@ -110,6 +110,48 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
       });
 
       this.testSelection();
+    },
+
+    testSelectionWithFilter : function() {
+      this._list.setDelegate({
+        filter : function(data) {
+          // Filters all even items
+          return ((parseInt(data.slice(5, data.length), 10)) % 2 == 1);
+        }
+      });
+
+      var selection = this._list.getSelection();
+      selection.push(this._model.getItem(1));
+      this.flush();
+
+      // check selection from list
+      this.assertEquals(1, this._list.getSelection().getLength(), "On List");
+      this.assertDataArrayEquals(selection, new qx.data.Array([this._model.getItem(1)]), "On List");
+
+      // check selection from manager
+      var selection = this._list._manager.getSelection();
+      this.assertEquals(1, selection.length);
+      this.assertEquals(0, selection[0]);
+    },
+
+    testInvalidSelectionWithFilter : function() {
+      this._list.setDelegate({
+        filter : function(data) {
+          // Filters all even items
+          return ((parseInt(data.slice(5, data.length), 10)) % 2 == 1);
+        }
+      });
+
+      var selection = this._list.getSelection();
+      selection.push(this._model.getItem(0));
+      this.flush();
+
+      // check selection from list
+      this.assertEquals(0, this._list.getSelection().getLength(), "On List");
+
+      // check selection from manager
+      var selection = this._list._manager.getSelection();
+      this.assertEquals(0, selection.length);
     }
   }
 });
