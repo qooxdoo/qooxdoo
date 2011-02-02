@@ -183,8 +183,8 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
      * Selects the last item from the list.
      */
     selectLast : function() {
-      var model = this.getChildControl("list").getModel();
-      this.__select(model.getLength() - 1);
+      var lookupTable = this.getChildControl("list")._getLookupTable();
+      this.__select(lookupTable.length - 1);
     },
 
 
@@ -200,14 +200,14 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
       {
         var modelIndex = model.indexOf(this.getSelection().getItem(0));
 
-        var index = this.getChildControl("list")._reverseLookup(modelIndex);
-        index = index - 1;
+        var row = this.getChildControl("list")._reverseLookup(modelIndex);
+        row = row - 1;
 
-        if (index < 0) {
-          index = 0;
+        if (row < 0) {
+          row = 0;
         }
 
-        this.__select(index);
+        this.__select(row);
       }
     },
 
@@ -218,21 +218,21 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
      */
     selectNext : function()
     {
-      var model = this.getChildControl("list").getModel();
-      var index = model.indexOf(this.getSelection().getItem(0));
+      var list = this.getChildControl("list");
+      var model = list.getModel();
 
       if (model.contains(this.getSelection().getItem(0)))
       {
         var modelIndex = model.indexOf(this.getSelection().getItem(0));
 
-        var index = this.getChildControl("list")._reverseLookup(modelIndex);
-        index = index + 1;
+        var row = list._reverseLookup(modelIndex);
+        row = row + 1;
 
-        if (index >= model.getLength()) {
-          index = model.getLength() - 1;
+        if (row >= list._getLookupTable().length) {
+          row = list._getLookupTable().length - 1;
         }
 
-        this.__select(index);
+        this.__select(row);
       }
     },
 
@@ -390,22 +390,24 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
 
     /**
-     * Helper method to select passed index form the model.
+     * Helper method to select passed row.
      *
-     * @param index {Integer} Index to select.
+     * @param row {Integer} Row to select.
      */
-    __select : function(index)
+    __select : function(row)
     {
       var selection = this.getSelection();
       var model = this.getChildControl("list").getModel();
+      var index = this.getChildControl("list")._lookup(row);
 
-      if (model.getLength() > index)
+      if (index > -1 && index < model.getLength())
       {
-        var item = model.getItem(this.getChildControl("list")._lookup(index));
-
+        var item = model.getItem(index);
         if (!selection.contains(item)) {
           selection.splice(0, 1, item);
         }
+      } else {
+        throw new Error("Can't select row '" + row + "' because it is out of range!");
       }
     },
 

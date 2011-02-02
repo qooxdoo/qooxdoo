@@ -26,6 +26,7 @@
 qx.Class.define("qx.test.ui.form.VirtualDropDownList",
 {
   extend : qx.test.ui.LayoutTestCase,
+  include : qx.test.ui.list.MAssert,
 
 
   construct : function()
@@ -109,11 +110,18 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     },
 
 
+    testCreationWithFilter : function()
+    {
+      var filteredModel = this.__applyFilterAndReturnFilteredModel();
+      this.__testCreation(filteredModel);
+    },
+
+
     __testCreation : function(model)
     {
-      var listModel = this.__dropdown.getChildControl("list").getModel();
+      var list = this.__dropdown.getChildControl("list");
 
-      this.assertEquals(model.getLength(), listModel.getLength(), "Model length not equals!");
+      this.assertModelEqualsRowData(model, list);
 
       this.__checkSelection(model.getItem(0));
     },
@@ -121,10 +129,43 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
 
     testSelection : function()
     {
+      this.__testSelection(this.__model);
+    },
+
+
+    testSelectionWithSorter : function()
+    {
+      var sortedModel = this.__applySortingAndReturnSortedModel();
+      this.__testSelection(sortedModel);
+    },
+
+
+    testSelectionWithFilter : function()
+    {
+      var filteredModel = this.__applyFilterAndReturnFilteredModel();
+      this.__testCreation(filteredModel);
+
+      var model = this.__model;
+      var selection = this.__dropdown.getSelection();
+
+      var invalidItem = model.getItem(2);
+      this.assertFalse(filteredModel.contains(invalidItem));
+
+      var that = this;
+      this.__checkEvent(selection, function() {
+        selection.push(invalidItem);
+      }, 2);
+
+      this.__checkSelection(filteredModel.getItem(0));
+    },
+
+
+    __testSelection : function(model)
+    {
       var selection = this.__dropdown.getSelection();
 
       var that = this;
-      var newItem = this.__model.getItem(2);
+      var newItem = model.getItem(2);
       this.__checkEvent(selection, function() {
         selection.push(newItem);
       }, 2);
@@ -133,7 +174,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
 
 
       var that = this;
-      newItem = this.__model.getItem(4);
+      newItem = model.getItem(4);
       this.__checkEvent(selection, function() {
         selection.splice(0, 1, newItem);
       }, 1);
@@ -151,6 +192,13 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     {
       var sortedModel = this.__applySortingAndReturnSortedModel();
       this.__testSelectFirst(sortedModel);
+    },
+
+
+    testSelectFirstWithFilter : function()
+    {
+      var filteredModel = this.__applyFilterAndReturnFilteredModel();
+      this.__testSelectFirst(filteredModel);
     },
 
 
@@ -186,6 +234,13 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     },
 
 
+    testSelectLastWithFilter : function()
+    {
+      var filteredModel = this.__applyFilterAndReturnFilteredModel();
+      this.__testSelectLast(filteredModel);
+    },
+
+
     __testSelectLast : function(model)
     {
       var selection = this.__dropdown.getSelection();
@@ -217,6 +272,13 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     {
       var sortedModel = this.__applySortingAndReturnSortedModel();
       this.__testSelectPrevious(sortedModel);
+    },
+
+
+    testSelectPreviousWithFilter : function()
+    {
+      var filteredModel = this.__applyFilterAndReturnFilteredModel();
+      this.__testSelectPrevious(filteredModel);
     },
 
 
@@ -255,6 +317,13 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     },
 
 
+    testSelectNextWithFilter : function()
+    {
+      var filteredModel = this.__applyFilterAndReturnFilteredModel();
+      this.__testSelectNext(filteredModel);
+    },
+
+
     __testSelectNext : function(model)
     {
       var selection = this.__dropdown.getSelection();
@@ -267,14 +336,15 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       this.__checkSelection(model.getItem(1));
 
       var index = model.getLength() - 1;
-      selection.push(model.getItem(index));
+      var lastItem = model.getItem(index);
+      selection.push(lastItem);
 
       var that = this;
       this.assertEventNotFired(selection, "change", function() {
         that.__dropdown.selectNext();
       });
 
-      this.__checkSelection(model.getItem(index));
+      this.__checkSelection(lastItem);
     },
 
 
@@ -283,7 +353,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       var model = new qx.data.Array();
 
       for (var i = 0; i < 100; i++) {
-        model.push("item " + (i + 1));
+        model.push("item " + (i));
       }
 
       return model;
@@ -322,12 +392,33 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
         return a < b ? 1 : a > b ? -1 : 0;
       };
 
-      this.__dropdown.getChildControl("list").setDelegate({sorter : sorter});
+      this.__dropdown.getChildControl("list").setDelegate({sorter: sorter});
 
       var sortedModel = this.__model.copy();
       sortedModel.sort(sorter);
 
       return sortedModel;
+    },
+
+
+    __applyFilterAndReturnFilteredModel : function()
+    {
+      var filter = function(data) {
+        // Filters all even items
+        return ((parseInt(data.slice(5, data.length), 10)) % 2 == 1);
+      };
+      this.__dropdown.getChildControl("list").setDelegate({filter: filter});
+
+      var filteredModel = new qx.data.Array();
+      for (var i = 0; i < this.__model.getLength(); i++)
+      {
+        var item = this.__model.getItem(i);
+        if (filter(item)) {
+          filteredModel.push(item);
+        }
+      }
+
+      return filteredModel;
     }
   },
 

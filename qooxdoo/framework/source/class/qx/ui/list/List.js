@@ -382,6 +382,17 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
+     * Return the internal lookup table. But do not manipulate the
+     * lookup table!
+     *
+     * @return {Array} The internal lookup table.
+     */
+    _getLookupTable : function() {
+      return this.__lookupTable;
+    },
+
+
+    /**
      * Performs a lookup from row to model index.
      *
      * @param row {Number} The row to look at.

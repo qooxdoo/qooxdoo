@@ -50,6 +50,7 @@ qx.Class.define("demobrowser.demo.virtual.SelectBox",
       standard.add(this.createBox4());
 
       advanced.add(this.createBox5());
+      advanced.add(this.createBox6());
 
       container.add(standard, {left : 20, top : 20});
       container.add(advanced, {left : 20, top : 200});
@@ -183,6 +184,35 @@ qx.Class.define("demobrowser.demo.virtual.SelectBox",
         // Changes the order (downwards)
         sorter : function(a, b) {
           return a < b ? 1 : a > b ? -1 : 0;
+        }
+      }
+      selectBox.setDelegate(delegate);
+
+      return container;
+    },
+
+
+    createBox6 : function()
+    {
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
+      container.add(new qx.ui.basic.Label("Filtered"));
+
+      // Creates the model data
+      var model = new qx.data.Array();
+
+      for (var i = 0; i < 300; i++) {
+        model.push("Item " + i);
+      }
+
+      // Creates the select box
+      var selectBox = new qx.ui.form.VirtualSelectBox(model);
+      container.add(selectBox);
+
+      // Creates the delegate for sorting
+      var delegate = {
+        // Filters all even items
+        filter : function(data) {
+          return ((parseInt(data.slice(5, data.length), 10)) % 2 == 1);
         }
       }
       selectBox.setDelegate(delegate);
