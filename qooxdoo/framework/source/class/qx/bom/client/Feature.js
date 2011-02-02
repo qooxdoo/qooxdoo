@@ -14,6 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -114,6 +115,52 @@ qx.Bootstrap.define("qx.bom.client.Feature",
         }
       }
       data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+      return false;
+    })(),
+
+
+    /** {BOOLEAN} Whether the client supports the css border radius property.*/
+    CSS_BORDER_RADIUS : (
+      "borderRadius" in document.documentElement.style ||
+      "MozBorderRadius" in document.documentElement.style || 
+      "WebkitBorderRadius" in document.documentElement.style
+    ),
+
+
+    /** {BOOLEAN} Whether the client supports the css box shadow property.*/    
+    CSS_BOX_SHADOW : (
+      "BoxShadow" in document.documentElement.style ||
+      "MozBoxShadow" in document.documentElement.style || 
+      "WebkitBoxShadow" in document.documentElement.style
+    ),
+
+
+    /** {BOOLEAN} Whether the client supports gradients as css background.*/
+    CSS_GRADIENTS : (function() {
+      var el;
+      try {
+        el = document.createElement("div");
+      } catch (ex) {
+        el = document.createElement();
+      }
+
+      var style = [
+        "-webkit-gradient(linear,0% 0%,100% 100%,from(white), to(red))",
+        "-moz-linear-gradient(0deg, white 0%, red 100%)",
+        "-o-linear-gradient(0deg, white 0%, red 100%)",
+        "linear-gradient(0deg, white 0%, red 100%)"
+      ];
+      
+      for (var i=0; i < style.length; i++) {
+        // try catch for IE
+        try {
+          el.style["background"] = style[i];
+          if (el.style["background"].indexOf("gradient") != -1) {
+            return true
+          }
+        } catch (ex) {}
+      };
+
       return false;
     })(),
 
