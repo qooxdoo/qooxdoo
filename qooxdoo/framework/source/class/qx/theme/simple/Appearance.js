@@ -882,8 +882,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
     "virtual-combobox/dropdown/list" : {
       alias : "virtual-list"
     },
-        
-    "column-layer" : "widget",
 
     "cell" :
     {
