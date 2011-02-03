@@ -223,12 +223,18 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
       }
     },
     
-    setPreselected : function(item)
+    
+    /**
+     * Pre-selects the list item corresponding to the given model object.
+     * 
+     * @param modelItem {Object} Item to be pre-selected.
+     */
+    setPreselected : function(modelItem)
     {
-      this._preselected = item;
+      this._preselected = modelItem;
       this.__ignoreListSelection = true;
       var listSelection = this.getChildControl("list").getSelection();
-      this.__synchronizeSelection(new qx.data.Array([item]), listSelection);
+      this.__synchronizeSelection(new qx.data.Array([modelItem]), listSelection);
       this.__ignoreListSelection = false;
     },
 
