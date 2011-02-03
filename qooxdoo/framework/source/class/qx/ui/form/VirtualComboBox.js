@@ -184,8 +184,6 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
     // overridden
     _bindWidget : function()
     {
-      var textfield = this.getChildControl("textfield");
-
       if (this.__selectionBindingId) {
         this.__selection.removeBinding(this.__selectionBindingId);
         this.__selectionBindingId = null;
