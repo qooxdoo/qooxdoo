@@ -141,6 +141,22 @@ qx.Class.define("qx.event.handler.Keyboard",
         default:
           return false;
       }
+    },
+
+
+    /**
+     * Checks whether a given string is a printable keyIdentifier.
+     *
+     * @param keyIdentifier {String} The key identifier.
+     * @return {Boolean} whether the given string is a printable keyIdentifier.
+     */
+    isPrintableKeyIdentifier : function(keyIdentifier)
+    {
+      if (keyIdentifier === "Space") {
+        return true;
+      } else {
+        return this._identifierToKeyCodeMap[keyIdentifier] ? false : true;
+      }
     }
   },
 

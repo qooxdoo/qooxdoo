@@ -51,6 +51,7 @@ qx.Class.define("demobrowser.demo.virtual.SelectBox",
 
       advanced.add(this.createBox5());
       advanced.add(this.createBox6());
+      advanced.add(this.createBox7());
 
       container.add(standard, {left : 20, top : 20});
       container.add(advanced, {left : 20, top : 200});
@@ -215,6 +216,42 @@ qx.Class.define("demobrowser.demo.virtual.SelectBox",
           return ((parseInt(data.slice(5, data.length), 10)) % 2 == 1);
         }
       }
+      selectBox.setDelegate(delegate);
+
+      return container;
+    },
+
+
+    createBox7 : function()
+    {
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
+      container.add(new qx.ui.basic.Label("Persons"));
+
+      var url = "json/persons.json";
+      var store = new qx.data.store.Json(url);
+      store.addListener("loaded", function() {
+        var persons = store.getModel().getPersons();
+
+        // Creates the model data
+        var model = new qx.data.Array();
+        for (var i = 0; i < persons.getLength(); i++)
+        {
+          var person = persons.getItem(i);
+          model.push(person.getFirstname() + " " + person.getLastname());
+        }
+        selectBox.setModel(model);
+      }, this);
+
+      // Creates the select box
+      var selectBox = new qx.ui.form.VirtualSelectBox();
+      container.add(selectBox);
+
+      // Creates the delegate for sorting
+      var delegate = {
+        sorter : function(a, b) {
+          return a > b ? 1 : a < b ? -1 : 0;
+        }
+      };
       selectBox.setDelegate(delegate);
 
       return container;
