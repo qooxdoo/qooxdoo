@@ -167,7 +167,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
 
         return {
-          source : qx.theme.simple.Image.ICONS["cursor-" + icon],
+          source : qx.theme.simple.Image.URLS["cursor-" + icon],
           position : "right-top",
           offset : [ 2, 16, 2, 6 ]
         };
@@ -193,7 +193,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["arrow-" + (states.vertical ? "down" : "right")]
+          icon : qx.theme.simple.Image.URLS["arrow-" + (states.vertical ? "down" : "right")]
         };
       }
     },
@@ -206,7 +206,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["arrow-" + (states.vertical ? "up" : "left")]
+          icon : qx.theme.simple.Image.URLS["arrow-" + (states.vertical ? "up" : "left")]
         };
       }
     },
@@ -241,7 +241,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           decorator : "table-header",
           padding : 3,
-          icon : qx.theme.simple.Image.ICONS["select-column-order"]
+          icon : qx.theme.simple.Image.URLS["select-column-order"]
         };
       }
     },
@@ -309,7 +309,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           paddingLeft: 5,
           cursor : "pointer",
           sortIcon : states.sorted ?
-              (qx.theme.simple.Image.ICONS["table-" + 
+              (qx.theme.simple.Image.URLS["table-" + 
                  (states.sortedAscending ? "ascending" : "descending")
               ]) : undefined
         }
@@ -417,7 +417,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["treevirtual-line"]
+          icon : qx.theme.simple.Image.URLS["treevirtual-line"]
         }
       }
     },
@@ -427,7 +427,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["tree-minus"]
+          icon : qx.theme.simple.Image.URLS["tree-minus"]
         }
       }
     },
@@ -437,7 +437,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["tree-plus"]
+          icon : qx.theme.simple.Image.URLS["tree-plus"]
         }
       }
     },
@@ -447,7 +447,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["treevirtual-minus-only"]
+          icon : qx.theme.simple.Image.URLS["treevirtual-minus-only"]
         }
       }
     },
@@ -457,7 +457,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["treevirtual-plus-only"]
+          icon : qx.theme.simple.Image.URLS["treevirtual-plus-only"]
         }
       }
     },
@@ -467,7 +467,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["treevirtual-minus-start"]
+          icon : qx.theme.simple.Image.URLS["treevirtual-minus-start"]
         }
       }
     },
@@ -477,7 +477,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["treevirtual-plus-start"]
+          icon : qx.theme.simple.Image.URLS["treevirtual-plus-start"]
         }
       }
     },
@@ -487,7 +487,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["treevirtual-minus-end"]
+          icon : qx.theme.simple.Image.URLS["treevirtual-minus-end"]
         }
       }
     },
@@ -497,7 +497,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["treevirtual-plus-end"]
+          icon : qx.theme.simple.Image.URLS["treevirtual-plus-end"]
         }
       }
     },
@@ -507,7 +507,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["treevirtual-minus-cross"]
+          icon : qx.theme.simple.Image.URLS["treevirtual-minus-cross"]
         }
       }
     },
@@ -517,7 +517,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["treevirtual-plus-cross"]
+          icon : qx.theme.simple.Image.URLS["treevirtual-plus-cross"]
         }
       }
     },
@@ -528,7 +528,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["treevirtual-end"]
+          icon : qx.theme.simple.Image.URLS["treevirtual-end"]
         }
       }
     },
@@ -538,7 +538,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["treevirtual-cross"]
+          icon : qx.theme.simple.Image.URLS["treevirtual-cross"]
         }
       }
     },
@@ -584,7 +584,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : qx.theme.simple.Image.ICONS[
+          source : qx.theme.simple.Image.URLS[
             "knob-" + (states.horizontal ? "horizontal" : "vertical")
           ],
           padding : 2
@@ -664,7 +664,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS[
+          icon : qx.theme.simple.Image.URLS[
             "arrow-up" + (states.hovered ? "-invert" : "")
           ]
         };
@@ -678,7 +678,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS[
+          icon : qx.theme.simple.Image.URLS[
             "arrow-down" + (states.hovered ? "-invert" : "")
           ]
         };
@@ -760,7 +760,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : qx.theme.simple.Image.ICONS[
+          source : qx.theme.simple.Image.URLS[
             "arrow-right" + (states.selected ? "-invert" : "")
           ],
           alignY : "middle"
@@ -777,7 +777,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : !states.checked ? undefined :
-            qx.theme.simple.Image.ICONS[
+            qx.theme.simple.Image.URLS[
               "menu-checkbox" + (states.selected ?  "-invert" : "")
             ]
         }
@@ -793,7 +793,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : !states.checked ? undefined :
-            qx.theme.simple.Image.ICONS[
+            qx.theme.simple.Image.URLS[
               "menu-radiobutton" + (states.selected ?  "-invert" : "")
             ]
         }
@@ -993,7 +993,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           styles.marginTop = 2;
         }
         
-        styles.icon = qx.theme.simple.Image.ICONS["arrow-" + icon];
+        styles.icon = qx.theme.simple.Image.URLS["arrow-" + icon];
         
         styles.cursor = "pointer";
         styles.decorator = "button-box";
@@ -1115,7 +1115,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         // set an empty icon to be sure that the icon image is rendered
         return {
-          icon : qx.theme.simple.Image.ICONS["blank"]
+          icon : qx.theme.simple.Image.URLS["blank"]
         }
       }
     },
@@ -1141,14 +1141,14 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
         // Checked
         if (states.checked) {
-          icon = qx.theme.simple.Image.ICONS["checkbox-checked"];
+          icon = qx.theme.simple.Image.URLS["checkbox-checked"];
         // Undetermined
         } else if (states.undetermined) {
-          icon = qx.theme.simple.Image.ICONS["checkbox-undetermined"];
+          icon = qx.theme.simple.Image.URLS["checkbox-undetermined"];
         // Unchecked
         } else {
           // empty icon
-          icon = qx.theme.simple.Image.ICONS["blank"];
+          icon = qx.theme.simple.Image.URLS["blank"];
         }
 
         return {
@@ -1226,7 +1226,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : qx.theme.simple.Image.ICONS["arrow-up-small"],
+          icon : qx.theme.simple.Image.URLS["arrow-up-small"],
           decorator : decorator,
           width: 17
         }
@@ -1251,7 +1251,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : qx.theme.simple.Image.ICONS["arrow-down-small"],
+          icon : qx.theme.simple.Image.URLS["arrow-down-small"],
           decorator : decorator,
           width: 17
         }
@@ -1288,7 +1288,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : qx.theme.simple.Image.ICONS["arrow-down"],
+          source : qx.theme.simple.Image.URLS["arrow-down"],
           paddingRight : 4,
           paddingLeft : 5
         };
@@ -1322,7 +1322,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : qx.theme.simple.Image.ICONS["arrow-down"],
+          icon : qx.theme.simple.Image.URLS["arrow-down"],
           cursor : "pointer",
           decorator : decorator,
           padding : [0, 5],
@@ -1574,7 +1574,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         decorator += "-right";
         
         return {
-          icon : qx.theme.simple.Image.ICONS["arrow-down"],
+          icon : qx.theme.simple.Image.URLS["arrow-down"],
           decorator : decorator,
           cursor : "pointer",
           padding: [3, 4]
@@ -1670,8 +1670,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           source : states.opened ? 
-            qx.theme.simple.Image.ICONS["tree-minus"] : 
-            qx.theme.simple.Image.ICONS["tree-plus"]
+            qx.theme.simple.Image.URLS["tree-minus"] : 
+            qx.theme.simple.Image.URLS["tree-plus"]
         };
       }
     },
@@ -1803,7 +1803,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["window-minimize"],
+          icon : qx.theme.simple.Image.URLS["window-minimize"],
           padding : [ 1, 2 ],
           cursor : states.disabled ? undefined : "pointer"
         };
@@ -1817,7 +1817,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["window-restore"],
+          icon : qx.theme.simple.Image.URLS["window-restore"],
           padding : [ 1, 2 ],
           cursor : states.disabled ? undefined : "pointer"
         };
@@ -1831,7 +1831,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.simple.Image.ICONS["window-maximize"],
+          icon : qx.theme.simple.Image.URLS["window-maximize"],
           padding : [ 1, 2 ],
           cursor : states.disabled ? undefined : "pointer"
         };
@@ -1846,7 +1846,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           marginLeft : 2,
-          icon : qx.theme.simple.Image.ICONS["window-close"],
+          icon : qx.theme.simple.Image.URLS["window-close"],
           padding : [ 1, 2 ],
           cursor : states.disabled ? undefined : "pointer"
         };
@@ -1918,13 +1918,13 @@ qx.Theme.define("qx.theme.simple.Appearance",
         };
 
         if (states.lastYear) {
-          result.icon = qx.theme.simple.Image.ICONS["arrow-rewind"];
+          result.icon = qx.theme.simple.Image.URLS["arrow-rewind"];
         } else if (states.lastMonth) {
-          result.icon = qx.theme.simple.Image.ICONS["arrow-left"];
+          result.icon = qx.theme.simple.Image.URLS["arrow-left"];
         } else if (states.nextYear) {
-          result.icon = qx.theme.simple.Image.ICONS["arrow-forward"];
+          result.icon = qx.theme.simple.Image.URLS["arrow-forward"];
         } else if (states.nextMonth) {
-          result.icon = qx.theme.simple.Image.ICONS["arrow-right"];
+          result.icon = qx.theme.simple.Image.URLS["arrow-right"];
         }
 
         return result;
@@ -2132,7 +2132,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          source : qx.theme.simple.Image.ICONS["arrow-down"],
+          source : qx.theme.simple.Image.URLS["arrow-down"],
           cursor : "pointer",
           padding : [0, 5],
           marginLeft: 2
@@ -2170,7 +2170,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : qx.theme.simple.Image.ICONS["arrow-down"],
+          icon : qx.theme.simple.Image.URLS["arrow-down"],
           decorator : decorator
         };
       }
@@ -2206,7 +2206,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
         
         return {
-          icon : qx.theme.simple.Image.ICONS["arrow-down"],
+          icon : qx.theme.simple.Image.URLS["arrow-down"],
           decorator : decorator
         };
       }
@@ -2449,7 +2449,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           cursor : states.disabled ? undefined : "pointer",
-          icon : qx.theme.simple.Image.ICONS["tabview-close"]
+          icon : qx.theme.simple.Image.URLS["tabview-close"]
         };
       }
     },
