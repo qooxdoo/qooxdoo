@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/flash/fo_tester.swf)
+#asset(widgetbrowser/fo_tester.swf)
 
 ************************************************************************ */
 
@@ -32,11 +32,11 @@
  * 
  */
 
-qx.Class.define("demobrowser.demo.ui.overview.pages.Embed",
+qx.Class.define("widgetbrowser.pages.Embed",
 {
   extend: qx.ui.tabview.Page,
 
-  include : demobrowser.demo.ui.overview.MControls,
+  include : widgetbrowser.MControls,
 
   construct: function()
   {
@@ -71,7 +71,7 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.Embed",
       var flashVars = {
         flashVarText: "this is passed in via FlashVars"
       };
-      var flash = new qx.ui.embed.Flash("demobrowser/demo/flash/fo_tester.swf").set({
+      var flash = new qx.ui.embed.Flash("widgetbrowser/fo_tester.swf").set({
         scale: "noscale",
         width: 100,
         height: 200,

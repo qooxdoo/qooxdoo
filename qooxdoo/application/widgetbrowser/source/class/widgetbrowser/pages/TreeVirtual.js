@@ -18,23 +18,23 @@
 ************************************************************************ */
 
 /**
- * Demonstrates qx.ui.splitpane(...):
+ * Demonstrates qx.ui.treevirtual(...):
  *
- * Pane, Slider, Splitter
+ * TreeVirtual
  *
  */
 
-qx.Class.define("demobrowser.demo.ui.overview.pages.SplitPane",
+qx.Class.define("widgetbrowser.pages.TreeVirtual",
 {
   extend: qx.ui.tabview.Page,
 
-  include : demobrowser.demo.ui.overview.MControls,
+  include : widgetbrowser.MControls,
 
   construct: function()
   {
     this.base(arguments);
 
-    this.setLabel("SplitPane");
+    this.setLabel("TreeVirtual");
     this.setLayout(new qx.ui.layout.Canvas());
 
     this.__container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
@@ -54,12 +54,34 @@ qx.Class.define("demobrowser.demo.ui.overview.pages.SplitPane",
     {
       var widgets = this.__widgets = new qx.type.Array();
 
-      var splitPane = new qx.ui.splitpane.Pane("horizontal");
-      widgets.push(splitPane);
-      this.__container.add(splitPane);
+      var tree = new qx.ui.treevirtual.TreeVirtual("TreeVirtual");
+      widgets.push(tree);
+      tree.setWidth(300);
+      tree.setHeight(300);
+      this.__setupTreeDataModel(tree);
+      this.__container.add(tree);
+    },
 
-      splitPane.add(new qx.ui.core.Widget().set({width: 200, height: 200}));
-      splitPane.add(new qx.ui.core.Widget().set({width: 300, height: 200}));
+    __setupTreeDataModel: function(tree) {
+      var dataModel = tree.getDataModel();
+
+      var te2 = dataModel.addBranch(
+        null, "Inbox", true, false
+      );
+
+      var te = dataModel.addBranch(te2, "Spam", false);
+
+      for (var i = 1; i < 3000; i++)
+      {
+        dataModel.addLeaf(te, "Spam Message #" + i);
+      }
+
+      dataModel.addBranch(te2, "Sent", true);
+      dataModel.addBranch(te2, "Trash", true);
+      dataModel.addBranch(te2, "Data", true);
+      dataModel.addBranch(te2, "Edit", true);
+
+      dataModel.setData();
     }
   }
 });

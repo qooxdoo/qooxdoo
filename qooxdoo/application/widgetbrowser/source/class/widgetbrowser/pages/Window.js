@@ -37,11 +37,11 @@
  *
  */
 
-qx.Class.define("demobrowser.demo.ui.overview.pages.Window",
+qx.Class.define("widgetbrowser.pages.Window",
 {
   extend: qx.ui.tabview.Page,
 
-  include : demobrowser.demo.ui.overview.MControls,
+  include : widgetbrowser.MControls,
 
   construct: function()
   {

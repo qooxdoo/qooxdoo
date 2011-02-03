@@ -30,11 +30,11 @@
  *
  */
 
-qx.Class.define("demobrowser.demo.ui.overview.pages.Tree",
+qx.Class.define("widgetbrowser.pages.Tree",
 {
   extend: qx.ui.tabview.Page,
 
-  include : demobrowser.demo.ui.overview.MControls,
+  include : widgetbrowser.MControls,
 
   construct: function()
   {

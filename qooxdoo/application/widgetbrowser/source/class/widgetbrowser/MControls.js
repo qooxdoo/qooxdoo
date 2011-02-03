@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Mixin.define("demobrowser.demo.ui.overview.MControls", 
+qx.Mixin.define("widgetbrowser.MControls", 
 {
   
   members:

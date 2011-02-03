@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.overview.TabView",
+qx.Class.define("widgetbrowser.view.Tabs",
 {
   extend : qx.ui.tabview.TabView,
 
@@ -36,55 +36,55 @@ qx.Class.define("demobrowser.demo.ui.overview.TabView",
     __init: function() {
 
       // Form
-      var form = new demobrowser.demo.ui.overview.pages.Form();
+      var form = new widgetbrowser.pages.Form();
       this.add(form);
 
       // Tree
-      var tree = new demobrowser.demo.ui.overview.pages.Tree();
+      var tree = new widgetbrowser.pages.Tree();
       this.add(tree);
 
       // List
-      var list = new demobrowser.demo.ui.overview.pages.List();
+      var list = new widgetbrowser.pages.List();
       this.add(list);
 
       // Table
-      var table = new demobrowser.demo.ui.overview.pages.Table();
+      var table = new widgetbrowser.pages.Table();
       this.add(table);
 
       // Menu
-      var menu = new demobrowser.demo.ui.overview.pages.ToolBar();
+      var menu = new widgetbrowser.pages.ToolBar();
       this.add(menu);
 
       // Window
-      var win = new demobrowser.demo.ui.overview.pages.Window();
+      var win = new widgetbrowser.pages.Window();
       this.add(win);
 
       // Control
-      var control = new demobrowser.demo.ui.overview.pages.Control();
+      var control = new widgetbrowser.pages.Control();
       this.add(control);
 
       // TreeVirtual
-      var treeVirtual = new demobrowser.demo.ui.overview.pages.TreeVirtual();
+      var treeVirtual = new widgetbrowser.pages.TreeVirtual();
       this.add(treeVirtual);
 
       // SplitPane
-      var splitPane = new demobrowser.demo.ui.overview.pages.SplitPane();
+      var splitPane = new widgetbrowser.pages.SplitPane();
       this.add(splitPane);
 
       // Embed
-      var embed = new demobrowser.demo.ui.overview.pages.Embed();
+      var embed = new widgetbrowser.pages.Embed();
       this.add(embed);
 
       // EmbedFrame
-      var embedFrame = new demobrowser.demo.ui.overview.pages.EmbedFrame();
+      var embedFrame = new widgetbrowser.pages.EmbedFrame();
       this.add(embedFrame);
 
       // Basic
-      var basic = new demobrowser.demo.ui.overview.pages.Basic();
+      var basic = new widgetbrowser.pages.Basic();
       this.add(basic);
 
       // Misc
-      var misc = new demobrowser.demo.ui.overview.pages.Misc();
+      var misc = new widgetbrowser.pages.Misc();
       this.add(misc);
 
     },

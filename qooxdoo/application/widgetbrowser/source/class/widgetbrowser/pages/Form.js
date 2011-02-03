@@ -26,11 +26,11 @@
  * TextArea, TextField, ToggleButton
  *
  */
-qx.Class.define("demobrowser.demo.ui.overview.pages.Form",
+qx.Class.define("widgetbrowser.pages.Form",
 {
   extend: qx.ui.tabview.Page,
 
-  include: demobrowser.demo.ui.overview.MControls,
+  include: widgetbrowser.MControls,
 
   statics:
   {

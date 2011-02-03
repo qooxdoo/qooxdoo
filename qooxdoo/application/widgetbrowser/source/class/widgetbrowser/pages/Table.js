@@ -38,11 +38,11 @@
  *
  */
 
-qx.Class.define("demobrowser.demo.ui.overview.pages.Table",
+qx.Class.define("widgetbrowser.pages.Table",
 {
   extend: qx.ui.tabview.Page,
 
-  include : demobrowser.demo.ui.overview.MControls,
+  include : widgetbrowser.MControls,
 
   construct: function()
   {

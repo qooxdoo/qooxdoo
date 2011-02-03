@@ -1,0 +1,46 @@
+{
+  "name"    : "widgetbrowser",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "api-data",
+    "build",
+    "clean",
+    "distclean",
+    "fix",
+    "info",
+    "inspector",
+    "lint",
+    "migration",
+    "pretty",
+    "profiling",
+    "source",
+    "source-all",
+    "simulation-build",
+    "simulation-run",
+    "test",
+    "test-source",
+    "translation"
+  ],
+  
+  "default-job" : "source",
+
+  "let" :
+  {
+    "APPLICATION"  : "widgetbrowser",
+    "QOOXDOO_PATH" : "../..",
+    "QXTHEME"      : "widgetbrowser.theme.Theme",
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "ROOT"         : "."
+  }
+}

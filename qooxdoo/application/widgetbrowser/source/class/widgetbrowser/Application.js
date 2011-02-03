@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.WidgetOverview",
+qx.Class.define("widgetbrowser.Application",
 {
   extend : qx.application.Standalone,
 
@@ -30,6 +30,10 @@ qx.Class.define("demobrowser.demo.ui.WidgetOverview",
 
   members:
   {
+    __header: null,
+
+    __tabs: null,
+
     main: function()
     {
       this.base(arguments);
@@ -43,16 +47,23 @@ qx.Class.define("demobrowser.demo.ui.WidgetOverview",
       }
 
       var doc = this.getRoot();
-      var scroll = new qx.ui.container.Scroll();
-      doc.add(scroll, {edge: 0});
+      var dockLayout = new qx.ui.layout.Dock();
+      var dockLayoutComposite = new qx.ui.container.Composite(dockLayout);
+      doc.add(dockLayoutComposite, {edge:0});
 
-      var tabView = new demobrowser.demo.ui.overview.TabView();
-      tabView.set({
+      this.__header = new widgetbrowser.view.Header();
+      dockLayoutComposite.add(this.__header, {edge: "north"});
+
+      var scroll = new qx.ui.container.Scroll();
+      dockLayoutComposite.add(scroll);
+
+      this.__tabs = new widgetbrowser.view.Tabs();
+      this.__tabs.set({
         minWidth: 800,
         minHeight: 800,
         padding: 15
       })
-      scroll.add(tabView);
+      scroll.add(this.__tabs);
 
     }
   }
