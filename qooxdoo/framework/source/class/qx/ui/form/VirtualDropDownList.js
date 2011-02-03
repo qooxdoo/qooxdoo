@@ -159,19 +159,6 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
 
     /**
-     * Toggles the drop-down visibility.
-     */
-    toggle : function()
-    {
-      if (this.isVisible()) {
-        this.close();
-      } else {
-        this.open();
-      }
-    },
-
-
-    /**
      * Selects the first item from the list.
      */
     selectFirst : function() {
@@ -234,6 +221,15 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
         this.__select(row);
       }
+    },
+    
+    setPreselected : function(item)
+    {
+      this._preselected = item;
+      this.__ignoreListSelection = true;
+      var listSelection = this.getChildControl("list").getSelection();
+      this.__synchronizeSelection(new qx.data.Array([item]), listSelection);
+      this.__ignoreListSelection = false;
     },
 
 
@@ -335,7 +331,8 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
       var listSelection = this.getChildControl("list").getSelection();
 
       if (this.isVisible()) {
-        this._preselected = listSelection.getItem(0);
+        //this._preselected = listSelection.getItem(0);
+        this.setPreselected(listSelection.getItem(0));
       } else {
         this.__ignoreSelection = true;
         this.__synchronizeSelection(listSelection, this.getSelection());
@@ -354,9 +351,12 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
     {
       if (this.isVisible())
       {
-        var selection = this.getSelection();
-        var listSelection = this.getChildControl("list").getSelection();
-        this.__synchronizeSelection(selection, listSelection);
+        if (this._preselected == null)
+        {
+          var selection = this.getSelection();
+          var listSelection = this.getChildControl("list").getSelection();
+          this.__synchronizeSelection(selection, listSelection);
+        }
         this.__adjustSize();
       }
     },
@@ -422,6 +422,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
       {
         var selection = this.getSelection();
         selection.splice(0, 1, this._preselected);
+        this._preselected = null;
         this.close();
       }
     },

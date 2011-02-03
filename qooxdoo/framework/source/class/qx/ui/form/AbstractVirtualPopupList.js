@@ -293,6 +293,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
      * Shows the list drop-down.
      */
     open : function() {
+      this._beforeOpen();
       this.getChildControl("dropdown").open();
     },
 
@@ -301,6 +302,7 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
      * Hides the list drop-down.
      */
     close : function() {
+      this._beforeClose();
       this.getChildControl("dropdown").close();
     },
 
@@ -309,9 +311,31 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
      * Toggles the drop-down visibility.
      */
     toggle : function() {
-      this.getChildControl("dropdown").toggle();
+      var dropDown =this.getChildControl("dropdown");
+      
+      if (dropDown.isVisible()) {
+        this.close();
+      } else {
+        this.open();
+      }
     },
 
+    
+    /**
+     * This method is called before the dropdown is opened.
+     */
+    _beforeOpen: function() {
+    
+    },
+    
+    
+    /**
+     * This method is called before the dropdown is closed.
+     */
+    _beforeClose: function() {
+    
+    },
+    
 
     /*
     ---------------------------------------------------------------------------
