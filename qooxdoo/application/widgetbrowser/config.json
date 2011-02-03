@@ -37,10 +37,20 @@
   {
     "APPLICATION"  : "widgetbrowser",
     "QOOXDOO_PATH" : "../..",
-    "QXTHEME"      : "widgetbrowser.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."
+  },
+  
+  "jobs" :
+  {
+    "common" :
+    {
+      "settings" :
+      {
+        "qx.nativeScrollBars" : true
+      }
+    }
   }
 }
