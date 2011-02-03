@@ -28,7 +28,8 @@
  *       the comparison fails.
  *     * See the documentation for the {@link qx.dev.unit.TestCase} class for
  *       more information on the available assertions.
- *  * Run *generate.py test* from the directory of your application Makefile.
+ *  * Run *generate.py test* from the directory of your application's
+ *    configuration file (config.json).
  *    This will generate the appropriate test application for you, which will be
  *    available in the subfolder test as test/index.html. Open this file in your
  *    browser and run your tests.
