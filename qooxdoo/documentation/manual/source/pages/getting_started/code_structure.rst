@@ -3,7 +3,20 @@
 Code Structure
 **************
 
-This is how a single source file should look like:
+Guidelines
+==========
+
+This is how a single source file should look like. Ahead of the detailed listing some general rules to follow when you write your own classes:
+
+* Define **one** class per file.
+* The base **class name** (like "Application" in *"custom.Application"*) has to match the **file name** (e.g. *"Application.js"*).
+* The class **name space** (like "custom" in *"custom.Application"*) has to match the **directory path** of the file under the ``source/class`` root (like e.g. *"custom/Application.js"*).
+
+  * This applies recursively for sub-directories. E.g. a class in the file *"custom/foo/Bar.js"* has to be named "custom.foo.Bar".
+
+
+Details
+=======
 
 * **UTF-8 encoding**:All source files should be encoded in UTF-8.
 * **(optional) Header**:A comment holding author, copyrights, etc.
