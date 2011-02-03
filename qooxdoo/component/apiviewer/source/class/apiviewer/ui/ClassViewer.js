@@ -286,9 +286,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       // Add the class hierarchy
       switch (classNode.getType())
       {
-        case "mixin" :
         case "interface" :
-          classHtml.add(this.__getHierarchyTreeHtml(classNode));
+          classHtml.add(this.__getInterfaceHierarchyHtml(classNode));
           break;
 
         default:
@@ -400,91 +399,47 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       return classHtml.get();
     },
 
-
     /**
-     * Generate HTML fragment to display the inheritance tree of an interface or mixin.
+     * Generate HTML fragment to display the inheritance hierarchy of an Interface.
      *
      * @param classNode {apiviewer.dao.Class} class node
      * @return {String} HTML fragemnt
      */
-    __getHierarchyTreeHtml: function(classNode)
+    __getInterfaceHierarchyHtml: function(classNode)
     {
-      if (classNode.getType() == "mixin") {
-        var superList = "superMixins";
-      } else {
-        superList = "superInterfaces";
-      }
-
       var ClassViewer = apiviewer.ui.ClassViewer;
+      var TreeUtil = apiviewer.TreeUtil;
+      var InfoPanel = apiviewer.ui.panels.InfoPanel;
 
-      // Create the interface hierarchy
-      var EMPTY_CELL = ClassViewer.createImageHtml("apiviewer/image/blank.gif", null, "width:18px");
+      var hierarchy = classNode.getInterfaceHierarchy();
+      var html = new qx.util.StringBuilder();
 
-      var generateTree = function(nodes, first)
-      {
-        var lines = [];
+      //show nothing if we don't have a hierarchy
+      if (hierarchy.length <= 1) { return; }
 
-        for (var nodeIndex=0; nodeIndex<nodes.length; nodeIndex++)
-        {
+      html.add("<h2>", "Inheritance hierarchy:", "</h2>");
+  
+      var indent = 0, l = hierarchy.length; 
+      for (var i=l-1; i>=0; i--) {
+        var name = hierarchy[i].getFullName();
+        var icon = TreeUtil.getIconUrl(hierarchy[i]);
 
-          // render line
-          var line = new qx.util.StringBuilder();
-          var classNode = nodes[nodeIndex];
-          if (!first) {
-            if (nodeIndex == nodes.length-1) {
-              line.add(ClassViewer.createImageHtml("apiviewer/image/nextlevel.gif"));
-            } else {
-              line.add(ClassViewer.createImageHtml("apiviewer/image/cross.gif"));
-            }
-          } else {
-            if (!first) {
-              line.add(EMPTY_CELL)
-            };
-          }
+        html.add("<div>");
 
-          line.add(ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classNode)));
-          if (!first) {
-            line.add(apiviewer.ui.panels.InfoPanel.createItemLinkHtml(classNode.getFullName(), null, false));
-          } else {
-            line.add(classNode.getFullName());
-          }
-          lines.push(line.get());
-
-          // get a list of super interfaces
-          var superInterfaces = qx.lang.Array.clone(classNode.getItemList(superList));
-          for (var j=0; j<superInterfaces.length; j++) {
-            superInterfaces[j] = apiviewer.dao.Class.getClassByName(superInterfaces[j].getName());
-          }
-
-          // render lines of super interfaces
-          if (superInterfaces.length > 0)
-          {
-            var subLines = generateTree(superInterfaces);
-            for(var i=0; i<subLines.length; i++) {
-              if (nodeIndex == nodes.length-1) {
-                if (first) {
-                  lines.push(subLines[i]);
-                } else {
-                  lines.push(EMPTY_CELL + subLines[i]);
-                }
-              } else {
-                lines.push(ClassViewer.createImageHtml("apiviewer/image/vline.gif") + subLines[i]);
-              }
-            }
-          }
+        if (i == l-1) {
+          html.add(ClassViewer.createImageHtml(icon));
+          html.add(InfoPanel.createItemLinkHtml(name, null, false));
+        } else {
+          html.add(ClassViewer.createImageHtml("apiviewer/image/nextlevel.gif", null, "margin-left:" + indent + "px"));
+          html.add(ClassViewer.createImageHtml(icon));
+          html.add(i != 0 ? InfoPanel.createItemLinkHtml(name, null, false) : name);
+          indent += 18;
         }
-        return lines;
+
+        html.add("</div>");
       }
 
-      var classHtml = new qx.util.StringBuilder();
-
-      if(classNode.getItemList(superList).length > 0)
-      {
-        classHtml.add("<h2>", "Inheritance hierarchy:", "</h2>");
-        classHtml.add(generateTree([classNode], true).join("<br />\n"));
-      }
-
-      return classHtml.get();
+      return html.get();
     },
 
 
