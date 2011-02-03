@@ -77,7 +77,6 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
           control = new qx.ui.form.TextField();
           control.setFocusable(false);
           control.addState("inner");
-          control.bind("value", this, "value");
           this._add(control, {
                 flex : 1
               });
@@ -112,12 +111,64 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
     },
 
     // overridden
-    open : function()
+    _beforeOpen : function()
     {
       this._selectFirstMatch();
-      this.base(arguments);
     },
 
+    // overridden
+    _handleKeyboard : function(event)
+    {
+      var action = this._getAction(event);
+      
+      switch(action)
+      {
+        case "select":
+          this.setValue(this.getChildControl("textfield").getValue());
+          break;
+          
+       /*
+       case "none":
+          return;
+          break;
+       */
+
+        default:
+          this.base(arguments, event);
+          break;
+      }
+    },
+    
+    // overridden
+    _getAction : function(event)
+    {
+      var keyIdentifier = event.getKeyIdentifier();
+      var isOpen = this.getChildControl("dropdown").isVisible();
+
+      if (!isOpen && keyIdentifier === "Enter") {
+        return "select";
+      } else {
+        return this.base(arguments, event);
+        
+        /*
+        var action = this.base(arguments, event);
+        switch(action)
+        {
+          case "selectPrevious":
+          case "selectNext":
+          case "selectFirst":
+          case "selectLast":
+            var value = this.getChildControl("textfield").getValue();
+            if (value !== "") {
+              return "none";
+            }
+          default:
+            return action;
+        }
+        */
+      }
+    },
+      
     // overridden
     _handleMouse : function(event)
     {
@@ -126,7 +177,6 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
       var type = event.getType();
       var target = event.getTarget();
       if (type === "click" && target == this.getChildControl("button")) {
-        this._selectFirstMatch();
         this.toggle();
       }
     },
@@ -145,7 +195,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
 
       var labelSourcePath = this._getBindPath("", this.getLabelPath());
       this.__selectionBindingId = this.__selection.bind(labelSourcePath, 
-        textfield, "value", this.getLabelOptions());
+        this, "value", this.getLabelOptions());
     },
 
     /**
@@ -155,7 +205,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
      */
     _selectFirstMatch : function()
     {
-      var value = this.getValue();
+      var value = this.getChildControl("textfield").getValue();
       var labelPath = this.getLabelPath();
       if (this.__selection.getItem(0) !== value) {
         var model = this.getModel();
@@ -169,7 +219,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
             itemLabel = modelItem;
           }
           if (itemLabel && itemLabel.indexOf(value) == 0) {
-            this.__selection.setItem(0, modelItem);
+            this.getChildControl("dropdown").setPreselected(modelItem);
             break;
           }
         }
