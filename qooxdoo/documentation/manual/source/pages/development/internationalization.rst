@@ -167,13 +167,14 @@ If such a file already exists, the newly extracted strings will be merged with t
 Translate the Messages
 ======================
 
-These ``.po`` files are the actual files you - or your translator ;-) - would have to edit. Since qooxdoo internally uses well-established tools and formats for internationalization (`"gettext" <http://www.gnu.org/software/gettext/>`_ via `polib <http://pypi.python.org/pypi/polib>`_), any "po"-aware editor or even a simple text editor can be used.  
+These ``.po`` files are the actual files you - or your translator ;-) - would have to edit. Since qooxdoo internally uses well-established tools and formats for internationalization (`GNU gettext <http://en.wikipedia.org/wiki/GNU_gettext>`_ via `polib <http://pypi.python.org/pypi/polib>`_), any "po"-aware editor or even a simple text editor can be used.  
 
 Some of the programs that support manipulation of ``.po`` files are:
 
 * `Poedit <http://www.poedit.net/>`_ (Windows, Mac OS X, Linux)
 * `LocFactory Editor <http://www.triplespin.com/en/products/locfactoryeditor.html>`_ (Mac OS X)
-* `Localize <http://l10n.kde.org/tools/>`_ (Linux)
+* `Lokalize <http://l10n.kde.org/tools/>`_ (Linux)
+* `Gtranslator <http://projects.gnome.org/gtranslator/>`__ (Linux)
 
 .. _pages/internationalization#update_the_application:
 
