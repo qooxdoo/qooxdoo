@@ -57,11 +57,11 @@ qx.Class.define("qx.test.ui.form.VirtualComboBox",
 
     testSelectFirstMatch : function()
     {
-      this.__comboBox.setValue("item 42");
+      this.__comboBox.setValue("i");
       this.__comboBox.open();
-      var list = this.__comboBox.getChildControl("dropdown");
-      var listSelectionValue = list.getSelection().getItem(0);
-      this.assertEquals("item 42", listSelectionValue);
+      this.__comboBox.close();
+      // Preselection may not change the actual value
+      this.assertNotEquals("item 1", this.__comboBox.getValue());
     }
   }
 
