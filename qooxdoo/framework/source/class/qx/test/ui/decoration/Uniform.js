@@ -36,8 +36,11 @@ qx.Class.define("qx.test.ui.decoration.Uniform",
       decorator.setWidth(2);
       decorator.setColor(null);
       var markup = decorator.getMarkup();
-
-      this.assertEquals('<div style="position:absolute;top:0;left:0;border:2px solid ;background-position:0 0;' + qx.test.ui.decoration.Uniform.overflow + '"></div>', markup);
+      this.assertEquals(
+        '<div style="border-top:2px solid ;border-right:2px solid ;' + 
+        'border-bottom:2px solid ;border-left:2px solid ;position:absolute;' + 
+        'top:0;left:0;background-position:0 0;' + 
+        qx.test.ui.decoration.Uniform.overflow + '"></div>', markup);
     },
 
     testBackgroundColor : function()
@@ -47,7 +50,11 @@ qx.Class.define("qx.test.ui.decoration.Uniform",
       decorator.setBackgroundColor(null);
       var markup = decorator.getMarkup();
 
-      this.assertEquals('<div style="position:absolute;top:0;left:0;border:2px solid ;background-position:0 0;' + qx.test.ui.decoration.Uniform.overflow + '"></div>', markup);
+      this.assertEquals(
+        '<div style="border-top:2px solid ;border-right:2px solid ;' + 
+        'border-bottom:2px solid ;border-left:2px solid ;position:absolute;' + 
+        'top:0;left:0;background-position:0 0;' + 
+        qx.test.ui.decoration.Uniform.overflow + '"></div>', markup)
     }
 
 
