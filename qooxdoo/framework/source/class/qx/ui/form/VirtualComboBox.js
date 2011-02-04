@@ -61,14 +61,17 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
     },
     
     /**
-     * Whether HTML tags should be stripped from the labels of model items 
-     * selected by the user. This allows HTML formatting of the dropdown list's
-     * entries while preventing HTML tags from showing up in the text field or
-     * the value property. Default: false
+     * Formatting function that will be applied to the value of a selected model
+     * item's label before it is written to the text field. Also used to find 
+     * and preselect the first list entry that begins with the current content
+     * of the text field when the dropdown list is opened. Can be used e.g. to 
+     * strip HTML tags from rich-formatted item labels. The function will be 
+     * called with the item's label (String) as the only parameter.
      */
-    stripTags : {
-      check : "Boolean",
-      init : false
+    defaultFormat : {
+      check : "Function",
+      init : null,
+      nullable : true
     }
   },
 
@@ -218,25 +221,21 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
     {
       var labelOptions = this.getLabelOptions();
       var options = null;
-      var filter = this.isStripTags();
-      
-      var converter = function(data) {
-        return qx.lang.String.stripTags(data);
-      }; 
+      var formatter = this.getDefaultFormat();
       
       if (labelOptions != null) {
         options = qx.lang.Object.clone(labelOptions);
         
-        if (filter) {
+        if (formatter) {
           options.converter = function(data, model) {
             data = labelOptions.converter(data, model);
-            return converter(data);
+            return formatter(data);
           }
         }
       } else {
-        if (filter) {
+        if (formatter) {
           options = {
-            converter : converter
+            converter : formatter
           }
         }
       }
@@ -264,8 +263,8 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
           else if (typeof(modelItem) == "string") {
             itemLabel = modelItem;
           }
-          if (itemLabel && this.isStripTags()) {
-            itemLabel = qx.lang.String.stripTags(itemLabel);
+          if (itemLabel && this.getDefaultFormat()) {
+            itemLabel = this.getDefaultFormat()(qx.lang.String.stripTags(itemLabel));
           }
           if (itemLabel && itemLabel.indexOf(value) == 0) {
             this.getChildControl("dropdown").setPreselected(modelItem);
