@@ -20,88 +20,230 @@ qx.Class.define("demobrowser.demo.virtual.ComboBox",
 
   members :
   {
-    main: function()
+    /**
+     * TODOC
+     *
+     * @return {void}
+     */
+    main : function()
     {
       this.base(arguments);
 
-      var scroller = new qx.ui.container.Scroll();
-      var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
-      scroller.add(container, {edge: 0});
+      // examlpe 1: default combo box with 30 text items
+      this._createDefaultExample();
 
-      var standard = new qx.ui.container.Composite(new qx.ui.layout.HBox(50));
-      standard.setPadding(20);
+      // example 2: combo box with text and icons
+      this._createIconExample();
 
-      standard.add(this.createBox1());
-      standard.add(this.createBox2());
-      standard.add(this.createBox3());
+      // example 3: wide combo box with a large list
+      this._createWideExample();
 
-      container.add(standard, {left : 20, top : 20});
-      this.getRoot().add(scroller, {edge : 0});
+      // example 4: combo combo box with HTML (rich) text
+      this._createHtmlExample();
     },
 
 
-    createBox1 : function()
+    /**
+     * Creates a default example.
+     * This means that a regular combobox will be created and filled with
+     * some templates.
+     *
+     * @return {void}
+     */
+    _createDefaultExample : function()
     {
-      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
-      container.add(new qx.ui.basic.Label("Simple"));
+      // create and add the describing label
+      var label = new qx.ui.basic.Label("Default");
+      label.setFont("bold");
 
-      // Creates the model data
-      var model = new qx.data.Array();
-      for (var i = 0; i < 300; i++) {
-        model.push("Item " + (i+1));
-      }
-
-      // Creates the combo box
-      var comboBox = new qx.ui.form.VirtualComboBox(model);
-      container.add(comboBox);
-
-      // log all changes on the selection
-      comboBox.addListener("changeValue", function(e) {
-        this.debug("Change value: ", e.getData());
+      this.getRoot().add(label,
+      {
+        left : 20,
+        top  : 25
       });
 
+      // create a combo box
+      var comboBox = new qx.ui.form.VirtualComboBox();
 
-      return container;
+      //create a simple model
+      var rawData = [];
+      for (var i=1; i<401; i++)
+      {
+        rawData.push("2^ " + i + " = " + Math.pow(2, i));
+      }
+      var model = qx.data.marshal.Json.createModel(rawData);
+      comboBox.setModel(model);
+      
+      comboBox.addListener("changeValue", function(e) {
+        this.debug("ChangeValue: " + e.getData());
+      });
+
+      // add the combobox to the documents root
+      this.getRoot().add(comboBox,
+      {
+        left : 20,
+        top  : 40
+      });
     },
 
 
-    createBox2 : function()
+    /**
+     * Creates a icon example.
+     * This means that a combobox will be created and filled with
+     * some icons and text. in the textfield of the combo box is only
+     * the text displayed.
+     *
+     * @return {void}
+     */
+    _createIconExample : function()
     {
-      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
-      container.add(new qx.ui.basic.Label("Long text"));
+      // create and add the describing label
+      var label = new qx.ui.basic.Label("With icons");
+      label.setFont("bold");
 
-      // Creates the model data
-      var model = new qx.data.Array();
-      for (var i = 0; i < 300; i++) {
-        model.push("Random Value " + Math.round(Math.random()*100000000));
+      this.getRoot().add(label,
+      {
+        left : 160,
+        top  : 25
+      });
+
+      // create a combo box
+      var comboBox = new qx.ui.form.VirtualComboBox();
+
+      // create the model
+      var rawData = [];
+      for (var i=1; i<31; i++)
+      {
+        rawData.push({
+          label : i + "'s Icon",
+          icon : "icon/16/places/folder.png"
+        });
       }
+      var model = qx.data.marshal.Json.createModel(rawData);
+      comboBox.setModel(model);
+      comboBox.setLabelPath("label");
+      comboBox.setIconPath("icon");
 
-      // Creates the select box
-      var comboBox = new qx.ui.form.VirtualComboBox(model);
-      container.add(comboBox);
-
-      return container;
+      // add the combobox to the documents root
+      this.getRoot().add(comboBox,
+      {
+        left : 160,
+        top  : 40
+      });
     },
 
-
-    createBox3 : function()
+    /**
+     * Creates a HTML example.
+     * This means that a combobox will be created and filled with
+     * some text, that contain HTML tags and entities.
+     *
+     * @return {void}
+     */
+    _createHtmlExample : function()
     {
-      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
-      container.add(new qx.ui.basic.Label("Empty Item"));
+      // create and add the describing label
+      var label = new qx.ui.basic.Label("With HTML (rich) text");
+      label.setFont("bold");
 
-      // Creates the model data
-      var model = new qx.data.Array();
-      model.push("");
+      this.getRoot().add(label,
+      {
+        left : 300,
+        top  : 25
+      });
 
-      for (var i = 0; i < 300; i++) {
-        model.push("Option " + (i+1));
+      // create a combo box
+      var comboBox = new qx.ui.form.VirtualComboBox().set({width: 200});
+
+      var items = ["... &gt; (as literal HTML entity)",
+                   "... &gt; (as Richtext)",
+                   "<b>Bold Text</b>",
+                   "<u>Underlined Text</u>",
+                   "<i>Italic Text</i>",
+                   "HTML entities: &laquo; &lt; &amp; &gt; &raquo;"];
+
+      // create the model
+      var model = qx.data.marshal.Json.createModel(items);
+      comboBox.setModel(model);
+      
+      // Set the created list item's "rich" property
+      var delegate = {
+        configureItem : function(item)
+        {
+          item.setRich(true);
+        }
       }
+      
+      comboBox.setDelegate(delegate);
+      
+      // Provide a formatting function to convert the displayed value back to
+      // plain text
+      comboBox.setDefaultFormat(function(data) {
+        if (data) {
+          data = qx.lang.String.stripTags(data);
+          data = qx.bom.String.unescape(data);
+        }
+        return data;
+      });
 
-      // Creates the combo box
-      var comboBox = new qx.ui.form.VirtualComboBox(model);
-      container.add(comboBox);
+      // add the combobox to the documents root
+      this.getRoot().add(comboBox,
+      {
+        left : 300,
+        top  : 40
+      });
+    },
 
-      return container;
+    /**
+     * TODOC
+     *
+     * @return {void}
+     */
+    _createWideExample : function()
+    {
+      // create and add the describing label
+      var label = new qx.ui.basic.Label("Sorted and filtered model");
+      label.setFont("bold");
+
+      this.getRoot().add(label,
+      {
+        left : 20,
+        top  : 285
+      });
+
+      // create a combo box
+      var comboBox = new qx.ui.form.VirtualComboBox();
+      
+      //create a simple model
+      var rawData = [];
+      for (var i=1; i<100; i++)
+      {
+        rawData.push("Item " + i);
+      }
+      var model = qx.data.marshal.Json.createModel(rawData);
+      comboBox.setModel(model);
+      
+      var delegate = {
+        // Inverts the order
+        sorter : function(a, b) {
+          return a < b ? 1 : a > b ? -1 : 0;
+        },
+        // Remove even-numbered items
+        filter : function(item) {
+          var num = parseInt(/([0-9]+)/.exec(item)[1], 10);
+          return num % 2 ? true : false;
+        }
+      }
+      
+      comboBox.setDelegate(delegate);
+
+      // add the combobox to the documents root
+      this.getRoot().add(comboBox,
+      {
+        left : 20,
+        top  : 300
+      });
     }
+
+
   }
 });
