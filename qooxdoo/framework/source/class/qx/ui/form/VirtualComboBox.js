@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
           var modelItem = model.getItem(lookupTable[i]);
           var itemLabel = null;
           if (labelPath) {
-            itemLabel = modelItem.get(labelPath);
+            itemLabel = qx.data.SingleValueBinding.getValueFromObject(modelItem, labelPath);
           }
           else if (typeof(modelItem) == "string") {
             itemLabel = modelItem;
