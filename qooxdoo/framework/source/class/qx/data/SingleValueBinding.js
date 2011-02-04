@@ -468,12 +468,35 @@ qx.Class.define("qx.data.SingleValueBinding",
       sourceObject, sourcePropertyChain, targetObject, targetPropertyChain, options
     )
     {
-      var source = this.__getTargetFromChain(sourceObject, sourcePropertyChain);
+      var value = this.getValueFromObject(sourceObject, sourcePropertyChain);
 
+      // convert the data before setting
+      value = qx.data.SingleValueBinding.__convertValue(
+        value, targetObject, targetPropertyChain, options
+      );
+
+      this.__setTargetValue(targetObject, targetPropertyChain, value);
+    },
+
+
+    /**
+     * Internal helper for getting the current set value at the property chain.
+     * 
+     * @param o {qx.core.Object} The source of the binding.
+     * @param propertyChain {String} The property chain which represents
+     *   the source property.
+     * @return {var?undefined} Returns the set value if defined.
+     * 
+     * @internal
+     */
+    getValueFromObject : function(o, propertyChain) {
+      var source = this.__getTargetFromChain(o, propertyChain);
+
+      var value;
       if (source != null) {
         // geht the name of the last property
-        var lastProperty = sourcePropertyChain.substring(
-          sourcePropertyChain.lastIndexOf(".") + 1, sourcePropertyChain.length
+        var lastProperty = propertyChain.substring(
+          propertyChain.lastIndexOf(".") + 1, propertyChain.length
         );
 
         // check for arrays
@@ -490,21 +513,16 @@ qx.Class.define("qx.data.SingleValueBinding",
             index = sourceArray.length - 1;
           }
           if (sourceArray != null) {
-            var value = sourceArray.getItem(index);
+            value = sourceArray.getItem(index);
           }
 
         } else {
           // set the given value
-          var value = source["get" + qx.lang.String.firstUp(lastProperty)]();
+          value = source["get" + qx.lang.String.firstUp(lastProperty)]();
         }
       }
-
-      // convert the data before setting
-      value = qx.data.SingleValueBinding.__convertValue(
-        value, targetObject, targetPropertyChain, options
-      );
-
-      this.__setTargetValue(targetObject, targetPropertyChain, value);
+      
+      return value;      
     },
 
 
