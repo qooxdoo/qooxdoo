@@ -130,6 +130,32 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
       event: "changeLabelOptions",
       nullable: true
     },
+    
+    
+    /**
+     * The path to the property which holds the information that should be
+     * displayed as an icon. This is only needed if objects are stored in the
+     * model and icons should be displayed.
+     */
+    iconPath :
+    {
+      check: "String",
+      event : "changeIconPath",
+      apply: "_applyIconPath",
+      nullable: true
+    },
+
+
+    /**
+     * A map containing the options for the icon binding. The possible keys
+     * can be found in the {@link qx.data.SingleValueBinding} documentation.
+     */
+    iconOptions :
+    {
+      apply: "_applyIconOptions",
+      event : "changeIconOptions",
+      nullable: true
+    },
 
 
     /** Default item height. */
@@ -230,6 +256,22 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
     _applyLabelOptions : function(value, old)
     {
       this.getChildControl("dropdown").getChildControl("list").setLabelOptions(value);
+      qx.ui.core.queue.Widget.add(this);
+    },
+    
+    
+    // property apply
+    _applyIconPath : function(value, old)
+    {
+      this.getChildControl("dropdown").getChildControl("list").setIconPath(value);
+      qx.ui.core.queue.Widget.add(this);
+    },
+
+
+    // property apply
+    _applyIconOptions : function(value, old)
+    {
+      this.getChildControl("dropdown").getChildControl("list").setIconOptions(value);
       qx.ui.core.queue.Widget.add(this);
     },
 
