@@ -227,28 +227,29 @@ qx.Class.define("demobrowser.demo.virtual.SelectBox",
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
       container.add(new qx.ui.basic.Label("Persons"));
 
-      var url = "json/persons.json";
-      var store = new qx.data.store.Json(url);
-      store.addListener("loaded", function() {
-        var persons = store.getModel().getPersons();
-
-        // Creates the model data
-        var model = new qx.data.Array();
-        for (var i = 0; i < persons.getLength(); i++)
-        {
-          var person = persons.getItem(i);
-          model.push(person.getFirstname() + " " + person.getLastname());
-        }
-        selectBox.setModel(model);
-      }, this);
-
       // Creates the select box
       var selectBox = new qx.ui.form.VirtualSelectBox();
+      selectBox.setLabelPath("firstname");
+      selectBox.setLabelOptions({
+        converter : function(data, model) {
+          return model ? data + " " + model.getLastname() : "no model...";
+        }
+      });
       container.add(selectBox);
+
+      // Loads and create the model data
+      var url = "json/persons.json";
+      var store = new qx.data.store.Json(url);
+      store.bind("model.persons", selectBox, "model");
 
       // Creates the delegate for sorting
       var delegate = {
-        sorter : function(a, b) {
+        // Sorts the model data by first name
+        sorter : function(a, b)
+        {
+          a = a.getFirstname();
+          b = b.getFirstname();
+
           return a > b ? 1 : a < b ? -1 : 0;
         }
       };

@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
           break;
 
         case "atom":
-          control = new qx.ui.basic.Atom("");
+          control = new qx.ui.form.ListItem("");
           control.setCenter(false);
           control.setAnonymous(true);
 
@@ -155,6 +155,9 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       var atom = this.getChildControl("atom");
 
       this.removeAllBindings();
+
+      var modelPath = this._getBindPath("selection", "");
+      this.bind(modelPath, atom, "model", null);
 
       var labelSourcePath = this._getBindPath("selection", this.getLabelPath());
       this.bind(labelSourcePath, atom, "label", this.getLabelOptions());
@@ -331,7 +334,24 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       {
         var row = (i + startRow) % length;
         var item = model.getItem(list._lookup(row));
-        if (qx.lang.String.startsWith(item.toLowerCase(), searchValue.toLowerCase()))
+        var value = item;
+
+        if (this.getLabelPath() != null)
+        {
+          value = qx.data.SingleValueBinding.getValueFromObject(item, this.getLabelPath());
+
+          var labelOptions = this.getLabelOptions(); 
+          if (labelOptions != null)
+          {
+            var converter = qx.util.Delegate.getMethod(labelOptions, "converter");
+
+            if (converter != null) {
+              value = converter(value, item);
+            }
+          }
+        }
+
+        if (qx.lang.String.startsWith(value.toLowerCase(), searchValue.toLowerCase()))
         {
           selection.push(item);
           break;
