@@ -58,6 +58,17 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
       nullable : true,
       event : "changeValue",
       apply : "_applyValue"
+    },
+    
+    /**
+     * Whether HTML tags should be stripped from the labels of model items 
+     * selected by the user. This allows HTML formatting of the dropdown list's
+     * entries while preventing HTML tags from showing up in the text field or
+     * the value property. Default: false
+     */
+    stripTags : {
+      check : "Boolean",
+      init : false
     }
   },
 
@@ -193,13 +204,49 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
 
       var labelSourcePath = this._getBindPath("", this.getLabelPath());
       this.__selectionBindingId = this.__selection.bind(labelSourcePath, 
-        this, "value", this.getLabelOptions());
+        this, "value", this.__getLabelFilterOptions());
+    },
+
+    /**
+     * Returns an options map used for binding the selected item's label to
+     * the {@link #value} property. If {@link #stripTags} is set, a converter 
+     * that strips HTML tags from the label string is added.
+     * 
+     * @return {Map} Options map
+     */
+    __getLabelFilterOptions : function()
+    {
+      var labelOptions = this.getLabelOptions();
+      var options = null;
+      var filter = this.isStripTags();
+      
+      var converter = function(data) {
+        return qx.lang.String.stripTags(data);
+      }; 
+      
+      if (labelOptions != null) {
+        options = qx.lang.Object.clone(labelOptions);
+        
+        if (filter) {
+          options.converter = function(data, model) {
+            data = labelOptions.converter(data, model);
+            return converter(data);
+          }
+        }
+      } else {
+        if (filter) {
+          options = {
+            converter : converter
+          }
+        }
+      }
+      
+      return options;
     },
 
     /**
      * Selects the first list item that starts with the text field's
-     * value. TODO: Use the sorted and/or filtered model once
-     * there's an API for this.
+     * value.
      */
     _selectFirstMatch : function()
     {
@@ -216,6 +263,9 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
           }
           else if (typeof(modelItem) == "string") {
             itemLabel = modelItem;
+          }
+          if (itemLabel && this.isStripTags()) {
+            itemLabel = qx.lang.String.stripTags(itemLabel);
           }
           if (itemLabel && itemLabel.indexOf(value) == 0) {
             this.getChildControl("dropdown").setPreselected(modelItem);
