@@ -81,6 +81,31 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
     },
 
 
+    testRemoveAll : function()
+    {
+      var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());
+
+      var c1 = new qx.ui.core.Widget();
+      var c2 = new qx.ui.core.Widget();
+      var c3 = new qx.ui.core.Widget();
+
+      var children = [c1, c2, c3];
+      this._setChildren(parent, children);
+
+      var removed = parent.removeAll();
+      this.assertArrayEquals([], parent.getChildren(), "remove last");
+      this.assertEquals(3, removed.length);
+      this.assertEquals(c1, removed[0]);
+      this.assertEquals(c2, removed[1]);
+      this.assertEquals(c3, removed[2]);
+
+      c1.destroy();
+      c2.destroy();
+      c3.destroy();
+      parent.destroy();
+    },
+
+
     testRemoveNonChild : function()
     {
       var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());

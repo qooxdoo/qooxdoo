@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     /**
      * Returns the children list
      *
-     * @return {LayoutItem[]} The children array.
+     * @return {qx.ui.core.LayoutItem[]} The children array.
      */
     getChildren : function() {
       return this._getChildren();
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      * used to position the widget. The options are documented in the class
      * documentation of each layout manager {@link qx.ui.layout}.
      *
-     * @param child {LayoutItem} the widget to add.
+     * @param child {qx.ui.core.LayoutItem} the widget to add.
      * @param options {Map?null} Optional layout data for widget.
      */
     add : function(child, options) {
@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     /**
      * Remove the given child widget.
      *
-     * @param child {LayoutItem} the widget to remove
+     * @param child {qx.ui.core.LayoutItem} the widget to remove
      */
     remove : function(child)
     {
@@ -203,6 +203,8 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
 
     /**
      * Remove all children.
+     * 
+     * @return {Array} An array of {@link qx.ui.core.LayoutItem}'s.
      */
     removeAll : function()
     {
@@ -212,7 +214,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
         this.__radioGroup.remove(radioItems[i]);
       }
 
-      this._removeAll();
+      return this._removeAll();
     },
 
 

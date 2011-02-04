@@ -243,6 +243,15 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
 
       this.__assertIcon(item, this.icon_opened);
     },
+    
+    
+    testRemoveAll: function(){
+      var removed = this.__root.removeAll();
+      
+      this.assertEquals(2, removed.length);
+      this.assertEquals(this.__aa, removed[0]);
+      this.assertEquals(this.__ab, removed[1]);
+    },
 
     //
     // Helper methods

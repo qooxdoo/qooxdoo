@@ -1001,9 +1001,12 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     removeAll : function()
     {
+      // create a copy for returning
+      var children = this.__children.concat();
       for (var i=this.__children.length-1; i>=0; i--) {
         this.remove(this.__children[i]);
       }
+      return children;
     }
   },
 

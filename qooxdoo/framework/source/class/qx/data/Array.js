@@ -520,6 +520,8 @@ qx.Class.define("qx.data.Array",
 
     /**
      * Remove all elements from the array.
+     * 
+     * @return {Array} A native array containing the removed elements.
      */
     removeAll : function() {
       // remove all possible added event listeners
@@ -544,6 +546,7 @@ qx.Class.define("qx.data.Array",
           items: items
         }, null
       );
+      return items;
     },
 
 

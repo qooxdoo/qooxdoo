@@ -2091,11 +2091,13 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Remove all children.
+     * 
+     * @return {Array} An array containing the removed children.
      */
     _removeAll : function()
     {
       if (!this.__widgetChildren) {
-        return;
+        return [];
       }
 
       // Working on a copy to make it possible to clear the
@@ -2108,6 +2110,8 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       qx.ui.core.queue.Layout.add(this);
+      
+      return children;
     },
 
 

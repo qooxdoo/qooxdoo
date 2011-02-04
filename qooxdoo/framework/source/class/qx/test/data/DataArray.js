@@ -325,7 +325,10 @@ qx.Class.define("qx.test.data.DataArray",
       this.__a.push("b");
 
       this.assertEventFired(self.__a, "change", function () {
-        self.__a.removeAll();
+        var removed = self.__a.removeAll();
+        self.assertEquals(2, removed.length);
+        self.assertEquals("a", removed[0]);
+        self.assertEquals("b", removed[1]);
       }, function(e) {
         self.assertEquals(0, e.getData().start, "Wrong start index in the event.");
         self.assertEquals(1, e.getData().end, "Wrong end index in the event.");
