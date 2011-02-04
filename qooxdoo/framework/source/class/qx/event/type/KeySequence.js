@@ -143,6 +143,16 @@ qx.Class.define("qx.event.type.KeySequence",
      */
     getKeyCode : function() {
       return this._keyCode;
+    },
+
+
+    /**
+     * Checks whether the pressed key is printable.
+     *
+     * @return {Boolean} Whether the pressed key is printable.
+     */
+    isPrintable : function() {
+      return qx.event.handler.Keyboard.isPrintableKeyIdentifier(this._identifier);
     }
   }
 });

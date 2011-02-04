@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
       if (!isOpen && (keyIdentifier === "Enter" || keyIdentifier === "Space")) {
         return "open";
-      } else if (isOpen && qx.event.handler.Keyboard.isPrintableKeyIdentifier(keyIdentifier)) {
+      } else if (isOpen && event.isPrintable()) {
         return "search";
       } else {
         return this.base(arguments, event);
