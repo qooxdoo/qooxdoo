@@ -121,19 +121,6 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
 
     /**
-     * The path to the property which holds the information that should be
-     * displayed as a group label. This is only needed if objects are stored in the
-     * model.
-     */
-    groupLabelPath :
-    {
-      check: "String",
-      apply: "_applyGroupLabelPath",
-      nullable: true
-    },
-
-
-    /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
@@ -141,17 +128,6 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
     {
       apply: "_applyLabelOptions",
       event: "changeLabelOptions",
-      nullable: true
-    },
-
-
-    /**
-     * A map containing the options for the group label binding. The possible keys
-     * can be found in the {@link qx.data.SingleValueBinding} documentation.
-     */
-    groupLabelOptions :
-    {
-      apply: "_applyGroupLabelOptions",
       nullable: true
     },
 
@@ -251,22 +227,10 @@ qx.Class.define("qx.ui.form.AbstractVirtualPopupList",
 
 
     // property apply
-    _applyGroupLabelPath : function(value, old) {
-      this.getChildControl("dropdown").getChildControl("list").setGroupLabelPath(value);
-    },
-
-
-    // property apply
     _applyLabelOptions : function(value, old)
     {
       this.getChildControl("dropdown").getChildControl("list").setLabelOptions(value);
       qx.ui.core.queue.Widget.add(this);
-    },
-
-
-    // property apply
-    _applyGroupLabelOptions : function(value, old) {
-      this.getChildControl("dropdown").getChildControl("list").setGroupLabelOptions(value);
     },
 
 
