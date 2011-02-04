@@ -136,7 +136,8 @@ qx.Class.define("qx.bom.Font",
       fontWeight: "",
       fontStyle: "",
       textDecoration: "",
-      lineHeight: 1.2
+      lineHeight: 1.2,
+      textColor: ""
     },
 
 
@@ -214,6 +215,14 @@ qx.Class.define("qx.bom.Font",
       check : [ "underline", "line-through", "overline" ],
       nullable : true,
       apply : "_applyDecoration"
+    },
+
+    /** The text color for this font */
+    color :
+    {
+      check : "Color",
+      nullable: true,
+      apply: "_applyColor"
     }
   },
 
@@ -234,6 +243,7 @@ qx.Class.define("qx.bom.Font",
     __italic : null,
     __decoration : null,
     __lineHeight : null,
+    __color : null,
 
 
     // property apply
@@ -288,6 +298,11 @@ qx.Class.define("qx.bom.Font",
       this.__decoration = value === null ? null : value;
     },
 
+    // property apply
+    _applyColor : function(value, old) {
+      this.__color = value === null ? null : value;
+    },
+
 
     /**
      * Get a map of all CSS styles, which will be applied to the widget
@@ -300,7 +315,8 @@ qx.Class.define("qx.bom.Font",
         fontWeight : this.__bold,
         fontStyle : this.__italic,
         textDecoration : this.__decoration,
-        lineHeight : this.__lineHeight
+        lineHeight : this.__lineHeight,
+        textColor : this.__color
       }
     }
   }

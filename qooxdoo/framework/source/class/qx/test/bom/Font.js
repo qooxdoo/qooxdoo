@@ -114,6 +114,15 @@ qx.Class.define("qx.test.bom.Font",
     },
 
 
+    testColor : function()
+    {
+      this.__font.setColor("red");
+
+      var styles = this.__font.getStyles();
+      this.assertEquals("red", styles.textColor, "Wrong style value for 'color' property!");
+    },
+
+
     testGetStyles : function()
     {
       var styles = this.__font.getStyles();
@@ -124,6 +133,7 @@ qx.Class.define("qx.test.bom.Font",
       this.assertKeyInMap("fontWeight", styles, "Key 'fontWeight' is missing in map!");
       this.assertKeyInMap("fontStyle", styles, "Key 'fontStyle' is missing in map!");
       this.assertKeyInMap("lineHeight", styles, "Key 'lineHeight' is missing in map!");
+      this.assertKeyInMap("textColor", styles, "Key 'textColor' is missing in map!");
     },
 
 
@@ -136,7 +146,8 @@ qx.Class.define("qx.test.bom.Font",
         decoration: "underline",
         lineHeight: 1.2,
         size: 20,
-        family: [ "Arial" ]
+        family: [ "Arial" ],
+        color: "red"
       };
       var font = qx.bom.Font.fromConfig(config);
 
@@ -147,7 +158,8 @@ qx.Class.define("qx.test.bom.Font",
         textDecoration: "underline",
         lineHeight: 1.2,
         fontSize: "20px",
-        fontFamily: "Arial"
+        fontFamily: "Arial",
+        textColor: "red"
       };
       var found = font.getStyles();
 
@@ -157,6 +169,7 @@ qx.Class.define("qx.test.bom.Font",
       this.assertEquals(expected.lineHeight, found.lineHeight, "Wrong value for 'lineHeight'");
       this.assertEquals(expected.textDecoration, found.textDecoration, "Wrong value for 'textDecoration'");
       this.assertEquals(expected.fontFamily, found.fontFamily, "Wrong value for 'fontFamily'");
+      this.assertEquals(expected.textColor, found.textColor, "Wrong value for 'textColor'");
     },
 
 
