@@ -193,11 +193,17 @@ qx.Class.define("qx.ui.decoration.BoxDiv",
       if (this._isHorizontal)
       {
         var innerWidth = width - edges.left - edges.right;
+        // Fix to keep applied size above zero
+        // Makes issues in IE7 when applying value like '-4px'
+        innerWidth = innerWidth < 0 ? 0 : innerWidth;
         element.childNodes[1].style.width = innerWidth + "px";
       }
       else
       {
         var innerHeight = height - edges.top - edges.bottom;
+        // Fix to keep applied size above zero
+        // Makes issues in IE7 when applying value like '-4px'
+        innerHeight = innerHeight < 0 ? 0 : innerHeight;
         element.childNodes[1].style.height = innerHeight + "px";
       }
 
