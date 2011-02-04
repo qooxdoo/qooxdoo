@@ -458,6 +458,31 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
       // test selection
       this.__controller.getSelection().push("icon1");
       this.assertEquals("icon1", this.__list.getSelection()[0].getModel());
+    },
+
+
+    testModelInConverter: function() {
+      // create the controller
+      this.__controller = new qx.data.controller.List(this.__model, this.__list, "name");
+      
+      this.__controller.setLabelOptions({converter : function (value, model) {
+        return model.getIcon();
+      }});
+
+      // add a new object after the options are set
+      var obj = new qx.test.ListWithObject();
+      obj.setName("namex");
+      obj.setIcon("iconx");
+      this.__model.push(obj);
+
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var label = this.__list.getChildren()[i].getLabel();
+        this.assertEquals(this.__data[i].getIcon(), label, "Binding " + i + " is wrong!");
+      }
+      
+      var label = this.__list.getChildren()[this.__data.length].getLabel();
+      this.assertEquals("iconx", label, "New binding is wrong!");
     }
   }
 });
