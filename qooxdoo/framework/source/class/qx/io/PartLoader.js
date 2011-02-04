@@ -109,7 +109,7 @@ qx.Class.define("qx.io.PartLoader",
      * @return {Part} The corresponding part instance
      */
     getPart : function(name) {
-      return this._loader.getPart(name);
+      return this._loader.getParts()[name];
     }
   }
 });
