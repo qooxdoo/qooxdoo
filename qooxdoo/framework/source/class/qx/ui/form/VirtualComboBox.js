@@ -207,8 +207,9 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
       var labelPath = this.getLabelPath();
       if (this.__selection.getItem(0) !== value) {
         var model = this.getModel();
-        for (var i = 0, l = model.length; i < l; i++) {
-          var modelItem = model.getItem(i);
+        var lookupTable = this.getChildControl("dropdown").getChildControl("list")._getLookupTable();
+        for (var i = 0, l = lookupTable.length; i < l; i++) {
+          var modelItem = model.getItem(lookupTable[i]);
           var itemLabel = null;
           if (labelPath) {
             itemLabel = modelItem.get(labelPath);
