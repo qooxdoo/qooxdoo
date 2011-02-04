@@ -67,6 +67,8 @@ qx.Class.define("qx.bom.Font",
     /**
      * Converts a typical CSS font definition string to an font object
      *
+     * Example string: <code>bold italic 20px Arial</code>
+     *
      * @param str {String} the CSS string
      * @return {qx.bom.Font} the created instance
      */
@@ -306,6 +308,10 @@ qx.Class.define("qx.bom.Font",
 
     /**
      * Get a map of all CSS styles, which will be applied to the widget
+     *
+     * @return {Map} Map containing the current styles. The keys are property
+     * names which can directly be used with the <code>set</code> method of each
+     * widget.
      */
     getStyles : function()
     {
