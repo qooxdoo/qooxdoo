@@ -45,6 +45,52 @@
 
   "jobs" :
   {
+    "source" :
+    {
+      "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple"]
+    },
+    
+    "source-script-classic" :
+    {
+      "let"     : {"DTHEME" : "qx.theme.Classic"},
+      "extend" : ["source-script"]
+    },
+
+    "source-script-modern" :
+    {
+      "let"     : {"DTHEME" : "qx.theme.Modern"},
+      "extend" : ["source-script"]
+    },
+    
+    "source-script-simple" :
+    {
+      "let"     : {"DTHEME" : "qx.theme.Simple"},
+      "extend" : ["source-script"]
+    },
+
+    "build" :
+    {
+      "=run" : ["build-script-classic", "build-script-modern",  "build-script-simple"]
+    },
+    
+    "build-script-classic" :
+    {
+      "let"     : {"DTHEME" : "qx.theme.Classic"},
+      "extend" : ["build-script"]
+    },
+
+    "build-script-modern" :
+    {
+      "let"     : {"DTHEME" : "qx.theme.Modern"},
+      "extend" : ["build-script"]
+    },
+    
+    "build-script-simple" :
+    {
+      "let"     : {"DTHEME" : "qx.theme.Simple"},
+      "extend" : ["build-script"]
+    },
+
     "common" :
     {
       "settings" :
