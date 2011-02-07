@@ -129,10 +129,10 @@ qx.Class.define("qx.bom.Blocker",
 
     /**
      * Sets the color of the blocker element. Be sure to set also a suitable
-     * opacity value to get the desired result. {@see setBlockerOpacity}
+     * opacity value to get the desired result.
      *
      * @param color {String} CSS color value
-     * @return {void}
+     * @see #setBlockerOpacity
      */
     setBlockerColor : function(color) {
       qx.bom.element.Style.set(this.__blockerElement, "backgroundColor", color);
@@ -151,10 +151,10 @@ qx.Class.define("qx.bom.Blocker",
 
     /**
      * Sets the blocker opacity. Be sure to set also a suitable blocker color
-     * value to get the desired result. {@see setBlockerColor}
+     * value to get the desired result.
      *
      * @param opacity {String} CSS opacity value
-     * @return {void}
+     * @see #setBlockerColor
      */
     setBlockerOpacity : function(opacity) {
       qx.bom.element.Opacity.set(this.__blockerElement, opacity);
