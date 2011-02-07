@@ -17,6 +17,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(widgetbrowser/people.json)
+
+************************************************************************ */
+
 /**
  * Demonstrates qx.ui.list(...):
  *
@@ -91,9 +97,10 @@ qx.Class.define("widgetbrowser.pages.List",
 
     __loadData : function()
     {
-      var url = "json/people.json";
+      var url = "widgetbrowser/people.json";
+      url = qx.util.ResourceManager.getInstance().toUri(url);
       var store = new qx.data.store.Json(url);
-      store.bind("model.persons", this.__listGroupedByName, "model");
+      store.bind("model.people", this.__listGroupedByName, "model");
     }
   }
 });

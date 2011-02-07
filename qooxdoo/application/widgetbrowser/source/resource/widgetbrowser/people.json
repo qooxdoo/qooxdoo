@@ -1,0 +1,472 @@
+{
+  "people": [
+    {
+      "lastname": "Weidner",
+      "firstname": "Ludwig"
+    },
+    {
+      "lastname": "Mengel",
+      "firstname": "Sonnhard"
+    },
+    {
+      "lastname": "Rehbein",
+      "firstname": "Margarita"
+    },
+    {
+      "lastname": "Sänger",
+      "firstname": "Mareike"
+    },
+    {
+      "lastname": "Warnke",
+      "firstname": "Rigbert"
+    },
+    {
+      "lastname": "Grabowski",
+      "firstname": "Friedwin",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Wessels",
+      "firstname": "Bertram",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Schülke",
+      "firstname": "Janna",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Schröer",
+      "firstname": "Christward",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Marks",
+      "firstname": "Adelinde",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Herbert",
+      "firstname": "Monica",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Wehr",
+      "firstname": "Lewin",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Lotz",
+      "firstname": "Wunnibald"
+    },
+    {
+      "lastname": "Schlicht",
+      "firstname": "Irmingard"
+    },
+    {
+      "lastname": "Engert",
+      "firstname": "Othmar",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Binder",
+      "firstname": "Marita",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Schuhmacher",
+      "firstname": "Sergius",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Busche",
+      "firstname": "Eyck",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Heymann",
+      "firstname": "Malve",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Pauls",
+      "firstname": "Gernfried"
+    },
+    {
+      "lastname": "Kempf",
+      "firstname": "Armgard"
+    },
+    {
+      "lastname": "Krug",
+      "firstname": "Raisa",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Kayser",
+      "firstname": "Miriam",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Liebe",
+      "firstname": "Jana",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Vater",
+      "firstname": "Holmer",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Förtsch",
+      "firstname": "Borka",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Schwabe",
+      "firstname": "Trauthilde"
+    },
+    {
+      "lastname": "Prill",
+      "firstname": "Nico"
+    },
+    {
+      "lastname": "Bork",
+      "firstname": "Agilbert",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Moll",
+      "firstname": "Pascale",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Schanz",
+      "firstname": "Thielo"
+    },
+    {
+      "lastname": "Gerth",
+      "firstname": "Simona",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Daum",
+      "firstname": "Rolf"
+    },
+    {
+      "lastname": "Weigert",
+      "firstname": "Christopher",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Vogelsang",
+      "firstname": "Ernstfried"
+    },
+    {
+      "lastname": "Jahn",
+      "firstname": "Huberta"
+    },
+    {
+      "lastname": "Mies",
+      "firstname": "Ingetraut",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Stratmann",
+      "firstname": "Lorenz"
+    },
+    {
+      "lastname": "Meinel",
+      "firstname": "Herward",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Leonhard",
+      "firstname": "Lina",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Mahler",
+      "firstname": "Irmi"
+    },
+    {
+      "lastname": "Fritz",
+      "firstname": "Katrein",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Thimm",
+      "firstname": "Irmo"
+    },
+    {
+      "lastname": "Friedl",
+      "firstname": "Katharine"
+    },
+    {
+      "lastname": "Hohl",
+      "firstname": "Hartlieb",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Wilhelmi",
+      "firstname": "Marleen",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Gilbert",
+      "firstname": "Alena",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Tischer",
+      "firstname": "Tim",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Pietschmann",
+      "firstname": "Frohmut"
+    },
+    {
+      "lastname": "Posselt",
+      "firstname": "Gerold",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Speidel",
+      "firstname": "Sigward"
+    },
+    {
+      "lastname": "Hopp",
+      "firstname": "Henrik",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Hiller",
+      "firstname": "Rico",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Stecher",
+      "firstname": "Elif"
+    },
+    {
+      "lastname": "Himmel",
+      "firstname": "Frieder",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Tischler",
+      "firstname": "Linhart",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Stamm",
+      "firstname": "Selina"
+    },
+    {
+      "lastname": "Lucas",
+      "firstname": "Janina",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Wehrle",
+      "firstname": "Detlef",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Neff",
+      "firstname": "Ermelinde",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Heiden",
+      "firstname": "Notfried",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Hartwig",
+      "firstname": "Magret"
+    },
+    {
+      "lastname": "Rüther",
+      "firstname": "Rosl",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Heinke",
+      "firstname": "Dorlis",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Heimann",
+      "firstname": "Hilderose",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Schuster",
+      "firstname": "Annelore",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Schütz",
+      "firstname": "Hedwig",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Lamm",
+      "firstname": "Hippolytus",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Krone",
+      "firstname": "Sylvester",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Schlegel",
+      "firstname": "Krystyna",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Brune",
+      "firstname": "Heiderich",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Kost",
+      "firstname": "Evi",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Krawczyk",
+      "firstname": "Auguste",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Nolting",
+      "firstname": "Gefion",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Stengel",
+      "firstname": "Sybil",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Mehler",
+      "firstname": "Anne-Katrin",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Sieger",
+      "firstname": "Burckhard",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Menzel",
+      "firstname": "Margita"
+    },
+    {
+      "lastname": "Ruck",
+      "firstname": "Volkmar"
+    },
+    {
+      "lastname": "Menne",
+      "firstname": "Hadmut",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Richter",
+      "firstname": "Emil",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Donner",
+      "firstname": "Hermfried",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Klaiber",
+      "firstname": "Milica"
+    },
+    {
+      "lastname": "Kaspar",
+      "firstname": "Dore",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Sorge",
+      "firstname": "Debora"
+    },
+    {
+      "lastname": "Pelz",
+      "firstname": "Evelin",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Engelmann",
+      "firstname": "Urszula"
+    },
+    {
+      "lastname": "Feller",
+      "firstname": "Rosa-Maria",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Gehrke",
+      "firstname": "Desiree",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Klapper",
+      "firstname": "Ornulf",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Hauschild",
+      "firstname": "Franziska",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Wiesmann",
+      "firstname": "Pankratius",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Möbus",
+      "firstname": "Hildegard",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Niggemann",
+      "firstname": "Isabel"
+    },
+    {
+      "lastname": "Koller",
+      "firstname": "Traugott",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Rode",
+      "firstname": "Semra",
+      "group": "Friends"
+    },
+    {
+      "lastname": "Eberhard",
+      "firstname": "Charlotte",
+      "group": "Colleagues"
+    },
+    {
+      "lastname": "Hepp",
+      "firstname": "Gottwalt"
+    },
+    {
+      "lastname": "Meisel",
+      "firstname": "Brandolf"
+    },
+    {
+      "lastname": "Dorsch",
+      "firstname": "Holle",
+      "group": "Colleagues"
+    }
+  ]
+}
