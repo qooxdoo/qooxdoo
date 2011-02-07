@@ -237,6 +237,20 @@ qx.Class.define("qx.test.ui.core.Command",
       this.assertEquals(cmd.getLabel(), this.__menuButton.getLabel());
 
       cmd.dispose();
+    },
+    
+    testIconAsToolTipText : function() {
+      // for [BUG #4534]
+      var cmd = new qx.ui.core.Command("Control+D");
+      cmd.setToolTipText("affe");
+
+      var button1 = new qx.ui.form.Button("x", "y");
+      button1.setCommand(cmd);
+
+      this.assertEquals("affe", button1.getToolTipText());
+      
+      button1.dispose();
+      cmd.dispose();
     }
 
   }
