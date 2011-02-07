@@ -145,6 +145,8 @@ qx.Mixin.define("qx.ui.core.MExecutable",
       if (ids == null) {
         this.__executableBindingIds = ids = {};
       }
+
+      var selfPropertyValue;
       for (var i = 0; i < this._bindableProperties.length; i++) {
         var property = this._bindableProperties[i];
 
@@ -160,7 +162,10 @@ qx.Mixin.define("qx.ui.core.MExecutable",
           // handle the init value (dont sync the initial null)
           var cmdPropertyValue = value.get(property);
           if (cmdPropertyValue == null) {
-            var selfPropertyValue = this.get(property)
+            selfPropertyValue = this.get(property)
+          } else {
+            // Reset the self property value [BUG #4534]
+            selfPropertyValue = null;
           }
           // set up the binding
           ids[property] = value.bind(property, this, property);
