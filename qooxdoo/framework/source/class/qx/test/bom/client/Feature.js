@@ -23,7 +23,11 @@ qx.Class.define("qx.test.bom.client.Feature",
   members :
   {
     testDataImages : function() {
-      if (qx.bom.client.Browser.NAME == "ie" && qx.bom.client.Browser.VERSION < 8) {
+      if (
+        qx.bom.client.Browser.NAME == "ie" && 
+        qx.bom.client.Browser.VERSION < 8 && 
+        qx.bom.client.Engine.DOCUMENT_MODE >= 8
+      ) {
         this.assertFalse(qx.bom.client.Feature.DATA_URL);
       } else {
         this.assertTrue(qx.bom.client.Feature.DATA_URL);
