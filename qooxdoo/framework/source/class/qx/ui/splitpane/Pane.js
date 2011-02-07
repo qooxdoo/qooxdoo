@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         var left = bounds && bounds.left;
 
         if (width) {
-          if (!left) {
+          if (isNaN(left)) {
             left = qx.bom.element.Location.getPosition(splitterElem).left;
           }
           this.__blocker.setWidth(offset, width);
@@ -320,7 +320,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         var top =  bounds && bounds.top;
 
         if (height) {
-          if (!top) {
+          if (isNaN(top)) {
             top = qx.bom.element.Location.getPosition(splitterElem).top;
           }
           this.__blocker.setHeight(offset, height);
