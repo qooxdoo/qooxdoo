@@ -166,6 +166,45 @@ qx.Class.define("qx.ui.form.validation.Manager",
 
 
     /**
+     * Remove a form item from the validation manager.
+     * 
+     * @param formItem {qx.ui.core.Widget} The form item to add.
+     * @return {qx.ui.core.Widget?null} The removed form item or 
+     *  <code>null</code> if the item could not be found.
+     */
+    remove : function(formItem)
+    {
+      var items = this.__formItems;
+
+      for (var i = 0, len = items.length; i < len; i++)
+      {
+        if (formItem === items[i].item)
+        {
+          items.splice(i, 1);
+          return formItem;
+        }
+      }
+
+      return null;
+    },
+
+
+    /**
+     * Returns registered form items from the validation manager.
+     *
+     * @return {Array} The form items which will be validated.
+     */
+    getItems : function()
+    {
+      var items = [];
+      for (var i=0; i < this.__formItems.length; i++) {
+        items.push(this.__formItems[i].item);
+      };
+      return items;
+    },
+
+
+    /**
      * Invokes the validation. If only synchronous validators are set, the
      * result of the whole validation is available at the end of the method
      * and can be returned. If an asynchronous validator is set, the result

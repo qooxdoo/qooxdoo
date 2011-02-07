@@ -1014,10 +1014,30 @@ qx.Class.define("qx.test.ui.form.FormValidator",
         this.__manager.add(box, function() {});
       });
       box.dispose();
-    }
+    },
+    // //////////////////////////////
 
+    // remove ///////////////////////
+    testRemove : function() {
+      this.__manager.add(this.__username, function(value, formItem) {
+        this.assertFalse(true, "validation method called!");
+      }, this);
+
+      this.assertEquals(this.__username, this.__manager.remove(this.__username));
+      this.__manager.validate();
+    },
     // //////////////////////////////
 
 
+    // get items ////////////////////
+    testGetItems : function() {
+      this.__manager.add(this.__username);
+      this.__manager.add(this.__password1);
+
+      var items = this.__manager.getItems();
+      this.assertInArray(this.__username, items);
+      this.assertInArray(this.__password1, items);
+    }
+    // //////////////////////////////
   }
 });
