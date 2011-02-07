@@ -133,7 +133,16 @@ qx.Class.define("qx.type.Array",
         qx.core.Assert.assertArray(arr, "The parameter must be an array.");
       }
 
-      Array.prototype.push.apply(this, arr);
+      var arg = arr;
+      // push needs a plain array as arguments list [BUG #4488]
+      if (arr instanceof qx.type.Array) {
+        arg = [];
+        for (var i=0; i < arr.length; i++) {
+          arg[i] = arr[i];
+        };
+      }
+
+      Array.prototype.push.apply(this, arg);
       return this;
     },
 
