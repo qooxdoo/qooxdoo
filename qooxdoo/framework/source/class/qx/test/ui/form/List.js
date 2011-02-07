@@ -54,6 +54,13 @@ qx.Class.define("qx.test.ui.form.List",
       this.assertInstance(found, qx.ui.form.ListItem, "Item not found");
     },
 
+    "test: get container for list items" : function()
+    {
+      var container = this.__list._createListItemContainer();
+
+      this.assertInstance(container, qx.ui.container.Composite, "Wrong return value of '_createListItemContainer'");
+    },
+
     tearDown : function() 
     {
       this.__list.destroy();

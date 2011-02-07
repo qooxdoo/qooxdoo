@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.form.List",
     this.base(arguments);
 
     // Create content
-    this.__content = new qx.ui.container.Composite();
+    this.__content = this._createListItemContainer();
 
     // Used to fire item add/remove events
     this.__content.addListener("addChildWidget", this._onAddChild, this);
@@ -226,6 +226,22 @@ qx.Class.define("qx.ui.form.List",
       }
     },
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROTECTED API
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * This container holds the list item widgets.
+     *
+     * @return {qx.ui.container.Composite} Container for the list item widgets
+     */
+    _createListItemContainer : function() {
+      return new qx.ui.container.Composite;
+    },
 
     /*
     ---------------------------------------------------------------------------
