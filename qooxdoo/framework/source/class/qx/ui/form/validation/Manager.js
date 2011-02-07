@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
     /**
      * Remove a form item from the validation manager.
      * 
-     * @param formItem {qx.ui.core.Widget} The form item to add.
+     * @param formItem {qx.ui.core.Widget} The form item to remove.
      * @return {qx.ui.core.Widget?null} The removed form item or 
      *  <code>null</code> if the item could not be found.
      */
