@@ -60,7 +60,7 @@ qx.Class.define("widgetbrowser.view.TabPage",
         var pageContent = new clazz();
 
         // Add to page
-        this.add(pageContent, {top: 40});
+        this.add(pageContent, {top: 40, edge: 0});
 
         // Init controls for widgets of page
         this.initControls(pageContent.getWidgets(), controls);

@@ -38,13 +38,16 @@ qx.Class.define("widgetbrowser.pages.Basic",
   {
     this.base(arguments);
 
-    this.setLayout(new qx.ui.layout.HBox(10));
+    var hbox = this.__hbox = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
+    this.add(hbox, {top: 0});
 
     this.initWidgets();
   },
 
   members :
   {
+
+    __hbox: null,
 
     initWidgets: function()
     {
@@ -53,17 +56,17 @@ qx.Class.define("widgetbrowser.pages.Basic",
       // Label
       var label = new qx.ui.basic.Label("Label").set({alignY: "middle"});
       widgets.push(label);
-      this.add(label);
+      this.__hbox.add(label);
 
       // Image
       var image = new qx.ui.basic.Atom("Image", "icon/32/status/dialog-information.png");
       widgets.push(image);
-      this.add(image);
+      this.__hbox.add(image);
 
       // Atom
       var atom = new qx.ui.basic.Atom("Atom", "icon/32/status/dialog-information.png");
       widgets.push(atom);
-      this.add(atom);
+      this.__hbox.add(atom);
     }
   }
 });

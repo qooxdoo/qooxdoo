@@ -33,7 +33,7 @@ qx.Class.define("widgetbrowser.pages.AbstractPage",
 
   members :
   {
-    __widgets: null,
+    _widgets: null,
 
     getWidgets: function()
     {
