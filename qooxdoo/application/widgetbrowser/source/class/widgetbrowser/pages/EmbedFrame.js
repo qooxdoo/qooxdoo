@@ -17,6 +17,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(widgetbrowser/blank.html)
+
+************************************************************************ */
+
 /**
  * Demonstrates (...):
  *
@@ -43,11 +49,12 @@ qx.Class.define("widgetbrowser.pages.EmbedFrame",
     {
       var widgets = this._widgets;
       var label;
+      var url = qx.util.ResourceManager.getInstance().toUri("widgetbrowser/blank.html");
 
       // Iframe
       label = new qx.ui.basic.Label("Iframe");
       var iFrame = new qx.ui.embed.Iframe().set({
-        source: "http://www.w3.org/",
+        source: url,
         width: 300,
         height: 200
       });
@@ -57,8 +64,9 @@ qx.Class.define("widgetbrowser.pages.EmbedFrame",
 
       // ThemedIframe
       label = new qx.ui.basic.Label("ThemedIframe");
+
       var themedIFrame = new qx.ui.embed.ThemedIframe().set({
-        source: "../welcome.html",
+        source: url,
         width: 300,
         height: 200
       });
