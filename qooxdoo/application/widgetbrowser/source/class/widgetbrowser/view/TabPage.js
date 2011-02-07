@@ -49,10 +49,11 @@ qx.Class.define("widgetbrowser.view.TabPage",
     this.setLayout(new qx.ui.layout.Canvas());
 
     // Load content of tab on "appear"
-    this.addListener("appear", function() {
+    this.addListenerOnce("appear", function() {
 
       // Require part
       var part = classname.split(".").pop().toLowerCase();
+
       qx.Part.require(part, function() {
 
         // Finally, instantiate class
