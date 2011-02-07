@@ -48,6 +48,9 @@ qx.Class.define("qx.ui.form.ListItem",
     if (model != null) {
       this.setModel(model);
     }
+    
+    this.addListener("mouseover", this._onMouseOver, this);
+    this.addListener("mouseout", this._onMouseOut, this);    
   },
 
 
@@ -96,6 +99,27 @@ qx.Class.define("qx.ui.form.ListItem",
       hovered : true,
       selected : true,
       dragover : true
+    },
+
+
+    /**
+     * Event handler for the mouse over event.
+     */
+    _onMouseOver : function() {
+      this.addState("hovered");
+    },
+
+
+    /**
+     * Event handler for the mouse out event.
+     */
+    _onMouseOut : function() {
+      this.removeState("hovered");
     }
+  },
+  
+  destruct : function() {
+    this.removeListener("mouseover", this._onMouseOver, this);
+    this.removeListener("mouseout", this._onMouseOut, this);
   }
 });
