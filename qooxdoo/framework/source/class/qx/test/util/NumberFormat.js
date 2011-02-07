@@ -38,7 +38,7 @@ qx.Class.define("qx.test.util.NumberFormat",
 
       qx.locale.Manager.getInstance().setLocale("de_DE");
 
-      var nf = qx.util.format.NumberFormat.getInstance();
+      var nf = new qx.util.format.NumberFormat();
 
       // this failed due to a rounding error
       this.assertEquals("1.000.000", nf.format(1000000));
