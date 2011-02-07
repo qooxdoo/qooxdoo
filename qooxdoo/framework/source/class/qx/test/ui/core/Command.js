@@ -251,7 +251,25 @@ qx.Class.define("qx.test.ui.core.Command",
       
       button1.dispose();
       cmd.dispose();
-    }
+    },
+    
+    
+    testDestructExecutable : function() {
+      // Create the command
+      var cmd = new qx.ui.core.Command("Meta+T")
 
+      // Create a button linked to cmd
+      var button = new qx.ui.form.Button("Command button", null,cmd);
+
+      cmd.setEnabled(false);
+      button.destroy();
+      // make sure the dipose queue is flushed
+      qx.ui.core.queue.Manager.flush();
+      cmd.setEnabled(true);
+      
+      cmd.dispose();
+      
+      // test makes sure that code is running, no assert needed
+    }
   }
 });
