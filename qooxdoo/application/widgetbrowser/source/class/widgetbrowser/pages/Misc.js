@@ -35,41 +35,32 @@
 
 qx.Class.define("widgetbrowser.pages.Misc",
 {
-  extend: qx.ui.tabview.Page,
-
-  include : widgetbrowser.MControls,
+  extend: widgetbrowser.pages.AbstractPage,
 
   construct: function()
   {
     this.base(arguments);
 
-    this.setLabel("Misc");
-    this.setLayout(new qx.ui.layout.Canvas());
+    this.__vbox = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+    this.add(this.__vbox);
 
-    this.__container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
-    this.add(this.__container, {top: 40});
-
-    this._initWidgets();
-    this._initControls(this.__widgets, {disabled: true});
+    this.initWidgets();
   },
 
   members :
   {
-    __widgets: null,
 
-    __container: null,
-
-    _initWidgets: function()
+    initWidgets: function()
     {
-      var widgets = this.__widgets = new qx.type.Array();
+      var widgets = this._widgets;
       var subcontainer;
 
       // ProgressBar
       var label = new qx.ui.basic.Label("ProgressBar");
       var pb = new qx.ui.indicator.ProgressBar(0, 100).set({value: 50});
       widgets.push(pb);
-      this.__container.add(label);
-      this.__container.add(pb);
+      this.__vbox.add(label);
+      this.__vbox.add(pb);
 
       // SlideBar
       label = new qx.ui.basic.Label("SlideBar");
@@ -89,8 +80,8 @@ qx.Class.define("widgetbrowser.pages.Misc",
         }));
       });
       widgets.push(slideBar);
-      this.__container.add(label);
-      this.__container.add(slideBar);
+      this.__vbox.add(label);
+      this.__vbox.add(slideBar);
 
       // Pop-Up
       label = new qx.ui.basic.Label("Pop-Up");
@@ -106,8 +97,8 @@ qx.Class.define("widgetbrowser.pages.Misc",
       });
       popup.add(new qx.ui.basic.Atom("Pop-Up", "icon/32/apps/media-photo-album.png"));
       widgets.push(popup);
-      this.__container.add(label);
-      this.__container.add(popup);
+      this.__vbox.add(label);
+      this.__vbox.add(popup);
       popup.show();
 
       // Resizer
@@ -126,8 +117,8 @@ qx.Class.define("widgetbrowser.pages.Misc",
       }));
       subcontainer.add(resizer);
       widgets.push(resizer);
-      this.__container.add(label);
-      this.__container.add(subcontainer);
+      this.__vbox.add(label);
+      this.__vbox.add(subcontainer);
 
       // DragDrop
       label = new qx.ui.basic.Label("DragDrop");
@@ -136,8 +127,8 @@ qx.Class.define("widgetbrowser.pages.Misc",
         allowStretchY : false,
         allowStretchX : false
       });
-      this.__container.add(label);
-      this.__container.add(subcontainer);
+      this.__vbox.add(label);
+      this.__vbox.add(subcontainer);
 
       var source = new qx.ui.form.List;
       source.setDraggable(true);

@@ -50,46 +50,34 @@
 
 qx.Class.define("widgetbrowser.pages.ToolBar",
 {
-  extend: qx.ui.tabview.Page,
-
-  include : widgetbrowser.MControls,
+  extend: widgetbrowser.pages.AbstractPage,
 
   construct: function()
   {
     this.base(arguments);
 
-    this.setLabel("Toolbar/Menu");
-    this.setLayout(new qx.ui.layout.Canvas());
-
-    this.__container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
-    this.add(this.__container, {top: 40});
-
-    this._initWidgets();
-    this._initControls(this.__widgets, {disabled: true, hovered: true, selected: true});
+    this.initWidgets();
   },
 
   members :
   {
-    __widgets: null,
-    __container: null,
 
-    _initWidgets: function()
+    initWidgets: function()
     {
-      this.__widgets = new qx.type.Array();
       var label;
 
       // Toolbar
       label = new qx.ui.basic.Label("ToolBar & Menu");
-      this.__container.add(label, {left: 0, top: 0});
-      this.__container.add(this.getToolBar(), {left: 0, top: 20});
+      this.add(label, {left: 0, top: 0});
+      this.add(this.getToolBar(), {left: 0, top: 20});
 
       // Menu (with slidebar)
-      this.__container.add(this.getMenuWithSlideBar(), {left: 0, top: 70});
+      this.add(this.getMenuWithSlideBar(), {left: 0, top: 70});
 
       // MenuBar
       label = new qx.ui.basic.Label("MenuBar & Menu");
-      this.__container.add(label, {left: 0, top: 210});
-      this.__container.add(this.getMenuBar(), {left: 0, top: 230});
+      this.add(label, {left: 0, top: 210});
+      this.add(this.getMenuBar(), {left: 0, top: 230});
     },
 
     getToolBar : function()
@@ -116,26 +104,26 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
       // SplitButton
       var splitButton = new qx.ui.toolbar.SplitButton("Toolbar SplitButton", "icon/16/actions/go-previous.png", this.getSplitButtonMenu());
       splitButton.setToolTip(new qx.ui.tooltip.ToolTip("Toolbar SplitButton"));
-      this.__widgets.push(splitButton);
+      this._widgets.push(splitButton);
 
       // Button
       var button = new qx.ui.toolbar.Button("Toolbar Button", "icon/16/actions/document-new.png");
       button.setToolTip(new qx.ui.tooltip.ToolTip("Toolbar Button"));
-      this.__widgets.push(button);
+      this._widgets.push(button);
 
       // CheckBox
       var checkBox = new qx.ui.toolbar.CheckBox("Toggle", "icon/16/actions/format-text-underline.png");
       checkBox.setToolTip(new qx.ui.tooltip.ToolTip("Toolbar CheckBox"));
-      this.__widgets.push(checkBox);
+      this._widgets.push(checkBox);
 
       // RadioButton
       var radioButton1 = new qx.ui.toolbar.RadioButton("Left", "icon/16/actions/format-justify-left.png");
       radioButton1.setToolTip(new qx.ui.tooltip.ToolTip("Toolbar RadioButton"));
-      this.__widgets.push(radioButton1);
+      this._widgets.push(radioButton1);
 
       var radioButton2 = new qx.ui.toolbar.RadioButton("Center", "icon/16/actions/format-justify-center.png");
       radioButton2.setToolTip(new qx.ui.tooltip.ToolTip("Toolbar RadioButton"));
-      this.__widgets.push(radioButton2);
+      this._widgets.push(radioButton2);
 
       var radioGroup = new qx.ui.form.RadioGroup(radioButton1, radioButton2);
       radioGroup.setAllowEmptySelection(true);
@@ -150,7 +138,7 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
 
       // MenuButton
       var menuButton = new qx.ui.toolbar.MenuButton("Toolbar MenuButton");
-      this.__widgets.push(menuButton);
+      this._widgets.push(menuButton);
       menuButton.setMenu(this.getButtonMenu());
       secondPart.add(menuButton);
 
@@ -167,7 +155,7 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
 
       // MenuButton
       var button1 = new qx.ui.menu.Button("Menu MenuButton");
-      this.__widgets.push(button1);
+      this._widgets.push(button1);
 
       menu.add(button1);
 
@@ -184,23 +172,23 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
 
       // MenuButton
       var button = new qx.ui.menu.Button("Menu MenuButton", "icon/16/actions/document-new.png");
-      this.__widgets.push(button);
+      this._widgets.push(button);
 
       // CheckBox
       var checkBox = new qx.ui.menu.CheckBox("Menu MenuCheckBox");
-      this.__widgets.push(checkBox);
+      this._widgets.push(checkBox);
 
       // CheckBox (checked)
       var checkBoxChecked = new qx.ui.menu.CheckBox("Menu MenuCheckBox").set({value: true});
-      this.__widgets.push(checkBoxChecked);
+      this._widgets.push(checkBoxChecked);
 
       // RadioButton
       var radioButton = new qx.ui.menu.RadioButton("Menu RadioButton");
-      this.__widgets.push(radioButton);
+      this._widgets.push(radioButton);
 
       // RadioButton (active)
       var radioButtonActive = new qx.ui.menu.RadioButton("Menu RadioButton").set({value: true});
-      this.__widgets.push(radioButtonActive);
+      this._widgets.push(radioButtonActive);
 
       menu.add(button);
       menu.add(checkBox);
@@ -222,7 +210,7 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
 
       for (var i=0; i<3; i++) {
         button = new qx.ui.menubar.Button("Menubar Button", null, this.getButtonMenu());
-        this.__widgets.push(button);
+        this._widgets.push(button);
         menubar.add(button);
       }
 

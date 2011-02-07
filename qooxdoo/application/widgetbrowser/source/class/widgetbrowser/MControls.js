@@ -22,6 +22,10 @@ qx.Mixin.define("widgetbrowser.MControls",
   
   members:
   {
+    initControls: function(widgets, options)
+    {
+      this._initControls(widgets, options);
+    },
     
     _initControls: function(widgets, options)
     {

@@ -28,40 +28,32 @@
 
 qx.Class.define("widgetbrowser.pages.Control",
 {
-  extend: qx.ui.tabview.Page,
-
-  include: widgetbrowser.MControls,
+  extend: widgetbrowser.pages.AbstractPage,
 
   construct: function()
   {
     this.base(arguments);
 
-    this.setLabel("Control");
-    this.setLayout(new qx.ui.layout.Canvas());
+    this.__vbox = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
+    this.add(this.__vbox, {top: 0});
 
-    this.__container = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
-    this.add(this.__container, {top: 40});
-
-    this._initWidgets();
-    this._initControls(this.__widgets, {disabled: true})
+    this.initWidgets();
   },
 
   members:
   {
-    __widgets: null,
+    __vbox: null,
 
-    __container: null,
-
-    _initWidgets: function() {
-      var widgets = this.__widgets = new qx.type.Array();
+    initWidgets: function() {
+      var widgets = this._widgets = new qx.type.Array();
       var label;
 
       // ColorSelector
       label = new qx.ui.basic.Label("ColorSelector");
       var colorSelector = new qx.ui.control.ColorSelector();
       widgets.push(colorSelector);
-      this.__container.add(label);
-      this.__container.add(colorSelector);
+      this.__vbox.add(label);
+      this.__vbox.add(colorSelector);
 
       // ColorPopup
       label = new qx.ui.basic.Label("ColorPopup");
@@ -70,8 +62,8 @@ qx.Class.define("widgetbrowser.pages.Control",
 
       var openColorPopup = new qx.ui.form.Button("Open Color Popup").set({maxWidth: 150});
       widgets.push(openColorPopup);
-      this.__container.add(label);
-      this.__container.add(openColorPopup);
+      this.__vbox.add(label);
+      this.__vbox.add(openColorPopup);
       openColorPopup.addListener("execute", function()
       {
         colorPopup.placeToWidget(openColorPopup);
@@ -82,8 +74,8 @@ qx.Class.define("widgetbrowser.pages.Control",
       var dateChooser = new qx.ui.control.DateChooser().set({maxWidth: 200});
       label = new qx.ui.basic.Label("DateChooser");
       widgets.push(dateChooser);
-      this.__container.add(label);
-      this.__container.add(dateChooser);
+      this.__vbox.add(label);
+      this.__vbox.add(dateChooser);
 
     }
   }

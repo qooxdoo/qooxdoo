@@ -26,33 +26,22 @@
 
 qx.Class.define("widgetbrowser.pages.EmbedFrame",
 {
-  extend: qx.ui.tabview.Page,
-
-  include : widgetbrowser.MControls,
+  extend: widgetbrowser.pages.AbstractPage,
 
   construct: function()
   {
     this.base(arguments);
 
-    this.setLabel("EmbedFrame");
-    this.setLayout(new qx.ui.layout.Canvas());
-
-    this.__container = new qx.ui.container.Composite(new qx.ui.layout.Canvas(10));
-    this.add(this.__container, {top: 40});
-
-    this._initWidgets();
-    this._initControls(this.__widgets);
+    this.setLayout(new qx.ui.layout.Canvas(10));
+    this.initWidgets();
   },
 
   members :
   {
-    __widgets: null,
 
-    __container: null,
-
-    _initWidgets: function()
+    initWidgets: function()
     {
-      var widgets = this.__widgets = new qx.type.Array();
+      var widgets = this._widgets;
       var label;
 
       // Iframe
@@ -63,8 +52,8 @@ qx.Class.define("widgetbrowser.pages.EmbedFrame",
         height: 200
       });
       widgets.push(iFrame);
-      this.__container.add(label, {top: 0, left: 0});
-      this.__container.add(iFrame, {top: 20, left: 0});
+      this.add(label, {top: 0, left: 0});
+      this.add(iFrame, {top: 20, left: 0});
 
       // ThemedIframe
       label = new qx.ui.basic.Label("ThemedIframe");
@@ -74,8 +63,8 @@ qx.Class.define("widgetbrowser.pages.EmbedFrame",
         height: 200
       });
       widgets.push(themedIFrame);
-      this.__container.add(label, {top: 0, left: 350});
-      this.__container.add(themedIFrame, {top: 20, left: 350});
+      this.add(label, {top: 0, left: 350});
+      this.add(themedIFrame, {top: 20, left: 350});
     }
   }
 });

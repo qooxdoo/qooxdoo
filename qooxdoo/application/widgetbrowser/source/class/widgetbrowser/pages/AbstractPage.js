@@ -17,37 +17,27 @@
 
 ************************************************************************ */
 
-/**
- * Demonstrates qx.ui.splitpane(...):
- *
- * Pane, Slider, Splitter
- *
- */
-
-qx.Class.define("widgetbrowser.pages.SplitPane",
+qx.Class.define("widgetbrowser.pages.AbstractPage",
 {
-  extend: widgetbrowser.pages.AbstractPage,
+  type: "abstract",
 
-  construct: function()
+  extend: qx.ui.container.Composite,
+
+  construct : function()
   {
     this.base(arguments);
+    this.setLayout(new qx.ui.layout.Canvas());
 
-    this.initWidgets();
+    this._widgets = new qx.type.Array();
   },
 
   members :
   {
+    __widgets: null,
 
-    initWidgets: function()
+    getWidgets: function()
     {
-      var widgets = this._widgets;
-
-      var splitPane = new qx.ui.splitpane.Pane("horizontal");
-      widgets.push(splitPane);
-      this.add(splitPane);
-
-      splitPane.add(new qx.ui.core.Widget().set({width: 200, height: 200}));
-      splitPane.add(new qx.ui.core.Widget().set({width: 300, height: 200}));
+      return this._widgets;
     }
   }
 });

@@ -28,9 +28,7 @@
  */
 qx.Class.define("widgetbrowser.pages.Form",
 {
-  extend: qx.ui.tabview.Page,
-
-  include: widgetbrowser.MControls,
+  extend: widgetbrowser.pages.AbstractPage,
 
   statics:
   {
@@ -41,22 +39,14 @@ qx.Class.define("widgetbrowser.pages.Form",
   {
     this.base(arguments);
 
-    this.setLabel("Form");
-    this.setLayout(new qx.ui.layout.Canvas());
-
-    this._initWidgets();
-    this._initControls(this.__widgets, {disabled: true, hovered: true, focused: true, invalid: true});
+    this.initWidgets();
   },
 
   members :
   {
-    __widgets : null,
 
-    // __initControls: null,
-
-    _initWidgets: function()
+    initWidgets: function()
     {
-      this.__widgets = new qx.type.Array();
 
       /****************************************
        * TEXT INPUT
@@ -65,11 +55,11 @@ qx.Class.define("widgetbrowser.pages.Form",
       var textGroupBox = new qx.ui.groupbox.GroupBox("Text");
       textGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       textGroupBox.setWidth(290);
-      this.add(textGroupBox, {left: 0, top: 40});
+      this.add(textGroupBox, {left: 0, top: 0});
 
       // Text field
       var textField = new qx.ui.form.TextField();
-      this.__widgets.push(textField);
+      this._widgets.push(textField);
       textField.setPlaceholder("Placeholder");
       var label = new qx.ui.basic.Label("TextField:");
       label.setBuddy(textField);
@@ -78,7 +68,7 @@ qx.Class.define("widgetbrowser.pages.Form",
 
       // Password field
       var passwordField = new qx.ui.form.PasswordField();
-      this.__widgets.push(passwordField);
+      this._widgets.push(passwordField);
       passwordField.setPlaceholder("Password");
       label = new qx.ui.basic.Label("PasswordField:");
       label.setBuddy(passwordField);
@@ -87,7 +77,7 @@ qx.Class.define("widgetbrowser.pages.Form",
 
       // Text area
       var textArea = new qx.ui.form.TextArea();
-      this.__widgets.push(textArea);
+      this._widgets.push(textArea);
       textArea.setPlaceholder("Placeholder");
       label = new qx.ui.basic.Label("TextArea:");
       label.setBuddy(textArea);
@@ -96,7 +86,7 @@ qx.Class.define("widgetbrowser.pages.Form",
 
       // Combo box
       var comboBox = new qx.ui.form.ComboBox();
-      this.__widgets.push(comboBox);
+      this._widgets.push(comboBox);
       comboBox.setPlaceholder("Placeholder");
       label = new qx.ui.basic.Label("ComboBox:");
       label.setBuddy(comboBox);
@@ -106,7 +96,7 @@ qx.Class.define("widgetbrowser.pages.Form",
 
       // Date field
       var dateField = new qx.ui.form.DateField();
-      this.__widgets.push(dateField);
+      this._widgets.push(dateField);
       dateField.setPlaceholder("dd.mm.YYYY");
       label = new qx.ui.basic.Label("DateField:");
       label.setBuddy(dateField);
@@ -120,11 +110,11 @@ qx.Class.define("widgetbrowser.pages.Form",
       var selectionGroupBox = new qx.ui.groupbox.GroupBox("Selection");
       selectionGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       selectionGroupBox.setWidth(290);
-      this.add(selectionGroupBox, {left: 0, top: 290});
+      this.add(selectionGroupBox, {left: 0, top: 250});
 
       // Select box
       var selectBox = new qx.ui.form.SelectBox();
-      this.__widgets.push(selectBox);
+      this._widgets.push(selectBox);
       label = new qx.ui.basic.Label("SelectBox:");
       label.setBuddy(selectBox);
       selectionGroupBox.add(label, {row: 0, column: 0});
@@ -133,7 +123,7 @@ qx.Class.define("widgetbrowser.pages.Form",
 
       // List
       var list = new qx.ui.form.List();
-      this.__widgets.push(list);
+      this._widgets.push(list);
       list.setHeight(60);
       list.setWidth(155)
       label = new qx.ui.basic.Label("List:");
@@ -144,7 +134,7 @@ qx.Class.define("widgetbrowser.pages.Form",
 
       // Radio button group
       var radioButtonGroup = new qx.ui.form.RadioButtonGroup();
-      this.__widgets.push(radioButtonGroup);
+      this._widgets.push(radioButtonGroup);
       var radioButton1 = new qx.ui.form.RadioButton("RadioButton 1");
       var radioButton2 = new qx.ui.form.RadioButton("RadioButton 2");
       var radioButton3 = new qx.ui.form.RadioButton("RadioButton 3");
@@ -163,11 +153,11 @@ qx.Class.define("widgetbrowser.pages.Form",
       var buttonGroupBox = new qx.ui.groupbox.GroupBox("Buttons");
       buttonGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       buttonGroupBox.setWidth(210);
-      this.add(buttonGroupBox, {left: 330, top: 40});
+      this.add(buttonGroupBox, {left: 330, top: 0});
 
       // Button
       var button = new qx.ui.form.Button("Button");
-      this.__widgets.push(button);
+      this._widgets.push(button);
       label = new qx.ui.basic.Label("Button:");
       label.setBuddy(button);
       buttonGroupBox.add(label, {row: 0, column: 0});
@@ -175,7 +165,7 @@ qx.Class.define("widgetbrowser.pages.Form",
 
       // Toggle button
       var toggleButton = new qx.ui.form.ToggleButton("ToggleButton");
-      this.__widgets.push(toggleButton);
+      this._widgets.push(toggleButton);
       label = new qx.ui.basic.Label("ToggleButton:");
       label.setBuddy(toggleButton);
       buttonGroupBox.add(label, {row: 1, column: 0});
@@ -183,7 +173,7 @@ qx.Class.define("widgetbrowser.pages.Form",
 
       // Repeat button
       var repeatButton = new qx.ui.form.RepeatButton("0");
-      this.__widgets.push(repeatButton);
+      this._widgets.push(repeatButton);
       label = new qx.ui.basic.Label("RepeatButton:");
       label.setBuddy(repeatButton);
       buttonGroupBox.add(label, {row: 2, column: 0});
@@ -191,7 +181,7 @@ qx.Class.define("widgetbrowser.pages.Form",
 
       // Menu button
       var menueButton = new qx.ui.form.MenuButton("MenuButton", null, this.createMenuForMenuButton());
-      this.__widgets.push(menueButton);
+      this._widgets.push(menueButton);
       label = new qx.ui.basic.Label("MenuButton:");
       label.setBuddy(menueButton);
       buttonGroupBox.add(label, {row: 3, column: 0});
@@ -199,7 +189,7 @@ qx.Class.define("widgetbrowser.pages.Form",
 
       // Hover button
       var hoverButton = new qx.ui.form.HoverButton("HoverButton");
-      this.__widgets.push(hoverButton);
+      this._widgets.push(hoverButton);
       label = new qx.ui.basic.Label("HoverButton:");
       label.setBuddy(hoverButton);
       buttonGroupBox.add(label, {row: 4, column: 0});
@@ -208,7 +198,7 @@ qx.Class.define("widgetbrowser.pages.Form",
 
       // Split button
       var splitButton = new qx.ui.form.SplitButton("SplitButton", null, this.createMenuForSplitButton());
-      this.__widgets.push(splitButton);
+      this._widgets.push(splitButton);
       label = new qx.ui.basic.Label("SplitButton:");
       label.setBuddy(splitButton);
       buttonGroupBox.add(label, {row: 5, column: 0});
@@ -228,11 +218,11 @@ qx.Class.define("widgetbrowser.pages.Form",
       var booleanGroupBox = new qx.ui.groupbox.GroupBox("Boolean");
       booleanGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       booleanGroupBox.setWidth(210);
-      this.add(booleanGroupBox, {left: 330, top: 290});
+      this.add(booleanGroupBox, {left: 330, top: 250});
 
       // Check box
       var checkBox = new qx.ui.form.CheckBox("CheckBox");
-      this.__widgets.push(checkBox);
+      this._widgets.push(checkBox);
       label = new qx.ui.basic.Label("CheckBox:");
       label.setBuddy(checkBox);
       booleanGroupBox.add(label, {row: 0, column: 0});
@@ -243,7 +233,7 @@ qx.Class.define("widgetbrowser.pages.Form",
         triState: true,
         value: null
       });
-      this.__widgets.push(triCheckBox);
+      this._widgets.push(triCheckBox);
       label = new qx.ui.basic.Label("Tri-State CheckBox:");
       label.setBuddy(triCheckBox);
       booleanGroupBox.add(label, {row: 1, column: 0});
@@ -251,7 +241,7 @@ qx.Class.define("widgetbrowser.pages.Form",
 
       // Radio button
       var radioButton = new qx.ui.form.RadioButton("RadioButton");
-      this.__widgets.push(radioButton);
+      this._widgets.push(radioButton);
       label = new qx.ui.basic.Label("RadioButtons:");
       label.setBuddy(radioButton);
       booleanGroupBox.add(label, {row: 2, column: 0});
@@ -264,11 +254,11 @@ qx.Class.define("widgetbrowser.pages.Form",
       var numberGroupBox = new qx.ui.groupbox.GroupBox("Number");
       numberGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       numberGroupBox.setWidth(210);
-      this.add(numberGroupBox, {left: 330, top: 410});
+      this.add(numberGroupBox, {left: 330, top: 370});
 
       // Spinner
       var spinner = new qx.ui.form.Spinner(0, 50, 100);
-      this.__widgets.push(spinner);
+      this._widgets.push(spinner);
       label = new qx.ui.basic.Label("Spinner:");
       label.setBuddy(spinner);
       numberGroupBox.add(label, {row: 0, column: 0});
@@ -276,7 +266,7 @@ qx.Class.define("widgetbrowser.pages.Form",
 
       // Slider
       var slider = new qx.ui.form.Slider();
-      this.__widgets.push(slider);
+      this._widgets.push(slider);
       slider.setWidth(130);
       label = new qx.ui.basic.Label("Slider:");
       label.setBuddy(slider);

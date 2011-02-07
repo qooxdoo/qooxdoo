@@ -39,51 +39,44 @@
 
 qx.Class.define("widgetbrowser.pages.Window",
 {
-  extend: qx.ui.tabview.Page,
-
-  include : widgetbrowser.MControls,
+  extend: widgetbrowser.pages.AbstractPage,
 
   construct: function()
   {
     this.base(arguments);
 
-    this.setLabel("Window");
-    this.setLayout(new qx.ui.layout.Canvas());
-
-    this.__container = new qx.ui.window.Desktop().set({
+    this.__desktop = new qx.ui.window.Desktop().set({
       decorator: new qx.ui.decoration.Single(10, null, "#ddd")
     });
-    this.add(this.__container, {edge: 0, top: 40});
+    this.add(this.__desktop, {edge: 0, top: 0});
 
-    this._initWidgets();
-    this._initControls(this.__widgets, {disabled: true});
+    this.initWidgets();
   },
 
   members :
   {
-    __widgets: null,
 
-    __container: null,
+    __desktop: null,
 
-    _initWidgets: function()
+    initWidgets: function()
     {
       var w1, w2, w3;
-      var widgets = this.__widgets = new qx.type.Array();
+      var widgets = this._widgets;
 
       w1 = this.__createWindow1();
       widgets.push(w1);
       w1.open();
-      this.__container.add(w1, {left: 0, top: 0});
+      this.__desktop.add(w1, {left: 0, top: 0});
 
       w2 = this.__createWindow2();
       widgets.push(w2);
       w2.open();
-      this.__container.add(w2, {left: 300, top: 100});
+      this.__desktop.add(w2, {left: 300, top: 100});
 
       w3 = this.__createWindow3();
       widgets.push(w3);
       w3.open();
-      this.__container.add(w3, {left: 80, top: 230});
+      this.__desktop.add(w3, {left: 80, top: 230});
     },
 
     __createWindow1 : function()
@@ -269,7 +262,7 @@ qx.Class.define("widgetbrowser.pages.Window",
       wm1.setLayout(new qx.ui.layout.VBox(10));
       wm1.setModal(true);
       wm1.moveTo(150, 150);
-      this.__container.add(wm1);
+      this.__desktop.add(wm1);
 
       var wm2 = this.__getModalWindow2();
 
@@ -296,7 +289,7 @@ qx.Class.define("widgetbrowser.pages.Window",
       wm2.setModal(true);
       wm2.setShowClose(false);
       wm2.moveTo(300, 300);
-      this.__container.add(wm2);
+      this.__desktop.add(wm2);
 
       var warn1 = new qx.ui.basic.Atom("Do you want to fly to Berlin?", "icon/32/status/dialog-error.png");
       wm2.add(warn1);

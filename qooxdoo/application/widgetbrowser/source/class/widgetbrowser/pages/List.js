@@ -32,37 +32,24 @@
 
 qx.Class.define("widgetbrowser.pages.List",
 {
-  extend: qx.ui.tabview.Page,
-
-  include : widgetbrowser.MControls,
+  extend: widgetbrowser.pages.AbstractPage,
 
   construct: function()
   {
     this.base(arguments);
 
-    this.setLabel("List");
-    this.setLayout(new qx.ui.layout.Canvas());
-
-    this.__container = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
-    this.add(this.__container, {top: 40});
-
-    this._initWidgets();
-    this._initControls(this.__widgets, {disabled: true});
-
-    this.__loadData();
+    this.initWidgets();
+    this.loadData();
   },
 
   members :
   {
-    __widgets: null,
-
-    __container: null,
 
     __listGroupedByName: null,
 
-    _initWidgets: function()
+    initWidgets: function()
     {
-      var widgets = this.__widgets = new qx.type.Array();
+      var widgets = this._widgets;
 
       // Creates the list and configure it
       var list = this.__listGroupedByName = new qx.ui.list.List().set({
@@ -74,10 +61,11 @@ qx.Class.define("widgetbrowser.pages.List",
         }}
       });
       widgets.push(list);
-      this.__container.add(list);
+      this.add(list);
 
       // Creates the delegate for sorting and grouping
       var delegate = {
+
         // Sorts the model data by last name
         sorter : function(a, b)
         {
@@ -95,7 +83,7 @@ qx.Class.define("widgetbrowser.pages.List",
       list.setDelegate(delegate);
     },
 
-    __loadData : function()
+    loadData : function()
     {
       var url = "widgetbrowser/people.json";
       url = qx.util.ResourceManager.getInstance().toUri(url);

@@ -29,45 +29,36 @@
  * embed.Canvas
  * embed.Flash
  * embed.Html
- * 
+ *
  */
 
 qx.Class.define("widgetbrowser.pages.Embed",
 {
-  extend: qx.ui.tabview.Page,
-
-  include : widgetbrowser.MControls,
+  extend: widgetbrowser.pages.AbstractPage,
 
   construct: function()
   {
     this.base(arguments);
 
-    this.setLabel("Embed");
-    this.setLayout(new qx.ui.layout.Canvas());
-
     var gridLayout = new qx.ui.layout.Grid(100, 10);
     gridLayout.setColumnFlex(1, 1);
-    this.__container = new qx.ui.container.Composite(gridLayout);
-    this.add(this.__container, {top: 40, width: "100%", height: "100%"});
+    this.__grid = new qx.ui.container.Composite(gridLayout);
+    this.add(this.__grid, {width: "100%", height: "100%"});
 
-    this._initWidgets();
-    this._initControls(this.__widgets);
+    this.initWidgets();
   },
 
   members :
   {
-    __widgets: null,
 
-    __container: null,
-
-    _initWidgets: function()
+    initWidgets: function()
     {
-      var widgets = this.__widgets = new qx.type.Array();
+      var widgets = this._widgets;
       var label;
 
       // Flash
       label = new qx.ui.basic.Label("Flash");
-      this.__container.add(label, {row: 0, column: 0});
+      this.__grid.add(label, {row: 0, column: 0});
       var flashVars = {
         flashVarText: "this is passed in via FlashVars"
       };
@@ -79,11 +70,11 @@ qx.Class.define("widgetbrowser.pages.Embed",
       });
       flash.getContentElement().setParam("bgcolor", "#FF6600");
       widgets.push(flash);
-      this.__container.add(flash, {row: 1, column: 0, colSpan: 2});
+      this.__grid.add(flash, {row: 1, column: 0, colSpan: 2});
 
       // Canvas
       label = new qx.ui.basic.Label("Canvas");
-      this.__container.add(label, {row: 2, column: 0});
+      this.__grid.add(label, {row: 2, column: 0});
       var canvas = new qx.ui.embed.Canvas().set({
         width: 200,
         height: 200,
@@ -93,14 +84,14 @@ qx.Class.define("widgetbrowser.pages.Embed",
       });
       canvas.addListener("redraw", this.__draw, this);
       widgets.push(canvas);
-      this.__container.add(canvas, {row: 3, column: 0});
+      this.__grid.add(canvas, {row: 3, column: 0});
 
       // HTML
       label = new qx.ui.basic.Label("HTML");
-      this.__container.add(label, {row: 2, column: 1});
+      this.__grid.add(label, {row: 2, column: 1});
 
       var htmlContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
-      this.__container.add(htmlContainer, {row: 3, column: 1});
+      this.__grid.add(htmlContainer, {row: 3, column: 1});
 
       var html1 = "<div style='background-color: white; text-align: center;'>" +
                     "<i style='color: red;'><b>H</b></i>" +
@@ -125,7 +116,6 @@ qx.Class.define("widgetbrowser.pages.Embed",
       embed2.setHeight(20);
       embed2.setDecorator("main");
       htmlContainer.add(embed2);
-
 
       // Rich content
       var rich = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla f';

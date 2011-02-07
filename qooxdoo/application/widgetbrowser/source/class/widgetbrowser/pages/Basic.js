@@ -32,49 +32,38 @@
 
 qx.Class.define("widgetbrowser.pages.Basic",
 {
-  extend: qx.ui.tabview.Page,
-
-  include : widgetbrowser.MControls,
+  extend: widgetbrowser.pages.AbstractPage,
 
   construct: function()
   {
     this.base(arguments);
 
-    this.setLabel("Basic");
-    this.setLayout(new qx.ui.layout.Canvas());
+    this.setLayout(new qx.ui.layout.HBox(10));
 
-    // Work-around to vertically align HBox at the top
-    this.__container = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
-    this.add(this.__container, {top: 40});
-
-    this._initWidgets();
-    this._initControls(this.__widgets, {disabled: true});
+    this.initWidgets();
   },
 
   members :
   {
-    __widgets: null,
 
-    __container: null,
-
-    _initWidgets: function()
+    initWidgets: function()
     {
-      var widgets = this.__widgets = new qx.type.Array();
+      var widgets = this._widgets;
 
       // Label
       var label = new qx.ui.basic.Label("Label").set({alignY: "middle"});
       widgets.push(label);
-      this.__container.add(label);
+      this.add(label);
 
       // Image
       var image = new qx.ui.basic.Atom("Image", "icon/32/status/dialog-information.png");
       widgets.push(image);
-      this.__container.add(image);
+      this.add(image);
 
       // Atom
       var atom = new qx.ui.basic.Atom("Atom", "icon/32/status/dialog-information.png");
       widgets.push(atom);
-      this.__container.add(atom);
+      this.add(atom);
     }
   }
 });

@@ -26,40 +26,28 @@
 
 qx.Class.define("widgetbrowser.pages.TreeVirtual",
 {
-  extend: qx.ui.tabview.Page,
-
-  include : widgetbrowser.MControls,
+  extend: widgetbrowser.pages.AbstractPage,
 
   construct: function()
   {
     this.base(arguments);
 
-    this.setLabel("TreeVirtual");
-    this.setLayout(new qx.ui.layout.Canvas());
-
-    this.__container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
-    this.add(this.__container, {top: 40});
-
-    this._initWidgets();
-    this._initControls(this.__widgets, {});
+    this.initWidgets();
   },
 
   members :
   {
-    __widgets: null,
 
-    __container: null,
-
-    _initWidgets: function()
+    initWidgets: function()
     {
-      var widgets = this.__widgets = new qx.type.Array();
+      var widgets = this._widgets;
 
       var tree = new qx.ui.treevirtual.TreeVirtual("TreeVirtual");
       widgets.push(tree);
       tree.setWidth(300);
       tree.setHeight(300);
       this.__setupTreeDataModel(tree);
-      this.__container.add(tree);
+      this.add(tree);
     },
 
     __setupTreeDataModel: function(tree) {

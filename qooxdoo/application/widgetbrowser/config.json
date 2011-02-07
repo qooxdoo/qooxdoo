@@ -30,7 +30,7 @@
     "test-source",
     "translation"
   ],
-  
+
   "default-job" : "source",
 
   "let" :
@@ -42,7 +42,7 @@
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."
   },
-  
+
   "jobs" :
   {
     "common" :
@@ -50,6 +50,82 @@
       "settings" :
       {
         "qx.nativeScrollBars" : true
+      },
+      "packages" :
+      {
+        "parts" :
+        {
+          "boot" :
+          {
+            "include" : [ "${QXTHEME}", "widgetbrowser.Application" ]
+          },
+
+          "tree" :
+          {
+            "include" : [ "widgetbrowser.pages.Tree" ]
+          },
+
+          "list" :
+          {
+            "include" : [ "widgetbrowser.pages.List" ]
+          },
+
+          "table" :
+          {
+            "include" : [ "widgetbrowser.pages.Table" ]
+          },
+
+          "form" :
+          {
+            "include" : [ "widgetbrowser.pages.Form" ]
+          },
+
+          "toolbar" :
+          {
+            "include" : [ "widgetbrowser.pages.ToolBar" ]
+          },
+
+          "window" :
+          {
+            "include" : [ "widgetbrowser.pages.Window" ]
+          },
+
+          "control" :
+          {
+            "include" : [ "widgetbrowser.pages.Control" ]
+          },
+
+          "treevirtual" :
+          {
+            "include" : [ "widgetbrowser.pages.TreeVirtual" ]
+          },
+
+          "splitpane" :
+          {
+            "include" : [ "widgetbrowser.pages.SplitPane" ]
+          },
+
+          "embed" :
+          {
+            "include" : [ "widgetbrowser.pages.Embed" ]
+          },
+
+          "embedframe" :
+          {
+            "include" : [ "widgetbrowser.pages.EmbedFrame" ]
+          },
+
+          "basic" :
+          {
+            "include" : [ "widgetbrowser.pages.Basic" ]
+          },
+
+          "misc" :
+          {
+            "include" : [ "widgetbrowser.pages.Misc" ]
+          }
+
+        }
       }
     }
   }
