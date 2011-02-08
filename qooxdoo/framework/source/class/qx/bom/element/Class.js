@@ -137,7 +137,32 @@ qx.Class.define("qx.bom.element.Class",
      * @return {String} The retrieved classname
      */
     get : function(element) {
-      return element.className;
+      var className = element.className;
+      if(typeof className.split !== 'function')
+      {
+        if(typeof className === 'object')
+        {
+          if(qx.Bootstrap.getClass(className) == 'SVGAnimatedString')
+          {
+            className = className.baseVal;
+          }
+          else
+          {
+            if (qx.core.Variant.isSet("qx.debug", "on")) {
+              qx.log.Logger.warn(this, "className for element " + element + " cannot be determined");
+            }
+            className = '';
+          }
+        }
+        if(typeof className === 'undefined')
+        {
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            qx.log.Logger.warn(this, "className for element " + element + " is undefined");
+          }
+          className = '';
+        }
+      }
+      return className;
     },
 
 
