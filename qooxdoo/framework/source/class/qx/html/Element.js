@@ -2498,7 +2498,7 @@ qx.Class.define("qx.html.Element",
         }
 
         if (capture !== undefined) {
-          this.assertBoolean(capture, "Invalid capture falg.");
+          this.assertBoolean(capture, "Invalid capture flag.");
         }
       }
 

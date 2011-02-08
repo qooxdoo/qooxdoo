@@ -620,7 +620,7 @@ qx.Class.define("qx.event.Manager",
         }
 
         if (capture !== undefined) {
-          qx.core.Assert.assertBoolean(capture, "Invalid capture falg.");
+          qx.core.Assert.assertBoolean(capture, "Invalid capture flag.");
         }
       }
 
