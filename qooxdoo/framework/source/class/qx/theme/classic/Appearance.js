@@ -2627,7 +2627,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "app-header-label": "label",
-
+    "app-header-label": "label"
   }
 });
