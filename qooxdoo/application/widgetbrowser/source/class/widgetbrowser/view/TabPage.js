@@ -19,6 +19,12 @@
 
 /* ************************************************************************
 
+#asset(widgetbrowser/loading66.gif)
+
+************************************************************************ */
+
+/* ************************************************************************
+
 #use(widgetbrowser.pages.Tree)
 #use(widgetbrowser.pages.List)
 #use(widgetbrowser.pages.Table)
@@ -66,8 +72,17 @@ qx.Class.define("widgetbrowser.view.TabPage",
         // Init controls for widgets of page
         this.initControls(pageContent.getWidgets(), controls);
 
+        // Exclude loading indicator
+        loading.setVisibility("excluded");
+
       }, this);
     }, this);
+
+    // Show centered loading indicator
+    var loading = new qx.ui.basic.Image("widgetbrowser/loading66.gif");
+    loading.setMarginTop(-33);
+    loading.setMarginLeft(-33);
+    this.add(loading, {left: "50%", top: "50%"});
   },
 
   members :
