@@ -113,7 +113,9 @@ After creating the button, we must attach a ``click`` event to it, in order to k
 
  var positionedDiv = document.getElementById('ex1');
 
-Now we attach the click event. The firs version shows how to achieve this in the classical style::
+Now we attach the click event. The first version shows how to achieve this in the classical style:
+
+::
 
   if(!window.addEventListener){
     positionedDiv.attachEvent('onclick', function(evt){
@@ -126,7 +128,9 @@ Now we attach the click event. The firs version shows how to achieve this in the
     }, false);
   }
 
-Here is the qooxdoo version::
+Here is the qooxdoo version:
+
+::
 
  var positionedDiv = document.getElementById('qx1');
 
@@ -136,7 +140,7 @@ Here is the qooxdoo version::
 
 
 
-You don't have to worry about the browsers differences now, and it is a one-liner. qooxdoo is well namespaced, so you can safely use it in your webpage, it won't affect other libraries or the global objects, like Array, String, asf. For the low-level things we present here, there are three packages of interest: ``qx.bom``, ``qx.dom`` and ``qx.html``. The above method used for adding the click-event listener on a DIV is a static method of the ``Element`` class, so one can use it  right away without instantiating objects. Most methods in these three namespaces are static.
+You don't have to worry about the browsers differences now, and it is a one-liner. qooxdoo is well namespaced, so you can safely use it in your webpage, it won't affect other libraries or the global objects, like Array, String ... . For the low-level things we present here, there are three packages of interest: ``qx.bom``, ``qx.dom`` and ``qx.html``. The above method used for adding the click-event listener on a DIV is a static method of the ``Element`` class, so one can use it  right away without instantiating objects. Most methods in these three namespaces are static.
 
 
 Getting the position of a DIV
@@ -157,33 +161,35 @@ We call the ``get()`` static method on the Location class in the ``qx.bom.elemen
 
 We will use these variable later.
 
-The classic way is a bit more messy. In this case, the problem is not in the JavaScript differences, but in the CSS and layout. We use the ``offsetTop`` and ``offsetLeft`` element properties which are present in all major browsers. Computing the absolute top and left distance from the upper-left corner of the document then needs this code:
+The classic way is a bit more messy. In this case, the problem is not in the JavaScript differences, but in the CSS and layout. We use the ``offsetTop`` and ``offsetLeft`` element properties which are present in all major browsers. Computing the absolute top and left distance from the upper-left corner of the document is done in the event listener:
 
 ::
 
-  var el = evt.srcElement;
-  var offsetTop = 0;
-  var offsetLeft = 0;
-  while(el.tagName.toLowerCase()!='body'){
-    offsetTop+=el.offsetTop;
-    offsetLeft+=el.offsetLeft;
-    el=el.offsetParent;
-  }
+    var el = evt.srcElement;
+    var height = el.offsetHeight;
+    var offsetTop = 0;
+	var offsetLeft = 0;
+	while(el.tagName.toLowerCase()!='body'){
+		offsetTop+=el.offsetTop;
+		offsetLeft+=el.offsetLeft;
+		el=el.offsetParent;
+	}
 
 The problem is, when running this code it gives different results on IE and FF. On IE , the border dimension is not taken into account when computing the position. So for IE we must have something like this below:
 
 ::
 
-  var el = evt.srcElement;
-  var offsetTop = 0;
-  var offsetLeft = 0;
-  while(el.tagName.toLowerCase()!='body'){
-    var borderTopWidth = parseInt(el.currentStyle.borderTopWidth);
-    var borderLeftWidth = parseInt(el.currentStyle.borderLeftWidth);
-    offsetTop+=el.offsetTop+(isNaN(borderTopWidth) ? 0 : borderTopWidth);
-    offsetLeft+=el.offsetLeft+(isNaN(borderLeftWidth) ? 0 : borderLeftWidth);
-    el=el.offsetParent;
-  }
+	var el = evt.srcElement;
+	var height = el.offsetHeight;
+	var offsetTop = 0;
+	var offsetLeft = 0;
+	while(el.tagName.toLowerCase()!='body'){
+		var borderTopWidth = parseInt(el.currentStyle.borderTopWidth);
+		var borderLeftWidth = parseInt(el.currentStyle.borderLeftWidth);
+		offsetTop+=el.offsetTop+(isNaN(borderTopWidth) ? 0 : borderTopWidth);
+		offsetLeft+=el.offsetLeft+(isNaN(borderLeftWidth) ? 0 : borderLeftWidth);
+		el=el.offsetParent;
+	}
 
 Now we get the same result. This is not a difference in the JavaScript and DOM API as was the case for the event part, it is about the way CSS and layout are handled. This is internal to the two browser classes, both of which are unified in qooxdoo and the programmer is relieved of them.
 
@@ -192,8 +198,17 @@ Creating and showing the menu.
 ------------------------------
 
 A class is already in place for the menu DIV , so all we are left to do is to create the element, position it at the right coordinates and show it.
+We will show it right below the button, and left-aligned with it.
 
 The classic way:
+
+To get the bottom coordinate we will add to ``offsetTop`` variable in the click handler the button's ``offsetHeight`` value before calling the ``showMenu`` function.
+
+::
+
+ showMenu(offsetTop+height,offsetLeft);
+
+where ``height`` variable is obtained earlier in the code fragments above. Now we are set to create and show the menu.
 
 ::
 
@@ -207,11 +222,13 @@ The classic way:
 
 The qooxdoo way:
 
+To get the bottom coordinate we will use ``location.bottom`` computed earlier.
+
 ::
 
     var menuDiv = qx.bom.Element.create('div',{'class': 'menu'});
     qx.bom.element.Style.setStyles(menuDiv,{
-      'top': location.top+'px',
+      'top': location.bottom+'px',
       'left': location.left+'px'
     });
     menuDiv.innerHTML = 'menu1<br>--------------<br>menu2';
@@ -219,6 +236,6 @@ The qooxdoo way:
 
 Creating an element comes along with specifying attributes, too, in a good JS manner by having the second argument as a object literal with attribute names and values. The same style is for the method `qx.bom.element.Style.setStyles() <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.bom.element.Style~setStyles>`__, where we specify in a single call all the styles we want for the element.
 
-Adding a ``mouseout`` event is similar to the click event, so we don't repeat it here.
+The menu gets hidden when we move the mouse out of it. Adding a ``mouseout`` event is similar to the click event, so we don't repeat it here because there aren't many differences between browsers.
 
 This concludes the low-level tutorial, where we hoped to show some of the benefits you get when using qooxdoo in low-level applications.
