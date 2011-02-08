@@ -161,7 +161,8 @@ The classic way is a bit more messy. In this case, the problem is not in the Jav
 
 ::
 
-	var offsetTop = 0;
+    var el = evt.srcElement;
+    var offsetTop = 0;
 	var offsetLeft = 0;
 	while(el.tagName.toLowerCase()!='body'){
 		offsetTop+=el.offsetTop;
@@ -169,12 +170,11 @@ The classic way is a bit more messy. In this case, the problem is not in the Jav
 		el=el.offsetParent;
 	}
 
-*[TODO: "el" is not initialized!]*
-
 The problem is, when running this code it gives different results on IE and FF. On IE , the border dimension is not taken into account when computing the position. So for IE we must have something like this below:
 
 ::
 
+	var el = evt.srcElement;
 	var offsetTop = 0;
 	var offsetLeft = 0;
 	while(el.tagName.toLowerCase()!='body'){
@@ -184,8 +184,6 @@ The problem is, when running this code it gives different results on IE and FF. 
 		offsetLeft+=el.offsetLeft+(isNaN(borderLeftWidth) ? 0 : borderLeftWidth);
 		el=el.offsetParent;
 	}
-
-*[TODO: "el" is not initialized!]*
 
 Now we get the same result. This is not a difference in the JavaScript and DOM API as was the case for the event part, it is about the way CSS and layout are handled. This is internal to the two browser classes, both of which are unified in qooxdoo and the programmer is relieved of them.
 
@@ -206,7 +204,6 @@ The classic way:
     menuDiv.innerHTML = 'menu1<br>------------<br>menu2';
     document.body.appendChild(menuDiv);
 
-*[TODO: Shouldn't 'top' and 'left' not be 'offsetTop' and 'offsetLeft' from the previous calculation?!]*
 
 The qooxdoo way:
 
@@ -220,15 +217,8 @@ The qooxdoo way:
     menuDiv.innerHTML = 'menu1<br>--------------<br>menu2';
     qx.dom.Element.insertEnd(menuDiv,document.body);
 
-*[TODO: Why not use 'offsetTop' and 'offsetLeft' here as well (in place of 'location.top' and 'location.left')?!]*
-
-*[TODO: Also, in the .zip files, the menu overlays the button. Shouldn't it better dangle off of it?!]*
-
-
 Creating an element comes along with specifying attributes, too, in a good JS manner by having the second argument as a object literal with attribute names and values. The same style is for the method `qx.bom.element.Style.setStyles() <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.bom.element.Style~setStyles>`__, where we specify in a single call all the styles we want for the element.
 
 Adding a ``mouseout`` event is similar to the click event, so we don't repeat it here.
-
-*[TODO: Why suddenly a 'mouseout' event?!]*
 
 This concludes the low-level tutorial, where we hoped to show some of the benefits you get when using qooxdoo in low-level applications.
