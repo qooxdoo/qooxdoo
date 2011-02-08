@@ -2762,6 +2762,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
+    "app-header-label": "label",
+
 
     /*
     ---------------------------------------------------------------------------

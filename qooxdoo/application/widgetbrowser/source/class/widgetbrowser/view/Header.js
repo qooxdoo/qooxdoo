@@ -42,6 +42,7 @@ qx.Class.define("widgetbrowser.view.Header",
     var title = new qx.ui.basic.Label("Widget Browser");
     var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Setting.get("qx.version"));
     version.setFont("default");
+    version.setAppearance("app-header-label");
 
     // Build select-box
     var select = new qx.ui.form.SelectBox("Theme");
@@ -50,6 +51,7 @@ qx.Class.define("widgetbrowser.view.Header",
       item.setUserData("value", "qx.theme." + name);
       select.add(item);
     });
+    select.setFont("default");
 
     // Find current theme from URL search param
     var currentThemeItem = select.getSelectables().filter(function(item) {

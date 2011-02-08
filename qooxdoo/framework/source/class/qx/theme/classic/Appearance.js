@@ -2605,6 +2605,29 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor: "background-selected"
         }
       }
-    }
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      APPLICATION
+    ---------------------------------------------------------------------------
+    */
+
+    "app-header":
+    {
+      style : function(states)
+      {
+        return {
+          textColor : "text-selected",
+          backgroundColor: "background-selected",
+          padding : [8, 12]
+        };
+      }
+    },
+
+    "app-header-label": "label",
+
   }
 });

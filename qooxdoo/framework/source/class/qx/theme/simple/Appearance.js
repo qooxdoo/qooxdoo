@@ -2661,6 +2661,16 @@ qx.Theme.define("qx.theme.simple.Appearance",
           padding : [8, 12]
         };
       }
+    },
+
+    "app-header-label" :
+    {
+      style : function(states) 
+      {
+        return {
+          paddingTop : 5
+        }
+      }
     }
   }
 });
