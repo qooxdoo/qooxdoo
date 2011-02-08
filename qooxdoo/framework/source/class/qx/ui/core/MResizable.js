@@ -339,29 +339,56 @@ qx.Mixin.define("qx.ui.core.MResizable",
      */
     __computeResizeMode : function(e)
     {
-      var contentLocation = this.__getLocation();
+      var location = this.__getLocation();
       var mouseTolerance = this.getResizeSensitivity();
 
       var mouseLeft = e.getDocumentLeft();
       var mouseTop = e.getDocumentTop();
 
-      var resizeActive = 0;
+      var resizeActive = this.__computeResizeActive(
+        location, mouseLeft, mouseTop, mouseTolerance
+      );
+      
+      // check again in case we have a corner [BUG #1200]
+      if (resizeActive > 0) {
+        // this is really a | (or)!
+        resizeActive = resizeActive | this.__computeResizeActive(
+          location, mouseLeft, mouseTop, mouseTolerance * 2
+        );
+      }
 
+      this.__resizeActive = resizeActive;
+    },
+
+
+    /**
+     * Internal halper for computing the proper resize action based on the 
+     * given parameter.
+     * 
+     * @param location {Map} The curren location of the widget.
+     * @param mouseLeft {Integer} The left position of the mouse.
+     * @param mouseTop {Integer} The toop position of the mouse.
+     * @param mouseTolerance {Integer} The desired distance to the edge.
+     * @return {Integer} The resize active number.
+     */
+    __computeResizeActive : function(location, mouseLeft, mouseTop, mouseTolerance) {
+      var resizeActive = 0;
+      
       // TOP
       if (
         this.getResizableTop() && 
-        Math.abs(contentLocation.top - mouseTop) < mouseTolerance &&
-        mouseLeft > contentLocation.left - mouseTolerance &&
-        mouseLeft < contentLocation.right + mouseTolerance
+        Math.abs(location.top - mouseTop) < mouseTolerance &&
+        mouseLeft > location.left - mouseTolerance &&
+        mouseLeft < location.right + mouseTolerance
       ) {
         resizeActive += this.RESIZE_TOP;
 
       // BOTTOM
       } else if (
         this.getResizableBottom() && 
-        Math.abs(contentLocation.bottom - mouseTop) < mouseTolerance &&
-        mouseLeft > contentLocation.left - mouseTolerance &&
-        mouseLeft < contentLocation.right + mouseTolerance
+        Math.abs(location.bottom - mouseTop) < mouseTolerance &&
+        mouseLeft > location.left - mouseTolerance &&
+        mouseLeft < location.right + mouseTolerance
       ) {
         resizeActive += this.RESIZE_BOTTOM;
       }
@@ -369,27 +396,23 @@ qx.Mixin.define("qx.ui.core.MResizable",
       // LEFT
       if (
         this.getResizableLeft() && 
-        Math.abs(contentLocation.left - mouseLeft) < mouseTolerance &&
-        mouseTop > contentLocation.top - mouseTolerance &&
-        mouseTop < contentLocation.bottom + mouseTolerance
+        Math.abs(location.left - mouseLeft) < mouseTolerance &&
+        mouseTop > location.top - mouseTolerance &&
+        mouseTop < location.bottom + mouseTolerance
       ) {
         resizeActive += this.RESIZE_LEFT;
         
       // RIGHT
       } else if (
         this.getResizableRight() && 
-        Math.abs(contentLocation.right - mouseLeft) < mouseTolerance &&
-        mouseTop > contentLocation.top - mouseTolerance &&
-        mouseTop < contentLocation.bottom + mouseTolerance
+        Math.abs(location.right - mouseLeft) < mouseTolerance &&
+        mouseTop > location.top - mouseTolerance &&
+        mouseTop < location.bottom + mouseTolerance
       ) {
         resizeActive += this.RESIZE_RIGHT;
       }
-
-      this.__resizeActive = resizeActive;
+      return resizeActive;
     },
-
-
-
 
 
     /*
