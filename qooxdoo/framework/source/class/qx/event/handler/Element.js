@@ -85,7 +85,7 @@ qx.Class.define("qx.event.handler.Element",
     TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : true
+    IGNORE_CAN_HANDLE : false
   },
 
 
@@ -107,7 +107,17 @@ qx.Class.define("qx.event.handler.Element",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {},
+    canHandleEvent : function(target, type)
+    {
+      // Don't handle "load" event of Iframe. Unfortunately, both Element and
+      // Iframe handler support "load" event. Should be handled by 
+      // qx.event.handler.Iframe only. Fixes [#BUG 4587].
+      if (type === "load") {
+        return target.tagName.toLowerCase() !== "iframe";
+      } else {
+        return true;
+      }
+    },
 
 
     // interface implementation
