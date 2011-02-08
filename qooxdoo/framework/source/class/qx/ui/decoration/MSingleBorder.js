@@ -263,8 +263,8 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
       width -= insets.left + insets.right;
       height -= insets.top + insets.bottom;
       return {
-        left : (parseInt(element.style.left, 10) + insets.left - this.getWidthLeft()),
-        top : (parseInt(element.style.top, 10) + insets.top - this.getWidthTop()),
+        left : insets.left - this.getWidthLeft(),
+        top : insets.top - this.getWidthTop(),
         width : width,
         height : height
       };

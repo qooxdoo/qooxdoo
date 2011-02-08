@@ -70,8 +70,8 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
       width -= insets.left + insets.right;
       height -= insets.top + insets.bottom;
       return {
-        left : (parseInt(element.style.left, 10)) + insets.left,
-        top : (parseInt(element.style.top, 10)) + insets.top,
+        left : insets.left,
+        top : insets.top,
         width : width,
         height : height
       };

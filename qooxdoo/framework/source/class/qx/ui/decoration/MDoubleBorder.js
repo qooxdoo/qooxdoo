@@ -267,15 +267,13 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
       height -= insets.top + insets.bottom;
 
       var left =
-        (parseInt(element.style.left, 10) +
         insets.left -
         this.getWidthLeft() -
-        this.getInnerWidthLeft());
+        this.getInnerWidthLeft();
       var top =
-        (parseInt(element.style.top, 10) +
         insets.top -
         this.getWidthTop() -
-        this.getInnerWidthTop());
+        this.getInnerWidthTop();
         
       return {
         left: left,
