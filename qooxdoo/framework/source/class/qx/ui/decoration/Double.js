@@ -47,9 +47,21 @@ qx.Class.define("qx.ui.decoration.Double",
    */
   construct : function(width, style, color, innerWidth, innerColor)
   {
-    this.base(arguments, width, style, color, innerWidth, innerColor);
+    this.base(arguments);
 
     // Initialize properties
+    if (width != null) {
+      this.setWidth(width);
+    }
+
+    if (style != null) {
+      this.setStyle(style);
+    }
+
+    if (color != null) {
+      this.setColor(color);
+    }
+    
     if (innerWidth != null) {
       this.setInnerWidth(innerWidth);
     }
