@@ -95,7 +95,6 @@ qx.Theme.define("qx.theme.classic.Color",
     "table-row-selected" : [ 255, 255, 255 ],
     "table-row" : [ 0, 0, 0],
     "table-row-line" : "#EEE",
-    "table-column-line" : "#EEE",
 
     "progressive-table-header" : "#AAAAAA",
 

@@ -156,7 +156,6 @@ qx.Theme.define("qx.theme.modern.Color",
 
     // equal to "border-collumn"
     "table-row-line" : "#CCCCCC",
-    "table-column-line" : "#CCCCCC",
 
 
 
