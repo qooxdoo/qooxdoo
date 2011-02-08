@@ -151,7 +151,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
         var property = this._bindableProperties[i];
 
         // remove the old binding
-        if (old != null && ids[property] != null)
+        if (old != null && !old.isDisposed() && ids[property] != null)
         {
           old.removeBinding(ids[property]);
           ids[property] = null;
