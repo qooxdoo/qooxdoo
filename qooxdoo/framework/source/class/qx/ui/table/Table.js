@@ -389,7 +389,8 @@ qx.Class.define("qx.ui.table.Table",
       check : "Number",
       init : 20,
       apply : "_applyRowHeight",
-      event : "changeRowHeight"
+      event : "changeRowHeight",
+      themeable : true
     },
 
 
