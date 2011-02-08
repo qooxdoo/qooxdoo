@@ -161,29 +161,29 @@ The classic way is a bit more messy. In this case, the problem is not in the Jav
 
 ::
 
-    var el = evt.srcElement;
-    var offsetTop = 0;
-	var offsetLeft = 0;
-	while(el.tagName.toLowerCase()!='body'){
-		offsetTop+=el.offsetTop;
-		offsetLeft+=el.offsetLeft;
-		el=el.offsetParent;
-	}
+  var el = evt.srcElement;
+  var offsetTop = 0;
+  var offsetLeft = 0;
+  while(el.tagName.toLowerCase()!='body'){
+    offsetTop+=el.offsetTop;
+    offsetLeft+=el.offsetLeft;
+    el=el.offsetParent;
+  }
 
 The problem is, when running this code it gives different results on IE and FF. On IE , the border dimension is not taken into account when computing the position. So for IE we must have something like this below:
 
 ::
 
-	var el = evt.srcElement;
-	var offsetTop = 0;
-	var offsetLeft = 0;
-	while(el.tagName.toLowerCase()!='body'){
-		var borderTopWidth = parseInt(el.currentStyle.borderTopWidth);
-		var borderLeftWidth = parseInt(el.currentStyle.borderLeftWidth);
-		offsetTop+=el.offsetTop+(isNaN(borderTopWidth) ? 0 : borderTopWidth);
-		offsetLeft+=el.offsetLeft+(isNaN(borderLeftWidth) ? 0 : borderLeftWidth);
-		el=el.offsetParent;
-	}
+  var el = evt.srcElement;
+  var offsetTop = 0;
+  var offsetLeft = 0;
+  while(el.tagName.toLowerCase()!='body'){
+    var borderTopWidth = parseInt(el.currentStyle.borderTopWidth);
+    var borderLeftWidth = parseInt(el.currentStyle.borderLeftWidth);
+    offsetTop+=el.offsetTop+(isNaN(borderTopWidth) ? 0 : borderTopWidth);
+    offsetLeft+=el.offsetLeft+(isNaN(borderLeftWidth) ? 0 : borderLeftWidth);
+    el=el.offsetParent;
+  }
 
 Now we get the same result. This is not a difference in the JavaScript and DOM API as was the case for the event part, it is about the way CSS and layout are handled. This is internal to the two browser classes, both of which are unified in qooxdoo and the programmer is relieved of them.
 
