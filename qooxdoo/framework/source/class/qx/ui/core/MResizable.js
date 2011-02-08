@@ -17,6 +17,7 @@
      * David Perez Carmona (david-perez)
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -33,12 +34,13 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
   construct : function()
   {
-    // Register listeners
-    this.addListener("mousedown", this.__onResizeMouseDown, this, true);
-    this.addListener("mouseup", this.__onResizeMouseUp, this);
-    this.addListener("mousemove", this.__onResizeMouseMove, this);
-    this.addListener("mouseout", this.__onResizeMouseOut, this);
-    this.addListener("losecapture", this.__onResizeLoseCapture, this);
+    // Register listeners to the container
+    var container = this.getContainerElement();
+    container.addListener("mousedown", this.__onResizeMouseDown, this, true);
+    container.addListener("mouseup", this.__onResizeMouseUp, this);
+    container.addListener("mousemove", this.__onResizeMouseMove, this);
+    container.addListener("mouseout", this.__onResizeMouseOut, this);
+    container.addListener("losecapture", this.__onResizeLoseCapture, this);
 
     // Get a reference of the drag and drop handler
     var domElement = this.getContainerElement().getDomElement();
@@ -173,9 +175,14 @@ qx.Mixin.define("qx.ui.core.MResizable",
      */
     __showResizeFrame : function()
     {
-      var bounds = this.__resizeStart;
+      var location = this.__getLocation();
       var frame = this.__getResizeFrame();
-      frame.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
+      frame.setUserBounds(
+        location.left, 
+        location.top, 
+        location.right - location.left, 
+        location.bottom - location.top
+      );
       frame.show();
       frame.setZIndex(this.getZIndex()+1);
     },
@@ -208,6 +215,8 @@ qx.Mixin.define("qx.ui.core.MResizable",
       var start = this.__resizeStart;
       var width = start.width;
       var height = start.height;
+      var containerWidth = start.containerWidth;
+      var containerHeight = start.containerHeight;
       var left = start.left;
       var top = start.top;
       var diff;
@@ -221,18 +230,22 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
         if (resizeActive & this.RESIZE_TOP) {
           height -= diff;
+          containerHeight -= diff;
         } else {
           height += diff;
+          containerHeight += diff;
         }
 
-        if (height < hint.minHeight) {
-          height = hint.minHeight;
-        } else if (height > hint.maxHeight) {
-          height = hint.maxHeight;
+        if (containerHeight < hint.minHeight) {
+          height += (hint.minHeight - containerHeight);
+          containerHeight = hint.minHeight;
+        } else if (containerHeight > hint.maxHeight) {
+          height -= (hint.maxHeight - containerHeight);
+          containerHeight = hint.maxHeight;
         }
 
         if (resizeActive & this.RESIZE_TOP) {
-          top += start.height - height;
+          top += start.containerHeight - containerHeight;
         }
       }
 
@@ -245,28 +258,37 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
         if (resizeActive & this.RESIZE_LEFT) {
           width -= diff;
+          containerWidth -= diff;
         } else {
           width += diff;
+          containerWidth += diff;
         }
 
-        if (width < hint.minWidth) {
-          width = hint.minWidth;
+        if (containerWidth < hint.minWidth) {
+          width += (hint.minWidth - containerWidth);
+          containerWidth = hint.minWidth;
         } else if (width > hint.maxWidth) {
-          width = hint.maxWidth;
+          width -= (hint.maxWidth - containerWidth);
+          containerWidth = hint.maxWidth;
         }
 
         if (resizeActive & this.RESIZE_LEFT) {
-          left += start.width - width;
+          left += start.containerWidth - containerWidth;
         }
       }
 
       return {
+        // left and top of the visible widget (content + decorator)
         viewportLeft : left,
         viewportTop : top,
 
         parentLeft : start.bounds.left + left - start.left,
         parentTop : start.bounds.top + top - start.top,
 
+        // dimensions of the whole widget (container)
+        containerWidth : containerWidth,
+        containerHeight : containerHeight,
+        // dimensions of the visible widget (content + decorator)
         width : width,
         height : height
       };
@@ -293,14 +315,31 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
 
     /**
+     * Returns the location to use. Either the location of the decorator 
+     * element, or the location of the content element.
+     * 
+     * @return {Map} Location map. (see {@link qx.bom.element.Location#get})
+     */
+    __getLocation : function() 
+    {
+      var decorator = this.getDecoratorElement();
+      // use the decorator location if available (belongs to the resizable box)
+      if (decorator && decorator.getDomElement()) {
+        return qx.bom.element.Location.get(decorator.getDomElement());
+      } else {
+        return this.getContentLocation();
+      }
+    },
+
+
+    /**
      * Updates the internally stored resize mode
      *
      * @param e {qx.event.type.Mouse} Last mouse event
      */
     __computeResizeMode : function(e)
     {
-      var contentLocation = this.getContentLocation();
-
+      var contentLocation = this.__getLocation();
       var mouseTolerance = this.getResizeSensitivity();
 
       var mouseLeft = e.getDocumentLeft();
@@ -308,15 +347,41 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
       var resizeActive = 0;
 
-      if (this.getResizableTop() && Math.abs(contentLocation.top - mouseTop) < mouseTolerance) {
+      // TOP
+      if (
+        this.getResizableTop() && 
+        Math.abs(contentLocation.top - mouseTop) < mouseTolerance &&
+        mouseLeft > contentLocation.left - mouseTolerance &&
+        mouseLeft < contentLocation.right + mouseTolerance
+      ) {
         resizeActive += this.RESIZE_TOP;
-      } else if (this.getResizableBottom() && Math.abs(contentLocation.bottom - mouseTop) < mouseTolerance) {
+
+      // BOTTOM
+      } else if (
+        this.getResizableBottom() && 
+        Math.abs(contentLocation.bottom - mouseTop) < mouseTolerance &&
+        mouseLeft > contentLocation.left - mouseTolerance &&
+        mouseLeft < contentLocation.right + mouseTolerance
+      ) {
         resizeActive += this.RESIZE_BOTTOM;
       }
 
-      if (this.getResizableLeft() && Math.abs(contentLocation.left - mouseLeft) < mouseTolerance) {
+      // LEFT
+      if (
+        this.getResizableLeft() && 
+        Math.abs(contentLocation.left - mouseLeft) < mouseTolerance &&
+        mouseTop > contentLocation.top - mouseTolerance &&
+        mouseTop < contentLocation.bottom + mouseTolerance
+      ) {
         resizeActive += this.RESIZE_LEFT;
-      } else if (this.getResizableRight() && Math.abs(contentLocation.right - mouseLeft) < mouseTolerance) {
+        
+      // RIGHT
+      } else if (
+        this.getResizableRight() && 
+        Math.abs(contentLocation.right - mouseLeft) < mouseTolerance &&
+        mouseTop > contentLocation.top - mouseTolerance &&
+        mouseTop < contentLocation.bottom + mouseTolerance
+      ) {
         resizeActive += this.RESIZE_RIGHT;
       }
 
@@ -353,13 +418,16 @@ qx.Mixin.define("qx.ui.core.MResizable",
       this.__resizeTop = e.getDocumentTop();
 
       // Cache bounds
-      var location = this.getContainerLocation();
+      var containerLocation = this.getContainerLocation();
+      var decoratorLocation = this.__getLocation();      
       var bounds   = this.getBounds();
       this.__resizeStart = {
-        top : location.top,
-        left : location.left,
-        width : bounds.width,
-        height : bounds.height,
+        top : decoratorLocation.top,
+        left : decoratorLocation.left,
+        containerWidth : containerLocation.right - containerLocation.left,
+        containerHeight : containerLocation.bottom - containerLocation.top,
+        width : decoratorLocation.right - decoratorLocation.left,
+        height : decoratorLocation.bottom - decoratorLocation.top,
         bounds : qx.lang.Object.clone(bounds)
       };
 
@@ -410,8 +478,8 @@ qx.Mixin.define("qx.ui.core.MResizable",
       var bounds = this.__computeResizeResult(e);
 
       // Sync with widget
-      this.setWidth(bounds.width);
-      this.setHeight(bounds.height);
+      this.setWidth(bounds.containerWidth);
+      this.setHeight(bounds.containerHeight);
 
       // Update coordinate in canvas
       if (this.getResizableLeft() || this.getResizableTop())
@@ -487,8 +555,8 @@ qx.Mixin.define("qx.ui.core.MResizable",
         else
         {
           // Update size
-          this.setWidth(bounds.width);
-          this.setHeight(bounds.height);
+          this.setWidth(bounds.containerWidth);
+          this.setHeight(bounds.containerHeight);
 
           // Update coordinate in canvas
           if (this.getResizableLeft() || this.getResizableTop())
@@ -529,7 +597,6 @@ qx.Mixin.define("qx.ui.core.MResizable",
      * Event handler for the mouse out event
      *
      * @param e {qx.event.type.Mouse} The mouse event instance
-     * @return {void}
      */
     __onResizeMouseOut : function(e)
     {
