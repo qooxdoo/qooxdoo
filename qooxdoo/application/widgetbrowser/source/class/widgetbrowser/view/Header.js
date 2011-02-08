@@ -43,8 +43,41 @@ qx.Class.define("widgetbrowser.view.Header",
     var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Setting.get("qx.version"));
     version.setFont("default");
 
+    // Build select-box
+    var select = new qx.ui.form.SelectBox("Theme");
+    ["Modern", "Simple", "Classic"].forEach(function(name) {
+      var item = new qx.ui.form.ListItem(name + " Theme");
+      item.setUserData("value", "qx.theme." + name);
+      select.add(item);
+    });
+
+    // Find current theme from URL search param
+    var currentThemeItem = select.getSelectables().filter(function(item) {
+      if (window.location.search) {
+        return window.location.search.match(item.getUserData("value"));
+      }
+    })[0];
+
+    // Set current theme
+    if (currentThemeItem) {
+      select.setSelection([currentThemeItem]);
+    }
+
+    select.setPaddingTop(0);
+    select.setPaddingBottom(0);
+    select.setTextColor("black");
+
+    select.addListener("changeSelection", function(evt) {
+      var selected = evt.getData()[0];
+      var url = "index.html?qx.theme=" + selected.getUserData("value");
+      window.location = url;
+    });
+
+    // Finally assemble header
     this.add(title);
     this.add(new qx.ui.core.Spacer, {flex : 1});
+    this.add(select);
+    this.add(new qx.ui.core.Spacer, {width: "2%"});
     this.add(version);
 
   }
