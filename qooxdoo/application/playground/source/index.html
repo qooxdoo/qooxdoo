@@ -6,7 +6,9 @@
   <style type="text/css">
   .qx_samples { display:none }
   </style>
-  <script src="resource/playground/editor/ace/Editor.js" type="text/javascript"></script>
+  <script src="resource/playground/editor/ace.js" type="text/javascript"></script>
+  <script src="resource/playground/editor/theme-eclipse.js" type="text/javascript" charset="utf-8"></script>
+  <script src="resource/playground/editor/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript">if (location.hostname === "demo.qooxdoo.org") document.write('<script src="http://resources.qooxdoo.org/script/analytics.js" type="text/javascript"></scr' + 'ipt>');</script>
 
 </head>
@@ -30,8 +32,7 @@ doc.add(button1,
 // Add an event listener
 button1.addListener("execute", function(e) {
   alert("Hello World!");
-});
-</textarea>
+});</textarea>
 
 <!-- ********************************************************************** -->
 
@@ -44,8 +45,7 @@ win.setHeight(200);
 win.setShowMinimize(false);
 
 this.getRoot().add(win, {left:20, top:20});
-win.open();
-</textarea>
+win.open();</textarea>
 
 <!-- ********************************************************************** -->
 
@@ -97,8 +97,8 @@ var ttIeNote = new qx.ui.tooltip.ToolTip("This feature is currently not supporte
 btnForward.setEnabled(false);
 btnBack.setEnabled(false);
 
-btnForward.setToolTip(ttIeNote)
-btnBack.setToolTip(ttIeNote)
+btnForward.setToolTip(ttIeNote);
+btnBack.setToolTip(ttIeNote);
 
 var txtUrl = new qx.ui.form.TextField().set({
    marginLeft: 1,
@@ -129,9 +129,7 @@ var iframe = new qx.ui.embed.Iframe().set({
 });
 win.add(iframe, {flex: 1});
 
-this.getRoot().add(win, {left: 40, top: 30});
-
-</textarea>
+this.getRoot().add(win, {left: 40, top: 30});</textarea>
 
 <!-- ********************************************************************** -->
 
@@ -143,7 +141,7 @@ layout.setColumnWidth(2, 72);
 layout.setColumnWidth(3, 108);
 
 
-var container = new qx.ui.tabview.TabView;
+var container = new qx.ui.tabview.TabView();
 var page = new qx.ui.tabview.Page("Page");
 page.setLayout(layout);
 page.setPadding(10);
@@ -214,9 +212,7 @@ okButton.addState("default");
 buttonPane.add(okButton);
 
 cancelButton = new qx.ui.form.Button("Cancel", "icon/22/actions/dialog-cancel.png");
-buttonPane.add(cancelButton);
-
-</textarea>
+buttonPane.add(cancelButton);</textarea>
 
 <!-- ********************************************************************** -->
 
@@ -277,8 +273,7 @@ for (label in buttons) {
 }
 win.addListener("keypress", function(e) {
   alert("Key: " + e.getKeyIdentifier());
-}, this);
-</textarea>
+}, this);</textarea>
 
 
 <!-- ********************************************************************** -->
@@ -318,7 +313,7 @@ tableModel.setColumnEditable(1, true);
 // table
 var table = new qx.ui.table.Table(tableModel).set({
   decorator: null
-})
+});
 win.add(table);
 
 var tcm = table.getTableColumnModel();
@@ -327,8 +322,7 @@ var tcm = table.getTableColumnModel();
 tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
 
 // use a different header renderer
-tcm.setHeaderCellRenderer(2, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));
-</textarea>
+tcm.setHeaderCellRenderer(2, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));</textarea>
 
 <!-- ********************************************************************** -->
 
@@ -363,13 +357,11 @@ f1.add(f11, f12, f13);
 
 // open the folders
 root.setOpen(true);
-f1.setOpen(true);
-</textarea>
+f1.setOpen(true);</textarea>
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="TreeVirtual">
-// We want to use some of the high-level node operation convenience
+<textarea class="qx_samples" title="TreeVirtual">// We want to use some of the high-level node operation convenience
 // methods rather than manually digging into the TreeVirtual helper
 // classes.  Include the mixin that provides them.
 qx.Class.include(qx.ui.treevirtual.TreeVirtual,
@@ -430,8 +422,7 @@ var te2 = dataModel.addBranch(null, "Inbox", true);
 
 te = dataModel.addBranch(te2, "Spam", false);
 
-for (var i = 1; i < 3000; i++)
-{
+for (var i = 1; i < 3000; i++) {
   dataModel.addLeaf(te, "Spam Message #" + i);
 }
 
@@ -537,8 +528,7 @@ o.addListener("changeValue",
               function(e)
               {
                 tree.setEnabled(! e.getData());
-              });
-</textarea>
+              });</textarea>
 
 <!-- ********************************************************************** -->
 
@@ -564,10 +554,7 @@ slider2.setWidth(200);
 this.getRoot().add(slider2, {left: 10, top: 80});
 // set up the bidirectional single value binding
 slider1.bind("value", slider2, "value");
-slider2.bind("value", slider1, "value");
-
-
-</textarea>
+slider2.bind("value", slider1, "value");</textarea>
 
 
 <!-- ********************************************************************** -->
@@ -586,8 +573,7 @@ this.getRoot().add(list);
 
 var controller = new qx.data.controller.List(null, list, "title");
 
-store.bind("model", controller, "model");
-</textarea>
+store.bind("model", controller, "model");</textarea>
 
 
   <script type="text/javascript" src="script/playground.js"></script>

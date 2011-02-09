@@ -72,9 +72,8 @@ qx.Class.define("playground.view.Editor",
 
       // layout stuff
       var layout = new qx.ui.layout.VBox();
-      layout.setSeparator("separator-vertical");
       this.setLayout(layout);
-      this.set({ decorator : "main" });
+      this.setDecorator("main");
 
       // caption
       var caption = new qx.ui.basic.Label(this.tr("Source Code")).set({
@@ -89,13 +88,14 @@ qx.Class.define("playground.view.Editor",
       this.__textarea = new qx.ui.form.TextArea().set({
         wrap      : false,
         font      : qx.bom.Font.fromString("14px monospace"),
-        decorator : null,
+        decorator : "separator-vertical",
         backgroundColor: "white",
         padding   : [0,0,0,5]
       });
       this.add(this.__textarea, { flex : 1 });
       
       this.__editor = new qx.ui.core.Widget();
+      this.__editor.setDecorator("separator-vertical");
       var highlightDisabled = false;
       // FF2 does not have that...
       // also block the editor for IE which seems not to work
@@ -132,52 +132,35 @@ qx.Class.define("playground.view.Editor",
      * This code part uses the ajax.org code editor library to add a
      * syntax-highlighting editor as an textarea replacement
      *
-     * @lint ignoreUndefined(require)
+     * @lint ignoreUndefined(ace,require)
      */
-     __onEditorAppear : function() {
-       var self = this;
+    __onEditorAppear : function() {
+      var container = this.__editor.getContentElement().getDomElement();
        
-       // ajax.org code editor include
-       require(
-         {baseUrl: "resource/playground/editor"},
-         [
-             "ace/editor",
-             "ace/virtual_renderer",
-             "ace/document",
-             "ace/mode/javascript",
-             "ace/undomanager"
-         ], function(
-           Editor, Renderer, Document, JavaScriptMode, UndoManager
-          ) { 
+      // create the editor
+      var editor = this.__ace = ace.edit(container);
+       
+      // set javascript mode
+      var JavaScriptMode = require("ace/mode/javascript").Mode;
+      editor.getSession().setMode(new JavaScriptMode());
 
-         var container = self.__editor.getContentElement().getDomElement();
-         self.__ace = new Editor(new Renderer(container));
+      // configure the editor
+      var session = editor.getSession();
+      session.setUseSoftTabs(true);
+      session.setTabSize(2);
+      
+      // copy the inital value
+      session.setValue(this.__textarea.getValue());
 
-         var doc = new Document(self.__textarea.getValue());
-         doc.setMode(new JavaScriptMode());
-         doc.setUndoManager(new UndoManager());
-         doc.setUseSoftTabs(true);
-         doc.setTabSize(2);
-         self.__ace.setDocument(doc);  
-         
-         self.__ace.focus();
-
-         // remove the print margin and move it to column 3 
-         // [http://github.com/ajaxorg/editor/issues/issue/1]
-         self.__ace.setShowPrintMargin(false);
-         self.__ace.setPrintMarginColumn(3);
-
-         self.__ace.resize();
-         
-         // append resize listener
-        self.__editor.addListener("resize", function() {
-          // use a timeout to let the layout queue apply its changes to the dom
-          window.setTimeout(function() {
-            self.__ace.resize();            
-          }, 0);
-         });
-       });
-     },
+      var self = this;
+      // append resize listener
+      this.__editor.addListener("resize", function() {
+        // use a timeout to let the layout queue apply its changes to the dom
+        window.setTimeout(function() {
+          self.__ace.resize();            
+        }, 0);
+      });
+    },
 
 
     /**
@@ -186,7 +169,7 @@ qx.Class.define("playground.view.Editor",
      */
     getCode : function() {
       if (this.__highlighted && this.__ace) {
-        return this.__ace.getDocument().toString();
+        return this.__ace.getSession().getValue();
       } else {
         return this.__textarea.getValue();
       }
@@ -199,7 +182,7 @@ qx.Class.define("playground.view.Editor",
      */
     setCode : function(code) {
       if (this.__ace) {
-        this.__ace.getDocument().setValue(code);
+        this.__ace.getSession().setValue(code);
       }
       this.__textarea.setValue(code);
     },
@@ -219,11 +202,7 @@ qx.Class.define("playground.view.Editor",
         
         // copy the value, if the editor already availabe
         if (this.__ace) {
-          this.__ace.getDocument().setValue(this.__textarea.getValue());
-          // workaround for a drawing issue in the editor
-          this.__editor.addListenerOnce("appear", function() {
-            this.__ace.resize();            
-          }, this);
+          this.__ace.getSession().setValue(this.__textarea.getValue());
         }
       } else {
         // change the visibility        
@@ -232,7 +211,7 @@ qx.Class.define("playground.view.Editor",
         
         // copy the value, if the editor already availabe
         if (this.__ace) {
-          this.__textarea.setValue(this.__ace.getDocument().toString());          
+          this.__textarea.setValue(this.__ace.getSession().getValue());          
         }
       }
     }
