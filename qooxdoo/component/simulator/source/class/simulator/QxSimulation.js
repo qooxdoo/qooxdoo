@@ -63,7 +63,11 @@ qx.Class.define("simulator.QxSimulation", {
      */
     startSession : function()
     {
-      this.qxSelenium.start();
+      if (!this._options.threadSafe) {
+        // Using Selenium Grid's ThreadSafeSeleniumSessionStorage, session
+        // should already be started.
+        this.qxSelenium.start();
+      }
       var autUri = this.__autHost + "" + this.__autPath;
       this.qxOpen(autUri);
       this.waitForQxApplication();

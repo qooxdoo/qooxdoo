@@ -30,11 +30,12 @@ qx.Class.define("simulator.Application", {
      */
     SETTING_NAMES : ["globalTimeout", "stepSpeed", "windowMaximize", 
                     "globalErrorLogging", "testEvents", "disposerDebug", 
-                    "applicationLog"]
+                    "applicationLog", "threadSafe"]
   },
   
   members :
   {
+    __optionalSettings : null,
   
     main : function()
     {
@@ -42,9 +43,19 @@ qx.Class.define("simulator.Application", {
         this._argumentsToSettings(window.arguments);
       }
       
+      this.__optionalSettings = this._getOptionalSettings();
+      
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
       
-      var qxSelenium = this.getQxSelenium();
+      var qxSelenium;
+      if (this.__optionalSettings.threadSafe) {
+        qxSelenium = this.getThreadSafeQxSeleniumSession();
+      } 
+      else {
+        qxSelenium = this.getQxSelenium();
+      }
+      qxSelenium.setSpeed("1000");
+      
       this.simulation = this.getSimulation(qxSelenium);
       
       this.runner = new simulator.TestRunner();
@@ -99,7 +110,7 @@ qx.Class.define("simulator.Application", {
     /**
      * Configures and returns a QxSelenium instance.
      * 
-     * @return {simulator.QxSelenium}
+     * @return {Object} The configured QxSelenium instance
      */
     getQxSelenium : function()
     {
@@ -108,7 +119,22 @@ qx.Class.define("simulator.Application", {
         qx.core.Setting.get("simulator.selPort"),
         qx.core.Setting.get("simulator.testBrowser"),
         qx.core.Setting.get("simulator.autHost"));
-      qxSelenium.setSpeed("1000");
+      
+      return qxSelenium;
+    },
+    
+    /**
+     * Returns a thread-safe QxSelenium instance.
+     * 
+     * @return {Object} The configured QxSelenium instance
+     */
+    getThreadSafeQxSeleniumSession : function()
+    {
+      var qxSelenium = simulator.ThreadSafeQxSelenium.create(
+        qx.core.Setting.get("simulator.selServer"),
+        qx.core.Setting.get("simulator.selPort"),
+        qx.core.Setting.get("simulator.testBrowser"),
+        qx.core.Setting.get("simulator.autHost"));
       
       return qxSelenium;
     },
@@ -125,7 +151,7 @@ qx.Class.define("simulator.Application", {
       var simulation = new simulator.QxSimulation(qxSelenium, 
         qx.core.Setting.get("simulator.autHost"),
         qx.core.Setting.get("simulator.autPath"),
-        this._getOptionalSettings());
+        this.__optionalSettings);
       
       return simulation;
     }
