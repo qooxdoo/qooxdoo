@@ -410,8 +410,20 @@ qx.Class.define("qx.test.data.store.Json",
       }, 100);
 
       this.wait();
+    },
+    
+    
+    testErrorEvent : function() {
+      this.__store.addListener("error", function() {
+        this.resume(function() {}, this);
+      }, this);
+
+      var self = this;
+      window.setTimeout(function(){
+        self.__store.setUrl("affe");
+      }, 100);
+
+      this.wait();
     }
-
-
   }
 });

@@ -83,8 +83,11 @@ qx.Class.define("qx.data.store.Jsonp",
 
       qx.data.store.Jsonp[id] = this;
       url += 'qx.data.store.Jsonp[' + id + '].callback';
-      this.__loader.load(url, function(data) {
+      this.__loader.load(url, function(status) {
         delete this[id];
+        if (status === "fail") {
+          this.fireEvent("error");
+        }
       }, this);
     },
 
@@ -112,6 +115,7 @@ qx.Class.define("qx.data.store.Jsonp",
     __loaded: function(data) {
       if (data == undefined) {
         this.setState("failed");
+        this.fireEvent("error");
         return;
       }
 
