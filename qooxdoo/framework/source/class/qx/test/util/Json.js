@@ -27,15 +27,13 @@ qx.Class.define("qx.test.util.Json",
       this.assertEquals('{"test":123}', qx.util.Json.stringify({ test : 123 }, false));
     },
 
-
     testStringifyDate : function()
     {
       var data = {
         start: new Date(123)
       }
-      this.assertEquals('{"start":1970-01-01T00:00:00.123Z}', qx.util.Json.stringify(data, false));
+      this.assertEquals('{"start":"1970-01-01T00:00:00.123Z"}', qx.util.Json.stringify(data, false));
     },
-
 
     testCustomDateSerializer : function()
     {
