@@ -25,6 +25,8 @@ qx.Class.define("simulator.TestRunner", {
   construct : function()
   {
     this.base(arguments);
+    
+    this._initLogFile();
     this.simulation = simulator.Init.getApplication().simulation;
     var testNameSpace = qx.core.Setting.get("simulator.nameSpace");
     var loader = new simulator.unit.TestLoader(testNameSpace);
@@ -36,13 +38,34 @@ qx.Class.define("simulator.TestRunner", {
     simulation : null,
     suite : null,
     _currentTest : null,
+        
+    
+    /**
+     * Creates a log file using {@link qx.log.appender.RhinoFile}
+     */
+    _initLogFile : function()
+    {
+      var filename = null;
+      try {
+        filename = qx.core.Setting.get("simulator.logFile");
+      } catch(ex) {
+        return;
+      }
+      
+      if (qx.log.appender.RhinoFile.FILENAME !== filename) {
+        qx.log.appender.RhinoFile.FILENAME = filename;
+        qx.log.Logger.register(qx.log.appender.RhinoFile);
+      }
+    },
     
     /**
      * Runs all tests in the current suite.
      */
-    runTests : function()
+    runTests : function(threadSafe)
     {
-      this.simulation.startSession();
+      if (!threadSafe) {
+        this.simulation.startSession();
+      }
       this.simulation.logEnvironment();
       this.simulation.logUserAgent();
       
