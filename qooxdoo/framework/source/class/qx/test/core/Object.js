@@ -148,7 +148,10 @@ qx.Class.define("qx.test.core.Object",
       var o = new qx.core.Object();
       o.o = new qx.core.Object();
       o._disposeObjects("o");
-      this.assertTrue(o.o == null);
+      this.assertNull(o.o);
+
+      // check if a dispose of not existent object works
+      o._disposeObjects("x");
 
       // object dispose with a singleton
       qx.Class.define("qx.test.Single", {
