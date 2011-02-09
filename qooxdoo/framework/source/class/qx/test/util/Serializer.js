@@ -455,6 +455,32 @@ qx.Class.define("qx.test.util.Serializer",
       );
 
       formater.dispose();
+    },
+    
+    
+    /* ******************************
+     * Localized strings
+     * **************************** */
+     
+    testJsonLocalizedStrings : function() {
+      this.assertEquals(
+        '"affe"', qx.util.Serializer.toJson(qx.locale.Manager.tr("affe"))
+      );
+    },
+    
+    testNativeLocalizedStrings : function() {
+      var ser = qx.util.Serializer.toNativeObject(qx.locale.Manager.tr("affe"));
+      this.assertEquals("affe", ser);
+      // regular strings should not have a translate method
+      this.assertUndefined(ser.translate);
+    },
+    
+    testUrlLocalizedStrings : function() {
+      this.__model.setData1(qx.locale.Manager.tr("affe"));
+      this.assertEquals(
+        "data1=affe&data2=null&data3=null", 
+        qx.util.Serializer.toUriParameter(this.__model)
+      );
     }
   }
 });
