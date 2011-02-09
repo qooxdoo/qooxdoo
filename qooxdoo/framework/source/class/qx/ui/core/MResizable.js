@@ -362,12 +362,12 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
 
     /**
-     * Internal halper for computing the proper resize action based on the 
-     * given parameter.
+     * Internal helper for computing the proper resize action based on the 
+     * given parameters.
      * 
-     * @param location {Map} The curren location of the widget.
+     * @param location {Map} The current location of the widget.
      * @param mouseLeft {Integer} The left position of the mouse.
-     * @param mouseTop {Integer} The toop position of the mouse.
+     * @param mouseTop {Integer} The top position of the mouse.
      * @param mouseTolerance {Integer} The desired distance to the edge.
      * @return {Integer} The resize active number.
      */
