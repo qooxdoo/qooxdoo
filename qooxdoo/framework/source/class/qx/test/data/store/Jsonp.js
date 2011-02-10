@@ -150,16 +150,20 @@ qx.Class.define("qx.test.data.store.Jsonp",
     },
     
     testErrorEvent : function() {
-      this.__store.addListener("error", function() {
-        this.resume(function() {}, this);
-      }, this);
-
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl("affe");
-      }, 100);
-
-      this.wait();
+      // do not test that for IE and Opera because of the missing 
+      // error handler for script tags
+      if (!qx.bom.client.Browser.NAME == "ie" && !qx.bom.client.Browser.NAME == "opera") {
+        this.__store.addListener("error", function() {
+          this.resume(function() {}, this);
+        }, this);
+        
+        var self = this;
+        window.setTimeout(function(){
+          self.__store.setUrl("affe");
+        }, 100);
+        
+        this.wait();
+      }
     }    
   }
 });
