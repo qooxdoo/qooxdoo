@@ -28,7 +28,14 @@
   {
     "source" :
     {
-      "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple"]
+      "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple"],
+      
+      "copy-files" :
+      {
+        "files" :  ["helper.js"],
+        "source" : "source/resource/widgetbrowser",
+        "target" : "source/script"
+      }
     },
     
     "source-script-classic" :
@@ -70,16 +77,23 @@
     "build" :
     {
       "=run" : [
+        "copy-helper",
         "build-resources",
         "build-script-classic",
         "build-script-modern",
         "build-script-simple",
         "build-files"
-      ],
+      ]
       
+    },
+    
+    "copy-helper" :
+    {
       "copy-files" :
       {
-        "files"     : [ "script/helper.js" ]
+        "files" :  ["helper.js"],
+        "source" : "source/resource/widgetbrowser",
+        "target" : "build/script"
       }
     },
     
