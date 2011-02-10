@@ -109,7 +109,27 @@ qx.Class.define("qx.io.PartLoader",
      * @return {Part} The corresponding part instance
      */
     getPart : function(name) {
-      return this._loader.getParts()[name];
+      return this.getParts()[name];
+    },
+
+    
+    /**
+     * Checks if a part with the given name is available.
+     * @param name {String} Name of the part as defined in the config file at
+     *    compile time.
+     * @return {Boolean} <code>true</code>, if the part is available
+     */
+    hasPart : function(name) {
+      return this.getPart(name) !== undefined;
+    },
+
+    
+    /**
+     * Returns a mpa of all known parts.
+     * @return {Map} Map containig all parts.
+     */
+    getParts : function() {
+      return this._loader.getParts();
     }
   }
 });
