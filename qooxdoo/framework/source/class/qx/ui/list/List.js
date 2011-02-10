@@ -457,8 +457,7 @@ qx.Class.define("qx.ui.list.List",
       }
 
       this._provider.removeBindings();
-      this.__buildUpLookupTable();
-      this._applyDefaultSelection();
+      this._onModelChange();
     },
 
 
