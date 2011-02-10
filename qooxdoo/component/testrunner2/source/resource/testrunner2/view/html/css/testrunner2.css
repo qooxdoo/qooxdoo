@@ -15,6 +15,7 @@ h1 {
   margin: 0 0 15px 0;
   color: #225DA4;
   border-bottom: 1px solid #225DA4;
+  background-color: #D7D7D7;
   background-image :
   -webkit-gradient(
     linear,
@@ -188,6 +189,7 @@ h1 {
   bottom: 0px;
   width: 100%;
   border-top: 1px solid #225DA4;
+  background-color: #D7D7D7;
   background-image:
   -webkit-gradient(
     linear,
