@@ -63,6 +63,11 @@ qx.Class.define("qx.ui.root.Inline",
    */
   construct : function(el, dynamicX, dynamicY)
   {
+    // check the parameter
+    if (qx.core.Variant.isSet("qx.debug", "on")) {
+      this.assertElement(el, "Please use a DOM element to create an inline root.");
+    }
+    
     // Temporary storage of element to use
     this.__elem = el;
 
