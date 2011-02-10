@@ -129,7 +129,7 @@ qx.Class.define("testrunner2.view.Abstract", {
      */
     _onTestChangeState : function(testResultData)
     {
-      this.error("Missing implementation of __onTestChangeState!");
+      this.error("Missing implementation of _onTestChangeState!");
     },
     
     
