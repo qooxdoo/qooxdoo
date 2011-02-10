@@ -86,6 +86,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
   
   properties :
   {
+    /** Controls the display of stack trace information for exceptions */
     showStackTrace :
     {
       check : "Boolean",
@@ -116,6 +117,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       event : "changeSkippedTestCount"
     },
     
+    /** Log level for the AUT log appender */
     logLevel :
     {
       check : ["debug", "info", "warn", "error"],
@@ -144,11 +146,21 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     __testCountField : null,
     __statusField : null,
     
+    /**
+     * Returns the iframe element the AUT should be loaded in.
+     * @return {Element} Iframe element
+     */
     getIframe : function()
     {
       return this.__iframe.getContentElement().getDomElement();
     },
     
+    /**
+     * Returns a DIV element that will be used by a 
+     * {@link qx.log.appender.Element} to display the AUT's log output.
+     * 
+     * @return {Element} DIV element
+     */
     getLogAppenderElement : function()
     {
       if (!this.__logElement) {
@@ -860,6 +872,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       }
     },
     
+    // overridden
     addTestResult : function(testResultData)
     {
       this.base(arguments, testResultData);

@@ -6,6 +6,10 @@ qx.Class.define("testrunner2.view.Performance", {
   {
     profile :
     {
+      /** 
+       * Use the browser's built-in profiling capabilities (console.profile)
+       * if true 
+       */
       check : "Boolean",
       init : true
     }
@@ -50,6 +54,15 @@ qx.Class.define("testrunner2.view.Performance", {
     
     __measurements : null,
     
+    /**
+     * Adds an entry to the stored results 
+     * 
+     * @param clazz {String} Name of the test class
+     * @param msg {String} Test description
+     * @param iterations {Integer} Number of iterations
+     * @param ownTime {Integer} JavaScript execution time
+     * @param renderTime {Integer} browser rendering time
+     */
     logMeasurement : function(clazz, msg, iterations, ownTime, renderTime) {
       this.__measurements.push([clazz, msg, iterations, ownTime, renderTime].join("; "));
     },
@@ -80,6 +93,10 @@ qx.Class.define("testrunner2.view.Performance", {
     
     __logElem : null,
     
+    /**
+     * Returns an HTML element to be used for the AUT's log output
+     * @return {Element} The log appender element
+     */
     getLogAppenderElement : function()
     {
       return this.__logElem;

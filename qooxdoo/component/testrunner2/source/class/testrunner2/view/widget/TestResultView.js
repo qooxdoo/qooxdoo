@@ -58,6 +58,7 @@ qx.Class.define("testrunner2.view.widget.TestResultView",
 
   properties :
   {
+    /** Controls the display of stack trace information for exceptions */
     showStackTrace : {
       check : "Boolean",
       init : true,
