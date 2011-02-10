@@ -14,7 +14,8 @@
     "TESTS_SCRIPT" : "tests.js",         // output script name
     "BUILD_PATH"   : "build",
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "THEME"        : "qx.theme.Modern"
+    "THEME"        : "qx.theme.Modern",
+    "APPLICATION_MAIN_CLASS" : "testrunner2.Application"
   },
 
   "jobs" :
@@ -175,13 +176,14 @@
 
       "include" :
       [
-        "testrunner2.Application",
-        "${TESTRUNNER_VIEW}"
+        "${APPLICATION_MAIN_CLASS}",
+        "${TESTRUNNER_VIEW}",
+        "${THEME}"
       ],
 
       "settings" :
       {
-        "qx.application"   : "testrunner2.Application",
+        "qx.application"   : "${APPLICATION_MAIN_CLASS}",
         "qx.version"       : "${QOOXDOO_VERSION}",
         "qx.testNameSpace" : "${APPLICATION}.test",
         "testrunner2.title" : "${APPLICATION}",

@@ -79,7 +79,7 @@
       
       "include" :
       [
-        "testrunner2.Application",
+        "${APPLICATION_MAIN_CLASS}",
         "${TESTRUNNER_VIEW}"
       ],
       
@@ -196,6 +196,93 @@
       {
         "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
         "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
+      }
+    },
+    
+    "source-widget" :
+    {
+      "let" :
+      {
+        "TESTRUNNER_VIEW" : "testrunner2.view.widget.Widget",
+        "TESTRUNNER_ORIGIN" : "iframe"
+      },
+      
+      "run" : ["source-widget-script",
+        "source-tests-script"],
+        
+      "variants" :
+      {
+        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
+        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
+      }
+    },
+    
+    "source-widget-script" :
+    {
+      "extend" : ["source-script"],
+      
+      "let" :
+      {
+        "APPLICATION_MAIN_CLASS" : "testrunner2.GuiApplication"
+      },
+      
+      "settings" :
+      {
+        "qx.application" : "${APPLICATION_MAIN_CLASS}"
+      }
+    },
+    
+    "build-widget" :
+    {
+      "let" :
+      {
+        "TESTRUNNER_VIEW" : "testrunner2.view.widget.Widget",
+        "TESTRUNNER_ORIGIN" : "iframe"
+      },
+      
+      "run" : [
+        "build-widget-resources",
+        "build-files",
+        "build-widget-script",
+        "testrunner2::build-tests-script"
+      ],
+        
+      "variants" :
+      {
+        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
+        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
+      }
+    },
+    
+    "build-widget-resources" :
+    {
+      "extend" : ["build-resources"],
+      
+      "let" :
+      {
+        "APPLICATION_MAIN_CLASS" : "testrunner2.GuiApplication"
+      },
+      
+      "include" :
+      [
+        "${APPLICATION_MAIN_CLASS}",
+        "${QXTHEME}",
+        "${TESTRUNNER_VIEW}"
+      ]
+    },
+    
+    "build-widget-script" :
+    {
+      "extend" : ["build-script"],
+      
+      "let" :
+      {
+        "APPLICATION_MAIN_CLASS" : "testrunner2.GuiApplication"
+      },
+      
+      "settings" :
+      {
+        "qx.application" : "${APPLICATION_MAIN_CLASS}"
       }
     }
   }
