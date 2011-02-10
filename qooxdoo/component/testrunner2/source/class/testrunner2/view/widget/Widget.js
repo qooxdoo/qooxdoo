@@ -27,7 +27,9 @@
 
 #asset(testrunner2/view/widget/css/testrunner.css)
 ************************************************************************ */
-
+/**
+ * Widget-based Testrunner view
+ */
 qx.Class.define("testrunner2.view.widget.Widget", {
 
   extend : testrunner2.view.Abstract,

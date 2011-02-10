@@ -4,12 +4,12 @@ qx.Class.define("testrunner2.view.Performance", {
   
   properties :
   {
+    /** 
+     * Use the browser's built-in profiling capabilities (console.profile)
+     * if true 
+     */
     profile :
     {
-      /** 
-       * Use the browser's built-in profiling capabilities (console.profile)
-       * if true 
-       */
       check : "Boolean",
       init : true
     }
