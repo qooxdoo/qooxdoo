@@ -4848,12 +4848,14 @@ var Editor =function(renderer, session) {
 
     this.navigateUp = function(times) {
         this.selection.clearSelection();
-        this.selection.moveCursorBy(-1, 0);
+        times = times || 1;
+        this.selection.moveCursorBy(-times, 0);
     };
 
     this.navigateDown = function(times) {
         this.selection.clearSelection();
-        this.selection.moveCursorBy(1, 0);
+        times = times || 1;
+        this.selection.moveCursorBy(times, 0);
     };
 
     this.navigateLeft = function(times) {
@@ -8436,10 +8438,6 @@ var Tokenizer = function(rules) {
             var type = "text";
             var value = match[0];
 
-            if (re.lastIndex == lastIndex) {
-                throw new Error("tokenizer error before line: '" + line + "'");
-            }
-
             for ( var i = 0; i < state.length; i++) {
                 if (match[i + 1] !== undefined) {
                     if (typeof state[i].token == "function") {
@@ -8541,6 +8539,9 @@ var TextHighlightRules = function() {
 
     this.$rules = {
         "start" : [ {
+            token : "empty_line",
+            regex : '^$',
+        }, {
             token : "text",
             regex : ".+"
         } ]
@@ -10678,7 +10679,7 @@ var Gutter = function(parentEl) {
     this.setAnnotations = function(annotations) {
         // iterate over sparse array
         this.$annotations = [];        
-        for (var row in annotations) {
+        for (var row in annotations) if (annotations.hasOwnProperty(row)) {
             var rowAnnotations = annotations[row];
             if (!rowAnnotations)
                 continue;
@@ -11146,7 +11147,8 @@ var Text = function(parentEl) {
             style.width = config.width + "px";
 
             var html = [];
-            this.$renderLine(html, row, tokens[row-firstRow].tokens);
+            if (tokens.length > row-firstRow)
+            	this.$renderLine(html, row, tokens[row-firstRow].tokens);
             // don't use setInnerHtml since we are working with an empty DIV
             lineEl.innerHTML = html.join("");
             fragment.appendChild(lineEl);
