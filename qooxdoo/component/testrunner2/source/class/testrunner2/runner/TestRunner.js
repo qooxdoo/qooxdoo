@@ -520,7 +520,9 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       if (w.qx && w.qx.log && w.qx.log.Logger)
       {
         logger = w.qx.log.Logger;
-        //logger.setLevel(this.getLogLevel());
+        if (this.view.getLogLevel) {
+          logger.setLevel(this.view.getLogLevel());
+        }
         // Register to flush the log queue into the appender.
         logger.register(this.__logAppender);
         logger.clear();
