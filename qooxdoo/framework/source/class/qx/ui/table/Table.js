@@ -1001,7 +1001,7 @@ qx.Class.define("qx.ui.table.Table",
                 handlers[evName].capture.length > 0)
             {
               var capture = handlers[evName].capture;
-              for (var i = 0; i < capture.length; i++)
+              for (var j = 0; j < capture.length; j++)
               {
                 // Determine what context to use.  If the context does not
                 // exist, we assume that the context is this table.  If it
@@ -1009,7 +1009,7 @@ qx.Class.define("qx.ui.table.Table",
                 // which we retrieved the listeners) then set the context
                 // to be this new pane scroller.  Otherwise leave the context
                 // as it was set.
-                var context = capture[i].context;
+                var context = capture[j].context;
                 if (! context)
                 {
                   context = this;
@@ -1021,7 +1021,7 @@ qx.Class.define("qx.ui.table.Table",
 
                 paneScroller.addListener(
                   evName,
-                  capture[i].handler,
+                  capture[j].handler,
                   context,
                   true);
               }
@@ -1031,7 +1031,7 @@ qx.Class.define("qx.ui.table.Table",
                 handlers[evName].bubble.length > 0)
             {
               var bubble = handlers[evName].bubble;
-              for (var i = 0; i < bubble.length; i++)
+              for (var j = 0; j < bubble.length; j++)
               {
                 // Determine what context to use.  If the context does not
                 // exist, we assume that the context is this table.  If it
@@ -1039,7 +1039,7 @@ qx.Class.define("qx.ui.table.Table",
                 // which we retrieved the listeners) then set the context
                 // to be this new pane scroller.  Otherwise leave the context
                 // as it was set.
-                var context = bubble[i].context;
+                var context = bubble[j].context;
                 if (! context)
                 {
                   context = this;
@@ -1051,7 +1051,7 @@ qx.Class.define("qx.ui.table.Table",
 
                 paneScroller.addListener(
                   evName,
-                  bubble[i].handler,
+                  bubble[j].handler,
                   context,
                   false);
               }
