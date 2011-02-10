@@ -55,11 +55,19 @@ qx.Class.define("qx.util.format.NumberFormat",
 
     /**
      * Returns an integer number format.
-     *
+     * 
+     * @deprecated since 1.4
+     * 
      * @return {NumberFormat} an integer number format.
      */
     getIntegerInstance : function()
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, "Please create an instance of the number format instead."
+        );
+      }
+
       var NumberFormat = qx.util.format.NumberFormat;
 
       if (NumberFormat._integerInstance == null)
@@ -71,21 +79,29 @@ qx.Class.define("qx.util.format.NumberFormat",
       return NumberFormat._integerInstance;
     },
 
+
     /**
      * Return an instance of NumberFormat
+     *
+     * @deprecated since 1.4
      *
      * @return {qx.util.format.NumberFormat} an instance
      * @signature function()
      */
     getInstance : function()
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, "Please create an instance of the number format instead."
+        );
+      }
+
       if (!this._instance) {
         this._instance = new this;
       }
 
       return this._instance;
     }
-
   },
 
 

@@ -50,7 +50,9 @@ qx.Class.define("qx.ui.virtual.cell.Number",
     numberFormat :
     {
       check : "qx.util.format.NumberFormat",
-      init : qx.util.format.NumberFormat.getInstance()
+      // it is on intension that only one number format is used for 
+      // all instances
+      init : new qx.util.format.NumberFormat()
     },
 
     // overridden

@@ -1,0 +1,2 @@
+\bqx\.util\.format\.NumberFormat\.getInstance\b=Singleton behavior of NumberFormat is deprecated. Please create an instance to use it.
+\bqx\.util\.format\.NumberFormat\.getIntegerInstance\b=Singleton behavior of NumberFormat is deprecated. Please create an instance to use it.

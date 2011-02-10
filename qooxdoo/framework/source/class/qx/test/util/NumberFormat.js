@@ -27,18 +27,28 @@ qx.Class.define("qx.test.util.NumberFormat",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @return {void}
-     */
-    testNumberFormat : function()
-    {
+    __nf : null,
+    __oldLocale : null,
+    
+    setUp : function() {
       this.assertNotUndefined(qx.util.format.NumberFormat);
 
+      this.__oldLocale = qx.locale.Manager.getInstance().getLocale();
       qx.locale.Manager.getInstance().setLocale("de_DE");
 
-      var nf = new qx.util.format.NumberFormat();
+      this.__nf = new qx.util.format.NumberFormat();      
+    },
+
+
+    tearDown : function() {
+      qx.locale.Manager.getInstance().setLocale(this.__oldLocale);
+      this.__nf.dispose();
+    },
+
+
+    testNumberFormat : function()
+    {
+      var nf = this.__nf;
 
       // this failed due to a rounding error
       this.assertEquals("1.000.000", nf.format(1000000));
@@ -63,10 +73,7 @@ qx.Class.define("qx.test.util.NumberFormat",
 
     testNumberParse : function()
     {
-      // german number parsing
-      qx.locale.Manager.getInstance().setLocale("de_DE");
-
-      var nf = qx.util.format.NumberFormat.getInstance();
+      var nf = this.__nf;
 
       var goodNumbers = {
         "1000" : 1000,
@@ -104,9 +111,7 @@ qx.Class.define("qx.test.util.NumberFormat",
 
     testLocaleSwitch : function()
     {
-      qx.locale.Manager.getInstance().setLocale("de_DE");
-
-      var nf = new qx.util.format.NumberFormat();
+      var nf = this.__nf;
       nf.setMinimumFractionDigits(0);
       nf.setMaximumFractionDigits(2);
 
@@ -129,7 +134,7 @@ qx.Class.define("qx.test.util.NumberFormat",
 
     testNumberFormatChange : function()
     {
-      var nf = new qx.util.format.NumberFormat();
+      var nf = this.__nf;
       nf.setPostfix(" %");
 
       var numberStr = "5 Percent";

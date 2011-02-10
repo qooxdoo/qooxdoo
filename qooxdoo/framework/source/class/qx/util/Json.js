@@ -89,6 +89,12 @@ qx.Class.define("qx.util.Json",
       "object"    : "__convertObject",
       "undefined" : "__convertUndefined"
     },
+    
+    
+    /**
+     * Single instance of number format for the JSON serialization.
+     */
+    NUMBER_FORMAT : new qx.util.format.NumberFormat(),
 
 
     /**
@@ -315,7 +321,7 @@ qx.Class.define("qx.util.Json",
         }
 
         // fallback implementation
-        var formatter = qx.util.format.NumberFormat.getInstance();
+        var formatter = this.NUMBER_FORMAT;
         formatter.setMinimumIntegerDigits(2);
 
         var formated = incoming.getUTCFullYear() + '-' +

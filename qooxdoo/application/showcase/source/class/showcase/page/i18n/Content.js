@@ -283,7 +283,7 @@ qx.Class.define("showcase.page.i18n.Content",
         info[(i++ * 2) + 1] = qx.locale.Date.getDayName("wide", qx.locale.Date.getWeekStart());
 
         info[(i++ * 2) + 1] = this.tr("Format of %1:", 10000.12);
-        info[(i++ * 2) + 1] = qx.util.format.NumberFormat.getInstance().format(10000.12);
+        info[(i++ * 2) + 1] = (new qx.util.format.NumberFormat()).format(10000.12);
 
         infoLabel.setValue(info.join(""));
       };
