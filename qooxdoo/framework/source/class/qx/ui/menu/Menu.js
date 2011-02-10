@@ -142,7 +142,10 @@ qx.Class.define("qx.ui.menu.Menu",
       themeable : true
     },
 
-    /** Default icon column width if no icons are rendered */
+    /** 
+    * Default icon column width if no icons are rendered.
+    * This property is ignored as soon as an icon is present.
+    */
     iconColumnWidth :
     {
       check : "Integer",
