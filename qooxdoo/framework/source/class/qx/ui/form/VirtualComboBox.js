@@ -89,6 +89,9 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
       switch (id) {
         case "textfield" :
           control = new qx.ui.form.TextField();
+          control.addListener("changeValue", function(ev) {
+            this.fireDataEvent("changeValue", ev.getData(), ev.getOldData());
+          }, this);
           control.setFocusable(false);
           control.addState("inner");
           this._add(control, {
