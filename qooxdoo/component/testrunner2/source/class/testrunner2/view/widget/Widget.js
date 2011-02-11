@@ -63,11 +63,12 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     var mainsplit = new qx.ui.splitpane.Pane("horizontal");
     mainContainer.add(mainsplit, {flex : 1});
 
-    var deco = new qx.ui.decoration.Background().set({
-      backgroundColor : "background-medium"
-    });
-
-    this.__labelDeco = deco;
+    this.__labelDeco = null;
+    try {
+      this.__labelDeco = new qx.ui.decoration.Background().set({
+        backgroundColor : "background-medium"
+      });
+    } catch(ex) {}
     
     mainsplit.add(this.__createTestList(), 0);
     
@@ -142,7 +143,8 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     __labelDeco : null,
     __logElement : null,
     __testList : null,
-    __buttonStack : null,
+    __runButton : null,
+    __stopButton : null,
     __progressBar : null,
     __testResultView : null,
     __testCountField : null,
@@ -205,16 +207,13 @@ qx.Class.define("testrunner2.view.widget.Widget", {
             break;
         }
       }});
-
-      
-      var buttonStack = this.__buttonStack = new qx.ui.container.Stack();
-      part1.add(buttonStack);
       
       // Run button
-      var runButton = new qx.ui.toolbar.Button(this.__app.tr('<b>Run&nbsp;Tests!</b>'), "icon/22/actions/media-playback-start.png");
+      var runButton = this.__runButton = new qx.ui.toolbar.Button(this.__app.tr('<b>Run&nbsp;Tests!</b>'), "icon/22/actions/media-playback-start.png");
       runButton.set({
         textColor : "#36a618",
-        rich : true
+        rich : true,
+        visibility : "excluded"
       });
       runButton.setUserData("value", "run");
 
@@ -223,10 +222,10 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         this.fireEvent("runTests");
       }, this);
 
-      buttonStack.add(runButton);
+      part1.add(runButton);
       
       // Stop button
-      var stopButton = new qx.ui.toolbar.Button(this.__app.tr('<b>Stop&nbsp;Tests</b>'), "icon/22/actions/media-playback-stop.png");
+      var stopButton = this.__stopButton = new qx.ui.toolbar.Button(this.__app.tr('<b>Stop&nbsp;Tests</b>'), "icon/22/actions/media-playback-stop.png");
       stopButton.set({
         textColor : "#ff0000",
         rich : true
@@ -236,7 +235,8 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       stopButton.addListener("execute", function(ev) {
         this.fireEvent("stopTests");
       }, this);
-      buttonStack.add(stopButton);
+      
+      part1.add(stopButton);
       
       // Reload button
       var reloadButton = new qx.ui.toolbar.Button(this.__app.tr("Reload"), "icon/22/actions/view-refresh.png");
@@ -863,14 +863,15 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       }
     },
     
-    _setActiveButton : function(buttonValue)
+    _setActiveButton : function(buttonName)
     {
-      var buttons = this.__buttonStack.getChildren();
-      this.__buttonStack.resetSelection();
-      for (var i=0,l=buttons.length; i<l; i++) {
-        if (buttons[i].getUserData("value") === buttonValue) {
-          this.__buttonStack.setSelection([buttons[i]]);
-        }
+      if (buttonName == "run") {
+        this.__stopButton.setVisibility("excluded");
+        this.__runButton.setVisibility("visible");
+      }
+      else if (buttonName == "stop") {
+        this.__runButton.setVisibility("excluded");
+        this.__stopButton.setVisibility("visible");
       }
     },
     
