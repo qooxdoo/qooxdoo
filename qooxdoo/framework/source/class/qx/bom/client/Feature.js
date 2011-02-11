@@ -106,17 +106,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
 
 
     /** {BOOLEAN} Whether the client supports data urls or not. */
-    DATA_URL : (function() {
-      // TODO test is async... WATCH IT!
-      var data = new Image();
-      data.onload = data.onerror = function() {
-        if (data.width == 1 && data.height == 1) {
-          qx.bom.client.Feature.DATA_URL = true;
-        }
-      }
-      data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-      return false;
-    })(),
+    DATA_URL : false,
 
 
     /** {BOOLEAN} Whether the client supports the css border radius property.*/
@@ -207,6 +197,14 @@ qx.Bootstrap.define("qx.bom.client.Feature",
           this.CSS_POINTER_EVENTS = true;
         }
       }
+
+      var data = new Image();
+      data.onload = data.onerror = function() {
+        if (data.width == 1 && data.height == 1) {
+          qx.bom.client.Feature.DATA_URL = true;
+        }
+      }
+      data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
     },
 
 
