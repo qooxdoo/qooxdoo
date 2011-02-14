@@ -70,6 +70,14 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       apply : "_applyLinearBackgroundGradient"
     },
     
+    /** Defines if the given positions are in % or px.*/
+    colorPositionUnit : 
+    {
+      check : ["px", "%"],
+      init : "%",
+      apply : "_applyLinearBackgroundGradient"
+    },
+    
     
     /** Property group to set the start color inluding its start position. */
     gradientStart :
@@ -98,28 +106,31 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
      */
     _styleLinearBackgroundGradient : function(styles) {
       var Color = qx.theme.manager.Color.getInstance();
+      var unit = this.getColorPositionUnit();
 
       if (qx.bom.client.Engine.WEBKIT) {
+        // webkit uses px values if non are given
+        unit = unit === "px" ? "" : unit;
         
         if (this.getOrientation() == "horizontal") {
-          var startPos = this.getStartColorPosition() + "% 0%";
-          var endPos = this.getEndColorPosition() + "% 0%";
+          var startPos = this.getStartColorPosition() + unit +" 0" + unit;
+          var endPos = this.getEndColorPosition() + unit + " 0" + unit;
         } else {
-          var startPos = "0% " + this.getStartColorPosition() + "%";
-          var endPos = "0% " + this.getEndColorPosition() + "%";
+          var startPos = "0" + unit + " " + this.getStartColorPosition() + unit;
+          var endPos = "0" + unit +" " + this.getEndColorPosition() + unit;
         }
 
         var color = 
           "from(" + Color.resolve(this.getStartColor()) + 
-          "), to(" + Color.resolve(this.getEndColor()) + ")";
+          "),to(" + Color.resolve(this.getEndColor()) + ")";
 
         var value = "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")";
         styles["background"] = value;
 
       } else {
         var deg = this.getOrientation() == "horizontal" ? 0 : 270;
-        var start = Color.resolve(this.getStartColor()) + " " + this.getStartColorPosition() + "%";
-        var end = Color.resolve(this.getEndColor()) + " " + this.getEndColorPosition() + "%";
+        var start = Color.resolve(this.getStartColor()) + " " + this.getStartColorPosition() + unit;
+        var end = Color.resolve(this.getEndColor()) + " " + this.getEndColorPosition() + unit;
 
         var prefix = qx.bom.client.Engine.GECKO ? "-moz-" : "";
         styles["background"] = 
