@@ -20,12 +20,22 @@
 ################################################################################
 
 import os, sys, re, types, string, codecs, copy, tempfile
+from generator.runtime.ShellCmd import ShellCmd
 
 def getQooxdooVersion():
     versionFile = os.path.join(os.path.dirname(__file__), "../../../../version.txt")   # TODO: get rid of hard-coded path
     version = codecs.open(versionFile,"r", "utf-8").read()
     version = version.strip()
     return version
+
+def getQooxdooRevision():
+    shellCmd = ShellCmd()
+    rcode, out, err = shellCmd.execute_piped("svnversion")
+    if rcode > 0 or out == "exported":
+        return "unknown"
+    else:
+        return out.rstrip()
+        
 
 def getUserHome(default=""):
     if sys.platform == "win32":
@@ -42,6 +52,7 @@ class Defaults(object):
     let = {
         u"TMPDIR"          : tempfile.gettempdir(),
         u"QOOXDOO_VERSION" : getQooxdooVersion(),
+        u"QOOXDOO_REVISION": getQooxdooRevision(),
         u"USERNAME"        : os.getenv("USERNAME"),
         u"HOME"            : getUserHome("."),
         u"PYTHON_CMD"      : sys.executable,
