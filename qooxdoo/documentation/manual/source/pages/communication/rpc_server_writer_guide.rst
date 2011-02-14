@@ -253,8 +253,8 @@ methods may be created at your server:
 
 * ``getCurrentTimestamp`` - Return an object which has two properties:
 
-  * an integer representing the current time in a native format, e.g. as a number of seconds or milliseconds since midnight on 1 Jan 1970.
-  * a ``Date`` object representing that same point in time
+  * ``now``: An integer representing the current time in a native format, e.g. as a number of seconds or milliseconds since midnight on 1 Jan 1970.
+  * ``json``: A :ref:`Date <pages/rpc_server_writer_guide#date_objects>` object representing that same point in time
 
 A test of all of the primitive RPC operations is available in the qooxdoo-contrib project RpcExample.  The third tab provides a test of the operations using synchronous requests, and the fourth tab tests the operations using asyncronous requests.
 Note that the results are displayed in the debug log (in Firebug or in the debug console enabled by pressing ``F7``). You can look for ``true`` as a result of each request.
