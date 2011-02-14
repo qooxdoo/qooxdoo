@@ -29,7 +29,7 @@
     "source" :
     {
       "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple"],
-      
+
       "copy-files" :
       {
         "files" :  ["helper.js"],
@@ -37,13 +37,13 @@
         "target" : "source/script"
       }
     },
-    
+
     "source-script-classic" :
     {
       "let"     : {"QXTHEME" : "qx.theme.Classic"},
       "extend"  : ["source-script"],
       "compile-options" : {
-        "paths" : 
+        "paths" :
         {
           "file"  : "source/script/${APPLICATION}.classic.js"
         }
@@ -55,19 +55,19 @@
       "let"     : {"QXTHEME" : "qx.theme.Modern"},
       "extend"  : ["source-script"],
       "compile-options" : {
-        "paths" : 
+        "paths" :
         {
           "file"  : "source/script/${APPLICATION}.modern.js"
         }
       }
     },
-    
+
     "source-script-simple" :
     {
       "let"     : {"QXTHEME" : "qx.theme.Simple"},
       "extend"  : ["source-script"],
       "compile-options" : {
-        "paths" : 
+        "paths" :
         {
           "file"  : "source/script/${APPLICATION}.simple.js"
         }
@@ -84,9 +84,9 @@
         "build-script-simple",
         "build-files"
       ]
-      
+
     },
-    
+
     "copy-helper" :
     {
       "copy-files" :
@@ -96,13 +96,30 @@
         "target" : "build/script"
       }
     },
-    
+
+    "build-resources":
+    {
+
+      "include" :
+      [
+        "qx.theme.Classic",
+        "qx.theme.Simple",
+        "qx.theme.Modern",
+        "widgetbrowser.*"
+      ],
+
+      "copy-resources" :
+      {
+        "target" : "build"
+      }
+    },
+
     "build-script-classic" :
     {
       "let"     : {"QXTHEME" : "qx.theme.Classic"},
       "extend"  : ["build-script"],
       "compile-options" : {
-        "paths" : 
+        "paths" :
         {
           "file": "./build/script/${APPLICATION}.classic.js"
         }
@@ -114,19 +131,19 @@
       "let"     : {"QXTHEME" : "qx.theme.Modern"},
       "extend"  : ["build-script"],
       "compile-options" : {
-        "paths" : 
+        "paths" :
         {
           "file": "./build/script/${APPLICATION}.modern.js"
         }
       }
     },
-    
+
     "build-script-simple" :
     {
       "let"     : {"QXTHEME" : "qx.theme.Simple"},
       "extend"  : ["build-script"],
       "compile-options" : {
-        "paths" : 
+        "paths" :
         {
           "file": "./build/script/${APPLICATION}.simple.js"
         }
