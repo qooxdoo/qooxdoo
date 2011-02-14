@@ -140,7 +140,8 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/testrunner.js"
+          "file" : "${TESTRUNNER_ROOT}/source/script/testrunner.js",
+          "app-root" : "source"
         },
         "uris" : 
         {
@@ -340,6 +341,7 @@
           "file"    : "${BUILD_PATH}/script/tests-source.js",
           "app-root"    : "${BUILD_PATH}/html"
         },
+        
         "code" :
         {
           "locales" : "${LOCALES}"
@@ -347,6 +349,60 @@
       },
       
       "compile" : { "type" : "source" }
+    },
+    
+    "build-widget" :
+    {
+      "let" :
+      {
+        "TESTRUNNER_VIEW" : "testrunner2.view.widget.Widget",
+        "TESTRUNNER_ORIGIN" : "iframe",
+        "APPLICATION_MAIN_CLASS" : "testrunner2.GuiApplication"
+      },
+      
+      "run" : [
+        "build-widget-resources",
+        "build-files",
+        "build-script",
+        "build-tests-script"
+      ],
+        
+      "variants" :
+      {
+        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
+        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
+      }
+    },
+    
+    "build-widget-resources" :
+    {
+      "extend" : ["build-resources"],
+      
+      "include" :
+      [
+        "${APPLICATION_MAIN_CLASS}",
+        "${THEME}",
+        "${TESTRUNNER_VIEW}"
+      ]
+    },
+    
+    "source-widget" :
+    {
+      "let" :
+      {
+        "TESTRUNNER_VIEW" : "testrunner2.view.widget.Widget",
+        "TESTRUNNER_ORIGIN" : "iframe",
+        "APPLICATION_MAIN_CLASS" : "testrunner2.GuiApplication"
+      },
+      
+      "run" : ["source-script",
+        "source-tests-script"],
+        
+      "variants" :
+      {
+        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
+        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
+      }
     }
   }
 }

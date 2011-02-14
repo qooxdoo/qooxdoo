@@ -4,7 +4,21 @@
   "include" :
   [
     {
-      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+      "path" : "testrunner.json"  
+    },
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
+      "block"   : 
+      [ 
+        "common",
+        "source",
+        "source-script",
+        "build",
+        "build-script",
+        "build-resources",
+        "build-files",
+        "clean" 
+      ]
     }
   ],
   
@@ -19,9 +33,7 @@
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : ".",
     "TEST_NAMESPACE" : "${APPLICATION}.test",
-    "TEST_INCLUDE" : "${TEST_NAMESPACE}.*",
-    "TESTRUNNER_VIEW" : "testrunner2.view.Html",
-    "TESTRUNNER_ORIGIN" : "iframe"
+    "TEST_INCLUDE" : "${TEST_NAMESPACE}.*"
   },
 
   // You only need to edit the remainder of this file, if you want to customize
@@ -29,6 +41,18 @@
 
   "jobs" :
   {
+    "source-tests-script" : 
+    {
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "./source/script/tests-source.js",
+          "app-root" : "source/html"
+        }
+      }
+    }
+    /*
     "source-script-packages" :
     {
       "extend" : ["source-script"],
@@ -57,233 +81,6 @@
         "qx.testParts" : ["${TEST_NAMESPACE}.ui", "${TEST_NAMESPACE}.data"]
       }
     },
-    
-    "build-files" :
-    {
-      "copy-files" :
-      {
-        "=files" :
-        [
-          "index.html",
-          "html"
-        ]
-      }
-    },
-    
-    "build-script" :
-    {
-      "settings" :
-      {
-        "qx.testNameSpace" : "${TEST_NAMESPACE}"
-      },
-      
-      "include" :
-      [
-        "${APPLICATION_MAIN_CLASS}",
-        "${TESTRUNNER_VIEW}"
-      ],
-      
-      "compile-options" :
-      {
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/script/testrunner.js"
-        }
-      }
-    },  
-    
-    "build" :
-    {
-      "variants" :
-      {
-        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
-        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
-      },
-      
-      "=run" :
-      [
-        "build-resources",
-        "build-files",
-        "build-script",
-        "testrunner2::build-tests-script"
-      ]
-    },
-    
-    "source" :
-    {
-      "variants" :
-      {
-        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
-        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
-      },
-      
-      "=run" :
-      [
-        "source-script",
-        "source-tests-script"
-      ]
-    },
-    
-    "source-script" :
-    {
-      "extend" : ["testrunner2::source-script"],
-      
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "file" : "./source/script/testrunner.js"
-        }
-      },
-      
-      "settings" :
-      {
-        "qx.testNameSpace" : "${TEST_NAMESPACE}"
-      }
-    },
-    
-    "source-tests-script" :
-    {
-      "extend" : ["testrunner2::source-tests-script"],
-    
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "file"    : "./source/script/tests-source.js",
-          "app-root"    : "./source/html"
-        }
-      },
-      
-      "let" :
-      {
-        "QOOXDOO_PATH" : "../../../qooxdoo.trunk"
-      }
-    },
-    
-    "source-inline-script" :
-    {
-      "extend" : ["source-script", "testrunner2::tests-common"]
-    },
-    
-    "source-inline" :
-    {
-      "let" :
-      {
-        "TESTRUNNER_VIEW" : "testrunner2.view.Html",
-        "TESTRUNNER_ORIGIN" : "inline"
-      },
-    
-      "run" : [ "source-inline-script" ],
-      
-      "=variants" :
-      {
-        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
-      }
-    },
-        
-    "source-console-inline" :
-    {
-      "let" :
-      {
-        "TESTRUNNER_VIEW" : "testrunner2.view.Console",
-        "TESTRUNNER_ORIGIN" : "inline"
-      },
-    
-      "run" : [ "source-inline-script" ],
-      
-      "=variants" :
-      {
-        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
-        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
-      }
-    },
-    
-    "source-widget" :
-    {
-      "let" :
-      {
-        "TESTRUNNER_VIEW" : "testrunner2.view.widget.Widget",
-        "TESTRUNNER_ORIGIN" : "iframe"
-      },
-      
-      "run" : ["source-widget-script",
-        "source-tests-script"],
-        
-      "variants" :
-      {
-        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
-        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
-      }
-    },
-    
-    "source-widget-script" :
-    {
-      "extend" : ["source-script"],
-      
-      "let" :
-      {
-        "APPLICATION_MAIN_CLASS" : "testrunner2.GuiApplication"
-      },
-      
-      "settings" :
-      {
-        "qx.application" : "${APPLICATION_MAIN_CLASS}"
-      }
-    },
-    
-    "build-widget" :
-    {
-      "let" :
-      {
-        "TESTRUNNER_VIEW" : "testrunner2.view.widget.Widget",
-        "TESTRUNNER_ORIGIN" : "iframe"
-      },
-      
-      "run" : [
-        "build-widget-resources",
-        "build-files",
-        "build-widget-script",
-        "testrunner2::build-tests-script"
-      ],
-        
-      "variants" :
-      {
-        "testrunner2.view" : ["${TESTRUNNER_VIEW}"],
-        "testrunner2.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
-      }
-    },
-    
-    "build-widget-resources" :
-    {
-      "extend" : ["build-resources"],
-      
-      "let" :
-      {
-        "APPLICATION_MAIN_CLASS" : "testrunner2.GuiApplication"
-      },
-      
-      "include" :
-      [
-        "${APPLICATION_MAIN_CLASS}",
-        "${QXTHEME}",
-        "${TESTRUNNER_VIEW}"
-      ]
-    },
-    
-    "build-widget-script" :
-    {
-      "extend" : ["build-script"],
-      
-      "let" :
-      {
-        "APPLICATION_MAIN_CLASS" : "testrunner2.GuiApplication"
-      },
-      
-      "settings" :
-      {
-        "qx.application" : "${APPLICATION_MAIN_CLASS}"
-      }
-    }
+    */
   }
 }
