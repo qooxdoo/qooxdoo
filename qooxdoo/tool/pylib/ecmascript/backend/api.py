@@ -193,21 +193,16 @@ def handleClassDefinition(docTree, item, variant):
 
 def handleClassExtend(valueItem, classNode, docTree, className):
     superClassName = (assembleVariable(valueItem))[0]
-    if superClassName not in [
-                              "Array", "Boolean", "Date", "Error",
-                              "Function", "Math", "Number",
-                              "Object", "RegExp", "String"
-                             ]:
-        superClassNode = getClassNode(docTree, superClassName)
-        childClasses = superClassNode.get("childClasses", False)
+    superClassNode = getClassNode(docTree, superClassName)
+    childClasses = superClassNode.get("childClasses", False)
 
-        if childClasses:
-            childClasses += "," + className
-        else:
-            childClasses = className
+    if childClasses:
+        childClasses += "," + className
+    else:
+        childClasses = className
 
-        superClassNode.set("childClasses", childClasses)
-        classNode.set("superClass", superClassName)
+    superClassNode.set("childClasses", childClasses)
+    classNode.set("superClass", superClassName)
 
 
 def handleInterfaceExtend(valueItem, classNode, docTree, className):
@@ -1139,13 +1134,18 @@ def getClassNode(docTree, fullClassName, commentAttributes = None):
     if commentAttributes == None:
         commentAttributes = {}
 
-    dotIndex = fullClassName.rindex(".")
-    packageName = fullClassName[:dotIndex]
-    className = fullClassName[dotIndex+1:]
+    packageName = ""
+    className = fullClassName
+    classNode = None
+    package = None
 
-    package = getPackageNode(docTree, packageName)
+    if "." in fullClassName:
+        dotIndex = fullClassName.rindex(".")
+        packageName = fullClassName[:dotIndex]
+        className = fullClassName[dotIndex+1:]
+        package = getPackageNode(docTree, packageName)
+        classNode = package.getListChildByAttribute("classes", "name", className, False)
 
-    classNode = package.getListChildByAttribute("classes", "name", className, False)
     if not classNode:
         # The class does not exist -> Create it
         classNode = tree.Node("class")
@@ -1169,7 +1169,8 @@ def getClassNode(docTree, fullClassName, commentAttributes = None):
                 seeNode = tree.Node("see").set("name", attrib["name"])
                 classNode.addChild(seeNode)
 
-        package.addListChild("classes", classNode)
+        if package:
+            package.addListChild("classes", classNode)
 
     return classNode
 
