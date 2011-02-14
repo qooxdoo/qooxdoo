@@ -490,12 +490,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       
       testList.getSelection().bind("change", this, "selectedTests", {
         converter : qx.lang.Function.bind(function() {
-          var selection = this.__testList.getSelection();
-          var selected = [];
-          for (var i=0,l=selection.length; i<l; i++) {
-            selected.push(selection.getItem(i));
-          }
-          return selected;
+          return this.__testList.getSelection().toArray();
         }, this)
       });
       
@@ -825,10 +820,11 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       if (value && value !== old) {
         var model = qx.data.marshal.Json.createModel(value);
         this.__testList.setModel(model);
+        var selected = [];
         model.forEach(function(item) {
-          this.__testList.getSelection().push(item)
+          selected.push(item);
         }, this);
-
+        this.__testList.getSelection().append(new qx.data.Array(selected));
       }
     },
     
