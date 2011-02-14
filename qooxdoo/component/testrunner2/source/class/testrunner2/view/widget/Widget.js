@@ -892,6 +892,9 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       this.resetSuccessfulTestCount();
       this.resetSkippedTestCount();
       this.__testResultView.clear();
+      var selection = qx.lang.Array.clone(this.getSelectedTests());
+      this.resetSelectedTests();
+      this.setSelectedTests(selection);
     }
   }
 });
