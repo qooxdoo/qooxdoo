@@ -206,7 +206,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "group-background" : "#E8E8E8",
     "group-border" : "#B4B4B4",
     
-    "radiobutton-background" : "#F6F6F6",
+    "radiobutton-background" : "#EFEFEF",
     
     "checkbox-border" : "#314A6E",
     "checkbox-focus" : "#87AFE7",
