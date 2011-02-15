@@ -207,7 +207,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         // feature detect if we should use the CSS decorators
         if (qx.bom.client.Feature.CSS_BORDER_RADIUS && 
             qx.bom.client.Feature.CSS_GRADIENTS) {
-          if (states.invalid) {
+          if (states.invalid && !states.disabled) {
             decorator += "-invalid-css";            
           } else {
             decorator += "-css";
@@ -412,6 +412,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "border-invalid";
         } else {
           decorator = "input";
+        }
+        
+        if (qx.bom.client.Feature.CSS_GRADIENTS) {
+          decorator += "-css";
         }
 
         var textColor;

@@ -124,6 +124,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+
     "keyboard-focus" :
     {
       decorator : qx.ui.decoration.Single,
@@ -569,6 +570,66 @@ qx.Theme.define("qx.theme.modern.Decoration",
         outerColor : "invalid",
         innerColor : "border-focused-invalid",
         insets: [0]
+      }
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PLAIN CSS TEXT FIELD
+    ---------------------------------------------------------------------------
+    */
+
+    "input-css" :
+    {
+      decorator : [
+        qx.ui.decoration.MDoubleBorder,
+        qx.ui.decoration.MLinearBackgroundGradient,
+        qx.ui.decoration.MBackgroundColor
+      ],
+
+      style :
+      {
+        color : "border-input",
+        innerColor : "white",
+        innerWidth: 1,
+        width : 1,
+        backgroundColor : "background-light",
+        startColor : "#F0F0F0",
+        endColor : "#FBFCFB",
+        startColorPosition : 0,
+        endColorPosition : 20
+      }
+    },
+    
+    "border-invalid-css" : {
+      include : "input-css",
+      style : {
+        color : "#930000"
+      }
+    },
+
+    "input-focused-css" : {
+      include : "input-css",
+      style : {
+        startColor : "#D7E7F4",
+        innerColor : "#5CB0FD"
+      }
+    },
+    
+    "input-focused-invalid-css" : {
+      include : "input-focused-css",
+      style : {
+        innerColor : "#FF6B78",
+        color : "#930000"
+      }
+    },
+
+    "input-disabled-css" : {
+      include : "input-css",
+      style : {
+        color: "#9B9B9B"
       }
     },
 
