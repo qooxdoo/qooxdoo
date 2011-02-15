@@ -263,7 +263,7 @@
 
     "lint" :
     {
-      "exclude": ["=qx.test.*"]
+      "exclude": ["=qx.test.*", "=qx.dev.unit.Sinon"]
     },
 
     "lint-test" :
