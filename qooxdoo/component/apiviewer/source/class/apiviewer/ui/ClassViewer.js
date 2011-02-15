@@ -374,21 +374,31 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       // Create the class hierarchy
       var classHtml = new qx.util.StringBuilder("<h2>", "Inheritance hierarchy:", "</h2>");
 
-      var classHierarchy = classNode.getClassHierarchy();
+      var classHierarchy = classNode.getClassHierarchy(true);
 
-      classHtml.add(ClassViewer.createImageHtml("apiviewer/image/class18.gif"), "Object<br/>");
+      classHtml.add(ClassViewer.createImageHtml("apiviewer/image/class18.gif"), '<span style="white-space: nowrap;"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" target="_blank" title="Object">Object</a></span>');
       var indent = 0;
 
       for (var i=classHierarchy.length-1; i>=0; i--)
       {
+        if(apiviewer.dao.Class.isNativeObject(classHierarchy[i]) && classHierarchy[i].name==='Object') {
+          continue;
+        }
         classHtml.add('<div>');
         classHtml.add(
           ClassViewer.createImageHtml("apiviewer/image/nextlevel.gif", null, "margin-left:" + indent + "px"),
-          ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i]))
+          !apiviewer.dao.Class.isNativeObject(classHierarchy[i]) ? ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i])) : ClassViewer.createImageHtml("apiviewer/image/class18.gif")
         );
 
         if (i != 0) {
-          classHtml.add(apiviewer.ui.panels.InfoPanel.createItemLinkHtml(classHierarchy[i].getFullName(), null, false));
+          if(!apiviewer.dao.Class.isNativeObject(classHierarchy[i]))
+          {
+            classHtml.add(apiviewer.ui.panels.InfoPanel.createItemLinkHtml(classHierarchy[i].getFullName(), null, false));
+          }
+          else
+          {
+            classHtml.add('<span style="white-space: nowrap;"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/'+classHierarchy[i].name+'" target="_blank" title="'+classHierarchy[i].name+'">'+classHierarchy[i].name+'</a></span>');
+          }
         } else {
           classHtml.add(classHierarchy[i].getFullName());
         }

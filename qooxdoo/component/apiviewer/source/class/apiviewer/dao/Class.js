@@ -37,7 +37,8 @@ qx.Class.define("apiviewer.dao.Class",
 
   statics :
   {
-    _class_registry : {},
+    _class_registry : {"Array": Array, "Boolean": Boolean, "Date": Date, "Error": Error,
+      "Function": Function, "Math": Math, "Number": Number,"Object": Object, "RegExp": RegExp, "String": String},
     _top_level_classes : [],
 
     /**
@@ -79,6 +80,16 @@ qx.Class.define("apiviewer.dao.Class",
     getAllTopLevelClasses : function()
     {
       return this._top_level_classes;
+    },
+    
+    /**
+     * Checks if the Class is a qooxdoo apiviewer.dao.Class Object or a native one
+     * 
+     * @param clazz {apiviewer.dao.Class} the object to be checked
+     * @return {Boolean} true if it is a JS native object
+     */
+    isNativeObject : function(clazz){
+      return "apiviewer.dao.Class" !== clazz.classname;
     }
 
   },
@@ -451,15 +462,26 @@ qx.Class.define("apiviewer.dao.Class",
      * Get the documentation nodes of all classes in the inheritance chain
      * of a class. The first entry in the list is the class itself.
      *
+     * @param includeNativeObjects {Boolean} true if you want to get native JS objects too
      * @return {apiviewer.dao.Class[]} array of super classes of the given class.
      */
-    getClassHierarchy : function()
+    getClassHierarchy : function(includeNativeObjects)
     {
       var result = [];
       var currentClass = this;
       while (currentClass) {
-        result.push(currentClass);
-        currentClass = currentClass.getSuperClass();
+        if(!apiviewer.dao.Class.isNativeObject(currentClass) || (apiviewer.dao.Class.isNativeObject(currentClass) && includeNativeObjects)){
+          result.push(currentClass);
+        }
+        
+        if(!apiviewer.dao.Class.isNativeObject(currentClass))
+        {
+          currentClass = currentClass.getSuperClass();
+        }
+        else
+        {
+          currentClass = null;
+        }
       }
       return result;
     },
@@ -698,6 +720,10 @@ qx.Class.define("apiviewer.dao.Class",
 
     _findClasses : function(clazz, foundClasses)
     {
+      if(apiviewer.dao.Class.isNativeObject(clazz)){
+        return foundClasses;
+      }
+      
       foundClasses.push(clazz);
 
       var superClass = clazz.getSuperClass();
