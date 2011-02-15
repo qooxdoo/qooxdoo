@@ -661,7 +661,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
         startColor : "#F0F0F0",
         endColor : "#FBFCFB",
         startColorPosition : 0,
-        endColorPosition : 20
+        endColorPosition : 12,
+        colorPositionUnit : "px"
       }
     },
     
@@ -676,7 +677,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       include : "input-css",
       style : {
         startColor : "#D7E7F4",
-        innerColor : "#5CB0FD"
+        innerColor : "#5CB0FD",
+        endColorPosition : 4
       }
     },
     

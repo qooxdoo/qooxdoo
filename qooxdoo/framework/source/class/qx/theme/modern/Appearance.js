@@ -484,6 +484,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "input";
         }
 
+        if (qx.bom.client.Feature.CSS_GRADIENTS) {
+          decorator += "-css";
+        }
+
         return {
           decorator : decorator
         };
@@ -749,7 +753,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator : decorator,
           minHeight : states.horizontal ? undefined : 9,
-          minWidth  : states.horizontal ? 9 : undefined
+          minWidth  : states.horizontal ? 9 : undefined,
+          padding : undefined
         };
       }
     },
@@ -827,6 +832,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           decorator = "input";
         }
+        
+        if (qx.bom.client.Feature.CSS_GRADIENTS) {
+          decorator += "-css";
+        }
 
         return {
           decorator : decorator
@@ -845,7 +854,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
                                         "scrollbar-slider-horizontal",
           shadow: undefined,
           height : 14,
-          width : 14
+          width : 14,
+          padding: 0
         };
       }
     },
@@ -883,6 +893,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           decorator = "input";
         }
+        
+        if (qx.bom.client.Feature.CSS_GRADIENTS) {
+          decorator += "-css";
+        }        
 
         return {
           backgroundColor : "background-light",
