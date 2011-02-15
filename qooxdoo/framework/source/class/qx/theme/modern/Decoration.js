@@ -885,6 +885,23 @@ qx.Theme.define("qx.theme.modern.Decoration",
         insets : [ 4, 6, 7, 4 ]
       }
     },
+    
+    "tabview-pane-css" : 
+    {
+      decorator : [
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MLinearBackgroundGradient,
+        qx.ui.decoration.MSingleBorder
+      ],
+      
+      style : {
+        width: 1,
+        color: "#00204D",
+        radius : 3,
+        gradientStart : ["#FCFCFC", 90],
+        gradientEnd : ["#EEEEEE", 100]
+      }
+    },
 
     "tabview-page-button-top-active" :
     {
@@ -893,7 +910,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         baseImage : "decoration/tabview/tab-button-top-active.png"
       }
-    },
+    },   
 
     "tabview-page-button-top-inactive" :
     {
@@ -959,6 +976,118 @@ qx.Theme.define("qx.theme.modern.Decoration",
     },
 
 
+    // CSS TABVIEW BUTTONS
+    "tabview-page-button-top-active-css" :
+    {
+      decorator : [
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBackgroundColor,
+        qx.ui.decoration.MBoxShadow
+      ],
+
+      style : {
+        radius : [3, 3, 0, 0],
+        width: [1, 1, 0, 1],
+        color: "#07125A",
+        backgroundColor : "#FCFCFC",
+        shadowLength: 1,
+        shadowColor: "#8B8B8B",
+        shadowBlurRadius: 2        
+      }
+    },
+
+    "tabview-page-button-top-inactive-css" :
+    {
+      decorator : [
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MLinearBackgroundGradient
+      ],
+
+      style : {
+        radius : [3, 3, 0, 0],
+        color: "#777D8D",
+        colorBottom : "#07125A",
+        width: 1,
+        gradientStart : ["#EAEAEA", 0],
+        gradientEnd : ["#CECECE", 100]
+      }
+    },
+
+    "tabview-page-button-bottom-active-css" :
+    {
+      include : "tabview-page-button-top-active-css",
+
+      style : {
+        radius : [0, 0, 3, 3],
+        width: [0, 1, 1, 1],
+        backgroundColor : "#EAEAEA"
+      }
+    },
+
+    "tabview-page-button-bottom-inactive-css" :
+    {
+      include : "tabview-page-button-top-inactive-css",
+
+      style : {
+        radius : [0, 0, 3, 3],
+        width: [0, 1, 1, 1],
+        colorBottom : "#777D8D",
+        colorTop : "#07125A"
+      }
+    },
+
+    "tabview-page-button-left-active-css" :
+    {
+      include : "tabview-page-button-top-active-css",
+
+      style : {
+        radius : [3, 0, 0, 3],
+        width: [1, 0, 1, 1],
+        shadowLength: 0,
+        shadowBlurRadius: 0
+      }
+    },
+
+    "tabview-page-button-left-inactive-css" :
+    {
+      include : "tabview-page-button-top-inactive-css",
+
+      style : {
+        radius : [3, 0, 0, 3],
+        width: [1, 0, 1, 1],
+        colorBottom : "#777D8D",
+        colorRight : "#07125A"
+      }
+    },
+
+    "tabview-page-button-right-active-css" :
+    {
+      include : "tabview-page-button-top-active-css",
+
+      style : {
+        radius : [0, 3, 3, 0],
+        width: [1, 1, 1, 0],
+        shadowLength: 0,
+        shadowBlurRadius: 0
+      }
+    },
+
+    "tabview-page-button-right-inactive-css" :
+    {
+      include : "tabview-page-button-top-inactive-css",
+
+      style : {
+        radius : [0, 3, 3, 0],
+        width: [1, 1, 1, 0],
+        colorBottom : "#777D8D",
+        colorLeft : "#07125A"
+      }
+    },    
+    
+    
+    
 
 
     /*

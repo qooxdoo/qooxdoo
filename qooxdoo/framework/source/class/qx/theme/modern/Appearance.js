@@ -1071,8 +1071,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
+          qx.bom.client.Feature.CSS_BORDER_RADIUS
         return {
-          decorator : "tabview-pane",
+          decorator : useCSS ? "tabview-pane-css" : "tabview-pane",
           minHeight : 100,
 
           marginBottom : states.barBottom ? -1 : 0,
@@ -1083,7 +1085,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "tabview-page" : "widget",
+    "tabview-page" : {
+      alias : "widget",
+      include : "widget",
+      
+      style : function(states) {
+        // is used for the padding of the pane
+        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
+          qx.bom.client.Feature.CSS_BORDER_RADIUS
+        return {
+          padding : useCSS ? [4, 3] : undefined
+        }
+      }
+    },
 
     "tabview-page/button" :
     {
@@ -1094,33 +1108,39 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var decorator, padding=0;
         var marginTop=0, marginBottom=0, marginLeft=0, marginRight=0;
 
+        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS && 
+          qx.bom.client.Feature.CSS_BOX_SHADOW &&
+          qx.bom.client.Feature.CSS_GRADIENTS;
+
         if (states.checked)
         {
           if (states.barTop)
           {
             decorator = "tabview-page-button-top-active";
-            padding = [ 6, 14 ];
+            padding = useCSS ? [5, 11] : [ 6, 14 ];
             marginLeft = states.firstTab ? 0 : -5;
             marginRight = states.lastTab ? 0 : -5;
           }
           else if (states.barBottom)
           {
             decorator = "tabview-page-button-bottom-active";
-            padding = [ 6, 14 ];
+            padding = useCSS ? [5, 11] : [ 6, 14 ];
             marginLeft = states.firstTab ? 0 : -5;
             marginRight = states.lastTab ? 0 : -5;
+            marginTop = 3;
           }
           else if (states.barRight)
           {
             decorator = "tabview-page-button-right-active";
-            padding = [ 6, 13 ];
+            padding = useCSS ? [5, 10] : [ 6, 13 ];
             marginTop = states.firstTab ? 0 : -5;
             marginBottom = states.lastTab ? 0 : -5;
+            marginLeft = 2;
           }
           else
           {
             decorator = "tabview-page-button-left-active";
-            padding = [ 6, 13 ];
+            padding = useCSS ? [5, 10] : [ 6, 13 ];
             marginTop = states.firstTab ? 0 : -5;
             marginBottom = states.lastTab ? 0 : -5;
           }
@@ -1130,7 +1150,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           if (states.barTop)
           {
             decorator = "tabview-page-button-top-inactive";
-            padding = [ 4, 10 ];
+            padding = useCSS ? [3, 9] : [ 4, 10 ];
             marginTop = 4;
             marginLeft = states.firstTab ? 5 : 1;
             marginRight = 1;
@@ -1138,29 +1158,34 @@ qx.Theme.define("qx.theme.modern.Appearance",
           else if (states.barBottom)
           {
             decorator = "tabview-page-button-bottom-inactive";
-            padding = [ 4, 10 ];
+            padding = useCSS ? [3, 9] : [ 4, 10 ];
             marginBottom = 4;
             marginLeft = states.firstTab ? 5 : 1;
             marginRight = 1;
+            marginTop = 3;
           }
           else if (states.barRight)
           {
             decorator = "tabview-page-button-right-inactive";
-            padding = [ 4, 10 ];
+            padding = useCSS ? [3, 9] : [ 4, 10 ];
             marginRight = 5;
             marginTop = states.firstTab ? 5 : 1;
             marginBottom = 1;
-            marginLeft = 1;
+            marginLeft = 3;
           }
           else
           {
             decorator = "tabview-page-button-left-inactive";
-            padding = [ 4, 10 ];
+            padding = useCSS ? [3, 9] : [ 4, 10 ];
             marginLeft = 5;
             marginTop = states.firstTab ? 5 : 1;
             marginBottom = 1;
             marginRight = 1;
           }
+        }
+        
+        if (decorator && useCSS) {
+          decorator += "-css";
         }
 
         return {
