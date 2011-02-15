@@ -48,6 +48,7 @@
       "settings" :
       {
         "qx.version" : "${QOOXDOO_VERSION}",
+        "qx.revision" : "${QOOXDOO_REVISION}",
         "qx.application" : "${APPLICATION}.Application",
         "qx.theme" : "${THEME}"
       },

@@ -33,6 +33,7 @@
         "qx.application"  : "${APIVIEWER}.Application",
         "qx.theme"        : "${APIVIEWER}.Theme",
         "qx.version"      : "${QOOXDOO_VERSION}",
+        "qx.revision"     : "${QOOXDOO_REVISION}",
         "qx.nativeScrollBars" : true
       },
 
