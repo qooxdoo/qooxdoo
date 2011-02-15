@@ -165,13 +165,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var decorator, textColor;
-        var padding = [3, 10]; // default padding css-case
+        var padding = [3, 9]; // default padding css-case
 
         if (states.checked && states.focused && !states.inner)
         {
           decorator = "button-checked-focused";
           textColor = undefined;
-          padding = [1, 6];
+          padding = [1, 7];
         }
         else if (states.disabled)
         {
@@ -197,7 +197,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         {
           decorator = "button-focused";
           textColor = undefined;
-          padding = [1, 6];
+          padding = [1, 7];
         }
         else
         {
@@ -207,7 +207,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         
         var shadow;
         // feature detect if we should use the CSS decorators
-        if (qx.bom.client.Feature.CSS_BORDER_RADIUS && 
+        if (qx.bom.client.Feature.CSS_BORDER_RADIUS &&
             qx.bom.client.Feature.CSS_GRADIENTS) {
           if (states.invalid && !states.disabled) {
             decorator += "-invalid-css";            
@@ -276,11 +276,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       alias : "button",
       include : "button",
 
-      style : function(states)
+      style : function(states, superStyles)
       {
         return {
           icon : "decoration/arrows/down.png",
-          padding : 2,
+          padding : [superStyles.padding[0], superStyles.padding[1] - 6],
           marginLeft : 1
         };
       }
@@ -507,11 +507,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       alias : "button-frame",
       include : "button-frame",
 
-      style : function(states)
+      style : function(states, superStyles)
       {
         return {
           icon : "decoration/arrows/up-small.png",
-          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
+          padding : [superStyles.padding[0] - 1, superStyles.padding[1] - 5],
           shadow: undefined
         };
       }
@@ -522,11 +522,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       alias : "button-frame",
       include : "button-frame",
 
-      style : function(states)
+      style : function(states, superStyles)
       {
         return {
           icon : "decoration/arrows/down-small.png",
-          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
+          padding : [superStyles.padding[0] - 1, superStyles.padding[1] - 5],
           shadow: undefined
         };
       }
@@ -784,7 +784,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         else
         {
           return {
-            padding : [0, 0, 0, 2],
+            padding : 3,
             icon : icon,
             width: 14,
             height: 15
@@ -1937,18 +1937,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "selectbox" :
-    {
-      alias : "button-frame",
-      include : "button-frame",
-
-      style : function(states)
-      {
-        return {
-          padding : [ 2, 8 ]
-        };
-      }
-    },
+    "selectbox" : "button-frame",
 
     "selectbox/atom" : "atom",
     "selectbox/popup" : "popup",
@@ -2168,11 +2157,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       include : "button-frame",
       alias   : "button-frame",
 
-      style : function(states)
+      style : function(states, superStyles)
       {
         var ret = {
           icon : "decoration/arrows/down.png",
-          padding : 2,
+          padding : [superStyles.padding[0], superStyles.padding[1] - 6],
           shadow : undefined
         };
 

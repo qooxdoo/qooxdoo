@@ -392,8 +392,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
         color: "#464646",
         width: 1,
         startColor: "#F0F0F0",
-        endColor: "#9F9F9F",
-        startColorPosition: 30,
+        endColor: "#AFAFAF",
+        startColorPosition: 35,
         endColorPosition: 100
       }
     },
@@ -422,7 +422,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       include : "button-css",
       style : {
         endColor: "#F0F0F0",
-        startColor: "#9F9F9F"
+        startColor: "#AFAFAF"
       }
     },
 
@@ -450,7 +450,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerColor: "#83BAEA",
         innerWidth: 2,
         startColor: "#F0F0F0",
-        endColor: "#9F9F9F",
+        endColor: "#AFAFAF",
         startColorPosition: 30,
         endColorPosition: 100
       }
@@ -460,7 +460,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       include : "button-focused-css",
       style : {
         endColor: "#F0F0F0",
-        startColor: "#9F9F9F"
+        startColor: "#AFAFAF"
       }
     },
     
