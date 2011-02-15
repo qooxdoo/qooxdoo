@@ -102,9 +102,15 @@ qx.Theme.define("qx.theme.modern.Color",
 
     // menus, tables, scrollbars, list, etc.
     "border-main" : "#4d4d4d",
+    "menu-separator-top" : "#C5C5C5",
+    "menu-separator-bottom" : "#FAFAFA",
 
     // between toolbars
     "border-separator" : "#808080",
+    "broder-toolbar-button-outer" : "#b6b6b6",
+    "broder-toolbar-broder-inner" : "#f8f8f8",
+    "border-toolbar-separator-right" : "#f4f4f4",
+    "border-toolbar-separator-left" : "#b8b8b8",
 
     // text fields
     "border-input" : "#334866",
@@ -128,6 +134,8 @@ qx.Theme.define("qx.theme.modern.Color",
     "invalid" : "#990000",
     "border-focused-invalid" : "#FF9999",
 
+    // drag & drop
+    "border-dragover" : "#33508D",
 
     /*
     ---------------------------------------------------------------------------
@@ -167,6 +175,8 @@ qx.Theme.define("qx.theme.modern.Color",
     */
 
     "progressive-table-header"              : "#AAAAAA",
+    "progressive-table-header-border-right" : "#F2F2F2",
+
 
     "progressive-table-row-background-even" : "#F4F4F4",
     "progressive-table-row-background-odd"  : "#E4E4E4",
@@ -175,6 +185,99 @@ qx.Theme.define("qx.theme.modern.Color",
     "progressive-progressbar-indicator-done"     : "#CCCCCC",
     "progressive-progressbar-indicator-undone"   : "white",
     "progressive-progressbar-percent-background" : "gray",
-    "progressive-progressbar-percent-text"       : "white"
+    "progressive-progressbar-percent-text"       : "white",
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      CSS ONLY COLORS
+    ---------------------------------------------------------------------------
+    */
+    "selected-start" : "#004DAD",
+    "selected-end" : "#00368A",
+    
+    "tabview-background" : "#07125A",
+
+    "shadow" : "#999999",
+    
+    "pane-start" : "#FBFBFB",
+    "pane-end" : "#F0F0F0",
+    
+    "group-background" : "#E8E8E8",
+    "group-border" : "#B4B4B4",
+    
+    "radiobutton-background" : "#F6F6F6",
+    
+    "checkbox-border" : "#314A6E",
+    "checkbox-focus" : "#87AFE7",
+    "checkbox-hovered" : "#B2D2FF",
+    "checkbox-hovered-inner" : "#D1E4FF",
+    "checkbox-inner" : "#EEEEEE",
+    "checkbox-start" : "#E4E4E4",
+    "checkbox-end" : "#F3F3F3",
+    "checkbox-disabled-border" : "#787878",
+    "checkbox-disabled-inner" : "#CACACA",
+    "checkbox-disabled-start" : "#D0D0D0",
+    "checkbox-disabled-end" : "#D8D8D8",
+    "checkbox-hovered-inner-invalid" : "#FAF2F2",
+    "checkbox-hovered-invalid" : "#F7E9E9",
+
+    "radiobutton-checked" : "#005BC3",
+    "radiobutton-disabled" : "#D5D5D5",
+    "radiobutton-checked-disabled" : "#7B7B7B",
+    "radiobutton-hovered-invalid" : "#F7EAEA",
+    
+    "tooltip-error" : "#C82C2C",
+    
+    "scrollbar-start" : "#CCCCCC",
+    "scrollbar-end" : "#F1F1F1",
+    "scrollbar-slider-start" : "#EEEEEE",
+    "scrollbar-slider-end" : "#C3C3C3",
+    
+    "button-border-disabeld" : "#959595",
+    "button-border" : "#464646",
+    "button-start" : "#F0F0F0",
+    "button-end" : "#AFAFAF",
+    "button-disabled-start" : "#F4F4F4",
+    "button-disabled-end" : "#BABABA",
+    "button-hovered-start" : "#F0F9FE",
+    "button-hovered-end" : "#8EB8D6",
+    "button-focused" : "#83BAEA",
+    
+    "border-invalid" : "#930000",
+    
+    "input-start" : "#F0F0F0",
+    "input-end" : "#FBFCFB",
+    "input-focused-start" : "#D7E7F4",
+    "input-focused-end" : "#5CB0FD",
+    "input-focused-inner-invalid" : "#FF6B78",
+    "input-border-disabled" : "#9B9B9B",
+    
+    "toolbar-start" : "#EFEFEF",
+    "toolbar-end" : "#DDDDDD",
+    
+    "window-border" : "#00204D",
+    "window-border-caption" : "#727272",
+    "window-caption-active-start" : "#084FAA",
+    "window-caption-active-end" : "#003B91",
+    "window-caption-inactive-start" : "#F2F2F2",
+    "window-caption-inactive-end" : "#DBDBDB",
+    "window-statusbar-background" : "#EFEFEF",
+    
+    "tabview-start" : "#FCFCFC",
+    "tabview-end" : "#EEEEEE",
+    "tabview-inactive" : "#777D8D",
+    "tabview-inactive-start" : "#EAEAEA",
+    "tabview-inactive-end" : "#CECECE",
+    
+    "table-header-start" : "#E8E8E8",
+    "table-header-end" : "#B3B3B3",
+    
+    "menu-start" : "#E8E8E9",
+    "menu-end" : "#D9D9D9",
+    "menubar-start" : "#E8E8E8",
+    
+    "groupitem-start" : "#A7A7A7",
+    "groupitem-end" : "#949494"
   }
 });

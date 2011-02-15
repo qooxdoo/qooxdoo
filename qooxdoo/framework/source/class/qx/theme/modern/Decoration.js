@@ -77,8 +77,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         startColorPosition : 0,
         endColorPosition : 100,
-        startColor : "#004DAD",
-        endColor : "#00368A"
+        startColor : "selected-start",
+        endColor : "selected-end"
       }
     },
 
@@ -90,7 +90,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         backgroundImage  : "decoration/selection.png",
         backgroundRepeat : "scale",
-        bottom: [2, "solid", "#33508D"]
+        bottom: [2, "solid", "border-dragover"]
       }
     },
 
@@ -100,7 +100,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        bottom: [2, "solid", "#33508D"]
+        bottom: [2, "solid", "border-dragover"]
       }
     },
 
@@ -124,13 +124,13 @@ qx.Theme.define("qx.theme.modern.Decoration",
       ],
       style : {
         width: 1,
-        color: "#07125A",
+        color: "tabview-background",
         radius : 3,
-        shadowColor : "#999999",
+        shadowColor : "shadow",
         shadowBlurRadius : 2,
         shadowLength : 0,
-        gradientStart : ["#FBFBFB", 0],
-        gradientEnd : ["#F0F0F0", 100]
+        gradientStart : ["pane-start", 0],
+        gradientEnd : ["pane-end", 100]
       }
     },
 
@@ -152,9 +152,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       ],
       
       style : {
-        backgroundColor : "#E8E8E8",
+        backgroundColor : "group-background",
         radius : 4,
-        color : "#B4B4B4",
+        color : "group-border",
         width: 1
       }
     },
@@ -200,15 +200,15 @@ qx.Theme.define("qx.theme.modern.Decoration",
         qx.ui.decoration.MBoxShadow
       ],
       style : {
-        backgroundColor : "#F6F6F6",
+        backgroundColor : "radiobutton-background",
         radius : 5,
         width: 1,
         innerWidth : 2,
-        color : "#314A6E",
-        innerColor : "#F6F6F6",
+        color : "checkbox-border",
+        innerColor : "radiobutton-background",
         shadowLength : 0,
         shadowBlurRadius : 0, 
-        shadowColor : "#87AFE7",
+        shadowColor : "checkbox-focus",
         insetLeft: 5 // used for the shadow (3 border + 2 extra for the shadow)
       }
     },
@@ -216,7 +216,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "radiobutton-checked" : {
       include : "radiobutton",
       style : {
-        backgroundColor : "#005BC3"
+        backgroundColor : "radiobutton-checked"
       }
     },
         
@@ -230,7 +230,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "radiobutton-checked-hovered" : {
       include : "radiobutton-checked",
       style : {
-        innerColor : "#B2D2FF"
+        innerColor : "checkbox-hovered"
       }
     },
     
@@ -244,24 +244,24 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "radiobutton-hovered" : {
       include : "radiobutton",
       style : {
-        backgroundColor : "#B2D2FF",
-        innerColor : "#B2D2FF"
+        backgroundColor : "checkbox-hovered",
+        innerColor : "checkbox-hovered"
       }
     },
 
     "radiobutton-disabled" : {
       include : "radiobutton",
       style : {
-        innerColor : "#D5D5D5",
-        backgroundColor : "#D5D5D5",
-        color : "#787878"
+        innerColor : "radiobutton-disabled",
+        backgroundColor : "radiobutton-disabled",
+        color : "checkbox-disabled-border"
       }
     },
 
     "radiobutton-checked-disabled" : {
       include : "radiobutton-disabled",
       style : {
-        backgroundColor : "#7B7B7B"
+        backgroundColor : "radiobutton-checked-disabled"
       }
     },
 
@@ -291,7 +291,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       include : "radiobutton-checked-hovered",
       style : {
         color : "invalid",
-        innerColor : "#F7EAEA"
+        innerColor : "radiobutton-hovered-invalid"
       }
     },
     
@@ -307,8 +307,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       include : "radiobutton-hovered",
       style : {
         color : "invalid",
-        innerColor : "#F7EAEA",
-        backgroundColor : "#F7EAEA"
+        innerColor : "radiobutton-hovered-invalid",
+        backgroundColor : "radiobutton-hovered-invalid"
       }
     },
 
@@ -368,9 +368,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       ],
 
       style : {
-        backgroundColor : "#C82C2C",
+        backgroundColor : "tooltip-error",
         radius : 4,
-        shadowColor : "#999999",
+        shadowColor : "shadow",
         shadowBlurRadius : 2,
         shadowLength : 1
       }
@@ -414,7 +414,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       ],
 
       style : {
-        shadowColor : "#999999",
+        shadowColor : "shadow",
         shadowBlurRadius : 2,
         shadowLength : 1
       }
@@ -442,7 +442,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         width : 1,
         color : "border-main",
-        shadowColor : "#999999",
+        shadowColor : "shadow",
         shadowBlurRadius : 3,
         shadowLength : 1
       }
@@ -534,8 +534,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "scrollbar-horizontal-css" : {
       decorator : [qx.ui.decoration.MLinearBackgroundGradient],
       style : {
-        gradientStart : ["#CCCCCC", 0],
-        gradientEnd : ["#F1F1F1", 100]
+        gradientStart : ["scrollbar-start", 0],
+        gradientEnd : ["scrollbar-end", 100]
       }
     },
 
@@ -554,8 +554,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       ],
 
       style : {
-        gradientStart : ["#EEEEEE", 0],
-        gradientEnd : ["#C3C3C3", 100],
+        gradientStart : ["scrollbar-slider-start", 0],
+        gradientEnd : ["scrollbar-slider-end", 100],
         
         color : "border-main",
         width: 1
@@ -574,7 +574,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       include : "scrollbar-slider-horizontal-css",
       style : {
-        color : "#959595"
+        color : "button-border-disabeld"
       }
     },
 
@@ -582,7 +582,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       include : "scrollbar-slider-vertical-css",
       style : {
-        color : "#959595"
+        color : "button-border-disabeld"
       }
     },
 
@@ -604,10 +604,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         radius: 3,
-        color: "#464646",
+        color: "button-border",
         width: 1,
-        startColor: "#F0F0F0",
-        endColor: "#AFAFAF",
+        startColor: "button-start",
+        endColor: "button-end",
         startColorPosition: 35,
         endColorPosition: 100
       }
@@ -617,9 +617,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       include : "button-css",
       style : {
-        color : "#959595",
-        startColor: "#F4F4F4",
-        endColor: "#BABABA"
+        color : "button-border-disabeld",
+        startColor: "button-disabled-start",
+        endColor: "button-disabled-end"
       }
     },
     
@@ -627,8 +627,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       include : "button-css",
       style : {
-        startColor : "#F0F9FE",
-        endColor : "#8EB8D6"
+        startColor : "button-hovered-start",
+        endColor : "button-hovered-end"
       }
     },
 
@@ -636,8 +636,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       include : "button-css",
       style : {
-        endColor: "#F0F0F0",
-        startColor: "#AFAFAF"
+        endColor: "button-start",
+        startColor: "button-end"
       }
     },
 
@@ -645,8 +645,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       include : "button-css",
       style : {
-        endColor : "#F0F9FE",
-        startColor : "#8EB8D6"
+        endColor : "button-hovered-start",
+        startColor : "button-hovered-end"
       }
     },
     
@@ -660,12 +660,12 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         radius: 3,
-        color: "#464646",
+        color: "button-border",
         width: 1,
-        innerColor: "#83BAEA",
+        innerColor: "button-focused",
         innerWidth: 2,
-        startColor: "#F0F0F0",
-        endColor: "#AFAFAF",
+        startColor: "button-start",
+        endColor: "button-end",
         startColorPosition: 30,
         endColorPosition: 100
       }
@@ -674,8 +674,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "button-checked-focused-css" : {
       include : "button-focused-css",
       style : {
-        endColor: "#F0F0F0",
-        startColor: "#AFAFAF"
+        endColor: "button-start",
+        startColor: "button-end"
       }
     },
     
@@ -683,7 +683,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "button-invalid-css" : {
       include : "button-css",
       style : {
-        color: "#930000"
+        color: "border-invalid"
       }
     },
     
@@ -691,7 +691,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       include : "button-disabled-css",
       style : {
-        color : "#930000"
+        color : "border-invalid"
       }
     },
     
@@ -699,7 +699,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       include : "button-hovered-css",
       style : {
-        color : "#930000"
+        color : "border-invalid"
       }
     },
 
@@ -707,7 +707,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       include : "button-checked-css",
       style : {
-        color : "#930000"
+        color : "border-invalid"
       }
     },
 
@@ -715,21 +715,21 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       include : "button-pressed-css",
       style : {
-        color : "#930000"
+        color : "border-invalid"
       }
     },
     
     "button-focused-invalid-css" : {
       include : "button-focused-css",
       style : {
-        color : "#930000"
+        color : "border-invalid"
       }
     },
     
     "button-checked-focused-invalid-css" : {
       include : "button-checked-focused-css",
       style : {
-        color : "#930000"
+        color : "border-invalid"
       }
     },    
     
@@ -864,16 +864,16 @@ qx.Theme.define("qx.theme.modern.Decoration",
       
       style : {
         width: 1,
-        color: "#314A6E",
+        color: "checkbox-border",
         innerWidth : 1,
-        innerColor : "#EEEEEE",
+        innerColor : "checkbox-inner",
         
-        gradientStart : ["#E4E4E4", 0],
-        gradientEnd : ["#F3F3F3", 100],
+        gradientStart : ["checkbox-start", 0],
+        gradientEnd : ["checkbox-end", 100],
         
         shadowLength : 0,
         shadowBlurRadius : 0,
-        shadowColor : "#87AFE7",
+        shadowColor : "checkbox-focus",
         
         insetLeft: 4 // (2 for the broder and two for the glow effect)
       }
@@ -882,10 +882,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "checkbox-hovered" : {
       include : "checkbox",
       style : {
-        innerColor : "#D1E4FF",
+        innerColor : "checkbox-hovered-inner",
         // use the same color to get a single colored background
-        gradientStart : ["#B2D2FF", 0],
-        gradientEnd : ["#B2D2FF", 100]
+        gradientStart : ["checkbox-hovered", 0],
+        gradientEnd : ["checkbox-hovered", 100]
       }
     },
     
@@ -899,10 +899,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "checkbox-disabled" : {
       include : "checkbox",
       style : {
-        color : "#757575",
-        innerColor : "#CACACA",
-        gradientStart : ["#D0D0D0", 0],
-        gradientEnd : ["#D8D8D8", 100]
+        color : "checkbox-disabled-border",
+        innerColor : "checkbox-disabled-inner",
+        gradientStart : ["checkbox-disabled-start", 0],
+        gradientEnd : ["checkbox-disabled-end", 100]
       }
     },
 
@@ -917,9 +917,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       include : "checkbox-hovered",
       style : {
         color : "invalid",
-        innerColor : "#FaF2F2",
-        gradientStart : ["#F7E9E9", 0],
-        gradientEnd : ["#F7E9E9", 100]
+        innerColor : "checkbox-hovered-inner-invalid",
+        gradientStart : ["checkbox-hovered-invalid", 0],
+        gradientEnd : ["checkbox-hovered-invalid", 100]
       }
     },
     
@@ -954,8 +954,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerWidth: 1,
         width : 1,
         backgroundColor : "background-light",
-        startColor : "#F0F0F0",
-        endColor : "#FBFCFB",
+        startColor : "input-start",
+        endColor : "input-end",
         startColorPosition : 0,
         endColorPosition : 12,
         colorPositionUnit : "px"
@@ -965,15 +965,15 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "border-invalid-css" : {
       include : "input-css",
       style : {
-        color : "#930000"
+        color : "border-invalid"
       }
     },
 
     "input-focused-css" : {
       include : "input-css",
       style : {
-        startColor : "#D7E7F4",
-        innerColor : "#5CB0FD",
+        startColor : "input-focused-start",
+        innerColor : "input-focused-end",
         endColorPosition : 4
       }
     },
@@ -981,15 +981,15 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "input-focused-invalid-css" : {
       include : "input-focused-css",
       style : {
-        innerColor : "#FF6B78",
-        color : "#930000"
+        innerColor : "input-focused-inner-invalid",
+        color : "border-invalid"
       }
     },
 
     "input-disabled-css" : {
       include : "input-css",
       style : {
-        color: "#9B9B9B"
+        color: "input-border-disabled"
       }
     },
 
@@ -1088,8 +1088,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         startColorPosition : 40,
         endColorPosition : 60,
-        startColor : "#EFEFEF",
-        endColor : "#DDDDDD"
+        startColor : "toolbar-start",
+        endColor : "toolbar-end"
       }
     },
 
@@ -1099,8 +1099,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        outerColor : "#b6b6b6",
-        innerColor : "#f8f8f8",
+        outerColor : "broder-toolbar-button-outer",
+        innerColor : "broder-toolbar-broder-inner",
         backgroundImage : "decoration/form/button-c.png",
         backgroundRepeat : "scale"
       }
@@ -1112,8 +1112,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        outerColor : "#b6b6b6",
-        innerColor : "#f8f8f8",
+        outerColor : "broder-toolbar-button-outer",
+        innerColor : "broder-toolbar-broder-inner",
         backgroundImage : "decoration/form/button-checked-c.png",
         backgroundRepeat : "scale"
       }
@@ -1129,13 +1129,13 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        color : "#b6b6b6",
+        color : "broder-toolbar-button-outer",
         width: 1,
         innerWidth: 1,
-        innerColor : "#f8f8f8",
+        innerColor : "broder-toolbar-broder-inner",
         radius : 2,    
-        gradientStart : ["#F0F0F0", 30],
-        gradientEnd : ["#AFAFAF", 100]
+        gradientStart : ["button-start", 30],
+        gradientEnd : ["button-end", 100]
       }
     },
 
@@ -1145,8 +1145,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        gradientStart : ["#AFAFAF", 30],
-        gradientEnd : ["#F0F0F0", 100]
+        gradientStart : ["button-end", 30],
+        gradientEnd : ["button-start", 100]
       }
     },    
 
@@ -1159,8 +1159,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
         widthLeft : 1,
         widthRight : 1,
 
-        colorLeft : "#b8b8b8",
-        colorRight : "#f4f4f4",
+        colorLeft : "border-toolbar-separator-left",
+        colorRight : "border-toolbar-separator-right",
 
         styleLeft : "solid",
         styleRight : "solid"
@@ -1208,10 +1208,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
       
       style : {
         width: 1,
-        color: "#00204D",
+        color: "window-border",
         radius : 3,
-        gradientStart : ["#FCFCFC", 90],
-        gradientEnd : ["#EEEEEE", 100]
+        gradientStart : ["tabview-start", 90],
+        gradientEnd : ["tabview-end", 100]
       }
     },
 
@@ -1301,10 +1301,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         radius : [3, 3, 0, 0],
         width: [1, 1, 0, 1],
-        color: "#07125A",
-        backgroundColor : "#FCFCFC",
+        color: "tabview-background",
+        backgroundColor : "tabview-start",
         shadowLength: 1,
-        shadowColor: "#8B8B8B",
+        shadowColor: "shadow",
         shadowBlurRadius: 2        
       }
     },
@@ -1319,11 +1319,11 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style : {
         radius : [3, 3, 0, 0],
-        color: "#777D8D",
-        colorBottom : "#07125A",
+        color: "tabview-inactive",
+        colorBottom : "tabview-background",
         width: 1,
-        gradientStart : ["#EAEAEA", 0],
-        gradientEnd : ["#CECECE", 100]
+        gradientStart : ["tabview-inactive-start", 0],
+        gradientEnd : ["tabview-inactive-end", 100]
       }
     },
 
@@ -1334,7 +1334,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         radius : [0, 0, 3, 3],
         width: [0, 1, 1, 1],
-        backgroundColor : "#EAEAEA"
+        backgroundColor : "tabview-inactive-start"
       }
     },
 
@@ -1345,8 +1345,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         radius : [0, 0, 3, 3],
         width: [0, 1, 1, 1],
-        colorBottom : "#777D8D",
-        colorTop : "#07125A"
+        colorBottom : "tabview-inactive",
+        colorTop : "tabview-background"
       }
     },
 
@@ -1369,8 +1369,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         radius : [3, 0, 0, 3],
         width: [1, 0, 1, 1],
-        colorBottom : "#777D8D",
-        colorRight : "#07125A"
+        colorBottom : "tabview-inactive",
+        colorRight : "tabview-background"
       }
     },
 
@@ -1393,8 +1393,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         radius : [0, 3, 3, 0],
         width: [1, 1, 1, 0],
-        colorBottom : "#777D8D",
-        colorLeft : "#07125A"
+        colorBottom : "tabview-inactive",
+        colorLeft : "tabview-background"
       }
     },    
     
@@ -1484,22 +1484,22 @@ qx.Theme.define("qx.theme.modern.Decoration",
       ],
       style : {
         width : 1,
-        color : "#00204D",
-        colorBottom : "#727272",
+        color : "window-border",
+        colorBottom : "window-border-caption",
         radius : [5, 5, 0, 0],
-        gradientStart : ["#084FAA", 30],
-        gradientEnd : ["#003B91", 70],
+        gradientStart : ["window-caption-active-start", 30],
+        gradientEnd : ["window-caption-active-end", 70],
         shadowBlurRadius : 4,
         shadowLength : 2,
-        shadowColor : "#999999"
+        shadowColor : "shadow"
       }
     },
     
     "window-captionbar-inactive-css" : {
       include : "window-captionbar-active-css",
       style : {
-        gradientStart : ["#F2F2F2", 30],
-        gradientEnd : ["#DBDBDB", 70]
+        gradientStart : ["window-caption-inactive-start", 30],
+        gradientEnd : ["window-caption-inactive-end", 70]
       }
     },    
 
@@ -1513,13 +1513,13 @@ qx.Theme.define("qx.theme.modern.Decoration",
       ],
 
       style : {
-        backgroundColor : "#EFEFEF",
+        backgroundColor : "window-statusbar-background",
         width: [0, 1, 1, 1],
-        color: "#00204D",
+        color: "window-border",
         radius : [0, 0, 5, 5],
         shadowBlurRadius : 4,
         shadowLength : 2,
-        shadowColor : "#999999"
+        shadowColor : "shadow"
       }
     },
 
@@ -1541,7 +1541,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         
         shadowBlurRadius : 4,
         shadowLength : 2,
-        shadowColor : "#999999"
+        shadowColor : "shadow"
       }
     },
 
@@ -1601,8 +1601,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        gradientStart : ["#E8E8E8", 10],
-        gradientEnd : ["#B3B3B3", 90],
+        gradientStart : ["table-header-start", 10],
+        gradientEnd : ["table-header-end", 90],
 
         widthBottom : 1,
         colorBottom : "border-main"
@@ -1682,7 +1682,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "scale",
 
         widthRight : 1,
-        colorRight : "#F2F2F2",
+        colorRight : "progressive-table-header-border-right",
         style      : "solid"
       }
     },
@@ -1696,11 +1696,11 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        gradientStart : ["#E8E8E8", 10],
-        gradientEnd : ["#B3B3B3", 90],
+        gradientStart : ["table-header-start", 10],
+        gradientEnd : ["table-header-end", 90],
 
         widthRight : 1,
-        colorRight : "#F2F2F2"
+        colorRight : "progressive-table-header-border-right"
       }
     },
 
@@ -1733,9 +1733,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
         qx.ui.decoration.MSingleBorder
       ],
       style : {
-        gradientStart : ["#E8E8E9", 0],
-        gradientEnd : ["#D9D9D9", 100],
-        shadowColor : "#999999",
+        gradientStart : ["menu-start", 0],
+        gradientEnd : ["menu-end", 100],
+        shadowColor : "shadow",
         shadowBlurRadius : 2,
         shadowLength : 1,
         width : 1,
@@ -1750,10 +1750,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         widthTop    : 1,
-        colorTop    : "#C5C5C5",
+        colorTop    : "menu-separator-top",
 
         widthBottom : 1,
-        colorBottom : "#FAFAFA"
+        colorBottom : "menu-separator-bottom"
       }
     },
 
@@ -1788,8 +1788,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        gradientStart : ["#E8E8E8", 0],
-        gradientEnd : ["#D9D9D9", 100],
+        gradientStart : ["menubar-start", 0],
+        gradientEnd : ["menu-end", 100],
 
         width : 1,
         color : "border-separator"
@@ -1858,8 +1858,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         startColorPosition : 0,
         endColorPosition : 100,
-        startColor : "#A7A7A7",
-        endColor : "#949494"
+        startColor : "groupitem-start",
+        endColor : "groupitem-end"
       }
     }    
   }
