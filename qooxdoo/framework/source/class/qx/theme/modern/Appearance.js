@@ -302,60 +302,114 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        // The "disabled" icon is set to an icon **without** the -disabled
-        // suffix on purpose. This is because the Image widget handles this
-        // already by replacing the current image with a disabled version
-        // (if available). If no disabled image is found, the opacity style
-        // is used.
+        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
+          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        
         var icon;
-
-        // Checked
-        if (states.checked) {
-          if (states.disabled) {
-            icon = "checkbox-checked";
-          } else if (states.focused) {
-            icon = "checkbox-checked-focused";
-          } else if (states.pressed) {
-            icon = "checkbox-checked-pressed";
-          } else if (states.hovered) {
-            icon = "checkbox-checked-hovered";
+        if (useCSS) {
+          if (states.checked) {
+            icon = "decoration/form/checked.png";
+          } else if (states.undetermined) {
+            icon = "decoration/form/undetermined.png";
           } else {
-            icon = "checkbox-checked";
+            icon = "qx/static/blank.gif";            
           }
 
-        // Undetermined
-        } else if (states.undetermined) {
-          if (states.disabled) {
-            icon = "checkbox-undetermined";
-          } else if (states.focused) {
-            icon = "checkbox-undetermined-focused";
-          } else if (states.hovered) {
-            icon = "checkbox-undetermined-hovered";
-          } else {
-            icon = "checkbox-undetermined";
+        } else {
+          // The "disabled" icon is set to an icon **without** the -disabled
+          // suffix on purpose. This is because the Image widget handles this
+          // already by replacing the current image with a disabled version
+          // (if available). If no disabled image is found, the opacity style
+          // is used.
+          
+          // Checked
+          if (states.checked) {
+            if (states.disabled) {
+              icon = "checkbox-checked";
+            } else if (states.focused) {
+              icon = "checkbox-checked-focused";
+            } else if (states.pressed) {
+              icon = "checkbox-checked-pressed";
+            } else if (states.hovered) {
+              icon = "checkbox-checked-hovered";
+            } else {
+              icon = "checkbox-checked";
+            }
+          
+          // Undetermined
+          } else if (states.undetermined) {
+            if (states.disabled) {
+              icon = "checkbox-undetermined";
+            } else if (states.focused) {
+              icon = "checkbox-undetermined-focused";
+            } else if (states.hovered) {
+              icon = "checkbox-undetermined-hovered";
+            } else {
+              icon = "checkbox-undetermined";
+            }
+          
+          // Focused & Pressed & Hovered (when enabled)
+          } else if (!states.disabled) {
+            if (states.focused) {
+              icon = "checkbox-focused";
+            } else if (states.pressed) {
+              icon = "checkbox-pressed";
+            } else if (states.hovered ) {
+              icon = "checkbox-hovered";
+            }
           }
+          
+          // Unchecked
+          icon = icon || "checkbox";
 
-        // Focused & Pressed & Hovered (when enabled)
-        } else if (!states.disabled) {
-          if (states.focused) {
-            icon = "checkbox-focused";
-          } else if (states.pressed) {
-            icon = "checkbox-pressed";
-          } else if (states.hovered ) {
-            icon = "checkbox-hovered";
-          }
+          var invalid = states.invalid && !states.disabled ? "-invalid" : "";
+          icon = "decoration/form/" + icon + invalid + ".png";
         }
-
-        // Unchecked
-        icon = icon || "checkbox";
-
-        var invalid = states.invalid && !states.disabled ? "-invalid" : "";
-
+        
         return {
-          icon: "decoration/form/" + icon + invalid + ".png",
-          gap: 6
+          icon: icon,
+          gap: useCSS ? 8 : 6 // use a bigger gap because of the shadow (glow)
         };
       }
+    },
+
+    "checkbox/icon" : {
+      style : function(states) 
+      {
+        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
+          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        if (!useCSS) {
+          // same as image
+          return {opacity : !states.replacement && states.disabled ? 0.3 : 1};
+        }
+
+        var decorator;
+
+        if (states.disabled) {
+          decorator = "checkbox-disabled";
+        } else if (states.focused) {
+          decorator = "checkbox-focused";
+        } else if (states.hovered) {
+          decorator = "checkbox-hovered";       
+        } else {
+          decorator = "checkbox";
+        }
+        
+        decorator += states.invalid && !states.disabled ? "-invalid" : "";
+        
+        var padding;
+        // Undetermined
+        if (states.undetermined) {
+          padding = [2, 0];
+        }
+        
+        return {
+          decorator : decorator,
+          padding : padding,
+          width: 12, // use 12 to allow the inset of the decorator to be applied
+          height: 10
+        }
+      }      
     },
 
     "radiobutton":

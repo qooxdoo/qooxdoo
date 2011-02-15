@@ -849,6 +849,87 @@ qx.Theme.define("qx.theme.modern.Decoration",
         insets: [0]
       }
     },
+    
+    /*
+    ---------------------------------------------------------------------------
+      PLAIN CSS CHECK BOX
+    ---------------------------------------------------------------------------
+    */
+    "checkbox" : {
+      decorator : [
+        qx.ui.decoration.MDoubleBorder,
+        qx.ui.decoration.MLinearBackgroundGradient,
+        qx.ui.decoration.MBoxShadow
+      ],
+      
+      style : {
+        width: 1,
+        color: "#314A6E",
+        innerWidth : 1,
+        innerColor : "#EEEEEE",
+        
+        gradientStart : ["#E4E4E4", 0],
+        gradientEnd : ["#F3F3F3", 100],
+        
+        shadowLength : 0,
+        shadowBlurRadius : 0,
+        shadowColor : "#87AFE7",
+        
+        insetLeft: 4 // (2 for the broder and two for the glow effect)
+      }
+    },
+
+    "checkbox-hovered" : {
+      include : "checkbox",
+      style : {
+        innerColor : "#D1E4FF",
+        // use the same color to get a single colored background
+        gradientStart : ["#B2D2FF", 0],
+        gradientEnd : ["#B2D2FF", 100]
+      }
+    },
+    
+    "checkbox-focused" : {
+      include : "checkbox",
+      style : {
+        shadowBlurRadius : 4
+      }
+    },
+    
+    "checkbox-disabled" : {
+      include : "checkbox",
+      style : {
+        color : "#757575",
+        innerColor : "#CACACA",
+        gradientStart : ["#D0D0D0", 0],
+        gradientEnd : ["#D8D8D8", 100]
+      }
+    },
+
+    "checkbox-invalid" : {
+      include : "checkbox",
+      style : {
+        color : "invalid"
+      }
+    },
+    
+    "checkbox-hovered-invalid" : {
+      include : "checkbox-hovered",
+      style : {
+        color : "invalid",
+        innerColor : "#FaF2F2",
+        gradientStart : ["#F7E9E9", 0],
+        gradientEnd : ["#F7E9E9", 100]
+      }
+    },
+    
+    "checkbox-focused-invalid" : {
+      include : "checkbox-focused",
+      style : {
+        color : "invalid",
+        shadowColor : "invalid"
+      }
+    },
 
 
 

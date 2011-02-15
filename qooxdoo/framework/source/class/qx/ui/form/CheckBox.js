@@ -94,7 +94,8 @@ qx.Class.define("qx.ui.form.CheckBox",
       invalid : true,
       focused : true,
       undetermined : true,
-      checked : true
+      checked : true,
+      hovered : true
     }
   }
 });
