@@ -107,7 +107,8 @@
         "simulator.globalErrorLogging" : false,
         "simulator.testEvents" : false,
         "simulator.applicationLog" : false,
-        "simulator.disposerDebug" : false
+        "simulator.disposerDebug" : false,
+        "simulator.threadSafe" : false
       }
     }
   }
