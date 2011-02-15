@@ -65,8 +65,6 @@ qx.Class.define("widgetbrowser.view.Header",
       select.setSelection([currentThemeItem]);
     }
 
-    select.setPaddingTop(0);
-    select.setPaddingBottom(0);
     select.setTextColor("black");
 
     select.addListener("changeSelection", function(evt) {
