@@ -115,12 +115,47 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    "pane-css" : {
+      decorator : [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MBoxShadow,
+        qx.ui.decoration.MLinearBackgroundGradient
+      ],
+      style : {
+        width: 1,
+        color: "#07125A",
+        radius : 3,
+        shadowColor : "#999999",
+        shadowBlurRadius : 2,
+        shadowLength : 0,
+        gradientStart : ["#FBFBFB", 0],
+        gradientEnd : ["#F0F0F0", 100]
+      }
+    },
+
     "group" :
     {
       decorator : qx.ui.decoration.Grid,
 
       style : {
         baseImage : "decoration/groupbox/groupbox.png"
+      }
+    },
+    
+    "group-css" : 
+    {
+      decorator : [
+        qx.ui.decoration.MBackgroundColor,
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MSingleBorder
+      ],
+      
+      style : {
+        backgroundColor : "#E8E8E8",
+        radius : 4,
+        color : "#B4B4B4",
+        width: 1
       }
     },
 

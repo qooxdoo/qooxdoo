@@ -616,9 +616,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS;
         return {
-          padding   : 12,
-          decorator : "group"
+          padding : useCSS ? 10 : 12,
+          margin : useCSS ? 1 : undefined,
+          decorator : useCSS ? "group-css" : "group"
         };
       }
     },
@@ -1881,8 +1883,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_BOX_SHADOW &&
+          qx.bom.client.Feature.CSS_BORDER_RADIUS &&
+          qx.bom.client.Feature.CSS_GRADIENTS;
+
         return {
-          decorator : "pane"
+          decorator : useCSS ? "pane-css" : "pane"
         };
       }
     },
