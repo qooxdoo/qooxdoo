@@ -245,6 +245,20 @@ qx.Theme.define("qx.theme.modern.Decoration",
         insets    : [ 4, 8, 8, 4 ]
       }
     },
+    
+    "shadow-window-css" :
+    {
+      decorator : [
+        qx.ui.decoration.MBoxShadow,
+        qx.ui.decoration.MBackgroundColor
+      ],
+
+      style : {
+        shadowColor : "#999999",
+        shadowBlurRadius : 2,
+        shadowLength : 1
+      }
+    },
 
     "shadow-popup" :
     {
@@ -1160,7 +1174,78 @@ qx.Theme.define("qx.theme.modern.Decoration",
         baseImage : "decoration/window/statusbar.png"
       }
     },
+    
+    
+    // CSS WINDOW
+    "window-captionbar-active-css" : {
+      decorator : [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MLinearBackgroundGradient,
+        qx.ui.decoration.MBoxShadow
+      ],
+      style : {
+        width : 1,
+        color : "#00204D",
+        colorBottom : "#727272",
+        radius : [5, 5, 0, 0],
+        gradientStart : ["#084FAA", 30],
+        gradientEnd : ["#003B91", 70],
+        shadowBlurRadius : 4,
+        shadowLength : 2,
+        shadowColor : "#999999"
+      }
+    },
+    
+    "window-captionbar-inactive-css" : {
+      include : "window-captionbar-active-css",
+      style : {
+        gradientStart : ["#F2F2F2", 30],
+        gradientEnd : ["#DBDBDB", 70]
+      }
+    },    
 
+    "window-statusbar-css" :
+    {
+      decorator : [
+        qx.ui.decoration.MBackgroundColor,
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MBoxShadow
+      ],
+
+      style : {
+        backgroundColor : "#EFEFEF",
+        width: [0, 1, 1, 1],
+        color: "#00204D",
+        radius : [0, 0, 5, 5],
+        shadowBlurRadius : 4,
+        shadowLength : 2,
+        shadowColor : "#999999"
+      }
+    },
+
+    "window-css" :
+    {
+      decorator: [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBoxShadow,
+        qx.ui.decoration.MBackgroundColor
+      ],
+
+      style :
+      {
+        backgroundColor : "background-pane",
+
+        width : 1,
+        color : "border-main",
+        widthTop : 0,
+        
+        shadowBlurRadius : 4,
+        shadowLength : 2,
+        shadowColor : "#999999"
+      }
+    },
 
 
 

@@ -1808,10 +1808,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS &&
+          qx.bom.client.Feature.CSS_GRADIENTS && 
+          qx.bom.client.Feature.CSS_BOX_SHADOW;
         return {
           padding   : [ 2, 6 ],
-          decorator : "window-statusbar",
-          minHeight : 18
+          decorator : useCSS ? "window-statusbar-css" : "window-statusbar",
+          minHeight : 18,
+          margin : useCSS ? [0, 5, 5, 0] : undefined // necessary for the shadow
         };
       }
     },
