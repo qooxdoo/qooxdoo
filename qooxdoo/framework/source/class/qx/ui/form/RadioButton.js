@@ -136,7 +136,8 @@ qx.Class.define("qx.ui.form.RadioButton",
     {
       checked : true,
       focused : true,
-      invalid : true
+      invalid : true,
+      hovered : true
     },
     
     
