@@ -717,11 +717,17 @@ qx.Theme.define("qx.theme.modern.Appearance",
         if (states["native"]) {
           return {};
         }
+        
+        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
+        var decorator = states.horizontal ? "scrollbar-horizontal" : "scrollbar-vertical";
+        if (useCSS) {
+          decorator += "-css";
+        }
 
         return {
           width     : states.horizontal ? undefined : 16,
           height    : states.horizontal ? 16 : undefined,
-          decorator : states.horizontal ? "scrollbar-horizontal" : "scrollbar-vertical",
+          decorator : decorator,
           padding   : 1
         };
       }
@@ -745,11 +751,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
+        
         var decorator = states.horizontal ? "scrollbar-slider-horizontal" :
                                             "scrollbar-slider-vertical";
-
         if (states.disabled) {
           decorator += "-disabled";
+        }
+        if (useCSS) {
+          decorator += "-css";
         }
 
         return {

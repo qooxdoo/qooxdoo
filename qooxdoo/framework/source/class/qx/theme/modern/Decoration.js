@@ -405,6 +405,61 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    // PLAIN CSS SCROLLBAR
+    "scrollbar-horizontal-css" : {
+      decorator : [qx.ui.decoration.MLinearBackgroundGradient],
+      style : {
+        gradientStart : ["#CCCCCC", 0],
+        gradientEnd : ["#F1F1F1", 100]
+      }
+    },
+
+    "scrollbar-vertical-css" : {
+      include : "scrollbar-horizontal-css",
+      style : {
+        orientation : "horizontal"
+      }
+    },
+
+    "scrollbar-slider-horizontal-css" :
+    {
+      decorator : [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MLinearBackgroundGradient
+      ],
+
+      style : {
+        gradientStart : ["#EEEEEE", 0],
+        gradientEnd : ["#C3C3C3", 100],
+        
+        color : "border-main",
+        width: 1
+      }
+    },
+
+    "scrollbar-slider-vertical-css" :
+    {
+      include : "scrollbar-slider-horizontal-css",
+      style : {
+        orientation : "horizontal"
+      }
+    },
+
+    "scrollbar-slider-horizontal-disabled-css" :
+    {
+      include : "scrollbar-slider-horizontal-css",
+      style : {
+        color : "#959595"
+      }
+    },
+
+    "scrollbar-slider-vertical-disabled-css" :
+    {
+      include : "scrollbar-slider-vertical-css",
+      style : {
+        color : "#959595"
+      }
+    },
 
 
 
