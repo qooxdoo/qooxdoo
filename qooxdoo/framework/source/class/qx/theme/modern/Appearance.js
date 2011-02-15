@@ -2875,7 +2875,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding : 4,
-          decorator : "group-item",
+          decorator : qx.bom.client.Feature.CSS_GRADIENTS ? "group-item-css" : "group-item",
           textColor : "white",
           font: "bold"
         };

@@ -1283,6 +1283,21 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundImage  : "decoration/group-item.png",
         backgroundRepeat : "scale"
       }
-    }
+    },
+    
+    "group-item-css" :
+    {
+      decorator : [
+        qx.ui.decoration.MLinearBackgroundGradient
+      ],
+
+      style :
+      {
+        startColorPosition : 0,
+        endColorPosition : 100,
+        startColor : "#A7A7A7",
+        endColor : "#949494"
+      }
+    }    
   }
 });
