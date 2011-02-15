@@ -291,7 +291,7 @@ check-banner:
 	@echo "  * Checking kit is complete..."
 
 check-apps:
-	@for TARGET in $(APPLICATIONS); do F="application/$$TARGET/build/script/$$TARGET.js"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); done
+	@for TARGET in $(APPLICATIONS); do F="application/$$TARGET/build/script/$$TARGET.js"; [ -s $$F ] || [ "$$TARGET" = "widgetbrowser" ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); done
 
 check-components:
 	@for TARGET in $(COMPONENTS); do \
