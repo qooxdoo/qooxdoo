@@ -48,7 +48,9 @@ qx.Class.define("simulator.Application", {
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
       
       var qxSelenium;
+      var threadSafe = false;
       if (this.__optionalSettings.threadSafe) {
+        threadSafe = true;
         qxSelenium = this.getThreadSafeQxSeleniumSession();
       } 
       else {
@@ -59,7 +61,7 @@ qx.Class.define("simulator.Application", {
       this.simulation = this.getSimulation(qxSelenium);
       
       this.runner = new simulator.TestRunner();
-      this.runner.runTests();
+      this.runner.runTests(threadSafe);
     },
     
     /**
