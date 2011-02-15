@@ -163,11 +163,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var decorator, textColor;
+        var padding = [3, 10]; // default padding css-case
 
         if (states.checked && states.focused && !states.inner)
         {
           decorator = "button-checked-focused";
           textColor = undefined;
+          padding = [1, 6];
         }
         else if (states.disabled)
         {
@@ -189,31 +191,37 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "button-hovered";
           textColor = "text-hovered";
         }
-        else if (states.preselected && states.focused && !states.inner)
-        {
-          decorator = "button-preselected-focused";
-          textColor = "text-hovered";
-        }
-        else if (states.preselected)
-        {
-          decorator = "button-preselected";
-          textColor = "text-hovered";
-        }
         else if (states.focused && !states.inner)
         {
           decorator = "button-focused";
           textColor = undefined;
+          padding = [1, 6];
         }
         else
         {
           decorator = "button";
           textColor = undefined;
         }
+        
+        var shadow;
+        // feature detect if we should use the CSS decorators
+        if (qx.bom.client.Feature.CSS_BORDER_RADIUS && 
+            qx.bom.client.Feature.CSS_GRADIENTS) {
+          if (states.invalid) {
+            decorator += "-invalid-css";            
+          } else {
+            decorator += "-css";
+          }
+        } else {
+          shadow = states.invalid && !states.disabled ? "button-invalid-shadow" : undefined;
+          padding = [2, 8];
+        }
 
         return {
           decorator : decorator,
           textColor : textColor,
-          shadow : states.invalid && !states.disabled ? "button-invalid-shadow" : undefined
+          shadow : shadow,
+          padding : padding
         };
       }
     },
@@ -236,7 +244,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding : [ 2, 8 ],
           center : true
         };
       }

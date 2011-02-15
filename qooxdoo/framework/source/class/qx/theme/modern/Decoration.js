@@ -310,7 +310,153 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      PLAIN CSS BUTTON
+    ---------------------------------------------------------------------------
+    */
+    "button-css" :
+    {
+      decorator : [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MLinearBackgroundGradient,
+        qx.ui.decoration.MBorderRadius
+      ],
 
+      style :
+      {
+        radius: 3,
+        color: "#464646",
+        width: 1,
+        startColor: "#F0F0F0",
+        endColor: "#9F9F9F",
+        startColorPosition: 30,
+        endColorPosition: 100
+      }
+    },
+
+    "button-disabled-css" : 
+    {
+      include : "button-css",
+      style : {
+        color : "#959595",
+        startColor: "#F4F4F4",
+        endColor: "#BABABA"
+      }
+    },
+    
+    "button-hovered-css" : 
+    {
+      include : "button-css",
+      style : {
+        startColor : "#F0F9FE",
+        endColor : "#8EB8D6"
+      }
+    },
+
+    "button-checked-css" : 
+    {
+      include : "button-css",
+      style : {
+        endColor: "#F0F0F0",
+        startColor: "#9F9F9F"
+      }
+    },
+
+    "button-pressed-css" : 
+    {
+      include : "button-css",
+      style : {
+        endColor : "#F0F9FE",
+        startColor : "#8EB8D6"
+      }
+    },
+    
+    "button-focused-css" : {
+      decorator : [
+        qx.ui.decoration.MDoubleBorder,
+        qx.ui.decoration.MLinearBackgroundGradient,
+        qx.ui.decoration.MBorderRadius
+      ],
+
+      style :
+      {
+        radius: 3,
+        color: "#464646",
+        width: 1,
+        innerColor: "#83BAEA",
+        innerWidth: 2,
+        startColor: "#F0F0F0",
+        endColor: "#9F9F9F",
+        startColorPosition: 30,
+        endColorPosition: 100
+      }
+    },
+    
+    "button-checked-focused-css" : {
+      include : "button-focused-css",
+      style : {
+        endColor: "#F0F0F0",
+        startColor: "#9F9F9F"
+      }
+    },
+    
+    // invalid
+    "button-invalid-css" : {
+      include : "button-css",
+      style : {
+        color: "#930000"
+      }
+    },
+    
+    "button-disabled-invalid-css" : 
+    {
+      include : "button-disabled-css",
+      style : {
+        color : "#930000"
+      }
+    },
+    
+    "button-hovered-invalid-css" : 
+    {
+      include : "button-hovered-css",
+      style : {
+        color : "#930000"
+      }
+    },
+
+    "button-checked-invalid-css" : 
+    {
+      include : "button-checked-css",
+      style : {
+        color : "#930000"
+      }
+    },
+
+    "button-pressed-invalid-css" : 
+    {
+      include : "button-pressed-css",
+      style : {
+        color : "#930000"
+      }
+    },
+    
+    "button-focused-invalid-css" : {
+      include : "button-focused-css",
+      style : {
+        color : "#930000"
+      }
+    },
+    
+    "button-checked-focused-invalid-css" : {
+      include : "button-checked-focused-css",
+      style : {
+        color : "#930000"
+      }
+    },    
+    
+    
+    
     /*
     ---------------------------------------------------------------------------
       BUTTON
