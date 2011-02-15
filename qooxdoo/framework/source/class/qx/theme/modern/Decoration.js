@@ -187,6 +187,131 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    /*
+    ---------------------------------------------------------------------------
+      CSS RADIO BUTTON 
+    ---------------------------------------------------------------------------
+    */
+    "radiobutton" : {
+      decorator : [
+        qx.ui.decoration.MDoubleBorder,
+        qx.ui.decoration.MBackgroundColor,
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MBoxShadow
+      ],
+      style : {
+        backgroundColor : "#F6F6F6",
+        radius : 5,
+        width: 1,
+        innerWidth : 2,
+        color : "#314A6E",
+        innerColor : "#F6F6F6",
+        shadowLength : 0,
+        shadowBlurRadius : 0, 
+        shadowColor : "#87AFE7",
+        insetLeft: 5 // used for the shadow (3 border + 2 extra for the shadow)
+      }
+    },
+
+    "radiobutton-checked" : {
+      include : "radiobutton",
+      style : {
+        backgroundColor : "#005BC3"
+      }
+    },
+        
+    "radiobutton-checked-focused" : {
+      include  : "radiobutton-checked",
+      style : {
+        shadowBlurRadius : 4
+      }
+    },
+
+    "radiobutton-checked-hovered" : {
+      include : "radiobutton-checked",
+      style : {
+        innerColor : "#B2D2FF"
+      }
+    },
+    
+    "radiobutton-focused" : {
+      include : "radiobutton",
+      style : {
+        shadowBlurRadius : 4
+      }
+    },
+
+    "radiobutton-hovered" : {
+      include : "radiobutton",
+      style : {
+        backgroundColor : "#B2D2FF",
+        innerColor : "#B2D2FF"
+      }
+    },
+
+    "radiobutton-disabled" : {
+      include : "radiobutton",
+      style : {
+        innerColor : "#D5D5D5",
+        backgroundColor : "#D5D5D5",
+        color : "#787878"
+      }
+    },
+
+    "radiobutton-checked-disabled" : {
+      include : "radiobutton-disabled",
+      style : {
+        backgroundColor : "#7B7B7B"
+      }
+    },
+
+    "radiobutton-invalid" : {
+      include : "radiobutton",
+      style : {
+        color : "invalid"
+      }
+    },
+
+    "radiobutton-checked-invalid" : {
+      include : "radiobutton-checked",
+      style : {
+        color : "invalid"
+      }
+    },
+        
+    "radiobutton-checked-focused-invalid" : {
+      include  : "radiobutton-checked-focused",
+      style : {
+        color : "invalid",
+        shadowColor : "invalid"
+      }
+    },
+
+    "radiobutton-checked-hovered-invalid" : {
+      include : "radiobutton-checked-hovered",
+      style : {
+        color : "invalid",
+        innerColor : "#F7EAEA"
+      }
+    },
+    
+    "radiobutton-focused-invalid" : {
+      include : "radiobutton-focused",
+      style : {
+        color : "invalid",
+        shadowColor : "invalid"
+      }
+    },
+
+    "radiobutton-hovered-invalid" : {
+      include : "radiobutton-hovered",
+      style : {
+        color : "invalid",
+        innerColor : "#F7EAEA",
+        backgroundColor : "#F7EAEA"
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------

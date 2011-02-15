@@ -364,38 +364,81 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        // "disabled" state is not handled here with purpose. The image widget
-        // does handle this already by replacing the current image with a
-        // disabled version (if available). If no disabled image is found the
-        // opacity style is used.
+        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS && 
+          qx.bom.client.Feature.CSS_BOX_SHADOW;
+
         var icon;
-        if (states.checked && states.focused) {
-          icon = "radiobutton-checked-focused";
-        } else if (states.checked && states.disabled) {
-          icon = "radiobutton-checked-disabled";
-        } else if (states.checked && states.pressed) {
-          icon = "radiobutton-checked-pressed";
-        } else if (states.checked && states.hovered) {
-          icon = "radiobutton-checked-hovered";
-        } else if (states.checked) {
-          icon = "radiobutton-checked";
-        } else if (states.focused) {
-          icon = "radiobutton-focused";
-        } else if (states.pressed) {
-          icon = "radiobutton-pressed";
-        } else if (states.hovered) {
-          icon = "radiobutton-hovered";
+        if (useCSS) {
+          icon = "qx/static/blank.gif";
         } else {
-          icon = "radiobutton";
+          // "disabled" state is not handled here with purpose. The image widget
+          // does handle this already by replacing the current image with a
+          // disabled version (if available). If no disabled image is found the
+          // opacity style is used.
+          if (states.checked && states.focused) {
+            icon = "radiobutton-checked-focused";
+          } else if (states.checked && states.disabled) {
+            icon = "radiobutton-checked-disabled";
+          } else if (states.checked && states.hovered) {
+            icon = "radiobutton-checked-hovered";
+          } else if (states.checked) {
+            icon = "radiobutton-checked";
+          } else if (states.focused) {
+            icon = "radiobutton-focused";
+          } else if (states.hovered) {
+            icon = "radiobutton-hovered";
+          } else {
+            icon = "radiobutton";
+          }
+          
+          var invalid = states.invalid && !states.disabled ? "-invalid" : "";
+          icon = "decoration/form/" + icon + invalid + ".png";
         }
-
-        var invalid = states.invalid && !states.disabled ? "-invalid" : "";
-
         return {
-          icon: "decoration/form/" + icon + invalid + ".png",
-          gap : 6
+          icon: icon,
+          gap : useCSS ? 8 : 6 // use a bigger gap because of the shadow (glow)
         };
       }
+    },
+    
+    "radiobutton/icon" : {
+      style : function(states) 
+      {
+        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS && 
+          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        if (!useCSS) {
+          // same as image
+          return {opacity : !states.replacement && states.disabled ? 0.3 : 1};
+        }
+
+        var decorator;
+
+        if (states.disabled && !states.checked) {
+          decorator = "radiobutton-disabled";
+        } else if (states.checked && states.focused) {
+          decorator = "radiobutton-checked-focused";
+        } else if (states.checked && states.disabled) {
+          decorator = "radiobutton-checked-disabled";
+        } else if (states.checked && states.hovered) {
+          decorator = "radiobutton-checked-hovered";
+        } else if (states.checked) {
+          decorator = "radiobutton-checked";
+        } else if (states.focused) {
+          decorator = "radiobutton-focused";
+        } else if (states.hovered) {
+          decorator = "radiobutton-hovered";          
+        } else {
+          decorator = "radiobutton";
+        }
+        
+        decorator += states.invalid && !states.disabled ? "-invalid" : "";
+        
+        return {
+          decorator : decorator,
+          width: 12, // use 12 to allow the inset of the decorator to be applied
+          height: 10
+        }
+      }      
     },
 
     "textfield" :
