@@ -2679,8 +2679,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
         return {
-          decorator : "table-column-button",
+          decorator : useCSS ? "table-scroller-header-css" : "table-scroller-header",
           padding   : 3,
           icon      : "decoration/table/select-column-order.png"
         };
@@ -2709,8 +2710,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
         return {
-          decorator : "table-scroller-header"
+          decorator : useCSS ? "table-scroller-header-css" : "table-scroller-header"
         };
       }
     },
@@ -2867,11 +2869,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
       alias : "atom",
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
         return {
           minWidth : 40,
           minHeight : 25,
           paddingLeft : 6,
-          decorator : "progressive-table-header-cell"
+          decorator : useCSS ? "progressive-table-header-cell-css" : "progressive-table-header-cell"
         };
       }
     },

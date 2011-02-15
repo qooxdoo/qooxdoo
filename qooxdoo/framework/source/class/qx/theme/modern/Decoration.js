@@ -1386,6 +1386,23 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    "table-scroller-header-css" :
+    {
+      decorator : [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MLinearBackgroundGradient
+      ],
+
+      style :
+      {
+        gradientStart : ["#E8E8E8", 10],
+        gradientEnd : ["#B3B3B3", 90],
+
+        widthBottom : 1,
+        colorBottom : "border-main"
+      }
+    },
+
     "table-header-cell" :
     {
       decorator :  qx.ui.decoration.Single,
@@ -1412,21 +1429,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
         widthBottom : 1,
         colorBottom : "white",
         styleBottom : "solid"
-      }
-    },
-
-    "table-column-button" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        backgroundImage  : "decoration/table/header-cell.png",
-        backgroundRepeat : "scale",
-
-        widthBottom : 1,
-        colorBottom : "border-main",
-        style       : "solid"
       }
     },
 
@@ -1479,7 +1481,22 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    "progressive-table-header-cell-css" :
+    {
+      decorator :  [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MLinearBackgroundGradient
+      ],
 
+      style :
+      {
+        gradientStart : ["#E8E8E8", 10],
+        gradientEnd : ["#B3B3B3", 90],
+
+        widthRight : 1,
+        colorRight : "#F2F2F2"
+      }
+    },
 
 
     /*
