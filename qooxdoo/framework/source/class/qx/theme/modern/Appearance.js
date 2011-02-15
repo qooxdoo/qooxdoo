@@ -2200,10 +2200,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
+          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        
         var result =
         {
-          decorator : "menu",
-          shadow : "shadow-popup",
+          decorator : useCSS ? "menu-css" : "menu",
+          shadow : useCSS ? undefined : "shadow-popup",
           spacingX : 6,
           spacingY : 1,
           iconColumnWidth : 16,
@@ -2392,8 +2395,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
    {
      style : function(states)
      {
+       var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
        return {
-         decorator : "menubar"
+         decorator : useCSS ? "menubar-css" : "menubar"
        };
      }
    },

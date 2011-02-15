@@ -1410,6 +1410,23 @@ qx.Theme.define("qx.theme.modern.Decoration",
         style : "solid"
       }
     },
+    
+    "menu-css" : {
+      decorator : [
+        qx.ui.decoration.MLinearBackgroundGradient,
+        qx.ui.decoration.MBoxShadow,
+        qx.ui.decoration.MSingleBorder
+      ],
+      style : {
+        gradientStart : ["#E8E8E9", 0],
+        gradientEnd : ["#D9D9D9", 100],
+        shadowColor : "#999999",
+        shadowBlurRadius : 2,
+        shadowLength : 1,
+        width : 1,
+        color : "border-main"
+      }
+    },
 
     "menu-separator" :
     {
@@ -1444,6 +1461,23 @@ qx.Theme.define("qx.theme.modern.Decoration",
         width : 1,
         color : "border-separator",
         style : "solid"
+      }
+    },
+
+    "menubar-css" :
+    {
+      decorator : [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MLinearBackgroundGradient
+      ],
+
+      style :
+      {
+        gradientStart : ["#E8E8E8", 0],
+        gradientEnd : ["#D9D9D9", 100],
+
+        width : 1,
+        color : "border-separator"
       }
     },
 
