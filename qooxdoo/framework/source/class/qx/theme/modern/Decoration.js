@@ -67,6 +67,21 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    "selected-css" :
+    {
+      decorator : [
+        qx.ui.decoration.MLinearBackgroundGradient
+      ],
+
+      style :
+      {
+        startColorPosition : 0,
+        endColorPosition : 100,
+        startColor : "#004DAD",
+        endColor : "#00368A"
+      }
+    },
+
     "selected-dragover" :
     {
       decorator : qx.ui.decoration.Single,

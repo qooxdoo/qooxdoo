@@ -256,8 +256,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+        var decorator = states.hovered ? "selected" : undefined;
+        if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+          decorator += "-css";
+        }
         return {
-          decorator : states.hovered ? "selected" : undefined,
+          decorator : decorator,
           textColor : states.hovered ? "text-selected" : undefined
         };
       }
@@ -898,6 +902,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = states.selected ? "selected-dragover" : "dragover";
         } else {
           decorator = states.selected ? "selected" : undefined;
+          if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+            decorator += "-css";
+          }          
         }
 
         return {
@@ -1377,10 +1384,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var decorator = states.selected ? "selected" : undefined;
+        if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+          decorator += "-css";
+        }
+        
         return {
           padding    : [ 2, 6 ],
           textColor  : states.selected ? "text-selected" : undefined,
-          decorator  : states.selected ? "selected" : undefined
+          decorator  : decorator
         };
       }
     },
@@ -2038,9 +2050,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var decorator = states.disabled ? undefined : states.selected ? "selected" : undefined;
+        if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+          decorator += "-css";
+        }
+        
         return {
           textAlign : "center",
-          decorator : states.disabled ? undefined : states.selected ? "selected" : undefined,
+          decorator : decorator,
           textColor : states.disabled ? "text-disabled" : states.selected ? "text-selected" : states.otherMonth ? "text-light" : undefined,
           font      : states.today ? "bold" : undefined,
           padding   : [ 2, 4 ]
@@ -2171,8 +2188,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var decorator = states.hovered  ? "selected" : undefined;
+        if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+          decorator += "-css";
+        }
+        
         return {
-          decorator : states.hovered  ? "selected" : undefined,
+          decorator : decorator,
           padding : 7,
           center : true
         };
@@ -2221,8 +2243,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+        var decorator = states.selected ? "selected" : undefined;
+        if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+          decorator += "-css";
+        }
+        
         return {
-          decorator : states.selected ? "selected" : undefined,
+          decorator : decorator,
           textColor : states.selected ? "text-selected" : undefined,
           padding   : [ 4, 6 ]
         };
@@ -2336,8 +2363,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
      style : function(states)
      {
+       var decorator = (states.pressed || states.hovered) && !states.disabled ? "selected" : undefined;
+       if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+         decorator += "-css";
+       }
+       
        return {
-         decorator : (states.pressed || states.hovered) && !states.disabled ? "selected" : undefined,
+         decorator : decorator,
          textColor : states.pressed || states.hovered ? "text-selected" : undefined,
          padding   : [ 3, 8 ]
        };
@@ -2921,7 +2953,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style: function(states) {
         return {
-          decorator: "selected"
+          decorator: qx.bom.client.Feature.CSS_GRADIENTS ? "selected-css" : "selected"
         }
       }
     }
