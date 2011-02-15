@@ -20,6 +20,8 @@ qx.Class.define("qx.test.ui.form.ComboBox",
 {
   extend : qx.test.ui.LayoutTestCase,
 
+  include : qx.dev.unit.MMock,
+
   members :
   {
     testWithSetValueWithArbitraryValue: function() {
@@ -101,20 +103,13 @@ qx.Class.define("qx.test.ui.form.ComboBox",
       list.setSelection([item]);
       this.flush();
 
-      var that = this;
-      var msg = "Must focus on close";
-      var closeCombobox = qx.lang.Function.bind(function() {
-        combobox.close();
-        that.flush();
-      }, combobox);
-      this.assertEventFired(combobox, "focusin", closeCombobox, null, msg);
-
-      msg = "Must select all text";
-      this.assertEquals("Item 0", combobox.getTextSelection(), msg);
+      // Asssert focus on close
+      var spy = this.spy(combobox, "tabFocus");
+      combobox.close();
+      this.assertCalled(spy);
 
       this.getRoot().removeAll();
       combobox.dispose();
-      this.flush();
     },
 
     testNotFocusTextOnCloseWhenInvisibleBefore: function() {
@@ -126,20 +121,15 @@ qx.Class.define("qx.test.ui.form.ComboBox",
       combobox.setValue("Item 0");
       this.flush();
 
-      var that = this;
-      var msg = "Must not focus";
-      var closeCombobox = qx.lang.Function.bind(function() {
-        combobox.close();
-        that.flush();
-      }, combobox);
-      this.assertEventNotFired(combobox, "focusin", closeCombobox, null, msg);
+      // Assert not focus on close
+      var mock = this.mock(combobox);
+      mock.expects("tabFocus").never();
 
-      msg = "Must not select all text";
-      this.assertNotEquals("Item 0", combobox.getTextSelection(), msg);
+      combobox.close();
+      mock.verify();
 
       this.getRoot().removeAll();
       combobox.dispose();
-      this.flush();
     },
 
     __createComboBox : function(initValue)
@@ -156,5 +146,6 @@ qx.Class.define("qx.test.ui.form.ComboBox",
 
       return comboBox;
     }
+
   }
 });
