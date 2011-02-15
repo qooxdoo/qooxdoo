@@ -33,7 +33,6 @@
 #use(widgetbrowser.pages.Window)
 #use(widgetbrowser.pages.Control)
 #use(widgetbrowser.pages.TreeVirtual)
-#use(widgetbrowser.pages.SplitPane)
 #use(widgetbrowser.pages.Embed)
 #use(widgetbrowser.pages.EmbedFrame)
 #use(widgetbrowser.pages.Basic)

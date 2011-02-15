@@ -205,11 +205,6 @@
             "include" : [ "widgetbrowser.pages.TreeVirtual" ]
           },
 
-          "splitpane" :
-          {
-            "include" : [ "widgetbrowser.pages.SplitPane" ]
-          },
-
           "embed" :
           {
             "include" : [ "widgetbrowser.pages.Embed" ]
