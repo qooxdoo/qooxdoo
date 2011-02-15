@@ -48,22 +48,27 @@ qx.Class.define("widgetbrowser.pages.EmbedFrame",
     initWidgets: function()
     {
       var widgets = this._widgets;
-      var label;
+      var label, left, right;
       var url = qx.util.ResourceManager.getInstance().toUri("widgetbrowser/blank.html");
+
+      var splitPane = new qx.ui.splitpane.Pane("horizontal");
+      this.add(splitPane);
 
       // Iframe
       label = new qx.ui.basic.Label("Iframe");
+      left = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       var iFrame = new qx.ui.embed.Iframe().set({
         source: url,
         width: 300,
         height: 200
       });
       widgets.push(iFrame);
-      this.add(label, {top: 0, left: 0});
-      this.add(iFrame, {top: 20, left: 0});
+      left.add(label, {top: 0, left: 5});
+      left.add(iFrame, {top: 20, left: 0, right: 0});
 
       // ThemedIframe
       label = new qx.ui.basic.Label("ThemedIframe");
+      right = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
 
       var themedIFrame = new qx.ui.embed.ThemedIframe().set({
         source: url,
@@ -71,8 +76,12 @@ qx.Class.define("widgetbrowser.pages.EmbedFrame",
         height: 200
       });
       widgets.push(themedIFrame);
-      this.add(label, {top: 0, left: 350});
-      this.add(themedIFrame, {top: 20, left: 350});
+      right.add(label, {top: 0, left: 5});
+      right.add(themedIFrame, {top: 20, left: 0, right: 0});
+
+      splitPane.add(left);
+      splitPane.add(right);
+
     }
   }
 });
