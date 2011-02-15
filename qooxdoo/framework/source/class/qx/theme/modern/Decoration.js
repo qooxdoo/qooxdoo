@@ -721,6 +721,17 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "scale"
       }
     },
+    
+    "toolbar-css" : 
+    {
+      decorator : [qx.ui.decoration.MLinearBackgroundGradient],
+      style : {
+        startColorPosition : 40,
+        endColorPosition : 60,
+        startColor : "#EFEFEF",
+        endColor : "#DDDDDD"
+      }
+    },
 
     "toolbar-button-hovered" :
     {
@@ -747,6 +758,37 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "scale"
       }
     },
+    
+    "toolbar-button-hovered-css" :
+    {
+      decorator : [
+        qx.ui.decoration.MDoubleBorder,
+        qx.ui.decoration.MLinearBackgroundGradient,
+        qx.ui.decoration.MBorderRadius
+      ],
+
+      style :
+      {
+        color : "#b6b6b6",
+        width: 1,
+        innerWidth: 1,
+        innerColor : "#f8f8f8",
+        radius : 2,    
+        gradientStart : ["#F0F0F0", 30],
+        gradientEnd : ["#AFAFAF", 100]
+      }
+    },
+
+    "toolbar-button-checked-css" :
+    {
+      include : "toolbar-button-hovered-css",
+
+      style :
+      {
+        gradientStart : ["#AFAFAF", 30],
+        gradientEnd : ["#F0F0F0", 100]
+      }
+    },    
 
     "toolbar-separator" :
     {

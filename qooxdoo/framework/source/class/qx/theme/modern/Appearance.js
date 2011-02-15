@@ -1202,8 +1202,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
         return {
-          decorator : "toolbar",
+          decorator : useCSS ? "toolbar-css" : "toolbar",
           spacing : 2
         };
       }
@@ -1249,15 +1250,29 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+        var decorator;
+        if (
+          states.pressed || 
+          (states.checked && !states.hovered) || 
+          (states.checked && states.disabled)) 
+        {
+          decorator = "toolbar-button-checked";
+        } else if (states.hovered && !states.disabled) {
+          decorator = "toolbar-button-hovered";
+        }
+        
+        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
+          qx.bom.client.Feature.CSS_BORDER_RADIUS;
+        if (useCSS && decorator) {
+          decorator += "-css";
+        }
+
         return {
           marginTop : 2,
           marginBottom : 2,
           padding : (states.pressed || states.checked || states.hovered) && !states.disabled
                     || (states.disabled && states.checked) ? 3 : 5,
-          decorator : states.pressed || (states.checked && !states.hovered) || (states.checked && states.disabled) ?
-                        "toolbar-button-checked" :
-                      states.hovered && !states.disabled ?
-                        "toolbar-button-hovered" : undefined
+          decorator : decorator
         };
       }
     },
