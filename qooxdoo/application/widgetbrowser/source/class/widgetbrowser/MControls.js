@@ -33,41 +33,41 @@ qx.Mixin.define("widgetbrowser.MControls",
 
       if (options.disabled) {
         var toggleDisabled = new qx.ui.form.ToggleButton("Disabled");
-        toggleDisabled.addListener("changeValue", function(e) {
+        toggleDisabled.addListener("changeValue", function() {
           widgets.forEach(function(widget, index) {
             if (widget.setEnabled) {
-              widget.setEnabled(!e.getData());
+              widget.setEnabled(!this.getValue());
             }
-          });
-        }, this);
+          }, this);
+        });
         controls.add(toggleDisabled);
       }
 
       if (options.hovered) {
         var toggleHovered = new qx.ui.form.ToggleButton("Hovered");
-        toggleHovered.addListener("changeValue", function(e) {
+        toggleHovered.addListener("changeValue", function() {
           widgets.forEach(function(widget, index) {
-            if (!widget.hasState("hovered")) {
+            if (this.getValue()) {
               widget.addState("hovered");
             } else {
               widget.removeState("hovered");
             }
-          });
-        }, this);
+          }, this);
+        });
         controls.add(toggleHovered);
       }
 
       if (options.selected) {
         var toggleSelected = new qx.ui.form.ToggleButton("Selected");
-        toggleSelected.addListener("changeValue", function(e) {
+        toggleSelected.addListener("changeValue", function() {
           widgets.forEach(function(widget, index) {
-            if (!widget.hasState("selected")) {
+            if (this.getValue()) {
               widget.addState("selected");
             } else {
               widget.removeState("selected");
             }
-          });
-        }, this);
+          }, this);
+        });
         controls.add(toggleSelected);
       }
 
@@ -75,13 +75,13 @@ qx.Mixin.define("widgetbrowser.MControls",
         var toggleFocused = new qx.ui.form.ToggleButton("Focused");
         toggleFocused.addListener("changeValue", function(e) {
           widgets.forEach(function(widget, index) {
-            if (!widget.hasState("focused")) {
+            if (this.getValue()) {
               widget.addState("focused");
             } else {
               widget.removeState("focused");
             }
-          });
-        }, this);
+          }, this);
+        });
         controls.add(toggleFocused);
       }
 
@@ -91,10 +91,10 @@ qx.Mixin.define("widgetbrowser.MControls",
           widgets.forEach(function(widget, index) {
             if (widget.setInvalidMessage && widget.setValid) {
               widget.setInvalidMessage("Invalid (" + index + ")");
-              widget.setValid(!e.getData());
+              widget.setValid(!this.getValue());
             }
-          });
-        }, this);
+          }, this);
+        });
         controls.add(toggleInvalid);
       }
 
