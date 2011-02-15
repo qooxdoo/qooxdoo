@@ -199,6 +199,23 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    "tooltip-error-css" :
+    {
+      decorator : [
+        qx.ui.decoration.MBackgroundColor,
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MBoxShadow
+      ],
+
+      style : {
+        backgroundColor : "#C82C2C",
+        radius : 4,
+        shadowColor : "#999999",
+        shadowBlurRadius : 2,
+        shadowLength : 1
+      }
+    },
+
 
     "tooltip-error-arrow" :
     {
@@ -239,7 +256,23 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    "popup-css" :
+    {
+      decorator: [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBoxShadow,
+        qx.ui.decoration.MBackgroundColor
+      ],
 
+      style :
+      {
+        width : 1,
+        color : "border-main",
+        shadowColor : "#999999",
+        shadowBlurRadius : 3,
+        shadowLength : 1
+      }
+    },
 
 
 

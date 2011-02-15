@@ -138,10 +138,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_BOX_SHADOW;
+        
         return {
-          decorator : "main",
+          decorator : useCSS ? "popup-css" : "main",
           backgroundColor : "background-light",
-          shadow : "shadow-popup"
+          shadow : useCSS ? undefined : "shadow-popup"
         };
       }
     },
@@ -1616,17 +1618,21 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS && 
+          qx.bom.client.Feature.CSS_BOX_SHADOW;
         return {
           textColor: "text-selected",
+          backgroundColor : undefined,
           placeMethod: "widget",
           offset: [0, 0, 0, 14],
           marginTop: -2,
           position: "right-top",
           showTimeout: 100,
           hideTimeout: 10000,
-          decorator: "tooltip-error",
+          decorator: useCSS ? "tooltip-error-css" : "tooltip-error",
           shadow: "tooltip-error-arrow",
-          font: "bold"
+          font: "bold",
+          padding: useCSS ? 3 : undefined
         };
       }
     },
@@ -1643,8 +1649,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS &&
+          qx.bom.client.Feature.CSS_GRADIENTS && 
+          qx.bom.client.Feature.CSS_BOX_SHADOW;
         return {
-          shadow : "shadow-window",
+          decorator : useCSS ? undefined : "shadow-window",
           contentPadding : [ 10, 10, 10, 10 ]
         };
       }
@@ -1654,8 +1663,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS &&
+          qx.bom.client.Feature.CSS_GRADIENTS && 
+          qx.bom.client.Feature.CSS_BOX_SHADOW;
         return {
-          decorator : "window"
+          decorator : useCSS ? "window-css" : "window",
+          margin : useCSS ? [0, 5, states.showStatusbar ? 0 : 5, 0] : undefined // necessary for the shadow
         };
       }
     },
@@ -1664,11 +1677,21 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS &&
+          qx.bom.client.Feature.CSS_GRADIENTS && 
+          qx.bom.client.Feature.CSS_BOX_SHADOW;
+
+        var decorator = states.active ? "window-captionbar-active" : "window-captionbar-inactive";
+        if (useCSS) {
+          decorator += "-css";
+        }
+        
         return {
-          decorator    : states.active ? "window-captionbar-active" : "window-captionbar-inactive",
+          decorator    : decorator,
           textColor    : states.active ? "white" : "text-gray",
           minHeight    : 26,
-          paddingRight : 2
+          paddingRight : 2,
+          margin : useCSS ? [0, 5, 0, 0] : undefined // necessary for the shadow
         };
       }
     },
