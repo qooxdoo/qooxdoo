@@ -104,12 +104,12 @@ qx.Class.define("qx.test.ui.form.Form",
       this.flush();
 
       // check for the invalid decorator
-      this.assertEquals("border-invalid", widget.getDecorator(), "Decorator not set!");
+      this.assertNotEquals(-1, widget.getDecorator().indexOf("invalid"), "Decorator not set!");
 
       // check the focus
       widget.focus();
       this.flush();
-      this.assertEquals("input-focused-invalid", widget.getDecorator(), "Decorator not set!");
+      this.assertNotEquals(-1, widget.getDecorator().indexOf("invalid"), "Decorator not set!");
     },
 
 
@@ -176,7 +176,9 @@ qx.Class.define("qx.test.ui.form.Form",
     },
 
     testValidSelectBox: function() {
-     this.__testValid(new qx.ui.form.SelectBox(), "shadow");
+      var testShadow = qx.bom.client.Feature.CSS_BORDER_RADIUS &&
+          qx.bom.client.Feature.CSS_GRADIENTS;
+      this.__testValid(new qx.ui.form.SelectBox(), testShadow ? undefined : "shadow");
     },
 
     testRequiredCheckBox: function() {
