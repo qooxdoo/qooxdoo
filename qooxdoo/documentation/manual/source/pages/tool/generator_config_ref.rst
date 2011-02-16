@@ -597,8 +597,7 @@ Configure log/reporting features. Takes a map.
         "file"           : "<filename>",
         "radius"         : 5,
         "span-tree-only" : (true|false),
-        "compiled-class-size" : (true|false),
-        "optimize"       : [<optimize-keys>]
+        "compiled-class-size" : (true|false)
       },
       "json"         :
       {
@@ -615,7 +614,7 @@ Configure log/reporting features. Takes a map.
 
 .. note::
 
-  peer-keys: :ref:`pages/tool/generator_config_ref#cache`, :ref:`pages/tool/generator_config_ref#include`, :ref:`pages/tool/generator_config_ref#library`, :ref:`pages/tool/generator_config_ref#variants`
+  peer-keys: :ref:`pages/tool/generator_config_ref#cache`, :ref:`pages/tool/generator_config_ref#include`, :ref:`pages/tool/generator_config_ref#library`, :ref:`pages/tool/generator_config_ref#variants`, :ref:`pages/tool/generator_config_ref#compile-options` 
 
 This key allows you to enable logging features along various axes. 
 
@@ -652,8 +651,7 @@ This key allows you to enable logging features along various axes.
     * **root** : the root class for the ``dot`` format output; only dependencies starting off of this class are included
     * **file** : output file path (default *deps.dot*)
     * **radius** : include only nodes that are within the given radius (or graph distance) to the root node
-    * **compiled-class-size** : use compiled class size to highlight graph nodes, rather than source file sizes; if true classes might have to be compiled to determine their compiled size, which could cause the log job to run longer (default *true*)
-    * **optimize** : if **compiled-class-size** is true, provide optimization settings here so classes are compiled with the correct optimizations; see :ref:`compile-options/code/optimize <pages/tool/generator_config_ref#compile-options>` for possible values (default [])
+    * **compiled-class-size** : use compiled class size to highlight graph nodes, rather than source file sizes; if true classes might have to be compiled to determine their compiled size, which could cause the log job to run longer; compile optimization settings are searched for in :ref:`compile-options/code/optimize <pages/tool/generator_config_ref#compile-options>`, defaulting to none;  (default *true*)
 
   * **json**:  
 
