@@ -319,7 +319,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
             case 'E': // Day in week
               if (wildcardSize == 2) {
-                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "format");
+                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone");
               } else if (wildcardSize == 3) {
                 replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format");
               } else if (wildcardSize == 4) {
@@ -841,7 +841,7 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.month = fullMonthNames.indexOf(value);
       }
 
-      var narrowDayNames = qx.locale.Date.getDayNames("narrow", this.__locale, "format");
+      var narrowDayNames = qx.locale.Date.getDayNames("narrow", this.__locale, "stand-alone");
       for (var i=0; i<narrowDayNames.length; i++) {
         narrowDayNames[i] = LString.escapeRegexpChars(narrowDayNames[i].toString());
       }
