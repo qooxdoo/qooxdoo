@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
+     2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -25,7 +25,7 @@
  * <pre class="javascript">
  *
  * // Test
- * kx.Class.define("qx.test.Klass",
+ * qx.Class.define("qx.test.Klass",
  * {
  *   extend : qx.dev.unit.TestCase,
  *
@@ -40,7 +40,7 @@
  *       // Spy on obj.doSpecial
  *       var spy = this.spy(obj, "doSpecial");
  *
- *       // Run code that is exptected to fulfill condition
+ *       // Run code that is expected to fulfill condition
  *       obj.onCondition("xyz");
  *
  *       // Assert that spy was called
@@ -50,7 +50,7 @@
  * });
  *
  * // Implementation
- * kx.Class.define("qx.Klass",
+ * qx.Class.define("qx.Klass",
  * {
  *   extend : qx.core.Object,
  *
