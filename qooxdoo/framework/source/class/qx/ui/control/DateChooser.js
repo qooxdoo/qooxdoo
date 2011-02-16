@@ -127,10 +127,14 @@ qx.Class.define("qx.ui.control.DateChooser",
     MONTH_YEAR_FORMAT : qx.locale.Date.getDateTimeFormat("yyyyMMMM", "MMMM yyyy"),
     
     /**
-     * {qx.util.format.DateFormat} The format for the weekday
-     * labels (the headers of the date table).
+     * {string} The format for the weekday labels (the headers of the date table).
      */
-    WEEKDAY_FORMAT : new qx.util.format.DateFormat("EE")
+    WEEKDAY_FORMAT : "EE",
+    
+    /**
+     * {string} The format for the week numbers (the labels of the left column).
+     */
+    WEEK_FORMAT : "ww"
   },
 
 
@@ -669,7 +673,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       // Show the day names
       var firstDayOfWeek = helpDate.getDay();
       var firstSundayInMonth = 1 + ((7 - firstDayOfWeek) % 7);
-      var weekDayFormat = DateChooser.WEEKDAY_FORMAT;
+      var weekDayFormat = new qx.util.format.DateFormat(DateChooser.WEEKDAY_FORMAT);
 
       for (var i=0; i<7; i++)
       {
@@ -692,7 +696,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       var nrDaysOfLastMonth = (7 + firstDayOfWeek - startOfWeek) % 7;
       helpDate.setDate(helpDate.getDate() - nrDaysOfLastMonth);
 
-      var weekFormat = new qx.util.format.DateFormat("ww");
+      var weekFormat = new qx.util.format.DateFormat(DateChooser.WEEK_FORMAT);
 
       for (var week=0; week<6; week++)
       {
