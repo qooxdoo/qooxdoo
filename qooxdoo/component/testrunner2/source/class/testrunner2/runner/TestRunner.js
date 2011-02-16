@@ -198,10 +198,12 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     
     /**
      * Wraps all assert* methods included in qx.dev.unit.TestCase in try/catch
-     * blocks. Caught exceptions are stored in an Array and attached to the test
-     * function. The idea here is that exceptions shouldn't abort the test 
-     * execution (this has caused some extremely hard to debug problems in the
-     * qooxdoo framework unit tests in the past).
+     * blocks. For each caught exception, a data event containing the Error 
+     * object will be fired on the test class. This allows the Testrunner to 
+     * mark the test as failed while any code following an assertion call will 
+     * still be executed. Aborting the test execution whenever an assertion 
+     * fails has caused some extremely hard to debug problems in the qooxdoo 
+     * framework unit tests in the past.
      * 
      * Doing this in the Testrunner application is a temporary solution: It 
      * really should be done in qx.dev.unit.TestCase, but that would break 
@@ -226,13 +228,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
             try {
               this[arguments.callee.originalName].apply(self, argumentsArray);
             } catch(ex) {
-              var testFunction = arguments.callee.caller;
-              // attach any exceptions to the test function that called the
-              // assertion
-              if (!testFunction._exceptions) {
-                testFunction._exceptions = [];
-              }
-              testFunction._exceptions.push(ex);
+              this.fireDataEvent("assertionFailed", ex);
             }
           };
           tCase[prop].originalName = originalName;
@@ -392,6 +388,13 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         */
         
         qx.event.Timer.once(this.runTests, this, 0);
+      }, this);
+      
+      testResult.addListener("assertionFailed", function(ev) {
+        var ex = this.currentTestData.getExceptions() || [];
+        ex.push(ev.getData());
+        this.currentTestData.setExceptions(ex);
+        this.currentTestData.setState("error");
       }, this);
       
       return testResult;

@@ -26,6 +26,18 @@ qx.Class.define("qx.dev.unit.TestCase",
   extend  : qx.core.Object,
   include : [qx.core.MAssert],
 
+  events :
+  {
+    /**
+     * This event can be fired by assertion functions instead of throwing a 
+     * {@link qx.core.AssertionError}, ensuring that any code defined after the
+     * assertion call will still run. Only supported by testrunner2.
+     * 
+     * Event data: The {@link qx.core.AssertionError}
+     */
+    assertionFailed : "qx.event.type.Data"
+  },
+  
   properties :
   {
     /** The TestResult instance that runs the test */

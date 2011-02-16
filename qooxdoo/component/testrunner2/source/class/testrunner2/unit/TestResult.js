@@ -66,6 +66,17 @@ qx.Class.define("testrunner2.unit.TestResult", {
       if(!this._timeout) {
         this._timeout = {};
       }
+      
+      var testClass = test.getTestClass();
+      if (!testClass.hasListener("assertionFailed")) {
+        testClass.addListener("assertionFailed", function(ev) {
+          var error = [{
+            exception : ev.getData(),
+            test      : test
+          }];
+          this.fireDataEvent("error", error);
+        }, this);
+      }
 
       if (resume && !this._timeout[test.getFullName()]) {
         this._timeout[test.getFullName()] = "failed";
@@ -75,11 +86,6 @@ qx.Class.define("testrunner2.unit.TestResult", {
         return;
       }
       
-      // delete any exceptions stored in a previous run
-      if (test.getTestClass()[test.getName()]._exceptions) {
-        test.getTestClass()[test.getName()]._exceptions = [];
-      }
-
       this.fireDataEvent("startTest", test);
 
       if (this._timeout[test.getFullName()])
@@ -155,15 +161,6 @@ qx.Class.define("testrunner2.unit.TestResult", {
         }
       }
       
-      var savedExceptions = test.getTestClass()[test.getName()]._exceptions;
-      if (savedExceptions && savedExceptions.length > 0) {
-        var error = true;
-        try {
-          this.tearDown(test);
-        } catch(except) {}
-        this._createError("failure", savedExceptions, test);
-      }
-
       if (!error)
       {
         try {
