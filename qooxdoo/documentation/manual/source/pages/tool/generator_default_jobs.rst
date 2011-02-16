@@ -25,6 +25,8 @@ Create api doc for the current library. Use the following macros to tailor the s
 
 The syntax for the class pattern is like those for the :ref:`include <pages/tool/generator_config_ref#include>` config key.
 
+Classes, which are not covered by ``API_INCLUDE``, are nevertheless included in the api data with their full class description *if* they are required for inheritance relationships (e.g. a class that is included derives from a class which is not). If such a required class is explicitly *excluded* with ``API_EXCLUDE``, a stub entry for it will be included in the api data to just show the inheritance relationship.
+
 .. _pages/tool/generator_default_jobs#api-data:
 
 api-data
