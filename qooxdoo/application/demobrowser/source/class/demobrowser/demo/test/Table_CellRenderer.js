@@ -70,8 +70,16 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
 
 
       // setup aliases
-      qx.util.AliasManager.getInstance().add("decoration", "qx/decoration/Modern");
-      qx.util.AliasManager.getInstance().add("icon", "qx/icon/Tango");
+      var qxTheme = qx.core.Setting.get("qx.theme");
+      var themeName = /\.([a-z]+)$/i.exec(qxTheme)[1];
+      qx.util.AliasManager.getInstance().add("decoration", "qx/decoration/" + themeName);
+      if (themeName == "Classic") {
+        qx.util.AliasManager.getInstance().add("icon", "qx/icon/Oxygen");  
+      }
+      else 
+      {
+        qx.util.AliasManager.getInstance().add("icon", "qx/icon/Tango");
+      }
     },
 
 
@@ -192,7 +200,9 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
 
       var nf = qx.util.format.NumberFormat;
       var formats = [
-        nf.getIntegerInstance(),
+        new nf().set({
+          maximumFractionDigits : 0
+        }),
         new nf().set({
           minimumFractionDigits: 3,
           maximumFractionDigits: 5,
