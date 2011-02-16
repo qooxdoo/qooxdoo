@@ -24,42 +24,43 @@
  *
  * Here is a quick overview of the format pattern keys:
  * <table>
- * <tr><td> G <td> era, e.g. "AD"
- * <tr><td> y <td> year
- * <tr><td> Y <td> year
- * <tr><td> u <td> extended year
- * <tr><td> Q <td> quater
- * <tr><td> q <td> stand-alone quater
- * <tr><td> M <td> month
- * <tr><td> L <td> stand-alone month
- * <tr><td> I <td> chinese leap month
- * <tr><td> w <td> week of year
- * <tr><td> W <td> week of month
- * <tr><td> d <td> day of month
- * <tr><td> D <td> day of year
- * <tr><td> F <td> day of week in month
- * <tr><td> g <td> modified Julian day
- * <tr><td> E <td> day of week
- * <tr><td> e <td> local day of week
- * <tr><td> c <td> stand-alone local day of week
- * <tr><td> a <td> period of day (am or pm)
- * <tr><td> h <td> 12-hour hour
- * <tr><td> H <td> 24-hour hour
- * <tr><td> K <td> hour [0-11]
- * <tr><td> k <td> hour [1-24]
- * <tr><td> j <td> special symbol
- * <tr><td> m <td> minute
- * <tr><td> s <td> second
- * <tr><td> S <td> fractal second
- * <tr><td> A <td> milli-second in day
- * <tr><td> z <td> time zone, specific non-location format
- * <tr><td> Z <td> time zone, rfc822/gmt format
- * <tr><td> v <td> time zone, generic non-location format
- * <tr><td> V <td> time zone, like z except metazone abbreviations
+ * <tr><th>Key &nbsp;<th>Description
+ * <tr><td><code> G </code><td> era, e.g. "AD"
+ * <tr><td><code> y </code><td> year
+ * <tr><td><code> Y </code><td> year
+ * <tr><td><code> u </code><td> extended year
+ * <tr><td><code> Q </code><td> quater
+ * <tr><td><code> q </code><td> stand-alone quater
+ * <tr><td><code> M </code><td> month
+ * <tr><td><code> L </code><td> stand-alone month
+ * <tr><td><code> I </code><td> chinese leap month
+ * <tr><td><code> w </code><td> week of year
+ * <tr><td><code> W </code><td> week of month
+ * <tr><td><code> d </code><td> day of month
+ * <tr><td><code> D </code><td> day of year
+ * <tr><td><code> F </code><td> day of week in month
+ * <tr><td><code> g </code><td> modified Julian day
+ * <tr><td><code> E </code><td> day of week
+ * <tr><td><code> e </code><td> local day of week
+ * <tr><td><code> c </code><td> stand-alone local day of week
+ * <tr><td><code> a </code><td> period of day (am or pm)
+ * <tr><td><code> h </code><td> 12-hour hour
+ * <tr><td><code> H </code><td> 24-hour hour
+ * <tr><td><code> K </code><td> hour [0-11]
+ * <tr><td><code> k </code><td> hour [1-24]
+ * <tr><td><code> j </code><td> special symbol
+ * <tr><td><code> m </code><td> minute
+ * <tr><td><code> s </code><td> second
+ * <tr><td><code> S </code><td> fractal second
+ * <tr><td><code> A </code><td> millisecond in day
+ * <tr><td><code> z </code><td> time zone, specific non-location format
+ * <tr><td><code> Z </code><td> time zone, rfc822/gmt format
+ * <tr><td><code> v </code><td> time zone, generic non-location format
+ * <tr><td><code> V </code><td> time zone, like z except metazone abbreviations
  * </table>
  *
  * (This list is preliminary, not all format keys might be implemented). Most
- * keys support repetitions that influence the format pattern. Parts of the
+ * keys support repetitions that influence the meaning of the format. Parts of the
  * format string that should not be interpreted as format keys have to be
  * single-quoted.
  *
