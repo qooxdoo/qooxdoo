@@ -83,6 +83,7 @@ class Generator(object):
 
 
 
+    ##
     # This is the main dispatch method to run a single job. It uses the top-
     # level keys of the job description to run all necessary methods. In order
     # to do so, it also sets up a lot of tool chain infrastructure.
@@ -190,6 +191,9 @@ class Generator(object):
           }
 
 
+        ##
+        # Invoke the DependencyLoader to calculate the list of required classes
+        # from include/exclude settings
         def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps=False, script=None):
             self._console.info("Resolving dependencies")
             self._console.indent()
@@ -199,6 +203,9 @@ class Generator(object):
             return classList
 
 
+        ##
+        # Invoke the Library() objects on involved libraries, to collect class
+        # and resource lists etc.
         def scanLibrary(libraryKey):
 
             def getJobsLib(path):
@@ -283,10 +290,10 @@ class Generator(object):
 
 
 
+        ##
+        # Invoke the PartBuilder to compute the packages for the configured
+        # parts.
         def partsConfigFromClassList(excludeWithDeps, script):
-
-            classList  = script.classes
-            variants   = script.variants
 
             def evalPackagesConfig(excludeWithDeps, classList, variants):
                 
@@ -307,6 +314,11 @@ class Generator(object):
                 #return boot, partPackages, packageClasses
                 return script.boot, script.parts, packageClasses
 
+
+            # -----------------------------------------------------------
+            classList  = script.classes
+            variants   = script.variants
+            self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
 
             # Check for package configuration
             if self._job.get("packages"):
@@ -333,6 +345,8 @@ class Generator(object):
             return boot, partPackages, packageClasses
 
 
+        ##
+        # Get the variants from the config
         def getVariants():
             # TODO: Runtime variants support is currently missing
             variants = {}
@@ -353,6 +367,8 @@ class Generator(object):
             return variants
 
 
+        ##
+        # Get the exclude definition from the config
         def getExcludes(excludeCfg):
             #excludeCfg = self._job.get("exclude", [])
             excludeWithDeps = []
@@ -404,7 +420,8 @@ class Generator(object):
             return excludeWithDeps, excludeNoDeps
 
 
-
+        ##
+        # Get the include definition from the config
         def getIncludes(includeCfg):
             #includeCfg = self._job.get("include", [])
 
@@ -449,6 +466,8 @@ class Generator(object):
             return includeWithDeps, includeNoDeps
 
 
+        ##
+        # Console output about variant being generated
         def printVariantInfo(variantSetNum, variants, variantSets, variantData):
             if len(variantSets) < 2:  # only log when more than 1 set
                 return
@@ -471,6 +490,22 @@ class Generator(object):
             
             return
 
+
+        def prepareGenerator1():
+            # scanning given library paths
+            (self._namespaces,
+             self._classes,
+             self._classesObj,
+             self._docs,
+             self._translations,
+             self._libraries)     = scanLibrary(config.get("library"))
+
+
+            # create tool chain instances
+            #self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
+            self._locale         = Locale(self._context, self._classes, self._classesObj, self._translations, self._cache, self._console, )
+            self._depLoader      = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
+            self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._classes)
 
         # -- Main --------------------------------------------------------------
 
@@ -537,39 +572,20 @@ class Generator(object):
 
         # -- Process job triggers that require a class list (and some)
 
-        # scanning given library paths
-        (self._namespaces,
-         self._classes,
-         self._classesObj,
-         self._docs,
-         self._translations,
-         self._libraries)     = scanLibrary(config.get("library"))
-
-
-        # Python2.6 only:
-        #print len(self._classesObj), len(self._classesObj) * sys.getsizeof(Class("a","b",{}))
-        #print len(self._classes), len(self._classes) * sys.getsizeof(self._classes["qx.Class"])
-
-        # create tool chain instances
-        #self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
-        self._locale         = Locale(self._context, self._classes, self._classesObj, self._translations, self._cache, self._console, )
-        self._depLoader      = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
-        self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._classes)
+        prepareGenerator1()
 
         # Preprocess include/exclude lists
         includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
         excludeWithDeps, excludeNoDeps = getExcludes(self._job.get("exclude", []))
-        # get a class list with no variants (all-encompassing)
-        #classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, 
-        #                             excludeNoDeps, {}, verifyDeps=True, script=None)
-        classListProducer = functools.partial(  # the args are complete, but invocation shall be later
-                               computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
-                                     excludeNoDeps, {}, verifyDeps=True, script=None)
         
         # process job triggers
         if classdepTriggers:
             for trigger in classdepTriggers:
                 if trigger == "api":
+                    # class list with no variants (all-encompassing)
+                    classListProducer = functools.partial(#args are complete, but invocation shall be later
+                               computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
+                               excludeNoDeps, {}, verifyDeps=True, script=None)
                     self.runApiData(classListProducer)
                 #elif trigger == "copy-resources":
                 #    self.runResources(classList)
@@ -604,15 +620,6 @@ class Generator(object):
 
         # Create tool chain instances
         self._treeCompiler   = TreeCompiler(self._classes, self._classesObj, self._context)
-        self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
-
-        # TODO: the next is a kludge to optimize compile behaviour
-        if "log" in jobTriggers:
-            optimize = config.get("log/dependencies/dot/optimize", [])
-            self._treeCompiler.setOptimize(optimize)
-        if "compile-dist" or "compile-options" in jobTriggers:  # let the compile-dist settings win
-            optimize = config.get("compile-dist/code/optimize", []) or config.get("compile-options/code/optimize", [])
-            self._treeCompiler.setOptimize(optimize)
 
         # Processing all combinations of variants
         variantData = getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
@@ -1086,7 +1093,7 @@ class Generator(object):
             def addNodes(gr, st_nodes):
                 # rather gr.add_nodes(st), go through indiviudal nodes for coloring
                 useCompiledSize = depsLogConf.get("dot/compiled-class-size", True)
-                optimize        = depsLogConf.get("dot/optimize", [])
+                optimize        = self._config.get("compile-options/code/optimize", [])
                 for cid in st_nodes:
                     if cid == None:  # None is introduced in st
                         continue
