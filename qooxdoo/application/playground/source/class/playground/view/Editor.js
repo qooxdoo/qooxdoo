@@ -98,9 +98,12 @@ qx.Class.define("playground.view.Editor",
       this.__editor.setDecorator("separator-vertical");
       var highlightDisabled = false;
       // FF2 does not have that...
-      // also block the editor for IE which seems not to work
-      // https://github.com/ajaxorg/ace/issues/issue/7
-      if (!document.createElement("div").getBoundingClientRect || qx.bom.client.Browser.NAME == "ie") {
+      // also block the editor for Opera which seems not to work
+      // https://github.com/ajaxorg/ace/issues/#issue/137
+      if (
+        !document.createElement("div").getBoundingClientRect || 
+        qx.bom.client.Browser.NAME == "opera"
+      ) {
       // https://github.com/ajaxorg/ace/issues/issue/3
         this.fireEvent("disableHighlighting");
         highlightDisabled = true;
