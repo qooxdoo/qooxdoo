@@ -390,13 +390,6 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         qx.event.Timer.once(this.runTests, this, 0);
       }, this);
       
-      testResult.addListener("assertionFailed", function(ev) {
-        var ex = this.currentTestData.getExceptions() || [];
-        ex.push(ev.getData());
-        this.currentTestData.setExceptions(ex);
-        this.currentTestData.setState("error");
-      }, this);
-      
       return testResult;
     },
     
