@@ -203,7 +203,7 @@ qx.Class.define("qx.locale.Date",
     /**
      * Try to localize a date/time format string.
      *
-     * If now localization is available take the fallback format string
+     * If no localization is available take the fallback format string
      *
      * @param canonical {String} format string containing only field information, and in a canonical order.
      *       Examples are "yyyyMMMM" for year + full month, or "MMMd" for abbreviated month + day.
