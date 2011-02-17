@@ -253,6 +253,19 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     },
 
 
+    /**
+     * Returns if the passed item is a note or a leaf.
+     *
+     * @internal
+     * @param item {Object} Item to check.
+     * @return {Boolean} <code>True</code> when item is a node, 
+     *   </code>false</code> when item is a leaf.
+     */
+    isNode : function(node) {
+      return node.children != null ? true : false;
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY METHODS
@@ -343,7 +356,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     {
       var visible = [];
 
-      if (parent.children == null) {
+      if (!this.isNode(parent)) {
         return visible;
       }
 
@@ -397,7 +410,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         return true;
       }
 
-      if (startNode.children == null) {
+      if (!this.isNode(startNode)) {
         return false;
       }
 

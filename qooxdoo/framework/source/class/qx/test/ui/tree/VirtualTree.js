@@ -216,6 +216,19 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     },
 
 
+    testIsNode : function()
+    {
+      var model = this.createModel(3);
+      this.tree.setModel(model);
+
+      var root = model;
+      this.assertTrue(this.tree.isNode(root));
+      this.assertTrue(this.tree.isNode(root.children[9].children[9]));
+      this.assertTrue(this.tree.isNode(root.children[9].children[9].children[9]));
+      this.assertFalse(this.tree.isNode(root.children[9].children[9].children[9].children[9]));
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS TO CREATE A TREE STRUCTURE
