@@ -404,6 +404,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     __buildLookupTable : function()
     {
+      if (this.getChildProperty() == null || this.getLabelPath() == null) {
+        throw new Error("Could not build tree, because 'childProperty' and/or 'labelPath' is 'null'!");
+      }
+
       var lookupTable = [];
       this.__nestingLevel = [];
 

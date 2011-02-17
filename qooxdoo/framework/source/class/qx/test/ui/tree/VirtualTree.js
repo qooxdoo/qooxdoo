@@ -197,6 +197,17 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     },
 
 
+    testExceptionOnSetMode : function()
+    {
+      var model = this.createModel(0);
+
+      var that = this;
+      this.assertException(function() {
+        that.tree.setModel(model);
+      }, Error, "Could not build tree, because 'childProperty' and/or 'labelPath' is 'null'!");
+    },
+
+
     testBuildLookupTable : function()
     {
       var root = this.createModelAndSetModel(2);
