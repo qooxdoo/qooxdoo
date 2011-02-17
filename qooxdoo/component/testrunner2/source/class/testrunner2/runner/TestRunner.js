@@ -329,8 +329,10 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         }
         */
         
-        this.currentTestData = new testrunner2.runner.TestResultData(test.getFullName());
-        this.view.addTestResult(this.currentTestData);
+        if (!this.currentTestData || this.currentTestData.getState() !== "wait") {
+          this.currentTestData = new testrunner2.runner.TestResultData(test.getFullName());
+          this.view.addTestResult(this.currentTestData);
+        }
       }, this);
       
       testResult.addListener("wait", function(e) {
