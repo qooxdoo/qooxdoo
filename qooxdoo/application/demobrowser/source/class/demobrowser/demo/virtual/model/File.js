@@ -24,6 +24,16 @@ qx.Class.define("demobrowser.demo.virtual.model.File",
   {
     this.base(arguments);
 
-    this.name = name;
+    this.setName(name);
+  },
+  
+  properties :
+  {
+    name :
+    {
+      check : "String",
+      event : "changeName",
+      nullable : true
+    }
   }
 });

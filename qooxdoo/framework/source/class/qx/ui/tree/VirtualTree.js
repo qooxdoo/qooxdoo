@@ -30,16 +30,24 @@ qx.Class.define("qx.ui.tree.VirtualTree",
   /**
    * @param model {qx.core.Object|null} The model structure for the tree.
    */
-  construct : function(model)
+  construct : function(model, labelPath, childPath)
   {
     this.base(arguments, 0, 1, 20, 100);
 
     this._init();
 
+    if (labelPath != null) {
+      this.setLabelPath(labelPath);
+    }
+    
+    if (childPath != null) {
+      this.setChildPath(childPath)
+    }
+    
     if(model != null) {
       this.initModel(model);
     }
-
+    
     this.initItemHeight();
   },
 
@@ -126,6 +134,27 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       check: "Boolean",
       init: false,
       apply: "_applyRootOpenClose"
+    },
+
+
+    /** The name of the property, where the children are stored in the model. */
+    childPath :
+    {
+      check: "String",
+//      apply: "_applyChildPath",
+      nullable: true
+    },
+
+
+    /**
+     * The name of the property, where the value for the tree folders label
+     * is stored in the model classes.
+     */
+    labelPath :
+    {
+      check: "String",
+//      apply: "_applyLabelPath",
+      nullable: true
     },
 
 
@@ -286,8 +315,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * @return {Boolean} <code>True</code> when item is a node, 
      *   </code>false</code> when item is a leaf.
      */
-    isNode : function(node) {
-      return node.children != null ? true : false;
+    isNode : function(node)
+    {
+      var children = node["get" + qx.lang.String.firstUp(this.getChildPath())];
+      return children != null ? true : false;
     },
 
 
@@ -408,9 +439,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         return visible;
       }
 
-      for (var i = 0; i < node.children.length; i++)
+      var children = node["get" + qx.lang.String.firstUp(this.getChildPath())]();
+      for (var i = 0; i < children.length; i++)
       {
-        var child = node.children[i];
+        var child = children[i];
         this.__nestingLevel.push(nestedLevel);
         visible.push(child);
 
@@ -463,9 +495,14 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         return false;
       }
 
-      for (var i = 0; i < startNode.children.length; i++)
+      var children = startNode["get" + qx.lang.String.firstUp(this.getChildPath())]();
+      if (children == null) {
+        return false;
+      }
+      
+      for (var i = 0; i < children.length; i++)
       {
-        var child = startNode.children[i];
+        var child = children[i];
         var result = this.__openNodeAndAllParents(child, targetNode);
 
         if (result === true)

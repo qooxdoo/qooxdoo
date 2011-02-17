@@ -23,16 +23,34 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
 
   members :
   {
+    tree : null,
+    model : null,
+    
     main: function()
     {
       this.base(arguments);
 
-      var tree = this.getTree();
+      var tree = this.tree = this.getTree();
       this.getRoot().add(tree, {top: 20, left: 20});
     },
 
 
     getTree : function()
+    {
+      var model = this.model = this.createModel();
+      var tree = new qx.ui.tree.VirtualTree(model, "name", "children").set({
+        width : 200,
+        height : 400
+      });
+
+      // Opens the 'Desktop' node
+      tree.openNode(model.getChildren()[0]);
+
+      return tree;
+    },
+
+
+    createModel : function()
     {
       var junk = [];
       for (var i = 0; i < 30; i++) {
@@ -42,47 +60,43 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       var model = new demobrowser.demo.virtual.model.Folder(
         "root",
         [
-          new demobrowser.demo.virtual.model.Folder(
-            "Desktop",
-            [
-              new demobrowser.demo.virtual.model.Folder("Files"),
-              new demobrowser.demo.virtual.model.Folder("Workspace", 
-                [
-                  new demobrowser.demo.virtual.model.File("Windows (C:)"),
-                  new demobrowser.demo.virtual.model.File("Documents (D:)")
-                ]
-              ),
-              new demobrowser.demo.virtual.model.Folder("Network"),
-              new demobrowser.demo.virtual.model.Folder("Trash")
-            ]
-          ),
-          new demobrowser.demo.virtual.model.Folder(
-            "Inbox",
-            [
-              new demobrowser.demo.virtual.model.Folder("Presets"),
-              new demobrowser.demo.virtual.model.Folder("Sent"),
-              new demobrowser.demo.virtual.model.Folder("Trash", junk),
-              new demobrowser.demo.virtual.model.Folder("Data"),
-              new demobrowser.demo.virtual.model.Folder("Edit")
-            ]
-          )
-        ]
+         new demobrowser.demo.virtual.model.Folder(
+           "Desktop",
+           [
+             new demobrowser.demo.virtual.model.Folder("Files"),
+             new demobrowser.demo.virtual.model.Folder("Workspace", 
+               [
+                 new demobrowser.demo.virtual.model.File("Windows (C:)"),
+                 new demobrowser.demo.virtual.model.File("Documents (D:)")
+               ]
+             ),
+             new demobrowser.demo.virtual.model.Folder("Network"),
+             new demobrowser.demo.virtual.model.Folder("Trash")
+           ]
+         ),
+         new demobrowser.demo.virtual.model.Folder(
+           "Inbox",
+           [
+             new demobrowser.demo.virtual.model.Folder("Presets"),
+             new demobrowser.demo.virtual.model.Folder("Sent"),
+             new demobrowser.demo.virtual.model.Folder("Trash", junk),
+             new demobrowser.demo.virtual.model.Folder("Data"),
+             new demobrowser.demo.virtual.model.Folder("Edit")
+           ]
+         )
+       ]
       );
       
-      var tree = new qx.ui.tree.VirtualTree(model).set({
-        width : 200,
-        height : 400
-      });
-
-      // Opens the 'Desktop' node
-      tree.openNode(model.children[0]);
-
-      return tree;
-    },
-
-
-    createModel : function()
-    {
+      return model;
     }
+  },
+  
+  
+  destruct : function()
+  { 
+    this.tree.dispose();
+    this.model.dispose();
+    
+    this.tree = this.model = null;
   }
 });

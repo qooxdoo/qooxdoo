@@ -27,6 +27,28 @@ qx.Class.define("demobrowser.demo.virtual.model.Folder",
     if (children == null) {
       children = [];
     }
-    this.children = children
+    this.setChildren(children);
+  },
+      
+  properties :
+  {
+    children :
+    {
+      check : "Array",
+      event : "changeChildren",
+      nullable : true
+    }
+  },
+  
+  destruct : function()
+  {
+    if (!qx.core.ObjectRegistry.inShutDown)
+    {
+      var children = this.getChildren();
+      for (var i = 0; i  < children.length; i++) {
+        children[i].dispose();
+      }
+      this.setChildren(null);
+    }
   }
 });
