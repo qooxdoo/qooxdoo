@@ -210,22 +210,45 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       var root = this.getModel();
       this.__lookupTable.push(root);
 
-      for (var i = 0; i < root.children.length; i++)
-      {
-        var item = root.children[i];
-        this.__lookupTable.push(item);
-        
-        if (this.isOpen(item))
-        {
-          for (var k = 0; k < item.children.length; k++) {
-            this.__lookupTable.push(item.children[k]);
-          }
-        }
-      }
-
+      var visibleChildren = this.__getVisibleChildrenFrom(root);
+      this.__lookupTable = this.__lookupTable.concat(visibleChildren);
+      
       this.__updateRowCount();
     },
 
+    
+    /**
+     * Helper method to get all visible children form the passed parent node.
+     * 
+     * The algorithm implements a depth-first search with a complexity:
+     *    <code>O(n) n</code> are all visible items.
+     * 
+     * @param parent {Object} The parent node to start search.
+     * @return {Array} All visible children form the parent.
+     */
+    __getVisibleChildrenFrom : function(parent)
+    {
+      var visible = [];
+      
+      if (parent.children == null) {
+        return visible;
+      }
+      
+      for (var i = 0; i < parent.children.length; i++)
+      {
+        var child = parent.children[i];
+        visible.push(child);
+        
+        if (this.isOpen(child))
+        {
+          var visibleChildren = this.__getVisibleChildrenFrom(child);
+          visible = visible.concat(visibleChildren);
+        }
+      }
+      
+      return visible;
+    },
+    
 
     /**
      * Returns the internal data structure. The Array index is the

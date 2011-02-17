@@ -121,12 +121,20 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     testBuildLookupTableWithOpenNodes : function()
     {
       var model = this.createModel();
-      var root = model;
-
       this.tree.setModel(model);
-      this.tree.setOpen(root.children[0]);
+      
+      var root = model;
+      var openNodes = [
+        root, 
+        root.children[9],
+        root.children[9].children[5]
+      ];
+      
+      for (var i = 0; i < openNodes.length; i++) {
+        this.tree.setOpen(openNodes[i]);
+      }
 
-      var expected = this.__getVisibleItemsFrom(root, [root, root.children[0]]);
+      var expected = this.__getVisibleItemsFrom(root, openNodes);
       qx.lang.Array.insertAt(expected, root, 0);
 
       this.__testBuildLookupTable(expected);
