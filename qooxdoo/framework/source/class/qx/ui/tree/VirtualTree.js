@@ -170,14 +170,20 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     /**
      * Set node as opened.
      *
+     * Note! The algorithm which opens all parents implements a depth-first
+     * search with a complexity:
+     *    <code>O(n) n</code> are all model items.
+     *
      * @param node {Object} Node to open.
+     * @param andAllParents {Boolean?false} Whether all parents should set to opened.
      */
-    setOpen : function(node) {
-      if (!qx.lang.Array.contains(this.__openNodes, node))
-      {
-        this.__openNodes.push(node);
-        this.__buildLookupTable();
+    setOpen : function(node, andAllParents) {
+      if (andAllParents === true) {
+        this.__openNodeAndAllParents(this.getModel(), node);
+      } else {
+        this.__openNode(node);
       }
+      this.__buildLookupTable();
     },
 
 
@@ -335,6 +341,60 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
 
       return visible;
+    },
+
+
+    /**
+     * Helper method to set the node to the open nodes data structure
+     * when it is not included.
+     *
+     * @param node {Object} Node to set to open nodes.
+     */
+    __openNode : function(node)
+    {
+      if (!qx.lang.Array.contains(this.__openNodes, node)) {
+        this.__openNodes.push(node);
+      }
+    },
+
+
+    /**
+     * Helper method to set the target node and all his parents to the
+     * open nodes data structure.
+     *
+     * The algorithm implements a depth-first search with a complexity:
+     *    <code>O(n) n</code> are all model items.
+     *
+     * @param startNode {Object} Start (root) node to search.
+     * @param targetNode {Object} Target node to open (and his parents).
+     * @return {Boolean} <code>True</code> when the targetNode and his
+     *  parents could opened, <code>false</code> otherwise.
+     */
+    __openNodeAndAllParents : function(startNode, targetNode)
+    {
+      if (startNode === targetNode)
+      {
+        this.__openNode(targetNode);
+        return true;
+      }
+
+      if (startNode.children == null) {
+        return false;
+      }
+
+      for (var i = 0; i < startNode.children.length; i++)
+      {
+        var child = startNode.children[i];
+        var result = this.__openNodeAndAllParents(child, targetNode);
+
+        if (result === true)
+        {
+          this.__openNode(child);
+          return true;
+        }
+      }
+
+      return false;
     },
 
 
