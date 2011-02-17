@@ -950,7 +950,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         color : "border-input",
-        innerColor : "white",
+        innerColor : "input-border-inner",
         innerWidth: 1,
         width : 1,
         backgroundColor : "background-light",
@@ -1008,7 +1008,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         outerColor : "border-input",
-        innerColor : "white",
+        innerColor : "input-border-inner",
         innerOpacity : 0.5,
         backgroundImage : "decoration/form/input.png",
         backgroundRepeat : "repeat-x",
@@ -1536,7 +1536,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundColor : "background-pane",
 
         width : 1,
-        color : "border-main",
+        color : "window-border",
         widthTop : 0,
         
         shadowBlurRadius : 4,

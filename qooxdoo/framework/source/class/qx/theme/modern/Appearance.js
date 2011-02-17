@@ -1005,7 +1005,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         
         if (qx.bom.client.Feature.CSS_GRADIENTS) {
           decorator += "-css";
-        }        
+        }
 
         return {
           backgroundColor : "background-light",
@@ -2118,6 +2118,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "input";
         }
 
+        if (qx.bom.client.Feature.CSS_GRADIENTS) {
+          decorator += "-css";
+        }
+
         return {
           padding : 2,
           decorator : decorator,
@@ -2265,6 +2269,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "border-invalid";
         } else {
           decorator = "input";
+        }
+
+        if (qx.bom.client.Feature.CSS_GRADIENTS) {
+          decorator += "-css";
         }
 
         return {

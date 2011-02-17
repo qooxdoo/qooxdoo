@@ -252,7 +252,8 @@ qx.Theme.define("qx.theme.modern.Color",
     "input-focused-end" : "#5CB0FD",
     "input-focused-inner-invalid" : "#FF6B78",
     "input-border-disabled" : "#9B9B9B",
-    
+    "input-border-inner" : "white",
+
     "toolbar-start" : "#EFEFEF",
     "toolbar-end" : "#DDDDDD",
     
