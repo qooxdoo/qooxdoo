@@ -131,7 +131,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       ];
 
       for (var i = 0; i < openNodes.length; i++) {
-        this.tree.setOpen(openNodes[i]);
+        this.tree.openNode(openNodes[i]);
       }
 
       var expected = this.__getVisibleItemsFrom(root, openNodes);
@@ -154,10 +154,10 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       ];
 
       for (var i = 0; i < openNodes.length; i++) {
-        this.tree.setOpen(openNodes[i]);
+        this.tree.openNode(openNodes[i]);
       }
 
-      this.tree.removeOpen(openNodes[openNodes.length - 1]);
+      this.tree.closeNode(openNodes[openNodes.length - 1]);
       openNodes.pop();
 
       var expected = this.__getVisibleItemsFrom(root, openNodes);
@@ -173,7 +173,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       this.tree.setModel(model);
 
       var root = model;
-      this.tree.removeOpen(root);
+      this.tree.closeNode(root);
 
       var expected = [root];
       this.__testBuildLookupTable(expected);
@@ -200,22 +200,22 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     },
 
 
-    testIsOpenNode : function()
+    testIsNodeOpen : function()
     {
       var model = this.createModel(3);
       this.tree.setModel(model);
 
       var root = model;
-      this.tree.setOpen(root);
-      this.tree.setOpen(root.children[0]);
+      this.tree.openNode(root);
+      this.tree.openNode(root.children[0]);
 
-      this.assertTrue(this.tree.isOpen(root));
-      this.assertTrue(this.tree.isOpen(root.children[0]));
-      this.assertFalse(this.tree.isOpen(root.children[1]));
+      this.assertTrue(this.tree.isNodeOpen(root));
+      this.assertTrue(this.tree.isNodeOpen(root.children[0]));
+      this.assertFalse(this.tree.isNodeOpen(root.children[1]));
     },
 
 
-    testSetOpenNodes : function()
+    testOpenNode : function()
     {
       var model = this.createModel(3);
       this.tree.setModel(model);
@@ -225,15 +225,15 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       expectedOpen.push(root);
       expectedOpen.push(root.children[0]);
 
-      this.tree.setOpen(root.children[0]);
+      this.tree.openNode(root.children[0]);
       this.assertArrayEquals(expectedOpen, this.tree.getOpenNodes());
 
-      this.tree.setOpen(root.children[0]);
+      this.tree.openNode(root.children[0]);
       this.assertArrayEquals(expectedOpen, this.tree.getOpenNodes());
     },
 
 
-    testRemoveOpenNodes : function()
+    testCloseNode : function()
     {
       var model = this.createModel(3);
       this.tree.setModel(model);
@@ -243,16 +243,16 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       expectedOpen.push(root);
       expectedOpen.push(root.children[0]);
 
-      this.tree.setOpen(root.children[0]);
+      this.tree.openNode(root.children[0]);
       this.assertArrayEquals(expectedOpen, this.tree.getOpenNodes());
 
-      this.tree.removeOpen(root.children[0]);
+      this.tree.closeNode(root.children[0]);
       expectedOpen.pop();
       this.assertArrayEquals(expectedOpen, this.tree.getOpenNodes());
     },
 
 
-    testRemoveRootFromOpenNodes : function()
+    testCloseNodeWithRoot : function()
     {
       var model = this.createModel(3);
       this.tree.setModel(model);
@@ -262,16 +262,16 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       expectedOpen.push(root);
       expectedOpen.push(root.children[0]);
 
-      this.tree.setOpen(root.children[0]);
+      this.tree.openNode(root.children[0]);
       this.assertArrayEquals(expectedOpen, this.tree.getOpenNodes());
 
-      this.tree.removeOpen(root.children[0]);
-      this.tree.removeOpen(root);
+      this.tree.closeNode(root.children[0]);
+      this.tree.closeNode(root);
       this.assertArrayEquals([], this.tree.getOpenNodes());
     },
 
 
-    testSetOpenNodesWithOpenParent : function()
+    testOpenNodeWithAllParents : function()
     {
       var model = this.createModel(3);
       this.tree.setModel(model);
@@ -283,7 +283,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       expectedOpen.push(root.children[9].children[9]);
       expectedOpen.push(root.children[9].children[9].children[9]);
 
-      this.tree.setOpen(root.children[9].children[9].children[9], true);
+      this.tree.openNode(root.children[9].children[9].children[9], true);
 
       var openNodes = this.tree.getOpenNodes();
       this.assertEquals(expectedOpen.length, openNodes.length);
@@ -313,9 +313,9 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       this.tree.setModel(model);
 
       var root = model;
-      this.tree.setOpen(root.children[5]);
-      this.tree.setOpen(root.children[5].children[7]);
-      this.tree.setOpen(root.children[5].children[7].children[1]);
+      this.tree.openNode(root.children[5]);
+      this.tree.openNode(root.children[5].children[7]);
+      this.tree.openNode(root.children[5].children[7].children[1]);
 
       this.assertEquals(0, this.tree.getLevel(this.__getRowFrom(root)));
       this.assertEquals(1, this.tree.getLevel(this.__getRowFrom(root.children[5])));

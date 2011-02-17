@@ -104,7 +104,7 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       });
 
       // Opens the 'Desktop' node
-      tree.setOpen(model.children[0]);
+      tree.openNode(model.children[0]);
 
       return tree;
     }

@@ -172,7 +172,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Set node as opened.
+     * Opens the passed node.
      *
      * Note! The algorithm which opens all parents implements a depth-first
      * search with a complexity:
@@ -181,7 +181,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * @param node {Object} Node to open.
      * @param andAllParents {Boolean?false} Whether all parents should set to opened.
      */
-    setOpen : function(node, andAllParents) {
+    openNode : function(node, andAllParents) {
       if (andAllParents === true) {
         this.__openNodeAndAllParents(this.getModel(), node);
       } else {
@@ -192,11 +192,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Removes the node from the opened nodes.
+     * Closes the passed node.
      * 
-     * @param node {Object} Node to remove.
+     * @param node {Object} Node to close.
      */
-    removeOpen : function(node)
+    closeNode : function(node)
     {
       if (qx.lang.Array.contains(this.__openNodes, node)) {
         qx.lang.Array.remove(this.__openNodes, node);
@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * @return {Boolean} Returns <code>true</code> when the node is opened,
      *   <code>false</code> otherwise.
      */
-    isOpen : function(node) {
+    isNodeOpen : function(node) {
       return qx.lang.Array.contains(this.__openNodes, node);
     },
 
@@ -327,7 +327,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     _applyModel : function(value, old)
     {
       this.__openNodes = [];
-      this.setOpen(value);
+      this.openNode(value);
     },
 
 
@@ -367,7 +367,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       lookupTable.push(root);
       this.__nestingLevel.push(0);
 
-      if (this.isOpen(root))
+      if (this.isNodeOpen(root))
       {
         var visibleChildren = this.__getVisibleChildrenFrom(root, 0);
         lookupTable = lookupTable.concat(visibleChildren);
@@ -403,7 +403,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         this.__nestingLevel.push(nestedLevel);
         visible.push(child);
 
-        if (this.isOpen(child))
+        if (this.isNodeOpen(child))
         {
           var visibleChildren = this.__getVisibleChildrenFrom(child, nestedLevel);
           visible = visible.concat(visibleChildren);
