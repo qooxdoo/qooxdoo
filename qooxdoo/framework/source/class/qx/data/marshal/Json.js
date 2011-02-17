@@ -94,6 +94,10 @@ qx.Class.define("qx.data.marshal.Json",
      * {@link #__jsonToHash}. Two objects containing the same keys will not
      * create two different classes. The class creation process also supports
      * the functions provided by its delegate.
+     * 
+     * Important, please keep in mind that only valid JavaScript identifiers 
+     * can be used as keys in the data map. For convenience '-' in keys will 
+     * be removed (a-b will be ab in the end).
      *
      * @see qx.data.store.IStoreDelegate
      *
@@ -150,6 +154,12 @@ qx.Class.define("qx.data.marshal.Json",
       for (var key in data) {
         // stip the unwanted characters
         key = key.replace(/-/g, "");
+        // check for valid JavaScript identifier
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          this.assertTrue((/^[$A-Za-z_][0-9A-Za-z_]*$/).test(key), 
+          "The key '" + key + "' is not a valid JavaScript identifier.")
+        }
+
         properties[key] = {};
         properties[key].nullable = true;
         properties[key].event = "change" + qx.lang.String.firstUp(key);
