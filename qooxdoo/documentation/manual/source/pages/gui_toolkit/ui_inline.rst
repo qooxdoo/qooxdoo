@@ -113,6 +113,8 @@ To add widgets at certain locations inside the page you can create or reuse DOM 
 
   You need to define specific DOM nodes in your document which act as islands for the qooxdoo widgets.
 
+  Additionally if you use the dynamic mode (automatic resizing) it is important that the used DOM node is **not** styled using CSS rules concerning the *width* and *height* attribute. Instead style your DOM node with inline styles, otherwise the dynamic resizing won't work correctly.
+
 ::
 
   qx.Class.define("myPortal.Application",
