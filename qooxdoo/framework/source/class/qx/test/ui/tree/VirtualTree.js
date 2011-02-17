@@ -158,6 +158,20 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     },
 
 
+    testCreationWithParams : function()
+    {
+      this.tree.destroy();
+
+      var model = this.createModel(0);
+      this.tree = new qx.ui.tree.VirtualTree(model, "name", "children");
+      this.getRoot().add(this.tree);
+
+      this.assertEquals(model, this.tree.getModel(), "Init value for 'model' is wrong!");
+      this.assertEquals("name", this.tree.getLabelPath(), "Init value for 'labelPath' is wrong!");
+      this.assertEquals("children", this.tree.getChildProperty(), "Init value for 'childProperty' is wrong!");
+    },
+
+
     testSetItemHeight : function()
     {
       this.tree.setItemHeight(30);
