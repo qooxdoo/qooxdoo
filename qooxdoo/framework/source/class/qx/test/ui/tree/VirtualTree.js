@@ -25,16 +25,11 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     tree : null,
 
 
-    model : null,
-
-
     setUp : function()
     {
       this.base(arguments);
 
-      this.model = this.createModel();
-
-      this.tree = new qx.ui.tree.VirtualTree(this.model);
+      this.tree = new qx.ui.tree.VirtualTree();
       this.getRoot().add(this.tree);
 
       this.flush();
@@ -85,13 +80,19 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       this.assertEquals("dblclick", this.tree.getOpenMode(), "Init value for 'openMode' is wrong!");
       this.assertFalse(this.tree.getHideRoot(), "Init value for 'hideRoot' is wrong!");
       this.assertFalse(this.tree.getRootOpenClose(), "Init value for 'rootOpenClose' is wrong!");
-      this.assertEquals(this.model, this.tree.getModel(), "Init value for 'model' is wrong!");
+      
+      var model = this.tree.getModel();
+      this.assertEquals("", model.name, "Init value for 'model' is wrong!");
+      this.assertArrayEquals([], model.children, "Init value for 'model' is wrong!");
     },
 
 
     testBuildLookupTable : function() {
+      var model = this.createModel();
+      this.tree.setModel(model);
+      
       var expected = [];
-      var root = this.model;
+      var root = model;
       expected.push(root);
 
       for (var i = 0; i < root.children.length; i++) {
