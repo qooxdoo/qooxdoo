@@ -239,6 +239,11 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     {
       var command = e.getData();
 
+      // do nothing if no command is set
+      if (command == null) {
+        return;
+      }
+
       if (qx.core.Variant.isSet("qx.dynlocale", "on"))
       {
         var oldCommand = e.getOldData();
