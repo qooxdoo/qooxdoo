@@ -228,8 +228,8 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
       var nodesToOpen = [
         root,
-        root.getChildren().getItem(9),
-        root.getChildren().getItem(9).getChildren().getItem(5)
+        root.getChildren().getItem(4),
+        root.getChildren().getItem(4).getChildren().getItem(2)
       ];
       this.__openNodes(nodesToOpen);
 
@@ -246,8 +246,8 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
       var nodesToOpen = [
         root,
-        root.getChildren().getItem(9),
-        root.getChildren().getItem(9).getChildren().getItem(5)
+        root.getChildren().getItem(4),
+        root.getChildren().getItem(4).getChildren().getItem(2)
       ];
       this.__openNodes(nodesToOpen);
 
@@ -400,9 +400,9 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
       var expectedOpen = [
         root,
-        root.getChildren().getItem(9),
-        root.getChildren().getItem(9).getChildren().getItem(9),
-        root.getChildren().getItem(9).getChildren().getItem(9).getChildren().getItem(9)
+        root.getChildren().getItem(4),
+        root.getChildren().getItem(4).getChildren().getItem(4),
+        root.getChildren().getItem(4).getChildren().getItem(4).getChildren().getItem(4)
       ];
       this.tree.openNodeAndParents(expectedOpen[3]);
 
@@ -419,10 +419,10 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       var root = this.createModelAndSetModel(3);
 
       this.assertTrue(this.tree.isNode(root));
-      this.assertTrue(this.tree.isNode(root.getChildren().getItem(9)));
-      this.assertTrue(this.tree.isNode(root.getChildren().getItem(9).getChildren().getItem(9)));
-      this.assertTrue(this.tree.isNode(root.getChildren().getItem(9).getChildren().getItem(9).getChildren().getItem(9)));
-      this.assertFalse(this.tree.isNode(root.getChildren().getItem(9).getChildren().getItem(9).getChildren().getItem(9).getChildren().getItem(9)));
+      this.assertTrue(this.tree.isNode(root.getChildren().getItem(4)));
+      this.assertTrue(this.tree.isNode(root.getChildren().getItem(4).getChildren().getItem(4)));
+      this.assertTrue(this.tree.isNode(root.getChildren().getItem(4).getChildren().getItem(4).getChildren().getItem(4)));
+      this.assertFalse(this.tree.isNode(root.getChildren().getItem(4).getChildren().getItem(4).getChildren().getItem(4).getChildren().getItem(4)));
     },
 
 
@@ -432,9 +432,9 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
       var nodesToOpen = [
         root,
-        root.getChildren().getItem(5),
-        root.getChildren().getItem(5).getChildren().getItem(7),
-        root.getChildren().getItem(5).getChildren().getItem(7).getChildren().getItem(1)
+        root.getChildren().getItem(2),
+        root.getChildren().getItem(2).getChildren().getItem(3),
+        root.getChildren().getItem(2).getChildren().getItem(3).getChildren().getItem(1)
       ];
       this.__openNodes(nodesToOpen);
 
@@ -442,7 +442,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       this.assertEquals(1, this.tree.getLevel(this.__getRowFrom(nodesToOpen[1])));
       this.assertEquals(2, this.tree.getLevel(this.__getRowFrom(nodesToOpen[2])));
       this.assertEquals(3, this.tree.getLevel(this.__getRowFrom(nodesToOpen[3])));
-      this.assertEquals(4, this.tree.getLevel(this.__getRowFrom(nodesToOpen[3].getChildren().getItem(9))));
+      this.assertEquals(4, this.tree.getLevel(this.__getRowFrom(nodesToOpen[3].getChildren().getItem(4))));
     },
 
 
@@ -454,7 +454,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
       var excpected = [
         root.getChildren().getItem(4),
-        root.getChildren().getItem(4).getChildren().getItem(7)
+        root.getChildren().getItem(4).getChildren().getItem(2)
       ];
 
       this.assertEquals(0, this.tree.getLevel(this.__getRowFrom(excpected[0])));
@@ -472,7 +472,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     __createNodes : function(parent, level) {
       if (level > 0)
       {
-        for (var i = 0; i < 10; i++)
+        for (var i = 0; i < 5; i++)
         {
           var item = new qx.test.ui.tree.Node("Node " + this.__getPrefix(parent) + i);
           parent.getChildren().push(item);
@@ -486,7 +486,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
     __createLeafs : function(parent)
     {
-      for (var i = 0; i < 10; i++)
+      for (var i = 0; i < 5; i++)
       {
         var child = new qx.test.ui.tree.Leaf("Leaf " + this.__getPrefix(parent) + i);
         parent.getChildren().push(child);
