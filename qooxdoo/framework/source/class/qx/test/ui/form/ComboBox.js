@@ -104,9 +104,9 @@ qx.Class.define("qx.test.ui.form.ComboBox",
       this.flush();
 
       // Asssert focus on close
-      var spy = this.spy(combobox, "tabFocus");
+      this.spy(combobox, "tabFocus");
       combobox.close();
-      this.assertCalled(spy);
+      this.assertCalled(combobox.tabFocus);
 
       this.getRoot().removeAll();
       combobox.dispose();
@@ -122,11 +122,9 @@ qx.Class.define("qx.test.ui.form.ComboBox",
       this.flush();
 
       // Assert not focus on close
-      var mock = this.mock(combobox);
-      mock.expects("tabFocus").never();
-
+      this.spy(combobox, "tabFocus");
       combobox.close();
-      mock.verify();
+      this.assertNotCalled(combobox.tabFocus);
 
       this.getRoot().removeAll();
       combobox.dispose();
