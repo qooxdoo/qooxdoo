@@ -52,22 +52,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
         children: []
       };
 
-      for (var i = 0; i < 10; i++)
-      {
-        var children = [];
-
-        for (var k = 0; k < 10; k++)
-        {
-          children.push({
-            name: "Leaf " + i + "." + k
-          });
-        }
-
-        root.children.push({
-          name: "Node " + i,
-          children: children
-        });
-      }
+      this.__createNodes(root, 3);
 
       return root;
     },
@@ -84,17 +69,17 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       this.assertEquals("dblclick", this.tree.getOpenMode(), "Init value for 'openMode' is wrong!");
       this.assertFalse(this.tree.getHideRoot(), "Init value for 'hideRoot' is wrong!");
       this.assertFalse(this.tree.getRootOpenClose(), "Init value for 'rootOpenClose' is wrong!");
-      
+
       var model = this.tree.getModel();
       this.assertEquals("", model.name, "Init value for 'model' is wrong!");
       this.assertArrayEquals([], model.children, "Init value for 'model' is wrong!");
     },
-    
-    
+
+
     testSetItemHeight : function()
     {
       this.tree.setItemHeight(30);
-      
+
       this.assertEquals(30, this.tree.getPane().getRowConfig().getDefaultItemSize());
     },
 
@@ -118,58 +103,48 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       this.tree.resetModel();
       this.assertEquals(oldModel, this.tree.getModel());
     },
-    
+
 
     testBuildLookupTable : function()
     {
       var model = this.createModel();
       this.tree.setModel(model);
-      
-      var expected = [];
+
       var root = model;
-      expected.push(root);
+      var expected = this.__getVisibleItemsFrom(root, [root]);
+      qx.lang.Array.insertAt(expected, root, 0);
 
-      for (var i = 0; i < root.children.length; i++) {
-        expected.push(root.children[i]);
-      }
-
-      this.assertArrayEquals(expected, this.tree.getLookupTable());
-      this.assertEquals(expected.length, this.tree.getPane().getRowConfig().getItemCount());
+      this.__testBuildLookupTable(expected);
     },
-    
-    
+
+
     testBuildLookupTableWithOpenNodes : function()
     {
       var model = this.createModel();
       var root = model;
-      
+
       this.tree.setModel(model);
       this.tree.setOpen(root.children[0]);
-      
-      var expected = [];
-      expected.push(root);
 
-      for (var i = 0; i < root.children.length; i++) {
-        var item = root.children[i];
-        expected.push(root.children[i]);
-        
-        if (item == root.children[0]) {
-          for (var k = 0; k < item.children.length; k++) {
-            expected.push(item.children[k]);
-          }
-        }
-      }
+      var expected = this.__getVisibleItemsFrom(root, [root, root.children[0]]);
+      qx.lang.Array.insertAt(expected, root, 0);
 
+      this.__testBuildLookupTable(expected);
+    },
+
+
+    __testBuildLookupTable : function(expected)
+    {
       this.assertArrayEquals(expected, this.tree.getLookupTable());
       this.assertEquals(expected.length, this.tree.getPane().getRowConfig().getItemCount());
     },
-    
-    
+
+
     testGetOpenNodes : function()
     {
       var model = this.createModel();
       this.tree.setModel(model);
-      
+
       var expected = [];
       var root = model;
       expected.push(root);
@@ -177,33 +152,111 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       this.assertArrayEquals(expected, this.tree.getOpenNodes());
     },
 
+
     testIsOpenNode : function()
     {
       var model = this.createModel();
       this.tree.setModel(model);
-      
+
       var root = model;
       this.tree.setOpen(root);
       this.tree.setOpen(root.children[0]);
-      
+
       this.assertTrue(this.tree.isOpen(root));
       this.assertTrue(this.tree.isOpen(root.children[0]));
       this.assertFalse(this.tree.isOpen(root.children[1]));
     },
-    
+
+
     testSetOpenNodes : function()
     {
       var model = this.createModel();
       this.tree.setModel(model);
-      
+
       var expectedOpen = [];
       var root = model;
       expectedOpen.push(root);
       expectedOpen.push(root.children[0]);
-      
+
       this.tree.setOpen(root.children[0]);
-      
+
       this.assertArrayEquals(expectedOpen, this.tree.getOpenNodes());
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS TO CREATE A TREE STRUCTURE
+    ---------------------------------------------------------------------------
+    */
+
+
+    __createNodes : function(parent, level) {
+      if (level > 0)
+      {
+        for (var i = 0; i < 10; i++)
+        {
+          var item = {
+            name: "Node " + this.__getPrefix(parent.name) + i,
+            children: []
+          };
+          parent.children.push(item);
+
+          this.__createNodes(item, level - 1);
+          this.__createLeafs(item);
+        }
+      }
+    },
+
+
+    __createLeafs : function(parent)
+    {
+      for (var i = 0; i < 10; i++)
+      {
+        parent.children.push({
+          name: "Leaf " + this.__getPrefix(parent.name) + i
+        });
+      }
+    },
+
+
+    __getPrefix : function(name)
+    {
+      var prefix = "";
+      if (qx.lang.String.startsWith(name, "Node")) {
+        prefix = name.substr(5, name.length - 5) + ".";
+      }
+      return prefix;
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHOD TO CALCULATE THE VISIBLE ITEMS
+    ---------------------------------------------------------------------------
+    */
+
+
+    __getVisibleItemsFrom : function(parent, openNodes)
+    {
+      var expected = [];
+
+      if (parent.children != null)
+      {
+        for (var i = 0; i < parent.children.length; i++)
+        {
+          var child = parent.children[i];
+          expected.push(child);
+
+          if (openNodes.indexOf(child) > -1)
+          {
+            var otherExpected = this.__getVisibleItemsFrom(child, openNodes);
+            expected = expected.concat(otherExpected);
+          }
+        }
+      }
+
+      return expected;
     }
   }
 });
