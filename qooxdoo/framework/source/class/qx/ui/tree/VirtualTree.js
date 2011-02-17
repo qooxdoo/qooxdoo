@@ -30,7 +30,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
   /**
    * @param model {qx.core.Object|null} The model structure for the tree.
    */
-  construct : function(model, labelPath, childPath)
+  construct : function(model, labelPath, childProperty)
   {
     this.base(arguments, 0, 1, 20, 100);
 
@@ -40,8 +40,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.setLabelPath(labelPath);
     }
     
-    if (childPath != null) {
-      this.setChildPath(childPath)
+    if (childProperty != null) {
+      this.setChildProperty(childProperty)
     }
     
     if(model != null) {
@@ -137,11 +137,15 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     },
 
 
-    /** The name of the property, where the children are stored in the model. */
-    childPath :
+    /** 
+     * The name of the property, where the children are stored in the model. 
+     * Instead of the {@link # labelPath} must the child property a direct 
+     * property form the model instance. 
+     */
+    childProperty :
     {
       check: "String",
-//      apply: "_applyChildPath",
+//      apply: "_applyChildProperty",
       nullable: true
     },
 
@@ -315,10 +319,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * @return {Boolean} <code>True</code> when item is a node, 
      *   </code>false</code> when item is a leaf.
      */
-    isNode : function(node)
-    {
-      var children = node["get" + qx.lang.String.firstUp(this.getChildPath())];
-      return children != null ? true : false;
+    isNode : function(node) {
+      return qx.Class.hasProperty(node.constructor, this.getChildProperty());
     },
 
 
@@ -439,7 +441,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         return visible;
       }
 
-      var children = node["get" + qx.lang.String.firstUp(this.getChildPath())]();
+      var children = node.get(this.getChildProperty());
       for (var i = 0; i < children.length; i++)
       {
         var child = children[i];
@@ -495,7 +497,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         return false;
       }
 
-      var children = startNode["get" + qx.lang.String.firstUp(this.getChildPath())]();
+      var children = startNode.get(this.getChildProperty());
       if (children == null) {
         return false;
       }
