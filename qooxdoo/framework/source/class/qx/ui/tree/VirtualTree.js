@@ -34,9 +34,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
   {
     this.base(arguments, 0, 1, 20, 100);
 
-    this.__lookupTable = [];
-    this.__openNodes = [];
-    this._initLayer();
+    this._init();
 
     if(model != null) {
       this.initModel(model);
@@ -201,6 +199,17 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
+     * Initializes the virtual tree.
+     */
+    _init : function()
+    {
+      this.__lookupTable = [];
+      this.__openNodes = [];
+      this._initLayer();
+    },
+
+
+    /**
      * Initializes the virtual tree layer.
      */
     _initLayer : function()
@@ -282,13 +291,13 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     __buildLookupTable : function()
     {
-      this.__lookupTable = [];
+      var lookupTable = [];
 
       var root = this.getModel();
-      this.__lookupTable.push(root);
+      lookupTable.push(root);
 
       var visibleChildren = this.__getVisibleChildrenFrom(root);
-      this.__lookupTable = this.__lookupTable.concat(visibleChildren);
+      this.__lookupTable = lookupTable.concat(visibleChildren);
 
       this.__updateRowCount();
     },
@@ -336,7 +345,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
   },
 
 
-  destruct : function() {
-    this.__lookupTable = null;
+  destruct : function()
+  {
+    this._layer.destroy();
+
+    this._layer = this.__lookupTable = this.__openNodes = null;
   }
 });
