@@ -90,7 +90,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     // Expose Sinon.JS assertions. Provides methods such
     // as assertCalled(), assertCalledWith().
     // (http://sinonjs.org/docs/api/#assert-expose)
-    this.__getSinon().assert.expose(this);
+    this.__getSinon().assert.expose(this, {includeFail: false});
   },
 
   members :

@@ -87,6 +87,7 @@ qx.Class.define("qx.dev.unit.Sinon",
 *
 * - aliased "throws" as "throwsException"
 * - replaced references to this.sinon which do not make sense within a closure
+* - in failAssertion, "assert.fail" takes precedence over "object.fail"
 *
 */
 
@@ -2379,7 +2380,7 @@ qx.Class.define("qx.dev.unit.Sinon",
       }
 
       function failAssertion(object, msg) {
-          var failMethod = object.fail || assert.fail;
+          var failMethod = assert.fail || object.fail;
           failMethod.call(object, msg);
       }
 
@@ -2546,12 +2547,19 @@ qx.Class.define("qx.dev.unit.Sinon",
     return sinon;
   };
 
-  // Every assertion fails by calling this method.
-  // Instead of throwing an exception directly, go through
-  // qx.core.Assert.fail. In Testrunner2, this ensures that
+  // Every assertion in Sinon.JS fails by calling this method.
+  //
+  // (In fact, in vanilla Sinon.JS 1.0.0. this is not really the case,
+  //  because the "fail" method of the TestCase takes precedence over
+  // "fail" method of Sinon.JS)
+  //
+  // Instead of throwing an exception directly, delegate to the
+  // "fail" method of the TestCase. In Testrunner2, this means
+  // that the wrapped fail method is called and ensures that
   // the entire body of each test function is executed.
+  //
   sinon.assert.fail = function(msg) {
-    qx.core.Assert.fail(msg, true);
+    this.fail(msg, true);
   };
 
 })();
