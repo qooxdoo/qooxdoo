@@ -187,7 +187,9 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       expectedOpen.push(root.children[0]);
 
       this.tree.setOpen(root.children[0]);
+      this.assertArrayEquals(expectedOpen, this.tree.getOpenNodes());
 
+      this.tree.setOpen(root.children[0]);
       this.assertArrayEquals(expectedOpen, this.tree.getOpenNodes());
     },
 

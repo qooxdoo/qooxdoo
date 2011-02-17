@@ -173,9 +173,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * @param node {Object} Node to open.
      */
     setOpen : function(node) {
-      this.__openNodes.push(node);
-
-      this.__buildLookupTable();
+      if (!qx.lang.Array.contains(this.__openNodes, node))
+      {
+        this.__openNodes.push(node);
+        this.__buildLookupTable();
+      }
     },
 
 
@@ -187,7 +189,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      *   <code>false</code> otherwise.
      */
     isOpen : function(node) {
-      return this.__openNodes.indexOf(node) > -1 ? true : false;
+      return qx.lang.Array.contains(this.__openNodes, node);
     },
 
 
