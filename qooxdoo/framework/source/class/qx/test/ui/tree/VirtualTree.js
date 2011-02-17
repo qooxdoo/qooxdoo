@@ -87,6 +87,25 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     },
 
 
+    testSetModel : function() {
+      var model = this.createModel();
+      this.tree.setModel(model);
+
+      this.assertEquals(model, this.tree.getModel());
+    },
+
+
+    testResetModel : function() {
+      var oldModel = this.tree.getModel();
+
+      var model = this.createModel();
+      this.tree.setModel(model);
+
+      this.tree.resetModel();
+      this.assertEquals(oldModel, this.tree.getModel());
+    },
+    
+
     testBuildLookupTable : function() {
       var model = this.createModel();
       this.tree.setModel(model);
