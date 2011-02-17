@@ -49,9 +49,10 @@ qx.Mixin.define("qx.core.MAssert",
      * Raise an {@link AssertionError}
      *
      * @param msg {String} Message to be shown if the assertion fails.
+     * @param compact {Boolean} Show less verbose message. Default: false.
      */
-    fail : function(msg) {
-      qx.core.Assert.fail(msg);
+    fail : function(msg, compact) {
+      qx.core.Assert.fail(msg, compact);
     },
 
 

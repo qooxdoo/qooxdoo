@@ -92,7 +92,7 @@ qx.Class.define("qx.type.BaseError",
      * @return {String} The error message
      */
     toString : function() {
-      return this.__comment + ": " + this.message;
+      return this.__comment + (this.message ? ": " + this.message : "");
     }
   }
 });

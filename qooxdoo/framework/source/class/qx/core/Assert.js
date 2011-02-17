@@ -64,7 +64,14 @@ qx.Class.define("qx.core.Assert",
         msg = msg + this.__toString(arguments[i]);
       }
 
-      var errorMsg = "Assertion error! " + comment + ": " + msg;
+      var fullComment = "";
+      if (msg) {
+        fullComment = comment + ": " + msg;
+      } else {
+        fullComment = comment;
+      }
+      var errorMsg = "Assertion error! " + fullComment;
+
       if (this.__logError) {
         qx.Bootstrap.error(errorMsg);
       }
@@ -126,12 +133,14 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Raise an {@link AssertionError}
+     * Raise an {@link AssertionError}.
      *
      * @param msg {String} Message to be shown if the assertion fails.
+     * @param compact {Boolean} Show less verbose message. Default: false.
      */
-    fail : function(msg) {
-      this.__fail(msg || "", "Called fail().");
+    fail : function(msg, compact) {
+      var msgvarargs = compact ? "" : "Called fail().";
+      this.__fail(msg || "", msgvarargs);
     },
 
 
