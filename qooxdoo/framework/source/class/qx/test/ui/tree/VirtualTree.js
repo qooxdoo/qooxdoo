@@ -133,7 +133,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
     createModelAndSetModel : function(level)
     {
-      this.model = this.createModel(3);
+      this.model = this.createModel(level);
       this.tree.setLabelPath("name");
       this.tree.setChildProperty("children");
       this.tree.setModel(this.model);
