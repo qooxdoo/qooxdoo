@@ -36,67 +36,38 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
     {
       var junk = [];
       for (var i = 0; i < 30; i++) {
-        junk.push({name:"Junk #" + i});
+        junk.push(new demobrowser.demo.virtual.model.File("Junk #" + i));
       }
       
-      var model = {
-        name: "root",
-        children: 
+      var model = new demobrowser.demo.virtual.model.Folder(
+        "root",
         [
-          {
-            name: "Desktop",
-            children: 
+          new demobrowser.demo.virtual.model.Folder(
+            "Desktop",
             [
-              {
-                name: "Files",
-                children: []
-              },
-              {
-                name: "Workspace",
-                children: 
+              new demobrowser.demo.virtual.model.Folder("Files"),
+              new demobrowser.demo.virtual.model.Folder("Workspace", 
                 [
-                  {name: "Windows (C:)"},
-                  {name: "Documents (D:)"}
+                  new demobrowser.demo.virtual.model.File("Windows (C:)"),
+                  new demobrowser.demo.virtual.model.File("Documents (D:)")
                 ]
-              },
-              {
-                name: "Network",
-                children: []
-              },
-              {
-                name: "Trash",
-                children: []
-              }
+              ),
+              new demobrowser.demo.virtual.model.Folder("Network"),
+              new demobrowser.demo.virtual.model.Folder("Trash")
             ]
-          },
-          {
-            name: "Inbox",
-            children: 
+          ),
+          new demobrowser.demo.virtual.model.Folder(
+            "Inbox",
             [
-              {
-                name: "Presets",
-                children: []
-              },
-              {
-                name: "Sent",
-                children: []
-              },
-              {
-                name: "Trash",
-                children: junk
-              },
-              {
-                name: "Data",
-                children: []
-              },
-              {
-                name: "Edit",
-                children: []
-              }
+              new demobrowser.demo.virtual.model.Folder("Presets"),
+              new demobrowser.demo.virtual.model.Folder("Sent"),
+              new demobrowser.demo.virtual.model.Folder("Trash", junk),
+              new demobrowser.demo.virtual.model.Folder("Data"),
+              new demobrowser.demo.virtual.model.Folder("Edit")
             ]
-          }
+          )
         ]
-      };
+      );
       
       var tree = new qx.ui.tree.VirtualTree(model).set({
         width : 200,
@@ -107,6 +78,11 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       tree.openNode(model.children[0]);
 
       return tree;
+    },
+
+
+    createModel : function()
+    {
     }
   }
 });

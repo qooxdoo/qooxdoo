@@ -28,7 +28,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
   /**
-   * @param model {Object|null} The model structure for the tree.
+   * @param model {qx.core.Object|null} The model structure for the tree.
    */
   construct : function(model)
   {
@@ -38,8 +38,6 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     if(model != null) {
       this.initModel(model);
-    } else {
-      this.initModel({name: "", children: []});
     }
 
     this.initItemHeight();
@@ -137,10 +135,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     model :
     {
-      check : "Object",
+      check : "qx.core.Object",
       apply : "_applyModel",
       event: "changeModel",
-      nullable : false,
+      nullable : true,
       deferredInit : true
     }
   },
@@ -174,9 +172,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     /**
      * Opens the passed node.
      *
-     * @param node {Object} Node to open.
+     * @param node {qx.core.Object} Node to open.
      */
-    openNode : function(node, andAllParents)
+    openNode : function(node)
     {
       this.__openNode(node);
       this.__buildLookupTable();
@@ -189,6 +187,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * Note! The algorithm implements a depth-first
      * search with a complexity:
      *    <code>O(n) n</code> are all model items.
+     * 
+     * @param node {qx.core.Object} Node to open.
      */
     openNodeAndParents : function(node)
     {
@@ -200,7 +200,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     /**
      * Closes the passed node.
      * 
-     * @param node {Object} Node to close.
+     * @param node {qx.core.Object} Node to close.
      */
     closeNode : function(node)
     {
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     /**
      * Return whether the node is opened or closed.
      *
-     * @param node {Object} Node to check.
+     * @param node {qx.core.Object} Node to check.
      * @return {Boolean} Returns <code>true</code> when the node is opened,
      *   <code>false</code> otherwise.
      */
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * Returns if the passed item is a note or a leaf.
      *
      * @internal
-     * @param item {Object} Item to check.
+     * @param item {qx.core.Object} Item to check.
      * @return {Boolean} <code>True</code> when item is a node, 
      *   </code>false</code> when item is a leaf.
      */
@@ -333,7 +333,12 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     _applyModel : function(value, old)
     {
       this.__openNodes = [];
-      this.openNode(value);
+      
+      if (value != null) {
+        this.__openNode(value);
+      }
+      
+      this.__buildLookupTable();
     },
 
 
@@ -390,7 +395,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * The algorithm implements a depth-first search with a complexity:
      *    <code>O(n) n</code> are all visible items.
      *
-     * @param node {Object} The start node to start search.
+     * @param node {qx.core.Object} The start node to start search.
      * @param nestedLevel {Integer} The nested level from the start node.
      * @return {Array} All visible children form the parent.
      */
@@ -424,7 +429,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * Helper method to set the node to the open nodes data structure
      * when it is not included.
      *
-     * @param node {Object} Node to set to open nodes.
+     * @param node {qx.core.Object} Node to set to open nodes.
      */
     __openNode : function(node)
     {
@@ -441,8 +446,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * The algorithm implements a depth-first search with a complexity:
      *    <code>O(n) n</code> are all model items.
      *
-     * @param startNode {Object} Start (root) node to search.
-     * @param targetNode {Object} Target node to open (and his parents).
+     * @param startNode {qx.core.Object} Start (root) node to search.
+     * @param targetNode {qx.core.Object} Target node to open (and his parents).
      * @return {Boolean} <code>True</code> when the targetNode and his
      *  parents could opened, <code>false</code> otherwise.
      */

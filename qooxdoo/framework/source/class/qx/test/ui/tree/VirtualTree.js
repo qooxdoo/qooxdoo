@@ -47,10 +47,9 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
     createModel : function(level)
     {
-      var root = {
-        name: "Root node",
-        children: []
-      };
+      var root = new qx.core.Object();
+      root.name = "Root node";
+      root.children = [];
 
       this.__createNodes(root, level);
 
@@ -69,10 +68,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       this.assertEquals("dblclick", this.tree.getOpenMode(), "Init value for 'openMode' is wrong!");
       this.assertFalse(this.tree.getHideRoot(), "Init value for 'hideRoot' is wrong!");
       this.assertFalse(this.tree.getRootOpenClose(), "Init value for 'rootOpenClose' is wrong!");
-
-      var model = this.tree.getModel();
-      this.assertEquals("", model.name, "Init value for 'model' is wrong!");
-      this.assertArrayEquals([], model.children, "Init value for 'model' is wrong!");
+      this.assertNull(this.tree.getModel(), "Init value for 'model' is wrong!");
     },
 
 
@@ -337,10 +333,9 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       {
         for (var i = 0; i < 10; i++)
         {
-          var item = {
-            name: "Node " + this.__getPrefix(parent.name) + i,
-            children: []
-          };
+          var item = new qx.core.Object();
+          item.name = "Node " + this.__getPrefix(parent.name) + i;
+          item.children = [];
           parent.children.push(item);
 
           this.__createNodes(item, level - 1);
@@ -354,9 +349,9 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     {
       for (var i = 0; i < 10; i++)
       {
-        parent.children.push({
-          name: "Leaf " + this.__getPrefix(parent.name) + i
-        });
+        var child = new qx.core.Object();
+        child.name = "Leaf " + this.__getPrefix(parent.name) + i;
+        parent.children.push(child);
       }
     },
 
