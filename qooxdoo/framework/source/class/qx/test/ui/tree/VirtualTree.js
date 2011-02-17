@@ -77,6 +77,10 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     {
       this.assertEquals("virtual-tree", this.tree.getAppearance(), "Init value for 'appearance' is wrong!");
       this.assertTrue(this.tree.getFocusable(), "Init value for 'focusable' is wrong!");
+      this.assertEquals(100, this.tree.getWidth(), "Init value for 'width' is wrong!");
+      this.assertEquals(200, this.tree.getHeight(), "Init value for 'height' is wrong!");
+      this.assertEquals(25, this.tree.getItemHeight(), "Init value for 'itemHeight' is wrong!");
+      this.assertEquals(25, this.tree.getPane().getRowConfig().getDefaultItemSize(), "Init value for 'itemHeight' is wrong!");
       this.assertEquals("dblclick", this.tree.getOpenMode(), "Init value for 'openMode' is wrong!");
       this.assertFalse(this.tree.getHideRoot(), "Init value for 'hideRoot' is wrong!");
       this.assertFalse(this.tree.getRootOpenClose(), "Init value for 'rootOpenClose' is wrong!");
@@ -84,6 +88,13 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       var model = this.tree.getModel();
       this.assertEquals("", model.name, "Init value for 'model' is wrong!");
       this.assertArrayEquals([], model.children, "Init value for 'model' is wrong!");
+    },
+    
+    
+    testSetItemHeight : function() {
+      this.tree.setItemHeight(30);
+      
+      this.assertEquals(30, this.tree.getPane().getRowConfig().getDefaultItemSize());
     },
 
 

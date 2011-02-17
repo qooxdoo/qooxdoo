@@ -41,6 +41,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     } else {
       this.initModel({name: "", children: []});
     }
+
+    this.initItemHeight();
   },
 
 
@@ -59,6 +61,32 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     {
       refine: true,
       init: true
+    },
+
+
+    // overridden
+    width :
+    {
+      refine : true,
+      init : 100
+    },
+
+
+    // overridden
+    height :
+    {
+      refine : true,
+      init : 200
+    },
+
+
+    /** Default item height */
+    itemHeight :
+    {
+      check : "Integer",
+      init : 25,
+      apply : "_applyRowHeight",
+      themeable : true
     },
 
 
@@ -126,6 +154,12 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     /** {qx.ui.virtual.layer.Abstract} layer which contains the items. */
     _layer : null,
+
+
+    // property apply
+    _applyRowHeight : function(value, old) {
+      this.getPane().getRowConfig().setDefaultItemSize(value);
+    },
 
 
     // property apply
