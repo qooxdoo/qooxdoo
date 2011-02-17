@@ -52,12 +52,10 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
     createModel : function()
     {
-      var model = new qx.data.Array();
       var root = {
         name: "Root node",
         children: []
       };
-      model.push(root);
 
       for (var i = 0; i < 10; i++)
       {
@@ -76,7 +74,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
         });
       }
 
-      return model;
+      return root;
     },
 
 
@@ -93,7 +91,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
     testBuildLookupTable : function() {
       var expected = [];
-      var root = this.model.getItem(0);
+      var root = this.model;
       expected.push(root);
 
       for (var i = 0; i < root.children.length; i++) {

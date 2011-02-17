@@ -27,16 +27,16 @@ qx.Class.define("qx.ui.tree.VirtualTree",
   extend : qx.ui.virtual.core.Scroller,
 
   /**
-   * @param model {qx.core.Object} The model structure for the tree.
+   * @param model {Object|null} The model structure for the tree.
    */
   construct : function(model)
   {
-    this.base(arguments);
+    this.base(arguments, 0, 1, 20, 100);
 
     if(model != null) {
       this.initModel(model);
     } else {
-      this.initModel(new qx.data.Array());
+      this.initModel({name: "", children: []});
     }
   },
 
@@ -106,7 +106,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     model :
     {
-      check : "qx.core.Object",
+      check : "Object",
       apply : "_applyModel",
       event: "changeModel",
       nullable : false,
@@ -147,10 +147,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     __buildLookupTable : function() {
       this.__lookupTable = [];
 
-      var model = this.getModel();
-      var root = model.getItem(0);
-
+      var root = this.getModel();
       this.__lookupTable.push(root);
+
       for (var i = 0; i < root.children.length; i++) {
         this.__lookupTable.push(root.children[i]);
       }
