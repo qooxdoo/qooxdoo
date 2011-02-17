@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -26,7 +26,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 {
   extend : qx.ui.virtual.core.Scroller,
 
-
+  /**
+   * @param model {qx.core.Object} The model structure for the tree.
+   */
   construct : function(model)
   {
     this.base(arguments);
@@ -115,6 +117,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
   members :
   {
+    /** {Array} The internal lookup table data structure to get the model item from a row. */
+    __lookupTable : null,
+
     // property apply
     _applyOpenMode : function(value, old) {
     },
@@ -132,9 +137,40 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     // property apply
     _applyModel : function(value, old) {
+      this.__buildLookupTable();
+    },
+
+
+    /**
+     * Helper method to build the internal data structure.
+     */
+    __buildLookupTable : function() {
+      this.__lookupTable = [];
+
+      var model = this.getModel();
+      var root = model.getItem(0);
+
+      this.__lookupTable.push(root);
+      for (var i = 0; i < root.children.length; i++) {
+        this.__lookupTable.push(root.children[i]);
+      }
+    },
+
+
+    /**
+     * Returns the internal data structure. The Array index is the
+     * row and the value is the model item.
+     *
+     * @internal
+     * @return {Array} The internal data structure.
+     */
+    getLookupTable : function() {
+      return this.__lookupTable;
     }
   },
 
 
-  destruct : function() {}
+  destruct : function() {
+    this.__lookupTable = null;
+  }
 });

@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -88,6 +88,19 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       this.assertFalse(this.tree.getHideRoot(), "Init value for 'hideRoot' is wrong!");
       this.assertFalse(this.tree.getRootOpenClose(), "Init value for 'rootOpenClose' is wrong!");
       this.assertEquals(this.model, this.tree.getModel(), "Init value for 'model' is wrong!");
+    },
+
+
+    testBuildLookupTable : function() {
+      var expected = [];
+      var root = this.model.getItem(0);
+      expected.push(root);
+
+      for (var i = 0; i < root.children.length; i++) {
+        expected.push(root.children[i]);
+      }
+
+      this.assertArrayEquals(expected, this.tree.getLookupTable());
     }
   }
 });
