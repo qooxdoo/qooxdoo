@@ -354,6 +354,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     // property apply
     _applyHideRoot : function(value, old) {
+      this.__buildLookupTable();
     },
 
 
@@ -428,8 +429,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       var root = this.getModel();
       if (root != null)
       {
-        lookupTable.push(root);
-        this.__nestingLevel.push(0);
+        if (!this.isHideRoot())
+        {
+          lookupTable.push(root);
+          this.__nestingLevel.push(0);
+        }
 
         if (this.isNodeOpen(root))
         {

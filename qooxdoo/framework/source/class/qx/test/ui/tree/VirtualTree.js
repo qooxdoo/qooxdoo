@@ -300,6 +300,17 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     },
 
 
+    testBuildLookupTableWithHiddenRoot : function()
+    {
+      var root = this.createModelAndSetModel(1);
+
+      this.tree.setHideRoot(true);
+
+      var expected = this.__getVisibleItemsFrom(root, [root]);
+      this.__testBuildLookupTable(expected);
+    },
+
+
     __testBuildLookupTable : function(expected)
     {
       this.assertArrayEquals(expected, this.tree.getLookupTable());
