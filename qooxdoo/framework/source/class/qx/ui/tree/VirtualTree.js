@@ -367,8 +367,22 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     {
       this.__openNodes = [];
       
-      if (value != null) {
+      if (value != null)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (!qx.Class.hasMixin(value.constructor, qx.data.marshal.MEventBubbling))
+          {
+            this.warn("The model item doesn't support the Mixin 'qx.data.marshal.MEventBubbling'. " +
+              "Therefore the tree can not update the view automatically on model changes.");
+          }
+        }
+        value.addListener("changeBubble", this.__buildLookupTable, this);
         this.__openNode(value);
+      }
+      
+      if (old != null) {
+        old.removeListener("changeBubble", this.__buildLookupTable, this);
       }
       
       this.__buildLookupTable();

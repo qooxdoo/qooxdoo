@@ -58,6 +58,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     qx.Class.define("qx.test.ui.tree.Node",
     {
       extend : qx.test.ui.tree.Leaf,
+      include : qx.data.marshal.MEventBubbling,
 
       construct : function(name, children)
       {
@@ -75,6 +76,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
         {
           check : "qx.data.Array",
           event : "changeChildren",
+          apply : "_applyEventPropagation",
           nullable : true
         }
       },
@@ -276,6 +278,27 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       this.__testBuildLookupTable([]);
     },
     
+
+    testBuildLookupTableOnModelChange : function()
+    {
+      var root = this.createModelAndSetModel(1);
+
+      var nodesToOpen = [
+        root,
+        root.getChildren().getItem(2)
+      ];
+      this.__openNodes(nodesToOpen);
+
+      var newBranch = new qx.test.ui.tree.Node("New Branch");
+      this.__createNodes(newBranch, 2);
+      root.getChildren().getItem(2).getChildren().push(newBranch);
+
+      var expected = this.__getVisibleItemsFrom(root, nodesToOpen);
+      qx.lang.Array.insertAt(expected, root, 0);
+
+      this.__testBuildLookupTable(expected);
+    },
+
 
     __testBuildLookupTable : function(expected)
     {
