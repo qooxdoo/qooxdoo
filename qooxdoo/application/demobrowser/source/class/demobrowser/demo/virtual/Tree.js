@@ -47,7 +47,10 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
             name: "Desktop",
             children: 
             [
-              {name: "Files"},
+              {
+                name: "Files",
+                children: []
+              },
               {
                 name: "Workspace",
                 children: 
@@ -56,22 +59,40 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
                   {name: "Documents (D:)"}
                 ]
               },
-              {name: "Network"},
-              {name: "Trash"}
+              {
+                name: "Network",
+                children: []
+              },
+              {
+                name: "Trash",
+                children: []
+              }
             ]
           },
           {
             name: "Inbox",
             children: 
             [
-              {name: "Presets"},
-              {name: "Sent"},
+              {
+                name: "Presets",
+                children: []
+              },
+              {
+                name: "Sent",
+                children: []
+              },
               {
                 name: "Trash",
                 children: junk
               },
-              {name: "Data"},
-              {name: "Edit"}
+              {
+                name: "Data",
+                children: []
+              },
+              {
+                name: "Edit",
+                children: []
+              }
             ]
           }
         ]
