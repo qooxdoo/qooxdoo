@@ -446,6 +446,22 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     },
 
 
+    testGetLevelWithHiddenRoot : function()
+    {
+      var root = this.createModelAndSetModel(1);
+      this.tree.openNode(root.getChildren().getItem(4));
+      this.tree.setHideRoot(true);
+
+      var excpected = [
+        root.getChildren().getItem(4),
+        root.getChildren().getItem(4).getChildren().getItem(7)
+      ];
+
+      this.assertEquals(0, this.tree.getLevel(this.__getRowFrom(excpected[0])));
+      this.assertEquals(1, this.tree.getLevel(this.__getRowFrom(excpected[1])));
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS TO CREATE A TREE STRUCTURE

@@ -425,19 +425,21 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
       var lookupTable = [];
       this.__nestingLevel = [];
+      var nestedLevel = -1;
 
       var root = this.getModel();
       if (root != null)
       {
         if (!this.isHideRoot())
         {
+          nestedLevel++;
           lookupTable.push(root);
-          this.__nestingLevel.push(0);
+          this.__nestingLevel.push(nestedLevel);
         }
 
         if (this.isNodeOpen(root))
         {
-          var visibleChildren = this.__getVisibleChildrenFrom(root, 0);
+          var visibleChildren = this.__getVisibleChildrenFrom(root, nestedLevel);
           lookupTable = lookupTable.concat(visibleChildren);
         }
       }
