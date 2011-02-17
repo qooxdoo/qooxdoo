@@ -85,6 +85,8 @@ qx.Class.define("testrunner2.view.widget.Widget", {
 
     var statuspane = this.__createStatusBar();
     mainContainer.add(statuspane);
+    
+    this._makeCommands();
   },
   
   properties :
@@ -213,14 +215,12 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       runButton.set({
         textColor : "#36a618",
         rich : true,
-        visibility : "excluded"
+        visibility : "excluded",
+        toolTipText : this.__app.tr("Run selected tests (Ctrl+R)")
       });
       runButton.setUserData("value", "run");
 
-      runButton.addListener("execute", function(ev) {
-        this.reset();
-        this.fireEvent("runTests");
-      }, this);
+      runButton.addListener("execute", this.__runTests, this);
 
       part1.add(runButton);
       
@@ -228,25 +228,20 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       var stopButton = this.__stopButton = new qx.ui.toolbar.Button(this.__app.tr('<b>Stop&nbsp;Tests</b>'), "icon/22/actions/media-playback-stop.png");
       stopButton.set({
         textColor : "#ff0000",
-        rich : true
+        rich : true,
+        toolTipText : this.__app.tr("Stop the test suite (Ctrl+S)")
       });
       stopButton.setUserData("value", "stop");
       
-      stopButton.addListener("execute", function(ev) {
-        this.fireEvent("stopTests");
-      }, this);
+      stopButton.addListener("execute", this.__stopTests, this);
       
       part1.add(stopButton);
       
       // Reload button
       var reloadButton = new qx.ui.toolbar.Button(this.__app.tr("Reload"), "icon/22/actions/view-refresh.png");
       part1.add(reloadButton);
-      reloadButton.setToolTipText(this.__app.tr("Reload application under test"));
-      reloadButton.addListener("execute", function(ev) {
-        var src = this.getAutUri();
-        this.resetAutUri();
-        this.setAutUri(src);
-      }, this);
+      reloadButton.setToolTipText(this.__app.tr("Reload the test suite (Ctrl+Shift+R)"));
+      reloadButton.addListener("execute", this.__reloadAut, this);
       
       var part2 = new qx.ui.toolbar.Part();
       toolbar.add(part2);
@@ -871,6 +866,33 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       }
     },
     
+    /**
+     * Run the selected tests
+     */
+    __runTests : function()
+    {
+      this.reset();
+      this.fireEvent("runTests");
+    },
+    
+    /**
+     * Stop a running test suite
+     */
+    __stopTests : function()
+    {
+      this.fireEvent("stopTests");
+    },
+    
+    /**
+     * Reload the test suite
+     */
+    __reloadAut : function()
+    {
+      var src = this.getAutUri();
+      this.resetAutUri();
+      this.setAutUri(src);
+    },
+    
     // overridden
     addTestResult : function(testResultData)
     {
@@ -891,6 +913,21 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       var selection = qx.lang.Array.clone(this.getSelectedTests());
       this.resetSelectedTests();
       this.setSelectedTests(selection);
+    },
+    
+    /**
+     * Create keyboard shortcuts for the main controls.
+     */
+    _makeCommands : function()
+    {
+      var runTests = new qx.ui.core.Command("Ctrl+R");
+      runTests.addListener("execute", this.__runTests, this);
+      
+      var stopTests = new qx.ui.core.Command("Ctrl+S");
+      stopTests.addListener("execute", this.__stopTests, this);
+      
+      var reloadAut = new qx.ui.core.Command("Ctrl+Shift+R");
+      reloadAut.addListener("execute", this.__reloadAut, this);
     }
   }
 });

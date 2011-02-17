@@ -55,6 +55,7 @@ qx.Class.define("testrunner2.view.Html", {
     this._attachTestList();
     this._attachResultsList();
     this._attachFooter();
+    this._makeCommands();
   },
   
   
@@ -133,8 +134,8 @@ qx.Class.define("testrunner2.view.Html", {
     {
       var elemControls = document.createElement("div");
       elemControls.id = "qxtestrunner_controls";
-      elemControls.innerHTML = '<input type="submit" id="qxtestrunner_run" value="Run Tests"></input>';
-      elemControls.innerHTML += '<input type="submit" id="qxtestrunner_stop" value="Stop Tests"></input>';
+      elemControls.innerHTML = '<input type="submit" title="Run selected tests (Ctrl+R)" id="qxtestrunner_run" value="Run Tests"></input>';
+      elemControls.innerHTML += '<input type="submit" title="Stop the test suite (Ctrl+S)" id="qxtestrunner_stop" value="Stop Tests"></input>';
       
       var stackToggle = qx.bom.Input.create("checkbox", {id: "qxtestrunner_togglestack", checked: "checked"});
       elemControls.appendChild(stackToggle);
@@ -147,17 +148,10 @@ qx.Class.define("testrunner2.view.Html", {
       this.__domElements.rootElement.appendChild(elemControls);
       
       this.__domElements.runButton = document.getElementById("qxtestrunner_run");
-      qx.event.Registration.addListener(this.__domElements.runButton, "click", function(ev) {
-        if (this.getTestSuiteState() == "finished" ) {
-          this.reset();
-        }
-        this.fireEvent("runTests");
-      }, this);
+      qx.event.Registration.addListener(this.__domElements.runButton, "click", this.__runTests, this);
       
       this.__domElements.stopButton = document.getElementById("qxtestrunner_stop");
-      qx.event.Registration.addListener(this.__domElements.stopButton, "click", function(ev) {
-        this.fireEvent("stopTests");
-      }, this);      
+      qx.event.Registration.addListener(this.__domElements.stopButton, "click", this.__stopTests, this);      
       
       var stackToggle = document.getElementById("qxtestrunner_togglestack");
       qx.event.Registration.addListener(stackToggle, "change", function(ev) {
@@ -276,6 +270,37 @@ qx.Class.define("testrunner2.view.Html", {
       this.__domElements.elemTestList.innerHTML = "";
     },
     
+    /**
+     * Run the selected tests
+     */
+    __runTests : function()
+    {
+      if (this.getTestSuiteState() == "finished" ) {
+        this.reset();
+      }
+      this.fireEvent("runTests");
+    },
+    
+    /**
+     * Stop a running test suite
+     */
+    __stopTests : function()
+    {
+      this.fireEvent("stopTests");
+    },
+    
+    /**
+     * Reload the test suite
+     */
+    __reloadAut : function()
+    {
+      this.__domElements.filterInput.value = "";
+      this.filterTests("");
+      var src = this.__domElements.iframeSourceInput.value;
+      this.resetAutUri();
+      this.setAutUri(src);
+    },
+    
     
     /**
      * Returns the iframe element the AUT should be loaded in.
@@ -300,7 +325,7 @@ qx.Class.define("testrunner2.view.Html", {
       frameContainer.id = "qxtestrunner_framecontainer";
       parent.appendChild(frameContainer);
       frameContainer.innerHTML += '<input type="text" id="qxtestrunner_iframesrc"></input>';
-      frameContainer.innerHTML += '<input type="submit" id="qxtestrunner_setiframesrc" value="Reload"></input>';
+      frameContainer.innerHTML += '<input type="submit" title="Reload the test suite (Ctrl+Shift+R)" id="qxtestrunner_setiframesrc" value="Reload"></input>';
       
       var elemAut = document.createElement("div");
       elemAut.id = "qxtestrunner_aut";
@@ -309,13 +334,7 @@ qx.Class.define("testrunner2.view.Html", {
       
       this.__domElements.iframeSourceInput = document.getElementById("qxtestrunner_iframesrc");
       var reloadBtn = document.getElementById("qxtestrunner_setiframesrc");
-      qx.event.Registration.addListener(reloadBtn, "click", function(ev) {
-        this.__domElements.filterInput.value = "";
-        this.filterTests("");
-        var src = this.__domElements.iframeSourceInput.value;
-        this.resetAutUri();
-        this.setAutUri(src);
-      }, this);
+      qx.event.Registration.addListener(reloadBtn, "click", this.__reloadAut, this);
       
       return this.__domElements.elemIframe;
     },
@@ -774,6 +793,21 @@ qx.Class.define("testrunner2.view.Html", {
         return;
       }
       this.__setDisplayForClass(".success", value);
+    },
+    
+    /**
+     * Create keyboard shortcuts for the main controls.
+     */
+    _makeCommands : function()
+    {
+      var runTests = new qx.ui.core.Command("Ctrl+R");
+      runTests.addListener("execute", this.__runTests, this);
+      
+      var stopTests = new qx.ui.core.Command("Ctrl+S");
+      stopTests.addListener("execute", this.__stopTests, this);
+      
+      var reloadAut = new qx.ui.core.Command("Ctrl+Shift+R");
+      reloadAut.addListener("execute", this.__reloadAut, this);
     }
     
   }
