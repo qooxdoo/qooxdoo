@@ -214,6 +214,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.__lookupTable = [];
       this.__openNodes = [];
       this._initLayer();
+
+      this.getPane().addListener("resize", this._onResize, this);
     },
 
 
@@ -284,6 +286,23 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     {
       this.__openNodes = [];
       this.setOpen(value);
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLERS
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Event handler for the resize event.
+     *
+     * @param e {qx.event.type.Data} resize event.
+     */
+    _onResize : function(e) {
+      this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
     },
 
 
