@@ -27,8 +27,15 @@ qx.Class.define("qx.ui.tree.VirtualTree",
   extend : qx.ui.virtual.core.Scroller,
 
 
-  construct : function() {
+  construct : function(model)
+  {
     this.base(arguments);
+
+    if(model != null) {
+      this.initModel(model);
+    } else {
+      this.initModel(new qx.data.Array());
+    }
   },
 
 
@@ -88,6 +95,20 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       check: "Boolean",
       init: false,
       apply: "_applyRootOpenClose"
+    },
+
+
+    /**
+     * The model containing the data (nodes and/or leafs) which should be shown
+     * in the tree.
+     */
+    model :
+    {
+      check : "qx.core.Object",
+      apply : "_applyModel",
+      event: "changeModel",
+      nullable : false,
+      deferredInit : true
     }
   },
 
@@ -106,6 +127,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     // property apply
     _applyRootOpenClose : function(value, old) {
+    },
+
+
+    // property apply
+    _applyModel : function(value, old) {
     }
   },
 
