@@ -36,7 +36,7 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
     {
       var junk = [];
       for (var i = 0; i < 30; i++) {
-        junk.push("Junk #" + i);
+        junk.push({name:"Junk #" + i});
       }
       
       var model = {
