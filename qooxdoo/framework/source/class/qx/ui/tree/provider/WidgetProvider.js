@@ -110,7 +110,8 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
         widget.setUserData("cell.type", "leaf");
       }
       widget.setUserData("cell.level", this._tree.getLevel(row));
-      var name = item["get" + qx.lang.String.firstUp("name")]();
+      var name = qx.data.SingleValueBinding.getValueFromObject(item, 
+        this.getLabelPath()); 
       widget.setLabel(name);
       qx.ui.core.queue.Widget.add(widget);
 
@@ -167,7 +168,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
     __hasChildren : function(node)
     {
-      var children = node["get" + qx.lang.String.firstUp("children")]();
+      var children = node.get(this.getChildProperty());
       return children.length > 0;
     },
 

@@ -19,12 +19,12 @@
 
 /* ************************************************************************
 
-#ignore(qx.test.ui.tree.Leaf)
-#ignore(qx.test.ui.tree.Node)
+#ignore(qx.test.ui.tree.virtual.Leaf)
+#ignore(qx.test.ui.tree.virtual.Node)
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.tree.VirtualTree",
+qx.Class.define("qx.test.ui.tree.virtual.Tree",
 {
   extend : qx.test.ui.LayoutTestCase,
 
@@ -33,7 +33,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
   {
     this.base(arguments);
 
-    qx.Class.define("qx.test.ui.tree.Leaf",
+    qx.Class.define("qx.test.ui.tree.virtual.Leaf",
     {
       extend : qx.core.Object,
 
@@ -55,9 +55,9 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       }
     });
 
-    qx.Class.define("qx.test.ui.tree.Node",
+    qx.Class.define("qx.test.ui.tree.virtual.Node",
     {
-      extend : qx.test.ui.tree.Leaf,
+      extend : qx.test.ui.tree.virtual.Leaf,
       include : qx.data.marshal.MEventBubbling,
 
       construct : function(name, children)
@@ -127,7 +127,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
     createModel : function(level)
     {
-      var root = new qx.test.ui.tree.Node("Root node");
+      var root = new qx.test.ui.tree.virtual.Node("Root node");
       this.__createNodes(root, level);
 
       return root;
@@ -289,7 +289,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       ];
       this.__openNodes(nodesToOpen);
 
-      var newBranch = new qx.test.ui.tree.Node("New Branch");
+      var newBranch = new qx.test.ui.tree.virtual.Node("New Branch");
       this.__createNodes(newBranch, 2);
       root.getChildren().getItem(2).getChildren().push(newBranch);
 
@@ -501,7 +501,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       {
         for (var i = 0; i < 5; i++)
         {
-          var item = new qx.test.ui.tree.Node("Node " + this.__getPrefix(parent) + i);
+          var item = new qx.test.ui.tree.virtual.Node("Node " + this.__getPrefix(parent) + i);
           parent.getChildren().push(item);
 
           this.__createNodes(item, level - 1);
@@ -515,7 +515,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     {
       for (var i = 0; i < 5; i++)
       {
-        var child = new qx.test.ui.tree.Leaf("Leaf " + this.__getPrefix(parent) + i);
+        var child = new qx.test.ui.tree.virtual.Leaf("Leaf " + this.__getPrefix(parent) + i);
         parent.getChildren().push(child);
       }
     },
@@ -591,7 +591,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
 
   destruct : function() {
-    qx.Class.undefine("qx.test.ui.tree.Leaf");
-    qx.Class.undefine("qx.test.ui.tree.Node");
+    qx.Class.undefine("qx.test.ui.tree.virtual.Leaf");
+    qx.Class.undefine("qx.test.ui.tree.virtual.Node");
   }
 });
