@@ -1,4 +1,4 @@
-qx.Class.define("qx.ui.tree.core.TreeFolder",
+qx.Class.define("qx.ui.tree.VirtualTreeFolder",
 {
   extend : qx.ui.tree.core.AbstractTreeItem,
 

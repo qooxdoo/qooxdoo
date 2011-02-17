@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       var renderer = new qx.ui.virtual.cell.WidgetCell();
       renderer.setDelegate({
         createWidget : function() {
-          return new qx.ui.tree.core.TreeFolder();
+          return new qx.ui.tree.VirtualTreeFolder();
         }
       });
 
@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       var renderer = new qx.ui.virtual.cell.WidgetCell();
       renderer.setDelegate({
         createWidget : function() {
-          return new qx.ui.tree.core.TreeFile();
+          return new qx.ui.tree.VirtualTreeFile();
         }
       });
 

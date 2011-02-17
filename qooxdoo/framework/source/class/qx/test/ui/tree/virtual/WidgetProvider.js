@@ -94,7 +94,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.provider.setChildProperty("kids");
       var widget = this.provider.getCellWidget(0,0);
 
-      this.assertInstance(widget, qx.ui.tree.core.TreeFolder);
+      this.assertInstance(widget, qx.ui.tree.VirtualTreeFolder);
       this.assertEquals("node", widget.getUserData("cell.type"));
       this.assertTrue(widget.getUserData("cell.children"));
       this.assertEquals(0, widget.getUserData("cell.level"));
@@ -110,7 +110,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.provider.setChildProperty("kids");
       var widget = this.provider.getCellWidget(3,0);
 
-      this.assertInstance(widget, qx.ui.tree.core.TreeFile);
+      this.assertInstance(widget, qx.ui.tree.VirtualTreeFile);
       this.assertEquals("leaf", widget.getUserData("cell.type"));
       this.assertNull(widget.getUserData("cell.children"));
       this.assertEquals(1, widget.getUserData("cell.level"));
