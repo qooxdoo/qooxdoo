@@ -315,8 +315,11 @@ qx.Class.define("qx.util.Json",
     {
       // if its set to false or not set at all
       if (!qx.util.Json.CONVERT_DATES) {
-        // use the native toJSON if available
-        if (incoming.toJSON && !qx.bom.client.Engine.OPERA) {
+        // use the native toJSON if available but not on IE [BUG #4674]
+        if (
+          incoming.toJSON && !qx.bom.client.Engine.OPERA 
+          && !qx.bom.client.Engine.MSHTML
+        ) {
           return '"' + incoming.toJSON() + '"';
         }
 
