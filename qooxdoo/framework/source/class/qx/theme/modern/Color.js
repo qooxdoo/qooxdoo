@@ -57,7 +57,11 @@ qx.Theme.define("qx.theme.modern.Color",
     // tables, ...
     "background-odd" : "#E4E4E4",
 
-
+    // html area
+    "htmlarea-background" : "white",
+    
+    // progress bar
+    "progressbar-background" : "white",
 
 
 
@@ -100,6 +104,8 @@ qx.Theme.define("qx.theme.modern.Color",
     ---------------------------------------------------------------------------
     */
 
+    "border-inner-scrollbar" : "white",
+
     // menus, tables, scrollbars, list, etc.
     "border-main" : "#4d4d4d",
     "menu-separator-top" : "#C5C5C5",
@@ -114,6 +120,7 @@ qx.Theme.define("qx.theme.modern.Color",
 
     // text fields
     "border-input" : "#334866",
+    "border-inner-input" : "white",
 
     // disabled text fields
     "border-disabled" : "#B6B6B6",
@@ -136,6 +143,9 @@ qx.Theme.define("qx.theme.modern.Color",
 
     // drag & drop
     "border-dragover" : "#33508D",
+    
+    "keyboard-focus" : "black",
+
 
     /*
     ---------------------------------------------------------------------------
@@ -166,7 +176,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "table-row-line" : "#CCC",
     "table-column-line" : "#CCC",
 
-
+    "table-header-hovered" : "white",
 
     /*
     ---------------------------------------------------------------------------
@@ -259,6 +269,7 @@ qx.Theme.define("qx.theme.modern.Color",
     
     "window-border" : "#00204D",
     "window-border-caption" : "#727272",
+    "window-caption-active-text" : "white",
     "window-caption-active-start" : "#084FAA",
     "window-caption-active-end" : "#003B91",
     "window-caption-inactive-start" : "#F2F2F2",
@@ -279,6 +290,9 @@ qx.Theme.define("qx.theme.modern.Color",
     "menubar-start" : "#E8E8E8",
     
     "groupitem-start" : "#A7A7A7",
-    "groupitem-end" : "#949494"
+    "groupitem-end" : "#949494",
+    "groupitem-text" : "white",
+    "virtual-row-layer-background-even" : "white",
+    "virtual-row-layer-background-odd" : "white"
   }
 });

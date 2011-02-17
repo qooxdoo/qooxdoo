@@ -1836,7 +1836,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         
         return {
           decorator    : decorator,
-          textColor    : states.active ? "white" : "text-gray",
+          textColor    : states.active ? "window-caption-active-text" : "text-gray",
           minHeight    : 26,
           paddingRight : 2,
           margin : useCSS ? [0, 5, 0, 0] : undefined // necessary for the shadow
@@ -3020,8 +3020,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          colorEven : "white",
-          colorOdd : "white"
+          colorEven : "virtual-row-layer-background-even",
+          colorOdd : "virtual-row-layer-background-odd"
         };
       }
     },
@@ -3036,7 +3036,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding : 4,
           decorator : qx.bom.client.Feature.CSS_GRADIENTS ? "group-item-css" : "group-item",
-          textColor : "white",
+          textColor : "groupitem-text",
           font: "bold"
         };
       }
@@ -3200,7 +3200,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "white"
+          backgroundColor : "htmlarea-background"
         };
       }
     },
@@ -3217,7 +3217,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator: "progressbar",
           padding: [1],
-          backgroundColor: "white"
+          backgroundColor: "progressbar-background"
         }
       }
     },

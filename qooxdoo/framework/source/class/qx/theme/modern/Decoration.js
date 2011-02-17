@@ -166,7 +166,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         outerColor : "invalid",
-        innerColor : "white",
+        innerColor : "border-inner-input",
         innerOpacity : 0.5,
         backgroundImage : "decoration/form/input.png",
         backgroundRepeat : "repeat-x",
@@ -182,7 +182,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         width : 1,
-        color : "black",
+        color : "keyboard-focus",
         style : "dotted"
       }
     },
@@ -486,7 +486,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundImage : "decoration/scrollbar/scrollbar-button-bg-horizontal.png",
         backgroundRepeat : "scale",
         outerColor : "border-main",
-        innerColor : "white",
+        innerColor : "border-inner-scrollbar",
         innerOpacity : 0.5
       }
     },
@@ -499,7 +499,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundImage : "decoration/scrollbar/scrollbar-button-bg-horizontal.png",
         backgroundRepeat : "scale",
         outerColor : "border-disabled",
-        innerColor : "white",
+        innerColor : "border-inner-scrollbar",
         innerOpacity : 0.3
       }
     },
@@ -512,7 +512,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundImage : "decoration/scrollbar/scrollbar-button-bg-vertical.png",
         backgroundRepeat : "scale",
         outerColor : "border-main",
-        innerColor : "white",
+        innerColor : "border-inner-scrollbar",
         innerOpacity : 0.5
       }
     },
@@ -525,7 +525,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundImage : "decoration/scrollbar/scrollbar-button-bg-vertical.png",
         backgroundRepeat : "scale",
         outerColor : "border-disabled",
-        innerColor : "white",
+        innerColor : "border-inner-scrollbar",
         innerOpacity : 0.3
       }
     },
@@ -1053,7 +1053,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         outerColor : "border-disabled",
-        innerColor : "white",
+        innerColor : "border-inner-input",
         innerOpacity : 0.5,
         backgroundImage : "decoration/form/input.png",
         backgroundRepeat : "repeat-x",
@@ -1633,7 +1633,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         styleRight : "solid",
 
         widthBottom : 1,
-        colorBottom : "white",
+        colorBottom : "table-header-hovered",
         styleBottom : "solid"
       }
     },
