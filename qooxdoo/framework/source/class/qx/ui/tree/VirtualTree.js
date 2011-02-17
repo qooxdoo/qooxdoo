@@ -26,6 +26,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 {
   extend : qx.ui.virtual.core.Scroller,
 
+
   /**
    * @param model {Object|null} The model structure for the tree.
    */
@@ -161,6 +162,85 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     _layer : null,
 
 
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC API
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Set node as opened.
+     *
+     * @param node {Object} Node to open.
+     */
+    setOpen : function(node) {
+      this.__openNodes.push(node);
+
+      this.__buildLookupTable();
+    },
+
+
+    /**
+     * Return whether the node is opened or closed.
+     *
+     * @param node {Object} Node to check.
+     * @return {Boolean} Returns <code>true</code> when the node is opened,
+     *   <code>false</code> otherwise.
+     */
+    isOpen : function(node) {
+      return this.__openNodes.indexOf(node) > -1 ? true : false;
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL API
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Initializes the virtual tree layer.
+     */
+    _initLayer : function()
+    {
+      var provider = new qx.ui.tree.provider.WidgetProvider(this);
+      this._layer = provider.createLayer();
+      this.getPane().addLayer(this._layer);
+    },
+
+
+    /**
+     * Returns the internal data structure. The Array index is the
+     * row and the value is the model item.
+     *
+     * @internal
+     * @return {Array} The internal data structure.
+     */
+    getLookupTable : function() {
+      return this.__lookupTable;
+    },
+
+
+    /**
+     * Returns all open nodes.
+     *
+     * @internal
+     * @return {Array} All open nodes.
+     */
+    getOpenNodes : function() {
+      return this.__openNodes;
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY METHODS
+    ---------------------------------------------------------------------------
+    */
+
+
     // property apply
     _applyRowHeight : function(value, old) {
       this.getPane().getRowConfig().setDefaultItemSize(value);
@@ -189,22 +269,19 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.setOpen(value);
     },
 
-    
-    /**
-     * Initializes the virtual list.
-     */
-    _initLayer : function()
-    {
-      var provider = new qx.ui.tree.provider.WidgetProvider(this);
-      this._layer = provider.createLayer();
-      this.getPane().addLayer(this._layer);
-    },
-    
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS
+    ---------------------------------------------------------------------------
+    */
+
 
     /**
      * Helper method to build the internal data structure.
      */
-    __buildLookupTable : function() {
+    __buildLookupTable : function()
+    {
       this.__lookupTable = [];
 
       var root = this.getModel();
@@ -212,88 +289,41 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
       var visibleChildren = this.__getVisibleChildrenFrom(root);
       this.__lookupTable = this.__lookupTable.concat(visibleChildren);
-      
+
       this.__updateRowCount();
     },
 
-    
+
     /**
      * Helper method to get all visible children form the passed parent node.
-     * 
+     *
      * The algorithm implements a depth-first search with a complexity:
      *    <code>O(n) n</code> are all visible items.
-     * 
+     *
      * @param parent {Object} The parent node to start search.
      * @return {Array} All visible children form the parent.
      */
     __getVisibleChildrenFrom : function(parent)
     {
       var visible = [];
-      
+
       if (parent.children == null) {
         return visible;
       }
-      
+
       for (var i = 0; i < parent.children.length; i++)
       {
         var child = parent.children[i];
         visible.push(child);
-        
+
         if (this.isOpen(child))
         {
           var visibleChildren = this.__getVisibleChildrenFrom(child);
           visible = visible.concat(visibleChildren);
         }
       }
-      
-      return visible;
-    },
-    
 
-    /**
-     * Returns the internal data structure. The Array index is the
-     * row and the value is the model item.
-     *
-     * @internal
-     * @return {Array} The internal data structure.
-     */
-    getLookupTable : function() {
-      return this.__lookupTable;
-    },
-    
-    
-    /**
-     * Returns all open nodes. 
-     *
-     * @internal
-     * @return {Array} All open nodes.
-     */
-    getOpenNodes : function() {
-      return this.__openNodes;
-    },
-    
-    
-    /**
-     * Set node as opened. 
-     *
-     * @param node {Object} Node to open.
-     */
-    setOpen : function(node) {
-      this.__openNodes.push(node);
-      
-      this.__buildLookupTable();
-    },
-    
-    
-    /**
-     * Return whether the node is opened or closed.
-     * 
-     * @param node {Object} Node to check.
-     * @return {Boolean} Returns <code>true</code> when the node is opened,
-     *   <code>false</code> otherwise.
-     */
-    isOpen : function(node) {
-      return this.__openNodes.indexOf(node) > -1 ? true : false;
+      return visible;
     },
 
 
