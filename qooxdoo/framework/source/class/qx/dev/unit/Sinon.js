@@ -2546,7 +2546,12 @@ qx.Class.define("qx.dev.unit.Sinon",
     return sinon;
   };
 
-  // Customize exceptions thrown by assert methods
-  sinon.assert.failException = "qx.core.AssertionError";
+  // Every assertion fails by calling this method.
+  // Instead of throwing an exception directly, go through
+  // qx.core.Assert.fail. In Testrunner2, this ensures that
+  // the entire body of each test function is executed.
+  sinon.assert.fail = function(msg) {
+    qx.core.Assert.fail(msg, true);
+  };
 
 })();
