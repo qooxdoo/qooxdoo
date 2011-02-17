@@ -20,7 +20,7 @@
  *
  * Provides test spies, stubs and mocks as well as custom assertions.
  *
- * Here is an example:
+ * Here is a simple example:
  *
  * <pre class="javascript">
  *
@@ -37,14 +37,19 @@
  *       // Set-Up
  *       var obj = new qx.Klass();
  *
- *       // Spy on obj.doSpecial
- *       var spy = this.spy(obj, "doSpecial");
+ *       // Wraps obj.doSpecial in a spy function and
+ *       // replaces the original method with this spy.
+ *       this.spy(obj, "doSpecial");
  *
  *       // Run code that is expected to fulfill condition
  *       obj.onCondition("xyz");
  *
  *       // Assert that spy was called
- *       this.assertCalled(spy);
+ *       this.assertCalled(obj.doSpecial);
+ *
+ *       // Depending on the life cycle of the object you spied upon, this
+ *       // may or may not be necessary. Restore the original method.
+ *       // obj.restore();
  *     },
  *   }
  * });
