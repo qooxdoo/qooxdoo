@@ -192,6 +192,20 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
+     * Removes the node from the opened nodes.
+     * 
+     * @param node {Object} Node to remove.
+     */
+    removeOpen : function(node)
+    {
+      if (qx.lang.Array.contains(this.__openNodes, node)) {
+        qx.lang.Array.remove(this.__openNodes, node);
+        this.__buildLookupTable();
+      }
+    },
+
+
+    /**
      * Return whether the node is opened or closed.
      *
      * @param node {Object} Node to check.
@@ -353,8 +367,12 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       lookupTable.push(root);
       this.__nestingLevel.push(0);
 
-      var visibleChildren = this.__getVisibleChildrenFrom(root, 0);
-      this.__lookupTable = lookupTable.concat(visibleChildren);
+      if (this.isOpen(root))
+      {
+        var visibleChildren = this.__getVisibleChildrenFrom(root, 0);
+        lookupTable = lookupTable.concat(visibleChildren);
+      }
+      this.__lookupTable = lookupTable;
 
       this.__updateRowCount();
     },

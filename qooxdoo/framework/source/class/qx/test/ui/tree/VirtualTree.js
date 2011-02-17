@@ -141,6 +141,45 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     },
 
 
+    testBuildLookupTableWithRemovedNodes : function()
+    {
+      var model = this.createModel(3);
+      this.tree.setModel(model);
+
+      var root = model;
+      var openNodes = [
+        root,
+        root.children[9],
+        root.children[9].children[5]
+      ];
+
+      for (var i = 0; i < openNodes.length; i++) {
+        this.tree.setOpen(openNodes[i]);
+      }
+
+      this.tree.removeOpen(openNodes[openNodes.length - 1]);
+      openNodes.pop();
+
+      var expected = this.__getVisibleItemsFrom(root, openNodes);
+      qx.lang.Array.insertAt(expected, root, 0);
+
+      this.__testBuildLookupTable(expected);
+    },
+
+
+    testBuildLookupTableWithClosedRoot : function()
+    {
+      var model = this.createModel(3);
+      this.tree.setModel(model);
+
+      var root = model;
+      this.tree.removeOpen(root);
+
+      var expected = [root];
+      this.__testBuildLookupTable(expected);
+    },
+
+
     __testBuildLookupTable : function(expected)
     {
       this.assertArrayEquals(expected, this.tree.getLookupTable());
@@ -191,6 +230,44 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
       this.tree.setOpen(root.children[0]);
       this.assertArrayEquals(expectedOpen, this.tree.getOpenNodes());
+    },
+
+
+    testRemoveOpenNodes : function()
+    {
+      var model = this.createModel(3);
+      this.tree.setModel(model);
+
+      var expectedOpen = [];
+      var root = model;
+      expectedOpen.push(root);
+      expectedOpen.push(root.children[0]);
+
+      this.tree.setOpen(root.children[0]);
+      this.assertArrayEquals(expectedOpen, this.tree.getOpenNodes());
+
+      this.tree.removeOpen(root.children[0]);
+      expectedOpen.pop();
+      this.assertArrayEquals(expectedOpen, this.tree.getOpenNodes());
+    },
+
+
+    testRemoveRootFromOpenNodes : function()
+    {
+      var model = this.createModel(3);
+      this.tree.setModel(model);
+
+      var expectedOpen = [];
+      var root = model;
+      expectedOpen.push(root);
+      expectedOpen.push(root.children[0]);
+
+      this.tree.setOpen(root.children[0]);
+      this.assertArrayEquals(expectedOpen, this.tree.getOpenNodes());
+
+      this.tree.removeOpen(root.children[0]);
+      this.tree.removeOpen(root);
+      this.assertArrayEquals([], this.tree.getOpenNodes());
     },
 
 
