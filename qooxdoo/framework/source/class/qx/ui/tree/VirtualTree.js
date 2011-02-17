@@ -21,6 +21,10 @@
  * EXPERIMENTAL!
  *
  * Virtual tree implementation.
+ *
+ * The virtual tree can be used to render node and leafs. Nodes and leafs are
+ * both items for a tree. The difference between a node and a leaf is that a
+ * node has child items, but a leaf not.
  */
 qx.Class.define("qx.ui.tree.VirtualTree",
 {
@@ -28,7 +32,12 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
   /**
-   * @param model {qx.core.Object|null} The model structure for the tree.
+   * @param model {qx.core.Object?null} The model structure for the tree, for
+   *   more details have a look at the 'model' property.
+   * @param labelPath {String?null} The name of the label property, for more
+   *   details have a look at the 'labelPath' property.
+   * @param childProperty {String?null} The name of the child property, for
+   *   more details have a look at the 'childProperty' property.
    */
   construct : function(model, labelPath, childProperty)
   {
@@ -39,15 +48,15 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     if (labelPath != null) {
       this.setLabelPath(labelPath);
     }
-    
+
     if (childProperty != null) {
       this.setChildProperty(childProperty)
     }
-    
+
     if(model != null) {
       this.initModel(model);
     }
-    
+
     this.initItemHeight();
   },
 
@@ -86,7 +95,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     },
 
 
-    /** Default item height */
+    /** Default item height. */
     itemHeight :
     {
       check : "Integer",
@@ -98,7 +107,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     /**
      * Control whether clicks or double clicks should open or close the clicked
-     * folder.
+     * item.
      */
     openMode :
     {
@@ -111,8 +120,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Hide the root (Tree) node.  This differs from the visibility property in
-     * that this property hides *only* the root node, not the node's children.
+     * Hides *only* the root node, not the node's children when the property is
+     * set to <code>true</code>.
      */
     hideRoot :
     {
@@ -123,11 +132,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Whether the Root should have an open/close button.  This may also be
-     * used in conjunction with the hideNode property to provide for virtual root
-     * nodes.  In the latter case, be very sure that the virtual root nodes are
-     * expanded programatically, since there will be no open/close button for the
-     * user to open them.
+     * Whether the Root should have an open/close button.
      */
     rootOpenClose :
     {
@@ -137,6 +142,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     },
 
 
+    /**
+     * Configures the tree to show also the leafs. When the property is set to
+     * <code>false</code> *only* the nodes are shown.
+     */
     showLeafs :
     {
       check: "Boolean",
@@ -145,15 +154,15 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     },
 
 
-    /** 
-     * The name of the property, where the children are stored in the model. 
-     * Instead of the {@link # labelPath} must the child property a direct 
-     * property form the model instance. 
+    /**
+     * The name of the property, where the children are stored in the model.
+     * Instead of the {@link #labelPath} must the child property a direct
+     * property form the model instance.
      */
     childProperty :
     {
       check: "String",
-//      apply: "_applyChildProperty",
+      apply: "_applyChildProperty",
       nullable: true
     },
 
@@ -165,7 +174,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     labelPath :
     {
       check: "String",
-//      apply: "_applyLabelPath",
+      apply: "_applyLabelPath",
       nullable: true
     },
 
@@ -187,11 +196,18 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
   members :
   {
-    /** {qx.ui.virtual.layer.Abstract} layer which contains the items. */
+    /** {qx.ui.tree.provider.WidgetProvider} Provider for widget rendering. */
+    _provider : null,
+
+
+    /** {qx.ui.virtual.layer.Abstract} Layer which contains the items. */
     _layer : null,
 
 
-    /** {Array} The internal lookup table data structure to get the model item from a row. */
+    /**
+     * {Array} The internal lookup table data structure to get the model item
+     * from a row.
+     */
     __lookupTable : null,
 
 
@@ -199,7 +215,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     __openNodes : null,
 
 
-    /** {Array} The internal data structure to get the nesting level from a row. */
+    /**
+     * {Array} The internal data structure to get the nesting level from a
+     * row.
+     */
     __nestingLevel : null,
 
 
@@ -223,12 +242,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Opens the passed node and all his parents.
-     * 
-     * Note! The algorithm implements a depth-first
-     * search with a complexity:
-     *    <code>O(n) n</code> are all model items.
-     * 
+     * Opens the passed node and all his parents. *Note!* The algorithm
+     * implements a depth-first search with a complexity: <code>O(n)</code> and
+     * <code>n</code> are all model items.
+     *
      * @param node {qx.core.Object} Node to open.
      */
     openNodeAndParents : function(node)
@@ -240,12 +257,13 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     /**
      * Closes the passed node.
-     * 
+     *
      * @param node {qx.core.Object} Node to close.
      */
     closeNode : function(node)
     {
-      if (qx.lang.Array.contains(this.__openNodes, node)) {
+      if (qx.lang.Array.contains(this.__openNodes, node))
+      {
         qx.lang.Array.remove(this.__openNodes, node);
         this.__buildLookupTable();
       }
@@ -290,15 +308,15 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     _initLayer : function()
     {
-      var provider = new qx.ui.tree.provider.WidgetProvider(this);
-      this._layer = provider.createLayer();
+      this._provider = new qx.ui.tree.provider.WidgetProvider(this);
+      this._layer = this._provider.createLayer();
       this.getPane().addLayer(this._layer);
     },
 
 
     /**
-     * Returns the internal data structure. The Array index is the
-     * row and the value is the model item.
+     * Returns the internal data structure. The Array index is the row and the
+     * value is the model item.
      *
      * @internal
      * @return {Array} The internal data structure.
@@ -324,17 +342,18 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      *
      * @internal
      * @param item {qx.core.Object} Item to check.
-     * @return {Boolean} <code>True</code> when item is a node, 
+     * @return {Boolean} <code>True</code> when item is a node,
      *   </code>false</code> when item is a leaf.
      */
-    isNode : function(node) {
-      return qx.Class.hasProperty(node.constructor, this.getChildProperty());
+    isNode : function(item) {
+      return qx.Class.hasProperty(item.constructor, this.getChildProperty());
     },
 
 
     /**
-     * Returns the row's nesting level. 
+     * Returns the row's nesting level.
      *
+     * @param row {Integer} The row to get the nesting level.
      * @return {Integer} The row's nesting level or <code>null</code>.
      */
     getLevel : function(row) {
@@ -357,6 +376,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     // property apply
     _applyOpenMode : function(value, old) {
+      this._provider.setOpenMode(value);
     },
 
 
@@ -368,6 +388,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     // property apply
     _applyRootOpenClose : function(value, old) {
+      this._provider.setRootOpenClose(value);
     },
 
 
@@ -375,31 +396,45 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     _applyShowLeafs : function(value, old) {
       this.__buildLookupTable();
     },
-    
+
+
+    // property apply
+    _applyChildProperty : function(value, old) {
+      this._provider.setChildProperty(value);
+    },
+
+
+    // property apply
+    _applyLabelPath : function(value, old) {
+      this._provider.setLabelPath(value);
+    },
+
 
     // property apply
     _applyModel : function(value, old)
     {
       this.__openNodes = [];
-      
+
       if (value != null)
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (!qx.Class.hasMixin(value.constructor, qx.data.marshal.MEventBubbling))
+          if (!qx.Class.hasMixin(value.constructor,
+                qx.data.marshal.MEventBubbling))
           {
-            this.warn("The model item doesn't support the Mixin 'qx.data.marshal.MEventBubbling'. " +
-              "Therefore the tree can not update the view automatically on model changes.");
+            this.warn("The model item doesn't support the Mixin 'qx.data." +
+              "marshal.MEventBubbling'. Therefore the tree can not update " +
+              "the view automatically on model changes.");
           }
         }
         value.addListener("changeBubble", this.__buildLookupTable, this);
         this.__openNode(value);
       }
-      
+
       if (old != null) {
         old.removeListener("changeBubble", this.__buildLookupTable, this);
       }
-      
+
       this.__buildLookupTable();
     },
 
@@ -414,10 +449,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     /**
      * Event handler for the resize event.
      *
-     * @param e {qx.event.type.Data} resize event.
+     * @param event {qx.event.type.Data} The resize event.
      */
-    _onResize : function(e) {
-      this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
+    _onResize : function(event) {
+      this.getPane().getColumnConfig().setItemSize(0, event.getData().width);
     },
 
 
@@ -433,8 +468,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     __buildLookupTable : function()
     {
-      if (this.getChildProperty() == null || this.getLabelPath() == null) {
-        throw new Error("Could not build tree, because 'childProperty' and/or 'labelPath' is 'null'!");
+      if (this.getChildProperty() == null || this.getLabelPath() == null)
+      {
+        throw new Error("Could not build tree, because 'childProperty' and/" +
+          "or 'labelPath' is 'null'!");
       }
 
       var lookupTable = [];
@@ -453,11 +490,12 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
         if (this.isNodeOpen(root))
         {
-          var visibleChildren = this.__getVisibleChildrenFrom(root, nestedLevel);
+          var visibleChildren = this.__getVisibleChildrenFrom(root,
+            nestedLevel);
           lookupTable = lookupTable.concat(visibleChildren);
         }
       }
-      
+
       this.__lookupTable = lookupTable;
       this.__updateRowCount();
     },
@@ -465,9 +503,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     /**
      * Helper method to get all visible children form the passed parent node.
-     *
      * The algorithm implements a depth-first search with a complexity:
-     *    <code>O(n) n</code> are all visible items.
+     * <code>O(n)</code> and <code>n</code> are all visible items.
      *
      * @param node {qx.core.Object} The start node to start search.
      * @param nestedLevel {Integer} The nested level from the start node.
@@ -486,7 +523,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       for (var i = 0; i < children.getLength(); i++)
       {
         var child = children.getItem(i);
-        
+
         if (this.isNode(child))
         {
           this.__nestingLevel.push(nestedLevel);
@@ -494,7 +531,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
           if (this.isNodeOpen(child))
           {
-            var visibleChildren = this.__getVisibleChildrenFrom(child, nestedLevel);
+            var visibleChildren = this.__getVisibleChildrenFrom(child,
+              nestedLevel);
             visible = visible.concat(visibleChildren);
           }
         }
@@ -513,8 +551,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Helper method to set the node to the open nodes data structure
-     * when it is not included.
+     * Helper method to set the node to the open nodes data structure when it
+     * is not included.
      *
      * @param node {qx.core.Object} Node to set to open nodes.
      */
@@ -527,11 +565,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Helper method to set the target node and all his parents to the
-     * open nodes data structure.
-     *
-     * The algorithm implements a depth-first search with a complexity:
-     *    <code>O(n) n</code> are all model items.
+     * Helper method to set the target node and all his parents to the open
+     * nodes data structure. The algorithm implements a depth-first search with
+     * a complexity: <code>O(n)</code> and <code>n</code> are all model items.
      *
      * @param startNode {qx.core.Object} Start (root) node to search.
      * @param targetNode {qx.core.Object} Target node to open (and his parents).
@@ -554,7 +590,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       if (children == null) {
         return false;
       }
-      
+
       for (var i = 0; i < children.getLength(); i++)
       {
         var child = children.getItem(i);
@@ -585,7 +621,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
   destruct : function()
   {
     this._layer.destroy();
+    this._provider.dispose();
 
-    this._layer = this.__lookupTable = this.__openNodes = null;
+    this._layer = this._provider = this.__lookupTable = this.__openNodes = null;
   }
 });

@@ -24,12 +24,12 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 {
   extend : qx.core.Object,
 
-  
+
   implement : [
    qx.ui.virtual.core.IWidgetCellProvider
   ],
 
-  
+
   /**
    * @param tree {qx.ui.tree.VirtualTree} tree to provide.
    */
@@ -44,12 +44,44 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
   },
 
 
+  properties :
+  {
+    openMode :
+    {
+      check: ["click", "dblclick", "none"],
+      init: "dblclick",
+      event: "changeOpenMode"
+    },
+
+
+    rootOpenClose :
+    {
+      check: "Boolean",
+      init: false
+    },
+
+
+    childProperty :
+    {
+      check: "String",
+      nullable: true
+    },
+
+
+    labelPath :
+    {
+      check: "String",
+      nullable: true
+    }
+  },
+
+
   members :
   {
     /** {qx.ui.tree.VirtualTree} tree to provide. */
     _tree : null,
-    
-    
+
+
     /** {qx.ui.virtual.cell.WidgetCell} the used node renderer. */
     _nodeRenderer : null,
 
@@ -57,12 +89,12 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     /** {qx.ui.virtual.cell.WidgetCell} the used node renderer. */
     _leafRenderer : null,
 
-    
+
     // interface implementation
     getCellWidget : function(row, column)
     {
       var item = this._tree.getLookupTable()[row];
-      
+
       var widget = null;
       if (this._tree.isNode(item))
       {
@@ -81,7 +113,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       var name = item["get" + qx.lang.String.firstUp("name")]();
       widget.setLabel(name);
       qx.ui.core.queue.Widget.add(widget);
-      
+
       return widget;
     },
 
@@ -95,7 +127,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       {
         widget.removeListener("changeOpen", this.__onOpenChanged, this);
         this._nodeRenderer.pool(widget);
-      } 
+      }
       else {
         this._leafRenderer.pool(widget);
       }
@@ -118,8 +150,8 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
       return renderer;
     },
-    
-    
+
+
     __createLeafRenderer : function()
     {
       var renderer = new qx.ui.virtual.cell.WidgetCell();
@@ -131,18 +163,18 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
       return renderer;
     },
-    
-    
+
+
     __hasChildren : function(node)
     {
       var children = node["get" + qx.lang.String.firstUp("children")]();
       return children.length > 0;
     },
-    
+
     __onOpenChanged : function(event)
     {
       var widget = event.getTarget();
-      
+
       var row = widget.getUserData("cell.row");
       var item = this._tree.getLookupTable()[row];
       if (event.getData()) {
