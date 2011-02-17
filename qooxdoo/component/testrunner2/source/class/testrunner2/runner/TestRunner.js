@@ -218,7 +218,8 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       var win = autWindow || window;
       var tCase = win.qx.dev.unit.TestCase.prototype;
       for (var prop in tCase) {
-        if (prop.indexOf("assert") == 0 && typeof tCase[prop] == "function") {
+        if ((prop.indexOf("assert") == 0 || prop === "fail") && 
+            typeof tCase[prop] == "function") {
           // store original assertion func
           var originalName = "__" + prop;
           tCase[originalName] = tCase[prop];
