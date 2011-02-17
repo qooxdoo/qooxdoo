@@ -137,6 +137,14 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     },
 
 
+    showLeafs :
+    {
+      check: "Boolean",
+      init: true,
+      apply: "_applyShowLeafs"
+    },
+
+
     /** 
      * The name of the property, where the children are stored in the model. 
      * Instead of the {@link # labelPath} must the child property a direct 
@@ -364,6 +372,12 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     // property apply
+    _applyShowLeafs : function(value, old) {
+      this.__buildLookupTable();
+    },
+    
+
+    // property apply
     _applyModel : function(value, old)
     {
       this.__openNodes = [];
@@ -472,13 +486,25 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       for (var i = 0; i < children.getLength(); i++)
       {
         var child = children.getItem(i);
-        this.__nestingLevel.push(nestedLevel);
-        visible.push(child);
-
-        if (this.isNodeOpen(child))
+        
+        if (this.isNode(child))
         {
-          var visibleChildren = this.__getVisibleChildrenFrom(child, nestedLevel);
-          visible = visible.concat(visibleChildren);
+          this.__nestingLevel.push(nestedLevel);
+          visible.push(child);
+
+          if (this.isNodeOpen(child))
+          {
+            var visibleChildren = this.__getVisibleChildrenFrom(child, nestedLevel);
+            visible = visible.concat(visibleChildren);
+          }
+        }
+        else
+        {
+          if (this.isShowLeafs())
+          {
+            this.__nestingLevel.push(nestedLevel);
+            visible.push(child);
+          }
         }
       }
 

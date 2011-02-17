@@ -137,6 +137,17 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       });
 
       commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
+      commandFrame.add(new qx.ui.basic.Label("Tree:"), {row: row, column: 0});
+
+      var btnShowLeafs = new qx.ui.form.CheckBox("Show Leafs");
+      btnShowLeafs.setValue(tree.isShowLeafs());
+      commandFrame.add(btnShowLeafs, {row: row++, column: 1});
+
+      btnShowLeafs.addListener("changeValue", function(e) {
+        tree.setShowLeafs(e.getData());
+      });
+      
+      commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
 
       var updateModel = new qx.ui.form.Button("Update Model");
       updateModel.addListener("execute", function(e) {

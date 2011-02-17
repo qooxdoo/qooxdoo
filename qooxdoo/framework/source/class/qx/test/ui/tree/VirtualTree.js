@@ -309,6 +309,33 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       var expected = this.__getVisibleItemsFrom(root, [root]);
       this.__testBuildLookupTable(expected);
     },
+    
+    
+    testBuildLookupWithoutLeafs : function()
+    {
+      var root = this.createModelAndSetModel(2);
+
+      var nodesToOpen = [
+        root,
+        root.getChildren().getItem(2)
+      ];
+      this.__openNodes(nodesToOpen);
+      
+      this.tree.setShowLeafs(false);
+
+      var allVisibleItems = this.__getVisibleItemsFrom(root, nodesToOpen);
+      qx.lang.Array.insertAt(allVisibleItems, root, 0);
+      
+      var expected = [];
+      for (var i = 0; i < allVisibleItems.length; i++)
+      {
+        var item = allVisibleItems[i];
+        if (this.tree.isNode(item)) {
+          expected.push(item);
+        }
+      }     
+      this.__testBuildLookupTable(expected);
+    },
 
 
     __testBuildLookupTable : function(expected)
