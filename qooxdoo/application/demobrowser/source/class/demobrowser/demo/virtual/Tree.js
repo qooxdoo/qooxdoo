@@ -45,6 +45,27 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       store.addListener("loaded", function() {
         tree.openNode(tree.getModel().getChildren().getItem(0));
       }, this);
+      
+      
+      /* ***********************************************
+       * Controlls:
+       * ********************************************* */
+      
+      var button = new qx.ui.form.Button("Update Model");
+      button.addListener("execute", function(e) {
+        var desktop = tree.getModel().getChildren().getItem(0);
+        var trash = desktop.getChildren().getItem(2);
+        
+        var rawData = [];
+        for (var i = 0; i < 10; i++) {
+          rawData.push({"name": "File #" + (trash.getChildren().getLength() + i)});
+        }
+        var newItems = qx.data.marshal.Json.createModel(rawData, true);
+        
+        
+        trash.getChildren().append(newItems);
+      }, this);
+      this.getRoot().add(button, {top: 20, left: 240});
     }
   }
 });

@@ -542,8 +542,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     /**
      * Helper method to update the row count.
      */
-    __updateRowCount : function() {
+    __updateRowCount : function()
+    {
       this.getPane().getRowConfig().setItemCount(this.getLookupTable().length);
+      this.getPane().fullUpdate();
     }
   },
 
