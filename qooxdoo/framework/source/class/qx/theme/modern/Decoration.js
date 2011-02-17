@@ -950,7 +950,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         color : "border-input",
-        innerColor : "input-border-inner",
+        innerColor : "border-inner-input",
         innerWidth: 1,
         width : 1,
         backgroundColor : "background-light",
@@ -1008,7 +1008,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         outerColor : "border-input",
-        innerColor : "input-border-inner",
+        innerColor : "border-inner-input",
         innerOpacity : 0.5,
         backgroundImage : "decoration/form/input.png",
         backgroundRepeat : "repeat-x",
