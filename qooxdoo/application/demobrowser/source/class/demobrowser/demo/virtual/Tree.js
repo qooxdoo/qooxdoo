@@ -27,12 +27,16 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
     {
       this.base(arguments);
 
+      // initializes layout
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
+      this.getRoot().add(container, {top: 20, left: 20});
+
       // creates the tree
       var tree = new qx.ui.tree.VirtualTree(null, "name", "children").set({
         width : 200,
         height : 400
       });
-      this.getRoot().add(tree, {top: 20, left: 20});
+      container.add(tree);
       
       // loads the tree model
       var url = "json/tree.json";
@@ -50,9 +54,92 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       /* ***********************************************
        * Controlls:
        * ********************************************* */
-      
-      var button = new qx.ui.form.Button("Update Model");
-      button.addListener("execute", function(e) {
+      var commandFrame = this.getCommandFrame(tree);
+      container.add(commandFrame);
+    },
+    
+    getCommandFrame : function(tree)
+    {
+      var commandFrame = new qx.ui.groupbox.GroupBox("Control");
+      var spacerSize = 4;
+
+      commandFrame.setLayout(new qx.ui.layout.Grid(5, 3));
+
+      var row = 0;
+//      commandFrame.add(new qx.ui.basic.Label("Selection: ").set({
+//        paddingTop: 4
+//      }), {row: row, column: 0});
+//
+//      var tCurrentInput = new qx.ui.form.TextField().set({
+//        readOnly : true
+//      });
+//
+//      commandFrame.add(tCurrentInput, {row: row++, column: 1});
+//
+//      tree.addListener("changeSelection", function(e)
+//      {
+//        var data = e.getData();
+//        if(data.length > 0)
+//        {
+//          if (this.getSelectionMode() === "multi") {
+//            tCurrentInput.setValue(data.length + " items");
+//          } else {
+//            tCurrentInput.setValue(data[0].getLabel());
+//          }
+//        }
+//        else
+//        {
+//          tCurrentInput.setValue("");
+//        }
+//      });
+
+      commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
+      commandFrame.add(new qx.ui.basic.Label("Open mode:"), {row: row, column: 0});
+      var modes = {
+        "click": "click",
+        "dblclick": "double click",
+        "none": "none"
+      };
+
+      var modeMgr = new qx.ui.form.RadioGroup();
+      for (var mode in modes)
+      {
+        var radioButton = new qx.ui.form.RadioButton(modes[mode]).set({
+          value: mode == tree.getOpenMode()
+        });
+        radioButton.setUserData("mode", mode);
+
+        modeMgr.add(radioButton);
+        commandFrame.add(radioButton, {row: row++, column: 1})
+      }
+
+      modeMgr.addListener("changeSelection", function(e) {
+        tree.setOpenMode(e.getData()[0].getUserData("mode"));
+      });
+
+
+      commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
+      commandFrame.add(new qx.ui.basic.Label("Root node:"), {row: row, column: 0});
+
+      var btnHideRoot = new qx.ui.form.CheckBox("Hide Root Node");
+      commandFrame.add(btnHideRoot, {row: row++, column: 1});
+
+      btnHideRoot.addListener("changeValue", function(e) {
+        tree.setHideRoot(e.getData());
+      });
+
+
+      var btnShowRootOpen = new qx.ui.form.CheckBox("Show root open button");
+      commandFrame.add(btnShowRootOpen, {row: row++, column: 1});
+
+      btnShowRootOpen.addListener("changeValue", function(e) {
+        tree.setRootOpenClose(e.getData());
+      });
+
+      commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
+
+      var updateModel = new qx.ui.form.Button("Update Model");
+      updateModel.addListener("execute", function(e) {
         var desktop = tree.getModel().getChildren().getItem(0);
         var trash = desktop.getChildren().getItem(2);
         
@@ -63,7 +150,18 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
         var newItems = qx.data.marshal.Json.createModel(rawData, true);
         trash.getChildren().append(newItems);
       }, this);
-      this.getRoot().add(button, {top: 20, left: 240});
+      commandFrame.add(updateModel, {row: row++, column: 1});
+
+      var vToggleHeight = new qx.ui.form.Button("Toggle Height");
+      commandFrame.add(vToggleHeight, {row: row++, column: 1});
+
+      var grow = true;
+      vToggleHeight.addListener("execute", function(e) {
+        tree.setHeight(grow ? 600: 400);
+        grow = !grow;
+      });
+
+      return commandFrame;
     }
   }
 });
