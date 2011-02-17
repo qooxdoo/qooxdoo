@@ -1,0 +1,85 @@
+{
+  "name": "root",
+  "children": [
+    {
+      "name": "Desktop",
+      "children": [
+        {
+          "name": "Files",
+          "children": []
+        },
+        {
+          "name": "Workspace",
+          "children": [
+            {"name": "Windows (C:)"},
+            {"name": "Documents (D:)"}
+          ]
+        },
+        {
+          "name": "Network",
+          "children": []
+        },
+        {
+          "name": "Trash",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "Inbox",
+      "children": [
+        {
+          "name": "Presets",
+          "children": []
+        },
+        {
+          "name": "Sent",
+          "children": []
+        },
+        {
+          "name": "Trash",
+          "children": [
+            {"name": "Junk #0"},
+            {"name": "Junk #1"},
+            {"name": "Junk #2"},
+            {"name": "Junk #3"},
+            {"name": "Junk #4"},
+            {"name": "Junk #5"},
+            {"name": "Junk #6"},
+            {"name": "Junk #7"},
+            {"name": "Junk #8"},
+            {"name": "Junk #9"},
+            {"name": "Junk #10"},
+            {"name": "Junk #11"},
+            {"name": "Junk #12"},
+            {"name": "Junk #13"},
+            {"name": "Junk #14"},
+            {"name": "Junk #15"},
+            {"name": "Junk #16"},
+            {"name": "Junk #17"},
+            {"name": "Junk #18"},
+            {"name": "Junk #19"},
+            {"name": "Junk #20"},
+            {"name": "Junk #21"},
+            {"name": "Junk #22"},
+            {"name": "Junk #23"},
+            {"name": "Junk #24"},
+            {"name": "Junk #25"},
+            {"name": "Junk #26"},
+            {"name": "Junk #27"},
+            {"name": "Junk #28"},
+            {"name": "Junk #29"}
+          ]
+        },
+        {
+          "name": "Data",
+          "children": []
+        },
+        {
+          "name": "Edit",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

@@ -23,80 +23,28 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
 
   members :
   {
-    tree : null,
-    model : null,
-    
     main: function()
     {
       this.base(arguments);
 
-      var tree = this.tree = this.getTree();
-      this.getRoot().add(tree, {top: 20, left: 20});
-    },
-
-
-    getTree : function()
-    {
-      var model = this.model = this.createModel();
-      var tree = new qx.ui.tree.VirtualTree(model, "name", "children").set({
+      // creates the tree
+      var tree = new qx.ui.tree.VirtualTree(null, "name", "children").set({
         width : 200,
         height : 400
       });
-
-      // Opens the 'Desktop' node
-      tree.openNode(model.getChildren()[0]);
-
-      return tree;
-    },
-
-
-    createModel : function()
-    {
-      var junk = [];
-      for (var i = 0; i < 30; i++) {
-        junk.push(new demobrowser.demo.virtual.model.File("Junk #" + i));
-      }
+      this.getRoot().add(tree, {top: 20, left: 20});
       
-      var model = new demobrowser.demo.virtual.model.Folder(
-        "root",
-        [
-         new demobrowser.demo.virtual.model.Folder(
-           "Desktop",
-           [
-             new demobrowser.demo.virtual.model.Folder("Files"),
-             new demobrowser.demo.virtual.model.Folder("Workspace", 
-               [
-                 new demobrowser.demo.virtual.model.File("Windows (C:)"),
-                 new demobrowser.demo.virtual.model.File("Documents (D:)")
-               ]
-             ),
-             new demobrowser.demo.virtual.model.Folder("Network"),
-             new demobrowser.demo.virtual.model.Folder("Trash")
-           ]
-         ),
-         new demobrowser.demo.virtual.model.Folder(
-           "Inbox",
-           [
-             new demobrowser.demo.virtual.model.Folder("Presets"),
-             new demobrowser.demo.virtual.model.Folder("Sent"),
-             new demobrowser.demo.virtual.model.Folder("Trash", junk),
-             new demobrowser.demo.virtual.model.Folder("Data"),
-             new demobrowser.demo.virtual.model.Folder("Edit")
-           ]
-         )
-       ]
-      );
+      // loads the tree model
+      var url = "json/tree.json";
+      var store = new qx.data.store.Json(url);
+
+      // connect the store and the tree
+      store.bind("model", tree, "model");
       
-      return model;
+      // opens the 'Desktop' node
+      store.addListener("loaded", function() {
+        tree.openNode(tree.getModel().getChildren().getItem(0));
+      }, this);
     }
-  },
-  
-  
-  destruct : function()
-  { 
-    this.tree.dispose();
-    this.model.dispose();
-    
-    this.tree = this.model = null;
   }
 });

@@ -412,16 +412,19 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.__nestingLevel = [];
 
       var root = this.getModel();
-      lookupTable.push(root);
-      this.__nestingLevel.push(0);
-
-      if (this.isNodeOpen(root))
+      if (root != null)
       {
-        var visibleChildren = this.__getVisibleChildrenFrom(root, 0);
-        lookupTable = lookupTable.concat(visibleChildren);
-      }
-      this.__lookupTable = lookupTable;
+        lookupTable.push(root);
+        this.__nestingLevel.push(0);
 
+        if (this.isNodeOpen(root))
+        {
+          var visibleChildren = this.__getVisibleChildrenFrom(root, 0);
+          lookupTable = lookupTable.concat(visibleChildren);
+        }
+      }
+      
+      this.__lookupTable = lookupTable;
       this.__updateRowCount();
     },
 
@@ -446,9 +449,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
 
       var children = node.get(this.getChildProperty());
-      for (var i = 0; i < children.length; i++)
+      for (var i = 0; i < children.getLength(); i++)
       {
-        var child = children[i];
+        var child = children.getItem(i);
         this.__nestingLevel.push(nestedLevel);
         visible.push(child);
 
@@ -506,9 +509,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         return false;
       }
       
-      for (var i = 0; i < children.length; i++)
+      for (var i = 0; i < children.getLength(); i++)
       {
-        var child = children[i];
+        var child = children.getItem(i);
         var result = this.__openNodeAndAllParents(child, targetNode);
 
         if (result === true)
