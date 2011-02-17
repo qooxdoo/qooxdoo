@@ -148,6 +148,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
   members :
   {
+    /** {qx.ui.virtual.layer.Abstract} layer which contains the items. */
+    _layer : null,
+
+
     /** {Array} The internal lookup table data structure to get the model item from a row. */
     __lookupTable : null,
 
@@ -156,8 +160,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     __openNodes : null,
 
 
-    /** {qx.ui.virtual.layer.Abstract} layer which contains the items. */
-    _layer : null,
+    /** {Array} The internal data structure to get the nesting level from a row. */
+    __nestingLevel : null,
 
 
     /*
@@ -213,6 +217,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     {
       this.__lookupTable = [];
       this.__openNodes = [];
+      this.__nestingLevel = [];
       this._initLayer();
 
       this.getPane().addListener("resize", this._onResize, this);
@@ -263,6 +268,16 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     isNode : function(node) {
       return node.children != null ? true : false;
+    },
+
+
+    /**
+     * Returns the row's nesting level. 
+     *
+     * @return {Integer} The row's nesting level or <code>null</code>.
+     */
+    getLevel : function(row) {
+      return this.__nestingLevel[row];
     },
 
 
@@ -332,11 +347,13 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     __buildLookupTable : function()
     {
       var lookupTable = [];
+      this.__nestingLevel = [];
 
       var root = this.getModel();
       lookupTable.push(root);
+      this.__nestingLevel.push(0);
 
-      var visibleChildren = this.__getVisibleChildrenFrom(root);
+      var visibleChildren = this.__getVisibleChildrenFrom(root, 0);
       this.__lookupTable = lookupTable.concat(visibleChildren);
 
       this.__updateRowCount();
@@ -349,25 +366,28 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * The algorithm implements a depth-first search with a complexity:
      *    <code>O(n) n</code> are all visible items.
      *
-     * @param parent {Object} The parent node to start search.
+     * @param node {Object} The start node to start search.
+     * @param nestedLevel {Integer} The nested level from the start node.
      * @return {Array} All visible children form the parent.
      */
-    __getVisibleChildrenFrom : function(parent)
+    __getVisibleChildrenFrom : function(node, nestedLevel)
     {
       var visible = [];
+      nestedLevel++;
 
-      if (!this.isNode(parent)) {
+      if (!this.isNode(node)) {
         return visible;
       }
 
-      for (var i = 0; i < parent.children.length; i++)
+      for (var i = 0; i < node.children.length; i++)
       {
-        var child = parent.children[i];
+        var child = node.children[i];
+        this.__nestingLevel.push(nestedLevel);
         visible.push(child);
 
         if (this.isOpen(child))
         {
-          var visibleChildren = this.__getVisibleChildrenFrom(child);
+          var visibleChildren = this.__getVisibleChildrenFrom(child, nestedLevel);
           visible = visible.concat(visibleChildren);
         }
       }

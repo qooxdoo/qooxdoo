@@ -223,9 +223,28 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
 
       var root = model;
       this.assertTrue(this.tree.isNode(root));
+      this.assertTrue(this.tree.isNode(root.children[9]));
       this.assertTrue(this.tree.isNode(root.children[9].children[9]));
       this.assertTrue(this.tree.isNode(root.children[9].children[9].children[9]));
       this.assertFalse(this.tree.isNode(root.children[9].children[9].children[9].children[9]));
+    },
+
+
+    testGetLevel : function()
+    {
+      var model = this.createModel(3);
+      this.tree.setModel(model);
+
+      var root = model;
+      this.tree.setOpen(root.children[5]);
+      this.tree.setOpen(root.children[5].children[7]);
+      this.tree.setOpen(root.children[5].children[7].children[1]);
+
+      this.assertEquals(0, this.tree.getLevel(this.__getRowFrom(root)));
+      this.assertEquals(1, this.tree.getLevel(this.__getRowFrom(root.children[5])));
+      this.assertEquals(2, this.tree.getLevel(this.__getRowFrom(root.children[5].children[7])));
+      this.assertEquals(3, this.tree.getLevel(this.__getRowFrom(root.children[5].children[7].children[1])));
+      this.assertEquals(4, this.tree.getLevel(this.__getRowFrom(root.children[5].children[7].children[1].children[9])));
     },
 
 
@@ -302,6 +321,18 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       }
 
       return expected;
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHOD TO CALCULATE THE VISIBLE ITEMS
+    ---------------------------------------------------------------------------
+    */
+
+
+    __getRowFrom : function(item) {
+      return this.tree.getLookupTable().indexOf(item);
     }
   }
 });
