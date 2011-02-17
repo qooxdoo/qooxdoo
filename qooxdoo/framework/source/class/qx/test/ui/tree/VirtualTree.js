@@ -447,7 +447,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       {
         for (var i = 0; i < 10; i++)
         {
-          var item = new qx.test.ui.tree.Node("Node " + this.__getPrefix(parent.getName()) + i);
+          var item = new qx.test.ui.tree.Node("Node " + this.__getPrefix(parent) + i);
           parent.getChildren().push(item);
 
           this.__createNodes(item, level - 1);
@@ -461,14 +461,15 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     {
       for (var i = 0; i < 10; i++)
       {
-        var child = new qx.test.ui.tree.Leaf("Leaf " + this.__getPrefix(parent.name) + i);
+        var child = new qx.test.ui.tree.Leaf("Leaf " + this.__getPrefix(parent) + i);
         parent.getChildren().push(child);
       }
     },
 
 
-    __getPrefix : function(name)
+    __getPrefix : function(item)
     {
+      var name = item.getName();
       var prefix = "";
       if (qx.lang.String.startsWith(name, "Node")) {
         prefix = name.substr(5, name.length - 5) + ".";
