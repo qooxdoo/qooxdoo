@@ -151,10 +151,9 @@ qx.Class.define("testrunner2.view.widget.TestResultView",
 
 
     /**
-     * TODOC
+     * Adds a new entry to the test results HTML
      *
-     * @param testResult {var} TODOC
-     * @return {void}
+     * @param testResult {testrunner2.runner.TestResultData} A test result data object
      */
     addTestResult : function(testResult)
     {
