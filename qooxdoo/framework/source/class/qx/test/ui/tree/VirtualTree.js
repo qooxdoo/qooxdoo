@@ -119,6 +119,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       }
 
       this.assertArrayEquals(expected, this.tree.getLookupTable());
+      this.assertEquals(expected.length, this.tree.getPane().getRowConfig().getItemCount());
     }
   }
 });

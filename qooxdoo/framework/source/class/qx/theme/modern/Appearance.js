@@ -3045,6 +3045,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "virtual-combobox/dropdown/list" : {
       alias : "virtual-list"
     },
+    
+    "virtual-tree" : "tree",
         
     "column-layer" : "widget",
 

@@ -33,6 +33,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
   {
     this.base(arguments, 0, 1, 20, 100);
 
+    this.__lookupTable = [];
+    this._initLayer();
+
     if(model != null) {
       this.initModel(model);
     } else {
@@ -120,6 +123,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     /** {Array} The internal lookup table data structure to get the model item from a row. */
     __lookupTable : null,
 
+
+    /** {qx.ui.virtual.layer.Abstract} layer which contains the items. */
+    _layer : null,
+
+
     // property apply
     _applyOpenMode : function(value, old) {
     },
@@ -140,6 +148,17 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.__buildLookupTable();
     },
 
+    
+    /**
+     * Initializes the virtual list.
+     */
+    _initLayer : function()
+    {
+      var provider = new qx.ui.tree.provider.WidgetProvider(this);
+      this._layer = provider.createLayer();
+      this.getPane().addLayer(this._layer);
+    },
+    
 
     /**
      * Helper method to build the internal data structure.
@@ -153,6 +172,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       for (var i = 0; i < root.children.length; i++) {
         this.__lookupTable.push(root.children[i]);
       }
+
+      this.__updateRowCount();
     },
 
 
@@ -165,6 +186,14 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     getLookupTable : function() {
       return this.__lookupTable;
+    },
+
+
+    /**
+     * Helper method to update the row count.
+     */
+    __updateRowCount : function() {
+      this.getPane().getRowConfig().setItemCount(this.getLookupTable().length);
     }
   },
 
