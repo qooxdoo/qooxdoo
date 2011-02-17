@@ -174,19 +174,25 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     /**
      * Opens the passed node.
      *
-     * Note! The algorithm which opens all parents implements a depth-first
+     * @param node {Object} Node to open.
+     */
+    openNode : function(node, andAllParents)
+    {
+      this.__openNode(node);
+      this.__buildLookupTable();
+    },
+
+
+    /**
+     * Opens the passed node and all his parents.
+     * 
+     * Note! The algorithm implements a depth-first
      * search with a complexity:
      *    <code>O(n) n</code> are all model items.
-     *
-     * @param node {Object} Node to open.
-     * @param andAllParents {Boolean?false} Whether all parents should set to opened.
      */
-    openNode : function(node, andAllParents) {
-      if (andAllParents === true) {
-        this.__openNodeAndAllParents(this.getModel(), node);
-      } else {
-        this.__openNode(node);
-      }
+    openNodeAndParents : function(node)
+    {
+      this.__openNodeAndAllParents(this.getModel(), node);
       this.__buildLookupTable();
     },
 

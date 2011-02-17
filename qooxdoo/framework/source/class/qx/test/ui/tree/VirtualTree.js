@@ -271,7 +271,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
     },
 
 
-    testOpenNodeWithAllParents : function()
+    testOpenNodeWithParents : function()
     {
       var model = this.createModel(3);
       this.tree.setModel(model);
@@ -283,7 +283,7 @@ qx.Class.define("qx.test.ui.tree.VirtualTree",
       expectedOpen.push(root.children[9].children[9]);
       expectedOpen.push(root.children[9].children[9].children[9]);
 
-      this.tree.openNode(root.children[9].children[9].children[9], true);
+      this.tree.openNodeAndParents(root.children[9].children[9].children[9]);
 
       var openNodes = this.tree.getOpenNodes();
       this.assertEquals(expectedOpen.length, openNodes.length);
