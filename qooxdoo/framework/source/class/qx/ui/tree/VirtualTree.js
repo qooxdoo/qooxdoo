@@ -34,6 +34,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     this.base(arguments, 0, 1, 20, 100);
 
     this.__lookupTable = [];
+    this.__openNodes = [];
     this._initLayer();
 
     if(model != null) {
@@ -152,6 +153,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     __lookupTable : null,
 
 
+    /** {Array} HashMap which contains all open nodes. */
+    __openNodes : null,
+
+
     /** {qx.ui.virtual.layer.Abstract} layer which contains the items. */
     _layer : null,
 
@@ -178,8 +183,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     // property apply
-    _applyModel : function(value, old) {
-      this.__buildLookupTable();
+    _applyModel : function(value, old)
+    {
+      this.__openNodes = [];
+      this.setOpen(value);
     },
 
     
@@ -203,8 +210,17 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       var root = this.getModel();
       this.__lookupTable.push(root);
 
-      for (var i = 0; i < root.children.length; i++) {
-        this.__lookupTable.push(root.children[i]);
+      for (var i = 0; i < root.children.length; i++)
+      {
+        var item = root.children[i];
+        this.__lookupTable.push(item);
+        
+        if (this.isOpen(item))
+        {
+          for (var k = 0; k < item.children.length; k++) {
+            this.__lookupTable.push(item.children[k]);
+          }
+        }
       }
 
       this.__updateRowCount();
@@ -220,6 +236,41 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     getLookupTable : function() {
       return this.__lookupTable;
+    },
+    
+    
+    /**
+     * Returns all open nodes. 
+     *
+     * @internal
+     * @return {Array} All open nodes.
+     */
+    getOpenNodes : function() {
+      return this.__openNodes;
+    },
+    
+    
+    /**
+     * Set node as opened. 
+     *
+     * @param node {Object} Node to open.
+     */
+    setOpen : function(node) {
+      this.__openNodes.push(node);
+      
+      this.__buildLookupTable();
+    },
+    
+    
+    /**
+     * Return whether the node is opened or closed.
+     * 
+     * @param node {Object} Node to check.
+     * @return {Boolean} Returns <code>true</code> when the node is opened,
+     *   <code>false</code> otherwise.
+     */
+    isOpen : function(node) {
+      return this.__openNodes.indexOf(node) > -1 ? true : false;
     },
 
 
