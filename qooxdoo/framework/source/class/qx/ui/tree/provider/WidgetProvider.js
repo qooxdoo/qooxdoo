@@ -24,10 +24,12 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 {
   extend : qx.core.Object,
 
+  
   implement : [
    qx.ui.virtual.core.IWidgetCellProvider
   ],
 
+  
   /**
    * @param tree {qx.ui.tree.VirtualTree} tree to provide.
    */
@@ -37,7 +39,8 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
     this._tree = tree;
 
-    this._renderer = this.__createRenderer();
+    this._nodeRenderer = this.__createNodeRenderer();
+    this._leafRenderer = this.__createLeafRenderer();
   },
 
 
@@ -46,25 +49,55 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     /** {qx.ui.tree.VirtualTree} tree to provide. */
     _tree : null,
     
-    /** {qx.ui.virtual.cell.WidgetCell} the used item renderer */
-    _renderer : null,
+    
+    /** {qx.ui.virtual.cell.WidgetCell} the used node renderer. */
+    _nodeRenderer : null,
 
 
+    /** {qx.ui.virtual.cell.WidgetCell} the used node renderer. */
+    _leafRenderer : null,
+
+    
     // interface implementation
     getCellWidget : function(row, column)
     {
       var item = this._tree.getLookupTable()[row];
       
-      var widget = this._renderer.getCellWidget();
+      var widget = null;
+      if (this._tree.isNode(item))
+      {
+        widget = this._nodeRenderer.getCellWidget();
+        widget.setOpen(this._tree.isNodeOpen(item));
+        widget.setUserData("cell.type", "node");
+        widget.setUserData("cell.children", this.__hasChildren(item));
+        widget.addListener("changeOpen", this.__onOpenChanged, this);
+      }
+      else
+      {
+        widget = this._leafRenderer.getCellWidget();
+        widget.setUserData("cell.type", "leaf");
+      }
+      widget.setUserData("cell.level", this._tree.getLevel(row));
       widget.setLabel(item.name);
+      qx.ui.core.queue.Widget.add(widget);
       
       return widget;
     },
 
 
     // interface implementation
-    poolCellWidget : function(widget) {
-      this._renderer.pool(widget);
+    poolCellWidget : function(widget)
+    {
+      var type = widget.getUserData("cell.type");
+
+      if (type === "node")
+      {
+        widget.removeListener("changeOpen", this.__onOpenChanged, this);
+        this._nodeRenderer.pool(widget);
+      } 
+      else {
+        this._leafRenderer.pool(widget);
+      }
     },
 
 
@@ -73,23 +106,55 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     },
 
 
-    __createRenderer : function()
+    __createNodeRenderer : function()
     {
       var renderer = new qx.ui.virtual.cell.WidgetCell();
       renderer.setDelegate({
         createWidget : function() {
-          return new qx.ui.form.ListItem();
+          return new qx.ui.tree.core.TreeFolder();
         }
       });
 
       return renderer;
+    },
+    
+    
+    __createLeafRenderer : function()
+    {
+      var renderer = new qx.ui.virtual.cell.WidgetCell();
+      renderer.setDelegate({
+        createWidget : function() {
+          return new qx.ui.tree.core.TreeFile();
+        }
+      });
+
+      return renderer;
+    },
+    
+    
+    __hasChildren : function(node) {
+      return node.children.length > 0;
+    },
+    
+    __onOpenChanged : function(event)
+    {
+      var widget = event.getTarget();
+      
+      var row = widget.getUserData("cell.row");
+      var item = this._tree.getLookupTable()[row];
+      if (event.getData()) {
+        this._tree.openNode(item);
+      } else {
+        this._tree.closeNode(item);
+      }
     }
   },
 
 
   destruct : function()
   {
-    this._renderer.dispose();
-    this._tree = this._renderer = null;
+    this._nodeRenderer.dispose();
+    this._leafRenderer.dispose();
+    this._tree = this._nodeRenderer = this._leafRenderer = null;
   }
 });

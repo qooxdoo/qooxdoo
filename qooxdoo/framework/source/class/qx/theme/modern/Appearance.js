@@ -3046,7 +3046,95 @@ qx.Theme.define("qx.theme.modern.Appearance",
       alias : "virtual-list"
     },
     
-    "virtual-tree" : "tree",
+    "virtual-tree" : "list",
+    
+    "virtual-tree-item" :
+    {
+      style : function(states)
+      {
+        return {
+          padding    : [ 2, 6 ],
+          textColor  : states.selected ? "text-selected" : undefined,
+          decorator  : states.selected ? "selected" : undefined
+        };
+      }
+    },
+
+    "virtual-tree-item/icon" :
+    {
+      include : "image",
+
+      style : function(states)
+      {
+        return {
+          paddingRight : 5,
+          alignY: "middle"
+        };
+      }
+    },
+
+    "virtual-tree-item/label" : 
+    {
+      include : "label",
+      
+      style : function(states)
+      {
+        return {
+          alignY: "middle"
+        };
+      }
+    },
+
+    "virtual-tree-folder" :
+    {
+      include : "virtual-tree-item",
+      alias : "virtual-tree-item",
+
+      style : function(states)
+      {
+        return {
+          icon: states.opened ? "icon/22/places/folder-open.png" : "icon/22/places/folder.png"
+        };
+      }
+    },
+    
+    "virtual-tree-folder/open" :
+    {
+      include : "image",
+
+      style : function(states)
+      {
+        var icon;
+        if (states.selected && states.opened) {
+          icon = "decoration/tree/open-selected.png";
+        } else if (states.selected && !states.opened) {
+          icon = "decoration/tree/closed-selected.png";
+        } else if (states.opened) {
+          icon = "decoration/tree/open.png";
+        } else {
+          icon = "decoration/tree/closed.png";
+        }
+
+        return {
+          padding: [0, 5, 0, 2],
+          source: icon,
+          alignY: "middle"
+        };
+      }
+    },
+
+    "virtual-tree-file" :
+    {
+      include : "virtual-tree-item",
+      alias : "virtual-tree-item",
+
+      style : function(states)
+      {
+        return {
+          icon: "icon/22/mimetypes/office-document.png"
+        };
+      }
+    },    
         
     "column-layer" : "widget",
 
