@@ -498,7 +498,7 @@ class Generator(object):
              self._classesObj,
              self._docs,
              self._translations,
-             self._libraries)     = scanLibrary(config.get("library"))
+             self._libraries)     = scanLibrary(config.get("library", []))
 
 
             # create tool chain instances
@@ -506,6 +506,17 @@ class Generator(object):
             self._locale         = Locale(self._context, self._classes, self._classesObj, self._translations, self._cache, self._console, )
             self._depLoader      = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
             self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._classes)
+
+
+        ##
+        # Safely take out a member from a set. Returns the member if it could
+        # be removed, None otherwise.
+        def takeout(s, m):
+            try:
+                s.remove(m)
+            except KeyError:
+                return None
+            return m
 
         # -- Main --------------------------------------------------------------
 
@@ -517,107 +528,70 @@ class Generator(object):
         # Apply output log filter, if any
         self._console.setFilter(config.get("log/filter/debug", []))
 
-        # We use some sets of Job keys, both well-known and actual, to determin
-        # which actions have to be run, and in which order.
-
-        # Known job trigger keys
-        triggersSet         = listJobTriggers()
-
-        # some interesting categories
-        triggersSimpleSet   = set((x for x in triggersSet if triggersSet[x]['type']=="JSimpleJob"))
-        triggersClassDepSet = set((x for x in triggersSet if triggersSet[x]['type']=="JClassDepJob"))
-        triggersCompileSet  = set((x for x in triggersSet if triggersSet[x]['type']=="JCompileJob"))
-
         # This job's triggers
+        triggersSet         = listJobTriggers()
         jobKeySet           = set(job.getData().keys())
         jobTriggers         = jobKeySet.intersection(triggersSet)
-
-        # let's check for presence of certain triggers
-        simpleTriggers   = jobTriggers.intersection(triggersSimpleSet) # we have simple job triggers
-        classdepTriggers = jobTriggers.intersection(triggersClassDepSet) # we have classdep. triggers
-        compileTriggers  = jobTriggers.intersection(triggersCompileSet)
 
         # Create tool chain instances
         self._actionLib     = ActionLib(self._config, self._console)
 
-        # -- Process simple job triggers
-        if simpleTriggers:
-            for trigger in simpleTriggers:
-                if trigger == "collect-environment-info":
-                    self.runCollectEnvironmentInfo()
-                elif trigger == "copy-files":
-                    self.runCopyFiles()
-                elif trigger == "combine-images":
-                    self.runImageCombining()
-                elif trigger == "clean-files":
-                    self.runClean()
-                elif trigger == "migrate-files":
-                    self.runMigration(config.get("library"))
-                elif trigger == "shell":
-                    self.runShellCommands()
-                elif trigger == "simulate":
-                    self.runSimulation()
-                elif trigger == "slice-images":
-                    self.runImageSlicing()
-                else:
-                    pass # there cannot be exceptions, due to the way simpleTriggers is constructed
-
-        # remove the keys we have processed
-        jobTriggers = jobTriggers.difference(simpleTriggers)
-
-        # use early returns to avoid setting up costly, but unnecessary infrastructure
-        if not jobTriggers:
-            self._console.info("Done")
-            return
+        # process simple triggers
+        if takeout(jobTriggers, "collect-environment-info"):
+            self.runCollectEnvironmentInfo()
+        if takeout(jobTriggers, "copy-files"):
+            self.runCopyFiles()
+        if takeout(jobTriggers, "combine-images"):
+            self.runImageCombining()
+        if takeout(jobTriggers, "clean-files"):
+            self.runClean()
+        if takeout(jobTriggers, "migrate-files"):
+            self.runMigration(config.get("library"))
+        if takeout(jobTriggers, "shell"):
+            self.runShellCommands()
+        if takeout(jobTriggers, "simulate"):
+            self.runSimulation()
+        if takeout(jobTriggers, "slice-images"):
+            self.runImageSlicing()
+         
+        if not jobTriggers: return
 
         # -- Process job triggers that require a class list (and some)
-
         prepareGenerator1()
 
         # Preprocess include/exclude lists
         includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
         excludeWithDeps, excludeNoDeps = getExcludes(self._job.get("exclude", []))
         
-        # process job triggers
-        if classdepTriggers:
-            for trigger in classdepTriggers:
-                if trigger == "api":
-                    # class list with no variants (all-encompassing)
-                    classListProducer = functools.partial(#args are complete, but invocation shall be later
-                               computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
-                               excludeNoDeps, {}, verifyDeps=True, script=None)
-                    self.runApiData(classListProducer)
-                #elif trigger == "copy-resources":
-                #    self.runResources(classList)
-                elif trigger == "fix-files":
-                    self.runFix(self._classes)
-                elif trigger == "lint-check":
-                    self.runLint(self._classes)
-                elif trigger == "translate":
-                    self.runUpdateTranslation()
-                elif trigger == "pretty-print":
-                    self._codeGenerator.runPrettyPrinting(self._classes, self._classesObj)
-                elif trigger == "provider":
-                    script = Script()
-                    script.classesObj = self._classesObj.values()
-                    variantData = getVariants()
-                    variantSets = util.computeCombinations(variantData)
-                    script.variants = variantSets[0] 
-                    script.libraries = self._libraries
-                    script.namespace = self.getAppName()
-                    script.locales = config.get("compile-options/code/locales", [])
-                    CodeProvider.runProvider(script, self)
-                else:
-                    pass
+        # process classdep triggers
+        if takeout(jobTriggers, "api"):
+            # class list with no variants (all-encompassing)
+            classListProducer = functools.partial(#args are complete, but invocation shall be later
+                       computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
+                       excludeNoDeps, {}, verifyDeps=True, script=None)
+            self.runApiData(classListProducer)
+        if takeout(jobTriggers, "fix-files"):
+            self.runFix(self._classes)
+        if takeout(jobTriggers, "lint-check"):
+            self.runLint(self._classes)
+        if takeout(jobTriggers, "translate"):
+            self.runUpdateTranslation()
+        if takeout(jobTriggers, "pretty-print"):
+            self._codeGenerator.runPrettyPrinting(self._classes, self._classesObj)
+        if takeout(jobTriggers, "provider"):
+            script = Script()
+            script.classesObj = self._classesObj.values()
+            variantData = getVariants()
+            variantSets = util.computeCombinations(variantData)
+            script.variants = variantSets[0] 
+            script.libraries = self._libraries
+            script.namespace = self.getAppName()
+            script.locales = config.get("compile-options/code/locales", [])
+            CodeProvider.runProvider(script, self)
 
-        # remove the keys we have processed, and check return
-        jobTriggers = jobTriggers.difference(classdepTriggers)
-        if not jobTriggers:
-            self._console.info("Done")
-            return
+        if not jobTriggers: return
 
         # -- Process job triggers that require the full tool chain
-
         # Create tool chain instances
         self._treeCompiler   = TreeCompiler(self._classes, self._classesObj, self._context)
 
@@ -647,8 +621,6 @@ class Generator(object):
               # keep the list of class objects in sync
             script.classesObj = [self._classesObj[id] for id in script.classes]
 
-            script.namespaces = script.createTrie(script.classesObj)  # TODO: experimental
-
             featureMap = self._depLoader.registerDependeeFeatures(script.classesObj, variants, script.buildType)
             self._treeCompiler._featureMap = featureMap
 
@@ -661,18 +633,12 @@ class Generator(object):
                 self.runResources(script)
             if "compile" in jobTriggers:
                 self._codeGenerator.runCompiled(script, self._treeCompiler)
-
-            #if "provider" in jobTriggers:
-            #    script.locales = config.get("compile-options/code/locales", [])
-            #    CodeProvider.runProvider(script, self)
-
-            # debug tasks
-            self.runLogDependencies(script)
-            self.runPrivateDebug()
-            self.runLogUnusedClasses(script)
-            self.runLogResources(script)
-            #self.runClassOrderingDebug(partPackages, packageClasses, variants)
-
+            if "log" in jobTriggers:
+                self.runLogDependencies(script)
+                self.runPrivateDebug()
+                self.runLogUnusedClasses(script)
+                self.runLogResources(script)
+                
         self._console.info("Done")
 
         return
