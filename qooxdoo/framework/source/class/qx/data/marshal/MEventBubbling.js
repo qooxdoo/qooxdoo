@@ -39,9 +39,9 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
      *
      * The data will contain a map with the following three keys
      *   <li>value: The new value of the property</li>
+     *   <li>old: The old value of the property.</li>
      *   <li>name: The name of the property changed including its parent
      *     properties separated by dots.</li>
-     *   <li>old: The old value of the property.</li>
      * Due to that, the <code>getOldData</code> method will always return null
      * because the old data is contained in the map.
      */

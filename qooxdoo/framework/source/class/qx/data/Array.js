@@ -157,8 +157,15 @@ qx.Class.define("qx.data.Array",
       var item = this.__array.pop();
       this.__updateLength();
       // remove the possible added event listener
-      this._applyEventPropagation(null, item, this.length - 1);
-       this.fireDataEvent("change",
+      this._registerEventChaining(null, item, this.length - 1);
+      // fire change bubble event
+      this.fireDataEvent("changeBubble", {
+        value: [], 
+        name: this.length, 
+        old: [item]
+      });
+
+      this.fireDataEvent("change",
         {
           start: this.length - 1,
           end: this.length - 1,
@@ -183,7 +190,16 @@ qx.Class.define("qx.data.Array",
         this.__array.push(arguments[i]);
         this.__updateLength();
         // apply to every pushed item an event listener for the bubbling
-        this._applyEventPropagation(arguments[i], null, this.length - 1);
+        this._registerEventChaining(arguments[i], null, this.length - 1);
+        
+        // fire change bubbles event
+        this.fireDataEvent("changeBubble", {
+          value: [arguments[i]], 
+          name: this.length - 1, 
+          old: []
+        });
+
+        // fire change event
         this.fireDataEvent("change",
           {
             start: this.length - 1,
@@ -201,10 +217,23 @@ qx.Class.define("qx.data.Array",
      * Reverses the order of the array. An change event will be fired.
      */
     reverse: function() {
+      // ignore on empty arrays
+      if (this.length == 0) {
+        return;
+      }
+      
+      var oldArray = this.__array.concat();
       this.__array.reverse();
       this.fireDataEvent("change",
         {start: 0, end: this.length - 1, type: "order", items: null}, null
       );
+      
+      // fire change bubbles event
+      this.fireDataEvent("changeBubble", {
+        value: this.__array, 
+        name: "0-" + (this.__array.length - 1), 
+        old: oldArray
+      });
     },
 
 
@@ -215,10 +244,24 @@ qx.Class.define("qx.data.Array",
      * @return {var} the former first element.
      */
     shift: function() {
+      // ignore on empty arrays
+      if (this.length == 0) {
+        return;
+      }
+
       var item = this.__array.shift();
       this.__updateLength();
       // remove the possible added event listener
-      this._applyEventPropagation(null, item, this.length -1);
+      this._registerEventChaining(null, item, this.length -1);
+      
+      // fire change bubbles event
+      this.fireDataEvent("changeBubble", {
+        value: [], 
+        name: "0", 
+        old: [item]
+      });
+
+      // fire change event
       this.fireDataEvent("change",
         {
           start: 0,
@@ -294,13 +337,20 @@ qx.Class.define("qx.data.Array",
       for (var i = 2; i < arguments.length; i++) {
         this._registerEventChaining(arguments[i], null, startIndex + i);
       }
+      // fire the changebubbles event
+      var value = [];
+      for (var i=2; i < arguments.length; i++) {
+        value[i-2] = arguments[i];
+      };
+      var endIndex = (startIndex + Math.max(arguments.length - 3 , amount - 1));
+      var name = startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
       this.fireDataEvent("changeBubble", {
-        value: this, name: "?", old: returnArray
+        value: value, name: name, old: returnArray
       });
 
       // remove the listeners
       for (var i = 0; i < returnArray.length; i++) {
-        this._applyEventPropagation(null, returnArray[i], i);
+        this._registerEventChaining(null, returnArray[i], i);
       }
       return (new qx.data.Array(returnArray));
     },
@@ -314,10 +364,23 @@ qx.Class.define("qx.data.Array",
      *   should return a number.
      */
     sort: function(func) {
+      // ignore if the array is empty
+      if (this.length == 0) {
+        return;
+      }
+      var oldArray = this.__array.concat();
+      
       this.__array.sort.apply(this.__array, arguments);
       this.fireDataEvent("change",
         {start: 0, end: this.length - 1, type: "order", items: null}, null
       );
+      
+      // fire change bubbles event
+      this.fireDataEvent("changeBubble", {
+        value: this.__array, 
+        name: "0-" + (this.length - 1), 
+        old: oldArray
+      });
     },
 
 
@@ -332,7 +395,16 @@ qx.Class.define("qx.data.Array",
         this.__array.unshift(arguments[i])
         this.__updateLength();
         // apply to every pushed item an event listener for the bubbling
-        this._applyEventPropagation(arguments[i], null, 0);
+        this._registerEventChaining(arguments[i], null, 0);
+        
+        // fire change bubbles event
+        this.fireDataEvent("changeBubble", {
+          value: [this.__array[0]], 
+          name: "0", 
+          old: [this.__array[1]]
+        });        
+        
+        // fire change event
         this.fireDataEvent("change",
           {
             start: 0,
@@ -382,11 +454,20 @@ qx.Class.define("qx.data.Array",
       }
       this.__array[index] = item;
       // set an event listener for the bubbling
-      this._applyEventPropagation(item, oldItem, index);
+      this._registerEventChaining(item, oldItem, index);
       // only update the length if its changed
       if (this.length != this.__array.length) {
         this.__updateLength();
       }
+      
+      // fire change bubbles event
+      this.fireDataEvent("changeBubble", {
+        value: [item], 
+        name: index, 
+        old: [oldItem]
+      });
+
+      // fire change event
       this.fireDataEvent("change",
         {
           start: index,
@@ -526,7 +607,12 @@ qx.Class.define("qx.data.Array",
     removeAll : function() {
       // remove all possible added event listeners
       for (var i = 0; i < this.__array.length; i++) {
-        this._applyEventPropagation(null, this.__array[i], i);
+        this._registerEventChaining(null, this.__array[i], i);
+      }
+
+      // ignore if array is empty
+      if (this.getLength() == 0) {
+        return;
       }
 
       // store the old data
@@ -536,6 +622,13 @@ qx.Class.define("qx.data.Array",
       // change the length
       this.__array.length = 0;
       this.__updateLength();
+
+      // fire change bubbles event
+      this.fireDataEvent("changeBubble", {
+        value: [], 
+        name: "0-" + (oldLength - 1), 
+        old: items
+      });
 
       // fire the change event
       this.fireDataEvent("change",
@@ -570,14 +663,22 @@ qx.Class.define("qx.data.Array",
         qx.core.Assert.assertArray(array, "The parameter must be an array.");
       }
 
-      // add a listener to the new items
-      for (var i = 0; i < array.length; i++) {
-        this._applyEventPropagation(array[i], null, this.__array.length + i);
-      }
       Array.prototype.push.apply(this.__array, array);
 
+      // add a listener to the new items
+      for (var i = 0; i < array.length; i++) {
+        this._registerEventChaining(array[i], null, this.__array.length + i);
+      }
+      
       var oldLength = this.length;
       this.__updateLength();
+
+      // fire change bubbles
+      this.fireDataEvent("changeBubble", {
+        value: array, 
+        name: oldLength == (this.length-1) ? oldLength : oldLength + "-" + (this.length-1), 
+        old: []
+      });
 
       // fire the change event
       this.fireDataEvent("change",
