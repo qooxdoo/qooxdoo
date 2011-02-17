@@ -23,9 +23,9 @@
  * Here is an example:
  *
  * <pre class="javascript">
- *
+ * 
  * // Test
- * qx.Class.define("qx.test.Klass",
+ * qx&#046;Class.define("qx.test.Klass",
  * {
  *   extend : qx.dev.unit.TestCase,
  *
@@ -50,7 +50,7 @@
  * });
  *
  * // Implementation
- * qx.Class.define("qx.Klass",
+ * qx&#046;Class.define("qx.Klass",
  * {
  *   extend : qx.core.Object,
  *
