@@ -61,8 +61,6 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
           rawData.push({"name": "File #" + (trash.getChildren().getLength() + i)});
         }
         var newItems = qx.data.marshal.Json.createModel(rawData, true);
-        
-        
         trash.getChildren().append(newItems);
       }, this);
       this.getRoot().add(button, {top: 20, left: 240});
