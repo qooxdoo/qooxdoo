@@ -828,7 +828,9 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "webkit" : this.__onNativeMouseDownWebkitOpera,
+      "webkit" : function(domEvent) {
+        this.__onNativeMouseDownWebkitOpera(domEvent);
+      },
 
       "opera" : function(domEvent)
       {
