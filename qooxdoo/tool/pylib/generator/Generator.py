@@ -22,11 +22,10 @@
 
 import re, os, sys, zlib, optparse, types, string, glob
 import functools, codecs, operator
+import graph
 
-from misc import filetool, textutil, util, Path, PathType, json, copytool
-from misc.PathType import PathType
-from misc.Trie     import Trie
-from ecmascript import compiler
+from misc                            import filetool, textutil, util, Path, json, copytool
+from ecmascript                      import compiler
 from ecmascript.transform.optimizer  import privateoptimizer
 from misc.ExtMap                     import ExtMap
 from generator.code.Class            import Class
@@ -48,7 +47,6 @@ from generator.action                import CodeProvider
 from generator.runtime.Cache         import Cache
 from generator.runtime.ShellCmd      import ShellCmd
 from generator                       import Context
-import graph
 
 
 class Generator(object):
