@@ -29,6 +29,8 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
     
     getLevel : function(row) {},
     
+    hasChildren : function(node) {},
+    
     openNode : function(node) {},
 
     closeNode : function(node) {}

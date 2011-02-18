@@ -174,6 +174,16 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       return 1;
     },
     
+
+    hasChildren : function(node)
+    {
+      if (this.isNode(node)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
     
     openNode : function(node) {},
 

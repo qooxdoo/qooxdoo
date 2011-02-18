@@ -489,6 +489,36 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     },
 
 
+    testHasChildren : function()
+    {
+      var root = this.createModelAndSetModel(1);
+      this.assertTrue(this.tree.hasChildren(root));
+      
+      var node = new qx.test.ui.tree.virtual.Node("Node");
+      this.assertFalse(this.tree.hasChildren(node));
+      node.dispose();
+    },
+
+
+    testHasChildrenHideLeafs : function()
+    {
+      var root = this.createModelAndSetModel(2);
+      this.tree.setShowLeafs(false);
+      this.assertTrue(this.tree.hasChildren(root));
+      this.tree.openNode(root.getChildren().getItem(0))
+      this.assertTrue(this.tree.hasChildren(root.getChildren().getItem(0)));
+
+      var node = new qx.test.ui.tree.virtual.Node("Node");
+      this.__createLeafs(node, 1);
+      this.assertFalse(this.tree.hasChildren(node));
+      node.dispose();
+
+      var node = new qx.test.ui.tree.virtual.Node("Node");
+      this.assertFalse(this.tree.hasChildren(node));
+      node.dispose();
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS TO CREATE A TREE STRUCTURE

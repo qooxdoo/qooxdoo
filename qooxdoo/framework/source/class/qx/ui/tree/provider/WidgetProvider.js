@@ -98,10 +98,11 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       var widget = null;
       if (this._tree.isNode(item))
       {
+        var hasChildren = this._tree.hasChildren(item);
         widget = this._nodeRenderer.getCellWidget();
-        widget.setOpen(this._tree.isNodeOpen(item));
+        widget.setOpen(hasChildren && this._tree.isNodeOpen(item));
         widget.setUserData("cell.type", "node");
-        widget.setUserData("cell.children", this.__hasChildren(item));
+        widget.setUserData("cell.children", hasChildren);
         widget.addListener("changeOpen", this.__onOpenChanged, this);
       }
       else
@@ -165,12 +166,6 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       return renderer;
     },
 
-
-    __hasChildren : function(node)
-    {
-      var children = node.get(this.getChildProperty());
-      return children.length > 0;
-    },
 
     __onOpenChanged : function(event)
     {

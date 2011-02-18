@@ -31,6 +31,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
   extend : qx.ui.virtual.core.Scroller,
   implement : qx.ui.tree.core.IVirtualTree,
 
+
   /**
    * @param model {qx.core.Object?null} The model structure for the tree, for
    *   more details have a look at the 'model' property.
@@ -358,6 +359,34 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     getLevel : function(row) {
       return this.__nestingLevel[row];
+    },
+
+
+    /**
+     * Return whether the node has visible children or not.
+     * 
+     * @internal
+     * @param node {qx.core.Object} Node to check.
+     * @return {Boolean} <code>True</code> when the node has visible children,
+     *   <code>false</code> otherwise.
+     */
+    hasChildren : function(node)
+    {
+      var children = node.get(this.getChildProperty());
+      if (this.isShowLeafs()) {
+        return children.length > 0;
+      }
+      else
+      {
+        for (var i = 0; i < children.getLength(); i++)
+        {
+          var child = children.getItem(i);
+          if (this.isNode(child)) {
+            return true;
+          }
+        }
+      }
+      return false;
     },
 
 
