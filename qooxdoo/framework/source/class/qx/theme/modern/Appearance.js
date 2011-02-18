@@ -3061,9 +3061,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding    : [ 2, 6 ],
-          textColor  : states.selected ? "text-selected" : undefined,
-          decorator  : states.selected ? "selected" : undefined
+          padding: [2, 6],
+          textColor: states.selected ? "text-selected" : undefined,
+          decorator: states.selected ? "selected" : undefined
         };
       }
     },
@@ -3075,7 +3075,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          paddingRight : 5,
+          paddingRight: 5,
           alignY: "middle"
         };
       }

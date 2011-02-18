@@ -2532,6 +2532,85 @@ qx.Theme.define("qx.theme.classic.Appearance",
       alias : "virtual-list"
     },
 
+    "virtual-tree" : "list",
+    
+    "virtual-tree-item" :
+    {
+      style : function(states)
+      {
+        return {
+          padding: [1, 2],
+          backgroundColor: states.selected ? "background-selected" : undefined,
+          textColor: states.selected ? "text-selected" : undefined
+        };
+      }
+    },
+
+    "virtual-tree-item/icon" :
+    {
+      include : "image",
+
+      style : function(states)
+      {
+        return {
+          padding: [0, 4, 0, 0],
+          alignY: "middle"
+        };
+      }
+    },
+
+    "virtual-tree-item/label" : 
+    {
+      include : "label",
+      
+      style : function(states)
+      {
+        return {
+          alignY: "middle"
+        };
+      }
+    },
+
+    "virtual-tree-folder" :
+    {
+      include : "virtual-tree-item",
+      alias : "virtual-tree-item",
+
+      style : function(states)
+      {
+        return {
+          padding: [2, 3, 2, 0],
+          icon: states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png"
+        };
+      }
+    },
+    
+    "virtual-tree-folder/open" :
+    {
+      include : "image",
+
+      style : function(states)
+      {
+        return {
+          source: states.opened ? "decoration/tree/minus.gif" : "decoration/tree/plus.gif",
+          alignY: "middle"
+        };
+      }
+    },
+
+    "virtual-tree-file" :
+    {
+      include : "virtual-tree-item",
+      alias : "virtual-tree-item",
+
+      style : function(states)
+      {
+        return {
+          icon: "icon/16/mimetypes/text-plain.png"
+        };
+      }
+    },    
+    
     "cell" :
     {
       style : function(states)
