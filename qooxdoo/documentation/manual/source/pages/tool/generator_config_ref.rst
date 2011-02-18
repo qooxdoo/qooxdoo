@@ -712,7 +712,7 @@ Define packages for this app. Takes a map.
       "<part_name>" : 
       {
         "include"                  : [ "app.class1", "app.class2", "app.class3.*" ],
-        "expected-load-order"      : 1
+        "expected-load-order"      : 1,
         "no-merge-private-package" : (true|false)
       }
     },
