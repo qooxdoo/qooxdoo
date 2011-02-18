@@ -183,9 +183,14 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       testRep = qx.lang.Json.parse(testRep);
       
       this.testList = [];
+      this.testPackageList = [];
       
       for (var i=0,l=testRep.length; i<l; i++) {
         var testClassName = testRep[i].classname;
+        var testPackageName = /(.*?)\.[A-Z]/.exec(testClassName)[1];
+        if (!qx.lang.Array.contains(this.testPackageList, testPackageName)) {
+          this.testPackageList.push(testPackageName);
+        }
         for (var j=0,m=testRep[i].tests.length; j<m; j++) {
           this.testList.push(testClassName + ":" + testRep[i].tests[j]);
         }
@@ -317,6 +322,11 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       testResult.addListener("startTest", function(e) {
         var test = e.getData();
         
+        if (this.currentTestData && this.currentTestData.getName() === test.getFullName()
+          && this.currentTestData.getState() !== "wait") {
+          return;
+        }
+        
         /* EXPERIMENTAL: Check if the test polluted the DOM
         if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
           if (this.frameWindow.qx.test && this.frameWindow.qx.test.ui &&
@@ -329,10 +339,8 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         }
         */
         
-        if (!this.currentTestData || this.currentTestData.getState() !== "wait") {
-          this.currentTestData = new testrunner2.runner.TestResultData(test.getFullName());
-          this.view.addTestResult(this.currentTestData);
-        }
+        this.currentTestData = new testrunner2.runner.TestResultData(test.getFullName());
+        this.view.addTestResult(this.currentTestData);
       }, this);
       
       testResult.addListener("wait", function(e) {
