@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     __labelAdded : null,
     
     
-    __spacer : null,
+    _spacer : null,
 
     
     /*
@@ -72,13 +72,13 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     
     addSpacer : function()
     {
-      if (!this.__spacer) {
-        this.__spacer = new qx.ui.core.Spacer();
+      if (!this._spacer) {
+        this._spacer = new qx.ui.core.Spacer();
       } else {
-        this._remove(this.__spacer);
+        this._remove(this._spacer);
       }
 
-      this._add(this.__spacer);
+      this._add(this._spacer);
     },
 
     
@@ -198,10 +198,10 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
   
   destruct : function()
   {
-    if (this.__spacer != null) {
-      this.__spacer.dispose();
+    if (this._spacer != null) {
+      this._spacer.dispose();
     }
     
-    this.__spacer = null;
+    this._spacer = null;
   }
 });

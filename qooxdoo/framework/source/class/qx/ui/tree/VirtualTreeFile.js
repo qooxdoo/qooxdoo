@@ -28,8 +28,8 @@ qx.Class.define("qx.ui.tree.VirtualTreeFile",
     // overridden
     _updateIndent : function()
     {
-      if (this.__spacer) {
-        this.__spacer.setWidth((this._getLevel() + 1) * this.getIndent());
+      if (this._spacer) {
+        this._spacer.setWidth((this._getLevel() + 1) * this.getIndent());
       }
     }
   }
