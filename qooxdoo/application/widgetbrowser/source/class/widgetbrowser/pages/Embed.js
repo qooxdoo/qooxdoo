@@ -75,16 +75,20 @@ qx.Class.define("widgetbrowser.pages.Embed",
       // Canvas
       label = new qx.ui.basic.Label("Canvas");
       this.__grid.add(label, {row: 2, column: 0});
-      var canvas = new qx.ui.embed.Canvas().set({
-        width: 200,
-        height: 200,
-        canvasWidth: 200,
-        canvasHeight: 200,
-        syncDimension: true
-      });
-      canvas.addListener("redraw", this.__draw, this);
-      widgets.push(canvas);
-      this.__grid.add(canvas, {row: 3, column: 0});
+      if (qx.bom.client.Feature.CANVAS) {
+        var canvas = new qx.ui.embed.Canvas().set({
+          width: 200,
+          height: 200,
+          canvasWidth: 200,
+          canvasHeight: 200,
+          syncDimension: true
+        });
+        canvas.addListener("redraw", this.__draw, this);
+        widgets.push(canvas);
+        this.__grid.add(canvas, {row: 3, column: 0});
+      } else {
+        this.__grid.add(new qx.ui.basic.Label("Browser does not support canvas"), {row: 3, column: 0});
+      }
 
       // HTML
       label = new qx.ui.basic.Label("HTML");
