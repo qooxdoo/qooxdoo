@@ -828,63 +828,79 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "webkit" : function(domEvent)
-      {
-        var target = qx.bom.Event.getTarget(domEvent);
-        var focusTarget = this.__findFocusableElement(target);
-
-        if (focusTarget) {
-          this.setFocus(focusTarget);
-        } else {
-          qx.bom.Event.preventDefault(domEvent);
-        }
-      },
+      "webkit" : this.__onNativeMouseDownWebkitOpera,
 
       "opera" : function(domEvent)
       {
-        var target = qx.bom.Event.getTarget(domEvent);
-        var focusTarget = this.__findFocusableElement(target);
 
-        if (!this.__isSelectable(target))
-        {
-          // Prevent text selection.
-          //
-          // This causes [BUG #4518] in Opera 11, which is related to
-          // the browser bug described in [BUG #4543]. Work-around by not
-          // preventing the default, meaning that text selection is
-          // possible in Opera 11.
-          if (qx.bom.client.Browser.VERSION < 11) {
+        // Recent Operas
+        if (qx.bom.client.Browser.VERSION >= 11) {
+          this.__onNativeMouseDownWebkitOpera(domEvent);
+
+        // Legacy Operas
+        } else {
+          var target = qx.bom.Event.getTarget(domEvent);
+          var focusTarget = this.__findFocusableElement(target);
+
+          if (!this.__isSelectable(target)) {
+            // In legacy Operas, prevent the default action
+            // for all non-selectable targets. This prevents
+            // text selection.
             qx.bom.Event.preventDefault(domEvent);
-          }
 
-          // The stopped event keeps the selection
-          // of the previously focused element.
-          // We need to clear the old selection.
-          if (focusTarget)
-          {
-            var current = this.getFocus();
-            if (current && current.selectionEnd)
+            // The stopped event keeps the selection
+            // of the previously focused element.
+            // We need to clear the old selection.
+            if (focusTarget)
             {
-              current.selectionStart = 0;
-              current.selectionEnd = 0;
-              current.blur();
-            }
+              var current = this.getFocus();
+              if (current && current.selectionEnd)
+              {
+                current.selectionStart = 0;
+                current.selectionEnd = 0;
+                current.blur();
+              }
 
-            // The prevented event also stop the focus, do
-            // it manually if needed.
-            if (focusTarget) {
-              this.setFocus(focusTarget);
+              // The prevented event also stop the focus, do
+              // it manually if needed.
+              if (focusTarget) {
+                this.setFocus(focusTarget);
+              }
             }
+          } else if (focusTarget) {
+            this.setFocus(focusTarget);
           }
-        }
-        else if (focusTarget)
-        {
-          this.setFocus(focusTarget);
+
         }
       },
 
       "default" : null
     })),
+
+    /**
+     * Native event listener for <code>mousedown</code> in WebKit and Opera.
+     *
+     * @signature function(domEvent)
+     * @param domEvent {Event} Native event
+     *
+     */
+    __onNativeMouseDownWebkitOpera : function(domEvent) {
+      var target = qx.bom.Event.getTarget(domEvent);
+      var focusTarget = this.__findFocusableElement(target);
+
+      // In recent Operas, only prevent the default action
+      // if no focusable element was found.
+      //
+      // Preventing the default in other cases (such as for all non-selectable
+      // targets) caused [BUG #4518], which is related to the browser bug
+      // described in [BUG #4543]. This means that text selection is possible
+      // in recent Operas.
+      if (focusTarget) {
+        this.setFocus(focusTarget);
+      } else {
+        qx.bom.Event.preventDefault(domEvent);
+      }
+    },
 
     /**
      * Native event listener for <code>mouseup</code>.
