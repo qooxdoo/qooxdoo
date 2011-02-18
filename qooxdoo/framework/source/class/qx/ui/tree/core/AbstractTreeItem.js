@@ -10,8 +10,6 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
   {
     this.base(arguments);
 
-    this.__children = [];
-
     if (label != null) {
       this.setLabel(label);
     }
