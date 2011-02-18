@@ -36,6 +36,9 @@ qx.Class.define("qx.test.event.GlobalError",
     tearDown : function ()
     {
       this.errorHandler.setErrorHandler(null);
+      if (window.onerror) {
+        window.onerror = null;
+      }
     },
 
 
