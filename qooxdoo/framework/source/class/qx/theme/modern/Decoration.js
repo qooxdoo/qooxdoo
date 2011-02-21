@@ -604,7 +604,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         radius: 3,
-        color: "button-border",
+        color: "border-button",
         width: 1,
         startColor: "button-start",
         endColor: "button-end",
@@ -660,7 +660,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         radius: 3,
-        color: "button-border",
+        color: "border-button",
         width: 1,
         innerColor: "button-focused",
         innerWidth: 2,
