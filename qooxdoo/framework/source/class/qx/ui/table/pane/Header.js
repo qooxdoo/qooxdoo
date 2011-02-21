@@ -330,6 +330,18 @@ qx.Class.define("qx.ui.table.pane.Header",
           // This widget already created before -> recycle it
           cellRenderer.updateHeaderCell(cellInfo, cachedWidget);
         }
+        
+        // set the states
+        if (x === 0) {
+          cachedWidget.addState("first");
+          cachedWidget.removeState("last");
+        } else if (x === colCount - 1) {
+          cachedWidget.removeState("first");
+          cachedWidget.addState("last");
+        } else {
+          cachedWidget.removeState("first");
+          cachedWidget.removeState("last");
+        }
       }
     },
 
