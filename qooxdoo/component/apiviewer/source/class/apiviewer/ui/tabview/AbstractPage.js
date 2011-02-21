@@ -32,7 +32,10 @@ qx.Class.define("apiviewer.ui.tabview.AbstractPage",
     this._bindings = [];
 
     this._viewer = this._createViewer();
+    // while using edge 0, we need to set the padding to 0 as well [BUG #4688]
     this.add(this._viewer, {edge : 0});
+    this.setPadding(0);
+
     this.__bindViewer(this._viewer);
 
     this.setClassNode(classNode);
