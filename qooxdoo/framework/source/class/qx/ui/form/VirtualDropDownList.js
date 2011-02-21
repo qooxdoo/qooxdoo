@@ -447,20 +447,20 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
         return;
       }
 
-      var nativeArray = target.toArray();
-
-      qx.lang.Array.removeAll(nativeArray);
-      for (var i = 0; i < source.getLength(); i++) {
-        nativeArray.push(source.getItem(i));
-      }
-      target.length = nativeArray.length;
-
-      if (target.getLength() > 0)
+      if (source.getLength() <= 0) {
+        target.removeAll();
+      } 
+      else
       {
+        var nativeArray = target.toArray();
+        qx.lang.Array.removeAll(nativeArray);
+        for (var i = 0; i < source.getLength(); i++) {
+          nativeArray.push(source.getItem(i));
+        }
+        target.length = nativeArray.length;
+
         var lastIndex = target.getLength() - 1;
         target.splice(lastIndex, 1, target.getItem(lastIndex));
-      } else {
-        target.removeAll();
       }
     },
 
