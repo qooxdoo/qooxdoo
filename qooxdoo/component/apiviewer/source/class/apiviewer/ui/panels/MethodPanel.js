@@ -61,7 +61,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
           '</span> <code>', param.getName(), '</code>'
         );
 
-        if (param.getDefaultValue()) {
+        if (param.getDefaultValue()!==undefined) {
           titleHtml.add("?");
         }
       }
