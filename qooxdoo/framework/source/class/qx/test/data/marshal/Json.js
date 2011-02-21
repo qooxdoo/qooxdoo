@@ -508,14 +508,10 @@ qx.Class.define("qx.test.data.marshal.Json",
       model.setFonts(new qx.data.Array());
       model.getFonts().push("one", "two", "three");
 
-      var i = 0;
-      var names = ["fonts[0]", "fonts[1]", "fonts[2]"];
-      var olds = ["one", "two", "three"];
       model.addListener("changeBubble", function(e) {
-        this.assertEquals(names[i], e.getData().name, "Wrong name in " + i);
-        this.assertEquals(olds[i], e.getData().old, "Wrong old data in " + i);
-        this.assertNull(e.getData().value, "Wrong data in " + i);
-        i++;
+        this.assertEquals("fonts[0-2]", e.getData().name, "Wrong name");
+        this.assertArrayEquals(["one", "two", "three"], e.getData().old, "Wrong old data");
+        this.assertEquals(0, e.getData().value.length, "Wrong data");
       }, this);
 
       // remove all
