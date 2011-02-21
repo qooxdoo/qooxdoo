@@ -1724,7 +1724,8 @@ qx.Class.define("qx.ui.table.Table",
       var col = this.__focusedCol;
       var row = this.__focusedRow;
 
-      if (col === null || row === null) {
+      // could also be undefined [BUG #4676]
+      if (col == null || row == null) {
         return;
       }
 
