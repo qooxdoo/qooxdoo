@@ -46,6 +46,7 @@ class Package(object):
         self.id         = id   # int representing initial bit mask for each using part turned on
         self.part_mask  = id   # will be modified during mergers
         self.file       = ""   # potential file (base-)name that makes up the package, if desired
+        self.files      = []   # list of compiled/source files making up this package; TODO: supersedes self.file
         self.classes    = []   # list of classes in this package
         #self.part_count       # property
         #self.parts      = []   # list of parts using this package  -- currently not used

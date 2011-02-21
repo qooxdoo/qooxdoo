@@ -27,7 +27,7 @@ import os, sys, re, types, copy
 import codecs, optparse, functools
 from operator import attrgetter
 
-from misc                           import util, filetool
+from misc                           import util, filetool, textutil
 from ecmascript                     import compiler
 from ecmascript.frontend            import treeutil, tokenizer, treegenerator, lang
 from ecmascript.frontend.Script     import Script
@@ -1483,6 +1483,32 @@ class ClassDependencies(object):
                         break
         return res
         
+
+##
+# Class to represent ["qx.util.*", "qx.core.Object"] et al.
+# (like used in "include" and "exclude" config keys), to provide an
+# encapsulated "match" method
+class ClassMatchList(object):
+    def __init__(self, matchlist):
+        assert isinstance(matchlist, types.ListType)
+        self.matchlist = matchlist   # ["a.b.c.*", "d.e.Foo"]
+        elems = []
+        for elem in matchlist:
+            assert isinstance(elem, types.StringTypes)
+            if elem != "":
+                regexp = textutil.toRegExpS(elem)
+                elems.push(regexp)
+        if elems:
+            self.__regexp = re.compile("|".join(elems))
+        else:
+            self.__regexp = r".\A"  # match none
+
+    def isEmpty(self):
+        return len(self.matchlist) == 0
+
+    def match(self, classId):
+        return self.__regexp.search(classId)
+
 
 # -- temp. module helper functions ---------------------------------------------
 

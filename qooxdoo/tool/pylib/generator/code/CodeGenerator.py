@@ -24,6 +24,7 @@ import urllib, urlparse, optparse, pprint
 from generator.config.Lang      import Key
 from generator.code.Part        import Part
 from generator.code.Package     import Package
+from generator.code.Class       import ClassMatchList
 from generator.resource.ResourceHandler import ResourceHandler
 from ecmascript                 import compiler
 from misc                       import filetool, json, Path
@@ -307,6 +308,32 @@ class CodeGenerator(object):
             return compiledContent
 
 
+
+        def compileAndWritePackage(package, compConf):
+            packageFiles = []
+            compiledClasses = []
+            optimize = compConf.get("code/optimize", [])
+            sourceFilter = ClassMatchList(compConf.get("code/except", []))
+
+            for clazz in package.classes:
+                if sourceFilter.match(clazz.id):
+                    # treat compiled classes so far
+                    compiled = compileClasses(compiledClasses, optimize)
+                    filename = packageFilename(package)
+                    self.writePackage(compiled, filename, script)
+                    packageFiles.append(filename)
+                    compiledClasses = []
+                    # for a source class, just include the file uri
+                    packageFiles.append(clazz.uri)  # TODO: .uri
+                else:
+                    compiledClasses.append(clazz)
+
+            package.files = packageFiles
+
+            return package
+            
+
+
         ##
         # takes an array of (po-data, locale-data) dict pairs
         # merge all po data and all cldr data in a single dict each
@@ -450,6 +477,31 @@ class CodeGenerator(object):
 
             # write packages
             self.writePackages(packages, script)
+
+        # ---- 'hybrid' version ------------------------------------------------
+        elif compileType == "hybrid":
+
+            # - Generating packages ---------------------
+            self._console.info("Generating packages...")
+            self._console.indent()
+
+            if not len(packages):
+                raise RuntimeError("No valid boot package generated.")
+
+            for packageIndex, package in enumerate(packages):
+                package = compileAndWritePackage(package, compConf)
+
+            self._console.outdent()
+
+            # - Put loader in dedicated package  -------
+            loadPackage = Package(0)            # make a dummy Package for the loader
+            packages.insert(0, loadPackage)
+
+            # generate boot code
+            loaderCode = generateBootScript(globalCodes, script)
+            packages[0].compiled = loaderCode
+            self.writePackage(packages[0])
+
 
         # ---- 'source' version ------------------------------------------------
         else:
