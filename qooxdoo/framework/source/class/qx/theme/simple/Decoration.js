@@ -1139,7 +1139,16 @@ qx.Theme.define("qx.theme.simple.Decoration",
       style :
       {
         radius : 0,
-        width : [1, 1, 1, 0]
+        width : [1, 0, 1, 0]
+      }
+    },
+
+    "table-header-column-button" : 
+    {
+      include : "table-header",
+      style : {
+        width : 1,
+        color : "button-border"
       }
     },
 
@@ -1149,11 +1158,18 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
       style :
       {
-        widthLeft : 1,
-        colorLeft : "button-border",
-        styleRight : "solid"
+        widthRight : 1,
+        color : "button-border"
       }
-    }, 
+    },
+
+    "table-header-cell-first" :
+    {
+      include : "table-header-cell",
+      style : {
+        widthLeft : 1
+      }
+    },
 
 
     /*

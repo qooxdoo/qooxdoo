@@ -239,7 +239,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator : "table-header",
+          decorator : "table-header-column-button",
           padding : 3,
           icon : qx.theme.simple.Image.URLS["select-column-order"]
         };
@@ -302,7 +302,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          decorator : "table-header-cell",
+          decorator : states.first ? "table-header-cell-first" : "table-header-cell",
           minWidth: 13,
           font : "bold",
           paddingTop: 3,
