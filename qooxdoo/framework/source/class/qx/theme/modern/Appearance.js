@@ -1195,7 +1195,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
-          qx.bom.client.Feature.CSS_BORDER_RADIUS
+          qx.bom.client.Feature.CSS_BORDER_RADIUS;
         return {
           decorator : useCSS ? "tabview-pane-css" : "tabview-pane",
           minHeight : 100,
@@ -1215,7 +1215,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states) {
         // is used for the padding of the pane
         var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
-          qx.bom.client.Feature.CSS_BORDER_RADIUS
+          qx.bom.client.Feature.CSS_BORDER_RADIUS;
         return {
           padding : useCSS ? [4, 3] : undefined
         }
