@@ -70,7 +70,11 @@ qx.Class.define("qx.xml.Document",
       "mshtml": function(namespaceUri, qualifiedName)
       {
         var obj = new ActiveXObject(this.DOMDOC);
-        obj.setProperty("SelectionLanguage", "XPath");
+        //The SelectionLanguage property is no longer needed in MSXML 6; trying
+        // to set it causes an exception in IE9.
+        if (this.DOMDOC == "MSXML2.DOMDocument.3.0") {
+          obj.setProperty("SelectionLanguage", "XPath");
+        }
 
         if (qualifiedName)
         {
