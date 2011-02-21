@@ -527,7 +527,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       this.__verScrollBar.scrollTo(scrollY);
       if (renderSync) {
-        this._updateContent()
+        this._updateContent();
       }
     },
 
@@ -1784,6 +1784,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         var row = this.__focusedRow;
         var xPos = this.getTablePaneModel().getX(col);
         var value = tableModel.getValue(col, row);
+
+        // scroll cell into view
+        this.scrollCellVisible(xPos, row);
 
         this.__cellEditorFactory = table.getTableColumnModel().getCellEditorFactory(col);
 
