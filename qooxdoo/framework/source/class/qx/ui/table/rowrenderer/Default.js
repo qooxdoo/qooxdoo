@@ -45,21 +45,21 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     this.__fontStyleString = "";
     this.__fontStyleString = {};
 
-    this.__colors = {};
+    this._colors = {};
 
     // link to font theme
     this._renderFont(qx.theme.manager.Font.getInstance().resolve("default"));
 
     // link to color theme
     var colorMgr = qx.theme.manager.Color.getInstance();
-    this.__colors.bgcolFocusedSelected = colorMgr.resolve("table-row-background-focused-selected");
-    this.__colors.bgcolFocused = colorMgr.resolve("table-row-background-focused");
-    this.__colors.bgcolSelected = colorMgr.resolve("table-row-background-selected");
-    this.__colors.bgcolEven = colorMgr.resolve("table-row-background-even");
-    this.__colors.bgcolOdd = colorMgr.resolve("table-row-background-odd");
-    this.__colors.colSelected = colorMgr.resolve("table-row-selected");
-    this.__colors.colNormal = colorMgr.resolve("table-row");
-    this.__colors.horLine = colorMgr.resolve("table-row-line");
+    this._colors.bgcolFocusedSelected = colorMgr.resolve("table-row-background-focused-selected");
+    this._colors.bgcolFocused = colorMgr.resolve("table-row-background-focused");
+    this._colors.bgcolSelected = colorMgr.resolve("table-row-background-selected");
+    this._colors.bgcolEven = colorMgr.resolve("table-row-background-even");
+    this._colors.bgcolOdd = colorMgr.resolve("table-row-background-odd");
+    this._colors.colSelected = colorMgr.resolve("table-row-selected");
+    this._colors.colNormal = colorMgr.resolve("table-row");
+    this._colors.horLine = colorMgr.resolve("table-row-line");
   },
 
 
@@ -91,7 +91,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
   members :
   {
-    __colors : null,
+    _colors : null,
     __fontStyle : null,
     __fontStyleString : null,
 
@@ -135,22 +135,22 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
       if (rowInfo.focusedRow && this.getHighlightFocusRow())
       {
-        style.backgroundColor = rowInfo.selected ? this.__colors.bgcolFocusedSelected : this.__colors.bgcolFocused;
+        style.backgroundColor = rowInfo.selected ? this._colors.bgcolFocusedSelected : this._colors.bgcolFocused;
       }
       else
       {
         if (rowInfo.selected)
         {
-          style.backgroundColor = this.__colors.bgcolSelected;
+          style.backgroundColor = this._colors.bgcolSelected;
         }
         else
         {
-          style.backgroundColor = (rowInfo.row % 2 == 0) ? this.__colors.bgcolEven : this.__colors.bgcolOdd;
+          style.backgroundColor = (rowInfo.row % 2 == 0) ? this._colors.bgcolEven : this._colors.bgcolOdd;
         }
       }
 
-      style.color = rowInfo.selected ? this.__colors.colSelected : this.__colors.colNormal;
-      style.borderBottom = "1px solid " + this.__colors.horLine;
+      style.color = rowInfo.selected ? this._colors.colSelected : this._colors.colNormal;
+      style.borderBottom = "1px solid " + this._colors.horLine;
     },
 
 
@@ -179,24 +179,24 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
       if (rowInfo.focusedRow && this.getHighlightFocusRow())
       {
-        rowStyle.push(rowInfo.selected ? this.__colors.bgcolFocusedSelected : this.__colors.bgcolFocused);
+        rowStyle.push(rowInfo.selected ? this._colors.bgcolFocusedSelected : this._colors.bgcolFocused);
       }
       else
       {
         if (rowInfo.selected)
         {
-          rowStyle.push(this.__colors.bgcolSelected);
+          rowStyle.push(this._colors.bgcolSelected);
         }
         else
         {
-          rowStyle.push((rowInfo.row % 2 == 0) ? this.__colors.bgcolEven : this.__colors.bgcolOdd);
+          rowStyle.push((rowInfo.row % 2 == 0) ? this._colors.bgcolEven : this._colors.bgcolOdd);
         }
       }
 
       rowStyle.push(';color:');
-      rowStyle.push(rowInfo.selected ? this.__colors.colSelected : this.__colors.colNormal);
+      rowStyle.push(rowInfo.selected ? this._colors.colSelected : this._colors.colNormal);
 
-      rowStyle.push(';border-bottom: 1px solid ', this.__colors.horLine);
+      rowStyle.push(';border-bottom: 1px solid ', this._colors.horLine);
 
       return rowStyle.join("");
     },
@@ -251,6 +251,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   */
 
   destruct : function() {
-    this.__colors = this.__fontStyle = this.__fontStyleString = null;
+    this._colors = this.__fontStyle = this.__fontStyleString = null;
   }
 });
