@@ -21,12 +21,13 @@
    This class contains code based on the following work:
 
    * Base64 encode / decode
-     http://www.webtoolkit.info/javascript-base64.html
+       http://www.webtoolkit.info/javascript-base64.html
 
      Copyright:
-      http://www.webtoolkit.info/
+       (c) 2011, http://www.webtoolkit.info/
 
      License:
+       Creative-Commons Attribution 2.0 England and Wales:
        http://www.webtoolkit.info/licence
 
 ************************************************************************ */
