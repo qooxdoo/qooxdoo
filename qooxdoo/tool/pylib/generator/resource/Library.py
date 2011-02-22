@@ -337,7 +337,11 @@ class Library(object):
                 try:
                     fileCodeId = self._getCodeId(fileContent)
                 except ValueError, e:
-                    e.args[0] = e.args[0] + u' (%s)' % fileName
+                    argsList = []
+                    for arg in e.args:
+                        argsList.append(arg)
+                    argsList[0] = argsList[0] + u' (%s)' % fileName
+                    e.args = tuple(argsList)
                     raise e
 
                 # Ignore all data files (e.g. translation, doc files, ...)
