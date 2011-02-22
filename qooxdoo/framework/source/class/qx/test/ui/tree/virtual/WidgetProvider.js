@@ -21,6 +21,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 {
   extend : qx.dev.unit.TestCase,
   implement : qx.ui.tree.core.IVirtualTree,
+  include : qx.dev.unit.MMock,
 
   construct : function()
   {
@@ -118,6 +119,35 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
     
     
+    testPoolNodeWidget : function()
+    {
+      this.provider.setLabelPath("label");
+      this.provider.setChildProperty("kids");
+      var widget = this.provider.getCellWidget(0,0);
+
+      var spy = this.spy(this.provider._nodeRenderer, "pool");
+
+      this.provider.poolCellWidget(widget);
+      this.assertCalledOnce(spy);
+      this.assertCalledWith(spy, widget);
+      this.assertFalse(widget.hasListener("changeOpen"));
+    },
+
+
+    testPoolLeafWidget : function()
+    {
+      this.provider.setLabelPath("label");
+      this.provider.setChildProperty("kids");
+      var widget = this.provider.getCellWidget(3,0);
+
+      var spy = this.spy(this.provider._leafRenderer, "pool");
+
+      this.provider.poolCellWidget(widget);
+      this.assertCalledOnce(spy);
+      this.assertCalledWith(spy, widget);
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       MOCK API
