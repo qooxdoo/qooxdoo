@@ -43,7 +43,12 @@
  
 (function() {
     
-var _define = function(module, payload) {
+if (window.require) {
+    require.packaged = true;
+    return;
+}
+    
+var _define = function(module, deps, payload) {
     if (typeof module !== 'string') {
         if (_define.original)
             _define.original.apply(window, arguments);
@@ -76,13 +81,12 @@ var _require = function(module, callback) {
             if (!dep && _require.original)
                 return _require.original.apply(window, arguments);
             params.push(dep);
-        };
+        }
         if (callback) {
             callback.apply(null, params);
         }
     }
-
-    if (typeof module === 'string') {
+    else if (typeof module === 'string') {
         var payload = lookup(module);
         if (!payload && _require.original)
             return _require.original.apply(window, arguments);
@@ -92,8 +96,12 @@ var _require = function(module, callback) {
         }
     
         return payload;
-    };
-}
+    }
+    else {
+        if (_require.original)
+            return _require.original.apply(window, arguments);
+    }
+};
 
 if (window.require)
     _require.original = window.require;
@@ -162,7 +170,7 @@ var lookup = function(moduleName) {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/fixoldbrowsers', function(require, exports, module) {
+define('pilot/fixoldbrowsers', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 // Should be the first thing, as we want to use that in this module.
 if (!Function.prototype.bind) {
@@ -177,13 +185,19 @@ if (!Function.prototype.bind) {
         // optimize common case
         if (arguments.length == 1) {
           var bound = function() {
-              return self.apply(this instanceof nop ? this : obj, arguments);
+              var useThis = self.prototype === undefined ?
+                                this instanceof arguments.callee :
+                                this instanceof nop;
+              return self.apply(useThis ? this : obj, arguments);
           };
         }
         else {
           var bound = function () {
+              var useThis = self.prototype === undefined ?
+                                this instanceof arguments.callee :
+                                this instanceof nop;
               return self.apply(
-                  this instanceof nop ? this : ( obj || {} ),
+                  useThis ? this : ( obj || {} ),
                   args.concat( slice.call(arguments) )
               );
           };
@@ -656,7 +670,7 @@ exports.globalsLoaded = true;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/index', function(require, exports, module) {
+define('pilot/index', ['require', 'exports', 'module' , 'pilot/fixoldbrowsers', 'pilot/types/basic', 'pilot/types/command', 'pilot/types/settings', 'pilot/commands/settings', 'pilot/commands/basic', 'pilot/settings/canon', 'pilot/canon'], function(require, exports, module) {
 
 exports.startup = function(data, reason) {
     require('pilot/fixoldbrowsers');
@@ -722,7 +736,7 @@ exports.shutdown = function(data, reason) {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/types/basic', function(require, exports, module) {
+define('pilot/types/basic', ['require', 'exports', 'module' , 'pilot/types'], function(require, exports, module) {
 
 var types = require("pilot/types");
 var Type = types.Type;
@@ -1047,7 +1061,7 @@ exports.shutdown = function() {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/types', function(require, exports, module) {
+define('pilot/types', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 /**
  * Some types can detect validity, that is to say they can distinguish between
@@ -1330,7 +1344,7 @@ exports.getType = function(typeSpec) {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/types/command', function(require, exports, module) {
+define('pilot/types/command', ['require', 'exports', 'module' , 'pilot/canon', 'pilot/types/basic', 'pilot/types'], function(require, exports, module) {
 
 var canon = require("pilot/canon");
 var SelectionType = require("pilot/types/basic").SelectionType;
@@ -1404,7 +1418,7 @@ exports.shutdown = function() {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/canon', function(require, exports, module) {
+define('pilot/canon', ['require', 'exports', 'module' , 'pilot/console', 'pilot/stacktrace', 'pilot/oop', 'pilot/event_emitter', 'pilot/catalog', 'pilot/types', 'pilot/lang'], function(require, exports, module) {
 
 var console = require('pilot/console');
 var Trace = require('pilot/stacktrace').Trace;
@@ -1744,7 +1758,7 @@ exports.Request = Request;
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-define('pilot/console', function(require, exports, module) {
+define('pilot/console', ['require', 'exports', 'module' ], function(require, exports, module) {
     
 /**
  * This object represents a "safe console" object that forwards debugging
@@ -1782,7 +1796,7 @@ if (typeof(window) === 'undefined') {
 }
 
 });
-define('pilot/stacktrace', function(require, exports, module) {
+define('pilot/stacktrace', ['require', 'exports', 'module' , 'pilot/useragent', 'pilot/console'], function(require, exports, module) {
     
 var ua = require("pilot/useragent");
 var console = require('pilot/console');
@@ -2151,7 +2165,7 @@ exports.Trace.prototype.log = function(lines) {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/useragent', function(require, exports, module) {
+define('pilot/useragent', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 var os = (navigator.platform.match(/mac|win|linux/i) || ["other"])[0].toLowerCase();
 var ua = navigator.userAgent;
@@ -2248,7 +2262,7 @@ exports.getOS = function() {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/oop', function(require, exports, module) {
+define('pilot/oop', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 exports.inherits = (function() {
     var tempCtor = function() {};
@@ -2310,7 +2324,7 @@ exports.implement = function(proto, mixin) {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/event_emitter', function(require, exports, module) {
+define('pilot/event_emitter', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 var EventEmitter = {};
 
@@ -2400,7 +2414,7 @@ exports.EventEmitter = EventEmitter;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/catalog', function(require, exports, module) {
+define('pilot/catalog', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 
 var extensionSpecs = {};
@@ -2465,7 +2479,7 @@ exports.getExtensionSpecs = function() {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/lang', function(require, exports, module) {
+define('pilot/lang', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 exports.stringReverse = function(string) {
     return string.split("").reverse().join("");
@@ -2515,26 +2529,28 @@ exports.deferredCall = function(fcn) {
         fcn();
     };
 
-    return {
-        schedule: function(timeout) {
-            if (!timer) {
-                timer = setTimeout(callback, timeout || 0);
-            }
-            return this;
-        },
-
-        call: function() {
-            this.cancel();
-            fcn();
-            return this;
-        },
-
-        cancel: function() {
-            clearTimeout(timer);
-            timer = null;
-            return this;
+    var deferred = function(timeout) {
+        if (!timer) {
+            timer = setTimeout(callback, timeout || 0);
         }
+        return deferred;
+    }
+
+    deferred.schedule = deferred;
+    
+    deferred.call = function() {
+        this.cancel();
+        fcn();
+        return deferred;
     };
+
+    deferred.cancel = function() {
+        clearTimeout(timer);
+        timer = null;
+        return deferred;
+    };
+    
+    return deferred;
 };
 
 });
@@ -2576,7 +2592,7 @@ exports.deferredCall = function(fcn) {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/types/settings', function(require, exports, module) {
+define('pilot/types/settings', ['require', 'exports', 'module' , 'pilot/types/basic', 'pilot/types', 'pilot/settings'], function(require, exports, module) {
 
 var SelectionType = require('pilot/types/basic').SelectionType;
 var DeferredType = require('pilot/types/basic').DeferredType;
@@ -2718,7 +2734,7 @@ exports.shutdown = function(data, reason) {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/settings', function(require, exports, module) {
+define('pilot/settings', ['require', 'exports', 'module' , 'pilot/console', 'pilot/oop', 'pilot/types', 'pilot/event_emitter', 'pilot/catalog'], function(require, exports, module) {
 
 /**
  * This plug-in manages settings.
@@ -3041,7 +3057,7 @@ exports.CookiePersister = CookiePersister;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/commands/settings', function(require, exports, module) {
+define('pilot/commands/settings', ['require', 'exports', 'module' , 'pilot/canon'], function(require, exports, module) {
 
 
 var setCommandSpec = {
@@ -3176,7 +3192,7 @@ exports.shutdown = function(data, reason) {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/commands/basic', function(require, exports, module) {
+define('pilot/commands/basic', ['require', 'exports', 'module' , 'pilot/typecheck', 'pilot/canon'], function(require, exports, module) {
 
 
 var checks = require("pilot/typecheck");
@@ -3450,7 +3466,7 @@ exports.shutdown = function(data, reason) {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/typecheck', function(require, exports, module) {
+define('pilot/typecheck', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 var objectToString = Object.prototype.toString;
 
@@ -3529,7 +3545,7 @@ exports.isFunction = function(it) {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/settings/canon', function(require, exports, module) {
+define('pilot/settings/canon', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 
 var historyLengthSetting = {
@@ -3586,7 +3602,7 @@ exports.shutdown = function(data, reason) {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/plugin_manager', function(require, exports, module) {
+define('pilot/plugin_manager', ['require', 'exports', 'module' , 'pilot/promise'], function(require, exports, module) {
 
 var Promise = require("pilot/promise").Promise;
 
@@ -3745,7 +3761,7 @@ exports.catalog = new exports.PluginCatalog();
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/promise', function(require, exports, module) {
+define('pilot/promise', ['require', 'exports', 'module' , 'pilot/console', 'pilot/stacktrace'], function(require, exports, module) {
 
 var console = require("pilot/console");
 var Trace = require('pilot/stacktrace').Trace;
@@ -4008,7 +4024,7 @@ exports._recent = _recent;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/environment', function(require, exports, module) {
+define('pilot/environment', ['require', 'exports', 'module' , 'pilot/settings'], function(require, exports, module) {
 
 
 var settings = require("pilot/settings").settings;
@@ -4066,7 +4082,7 @@ exports.create = create;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/editor', function(require, exports, module) {
+define('ace/editor', ['require', 'exports', 'module' , 'pilot/fixoldbrowsers', 'pilot/oop', 'pilot/event', 'pilot/lang', 'pilot/useragent', 'ace/keyboard/textinput', 'ace/mouse_handler', 'ace/keyboard/keybinding', 'ace/edit_session', 'ace/search', 'ace/background_tokenizer', 'ace/range', 'pilot/event_emitter'], function(require, exports, module) {
 
 require("pilot/fixoldbrowsers");
 
@@ -4149,14 +4165,15 @@ var Editor =function(renderer, session) {
         if (this.session) {
             var oldSession = this.session;
             this.session.removeEventListener("change", this.$onDocumentChange);
-            this.session.removeEventListener("changeMode", this.$onDocumentModeChange);
-            this.session.removeEventListener("changeTabSize", this.$onDocumentChangeTabSize);
-            this.session.removeEventListener("changeWrapLimit", this.$onDocumentChangeWrapLimit);
-            this.session.removeEventListener("changeWrapMode", this.$onDocumentChangeWrapMode);
+            this.session.removeEventListener("changeMode", this.$onChangeMode);
+            this.session.removeEventListener("changeTabSize", this.$onChangeTabSize);
+            this.session.removeEventListener("changeWrapLimit", this.$onChangeWrapLimit);
+            this.session.removeEventListener("changeWrapMode", this.$onChangeWrapMode);
             this.session.removeEventListener("changeFrontMarker", this.$onChangeFrontMarker);
             this.session.removeEventListener("changeBackMarker", this.$onChangeBackMarker);
-            this.session.removeEventListener("changeBreakpoint", this.$onDocumentChangeBreakpoint);
-            this.session.removeEventListener("changeAnnotation", this.$onDocumentChangeAnnotation);
+            this.session.removeEventListener("changeBreakpoint", this.$onChangeBreakpoint);
+            this.session.removeEventListener("changeAnnotation", this.$onChangeAnnotation);
+            this.session.removeEventListener("changeOverwrite", this.$onCursorChange);
 
             var selection = this.session.getSelection();
             selection.removeEventListener("changeCursor", this.$onCursorChange);
@@ -4171,17 +4188,17 @@ var Editor =function(renderer, session) {
         session.addEventListener("change", this.$onDocumentChange);
         this.renderer.setSession(session);
 
-        this.$onDocumentModeChange = this.onDocumentModeChange.bind(this);
-        session.addEventListener("changeMode", this.$onDocumentModeChange);
+        this.$onChangeMode = this.onChangeMode.bind(this);
+        session.addEventListener("changeMode", this.$onChangeMode);
 
-        this.$onDocumentChangeTabSize = this.renderer.updateText.bind(this.renderer);
-        session.addEventListener("changeTabSize", this.$onDocumentChangeTabSize);
+        this.$onChangeTabSize = this.renderer.updateText.bind(this.renderer);
+        session.addEventListener("changeTabSize", this.$onChangeTabSize);
 
-        this.$onDocumentChangeWrapLimit = this.onDocumentChangeWrapLimit.bind(this);
-        session.addEventListener("changeWrapLimit", this.$onDocumentChangeWrapLimit);
+        this.$onChangeWrapLimit = this.onChangeWrapLimit.bind(this);
+        session.addEventListener("changeWrapLimit", this.$onChangeWrapLimit);
 
-        this.$onDocumentChangeWrapMode = this.onDocumentChangeWrapMode.bind(this);
-        session.addEventListener("changeWrapMode", this.$onDocumentChangeWrapMode);
+        this.$onChangeWrapMode = this.onChangeWrapMode.bind(this);
+        session.addEventListener("changeWrapMode", this.$onChangeWrapMode);
 
         this.$onChangeFrontMarker = this.onChangeFrontMarker.bind(this);
         this.session.addEventListener("changeFrontMarker", this.$onChangeFrontMarker);
@@ -4189,21 +4206,22 @@ var Editor =function(renderer, session) {
         this.$onChangeBackMarker = this.onChangeBackMarker.bind(this);
         this.session.addEventListener("changeBackMarker", this.$onChangeBackMarker);
         
-        this.$onDocumentChangeBreakpoint = this.onDocumentChangeBreakpoint.bind(this);
-        this.session.addEventListener("changeBreakpoint", this.$onDocumentChangeBreakpoint);
+        this.$onChangeBreakpoint = this.onChangeBreakpoint.bind(this);
+        this.session.addEventListener("changeBreakpoint", this.$onChangeBreakpoint);
 
-        this.$onDocumentChangeAnnotation = this.onDocumentChangeAnnotation.bind(this);
-        this.session.addEventListener("changeAnnotation", this.$onDocumentChangeAnnotation);
+        this.$onChangeAnnotation = this.onChangeAnnotation.bind(this);
+        this.session.addEventListener("changeAnnotation", this.$onChangeAnnotation);
+        
+        this.$onCursorChange = this.onCursorChange.bind(this);
+        this.session.addEventListener("changeOverwrite", this.$onCursorChange);
 
         this.selection = session.getSelection();
-
-        this.$onCursorChange = this.onCursorChange.bind(this);
         this.selection.addEventListener("changeCursor", this.$onCursorChange);
 
         this.$onSelectionChange = this.onSelectionChange.bind(this);
         this.selection.addEventListener("changeSelection", this.$onSelectionChange);
 
-        this.onDocumentModeChange();
+        this.onChangeMode();
         this.bgTokenizer.setDocument(session.getDocument());
         this.bgTokenizer.start(0);
 
@@ -4211,8 +4229,8 @@ var Editor =function(renderer, session) {
         this.onSelectionChange();
         this.onChangeFrontMarker();
         this.onChangeBackMarker();
-        this.onDocumentChangeBreakpoint();
-        this.onDocumentChangeAnnotation();
+        this.onChangeBreakpoint();
+        this.onChangeAnnotation();
         this.renderer.scrollToRow(session.getScrollTopRow());
         this.renderer.updateFull();
 
@@ -4247,9 +4265,9 @@ var Editor =function(renderer, session) {
     }
 
     this.$highlightBrackets = function() {
-        if (this.$bracketHighlight) {
-            this.session.removeMarker(this.$bracketHighlight);
-            this.$bracketHighlight = null;
+        if (this.session.$bracketHighlight) {
+            this.session.removeMarker(this.session.$bracketHighlight);
+            this.session.$bracketHighlight = null;
         }
 
         if (this.$highlightPending) {
@@ -4265,7 +4283,7 @@ var Editor =function(renderer, session) {
             var pos = self.session.findMatchingBracket(self.getCursorPosition());
             if (pos) {
                 var range = new Range(pos.row, pos.column, pos.row, pos.column+1);
-                self.$bracketHighlight = self.session.addMarker(range, "ace_bracket");
+                self.session.$bracketHighlight = self.session.addMarker(range, "ace_bracket");
             }
         }, 10);
     };
@@ -4309,7 +4327,7 @@ var Editor =function(renderer, session) {
         this.renderer.updateLines(range.start.row, lastRow);
 
         // update cursor because tab characters can influence the cursor position
-        this.renderer.updateCursor(this.getCursorPosition(), this.$overwrite);
+        this.renderer.updateCursor();
     };
 
     this.onTokenizerUpdate = function(e) {
@@ -4318,7 +4336,7 @@ var Editor =function(renderer, session) {
     };
 
     this.onCursorChange = function(e) {
-        this.renderer.updateCursor(this.getCursorPosition(), this.$overwrite);
+        this.renderer.updateCursor();
 
         if (!this.$blockScrolling) {
             this.renderer.scrollCursorIntoView();
@@ -4362,6 +4380,9 @@ var Editor =function(renderer, session) {
         }
 
         this.onCursorChange(e);
+
+        if (this.$highlightSelectedWord)
+            this.mode.highlightSelection(this);
     };
 
     this.onChangeFrontMarker = function() {
@@ -4372,15 +4393,15 @@ var Editor =function(renderer, session) {
         this.renderer.updateBackMarkers();
     };
     
-    this.onDocumentChangeBreakpoint = function() {
+    this.onChangeBreakpoint = function() {
         this.renderer.setBreakpoints(this.session.getBreakpoints());
     };
 
-    this.onDocumentChangeAnnotation = function() {
+    this.onChangeAnnotation = function() {
         this.renderer.setAnnotations(this.session.getAnnotations());
     };
 
-    this.onDocumentModeChange = function() {
+    this.onChangeMode = function() {
         var mode = this.session.getMode();
         if (this.mode == mode)
             return;
@@ -4399,12 +4420,11 @@ var Editor =function(renderer, session) {
         this.renderer.setTokenizer(this.bgTokenizer);
     };
 
-    this.onDocumentChangeWrapLimit = function() {
-        this.renderer.updateCursor(this.getCursorPosition(), this.$overwrite);
+    this.onChangeWrapLimit = function() {
         this.renderer.updateFull();
     };
 
-    this.onDocumentChangeWrapMode = function() {
+    this.onChangeWrapMode = function() {
         this.renderer.onResize(true);
     };
 
@@ -4438,7 +4458,8 @@ var Editor =function(renderer, session) {
         if (!this.selection.isEmpty()) {
             var cursor = this.session.remove(this.getSelectionRange());
             this.clearSelection();
-        } else if (this.$overwrite){
+        }
+        else if (this.session.getOverwrite()) {
             var range = new Range.fromPoints(cursor, cursor);
             range.end.column += text.length;
             this.session.remove(range);
@@ -4452,14 +4473,18 @@ var Editor =function(renderer, session) {
         var lineIndent    = this.mode.getNextLineIndent(lineState, line.slice(0, cursor.column), this.session.getTabString());
         var end           = this.session.insert(cursor, text);
 
-        this.moveCursorToPosition(end);
         
         var lineState = this.bgTokenizer.getState(cursor.row);
-        // multi line insert
-        if (cursor.row !== end.row) {
+        // TODO disabled multiline auto indent
+        // possibly doing the indent before inserting the text
+        // if (cursor.row !== end.row) {
+        if (this.session.getDocument().isNewLine(text)) {
+            this.moveCursorTo(cursor.row+1, 0);
+            
             var size        = this.session.getTabSize(),
                 minIndent   = Number.MAX_VALUE;
 
+            
             for (var row = cursor.row + 1; row <= end.row; ++row) {
                 var indent = 0;
 
@@ -4502,25 +4527,16 @@ var Editor =function(renderer, session) {
         this.keyBinding.onCommandKey(e, hashId, keyCode);
     };
 
-    this.$overwrite = false;
     this.setOverwrite = function(overwrite) {
-        if (this.$overwrite == overwrite) return;
-
-        this.$overwrite = overwrite;
-
-        this.$blockScrolling += 1;
-        this.onCursorChange();
-        this.$blockScrolling -= 1;
-
-        this._dispatchEvent("changeOverwrite", {data: overwrite});
+        this.session.setOverwrite();        
     };
 
     this.getOverwrite = function() {
-        return this.$overwrite;
+        return this.session.getOverwrite();
     };
 
     this.toggleOverwrite = function() {
-        this.setOverwrite(!this.$overwrite);
+        this.session.toggleOverwrite();
     };
 
     this.setScrollSpeed = function(speed) {
@@ -4554,6 +4570,22 @@ var Editor =function(renderer, session) {
 
     this.getHighlightActiveLine = function() {
         return this.$highlightActiveLine;
+    };
+
+    this.$highlightSelectedWord = true;
+    this.setHighlightSelectedWord = function(shouldHighlight) {
+        if (this.$highlightSelectedWord == shouldHighlight)
+            return;
+
+        this.$highlightSelectedWord = shouldHighlight;
+        if (shouldHighlight)
+            this.mode.highlightSelection(this);
+        else
+            this.mode.clearSelectionHighlight(this);
+    };
+
+    this.getHighlightSelectedWord = function() {
+        return this.$highlightSelectedWord;
     };
 
     this.setShowInvisibles = function(showInvisibles) {
@@ -4767,6 +4799,13 @@ var Editor =function(renderer, session) {
         });
     };
 
+    this.moveText = function(range, toPosition) {
+        if (this.$readOnly)
+            return null;
+
+        return this.session.moveText(range, toPosition);
+    };
+
     this.copyLinesUp = function() {
         if (this.$readOnly)
             return;
@@ -4833,68 +4872,66 @@ var Editor =function(renderer, session) {
         return (row >= this.getFirstVisibleRow() && row <= this.getLastVisibleRow());
     };
 
-    this.getVisibleRowCount = function() {
-        return this.getLastVisibleRow() - this.getFirstVisibleRow() + 1;
+    this.$getVisibleRowCount = function() {
+        return this.renderer.getScrollBottomRow() - this.renderer.getScrollTopRow() + 1;
     };
 
-    this.getPageDownRow = function() {
-        return this.renderer.getLastVisibleRow() - 1;
+    this.$getPageDownRow = function() {
+        return this.renderer.getScrollBottomRow();
     };
 
-    this.getPageUpRow = function() {
-        var firstRow = this.renderer.getFirstVisibleRow();
-        var lastRow = this.renderer.getLastVisibleRow();
+    this.$getPageUpRow = function() {
+        var firstRow = this.renderer.getScrollTopRow();
+        var lastRow = this.renderer.getScrollBottomRow();
 
-        return firstRow - (lastRow - firstRow) + 1;
+        return firstRow - (lastRow - firstRow);
     };
 
     this.selectPageDown = function() {
-        var row = this.getPageDownRow() + Math.floor(this.getVisibleRowCount() / 2);
+        var row = this.$getPageDownRow() + Math.floor(this.$getVisibleRowCount() / 2);
 
         this.scrollPageDown();
 
         var selection = this.getSelection();
-        selection.$moveSelection(function() {
-            selection.moveCursorTo(row, selection.getSelectionLead().column);
-        });
+        var leadScreenPos = this.session.documentToScreenPosition(selection.getSelectionLead());
+        var dest = this.session.screenToDocumentPosition(row, leadScreenPos.column);
+        selection.selectTo(dest.row, dest.column);
     };
 
     this.selectPageUp = function() {
-        var visibleRows = this.getLastVisibleRow() - this.getFirstVisibleRow();
-        var row = this.getPageUpRow() + Math.round(visibleRows / 2);
+        var visibleRows = this.renderer.getScrollTopRow() - this.renderer.getScrollBottomRow();
+        var row = this.$getPageUpRow() + Math.round(visibleRows / 2);
 
         this.scrollPageUp();
 
         var selection = this.getSelection();
-        selection.$moveSelection(function() {
-            selection.moveCursorTo(row, selection.getSelectionLead().column);
-        });
+        var leadScreenPos = this.session.documentToScreenPosition(selection.getSelectionLead());
+        var dest = this.session.screenToDocumentPosition(row, leadScreenPos.column);
+        selection.selectTo(dest.row, dest.column);
     };
 
     this.gotoPageDown = function() {
-        var row     = this.getPageDownRow(),
-            column  = Math.min(this.getCursorPosition().column,
-                               this.session.getLine(row).length);
+        var row = this.$getPageDownRow();
+        var column = this.getCursorPositionScreen().column;
 
         this.scrollToRow(row);
-        this.getSelection().moveCursorTo(row, column);
+        this.getSelection().moveCursorToScreen(row, column);
     };
 
     this.gotoPageUp = function() {
-       var  row     = this.getPageUpRow(),
-            column  = Math.min(this.getCursorPosition().column,
-                               this.session.getLine(row).length);
+        var row = this.$getPageUpRow();
+        var column = this.getCursorPositionScreen().column;
 
        this.scrollToRow(row);
-       this.getSelection().moveCursorTo(row, column);
+       this.getSelection().moveCursorToScreen(row, column);
     };
 
     this.scrollPageDown = function() {
-        this.scrollToRow(this.getPageDownRow());
+        this.scrollToRow(this.$getPageDownRow());
     };
 
     this.scrollPageUp = function() {
-        this.renderer.scrollToRow(this.getPageUpRow());
+        this.renderer.scrollToRow(this.$getPageUpRow());
     };
 
     this.scrollToRow = function(row) {
@@ -4914,6 +4951,10 @@ var Editor =function(renderer, session) {
     this.getCursorPosition = function() {
         return this.selection.getCursor();
     };
+
+    this.getCursorPositionScreen = function() {
+        return this.session.documentToScreenPosition(this.getCursorPosition());
+    }
 
     this.getSelectionRange = function() {
         return this.selection.getRange();
@@ -5161,7 +5202,7 @@ exports.Editor = Editor;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/event', function(require, exports, module) {
+define('pilot/event', ['require', 'exports', 'module' , 'pilot/keys', 'pilot/useragent', 'pilot/dom'], function(require, exports, module) {
 
 var keys = require("pilot/keys");
 var useragent = require("pilot/useragent");
@@ -5463,7 +5504,7 @@ For more information about SproutCore, visit http://www.sproutcore.com
 
 // Most of the following code is taken from SproutCore with a few changes.
 
-define('pilot/keys', function(require, exports, module) {
+define('pilot/keys', ['require', 'exports', 'module' , 'pilot/oop'], function(require, exports, module) {
 
 var oop = require("pilot/oop");
 
@@ -5544,7 +5585,8 @@ var Keys = (function() {
 oop.mixin(exports, Keys);
 
 });
-/* ***** BEGIN LICENSE BLOCK *****
+/* vim:ts=4:sts=4:sw=4:
+ * ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -5566,6 +5608,7 @@ oop.mixin(exports, Keys);
  *
  * Contributor(s):
  *      Fabian Jakobs <fabian AT ajax DOT org>
+ *      Mihai Sucan <mihai AT sucan AT gmail ODT com>
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -5581,7 +5624,15 @@ oop.mixin(exports, Keys);
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('pilot/dom', function(require, exports, module) {
+define('pilot/dom', ['require', 'exports', 'module' ], function(require, exports, module) {
+
+var XHTML_NS = "http://www.w3.org/1999/xhtml";
+
+exports.createElement = function(tag, ns) {
+    return document.createElementNS ?
+           document.createElementNS(ns || XHTML_NS, tag) :
+           document.createElement(tag);
+};
 
 exports.setText = function(elem, text) {
     if (elem.innerText !== undefined) {
@@ -5592,19 +5643,69 @@ exports.setText = function(elem, text) {
     }
 };
 
-exports.hasCssClass = function(el, name) {
-    var classes = el.className.split(/\s+/g);
-    return classes.indexOf(name) !== -1;
-};
+if (!document.documentElement.classList) {
+    exports.hasCssClass = function(el, name) {
+        var classes = el.className.split(/\s+/g);
+        return classes.indexOf(name) !== -1;
+    };
 
-/**
-* Add a CSS class to the list of classes on the given node
-*/
-exports.addCssClass = function(el, name) {
-    if (!exports.hasCssClass(el, name)) {
-        el.className += " " + name;
-    }
-};
+    /**
+    * Add a CSS class to the list of classes on the given node
+    */
+    exports.addCssClass = function(el, name) {
+        if (!exports.hasCssClass(el, name)) {
+            el.className += " " + name;
+        }
+    };
+
+    /**
+    * Remove a CSS class from the list of classes on the given node
+    */
+    exports.removeCssClass = function(el, name) {
+        var classes = el.className.split(/\s+/g);
+        while (true) {
+            var index = classes.indexOf(name);
+            if (index == -1) {
+                break;
+            }
+            classes.splice(index, 1);
+        }
+        el.className = classes.join(" ");
+    };
+
+    exports.toggleCssClass = function(el, name) {
+        var classes = el.className.split(/\s+/g), add = true;
+        while (true) {
+            var index = classes.indexOf(name);
+            if (index == -1) {
+                break;
+            }
+            add = false;
+            classes.splice(index, 1);
+        }
+        if(add)
+            classes.push(name);
+
+        el.className = classes.join(" ");
+        return add;
+    };
+} else {
+    exports.hasCssClass = function(el, name) {
+        return el.classList.contains(name);
+    };
+
+    exports.addCssClass = function(el, name) {
+        el.classList.add(name);
+    };
+
+    exports.removeCssClass = function(el, name) {
+        el.classList.remove(name);
+    };
+
+    exports.toggleCssClass = function(el, name) {
+        return el.classList.toggle(name);
+    };
+}
 
 /**
  * Add or remove a CSS class from the list of classes on the given node
@@ -5618,33 +5719,23 @@ exports.setCssClass = function(node, className, include) {
     }
 };
 
-/**
-* Remove a CSS class from the list of classes on the given node
-*/
-exports.removeCssClass = function(el, name) {
-    var classes = el.className.split(/\s+/g);
-    while (true) {
-        var index = classes.indexOf(name);
-        if (index == -1) {
-            break;
-        }
-        classes.splice(index, 1);
-    }
-    el.className = classes.join(" ");
-};
-
 exports.importCssString = function(cssText, doc){
-    doc = doc || document;        
+    doc = doc || document;
 
     if (doc.createStyleSheet) {
         var sheet = doc.createStyleSheet();
         sheet.cssText = cssText;
     }
     else {
-        var style = doc.createElement("style");
+        var style = doc.createElementNS ?
+                    doc.createElementNS(XHTML_NS, "style") :
+                    doc.createElement("style");
+
         style.appendChild(doc.createTextNode(cssText));
-        doc.getElementsByTagName("head")[0].appendChild(style);
-    }            
+
+        var head = doc.getElementsByTagName("head")[0] || doc.documentElement;
+        head.appendChild(style);
+    }
 };
 
 exports.getInnerWidth = function(element) {
@@ -5661,7 +5752,7 @@ if (window.pageYOffset !== undefined) {
     exports.getPageScrollTop = function() {
         return window.pageYOffset;
     };
-    
+
     exports.getPageScrollLeft = function() {
         return window.pageXOffset;
     };
@@ -5670,7 +5761,7 @@ else {
     exports.getPageScrollTop = function() {
         return document.body.scrollTop;
     };
-    
+
     exports.getPageScrollLeft = function() {
         return document.body.scrollLeft;
     };
@@ -5687,11 +5778,11 @@ exports.computedStyle = function(element, style) {
 
 exports.scrollbarWidth = function() {
 
-    var inner = document.createElement('p');
+    var inner = exports.createElement("p");
     inner.style.width = "100%";
     inner.style.height = "200px";
 
-    var outer = document.createElement("div");
+    var outer = exports.createElement("div");
     var style = outer.style;
 
     style.position = "absolute";
@@ -5701,7 +5792,10 @@ exports.scrollbarWidth = function() {
     style.height = "150px";
 
     outer.appendChild(inner);
-    document.body.appendChild(outer);
+
+    var body = document.body || document.documentElement;
+    body.appendChild(outer);
+
     var noScrollbar = inner.offsetWidth;
 
     style.overflow = "scroll";
@@ -5711,7 +5805,7 @@ exports.scrollbarWidth = function() {
         withScrollbar = outer.clientWidth;
     }
 
-    document.body.removeChild(outer);
+    body.removeChild(outer);
 
     return noScrollbar-withScrollbar;
 };
@@ -5719,29 +5813,29 @@ exports.scrollbarWidth = function() {
 /**
  * Optimized set innerHTML. This is faster than plain innerHTML if the element
  * already contains a lot of child elements.
- * 
+ *
  * See http://blog.stevenlevithan.com/archives/faster-than-innerhtml for details
  */
 exports.setInnerHtml = function(el, innerHtml) {
-	var element = el.cloneNode(false);//document.createElement("div");
+    var element = el.cloneNode(false);//document.createElement("div");
     element.innerHTML = innerHtml;
     el.parentNode.replaceChild(element, el);
     return element;
 };
 
 exports.setInnerText = function(el, innerText) {
-    if ("textContent" in document.body)
+    if (document.body && "textContent" in document.body)
         el.textContent = innerText;
-    else 
+    else
         el.innerText = innerText;
-        
+
 };
 
 exports.getInnerText = function(el) {
-    if ("textContent" in document.body)
+    if (document.body && "textContent" in document.body)
         return el.textContent;
-    else 
-         return el.innerText;
+    else
+         return el.innerText || el.textContent;
 };
 
 exports.getParentWindow = function(document) {
@@ -5781,7 +5875,8 @@ exports.setSelectionEnd = function(textarea, end) {
 };
 
 });
-/* ***** BEGIN LICENSE BLOCK *****
+/* vim:ts=4:sts=4:sw=4:
+ * ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -5818,14 +5913,15 @@ exports.setSelectionEnd = function(textarea, end) {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/keyboard/textinput', function(require, exports, module) {
+define('ace/keyboard/textinput', ['require', 'exports', 'module' , 'pilot/event', 'pilot/useragent', 'pilot/dom'], function(require, exports, module) {
 
 var event = require("pilot/event");
 var useragent = require("pilot/useragent");
+var dom = require("pilot/dom");
 
 var TextInput = function(parentNode, host) {
 
-    var text = document.createElement("textarea");
+    var text = dom.createElement("textarea");
     text.style.left = "-10000px";
     parentNode.appendChild(text);
 
@@ -6025,7 +6121,8 @@ var TextInput = function(parentNode, host) {
 
 exports.TextInput = TextInput;
 });
-/* ***** BEGIN LICENSE BLOCK *****
+/* vim:ts=4:sts=4:sw=4:
+ * ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -6047,6 +6144,7 @@ exports.TextInput = TextInput;
  *
  * Contributor(s):
  *      Fabian Jakobs <fabian AT ajax DOT org>
+ *      Mihai Sucan <mihai DOT sucan AT gmail DOT com>
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -6062,9 +6160,17 @@ exports.TextInput = TextInput;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/mouse_handler', function(require, exports, module) {
+define('ace/mouse_handler', ['require', 'exports', 'module' , 'pilot/event', 'pilot/dom'], function(require, exports, module) {
 
 var event = require("pilot/event");
+var dom = require("pilot/dom");
+
+var STATE_UNKNOWN = 0;
+var STATE_SELECT = 1;
+var STATE_DRAG = 2;
+
+var DRAG_TIMER = 250; // milliseconds
+var DRAG_OFFSET = 5; // pixels
 
 var MouseHandler = function(editor) {
     this.editor = editor;
@@ -6080,6 +6186,7 @@ var MouseHandler = function(editor) {
     event.addListener(mouseTarget, "mousedown", this.onMouseDown.bind(this));
     event.addMultiMouseDownListener(mouseTarget, 0, 2, 500, this.onMouseDoubleClick.bind(this));
     event.addMultiMouseDownListener(mouseTarget, 0, 3, 600, this.onMouseTripleClick.bind(this));
+    event.addMultiMouseDownListener(mouseTarget, 0, 4, 600, this.onMouseQuadClick.bind(this));
     event.addMouseWheelListener(mouseTarget, this.onMouseWheel.bind(this));
 };
 
@@ -6093,40 +6200,57 @@ var MouseHandler = function(editor) {
     this.getScrollSpeed = function() {
         return this.$scrollSpeed;
     };
-    
+
+    this.$getEventPosition = function(e) {
+        var pageX = event.getDocumentX(e);
+        var pageY = event.getDocumentY(e);
+        var pos = this.editor.renderer.screenToTextCoordinates(pageX, pageY);
+        pos.row = Math.max(0, Math.min(pos.row, this.editor.session.getLength()-1));
+        return pos;
+    };
+
+    this.$distance = function(ax, ay, bx, by) {
+        return Math.sqrt(Math.pow(bx - ax, 2) + Math.pow(by - ay, 2));
+    };
+
     this.onMouseDown = function(e) {
         var pageX = event.getDocumentX(e);
         var pageY = event.getDocumentY(e);
+        var pos = this.$getEventPosition(e);
         var editor = this.editor;
-    
-        var pos = editor.renderer.screenToTextCoordinates(pageX, pageY);
-        pos.row = Math.max(0, Math.min(pos.row, editor.session.getLength()-1));
+        var self = this;
+        var selectionRange = editor.getSelectionRange();
+        var selectionEmpty = selectionRange.isEmpty();
+        var state = STATE_UNKNOWN;
+        var inSelection = false;
     
         var button = event.getButton(e)
         if (button != 0) {
-            var isEmpty = editor.selection.isEmpty()
-            if (isEmpty) {
+            if (selectionEmpty) {
                 editor.moveCursorToPosition(pos);
             }
             if(button == 2) {
-                editor.textInput.onContextMenu({x: pageX, y: pageY}, isEmpty);
+                editor.textInput.onContextMenu({x: pageX, y: pageY}, selectionEmpty);
                 event.capture(editor.container, function(){}, editor.textInput.onContextMenuClose);
             }
             return;
+        } else
+            inSelection = !editor.getReadOnly() &&
+                          !selectionEmpty &&
+                          selectionRange.contains(pos.row, pos.column);
+
+        if (!inSelection) {
+            // Directly pick STATE_SELECT, since the user is not clicking inside
+            // a selection.
+            onStartSelect(pos);
         }
-    
-        if (e.shiftKey)
-            editor.selection.selectToPosition(pos)
-        else {
-            editor.moveCursorToPosition(pos);
-            if (!editor.$clickSelection)
-                editor.selection.clearSelection(pos.row, pos.column);
-        }
-    
+
         editor.renderer.scrollCursorIntoView();
     
-        var self = this;
         var mousePageX, mousePageY;
+        var overwrite = editor.getOverwrite();
+        var dragCursor = null;
+        var mousedownTime = (new Date()).getTime();
     
         var onMouseSelection = function(e) {
             mousePageX = event.getDocumentX(e);
@@ -6135,17 +6259,88 @@ var MouseHandler = function(editor) {
     
         var onMouseSelectionEnd = function() {
             clearInterval(timerId);
+            if (state == STATE_UNKNOWN)
+                onStartSelect(pos);
+            else if (state == STATE_DRAG)
+                onMouseDragSelectionEnd();
+                
             self.$clickSelection = null;
+            state = STATE_UNKNOWN;
+        };
+
+        var onMouseDragSelectionEnd = function() {
+            dom.removeCssClass(editor.container, "ace_dragging");
+
+            if (!self.$clickSelection) {
+                if (!dragCursor) {
+                    editor.moveCursorToPosition(pos);
+                    editor.selection.clearSelection(pos.row, pos.column);
+                }
+            }
+
+            if (!dragCursor)
+                return;
+
+            var selection = editor.getSelectionRange();
+            if (selection.contains(dragCursor.row, dragCursor.column)) {
+                dragCursor = null;
+                return;
+            }
+
+            editor.clearSelection();
+            var newRange = editor.moveText(selection, dragCursor);
+            if (!newRange) {
+                dragCursor = null;
+                return;
+            }
+
+            editor.selection.setSelectionRange(newRange);
         };
     
         var onSelectionInterval = function() {
             if (mousePageX === undefined || mousePageY === undefined)
                 return;
+
+            if (state == STATE_UNKNOWN) {
+                var distance = self.$distance(pageX, pageY, mousePageX, mousePageY);
+                var time = (new Date()).getTime();
+
+                
+                if (distance > DRAG_OFFSET) {
+                    state = STATE_SELECT;
+                    var cursor = editor.renderer.screenToTextCoordinates(mousePageX, mousePageY);
+                    cursor.row = Math.max(0, Math.min(cursor.row, editor.session.getLength()-1));
+                    onStartSelect(cursor);
+                } else if ((time - mousedownTime) > DRAG_TIMER) {
+                    state = STATE_DRAG;
+                    dom.addCssClass(editor.container, "ace_dragging");
+                }
+
+            }
+            
+            if (state == STATE_DRAG)
+                onDragSelectionInterval();
+            else if (state == STATE_SELECT)
+                onUpdateSelectionInterval();
+        };
     
+        function onStartSelect(pos) {
+            if (e.shiftKey)
+                editor.selection.selectToPosition(pos)
+            else {
+                if (!self.$clickSelection) {
+                    editor.moveCursorToPosition(pos);
+                    editor.selection.clearSelection(pos.row, pos.column);
+                }
+            }
+            state = STATE_SELECT;
+        }
+        
+        var onUpdateSelectionInterval = function() {
             var cursor = editor.renderer.screenToTextCoordinates(mousePageX, mousePageY);
             cursor.row = Math.max(0, Math.min(cursor.row, editor.session.getLength()-1));
     
-            if (self.$clickSelection) {
+            if (self.$clickSelection) {                
                 if (self.$clickSelection.contains(cursor.row, cursor.column)) {
                     editor.selection.setSelectionRange(self.$clickSelection);
                 } else {
@@ -6164,7 +6359,16 @@ var MouseHandler = function(editor) {
     
             editor.renderer.scrollCursorIntoView();
         };
-    
+
+        var onDragSelectionInterval = function() {
+            dragCursor = editor.renderer.screenToTextCoordinates(mousePageX, mousePageY);
+            dragCursor.row = Math.max(0, Math.min(dragCursor.row,
+                                                  editor.session.getLength() - 1));
+
+            editor.renderer.updateCursor(dragCursor, overwrite);
+            editor.renderer.scrollCursorIntoView();
+        };
+
         event.capture(editor.container, onMouseSelection, onMouseSelectionEnd);
         var timerId = setInterval(onSelectionInterval, 20);
     
@@ -6172,12 +6376,21 @@ var MouseHandler = function(editor) {
     };
     
     this.onMouseDoubleClick = function(e) {
+        var pos = this.$getEventPosition(e);
+        this.editor.moveCursorToPosition(pos);
         this.editor.selection.selectWord();
         this.$clickSelection = this.editor.getSelectionRange();
     };
     
     this.onMouseTripleClick = function(e) {
+        var pos = this.$getEventPosition(e);
+        this.editor.moveCursorToPosition(pos);
         this.editor.selection.selectLine();
+        this.$clickSelection = this.editor.getSelectionRange();
+    };
+    
+    this.onMouseQuadClick = function(e) {
+        this.editor.selectAll();
         this.$clickSelection = this.editor.getSelectionRange();
     };
     
@@ -6192,7 +6405,8 @@ var MouseHandler = function(editor) {
 }).call(MouseHandler.prototype);
 
 exports.MouseHandler = MouseHandler;
-});/* ***** BEGIN LICENSE BLOCK *****
+});
+/* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -6230,7 +6444,7 @@ exports.MouseHandler = MouseHandler;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/keyboard/keybinding', function(require, exports, module) {
+define('ace/keyboard/keybinding', ['require', 'exports', 'module' , 'pilot/useragent', 'pilot/keys', 'pilot/event', 'pilot/settings', 'ace/keyboard/hash_handler', 'ace/keyboard/keybinding/default_mac', 'ace/keyboard/keybinding/default_win', 'pilot/canon', 'ace/commands/default_commands'], function(require, exports, module) {
 
 var useragent = require("pilot/useragent");
 var keyUtil  = require("pilot/keys");
@@ -6338,7 +6552,7 @@ exports.KeyBinding = KeyBinding;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/keyboard/hash_handler', function(require, exports, module) {
+define('ace/keyboard/hash_handler', ['require', 'exports', 'module' , 'pilot/keys'], function(require, exports, module) {
 
 var keyUtil  = require("pilot/keys");
 
@@ -6453,15 +6667,15 @@ exports.HashHandler = HashHandler;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/keyboard/keybinding/default_mac', function(require, exports, module) {
+define('ace/keyboard/keybinding/default_mac', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 exports.bindings = {
     "selectall": "Command-A",
     "removeline": "Command-D",
     "gotoline": "Command-L",
     "togglecomment": "Command-7",
-    "findnext": "Command-K",
-    "findprevious": "Command-Shift-K",
+    "findnext": "Command-G",
+    "findprevious": "Command-Shift-G",
     "find": "Command-F",
     "replace": "Command-R",
     "undo": "Command-Z",
@@ -6549,7 +6763,7 @@ exports.bindings = {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/keyboard/keybinding/default_win', function(require, exports, module) {
+define('ace/keyboard/keybinding/default_win', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 exports.bindings = {
     "selectall": "Ctrl-A",
@@ -6600,7 +6814,8 @@ exports.bindings = {
 };
 
 });
-/* ***** BEGIN LICENSE BLOCK *****
+/* vim:ts=4:sts=4:sw=4:
+ * ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -6623,6 +6838,7 @@ exports.bindings = {
  * Contributor(s):
  *      Fabian Jakobs <fabian AT ajax DOT org>
  *      Julian Viereck <julian.viereck@gmail.com>
+ *      Mihai Sucan <mihai.sucan@gmail.com>
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -6638,7 +6854,7 @@ exports.bindings = {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/commands/default_commands', function(require, exports, module) {
+define('ace/commands/default_commands', ['require', 'exports', 'module' , 'pilot/lang', 'pilot/canon'], function(require, exports, module) {
 
 var lang = require("pilot/lang");
 var canon = require("pilot/canon");
@@ -6682,6 +6898,30 @@ canon.addCommand({
     exec: function(env, args, request) {
         var needle = prompt("Find:");
         env.editor.find(needle);
+    }
+});
+canon.addCommand({
+    name: "replace",
+    exec: function(env, args, request) {
+        var needle = prompt("Find:");
+        if (!needle)
+            return;
+        var replacement = prompt("Replacement:");
+        if (!replacement)
+            return;
+        env.editor.replace(replacement, {needle: needle});
+    }
+});
+canon.addCommand({
+    name: "replaceall",
+    exec: function(env, args, request) {
+        var needle = prompt("Find:");
+        if (!needle)
+            return;
+        var replacement = prompt("Replacement:");
+        if (!replacement)
+            return;
+        env.editor.replaceAll(replacement, {needle: needle});
     }
 });
 canon.addCommand({
@@ -6889,7 +7129,8 @@ canon.addCommand({
 
 
 });
-/* ***** BEGIN LICENSE BLOCK *****
+/* vim:ts=4:sts=4:sw=4:
+ * ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -6911,6 +7152,7 @@ canon.addCommand({
  *
  * Contributor(s):
  *      Fabian Jakobs <fabian AT ajax DOT org>
+ *      Mihai Sucan <mihai DOT sucan AT gmail DOT com>
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -6926,7 +7168,7 @@ canon.addCommand({
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/edit_session', function(require, exports, module) {
+define('ace/edit_session', ['require', 'exports', 'module' , 'pilot/oop', 'pilot/lang', 'pilot/event_emitter', 'ace/selection', 'ace/mode/text', 'ace/range', 'ace/document'], function(require, exports, module) {
 
 var oop = require("pilot/oop");
 var lang = require("pilot/lang");
@@ -6936,8 +7178,6 @@ var TextMode = require("ace/mode/text").Mode;
 var Range = require("ace/range").Range;
 var Document = require("ace/document").Document;
 
-var NO_CHANGE_DELTAS = {};
-
 var EditSession = function(text, mode) {
     this.$modified = true;
     this.$breakpoints = [];
@@ -6945,7 +7185,6 @@ var EditSession = function(text, mode) {
     this.$backMarkers = {};
     this.$markerId = 1;
     this.$wrapData = [];
-    this.listeners = [];
 
     if (text instanceof Document) {
         this.setDocument(text);
@@ -6978,7 +7217,7 @@ var EditSession = function(text, mode) {
     this.onChange = function(e) {
         var delta = e.data;
         this.$modified = true;
-        if (!this.$fromUndo && this.$undoManager) {
+        if (!this.$fromUndo && this.$undoManager && !delta.ignore) {
             this.$deltas.push(delta);
             this.$informUndoManager.schedule();
         }
@@ -6988,8 +7227,9 @@ var EditSession = function(text, mode) {
     };
 
     this.setValue = function(text) {
-      this.doc.setValue(text);
-      this.$deltas = [];
+        this.doc.setValue(text);
+        this.$deltas = [];
+        this.getUndoManager().reset();
     };
 
     this.getValue =
@@ -7024,7 +7264,8 @@ var EditSession = function(text, mode) {
 
     this.$defaultUndoManager = {
         undo: function() {},
-        redo: function() {}
+        redo: function() {},
+        reset: function() {}
     };
 
     this.getUndoManager = function() {
@@ -7067,6 +7308,22 @@ var EditSession = function(text, mode) {
         return this.$useSoftTabs && (position.column % this.$tabSize == 0);
     };
 
+    this.$overwrite = false;
+    this.setOverwrite = function(overwrite) {
+        if (this.$overwrite == overwrite) return;
+
+        this.$overwrite = overwrite;
+        this._dispatchEvent("changeOverwrite");
+    };
+
+    this.getOverwrite = function() {
+        return this.$overwrite;
+    };
+
+    this.toggleOverwrite = function() {
+        this.setOverwrite(!this.$overwrite);
+    };
+
     this.getBreakpoints = function() {
         return this.$breakpoints;
     };
@@ -7100,7 +7357,7 @@ var EditSession = function(text, mode) {
 
     this.addMarker = function(range, clazz, type, inFront) {
         var id = this.$markerId++;
-        
+
         var marker = {
             range : range,
             type : type || "line",
@@ -7108,7 +7365,7 @@ var EditSession = function(text, mode) {
             clazz : clazz,
             inFront: !!inFront
         }
-        
+
         if (inFront) {
             this.$frontMarkers[id] = marker;
             this._dispatchEvent("changeFrontMarker")
@@ -7116,26 +7373,26 @@ var EditSession = function(text, mode) {
             this.$backMarkers[id] = marker;
             this._dispatchEvent("changeBackMarker")
         }
-        
+
         return id;
     };
-    
+
     this.removeMarker = function(markerId) {
         var marker = this.$frontMarkers[markerId] || this.$backMarkers[markerId];
         if (!marker)
             return;
-            
+
         var markers = marker.inFront ? this.$frontMarkers : this.$backMarkers;
         if (marker) {
             delete (markers[markerId]);
             this._dispatchEvent(marker.inFront ? "changeFrontMarker" : "changeBackMarker");
         }
     };
-    
+
     this.getMarkers = function(inFront) {
         return inFront ? this.$frontMarkers : this.$backMarkers;
     };
-    
+
     /**
      * Error:
      *  {
@@ -7177,7 +7434,7 @@ var EditSession = function(text, mode) {
     };
 
     this.tokenRe = /^[\w\d]+/g;
-    this.nonTokenRe = /^(?:[^\w\d|[\u3040-\u309F]|[\u30A0-\u30FF]|[\u4E00-\u9FFF\uF900-\uFAFF\u3400-\u4DBF])+/g;
+    this.nonTokenRe = /^(?:[^\w\d]|[\u3040-\u309F]|[\u30A0-\u30FF]|[\u4E00-\u9FFF\uF900-\uFAFF\u3400-\u4DBF])+/g;
 
     this.getWordRange = function(row, column) {
         var line = this.getLine(row);
@@ -7218,6 +7475,24 @@ var EditSession = function(text, mode) {
         return this.doc.getNewLineMode();
     };
 
+    this.$useWorker = true;
+    this.setUseWorker = function(useWorker) {
+        if (this.$useWorker == useWorker)
+            return;
+            
+        if (useWorker && !this.$worker && window.Worker)
+            this.$worker = mode.createWorker(this);
+            
+        if (!useWorker && this.$worker) {
+            this.$worker.terminate();
+            this.$worker = null;
+        }
+    };
+    
+    this.getUseWorker = function() {
+        return this.$useWorker;
+    };
+
     this.$mode = null;
     this.setMode = function(mode) {
         if (this.$mode === mode) return;
@@ -7225,7 +7500,7 @@ var EditSession = function(text, mode) {
         if (this.$worker)
             this.$worker.terminate();
 
-        if (window.Worker)
+        if (this.$useWorker && window.Worker && !require.noWorker)
             this.$worker = mode.createWorker(this);
         else
             this.$worker = null;
@@ -7427,15 +7702,7 @@ var EditSession = function(text, mode) {
         this.doc.revertDeltas(deltas);
         this.$fromUndo = false;
 
-        // update the selection
-        var firstDelta = deltas[0];
-        var lastDelta = deltas[deltas.length-1];
-
-        this.selection.clearSelection();
-        if (firstDelta.action == "insertText" || firstDelta.action == "insertLines")
-            this.selection.moveCursorToPosition(firstDelta.range.start);
-        if (firstDelta.action == "removeText" || firstDelta.action == "removeLines")
-            this.selection.setSelectionRange(Range.fromPoints(lastDelta.range.start, firstDelta.range.end));
+        this.$setUndoSelection(deltas, true);
     },
 
     this.redoChanges = function(deltas) {
@@ -7446,19 +7713,96 @@ var EditSession = function(text, mode) {
         this.doc.applyDeltas(deltas);
         this.$fromUndo = false;
 
-        // update the selection
-        var firstDelta = deltas[0];
-        var lastDelta = deltas[deltas.length-1];
-
-        this.selection.clearSelection();
-        if (firstDelta.action == "insertText" || firstDelta.action == "insertLines")
-            this.selection.setSelectionRange(Range.fromPoints(firstDelta.range.start, lastDelta.range.end));
-        if (firstDelta.action == "removeText" || firstDelta.action == "removeLines")
-            this.selection.moveCursorToPosition(lastDelta.range.start);
+        this.$setUndoSelection(deltas, false);
     },
 
+    this.$setUndoSelection = function(deltas, isUndo) {
+        // invert deltas is they are an undo
+        if (isUndo)
+            deltas = deltas.map(function(delta) {
+                var d = {
+                    range: delta.range
+                }
+                if (delta.action == "insertText" || delta.action == "insertLines")
+                    d.action = "removeText"
+                else
+                    d.action = "insertText"
+                return d;
+            }).reverse();
+
+
+        var actions = [{}];
+        
+        // collapse insert and remove operations
+        for (var i=0; i<deltas.length; i++) {
+            var delta = deltas[i];
+            var isInsert = delta.action == "insertText" || delta.action == "insertLines";
+            var action = actions[actions.length-1];
+            if (action.isInsert !== isInsert) {
+                actions.push({
+                    isInsert: isInsert,
+                    start: isInsert ? delta.range.start : delta.range.end,
+                    end: isInsert ? delta.range.end : delta.range.start
+                })
+            }
+            else {
+                if (isInsert)    
+                    action.end = delta.range.end;
+                else
+                    action.start = delta.range.start;
+            }
+        }
+
+        // update selection based on last operation
+        this.selection.clearSelection();
+        var action = actions[actions.length-1];
+        if (action.isInsert) 
+            this.selection.setSelectionRange(Range.fromPoints(action.start, action.end));
+        else 
+            this.selection.moveCursorToPosition(action.end);
+    },
+    
     this.replace = function(range, text) {
         return this.doc.replace(range, text);
+    };
+
+    /**
+     * Move a range of text from the given range to the given position.
+     *
+     * @param fromRange {Range} The range of text you want moved within the
+     * document.
+     * @param toPosition {Object} The location (row and column) where you want
+     * to move the text to.
+     * @return {Range} The new range where the text was moved to.
+     */
+    this.moveText = function(fromRange, toPosition) {
+        var text = this.getTextRange(fromRange);
+        this.remove(fromRange);
+
+        var toRow = toPosition.row;
+        var toColumn = toPosition.column;
+
+        // Make sure to update the insert location, when text is removed in
+        // front of the chosen point of insertion.
+        if (!fromRange.isMultiLine() && fromRange.start.row == toRow &&
+            fromRange.end.column < toColumn)
+            toColumn -= text.length;
+
+        if (fromRange.isMultiLine() && fromRange.end.row < toRow) {
+            var lines = this.doc.$split(text);
+            toRow -= lines.length - 1;
+        }
+
+        var endRow = toRow + fromRange.end.row - fromRange.start.row;
+        var endColumn = fromRange.isMultiLine() ?
+                        fromRange.end.column :
+                        toColumn + fromRange.end.column - fromRange.start.column;
+
+        var toRange = new Range(toRow, toColumn, endRow, endColumn);
+
+        this.insert(toRange.start, text);
+
+        return toRange;
     };
 
     this.indentRows = function(startRow, endRow, indentString) {
@@ -7539,7 +7883,7 @@ var EditSession = function(text, mode) {
             // If wrapMode is activaed, the wrapData array has to be initialized.
             if (useWrapMode) {
                 var len = this.getLength();
-                this.$wrapMode = [];
+                this.$wrapData = [];
                 for (i = 0; i < len; i++) {
                     this.$wrapData.push([]);
                 }
@@ -8083,7 +8427,8 @@ var EditSession = function(text, mode) {
 }).call(EditSession.prototype);
 
 exports.EditSession = EditSession;
-});/* ***** BEGIN LICENSE BLOCK *****
+});
+/* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -8121,21 +8466,20 @@ exports.EditSession = EditSession;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/selection', function(require, exports, module) {
+define('ace/selection', ['require', 'exports', 'module' , 'pilot/oop', 'pilot/lang', 'pilot/event_emitter', 'ace/range'], function(require, exports, module) {
 
 var oop = require("pilot/oop");
 var lang = require("pilot/lang");
 var EventEmitter = require("pilot/event_emitter").EventEmitter;
 var Range = require("ace/range").Range;
-var Anchor = require("ace/anchor").Anchor;
 
 var Selection = function(session) {
     this.session = session;
     this.doc = session.getDocument();
 
     this.clearSelection();
-    this.selectionLead = new Anchor(this.doc, 0, 0);
-    this.selectionAnchor = new Anchor(this.doc, 0, 0);
+    this.selectionLead = this.doc.createAnchor(0, 0);
+    this.selectionAnchor = this.doc.createAnchor(0, 0);
     
     var _self = this;
     this.selectionLead.on("change", function(e) {
@@ -8493,6 +8837,15 @@ var Selection = function(session) {
             this.$updateDesiredColumn(this.selectionLead.column);
     };
 
+    this.moveCursorToScreen = function(row, column, preventUpdateDesiredColumn) {
+        if (this.session.getUseWrapMode()) {
+            var pos = this.session.screenToDocumentPosition(row, column);
+            row = pos.row;
+            column = pos.column;
+        }
+        this.moveCursorTo(row, column, preventUpdateDesiredColumn);
+    };
+
 }).call(Selection.prototype);
 
 exports.Selection = Selection;
@@ -8534,7 +8887,7 @@ exports.Selection = Selection;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/range', function(require, exports, module) {
+define('ace/range', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 var Range = function(startRow, startColumn, endRow, endColumn) {
     this.start = {
@@ -8664,7 +9017,8 @@ Range.fromPoints = function(start, end) {
 
 exports.Range = Range;
 });
-/* ***** BEGIN LICENSE BLOCK *****
+/* vim:ts=4:sts=4:sw=4:
+ * ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -8686,6 +9040,7 @@ exports.Range = Range;
  *
  * Contributor(s):
  *      Fabian Jakobs <fabian AT ajax DOT org>
+ *      Mihai Sucan <mihai DOT sucan AT gmail DOT com>
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -8701,189 +9056,7 @@ exports.Range = Range;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/anchor', function(require, exports, module) {
-
-var oop = require("pilot/oop");
-var EventEmitter = require("pilot/event_emitter").EventEmitter;
-
-/**
- * An Anchor is a floating pointer in the document. Whenever text is inserted or
- * deleted before the cursor, the position of the cursor is updated
- */
-var Anchor = exports.Anchor = function(doc, row, column) {
-    this.document = doc;
-    
-    if (typeof column == "undefined")
-        this.setPosition(row.row, row.column)
-    else
-        this.setPosition(row, column);
-
-    this.$onChange = this.onChange.bind(this);
-    doc.on("change", this.$onChange);
-};
-
-(function() {
-
-    oop.implement(this, EventEmitter);
-    
-    this.getPosition = function() {
-        return this.$clipPositionToDocument(this.row, this.column);
-    };
-    
-    this.getDocument = function() {
-        return this.document;
-    };
-    
-    this.onChange = function(e) {
-        var delta = e.data;
-        var range = delta.range;
-            
-        if (range.start.row == range.end.row && range.start.row != this.row)
-            return;
-            
-        if (range.start.row > this.row)
-            return;
-            
-        if (range.start.row == this.row && range.start.column > this.column)
-            return;
-    
-        var row = this.row;
-        var column = this.column;
-        
-        if (delta.action === "insertText") {
-            if (range.start.row === row && range.start.column <= column) {
-                if (range.start.row === range.end.row) {
-                    column += range.end.column - range.start.column;
-                }
-                else {
-                    column -= range.start.column;
-                    row += range.end.row - range.start.row;
-                }
-            }
-            else if (range.start.row !== range.end.row && range.start.row < row) {
-                row += range.end.row - range.start.row;
-            }
-        } else if (delta.action === "insertLines") {
-            if (range.start.row <= row) {
-                row += range.end.row - range.start.row;
-            }
-        }
-        else if (delta.action == "removeText") {
-            if (range.start.row == row && range.start.column < column) {
-                if (range.end.column >= column)
-                    column = range.start.column;
-                else
-                    column = Math.max(0, column - (range.end.column - range.start.column));
-                
-            } else if (range.start.row !== range.end.row && range.start.row < row) {
-                if (range.end.row == row) {
-                    column = Math.max(0, column - range.end.column) + range.start.column;
-                }
-                row -= (range.end.row - range.start.row);
-            }
-            else if (range.end.row == row) {
-                row -= range.end.row - range.start.row;
-                column = Math.max(0, column - range.end.column) + range.start.column;
-            }
-        } else if (delta.action == "removeLines") {
-            if (range.start.row <= row) {
-                if (range.end.row <= row)
-                    row -= range.end.row - range.start.row;
-                else {
-                    row = range.start.row;
-                    column = 0;
-                }
-            }
-        }
-
-        this.setPosition(row, column);
-    };
-
-    this.setPosition = function(row, column) {
-        pos = this.$clipPositionToDocument(row, column);
-        if (this.row == pos.row && this.column == pos.column)
-            return;
-            
-        var old = {
-            row: this.row,
-            column: this.column
-        };
-        
-        this.row = pos.row;
-        this.column = pos.column;
-        this._dispatchEvent("change", {
-            old: old,
-            value: pos
-        });
-    };
-    
-    this.detach = function() {
-        this.document.removeEventListener("change", this.$onChange);
-    };
-    
-    this.$clipPositionToDocument = function(row, column) {
-        var pos = {};
-    
-        if (row >= this.document.getLength()) {
-            pos.row = Math.max(0, this.document.getLength() - 1);
-            pos.column = this.document.getLine(pos.row).length;
-        }
-        else if (row < 0) {
-            pos.row = 0;
-            pos.column = 0;
-        }
-        else {
-            pos.row = row;
-            pos.column = Math.min(this.document.getLine(pos.row).length, Math.max(0, column));
-        }
-        
-        if (column < 0)
-            pos.column = 0;
-            
-        return pos;
-    };
-    
-}).call(Anchor.prototype);
-
-});
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
-
-define('ace/mode/text', function(require, exports, module) {
+define('ace/mode/text', ['require', 'exports', 'module' , 'ace/tokenizer', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
 
 var Tokenizer = require("ace/tokenizer").Tokenizer;
 var TextHighlightRules = require("ace/mode/text_highlight_rules").TextHighlightRules;
@@ -8923,6 +9096,68 @@ var Mode = function() {
     
     this.createWorker = function(session) {
         return null;
+    };
+
+    this.highlightSelection = function(editor) {
+        var session = editor.session;
+        if (!session.$selectionOccurrences)
+            session.$selectionOccurrences = [];
+
+        if (session.$selectionOccurrences.length)
+            this.clearSelectionHighlight(editor);
+
+        var selection = editor.getSelectionRange();
+        if (selection.isEmpty() || selection.isMultiLine())
+            return;
+
+        var startOuter = selection.start.column - 1;
+        var endOuter = selection.end.column + 1;
+        var line = session.getLine(selection.start.row);
+        var lineCols = line.length;
+        var needle = line.substring(Math.max(startOuter, 0),
+                                    Math.min(endOuter, lineCols));
+
+        // Make sure the outer characters are not part of the word.
+        if ((startOuter >= 0 && /^[\w\d]/.test(needle)) ||
+            (endOuter <= lineCols && /[\w\d]$/.test(needle)))
+            return;
+
+        needle = line.substring(selection.start.column, selection.end.column);
+        if (!/^[\w\d]+$/.test(needle))
+            return;
+
+        var cursor = editor.getCursorPosition();
+
+        var newOptions = {
+            wrap: true,
+            wholeWord: true,
+            caseSensitive: true,
+            needle: needle
+        };
+
+        var currentOptions = editor.$search.getOptions();
+        editor.$search.set(newOptions);
+
+        var ranges = editor.$search.findAll(session);
+        ranges.forEach(function(range) {
+            if (!range.contains(cursor.row, cursor.column)) {
+                var marker = session.addMarker(range, "ace_selected_word");
+                session.$selectionOccurrences.push(marker);
+            }
+        });
+
+        editor.$search.set(currentOptions);
+    };
+
+    this.clearSelectionHighlight = function(editor) {
+        if (!editor.session.$selectionOccurrences)
+            return;
+
+        editor.session.$selectionOccurrences.forEach(function(marker) {
+            editor.session.removeMarker(marker);
+        });
+
+        editor.session.$selectionOccurrences = [];
     };
 
 }).call(Mode.prototype);
@@ -8966,7 +9201,7 @@ exports.Mode = Mode;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/tokenizer', function(require, exports, module) {
+define('ace/tokenizer', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 var Tokenizer = function(rules) {
     this.rules = rules;
@@ -9097,7 +9332,7 @@ exports.Tokenizer = Tokenizer;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/mode/text_highlight_rules', function(require, exports, module) {
+define('ace/mode/text_highlight_rules', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 var TextHighlightRules = function() {
 
@@ -9177,11 +9412,12 @@ exports.TextHighlightRules = TextHighlightRules;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/document', function(require, exports, module) {
+define('ace/document', ['require', 'exports', 'module' , 'pilot/oop', 'pilot/event_emitter', 'ace/range', 'ace/anchor'], function(require, exports, module) {
 
 var oop = require("pilot/oop");
 var EventEmitter = require("pilot/event_emitter").EventEmitter;
 var Range = require("ace/range").Range;
+var Anchor = require("ace/anchor").Anchor;
 
 var Document = function(text) {
     this.$lines = [];
@@ -9209,7 +9445,11 @@ var Document = function(text) {
     };
   	
     this.getValue = function() {
-        return this.$lines.join(this.getNewLineCharacter());
+        return this.getAllLines().join(this.getNewLineCharacter());
+    };
+    
+    this.createAnchor = function(row, column) {
+        return new Anchor(this, row, column);
     };
 
     // check for IE split bug
@@ -9265,11 +9505,11 @@ var Document = function(text) {
      * Get a verbatim copy of the given line as it is in the document
      */
     this.getLine = function(row) {
-        return this.$lines[row] || "";
+        return this.getLines(row, row + 1)[0] || "";
     };
 
     this.getLines = function(firstRow, lastRow) {
-        return this.$lines.slice(firstRow, lastRow+1);
+        return this.$lines.slice(firstRow, lastRow + 1);
     };
 
     /**
@@ -9277,7 +9517,7 @@ var Document = function(text) {
      * should not modify this array!
      */
     this.getAllLines = function() {
-        return this.$lines;
+        return this.getLines(0, this.getLength());
     };
 
     this.getLength = function() {
@@ -9316,24 +9556,17 @@ var Document = function(text) {
         if (this.getLength() <= 1)
             this.$detectNewLine(text);
 
-        var newLines = this.$split(text);
+        var lines = this.$split(text);
+        var firstLine = lines.splice(0, 1)[0];
+        var lastLine = lines.length == 0 ? null : lines.splice(lines.length - 1, 1)[0];
 
-        if (this.isNewLine(text)) {
-            var end = this.insertNewLine(position);
+        position = this.insertInLine(position, firstLine);
+        if (lastLine !== null) {
+            position = this.insertNewLine(position); // terminate first line
+            position = this.insertLines(position.row, lines);
+            position = this.insertInLine(position, lastLine || "");
         }
-        else if (newLines.length == 1) {
-            var end = this.insertInLine(position, text);
-        }
-        else {
-            var end = this.insertInLine(position, newLines[0]);
-            this.insertNewLine(end);
-            if (newLines.length > 2)
-                this.insertLines(position.row+1, newLines.slice(1, newLines.length-1));
-
-            var end = this.insertInLine({row: position.row + newLines.length - 1, column: 0}, newLines[newLines.length-1]);
-        }
-
-        return end;
+        return position;
     };
 
     this.insertLines = function(row, lines) {
@@ -9420,7 +9653,7 @@ var Document = function(text) {
                 this.removeLines(firstFullRow, lastFullRow);
 
             if (firstFullRow != firstRow) {
-                this.removeInLine(firstRow, range.start.column, this.$lines[firstRow].length);
+                this.removeInLine(firstRow, range.start.column, this.getLine(firstRow).length);
                 this.removeNewLine(range.start.row);
             }
         }
@@ -9580,7 +9813,200 @@ exports.Document = Document;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/search', function(require, exports, module) {
+define('ace/anchor', ['require', 'exports', 'module' , 'pilot/oop', 'pilot/event_emitter'], function(require, exports, module) {
+
+var oop = require("pilot/oop");
+var EventEmitter = require("pilot/event_emitter").EventEmitter;
+
+/**
+ * An Anchor is a floating pointer in the document. Whenever text is inserted or
+ * deleted before the cursor, the position of the cursor is updated
+ */
+var Anchor = exports.Anchor = function(doc, row, column) {
+    this.document = doc;
+    
+    if (typeof column == "undefined")
+        this.setPosition(row.row, row.column);
+    else
+        this.setPosition(row, column);
+
+    this.$onChange = this.onChange.bind(this);
+    doc.on("change", this.$onChange);
+};
+
+(function() {
+
+    oop.implement(this, EventEmitter);
+    
+    this.getPosition = function() {
+        return this.$clipPositionToDocument(this.row, this.column);
+    };
+    
+    this.getDocument = function() {
+        return this.document;
+    };
+    
+    this.onChange = function(e) {
+        var delta = e.data;
+        var range = delta.range;
+            
+        if (range.start.row == range.end.row && range.start.row != this.row)
+            return;
+            
+        if (range.start.row > this.row)
+            return;
+            
+        if (range.start.row == this.row && range.start.column > this.column)
+            return;
+    
+        var row = this.row;
+        var column = this.column;
+        
+        if (delta.action === "insertText") {
+            if (range.start.row === row && range.start.column <= column) {
+                if (range.start.row === range.end.row) {
+                    column += range.end.column - range.start.column;
+                }
+                else {
+                    column -= range.start.column;
+                    row += range.end.row - range.start.row;
+                }
+            }
+            else if (range.start.row !== range.end.row && range.start.row < row) {
+                row += range.end.row - range.start.row;
+            }
+        } else if (delta.action === "insertLines") {
+            if (range.start.row <= row) {
+                row += range.end.row - range.start.row;
+            }
+        }
+        else if (delta.action == "removeText") {
+            if (range.start.row == row && range.start.column < column) {
+                if (range.end.column >= column)
+                    column = range.start.column;
+                else
+                    column = Math.max(0, column - (range.end.column - range.start.column));
+                
+            } else if (range.start.row !== range.end.row && range.start.row < row) {
+                if (range.end.row == row) {
+                    column = Math.max(0, column - range.end.column) + range.start.column;
+                }
+                row -= (range.end.row - range.start.row);
+            }
+            else if (range.end.row == row) {
+                row -= range.end.row - range.start.row;
+                column = Math.max(0, column - range.end.column) + range.start.column;
+            }
+        } else if (delta.action == "removeLines") {
+            if (range.start.row <= row) {
+                if (range.end.row <= row)
+                    row -= range.end.row - range.start.row;
+                else {
+                    row = range.start.row;
+                    column = 0;
+                }
+            }
+        }
+
+        this.setPosition(row, column, true);
+    };
+
+    this.setPosition = function(row, column, noClip) {
+        if (noClip) {
+            pos = {
+                row: row,
+                column: column
+            };
+        }
+        else {
+            pos = this.$clipPositionToDocument(row, column);
+        }
+        
+        if (this.row == pos.row && this.column == pos.column)
+            return;
+            
+        var old = {
+            row: this.row,
+            column: this.column
+        };
+        
+        this.row = pos.row;
+        this.column = pos.column;
+        this._dispatchEvent("change", {
+            old: old,
+            value: pos
+        });
+    };
+    
+    this.detach = function() {
+        this.document.removeEventListener("change", this.$onChange);
+    };
+    
+    this.$clipPositionToDocument = function(row, column) {
+        var pos = {};
+    
+        if (row >= this.document.getLength()) {
+            pos.row = Math.max(0, this.document.getLength() - 1);
+            pos.column = this.document.getLine(pos.row).length;
+        }
+        else if (row < 0) {
+            pos.row = 0;
+            pos.column = 0;
+        }
+        else {
+            pos.row = row;
+            pos.column = Math.min(this.document.getLine(pos.row).length, Math.max(0, column));
+        }
+        
+        if (column < 0)
+            pos.column = 0;
+            
+        return pos;
+    };
+    
+}).call(Anchor.prototype);
+
+});
+/* vim:ts=4:sts=4:sw=4:
+ * ***** BEGIN LICENSE BLOCK *****
+ * Version: MPL 1.1/GPL 2.0/LGPL 2.1
+ *
+ * The contents of this file are subject to the Mozilla Public License Version
+ * 1.1 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * The Original Code is Ajax.org Code Editor (ACE).
+ *
+ * The Initial Developer of the Original Code is
+ * Ajax.org B.V.
+ * Portions created by the Initial Developer are Copyright (C) 2010
+ * the Initial Developer. All Rights Reserved.
+ *
+ * Contributor(s):
+ *      Fabian Jakobs <fabian AT ajax DOT org>
+ *      Mihai Sucan <mihai DOT sucan AT gmail DOT com>
+ *
+ * Alternatively, the contents of this file may be used under the terms of
+ * either the GNU General Public License Version 2 or later (the "GPL"), or
+ * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+ * in which case the provisions of the GPL or the LGPL are applicable instead
+ * of those above. If you wish to allow use of your version of this file only
+ * under the terms of either the GPL or the LGPL, and not to allow others to
+ * use your version of this file under the terms of the MPL, indicate your
+ * decision by deleting the provisions above and replace them with the notice
+ * and other provisions required by the GPL or the LGPL. If you do not delete
+ * the provisions above, a recipient may use your version of this file under
+ * the terms of any one of the MPL, the GPL or the LGPL.
+ *
+ * ***** END LICENSE BLOCK ***** */
+
+define('ace/search', ['require', 'exports', 'module' , 'pilot/lang', 'pilot/oop', 'ace/range'], function(require, exports, module) {
 
 var lang = require("pilot/lang");
 var oop = require("pilot/oop");
@@ -9764,11 +10190,15 @@ Search.SELECTION = 2;
         var lastRow = searchSelection ? range.end.row : session.getLength() - 1;
 
         var wrap = this.$options.wrap;
+        var inWrap = false;
 
         function getLine(row) {
             var line = session.getLine(row);
             if (searchSelection && row == range.end.row) {
                 line = line.substring(0, range.end.column);
+            }
+            if (inWrap && row == start.row) {
+                line = line.substring(0, start.column);
             }
             return line;
         }
@@ -9781,6 +10211,7 @@ Search.SELECTION = 2;
                 var startIndex = start.column;
 
                 var stop = false;
+                inWrap = false;
 
                 while (!callback(line, startIndex, row)) {
 
@@ -9795,6 +10226,7 @@ Search.SELECTION = 2;
                         if (wrap) {
                             row = firstRow;
                             startIndex = firstColumn;
+                            inWrap = true;
                         } else {
                             return;
                         }
@@ -9828,6 +10260,7 @@ Search.SELECTION = 2;
                 var line = session.getLine(row).substring(0, start.column);
                 var startIndex = 0;
                 var stop = false;
+                var inWrap = false;
 
                 while (!callback(line, startIndex, row)) {
 
@@ -9840,6 +10273,7 @@ Search.SELECTION = 2;
                     if (row < firstRow) {
                         if (wrap) {
                             row = lastRow;
+                            inWrap = true;
                         } else {
                             return;
                         }
@@ -9855,6 +10289,9 @@ Search.SELECTION = 2;
                         else if (row == lastRow)
                             line = line.substring(0, range.end.column);
                     }
+
+                    if (inWrap && row == start.row)
+                        startIndex = start.column;
                 }
             }
         };
@@ -9901,7 +10338,7 @@ exports.Search = Search;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/background_tokenizer', function(require, exports, module) {
+define('ace/background_tokenizer', ['require', 'exports', 'module' , 'pilot/oop', 'pilot/event_emitter'], function(require, exports, module) {
 
 var oop = require("pilot/oop");
 var EventEmitter = require("pilot/event_emitter").EventEmitter;
@@ -10036,7 +10473,8 @@ var BackgroundTokenizer = function(tokenizer, editor) {
 
 exports.BackgroundTokenizer = BackgroundTokenizer;
 });
-/* ***** BEGIN LICENSE BLOCK *****
+/* vim:ts=4:sts=4:sw=4:
+ * ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -10058,6 +10496,7 @@ exports.BackgroundTokenizer = BackgroundTokenizer;
  *
  * Contributor(s):
  *      Fabian Jakobs <fabian AT ajax DOT org>
+ *      Mihai Sucan <mihai DOT sucan AT gmail DOT com>
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -10073,11 +10512,10 @@ exports.BackgroundTokenizer = BackgroundTokenizer;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/undomanager', function(require, exports, module) {
+define('ace/undomanager', ['require', 'exports', 'module' ], function(require, exports, module) {
 
 var UndoManager = function() {
-    this.$undoStack = [];
-    this.$redoStack = [];
+    this.reset();
 };
 
 (function() {
@@ -10102,6 +10540,19 @@ var UndoManager = function() {
             this.$doc.redoChanges(deltas);
             this.$undoStack.push(deltas);
         }
+    };
+    
+    this.reset = function() {
+        this.$undoStack = [];
+        this.$redoStack = [];
+    };
+
+    this.hasUndo = function() {
+        return this.$undoStack.length > 0;
+    };
+
+    this.hasRedo = function() {
+        return this.$redoStack.length > 0;
     };
 
 }).call(UndoManager.prototype);
@@ -10145,10 +10596,151 @@ exports.UndoManager = UndoManager;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/theme/textmate', function(require, exports, module) {
+define('ace/theme/textmate', ['require', 'exports', 'module' , 'pilot/dom'], function(require, exports, module) {
 
     var dom = require("pilot/dom");
-    var cssText = require("text!ace/theme/tm.css");
+
+    var cssText = ".ace-tm .ace_editor {\
+  border: 2px solid rgb(159, 159, 159);\
+}\
+\
+.ace-tm .ace_editor.ace_focus {\
+  border: 2px solid #327fbd;\
+}\
+\
+.ace-tm .ace_gutter {\
+  width: 50px;\
+  background: #e8e8e8;\
+  color: #333;\
+  overflow : hidden;\
+}\
+\
+.ace-tm .ace_gutter-layer {\
+  width: 100%;\
+  text-align: right;\
+}\
+\
+.ace-tm .ace_gutter-layer .ace_gutter-cell {\
+  padding-right: 6px;\
+}\
+\
+.ace-tm .ace_print_margin {\
+  width: 1px;\
+  background: #e8e8e8;\
+}\
+\
+.ace-tm .ace_text-layer {\
+  cursor: text;\
+}\
+\
+.ace-tm .ace_cursor {\
+  border-left: 2px solid black;\
+}\
+\
+.ace-tm .ace_cursor.ace_overwrite {\
+  border-left: 0px;\
+  border-bottom: 1px solid black;\
+}\
+        \
+.ace-tm .ace_line .ace_invisible {\
+  color: rgb(191, 191, 191);\
+}\
+\
+.ace-tm .ace_line .ace_keyword {\
+  color: blue;\
+}\
+\
+.ace-tm .ace_line .ace_constant.ace_buildin {\
+  color: rgb(88, 72, 246);\
+}\
+\
+.ace-tm .ace_line .ace_constant.ace_language {\
+  color: rgb(88, 92, 246);\
+}\
+\
+.ace-tm .ace_line .ace_constant.ace_library {\
+  color: rgb(6, 150, 14);\
+}\
+\
+.ace-tm .ace_line .ace_invalid {\
+  background-color: rgb(153, 0, 0);\
+  color: white;\
+}\
+\
+.ace-tm .ace_line .ace_support.ace_function {\
+  color: rgb(60, 76, 114);\
+}\
+\
+.ace-tm .ace_line .ace_support.ace_constant {\
+  color: rgb(6, 150, 14);\
+}\
+\
+.ace-tm .ace_line .ace_support.ace_type,\
+.ace-tm .ace_line .ace_support.ace_class {\
+  color: rgb(109, 121, 222);\
+}\
+\
+.ace-tm .ace_line .ace_keyword.ace_operator {\
+  color: rgb(104, 118, 135);\
+}\
+\
+.ace-tm .ace_line .ace_string {\
+  color: rgb(3, 106, 7);\
+}\
+\
+.ace-tm .ace_line .ace_comment {\
+  color: rgb(76, 136, 107);\
+}\
+\
+.ace-tm .ace_line .ace_comment.ace_doc {\
+  color: rgb(0, 102, 255);\
+}\
+\
+.ace-tm .ace_line .ace_comment.ace_doc.ace_tag {\
+  color: rgb(128, 159, 191);\
+}\
+\
+.ace-tm .ace_line .ace_constant.ace_numeric {\
+  color: rgb(0, 0, 205);\
+}\
+\
+.ace-tm .ace_line .ace_variable {\
+  color: rgb(49, 132, 149);\
+}\
+\
+.ace-tm .ace_line .ace_xml_pe {\
+  color: rgb(104, 104, 91);\
+}\
+\
+.ace-tm .ace_marker-layer .ace_selection {\
+  background: rgb(181, 213, 255);\
+}\
+\
+.ace-tm .ace_marker-layer .ace_step {\
+  background: rgb(252, 255, 0);\
+}\
+\
+.ace-tm .ace_marker-layer .ace_stack {\
+  background: rgb(164, 229, 101);\
+}\
+\
+.ace-tm .ace_marker-layer .ace_bracket {\
+  margin: -1px 0 0 -1px;\
+  border: 1px solid rgb(192, 192, 192);\
+}\
+\
+.ace-tm .ace_marker-layer .ace_active_line {\
+  background: rgb(232, 242, 254);\
+}\
+\
+.ace-tm .ace_marker-layer .ace_selected_word {\
+  background: rgb(250, 250, 255);\
+  border: 1px solid rgb(200, 200, 250);\
+}\
+\
+.ace-tm .ace_string.ace_regex {\
+  color: rgb(255, 0, 0)\
+}";
 
     // import CSS once
     dom.importCssString(cssText);
@@ -10192,7 +10784,7 @@ define('ace/theme/textmate', function(require, exports, module) {
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/mode/matching_brace_outdent', function(require, exports, module) {
+define('ace/mode/matching_brace_outdent', ['require', 'exports', 'module' , 'ace/range'], function(require, exports, module) {
 
 var Range = require("ace/range").Range;
 
@@ -10275,7 +10867,7 @@ exports.MatchingBraceOutdent = MatchingBraceOutdent;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/virtual_renderer', function(require, exports, module) {
+define('ace/virtual_renderer', ['require', 'exports', 'module' , 'pilot/oop', 'pilot/dom', 'pilot/event', 'pilot/useragent', 'ace/layer/gutter', 'ace/layer/marker', 'ace/layer/text', 'ace/layer/cursor', 'ace/scrollbar', 'ace/renderloop', 'pilot/event_emitter', 'text!ace/css/editor.css'], function(require, exports, module) {
 
 var oop = require("pilot/oop");
 var dom = require("pilot/dom");
@@ -10299,15 +10891,15 @@ var VirtualRenderer = function(container, theme) {
 
     this.setTheme(theme);
 
-    this.$gutter = document.createElement("div");
+    this.$gutter = dom.createElement("div");
     this.$gutter.className = "ace_gutter";
     this.container.appendChild(this.$gutter);
 
-    this.scroller = document.createElement("div");
+    this.scroller = dom.createElement("div");
     this.scroller.className = "ace_scroller";
     this.container.appendChild(this.scroller);
 
-    this.content = document.createElement("div");
+    this.content = dom.createElement("div");
     this.content.className = "ace_content";
     this.scroller.appendChild(this.content);
 
@@ -10325,6 +10917,10 @@ var VirtualRenderer = function(container, theme) {
     this.$cursorLayer = new CursorLayer(this.content);
     this.$cursorPadding = 8;
 
+    // Indicates whether the horizontal scrollbar is visible
+    this.$horizScroll = true;
+    this.$horizScrollAlwaysVisible = true;
+
     this.scrollBar = new ScrollBar(container);
     this.scrollBar.addEventListener("scroll", this.onScroll.bind(this));
 
@@ -10340,6 +10936,7 @@ var VirtualRenderer = function(container, theme) {
         _self.characterWidth = textLayer.getCharacterWidth();
         _self.lineHeight = textLayer.getLineHeight();
         _self.$updatePrintMargin();
+        _self.onResize(true);
 
         _self.$loop.schedule(_self.CHANGE_FULL);
     });
@@ -10435,7 +11032,7 @@ var VirtualRenderer = function(container, theme) {
             this.$size.height = height;
 
             this.scroller.style.height = height + "px";
-            this.scrollBar.setHeight(height);
+            this.scrollBar.setHeight(this.scroller.clientHeight);
 
             if (this.session) {
                 this.scrollToY(this.getScrollTop());
@@ -10523,11 +11120,11 @@ var VirtualRenderer = function(container, theme) {
 
         if (!this.$showPrintMargin && !this.$printMarginEl)
             return;
-            
+
         if (!this.$printMarginEl) {
-            containerEl = document.createElement("div");
+            containerEl = dom.createElement("div");
             containerEl.className = "ace_print_margin_layer";
-            this.$printMarginEl = document.createElement("div")
+            this.$printMarginEl = dom.createElement("div")
             this.$printMarginEl.className = "ace_print_margin";
             containerEl.appendChild(this.$printMarginEl);
             this.content.insertBefore(containerEl, this.$textLayer.element);
@@ -10550,18 +11147,18 @@ var VirtualRenderer = function(container, theme) {
         return this.container;
     };
 
-    this.moveTextAreaToCursor = function(textarea) {        
+    this.moveTextAreaToCursor = function(textarea) {
         // in IE the native cursor always shines through
         if (useragent.isIE)
             return;
-            
+
         var pos = this.$cursorLayer.getPixelPosition();
         if (!pos)
             return;
 
         var bounds = this.content.getBoundingClientRect();
         var offset = (this.layerConfig && this.layerConfig.offset) || 0;
-        
+
         textarea.style.left = (bounds.left + pos.left + this.$padding) + "px";
         textarea.style.top = (bounds.top + pos.top - this.scrollTop + offset) + "px";
     };
@@ -10596,6 +11193,14 @@ var VirtualRenderer = function(container, theme) {
         this.$loop.schedule(this.CHANGE_FULL);
         this.$updatePrintMargin();
     };
+
+    this.setHScrollBarAlwaysVisible = function(alwaysVisible) {
+        if (this.$horizScrollAlwaysVisible != alwaysVisible) {
+            this.$horizScrollAlwaysVisible = alwaysVisible;
+            if (!this.$horizScrollAlwaysVisible || !this.$horizScroll)
+                this.$loop.schedule(this.CHANGE_SCROLL);
+        }
+    }
 
     this.onScroll = function(e) {
         this.scrollToY(e.data);
@@ -10664,7 +11269,7 @@ var VirtualRenderer = function(container, theme) {
         if (changes & (this.CHANGE_MARKER | this.CHANGE_MARKER_FRONT)) {
             this.$markerFront.update(this.layerConfig);
         }
-        
+
         if (changes & (this.CHANGE_MARKER | this.CHANGE_MARKER_BACK)) {
             this.$markerBack.update(this.layerConfig);
         }
@@ -10681,6 +11286,12 @@ var VirtualRenderer = function(container, theme) {
 
         var longestLine = this.$getLongestLine();
         var widthChanged = !this.layerConfig ? true : (this.layerConfig.width != longestLine);
+
+        var horizScroll = this.$horizScrollAlwaysVisible || this.$size.scrollerWidth - longestLine < 0;
+        var horizScrollChanged = this.$horizScroll !== horizScroll;
+        this.$horizScroll = horizScroll;
+        if (horizScrollChanged)
+            this.scroller.style.overflowX = horizScroll ? "scroll" : "hidden";
 
         var lineCount = Math.ceil(minHeight / this.lineHeight) - 1;
         var firstRow = Math.max(0, Math.round((this.scrollTop - offset) / this.lineHeight));
@@ -10716,6 +11327,11 @@ var VirtualRenderer = function(container, theme) {
         this.content.style.marginTop = (-offset) + "px";
         this.content.style.width = longestLine + "px";
         this.content.style.height = minHeight + "px";
+
+        // Horizontal scrollbar visibility may have changed, which changes
+        // the client height of the scroller
+        if (horizScrollChanged)
+            this.onResize(true);
     };
 
     this.$updateLines = function() {
@@ -10781,8 +11397,7 @@ var VirtualRenderer = function(container, theme) {
         this.$loop.schedule(this.CHANGE_GUTTER);
     };
 
-    this.updateCursor = function(position, overwrite) {
-        this.$cursorLayer.setCursor(position, overwrite);
+    this.updateCursor = function() {
         this.$loop.schedule(this.CHANGE_CURSOR);
     };
 
@@ -10795,6 +11410,10 @@ var VirtualRenderer = function(container, theme) {
     };
 
     this.scrollCursorIntoView = function() {
+        // the editor is not visible
+        if (this.$size.scrollerHeight === 0)
+            return;
+            
         var pos = this.$cursorLayer.getPixelPosition();
 
         var left = pos.left + this.$padding;
@@ -10834,22 +11453,26 @@ var VirtualRenderer = function(container, theme) {
         return this.scrollTop / this.lineHeight;
     };
 
+    this.getScrollBottomRow = function() {
+        return Math.max(0, Math.floor((this.scrollTop + this.$size.scrollerHeight) / this.lineHeight) - 1);
+    }
+
     this.scrollToRow = function(row) {
         this.scrollToY(row * this.lineHeight);
     };
 
     this.scrollToLine = function(line, center) {
-	      var lineHeight = { lineHeight: this.lineHeight };
-	      var offset = 0;
-	      for (var l = 1; l < line; l++) {
-		        offset += this.session.getRowHeight(lineHeight, l-1);
-		    }
-		
-		    if (center) {
-			      offset -= this.$size.scrollerHeight / 2;
-			  }
-		    this.scrollToY(offset);
-	  };
+        var lineHeight = { lineHeight: this.lineHeight };
+        var offset = 0;
+        for (var l = 1; l < line; l++) {
+            offset += this.session.getRowHeight(lineHeight, l-1);
+        }
+            
+        if (center) {
+            offset -= this.$size.scrollerHeight / 2;
+        }
+        this.scrollToY(offset);
+    };
 
     this.scrollToY = function(scrollTop) {
         var maxHeight = this.session.getScreenLength() * this.lineHeight - this.$size.scrollerHeight;
@@ -10907,19 +11530,19 @@ var VirtualRenderer = function(container, theme) {
 
     this.showComposition = function(position) {
         if (!this.$composition) {
-            this.$composition = document.createElement("div");
+            this.$composition = dom.createElement("div");
             this.$composition.className = "ace_composition";
             this.content.appendChild(this.$composition);
         }
-        
-        this.$composition.innerHTML = "&nbsp;";
-        
+
+        this.$composition.innerHTML = "&#160;";
+
         var pos = this.$cursorLayer.getPixelPosition();
         var style = this.$composition.style;
         style.top = pos.top + "px";
         style.left = (pos.left + this.$padding) + "px";
         style.height = this.lineHeight + "px";
-        
+
         this.hideCursor();
     };
 
@@ -10983,7 +11606,8 @@ var VirtualRenderer = function(container, theme) {
 
 exports.VirtualRenderer = VirtualRenderer;
 });
-/* ***** BEGIN LICENSE BLOCK *****
+/* vim:ts=4:sts=4:sw=4:
+ * ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -11021,12 +11645,12 @@ exports.VirtualRenderer = VirtualRenderer;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/layer/gutter', function(require, exports, module) {
+define('ace/layer/gutter', ['require', 'exports', 'module' , 'pilot/dom'], function(require, exports, module) {
 
 var dom = require("pilot/dom");
 
 var Gutter = function(parentEl) {
-    this.element = document.createElement("div");
+    this.element = dom.createElement("div");
     this.element.className = "ace_layer ace_gutter-layer";
     parentEl.appendChild(this.element);
 
@@ -11068,7 +11692,7 @@ var Gutter = function(parentEl) {
             };
             for (var i=0; i<rowAnnotations.length; i++) {
                 var annotation = rowAnnotations[i];
-                rowInfo.text.push(annotation.text.replace(/"/g, "&quot;").replace(/'/g, "&rsquo;").replace(/</, "&lt;"));
+                rowInfo.text.push(annotation.text.replace(/"/g, "&quot;").replace(/'/g, "&#8217;").replace(/</, "&lt;"));
                 var type = annotation.type;
                 if (type == "error")
                     rowInfo.className = "ace_error";
@@ -11095,7 +11719,6 @@ var Gutter = function(parentEl) {
                 annotation.className,
                 "' title='", annotation.text.join("\n"),
                 "' style='height:", this.session.getRowHeight(config, i), "px;'>", (i+1), "</div>");
-            html.push("</div>");
         }
 		this.element = dom.setInnerHtml(this.element, html.join(""));
         this.element.style.height = config.minHeight + "px";
@@ -11106,7 +11729,8 @@ var Gutter = function(parentEl) {
 exports.Gutter = Gutter;
 
 });
-/* ***** BEGIN LICENSE BLOCK *****
+/* vim:ts=4:sts=4:sw=4:
+ * ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -11144,13 +11768,13 @@ exports.Gutter = Gutter;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/layer/marker', function(require, exports, module) {
+define('ace/layer/marker', ['require', 'exports', 'module' , 'ace/range', 'pilot/dom'], function(require, exports, module) {
 
 var Range = require("ace/range").Range;
 var dom = require("pilot/dom");
 
 var Marker = function(parentEl) {
-    this.element = document.createElement("div");
+    this.element = dom.createElement("div");
     this.element.className = "ace_layer ace_marker-layer";
     parentEl.appendChild(this.element);
 };
@@ -11285,7 +11909,8 @@ var Marker = function(parentEl) {
 exports.Marker = Marker;
 
 });
-/* ***** BEGIN LICENSE BLOCK *****
+/* vim:ts=4:sts=4:sw=4:
+ * ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -11308,6 +11933,7 @@ exports.Marker = Marker;
  * Contributor(s):
  *      Fabian Jakobs <fabian AT ajax DOT org>
  *      Julian Viereck <julian.viereck@gmail.com>
+ *      Mihai Sucan <mihai.sucan@gmail.com>
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -11323,7 +11949,7 @@ exports.Marker = Marker;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/layer/text', function(require, exports, module) {
+define('ace/layer/text', ['require', 'exports', 'module' , 'pilot/oop', 'pilot/dom', 'pilot/lang', 'pilot/event_emitter'], function(require, exports, module) {
 
 var oop = require("pilot/oop");
 var dom = require("pilot/dom");
@@ -11331,7 +11957,7 @@ var lang = require("pilot/lang");
 var EventEmitter = require("pilot/event_emitter").EventEmitter;
 
 var Text = function(parentEl) {
-    this.element = document.createElement("div");
+    this.element = dom.createElement("div");
     this.element.className = "ace_layer ace_text-layer";
     parentEl.appendChild(this.element);
 
@@ -11382,7 +12008,7 @@ var Text = function(parentEl) {
     this.$measureSizes = function() {
         var n = 1000;
         if (!this.$measureNode) {
-	        var measureNode = this.$measureNode = document.createElement("div");
+	        var measureNode = this.$measureNode = dom.createElement("div");
 	        var style = measureNode.style;
 
 	        style.width = style.height = "auto";
@@ -11397,7 +12023,12 @@ var Text = function(parentEl) {
 	        // that's why we have to measure many characters
 	        // Note: characterWidth can be a float!
 	        measureNode.innerHTML = lang.stringRepeat("Xy", n);
-	        document.body.insertBefore(measureNode, document.body.firstChild);
+
+            var container = this.element.parentNode;
+            while (!dom.hasCssClass(container, "ace_editor"))
+                container = container.parentNode;
+
+	        container.appendChild(measureNode);
         }
 
         var style = this.$measureNode.style;
@@ -11431,12 +12062,12 @@ var Text = function(parentEl) {
         if (this.showInvisibles) {
             var halfTab = (tabSize) / 2;
             this.$tabString = "<span class='ace_invisible'>"
-                + new Array(Math.floor(halfTab)).join("&nbsp;")
+                + new Array(Math.floor(halfTab)).join("&#160;")
                 + this.TAB_CHAR
-                + new Array(Math.ceil(halfTab)+1).join("&nbsp;")
+                + new Array(Math.ceil(halfTab)+1).join("&#160;")
                 + "</span>";
         } else {
-            this.$tabString = new Array(tabSize+1).join("&nbsp;");
+            this.$tabString = new Array(tabSize+1).join("&#160;");
         }
     };
 
@@ -11507,7 +12138,7 @@ var Text = function(parentEl) {
         var fragment = document.createDocumentFragment();
         var tokens = this.tokenizer.getTokens(firstRow, lastRow);
         for (var row=firstRow; row<=lastRow; row++) {
-            var lineEl = document.createElement("div");
+            var lineEl = dom.createElement("div");
             lineEl.className = "ace_line";
             var style = lineEl.style;
             style.height = this.session.getRowHeight(config, row) + "px";
@@ -11548,7 +12179,7 @@ var Text = function(parentEl) {
             var spaceRe = /( +)|([\v\f \u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000])/g;
             var spaceReplace = function(space) {
                 if (space.charCodeAt(0) == 32)
-                    return new Array(space.length+1).join("&nbsp;");
+                    return new Array(space.length+1).join("&#160;");
                 else {
                     var space = new Array(space.length+1).join(self.SPACE_CHAR);
                     return "<span class='ace_invisible'>" + space + "</span>";
@@ -11558,7 +12189,7 @@ var Text = function(parentEl) {
         }
         else {
             var spaceRe = /[\v\f \u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]/g;
-            var spaceReplace = "&nbsp;";
+            var spaceReplace = "&#160;";
         }
 
         var _self = this;
@@ -11635,7 +12266,8 @@ var Text = function(parentEl) {
 exports.Text = Text;
 
 });
-/* ***** BEGIN LICENSE BLOCK *****
+/* vim:ts=4:sts=4:sw=4:
+ * ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -11673,16 +12305,16 @@ exports.Text = Text;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/layer/cursor', function(require, exports, module) {
+define('ace/layer/cursor', ['require', 'exports', 'module' , 'pilot/dom'], function(require, exports, module) {
 
 var dom = require("pilot/dom");
 
 var Cursor = function(parentEl) {
-    this.element = document.createElement("div");
+    this.element = dom.createElement("div");
     this.element.className = "ace_layer ace_cursor-layer";
     parentEl.appendChild(this.element);
 
-    this.cursor = document.createElement("div");
+    this.cursor = dom.createElement("div");
     this.cursor.className = "ace_cursor";
 
     this.isVisible = false;
@@ -11692,17 +12324,6 @@ var Cursor = function(parentEl) {
 
     this.setSession = function(session) {
         this.session = session;
-    };
-
-    this.setCursor = function(position, overwrite) {
-        this.position =
-            this.session.documentToScreenPosition(position);
-
-        if (overwrite) {
-            dom.addCssClass(this.cursor, "ace_overwrite");
-        } else {
-            dom.removeCssClass(this.cursor, "ace_overwrite");
-        }
     };
 
     this.hideCursor = function() {
@@ -11738,14 +12359,15 @@ var Cursor = function(parentEl) {
     };
 
     this.getPixelPosition = function(onScreen) {
-        if (!this.config || !this.position) {
+        if (!this.config || !this.session) {
             return {
                 left : 0,
                 top : 0
             };
         }
 
-        var pos = this.position;
+        var position = this.session.selection.getCursor();
+        var pos = this.session.documentToScreenPosition(position);
         var cursorLeft = Math.round(pos.column * this.config.characterWidth);
         var cursorTop = (pos.row - (onScreen ? this.config.firstRowScreen : 0)) *
             this.config.lineHeight;
@@ -11757,9 +12379,6 @@ var Cursor = function(parentEl) {
     };
 
     this.update = function(config) {
-        if (!this.position)
-            return;
-
         this.config = config;
 
         this.pixelPos = this.getPixelPosition(true);
@@ -11772,6 +12391,13 @@ var Cursor = function(parentEl) {
         if (this.isVisible) {
             this.element.appendChild(this.cursor);
         }
+        
+        if (this.session.getOverwrite()) {
+            dom.addCssClass(this.cursor, "ace_overwrite");
+        } else {
+            dom.removeCssClass(this.cursor, "ace_overwrite");
+        }
+        
         this.restartTimer();
     };
 
@@ -11817,7 +12443,7 @@ exports.Cursor = Cursor;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/scrollbar', function(require, exports, module) {
+define('ace/scrollbar', ['require', 'exports', 'module' , 'pilot/oop', 'pilot/dom', 'pilot/event', 'pilot/event_emitter'], function(require, exports, module) {
 
 var oop = require("pilot/oop");
 var dom = require("pilot/dom");
@@ -11825,16 +12451,16 @@ var event = require("pilot/event");
 var EventEmitter = require("pilot/event_emitter").EventEmitter;
 
 var ScrollBar = function(parent) {
-    this.element = document.createElement("div");
+    this.element = dom.createElement("div");
     this.element.className = "ace_sb";
 
-    this.inner = document.createElement("div");
+    this.inner = dom.createElement("div");
     this.element.appendChild(this.inner);
 
     parent.appendChild(this.element);
 
     this.width = dom.scrollbarWidth();
-    this.element.style.width = this.width;
+    this.element.style.width = this.width + "px";
 
     event.addListener(this.element, "scroll", this.onScroll.bind(this));
 };
@@ -11851,7 +12477,7 @@ var ScrollBar = function(parent) {
     };
 
     this.setHeight = function(height) {
-        this.element.style.height = Math.max(0, height - this.width) + "px";
+        this.element.style.height = height + "px";
     };
 
     this.setInnerHeight = function(height) {
@@ -11903,7 +12529,7 @@ exports.ScrollBar = ScrollBar;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/renderloop', function(require, exports, module) {
+define('ace/renderloop', ['require', 'exports', 'module' , 'pilot/event'], function(require, exports, module) {
 
 var event = require("pilot/event");
 
@@ -11961,7 +12587,7 @@ var RenderLoop = function(onRender) {
 
 exports.RenderLoop = RenderLoop;
 });
-define("text!ace/css/editor.css", ".ace_editor {" +
+define("text!ace/css/editor.css", [], ".ace_editor {" +
   "    position: absolute;" +
   "    overflow: hidden;" +
   "" +
@@ -12085,6 +12711,7 @@ define("text!ace/css/editor.css", ".ace_editor {" +
   "}" +
   "" +
   ".ace_marker-layer {" +
+  "    cursor: text;" +
   "}" +
   "" +
   ".ace_marker-layer .ace_step {" +
@@ -12106,230 +12733,21 @@ define("text!ace/css/editor.css", ".ace_editor {" +
   "    position: absolute;" +
   "    z-index: 2;" +
   "}" +
+  "" +
+  ".ace_marker-layer .ace_selected_word {" +
+  "    position: absolute;" +
+  "    z-index: 6;" +
+  "    box-sizing: border-box;" +
+  "    -moz-box-sizing: border-box;" +
+  "    -webkit-box-sizing: border-box;" +
+  "}" +
+  "" +
+  ".ace_dragging .ace_marker-layer, .ace_dragging .ace_text-layer {" +
+  "  cursor: move;" +
+  "}" +
   "");
 
-define("text!ace/theme/eclipse.css", ".ace-eclipse .ace_editor {" +
-  "  border: 2px solid rgb(159, 159, 159);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_editor.ace_focus {" +
-  "  border: 2px solid #327fbd;" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_gutter {" +
-  "  width: 40px;" +
-  "  background: rgb(227, 227, 227);" +
-  "  border-right: 1px solid rgb(159, 159, 159);	 " +
-  "  color: rgb(136, 136, 136);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_gutter-layer {" +
-  "  right: 10px;" +
-  "  text-align: right;" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_text-layer {" +
-  "  cursor: text;" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_cursor {" +
-  "  border-left: 1px solid black;" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_line .ace_keyword, .ace-eclipse .ace_line .ace_variable {" +
-  "  color: rgb(127, 0, 85);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_line .ace_constant.ace_buildin {" +
-  "  color: rgb(88, 72, 246);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_line .ace_constant.ace_library {" +
-  "  color: rgb(6, 150, 14);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_line .ace_function {" +
-  "  color: rgb(60, 76, 114);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_line .ace_string {" +
-  "  color: rgb(42, 0, 255);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_line .ace_comment {" +
-  "  color: rgb(63, 127, 95);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_line .ace_comment.ace_doc {" +
-  "  color: rgb(63, 95, 191);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_line .ace_comment.ace_doc.ace_tag {" +
-  "  color: rgb(127, 159, 191);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_line .ace_constant.ace_numeric {" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_line .ace_tag {" +
-  "	color: rgb(63, 127, 127);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_line .ace_xml_pe {" +
-  "  color: rgb(104, 104, 91);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_marker-layer .ace_selection {" +
-  "  background: rgb(181, 213, 255);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_marker-layer .ace_bracket {" +
-  "  margin: -1px 0 0 -1px;" +
-  "  border: 1px solid rgb(192, 192, 192);" +
-  "}" +
-  "" +
-  ".ace-eclipse .ace_marker-layer .ace_active_line {" +
-  "  background: rgb(232, 242, 254);" +
-  "}");
-
-define("text!ace/theme/tm.css", ".ace-tm .ace_editor {" +
-  "  border: 2px solid rgb(159, 159, 159);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_editor.ace_focus {" +
-  "  border: 2px solid #327fbd;" +
-  "}" +
-  "" +
-  ".ace-tm .ace_gutter {" +
-  "  width: 50px;" +
-  "  background: #e8e8e8;" +
-  "  color: #333;" +
-  "  overflow : hidden;" +
-  "}" +
-  "" +
-  ".ace-tm .ace_gutter-layer {" +
-  "  width: 100%;" +
-  "  text-align: right;" +
-  "}" +
-  "" +
-  ".ace-tm .ace_gutter-layer .ace_gutter-cell {" +
-  "  padding-right: 6px;" +
-  "}" +
-  "" +
-  ".ace-tm .ace_print_margin {" +
-  "  width: 1px;" +
-  "  background: #e8e8e8;" +
-  "}" +
-  "" +
-  ".ace-tm .ace_text-layer {" +
-  "  cursor: text;" +
-  "}" +
-  "" +
-  ".ace-tm .ace_cursor {" +
-  "  border-left: 2px solid black;" +
-  "}" +
-  "" +
-  ".ace-tm .ace_cursor.ace_overwrite {" +
-  "  border-left: 0px;" +
-  "  border-bottom: 1px solid black;" +
-  "}" +
-  "        " +
-  ".ace-tm .ace_line .ace_invisible {" +
-  "  color: rgb(191, 191, 191);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_keyword {" +
-  "  color: blue;" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_constant.ace_buildin {" +
-  "  color: rgb(88, 72, 246);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_constant.ace_language {" +
-  "  color: rgb(88, 92, 246);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_constant.ace_library {" +
-  "  color: rgb(6, 150, 14);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_invalid {" +
-  "  background-color: rgb(153, 0, 0);" +
-  "  color: white;" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_support.ace_function {" +
-  "  color: rgb(60, 76, 114);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_support.ace_constant {" +
-  "  color: rgb(6, 150, 14);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_support.ace_type," +
-  ".ace-tm .ace_line .ace_support.ace_class {" +
-  "  color: rgb(109, 121, 222);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_keyword.ace_operator {" +
-  "  color: rgb(104, 118, 135);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_string {" +
-  "  color: rgb(3, 106, 7);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_comment {" +
-  "  color: rgb(76, 136, 107);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_comment.ace_doc {" +
-  "  color: rgb(0, 102, 255);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_comment.ace_doc.ace_tag {" +
-  "  color: rgb(128, 159, 191);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_constant.ace_numeric {" +
-  "  color: rgb(0, 0, 205);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_variable {" +
-  "  color: rgb(49, 132, 149);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_line .ace_xml_pe {" +
-  "  color: rgb(104, 104, 91);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_marker-layer .ace_selection {" +
-  "  background: rgb(181, 213, 255);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_marker-layer .ace_step {" +
-  "  background: rgb(252, 255, 0);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_marker-layer .ace_stack {" +
-  "  background: rgb(164, 229, 101);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_marker-layer .ace_bracket {" +
-  "  margin: -1px 0 0 -1px;" +
-  "  border: 1px solid rgb(192, 192, 192);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_marker-layer .ace_active_line {" +
-  "  background: rgb(232, 242, 254);" +
-  "}" +
-  "" +
-  ".ace-tm .ace_string.ace_regex {" +
-  "  color: rgb(255, 0, 0)   " +
-  "}");
-
-define("text!icons/epl.html", "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" +
+define("text!icons/epl.html", [], "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" +
   "<!-- saved from url=(0049)http://www.eclipse.org/org/documents/epl-v10.html -->" +
   "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">" +
   "" +
@@ -12590,7 +13008,7 @@ define("text!icons/epl.html", "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Tra
   "" +
   "</body></html>");
 
-define("text!styles.css", "html {" +
+define("text!styles.css", [], "html {" +
   "    height: 100%;" +
   "    overflow: hidden;" +
   "}" +
@@ -12612,22 +13030,6 @@ define("text!styles.css", "html {" +
   "    top: 60px;" +
   "    left: 0px;" +
   "    background: white;" +
-  "}" +
-  "" +
-  ".cool {" +
-  "    position: absolute;" +
-  "    background: orange;" +
-  "    opacity: 0.8;" +
-  "}" +
-  "" +
-  ".cool_header {" +
-  "    position: absolute;" +
-  "    background: orange;" +
-  "    color: black;" +
-  "    font-size: 8px;" +
-  "    padding: 1px;" +
-  "    margin-top: -8px;" +
-  "    opacity: 0.8;" +
   "}" +
   "" +
   "#controls {" +
@@ -12654,11 +13056,11 @@ define("text!styles.css", "html {" +
   "    background: #DDD; color: #000;" +
   "}");
 
-define("text!icons/error_obj.gif", "data:image/gif;base64,R0lGODlhEAAQANUAAPVvcvWHiPVucvRuc+ttcfV6f91KVN5LU99PV/FZY/JhaM4oN84pONE4Rd1ATfJLWutVYPRgbdxpcsgWKMgZKs4lNfE/UvE/U+artcpdSc5uXveimslHPuBhW/eJhfV5efaCgO2CgP+/v+PExP///////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAACUALAAAAAAQABAAAAZwwJJwSCwaj8jSSJPhZDQj5IjTCW1CHU60OPWQQGCSR1uUID4i0ock+iAkxQZBACCxBwJCoziJWC52F4IRE3EQD2kkD4sQe0QSDmkJkgkOcEQYFSQKnGkFDBhGGAsHBAEEBqBIGBINFA0SoUmztLVJQQA7");
+define("text!icons/error_obj.gif", [], "data:image/gif;base64,R0lGODlhEAAQANUAAPVvcvWHiPVucvRuc+ttcfV6f91KVN5LU99PV/FZY/JhaM4oN84pONE4Rd1ATfJLWutVYPRgbdxpcsgWKMgZKs4lNfE/UvE/U+artcpdSc5uXveimslHPuBhW/eJhfV5efaCgO2CgP+/v+PExP///////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAACUALAAAAAAQABAAAAZwwJJwSCwaj8jSSJPhZDQj5IjTCW1CHU60OPWQQGCSR1uUID4i0ock+iAkxQZBACCxBwJCoziJWC52F4IRE3EQD2kkD4sQe0QSDmkJkgkOcEQYFSQKnGkFDBhGGAsHBAEEBqBIGBINFA0SoUmztLVJQQA7");
 
-define("text!icons/warning_obj.gif", "data:image/gif;base64,R0lGODlhEAAQANUAAP/bcv/egf/ijf/ij//klv/jl//lnf/mnv/uwf/IWv/Na//Qc//Ugf/Vgv/Vg//cl//enf/nuP/MbHtRE4BVFYJXFoFVFolbGIdbGIxeGpRkHcWDLcmHL8aELsaFLs2LMsmHMcuKM82LNdyYP9+bQuCcQ+GlVcuHMc+LNdGNNtuXQN+aQt2ZQuOwcOfMrv///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAC8ALAAAAAAQABAAAAZhwJdwSCwaj0ihq1RyJYcrBIL0fLlYkQjLmRwhJhOEKmlKOSgVR8qEFAEalwwDgDqaPoGEPhEIsYsgAhIPGBoPCgMnRhwECxAWGBALBRxGHS0GB5qaLR5HG6ChoFWkpaZCQQA7");
+define("text!icons/warning_obj.gif", [], "data:image/gif;base64,R0lGODlhEAAQANUAAP/bcv/egf/ijf/ij//klv/jl//lnf/mnv/uwf/IWv/Na//Qc//Ugf/Vgv/Vg//cl//enf/nuP/MbHtRE4BVFYJXFoFVFolbGIdbGIxeGpRkHcWDLcmHL8aELsaFLs2LMsmHMcuKM82LNdyYP9+bQuCcQ+GlVcuHMc+LNdGNNtuXQN+aQt2ZQuOwcOfMrv///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAC8ALAAAAAAQABAAAAZhwJdwSCwaj0ihq1RyJYcrBIL0fLlYkQjLmRwhJhOEKmlKOSgVR8qEFAEalwwDgDqaPoGEPhEIsYsgAhIPGBoPCgMnRhwECxAWGBALBRxGHS0GB5qaLR5HG6ChoFWkpaZCQQA7");
 
-define("text!logo.png", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIkAAAAyCAYAAABoKfh/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAANBxJREFUeNrsfXd0XcW97jczu519qrrVZcuyXHHBDRsXMM2AjSkmEMAQqoEQyg1JIAkBQgiBJHAvKZQklEAwgdCLTTWmGeNecLdlWVavp+42M++PfSRLxgbue/e9++5azFp7aemcXWbPfPOr328OkVLCXPQ4jtgkQAj+040QwHE8uEnHGFyRc9bJY8vnTRxaUFuaa+ZpClOlBCGA5FKKnrSd2tUUb1xf17Hh/c2Nb7S2Jd9mQVVqCgP5Tz6c+F0e0DwuwIX/qZASkYCGyvwghDh4JqUErXELXSkHjJJDhwCOyzGkIARDUyCl7HtHTwD72pOQ8gid6dfsjANBCAyVIagpcDyOtO0hGtSRcTm4yxEJabBdgbTjQUq/v7qm+IMFIKSp0FTq38/jiCcdCCGgKRSuKxA0NXhSQkoJISVcVwBSglICBsCTEtGgjkTGgaEweELCdjkkgJywAV2lAAjiaQfJJy8BACj4v9SEBFxXVP/b2eP//tNzJhyTE9K/7pJhAGbXtyWvv/el9e/8cdkX1whGd7L/HYR+2/5LG/0mEoFRApldUd/0yKSdnCtOGP7Sby855pickH74lXao0JJARUEIf7ji2BNuPWvcUtvmFd9O0X9/U77JxIUDKnrSLsQ3mWkAXEjEQtplP14wdnTvPQgBPI/jxY+2Y93eNvDsvSiA6SNKcPoxw9D/3F8sPHrIa2v23bWlMb5IU9k3exsJREwVCcvFN+zqt+2/AiQCEgGVgQUJWuMZUErxdQrA8TgmVuXPqy6KHrQTpMQ1f3oHjy7dugWa+glALAASUpr41/oT/rg4WXXNvAmQ0geKpjKcOr58/sa6DSVQWePXqzeJsKEiGtDQk3HxrZL6fwiS3tWdY2qwXI6E5X69McllpDRmDumbKQJs3deBJz+q+0zLi52kUBLvf3radmsefX/Hp1fMHZunKqxPCgwriUZByCgCNH4dQAyFoTCs9xmo37b/hzZJr3VPAAyKGAgb6gCv4AhXhIM6C/YCDADq25OwBf6lEMT7xEX2YJTutD1sVxXaZwcBQK5v7BZ+le3DpYSmMJTEAlAZ/VbN/HdJkl6ggPhAAYCE5YIeWaIwknUAJSQICDx/8jp77Zr+1yqUoCPldC/+wztgREJI/7Pd7RlomhInXyVBVIaSqA8Q8S1C/ntB0mdU4iBQkrb3Fbrf/0YICcqILx2khMsFCABKAIX5BqnCCOIO/8nD7+1eBcczoLIieHwfMfU209De6S8e+sMgL6Qjx9RAiA+Yb73l/0Z18yWJAqAgrIOSLweuDhcvOdLnXEg/YCQAgGwCyB0Ljx9R+O4vz5hZXJJTL7n8k+vxjMsFeg8h/CARFxIhXfX78K0A+f8LJAPQ8g0m5+tUgJASXEpYScs8Y3LVK49dM/PS40eXVL9884l/K44aNzpJC47Hs4eAlwVJ77Xf4uP/Z5D0YuRrQCCPGKQ7qBuclG3Onzp4yT9unDPP0FVkXI5JQwvxyq1zf1+cH7oBttdPgX3b/keBBN9MmBz+wVmQ2CnbnD+lask/bpgzz8jmMwAg43JMrC7Ay7eecn9xfrAPKN+2/2Eg6U2mSSm/eSJOAoxSEEJgp+zA/ClVz/QCxMoCpLdlXI5J1YV4+Sen3F+cF7pefguU/5mSpLe5jgfBxdd6GL25IMt2Q/N8gMw3dAUSfryjv2QyVAbLE5g0tBAv3XLyAyUFoR/wQ4D0P7VJmc1OOx4ytoeM48FxeV+G+auuE9kMrxzwuQR3/ayyy8VhJX7f8xwPruPBO+S8/vf+T7nAEkDSciH7GYwEvmfChe8TSynhpB3kxAKIhAykkvZXqhnb5ZhQlfvnf9180hkKo5AADrT2IJ6yUVtZAI8LMEKw6osGjK8tgeUJTB5aiGdunPPvp9z1Rosr8SyBRCLjwvEIpCRZAEo4rt/Pr8sep2wPrsf7LB1KCVJfIam4yD6Py35UAQmFZdP48pujw7JcqJTklOSHxuaEA8NiISMn43Crsztd355Ib0zZ1m4hJCj98hqmFFGF0RIA0uViP4CUcDwIQx00ckjBjLLCSGVdS8+Ofa3xV+HnZSFcDgB6SWF4fEl+eExO2MjpSTnJjp701j1NPZ9LjyeJykApChVG8wDCCcE+APbXgkQCkEKOunT2sF8PLgznuNx3VikhxPWE+9vXNv6tuSfztEL90JntcmI5ngZPZo5gZboAEDW1wLb6jqK/vbkBV50+Hh3daZzzy5dw3YKJGD24EB4HNIXi/pfXYlDOdjyweA4ytos/v7oWnpDFTKXQGD3uurmjfpwT1IJcSAEAjBLak3JSv3ll470Zj7/XCxSCg1Fc4gfqFl5z0ohrAprKeDZ8rDLKVu1q3fu393bcbAbU5v6d9rhANKDOu/G0Md8Pm5rJhT8OhqawldtbOp5YsfNaVWENX6eahctBVFYxd2r19fOPqV5Ynhcq11UFMhsncIVEe4+V+GhLw/LnP9rxQGdn6j1oB5ObjuXlz5s5/J0Ljh8xzPMEHnp93cqX3t166qjaQVdef/bEn1QPihQXhE08/+E23Llk1URG6RqRcciomsIrLjph9DWjqvLHGgrrQ7TtCmze17H9r0s33LNzb9ua6y485vWpI0oKuCvEHU9//AqA8/tAcqQ1Z9keJg/Ju/eeCyaferjvW3vSR9/9wrr3mKE1wXJzLj519DMjynKKfvDHD+7yuPiyOMm4uWdMH/rw3PHlx1758Ie/X/yXjyJJ253y9sYGfL6re3coZFT3Pz0QDmX+/cUNbdGgUbGruRtLPt33mBkxH0pnHHX+1MF/uPXMcSMP168NdR1VSz7eM9Y0VVsCoIyifx65O2GNam3rmX3P92YMuO7yOcOn721O5Lz/RdN8M6CK3oXiZtwRv7xg0lPXnTom0v/8RMrCn15dCwA/IwQNRzLoCQDL8VCQGzz7ZxdOe3BMRW5xR3cSqUQaNqN9UUpPCDAhw2dMqpg3c1TJab//15rfrd3edAt0hVNCICFLqBRjmefCcz2oRE6rrS56/neLjz8tk0xjz/52uPlheJ4HSBnilhM996TRf7/ilNHzUokMOju6oasKVEZBiT8u46uitb/53vTH7nx6ZQPhssxOZWBqDJDi6AHq5kiiUrp83OVzhp8EAGmXDwCTrjBcPHtY9I/LvjgvnvEeXXzm+JcfvPzYGYwSdKfsp7bta2P9b5vMuJgzsfLOv10zKxwyVJiacufVf/n4th8+taaO6spKhM1uSDw2UDUhgVDwzDtf3nwDoaTFjAZ/IqXkjJD5V544YmSvcTsAWCrDVScOr31+5d7ThMQL9DArQDPU3/3mpY3HlecHZ147bwIyWWZWQGX405XHnjb9Zy//oMfmDxgqRTrlqGdMqXr02rmjI7YnwKWEQgkEFzjnntexrr7nJjMU2HToIPZ/rONy5AaNC+67ctYTQcrZll0NyA0b2LG/E6t3NqM7YcM0VIwdXICxQwtR15iArqn0loXjbr7rnyK6ob7zKlNXAELSibSdau6MB7sSaTBI/XunjDkt3tUNx/VAuIfueArxlAXYXvDsE0cvufzEEads39UAVWXQGMUnW/djZ1MPhJAYUhjBpBEliIUNXHx8TVnC5tjd0IrCWBCW4yUG2iSHGUjHExhcHF181tQhisclCACFUTDq2xSOxzGsJIZ5Eyq+8/T722NnTqqYwSiB5QncevYE44v6DthZI9PlvvE556iysKmrAIDTJ5SX3JMbuDZuuRM0lSGTcS47DE51CNFgho1Fffrc8TBtWOG1s0aVwPZ8w0tVGAh8ioLtCRw7ohjTawuvWbG99YWArhxO9Ce0sHnhzU9+9tHw8ryKOeMqkXE5LJdjeGkM91045a7L/vTBB5ZQ1pXnB3/+4GXTpwMEQvq2ksYobvzLcry1qeVxMxq8/6sMEj+HKcdev2D8w5qXYbubu1CUE8JT72zBsg2NWwRVnieM7pNCFLy9qemMqdV50y47eRS6ehKwLQuLT6q98tYla1elbO+vAPFcjwvbsdHa0YORZVHkByRS6TRe+ng3Vu1s9dKu6LEl3TF8WPHlF8wYesrGrXUwdAXxhIM/v7EJe9oyb4GxFQDh4E1TX/587/zr5h1FCmMmEskUeiyOmKlCCOkO8G4I+fLBHa/0opnV5+aGdHApoDKK1q4kNu5uhsZon46/6qQRk5jKIuf/dmnTO2v3wlAouJQYXZXfl6PhUqKyKIKcsAFKgI54Gqfe/iLW13e+ph/UubSfBOmV2RKQatYE8G0kV0y8Yk7tHJVRABIao6hr7MTuAx3Qsp8pjOLyOcNnS49PFRiYNe5bHZTst5m26NIH37XrmrsRUBko8QF96ZzhwfOOrX6QJzLnPHDJtJ+U54fgcg5KCHSF4tE31+OBN7euNCLmtYcC5JAENyzHI8eMKP316JJQcO+BdhTEAnhzzT68uaH5KT0Ummaaxu0BXX3MDOj3mpHQrJV7u+9+dsVO5EVMdMYzCGvA3LGltzsuj4DClj55Fa7HoVIBBQIPvbEZL69pfKTDUyZbTBtpCXLDd46tmdvd1QkhOBihePC1Tek9Pd55ZiR4shnQf2UGtHvMSHBBUwbzH3xtc9xyPDDIPrUiAT5wYg7Jv3tcIiesL/recbU5WYMQCiV4ZeVu3PGPT7P/+1nXacMH0ZmjS4Z2ZnD+wvuWdb+7di80RiGEBKMEjFIolEJmPY7OeBpn/epVrNjZea9pGrf1n7lebLBDrPpejojjCgwtjSw+a8oQJgEo1Jdsj7y5EX96bUNfvySABZMHs9qy2NWOe2SXOaArH9R3uzcsuv8tpC0HPvHa/+7XF0ye/utLpz131tTBau+76ArFx5v348bHVzapQfNCCqS/QWBx4injK05OJNKIBANIWxJvbGhcpwcDVxDI+ICrpPQCQeOny7e3v9nUmUFBNIh42sX02qKykKHMh5ApQojQVRUBXUNhLITVO9vw2Z7uh8yweZXCyDrORevgwvB5R5XHjHjSQXFeFMs3N6G+2/lp0FCfHQBqKRHQlNca495tK7e3oSQ/ClPXoClK1sTvB5JDV5pjucEFEysvqyqMQEp/MiCBF1bVuUs3tyYb2uJglICAgBKCq+YMPw0K7YxDPeOc+5Yl3ltX5wOEUDBCwIg/eV2JDM66+zWs2NF5rxk2f3wkMd3rlch+IXwCgNtuxaIZNeeETS0blCPI2C5eXNtgvby+IZO2XJ/pLoFQQMUls2rOFI5XRXo9nC+pAgkzZDz04fb2P9/06HKQLEClBKoKI/jJ2RP6nq9QiobWOBb9+7tuhigXq4zsPqIbkz24lCiIBuYNL4lSx5Mozo1iY30Xkrb4PSOwjnS5B/Kb1bs7RFFuFIQqKM0NoiIvdDo8oVJKYQYMxEJBxIJBfLqzrYtq6l1ZsQvP48aYyvy5QZUhYOhQFQ2r9nTsVnX1kSNpRaLQp3e0JFtj4RAioSBMXRswVvSQ94KQEprKFlx14ogBnsamujZ8srPtDcsWtz//8a4BD5k3qZKMKo/9hBCyIi7Vc86+d2ni3XV7+8oACAE642mc+atX8MGOjvvMyJEBcqRmc4G8mHHJxbOHRft//t7G/djdmvxrXVv64bfX7xtwzUWzhoULc8xLXS6/Mm4RiJg3PvzuzuUPvrKmb3BkdtX0cm4tx8Ol//EW9nTaPzJ09e3DJSoFH3i4roeS3ODkqKlDUVSYAR3bm+LdhNF3v+pdGaOrdrUm9mqaBkPXEdB1lOcFR4OLGCOEG5qOcNAEB0Fz3FqjUHqgTxJLVA4dFBssCUU4GETc8tAat95nlKa/BOSDi7DLE+RAwDBgGgY0TR/wPT1Uj1q2R48bOeiaiTVFSLkCyay4/seHO5C2+DPU0B575pNdibTDkeYSCZcjoKu4ZPawBdx2qwOG8lZcqgvPuXdZ4p21e0EJ0N6Txtl3v4oPtnfeZ4bNHx0JIBK+Ikx6vI8N1xvo8iwvfPaUwZdWFISRzPZLAPj78u1SEvYYKHvs7x/sEFxKJD2BhCtQmhfCOVOqLnEtNyaPYJtkx8zWwsGLbnp85falq/dAEr8PCY8j5Qm4QuLGR9/H25taHjJDxgOH6z8lBIwNPACixky9vMsWaM0ItGcEOpL2PkZJ21eGwSnJdKedna0ZgQ4baLcEAoaaB8g8V0J02AIdjkSXzeFy2UgGTDjKdEPVm5Iuul2gOWHD4XIL/ZpIuCSQXY5EmyXQZYsBr0izJ/QdRMoZFx0//JhuT6A146LL4djXncbzK/fWQ1VepZR0rtnT+fL7XzQgJSQ6Mh4OpF2cPnWIWZwXvNx2OAydLYtDXXj+/W8nnluxFYvuX4rlOzrvMyNHBgghgCOBLlegPe2hhwOcHFzVAYOdff6s2soWi6M94yLuSWzc34llGxs/IwpdQxW28Z1NjZ+sr+9EwhPoyLhosTjOm1VbHjSUc6SUOJLaAQDu8YZwOPg6DehoyXjoyB7tGRfdrkAsFuZQ1EelEIelUR7hnQxPiuDmlm6sOdCJrW09cLhIEkK9rwu8cUm6dnUmseZABza1dMHyOAOlatLx5KaWbqw90Im6rhQA4vY3mimh4c6Mg7WNnVh7oBON8QwoIT3ya3IzLpfY2taDtQc6sL09PoArTHu9CUoA1+U4qirvmpljSkh3MgPuudAY8M6aOuxuSnzCKMmVUlYKLj969oMdgODwPBfpjI3CnADOmjp4kWd5uRQEjJBl7d3eaef+5u0P31x14GemGfiRoVA4nA+oqBswUVLC9Vx4nguPe1nKJBG242H2qJLFo6pykUhn4HkuVAa8+MlOdCecFQyooJAVPQlnxUsf7YRKAddzkUhnMKIyB8cfVbrYsj3lq0LuVMgT/nDVzCsm1BQhmbb8PmSPeNrCDxdOZBfNrvlDJm5FyCEqOku6g2V7sGyvDzaEEG7ZLleEDYWnQYUNQ1M0IQT5KpAJCQR0JajCBfPS0KWDjOVwgLgEkjBuQeEZMOEeojYACem6tgVd2oCbQkCRYIyGvip7n6V8SOpaoDwDekgcVOl/BXe92gtm1swLGiqcpAUKAtvxMKa6CMt+tWABo/S03vsplCBluaDwQ/IZ28P5M2tKnnh/x1mW4y05a3LV/cNLY0WuRIpATlIIefWv729/pDslXwUloJCghIAf0lsK0ndkW5pIeeyi42qnSKDv84zl4qSJQzDjqMrvU0KuztoFLKBSpDIOWDZxIYTEouNqj359Tf0cCSwjh5kQO2XX3HnhlCdOnVwV7ohnQIkfe9FVBWnLgZASqYyLuy8+5pjdLfGHP9necn7Q1L4kFGW2vDKoG8g4HJSQTHfCatcoHaJrGiglKM41SzfVd0UBdMNPe8C2XGiG4hvNADjnSnFeaAhjFKqiwNBUdMStTlB0ERCqKgyqqoAxehgSF5o74xlZWRIh3SkbkaCOmKmNbE856EufpB0QAii6CkhACEFNQ9UpY2CUQWVsAPgUABAAXE+gND90+RlTBgdSlgtK/JgD5xKDck2UF4QMKWH0IlYICdvjWZfRD7CNrMjDiUeVXvTi8h1dZ02tuvzsY6qRcP34ghASz32yK3RAyFcVBkQNFSqjiNseuJ/RJJrqUwj8IxsncQUdX1N47awxpUjbveUcEpwLVBSEoTBi9k4WIb5UcFy/XwQEadvDsaNKMLE6/9rVdR3LDE3p5zYBVsqOXjSn9pnvzzuqpDtpgRJA11QcaInjheVbcNN3pyNpufCEgKmrePia2eeddufr2+o703eYAeUwy1ICErAdD5RR2dKT2WY5fHIkZCDtCgyvyC15b2Pj0QR4FwBc14PkAp7DQXU/SCUlRo0dOmhY2vEQChrgHGjsSH0BxrooAVMUBaqigLIvF60pjO7Z09jdPGNseTFjCqiqYFRl3py31+03iK5YLCv2hPCNa6ZQSCFLaysLKm0uQBkDY+zL3g0lALfd/IVTh1xUnBfyxW+WqJwbCSAaNGDqGoKGf5i6hlBAR37EhKGpfvqfEAgpcfGc4VNBcXZHwpIJlyOestGdsuF6HGFDDUICQU2BoTAwQhDVFTguh6kpJVWFUXAuwajfsbTjJeGJCRfNGna6aah9xeuaoiA/aiJi6l/qVzigIz9qQlOVLFCAgK7gotnDThYOP0r2A0g66ZAZI4sfue9704/O2H5BF2MUpqrgrn98inueWdP9yofbkR8OgBICy/FQVhDCo9fOuj2o0vMPTclLT4AxWl5aEDktFNDG246HhOW9uX1fB4rzosi4EmVFUYyuyP1BOuNCiKyBmM2kux5HJpHBiIr8G2oq87V42kVpfhR7DnShK+0sIwQOIZQoigJFVcEY+5KuUhTWtasp/lEiZSM/FkR3xsWxY8tq8qPGNXbaznJ//BXFhUAmnsGQkpzvj6stCXcmLVBFheLHSQZKEi4kwkHt/O/OqimyXA+MUt+j8Dh+9uh76Mk4oIeax9LPal51xtGorSyA5XjIOBzHjizRRlYXnrdxTxsuOXFU9joCVWVYfMro0esefP+URNpZKjyB3tgezzijrz5r/AVDS2NIZFwwRsG5wN6mnpaCkug586cMDqVtv18KY+iKp/Dzv74H7zA7HkgJKJC46dxjkJ8TgutxpCwXp08erP3+lY1X1ndmvq+rFJbtoaowdMfD184+lykUti1AKEV+2MAfX/gcr6xuWKIW5v761r+vfO/omqK8suIcZGwP8YyD6aNKcf+l0x6+8qEVO6mhrmaEwOMChbnmuT++eMYfSnLDBYlkxv3Ti6sfWL+n7Y4VGxvqp44pr4iGAuiyPJw9e/j81s41NzW2J38PSgAhISAgLBeFBZHLLzl9wqKuRBrhoIGQyvDO2n1tiqq84HrCAAEYU6Aoh1c3lAAZTzz6/pq6hefPHYdtjV2AynDl6eN/9eTSTcmGjsTjsBwHAoCmmLVV+d+/auHUGxzXgScpVJX44DvUJrEznn7GtKorR1bmoTvtgBKCiKnhjU934o+vbVkBXX8d5Eu0Ag8pa5hhGpc9+P0TYGcTgIam4OpTRpG7l3yG2y+YCl1T4bocacvDWdOHBioLwy+v2dO+QQIZAFAICQwvi42YOrw4lPb1OExDRV1jJ9bvbs+5fsH4M4vzguhM2KCEIGqq+PuyXXhs6faXEDQ+AaB+iY6QykytKS8464ZzJqEzISAkUJRj4rzp1ef9+l/rfuVAaQowev5frzvu52UFYcTTDhghCJka1mw7gDufW1OvhQI3qYw0tabEDTc+vPzvL/ziTKgKA+cC3WkbF80ZHt5+oHvJ715cPzMQMhpd2y1eMPeoPxXlmHmrdx5ARUFYXTir9uat9Z0vHei2fv7aim1PfOfU8djVEgdUhuvPP+Z3b322d8yGHU1PJDJ2fSiglYwdVnzB6bNGLnZcG64QGFocwz+Xrkd9Z+bXZkDvdF1RSrLZW0oZSNYkOLQZuvr2R1ubXxpRuX/BuNGV2NXcg2hIN266YNrDuxq6r2lo6V5PCSFDKvImjq0pGik8Fxu2NMIMBCAJQJXD2CSaSk+98uTRoykl0FUFIIBOCZas2MkRNG8yDW3N4TrjBnTyxrqGY3/WkayNxfxV6wiJ78wahnueX41fPP4hHrzuRKQVhoztIuV4mFBTpE0dWTypvy53ufTtDQCGoSKoUtz77CromlJ92Ykj4UlA1xRfurkcz32yu4fmhBcbKms5LMVBU/Of+2T38VfPGx8LZCsOXQEsmjMi75F3ti7sTjjL/3jd7EdmjyxGh82hawoUhcJO2/jBQ8tFUiqLTUqapATMoP7U8q1tx/3u2ZWX3n7xsei2/bhR2pW466Kp1fXtySef+2TPXMJITTSg5rX3ZJB2BTpTDnICKjSFnEiYdse7mw6cHgooC0+bPRptKRu2x7Hg+OGXzJtZe4nliXTAUE1dpejsSUJhBIPzQ3j5nQ14e33DcwEz8B+9Y0UJgaExGLqCIxXSEwCKpl37+LLNwy6RcuTEsYPRnrSRsCwMrYiOHTOsYKymMKgUUMHx0fo9eH/tPpx3xmT0pDJ9tdsDQDK+KvcHVbkBNDR1+zkWSrCpNY73v2herevquiNFAlRKZGO3teS5D7b94pwZNXBcX0ebGsPC6UPxwHOrG5Npu+RHCydhaGUhVEYgsoZy/2SNphAYigYhgabWbtz8zKdY8sHuFfNn1tSEFFnc1NSV1bcUn29vwvr67qW6obccGvEk2RC6rrL2jQ09r73+6Y4Lp40shZvNFpsqw5TqgtsipnbLnFGDQruauvu4HColuPvZVVhfH/+tGTHf7HNdpIQeCtx03+ubjzlqSP6IicOK4XFfVeoqw0/PPGrOhrqOX+040P3XtV/slxNHFBFJYiiKBLDi891I2W6boWvQA8b3XvxsH/a3xheeMWsECgti8CQHo0A4QExID8IFcgMqDjR24KkV27CxIf5UwDSuIpA8O1hEoYRV5IUQ0hgI55BHII4xShq5qp/26Jubn9q4u2X6cROHoKggAoUC0nFgWRzN3Sl8tG4flq2t3za0sjAa1NXiRNqClBK2e9APJlJK5H3v8dcM6c7urfElALEESaahXMUoeelr2HjlTLhvhJkc3M8mJELRDsQ9LMikrAsjqlw8uTo/Z9zgfJQXRRHWVTB6sMbY5RIt8TQ27mrFB9ta7OaE97gRMm8PKfJZlbtHy360yRQnHQ5VFlJCVg3gFGgKhJBwPJ5NL2CiJtzng0zmy35xBJdpKY0SXbqO0v++QkJ0uHhH0/TvAvJLeRVPyMkKd56OqaRY9HN5NVVBhqhvpRxxruc6z5wwpuSco2uLsbepC69+VrfHJmwaI6SlN3CSsZxrDPAbh5fFqmsr8lCQE4SqMFi2i+aOJLbta8fO5sQmzpTfGbr2RH8/mwsZKQip66vyAoOlEHAEwbbm5C89idvIkdmFum27VzDhXVwY0UflhPQAIQQ9acdt7cnstQR9hlD24MRhRa9dcOq4qc2dceQHNNz3zKf/an500Tl9IDEvetzwhCzv9fMJIZRREmeUNPUFm7JuqcwScHtLIrLvEHKFKIGEzBq4lBB0MELaCSFwuahwLGc2hJgAISoBGe3LQPserQuQJijKBs3Q3lIY3QQ/Ix4RUg7qn+ujhHRQgo6DkUnf5Z0zsRod8QzW72iEoSm9MYNcIWX+Ide3Syk1CUQwwBmGxyjZSw6WPfcF/HqNdiERFVIWHWoIMIJGQkhKAhHLcm4k3JsmCN1uBPQHKCF7DjNxMcfxTuCedyyFrCFAQABxCfKFoqorVJWtINkMc2/uqJdH67h8BOdiAggIISSta8rbBEh8iXYqJUzVL1Hx6RKEcSGGcS5KfLIebWOM7qAE6VTaipw1c+TO6RMqCruTGTDPw73PfPb71FOX/dtB+iKBZah0Z0BXoSjM9wgyTt9D86Im0paDjOUiZOrgXKAnnkbJoBiklOjoTifDAW2HwiiS2UBNH/q5gKkp9bGQ8WQybT/pSw9y+M3NINEfeQQyzgiJ9w5Q//uqjMEMaOhMpCGye4IRAgjOwQX1PTSCTkpIZ98te6vY/Rs1H67QjEsJSig8IVBaEIHHBVq7UsjGoXoUSnoGXnNQbRIgHjC0OwDdD/L0k1SyX3SXUdKta8rz0NTnj1TJ5BOhCRRG/YkWEmFTQ044sLUrkdn6dXVQfX+F8EecSE6BrYrKtkL6QTzBOTwJaAqbM662pLAnmUHE1LBjZwfSNl87IE7iOB40TcHEkWU46ZgajK8tQWlBFLbjG2nja0ugqwyOx2HoKgKGCsmFH5XUVNi2g8qSHEyoLYHtetkaX9/vt2wHg/LDmDyyDLbDUV4YhaZQCC7ABYeUAkIICPnlpJKmKFCYT0fo3Zai1/4ImfqAnQl664qRDQx6nhhgyKmKz2s5EomeEQJDU1FVnAtNYXBcjpxIAKUFEeRFAogEDagK6xf+zvJsFJ8O0ftszkX2nSRUhYFm3ePeSoO8qNmvRknC49xf55AQQoBz4e/YFNRRFAth5JAi3/B2OUxDw5TR5X0gkv2ivIfjs1CKAOfCcBwPCiWw0g6stI1M2oFtObAzDtxEJjJ/xojbYlEDadtFWGNYs70pyRj7aABIPI9DSGiUkhpdU8dqqjK0N1ZxsCMH9XC/eo2olDIKIWEo9MyQqd4khVA9zkGQnVguoDJ6UthUb+FC6MGAVghAtS0Xg0tyETF1FOWGkBcxEcjaFZbtwVAVDK8qRHlRDgpyghg1tAiu66+oLCUwK10IIKQSDqjXGxo7FyK7raMQ/nsJCV1lGF5ViLKiKAqzsZPeHRKElLAyLkrywigtiKKsKNbn/Qkhs5OtIC9sYlhFAWzbg+N4COkqKgflYmhpPopyQ7AsBx4XGFqej2gwgMpBORhbU4KQocF2PHDu32t0dRHyYyZsx4OqUIyoKvTtMo+jtDCCyuIcCClQVhSDoavQVeaDwHcoJkWC2s+lRJ7LBQblR2CoCqyEBdfxBoDGttzwCZOGvPvzS2evHlNddJOuKiPBhSksF9J2ITgPF+YGT1x01uSlx0+pHtfQ1oXSvDD21rdhU13nq5rG9g3M3XgCZXnBnx87uvjGuv3twRFlYVQXRz5oaO66whVy56GrLj9moq25OzBjTOkHEpB1u1smx4LqjRX5wRnS5c9IKZtyckIwDR07Ey0I6nRxRUHwTF2le+dPr37opQ/cP2/oSt4yKD8MK+MgFNTh2Byex+GkOHrpijQb1CPEF7tC+qjmQkJRWIQQGAqlrYSLaFm++YDrOmvhyX8ePaYM+xo70NKZBFMYiKGAUV8i6aqSXe29EkhAcgFKfWnAD1fYlC1YYtRPL3CHQ49RKIz6FAFC/HOERGFOCGnLRW40AE1hh1UHhBBwz48JDcqPYPu+dji2i2g4gIDGUNfUmb2fL5GkxwGPw1DJd6oHhf9NCLHCUJQPIqaOdDLjF2Z5Aop6UFvrGjt++piKYwblBnDV2RN/15Ny7u7syTQk0k4rABkLB0qKC8JVUgocaO1ESW4YImPhyaWbEmDKneRwCT5TV4b0JDLBh15cc4ui0JwfXjD9R8dNrHrgjU93nda/0osLiYqiHOxr6rbfX717KwEENEUIKW0uZAYAkdwXjzRI1KrKAk9ImRZSekLK+D/eXLelLe7sUwM6pPAzp6YpiSREtR3eZwjZjgdCiAYQz3a54NlMoJQSmkK12ePK3mvvSbdv209P2W873OMiZTs8UVSSi9xoUN+5r7XPhbNdDkKISiklactxeierF4wQAo7LETH0gMdlxs0SuIWUcD0B1xNQg0rA8URGcgEQX6UJCSgKC1guz/SKJtfjsB3Pd7sNYtguH+Apid6itl4pZnt9gHVcnt2tyX+uqioBLmSm93wp4Tkuh64xq7wgR3FdIRxXCMBn70NKEOqnR4K6egJxbdi2goxtg1HoxflmdSkLVZOsWsxYGaiMoDIvhF17mvHkW5uttoy4TFeVbYet4JNSeo4nEIyE/ig9kUw7fHEmY+erjI0dXpHz4OZdTb+RXLxuqPSsYWWxG977nF89rKqslVJo+w/s4H1mpZRcCtDxtcU/nTKq5HupjGPHU3bAcbkNSdJTx1UnPlq/r6OnscsszTefM7VBLbUVeUfnRs3wO5/v/cuKtXV3A1KZNq7y9qmjShb1pKxEfUtiMyWggvNLhCCpaaNL/zahtujoVMZ1K4oiqx95ueNml4uu8qJIzdDy3JWVg2LFnuc89c6nO3/OPSEnjS/90cTaoqsoocqWuo7H9h7ovJNRn+gruUBOTmjsyVOrfxkNKtMIVeoSqfRvN2w5sCQ3rN9bmBOsHlmVi+qS2Ky0Kzbtb+76cXtT16rigvCCOZMqbmNEljd2Rt94tj1+I3e8nsKY8VQsNMiuKIrUlBWGKzUmn3nz0523+hpF5JblB19IpjJL99e33xMJ6qcdXVv4wzVb919rc/nF4EGRRxzXYxT0tqmjSu6JGuwUpqn1ze09t+3d2/Y6JAQIwfETqu4eNTi/hqlK50vLt/+mqz3xDGEUnseh6b7UTDv83Z89+v53jx5akDtqSBGK8sNgAR1g1I9VcQ4rZWFnUxc+39qIzfu71xBV+6GuqctxpDJPjwsxKC+MRaeM+VdpYbS0qaUz/O7qul/FwmZJSa45gxH5JqR8XVPIuOK8wAwhxMjSPHMuYzQEIa72Y2QS4CI9bmzlDSdMrLzzkX+tXN+TctoumTfhRC7RIaWsqC2Lnrx+m7JVeuK94lxzbmVhkDzxypoPy4qi4fPmjv/Vhl3Nq4aV50+ePbbkp39+/rNPHI9bi8+afG5rj5WQnhcyQmZq3daG1nHV+byxLZ5a/vneBiGkRUB4eWGo7LGXVx+IhQ3r0gWTb928u2VNbsQsmDSs8J4nXl3zNCVEv/zMSbftauhs3rav/c+EAAqjpVecOeH1+obWomde3bGkdkjh7AtPHvtMQ3NPO6Q4ava4ipMff/nz5mUrNn+84LiR8xedetQ/nnx1/c2nHjPkny+9v+XThub4kotOG/v9E6cMwRtvb74qFtLmDC2JFTz8r89WmwG166pzpv5wx/6O3XsOdD0kATseTw0fX1M47LNVe343vCL3quFlkdkVRZFzvkhYDx41JP+KF5ZvfW3+zGF/ScQTM59/Y+dDwwbnn3L+iaOevffJj2tczq3i/DBWb6mf+tCST5ZOHFN2/IWnjHr67tbufT0p5xNBCTzuq0VKyUsZoax974vWs9/f3HiSqbKRIV3J0zWqSwlpu9xOWF5TxpXrqKq+qAUCLxMgc1jW3cEIHZWpjIUVK7cNfeODjYWxsEGmHlVZ43hcZtWNmxV5Tu//HheWx0Wmn77lICRvyojixZ9t2d+8syk5qzXhnfThhv3LKSWmX6khIKR0skxF79PNBz5r7HJnrtvTeXk8aaEoxzxn0ohBV36wft+O+jZrVnOXM2fV1qYvCJHcdwA4etLeT9OOSCRsvqE16S2AlFtUheas3ta0tb41M3ljXfd3WzuTGJQXnDe2puAyTyBz8qyxXxw3bdR2VVVQUxb7LmwX0hMoHxQ7Jy+slb62su7fklS/6LNtrWc2t8XlmJrCK7iQ1s797XzVjrZTO1x2xosf7b47FlSrp40re1JVmDJu1OANC+YevYeqWlttee4CEFJGCcms3t60b19LeurWhsS5jW1xlBaETpBcgDKa2ri79fmCmFlsxMzjqgZFj/5g9R6MGlIwMy8veLqUEk2dqV2jBuefEjDNrecumFpXWVG0tSBqBPNyzBMJiN3RncL76xuu6ZbK2e+sbfheOm2ToaU535W261MO+hXUM0rqA4Z2vxEMzuWKPqbTo2MbU3Jyc1pO7vbYUVIzxgVC5nd0TVlCsrm0wzWlH6uJpS0PWxoSJ2NPVxtV1LdPmFR95+bdzbfA54NwCAmPC/criHcCjMZ0jRWnLL4GIHG4Hlwh9kNi2mGMOCokmiEFFKZ2ZCkKhZpC8tOOeA9CeKAEAugESDmIn7sBFwGaZdBnXR0FAJUg7RACRGVdfphe5gd0JS+ZytBd2xt/yDSm7K9vbNrXlq7TggYcy4ahkiqPSzieWJ2liW21PJHUFFJqcZKybJ4BF7uYIpBx+SrOJcKGGnIcl+/dvf+7TFM0AqQ7EvY2aAqXUjJJSCsI4RAinTUn9F43+0Bb8jXLdq89enjxHYQg/O66/SsWzhk1edKwQYP2NfcccFyxV1cYmls6hiaS1l1MZXzJ/pbGeNqOR0ytzPU4uMAXhAh4Qq53uIRCSRGk73pLCXgegdp/hwafHhBXCIl/ibz5DQjpykDqGxAJG15+NJipqSz0OrtTipV2BAFQXZZflbZBasrzhxu62rcnSa/PTwjxCWdc9uxp6GicMLx05GebG0tyo8H2cTUlIwghnsxGL0k/8nB2X3yfJM4IpETH9rr2xmljyo+ua4qXg1Bv1JDCwamM7fa9k7+bATE01YhFTcSTFicEhPpp0ewiIgBIT31jd2LU0EFdq/d2H69paqOhKWYqY3dQRqDoGpo6UrsURjFuWPEJO+o7PwnlBKcPLo6FX/9w+9by4py8ipJYoKIsfzgo+by6JDrH4xxrtzW211YVxPZ22JcnrNS7kZARsGw3CS4opVTp1w+ajVTL3jG2bL5yd0NX09ypQ6YuX1O3rrkt+WPLdj+ePrZs1PPvbX06Y7kfdyUy4FR9c01dy7WGpkDXFMWyvFYp5eSivBCGluVOyNjiczPAjs8JG9jX3L2d6TooI32T+V+5TVhfmadte/qg3CAuOW3sS2FTy0+nMiXPvPPFX7gk/3z/8923nTGj9gdTRpee0NXZM7KtIwHGqOF6XlBKGgQBuMdNx/VC0FjH8nX7/1BdHP2PH3xn8ufxtJ1MxpPD4inhUkp023bBpdQBAsf1GOcy0Duxtu1BYTT57ud77y7JDz52yaljtrZ0Jjw7Y0W5IE2QEpRRSE1JbNzRVL9wzugp0XDgvcdeXf8jx/FUj/NgNp5LHdeDwqi3Yt2+B6tLon+5ZdG0ZSmbbxUer3j8jQ03d8UzrxkBHUmbP/fPtzZef8bsEXe0jCg5IS+sTXzvs53JusaePw4pz7tNco+dOaP6Ld0wdkQMOvkfyzau2FrfdefqLfWvXrdw4lPdKfdjQ1OKXlz+xXNdzV33uK4X9jye6KXGOa4HzkWgd2UwlXVvq2//ZOa48rO37ut4F5Su3NXQuX1ISWzE7sbut6nC1jz/7pa3L5p71HkTR5QOAZDZ29hpLFm6eTZjVN3f2IHZY0sfCoWCl+aE1MlvfLStrbXbflw3tN6dJr7RNmX/qc2KpJQILHocKsF5OSa7WNdYNG257W099htQ1L8pCnNc25ldEtNv1VQW3N+eWhoy1GFpD3cZCs4DYKRd3GIw/EChGJ10cZ2Q0qacX19ZFDzPcnh3S7f1aSiglqRd+R9BFT+zPDzjCrwZ0vCoy7HK5vLPFCgKauTfbQ/POly+6DruqTFTWdAdz7QuPHnsJYwS+vTSTTW6oaWYwuB53oySqP4Lyihr7LavCKrkOi5xwPJwLyGIhVT8weF4y+J4UrjuJeX55sUBTcnvSli7uiz+C4BuJNk6VNv2hsQM+tOSPHNSR9za2Rx3fisk+fSUSVXvVA6KHLtk2cY3ygpDgxs70p8lHHmnpiqNtuXMLopqN+aE9epk2m3uSHkPepK8HFTxgJBotzzcJSHDIY38weX4xBZ42C9nk4CUs4IquTrhyttByDYF8gJdwakpF9dTStsdl8cCTNxSlh86QQgp2+LWh2mX3KwpOJVKMZ8L2VVREDqhM2HtbU24d+u6uvqwRcj/hy2V/SkTIqVE8OIn/OovV0BC9DHT+oePXdcPnauK/3svjNEBQS+ZDcVT2otnAsdxQRmFojAILvoYZ70qp3/isDcGI4REfjRw4txpw07bdaBrRX40MG5iTf7PH3lp7VONXdZFSrbeF8S/v8+H8SO1IKQvGce58O+djRtwT/h9UBgY7bexH+ndb1bAdTiYyvzKQMvFacdUf1hbkTvp9//4rIiqrEdTlYMMvew2oY7rEYUpUlV8Bl52q5SDHOHed+x3neyXm+lj+fXlnw7uf+u6HkAIVEXpJyX8zZC564+nopDD/yDRfyFIlAFEFUZ8PvphHqowAil9rnrvy/XPnfiZSvKlfElviWbvDw31/8GhQ398iGWzaGnLGbS/ofnqyrzw9Rnbwp+fX/VmU9z5iaYOJB4r/eh79HD3OuTdJKHZyTp8cZWq+N9LCaiqgm11bQ1NbT0lqqYQxggOZXAySqApVPZ/9qG7ZLPDVEX1jkd/CgM7xI7wGfv+DxTRfglOkk0XUoX+p38w6n+3/a8BAGOtxmE+9d9lAAAAAElFTkSuQmCC");
+define("text!logo.png", [], "data:image/png;base64,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");
 
 /* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
@@ -12712,38 +13114,41 @@ var deps = [
 require(deps, function() {
     var catalog = require("pilot/plugin_manager").catalog;
     catalog.registerPlugins([ "pilot/index" ]);
-    
+
     var Dom = require("pilot/dom");
     var Event = require("pilot/event");
-    
+
     var Editor = require("ace/editor").Editor;
     var EditSession = require("ace/edit_session").EditSession;
     var UndoManager = require("ace/undomanager").UndoManager;
     var Renderer = require("ace/virtual_renderer").VirtualRenderer;
-    
+
     window.ace = {
         edit: function(el) {
             if (typeof(el) == "string") {
                 el = document.getElementById(el);
             }
-            
+
             var doc = new EditSession(Dom.getInnerText(el));
             doc.setUndoManager(new UndoManager());
             el.innerHTML = '';
 
             var editor = new Editor(new Renderer(el, "ace/theme/textmate"));
             editor.setSession(doc);
-            
+
             var env = require("pilot/environment").create();
             catalog.startupPlugins({ env: env }).then(function() {
                 env.document = doc;
-                env.editor = env;
+                env.editor = editor;
                 editor.resize();
                 Event.addListener(window, "resize", function() {
                     editor.resize();
                 });
                 el.env = env;
             });
+            // Store env on editor such that it can be accessed later on from
+            // the returned object.
+            editor.env = env;
             return editor;
         }
     };

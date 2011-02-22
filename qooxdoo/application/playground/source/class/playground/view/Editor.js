@@ -139,6 +139,8 @@ qx.Class.define("playground.view.Editor",
      */
     __onEditorAppear : function() {
       var container = this.__editor.getContentElement().getDomElement();
+       // fix for ACE
+       container.textContent = " ";
        
       // create the editor
       var editor = this.__ace = ace.edit(container);

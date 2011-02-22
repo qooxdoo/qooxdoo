@@ -34,7 +34,6 @@
           // IE does not return "shadowed" keys even if they are defined directly
           // in the object. This is incompatible with the ECMA standard!!
           // This is why this checks are needed.
-          var shadowedKeys = qx.Bootstrap.__shadowedKeys;
           for (var i=0, a=shadowedKeys, l=a.length; i<l; i++)
           {
             if (hasOwnProperty.call(map, a[i])) {
@@ -62,34 +61,11 @@
         (function() {for (var key in {toString : 1}) { return key }})() !== "toString" ? "BROKEN_IE" : "default"
       ];
     }
-
-    // don't load ACE in Opera
-    // https://github.com/ajaxorg/ace/issues/#issue/137
-    if (window.navigator.userAgent.indexOf("Opera") == -1) {
-      var head = document.getElementsByTagName("head")[0];
-
-      var urls = ["resource/playground/editor/ace.js", 
-       "resource/playground/editor/theme-eclipse.js",
-       "resource/playground/editor/mode-javascript.js"];
-      
-      var callback = function() {
-        if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
-          load();
-        }
-      };
-      
-      var load = function() {
-        if (urls.length > 0) {
-          var script = document.createElement("script");
-          script.type = "text/javascript";
-          script.src = urls.shift();
-          script.onreadystatechange = script.onload = callback;
-          head.appendChild(script);          
-        }
-      }
-      load();
-    }
   </script>
+
+  <script src="resource/playground/editor/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="resource/playground/editor/theme-eclipse.js" type="text/javascript" charset="utf-8"></script>
+  <script src="resource/playground/editor/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
 
   <script type="text/javascript">if (location.hostname === "demo.qooxdoo.org") document.write('<script src="http://resources.qooxdoo.org/script/analytics.js" type="text/javascript"></scr' + 'ipt>');</script>
 
