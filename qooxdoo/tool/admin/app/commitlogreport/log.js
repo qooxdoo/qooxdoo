@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2006-2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -22,10 +22,8 @@
  * git repository in the given range. The range can be specified as first 
  * command line argument. Here are some examples:
  * 
- *   Starting 2011-02-28 to the current revision
- *   * @{2011-02-28}..HEAD 
- *   Starting from yesterday to the current revision
- *   * @{yesterday}..HEAD
+ *   Starting with e0e763ce596fe1bbc0a235434d8593f9a4ba6734 to the current revision
+ *   * e0e763ce596fe1bbc0a235434d8593f9a4ba6734..HEAD 
  * 
  * The sript creates for every developer two files. One containing only the 
  * hash, date and commit message. The second one also contains the changed 
@@ -45,33 +43,36 @@ var range = process.argv[2];
 // error handling if no range is given
 if (range == undefined) {
   console.log('Please give a git range as first argument.');
-  console.log('example: node log.js @{2011-02-28}..HEAD');
+  console.log('example: node log.js e0e763ce596fe1bbc0a235434d8593f9a4ba6734..HEAD');
   return;
 }
 
 // use § and replace later in case " is in a comment
 var gitCommand = 'git log ' + 
   '--pretty=format:\'{§hash§: §%H§, §from§ : §%an§, §date§ : §%ad§, §subject§ : §%s§},\'' + 
-  ' ' + range;
+  ' "' + range + '"';
 
 // global storage for the loaded commits
 var commits;
 
 // run the git command
-exec(gitCommand, function (error, stdout, stderr) {
+exec(gitCommand, {maxBuffer: 2000000*1024}, function (error, stdout, stderr) {
+
   // error handling
   if (error !== null) {
-    console.log('could not query the git log: ' + error);
+    console.log('could not query the git log: ' + error + stderr);
     return;
   }
 
   // first, replace all ", then replace all § to "
+  stdout = stdout.replace(/\\/g, "");
+  stdout = stdout.replace(/\t/g, " ");
   stdout = stdout.replace(/\"/g, "\\\"");
   stdout = stdout.replace(/§/g, "\"");
-  
+
   // get the log data
   commits = JSON.parse('[' + stdout.substring(0, stdout.length - 1) + ']');
-  
+
   sys.print((commits.length-1) + ' commits to process:\n');
   loadFiles(0);
 });
@@ -138,7 +139,7 @@ var writeFiles = function() {
     fs.writeFile('log ' + name + ' files.txt', logs[name].join('\n'), function(name) {
       return function(err) {
         if (err) throw err;
-        sys.print('Saved log with files for ' + name + '!\n');    
+        sys.print('Saved log with files for ' + name + '.\n');    
       }
     }(name));
   }
@@ -148,7 +149,7 @@ var writeFiles = function() {
     fs.writeFile('log ' + name + '.txt', logsWithoutFiles[name].join('\n'), function(name) {
       return function(err) {
         if (err) throw err;
-        sys.print('Saved log for ' + name + '!\n');    
+        sys.print('Saved log for ' + name + '.\n');    
       }
     }(name));
   }
