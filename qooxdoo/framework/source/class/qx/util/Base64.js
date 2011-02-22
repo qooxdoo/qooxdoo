@@ -15,8 +15,19 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Adrian Olaru (adrianolaru)
+   
+   ======================================================================
 
-    http://www.webtoolkit.info/javascript-base64.html
+   This class contains code based on the following work:
+
+   * Base64 encode / decode
+     http://www.webtoolkit.info/javascript-base64.html
+
+     Copyright:
+      http://www.webtoolkit.info/
+
+     License:
+       http://www.webtoolkit.info/licence
 
 ************************************************************************ */
 
