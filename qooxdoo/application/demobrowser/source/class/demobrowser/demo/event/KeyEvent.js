@@ -61,8 +61,8 @@ qx.Class.define("demobrowser.demo.event.KeyEvent",
         type !== "keyinput" ? keyEvent.getKeyIdentifier() : "",
         type == "keyinput" ? keyEvent.getCharCode() : "",
         keyEvent.isShiftPressed(),
-        keyEvent.isAltPressed(),
-        keyEvent.isCtrlPressed()
+        keyEvent.isCtrlPressed(),
+        keyEvent.isAltPressed()
       ]);
       keyEvent.preventDefault();
     }
