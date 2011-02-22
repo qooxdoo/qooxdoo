@@ -270,6 +270,37 @@ qx.Class.define("qx.xml.Element",
       }
     }),
 
+    /**
+     * Get the value of the attribute with the given namespace and name
+     *
+     * @param element {Element} XML/DOM element to modify
+     * @param namespaceUri {String} Namespace URI
+     * @param name {String} Attribute name
+     * @return {String} the value of the attribute, empty string if not found
+     * @signature function(element, namespaceUri, name)
+     */
+    getAttributeNS : qx.core.Variant.select("qx.client",
+    {
+      "mshtml": function(element, namespaceUri, name) {
+        var attributes = element.attributes;
+        var value = null;
+        if(attributes)
+        {
+          var attribute = attributes.getQualifiedItem(name,namespaceUri);
+          if(attribute)
+          {
+            value = attribute.nodeValue;
+          }
+        }
+        return value === null ? '' : value;
+      },
+
+      "default" : function(element, namespaceUri, name) {
+        var value = element.getAttributeNS(namespaceUri, name);
+        return value === null ? '' : value;
+      }
+    }),
+
 
     /**
      * Creates an element with the given namespace and appends it to an existing
