@@ -331,7 +331,7 @@ qx.Class.define("qx.event.Manager",
       var entryKey = type + (capture ? "|capture" : "|bubble");
       var entryList = targetMap[entryKey];
 
-      return entryList && entryList.length > 0;
+      return !!(entryList && entryList.length > 0);
     },
 
 
