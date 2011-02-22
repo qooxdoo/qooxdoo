@@ -17,17 +17,46 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#ignore(qx.test.Single)
+
+************************************************************************ */
+
 qx.Class.define("qx.test.core.Object",
 {
   extend : qx.dev.unit.TestCase,
 
   events :
   {
-    "test" : "qx.event.type.Event"
+    "test" : "qx.event.type.Event",
+
+    "test2" : "qx.event.type.Event"
   },
 
   members :
   {
+    testHasListener : function()
+    {
+      var listener = function() {};
+      this.assertFalse(this.hasListener("test", false));
+      this.assertFalse(this.hasListener("test2", false));
+
+      this.addListener("test", listener, this, false);
+      this.assertTrue(this.hasListener("test", false));
+      this.assertFalse(this.hasListener("test2", false));
+
+      this.addListener("test2", listener, this, false);
+      this.assertTrue(this.hasListener("test", false));
+      this.assertTrue(this.hasListener("test2", false));
+
+      this.removeListener("test", listener, this, false);
+      this.removeListener("test2", listener, this, false);
+      this.assertFalse(this.hasListener("test", false));
+      this.assertFalse(this.hasListener("test2", false));
+    },
+
+
     testAddListener : function()
     {
       var listener = function() {};
