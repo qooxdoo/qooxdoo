@@ -56,6 +56,15 @@
         "qx.version"     : "${QOOXDOO_VERSION}",
         "qx.application" : "$${APPLICATION}.Application"
       }
+    },
+
+    "source-all-script" :
+    {
+      "=exclude" : 
+      [
+        "qx.test.*",
+        "$${APPLICATION}.test.*"
+      ]
     }
     // Uncomment the following entry to add a contrib or library to your
     // project; make sure to adapt the path to the Manifest.json; if you are
