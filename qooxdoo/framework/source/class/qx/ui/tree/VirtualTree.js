@@ -366,7 +366,6 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     // property apply
     _applyOpenMode : function(value, old) {
-      this._provider.setOpenMode(value);
     },
 
 

@@ -46,14 +46,6 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
   properties :
   {
-    openMode :
-    {
-      check: ["click", "dblclick", "none"],
-      init: "dblclick",
-      event: "changeOpenMode"
-    },
-
-
     rootOpenClose :
     {
       check: "Boolean",

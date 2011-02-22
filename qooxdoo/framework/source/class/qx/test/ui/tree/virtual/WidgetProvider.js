@@ -60,11 +60,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testCreation : function()
     {
-      this.assertEquals(
-        "dblclick", 
-        this.provider.getOpenMode(), 
-        "Initial 'openMode' property value is wrong!"
-      );
       this.assertFalse(
         this.provider.isRootOpenClose(), 
         "Initial 'rootOpenClose' property value is wrong!"
