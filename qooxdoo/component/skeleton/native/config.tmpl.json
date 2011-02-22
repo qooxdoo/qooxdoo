@@ -52,11 +52,6 @@
         "$${APPLICATION}.Application"
       ],
       
-      "exclude" :
-      [
-        "qx.theme.*"
-      ],
-      
       "=settings" :
       {
         "qx.version"     : "${QOOXDOO_VERSION}",
