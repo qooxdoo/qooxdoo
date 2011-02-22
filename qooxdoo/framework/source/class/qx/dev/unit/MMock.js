@@ -252,6 +252,22 @@ qx.Mixin.define("qx.dev.unit.MMock",
     mock: function(object) {
       var sinon = this.__getSinon();
       return sinon.mock.apply(sinon, arguments);
+    },
+    
+    /**
+    * Replace the native XMLHttpRequest object in browsers that support it with
+    * a custom implementation which does not send actual requests.
+    * 
+    * Note: You must not forget to call restore() in your TestCase tearDown or
+    * equivalent to prevent your test from leaking.
+    * 
+    * See http://sinonjs.org/docs/api/#useFakeXMLHttpRequest.
+    * 
+    * @return {Xhr}
+    */
+    useFakeXMLHttpRequest: function() {
+      var sinon = this.__getSinon();
+      return sinon.useFakeXMLHttpRequest();
     }
   }
 });
