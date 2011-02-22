@@ -38,6 +38,13 @@ qx.Class.define("qx.test.util.DateFormat",
 
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
+      
+      var formatStr = "yyyyMMdd";
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
+      var dateStr = dateFmt.format(date);
+
+      var parsedDate = dateFmt.parse(dateStr);
+      this.assertEquals(date.getTime(), parsedDate.getTime());
 
       var formatStr = "EEE dd. MM yyyy";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
