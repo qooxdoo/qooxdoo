@@ -214,6 +214,20 @@ qx.Class.define("qx.ui.layout.Flow",
     }),
 
 
+    // overridden
+    connectToWidget : function(widget)
+    {
+      this.base(arguments, widget);
+
+      // Necessary to be able to calculate the lines for the flow layout.
+      // Otherwise the layout calculates the needed width and height by using
+      // only one line of items which is leading to the wrong height. This
+      // wrong height does e.g. surpress scrolling since the scroll pane does
+      // not know about the correct needed height.
+      widget.setAllowShrinkY(false);
+    },
+
+
     /**
      * The FlowLayout tries to add as many Children as possible to the current 'Line'
      * and when it sees that the next Child won't fit, it starts on a new Line, continuing
