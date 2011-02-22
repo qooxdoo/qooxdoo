@@ -230,11 +230,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     */
 
 
-    /**
-     * Opens the passed node.
-     *
-     * @param node {qx.core.Object} Node to open.
-     */
+    // Interface implementation
     openNode : function(node)
     {
       this.__openNode(node);
@@ -256,11 +252,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     },
 
 
-    /**
-     * Closes the passed node.
-     *
-     * @param node {qx.core.Object} Node to close.
-     */
+    // Interface implementation
     closeNode : function(node)
     {
       if (qx.lang.Array.contains(this.__openNodes, node))
@@ -271,13 +263,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     },
 
 
-    /**
-     * Return whether the node is opened or closed.
-     *
-     * @param node {qx.core.Object} Node to check.
-     * @return {Boolean} Returns <code>true</code> when the node is opened,
-     *   <code>false</code> otherwise.
-     */
+    // Interface implementation
     isNodeOpen : function(node) {
       return qx.lang.Array.contains(this.__openNodes, node);
     },
@@ -315,13 +301,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     },
 
 
-    /**
-     * Returns the internal data structure. The Array index is the row and the
-     * value is the model item.
-     *
-     * @internal
-     * @return {Array} The internal data structure.
-     */
+    // Interface implementation
     getLookupTable : function() {
       return this.__lookupTable;
     },
@@ -338,38 +318,19 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     },
 
 
-    /**
-     * Returns if the passed item is a note or a leaf.
-     *
-     * @internal
-     * @param item {qx.core.Object} Item to check.
-     * @return {Boolean} <code>True</code> when item is a node,
-     *   </code>false</code> when item is a leaf.
-     */
+    // Interface implementation
     isNode : function(item) {
       return qx.Class.hasProperty(item.constructor, this.getChildProperty());
     },
 
 
-    /**
-     * Returns the row's nesting level.
-     *
-     * @param row {Integer} The row to get the nesting level.
-     * @return {Integer} The row's nesting level or <code>null</code>.
-     */
+    // Interface implementation
     getLevel : function(row) {
       return this.__nestingLevel[row];
     },
 
 
-    /**
-     * Return whether the node has visible children or not.
-     * 
-     * @internal
-     * @param node {qx.core.Object} Node to check.
-     * @return {Boolean} <code>True</code> when the node has visible children,
-     *   <code>false</code> otherwise.
-     */
+    // Interface implementation
     hasChildren : function(node)
     {
       var children = node.get(this.getChildProperty());
