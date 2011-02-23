@@ -186,8 +186,21 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       }
       return false;
     },
-    
-    
+
+
+    isRootNode : function(item)
+    {
+      var index = this.getLookupTable().indexOf(node);
+      if (index == -1) {
+        throw new Error("Node is not part of the model!");
+      }
+      if (index == 0) {
+        return true;
+      }
+      return false;
+    },
+
+
     getLevel : function(row)
     {
       if (row > this.getLookupTable().length || row < 0) {

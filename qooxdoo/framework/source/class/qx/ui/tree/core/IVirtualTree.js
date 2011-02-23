@@ -51,6 +51,21 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
 
 
     /**
+     * Returns whether the passed item is the root node.
+     *
+     * @internal
+     * @param item {qx.core.Object} Item to check.
+     * @return {Boolean} <code>True</code> when item is the root node,
+     *   </code>false</code> otherwise.
+     */
+    isRootNode : function(item)
+    {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInterface(item, qx.core.Object);
+    },
+
+
+    /**
      * Return whether the node is opened or closed.
      *
      * @param node {qx.core.Object} Node to check.

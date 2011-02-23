@@ -326,6 +326,12 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     // Interface implementation
+    isRootNode : function(item) {
+      return this.getModel() === item;
+    },
+
+
+    // Interface implementation
     getLevel : function(row) {
       return this.__nestingLevel[row];
     },

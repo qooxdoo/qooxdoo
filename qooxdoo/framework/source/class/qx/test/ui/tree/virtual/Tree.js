@@ -556,6 +556,16 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     },
 
 
+    testIsRootNode : function()
+    {
+      var root = this.createModelAndSetModel(1);
+
+      this.assertTrue(this.tree.isRootNode(root), "Root node is not root node!");
+      this.assertFalse(this.tree.isRootNode(root.getChildren().getItem(0)), "Children is root node!");
+      this.assertFalse(this.tree.isRootNode(new qx.test.ui.tree.virtual.Node("Node")), "Node which is not in the model is root node!");
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS TO CREATE A TREE STRUCTURE
