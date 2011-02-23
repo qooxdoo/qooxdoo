@@ -132,11 +132,14 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.provider.setChildProperty("kids");
       var widget = this.provider.getCellWidget(0,0);
 
-      var spy = this.spy(this.provider._nodeRenderer, "pool");
+      var spyPool = this.spy(this.provider._nodeRenderer, "pool");
+      var spyBinding = this.spy(this.provider, "_removeBindingsFrom");
 
       this.provider.poolCellWidget(widget);
-      this.assertCalledOnce(spy);
-      this.assertCalledWith(spy, widget);
+      this.assertCalledOnce(spyPool);
+      this.assertCalledWith(spyPool, widget);
+      this.assertCalledOnce(spyBinding);
+      this.assertCalledWith(spyBinding, widget);
       this.assertFalse(widget.hasListener("changeOpen"));
     },
 
@@ -147,11 +150,14 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.provider.setChildProperty("kids");
       var widget = this.provider.getCellWidget(3,0);
 
-      var spy = this.spy(this.provider._leafRenderer, "pool");
+      var spyPool = this.spy(this.provider._leafRenderer, "pool");
+      var spyBinding = this.spy(this.provider, "_removeBindingsFrom");
 
       this.provider.poolCellWidget(widget);
-      this.assertCalledOnce(spy);
-      this.assertCalledWith(spy, widget);
+      this.assertCalledOnce(spyPool);
+      this.assertCalledWith(spyPool, widget);
+      this.assertCalledOnce(spyBinding);
+      this.assertCalledWith(spyBinding, widget);
     },
 
 

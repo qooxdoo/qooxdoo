@@ -33,6 +33,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
    qx.ui.tree.provider.IVirtualTreeProvider
   ],
 
+  include : [qx.ui.tree.core.MWidgetController],
 
   /**
    * @param tree {qx.ui.tree.VirtualTree} tree to provide.
@@ -56,17 +57,6 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
      * property form the model instance.
      */
     childProperty :
-    {
-      check: "String",
-      nullable: true
-    },
-
-
-    /**
-     * The name of the property, where the value for the tree folders label
-     * is stored in the model classes.
-     */
-    labelPath :
     {
       check: "String",
       nullable: true
@@ -109,16 +99,15 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
         widget.setUserData("cell.type", "node");
         widget.setUserData("cell.children", hasChildren);
         widget.addListener("changeOpen", this.__onOpenChanged, this);
+        this._bindNode(widget, row);
       }
       else
       {
         widget = this._leafRenderer.getCellWidget();
         widget.setUserData("cell.type", "leaf");
+        this._bindLeaf(widget, row);
       }
       widget.setUserData("cell.level", this._tree.getLevel(row));
-      var name = qx.data.SingleValueBinding.getValueFromObject(item, 
-        this.getLabelPath()); 
-      widget.setLabel(name);
       qx.ui.core.queue.Widget.add(widget);
 
       return widget;
@@ -129,6 +118,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     poolCellWidget : function(widget)
     {
       var type = widget.getUserData("cell.type");
+      this._removeBindingsFrom(widget);
 
       if (type === "node")
       {
