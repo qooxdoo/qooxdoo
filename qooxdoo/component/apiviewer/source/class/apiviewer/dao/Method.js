@@ -61,6 +61,21 @@ qx.Class.define("apiviewer.dao.Method",
       return !!this._docNode.attributes.fromProperty;
     },
 
+    isInternal : function()
+    {
+      return this.getDocNode().getNode().attributes.access == "internal";
+    },
+
+
+    isPrivate : function()
+    {
+      return this.getDocNode().getNode().attributes.access == "private";
+    },
+
+    isProtected : function()
+    {
+      return this.getDocNode().getNode().attributes.access == "protected";
+    },
 
     getParams : function()
     {
