@@ -93,7 +93,7 @@ qx.Class.define("qx.event.handler.Mouse",
     },
 
     /** {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE + qx.event.IEventHandler.TARGET_DOCUMENT + qx.event.IEventHandler.TARGET_WINDOW,
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
     IGNORE_CAN_HANDLE : true
