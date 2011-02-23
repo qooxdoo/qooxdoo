@@ -27,7 +27,6 @@
 qx.Class.define("qx.test.ui.tree.virtual.Tree",
 {
   extend : qx.test.ui.LayoutTestCase,
-  include : qx.dev.unit.MMock,
 
   construct : function()
   {
@@ -154,7 +153,6 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       this.assertEquals(25, this.tree.getPane().getRowConfig().getDefaultItemSize(), "Init value for 'itemHeight' is wrong!");
       this.assertEquals("dblclick", this.tree.getOpenMode(), "Init value for 'openMode' is wrong!");
       this.assertFalse(this.tree.getHideRoot(), "Init value for 'hideRoot' is wrong!");
-      this.assertFalse(this.tree.getRootOpenClose(), "Init value for 'rootOpenClose' is wrong!");
       this.assertNull(this.tree.getModel(), "Init value for 'model' is wrong!");
       this.assertNull(this.tree.getLabelPath(), "Init value for 'labelPath' is wrong!");
       this.assertNull(this.tree.getChildProperty(), "Init value for 'childProperty' is wrong!");
@@ -553,31 +551,6 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
         pane.hasListener("cellClick"),
         "Expected " + (click ? "" : "no ") + " listener for 'cellClick'!"
       );
-    },
-
-
-    testIsRootNode : function()
-    {
-      var root = this.createModelAndSetModel(1);
-
-      this.assertTrue(this.tree.isRootNode(root), "Root node is not root node!");
-      this.assertFalse(this.tree.isRootNode(root.getChildren().getItem(0)), "Children is root node!");
-      this.assertFalse(this.tree.isRootNode(new qx.test.ui.tree.virtual.Node("Node")), "Node which is not in the model is root node!");
-    },
-
-
-    testSetRootOpenClose : function()
-    {
-      // Init getter and setter for spy, otherwise setRootOpenClose doen't exist
-      this.tree.setRootOpenClose(false);
-
-      var spyProvider = this.spy(this.tree._provider, "setRootOpenClose");
-      var spyPane = this.spy(this.tree.getPane(), "fullUpdate");
-
-      this.tree.setRootOpenClose(true);
-      this.assertCalledOnce(spyProvider);
-      this.assertCalledWith(spyProvider, true);
-      this.assertCalledOnce(spyPane);
     },
 
 

@@ -46,13 +46,6 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
   properties :
   {
-    rootOpenClose :
-    {
-      check: "Boolean",
-      init: false
-    },
-
-
     childProperty :
     {
       check: "String",
@@ -93,11 +86,6 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
         var hasChildren = this._tree.hasChildren(item);
         widget = this._nodeRenderer.getCellWidget();
         widget.setOpen(hasChildren && this._tree.isNodeOpen(item));
-        if (!this.isRootOpenClose() && this._tree.isRootNode(item)) {
-          widget.setOpenSymbolMode("never");
-        } else {
-          widget.setOpenSymbolMode("auto");
-        }
         widget.setUserData("cell.type", "node");
         widget.setUserData("cell.children", hasChildren);
         widget.addListener("changeOpen", this.__onOpenChanged, this);

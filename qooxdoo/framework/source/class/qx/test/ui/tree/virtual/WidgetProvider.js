@@ -60,10 +60,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testCreation : function()
     {
-      this.assertFalse(
-        this.provider.isRootOpenClose(), 
-        "Initial 'rootOpenClose' property value is wrong!"
-      );
       this.assertNull(
         this.provider.getChildProperty(), 
         "Initial 'childProperty' property value is wrong!"
@@ -97,7 +93,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.assertTrue(widget.isOpen());
       this.assertTrue(widget.hasListener("changeOpen"));
       this.assertEquals("Root", widget.getLabel(name));
-      this.assertEquals("never", widget.getOpenSymbolMode());
     },
     
     
@@ -114,7 +109,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.assertFalse(widget.isOpen());
       this.assertTrue(widget.hasListener("changeOpen"));
       this.assertEquals("Node1", widget.getLabel(name));
-      this.assertEquals("auto", widget.getOpenSymbolMode());
     },
 
 
@@ -161,24 +155,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
 
 
-    testRootOpenClose : function()
-    {
-      this.provider.setLabelPath("label");
-      this.provider.setChildProperty("kids");
-      this.provider.setRootOpenClose(true);
-
-      var widget = this.provider.getCellWidget(1,0);
-      this.assertEquals("auto", widget.getOpenSymbolMode(), "No root!");
-
-      var widget = this.provider.getCellWidget(0,0);
-      this.assertEquals("auto", widget.getOpenSymbolMode(), "Root!");
-
-      this.provider.resetRootOpenClose();
-      var widget = this.provider.getCellWidget(0,0);
-      this.assertEquals("never", widget.getOpenSymbolMode(), "Reseted Root!");
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       MOCK API
@@ -218,19 +194,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
         throw new Error("Node is not part of the model!");
       }
       if (node == this.model) {
-        return true;
-      }
-      return false;
-    },
-
-
-    isRootNode : function(item)
-    {
-      var index = this.getLookupTable().indexOf(item);
-      if (index == -1) {
-        throw new Error("Node is not part of the model!");
-      }
-      if (index == 0) {
         return true;
       }
       return false;

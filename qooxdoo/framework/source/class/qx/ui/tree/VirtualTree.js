@@ -134,17 +134,6 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Whether the Root should have an open/close button.
-     */
-    rootOpenClose :
-    {
-      check: "Boolean",
-      init: false,
-      apply: "_applyRootOpenClose"
-    },
-
-
-    /**
      * Configures the tree to show also the leafs. When the property is set to
      * <code>false</code> *only* the nodes are shown.
      */
@@ -326,12 +315,6 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     // Interface implementation
-    isRootNode : function(item) {
-      return this.getModel() === item;
-    },
-
-
-    // Interface implementation
     getLevel : function(row) {
       return this.__nestingLevel[row];
     },
@@ -394,14 +377,6 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     // property apply
     _applyHideRoot : function(value, old) {
       this.__buildLookupTable();
-    },
-
-
-    // property apply
-    _applyRootOpenClose : function(value, old)
-    {
-      this._provider.setRootOpenClose(value);
-      this.getPane().fullUpdate();
     },
 
 
