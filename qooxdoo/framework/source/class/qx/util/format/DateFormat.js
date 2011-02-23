@@ -904,7 +904,7 @@ qx.Class.define("qx.util.format.DateFormat",
       rules.push(
       {
         pattern     : "yyyy",
-        regex       : "(\\d\\d\\d\\d+)",
+        regex       : "(\\d\\d\\d\\d)",
         manipulator : yearManipulator
       });
 
