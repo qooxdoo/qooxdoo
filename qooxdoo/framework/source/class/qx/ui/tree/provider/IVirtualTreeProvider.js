@@ -1,0 +1,72 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2011 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Christian Hagendorn (chris_schmidt)
+
+************************************************************************ */
+
+/**
+ * This interface needs to implemented from all {@link qx.ui.tree.VirtualTree} 
+ * providers.
+ *
+ * @internal
+ */
+qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider",
+{
+  members :
+  {
+    /**
+     * Creates a layer for node and leaf rendering.
+     *
+     * @return {qx.ui.virtual.layer.Abstract} new layer.
+     */
+    createLayer : function() {},
+
+
+    /**
+     * Creates a renderer for node rendering.
+     *
+     * @return {var} new node renderer.
+     */
+    createNodeRenderer : function() {},
+
+
+    /**
+     * Creates a renderer for leaf rendering.
+     *
+     * @return {var} new leaf renderer.
+     */
+    createLeafRenderer : function() {},
+
+
+    /**
+     * Sets the name of the property, where the children are stored in the model.
+     * Instead of the {@link #labelPath} must the child property a direct
+     * property form the model instance.
+     * 
+     * @param value {String} The child property name.
+     */
+    setChildProperty : function(value) {},
+
+
+    /**
+     * Sets the name of the property, where the value for the tree folders label
+     * is stored in the model classes.
+     * 
+     * @param value {String} The label path.
+     */
+    setLabelPath : function(value) {}
+  }
+});

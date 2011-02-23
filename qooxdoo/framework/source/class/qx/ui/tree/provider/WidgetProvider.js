@@ -18,15 +18,19 @@
 ************************************************************************ */
 
 /**
+ * The provider implements the {@link qx.ui.virtual.core.IWidgetCellProvider}
+ * API, which can be used as delegate for the widget cell rendering and it
+ * provides a API to bind the model with the rendered item.
+ *
  * @internal
  */
 qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 {
   extend : qx.core.Object,
 
-
   implement : [
-   qx.ui.virtual.core.IWidgetCellProvider
+   qx.ui.virtual.core.IWidgetCellProvider,
+   qx.ui.tree.provider.IVirtualTreeProvider
   ],
 
 
@@ -39,13 +43,18 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
     this._tree = tree;
 
-    this._nodeRenderer = this.__createNodeRenderer();
-    this._leafRenderer = this.__createLeafRenderer();
+    this._nodeRenderer = this.createNodeRenderer();
+    this._leafRenderer = this.createLeafRenderer();
   },
 
 
   properties :
   {
+    /**
+     * The name of the property, where the children are stored in the model.
+     * Instead of the {@link #labelPath} must the child property a direct
+     * property form the model instance.
+     */
     childProperty :
     {
       check: "String",
@@ -53,6 +62,10 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     },
 
 
+    /**
+     * The name of the property, where the value for the tree folders label
+     * is stored in the model classes.
+     */
     labelPath :
     {
       check: "String",
@@ -74,6 +87,13 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     /** {qx.ui.virtual.cell.WidgetCell} the used node renderer. */
     _leafRenderer : null,
 
+    
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC API
+    ---------------------------------------------------------------------------
+    */
+    
 
     // interface implementation
     getCellWidget : function(row, column)
@@ -121,12 +141,14 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     },
 
 
+    // Interface implementation
     createLayer : function() {
       return new qx.ui.virtual.layer.WidgetCell(this);
     },
 
 
-    __createNodeRenderer : function()
+    // Interface implementation
+    createNodeRenderer : function()
     {
       var renderer = new qx.ui.virtual.cell.WidgetCell();
       renderer.setDelegate({
@@ -139,7 +161,8 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     },
 
 
-    __createLeafRenderer : function()
+    // Interface implementation
+    createLeafRenderer : function()
     {
       var renderer = new qx.ui.virtual.cell.WidgetCell();
       renderer.setDelegate({
@@ -151,7 +174,18 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       return renderer;
     },
 
-
+    
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLERS
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Handler when a node changes opened or closed state.
+     * 
+     * @param event {qx.event.type.Data} The data event.
+     */
     __onOpenChanged : function(event)
     {
       var widget = event.getTarget();
