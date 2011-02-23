@@ -48,7 +48,7 @@
  * * The init component (graphical or non-graphical)
  * * Different debugging options for json, remote io, etc.
  * 
- * You can find <a href="http://manual.qooxdoo.org/1.3.x/pages/core/settings.html#predefined-settings">predefined settings here</a>.
+ * You can find <a href="http://manual.qooxdoo.org/1.4/pages/core/settings.html#predefined-settings">predefined settings here</a>.
  * 
  * This list shows you some of your possibilities.
  *
