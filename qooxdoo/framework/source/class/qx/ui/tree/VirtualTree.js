@@ -398,8 +398,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     // property apply
-    _applyRootOpenClose : function(value, old) {
+    _applyRootOpenClose : function(value, old)
+    {
       this._provider.setRootOpenClose(value);
+      this.getPane().fullUpdate();
     },
 
 

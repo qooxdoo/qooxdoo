@@ -84,7 +84,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
     
     
-    testGetNodeWidget : function()
+    testGetRootNodeWidget : function()
     {
       this.provider.setLabelPath("label");
       this.provider.setChildProperty("kids");
@@ -97,9 +97,27 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.assertTrue(widget.isOpen());
       this.assertTrue(widget.hasListener("changeOpen"));
       this.assertEquals("Root", widget.getLabel(name));
+      this.assertEquals("never", widget.getOpenSymbolMode());
     },
     
     
+    testGetNodeWidget : function()
+    {
+      this.provider.setLabelPath("label");
+      this.provider.setChildProperty("kids");
+      var widget = this.provider.getCellWidget(1,0);
+
+      this.assertInstance(widget, qx.ui.tree.VirtualTreeFolder);
+      this.assertEquals("node", widget.getUserData("cell.type"));
+      this.assertTrue(widget.getUserData("cell.children"));
+      this.assertEquals(1, widget.getUserData("cell.level"));
+      this.assertFalse(widget.isOpen());
+      this.assertTrue(widget.hasListener("changeOpen"));
+      this.assertEquals("Node1", widget.getLabel(name));
+      this.assertEquals("auto", widget.getOpenSymbolMode());
+    },
+
+
     testGetLeafWidget : function()
     {
       this.provider.setLabelPath("label");
@@ -140,6 +158,24 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.provider.poolCellWidget(widget);
       this.assertCalledOnce(spy);
       this.assertCalledWith(spy, widget);
+    },
+
+
+    testRootOpenClose : function()
+    {
+      this.provider.setLabelPath("label");
+      this.provider.setChildProperty("kids");
+      this.provider.setRootOpenClose(true);
+
+      var widget = this.provider.getCellWidget(1,0);
+      this.assertEquals("auto", widget.getOpenSymbolMode(), "No root!");
+
+      var widget = this.provider.getCellWidget(0,0);
+      this.assertEquals("auto", widget.getOpenSymbolMode(), "Root!");
+
+      this.provider.resetRootOpenClose();
+      var widget = this.provider.getCellWidget(0,0);
+      this.assertEquals("never", widget.getOpenSymbolMode(), "Reseted Root!");
     },
 
 
@@ -190,7 +226,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     isRootNode : function(item)
     {
-      var index = this.getLookupTable().indexOf(node);
+      var index = this.getLookupTable().indexOf(item);
       if (index == -1) {
         throw new Error("Node is not part of the model!");
       }

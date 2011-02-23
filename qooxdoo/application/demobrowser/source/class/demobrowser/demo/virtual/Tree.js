@@ -129,12 +129,13 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       });
 
 
-//      var btnShowRootOpen = new qx.ui.form.CheckBox("Show root open button");
-//      commandFrame.add(btnShowRootOpen, {row: row++, column: 1});
-//
-//      btnShowRootOpen.addListener("changeValue", function(e) {
-//        tree.setRootOpenClose(e.getData());
-//      });
+      var btnShowRootOpen = new qx.ui.form.CheckBox("Show root open button");
+      btnShowRootOpen.setValue(tree.isRootOpenClose());
+      commandFrame.add(btnShowRootOpen, {row: row++, column: 1});
+
+      btnShowRootOpen.addListener("changeValue", function(e) {
+        tree.setRootOpenClose(e.getData());
+      });
 
       commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
       commandFrame.add(new qx.ui.basic.Label("Tree:"), {row: row, column: 0});
