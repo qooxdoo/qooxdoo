@@ -225,6 +225,20 @@ qx.Class.define("qx.test.Xml",
         this.assertEquals(namespaceURI, node.getAttributeNode("qxid").namespaceURI);
       }
     },
+    
+    /**
+     * TODOC
+     *
+     */
+    testGetAttributeNS : function()
+    {
+      var doc = qx.xml.Document.create("http://www.w3.org/1999/xhtml", "html");
+      var node = doc.createElement("a");
+      var namespaceURI = "http://www.qooxdoo.org/";
+      qx.xml.Element.setAttributeNS(doc, node, namespaceURI, "qxid", "foo");
+
+      this.assertEquals('foo', qx.xml.Element.getAttributeNS(node,namespaceURI,'qxid'));
+    },
 
     testCreateSubElementNS : function()
     {
