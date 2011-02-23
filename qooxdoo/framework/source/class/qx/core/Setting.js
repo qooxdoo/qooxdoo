@@ -42,12 +42,14 @@
  * For example you can control the following things in qooxdoo:
  *
  * * All type of themes (colors, icons, widgets, appearance)
- * * Default log level and appender
+ * * Debug log level of certain areas (dispose and property)
  * * Resource-URLs of standard qooxdoo icons and widgets images
  * * Timeout of the image preloader
  * * The init component (graphical or non-graphical)
  * * Different debugging options for json, remote io, etc.
- *
+ * 
+ * You can find <a href="http://manual.qooxdoo.org/1.3.x/pages/core/settings.html#predefined-settings">predefined settings here</a>.
+ * 
  * This list shows you some of your possibilities.
  *
  * *Usage*
