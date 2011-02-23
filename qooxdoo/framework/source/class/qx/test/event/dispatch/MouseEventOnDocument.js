@@ -27,11 +27,17 @@ qx.Class.define("qx.test.event.dispatch.MouseEventOnDocument",
     {
       this.root = qx.bom.Element.create("div", {id: "root"});
       document.body.appendChild(this.root);
+      this.ringAppender = new qx.log.appender.RingBuffer();
+      qx.log.Logger.register(this.ringAppender);
     },
 
 
     tearDown : function()
     {
+      qx.log.Logger.unregister(this.ringAppender);
+      qx.log.Logger.clear();
+      this.ringAppender=null;
+      
       var Reg = qx.event.Registration;
 
       Reg.removeAllListeners(document);
@@ -57,15 +63,11 @@ qx.Class.define("qx.test.event.dispatch.MouseEventOnDocument",
       if (qx.core.Variant.isSet("qx.debug", "on")){
         qx.log.Logger.clear();
         var events = ['mousemove','click','mousedown','mouseup'];
-        var ringAppender = new qx.log.appender.RingBuffer();
-        qx.log.Logger.register(ringAppender);
         for(var i=0;i<events.length;i++ ) {
           qx.bom.Element.addListener(el, events[i], function(){});
         }
         var warnings = ringAppender.getAllLogEvents().length;
         this.assertTrue( 0 === warnings , warnings + " events in ['mousemove','click','mousedown','mouseup'] generated a warning when added to target "+el);
-        qx.log.Logger.unregister(ringAppender);
-        qx.log.Logger.clear();
       }
     }
     
