@@ -59,6 +59,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     }
 
     this.initItemHeight();
+    this.initOpenMode();
   },
 
 
@@ -365,7 +366,22 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     // property apply
-    _applyOpenMode : function(value, old) {
+    _applyOpenMode : function(value, old)
+    {
+      var pane = this.getPane();
+
+      //"click", "dblclick", "none"
+      if (value === "dblclick") {
+        pane.addListener("cellDblclick", this._onOpen, this);
+      } else if (value === "click") {
+        pane.addListener("cellClick", this._onOpen, this);
+      }
+
+      if (old === "dblclick") {
+        pane.removeListener("cellDblclick", this._onOpen, this);
+      } else if (old === "click") {
+        pane.removeListener("cellClick", this._onOpen, this);
+      }
     },
 
 
@@ -442,6 +458,27 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     _onResize : function(event) {
       this.getPane().getColumnConfig().setItemSize(0, event.getData().width);
+    },
+
+
+    /**
+     * Event handler to open/close clicked nodes.
+     * 
+     * @param event {qx.ui.virtual.core.CellEvent} The cell click event.
+     */
+    _onOpen : function(event)
+    {
+      var row = event.getRow();
+      var item = this.getLookupTable()[row];
+      
+      if (this.isNode(item))
+      {
+        if (this.isNodeOpen(item)) {
+          this.closeNode(item);
+        } else {
+          this.openNode(item);
+        }
+      }
     },
 
 
@@ -609,6 +646,16 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
   destruct : function()
   {
+    var pane = this.getPane()
+    if (pane != null)
+    {
+      if (pane.hasListener("cellDblclick")) {
+        pane.addListener("cellDblclick", this._onOpen, this);
+      } else if (pane.hasListener("cellClick")) {
+        pane.removeListener("cellClick", this._onOpen, this);
+      }
+    }
+        
     this._layer.destroy();
     this._provider.dispose();
 

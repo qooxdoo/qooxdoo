@@ -158,6 +158,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       this.assertNull(this.tree.getModel(), "Init value for 'model' is wrong!");
       this.assertNull(this.tree.getLabelPath(), "Init value for 'labelPath' is wrong!");
       this.assertNull(this.tree.getChildProperty(), "Init value for 'childProperty' is wrong!");
+      this.assertTrue(this.tree.getPane().hasListener("cellDblclick"), "Init listener 'cellDblclick' is wrong!");
     },
 
 
@@ -277,7 +278,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       this.tree.setModel(null);
       this.__testBuildLookupTable([]);
     },
-    
+
 
     testBuildLookupTableOnModelChange : function()
     {
@@ -309,8 +310,8 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       var expected = this.__getVisibleItemsFrom(root, [root]);
       this.__testBuildLookupTable(expected);
     },
-    
-    
+
+
     testBuildLookupWithoutLeafs : function()
     {
       var root = this.createModelAndSetModel(2);
@@ -320,12 +321,12 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
         root.getChildren().getItem(2)
       ];
       this.__openNodes(nodesToOpen);
-      
+
       this.tree.setShowLeafs(false);
 
       var allVisibleItems = this.__getVisibleItemsFrom(root, nodesToOpen);
       qx.lang.Array.insertAt(allVisibleItems, root, 0);
-      
+
       var expected = [];
       for (var i = 0; i < allVisibleItems.length; i++)
       {
@@ -333,7 +334,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
         if (this.tree.isNode(item)) {
           expected.push(item);
         }
-      }     
+      }
       this.__testBuildLookupTable(expected);
     },
 
@@ -493,7 +494,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     {
       var root = this.createModelAndSetModel(1);
       this.assertTrue(this.tree.hasChildren(root));
-      
+
       var node = new qx.test.ui.tree.virtual.Node("Node");
       this.assertFalse(this.tree.hasChildren(node));
       node.dispose();
@@ -516,6 +517,42 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       var node = new qx.test.ui.tree.virtual.Node("Node");
       this.assertFalse(this.tree.hasChildren(node));
       node.dispose();
+    },
+
+
+    testSetOpenModeWithClick : function()
+    {
+      this.tree.setOpenMode("click");
+      this.__testOpenMode(false, true);
+
+      this.tree.resetOpenMode();
+      this.__testOpenMode(true, false);
+    },
+
+
+    testSetOpenModeWithNone : function()
+    {
+      this.tree.setOpenMode("none");
+      this.__testOpenMode(false, false);
+
+      this.tree.resetOpenMode();
+      this.__testOpenMode(true, false);
+    },
+
+
+    __testOpenMode : function(dblclick, click)
+    {
+      var pane = this.tree.getPane();
+      this.assertEquals(
+        dblclick,
+        pane.hasListener("cellDblclick"),
+        "Expected " + (dblclick ? "" : "no ") + " listener for 'cellDblclick'!"
+      );
+      this.assertEquals(
+        click,
+        pane.hasListener("cellClick"),
+        "Expected " + (click ? "" : "no ") + " listener for 'cellClick'!"
+      );
     },
 
 
