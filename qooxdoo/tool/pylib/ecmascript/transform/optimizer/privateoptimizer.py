@@ -21,25 +21,25 @@
 import os, sys, re, types
 from misc.util import convert
 
-names = {}  # names = { "<classId>:<private>" : "<repl>", ...}
-used = {}   # used  = { "<private>" : [ "<classId>", ...], ...} -- only maintained for debug() function, not relevant for optimization
+#names = {}  # names = { "<classId>:<private>" : "<repl>", ...}
+#used = {}   # used  = { "<private>" : [ "<classId>", ...], ...} -- only maintained for debug() function, not relevant for optimization
 
 
-def load(data):
-    global names
-    names = data
-    
-    # Dynamically fill used data
-    for name in names:
-        (id, iden) = name.split(":")
-        if not iden in used:
-            used[iden] = [id]
-        elif not id in used[iden]:
-            used[iden].append(id)
+#def load(data):
+#    global names
+#    names = data
+#    
+#    # Dynamically fill used data
+#    for name in names:
+#        (id, iden) = name.split(":")
+#        if not iden in used:
+#            used[iden] = [id]
+#        elif not id in used[iden]:
+#            used[iden].append(id)
 
 
-def get():
-    return names
+#def get():
+#    return names
 
 
 def debug():
@@ -102,10 +102,10 @@ def lookup(id, node, privates, globalPrivs):
     if name and name.startswith("__") and not name in privates:
         privates[name] = crypt(id, name, globalPrivs)
         
-        if not name in used:
-            used[name] = [id]
-        elif not id in used[name]:
-            used[name].append(id)
+        #if not name in used:
+        #    used[name] = [id]
+        #elif not id in used[name]:
+        #    used[name].append(id)
 
     if node.hasChildren():
         for child in node.children:
