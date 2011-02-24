@@ -50,8 +50,11 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     lookupTable : null,
     
     
-    setUp : function() {
+    setUp : function()
+    {
       this.provider = new qx.ui.tree.provider.WidgetProvider(this);
+      this.provider.setLabelPath("label");
+      this.provider.setChildProperty("kids");
     },
 
 
@@ -69,6 +72,9 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testCreation : function()
     {
+      this.provider.dispose();
+      this.provider = new qx.ui.tree.provider.WidgetProvider(this);
+      
       this.assertNull(
         this.provider.getChildProperty(), 
         "Initial 'childProperty' property value is wrong!"
@@ -91,9 +97,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     
     testGetRootNodeWidget : function()
     {
-      this.provider.setLabelPath("label");
-      this.provider.setChildProperty("kids");
-
       var spy = this.spy(this.provider, "_bindNode");
       var widget = this.provider.getCellWidget(0,0);
       
@@ -110,9 +113,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     
     testGetNodeWidget : function()
     {
-      this.provider.setLabelPath("label");
-      this.provider.setChildProperty("kids");
-
       var spy = this.spy(this.provider, "_bindNode");
       var widget = this.provider.getCellWidget(1,0);
       
@@ -129,9 +129,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testGetLeafWidget : function()
     {
-      this.provider.setLabelPath("label");
-      this.provider.setChildProperty("kids");
-
       var spy = this.spy(this.provider, "_bindLeaf");
       var widget = this.provider.getCellWidget(3,0);
 
@@ -146,8 +143,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     
     testPoolNodeWidget : function()
     {
-      this.provider.setLabelPath("label");
-      this.provider.setChildProperty("kids");
       var widget = this.provider.getCellWidget(0,0);
 
       var spyPool = this.spy(this.provider._nodeRenderer, "pool");
@@ -164,8 +159,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testPoolLeafWidget : function()
     {
-      this.provider.setLabelPath("label");
-      this.provider.setChildProperty("kids");
       var widget = this.provider.getCellWidget(3,0);
 
       var spyPool = this.spy(this.provider._leafRenderer, "pool");
@@ -181,9 +174,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testBindNode : function()
     {
-      this.provider.setLabelPath("label");
-      this.provider.setChildProperty("kids");
-
       var widget = new qx.ui.tree.VirtualTreeFolder();
 
       this.provider._bindNode(widget, 0);
@@ -198,9 +188,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testBindLeaf : function()
     {
-      this.provider.setLabelPath("label");
-      this.provider.setChildProperty("kids");
-
       var widget = new qx.ui.tree.VirtualTreeFile();
 
       this.provider._bindLeaf(widget, 3);
@@ -211,9 +198,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testRemoveBindingsFromNode : function()
     {
-      this.provider.setLabelPath("label");
-      this.provider.setChildProperty("kids");
-
       var widget = new qx.ui.tree.VirtualTreeFolder();
       var oldWidgetBindungs = widget.getBindings().length;
       var oldModelBindungs = this.getLookupTable().getBindings().length;
