@@ -339,7 +339,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
 
     __testBuildLookupTable : function(expected)
     {
-      this.assertArrayEquals(expected, this.tree.getLookupTable());
+      this.assertArrayEquals(expected, this.tree.getLookupTable().toArray());
       this.assertEquals(expected.length, this.tree.getPane().getRowConfig().getItemCount());
     },
 

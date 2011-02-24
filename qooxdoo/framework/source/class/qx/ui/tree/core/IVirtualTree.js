@@ -30,7 +30,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
      * value is the model item.
      *
      * @internal
-     * @return {Array} The internal data structure.
+     * @return {qx.data.Array} The internal data structure.
      */
     getLookupTable : function() {},
 

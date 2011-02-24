@@ -207,12 +207,11 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     getLookupTable : function()
     {
       var model = this.model;
-      var lookupTable = [model];
-        for (var i = 0; i < model.getKids().getLength(); i++) {
-          lookupTable.push(model.getKids().getItem(i));
-        }
-        return lookupTable;
-      return [];
+      var lookupTable = new qx.data.Array([model]);
+      for (var i = 0; i < model.getKids().getLength(); i++) {
+        lookupTable.push(model.getKids().getItem(i));
+      }
+      return lookupTable;
     },
     
     
@@ -244,7 +243,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     getLevel : function(row)
     {
-      if (row > this.getLookupTable().length || row < 0) {
+      if (row > this.getLookupTable().getLength() || row < 0) {
         throw new Error("Row is not in range of the model!");
       }
       if (row == 0) {

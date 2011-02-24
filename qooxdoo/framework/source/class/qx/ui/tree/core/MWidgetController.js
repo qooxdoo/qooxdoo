@@ -97,7 +97,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
      */
     bindProperty : function(sourcePath, targetProperty, options, targetWidget, index)
     {
-      var bindTarget = this._tree.getLookupTable()[index];
+      var bindTarget = this._tree.getLookupTable().getItem(index);
       bindTarget.bind(sourcePath, targetWidget, targetProperty, options);
     },
 
@@ -117,7 +117,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
      */
     bindPropertyReverse: function(targetPath, sourcePath, options, sourceWidget, index)
     {
-      var bindTarget = this._tree.getLookupTable()[index];
+      var bindTarget = this._tree.getLookupTable().getItem(index);
       sourceWidget.bind(sourcePath, bindTarget, targetPath, options);
     },
 

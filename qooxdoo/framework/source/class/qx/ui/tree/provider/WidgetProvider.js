@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     // interface implementation
     getCellWidget : function(row, column)
     {
-      var item = this._tree.getLookupTable()[row];
+      var item = this._tree.getLookupTable().getItem(row);
 
       var widget = null;
       if (this._tree.isNode(item))
@@ -181,7 +181,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       var widget = event.getTarget();
 
       var row = widget.getUserData("cell.row");
-      var item = this._tree.getLookupTable()[row];
+      var item = this._tree.getLookupTable().getItem(row);
       if (event.getData()) {
         this._tree.openNode(item);
       } else {
