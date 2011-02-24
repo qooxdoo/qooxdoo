@@ -1,3 +1,5 @@
+Widget Reference List
+*********************
 
 .. toctree::
 
