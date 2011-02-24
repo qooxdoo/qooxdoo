@@ -66,7 +66,7 @@ qx.Class.define("qx.test.event.dispatch.MouseEventOnDocument",
         for(var i=0;i<events.length;i++ ) {
           qx.bom.Element.addListener(el, events[i], function(){});
         }
-        var warnings = ringAppender.getAllLogEvents().length;
+        var warnings = this.ringAppender.getAllLogEvents().length;
         this.assertTrue( 0 === warnings , warnings + " events in ['mousemove','click','mousedown','mouseup'] generated a warning when added to target "+el);
       }
     }
