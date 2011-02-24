@@ -20,21 +20,9 @@
 qx.Class.define("simulator.Application", {
 
   extend : qx.application.Native,
-    
-  statics :
-  {
-    /**
-     * {Array} Names of optional configuration settings for the 
-     * {@link simulator.QxSimulation} instance to be used for this test. 
-     * Options are defined as settings in the "simulation" job.  
-     */
-    SETTING_NAMES : ["globalErrorLogging", "testEvents", "disposerDebug", 
-                    "applicationLog", "threadSafe"]
-  },
   
   members :
   {
-    __optionalSettings : null,
   
     main : function()
     {
@@ -42,19 +30,12 @@ qx.Class.define("simulator.Application", {
         this._argumentsToSettings(window.arguments);
       }
       
-      this.__optionalSettings = this._getOptionalSettings();
-      
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
       
-      var threadSafe = false;
-      if (this.__optionalSettings.threadSafe) {
-        threadSafe = true;
-      }
-      
-      this.simulation = this.getSimulation();
+      this.simulation = new simulator.QxSimulation();
       
       this.runner = new simulator.TestRunner();
-      this.runner.runTests(threadSafe);
+      this.runner.runTests();
     },
     
     /**
@@ -81,37 +62,6 @@ qx.Class.define("simulator.Application", {
           }
         }
       }
-    },
-    
-    /**
-     * Returns a map containing QxSimulation options.
-     * 
-     * @return {Map} Settings map
-     */
-    _getOptionalSettings : function()
-    {
-      var settings = {};
-      var names = simulator.Application.SETTING_NAMES;
-      for (var i=0,l=names.length; i<l; i++) {
-        try {
-          settings[names[i]] = qx.core.Setting.get("simulator." + names[i]);
-        } catch(ex) {
-          settings[names[i]] = null;
-        }
-      }
-      return settings;
-    },
-    
-    /**
-     * Configures and returns a QxSimulation instance.
-     * 
-     * @return {simulator.QxSimulation}
-     */
-    getSimulation : function()
-    {
-      var simulation = new simulator.QxSimulation(this.__optionalSettings);
-      
-      return simulation;
     }
   }
   

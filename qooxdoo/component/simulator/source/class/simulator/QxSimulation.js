@@ -30,11 +30,16 @@ qx.Class.define("simulator.QxSimulation", {
   /**
    * @param options {Map} Configuration settings 
    */
-  construct : function(options)
+  construct : function()
   {
-    this.__autHost = qx.core.Setting.get("simulator.autHost");
-    this.__autPath = qx.core.Setting.get("simulator.autPath");
-    this._options = options || {};
+    this.__options = {
+      autHost : qx.core.Setting.get("simulator.autHost"),
+      autPath : qx.core.Setting.get("simulator.autPath"),
+      threadSafe : qx.core.Setting.get("simulator.threadSafe"),
+      applicationLog : qx.core.Setting.get("simulator.applicationLog"),
+      globalErrorLogging : qx.core.Setting.get("simulator.globalErrorLogging"),
+      testEvents : qx.core.Setting.get("simulator.testEvents")
+    };
     this.startDate = new Date();
     // for backwards compatibility:
     this.qxSelenium = simulator.QxSelenium.getInstance();
@@ -48,9 +53,7 @@ qx.Class.define("simulator.QxSimulation", {
 
   members :
   {
-    
-    __autHost : null,
-    __autPath : null,
+    __options : null,
 
     /**
      * Starts the QxSelenium session, opens the AUT in the browser and waits 
@@ -60,28 +63,28 @@ qx.Class.define("simulator.QxSimulation", {
      */
     startSession : function()
     {
-      if (!this._options.threadSafe) {
+      if (!this.__options.threadSafe) {
         // Using Selenium Grid's ThreadSafeSeleniumSessionStorage, session
         // should already be started.
         simulator.QxSelenium.getInstance().start();
       }
-      var autUri = this.__autHost + "" + this.__autPath;
+      var autUri = this.__options.autHost + "" + this.__options.autPath;
       this.qxOpen(autUri);
       this.waitForQxApplication();
       
-      if (this._options.globalErrorLogging || this._options.testEvents) {
+      if (this.__options.globalErrorLogging || this.__options.testEvents) {
         qx.Class.include(simulator.QxSimulation, simulator.MGlobalErrorHandling);
         this.addGlobalErrorHandler();
         this.addGlobalErrorGetter();
       }
       
-      if (this._options.applicationLog || this._options.disposerDebug) {
+      if (this.__options.applicationLog || this.__options.disposerDebug) {
         qx.Class.include(simulator.QxSimulation, simulator.MApplicationLogging);
         this.addRingBuffer();
         this.addRingBufferGetter();
       }
       
-      if (this._options.testEvents) {
+      if (this.__options.testEvents) {
         qx.Class.include(simulator.QxSimulation, simulator.MEventSupport);
         this._addListenerSupport();
         simulator.QxSelenium.getInstance().getEval('selenium.qxStoredVars["eventStore"] = [];');
@@ -209,8 +212,8 @@ qx.Class.define("simulator.QxSimulation", {
     {
       this.info("Simulator run on " + this.startDate.toUTCString());
       this.info("Application under test: " 
-                + this.__autHost 
-                + unescape(this.__autPath));
+                + this.__options.autHost 
+                + unescape(this.__options.autPath));
       this.info("Platform: " + environment["os.name"]);
     },
     
@@ -232,7 +235,7 @@ qx.Class.define("simulator.QxSimulation", {
      */
     logResults : function()
     {
-      if (this._options.disposerDebug) {
+      if (this.__options.disposerDebug) {
         var getDisposerDebugLevel = simulator.QxSimulation.AUTWINDOW 
           + ".qx.core.Setting.get('qx.disposerDebugLevel')";
         var disposerDebugLevel = simulator.QxSelenium.getInstance().getEval(getDisposerDebugLevel);
@@ -245,11 +248,11 @@ qx.Class.define("simulator.QxSimulation", {
         }
       }
       
-      if (this._options.globalErrorLogging) {
+      if (this.__options.globalErrorLogging) {
         this.logGlobalErrors();
       }
       
-      if (this._options.applicationLog || this._options.disposerDebug) {
+      if (this.__options.applicationLog || this.__options.disposerDebug) {
         this.logRingBufferEntries();
       }      
     },
@@ -328,7 +331,7 @@ qx.Class.define("simulator.QxSimulation", {
      */
     qxOpen : function(uri)
     {
-      var openUri = uri || this.__autHost + "" + this.__autPath;
+      var openUri = uri || this.__options.autHost + "" + this.__options.autPath;
       simulator.QxSelenium.getInstance().open(openUri);
       this._setupEnvironment();
     }
