@@ -2805,9 +2805,7 @@ qx.Class.define("qx.ui.core.Widget",
           var oldData = manager.styleFrom(selector, states, null, this.getAppearance());
 
           // Clear current selector (to force recompute)
-          if (oldData) {
-            selector = null;
-          }
+          selector = null;
         }
       }
 

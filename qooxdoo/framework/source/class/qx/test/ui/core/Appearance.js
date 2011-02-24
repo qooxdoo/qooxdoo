@@ -23,14 +23,15 @@ qx.Class.define("qx.test.ui.core.Appearance",
 
   members :
   {
-    setUp : function()
-    {
+    __oldAppearance : null,
+
+    setUp : function() {
+      this.__oldAppearance = qx.theme.manager.Appearance.getInstance().getTheme();
       qx.theme.manager.Appearance.getInstance().setTheme(qx.test.ui.core.Theme);
     },
 
-    tearDown : function()
-    {
-      qx.theme.manager.Appearance.getInstance().setTheme(qx.theme.modern.Appearance);
+    tearDown : function() {
+      qx.theme.manager.Appearance.getInstance().setTheme(this.__oldAppearance);
     },
 
     testDefault : function()
@@ -78,6 +79,29 @@ qx.Class.define("qx.test.ui.core.Appearance",
       this.assertEquals("red", a.getBackgroundColor());
       this.assertEquals("blue", a.getChildControl("text").getBackgroundColor());
       a.destroy();
+    },
+
+
+    testReuseNotDefined : function() {
+      var a = new qx.test.ui.core.Test();
+      a.setAppearance("test");
+      this.getRoot().add(a);
+      a.getChildControl("text");
+      a.getChildControl("text2").setAppearance("nix");
+      this.flush();
+
+      this.assertEquals("red", a.getBackgroundColor());
+      this.assertEquals("blue", a.getChildControl("text").getBackgroundColor());
+
+      a.setAppearance("test2");
+      this.flush();
+
+      this.assertEquals("yellow", a.getBackgroundColor());
+      this.assertEquals("black", a.getChildControl("text2").getBackgroundColor());
+      // check for the textfield fallback
+      this.assertEquals("green", a.getChildControl("text").getBackgroundColor());
+
+      a.destroy();
     }
 
   }
@@ -120,6 +144,15 @@ qx.Theme.define("qx.test.ui.core.Theme", {
           backgroundColor : "yellow"
         };
       }
+    },
+    
+    "test2/text2" : {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "black"
+        };
+      }
     }
   }
 });
@@ -133,7 +166,7 @@ qx.Class.define("qx.test.ui.core.Test", {
   },
   members : {
     _createChildControlImpl : function(id, hash) {
-      if (id == "text") {
+      if (id == "text" || id == "text2") {
         var control = new qx.ui.form.TextField("affe");
         this._add(control)
         return control;
