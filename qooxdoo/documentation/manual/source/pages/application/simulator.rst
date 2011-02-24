@@ -22,7 +22,7 @@ The Simulator enables developers to:
 * Define Selenium test cases by writing qooxdoo classes
 * Use the JUnit-style setUp, test*, tearDown pattern
 * Define test jobs using the qooxdoo toolchain's configuration system
-* Utilize the standard Selenium API and the qooxdoo user extensions to locate and interact with qooxdoo widgets
+* Utilize the standard Selenium API as well as qooxdoo-specific user extensions to locate and interact with qooxdoo widgets
 * Capture and log uncaught exceptions thrown in the tested application
 * Use Selenium RC to run tests in `many different browser/platform combinations <http://seleniumhq.org/about/platforms.html#browsers>`_
 * Write custom logger classes using qooxdoo's flexible logging system
@@ -51,15 +51,11 @@ The Simulator needs the following external resources to run:
 * Java Runtime Environment: Version 1.6 is known to work 
 * `Selenium RC <http://seleniumhq.org/download/>`__: The required components are selenium-server.jar and selenium-java-client-driver.jar. Versions 1.0 up to and including 2.0a5 are known to work.
 * `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Versions 1.7R1 and later.
-* `Qooxdoo User Extensions for Selenium (user-extensions-qooxdoo.js) <http://qooxdoo.org/contrib/project/simulator>`_ from the Simulator contribution: Use the latest trunk version from SVN.
 
 The Selenium Client Driver (selenium-java-client-driver.jar) and Rhino (js.jar) archives must be located on the same machine as the application to be tested.
 
-The Selenium Server (selenium-server.jar) can optionally run on a physically separate host (see the Selenium RC documentation for details). The qooxdoo user extensions must be located on the same machine as the server.
+The Selenium Server (selenium-server.jar) can optionally run on a physically separate host (see the Selenium RC documentation for details). The qooxdoo user extensions must be located on the same machine as the server (see below).
 
-.. note::
-
-  The qooxdoo User Extensions for Selenium will be moved into the Simulator component for a future release so that it will no longer be necessary to download the file or check out the contribution repository.
 
 Generator Configuration
 =======================
@@ -123,9 +119,7 @@ The Selenium RC server must be started with the *-userExtensions* command line o
 
 ::
 
-  java -jar selenium-server.jar -userExtensions ../some/path/user-extensions.js
-  
-Note that the user extension file **must** be named *user-extensions.js*.
+  java -jar selenium-server.jar -userExtensions <QOOXDOO-TRUNK>/component/simulator/tool/user-extensions/user-extensions.js
 
 Running the Tests
 -------------------------------
