@@ -14,6 +14,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(qxSelenium)
+************************************************************************ */
+
 /**
  * Creates and runs a suite of integration tests using QxSelenium.
  */
@@ -61,11 +65,9 @@ qx.Class.define("simulator.TestRunner", {
     /**
      * Runs all tests in the current suite.
      */
-    runTests : function(threadSafe)
+    runTests : function()
     {
-      if (!threadSafe) {
-        this.simulation.startSession();
-      }
+      this.simulation.startSession();
       this.simulation.logEnvironment();
       this.simulation.logUserAgent();
       
@@ -73,7 +75,7 @@ qx.Class.define("simulator.TestRunner", {
       this.suite.run(testResult);
       
       this.simulation.logRunTime();
-      this.simulation.qxSelenium.stop();
+      simulator.QxSelenium.getInstance().stop();
     },
     
     /**

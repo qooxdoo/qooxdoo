@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(selenium)
+************************************************************************ */
+
 /**
  * Provides functionality to capture the log messages of a tested qooxdoo 
  * application.
@@ -68,7 +72,7 @@ qx.Mixin.define("simulator.MApplicationLogging",
       var rb = "(function() { var rb = " + qxWin + ".qx.log.appender.RingBuffer; return new rb(); })()";
       //var rb = "new " + qxWin + ".qx.log.appender.RingBuffer()";
       this.storeEval(rb, "ringBuffer");  
-      this.qxSelenium.getEval(qxWin + ".qx.log.Logger.register(selenium.qxStoredVars['ringBuffer'])");
+      simulator.QxSelenium.getInstance().getEval(qxWin + ".qx.log.Logger.register(selenium.qxStoredVars['ringBuffer'])");
     },
     
     
@@ -82,9 +86,12 @@ qx.Mixin.define("simulator.MApplicationLogging",
     getRingBufferEntries : function(win)
     {
       var qxWin = win || "selenium.qxStoredVars['autWindow']";
-      var debugLog = this.qxSelenium.getEval("selenium.qxStoredVars['autWindow']" +
+      var debugLog = simulator.QxSelenium.getInstance().getEval("selenium.qxStoredVars['autWindow']" +
         ".qx.Simulation.getRingBufferEntries(" + qxWin + ")");
       debugLog = String(debugLog);
+      if (!debugLog.length > 0) {
+        return [];
+      }
       return debugLog.split("|");
     }
 

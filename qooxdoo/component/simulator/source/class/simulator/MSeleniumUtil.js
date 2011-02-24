@@ -38,7 +38,7 @@ qx.Mixin.define("simulator.MSeleniumUtil", {
       var snippet = 'selenium.getQxWidgetByLocator("' + locator +'")';
       var widget;
       try {
-        widget = String(this.getSimulation().qxSelenium.getEval(snippet));
+        widget = String(simulator.QxSelenium.getInstance().getEval(snippet));
       } catch(ex) {
         widget = null;
       }
@@ -61,7 +61,7 @@ qx.Mixin.define("simulator.MSeleniumUtil", {
       var snippet = 'selenium.getQxObjectFunction("' + locator +'", "get' + propertyName + '")';
       var propertyValue;
       try {
-        propertyValue = String(this.getSimulation().qxSelenium.getEval(snippet));
+        propertyValue = String(simulator.QxSelenium.getInstance().getEval(snippet));
       } catch(ex) {
         propertyValue = null;
       }

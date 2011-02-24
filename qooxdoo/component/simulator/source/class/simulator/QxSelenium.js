@@ -17,28 +17,54 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(importClass)
+#ignore(QxSelenium)
+#ignore(ThreadSafeSeleniumSessionStorage)
+************************************************************************ */
+
+
 /**
- * Creates and configures a QxSelenium instance.
+ * Imports the com.thoughtworks.selenium.QxSelenium Java class and creates 
+ * an instance. If the "simulator.threadSafe" setting is active, a session 
+ * created by Selenium Grid's ThreadSafeSeleniumSessionStorage is returned 
+ * instead.
+ * 
+ * @lint ignoreUndefined(importClass,QxSelenium,ThreadSafeSeleniumSessionStorage)
  */
 qx.Class.define("simulator.QxSelenium", {
 
   extend : qx.core.Object,
+  
+  type : "singleton",
 
-  statics :
+  construct : function()
   {
-    /**
-     * Imports the com.thoughtworks.selenium.QxSelenium Java class and creates 
-     * an instance.
-     * 
-     * @param server {String} The Selenium RC server's domain, e.g. "localhost"
-     * @param port {Integer} The Selenium server's port number
-     * @param browser {String} Selenium browser launcher, e.g. "*firefox3"
-     * @param host {String} The AUT's host name
-     * @return {Object} The configured QxSelenium instance
-     * @lint ignoreUndefined(importClass,QxSelenium)
-     */
-    create : function(server, port, browser, host)
-    {
+    this.base(arguments);
+    var server = qx.core.Setting.get("simulator.selServer");
+    var port = qx.core.Setting.get("simulator.selPort");
+    var browser = qx.core.Setting.get("simulator.testBrowser");
+    var host = qx.core.Setting.get("simulator.autHost");
+    
+    var threadSafe = false;
+    try {
+      threadSafe = qx.core.Setting.get("simulator.threadSafe");
+    } catch(ex) {}
+    
+    if (threadSafe) {
+      try {
+        importClass(Packages.com.thoughtworks.selenium.grid.tools.ThreadSafeSeleniumSessionStorage);
+      }
+      catch(ex) {
+        throw new Error("Couldn't import ThreadSafeSeleniumSessionStorage class!\n\
+         Make sure the Selenium Grid Tools are available.\n" + ex);
+      }
+      
+      // Create and configure QxSelenium instance
+      ThreadSafeSeleniumSessionStorage.startSeleniumSession(server, port, browser, host);
+      return ThreadSafeSeleniumSessionStorage.session();
+    }
+    else {
       // Basic sanity check: No sense in continuing without QxSelenium.
       try {
         importClass(Packages.com.thoughtworks.selenium.QxSelenium);
@@ -50,7 +76,6 @@ qx.Class.define("simulator.QxSelenium", {
       
       // Create and configure QxSelenium instance
       return new QxSelenium(server, port, browser, host);
-
     }
   }
 

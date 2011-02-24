@@ -47,18 +47,12 @@ qx.Class.define("simulator.Application", {
       
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
       
-      var qxSelenium;
       var threadSafe = false;
       if (this.__optionalSettings.threadSafe) {
         threadSafe = true;
-        qxSelenium = this.getThreadSafeQxSeleniumSession();
-      } 
-      else {
-        qxSelenium = this.getQxSelenium();
       }
-      qxSelenium.setSpeed("1000");
       
-      this.simulation = this.getSimulation(qxSelenium);
+      this.simulation = this.getSimulation();
       
       this.runner = new simulator.TestRunner();
       this.runner.runTests(threadSafe);
@@ -110,50 +104,13 @@ qx.Class.define("simulator.Application", {
     },
     
     /**
-     * Configures and returns a QxSelenium instance.
-     * 
-     * @return {Object} The configured QxSelenium instance
-     */
-    getQxSelenium : function()
-    {
-      var qxSelenium = simulator.QxSelenium.create(
-        qx.core.Setting.get("simulator.selServer"),
-        qx.core.Setting.get("simulator.selPort"),
-        qx.core.Setting.get("simulator.testBrowser"),
-        qx.core.Setting.get("simulator.autHost"));
-      
-      return qxSelenium;
-    },
-    
-    /**
-     * Returns a thread-safe QxSelenium instance.
-     * 
-     * @return {Object} The configured QxSelenium instance
-     */
-    getThreadSafeQxSeleniumSession : function()
-    {
-      var qxSelenium = simulator.ThreadSafeQxSelenium.create(
-        qx.core.Setting.get("simulator.selServer"),
-        qx.core.Setting.get("simulator.selPort"),
-        qx.core.Setting.get("simulator.testBrowser"),
-        qx.core.Setting.get("simulator.autHost"));
-      
-      return qxSelenium;
-    },
-    
-    /**
      * Configures and returns a QxSimulation instance.
      * 
-     * @param qxSelenium {simulator.QxSelenium} QxSelenium instance to be used
-     * by this QxSimulation
      * @return {simulator.QxSimulation}
      */
-    getSimulation : function(qxSelenium)
+    getSimulation : function()
     {
-      var simulation = new simulator.QxSimulation(qxSelenium, 
-        qx.core.Setting.get("simulator.autHost"),
-        qx.core.Setting.get("simulator.autPath"),
-        this.__optionalSettings);
+      var simulation = new simulator.QxSimulation(this.__optionalSettings);
       
       return simulation;
     }

@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(selenium)
+************************************************************************ */
+
 /**
  * Allows GUI tests to access exceptions caught by the tested application's
  * global error handler.
@@ -38,7 +42,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
     addGlobalErrorHandler : function(win)
     {
       var qxWin = win || "selenium.qxStoredVars['autWindow']";
-      this.qxSelenium.getEval(qxWin + ".qx.Simulation.errorStore = [];");
+      simulator.QxSelenium.getInstance().getEval(qxWin + ".qx.Simulation.errorStore = [];");
       
       var addHandler = function(autWin)
       {
@@ -76,7 +80,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
       };
       
       this.addOwnFunction("addGlobalErrorHandler", addHandler);
-      this.qxSelenium.getEval("selenium.qxStoredVars['autWindow'].qx.Simulation.addGlobalErrorHandler(" + qxWin + ");");  
+      simulator.QxSelenium.getInstance().getEval("selenium.qxStoredVars['autWindow'].qx.Simulation.addGlobalErrorHandler(" + qxWin + ");");  
     },
     
     /**
@@ -112,7 +116,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
     getGlobalErrors : function(win)
     {
       var qxWin = win || "selenium.qxStoredVars['autWindow']";
-      var exceptions = this.qxSelenium.getEval("selenium.qxStoredVars['autWindow'].qx.Simulation.getGlobalErrors(" + qxWin + ")");
+      var exceptions = simulator.QxSelenium.getInstance().getEval("selenium.qxStoredVars['autWindow'].qx.Simulation.getGlobalErrors(" + qxWin + ")");
       exceptions = String(exceptions);
       if (!exceptions.length > 0) {
         return [];
@@ -145,7 +149,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
     clearGlobalErrorStore : function(win)
     {
       var targetWin = win || "selenium.qxStoredVars['autWindow']";
-      this.qxSelenium.getEval(targetWin + ".qx.Simulation.errorStore = [];");
+      simulator.QxSelenium.getInstance().getEval(targetWin + ".qx.Simulation.errorStore = [];");
     }
   }
 });
