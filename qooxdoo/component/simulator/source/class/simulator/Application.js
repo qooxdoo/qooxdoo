@@ -28,8 +28,7 @@ qx.Class.define("simulator.Application", {
      * {@link simulator.QxSimulation} instance to be used for this test. 
      * Options are defined as settings in the "simulation" job.  
      */
-    SETTING_NAMES : ["globalTimeout", "stepSpeed", "windowMaximize", 
-                    "globalErrorLogging", "testEvents", "disposerDebug", 
+    SETTING_NAMES : ["globalErrorLogging", "testEvents", "disposerDebug", 
                     "applicationLog", "threadSafe"]
   },
   
