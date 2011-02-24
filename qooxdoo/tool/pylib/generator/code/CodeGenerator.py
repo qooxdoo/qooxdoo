@@ -309,6 +309,17 @@ class CodeGenerator(object):
 
 
 
+        def compileClasses(classList, optimize):
+            result = []
+            for clazz in classList:
+                result.append(clazz.compile(optimize))
+            return u''.join(result)
+
+        ##
+        # Go through a set of classes, and either compile some of them into
+        # a common .js file, constructing the URI to this file, or just construct
+        # the URI to the source file directly if the class matches a filter.
+        # Return the list of constructed URIs.
         def compileAndWritePackage(package, compConf):
             packageFiles = []
             compiledClasses = []

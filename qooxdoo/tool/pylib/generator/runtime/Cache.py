@@ -226,7 +226,7 @@ class Cache(object):
     # 
     # @param dependsOn  file name to compare cache file against
     # @param memory     if read from disk keep value also in memory; improves subsequent access
-    def read(self, cacheId, dependsOn=None, memory=False):
+    def read(self, cacheId, dependsOn=None, memory=False, keepLock=False):
         if dependsOn:
             dependsModTime = os.stat(dependsOn).st_mtime
 
@@ -250,8 +250,9 @@ class Cache(object):
                 return None, cacheModTime
 
         try:
-            self._locked_files.add(cacheFile)
-            filetool.lock(cacheFile)
+            if not cacheFile in self._locked_files:
+                self._locked_files.add(cacheFile)
+                filetool.lock(cacheFile)
 
             fobj = open(cacheFile, 'rb')
             #filetool.lock(fobj.fileno())
@@ -260,8 +261,9 @@ class Cache(object):
 
             #filetool.unlock(fobj.fileno())
             fobj.close()
-            filetool.unlock(cacheFile)
-            self._locked_files.remove(cacheFile)
+            if not keepLock:
+                filetool.unlock(cacheFile)
+                self._locked_files.remove(cacheFile)
 
             if memory:
                 memcache[cacheId] = {'content':content, 'time': time.time()}
@@ -278,21 +280,24 @@ class Cache(object):
     #
     # @param memory         keep value also in memory; improves subsequent access
     # @param writeToFile    write value to disk
-    def write(self, cacheId, content, memory=False, writeToFile=True):
+    def write(self, cacheId, content, memory=False, writeToFile=True, keepLock=False):
         filetool.directory(self._path)
         cacheFile = os.path.join(self._path, self.filename(cacheId))
 
         if writeToFile:
             try:
-                self._locked_files.add(cacheFile)  # this is not atomic with the next one!
-                filetool.lock(cacheFile)
+                if not cacheFile in self._locked_files:
+                    self._locked_files.add(cacheFile)  # this is not atomic with the next one!
+                    filetool.lock(cacheFile)
+
                 fobj = open(cacheFile, 'wb')
 
                 pickle.dump(content, fobj, 2)
 
                 fobj.close()
-                filetool.unlock(cacheFile)
-                self._locked_files.remove(cacheFile)  # not atomic with the previous one!
+                if not keepLock:
+                    filetool.unlock(cacheFile)
+                    self._locked_files.remove(cacheFile)  # not atomic with the previous one!
 
             except (IOError, EOFError, pickle.PickleError, pickle.PicklingError), e:
                 e.args = ("Could not store cache to %s\n" % self._path + e.args[0], ) + e.args[1:]

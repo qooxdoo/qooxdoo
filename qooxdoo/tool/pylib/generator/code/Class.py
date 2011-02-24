@@ -28,6 +28,7 @@ import codecs, optparse, functools
 from operator import attrgetter
 
 from misc                           import util, filetool, textutil
+from misc.NameSpace                 import NameSpace
 from ecmascript                     import compiler
 from ecmascript.frontend            import treeutil, tokenizer, treegenerator, lang
 from ecmascript.frontend.Script     import Script
@@ -306,6 +307,10 @@ class Class(Resource):
         if "privates" in optimize:
             console.warn("Cannot optimize private fields on individual class; skipping")
             pass
+            # TODO:
+            #privatesMap = load_privates()
+            #privateoptimizer.patch(tree, id, privatesMap)
+            #write_privates(privatesMap)
 
         if "strings" in optimize:
             tree = self._stringOptimizer(tree)
@@ -1508,6 +1513,21 @@ class ClassMatchList(object):
 
     def match(self, classId):
         return self.__regexp.search(classId)
+
+
+##
+# Class to collect various options which influence the compilation process
+# (optimizations, format, variants, ...)
+class CompileOptions(object):
+    def __init__(self, optimize=[], variants={}, _format=False):
+        self.optimize = NameSpace
+        self.optimize.basecalls = True if "basecalls" in optimize else False
+        self.optimize.privates  = True if "privates" in optimize else False
+        self.optimize.strings   = True if "strings" in optimize else False
+        self.optimize.variables = True if "variables" in optimize else False
+        self.variantset = variants
+        self.format     = _format
+        self.privateMap = {} # {"<classId>:<private>":"<repl>"}
 
 
 # -- temp. module helper functions ---------------------------------------------
