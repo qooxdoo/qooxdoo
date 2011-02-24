@@ -452,7 +452,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     _onOpen : function(event)
     {
       var row = event.getRow();
-      var item = this.getLookupTable()[row];
+      var item = this.__lookupTable[row];
       
       if (this.isNode(item))
       {
@@ -621,7 +621,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     __updateRowCount : function()
     {
-      this.getPane().getRowConfig().setItemCount(this.getLookupTable().length);
+      this.getPane().getRowConfig().setItemCount(this.__lookupTable.length);
       this.getPane().fullUpdate();
     }
   },
