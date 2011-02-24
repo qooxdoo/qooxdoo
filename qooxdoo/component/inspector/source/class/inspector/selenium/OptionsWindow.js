@@ -45,22 +45,17 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
     this.add(containerTop);
 
     var form = new qx.ui.form.Form();
-    form.addGroupHeader("Script Locations");
+    form.addGroupHeader("Script Location");
 
     var coreScripts = new qx.ui.form.TextField();
     coreScripts.setToolTipText("URI of a directory containing the contents of a Selenium Core Zip file (seleniumhq.org/download)");
     coreScripts.setRequired(true);
     form.add(coreScripts, "Selenium Core");
-    var userExt = new qx.ui.form.TextField();
-    userExt.setToolTipText("URI of the qooxdoo Selenium user extensions from the Simulator contribution");
-    userExt.setRequired(true);
-    form.add(userExt, "qooxdoo User Extensions");
 
     if (window.location.protocol == "http:") {
-      var defaultButton = new qx.ui.form.Button("Set default URIs");
+      var defaultButton = new qx.ui.form.Button("Use default URI");
       defaultButton.addListener("execute", function() {
         coreScripts.setValue(qx.core.Setting.get("qx.inspector.selenium.core"));
-        userExt.setValue(qx.core.Setting.get("qx.inspector.selenium.extensions"));
       }, this);
       form.addButton(defaultButton);
     }
@@ -68,7 +63,7 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
     var okButton = new qx.ui.form.Button("OK");
     okButton.addListener("execute", function() {
       if (form.validate()) {
-        this.setSeleniumScripts([coreScripts.getValue(), userExt.getValue()]);
+        this.setSeleniumScripts(coreScripts.getValue());
         this._optionsWindow.close();
       }
     }, mainWindow);
@@ -77,8 +72,7 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
     var cancelButton = new qx.ui.form.Button("Cancel");
     cancelButton.addListener("execute", function() {
       if (this.getSeleniumScripts()) {
-        coreScripts.setValue(this.getSeleniumScripts()[0]);
-        userExt.setValue(this.getSeleniumScripts()[1]);
+        coreScripts.setValue(this.getSeleniumScripts());
       }
       this._optionsWindow.close();
     }, mainWindow);
@@ -89,30 +83,12 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
     renderer._getLayout().setColumnFlex(1, 1);
     containerTop.add(renderer);
 
-    // bind the seleniumScripts property to the form fields
-    var prop2formCore = {
-      converter: function(data, modelObj) {
-        if (!data) {
-          return "";
-        }
-        return data[0];
-      }
-    };
-    mainWindow.bind("seleniumScripts", coreScripts, "value", prop2formCore);
-
-    var prop2formExt = {
-      converter: function(data, modelObj) {
-        if (!data) {
-          return "";
-        }
-        return data[1];
-      }
-    };
-    mainWindow.bind("seleniumScripts", userExt, "value", prop2formExt);
+    // bind the seleniumScripts property to the form field
+    mainWindow.bind("seleniumScripts", coreScripts, "value");
 
     var containerBottom = new qx.ui.container.Composite(new qx.ui.layout.Grow());
     this.add(containerBottom);
-    var noticeText = 'See the <a href="http://manual.qooxdoo.org/1.3/pages/application/inspector_selenium.html" target="_blank">manual page</a> for an explanation of these settings.';
+    var noticeText = 'See the <a href="http://manual.qooxdoo.org/' + qx.core.Setting.get("qx.version") + '/pages/application/inspector_selenium.html" target="_blank">manual page</a> for an explanation of this setting.';
     var notice = new qx.ui.basic.Label("");
     notice.setRich(true);
     notice.setValue(noticeText);

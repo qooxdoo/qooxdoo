@@ -67,6 +67,9 @@ qx.Class.define("inspector.selenium.View", {
       "/core/xpath/xpath.js",
       "/core/xpath/javascript-xpath-0.1.11.js"
     ];
+    
+    this.__userExt = qx.core.Setting.get("qx.inspector.selenium.extensions") || 
+      /(.*?)framework/.exec(qx.$$libraries.qx.sourceUri)[1] + "component/simulator/tool/user-extensions/user-extensions.js";
     this.__availableCommands = [];
 
     // Toolbar
@@ -118,6 +121,7 @@ qx.Class.define("inspector.selenium.View", {
     __selenium : null,
     __seleniumCommandQueue : null,
     __seleniumScripts : null,
+    __userExt : null,
     __seleneseTestCase : null,
 
     /**
@@ -638,8 +642,7 @@ qx.Class.define("inspector.selenium.View", {
         window.Selenium = null;
       }
 
-      var seleniumCore = value[0];
-      var userExt = value[1];
+      var seleniumCore = value;
 
       // strip trailing slash
       if (seleniumCore.substr(seleniumCore.length - 1) == "/") {
@@ -655,7 +658,7 @@ qx.Class.define("inspector.selenium.View", {
           return;
         }
         loader.addListenerOnce("finished", this.__scriptsLoaded, this);
-        loader.load([userExt]);
+        loader.load(this.__userExt);
       }, this);
 
       var coreQueue = [];
@@ -708,8 +711,7 @@ qx.Class.define("inspector.selenium.View", {
         return;
       }
 
-      qx.bom.Cookie.set("coreScripts", this.getSeleniumScripts()[0], 365);
-      qx.bom.Cookie.set("userExt", this.getSeleniumScripts()[1], 365);
+      qx.bom.Cookie.set("coreScripts", this.getSeleniumScripts(), 365);
       this._toolbar.getChildren()[0].setEnabled(true);
       this._toolbar.getChildren()[1].setEnabled(true);
       this.__availableCommands = this.getAvailableCommands();

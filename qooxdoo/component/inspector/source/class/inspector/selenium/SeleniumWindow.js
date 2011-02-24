@@ -109,9 +109,8 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
       }
       // Immediately load scripts if cookies are set
       var coreScripts = qx.bom.Cookie.get("coreScripts");
-      var userExt = qx.bom.Cookie.get("userExt");
-      if (coreScripts && userExt) {
-        this.__view.setSeleniumScripts([coreScripts, userExt]);
+      if (coreScripts) {
+        this.__view.setSeleniumScripts(coreScripts);
       }
       this.__view.clearTable();
     }

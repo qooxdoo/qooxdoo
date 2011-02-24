@@ -17,29 +17,24 @@ From qooxdoo 1.2 onward, the Inspector features a Selenium window that duplicate
 
 Prerequisites
 -------------
-The Selenium window needs to load **Selenium Core** (the JavaScript part of Selenium) and the `qooxdoo user extensions for Selenium <http://qooxdoo.org/contrib/project/simulator/selenium-user-extension>`__ from the Simulator contribution to work. Selenium Core can be downloaded as a zip archive from the `Selenium website <http://seleniumhq.org/download/>`_.
-The user extensions are located in the Simulator contribution (``trunk/tool/selenium/user_extension/user-extensions-qooxdoo.js``). Check out the Simulator from SVN or use `SourceForge's SVN view <http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/Simulator/trunk/tool/selenium/user_extension/user-extensions-qooxdoo.js?view=loghttp://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/Simulator/trunk/tool/selenium/user_extension/user-extensions-qooxdoo.js?view=log>`_ to download the file directly.
+The Selenium window needs to load **Selenium Core** (the JavaScript part of Selenium) This can be downloaded as a zip archive from the `Selenium website <http://seleniumhq.org/download/>`_.
 
-If the Inspector is loaded over HTTP, the required scripts can be loaded directly from their online repositories by clicking the ``Set default URIs`` button in the Options window. 
+If the Inspector is loaded over HTTP, the required scripts can be loaded directly from their online repository as described below. 
 
 .. _pages/application/inspector_selenium#configuration:
 
 Configuration
 -------------
-Clicking the Options button (the only part of the Selenium window that is active initially) opens a window where these two settings can be defined. For Selenium Core, enter the URI of a directory where you've extracted the Selenium Core zip file.
+Clicking the Options button (the only part of the Selenium window that is active initially) opens a window where this setting can be defined. Enter the URI of a directory with the contents of the Selenium Core zip file.
 
 The protocol used **must** be the same the Inspector is loaded over:
 
 * If you're loading the Inspector from your local file system, extract the archive locally and use a file system URI (``file:///...``).
-* If the Inspector is loaded from a web server, the Selenium Core directory must be accessed over HTTP. In this case, Same Origin Policy restrictions do **not** apply, so the script directory needn't be on the same server as the Inspector itself. If it is, a relative path can be used.
+* If the Inspector is loaded from a web server, the Selenium Core directory must be accessed over HTTP. In this case, Same Origin Policy restrictions do **not** apply, so the script directory needn't be on the same server as the Inspector itself. If it is, a relative path can be used. 
 
-The same restrictions apply for the qooxdoo user extensions for Selenium, except here the path should just point to the one file. If the Inspector is accessed over HTTP, you can use this link to get the latest version directly `from SVN <http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/Simulator/trunk/tool/selenium/user_extension/user-extensions-qooxdoo.js>`__:
+In the latter case, you can simply click the ``Use default URI`` button. This will enter the URL of the Selenium code repository in the text field.
 
-::
-
-    http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/Simulator/trunk/tool/selenium/user_extension/user-extensions-qooxdoo.js
-
-Click "OK" after entering the paths. The rest of the Selenium window's GUI will be activated once the external scripts are loaded. Path information is saved in Cookies so this step is only necessary once per browser.
+Click "OK" after configuring the paths. The rest of the Selenium window's GUI will be activated once the external scripts are loaded. The configured URI is saved in a cookie so this step is only necessary once per browser.
 
 .. _pages/application/inspector_selenium#controls:
 
