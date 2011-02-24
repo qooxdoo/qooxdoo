@@ -56,8 +56,7 @@
         "qx.revision"    : "${QOOXDOO_REVISION}",
         "qx.theme"       : "${THEME}",
         "qx.application" : "inspector.Application",
-        "qx.inspector.selenium.core" : "http://selenium.googlecode.com/svn/tags/selenium-core/REL-1.0.1/src/main/resources/",
-        "qx.inspector.selenium.extensions" : "http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/Simulator/trunk/tool/selenium/user_extension/user-extensions-qooxdoo.js"
+        "qx.inspector.selenium.core" : "http://selenium.googlecode.com/svn/tags/selenium-core/REL-1.0.1/src/main/resources/"
       },
       
       "asset-let" :
@@ -120,6 +119,25 @@
         "source" : "${INSPECTOR_ROOT}/source"
       }
     },
+    
+    
+    "build-files-simulator" :
+    {
+      "desc"    : "copy the user extensions file from the simulator component to build dir",
+
+      "extend" : ["common"],
+
+      "copy-files" :
+      {
+        "files" :
+        [
+          "user-extensions.js"
+        ],
+
+        "target" : "${INSPECTOR_PATH}/script",
+        "source" : "${QOOXDOO_PATH}/component/simulator/tool/user-extensions"
+      }
+    },
 
 
     "build-resources":
@@ -144,8 +162,22 @@
       [
         "build-resources",
         "build-script",
-        "build-files"
-      ]
+        "build-files",
+        "build-files-simulator"
+      ],
+      
+      "settings" :
+      {
+        "qx.inspector.selenium.extensions" : "script/user-extensions.js"
+      }
+    },
+    
+    "source" :
+    {
+      "settings" :
+      {
+        "qx.inspector.selenium.extensions" : false
+      }
     }
   }
 }
