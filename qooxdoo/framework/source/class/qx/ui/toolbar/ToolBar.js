@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * @param e {qx.event.type.Data} The resize event.
      */
     _onResize : function(e) {
-      this._recalculateOverflow();
+      this._recalculateOverflow(e.getData().width);
     },
 
 
@@ -209,11 +209,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         overflowWidgetWidth = overflowWidget.getSizeHint().width;
       }
 
-      if (width == undefined) {
-        var parent = this.getLayoutParent();
-        if (parent) {
-          width = parent.getSizeHint().width;
-        }
+      if (width == undefined && this.getBounds() != null) {
+        width = this.getBounds().width;
         // if we still don't have a width, than we are not added to a parrent
         if (width == undefined) {
           // we should ignore it in that case
