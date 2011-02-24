@@ -84,15 +84,18 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     {
       this.provider.setLabelPath("label");
       this.provider.setChildProperty("kids");
-      var widget = this.provider.getCellWidget(0,0);
 
+      var spy = this.spy(this.provider, "_bindNode");
+      var widget = this.provider.getCellWidget(0,0);
+      
       this.assertInstance(widget, qx.ui.tree.VirtualTreeFolder);
       this.assertEquals("node", widget.getUserData("cell.type"));
       this.assertTrue(widget.getUserData("cell.children"));
       this.assertEquals(0, widget.getUserData("cell.level"));
       this.assertTrue(widget.isOpen());
       this.assertTrue(widget.hasListener("changeOpen"));
-      this.assertEquals("Root", widget.getLabel(name));
+      this.assertCalledOnce(spy);
+      this.assertCalledWith(spy, widget, 0);
     },
     
     
@@ -100,15 +103,18 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     {
       this.provider.setLabelPath("label");
       this.provider.setChildProperty("kids");
-      var widget = this.provider.getCellWidget(1,0);
 
+      var spy = this.spy(this.provider, "_bindNode");
+      var widget = this.provider.getCellWidget(1,0);
+      
       this.assertInstance(widget, qx.ui.tree.VirtualTreeFolder);
       this.assertEquals("node", widget.getUserData("cell.type"));
       this.assertTrue(widget.getUserData("cell.children"));
       this.assertEquals(1, widget.getUserData("cell.level"));
       this.assertFalse(widget.isOpen());
       this.assertTrue(widget.hasListener("changeOpen"));
-      this.assertEquals("Node1", widget.getLabel(name));
+      this.assertCalledOnce(spy);
+      this.assertCalledWith(spy, widget, 1);
     },
 
 
@@ -116,13 +122,16 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     {
       this.provider.setLabelPath("label");
       this.provider.setChildProperty("kids");
+
+      var spy = this.spy(this.provider, "_bindLeaf");
       var widget = this.provider.getCellWidget(3,0);
 
       this.assertInstance(widget, qx.ui.tree.VirtualTreeFile);
       this.assertEquals("leaf", widget.getUserData("cell.type"));
       this.assertNull(widget.getUserData("cell.children"));
       this.assertEquals(1, widget.getUserData("cell.level"));
-      this.assertEquals("Leaf1", widget.getLabel(name));
+      this.assertCalledOnce(spy);
+      this.assertCalledWith(spy, widget, 3);
     },
     
     
@@ -160,6 +169,33 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.assertCalledWith(spyBinding, widget);
     },
 
+
+    testBindNode : function()
+    {
+      this.provider.setLabelPath("label");
+      this.provider.setChildProperty("kids");
+
+      var widget = new qx.ui.tree.VirtualTreeFolder();
+
+      this.provider._bindNode(widget, 0);
+      this.assertEquals("Root", widget.getLabel());
+
+      this.provider._bindNode(widget, 1);
+      this.assertEquals("Node1", widget.getLabel());
+    },
+
+
+    testBindLeaf : function()
+    {
+      this.provider.setLabelPath("label");
+      this.provider.setChildProperty("kids");
+
+      var widget = new qx.ui.tree.VirtualTreeFile();
+
+      this.provider._bindLeaf(widget, 3);
+      this.assertEquals("Leaf1", widget.getLabel());
+    },
+   
 
     /*
     ---------------------------------------------------------------------------
