@@ -43,7 +43,11 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
   {
     model : null,
     
+    
     provider : null,
+    
+    
+    lookupTable : null,
     
     
     setUp : function() {
@@ -55,6 +59,11 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     {
       this.provider.dispose();
       this.provider = null;
+      
+      if (this.lookupTable != null) {
+        this.lookupTable.dispose();
+        this.lookupTable = null;
+      }
     },
 
 
@@ -178,9 +187,11 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var widget = new qx.ui.tree.VirtualTreeFolder();
 
       this.provider._bindNode(widget, 0);
+      this.assertEquals(1, this.getLookupTable().getBindings().length, "Bindings count not correct!");
       this.assertEquals("Root", widget.getLabel());
 
       this.provider._bindNode(widget, 1);
+      this.assertEquals(2, this.getLookupTable().getBindings().length, "Bindings count not correct!");
       this.assertEquals("Node1", widget.getLabel());
     },
 
@@ -193,10 +204,31 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var widget = new qx.ui.tree.VirtualTreeFile();
 
       this.provider._bindLeaf(widget, 3);
+      this.assertEquals(1, this.getLookupTable().getBindings().length, "Bindings count not correct!");
       this.assertEquals("Leaf1", widget.getLabel());
     },
    
 
+    testRemoveBindingsFromNode : function()
+    {
+      this.provider.setLabelPath("label");
+      this.provider.setChildProperty("kids");
+
+      var widget = new qx.ui.tree.VirtualTreeFolder();
+      var oldWidgetBindungs = widget.getBindings().length;
+      var oldModelBindungs = this.getLookupTable().getBindings().length;
+      
+      this.provider._bindNode(widget, 0);
+      this.provider._removeBindingsFrom(widget);
+      
+      var newWidgetBindungs = widget.getBindings().length;
+      var newModelBindungs = this.getLookupTable().getBindings().length;
+      
+      this.assertEquals(oldWidgetBindungs, newWidgetBindungs, "Binding on widget is not removed!");
+      this.assertEquals(oldModelBindungs, newModelBindungs, "Binding on model is not removed!");
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       MOCK API
@@ -206,12 +238,16 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     
     getLookupTable : function()
     {
-      var model = this.model;
-      var lookupTable = new qx.data.Array([model]);
-      for (var i = 0; i < model.getKids().getLength(); i++) {
-        lookupTable.push(model.getKids().getItem(i));
+      if (this.lookupTable != null) {
+        return this.lookupTable;
       }
-      return lookupTable;
+      
+      var model = this.model;
+      this.lookupTable = new qx.data.Array([model]);
+      for (var i = 0; i < model.getKids().getLength(); i++) {
+        this.lookupTable.push(model.getKids().getItem(i));
+      }
+      return this.lookupTable;
     },
     
     

@@ -25,6 +25,11 @@
  */
 qx.Mixin.define("qx.ui.tree.core.MWidgetController",
 {
+  construct : function() {
+    this.__boundItems = [];
+  },
+
+
   properties :
   {
     /**
@@ -63,6 +68,10 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
 
   members :
   {
+    /** {Array} which contains the bounded items */
+    __boundItems : null,
+
+
     /**
      * Helper-Method for binding the default properties from the model to the 
      * target widget. The used default properties  depends on the passed item.
@@ -97,8 +106,11 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
      */
     bindProperty : function(sourcePath, targetProperty, options, targetWidget, index)
     {
-      var bindTarget = this._tree.getLookupTable().getItem(index);
-      bindTarget.bind(sourcePath, targetWidget, targetProperty, options);
+      var bindPath = this.__getBindPath(index, sourcePath);
+      var bindTarget = this._tree.getLookupTable();
+
+      var id = bindTarget.bind(bindPath, targetWidget, targetProperty, options);
+      this.__addBinding(targetWidget, id);
     },
 
 
@@ -117,8 +129,6 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
      */
     bindPropertyReverse: function(targetPath, sourcePath, options, sourceWidget, index)
     {
-      var bindTarget = this._tree.getLookupTable().getItem(index);
-      sourceWidget.bind(sourcePath, bindTarget, targetPath, options);
     },
 
 
@@ -197,6 +207,82 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
      */
     _removeBindingsFrom : function(item)
     {
+      var bindings = this.__getBindings(item);
+
+      while (bindings.length > 0)
+      {
+        var id = bindings.pop();
+
+        try {
+          this._tree.getLookupTable().removeBinding(id);
+        } catch(e) {
+          item.removeBinding(id);
+        }
+      }
+
+      if (qx.lang.Array.contains(this.__boundItems, item)) {
+        qx.lang.Array.remove(this.__boundItems, item);
+      }
+    },
+
+
+    /**
+     * Helper method to create the path for binding.
+     *
+     * @param index {Integer} The index of the item.
+     * @param path {String|null} The path to the property.
+     */
+    __getBindPath : function(index, path)
+    {
+      var bindPath = "[" + index + "]";
+      if (path != null && path != "") {
+        bindPath += "." + path;
+      }
+      return bindPath;
+    },
+
+
+    /**
+     * Helper method to save the binding for the widget.
+     *
+     * @param widget {qx.ui.core.Widget} widget to save binding.
+     * @param id {var} the id from the binding.
+     */
+    __addBinding : function(widget, id)
+    {
+      var bindings = this.__getBindings(widget);
+
+      if (!qx.lang.Array.contains(bindings, id)) {
+        bindings.push(id);
+      }
+
+      if (!qx.lang.Array.contains(this.__boundItems, widget)) {
+        this.__boundItems.push(widget);
+      }
+    },
+
+
+    /**
+     * Helper method which returns all bound id from the widget.
+     *
+     * @param widget {qx.ui.core.Widget} widget to get all binding.
+     * @return {Array} all bound id's.
+     */
+    __getBindings : function(widget)
+    {
+      var bindings = widget.getUserData("BindingIds");
+
+      if (bindings == null) {
+        bindings = [];
+        widget.setUserData("BindingIds", bindings);
+      }
+
+      return bindings;
     }
+  },
+
+
+  destruct : function() {
+    this.__boundItems = null;
   }
 });
