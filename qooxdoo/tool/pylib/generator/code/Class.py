@@ -291,6 +291,20 @@ class Class(Resource):
 
 
     def optimize(self, tree, optimize=[], featureMap={}):
+
+        def load_privates():
+            cacheId  = privateoptimizer.privatesCacheId
+            privates, _ = cache.read(cacheId, keepLock=True)
+            if privates == None:
+                privates = {}
+            return privates
+
+        def write_privates(globalprivs):
+            cacheId  = privateoptimizer.privatesCacheId
+            self._cache.write(cacheId, globalprivs)  # removes lock by default
+
+        # -----------------------------------------------------------------------------
+
         if not optimize:
             return tree
         
@@ -305,12 +319,9 @@ class Class(Resource):
             basecalloptimizer.patch(tree)
 
         if "privates" in optimize:
-            console.warn("Cannot optimize private fields on individual class; skipping")
-            pass
-            # TODO:
-            #privatesMap = load_privates()
-            #privateoptimizer.patch(tree, id, privatesMap)
-            #write_privates(privatesMap)
+            privatesMap = load_privates()
+            privateoptimizer.patch(tree, id, privatesMap)
+            write_privates(privatesMap)
 
         if "strings" in optimize:
             tree = self._stringOptimizer(tree)

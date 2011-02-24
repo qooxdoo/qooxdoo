@@ -15,6 +15,7 @@
 #
 #  Authors:
 #    * Sebastian Werner (wpbasti)
+#    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
@@ -24,6 +25,8 @@ from misc.util import convert
 #names = {}  # names = { "<classId>:<private>" : "<repl>", ...}
 #used = {}   # used  = { "<private>" : [ "<classId>", ...], ...} -- only maintained for debug() function, not relevant for optimization
 
+#privatesCacheId = "privates-%s" % self._context['config']._fname  # use path to main config file for context
+privatesCacheId = "privates"  # use a site-wide privates db
 
 #def load(data):
 #    global names
