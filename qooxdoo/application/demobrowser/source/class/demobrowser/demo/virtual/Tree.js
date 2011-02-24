@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       this.getRoot().add(container, {top: 20, left: 20});
 
       // creates the tree
-      tree = new qx.ui.tree.VirtualTree(null, "name", "children").set({
+      var tree = new qx.ui.tree.VirtualTree(null, "name", "children").set({
         width : 200,
         height : 400
       });
