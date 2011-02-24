@@ -269,15 +269,32 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
       this.__container.setWidth(60);
       this.flush();
 
-      this.__toolbar.remove(this.__b3);
-
       var self = this;
       this.assertEventFired(this.__toolbar, "showItem", function() {
-        self.__container.setWidth(100);
+        self.__toolbar.remove(self.__b3);
         self.flush();
       }, function(e) {
         self.assertEquals(self.__b3, e.getData());
         self.assertEquals("visible", self.__b3.getVisibility());
+      });
+    },
+    
+    testAddItem : function() {
+      this.__indicator = new qx.ui.basic.Label(".");
+      this.__toolbar.add(this.__indicator);
+      this.__toolbar.setOverflowIndicator(this.__indicator);
+
+      this.__toolbar.setOverflowHandling(true);
+      this.__container.setWidth(60);
+      this.flush();
+
+      var self = this;
+      this.assertEventFired(this.__indicator, "changeVisibility", function() {
+        self.__addButtons();
+        self.flush();
+      }, function(e) {
+        self.assertEquals("visible", self.__indicator.getVisibility());
+        self.assertEquals("excluded", self.__b3.getVisibility());
       });
     }
   }
