@@ -44,6 +44,17 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
 
 
     /**
+     * The path to the property which holds the information that should be
+     * shown as a icon.
+     */
+    iconPath :
+    {
+      check: "String",
+      nullable: true
+    },
+    
+    
+    /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
@@ -52,6 +63,16 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
       nullable: true
     },
 
+    
+    /**
+     * A map containing the options for the icon binding. The possible keys
+     * can be found in the {@link qx.data.SingleValueBinding} documentation.
+     */
+    iconOptions :
+    {
+      nullable: true
+    },
+    
 
     /**
      * Delegation object, which can have one or more functions defined by the
@@ -91,6 +112,13 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
       this.bindProperty(
         this.getLabelPath(), "label", this.getLabelOptions(), item, index
       );
+      
+      if (this.getIconPath() != null)
+      {
+        this.bindProperty(
+          this.getIconPath(), "icon", this.getIconOptions(), item, index
+        );
+      }
     },
 
 

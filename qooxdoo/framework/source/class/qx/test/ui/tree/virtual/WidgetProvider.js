@@ -37,17 +37,18 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     setUp : function()
     {
       var rawData = {
-          name: "Root", kids: [
-            {name: "Node1", kids:[]},
-            {name: "Node2", kids:[]},
-            {name: "Leaf1"},
-            {name: "Leaf2"}
+          name: "Root", icon: "Root", kids: [
+            {name: "Node1", icon: "Node1", kids:[]},
+            {name: "Node2", icon: "Node2", kids:[]},
+            {name: "Leaf1", icon: "Leaf1"},
+            {name: "Leaf2", icon: "Leaf2"}
           ]
         };
       this.model = qx.data.marshal.Json.createModel(rawData);
       
       this.provider = new qx.ui.tree.provider.WidgetProvider(this);
       this.provider.setLabelPath("name");
+      this.provider.setIconPath("icon");
       this.provider.setChildProperty("kids");
     },
 
@@ -82,6 +83,10 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.assertNull(
         this.provider.getLabelPath(), 
         "Initial 'labelPath' property value is wrong!"
+      );
+      this.assertNull(
+        this.provider.getIconPath(), 
+        "Initial 'iconPath' property value is wrong!"
       );
     },
 
@@ -172,29 +177,32 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
 
 
-    testBindNode : function()
+    testDefaultNodeBinding : function()
     {
       var widget = new qx.ui.tree.VirtualTreeFolder();
 
       this.provider._bindNode(widget, 0);
-      this.assertEquals(2, this.getLookupTable().getBindings().length, "Bindings count not correct!");
+      this.assertEquals(3, this.getLookupTable().getBindings().length, "Bindings count not correct!");
       this.assertEquals("Root", widget.getLabel());
+      this.assertEquals("Root", widget.getIcon());
       this.assertEquals(this.model, widget.getModel());
       
       this.provider._bindNode(widget, 1);
-      this.assertEquals(4, this.getLookupTable().getBindings().length, "Bindings count not correct!");
+      this.assertEquals(6, this.getLookupTable().getBindings().length, "Bindings count not correct!");
       this.assertEquals("Node1", widget.getLabel());
+      this.assertEquals("Node1", widget.getIcon());
       this.assertEquals(this.model.getKids().getItem(0), widget.getModel());
     },
 
 
-    testBindLeaf : function()
+    testDefaultLeafBinding : function()
     {
       var widget = new qx.ui.tree.VirtualTreeFile();
 
       this.provider._bindLeaf(widget, 3);
-      this.assertEquals(2, this.getLookupTable().getBindings().length, "Bindings count not correct!");
+      this.assertEquals(3, this.getLookupTable().getBindings().length, "Bindings count not correct!");
       this.assertEquals("Leaf1", widget.getLabel());
+      this.assertEquals("Leaf1", widget.getIcon());
       this.assertEquals(this.model.getKids().getItem(2), widget.getModel());
     },
    
