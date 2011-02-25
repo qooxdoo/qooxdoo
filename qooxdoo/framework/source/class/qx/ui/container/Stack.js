@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
      * Christian Hagendorn (chris_schmidt)
+     * Adrian Olaru (adrianolaru)
 
 ************************************************************************ */
 
@@ -63,7 +64,10 @@ qx.Class.define("qx.ui.container.Stack",
 {
   extend : qx.ui.core.Widget,
   implement : qx.ui.core.ISingleSelection,
-  include : qx.ui.core.MSingleSelectionHandling,
+  include : [
+    qx.ui.core.MSingleSelectionHandling,
+    qx.ui.core.MChildrenHandling
+  ],
 
 
   /*
@@ -198,29 +202,13 @@ qx.Class.define("qx.ui.container.Stack",
     },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      PUBLIC API
-    ---------------------------------------------------------------------------
-    */
-
-
-    /**
-     * Adds a new child to the stack.
-     *
-     * @param widget {qx.ui.core.Widget} Any widget.
-     */
-    add : function(widget)
-    {
-      this._add(widget);
-
+    //overriden
+    _afterAddChild : function(widget) {
       var selected = this.getSelection()[0];
-
+      
       if (!selected) {
         this.setSelection([widget]);
-      }
-      else if (selected !== widget)
-      {
+      } else if (selected !== widget) {
         if (this.isDynamic()) {
           widget.exclude();
         } else {
@@ -228,19 +216,13 @@ qx.Class.define("qx.ui.container.Stack",
         }
       }
     },
+    
 
-    /**
-     * Removes the given widget from the stack.
-     *
-     * @param widget {qx.ui.core.Widget} Any widget.
-     */
-    remove : function(widget)
-    {
-      this._remove(widget);
-
-      if (this.getSelection()[0] === widget)
-      {
+    //overriden
+    _afterRemoveChild : function(widget) {
+      if (this.getSelection()[0] === widget) {
         var first = this._getChildren()[0];
+        
         if (first) {
           this.setSelection([first]);
         } else {
@@ -249,25 +231,12 @@ qx.Class.define("qx.ui.container.Stack",
       }
     },
 
-    /**
-     * Detects the position of the given widget in the
-     * children list of this widget.
-     *
-     * @param widget {qx.ui.core.Widget} Any child.
-     * @return {Integer} The position.
-     */
-    indexOf : function(widget) {
-      return this._indexOf(widget);
-    },
 
-    /**
-     * Returns all children.
-     *
-     * @return {qx.ui.core.Widget[]} List of all children.
-     */
-    getChildren : function() {
-      return this._getChildren();
-    },
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC API
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Go to the previous child in the children list.
