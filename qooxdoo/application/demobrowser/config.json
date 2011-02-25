@@ -60,7 +60,14 @@
     "APPLICATION"  : "demobrowser",
     "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.demo.*", "${APPLICATION}.test.*"],
     "QOOXDOO_PATH" : "../..",
-    "THEME"        : "demobrowser.Theme"
+    "THEME"        : "demobrowser.Theme",
+    "SELENIUM_SERVER" : "localhost",
+    "SELENIUM_PORT" : 4444,
+    "SELENIUM_BROWSER" : "*firefox3",
+    "AUT_HOST" : "http://localhost",
+    "AUT_PATH"     : "/qx/trunk/qooxdoo/application/demobrowser/build/index.html",
+    "SIMULATOR_APPLICATION" : "simulator.reporter.Application",
+    "SIMULATOR_REPORTSERVER" : false
   },
 
   "jobs" :
@@ -184,6 +191,21 @@
         // do the compiling with a different config
         "build-demobrowser"
       ]
+    },
+    
+    "simulation-run" :
+    {
+      "settings" :
+      {
+        "simulator.selServer"   : "${SELENIUM_SERVER}",
+        "simulator.selPort"     : "${SELENIUM_PORT}",
+        "simulator.testBrowser" : "${SELENIUM_BROWSER}",
+        "simulator.autHost"     : "${AUT_HOST}",
+        "simulator.autPath"     : "${AUT_PATH}",
+        "simulator.reportServer": "${SIMULATOR_REPORTSERVER}",
+        "simulator.applicationLog" : true,
+        "simulator.globalErrorLogging" : true
+      }
     }
   }
 }
