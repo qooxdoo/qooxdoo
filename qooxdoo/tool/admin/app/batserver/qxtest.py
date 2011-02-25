@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import sys, os, time, codecs
+import sys, os, time, codecs, unicodedata
 sys.path.append( os.path.join('..', '..', 'bin') )
 
 ##
@@ -134,11 +134,17 @@ class QxTest:
   #
   # @param msg {str} The message to be logged 
   def log(self, msg):
+    if type(msg).__name__ == "unicode":
+      msg = unicodedata.normalize('NFKD', msg).encode('ascii','ignore')
     timeFormatLog = '%Y-%m-%d %H:%M:%S'
-    logMsg = time.strftime(timeFormatLog) + " " + msg
+    logTime = time.strftime(timeFormatLog)
+    logMsg = logTime + " " + msg
     print(logMsg)
-    if (self.logFile):      
-      self.logFile.write(logMsg + "\n")    
+    if (self.logFile):
+      try:
+        self.logFile.write(logMsg + "\n")    
+      except UnicodeDecodeError, e:
+        self.logFile.write("%s %s\n" %(logTime,repr(e)))  
 
 
   ##
