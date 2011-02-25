@@ -14,6 +14,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(simulator)
+************************************************************************ */
+
 /**
  * QxSelenium test case for the widget.Tree demo.
  */
@@ -39,12 +43,12 @@ qx.Class.define("demobrowser.simulation.demo.widget.Tree", {
     {
       //get the label of the tree root's first child
       var firstItemLocator = this.locators.tree + "/child[0]/child[0]";
-      var firstItemLabel = String(this.getSimulation().qxSelenium.qxObjectExecFunction(firstItemLocator, "getLabel"));
+      var firstItemLabel = String(simulator.QxSelenium.getInstance().qxObjectExecFunction(firstItemLocator, "getLabel"));
       //click the root's first child
-      this.getSimulation().qxSelenium.qxClick(firstItemLocator);
+      simulator.QxSelenium.getInstance().qxClick(firstItemLocator);
       this.getSimulation().wait(1000);
       //check the text field's value
-      var textFieldValue = String(this.getSimulation().qxSelenium.qxObjectExecFunction(this.locators.textField, "getValue"));
+      var textFieldValue = String(simulator.QxSelenium.getInstance().qxObjectExecFunction(this.locators.textField, "getValue"));
       this.assertEquals(firstItemLabel, textFieldValue);
     }
   }
