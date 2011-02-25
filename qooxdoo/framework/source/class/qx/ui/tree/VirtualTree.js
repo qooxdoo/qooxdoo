@@ -169,6 +169,40 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       nullable: true
     },
 
+    
+    /**
+     * The path to the property which holds the information that should be
+     * shown as a icon.
+     */
+    iconPath :
+    {
+      check: "String",
+      apply: "_applyIconPath",
+      nullable: true
+    },
+    
+    
+    /**
+     * A map containing the options for the label binding. The possible keys
+     * can be found in the {@link qx.data.SingleValueBinding} documentation.
+     */
+    labelOptions :
+    {
+      apply: "_applyLabelOptions",
+      nullable: true
+    },
+
+    
+    /**
+     * A map containing the options for the icon binding. The possible keys
+     * can be found in the {@link qx.data.SingleValueBinding} documentation.
+     */
+    iconOptions :
+    {
+      apply: "_applyIconOptions",
+      nullable: true
+    },
+    
 
     /**
      * The model containing the data (nodes and/or leafs) which should be shown
@@ -181,6 +215,19 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       event: "changeModel",
       nullable : true,
       deferredInit : true
+    },
+    
+    
+    /**
+     * Delegation object, which can have one or more functions defined by the
+     * {@link qx.ui.tree.core.IVirtualTreeDelegate} interface.
+     */
+    delegate :
+    {
+      event: "changeDelegate",
+      apply: "_applyDelegate",
+      init: null,
+      nullable: true
     }
   },
 
@@ -396,6 +443,24 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     _applyLabelPath : function(value, old) {
       this._provider.setLabelPath(value);
     },
+    
+    
+    // property apply
+    _applyIconPath : function(value, old) {
+      this._provider.setIconPath(value);
+    },
+    
+    
+    // property apply
+    _applyLabelOptions : function(value, old) {
+      this._provider.setLabelOptions(value);
+    },
+    
+    
+    // property apply
+    _applyIconPath : function(value, old) {
+      this._provider.setIconOptions(value);
+    },
 
 
     // property apply
@@ -424,6 +489,14 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
 
       this.__buildLookupTable();
+    },
+    
+    
+    // property apply
+    _applyDelegate : function(value, old)
+    {
+      this._provider.setDelegate(value);
+      this.getPane().fullUpdate();
     },
 
 

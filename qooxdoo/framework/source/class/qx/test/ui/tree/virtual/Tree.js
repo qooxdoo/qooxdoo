@@ -155,6 +155,10 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       this.assertFalse(this.tree.getHideRoot(), "Init value for 'hideRoot' is wrong!");
       this.assertNull(this.tree.getModel(), "Init value for 'model' is wrong!");
       this.assertNull(this.tree.getLabelPath(), "Init value for 'labelPath' is wrong!");
+      this.assertNull(this.tree.getIconPath(), "Init value for 'iconPath' is wrong!");
+      this.assertNull(this.tree.getLabelOptions(), "Init value for 'labelOptions' is wrong!");
+      this.assertNull(this.tree.getIconOptions(), "Init value for 'iconOptions' is wrong!");
+      this.assertNull(this.tree.getDelegate(), "Init value for 'delegate' is wrong!");
       this.assertNull(this.tree.getChildProperty(), "Init value for 'childProperty' is wrong!");
       this.assertTrue(this.tree.getPane().hasListener("cellDblclick"), "Init listener 'cellDblclick' is wrong!");
     },
