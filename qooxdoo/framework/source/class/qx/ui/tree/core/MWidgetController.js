@@ -138,6 +138,18 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
 
 
     /**
+     * Remove all bindings from all bounded items.
+     */
+    removeBindings : function()
+    {
+      while(this.__boundItems.length > 0) {
+        var item = this.__boundItems.pop();
+        this._removeBindingsFrom(item);
+      }
+    },
+    
+    
+    /**
      * Configure the passed item if a delegate is set and the needed function 
      * {@link IVirtualTreeDelegate#configureNode} is available.
      *
@@ -204,6 +216,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
       }
     },
 
+    
     /**
      * Removes the binding of the given item.
      *

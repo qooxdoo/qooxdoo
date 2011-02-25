@@ -231,6 +231,31 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
     
     
+    testRemoveAllBindings : function()
+    {
+      var widget1 = new qx.ui.tree.VirtualTreeFolder();
+      var widget2 = new qx.ui.tree.VirtualTreeFolder();
+      
+      var oldWidget1Bindungs = widget1.getBindings().length;
+      var oldWidget2Bindungs = widget2.getBindings().length;
+      var oldModelBindungs = this.getLookupTable().getBindings().length;
+      
+      this.provider.bindProperty("name", "label", null, widget1, 0);
+      this.provider.bindProperty("name", "label", null, widget2, 1);
+      this.provider.bindPropertyReverse("name", "label", null, widget1, 0);
+      this.provider.bindPropertyReverse("name", "label", null, widget2, 1);
+      
+      this.provider.removeBindings();
+
+      var newWidget1Bindungs = widget1.getBindings().length;
+      var newWidget2Bindungs = widget2.getBindings().length;
+      var newModelBindungs = this.getLookupTable().getBindings().length;
+      this.assertEquals(oldWidget1Bindungs, newWidget1Bindungs, "Binding on first widget is not removed!");
+      this.assertEquals(oldWidget1Bindungs, newWidget1Bindungs, "Binding on second widget is not removed!");
+      this.assertEquals(oldModelBindungs, newModelBindungs, "Binding on model is not removed!");
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       MOCK API
