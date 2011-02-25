@@ -239,6 +239,10 @@ class Class(Resource):
     # --------------------------------------------------------------------------
 
     def getCode(self, compOptions):
+        def strip_comments(buffer):
+            #TODO:
+            return buffer
+
         optimize = compOptions.optimize
         variants = compOptions.variantset
         format = compOptions.format
@@ -1517,7 +1521,7 @@ class ClassMatchList(object):
             assert isinstance(elem, types.StringTypes)
             if elem != "":
                 regexp = textutil.toRegExpS(elem)
-                elems.push(regexp)
+                elems.append(regexp)
         if elems:
             self.__regexp = re.compile("|".join(elems))
         else:

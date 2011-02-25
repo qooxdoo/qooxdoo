@@ -21,13 +21,14 @@
 
 import os, sys, string, types, re, zlib, time
 import urllib, urlparse, optparse, pprint
+
 from generator.config.Lang      import Key
 from generator.code.Part        import Part
 from generator.code.Package     import Package
-from generator.code.Class       import ClassMatchList
+from generator.code.Class       import ClassMatchList, CompileOptions
 from generator.resource.ResourceHandler import ResourceHandler
 from ecmascript                 import compiler
-from misc                       import filetool, json, Path
+from misc                       import filetool, json, Path, securehash as sha
 from misc.ExtMap                import ExtMap
 from misc.Path                  import OsPath, Uri
 from misc.NameSpace             import NameSpace
@@ -131,6 +132,8 @@ class CodeGenerator(object):
                         relpath    = OsPath(fileId)
                         shortUri   = Uri(relpath.toUri())
                         packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
+                    elif package.files:  # hybrid
+                        packageUris = package.files
                     else: # "source" :
                         for clazz in package.classes:
                             namespace  = self._classes[clazz]["namespace"]
@@ -309,10 +312,10 @@ class CodeGenerator(object):
 
 
 
-        def compileClasses(classList, optimize):
+        def compileClasses(classList, compConf):
             result = []
             for clazz in classList:
-                result.append(clazz.compile(optimize))
+                result.append(clazz.getCode(compConf))
             return u''.join(result)
 
         ##
@@ -321,25 +324,51 @@ class CodeGenerator(object):
         # the URI to the source file directly if the class matches a filter.
         # Return the list of constructed URIs.
         def compileAndWritePackage(package, compConf):
-            packageFiles = []
+
+            def compiledFilename(compiled):
+                hash_ = sha.getHash(compiled)[:12]
+                fname = self._fileNameWithHash(script.baseScriptPath, hash_)
+                return fname
+
+            def compileAndAdd(compiledClasses, packageUris):
+                compiled = compileClasses(compiledClasses, compOptions)
+                filename = compiledFilename(compiled)
+                self.writePackage(compiled, filename, script)
+                filename = OsPath(os.path.basename(filename))
+                shortUri = Uri(filename.toUri())
+                packageUris.append("%s:%s" % ("__out__", shortUri.encodedValue()))
+
+                return packageUris
+
+            # ------------------------------------
+            packageUris = []
             compiledClasses = []
             optimize = compConf.get("code/optimize", [])
             sourceFilter = ClassMatchList(compConf.get("code/except", []))
+            compOptions  = CompileOptions(optimize=optimize)
 
-            for clazz in package.classes:
+            ##
+            # This somewhat overlaps with packageUrisToJS
+            package_classes = [x for x in script.classesObj if x.id in package.classes] # TODO: i need to make package.classes [Class]!
+            for clazz in package_classes:
                 if sourceFilter.match(clazz.id):
-                    # treat compiled classes so far
-                    compiled = compileClasses(compiledClasses, optimize)
-                    filename = packageFilename(package)
-                    self.writePackage(compiled, filename, script)
-                    packageFiles.append(filename)
-                    compiledClasses = []
+                    if compiledClasses:
+                        # treat compiled classes so far
+                        packageUris = compileAndAdd(compiledClasses, packageUris)
+                        compiledClasses = []  # reset the collection
                     # for a source class, just include the file uri
-                    packageFiles.append(clazz.uri)  # TODO: .uri
+                    clazzRelpath = clazz.id.replace(".", "/") + ".js"
+                    relpath  = OsPath(clazzRelpath)
+                    shortUri = Uri(relpath.toUri())
+                    packageUris.append("%s:%s" % (clazz.library.namespace, shortUri.encodedValue()))
                 else:
                     compiledClasses.append(clazz)
+            else:
+                # treat remaining to-be-compiled classes
+                if compiledClasses:
+                    packageUris = compileAndAdd(compiledClasses, packageUris)
 
-            package.files = packageFiles
+            package.files = packageUris
 
             return package
             
@@ -369,7 +398,7 @@ class CodeGenerator(object):
 
         # Early return
         compileType = self._job.get("compile/type", "")
-        if compileType not in ("build", "source"):
+        if compileType not in ("build", "source", "hybrid"):
             return
 
         packages   = script.packagesSorted()
@@ -509,9 +538,9 @@ class CodeGenerator(object):
             packages.insert(0, loadPackage)
 
             # generate boot code
-            loaderCode = generateBootScript(globalCodes, script)
+            loaderCode = generateBootScript(globalCodes, script, bootPackage="", compileType='source')
             packages[0].compiled = loaderCode
-            self.writePackage(packages[0])
+            self.writePackage(loaderCode, script.baseScriptPath, script)
 
 
         # ---- 'source' version ------------------------------------------------
