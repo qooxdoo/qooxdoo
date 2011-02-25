@@ -36,7 +36,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
      * Gives the user the opportunity to set individual styles and properties
      * on the node widget cells created by the controller.
      *
-     * @param note {qx.ui.core.Widget} Node to modify.
+     * @param node {qx.ui.core.Widget} Node to modify.
      */
     configureNode : function(node) {},
 
