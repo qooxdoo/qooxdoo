@@ -124,13 +124,13 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
      * {@link IListDelegate#bindItem} function implemented by the
      * {@link #delegate} property.
      *
-     * @param targetPath {String | null} The name of the property in the target.
-     * @param sourcePath {String} The path to the property in the model.
+     * @param targetPath {String | null} The path to the property in the model.
+     * @param sourcePath {String} The name of the property in the target.
      * @param options {Map | null} The options to use for the binding.
      * @param sourceWidget {qx.ui.core.Widget} The source widget.
      * @param index {Integer} The index of the current binding.
      */
-    bindPropertyReverse: function(targetPath, sourcePath, options, sourceWidget, index)
+    bindPropertyReverse : function(targetPath, sourcePath, options, sourceWidget, index)
     {
       var bindPath = this.__getBindPath(index, targetPath);
       var bindTarget = this._tree.getLookupTable();

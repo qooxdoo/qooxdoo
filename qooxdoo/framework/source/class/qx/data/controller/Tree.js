@@ -685,9 +685,9 @@ qx.Class.define("qx.data.controller.Tree",
      * {@link qx.data.controller.IControllerDelegate#bindItem} function
      * implemented by the {@link #delegate} property.
      *
-     * @param targetPath {String} The name of the property in the target
+     * @param targetPath {String | null} The path to the property in the model. 
+     * @param sourcePath {String} The name of the property in the target
      *   widget.
-     * @param sourcePath {String | null} The path to the property in the model.
      * @param options {Map | null} The options to use for the binding.
      * @param sourceWidget {qx.ui.tree.AbstractTreeItem} The source widget.
      * @param modelNode {var} The model node which should be bound to the target.
