@@ -270,33 +270,61 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
     
     
-    testConfigureNode : function() {
+    testCreateNode : function() {
       var delegate = {
         createNode : function() {
           return new qx.ui.tree.VirtualTreeFolder();
         }
-      }
+      };
       
       var spy = this.spy(delegate, "createNode");
       this.provider.setDelegate(delegate);
       
+      this.provider.getCellWidget(2,0);
+      this.assertCalledOnce(spy);
+    },
+    
+    
+    testCreateLeaf : function() {
+      var delegate = {
+        createLeaf : function() {
+          return new qx.ui.tree.VirtualTreeFile();
+        }
+      };
+      
+      var spy = this.spy(delegate, "createLeaf");
+      this.provider.setDelegate(delegate);
+      
+      this.provider.getCellWidget(4,0);
+      this.assertCalledOnce(spy);
+    },
+    
+    
+    testConfigureNode : function() {
+      var delegate = {
+        configureNode : function(note) {}
+      };
+      
+      var spy = this.spy(delegate, "configureNode");
+      this.provider.setDelegate(delegate);
+      
       var widget = this.provider.getCellWidget(2,0);
       this.assertCalledOnce(spy);
+      this.assertCalledWith(spy, widget);
     },
     
     
     testConfigureLeaf : function() {
       var delegate = {
-        createLeaf : function() {
-          return new qx.ui.tree.VirtualTreeFile();
-        }
-      }
+        configureLeaf : function(leaf) {}
+      };
       
-      var spy = this.spy(delegate, "createLeaf");
+      var spy = this.spy(delegate, "configureLeaf");
       this.provider.setDelegate(delegate);
       
       var widget = this.provider.getCellWidget(4,0);
       this.assertCalledOnce(spy);
+      this.assertCalledWith(spy, widget);
     },
     
     

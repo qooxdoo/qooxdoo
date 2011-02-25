@@ -44,9 +44,8 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
     this._tree = tree;
 
-    this._nodeRenderer = this.createNodeRenderer();
-    this._leafRenderer = this.createLeafRenderer();
     this.addListener("changeDelegate", this._onChangeDelegate, this);
+    this._onChangeDelegate();
   },
 
 
@@ -186,17 +185,54 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     
     
     /**
+     * Event handler for the created node widget event.
+     *
+     * @param event {qx.event.type.Data} fired event.
+     */
+    _onNodeCreated : function(event)
+    {
+      var configureNode = qx.util.Delegate.getMethod(this.getDelegate(), "configureNode");
+      
+      if (configureNode != null) {
+        var node = event.getData();
+        configureNode(node);
+      }
+    },
+    
+    
+    /**
+     * Event handler for the created leaf widget event.
+     *
+     * @param event {qx.event.type.Data} fired event.
+     */
+    _onLeafCreated : function(event)
+    {
+      var configureLeaf = qx.util.Delegate.getMethod(this.getDelegate(), "configureLeaf");
+      
+      if (configureLeaf != null) {
+        var leaf = event.getData();
+        configureLeaf(leaf);
+      }
+    },
+    
+    
+    /**
      * Event handler for the change delegate event.
      *
      * @param event {qx.event.type.Data} fired event.
      */
     _onChangeDelegate : function(event)
     {
-      this._nodeRenderer.dispose();
+      if (this._nodeRenderer != null && this._leafRenderer != null) {
+        this._nodeRenderer.dispose();
+        this._leafRenderer.dispose();
+        this.removeBindings();
+      }
+      
       this._nodeRenderer = this.createNodeRenderer();
-      this._leafRenderer.dispose();
       this._leafRenderer = this.createLeafRenderer();
-      this.removeBindings();
+      this._nodeRenderer.addListener("created", this._onNodeCreated, this);
+      this._leafRenderer.addListener("created", this._onLeafCreated, this);
     },
     
     

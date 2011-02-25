@@ -153,38 +153,6 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
     
     
     /**
-     * Configure the passed item if a delegate is set and the needed function 
-     * {@link IVirtualTreeDelegate#configureNode} is available.
-     *
-     * @param item {qx.ui.core.Widget} item to configure.
-     */
-    _configureItem : function(item)
-    {
-      var delegate = this.getDelegate();
-
-      if (delegate != null && delegate.configureNode != null) {
-        delegate.configureNode(item);
-      }
-    },
-
-
-    /**
-     * Configure the passed item if a delegate is set and the needed function 
-     * {@link IVirtualTreeDelegate#configurLeaf} is available.
-     *
-     * @param item {qx.ui.core.Widget} item to configure.
-     */
-    _configureLeafItem : function(item)
-    {
-      var delegate = this.getDelegate();
-
-      if (delegate != null && delegate.configurLeaf != null) {
-        delegate.configurLeaf(item);
-      }
-    },
-
-
-    /**
      * Sets up the binding for the given node and index.
      *
      * @param item {qx.ui.core.Widget} The internally created and used node.
