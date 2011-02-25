@@ -196,12 +196,12 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      * {@link #delegate} property.
      *
      * @param targetPath {String | null} The path to the property in the model.
-     * @param sourcePath {String} The name of the property in the target.
+     * @param sourceProperty {String} The name of the property in the target.
      * @param options {Map | null} The options to use for the binding.
      * @param sourceWidget {qx.ui.core.Widget} The source widget.
      * @param index {Integer} The index of the current binding.
      */
-    bindPropertyReverse : function(targetPath, sourcePath, options, sourceWidget, index)
+    bindPropertyReverse : function(targetPath, sourceProperty, options, sourceWidget, index)
     {
       var type = sourceWidget.getUserData("cell.type")
       var bindPath = this.__getBindPath(index, targetPath, type);
@@ -211,7 +211,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
         bindTarget = this._list._groups;
       }
 
-      var id = sourceWidget.bind(sourcePath, bindTarget, bindPath, options);
+      var id = sourceWidget.bind(sourceProperty, bindTarget, bindPath, options);
       this.__addBinding(sourceWidget, id);
     },
 
