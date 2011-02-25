@@ -129,6 +129,11 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
      */
     bindPropertyReverse: function(targetPath, sourcePath, options, sourceWidget, index)
     {
+      var bindPath = this.__getBindPath(index, targetPath);
+      var bindTarget = this._tree.getLookupTable();
+
+      var id = sourceWidget.bind(sourcePath, bindTarget, bindPath, options);
+      this.__addBinding(sourceWidget, id);
     },
 
 

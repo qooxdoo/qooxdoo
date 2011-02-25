@@ -23,22 +23,6 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
   implement : qx.ui.tree.core.IVirtualTree,
   include : qx.dev.unit.MMock,
 
-  construct : function()
-  {
-    this.base(arguments);
-
-    var rawData = {
-      label: "Root", kids: [
-        {label: "Node1", kids:[]},
-        {label: "Node2", kids:[]},
-        {label: "Leaf1"},
-        {label: "Leaf2"}
-      ]
-    };
-    this.model = qx.data.marshal.Json.createModel(rawData);
-  },
-
-
   members :
   {
     model : null,
@@ -52,8 +36,18 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     
     setUp : function()
     {
+      var rawData = {
+          name: "Root", kids: [
+            {name: "Node1", kids:[]},
+            {name: "Node2", kids:[]},
+            {name: "Leaf1"},
+            {name: "Leaf2"}
+          ]
+        };
+      this.model = qx.data.marshal.Json.createModel(rawData);
+      
       this.provider = new qx.ui.tree.provider.WidgetProvider(this);
-      this.provider.setLabelPath("label");
+      this.provider.setLabelPath("name");
       this.provider.setChildProperty("kids");
     },
 
@@ -63,6 +57,12 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.provider.dispose();
       this.provider = null;
       
+      for (var i = 0; i < this.model.getKids().getLength(); i++) {
+        this.model.getKids().getItem(i).dispose();
+      }
+      this.model.dispose();
+      this.model = null;
+
       if (this.lookupTable != null) {
         this.lookupTable.dispose();
         this.lookupTable = null;
@@ -213,6 +213,24 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
     
     
+    testReverseBinding : function()
+    {
+      var widget = new qx.ui.tree.VirtualTreeFolder();
+      var oldWidgetBindungs = widget.getBindings().length;
+      var oldModelBindungs = this.getLookupTable().getBindings().length;
+      
+      this.provider.bindPropertyReverse("name", "label", null, widget, 0);
+      widget.setLabel("ort-zerreiber");
+      this.assertEquals("ort-zerreiber", this.model.getName());
+      
+      this.provider._removeBindingsFrom(widget);
+      var newWidgetBindungs = widget.getBindings().length;
+      var newModelBindungs = this.getLookupTable().getBindings().length;
+      this.assertEquals(oldWidgetBindungs, newWidgetBindungs, "Binding on widget is not removed!");
+      this.assertEquals(oldModelBindungs, newModelBindungs, "Binding on model is not removed!");
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       MOCK API
@@ -287,15 +305,5 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     
     closeNode : function(node) {}
-  },
-
-
-  destruct : function() {
-    var model = this.model;
-    for (var i = 0; model.getKids().getLength(); i++) {
-      model.getKids().getItem(i).dispose();
-    }
-    model.dispose();
-    this.model = null;
   }
 });
