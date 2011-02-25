@@ -141,10 +141,14 @@ qx.Class.define("qx.bom.Window",
      *                                       using the native method or a blocker
      *                                       should be used to fake modality.
      *                                       Default is <b>true</b>
+     * @param listener {Function ?} listener function for onload event on the new window
+     * @param self {Object ?} Reference to the 'this' variable inside
+     *         the event listener. When not given, 'this' variable will be the new window
      * @return {win} native window object
      */
-    open : function(url, name, options, modal, useNativeModalDialog)
+    open : function(url, name, options, modal, useNativeModalDialog,listener,self)
     {
+      var newWindow = null;
       if (url == null) {
         url = "javascript:/";
       }
@@ -162,7 +166,7 @@ qx.Class.define("qx.bom.Window",
       if (modal)
       {
         if (this.__isCapableToOpenModalWindows() && useNativeModalDialog) {
-          return window.showModalDialog(url, [ window.self ], configurationString);
+          newWindow = window.showModalDialog(url, [ window.self ], configurationString);
         }
         else
         {
@@ -177,11 +181,16 @@ qx.Class.define("qx.bom.Window",
           this.__blockerWindow = window.open(url, name, configurationString);
           this.__timer.restart();
 
-          return this.__blockerWindow;
+          newWindow = this.__blockerWindow;
         }
       } else {
-        return window.open(url, name, configurationString);
+        newWindow = window.open(url, name, configurationString);
       }
+      if(newWindow && listener && (listener instanceof Function)){
+        var context = self || newWindow;
+        qx.bom.Event.addNativeListener(newWindow,'load',qx.lang.Function.bind(listener,context));
+      }
+      return newWindow;
     },
 
 
