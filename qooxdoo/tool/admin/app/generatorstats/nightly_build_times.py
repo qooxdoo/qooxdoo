@@ -137,7 +137,9 @@ build_server_logs  = "http://172.17.12.142/~dwagner/workspace/qooxdoo-schlund/pr
 # customize graph colors and line types directly in the 'template' var
 # - Config end -----------------------------------------------------------------
 
+# ------------------------------------------------------------------------------
 # Helpers
+# ------------------------------------------------------------------------------
 
 def timedelta_to_seconds(td):
     return td.seconds + td.days * 86400
@@ -148,7 +150,9 @@ def seconds_to_hourminsecs(secs):
     secs  = secs % 3600 % 60
     return hours, mins, secs
 
+# ------------------------------------------------------------------------------
 # Parsing Stuff
+# ------------------------------------------------------------------------------
 apps = {}
 
 def processCompileStart(tokens):
@@ -199,12 +203,10 @@ def parseTestLog(testlog):
 
     return apps
 
-# Calculation Stuff
-#compileBegins = list(startline.scanString("2010-11-14 22:00:58 Building Feedreader"))
-#date_time = compileBegins[0][0]['date'] + "_" + compileBegins[0][0]['time']
-#begin = datetime.datetime.strptime (date_time, "%Y-%m-%d_%H:%M:%S")
 
+# ------------------------------------------------------------------------------
 # Log Data Acquisition
+# ------------------------------------------------------------------------------
 
 def timestampFromLogname(logname):
     logdates = logname.replace ('testLog_','').replace('.txt','')
@@ -269,7 +271,10 @@ def getTestLog(datasource):
     return logdata, timestamp
 
 
+# ------------------------------------------------------------------------------
 # Output Stuff
+# ------------------------------------------------------------------------------
+
 def processDurations(apps):
     for app in apps:
         print app, "%02d:%02d:%02d" % seconds_to_hourminsecs(apps[app]['duration'])
@@ -316,7 +321,9 @@ def harvest(args):
     updateRRD(appsdata, timestamp)
 
 
+# ------------------------------------------------------------------------------
 # Reporting Stuff
+# ------------------------------------------------------------------------------
 
 def graph(args):
 
@@ -364,6 +371,10 @@ def graph(args):
     
     return
 
+
+# ------------------------------------------------------------------------------
+# Main Stuff
+# ------------------------------------------------------------------------------
 
 def options():
     sub_commands = ["harvest", "graph"]
