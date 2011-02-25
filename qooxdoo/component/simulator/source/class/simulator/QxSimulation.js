@@ -87,7 +87,6 @@ qx.Class.define("simulator.QxSimulation", {
       if (this.__options.testEvents) {
         qx.Class.include(simulator.QxSimulation, simulator.MEventSupport);
         this._addListenerSupport();
-        simulator.QxSelenium.getInstance().getEval('selenium.qxStoredVars["eventStore"] = [];');
       }
 
     },

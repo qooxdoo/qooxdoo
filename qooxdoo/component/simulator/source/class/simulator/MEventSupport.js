@@ -37,6 +37,8 @@ qx.Mixin.define("simulator.MEventSupport",
      */
     _addListenerSupport : function()
     {
+      simulator.QxSelenium.getInstance().getEval('selenium.qxStoredVars["eventStore"] = [];');
+      
       var addListener = function(objectHash, event, callback, context) {
         var context = context || selenium.qxStoredVars['autWindow'].qx.core.Init.getApplication();
         var qxObj = selenium.qxStoredVars['autWindow'].qx.core.ObjectRegistry.fromHashCode(objectHash);
