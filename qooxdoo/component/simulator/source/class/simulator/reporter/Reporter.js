@@ -16,7 +16,6 @@
 
 /* ************************************************************************
 #ignore(readUrl)
-#ignore(qxSelenium)
 ************************************************************************ */
 
 /**
@@ -37,6 +36,8 @@ qx.Class.define("simulator.reporter.Reporter", {
      *
      * @param logMessage {String} Message to be logged
      * @param level {String} Log level. One of "debug", "info", "warn", "error"
+     * 
+     * @lint ignoreUndefined(readUrl)
      */
     log : function(logMessage, level)
     {
@@ -127,6 +128,9 @@ qx.Class.define("simulator.reporter.Reporter", {
       }
     },
     
+    /**
+     * @lint ignoreUndefined(readUrl)
+     */
     __createReport : function()
     {
       var startDate = this.DATE_FORMAT.format(new Date());
