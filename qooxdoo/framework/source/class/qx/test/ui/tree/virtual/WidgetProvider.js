@@ -328,6 +328,34 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
     
     
+    testBindNode : function() {
+      var delegate = {
+        bindNode : function(controller, node, id) {}
+      };
+      
+      var spy = this.spy(delegate, "bindNode");
+      this.provider.setDelegate(delegate);
+      
+      var widget = this.provider.getCellWidget(2,0);
+      this.assertCalledOnce(spy);
+      this.assertCalledWith(spy, this.provider, widget, 2);
+    },
+    
+    
+    testBindLeaf : function() {
+      var delegate = {
+        bindLeaf : function(controller, leaf, id) {}
+      };
+      
+      var spy = this.spy(delegate, "bindLeaf");
+      this.provider.setDelegate(delegate);
+      
+      var widget = this.provider.getCellWidget(4,0);
+      this.assertCalledOnce(spy);
+      this.assertCalledWith(spy, this.provider, widget, 4);
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       MOCK API

@@ -160,10 +160,10 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
      */
     _bindNode : function(item, index)
     {
-      var delegate = this.getDelegate();
-
-      if (delegate != null && delegate.bindItem != null) {
-        delegate.bindItem(this, item, index);
+      var bindNode = qx.util.Delegate.getMethod(this.getDelegate(), "bindNode");
+      
+      if (bindNode != null) {
+        bindNode(this, item, index);
       } else {
         this.bindDefaultProperties(item, index);
       }
@@ -178,10 +178,10 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
      */
     _bindLeaf : function(item, index)
     {
-      var delegate = this.getDelegate();
+      var bindLeaf = qx.util.Delegate.getMethod(this.getDelegate(), "bindLeaf");
 
-      if (delegate != null && delegate.bindGroupItem != null) {
-        delegate.bindGroupItem(this, item, index);
+      if (bindLeaf != null) {
+        bindLeaf(this, item, index);
       } else {
         this.bindDefaultProperties(item, index);
       }
