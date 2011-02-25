@@ -33,29 +33,6 @@
     }
   ],
 
-  /*
-  "export" :
-  [
-    "api",
-    "build",
-    "clean",
-    "distclean",
-    "fix",
-    "inspector",
-    "lint",
-    "migration",
-    "pretty",
-    "profiling",
-    "publish",
-    "source",
-    "test",
-    "test-source",
-    "translation"
-  ],
-  */
-
-
-
   "let" :
   {
     "ROOT"         : ".",

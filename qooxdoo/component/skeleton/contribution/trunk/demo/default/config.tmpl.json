@@ -24,6 +24,7 @@
     "profiling",
     "source",
     "source-all",
+    "source-hybrid",
     "test",
     "test-source",
     "translation"

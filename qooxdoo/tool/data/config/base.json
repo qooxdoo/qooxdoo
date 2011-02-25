@@ -189,97 +189,20 @@
       ]
     },
 
-    /*
     "source-hybrid" :
     {
-      "desc"    : "create a hybrid source version (application as source, framework compiled)",
+      "desc"    : "create a hybrid version (app classes as source files, others compiled)",
 
-      "run" :
-      [
-        "source-hybrid-framework",
-        "source-hybrid-application"
-      ]
-    },
+      "extend"  : [ "source" ],
 
-    "source-hybrid-framework" :
-    {
-      "desc"    : "compile a framework all-classes package",
-
-      "library" :
-      [
-        {
-          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
-        }
-      ],
-
-      "cache"  : "${CACHE_KEY}",
-
-      "include": ["qx.*"],
-      "exclude": ["=qx.test.*"],
-
-      "variants" :
+      "compile-options" : 
       {
-        "qx.debug" : ["on"],
-        "qx.aspects" : ["off"]
+        "code" : { "except" : [ "${APPLICATION}.*" ] }
       },
 
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "file" : "${ROOT}/source/script/qx.js"
-        },
-        "code"  :
-        {
-          "format"   : "on",
-          "optimize" : []
-        }
-      },
-
-      "compile" : { "type" : "build" },
-      
-      "packages":
-      {
-        "parts" :
-        {
-          "all" :
-          {
-            "include" : ["qx.*"]
-          }
-        },
-        "init" : "all",
-        "loader-with-boot" : false
-      }
+      "compile" : { "type" : "hybrid" }
     },
 
-    "source-hybrid-application" :
-    {
-      "desc"     : "create a source version of the application only",
-
-      "extend"   : ["common"],
-      
-      "=library"  :
-      [
-        {
-          "manifest" : "${ROOT}/Manifest.json"
-        }
-      ],
-
-      "=include" :
-      [
-        "=${APPLICATION}.*"
-      ],
-
-      //"exclude": ["=qx.*"],
-
-      "compile-source" :
-      {
-        "file" : "${ROOT}/source/script/${APPLICATION}.js",
-        "locales" : "${LOCALES}",
-        "root" : "source"
-      }
-    },
-    */
 
     // -- build jobs ---------------------------------------------------
 
