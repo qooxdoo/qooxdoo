@@ -22,12 +22,13 @@
 import re, os, sys, zlib, optparse, types, string, glob, shutil
 import functools, codecs, operator
 
-from misc import filetool, textutil, util, Path, PathType, json, copytool
-from misc.PathType import PathType
-from generator import Context as context
-from generator.resource.ImageInfo import ImgInfoFmt
-from generator.resource.ResourceHandler import ResourceHandler
-from generator.config.Config import ConfigurationError
+from misc                                   import filetool, textutil, util, Path, PathType, json, copytool
+from misc.PathType                          import PathType
+from generator                              import Context as context
+from generator.resource.ImageInfo           import ImgInfoFmt
+from generator.resource.ResourceHandler     import ResourceHandler
+from generator.config.Config                import ConfigurationError
+from generator.code.Class                   import CompileOptions
 
 global inclregexps, exclregexps
 
@@ -94,7 +95,8 @@ def _handleCode(script, generator):
                 if buildtype == "source":
                     shutil.copy(clazz.path, targetpath)
                 elif buildtype == "build":
-                    code = clazz.getCode(optimize, variantSets[0]) # only support for a single variant set!
+                    compOptions = CompileOptions(optimize, variantSets[0]) # only support for a single variant set!
+                    code = clazz.getCode(compOptions)
                     filetool.save(targetpath, code)
 
     return

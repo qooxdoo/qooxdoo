@@ -238,7 +238,11 @@ class Class(Resource):
     #   Compile Interface
     # --------------------------------------------------------------------------
 
-    def getCode(self, optimize=None, variants={}, format=False, source_with_comments=False):
+    def getCode(self, compOptions):
+        optimize = compOptions.optimize
+        variants = compOptions.variantset
+        format = compOptions.format
+        source_with_comments = compOptions.source_with_comments
         result = u''
         # source versions
         if not optimize:
@@ -1530,14 +1534,11 @@ class ClassMatchList(object):
 # Class to collect various options which influence the compilation process
 # (optimizations, format, variants, ...)
 class CompileOptions(object):
-    def __init__(self, optimize=[], variants={}, _format=False):
-        self.optimize = NameSpace
-        self.optimize.basecalls = True if "basecalls" in optimize else False
-        self.optimize.privates  = True if "privates" in optimize else False
-        self.optimize.strings   = True if "strings" in optimize else False
-        self.optimize.variables = True if "variables" in optimize else False
+    def __init__(self, optimize=[], variants={}, _format=False, source_with_comments=False):
+        self.optimize   = optimize
         self.variantset = variants
         self.format     = _format
+        self.source_with_comments = source_with_comments
         self.privateMap = {} # {"<classId>:<private>":"<repl>"}
 
 
