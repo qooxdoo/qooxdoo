@@ -46,6 +46,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
     this._nodeRenderer = this.createNodeRenderer();
     this._leafRenderer = this.createLeafRenderer();
+    this.addListener("changeDelegate", this._onChangeDelegate, this);
   },
 
 
@@ -140,11 +141,17 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     // Interface implementation
     createNodeRenderer : function()
     {
-      var renderer = new qx.ui.virtual.cell.WidgetCell();
-      renderer.setDelegate({
-        createWidget : function() {
+      var createWidget = qx.util.Delegate.getMethod(this.getDelegate(), "createNode");
+
+      if (createWidget == null) {
+        createWidget = function() {
           return new qx.ui.tree.VirtualTreeFolder();
         }
+      }
+
+      var renderer = new qx.ui.virtual.cell.WidgetCell();
+      renderer.setDelegate({
+        createWidget : createWidget
       });
 
       return renderer;
@@ -154,11 +161,17 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     // Interface implementation
     createLeafRenderer : function()
     {
-      var renderer = new qx.ui.virtual.cell.WidgetCell();
-      renderer.setDelegate({
-        createWidget : function() {
+      var createWidget = qx.util.Delegate.getMethod(this.getDelegate(), "createLeaf");
+
+      if (createWidget == null) {
+        createWidget = function() {
           return new qx.ui.tree.VirtualTreeFile();
         }
+      }
+
+      var renderer = new qx.ui.virtual.cell.WidgetCell();
+      renderer.setDelegate({
+        createWidget : createWidget
       });
 
       return renderer;
@@ -170,6 +183,22 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       EVENT HANDLERS
     ---------------------------------------------------------------------------
     */
+    
+    
+    /**
+     * Event handler for the change delegate event.
+     *
+     * @param event {qx.event.type.Data} fired event.
+     */
+    _onChangeDelegate : function(event)
+    {
+      this._nodeRenderer.dispose();
+      this._nodeRenderer = this.createNodeRenderer();
+      this._leafRenderer.dispose();
+      this._leafRenderer = this.createLeafRenderer();
+      this.removeBindings();
+    },
+    
     
     /**
      * Handler when a node changes opened or closed state.

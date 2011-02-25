@@ -270,6 +270,36 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
     
     
+    testConfigureNode : function() {
+      var delegate = {
+        createNode : function() {
+          return new qx.ui.tree.VirtualTreeFolder();
+        }
+      }
+      
+      var spy = this.spy(delegate, "createNode");
+      this.provider.setDelegate(delegate);
+      
+      var widget = this.provider.getCellWidget(2,0);
+      this.assertCalledOnce(spy);
+    },
+    
+    
+    testConfigureLeaf : function() {
+      var delegate = {
+        createLeaf : function() {
+          return new qx.ui.tree.VirtualTreeFile();
+        }
+      }
+      
+      var spy = this.spy(delegate, "createLeaf");
+      this.provider.setDelegate(delegate);
+      
+      var widget = this.provider.getCellWidget(4,0);
+      this.assertCalledOnce(spy);
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       MOCK API
