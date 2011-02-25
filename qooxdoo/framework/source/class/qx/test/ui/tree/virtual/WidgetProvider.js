@@ -255,6 +255,16 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.assertEquals(oldModelBindungs, newModelBindungs, "Binding on model is not removed!");
     },
     
+    testRemoveAllBindingsOnDispose : function()
+    {
+      var provider = new qx.ui.tree.provider.WidgetProvider(this);
+      
+      var spy = this.spy(provider, "removeBindings");
+      
+      provider.dispose();
+      this.assertCalledOnce(spy);
+    },
+    
     
     /*
     ---------------------------------------------------------------------------

@@ -193,6 +193,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
   destruct : function()
   {
+    this.removeBindings();
     this._nodeRenderer.dispose();
     this._leafRenderer.dispose();
     this._tree = this._nodeRenderer = this._leafRenderer = null;
