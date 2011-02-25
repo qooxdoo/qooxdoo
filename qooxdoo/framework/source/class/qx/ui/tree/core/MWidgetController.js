@@ -85,6 +85,9 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
      */
     bindDefaultProperties : function(item, index)
     {
+      // bind model first
+      this.bindProperty("", "model", null, item, index);
+      
       this.bindProperty(
         this.getLabelPath(), "label", this.getLabelOptions(), item, index
       );

@@ -177,12 +177,14 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var widget = new qx.ui.tree.VirtualTreeFolder();
 
       this.provider._bindNode(widget, 0);
-      this.assertEquals(1, this.getLookupTable().getBindings().length, "Bindings count not correct!");
-      this.assertEquals("Root", widget.getLabel());
-
-      this.provider._bindNode(widget, 1);
       this.assertEquals(2, this.getLookupTable().getBindings().length, "Bindings count not correct!");
+      this.assertEquals("Root", widget.getLabel());
+      this.assertEquals(this.model, widget.getModel());
+      
+      this.provider._bindNode(widget, 1);
+      this.assertEquals(4, this.getLookupTable().getBindings().length, "Bindings count not correct!");
       this.assertEquals("Node1", widget.getLabel());
+      this.assertEquals(this.model.getKids().getItem(0), widget.getModel());
     },
 
 
@@ -191,8 +193,9 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var widget = new qx.ui.tree.VirtualTreeFile();
 
       this.provider._bindLeaf(widget, 3);
-      this.assertEquals(1, this.getLookupTable().getBindings().length, "Bindings count not correct!");
+      this.assertEquals(2, this.getLookupTable().getBindings().length, "Bindings count not correct!");
       this.assertEquals("Leaf1", widget.getLabel());
+      this.assertEquals(this.model.getKids().getItem(2), widget.getModel());
     },
    
 
@@ -254,6 +257,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.assertEquals(oldWidget1Bindungs, newWidget1Bindungs, "Binding on second widget is not removed!");
       this.assertEquals(oldModelBindungs, newModelBindungs, "Binding on model is not removed!");
     },
+    
     
     testRemoveAllBindingsOnDispose : function()
     {
