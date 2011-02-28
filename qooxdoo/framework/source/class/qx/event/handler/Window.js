@@ -18,6 +18,10 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
+/*
+ #require(qx.event.type.Native)
+ #require(qx.event.Pool)
+*/
 
 /**
  * This handler provides event for the window object.
@@ -136,6 +140,7 @@ qx.Class.define("qx.event.handler.Window",
      */
     _initWindowObserver : function()
     {
+      console.log("Window.init");
       this._onNativeWrapper = qx.lang.Function.listener(this._onNative, this);
       var types = qx.event.handler.Window.SUPPORTED_TYPES;
 
