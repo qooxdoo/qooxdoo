@@ -608,10 +608,9 @@ class Generator(object):
             script.jobconfig = self._job
             # set source/build version
             if "compile" in jobTriggers:
-                if config.get("compile/type", "") == "source":
-                    script.buildType = "source"
-                elif config.get("compile/type", "") == "build":
-                    script.buildType = "build"
+                script.buildType = config.get("compile/type", "")
+                if script.buildType not in ("source","build","hybrid"):
+                    raise ValueError("Unknown compile type '%s'" % script.buildType)
 
             # get current class list
             script.classes = computeClassList(includeWithDeps, excludeWithDeps, 

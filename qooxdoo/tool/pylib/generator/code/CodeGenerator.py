@@ -349,7 +349,7 @@ class CodeGenerator(object):
 
             ##
             # This somewhat overlaps with packageUrisToJS
-            package_classes = [x for x in script.classesObj if x.id in package.classes] # TODO: i need to make package.classes [Class]!
+            package_classes = [y for x in package.classes for y in script.classesObj if y.id == x] # TODO: i need to make package.classes [Class]!
             for clazz in package_classes:
                 if sourceFilter.match(clazz.id):
                     if compiledClasses:
@@ -396,11 +396,7 @@ class CodeGenerator(object):
 
         # -- Main - runCompiled ------------------------------------------------
 
-        # Early return
-        compileType = self._job.get("compile/type", "")
-        if compileType not in ("build", "source", "hybrid"):
-            return
-
+        compileType= script.buildType
         packages   = script.packagesSorted()
         parts      = script.parts
         boot       = script.boot

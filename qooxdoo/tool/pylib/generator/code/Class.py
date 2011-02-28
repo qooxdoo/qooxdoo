@@ -253,6 +253,9 @@ class Class(Resource):
             result = filetool.read(self.path)
             if not source_with_comments:
                 result = strip_comments(result)
+            # make sure it terminates with an empty line - better for cat'ing
+            if result[-2:] != "\n\n":
+                result += '\n'
         # compiled versions
         else:
             result = self._getCompiled(optimize, variants, format)

@@ -241,9 +241,9 @@ class DependencyLoader(object):
         runFinal  = []
 
         # add static dependencies
-        classObj         = self._classesObj[fileId]
+        classObj = self._classesObj[fileId]
 
-        static, cached   = classObj.dependencies (variants)
+        static, cached = classObj.dependencies (variants)
 
         loadFinal.extend(static["load"])
         runFinal.extend(static["run"])
@@ -267,7 +267,7 @@ class DependencyLoader(object):
                     runFinal.append(dep)
 
         # fix source dependency to qx.core.Variant
-        if len(variants) and buildType == "source" and classObj.id != "qx.core.Variant":
+        if len(variants) and buildType in ("source","hybrid") and classObj.id != "qx.core.Variant":
             depsUnOpt, _ = classObj.dependencies({})  # get unopt deps
             # this might incur extra generation if unoptimized deps
             # haven't computed before for this fileId
