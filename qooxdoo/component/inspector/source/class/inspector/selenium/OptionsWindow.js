@@ -59,8 +59,8 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
     if (window.location.protocol == "http:") {
       var defaultButton = new qx.ui.form.Button("Set default URIs");
       defaultButton.addListener("execute", function() {
-        coreScripts.setValue(qx.core.Setting.get("qx.inspector.selenium.core"));
-        userExt.setValue(qx.core.Setting.get("qx.inspector.selenium.extensions"));
+        coreScripts.setValue(qx.core.Setting.get("inspector.selenium.core"));
+        userExt.setValue(qx.core.Setting.get("inspector.selenium.extensions"));
       }, this);
       form.addButton(defaultButton);
     }
