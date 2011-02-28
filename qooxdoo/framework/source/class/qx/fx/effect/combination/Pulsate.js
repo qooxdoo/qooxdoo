@@ -117,6 +117,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 
     __oldValue : null,
     __fadeEffects : null,
+    __notRunEffects : null,
 
     beforeSetup : function() {
       this.__oldValue = qx.bom.element.Style.get(this._getElement(), "opacity");
@@ -128,6 +129,8 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
       if (!this.base(arguments)) {
         return;
       }
+      
+      this.__notRunEffects = [];
 
       var counter = 0;
       var self = this;
@@ -135,9 +138,11 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
       for (var i=0, l=this.__fadeEffects.length; i<l; i++)
       {
         this.__fadeEffects[i].id = counter;
+        this.__notRunEffects.push(this.__fadeEffects[i]);
         if (counter < 5)
         {
           this.__fadeEffects[i].afterFinishInternal = function(){
+            qx.lang.Array.remove(self.__notRunEffects, this);
             self.__fadeEffects[this.id + 1].start();
           };
         }
@@ -160,10 +165,22 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
           duration : effectDuration
         });
       }
-     }
+     },
+     
+    /**
+    * Cancels the member effects first and then cancels itself.
+    */
+    cancel : function()
+    {
+      for (var i=0, l=this.__notRunEffects.length; i<l; i++)
+      {
+        this.__notRunEffects[i].cancel();
+      }
+      this.base(arguments);
+    }
+    
    },
-
-
+    
    /*
    *****************************************************************************
       DESTRUCTOR
@@ -172,5 +189,6 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 
    destruct : function() {
      this._disposeArray("__fadeEffects");
+     this._disposeArray("__notRunEffects");
    }
 });
