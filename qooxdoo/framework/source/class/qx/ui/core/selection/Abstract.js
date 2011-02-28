@@ -368,8 +368,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     getSelectedItem : function()
     {
       var mode = this.getMode();
-      if (mode === "single" || mode === "one") {
-        return this._getSelectedItem() || null;
+      if (mode === "single" || mode === "one")
+      {
+        var result = this._getSelectedItem();
+        return result != undefined ? result : null;
       }
 
       throw new Error("The method getSelectedItem() is only supported in 'single' and 'one' selection mode!");
