@@ -30,7 +30,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 {
   extend : qx.ui.virtual.core.Scroller,
   implement : qx.ui.tree.core.IVirtualTree,
-
+  include : qx.ui.tree.core.MSelectionHandling,
 
   /**
    * @param model {qx.core.Object?null} The model structure for the tree, for

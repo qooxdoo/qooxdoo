@@ -66,32 +66,25 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       commandFrame.setLayout(new qx.ui.layout.Grid(5, 3));
 
       var row = 0;
-//      commandFrame.add(new qx.ui.basic.Label("Selection: ").set({
-//        paddingTop: 4
-//      }), {row: row, column: 0});
-//
-//      var tCurrentInput = new qx.ui.form.TextField().set({
-//        readOnly : true
-//      });
-//
-//      commandFrame.add(tCurrentInput, {row: row++, column: 1});
-//
-//      tree.addListener("changeSelection", function(e)
-//      {
-//        var data = e.getData();
-//        if(data.length > 0)
-//        {
-//          if (this.getSelectionMode() === "multi") {
-//            tCurrentInput.setValue(data.length + " items");
-//          } else {
-//            tCurrentInput.setValue(data[0].getLabel());
-//          }
-//        }
-//        else
-//        {
-//          tCurrentInput.setValue("");
-//        }
-//      });
+      commandFrame.add(new qx.ui.basic.Label("Selection: ").set({
+        paddingTop: 4
+      }), {row: row, column: 0});
+
+      var tCurrentInput = new qx.ui.form.TextField().set({
+        readOnly : true
+      });
+
+      commandFrame.add(tCurrentInput, {row: row++, column: 1});
+
+      tree.getSelection().addListener("change", function(e)
+      {
+        var selection = tree.getSelection();
+        if(selection.getLength() > 0) {
+          tCurrentInput.setValue(selection.getItem(0).getName());
+        } else {
+          tCurrentInput.setValue("");
+        }
+      });
 
       commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
       commandFrame.add(new qx.ui.basic.Label("Open mode:"), {row: row, column: 0});

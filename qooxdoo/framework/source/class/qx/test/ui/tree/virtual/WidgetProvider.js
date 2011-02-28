@@ -102,7 +102,8 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     
     testGetRootNodeWidget : function()
     {
-      var spy = this.spy(this.provider, "_bindNode");
+      var spyBinding = this.spy(this.provider, "_bindNode");
+      var spySelection = this.spy(this.provider, "_styleUnselectabled");
       var widget = this.provider.getCellWidget(0,0);
       
       this.assertInstance(widget, qx.ui.tree.VirtualTreeFolder);
@@ -111,14 +112,17 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.assertEquals(0, widget.getUserData("cell.level"));
       this.assertTrue(widget.isOpen());
       this.assertTrue(widget.hasListener("changeOpen"));
-      this.assertCalledOnce(spy);
-      this.assertCalledWith(spy, widget, 0);
+      this.assertCalledOnce(spyBinding);
+      this.assertCalledWith(spyBinding, widget, 0);
+      this.assertCalledOnce(spySelection);
+      this.assertCalledWith(spySelection, widget);
     },
     
     
     testGetNodeWidget : function()
     {
-      var spy = this.spy(this.provider, "_bindNode");
+      var spyBinding = this.spy(this.provider, "_bindNode");
+      var spySelection = this.spy(this.provider, "_styleUnselectabled");
       var widget = this.provider.getCellWidget(1,0);
       
       this.assertInstance(widget, qx.ui.tree.VirtualTreeFolder);
@@ -127,22 +131,27 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       this.assertEquals(1, widget.getUserData("cell.level"));
       this.assertFalse(widget.isOpen());
       this.assertTrue(widget.hasListener("changeOpen"));
-      this.assertCalledOnce(spy);
-      this.assertCalledWith(spy, widget, 1);
+      this.assertCalledOnce(spyBinding);
+      this.assertCalledWith(spyBinding, widget, 1);
+      this.assertCalledOnce(spySelection);
+      this.assertCalledWith(spySelection, widget);
     },
 
 
     testGetLeafWidget : function()
     {
-      var spy = this.spy(this.provider, "_bindLeaf");
+      var spyBinding = this.spy(this.provider, "_bindLeaf");
+      var spySelection = this.spy(this.provider, "_styleUnselectabled");
       var widget = this.provider.getCellWidget(3,0);
 
       this.assertInstance(widget, qx.ui.tree.VirtualTreeFile);
       this.assertEquals("leaf", widget.getUserData("cell.type"));
       this.assertNull(widget.getUserData("cell.children"));
       this.assertEquals(1, widget.getUserData("cell.level"));
-      this.assertCalledOnce(spy);
-      this.assertCalledWith(spy, widget, 3);
+      this.assertCalledOnce(spyBinding);
+      this.assertCalledWith(spyBinding, widget, 3);
+      this.assertCalledOnce(spySelection);
+      this.assertCalledWith(spySelection, widget);
     },
     
     
@@ -369,6 +378,14 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       MOCK API
     ---------------------------------------------------------------------------
     */
+    
+    
+    _manager :
+    {
+      isItemSelected : function(row) {
+        return false;
+      }
+    },
     
     
     getLookupTable : function()

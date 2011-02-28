@@ -556,6 +556,73 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
         "Expected " + (click ? "" : "no ") + " listener for 'cellClick'!"
       );
     },
+    
+    
+    testSelection : function()
+    {
+      var root = this.createModelAndSetModel(2);
+      var selection = this.tree.getSelection();
+      selection.push(root);
+
+      // check selection from list
+      this.assertEquals(1, this.tree.getSelection().getLength(), "On Tree");
+      this.assertEquals(root, selection.getItem(0), "On List");
+
+      // check selection from manager
+      var row = this.tree._manager.getSelectedItem();
+      this.assertEquals(0, row);
+    },
+    
+    
+    testInvalidSelection : function()
+    {
+      var root = this.createModelAndSetModel(2);
+      var selection = this.tree.getSelection();
+      selection.push(root);
+      selection.push(root.getChildren().getItem(0));
+
+      // check selection from list
+      this.assertEquals(1, this.tree.getSelection().getLength(), "On List");
+      this.assertEquals(root.getChildren().getItem(0), selection.getItem(0), "On List");
+
+      // check selection from manager
+      var selection = this.tree._manager.getSelection();
+      this.assertEquals(1, selection.length);
+      this.assertEquals(1, selection[0]);
+    },
+
+    
+    testSelectionByUserInteraction : function()
+    {
+      var root = this.createModelAndSetModel(2);
+      var selection = this.tree.getSelection();
+
+      this.tree._manager.selectItem(2);
+
+      this.assertEquals(1, selection.getLength());
+      this.assertEquals(root.getChildren().getItem(1), selection.getItem(0));
+      this.assertEquals(2, this.tree._manager.getSelectedItem());
+    },
+
+    
+    testSelectionEventByUserInteraction : function()
+    {
+      var root = this.createModelAndSetModel(2);
+      var selection = this.tree.getSelection();
+
+      var that = this;
+      this.assertEventFired(selection, "change",
+        function() {
+          that.tree._manager.selectItem(2);
+        },
+        function(e)
+        {
+          this.assertEquals(1, selection.getLength());
+          this.assertEquals(root.getChildren().getItem(1), selection.getItem(0));
+          this.assertEquals(2, that.tree._manager.getSelectedItem());
+        }
+      );
+    },
 
 
     /*

@@ -107,6 +107,13 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
         widget.setUserData("cell.type", "leaf");
         this._bindLeaf(widget, row);
       }
+      
+      if(this._tree._manager.isItemSelected(row)) {
+        this._styleSelectabled(widget);
+      } else {
+        this._styleUnselectabled(widget);
+      }
+      
       widget.setUserData("cell.level", this._tree.getLevel(row));
       qx.ui.core.queue.Widget.add(widget);
 
@@ -176,6 +183,79 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       return renderer;
     },
 
+    
+    // interface implementation
+    styleSelectabled : function(row)
+    {
+      var widget = this._tree._layer.getRenderedCellWidget(row, 0);
+      this._styleSelectabled(widget);
+    },
+
+
+    // interface implementation
+    styleUnselectabled : function(row)
+    {
+      var widget = this._tree._layer.getRenderedCellWidget(row, 0);
+      this._styleUnselectabled(widget);
+    },
+
+
+    // interface implementation
+    isSelectable : function(row)
+    {
+      var widget = this._tree._layer.getRenderedCellWidget(row, 0);
+      if (widget != null) {
+        return widget.isEnabled();
+      } else {
+        return true;
+      }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL API
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Styles a selected item.
+     *
+     * @param widget {qx.ui.core.Widget} widget to style.
+     */
+    _styleSelectabled : function(widget) {
+      if(widget == null) {
+        return;
+      }
+
+      var type = widget.getUserData("cell.type");
+      if (type === "node") {
+        this._nodeRenderer.updateStates(widget, {selected: 1});
+      } else {
+        this._leafRenderer.updateStates(widget, {selected: 1});
+      }
+    },
+
+
+    /**
+     * Styles a not selected item.
+     *
+     * @param widget {qx.ui.core.Widget} widget to style.
+     */
+    _styleUnselectabled : function(widget) {
+      if(widget == null) {
+        return;
+      }
+
+      var type = widget.getUserData("cell.type");
+      if (type === "node") {
+        this._nodeRenderer.updateStates(widget, {});
+      } else {
+        this._leafRenderer.updateStates(widget, {});
+      }
+    },
+    
     
     /*
     ---------------------------------------------------------------------------

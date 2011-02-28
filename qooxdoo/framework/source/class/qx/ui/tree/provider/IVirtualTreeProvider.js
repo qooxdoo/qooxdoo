@@ -67,6 +67,32 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider",
      * 
      * @param value {String} The label path.
      */
-    setLabelPath : function(value) {}
+    setLabelPath : function(value) {},
+    
+    
+    /**
+     * Styles a selected item.
+     *
+     * @param row {Integer} row to style.
+     */
+    styleSelectabled : function(row) {},
+
+
+    /**
+     * Styles a not selected item.
+     *
+     * @param row {Integer} row to style.
+     */
+    styleUnselectabled : function(row) {},
+
+
+    /**
+     * Returns if the passed row can be selected or not.
+     *
+     * @param row {Integer} row to select.
+     * @return {Boolean} <code>true</code> when the row can be selected,
+     *    <code>false</code> otherwise.
+     */
+    isSelectable : function(row) {}
   }
 });
