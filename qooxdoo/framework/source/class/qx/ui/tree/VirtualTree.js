@@ -322,6 +322,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.__openNodes = [];
       this.__nestingLevel = [];
       this._initLayer();
+      this._initSelection();
 
       this.getPane().addListener("resize", this._onResize, this);
     },
@@ -580,6 +581,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
       this.__lookupTable.removeAll();
       this.__lookupTable.append(lookupTable);
+      this.__updateSelection();
       this.__updateRowCount();
     },
 
@@ -689,6 +691,22 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       return false;
     },
 
+    
+    /**
+     * Helper method to remove items form the selection which are not in the
+     * lookup table.
+     */
+    __updateSelection : function() {
+      var selection = this.getSelection();
+      if (selection.getLength() > 0)
+      {
+        var item = selection.getItem(0);
+        if (!this.__lookupTable.contains(item)) {
+          selection.remove(item);
+        } 
+      }
+    },
+    
 
     /**
      * Helper method to update the row count.

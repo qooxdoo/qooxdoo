@@ -24,13 +24,6 @@
  */
 qx.Mixin.define("qx.ui.tree.core.MSelectionHandling",
 {
-  construct : function() {
-    this._initSelectionManager();
-
-    this.initSelection(new qx.data.Array());
-  },
-
-
   properties :
   {
     /** Current selected items */
@@ -57,6 +50,16 @@ qx.Mixin.define("qx.ui.tree.core.MSelectionHandling",
 
     /** {Boolean} flag to ignore the selection change from {@link #_manager} */
     __ignoreManagerChangeSelection : false,
+
+
+    /**
+     * Initialize the selection handling mixin.
+     */
+    _initSelection : function()
+    {
+      this._initSelectionManager();
+      this.initSelection(new qx.data.Array());
+    },
 
 
     /**
