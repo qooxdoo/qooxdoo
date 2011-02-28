@@ -551,6 +551,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     __buildLookupTable : function()
     {
+      if (this.getModel() == null) {
+        return;
+      }
+      
       if (this.getChildProperty() == null || this.getLabelPath() == null)
       {
         throw new Error("Could not build tree, because 'childProperty' and/" +
