@@ -141,6 +141,7 @@ qx.Class.define("simulator.reporter.Reporter", {
       var testOs = String(simulator.QxSelenium.getInstance().getEval(autWin + "qx.bom.client.System.NAME"));
       var qxRevision = String(simulator.QxSelenium.getInstance().getEval(autWin + 'qx.core.Setting.get("qx.revision")'));
       var userAgent = String(simulator.QxSelenium.getInstance().getEval(autWin + "navigator.userAgent"));
+      var browserTitle = String(simulator.QxSelenium.getInstance().getEval(autWin + 'qx.bom.client.Browser.TITLE'));
       
       var testData = {
         aut_name : autName,
@@ -148,6 +149,7 @@ qx.Class.define("simulator.reporter.Reporter", {
         aut_path : qx.core.Setting.get("simulator.autPath"),
         test_os : testOs,
         test_useragent : userAgent,
+        test_browsertitle : browserTitle,
         svn_revision : qxRevision,
         start_date : startDate
       };
