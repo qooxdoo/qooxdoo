@@ -146,7 +146,7 @@ qx.Class.define("qx.bom.Window",
      *         the event listener. When not given, 'this' variable will be the new window
      * @return {win} native window object
      */
-    open : function(url, name, options, modal, useNativeModalDialog,listener,self)
+    open : function(url, name, options, modal, useNativeModalDialog, listener, self)
     {
       var newWindow = null;
       if (url == null) {
@@ -186,9 +186,12 @@ qx.Class.define("qx.bom.Window",
       } else {
         newWindow = window.open(url, name, configurationString);
       }
+      
       if(newWindow && listener && (listener instanceof Function)){
         var context = self || newWindow;
-        qx.bom.Event.addNativeListener(newWindow,'load',qx.lang.Function.bind(listener,context));
+        qx.bom.Event.addNativeListener(
+          newWindow, 'load', qx.lang.Function.bind(listener, context)
+        );
       }
       return newWindow;
     },
