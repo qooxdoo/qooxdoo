@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
         this._bindLeaf(widget, row);
       }
       
-      if(this._tree._manager.isItemSelected(row)) {
+      if(this._tree.getSelection().contains(item)) {
         this._styleSelectabled(widget);
       } else {
         this._styleUnselectabled(widget);

@@ -113,6 +113,13 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
     {
       this.assertArgumentsCount(arguments, 1, 1);
       this.assertInterface(node, qx.core.Object);
-    }
+    },
+    
+    /**
+     * Returns the current selection.
+     * 
+     * @return {qx.data.Arra} The current selected elements.
+     */
+    getSelection : function() {}
   }
 });

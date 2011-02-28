@@ -34,6 +34,9 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     lookupTable : null,
     
     
+    selection : null,
+    
+    
     setUp : function()
     {
       var rawData = {
@@ -67,6 +70,11 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       if (this.lookupTable != null) {
         this.lookupTable.dispose();
         this.lookupTable = null;
+      }
+      
+      if (this.selection != null) {
+        this.selection.dispose();
+        this.selection = null;
       }
     },
 
@@ -380,11 +388,14 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     */
     
     
-    _manager :
+    getSelection : function()
     {
-      isItemSelected : function(row) {
-        return false;
+      if (this.selection != null) {
+        return this.selection;
       }
+      
+      this.selection = new qx.data.Array();
+      return this.selection;
     },
     
     
