@@ -56,7 +56,7 @@
         "qx.revision"    : "${QOOXDOO_REVISION}",
         "qx.theme"       : "${THEME}",
         "qx.application" : "inspector.Application",
-        "qx.inspector.selenium.core" : "http://selenium.googlecode.com/svn/tags/selenium-core/REL-1.0.1/src/main/resources/"
+        "inspector.selenium.core" : "http://selenium.googlecode.com/svn/tags/selenium-core/REL-1.0.1/src/main/resources/"
       },
       
       "asset-let" :
@@ -168,7 +168,7 @@
       
       "settings" :
       {
-        "qx.inspector.selenium.extensions" : "script/user-extensions.js"
+        "inspector.selenium.extensions" : "script/user-extensions.js"
       }
     },
     
@@ -176,7 +176,7 @@
     {
       "settings" :
       {
-        "qx.inspector.selenium.extensions" : false
+        "inspector.selenium.extensions" : false
       }
     }
   }

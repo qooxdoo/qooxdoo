@@ -68,7 +68,7 @@ qx.Class.define("inspector.selenium.View", {
       "/core/xpath/javascript-xpath-0.1.11.js"
     ];
     
-    this.__userExt = qx.core.Setting.get("qx.inspector.selenium.extensions") || 
+    this.__userExt = qx.core.Setting.get("inspector.selenium.extensions") || 
       /(.*?)framework/.exec(qx.$$libraries.qx.sourceUri)[1] + "component/simulator/tool/user-extensions/user-extensions.js";
     this.__availableCommands = [];
 
