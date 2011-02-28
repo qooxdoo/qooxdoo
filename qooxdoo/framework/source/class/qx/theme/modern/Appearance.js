@@ -2765,8 +2765,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "table-header": {},
-
     "table/statusbar" :
     {
       style : function(states)
