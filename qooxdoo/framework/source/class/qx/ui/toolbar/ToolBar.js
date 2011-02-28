@@ -211,11 +211,12 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
       if (width == undefined && this.getBounds() != null) {
         width = this.getBounds().width;
-        // if we still don't have a width, than we are not added to a parrent
-        if (width == undefined) {
-          // we should ignore it in that case
-          return;
-        }
+      }
+      
+      // if we still don't have a width, than we are not added to a parrent
+      if (width == undefined) {
+        // we should ignore it in that case
+        return;
       }
 
       // if we have not enough space
