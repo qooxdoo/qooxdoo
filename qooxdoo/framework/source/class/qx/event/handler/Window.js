@@ -140,7 +140,6 @@ qx.Class.define("qx.event.handler.Window",
      */
     _initWindowObserver : function()
     {
-      console.log("Window.init");
       this._onNativeWrapper = qx.lang.Function.listener(this._onNative, this);
       var types = qx.event.handler.Window.SUPPORTED_TYPES;
 
