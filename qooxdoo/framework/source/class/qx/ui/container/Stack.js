@@ -203,24 +203,24 @@ qx.Class.define("qx.ui.container.Stack",
 
 
     //overriden
-    _afterAddChild : function(widget) {
+    _afterAddChild : function(child) {
       var selected = this.getSelection()[0];
       
       if (!selected) {
-        this.setSelection([widget]);
-      } else if (selected !== widget) {
+        this.setSelection([child]);
+      } else if (selected !== child) {
         if (this.isDynamic()) {
-          widget.exclude();
+          child.exclude();
         } else {
-          widget.hide();
+          child.hide();
         }
       }
     },
     
 
     //overriden
-    _afterRemoveChild : function(widget) {
-      if (this.getSelection()[0] === widget) {
+    _afterRemoveChild : function(child) {
+      if (this.getSelection()[0] === child) {
         var first = this._getChildren()[0];
         
         if (first) {
