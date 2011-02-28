@@ -458,7 +458,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     
     
     // property apply
-    _applyIconPath : function(value, old) {
+    _applyIconOptions : function(value, old) {
       this._provider.setIconOptions(value);
     },
 
