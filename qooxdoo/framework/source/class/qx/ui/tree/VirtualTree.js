@@ -60,6 +60,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     this.initItemHeight();
     this.initOpenMode();
+    
+    this.addListener("keypress", this._onKeyPress, this);
   },
 
 
@@ -537,6 +539,68 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         }
       }
     },
+    
+    
+    /**
+     * Event handler for key press events. Open and close the current selected
+     * item on key left and right press. Jump to parent on key left if already
+     * closed.
+     *
+     * @param e {qx.event.type.KeySequence} key event.
+     */
+    _onKeyPress : function(e)
+    {
+      var selection = this.getSelection();
+      
+      if (selection.getLength() > 0)
+      {
+        var item = selection.getItem(0);
+        var isNode = this.isNode(item);
+        
+        switch(e.getKeyIdentifier())
+        {
+          case "Left":
+            if (isNode && this.isNodeOpen(item)) {
+              this.closeNode(item);
+            } else {
+              var parent = this.__getParen(item);
+              if (parent != null) {
+                selection.splice(0, 1, parent);
+              }
+            }
+            break;
+
+          case "Right":
+            if (isNode && !this.isNodeOpen(item)) {
+              this.openNode(item);
+            } 
+            else
+            {
+              if (isNode)
+              {
+                var children = item.get(this.getChildProperty());
+                if (children.getLength() > 0) {
+                  selection.splice(0, 1, children.getItem(0));
+                }
+              }
+            }
+            break;
+
+          case "Enter":
+          case "Space":
+            if (!isNode) {
+              return;
+            }
+            if (this.isNodeOpen(item)) {
+              this.closeNode(item);
+            } else {
+              this.openNode(item);
+            }
+            break;
+        }
+      }
+      this.getPane().fullUpdate();
+    },
 
 
     /*
@@ -551,11 +615,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     __buildLookupTable : function()
     {
-      if (this.getModel() == null) {
-        return;
-      }
-      
-      if (this.getChildProperty() == null || this.getLabelPath() == null)
+      if (
+        this.getModel() != null && 
+        (this.getChildProperty() == null || this.getLabelPath() == null)
+      )
       {
         throw new Error("Could not build tree, because 'childProperty' and/" +
           "or 'labelPath' is 'null'!");
@@ -719,6 +782,35 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     {
       this.getPane().getRowConfig().setItemCount(this.__lookupTable.getLength());
       this.getPane().fullUpdate();
+    },
+    
+    
+    /**
+     * Helper method to get the parent node. Node! This only works with leaf and
+     * nodes which are in the internal lookup table.
+     * 
+     * @param item {qx.core.Object} Node or leaf to get parent.
+     * @return {qx.core.Object|null} The parent note or <code>null</code> when 
+     *   no parent found.
+     */
+    __getParen : function(item)
+    {
+      var index = this.__lookupTable.indexOf(item);
+      if (index < 0) {
+        return null;
+      }
+      
+      var level = this.__nestingLevel[index];
+      while(index > 0)
+      {
+        index--;
+        var levelBevore = this.__nestingLevel[index];
+        if (levelBevore < level) {
+          return this.__lookupTable.getItem(index);
+        }
+      }
+      
+      return null;
     }
   },
 
