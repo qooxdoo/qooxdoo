@@ -6,8 +6,14 @@
     {
       "path" : "./config.demo.json",
       "as"   : "demos"
-
+    },
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
+      "import" : [
+        "info"
+      ]
     }
+
   ],
 
   "let" :

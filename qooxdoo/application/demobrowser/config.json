@@ -19,7 +19,8 @@
         "build",
         "build-script",
         "build-files",
-        "build-resources"
+        "build-resources",
+        "info"
       ]
     },
     {
@@ -193,6 +194,8 @@
       ]
     },
     
+    // -------------------------------------------------------------------------
+
     "simulation-run" :
     {
       "settings" :
@@ -205,6 +208,14 @@
         "simulator.reportServer": "${SIMULATOR_REPORTSERVER}",
         "simulator.applicationLog" : true,
         "simulator.globalErrorLogging" : true
+      }
+    }
+
+    ,"info" : 
+    {
+      "shell" :
+      {
+        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py -c ./config.demobrowser.json info"
       }
     }
   }
