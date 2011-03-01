@@ -260,6 +260,13 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * row.
      */
     __nestingLevel : null,
+    
+    
+    /**
+     * {qx.util.DeferredCall} Adds this instance to the widget queue on a 
+     * deferred call.
+     */
+    __deferredCall : null,
 
 
     /*
@@ -268,6 +275,23 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     ---------------------------------------------------------------------------
     */
 
+    
+    // overridden
+    syncWidget : function()
+    {
+      var firstRow = this._layer.getFirstRow();
+      var rowSize = this._layer.getRowSizes().length;
+      
+      var itemWidth = 0;
+      for (var row = firstRow; row < firstRow + rowSize; row++)
+      {
+        var widget = this._layer.getRenderedCellWidget(row, 0);
+        itemWidth = Math.max(itemWidth, widget.getSizeHint().width);
+      }
+      var paneWidth = this.getPane().getBounds().width;
+      this.getPane().getColumnConfig().setItemSize(0, Math.max(itemWidth, paneWidth));
+    },
+    
 
     // Interface implementation
     openNode : function(node)
@@ -325,8 +349,6 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.__nestingLevel = [];
       this._initLayer();
       this._initSelection();
-
-      this.getPane().addListener("resize", this._onResize, this);
     },
 
 
@@ -337,6 +359,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     {
       this._provider = new qx.ui.tree.provider.WidgetProvider(this);
       this._layer = this._provider.createLayer();
+      this._layer.addListener("updated", this._onUpdated, this);
       this.getPane().addLayer(this._layer);
     },
 
@@ -511,12 +534,18 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Event handler for the resize event.
+     * Event handler for the update event.
      *
-     * @param event {qx.event.type.Data} The resize event.
+     * @param event {qx.event.type.Event} The event.
      */
-    _onResize : function(event) {
-      this.getPane().getColumnConfig().setItemSize(0, event.getData().width);
+    _onUpdated : function(event)
+    {
+      if (this.__deferedCall == null) {
+        this.__deferedCall = new qx.util.DeferredCall(function() {
+          qx.ui.core.queue.Widget.add(this);
+        }, this);
+      }
+      this.__deferedCall.schedule();
     },
 
 
@@ -826,7 +855,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         pane.removeListener("cellClick", this._onOpen, this);
       }
     }
-        
+    
+    this._layer.removeListener("updated", this._onUpdated, this);
     this._layer.destroy();
     this._provider.dispose();
     this.__lookupTable.dispose();
