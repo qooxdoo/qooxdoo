@@ -108,9 +108,8 @@ class ImageClipping(object):
         shutil.copyfile(source_file, dest_file + ".png")
 
 
-    def combine(self, combined, files, horizontal):
+    def combine(self, combined, files, horizontal, type="extension"):
         self._console.indent()
-        montage_cmd = "montage -geometry +0+0 -gravity NorthWest -tile %s -background None %s %s"
         if horizontal:
             orientation = "x1"
         else:
@@ -143,17 +142,29 @@ class ImageClipping(object):
             self._console.warn("No images to combine; skipping")
         else:
             filetool.directory(os.path.dirname(combined))
-            (fileDescriptor, tempPath) = tempfile.mkstemp(text=True, dir=os.curdir)
-            temp = os.fdopen(fileDescriptor, "w")
-            temp.write("\n".join(clips))
-            temp.close()
-            cmd = montage_cmd % (orientation, "@" + os.path.basename(tempPath), combined)
-            rc = os.system(cmd)
-            os.unlink(tempPath)
-            if rc != 0:
-                raise RuntimeError, "The montage command (%s) failed with the following return code: %d" % (cmd, rc)
+            if type == "extension":
+                self.combineImgMagick(clips, combined, orientation)
+            elif type == "base64":
+                self.combineBase64(clips, combined)
 
         self._console.outdent()
         return config
+
+
+    def combineImgMagick(self, clips, combined, orientation):
+        montage_cmd = "montage -geometry +0+0 -gravity NorthWest -tile %s -background None %s %s"
+        (fileDescriptor, tempPath) = tempfile.mkstemp(text=True, dir=os.curdir)
+        temp = os.fdopen(fileDescriptor, "w")
+        temp.write("\n".join(clips))
+        temp.close()
+        cmd = montage_cmd % (orientation, "@" + os.path.basename(tempPath), combined)
+        rc = os.system(cmd)
+        os.unlink(tempPath)
+        if rc != 0:
+            raise RuntimeError, "The montage command (%s) failed with the following return code: %d" % (cmd, rc)
+
+
+    def combineBase64(self, clips):
+        pass
 
 

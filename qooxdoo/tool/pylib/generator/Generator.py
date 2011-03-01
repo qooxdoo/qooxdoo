@@ -1360,7 +1360,7 @@ class Generator(object):
             self._config.resolveMacros(expandedjobs)
             console.outdent()
         except Exception:
-            pass
+            expandedjobs = []
         
         if expandedjobs:
           
@@ -1557,7 +1557,7 @@ class Generator(object):
             # create a dict of clipped image objects - for later look-up
             clippedImages = getClippedImagesDict(imgspec)
 
-            # collect list of all input files, no matter where the come from
+            # collect list of all input files, no matter where they come from
             input = sorted(clippedImages.keys())
 
             # collect layout property

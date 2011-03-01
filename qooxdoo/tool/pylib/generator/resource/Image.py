@@ -152,6 +152,12 @@ class Image(Resource):
 
 
 
+    ##
+    # Return the base64 encoded string of the image
+    def toBase64(self):
+        return base64.b64encode(open(self.path, "rb").read())
+
+
     @staticmethod
     def isImage(fpath):
         return Image.imgpatt.search(fpath)
