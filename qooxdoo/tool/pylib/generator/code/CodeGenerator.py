@@ -396,7 +396,6 @@ class CodeGenerator(object):
 
         # -- Main - runCompiled ------------------------------------------------
 
-        compileType= script.buildType
         packages   = script.packagesSorted()
         parts      = script.parts
         boot       = script.boot
@@ -407,7 +406,7 @@ class CodeGenerator(object):
         self._variants     = variants
         self._script       = script
 
-        self._console.info("Generate %s version..." % compileType)
+        self._console.info("Generate %s version..." % script.buildType)
         self._console.indent()
 
         # - Evaluate job config ---------------------
@@ -431,11 +430,11 @@ class CodeGenerator(object):
         translationMaps = self.getTranslationMaps(packages, variants, locales)
 
         # Read in base file name
-        fileRelPath = getOutputFile(compileType)
+        fileRelPath = getOutputFile(script.buildType)
         filePath    = self._config.absPath(fileRelPath)
         script.baseScriptPath = filePath
 
-        if compileType == "build":
+        if script.buildType == "build":
             # read in uri prefixes
             scriptUri = compConf.get('uris/script', 'script')
             scriptUri = Path.posifyPath(scriptUri)
@@ -470,7 +469,7 @@ class CodeGenerator(object):
             script = self.generateI18NParts(script, globalCodes)
             self.writePackages([p for p in script.packages if getattr(p, "__localeflag", False)], script)
 
-        if compileType == "build":
+        if script.buildType == "build":
 
             # - Specific job config ---------------------
             # read in compiler options
@@ -515,7 +514,7 @@ class CodeGenerator(object):
             self.writePackages(packages, script)
 
         # ---- 'hybrid' version ------------------------------------------------
-        elif compileType == "hybrid":
+        elif script.buildType == "hybrid":
 
             # - Generating packages ---------------------
             self._console.info("Generating packages...")
