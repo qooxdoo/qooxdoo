@@ -145,7 +145,7 @@ class ImageClipping(object):
             if type == "extension":
                 self.combineImgMagick(clips, combined, orientation)
             elif type == "base64":
-                self.combineBase64(clips, combined)
+                self.combineBase64(config)
 
         self._console.outdent()
         return config
@@ -164,7 +164,13 @@ class ImageClipping(object):
             raise RuntimeError, "The montage command (%s) failed with the following return code: %d" % (cmd, rc)
 
 
-    def combineBase64(self, clips):
-        pass
-
+    ##
+    # Put the base64 data into the imgInfos structures, which will be read
+    # by the caller (Generator) and written to file (as the caller has the
+    # proper resource id's).
+    def combineBase64(self, imgInfos):
+        for imgInfo in imgInfos:
+            base64dat = Image(imgInfo['file']).toBase64()
+            imgInfo['encoding'] =  "base64"
+            imgInfo['data'] = base64dat
 

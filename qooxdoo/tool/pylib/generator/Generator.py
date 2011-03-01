@@ -1565,17 +1565,18 @@ class Generator(object):
                 layout = imgspec['layout'] == "horizontal"
             else:
                 layout = "horizontal" == "horizontal" # default horizontal=True
+
+            # get type of combined image (png, base64, ...)
+            combtype = imgspec['type'] if 'type' in imgspec else "extension"
             
             # create the combined image
-            subconfigs = self._imageClipper.combine(image, input, layout)
+            subconfigs = self._imageClipper.combine(image, input, layout, combtype)
 
             # for the meta information, go through the list of returned subconfigs (one per clipped image)
             for sub in subconfigs:
                 x = ImgInfoFmt()
                 x.mappedId, x.left, x.top, x.width, x.height, x.type = (
-                   #Path.posifyPath(sub['combined']), sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
                    imageId, sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
-                #config[Path.posifyPath(sub['file'])] = x.meta_format()  # this could use 'flatten()' eventually!
                 subId         = getImageId(sub['file'], getattr(clippedImages[sub['file']], 'prefix', None))
                 config[subId] = x.meta_format()  # this could use 'flatten()' eventually!
 
@@ -1589,6 +1590,19 @@ class Generator(object):
             self._console.debug("writing meta file %s" % meta_fname)
             filetool.save(meta_fname, json.dumps(config, ensure_ascii=False, sort_keys=True))
             self._console.outdent()
+
+            # handle base64 type, need to write "combined image" to file
+            if combtype == "base64":
+                combinedMap = {}
+                for sub in subconfigs:
+                    subMap = {}
+                    subMap['width']    = sub['width']
+                    subMap['height']   = sub['height']
+                    subMap['type']     = sub['type']
+                    subMap['encoding'] = sub['encoding']
+                    subMap['data']     = sub['data']
+                    combinedMap[subId] = subMap
+                filetool.save(image, json.dumpsCode(combinedMap))
             
         self._console.outdent()
 

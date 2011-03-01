@@ -254,7 +254,7 @@ class Class(Resource):
             if not source_with_comments:
                 result = strip_comments(result)
             # make sure it terminates with an empty line - better for cat'ing
-            if result[-2:] != "\n\n":
+            if result[-1:] != "\n":
                 result += '\n'
         # compiled versions
         else:
