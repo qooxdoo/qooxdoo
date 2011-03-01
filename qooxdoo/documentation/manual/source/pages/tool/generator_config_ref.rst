@@ -198,18 +198,22 @@ Triggers the generation of a source or build version of the app. Takes a map.
 
   "compile" :
   {
-    "type" : "(source|build)"
+    "type" : "(source|build|hybrid)"
   }
 
 .. note::
 
   peer-keys: :ref:`pages/tool/generator_config_ref#compile-options`, :ref:`pages/tool/generator_config_ref#cache`, :ref:`pages/tool/generator_config_ref#include`, :ref:`pages/tool/generator_config_ref#library`
 
-Generate Javascript file(s) for the application that can be loaded in the browser. This includes an inital file that acts as a bootstrap/loader file, and possibly other JS files with class code, I18N files, asf. All necessary settings for the compile run are given in the *compile-options* key, so make sure this one is properly filled.
+Generate Javascript file(s) for the application that can be loaded in the browser. This includes an inital file that acts as the loader and needs to be included by e.g. the hosting index.html page, and possibly other JS files with class code, I18N files, asf. All necessary settings for the compile run are given in the *compile-options* key, so make sure this one is properly filled.
 
 Possible keys are 
 
-* **type** : which version of the application should be generated (default: *source*)
+* **type** : which build type of the application should be generated (default: *source*); the types are:
+
+  * **source** : all class code and other resources (images etc.) required for the application are referenced in their original source files on disk (e.g. application classes, framework classes, contrib/library classes, etc.); this is optimal for development and debugging (per-file error messages, setting break-points, additional checks and logging are enabled, etc.) but loads slower due to the many individual files; it is also less amenable to loading the application through a web server, and should usually be run directly from the disk (using the *file://* protocol)
+  * **hybrid** : is also a development build type and combines some of the advantages of the build version with the source version; as with the source build type, a selected set of classes are loaded directly from their source files (as specified in :ref:`compile-options/code/except <pages/tool/generator_config_ref#compile-options>`); the other classes required by the application are compiled together in common .js files; this allows for faster load times while retaining good debuggability of the selected classes
+  * **build** : is the deployment build type; all classes are compiled into a set of common .js files, to minimize load requests; the class code is optionally compressed and optimized (cf. :ref:`compile-options/code/optimize <pages/tool/generator_config_ref#compile-options>`); resource files from all involved libraries are copied to the build directoy, so that it is fully functional and self-contained, and can be copied to e.g. a web server; this build type is unsuitable for development activities, as the code is hard to read and certain development features are optimized away, so it should only be used for production deployment of the application
 
 .. _pages/tool/generator_config_ref#compile-options:
 
@@ -241,34 +245,36 @@ Specify various options for compile (and other) keys. Takes a map.
       "format"          : (true|false),
       "locales"         : ["de", "en"],
       "optimize"        : ["variables", "basecalls", "privates", "strings"],
-      "decode-uris-plug"  : "<path>"
+      "decode-uris-plug"  : "<path>",
+      "exclude"         : ["myapp.classA", "myapp.util.*"]
     }
   }
 
-Output Javascript file(s) are generated into dirname(<file>), with <file> being the primary file. Within the files, references to other script files are generated using the <script> URI prefix, references to resources will use a <resource> URI prefix. If <file> is not given, the ``APPLICATION`` macro has to be set in the global :ref:`let <pages/tool/generator_config#listing_of_keys_in_context>` section with a proper name, in order to determine a default output file name.
+The *compile-options* key informs all compile actions of the generator. Settings of this key are used e.g. by the jobs that create the source and the build version of an application, though in varying degrees (e.g. the source job only utilizes a few of the settings in this key, and ignores the others). Output Javascript file(s) are generated into the directory of the *paths/file* value, with *path/file* itself being the primary output file. If *paths/file* is not given, the ``APPLICATION`` macro has to be set in the global :ref:`let <pages/tool/generator_config#listing_of_keys_in_context>` section with a proper name, in order to determine a default output file name. For further information see the individual key descriptions to find out which build type utilizes it (in the descriptions, *(<type>)* refers to the :ref:`compile/type <pages/tool/generator_config_ref#compile>`, e.g. *source* or *build*)
 
-Possible keys are (<type> refers to the :ref:`compile/type <pages/tool/generator_config_ref#compile>`, e.g. source or build)
+Possible keys are 
 
 * **paths** : paths for the generated output
 
   * **file** : the path to the compile output file; can be relative to the config's directory (default: *<type>/script/<appname>.js*)
-  * **app-root** : relative (in the above sense) path to the directory containing the app’s HTML page (relevant for *source* version; default: *./<type>*)
-  * **loader-template** : path to a JS file that will be used as an alternative loader template; for possible macros and structure see the default template in ``tool/data/generator/loader.tmpl.js``
+  * **app-root** : (*source*) relative (in the above sense) path to the directory containing the app’s HTML page (default: *./source*)
+  * **loader-template** : path to a JS file that will be used as an alternative loader template; for possible macros and structure see the default (default: *${QOOXDOO_PATH}/tool/data/generator/loader.tmpl.js*)
   * **gzip** : whether to gzip output file(s) (default: *false*)
   * **scripts-add-hash** : whether the file name of generated script files should contain the script's hash code; the primary compile output file (see above) is exempted even if set to true (default: *false*)
 
 * **uris** : URIs used to reference code and resources
 
-  * **script** : URI from application root to code directory (default: *"script"*)
-  * **resource** : URI from application root to resource directory (default: *"resource"*)
-  * **add-nocache-param** : whether to add a "?nocache=<random_number>" parameter to the URI, to overrule browser caching when loading the application (relevant for *source* version; default: *true*)
+  * **script** : (*build*) URI from application root to code directory (default: *"script"*)
+  * **resource** : (*build*) URI from application root to resource directory (default: *"resource"*)
+  * **add-nocache-param** : (*source*) whether to add a ``?nocache=<random_number>`` parameter to the URI, to overrule browser caching when loading the application (default: *true*)
 
 * **code** : code options
 
-  * **format** : whether to apply simple output formatting (it adds some sensible line breaks to the output code) (default: *false*)
-  * **locales** : a list of locales to include (default: *["C"]*)
+  * **format** : (*build*) whether to apply simple output formatting (it adds some sensible line breaks to the output code) (default: *false*)
+  * **locales** : (*build*) a list of locales to include (default: *["C"]*)
   * **optimize** : list of dimensions for optimization, max. '["variables", "basecalls", "privates", "strings"]' (default: *[]*) :ref:`special section <pages/tool/generator_config_articles#optimize_key>`
   * **decode-uris-plug** : path to a file containing JS code, which will be plugged into the loader script, into the ``qx.$$loader.decodeUris()`` method. This allows you to post-process script URIs, e.g. through pattern matching. The current produced script URI is available and can be modified in the variable ``euri``.
+  * **exclude** : (*hybrid*) exclude the classes specified in the class pattern list from compilation when creating a :ref:`hybrid <pages/tool/generator_config_ref#compile>` version of the application
 
 .. _pages/tool/generator_config_ref#copy-files:
 
@@ -460,8 +466,8 @@ Include external config files. Takes a list of maps.
     {
       "path"   : "<path>",
       "as"     : "<name>",
-      "import" : ["extjob1", "extjob2", "extjob3"],
-      "block"  : ["extjob4", "extjob5"]
+      "import" : ["job1", "job2", "job3"],
+      "block"  : ["job4", "job5"]
     }
   ]
 
