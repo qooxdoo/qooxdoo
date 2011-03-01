@@ -268,7 +268,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     __deferredCall : null,
 
-
+    
+    /** {Integer} Holds the max item width from a rendered widget. */
+    __itemWidth : 0,
+    
+    
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
@@ -282,14 +286,13 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       var firstRow = this._layer.getFirstRow();
       var rowSize = this._layer.getRowSizes().length;
       
-      var itemWidth = 0;
       for (var row = firstRow; row < firstRow + rowSize; row++)
       {
         var widget = this._layer.getRenderedCellWidget(row, 0);
-        itemWidth = Math.max(itemWidth, widget.getSizeHint().width);
+        this.__itemWidth = Math.max(this.__itemWidth, widget.getSizeHint().width);
       }
       var paneWidth = this.getPane().getBounds().width;
-      this.getPane().getColumnConfig().setItemSize(0, Math.max(itemWidth, paneWidth));
+      this.getPane().getColumnConfig().setItemSize(0, Math.max(this.__itemWidth, paneWidth));
     },
     
 
@@ -653,6 +656,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
           "or 'labelPath' is 'null'!");
       }
 
+      this.__itemWidth = 0;
       var lookupTable = [];
       this.__nestingLevel = [];
       var nestedLevel = -1;
