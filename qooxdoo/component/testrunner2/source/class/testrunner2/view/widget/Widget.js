@@ -144,12 +144,13 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     __menuItemStore : null,
     __labelDeco : null,
     __logElement : null,
-    __testList : null,
+    __testTree : null,
     __runButton : null,
     __stopButton : null,
     __progressBar : null,
     __testResultView : null,
     __testCountField : null,
+    __selectedTestField : null,
     __statusField : null,
     
     /**
@@ -503,18 +504,14 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       });
       container.add(caption);
       
-      //TODO: Test tree
-      var testList = this.__testList = new qx.ui.list.List();
-      testList.setDecorator("separator-vertical");
-      testList.setSelectionMode("multi");
-      
-      testList.getSelection().bind("change", this, "selectedTests", {
-        converter : qx.lang.Function.bind(function() {
-          return this.__testList.getSelection().toArray();
-        }, this)
+      this.__testTree = new qx.ui.tree.VirtualTree();
+      this.__testTree.set({
+        labelPath : "name",
+        childProperty : "children"
       });
       
-      container.add(testList, {flex : 1});
+      this.setSelectedTests(this.__testTree.getSelection());
+      container.add(this.__testTree, {flex : 1});
       
       return container;
     },
@@ -783,18 +780,12 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         alignY : "middle"
       }));
       
-      var l1 = new qx.ui.form.TextField("").set({
-        width : 150,
+      var l1 = this.__selectedTestField = new qx.ui.form.TextField("").set({
+        width : 300,
         font : "small",
         readOnly : true
       });
       statuspane.add(l1);
-      //this.__selectedTestField = l1;
-      this.bind("selectedTests", l1, "value", {
-        converter : function(data) {
-          return data[0];
-        }
-      });
 
       statuspane.add(new qx.ui.basic.Label(this.__app.tr("Number of Tests: ")).set({
         alignY : "middle"
@@ -809,6 +800,18 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       this.__testCountField = l2;
 
       statuspane.add(l2);
+      
+      this.getSelectedTests().addListener("change", function(ev) {
+        var selectedName = "";
+        var count = 0;
+        var selectedTests = this.getSelectedTests();
+        if (selectedTests !== null && selectedTests.length > 0) {
+          count = testrunner2.runner.ModelUtil.getItemsByProperty(selectedTests.getItem(0), "type", "test").length;
+          selectedName = this.getSelectedTests().getItem(0).getFullName();
+        }
+        this.__selectedTestField.setValue(selectedName);
+        this.__testCountField.setValue(count.toString());
+      }, this);
 
       // System Info
       statuspane.add(new qx.ui.basic.Label(this.__app.tr("System Status: ")).set({
@@ -829,7 +832,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       switch(value) 
       {
         case "loading" :
-          this.__testList.resetModel();
+          this.__testTree.resetModel();
           this.setStatus("Loading tests...");
           break;
         case "ready" :
@@ -865,18 +868,18 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       };
     },
     
-    _applyInitialTestList : function(value, old)
+    _applyTestModel : function(value, old)
     {
       if (value && value !== old) {
         var model = qx.data.marshal.Json.createModel(value);
-        this.__testList.setModel(model);
-        var selected = [];
-        model.forEach(function(item) {
-          selected.push(item);
-        }, this);
-        this.__testList.getSelection().append(new qx.data.Array(selected));
+        this.__testTree.setModel(model);
+        this.__testTree.openNode(model.getChildren().getItem(0));
       }
+    
     },
+    
+    _applyTestCount : function(value, old)
+    {},
     
     _applyStatus : function(value, old)
     {
@@ -885,12 +888,6 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       }
     },
     
-    _applyTestCount : function(value, old)
-    {
-      if (value && value !== old) {
-        this.__testCountField.setValue(value.toString());
-      }
-    },
     
     _onTestChangeState : function(testResultData) 
     {
@@ -969,9 +966,12 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       this.resetSuccessfulTestCount();
       this.resetSkippedTestCount();
       this.__testResultView.clear();
+      /*
+       * TODO
       var selection = qx.lang.Array.clone(this.getSelectedTests());
       this.resetSelectedTests();
       this.setSelectedTests(selection);
+      */
     },
     
     /**

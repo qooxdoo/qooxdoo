@@ -75,20 +75,19 @@ qx.Class.define("testrunner2.view.Abstract", {
       event : "changeTestCount"
     },
     
-    /** List of tests in the current suite */
-    initialTestList :
+    /** Model object representing the test namespace. */
+    testModel :
     {
-      check : "Array",
       init : null,
       nullable : true,
-      apply : "_applyInitialTestList"
+      apply : "_applyTestModel"
     },
     
     /** List of tests selected by the user */
     selectedTests :
     {
-      check : "Array",
-      init : [],
+      init : null,
+      nullable : true,
       event : "changeSelectedTests"
     },
     
@@ -172,13 +171,25 @@ qx.Class.define("testrunner2.view.Abstract", {
     
     
     /**
+     * Apply the test model: Build a list of tests in the GUI etc.
+     * 
+     * @param value {Object} Test model object
+     * @param old {Object} Previous value
+     */
+    _applyTestModel : function(value, old)
+    {
+      this.error("Missing implementation of _applyTestModel!");
+    },
+    
+    /**
      * Visualizes the list of loaded tests.
      * 
      * @param value {Array} Test list
      * @param old {Array} Previous value
-     */
+     
     _applyInitialTestList : function(value, old)
     {},
+    */
     
     
     /**

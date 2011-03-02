@@ -96,7 +96,7 @@ qx.Class.define("testrunner2.view.Console", {
           this.setStatus("Loading tests...");
           break;
         case "ready" :
-          this.setStatus("Test suite ready. Call qx.core.Init.getApplication().runner.view.run() to start tests.");
+          this.setStatus(this.getSelectedTests().length + " tests ready. Call qx.core.Init.getApplication().runner.view.run() to start.");
           break;
         case "error" :
           this.setStatus("Couldn't load test suite!");
@@ -114,23 +114,18 @@ qx.Class.define("testrunner2.view.Console", {
     },
     
     
-    /**
-     * Logs the amount of loaded test functions.
-     * 
-     * @param value {Integer} Amount of tests
-     * @param old {Integer} Previous value
-     */
-    _applyTestCount : function(value, old)
+    _applyTestModel : function(value, old)
     {
-      var suiteState = this.getTestSuiteState();
-      switch(suiteState)
-      {
-        case "ready" :
-          this.setStatus(value + " tests ready to run");
-          break;
-      };
+      if (!value) {
+        return;
+      }
+      var testList = testrunner2.runner.ModelUtil.getItemsByProperty(value, "type", "test");
+      this.setSelectedTests(new qx.data.Array(testList));
     },
     
+    
+    _applyTestCount : function(value, old)
+    {},
     
     /**
      * Logs state changes in testResultData objects. 

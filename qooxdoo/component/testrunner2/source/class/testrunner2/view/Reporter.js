@@ -165,14 +165,6 @@ qx.Class.define("testrunner2.view.Reporter", {
     },
     
     
-    _applyInitialTestList : function(value, old)
-    {
-      if (value) {
-        this.setSelectedTests(value);
-      }
-    },
-    
-    
     /**
      * Reports any tests that change state to "failure" or "error"
      * 
