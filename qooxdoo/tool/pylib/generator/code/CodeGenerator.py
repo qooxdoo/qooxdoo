@@ -541,7 +541,7 @@ class CodeGenerator(object):
         # ---- 'source' version ------------------------------------------------
         else:
 
-            sourceContent = generateBootScript(globalCodes, script, bootPackage="", compileType=compileType)
+            sourceContent = generateBootScript(globalCodes, script, bootPackage="", compileType=script.buildType)
 
             # Construct file name
             resolvedFilePath = self._resolveFileName(filePath, variants, settings)
