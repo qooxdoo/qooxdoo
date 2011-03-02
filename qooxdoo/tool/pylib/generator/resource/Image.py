@@ -24,7 +24,7 @@
 # Base image class
 ##
 
-import re, os, sys, types, base64, struct
+import re, os, sys, types, base64, struct, codecs
 
 from misc import filetool, Path, json
 from generator import Context
@@ -332,5 +332,38 @@ class JpegFile(Image):
 
 
 ##
+# This is pseudo-image, a combined image with some base64-encoded real images
+class Base64File(Image):
+    def __init__(self, path):
+        super(self.__class__, self).__init__(path)
+        self.fp = codecs.open(self.path, "rb", encoding='utf-8')
+
+    def __del__(self):
+        self.fp.close()
+
+    def type(self):
+        return "b64"
+
+    ##
+    # has to be a valid Json object
+    def verify(self):
+        self.fp.seek(0)
+        cont = self.fp.read()
+        try:
+            json.loads(cont)
+            isB64 = True
+        except ValueError:
+            isB64 = False
+        return isB64
+
+
+    ##
+    # not really applicable for textual images
+    def size(self):
+        (width, height) = -1,-1
+        return (width, height)
+
+
+##
 # Filling Image's child classes list when those classes exist
-Image.CHILD_CLASSES = [PngFile, GifFile, JpegFile]
+Image.CHILD_CLASSES = [PngFile, GifFile, JpegFile, Base64File]
