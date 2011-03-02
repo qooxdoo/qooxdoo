@@ -412,46 +412,6 @@ class Library(object):
         self._console.outdent()
 
 
-    ##
-    # get the resource Id and resource value
-    def analyseResource(self, resource):
-        ##
-        # compute the resource value of an image for the script
-        def imgResVal(resource, assetId):
-            imageInfo = Image(resource).getInfoMap()
-
-            # Now process the image information
-            # use an ImgInfoFmt object, to abstract from flat format
-            imgfmt = ImgInfoFmt()
-            imgfmt.lib = self.namespace
-            if not 'type' in imageInfo:
-                raise RuntimeError, "Unable to get image info from file: %s" % resource 
-            imgfmt.type = imageInfo['type']
-
-            # Add this image
-            # imageInfo = {width, height, filetype}
-            if not 'width' in imageInfo or not 'height' in imageInfo:
-                raise RuntimeError, "Unable to get image info from file: %s" % resource 
-            imgfmt.width  = imageInfo['width']
-            imgfmt.height = imageInfo['height']
-            imgfmt.type   = imageInfo['type']
-
-            return imgfmt
-
-        # ----------------------------------------------------------
-        librespath = os.path.normpath(self._resourcePath)
-        lib_prefix_len = len(librespath)
-        if not librespath.endswith(os.sep):
-            lib_prefix_len += 1
-        assetId = resource[lib_prefix_len:]
-        assetId = Path.posifyPath(assetId)
-        if Image.FILE_EXTENSIONPATT.search(resource): # handle images
-            resvalue = imgResVal(resource, assetId)
-        else:  # handle other resources
-            resvalue = self.namespace
-        return assetId, resvalue
-
-
     @staticmethod
     def translationEntry(fileLocale, filePath, namespace):
 
