@@ -35,8 +35,8 @@
 
 import sys, os, glob, shutil, tempfile
 
-from misc import filetool
-from generator.resource.Image     import Image
+from misc                      import filetool
+from generator.resource.Image  import Image
 
 
 class ImageClipping(object):

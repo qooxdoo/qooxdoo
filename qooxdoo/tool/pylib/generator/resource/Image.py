@@ -27,7 +27,6 @@
 import re, os, sys, types, base64, struct
 
 from misc import filetool, Path, json
-from misc.imginfo import ImgInfo
 from generator import Context
 from generator.resource.Resource import Resource
 
@@ -55,7 +54,7 @@ class Image(Resource):
             return
 
         # imgInfo = (width, height, format/type)
-        imgInfo = ImgInfo(self.path).getInfo()
+        imgInfo = self.getInfo()
         if not imgInfo or not imgInfo[0] or not imgInfo[1] or not imgInfo[2]:
             raise RuntimeError, "Unable to get image info from file: %s" % self.path 
 
