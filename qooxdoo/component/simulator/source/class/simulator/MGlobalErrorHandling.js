@@ -150,6 +150,24 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
     {
       var targetWin = win || "selenium.qxStoredVars['autWindow']";
       simulator.QxSelenium.getInstance().getEval(targetWin + ".qx.Simulation.errorStore = [];");
+    },
+    
+    /**
+     * Retrieves all exceptions caught by the AUT's global error handling and 
+     * logs them.
+     * 
+     * @param win {String?} JavaScript snippet that evaluates as a Window object 
+     * accessible from the current Selenium instance. Default: The AUT's window.
+     */
+    logGlobalErrors : function(win)
+    {
+      var globalErrors = this.getGlobalErrors(win);
+      
+      for (var i=0,l=globalErrors.length; i<l; i++) {
+        if (globalErrors[i].length > 0) {
+          this.error(globalErrors[i]);
+        }
+      }
     }
   }
 });

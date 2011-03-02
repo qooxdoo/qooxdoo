@@ -32,10 +32,10 @@ qx.Mixin.define("simulator.MApplicationLogging",
   {
     /**
      * Adds a function to the AUT that retrieves all messages from the logger 
-     * created by {@link #addRingBuffer}.
+     * created by {@link #addAutLogStore}.
      * @lint ignoreUndefined(selenium)
      */
-    addRingBufferGetter : function()
+    addAutLogGetter : function()
     {
       var getRingBufferEntries = function(autWin) {
         var targetWin = autWin || selenium.qxStoredVars['autWindow'];
@@ -66,7 +66,7 @@ qx.Mixin.define("simulator.MApplicationLogging",
      * @param win {String} JavaScript snippet that evaluates as a Window object 
      * accessible to the current Selenium instance. Default: The AUT's window.
      */
-    addRingBuffer : function(win)
+    addAutLogStore : function(win)
     {
       var qxWin = win || "selenium.qxStoredVars['autWindow']";
       var rb = "(function() { var rb = " + qxWin + ".qx.log.appender.RingBuffer; return new rb(); })()";
@@ -83,7 +83,7 @@ qx.Mixin.define("simulator.MApplicationLogging",
      * 
      * @return {String[]} Array of AUT log messages
      */
-    getRingBufferEntries : function(win)
+    getAutLogEntries : function(win)
     {
       var qxWin = win || "selenium.qxStoredVars['autWindow']";
       var debugLog = simulator.QxSelenium.getInstance().getEval("selenium.qxStoredVars['autWindow']" +
@@ -93,6 +93,27 @@ qx.Mixin.define("simulator.MApplicationLogging",
         return [];
       }
       return debugLog.split("|");
+    },
+        
+    /**
+     * Removes all entries from the AUT-side logger.
+     */
+    clearAutLogStore : function()
+    {
+      simulator.QxSelenium.getInstance().getEval("selenium.qxStoredVars['ringBuffer'].clear();");
+    },
+        
+    /**
+     * Retrieves all messages from the AUT-side logger created by 
+     * {@link simulator.MApplicationLogging#addRingBuffer} and writes them to 
+     * the simulation log.
+     */
+    logAutLogEntries : function()
+    {
+      var debugLogArray = this.getAutLogEntries();
+      for (var i=0,l=debugLogArray.length; i<l; i++) {
+        this.info(debugLogArray[i]);
+      }
     }
 
   }

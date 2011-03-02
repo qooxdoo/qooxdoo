@@ -80,8 +80,8 @@ qx.Class.define("simulator.QxSimulation", {
       
       if (this.__options.applicationLog || this.__options.disposerDebug) {
         qx.Class.include(simulator.QxSimulation, simulator.MApplicationLogging);
-        this.addRingBuffer();
-        this.addRingBufferGetter();
+        this.addAutLogStore();
+        this.addAutLogGetter();
       }
       
       if (this.__options.testEvents) {
@@ -252,36 +252,8 @@ qx.Class.define("simulator.QxSimulation", {
       }
       
       if (this.__options.applicationLog || this.__options.disposerDebug) {
-        this.logRingBufferEntries();
+        this.logAutLogEntries();
       }      
-    },
-
-    /**
-     * Retrieves all messages from the AUT-side logger created by 
-     * {@link simulator.MApplicationLogging#addRingBuffer} and writes them to 
-     * the simulation log.
-     */
-    logRingBufferEntries : function()
-    {
-      var debugLogArray = this.getRingBufferEntries();
-      for (var i=0,l=debugLogArray.length; i<l; i++) {
-        this.info(debugLogArray[i]);
-      }
-    },
-
-    /**
-     * Retrieves all exceptions caught by the AUT's global error handling and 
-     * logs them.
-     */
-    logGlobalErrors : function()
-    {
-      var globalErrors = this.getGlobalErrors();
-      
-      for (var i=0,l=globalErrors.length; i<l; i++) {
-        if (globalErrors[i].length > 0) {
-          this.error(globalErrors[i]);
-        }
-      }
     },
     
     /**
