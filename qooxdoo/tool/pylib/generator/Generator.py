@@ -1596,6 +1596,7 @@ class Generator(object):
                 combinedMap = {}
                 for sub in subconfigs:
                     subMap = {}
+                    subId  = getImageId(sub['file'], getattr(clippedImages[sub['file']], 'prefix', None))
                     subMap['width']    = sub['width']
                     subMap['height']   = sub['height']
                     subMap['type']     = sub['type']

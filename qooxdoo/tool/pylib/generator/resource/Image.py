@@ -16,6 +16,7 @@
 #
 #  Authors:
 #    * Thomas Herchenroeder (thron7)
+#    * Fabian Jakobs (fjakobs)
 #
 ################################################################################
 
@@ -23,17 +24,17 @@
 # Base image class
 ##
 
-import re, os, sys, types
+import re, os, sys, types, base64, struct
 
 from misc import filetool, Path, json
 from misc.imginfo import ImgInfo
 from generator import Context
 from generator.resource.Resource import Resource
 
-
 class Image(Resource):
     
     def __init__(self, path=None):
+        global console
         super(Image, self).__init__(path)
         self.format = None
         self.width  = None
@@ -43,7 +44,10 @@ class Image(Resource):
         self.top     = None
         self.left    = None
 
-    imgpatt = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
+        console = Context.console
+
+    FILE_EXTENSIONS = "png jpeg jpg gif b64".split()
+    FILE_EXTENSIONPATT = re.compile(r'\.(%s)$' % "|".join(FILE_EXTENSIONS), re.I)
 
     def analyzeImage(self):
 
@@ -160,5 +164,174 @@ class Image(Resource):
 
     @staticmethod
     def isImage(fpath):
-        return Image.imgpatt.search(fpath)
+        return Image.FILE_EXTENSIONPATT.search(fpath)
 
+    # --------------------------------------------------------------------------
+    # Methods using the child-classes GifFile, ...
+    # --------------------------------------------------------------------------
+    
+    CHILD_CLASSES = []
+
+    def getSize(self):
+        ''' Returns the image sizes of png, gif and jpeg files as
+            (width, height) tuple '''
+        filename = self.__filename
+        classes = self.CHILD_CLASSES
+
+        for cls in classes:
+            img = cls(filename)
+            if img.verify():
+                size = img.size()
+                if size is not None:
+                    img.close()
+                    return size
+            img.close()
+
+        return None
+    
+    def getInfo(self):
+        ''' Returns (width, height, "type") of the image'''
+        filename = self.path
+        classes = self.CHILD_CLASSES
+        
+        for cls in classes:
+            img = cls(filename)
+            if img.verify():
+                size = img.size()
+                if size is not None:
+                    return size + (img.type(),)
+
+        return None
+
+    ##
+    # Like getInfo, but returns a map
+    def getInfoMap(self):
+        console.debug("Analysing image: %s" % self.path)
+        imgInfo = self.getInfo()
+        if imgInfo:
+            result = {'width': imgInfo[0], 'height': imgInfo[1], 'type': imgInfo[2]}
+        else:
+            result = {}
+
+        return result
+
+
+
+##
+# Child classes for specific image file formats
+
+# http://www.w3.org/Graphics/GIF/spec-gif89a.txt
+class GifFile(Image):
+    def __init__(self, path):
+        super(self.__class__, self).__init__(path)
+        self.fp = open(self.path, "rb")
+
+    def __del__(self):
+        self.fp.close()
+
+    def verify(self):
+        self.fp.seek(0)
+        header = self.fp.read(6)
+        signature = struct.unpack("3s3s", header[:6])
+        isGif = signature[0] == "GIF" and signature[1] in ["87a", "89a"]
+        return isGif
+
+    def type(self):
+        return "gif"
+
+    def size(self):
+        self.fp.seek(0)
+        header = self.fp.read(6+6)
+        (width, height) = struct.unpack("<HH", header[6:10])
+        return width, height
+
+
+# http://www.libmng.com/pub/png/spec/1.2/png-1.2-pdg.html#Structure
+class PngFile(Image):
+    def __init__(self, path):
+        super(self.__class__, self).__init__(path)
+        self.fp = open(self.path, "rb")
+
+    def __del__(self):
+        self.fp.close()
+
+    def type(self):
+        return "png"
+
+    def verify(self):
+        self.fp.seek(0)
+        header = self.fp.read(8)
+        signature = struct.pack("8B", 137, 80, 78, 71, 13, 10, 26, 10)
+        isPng = header[:8] == signature
+        return isPng
+
+
+    def size(self):
+        self.fp.seek(0)
+        header = self.fp.read(8+4+4+13+4)
+        ihdr = struct.unpack("!I4s", header[8:16])
+        data = struct.unpack("!II5B", header[16:29])
+        (width, height, bitDepth, colorType, compressionMethod, filterMethod, interleaceMethod) = data
+        return (width, height)
+
+
+# http://www.obrador.com/essentialjpeg/HeaderInfo.htm
+class JpegFile(Image):
+    def __init__(self, path):
+        super(self.__class__, self).__init__(path)
+        self.fp = open(self.path, "rb")
+
+    def __del__(self):
+        self.fp.close()
+
+    def verify(self):
+        self.fp.seek(0)
+        signature = struct.unpack("!H", self.fp.read(2))
+        isJpeg = signature[0] == 0xFFD8
+        return isJpeg
+
+    def type(self):
+        return "jpeg"
+
+    def size1(self):
+        self.fp.seek(2)
+
+        while True:
+            try:
+                marker, length = struct.unpack("!HH", self.fp.read(4))
+            except struct.error:
+                return None
+
+            if marker == 0xFFC0:
+                (precision, height, width) = struct.unpack("!BHH", self.fp.read(5))
+                return (width, height)
+            elif marker == 0xFFD9:
+                return None
+
+            self.fp.seek(length-2, 1)  # 1 = SEEK_CUR (2.5)
+
+    def size(self):
+        self.fp.seek(2)
+        
+        # find FFC0 marker
+        cont = self.fp.read()
+        # try Baseline DCT Start-of-frame marker (SOF0) (http://en.wikipedia.org/wiki/Jpeg)
+        pos  = cont.find("\xFF\xC0")
+        if pos < 0:
+            # try Progressive DCT Start-of-frame marker (SOF2)
+            pos  = cont.find("\xFF\xC2")
+        if pos < 0:  # no SOF found - give up
+            return None
+        pos += 4 # skip marker and length
+        
+        # extract values from SOF payload
+        try:
+            (precision, height, width) = struct.unpack("!BHH", cont[pos:pos+5])
+        except struct.error:
+            return None
+        return (width, height)
+
+
+##
+# Filling Image's child classes list when those classes exist
+Image.CHILD_CLASSES = [PngFile, GifFile, JpegFile]

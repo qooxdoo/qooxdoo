@@ -38,6 +38,7 @@ import os
 import glob
 import shutil
 from generator.resource.ImageInfo import ImageInfo
+from generator.resource.Image     import Image
 from misc import filetool
 import tempfile
 
@@ -54,7 +55,8 @@ class ImageClipping(object):
         source_file = source
         dest_file   = os.path.join(os.path.dirname(source), dest_prefix)
 
-        imginf        = self._imageInfo.getImageInfo(source_file, source_file)
+        #imginf        = self._imageInfo.getImageInfo(source_file, source_file)
+        imginf        = Image(source_file).getInfoMap()
         width, height = imginf['width'], imginf['height']
 
         crop_cmd = "convert %s -crop %sx%s+%s+%s +repage %s"
@@ -129,7 +131,8 @@ class ImageClipping(object):
                 self._console.warn("Non-existing file spec, skipping: %s" % file)
                 continue
             clips.append(file)
-            imginfo = self._imageInfo.getImageInfo(file, file)
+            #imginfo = self._imageInfo.getImageInfo(file, file)
+            imginfo = Image(file).getInfoMap()
             width, height = imginfo['width'], imginfo['height']
             config.append({'file':file, 'combined':combined, 'left': -left,
                            'top': -top, 'width':width, 'height':height, 'type':imginfo['type']})

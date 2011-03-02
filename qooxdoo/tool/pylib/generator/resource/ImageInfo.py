@@ -25,48 +25,20 @@ from misc import filetool, Path, json
 from misc.imginfo import ImgInfo
 from generator import Context
 
-memcache = {}
-
 class ImageInfo(object):
     def __init__(self, console, cache):
         self._console = console
         self._cache = cache
 
-    imgpatt = re.compile(r'\.(png|jpeg|gif)$', re.I)
-
-    def getImageInfos(self, rootDir):
-        result = {}
-
-        for img in filetool.find(rootDir, imgpatt):
-            self._console.debug("Analysing image: %s" % img)
-            #mo = self.imgpatt.search(img)
-            imgInfo = ImgInfo(img).getImageInfo()
-            if imgInfo:
-                result[img] = {'width': imgInfo[0], 'height': imgInfo[1], 'type': imgInfo[2]}
-
-        return result
-
     def getImageInfo(self, fileName, assetId):
         img = fileName
-        
-        #if img in memcache:
-        #    return memcache[img]
-
-        cacheId = "img-%s" % fileName
-
-        #imgInfo = self._cache.readmulti(cacheId, fileName)
-        #if imgInfo != None:
-        #    return imgInfo
         
         self._console.debug("Analysing image: %s" % img)
         imgInfo = ImgInfo(img).getInfo()
         if imgInfo:
-            #result = memcache[img] = {'width': imgInfo[0], 'height': imgInfo[1], 'type': imgInfo[2]}
             result = {'width': imgInfo[0], 'height': imgInfo[1], 'type': imgInfo[2]}
         else:
             result = {}
-
-        #self._cache.writemulti(cacheId, result)
 
         return result
 

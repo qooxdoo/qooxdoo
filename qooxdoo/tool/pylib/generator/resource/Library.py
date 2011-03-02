@@ -424,7 +424,8 @@ class Library(object):
         ##
         # compute the resource value of an image for the script
         def imgResVal(resource, assetId):
-            imageInfo = self._imageInfoObj.getImageInfo(resource , assetId)
+            #imageInfo = self._imageInfoObj.getImageInfo(resource , assetId)
+            imageInfo = Image(resource).getInfoMap()
 
             # Now process the image information
             # use an ImgInfoFmt object, to abstract from flat format
@@ -445,14 +446,13 @@ class Library(object):
             return imgfmt
 
         # ----------------------------------------------------------
-        imgpatt = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
         librespath = os.path.normpath(self._resourcePath)
         lib_prefix_len = len(librespath)
         if not librespath.endswith(os.sep):
             lib_prefix_len += 1
         assetId = resource[lib_prefix_len:]
         assetId = Path.posifyPath(assetId)
-        if imgpatt.search(resource): # handle images
+        if Image.FILE_EXTENSIONPATT.search(resource): # handle images
             resvalue = imgResVal(resource, assetId)
         else:  # handle other resources
             resvalue = self.namespace
