@@ -139,14 +139,7 @@ def _handleResources(script, generator, filtered=True):
     else:
         # get the main library
         mainlib = [x for x in script.libraries if x.namespace == script.namespace][0]
-        #reslist = [x.path for x in mainlib.getResources()]
         reslist = mainlib.getResources()
-        #for res in reslist:
-        #    resid, resValue = mainlib.analyseResource(res) 
-        #    if isinstance(resValue, ImgInfoFmt):
-        #        allresources[resid] = resValue.flatten()
-        #    else:
-        #        allresources[resid] = resValue
         allresources = ResourceHandler.createResourceStruct(reslist, updateOnlyExistingSprites = False)
 
     # get resource info
