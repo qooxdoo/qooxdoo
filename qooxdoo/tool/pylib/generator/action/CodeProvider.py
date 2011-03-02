@@ -25,7 +25,6 @@ import functools, codecs, operator
 from misc                                   import filetool, textutil, util, Path, PathType, json, copytool
 from misc.PathType                          import PathType
 from generator                              import Context as context
-from generator.resource.ImageInfo           import ImgInfoFmt
 from generator.resource.ResourceHandler     import ResourceHandler
 from generator.config.Config                import ConfigurationError
 from generator.code.Class                   import CompileOptions

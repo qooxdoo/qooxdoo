@@ -39,7 +39,7 @@ from generator.code.CodeGenerator    import CodeGenerator
 from generator.resource.Library      import Library
 from generator.resource.ResourceHandler  import ResourceHandler
 from generator.resource.ImageClipping    import ImageClipping
-from generator.resource.ImageInfo        import ImgInfoFmt
+from generator.resource.Image        import Image
 from generator.action.ApiLoader      import ApiLoader
 from generator.action.Locale         import Locale
 from generator.action.ActionLib      import ActionLib
@@ -1489,8 +1489,9 @@ class Generator(object):
             self._imageClipper.slice(image, prefix, border_width, trim_width)
 
 
+    ##
+    # Go through a list of images and create them as combination of other images
     def runImageCombining(self):
-        """Go through a list of images and create them as combination of other images"""
 
         def extractFromPrefixSpec(prefixSpec):
             prefix = altprefix = ""
@@ -1503,8 +1504,9 @@ class Generator(object):
                 altprefix         = ""
             return prefix, altprefix
                 
+        ##
+        # strip prefix - if available - from imagePath, and replace by altprefix
         def getImageId(imagePath, prefixSpec):
-            "strip prefix - if available - from imagePath, and replace by altprefix"
             prefix, altprefix = extractFromPrefixSpec(prefixSpec)
             imageId = imagePath # init
             _, imageId, _ = Path.getCommonPrefix(imagePath, prefix) # assume: imagePath = prefix "/" imageId
@@ -1514,8 +1516,9 @@ class Generator(object):
             imageId = Path.posifyPath(imageId)
             return imageId
 
+        ##
+        # create a dict with the clipped image file path as key, and prefix elements as value
         def getClippedImagesDict(imageSpec):
-            "create a dict with the clipped image file path as key, and an ImgInfoFmt object as value"
             imgDict = {}
             inputStruct = imageSpec['input']
             for group in inputStruct:
@@ -1526,14 +1529,11 @@ class Generator(object):
                 for filepatt in group['files']:
                     num_files = 0
                     for file in glob.glob(self._config.absPath(filepatt)):  # resolve file globs - TODO: can be removed in generator.action.ImageClipping
-                        imgObject        = ImgInfoFmt()
-                        imgObject.prefix = [prefix, altprefix]
                         self._console.debug("adding image %s" % file)
-                        imgDict[file]    = imgObject
+                        imgDict[file]    = [prefix, altprefix] 
                         num_files       += 1
                     if num_files == 0:
                         raise ValueError("Non-existing file spec: %s" % filepatt)
-                        #self._console.warn("Non-existing file spec: %s" % filepatt)
 
             return imgDict
 
@@ -1574,11 +1574,11 @@ class Generator(object):
 
             # for the meta information, go through the list of returned subconfigs (one per clipped image)
             for sub in subconfigs:
-                x = ImgInfoFmt()
-                x.mappedId, x.left, x.top, x.width, x.height, x.type = (
+                x = Image()
+                x.combId, x.left, x.top, x.width, x.height, x.type = (
                    imageId, sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
-                subId         = getImageId(sub['file'], getattr(clippedImages[sub['file']], 'prefix', None))
-                config[subId] = x.meta_format()  # this could use 'flatten()' eventually!
+                subId = getImageId(sub['file'], clippedImages[sub['file']])
+                config[subId] = x.toMeta()
 
             # store meta data for this combined image
             bname = os.path.basename(image)
@@ -1596,7 +1596,7 @@ class Generator(object):
                 combinedMap = {}
                 for sub in subconfigs:
                     subMap = {}
-                    subId  = getImageId(sub['file'], getattr(clippedImages[sub['file']], 'prefix', None))
+                    subId  = getImageId(sub['file'], clippedImages[sub['file']])
                     subMap['width']    = sub['width']
                     subMap['height']   = sub['height']
                     subMap['type']     = sub['type']

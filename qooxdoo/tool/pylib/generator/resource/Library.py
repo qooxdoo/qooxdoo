@@ -25,7 +25,6 @@ from misc                         import filetool, Path
 from misc.NameSpace               import NameSpace
 from ecmascript.frontend          import lang
 from generator.code.Class         import Class
-from generator.resource.ImageInfo import ImgInfoFmt
 from generator.resource.Resource  import Resource
 from generator.resource.Image     import Image
 from generator.resource.CombinedImage import CombinedImage

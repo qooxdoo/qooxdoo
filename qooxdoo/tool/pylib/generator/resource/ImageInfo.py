@@ -78,29 +78,3 @@ class ImgInfoFmt(object):
             a.extend([self.mappedId, self.left, self.top])
         return a
 
-    def flatten(self):
-        a = [self.width, self.height, self.type, self.lib]
-        if self.mappedId:
-            a.extend([Path.posifyPath(self.mappedId), self.left, self.top])
-        return a
-
-    def fromFlat(self, flatspec):
-        # this method supports the format as produced in flatten() -- keep in sync!
-        self.width     = flatspec[0]
-        self.height    = flatspec[1]
-        self.type      = flatspec[2]
-        self.lib       = flatspec[3]
-        # see if this is part of a combined image
-        if len(flatspec)>4:
-            self.mappedId  = flatspec[4]
-            self.left      = flatspec[5]
-            self.top       = flatspec[6]
-            self.mtype     = None       # currently not used
-            self.mlib      = None       # currently not used
-        # but init those members anyway, so they are not undefined
-        else:
-            self.mappedId  = None
-            self.left      = None
-            self.top       = None
-            self.mtype     = None
-            self.mlib      = None
