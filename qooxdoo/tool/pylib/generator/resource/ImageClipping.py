@@ -33,21 +33,16 @@
 #</pre>
 ##
 
-import sys
-import os
-import glob
-import shutil
-from generator.resource.ImageInfo import ImageInfo
-from generator.resource.Image     import Image
+import sys, os, glob, shutil, tempfile
+
 from misc import filetool
-import tempfile
+from generator.resource.Image     import Image
 
 
 class ImageClipping(object):
     def __init__(self, console, cache):
         self._console = console
         self._cache   = cache
-        self._imageInfo = ImageInfo(self._console, self._cache)
 
 
     def slice(self, source, dest_prefix, border, trim_width):
@@ -55,7 +50,6 @@ class ImageClipping(object):
         source_file = source
         dest_file   = os.path.join(os.path.dirname(source), dest_prefix)
 
-        #imginf        = self._imageInfo.getImageInfo(source_file, source_file)
         imginf        = Image(source_file).getInfoMap()
         width, height = imginf['width'], imginf['height']
 
@@ -131,7 +125,6 @@ class ImageClipping(object):
                 self._console.warn("Non-existing file spec, skipping: %s" % file)
                 continue
             clips.append(file)
-            #imginfo = self._imageInfo.getImageInfo(file, file)
             imginfo = Image(file).getInfoMap()
             width, height = imginfo['width'], imginfo['height']
             config.append({'file':file, 'combined':combined, 'left': -left,

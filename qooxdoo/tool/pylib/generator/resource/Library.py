@@ -25,7 +25,7 @@ from misc                         import filetool, Path
 from misc.NameSpace               import NameSpace
 from ecmascript.frontend          import lang
 from generator.code.Class         import Class
-from generator.resource.ImageInfo import ImageInfo, ImgInfoFmt
+from generator.resource.ImageInfo import ImgInfoFmt
 from generator.resource.Resource  import Resource
 from generator.resource.Image     import Image
 from generator.resource.CombinedImage import CombinedImage
@@ -81,8 +81,6 @@ class Library(object):
         if not self.namespace: raise RuntimeError
         self._checkNamespace(self._classPath)
 
-        #ImageInfoObj = ImageInfo(context.console, context.cache)
-        self._imageInfoObj = ImageInfo(context.console, context.cache)
 
     ##
     # pickling: provide state
@@ -91,16 +89,12 @@ class Library(object):
         # the Log object (the StreamWriter for a potential log file) makes
         # problems on unpickling
         del d['_console']
-        # the ImageInfo object includes (way down) an InterruptHandler obj
-        # that holds an instance method (from the Cache); cannot be pickled
-        del d['_imageInfoObj']
         return d
 
 
     ##
     # unpickling: update state
     def __setstate__(self, d):
-        d['_imageInfoObj'] = ImageInfo(context.console, context.cache)
         d['_console']      = context.console
         self.__dict__ = d
 
@@ -424,7 +418,6 @@ class Library(object):
         ##
         # compute the resource value of an image for the script
         def imgResVal(resource, assetId):
-            #imageInfo = self._imageInfoObj.getImageInfo(resource , assetId)
             imageInfo = Image(resource).getInfoMap()
 
             # Now process the image information

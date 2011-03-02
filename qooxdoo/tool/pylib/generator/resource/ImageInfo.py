@@ -25,24 +25,6 @@ from misc import filetool, Path, json
 from misc.imginfo import ImgInfo
 from generator import Context
 
-class ImageInfo(object):
-    def __init__(self, console, cache):
-        self._console = console
-        self._cache = cache
-
-    def getImageInfo(self, fileName, assetId):
-        img = fileName
-        
-        self._console.debug("Analysing image: %s" % img)
-        imgInfo = ImgInfo(img).getInfo()
-        if imgInfo:
-            result = {'width': imgInfo[0], 'height': imgInfo[1], 'type': imgInfo[2]}
-        else:
-            result = {}
-
-        return result
-
-
 class ImgInfoFmt(object):
     "Class to hide image meta info encoding"
     def __init__(self, *arrspec, **kwspec):
