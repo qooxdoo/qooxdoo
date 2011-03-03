@@ -360,10 +360,22 @@ qx.Class.define("qx.bom.element.Decoration",
       var clipped = ResourceManager.isClippedImage(source);
       var dimension = this.__getDimension(source);
 
-      if (clipped)
+      if (clipped) 
       {
         var data = ResourceManager.getData(source);
-        var uri = ResourceManager.toUri(data[4]);
+        var combinedId = data[4];
+        if (clipped == "b64")
+        {
+          var b64CombImg = ResourceManager.getPreloadedResource(combinedId);
+          var srcStruct = b64CombImg[source];
+          var uri = "data:image/" + srcStruct["type"] + ";" + srcStruct["encoding"] +
+                    "," + srcStruct["data"];
+          
+        }
+        else
+        {
+          var uri = ResourceManager.toUri(combinedId);
+        }
 
         if (repeat === "scale-x") {
           style = this.__getStylesForClippedScaleX(style, data, dimension.height);
@@ -477,14 +489,32 @@ qx.Class.define("qx.bom.element.Decoration",
      */
     __processRepeats : function(style, repeat, source)
     {
-      var clipped = qx.util.ResourceManager.getInstance().isClippedImage(source);
+      var ResourceManager = qx.util.ResourceManager.getInstance();
+      var clipped = ResourceManager.isClippedImage(source);
       var dimension = this.__getDimension(source);
 
       // Double axis repeats cannot be clipped
       if (clipped && repeat !== "repeat")
       {
-        var data = qx.util.ResourceManager.getInstance().getData(source);
-        var bg = qx.bom.element.Background.getStyles(data[4], repeat, data[5], data[6]);
+        // data = [ 8, 5, "png", "qx", "qx/decoration/Modern/arrows-combined.png", -36, 0]
+        var data = ResourceManager.getData(source);
+        var combinedId = data[4];
+        if (clipped == "b64")
+        {
+          var b64CombImg = ResourceManager.getPreloadedResource(combinedId);
+          var srcStruct = b64CombImg[source];
+          var uri = "data:image/" + srcStruct["type"] + ";" + srcStruct["encoding"] +
+                    "," + srcStruct["data"];
+          var offx = offy = 0;
+        }
+        else
+        {
+          var uri  = ResourceManager.toUri(combinedId);
+          var offx = data[5];
+          var offy = data[6];
+        }
+
+        var bg = qx.bom.element.Background.getStyles(uri, repeat, offx, offy);
         for (var key in bg) {
           style[key] = bg[key];
         }

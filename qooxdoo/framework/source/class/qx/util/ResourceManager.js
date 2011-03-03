@@ -29,6 +29,23 @@ qx.Class.define("qx.util.ResourceManager",
 
   /*
   *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  /**
+   * TODOC
+   */
+  construct : function()
+  {
+    this.base(arguments);
+
+    // post-process any resources that are already registered
+    this.postProcessPackageData();
+  },
+
+  /*
+  *****************************************************************************
      STATICS
   *****************************************************************************
   */
@@ -39,7 +56,10 @@ qx.Class.define("qx.util.ResourceManager",
     __registry : qx.$$resources || {},
 
     /** {Map} prefix per library used in HTTPS mode for IE */
-    __urlPrefix : {}
+    __urlPrefix : {},
+
+    /** {Map} pre-loaded resources */
+    __preloaded : {}
   },
 
   /*
@@ -128,7 +148,20 @@ qx.Class.define("qx.util.ResourceManager",
     isClippedImage : function(id)
     {
       var entry = this.self(arguments).__registry[id];
-      return entry && entry.length > 4;
+      var isClipped = entry && entry.length > 4;
+      if (isClipped){
+        var combId  = entry[4];
+        var combImg = this.self(arguments).__registry[combId];
+        isClipped = combImg[2];  // return combined image type
+        if (isClipped === "b64"){
+          // make sure base64 combined images are preloaded
+          // as the call needs to access its data immediately
+          if (!this.self(arguments).__preloaded[combId]){
+            isClipped = false;
+          }
+        }
+      }
+      return isClipped;
     },
 
 
@@ -170,6 +203,55 @@ qx.Class.define("qx.util.ResourceManager",
       }
 
       return urlPrefix + qx.$$libraries[lib].resourceUri + "/" + id;
+    },
+
+    /**
+     * TODOC
+     */
+    postProcessPackageData : function (dataMap) 
+    {
+      // Just go through the current __registry, pre-loading combined base64 images
+      var registry = qx.util.ResourceManager.__registry;
+      for (var resid in registry)
+      {
+        var resource = registry[resid];
+        if (resource[2] == "b64")
+        {
+          var uri = this.toUri(resid);
+          var request = new qx.io.remote.Request(
+            uri, "GET", "application/json");
+          //TODO: The next might fail if resources are loaded from another server!
+          request.setParseJson(true);
+
+          var preloaded = qx.util.ResourceManager.__preloaded;
+          var completedhandler = qx.lang.Function.curry(function(res,ev){
+            var json = ev.getContent();
+            preloaded[res] = json;
+          }, resid);
+          request.addListener("completed", completedhandler, this);
+
+          request.addListener("changeState", function(ev){
+            var state = ev.getData();
+            if (state === "failed" || state === "aborted" || state === "timeout") {
+              this.fireEvent("error");
+            }
+          }, this);
+
+          request.send()
+        }
+      }
+    },
+
+    /**
+     * TODOC
+     */
+    getPreloadedResource : function (resId) 
+    {
+      var entry = this.self(arguments).__preloaded[resId];
+      if (!entry) {
+        return resId;
+      }
+      return entry;
     }
   },
 

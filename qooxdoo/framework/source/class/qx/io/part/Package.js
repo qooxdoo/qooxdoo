@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/*
+ #optional(qx.util.ResourceManager)
+ */
+
 /**
  * The Package wraps a list of related script URLs, which are required by one
  * or more parts.
@@ -127,9 +131,15 @@ qx.Bootstrap.define("qx.io.part.Package",
         delete this.__closure;
       }
 
+      var callback;
       if (qx.$$packageData[this.__id])
       {
-        this.__importPackageData(qx.$$packageData[this.__id]);
+        if (qx.util && qx.util.ResourceManager){
+          callback = qx.util.ResourceManager.getInstance().postProcessPackageData;
+        } else {
+          callback = undefined;
+        }
+        this.__importPackageData(qx.$$packageData[this.__id], callback);
         delete qx.$$packageData[this.__id];
       }
       this.__readyState = "complete";

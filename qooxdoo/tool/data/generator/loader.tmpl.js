@@ -100,7 +100,7 @@ if (document.addEventListener) {
   document.addEventListener('DOMContentLoaded', fireContentLoadedEvent, false);
 }
 
-qx.$$loader.importPackageData = function (dataMap) {
+qx.$$loader.importPackageData = function (dataMap, callBack) {
   if (dataMap["resources"]){
     var resMap = dataMap["resources"];
     for (var k in resMap) qx.$$resources[k] = resMap[k];
@@ -122,6 +122,9 @@ qx.$$loader.importPackageData = function (dataMap) {
       else 
         for (var k in trMap[lang]) qxtrans[lang][k] = trMap[lang][k];
     }
+  }
+  if (callBack){
+    callBack(dataMap);
   }
 }
 
