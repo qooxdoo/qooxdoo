@@ -495,11 +495,10 @@ qx.Class.define("testrunner2.view.Html", {
      * Visualizes the status of a single test result as it changes during test
      * execution.
      * 
-     * @param testResultData {testrunner2.runner.TestResultData} test result 
-     * data object
+     * @param testResultData {Object} A test model object
      */
     _onTestChangeState : function(testResultData) {
-      var testName = testResultData.getName();
+      var testName = testResultData.getFullName();
       var state = testResultData.getState();
       
       switch (state) {

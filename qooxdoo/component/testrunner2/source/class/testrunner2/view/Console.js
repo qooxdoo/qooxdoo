@@ -135,7 +135,7 @@ qx.Class.define("testrunner2.view.Console", {
      */
     _onTestChangeState : function(testResultData)
     {
-      var testName = testResultData.getName();
+      var testName = testResultData.getFullName();
       var state = testResultData.getState();
       var exceptions = testResultData.getExceptions();
       

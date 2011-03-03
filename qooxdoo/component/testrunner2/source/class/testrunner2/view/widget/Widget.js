@@ -92,6 +92,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
   
   statics :
   {
+    /** Grey icons for items without a result */
     TREEICONS :
     {
       "package" : "testrunner2/view/widget/image/package18_grey.gif",
@@ -99,6 +100,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       "test" : "testrunner2/view/widget/image/method_public18_grey.gif"
     },
 
+    /** Green icons for items without failures */
     TREEICONSOK :
     {
       "package" : "testrunner2/view/widget/image/package18.gif",
@@ -106,6 +108,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       "test" : "testrunner2/view/widget/image/method_public18.gif"
     },
 
+    /** Red icons for items with failures */
     TREEICONSERROR :
     {
       "package" : "testrunner2/view/widget/image/package_warning18.gif",

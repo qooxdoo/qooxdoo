@@ -237,7 +237,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       
       var modelData = testrunner2.runner.ModelUtil.createModelData(testRep);
       var model = qx.data.marshal.Json.createModel(modelData.children[0], true);
-      testrunner2.runner.ModelUtil.addParentRefs(model);
+      testrunner2.runner.ModelUtil.addDataFields(model);
       this.setTestModel(model);
       this.setTestSuiteState("ready");
     },
@@ -329,11 +329,11 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         }
       }
       
-      var currentTest = this.testList.shift();
+      var currentTest = this.currentTestData = this.testList.shift();
       this.setTestCount(this.testList.length);
       var className = currentTest.parent.getFullName();
       var functionName = currentTest.getName();
-      var testResult = this.__initTestResult();
+      var testResult = this.__initTestResult(currentTest);
       
       var self = this;
       window.setTimeout(function() {
@@ -364,8 +364,9 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       testResult.addListener("startTest", function(e) {
         var test = e.getData();
         
-        if (this.currentTestData && this.currentTestData.getName() === test.getFullName()
-          && this.currentTestData.getState() !== "wait") {
+        if (this.currentTestData && this.currentTestData.getFullName() === test.getFullName()
+          && this.currentTestData.getState() == "wait") {
+          this.currentTestData.setState("start");
           return;
         }
         
@@ -381,7 +382,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         }
         */
         
-        this.currentTestData = new testrunner2.runner.TestResultData(test.getFullName());
+        //this.currentTestData = new testrunner2.runner.TestResultData(test.getFullName());
         this.view.addTestResult(this.currentTestData);
       }, this);
       

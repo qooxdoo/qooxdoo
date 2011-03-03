@@ -26,6 +26,7 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
   {
     
     /**
+     * Creates a nested map for the test namespace from the flat list of tests
      * 
      * @param testRep {Object} Test suite object obtained by parsing the JSON 
      * returned by {@link qx.dev.unit.TestLoader:getTestDescriptions}
@@ -74,31 +75,27 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       return testList;
     },
     
-    
     /**
-     * Adds a reference to the parent node to each model item. Also adds a
-     * getFullName method to each item.
+     * Adds additional data fields to the model items:
+     * parent : reference to the parent item
+     * getFullName : see {@link #getFullName}
+     * getMessage : see {@link #getMessage}
+     * getStackTrace : see {@link #getStackTrace}
      * 
      * @param model {Object} The model to process
      */
-    addParentRefs : function(model)
+    addDataFields : function(model)
     {
-      var gfn = function() {
-        if (this.parent && this.parent.getFullName) {
-          return this.parent.getFullName() + "." + this.getName();
-        } else {
-          return this.getName();
-        }
-      };
-      
-      model.getFullName = gfn;
+      model.getFullName = testrunner2.runner.ModelUtil.getFullName;
       
       if (model.getChildren) {
         var kids = model.getChildren();
         for (var i=0,l=kids.length; i<l; i++) {
           var child = kids.getItem(i);
           child.parent = model;
-          child.getFullName = gfn;
+          child.getFullName = testrunner2.runner.ModelUtil.getFullName;
+          child.getMessage = testrunner2.runner.ModelUtil.getMessage;
+          child.getStackTrace = testrunner2.runner.ModelUtil.getStackTrace;
           arguments.callee(child);
         }
       }
@@ -154,6 +151,10 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
           type = "package";
         }
         found.type = type;
+        if (type === "test") {
+          found.state = "start";
+          found.exceptions = null;
+        }
         obj.children.push(found);
       }
       
@@ -176,6 +177,101 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
         return "class";
       }
       return "package";
+    },
+    
+    
+    /**
+     * Returns the fully qualified name of a model item, e.g. 
+     * "someApp.test.foo.Bar:testBaz"
+     * 
+     * @return {String} The item's fully qualified name
+     */
+    getFullName : function()
+    {
+      if (this.parent && this.parent.getFullName) {
+        var separator = ".";
+        if (!this.getChildren) {
+          separator = ":";
+        }
+        return this.parent.getFullName() + separator + this.getName();
+      } else {
+        return this.getName();
+      }
+    },
+    
+    /**
+     * Serializes and returns any exceptions caught during the test's execution
+     * 
+     * @return {String} Exceptions
+     */
+    getMessage : qx.core.Variant.select("qx.client",
+    {
+      "default" : function()
+      {
+        if (this.getExceptions() && this.getExceptions().length > 0) {
+          var exceptions = this.getExceptions();
+          var message = "";
+          for (var i=0,l=exceptions.length; i<l; i++) {
+            message += exceptions[i].exception.toString() + " ";
+          }
+          return message;          
+        } else {
+          return "";
+        }
+      },
+
+      "opera" : function()
+      {
+        if (this.getExceptions() && this.getExceptions().length > 0) {
+          var exceptions = this.getExceptions();
+          var message = "";
+          for (var i=0,l=exceptions.length; i<l; i++) {
+            var msg = exceptions[i].exception.message + "";
+            if (msg.indexOf("Backtrace:") < 0) {
+              message += exceptions[i].exception.toString();
+            } else {
+              message += qx.lang.String.trim(msg.split("Backtrace:")[0]);
+            }
+          }
+          return message;
+        }
+        else
+        {
+          return "";
+        }
+      }
+    }),
+
+
+    /**
+     * Returns stack trace information for a given exception.
+     *
+     * @param ex {Error} Exception
+     * @return {String} Stack trace information
+     */
+    getStackTrace : function(ex)
+    {
+      var trace = [];
+
+      if (typeof (ex.getStackTrace) == "function") {
+        trace = ex.getStackTrace();
+      } else {
+        trace = qx.dev.StackTrace.getStackTraceFromError(ex);
+      }
+
+      // filter Test Runner functions from the stack trace
+      while (trace.length > 0)
+      {
+        var first = trace[0];
+
+        if (first.indexOf("qx.dev.unit.AssertionError") == 0 || first.indexOf("qx.Class") == 0 || first.indexOf("qx.dev.unit.MAssert") == 0 || first.indexOf("script") == 0) {
+          trace.shift();
+        } else {
+          break;
+        }
+      }
+
+      return trace.join("<br>");
     }
   }
 });

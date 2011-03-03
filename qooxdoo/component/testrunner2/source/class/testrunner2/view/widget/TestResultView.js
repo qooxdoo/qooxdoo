@@ -109,7 +109,7 @@ qx.Class.define("testrunner2.view.widget.TestResultView",
 
         var html = new qx.util.StringBuilder();
         html.add("<div class='testResult ", testResult.getState(), "' id='testResult", testResult.toHashCode(), "'>");
-        html.add("<h3>", testResult.getName(), "</h3>");
+        html.add("<h3>", testResult.getFullName(), "</h3>");
 
         if (testResult.getState() == "failure" || testResult.getState() == "error") {
           html.add("Error message is: <br />", qx.bom.String.escape(testResult.getMessage()), "<br />");
@@ -153,7 +153,7 @@ qx.Class.define("testrunner2.view.widget.TestResultView",
     /**
      * Adds a new entry to the test results HTML
      *
-     * @param testResult {testrunner2.runner.TestResultData} A test result data object
+     * @param testResult {Object} A test model object
      */
     addTestResult : function(testResult)
     {
