@@ -68,6 +68,11 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     */
 
     
+    addWidget : function(widget, options) {
+      this._add(widget, options);
+    },
+    
+    
     addSpacer : function()
     {
       if (!this._spacer) {
