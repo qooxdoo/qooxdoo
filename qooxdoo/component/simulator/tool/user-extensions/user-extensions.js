@@ -589,21 +589,6 @@ Selenium.prototype.isQxInstanceOf = function (object, qxclass) {
 
 /**
  * Uses the standard qx locators to find a table, and then returns a semicolon-
- * separated list of column IDs from the table model
- *
- * @deprecated
- * @param locator {String} an element locator
- * @return {String} A list of column IDs 
- */
-Selenium.prototype.getQxTableColumnIds = function(locator)
-{
-  LOG.warn("getQxTableColumnIds is deprecated, please use either getQxTableVisibleColumnIds or getQxTableModelColumnIds.");
-  return this.getQxTableModelColumnIds(locator);
-};
-
-
-/**
- * Uses the standard qx locators to find a table, and then returns a semicolon-
  * separated list of column IDs from the table model. Note that this can differ
  * from the columns that are actually visible in the table.
  *
@@ -673,7 +658,7 @@ Selenium.prototype.getQxTableVisibleColumnIds = function(locator)
  * @param locator {var} an element locator
  * @return {var} The number of rows in the table.
  */
-Selenium.prototype.getQxTableRows = function(locator)
+Selenium.prototype.getQxTableRowCount = function(locator)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
   
@@ -696,20 +681,7 @@ Selenium.prototype.getQxTableRows = function(locator)
  * @param locator {var} an element locator
  * @return {var} The number of columns in the table.
  */
-Selenium.prototype.getQxTableCols = function(locator)
-{
-  LOG.warn("getQxTableCols is deprecated, please use either getQxTableVisibleCols or getQxTableModelCols.");
-  return this.getQxTableModelCols(locator);
-};
-
-/**
- * Uses the standard qx locators to find a table, and then returns the number of
- * columns from the table model.
- *
- * @param locator {var} an element locator
- * @return {var} The number of columns in the table.
- */
-Selenium.prototype.getQxTableModelCols = function(locator)
+Selenium.prototype.getQxTableModelColCount = function(locator)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
   
@@ -732,7 +704,7 @@ Selenium.prototype.getQxTableModelCols = function(locator)
  * @param locator {var} an element locator
  * @return {var} The number of columns in the table.
  */
-Selenium.prototype.getQxTableVisibleCols = function(locator)
+Selenium.prototype.getQxTableVisibleColCount = function(locator)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
   
@@ -752,7 +724,6 @@ Selenium.prototype.getQxTableVisibleCols = function(locator)
 };
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
  * 
  * Returns a qooxdoo table's selected row data (an array of rows which are 
  * arrays of cell values). Data will be returned as a JSON string if a JSON 
@@ -787,7 +758,6 @@ Selenium.prototype.getQxTableSelectedRowData = function(locator)
 };
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
  * 
  * Uses any available JSON implementation from the browser or qooxdoo to 
  * serialize the given data. Returns the unchanged data if no JSON 
@@ -834,7 +804,6 @@ Selenium.prototype.getQxObjectFunction = function(locator, functionName)
 };
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
  * 
  * Creates a new function with the value of the script parameter as body. This 
  * function is bound to the context of the qooxdoo widget returned by the given
