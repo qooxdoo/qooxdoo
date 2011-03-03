@@ -30,6 +30,32 @@
  * created by Selenium Grid's ThreadSafeSeleniumSessionStorage is returned 
  * instead.
  * 
+ * QxSelenium extends DefaultSelenium (see {@link http://www.jarvana.com/jarvana/view/org/seleniumhq/selenium/selenium-rc-documentation/1.0-beta-2/selenium-rc-documentation-1.0-beta-2-doc.zip!/java/com/thoughtworks/selenium/DefaultSelenium.html}),
+ * adding the qooxdoo-specific commands documented below.
+ * 
+ * Commands that simulate mouse clicks such as {@link #qxClick} take a 
+ * parameter that allows configuring the generated events. The value  must be a 
+ * string of comma-separated key=value pairs. The following settings are 
+ * supported:
+ * 
+ *  double: fire a "dblclick" event
+ *   - possible values: true, false
+ *   - default value  : false
+ *  button: the mouse button to be pressed
+ *   - possible values: left, right, middle
+ *   - default value  : left
+ *  clientX and clientY: mouse coordinates
+ *   - possible values: any positive integer
+ *   - default value  : 0
+ *  shiftKey, altKey, metaKey: additional modifier keys being pressed while 
+ *  clicking
+ *   - possible values: true, false
+ *   - default value  : false
+ *   
+ * Getter commands will always return a Java string object. This should always
+ * be converted to a JavaScript string for comparisons or string operations, 
+ * e.g. by calling String(qxSeleniumReturnValue)
+ * 
  * @lint ignoreUndefined(importClass,QxSelenium,ThreadSafeSeleniumSessionStorage)
  */
 qx.Class.define("simulator.QxSelenium", {
@@ -77,6 +103,319 @@ qx.Class.define("simulator.QxSelenium", {
       // Create and configure QxSelenium instance
       return new QxSelenium(server, port, browser, host);
     }
+  },
+  
+  
+  /*
+  *****************************************************************************
+     These stubs are for documentation purposes only, the actual implementation 
+     is in the user extensions for Selenium 
+     (component/simulator/tool/user-extension/user-extensions.js)
+  *****************************************************************************
+  */
+  
+  members :
+  {
+
+    /**
+     * Clicks on a qooxdoo widget.
+     * Always synthesizes the following events: mouseover, mousedown, mouseup.
+     * Additionally, click, dblclick or contextmenu will be fired depending on 
+     * the specified params
+     *
+     * @param locator {String} an element locator that finds a qooxdoo widget's 
+     * DOM element
+     * @param params {String} comma-separated list of additional parameters
+     */
+    qxClick : function(locator, params) {},
+
+
+    /**
+     * Clicks on a qooxdoo widget, adding the widget's coordinates to the 
+     * generated events.
+     * 
+     * @param locator {String} an element locator that finds a qooxdoo widget's 
+     * DOM element
+     * @param params {String} comma-separated list of additional parameters
+     */
+    qxClickAt : function(locator, params) {},
+    
+    
+    /**
+     * Uses the given locator to find a {@link qx.ui.table.Table}, then 
+     * simulates a click on the table at the given row/column position.
+     * Note, your locator should only find the table itself. Sub-widgets, e.g. 
+     * Composite/Scroller/Clipper will be automatically added to the locator as 
+     * required.
+     *
+     * <p>
+     * The column to click can be located using the index, ID or name as defined 
+     * in the table model by adding one of the col, colId or colName parameters 
+     * to the "params" string. 
+     * Alternatively, a specific cell can be located by RegExp matching its 
+     * content using the cellValue parameter.
+     * NOTE: This currently only works with tables using a Simple table model 
+     * ({@link qx.ui.table.model.Simple})!
+     * 
+     * <p>
+     * Supported params keys:
+     * - All mouse event parameters
+     * - row: Index of the table row to click
+     * - col: Index of the table column to click
+     * - colId: ID of the column to click
+     * - colName: Name of the column to click
+     * - cellValue: Content of a (text) cell to click
+     *
+     * @param locator {String} an element locator that finds a qooxdoo table's 
+     * DOM element
+     * @param params {String} comma-separated list of additional parameters
+     */  
+    qxTableClick : function(locator, params) {},
+
+
+    /**
+     * Simulates clicking a header cell of a {@link qx.ui.table.Table}.
+     * 
+     * <p>
+     * The column to click can be located using the index, ID or name as defined 
+     * in the table model by adding one of the col, colId or colName parameters 
+     * to the "params" string. 
+     * 
+     * @param locator {String} an element locator that finds a qooxdoo table's 
+     * DOM element
+     * @param params {String} comma-separated list of additional parameters
+     */
+    qxTableHeaderClick : function(locator, params) {},
+
+
+    /**
+     * Simulates user interaction with editable table cells. NOTE: The 
+     * target cell's editing mode must be activated immediately before this 
+     * command is used, e.g. by executing a double click on it using the 
+     * {@link #qxTableClick} command with "double=true" added to the params.
+     * <p>
+     * The following cell editor types are supported:
+    
+     * Text fields ({@link qx.ui.table.celleditor.PasswordField}, 
+     * {@link qx.ui.table.celleditor.TextField}, 
+     * {@link qx.ui.table.celleditor.ComboBox}): Use either the "type" or 
+     * "typeKeys" parameters (typeKeys triggers 
+     * keydown/keyup/keypress events). Examples:
+     * qxSelenium.qxEditTableCell("qxh=qx.ui.table.Table", "type=Some text");
+     * qxSelenium.qxEditTableCell("myTable", "typeKeys=Lots of events");
+     * <p>
+     * Select boxes ({@link qx.ui.table.celleditor.SelectBox}, 
+     * {@link qx.ui.table.celleditor.ComboBox}): Use the "selectFromBox" 
+     * parameter. The value must be a qxh locator step that identifies the list 
+     * item to be clicked.
+     * Examples:
+     * qxSelenium.qxEditTableCell("qxh=qx.ui.table.Table", "selectFromBox=[@label=Germany]");
+     * qxSelenium.qxEditTableCell("qxh=qx.ui.table.Table", "selectFromBox=child[2]");
+     * <p>
+     * Checkboxes ({@link qx.ui.table.celleditor.CheckBox}): Use the 
+     * "toggleCheckBox" parameter. Example:
+     * qxSelenium.qxEditTableCell("qxh=qx.ui.table.Table", "toggleCheckBox=foo");
+     * (toggleCheckBox needs a value to be recognized as a valid parameter even 
+     * though it is ignored.)
+     * 
+     * @param locator {String} an element locator that finds a qooxdoo table's 
+     * DOM element
+     * @param params {String} comma-separated list of additional parameters
+     */
+    qxEditTableCell : function(locator, params) {},
+
+
+    /**
+     * Uses the standard qx locators to find a table, then returns the number of
+     * rows defined in the table model.
+     * 
+     * @param locator {String} an element locator that finds a qooxdoo table's 
+     * DOM element
+     * @return {Object} The number of rows defined in the table model
+     */
+    getQxTableRowCount : function(locator) {},
+
+
+    /**
+     * Uses the standard qx locators to find a table, then returns the number of
+     * columns from the table model.
+     * 
+     * @param locator {String} an element locator that finds a qooxdoo table's 
+     * DOM element
+     * @return {Object} The number of columns defined in the table model
+     */
+    getQxTableModelColCount : function(locator) {},
+
+
+    /**
+     * Uses the standard qx locators to find a table, then returns the number of
+     * currently visible columns.
+     * 
+     * @param locator {String} an element locator that finds a qooxdoo table's 
+     * DOM element
+     * @return {Object} The number of visible columns
+     */
+    getQxTableVisibleColCount : function(locator) {},
+
+
+    /**
+     * Uses the standard qx locators to find a table, then returns the value
+     * of the cell specified by "row=x,col=y" in the params.
+     * 
+     * @param locator {String} an element locator that finds a qooxdoo table's 
+     * DOM element
+     * @param params {var} A string that should contain "row=x,col=y"
+     * @return {Object} The value of the cell
+     */
+    getQxTableValue : function(locator, params) {},
+
+
+    /**
+     * Uses the standard qx locators to find a table then returns a semicolon-
+     * separated list of column IDs from the table model. Note that this can 
+     * differ from the columns that are actually visible in the table.
+     *
+     * @param locator {String} an element locator that finds a qooxdoo table's 
+     * DOM element
+     * @return {Object} A list of column IDs
+     */
+    getQxTableModelColumnIds : function(locator) {},
+
+
+    /**
+     * Uses the standard qx locators to find a table then returns a semicolon-
+     * separated list of column IDs. Only visible columns are included.
+     *
+     * @param locator {String} an element locator that finds a qooxdoo table's 
+     * DOM element
+     * @return {Object} A list of column IDs
+     */
+    getQxTableVisibleColumnIds : function(locator) {},
+
+
+    /**
+     * Searches the given table for a column with the given name and returns the 
+     * visible column index. Note that this can differ from the column's index 
+     * in the table model if there are invisible columns and/or the column order 
+     * has been changed. 
+     * 
+     * @param locator {String} an element locator that finds a qooxdoo table's 
+     * DOM element
+     * @param name {String} name The column name to be searched for
+     * @return {Object} The found column index
+     */
+    getQxTableColumnIndexByName : function(locator, name) {},
+
+
+    /**
+     * Returns a qooxdoo table's selected row data (an array of rows which are 
+     * arrays of cell values). Data will be returned as a JSON string if a JSON 
+     * implementation is available (either the browser's or qooxdoo's). 
+     * Otherwise, the return value is a comma-separated string that must be 
+     * parsed by the caller.
+     * 
+     * @param locator {String} an element locator that finds a qooxdoo table's 
+     * DOM element
+     */
+    getQxTableSelectedRowData : function(locator) {},
+
+
+    /**
+     * Executes the given function of a qooxdoo widget identified by a locator. 
+     * If the widget does not contain the referenced function, an exception will 
+     * be thrown.
+     *
+     * @param locator {String} an element locator that finds a qooxdoo widget's 
+     * DOM element
+     * @param functionName {String} The name of the function to be called
+     * @return {Object} The function's return value
+     */
+    getQxObjectFunction : function(locator, functionName) {},
+
+
+    /** 
+     * Creates a new function with the value of the script parameter as body. 
+     * This function is bound to the context of the qooxdoo widget returned by 
+     * the given locator, i.e. "this" within the script will refer to the widget.
+     * The function is then called and the return value is serialized in JSON 
+     * format (unless it is a string or number) and returned.
+     *
+     * @param locator {String} an element locator that finds a qooxdoo widget's 
+     * DOM element
+     * @param script {String} JavaScript snippet
+     * @return {Object} Return value of the generated function
+     */
+    getRunInContext : function(locator, script) {},
+
+
+    /**
+     * Returns a qooxdoo object's ID as generated by qx.core.ObjectRegistry.
+     * If only the locator parameter is given, the hash code of the widget it 
+     * identifies will be returned. If the optional script parameter is given, 
+     * its value will be executed as a function in the widget's context and the 
+     * hash of the object it returns will be returned instead. Example:
+     * 
+     * getQxObjectHash("myTable", "return this.getTableModel();");
+     * 
+     * will find a qooxdoo table with the HTML ID "myTable" and return the hash 
+     * of its table model.
+     * 
+     * @param locator {String} an element locator that finds a qooxdoo widget's 
+     * DOM element
+     * @param script {String?} Optional JavaScript snippet to be executed in the 
+     * widget's context 
+     * @return {Object} the object's hash code
+     */
+    getQxObjectHash : function(locator, script) {},
+
+
+    /** 
+     * Drags an element a certain distance and then drops it. Optionally 
+     * executes mouseover, mousemove and mouseup on a second element
+     * 
+     * @param locator {String} an element locator that finds a qooxdoo widget's 
+     * DOM element
+     * @param offset {String} offset in pixels from the current location to 
+     * which the element should be moved, e.g., "+70,-300"
+     * @param targetLocator {String?} (optional) locator for the drop target. 
+     */
+    qxDragAndDrop : function(locator, offset, targetLocator) {},
+
+
+    /**
+     * Drags an element and drops it on another element
+     * 
+     * @param locator {String} an element locator that finds a qooxdoo widget's 
+     * DOM element
+     * @param targetLocator an element whose location (i.e., whose 
+     * center-most pixel) will be the point where the dragged element is dropped
+     */
+    qxDragAndDropToObject : function(locator, targetLocator) {},
+
+
+    /**
+     * Sets the value of a qooxdoo text field widget which can either be the 
+     * widget returned by the given locator, or one of its child widgets. 
+     * Does not simulate key events.
+     *
+     * @param locator {String} an element locator that finds a qooxdoo widget's 
+     * DOM element
+     * @param value {String} the value to set
+     */
+    qxType : function(locator, value) {},
+
+
+    /**
+     * Simulates a user entering text into any qooxdoo widget that either 
+     * inherits from {@link qx.ui.form.AbstractField}  or has a child control 
+     * that does. "keydown", "keypress" and "keyup" events are fired for each
+     * character in the given value.
+     *
+     * @param locator {String} an element locator that finds a qooxdoo widget's 
+     * DOM element
+     * @param value {String} the value to type
+     */
+    qxTypeKeys : function(locator, value) {}
   }
 
 });
