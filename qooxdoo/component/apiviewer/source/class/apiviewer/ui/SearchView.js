@@ -64,6 +64,8 @@ qx.Class.define("apiviewer.ui.SearchView",
     __button : null,
     __initresult : null,
     __table : null,
+    __typeFilter: null,
+    __typesIndex: null,
 
     /**
      * Generate the search form.
@@ -76,7 +78,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       //--------------------------------------------------------
 
       // Search form
-      var layout = new qx.ui.layout.HBox(4);
+      var layout = new qx.ui.layout.Grid(4,4);
       var sform = new qx.ui.container.Composite(layout);
       sform.setPadding(10);
 
@@ -91,9 +93,46 @@ qx.Class.define("apiviewer.ui.SearchView",
       this.__button.setEnabled(false);
 
       sform.add(this.sinput, {
-        flex : 1
+        row: 0, column: 0
       });
-      sform.add(this.__button);
+      sform.add(this.__button, {row: 0, column: 1});
+
+      this.__typesIndex =
+      {
+        "PACKAGE":0,
+        "ENTRY":7,
+        "CLASS":1,
+        "INTERFACE":10,
+        "METHOD_PUB":2,
+        "METHOD_PROT":2,
+        "METHOD_PRIV":2,
+        "PROPERTY_PUB":6,
+        "EVENT":8,
+        "CONSTANT":4,
+        "CHILDCONTROL":9
+      };
+      this.__typeFilter = new qx.data.Array([true, true, true,true,true,true,true,true,true]);
+      var types = ['package','class','method','constant','property','entry','event','child control','interface'];
+      
+      var typeContainer = new qx.ui.container.Composite(new qx.ui.layout.Grid(1));
+      
+      for(var i=0;i<types.length;i++)
+      {
+        var type=types[i];
+        var checkboxType = new qx.ui.form.CheckBox(type);
+        checkboxType.bind('value',this.__typeFilter,'array['+i+']');
+        checkboxType.setValue(true);
+        typeContainer.add(checkboxType, {row: parseInt(i/3) , column: i%3});
+      }
+      
+      sform.add(typeContainer, {row: 1, column: 0, colSpan: 2});
+      
+      this.namespaceTextField = new qx.ui.form.TextField().set({
+        allowGrowY: true,
+        placeholder : "Namespace..."
+      });
+      
+      sform.add(this.namespaceTextField, {row: 2, column: 0, colSpan: 2});
 
       this.add(sform);
 
@@ -132,7 +171,6 @@ qx.Class.define("apiviewer.ui.SearchView",
       resizeBehavior.set(1, {width:"1*"});
 
 
-      var tcm = table.getTableColumnModel();
       tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image());
 
 
@@ -157,6 +195,10 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // Submit events
       this.sinput.addListener("keyup", function(e) {
+        this._searchResult(this.sinput.getValue() || "");
+      }, this);
+      
+      this.__button.addListener("execute", function(e) {
         this._searchResult(this.sinput.getValue() || "");
       }, this);
 
@@ -274,6 +316,9 @@ qx.Class.define("apiviewer.ui.SearchView",
       var index = this.apiindex.__index__;
       var fullNames = this.apiindex.__fullNames__;
       var types = this.apiindex.__types__;
+      
+      var namespaceFilter = this.namespaceTextField.getValue() != null ? qx.lang.String.trim(this.namespaceTextField.getValue()) : '';
+      var useNamespaceFilter = namespaceFilter.length>0;
 
       for (var key in index) {
         if (mo.test(key))
@@ -281,10 +326,14 @@ qx.Class.define("apiviewer.ui.SearchView",
           if (spath) {
             for (var i=0, l=index[key].length; i<l; i++) {
               var fullname = fullNames[index[key][i][1]];
-              if (new RegExp(spath, "i").test(fullname)) {
-                var elemtype = types[index[key][i][0]].toUpperCase();
-                var icon = apiviewer.TreeUtil["ICON_" + elemtype];
-                sresult.push([icon, fullname + key]);
+              if(!useNamespaceFilter || fullname.indexOf(namespaceFilter)===0) {
+                if (new RegExp(spath, "i").test(fullname)) {
+                  var elemtype = types[index[key][i][0]].toUpperCase();
+                  if(this._isTypeFilteredIn(elemtype)){
+                    var icon = apiviewer.TreeUtil["ICON_" + elemtype];
+                    sresult.push([icon, fullname + key]);
+                  }
+                }
               }
             }
           } else {
@@ -292,17 +341,22 @@ qx.Class.define("apiviewer.ui.SearchView",
             for (var i=0, l=index[key].length; i<l; i++) {
               elemtype = types[index[key][i][0]].toUpperCase();
               fullname = fullNames[index[key][i][1]];
+              
+              if(this._isTypeFilteredIn(elemtype)){
+                if(!useNamespaceFilter || fullname.indexOf(namespaceFilter)===0) {
 
-              if (elemtype == "CLASS") {
-                icon = apiviewer.TreeUtil.getIconUrl(apiviewer.dao.Class.getClassByName(fullname));
-              } else {
-                if (elemtype != "PACKAGE" && elemtype != "INTERFACE") {  // just consider attribute types
-                  fullname += key;
+                  if (elemtype == "CLASS") {
+                    icon = apiviewer.TreeUtil.getIconUrl(apiviewer.dao.Class.getClassByName(fullname));
+                  } else {
+                    if (elemtype != "PACKAGE" && elemtype != "INTERFACE") {  // just consider attribute types
+                      fullname += key;
+                    }
+                    icon = apiviewer.TreeUtil["ICON_" + elemtype];
+                  }
+
+                  sresult.push([icon, fullname]);
                 }
-                icon = apiviewer.TreeUtil["ICON_" + elemtype];
               }
-
-              sresult.push([icon, fullname]);
             }
           }
         }
@@ -310,7 +364,15 @@ qx.Class.define("apiviewer.ui.SearchView",
       return sresult;
     },
 
-
+    /**
+     * Checks whether the type passed as argument is in the filter list or not
+     *
+     * @param type {String} the type in uppercase
+     */
+    _isTypeFilteredIn: function(type){
+      return this.__typeFilter.getItem(this.__typesIndex[type]);
+    },
+    
     /**
      * Set data for the listview
      *
