@@ -28,7 +28,6 @@ qx.Class.define("demobrowser.demo.virtual.tree.TreeItem",
     leadIcon :
     {
       check : "String",
-      apply: "_applyLeadIcon",
       event: "changeLeadIcon",
       nullable : true
     },
@@ -36,7 +35,6 @@ qx.Class.define("demobrowser.demo.virtual.tree.TreeItem",
     checked :
     {
       check : "Boolean",
-      apply: "_applyChecked",
       event: "changeChecked",
       nullable : true
     },
@@ -44,7 +42,6 @@ qx.Class.define("demobrowser.demo.virtual.tree.TreeItem",
     size :
     {
       check : "String",
-      apply: "_applySize",
       event: "changeSize",
       nullable : true
     },
@@ -52,7 +49,6 @@ qx.Class.define("demobrowser.demo.virtual.tree.TreeItem",
     date :
     {
       check : "String",
-      apply: "_applyDate",
       event: "changeDate",
       nullable : true
     },
@@ -60,7 +56,6 @@ qx.Class.define("demobrowser.demo.virtual.tree.TreeItem",
     mode :
     {
       check : "String",
-      apply: "_applyMode",
       event: "changeMode",
       nullable : true
     }
@@ -71,6 +66,7 @@ qx.Class.define("demobrowser.demo.virtual.tree.TreeItem",
     _addWidgets : function()
     {
       var leadIcon = this.__leadIcon = new qx.ui.basic.Image();
+      this.bind("leadIcon", leadIcon, "source");
       leadIcon.setWidth(16);
       this.addWidget(leadIcon);
 
@@ -84,6 +80,8 @@ qx.Class.define("demobrowser.demo.virtual.tree.TreeItem",
 
       // A checkbox comes right after the tree icon
       var checkbox = this.__checkbox = new qx.ui.form.CheckBox();
+      this.bind("checked", checkbox, "value");
+      checkbox.bind("value", this, "checked");
       checkbox.setFocusable(false);
       this.addWidget(checkbox);
 
@@ -95,41 +93,19 @@ qx.Class.define("demobrowser.demo.virtual.tree.TreeItem",
 
       // Add a file size, date and mode
       var text = this.__size = new qx.ui.basic.Label();
+      this.bind("size", text, "value");
       text.setWidth(50);
       this.addWidget(text);
 
       text = this.__date = new qx.ui.basic.Label();
+      this.bind("date", text, "value");
       text.setWidth(150);
       this.addWidget(text);
 
       text = this.__mode = new qx.ui.basic.Label();
+      this.bind("mode", text, "value");
       text.setWidth(80);
       this.addWidget(text);
-    },
-    
-    
-    _applyLeadIcon : function(value, old) {
-      this.__leadIcon.setSource(value);
-    },
-
-    
-    _applyChecked : function(value, old) {
-      this.__checkbox.setValue(value);
-    },
-
-    
-    _applySize : function(value, old) {
-      this.__size.setValue(value);
-    },
-
-    
-    _applyDate : function(value, old) {
-      this.__date.setValue(value);
-    },
-
-    
-    _applyMode : function(value, old) {
-      this.__mode.setValue(value);
     }
   }
 });
