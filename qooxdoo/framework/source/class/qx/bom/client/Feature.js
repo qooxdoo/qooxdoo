@@ -155,6 +155,25 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     })(),
 
 
+    /** {Boolean} Whether the client supports Web Workers */
+    WEB_WORKER: window.Worker != null,
+
+    /** {Boolean} Whether the client supports Geolocation */
+    GEO_LOCATION: navigator.geolocation != null,
+
+    /** {Boolean} Whether the client supports Audio */
+    AUDIO: window.Audio != null,
+
+    /** {Boolean} Whether the client supports Video */
+    VIDEO: window.Video !=null,
+
+    /** {Boolean} Whether the client supports LocalStorage */
+    LOCAL_STORAGE: window.LocalStorage != null,
+
+    /** {Boolean} Whether the client supports SessionStorage */
+    SESSION_STORAGE: window.SessionStorage != null,
+
+
     /**
      * Internal initialize helper
      *
@@ -222,8 +241,6 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       }
     }
   },
-
-
 
 
   /*
