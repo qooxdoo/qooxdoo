@@ -217,7 +217,7 @@ qx.Class.define("qx.util.ResourceManager",
         var resource = registry[resid];
         if (resource[2] == "b64")
         {
-          var uri = this.toUri(resid);
+          var uri = qx.util.ResourceManager.getInstance().toUri(resid);
           var request = new qx.io.remote.Request(
             uri, "GET", "application/json");
           //TODO: The next might fail if resources are loaded from another server!
