@@ -1575,7 +1575,7 @@ class Generator(object):
             # for the meta information, go through the list of returned subconfigs (one per clipped image)
             for sub in subconfigs:
                 x = Image()
-                x.combId, x.left, x.top, x.width, x.height, x.type = (
+                x.combId, x.left, x.top, x.width, x.height, x.format = (
                    imageId, sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
                 subId = getImageId(sub['file'], clippedImages[sub['file']])
                 config[subId] = x.toMeta()
