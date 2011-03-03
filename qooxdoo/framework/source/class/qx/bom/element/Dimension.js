@@ -129,18 +129,18 @@ qx.Class.define("qx.bom.element.Dimension",
 
 
     /**
-     * Returns the content height.
+     * Returns the content width.
      *
-     * The content height is basically the maximum
-     * height used or the maximum height which can be used by the content. This
+     * The content width is basically the maximum
+     * width used or the maximum width which can be used by the content. This
      * excludes all kind of styles of the element like borders, paddings, margins,
      * and even scrollbars.
      *
-     * Please note that with visible scrollbars the content height returned
-     * may be larger than the box height returned via {@link #getHeight}.
+     * Please note that with visible scrollbars the content width returned
+     * may be larger than the box width returned via {@link #getWidth}.
      *
      * @param element {Element} element to query
-     * @return {Integer} Computed content height
+     * @return {Integer} Computed content width
      */
     getContentWidth : function(element)
     {
@@ -200,7 +200,7 @@ qx.Class.define("qx.bom.element.Dimension",
      * and even scrollbars.
      *
      * Please note that with visible scrollbars the content height returned
-     * may be larger than the box width returned via {@link #getWidth}.
+     * may be larger than the box height returned via {@link #getHeight}.
      *
      * @param element {Element} element to query
      * @return {Integer} Computed content height
