@@ -129,18 +129,18 @@ qx.Class.define("qx.bom.element.Dimension",
 
 
     /**
-     * Returns the content width.
+     * Returns the content height.
      *
-     * The content width is basically the maximum
-     * width used or the maximum width which can be used by the content. This
+     * The content height is basically the maximum
+     * height used or the maximum height which can be used by the content. This
      * excludes all kind of styles of the element like borders, paddings, margins,
      * and even scrollbars.
      *
-     * Please note that with visible scrollbars the content width returned
-     * may be larger than the box width returned via {@link #getWidth}.
+     * Please note that with visible scrollbars the content height returned
+     * may be larger than the box height returned via {@link #getHeight}.
      *
      * @param element {Element} element to query
-     * @return {Integer} Computed content width
+     * @return {Integer} Computed content height
      */
     getContentWidth : function(element)
     {
@@ -227,10 +227,10 @@ qx.Class.define("qx.bom.element.Dimension",
         else
         {
           // Scrollbars visible and needed. We just remove the top padding,
-          // as the right padding is not respected in rendering.
+          // as the bottom padding is not respected in rendering.
           var height = element.scrollHeight - paddingTop;
 
-          // IE renders the paddingRight as well with scrollbars on
+          // IE renders the paddingBottom as well with scrollbars on
           var Engine = qx.bom.client.Engine;
           if (Engine.NAME === "mshtml" && Engine.VERSION == 6) {
             height -= paddingBottom;
