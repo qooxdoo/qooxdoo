@@ -617,9 +617,9 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
         },
         function(e)
         {
-          this.assertEquals(1, selection.getLength());
-          this.assertEquals(root.getChildren().getItem(1), selection.getItem(0));
-          this.assertEquals(2, that.tree._manager.getSelectedItem());
+          that.assertEquals(1, selection.getLength());
+          that.assertEquals(root.getChildren().getItem(1), selection.getItem(0));
+          that.assertEquals(2, that.tree._manager.getSelectedItem());
         }
       );
     },

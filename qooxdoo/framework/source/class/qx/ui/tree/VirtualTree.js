@@ -543,12 +543,12 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     _onUpdated : function(event)
     {
-      if (this.__deferedCall == null) {
-        this.__deferedCall = new qx.util.DeferredCall(function() {
+      if (this.__deferredCall == null) {
+        this.__deferredCall = new qx.util.DeferredCall(function() {
           qx.ui.core.queue.Widget.add(this);
         }, this);
       }
-      this.__deferedCall.schedule();
+      this.__deferredCall.schedule();
     },
 
 
