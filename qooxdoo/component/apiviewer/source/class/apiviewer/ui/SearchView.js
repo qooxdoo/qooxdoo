@@ -565,7 +565,7 @@ qx.Class.define("apiviewer.ui.SearchView",
 
   destruct : function()
   {
-    this.apiindex = this._table = this.__table = this._tableModel =
+    this.apiindex = this._table = this.__table = this._tableModel = this.__typeFilter = this.__typesIndex =
       this._selectionModel = null;
     this._disposeObjects("sinput", "__button", "__note");
     this._disposeArray("listdata");
