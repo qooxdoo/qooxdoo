@@ -26,6 +26,7 @@
 #asset(qx/icon/Tango/22/actions/media-seek-forward.png)
 
 #asset(testrunner2/view/widget/css/testrunner.css)
+#asset(testrunner2/view/widget/image/*)
 ************************************************************************ */
 /**
  * Widget-based Testrunner view
@@ -87,6 +88,30 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     mainContainer.add(statuspane);
     
     this._makeCommands();
+  },
+  
+  statics :
+  {
+    TREEICONS :
+    {
+      "package" : "testrunner2/view/widget/image/package18_grey.gif",
+      "class" : "testrunner2/view/widget/image/class18_grey.gif",
+      "test" : "testrunner2/view/widget/image/method_public18_grey.gif"
+    },
+
+    TREEICONSOK :
+    {
+      "package" : "testrunner2/view/widget/image/package18.gif",
+      "class" : "testrunner2/view/widget/image/class18.gif",
+      "test" : "testrunner2/view/widget/image/method_public18.gif"
+    },
+
+    TREEICONSERROR :
+    {
+      "package" : "testrunner2/view/widget/image/package_warning18.gif",
+      "class" : "testrunner2/view/widget/image/class_warning18.gif",
+      "test" : "testrunner2/view/widget/image/method_public_error18.gif"
+    }
   },
   
   properties :
@@ -507,7 +532,13 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       this.__testTree = new qx.ui.tree.VirtualTree();
       this.__testTree.set({
         labelPath : "name",
-        childProperty : "children"
+        childProperty : "children",
+        iconPath : "type",
+        iconOptions : {
+          converter : function(data) {
+            return testrunner2.view.widget.Widget.TREEICONS[data];
+          }
+        }
       });
       
       this.setSelectedTests(this.__testTree.getSelection());
