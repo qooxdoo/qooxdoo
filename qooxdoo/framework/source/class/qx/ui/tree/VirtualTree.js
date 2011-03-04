@@ -300,7 +300,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     openNode : function(node)
     {
       this.__openNode(node);
-      this.__buildLookupTable();
+      this.buildLookupTable();
     },
 
 
@@ -314,7 +314,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     openNodeAndParents : function(node)
     {
       this.__openNodeAndAllParents(this.getModel(), node);
-      this.__buildLookupTable();
+      this.buildLookupTable();
     },
 
 
@@ -324,7 +324,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       if (qx.lang.Array.contains(this.__openNodes, node))
       {
         qx.lang.Array.remove(this.__openNodes, node);
-        this.__buildLookupTable();
+        this.buildLookupTable();
       }
     },
 
@@ -452,13 +452,13 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     // property apply
     _applyHideRoot : function(value, old) {
-      this.__buildLookupTable();
+      this.buildLookupTable();
     },
 
 
     // property apply
     _applyShowLeafs : function(value, old) {
-      this.__buildLookupTable();
+      this.buildLookupTable();
     },
 
 
@@ -509,15 +509,15 @@ qx.Class.define("qx.ui.tree.VirtualTree",
               "the view automatically on model changes.");
           }
         }
-        value.addListener("changeBubble", this.__buildLookupTable, this);
+        value.addListener("changeBubble", this._onChangeBubble, this);
         this.__openNode(value);
       }
 
       if (old != null) {
-        old.removeListener("changeBubble", this.__buildLookupTable, this);
+        old.removeListener("changeBubble", this._onChangeBubble, this);
       }
 
-      this.__buildLookupTable();
+      this.buildLookupTable();
     },
     
     
@@ -535,6 +535,27 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     ---------------------------------------------------------------------------
     */
 
+
+    /**
+     * Event handler for the changeBubble event. The handler rebuild the lookup
+     * table when the child structure changed.
+     * 
+     * @param event {qx.event.type.Data} The data event.
+     */
+    _onChangeBubble : function(event)
+    {
+      var propertyName = event.getData().name;
+      var index = propertyName.lastIndexOf(".");
+
+      if (index != -1) {
+        propertyName = propertyName.substr(index + 1, propertyName.length);
+      }
+
+      if (qx.lang.String.startsWith(propertyName, this.getChildProperty())) {
+        this.buildLookupTable();
+      }
+    },
+    
 
     /**
      * Event handler for the update event.
@@ -644,8 +665,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     /**
      * Helper method to build the internal data structure.
+     * 
+     * @internal
      */
-    __buildLookupTable : function()
+    buildLookupTable : function()
     {
       if (
         this.getModel() != null && 

@@ -27,6 +27,7 @@
 qx.Class.define("qx.test.ui.tree.virtual.Tree",
 {
   extend : qx.test.ui.LayoutTestCase,
+  include : qx.dev.unit.MMock,
 
   construct : function()
   {
@@ -35,6 +36,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     qx.Class.define("qx.test.ui.tree.virtual.Leaf",
     {
       extend : qx.core.Object,
+      include : qx.data.marshal.MEventBubbling,
 
       construct : function(name)
       {
@@ -49,6 +51,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
         {
           check : "String",
           event : "changeName",
+          apply : "_applyEventPropagation",
           nullable : true
         }
       }
@@ -57,7 +60,6 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     qx.Class.define("qx.test.ui.tree.virtual.Node",
     {
       extend : qx.test.ui.tree.virtual.Leaf,
-      include : qx.data.marshal.MEventBubbling,
 
       construct : function(name, children)
       {
@@ -348,6 +350,62 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     },
 
 
+    testChangeBubblesAddChild : function()
+    {
+      var root = this.createModelAndSetModel(2);
+
+      var spy = this.spy(this.tree, "buildLookupTable");
+      var leaf = new qx.test.ui.tree.virtual.Leaf("New Leaf");
+      root.getChildren().push(leaf);
+      this.assertCalledOnce(spy);
+      
+      leaf = new qx.test.ui.tree.virtual.Leaf("New Leaf");
+      root.getChildren().getItem(2).getChildren().push(leaf);
+      this.assertCalledTwice(spy);
+    },
+    
+    
+    testChangeBubblesReplaceChildren : function()
+    {
+      var root = this.createModelAndSetModel(2);
+
+      var spy = this.spy(this.tree, "buildLookupTable");
+      var leaf = new qx.test.ui.tree.virtual.Leaf("New Leaf");
+      root.getChildren().getItem(2).setChildren(new qx.data.Array([leaf]));
+      this.assertCalledOnce(spy);
+      
+      leaf = new qx.test.ui.tree.virtual.Leaf("New Leaf");
+      root.setChildren(new qx.data.Array([leaf]));
+      this.assertCalledTwice(spy);
+    },
+    
+    
+    testChangeBubblesRemoveItems : function()
+    {
+      var root = this.createModelAndSetModel(2);
+
+      var spy = this.spy(this.tree, "buildLookupTable");
+      root.getChildren().getItem(2).getChildren().removeAll();
+      this.assertCalledOnce(spy);
+      
+      root.getChildren().removeAll();
+      this.assertCalledTwice(spy);
+    },
+    
+    
+    testChangeBubblesChangeProperty : function()
+    {
+      var root = this.createModelAndSetModel(2);
+
+      var spy = this.spy(this.tree, "buildLookupTable");
+      root.setName("Gülleman");
+      this.assertNotCalled(spy);
+      
+      root.getChildren().getItem(2).setName("Gülleman");
+      this.assertNotCalled(spy);
+    },
+    
+    
     testGetOpenNodes : function()
     {
       var root = this.createModelAndSetModel(1);
