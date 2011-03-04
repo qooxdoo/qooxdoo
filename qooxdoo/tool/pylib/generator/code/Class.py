@@ -33,7 +33,7 @@ from ecmascript                     import compiler
 from ecmascript.frontend            import treeutil, tokenizer, treegenerator, lang
 from ecmascript.frontend.Script     import Script
 from ecmascript.frontend.tree       import Node
-from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, stringoptimizer, basecalloptimizer
+from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
 from generator.resource.AssetHint   import AssetHint
 from generator.resource.Resource    import Resource
 
@@ -312,7 +312,7 @@ class Class(Resource):
 
         def write_privates(globalprivs):
             cacheId  = privateoptimizer.privatesCacheId
-            self._cache.write(cacheId, globalprivs)  # removes lock by default
+            cache.write(cacheId, globalprivs)  # removes lock by default
 
         # -----------------------------------------------------------------------------
 
