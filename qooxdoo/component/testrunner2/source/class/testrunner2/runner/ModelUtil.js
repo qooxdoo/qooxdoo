@@ -75,6 +75,33 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       return testList;
     },
     
+    
+    /**
+     * Finds a model item by its full path name
+     * 
+     * @param model {Object} The test model to search
+     * @param fullName {String} The item's name
+     * @return {Object|null} The matching item or null if there is no match
+     */
+    getItemByFullName : function(model, fullName)
+    {
+      if (model.getFullName() == fullName) {
+        return model;
+      }
+      if (model.getChildren) {
+        var kids = model.getChildren();
+        for (var i=0,l=kids.length; i<l; i++) {
+          var child = kids.getItem(i);
+          var found = arguments.callee(child, fullName);
+          if (found) {
+            return found;
+          }
+        }
+      }
+      return null;
+    },
+    
+    
     /**
      * Adds additional data fields to the model items:
      * parent : reference to the parent item
