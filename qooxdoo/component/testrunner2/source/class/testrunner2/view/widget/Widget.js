@@ -544,10 +544,35 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         decorator : "separator-vertical"
       });
       
+      var selection = new qx.data.Array();
+      selection.addListener("change", 
+        this._onChangeTestSelection, this);
+      
+      this.__testTree.setSelection(selection);
+      
       this.setSelectedTests(this.__testTree.getSelection());
+      
       container.add(this.__testTree, {flex : 1});
       
       return container;
+    },
+    
+    
+    /**
+     * Open a selected node
+     * 
+     * @param {qx.event.type.Data} Data event containing the selection
+     */
+    _onChangeTestSelection : function(ev)
+    {
+      var selected = this.getSelectedTests();
+      if (selected.length > 0) {
+        var node = selected.getItem(0);
+        if (!this.__testTree.isNodeOpen(node)) {
+          this.__testTree.openNodeAndParents(node);
+        }
+        qx.bom.Cookie.set("selectedTest", node.getFullName());
+      }
     },
     
     /**
@@ -904,16 +929,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         case "ready" :
           this.setStatus("Test suite ready");
           this._setActiveButton(this.__runButton);
-          /*
-          var filterFromCookie = qx.bom.Cookie.get("testFilter");
-          if (filterFromCookie) {
-            this.__domElements.filterInput.value = filterFromCookie;
-            this.filterTests(filterFromCookie);
-          }
-          else {
-          */
-            this._applyTestCount(this.getTestCount());
-          //}
+          this._applyTestCount(this.getTestCount());
           this.setFailedTestCount(0);
           this.setSuccessfulTestCount(0);
           break;
@@ -940,6 +956,15 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         var model = qx.data.marshal.Json.createModel(value);
         this.__testTree.setModel(model);
         this.__testTree.openNode(model.getChildren().getItem(0));
+                
+        var cookieSelection = qx.bom.Cookie.get("selectedTest");
+        if (cookieSelection) {
+          var found = testrunner2.runner.ModelUtil.getItemByFullName(model, cookieSelection);
+          if (found) {
+            this.getSelectedTests().removeAll();
+            this.getSelectedTests().push(found);
+          }
+        }
       }
     
     },

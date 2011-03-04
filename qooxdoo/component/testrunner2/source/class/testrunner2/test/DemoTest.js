@@ -56,12 +56,13 @@ qx.Class.define("testrunner2.test.DemoTest",
     },
     */
 
+    
     testSuccess : function()
     {
       this.assertEquals(4, 3+1, "This should never fail!");
       this.assertFalse(false, "Can false be true?!");
     },
-    
+
     testException : function()
     {
       this.assertException(function() {
@@ -95,60 +96,17 @@ qx.Class.define("testrunner2.test.DemoTest",
       this.assert(qx.bom.client.Feature.SSL, "This test should have been skipped!");
     },
     
-    testAsyncBom : function()
+    testAsyncFail : function()
     {
-      var div = document.createElement("div");
-      div.id = "el";
-
-      this._el = div;
-      document.body.appendChild(div);
-      
-      qx.event.Registration.addListener(this._el, "focus", function() {
-        this.resume(function() {
-          this.info("Element focused.");
-        }, this);
-      },this);
-
       var self = this;
-      
-      window.setTimeout(qx.event.GlobalError.observeMethod(function() {
-        qx.bom.Element.focus(self._el);
-        throw new Error("catch me if you can!");
-      }), 2000);
-      
-      this.wait();
-    },
-    
-    tearDownTestAsyncBom : function()
-    {
-      this.info("test specific teardown for testAsyncBom");
-      qx.event.Registration.removeAllListeners(this._el);
-      document.body.removeChild(this._el);
-      delete this._el;
-    },
-    
-    testListenerA : function()
-    {
-      qx.locale.Manager.getInstance().addListener("changeLocale", function(ev) {
-        this.resume(function() {
-          console.log("Locale changed!");
-        }, this );
-      }, this);
+      this.info("Setting timeout");
       window.setTimeout(function() {
-        qx.locale.Manager.getInstance().setLocale("fr");
-      }, 100 );
+        self.resume(function() {
+          throw new Error("YARR");
+        }, self);
+      }, 1000);
+
       this.wait();
-    },
-    
-    testListenerB : function()
-    {
-      qx.locale.Manager.getInstance().setLocale("de");
-    },
-    
-    testPolluteDom : function()
-    {
-      var el = document.createElement("div");
-      document.body.appendChild(el);
     }
     
   }
