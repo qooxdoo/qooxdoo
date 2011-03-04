@@ -3660,7 +3660,12 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       }
     } catch (ex) {};
 
-    this._disposeObjects("__commandManager");
+    if (this.__commandManager instanceof qx.core.Object) {
+      this._disposeObjects("__commandManager");
+    } else {
+      this.__commandManager = null;
+    }
+
 
     this.__documentSkeletonParts =  this.__iframe = this.__widget = this.__stackCommandManager = null;
   }

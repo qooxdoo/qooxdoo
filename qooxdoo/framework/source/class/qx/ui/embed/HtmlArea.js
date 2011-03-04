@@ -648,8 +648,10 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      */
     setValue : function(value)
     {
-       if (this.__editorComponent != null) {
-         this.__editorComponent.setValue(value);
+      if (this.__editorComponent != null) {
+        this.__editorComponent.setValue(value);
+      } else {
+        this.__initValues.content = value;
       }
     },
 
@@ -664,8 +666,13 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      *
      * @return {String?null} value of the editor or null if it's not initialized
      */
-    getValue : function() {
-      return this.__editorComponent != null ? this.__editorComponent.getValue() : null;
+    getValue : function()
+    {
+      if (this.__editorComponent != null) {
+        return this.__editorComponent.getValue();
+      } else {
+        return this.__initValues.content;
+      }
     },
 
 
