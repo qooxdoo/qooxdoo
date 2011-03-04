@@ -83,6 +83,7 @@ qx.Class.define("demobrowser.demo.virtual.tree.TreeItem",
       this.bind("checked", checkbox, "value");
       checkbox.bind("value", this, "checked");
       checkbox.setFocusable(false);
+      checkbox.setTriState(true);
       this.addWidget(checkbox);
 
       // The label

@@ -92,8 +92,11 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Columns",
       }
 
       this.extendData(data);
-      var model = qx.data.marshal.Json.createModel(data, true);
+      var model = qx.data.marshal.Json.createModel(data);
 
+      // configure model for triState usage
+      this.configureTriState(model);
+      
       // data binding
       tree.setModel(model);
       tree.setDelegate(this);
@@ -107,14 +110,66 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Columns",
       data.light = Math.floor(Math.random() * 4) == 0;
       data.mode = "-rw-r--r--";
       data.checked = Math.random() >= 0.5;
+      data.model = null;
       if (data.children) {
         for (var i = 0; i < data.children.length; i++) {
           this.extendData(data.children[i]);
         }
       }
     },
+    
+    
+    configureTriState : function(item)
+    {
+      item.setModel(item);
+      if (item.getChildren != null)
+      {
+        var children = item.getChildren();
+        for (var i = 0; i < children.getLength(); i++) {
+          var child = children.getItem(i);
+          this.configureTriState(child);
+          
+          // bind parent with child
+          item.bind("checked", child, "checked", {
+            converter: function(value, child)
+            {
+              // when parent is set to null than the child should keep it's value
+              if (value === null) {
+                return child.getChecked();
+              }
+              
+              return value;
+            }
+          });
+          
+          // bind child with parent
+          child.bind("checked", item, "checked", {
+            converter: function(value, parent) {
+              var children = parent.getChildren().toArray();
+              
+              var isAllChecked = children.every(function(item) {
+                return item.getChecked();
+              });
 
+              var isOneChecked = children.some(function(item) {
+                return item.getChecked();
+              });
 
+              // Set triState (on parent node) when one child is checked
+              if (isOneChecked) {
+                return isAllChecked ? true : null;
+              } else {
+                return false;
+              }
+              
+              return value;
+            }
+          });
+        }
+      }
+    },
+    
+    
     // delegate implementation
     bindNode : function(controller, item, id) {
       controller.bindDefaultProperties(item, id);
