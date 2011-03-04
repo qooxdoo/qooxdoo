@@ -296,8 +296,6 @@ qx.Class.define("testrunner2.view.Html", {
      */
     __reloadAut : function()
     {
-      this.__domElements.filterInput.value = "";
-      this.filterTests("");
       var src = this.__domElements.iframeSourceInput.value;
       this.resetAutUri();
       this.setAutUri(src);
@@ -469,9 +467,9 @@ qx.Class.define("testrunner2.view.Html", {
       this.resetSkippedTestCount();
       this.clearResults();
       //var selectedTests = qx.lang.Array.clone(this.getSelectedTests());
-      var selectedTests = this.getSelectedTests().copy();
-      this.resetSelectedTests();
-      this.setSelectedTests(selectedTests);
+      //var selectedTests = this.getSelectedTests().copy();
+      //this.resetSelectedTests();
+      //this.setSelectedTests(selectedTests);
     },
     
     
@@ -596,6 +594,17 @@ qx.Class.define("testrunner2.view.Html", {
       
       //selectedTests.sort();
       this.setSelectedTests(selectedTests);
+      this._writeCookie();
+    },
+    
+    _writeCookie : function()
+    {
+      var selected = this.getSelectedTests();
+      var names = [];
+      for (var i=0,l=selected.length; i<l; i++) {
+        names.push(selected.getItem(i).getFullName());
+      }
+      qx.bom.Cookie.set("selectedTests", names.join("#"));
     },
     
     
@@ -693,7 +702,7 @@ qx.Class.define("testrunner2.view.Html", {
       this.__testModel = value;
       
       var testList = testrunner2.runner.ModelUtil.getItemsByProperty(value, "type", "test");
-      this.setSelectedTests(new qx.data.Array(testList));
+      this.setSelectedTests(new qx.data.Array());
       this.__testNameToId = {};
       this.clearTestList();
       this.clearResults();
@@ -704,6 +713,44 @@ qx.Class.define("testrunner2.view.Html", {
       }
       
       this._createTestList(this.__testNamesList);
+      
+      this._applyCookieSelection();
+    },
+    
+    
+    _applyCookieSelection : function()
+    {
+      var cookieSelection = qx.bom.Cookie.get("selectedTests");
+      if (cookieSelection) {
+        var cookieSelection = cookieSelection.split("#");
+        var foundTests = [];
+        for (var i=0,l=cookieSelection.length; i<l; i++) {
+          var found = testrunner2.runner.ModelUtil.getItemByFullName(this.__testModel, cookieSelection[i]);
+          if (found) {
+            foundTests.push(found.getFullName());
+          }
+        }
+        
+        if (foundTests.length > 0) {
+          this.toggleAllTests(false);
+          this.__toggleTestsSelected(foundTests, true);
+          
+          for (var i=0,l=foundTests.length; i<l; i++) {
+            this._setTestChecked(foundTests[i], true);
+          }
+        }
+      }
+      else {
+        var testList = testrunner2.runner.ModelUtil.getItemsByProperty(this.__testModel, "type", "test");
+        this.getSelectedTests().append(testList);
+      }
+    },
+    
+    _setTestChecked : function(testName, checked)
+    {
+      var value = checked ? "checked" : "";
+      var target = testName ? "#cb_" + this.__simplifyName(testName) : "input";
+      qx.bom.Collection.query("#qxtestrunner_testlist " + target).setAttribute("checked", value);
     },
     
     /**
