@@ -536,18 +536,54 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       this.__testTree.set({
         labelPath : "name",
         childProperty : "children",
-        iconPath : "type",
-        iconOptions : {
-          converter : function(data) {
-            return testrunner2.view.widget.Widget.TREEICONS[data];
-          }
-        }
+        delegate : {
+          bindNode : this.__bindTreeItem,
+          bindLeaf : this.__bindTreeItem
+        },
+        decorator : "separator-vertical"
       });
       
       this.setSelectedTests(this.__testTree.getSelection());
       container.add(this.__testTree, {flex : 1});
       
       return container;
+    },
+    
+    /**
+     * Sets the tree icons according to the model item's state and type.
+     * 
+     * @param controller {MWidgetController} The currently used controller.
+     * @param node {qx.ui.core.Widget} The created and used node.
+     * @param id {Integer} The id for the binding.
+     */
+    __bindTreeItem : function(controller, node, id) {
+      controller.bindProperty("", "model", null, node, id);
+      controller.bindProperty("name", "label", null, node, id);
+      controller.bindProperty("state", "icon", {
+        converter : function(data, model) {
+          var state = data;
+          var type = model.getType();          
+          var iconMap;
+          if (type !== "test") {
+            iconMap = "TREEICONSOK";
+          }
+          else {
+            switch (state) {
+              case "success":
+                iconMap = "TREEICONSOK";
+                break;
+              case "error":
+              case "failure":
+                iconMap = "TREEICONSERROR"
+                break;
+              default:
+                iconMap = "TREEICONS";
+              break;
+            }
+          }
+          return testrunner2.view.widget.Widget[iconMap][type];
+        }
+      }, node, id);
     },
     
     /**

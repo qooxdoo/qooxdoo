@@ -96,6 +96,13 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
           child.getFullName = testrunner2.runner.ModelUtil.getFullName;
           child.getMessage = testrunner2.runner.ModelUtil.getMessage;
           child.getStackTrace = testrunner2.runner.ModelUtil.getStackTrace;
+          /*
+          child.bind("state", parent, "state", {
+            converter : function(data) {
+              return data;
+            }
+          });
+          */
           arguments.callee(child);
         }
       }
@@ -131,6 +138,10 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
         obj.children = [];
       }
       
+      if (!obj.state) {
+        obj.state = "start";
+      }
+      
       var found = false;
       for (var i=0,l=obj.children.length; i<l; i++) {
         if (obj.children[i].name === next) {
@@ -141,7 +152,8 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       
       if (!found) {
         found = {
-          name : next
+          name : next,
+          state : "start"
         };
         var type = testrunner2.runner.ModelUtil.getTestItemType(next);
         // getTestItemType will incorrectly return "test" for package names
@@ -152,7 +164,6 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
         }
         found.type = type;
         if (type === "test") {
-          found.state = "start";
           found.exceptions = null;
         }
         obj.children.push(found);
