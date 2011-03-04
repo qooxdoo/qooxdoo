@@ -626,7 +626,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
   
   destruct : function()
   {
-    testrunner2.runner.ModelUtil.disposeModel(oldModel);
+    testrunner2.runner.ModelUtil.disposeModel(this.getTestModel());
   }
     
 });
