@@ -137,7 +137,6 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Columns",
               if (value === null) {
                 return child.getChecked();
               }
-              
               return value;
             }
           });
@@ -152,7 +151,7 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Columns",
               });
 
               var isOneChecked = children.some(function(item) {
-                return item.getChecked();
+                return item.getChecked() || item.getChecked() == null;
               });
 
               // Set triState (on parent node) when one child is checked
@@ -161,8 +160,6 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Columns",
               } else {
                 return false;
               }
-              
-              return value;
             }
           });
         }
