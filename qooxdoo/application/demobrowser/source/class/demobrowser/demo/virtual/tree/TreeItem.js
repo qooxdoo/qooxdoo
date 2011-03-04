@@ -63,6 +63,12 @@ qx.Class.define("demobrowser.demo.virtual.tree.TreeItem",
 
   members :
   {
+    __leadIcon : null,
+    __checkbox : null,
+    __size : null,
+    __date : null,
+    __mode : null,
+    
     _addWidgets : function()
     {
       var leadIcon = this.__leadIcon = new qx.ui.basic.Image();
