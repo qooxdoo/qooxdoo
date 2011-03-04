@@ -20,7 +20,16 @@
 ************************************************************************ */
 
 /**
- * Cross browser XML Document API
+ * Cross browser XML document creation API
+ *
+ * The main purpose of this class is to allow you to create XML document objects in a
+ * cross-browser fashion. Use <code>create</code> to create an empty document,
+ * <code>fromString</code> to create one from an existing XML text. Both methods
+ * return a *native DOM object*. That means you use standard DOM methods on such
+ * an object (e.g. <code>createElement</code>).
+ *
+ * The following links provide browser-specific information on XML document
+ * handling:
  *
  * * http://msdn2.microsoft.com/en-us/library/ms535918.aspx
  * * http://msdn2.microsoft.com/en-us/library/ms764622.aspx
