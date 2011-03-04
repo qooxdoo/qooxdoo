@@ -416,7 +416,8 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Boolean",
       init : true,
-      apply : "_applyHeaderCellsVisible"
+      apply : "_applyHeaderCellsVisible",
+      themeable : true
     },
 
 
@@ -427,7 +428,8 @@ qx.Class.define("qx.ui.table.Table",
       init : 16,
       apply : "_applyHeaderCellHeight",
       event : "changeHeaderCellHeight",
-      nullable : true
+      nullable : true,
+      themeable : true
     },
 
 
@@ -454,7 +456,8 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Boolean",
       init : true,
-      apply : "_applyColumnVisibilityButtonVisible"
+      apply : "_applyColumnVisibilityButtonVisible",
+      themeable : true
     },
 
 
