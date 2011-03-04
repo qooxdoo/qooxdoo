@@ -163,6 +163,15 @@ qx.Mixin.define("qx.ui.tree.core.MSelectionHandling",
         var item = selection.getItem(i);
         var row = this.getLookupTable().indexOf(item);
 
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (row < 0)
+          {
+            this.warn("Couldn't select item '" + item + 
+            "': Not visible or not an item of the model!");
+          }
+        }
+        
         if (row >= 0) {
           newSelection.push(row);
         }
