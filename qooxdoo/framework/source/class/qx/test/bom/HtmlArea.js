@@ -31,29 +31,38 @@ qx.Class.define("qx.test.bom.HtmlArea",
                                                                  border: "1px solid #AAA",
                                                                  borderTop: "0px",
                                                                  backgroundColor: "white" });
-      qx.dom.Element.insertEnd(this.__htmlAreaContainer, document.body);
-
       var demoContent = 'vanillebaer';
       this.__htmlArea = new qx.bom.htmlarea.HtmlArea(this.__htmlAreaContainer, demoContent, null, "blank.html");
     },
 
 
-    tearDown : function()
-    {
-      qx.dom.Element.remove(this.__htmlAreaContainer);
+    tearDown : function() {
       this.__htmlArea.dispose();
     },
 
 
     testStartup : function()
     {
+      qx.dom.Element.insertEnd(this.__htmlAreaContainer, document.body);
+
       this.__htmlArea.addListener("ready", function(e) {
-        this.resume(function() {
+        this.resume(function()
+        {
+          qx.dom.Element.remove(this.__htmlAreaContainer);
           this.assertTrue(true);
         }, this);
       }, this);
 
       this.wait(5000);
+    },
+
+
+    testSettingValueBeforeRendered : function()
+    {
+      this.__htmlArea.setValue("alterkeks");
+      this.assertEquals("alterkeks", this.__htmlArea.getValue(), "Setting the value before the htmlarea was rendered failed!");
+
+      qx.dom.Element.remove(this.__htmlAreaContainer);
     }
   }
 });

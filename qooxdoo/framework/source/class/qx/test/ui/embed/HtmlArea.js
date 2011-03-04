@@ -28,27 +28,37 @@ qx.Class.define("qx.test.ui.embed.HtmlArea",
       var demoContent = 'vanillebaer';
       this.__htmlArea = new qx.ui.embed.HtmlArea(demoContent, null, "blank.html");
       this.__htmlArea.set( { width: 600, height: 400 } );
-
-      this.getRoot().add(this.__htmlArea);
     },
 
 
-    tearDown : function()
-    {
-      this.getRoot().remove(this.__htmlArea);
+    tearDown : function() {
       this.__htmlArea.dispose();
     },
 
 
     testStartup : function()
     {
+      this.getRoot().add(this.__htmlArea);
+
       this.__htmlArea.addListener("ready", function(e) {
-        this.resume(function() {
+        this.resume(function()
+        {
+          this.getRoot().remove(this.__htmlArea);
           this.assertTrue(true);
         }, this);
       }, this);
 
       this.wait(5000);
+    },
+
+
+    testSettingValueBeforeRendered : function()
+    {
+      this.__htmlArea.setValue("schokobaer");
+      this.assertEquals("schokobaer", this.__htmlArea.getValue(), "Setting the value before the htmlarea was rendered failed!");
+
+      this.__htmlArea.setValue("karamelbaer");
+      this.assertEquals("karamelbaer", this.__htmlArea.getValue(), "Setting the value before the htmlarea was rendered failed!");
     }
   }
 });
