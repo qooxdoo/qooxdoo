@@ -22,23 +22,6 @@
   
   "default-job" : "source",
   
-  "export" :
-  [
-    "api",
-    "api-data",
-    "build",
-    "clean",
-    "distclean",
-    "fix",
-    "info",
-    "lint",
-    "migration",
-    "source",
-    "source-all",
-    "test",
-    "test-source"
-  ],
-
   "let" :
   {
     "APPLICATION"  : "inspector",
