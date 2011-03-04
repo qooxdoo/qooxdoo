@@ -10,6 +10,7 @@
     {
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
       "import" : [
+        //"source-hybrid",
         "info"
       ]
     }
@@ -31,7 +32,8 @@
 
       "let" : 
       {
-        "APPLICATION"  : "demobrowser"
+        "APPLICATION"  : "demobrowser",
+        "LOCALES"      : [ "en" ]
       },
 
       "library" :
@@ -115,6 +117,21 @@
         "source-script",
         "source-demos"
       ]
+    },
+
+
+    // Repeating this job from base.json, as the original draws in too many
+    // macros from base.json's global 'let' (!)
+    "source-hybrid" : 
+    {
+      "extend"  : [ "source" ],
+
+      "compile-options" : 
+      {
+        "code" : { "except" : [ "${APPLICATION}.*" ] }
+      },
+
+      "compile" : { "type" : "hybrid" }
     },
 
 

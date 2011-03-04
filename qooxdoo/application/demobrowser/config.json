@@ -46,6 +46,7 @@
     "source",
     "source-data",
     "source-demo-jobs",
+    "source-hybrid",
     "test",
     "test-source",
     "translation",
@@ -122,8 +123,6 @@
 
     "source-demobrowser" :
     {
-      //"desc"    : "creates a configuration file (config.demo.json) for the available demos",
-
       "extend" : ["common"],
 
       "shell" :
@@ -143,6 +142,29 @@
         "source-data",
         // do the compiling with a different config
         "source-demobrowser"
+      ]
+    },
+
+
+    "source-hybrid-demobrowser" :
+    {
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py -c config.demobrowser.json source-hybrid"
+      }
+    },
+
+
+    "source-hybrid" :
+    {
+      "desc"    : "create source version of Demobrowser",
+
+      "run" :
+      [
+        "source-data",
+        "source-hybrid-demobrowser"
       ]
     },
 

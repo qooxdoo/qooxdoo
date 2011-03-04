@@ -57,8 +57,7 @@
         },
         "code" : {
           "locales"  : "${LOCALES}",
-          "format"   : true,
-          "optimize" : [ "variables", "basecalls", "strings", "privates" ]
+          "format"   : true
         }
       }
     }
