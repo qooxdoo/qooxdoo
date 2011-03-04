@@ -88,22 +88,30 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
     {
       model.getFullName = testrunner2.runner.ModelUtil.getFullName;
       
+      model.$$test = model
+      model.getModel = function() {
+        return this.$$test;
+      }
+      
       if (model.getChildren) {
         var kids = model.getChildren();
         for (var i=0,l=kids.length; i<l; i++) {
           var child = kids.getItem(i);
           child.parent = model;
-          child.getFullName = testrunner2.runner.ModelUtil.getFullName;
-          child.getMessage = testrunner2.runner.ModelUtil.getMessage;
-          child.getStackTrace = testrunner2.runner.ModelUtil.getStackTrace;
-          /*
-          child.bind("state", parent, "state", {
-            converter : function(data) {
+          if (child.getType() == "test") {
+            child.getMessage = testrunner2.runner.ModelUtil.getMessage;
+            child.getStackTrace = testrunner2.runner.ModelUtil.getStackTrace;
+          }
+          arguments.callee(child);
+          
+          child.bind("state", model, "state", {
+            converter : function(data, model) {
+              if (model.getState() == "failure" || model.getState() == "error") {
+                return model.getState();
+              }
               return data;
             }
           });
-          */
-          arguments.callee(child);
         }
       }
     },

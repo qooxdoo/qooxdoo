@@ -564,22 +564,17 @@ qx.Class.define("testrunner2.view.widget.Widget", {
           var state = data;
           var type = model.getType();          
           var iconMap;
-          if (type !== "test") {
-            iconMap = "TREEICONSOK";
-          }
-          else {
-            switch (state) {
-              case "success":
-                iconMap = "TREEICONSOK";
-                break;
-              case "error":
-              case "failure":
-                iconMap = "TREEICONSERROR"
-                break;
-              default:
-                iconMap = "TREEICONS";
+          switch (state) {
+            case "success":
+              iconMap = "TREEICONSOK";
               break;
-            }
+            case "error":
+            case "failure":
+              iconMap = "TREEICONSERROR"
+              break;
+            default:
+              iconMap = "TREEICONS";
+            break;
           }
           return testrunner2.view.widget.Widget[iconMap][type];
         }
