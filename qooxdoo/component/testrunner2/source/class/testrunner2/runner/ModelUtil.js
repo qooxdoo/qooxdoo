@@ -118,6 +118,24 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
     
     
     /**
+     * Recursively dispose the entire model
+     * 
+     * @param model {Object} The model
+     */
+    disposeModel : function(model)
+    {
+      if (model.getChildren) {
+        var kids = model.getChildren();
+        for (var i=0,l=kids.length; i<l; i++) {
+          var child = kids.getItem(i);
+          arguments.callee(child);
+        }
+      }
+      model.dispose();
+    },
+    
+    
+    /**
      * Adds nested keys to a map, e.g.: addChainToMap(["foo", "bar", "baz"], {})
      * creates the following structure:
      * {

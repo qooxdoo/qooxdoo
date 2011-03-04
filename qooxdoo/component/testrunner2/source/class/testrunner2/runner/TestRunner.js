@@ -230,6 +230,12 @@ qx.Class.define("testrunner2.runner.TestRunner", {
      */
     __getTestModel : function()
     {
+      var oldModel = this.getTestModel();
+      if (oldModel) {
+        testrunner2.runner.ModelUtil.disposeModel(oldModel);
+      }
+      this.setTestModel(null);
+      
       var testRep = this.__getTestRep();
       if (!testRep) {
         return;
@@ -616,6 +622,11 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       }
     }
     
+  },
+  
+  destruct : function()
+  {
+    testrunner2.runner.ModelUtil.disposeModel(oldModel);
   }
     
 });

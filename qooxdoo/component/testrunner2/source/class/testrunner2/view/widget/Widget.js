@@ -165,9 +165,10 @@ qx.Class.define("testrunner2.view.widget.Widget", {
      * Creates the application header.
      */
     
+    __logLevelData : null,
+    
     __app : null,
     __iframe : null,
-    __logLevelData : null,
     __overflowMenu : null,
     __menuItemStore : null,
     __labelDeco : null,
@@ -1053,5 +1054,24 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       var reloadAut = new qx.ui.core.Command("Ctrl+Shift+R");
       reloadAut.addListener("execute", this.__reloadAut, this);
     }
+  },
+  
+  destruct : function()
+  {
+    this._disposeObjects(
+    "__iframe",
+    "__overflowMenu",
+    "__menuItemStore",
+    "__labelDeco",
+    "__logElement",
+    "__testTree",
+    "__runButton",
+    "__stopButton",
+    "__progressBar",
+    "__testResultView",
+    "__testCountField",
+    "__selectedTestField",
+    "__statusField",
+    "__app");
   }
 });
