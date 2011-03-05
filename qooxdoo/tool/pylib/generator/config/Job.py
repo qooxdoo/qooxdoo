@@ -226,8 +226,7 @@ class Job(object):
                 newjob.setFeature('extend', [subjobObj]) # extend subjob
                 
                 # add to config
-                self._config.addJob(newjobname, newjob)  # TODO: why not config.addJob(...) ?!
-                
+                self._config.addJob(newjobname, newjob)  # TODO: why not config.addJob(...) ?!                
                 # add to job list
                 subJobs.append(newjob)
                 
@@ -433,10 +432,20 @@ class Job(object):
 
     def setConfig(self, config):
         self._config = config
-
+    
+    def copyData(self):
+        data = {}
+        for key, val in self._data.iteritems():
+            if key in [Key.EXTEND_KEY, Key.RUN_KEY]:
+                # don't do deepcopy on job references
+                data[key] = copy.copy(val)
+            else:
+                data[key] = copy.deepcopy(val)
+        return data
 
     def clone(self):
-        return Job(self.name, self._data.copy(), self._console, self._config)
+        #return Job(self.name, copy.deepcopy(self._data), self._console, self._config)
+        return Job(self.name, self.copyData(), self._console, self._config)
 
     def hasFeature(self, feature):
         return feature in self._data
