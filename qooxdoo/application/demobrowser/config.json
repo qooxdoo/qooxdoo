@@ -16,6 +16,7 @@
         "common",
         "source", 
         "source-script", 
+        "source-hybrid",
         "build",
         "build-script",
         "build-files",
@@ -159,7 +160,7 @@
 
     "source-hybrid" :
     {
-      "desc"    : "create source version of Demobrowser",
+      "desc"    : "create source-hybrid version of Demobrowser",
 
       "run" :
       [

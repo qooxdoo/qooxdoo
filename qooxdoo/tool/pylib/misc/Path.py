@@ -349,6 +349,7 @@ class OsPath(BasePath):
 
     def toUri(self):
         uri = self.value()
+        uri = os.path.normpath(uri)
         uri = posifyPath(uri)
         return uri
 
@@ -392,9 +393,15 @@ class Uri(BasePath):
     def ensureTrailingSlash(self):
         'ensure trailing /'
         val = self.value()
-        if not val.endswith('/'):
+        if val[-1] != '/':
             self.value(val + '/')
-
+            
+    def ensureNoTrailingSlash(self):
+        'ensure no trailing /'
+        val = self.value()
+        if val[-1] == "/":
+            self.value(val[:-1])
+            
     def encodedValue(self, val=None):
         v = super(Uri, self).value(val)
         if self._is_encoded:
