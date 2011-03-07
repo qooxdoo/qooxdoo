@@ -1643,8 +1643,8 @@ Selenium.prototype.doQxTypeKeys = function(locator, value)
  * is returned. If not, the element's corresponding qooxdoo widget is checked 
  * and the first text field/text area child node is returned.  
  * 
- * @param {Object} element The DOM element to start with
- * @return {Object} The found input or textarea element
+ * @param {DOMElement} element The DOM element to start with
+ * @return {DOMElement} The found input or textarea element
  */
 Selenium.prototype.getInputElement = function(element)
 {
@@ -1652,32 +1652,45 @@ Selenium.prototype.getInputElement = function(element)
     element = element.wrappedJSObject;
   }
   // If the locator found a text input or textarea element, return it
-  if (element.tagName.toLowerCase() == "textarea" ||
-      (element.tagName == "input" && element.type.toLowerCase() == "text")) {
+  if (this._isVisibleTextInput(element)) {
     return element;
   }
   // Otherwise get the qooxdoo widget the element belongs to
   var qx = this.getQxGlobalObject();
   var qxWidget = qx.ui.core.Widget.getWidgetByElement(element);
   
-  if (this.isQxInstanceOf(qxWidget, "htmlarea.HtmlArea")) {
+  if (qxWidget.getIframeObject) {
     var iframe = qxWidget.getIframeObject();
     try {
       return iframe.contentDocument.body;
-    } catch (ex) {
+    } catch(ex) {
       return iframe.document.body;
     }
   }
   
-  var classNames = ["qx.ui.form.AbstractField", "qx.ui.form.TextField", "qx.ui.form.TextArea", "qx.ui.form.PasswordField"];
-  // Search the widget and its child controls for a text field
-  var fieldWidgets = this.getChildControls(qxWidget, classNames);
-  if (!fieldWidgets.length > 0) {
-    throw new SeleniumError("No input/text area child found in widget " + qxWidget.classname);
+  // Get the DOM input element
+  element = qxWidget.getContentElement().getDomElement();
+  if (this._isVisibleTextInput(element))
+  {
+    return element;
   }
   
-  // Get the DOM input element
-  return fieldWidgets[0].getContentElement().getDomElement();
+  throw new SeleniumError("No input/text area child found in widget " + qxWidget.classname);
+};
+
+
+/**
+ * Checks if a DOM element is either a text area or text input and if it is
+ * visible.
+ * 
+ * @param element {DOMElement} The element to check
+ * @return {Boolean} Whether the given element is a visible text input field
+ */
+Selenium.prototype._isVisibleTextInput = function(element)
+{
+  return (element.style.display !== "none" && element.style.visibility !== "hidden") 
+      && (element.tagName.toLowerCase() == "textarea" ||
+      (element.tagName.toLowerCase() == "input" && element.type.toLowerCase() == "text"));
 };
 
 /** 
