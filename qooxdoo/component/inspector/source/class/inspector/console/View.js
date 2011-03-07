@@ -62,11 +62,11 @@ qx.Class.define("inspector.console.View",
 
     // console view
     this._consoleView = new inspector.console.ConsoleView(this);
-    this._stack.add(this._consoleView, {flex: 1});
+    this._stack.add(this._consoleView);
 
     // dom view
     this._domView = new inspector.console.DomView(this);
-    this._stack.add(this._domView, {flex: 1});
+    this._stack.add(this._domView);
 
     // radio group for switching views
     var radioGround = new qx.ui.form.RadioGroup(this._consoleButton, this._domButton);
