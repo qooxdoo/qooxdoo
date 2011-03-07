@@ -92,7 +92,7 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Columns",
       }
 
       this.extendData(data);
-      var model = qx.data.marshal.Json.createModel(data);
+      var model = qx.data.marshal.Json.createModel(data, true);
 
       // configure model for triState usage
       this.configureTriState(model);
@@ -110,7 +110,6 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Columns",
       data.light = Math.floor(Math.random() * 4) == 0;
       data.mode = "-rw-r--r--";
       data.checked = Math.random() >= 0.5;
-      data.model = null;
       if (data.children) {
         for (var i = 0; i < data.children.length; i++) {
           this.extendData(data.children[i]);
@@ -121,7 +120,12 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Columns",
     
     configureTriState : function(item)
     {
-      item.setModel(item);
+      // Until [BUG #4290] in not fixed we need do add a getModel method for
+      // the converter.
+      item.getModel = function() {
+        return this;
+      };
+
       if (item.getChildren != null)
       {
         var children = item.getChildren();
