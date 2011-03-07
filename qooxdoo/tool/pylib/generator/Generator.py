@@ -433,7 +433,7 @@ class Generator(object):
                 self._console.debug("Including %s items smart, %s items explicit" % (len(includeWithDeps), len(includeNoDeps)))
 
                 if len(includeNoDeps) > 0:
-                    self._console.warn("Explicit included classes may not work")
+                    self._console.warn("Explicitly included classes may not work")  # ?!
 
                 # Resolve regexps
                 self._console.debug("Expanding expressions...")
