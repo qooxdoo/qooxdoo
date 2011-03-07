@@ -100,8 +100,12 @@ def getTagsFromJsFile(fname):
 # generator to create config.demo.json
 
 def CreateDemoJson():
-    source = ""
-    build  = ""
+
+    def dquote(s):
+        return '"%s"' % s
+
+    source = []
+    build  = []
     scategories = {}
     bcategories = {}
 
@@ -133,14 +137,14 @@ def CreateDemoJson():
 
         # build classname
         simple = "%s.%s" % (category,name)
-        source = source + ' "source-%s",' % simple
-        build  = build + ' "build-%s",' % simple
+        source.append("source-%s" % simple)
+        build.append("build-%s" % simple)
         if not category in scategories:
-            scategories[category] = ""
-        scategories[category] += ' "source-%s",' % (simple,)
+            scategories[category] = []
+        scategories[category].append("source-%s" % (simple,))
         if not category in bcategories:
-            bcategories[category] = ""
-        bcategories[category] += ' "build-%s",' % (simple,)
+            bcategories[category] = []
+        bcategories[category].append("build-%s" % (simple,))
 
         # concat all
         currcont = json_tmpl.replace('XXX',"%s.%s"%(category,name)).replace("YYY",name).replace("ZZZ",category)
@@ -152,21 +156,21 @@ def CreateDemoJson():
         JSON.write("""  "source-%s" : {
             "run" : [
             %s]
-          },\n\n""" % (category, scategories[category][:-1]))
+          },\n\n""" % (category, ",".join(map(dquote, sorted(scategories[category])))))
         JSON.write("""  "build-%s" : {
             "run" : [
             %s]
-          },\n\n""" % (category, bcategories[category][:-1]))
+          },\n\n""" % (category, ",".join(map(dquote, sorted(bcategories[category])))))
 
     JSON.write("""  "source" : {
         "run" : [
          %s]
-      },\n\n""" % source[:-1] ) 
+      },\n\n""" % ",".join(map(dquote, sorted(source))) ) 
 
     JSON.write("""  "build" : {
         "run" : [
          %s]
-      }\n  }\n}""" % build[:-1] ) 
+      }\n  }\n}""" % ",".join(map(dquote, sorted(build))) ) 
 
     JSON.close()
 
