@@ -902,13 +902,15 @@ Selenium.prototype.getQxWidgetByLocator = function(locator)
 };
 
 /**
- * Uses the standard qx locators to find a table, and then returns the text
- * found in the cell at row, column position.
- *
- * @type member
- * @param locator {var} an element locator
- * @param eventParams {var} A text string that should contain "row=Y,col=X"
- * @return {var} The text found at the given table cell.
+ * Uses the standard qx locators to find a table, then returns the value
+ * of the specified cell from the table model.
+ * 
+ * @param locator {String} an element locator that finds a qooxdoo table's 
+ * DOM element
+ * @param params {String} A string that should contain row and column
+ * identifers (see {@link #qxTableClick}
+ * @return {Object} The value of the cell. Primitive types will be returned
+ * as strings, Objects will be serialized using JSON
  */
 Selenium.prototype.getQxTableValue = function(locator, eventParams)
 {
@@ -945,7 +947,12 @@ Selenium.prototype.getQxTableValue = function(locator, eventParams)
   var columnModel = qxObject.getTableColumnModel();
   var visibleColumns = columnModel.getVisibleColumns();
   
-  return String(qxObject.getTableModel().getValue(visibleColumns[col], row));
+  var value = qxObject.getTableModel().getValue(visibleColumns[col], row);
+  if (typeof value === "object") {
+    value = this.toJson(value);
+  }
+  
+  return value;
 };
 
 /**
