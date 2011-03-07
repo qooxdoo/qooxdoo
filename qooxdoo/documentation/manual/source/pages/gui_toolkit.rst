@@ -24,7 +24,7 @@ Widgets Introduction
    gui_toolkit/ui_form_handling
    gui_toolkit/ui_menu_handling
    gui_toolkit/window_management
-   ui_html_editing
+   gui_toolkit/ui_html_editing
    gui_toolkit/ui_table_styling
 
 Widget Reference

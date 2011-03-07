@@ -12,7 +12,7 @@ Here you can find some interesting technical info.
 Demo
 ====
 
-.. image:: /pages/htmlarea_screenshot_1_0.png
+.. image:: ui_html_editing/htmlarea_screenshot_1_0.png
    :width: 515px
    :alt: HtmlArea screenshot
    :align: center
