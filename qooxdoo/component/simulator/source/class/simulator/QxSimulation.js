@@ -71,7 +71,15 @@ qx.Class.define("simulator.QxSimulation", {
       var autUri = this.__options.autHost + "" + this.__options.autPath;
       this.qxOpen(autUri);
       this.waitForQxApplication();
-      
+      this.includeFeatures();
+    },
+    
+    
+    /**
+     * Includes and initializes features as configured by settings
+     */
+    includeFeatures : function()
+    {
       if (this.__options.globalErrorLogging || this.__options.testEvents) {
         qx.Class.include(simulator.QxSimulation, simulator.MGlobalErrorHandling);
         this.addGlobalErrorHandler();
@@ -88,7 +96,6 @@ qx.Class.define("simulator.QxSimulation", {
         qx.Class.include(simulator.QxSimulation, simulator.MEventSupport);
         this._addListenerSupport();
       }
-
     },
     
     
