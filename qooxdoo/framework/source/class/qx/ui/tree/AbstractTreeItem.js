@@ -42,9 +42,16 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
   *****************************************************************************
   */
 
-  construct : function()
+  /**
+   * @param label {String?null} The tree item's caption text
+   */
+  construct : function(label)
   {
     this.base(arguments);
+
+    if (label != null) {
+      this.setLabel(label);
+    }
 
     this.__children = [];
 

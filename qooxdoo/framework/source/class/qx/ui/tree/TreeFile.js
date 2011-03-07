@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
      2006 Derrell Lipman
 
    License:
@@ -17,6 +17,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Derrell Lipman (derrell)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -28,35 +29,6 @@ qx.Class.define("qx.ui.tree.TreeFile",
   extend : qx.ui.tree.AbstractTreeItem,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  /**
-   * @param label {String?null} The tree file's caption text
-   */
-  construct : function(label)
-  {
-    this.base(arguments);
-
-    if (label) {
-      this.setLabel(label);
-    }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
     appearance :
@@ -66,14 +38,6 @@ qx.Class.define("qx.ui.tree.TreeFile",
     }
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -85,4 +49,4 @@ qx.Class.define("qx.ui.tree.TreeFile",
       this.addLabel();
     }
   }
-})
+});
