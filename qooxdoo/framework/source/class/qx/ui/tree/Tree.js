@@ -31,7 +31,7 @@
  * {@link #hideRoot} property.
  *
  * The handling of <b>selections</b> within a tree is somewhat distributed
- * between the root tree object and the attached {@link qx.ui.tree.SelectionManager}.
+ * between the root tree object and the attached {@link qx.ui.tree.selection.SelectionManager}.
  * To get the currently selected element of a tree use the tree {@link #getSelection}
  * method and tree {@link #setSelection} to set it. The TreeSelectionManager
  * handles more coarse-grained issues like providing {@link #selectAll} and
@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.tree.Tree",
     __content : null,
 
     /** {Class} Pointer to the selection manager to use */
-    SELECTION_MANAGER : qx.ui.tree.SelectionManager,
+    SELECTION_MANAGER : qx.ui.tree.selection.SelectionManager,
 
 
     /*
