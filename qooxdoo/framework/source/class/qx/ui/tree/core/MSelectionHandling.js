@@ -118,24 +118,6 @@ qx.Mixin.define("qx.ui.tree.core.MSelectionHandling",
     },
 
 
-    // apply method
-    _applySelectionMode : function(value, old) {
-      this._manager.setMode(value);
-    },
-
-
-    // apply method
-    _applyDragSelection : function(value, old) {
-      this._manager.setDrag(value);
-    },
-
-
-    // apply method
-    _applyQuickSelection : function(value, old) {
-      this._manager.setQuick(value);
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       SELECTION HANDLERS
