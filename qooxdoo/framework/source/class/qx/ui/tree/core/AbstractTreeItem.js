@@ -26,7 +26,7 @@
  *
  * @childControl label {qx.ui.basic.Label} label of the tree item
  * @childControl icon {qx.ui.basic.Image} icon of the tree item
- * @childControl open {qx.ui.tree.FolderOpenButton} button to open/close a subtree
+ * @childControl open {qx.ui.tree.core.FolderOpenButton} button to open/close a subtree
  */
 qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
 {
@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
           break;
 
         case "open":
-          control = new qx.ui.tree.FolderOpenButton().set({
+          control = new qx.ui.tree.core.FolderOpenButton().set({
             alignY: "middle"
           });
           control.addListener("changeOpen", this._onChangeOpen, this);

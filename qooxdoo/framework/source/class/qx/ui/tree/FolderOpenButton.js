@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,103 +13,26 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Fabian Jakobs (fjakobs)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
 /**
- * The small folder open/close button
+ * The small folder open/close button.
+ * 
+ * @deprecated Since 1.4 Please use 'qx.ui.tree.core.FolderOpenButton' instead.
  */
 qx.Class.define("qx.ui.tree.FolderOpenButton",
 {
-  extend : qx.ui.basic.Image,
-  include : qx.ui.core.MExecutable,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
+  extend : qx.ui.tree.core.FolderOpenButton,
 
   construct : function()
   {
     this.base(arguments);
 
-    this.initOpen();
-
-    this.addListener("click", this._onClick);
-    this.addListener("mousedown", this._stopPropagation, this);
-    this.addListener("mouseup", this._stopPropagation, this);
-  },
-
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /**
-     * Whether the button state is "open"
-     */
-    open :
-    {
-      check : "Boolean",
-      init : false,
-      event : "changeOpen",
-      apply : "_applyOpen"
-    }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    // property apply
-    _applyOpen : function(value, old)
-    {
-      value ? this.addState("opened") : this.removeState("opened");
-      this.execute();
-    },
-
-
-    /**
-     * Stop click event propagation
-     *
-     * @param e {qx.event.type.Event} The event object
-     */
-    // TODO: Could this be done somewhere else. The whole event
-    // connection stuff on this widget (used by AbstractTreeItem)
-    // needs optimization.
-    _stopPropagation : function(e) {
-      e.stopPropagation();
-    },
-
-
-    /**
-     * Mouse click event listener
-     *
-     * @param e {qx.event.type.Mouse} Mouse event
-     */
-    _onClick : function(e)
-    {
-      this.toggleOpen();
-      e.stopPropagation();
-    }
+    qx.log.Logger.deprecatedClassWarning(this.constructor, "The class" +
+      " 'qx.ui.tree.FolderOpenButton' is deprecated please use " +
+      "'qx.ui.tree.core.FolderOpenButton' instead."
+    );
   }
 });

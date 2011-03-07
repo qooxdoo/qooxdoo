@@ -23,7 +23,7 @@
  *
  * @childControl label {qx.ui.basic.Label} label of the tree item
  * @childControl icon {qx.ui.basic.Image} icon of the tree item
- * @childControl open {qx.ui.tree.FolderOpenButton} button to open/close a subtree
+ * @childControl open {qx.ui.tree.core.FolderOpenButton} button to open/close a subtree
  *
  * @deprecated Since 1.4 Please use 'qx.ui.tree.core.AbstractTreeItem' instead.
  */
