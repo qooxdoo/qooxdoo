@@ -18,6 +18,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL!
+ * 
  * Objects which are used as delegates for the <code>qx.ui.tree.VirtualTree</code> may
  * implement any of the methods described in this interface. The delegate does
  * not need to implement all the methods of this interface. If a method is not

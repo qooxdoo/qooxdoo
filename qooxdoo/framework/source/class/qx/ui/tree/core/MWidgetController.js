@@ -19,6 +19,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL!
+ * 
  * The mixin controls the binding between model and item.
  *
  * @internal

@@ -18,6 +18,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL!
+ * 
  * Implements the single selection mode.
  *
  * @internal

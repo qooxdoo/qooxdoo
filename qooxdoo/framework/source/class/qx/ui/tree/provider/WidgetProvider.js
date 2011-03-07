@@ -18,6 +18,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL!
+ * 
  * The provider implements the {@link qx.ui.virtual.core.IWidgetCellProvider}
  * API, which can be used as delegate for the widget cell rendering and it
  * provides a API to bind the model with the rendered item.
@@ -35,6 +37,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
   include : [qx.ui.tree.core.MWidgetController],
 
+  
   /**
    * @param tree {qx.ui.tree.VirtualTree} tree to provide.
    */
