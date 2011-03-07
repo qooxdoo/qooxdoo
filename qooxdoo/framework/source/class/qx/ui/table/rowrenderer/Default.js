@@ -21,8 +21,6 @@
 
 /**
  * The default data row renderer.
- *
- * @appearance table-row
  */
 qx.Class.define("qx.ui.table.rowrenderer.Default",
 {

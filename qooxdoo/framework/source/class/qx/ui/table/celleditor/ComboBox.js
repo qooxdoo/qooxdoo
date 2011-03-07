@@ -19,8 +19,6 @@
 
 /**
  * A cell editor factory creating combo boxes.
- *
- * @appearance table-editor-combobox {qx.ui.form.ComboBox}
  */
 qx.Class.define("qx.ui.table.celleditor.ComboBox",
 {

@@ -23,8 +23,6 @@
  * a {@link Pane} and the needed scroll bars. This class handles the
  * virtual scrolling and does all the mouse event handling.
  *
- * @appearance table-focus-indicator {qx.ui.core.Widget}
- *
  * @childControl header {qx.ui.table.pane.Header} header pane
  * @childControl pane {qx.ui.table.pane.Pane} table pane to show the data
  * @childControl focus-indicator {qx.ui.table.pane.FocusIndicator} shows the current focused cell

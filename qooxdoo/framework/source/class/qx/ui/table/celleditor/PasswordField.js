@@ -19,8 +19,6 @@
 
 /**
  * A cell editor factory creating password fields fields.
- *
- * @appearance table-editor-textfield {qx.ui.form.TextField}
  */
 qx.Class.define("qx.ui.table.celleditor.PasswordField",
 {

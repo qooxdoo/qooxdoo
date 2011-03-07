@@ -20,8 +20,6 @@
 
 /**
  * A cell editor factory creating text fields.
- *
- * @appearance table-editor-textfield {qx.ui.form.TextField}
  */
 qx.Class.define("qx.ui.table.celleditor.TextField",
 {
