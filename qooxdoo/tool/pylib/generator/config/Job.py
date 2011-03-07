@@ -433,10 +433,19 @@ class Job(object):
 
     def setConfig(self, config):
         self._config = config
-
+    
+    def copyData(self):
+        data = {}
+        for key, val in self._data.iteritems():
+            if key in [Lang.EXTEND_KEY, Lang.RUN_KEY]:
+                # don't do deepcopy on job references
+                data[key] = copy.copy(val)
+            else:
+                data[key] = copy.deepcopy(val)
+        return data
 
     def clone(self):
-        return Job(self.name, self._data.copy(), self._console, self._config)
+        return Job(self.name, self.copyData(), self._console, self._config)
 
     def hasFeature(self, feature):
         return self._data.has_key(feature)
