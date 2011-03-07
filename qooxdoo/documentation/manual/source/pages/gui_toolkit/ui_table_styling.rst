@@ -16,18 +16,22 @@ This tutorial takes a look at the several *visible* parts of the table such as
 
 * Table widget itself
 * Header
+
  * Header cells
  * Column visibility button
+
 * Pane
+
  * Row and column styling
  * Cell styling
  * Selection
  * Focus Indicator
+
 * Statusbar
 * Scrollbar
 * Editable Cells (controls like Textfield, SelectBox and ComboBox)
 
-This tutorial assumes you're implementing all styling changes of the table widget in your own application theme classes. If you're new to the theming layer of qooxdoo it's a good idea to recap the manual section for the :doc:`theming layer <ui_table_styling/ui_theming>`.
+This tutorial assumes you're implementing all styling changes of the table widget in your own application theme classes. If you're new to the theming layer of qooxdoo it's a good idea to recap the manual section for the :doc:`theming layer <ui_theming>`.
 
 If you're familiar with the theming layer we can dive right into the first topic.
 
@@ -41,7 +45,7 @@ Table Widget
 ============
 
 Since this widget is the container of all sub-components the styling possibilities are naturally limited. However, limited possibilites does not result in low importance. You can e.g. change the border of the widget which can have a great visual impact.
-Since the border is a :doc:`decorator <ui_table_styling/ui_decorators>` you can use all possibilities like different kind of borders, shadows and the like.
+Since the border is a :doc:`decorator <ui_decorators>` you can use all possibilities like different kind of borders, shadows and the like.
 
 Sample of a table widget using a decorator with shadow:
 
