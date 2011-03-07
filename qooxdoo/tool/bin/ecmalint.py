@@ -164,7 +164,8 @@ class Lint:
                 #    ):   # it's ok as method call
                 #    pass
                 #else:
-                self.log(var, "Protected data field in '%s'. Protected data fields are deprecated. Better use private fields in combination with getter and setter methods." % treeutil.assembleVariable(var)[0])
+                #self.log(var, "Protected data field in '%s'. Protected data fields are deprecated. Better use private fields in combination with getter and setter methods." % treeutil.assembleVariable(var)[0])
+                pass  # protected data fields are ok
             return
 
         def checkImplicit(allVars):
@@ -220,7 +221,8 @@ class Lint:
                     prot = "protected"
 
                 if prot == "protected":
-                    self.log(node, "Protected data field '%s'. Protected fields are deprecated. Better use private fields in combination with getter and setter methods." % field)
+                    #self.log(node, "Protected data field '%s'. Protected fields are deprecated. Better use private fields in combination with getter and setter methods." % field)
+                    pass # protected data fields are ok
                 elif not field in restricted:
                     self.log(node, "Implicit declaration of %s field '%s'. You should list this field in the members section." % (prot, field))
 
