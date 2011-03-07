@@ -8,15 +8,15 @@ Here are a few examples:
 
 |file_menu.png|
 
-.. |file_menu.png| image:: file_menu.png
+.. |file_menu.png| image:: ui_menu_handling/file_menu.png
 
 |complex_menu.png|
 
-.. |complex_menu.png| image:: complex_menu.png
+.. |complex_menu.png| image:: ui_menu_handling/complex_menu.png
 
 |context_menu.png|
 
-.. |context_menu.png| image:: context_menu.png
+.. |context_menu.png| image:: ui_menu_handling/context_menu.png
 
 The `Demobrowser <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Menu.html>`_ provides further examples.
 
