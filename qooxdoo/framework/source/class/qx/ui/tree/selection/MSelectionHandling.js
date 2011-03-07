@@ -24,7 +24,7 @@
  *
  * @internal
  */
-qx.Mixin.define("qx.ui.tree.core.MSelectionHandling",
+qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
 {
   properties :
   {
