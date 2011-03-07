@@ -260,12 +260,14 @@ qx.Class.define("simulator.QxSelenium", {
 
     /**
      * Uses the standard qx locators to find a table, then returns the value
-     * of the cell specified by "row=x,col=y" in the params.
+     * of the specified cell from the table model.
      * 
      * @param locator {String} an element locator that finds a qooxdoo table's 
      * DOM element
-     * @param params {var} A string that should contain "row=x,col=y"
-     * @return {Object} The value of the cell
+     * @param params {String} A string that should contain row and column
+     * identifers (see {@link #qxTableClick}
+     * @return {Object} The value of the cell. Primitive types will be returned
+     * as strings, Objects will be serialized using JSON.
      */
     getQxTableValue : function(locator, params) {},
 
