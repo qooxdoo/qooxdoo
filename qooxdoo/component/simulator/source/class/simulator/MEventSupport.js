@@ -44,13 +44,13 @@ qx.Mixin.define("simulator.MEventSupport",
         var qxObj = selenium.qxStoredVars['autWindow'].qx.core.ObjectRegistry.fromHashCode(objectHash);
         return qxObj.addListener(event, callback, context);
       };
-      this.addOwnFunction("addListener", addListener);
+      this._addOwnFunction("addListener", addListener);
       
       var removeListenerById = function(objectHash, listenerId) {
         var qxObj = selenium.qxStoredVars['autWindow'].qx.core.ObjectRegistry.fromHashCode(objectHash);
         return qxObj.removeListenerById(listenerId);
       };
-      this.addOwnFunction("removeListenerById", removeListenerById);
+      this._addOwnFunction("removeListenerById", removeListenerById);
     },
 
     /**
@@ -74,7 +74,7 @@ qx.Mixin.define("simulator.MEventSupport",
         var objectHash = simulator.QxSelenium.getInstance().getQxObjectHash(locator);
       }
       var callbackName = event + "_" + new Date().getTime(); 
-      this.addOwnFunction(callbackName, callback);
+      this._addOwnFunction(callbackName, callback);
       var callbackInContext = 'selenium.qxStoredVars["autWindow"].qx.Simulation["' + callbackName + '"]';  
       var cmd = 'selenium.qxStoredVars["autWindow"].qx.Simulation.addListener("' + objectHash + '", "' + event + '", ' + callbackInContext + ')';
       return simulator.QxSelenium.getInstance().getEval(cmd);

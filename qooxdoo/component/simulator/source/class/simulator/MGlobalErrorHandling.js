@@ -39,7 +39,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
      * accessible from the current Selenium instance. Default: The AUT's window.
      * @lint ignoreUndefined(selenium)
      */
-    addGlobalErrorHandler : function(win)
+    _addGlobalErrorHandler : function(win)
     {
       var qxWin = win || "selenium.qxStoredVars['autWindow']";
       simulator.QxSelenium.getInstance().getEval(qxWin + ".qx.Simulation.errorStore = [];");
@@ -79,7 +79,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
         });
       };
       
-      this.addOwnFunction("addGlobalErrorHandler", addHandler);
+      this._addOwnFunction("addGlobalErrorHandler", addHandler);
       simulator.QxSelenium.getInstance().getEval("selenium.qxStoredVars['autWindow'].qx.Simulation.addGlobalErrorHandler(" + qxWin + ");");  
     },
     
@@ -93,7 +93,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
      * 
      * @lint ignoreUndefined(selenium)
      */
-    addGlobalErrorGetter : function(win)
+    _addGlobalErrorGetter : function(win)
     {
       var getGlobalErrors = function(win)
       {
@@ -102,7 +102,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
          var exString = exceptions.join("|");
          return exString;     
       };
-      this.addOwnFunction("getGlobalErrors", getGlobalErrors);
+      this._addOwnFunction("getGlobalErrors", getGlobalErrors);
     },
     
     /**
