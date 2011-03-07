@@ -1,6 +1,6 @@
 qx.Class.define("qx.ui.tree.VirtualTreeFile",
 {
-  extend : qx.ui.tree.core.AbstractTreeItem,
+  extend : qx.ui.tree.core.AbstractVirtualTreeItem,
 
   
   properties :

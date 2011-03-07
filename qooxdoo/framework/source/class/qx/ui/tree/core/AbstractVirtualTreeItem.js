@@ -1,4 +1,4 @@
-qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
+qx.Class.define("qx.ui.tree.core.AbstractVirtualTreeItem",
 {
   extend : qx.ui.core.Widget,
   type : "abstract",
