@@ -9,7 +9,7 @@ By default (talking about the *Modern* theme) the table looks like this:
 
 |table_default_styling.png|
 
-.. |table_default_styling.png| image:: /pages/gui_toolkit/table_default_styling.png
+.. |table_default_styling.png| image:: ui_table_styling/table_default_styling.png
 
 
 This tutorial takes a look at the several *visible* parts of the table such as
@@ -27,7 +27,7 @@ This tutorial takes a look at the several *visible* parts of the table such as
 * Scrollbar
 * Editable Cells (controls like Textfield, SelectBox and ComboBox)
 
-This tutorial assumes you're implementing all styling changes of the table widget in your own application theme classes. If you're new to the theming layer of qooxdoo it's a good idea to recap the manual section for the :doc:`theming layer </pages/gui_toolkit/ui_theming>`.
+This tutorial assumes you're implementing all styling changes of the table widget in your own application theme classes. If you're new to the theming layer of qooxdoo it's a good idea to recap the manual section for the :doc:`theming layer <ui_table_styling/ui_theming>`.
 
 If you're familiar with the theming layer we can dive right into the first topic.
 
@@ -41,13 +41,13 @@ Table Widget
 ============
 
 Since this widget is the container of all sub-components the styling possibilities are naturally limited. However, limited possibilites does not result in low importance. You can e.g. change the border of the widget which can have a great visual impact.
-Since the border is a :doc:`decorator </pages/gui_toolkit/ui_decorators>` you can use all possibilities like different kind of borders, shadows and the like.
+Since the border is a :doc:`decorator <ui_table_styling/ui_decorators>` you can use all possibilities like different kind of borders, shadows and the like.
 
 Sample of a table widget using a decorator with shadow:
 
 |table_widget_styling.png|
 
-.. |table_widget_styling.png| image:: /pages/gui_toolkit/table_widget_styling.png
+.. |table_widget_styling.png| image:: ui_table_styling/table_widget_styling.png
 
 
 
@@ -118,7 +118,7 @@ This code snippet will result in the following:
 
 |table_header_styling.png|
 
-.. |table_header_styling.png| image:: /pages/gui_toolkit/table_header_styling.png
+.. |table_header_styling.png| image:: ui_table_styling/table_header_styling.png
 
 
 Additionally you can change the height of the whole header by using the ``headerCellHeight`` property. Changing this property might make sense if you also want to customize the appearance of the header cells (e.g. using a larger font).
@@ -149,7 +149,7 @@ to get the following result
 
 |table_without_header.png|
 
-.. |table_without_header.png| image:: /pages/gui_toolkit/table_without_header.png
+.. |table_without_header.png| image:: ui_table_styling/table_without_header.png
 
 
 Header Cells
@@ -198,7 +198,7 @@ to get a result like this
 
 |table_header_cell_hover.png|
 
-.. |table_header_cell_hover.png| image:: /pages/gui_toolkit/table_header_cell_hover.png
+.. |table_header_cell_hover.png| image:: ui_table_styling/table_header_cell_hover.png
 
 
 A bigger change of the header cells might be to change the background color at hovering. To do so you can simply modify the existing ``table-header-cell-hovered`` decorator like
@@ -219,7 +219,7 @@ and you're done!
 
 |table_header_cell_decorator_hover.png|
 
-.. |table_header_cell_decorator_hover.png| image:: /pages/gui_toolkit/table_header_cell_decorator_hover.png
+.. |table_header_cell_decorator_hover.png| image:: ui_table_styling/table_header_cell_decorator_hover.png
 
 
 Additionally, you can change the styling of the different child controls (label, icon and sort icon) of the header cells. So if you want to change the font you can simply customize the label child control of the header cell to change the alignment, existing padding and the like.
@@ -272,7 +272,7 @@ With the minor change above to the decorator and a font setting of the label you
 
 |table_header_cell_styling.png|
 
-.. |table_header_cell_styling.png| image:: /pages/gui_toolkit/table_header_cell_styling.png
+.. |table_header_cell_styling.png| image:: ui_table_styling/table_header_cell_styling.png
 
 
 
@@ -289,7 +289,7 @@ One picture says more than thousand words :) The pane with red background color 
 
 |table_pane_styling.png|
 
-.. |table_pane_styling.png| image:: /pages/gui_toolkit/table_pane_styling.png
+.. |table_pane_styling.png| image:: ui_table_styling/table_pane_styling.png
 
 The corresponding code in the color theme of your application is a simple one-liner:
 
@@ -348,7 +348,7 @@ By changing one or more of these colors you can e.g. achieve this:
 
 |table_pane_cell_backgrounds.png|
 
-.. |table_pane_cell_backgrounds.png| image:: /pages/gui_toolkit/table_pane_cell_backgrounds.png
+.. |table_pane_cell_backgrounds.png| image:: ui_table_styling/table_pane_cell_backgrounds.png
 
 by defining these colors:
 
@@ -385,14 +385,14 @@ This shows an active selection:
 
 |table_pane_cell_selection.png|
 
-.. |table_pane_cell_selection.png| image:: /pages/gui_toolkit/table_pane_cell_selection.png
+.. |table_pane_cell_selection.png| image:: ui_table_styling/table_pane_cell_selection.png
 
 
 The same with an inactive selection:
 
 |table_pane_cell_selection2.png|
 
-.. |table_pane_cell_selection2.png| image:: /pages/gui_toolkit/table_pane_cell_selection2.png
+.. |table_pane_cell_selection2.png| image:: ui_table_styling/table_pane_cell_selection2.png
 
 
 Cell Styling
@@ -448,7 +448,7 @@ So either replacing the decorator by an own one or just changing the color has a
 
 |table_focus_indicator.png|
 
-.. |table_focus_indicator.png| image:: /pages/gui_toolkit/table_focus_indicator.png
+.. |table_focus_indicator.png| image:: ui_table_styling/table_focus_indicator.png
 
 
 Look's really weird, but for demonstration purpose is quite good enough :)
@@ -485,7 +485,7 @@ This is a minor topic, since it only can be customized by its color. You may ask
 
 |table_resize_line.png|
 
-.. |table_resize_line.png| image:: /pages/gui_toolkit/table_resize_line.png
+.. |table_resize_line.png| image:: ui_table_styling/table_resize_line.png
 
 
 =========
@@ -544,7 +544,7 @@ The result of this little demo looks like:
 
 |table_statusbar.png|
 
-.. |table_statusbar.png| image:: /pages/gui_toolkit/table_statusbar.png
+.. |table_statusbar.png| image:: ui_table_styling/table_statusbar.png
 
 
 ==============
@@ -609,7 +609,7 @@ Here's a litte example with an editable textfield with ``orange`` background col
 
 |table_editable_cells.png|
 
-.. |table_editable_cells.png| image:: /pages/gui_toolkit/table_editable_cells.png
+.. |table_editable_cells.png| image:: ui_table_styling/table_editable_cells.png
 
 
 ==========
@@ -631,4 +631,4 @@ Here's a quick reminder how the table does look like with themed scrollbars:
 
 |table_scrollbars.png|
 
-.. |table_scrollbars.png| image:: /pages/gui_toolkit/table_scrollbars.png
+.. |table_scrollbars.png| image:: ui_table_styling/table_scrollbars.png
