@@ -1072,10 +1072,10 @@ The qooxdoo form is an object which includes three main parts.
 As we have already talked about the first two items, I'll cover the last item in a more detailed way.
 
 In most cases, a form's layout is specific to the application. It depends on the space available in the application and many other factors. Thats why qooxdoo has this flexible form layouting tool, which includes a set of default options to layout a form. On of the main requirements of the solution was extensibility so that anyone could have the layout their application requires.
-To get achieve this, we applied a pattern used widely across the qooxdoo framework, which moves all UI related code to renderer classes. These renderers are as lightweight as possible to make it easy for developers to write their own custom renderer, as you can see in this UML diagram:
+To achieve this, we applied a pattern used widely across the qooxdoo framework, which moves all UI related code to renderer classes. These renderers are as lightweight as possible to make it easy for developers to write their own custom renderer, as you can see in this UML diagram:
 |qx.ui.form.Form|
 
-.. |qx.ui.form.Form| image:: ui_form_handling/iform.png
+.. |qx.ui.form.Form| image:: ui_form_handling/form.png
 
 .. _pages/gui_toolkit/ui_form_handling#renderer:
 
