@@ -81,7 +81,7 @@ class DependencyLoader(object):
         # Explicit include/exclude
         def processExplicitCludes(result, includeNoDeps, excludeNoDeps):
             if len(includeNoDeps) > 0 or len(excludeNoDeps) > 0:
-                self._console.info("Processing explicitely configured includes/excludes...")
+                self._console.info("Processing explicitly configured includes/excludes...")
                 for entry in includeNoDeps:
                     if not entry in result:
                         result.append(entry)
