@@ -13,15 +13,15 @@ Here some screenshots:
 
 |Modern theme|
 
-.. |Modern theme| image:: window_modern_theme.png
+.. |Modern theme| image:: ui_theming/window_modern_theme.png
 
 |Classic theme|
 
-.. |Classic theme| image:: window_classic_theme.png
+.. |Classic theme| image:: ui_theming/window_classic_theme.png
 
 |Simple theme|
 
-.. |Simple theme| image:: window_simple_theme.png
+.. |Simple theme| image:: ui_theming/window_simple_theme.png
 
 While those three themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by  :ref:`extending existing ones <pages/gui_toolkit/ui_custom_themes#extending_themes>` or they can be :ref:`created from scratch <pages/gui_toolkit/ui_custom_themes#custom_themes>`.
 
