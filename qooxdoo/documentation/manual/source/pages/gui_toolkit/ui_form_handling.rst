@@ -66,7 +66,7 @@ The interface ``qx.ui.form.IForm`` defines a set of methods and events for every
 
 |iform.png|
 
-.. |iform.png| image:: iform.png
+.. |iform.png| image:: ui_form_handling/iform.png
 
 As you can see, the interface defines accessors for four different properties. 
 
@@ -84,7 +84,7 @@ The ``qx.ui.form.IExecutable`` interface defines the essential components for al
 
 |iexecutable.png|
 
-.. |iexecutable.png| image:: iexecutable.png
+.. |iexecutable.png| image:: ui_form_handling/iexecutable.png
 
 As you can see, the interface defines accessors for only one property. 
 
@@ -99,7 +99,7 @@ The ``qx.ui.form.IRange`` interface defines the essential components for all wid
 
 |irange.png|
 
-.. |irange.png| image:: irange.png
+.. |irange.png| image:: ui_form_handling/irange.png
 
 As you can see, the interface defines accessors for four properties.
 
@@ -130,7 +130,7 @@ The color interface takes a string which has to be formatted like the `common co
 
 |iformvalue.png|
 
-.. |iformvalue.png| image:: iformvalue.png
+.. |iformvalue.png| image:: ui_form_handling/iformvalue.png
 
 As you can see, the interface can be implemented with only one property.
 
@@ -145,14 +145,14 @@ Most of the form items handling a selection had a value property in the old API.
 
 |Diagram of IModel|
 
-.. |Diagram of IModel| image:: imodel.png
+.. |Diagram of IModel| image:: ui_form_handling/imodel.png
 
 The model property can be used to store additional data which is represented by the widget. The data does not need to be a string like in the old value property. You can store references to objects, numbers, strings and so on.
 Accessing the model is very easy. Every widget containing a widget implementing the ``qx.ui.form.IModel`` interface has its own interface to access the current selected model.
 
 |Diagram of IModelSelection|
 
-.. |Diagram of IModelSelection| image:: imodelselection.png
+.. |Diagram of IModelSelection| image:: ui_form_handling/imodelselection.png
 
 As you can see in the diagram, you can get the currently selected model and also set the selection using the models.
 
@@ -802,7 +802,7 @@ We tried to keep the API as minimal as possible but simultaneously as flexible a
 
 |The validation package|
 
-.. |The validation package| image:: validationmanager.png
+.. |The validation package| image:: ui_form_handling/validationmanager.png
 
 The events, properties and methods can be divided into three groups:
 
@@ -927,7 +927,7 @@ The only difference to the synchronous case, at least from the application devel
 
 |Asynchronous form validation|
 
-.. |Asynchronous form validation| image:: sd-asyncvalidate-540x308.png
+.. |Asynchronous form validation| image:: ui_form_handling/sd-asyncvalidate-540x308.png
 
 The asynchronous validation can not only be used for form items. Also, the manager itself can handle instances of the AsyncValidator as validator.
 
@@ -946,7 +946,7 @@ Sounds like :doc:`data binding </pages/data_binding/data_binding>`? It is data b
 
 |Serialization in qooxdoo|
 
-.. |Serialization in qooxdoo| image:: serialization.png
+.. |Serialization in qooxdoo| image:: ui_form_handling/serialization.png
 
 But you don't have to connect all these widgets yourself. qooxdoo offers an object controller which can take care of most of the work. But where do you get the model? Writing a specific qooxdoo class for every form sounds like a bit of overkill. But qooxdoo has a solution for that, too. The creation of classes and model instances is already a part of the data binding components and can also be used here. Sounds wierd? Take a look at the following common scenarios to see how it works.
 
@@ -1006,7 +1006,7 @@ So we decided to create a standalone implementation for resetting called ``qx.ui
 
 |Resetter Class|
 
-.. |Resetter Class| image:: resetter.png
+.. |Resetter Class| image:: ui_form_handling/resetter.png
 
 Like the task of resetting itself, the API is not too complicated. We have one method for adding items, and another one for resetting all added items. 
 
@@ -1075,7 +1075,7 @@ In most cases, a form's layout is specific to the application. It depends on the
 To get achieve this, we applied a pattern used widely across the qooxdoo framework, which moves all UI related code to renderer classes. These renderers are as lightweight as possible to make it easy for developers to write their own custom renderer, as you can see in this UML diagram:
 |qx.ui.form.Form|
 
-.. |qx.ui.form.Form| image:: iform.png
+.. |qx.ui.form.Form| image:: ui_form_handling/iform.png
 
 .. _pages/gui_toolkit/ui_form_handling#renderer:
 
@@ -1100,7 +1100,7 @@ If you don't specify a renderer, the default is used, which is a single column r
 
 |Default renderer|
 
-.. |Default renderer| image:: singlerenderer.png
+.. |Default renderer| image:: ui_form_handling/singlerenderer.png
 
 As you can see in the picture, the renderer adds an asterisk to every required field, adds a colon at the end of every label and defines the vertical layout.
 
@@ -1112,7 +1112,7 @@ The double column renderer has the same features as the previously introduced si
 
 |Double Renderer|
 
-.. |Double Renderer| image:: doublerenderer.png
+.. |Double Renderer| image:: ui_form_handling/doublerenderer.png
 
 .. _pages/gui_toolkit/ui_form_handling#single_column_with_placeholer:
 
@@ -1122,7 +1122,7 @@ This renderer is more a of demo showing how easy it can be to implement your own
 
 |Placeholder Renderer|
 
-.. |Placeholder Renderer| image:: placeholderrenderer.png
+.. |Placeholder Renderer| image:: ui_form_handling/placeholderrenderer.png
 
 .. _pages/gui_toolkit/ui_form_handling#sample_usage_3:
 
@@ -1200,7 +1200,7 @@ Running this code will create a form as described above which will look like thi
 
 |Result of the code example|
 
-.. |Result of the code example| image:: codesampleform.png
+.. |Result of the code example| image:: ui_form_handling/codesampleform.png
 
 If you want to get a different look and feel, you can specify a different renderer in the createView method. 
 
@@ -1271,7 +1271,7 @@ The final step for data binding is to create the actual model.
 Take a look at the following sequence diagram to see how it works internally.
 |Creation of the model|
 
-.. |Creation of the model| image:: sd-createmodel-473x400.png
+.. |Creation of the model| image:: ui_form_handling/sd-createmodel-473x400.png
 
 Now we have managed to set up a form and a model connected by bidirectional bindings. So we can simply use the model to set values in the form.
 
