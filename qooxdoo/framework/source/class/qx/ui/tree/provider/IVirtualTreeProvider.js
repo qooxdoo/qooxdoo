@@ -18,6 +18,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL!
+ * 
  * This interface needs to implemented from all {@link qx.ui.tree.VirtualTree} 
  * providers.
  *
@@ -58,7 +60,11 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider",
      * 
      * @param value {String} The child property name.
      */
-    setChildProperty : function(value) {},
+    setChildProperty : function(value)
+    {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertString(value);
+    },
 
 
     /**
@@ -67,7 +73,11 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider",
      * 
      * @param value {String} The label path.
      */
-    setLabelPath : function(value) {},
+    setLabelPath : function(value)
+    {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertString(value);
+    },
     
     
     /**
@@ -75,7 +85,11 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider",
      *
      * @param row {Integer} row to style.
      */
-    styleSelectabled : function(row) {},
+    styleSelectabled : function(row)
+    {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInteger(row);
+    },
 
 
     /**
@@ -83,7 +97,11 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider",
      *
      * @param row {Integer} row to style.
      */
-    styleUnselectabled : function(row) {},
+    styleUnselectabled : function(row)
+    {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInteger(row);
+    },
 
 
     /**
@@ -93,6 +111,10 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider",
      * @return {Boolean} <code>true</code> when the row can be selected,
      *    <code>false</code> otherwise.
      */
-    isSelectable : function(row) {}
+    isSelectable : function(row)
+    {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInteger(row);
+    }
   }
 });
