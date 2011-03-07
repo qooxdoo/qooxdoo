@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     root :
     {
-      check : "qx.ui.tree.AbstractTreeItem",
+      check : "qx.ui.tree.core.AbstractTreeItem",
       init : null,
       nullable : true,
       event : "changeRoot",
@@ -478,7 +478,7 @@ qx.Class.define("qx.ui.tree.Tree",
           return null;
         }
 
-        if (widget instanceof qx.ui.tree.AbstractTreeItem) {
+        if (widget instanceof qx.ui.tree.core.AbstractTreeItem) {
           return widget;
         }
 

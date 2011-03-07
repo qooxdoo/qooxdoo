@@ -1647,7 +1647,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      * Set the icon for a given (widget) tree node according to the node's type
      * and the corresponding test's status.
      *
-     * @param node {qx.ui.tree.AbstractTreeItem} The tree node to work with
+     * @param node {qx.ui.tree.core.AbstractTreeItem} The tree node to work with
      * @param type {String} The node's type, one of "package", "class", "test"
      * @param status {String} The test's final status, one of "success",
      * "failure", "error"

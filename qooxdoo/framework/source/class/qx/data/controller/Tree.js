@@ -404,7 +404,7 @@ qx.Class.define("qx.data.controller.Tree",
      * Creates a TreeFolder and delegates the configure method if a delegate is
      * set and the needed function (configureItem) is available.
      *
-     * @return {qx.ui.tree.AbstractTreeItem} The created and configured TreeFolder.
+     * @return {qx.ui.tree.core.AbstractTreeItem} The created and configured TreeFolder.
      */
     _createItem: function() {
       var delegate = this.getDelegate();
@@ -582,7 +582,7 @@ qx.Class.define("qx.data.controller.Tree",
      * Removes all child folders of the given tree node. Also removes all
      * bindings for the removed folders.
      *
-     * @param node {qx.ui.tree.AbstractTreeItem} The used tree folder.
+     * @param node {qx.ui.tree.core.AbstractTreeItem} The used tree folder.
      */
     __removeAllFolders: function(node) {
       var children = node.getChildren();
@@ -601,8 +601,8 @@ qx.Class.define("qx.data.controller.Tree",
      * node. All set bindings will be removed and the old tree folder will be
      * destroyed.
      *
-     * @param treeFolder {qx.ui.tree.AbstractTreeItem} The folder to remove.
-     * @param rootNode {qx.ui.tree.AbstractTreeItem} The folder holding the
+     * @param treeFolder {qx.ui.tree.core.AbstractTreeItem} The folder to remove.
+     * @param rootNode {qx.ui.tree.core.AbstractTreeItem} The folder holding the
      *   treeFolder.
      */
     __removeFolder: function(treeFolder, rootNode) {
@@ -649,7 +649,7 @@ qx.Class.define("qx.data.controller.Tree",
      * @param targetPath {String} The name of the property in the target
      *   widget.
      * @param options {Map | null} The options to use for the binding.
-     * @param targetWidget {qx.ui.tree.AbstractTreeItem} The target widget.
+     * @param targetWidget {qx.ui.tree.core.AbstractTreeItem} The target widget.
      * @param modelNode {var} The model node which should be bound to the target.
      */
     bindProperty: function(sourcePath, targetPath, options, targetWidget, modelNode) {
@@ -689,7 +689,7 @@ qx.Class.define("qx.data.controller.Tree",
      * @param sourcePath {String} The name of the property in the target
      *   widget.
      * @param options {Map | null} The options to use for the binding.
-     * @param sourceWidget {qx.ui.tree.AbstractTreeItem} The source widget.
+     * @param sourceWidget {qx.ui.tree.core.AbstractTreeItem} The source widget.
      * @param modelNode {var} The model node which should be bound to the target.
      */
     bindPropertyReverse : function(

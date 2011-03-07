@@ -26,7 +26,7 @@
  */
 qx.Class.define("qx.ui.tree.TreeFolder",
 {
-  extend : qx.ui.tree.AbstractTreeItem,
+  extend : qx.ui.tree.core.AbstractTreeItem,
 
 
   properties :
