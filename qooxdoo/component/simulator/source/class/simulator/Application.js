@@ -51,6 +51,10 @@ qx.Class.define("simulator.Application", {
           opts = args[i].substr(9);
           break;
         }
+        else if (args[i].indexOf("'settings=") == 0) {
+          opts = /'settings\=(.*?)'/.exec(args[i])[1];
+          break;
+        }
       }
       if (opts) {
         opts = qx.lang.Json.parse(opts);

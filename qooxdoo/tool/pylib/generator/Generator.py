@@ -1819,6 +1819,8 @@ class Generator(object):
         settings = self._job.get("settings", None)
         if settings:
             settings = json.dumps(settings)
+            if sys.platform[0:3] == "win":
+                settings = settings.replace(" ", "").replace('"','\\"')
             settings = "'settings=" + settings + "'"
             cmd += " " + settings
         
