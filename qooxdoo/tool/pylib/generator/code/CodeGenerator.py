@@ -395,7 +395,8 @@ class CodeGenerator(object):
         if scriptUri: out_sourceUri= scriptUri
         else:
             out_sourceUri = self._computeResourceUri({'class': ".", 'path': os.path.dirname(script.baseScriptPath)}, OsPath(""), rType="class", appRoot=self.approot)
-            out_sourceUri = os.path.normpath(out_sourceUri.encodedValue())
+            out_sourceUri = out_sourceUri.encodedValue()
+            out_sourceUri = out_sourceUri[:-1] if out_sourceUri[-1] == "/" else out_sourceUri
         globalCodes["Libinfo"]['__out__'] = { 'sourceUri': out_sourceUri }
         globalCodes["Resources"]    = self.generateResourceInfoCode(script, settings, libraries, format)
         globalCodes["Translations"],\
