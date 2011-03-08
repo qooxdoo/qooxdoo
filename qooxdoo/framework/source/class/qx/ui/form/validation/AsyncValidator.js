@@ -35,6 +35,11 @@
  *
  * *Warning:* Instances of this class can only be used with one input
  * field at a time. Multi usage is not supported!
+ * 
+ * *Warning:* Calling {@link #setValid} synchronously does not work. If you 
+ * have an synchronous validator, please check 
+ * {@link qx.ui.form.validation.Manager#add}. If you have both cases, you have 
+ * to wrap the synchronous call in a timeout to make it asychronous.
  */
 qx.Class.define("qx.ui.form.validation.AsyncValidator",
 {
