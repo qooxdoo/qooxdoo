@@ -40,6 +40,7 @@
                   "${QXRESPATH}/qx/icon/Tango/22/places/folder-open.png",
                   "${QXRESPATH}/qx/icon/Tango/22/places/folder.png",
                   "${QXRESPATH}/qx/icon/Tango/22/apps/internet-feed-reader.png",
+                  "${QXRESPATH}/qx/icon/Tango/22/apps/preferences-theme.png",
                   "${QXRESPATH}/qx/icon/Tango/22/actions/process-stop.png"
                 ]
               }
@@ -102,6 +103,7 @@
                   "${QXRESPATH}/qx/icon/Tango/22/places/folder-open.png",
                   "${QXRESPATH}/qx/icon/Tango/22/places/folder.png",
                   "${QXRESPATH}/qx/icon/Tango/22/apps/internet-feed-reader.png",
+                  "${QXRESPATH}/qx/icon/Tango/22/apps/preferences-theme.png",
                   "${QXRESPATH}/qx/icon/Tango/22/actions/process-stop.png"
                 ]
               }
