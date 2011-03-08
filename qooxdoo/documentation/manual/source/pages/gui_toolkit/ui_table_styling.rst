@@ -82,7 +82,7 @@ To achieve this you can re-define the ``table`` decorator in your application th
 
 .. note::
 
-    To get this example working you additionally have to define the colors ``table-border-main`` and ``table-shadow`` in your color theme. It's considered as best practice  to define all colors as named colord in your color theme. This way you can use these named colors all over your application.
+    To get this example working you additionally have to define the colors ``table-border-main`` and ``table-shadow`` in your color theme. It's considered as best practice  to define all colors as named color in your color theme. This way you can use these named colors all over your application.
 
 
 ======
@@ -620,7 +620,7 @@ Here's a litte example with an editable textfield with ``orange`` background col
 Scrollbars
 ==========
 
-Each widget which uses the scrolling capabilities (as the table pane scroller does) can use themed scrollbars. By using them you can also style them, since they are rendered by decorators which are now quite common to, right?
+Each widget which uses the scrolling capabilities (as the table pane scroller does) can use themed scrollbars. By using them you can also style them, since they are rendered by decorators which are now quite common to you, right?
 So this section won't dive too deep into styling scrollbars and just gives hints at which appearance you have to get your hands on. The default appearance of the scrollbars for the table is
 
 ::
