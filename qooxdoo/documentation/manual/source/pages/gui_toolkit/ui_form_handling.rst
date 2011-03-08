@@ -916,10 +916,10 @@ For all asynchronous validation cases, we need a wrapper for the validator, the 
     manager.add(textField, new qx.ui.form.validation.AsyncValidator(
       function(validator, value) {
         // here comes the async call
-        window.setTimeout(function() {
+        qx.event.Timer.once(function() {
           // callback for the async validation
           validator.setValid(false);
-        }, 1000);
+        }, this, 1000);
       }
     ));
 
