@@ -125,17 +125,20 @@ qx.Bootstrap.define("qx.io.part.Package",
      */
     execute : function()
     {
+      var callback;
+
       if (this.__closure)
       {
         this.__closure();
         delete this.__closure;
       }
 
-      var callback;
       if (qx.$$packageData[this.__id])
       {
         if (qx.util && qx.util.ResourceManager){
-          callback = qx.util.ResourceManager.getInstance().postProcessPackageData;
+          var resmgr = qx.util.ResourceManager.getInstance();
+          // binding the ResourceManager instance to the postProcessPackageData call
+          callback = function(d){resmgr.postProcessPackageData.call(resmgr,d);};
         } else {
           callback = undefined;
         }

@@ -125,7 +125,7 @@ qx.Class.define("qx.io.PartLoader",
 
     
     /**
-     * Returns a mpa of all known parts.
+     * Returns a map of all known parts.
      * @return {Map} Map containig all parts.
      */
     getParts : function() {
