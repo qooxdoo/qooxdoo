@@ -125,7 +125,9 @@ What a decoration theme can look like:
      */
     qx.Theme.define("myApplication.theme.sample.Decoration",
     {
-      resource : "sample/decoration/MyDecorationTheme",
+      aliases : {
+        decoration : "myApplication/decoration/sample"
+      },
 
       decorations :
      {
@@ -140,7 +142,7 @@ What a decoration theme can look like:
           }
         },
 
-       "single" :
+        "single" :
         {
           decorator: qx.ui.decoration.Single,
 
@@ -204,7 +206,12 @@ What a decoration theme can look like:
         }
     });
 
-Noted the ``#asset`` at the top and the ``resource`` key inside the theme declaration? This is needed to for the images used within the theme. A description of how to work with resources is available :ref:`here <pages/ui_resources#declaring_resources_in_the_code>`.
+Noted the ``#asset`` at the top and the ``aliases`` key inside the theme declaration? This is needed to for the images used within the theme. A description of how to work with resources is available :ref:`here <pages/ui_resources#declaring_resources_in_the_code>`.
+
+.. note::
+
+    The ``aliases`` key is especially important when defining an own decorator theme. This entry does add a new alias at the ``AliasManager`` class and verifies that your images for the decoration theme are found by the ``ResourceManager`` which is working with the resolve URLs of the ``AliasManager`` class.
+
 
 .. _pages/ui_theming#font_theme:
 
@@ -286,7 +293,9 @@ Complete code for the ``tango`` icon theme:
      */
     qx.Theme.define("qx.theme.icon.Tango",
     {
-      resource : "qx/icon/Tango",
+      aliases : {
+        "icon" : "qx/icon/Tango"
+      },
       icons : {}
     });
 
