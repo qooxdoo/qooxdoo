@@ -35,10 +35,10 @@
  * 
  * Commands that simulate mouse clicks such as {@link #qxClick} take a 
  * parameter that allows configuring the generated events. The value  must be a 
- * string of comma-separated key=value pairs. The following settings are 
+ * string of comma-separated __key=value pairs__. The following settings are 
  * supported:
  * 
- *  double: fire a "dblclick" event
+ *  <pre>double: fire a "dblclick" event
  *   - possible values: true, false
  *   - default value  : false
  *  button: the mouse button to be pressed
@@ -50,7 +50,7 @@
  *  shiftKey, altKey, metaKey: additional modifier keys being pressed while 
  *  clicking
  *   - possible values: true, false
- *   - default value  : false
+ *   - default value  : false</pre>
  *   
  * Getter commands will always return a Java string object. This should always
  * be converted to a JavaScript string for comparisons or string operations, 
@@ -119,9 +119,10 @@ qx.Class.define("simulator.QxSelenium", {
 
     /**
      * Clicks on a qooxdoo widget.
-     * Always synthesizes the following events: mouseover, mousedown, mouseup.
-     * Additionally, click, dblclick or contextmenu will be fired depending on 
-     * the specified params
+     * Always synthesizes the following events: __mouseover__, __mousedown__,
+     * __mouseup__.
+     * Additionally, __click__, __dblclick__ or __contextmenu__ will be fired 
+     * depending on the specified params
      *
      * @param locator {String} an element locator that finds a qooxdoo widget's 
      * DOM element
@@ -150,21 +151,21 @@ qx.Class.define("simulator.QxSelenium", {
      *
      * <p>
      * The column to click can be located using the index, ID or name as defined 
-     * in the table model by adding one of the col, colId or colName parameters 
-     * to the "params" string. 
+     * in the table model by adding one of the __col__, __colId__ or __colName__
+     * parameters to the "params" string. 
      * Alternatively, a specific cell can be located by RegExp matching its 
-     * content using the cellValue parameter.
-     * NOTE: This currently only works with tables using a Simple table model 
+     * content using the __cellValue__ parameter.
+     * *NOTE*: This currently only works with tables using a Simple table model 
      * ({@link qx.ui.table.model.Simple})!
      * 
      * <p>
      * Supported params keys:
-     * - All mouse event parameters
+     * <pre>- All mouse event parameters
      * - row: Index of the table row to click
      * - col: Index of the table column to click
      * - colId: ID of the column to click
      * - colName: Name of the column to click
-     * - cellValue: Content of a (text) cell to click
+     * - cellValue: Content of a (text) cell to click</pre>
      *
      * @param locator {String} an element locator that finds a qooxdoo table's 
      * DOM element
@@ -176,10 +177,9 @@ qx.Class.define("simulator.QxSelenium", {
     /**
      * Simulates clicking a header cell of a {@link qx.ui.table.Table}.
      * 
-     * <p>
      * The column to click can be located using the index, ID or name as defined 
-     * in the table model by adding one of the col, colId or colName parameters 
-     * to the "params" string. 
+     * in the table model by adding one of the __col__, __colId__ or __colName__ 
+     * parameters to the "params" string. 
      * 
      * @param locator {String} an element locator that finds a qooxdoo table's 
      * DOM element
@@ -189,32 +189,33 @@ qx.Class.define("simulator.QxSelenium", {
 
 
     /**
-     * Simulates user interaction with editable table cells. NOTE: The 
+     * Simulates user interaction with editable table cells. *NOTE*: The 
      * target cell's editing mode must be activated immediately before this 
      * command is used, e.g. by executing a double click on it using the 
      * {@link #qxTableClick} command with "double=true" added to the params.
      * <p>
      * The following cell editor types are supported:
     
-     * Text fields ({@link qx.ui.table.celleditor.PasswordField}, 
+     * *Text fields* ({@link qx.ui.table.celleditor.PasswordField}, 
      * {@link qx.ui.table.celleditor.TextField}, 
-     * {@link qx.ui.table.celleditor.ComboBox}): Use either the "type" or 
-     * "typeKeys" parameters (typeKeys triggers 
-     * keydown/keyup/keypress events). Examples:
-     * qxSelenium.qxEditTableCell("qxh=qx.ui.table.Table", "type=Some text");
-     * qxSelenium.qxEditTableCell("myTable", "typeKeys=Lots of events");
+     * {@link qx.ui.table.celleditor.ComboBox}): Use either the __type__ or 
+     * __typeKeys__ parameters (see {@link #qxType} and {@link #qxTypeKeys}). 
+     * Examples:
+     * <pre>qxSelenium.qxEditTableCell("qxh=qx.ui.table.Table", "type=Some text");
+     * qxSelenium.qxEditTableCell("myTable", "typeKeys=Lots of events");</pre>
      * <p>
-     * Select boxes ({@link qx.ui.table.celleditor.SelectBox}, 
-     * {@link qx.ui.table.celleditor.ComboBox}): Use the "selectFromBox" 
+     * *Select boxes* ({@link qx.ui.table.celleditor.SelectBox}, 
+     * {@link qx.ui.table.celleditor.ComboBox}): Use the __selectFromBox__ 
      * parameter. The value must be a qxh locator step that identifies the list 
      * item to be clicked.
      * Examples:
-     * qxSelenium.qxEditTableCell("qxh=qx.ui.table.Table", "selectFromBox=[@label=Germany]");
-     * qxSelenium.qxEditTableCell("qxh=qx.ui.table.Table", "selectFromBox=child[2]");
+     * <pre>qxSelenium.qxEditTableCell("qxh=qx.ui.table.Table", "selectFromBox=[@label=Germany]");
+     * qxSelenium.qxEditTableCell("qxh=qx.ui.table.Table", "selectFromBox=child[2]");</pre>
      * <p>
-     * Checkboxes ({@link qx.ui.table.celleditor.CheckBox}): Use the 
-     * "toggleCheckBox" parameter. Example:
-     * qxSelenium.qxEditTableCell("qxh=qx.ui.table.Table", "toggleCheckBox=foo");
+     * *Checkboxes* ({@link qx.ui.table.celleditor.CheckBox}): Use the 
+     * __toggleCheckBox__ parameter.
+     * Example:
+     * <pre>qxSelenium.qxEditTableCell("qxh=qx.ui.table.Table", "toggleCheckBox=foo");</pre>
      * (toggleCheckBox needs a value to be recognized as a valid parameter even 
      * though it is ignored.)
      * 
@@ -336,11 +337,11 @@ qx.Class.define("simulator.QxSelenium", {
 
 
     /** 
-     * Creates a new function with the value of the script parameter as body. 
+     * Creates a new function with the value of the __script__ parameter as body. 
      * This function is bound to the context of the qooxdoo widget returned by 
-     * the given locator, i.e. "this" within the script will refer to the widget.
-     * The function is then called and the return value is serialized in JSON 
-     * format (unless it is a string or number) and returned.
+     * the given locator, i.e. __this__ within the script will refer to the 
+     * widget. The function is then called and the return value is serialized in
+     * JSON format (unless it is a string or number) and returned.
      *
      * @param locator {String} an element locator that finds a qooxdoo widget's 
      * DOM element
@@ -352,12 +353,12 @@ qx.Class.define("simulator.QxSelenium", {
 
     /**
      * Returns a qooxdoo object's ID as generated by qx.core.ObjectRegistry.
-     * If only the locator parameter is given, the hash code of the widget it 
-     * identifies will be returned. If the optional script parameter is given, 
-     * its value will be executed as a function in the widget's context and the 
-     * hash of the object it returns will be returned instead. Example:
+     * If only the __locator__ parameter is given, the hash code of the widget 
+     * it identifies will be returned. If the optional __script__ parameter is 
+     * given, its value will be executed as a function in the widget's context 
+     * and the hash of the object it returns will be returned instead. Example:
      * 
-     * getQxObjectHash("myTable", "return this.getTableModel();");
+     * <pre>getQxObjectHash("myTable", "return this.getTableModel();");</pre>
      * 
      * will find a qooxdoo table with the HTML ID "myTable" and return the hash 
      * of its table model.
@@ -372,8 +373,9 @@ qx.Class.define("simulator.QxSelenium", {
 
 
     /** 
-     * Drags an element a certain distance and then drops it. Optionally 
-     * executes mouseover, mousemove and mouseup on a second element
+     * Simulates dragging an element a certain distance and then dropping it. 
+     * Optionally executes __mouseover__, __mousemove__ and __mouseup __on a 
+     * second element specified by __targetLocator__
      * 
      * @param locator {String} an element locator that finds a qooxdoo widget's 
      * DOM element
@@ -385,7 +387,7 @@ qx.Class.define("simulator.QxSelenium", {
 
 
     /**
-     * Drags an element and drops it on another element
+     * Simulates dragging an element and dropping it on another element.
      * 
      * @param locator {String} an element locator that finds a qooxdoo widget's 
      * DOM element
@@ -397,8 +399,10 @@ qx.Class.define("simulator.QxSelenium", {
 
     /**
      * Sets the value of a qooxdoo text field widget which can either be the 
-     * widget returned by the given locator, or one of its child widgets. 
-     * Does not simulate key events.
+     * widget returned by the given locator, or one of its child widgets (i.e.
+     * for {@link qx.ui.form.ComboBox}). 
+     * Does *not* simulate key events - only the HTML text field's __value__
+     * attribute is set.
      *
      * @param locator {String} an element locator that finds a qooxdoo widget's 
      * DOM element
@@ -410,8 +414,8 @@ qx.Class.define("simulator.QxSelenium", {
     /**
      * Simulates a user entering text into any qooxdoo widget that either 
      * inherits from {@link qx.ui.form.AbstractField}  or has a child control 
-     * that does. "keydown", "keypress" and "keyup" events are fired for each
-     * character in the given value.
+     * that does. __keydown__, __keypress__ and __keyup__ events are fired for 
+     * each character in the given value.
      *
      * @param locator {String} an element locator that finds a qooxdoo widget's 
      * DOM element
