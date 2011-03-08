@@ -19,11 +19,11 @@
 
 /* ************************************************************************
 
-#ignore(qx.ui.form.AbstractVirtualBoxMock)
+#ignore(qx.ui.form.core.AbstractVirtualBoxMock)
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.VirtualDropDownList",
+qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
 {
   extend : qx.test.ui.LayoutTestCase,
   include : qx.test.ui.list.MAssert,
@@ -33,7 +33,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
   {
     this.base(arguments);
 
-    qx.Class.define("qx.ui.form.AbstractVirtualBoxMock", {
+    qx.Class.define("qx.ui.form.core.AbstractVirtualBoxMock", {
       extend : qx.ui.form.core.AbstractVirtualBox
     });
   },
@@ -54,7 +54,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     {
       this.base(arguments);
 
-      this.__target = new qx.ui.form.AbstractVirtualBoxMock();
+      this.__target = new qx.ui.form.core.AbstractVirtualBoxMock();
       this.__dropdown = new qx.ui.form.core.VirtualDropDownList(this.__target);
 
       this.__model = this.__createModelData();
@@ -424,6 +424,6 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
 
 
   destruct : function() {
-    qx.Class.undefine("qx.ui.form.AbstractVirtualBoxMock");
+    qx.Class.undefine("qx.ui.form.core.AbstractVirtualBoxMock");
   }
 });
