@@ -246,7 +246,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || this.base(arguments, id, hash);
     },
 
 

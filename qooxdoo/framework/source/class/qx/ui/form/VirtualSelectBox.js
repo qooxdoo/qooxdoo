@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -18,14 +18,14 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * A form virtual widget which allows a single selection. Looks somewhat like
- * a normal button, but opens a virtual list of items to select when clicking on it.
+ * a normal button, but opens a virtual list of items to select when clicking 
+ * on it.
  *
  * @childControl spacer {qx.ui.core.Spacer} Flexible spacer widget.
  * @childControl atom {qx.ui.basic.Atom} Shows the text and icon of the content.
- * @childControl arrow {qx.ui.basic.Image} Shows the arrow to open the drop-down list.
+ * @childControl arrow {qx.ui.basic.Image} Shows the arrow to open the drop-down
+ *   list.
  */
 qx.Class.define("qx.ui.form.VirtualSelectBox",
 {
@@ -87,8 +87,17 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     __searchValue : "",
 
 
-    /** {qx.event.Timer} The time which triggers the search for preselection. */
+    /** 
+     * {qx.event.Timer} The time which triggers the search for pre-selection.
+     */
     __searchTimer : null,
+
+    
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAl API
+    ---------------------------------------------------------------------------
+    */
 
 
     // overridden
@@ -120,14 +129,31 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || this.base(arguments, id, hash);
     },
 
+    
+    // overridden
+    _getAction : function(event)
+    {
+      var keyIdentifier = event.getKeyIdentifier();
+      var isOpen = this.getChildControl("dropdown").isVisible();
 
+      if (!isOpen && (keyIdentifier === "Enter" || keyIdentifier === "Space")) {
+        return "open";
+      } else if (isOpen && event.isPrintable()) {
+        return "search";
+      } else {
+        return this.base(arguments, event);
+      }
+    },
+    
+    
     // overridden
     _bindWidget : function() {
       var atom = this.getChildControl("atom");
 
+      // TODO Do not remove all bindings, remove only the added bindings.
       this.removeAllBindings();
 
       var modelPath = this._getBindPath("selection", "");
@@ -140,21 +166,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         var iconSourcePath = this._getBindPath("selection", this.getIconPath());
         this.bind(iconSourcePath, atom, "icon", this.getIconOptions());
       }
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-
-    // property apply
-    _applySelection : function(value, old)
-    {
-      this.getChildControl("dropdown").setSelection(value);
-      qx.ui.core.queue.Widget.add(this);
     },
 
 
@@ -197,9 +208,11 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     /**
      * Listener method for "mouseover" event.
+     * 
      * <ul>
      * <li>Adds state "hovered"</li>
-     * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
+     * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state 
+     *   is set)</li>
      * </ul>
      *
      * @param event {Event} Mouse event
@@ -222,9 +235,11 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     /**
      * Listener method for "mouseout" event.
+     * 
      * <ul>
      * <li>Removes "hovered" state</li>
-     * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state is set)</li>
+     * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state 
+     *   is set)</li>
      * </ul>
      *
      * @param event {Event} Mouse event
@@ -244,28 +259,27 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       }
     },
 
+    
+    /*
+    ---------------------------------------------------------------------------
+      APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+
+    // property apply
+    _applySelection : function(value, old)
+    {
+      this.getChildControl("dropdown").setSelection(value);
+      qx.ui.core.queue.Widget.add(this);
+    },
+    
 
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
     ---------------------------------------------------------------------------
     */
-
-
-    // overridden
-    _getAction : function(event)
-    {
-      var keyIdentifier = event.getKeyIdentifier();
-      var isOpen = this.getChildControl("dropdown").isVisible();
-
-      if (!isOpen && (keyIdentifier === "Enter" || keyIdentifier === "Space")) {
-        return "open";
-      } else if (isOpen && event.isPrintable()) {
-        return "search";
-      } else {
-        return this.base(arguments, event);
-      }
-    },
 
 
     /**
@@ -296,12 +310,14 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
         if (this.getLabelPath() != null)
         {
-          value = qx.data.SingleValueBinding.getValueFromObject(item, this.getLabelPath());
+          value = qx.data.SingleValueBinding.getValueFromObject(item, 
+            this.getLabelPath());
 
           var labelOptions = this.getLabelOptions(); 
           if (labelOptions != null)
           {
-            var converter = qx.util.Delegate.getMethod(labelOptions, "converter");
+            var converter = qx.util.Delegate.getMethod(labelOptions, 
+              "converter");
 
             if (converter != null) {
               value = converter(value, item);
@@ -309,7 +325,9 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
           }
         }
 
-        if (qx.lang.String.startsWith(value.toLowerCase(), searchValue.toLowerCase()))
+        if (
+          qx.lang.String.startsWith(value.toLowerCase(), searchValue.toLowerCase())
+        )
         {
           selection.push(item);
           break;

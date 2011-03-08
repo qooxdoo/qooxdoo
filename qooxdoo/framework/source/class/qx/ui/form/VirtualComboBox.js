@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox", {
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || this.base(arguments, id, hash);
     },
 
     // overridden
