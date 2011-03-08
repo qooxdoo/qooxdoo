@@ -512,7 +512,13 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
       var availableHeigth = this.__getAvailableHeigth();
       var maxListHeight = this._target.getMaxListHeight();
       var list = this.getChildControl("list");
-      if (maxListHeight == null || maxListHeight > availableHeigth) {
+      var itemsHeight = list.getPane().getRowConfig().getTotalSize();
+
+      if (maxListHeight == null || itemsHeight < maxListHeight) {
+        maxListHeight = itemsHeight;
+      }
+
+      if (maxListHeight > availableHeigth) {
         list.setMaxHeight(availableHeigth);
       } else if (maxListHeight < availableHeigth) {
         list.setMaxHeight(maxListHeight);
