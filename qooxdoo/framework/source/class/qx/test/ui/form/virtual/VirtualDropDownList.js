@@ -34,7 +34,14 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
     this.base(arguments);
 
     qx.Class.define("qx.ui.form.core.AbstractVirtualBoxMock", {
-      extend : qx.ui.form.core.AbstractVirtualBox
+      extend : qx.ui.form.core.AbstractVirtualBox,
+      
+      members :
+      {
+        _addBindings : function() {},
+        
+        _removeBindings : function() {}
+      }
     });
   },
 

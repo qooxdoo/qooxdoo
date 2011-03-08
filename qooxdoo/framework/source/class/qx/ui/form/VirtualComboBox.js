@@ -83,10 +83,6 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
 
   members :
   {
-    /** {qx.data.Arrax} the selection from the drop-down. */
-    __selection : null,
-    
-    
     /** {var} The current binding id form the selection. */
     __selectionBindingId : null,
 
@@ -255,19 +251,26 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       
     
     // overridden
-    _bindWidget : function()
+    _addBindings : function()
     {
-      if (this.__selectionBindingId != null)
-      {
-        this.__selection.removeBinding(this.__selectionBindingId);
-        this.__selectionBindingId = null;
-      }
-
-      this.__selection = this.getChildControl("dropdown").getSelection();
+      var selection = this.getChildControl("dropdown").getSelection();
 
       var labelSourcePath = this._getBindPath("", this.getLabelPath());
-      this.__selectionBindingId = this.__selection.bind(labelSourcePath, 
+      this.__selectionBindingId = selection.bind(labelSourcePath, 
         this, "value", this.__getLabelFilterOptions());
+    },
+    
+    
+    // overridden
+    _removeBindings : function()
+    {
+      var selection = this.getChildControl("dropdown").getSelection();
+      
+      if (this.__selectionBindingId != null)
+      {
+        selection.removeBinding(this.__selectionBindingId);
+        this.__selectionBindingId = null;
+      }
     },
     
     
@@ -363,8 +366,9 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     {
       var value = this.getChildControl("textfield").getValue();
       var labelPath = this.getLabelPath();
+      var selection = this.getChildControl("dropdown").getSelection();
       
-      if (this.__selection.getItem(0) !== value)
+      if (selection.getItem(0) !== value)
       {
         var model = this.getModel();
         var lookupTable = this.getChildControl("dropdown").getChildControl("list")._getLookupTable();

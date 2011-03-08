@@ -44,6 +44,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     this.addListener("mouseover", this._onMouseOver, this);
     this.addListener("mouseout", this._onMouseOut, this);
 
+    this.__bindings = [];
     this.initSelection(this.getChildControl("dropdown").getSelection());
 
     this.__searchTimer = new qx.event.Timer(500);
@@ -92,6 +93,10 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
      */
     __searchTimer : null,
 
+    
+    /** {Array} Contains the id from all bindings. */
+    __bindings : null,
+    
     
     /*
     ---------------------------------------------------------------------------
@@ -150,21 +155,32 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     
     
     // overridden
-    _bindWidget : function() {
+    _addBindings : function() {
       var atom = this.getChildControl("atom");
 
-      // TODO Do not remove all bindings, remove only the added bindings.
-      this.removeAllBindings();
-
       var modelPath = this._getBindPath("selection", "");
-      this.bind(modelPath, atom, "model", null);
+      var id = this.bind(modelPath, atom, "model", null);
+      this.__bindings.push(id);
 
       var labelSourcePath = this._getBindPath("selection", this.getLabelPath());
-      this.bind(labelSourcePath, atom, "label", this.getLabelOptions());
-
+      id = this.bind(labelSourcePath, atom, "label", this.getLabelOptions());
+      this.__bindings.push(id);
+      
       if (this.getIconPath() != null) {
         var iconSourcePath = this._getBindPath("selection", this.getIconPath());
-        this.bind(iconSourcePath, atom, "icon", this.getIconOptions());
+        id = this.bind(iconSourcePath, atom, "icon", this.getIconOptions());
+        this.__bindings.push(id);
+      }
+    },
+    
+
+    // overridden
+    _removeBindings : function()
+    {
+      while (this.__bindings.length > 0)
+      {
+        var id = this.__bindings.pop();
+        this.removeBinding(id);
       }
     },
 
