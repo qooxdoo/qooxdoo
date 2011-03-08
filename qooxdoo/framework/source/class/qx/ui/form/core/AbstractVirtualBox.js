@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -18,10 +18,9 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
- * Basic class for a widgets which need a list as popup for example a select box.
- * Basically supports a drop-down as popup with a list and the whole children management.
+ * Basic class for widgets which need a virtual list as popup for example a 
+ * SelectBox. It's basically supports a drop-down as popup with a virtual list 
+ * and the whole children management.
  *
  * @childControl dropdown {qx.ui.form.core.VirtualDropDownList} The drop-down list.
  */
@@ -34,8 +33,6 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
 
   /**
-   * Constructs the widget with the passed model.
-   *
    * @param model {qx.data.Array?null} The model data for the widget.
    */
   construct : function(model)
@@ -82,7 +79,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     },
 
 
-    /** Data array containing the data which should be shown in the list. */
+    /** Data array containing the data which should be shown in the drop-down. */
     model :
     {
       check : "qx.data.Array",
@@ -95,7 +92,8 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
     /**
      * Delegation object which can have one or more functions defined by the
-     * {@link qx.ui.list.core.IListDelegate} interface.
+     * {@link qx.ui.list.core.IListDelegate} interface, but *note* the grouping
+     * feature is not supported. 
      */
     delegate :
     {
@@ -169,7 +167,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
 
     /**
-     * The maximum height of the drop-down list. Setting this value to
+     * The maximum height of the drop-down list. Setting this value to 
      * <code>null</code> will set cause the list to be auto-sized.
      */
     maxListHeight :
@@ -184,7 +182,6 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
   members :
   {
-    // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
@@ -192,102 +189,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
       focused : true
     },
 
-
-    // overridden
-    _createChildControlImpl : function(id, hash)
-    {
-      var control;
-
-      switch(id)
-      {
-        case "dropdown":
-          control = new qx.ui.form.core.VirtualDropDownList(this);
-          break;
-      }
-
-      return control || this.base(arguments, id);
-    },
-
-
-    // overridden
-    syncWidget : function() {
-      this._bindWidget();
-    },
-
-
-    /**
-     * Method to bind the selected item from the drop-down with the widget.
-     */
-    _bindWidget : function() {
-      throw new Error("Abstract method: '_bindWidget()' called!");
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-
-    // property apply
-    _applyModel : function(value, old)
-    {
-      this.getChildControl("dropdown").getChildControl("list").setModel(value);
-      qx.ui.core.queue.Widget.add(this);
-    },
-
-
-    // property apply
-    _applyDelegate : function(value, old) {
-      this.getChildControl("dropdown").getChildControl("list").setDelegate(value);
-    },
-
-
-    // property apply
-    _applyLabelPath : function(value, old)
-    {
-      this.getChildControl("dropdown").getChildControl("list").setLabelPath(value);
-      qx.ui.core.queue.Widget.add(this);
-    },
-
-
-    // property apply
-    _applyLabelOptions : function(value, old)
-    {
-      this.getChildControl("dropdown").getChildControl("list").setLabelOptions(value);
-      qx.ui.core.queue.Widget.add(this);
-    },
     
-    
-    // property apply
-    _applyIconPath : function(value, old)
-    {
-      this.getChildControl("dropdown").getChildControl("list").setIconPath(value);
-      qx.ui.core.queue.Widget.add(this);
-    },
-
-
-    // property apply
-    _applyIconOptions : function(value, old)
-    {
-      this.getChildControl("dropdown").getChildControl("list").setIconOptions(value);
-      qx.ui.core.queue.Widget.add(this);
-    },
-
-
-    // property apply
-    _applyRowHeight : function(value, old) {
-      this.getChildControl("dropdown").getChildControl("list").setRowHeight(value);
-    },
-
-
-    // property apply
-    _applyMaxListHeight : function(value, old) {
-      this.getChildControl("dropdown").getChildControl("list").setMaxHeight(value);
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
@@ -295,8 +197,14 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     */
 
 
+    // overridden
+    syncWidget : function() {
+      this._bindWidget();
+    },
+    
+    
     /**
-     * Shows the list drop-down.
+     * Shows the drop-down.
      */
     open : function() {
       this._beforeOpen();
@@ -305,7 +213,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
 
     /**
-     * Hides the list drop-down.
+     * Hides the drop-down.
      */
     close : function() {
       this._beforeClose();
@@ -325,10 +233,42 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
         this.open();
       }
     },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL API
+    ---------------------------------------------------------------------------
+    */
+    
+
+    // overridden
+    _createChildControlImpl : function(id, hash)
+    {
+      var control;
+
+      switch(id)
+      {
+        case "dropdown":
+          control = new qx.ui.form.core.VirtualDropDownList(this);
+          break;
+      }
+
+      return control || this.base(arguments, id);
+    },
+
+
+    /**
+     * This abstract method is called when the binding can be added to the 
+     * widget. For e.q. bind the drop-down selection with the widget.
+     */
+    _bindWidget : function() {
+      throw new Error("Abstract method: '_bindWidget()' called!");
+    },
 
     
     /**
-     * This method is called before the dropdown is opened.
+     * This method is called before the drop-down is opened.
      */
     _beforeOpen: function() {
     
@@ -336,10 +276,64 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     
     
     /**
-     * This method is called before the dropdown is closed.
+     * This method is called before the drop-down is closed.
      */
     _beforeClose: function() {
     
+    },
+    
+    
+    /**
+     * Returns the action dependent on the user interaction: <code>open</code>,
+     * <code>close</code>, <code>selectPrevious</code>, <code>selectNext</code>,
+     * <code>selectFirst</code> or <code>selectLast</code>.
+     *
+     * @param event {qx.event.type.KeySequence} The keyboard event.
+     * @return {String|null} The action or <code>null</code> when interaction 
+     *  doesn't hit any action.
+     */
+    _getAction : function(event)
+    {
+      var keyIdentifier = event.getKeyIdentifier();
+      var isOpen = this.getChildControl("dropdown").isVisible();
+
+      if (
+        !isOpen && event.isAltPressed() && 
+        (keyIdentifier === "Down" || keyIdentifier === "Up")
+      ) {
+        return "open";
+      } else if (isOpen && keyIdentifier === "Escape") {
+        return "close";
+      } else if (!isOpen && keyIdentifier === "Up") {
+        return "selectPrevious";
+      } else if (!isOpen && keyIdentifier === "Down") {
+        return "selectNext";
+      } else if (!isOpen && keyIdentifier === "PageUp") {
+        return "selectFirst";
+      } else if (!isOpen && keyIdentifier === "PageDown") {
+        return "selectLast";
+      } else {
+        return null;
+      }
+    },
+
+
+    /**
+     * Helper Method to create bind path depended on the passed path.
+     *
+     * @param source {String} The path to the selection.
+     * @param path {String?null} The path to the item's property.
+     * @return {String} The created path.
+     */
+    _getBindPath : function(source, path)
+    {
+      var bindPath = source + "[0]";
+
+      if (path != null && path != "") {
+        bindPath += "." + path;
+      }
+
+      return bindPath;
     },
     
 
@@ -361,9 +355,9 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
 
     /**
-     * Handles the complete keyboard events for user interaction.
-     * If there is no defined user interaction {@link #_getAction},
-     * the event is delegated to the drop-down.
+     * Handles the complete keyboard events for user interaction. If there is 
+     * no defined user interaction {@link #_getAction}, the event is delegated 
+     * to the {@link qx.ui.form.core.VirtualDropDownList#_handleKeyboard} method.
      *
      * @param event {qx.event.type.KeySequence} The keyboard event.
      */
@@ -427,70 +421,77 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
 
     /**
-     * Updates list minimum size.
+     * Updates drop-down minimum size.
      *
-     * @param event {qx.event.type.Data} Data event
+     * @param event {qx.event.type.Data} Data event.
      */
     _onResize : function(event){
       this.getChildControl("dropdown").setMinWidth(event.getData().width);
     },
 
-
+    
     /*
     ---------------------------------------------------------------------------
-      HELPER METHODS
+      APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
 
-    /**
-     * Returns the action dependent on the user interaction: <code>open</code>,
-     * <code>close</code>, <code>selectPrevious</code>, <code>selectNext</code>,
-     * <code>selectFirst</code> or <code>selectLast</code>.
-     *
-     * @param event {qx.event.type.KeySequence} The keyboard event.
-     * @return {String|null} The action or <code>null</code> when interaction doen't hit
-     *  any action.
-     */
-    _getAction : function(event)
+    // property apply
+    _applyModel : function(value, old)
     {
-      var keyIdentifier = event.getKeyIdentifier();
-      var isOpen = this.getChildControl("dropdown").isVisible();
-
-      if (!isOpen && event.isAltPressed() && (keyIdentifier === "Down" || keyIdentifier === "Up")) {
-        return "open";
-      } else if (isOpen && keyIdentifier === "Escape") {
-        return "close";
-      } else if (!isOpen && keyIdentifier === "Up") {
-        return "selectPrevious";
-      } else if (!isOpen && keyIdentifier === "Down") {
-        return "selectNext";
-      } else if (!isOpen && keyIdentifier === "PageUp") {
-        return "selectFirst";
-      } else if (!isOpen && keyIdentifier === "PageDown") {
-        return "selectLast";
-      } else {
-        return null;
-      }
+      this.getChildControl("dropdown").getChildControl("list").setModel(value);
+      qx.ui.core.queue.Widget.add(this);
     },
 
 
-    /**
-     * Helper Method to create bind path depended on the passed path.
-     *
-     * @param source {String} The path to the selection.
-     * @param path {String?null} The path to the item's property.
-     * @return {String} The created path.
-     */
-    _getBindPath : function(source, path)
+    // property apply
+    _applyDelegate : function(value, old) {
+      this.getChildControl("dropdown").getChildControl("list").setDelegate(value);
+    },
+
+
+    // property apply
+    _applyLabelPath : function(value, old)
     {
-      var bindPath = source + "[0]";
+      this.getChildControl("dropdown").getChildControl("list").setLabelPath(value);
+      qx.ui.core.queue.Widget.add(this);
+    },
 
-      if (path != null && path != "") {
-        bindPath += "." + path;
-      }
 
-      return bindPath;
+    // property apply
+    _applyLabelOptions : function(value, old)
+    {
+      this.getChildControl("dropdown").getChildControl("list").setLabelOptions(value);
+      qx.ui.core.queue.Widget.add(this);
+    },
+    
+    
+    // property apply
+    _applyIconPath : function(value, old)
+    {
+      this.getChildControl("dropdown").getChildControl("list").setIconPath(value);
+      qx.ui.core.queue.Widget.add(this);
+    },
+
+
+    // property apply
+    _applyIconOptions : function(value, old)
+    {
+      this.getChildControl("dropdown").getChildControl("list").setIconOptions(value);
+      qx.ui.core.queue.Widget.add(this);
+    },
+
+
+    // property apply
+    _applyRowHeight : function(value, old) {
+      this.getChildControl("dropdown").getChildControl("list").setRowHeight(value);
+    },
+
+
+    // property apply
+    _applyMaxListHeight : function(value, old) {
+      this.getChildControl("dropdown").getChildControl("list").setMaxHeight(value);
     }
   }
 });
