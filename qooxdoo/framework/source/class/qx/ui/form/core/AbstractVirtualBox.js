@@ -254,7 +254,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || this.base(arguments, id, hash);
     },
 
 
