@@ -45,7 +45,7 @@ class Image(Resource):
 
         console = Context.console
 
-    FILE_EXTENSIONS = "png jpeg jpg gif b64".split()
+    FILE_EXTENSIONS = "png jpeg jpg gif b64.json".split()
     FILE_EXTENSIONPATT = re.compile(r'\.(%s)$' % "|".join(FILE_EXTENSIONS), re.I)
 
     def analyzeImage(self):
