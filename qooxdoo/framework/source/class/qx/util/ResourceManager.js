@@ -36,9 +36,6 @@ qx.Class.define("qx.util.ResourceManager",
   construct : function()
   {
     this.base(arguments);
-
-    // post-process any resources that are already registered
-    this.postProcessPackageData();
   },
 
   /*
@@ -53,10 +50,7 @@ qx.Class.define("qx.util.ResourceManager",
     __registry : qx.$$resources || {},
 
     /** {Map} prefix per library used in HTTPS mode for IE */
-    __urlPrefix : {},
-
-    /** {Map} pre-loaded resources */
-    __preloaded : {}
+    __urlPrefix : {}
   },
 
   /*
@@ -150,13 +144,6 @@ qx.Class.define("qx.util.ResourceManager",
         var combId  = entry[4];
         var combImg = this.self(arguments).__registry[combId];
         isClipped = combImg[2];  // return combined image type
-        if (isClipped === "b64"){
-          // make sure base64 combined images are preloaded
-          // as the call needs to access its data immediately
-          if (!this.self(arguments).__preloaded[combId]){
-            isClipped = false;
-          }
-        }
       }
       return isClipped;
     },
@@ -203,52 +190,6 @@ qx.Class.define("qx.util.ResourceManager",
     },
 
     /**
-     * Post-processing hook that will be called when new package data has
-     * arrived. *This method is used internally by the framework.*
-     *
-     * Will check resource data for base64 combined images and will immediately
-     * load those, so the embedded images are directly available later (e.g. for
-     * the decorators).
-     *
-     * @param dataMap {Map} resource map as created by the generator for a
-     *                      package
-     */
-    postProcessPackageData : function (dataMap) 
-    {
-      // Just go through the current __registry, pre-loading combined base64 images
-      var registry = qx.util.ResourceManager.__registry;
-      var preloaded= qx.util.ResourceManager.__preloaded;
-      for (var resid in registry)
-      {
-        var resource = registry[resid];
-        if (resource[2] == "b64" && !preloaded[resid])
-        {
-          preloaded[resid] = "pending";
-          var uri = this.toUri(resid);
-          var request = new qx.io.remote.Request(
-            uri, "GET", "application/json");
-          //TODO: The next might fail if resources are loaded from another server
-          request.setParseJson(true);
-
-          var completedhandler = qx.lang.Function.curry(function(res,ev){
-            var json = ev.getContent();
-            preloaded[res] = json;
-          }, resid);
-          request.addListener("completed", completedhandler, this);
-
-          request.addListener("changeState", function(ev){
-            var state = ev.getData();
-            if (state === "failed" || state === "aborted" || state === "timeout") {
-              this.fireEvent("error");
-            }
-          }, this);
-
-          request.send()
-        }
-      }
-    },
-
-    /**
      * Construct a data: URI for an image resource.
      *
      * Constructs a data: URI for a given resource id, if this resource is
@@ -260,23 +201,6 @@ qx.Class.define("qx.util.ResourceManager",
      * @return {String} "data:" or "http:" URI
      */
     toDataUri : function (resid) 
-    {
-      var resentry = this.constructor.__registry[resid];
-      var combined = this.constructor.__preloaded[resentry[4]];
-      var uri;
-      if (combined && combined[resid]) {
-        var resstruct = combined[resid];
-        uri = "data:image/" + resstruct["type"] + ";" + resstruct["encoding"] +
-              "," + resstruct["data"];
-      }
-      else {
-        console.log("Falling back for", resid);
-        uri = this.toUri(resid);
-      }
-      return uri;
-    },
-
-    toDataUri1 : function (resid) 
     {
       var resentry = this.constructor.__registry[resid];
       var combined = this.constructor.__registry[resentry[4]];
@@ -292,7 +216,6 @@ qx.Class.define("qx.util.ResourceManager",
       }
       return uri;
     }
-
   },
 
 

@@ -153,8 +153,6 @@ class Image(Resource):
             self.left = embImg[0].left
             self.top  = embImg[0].top
 
-
-
     ##
     # Return the base64 encoded string of the image
     def toBase64(self):

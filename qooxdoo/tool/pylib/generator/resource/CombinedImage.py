@@ -67,3 +67,13 @@ class CombinedImage(Image):
         meta_fname = fpath[:i] + '.meta'
         return os.path.exists(meta_fname)
 
+
+    ##
+    # @overloaded
+    def toResinfo(self):
+        result = super(self.__class__, self).toResinfo()
+        if self.format == "b64" and self.path:
+            cont = filetool.read(self.path)
+            cont = json.loads(cont)
+            result.append(cont)
+        return result

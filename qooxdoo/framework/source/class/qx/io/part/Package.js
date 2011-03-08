@@ -135,14 +135,7 @@ qx.Bootstrap.define("qx.io.part.Package",
 
       if (qx.$$packageData[this.__id])
       {
-        if (qx.util && qx.util.ResourceManager){
-          var resmgr = qx.util.ResourceManager.getInstance();
-          // binding the ResourceManager instance to the postProcessPackageData call
-          callback = function(d){resmgr.postProcessPackageData.call(resmgr,d);};
-        } else {
-          callback = undefined;
-        }
-        this.__importPackageData(qx.$$packageData[this.__id], callback);
+        this.__importPackageData(qx.$$packageData[this.__id]);
         delete qx.$$packageData[this.__id];
       }
       this.__readyState = "complete";
