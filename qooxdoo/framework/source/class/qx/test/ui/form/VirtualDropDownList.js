@@ -55,7 +55,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
       this.base(arguments);
 
       this.__target = new qx.ui.form.AbstractVirtualBoxMock();
-      this.__dropdown = new qx.ui.form.VirtualDropDownList(this.__target);
+      this.__dropdown = new qx.ui.form.core.VirtualDropDownList(this.__target);
 
       this.__model = this.__createModelData();
       this.__dropdown.getChildControl("list").setModel(this.__model);
@@ -79,15 +79,15 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     testException : function()
     {
       this.assertException(function() {
-        new qx.ui.form.VirtualDropDownList();
+        new qx.ui.form.core.VirtualDropDownList();
       }, Error, "Invalid parameter 'target'!");
 
       this.assertException(function() {
-        new qx.ui.form.VirtualDropDownList(null);
+        new qx.ui.form.core.VirtualDropDownList(null);
       }, Error, "Invalid parameter 'target'!");
 
       this.assertException(function() {
-        new qx.ui.form.VirtualDropDownList(new qx.ui.core.Widget());
+        new qx.ui.form.core.VirtualDropDownList(new qx.ui.core.Widget());
       }, Error, "Invalid parameter 'target'!");
     },
 

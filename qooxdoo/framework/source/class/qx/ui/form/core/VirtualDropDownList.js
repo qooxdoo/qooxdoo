@@ -26,7 +26,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.form.VirtualDropDownList",
+qx.Class.define("qx.ui.form.core.VirtualDropDownList",
 {
   extend  : qx.ui.popup.Popup,
 

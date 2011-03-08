@@ -23,7 +23,7 @@
  * Basic class for a widgets which need a list as popup for example a select box.
  * Basically supports a drop-down as popup with a list and the whole children management.
  *
- * @childControl dropdown {qx.ui.form.VirtualDropDownList} The drop-down list.
+ * @childControl dropdown {qx.ui.form.core.VirtualDropDownList} The drop-down list.
  */
 qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 {
@@ -201,7 +201,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
       switch(id)
       {
         case "dropdown":
-          control = new qx.ui.form.VirtualDropDownList(this);
+          control = new qx.ui.form.core.VirtualDropDownList(this);
           break;
       }
 
