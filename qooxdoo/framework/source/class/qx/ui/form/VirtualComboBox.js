@@ -25,7 +25,7 @@
  */
 qx.Class.define("qx.ui.form.VirtualComboBox", {
 
-  extend : qx.ui.form.AbstractVirtualBox,
+  extend : qx.ui.form.core.AbstractVirtualBox,
 
   implement : [qx.ui.form.IStringForm],
 

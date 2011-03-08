@@ -34,13 +34,13 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
   /**
    * Creates the drop-down list.
    *
-   * @param target {qx.ui.form.AbstractVirtualBox} The composite widget.
+   * @param target {qx.ui.form.core.AbstractVirtualBox} The composite widget.
    */
   construct : function(target)
   {
     qx.core.Assert.assertNotNull(target, "Invalid parameter 'target'!");
     qx.core.Assert.assertNotUndefined(target, "Invalid parameter 'target'!");
-    qx.core.Assert.assertInterface(target, qx.ui.form.AbstractVirtualBox, "Invalid parameter 'target'!");
+    qx.core.Assert.assertInterface(target, qx.ui.form.core.AbstractVirtualBox, "Invalid parameter 'target'!");
 
     this.base(arguments, new qx.ui.layout.VBox());
 
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.form.VirtualDropDownList",
 
   members :
   {
-    /** {qx.ui.form.AbstractVirtualBox} The composite widget. */
+    /** {qx.ui.form.core.AbstractVirtualBox} The composite widget. */
     _target : null,
 
 

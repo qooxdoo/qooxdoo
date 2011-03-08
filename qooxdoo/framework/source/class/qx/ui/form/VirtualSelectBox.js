@@ -29,7 +29,7 @@
  */
 qx.Class.define("qx.ui.form.VirtualSelectBox",
 {
-  extend : qx.ui.form.AbstractVirtualBox,
+  extend : qx.ui.form.core.AbstractVirtualBox,
 
 
   construct : function(model)
