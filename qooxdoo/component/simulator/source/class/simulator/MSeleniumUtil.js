@@ -79,6 +79,8 @@ qx.Mixin.define("simulator.MSeleniumUtil", {
      */
     waitForWidget : function(locator, timeout)
     {
+      locator = locator.replace(/\"/g, '\\"');
+
       var snippet = '(function() {\
         try {\
           var widget = selenium.getQxWidgetByLocator("' + locator +'");\
@@ -93,8 +95,14 @@ qx.Mixin.define("simulator.MSeleniumUtil", {
         simulator.QxSelenium.getInstance().waitForCondition(snippet, timeout.toString());
       }
       catch(ex) {
-        throw new Error("waitForWidget: No visible widget found for locator " + locator 
-        + " in " + timeout + "ms!");
+        if (ex.toString().match(/Timed out after/)) {
+          // Use a more meaningful error message
+          throw new Error("waitForWidget: No visible widget found for locator " + locator 
+          + " in " + timeout + "ms!");
+        } else {
+          //something else went wrong
+          throw ex;
+        }
       }
     }
   }
