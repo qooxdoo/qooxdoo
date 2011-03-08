@@ -28,7 +28,7 @@ qx.Class.define("simulator.TestRunner", {
     
     this._initLogFile();
     this.qxSelenium = simulator.QxSelenium.getInstance();
-    this.simulation = simulator.QxSimulation.getInstance();
+    this.simulation = simulator.Simulation.getInstance();
     var testNameSpace = qx.core.Setting.get("simulator.nameSpace");
     var loader = new simulator.unit.TestLoader(testNameSpace);
     this.suite = loader.getSuite();

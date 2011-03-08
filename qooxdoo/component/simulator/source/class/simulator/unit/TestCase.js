@@ -31,20 +31,20 @@ qx.Class.define("simulator.unit.TestCase", {
   {
     this.base(arguments);
     this.qxSelenium = simulator.QxSelenium.getInstance();
-    this.simulation = simulator.QxSimulation.getInstance();
+    this.simulation = simulator.Simulation.getInstance();
   },
   
   members :
   {
     /** {@link simulator.QxSelenium} instance */
     qxSelenium : null,
-    /** {@link simulator.QxSimulation} instance */
+    /** {@link simulator.Simulation} instance */
     simulation : null,
     
     /**
-     * Returns the QxSimulation instance configured by the TestLoader.
+     * Returns the Simulation instance configured by the TestLoader.
      * 
-     * @return {simulator.QxSimulation} QxSimulation object
+     * @return {simulator.Simulation} Simulation object
      * @deprecated since 1.4
      */
     getSimulation : function()
