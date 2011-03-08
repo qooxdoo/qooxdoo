@@ -394,7 +394,7 @@
     {
       // will only run when invoked from "provider"
       "include" : [ "=${APPLICATION}.*" ]
-      ,"exclude" : [ "=${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
+      ,"exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
 
       ,"log" : 
       { 
