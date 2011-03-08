@@ -357,8 +357,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
   destruct : function()
   {
-    this.removeAllBindings();
-
     this.__searchTimer.removeListener("interval", this.__preselect, this);
     this.__searchTimer.dispose();
     this.__searchTimer == null;

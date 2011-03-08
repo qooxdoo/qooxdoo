@@ -257,7 +257,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     // overridden
     _bindWidget : function()
     {
-      if (this.__selectionBindingId)
+      if (this.__selectionBindingId != null)
       {
         this.__selection.removeBinding(this.__selectionBindingId);
         this.__selectionBindingId = null;
@@ -298,6 +298,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     */
     
     
+    // property apply
     _applyValue : function(value, old)
     {
       if (value && value !== old)
@@ -354,6 +355,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       return options;
     },
 
+
     /**
      * Selects the first list item that starts with the text field's value.
      */
@@ -361,23 +363,28 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     {
       var value = this.getChildControl("textfield").getValue();
       var labelPath = this.getLabelPath();
+      
       if (this.__selection.getItem(0) !== value)
       {
         var model = this.getModel();
         var lookupTable = this.getChildControl("dropdown").getChildControl("list")._getLookupTable();
+        
         for (var i = 0, l = lookupTable.length; i < l; i++)
         {
           var modelItem = model.getItem(lookupTable[i]);
           var itemLabel = null;
+          
           if (labelPath) {
             itemLabel = qx.data.SingleValueBinding.getValueFromObject(modelItem, labelPath);
           }
           else if (typeof(modelItem) == "string") {
             itemLabel = modelItem;
           }
+          
           if (itemLabel && this.getDefaultFormat()) {
             itemLabel = this.getDefaultFormat()(qx.lang.String.stripTags(itemLabel));
           }
+          
           if (itemLabel && itemLabel.indexOf(value) == 0) {
             this.getChildControl("dropdown").setPreselected(modelItem);
             break;
@@ -385,5 +392,10 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
         }
       }
     }
+  },
+  
+  
+  destruct : function() {
+    this.__selection = null;
   }
 });
