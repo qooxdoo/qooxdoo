@@ -38,6 +38,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.base(arguments);
       this.__comboBox.destroy();
       this.__comboBox = null;
+      this.flush();
     },
 
     __createSimpleModel : function()
@@ -86,8 +87,11 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
     {
       this.__comboBox.setModel(this.__createSimpleModel());
       this.__comboBox.setValue("i");
+      this.flush();
       this.__comboBox.open();
+      this.flush();
       this.__comboBox.close();
+      this.flush();
       // Preselection may not change the actual value
       this.assertNotEquals("item 1", this.__comboBox.getValue());
     },
@@ -96,7 +100,9 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
     {
       this.__comboBox.setModel(this.__createSimpleModel());
       this.__comboBox.setValue("item 4");
+      this.flush();
       this.__comboBox.open();
+      this.flush();
       var preselected = this.__comboBox.getChildControl("dropdown")._preselected;
       this.assertEquals("item 4", preselected);
     },
@@ -112,7 +118,9 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       }
       this.__comboBox.setDelegate(delegate);
       this.__comboBox.setValue("item 4");
+      this.flush();
       this.__comboBox.open();
+      this.flush();
       var preselected = this.__comboBox.getChildControl("dropdown")._preselected;
       this.assertEquals("item 49", preselected);
     },
@@ -129,7 +137,9 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       }
       this.__comboBox.setDelegate(delegate);
       this.__comboBox.setValue("item 22");
+      this.flush();
       this.__comboBox.open();
+      this.flush();
       // item 22 is not in the list, nothing should be preselected
       var preselected = this.__comboBox.getChildControl("dropdown")._preselected;
       this.assertNull(preselected);
@@ -153,7 +163,9 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
         return data;
       });
       this.__comboBox.setValue("item 4");
+      this.flush();
       this.__comboBox.open();
+      this.flush();
       var preselected = this.__comboBox.getChildControl("dropdown")._preselected;
       this.assertEquals("<b>item 4</b>", preselected);
     },
@@ -163,7 +175,9 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.__comboBox.setLabelPath("lastname");
       this.__comboBox.setModel(this.__createNestedModel());
       this.__comboBox.setValue("Si");
+      this.flush();
       this.__comboBox.open();
+      this.flush();
       var preselected = this.__comboBox.getChildControl("dropdown")._preselected.getLastname();
       this.assertEquals("Sisko", preselected);
     }
