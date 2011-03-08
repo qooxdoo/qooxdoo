@@ -104,8 +104,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
      *
      * @return {String|null} The current text selection.
      */
-    getTextSelection : function()
-    {
+    getTextSelection : function() {
       return this.getChildControl("textfield").getTextSelection();
     },
 
@@ -116,8 +115,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
      *
      * @return {Integer|null} The current text selection length.
      */
-    getTextSelectionLength : function()
-    {
+    getTextSelectionLength : function() {
       return this.getChildControl("textfield").getTextSelectionLength();
     },
 
@@ -131,8 +129,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
      * @param start {Integer} Start of the selection (zero-based).
      * @param end {Integer} End of the selection.
      */
-    setTextSelection : function(start, end)
-    {
+    setTextSelection : function(start, end) {
       this.getChildControl("textfield").setTextSelection(start,  end);
     },
 
@@ -141,8 +138,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
      * Clears the current selection. This method only works if the widget is 
      * already created and added to the document.
      */
-    clearTextSelection : function()
-    {
+    clearTextSelection : function() {
       this.getChildControl("textfield").clearTextSelection();
     },
 
@@ -150,8 +146,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     /**
      * Selects the whole content.
      */
-    selectAllText : function()
-    {
+    selectAllText : function() {
       this.getChildControl("textfield").selectAllText();
     },
 
@@ -196,7 +191,8 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     {
       var control;
 
-      switch (id) {
+      switch (id)
+      {
         case "textfield" :
           control = new qx.ui.form.TextField();
           control.addListener("changeValue", function(ev) {
@@ -204,9 +200,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
           }, this);
           control.setFocusable(false);
           control.addState("inner");
-          this._add(control, {
-                flex : 1
-              });
+          this._add(control, {flex : 1});
           break;
 
         case "button" :
@@ -223,8 +217,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
 
 
     // overridden
-    _beforeOpen : function()
-    {
+    _beforeOpen : function() {
       this.__selectFirstMatch();
     },
 
@@ -240,12 +233,6 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
           this.setValue(this.getChildControl("textfield").getValue());
           break;
           
-       /*
-       case "none":
-          return;
-          break;
-       */
-
         default:
           this.base(arguments, event);
           break;
@@ -263,23 +250,6 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
         return "select";
       } else {
         return this.base(arguments, event);
-        
-        /*
-        var action = this.base(arguments, event);
-        switch(action)
-        {
-          case "selectPrevious":
-          case "selectNext":
-          case "selectFirst":
-          case "selectLast":
-            var value = this.getChildControl("textfield").getValue();
-            if (value !== "") {
-              return "none";
-            }
-          default:
-            return action;
-        }
-        */
       }
     },
       
@@ -287,7 +257,8 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     // overridden
     _bindWidget : function()
     {
-      if (this.__selectionBindingId) {
+      if (this.__selectionBindingId)
+      {
         this.__selection.removeBinding(this.__selectionBindingId);
         this.__selectionBindingId = null;
       }
@@ -329,7 +300,8 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     
     _applyValue : function(value, old)
     {
-      if (value && value !== old) {
+      if (value && value !== old)
+      {
         var textfield = this.getChildControl("textfield");
         textfield.setValue(value);
       }
@@ -356,17 +328,23 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       var options = null;
       var formatter = this.getDefaultFormat();
       
-      if (labelOptions != null) {
+      if (labelOptions != null)
+      {
         options = qx.lang.Object.clone(labelOptions);
         
-        if (formatter) {
-          options.converter = function(data, model) {
+        if (formatter)
+        {
+          options.converter = function(data, model)
+          {
             data = labelOptions.converter(data, model);
             return formatter(data);
           }
         }
-      } else {
-        if (formatter) {
+      } 
+      else
+      {
+        if (formatter)
+        {
           options = {
             converter : formatter
           }
@@ -383,10 +361,12 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     {
       var value = this.getChildControl("textfield").getValue();
       var labelPath = this.getLabelPath();
-      if (this.__selection.getItem(0) !== value) {
+      if (this.__selection.getItem(0) !== value)
+      {
         var model = this.getModel();
         var lookupTable = this.getChildControl("dropdown").getChildControl("list")._getLookupTable();
-        for (var i = 0, l = lookupTable.length; i < l; i++) {
+        for (var i = 0, l = lookupTable.length; i < l; i++)
+        {
           var modelItem = model.getItem(lookupTable[i]);
           var itemLabel = null;
           if (labelPath) {
