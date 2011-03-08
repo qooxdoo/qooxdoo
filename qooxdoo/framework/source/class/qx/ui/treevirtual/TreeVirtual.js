@@ -75,10 +75,16 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
    *         Instance of {@link qx.ui.treevirtual.SimpleTreeDataCellRenderer}.
    *         Custom data cell renderer for the tree column.
    *       </dd>
+   *     <dt>treeColumn</dt>
+   *       <dd>
+   *         The column number in which the tree is to reside, i.e., which
+   *         column uses the SimpleTreeDataCellRenderer or a subclass of it.
+   *       </dd>
    *     <dt>defaultDataCellRenderer</dt>
    *       <dd>
    *         Instance of {@link qx.ui.treevirtual.DefaultDataCellRenderer}.
-   *         Custom data cell renderer for all columns other than the tree column.
+   *         Custom data cell renderer for all columns other than the tree
+   *         column.
    *       </dd>
    *     <dt>dataRowRenderer</dt>
    *       <dd>new qx.ui.treevirtual.SimpleTreeDataRowRenderer()</dd>

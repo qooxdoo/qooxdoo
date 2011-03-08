@@ -301,6 +301,18 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * displayed using the SimpleTreeDataCellRenderer.  Other columns may be
      * provided which use different cell renderers.
      *
+     * Setting the tree column involves more than simply setting this column
+     * index; it also requires setting an appropriate cell renderer for this
+     * column, that knows how to render a tree. The expected and typical
+     * method of setting the tree column is to provide it in the 'custom'
+     * parameter to the TreeVirtual constructor, which also initializes the
+     * proper cell renderers. This method does not set any cell renderers. If
+     * you wish to call this method on your own, you should also manually set
+     * the cell renderer for the specified column, and likely also set the
+     * cell renderer for column 0 (the former tree column) to something
+     * appropriate to your data.
+     *
+     *
      * @param columnIndex {Integer}
      *   The index of the column in which the tree should be displayed.
      *
