@@ -32,8 +32,6 @@ qx.Class.define("simulator.Application", {
       
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
       
-      this.simulation = new simulator.QxSimulation();
-      
       this.runner = new simulator.TestRunner();
       this.runner.runTests();
     },

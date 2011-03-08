@@ -27,24 +27,30 @@ qx.Class.define("simulator.unit.TestCase", {
   
   include : [simulator.MSeleniumUtil, qx.core.MAssert],
   
+  construct : function()
+  {
+    this.base(arguments);
+    this.qxSelenium = simulator.QxSelenium.getInstance();
+    this.simulation = simulator.QxSimulation.getInstance();
+  },
+  
   members :
   {
-    __simulation : null,
-    
+    /** {@link simulator.QxSelenium} instance */
+    qxSelenium : null,
+    /** {@link simulator.QxSimulation} instance */
+    simulation : null,
     
     /**
      * Returns the QxSimulation instance configured by the TestLoader.
      * 
-     * @return {simulator.QxSimulation} QxSimulation object 
+     * @return {simulator.QxSimulation} QxSimulation object
+     * @deprecated since 1.4
      */
     getSimulation : function()
     {
-      if (this.__simulation) {
-        return this.__simulation;
-      }
-      
-      this.__simulation = simulator.Init.getApplication().simulation;
-      return this.__simulation;
+      qx.log.Logger.deprecateMethodOverriding(arguments.callee, "Use this.simulation instead");
+      return this.simulation;
     }
   }
   

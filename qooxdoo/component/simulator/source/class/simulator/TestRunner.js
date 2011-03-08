@@ -14,10 +14,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#ignore(qxSelenium)
-************************************************************************ */
-
 /**
  * Creates and runs a suite of integration tests using QxSelenium.
  */
@@ -31,7 +27,8 @@ qx.Class.define("simulator.TestRunner", {
     this.base(arguments);
     
     this._initLogFile();
-    this.simulation = simulator.Init.getApplication().simulation;
+    this.qxSelenium = simulator.QxSelenium.getInstance();
+    this.simulation = simulator.QxSimulation.getInstance();
     var testNameSpace = qx.core.Setting.get("simulator.nameSpace");
     var loader = new simulator.unit.TestLoader(testNameSpace);
     this.suite = loader.getSuite();
@@ -75,7 +72,7 @@ qx.Class.define("simulator.TestRunner", {
       this.suite.run(testResult);
       
       this.simulation.logRunTime();
-      simulator.QxSelenium.getInstance().stop();
+      this.qxSelenium.stop();
     },
     
     /**

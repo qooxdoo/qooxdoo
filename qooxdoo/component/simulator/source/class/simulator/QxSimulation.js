@@ -26,6 +26,8 @@
 qx.Class.define("simulator.QxSimulation", {
 
   extend : qx.core.Object,
+  
+  type : "singleton",
 
   /**
    * @param options {Map} Configuration settings 
