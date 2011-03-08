@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#ignore(qx.ui.form.AbstractVirtualPopupListMock)
+#ignore(qx.ui.form.AbstractVirtualBoxMock)
 
 ************************************************************************ */
 
@@ -33,8 +33,8 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
   {
     this.base(arguments);
 
-    qx.Class.define("qx.ui.form.AbstractVirtualPopupListMock", {
-      extend : qx.ui.form.AbstractVirtualPopupList
+    qx.Class.define("qx.ui.form.AbstractVirtualBoxMock", {
+      extend : qx.ui.form.AbstractVirtualBox
     });
   },
 
@@ -54,7 +54,7 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
     {
       this.base(arguments);
 
-      this.__target = new qx.ui.form.AbstractVirtualPopupListMock();
+      this.__target = new qx.ui.form.AbstractVirtualBoxMock();
       this.__dropdown = new qx.ui.form.VirtualDropDownList(this.__target);
 
       this.__model = this.__createModelData();
@@ -424,6 +424,6 @@ qx.Class.define("qx.test.ui.form.VirtualDropDownList",
 
 
   destruct : function() {
-    qx.Class.undefine("qx.ui.form.AbstractVirtualPopupListMock");
+    qx.Class.undefine("qx.ui.form.AbstractVirtualBoxMock");
   }
 });
