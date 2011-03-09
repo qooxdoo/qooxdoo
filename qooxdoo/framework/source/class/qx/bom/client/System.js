@@ -152,6 +152,8 @@ qx.Bootstrap.define("qx.bom.client.System",
       "Nitro" : "nintendods",
       "PSP" : "sonypsp",
 
+      "Mac OS X 10_6" : "osx6",
+      "Mac OS X 10.6" : "osx6",
       "Mac OS X 10_5" : "osx5",
       "Mac OS X 10.5" : "osx5",
       "Mac OS X 10_4" : "osx4",
