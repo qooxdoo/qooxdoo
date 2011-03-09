@@ -507,7 +507,8 @@ qx.Class.define("qx.bom.element.Location",
       {
         var top = body.offsetTop;
         var left = body.offsetLeft;
-        if (!((parseFloat(qx.core.Environment.get("engine.version")) < 8 || qx.bom.client.Engine.DOCUMENT_MODE < 8)&&
+        if (!((parseFloat(qx.core.Environment.get("engine.version")) < 8 || 
+          qx.core.Environment.get("browser.documentmode") < 8)&&
           !qx.core.Environment.get("browser.quirksmode")))
         {
           top += this.__num(body, "marginTop");

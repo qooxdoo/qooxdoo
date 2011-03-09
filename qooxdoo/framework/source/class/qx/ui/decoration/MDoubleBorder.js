@@ -208,7 +208,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         (qx.core.Environment.get("engine.name") == "mshtml" && 
          parseFloat(qx.core.Environment.get("engine.version")) < 8) ||
         (qx.core.Environment.get("engine.name") == "mshtml" && 
-         qx.bom.client.Engine.DOCUMENT_MODE < 8)
+         qx.core.Environment.get("browser.documentmode") < 8)
       ) {
         styles["line-height"] = '';
       }
