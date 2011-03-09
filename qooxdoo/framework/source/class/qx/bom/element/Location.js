@@ -153,7 +153,7 @@ qx.Class.define("qx.bom.element.Location",
         left -= body.clientLeft + doc.documentElement.clientLeft;
         top -= body.clientTop + doc.documentElement.clientTop;
 
-        if (qx.core.Environment.get("browser.documentmode") == "standard")
+        if (qx.core.Environment.get("browser.standardmode"))
         {
           left += this.__num(body, "borderLeftWidth");
           top += this.__num(body, "borderTopWidth");
@@ -508,7 +508,7 @@ qx.Class.define("qx.bom.element.Location",
         var top = body.offsetTop;
         var left = body.offsetLeft;
         if (!((parseFloat(qx.core.Environment.get("engine.version")) < 8 || qx.bom.client.Engine.DOCUMENT_MODE < 8)&&
-          !qx.core.Environment.get("browser.documentmode") == "quirks"))
+          !qx.core.Environment.get("browser.quirksmode")))
         {
           top += this.__num(body, "marginTop");
           left += this.__num(body, "marginLeft");

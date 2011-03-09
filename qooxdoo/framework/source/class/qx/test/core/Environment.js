@@ -34,7 +34,9 @@ qx.Class.define("qx.test.core.Environment",
       this.assertNotEquals("", qx.core.Environment.get("browser.name"));
       this.assertNotEquals("", qx.core.Environment.get("browser.version"));
       
-      this.assertNotEquals("", qx.core.Environment.get("browser.documentmode"));
+      qx.core.Environment.get("browser.documentmode");
+      this.assertBoolean(qx.core.Environment.get("browser.standardmode"));
+      this.assertBoolean(qx.core.Environment.get("browser.quirksmode"));
     },
     
     testLocale : function() {

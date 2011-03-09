@@ -7,6 +7,7 @@
 \bqx\.bom\.client\.Engine\.MSHTML\b=qx.core.Environment.get("engine.name") === "mshtml"
 \bqx\.bom\.client\.Engine\.UNKNOWN_ENGINE\b=qx.core.Environment.get("engine.name") === ""
 \bqx\.bom\.client\.Engine\.UNKNOWN_VERSION\b=qx.core.Environment.get("engine.version") === ""
+\bqx\.bom\.client\.Engine\.DOCUMENT_MODE\b=qx.core.Environment.get("browser.documentmode")
 
 \bqx\.bom\.client\.Browser\.NAME\b=qx.core.Environment.get("browser.name")
 \bqx\.bom\.client\.Browser\.UNKNOWN\b=qx.core.Environment.get("browser.name") === ""
@@ -30,8 +31,8 @@
 \bqx\.bom\.client\.Flash\.STRICT_SECURITY_MODEL\b=qx.core.Environment.get("plugin.flash.express")
 \bqx\.bom\.client\.Flash\.EXPRESSINSTALL\b=qx.core.Environment.get("plugin.flash.strictsecurity")
 
-\bqx\.bom\.client\.Feature\.STANDARD_MODE\b=qx.core.Environment.get("browser.documentmode") == "standard"
-\bqx\.bom\.client\.Feature\.QUIRKS_MODE\b=qx.core.Environment.get("browser.documentmode") == "quirks"
+\bqx\.bom\.client\.Feature\.STANDARD_MODE\b=qx.core.Environment.get("browser.standardmode")
+\bqx\.bom\.client\.Feature\.QUIRKS_MODE\b=qx.core.Environment.get("browser.quirksmode")
 \bqx\.bom\.client\.Feature\.CONTENT_BOX\b=qx.core.Environment.get("css.boxmodel") == "content"
 \bqx\.bom\.client\.Feature\.BORDER_BOX\b=qx.core.Environment.get("css.boxmodel") == "border"
 \bqx\.bom\.client\.Feature\.SVG\b=qx.core.Environment.get("html.svg")

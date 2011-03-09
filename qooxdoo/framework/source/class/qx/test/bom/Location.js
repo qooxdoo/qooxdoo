@@ -152,8 +152,8 @@ qx.Class.define("qx.test.bom.Location",
 
       var badIE = qx.core.Environment.get("engine.name") == "mshtml" &&
         (parseFloat(qx.core.Environment.get("engine.version")) < 8 || 
-         qx.core.Environment.get("browser.documentmode") == "quirks" ||
-         qx.bom.client.Engine.DOCUMENT_MODE === 7);
+         qx.core.Environment.get("browser.quirksmode") ||
+         qx.core.Environment.get("browser.documentmode") === 7);
 
       if (badIE) {
         this.assertEquals(12, pos.top, "top2 (IE)");
@@ -193,8 +193,8 @@ qx.Class.define("qx.test.bom.Location",
 
       var badIE = qx.core.Environment.get("engine.name") == "mshtml" &&
         (parseFloat(qx.core.Environment.get("engine.version")) < 8 || 
-         qx.core.Environment.get("browser.documentmode") == "quirks" ||
-         qx.bom.client.Engine.DOCUMENT_MODE === 7);
+         qx.core.Environment.get("browser.quirksmode") ||
+         qx.core.Environment.get("browser.documentmode") === 7);
 
       if (badIE) {
         this.assertEquals(10 + 5 + 2 + 5, pos.top, "top2 (IE)");
@@ -266,8 +266,8 @@ qx.Class.define("qx.test.bom.Location",
 
       var badIE = qx.core.Environment.get("engine.name") == "mshtml" &&
         (parseFloat(qx.core.Environment.get("engine.version")) < 8 || 
-         qx.core.Environment.get("browser.documentmode") == "quirks" ||
-         qx.bom.client.Engine.DOCUMENT_MODE === 7);
+         qx.core.Environment.get("browser.quirksmode") ||
+         qx.core.Environment.get("browser.documentmode") === 7);
 
       if (badIE) {
         this.assertEquals(362, pos.top, "top2 (IE)");
@@ -350,7 +350,7 @@ qx.Class.define("qx.test.bom.Location",
 
       // IE quirks mode puts the border outside of the body
       if (qx.core.Environment.get("engine.name") == "mshtml" && 
-        qx.core.Environment.get("browser.documentmode") == "quirks")
+        qx.core.Environment.get("browser.quirksmode"))
       {
         this.assertEquals(0, pos.left);
         this.assertEquals(0, pos.top);

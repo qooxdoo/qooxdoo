@@ -155,8 +155,9 @@ qx.Class.define("qx.test.lang.String",
       var cleanStr = "a b c d e f g h i";
       // IE sees \v as "v"
       if (
-        qx.bom.client.Engine.MSHTML && 
-        !(qx.bom.client.Engine.VERSION >= 9 && qx.bom.client.Engine.DOCUMENT_MODE >= 9)
+        qx.core.Environment.get("engine.name") == "mshtml" && 
+        !(parseFloat(qx.core.Environment.get("engine.version")) >= 9 && 
+        qx.core.Environment.get("browser.documentmode") >= 9)
       ) {
         cleanStr = "a b c d evf g h i";
       }
