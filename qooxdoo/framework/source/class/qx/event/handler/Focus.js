@@ -605,10 +605,10 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "mshtml" : function(domEvent)
       {
-        var target = qx.bom.Event.getTarget(domEvent);
+        var relatedTarget = qx.bom.Event.getRelatedTarget(domEvent);
 
         // If the focus goes to nowhere (the document is blurred)
-        if (target == null)
+        if (relatedTarget == null)
         {
           // Update internal representation
           this.__doWindowBlur();
