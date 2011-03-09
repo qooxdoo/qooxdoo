@@ -81,20 +81,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
       };
 
       return false;
-    },
-
-
-    getPointerEvents : function() {
-      // Check if browser reports that pointerEvents is a known style property
-      if ("pointerEvents" in document.documentElement.style) {
-        // Opera 10.63 incorrectly advertises support for CSS pointer events (#4229).
-        // Do not rely on pointer events in Opera until this browser issue is fixed.
-        return qx.bom.client.Engine.getName() != "opera";
-      }
-    },
-    
-    getDataUrl : function(callback) {
-      
     }
   }
 });

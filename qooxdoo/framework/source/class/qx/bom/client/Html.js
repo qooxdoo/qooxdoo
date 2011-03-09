@@ -158,6 +158,23 @@ qx.Bootstrap.define("qx.bom.client.Html",
      */
     getCanvas : function() {
       return !!window.CanvasRenderingContext2D;
+    },
+
+
+    /**
+     * Asynchronous check for using data urls.
+     * 
+     * @internal
+     * @param callback {Function} The function which should be executed as 
+     *   soon as the check is done.
+     * @param self {Object?} The optional context of the callback.
+     */
+    getDataUrl : function(callback, self) {
+      var data = new Image();
+      data.onload = data.onerror = function() {
+        callback.call(self, (data.width == 1 && data.height == 1));
+      }
+      data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";      
     }
   }
 });

@@ -29,3 +29,22 @@
 \bqx\.bom\.client\.Flash\.REVISION\b=qx.core.Environment.get("plugin.flash.flash").split(".")[qx.core.Environment.get("plugin.flash.flash").split(".").length -1]
 \bqx\.bom\.client\.Flash\.STRICT_SECURITY_MODEL\b=qx.core.Environment.get("plugin.flash.express")
 \bqx\.bom\.client\.Flash\.EXPRESSINSTALL\b=qx.core.Environment.get("plugin.flash.strictsecurity")
+
+\bqx\.bom\.client\.Feature\.STANDARD_MODE\b=qx.core.Environment.get("browser.documentmode") == "standard"
+\bqx\.bom\.client\.Feature\.QUIRKS_MODE\b=qx.core.Environment.get("browser.documentmode") == "quirks"
+\bqx\.bom\.client\.Feature\.CONTENT_BOX\b=qx.core.Environment.get("css.boxmodel") == "content"
+\bqx\.bom\.client\.Feature\.BORDER_BOX\b=qx.core.Environment.get("css.boxmodel") == "border"
+\bqx\.bom\.client\.Feature\.SVG\b=qx.core.Environment.get("html.svg")
+\bqx\.bom\.client\.Feature\.CANVAS\b=qx.core.Environment.get("html.canvas")
+\bqx\.bom\.client\.Feature\.VML\b=qx.core.Environment.get("html.vml")
+\bqx\.bom\.client\.Feature\.XPATH\b=qx.core.Environment.get("html.xpath")
+\bqx\.bom\.client\.Feature\.AIR\b=qx.core.Environment.get("browser.name") == "AdobeAIR"
+\bqx\.bom\.client\.Feature\.GEARS\b=qx.core.Environment.get("plugin.gears")
+\bqx\.bom\.client\.Feature\.SSL\b=qx.core.Environment.get("io.ssl")
+\bqx\.bom\.client\.Feature\.ECMA_OBJECT_COUNT\b=qx.core.Environment.get("ecmascript.objectcount")
+\bqx\.bom\.client\.Feature\.CSS_POINTER_EVENTS\b=qx.core.Environment.get("event.pointer")
+\bqx\.bom\.client\.Feature\.XUL\b=qx.core.Environment.get("html.xul")
+\bqx\.bom\.client\.Feature\.CSS_TEXT_OVERFLOW\b=qx.core.Environment.get("css.textoverflow")
+\bqx\.bom\.client\.Feature\.HTML5_CLASSLIST\b=qx.core.Environment.get("html.classlist")
+\bqx\.bom\.client\.Feature\.TOUCH\b=qx.core.Environment.get("event.touch")
+\bqx\.bom\.client\.Feature\.PLACEHOLDER\b=qx.core.Environment.get("css.placeholder")

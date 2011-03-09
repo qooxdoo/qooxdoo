@@ -23,10 +23,27 @@ qx.Bootstrap.define("qx.bom.client.Event",
     /**
      * Checks if touch events are supported.
      * 
+     * @internal
      * @return {Boolean} <code>true</code> if touch events are supported.
      */
     getTouch : function() {
       return ("ontouchstart" in window);
+    },
+
+
+    /**
+     * Checks if pointer events are available.
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if pointer events are supported.
+     */
+    getPointer : function() {
+      // Check if browser reports that pointerEvents is a known style property
+      if ("pointerEvents" in document.documentElement.style) {
+        // Opera 10.63 incorrectly advertises support for CSS pointer events (#4229).
+        // Do not rely on pointer events in Opera until this browser issue is fixed.
+        return qx.bom.client.Engine.getName() != "opera";
+      }
     }
   }
 });
