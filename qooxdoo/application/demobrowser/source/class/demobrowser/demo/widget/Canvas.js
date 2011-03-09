@@ -36,7 +36,7 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
       });
       win1.setLayout(new qx.ui.layout.Canvas());
 
-      if (!qx.bom.client.Feature.CANVAS)
+      if (!qx.core.Environment.get("html.canvas"))
       {
         var canvas1 = new qx.ui.container.Composite(new qx.ui.layout.HBox());
         canvas1.add(new qx.ui.basic.Label("Canvas is not supported by this browser!").set({
@@ -66,7 +66,7 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
       });
       win2.setLayout(new qx.ui.layout.Canvas());
 
-      if (!qx.bom.client.Feature.CANVAS)
+      if (!qx.core.Environment.get("html.canvas"))
       {
         var canvas2 = new qx.ui.container.Composite(new qx.ui.layout.HBox());
         canvas2.add(new qx.ui.basic.Label("Canvas is not support by this browser!").set({

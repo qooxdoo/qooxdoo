@@ -150,7 +150,7 @@ qx.Theme.define("showcase.theme.Appearance",
       {
         return {
           // the header's shadow may block mouse events in the stack
-          marginTop: qx.bom.client.Feature.CSS_POINTER_EVENTS ? 0 : 8
+          marginTop: qx.core.Environment.get("event.pointer") ? 0 : 8
         };
       }
     },

@@ -67,7 +67,7 @@ qx.Class.define("demobrowser.demo.bom.Location",
       moveable.style.left = location.left + "px";
       moveable.style.top = location.top + "px";
 
-      if (qx.bom.client.Feature.BORDER_BOX)
+      if (qx.core.Environment.get("css.boxmodel") == "border")
       {
         moveable.style.width = (location.right - location.left) + "px";
         moveable.style.height = (location.bottom - location.top) + "px";

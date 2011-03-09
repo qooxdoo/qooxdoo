@@ -508,7 +508,7 @@ qx.Class.define("playground.Application",
           return "FAIL!";
         }
       }};
-      var store = new qx.data.store.Yql(query, delegate, qx.bom.client.Feature.SSL);
+      var store = new qx.data.store.Yql(query, delegate, qx.core.Environment.get("io.ssl"));
       store.addListener("loaded", this.__onGistsLoaded, this);
     },
 
@@ -520,7 +520,7 @@ qx.Class.define("playground.Application",
     __loadGist : function(id)
     {
       var query = 'USE "http://github.com/wittemann/yql-tables/raw/master/github/github.gist.content.xml" AS gh; SELECT * FROM gh WHERE repo="' + id + '"';
-      var store = new qx.data.store.Yql(query, null, qx.bom.client.Feature.SSL);
+      var store = new qx.data.store.Yql(query, null, qx.core.Environment.get("io.ssl"));
 
       store.addListener("loaded", function(e) {
         try {

@@ -68,7 +68,8 @@ qx.Class.define("demobrowser.demo.mobile.Fingers",
 
 
       if (qx.core.Environment.get("engine.name") != "webkit" || 
-        (!qx.bom.client.Feature.TOUCH && qx.core.Variant.isSet("qx.mobile.emulatetouch", "off")))
+        (!qx.core.Environment.get("event.touch") && 
+        qx.core.Variant.isSet("qx.mobile.emulatetouch", "off")))
       {
         var warningLabelStyle = {
           "color" : "green",

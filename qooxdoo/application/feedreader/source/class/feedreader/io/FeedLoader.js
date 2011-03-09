@@ -80,7 +80,7 @@ qx.Class.define("feedreader.io.FeedLoader",
         } catch (e) {
           return "failed";
         }
-      }}, qx.bom.client.Feature.SSL);
+      }}, qx.core.Environment.get("io.ssl"));
       store.addListener("loaded", this.__createOnLoaded(feed), this);
       store.addListener("changeState",
         qx.lang.Function.bind(this.__onChangeState, this, feed)

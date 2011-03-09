@@ -74,7 +74,9 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
       root.setRoot(true);
 
 
-      if (qx.core.Environment.get("engine.name") != "webkit" || (!qx.bom.client.Feature.TOUCH && qx.core.Variant.isSet("qx.mobile.emulatetouch", "off")))
+      if (qx.core.Environment.get("engine.name") != "webkit" || (!
+        qx.core.Environment.get("event.touch") && 
+        qx.core.Variant.isSet("qx.mobile.emulatetouch", "off")))
       {
         var warningLabelStyle = {
           "color" : "green",

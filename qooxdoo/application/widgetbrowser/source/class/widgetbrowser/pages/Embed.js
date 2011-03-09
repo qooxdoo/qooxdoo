@@ -77,7 +77,7 @@ qx.Class.define("widgetbrowser.pages.Embed",
       // Canvas
       label = new qx.ui.basic.Label("Canvas");
       this.__grid.add(label, {row: 2, column: 0});
-      if (qx.bom.client.Feature.CANVAS) {
+      if (qx.core.Environment.get("html.canvas")) {
         var canvas = new qx.ui.embed.Canvas().set({
           width: 200,
           height: 200,
