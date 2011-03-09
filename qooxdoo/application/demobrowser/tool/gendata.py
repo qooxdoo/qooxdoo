@@ -129,6 +129,11 @@ def CreateDemoJson():
         category, name = demoCategoryFromFile(html)
         #print ">>> Processing: %s.%s..." % (category, name)
 
+        # check for demo-specific config file
+        config_file = os.path.splitext(html)[0] + ".json"
+        if os.path.exists(config_file):
+            JSON['include'].append({"path":"%s" % config_file})
+
         # build classname
         simple = "%s.%s" % (category,name)
         source.append("source-%s" % simple)
