@@ -62,42 +62,30 @@ qx.Bootstrap.define("qx.bom.client.Browser",
     /** {String} Full version. Might contain two dots e.g. "3.5.1" */
     FULLVERSION : "0.0.0",
 
-    /**
-     * Processes the incoming list of agents to find out
-     * which of them matches.
-     *
-     * @param agents {String} One list of agents, separated by a pipe "|"
-     */
-    __detect : function(agents)
-    {
-      var current = navigator.userAgent;
-      var reg = new RegExp("(" + agents + ")(/| )([0-9]+\.[0-9])");
-      var match = current.match(reg);
+
+    getName : function() {
+      var agent = navigator.userAgent;
+      var reg = new RegExp("(" + qx.bom.client.Browser.__agents + ")(/| )([0-9]+\.[0-9])");
+      var match = agent.match(reg);
       if (!match) {
-        return;
+        return "";
       }
 
       var name = match[1].toLowerCase();
-      var version = match[3];
 
-      // Support new style version string used by Opera and Safari
-      if (current.match(/Version(\/| )([0-9]+\.[0-9])/)) {
-        version = RegExp.$2;
-      }
-
-      if (qx.core.Variant.isSet("qx.client", "webkit"))
-      {
+      var engine = qx.core.Environment.get("engine.name");
+      if (engine === "webkit") {
         // Fix Chrome name (which is still wrong defined in user agent on Android 1.6)
         if (name === "android") {
           name = "mobile chrome";
         }
 
         // Fix Safari name
-        else if (current.indexOf("Mobile Safari") !== -1 || current.indexOf("Mobile/") !== -1) {
+        else if (agent.indexOf("Mobile Safari") !== -1 || agent.indexOf("Mobile/") !== -1) {
           name = "mobile safari";
         }
       }
-      else if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      else if (engine ===  "mshtml")
       {
         if (name === "msie")
         {
@@ -107,11 +95,10 @@ qx.Bootstrap.define("qx.bom.client.Browser",
           if (qx.bom.client.System.WINCE && name === "ie")
           {
             name = "iemobile";
-            version = "5.0";
           }
         }
       }
-      else if (qx.core.Variant.isSet("qx.client", "opera"))
+      else if (engine === "opera")
       {
         if (name === "opera mobi") {
           name = "operamobile";
@@ -119,23 +106,38 @@ qx.Bootstrap.define("qx.bom.client.Browser",
           name = "operamini";
         }
       }
+      
+      return name;   
+    },
 
-      this.NAME = name;
-      this.FULLVERSION = version;
-      this.VERSION = parseFloat(version, 10);
-      this.TITLE = name + " " + this.VERSION;
-      this.UNKNOWN = false;
-    },
-    
-    
-    getName : function() {
-      
-    },
-    
+
     getVersion : function() {
+      var agent = navigator.userAgent;
+      var reg = new RegExp("(" + qx.bom.client.Browser.__agents + ")(/| )([0-9]+\.[0-9])");
+      var match = agent.match(reg);
+      if (!match) {
+        return "";
+      }
       
+      var name = match[1].toLowerCase();
+      var version = match[3];
+
+      // Support new style version string used by Opera and Safari
+      if (agent.match(/Version(\/| )([0-9]+\.[0-9])/)) {
+        version = RegExp.$2;
+      }
+
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        if (name === "msie" && qx.bom.client.System.WINCE) {
+          // Fix IE mobile before Microsoft added IEMobile string
+          version = "5.0";
+        }
+      }
+
+      return version;
     },
-    
+
+
     __agents : qx.core.Environment.select("engine.name", {
       // Safari should be the last one to check, because some other Webkit-based browsers
       // use this identifier together with their own one.
@@ -157,7 +159,33 @@ qx.Bootstrap.define("qx.bom.client.Browser",
     })
   },
 
+
   defer : function(statics) {
-    statics.__detect(statics.__agents);
+    // @deprecated since 1.4: all code in the defer
+    statics.NAME = statics.getName();
+    statics.FULLVERSION = statics.getVersion();
+    statics.VERSION = parseFloat(statics.FULLVERSION, 10);
+    statics.TITLE = statics.NAME + " " + statics.VERSION;
+
+    if (statics.NAME !== "") {
+      statics.UNKNOWN = false;      
+    }
+    
+    // add @deprecation warnings    
+    var keys = ["FULLVERSION","VERSION","NAME","TITLE", "UNKNOWN"];
+    for (var i = 0; i < keys.length; i++) {
+      // check if __defineGetter__ is available
+      if (statics.__defineGetter__) {
+        var constantValue = statics[keys[i]];
+        statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
+          qx.Bootstrap.warn(
+            "The constant '"+ key + "' is deprecated: " +
+            "Plese check the API documentation of qx.core.Environemt.\n" + 
+            "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
+          );
+          return c;
+        }, statics, keys[i], constantValue));
+      }
+    }
   }
 });
