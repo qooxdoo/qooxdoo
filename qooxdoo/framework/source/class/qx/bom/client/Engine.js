@@ -85,7 +85,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
       var agent = window.navigator.userAgent;
       
       var version = "";
-      if (this.__isOpera()) {
+      if (qx.bom.client.Engine.__isOpera()) {
         // Opera has a special versioning scheme, where the second part is combined
         // e.g. 8.54 which should be handled like 8.5.4 to be compatible to the
         // common versioning system used by other browsers
@@ -96,7 +96,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
             version += "." + RegExp.$3;
           }
         }
-      } else if (this.__isWebkit()) {
+      } else if (qx.bom.client.Engine.__isWebkit()) {
         if (/AppleWebKit\/([^ ]+)/.test(agent))
         {
           version = RegExp.$1;
@@ -108,12 +108,12 @@ qx.Bootstrap.define("qx.bom.client.Engine",
             version = version.slice(0, invalidCharacter.index);
           }
         }
-      } else if (this.__isGecko()) {
+      } else if (qx.bom.client.Engine.__isGecko()) {
         // Parse "rv" section in user agent string
         if (/rv\:([^\);]+)(\)|;)/.test(agent)) {
           version = RegExp.$1;
         }
-      } else if (this.__isMshtml()) {
+      } else if (qx.bom.client.Engine.__isMshtml()) {
         if (/MSIE\s+([^\);]+)(\)|;)/.test(agent)) {
           version = RegExp.$1;
 
@@ -149,13 +149,13 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      */
     getName : function() {
       var name;
-      if (this.__isOpera()) {
+      if (qx.bom.client.Engine.__isOpera()) {
         name = "opera";
-      } else if (this.__isWebkit()) {
+      } else if (qx.bom.client.Engine.__isWebkit()) {
         name = "webkit";
-      } else if (this.__isGecko()) {
+      } else if (qx.bom.client.Engine.__isGecko()) {
         name = "gecko";
-      } else if (this.__isMshtml()) {
+      } else if (qx.bom.client.Engine.__isMshtml()) {
         name = "mshtml";
       } else {
         // check for the fallback
