@@ -83,7 +83,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     // overridden
     canDispatchEvent : function(target, event, type)
     {
-      return (
+      return !!(
         this.__captureElement &&
         this.__captureEvents[type]
       );
