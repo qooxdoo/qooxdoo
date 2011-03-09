@@ -154,7 +154,10 @@ qx.Class.define("qx.test.lang.String",
       var str = "  a  b\tc\rd\fe\vf\n\ng\nh\ri ";
       var cleanStr = "a b c d e f g h i";
       // IE sees \v as "v"
-      if (qx.bom.client.Engine.MSHTML) {
+      if (
+        qx.bom.client.Engine.MSHTML && 
+        !(qx.bom.client.Engine.VERSION >= 9 && qx.bom.client.Engine.DOCUMENT_MODE >= 9)
+      ) {
         cleanStr = "a b c d evf g h i";
       }
       this.assertEquals(cleanStr, qx.lang.String.clean(str));
