@@ -16,19 +16,34 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+
 qx.Bootstrap.define("qx.core.Environment", 
 {
   statics : {
     
+    /** Maps containing the check functions. */
     __checks : {},
     __asyncChecks : {},
 
+    /** Internal cache for all checks. */ 
+    __cache : {},
+
+
 
     get : function(key) {
-      // TODO add caching
+      // check the cache
+      if (this.__cache[key] != undefined) {
+        return this.__cache[key];
+      }
+
+      // search for a fitting check
       var check = this.__checks[key];
       if (check) {
-        return check();
+        // execute the check and write the result in the cache
+        var value = check();
+        this.__cache[key] = value;
+        return value;
       }
 
       // debug flag
@@ -39,10 +54,23 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     getAsync : function(key, callback, self) {
-      // TODO add caching
+      // check the cache
+      var env = this;
+      if (this.__cache[key] != undefined) {
+        // force async behavior
+        window.setTimeout(function() {
+          callback.call(self, env.__cache[key]);
+        }, 0);
+        return;
+      }
+
       var check = this.__asyncChecks[key];
       if (check) {
-        check(callback, self);
+        check(function(result) {
+          env.__cache[key] = result;
+          callback.call(self, result);
+        });
+        return;
       }
 
       // debug flag
@@ -50,6 +78,9 @@ qx.Bootstrap.define("qx.core.Environment",
         qx.Bootstrap.warn(key + " can not be checked.");        
       }
     },
+
+
+
 
 
     select : function(key, values) {
@@ -71,9 +102,13 @@ qx.Bootstrap.define("qx.core.Environment",
           '] found, and no default ("default") given');
       }      
     },
-    
-    
-    
+
+
+
+    invalidateCache : function(key) {
+      delete this.__cache[key];
+    },
+
     /**
      * Internal helper for the generator to flag that this block contains the 
      * dependency for the given check key.
@@ -88,7 +123,7 @@ qx.Bootstrap.define("qx.core.Environment",
     
 
     
-    __initChecksMap : function() {
+    _initChecksMap : function() {
       // /////////////////////////////////////////
       // Engine 
       // /////////////////////////////////////////      
@@ -293,6 +328,6 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
   defer : function(statics) {
-    statics.__initChecksMap();
+    statics._initChecksMap();
   }
 });
