@@ -1,4 +1,4 @@
-qx.Bootstrap.define("qx.bom.client.CssFeatures", 
+qx.Bootstrap.define("qx.bom.client.CssFeature", 
 {
   statics :
   {
