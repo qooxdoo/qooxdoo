@@ -60,10 +60,10 @@ qx.Class.define("qx.core.Init",
         return;
       }
 
-      if (qx.bom.client.Engine.UNKNOWN_ENGINE) {
+      if (qx.core.Environment.get("engine.name") == "") {
         qx.log.Logger.warn("Could not detect engine!");
       }
-      if (qx.bom.client.Engine.UNKNOWN_VERSION) {
+      if (qx.core.Environment.get("engine.version") == "") {
         qx.log.Logger.warn("Could not detect the version of the engine!");
       }
       if (qx.bom.client.Platform.UNKNOWN_PLATFORM) {

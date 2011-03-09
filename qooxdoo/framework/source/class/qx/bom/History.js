@@ -147,8 +147,10 @@ qx.Class.define("qx.bom.History",
      * {Boolean} Whether the browser supports the 'hashchange' event natively.
      */
     SUPPORTS_HASH_CHANGE_EVENT :
-      (qx.bom.client.Engine.MSHTML && document.documentMode >= 8) ||
-      (!qx.bom.client.Engine.MSHTML && document.documentMode && "onhashchange" in window),
+      (qx.core.Environment.get("engine.name") == "mshtml" && 
+       document.documentMode >= 8) ||
+      (!qx.core.Environment.get("engine.name") == "mshtml" && 
+       document.documentMode && "onhashchange" in window),
 
 
     /**

@@ -124,7 +124,7 @@ qx.Class.define("qx.test.ui.Destroy",
 
     testContainer : function()
     {
-      if(qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION < 7)
+      if(qx.core.Environment.get("engine.name") == "mshtml" && parseFloat(qx.core.Environment.get("engine.version")) < 7)
       {
         this.warn("This test is skipped in IE6.");
         return ;
@@ -147,7 +147,8 @@ qx.Class.define("qx.test.ui.Destroy",
 
     testControls : function()
     {
-      if(qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION < 7)
+      if(qx.core.Environment.get("engine.name") == "mshtml" && 
+        parseFloat(qx.core.Environment.get("engine.version")) < 7)
       {
         this.warn("This test is skipped in IE6.");
         return ;

@@ -117,9 +117,10 @@ qx.Class.define("qx.test.io.part.Package",
       }
 
       // test don't work in IE, Safari 3 and Opera
-      if ( qx.bom.client.Engine.OPERA ||
-           qx.bom.client.Engine.MSHTML ||
-           (qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION < 531) )
+      if ( qx.core.Environment.get("engine.name") == "opera" ||
+           qx.core.Environment.get("engine.name") == "mshtml" ||
+           (qx.core.Environment.get("engine.name") == "webkit" && 
+           parseFloat(qx.core.Environment.get("engine.version")) < 531) )
        {
         return;
       }

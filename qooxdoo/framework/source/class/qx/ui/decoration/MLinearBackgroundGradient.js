@@ -108,7 +108,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       var Color = qx.theme.manager.Color.getInstance();
       var unit = this.getColorPositionUnit();
 
-      if (qx.bom.client.Engine.WEBKIT) {
+      if (qx.core.Environment.get("engine.name") == "webkit") {
         // webkit uses px values if non are given
         unit = unit === "px" ? "" : unit;
         
@@ -132,7 +132,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         var start = Color.resolve(this.getStartColor()) + " " + this.getStartColorPosition() + unit;
         var end = Color.resolve(this.getEndColor()) + " " + this.getEndColorPosition() + unit;
 
-        var prefix = qx.bom.client.Engine.GECKO ? "-moz-" : "";
+        var prefix = qx.core.Environment.get("engine.name") == "gecko" ? "-moz-" : "";
         styles["background"] = 
           prefix + "linear-gradient(" + deg + "deg, " + start + "," + end + ")";
       }

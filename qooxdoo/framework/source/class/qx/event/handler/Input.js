@@ -223,7 +223,7 @@ qx.Class.define("qx.event.handler.Input",
 
         // the change event is not fired while typing
         // this has been fixed in the latest nightlies
-        if (qx.bom.client.Engine.VERSION < 532 && tag == "textarea") {
+        if (parseFloat(qx.core.Environment.get("engine.version")) < 532 && tag == "textarea") {
           qx.bom.Event.addNativeListener(target, "keypress", this._onInputWrapper);
         }
         qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
@@ -316,7 +316,7 @@ qx.Class.define("qx.event.handler.Input",
 
         // the change event is not fired while typing
         // this has been fixed in the latest nightlies
-        if (qx.bom.client.Engine.VERSION < 532 && tag == "textarea") {
+        if (parseFloat(qx.core.Environment.get("engine.version")) < 532 && tag == "textarea") {
           qx.bom.Event.removeNativeListener(target, "keypress", this._onInputWrapper);
         }
         qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);

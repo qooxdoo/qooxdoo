@@ -184,7 +184,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       this.QUIRKS_MODE = this.__isQuirksMode();
       this.STANDARD_MODE = !this.QUIRKS_MODE;
 
-      this.CONTENT_BOX = !qx.bom.client.Engine.MSHTML || this.STANDARD_MODE;
+      this.CONTENT_BOX = qx.core.Environment.get("engine.name") != "mshtml" || this.STANDARD_MODE;
       this.BORDER_BOX = !this.CONTENT_BOX;
 
       this.SVG = document.implementation && document.implementation.hasFeature &&
@@ -194,7 +194,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
           "1.1"
         )
       );
-      this.VML = qx.bom.client.Engine.MSHTML;
+      this.VML = qx.core.Environment.get("engine.name") == "mshtml";
 
       try {
         document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
@@ -210,7 +210,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       if ("pointerEvents" in document.documentElement.style) {
         // Opera 10.63 incorrectly advertises support for CSS pointer events (#4229).
         // Do not rely on pointer events in Opera until this browser issue is fixed.
-        if (qx.bom.client.Engine.OPERA) {
+        if (qx.core.Environment.get("engine.name") == "opera") {
           this.CSS_POINTER_EVENTS = false;
         } else {
           this.CSS_POINTER_EVENTS = true;
@@ -234,7 +234,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
      */
     __isQuirksMode : function()
     {
-      if(qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION >= 8) {
+      if(qx.core.Environment.get("engine.name") == "mshtml" && parseFloat(qx.core.Environment.get("engine.version")) >= 8) {
         return qx.bom.client.Engine.DOCUMENT_MODE === 5;
       } else {
         return document.compatMode !== "CSS1Compat";

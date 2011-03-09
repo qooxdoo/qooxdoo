@@ -289,8 +289,11 @@ qx.Class.define("qx.test.ui.form.TextArea",
 
       // Opera and older versions of IE ignore changes to wrap settings
       // once the textarea is in the DOM
-      var Engine = qx.bom.client.Engine;
-      if (Engine.OPERA || (Engine.MSHTML && Engine.FULLVERSION < 8)) {
+      if (
+        qx.core.Environment.get("engine.name") == "opera" ||
+        (qx.core.Environment.get("engine.name") == "mshtml" && 
+        parseFloat(qx.core.Environment.get("engine.version")) < 8)) 
+      {
         this.warn("Skipping test");
         return false;
       }

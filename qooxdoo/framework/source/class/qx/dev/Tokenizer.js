@@ -256,12 +256,13 @@ qx.Class.define("qx.dev.Tokenizer",
             break;
 
           case "nl":
-            var nl = qx.bom.client.Engine.MSHTML && !forPreTag ? "<br>" : "\n";
+            var nl = qx.core.Environment.get("engine.name") == "mshtml" && !forPreTag ? "<br>" : "\n";
             js.add(nl);
             break;
 
           case "ws":
-            var ws = qx.bom.client.Engine.MSHTML && !forPreTag ? "&nbsp;" : " ";
+            var ws = qx.core.Environment.get("engine.name") == "mshtml" &&
+               !forPreTag ? "&nbsp;" : " ";
             js.add(ws);
             break;
 

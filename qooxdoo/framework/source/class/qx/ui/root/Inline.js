@@ -169,7 +169,7 @@ qx.Class.define("qx.ui.root.Inline",
         // necessary for IE6 to apply this style also to the root element to
         // avoid any problems when resizing the browser window (see Bug #2035)
         if (qx.core.Variant.isSet("qx.client", "mshtml") &&
-            qx.bom.client.Engine.VERSION == 6)
+            qx.core.Environment.get("engine.version") == 6)
         {
           var bodyElement = qx.dom.Node.getBodyElement(el);
           var ancestorElement;

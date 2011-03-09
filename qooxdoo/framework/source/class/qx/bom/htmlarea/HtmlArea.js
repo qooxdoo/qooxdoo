@@ -413,7 +413,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
               if (name != "style")
               {
-                if (qx.bom.client.Engine.MSHTML)
+                if (qx.core.Environment.get("engine.name") == "mshtml")
                 {
                   if (name == "id" && root.getAttribute("old_id"))
                   {
@@ -1051,7 +1051,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       var body = this.getContentBody();
       var bodyStyle = {};
       var styleAttribute, styleValue;
-      var modeToUse = qx.bom.client.Engine.MSHTML ? 2 : 1;
+      var modeToUse = qx.core.Environment.get("engine.name") == "mshtml" ? 2 : 1;
       for (var i=0, j=stylesToExport.length; i<j; i++)
       {
         styleAttribute = stylesToExport[i];
@@ -1402,7 +1402,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
            * was hidden and visible again.
            * Yes, and there are differences in Firefox 3.x and Firefox 2.x
            */
-          if (qx.bom.client.Engine.VERSION >= "1.9")
+          if (parseFloat(qx.core.Environment.get("engine.version")) >= "1.9")
           {
             doc.designMode = "Off";
 
@@ -1531,7 +1531,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       // "overflow-x" explicit to "hidden"
       // In mshtml browsers this does NOT work. The property "overflow-x"
       // overwrites the value of "overflow-y".
-      var overflow = qx.bom.client.Engine.GECKO ? " html, body {overflow-x: visible; } " : "";
+      var overflow = qx.core.Environment.get("engine.name") == "gecko" ? 
+        " html, body {overflow-x: visible; } " : "";
 
       var skeletonParts = this.__documentSkeletonParts[this.getContentType()];
       var head = '<head>' + skeletonParts.meta +
@@ -1610,7 +1611,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       var Registration = qx.event.Registration;
       var doc = this._getIframeDocument();
 
-      var focusBlurTarget = qx.bom.client.Engine.WEBKIT ? this._getIframeWindow() : doc.body;
+      var focusBlurTarget = qx.core.Environment.get("engine.name") == "webkit" ? this._getIframeWindow() : doc.body;
       Registration.addListener(focusBlurTarget, "focus", this._handleFocusEvent, this);
       Registration.addListener(focusBlurTarget, "blur", this._handleBlurEvent, this);
 
@@ -1632,7 +1633,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       var Registration = qx.event.Registration;
       var doc = this._getIframeDocument();
 
-      var mouseEventName = qx.bom.client.Engine.MSHTML ? "click" : "mouseup";
+      var mouseEventName = qx.core.Environment.get("engine.name") == "mshtml" ? "click" : "mouseup";
       Registration.addListener(doc.body, mouseEventName, this._handleMouseUpOnBody, this);
       Registration.addListener(doc.documentElement, mouseEventName, this._handleMouseUpOnDocument, this);
 
@@ -2145,7 +2146,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
           // Firefox 2 needs some additional work to select the first line
           // completely in case the selection is already on the first line and
           // "key up" is pressed.
-          if (qx.bom.client.Engine.GECKO && qx.bom.client.Engine.FULLVERSION < 1.9 && isShiftPressed)
+          if (qx.core.Environment.get("engine.name") == "gecko" && 
+            qx.core.Environment.get("engine.version") < 1.9 && isShiftPressed)
           {
             var sel = this.getSelection();
 
@@ -2172,7 +2174,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         // Firefox 2 needs some extra work to move the cursor (and optionally
         // select text while moving) to first position in the first line.
         case "home":
-          if (qx.bom.client.Engine.GECKO && qx.bom.client.Engine.FULLVERSION < 1.9)
+          if (qx.core.Environment.get("engine.name") == "gecko" && 
+            qx.core.Environment.get("engine.version") < 1.9)
           {
             if(isCtrlPressed)
             {
@@ -2821,13 +2824,13 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       // show the caret after clearing out the content. Otherwise
       // the user is able to type ahead but right after the clearing the
       // caret is not visible (-> cursor does not blink)
-      if (qx.bom.client.Engine.GECKO) {
+      if (qx.core.Environment.get("engine.name") == "gecko") {
         doc.body.innerHTML = "<p>&nbsp;</p>";
       }
 
       // To ensure Webkit is showing a cursor after resetting the
       // content it is necessary to create a new selection and add a range
-      else if (qx.bom.client.Engine.WEBKIT)
+      else if (qx.core.Environment.get("engine.name") == "webkit")
       {
         var sel = this.getSelection();
         var rng = doc.createRange();
@@ -3641,12 +3644,14 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       Registration.removeListener(doc.body, "keyup", this._handleKeyUp, this);
       Registration.removeListener(doc.body, "keydown", this._handleKeyDown, this);
 
-      var focusBlurTarget = qx.bom.client.Engine.WEBKIT ? this._getIframeWindow() : doc.body;
+      var focusBlurTarget = qx.core.Environment.get("engine.name") == "webkit" 
+        ? this._getIframeWindow() : doc.body;
       Registration.removeListener(focusBlurTarget, "focus", this._handleFocusEvent);
       Registration.removeListener(focusBlurTarget, "blur",  this._handleBlurEvent);
       Registration.removeListener(doc, "focusout", this._handleFocusOutEvent);
 
-      var mouseEventName = qx.bom.client.Engine.MSHTML ? "click" : "mouseup";
+      var mouseEventName = qx.core.Environment.get("engine.name") == "mshtml" ?
+         "click" : "mouseup";
       Registration.removeListener(doc.body, mouseEventName, this._handleMouseUpOnBody, this);
       Registration.removeListener(doc.documentElement, mouseEventName, this._handleMouseUpOnDocument, this);
       Registration.removeListener(doc.documentElement, "contextmenu", this._handleContextMenuEvent, this);

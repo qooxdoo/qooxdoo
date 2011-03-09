@@ -317,8 +317,8 @@ qx.Class.define("qx.util.Json",
       if (!qx.util.Json.CONVERT_DATES) {
         // use the native toJSON if available but not on IE [BUG #4674]
         if (
-          incoming.toJSON && !qx.bom.client.Engine.OPERA 
-          && !qx.bom.client.Engine.MSHTML
+          incoming.toJSON && qx.core.Environment.get("engine.name") != "opera"
+          && qx.core.Environment.get("engine.name") != "mshtml"
         ) {
           return '"' + incoming.toJSON() + '"';
         }

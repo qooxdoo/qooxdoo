@@ -282,7 +282,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       // Timing-issue in Opera
       // Do not switch state to complete in case load event fires before content
       // of iframe was updated
-      if (qx.bom.client.Engine.NAME == "opera" && this.getIframeHtmlContent() == "") {
+      if (qx.core.Environment.get("engine.name") == "opera" && this.getIframeHtmlContent() == "") {
         return;
       }
 

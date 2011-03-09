@@ -28,7 +28,7 @@ qx.Class.define("qx.test.dev.StackTrace",
       } catch(ex) {
         trace = qx.dev.StackTrace.getStackTraceFromError(ex);
       }
-      if (qx.bom.client.Engine.MSHTML) {
+      if (qx.core.Environment.get("engine.name") == "mshtml") {
         // Can't get stack trace for IE
         qx.core.Assert.assertEquals(0, trace.length, "Got stack trace information for IE!");
       } else {

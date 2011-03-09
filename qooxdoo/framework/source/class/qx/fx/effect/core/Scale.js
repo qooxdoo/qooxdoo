@@ -209,7 +209,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
         var fontSize = qx.bom.element.Style.get(element, "fontSize");
       } catch(ex) {
         if(typeof(fontSize) != "string") {
-          fontSize = (qx.bom.client.Engine.MSHTML) ? "12px" : "100%";
+          fontSize = (qx.core.Environment.get("engine.name") == "mshtml") ? "12px" : "100%";
         }
       }
 

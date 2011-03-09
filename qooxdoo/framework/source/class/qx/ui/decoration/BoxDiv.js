@@ -215,8 +215,8 @@ qx.Class.define("qx.ui.decoration.BoxDiv",
         // one pixel negative offset which results into some ugly
         // render effects.
         if (
-          qx.bom.client.Engine.VERSION < 7 ||
-          (qx.bom.client.Feature.QUIRKS_MODE && qx.bom.client.Engine.VERSION < 8)
+          parseFloat(qx.core.Environment.get("engine.version")) < 7 ||
+          (qx.bom.client.Feature.QUIRKS_MODE && parseFloat(qx.core.Environment.get("engine.version")) < 8)
         ) {
           if (this._isHorizontal) {
             element.childNodes[2].style.marginRight = (width%2 == 1) ? "-1px" : "0";

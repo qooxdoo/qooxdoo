@@ -61,7 +61,7 @@ qx.Class.define("qx.test.io.ScriptLoader",
       }
 
       // Opera will fire an event at all
-      if (qx.bom.client.Engine.OPERA) {
+      if (qx.core.Environment.get("engine.name") == "opera") {
         this.warn("Test skipped in Opera, since it doesn't fire events here.");
         return;
       }
@@ -69,7 +69,8 @@ qx.Class.define("qx.test.io.ScriptLoader",
       var url = this.getUrl("qx/test/xmlhttp/404.php");
 
       this.loader.load(url, function(status) { this.resume(function() {
-        if (qx.bom.client.Engine.MSHTML || (qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION < 531)) {
+        if (qx.core.Environment.get("engine.name") == "mshtml" || (qx.core.Environment.get("engine.name") == "webkit" && 
+          parseFloat(qx.core.Environment.get("engine.version")) < 531)) {
           // Error state does not work in IE and Safari 3!
           this.assertEquals("success", status);
         } else {
@@ -84,7 +85,7 @@ qx.Class.define("qx.test.io.ScriptLoader",
     testLoadError : function()
     {
       // Opera will fire an event at all
-      if (qx.bom.client.Engine.OPERA) {
+      if (qx.core.Environment.get("engine.name") == "opera") {
         this.warn("Test skipped in Opera, since it doesn't fire events here.");
         return;
       }
@@ -97,9 +98,10 @@ qx.Class.define("qx.test.io.ScriptLoader",
       {
         this.resume(function()
         {
-          var isSafari3 = qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION < 530;
+          var isSafari3 = qx.core.Environment.get("engine.name") == "webkit" && 
+            parseFloat(qx.core.Environment.get("engine.version")) < 530;
 
-          if (qx.bom.client.Engine.MSHTML || isSafari3) {
+          if (qx.core.Environment.get("engine.name") == "mshtml" || isSafari3) {
             // Error state does not work in IE!
             this.assertEquals("success", status);
           } else {

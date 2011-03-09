@@ -43,7 +43,8 @@ qx.Class.define("qx.test.lang.Function",
 
       function f1(caller) {
 
-        if(qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION < 9.6)
+        if(qx.core.Environment.get("engine.name") == "opera" && 
+          parseFloat(qx.core.Environment.get("engine.version")) < 9.6) 
         {
           qx.log.Logger.warn("This test is skipped in Opera < 9.6.");
           return ;

@@ -350,6 +350,7 @@ qx.Class.define("qx.xml.Element",
   defer : function(statics)
   {
     statics.XML_SERIALIZER = (window.XMLSerializer && 
-     !( qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION >= 9)); 
+     !( qx.core.Environment.get("engine.name") == "mshtml" && 
+     qx.core.Environment.get("engine.version") >= 9)); 
   }
 });

@@ -66,16 +66,16 @@ qx.Class.define("qx.event.type.MouseWheel",
           if (qx.bom.client.Platform.WIN) {
             var factor = 120;
             // safari 5.0 and not 5.0.1
-            if (qx.bom.client.Engine.VERSION == 533.16) {
+            if (parseFloat(qx.core.Environment.get("engine.version")) == 533.16) {
               factor = 1200;
             }
           } else {
             factor = 40;
             // Safari 5.0 or 5.0.1
             if (
-              qx.bom.client.Engine.VERSION == 533.16 ||
-              qx.bom.client.Engine.VERSION == 533.17 ||
-              qx.bom.client.Engine.VERSION == 533.18
+              parseFloat(qx.core.Environment.get("engine.version")) == 533.16 ||
+              parseFloat(qx.core.Environment.get("engine.version")) == 533.17 ||
+              parseFloat(qx.core.Environment.get("engine.version")) == 533.18
             ) {
               factor = 1200;
             }

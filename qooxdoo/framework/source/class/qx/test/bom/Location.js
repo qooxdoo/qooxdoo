@@ -150,8 +150,8 @@ qx.Class.define("qx.test.bom.Location",
       var pos = qx.bom.element.Location.get(div2);
       this.assertEquals(5 + 2 + 3 + 5, pos.left, "left2");
 
-      var badIE = qx.bom.client.Engine.MSHTML &&
-        (qx.bom.client.Engine.VERSION < 8 || qx.bom.client.Feature.QUIRKS_MODE ||
+      var badIE = qx.core.Environment.get("engine.name") == "mshtml" &&
+        (parseFloat(qx.core.Environment.get("engine.version")) < 8 || qx.bom.client.Feature.QUIRKS_MODE ||
          qx.bom.client.Engine.DOCUMENT_MODE === 7);
 
       if (badIE) {
@@ -190,8 +190,8 @@ qx.Class.define("qx.test.bom.Location",
       var pos = qx.bom.element.Location.get(div2);
       this.assertEquals(10 + 5 + 2 + 3 + 5, pos.left, "left2");
 
-      var badIE = qx.bom.client.Engine.MSHTML &&
-        (qx.bom.client.Engine.VERSION < 8 || qx.bom.client.Feature.QUIRKS_MODE ||
+      var badIE = qx.core.Environment.get("engine.name") == "mshtml" &&
+        (parseFloat(qx.core.Environment.get("engine.version")) < 8 || qx.bom.client.Feature.QUIRKS_MODE ||
          qx.bom.client.Engine.DOCUMENT_MODE === 7);
 
       if (badIE) {
@@ -262,8 +262,8 @@ qx.Class.define("qx.test.bom.Location",
       var pos = qx.bom.element.Location.get(relative1);
       this.assertEquals(405 + 2 + 3 + 50 + 5, pos.left);
 
-      var badIE = qx.bom.client.Engine.MSHTML &&
-        (qx.bom.client.Engine.VERSION < 8 || qx.bom.client.Feature.QUIRKS_MODE ||
+      var badIE = qx.core.Environment.get("engine.name") == "mshtml" &&
+        (parseFloat(qx.core.Environment.get("engine.version")) < 8 || qx.bom.client.Feature.QUIRKS_MODE ||
          qx.bom.client.Engine.DOCUMENT_MODE === 7);
 
       if (badIE) {
@@ -346,7 +346,8 @@ qx.Class.define("qx.test.bom.Location",
       var pos = qx.bom.element.Location.get(div);
 
       // IE quirks mode puts the border outside of the body
-      if (qx.bom.client.Engine.MSHTML && qx.bom.client.Feature.QUIRKS_MODE)
+      if (qx.core.Environment.get("engine.name") == "mshtml" && 
+        qx.bom.client.Feature.QUIRKS_MODE)
       {
         this.assertEquals(0, pos.left);
         this.assertEquals(0, pos.top);

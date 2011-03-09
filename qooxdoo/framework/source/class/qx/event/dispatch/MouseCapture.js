@@ -214,7 +214,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
 
     /** Whether the browser has native mouse capture support */
-    hasNativeCapture : qx.bom.client.Engine.MSHTML,
+    hasNativeCapture : qx.core.Environment.get("engine.name") == "mshtml",
 
 
     /**

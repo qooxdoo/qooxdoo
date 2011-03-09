@@ -102,7 +102,7 @@ qx.Class.define("qx.fx.effect.core.Fade",
     {
       this.base(arguments);
 
-      if (qx.bom.client.Engine.MSHTML && position == 1) {
+      if (qx.core.Environment.get("engine.name") == "mshtml" && position == 1) {
         // For IE it't better to remove the opacity filter instead of using it.
         qx.bom.element.Opacity.reset(this._getElement());
       } else {

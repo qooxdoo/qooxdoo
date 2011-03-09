@@ -204,8 +204,12 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
 
       // Do not set the line-height on IE6, IE7, IE8 in Quirks Mode and IE8 in IE7 Standard Mode
       // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3450 for details
-      if ((qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION < 8) ||
-          (qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.DOCUMENT_MODE < 8)) {
+      if (
+        (qx.core.Environment.get("engine.name") == "mshtml" && 
+         parseFloat(qx.core.Environment.get("engine.version")) < 8) ||
+        (qx.core.Environment.get("engine.name") == "mshtml" && 
+         qx.bom.client.Engine.DOCUMENT_MODE < 8)
+      ) {
         styles["line-height"] = '';
       }
 

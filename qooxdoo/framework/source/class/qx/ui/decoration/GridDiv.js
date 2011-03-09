@@ -216,8 +216,8 @@ qx.Class.define("qx.ui.decoration.GridDiv",
         // one pixel negative offset which results into some ugly
         // render effects.
         if (
-          qx.bom.client.Engine.VERSION < 7 ||
-          (qx.bom.client.Feature.QUIRKS_MODE && qx.bom.client.Engine.VERSION < 8)
+          parseFloat(qx.core.Environment.get("engine.version")) < 7 ||
+          (qx.bom.client.Feature.QUIRKS_MODE && parseFloat(qx.core.Environment.get("engine.version")) < 8)
         )
         {
           if (width%2==1)

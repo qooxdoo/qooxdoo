@@ -143,7 +143,7 @@ qx.Class.define("qx.test.Xml",
        // Chrome versions older than 532.2 will throw an exception. See Chromium
        // bug #671 (http://code.google.com/p/chromium/issues/detail?id=671)
       if (navigator.userAgent.indexOf('Chrome') > 0 &&
-          qx.bom.client.Engine.FULLVERSION < 532.2) {
+          qx.core.Environment.get("engine.version") < 532.2) {
         this.assertException(function () {
           qx.xml.Element.selectSingleNode(doc, q1, nsMap);
         }, Error, "DOM Exception 14", "Namespaced XPath query worked in Chrome < 532.2!");
@@ -154,7 +154,9 @@ qx.Class.define("qx.test.Xml",
       // Older versions of Opera don't support XPathEvaluate.
       // TODO: Define XPathEvaluate as a requirement for this test once the
       // feature described in bug #1994 has been implemented.
-      else if (qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION < 9.5) {
+      else if (qx.core.Environment.get("engine.name") == "opera" && 
+        parseFloat(qx.core.Environment.get("engine.version")) < 9.5) 
+      {
         return true;
       }
       else {

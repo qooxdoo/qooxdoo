@@ -842,7 +842,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       // FireFox seems to scroll faster than other browsers
-      var factor = qx.bom.client.Engine.GECKO ? 1 : 3;
+      var factor = qx.core.Environment.get("engine.name") == "gecko" ? 1 : 3;
       var value = this.__verScrollBar.getPosition() +
                   ((e.getWheelDelta() * factor) * table.getRowHeight());
       this.__verScrollBar.scrollTo(value);

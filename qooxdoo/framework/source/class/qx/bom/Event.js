@@ -185,7 +185,7 @@ qx.Class.define("qx.bom.Event",
         // called "preventDefault" => don't prevent the default behavior for
         // right clicks.
         if (qx.core.Variant.isSet("qx.client", "gecko") &&
-            qx.bom.client.Engine.VERSION >= 1.9 &&
+            parseFloat(qx.core.Environment.get("engine.version")) >= 1.9 &&
             e.type == "mousedown" &&
             e.button == 2) {
           return;
@@ -195,7 +195,7 @@ qx.Class.define("qx.bom.Event",
 
         // not working in firefox 3 and above
         if (qx.core.Variant.isSet("qx.client", "gecko") &&
-            qx.bom.client.Engine.VERSION < 1.9)
+            parseFloat(qx.core.Environment.get("engine.version")) < 1.9)
         {
           try
           {

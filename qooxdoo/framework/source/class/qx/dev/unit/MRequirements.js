@@ -230,7 +230,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasGecko : function()
     {
-      return qx.bom.client.Engine.GECKO;
+      return qx.core.Environment.get("engine.name") == "gecko";
     },
 
 
@@ -252,7 +252,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasMshtml : function()
     {
-      return qx.bom.client.Engine.MSHTML;
+      return qx.core.Environment.get("engine.name") == "mshtml";
     },
 
 
@@ -263,7 +263,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasOpera : function()
     {
-      return qx.bom.client.Engine.OPERA;
+      return qx.core.Environment.get("engine.name") == "opera";
     },
 
 
@@ -274,7 +274,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasWebkit : function()
     {
-      return qx.bom.client.Engine.WEBKIT;
+      return qx.core.Environment.get("engine.name") == "webkit";
     }
   }
 

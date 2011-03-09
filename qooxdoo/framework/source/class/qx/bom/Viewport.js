@@ -116,7 +116,7 @@ qx.Class.define("qx.bom.Viewport",
     getWidth : qx.core.Variant.select("qx.client",
     {
       "opera" : function(win) {
-        if (qx.bom.client.Engine.VERSION < 9.5) {
+        if (parseFloat(qx.core.Environment.get("engine.version")) < 9.5) {
           return (win||window).document.body.clientWidth;
         }
         else
@@ -127,7 +127,7 @@ qx.Class.define("qx.bom.Viewport",
       },
 
       "webkit" : function(win) {
-        if (qx.bom.client.Engine.VERSION < 523.15) { // Version < 3.0.4
+        if (parseFloat(qx.core.Environment.get("engine.version")) < 523.15) { // Version < 3.0.4
           return (win||window).innerWidth;
         }
         else
@@ -177,7 +177,7 @@ qx.Class.define("qx.bom.Viewport",
     getHeight : qx.core.Variant.select("qx.client",
     {
       "opera" : function(win) {
-        if (qx.bom.client.Engine.VERSION < 9.5) {
+        if (parseFloat(qx.core.Environment.get("engine.version")) < 9.5) {
           return (win||window).document.body.clientHeight;
         }
         else
@@ -188,7 +188,7 @@ qx.Class.define("qx.bom.Viewport",
       },
 
       "webkit" : function(win) {
-        if (qx.bom.client.Engine.VERSION < 523.15) { // Version < 3.0.4
+        if (parseFloat(qx.core.Environment.get("engine.version")) < 523.15) { // Version < 3.0.4
           return (win||window).innerHeight;
         }
         else {

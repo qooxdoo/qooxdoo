@@ -218,7 +218,8 @@ qx.Bootstrap.define("qx.bom.client.System",
         return;
       }
 
-      if (qx.bom.client.Engine.WEBKIT && RegExp(" Mobile/").test(agent))
+      if (qx.bom.client.Engine.getName() == "webkit" && 
+        RegExp(" Mobile/").test(agent))
       {
         if (RegExp("iPad").test(navigator.userAgent)) {
             this.IPAD = true;
@@ -237,7 +238,7 @@ qx.Bootstrap.define("qx.bom.client.System",
         {
           if (agent.indexOf("Windows NT 5.01")!==-1) {
             this.SP1 = true;
-          } else if (qx.bom.client.Engine.MSHTML && agent.indexOf("SV1")!==-1) {
+          } else if (qx.core.Environment.get("engine.name") == "mshtml" && agent.indexOf("SV1")!==-1) {
             this.SP2 = true;
           }
         }

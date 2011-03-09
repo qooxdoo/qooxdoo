@@ -23,7 +23,10 @@ qx.Class.define("qx.test.ui.decoration.Uniform",
 
   statics :
   {
-    overflow : (qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION == 6 ? "overflow:hidden;" : "")
+    overflow : (
+      qx.core.Environment.get("engine.name") == "mshtml" && 
+      parseFloat(qx.core.Environment.get("engine.version")) == 6 ? 
+      "overflow:hidden;" : "")
   },
 
   members:

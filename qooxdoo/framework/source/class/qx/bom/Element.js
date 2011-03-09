@@ -136,7 +136,7 @@ qx.Class.define("qx.bom.Element",
         var helper = qx.bom.Element.__helperElement[key] = win.document.createElement("div");
 
         // innerHTML will only parsed correctly if element is appended to document
-        if (qx.bom.client.Engine.WEBKIT)
+        if (qx.core.Environment.get("engine.name") == "webkit")
         {
           helper.style.display = "none";
 

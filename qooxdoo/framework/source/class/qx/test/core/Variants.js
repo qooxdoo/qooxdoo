@@ -66,13 +66,13 @@ qx.Class.define("qx.test.core.Variants",
 
       var b = new qx.test.Browser1();
 
-      if (qx.bom.client.Engine.GECKO) {
+      if (qx.core.Environment.get("engine.name") == "gecko") {
         this.assertEquals("Gecko", b.getName());
-      } else if (qx.bom.client.Engine.MSHTML) {
+      } else if (qx.core.Environment.get("engine.name") == "mshtml") {
         this.assertEquals("Internet Explorer", b.getName());
-      } else if (qx.bom.client.Engine.WEBKIT) {
+      } else if (qx.core.Environment.get("engine.name") == "webkit") {
         this.assertEquals("Webkit", b.getName());
-      } else if (qx.bom.client.Engine.OPERA) {
+      } else if (qx.core.Environment.get("engine.name") == "opera") {
         this.assertEquals("Opera", b.getName());
       }
     },
@@ -235,7 +235,7 @@ qx.Class.define("qx.test.core.Variants",
         b = "other";
       }
 
-      if (qx.bom.client.Engine.MSHTML) {
+      if (qx.core.Environment.get("engine.name") == "mshtml") {
         this.assertEquals("mshtml", b);
       } else {
         this.assertEquals("other", b);
@@ -273,7 +273,7 @@ qx.Class.define("qx.test.core.Variants",
     {
       var a = qx.core.Variant.isSet("qx.client", "mshtml") ? "mshtml" : "other";
 
-      if (qx.bom.client.Engine.MSHTML) {
+      if (qx.core.Environment.get("engine.name") == "mshtml") {
         this.assertEquals("mshtml", a);
       } else {
         this.assertEquals("other", a);

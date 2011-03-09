@@ -160,7 +160,8 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
 
       var content = "";
       var imageData = this.__createImage(this._identifyImage(value));
-      var isOldFireFox = qx.bom.client.Engine.GECKO && qx.bom.client.Engine.VERSION < 1.9;
+      var isOldFireFox = qx.core.Environment.get("engine.name") == "gecko" && 
+        qx.core.Environment.get("engine.version") < 1.9;
       var tooltip = imageData.tooltip ? 'title="' + imageData.tooltip + '"' : "";
 
       var styles = {

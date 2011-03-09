@@ -48,10 +48,12 @@ qx.Class.define("qx.test.io.remote.Request",
       // These tests will always fail in Safari 3/FF1.5 due to the behavior
       // described in qooxdoo bug #2529, so they will be skipped.
       this.buggyBrowser = false;
-      var engineString = qx.bom.client.Engine.FULLVERSION;
+      var engineString = qx.core.Environment.get("engine.version");
       var engineFloat = parseFloat(engineString);
-      if ( (qx.bom.client.Engine.WEBKIT && engineFloat < 526)
-            || (qx.bom.client.Engine.GECKO && engineString.indexOf("1.8.0") == 0 ) ) {
+      if ( (qx.core.Environment.get("engine.name") == "webkit" && 
+           engineFloat < 526)
+            || (qx.core.Environment.get("engine.name") == "gecko" && 
+            engineString.indexOf("1.8.0") == 0 ) ) {
         this.buggyBrowser = true;
       }
     },

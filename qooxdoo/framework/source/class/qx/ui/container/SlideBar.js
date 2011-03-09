@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.container.SlideBar",
            * Gecko does not update the scroll position after removing an
            * element. So we have to do this by hand.
            */
-          if (qx.bom.client.Engine.GECKO) {
+          if (qx.core.Environment.get("engine.name") == "gecko") {
             control.addListener("removeChildWidget", this._onRemoveChild, this);
           }
 

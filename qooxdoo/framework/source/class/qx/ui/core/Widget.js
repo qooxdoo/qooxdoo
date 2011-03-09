@@ -2556,7 +2556,9 @@ qx.Class.define("qx.ui.core.Widget",
 
       // In Opera the cursor must be set directly.
       // http://bugzilla.qooxdoo.org/show_bug.cgi?id=1729
-      this.getContainerElement().setStyle("cursor", value, qx.bom.client.Engine.OPERA);
+      this.getContainerElement().setStyle(
+        "cursor", value, qx.core.Environment.get("engine.name") == "opera"
+      );
     },
 
 

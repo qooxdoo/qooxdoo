@@ -59,8 +59,9 @@ qx.Class.define("qx.bom.element.Background",
     {
       // Correcting buggy Firefox background-position implementation
       // Have problems with identical values
-      var Engine = qx.bom.client.Engine;
-      if (Engine.GECKO && Engine.VERSION < 1.9 && left == top && typeof left == "number") {
+      var engine = qx.core.Environment.get("engine.name");
+      var version = qx.core.Environment.get("engine.version");
+      if (engine == "gecko" && version < 1.9 && left == top && typeof left == "number") {
         top += 0.01;
       }
 
