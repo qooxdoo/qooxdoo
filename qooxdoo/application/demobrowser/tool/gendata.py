@@ -49,7 +49,7 @@ sys.path.insert(0, os.path.join(
     "pylib"
     ))
 
-from misc import json
+from misc import json, filetool
 
 fJSON      = "./config.demo.json"
 demoDataFn = "demodata.json"
@@ -110,20 +110,17 @@ def CreateDemoJson():
     bcategories = {}
 
     # Pre-processing
-    JSON = open(fJSON,"w")
-    JSON.write('// This file is dynamically created by the generator!\n')
-    JSON.write('{\n')
+    JSON = {}
     # top-level includes
     default_json = 'tool' + '/' + 'default.json'
     assert os.path.isfile(default_json)
-    JSON.write('  "include":  [ { "path" : "%s" } ],\n' % default_json)
+    JSON['include'] = [{ "path" : "%s" % default_json }]
 
     # per-demo template file
     json_tmpl = open(os.path.join('tool','tmpl.json'),"rU").read()
 
     # jobs section
-    JSON.write('  "jobs":\n')
-    JSON.write('  {\n')
+    JSON['jobs'] = {}
 
     # Process demo html files
     while True:
@@ -148,31 +145,23 @@ def CreateDemoJson():
 
         # concat all
         currcont = json_tmpl.replace('XXX',"%s.%s"%(category,name)).replace("YYY",name).replace("ZZZ",category)
-        JSON.write("%s," % currcont[:-1])
-        JSON.write("\n\n")
+        templatejobs = json.loads("{" + currcont + "}")
+        for job,jobval in templatejobs.iteritems():
+            JSON['jobs'][job] = jobval
 
     # Post-processing
     for category in scategories:
-        JSON.write("""  "source-%s" : {
-            "run" : [
-            %s]
-          },\n\n""" % (category, ",".join(map(dquote, sorted(scategories[category])))))
-        JSON.write("""  "build-%s" : {
-            "run" : [
-            %s]
-          },\n\n""" % (category, ",".join(map(dquote, sorted(bcategories[category])))))
+        currentry = JSON['jobs']["source-%s" % category] = {}
+        currentry['run'] = sorted(scategories[category])
+        currentry = JSON['jobs']["build-%s" % category] = {}
+        currentry['run'] = sorted(bcategories[category])
 
-    JSON.write("""  "source" : {
-        "run" : [
-         %s]
-      },\n\n""" % ",".join(map(dquote, sorted(source))) ) 
+    JSON['jobs']["source"] = { "run" : sorted(source) }
+    JSON['jobs']["build"]  = { "run" : sorted(build) }
 
-    JSON.write("""  "build" : {
-        "run" : [
-         %s]
-      }\n  }\n}""" % ",".join(map(dquote, sorted(build))) ) 
-
-    JSON.close()
+    cont = '// This file is dynamically created by the generator!\n'
+    cont += json.dumps(JSON, sort_keys=True, indent=2)
+    filetool.save(fJSON, cont)
 
     yield  # final yield to provide for .send(None) of caller
 
