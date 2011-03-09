@@ -179,7 +179,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
         var constantValue = statics[keys[i]];
         statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
           qx.Bootstrap.warn(
-            "The constant '"+ key + "' is deprecated: " +
+            "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
             "Plese check the API documentation of qx.core.Environemt.\n" + 
             "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
           );
