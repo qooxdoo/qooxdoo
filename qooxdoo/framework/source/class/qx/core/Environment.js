@@ -136,6 +136,20 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("plugin.silverlight.version")) {
         this.__checks["plugin.silverlight.version"] = qx.bom.client.Plugin.getSilverlightVersion;
       }
+
+      if (this.useCheck("plugin.flash")) {
+        this.__checks["plugin.flash"] = qx.bom.client.Flash.isAvailable;
+      }
+      if (this.useCheck("plugin.flash.version")) {
+        this.__checks["plugin.flash.version"] = qx.bom.client.Flash.getVersion;
+      }
+      if (this.useCheck("plugin.flash.express")) {
+        this.__checks["plugin.flash.express"] = qx.bom.client.Flash.getExpressInstall;
+      }
+      if (this.useCheck("plugin.flash.strictsecurity")) {
+        this.__checks["plugin.flash.strictsecurity"] = qx.bom.client.Flash.getStrictSecurityModel;
+      }
+
       // /////////////////////////////////////////
       // CSS
       // /////////////////////////////////////////

@@ -22,3 +22,10 @@
 \bqx\.bom\.client\.Platform\.MAC\b=qx.core.Environment.get("os.name") == "mac"
 \bqx\.bom\.client\.Platform\.UNIX\b=qx.core.Environment.get("os.name") == "unix"
 \bqx\.bom\.client\.Platform\.UNKNOWN_PLATFORM\b=qx.core.Environment.get("os.name") == ""
+
+\bqx\.bom\.client\.Flash\.AVAILABLE\b=qx.core.Environment.get("plugin.flash")
+\bqx\.bom\.client\.Flash\.FULLVERSION\b=qx.core.Environment.get("plugin.flash.version")
+\bqx\.bom\.client\.Flash\.VERSION\b=parseFloat(qx.core.Environment.get("plugin.flash.version"))
+\bqx\.bom\.client\.Flash\.REVISION\b=qx.core.Environment.get("plugin.flash.flash").split(".")[qx.core.Environment.get("plugin.flash.flash").split(".").length -1]
+\bqx\.bom\.client\.Flash\.STRICT_SECURITY_MODEL\b=qx.core.Environment.get("plugin.flash.express")
+\bqx\.bom\.client\.Flash\.EXPRESSINSTALL\b=qx.core.Environment.get("plugin.flash.strictsecurity")

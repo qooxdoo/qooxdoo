@@ -50,6 +50,38 @@ qx.Class.define("qx.test.core.Environment",
     testOSName : function() {
       // just make sure the call is working
       qx.core.Environment.get("os.name");
+    },
+
+    testQuicktime : function() {
+      // just make sure the call is working
+      qx.core.Environment.get("plugin.quicktime");
+      qx.core.Environment.get("plugin.quicktime.version");
+    },
+    
+    testWmv : function() {
+      // just make sure the call is working
+      qx.core.Environment.get("plugin.windowsmedia");
+      qx.core.Environment.get("plugin.windowsmedia.version");
+    },
+    
+    testDivx : function() {
+      // just make sure the call is working
+      qx.core.Environment.get("plugin.divx");
+      qx.core.Environment.get("plugin.divx.version");
+    },
+    
+    testSilverlight : function() {
+      // just make sure the call is working
+      qx.core.Environment.get("plugin.silverlight");
+      qx.core.Environment.get("plugin.silverlight.version");
+    },
+    
+    testFlash : function() {
+      // just make sure the call is working
+      qx.core.Environment.get("plugin.flash");
+      qx.core.Environment.get("plugin.flash.version");
+      qx.core.Environment.get("plugin.flash.express");
+      qx.core.Environment.get("plugin.flash.strictsecurity");
     }
   }
 });

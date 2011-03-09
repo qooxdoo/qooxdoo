@@ -197,7 +197,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasFlash : function()
     {
-      return qx.bom.client.Flash.AVAILABLE;
+      return qx.core.Environment.get("plugin.flash");
     },
 
 
