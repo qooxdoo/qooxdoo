@@ -186,8 +186,9 @@ qx.Bootstrap.define("qx.bom.client.System",
       }
 
       var reg = new RegExp("(" + str.join("|").replace(/\./g, "\.") + ")", "g");
+      var match = reg.exec(agent);
 
-      if (!reg.test(agent)) {
+      if (!match) {
         this.UNKNOWN_SYSTEM = true;
 
         if(!qx.bom.client.Platform.UNKNOWN_PLATFORM)
@@ -217,7 +218,7 @@ qx.Bootstrap.define("qx.bom.client.System",
         return;
       }
 
-      if (qx.bom.client.Engine.WEBKIT && RegExp(" Mobile/").test(navigator.userAgent))
+      if (qx.bom.client.Engine.WEBKIT && RegExp(" Mobile/").test(agent))
       {
         if (RegExp("iPad").test(navigator.userAgent)) {
             this.IPAD = true;
@@ -229,7 +230,7 @@ qx.Bootstrap.define("qx.bom.client.System",
       }
       else
       {
-        this.NAME = this.__ids[RegExp.$1];
+        this.NAME = this.__ids[match[1]];
         this[this.NAME.toUpperCase()] = true;
 
         if (qx.bom.client.Platform.WIN)
