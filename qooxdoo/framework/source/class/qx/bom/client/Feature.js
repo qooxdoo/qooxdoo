@@ -161,7 +161,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     // @deprecated since 1.4 (wholel defer block)
     statics.PLACEHOLDER = qx.bom.client.Css.getPlaceholder();
     statics.CSS_TEXT_OVERFLOW = qx.bom.client.Css.getTextOverflow();
-    statics.CSS_POINTER_EVENTS = qx.bom.client.Css.getPointerEvents();
+    statics.CSS_POINTER_EVENTS = qx.bom.client.Event.getPointer();
     
     statics.QUIRKS_MODE = qx.bom.client.Browser.getDocumentMode() == "quirks";
     statics.STANDARD_MODE = !statics.QUIRKS_MODE;
