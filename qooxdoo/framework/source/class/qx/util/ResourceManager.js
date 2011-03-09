@@ -139,13 +139,29 @@ qx.Class.define("qx.util.ResourceManager",
     isClippedImage : function(id)
     {
       var entry = this.self(arguments).__registry[id];
-      var isClipped = entry && entry.length > 4;
-      if (isClipped){
+      return entry && entry.length > 4 && typeof(entry[4]) == "string" && this.constructor.__registry[entry[4]];
+    },
+
+
+    /**
+     * Returns the format of the combined image (png, gif, ...), if the given
+     * resource identifier is an image contained in one, or the empty string
+     * otherwise.
+     *
+     * @param id {String} Resource identifier
+     * @return {String} The type of the combined image containing id
+     */
+    getCombinedFormat : function(id)
+    {
+      var clippedtype = "";
+      var entry = this.self(arguments).__registry[id];
+      var isclipped = entry && entry.length > 4 && typeof(entry[4]) == "string" && this.constructor.__registry[entry[4]];
+      if (isclipped){
         var combId  = entry[4];
-        var combImg = this.self(arguments).__registry[combId];
-        isClipped = combImg[2];  // return combined image type
+        var combImg = this.constructor.__registry[combId];
+        clippedtype = combImg[2];
       }
-      return isClipped;
+      return clippedtype;
     },
 
 

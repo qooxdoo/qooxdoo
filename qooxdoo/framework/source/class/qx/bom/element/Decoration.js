@@ -357,7 +357,7 @@ qx.Class.define("qx.bom.element.Decoration",
     __processScaleXScaleY : function(style, repeat, sourceid)
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
-      var clipped = ResourceManager.isClippedImage(sourceid);
+      var clipped = ResourceManager.getCombinedFormat(sourceid);
       var dimension = this.__getDimension(sourceid);
       var uri;
 
@@ -485,7 +485,7 @@ qx.Class.define("qx.bom.element.Decoration",
     __processRepeats : function(style, repeat, sourceid)
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
-      var clipped = ResourceManager.isClippedImage(sourceid);
+      var clipped = ResourceManager.getCombinedFormat(sourceid);
       var dimension = this.__getDimension(sourceid);
 
       // Double axis repeats cannot be clipped
