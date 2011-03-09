@@ -36,6 +36,15 @@ qx.Class.define("qx.test.core.Environment",
     
     testBrowserVersion : function() {
       this.assertNotEquals("", qx.core.Environment.get("browser.version"));      
+    },
+    
+    testLocale : function() {
+      this.assertNotEquals("", qx.core.Environment.get("locale"));
+    },
+    
+    testVariant : function() {
+      // just make sure the call is working
+      qx.core.Environment.get("locale.variant");
     }
   }
 });

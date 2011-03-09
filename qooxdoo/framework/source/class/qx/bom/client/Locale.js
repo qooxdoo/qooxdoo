@@ -42,33 +42,64 @@ qx.Class.define("qx.bom.client.Locale",
   statics :
   {
 
-    /** {String} The name of the system locale e.g. "de" when the full locale is "de_AT" */
+    /** 
+     * {String} The name of the system locale e.g. "de" when the full 
+     * locale is "de_AT" 
+     * @deprecated since 1.4
+     */
     LOCALE : "",
 
-    /** {String} The name of the variant for the system locale e.g. "at" when the full locale is "de_AT" */
+    /** 
+     * {String} The name of the variant for the system locale e.g. 
+     * "at" when the full locale is "de_AT" 
+     * @deprecated since 1.4
+     */
     VARIANT : "",
 
 
     /**
-     * Internal initialize helper
-     *
-     * @return {void}
+     * The name of the system locale e.g. "de" when the full locale is "de_AT"
+     * @return {String} The current locale
      */
-    __init : function()
-    {
-      var locale = (navigator.userLanguage || navigator.language).toLowerCase();
+    getLocale : function() {
+      var locale = qx.bom.client.Locale.__getNavigatorLocale();
+
+      var index = locale.indexOf("-");
+      if (index != -1) {
+        locale = locale.substr(0, index);
+      }
+
+      return locale;
+    },
+
+
+    /** 
+     * The name of the variant for the system locale e.g. "at" when the 
+     * full locale is "de_AT" 
+     * 
+     * @return {String} The locales variant.
+     */
+    getVariant : function() {
+      var locale = qx.bom.client.Locale.__getNavigatorLocale();
       var variant = "";
 
       var index = locale.indexOf("-");
 
-      if (index != -1)
-      {
+      if (index != -1) {
         variant = locale.substr(index + 1);
-        locale = locale.substr(0, index);
       }
 
-      this.LOCALE = locale;
-      this.VARIANT = variant;
+      return variant;
+    },
+
+
+    /**
+     * Internal helper for accessing the navigators language.
+     * 
+     * @return {String} The language set by the navigator.
+     */
+    __getNavigatorLocale : function() {
+      return (navigator.userLanguage || navigator.language).toLowerCase();
     }
   },
 
@@ -82,6 +113,24 @@ qx.Class.define("qx.bom.client.Locale",
   */
 
   defer : function(statics) {
-    statics.__init();
+    // @deprecated since 1.4 (whole defer block)
+    statics.LOCALE = statics.getLocale();
+    statics.VARIANT = statics.getVariant();
+
+    var keys = ["LOCALE","VARIANT"];
+    for (var i = 0; i < keys.length; i++) {
+      // check if __defineGetter__ is available
+      if (statics.__defineGetter__) {
+        var constantValue = statics[keys[i]];
+        statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
+          qx.Bootstrap.warn(
+            "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
+            "Plese check the API documentation of qx.core.Environemt.\n" + 
+            "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
+          );
+          return c;
+        }, statics, keys[i], constantValue));
+      }
+    }
   }
 });

@@ -89,6 +89,17 @@ qx.Bootstrap.define("qx.core.Environment",
       }
       
       // /////////////////////////////////////////
+      // LOCALE
+      // /////////////////////////////////////////
+      if (this.useCheck("locale")) {
+        this.__checks["locale"] = qx.bom.client.Locale.getLocale;        
+      }
+      
+      if (this.useCheck("locale.variant")) {
+        this.__checks["locale.variant"] = qx.bom.client.Locale.getVariant;        
+      }
+            
+      // /////////////////////////////////////////
       // CSS
       // /////////////////////////////////////////
       if (this.useCheck("css.textoverflow")) {

@@ -13,3 +13,6 @@
 \bqx\.bom\.client\.Browser\.TITLE\b=qx.core.Environment.get("browser.name") + " " + qx.core.Environment.get("browser.version")
 \bqx\.bom\.client\.Browser\.VERSION\b=parseFloat(qx.core.Environment.get("browser.version"))
 \bqx\.bom\.client\.Browser\.FULLVERSION\b=qx.core.Environment.get("browser.version")
+
+\bqx\.bom\.client\.Locale\.LOCALE\b=qx.core.Environment.get("locale")
+\bqx\.bom\.client\.Locale\.VARIANT\b=qx.core.Environment.get("locale.variant")

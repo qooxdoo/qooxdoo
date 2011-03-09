@@ -52,10 +52,8 @@ qx.Class.define("qx.locale.Manager",
     this.__translations = qx.$$translations || {};
     this.__locales      = qx.$$locales || {};
 
-    var clazz = qx.bom.client.Locale;
-
-    var locale = clazz.LOCALE;
-    var variant = clazz.VARIANT;
+    var locale = qx.core.Environment.get("locale");
+    var variant = qx.core.Environment.get("locale.variant");
     if (variant !== "") {
       locale += "_" + variant;
     }
