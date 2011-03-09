@@ -61,7 +61,6 @@ qx.Class.define("apiviewer.ui.SearchView",
   {
 
     __note : null,
-    __button : null,
     __initresult : null,
     __table : null,
     __typeFilter: null,
@@ -88,14 +87,9 @@ qx.Class.define("apiviewer.ui.SearchView",
         placeholder : "Search..."
       });
 
-      // Search form - submit button
-      this.__button = new qx.ui.form.Button("Find");
-      this.__button.setEnabled(false);
-
       sform.add(this.sinput, {
         row: 0, column: 0
       });
-      sform.add(this.__button, {row: 0, column: 1});
 
       this.__typesIndex =
       {
@@ -113,28 +107,48 @@ qx.Class.define("apiviewer.ui.SearchView",
       };
       this.__typeFilter = new qx.data.Array([true, true, true,true,true,true,true,true,true]);
       var types = ['package','class','method','constant','property','entry','event','child control','interface'];
+      var iconNameParts = ['package','class','method_public','constant','property','event','event','childcontrol','interface'];
       
-      var typeContainer = new qx.ui.container.Composite(new qx.ui.layout.Grid(1));
+      var typeContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox());
       
       for(var i=0;i<types.length;i++)
       {
         var type=types[i];
-        var checkboxType = new qx.ui.form.CheckBox(type);
-        checkboxType.bind('value',this.__typeFilter,'array['+i+']');
-        checkboxType.setValue(true);
-        typeContainer.add(checkboxType, {row: parseInt(i/3) , column: i%3});
-        checkboxType.addListener('click', function(e) {
+        var typeToggleButton = new qx.ui.form.ToggleButton('','apiviewer/image/'+iconNameParts[i]+'18.gif');
+        typeToggleButton.setToolTipText(type);
+        typeToggleButton.setPadding(0,0,0,0);
+        typeToggleButton.setMarginRight(2);
+        typeToggleButton.setShow('icon');
+        typeToggleButton.bind('value',this.__typeFilter,'array['+i+']');
+        typeToggleButton.setKeepFocus(true);
+        typeToggleButton.setValue(true);
+        typeContainer.add(typeToggleButton);
+        typeToggleButton.addListener('changeValue', function(e) {
           this._searchResult(this.sinput.getValue() || "");
         }, this);
+        this.__typeFilter.bind('['+i+']',typeToggleButton,'value');
       }
       
-      sform.add(typeContainer, {row: 1, column: 0, colSpan: 2});
+        var typeToggleButtonAll = new qx.ui.form.ToggleButton('All');
+        typeToggleButtonAll.setPadding(1,1,1,1);
+        typeToggleButtonAll.setShow('label');
+        typeToggleButtonAll.setValue(true);
+        typeToggleButtonAll.setGap(0);
+        typeToggleButtonAll.setKeepFocus(true);
+        typeContainer.add(typeToggleButtonAll);
+        typeToggleButtonAll.addListener('changeValue', function(e) {
+          for(var i=0;i<this.__typeFilter.length;i++){
+            this.__typeFilter.setItem(i,e.getData());
+          }
+        },this);
+      
+      sform.add(typeContainer, {row: 1, column: 0});
       
       this.namespaceTextField = new qx.ui.form.TextField().set({
-        placeholder : "Namespace..."
+        placeholder : "Namespace [qx.*]"
       });
       
-      sform.add(this.namespaceTextField, {row: 2, column: 0, colSpan: 2});
+      sform.add(this.namespaceTextField, {row: 2, column: 0});
       
       this.namespaceTextField.addListener("keyup", function(e) {
         this._searchResult(this.sinput.getValue() || "");
@@ -183,11 +197,11 @@ qx.Class.define("apiviewer.ui.SearchView",
       this.__initresult = true;
       this.__table = table;
 
-      table.addListener("appear", this.__handleNote, this);
+      //table.addListener("appear", this.__handleNote, this);
 
-      table.addListener("disappear", function(e) {
-        this.__note.hide();
-      }, this);
+      //table.addListener("disappear", function(e) {
+      //  this.__note.hide();
+      //}, this);
 
 
       this.add(table, {flex : 1})
@@ -201,10 +215,6 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // Submit events
       this.sinput.addListener("keyup", function(e) {
-        this._searchResult(this.sinput.getValue() || "");
-      }, this);
-      
-      this.__button.addListener("execute", function(e) {
         this._searchResult(this.sinput.getValue() || "");
       }, this);
 
@@ -222,11 +232,11 @@ qx.Class.define("apiviewer.ui.SearchView",
       var svalue = qx.lang.String.trim(svalue);
 
       // Hide the note if text is typed into to search field.
-      if (svalue.length > 0) {
-        this.__note.hide();
-      } else {
-        this.__note.show();
-      }
+      //      if (svalue.length > 0) {
+      //        this.__note.hide();
+      //      } else {
+      //        this.__note.show();
+      //      }
 
       // If empty or too short search string stop here
       if (svalue.length < 3)
@@ -247,7 +257,6 @@ qx.Class.define("apiviewer.ui.SearchView",
         {
           var search = this._validateInput(svalue);
           new RegExp(search[0]);
-          this.__button.setEnabled(true);
         }
         catch(ex)
         {
@@ -530,7 +539,6 @@ qx.Class.define("apiviewer.ui.SearchView",
     {
       this._tableModel.setData([]);
       this._tableModel.setColumns([ "", ""]);
-      this.__button.setEnabled(false);
     },
 
 
@@ -573,7 +581,7 @@ qx.Class.define("apiviewer.ui.SearchView",
   {
     this.apiindex = this._table = this.__table = this._tableModel = this.__typeFilter = this.__typesIndex =
       this._selectionModel = null;
-    this._disposeObjects("sinput", "__button", "__note");
+    this._disposeObjects("sinput", "__note");
     this._disposeArray("listdata");
   }
 });
