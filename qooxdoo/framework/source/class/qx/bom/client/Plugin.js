@@ -17,9 +17,14 @@
 
 ************************************************************************ */
 /**
- * Contains detection for QuickTime, Windows Media, DivX and Silverlight.
+ * Contains detection for QuickTime, Windows Media, DivX, Silverlight adn gears.
  * If no version could be detected the version is set to an empty string as 
  * default.
+ * 
+ * This class is used by {@link qx.core.Environment} and should not be used 
+ * directly. Please check its class comment for details how to use it.
+ * 
+ * @internal
  */
 qx.Bootstrap.define("qx.bom.client.Plugin", 
 {
@@ -77,6 +82,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      * Fetches the version of the quicktime plugin.
      * @return {String} The version of the plugin, if available, 
      *   an empty string otherwise
+     * @internal
      */
     getQuicktimeVersion : function() {
       var entry = qx.bom.client.Plugin.__db["quicktime"];
@@ -88,6 +94,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      * Fetches the version of the windows media plugin.
      * @return {String} The version of the plugin, if available, 
      *   an empty string otherwise
+     * @internal
      */
     getWindowsMediaVersion : function() {
       var entry = qx.bom.client.Plugin.__db["wmv"];
@@ -99,6 +106,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      * Fetches the version of the divx plugin.
      * @return {String} The version of the plugin, if available, 
      *   an empty string otherwise
+     * @internal
      */
     getDivXVersion : function() {
       var entry = qx.bom.client.Plugin.__db["divx"];
@@ -110,6 +118,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      * Fetches the version of the silverlight plugin.
      * @return {String} The version of the plugin, if available, 
      *   an empty string otherwise
+     * @internal
      */
     getSilverlightVersion : function() {
       var entry = qx.bom.client.Plugin.__db["silverlight"];
@@ -120,6 +129,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
     /**
      * Checks if the quicktime plugin is available.
      * @return {Boolean} <code>true</code> if the plugin is available
+     * @internal
      */
     getQuicktime : function() {
       var entry = qx.bom.client.Plugin.__db["quicktime"];
@@ -130,6 +140,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
     /**
      * Checks if the windows media plugin is available.
      * @return {Boolean} <code>true</code> if the plugin is available
+     * @internal
      */
     getWindowsMedia : function() {
       var entry = qx.bom.client.Plugin.__db["wmv"];
@@ -140,6 +151,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
     /**
      * Checks if the divx plugin is available.
      * @return {Boolean} <code>true</code> if the plugin is available
+     * @internal
      */
     getDivX : function() {
       var entry = qx.bom.client.Plugin.__db["divx"];
@@ -150,6 +162,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
     /**
      * Checks if the silverlight plugin is available.
      * @return {Boolean} <code>true</code> if the plugin is available
+     * @internal
      */
     getSilverlight : function() {
       var entry = qx.bom.client.Plugin.__db["silverlight"];

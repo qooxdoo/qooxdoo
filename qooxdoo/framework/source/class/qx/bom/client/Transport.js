@@ -15,11 +15,17 @@
    Authors:
      * Carsten Lergenmueller (carstenl)
      * Fabian Jakobs (fbjakobs)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
 /**
  * Determines browser-dependent information about the transport layer.
+ * 
+ * This class is used by {@link qx.core.Environment} and should not be used 
+ * directly. Please check its class comment for details how to use it.
+ * 
+ * @internal
  */
 qx.Class.define("qx.bom.client.Transport",
 {

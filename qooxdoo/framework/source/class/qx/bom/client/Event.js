@@ -16,6 +16,16 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+/**
+ * Internal class which contains the checks used by {@link qx.core.Environment}.
+ * All checks in here are marked as internal which means you should never use
+ * them directly.
+ *
+ * This class should contain all checks about events.
+ *
+ * @internal
+ */
 qx.Bootstrap.define("qx.bom.client.Event", 
 {
   statics :

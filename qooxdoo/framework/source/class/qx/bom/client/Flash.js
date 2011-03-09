@@ -14,6 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Martin Wittemann (martinwittemann)
 
    ======================================================================
 
@@ -43,7 +44,12 @@
 ************************************************************************ */
 
 /**
- * Flash detection
+ * This class contains all Flash detection.
+ * 
+ * It is used by {@link qx.core.Environment} and should not be used 
+ * directly. Please check its class comment for details how to use it.
+ * 
+ * @internal
  */
 qx.Class.define("qx.bom.client.Flash",
 {
@@ -95,8 +101,8 @@ qx.Class.define("qx.bom.client.Flash",
 
     /**
      * Checks if the flash plugin is available.
-     * 
      * @return {Boolean} <code>true</code>, if flash is available.
+     * @internal
      */
     isAvailable : function() {
       return parseFloat(qx.bom.client.Flash.getVersion()) > 0;
@@ -108,6 +114,7 @@ qx.Class.define("qx.bom.client.Flash",
      * version could not be detected, an empty string will be returnd.
      * 
      * @return {String} The version number as string.
+     * @internal
      */
     getVersion : function() {
       if (qx.bom.client.Engine.getName() == "mshtml") {
@@ -185,6 +192,7 @@ qx.Class.define("qx.bom.client.Flash",
      * Checks if the flash installation is an expres installation.
      * 
      * @return {Boolean} <code>true</code>, if its an express installation.
+     * @internal
      */
     getExpressInstall : function() {
       var availableVersion = qx.bom.client.Flash.getVersion();
@@ -202,6 +210,7 @@ qx.Class.define("qx.bom.client.Flash",
      * Checks if a strict security model is available.
      * 
      * @return {Boolean} <code>true</code>, if its available.
+     * @internal
      */
     getStrictSecurityModel : function() {
       var version = qx.bom.client.Flash.getVersion();

@@ -16,10 +16,26 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+/**
+ * The main purpose of this class to hold all checks about ecma-script.
+ * 
+ * This class is used by {@link qx.core.Environment} and should not be used 
+ * directly. Please check its class comment for details how to use it.
+ * 
+ * @internal
+ */
 qx.Bootstrap.define("qx.bom.client.EcmaScript", 
 {
   statics :
   {
+    /**
+     * Checks if the ecmascript object cound could be used:
+     * https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object#Properties_2
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if the cound is available.
+     */
     getObjectCount : function() {
       return (({}).__count__ == 0);
     }

@@ -16,6 +16,15 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * Internal class which contains the checks used by {@link qx.core.Environment}.
+ * All checks in here are marked as internal which means you should never use
+ * them directly.
+ * 
+ * This class should contain all checks about HTML.
+ * 
+ * @internal
+ */
 qx.Bootstrap.define("qx.bom.client.Html", 
 {
   statics:
@@ -30,6 +39,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
       return window.Worker != null;
     },
 
+
     /** 
      * Whether the client supports Geo Location.
      * 
@@ -40,6 +50,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
       return navigator.geolocation != null;
     },
 
+
     /** 
      * Whether the client supports audio.
      * 
@@ -49,7 +60,8 @@ qx.Bootstrap.define("qx.bom.client.Html",
     getAudio : function() {
       return window.Audio != null;
     },
-    
+
+
     /** 
      * Whether the client supports video.
      * 
@@ -59,6 +71,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
     getVideo : function() {
       return window.Video !=null;
     },
+
 
     /** 
      * Whether the client supports local storage.
@@ -70,6 +83,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
       return window.LocalStorage != null;
     },
 
+
     /** 
      * Whether the client supports session storage.
      * 
@@ -79,7 +93,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
     getSessionStorage : function() {
       return window.SessionStorage != null;
     },
-    
+
 
     /**
      * Whether the browser supports CSS class lists.

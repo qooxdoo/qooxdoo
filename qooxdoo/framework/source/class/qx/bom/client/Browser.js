@@ -14,6 +14,7 @@
 
    Authors:
      * Christian Hagendorn (chris_schmidt)
+     * Martin Wittemann (martinwittemann)
 
    ======================================================================
 
@@ -31,17 +32,14 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.bom.client.System)
-************************************************************************ */
-
 /**
  * Basic browser detection for qooxdoo. Based on "qx.client" variant for
  * optimal performance and less overhead.
  *
- * The listed constants are automatically filled on the initialization
- * phase of the class. The defaults listed in the API viewer need not
- * to be identical to the values at runtime.
+ * This class is used by {@link qx.core.Environment} and should not be used 
+ * directly. Please check its class comment for details how to use it.
+ * 
+ * @internal
  */
 qx.Bootstrap.define("qx.bom.client.Browser",
 {

@@ -73,6 +73,15 @@ qx.Bootstrap.define("qx.core.Environment",
     },
     
     
+    
+    /**
+     * Internal helper for the generator to flag that this block contains the 
+     * dependency for the given check key.
+     * 
+     * @internal
+     * @param key {String} the check key.
+     * @return {Boolean} Always true
+     */
     useCheck : function(key) {
       return true;
     },

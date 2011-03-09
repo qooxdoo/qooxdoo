@@ -18,6 +18,11 @@
 ************************************************************************ */
 /**
  * This class is responsible for checking the operating systems name.
+ * 
+ * This class is used by {@link qx.core.Environment} and should not be used 
+ * directly. Please check its class comment for details how to use it.
+ * 
+ * @internal
  */
 qx.Bootstrap.define("qx.bom.client.OperatingSystem", 
 {

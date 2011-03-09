@@ -25,7 +25,7 @@
  * phase of the class. The defaults listed in the API viewer need not
  * to be identical to the values at runtime.
  * 
- * @deprecated since 1.4
+ * @deprecated since 1.4: Please use qx.core.Environment instead.
  */
 qx.Class.define("qx.bom.client.Platform",
 {

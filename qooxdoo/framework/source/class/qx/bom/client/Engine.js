@@ -14,6 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -21,18 +22,13 @@
  * This class comes with all relevant information regarding
  * the client's engine.
  *
- * The listed constants are automatically filled on the initialization
- * phase of the class. The defaults listed in the API viewer need not
- * to be identical to the values at runtime.
+ * This class is used by {@link qx.core.Environment} and should not be used 
+ * directly. Please check its class comment for details how to use it.
+ * 
+ * @internal
  */
 qx.Bootstrap.define("qx.bom.client.Engine",
 {
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   // General: http://en.wikipedia.org/wiki/Browser_timeline
   // Webkit: http://developer.apple.com/internet/safari/uamatrix.html
   // Firefox: http://en.wikipedia.org/wiki/History_of_Mozilla_Firefox

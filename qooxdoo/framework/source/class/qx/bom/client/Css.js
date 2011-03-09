@@ -16,11 +16,24 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+/**
+ * The purpose of this class is to contain all checks about css.
+ * 
+ * This class is used by {@link qx.core.Environment} and should not be used 
+ * directly. Please check its class comment for details how to use it.
+ * 
+ * @internal
+ */
 qx.Bootstrap.define("qx.bom.client.Css", 
 {
   statics :
   {
-    
+    /**
+     * Cheks what box model is used in the curren environemnt.
+     * @return {String} It either returns "content" or "border".
+     * @internal
+     */
     getBoxModel : function() {
       var content = qx.bom.client.Engine.getName() !== "mshtml" || 
         qx.bom.client.Browser.getDocumentMode() == "standard";
@@ -29,18 +42,33 @@ qx.Bootstrap.define("qx.bom.client.Css",
     },
 
 
+    /**
+     * Checks if text overflow could be used.
+     * @return {Boolean} <code>true</code>, if it could be used.
+     * @internal
+     */
     getTextOverflow : function() {
       return "textOverflow" in document.documentElement.style ||
-      "OTextOverflow" in document.documentElement.style;
+        "OTextOverflow" in document.documentElement.style;
     },
 
 
+    /**
+     * Checks if placeholder could be used.
+     * @return {Boolean} <code>true</code>, if it could be used.
+     * @internal
+     */
     getPlaceholder : function() {
       var i = document.createElement("input");
       return "placeholder" in i;
     },
 
 
+    /**
+     * Checks if border radius could be used.
+     * @return {Boolean} <code>true</code>, if it could be used.
+     * @internal
+     */
     getBorderRadius : function() {
       return "borderRadius" in document.documentElement.style ||
       "MozBorderRadius" in document.documentElement.style || 
@@ -48,13 +76,23 @@ qx.Bootstrap.define("qx.bom.client.Css",
     },
 
 
+    /**
+     * Checks if box shadow could be used.
+     * @return {Boolean} <code>true</code>, if it could be used.
+     * @internal
+     */
     getBoxShadow : function() {
       return "BoxShadow" in document.documentElement.style ||
       "MozBoxShadow" in document.documentElement.style || 
       "WebkitBoxShadow" in document.documentElement.style;
     },
-    
-    
+
+
+    /**
+     * Checks if background gradients could be used.
+     * @return {Boolean} <code>true</code>, if it could be used.
+     * @internal
+     */
     getGradients : function() {
       var el;
       try {

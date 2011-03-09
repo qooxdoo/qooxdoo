@@ -14,12 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-
-************************************************************************ */
-
-/* ************************************************************************
-
-#require(qx.bom.client.Engine)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -27,9 +22,10 @@
  * This class comes with all relevant information regarding
  * the client's selected locale.
  *
- * The listed constants are automatically filled on the initialization
- * phase of the class. The defaults listed in the API viewer need not
- * to be identical to the values at runtime.
+ * This class is used by {@link qx.core.Environment} and should not be used 
+ * directly. Please check its class comment for details how to use it.
+ * 
+ * @internal
  */
 qx.Class.define("qx.bom.client.Locale",
 {
