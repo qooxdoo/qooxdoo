@@ -461,6 +461,8 @@ class Config(object):
                                         % (extConfig._fname, extJob.name, key, oldlist))
                     if jobentry in renamedJobs:
                         newlist.append(renamedJobs[jobentry])
+                    else:
+                        newlist.append(jobentry)
                 # it's a Job() object
                 else:
                     newlist.append(jobentry)
