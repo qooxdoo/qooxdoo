@@ -101,9 +101,6 @@ def getTagsFromJsFile(fname):
 
 def CreateDemoJson():
 
-    def dquote(s):
-        return '"%s"' % s
-
     source = []
     build  = []
     scategories = {}
