@@ -8,6 +8,13 @@
  * keys, but you cannot remove default settings.
  */
 {
+ // limit list of exported jobs, in case you define helper jobs in this config
+ "export" : 
+ [
+  "source-animation.Login",
+  "build-animation.Login"
+ ],
+
  "jobs" : 
  {
   "source-animation.Login" : {
