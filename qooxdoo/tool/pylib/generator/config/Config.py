@@ -454,12 +454,14 @@ class Config(object):
             newlist = []
             oldlist = job.getFeature(key)
             for jobentry in oldlist:
-                if Key.hasMacro(jobentry) and renamedJobs:
-                    console.warn("Potential pitfall: Cannot rename job reference containing macros (%s#%s[\"%s\"]:%s)" \
-                                    % (extConfig._fname, extJob.name, key, oldlist))
-                if (isinstance(jobentry, types.StringTypes)
-                    and jobentry in renamedJobs):
-                    newlist.append(renamedJobs[jobentry])
+                # it's a string reference
+                if isinstance(jobentry, types.StringTypes):
+                    if Key.hasMacro(jobentry) and renamedJobs:
+                        console.warn("Potential pitfall: Cannot rename job reference containing macros (%s#%s[\"%s\"]:%s)" \
+                                        % (extConfig._fname, extJob.name, key, oldlist))
+                    if jobentry in renamedJobs:
+                        newlist.append(renamedJobs[jobentry])
+                # it's a Job() object
                 else:
                     newlist.append(jobentry)
             job.setFeature(key, newlist)
