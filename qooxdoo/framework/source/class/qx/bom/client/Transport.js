@@ -43,6 +43,8 @@ qx.Class.define("qx.bom.client.Transport",
      * detected from JavaScript and because modern browsers have enough
      * parallel connections already - it's unlikely an app will require more
      * than 4 parallel XMLHttpRequests to one server at a time.
+     * 
+     * @internal
      */
     getMaxConcurrentRequestCount: function()
     {

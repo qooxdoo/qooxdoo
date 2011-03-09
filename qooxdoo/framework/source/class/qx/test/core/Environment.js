@@ -82,6 +82,11 @@ qx.Class.define("qx.test.core.Environment",
       qx.core.Environment.get("plugin.flash.version");
       qx.core.Environment.get("plugin.flash.express");
       qx.core.Environment.get("plugin.flash.strictsecurity");
+    },
+    
+    testIO : function() {
+      // just make sure the call is working
+      qx.core.Environment.get("io.maxrequests");      
     }
   }
 });

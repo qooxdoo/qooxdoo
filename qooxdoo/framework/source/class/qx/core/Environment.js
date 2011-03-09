@@ -151,6 +151,13 @@ qx.Bootstrap.define("qx.core.Environment",
       }
 
       // /////////////////////////////////////////
+      // IO
+      // /////////////////////////////////////////      
+      if (this.useCheck("io.maxrequests")) {
+        this.__checks["io.maxrequests"] = qx.bom.client.Transport.getMaxConcurrentRequestCount;
+      }
+
+      // /////////////////////////////////////////
       // CSS
       // /////////////////////////////////////////
       if (this.useCheck("css.textoverflow")) {

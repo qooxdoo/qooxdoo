@@ -94,7 +94,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     maxConcurrentRequests :
     {
       check : "Integer",
-      init : qx.bom.client.Transport.getMaxConcurrentRequestCount()
+      init : qx.core.Environment.get("io.maxrequests")
     },
 
 
