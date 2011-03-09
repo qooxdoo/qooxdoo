@@ -30,12 +30,11 @@ qx.Class.define("qx.test.core.Environment",
       this.assertNotEquals("", qx.core.Environment.get("engine.version"));      
     },
     
-    testBrowserName : function() {
+    testBrowser : function() {
       this.assertNotEquals("", qx.core.Environment.get("browser.name"));
-    },
-    
-    testBrowserVersion : function() {
-      this.assertNotEquals("", qx.core.Environment.get("browser.version"));      
+      this.assertNotEquals("", qx.core.Environment.get("browser.version"));
+      
+      this.assertNotEquals("", qx.core.Environment.get("browser.documentmode"));
     },
     
     testLocale : function() {

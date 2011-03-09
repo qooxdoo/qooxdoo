@@ -137,7 +137,8 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
            * value independent of the minimum font size, an "overflow:hidden"
            * style is added.
            * */
-          if (parseFloat(qx.core.Environment.get("engine.version")) < 7 || qx.bom.client.Feature.QUIRKS_MODE)
+          if (parseFloat(qx.core.Environment.get("engine.version")) < 7 || 
+            qx.core.Environment.get("browser.documentmode") == "quirks")
           {
             // Add additionally style
             styles.overflow = "hidden";

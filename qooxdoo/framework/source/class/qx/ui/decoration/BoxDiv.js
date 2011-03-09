@@ -216,7 +216,8 @@ qx.Class.define("qx.ui.decoration.BoxDiv",
         // render effects.
         if (
           parseFloat(qx.core.Environment.get("engine.version")) < 7 ||
-          (qx.bom.client.Feature.QUIRKS_MODE && parseFloat(qx.core.Environment.get("engine.version")) < 8)
+          (qx.core.Environment.get("browser.documentmode") == "quirks" && 
+           parseFloat(qx.core.Environment.get("engine.version")) < 8)
         ) {
           if (this._isHorizontal) {
             element.childNodes[2].style.marginRight = (width%2 == 1) ? "-1px" : "0";

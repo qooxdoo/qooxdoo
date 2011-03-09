@@ -54,16 +54,11 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     /** {BOOLEAN} Whether the client supports the css border radius property.*/
     CSS_BORDER_RADIUS : false,
 
-
     /** {BOOLEAN} Whether the client supports the css box shadow property.*/    
     CSS_BOX_SHADOW : false,
 
     /** {BOOLEAN} Whether the client supports gradients as css background.*/
     CSS_GRADIENTS : false,
-
-
-
-// TODO below
 
     /** {Boolean} Flag to detect if the current document is rendered in standard mode */
     STANDARD_MODE : false,
@@ -71,11 +66,17 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     /** {Boolean} Flag to detect if the current document is rendered in quirks mode */
     QUIRKS_MODE : false,
 
+
+
+// TODO below
+
     /** {Boolean} Flag to detect if the client uses the W3C box model to render the current document */
     CONTENT_BOX : false,
 
     /** {Boolean} Flag to detect if the client uses the IE box model to render the current document */
     BORDER_BOX : false,
+
+
 
     /** {Boolean} Flag to detect if the client supports SVG graphics */
     SVG : false,
@@ -146,9 +147,6 @@ qx.Bootstrap.define("qx.bom.client.Feature",
      */
     __init : function()
     {
-      this.QUIRKS_MODE = this.__isQuirksMode();
-      this.STANDARD_MODE = !this.QUIRKS_MODE;
-
       this.CONTENT_BOX = qx.core.Environment.get("engine.name") != "mshtml" || this.STANDARD_MODE;
       this.BORDER_BOX = !this.CONTENT_BOX;
 
@@ -175,21 +173,6 @@ qx.Bootstrap.define("qx.bom.client.Feature",
         }
       }
       data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-    },
-
-
-    /**
-     * Whether the document is in quirks mode (e.g. non XHTML, HTML4 Strict or missing doctype)
-     *
-     * @return {Boolean} true when containing document is in quirks mode
-     */
-    __isQuirksMode : function()
-    {
-      if(qx.core.Environment.get("engine.name") == "mshtml" && parseFloat(qx.core.Environment.get("engine.version")) >= 8) {
-        return qx.bom.client.Engine.DOCUMENT_MODE === 5;
-      } else {
-        return document.compatMode !== "CSS1Compat";
-      }
     }
   },
 
@@ -211,6 +194,10 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     statics.CSS_TEXT_OVERFLOW = qx.bom.client.CssFeature.getTextOverflow();
     statics.CSS_POINTER_EVENTS = qx.bom.client.CssFeature.getPointerEvents();
     
+    statics.QUIRKS_MODE = qx.bom.client.Browser.getDocumentMode() == "quirks";
+    statics.STANDARD_MODE = !statics.QUIRKS_MODE;
+
+
     // TODO add deprecation warning
   }
 });

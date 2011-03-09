@@ -67,11 +67,9 @@ qx.Bootstrap.define("qx.core.Environment",
       // /////////////////////////////////////////
       // Engine 
       // /////////////////////////////////////////      
-      // engine version
       if (this.useCheck("engine.version")) {
         this.__checks["engine.version"] = qx.bom.client.Engine.getVersion;
       }
-      // engine name
       if (this.useCheck("engine.name")) {
         this.__checks["engine.name"] = qx.bom.client.Engine.getName;        
       }
@@ -79,13 +77,14 @@ qx.Bootstrap.define("qx.core.Environment",
       // /////////////////////////////////////////
       // Browser
       // /////////////////////////////////////////
-      // browser name
       if (this.useCheck("browser.name")) {
         this.__checks["browser.name"] = qx.bom.client.Browser.getName;   
       }
-      // browser version
       if (this.useCheck("browser.version")) {
         this.__checks["browser.version"] = qx.bom.client.Browser.getVersion;        
+      }
+      if (this.useCheck("browser.documentmode")) {
+        this.__checks["browser.documentmode"] = qx.bom.client.Browser.getDocumentMode;        
       }
       
       // /////////////////////////////////////////

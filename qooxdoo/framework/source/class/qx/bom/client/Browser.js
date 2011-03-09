@@ -161,6 +161,27 @@ qx.Bootstrap.define("qx.bom.client.Browser",
 
       return version;
     },
+    
+
+    /**
+     * Returns in which mode the current document is.
+     * 
+     * @internal
+     * @return {String} <code>quirks</code> for quirks mode and 
+     *   <code>standard</code> for standard mode.
+     */
+    getDocumentMode : function() {
+      var quirks;
+      if(qx.bom.client.Engine.getName() == "mshtml" && 
+        parseFloat(qx.bom.client.Engine.getVersion()) >= 8
+      ) {
+        quirks = qx.bom.client.Engine.DOCUMENT_MODE === 5;
+      } else {
+        quirks = document.compatMode !== "CSS1Compat";
+      }
+      
+      return quirks ? "quirks" : "standard";
+    },
 
 
     /**
