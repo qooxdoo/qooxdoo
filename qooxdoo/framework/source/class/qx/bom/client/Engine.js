@@ -75,27 +75,17 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      */
     DOCUMENT_MODE : null,
 
-
     /**
-     * Internal initialize helper
-     *
-     * @lint ignoreDeprecated(alert)
-     * @return {void}
+     * Returns the version of the engine.
+     * 
+     * @return {number} The version number of the current engine.
+     * @internal
      */
-    __init : function()
-    {
-      var engine = "unknown";
-      var version = "0.0.0";
+    getVersion : function() {
       var agent = window.navigator.userAgent;
-      var unknownEngine = false;
-      var unknownVersion = false;
-
-      if (window.opera &&
-          Object.prototype.toString.call(window.opera) == "[object Opera]")
-      {
-        engine = "opera";
-        this.OPERA = true;
-
+      
+      var version = "";
+      if (this.__isOpera()) {
         // Opera has a special versioning scheme, where the second part is combined
         // e.g. 8.54 which should be handled like 8.5.4 to be compatible to the
         // common versioning system used by other browsers
@@ -106,17 +96,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
             version += "." + RegExp.$3;
           }
         }
-        else
-        {
-          unknownVersion = true;
-          version = "9.6.0";
-        }
-      }
-      else if (window.navigator.userAgent.indexOf("AppleWebKit/") != -1)
-      {
-        engine = "webkit";
-        this.WEBKIT = true;
-
+      } else if (this.__isWebkit()) {
         if (/AppleWebKit\/([^ ]+)/.test(agent))
         {
           version = RegExp.$1;
@@ -128,76 +108,105 @@ qx.Bootstrap.define("qx.bom.client.Engine",
             version = version.slice(0, invalidCharacter.index);
           }
         }
-        else
-        {
-          unknownVersion = true;
-          version = "525.26";
-        }
-      }
-      else if (window.controllers && window.navigator.product === "Gecko")
-      {
-        engine = "gecko";
-        this.GECKO = true;
-
+      } else if (this.__isGecko()) {
         // Parse "rv" section in user agent string
         if (/rv\:([^\);]+)(\)|;)/.test(agent)) {
           version = RegExp.$1;
-        } else {
-          unknownVersion = true;
-          version = "1.9.0.0";
         }
-      }
-      else if (window.navigator.cpuClass && /MSIE\s+([^\);]+)(\)|;)/.test(agent))
-      {
-        engine = "mshtml";
-        version = RegExp.$1;
+      } else if (this.__isMshtml()) {
+        if (/MSIE\s+([^\);]+)(\)|;)/.test(agent)) {
+          version = RegExp.$1;
 
-        if (document.documentMode) {
-          this.DOCUMENT_MODE = document.documentMode;
+          // If the IE8 is running in the compatibility mode, the MSIE value
+          // is set to IE7, but we need the correct verion. The only way is to
+          // compare the trident version.
+          if (version < 8 && /Trident\/([^\);]+)(\)|;)/.test(agent)) {
+            if (RegExp.$1 === "4.0") {
+              version = "8.0";
+            }
+          }          
         }
-
-        // If the IE8 is running in the compatibility mode, the MSIE value
-        // is set to IE7, but we need the correct verion. The only way is to
-        // compare the trident version.
-        if (version < 8 && /Trident\/([^\);]+)(\)|;)/.test(agent)) {
-          if (RegExp.$1 === "4.0") {
-            version = "8.0";
-          }
-        }
-
-        this.MSHTML = true;
-      }
-      else
-      {
+      } else {
         var failFunction = window.qxFail;
-
         if (failFunction && typeof failFunction === "function") {
-          var engine = failFunction();
-
-          if (engine.NAME && engine.FULLVERSION)
-          {
-            engine = engine.NAME;
-            this[engine.toUpperCase()] = true;
-            version = engine.FULLVERSION;
-          }
-        }
-        else {
-          unknownEngine = true;
-          unknownVersion = true;
+          version = failFunction().FULLVERSION;
+        } else {
           version = "1.9.0.0";
-          engine = "gecko";
-          this.GECKO = true;
-
           qx.Bootstrap.warn("Unsupported client: " + agent
             + "! Assumed gecko version 1.9.0.0 (Firefox 3.0).");
         }
       }
+      
+      return version;
+    },
 
-      this.UNKNOWN_ENGINE = unknownEngine;
-      this.UNKNOWN_VERSION = unknownVersion;
-      this.NAME = engine;
-      this.FULLVERSION = version;
-      this.VERSION = parseFloat(version);
+
+    /**
+     * Returns the name of the engine.
+     * 
+     * @return {String} The name of the current engine.
+     * @internal
+     */
+    getName : function() {
+      var name;
+      if (this.__isOpera()) {
+        name = "opera";
+      } else if (this.__isWebkit()) {
+        name = "webkit";
+      } else if (this.__isGecko()) {
+        name = "gecko";
+      } else if (this.__isMshtml()) {
+        name = "mshtml";
+      } else {
+        // check for the fallback
+        var failFunction = window.qxFail;
+        if (failFunction && typeof failFunction === "function") {
+          name = failFunction().NAME;
+        } else {
+          name = "gecko";
+          qx.Bootstrap.warn("Unsupported client: " + window.navigator.userAgent
+            + "! Assumed gecko version 1.9.0.0 (Firefox 3.0).");
+        }
+      }
+      return name;
+    },
+
+
+    /**
+     * Internal helper for checking for opera.
+     * @return {boolean} true, if its opera.
+     */
+    __isOpera : function() {
+      return window.opera &&
+        Object.prototype.toString.call(window.opera) == "[object Opera]";
+    },
+
+
+    /**
+     * Internal helper for checking for webkit.
+     * @return {boolean} true, if its webkit.
+     */
+    __isWebkit : function() {
+      return window.navigator.userAgent.indexOf("AppleWebKit/") != -1;
+    },
+
+
+    /**
+     * Internal helper for checking for gecko.
+     * @return {boolean} true, if its gecko.
+     */
+    __isGecko : function() {
+      return window.controllers && window.navigator.product === "Gecko";
+    },
+
+
+    /**
+     * Internal helper to check for MSHTML.
+     * @return {boolean} true, if its MSHTML.
+     */
+    __isMshtml : function() {
+      return window.navigator.cpuClass && 
+        /MSIE\s+([^\);]+)(\)|;)/.test(window.navigator.userAgent);
     }
   },
 
@@ -211,6 +220,68 @@ qx.Bootstrap.define("qx.bom.client.Engine",
   */
 
   defer : function(statics) {
-    statics.__init();
+    // @deprecated since 1.4: all code in the defer
+    statics.NAME = statics.getName();
+    
+    // check the version
+    statics.FULLVERSION = statics.getVersion();
+    if (statics.FULLVERSION == "") {
+      statics.UNKNOWN_VERSION = true;
+    }
+    
+    if (statics.__isOpera()) {
+      statics.OPERA = true;
+      if (statics.FULLVERSION == "") {
+        statics.FULLVERSION = "9.6.0";        
+      }
+    } else if (statics.__isWebkit()) {
+      statics.WEBKIT = true;
+      if (statics.FULLVERSION == "") {
+        statics.FULLVERSION = "525.26";        
+      }
+    } else if (statics.__isGecko()) {
+      statics.GECKO = true;
+      if (statics.FULLVERSION == "") {
+        statics.FULLVERSION = "1.9.0.0";        
+      }
+    } else if (statics.__isMshtml()) {
+      statics.MSHTML = true;
+      if (document.documentMode) {
+        statics.DOCUMENT_MODE = document.documentMode;
+      }
+    } else {
+      // check for the fallback
+      var failFunction = window.qxFail;
+      if (failFunction && typeof failFunction === "function") {
+        if (failFunction().NAME) {
+          statics[failFunction().NAME.toUpperCase()] = true;                  
+        }
+      } else {
+        statics.GECKO = true;
+        statics.UNKNOWN_ENGINE = true;
+        statics.UNKNOWN_VERSION = true;
+      }
+    }
+    
+    statics.VERSION = parseFloat(statics.FULLVERSION);
+
+    // add @deprecation warnings    
+    var keys = ["FULLVERSION","VERSION","OPERA","WEBKIT",
+      "GECKO","MSHTML","UNKNOWN_ENGINE","UNKNOWN_VERSION","DOCUMENT_MODE"];
+    for (var i = 0; i < keys.length; i++) {
+      // check if __defineGetter__ is available
+      if (statics.__defineGetter__) {
+        var constantValue = statics[keys[i]];
+        statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
+          qx.Bootstrap.warn(
+            "The constant '"+ key + "' is deprecated: " +
+            "Plese check the API documentation of qx.core.Environemt.\n" + 
+            "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
+          );
+          return c;
+        }, statics, keys[i], constantValue));
+      }
+    }
   }
 });
+
