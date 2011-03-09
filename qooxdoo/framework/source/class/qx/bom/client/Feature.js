@@ -66,6 +66,14 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     /** {Boolean} Flag to detect if the current document is rendered in quirks mode */
     QUIRKS_MODE : false,
 
+    /**
+     * {Boolean} Whether the browser supports CSS class lists
+     *   http://hacks.mozilla.org/2010/01/classlist-in-firefox-3-6/
+     * @deprecated since 1.4: Plese use qx.core.Environment.get
+     */
+    HTML5_CLASSLIST : !!(document.documentElement.classList &&
+      qx.Bootstrap.getClass(document.documentElement.classList) === "DOMTokenList"
+    ),
 
 
 // TODO below
@@ -114,16 +122,6 @@ qx.Bootstrap.define("qx.bom.client.Feature",
 
     /** {BOOLEAN} Whether the client supports XUL */
     XUL : false,
-
-
-
-    /**
-     * {Boolean} Whether the browser supports CSS class lists
-     *   http://hacks.mozilla.org/2010/01/classlist-in-firefox-3-6/
-     */
-    HTML5_CLASSLIST : !!(document.documentElement.classList &&
-      qx.Bootstrap.getClass(document.documentElement.classList) === "DOMTokenList"
-    ),
 
 
 

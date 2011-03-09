@@ -85,7 +85,18 @@ qx.Class.define("qx.test.core.Environment",
     
     testIO : function() {
       // just make sure the call is working
-      qx.core.Environment.get("io.maxrequests");      
+      qx.core.Environment.get("io.maxrequests");
+    },
+    
+    testHtml : function() {
+      // just make sure the call is working
+      qx.core.Environment.get("html.webworker");
+      qx.core.Environment.get("html.geolocation");
+      qx.core.Environment.get("html.audio");
+      qx.core.Environment.get("html.video");
+      qx.core.Environment.get("html.storage.local");
+      qx.core.Environment.get("html.storage.session");
+      qx.core.Environment.get("html.classlist");
     }
   }
 });

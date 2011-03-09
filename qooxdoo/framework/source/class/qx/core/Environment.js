@@ -157,6 +157,31 @@ qx.Bootstrap.define("qx.core.Environment",
       }
 
       // /////////////////////////////////////////
+      // HTML
+      // /////////////////////////////////////////      
+      if (this.useCheck("html.webworker")) {
+        this.__checks["html.webworker"] = qx.bom.client.HtmlFeature.getWebWorker;
+      }
+      if (this.useCheck("html.geolocation")) {
+        this.__checks["html.geolocation"] = qx.bom.client.HtmlFeature.getGeoLocation;
+      }
+      if (this.useCheck("html.audio")) {
+        this.__checks["html.audio"] = qx.bom.client.HtmlFeature.getAudio;
+      }
+      if (this.useCheck("html.video")) {
+        this.__checks["html.video"] = qx.bom.client.HtmlFeature.getVideo;
+      }
+      if (this.useCheck("html.storage.local")) {
+        this.__checks["html.storage.local"] = qx.bom.client.HtmlFeature.getLocalStorage;
+      }
+      if (this.useCheck("html.storage.session")) {
+        this.__checks["html.storage.session"] = qx.bom.client.HtmlFeature.getSessionStorage;
+      }
+      if (this.useCheck("html.classlist")) {
+        this.__checks["html.classlist"] = qx.bom.client.HtmlFeature.getClassList;
+      }
+
+      // /////////////////////////////////////////
       // CSS
       // /////////////////////////////////////////
       if (this.useCheck("css.textoverflow")) {

@@ -64,7 +64,7 @@ qx.Class.define("qx.bom.element.Class",
      * @param name {String} The class name to add
      * @return {String} The added classname (if so)
      */
-    add : qx.lang.Object.select(qx.bom.client.Feature.HTML5_CLASSLIST ? "native" : "default",
+    add : qx.lang.Object.select(qx.core.Environment.get("html.classlist") ? "native" : "default",
     {
       "native" : function(element, name)
       {
@@ -91,7 +91,7 @@ qx.Class.define("qx.bom.element.Class",
      * @param classes {String[]} List of classes to add.
      * @return {String} The resulting class name which was applied
      */
-    addClasses : qx.lang.Object.select(qx.bom.client.Feature.HTML5_CLASSLIST ? "native" : "default",
+    addClasses : qx.lang.Object.select(qx.core.Environment.get("html.classlist") ? "native" : "default",
     {
       "native" : function(element, classes)
       {
@@ -174,7 +174,7 @@ qx.Class.define("qx.bom.element.Class",
      * @param name {String} The class name to check for
      * @return {Boolean} true when the element has the given classname
      */
-    has : qx.lang.Object.select(qx.bom.client.Feature.HTML5_CLASSLIST ? "native" : "default",
+    has : qx.lang.Object.select(qx.core.Environment.get("html.classlist") ? "native" : "default",
     {
       "native" : function(element, name) {
         return element.classList.contains(name);
@@ -196,7 +196,7 @@ qx.Class.define("qx.bom.element.Class",
      * @param name {String} The class name to remove
      * @return {String} The removed class name
      */
-    remove : qx.lang.Object.select(qx.bom.client.Feature.HTML5_CLASSLIST ? "native" : "default",
+    remove : qx.lang.Object.select(qx.core.Environment.get("html.classlist") ? "native" : "default",
     {
       "native" : function(element, name)
       {
@@ -222,7 +222,7 @@ qx.Class.define("qx.bom.element.Class",
      * @param classes {String[]} List of classes to remove.
      * @return {String} The resulting class name which was applied
      */
-    removeClasses : qx.lang.Object.select(qx.bom.client.Feature.HTML5_CLASSLIST ? "native" : "default",
+    removeClasses : qx.lang.Object.select(qx.core.Environment.get("html.classlist") ? "native" : "default",
     {
       "native" : function(element, classes)
       {
@@ -265,7 +265,7 @@ qx.Class.define("qx.bom.element.Class",
      *    the parameter an automatic toggling would happen.
      * @return {String} The class name
      */
-    toggle : qx.lang.Object.select(qx.bom.client.Feature.HTML5_CLASSLIST ? "native" : "default",
+    toggle : qx.lang.Object.select(qx.core.Environment.get("html.classlist") ? "native" : "default",
     {
       "native" : function(element, name, toggle)
       {
