@@ -67,10 +67,7 @@ qx.Class.define("qx.core.Init",
         qx.log.Logger.warn("Could not detect the version of the engine!");
       }
       if (qx.core.Environment.get("os.name") == "") {
-        qx.log.Logger.warn("Could not detect platform!");
-      }
-      if (qx.bom.client.System.UNKNOWN_SYSTEM) {
-        qx.log.Logger.warn("Could not detect system!");
+        qx.log.Logger.warn("Could not detect operating system!");
       }
 
       qx.log.Logger.debug(this, "Load runtime: " + (new Date - qx.Bootstrap.LOADSTART) + "ms");

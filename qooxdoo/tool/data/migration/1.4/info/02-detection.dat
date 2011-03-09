@@ -1,1 +1,5 @@
 \bqx\.bom\.client\.\b=Feature detection has moved to qx.core.Environment. Please check the API for more details.
+
+\bqx\.bom\.client\.System\.SP1\b=This check is deprecated.
+\bqx\.bom\.client\.System\.SP2\b=This check is deprecated.
+\bqx\.bom\.client\.System\.OS9\b=This check is deprecated.

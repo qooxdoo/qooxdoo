@@ -111,6 +111,13 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("browser.documentmode")) {
         this.__checks["browser.documentmode"] = qx.bom.client.Browser.getDocumentMode;        
       }
+
+      // /////////////////////////////////////////
+      // DEVICE
+      // /////////////////////////////////////////
+      if (this.useCheck("device.name")) {
+        this.__checks["device.name"] = qx.bom.client.Device.getName;        
+      }
       
       // /////////////////////////////////////////
       // LOCALE
@@ -127,7 +134,10 @@ qx.Bootstrap.define("qx.core.Environment",
       // OPERATING SYSTEM
       // /////////////////////////////////////////
       if (this.useCheck("os.name")) {
-        this.__checks["os.name"] = qx.bom.client.OperatingSystem.getName;        
+        this.__checks["os.name"] = qx.bom.client.OperatingSystem.getName;
+      }
+      if (this.useCheck("os.version")) {
+        this.__checks["os.version"] = qx.bom.client.OperatingSystem.getVersion;
       }
 
       // /////////////////////////////////////////

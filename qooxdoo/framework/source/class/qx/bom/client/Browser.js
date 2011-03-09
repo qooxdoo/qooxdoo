@@ -110,8 +110,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
           name = "ie";
 
           // Fix IE mobile before Microsoft added IEMobile string
-          if (qx.bom.client.System.WINCE && name === "ie")
-          {
+          if (qx.bom.client.OperatingSystem.getVersion() === "ce") {
             name = "iemobile";
           }
         }
@@ -151,7 +150,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       }
 
       if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        if (name === "msie" && qx.bom.client.System.WINCE) {
+        if (name === "msie" && qx.bom.client.OperatingSystem.getVersion() == "ce") {
           // Fix IE mobile before Microsoft added IEMobile string
           version = "5.0";
         }

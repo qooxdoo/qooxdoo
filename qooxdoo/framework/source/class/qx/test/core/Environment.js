@@ -46,9 +46,10 @@ qx.Class.define("qx.test.core.Environment",
       qx.core.Environment.get("locale.variant");
     },
 
-    testOSName : function() {
+    testOS : function() {
       // just make sure the call is working
-      qx.core.Environment.get("os.name");
+      this.assertString(qx.core.Environment.get("os.name"));
+      this.assertString(qx.core.Environment.get("os.version"));
     },
 
     testQuicktime : function() {
@@ -135,6 +136,10 @@ qx.Class.define("qx.test.core.Environment",
         }, this);
       }, this);
       this.wait();
+    },
+    
+    testDevice : function() {
+      this.assertString(qx.core.Environment.get("device.name"));
     }
   }
 });

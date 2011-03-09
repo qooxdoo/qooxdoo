@@ -27,22 +27,30 @@ qx.Theme.define("qx.theme.modern.Font",
   {
     "default" :
     {
-      size : (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ? 12 : 11,
+      size : (qx.core.Environment.get("os.name") == "win" && 
+        (qx.core.Environment.get("os.version") == "7" ||
+        qx.core.Environment.get("os.version") == "vista")) ? 12 : 11,
       lineHeight : 1.4,
       family : qx.core.Environment.get("os.name") == "osx" ? 
         [ "Lucida Grande" ] :
-        (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ?
+        ((qx.core.Environment.get("os.name") == "win" && 
+          (qx.core.Environment.get("os.version") == "7" ||
+          qx.core.Environment.get("os.version") == "vista"))) ?
         [ "Segoe UI", "Candara" ] :
         [ "Tahoma", "Liberation Sans", "Arial", "sans-serif" ]
     },
 
     "bold" :
     {
-      size : (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ? 12 : 11,
+      size : (qx.core.Environment.get("os.name") == "win" && 
+        (qx.core.Environment.get("os.version") == "7" ||
+        qx.core.Environment.get("os.version") == "vista")) ? 12 : 11,
       lineHeight : 1.4,
       family : qx.core.Environment.get("os.name") == "osx" ? 
         [ "Lucida Grande" ] :
-        (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ?
+        ((qx.core.Environment.get("os.name") == "win" && 
+          (qx.core.Environment.get("os.version") == "7" ||
+          qx.core.Environment.get("os.version") == "vista"))) ?
         [ "Segoe UI", "Candara" ] :
         [ "Tahoma", "Liberation Sans", "Arial", "sans-serif" ],
       bold : true
@@ -50,11 +58,15 @@ qx.Theme.define("qx.theme.modern.Font",
 
     "small" :
     {
-      size : (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ? 11 : 10,
+      size : (qx.core.Environment.get("os.name") == "win" && 
+        (qx.core.Environment.get("os.version") == "7" ||
+        qx.core.Environment.get("os.version") == "vista")) ? 11 : 10,
       lineHeight : 1.4,
       family : qx.core.Environment.get("os.name") == "osx" ? 
         [ "Lucida Grande" ] :
-        (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ?
+        ((qx.core.Environment.get("os.name") == "win" && 
+          (qx.core.Environment.get("os.version") == "7" ||
+          qx.core.Environment.get("os.version") == "vista"))) ?
         [ "Segoe UI", "Candara" ] :
         [ "Tahoma", "Liberation Sans", "Arial", "sans-serif" ]
     },
@@ -65,7 +77,9 @@ qx.Theme.define("qx.theme.modern.Font",
       lineHeight : 1.4,
       family : qx.core.Environment.get("os.name") == "osx" ? 
         [ "Lucida Console", "Monaco" ] :
-        (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ?
+        ((qx.core.Environment.get("os.name") == "win" && 
+          (qx.core.Environment.get("os.version") == "7" ||
+          qx.core.Environment.get("os.version") == "vista"))) ?
         [ "Consolas" ] :
         [ "Consolas", "DejaVu Sans Mono", "Courier New", "monospace" ]
     }
