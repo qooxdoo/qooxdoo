@@ -34,9 +34,11 @@ qx.Class.define("qx.test.Browser",
 
       // google chrome, opera 10.5 and ie 9
       if (
-        qx.bom.client.Browser.NAME == "chrome" ||
-        (qx.bom.client.Browser.NAME == "opera" && qx.bom.client.Browser.VERSION >= 10.5) ||
-        (qx.bom.client.Browser.NAME == "ie" && qx.bom.client.Browser.VERSION >= 9)
+        qx.core.Environment.get("browser.name") == "chrome" ||
+        (qx.core.Environment.get("browser.name") == "opera" && 
+         qx.core.Environment.get("browser.version") >= 10.5) ||
+        (qx.core.Environment.get("browser.name") == "ie" && 
+         qx.core.Environment.get("browser.version") >= 9)
       ) {
         var i = 0;
         // is in a sorted order

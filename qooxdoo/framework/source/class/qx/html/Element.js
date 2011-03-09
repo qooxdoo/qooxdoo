@@ -1462,7 +1462,7 @@ qx.Class.define("qx.html.Element",
         // -webkit-user-select set to "none" is not searchable.
         // Refer to qx.html.Root#__forcePreventSelection for
         // more details and a work-around.
-        if (qx.bom.client.Browser.NAME !== "chrome") {
+        if (qx.core.Environment.get("browser.name") !== "chrome") {
           this.setStyle("userSelect", value ? "text" : "none");
         }
       },

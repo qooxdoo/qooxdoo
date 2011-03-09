@@ -414,7 +414,10 @@ qx.Class.define("qx.ui.table.selection.Model",
           {
             // IE doesn't execute the "finally" block if no "catch" block is present
             // this hack is used to fix [BUG #3688]
-            if(qx.bom.client.Browser.NAME == 'ie' && qx.bom.client.Browser.VERSION<=7) {
+            if (
+              qx.core.Environment.get("browser.name") == 'ie' && 
+              qx.core.Environment.get("browser.version") <= 7
+            ) {
               this.setBatchMode(false);
             }
             throw e;

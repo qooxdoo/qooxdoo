@@ -957,7 +957,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       var bogusNode = "";
       if (qx.core.Variant.isSet("qx.client","gecko"))
       {
-        if (qx.bom.client.Browser.VERSION <= 2) {
+        if (qx.core.Environment.get("browser.version") <= 2) {
           bogusNode += '<br _moz_editor_bogus_node="TRUE" _moz_dirty=""/>';
         }
       }

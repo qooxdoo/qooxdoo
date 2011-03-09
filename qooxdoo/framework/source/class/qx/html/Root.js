@@ -53,7 +53,7 @@ qx.Class.define("qx.html.Root",
       this.useElement(elem);
     }
 
-    if (qx.bom.client.Browser.NAME === "chrome") {
+    if (qx.core.Environment.get("browser.name") === "chrome") {
       this.addListener("selectstart", this.__forcePreventSelection);
     }
   },

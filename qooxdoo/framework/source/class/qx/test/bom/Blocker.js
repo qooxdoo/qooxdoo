@@ -157,7 +157,7 @@ qx.Class.define("qx.test.bom.Blocker",
 
       var blockerElement = this.__blocker.getBlockerElement();
       var value = qx.bom.element.Opacity.get(blockerElement);
-      if (qx.bom.client.Browser.NAME == "chrome") {
+      if (qx.core.Environment.get("browser.name") == "chrome") {
         value = Math.round(value * 10) / 10;
       }
       this.assertEquals(0.7, value);

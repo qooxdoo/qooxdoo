@@ -208,7 +208,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasChrome : function()
     {
-      return qx.bom.client.Browser.NAME === "chrome";
+      return qx.core.Environment.get("browser.name") === "chrome";
     },
 
 
@@ -219,7 +219,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasFirefox : function()
     {
-      return qx.bom.client.Browser.NAME === "firefox";
+      return qx.core.Environment.get("browser.name") === "firefox";
     },
 
 
@@ -241,7 +241,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasIe : function()
     {
-      return qx.bom.client.Browser.NAME === "ie";
+      return qx.core.Environment.get("browser.name") === "ie";
     },
 
 

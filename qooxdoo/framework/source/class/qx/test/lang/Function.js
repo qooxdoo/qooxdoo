@@ -77,7 +77,10 @@ qx.Class.define("qx.test.lang.Function",
       result = add(1, 2);
 
       // The assertEquals test fails in Safari 3 but is fixed in WebKit nightly
-      if (qx.bom.client.Browser.NAME == "safari" && qx.bom.client.Browser.VERSION < 4 ) {
+      if (
+        qx.core.Environment.get("browser.name") == "safari" && 
+        qx.core.Environment.get("browser.version") < 4
+      ) {
         this.assertNotEquals(context, window, "This test fails if the issue is "
         + "fixed in Safari 3.");
       } else {

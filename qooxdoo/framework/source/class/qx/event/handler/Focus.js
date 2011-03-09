@@ -836,7 +836,7 @@ qx.Class.define("qx.event.handler.Focus",
       {
 
         // Recent Operas
-        if (qx.bom.client.Browser.VERSION >= 11) {
+        if (qx.core.Environment.get("browser.version") >= 11) {
           this.__onNativeMouseDownWebkitOpera(domEvent);
 
         // Legacy Operas

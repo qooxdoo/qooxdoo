@@ -202,7 +202,10 @@ qx.Class.define("qx.ui.core.queue.Manager",
           self.__retries += 1;
 
           // this hack is used to fix [BUG #3688]
-          if(qx.bom.client.Browser.NAME == 'ie' && qx.bom.client.Browser.VERSION<=7) {
+          if(
+            qx.core.Environment.get("browser.name") == 'ie' && 
+            qx.core.Environment.get("browser.version") <= 7
+          ) {
             finallyCode();
           }
 
