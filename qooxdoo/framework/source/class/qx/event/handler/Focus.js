@@ -605,10 +605,10 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "mshtml" : function(domEvent)
       {
-        //TODO check this implementation for IE9
+        var target = qx.bom.Event.getTarget(domEvent);
 
         // If the focus goes to nowhere (the document is blurred)
-        if (!domEvent.toElement)
+        if (target == null)
         {
           // Update internal representation
           this.__doWindowBlur();
