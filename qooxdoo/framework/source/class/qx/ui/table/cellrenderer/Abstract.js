@@ -173,7 +173,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
     _getCellSizeStyle : function(width, height, insetX, insetY)
     {
       var style = "";
-      if (qx.bom.client.Feature.CONTENT_BOX)
+      if (qx.core.Environment.get("css.boxmodel") == "content")
       {
         width -= insetX;
         height -= insetY;

@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      */
     getRowHeightStyle : function(height)
     {
-      if (qx.bom.client.Feature.CONTENT_BOX) {
+      if (qx.core.Environment.get("css.boxmodel") == "content") {
         height -= this._insetY;
       }
 

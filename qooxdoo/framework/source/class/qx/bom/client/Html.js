@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Bootstrap.define("qx.bom.client.HtmlFeature", 
+qx.Bootstrap.define("qx.bom.client.Html", 
 {
   statics:
   {
@@ -92,6 +92,72 @@ qx.Bootstrap.define("qx.bom.client.HtmlFeature",
       return !!(document.documentElement.classList &&
         qx.Bootstrap.getClass(document.documentElement.classList) === "DOMTokenList"
       );
+    },
+
+
+    /**
+     * Checks if XPath could be used.
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if xpath is supported.
+     */
+    getXPath : function() {
+      return !!document.evaluate;
+    },
+
+
+    /**
+     * Checks if XUL could be used.
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if XUL is supported.
+     */
+    getXUL : function() {
+      try {
+        document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
+        return true;
+      } catch (e) {
+        return false;
+      }
+    },
+
+
+    /**
+     * Checks if SVG could be used
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if SVG is supported.
+     */
+    getSVG : function() {
+      return document.implementation && document.implementation.hasFeature &&
+        (document.implementation.hasFeature("org.w3c.dom.svg", "1.0") ||
+        document.implementation.hasFeature(
+          "http://www.w3.org/TR/SVG11/feature#BasicStructure",
+          "1.1"
+        )
+      );
+    },
+
+
+    /**
+     * Checks if VML could be used
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if VML is supported.
+     */
+    getVML : function() {
+      return qx.bom.client.Engine.getName() == "mshtml";
+    },
+
+
+    /**
+     * Checks if canvas could be used
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if canvas is supported.
+     */
+    getCanvas : function() {
+      return !!window.CanvasRenderingContext2D;
     }
   }
 });

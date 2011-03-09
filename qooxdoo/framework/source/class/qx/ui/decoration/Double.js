@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.decoration.Double",
       var scaledImage = this.getBackgroundImage() && this.getBackgroundRepeat() == "scale";
       var insets = this.getInsets();
 
-      if (scaledImage || qx.bom.client.Feature.CONTENT_BOX)
+      if (scaledImage || qx.core.Environment.get("css.boxmodel") == "content")
       {
         var innerWidth = width - insets.left - insets.right;
         var innerHeight = height - insets.top - insets.bottom;

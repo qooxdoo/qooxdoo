@@ -16,10 +16,19 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Bootstrap.define("qx.bom.client.CssFeature", 
+qx.Bootstrap.define("qx.bom.client.Css", 
 {
   statics :
   {
+    
+    getBoxModel : function() {
+      var content = qx.bom.client.Engine.getName() !== "mshtml" || 
+        qx.bom.client.Browser.getDocumentMode() == "standard";
+        
+      return content ? "content" : "broder";
+    },
+
+
     getTextOverflow : function() {
       return "textOverflow" in document.documentElement.style ||
       "OTextOverflow" in document.documentElement.style;
@@ -82,6 +91,10 @@ qx.Bootstrap.define("qx.bom.client.CssFeature",
         // Do not rely on pointer events in Opera until this browser issue is fixed.
         return qx.bom.client.Engine.getName() != "opera";
       }
+    },
+    
+    getDataUrl : function(callback) {
+      
     }
   }
 });

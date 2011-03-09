@@ -40,12 +40,12 @@ qx.Class.define("qx.test.core.Environment",
     testLocale : function() {
       this.assertNotEquals("", qx.core.Environment.get("locale"));
     },
-    
+
     testVariant : function() {
       // just make sure the call is working
       qx.core.Environment.get("locale.variant");
     },
-    
+
     testOSName : function() {
       // just make sure the call is working
       qx.core.Environment.get("os.name");
@@ -53,50 +53,79 @@ qx.Class.define("qx.test.core.Environment",
 
     testQuicktime : function() {
       // just make sure the call is working
-      qx.core.Environment.get("plugin.quicktime");
+      this.assertBoolean(qx.core.Environment.get("plugin.quicktime"));
       qx.core.Environment.get("plugin.quicktime.version");
     },
-    
+
     testWmv : function() {
       // just make sure the call is working
-      qx.core.Environment.get("plugin.windowsmedia");
+      this.assertBoolean(qx.core.Environment.get("plugin.windowsmedia"));
       qx.core.Environment.get("plugin.windowsmedia.version");
     },
-    
+
     testDivx : function() {
       // just make sure the call is working
-      qx.core.Environment.get("plugin.divx");
+      this.assertBoolean(qx.core.Environment.get("plugin.divx"));
       qx.core.Environment.get("plugin.divx.version");
     },
-    
+
     testSilverlight : function() {
       // just make sure the call is working
-      qx.core.Environment.get("plugin.silverlight");
+      this.assertBoolean(qx.core.Environment.get("plugin.silverlight"));
       qx.core.Environment.get("plugin.silverlight.version");
     },
-    
+
     testFlash : function() {
       // just make sure the call is working
-      qx.core.Environment.get("plugin.flash");
+      this.assertBoolean(qx.core.Environment.get("plugin.flash"));
       qx.core.Environment.get("plugin.flash.version");
-      qx.core.Environment.get("plugin.flash.express");
-      qx.core.Environment.get("plugin.flash.strictsecurity");
+      this.assertBoolean(qx.core.Environment.get("plugin.flash.express"));
+      this.assertBoolean(qx.core.Environment.get("plugin.flash.strictsecurity"));
     },
-    
+
     testIO : function() {
       // just make sure the call is working
       qx.core.Environment.get("io.maxrequests");
+      this.assertBoolean(qx.core.Environment.get("io.ssl"));
     },
-    
+
     testHtml : function() {
       // just make sure the call is working
-      qx.core.Environment.get("html.webworker");
-      qx.core.Environment.get("html.geolocation");
-      qx.core.Environment.get("html.audio");
-      qx.core.Environment.get("html.video");
-      qx.core.Environment.get("html.storage.local");
-      qx.core.Environment.get("html.storage.session");
-      qx.core.Environment.get("html.classlist");
+      this.assertBoolean(qx.core.Environment.get("html.webworker"));
+      this.assertBoolean(qx.core.Environment.get("html.geolocation"));
+      this.assertBoolean(qx.core.Environment.get("html.audio"));
+      this.assertBoolean(qx.core.Environment.get("html.video"));
+      this.assertBoolean(qx.core.Environment.get("html.storage.local"));
+      this.assertBoolean(qx.core.Environment.get("html.storage.session"));
+      this.assertBoolean(qx.core.Environment.get("html.classlist"));
+      
+      this.assertBoolean(qx.core.Environment.get("html.xpath"));
+      this.assertBoolean(qx.core.Environment.get("html.xul"));
+      this.assertBoolean(qx.core.Environment.get("html.canvas"));
+      this.assertBoolean(qx.core.Environment.get("html.svg"));
+      this.assertBoolean(qx.core.Environment.get("html.vml"));
+    },
+    
+    testGears : function() {
+      this.assertBoolean(qx.core.Environment.get("plugin.gears"));
+    },
+    
+    testCss : function() {
+      this.assertNotEquals("", qx.core.Environment.get("css.boxmodel"));
+      this.assertBoolean(qx.core.Environment.get("css.textoverflow"));
+      this.assertBoolean(qx.core.Environment.get("css.placeholder"));
+      this.assertBoolean(qx.core.Environment.get("css.borderraidus"));
+      this.assertBoolean(qx.core.Environment.get("css.boxshadow"));
+      this.assertBoolean(qx.core.Environment.get("css.gradients"));
+      this.assertBoolean(qx.core.Environment.get("css.pointerevents"));
+    },
+    
+    testEvent : function() {
+      this.assertBoolean(qx.core.Environment.get("event.touch"));
+    },
+    
+    testEcmaScript : function() {
+      this.assertBoolean(qx.core.Environment.get("ecmascript.objectcount"));
     }
   }
 });

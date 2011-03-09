@@ -461,7 +461,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
         // Make our width calculations box-model independent
         var inset;
-        if (qx.bom.client.Feature.CONTENT_BOX)
+        if (qx.core.Environment.get("css.boxmodel") == "content")
         {
           inset = qx.ui.progressive.renderer.table.Row.__padding * 2;
         }

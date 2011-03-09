@@ -26,6 +26,17 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
   statics :
   {
     /**
+     * Checkes for the availability of google gears plugin.
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if gears is available
+     */
+    getGears : function() {
+      return !!(window.google && window.google.gears);
+    },
+
+
+    /**
      * Database of supported features.
      * Filled with additional data at initialization
      */
@@ -253,6 +264,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
             return true;
           }
         }
+        return false;
       }
     }
   }

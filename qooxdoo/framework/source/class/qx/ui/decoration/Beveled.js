@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
       }
 
       // Fix box model
-      if (qx.bom.client.Feature.CONTENT_BOX)
+      if (qx.core.Environment.get("css.boxmodel") == "content")
       {
         var outerWidth = width - 2;
         var outerHeight = height - 2;

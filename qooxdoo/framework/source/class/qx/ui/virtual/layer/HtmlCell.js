@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
     _getCellSizeStyle : function(width, height, insetX, insetY)
     {
       var style = "";
-      if (qx.bom.client.Feature.CONTENT_BOX)
+      if (qx.core.Environment.get("css.boxmodel") == "content")
       {
         width -= insetX;
         height -= insetY;

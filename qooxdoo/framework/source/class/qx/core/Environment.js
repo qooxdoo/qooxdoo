@@ -108,6 +108,10 @@ qx.Bootstrap.define("qx.core.Environment",
       // /////////////////////////////////////////
       // plugin
       // /////////////////////////////////////////
+      if (this.useCheck("plugin.gears")) {
+        this.__checks["plugin.gears"] = qx.bom.client.Plugin.getGears;
+      }
+            
       if (this.useCheck("plugin.quicktime")) {
         this.__checks["plugin.quicktime"] = qx.bom.client.Plugin.getQuicktime;
       }
@@ -155,57 +159,96 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("io.maxrequests")) {
         this.__checks["io.maxrequests"] = qx.bom.client.Transport.getMaxConcurrentRequestCount;
       }
+      if (this.useCheck("io.ssl")) {
+        this.__checks["io.ssl"] = qx.bom.client.Transport.getSSL;
+      }
+
+      // /////////////////////////////////////////
+      // EVENTS
+      // /////////////////////////////////////////
+      if (this.useCheck("event.touch")) {
+        this.__checks["event.touch"] = qx.bom.client.Event.getTouch;
+      }
+      
+      // /////////////////////////////////////////
+      // ECMA SCRIPT
+      // /////////////////////////////////////////
+      if (this.useCheck("ecmascript.objectcount")) {
+        this.__checks["ecmascript.objectcount"] = 
+          qx.bom.client.EcmaScript.getObjectCount;
+      }
 
       // /////////////////////////////////////////
       // HTML
       // /////////////////////////////////////////      
       if (this.useCheck("html.webworker")) {
-        this.__checks["html.webworker"] = qx.bom.client.HtmlFeature.getWebWorker;
+        this.__checks["html.webworker"] = qx.bom.client.Html.getWebWorker;
       }
       if (this.useCheck("html.geolocation")) {
-        this.__checks["html.geolocation"] = qx.bom.client.HtmlFeature.getGeoLocation;
+        this.__checks["html.geolocation"] = qx.bom.client.Html.getGeoLocation;
       }
       if (this.useCheck("html.audio")) {
-        this.__checks["html.audio"] = qx.bom.client.HtmlFeature.getAudio;
+        this.__checks["html.audio"] = qx.bom.client.Html.getAudio;
       }
       if (this.useCheck("html.video")) {
-        this.__checks["html.video"] = qx.bom.client.HtmlFeature.getVideo;
+        this.__checks["html.video"] = qx.bom.client.Html.getVideo;
       }
       if (this.useCheck("html.storage.local")) {
-        this.__checks["html.storage.local"] = qx.bom.client.HtmlFeature.getLocalStorage;
+        this.__checks["html.storage.local"] = qx.bom.client.Html.getLocalStorage;
       }
       if (this.useCheck("html.storage.session")) {
-        this.__checks["html.storage.session"] = qx.bom.client.HtmlFeature.getSessionStorage;
+        this.__checks["html.storage.session"] = qx.bom.client.Html.getSessionStorage;
       }
       if (this.useCheck("html.classlist")) {
-        this.__checks["html.classlist"] = qx.bom.client.HtmlFeature.getClassList;
+        this.__checks["html.classlist"] = qx.bom.client.Html.getClassList;
+      }
+
+      if (this.useCheck("html.xpath")) {
+        this.__checks["html.xpath"] = qx.bom.client.Html.getXPath;
+      }
+      if (this.useCheck("html.xul")) {
+        this.__checks["html.xul"] = qx.bom.client.Html.getXUL;
+      }
+
+      if (this.useCheck("html.canvas")) {
+        this.__checks["html.canvas"] = qx.bom.client.Html.getCanvas;
+      }
+      if (this.useCheck("html.svg")) {
+        this.__checks["html.svg"] = qx.bom.client.Html.getSVG;
+      }
+      if (this.useCheck("html.vml")) {
+        this.__checks["html.vml"] = qx.bom.client.Html.getVML;
       }
 
       // /////////////////////////////////////////
       // CSS
       // /////////////////////////////////////////
       if (this.useCheck("css.textoverflow")) {
-        this.__checks["css.textoverflow"] = qx.bom.client.CssFeature.getTextOverflow;        
+        this.__checks["css.textoverflow"] = qx.bom.client.Css.getTextOverflow;        
       }
 
       if (this.useCheck("css.placeholder")) {
-        this.__checks["css.placeholder"] = qx.bom.client.CssFeature.getPlaceholder;        
+        this.__checks["css.placeholder"] = qx.bom.client.Css.getPlaceholder;        
       }
 
       if (this.useCheck("css.borderraidus")) {
-        this.__checks["css.borderraidus"] = qx.bom.client.CssFeature.getBorderRadius;        
+        this.__checks["css.borderraidus"] = qx.bom.client.Css.getBorderRadius;        
       }
 
       if (this.useCheck("css.boxshadow")) {
-        this.__checks["css.boxshadow"] = qx.bom.client.CssFeature.getBoxShadow;        
+        this.__checks["css.boxshadow"] = qx.bom.client.Css.getBoxShadow;        
       }
 
       if (this.useCheck("css.gradients")) {
-        this.__checks["css.gradients"] = qx.bom.client.CssFeature.getGradients;        
+        this.__checks["css.gradients"] = qx.bom.client.Css.getGradients;        
       }
 
       if (this.useCheck("css.pointerevents")) {
-        this.__checks["css.pointerevents"] = qx.bom.client.CssFeature.getPointerEvents;
+        this.__checks["css.pointerevents"] = qx.bom.client.Css.getPointerEvents;
+      }
+
+      if (this.useCheck("css.boxmodel")) {
+        this.__checks["css.boxmodel"] = qx.bom.client.Css.getBoxModel;
       }
     }
   },

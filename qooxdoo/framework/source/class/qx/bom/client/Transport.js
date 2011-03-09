@@ -106,6 +106,17 @@ qx.Class.define("qx.bom.client.Transport",
       }
 
       return maxConcurrentRequestCount;
+    },
+
+
+    /**
+     * Checks whether the app is loaded with SSL enabled which means via https.
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code>, if the app runs on https
+     */
+    getSSL : function() {
+      return window.location.protocol === "https:";
     }
   }
 });
