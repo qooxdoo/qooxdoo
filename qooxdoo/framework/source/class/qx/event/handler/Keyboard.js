@@ -399,7 +399,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         var type = domEvent.type;
 
         // FF repeats under windows keydown events like IE
-        if (qx.bom.client.Platform.WIN)
+        if (qx.core.Environment.get("os.name") == "win")
         {
           var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode);
 
@@ -749,9 +749,11 @@ qx.Class.define("qx.event.handler.Keyboard",
        44 : "PrintScreen",  // The Print Screen (PrintScrn, SnapShot) key.
       145 : "Scroll",       // The scroll lock key
        19 : "Pause",        // The pause/break key
-       91 : qx.bom.client.Platform.MAC ? "cmd" : "Win", // The left Windows Logo key or left cmd key
+       // The left Windows Logo key or left cmd key
+       91 : qx.core.Environment.get("os.name") == "mac" ? "cmd" : "Win", 
        92 : "Win",          // The right Windows Logo key or left cmd key
-       93 : qx.bom.client.Platform.MAC ? "cmd" : "Apps" // The Application key (Windows Context Menu) or right cmd key
+       // The Application key (Windows Context Menu) or right cmd key
+       93 : qx.core.Environment.get("os.name") == "mac" ? "cmd" : "Apps" 
     },
 
 

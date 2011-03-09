@@ -332,7 +332,7 @@ qx.Class.define("qx.bom.Label",
         // even under the measured size.
         // Linux shows the same bug (FF 3.0.6)
         // https://bugzilla.mozilla.org/show_bug.cgi?id=450422
-        if (!qx.bom.client.Platform.WIN) {
+        if (!qx.core.Environment.get("os.name") == "win") {
           size.width++;
         }
       }

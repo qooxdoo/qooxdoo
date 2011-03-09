@@ -27,7 +27,7 @@ qx.Theme.define("showcase.theme.Font",
     {
       size : (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ? 15 : 14,
       lineHeight : 1.4,
-      family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
+      family : qx.core.Environment.get("os.name") == "mac" ? [ "Lucida Grande" ] :
         (qx.bom.client.System.WINVISTA || qx.bom.client.System.WIN7) ?
         [ "Segoe UI", "Candara" ] :
         [ "Tahoma", "Liberation Sans", "Arial" ],

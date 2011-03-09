@@ -16,3 +16,9 @@
 
 \bqx\.bom\.client\.Locale\.LOCALE\b=qx.core.Environment.get("locale")
 \bqx\.bom\.client\.Locale\.VARIANT\b=qx.core.Environment.get("locale.variant")
+
+\bqx\.bom\.client\.Platform\.NAME\b=qx.core.Environment.get("os.name")
+\bqx\.bom\.client\.Platform\.WIN\b=qx.core.Environment.get("os.name") == "win"
+\bqx\.bom\.client\.Platform\.MAC\b=qx.core.Environment.get("os.name") == "mac"
+\bqx\.bom\.client\.Platform\.UNIX\b=qx.core.Environment.get("os.name") == "unix"
+\bqx\.bom\.client\.Platform\.UNKNOWN_PLATFORM\b=qx.core.Environment.get("os.name") == ""

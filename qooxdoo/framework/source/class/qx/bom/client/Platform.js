@@ -24,6 +24,8 @@
  * The listed constants are automatically filled on the initialization
  * phase of the class. The defaults listed in the API viewer need not
  * to be identical to the values at runtime.
+ * 
+ * @deprecated
  */
 qx.Class.define("qx.bom.client.Platform",
 {
@@ -35,19 +37,34 @@ qx.Class.define("qx.bom.client.Platform",
 
   statics :
   {
-    /** {String} The name of the platform. One of: "win", "mac", "unix" */
+    /** 
+     * {String} The name of the platform. One of: "win", "mac", "unix" 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     NAME : "",
 
-    /** {Boolean} Flag to detect if the client system is running Windows */
+    /** 
+     * {Boolean} Flag to detect if the client system is running Windows 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     WIN : false,
 
-    /** {Boolean} Flag to detect if the client system is running Mac OS */
+    /** 
+     * {Boolean} Flag to detect if the client system is running Mac OS 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     MAC : false,
 
-    /** {Boolean} Flag to detect if the client system is running Unix/Linux/BSD */
+    /** 
+     * {Boolean} Flag to detect if the client system is running Unix/Linux/BSD 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     UNIX : false,
 
-    /** {Boolean} Flag to detect if the client system is assumed */
+    /** 
+     * {Boolean} Flag to detect if the client system is assumed 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     UNKNOWN_PLATFORM : false,
 
     /**
@@ -99,6 +116,24 @@ qx.Class.define("qx.bom.client.Platform",
   */
 
   defer : function(statics) {
+    // @deprecated since 1.4: all code in the defer
     statics.__init();
+    
+    // add @deprecation warnings    
+    var keys = ["NAME", "WIN", "MAC", "UNIX", "UNKNOWN_PLATFORM"];
+    for (var i = 0; i < keys.length; i++) {
+      // check if __defineGetter__ is available
+      if (statics.__defineGetter__) {
+        var constantValue = statics[keys[i]];
+        statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
+          qx.Bootstrap.warn(
+            "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
+            "Plese check the API documentation of qx.core.Environemt.\n" + 
+            "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
+          );
+          return c;
+        }, statics, keys[i], constantValue));
+      }
+    }
   }
 });

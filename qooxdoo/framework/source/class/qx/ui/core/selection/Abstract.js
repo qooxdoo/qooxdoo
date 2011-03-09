@@ -905,7 +905,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
 
       // Read in keyboard modifiers
-      var isCtrlPressed = event.isCtrlPressed() || (qx.bom.client.Platform.MAC && event.isMetaPressed());
+      var isCtrlPressed = event.isCtrlPressed() || 
+        (qx.core.Environment.get("os.name") == "mac" && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
 
       // Clicking on selected items deselect on mouseup, not on mousedown
@@ -1017,7 +1018,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._userInteraction = true;
 
       // Read in keyboard modifiers
-      var isCtrlPressed = event.isCtrlPressed() || (qx.bom.client.Platform.MAC && event.isMetaPressed());
+      var isCtrlPressed = event.isCtrlPressed() || 
+        (qx.core.Environment.get("os.name") == "mac" && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
 
       if (!isCtrlPressed && !isShiftPressed && this.__mouseDownOnSelected)
@@ -1395,7 +1397,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var mode = this.getMode();
 
       // Support both control keys on Mac
-      var isCtrlPressed = event.isCtrlPressed() || (qx.bom.client.Platform.MAC && event.isMetaPressed());
+      var isCtrlPressed = event.isCtrlPressed() || 
+        (qx.core.Environment.get("os.name") == "mac" && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
 
       var consumed = false;

@@ -45,6 +45,11 @@ qx.Class.define("qx.test.core.Environment",
     testVariant : function() {
       // just make sure the call is working
       qx.core.Environment.get("locale.variant");
+    },
+    
+    testOSName : function() {
+      // just make sure the call is working
+      qx.core.Environment.get("os.name");
     }
   }
 });

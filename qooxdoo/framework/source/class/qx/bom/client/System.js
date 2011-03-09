@@ -191,14 +191,14 @@ qx.Bootstrap.define("qx.bom.client.System",
       if (!match) {
         this.UNKNOWN_SYSTEM = true;
 
-        if(!qx.bom.client.Platform.UNKNOWN_PLATFORM)
+        if(!qx.bom.client.OperatingSystem.getName() == "")
         {
-          if (qx.bom.client.Platform.UNIX)
+          if (qx.bom.client.OperatingSystem.getName() == "unix")
           {
             this.NAME = "linux";
             this.LINUX = true;
           }
-          else if(qx.bom.client.Platform.MAC)
+          else if(qx.bom.client.OperatingSystem.getName() == "mac")
           {
             this.NAME = "osx5";
             this.OSX = true;
@@ -234,7 +234,7 @@ qx.Bootstrap.define("qx.bom.client.System",
         this.NAME = this.__ids[match[1]];
         this[this.NAME.toUpperCase()] = true;
 
-        if (qx.bom.client.Platform.WIN)
+        if (qx.bom.client.OperatingSystem.getName() == "win")
         {
           if (agent.indexOf("Windows NT 5.01")!==-1) {
             this.SP1 = true;

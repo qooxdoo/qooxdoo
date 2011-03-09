@@ -135,7 +135,7 @@ qx.Class.define("qx.event.type.Dom",
      */
     isCtrlOrCommandPressed : function()
     {
-      if (qx.bom.client.Platform.MAC) {
+      if (qx.core.Environment.get("os.name") == "mac") {
         return this._native.metaKey;
       } else {
         return this._native.ctrlKey;

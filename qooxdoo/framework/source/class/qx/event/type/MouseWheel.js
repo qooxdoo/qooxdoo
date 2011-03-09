@@ -54,7 +54,7 @@ qx.Class.define("qx.event.type.MouseWheel",
       {
         if (qx.core.Environment.get("browser.name") == "chrome") {
           // mac has a much higher sppedup during scrolling
-          if (qx.bom.client.Platform.MAC) {
+          if (qx.core.Environment.get("os.name") == "mac") {
             return -(this._native.wheelDelta / 60);
           } else {
             return -(this._native.wheelDelta / 120);
@@ -63,7 +63,7 @@ qx.Class.define("qx.event.type.MouseWheel",
 
         } else {
           // windows safaris behave different than on OSX
-          if (qx.bom.client.Platform.WIN) {
+          if (qx.core.Environment.get("os.name") == "win") {
             var factor = 120;
             // safari 5.0 and not 5.0.1
             if (parseFloat(qx.core.Environment.get("engine.version")) == 533.16) {

@@ -163,7 +163,7 @@ qx.Class.define("qx.test.locale.Locale",
       // check if the translation is working
       this.assertEquals("Links", qx.locale.Key.getKeyName("short", "Left", "de_DE"));
       // is the localized version
-      if (qx.bom.client.Platform.MAC) {
+      if (qx.core.Environment.get("os.name") == "mac") {
         // there is no strg on macs, onls ctrl
         this.assertEquals("Ctrl", qx.locale.Key.getKeyName("short", "Control", "de_DE"));
         this.assertEquals("Control", qx.locale.Key.getKeyName("full", "Control", "de_DE"));

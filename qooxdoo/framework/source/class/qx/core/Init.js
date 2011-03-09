@@ -66,7 +66,7 @@ qx.Class.define("qx.core.Init",
       if (qx.core.Environment.get("engine.version") == "") {
         qx.log.Logger.warn("Could not detect the version of the engine!");
       }
-      if (qx.bom.client.Platform.UNKNOWN_PLATFORM) {
+      if (qx.core.Environment.get("os.name") == "") {
         qx.log.Logger.warn("Could not detect platform!");
       }
       if (qx.bom.client.System.UNKNOWN_SYSTEM) {

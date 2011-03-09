@@ -98,6 +98,13 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("locale.variant")) {
         this.__checks["locale.variant"] = qx.bom.client.Locale.getVariant;        
       }
+
+      // /////////////////////////////////////////
+      // OPERATING SYSTEM
+      // /////////////////////////////////////////
+      if (this.useCheck("os.name")) {
+        this.__checks["os.name"] = qx.bom.client.OperatingSystem.getName;        
+      }
             
       // /////////////////////////////////////////
       // CSS
