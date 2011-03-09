@@ -360,7 +360,10 @@ def handleMembers(item, classNode):
         if value.type != "function":
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
-                    value = compileString(docItem["text"][3:-4] + "{}")
+                    try:
+                        value = compileString(docItem["text"][3:-4] + "{}")
+                    except treegenerator.SyntaxException:
+                        printDocError(keyvalue, "Invalid signature")
 
         if value.type == "function":
             node = handleFunction(value, key, commentAttributes, classNode)
