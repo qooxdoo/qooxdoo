@@ -125,13 +125,18 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       this.VERSION = parseFloat(version, 10);
       this.TITLE = name + " " + this.VERSION;
       this.UNKNOWN = false;
-    }
-  },
-
-  defer : qx.core.Variant.select("qx.client",
-  {
-    "webkit" : function(statics)
-    {
+    },
+    
+    
+    getName : function() {
+      
+    },
+    
+    getVersion : function() {
+      
+    },
+    
+    __agents : qx.core.Environment.select("engine.name", {
       // Safari should be the last one to check, because some other Webkit-based browsers
       // use this identifier together with their own one.
       // "Version" is used in Safari 4 to define the Safari version. After "Safari" they place the
@@ -139,25 +144,20 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       // Palm Pre uses both Safari (contains Webkit version) and "Version" contains the "Pre" version. But
       // as "Version" is not Safari here, we better detect this as the Pre-Browser version. So place
       // "Pre" in front of both "Version" and "Safari".
-      statics.__detect("AdobeAIR|Titanium|Fluid|Chrome|Android|Epiphany|Konqueror|iCab|OmniWeb|Maxthon|Pre|Mobile Safari|Safari");
-    },
+      "webkit" : "AdobeAIR|Titanium|Fluid|Chrome|Android|Epiphany|Konqueror|iCab|OmniWeb|Maxthon|Pre|Mobile Safari|Safari",
 
-    "gecko" : function(statics)
-    {
       // Better security by keeping Firefox the last one to match
-      statics.__detect("prism|Fennec|Camino|Kmeleon|Galeon|Netscape|SeaMonkey|Firefox");
-    },
+      "gecko" : "prism|Fennec|Camino|Kmeleon|Galeon|Netscape|SeaMonkey|Firefox",
 
-    "mshtml" : function(statics)
-    {
       // No idea what other browsers based on IE's engine
-      statics.__detect("IEMobile|Maxthon|MSIE");
-    },
+      "mshtml" : "IEMobile|Maxthon|MSIE",
 
-    "opera" : function(statics)
-    {
       // Keep "Opera" the last one to correctly prefer/match the mobile clients
-      statics.__detect("Opera Mini|Opera Mobi|Opera");
-    }
-  })
+      "opera" : "Opera Mini|Opera Mobi|Opera"
+    })
+  },
+
+  defer : function(statics) {
+    statics.__detect(statics.__agents);
+  }
 });
