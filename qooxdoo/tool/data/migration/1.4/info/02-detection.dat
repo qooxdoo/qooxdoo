@@ -1,1 +1,1 @@
-\bqx\.bom\.client\.Multimedia\.get\b=Feature detection has moved to qx.core.Environment. Please check the API for more details.
+\bqx\.bom\.client\.\b=Feature detection has moved to qx.core.Environment. Please check the API for more details.
