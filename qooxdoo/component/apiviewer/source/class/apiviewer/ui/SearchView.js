@@ -79,12 +79,12 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // Search form
       var layout = new qx.ui.layout.Grid(4,4);
+      layout.setColumnFlex(0,1);
       var sform = new qx.ui.container.Composite(layout);
       sform.setPadding(10);
 
       // Search form - input field
       this.sinput = new qx.ui.form.TextField().set({
-        allowGrowY: true,
         placeholder : "Search..."
       });
 
@@ -123,16 +123,22 @@ qx.Class.define("apiviewer.ui.SearchView",
         checkboxType.bind('value',this.__typeFilter,'array['+i+']');
         checkboxType.setValue(true);
         typeContainer.add(checkboxType, {row: parseInt(i/3) , column: i%3});
+        checkboxType.addListener('click', function(e) {
+          this._searchResult(this.sinput.getValue() || "");
+        }, this);
       }
       
       sform.add(typeContainer, {row: 1, column: 0, colSpan: 2});
       
       this.namespaceTextField = new qx.ui.form.TextField().set({
-        allowGrowY: true,
         placeholder : "Namespace..."
       });
       
       sform.add(this.namespaceTextField, {row: 2, column: 0, colSpan: 2});
+      
+      this.namespaceTextField.addListener("keyup", function(e) {
+        this._searchResult(this.sinput.getValue() || "");
+      }, this);
 
       this.add(sform);
 
