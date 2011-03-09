@@ -87,23 +87,35 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     /** {Boolean} Flag to detect if the client supports VML graphics */
     VML : false,
 
+
+
     /** {Boolean} Flag to detect if the client supports XPATH queries */
     XPATH : !!document.evaluate,
+
+
 
     /** {Boolean} Flag to detect if is an AIR client */
     AIR : navigator.userAgent.indexOf("adobeair") !== -1,
 
+
+
     /** {Boolean} Flag to detect if is a Gears client */
     GEARS : !!(window.google && window.google.gears),
 
+
+
     /** {Boolean} Flag to detect if the client runs in SSL mode */
     SSL : window.location.protocol === "https:",
+
+
 
     /** {BOOLEAN} Whether the object type supports the <code>__count__</code> property */
     ECMA_OBJECT_COUNT : (({}).__count__ == 0),
 
     /** {BOOLEAN} Whether the client supports XUL */
     XUL : false,
+
+
 
     /**
      * {Boolean} Whether the browser supports CSS class lists
@@ -113,31 +125,14 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       qx.Bootstrap.getClass(document.documentElement.classList) === "DOMTokenList"
     ),
 
+
+
     /** {BOOLEAN} Whether the device is touch enabled. */
     TOUCH : ("ontouchstart" in window),
 
 
     /** {BOOLEAN} Whether the client supports data urls or not. */
     DATA_URL : false,
-
-
-     /** {Boolean} Whether the client supports Web Workers */
-    WEB_WORKER: window.Worker != null,
-
-    /** {Boolean} Whether the client supports Geolocation */
-    GEO_LOCATION: navigator.geolocation != null,
-
-    /** {Boolean} Whether the client supports Audio */
-    AUDIO: window.Audio != null,
-
-    /** {Boolean} Whether the client supports Video */
-    VIDEO: window.Video !=null,
-
-    /** {Boolean} Whether the client supports LocalStorage */
-    LOCAL_STORAGE: window.LocalStorage != null,
-
-    /** {Boolean} Whether the client supports SessionStorage */
-    SESSION_STORAGE: window.SessionStorage != null,
 
 
     /**
