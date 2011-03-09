@@ -207,7 +207,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         
         var shadow;
         // feature detect if we should use the CSS decorators
-        if (qx.core.Environment.get("css.borderraidus") &&
+        if (qx.core.Environment.get("css.borderradius") &&
             qx.core.Environment.get("css.gradients")) {
           if (states.invalid && !states.disabled) {
             decorator += "-invalid-css";            
@@ -418,7 +418,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.borderraidus") && 
+        var useCSS = qx.core.Environment.get("css.borderradius") && 
           qx.core.Environment.get("css.boxshadow");
 
         var icon;
@@ -458,7 +458,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "radiobutton/icon" : {
       style : function(states) 
       {
-        var useCSS = qx.core.Environment.get("css.borderraidus") && 
+        var useCSS = qx.core.Environment.get("css.borderradius") && 
           qx.core.Environment.get("css.boxshadow");
         if (!useCSS) {
           // same as image
@@ -713,7 +713,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.borderraidus");
+        var useCSS = qx.core.Environment.get("css.borderradius");
         return {
           padding : useCSS ? 10 : 12,
           margin : useCSS ? 1 : undefined,
@@ -1195,7 +1195,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var useCSS = qx.core.Environment.get("css.gradients") && 
-          qx.core.Environment.get("css.borderraidus");
+          qx.core.Environment.get("css.borderradius");
         return {
           decorator : useCSS ? "tabview-pane-css" : "tabview-pane",
           minHeight : 100,
@@ -1215,7 +1215,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states) {
         // is used for the padding of the pane
         var useCSS = qx.core.Environment.get("css.gradients") && 
-          qx.core.Environment.get("css.borderraidus");
+          qx.core.Environment.get("css.borderradius");
         return {
           padding : useCSS ? [4, 3] : undefined
         }
@@ -1231,7 +1231,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var decorator, padding=0;
         var marginTop=0, marginBottom=0, marginLeft=0, marginRight=0;
 
-        var useCSS = qx.core.Environment.get("css.borderraidus") && 
+        var useCSS = qx.core.Environment.get("css.borderradius") && 
           qx.core.Environment.get("css.boxshadow") &&
           qx.core.Environment.get("css.gradients");
 
@@ -1419,7 +1419,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
         
         var useCSS = qx.core.Environment.get("css.gradients") && 
-          qx.core.Environment.get("css.borderraidus");
+          qx.core.Environment.get("css.borderradius");
         if (useCSS && decorator) {
           decorator += "-css";
         }
@@ -1766,7 +1766,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.borderraidus") && 
+        var useCSS = qx.core.Environment.get("css.borderradius") && 
           qx.core.Environment.get("css.boxshadow");
         return {
           textColor: "text-selected",
@@ -1797,7 +1797,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.borderraidus") &&
+        var useCSS = qx.core.Environment.get("css.borderradius") &&
           qx.core.Environment.get("css.gradients") && 
           qx.core.Environment.get("css.boxshadow");
         return {
@@ -1811,7 +1811,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.borderraidus") &&
+        var useCSS = qx.core.Environment.get("css.borderradius") &&
           qx.core.Environment.get("css.gradients") && 
           qx.core.Environment.get("css.boxshadow");
         return {
@@ -1825,7 +1825,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.borderraidus") &&
+        var useCSS = qx.core.Environment.get("css.borderradius") &&
           qx.core.Environment.get("css.gradients") && 
           qx.core.Environment.get("css.boxshadow");
 
@@ -1931,7 +1931,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.borderraidus") &&
+        var useCSS = qx.core.Environment.get("css.borderradius") &&
           qx.core.Environment.get("css.gradients") && 
           qx.core.Environment.get("css.boxshadow");
         return {
@@ -1991,7 +1991,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var useCSS = qx.core.Environment.get("css.boxshadow") &&
-          qx.core.Environment.get("css.borderraidus") &&
+          qx.core.Environment.get("css.borderradius") &&
           qx.core.Environment.get("css.gradients");
 
         return {

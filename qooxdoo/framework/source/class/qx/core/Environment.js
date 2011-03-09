@@ -318,8 +318,8 @@ qx.Bootstrap.define("qx.core.Environment",
         this._checks["css.placeholder"] = qx.bom.client.Css.getPlaceholder;        
       }
 
-      if (this.useCheck("css.borderraidus")) {
-        this._checks["css.borderraidus"] = qx.bom.client.Css.getBorderRadius;        
+      if (this.useCheck("css.borderradius")) {
+        this._checks["css.borderradius"] = qx.bom.client.Css.getBorderRadius;        
       }
 
       if (this.useCheck("css.boxshadow")) {

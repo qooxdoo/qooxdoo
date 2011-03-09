@@ -117,7 +117,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assertNotEquals("", qx.core.Environment.get("css.boxmodel"));
       this.assertBoolean(qx.core.Environment.get("css.textoverflow"));
       this.assertBoolean(qx.core.Environment.get("css.placeholder"));
-      this.assertBoolean(qx.core.Environment.get("css.borderraidus"));
+      this.assertBoolean(qx.core.Environment.get("css.borderradius"));
       this.assertBoolean(qx.core.Environment.get("css.boxshadow"));
       this.assertBoolean(qx.core.Environment.get("css.gradients"));
     },
