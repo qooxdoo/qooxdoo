@@ -94,16 +94,16 @@ qx.Class.define("apiviewer.ui.SearchView",
       this.__typesIndex =
       {
         "PACKAGE":0,
-        "ENTRY":7,
+        "ENTRY":5,
         "CLASS":1,
-        "INTERFACE":10,
+        "INTERFACE":8,
         "METHOD_PUB":2,
         "METHOD_PROT":2,
         "METHOD_PRIV":2,
-        "PROPERTY_PUB":6,
-        "EVENT":8,
-        "CONSTANT":4,
-        "CHILDCONTROL":9
+        "PROPERTY_PUB":4,
+        "EVENT":6,
+        "CONSTANT":3,
+        "CHILDCONTROL":7
       };
       this.__typeFilter = new qx.data.Array([true, true, true,true,true,true,true,true,true]);
       var types = ['package','class','method','constant','property','entry','event','child control','interface'];
