@@ -198,7 +198,7 @@ qx.Bootstrap.define("qx.bom.client.System",
             this.NAME = "linux";
             this.LINUX = true;
           }
-          else if(qx.bom.client.OperatingSystem.getName() == "mac")
+          else if(qx.bom.client.OperatingSystem.getName() == "osx")
           {
             this.NAME = "osx5";
             this.OSX = true;

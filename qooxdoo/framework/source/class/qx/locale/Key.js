@@ -51,7 +51,7 @@ qx.Class.define("qx.locale.Key",
 
       var key = "key_" + size + "_" + keyIdentifier;
       // Control is alsways named control on a mac and not Strg in German e.g.
-      if (qx.core.Environment.get("os.name") == "mac" && keyIdentifier == "Control") {
+      if (qx.core.Environment.get("os.name") == "osx" && keyIdentifier == "Control") {
         key += "_Mac";
       }
       var localizedKey = qx.locale.Manager.getInstance().translate(key, [], locale);

@@ -201,7 +201,7 @@ qx.Class.define("qx.bom.client.Flash",
       }
 
       var os = qx.bom.client.OperatingSystem.getName();      
-      return (os == "win" || os == "mac") && 
+      return (os == "win" || os == "osx") && 
         qx.bom.client.Flash.__supportsVersion("6.0.65", availableVersion);
     },
 

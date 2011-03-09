@@ -54,7 +54,7 @@ qx.Class.define("qx.event.type.MouseWheel",
       {
         if (qx.core.Environment.get("browser.name") == "chrome") {
           // mac has a much higher sppedup during scrolling
-          if (qx.core.Environment.get("os.name") == "mac") {
+          if (qx.core.Environment.get("os.name") == "osx") {
             return -(this._native.wheelDelta / 60);
           } else {
             return -(this._native.wheelDelta / 120);

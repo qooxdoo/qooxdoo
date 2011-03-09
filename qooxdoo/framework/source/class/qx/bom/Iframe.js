@@ -179,7 +179,7 @@ qx.Class.define("qx.bom.Iframe",
             // Webkit on Mac can't set the source when the iframe is still
             // loading its current page
             if (qx.core.Variant.isSet("qx.client", "webkit") &&
-                qx.core.Environment.get("os.name") == "mac")
+                qx.core.Environment.get("os.name") == "osx")
             {
               var contentWindow = this.getWindow(iframe);
               if (contentWindow) {

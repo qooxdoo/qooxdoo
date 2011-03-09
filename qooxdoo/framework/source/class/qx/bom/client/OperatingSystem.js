@@ -48,7 +48,7 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
         input.indexOf("MacPPC") != -1 || 
         input.indexOf("MacIntel") != -1
       ) {
-        return "mac";
+        return "osx";
 
       } else if (
         input.indexOf("iPod") != -1 || 
