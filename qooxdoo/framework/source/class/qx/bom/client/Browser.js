@@ -73,7 +73,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
 
       var name = match[1].toLowerCase();
 
-      var engine = qx.core.Environment.get("engine.name");
+      var engine = qx.bom.client.Engine.getName();
       if (engine === "webkit") {
         // Fix Chrome name (which is still wrong defined in user agent on Android 1.6)
         if (name === "android") {
@@ -138,7 +138,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
     },
 
 
-    __agents : qx.core.Environment.select("engine.name", {
+    __agents : {
       // Safari should be the last one to check, because some other Webkit-based browsers
       // use this identifier together with their own one.
       // "Version" is used in Safari 4 to define the Safari version. After "Safari" they place the
@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
 
       // Keep "Opera" the last one to correctly prefer/match the mobile clients
       "opera" : "Opera Mini|Opera Mobi|Opera"
-    })
+    }[qx.bom.client.Engine.getName()]
   },
 
 

@@ -71,9 +71,19 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("engine.name")) {
         this.__checks["engine.name"] = qx.bom.client.Engine.getName;        
       }
+      
+      // browser name
+      if (this.useCheck("browser.name")) {
+        this.__checks["browser.name"] = qx.bom.client.Browser.getName;   
+      }
+      // browser version
+      if (this.useCheck("browser.version")) {
+        this.__checks["browser.version"] = qx.bom.client.Browser.getVersion;        
+      }
     }
   },
-  
+
+
   defer : function(statics) {
     statics.__initChecksMap();
   }
