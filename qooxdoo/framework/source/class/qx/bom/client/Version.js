@@ -108,24 +108,6 @@ qx.Bootstrap.define("qx.bom.client.Version",
 
   defer : function(statics)
   {
-    // @deprecated since 1.4 (whole class)
-    // add @deprecation warnings    
-    var keys = ["NAME", "TITLE", "VERSION"];
-    for (var i = 0; i < keys.length; i++) {
-      // check if __defineGetter__ is available
-      if (statics.__defineGetter__) {
-        var constantValue = statics[keys[i]];
-        statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
-          qx.Bootstrap.warn(
-            "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-            "Plese check the API documentation of qx.core.Environemt.\n" + 
-            "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
-          );
-          return c;
-        }, statics, keys[i], constantValue));
-      }
-    }
-
     var agent = navigator.userAgent;
     var name, version;
 
@@ -241,5 +223,23 @@ qx.Bootstrap.define("qx.bom.client.Version",
     statics.NAME = name;
     statics.VERSION = version;
     statics.TITLE = name + " " + version;
+    
+    // @deprecated since 1.4 (whole class)
+    // add @deprecation warnings    
+    var keys = ["NAME", "TITLE", "VERSION"];
+    for (var i = 0; i < keys.length; i++) {
+      // check if __defineGetter__ is available
+      if (statics.__defineGetter__) {
+        var constantValue = statics[keys[i]];
+        statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
+          qx.Bootstrap.warn(
+            "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
+            "Plese check the API documentation of qx.core.Environemt.\n" + 
+            "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
+          );
+          return c;
+        }, statics, keys[i], constantValue));
+      }
+    }
   }
 });
