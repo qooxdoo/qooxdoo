@@ -138,7 +138,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_BOX_SHADOW;
+        var useCSS = qx.core.Environment.get("css.boxshadow");
         
         return {
           decorator : useCSS ? "popup-css" : "main",
@@ -207,8 +207,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         
         var shadow;
         // feature detect if we should use the CSS decorators
-        if (qx.bom.client.Feature.CSS_BORDER_RADIUS &&
-            qx.bom.client.Feature.CSS_GRADIENTS) {
+        if (qx.core.Environment.get("css.borderraidus") &&
+            qx.core.Environment.get("css.gradients")) {
           if (states.invalid && !states.disabled) {
             decorator += "-invalid-css";            
           } else {
@@ -259,7 +259,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var decorator = states.hovered ? "selected" : undefined;
-        if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+        if (decorator && qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
         return {
@@ -302,8 +302,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
-          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        var useCSS = qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.boxshadow");
         
         var icon;
         if (useCSS) {
@@ -376,8 +376,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "checkbox/icon" : {
       style : function(states) 
       {
-        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
-          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        var useCSS = qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.boxshadow");
         if (!useCSS) {
           // same as image
           return {opacity : !states.replacement && states.disabled ? 0.3 : 1};
@@ -418,8 +418,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS && 
-          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        var useCSS = qx.core.Environment.get("css.borderraidus") && 
+          qx.core.Environment.get("css.boxshadow");
 
         var icon;
         if (useCSS) {
@@ -458,8 +458,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "radiobutton/icon" : {
       style : function(states) 
       {
-        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS && 
-          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        var useCSS = qx.core.Environment.get("css.borderraidus") && 
+          qx.core.Environment.get("css.boxshadow");
         if (!useCSS) {
           // same as image
           return {opacity : !states.replacement && states.disabled ? 0.3 : 1};
@@ -517,7 +517,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "input";
         }
         
-        if (qx.bom.client.Feature.CSS_GRADIENTS) {
+        if (qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
 
@@ -581,7 +581,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "input";
         }
 
-        if (qx.bom.client.Feature.CSS_GRADIENTS) {
+        if (qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
 
@@ -713,7 +713,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS;
+        var useCSS = qx.core.Environment.get("css.borderraidus");
         return {
           padding : useCSS ? 10 : 12,
           margin : useCSS ? 1 : undefined,
@@ -815,7 +815,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           return {};
         }
         
-        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
+        var useCSS = qx.core.Environment.get("css.gradients");
         var decorator = states.horizontal ? "scrollbar-horizontal" : "scrollbar-vertical";
         if (useCSS) {
           decorator += "-css";
@@ -848,7 +848,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
+        var useCSS = qx.core.Environment.get("css.gradients");
         
         var decorator = states.horizontal ? "scrollbar-slider-horizontal" :
                                             "scrollbar-slider-vertical";
@@ -942,7 +942,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "input";
         }
         
-        if (qx.bom.client.Feature.CSS_GRADIENTS) {
+        if (qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
 
@@ -1003,7 +1003,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "input";
         }
         
-        if (qx.bom.client.Feature.CSS_GRADIENTS) {
+        if (qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
 
@@ -1027,7 +1027,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = states.selected ? "selected-dragover" : "dragover";
         } else {
           decorator = states.selected ? "selected" : undefined;
-          if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+          if (decorator && qx.core.Environment.get("css.gradients")) {
             decorator += "-css";
           }          
         }
@@ -1194,8 +1194,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
-          qx.bom.client.Feature.CSS_BORDER_RADIUS;
+        var useCSS = qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.borderraidus");
         return {
           decorator : useCSS ? "tabview-pane-css" : "tabview-pane",
           minHeight : 100,
@@ -1214,8 +1214,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       
       style : function(states) {
         // is used for the padding of the pane
-        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
-          qx.bom.client.Feature.CSS_BORDER_RADIUS;
+        var useCSS = qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.borderraidus");
         return {
           padding : useCSS ? [4, 3] : undefined
         }
@@ -1231,9 +1231,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var decorator, padding=0;
         var marginTop=0, marginBottom=0, marginLeft=0, marginRight=0;
 
-        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS && 
-          qx.bom.client.Feature.CSS_BOX_SHADOW &&
-          qx.bom.client.Feature.CSS_GRADIENTS;
+        var useCSS = qx.core.Environment.get("css.borderraidus") && 
+          qx.core.Environment.get("css.boxshadow") &&
+          qx.core.Environment.get("css.gradients");
 
         if (states.checked)
         {
@@ -1359,7 +1359,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
+        var useCSS = qx.core.Environment.get("css.gradients");
         return {
           decorator : useCSS ? "toolbar-css" : "toolbar",
           spacing : 2
@@ -1418,8 +1418,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "toolbar-button-hovered";
         }
         
-        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
-          qx.bom.client.Feature.CSS_BORDER_RADIUS;
+        var useCSS = qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.borderraidus");
         if (useCSS && decorator) {
           decorator += "-css";
         }
@@ -1535,7 +1535,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var decorator = states.selected ? "selected" : undefined;
-        if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+        if (decorator && qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
         
@@ -1766,8 +1766,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS && 
-          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        var useCSS = qx.core.Environment.get("css.borderraidus") && 
+          qx.core.Environment.get("css.boxshadow");
         return {
           textColor: "text-selected",
           backgroundColor : undefined,
@@ -1797,9 +1797,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS &&
-          qx.bom.client.Feature.CSS_GRADIENTS && 
-          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        var useCSS = qx.core.Environment.get("css.borderraidus") &&
+          qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.boxshadow");
         return {
           decorator : useCSS ? undefined : "shadow-window",
           contentPadding : [ 10, 10, 10, 10 ]
@@ -1811,9 +1811,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS &&
-          qx.bom.client.Feature.CSS_GRADIENTS && 
-          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        var useCSS = qx.core.Environment.get("css.borderraidus") &&
+          qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.boxshadow");
         return {
           decorator : useCSS ? "window-css" : "window",
           margin : useCSS ? [0, 5, states.showStatusbar ? 0 : 5, 0] : undefined // necessary for the shadow
@@ -1825,9 +1825,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS &&
-          qx.bom.client.Feature.CSS_GRADIENTS && 
-          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        var useCSS = qx.core.Environment.get("css.borderraidus") &&
+          qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.boxshadow");
 
         var decorator = states.active ? "window-captionbar-active" : "window-captionbar-inactive";
         if (useCSS) {
@@ -1931,9 +1931,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_BORDER_RADIUS &&
-          qx.bom.client.Feature.CSS_GRADIENTS && 
-          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        var useCSS = qx.core.Environment.get("css.borderraidus") &&
+          qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.boxshadow");
         return {
           padding   : [ 2, 6 ],
           decorator : useCSS ? "window-statusbar-css" : "window-statusbar",
@@ -1990,9 +1990,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_BOX_SHADOW &&
-          qx.bom.client.Feature.CSS_BORDER_RADIUS &&
-          qx.bom.client.Feature.CSS_GRADIENTS;
+        var useCSS = qx.core.Environment.get("css.boxshadow") &&
+          qx.core.Environment.get("css.borderraidus") &&
+          qx.core.Environment.get("css.gradients");
 
         return {
           decorator : useCSS ? "pane-css" : "pane"
@@ -2118,7 +2118,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "input";
         }
 
-        if (qx.bom.client.Feature.CSS_GRADIENTS) {
+        if (qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
 
@@ -2223,7 +2223,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var decorator = states.disabled ? undefined : states.selected ? "selected" : undefined;
-        if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+        if (decorator && qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
         
@@ -2271,7 +2271,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "input";
         }
 
-        if (qx.bom.client.Feature.CSS_GRADIENTS) {
+        if (qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
 
@@ -2335,8 +2335,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS && 
-          qx.bom.client.Feature.CSS_BOX_SHADOW;
+        var useCSS = qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.boxshadow");
         
         var result =
         {
@@ -2368,7 +2368,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var decorator = states.hovered  ? "selected" : undefined;
-        if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+        if (decorator && qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
         
@@ -2423,7 +2423,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var decorator = states.selected ? "selected" : undefined;
-        if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+        if (decorator && qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
         
@@ -2530,7 +2530,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
    {
      style : function(states)
      {
-       var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
+       var useCSS = qx.core.Environment.get("css.gradients");
        return {
          decorator : useCSS ? "menubar-css" : "menubar"
        };
@@ -2544,7 +2544,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
      style : function(states)
      {
        var decorator = (states.pressed || states.hovered) && !states.disabled ? "selected" : undefined;
-       if (decorator && qx.bom.client.Feature.CSS_GRADIENTS) {
+       if (decorator && qx.core.Environment.get("css.gradients")) {
          decorator += "-css";
        }
        
@@ -2782,7 +2782,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
+        var useCSS = qx.core.Environment.get("css.gradients");
         return {
           decorator : useCSS ? "table-scroller-header-css" : "table-scroller-header",
           padding   : 3,
@@ -2813,7 +2813,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
+        var useCSS = qx.core.Environment.get("css.gradients");
         return {
           decorator : useCSS ? "table-scroller-header-css" : "table-scroller-header"
         };
@@ -2972,7 +2972,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       alias : "atom",
       style : function(states)
       {
-        var useCSS = qx.bom.client.Feature.CSS_GRADIENTS;
+        var useCSS = qx.core.Environment.get("css.gradients");
         return {
           minWidth : 40,
           minHeight : 25,
@@ -3033,7 +3033,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding : 4,
-          decorator : qx.bom.client.Feature.CSS_GRADIENTS ? "group-item-css" : "group-item",
+          decorator : qx.core.Environment.get("css.gradients") ? "group-item-css" : "group-item",
           textColor : "groupitem-text",
           font: "bold"
         };
@@ -3224,7 +3224,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style: function(states) {
         return {
-          decorator: qx.bom.client.Feature.CSS_GRADIENTS ? "selected-css" : "selected"
+          decorator: qx.core.Environment.get("css.gradients") ? "selected-css" : "selected"
         }
       }
     }

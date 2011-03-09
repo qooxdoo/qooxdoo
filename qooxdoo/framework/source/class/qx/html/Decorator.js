@@ -39,7 +39,7 @@ qx.Class.define("qx.html.Decorator",
       left: 0
     }
 
-    if (qx.bom.client.Feature.CSS_POINTER_EVENTS) {
+    if (qx.core.Environment.get("css.pointerevents")) {
       styles.pointerEvents = "none"
     }
 
