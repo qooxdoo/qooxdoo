@@ -3,3 +3,5 @@
 
 \bqx\.ui\.tree\.AbstractTreeItem\b=qx.ui.tree.AbstractTreeItem is deprecated; use qx.ui.tree.core.AbstractTreeItem instead.
 \bqx\.ui\.tree\.FolderOpenButton\b=qx.ui.tree.FolderOpenButton is deprecated; use qx.ui.tree.core.FolderOpenButton instead.
+
+\.isClippedImage\b=qx.util.ResourceManager.isClippedImage is deprecated; use qx.util.ResourceManager.getCombinedFormat instead.

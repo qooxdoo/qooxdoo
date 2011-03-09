@@ -133,13 +133,18 @@ qx.Class.define("qx.util.ResourceManager",
      * Whether the given resource identifier is a image
      * with clipping information available.
      *
+     * @deprecated since 1.4: superseded by getCombinedFormat()
+     *
      * @param id {String} Resource identifier
      * @return {Boolean} Whether the resource ID is known as a clipped image
      */
     isClippedImage : function(id)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        "isClippedImage has been superseded by getCombinedFormat");
       var entry = this.self(arguments).__registry[id];
-      return entry && entry.length > 4 && typeof(entry[4]) == "string" && this.constructor.__registry[entry[4]];
+      return entry && entry.length > 4 && typeof(entry[4]) == "string" && 
+        this.constructor.__registry[entry[4]];
     },
 
 
@@ -155,7 +160,8 @@ qx.Class.define("qx.util.ResourceManager",
     {
       var clippedtype = "";
       var entry = this.self(arguments).__registry[id];
-      var isclipped = entry && entry.length > 4 && typeof(entry[4]) == "string" && this.constructor.__registry[entry[4]];
+      var isclipped = entry && entry.length > 4 && typeof(entry[4]) == "string"
+        && this.constructor.__registry[entry[4]];
       if (isclipped){
         var combId  = entry[4];
         var combImg = this.constructor.__registry[combId];
