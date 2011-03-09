@@ -47,22 +47,42 @@ qx.Bootstrap.define("qx.bom.client.Browser",
 {
   statics :
   {
-    /** {Boolean} Whether the browser could not be determined */
+    /** 
+     * {Boolean} Whether the browser could not be determined 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     UNKNOWN : true,
 
-    /** {String} Name of the browser */
+    /** 
+     * {String} Name of the browser 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     NAME : "unknown",
 
-    /** {String} Combination of name and version e.g. "firefox 3.5" */
+    /** 
+     * {String} Combination of name and version e.g. "firefox 3.5" 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     TITLE : "unknown 0.0",
 
-    /** {Number} Floating point number of browser version */
+    /** 
+     * {Number} Floating point number of browser version 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     VERSION : 0.0,
 
-    /** {String} Full version. Might contain two dots e.g. "3.5.1" */
+    /** 
+     * {String} Full version. Might contain two dots e.g. "3.5.1" 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     FULLVERSION : "0.0.0",
 
 
+    /**
+     * Checks for the name of the browser and returns it.
+     * @return {String} The name of the current browser.
+     * @internal
+     */
     getName : function() {
       var agent = navigator.userAgent;
       var reg = new RegExp("(" + qx.bom.client.Browser.__agents + ")(/| )([0-9]+\.[0-9])");
@@ -111,6 +131,11 @@ qx.Bootstrap.define("qx.bom.client.Browser",
     },
 
 
+    /**
+     * Checks the version of the curren browser.
+     * @return {String} The name of the current browser.
+     * @internal
+     */
     getVersion : function() {
       var agent = navigator.userAgent;
       var reg = new RegExp("(" + qx.bom.client.Browser.__agents + ")(/| )([0-9]+\.[0-9])");
@@ -138,6 +163,9 @@ qx.Bootstrap.define("qx.bom.client.Browser",
     },
 
 
+    /**
+     * Internal herlper map for picking the right browser names to check.
+     */
     __agents : {
       // Safari should be the last one to check, because some other Webkit-based browsers
       // use this identifier together with their own one.

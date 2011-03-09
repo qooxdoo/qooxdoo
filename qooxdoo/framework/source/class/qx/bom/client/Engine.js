@@ -38,31 +38,58 @@ qx.Bootstrap.define("qx.bom.client.Engine",
   // Firefox: http://en.wikipedia.org/wiki/History_of_Mozilla_Firefox
   statics :
   {
-    /** {String} Name of the client's HTML/JS engine e.g. mshtml, gecko, webkit, opera, khtml */
+    /** 
+     * {String} Name of the client's HTML/JS engine e.g. mshtml, gecko, webkit, opera, khtml 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     NAME : "",
 
-    /** {String} Full version string with multiple dots (major.minor.revision) e.g. 1.8.1, 8.5.4 */
+    /** 
+     * {String} Full version string with multiple dots (major.minor.revision) e.g. 1.8.1, 8.5.4 #
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     FULLVERSION : "0.0.0",
 
-    /** {Float} Version of the client's HTML/JS engine e.g. 1.0, 1.7, 1.9 */
+    /** 
+     * {Float} Version of the client's HTML/JS engine e.g. 1.0, 1.7, 1.9 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     VERSION : 0.0,
 
-    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
+    /** 
+     * {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     OPERA : false,
 
-    /** {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine */
+    /** 
+     * {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     WEBKIT : false,
 
-    /** {Boolean} Flag to detect if the client is based on the Gecko HTML/JS engine */
+    /** 
+     * {Boolean} Flag to detect if the client is based on the Gecko HTML/JS engine 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     GECKO : false,
 
-    /** {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine */
+    /** 
+     * {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     MSHTML : false,
 
-    /** {Boolean} Flag to detect if the client engine is assumed */
+    /** 
+     * {Boolean} Flag to detect if the client engine is assumed 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     UNKNOWN_ENGINE : false,
 
-    /** {Boolean} Flag to detect if the client engine version is assumed */
+    /** 
+     * {Boolean} Flag to detect if the client engine version is assumed 
+     * @deprecated since 1.4: See qx.core.Environment
+     */
     UNKNOWN_VERSION: false,
 
     /**
@@ -72,6 +99,8 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      * <code>5</code> Microsoft Internet Explorer 5 mode (also known as "quirks mode").
      * <code>7</code> Internet Explorer 7 Standards mode.
      * <code>8</code> Internet Explorer 8 Standards mode.
+     * 
+     * @deprecated since 1.4: See qx.core.Environment
      */
     DOCUMENT_MODE : null,
 

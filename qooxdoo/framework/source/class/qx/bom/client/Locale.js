@@ -45,14 +45,14 @@ qx.Class.define("qx.bom.client.Locale",
     /** 
      * {String} The name of the system locale e.g. "de" when the full 
      * locale is "de_AT" 
-     * @deprecated since 1.4
+     * @deprecated since 1.4: See qx.core.Environment
      */
     LOCALE : "",
 
     /** 
      * {String} The name of the variant for the system locale e.g. 
      * "at" when the full locale is "de_AT" 
-     * @deprecated since 1.4
+     * @deprecated since 1.4: See qx.core.Environment
      */
     VARIANT : "",
 
@@ -60,6 +60,7 @@ qx.Class.define("qx.bom.client.Locale",
     /**
      * The name of the system locale e.g. "de" when the full locale is "de_AT"
      * @return {String} The current locale
+     * @internal
      */
     getLocale : function() {
       var locale = qx.bom.client.Locale.__getNavigatorLocale();
@@ -78,6 +79,7 @@ qx.Class.define("qx.bom.client.Locale",
      * full locale is "de_AT" 
      * 
      * @return {String} The locales variant.
+     * @internal
      */
     getVariant : function() {
       var locale = qx.bom.client.Locale.__getNavigatorLocale();
