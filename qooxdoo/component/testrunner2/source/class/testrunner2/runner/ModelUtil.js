@@ -122,6 +122,7 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       
       if (model.getChildren) {
         var kids = model.getChildren();
+        kids.sort(testrunner2.runner.ModelUtil.itemSorter);
         for (var i=0,l=kids.length; i<l; i++) {
           var child = kids.getItem(i);
           child.parent = model;
@@ -142,6 +143,27 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
           });
         }
       }
+    },
+    
+    
+    /**
+     * Compare function for test model items
+     * 
+     * @param aItem {} First item
+     * @param bItem {} Second item
+     * @return {Integer} Comparison result
+     */
+    itemSorter : function(aItem, bItem)
+    {
+      var a = aItem.getName();
+      var b = bItem.getName();
+      if (a < b) { 
+        return -1; 
+      }
+      if (a > b ) {
+        return 1;
+      } 
+      return 0;
     },
     
     
@@ -263,6 +285,31 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
         return this.getName();
       }
     },
+    
+    
+    /**
+     * Returns the following sibling of a given model item or null if there isn't
+     * one.
+     * 
+     * @param node {Object} Model node
+     * @return {Object|null} Following sibling
+     */
+    getNextSiblingOf : function(node)
+    {
+      if (!node.parent) {
+        return null;
+      }
+      var siblings = node.parent.getChildren();
+      if (!siblings) {
+        return null;
+      }
+      var index = siblings.indexOf(node);
+      if (index < siblings.length - 1) {
+        return siblings.getItem(index + 1);
+      }
+      return null;
+    },
+    
     
     /**
      * Serializes and returns any exceptions caught during the test's execution

@@ -19,6 +19,7 @@
 #asset(qx/icon/Tango/22/actions/media-playback-stop.png)
 #asset(qx/icon/Tango/22/actions/view-refresh.png)
 #asset(qx/icon/Tango/22/categories/system.png)
+#asset(qx/icon/Tango/22/actions/system-run.png)
 #asset(qx/icon/Tango/22/status/dialog-information.png)
 #asset(qx/icon/Tango/22/status/dialog-warning.png)
 #asset(qx/icon/Tango/22/status/dialog-error.png)
@@ -150,6 +151,12 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       event : "changeSkippedTestCount"
     },
     
+    autoReload :
+    {
+      check :"Boolean",
+      init : false
+    },
+    
     /** Log level for the AUT log appender */
     logLevel :
     {
@@ -181,6 +188,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     __testCountField : null,
     __selectedTestField : null,
     __statusField : null,
+    __lastAutoRunItemName : null,
     
     /**
      * Returns the iframe element the AUT should be loaded in.
@@ -306,6 +314,10 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       var part3 = new qx.ui.toolbar.Part();
       toolbar.add(part3);
 
+      var autoReloadToggle = new qx.ui.toolbar.CheckBox(this.__app.tr("Auto Reload"), "icon/22/actions/system-run.png");
+      autoReloadToggle.bind("value", this, "autoReload");
+      part3.add(autoReloadToggle);
+      
       part3.add(this.__createLogLevelMenu());
       
       // Stack trace toggle
@@ -930,8 +942,13 @@ qx.Class.define("testrunner2.view.widget.Widget", {
           this.setStatus("Test suite ready");
           this._setActiveButton(this.__runButton);
           this._applyTestCount(this.getTestCount());
-          this.setFailedTestCount(0);
-          this.setSuccessfulTestCount(0);
+          if (this.getAutoReload() && this.__lastAutoRunItemName) {
+            this.fireEvent("runTests");
+          }
+          else {
+            this.setFailedTestCount(0);
+            this.setSuccessfulTestCount(0);
+          }
           break;
         case "running" :
           this.__progressBar.setValue(0);
@@ -942,6 +959,27 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         case "finished" :
           this.setStatus("Test suite finished.");
           this._setActiveButton(this.__runButton);
+          
+          if (this.getAutoReload()) {
+            if (this.__lastAutoRunItemName) {
+              var lastAutoRunItem = testrunner2.runner.ModelUtil.getItemByFullName(this.getTestModel(), this.__lastAutoRunItemName);
+            }
+            if (lastAutoRunItem) {
+              var nextAutoRunItem = testrunner2.runner.ModelUtil.getNextSiblingOf(lastAutoRunItem);
+              if (nextAutoRunItem) {
+                this.__lastAutoRunItemName = nextAutoRunItem.getFullName();
+                this.getSelectedTests().removeAll();
+                this.getSelectedTests().push(nextAutoRunItem);
+                this.__reloadAut();
+              }
+              else {
+                this.__lastAutoRunItemName = null;
+              }
+            }
+            else {
+              this.__lastAutoRunItemName = null;
+            }
+          }
           break;
         case "aborted" :
           this.setStatus("Test run stopped");
@@ -1018,7 +1056,20 @@ qx.Class.define("testrunner2.view.widget.Widget", {
      */
     __runTests : function()
     {
-      this.reset();
+      if (this.getAutoReload()) {
+        if (!this.__lastAutoRunItemName) {
+          var selection = this.getSelectedTests().getItem(0);
+          if (selection.getChildren && selection.getChildren().length > 1) {
+            var firstChild = selection.getChildren().getItem(0);
+            this.__lastAutoRunItemName = firstChild.getFullName();
+            this.getSelectedTests().removeAll();
+            this.getSelectedTests().push(firstChild);
+          }
+        }
+      }
+      else {
+        this.reset();
+      }
       this.fireEvent("runTests");
     },
     
