@@ -156,15 +156,15 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       var html = '';
       var style;
 
-      if(qx.bom.client.Engine.WEBKIT) {
+      if(qx.core.Environment.get("engine.name") == "webkit") {
         html = '<span style="display:inline;position:relative;top:-2px;width:' + width + 'px;height:' + height + 'px' + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
       } else {
         html = '<span style="display:inline-block;display:inline;padding-right:18px;position:relative;top:-2px;left:0;width:' + width + 'px;height:' + height + 'px' + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
       }
 
-      if(qx.bom.client.Engine.WEBKIT) {
+      if(qx.core.Environment.get("engine.name") == "webkit") {
         style = "position:absolute;top:0px;left:0px;padding-right:18px;";
-      } else if(qx.bom.client.Engine.OPERA) {
+      } else if(qx.core.Environment.get("engine.name") == "opera") {
         style = "margin-right:-18px;";
       }else{
         style = "position:absolute;top:0px;left:0px";

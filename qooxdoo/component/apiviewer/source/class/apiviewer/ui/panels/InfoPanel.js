@@ -239,7 +239,8 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
           // Opera 10.5 loses the reference to "window"
           // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3516 for details
-          if (qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION > 9)
+          if (qx.core.Environment.get("engine.name") == "opera" && 
+            qx.core.Environment.get("engine.version") > 9)
           {
             protocol = location.protocol;
             host = location.host;

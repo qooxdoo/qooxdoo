@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
     {
 
       // Use a different effect for IE to avoid rendering issues
-      if (qx.bom.client.Engine.MSHTML)
+      if (qx.core.Environment.get("engine.name") == "mshtml")
       {
         this.__showEffect = new qx.fx.effect.core.Fade(
           this.__dialog.getContainerElement().getDomElement()

@@ -40,7 +40,7 @@ qx.Class.define("inspector.console.Util",
       var result = null;
 
       try {
-        if (qx.core.Variant.isSet("qx.client", "opera") && qx.bom.client.Engine.VERSION < 9.8) {
+        if (qx.core.Variant.isSet("qx.client", "opera") && qx.core.Environment.get("engine.version") < 9.8) {
           result = (function(code) {
             return iFrameWindow.eval(code);
           }).call(qx.core.Init.getApplication().getSelectedObject(), code);

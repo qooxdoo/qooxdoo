@@ -419,7 +419,7 @@ qx.Class.define("playground.Application",
       } catch (e) {
         var error = this.tr("// Could not handle URL parameter! \n// %1", e);
 
-        if (qx.bom.client.Engine.MSHTML) {
+        if (qx.core.Environment.get("engine.name") == "mshtml") {
           error += this.tr("// Your browser has a length restriction of the " +
                           "URL parameter which could have caused the problem.");
         }
@@ -435,7 +435,7 @@ qx.Class.define("playground.Application",
      */
     __addCodeToHistory : function(code) {
       var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
-      if (qx.bom.client.Engine.MSHTML && codeJson.length > 1300) {
+      if (qx.core.Environment.get("engine.name") == "mshtml" && codeJson.length > 1300) {
         if (!this.__ignoreSaveFaults && confirm(
           this.tr("Cannot append sample code to URL, as it is too long. " +
                   "Disable this warning in the future?"))

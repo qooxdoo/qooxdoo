@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.demo.event.Focus",
     {
       this.debug("FocusIn: " + e.getTarget());
 
-      if (qx.bom.client.Engine.MSHTML)
+      if (qx.core.Environment.get("engine.name") == "webkit")
       {
         e.getTarget().style.border = "1px dotted red";
       }
@@ -77,7 +77,7 @@ qx.Class.define("demobrowser.demo.event.Focus",
     {
       this.debug("FocusOut: " + e.getTarget());
 
-      if (qx.bom.client.Engine.MSHTML) {
+      if (qx.core.Environment.get("engine.name") == "mshtml") {
         e.getTarget().style.border = "1px solid black";
       } else {
         e.getTarget().style.outline = "";

@@ -34,8 +34,7 @@ qx.Class.define("demobrowser.demo.event.KeyEvent_LowLevel",
     {
       this.base(arguments);
 
-      this.debug(qx.bom.client.Engine.VERSION);
-      this.debug(qx.bom.client.Engine.FULLVERSION);
+      this.debug(qx.core.Environment.get("engine.version"));
 
       this._initLogger(
           ["Event", "key code", "char code", "key identifier", "Shift", "Ctrl", "Alt"],

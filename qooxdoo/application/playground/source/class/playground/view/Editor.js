@@ -102,7 +102,7 @@ qx.Class.define("playground.view.Editor",
       // https://github.com/ajaxorg/ace/issues/#issue/137
       if (
         !document.createElement("div").getBoundingClientRect || 
-        qx.bom.client.Browser.NAME == "opera"
+        qx.core.Environment.get("engine.name") == "opera"
       ) {
       // https://github.com/ajaxorg/ace/issues/issue/3
         this.fireEvent("disableHighlighting");
