@@ -18,19 +18,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.bom.client.Engine)
-
-************************************************************************ */
-
 /**
  * This class comes with all relevant information regarding
  * the client's implemented features.
  *
- * The listed constants are automatically filled on the initialization
- * phase of the class. The defaults listed in the API viewer need not
- * to be identical to the values at runtime.
+ * @deprecated sinde 1.4: Please use qx.core.Environment to access all feature
+ * checks.
  */
 qx.Bootstrap.define("qx.bom.client.Feature",
 {
@@ -59,24 +52,6 @@ qx.Bootstrap.define("qx.bom.client.Feature",
      * @deprecated since 1.4: Plese use qx.core.Environment.get
      */
     PLACEHOLDER : false,
-
-    /** 
-     * {BOOLEAN} Whether the client supports the css border radius property.
-     * @deprecated since 1.4: Plese use qx.core.Environment.get
-     */
-    CSS_BORDER_RADIUS : false,
-
-    /** 
-     * {BOOLEAN} Whether the client supports the css box shadow property.
-     * @deprecated since 1.4: Plese use qx.core.Environment.get
-     */    
-    CSS_BOX_SHADOW : false,
-
-    /** 
-     * {BOOLEAN} Whether the client supports gradients as css background.
-     * @deprecated since 1.4: Plese use qx.core.Environment.get
-     */
-    CSS_GRADIENTS : false,
 
     /** 
      * {Boolean} Flag to detect if the current document is rendered in standard mode 
@@ -172,31 +147,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
      * <code>__count__</code> property.
      * @deprecated since 1.4: Plese use qx.core.Environemnt.get
      */
-    ECMA_OBJECT_COUNT : (({}).__count__ == 0),
-
-
-// TODO below
-
-    // to HTML
-    /** {BOOLEAN} Whether the client supports data urls or not. */
-    DATA_URL : false,
-
-
-    /**
-     * Internal initialize helper
-     *
-     * @return {void}
-     */
-    __init : function()
-    {
-      var data = new Image();
-      data.onload = data.onerror = function() {
-        if (data.width == 1 && data.height == 1) {
-          qx.bom.client.Feature.DATA_URL = true;
-        }
-      }
-      data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-    }
+    ECMA_OBJECT_COUNT : (({}).__count__ == 0)
   },
 
 
@@ -207,12 +158,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
   */
 
   defer : function(statics) {
-    statics.__init();
-
-    // @deprecated
-    statics.CSS_GRADIENTS = qx.bom.client.Css.getGradients();    
-    statics.CSS_BOX_SHADOW = qx.bom.client.Css.getBoxShadow();
-    statics.CSS_BORDER_RADIUS = qx.bom.client.Css.getBorderRadius();
+    // @deprecated since 1.4 (wholel defer block)
     statics.PLACEHOLDER = qx.bom.client.Css.getPlaceholder();
     statics.CSS_TEXT_OVERFLOW = qx.bom.client.Css.getTextOverflow();
     statics.CSS_POINTER_EVENTS = qx.bom.client.Css.getPointerEvents();
@@ -228,6 +174,25 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     statics.XUL = qx.bom.client.Html.getXUL();
     
     statics.TOUCH = qx.bom.client.Event.getTouch();
-    // TODO add deprecation warning
+    
+    // add @deprecation warnings    
+    var keys = ["STANDARD_MODE","QUIRKS_MODE","CONTENT_BOX","BORDER_BOX", "SVG",
+      "CANVAS", "VML", "XPATH", "AIR", "GEARS", "SSL", "ECMA_OBJECT_COUNT", 
+      "CSS_POINTER_EVENTS", "XUL", "CSS_TEXT_OVERFLOW", "HTML5_CLASSLIST", 
+      "TOUCH", "PLACEHOLDER"];
+    for (var i = 0; i < keys.length; i++) {
+      // check if __defineGetter__ is available
+      if (statics.__defineGetter__) {
+        var constantValue = statics[keys[i]];
+        statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
+          qx.Bootstrap.warn(
+            "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
+            "Plese check the API documentation of qx.core.Environemt.\n" + 
+            "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
+          );
+          return c;
+        }, statics, keys[i], constantValue));
+      }
+    }
   }
 });

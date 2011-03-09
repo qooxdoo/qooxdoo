@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.menu.Manager",
 
     // only use the blur event to hide windows on non touch devices [BUG #4033]
     // When the menu is locaed on top of an iFrame, the select will fail
-    if (!qx.bom.client.Feature.TOUCH) {
+    if (!qx.core.Environment.get("event.touch")) {
       // Hide all when the window is blurred
       qx.bom.Element.addListener(window, "blur", this.hideAll, this);
     }

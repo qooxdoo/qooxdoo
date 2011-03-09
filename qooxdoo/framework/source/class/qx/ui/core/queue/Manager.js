@@ -282,7 +282,8 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
     // Register to user action
     qx.event.Registration.addListener(window, "useraction",
-      qx.bom.client.Feature.TOUCH ? statics.__onUserAction : statics.flush
+      qx.core.Environment.get("event.touch") ? 
+        statics.__onUserAction : statics.flush
     );
   }
 });

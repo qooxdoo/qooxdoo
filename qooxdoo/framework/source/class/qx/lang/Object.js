@@ -52,7 +52,7 @@ qx.Class.define("qx.lang.Object",
      * @param map {Object} the map to check
      * @return {Boolean} whether the map has any keys
      */
-    isEmpty : (qx.bom.client.Feature.ECMA_OBJECT_COUNT) ?
+    isEmpty : (qx.core.Environment.get("ecmascript.objectcount")) ?
       function(map)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -83,7 +83,7 @@ qx.Class.define("qx.lang.Object",
      * @param minLength {Integer} minimum number of objects in the map
      * @return {Boolean} whether the map contains at least "length" objects.
      */
-    hasMinLength : (qx.bom.client.Feature.ECMA_OBJECT_COUNT) ?
+    hasMinLength : (qx.core.Environment.get("ecmascript.objectcount")) ?
       function(map, minLength)
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))

@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     this.addListener("mousewheel", this._onMouseWheel, this);
 
     // touch support
-    if (qx.bom.client.Feature.TOUCH) {
+    if (qx.core.Environment.get("event.touch")) {
       // touch move listener for touch scrolling
       this.addListener("touchmove", this._onTouchMove, this);
 

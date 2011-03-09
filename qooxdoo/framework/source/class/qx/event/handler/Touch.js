@@ -482,7 +482,7 @@ qx.Class.define("qx.event.handler.Touch",
     {
       "on" : function()
       {
-        if (!qx.bom.client.Feature.TOUCH)
+        if (!qx.core.Environment.get("event.touch"))
         {
           this.__onMouseEventWrapper = qx.lang.Function.listener(this._onMouseEvent, this);
 
@@ -524,7 +524,7 @@ qx.Class.define("qx.event.handler.Touch",
     {
       "on" : function()
       {
-        if (!qx.bom.client.Feature.TOUCH)
+        if (!qx.core.Environment.get("event.touch"))
         {
           var Event = qx.bom.Event;
 
@@ -565,7 +565,7 @@ qx.Class.define("qx.event.handler.Touch",
     {
       "on" : qx.event.GlobalError.observeMethod(function(domEvent)
       {
-        if (!qx.bom.client.Feature.TOUCH)
+        if (!qx.core.Environment.get("event.touch"))
         {
           if (domEvent.type == "mousemove" && !this.__isInTouch) {
             return;
@@ -624,7 +624,7 @@ qx.Class.define("qx.event.handler.Touch",
     // Prevent scrolling on the document to avoid scrolling at all
     // TODO: Seems like Android does not prevent scrolling on touchmove
     //       Perhaps we should use "touchstart" here?
-    if (qx.bom.client.Feature.TOUCH) {
+    if (qx.core.Environment.get("event.touch")) {
       if (qx.core.Variant.isSet("qx.mobile.nativescroll", "off"))
       {
         document.addEventListener("touchmove", function(e) {

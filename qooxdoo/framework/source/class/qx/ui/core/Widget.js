@@ -2363,7 +2363,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       // if the browser supports pointer events the decorator will never receive
       // any mouse events so the protector is not required.
-      if (!this.__protectorElement && !qx.core.Environment.get("css.pointerevents")) {
+      if (!this.__protectorElement && !qx.core.Environment.get("event.pointer")) {
         this._createProtectorElement();
       }
 

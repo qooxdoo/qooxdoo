@@ -265,7 +265,8 @@ qx.Class.define("qx.ui.basic.Label",
       // This is needed for all browsers not having text-overflow:ellipsis
       // but supporting XUL (firefox < 4)
       // https://bugzilla.mozilla.org/show_bug.cgi?id=312156
-      if (!qx.core.Environment.get("css.textoverflow") && qx.bom.client.Feature.XUL)
+      if (!qx.core.Environment.get("css.textoverflow") && 
+        qx.core.Environment.get("html.xul"))
       {
         if (value && !this.isRich())
         {

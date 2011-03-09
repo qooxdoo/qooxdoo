@@ -117,15 +117,24 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("css.borderraidus"));
       this.assertBoolean(qx.core.Environment.get("css.boxshadow"));
       this.assertBoolean(qx.core.Environment.get("css.gradients"));
-      this.assertBoolean(qx.core.Environment.get("css.pointerevents"));
     },
     
     testEvent : function() {
       this.assertBoolean(qx.core.Environment.get("event.touch"));
+      this.assertBoolean(qx.core.Environment.get("event.pointer"));
     },
     
     testEcmaScript : function() {
       this.assertBoolean(qx.core.Environment.get("ecmascript.objectcount"));
+    },
+    
+    testDataUrl : function() {
+      qx.core.Environment.getAsync("html.dataurl", function(result) {
+        this.resume(function() {
+          this.assertBoolean(result);
+        }, this);
+      }, this);
+      this.wait();
     }
   }
 });

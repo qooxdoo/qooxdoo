@@ -19,9 +19,11 @@
 qx.Bootstrap.define("qx.core.Environment", 
 {
   statics : {
-
-    __checks : {},
     
+    __checks : {},
+    __asyncChecks : {},
+
+
     get : function(key) {
       // TODO add caching
       var check = this.__checks[key];
@@ -31,11 +33,25 @@ qx.Bootstrap.define("qx.core.Environment",
 
       // debug flag
       if (this.useCheck("qx.debug")) {
+        qx.Bootstrap.warn(key + " can not be checked.");
+      }
+    },
+
+
+    getAsync : function(key, callback, self) {
+      // TODO add caching
+      var check = this.__asyncChecks[key];
+      if (check) {
+        check(callback, self);
+      }
+
+      // debug flag
+      if (this.useCheck("qx.debug")) {
         qx.Bootstrap.warn(key + " can not be checked.");        
       }
     },
-    
-    
+
+
     select : function(key, values) {
       var key = this.get(key);
       
@@ -169,7 +185,11 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("event.touch")) {
         this.__checks["event.touch"] = qx.bom.client.Event.getTouch;
       }
-      
+
+      if (this.useCheck("event.pointer")) {
+        this.__checks["event.pointer"] = qx.bom.client.Event.getPointer;
+      }
+
       // /////////////////////////////////////////
       // ECMA SCRIPT
       // /////////////////////////////////////////
@@ -219,6 +239,9 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("html.vml")) {
         this.__checks["html.vml"] = qx.bom.client.Html.getVML;
       }
+      if (this.useCheck("html.dataurl")) {
+        this.__asyncChecks["html.dataurl"] = qx.bom.client.Html.getDataUrl;
+      }
 
       // /////////////////////////////////////////
       // CSS
@@ -241,10 +264,6 @@ qx.Bootstrap.define("qx.core.Environment",
 
       if (this.useCheck("css.gradients")) {
         this.__checks["css.gradients"] = qx.bom.client.Css.getGradients;        
-      }
-
-      if (this.useCheck("css.pointerevents")) {
-        this.__checks["css.pointerevents"] = qx.bom.client.Css.getPointerEvents;
       }
 
       if (this.useCheck("css.boxmodel")) {

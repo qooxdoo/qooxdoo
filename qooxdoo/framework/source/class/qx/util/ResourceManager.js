@@ -204,7 +204,7 @@ qx.Class.define("qx.util.ResourceManager",
 
       var urlPrefix = "";
       if (qx.core.Variant.isSet("qx.client", "mshtml") &&
-          qx.bom.client.Feature.SSL) {
+          qx.core.Environment.get("io.ssl")) {
         urlPrefix = this.self(arguments).__urlPrefix[lib];
       }
 
@@ -252,7 +252,7 @@ qx.Class.define("qx.util.ResourceManager",
       // Though this warning is only displayed in conjunction with images which
       // are referenced as a CSS "background-image", every resource path is
       // changed when the application is served with HTTPS.
-      if (qx.bom.client.Feature.SSL)
+      if (qx.core.Environment.get("io.ssl"))
       {
         for (var lib in qx.$$libraries)
         {

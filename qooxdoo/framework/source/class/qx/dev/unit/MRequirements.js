@@ -79,7 +79,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasSsl : function()
     {
-      return qx.bom.client.Feature.SSL;
+      return qx.core.Environment.get("io.ssl");
     },
 
 
@@ -186,7 +186,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasTouch : function()
     {
-      return qx.bom.client.Feature.TOUCH;
+      return qx.core.Environment.get("event.touch");
     },
 
 
