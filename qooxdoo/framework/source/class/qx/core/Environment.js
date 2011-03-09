@@ -23,6 +23,7 @@ qx.Bootstrap.define("qx.core.Environment",
     __checks : {},
     
     get : function(key) {
+      // TODO add caching
       var check = this.__checks[key];
       if (check) {
         return check();
@@ -63,6 +64,9 @@ qx.Bootstrap.define("qx.core.Environment",
 
     
     __initChecksMap : function() {
+      // /////////////////////////////////////////
+      // Engine 
+      // /////////////////////////////////////////      
       // engine version
       if (this.useCheck("engine.version")) {
         this.__checks["engine.version"] = qx.bom.client.Engine.getVersion;
@@ -71,7 +75,10 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("engine.name")) {
         this.__checks["engine.name"] = qx.bom.client.Engine.getName;        
       }
-      
+
+      // /////////////////////////////////////////
+      // Browser
+      // /////////////////////////////////////////
       // browser name
       if (this.useCheck("browser.name")) {
         this.__checks["browser.name"] = qx.bom.client.Browser.getName;   
@@ -79,6 +86,33 @@ qx.Bootstrap.define("qx.core.Environment",
       // browser version
       if (this.useCheck("browser.version")) {
         this.__checks["browser.version"] = qx.bom.client.Browser.getVersion;        
+      }
+      
+      // /////////////////////////////////////////
+      // CSS
+      // /////////////////////////////////////////
+      if (this.useCheck("css.textoverflow")) {
+        this.__checks["css.textoverflow"] = qx.bom.client.CssFeature.getTextOverflow;        
+      }
+
+      if (this.useCheck("css.placeholder")) {
+        this.__checks["css.placeholder"] = qx.bom.client.CssFeature.getPlaceholder;        
+      }
+
+      if (this.useCheck("css.borderraidus")) {
+        this.__checks["css.borderraidus"] = qx.bom.client.CssFeature.getBorderRadius;        
+      }
+
+      if (this.useCheck("css.boxshadow")) {
+        this.__checks["css.boxshadow"] = qx.bom.client.CssFeature.getBoxShadow;        
+      }
+
+      if (this.useCheck("css.gradients")) {
+        this.__checks["css.gradients"] = qx.bom.client.CssFeature.getGradients;        
+      }
+
+      if (this.useCheck("css.pointerevents")) {
+        this.__checks["css.pointerevents"] = qx.bom.client.CssFeature.getPointerEvents;
       }
     }
   },

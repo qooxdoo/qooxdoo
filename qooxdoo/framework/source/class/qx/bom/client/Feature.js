@@ -42,6 +42,29 @@ qx.Bootstrap.define("qx.bom.client.Feature",
 
   statics :
   {
+    /** {BOOLEAN} Whether the client supports the "pointer-events" CSS property */
+    CSS_POINTER_EVENTS : false,
+    
+    /** {BOOLEAN} Whether the client supports the "text-overflow" CSS property */
+    CSS_TEXT_OVERFLOW : false,
+
+    /** {BOOLEAN} Whether the client supports placeholders for input fields */
+    PLACEHOLDER : false,
+
+    /** {BOOLEAN} Whether the client supports the css border radius property.*/
+    CSS_BORDER_RADIUS : false,
+
+
+    /** {BOOLEAN} Whether the client supports the css box shadow property.*/    
+    CSS_BOX_SHADOW : false,
+
+    /** {BOOLEAN} Whether the client supports gradients as css background.*/
+    CSS_GRADIENTS : false,
+
+
+
+// TODO below
+
     /** {Boolean} Flag to detect if the current document is rendered in standard mode */
     STANDARD_MODE : false,
 
@@ -78,17 +101,8 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     /** {BOOLEAN} Whether the object type supports the <code>__count__</code> property */
     ECMA_OBJECT_COUNT : (({}).__count__ == 0),
 
-    /** {BOOLEAN} Whether the client supports the "pointer-events" CSS property */
-    CSS_POINTER_EVENTS : false,
-
     /** {BOOLEAN} Whether the client supports XUL */
     XUL : false,
-
-    /** {BOOLEAN} Whether the client supports the "text-overflow" CSS property */
-    CSS_TEXT_OVERFLOW : (
-      "textOverflow" in document.documentElement.style ||
-      "OTextOverflow" in document.documentElement.style
-    ),
 
     /**
      * {Boolean} Whether the browser supports CSS class lists
@@ -101,61 +115,12 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     /** {BOOLEAN} Whether the device is touch enabled. */
     TOUCH : ("ontouchstart" in window),
 
-    /** {BOOLEAN} Whether the client supports placeholders for input fields */
-    PLACEHOLDER : false,
-
 
     /** {BOOLEAN} Whether the client supports data urls or not. */
     DATA_URL : false,
 
 
-    /** {BOOLEAN} Whether the client supports the css border radius property.*/
-    CSS_BORDER_RADIUS : (
-      "borderRadius" in document.documentElement.style ||
-      "MozBorderRadius" in document.documentElement.style || 
-      "WebkitBorderRadius" in document.documentElement.style
-    ),
-
-
-    /** {BOOLEAN} Whether the client supports the css box shadow property.*/    
-    CSS_BOX_SHADOW : (
-      "BoxShadow" in document.documentElement.style ||
-      "MozBoxShadow" in document.documentElement.style || 
-      "WebkitBoxShadow" in document.documentElement.style
-    ),
-
-
-    /** {BOOLEAN} Whether the client supports gradients as css background.*/
-    CSS_GRADIENTS : (function() {
-      var el;
-      try {
-        el = document.createElement("div");
-      } catch (ex) {
-        el = document.createElement();
-      }
-
-      var style = [
-        "-webkit-gradient(linear,0% 0%,100% 100%,from(white), to(red))",
-        "-moz-linear-gradient(0deg, white 0%, red 100%)",
-        "-o-linear-gradient(0deg, white 0%, red 100%)",
-        "linear-gradient(0deg, white 0%, red 100%)"
-      ];
-      
-      for (var i=0; i < style.length; i++) {
-        // try catch for IE
-        try {
-          el.style["background"] = style[i];
-          if (el.style["background"].indexOf("gradient") != -1) {
-            return true
-          }
-        } catch (ex) {}
-      };
-
-      return false;
-    })(),
-
-
-    /** {Boolean} Whether the client supports Web Workers */
+     /** {Boolean} Whether the client supports Web Workers */
     WEB_WORKER: window.Worker != null,
 
     /** {Boolean} Whether the client supports Geolocation */
@@ -203,20 +168,6 @@ qx.Bootstrap.define("qx.bom.client.Feature",
         this.XUL = false;
       }
 
-      var i = document.createElement("input");
-      this.PLACEHOLDER = "placeholder" in i;
-
-      // Check if browser reports that pointerEvents is a known style property
-      if ("pointerEvents" in document.documentElement.style) {
-        // Opera 10.63 incorrectly advertises support for CSS pointer events (#4229).
-        // Do not rely on pointer events in Opera until this browser issue is fixed.
-        if (qx.core.Environment.get("engine.name") == "opera") {
-          this.CSS_POINTER_EVENTS = false;
-        } else {
-          this.CSS_POINTER_EVENTS = true;
-        }
-      }
-
       var data = new Image();
       data.onload = data.onerror = function() {
         if (data.width == 1 && data.height == 1) {
@@ -251,5 +202,15 @@ qx.Bootstrap.define("qx.bom.client.Feature",
 
   defer : function(statics) {
     statics.__init();
+
+    // @deprecated
+    statics.CSS_GRADIENTS = qx.bom.client.CssFeature.getGradients();    
+    statics.CSS_BOX_SHADOW = qx.bom.client.CssFeature.getBoxShadow();
+    statics.CSS_BORDER_RADIUS = qx.bom.client.CssFeature.getBorderRadius();
+    statics.PLACEHOLDER = qx.bom.client.CssFeature.getPlaceholder();
+    statics.CSS_TEXT_OVERFLOW = qx.bom.client.CssFeature.getTextOverflow();
+    statics.CSS_POINTER_EVENTS = qx.bom.client.CssFeature.getPointerEvents();
+    
+    // TODO add deprecation warning
   }
 });
