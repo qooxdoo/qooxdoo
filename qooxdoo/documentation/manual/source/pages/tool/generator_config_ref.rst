@@ -374,6 +374,30 @@ Provides some descriptive text for the job.
 
 The descriptive string provided here will be used when listing jobs on the command line. (Be aware since this is a normal job key it will be passed on through job inheritance, so when you look at a specific job in the job listing you might see the job description of some ancestor job).
 
+
+.. _pages/tool/generator_config_ref#environment:
+
+environment
+===========
+
+Define global key-value mappings for the application. Takes a map.
+
+::
+
+  "environment" :
+  {
+    "<key>" : [ <value> , ... ]
+  }
+
+The "environment" of a qooxdoo application can be viewed as a global key-value store. The *environment* key allows you to pre-define values for such keys. All key-value pairs are available at run time through `qx.core.Environment <http://api.qooxdoo.org/%{version}/#qx.core.Environment>`_. There are pre-defined keys that are established by qooxdoo, and you can add user-defined keys. Both are handled the same.
+
+Possible keys are
+
+* <key> : a global key; keys are just strings; see `qx.core.Environment`_ for a list of pre-defined keys; if you provide a user-defined key, make sure it starts with a name space and a dot (e.g. *"myapp.settingA"*); the entry's value is a list of the key's desired value(s) (e.g. *["foo"]*)
+
+As soon as you specify more than one element in the list value for a key, the generator will generate different builds for each element. If the current job has multiple keys defined, some of them with multiple elements in the value, the generator will generate a dedicated build **for each possible combination** of the given keys.
+
+
 .. _pages/tool/generator_config_ref#exclude:
 
 exclude
@@ -386,6 +410,7 @@ Exclude classes from processing in the job. Takes an array of class specifiers.
   "exclude" : ["qx.util.*"]
 
 Classes specified through the *exclude* key are excluded from the job processing, e.g. from the generated build output. The class specifiers can include simple wildcards like "qx.util.*" denoting class id's matching this pattern, including those from sub-name spaces. 
+
 
 .. _pages/tool/generator_config_ref#export:
 
