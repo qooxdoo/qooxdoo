@@ -266,9 +266,11 @@ qx.Class.define("qx.test.bom.request.Xhr",
       return this.fakeReqs[last];
     },
 
-    isIEBelow: function(version) {
-      var Browser = qx.bom.client.Browser;
-      return Browser.NAME == "ie" && Browser.VERSION < version;
+    isIEBelow: function(targetVersion) {
+      var name = qx.bom.client.Browser.getName();
+      var version = qx.bom.client.Browser.getVersion();
+
+      return name == "ie" && version < targetVersion;
     }
 
   }

@@ -128,8 +128,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     * @return {Object} XMLHttpRequest or equivalent.
     */
     __createNativeXhr: function() {
-      var Feature = qx.bom.client.Feature;
-      return Feature.XML_HTTP_REQUEST ? new XMLHttpRequest() : new window.ActiveXObject("Microsoft.XMLHTTP");
+      return qx.core.Environment.get("io.xhr") ? new XMLHttpRequest() : new window.ActiveXObject("Microsoft.XMLHTTP");
     },
 
     /**
@@ -139,14 +138,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __handleReadyStateChange: function() {
 
       // BUGFIX: IE
-      // "The data necessary to complete this operation is not yet available".
-      var Browser = qx.bom.client.Browser;
-
       // IE < 7 cannot access responseText while LOADING
-      var isLegacyIE = Browser.NAME == "ie" && Browser.VERSION < 7;
-      var isLoading = this.__nativeXhr.readyState == qx.bom.request.Xhr.LOADING;
+      // "The data necessary to complete this operation is not yet available".
 
-      var isDone = this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE
+      var isLegacyIE = qx.core.Environment.get("browser.name") == "ie" &&
+                       qx.core.Environment.get("browser.version") < 7;
+      var isLoading  = this.__nativeXhr.readyState == qx.bom.request.Xhr.LOADING;
+      var isDone     = this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE
+      
       if ((!isLegacyIE && isLoading) || isDone) {
         this.responseText = this.__nativeXhr.responseText;
       } else {
