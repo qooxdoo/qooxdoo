@@ -65,7 +65,7 @@ qx.Class.define("qx.test.bom.request.XhrTest",
       this.assertNotNull(nativeXhr.readyState);
     },
 
-    "test: open() should prepare request": function() {
+    "test: should prepare request": function() {
       this.fakeNativeXhr();
       var req = this.req;
 
@@ -79,19 +79,32 @@ qx.Class.define("qx.test.bom.request.XhrTest",
       this.assertCalledWith(fakeReq.open, method, url);
     },
 
-    "test: send() should send request": function() {
+    // BUGFIX
+    "test: should send request without data": function() {
       this.fakeNativeXhr();
       var req = this.req;
 
       var fakeReq = this.fakeReqs[0];
       this.spy(fakeReq, "send");
 
-      var url = "/affe";
-      var method = "GET";
-      req.open(method, url);
+      req.open("GET", "/affe");
       req.send();
 
-      this.assertCalled(fakeReq.send);
+      this.assertCalledWith(fakeReq.send, null);
+    },
+
+    "test: should send request with data": function() {
+      this.fakeNativeXhr();
+      var req = this.req;
+
+      var fakeReq = this.fakeReqs[0];
+      this.spy(fakeReq, "send");
+
+      var data = "AFFE";
+      req.open("GET", "/affe");
+      req.send(data);
+
+      this.assertCalledWith(fakeReq.send, data);
     },
 
     "test: should call onreadystatechange on state change": function() {
@@ -109,6 +122,20 @@ qx.Class.define("qx.test.bom.request.XhrTest",
       fakeReq.respond(this.constructor.DONE);
 
       this.assertCallCount(req.onreadystatechange, 3);
+    },
+
+    // BUGFIX
+    "test: should ignore onreadystatechange when state is unchanged": function() {
+      this.fakeNativeXhr();
+      var req = this.req;
+      var fakeReq = this.fakeReqs[0];
+      this.spy(req, "onreadystatechange");
+
+      req.readyState = this.constructor.OPENED;
+      fakeReq.onreadystatechange();
+      fakeReq.onreadystatechange();
+
+      this.assertCalledOnce(req.onreadystatechange);
     },
 
     "test: should set readyState appropriate to current state": function() {

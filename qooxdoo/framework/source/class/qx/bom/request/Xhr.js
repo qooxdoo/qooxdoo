@@ -76,8 +76,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     /**
     *
     */
-    send: function() {
-      this.__nativeXhr.send();
+    send: function(data) {
+      // BUGFIX: Firefox 2
+      // NS_ERROR_XPC_NOT_ENOUGH_ARGS when calling send without arguments
+      data = typeof data == "undefined" ? null : data;
+
+      this.__nativeXhr.send(data);
     },
 
     /**
@@ -133,10 +137,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     * sync readyState.
     */
     __handleReadyStateChange: function() {
-      this.readyState = this.__nativeXhr.readyState;
       this.responseText = this.__nativeXhr.responseText;
 
-      this.onreadystatechange();
+      // BUGFIX: Some browsers (Internet Explorer, Firefox) fire OPEN state twice
+      if (this.readyState !== this.__nativeXhr.readyState) {
+        this.readyState = this.__nativeXhr.readyState;
+        this.onreadystatechange();
+      }
     }
   }
 });

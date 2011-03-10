@@ -62,6 +62,37 @@ qx.Class.define("qx.test.bom.request.XhrIntegration",
       }
 
       this.wait();
+    },
+
+    "test: should call onreadystatechange once for OPEN": function() {
+      this.needsPHPWarning();
+
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
+      url = url + "?affe=true";
+
+      var that = this;
+      var count = 0;
+      req.onreadystatechange = function() {
+        // Count call for state OPENED
+        if (req.readyState == 1) {
+          count = count + 1;
+        }
+
+        // Assert when DONE
+        if (req.readyState == 4) {
+          that.resume(function() {
+            // onreadystatechange should have only be called
+            // once for state OPENED
+            that.assertEquals(1, count);
+          });
+        }
+      };
+
+      req.open("GET", url);
+      req.send();
+
+      this.wait();
     }
 
   }
