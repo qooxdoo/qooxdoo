@@ -1021,6 +1021,8 @@ qx.Class.define("testrunner2.view.widget.Widget", {
           this.setStatus("Test run stopped");
           this._setActiveButton(this.__runButton);
           break;
+        case "error" :
+          this.setStatus("Invalid test file selected!");
       };
     },
     

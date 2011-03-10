@@ -237,7 +237,8 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       this.setTestModel(null);
       
       var testRep = this.__getTestRep();
-      if (!testRep) {
+      if (!testRep || testRep.length == 0) {
+        this.setTestSuiteState("error");
         return;
       }
       

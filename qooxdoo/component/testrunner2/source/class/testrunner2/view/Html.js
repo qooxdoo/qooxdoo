@@ -689,6 +689,13 @@ qx.Class.define("testrunner2.view.Html", {
           this.__domElements.runButton.disabled = false;
           this.__domElements.stopButton.disabled = true;
           break;
+        case "error" :
+          this.setStatus("Invalid test file selected!");
+          this.__domElements.filterInput.disabled = false;
+          this.__domElements.allTestsToggle.disabled = false;
+          this.__domElements.runButton.disabled = false;
+          this.__domElements.stopButton.disabled = true;
+          break;
       };
     },
     
