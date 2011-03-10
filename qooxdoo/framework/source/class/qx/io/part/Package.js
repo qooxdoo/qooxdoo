@@ -125,8 +125,6 @@ qx.Bootstrap.define("qx.io.part.Package",
      */
     execute : function()
     {
-      var callback;
-
       if (this.__closure)
       {
         this.__closure();
