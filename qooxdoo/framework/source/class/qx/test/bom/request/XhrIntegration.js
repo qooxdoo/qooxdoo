@@ -1,0 +1,68 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Tristan Koch (tristankoch)
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#asset(qx/test/*)
+
+************************************************************************ */
+
+qx.Class.define("qx.test.bom.request.XhrIntegration",
+{
+  extend : qx.dev.unit.TestCase,
+
+  include : qx.test.io.MRemoteTest,
+
+  construct : function()
+  {
+    this.base(arguments);
+  },
+
+  members :
+  {
+
+    req : null,
+
+    setUp: function() {
+      this.req = new qx.bom.request.Xhr();
+    },
+
+    "test: should GET resource": function() {
+      this.needsPHPWarning();
+
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
+      url = url + "?affe=true";
+      req.open("GET", url);
+      req.send();
+
+      var that = this;
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume(function() {
+            that.assertEquals(req.responseText, '{"affe":"true"}');
+          });
+        }
+      }
+
+      this.wait();
+    }
+
+  }
+});
