@@ -260,7 +260,7 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       if (itemName.indexOf("test") === 0 && itemName.length > 4 ) {
         return "test";
       }
-      if (itemName[0] === itemName[0].toUpperCase()) {
+      if (itemName.substr(0,1) === itemName.substr(0,1).toUpperCase()) {
         return "class";
       }
       return "package";
