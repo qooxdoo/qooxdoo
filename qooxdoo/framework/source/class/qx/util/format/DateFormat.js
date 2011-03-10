@@ -337,7 +337,7 @@ qx.Class.define("qx.util.format.DateFormat",
               } else {
                 replacement = fullYear + "";
                 if (wildcardSize > replacement.length) {
-                  for (var i = replacement.length; i < wildcardSize; i++) {
+                  for (var j = replacement.length; j < wildcardSize; j++) {
                     replacement = "0" + replacement;
                   };
                 }
@@ -752,7 +752,7 @@ qx.Class.define("qx.util.format.DateFormat",
           {
             var rule = this.__parseRules[ruleIdx];
 
-            if (wildcardChar == rule.pattern.charAt(0) && wildcardSize == rule.pattern.length)
+            if ( this.__isRuleForWildcard(rule,wildcardChar,wildcardSize))
             {
               // We found the right rule for the wildcard
               wildcardRule = rule;
@@ -802,6 +802,18 @@ qx.Class.define("qx.util.format.DateFormat",
     },
 
 
+    __isRuleForWildcard : function(rule,wildcardChar,wildcardSize)
+    {
+      if(wildcardChar==='y' && wildcardSize>2 && rule.pattern==='y+')
+      {
+        rule.regex = rule.regexFunc(wildcardSize);
+        return true;
+      }
+      else
+      {
+        return wildcardChar == rule.pattern.charAt(0) && wildcardSize == rule.pattern.length;
+      }
+    },
     /**
      * Initializes the static parse rules.
      *
@@ -919,42 +931,33 @@ qx.Class.define("qx.util.format.DateFormat",
       rules.push(
       {
         pattern     : "y",
-        regex       : "(\\d+)",
+        regex       : "(\\d+?)",
         manipulator : yearManipulator
       });
 
       rules.push(
       {
         pattern     : "yy",
-        regex       : "(\\d\\d+)",
+        regex       : "(\\d\\d)",
         manipulator : yearManipulator
       });
 
       rules.push(
       {
-        pattern     : "yyy",
-        regex       : "(\\d\\d\\d+)",
-        manipulator : yearManipulator
-      });
-
-      rules.push(
-      {
-        pattern     : "yyyy",
-        regex       : "(\\d\\d\\d\\d)",
-        manipulator : yearManipulator
-      });
-
-      rules.push(
-      {
-        pattern     : "yyyyy",
-        regex       : "(\\d\\d\\d\\d\\d+)",
-        manipulator : yearManipulator
-      });
-
-      rules.push(
-      {
-        pattern     : "yyyyyy",
-        regex       : "(\\d\\d\\d\\d\\d\\d+)",
+        pattern     : "y+",
+        regexFunc       : function(yNumber)
+          {
+            var regex = "(";
+            for(var i=0;i<yNumber;i++)
+            {
+              regex += "\\d";
+              if(i===yNumber-1) {
+                regex += "+?";
+              }
+            }
+            regex += ")";
+            return regex;
+          },
         manipulator : yearManipulator
       });
 

@@ -45,6 +45,41 @@ qx.Class.define("qx.test.util.DateFormat",
 
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
+      
+      var formatStr = "ddMMyyyyy";
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
+      var dateStr = dateFmt.format(date);
+
+      var parsedDate = dateFmt.parse(dateStr);
+      this.assertEquals(date.getTime(), parsedDate.getTime());
+      
+      var formatStr = "yyyyyyyyyddMM";
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
+      var dateStr = dateFmt.format(date);
+
+      var parsedDate = dateFmt.parse(dateStr);
+      this.assertEquals(date.getTime(), parsedDate.getTime());
+      
+      var formatStr = "yyMMdd";
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
+      var dateStr = dateFmt.format(date);
+
+      var parsedDate = dateFmt.parse(dateStr);
+      this.assertEquals(date.getTime(), parsedDate.getTime());
+      
+      var formatStr = "yMMdd";
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
+      var dateStr = dateFmt.format(date);
+
+      var parsedDate = dateFmt.parse(dateStr);
+      this.assertEquals(date.getTime(), parsedDate.getTime());
+      
+      var formatStr = "yyyMMdd";
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
+      var dateStr = dateFmt.format(date);
+
+      var parsedDate = dateFmt.parse(dateStr);
+      this.assertEquals(date.getTime(), parsedDate.getTime());
 
       var formatStr = "EEE dd. MM yyyy";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
@@ -70,6 +105,14 @@ qx.Class.define("qx.test.util.DateFormat",
 
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
+      
+      var formatStr = "YYYY/MM/dd";
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
+      dateStr = dateFmt.format(date);
+
+      var parsedDate = dateFmt.parse(dateStr);
+      this.assertEquals(date.getTime(), parsedDate.getTime());
+      
     },
 
 
@@ -190,6 +233,11 @@ qx.Class.define("qx.test.util.DateFormat",
       // case yyyyy
       var df = new qx.util.format.DateFormat("yyyyy");
       this.assertEquals("02009", df.format(new Date(2009,10,30)));
+      df.dispose();
+      
+      // case yyyyy
+      var df = new qx.util.format.DateFormat("yyyyyyyyyyy");
+      this.assertEquals("00000002009", df.format(new Date(2009,10,30)));
       df.dispose();
     }
   }
