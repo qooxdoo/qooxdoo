@@ -389,7 +389,7 @@ Define global key-value mappings for the application. Takes a map.
     "<key>" : [ <value> , ... ]
   }
 
-The "environment" of a qooxdoo application can be viewed as a global key-value store. The *environment* key allows you to pre-define values for such keys. All key-value pairs are available at run time through `qx.core.Environment <http://api.qooxdoo.org/%{version}/#qx.core.Environment>`_. There are pre-defined keys that are established by qooxdoo, and you can add user-defined keys. Both are handled the same.
+The "environment" of a qooxdoo application can be viewed as a global, write-once key-value store. The *environment* key allows you to pre-define values for such keys. All key-value pairs are available at run time through `qx.core.Environment <http://api.qooxdoo.org/%{version}/#qx.core.Environment>`_. There are pre-defined keys that are established by qooxdoo, and you can add user-defined keys. Both are handled the same.
 
 Possible keys are
 
