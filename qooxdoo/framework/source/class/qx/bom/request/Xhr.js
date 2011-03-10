@@ -99,7 +99,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     */
     onreadystatechange: function() {},
 
+    getResponseHeader: function(header) {
+      return this.__nativeXhr.getResponseHeader(header);
+    },
 
+    getAllResponseHeaders: function() {
+      return this.__nativeXhr.getAllResponseHeaders();
+    },
 
     /*
     ---------------------------------------------------------------------------
