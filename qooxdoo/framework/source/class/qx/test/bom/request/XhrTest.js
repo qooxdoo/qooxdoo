@@ -156,16 +156,16 @@ qx.Class.define("qx.test.bom.request.XhrTest",
       this.assertEquals(this.constructor.DONE, req.readyState);
     },
 
-    "test: responseText should be unset when open": function() {
+    "test: responseText should be empty string when open": function() {
       this.fakeNativeXhr();
       var req = this.req;
 
       // Open
       req.open("GET", "/affe");
-      this.assertNull(req.responseText);
+      this.assertIdentical("", req.responseText);
     },
 
-    "test: responseText should be unset when reopend": function() {
+    "test: responseText should be empty string when reopend": function() {
       this.fakeNativeXhr();
 
       // Send, then reopen
@@ -173,7 +173,7 @@ qx.Class.define("qx.test.bom.request.XhrTest",
       req.open("GET", "/affe");
       req.send();
       req.open("GET", "/elefant");
-      this.assertNull(req.responseText);
+      this.assertIdentical("", req.responseText);
     },
 
     "test: responseText should be populated when successful": function() {
@@ -191,6 +191,69 @@ qx.Class.define("qx.test.bom.request.XhrTest",
       this.assertEquals("Affe", req.responseText);
     },
 
+    // BUGFIX
+    "test: should query responseText when available": function() {
+      this.fakeNativeXhr();
+      var that = this;
+      var req = this.req;
+      var fakeReq = this.fakeReqs[0];
+
+      function success(state) {
+        // Create fake request
+        req.open("GET", "/affe");
+
+        // Stub and prepare success
+        fakeReq.readyState = state;
+        fakeReq.responseText = "YIPPIE";
+
+        // Trigger readystatechange handler
+        fakeReq.onreadystatechange();
+
+        that.assertEquals("YIPPIE", req.responseText,
+                          "When readyState is " + state);
+      }
+
+      // Assert responseText to be set while LOADING
+      // in browsers other than IE < 7
+      if (!this.__isIEBelow(7)) {
+        success(this.constructor.LOADING);
+      }
+      success(this.constructor.DONE);
+
+    },
+
+    // BUGFIX
+    "test: should not query responseText if unavailable": function() {
+      this.fakeNativeXhr();
+      var that = this;
+      var req = this.req;
+      var fakeReq = this.fakeReqs[0];
+
+      function trap(state) {
+        // Create fake request
+        req.open("GET", "/affe");
+
+        // Stub and set trap
+        fakeReq.readyState = state;
+        fakeReq.responseText = "BOGUS";
+
+        // Trigger readystatechange handler
+        fakeReq.onreadystatechange();
+
+        that.assertNotEquals("BOGUS", req.responseText,
+                             "When readyState is " + state);
+      }
+
+      trap(this.constructor.UNSENT);
+      trap(this.constructor.OPENED);
+      trap(this.constructor.HEADERS_RECEIVED);
+
+      if (this.__isIEBelow(7)) {
+        trap(this.constructor.LOADING);
+      }
+
+    },
+
     fakeNativeXhr: function() {
       var fakeReqs = this.fakeReqs = [];
       this.fakedXhr = this.useFakeXMLHttpRequest();
@@ -200,6 +263,11 @@ qx.Class.define("qx.test.bom.request.XhrTest",
 
       // Reset request so that it uses the faked XHR
       this.req = new qx.bom.request.Xhr();
+    },
+
+    __isIEBelow: function(version) {
+      var Browser = qx.bom.client.Browser;
+      return Browser.NAME == "ie" && Browser.VERSION < version;
     },
 
     tearDown : function()

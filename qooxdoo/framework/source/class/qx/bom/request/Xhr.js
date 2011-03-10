@@ -78,7 +78,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     */
     send: function(data) {
       // BUGFIX: Firefox 2
-      // NS_ERROR_XPC_NOT_ENOUGH_ARGS when calling send without arguments
+      // "NS_ERROR_XPC_NOT_ENOUGH_ARGS" when calling send() without arguments
       data = typeof data == "undefined" ? null : data;
 
       this.__nativeXhr.send(data);
@@ -137,9 +137,25 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     * sync readyState.
     */
     __handleReadyStateChange: function() {
-      this.responseText = this.__nativeXhr.responseText;
 
-      // BUGFIX: Some browsers (Internet Explorer, Firefox) fire OPEN state twice
+      // BUGFIX: IE
+      // "The data necessary to complete this operation is not yet available".
+      var Browser = qx.bom.client.Browser;
+
+      // IE < 7 cannot access responseText while LOADING
+      var isLegacyIE = Browser.NAME == "ie" && Browser.VERSION < 7;
+      var isLoading = this.__nativeXhr.readyState == qx.bom.request.Xhr.LOADING;
+
+      var isDone = this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE
+      if ((!isLegacyIE && isLoading) || isDone) {
+        this.responseText = this.__nativeXhr.responseText;
+      } else {
+        // Set to empty string as specified in XMLHttpRequest Level 1.
+        this.responseText = "";
+      }
+
+      // BUGFIX: Internet Explorer, Firefox
+      // onreadystatechange() is called twice for readyState OPENED.
       if (this.readyState !== this.__nativeXhr.readyState) {
         this.readyState = this.__nativeXhr.readyState;
         this.onreadystatechange();

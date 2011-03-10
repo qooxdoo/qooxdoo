@@ -69,7 +69,6 @@ qx.Class.define("qx.test.bom.request.XhrIntegration",
 
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
-      url = url + "?affe=true";
 
       var that = this;
       var count = 0;
