@@ -89,6 +89,8 @@ qx.Class.define("qx.ui.toolbar.SplitButton",
      */
     _forwardStates :
     {
+      hovered : true,
+      focused : true,
       left : true,
       middle : true,
       right : true
