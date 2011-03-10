@@ -145,7 +145,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
                        qx.core.Environment.get("browser.version") < 7;
       var isLoading  = this.__nativeXhr.readyState == qx.bom.request.Xhr.LOADING;
       var isDone     = this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE
-      
+
       if ((!isLegacyIE && isLoading) || isDone) {
         this.responseText = this.__nativeXhr.responseText;
       } else {

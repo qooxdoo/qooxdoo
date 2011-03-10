@@ -124,12 +124,12 @@ qx.Class.define("qx.bom.client.Transport",
     getSSL : function() {
       return window.location.protocol === "https:";
     },
-    
+
     getXmlHttpRequest : function() {
       // Do not use qx.core.Environment to avoid circular references
       var name = qx.bom.client.Engine.getName();
       var version = qx.bom.client.Engine.getVersion();
-      
+
       var isIE7 = name == "mshtml" && version == "7.0";
       return !!(!isIE7 && window.XMLHttpRequest);
     }
