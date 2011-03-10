@@ -1576,7 +1576,7 @@ class Generator(object):
                 layout = "horizontal" == "horizontal" # default horizontal=True
 
             # get type of combined image (png, base64, ...)
-            combtype = imgspec['type'] if 'type' in imgspec else "extension"
+            combtype = "base64" if image.endswith(".b64.json") else "extension"
             
             # create the combined image
             subconfigs = self._imageClipper.combine(image, input, layout, combtype)

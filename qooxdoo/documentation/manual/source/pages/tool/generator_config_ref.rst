@@ -147,7 +147,7 @@ This key currently takes no subkeys, but you still have to provide an empty map.
 combine-images
 ==============
 
-Triggers the creation of combined image files that contain various other images. Takes a map. *This action key requires an external program (ImageMagic) to run successfully.*
+Triggers the creation of combined image files that contain various other images. Takes a map.
 
 ::
 
@@ -158,7 +158,6 @@ Triggers the creation of combined image files that contain various other images.
       "<output_image>" :
       {
         "prefix": [ "<string>", "<altstring>" ],
-        "type"  : ("extension"|"base64"),
         "layout": ("horizontal"|"vertical"),
         "input" : 
         [ 
@@ -175,12 +174,15 @@ Triggers the creation of combined image files that contain various other images.
 
   peer-keys: :ref:`pages/tool/generator_config_ref#cache`
 
+.. note::
+
+  Unless you are generating a base64 combined image, this key requires an external program (ImageMagic) to run successfully.
+
 * **images** : map with combine entries
 
-  * <output_image> : path of output file; may be relative to the config file location
+  * **<output_image>** : path of output file; may be relative to the config file location; the file ending determins the file format; use *.png*, *.gif*, etc. for binary formats, or *.b64.json* for base64 combined image
 
     * **prefix** *(required)*: takes a list; the first element is a prefix of the path given in <output_image>, leading up to, but not including, the library name space of the output image; this prefix will be stripped from the ouput path, and will be replaced by an optional second element of this setting, to eventually obtain the image id of the output image;  
-    * **type** : specify the type of the combined image; with *extension* the combined image's file extension is used, which should in this case represent a proper file format (e.g. ".png" or ".gif"); with *base64* the images will be base64-encoded and these encoded strings will be put into the combined "image", which is just a Json structure with encoded strings (default: *extension*)
     * **layout** : either "horizontal" or "vertical"; defines the layout of images within the combined image (default: "horizontal")
     * **input** *(required)*: list of groups of input files, each group sharing the same prefix; each group consists of:
 
