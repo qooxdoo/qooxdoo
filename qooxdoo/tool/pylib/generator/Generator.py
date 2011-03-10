@@ -580,7 +580,11 @@ class Generator(object):
             script = Script()
             script.classesObj = self._classesObj.values()
             variantData = getVariants("variants")
-            variantSets = util.computeCombinations(variantData)
+            environData = getVariants("environment") 
+            # for the time being, lets merge variant and environment data, putting
+            # environData last so it overrules
+            combiData   = dict(j for i in (variantData, environData) for j in i.iteritems())
+            variantSets = util.computeCombinations(combiData)
             script.variants = variantSets[0] 
             script.libraries = self._libraries
             script.namespace = self.getAppName()
