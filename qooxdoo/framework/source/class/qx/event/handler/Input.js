@@ -281,7 +281,7 @@ qx.Class.define("qx.event.handler.Input",
       {
         if (type === "input")
         {
-          this.__registerInputListener(target);
+          this.__unregisterInputListener(target);
         }
         else if (type === "change")
         {
