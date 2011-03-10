@@ -28,50 +28,52 @@ qx.Class.define("demobrowser.demo.bom.Client",
       this.base(arguments);
 
       var output = new qx.util.StringBuilder();
+
+
+      // SYNC CHECKS
+
+      output.add("<h2>Synchronous checks</h2>");
       output.add("<table border='0'>");
 
-      var classes = [
-        qx.bom.client.Engine,
-        qx.bom.client.Browser,
-        qx.bom.client.Version,
-        qx.bom.client.System,
-        qx.bom.client.Platform,
-        qx.bom.client.Feature,
-        qx.bom.client.Locale,
-        qx.bom.client.Flash
-      ];
-
-      for (var i = 0; i < classes.length; i++)
+      // this should not be used directly. Its just to show all added checks
+      var checks = qx.core.Environment._checks;
+      
+      var lastPrefix = "";
+      for (var key in checks)
       {
-        output.add("<tr><td colspan='2'><b>", classes[i].classname, "</b></td></tr>");
-        for (var key in classes[i])
-        {
-          if (/^[A-Z_0-9]+$/.test(key)) {
-            output.add("<tr><td>", key, "</td><td>",
-              new String(classes[i][key]).toString(), "</td></tr>");
-          }
+        var prefix = key.split(".")[0];
+        
+        if (prefix != lastPrefix) {
+          lastPrefix = prefix;
+          output.add("<tr><td colspan='2'>&nbsp;</td></tr>");
+          output.add("<tr><td colspan='2'><b>" + prefix + "</b></td></tr>");
         }
-        output.add("<tr><td colspan='2'>&nbsp;</td></tr>");
+        
+        output.add("<tr><td>", key, "</td><td>",
+          qx.core.Environment.get(key), "</td></tr>");
       }
 
-      var multimedia = qx.bom.client.Multimedia;
-      var plugins = [
-        "quicktime",
-        "wmv",
-        "divx",
-        "silverlight"
-      ];
+      
+      // ASYNC CHECKS
 
-      output.add("<tr><td colspan='2'><b>", multimedia.classname, "</b></td></tr>");
-      for (var i = 0; i < plugins.length; i++)
+      output.add("<tr><td colspan='2'><h2>Asynchronous checks</h2></td></tr>");
+
+      // this should not be used directly. Its just to show all added checks
+      var checks = qx.core.Environment._asyncChecks;
+      var numberOfChecks = qx.lang.Object.getLength(checks);
+      for (var key in checks)
       {
-        output.add("<tr><td>", plugins[i], "</td><td>",
-              multimedia.has(plugins[i]), "</td></tr>");
-      }
-      output.add("</table>");
+        qx.core.Environment.getAsync(key, function(result) {
+          output.add("<tr><td>", this, "</td><td>", result, "</td></tr>");
+          numberOfChecks--;
+          if (numberOfChecks === 0) {
+            output.add("</table>");
 
-      var isle = document.getElementById("output");
-      isle.innerHTML = output.get();
+            var isle = document.getElementById("output");
+            isle.innerHTML = output.get();
+          }
+        }, key);
+      }
     }
   }
 });
