@@ -145,13 +145,12 @@ class Job(object):
                 if isinstance(entry, types.StringTypes):
                     if Key.hasMacro(entry):
                         entry = letObj.expandMacros(entry)
-                # cyclic check: have we seen this already?
-                if entry in entryTrace:
-                    raise RuntimeError, "Extend entry already seen: %s" % str(entryTrace+[self.name,entry])
                 
                 entryJob = self._getJob(entry, config)
                 if not entryJob:
                     raise RuntimeError, "No such job: \"%s\" (trace: %s)" % (entry, entryTrace+[self.name])
+                if entryJob.name in entryTrace: # cycle check
+                    raise RuntimeError, "Extend entry already seen: %s" % str(entryTrace+[self.name, entryJob.name])
 
                 self._console.debug('Including "%s" into "%s"' % (entryJob.name, self.name))
                 # make sure this entry job is fully resolved in its context
