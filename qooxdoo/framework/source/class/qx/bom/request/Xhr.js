@@ -17,6 +17,13 @@
 
 ************************************************************************ */
 
+/**
+ * A wrapper of the XMLHttpRequest host object (or equivalent).
+ *
+ * Hides browser inconsistencies and works around bugs found in popular
+ * implementations. Follows the interface described in
+ * <a href="http://www.w3.org/TR/XMLHttpRequest/">XmlHttpRequest Level 1</a>.
+ */
 qx.Bootstrap.define("qx.bom.request.Xhr",
 {
 
@@ -50,25 +57,36 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     */
 
     /**
-    * {Number} Ready state.
-    *
-    * States can be:
-    * UNSENT:           0,
-    * OPENED:           1,
-    * HEADERS_RECEIVED: 2,
-    * LOADING:          3,
-    * DONE:             4
-    */
+     * {Number} Ready state.
+     *
+     * States can be:
+     * UNSENT:           0,
+     * OPENED:           1,
+     * HEADERS_RECEIVED: 2,
+     * LOADING:          3,
+     * DONE:             4
+     */
     readyState: null,
 
     /**
-    *
-    */
+     * The response of the request as text.
+     */
     responseText: "",
 
     /**
-    *
-    */
+     * Initialize (prepare) a request.
+     *
+     * @param method {String}
+     *        The HTTP method to use, either "GET" or "POST"
+     * @param url {String}
+     *        The URL to which to send the request.
+     * @param async {Boolean?false}
+     *        Whether or not to perform the operation asynchronously.
+     * @param user {String?null}
+     *        Optional user name to use for authentication purposes.
+     * @param password {String?null}
+     *        Optional password to use for authentication purposes.
+     */
     open: function(method, url, async, user, password) {
       if (typeof async == "undefined") {
         async = true;
@@ -76,13 +94,26 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__nativeXhr.open(method, url, async, user, password);
     },
 
+    /**
+    * Sets the value of an HTTP request header.
+    *
+    * Note: The request must be initialized before using this method.
+    *
+    * @param header {String}
+    *        The name of the header whose value is to be set.
+    * @param value {String}
+    *        The value to set as the body of the header.
+    */
     setRequestHeader: function(header, value) {
       this.__nativeXhr.setRequestHeader(header, value);
     },
 
     /**
-    *
-    */
+     * Sends the request.
+     *
+     * @param data {String|Document?null}
+     *        Optional data to send.
+     */
     send: function(data) {
       // BUGFIX: Firefox 2
       // "NS_ERROR_XPC_NOT_ENOUGH_ARGS" when calling send() without arguments
@@ -92,20 +123,34 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     },
 
     /**
-    * Event handler for an event that fires at every state change.
-    *
-    * This method needs to be overwritten by the user to get
-    * informed about the communication progress.
-    */
+     * Event handler for an event that fires at every state change.
+     *
+     * Override this method to get informed about the communication progress.
+     */
     onreadystatechange: function() {},
 
+    /**
+     * Get a single response header.
+     *
+     * @param  header {String}
+     *         Key of the header to get the value from.
+     * @return {String}
+     *         Response header.
+     */
     getResponseHeader: function(header) {
       return this.__nativeXhr.getResponseHeader(header);
     },
 
+    /**
+     * Get all response headers.
+     *
+     * @return {String} All response headers.
+     */
     getAllResponseHeaders: function() {
       return this.__nativeXhr.getAllResponseHeaders();
     },
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -114,11 +159,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     */
 
     /**
-    * Get native XHR.
-    *
-    * Can be XMLHttpRequest or ActiveX.
-    *
-    */
+     * Get native XMLHttpRequest (or equivalent).
+     *
+     * Can be XMLHttpRequest or ActiveX.
+     *
+     */
     _getNativeXhr: function() {
       return this.__nativeXhr;
     },
@@ -132,22 +177,25 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     */
 
     /**
-    * XMLHttpRequest or equivalent.
-    */
+     * XMLHttpRequest or equivalent.
+     */
     __nativeXhr: null,
 
     /**
-    *
-    * @return {Object} XMLHttpRequest or equivalent.
-    */
+     * Create XMLHttpRequest (or equivalent).
+     *
+     * @return {Object} XMLHttpRequest or equivalent.
+     */
     __createNativeXhr: function() {
       return qx.core.Environment.get("io.xhr") ? new XMLHttpRequest() : new window.ActiveXObject("Microsoft.XMLHTTP");
     },
 
     /**
-    * Call user-defined function onreadystatechange on state change and
-    * sync readyState.
-    */
+     * Handle native onreadystatechange.
+     *
+     * Calls user-defined function onreadystatechange on each
+     * state change and syncs the readyState property.
+     */
     __handleReadyStateChange: function() {
 
       // BUGFIX: IE
