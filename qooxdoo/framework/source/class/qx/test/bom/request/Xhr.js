@@ -84,7 +84,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // open()
     //
 
-    "test: should prepare request": function() {
+    "test: should open request": function() {
       var fakeReq = this.getFakeReq();
       this.spy(fakeReq, "open");
 
@@ -95,7 +95,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertCalledWith(fakeReq.open, method, url);
     },
 
-    "test: should prepare async request on default": function() {
+    "test: should open async request on default": function() {
       var fakeReq = this.getFakeReq();
       this.spy(fakeReq, "open");
 
@@ -103,7 +103,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertTrue(fakeReq.open.args[0][2], "async must be true");
     },
 
-    "test: should prepare sync request": function() {
+    "test: should open sync request": function() {
       var fakeReq = this.getFakeReq();
       this.spy(fakeReq, "open");
 
@@ -111,7 +111,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertFalse(fakeReq.open.args[0][2], "async must be false");
     },
 
-    "test: should prepare request with username and password": function() {
+    "test: should open request with username and password": function() {
       var fakeReq = this.getFakeReq();
       this.spy(fakeReq, "open");
 
