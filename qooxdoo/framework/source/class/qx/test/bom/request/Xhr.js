@@ -121,6 +121,21 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     //
+    // setRequestHeader()
+    //
+
+    "test: should set request header": function() {
+      var fakeReq = this.getFakeReq();
+      this.spy(fakeReq, "setRequestHeader");
+
+      // Request must be opened before request headers can be set
+      this.req.open();
+
+      this.req.setRequestHeader("header", "value");
+      this.assertCalledWith(fakeReq.setRequestHeader, "header", "value");
+    },
+
+    //
     // send()
     //
 

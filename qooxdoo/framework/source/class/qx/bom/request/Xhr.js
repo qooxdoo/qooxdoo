@@ -76,6 +76,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__nativeXhr.open(method, url, async, user, password);
     },
 
+    setRequestHeader: function(header, value) {
+      this.__nativeXhr.setRequestHeader(header, value);
+    },
+
     /**
     *
     */
