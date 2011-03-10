@@ -804,7 +804,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
     __isRuleForWildcard : function(rule,wildcardChar,wildcardSize)
     {
-      if(wildcardChar==='y' && wildcardSize>2 && rule.pattern==='y+')
+      if(wildcardChar==='y' && rule.pattern==='y+')
       {
         rule.regex = rule.regexFunc(wildcardSize);
         return true;
@@ -930,20 +930,6 @@ qx.Class.define("qx.util.format.DateFormat",
 
       rules.push(
       {
-        pattern     : "y",
-        regex       : "(\\d+?)",
-        manipulator : yearManipulator
-      });
-
-      rules.push(
-      {
-        pattern     : "yy",
-        regex       : "(\\d\\d)",
-        manipulator : yearManipulator
-      });
-
-      rules.push(
-      {
         pattern     : "y+",
         regexFunc       : function(yNumber)
           {
@@ -951,7 +937,7 @@ qx.Class.define("qx.util.format.DateFormat",
             for(var i=0;i<yNumber;i++)
             {
               regex += "\\d";
-              if(i===yNumber-1) {
+              if(i===yNumber-1 && i!==1) {
                 regex += "+?";
               }
             }
