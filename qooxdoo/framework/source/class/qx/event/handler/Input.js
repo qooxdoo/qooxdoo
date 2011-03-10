@@ -161,7 +161,7 @@ qx.Class.define("qx.event.handler.Input",
       if (
         qx.bom.client.Engine.MSHTML && 
         qx.bom.client.Engine.VERSION < 9 && 
-        qx.bom.client.Engine.VERSION.DOCUMENT_MODE < 9
+        qx.bom.client.Engine.DOCUMENT_MODE < 9
       )
       {
         if (!target.__inputHandlerAttached)
@@ -217,7 +217,7 @@ qx.Class.define("qx.event.handler.Input",
       {
         if (
           qx.bom.client.Engine.VERSION >= 9 && 
-          qx.bom.client.Engine.VERSION.DOCUMENT_MODE >= 9
+          qx.bom.client.Engine.DOCUMENT_MODE >= 9
         ) {
           qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
         }
@@ -258,7 +258,7 @@ qx.Class.define("qx.event.handler.Input",
       if (
         qx.bom.client.Engine.MSHTML && 
         qx.bom.client.Engine.VERSION < 9 && 
-        qx.bom.client.Engine.VERSION.DOCUMENT_MODE < 9
+        qx.bom.client.Engine.DOCUMENT_MODE < 9
       )
       {
         if (target.__inputHandlerAttached)
@@ -318,7 +318,7 @@ qx.Class.define("qx.event.handler.Input",
       {
         if (
           qx.bom.client.Engine.VERSION >= 9 && 
-          qx.bom.client.Engine.VERSION.DOCUMENT_MODE >= 9
+          qx.bom.client.Engine.DOCUMENT_MODE >= 9
         ) {
           qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
         }
