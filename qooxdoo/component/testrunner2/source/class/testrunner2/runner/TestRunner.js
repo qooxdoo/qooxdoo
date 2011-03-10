@@ -175,7 +175,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       this.loader = new qx.dev.unit.TestLoaderInline();
       this.loader.setTestNamespace(nameSpace);
       this.__wrapAssertions();
-      this.__getTestData();
+      this.__getTestModel();
     },
     
     
