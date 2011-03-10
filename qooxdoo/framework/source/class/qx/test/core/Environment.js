@@ -92,6 +92,19 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("io.ssl"));
     },
 
+    testIOXhr : function() {
+      var xhr = qx.core.Environment.get("io.xhr");
+      
+      var engine = qx.core.Environment.get("engine.name");
+      var version = qx.core.Environment.get("engine.version");
+
+      if (engine == "mshtml" && version < 8) {
+        this.assertFalse(xhr);
+      } else {
+        this.assertTrue(xhr);
+      }
+    },
+
     testHtml : function() {
       // just make sure the call is working
       this.assertBoolean(qx.core.Environment.get("html.webworker"));

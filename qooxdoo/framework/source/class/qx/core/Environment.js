@@ -242,6 +242,9 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("io.ssl")) {
         this._checks["io.ssl"] = qx.bom.client.Transport.getSSL;
       }
+      if (this.useCheck("io.xhr")) {
+        this._checks["io.xhr"] = qx.bom.client.Transport.getXmlHttpRequest;
+      }
 
       // /////////////////////////////////////////
       // EVENTS
