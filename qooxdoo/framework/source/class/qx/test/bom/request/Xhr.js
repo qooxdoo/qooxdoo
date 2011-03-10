@@ -80,6 +80,10 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertNotNull(nativeXhr.readyState);
     },
 
+    //
+    // open()
+    //
+
     "test: should prepare request": function() {
       var fakeReq = this.getFakeReq();
       this.spy(fakeReq, "open");
@@ -116,6 +120,10 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertEquals("geheim", fakeReq.open.args[0][4], "Unexpected password");
     },
 
+    //
+    // send()
+    //
+
     // BUGFIX
     "test: should send request without data": function() {
       var fakeReq = this.getFakeReq();
@@ -137,6 +145,10 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
       this.assertCalledWith(fakeReq.send, data);
     },
+
+    //
+    // onreadystatechange()
+    //
 
     "test: should call onreadystatechange on change of readyState": function() {
       var fakeReq = this.getFakeReq();
@@ -166,6 +178,10 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertCalledOnce(req.onreadystatechange);
     },
 
+    //
+    // readyState
+    //
+
     "test: should set readyState appropriate to native readyState": function() {
       var req = this.req;
       var fakeReq = this.getFakeReq();
@@ -182,6 +198,10 @@ qx.Class.define("qx.test.bom.request.Xhr",
       fakeReq.respond(this.constructor.DONE);
       this.assertEquals(this.constructor.DONE, req.readyState);
     },
+
+    //
+    // responseText
+    //
 
     "test: responseText should be empty string when OPEN": function() {
       this.req.open("GET", "/affe");
