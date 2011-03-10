@@ -159,8 +159,8 @@ qx.Class.define("qx.event.handler.Input",
     registerEvent : function(target, type, capture)
     {
       if (
-        qx.core.Environment.get("browser.name") == "mshtml" && 
-        qx.core.Environment.get("browser.version") < 9 && 
+        qx.core.Environment.get("engine.name") == "mshtml" && 
+        qx.core.Environment.get("engine.version") < 9 && 
         qx.core.Environment.get("browser.documentmode") < 9
       )
       {
@@ -248,9 +248,9 @@ qx.Class.define("qx.event.handler.Input",
     unregisterEvent : function(target, type)
     {
       if (
-          qx.core.Environment.get("browser.name") == "mshtml" && 
-          qx.core.Environment.get("browser.version") < 9 && 
-          qx.core.Environment.get("browser.documentmode") < 9
+        qx.core.Environment.get("engine.name") == "mshtml" && 
+        qx.core.Environment.get("engine.version") < 9 && 
+        qx.core.Environment.get("browser.documentmode") < 9
       )
       {
         if (target.__inputHandlerAttached)
