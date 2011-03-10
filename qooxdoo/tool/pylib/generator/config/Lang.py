@@ -61,6 +61,7 @@ class Key(object):
                 "copy-resources"   : types.DictType,
                 "dependencies"  : types.DictType,
                 "desc"          : types.StringTypes,
+                "environment"   : types.DictType,
                 "exclude"       : types.ListType,
                 EXTEND_KEY      : types.ListType,
                 "fix-files"     : types.DictType,

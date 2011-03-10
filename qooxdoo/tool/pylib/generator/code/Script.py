@@ -36,6 +36,7 @@ class Script(object):
         self.classesObj = []   # temp. alternative list of class objects, [generator.code.Class, ...]
         self.jobconfig  = None # Job() config object
         self.variants   = []
+        self.envsettings= {}
         self.parts      = {}   # parts defined by the configuration (if any); {part.name : part}
         self.packages   = []   # .js files for this application / library;  {package.id : package}
         self.boot       = "boot"

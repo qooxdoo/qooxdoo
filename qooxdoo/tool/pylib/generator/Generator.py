@@ -604,6 +604,7 @@ class Generator(object):
             script           = Script()  # a new Script object represents the target code
             script.namespace = self.getAppName()
             script.variants  = variants
+            script.envsettings = config.get("environment", {})
             script.libraries = self._libraries
             script.jobconfig = self._job
             # set source/build version
