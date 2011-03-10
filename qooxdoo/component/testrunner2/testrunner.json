@@ -192,7 +192,7 @@
         "qx.application"   : "${APPLICATION_MAIN_CLASS}",
         "qx.version"       : "${QOOXDOO_VERSION}",
         "qx.revision"      : "${QOOXDOO_REVISION}",
-        "qx.testNameSpace" : "${APPLICATION}.test",
+        "qx.testNameSpace" : "${TEST_NAMESPACE}",
         "testrunner2.title" : "${APPLICATION}",
         "testrunner2.reportServer" : "${REPORT_SERVER}"
       },
