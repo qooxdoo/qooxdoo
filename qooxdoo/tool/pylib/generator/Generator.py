@@ -345,10 +345,10 @@ class Generator(object):
 
         ##
         # Get the variants from the config
-        def getVariants():
+        def getVariants(confkey):
             # TODO: Runtime variants support is currently missing
             variants = {}
-            variantsConfig = self._job.get("variants", {})
+            variantsConfig = self._job.get(confkey, {})
             variantsRuntime = self._variants
 
             for key in variantsConfig:
@@ -579,7 +579,7 @@ class Generator(object):
         if takeout(jobTriggers, "provider"):
             script = Script()
             script.classesObj = self._classesObj.values()
-            variantData = getVariants()
+            variantData = getVariants("variants")
             variantSets = util.computeCombinations(variantData)
             script.variants = variantSets[0] 
             script.libraries = self._libraries
@@ -594,17 +594,21 @@ class Generator(object):
         self._treeCompiler   = TreeCompiler(self._classes, self._classesObj, self._context)
 
         # Processing all combinations of variants
-        variantData = getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
-        variantSets = util.computeCombinations(variantData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
-        for variantSetNum, variants in enumerate(variantSets):
+        variantData = getVariants("variants")  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
+        environData = getVariants("environment") 
+        # for the time being, lets merge variant and environment data, putting
+        # environData last so it overrules
+        combiData   = dict(j for i in (variantData, environData) for j in i.iteritems())
+        variantSets  = util.computeCombinations(combiData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
+        for variantSetNum, variantset in enumerate(variantSets):
 
             # some console output
-            printVariantInfo(variantSetNum, variants, variantSets, variantData)
+            printVariantInfo(variantSetNum, variantset, variantSets, combiData)
 
             script           = Script()  # a new Script object represents the target code
             script.namespace = self.getAppName()
-            script.variants  = variants
-            script.envsettings = config.get("environment", {})
+            script.variants  = variantset
+            script.envsettings = variantset
             script.libraries = self._libraries
             script.jobconfig = self._job
             # set source/build version
@@ -615,11 +619,11 @@ class Generator(object):
 
             # get current class list
             script.classes = computeClassList(includeWithDeps, excludeWithDeps, 
-                               includeNoDeps, excludeNoDeps, variants, script=script, verifyDeps=True)
+                               includeNoDeps, excludeNoDeps, variantset, script=script, verifyDeps=True)
               # keep the list of class objects in sync
             script.classesObj = [self._classesObj[id] for id in script.classes]
 
-            featureMap = self._depLoader.registerDependeeFeatures(script.classesObj, variants, script.buildType)
+            featureMap = self._depLoader.registerDependeeFeatures(script.classesObj, variantset, script.buildType)
             self._treeCompiler._featureMap = featureMap
 
             # prepare 'script' object
