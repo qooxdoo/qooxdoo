@@ -107,6 +107,15 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertFalse(fakeReq.open.args[0][2], "async must be false");
     },
 
+    "test: should prepare request with username and password": function() {
+      var fakeReq = this.getFakeReq();
+      this.spy(fakeReq, "open");
+
+      this.req.open(null, null, null, "affe", "geheim");
+      this.assertEquals("affe", fakeReq.open.args[0][3], "Unexpected user");
+      this.assertEquals("geheim", fakeReq.open.args[0][4], "Unexpected password");
+    },
+
     // BUGFIX
     "test: should send request without data": function() {
       var fakeReq = this.getFakeReq();
