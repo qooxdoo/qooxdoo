@@ -149,7 +149,12 @@ qx.Bootstrap.define("qx.bom.client.Browser",
         version = RegExp.$2;
       }
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        // Use the Engine version, because the IE8 and higher change the user agent
+        // string to a older version in compatibility mode
+        version = qx.bom.client.Engine.getVersion();
+
         if (name === "msie" && qx.bom.client.OperatingSystem.getVersion() == "ce") {
           // Fix IE mobile before Microsoft added IEMobile string
           version = "5.0";
