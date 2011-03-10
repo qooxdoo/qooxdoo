@@ -213,7 +213,15 @@ qx.Class.define("qx.event.handler.Input",
 
     __registerInputListener : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : null,
+      "mshtml" : function(target)
+      {
+        if (
+          qx.core.Environment.get("engine.version") >= 9 && 
+          qx.core.Environment.get("browser.documentmode") >= 9
+        ) {
+          qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
+        }
+      },
 
       "webkit" : function(target)
       {
@@ -306,7 +314,15 @@ qx.Class.define("qx.event.handler.Input",
 
     __unregisterInputListener : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : null,
+      "mshtml" : function(target)
+      {
+        if (
+          qx.core.Environment.get("engine.version") >= 9 && 
+          qx.core.Environment.get("browser.documentmode") >= 9
+        ) {
+          qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
+        }
+      },
 
       "webkit" : function(target)
       {
