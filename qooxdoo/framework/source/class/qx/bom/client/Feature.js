@@ -22,7 +22,7 @@
  * This class comes with all relevant information regarding
  * the client's implemented features.
  *
- * @deprecated sinde 1.4: Please use qx.core.Environment to access all feature
+ * @deprecated since 1.4: Please use qx.core.Environment to access all feature
  * checks.
  */
 qx.Bootstrap.define("qx.bom.client.Feature",
