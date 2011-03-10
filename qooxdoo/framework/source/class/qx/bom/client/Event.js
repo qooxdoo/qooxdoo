@@ -52,8 +52,12 @@ qx.Bootstrap.define("qx.bom.client.Event",
       if ("pointerEvents" in document.documentElement.style) {
         // Opera 10.63 incorrectly advertises support for CSS pointer events (#4229).
         // Do not rely on pointer events in Opera until this browser issue is fixed.
-        return qx.bom.client.Engine.getName() != "opera";
+        // IE9 only supports pointer events only for SVG.
+        // See http://msdn.microsoft.com/en-us/library/ff972269%28v=VS.85%29.aspx
+        var browserName = qx.bom.client.Engine.getName(); 
+        return browserName != "opera" && browserName != "mshtml";
       }
+      return false;
     }
   }
 });
