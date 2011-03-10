@@ -151,7 +151,16 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       event : "changeSkippedTestCount"
     },
     
+    /** Reload the test suite before running the selected tests */
     autoReload :
+    {
+      check :"Boolean",
+      init : false
+    },
+    
+    /** Reload after running each package in the qx.test namespace (Workaround 
+     * for qooxdoo bug #4257) */
+    reloadAfterEachPackage :
     {
       check :"Boolean",
       init : false
@@ -189,6 +198,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     __selectedTestField : null,
     __statusField : null,
     __lastAutoRunItemName : null,
+    __autoReloadActive : false,
     
     /**
      * Returns the iframe element the AUT should be loaded in.
@@ -315,7 +325,17 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       toolbar.add(part3);
 
       var autoReloadToggle = new qx.ui.toolbar.CheckBox(this.__app.tr("Auto Reload"), "icon/22/actions/system-run.png");
-      autoReloadToggle.bind("value", this, "autoReload");
+      autoReloadToggle.bind("value", this, "autoReload", {
+        converter : function(data)
+        {
+          qx.bom.Cookie.set("testrunner.autoReload", data.toString(), 365);
+          return data
+        }
+      });
+      var autoReloadValue = qx.bom.Cookie.get("testrunner.autoReload");
+      if (autoReloadValue !== null) {
+        autoReloadToggle.setValue(eval(autoReloadValue));
+      }
       part3.add(autoReloadToggle);
       
       part3.add(this.__createLogLevelMenu());
@@ -525,7 +545,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         decorator : "main"
       });
       
-      var leftPaneWidth = qx.bom.Cookie.get("leftPaneWidth");
+      var leftPaneWidth = qx.bom.Cookie.get("testrunner.leftPaneWidth");
       if (leftPaneWidth !== null) {
         container.setWidth(parseInt(leftPaneWidth));
       }
@@ -583,7 +603,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         if (!this.__testTree.isNodeOpen(node)) {
           this.__testTree.openNodeAndParents(node);
         }
-        qx.bom.Cookie.set("selectedTest", node.getFullName());
+        qx.bom.Cookie.set("testrunner.selectedTest", node.getFullName());
       }
     },
     
@@ -628,7 +648,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     __onPaneResize : function(e)
     {
       var pane = this.getUserData("pane");
-      qx.bom.Cookie.set(pane + "PaneWidth", e.getData().width, 365);
+      qx.bom.Cookie.set("testrunner." + pane + "PaneWidth", e.getData().width, 365);
     },
     
     /**
@@ -645,7 +665,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         decorator : "main"
       });
 
-      var centerPaneWidth = qx.bom.Cookie.get("centerPaneWidth");
+      var centerPaneWidth = qx.bom.Cookie.get("testrunner.centerPaneWidth");
       if (centerPaneWidth !== null) {
         p1.setWidth(parseInt(centerPaneWidth));
       }
@@ -911,6 +931,18 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         if (selectedTests !== null && selectedTests.length > 0) {
           count = testrunner2.runner.ModelUtil.getItemsByProperty(selectedTests.getItem(0), "type", "test").length;
           selectedName = this.getSelectedTests().getItem(0).getFullName();
+          
+          // Prevent qooxdoo's framework tests from being executed all in one go.
+          // If the top node is selected, select the first child instead to
+          // enable the reloadAfterEachPackage feature
+          if (selectedName == "qx") {
+            var firstChild = selectedTests.getItem(0).getChildren().getItem(0);
+            this.getSelectedTests().removeAll();
+            this.getSelectedTests().push(firstChild);
+          }
+          if (selectedName == "qx.test") {
+            this.setReloadAfterEachPackage(true);
+          }
         }
         this.__selectedTestField.setValue(selectedName);
         this.__testCountField.setValue(count.toString());
@@ -942,7 +974,8 @@ qx.Class.define("testrunner2.view.widget.Widget", {
           this.setStatus("Test suite ready");
           this._setActiveButton(this.__runButton);
           this._applyTestCount(this.getTestCount());
-          if (this.getAutoReload() && this.__lastAutoRunItemName) {
+          if ( (this.getReloadAfterEachPackage() && this.__lastAutoRunItemName) 
+              || (this.getAutoReload() && this.__autoReloadActive == true) ) {
             this.fireEvent("runTests");
           }
           else {
@@ -960,7 +993,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
           this.setStatus("Test suite finished.");
           this._setActiveButton(this.__runButton);
           
-          if (this.getAutoReload()) {
+          if (this.getReloadAfterEachPackage()) {
             if (this.__lastAutoRunItemName) {
               var lastAutoRunItem = testrunner2.runner.ModelUtil.getItemByFullName(this.getTestModel(), this.__lastAutoRunItemName);
             }
@@ -980,6 +1013,9 @@ qx.Class.define("testrunner2.view.widget.Widget", {
               this.__lastAutoRunItemName = null;
             }
           }
+          else if (this.getAutoReload() && this.__autoReloadActive == true) {
+            this.__autoReloadActive = false;
+          }
           break;
         case "aborted" :
           this.setStatus("Test run stopped");
@@ -995,7 +1031,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         this.__testTree.setModel(model);
         this.__testTree.openNode(model.getChildren().getItem(0));
                 
-        var cookieSelection = qx.bom.Cookie.get("selectedTest");
+        var cookieSelection = qx.bom.Cookie.get("testrunner.selectedTest");
         if (cookieSelection) {
           var found = testrunner2.runner.ModelUtil.getItemByFullName(model, cookieSelection);
           if (found) {
@@ -1056,7 +1092,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
      */
     __runTests : function()
     {
-      if (this.getAutoReload()) {
+      if (this.getReloadAfterEachPackage()) {
         if (!this.__lastAutoRunItemName) {
           var selection = this.getSelectedTests().getItem(0);
           if (selection.getChildren && selection.getChildren().length > 1) {
@@ -1066,6 +1102,11 @@ qx.Class.define("testrunner2.view.widget.Widget", {
             this.getSelectedTests().push(firstChild);
           }
         }
+      }
+      else if (this.getAutoReload()) {
+        this.__autoReloadActive = true;
+        this.__reloadAut();
+        return;
       }
       else {
         this.reset();
@@ -1078,6 +1119,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
      */
     __stopTests : function()
     {
+      this.setReloadAfterEachPackage(false);
       this.fireEvent("stopTests");
     },
     
