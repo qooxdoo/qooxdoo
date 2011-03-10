@@ -162,6 +162,11 @@
       "compile" : { "type" : "source" }
     },
     
+    "source-inline-script" :
+    {
+      "extend" : ["source-script", "tests-common"]
+    },
+    
     "testrunner2-common" :
     {
       "library" :
@@ -301,6 +306,21 @@
       [
         "source-script",
         "source-tests-script"
+      ]
+    },
+    
+    "source-inline" :
+    {
+      "desc" : "Generates source versions of the Test Runner and the AUT",
+      
+      "let" :
+      {
+        "TESTRUNNER_ORIGIN" : "inline"
+      },
+      
+      "run" :
+      [
+        "source-inline-script"
       ]
     },
     
