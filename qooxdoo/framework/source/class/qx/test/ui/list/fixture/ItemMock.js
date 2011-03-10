@@ -13,23 +13,34 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Christian Hagendorn (chris_schmidt)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.list.fixture.ItemMock",
+qx.Class.define("qx.test.bom.client.Feature", 
 {
-  extend : qx.core.Object,
+  extend : qx.test.ui.LayoutTestCase,
 
-  properties :
+  members :
   {
-    name :
-    {
-      event : "changeName"
+    testDataImages : function() {
+      if (
+        qx.bom.client.Browser.NAME == "ie" && 
+        qx.bom.client.Browser.VERSION < 8 && 
+        qx.bom.client.Engine.DOCUMENT_MODE < 8
+      ) {
+        this.assertFalse(qx.bom.client.Feature.DATA_URL);
+      } else {
+        this.assertTrue(qx.bom.client.Feature.DATA_URL);
+      }
     },
 
-    group :
-    {
-      event : "changeGroup"
+    testXmlHttpRequest : function() {
+      if (qx.bom.client.Engine.MSHTML &&
+          qx.bom.client.Browser.VERSION < 8) {
+        this.assertFalse(qx.bom.client.Feature.XML_HTTP_REQUEST);
+      } else {
+        this.assertTrue(qx.bom.client.Feature.XML_HTTP_REQUEST);
+      }
     }
   }
 });
