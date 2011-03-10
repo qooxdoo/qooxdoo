@@ -156,12 +156,13 @@ qx.Class.define("qx.event.handler.Input",
 
 
     // interface implementation
-    /**
-     * @signature function(target, type, capture)
-     */
-    registerEvent : qx.core.Variant.select("qx.client",
+    registerEvent : function(target, type, capture)
     {
-      "mshtml" : function(target, type, capture)
+      if (
+        qx.core.Environment.get("browser.name") == "mshtml" && 
+        qx.core.Environment.get("browser.version") < 9 && 
+        qx.core.Environment.get("browser.documentmode") < 9
+      )
       {
         if (!target.__inputHandlerAttached)
         {
@@ -183,9 +184,8 @@ qx.Class.define("qx.event.handler.Input",
 
           target.__inputHandlerAttached = true;
         }
-      },
-
-      "default" : function(target, type, capture)
+      }
+      else
       {
         if (type === "input")
         {
@@ -206,10 +206,9 @@ qx.Class.define("qx.event.handler.Input",
               qx.bom.Event.addNativeListener(target, "keypress", this._onKeyPressWrapped);
             }
           }
-
         }
       }
-    }),
+    },
 
 
     __registerInputListener : qx.core.Variant.select("qx.client",
@@ -246,12 +245,13 @@ qx.Class.define("qx.event.handler.Input",
 
 
     // interface implementation
-    /**
-     * @signature function(target, type)
-     */
-    unregisterEvent : qx.core.Variant.select("qx.client",
+    unregisterEvent : function(target, type)
     {
-      "mshtml" : function(target, type)
+      if (
+          qx.core.Environment.get("browser.name") == "mshtml" && 
+          qx.core.Environment.get("browser.version") < 9 && 
+          qx.core.Environment.get("browser.documentmode") < 9
+      )
       {
         if (target.__inputHandlerAttached)
         {
@@ -276,9 +276,8 @@ qx.Class.define("qx.event.handler.Input",
             target.__inputHandlerAttached = null;
           }
         }
-      },
-
-      "default" : function(target, type)
+      }
+      else
       {
         if (type === "input")
         {
@@ -302,7 +301,7 @@ qx.Class.define("qx.event.handler.Input",
           }
         }
       }
-    }),
+    },
 
 
     __unregisterInputListener : qx.core.Variant.select("qx.client",
