@@ -105,7 +105,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
 
-    invalidateCache : function(key) {
+    invalidateCacheKey : function(key) {
       delete this.__cache[key];
     },
 
