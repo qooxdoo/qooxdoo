@@ -593,7 +593,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     /**
      * Open a selected node
      * 
-     * @param {qx.event.type.Data} Data event containing the selection
+     * @param ev {qx.event.type.Data} Data event containing the selection
      */
     _onChangeTestSelection : function(ev)
     {
