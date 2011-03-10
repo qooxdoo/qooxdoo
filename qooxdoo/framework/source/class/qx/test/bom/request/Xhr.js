@@ -91,6 +91,22 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertCalledWith(fakeReq.open, method, url);
     },
 
+    "test: should prepare async request on default": function() {
+      var fakeReq = this.getFakeReq();
+      this.spy(fakeReq, "open");
+
+      this.req.open(null, null);
+      this.assertTrue(fakeReq.open.args[0][2], "async must be true");
+    },
+
+    "test: should prepare sync request": function() {
+      var fakeReq = this.getFakeReq();
+      this.spy(fakeReq, "open");
+
+      this.req.open(null, null, false);
+      this.assertFalse(fakeReq.open.args[0][2], "async must be false");
+    },
+
     // BUGFIX
     "test: should send request without data": function() {
       var fakeReq = this.getFakeReq();

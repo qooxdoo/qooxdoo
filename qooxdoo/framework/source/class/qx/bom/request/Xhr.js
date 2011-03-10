@@ -69,8 +69,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     /**
     *
     */
-    open: function(method, url) {
-      this.__nativeXhr.open(method, url);
+    open: function(method, url, async) {
+      if (typeof async == "undefined") {
+        async = true;
+      }
+      this.__nativeXhr.open(method, url, async);
     },
 
     /**
