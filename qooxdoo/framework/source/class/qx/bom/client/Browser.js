@@ -164,13 +164,13 @@ qx.Bootstrap.define("qx.bom.client.Browser",
      * Returns in which document mode the current document is (only for IE).
      * 
      * @internal
-     * @return {String} The mode in which the browser is.
+     * @return {Number} The mode in which the browser is.
      */
     getDocumentMode : function() {      
       if (document.documentMode) {
-        return document.documentMode + "";
+        return document.documentMode;
       }
-      return "";
+      return 0;
     },
 
 
@@ -181,16 +181,13 @@ qx.Bootstrap.define("qx.bom.client.Browser",
      * @return {Boolean} <code>true</code>, if the environemt is in quirks mode
      */
     getQuirksMode : function() {
-      var quirks;
       if(qx.bom.client.Engine.getName() == "mshtml" && 
-        parseFloat(qx.bom.client.Engine.getVersion()) >= 8
-      ) {
-        quirks = qx.bom.client.Engine.DOCUMENT_MODE === 5;
+        parseFloat(qx.bom.client.Engine.getVersion()) >= 8) 
+      {
+        return qx.bom.client.Engine.DOCUMENT_MODE === 5;
       } else {
-        quirks = document.compatMode !== "CSS1Compat";
+        return document.compatMode !== "CSS1Compat";
       }
-      
-      return quirks;
     },
 
 
