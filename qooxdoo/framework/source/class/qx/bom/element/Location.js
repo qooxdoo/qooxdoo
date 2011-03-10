@@ -153,7 +153,7 @@ qx.Class.define("qx.bom.element.Location",
         left -= body.clientLeft + doc.documentElement.clientLeft;
         top -= body.clientTop + doc.documentElement.clientTop;
 
-        if (qx.core.Environment.get("browser.standardmode"))
+        if (!qx.core.Environment.get("browser.quirksmode"))
         {
           left += this.__num(body, "borderLeftWidth");
           top += this.__num(body, "borderTopWidth");

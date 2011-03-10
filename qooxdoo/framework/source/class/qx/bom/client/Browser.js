@@ -195,17 +195,6 @@ qx.Bootstrap.define("qx.bom.client.Browser",
 
 
     /**
-     * Check for standard mode.
-     * 
-     * @internal
-     * @return {Boolean} <code>true</code>, if the environemt is in standard mode
-     */
-    getStandardMode : function() {
-      return !qx.bom.client.Browser.getQuirksMode();
-    },
-
-
-    /**
      * Internal herlper map for picking the right browser names to check.
      */
     __agents : {

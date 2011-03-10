@@ -31,7 +31,7 @@
 \bqx\.bom\.client\.Flash\.STRICT_SECURITY_MODEL\b=qx.core.Environment.get("plugin.flash.express")
 \bqx\.bom\.client\.Flash\.EXPRESSINSTALL\b=qx.core.Environment.get("plugin.flash.strictsecurity")
 
-\bqx\.bom\.client\.Feature\.STANDARD_MODE\b=qx.core.Environment.get("browser.standardmode")
+\bqx\.bom\.client\.Feature\.STANDARD_MODE\b=(!(qx.core.Environment.get("browser.quirksmode")))
 \bqx\.bom\.client\.Feature\.QUIRKS_MODE\b=qx.core.Environment.get("browser.quirksmode")
 \bqx\.bom\.client\.Feature\.CONTENT_BOX\b=(qx.core.Environment.get("css.boxmodel") == "content")
 \bqx\.bom\.client\.Feature\.BORDER_BOX\b=(qx.core.Environment.get("css.boxmodel") == "border")

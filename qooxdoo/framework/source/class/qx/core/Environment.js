@@ -150,9 +150,6 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("browser.documentmode")) {
         this._checks["browser.documentmode"] = qx.bom.client.Browser.getDocumentMode;
       }
-      if (this.useCheck("browser.standardmode")) {
-        this._checks["browser.standardmode"] = qx.bom.client.Browser.getStandardMode;
-      }
       if (this.useCheck("browser.quirksmode")) {
         this._checks["browser.quirksmode"] = qx.bom.client.Browser.getQuirksMode;
       }
