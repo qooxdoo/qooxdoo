@@ -103,6 +103,10 @@ qx.Bootstrap.define("qx.bom.client.Browser",
         {
           name = "ie";
 
+          // Use the Engine version, because the IE8 and higher change the user agent
+          // string to a older version in compatibility mode
+          version = qx.bom.client.Engine.VERSION;
+
           // Fix IE mobile before Microsoft added IEMobile string
           if (qx.bom.client.System.WINCE && name === "ie")
           {
