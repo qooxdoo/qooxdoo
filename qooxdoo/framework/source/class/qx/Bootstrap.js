@@ -163,6 +163,7 @@ qx.Bootstrap = {
  *
  * Does support:
  *
+ * * Construct
  * * Statics
  * * Members
  * * Extend
