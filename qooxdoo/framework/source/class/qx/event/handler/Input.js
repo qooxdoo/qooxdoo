@@ -200,7 +200,7 @@ qx.Class.define("qx.event.handler.Input",
           }
 
           // special enter bugfix for opera
-          if (qx.core.Variant.isSet("qx.client", "opera")) {
+          if (qx.core.Variant.isSet("qx.client", "opera") || qx.core.Variant.isSet("qx.client", "mshtml")) {
             if (target.type === "text" || target.type === "password") {
               this._onKeyPressWrapped = qx.lang.Function.listener(this._onKeyPress, this, target);
               qx.bom.Event.addNativeListener(target, "keypress", this._onKeyPressWrapped);
@@ -303,7 +303,7 @@ qx.Class.define("qx.event.handler.Input",
           }
         }
 
-        if (qx.core.Variant.isSet("qx.client", "opera")) {
+        if (qx.core.Variant.isSet("qx.client", "opera") || qx.core.Variant.isSet("qx.client", "mshtml")) {
           if (target.type === "text" || target.type === "password") {
             qx.bom.Event.removeNativeListener(target, "keypress", this._onKeyPressWrapped);
           }
