@@ -207,7 +207,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
         // commands will cause problems for our paragraph handling.
         //
         // EXCEPTION: this interferes with webkit browsers at indent/outdent.
-        if (!(qx.core.Environment.get("engine.name") == "webkit" && 
+        if (!((qx.core.Environment.get("engine.name") == "webkit") && 
           (command == "indent" || command == "outdent")))
         {
           if (this.__paragraphMissing()) {

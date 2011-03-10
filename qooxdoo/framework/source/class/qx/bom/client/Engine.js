@@ -103,7 +103,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
     /**
      * Returns the version of the engine.
      * 
-     * @return {number} The version number of the current engine.
+     * @return {String} The version number of the current engine.
      * @internal
      */
     getVersion : function() {

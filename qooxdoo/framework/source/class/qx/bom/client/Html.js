@@ -185,7 +185,10 @@ qx.Bootstrap.define("qx.bom.client.Html",
     getDataUrl : function(callback) {
       var data = new Image();
       data.onload = data.onerror = function() {
-        callback.call(null, (data.width == 1 && data.height == 1));
+        // wrap that into a timeout because IE might execute it synchronously
+        window.setTimeout(function() {
+          callback.call(null, (data.width == 1 && data.height == 1));
+        }, 0);
       }
       data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";      
     }

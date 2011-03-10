@@ -149,7 +149,7 @@ qx.Class.define("qx.bom.History",
     SUPPORTS_HASH_CHANGE_EVENT :
       (qx.core.Environment.get("engine.name") == "mshtml" && 
        document.documentMode >= 8) ||
-      (!qx.core.Environment.get("engine.name") == "mshtml" && 
+      (!(qx.core.Environment.get("engine.name") == "mshtml") && 
        document.documentMode && "onhashchange" in window),
 
 
