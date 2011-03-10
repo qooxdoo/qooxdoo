@@ -16,6 +16,8 @@ if (!qx.$$libraries) qx.$$libraries = {};
 var libinfo = %{Libinfo};
 for (var k in libinfo) qx.$$libraries[k] = libinfo[k];
 
+qx.$$environment = %{EnvSettings};
+
 qx.$$resources = %{Resources};
 qx.$$translations = %{Translations};
 qx.$$locales = %{Locales};
