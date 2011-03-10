@@ -36,7 +36,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      */
     getBoxModel : function() {
       var content = qx.bom.client.Engine.getName() !== "mshtml" || 
-        qx.bom.client.Browser.getDocumentMode() == "standard";
+        !qx.bom.client.Browser.getQuirksMode() ;
         
       return content ? "content" : "broder";
     },
