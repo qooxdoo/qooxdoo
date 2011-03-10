@@ -49,7 +49,7 @@
   // specific jobs, or add own job definitions.
 
   /*
-  "jobs" :
+  ,"jobs" :
   {
     // Uncomment the following entry to add a contrib or library to your
     // project; make sure to adapt the path to the Manifest.json; if you are
