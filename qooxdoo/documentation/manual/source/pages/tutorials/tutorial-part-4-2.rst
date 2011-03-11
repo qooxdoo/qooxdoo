@@ -278,7 +278,7 @@ Now to the delegate, just replace the current delegate with this one:
         controller.bindProperty("user.profile_image_url", "icon", null, item, id);
         controller.bindProperty("created_at", "time", {
           converter: function(data) {
-           if (qx.bom.client.Engine.MSHTML) {
+           if (qx.core.Environment.get("engine.name")) {
              data = Date.parse(data.replace(/( \+)/, " UTC$1"));
            }
            return new Date(data);
@@ -309,7 +309,7 @@ In our case the photo and the post need no conversion because the source data an
 ::
 
     converter: function(data) {
-      if (qx.bom.client.Engine.MSHTML) {
+      if (qx.core.Environment.get("engine.name")) {
         data = Date.parse(data.replace(/( \+)/, " UTC$1"));
       }
      return new Date(data);
