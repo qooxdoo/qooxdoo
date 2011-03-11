@@ -97,10 +97,10 @@ qx.Class.define("qx.theme.manager.Meta",
      */
     initialize : function()
     {
-      var setting = qx.core.Setting;
+      var env = qx.core.Environment;
       var theme, obj;
 
-      theme = setting.get("qx.theme");
+      theme = env.get("qx.theme");
       if (theme)
       {
         obj = qx.Theme.getByName(theme);
@@ -118,11 +118,11 @@ qx.Class.define("qx.theme.manager.Meta",
 
   /*
   *****************************************************************************
-     SETTINGS
+     ENVIRONMENT SETTINGS
   *****************************************************************************
   */
 
-  settings : {
+  environment : {
     "qx.theme"           : "qx.theme.Modern"
   }
 });

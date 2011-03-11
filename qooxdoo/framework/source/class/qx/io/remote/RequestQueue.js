@@ -161,7 +161,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.ioRemoteDebug"))
+        if (qx.core.Environment.get("qx.ioRemoteDebug"))
         {
           // Debug output
           var vText = this.__active.length + "/" + (this.__queue.length + this.__active.length);
@@ -280,7 +280,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.ioRemoteDebug"))
+        if (qx.core.Environment.get("qx.ioRemoteDebug"))
         {
           this.__activeCount++;
           e.getTarget()._counted = true;
@@ -316,7 +316,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.ioRemoteDebug"))
+        if (qx.core.Environment.get("qx.ioRemoteDebug"))
         {
           if (e.getTarget()._counted)
           {

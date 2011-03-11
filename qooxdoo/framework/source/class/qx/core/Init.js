@@ -72,7 +72,7 @@ qx.Class.define("qx.core.Init",
 
       qx.log.Logger.debug(this, "Load runtime: " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
 
-      var app = qx.core.Setting.get("qx.application");
+      var app = qx.core.Environment.get("qx.application");
       var clazz = qx.Class.getByName(app);
 
       if (clazz)

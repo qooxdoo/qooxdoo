@@ -169,7 +169,7 @@ qx.Class.define("qx.event.handler.Application",
         try {
           // check if the application is already loaded. If not just don't fire
           // the ready event [BUG #3793]
-          var app = qx.core.Setting.get("qx.application");
+          var app = qx.core.Environment.get("qx.application");
           if (!qx.Class.getByName(app)) {
             return;
           }

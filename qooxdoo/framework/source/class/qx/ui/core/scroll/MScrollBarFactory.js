@@ -17,7 +17,8 @@
 
 ************************************************************************ */
 
-qx.core.Setting.define("qx.nativeScrollBars", false);
+qx.core.Environment.add("qx.nativeScrollBars", false);
+qx.core.Setting.defineDeprecated("qx.nativeScrollBars", false); //@deprecated since 1.4
 
 /**
  * Include this widget if you want to create scrollbars depending on the global
@@ -36,7 +37,7 @@ qx.Mixin.define("qx.ui.core.scroll.MScrollBarFactory",
      */
     _createScrollBar : function(orientation)
     {
-      if (qx.core.Setting.get("qx.nativeScrollBars")) {
+      if (qx.core.Environment.get("qx.nativeScrollBars")) {
         return new qx.ui.core.scroll.NativeScrollBar(orientation);
       } else {
         return new qx.ui.core.scroll.ScrollBar(orientation);

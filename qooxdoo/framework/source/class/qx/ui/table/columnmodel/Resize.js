@@ -224,7 +224,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.tableResizeDebug"))
+        if (qx.core.Environment.get("qx.tableResizeDebug"))
         {
           this.debug("onappear");
         }
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.tableResizeDebug"))
+        if (qx.core.Environment.get("qx.tableResizeDebug"))
         {
           this.debug("ontablewidthchanged");
         }
@@ -296,7 +296,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.tableResizeDebug"))
+        if (qx.core.Environment.get("qx.tableResizeDebug"))
         {
           this.debug("onverticalscrollbarchanged");
         }
@@ -338,7 +338,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.tableResizeDebug"))
+        if (qx.core.Environment.get("qx.tableResizeDebug"))
         {
           this.debug("oncolumnwidthchanged");
         }
@@ -370,7 +370,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.tableResizeDebug"))
+        if (qx.core.Environment.get("qx.tableResizeDebug"))
         {
           this.debug("onvisibilitychanged");
         }

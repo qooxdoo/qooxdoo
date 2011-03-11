@@ -417,7 +417,7 @@ qx.Bootstrap.define("qx.core.Property",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
+        if (qx.core.Environment.get("qx.propertyDebugLevel") > 1) {
           qx.Bootstrap.debug("Generating property group: " + name);
         }
       }
@@ -511,7 +511,7 @@ qx.Bootstrap.define("qx.core.Property",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
+        if (qx.core.Environment.get("qx.propertyDebugLevel") > 1) {
           qx.Bootstrap.debug("Generating property wrappers: " + name);
         }
       }
@@ -673,7 +673,7 @@ qx.Bootstrap.define("qx.core.Property",
       // Output generate code
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
+        if (qx.core.Environment.get("qx.propertyDebugLevel") > 1) {
           qx.Bootstrap.debug("Code[" + this.$$method[variant][name] + "]: " + code.join(""));
         }
 

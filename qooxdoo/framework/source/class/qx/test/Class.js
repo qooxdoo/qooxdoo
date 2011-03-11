@@ -201,11 +201,11 @@ qx.Class.define("qx.test.Class",
       }
     },
 
-    testSetting : function()
+    testEnvironment : function()
     {
-      qx.Class.define("qx.Setting1", { settings : { "qx.juhu" : "kinners" } });
+      qx.Class.define("qx.Setting1", { environment : { "qx.juhu" : "kinners" } });
 
-      this.assertEquals("kinners", qx.core.Setting.get("qx.juhu"));
+      this.assertEquals("kinners", qx.core.Environment.get("qx.juhu"));
 
       qx.Class.undefine("qx.Setting1");
     },

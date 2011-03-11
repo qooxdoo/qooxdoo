@@ -453,7 +453,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (qx.core.Setting.get("qx.tableResizeDebug"))
+          if (qx.core.Environment.get("qx.tableResizeDebug"))
           {
             this.debug("col " + i + ": width=" + width);
           }

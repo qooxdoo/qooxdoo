@@ -697,7 +697,7 @@ qx.Class.define("qx.io.remote.Request",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.ioRemoteDebug")) {
+        if (qx.core.Environment.get("qx.ioRemoteDebug")) {
           this.debug("State: " + value);
         }
       }

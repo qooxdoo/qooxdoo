@@ -20,11 +20,13 @@
 
 /* ************************************************************************
 
-#require(qx.core.Setting)
+#require(qx.core.Environment)
 #require(qx.Interface)
 #require(qx.Mixin)
 #require(qx.core.Property)
 #require(qx.lang.Core)
+
+#require(qx.core.Setting)
 
 #use(qx.lang.Generics)
 
@@ -136,8 +138,10 @@ qx.Bootstrap.define("qx.Class",
      *       <tr><th>properties</th><td>Map</td><td>Map of property definitions. For a description of the format of a property definition see
      *           {@link qx.core.Property}.</td></tr>
      *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
+     *       <tr><th>environment</th><td>Map</td><td>Map of environment settings for this class. For a description of the format of a setting see
+     *           {@link qx.core.Environment}.</td></tr>
      *       <tr><th>settings</th><td>Map</td><td>Map of settings for this class. For a description of the format of a setting see
-     *           {@link qx.core.Setting}.</td></tr>
+     *           {@link qx.core.Setting}. This is deprecated since 1.4.</td></tr>
      *       <tr><th>variants</th><td>Map</td><td>Map of settings for this class. For a description of the format of a setting see
      *           {@link qx.core.Variant}</td></tr>
      *       <tr><th>events</th><td>Map</td><td>
@@ -215,9 +219,22 @@ qx.Bootstrap.define("qx.Class",
         }
       }
 
+      // Process environment
+      if (config.environment)
+      {
+        for (var key in config.environment) {
+          qx.core.Environment.add(key, config.environment[key]);
+        }
+      }
+
+      // @deprecated since 1.4 (settings are now environment)
       // Process settings
       if (config.settings)
       {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.Bootstrap.warn("The usage of settings in class '" + name +
+            "'is deprecated. Please use the 'environment' key instead");
+        }
         for (var key in config.settings) {
           qx.core.Setting.define(key, config.settings[key]);
         }
@@ -728,7 +745,8 @@ qx.Bootstrap.define("qx.Class",
         "statics"    : "object",    // Map
         "properties" : "object",    // Map
         "members"    : "object",    // Map
-        "settings"   : "object",    // Map
+        "settings"   : "object",    // Map @deprecated since 1.4
+        "environment"   : "object", // Map
         "variants"   : "object",    // Map
         "events"     : "object",    // Map
         "defer"      : "function",  // Function
@@ -744,11 +762,12 @@ qx.Bootstrap.define("qx.Class",
     {
       "on":
       {
-        "type"       : "string",    // String
-        "statics"    : "object",    // Map
-        "settings"   : "object",    // Map
-        "variants"   : "object",    // Map
-        "defer"      : "function"   // Function
+        "type"        : "string",    // String
+        "statics"     : "object",    // Map
+        "settings"    : "object",    // Map @deprecated since 1.4
+        "environment" : "object",    // Map
+        "variants"    : "object",    // Map
+        "defer"       : "function"   // Function
       },
 
       "default" : null
@@ -794,7 +813,7 @@ qx.Bootstrap.define("qx.Class",
         }
 
         // Validate maps
-        var maps = [ "statics", "properties", "members", "settings", "variants", "events" ];
+        var maps = [ "statics", "properties", "members", "environment", "settings", "variants", "events" ];
         for (var i=0, l=maps.length; i<l; i++)
         {
           var key = maps[i];
@@ -849,6 +868,19 @@ qx.Bootstrap.define("qx.Class",
             qx.Mixin.checkCompatibility(config.include);
           } catch(ex) {
             throw new Error('Error in include definition of class "' + name + '"! ' + ex.message);
+          }
+        }
+
+        // Validate environment
+        if (config.environment)
+        {
+          for (var key in config.environment)
+          {
+            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
+              throw new Error('Forbidden environment setting "' + key + 
+                '" found in "' + name + '". It is forbidden to define a ' + 
+                'environment setting for an external namespace!');
+            }
           }
         }
 

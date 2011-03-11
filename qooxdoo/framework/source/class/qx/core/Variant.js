@@ -21,7 +21,7 @@
 
 /* ************************************************************************
 
-#require(qx.core.Setting)
+#require(qx.core.Environment)
 
 /* ************************************************************************ */
 
@@ -151,7 +151,7 @@ qx.Bootstrap.define("qx.core.Variant",
     /**
      * Import settings from global qxvariants into current environment
      *
-     * @return {void}
+     * @lint ignoreUndefined(qxvariants)
      */
     __init : function()
     {
@@ -192,7 +192,7 @@ qx.Bootstrap.define("qx.core.Variant",
      */
     __loadUrlVariants : function()
     {
-      if (qx.core.Setting.get("qx.allowUrlVariants") != true) {
+      if (qx.core.Environment.get("qx.allowUrlVariants") != true) {
         return;
       }
 

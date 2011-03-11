@@ -1826,7 +1826,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       this.__currentEvent = e;
 
       if (qx.core.Variant.isSet("qx.debug", "on") &&
-          qx.core.Setting.get("qx.bom.htmlarea.HtmlArea.debug") == "on") {
+          qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug") == "on") {
         this.debug(e.getType() + " | " + keyIdentifier);
       }
 
@@ -1928,7 +1928,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         var keyIdentifier   = e.getKeyIdentifier().toLowerCase();
 
         if (qx.core.Variant.isSet("qx.debug", "on") &&
-            qx.core.Setting.get("qx.bom.htmlarea.HtmlArea.debug") == "on") {
+            qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug") == "on") {
           //this.debug(e.getType() + " | " + e.getKeyIdentifier().toLowerCase());
         }
 
@@ -1972,7 +1972,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       this.__currentEvent = e;
 
       if (qx.core.Variant.isSet("qx.debug", "on") &&
-          qx.core.Setting.get("qx.bom.htmlarea.HtmlArea.debug") == "on") {
+          qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug") == "on") {
         this.debug(e.getType() + " | " + keyIdentifier);
       }
 
@@ -2399,7 +2399,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     _handleMouseUpOnBody : function(e)
     {
       if (qx.core.Variant.isSet("qx.debug", "on") &&
-          qx.core.Setting.get("qx.bom.htmlarea.HtmlArea.debug") == "on") {
+          qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug") == "on") {
         this.debug("handleMouse " + e.getType());
       }
       this.__mouseUpOnBody = true;
@@ -3617,7 +3617,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
   },
 
 
-  settings : {
+  environment : {
     "qx.bom.htmlarea.HtmlArea.debug" : "off"
   },
 

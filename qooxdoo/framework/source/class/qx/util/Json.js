@@ -449,7 +449,7 @@ qx.Class.define("qx.util.Json",
      */
     __convertUndefined : function(incoming, key)
     {
-      if (qx.core.Setting.get("qx.jsonEncodeUndefined")) {
+      if (qx.core.Environment.get("qx.jsonEncodeUndefined")) {
         return "null";
       }
     },
@@ -488,7 +488,7 @@ qx.Class.define("qx.util.Json",
       }
 
       // Debugging support
-      if (qx.core.Setting.get("qx.jsonDebugging")) {
+      if (qx.core.Environment.get("qx.jsonDebugging")) {
         qx.log.Logger.debug(this, "JSON request: " + result);
       }
 
@@ -515,7 +515,7 @@ qx.Class.define("qx.util.Json",
         validate = true;
       }
 
-      if (qx.core.Setting.get("qx.jsonDebugging")) {
+      if (qx.core.Environment.get("qx.jsonDebugging")) {
         qx.log.Logger.debug(this, "JSON response: " + text);
       }
 
@@ -535,7 +535,7 @@ qx.Class.define("qx.util.Json",
   },
 
 
-  settings :
+  environment :
   {
     "qx.jsonEncodeUndefined" : true,
     "qx.jsonDebugging"       : false
