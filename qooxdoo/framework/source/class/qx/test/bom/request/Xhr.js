@@ -193,6 +193,19 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertCalledOnce(req.onreadystatechange);
     },
 
+    "test: responseText should be set before onreadystatechange is called": function() {
+      var req = this.req;
+      var fakeReq = this.getFakeReq();
+
+      var that = this;
+      req.onreadystatechange = function() {
+        that.assertEquals("Affe", req.responseText);
+      }
+      fakeReq.responseText = "Affe";
+      fakeReq.readyState = 4;
+      fakeReq.onreadystatechange();
+    },
+
     //
     // readyState
     //
@@ -223,11 +236,14 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertIdentical("", this.req.responseText);
     },
 
-    "test: responseText should be empty string when DONE, then OPEN": function() {
-      // Send
+    "test: responseText should be empty string when reopened": function() {
+      var fakeReq = this.getFakeReq();
+
+      // Send and respond
       var req = this.req;
-      req.open("GET", "/affe");
+      req.open();
       req.send();
+      fakeReq.respond(200, "", "Affe");
 
       // Reopen
       req.open("GET", "/elefant");
@@ -253,8 +269,6 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var fakeReq = this.getFakeReq();
 
       function success(state) {
-        // Create fake request
-        req.open("GET", "/affe");
 
         // Stub and prepare success
         fakeReq.readyState = state;
@@ -267,12 +281,14 @@ qx.Class.define("qx.test.bom.request.Xhr",
                           "When readyState is " + state);
       }
 
-      // Assert responseText to be set while LOADING
+      success(this.constructor.DONE);
+
+      // Assert responseText to be set when in progress
       // in browsers other than IE < 7
       if (!this.isIEBelow(7)) {
+        success(this.constructor.HEADERS_RECEIVED);
         success(this.constructor.LOADING);
       }
-      success(this.constructor.DONE);
 
     },
 
@@ -283,8 +299,6 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var fakeReq = this.getFakeReq();
 
       function trap(state) {
-        // Create fake request
-        req.open("GET", "/affe");
 
         // Stub and set trap
         fakeReq.readyState = state;
@@ -297,11 +311,10 @@ qx.Class.define("qx.test.bom.request.Xhr",
                              "When readyState is " + state);
       }
 
-      trap(this.constructor.UNSENT);
-      trap(this.constructor.OPENED);
-      trap(this.constructor.HEADERS_RECEIVED);
-
       if (this.isIEBelow(7)) {
+        trap(this.constructor.UNSENT);
+        trap(this.constructor.OPENED);
+        trap(this.constructor.HEADERS_RECEIVED);
         trap(this.constructor.LOADING);
       }
 
@@ -313,6 +326,20 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
     "test: responseXML is null when not DONE": function() {
       this.assertNull(this.req.responseXML);
+    },
+
+    "test: responseXML should be null when reopened": function() {
+      var fakeReq = this.getFakeReq();
+
+      // Send and respond
+      var req = this.req;
+      req.open();
+      req.send();
+      fakeReq.respond(200, { "Content-Type": "application/xml" }, "<affe></affe>")
+
+      // Reopen
+      req.open();
+      this.assertNull(req.responseXML);
     },
 
     "test: responseXML is parsed document with XML response": function() {
@@ -382,7 +409,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertIdentical(200, req.status);
     },
 
-    "test: should reset status on next request": function() {
+    "test: should reset status when reopened": function() {
       var fakeReq = this.getFakeReq();
       var req = this.req;
       req.open();

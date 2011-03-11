@@ -55,7 +55,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       req.onreadystatechange = function() {
         if (req.readyState == 4) {
           that.resume(function() {
-            that.assertEquals(req.responseText, '{"affe":"true"}');
+            that.assertEquals('{"affe":"true"}', req.responseText);
           });
         }
       }

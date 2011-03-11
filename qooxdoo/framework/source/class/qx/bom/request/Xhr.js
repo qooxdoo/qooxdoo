@@ -210,38 +210,33 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     __handleReadyStateChange: function() {
 
-      var isDone = this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE;
-
       // BUGFIX: IE
-      // IE < 7 cannot access responseText while LOADING
-      // "The data necessary to complete this operation is not yet available".
+      // IE < 7 cannot access responseText and other properties 
+      // when request is in progress. "The data necessary to complete 
+      // this operation is not yet available".
+      var isLegacyIE       = qx.core.Environment.get("browser.name") == "ie" &&
+                             qx.core.Environment.get("browser.version") < 7;
+      var inProgressOrDone = this.__nativeXhr.readyState > 1 && !isLegacyIE ||
+                             this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE;
 
-      var isLegacyIE = qx.core.Environment.get("browser.name") == "ie" &&
-                       qx.core.Environment.get("browser.version") < 7;
-      var isLoading  = this.__nativeXhr.readyState == qx.bom.request.Xhr.LOADING;
-
-      if ((!isLegacyIE && isLoading) || isDone) {
-        this.responseText = this.__nativeXhr.responseText;
-      } else {
-        // Set to empty string as specified in XMLHttpRequest Level 1.
-        this.responseText = "";
-      }
-      this.responseXML = this.__nativeXhr.responseXML;
-
-      // BUGFIX: Internet Explorer, Firefox
-      // onreadystatechange() is called twice for readyState OPENED.
-      if (this.readyState !== this.__nativeXhr.readyState) {
-        this.readyState = this.__nativeXhr.readyState;
-        this.onreadystatechange();
-      }
-
-      if (this.__nativeXhr.readyState > 1) {
+      if (inProgressOrDone) {
         this.status = this.__nativeXhr.status;
         this.statusText = this.__nativeXhr.statusText;
+        this.responseText = this.__nativeXhr.responseText;
+        this.responseXML = this.__nativeXhr.responseXML;
       } else {
         this.status = 0;
-        this.statusText = "";
-      }
+        this.statusText = this.responseText = "";
+        this.responseXML = null;
+       }
+
+       // BUGFIX: Internet Explorer, Firefox
+       // onreadystatechange() is called twice for readyState OPENED.
+       if (this.readyState !== this.__nativeXhr.readyState) {
+         this.readyState = this.__nativeXhr.readyState;
+         this.onreadystatechange();
+       }
+
     }
   }
 });
