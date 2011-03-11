@@ -91,8 +91,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
     /**
      * Delegation object which can have one or more functions defined by the
-     * {@link qx.ui.list.core.IListDelegate} interface, but *note* the grouping
-     * feature is not supported. 
+     * {@link qx.ui.list.core.IListDelegate} interface.
      */
     delegate :
     {

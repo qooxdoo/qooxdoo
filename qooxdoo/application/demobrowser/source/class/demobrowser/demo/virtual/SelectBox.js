@@ -251,6 +251,11 @@ qx.Class.define("demobrowser.demo.virtual.SelectBox",
           b = b.getFirstname();
 
           return a > b ? 1 : a < b ? -1 : 0;
+        },
+        
+        // Assign the group name for each item (fist char form first name)
+        group : function(model) {
+          return model.getFirstname().charAt(0).toUpperCase();
         }
       };
       selectBox.setDelegate(delegate);
