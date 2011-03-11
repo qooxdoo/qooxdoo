@@ -27,7 +27,7 @@
  * 
  * @internal
  */
-qx.Class.define("qx.bom.client.Transport",
+qx.Bootstrap.define("qx.bom.client.Transport",
 {
   /*
   *****************************************************************************
