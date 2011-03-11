@@ -67,14 +67,14 @@ qx.Class.define("simulator.QxSelenium", {
   construct : function()
   {
     this.base(arguments);
-    var server = qx.core.Setting.get("simulator.selServer");
-    var port = qx.core.Setting.get("simulator.selPort");
-    var browser = qx.core.Setting.get("simulator.testBrowser");
-    var host = qx.core.Setting.get("simulator.autHost");
+    var server = qx.core.Environment.get("simulator.selServer");
+    var port = qx.core.Environment.get("simulator.selPort");
+    var browser = qx.core.Environment.get("simulator.testBrowser");
+    var host = qx.core.Environment.get("simulator.autHost");
     
     var threadSafe = false;
     try {
-      threadSafe = qx.core.Setting.get("simulator.threadSafe");
+      threadSafe = qx.core.Environment.get("simulator.threadSafe");
     } catch(ex) {}
     
     if (threadSafe) {

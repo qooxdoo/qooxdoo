@@ -135,18 +135,18 @@ qx.Class.define("simulator.reporter.Reporter", {
     {
       var startDate = this.DATE_FORMAT.format(new Date());
       var autWin = simulator.QxSimulation.AUTWINDOW + ".";
-      var autName = String(simulator.QxSelenium.getInstance().getEval(autWin + 'qx.core.Setting.get("qx.application")'));
+      var autName = String(simulator.QxSelenium.getInstance().getEval(autWin + 'qx.core.Environment.get("qx.application")'));
       autName = /(.*?)\./.exec(autName)[1];
       autName = autName.replace(/^./, autName[0].toUpperCase());
-      var testOs = String(simulator.QxSelenium.getInstance().getEval(autWin + "qx.bom.client.System.NAME"));
-      var qxRevision = String(simulator.QxSelenium.getInstance().getEval(autWin + 'qx.core.Setting.get("qx.revision")'));
+      var testOs = String(simulator.QxSelenium.getInstance().getEval(autWin + "qx.core.Environment.get('os.name')"));
+      var qxRevision = String(simulator.QxSelenium.getInstance().getEval(autWin + 'qx.core.Environment.get("qx.revision")'));
       var userAgent = String(simulator.QxSelenium.getInstance().getEval(autWin + "navigator.userAgent"));
-      var browserTitle = String(simulator.QxSelenium.getInstance().getEval(autWin + 'qx.bom.client.Browser.TITLE'));
+      var browserTitle = String(simulator.QxSelenium.getInstance().getEval(autWin + 'qx.core.Environment.get("browser.name")'));
       
       var testData = {
         aut_name : autName,
-        aut_host : qx.core.Setting.get("simulator.autHost"),
-        aut_path : qx.core.Setting.get("simulator.autPath"),
+        aut_host : qx.core.Environment.get("simulator.autHost"),
+        aut_path : qx.core.Environment.get("simulator.autPath"),
         test_os : testOs,
         test_useragent : userAgent,
         test_browsertitle : browserTitle,

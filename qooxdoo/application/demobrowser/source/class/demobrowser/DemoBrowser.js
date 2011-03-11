@@ -274,7 +274,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
     defaultUrl : "demo/welcome.html",
-    playgroundUrl : "http://demo.qooxdoo.org/" + qx.core.Setting.get("qx.version") + "/playground/",
+    playgroundUrl : "http://demo.qooxdoo.org/" + qx.core.Environment.get("qx.version") + "/playground/",
 
     __makeCommands : function()
     {
@@ -368,7 +368,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __onApiOpen : function() {
       window.open(
         "http://demo.qooxdoo.org/" +
-        qx.core.Setting.get("qx.version") +
+        qx.core.Environment.get("qx.version") +
         "/apiviewer/"
       );
     },
@@ -378,7 +378,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      * Handler for opening the manual.
      */
     __onManualOpen : function() {
-      var vers = (qx.core.Setting.get("qx.version").split("-")[0]);
+      var vers = (qx.core.Environment.get("qx.version").split("-")[0]);
       window.open("http://manual.qooxdoo.org/" + vers);
     },
     
@@ -1633,7 +1633,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       header.setAppearance("app-header");
 
       var title = new qx.ui.basic.Label("Demo Browser");
-      var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Setting.get("qx.version"));
+      var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Environment.get("qx.version"));
 
       header.add(title);
       header.add(new qx.ui.core.Spacer, {flex : 1});

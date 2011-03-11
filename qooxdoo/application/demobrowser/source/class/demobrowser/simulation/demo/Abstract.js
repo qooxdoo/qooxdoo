@@ -83,8 +83,8 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
         throw new Error("Couldn't determine demo URL from class name!");
       }
       
-      var fullUrl = qx.core.Setting.get("simulator.autHost") 
-      + qx.core.Setting.get("simulator.autPath") + "#" + hash; 
+      var fullUrl = qx.core.Environment.get("simulator.autHost") 
+      + qx.core.Environment.get("simulator.autPath") + "#" + hash; 
       
       this.getSimulation().qxOpen(fullUrl);
       this.getSimulation().waitForQxApplication(10000, this.demoWindow);

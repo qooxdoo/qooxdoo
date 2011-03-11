@@ -35,12 +35,12 @@ qx.Class.define("simulator.Simulation", {
   construct : function()
   {
     this.__options = {
-      autHost : qx.core.Setting.get("simulator.autHost"),
-      autPath : qx.core.Setting.get("simulator.autPath"),
-      threadSafe : qx.core.Setting.get("simulator.threadSafe"),
-      applicationLog : qx.core.Setting.get("simulator.applicationLog"),
-      globalErrorLogging : qx.core.Setting.get("simulator.globalErrorLogging"),
-      testEvents : qx.core.Setting.get("simulator.testEvents")
+      autHost : qx.core.Environment.get("simulator.autHost"),
+      autPath : qx.core.Environment.get("simulator.autPath"),
+      threadSafe : qx.core.Environment.get("simulator.threadSafe"),
+      applicationLog : qx.core.Environment.get("simulator.applicationLog"),
+      globalErrorLogging : qx.core.Environment.get("simulator.globalErrorLogging"),
+      testEvents : qx.core.Environment.get("simulator.testEvents")
     };
     this.startDate = new Date();
     // for backwards compatibility:
@@ -327,7 +327,7 @@ qx.Class.define("simulator.Simulation", {
     {
       if (this.__options.disposerDebug) {
         var getDisposerDebugLevel = simulator.Simulation.AUTWINDOW 
-          + ".qx.core.Setting.get('qx.disposerDebugLevel')";
+          + ".qx.core.Environment.get('qx.disposerDebugLevel')";
         var disposerDebugLevel = simulator.QxSelenium.getInstance().getEval(getDisposerDebugLevel);
         
         if (parseInt(disposerDebugLevel, 10) > 0 ) {

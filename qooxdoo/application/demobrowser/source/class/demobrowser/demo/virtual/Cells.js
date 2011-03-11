@@ -56,7 +56,7 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       this.runTest("testHtmlCell");
 
       // TODO: This does not work in Classic!
-      if(qx.core.Setting.get("qx.theme") == "qx.theme.Modern")
+      if(qx.core.Environment.get("qx.theme") == "qx.theme.Modern")
       {
         this.runTest("testImageCell");
         this.runTest("testBooleanCell");

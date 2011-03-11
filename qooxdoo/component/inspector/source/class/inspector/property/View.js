@@ -474,7 +474,7 @@ qx.Class.define("inspector.property.View",
 
     _openApiWindow: function(classname, propertyname) {
 
-      var version = qx.core.Init.getApplication()._loadedWindow.qx.core.Setting.get("qx.version");
+      var version = qx.core.Init.getApplication()._loadedWindow.qx.core.Environment.get("qx.version");
       var urlString = "http://demo.qooxdoo.org/" + (version || "current") + "/apiviewer/";
 
       if (classname != null) {

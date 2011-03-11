@@ -68,7 +68,7 @@ qx.Class.define("inspector.selenium.View", {
       "/core/xpath/javascript-xpath-0.1.11.js"
     ];
     
-    this.__userExt = qx.core.Setting.get("inspector.selenium.extensions") || 
+    this.__userExt = qx.core.Environment.get("inspector.selenium.extensions") || 
       /(.*?)framework/.exec(qx.$$libraries.qx.sourceUri)[1] + "component/simulator/tool/user-extensions/user-extensions.js";
     this.__availableCommands = [];
 
@@ -527,7 +527,7 @@ qx.Class.define("inspector.selenium.View", {
     __getSelenese : function()
     {
       var url = qx.core.Init.getApplication().getIframeWindowObject().location.href;
-      var title = qx.core.Init.getApplication().getIframeWindowObject().qx.core.Setting.get("qx.application");
+      var title = qx.core.Init.getApplication().getIframeWindowObject().qx.core.Environment.get("qx.application");
 
       this.__seleneseTestCase = new inspector.selenium.SeleneseTestCase(url, title);
       this.__seleneseTestCase.addListenerOnce("appear", function(event) {

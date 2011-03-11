@@ -24,9 +24,9 @@
  * testName : full name of the test method, e.g. qx.test.bom.Blocker:testOpacity<br/>
  * message : error message(s) of any exceptions thrown during test execution<br/>
  * autUri : URI of the unit test application<br/>
- * browserName : value of qx.bom.client.Browser.NAME<br/>
- * browserVersion : value of qx.bom.client.Browser.FULLVERSION<br/>
- * os : value of qx.bom.client.System.NAME
+ * browserName : value of qx.core.Environment.get("browser.name")<br/>
+ * browserVersion : value of qx.core.Environment.get("browser.version")<br/>
+ * os : value of qx.core.Environment.get("os.name")
  * 
  */
 qx.Class.define("testrunner2.view.Reporter", {
@@ -36,7 +36,7 @@ qx.Class.define("testrunner2.view.Reporter", {
   construct : function()
   {
     this.base(arguments);
-    this.__reportServerUrl = qx.core.Setting.get("testrunner2.reportServer");
+    this.__reportServerUrl = qx.core.Environment.get("testrunner2.reportServer");
   },
   
   members :
@@ -221,9 +221,9 @@ qx.Class.define("testrunner2.view.Reporter", {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.debug("Reporting result");
       }
-      data["browserName"] = qx.bom.client.Browser.NAME;
-      data["browserVersion"] = qx.bom.client.Browser.FULLVERSION;
-      data["os"] = qx.bom.client.System.NAME;
+      data["browserName"] = qx.core.Environment.get("browser.name");
+      data["browserVersion"] = qx.core.Environment.get("browser.version");
+      data["os"] = qx.core.Environment.get("os.name");
       
       var jsonData = qx.lang.Json.stringify(data);
       

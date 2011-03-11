@@ -55,7 +55,7 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
     if (window.location.protocol == "http:") {
       var defaultButton = new qx.ui.form.Button("Use default URI");
       defaultButton.addListener("execute", function() {
-        coreScripts.setValue(qx.core.Setting.get("inspector.selenium.core"));
+        coreScripts.setValue(qx.core.Environment.get("inspector.selenium.core"));
       }, this);
       form.addButton(defaultButton);
     }
@@ -88,7 +88,7 @@ qx.Class.define("inspector.selenium.OptionsWindow", {
 
     var containerBottom = new qx.ui.container.Composite(new qx.ui.layout.Grow());
     this.add(containerBottom);
-    var noticeText = 'See the <a href="http://manual.qooxdoo.org/' + qx.core.Setting.get("qx.version") + '/pages/application/inspector_selenium.html" target="_blank">manual page</a> for an explanation of this setting.';
+    var noticeText = 'See the <a href="http://manual.qooxdoo.org/' + qx.core.Environment.get("qx.version") + '/pages/application/inspector_selenium.html" target="_blank">manual page</a> for an explanation of this setting.';
     var notice = new qx.ui.basic.Label("");
     notice.setRich(true);
     notice.setValue(noticeText);

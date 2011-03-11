@@ -167,7 +167,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
         packageTreeNode.addListener("changeOpen", this.__getPackageNodeOpener(packageTreeNode, packageDoc, depth + 1), this);
 
         // Open the package node if it has child packages
-        if (depth < qx.core.Setting.get("apiviewer.initialTreeDepth") && packageDoc.getPackages().length > 0) {
+        if (depth < qx.core.Environment.get("apiviewer.initialTreeDepth") && packageDoc.getPackages().length > 0) {
           packageTreeNode.setOpen(true);
         }
 

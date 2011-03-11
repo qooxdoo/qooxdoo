@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
 
 
       // setup aliases
-      var qxTheme = qx.core.Setting.get("qx.theme");
+      var qxTheme = qx.core.Environment.get("qx.theme");
       var themeName = /\.([a-z]+)$/i.exec(qxTheme)[1];
       qx.util.AliasManager.getInstance().add("decoration", "qx/decoration/" + themeName);
       if (themeName == "Classic") {

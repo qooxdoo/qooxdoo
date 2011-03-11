@@ -355,7 +355,7 @@ qx.Class.define("apiviewer.Viewer",
       header.setAppearance("app-header");
 
       var title = new qx.ui.basic.Label("API Documentation");
-      var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Setting.get("qx.version"));
+      var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Environment.get("qx.version"));
 
       header.add(title);
       header.add(new qx.ui.core.Spacer, {flex : 1});

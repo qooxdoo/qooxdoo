@@ -33,7 +33,7 @@ qx.Class.define("simulator.reporter.Application", {
       
       this.simulation = new simulator.QxSimulation();
       
-      var reportServer = qx.core.Setting.get("simulator.reportServer");
+      var reportServer = qx.core.Environment.get("simulator.reportServer");
       simulator.reporter.Reporter.SERVER_URL = reportServer;
       qx.log.Logger.clear();
       qx.log.Logger.register(simulator.reporter.Reporter);

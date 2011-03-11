@@ -28,7 +28,7 @@ qx.Class.define("playground.view.Header",
     this.base(arguments, new qx.ui.layout.HBox());
     this.setAppearance("app-header");
 
-    var versionTag = this.tr("qooxdoo %1", qx.core.Setting.get("qx.version"));
+    var versionTag = this.tr("qooxdoo %1", qx.core.Environment.get("qx.version"));
 
     this.add(new qx.ui.basic.Label(this.tr("Playground")));
     this.add(new qx.ui.core.Spacer, { flex : 1 });

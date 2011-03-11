@@ -58,7 +58,7 @@ qx.Class.define("simulator.Application", {
         opts = qx.lang.Json.parse(opts);
         for (var prop in opts) {
           try {
-            qx.core.Setting.define(prop, opts[prop]);
+            qx.core.Environment.add(prop, opts[prop]);
           } catch(ex) {
             this.error("Unable to define command-line setting " + prop + ": " + ex);
           }

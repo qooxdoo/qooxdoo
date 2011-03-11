@@ -292,7 +292,7 @@ qx.Class.define("playground.Application",
     __onApiOpen : function() {
       window.open(
         "http://demo.qooxdoo.org/" +
-        qx.core.Setting.get("qx.version") +
+        qx.core.Environment.get("qx.version") +
         "/apiviewer/"
       );
     },
@@ -303,7 +303,7 @@ qx.Class.define("playground.Application",
      */
     __onManualOpen : function() {
       window.open(
-        "http://manual.qooxdoo.org/" + qx.core.Setting.get("qx.version")
+        "http://manual.qooxdoo.org/" + qx.core.Environment.get("qx.version")
       );
     },
 
@@ -314,7 +314,7 @@ qx.Class.define("playground.Application",
     __onDemoBrowser : function() {
       window.open(
         "http://demo.qooxdoo.org/" +
-        qx.core.Setting.get("qx.version") +
+        qx.core.Environment.get("qx.version") +
         "/demobrowser/"
       );
     },

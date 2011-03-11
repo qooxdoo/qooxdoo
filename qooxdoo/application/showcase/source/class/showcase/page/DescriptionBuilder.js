@@ -22,11 +22,11 @@ qx.Class.define("showcase.page.DescriptionBuilder",
   statics :
   {
     _demoPrefix : "http://demo.qooxdoo.org/" +
-      qx.core.Setting.get("qx.version") + "/demobrowser/",
+      qx.core.Environment.get("qx.version") + "/demobrowser/",
     _apiPrefix : "http://demo.qooxdoo.org/" +
-      qx.core.Setting.get("qx.version") +"/apiviewer/",
+      qx.core.Environment.get("qx.version") +"/apiviewer/",
     _manualPrefix : "http://manual.qooxdoo.org/" + 
-      qx.core.Setting.get("qx.version") + "/",
+      qx.core.Environment.get("qx.version") + "/",
 
 
     build : function(header, text, tryThis, features, manual, demos, api)

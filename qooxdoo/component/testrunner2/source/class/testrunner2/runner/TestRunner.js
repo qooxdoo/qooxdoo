@@ -33,7 +33,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
   */
   construct : function()
   {
-    if (qx.core.Setting.get("qx.globalErrorHandling") === "on") {
+    if (qx.core.Environment.get("qx.globalErrorHandling") === "on") {
       qx.event.GlobalError.setErrorHandler(this._handleGlobalError, this);      
     }
     
@@ -71,7 +71,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     if (params.indexOf("testclass=") > 0 ) {
       this._testNameSpace = params.substr(params.indexOf("testclass=") + 10);
     } else {
-      this._testNameSpace = qx.core.Setting.get("qx.testNameSpace");
+      this._testNameSpace = qx.core.Environment.get("qx.testNameSpace");
     }
     
     // Load unit tests
@@ -79,7 +79,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       // Load the tests from a standalone AUT
       this.__iframe = this.view.getIframe();
       qx.event.Registration.addListener(this.__iframe, "load", this._onLoadIframe, this);
-      var src = qx.core.Setting.get("qx.testPageUri");      
+      var src = qx.core.Environment.get("qx.testPageUri");      
       src += "?testclass=" + this._testNameSpace;
       this.view.setAutUri(src);
     } 
@@ -90,7 +90,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     // Check if any test parts are defined
     try {
       this.__testParts = [];
-      this.__testParts = this.__testParts.concat(qx.core.Setting.get("qx.testParts"));
+      this.__testParts = this.__testParts.concat(qx.core.Environment.get("qx.testParts"));
     } catch(ex) {}
   },
 
@@ -520,7 +520,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       var closure = "(function()\
       {\
         try {\
-          return qx.core.Setting.get('qx.testParts');\
+          return qx.core.Environment.get('qx.testParts');\
         } catch(ex) {\
           return [];\
         }\
