@@ -122,7 +122,7 @@ qx.Class.define("apiviewer.dao.Method",
 
     getApply : function()
     {
-      return this._docNode.attributes.apply;
+      return this._apply;
     },
 
 
@@ -136,6 +136,11 @@ qx.Class.define("apiviewer.dao.Method",
     {
       switch (node.type)
       {
+        case "apply":
+        {
+          this._apply = node.children ? node.children : this._docNode.attributes.apply;
+          break;
+        }
         case "params":
         case "return":
         case "throws":

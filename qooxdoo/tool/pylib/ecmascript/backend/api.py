@@ -1281,8 +1281,8 @@ def containsAbstractMethods(methodListNode, visitedMethodNames):
     return False
 
 
-def documentApplyMethod(methodNode, prop):
-    if itemHasAnyDocs(methodNode):
+def documentApplyMethod(methodNode, props):
+    if methodNode.getChild("desc", False) != None:
         return
 
     firstParam = selectNode(methodNode, "params/param[1]/@name")
@@ -1293,14 +1293,35 @@ def documentApplyMethod(methodNode, prop):
     if secondParam is None:
         secondParam = "old"
 
-    paramType = prop.get("check", False)
-    if paramType is None or paramType == "Custom check function.":
-        paramType = "var"
+    paramType = "var"
+    paramTypes = []
+    propNames = []
+    for prop in props:
+        propNames.append(prop.get("name"))
+        pType = prop.get("check", False)
+        if pType is None or pType == "Custom check function.":
+            pType = "var"
+        paramTypes.append(pType)
+    
+    # if all properties have the same value for "check", use that
+    if paramTypes[1:] == paramTypes[:-1]:
+          paramType = paramTypes[0]
+    
+    if len(propNames) > 1:
+        propNames.sort()
+        propList = "</code>, <code>".join(propNames[:-1]) + "</code> and <code>" + propNames[-1]
+        propNamesString = "properties <code>%s</code>" %propList
+        
+        linkList = "}, {@link #".join(propNames[:-1]) + "} and {@link #" + propNames[-1]
+        propLinksString = "s: {@link #%s}" %linkList
+    else:
+        propNamesString = "property <code>%s</code>" %propNames[0]
+        propLinksString = ": {@link #%s}" %propNames[0]
 
     functionCode = """/**
- * Applies changes of the property value of the property <code>%(shortPropName)s</code>.
+ * Applies changes of the property value of the %(propNames)s.
  *
- * For further details take a look at the property definition: {@link #%(shortPropName)s}.
+ * For further details take a look at the property definition%(propLinks)s.
  *
  * @param %(firstParamName)s {%(paramType)s} new value of the property
  * @param %(secondParamName)s {%(paramType)s} previous value of the property (null if it was not yet set).
@@ -1309,7 +1330,8 @@ function(%(firstParamName)s, %(secondParamName)s) {}""" % ({
         "firstParamName": firstParam,
         "secondParamName": secondParam,
         "paramType": paramType,
-        "shortPropName": prop.get("name"),
+        "propNames": propNamesString,
+        "propLinks" : propLinksString,
         "propName": methodNode.get("name")
     })
 
@@ -1348,11 +1370,16 @@ def markPropertyApply(docTree, classNode):
             props = dep.getChild("properties", False)
             if not props:
                 continue
+            applyFor = []
             for prop in props.children:
                 if prop.get("apply", None) == name:
-                    itemNode.set("apply", dep.get("fullName") + "#" + prop.get("name"))
+                    propNode = tree.Node("entry")
+                    propNode.set("name", dep.get("fullName") + "#" + prop.get("name"))
+                    itemNode.addListChild("apply", propNode) 
                     removeErrors(itemNode)
-                    documentApplyMethod(itemNode, prop)
+                    applyFor.append(prop)
+            if len(applyFor) > 0:
+                documentApplyMethod(itemNode, applyFor)
 
 
 def dependendClassIterator(docTree, classNode):

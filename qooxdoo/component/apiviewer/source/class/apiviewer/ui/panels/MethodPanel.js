@@ -173,16 +173,17 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
             );
           }
         }
-
-        if (method.getApply()) {
+        var applyToProperties = method.getApply();
+        if (applyToProperties && applyToProperties.length>0) { // gabi check
           textHtml.add(
-            '<div class="item-detail-headline">', "Apply method of property:", '</div>',
-            '<div class="item-detail-text">',
-            apiviewer.ui.panels.InfoPanel.createItemLinkHtml(
-              method.getApply(), method.getClass(), true, true
-            ),
-            '</div>'
-          );
+            '<div class="item-detail-headline">', applyToProperties.length==1 ? "Apply method of property:" : "Apply method of properties:", '</div>',
+            '<div class="item-detail-text">');
+            for(var i=0;i<applyToProperties.length;i++){
+              textHtml.add(apiviewer.ui.panels.InfoPanel.createItemLinkHtml(
+                applyToProperties[i].attributes.name, method.getClass(), true, true
+              ),', ');
+            }
+            textHtml.add('</div>');
         }
 
 
