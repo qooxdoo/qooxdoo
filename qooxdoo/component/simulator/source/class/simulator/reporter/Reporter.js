@@ -63,11 +63,6 @@ qx.Class.define("simulator.reporter.Reporter", {
         print(url);
       }
       readUrl(url);
-      /*
-      if (response.indexOf("saved") > 0) {
-        this.DATABASE_ID = /ID\:\ (.*)/.exec(response)[1];
-      }
-      */
     },
     /**
      * Logs a debug message
@@ -129,12 +124,15 @@ qx.Class.define("simulator.reporter.Reporter", {
     },
     
     /**
+     * Collects environment information and sends initial test data to the 
+     * server.
+     * 
      * @lint ignoreUndefined(readUrl)
      */
     __createReport : function()
     {
       var startDate = this.DATE_FORMAT.format(new Date());
-      var autWin = simulator.QxSimulation.AUTWINDOW + ".";
+      var autWin = simulator.Simulation.AUTWINDOW + ".";
       var autName = String(simulator.QxSelenium.getInstance().getEval(autWin + 'qx.core.Environment.get("qx.application")'));
       autName = /(.*?)\./.exec(autName)[1];
       autName = autName.replace(/^./, autName[0].toUpperCase());

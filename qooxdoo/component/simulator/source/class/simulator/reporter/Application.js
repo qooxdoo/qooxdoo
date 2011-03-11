@@ -31,8 +31,6 @@ qx.Class.define("simulator.reporter.Application", {
       
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
       
-      this.simulation = new simulator.QxSimulation();
-      
       var reportServer = qx.core.Environment.get("simulator.reportServer");
       simulator.reporter.Reporter.SERVER_URL = reportServer;
       qx.log.Logger.clear();
