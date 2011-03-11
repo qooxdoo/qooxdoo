@@ -125,7 +125,12 @@ qx.Bootstrap.define("qx.bom.client.Transport",
       return window.location.protocol === "https:";
     },
 
-
+    /**
+     * Checks whether the browser supports the XMLHttpRequest object.
+     *
+     * @internal
+     * @return {Boolean} <code>true</code>, if the browser provides <code>XMLHttpRequest</code>.
+     */
     getXmlHttpRequest : function() {
       // Do not use qx.core.Environment to avoid circular references
       var name = qx.bom.client.Engine.getName();
