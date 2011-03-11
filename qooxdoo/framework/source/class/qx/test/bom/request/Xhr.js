@@ -254,10 +254,9 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var req = this.req;
       var fakeReq = this.getFakeReq();
 
-      req.open("GET", "/affe");
+      req.open();
       req.send();
-      fakeReq.setResponseHeaders({});
-      fakeReq.setResponseBody("Affe");
+      fakeReq.respond(200, "", "Affe");
 
       this.assertEquals("Affe", req.responseText);
     },
