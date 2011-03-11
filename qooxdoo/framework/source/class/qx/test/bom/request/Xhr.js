@@ -243,7 +243,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var req = this.req;
       req.open();
       req.send();
-      fakeReq.respond(200, "", "Affe");
+      fakeReq.respond(200, {"Content-Type": "text/html"}, "Affe");
 
       // Reopen
       req.open("GET", "/elefant");
@@ -256,7 +256,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
       req.open();
       req.send();
-      fakeReq.respond(200, "", "Affe");
+      fakeReq.respond(200, {"Content-Type": "text/html"}, "Affe");
 
       this.assertEquals("Affe", req.responseText);
     },
