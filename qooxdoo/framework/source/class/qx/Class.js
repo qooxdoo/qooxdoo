@@ -225,6 +225,11 @@ qx.Bootstrap.define("qx.Class",
         for (var key in config.environment) {
           qx.core.Environment.add(key, config.environment[key]);
         }
+        
+        // @deprecated since 1.4 (also put the environment into the settings)
+        for (var key in config.environment) {
+          qx.core.Setting.defineDeprecated(key, config.environment[key]);
+        }
       }
 
       // @deprecated since 1.4 (settings are now environment)
