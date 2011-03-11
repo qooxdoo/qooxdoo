@@ -44,17 +44,11 @@ As far, everything behaves as desired. But if set the init value instead of a ne
     a.setA(a.getA()); // changeA fired (first set)
     a.setA(a.getA()); // changeA NOT fired (every other set)
 
-.. _pages/property_features/behavior#history:
 
-History
-=======
-An interesting point about this behavior is the history of it. It was introduced with qooxdoo 0.8 and is since that initial 0.8 release in every release included. 
-The behavior in 0.7 was different. It does not fire a change event when setting the init value, which is the correct and expected behavior.
+.. _pages/property_features/behavior#why_not_just_change_this_behaviour:
 
-.. _pages/property_features/behavior#why_not_just_change_it_back_as_it_was:
-
-Why not just change it back as it was?
-======================================
+Why not just change this behaviour?
+===================================
 It's always hard to change a behavior like that because there is no deprecation strategy for it. If we change it, it is changed and every line of code relying on that behavior will fail. 
 Even worse, the only thing we could use as a check for the wrong used behavior is to search for all properties having an init value and either an apply function or an event. Now you have to check if one of these properties could be set with the init value, before any other value has been set. If it is possible that the init value is set as first value, check if the attached apply is required to run or any listener registered to the change event of that property.
 A good example in the framework where we rely on the behavior is the Spinner:
@@ -79,9 +73,9 @@ The example shows the constructor and the apply of the value property. The probl
 
 #. The value argument is undefined: The initValue method is called, which invokes the apply function for the property with the init value as value.
 #. A value is given different as the init value: So the value is not undefined and the setter for the value property will be called, which invokes the apply function.
-#. A value is given and its exactly the init value: In this case, the setter will be called with the init value. The old behavior calls the apply and invokes with that apply the ``_updateButtons`` method. This method checks the given value and enables / disabled the buttons for increasing / decreasing the spinner. So it is necessary that the apply method is at least called once that the buttons have the proper states.
+#. A value is given and its exactly the init value: In this case, the setter will be called with the init value. The apply method is called and invokes the ``_updateButtons`` method. This method checks the given value and enables / disabled the buttons for increasing / decreasing the spinner. So it is necessary that the apply method is at least called once that the buttons have the proper states.
 
-The problem with the new behavior is obvious. In the third case, the apply method is not called and the buttons enabled states could be wrong without throwing an error. And they are only wrong, if the value is exactly the init value and one of the minimum or maxiumum values is the same. Because only in that scenario, one of the buttons need to be disabled.
+The problem with a possible change of this behavior is obvious. In the third case, the apply method is not called and the buttons enabled states could be wrong without throwing an error. And they are only wrong, if the value is exactly the init value and one of the minimum or maxiumum values is the same. Because only in that scenario, one of the buttons need to be disabled.
 
 When can it be changed?
 =======================
