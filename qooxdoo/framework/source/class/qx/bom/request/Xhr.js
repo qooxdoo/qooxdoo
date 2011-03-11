@@ -235,9 +235,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.onreadystatechange();
       }
 
-      if (isDone) {
+      if (this.__nativeXhr.readyState > 1) {
         this.status = this.__nativeXhr.status;
         this.statusText = this.__nativeXhr.statusText;
+      } else {
+        this.status = 0;
+        this.statusText = "";
       }
     }
   }

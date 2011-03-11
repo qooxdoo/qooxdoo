@@ -330,7 +330,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     //
-    // status
+    // status and statusText
     //
 
     "test: http status should be 0 when UNSENT": function() {
@@ -356,23 +356,41 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertIdentical(200, req.status);
     },
 
-    //
-    // statusText
-    //
-
     "test: statusText should be empty string when UNSENT": function() {
       var fakeReq = this.getFakeReq();
 
       this.assertIdentical("", this.req.statusText);
     },
 
-    "test: statusText when DONE": function() {
+    "test: statusText should be populated when DONE": function() {
       var fakeReq = this.getFakeReq();
       var req = this.req;
       req.open();
       fakeReq.respond(200);
 
       this.assertIdentical("OK", req.statusText);
+    },
+
+    "test: status should be populated when LOADING": function() {
+      var fakeReq = this.getFakeReq();
+      var req = this.req;
+      req.open();
+      fakeReq.readyState = this.constructor.LOADING;
+      fakeReq.status = 200;
+      fakeReq.onreadystatechange();
+
+      this.assertIdentical(200, req.status);
+    },
+
+    "test: should reset status on next request": function() {
+      var fakeReq = this.getFakeReq();
+      var req = this.req;
+      req.open();
+      fakeReq.respond(200);
+      req.open()
+
+      this.assertIdentical(0, req.status);
+      this.assertIdentical("", req.statusText);
     },
 
     //
