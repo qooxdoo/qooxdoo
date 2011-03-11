@@ -143,8 +143,12 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     {
       var keyIdentifier = event.getKeyIdentifier();
       var isOpen = this.getChildControl("dropdown").isVisible();
+      var isModifierPressed = this._isModifierPressed(event);
 
-      if (!isOpen && (keyIdentifier === "Enter" || keyIdentifier === "Space")) {
+      if (
+        !isOpen && !isModifierPressed &&
+        (keyIdentifier === "Enter" || keyIdentifier === "Space")
+      ) {
         return "open";
       } else if (isOpen && event.isPrintable()) {
         return "search";

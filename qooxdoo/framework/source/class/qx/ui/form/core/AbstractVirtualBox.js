@@ -47,7 +47,6 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     // Register listeners
     this.addListener("keypress", this._handleKeyboard, this);
     this.addListener("click", this._handleMouse, this);
-    this.addListener("mousewheel", this._handleMouse, this);
     this.addListener("blur", this._onBlur, this);
     this.addListener("resize", this._onResize, this);
 
@@ -291,9 +290,8 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     
     
     /**
-     * Returns the action dependent on the user interaction: <code>open</code>,
-     * <code>close</code>, <code>selectPrevious</code>, <code>selectNext</code>,
-     * <code>selectFirst</code> or <code>selectLast</code>.
+     * Returns the action dependent on the user interaction: e. q. <code>open</code>,
+     * or <code>close</code>.
      *
      * @param event {qx.event.type.KeySequence} The keyboard event.
      * @return {String|null} The action or <code>null</code> when interaction 
@@ -303,22 +301,17 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     {
       var keyIdentifier = event.getKeyIdentifier();
       var isOpen = this.getChildControl("dropdown").isVisible();
-
+      var isModifierPressed = this._isModifierPressed(event);
+      
       if (
-        !isOpen && event.isAltPressed() && 
+        !isOpen && !isModifierPressed && 
         (keyIdentifier === "Down" || keyIdentifier === "Up")
       ) {
         return "open";
-      } else if (isOpen && keyIdentifier === "Escape") {
+      } else if (
+        isOpen && !isModifierPressed && keyIdentifier === "Escape"
+      ) {
         return "close";
-      } else if (!isOpen && keyIdentifier === "Up") {
-        return "selectPrevious";
-      } else if (!isOpen && keyIdentifier === "Down") {
-        return "selectNext";
-      } else if (!isOpen && keyIdentifier === "PageUp") {
-        return "selectFirst";
-      } else if (!isOpen && keyIdentifier === "PageDown") {
-        return "selectLast";
       } else {
         return null;
       }
@@ -342,7 +335,27 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
       return bindPath;
     },
-    
+
+    /**
+     * Helper method to check if one modifier key is pressed. e.q. 
+     * <code>Control</code>, <code>Shift</code>, <code>Meta</code> or
+     * <code>Alt</code>.
+     * 
+     * @param event {qx.event.type.KeySequence} The keyboard event.
+     * @return {Boolen} <code>True</code> when a modifier key is pressed, 
+     *   <code>false</code> otherwise.
+     */
+    _isModifierPressed : function(event)
+    {
+      var isAltPressed = event.isAltPressed();
+      var isCtrlOrCommandPressed = event.isCtrlOrCommandPressed();
+      var isShiftPressed = event.isShiftPressed();
+      var isMetaPressed = event.isMetaPressed();
+
+      return (isAltPressed || isCtrlOrCommandPressed || 
+        isShiftPressed || isMetaPressed);
+    },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -371,6 +384,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     _handleKeyboard : function(event)
     {
       var action = this._getAction(event);
+      var isOpen = this.getChildControl("dropdown").isVisible();
 
       switch(action)
       {
@@ -382,24 +396,10 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
           this.close();
           break;
 
-        case "selectPrevious":
-          this.getChildControl("dropdown").selectPrevious();
-          break;
-
-        case "selectNext":
-          this.getChildControl("dropdown").selectNext();
-          break;
-
-        case "selectFirst":
-          this.getChildControl("dropdown").selectFirst();
-          break;
-
-        case "selectLast":
-          this.getChildControl("dropdown").selectLast();
-          break;
-
         default:
-          this.getChildControl("dropdown")._handleKeyboard(event);
+          if (isOpen) {
+            this.getChildControl("dropdown")._handleKeyboard(event);
+          }
           break;
       }
     },
@@ -410,21 +410,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
      *
      * @param event {qx.event.type.Mouse|qx.event.type.MouseWheel} The mouse event.
      */
-    _handleMouse : function(event)
-    {
-      var type = event.getType();
-      var isOpen = this.getChildControl("dropdown").isVisible();
-
-      if (type === "mousewheel" && !isOpen)
-      {
-        var selectNext = event.getWheelDelta() > 0 ? true : false;
-        if (selectNext == true) {
-          this.getChildControl("dropdown").selectNext();
-        } else {
-          this.getChildControl("dropdown").selectPrevious();
-        }
-      }
-    },
+    _handleMouse : function(event) {},
 
 
     /**

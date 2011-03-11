@@ -134,72 +134,6 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
 
 
     /**
-     * Selects the first item from the drop-down.
-     */
-    selectFirst : function() {
-      this.__select(0);
-    },
-
-
-    /**
-     * Selects the last item from the drop-down.
-     */
-    selectLast : function() {
-      var lookupTable = this.getChildControl("list")._getLookupTable();
-      this.__select(lookupTable.length - 1);
-    },
-
-
-    /**
-     * Selects the previous item from the drop-down, depends on which item is 
-     * currently selected.
-     */
-    selectPrevious : function()
-    {
-      var model = this.getChildControl("list").getModel();
-
-      if (model.contains(this.getSelection().getItem(0)))
-      {
-        var modelIndex = model.indexOf(this.getSelection().getItem(0));
-
-        var row = this.getChildControl("list")._reverseLookup(modelIndex);
-        row = row - 1;
-
-        if (row < 0) {
-          row = 0;
-        }
-
-        this.__select(row);
-      }
-    },
-
-
-    /**
-     * Selects the next item from the drop-down, depends on which item is 
-     * currently selected.
-     */
-    selectNext : function()
-    {
-      var list = this.getChildControl("list");
-      var model = list.getModel();
-
-      if (model.contains(this.getSelection().getItem(0)))
-      {
-        var modelIndex = model.indexOf(this.getSelection().getItem(0));
-
-        var row = list._reverseLookup(modelIndex);
-        row = row + 1;
-
-        if (row >= list._getLookupTable().length) {
-          row = list._getLookupTable().length - 1;
-        }
-
-        this.__select(row);
-      }
-    },
-    
-    
-    /**
      * Pre-selects the drop-down item corresponding to the given model object.
      * 
      * @param modelItem {Object} Item to be pre-selected.
@@ -402,32 +336,6 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
       HELPER METHODS
     ---------------------------------------------------------------------------
     */
-
-
-    /**
-     * Helper method to select passed row.
-     *
-     * @param row {Integer} Row to select.
-     */
-    __select : function(row)
-    {
-      var selection = this.getSelection();
-      var model = this.getChildControl("list").getModel();
-      var index = this.getChildControl("list")._lookup(row);
-
-      if (index > -1 && index < model.getLength())
-      {
-        var item = model.getItem(index);
-        if (!selection.contains(item)) {
-          selection.splice(0, 1, item);
-        }
-      }
-      else
-      {
-        throw new Error("Can't select row '" + row + 
-          "' because it is out of range!");
-      }
-    },
 
 
     /**

@@ -241,8 +241,9 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     {
       var keyIdentifier = event.getKeyIdentifier();
       var isOpen = this.getChildControl("dropdown").isVisible();
+      var isModifierPressed = this._isModifierPressed(event);
 
-      if (!isOpen && keyIdentifier === "Enter") {
+      if (!isOpen && !isModifierPressed && keyIdentifier === "Enter") {
         return "select";
       } else {
         return this.base(arguments, event);
