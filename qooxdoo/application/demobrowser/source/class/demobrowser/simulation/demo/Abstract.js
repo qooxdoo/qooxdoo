@@ -33,15 +33,14 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
   {
     this.base(arguments);
     this.demoName = this._getDemoNameFromClass();
-    this.demoWindow = simulator.QxSimulation.AUTWINDOW + "."
-      + simulator.QxSimulation.QXAPPLICATION 
+    this.demoWindow = simulator.Simulation.AUTWINDOW + "."
+      + simulator.Simulation.QXAPPLICATION 
       + ".viewer._iframe.getWindow()";
   },
   
   members :
   {
     demoName : null,
-    __demoList : null,
     __demoLoaded : false,
     demoWindow : null,
     iframeRootLocator : 'qxhv=[@classname=demobrowser.DemoBrowser]/qx.ui.splitpane.Pane/qx.ui.splitpane.Pane/qx.ui.embed.Iframe/qx.ui.root.Application',
@@ -57,6 +56,7 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
         this.loadDemo();
         this.prepareDemo();
       }
+      this._initReporter();
     },
     
     /**
@@ -65,16 +65,8 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
      */
     tearDown : function()
     {
-      var entries = this.getSimulation().getRingBufferEntries(this.demoWindow);
-      for (var i=0,l=entries.length; i<l; i++) {
-        this.warn(this.demoName + " said: " + entries[i]);
-      }
-      
-      var globalErrors = this.getSimulation().getGlobalErrors(this.demoWindow);
-      for (var i=0,l=globalErrors.length; i<l; i++) {
-        this.error("Global Error Handler caught exception in demo " + this.demoName + ". " + globalErrors[i]);
-      }
-      
+      this.logAutLog();
+      this.getSimulation().throwGlobalErrors(this.demoWindow);
     },
     
     
@@ -108,11 +100,25 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
      */
     prepareDemo : function()
     {
-      simulator.QxSelenium.getInstance().getEval(this.demoWindow + '.qx.log.Logger.setLevel("warn");');
-      this.getSimulation().addRingBuffer(this.demoWindow);
-      this.getSimulation().addGlobalErrorHandler(this.demoWindow);
-      this.getSimulation().addGlobalErrorGetter(this.demoWindow);
+      this.getQxSelenium().getEval(this.demoWindow + '.qx.log.Logger.setLevel("warn");');
+      this.getSimulation()._addAutLogStore(this.demoWindow);
+      this.getSimulation()._addAutLogGetter(this.demoWindow);
+      this.getSimulation()._addGlobalErrorHandler(this.demoWindow);
+      this.getSimulation()._addGlobalErrorGetter(this.demoWindow);
     },
+    
+    
+    /**
+     * Logs the contents of the AUT-side logger
+     */
+    logAutLog : function()
+    {
+      var entries = this.getSimulation().getAutLogEntries(this.demoWindow);
+      for (var i=0,l=entries.length; i<l; i++) {
+        this.warn(this.demoName + " said: " + entries[i]);
+      }
+    },
+    
     
     /**
      * Determines the name of the currently tested demo from the name of the 
@@ -130,6 +136,17 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
       else {
         return;
       }
+    },
+    
+    _initReporter : function()
+    {
+      var reportServer = qx.core.Setting.get("simulator.reportServer");
+      if (simulator.Reporter.SERVER_URL == reportServer) {
+        return;
+      }
+      simulator.Reporter.SERVER_URL = reportServer;
+      //qx.log.Logger.clear();
+      qx.log.Logger.register(simulator.Reporter);
     }
     
   }
