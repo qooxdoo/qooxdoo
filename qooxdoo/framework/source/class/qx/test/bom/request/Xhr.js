@@ -306,36 +306,63 @@ qx.Class.define("qx.test.bom.request.Xhr",
       }
 
     },
-    
+
+    //
+    // status
+    //
+
+    "test: http status should be 0 when UNSENT": function() {
+      var fakeReq = this.getFakeReq();
+
+      this.assertIdentical(0, this.req.status);
+    },
+
+    "test: http status should be 0 when OPENED": function() {
+      var fakeReq = this.getFakeReq();
+      var req = this.req;
+      req.open();
+
+      this.assertIdentical(0, req.status);
+    },
+
+    "test: http status when DONE": function() {
+      var fakeReq = this.getFakeReq();
+      var req = this.req;
+      req.open();
+      fakeReq.respond(200);
+
+      this.assertIdentical(200, req.status);
+    },
+
     //
     // getResponseHeader()
     //
-    
+
     "test: should get response header": function() {
       var fakeReq = this.getFakeReq();
       fakeReq.setResponseHeaders({
         "key": "value"
       });
-      
+
       var responseHeader = this.req.getResponseHeader("key");
       this.assertEquals("value", responseHeader);
     },
-    
+
     //
     // getAllResponseHeaders()
     //
-    
+
     "test: should get all response headers": function() {
       var fakeReq = this.getFakeReq();
       fakeReq.setResponseHeaders({
         "key1": "value1",
         "key2": "value2"
       });
-      
+
       var responseHeaders = this.req.getAllResponseHeaders();
       this.assertEquals("value2", responseHeaders["key2"]);
     },
-    
+
     fakeNativeXhr: function() {
       var fakeReqs = this.fakeReqs = [];
       this.fakedXhr = this.useFakeXMLHttpRequest();

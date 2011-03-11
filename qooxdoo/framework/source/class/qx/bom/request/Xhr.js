@@ -71,6 +71,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     responseText: "",
 
     /**
+     * The HTTP status code.
+     */
+    status: 0,
+
+    /**
      * Initialize (prepare) a request.
      *
      * @param method {String}
@@ -195,6 +200,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     __handleReadyStateChange: function() {
 
+      var isDone = this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE;
+
       // BUGFIX: IE
       // IE < 7 cannot access responseText while LOADING
       // "The data necessary to complete this operation is not yet available".
@@ -202,7 +209,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       var isLegacyIE = qx.core.Environment.get("browser.name") == "ie" &&
                        qx.core.Environment.get("browser.version") < 7;
       var isLoading  = this.__nativeXhr.readyState == qx.bom.request.Xhr.LOADING;
-      var isDone     = this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE
 
       if ((!isLegacyIE && isLoading) || isDone) {
         this.responseText = this.__nativeXhr.responseText;
@@ -217,6 +223,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.readyState = this.__nativeXhr.readyState;
         this.onreadystatechange();
       }
+
+      this.status = this.__nativeXhr.status;
     }
   }
 });
