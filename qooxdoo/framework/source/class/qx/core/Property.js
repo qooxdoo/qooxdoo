@@ -296,7 +296,7 @@ qx.Bootstrap.define("qx.core.Property",
       var inheritables = this.__getInheritablesOfClass(clazz);
 
       if (!inheritables.length) {
-        var refresher = qx.lang.Function.empty;
+        var refresher = function () {};
       } else {
         refresher = this.__createRefresher(inheritables);
       }
