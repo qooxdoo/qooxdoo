@@ -801,8 +801,14 @@ qx.Class.define("qx.util.format.DateFormat",
       };
     },
 
-
-    __isRuleForWildcard : function(rule,wildcardChar,wildcardSize)
+    /**
+     * Checks wether the rule matches the wildcard or not.
+     * @param rule {Object} the rule we try to match with the wildcard
+     * @param wildcardChar {String} the character in the wildcard
+     * @param wildcardSize {Integer} the number of  wildcardChar characters in the wildcard
+     * @return {Boolean} if the rule matches or not
+     */
+    __isRuleForWildcard : function(rule, wildcardChar, wildcardSize)
     {
       if(wildcardChar==='y' && rule.pattern==='y+')
       {
