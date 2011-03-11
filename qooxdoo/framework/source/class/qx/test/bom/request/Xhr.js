@@ -335,6 +335,25 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     //
+    // statusText
+    //
+
+    "test: statusText should be empty string when UNSENT": function() {
+      var fakeReq = this.getFakeReq();
+
+      this.assertIdentical("", this.req.statusText);
+    },
+
+    "test: statusText when DONE": function() {
+      var fakeReq = this.getFakeReq();
+      var req = this.req;
+      req.open();
+      fakeReq.respond(200);
+
+      this.assertIdentical("OK", req.statusText);
+    },
+
+    //
     // getResponseHeader()
     //
 

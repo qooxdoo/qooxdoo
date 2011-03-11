@@ -76,6 +76,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     status: 0,
 
     /**
+     * The HTTP status text.
+     */
+    statusText: "",
+
+    /**
      * Initialize (prepare) a request.
      *
      * @param method {String}
@@ -225,6 +230,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       this.status = this.__nativeXhr.status;
+      this.statusText = this.__nativeXhr.statusText;
     }
   }
 });
