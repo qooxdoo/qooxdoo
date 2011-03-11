@@ -285,6 +285,8 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
           this.__synchronizeSelection(selection, listSelection);
         }
         this.__adjustSize();
+      } else {
+        this.setPreselected(null);
       }
     },
 
