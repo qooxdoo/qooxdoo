@@ -34,9 +34,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     // Track native ready state changes
     this.__nativeXhr.onreadystatechange =
       qx.lang.Function.bind(this.__handleReadyStateChange, this);
-
-    // Initial state is UNSENT
-    this.readyState = qx.bom.request.Xhr.UNSENT;
   },
 
   statics :
@@ -66,7 +63,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * LOADING:          3,
      * DONE:             4
      */
-    readyState: null,
+    readyState: 0,
 
     /**
      * The response of the request as text.
