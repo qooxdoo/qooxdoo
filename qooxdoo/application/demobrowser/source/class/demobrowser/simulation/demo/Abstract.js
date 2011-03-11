@@ -141,12 +141,12 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
     _initReporter : function()
     {
       var reportServer = qx.core.Setting.get("simulator.reportServer");
-      if (simulator.Reporter.SERVER_URL == reportServer) {
+      if (simulator.reporter.Reporter.SERVER_URL == reportServer) {
         return;
       }
-      simulator.Reporter.SERVER_URL = reportServer;
+      simulator.reporter.Reporter.SERVER_URL = reportServer;
       //qx.log.Logger.clear();
-      qx.log.Logger.register(simulator.Reporter);
+      qx.log.Logger.register(simulator.reporter.Reporter);
     }
     
   }
