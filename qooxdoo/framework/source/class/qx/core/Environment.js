@@ -110,6 +110,81 @@ qx.Bootstrap.define("qx.core.Environment",
     },
 
 
+    add : function(key, getter) {
+      if (this._checks[key] == undefined) {
+        if (getter instanceof Function) {
+          this._checks[key] = getter;
+        } else {
+          this._checks[key] = qx.Bootstrap.bind(function() {
+            return this;
+          }, getter);
+        }
+
+      } else {
+        if (this.useCheck("qx.debug")) {
+          qx.Bootstrap.warn("The key '" + key + "' is already in use." + 
+            " The old value '" + this.get(key) + "' is still valid.");
+        }
+      }
+    },
+
+
+    _initDefaultQxValues : function() {
+      this.add("qx.allowUrlSettings", function() {return false;});
+      this.add("qx.allowUrlVariants", function() {return false;});
+      this.add("qx.propertyDebugLevel", function() {return 0;});
+    },
+
+
+    /**
+     * Import checks from global qx.$$environemnt into current environment.
+     */
+    __importFromGenerator : function()
+    {
+      // @deprecated since 1.4: import from settings map in case someone 
+      // added it manually
+      if (window.qxsettings)
+      {
+        for (var key in window.qxsettings) {
+          var check = qx.Bootstrap.bind(function() {
+            return this;
+          }, window.qxsettings[key]);
+          this._checks[key] = check;
+        }
+      }
+      
+      if (qx && qx.$$environment)
+      {
+        for (var key in qx.$$environment) {
+          var check = qx.Bootstrap.bind(function() {
+            return this;
+          }, qx.$$environment[key]);
+          this._checks[key] = check;
+        }
+      }
+    },
+    
+    
+    __importFromUrl : function() {
+      var urlChecks = document.location.search.slice(1).split("&");
+
+      for (var i = 0; i < urlChecks.length; i++)
+      {
+        var check = urlChecks[i].split(":");
+        if (check.length != 3 || check[0] != "qxenv") {
+          continue;
+        }
+        
+        var key = check[1];
+        var value = decodeURIComponent(check[2]);
+        
+        var checkFunction = qx.Bootstrap.bind(function() {
+          return this;
+        }, value);
+        this._checks[key] = checkFunction;
+      }  
+    },
+
 
     /**
      * Internal helper for the generator to flag that this block contains the 
@@ -338,6 +413,15 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
   defer : function(statics) {
+    // create default values for the environment class
+    statics._initDefaultQxValues();
+    // first initialize the defined checks
     statics._initChecksMap();
+    // load the checks from the generator
+    statics.__importFromGenerator();
+    // load the checks from the url
+    if (statics.get("qx.allowUrlSettings") != true) {
+      statics.__importFromUrl();
+    }
   }
 });

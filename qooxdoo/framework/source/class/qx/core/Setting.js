@@ -64,6 +64,8 @@
  * map <code>qxsettings</code> are imported. This map can also created
  * by hand and should be defined before loading qooxdoo. After the import
  * the settings system deletes the map.
+ * 
+ * @deprecated since 1.4: Please use qx.core.Environment instead.
  */
 qx.Bootstrap.define("qx.core.Setting",
 {
@@ -78,10 +80,35 @@ qx.Bootstrap.define("qx.core.Setting",
      *
      * @param key {String} The key to store the value under
      * @param defaultValue {String|Boolean|Number} Primitive default value for the new setting
-     * @return {void}
+     * 
+     * @deprecated since 1.4: Please use qx.core.Environment instead.
+     * 
      * @throws an exception if the setting is already defined (overwriting is not allowed at all)
      */
     define : function(key, defaultValue)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.Bootstrap.warn(
+          "The method 'qx.core.Setting.define' is deprecated: " +
+          "Please use qx.core.Environment.add() instead."
+        );
+      }
+            
+      this.defineDeprecated(key, defaultValue);
+    },
+
+
+    /**
+     * Special method for deprecation the settings.
+     * 
+     * @param key {String} The key to store the value under
+     * @param defaultValue {String|Boolean|Number} Primitive default value for the new setting
+     * 
+     * @deprecated since 1.4: Please use qx.core.Environment instead.
+     * 
+     * @throws an exception if the setting is already defined (overwriting is not allowed at all)
+     */
+    defineDeprecated : function(key, defaultValue)
     {
       if (defaultValue === undefined) {
         throw new Error('Default value of setting "' + key + '" must be defined!');
@@ -103,9 +130,17 @@ qx.Bootstrap.define("qx.core.Setting",
      * @param key {String} The key where the data is stored under
      * @return {String|Boolean|Number} The primitive value stored for the given setting
      * @throws an exception is the setting does not exist or the default value was not assigned
+     * 
+     * @deprecated since 1.4: Please use qx.core.Environment instead.
      */
     get : function(key)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.Bootstrap.warn(
+          "The method 'qx.core.Setting.get' is deprecated: " +
+          "Please use qx.core.Environment.get() instead."
+        );
+      }      
       var cache = this.__settings[key];
 
       if (cache === undefined) {
@@ -126,8 +161,31 @@ qx.Bootstrap.define("qx.core.Setting",
      * @internal Only to be used in unit tests.
      * @param key {String} The setting name
      * @param value {var} The new setting's value
+     * 
+     * @deprecated since 1.4: Please use qx.core.Environment instead.
      */
-    set : function(key, value)
+     set : function(key, value) {
+       if (qx.core.Variant.isSet("qx.debug", "on")) {
+         qx.Bootstrap.warn(
+           "The method 'qx.core.Setting.set' is deprecated: " +
+           "Please use qx.core.Environment.add() instead."
+         );
+       }
+
+       this.setDeprecated(key, value);
+     },
+
+
+    /**
+     * Set a settings value
+     *
+     * @internal Only to be used in unit tests.
+     * @param key {String} The setting name
+     * @param value {var} The new setting's value
+     * 
+     * @deprecated since 1.4: Please use qx.core.Environment instead.
+     */
+    setDeprecated : function(key, value)
     {
       if ((key.split(".")).length < 2) {
         throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
@@ -146,13 +204,15 @@ qx.Bootstrap.define("qx.core.Setting",
      *
      * @return {void}
      * @throws an exception if a setting definition is in a wrong format
+     * 
+     * @deprecated since 1.4: Please use qx.core.Environment instead.
      */
     __init : function()
     {
       if (window.qxsettings)
       {
         for (var key in window.qxsettings) {
-          this.set(key, window.qxsettings[key]);
+          this.setDeprecated(key, window.qxsettings[key]);
         }
 
         window.qxsettings = undefined;
@@ -169,10 +229,12 @@ qx.Bootstrap.define("qx.core.Setting",
     /**
      * Load settings from URL parameters if the setting <code>"qx.allowUrlSettings"</code>
      * is set to true.
+     * 
+     * @deprecated since 1.4: Please use qx.core.Environment instead.
      */
     __loadUrlSettings : function()
     {
-      if (this.get("qx.allowUrlSettings") != true) {
+      if (qx.core.Environment.get("qx.allowUrlSettings") != true) {
         return
       }
 
@@ -185,6 +247,12 @@ qx.Bootstrap.define("qx.core.Setting",
           continue;
         }
 
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.Bootstrap.warn(
+            "URL settings are deprecated. Please use URL environment " + 
+            "variables instead. (qxsetting --> qxenv)"
+          );
+        }
         this.set(setting[1], decodeURIComponent(setting[2]));
       }
     }
@@ -201,9 +269,9 @@ qx.Bootstrap.define("qx.core.Setting",
 
   defer : function(statics)
   {
-    statics.define("qx.allowUrlSettings", false);
-    statics.define("qx.allowUrlVariants", false);
-    statics.define("qx.propertyDebugLevel", 0);
+    statics.defineDeprecated("qx.allowUrlSettings", false);
+    statics.defineDeprecated("qx.allowUrlVariants", false);
+    statics.defineDeprecated("qx.propertyDebugLevel", 0);
 
     statics.__init();
   }
