@@ -21,8 +21,16 @@ qx.Class.define("qx.test.event.GlobalError",
 {
   extend : qx.dev.unit.TestCase,
 
+  construct : function()
+  {
+    this.base(arguments);
+    this.__initialSetting = qx.core.Setting.get("qx.globalErrorHandling");
+  },
+  
   members :
   {
+    __initialSetting : null,
+    
     setUp : function()
     {
       qx.core.Setting.set("qx.globalErrorHandling", "on");
@@ -35,6 +43,7 @@ qx.Class.define("qx.test.event.GlobalError",
 
     tearDown : function ()
     {
+      qx.core.Setting.set("qx.globalErrorHandling", this.__initialSetting);
       this.errorHandler.setErrorHandler(null);
       if (window.onerror) {
         window.onerror = null;
