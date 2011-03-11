@@ -11,14 +11,14 @@ The single value binding is mostly a basis for the higher concepts of the data b
 Binding a single property to another property
 ---------------------------------------------
 
-The simplest form of single value binding is to bind one property to another. Technically the source property needs to fire a change event. Without that no binding is possible. But if this requirement is met, the binding itself is quite simple. You can see this in the following code snippet, which binds two properties of the label content together:
+The simplest form of single value binding is to bind one property to another. Technically the source property needs to fire a change event. Without that no binding is possible. But if this requirement is met, the binding itself is quite simple. You can see this in the following code snippet, which binds two properties of the label value together:
 
 ::
 
     var label1 = new qx.ui.basic.Label();
     var label2 = new qx.ui.basic.Label();
 
-    label1.bind("content", label2, "content");
+    label1.bind("value", label2, "value");
 
 ``label1`` is the source object to bind, with the following three arguments to that call: 
 
@@ -26,13 +26,13 @@ The simplest form of single value binding is to bind one property to another. Te
 #. The target object which has the target property.
 #. The name of the property as the endpoint of the binding.
 
-With that code every change of the content property of ``label1`` will automatically synchronize the content property of ``label2``.
+With that code every change of the value property of ``label1`` will automatically synchronize the value property of ``label2``.
 
 .. _pages/data_binding/single_value_binding#binding_a_data_event_to_property:
 
 Binding a data event to property
 --------------------------------
-In some cases in the framework, there is only a change event and no property. For that case, you can bind a data event to a property. One common case is the ``TextField`` widget, which does not have a property containing the content of the ``TextField``. Therefor you can use the input event and bind that to a target property as you can see in the example snippet.
+In some cases in the framework, there is only a change event and no property. For that case, you can bind a data event to a property. One common case is the ``TextField`` widget, which does not have a property containing the value of the ``TextField``. Therefor you can use the input event and bind that to a target property as you can see in the example snippet.
 The API is almost the same as in the property binding case.
 
 ::
@@ -40,7 +40,7 @@ The API is almost the same as in the property binding case.
     var textField = new qx.ui.form.TextField();
     var label = new qx.ui.basic.Label();
 
-    textField.bind("input", label, "content");
+    textField.bind("input", label, "value");
 
 As you can see, the same method has been used. The difference is, that the first argument is a data event name and not a property name.
 
@@ -57,10 +57,10 @@ A more advanced feature of the single value binding is to bind a hierarchy of pr
     var b = new Node("b");      // set the name to „b“
     a.setChild(b);
 
-    // bind the property to a labels content
-    a.bind("child.name", label, "content");
+    // bind the property to a labels value
+    a.bind("child.name", label, "value");
 
-Now every change of the ``name`` of ``b`` will change the labels content. But also a change of the ``child`` property of ``a`` to another Node with another name will change the content of the label to the new name. 
+Now every change of the ``name`` of ``b`` will change the labels value. But also a change of the ``child`` property of ``a`` to another Node with another name will change the value of the label to the new name. 
 With that mechanism a even deeper binding in a hierarchy is possible. Just separate every property with a dot. But always keep in mind that every property needs to fire a change event to work with the property binding.
 
 .. _pages/data_binding/single_value_binding#bind_an_array_to_a_property:
@@ -71,11 +71,11 @@ The next step in binding would be the ability to bind a value of an array. That'
 
 ::
 
-    // bind the first array element to a label's content
-    a.bind("array[0]", labelFirst, "content");
+    // bind the first array element to a label's value
+    a.bind("array[0]", labelFirst, "value");
 
-    // bind the last array element to a label's content
-    a.bind("array[last]", labelFirst, "content");
+    // bind the last array element to a label's value
+    a.bind("array[last]", labelFirst, "value");
 
 You can use any numeric value in the brackets or the string value ``last`` which maps to ``length - 1``. That way you can easily map the top of a stack to something else.
 For binding of an array the same method will be used as for the binding of chains. So there is also the possibility to combine these two things and use arrays in such property chains.
