@@ -308,6 +308,28 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     //
+    // responseXML
+    //
+
+    "test: responseXML is null when not DONE": function() {
+      this.assertNull(this.req.responseXML);
+    },
+
+    "test: responseXML is parsed document with XML response": function() {
+      var req = this.req;
+      var fakeReq = this.getFakeReq();
+
+      req.open();
+      req.send();
+
+      var headers = { "Content-Type": "application/xml" };
+      var body = "<animals><moonkey/><mouse/></animals>";
+      fakeReq.respond(200, headers, body);
+
+      this.assertObject(req.responseXML);
+    },
+
+    //
     // status
     //
 

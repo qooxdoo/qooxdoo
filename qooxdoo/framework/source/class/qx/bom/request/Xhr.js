@@ -71,6 +71,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     responseText: "",
 
     /**
+     * The response of the request as a Document object.
+     */
+    responseXML: null,
+
+    /**
      * The HTTP status code.
      */
     status: 0,
@@ -221,6 +226,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         // Set to empty string as specified in XMLHttpRequest Level 1.
         this.responseText = "";
       }
+      this.responseXML = this.__nativeXhr.responseXML;
 
       // BUGFIX: Internet Explorer, Firefox
       // onreadystatechange() is called twice for readyState OPENED.
@@ -229,8 +235,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.onreadystatechange();
       }
 
-      this.status = this.__nativeXhr.status;
-      this.statusText = this.__nativeXhr.statusText;
+      if (isDone) {
+        this.status = this.__nativeXhr.status;
+        this.statusText = this.__nativeXhr.statusText;
+      }
     }
   }
 });

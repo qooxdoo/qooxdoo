@@ -50,7 +50,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
       url = url + "?affe=true";
       req.open("GET", url);
-      req.send();
 
       var that = this;
       req.onreadystatechange = function() {
@@ -60,6 +59,29 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
           });
         }
       }
+      req.send();
+
+      this.wait();
+    },
+
+    "test: should GET XML resource": function() {
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/animals.xml");
+
+      req.open("GET", url);
+
+      var that = this;
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume(function() {
+            var document = req.responseXML;
+            var monkeys = document.getElementsByTagName("monkey");
+            that.assertObject(monkeys);
+            that.assertEquals(1, monkeys.length);
+          });
+        }
+      }
+      req.send();
 
       this.wait();
     },
