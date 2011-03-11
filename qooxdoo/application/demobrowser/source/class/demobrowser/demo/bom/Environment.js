@@ -14,10 +14,11 @@
 
    Authors:
      * Christian Hagendorn (chris_schmidt)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.bom.Client",
+qx.Class.define("demobrowser.demo.bom.Environment",
 {
   extend : qx.application.Native,
 
@@ -37,10 +38,14 @@ qx.Class.define("demobrowser.demo.bom.Client",
 
       // this should not be used directly. Its just to show all added checks
       var checks = qx.core.Environment._checks;
+      var keys = qx.lang.Object.getKeys(checks);
+      keys.sort();
       
       var lastPrefix = "";
-      for (var key in checks)
+      for (var i = 0; i < keys.length; i++)
       {
+        var key = keys[i];
+        
         var prefix = key.split(".")[0];
         
         if (prefix != lastPrefix) {
@@ -59,10 +64,13 @@ qx.Class.define("demobrowser.demo.bom.Client",
       output.add("<tr><td colspan='2'><h2>Asynchronous checks</h2></td></tr>");
 
       // this should not be used directly. Its just to show all added checks
-      var checks = qx.core.Environment._asyncChecks;
+      checks = qx.core.Environment._asyncChecks;
       var numberOfChecks = qx.lang.Object.getLength(checks);
-      for (var key in checks)
+      keys = qx.lang.Object.getKeys(checks);
+      
+      for (var i = 0; i < keys.length; i++)
       {
+        var key = keys[i];
         qx.core.Environment.getAsync(key, function(result) {
           output.add("<tr><td>", this, "</td><td>", result, "</td></tr>");
           numberOfChecks--;
