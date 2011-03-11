@@ -540,20 +540,33 @@ class Class(Resource):
         return False
         
 
-    def followCallDeps(self, node, fileId, depClassName, inDefer):
-        if (depClassName
+    ##
+    # Checks if the required class is known, and the reference to is in a
+    # context that is executed at load-time
+    def followCallDeps(self, node, fileId, depClassName, inFunction, inDefer):
+
+        def hasFollowContext(node, inDefer):
+            if inDefer:
+                return True
+            pchn = node.getParentChain()
+            pchain = "/".join(pchn)
+            return (
+                pchain.endswith("keyvalue/value/call/operand")  # it's a method call as map value
+                or pchain.endswith("file/call/operand")  # it's a top-level method call
+                or pchain.endswith("keyvalue/value/instantiation/expression/call/operand")  # it's an instantiation as map value
+                # what about static vars, "a.b.c.FOO"?!
+                )
+
+        if (not inFunction
+            and depClassName
             and depClassName in self._classesObj  # we have a class id
             #and depClassName != fileId   # ! i need self references for statics pruning
             #and self.context['jobconf'].get("dependencies/follow-static-initializers", True)
-            and (
-                node.hasParentContext("keyvalue/value/call/operand")  # it's a method call as map value
-                or node.hasParentContext("keyvalue/value/instantiation/expression/call/operand")  # it's an instantiation as map value
-                or inDefer
-                # what about static vars, "a.b.c.FOO"?!
-            )
+            and hasFollowContext(node, inDefer)
            ):
             return True
-        return False
+        else:
+            return False
 
 
     ##
@@ -602,7 +615,7 @@ class Class(Resource):
                 depsList.append(depsItem)
 
                 # Mark items that need recursive analysis of their dependencies (bug#1455)
-                if not inFunction and self.followCallDeps(node, self.id, className, inDefer):
+                if self.followCallDeps(node, self.id, className, inFunction, inDefer):
                     depsItem.needsRecursion = True
 
         elif node.type == "body" and node.parent.type == "function":

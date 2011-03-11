@@ -105,11 +105,12 @@ class Node(object):
         return self.parent
 
     ##
-    # checks whether the node hierarchy leading to node ends with contextPath, ie.
-    # if node.parent.type == contextPath[-1], node.parent.parent.type == contextPath[-2]
-    # asf. Example: varNode.hasParentContext("call/operand") checks whether varNode.parent
-    # is "operand" and varNode.parent.parent is "call" type, ie. it's a function being called
-    # wildcard '*' is allowed to indicate any parent type, like "call/*"
+    # checks whether the node hierarchy leading to node ends with contextPath,
+    # ie.  if node.parent.type == contextPath[-1], node.parent.parent.type ==
+    # contextPath[-2] asf. Example: varNode.hasParentContext("call/operand")
+    # checks whether varNode.parent is "operand" and varNode.parent.parent is
+    # "call" type, ie. it's a function being called; the wildcard '*' is allowed
+    # to indicate any type on a particular level, like "value/*/operand"
     def hasParentContext(self, contextPath):
         parents = contextPath.split('/')
 
