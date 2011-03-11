@@ -94,7 +94,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       this.__typesIndex =
       {
         "PACKAGE":0,
-        "ENTRY":5,
+        "ENTRY":4,
         "CLASS":1,
         "INTERFACE":8,
         "METHOD_PUB":2,
@@ -105,9 +105,9 @@ qx.Class.define("apiviewer.ui.SearchView",
         "CONSTANT":3,
         "CHILDCONTROL":7
       };
-      this.__typeFilter = new qx.data.Array([true, true, true,true,true,true,true,true,true]);
-      var types = ['package','class','method','constant','property','entry','event','child control','interface'];
-      var iconNameParts = ['package','class','method_public','constant','property','event','event','childcontrol','interface'];
+      this.__typeFilter = new qx.data.Array([true, true,true,true,true,true,true,true]);
+      var types = ['package','class','method','constant','property','event','child control','interface'];
+      var iconNameParts = ['package','class','method_public','constant','property','event','childcontrol','interface'];
       
       var typeContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox());
       
