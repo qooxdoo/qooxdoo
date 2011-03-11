@@ -57,7 +57,7 @@ qx.Bootstrap.define("qx.bom.client.Transport",
       var maxConcurrentRequestCount;
 
       // Parse version numbers.
-      var versionParts = qx.core.Environment.get("engine.version").split(".");
+      var versionParts = qx.bom.client.Engine.getVersion().split(".");
       var versionMain = 0;
       var versionMajor = 0;
       var versionMinor = 0;
@@ -82,12 +82,12 @@ qx.Bootstrap.define("qx.bom.client.Transport",
       if (window.maxConnectionsPerServer){
         maxConcurrentRequestCount = window.maxConnectionsPerServer;
 
-      } else if (qx.core.Environment.get("engine.name") == "opera"){
+      } else if (qx.bom.client.Engine.getName() == "opera") {
         // Opera: 8 total
         // see http://operawiki.info/HttpProtocol
         maxConcurrentRequestCount = 8;
 
-      } else if (qx.core.Environment.get("engine.name") == "webkit") {
+      } else if (qx.bom.client.Engine.getName() == "webkit") {
         // Safari: 4
         // http://www.stevesouders.com/blog/2008/03/20/roundup-on-parallel-connections/
 
@@ -97,7 +97,7 @@ qx.Bootstrap.define("qx.bom.client.Transport",
 
         maxConcurrentRequestCount = 4;
 
-      } else if (qx.core.Environment.get("engine.name") == "gecko"
+      } else if (qx.bom.client.Engine.getName() == "gecko"
                  && ( (versionMain >1)
                       || ((versionMain == 1) && (versionMajor > 9))
                       || ((versionMain == 1) && (versionMajor == 9) && (versionMinor >= 1)))){
@@ -124,6 +124,7 @@ qx.Bootstrap.define("qx.bom.client.Transport",
     getSSL : function() {
       return window.location.protocol === "https:";
     },
+
 
     getXmlHttpRequest : function() {
       // Do not use qx.core.Environment to avoid circular references
