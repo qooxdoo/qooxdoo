@@ -16,7 +16,11 @@ if (!qx.$$libraries) qx.$$libraries = {};
 var libinfo = %{Libinfo};
 for (var k in libinfo) qx.$$libraries[k] = libinfo[k];
 
-qx.$$environment = %{EnvSettings};
+if (!qx.$$environment) qx.$$environment = {};
+var envinfo = %{EnvSettings};
+for (var k in qxsettings) qx.$$environment[k] = qxsettings[k];
+for (var k in qxvariants) qx.$$environment[k] = qxvariants[k];
+for (var k in envinfo)    qx.$$environment[k] = envinfo[k];
 
 qx.$$resources = %{Resources};
 qx.$$translations = %{Translations};
