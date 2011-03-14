@@ -38,7 +38,7 @@
     "APPLICATION"  : "qx",
     "QOOXDOO_PATH" : "..",
     "API_EXCLUDE"  : ["qx.test.*"],
-    "TEST_INCLUDE" : "qx.test.*",
+    "TEST_INCLUDE" : "qx.test.bom.media.*",
     "LOCALES"      : [ "de", "en", "es", "fr", "it", "nl", "sv","ro" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
   },

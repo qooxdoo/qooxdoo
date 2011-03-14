@@ -38,11 +38,12 @@ qx.Class.define("qx.bom.media.Abstract",
     this.base(arguments);
     this._media = media;
 
-    this._handlePlayEventBound = qx.lang.Function.bind(this._handlePlayEvent, this);
-    this._handlePauseEventBound = qx.lang.Function.bind(this._handlePauseEvent, this);
-    this._handleTimeUpdateEventBound = qx.lang.Function.bind(this._handleTimeUpdateEvent, this);
-    this._handleEndedEventBound = qx.lang.Function.bind(this._handleEndedEvent, this);
-    this._handleVolumeChangeEventBound = qx.lang.Function.bind(this._handleVolumeChangeEvent, this);
+    var Function = qx.lang.Function;
+    this._handlePlayEventBound = Function.bind(this._handlePlayEvent, this);
+    this._handlePauseEventBound = Function.bind(this._handlePauseEvent, this);
+    this._handleTimeUpdateEventBound = Function.bind(this._handleTimeUpdateEvent, this);
+    this._handleEndedEventBound = Function.bind(this._handleEndedEvent, this);
+    this._handleVolumeChangeEventBound = Function.bind(this._handleVolumeChangeEvent, this);
 
     var Event = qx.bom.Event;
     Event.addNativeListener(this._media, "play", this._handlePlayEventBound);
@@ -136,6 +137,14 @@ qx.Class.define("qx.bom.media.Abstract",
       this._media.id = id;
     },
 
+    /**
+     * Gets the id of the media.
+     */
+    getId: function()
+    {
+      return this._media.id;
+    },
+
 
     /**
      * Whether the browser can play the file format.
@@ -215,7 +224,6 @@ qx.Class.define("qx.bom.media.Abstract",
     {
       return this._media.currentTime;
     },
-
 
     /**
      * Sets the source url of the media file.
@@ -334,7 +342,7 @@ qx.Class.define("qx.bom.media.Abstract",
     /**
      * Whether the media element is to seek back to the start of the media resource upon reaching the end.
      */
-    getLoop: function()
+    isLoop: function()
     {
       return this._media.loop;
     },

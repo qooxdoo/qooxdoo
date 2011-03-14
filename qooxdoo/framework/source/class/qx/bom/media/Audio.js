@@ -22,10 +22,7 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * Audio media object to play sounds.
- *
- * For more information see:
- * http://www.w3.org/TR/geolocation-API
+ * Media object for playing sounds.
  */
 qx.Class.define("qx.bom.media.Audio",
 {
