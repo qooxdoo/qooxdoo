@@ -102,6 +102,17 @@ qx.Class.define("demobrowser.demo.virtual.SelectBox",
       var selectBox = new qx.ui.form.VirtualSelectBox(model);
       container.add(selectBox);
 
+      // Bind selection with tooltip
+      selectBox.bind("selection[0]", selectBox, "toolTipText", null);
+      var delegate = {
+        bindItem : function(controller, item, id)
+        {
+          controller.bindDefaultProperties(item, id);
+          controller.bindProperty("", "toolTipText", null, item, id);
+        }
+      };
+      selectBox.setDelegate(delegate);
+
       return container;
     },
 
