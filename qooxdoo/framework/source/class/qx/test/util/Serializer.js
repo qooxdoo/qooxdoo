@@ -133,6 +133,23 @@ qx.Class.define("qx.test.util.Serializer",
       item.dispose();
     },
 
+    testUrlDataArray : function() {
+      var a1 = new qx.data.Array(["a"]);
+      var a2 = new qx.data.Array(["a", "b"]);
+      var a3 = new qx.data.Array(["a", "b", "c"]);
+      this.__model.setData1(a1);
+      this.__model.setData2(a2);
+      this.__model.setData3(a3);
+      this.assertEquals(
+        "data1=a&data2=a&data2=b&data3=a&data3=b&data3=c", 
+        this.__s.toUriParameter(this.__model)
+      );
+      
+      // get rid of the objects
+      a1.dispose();
+      a2.dispose();
+      a3.dispose();
+    },
 
     testJsonFlat : function() {
       this.__model.setData1("a");
