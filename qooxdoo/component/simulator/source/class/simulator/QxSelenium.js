@@ -72,12 +72,8 @@ qx.Class.define("simulator.QxSelenium", {
     var browser = qx.core.Environment.get("simulator.testBrowser");
     var host = qx.core.Environment.get("simulator.autHost");
     
-    var threadSafe = false;
-    try {
-      threadSafe = qx.core.Environment.get("simulator.threadSafe");
-    } catch(ex) {}
-    
-    if (threadSafe) {
+    var threadSafe = String(qx.core.Environment.get("simulator.threadSafe"));
+    if (threadSafe == "true") {
       try {
         importClass(Packages.com.thoughtworks.selenium.grid.tools.ThreadSafeSeleniumSessionStorage);
       }

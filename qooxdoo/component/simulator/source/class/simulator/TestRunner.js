@@ -47,9 +47,8 @@ qx.Class.define("simulator.TestRunner", {
     _initLogFile : function()
     {
       var filename = null;
-      try {
-        filename = qx.core.Environment.get("simulator.logFile");
-      } catch(ex) {
+      filename = qx.core.Environment.get("simulator.logFile");
+      if (!filename) {
         return;
       }
       

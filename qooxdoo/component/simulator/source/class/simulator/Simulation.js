@@ -37,11 +37,16 @@ qx.Class.define("simulator.Simulation", {
     this.__options = {
       autHost : qx.core.Environment.get("simulator.autHost"),
       autPath : qx.core.Environment.get("simulator.autPath"),
-      threadSafe : qx.core.Environment.get("simulator.threadSafe"),
+      threadSafe : false,
       applicationLog : qx.core.Environment.get("simulator.applicationLog"),
       globalErrorLogging : qx.core.Environment.get("simulator.globalErrorLogging"),
       testEvents : qx.core.Environment.get("simulator.testEvents")
     };
+    
+    if (String(qx.core.Environment.get("simulator.threadSafe")) == "true") {
+      this.__options.threadSafe = true;
+    }
+    
     this.startDate = new Date();
     // for backwards compatibility:
     this.qxSelenium = simulator.QxSelenium.getInstance();
