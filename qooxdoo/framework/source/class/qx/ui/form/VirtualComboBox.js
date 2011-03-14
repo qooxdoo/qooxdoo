@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
      * Formatting function that will be applied to the value of a selected model
      * item's label before it is written to the text field. Also used to find 
      * and preselect the first list entry that begins with the current content
-     * of the text field when the dropdown list is opened. Can be used e.g. to 
+     * of the text field when the drop-down list is opened. Can be used e.g. to 
      * strip HTML tags from rich-formatted item labels. The function will be 
      * called with the item's label (String) as the only parameter.
      */
@@ -376,7 +376,6 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     __selectFirstMatch : function()
     {
       var value = this.getChildControl("textfield").getValue();
-      var labelPath = this.getLabelPath();
       var selection = this.getChildControl("dropdown").getSelection();
       
       if (selection.getItem(0) !== value)
@@ -387,18 +386,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
         for (var i = 0, l = lookupTable.length; i < l; i++)
         {
           var modelItem = model.getItem(lookupTable[i]);
-          var itemLabel = null;
-          
-          if (labelPath) {
-            itemLabel = qx.data.SingleValueBinding.getValueFromObject(modelItem, labelPath);
-          }
-          else if (typeof(modelItem) == "string") {
-            itemLabel = modelItem;
-          }
-          
-          if (itemLabel && this.getDefaultFormat()) {
-            itemLabel = this.getDefaultFormat()(qx.lang.String.stripTags(itemLabel));
-          }
+          var itemLabel = this.__convertValue(modelItem);
           
           if (itemLabel && itemLabel.indexOf(value) == 0) {
             this.getChildControl("dropdown").setPreselected(modelItem);
@@ -406,6 +394,32 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
           }
         }
       }
+    },
+    
+    
+    /**
+     * Helper method to convert the model item to a String.
+     * 
+     * @param modelItem {var} The model item to convert.
+     * @return {String} The converted value.
+     */
+    __convertValue : function(modelItem)
+    {
+      var labelPath = this.getLabelPath();
+      var result = null;
+      
+      if (labelPath) {
+        result = qx.data.SingleValueBinding.getValueFromObject(modelItem, labelPath);
+      }
+      else if (typeof(modelItem) == "string") {
+        result = modelItem;
+      }
+      
+      if (result && this.getDefaultFormat()) {
+        result = this.getDefaultFormat()(qx.lang.String.stripTags(result));
+      }
+      
+      return result;
     }
   },
   
