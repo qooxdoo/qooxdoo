@@ -125,9 +125,17 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     _initDefaultQxValues : function() {
+      // old settings
       this.add("qx.allowUrlSettings", function() {return false;});
       this.add("qx.allowUrlVariants", function() {return false;});
       this.add("qx.propertyDebugLevel", function() {return 0;});
+      
+      // old variants
+      this.add("qx.debug", function() {return true;});
+      this.add("qx.aspects", function() {return false;});
+      this.add("qx.dynlocale", function() {return true;});
+      this.add("qx.mobile.emulatetouch", function() {return false;});
+      this.add("qx.mobile.nativescroll", function() {return false;});      
     },
 
 

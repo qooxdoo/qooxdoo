@@ -162,15 +162,21 @@ qx.Class.define("qx.test.core.Environment",
       this.assertString(qx.core.Environment.get("qx.application"));
       this.assertString(qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug"));
       this.assertNumber(qx.core.Environment.get("qx.disposerDebugLevel"));
-      this.assertString(qx.core.Environment.get("qx.globalErrorHandling"));
+      this.assertBoolean(qx.core.Environment.get("qx.globalErrorHandling"));
       this.assertBoolean(qx.core.Environment.get("qx.ioRemoteDebug"));
       this.assertBoolean(qx.core.Environment.get("qx.ioRemoteDebugData"));
       this.assertBoolean(qx.core.Environment.get("qx.jsonEncodeUndefined"));
       this.assertBoolean(qx.core.Environment.get("qx.jsonDebugging"));
       this.assertBoolean(qx.core.Environment.get("qx.nativeScrollBars"));
       this.assertNumber(qx.core.Environment.get("qx.propertyDebugLevel"));
-      // TODO why is that key missing
-      // this.assertBoolean(qx.core.Environment.get("qx.tableResizeDebug"));
+    },
+    
+    testOldVariants : function() {
+      this.assertBoolean(qx.core.Environment.get("qx.debug"));
+      this.assertBoolean(qx.core.Environment.get("qx.aspects"));
+      this.assertBoolean(qx.core.Environment.get("qx.dynlocale"));
+      this.assertBoolean(qx.core.Environment.get("qx.mobile.emulatetouch"));
+      this.assertBoolean(qx.core.Environment.get("qx.mobile.nativescroll"));
     }
   }
 });
