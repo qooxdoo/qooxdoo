@@ -368,6 +368,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         
         return {
           icon: icon,
+          minWidth : useCSS ? 14 : undefined, // ensure that we have the old padding
           gap: useCSS ? 8 : 6 // use a bigger gap because of the shadow (glow)
         };
       }
