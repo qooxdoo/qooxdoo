@@ -77,3 +77,7 @@
 \bqx\.bom\.client\.Version\.NAME\b=qx.core.Environment.get("engine.name")
 \bqx\.bom\.client\.Version\.TITLE\b=(qx.core.Environment.get("engine.name") + " " + qx.core.Environment.get("engine.version"))
 \bqx\.bom\.client\.Version\.VERSION\b=qx.core.Environment.get("engine.version")
+
+\bqx\.core\.Setting\.get\b=qx.core.Environment.get
+\bqx\.core\.Setting\.define\b=qx.core.Environment.add
+\bqx\.core\.Setting\.set\b=qx.core.Environment.add

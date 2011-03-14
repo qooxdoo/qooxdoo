@@ -3,3 +3,6 @@
 \bqx\.bom\.client\.System\.SP1\b=This check is deprecated.
 \bqx\.bom\.client\.System\.SP2\b=This check is deprecated.
 \bqx\.bom\.client\.System\.OS9\b=This check is deprecated.
+
+\bqx\.core\.Setting\.get\(\"qx\.bom\.htmlarea\.HtmlArea\.debug\"\)\b=This check used to return "on" or "off" but now returns a boolean (true/false)
+\bqx\.core\.Setting\.get\(\"qx\.globalErrorHandling\"\)\b=This check used to return "on" or "off" but now returns a boolean (true/false)
