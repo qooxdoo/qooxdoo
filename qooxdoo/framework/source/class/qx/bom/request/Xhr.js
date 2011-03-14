@@ -221,16 +221,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     __handleReadyStateChange: function() {
 
-      // BUGFIX: IE
-      // IE < 7 cannot access responseText and other properties 
-      // when request is in progress. "The data necessary to complete 
-      // this operation is not yet available".
-      var isLegacyIE       = qx.core.Environment.get("browser.name") == "ie" &&
-                             qx.core.Environment.get("browser.version") < 7;
-      var inProgressOrDone = this.__nativeXhr.readyState > 1 && !isLegacyIE ||
-                             this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE;
-
-      if (inProgressOrDone) {
+      if (this.__inProgressOrDone()) {
         this.status = this.__nativeXhr.status;
         this.statusText = this.__nativeXhr.statusText;
         this.responseText = this.__nativeXhr.responseText;
@@ -248,6 +239,23 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
          this.onreadystatechange();
        }
 
+    },
+
+    /**
+     * Request is in progress or done.
+     * 
+     * @return {Boolean} Whether the request is in progress or done.
+     */
+    __inProgressOrDone: function() {
+      // BUGFIX: IE
+      // IE < 7 cannot access responseText and other properties 
+      // when request is in progress. "The data necessary to complete 
+      // this operation is not yet available".
+      var isLegacyIE = qx.core.Environment.get("browser.name") == "ie" &&
+                       qx.core.Environment.get("browser.version") < 7;
+
+      return this.__nativeXhr.readyState > 1 && !isLegacyIE ||
+        this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE;
     }
   }
 });
