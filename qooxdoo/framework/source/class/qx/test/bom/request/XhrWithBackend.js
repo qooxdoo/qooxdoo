@@ -86,6 +86,20 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
+    "test: should abort pending request": function() {
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
+
+      req.open("GET", url + "?sleep=1");
+      req.send();
+      req.abort();
+
+      var that = this;
+      this.wait(function() {
+        that.assertNotEquals(4, req.readyState, "Request must not complete");
+      }, 1500);
+    },
+
     "test: should call onreadystatechange once for OPEN": function() {
       this.needsPHPWarning();
 

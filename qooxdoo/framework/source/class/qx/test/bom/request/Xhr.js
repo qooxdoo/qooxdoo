@@ -162,6 +162,27 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     //
+    // abort()
+    //
+
+    "test: should abort request": function() {
+      var req = this.req;
+      var fakeReq = this.getFakeReq();
+      this.spy(fakeReq, "abort");
+
+      req.abort();
+      this.assertCalled(fakeReq.abort);
+    },
+
+    "test: aborting request should reset readyState": function() {
+      var req = this.req;
+      req.open();
+      req.abort();
+
+      this.assertEquals(this.constructor.UNSENT, req.readyState, "Must be UNSENT");
+    },
+
+    //
     // onreadystatechange()
     //
 

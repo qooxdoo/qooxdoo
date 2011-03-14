@@ -135,6 +135,17 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     },
 
     /**
+     * Aborts the request.
+     * 
+     * Cancels any network activity.
+     * 
+     */
+    abort: function() {
+      this.__nativeXhr.abort();
+      this.readyState = this.__nativeXhr.readyState;
+    },
+
+    /**
      * Event handler for an event that fires at every state change.
      *
      * Override this method to get informed about the communication progress.
