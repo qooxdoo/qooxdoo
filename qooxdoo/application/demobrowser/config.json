@@ -63,6 +63,8 @@
     "APPLICATION"  : "demobrowser",
     "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.demo.*", "${APPLICATION}.test.*"],
     "QOOXDOO_PATH" : "../..",
+    // need to include all locales used in demos here, so 'translation' job picks them up
+    "LOCALES"      : ["en", "en_US", "de", "de_DE", "fr", "fr_FR"],
     "THEME"        : "demobrowser.Theme"
   },
 
