@@ -35,16 +35,19 @@ qx.Class.define("simulator.Simulation", {
   construct : function()
   {
     this.__options = {
-      autHost : qx.core.Environment.get("simulator.autHost"),
-      autPath : qx.core.Environment.get("simulator.autPath"),
-      threadSafe : false,
-      applicationLog : qx.core.Environment.get("simulator.applicationLog"),
-      globalErrorLogging : qx.core.Environment.get("simulator.globalErrorLogging"),
-      testEvents : qx.core.Environment.get("simulator.testEvents")
+      autHost : String(qx.core.Environment.get("simulator.autHost")),
+      autPath : String(qx.core.Environment.get("simulator.autPath"))
     };
-    
-    if (String(qx.core.Environment.get("simulator.threadSafe")) == "true") {
-      this.__options.threadSafe = true;
+    var booleanSettings = ["threadSafe", "applicationLog", "globalErrorLogging",
+      "testEvents"];
+    for (var i=0,l=booleanSettings.length; i<l; i++) {
+      var setting = booleanSettings[i];
+      if (String(qx.core.Environment.get("simulator." + setting)) == "true") {
+        this.__options[setting] = true;
+      }
+      else {
+        this.__options[setting] = false;
+      }
     }
     
     this.startDate = new Date();
