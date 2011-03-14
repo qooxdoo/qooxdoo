@@ -105,6 +105,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       if (typeof async == "undefined") {
         async = true;
       }
+
+      // Restore if replaced by noop function before
+      if (this.__nativeXhr.onreadystatechange.noop) {
+        this.__nativeXhr.onreadystatechange =
+          qx.lang.Function.bind(this.__handleReadyStateChange, this);
+      }
+
       this.__nativeXhr.open(method, url, async, user, password);
     },
 
@@ -251,12 +258,20 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.responseXML = null;
        }
 
-       // BUGFIX: Internet Explorer, Firefox
+       // BUGFIX: IE, Firefox
        // onreadystatechange() is called twice for readyState OPENED.
        if (this.readyState !== this.__nativeXhr.readyState) {
          this.readyState = this.__nativeXhr.readyState;
          this.onreadystatechange();
        }
+
+       // BUGFIX: IE
+       // Memory leak in XMLHttpRequest (on-page)
+       if (this.readyState == qx.bom.request.Xhr.DONE) {
+         // Allow IE to garbage collect native Xhr
+         this.__nativeXhr.onreadystatechange = function() {};
+         this.__nativeXhr.onreadystatechange.noop = true;
+      }
 
     },
 

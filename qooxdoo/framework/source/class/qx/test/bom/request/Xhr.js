@@ -227,6 +227,38 @@ qx.Class.define("qx.test.bom.request.Xhr",
       fakeReq.onreadystatechange();
     },
 
+    // Bugfix
+    "test: native onreadystatechange should be disposed once DONE": function() {
+      var req = this.req;
+      var fakeReq = this.getFakeReq();
+
+      req.onreadystatechange = function() { return "OP" };
+      req.open();
+      req.send();
+
+      fakeReq.respond();
+      this.assertUndefined(req._getNativeXhr().onreadystatechange());
+    },
+
+    "test: should call onreadystatechange when reopened": function() {
+      var req = this.req;
+      var fakeReq = this.getFakeReq();
+
+      req.onreadystatechange = function() {};
+
+      // Send and respond
+      var req = this.req;
+      req.open();
+      req.send();
+      fakeReq.respond();
+
+      // Reopen
+      this.spy(req, "onreadystatechange");
+      req.open();
+
+      this.assertCalled(req.onreadystatechange);
+    },
+
     //
     // readyState
     //
