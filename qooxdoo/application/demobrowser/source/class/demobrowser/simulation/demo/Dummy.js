@@ -40,6 +40,7 @@ qx.Class.define("demobrowser.simulation.demo.Dummy", {
     
     //overridden
     setUp : function() {
+      this._initReporter();
       if (!this.__demoList) {
         this.__demoList = this._getDemoList();
         this._removeDemosWithTests();
@@ -114,8 +115,8 @@ qx.Class.define("demobrowser.simulation.demo.Dummy", {
     loadDemo : function(demoName) {
       var hash = demoName.replace(/\./, "~") + ".html";
       
-      var fullUrl = qx.core.Setting.get("simulator.autHost") 
-      + qx.core.Setting.get("simulator.autPath") + "#" + hash;
+      var fullUrl = qx.core.Environment.get("simulator.autHost") 
+      + qx.core.Environment.get("simulator.autPath") + "#" + hash;
       this.getSimulation().qxOpen(fullUrl);
       this.getSimulation().waitForQxApplication(10000, this.demoWindow);
       this.getSimulation()._prepareNameSpace(this.demoWindow);

@@ -140,8 +140,8 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
     
     _initReporter : function()
     {
-      var reportServer = qx.core.Setting.get("simulator.reportServer");
-      if (simulator.reporter.Reporter.SERVER_URL == reportServer) {
+      var reportServer = qx.core.Environment.get("simulator.reportServer");
+      if (!reportServer || simulator.reporter.Reporter.SERVER_URL == reportServer) {
         return;
       }
       simulator.reporter.Reporter.SERVER_URL = reportServer;
