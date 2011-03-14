@@ -221,7 +221,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     __handleReadyStateChange: function() {
 
-      if (this.__inProgressOrDone()) {
+      if (this.__statusPropertiesReadable()) {
         this.status = this.__nativeXhr.status;
         this.statusText = this.__nativeXhr.statusText;
         this.responseText = this.__nativeXhr.responseText;
@@ -242,11 +242,16 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     },
 
     /**
-     * Request is in progress or done.
+     * Indicates if certain properties of the XmlHttpRequest object
+     * are safe to read.
      *
-     * @return {Boolean} Whether the request is in progress or done.
+     * This is true if if the request is in progress (or done) for most
+     * browsers or done in IE < 7.
+     *
+     * @return {Boolean} Whether certain properties of the XmlHttpRequest
+     *                   object are safe to read.
      */
-    __inProgressOrDone: function() {
+    __statusPropertiesReadable: function() {
       // BUGFIX: IE
       // IE < 7 cannot access responseText and other properties
       // when request is in progress. "The data necessary to complete
