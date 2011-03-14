@@ -43,7 +43,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
       this.__callback = callback || null;
       this.__context = context || window;
 
-      if (qx.core.Environment.get("qx.globalErrorHandling") === "on")
+      if (qx.core.Environment.get("qx.globalErrorHandling"))
       {
         // wrap the original onerror
         if (callback && window.onerror) {
@@ -103,7 +103,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
      */
     observeMethod : function(method)
     {
-      if (qx.core.Environment.get("qx.globalErrorHandling") == "on")
+      if (qx.core.Environment.get("qx.globalErrorHandling"))
       {
         var self = this;
         return function()
@@ -142,7 +142,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
 
   defer : function(statics)
   {
-    qx.core.Environment.add("qx.globalErrorHandling", "on");
+    qx.core.Environment.add("qx.globalErrorHandling", true);
     statics.setErrorHandler(null, null);
     // @deprecated since 1.4 
     qx.core.Setting.defineDeprecated("qx.globalErrorHandling", "on");

@@ -123,6 +123,6 @@ qx.Class.define("qx.theme.manager.Meta",
   */
 
   environment : {
-    "qx.theme"           : "qx.theme.Modern"
+    "qx.theme" : "qx.theme.Modern"
   }
 });

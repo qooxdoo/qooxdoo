@@ -34,7 +34,7 @@ qx.Class.define("qx.test.event.GlobalError",
     setUp : function()
     {
       qx.core.Environment._checks["qx.globalErrorHandling"] = function() {
-        return "on";
+        return true;
       };
       this.errorHandler = qx.event.GlobalError;
 
@@ -65,7 +65,7 @@ qx.Class.define("qx.test.event.GlobalError",
 
     testSetting : function()
     {
-      this.assertEquals("on", qx.core.Environment.get("qx.globalErrorHandling"));
+      this.assertTrue(qx.core.Environment.get("qx.globalErrorHandling"));
     },
 
 
@@ -85,7 +85,7 @@ qx.Class.define("qx.test.event.GlobalError",
     testDontWarpIfSettingIsOff : function()
     {
       qx.core.Environment._checks["qx.globalErrorHandling"] = function() {
-        return "off";
+        return false;
       };
       var fcn = function() {};
       var wrapped = this.errorHandler.observeMethod(fcn);
