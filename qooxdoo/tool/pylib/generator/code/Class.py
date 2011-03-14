@@ -544,11 +544,19 @@ class Class(Resource):
     # Checks if the required class is known, and the reference to is in a
     # context that is executed at load-time
     def followCallDeps(self, node, fileId, depClassName, inLoadContext):
+        
+        def hasFollowContext(node):
+            pchn = node.getParentChain()
+            pchain = "/".join(pchn)
+            return (
+                pchain.endswith("call/operand")                 # it's a function call
+                or pchain.endswith("instantiation/expression")  # like "new Date" (no parenthesies, but constructor called anyway)
+                )
 
         if (inLoadContext
             and depClassName
             and depClassName in self._classesObj  # we have a class id
-            and node.hasParentContext("call/operand")  # it's a function call
+            and hasFollowContext(node)
            ):
             return True
         else:
