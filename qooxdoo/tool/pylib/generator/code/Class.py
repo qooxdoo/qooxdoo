@@ -418,7 +418,7 @@ class Class(Resource):
 
             # Read source tree data
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
-            self._analyzeClassDepsNode(self.tree(variantSet), treeDeps, inFunction=False, variants=variantSet)
+            self._analyzeClassDepsNode(self.tree(variantSet), treeDeps, variantSet, inLoadContext=True)
 
             # Process source tree data
             for dep in treeDeps:
@@ -543,7 +543,8 @@ class Class(Resource):
     ##
     # Checks if the required class is known, and the reference to is in a
     # context that is executed at load-time
-    def followCallDeps(self, node, fileId, depClassName, inFunction, inDefer):
+    #def followCallDeps(self, node, fileId, depClassName, inFunction, inDefer):
+    def followCallDeps(self, node, fileId, depClassName, inLoadContext):
 
         def hasFollowContext(node, inDefer):
             if inDefer:
@@ -557,12 +558,21 @@ class Class(Resource):
                 # what about static vars, "a.b.c.FOO"?!
                 )
 
-        if (not inFunction
+        #if (not inFunction
+        #    and depClassName
+        #    and depClassName in self._classesObj  # we have a class id
+        #    #and depClassName != fileId   # ! i need self references for statics pruning
+        #    #and self.context['jobconf'].get("dependencies/follow-static-initializers", True)
+        #    and hasFollowContext(node, inDefer)
+        #   ):
+        #    return True
+        #else:
+        #    return False
+        if (inLoadContext
             and depClassName
             and depClassName in self._classesObj  # we have a class id
-            #and depClassName != fileId   # ! i need self references for statics pruning
-            #and self.context['jobconf'].get("dependencies/follow-static-initializers", True)
-            and hasFollowContext(node, inDefer)
+            #and hasFollowContext(node, inLoadContext)
+            and node.hasParentContext("call/operand")  # it's a function call
            ):
             return True
         else:
@@ -581,7 +591,8 @@ class Class(Resource):
     # sure how to handle this sub-recursion when the main body is an iteration.
     # TODO:
     # - <recurse> seems artificial, and should be removed when cleaning up dependencies1()
-    def _analyzeClassDepsNode(self, node, depsList, inFunction, variants, inDefer=False):
+    #def _analyzeClassDepsNode(self, node, depsList, inFunction, variants, inDefer=False):
+    def _analyzeClassDepsNode(self, node, depsList, variants, inLoadContext, inDefer=False):
 
         if node.type == "variable":
             assembled = (treeutil.assembleVariable(node))[0]
@@ -589,7 +600,8 @@ class Class(Resource):
             # treat dependencies in defer as requires
             deferNode = self.checkDeferNode(assembled, node)
             if deferNode != None:
-                self._analyzeClassDepsNode(deferNode, depsList, False, variants, True)
+                #self._analyzeClassDepsNode(deferNode, depsList, False, variants, True)
+                self._analyzeClassDepsNode(deferNode, depsList, variants, inLoadContext=True, inDefer=True)
 
             (context, className, classAttribute) = self._isInterestingReference(assembled, node, self.id, inDefer)
             # postcond: 
@@ -606,7 +618,7 @@ class Class(Resource):
                 if not classAttribute:  # see if we have to provide 'construct'
                     if node.hasParentContext("instantiation/*/*/operand"): # 'new ...' position
                         classAttribute = 'construct'
-                depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1), isLoadDep=not inFunction)
+                depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1), inLoadContext)
                 #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
                 if node.hasParentContext("call/operand"): # it's a function call
                     depsItem.isCall = True  # interesting when following transitive deps
@@ -615,15 +627,16 @@ class Class(Resource):
                 depsList.append(depsItem)
 
                 # Mark items that need recursive analysis of their dependencies (bug#1455)
-                if self.followCallDeps(node, self.id, className, inFunction, inDefer):
+                #if self.followCallDeps(node, self.id, className, inFunction, inDefer):
+                if self.followCallDeps(node, self.id, className, inLoadContext):
                     depsItem.needsRecursion = True
 
         elif node.type == "body" and node.parent.type == "function":
-            inFunction = True
+            inLoadContext = False
 
         if node.hasChildren():
             for child in node.children:
-                self._analyzeClassDepsNode(child, depsList, inFunction, variants, inDefer)
+                self._analyzeClassDepsNode(child, depsList, variants, inLoadContext, inDefer)
 
         return
 
@@ -1030,7 +1043,7 @@ class Class(Resource):
                         # Get the method's immediate deps
                         # TODO: is this the right API?!
                         depslist = []
-                        self._analyzeClassDepsNode(attribNode, depslist, True, variants)
+                        self._analyzeClassDepsNode(attribNode, depslist, variants, inLoadContext=False)
                         console.debug( "shallow dependencies: %r" % (depslist,))
 
                         for depsItem in depslist:
