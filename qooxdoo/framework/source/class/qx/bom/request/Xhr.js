@@ -85,6 +85,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     statusText: "",
 
+    __disposed: false,
+
     /**
      * Initialize (prepare) a request.
      *
@@ -173,7 +175,24 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       return this.__nativeXhr.getAllResponseHeaders();
     },
 
+    /*
+    ---------------------------------------------------------------------------
+      HELPER
+    ---------------------------------------------------------------------------
+    */
 
+    dispose: function() {
+      if (this.__disposed) {
+        return false;
+      }
+
+      // Remove reference to native XHR and clear out listeners
+      this.__nativeXhr.onreadystatechange = this.onreadystatechange = 
+        this.__nativeXhr = null;
+
+      this.__disposed = true;
+      return true;
+    },
 
     /*
     ---------------------------------------------------------------------------

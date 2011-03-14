@@ -469,6 +469,24 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertEquals("value2", responseHeaders["key2"]);
     },
 
+    //
+    // dispose()
+    //
+
+    "test: should dispose native Xhr": function() {
+      this.req.dispose();
+
+      this.assertNull(this.req._getNativeXhr());
+    },
+
+    "test: should dispose onreadystatechange": function() {
+      var req = this.req;
+      req.onreadystatechange = function() {};
+      req.dispose();
+
+      this.assertNull(req.onreadystatechange);
+    },
+
     fakeNativeXhr: function() {
       var fakeReqs = this.fakeReqs = [];
       this.fakedXhr = this.useFakeXMLHttpRequest();
