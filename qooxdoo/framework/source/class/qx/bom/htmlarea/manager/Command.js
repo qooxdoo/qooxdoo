@@ -355,7 +355,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
         }
 
         if (qx.core.Variant.isSet("qx.debug", "on") &&
-            qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug") == "on") {
+            qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug")) {
           this.debug("execCommand " + command + " with value " + value + " succeded");
         }
 
@@ -365,7 +365,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       catch(ex)
       {
         if (qx.core.Variant.isSet("qx.debug", "on") &&
-            qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug") == "on") {
+            qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug")) {
           this.debug("execCommand " + command + " with value " + value + " failed");
         }
 

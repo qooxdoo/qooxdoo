@@ -160,7 +160,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("qx.allowUrlSettings"));
       this.assertBoolean(qx.core.Environment.get("qx.allowUrlVariants"));
       this.assertString(qx.core.Environment.get("qx.application"));
-      this.assertString(qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug"));
+      this.assertBoolean(qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug"));
       this.assertNumber(qx.core.Environment.get("qx.disposerDebugLevel"));
       this.assertBoolean(qx.core.Environment.get("qx.globalErrorHandling"));
       this.assertBoolean(qx.core.Environment.get("qx.ioRemoteDebug"));
