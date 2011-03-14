@@ -33,7 +33,7 @@ qx.Class.define("qx.test.event.GlobalError",
     
     setUp : function()
     {
-      qx.core.Environment._check["qx.globalErrorHandling"] = function() {
+      qx.core.Environment._checks["qx.globalErrorHandling"] = function() {
         return "on";
       };
       this.errorHandler = qx.event.GlobalError;
@@ -41,11 +41,13 @@ qx.Class.define("qx.test.event.GlobalError",
       this.called = false;
       this.calledParams = [];
       this.errorHandler.setErrorHandler(this.onError, this);
+      qx.core.Environment.invalidateCacheKey("qx.globalErrorHandling");
     },
+
 
     tearDown : function ()
     {
-      qx.core.Environment._check["qx.globalErrorHandling"] = this.__initialSetting;
+      qx.core.Environment._checks["qx.globalErrorHandling"] = this.__initialSetting;
       this.errorHandler.setErrorHandler(null);
       if (window.onerror) {
         window.onerror = null;
@@ -82,7 +84,7 @@ qx.Class.define("qx.test.event.GlobalError",
 
     testDontWarpIfSettingIsOff : function()
     {
-      qx.core.Environment._check["qx.globalErrorHandling"] = function() {
+      qx.core.Environment._checks["qx.globalErrorHandling"] = function() {
         return "off";
       };
       var fcn = function() {};
@@ -94,8 +96,6 @@ qx.Class.define("qx.test.event.GlobalError",
 
     testWrappedParameterAndReturnValue : function()
     {
-      var args = null;
-
       var fcn = function(a,b,c) {
         var args = [a, b, c];
         return args;

@@ -103,7 +103,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
      */
     observeMethod : function(method)
     {
-      if (qx.core.Environment.get("qx.globalErrorHandling") === "on")
+      if (qx.core.Environment.get("qx.globalErrorHandling") == "on")
       {
         var self = this;
         return function()

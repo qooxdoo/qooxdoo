@@ -115,9 +115,9 @@ qx.Bootstrap.define("qx.core.Environment",
         if (getter instanceof Function) {
           this._checks[key] = getter;
         } else {
-          this._checks[key] = qx.Bootstrap.bind(function() {
-            return this;
-          }, getter);
+          this._checks[key] = qx.Bootstrap.bind(function(value) {
+            return value;
+          }, null, getter);
         }
 
       } else {
