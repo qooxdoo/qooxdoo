@@ -23,7 +23,7 @@
 # Class -- Internal representation of a qooxdoo class; derives from Resource
 ##
 
-import os, sys, re, types, copy
+import os, sys, re, types, copy, time
 import codecs, optparse, functools
 from operator import attrgetter
 
@@ -473,17 +473,21 @@ class Class(Resource):
         # Check wether load dependencies are fresh which are included following
         # a depsItem.needsRecursion of the current class
         def transitiveDepsAreFresh(depsStruct, cacheModTime):
+            result = True
             if cacheModTime is None:  # TODO: this can currently only occur with a Cache.memcache result
-                return False
-            for dep in depsStruct["load"]:
-                if dep.requestor != self.id: # this was included through a recursive traversal
-                    if dep.name in self._classesObj:
-                        classObj = self._classesObj[dep.name]
-                        if cacheModTime < classObj.m_time():
-                            console.debug("Invalidating dep cache for %s, as %s is newer" % (self.id, classObj.id))
-                            return False
+                result = False
+            else:
+                for dep in depsStruct["load"]:
+                    if dep.requestor != self.id: # this was included through a recursive traversal
+                        if dep.name in self._classesObj:
+                            classObj = self._classesObj[dep.name]
+                            if cacheModTime < classObj.m_time():
+                                # if e.g. qx.Class was touched, this will invalidate a lot of depending classes!
+                                console.debug("Invalidating dep cache for %s, as %s is newer" % (self.id, classObj.id))
+                                result = False
+                                break
             
-            return True
+            return result
         # -- Main ---------------------------------------------------------
 
         # handles cache and invokes worker function
@@ -493,15 +497,24 @@ class Class(Resource):
         cacheId          = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
         cached           = True
 
-        classInfo, cacheModTime = self._getClassCache()
-        deps =  classInfo[cacheId] if cacheId in classInfo else None
+        classInfo, classInfoMTime = self._getClassCache()
+        (deps, cacheModTime) =  classInfo[cacheId] if cacheId in classInfo else (None,None)
 
         if (deps == None
           or not transitiveDepsAreFresh(deps, cacheModTime)):
             cached = False
             deps = buildShallowDeps()
-            deps = buildTransitiveDeps(deps)
-            classInfo[cacheId] = deps
+            #-->
+            d = [0]
+            def foo(d):
+                d[0] = buildTransitiveDeps(deps)
+            #import cProfile
+            #cProfile.runctx("foo(d)", globals(), locals(), "/tmp/prof.deps")
+            foo(d)
+            deps = d[0]
+            #<--
+            #deps = buildTransitiveDeps(deps)
+            classInfo[cacheId] = (deps, time.time())
             self._writeClassCache(classInfo)
 
         
