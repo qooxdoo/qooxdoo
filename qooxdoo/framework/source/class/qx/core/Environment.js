@@ -120,11 +120,6 @@ qx.Bootstrap.define("qx.core.Environment",
           }, null, getter);
         }
 
-      } else {
-        if (this.useCheck("qx.debug")) {
-          qx.Bootstrap.warn("The key '" + key + "' is already in use." + 
-            " The old value '" + this.get(key) + "' is still valid.");
-        }
       }
     },
 
