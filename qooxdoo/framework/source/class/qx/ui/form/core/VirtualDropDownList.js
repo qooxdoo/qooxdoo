@@ -46,11 +46,6 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
     this._target = target;
 
     var list = this._createChildControl("list");
-    list.getSelection().addListener("change", this._onListChangeSelection, this);
-    list.addListener("mousedown", this._handleMouse, this);
-    list.addListener("changeModel", this._onChangeModel, this);
-    list.addListener("changeDelegate", this._onChangeDelegate, this);
-
     this.addListener("changeVisibility", this.__onChangeVisibility, this);
 
     this.initSelection(new qx.data.Array());
@@ -172,6 +167,11 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
             selectionMode: "one",
             quickSelection: true
           });
+          
+          control.getSelection().addListener("change", this._onListChangeSelection, this);
+          control.addListener("mouseup", this._handleMouse, this);
+          control.addListener("changeModel", this._onChangeModel, this);
+          control.addListener("changeDelegate", this._onChangeDelegate, this);
 
           this.add(control, {flex: 1});
           break;
