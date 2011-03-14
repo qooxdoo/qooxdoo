@@ -59,9 +59,6 @@ qx.Class.define("simulator.reporter.Reporter", {
       var stringData = qx.lang.Json.stringify(entry);
       var encodedData = encodeURIComponent(stringData);
       var url = this.SERVER_URL + "?entry=" + encodedData;
-      if (level === "warn") {
-        print(url);
-      }
       readUrl(url);
     },
     /**
