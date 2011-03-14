@@ -939,12 +939,17 @@ class Class(Resource):
     # Find all run time dependencies of a given method, recursively.
     #
     # Outline:
-    # - get the immediate runtime dependencies of the current method; for each of those dependencies:
+    # - get the immediate runtime dependencies of the current method; for each
+    #   of those dependencies:
     # - if it is a "<name>.xxx" method/attribute:
-    #   - add this class#method dependency  (class symbol is required, even if the method is defined by super class)
-    #   - find the defining class (<name>, ancestor of <name>, or mixin of <name>): findClassForFeature()
-    #   - add defining class to dependencies (class symbol is required for inheritance)
-    #   - recurse on dependencies of defining class#method, adding them to the current dependencies
+    #   - add this class#method dependency  (class symbol is required, even if
+    #     the method is defined by super class)
+    #   - find the defining class (<name>, ancestor of <name>, or mixin of
+    #     <name>): findClassForFeature()
+    #   - add defining class to dependencies (class symbol is required for
+    #     inheritance)
+    #   - recurse on dependencies of defining class#method, adding them to the
+    #     current dependencies
     #
     # currently only a thin wrapper around its recursive sibling, getTransitiveDepsR
 
@@ -1015,11 +1020,6 @@ class Class(Resource):
 
             else:
                 if isinstance(attribNode, Node):
-
-                    #print defDepsItem
-                    #if str(defDepsItem) == "qx.bom.element.Style#__special":
-                    #    #import pydb; pydb.debugger()
-                    #    pass
 
                     if (attribNode.getChild("function", False)       # is it a function(){..} value?
                         and not dependencyItem.isCall                # and the reference was no call
