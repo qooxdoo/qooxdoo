@@ -148,20 +148,56 @@ qx.Bootstrap.define("qx.core.Environment",
       // added it manually
       if (window.qxsettings)
       {
-        for (var key in window.qxsettings) {
-          var check = qx.Bootstrap.bind(function() {
-            return this;
-          }, window.qxsettings[key]);
+        for (var key in window.qxsettings) {          
+          var value = window.qxsettings[key];
+          // normalization for "on" and "off" @deprecatd since 1.4
+          if (value == "on") {
+            value = true;
+          } else if (value == "off") {
+            value == false;
+          }
+          
+          var check = qx.Bootstrap.bind(function(value) {
+            return value;
+          }, null, value);
           this._checks[key] = check;
         }
       }
       
+      // @deprecated since 1.4: import from variants map in case someone 
+      // added it manually
+      if (window.qxvariants)
+      {
+        for (var key in window.qxvariants) {          
+          var value = window.qxvariants[key];
+          // normalization for "on" and "off" @deprecatd since 1.4
+          if (value == "on") {
+            value = true;
+          } else if (value == "off") {
+            value == false;
+          }
+          
+          var check = qx.Bootstrap.bind(function(value) {
+            return value;
+          }, null, value);
+          this._checks[key] = check;
+        }
+      }      
+      
       if (qx && qx.$$environment)
       {
-        for (var key in qx.$$environment) {
-          var check = qx.Bootstrap.bind(function() {
-            return this;
-          }, qx.$$environment[key]);
+        for (var key in qx.$$environment) {          
+          var value = qx.$$environment[key];
+          // normalization for "on" and "off" @deprecatd since 1.4
+          if (value == "on") {
+            value = true;
+          } else if (value == "off") {
+            value == false;
+          }
+
+          var check = qx.Bootstrap.bind(function(value) {
+            return value;
+          }, null, value);
           this._checks[key] = check;
         }
       }
@@ -182,9 +218,9 @@ qx.Bootstrap.define("qx.core.Environment",
           var key = check[1];
           var value = decodeURIComponent(check[2]);
           
-          var checkFunction = qx.Bootstrap.bind(function() {
-            return this;
-          }, value);
+          var checkFunction = qx.Bootstrap.bind(function(value) {
+            return value;
+          }, null, value);
           this._checks[key] = checkFunction;
         }
       }  
