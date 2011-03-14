@@ -88,10 +88,11 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     }
     
     // Check if any test parts are defined
-    try {
-      this.__testParts = [];
-      this.__testParts = this.__testParts.concat(qx.core.Environment.get("qx.testParts"));
-    } catch(ex) {}
+    this.__testParts = [];
+    var parts = qx.core.Environment.get("qx.testParts");
+    if (parts) {
+      this.__testParts = this.__testParts.concat(parts);
+    }
   },
 
 
@@ -507,31 +508,14 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       
       this.__loadAttempts = 0;
       
-      /*
-       * Get the value of qx.testParts from the AUT frame. This setting won't 
-       * usually be defined so we need to wrap it in a try/catch block.
-       * In IE, try/catch won't catch errors from other frames so we have to use
-       * the frame's eval to execute the code in the right scope.
-       * If the setting is defined, eval returns an instance of the frame 
-       * window's Array, so we can't just concat it with an Array from the 
-       * runner frame. Instead, the items are copied individually.
-       */      
-      this.__testParts = [];
-      var closure = "(function()\
-      {\
-        try {\
-          return qx.core.Environment.get('qx.testParts');\
-        } catch(ex) {\
-          return [];\
-        }\
-      })();"
-      var frameParts = this.frameWindow.eval(closure);
-      for (var i = 0; i < frameParts.length; i++) {
-        this.__testParts.push(frameParts[i]);
+      var frameParts = this.frameWindow.qx.core.Environment.get("qx.testParts");
+      if (frameParts) {
+        for (var i = 0; i < frameParts.length; i++) {
+          this.__testParts.push(frameParts[i]);
+        }
       }
       
       this.__wrapAssertions(this.frameWindow);
-      //this.__getTestData();
       this.__getTestModel();
     },
     
