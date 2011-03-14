@@ -46,4 +46,5 @@ Widget Reference List
    tooltip.rst
    tree.rst
    virtuallist.rst
+   virtualselectbox.rst
    window.rst
