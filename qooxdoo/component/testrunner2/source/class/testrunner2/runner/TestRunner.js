@@ -89,7 +89,8 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     
     // Check if any test parts are defined
     this.__testParts = [];
-    var parts = qx.core.Environment.get("testrunner2.testParts");
+    //var parts = qx.core.Environment.get("testrunner2.testParts");
+    var parts = null;
     if (parts) {
       this.__testParts = this.__testParts.concat(parts);
     }
@@ -242,10 +243,20 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         this.setTestSuiteState("error");
         return;
       }
-      
+      //var startDate = new Date();
       var modelData = testrunner2.runner.ModelUtil.createModelData(testRep);
-      var model = qx.data.marshal.Json.createModel(modelData.children[0], true);
+      //this.info("createModelData: " + (new Date().getTime() - startDate.getTime()) / 1000 );
+      var delegate = {
+        getModelSuperClass : function(properties) {
+          return testrunner2.runner.TestItem;
+        }
+      };
+      var marshal = new qx.data.marshal.Json(delegate);
+      marshal.toClass(modelData.children[0], true);
+      var model = marshal.toModel(modelData.children[0]);
+      //this.info("marshal.toModel: " + (new Date().getTime() - startDate.getTime()) / 1000 );
       testrunner2.runner.ModelUtil.addDataFields(model);
+      //this.info("addDataFields: " + (new Date().getTime() - startDate.getTime()) / 1000 );
       this.setTestModel(model);
       this.setTestSuiteState("ready");
     },
@@ -339,7 +350,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       
       var currentTest = this.currentTestData = this.testList.shift();
       this.setTestCount(this.testList.length);
-      var className = currentTest.parent.getFullName();
+      var className = currentTest.parent.fullName;
       var functionName = currentTest.getName();
       var testResult = this.__initTestResult(currentTest);
       
@@ -372,7 +383,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       testResult.addListener("startTest", function(e) {
         var test = e.getData();
         
-        if (this.currentTestData && this.currentTestData.getFullName() === test.getFullName()
+        if (this.currentTestData && this.currentTestData.fullName === test.getFullName()
           && this.currentTestData.getState() == "wait") {
           this.currentTestData.setState("start");
           return;
@@ -509,6 +520,9 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       this.__loadAttempts = 0;
       
       var frameParts = this.frameWindow.qx.core.Environment.get("testrunner2.testParts");
+      if (frameParts instanceof this.frameWindow.Boolean) {
+        frameParts = frameParts.valueOf();
+      }
       if (frameParts) {
         for (var i = 0; i < frameParts.length; i++) {
           this.__testParts.push(frameParts[i]);

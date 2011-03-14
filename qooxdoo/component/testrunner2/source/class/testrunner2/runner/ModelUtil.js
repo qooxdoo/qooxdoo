@@ -38,6 +38,7 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       for (var i=0, l=testRep.length; i<l; i++) {
         var nameSpace = testRep[i].classname.split(".");
         var testList = testRep[i].tests;
+        testList.sort();
         for (var x=0,y=testList.length; x<y; x++) {
           testrunner2.runner.ModelUtil.addChainToMap(nameSpace.concat(testList[x]), data);
         }
@@ -85,7 +86,7 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
      */
     getItemByFullName : function(model, fullName)
     {
-      if (model.getFullName() == fullName) {
+      if (model.fullName == fullName) {
         return model;
       }
       if (model.getChildren) {
@@ -105,31 +106,32 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
     /**
      * Adds additional data fields to the model items:
      * parent : reference to the parent item
-     * getFullName : see {@link #getFullName}
-     * getMessage : see {@link #getMessage}
-     * getStackTrace : see {@link #getStackTrace}
      * 
      * @param model {Object} The model to process
      */
     addDataFields : function(model)
     {
-      model.getFullName = testrunner2.runner.ModelUtil.getFullName;
-      
-      model.$$test = model
-      model.getModel = function() {
-        return this.$$test;
+      if (!model.parent) {
+        model.fullName = model.getName();
       }
       
       if (model.getChildren) {
+        var mType = model.getType();
+        if (mType == "package" || mType == "class" ) {
+          model.sortChildren();
+        }
         var kids = model.getChildren();
-        kids.sort(testrunner2.runner.ModelUtil.itemSorter);
         for (var i=0,l=kids.length; i<l; i++) {
           var child = kids.getItem(i);
           child.parent = model;
+          
           if (child.getType() == "test") {
-            child.getMessage = testrunner2.runner.ModelUtil.getMessage;
-            child.getStackTrace = testrunner2.runner.ModelUtil.getStackTrace;
+            child.fullName = model.fullName + ":" + child.getName();
           }
+          else {
+            child.fullName = model.fullName + "." + child.getName();
+          }
+
           arguments.callee(child);
           
           child.bind("state", model, "state", {
@@ -143,27 +145,6 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
           });
         }
       }
-    },
-    
-    
-    /**
-     * Compare function for test model items
-     * 
-     * @param aItem {} First item
-     * @param bItem {} Second item
-     * @return {Integer} Comparison result
-     */
-    itemSorter : function(aItem, bItem)
-    {
-      var a = aItem.getName();
-      var b = bItem.getName();
-      if (a < b) { 
-        return -1; 
-      }
-      if (a > b ) {
-        return 1;
-      } 
-      return 0;
     },
     
     
@@ -214,10 +195,6 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
         obj.children = [];
       }
       
-      if (!obj.state) {
-        obj.state = "start";
-      }
-      
       var found = false;
       for (var i=0,l=obj.children.length; i<l; i++) {
         if (obj.children[i].name === next) {
@@ -228,62 +205,12 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       
       if (!found) {
         found = {
-          name : next,
-          state : "start"
+          name : next
         };
-        var type = testrunner2.runner.ModelUtil.getTestItemType(next);
-        // getTestItemType will incorrectly return "test" for package names
-        // beginning with "test" so we need to check the parent (a test's parent
-        // can only be a class)
-        if (type === "test" && (!obj.type || obj.type !== "class")) {
-          type = "package";
-        }
-        found.type = type;
-        if (type === "test") {
-          found.exceptions = null;
-        }
         obj.children.push(found);
       }
       
       arguments.callee(list, found);
-    },
-    
-    
-    /**
-     * Tries to determine the type of a test suite item by its name
-     * 
-     * @param itemName {String} The item's name
-     * @return {String} One of "package", "class", "test"
-     */
-    getTestItemType : function(itemName)
-    {
-      if (itemName.indexOf("test") === 0 && itemName.length > 4 ) {
-        return "test";
-      }
-      if (itemName.substr(0,1) === itemName.substr(0,1).toUpperCase()) {
-        return "class";
-      }
-      return "package";
-    },
-    
-    
-    /**
-     * Returns the fully qualified name of a model item, e.g. 
-     * "someApp.test.foo.Bar:testBaz"
-     * 
-     * @return {String} The item's fully qualified name
-     */
-    getFullName : function()
-    {
-      if (this.parent && this.parent.getFullName) {
-        var separator = ".";
-        if (!this.getChildren) {
-          separator = ":";
-        }
-        return this.parent.getFullName() + separator + this.getName();
-      } else {
-        return this.getName();
-      }
     },
     
     
@@ -308,82 +235,6 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
         return siblings.getItem(index + 1);
       }
       return null;
-    },
-    
-    
-    /**
-     * Serializes and returns any exceptions caught during the test's execution
-     * 
-     * @return {String} Exceptions
-     */
-    getMessage : qx.core.Variant.select("qx.client",
-    {
-      "default" : function()
-      {
-        if (this.getExceptions() && this.getExceptions().length > 0) {
-          var exceptions = this.getExceptions();
-          var message = "";
-          for (var i=0,l=exceptions.length; i<l; i++) {
-            message += exceptions[i].exception.toString() + " ";
-          }
-          return message;          
-        } else {
-          return "";
-        }
-      },
-
-      "opera" : function()
-      {
-        if (this.getExceptions() && this.getExceptions().length > 0) {
-          var exceptions = this.getExceptions();
-          var message = "";
-          for (var i=0,l=exceptions.length; i<l; i++) {
-            var msg = exceptions[i].exception.message + "";
-            if (msg.indexOf("Backtrace:") < 0) {
-              message += exceptions[i].exception.toString();
-            } else {
-              message += qx.lang.String.trim(msg.split("Backtrace:")[0]);
-            }
-          }
-          return message;
-        }
-        else
-        {
-          return "";
-        }
-      }
-    }),
-
-
-    /**
-     * Returns stack trace information for a given exception.
-     *
-     * @param ex {Error} Exception
-     * @return {String} Stack trace information
-     */
-    getStackTrace : function(ex)
-    {
-      var trace = [];
-
-      if (typeof (ex.getStackTrace) == "function") {
-        trace = ex.getStackTrace();
-      } else {
-        trace = qx.dev.StackTrace.getStackTraceFromError(ex);
-      }
-
-      // filter Test Runner functions from the stack trace
-      while (trace.length > 0)
-      {
-        var first = trace[0];
-
-        if (first.indexOf("qx.dev.unit.AssertionError") == 0 || first.indexOf("qx.Class") == 0 || first.indexOf("qx.dev.unit.MAssert") == 0 || first.indexOf("script") == 0) {
-          trace.shift();
-        } else {
-          break;
-        }
-      }
-
-      return trace.join("<br>");
     }
   }
 });
