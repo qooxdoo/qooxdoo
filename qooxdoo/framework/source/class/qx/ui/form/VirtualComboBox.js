@@ -12,6 +12,10 @@
      EPL: http://www.eclipse.org/org/documents/epl-v10.php
      See the LICENSE file in the project's top-level directory for details.
 
+   Authors:
+     * Daniel Wagner (d_wagner)
+     * Christian Hagendorn (chris_schmidt)
+
 ************************************************************************ */
 
 /**
@@ -288,9 +292,15 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       this.base(arguments, event);
 
       var type = event.getType();
+      if (type !== "click") {
+        return;
+      }
+
       var target = event.getTarget();
-      if (type === "click" && target == this.getChildControl("button")) {
+      if (target == this.getChildControl("button")) {
         this.toggle();
+      } else {
+        this.close();
       }
     },
 
