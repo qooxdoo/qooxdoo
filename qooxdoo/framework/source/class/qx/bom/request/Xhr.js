@@ -136,9 +136,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
     /**
      * Aborts the request.
-     * 
+     *
      * Cancels any network activity.
-     * 
+     *
      */
     abort: function() {
       this.__nativeXhr.abort();
@@ -243,13 +243,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
     /**
      * Request is in progress or done.
-     * 
+     *
      * @return {Boolean} Whether the request is in progress or done.
      */
     __inProgressOrDone: function() {
       // BUGFIX: IE
-      // IE < 7 cannot access responseText and other properties 
-      // when request is in progress. "The data necessary to complete 
+      // IE < 7 cannot access responseText and other properties
+      // when request is in progress. "The data necessary to complete
       // this operation is not yet available".
       var isLegacyIE = qx.core.Environment.get("browser.name") == "ie" &&
                        qx.core.Environment.get("browser.version") < 7;
