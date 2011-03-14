@@ -153,7 +153,13 @@ qx.Mixin.define("qx.ui.core.MExecutable",
         // remove the old binding
         if (old != null && ids[property] != null)
         {
-          old.removeBinding(ids[property]);
+          // this may fail in case of an already disposed object
+          try {
+            old.removeBinding(ids[property]);
+          } catch (ex) {
+            // ignore it if thats the case
+          }
+
           ids[property] = null;
         }
 
