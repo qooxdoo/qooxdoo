@@ -1,6 +1,32 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2007-2011 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+************************************************************************ */
+
+/* ************************************************************************
+#ignore(selenium) 
+************************************************************************ */
+
 qx.Class.define("demobrowser.simulation.demo.Dummy", {
 
   extend : demobrowser.simulation.demo.Abstract,
+  
+  construct : function()
+  {
+    this.base(arguments);
+    this.__ignoredDemos = ["bom.Iframe", "showcase.Browser", "widget.Iframe"];
+  },
   
   members :
   {
@@ -10,7 +36,7 @@ qx.Class.define("demobrowser.simulation.demo.Dummy", {
      * The iframe demos somehow confuse Selenium: selenium.browserbot is a 
      * reference to the HTML iframe element after they're loaded.
      **/
-    __ignoredDemos : ["bom.Iframe", "showcase.Browser", "widget.Iframe"],
+    __ignoredDemos : null,
     
     //overridden
     setUp : function() {
