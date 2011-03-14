@@ -543,35 +543,11 @@ class Class(Resource):
     ##
     # Checks if the required class is known, and the reference to is in a
     # context that is executed at load-time
-    #def followCallDeps(self, node, fileId, depClassName, inFunction, inDefer):
     def followCallDeps(self, node, fileId, depClassName, inLoadContext):
 
-        def hasFollowContext(node, inDefer):
-            if inDefer:
-                return True
-            pchn = node.getParentChain()
-            pchain = "/".join(pchn)
-            return (
-                pchain.endswith("keyvalue/value/call/operand")  # it's a method call as map value
-                or pchain.endswith("file/call/operand")  # it's a top-level method call
-                or pchain.endswith("keyvalue/value/instantiation/expression/call/operand")  # it's an instantiation as map value
-                # what about static vars, "a.b.c.FOO"?!
-                )
-
-        #if (not inFunction
-        #    and depClassName
-        #    and depClassName in self._classesObj  # we have a class id
-        #    #and depClassName != fileId   # ! i need self references for statics pruning
-        #    #and self.context['jobconf'].get("dependencies/follow-static-initializers", True)
-        #    and hasFollowContext(node, inDefer)
-        #   ):
-        #    return True
-        #else:
-        #    return False
         if (inLoadContext
             and depClassName
             and depClassName in self._classesObj  # we have a class id
-            #and hasFollowContext(node, inLoadContext)
             and node.hasParentContext("call/operand")  # it's a function call
            ):
             return True
@@ -591,7 +567,6 @@ class Class(Resource):
     # sure how to handle this sub-recursion when the main body is an iteration.
     # TODO:
     # - <recurse> seems artificial, and should be removed when cleaning up dependencies1()
-    #def _analyzeClassDepsNode(self, node, depsList, inFunction, variants, inDefer=False):
     def _analyzeClassDepsNode(self, node, depsList, variants, inLoadContext, inDefer=False):
 
         if node.type == "variable":
@@ -600,7 +575,6 @@ class Class(Resource):
             # treat dependencies in defer as requires
             deferNode = self.checkDeferNode(assembled, node)
             if deferNode != None:
-                #self._analyzeClassDepsNode(deferNode, depsList, False, variants, True)
                 self._analyzeClassDepsNode(deferNode, depsList, variants, inLoadContext=True, inDefer=True)
 
             (context, className, classAttribute) = self._isInterestingReference(assembled, node, self.id, inDefer)
@@ -627,7 +601,6 @@ class Class(Resource):
                 depsList.append(depsItem)
 
                 # Mark items that need recursive analysis of their dependencies (bug#1455)
-                #if self.followCallDeps(node, self.id, className, inFunction, inDefer):
                 if self.followCallDeps(node, self.id, className, inLoadContext):
                     depsItem.needsRecursion = True
 
