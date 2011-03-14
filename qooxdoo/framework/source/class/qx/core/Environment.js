@@ -166,22 +166,24 @@ qx.Bootstrap.define("qx.core.Environment",
     
     
     __importFromUrl : function() {
-      var urlChecks = document.location.search.slice(1).split("&");
-
-      for (var i = 0; i < urlChecks.length; i++)
-      {
-        var check = urlChecks[i].split(":");
-        if (check.length != 3 || check[0] != "qxenv") {
-          continue;
+      if (window.document && window.document.location) {
+        var urlChecks = window.document.location.search.slice(1).split("&");
+        
+        for (var i = 0; i < urlChecks.length; i++)
+        {
+          var check = urlChecks[i].split(":");
+          if (check.length != 3 || check[0] != "qxenv") {
+            continue;
+          }
+          
+          var key = check[1];
+          var value = decodeURIComponent(check[2]);
+          
+          var checkFunction = qx.Bootstrap.bind(function() {
+            return this;
+          }, value);
+          this._checks[key] = checkFunction;
         }
-        
-        var key = check[1];
-        var value = decodeURIComponent(check[2]);
-        
-        var checkFunction = qx.Bootstrap.bind(function() {
-          return this;
-        }, value);
-        this._checks[key] = checkFunction;
       }  
     },
 

@@ -97,7 +97,7 @@ qx.Bootstrap.define("qx.bom.client.Locale",
      * @return {String} The language set by the navigator.
      */
     __getNavigatorLocale : function() {
-      return (navigator.userLanguage || navigator.language).toLowerCase();
+      return (navigator.userLanguage || navigator.language || "").toLowerCase();
     }
   },
 
