@@ -80,12 +80,20 @@ qx.Bootstrap.define("qx.core.Environment",
     },
 
 
-
-
-
     select : function(key, values) {
-      var key = this.get(key);
-      
+      return this.__pickFromValues(this.get(key), values);
+    },
+    
+    
+    selectAsync : function(key, values, self) {
+      this.getAsync(key, function(result) {
+        var value = this.__pickFromValues(key, values);
+        value.call(self)
+      }, this);
+    },
+
+
+    __pickFromValues : function(key, values) {
       var value = values[key];
       if (value) {
         return value;
@@ -100,9 +108,8 @@ qx.Bootstrap.define("qx.core.Environment",
         throw new Error('No match for variant "' + key +
           '" in variants [' + qx.Bootstrap.getKeysAsString(values) +
           '] found, and no default ("default") given');
-      }      
+      }
     },
-
 
 
     invalidateCacheKey : function(key) {
@@ -119,9 +126,17 @@ qx.Bootstrap.define("qx.core.Environment",
             return value;
           }, null, getter);
         }
-
       }
     },
+
+
+    addAsync : function(key, getter) {
+      if (this._checks[key] == undefined) {
+        this._asyncChecks[key] = getter;
+      }
+    },
+
+
 
 
     _initDefaultQxValues : function() {
