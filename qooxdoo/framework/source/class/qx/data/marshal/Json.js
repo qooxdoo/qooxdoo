@@ -312,6 +312,15 @@ qx.Class.define("qx.data.marshal.Json",
         // go threw all element in the data
         for (var key in data) {
           var propertyName = key.replace(/-/g, "");
+          // warn if there has been a replacement
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            if (key != propertyName) {
+              this.warn(
+                "The model contained a illegal name: '" + key + 
+                "'. Replaced it with '" + propertyName + "'."
+              );
+            }
+          }
           model["set" + qx.lang.String.firstUp(propertyName)](this.toModel(data[key]));
         }
         return model;
