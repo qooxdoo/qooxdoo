@@ -195,6 +195,7 @@
         "qx.revision"      : "${QOOXDOO_REVISION}",
         "qx.testNameSpace" : "${TEST_NAMESPACE}",
         "testrunner2.title" : "${APPLICATION}",
+        "testrunner2.testParts" : false,
         "testrunner2.reportServer" : "${REPORT_SERVER}"
       },
 
@@ -233,7 +234,8 @@
       "settings" :
       {
         "qx.theme" : "${QXTHEME}",
-        "qx.globalErrorHandling" : "on"
+        "qx.globalErrorHandling" : "on",
+        "testrunner2.testParts" : false
       },
 
       "cache" :

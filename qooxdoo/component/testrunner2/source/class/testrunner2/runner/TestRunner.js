@@ -89,7 +89,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     
     // Check if any test parts are defined
     this.__testParts = [];
-    var parts = qx.core.Environment.get("qx.testParts");
+    var parts = qx.core.Environment.get("testrunner2.testParts");
     if (parts) {
       this.__testParts = this.__testParts.concat(parts);
     }
@@ -508,7 +508,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       
       this.__loadAttempts = 0;
       
-      var frameParts = this.frameWindow.qx.core.Environment.get("qx.testParts");
+      var frameParts = this.frameWindow.qx.core.Environment.get("testrunner2.testParts");
       if (frameParts) {
         for (var i = 0; i < frameParts.length; i++) {
           this.__testParts.push(frameParts[i]);
