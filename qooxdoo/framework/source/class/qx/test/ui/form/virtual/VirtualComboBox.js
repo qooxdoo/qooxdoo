@@ -94,6 +94,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.flush();
       // Preselection may not change the actual value
       this.assertNotEquals("item 1", this.__comboBox.getValue());
+      this.assertEquals("i", this.__comboBox.getValue());
     },
     
     testSelectFirstMatch : function()
@@ -105,6 +106,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.flush();
       var preselected = this.__comboBox.getChildControl("dropdown")._preselected;
       this.assertEquals("item 4", preselected);
+      this.assertEquals("item 4", this.__comboBox.getValue());
     },
     
     testSelectFirstMatchWithSortedModel : function()
@@ -123,6 +125,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.flush();
       var preselected = this.__comboBox.getChildControl("dropdown")._preselected;
       this.assertEquals("item 49", preselected);
+      this.assertEquals("item 4", this.__comboBox.getValue());
     },
     
     testSelectFirstMatchWithFilteredModel : function()
@@ -143,6 +146,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       // item 22 is not in the list, nothing should be preselected
       var preselected = this.__comboBox.getChildControl("dropdown")._preselected;
       this.assertNull(preselected);
+      this.assertEquals("item 22", this.__comboBox.getValue());
     },
     
     testSelectFirstMatchWithFormatter : function()
@@ -168,6 +172,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.flush();
       var preselected = this.__comboBox.getChildControl("dropdown")._preselected;
       this.assertEquals("<b>item 4</b>", preselected);
+      this.assertEquals("item 4", this.__comboBox.getValue());
     },
     
     testSelectFirstMatchByLabelPath : function()
@@ -180,6 +185,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.flush();
       var preselected = this.__comboBox.getChildControl("dropdown")._preselected.getLastname();
       this.assertEquals("Sisko", preselected);
+      this.assertEquals("Si", this.__comboBox.getValue());
     }
   }
 

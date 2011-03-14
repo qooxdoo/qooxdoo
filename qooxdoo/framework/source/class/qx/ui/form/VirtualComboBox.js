@@ -315,11 +315,8 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     // property apply
     _applyValue : function(value, old)
     {
-      if (value && value !== old)
-      {
-        var textfield = this.getChildControl("textfield");
-        textfield.setValue(value);
-      }
+      var textfield = this.getChildControl("textfield");
+      textfield.setValue(value);
     },
     
     
@@ -343,29 +340,28 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       var options = null;
       var formatter = this.getDefaultFormat();
       
-      if (labelOptions != null)
-      {
+      if (labelOptions != null) {
         options = qx.lang.Object.clone(labelOptions);
-        
-        if (formatter)
-        {
-          options.converter = function(data, model)
-          {
-            data = labelOptions.converter(data, model);
-            return formatter(data);
-          }
-        }
-      } 
-      else
-      {
-        if (formatter)
-        {
-          options = {
-            converter : formatter
-          }
-        }
+      } else {
+        options = {};
       }
       
+      var that = this;
+      options.converter = function(data) {
+        if (data == null) {
+          return that.getValue();
+        }
+        
+        var converter = qx.util.Delegate.getMethod(labelOptions, "converter");
+        if (converter != null) {
+          data = converter(data);
+        }
+        
+        if (formatter != null) {
+          return formatter(data);
+        } 
+        return data;
+      }
       return options;
     },
 
