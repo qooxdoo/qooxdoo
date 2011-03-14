@@ -22,15 +22,27 @@ qx.Bootstrap.define("qx.core.Environment",
 {
   statics : {
     
-    /** Maps containing the check functions. */
+    /** Maps containing the synchronous check functions. */
     _checks : {},
+    /** Maps containing the asynchronous check functions. */
     _asyncChecks : {},
 
     /** Internal cache for all checks. */ 
     __cache : {},
 
 
-
+    /**
+     * The default accessor for the checks. It returns the value the current 
+     * environemt has for the given key. The key could be something like 
+     * "qx.debug", "css.textoverflow" or "io.ssl". A complete list of 
+     * checks can be found in the class comment of this class.
+     * 
+     * Please keep in mind that the result is chached. If you want to run the 
+     * check function again in case something could have been changed, take a 
+     * look at the {@link #invalidateCacheKey} function.
+     * 
+     * @param key {String} The name of the check you want to query.
+     */
     get : function(key) {
       // check the cache
       if (this.__cache[key] != undefined) {
@@ -53,6 +65,16 @@ qx.Bootstrap.define("qx.core.Environment",
     },
 
 
+    /**
+     * Invokes the callback as soon as the check has been done. If no check 
+     * could be found, a warning is printed.
+     * 
+     * @param key {String} The key of the asynchronous check.
+     * @param callback {Function} The function to call as soon as the check is 
+     *   done. The function should have one argument which is the result of the 
+     *   check.
+     * @param self {var} The context to use when calling the callback.
+     */
     getAsync : function(key, callback, self) {
       // check the cache
       var env = this;
@@ -80,11 +102,30 @@ qx.Bootstrap.define("qx.core.Environment",
     },
 
 
+    /**
+     * Returns the propper value dependent on the check for the given key.
+     * 
+     * @param key {String} The name of the check the select depends on.
+     * @param values {Map} A map containing the values which should be returnd
+     *   in any case. The "default" key could be sued as a catch all statement.
+     * @return {var} The value which is stored in the map for the given 
+     *   check of the key.
+     */
     select : function(key, values) {
       return this.__pickFromValues(this.get(key), values);
     },
-    
-    
+
+
+    /**
+     * Selects the propper function dependent on the asynchronous check.
+     * 
+     * @param key {String} The key for the async check.
+     * @param values {Map} A map containing functions. The map keys should 
+     *   contain all possibilities which could be returned by the given check
+     *   key. The "default" key could be sued as a catch all statement.
+     * @param self {var} The context which should be used when calling the 
+     *   method in the values map. 
+     */
     selectAsync : function(key, values, self) {
       this.getAsync(key, function(result) {
         var value = this.__pickFromValues(key, values);
@@ -93,6 +134,16 @@ qx.Bootstrap.define("qx.core.Environment",
     },
 
 
+    /**
+     * Internal helper which tries to pick the given key from the given values 
+     * map. If that key is not found, it tries to use a key named "default". 
+     * If there is also no default key it prints out a warning and returns 
+     * undefined.
+     * 
+     * @param key {String} The key to search for in the values.
+     * @param values {Map} A map containing some keys.
+     * @return {var} The value stored under values[key] usually.
+     */
     __pickFromValues : function(key, values) {
       var value = values[key];
       if (value) {
@@ -112,33 +163,57 @@ qx.Bootstrap.define("qx.core.Environment",
     },
 
 
+    /**
+     * Invalidates the cache of the given key.
+     * 
+     * @param key {String} The key for the check.
+     */
     invalidateCacheKey : function(key) {
       delete this.__cache[key];
     },
 
 
-    add : function(key, getter) {
+    /**
+     * Add a check to the environment class.
+     * 
+     * @param key {String} The key for the check e.g. html.featurexyz.
+     * @param check {var} It could be either a function checking responsible
+     *   for the check of a value which is the singe value of the check.
+     */
+    add : function(key, check) {
+      // ignore already added checks.
       if (this._checks[key] == undefined) {
-        if (getter instanceof Function) {
-          this._checks[key] = getter;
+        // add functions directly
+        if (check instanceof Function) {
+          this._checks[key] = check;
+        // otherwise, create a check function and use that
         } else {
-          this._checks[key] = qx.Bootstrap.bind(function(value) {
-            return value;
-          }, null, getter);
+          this._checks[key] = this.__createCheck(check);
         }
       }
     },
 
 
-    addAsync : function(key, getter) {
+    /**
+     * Adds a asynchronous test to the environment. If there is already a check 
+     * added for the given key, the add will be ignored.
+     * 
+     * @param key {String} The key of the check e.g. html.featureabc
+     * @param check {Function} A function which should check for a specific 
+     *   environment setting in a asynchronous way. The methid should take two 
+     *   arguments. First one is the callback and the second one is the context.
+     */
+    addAsync : function(key, check) {
       if (this._checks[key] == undefined) {
-        this._asyncChecks[key] = getter;
+        this._asyncChecks[key] = check;
       }
     },
 
 
 
-
+    /**
+     * Initializer for the default values of the framework settings.
+     */
     _initDefaultQxValues : function() {
       // old settings
       this.add("qx.allowUrlSettings", function() {return false;});
@@ -172,10 +247,7 @@ qx.Bootstrap.define("qx.core.Environment",
             value == false;
           }
           
-          var check = qx.Bootstrap.bind(function(value) {
-            return value;
-          }, null, value);
-          this._checks[key] = check;
+          this._checks[key] = this.__createCheck(value);
         }
       }
       
@@ -192,13 +264,11 @@ qx.Bootstrap.define("qx.core.Environment",
             value == false;
           }
           
-          var check = qx.Bootstrap.bind(function(value) {
-            return value;
-          }, null, value);
-          this._checks[key] = check;
+          this._checks[key] = this.__createCheck(value);
         }
       }      
       
+      // import the environment map
       if (qx && qx.$$environment)
       {
         for (var key in qx.$$environment) {          
@@ -210,15 +280,16 @@ qx.Bootstrap.define("qx.core.Environment",
             value == false;
           }
 
-          var check = qx.Bootstrap.bind(function(value) {
-            return value;
-          }, null, value);
-          this._checks[key] = check;
+          this._checks[key] = this.__createCheck(value);
         }
       }
     },
     
     
+    /**
+     * Checks the URL for environment settings and imports these into the 
+     * Environment class.
+     */
     __importFromUrl : function() {
       if (window.document && window.document.location) {
         var urlChecks = window.document.location.search.slice(1).split("&");
@@ -232,13 +303,23 @@ qx.Bootstrap.define("qx.core.Environment",
           
           var key = check[1];
           var value = decodeURIComponent(check[2]);
-          
-          var checkFunction = qx.Bootstrap.bind(function(value) {
-            return value;
-          }, null, value);
-          this._checks[key] = checkFunction;
+
+          this._checks[key] = this.__createCheck(value);
         }
       }  
+    },
+
+
+    /**
+     * Internal helper which creates a function retuning the given value.
+     *
+     * @param value {var} The value which should be returned.
+     * @return {Function} A function which could be used by a test.
+     */
+    __createCheck : function(value) {
+      return qx.Bootstrap.bind(function(value) {
+        return value;
+      }, null, value);
     },
 
 
@@ -256,9 +337,17 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Initializer for the 
+     * Initializer for the checks which are available on runtime.
      */
     _initChecksMap : function() {
+      // CAUTION! If you edit this function, be sure to use the following 
+      // pattern to asure the removal of the generator on demand.
+      // if (this.useCheck("check.name")) {
+      //   this._checks["check.name"] = checkFunction;
+      // }
+      // Also keep in mind to change the class comment to reflect the current 
+      // available checks.
+      
       // /////////////////////////////////////////
       // Engine 
       // /////////////////////////////////////////      
