@@ -22,9 +22,9 @@ qx.Bootstrap.define("qx.core.Environment",
 {
   statics : {
     
-    /** Maps containing the synchronous check functions. */
+    /** Map containing the synchronous check functions. */
     _checks : {},
-    /** Maps containing the asynchronous check functions. */
+    /** Map containing the asynchronous check functions. */
     _asyncChecks : {},
 
     /** Internal cache for all checks. */ 
@@ -33,11 +33,11 @@ qx.Bootstrap.define("qx.core.Environment",
 
     /**
      * The default accessor for the checks. It returns the value the current 
-     * environemt has for the given key. The key could be something like 
+     * environment has for the given key. The key could be something like 
      * "qx.debug", "css.textoverflow" or "io.ssl". A complete list of 
      * checks can be found in the class comment of this class.
      * 
-     * Please keep in mind that the result is chached. If you want to run the 
+     * Please keep in mind that the result is cached. If you want to run the 
      * check function again in case something could have been changed, take a 
      * look at the {@link #invalidateCacheKey} function.
      * 
@@ -67,13 +67,13 @@ qx.Bootstrap.define("qx.core.Environment",
 
     /**
      * Invokes the callback as soon as the check has been done. If no check 
-     * could be found, a warning is printed.
+     * could be found, a warning will be printed.
      * 
      * @param key {String} The key of the asynchronous check.
      * @param callback {Function} The function to call as soon as the check is 
      *   done. The function should have one argument which is the result of the 
      *   check.
-     * @param self {var} The context to use when calling the callback.
+     * @param self {var} The context to use when invoking the callback.
      */
     getAsync : function(key, callback, self) {
       // check the cache
@@ -103,11 +103,11 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Returns the propper value dependent on the check for the given key.
+     * Returns the proper value dependent on the check for the given key.
      * 
      * @param key {String} The name of the check the select depends on.
-     * @param values {Map} A map containing the values which should be returnd
-     *   in any case. The "default" key could be sued as a catch all statement.
+     * @param values {Map} A map containing the values which should be returned
+     *   in any case. The "default" key could be used as a catch all statement.
      * @return {var} The value which is stored in the map for the given 
      *   check of the key.
      */
@@ -117,12 +117,12 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Selects the propper function dependent on the asynchronous check.
+     * Selects the proper function dependent on the asynchronous check.
      * 
      * @param key {String} The key for the async check.
      * @param values {Map} A map containing functions. The map keys should 
      *   contain all possibilities which could be returned by the given check
-     *   key. The "default" key could be sued as a catch all statement.
+     *   key. The "default" key could be used as a catch all statement.
      * @param self {var} The context which should be used when calling the 
      *   method in the values map. 
      */
@@ -137,12 +137,12 @@ qx.Bootstrap.define("qx.core.Environment",
     /**
      * Internal helper which tries to pick the given key from the given values 
      * map. If that key is not found, it tries to use a key named "default". 
-     * If there is also no default key it prints out a warning and returns 
+     * If there is also no default key, it prints out a warning and returns 
      * undefined.
      * 
      * @param key {String} The key to search for in the values.
      * @param values {Map} A map containing some keys.
-     * @return {var} The value stored under values[key] usually.
+     * @return {var} The value stored as values[key] usually.
      */
     __pickFromValues : function(key, values) {
       var value = values[key];
@@ -164,9 +164,9 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Invalidates the cache of the given key.
+     * Invalidates the cache for the given key.
      * 
-     * @param key {String} The key for the check.
+     * @param key {String} The key of the check.
      */
     invalidateCacheKey : function(key) {
       delete this.__cache[key];
@@ -174,11 +174,13 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Add a check to the environment class.
+     * Add a check to the environment class. If there is already a check 
+     * added for the given key, the add will be ignored.
      * 
      * @param key {String} The key for the check e.g. html.featurexyz.
-     * @param check {var} It could be either a function checking responsible
-     *   for the check of a value which is the singe value of the check.
+     * @param check {var} It could be either a function or a simple value. 
+     *   The function should be responsible for the check and should return the
+     *   result of the check.
      */
     add : function(key, check) {
       // ignore already added checks.
@@ -195,12 +197,12 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Adds a asynchronous test to the environment. If there is already a check 
+     * Adds a asynchronous check to the environment. If there is already a check 
      * added for the given key, the add will be ignored.
      * 
      * @param key {String} The key of the check e.g. html.featureabc
      * @param check {Function} A function which should check for a specific 
-     *   environment setting in a asynchronous way. The methid should take two 
+     *   environment setting in a asynchronous way. The method should take two 
      *   arguments. First one is the callback and the second one is the context.
      */
     addAsync : function(key, check) {
@@ -230,7 +232,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Import checks from global qx.$$environemnt into current environment.
+     * Import checks from global qx.$$environment into the Environment class.
      */
     __importFromGenerator : function()
     {
@@ -240,7 +242,7 @@ qx.Bootstrap.define("qx.core.Environment",
       {
         for (var key in window.qxsettings) {          
           var value = window.qxsettings[key];
-          // normalization for "on" and "off" @deprecatd since 1.4
+          // normalization for "on" and "off" @deprecated since 1.4
           if (value == "on") {
             value = true;
           } else if (value == "off") {
@@ -257,7 +259,7 @@ qx.Bootstrap.define("qx.core.Environment",
       {
         for (var key in window.qxvariants) {          
           var value = window.qxvariants[key];
-          // normalization for "on" and "off" @deprecatd since 1.4
+          // normalization for "on" and "off" @deprecated since 1.4
           if (value == "on") {
             value = true;
           } else if (value == "off") {
@@ -273,7 +275,7 @@ qx.Bootstrap.define("qx.core.Environment",
       {
         for (var key in qx.$$environment) {          
           var value = qx.$$environment[key];
-          // normalization for "on" and "off" @deprecatd since 1.4
+          // normalization for "on" and "off" @deprecated since 1.4
           if (value == "on") {
             value = true;
           } else if (value == "off") {
