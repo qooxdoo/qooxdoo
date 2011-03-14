@@ -47,6 +47,8 @@ for line in open(sys.argv[1],"r").readlines():
     while currtime.date() > cmptime.date():
         print cmptime.ctime(), ": missing"
         cmptime = cmptime + oneday
-    allU = "" if filter(lambda x:x!='U', ds[1:]) else "(U)"
-    print currtime.ctime(), ": ok", allU
+    buildtimes = map(lambda x: ("%d.%.2d" % (int(x)/60, int(x) % 60)) if re.match(r'\d+',x) else x, ds[1:])
+    if not filter(lambda x:x!='U', buildtimes):
+        buildtimes = ['U']
+    print currtime.ctime(), ": ok", "%r" % buildtimes
     cmptime = currtime
