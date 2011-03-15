@@ -128,6 +128,27 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       req.send();
 
       this.wait();
+    },
+
+    // Bugfix
+    "test: should dispose hard-working": function() {
+
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
+      req.open("GET", url);
+
+      var that = this;
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume(function() {
+            // Must not throw error
+            req.dispose();
+          });
+        }
+      }
+      req.send();
+
+      this.wait();
     }
 
   }

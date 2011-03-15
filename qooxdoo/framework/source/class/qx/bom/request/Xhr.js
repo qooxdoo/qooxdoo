@@ -87,6 +87,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
     __disposed: false,
 
+    __onreadystatechangeNoop: false,
+
     /**
      * Initialize (prepare) a request.
      *
@@ -107,7 +109,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // Restore if replaced by noop function before
-      if (this.__nativeXhr.onreadystatechange.noop) {
+      if (this.__onreadystatechangeNoop) {
         this.__nativeXhr.onreadystatechange =
           qx.lang.Function.bind(this.__handleReadyStateChange, this);
       }
@@ -193,9 +195,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         return false;
       }
 
-      // Remove reference to native XHR and clear out listeners
-      this.__nativeXhr.onreadystatechange = this.onreadystatechange = 
-        this.__nativeXhr = null;
+      // Clear out listeners
+      this.__nativeXhr.onreadystatechange = this.onreadystatechange = function() {};
+
+      // Remove reference to native XHR.
+      // IE does not accept null here.
+      this.__nativeXhr = {};
 
       this.__disposed = true;
       return true;
@@ -270,7 +275,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
        if (this.readyState == qx.bom.request.Xhr.DONE) {
          // Allow IE to garbage collect native Xhr
          this.__nativeXhr.onreadystatechange = function() {};
-         this.__nativeXhr.onreadystatechange.noop = true;
+         this.__onreadystatechangeNoop = true;
       }
 
     },
