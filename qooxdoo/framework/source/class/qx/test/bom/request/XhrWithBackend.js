@@ -85,8 +85,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
           that.resume(function() {
             var document = req.responseXML;
             var monkeys = document.getElementsByTagName("monkey");
-            that.assertObject(monkeys);
-            that.assertEquals(1, monkeys.length);
+            that.assertEquals(1, monkeys.length, "Must find one monkey");
           });
         }
       }
