@@ -24,6 +24,7 @@
 ##
 
 from ecmascript.frontend import treeutil
+from ecmascript.frontend.tree import Node
 
 ##
 # Class representing a single, flat scope (not including nested scopes), in
@@ -243,7 +244,7 @@ Function %s(%s):
         def findChainRoot(node):
             current = node
 
-            while current.hasParent() and current.parent.type in chainTypes:
+            while current.parent and current.parent.type in chainTypes:
                 current = current.parent
 
             return current  # this must be the chain root
@@ -254,7 +255,7 @@ Function %s(%s):
         def findLeftmostIdentifier(node):
             child = node
 
-            while child.hasChildren():
+            while child.children:
                 c = child.getFirstChild(mandatory=False, ignoreComments=True)
                 if c:
                     child = c
@@ -319,7 +320,7 @@ Function %s(%s):
                     yield (name, node)
 
         # -- Recurse over children
-        if node.hasChildren():
+        if node.children:
             for child in node.children:
                 for (name, use) in Scope.usedVariablesIterator(child):
                     yield (name, use)

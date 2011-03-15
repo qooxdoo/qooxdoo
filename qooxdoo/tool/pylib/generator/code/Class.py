@@ -562,6 +562,8 @@ class Class(Resource):
             pchn = node.getParentChain()
             pchain = "/".join(pchn)
             return (
+                #pchain.endswith("keyvalue/value/call/operand")               # limited version
+                #or pchain.endswith("instantiation/expression/call/operand")  # limited version
                 pchain.endswith("call/operand")                 # it's a function call
                 or pchain.endswith("instantiation/expression")  # like "new Date" (no parenthesies, but constructor called anyway)
                 )
@@ -968,12 +970,21 @@ class Class(Resource):
         #
         # @param deps accumulator variable set((c1,m1), (c2,m2),...)
         
-        def getTransitiveDepsR(dependencyItem, variants, totalDeps):
+        def getTransitiveDepsR(dependencyItem, variantString, totalDeps):
 
             # We don't add the in-param to the global result
             classId  = dependencyItem.name
             methodId = dependencyItem.attribute
             function_pruned = False
+
+            # Check cache
+            cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, variantString)
+            cachedDeps, _ = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
+            if cachedDeps != None:
+                console.debug("using cached result")
+                return cachedDeps
+
+            # Need to calculate deps
             console.dot("_")
 
             # Check known class
@@ -1012,42 +1023,27 @@ class Class(Resource):
             console.debug("%s#%s dependencies:" % (classId, methodId))
             console.indent()
 
-            # Check cache
-            cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
-            cachedDeps, _ = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
-            if cachedDeps != None:
-                console.debug("using cached result")
-                console.outdent()
-                return cachedDeps
+            if isinstance(attribNode, Node):
 
-            # Calculate deps
+                if (attribNode.getChild("function", False)       # is it a function(){..} value?
+                    and not dependencyItem.isCall                # and the reference was no call
+                   ):
+                    function_pruned = True
+                    pass                                         # don't lift those deps
+                else:
+                    # Get the method's immediate deps
+                    # TODO: is this the right API?!
+                    depslist = []
+                    self._analyzeClassDepsNode(attribNode, depslist, variants, inLoadContext=False)
+                    console.debug( "shallow dependencies: %r" % (depslist,))
 
-            # skip non-function attributes -- not here!
-            #elif attribNode and isinstance(attribNode, Node) and not treeutil.selectNode(attribNode, "function"):
-            #    pass
-
-            else:
-                if isinstance(attribNode, Node):
-
-                    if (attribNode.getChild("function", False)       # is it a function(){..} value?
-                        and not dependencyItem.isCall                # and the reference was no call
-                       ):
-                        function_pruned = True
-                        pass                                         # don't lift those deps
-                    else:
-                        # Get the method's immediate deps
-                        # TODO: is this the right API?!
-                        depslist = []
-                        self._analyzeClassDepsNode(attribNode, depslist, variants, inLoadContext=False)
-                        console.debug( "shallow dependencies: %r" % (depslist,))
-
-                        for depsItem in depslist:
-                            if depsItem in totalDeps:
-                                continue
-                            if self.resultAdd(depsItem, localDeps):
-                                # Recurse dependencies
-                                downstreamDeps = getTransitiveDepsR(depsItem, variants, totalDeps.union(localDeps))
-                                localDeps.update(downstreamDeps)
+                    for depsItem in depslist:
+                        if depsItem in totalDeps:
+                            continue
+                        if self.resultAdd(depsItem, localDeps):
+                            # Recurse dependencies
+                            downstreamDeps = getTransitiveDepsR(depsItem, variants, totalDeps.union(localDeps))
+                            localDeps.update(downstreamDeps)
 
             # Cache update
             # ---   i cannot cache currently, if the deps of a function are pruned
@@ -1059,11 +1055,11 @@ class Class(Resource):
             console.outdent()
             return localDeps
 
-        # -- Main --------------------------------------------------------------
+        # -- getTransitiveDeps -------------------------------------------------
 
-        #checkset = set()
         checkset = checkSet or set()
-        deps = getTransitiveDepsR(depsItem, variants, checkset) # checkset is currently not used, leaving it for now
+        variantString = util.toString(variants)
+        deps = getTransitiveDepsR(depsItem, variantString, checkset) # checkset is currently not used, leaving it for now
 
         return deps
 
