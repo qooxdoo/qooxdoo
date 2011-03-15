@@ -86,10 +86,11 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
     // BUGFIX
     //
-    // IE6 and IE7 only
+    // IE6 and IE7
+    // Firefox < 3.5
 
     "test: should create new native XHR when required": function() {
-      if (this.isIEBelow(8)) {
+      if (this.isIEBelow(8) || this.isFFBelow(3.5)) {
         var req = this.req;
         var fakeReq = this.getFakeReq();
 
@@ -104,7 +105,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     "test: should abort old when new native XHR": function() {
-      if (this.isIEBelow(8)) {
+      if (this.isIEBelow(8) || this.isFFBelow(3.5)) {
         var req = this.req;
         var fakeReq = this.getFakeReq();
 
@@ -120,7 +121,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     "test: should init onreadystatechange when new native XHR": function() {
-      if (this.isIEBelow(8)) {
+      if (this.isIEBelow(8) || this.isFFBelow(3.5)) {
         var req = this.req;
         var fakeReq = this.getFakeReq();
 
@@ -605,6 +606,13 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var version = qx.core.Environment.get("browser.version");
 
       return name == "ie" && version < targetVersion;
+    },
+
+    isFFBelow: function(targetVersion) {
+      var name = qx.core.Environment.get("browser.name");
+      var version = qx.core.Environment.get("browser.version");
+
+      return name == "firefox" && version < targetVersion;
     }
 
   }

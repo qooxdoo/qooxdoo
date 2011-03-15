@@ -105,12 +105,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       // BUGFIX
       // IE < 8 cannot reuse the XmlHttpRequest to issue many requests
-      if (this.readyState > qx.bom.request.Xhr.UNSENT && this.__isLegacyIE()) {
+      if (!this.__supportsManyRequests() && this.readyState > qx.bom.request.Xhr.UNSENT) {
         // XmlHttpRequest Level 1 requires open() to abort any pending requests
         // associated to the object. Since we're dealing with a new object here,
         // we have to emulate this behavior.
         this.abort();
-        
+
         // Replace the underlying native XHR with a new one that can
         // be used to issue new requests.
         this.__initNativeXhr();
@@ -307,16 +307,22 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     __statusPropertiesReadable: function() {
       // BUGFIX: IE
-      // IE < 7 cannot access responseText and other properties
+      // IE < 8 cannot access responseText and other properties
       // when request is in progress. "The data necessary to complete
       // this operation is not yet available".
-      return this.__nativeXhr.readyState > 1 && !this.__isLegacyIE() ||
+      var isLegacyIE = qx.core.Environment.get("browser.name") == "ie" &&
+                       qx.core.Environment.get("browser.version") < 8;
+
+      return this.__nativeXhr.readyState > 1 && !isLegacyIE ||
         this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE;
     },
-    
-    __isLegacyIE: function() {
-      return qx.core.Environment.get("browser.name") == "ie" &&
-             qx.core.Environment.get("browser.version") < 8;
+
+    __supportsManyRequests: function() {
+      var name = qx.core.Environment.get("browser.name");
+      var version = qx.core.Environment.get("browser.version");
+
+      return !(name == "ie" && version < 8 ||
+               name == "firefox" && version < 3.5);
     }
   }
 });
