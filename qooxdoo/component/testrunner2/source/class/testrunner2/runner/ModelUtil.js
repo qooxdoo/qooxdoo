@@ -134,15 +134,20 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
 
           arguments.callee(child);
           
-          child.bind("state", model, "state", {
-            converter : function(data, model) {
-              if (model.getState() == "failure" || model.getState() == "error"
-                || data == "start" || data == "wait") {
-                return model.getState();
+          // skip binding the children's state to the parent in old IEs to 
+          // accelerate application startup
+          if (!(qx.core.Environment.get("browser.name") === "ie" 
+              && qx.core.Environment.get("browser.version") < 9)) {
+            child.bind("state", model, "state", {
+              converter : function(data, model) {
+                if (model.getState() == "failure" || model.getState() == "error"
+                  || data == "start" || data == "wait") {
+                  return model.getState();
+                }
+                return data;
               }
-              return data;
-            }
-          });
+            });
+          }
         }
       }
     },
