@@ -25,8 +25,8 @@ qx.Class.define("qx.ui.core.queue.Visibility",
 {
   statics :
   {
-    /** {Map} This contains all the queued widgets for the next flush. */
-    __queue : {},
+    /** {Array} This contains all the queued widgets for the next flush. */
+    __queue : [],
 
 
     /** {Map} Maps hash codes to visibility */
@@ -41,10 +41,8 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      */
     remove : function(widget)
     {
-      var hash = widget.$$hash;
-
-      delete this.__data[hash];
-      delete this.__queue[hash];
+      delete this.__data[widget.$$hash];
+      qx.lang.Array.remove(this.__queue, widget)
     },
 
 
@@ -100,16 +98,15 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      * Should only be used by {@link qx.ui.core.Widget}.
      *
      * @param widget {qx.ui.core.Widget} The widget to add.
-     * @return {void}
      */
     add : function(widget)
     {
       var queue = this.__queue;
-      if (queue[widget.$$hash]) {
+      if (qx.lang.Array.contains(queue, widget)) {
         return;
       }
 
-      queue[widget.$$hash] = widget;
+      queue.unshift(widget);
       qx.ui.core.queue.Manager.scheduleFlush("visibility");
     },
 
@@ -118,8 +115,6 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      * Flushes the visibility queue.
      *
      * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
-     *
-     * @return {void}
      */
     flush : function()
     {
@@ -130,10 +125,11 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       // Dynamically add children to queue
       // Only respect already known widgets because otherwise the children
       // are also already in the queue (added on their own)
-      for (var hash in queue)
+      for (var i = queue.length - 1; i >= 0; i--)
       {
+        var hash = queue[i];
         if (data[hash] != null) {
-          queue[hash].addChildrenToQueue(queue);
+          queue[i].addChildrenToQueue(queue);
         }
       }
 
@@ -142,17 +138,19 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       // new data may also be added by related widgets and not
       // only the widget itself.
       var oldData = {};
-      for (var hash in queue)
+      for (var i = queue.length - 1; i >= 0; i--)
       {
+        var hash = queue[i].$$hash;
         oldData[hash] = data[hash];
         data[hash] = null;
       }
 
       // Finally recompute
-      for (var hash in queue)
+      for (var i = queue.length - 1; i >= 0; i--)
       {
-        var widget = queue[hash];
-        delete queue[hash];
+        var widget = queue[i];
+        var hash = widget.$$hash;
+        queue.splice(i, 1);
 
         // Only update when not already updated by another widget
         if (data[hash] == null) {
@@ -166,9 +164,9 @@ qx.Class.define("qx.ui.core.queue.Visibility",
         }
       }
 
-      // Recreate the map is cheaper compared to keep a holey map over time
+      // Recreate the array is cheaper compared to keep a holey array over time
       // This is especially true for IE7
-      this.__queue = {};
+      this.__queue = [];
     }
   }
 });

@@ -29,8 +29,8 @@ qx.Class.define("qx.ui.core.queue.Widget",
 {
   statics :
   {
-    /** {Map} This contains all the queued widgets for the next flush. */
-    __queue : {},
+    /** {Array} This contains all the queued widgets for the next flush. */
+    __queue : [],
 
 
     /**
@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
      * @param widget {qx.ui.core.Widget} The widget to clear
      */
     remove : function(widget) {
-      delete this.__queue[widget.$$hash];
+      qx.lang.Array.remove(this.__queue, widget);
     },
 
 
@@ -48,16 +48,15 @@ qx.Class.define("qx.ui.core.queue.Widget",
      * Adds a widget to the queue.
      *
      * @param widget {qx.ui.core.Widget} The widget to add.
-     * @return {void}
      */
     add : function(widget)
     {
       var queue = this.__queue;
-      if (queue[widget.$$hash]) {
+      if (qx.lang.Array.contains(queue, widget)) {
         return;
       }
 
-      queue[widget.$$hash] = widget;
+      queue.unshift(widget);
       qx.ui.core.queue.Manager.scheduleFlush("widget");
     },
 
@@ -66,30 +65,28 @@ qx.Class.define("qx.ui.core.queue.Widget",
      * Flushes the widget queue.
      *
      * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
-     *
-     * @return {void}
      */
     flush : function()
     {
       // Process all registered widgets
       var queue = this.__queue;
       var obj;
-      for (var hash in queue)
+      for (var i = queue.length - 1 ; i >= 0; i--)
       {
         // Order is important to allow the same widget to be requeued directly
-        obj = queue[hash];
-        delete queue[hash];
+        obj = queue[i];
+        queue.splice(i, 1);
         obj.syncWidget();
       }
 
       // Empty check
-      for (var hash in queue) {
+      if (queue.length != 0) {
         return;
       }
 
-      // Recreate the map is cheaper compared to keep a holey map over time
+      // Recreate the array is cheaper compared to keep a holey array over time
       // This is especially true for IE7
-      this.__queue = {};
+      this.__queue = [];
     }
   }
 });

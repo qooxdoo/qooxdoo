@@ -27,8 +27,8 @@ qx.Class.define("qx.ui.core.queue.Dispose",
 {
   statics :
   {
-    /** {Map} This contains all the queued widgets for the next flush. */
-    __queue : {},
+    /** {Array} This contains all the queued widgets for the next flush. */
+    __queue : [],
 
 
     /**
@@ -37,16 +37,15 @@ qx.Class.define("qx.ui.core.queue.Dispose",
      * Should only be used by {@link qx.ui.core.Widget}.
      *
      * @param widget {qx.ui.core.Widget} The widget to add.
-     * @return {void}
      */
     add : function(widget)
     {
       var queue = this.__queue;
-      if (queue[widget.$$hash]) {
+      if (qx.lang.Array.contains(queue, widget)) {
         return;
       }
 
-      queue[widget.$$hash] = widget;
+      queue.unshift(widget);
       qx.ui.core.queue.Manager.scheduleFlush("dispose");
     },
 
@@ -55,28 +54,26 @@ qx.Class.define("qx.ui.core.queue.Dispose",
      * Flushes the dispose queue.
      *
      * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
-     *
-     * @return {void}
      */
     flush : function()
     {
       // Dispose all registered objects
       var queue = this.__queue;
-      for (var hash in queue)
+      for (var i = queue.length - 1; i >= 0; i--)
       {
-        var widget = queue[hash];
-        delete queue[hash];
+        var widget = queue[i];
+        queue.splice(i, 1);
         widget.dispose();
       }
 
       // Empty check
-      for (var hash in queue) {
+      if (queue.length != 0) {
         return;
       }
 
-      // Recreate the map is cheaper compared to keep a holey map over time
+      // Recreate the array is cheaper compared to keep a holey array over time
       // This is especially true for IE7
-      this.__queue = {};
+      this.__queue = [];
     }
   }
 });
