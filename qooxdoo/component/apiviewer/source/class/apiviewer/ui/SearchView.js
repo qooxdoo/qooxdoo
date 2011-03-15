@@ -114,10 +114,32 @@ qx.Class.define("apiviewer.ui.SearchView",
       for(var i=0;i<types.length;i++)
       {
         var type=types[i];
-        var typeToggleButton = new qx.ui.form.ToggleButton('','apiviewer/image/'+iconNameParts[i]+'18.gif');
+        var iconNamePart = iconNameParts[i];
+        var typeToggleButton = new qx.ui.form.ToggleButton('','apiviewer/image/'+iconNamePart+'18.gif');
         typeToggleButton.setToolTipText(type);
-        typeToggleButton.setPadding(0,0,0,0);
+        // we need variable paddingLeft in order to acommodate the icons in the center of the toggleButton
+        var paddingLeft = 0;
+        var paddingBottom = 0;
+        var paddingTop = 0;
+        if(['class','interface'].indexOf(iconNamePart)!=-1)
+        {
+          paddingLeft = 2;
+        }
+        else if(['package','childcontrol'].indexOf(iconNamePart)!=-1)
+        {
+           paddingLeft = 1;
+           if(iconNamePart === 'childcontrol') {
+             paddingBottom = 2;
+           }
+        }
+        else if (iconNamePart === 'constant')
+        {
+          paddingTop = 1;
+        }
+        typeToggleButton.setPadding(paddingTop, 0, paddingBottom, paddingLeft);
         typeToggleButton.setMarginRight(2);
+        typeToggleButton.setGap(0);
+        typeToggleButton.setIconPosition('top');
         typeToggleButton.setShow('icon');
         typeToggleButton.bind('value',this.__typeFilter,'array['+i+']');
         typeToggleButton.setKeepFocus(true);
@@ -130,10 +152,11 @@ qx.Class.define("apiviewer.ui.SearchView",
       }
       
         var typeToggleButtonAll = new qx.ui.form.ToggleButton('All');
-        typeToggleButtonAll.setPadding(1,1,1,1);
+        typeToggleButtonAll.setPadding(1,3,1,3);
         typeToggleButtonAll.setShow('label');
         typeToggleButtonAll.setValue(true);
         typeToggleButtonAll.setGap(0);
+        typeToggleButtonAll.setToolTipText('Deactivate all filters');
         typeToggleButtonAll.setKeepFocus(true);
         typeContainer.add(typeToggleButtonAll);
         typeToggleButtonAll.addListener('changeValue', function(e) {
@@ -141,6 +164,7 @@ qx.Class.define("apiviewer.ui.SearchView",
             this.__typeFilter.setItem(i,e.getData());
           }
           this._searchResult(this.sinput.getValue() || "");
+          typeToggleButtonAll.setToolTipText(e.getData() ? 'Deactivate all filters' : 'Activate all filters');
         },this);
       
       sform.add(typeContainer, {row: 1, column: 0});
