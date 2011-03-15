@@ -27,7 +27,8 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 {
   extend : qx.dev.unit.TestCase,
 
-  include : qx.test.io.MRemoteTest,
+  include : [qx.test.io.MRemoteTest,
+             qx.dev.unit.MMock],
 
   construct : function()
   {
@@ -45,6 +46,10 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
       this.req = new qx.bom.request.Xhr();
     },
+
+    //
+    // Basic
+    //
 
     "test: should GET": function() {
       if (this.isLocal()) {
@@ -165,12 +170,14 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       }, 1500);
     },
 
+    //
+    // onreadystatechange()
+    //
+
     "test: should call onreadystatechange once for OPEN": function() {
       if (this.isLocal()) {
         return;
       }
-
-      this.needsPHPWarning();
 
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
@@ -199,7 +206,83 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
-    // Bugfix
+    "test: should not call onreadystatechange when aborting OPENED": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      var req = this.req;
+
+      // OPENED, without send flag
+      var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
+      req.open("GET", url);
+
+      this.spy(req, "onreadystatechange");
+      req.abort();
+
+      this.wait(500, function() {
+        this.assertNotCalled(req.onreadystatechange);
+      }, this);
+    },
+
+    "test: should call onreadystatechange when aborting OPENED with send flag": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      var req = this.req;
+      var that = this;
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume();
+        }
+      }
+
+      // Will "never" complete
+      // OPENED, with send flag
+      var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
+      req.open("GET", url + "?duration=100");
+      req.send();
+
+      window.setTimeout(function() {
+        req.abort();
+      }, 500);
+
+      this.wait();
+    },
+
+    "test: should call onreadystatechange when aborting LOADING": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      var req = this.req;
+      var that = this;
+
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume();
+        }
+      }
+
+      // Will "never" complete
+      // OPENED, finally LOADING
+      var url = this.getUrl("qx/test/xmlhttp/loading.php");
+      req.open("GET", url + "?duration=100");
+      req.send();
+
+      window.setTimeout(function() {
+        req.abort();
+      }, 500);
+
+      this.wait();
+    },
+
+    //
+    // Disposing
+    //
+
+    // BUGFIX
     "test: should dispose hard-working": function() {
       if (this.isLocal()) {
         return;
