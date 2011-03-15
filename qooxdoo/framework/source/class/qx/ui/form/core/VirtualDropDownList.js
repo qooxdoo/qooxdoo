@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
     
     this._target = target;
 
-    var list = this._createChildControl("list");
+    this._createChildControl("list");
     this.addListener("changeVisibility", this.__onChangeVisibility, this);
 
     this.initSelection(new qx.data.Array());
