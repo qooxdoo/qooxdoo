@@ -26,28 +26,38 @@
 qx.Class.define("qx.test.bom.media.Abstract",
 {
   extend : qx.dev.unit.TestCase,
+  include: [qx.dev.unit.MRequirements],
 
   members :
   {
     _media: null,
     _src: null,
 
-    setUp : function() {
-      this._src = qx.util.ResourceManager.getInstance().toUri('qx/test/audio.ogg');
-
-      this._media = new qx.bom.media.Audio(this._src);
+    hasAudio: function() {
+      return qx.core.Environment.get("html.audio");
     },
 
+    setUp : function() {
+      this._src = qx.util.ResourceManager.getInstance().toUri("qx/test/audio.ogg");
+    },
 
     tearDown : function() {
+      this._media = null;
+      this._src = null;
     },
 
     testGetMediaObject: function() {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
       this.assertElement(this._media.getMediaObject());
     },
 
 
     testPlayPause: function() {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
       this.assertTrue(this._media.isPaused());
 
       this._media.play();
@@ -58,9 +68,12 @@ qx.Class.define("qx.test.bom.media.Abstract",
     },
 
     testEnd: function() {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
       this.assertFalse(this._media.isEnded());
 
-      this._media.addListener('ended', function(e) {
+      this._media.addListener("ended", function(e) {
         this.resume(function() {
           this.assertInstance(e, qx.event.type.Event);
         }, this);
@@ -78,12 +91,18 @@ qx.Class.define("qx.test.bom.media.Abstract",
     },
 
     testId: function() {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
       var id = "mediaid";
       this._media.setId(id);
       this.assertEquals(id, this._media.getId());
     },
 
     testVolume: function() {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
       var that = this;
 
       this._media.setVolume(1);
@@ -94,18 +113,22 @@ qx.Class.define("qx.test.bom.media.Abstract",
 
       this.assertException(function() {
         that._media.setVolume(-1);
-      }, DOMException, 'INDEX_SIZE_ERR');
+      }, DOMException, "INDEX_SIZE_ERR");
 
       this.assertException(function() {
         that._media.setVolume(2);
-      }, DOMException, 'INDEX_SIZE_ERR');
+      }, DOMException, "INDEX_SIZE_ERR");
     },
 
+
     testVolumeChange: function() {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
       var vol = 0.3;
       var that = this;
 
-      this._media.addListener('volumechange', function(e) {
+      this._media.addListener("volumechange", function(e) {
         this.resume(function() {
         this.assertEquals(Math.round(vol*100), Math.round(this._media.getVolume()*100));
           this.assertInstance(e, qx.event.type.Event);
@@ -119,6 +142,9 @@ qx.Class.define("qx.test.bom.media.Abstract",
     },
 
     testMute: function() {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
       this.assertFalse(this._media.isMuted());
 
       this._media.setMuted(true);
@@ -129,6 +155,9 @@ qx.Class.define("qx.test.bom.media.Abstract",
     },
 
     testCurrentTime: function() {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
       this.assertEquals(0, this._media.getCurrentTime());
 
       this._media.play();
@@ -140,6 +169,9 @@ qx.Class.define("qx.test.bom.media.Abstract",
     },
 
     testDuration: function() {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
       this.assertTrue(isNaN(this._media.getDuration()));
 
       this._media.play();
@@ -152,13 +184,15 @@ qx.Class.define("qx.test.bom.media.Abstract",
 
 
     testSource: function() {
-      var media = new qx.bom.media.Audio();
-      media.setSource(this._src);
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio();
 
-      var _ref = this._src.split('/');
+      this._media.setSource(this._src);
+
+      var _ref = this._src.split("/");
       var expectedFile = _ref[_ref.length-1];
 
-      _ref = media.getSource().split('/');
+      _ref = this._media.getSource().split("/");
       var foundFile = _ref[_ref.length-1];
 
       this.assertEquals(expectedFile, foundFile);
@@ -166,6 +200,9 @@ qx.Class.define("qx.test.bom.media.Abstract",
 
 
     testControls: function() {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
       this.assertFalse(this._media.hasControls());
 
       this._media.showControls();
@@ -177,19 +214,24 @@ qx.Class.define("qx.test.bom.media.Abstract",
 
 
     testAutoplay: function() {
-      var media = new qx.bom.media.Audio();
-      this.assertTrue(media.isPaused());
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio();
 
-      media.setAutoplay(true);
-      media.setSource(this._src);
+      this.assertTrue(this._media.isPaused());
+
+      this._media.setAutoplay(true);
+      this._media.setSource(this._src);
       this.wait(500, function(e) {
-        this.assertFalse(media.isPaused());
-        media.pause();
+        this.assertFalse(this._media.isPaused());
+        this._media.pause();
       }, this);
     },
 
 
     testPreload: function() {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
       var none = "none";
       var metadata = "metadata";
       var auto = "auto";
@@ -214,6 +256,9 @@ qx.Class.define("qx.test.bom.media.Abstract",
     },
 
     testLoop: function() {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
       this.assertFalse(this._media.isLoop());
 
       this._media.setLoop(true);
@@ -224,7 +269,10 @@ qx.Class.define("qx.test.bom.media.Abstract",
     },
 
     testPlayEvent: function() {
-      this._media.addListener('play', function(e) {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
+      this._media.addListener("play", function(e) {
         this.resume(function() {
           this.assertInstance(e, qx.event.type.Event);
           this._media.pause();
@@ -239,7 +287,10 @@ qx.Class.define("qx.test.bom.media.Abstract",
     },
 
     testPauseEvent: function() {
-      this._media.addListener('pause', function(e) {
+      this.require(["audio"]);
+      this._media = new qx.bom.media.Audio(this._src);
+
+      this._media.addListener("pause", function(e) {
         this.resume(function() {
           this.assertInstance(e, qx.event.type.Event);
         }, this);
