@@ -1113,6 +1113,15 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       else {
         this.reset();
       }
+      
+      /*
+       * Reverse the selection to trigger a "change" event on the selection 
+       * which causes the runner to rebuild its queue, allowing the user to
+       * run the same selection multiple times.
+       * Reversing the selection has no visible effect since it only contains 
+       * one item.
+       */
+      this.getSelectedTests().reverse();
       this.fireEvent("runTests");
     },
     
