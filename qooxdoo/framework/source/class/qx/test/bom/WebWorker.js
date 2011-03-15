@@ -41,7 +41,10 @@ qx.Class.define("qx.test.bom.WebWorker",
     },
 
     setUp: function() {
+      this.require(["worker"]);
       this._url = qx.util.ResourceManager.getInstance().toUri("qx/test/webworker.js");
+      this._worker = new qx.bom.WebWorker(this._url);
+
       this._send = function(message, fn) {
         this._worker.addListener("message", function(e) {
           this.resume(function() {
@@ -63,25 +66,16 @@ qx.Class.define("qx.test.bom.WebWorker",
     },
 
     testConstructor: function() {
-      this.require(["worker"]);
-      this._worker = new qx.bom.WebWorker(this._url);
-
       this.assertInstance(this._worker, qx.bom.WebWorker);
     },
 
     testMessageEvent: function() {
-      this.require(["worker"]);
-      this._worker = new qx.bom.WebWorker(this._url);
-
       this._send("message", function(mess, e) {
         this.assertIdentical(mess, e.getData());
       });
     },
 
     testErrorEvent: function() {
-      this.require(["worker"]);
-      this._worker = new qx.bom.WebWorker(this._url);
-
       var message = "error";
 
       this._worker.addListener("error", function(e) {
@@ -95,36 +89,24 @@ qx.Class.define("qx.test.bom.WebWorker",
     },
 
     testPostMessageWithNumber: function() {
-      this.require(["worker"]);
-      this._worker = new qx.bom.WebWorker(this._url);
-
       this._send(1, function(mess, e) {
         this.assertIdentical(mess, e.getData());
       });
     },
 
     testPostMessageWithBoolean: function() {
-      this.require(["worker"]);
-      this._worker = new qx.bom.WebWorker(this._url);
-
       this._send(true, function(mess, e) {
         this.assertIdentical(mess, e.getData());
       });
     },
 
     testPostMessageWithNull: function() {
-      this.require(["worker"]);
-      this._worker = new qx.bom.WebWorker(this._url);
-
       this._send(null, function(mess, e) {
         this.assertIdentical(mess, e.getData());
       });
     },
 
     testPostMessageWithObject: function() {
-      this.require(["worker"]);
-      this._worker = new qx.bom.WebWorker(this._url);
-
       //this._send({a:"1", b:2, c:3});
       this._send({a:"1", b:2, c:true}, function(mess, e) {
         this.assertIdentical(mess.a, e.getData().a);
@@ -134,9 +116,6 @@ qx.Class.define("qx.test.bom.WebWorker",
     },
 
     testPostMessageWithArray: function() {
-      this.require(["worker"]);
-      this._worker = new qx.bom.WebWorker(this._url);
-
       //this._send(["1", 2, true]);
       this._send(["1", 2, true], function(mess, e) {
         this.assertIdentical(mess[0], e.getData()[0]);
