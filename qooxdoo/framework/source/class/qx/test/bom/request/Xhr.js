@@ -507,6 +507,11 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     "test: status should be populated when LOADING": function() {
+      if (this.isIEBelow(7)) {
+        this.warn("In IE < 7 status is not populated when LOADING");
+        return;
+      }
+
       var fakeReq = this.getFakeReq();
       var req = this.req;
       req.open();
