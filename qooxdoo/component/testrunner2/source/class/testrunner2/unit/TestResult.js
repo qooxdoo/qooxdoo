@@ -105,12 +105,19 @@ qx.Class.define("testrunner2.unit.TestResult", {
           try {
             this.tearDown(test);
           }
-          catch(ex) {
+          catch(except) {
             /* Any exceptions here are likely caused by setUp having failed
                previously, so we'll ignore them. */ 
           }
-          var qxEx = new qx.type.BaseError("Error setting up test: " + ex.name, ex.message);
-          this._createError("error", [qxEx], test);
+          
+          if (ex.classname == "qx.dev.unit.RequirementError") {
+            this._createError("skip", [ex], test);
+          }
+          else {
+            var qxEx = new qx.type.BaseError("Error setting up test: " + ex.name, ex.message);
+            this._createError("error", [qxEx], test);
+          }
+          
           //this.__removeListeners(test.getTestClass()[test.getName()]);
           return;
         }
