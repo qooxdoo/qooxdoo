@@ -453,7 +453,6 @@ Selenium.prototype.doGetViewport = function(locator, eventParams)
  * Clicks on a qooxdoo-element.
  * mousedown, mouseup will be fired instead of only click
  * additionaly to doQxClick the x-/y-coordinates of located element will be determined.
- * TODO: implement it like doFooAt, where additional coordinates will be added to the element-coords
  * 
  * eventParams example: button=left|right|middle, clientX=300, shiftKey=true
  *             for a full list of properties see "function Selenium.prototype.qx.triggerMouseEventQx"
@@ -468,7 +467,13 @@ Selenium.prototype.doQxClickAt = function(locator, eventParams)
 {
   var element = this.page().findElement(locator);
   var coordsXY = getClientXY(element);
-  LOG.debug("computed coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
+  LOG.debug("qxClickAt element coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
+  var qx = this.getQxGlobalObject();
+  var elemWidth = qx.bom.element.Dimension.getWidth(element);
+  var elemHeight = qx.bom.element.Dimension.getHeight(element);
+  coordsXY[0] = coordsXY[0] + Math.floor(elemWidth / 2);
+  coordsXY[1] = coordsXY[1] + Math.floor(elemHeight / 2);
+  LOG.debug("qxClickAt final coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
 
   // TODO: very dirty no checking, maybe refactoring needed to get doQxClick and doQxClickAt to work smoothly together.
   var newEventParamString = eventParams + ",clientX=" + coordsXY[0] + ",clientY=" + coordsXY[1];
