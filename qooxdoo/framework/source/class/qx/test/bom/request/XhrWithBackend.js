@@ -86,6 +86,32 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
+    "test: should allow many requests with same object": function() {
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
+      var count = 0;
+
+      function request() {
+        req.open("GET", url + "?1");
+        req.send();
+      }
+
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          count++;
+          if (count < 3) {
+            request();
+          }
+        }
+      };
+      request();
+
+      var that = this;
+      this.wait(500, function() {
+        that.assertEquals(3, count);
+      });
+    },
+
     "test: should abort pending request": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
