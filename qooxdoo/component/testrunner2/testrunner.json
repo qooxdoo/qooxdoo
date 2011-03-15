@@ -8,6 +8,7 @@
     "TESTRUNNER"   : "testrunner2",
     "TESTRUNNER_VIEW" : "testrunner2.view.Html",
     "TESTRUNNER_ORIGIN" : "iframe",
+    "TESTRUNNER_MAIN_CLASS" : "testrunner2.Application",
     "REPORT_SERVER" : false,
     "TEST_NAMESPACE" : "${APPLICATION}.test",
     "TEST_INCLUDE" : "${TEST_NAMESPACE}.*",
@@ -15,8 +16,7 @@
     "TESTS_SCRIPT" : "tests.js",         // output script name
     "BUILD_PATH"   : "build",
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "THEME"        : "qx.theme.Modern",
-    "APPLICATION_MAIN_CLASS" : "testrunner2.Application"
+    "THEME"        : "qx.theme.Modern"
   },
 
   "jobs" :
@@ -183,14 +183,14 @@
 
       "include" :
       [
-        "${APPLICATION_MAIN_CLASS}",
+        "${TESTRUNNER_MAIN_CLASS}",
         "${TESTRUNNER_VIEW}",
         "${THEME}"
       ],
 
       "settings" :
       {
-        "qx.application"   : "${APPLICATION_MAIN_CLASS}",
+        "qx.application"   : "${TESTRUNNER_MAIN_CLASS}",
         "qx.version"       : "${QOOXDOO_VERSION}",
         "qx.revision"      : "${QOOXDOO_REVISION}",
         "qx.testNameSpace" : "${TEST_NAMESPACE}",
@@ -381,7 +381,7 @@
       {
         "TESTRUNNER_VIEW" : "testrunner2.view.widget.Widget",
         "TESTRUNNER_ORIGIN" : "iframe",
-        "APPLICATION_MAIN_CLASS" : "testrunner2.GuiApplication"
+        "TESTRUNNER_MAIN_CLASS" : "testrunner2.GuiApplication"
       },
       
       "run" : [
@@ -404,7 +404,7 @@
       
       "include" :
       [
-        "${APPLICATION_MAIN_CLASS}",
+        "${TESTRUNNER_MAIN_CLASS}",
         "${THEME}",
         "${TESTRUNNER_VIEW}"
       ]
@@ -416,7 +416,7 @@
       {
         "TESTRUNNER_VIEW" : "testrunner2.view.widget.Widget",
         "TESTRUNNER_ORIGIN" : "iframe",
-        "APPLICATION_MAIN_CLASS" : "testrunner2.GuiApplication"
+        "TESTRUNNER_MAIN_CLASS" : "testrunner2.GuiApplication"
       },
       
       "run" : ["source-script",

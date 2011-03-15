@@ -143,7 +143,10 @@
 
       "let" :
       {
-        "TESTRUNNER_TYPE" : "testrunner",
+        "TESTRUNNER_TYPE" : "testrunner2",
+        "TESTRUNNER_ORIGIN" : "iframe",
+        "TESTRUNNER_VIEW" : "${TESTRUNNER_TYPE}.view.widget.Widget",
+        "TESTRUNNER_MAIN_CLASS" : "${TESTRUNNER_TYPE}.GuiApplication",
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/${TESTRUNNER_TYPE}",
         "TEST_INCLUDE"    : "${APPLICATION}.test.*",
         "QXTHEME"         : "qx.theme.Modern",
@@ -186,7 +189,10 @@
 
       "let" :
       {
-        "TESTRUNNER_TYPE" : "testrunner",
+        "TESTRUNNER_TYPE" : "testrunner2",
+        "TESTRUNNER_ORIGIN" : "iframe",
+        "TESTRUNNER_VIEW" : "${TESTRUNNER_TYPE}.view.widget.Widget",
+        "TESTRUNNER_MAIN_CLASS" : "${TESTRUNNER_TYPE}.GuiApplication",
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/${TESTRUNNER_TYPE}",
         "TEST_INCLUDE"    : "${APPLICATION}.test.*",
         "QXTHEME"         : "qx.theme.Modern",
