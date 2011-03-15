@@ -46,7 +46,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.req = new qx.bom.request.Xhr();
     },
 
-    "test: should GET resource": function() {
+    "test: should GET": function() {
       if (this.isLocal()) {
         return;
       }
@@ -69,7 +69,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
-    "test: should GET XML resource": function() {
+    "test: should GET XML": function() {
       if (this.isLocal()) {
         return;
       }
@@ -91,6 +91,29 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
         }
       }
       req.send();
+
+      this.wait();
+    },
+
+    "test: should POST": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
+      req.open("POST", url);
+      req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+      var that = this;
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume(function() {
+            that.assertEquals('{"affe":"true"}', req.responseText);
+          });
+        }
+      }
+      req.send("affe=true");
 
       this.wait();
     },
