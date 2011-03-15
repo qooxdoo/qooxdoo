@@ -272,7 +272,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __handleReadyStateChange: function() {
 
       if (this.__statusPropertiesReadable()) {
-        this.status = this.__nativeXhr.status;
+        // BUGFIX: IE
+        // IE sometimes returns 1223 when it should be 204
+        this.status = this.__nativeXhr.status == 1223 ?
+                      204 : this.__nativeXhr.status;
+
         this.statusText = this.__nativeXhr.statusText;
         this.responseText = this.__nativeXhr.responseText;
         this.responseXML = this.__nativeXhr.responseXML;

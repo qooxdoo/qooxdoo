@@ -498,7 +498,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertIdentical("", this.req.statusText);
     },
 
-    "test: statusText should be populated when DONE": function() {
+    "test: statusText should be set when DONE": function() {
       var fakeReq = this.getFakeReq();
       var req = this.req;
       req.open();
@@ -507,7 +507,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertIdentical("OK", req.statusText);
     },
 
-    "test: status should be populated when LOADING": function() {
+    "test: status should be set when LOADING": function() {
       if (this.isIEBelow(7)) {
         this.warn("In IE < 7 status is not populated when LOADING");
         return;
@@ -532,6 +532,17 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
       this.assertIdentical(0, req.status);
       this.assertIdentical("", req.statusText);
+    },
+
+    // BUGFIX
+    "test: should normalize status 1223 to 204": function() {
+      var fakeReq = this.getFakeReq();
+      var req = this.req;
+      req.open();
+      req.send();
+      fakeReq.respond(1223);
+
+      this.assertIdentical(204, req.status);
     },
 
     //
