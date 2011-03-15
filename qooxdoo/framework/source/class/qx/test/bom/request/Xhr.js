@@ -81,6 +81,62 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     //
+    // Implicitly create new XHR when required
+    //
+
+    // BUGFIX
+    //
+    // IE6 and IE7 only
+
+    "test: should create new native XHR when required": function() {
+      if (this.isIEBelow(8)) {
+        var req = this.req;
+        var fakeReq = this.getFakeReq();
+
+        req.open();
+        req.send();
+        fakeReq.respond();
+
+        this.spy(req, "_createNativeXhr");
+        req.open();
+        this.assertCalled(req._createNativeXhr);
+      }
+    },
+
+    "test: should abort old when new native XHR": function() {
+      if (this.isIEBelow(8)) {
+        var req = this.req;
+        var fakeReq = this.getFakeReq();
+
+        req.open();
+        req.send();
+
+        this.spy(req, "abort");
+        this.spy(fakeReq, "abort");
+        req.open();
+        this.assertCalled(req.abort);
+        this.assertCalled(fakeReq.abort);
+      }
+    },
+
+    "test: should init onreadystatechange when new native XHR": function() {
+      if (this.isIEBelow(8)) {
+        var req = this.req;
+        var fakeReq = this.getFakeReq();
+
+        req.onreadystatechange = function() {};
+        var req = this.req;
+        req.open();
+
+        // Trigger creation of new native XHR
+        this.spy(req, "onreadystatechange");
+        req.open();
+
+        this.assertCalled(req.onreadystatechange);
+      }
+    },
+
+    //
     // open()
     //
 
@@ -227,7 +283,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       fakeReq.onreadystatechange();
     },
 
-    // Bugfix
+    // BUGFIX
     "test: native onreadystatechange should be disposed once DONE": function() {
       var req = this.req;
       var fakeReq = this.getFakeReq();
@@ -540,8 +596,8 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     isIEBelow: function(targetVersion) {
-      var name = qx.bom.client.Browser.getName();
-      var version = qx.bom.client.Browser.getVersion();
+      var name = qx.core.Environment.get("browser.name");
+      var version = qx.core.Environment.get("browser.version");
 
       return name == "ie" && version < targetVersion;
     }

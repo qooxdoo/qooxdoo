@@ -28,12 +28,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 {
 
   construct: function() {
-    // Hold reference to native XHR or equivalent
-    this.__nativeXhr = this.__createNativeXhr();
-
-    // Track native ready state changes
-    this.__nativeXhr.onreadystatechange =
-      qx.lang.Function.bind(this.__handleReadyStateChange, this);
+    this.__initNativeXhr();
   },
 
   statics :
@@ -106,6 +101,19 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     open: function(method, url, async, user, password) {
       if (typeof async == "undefined") {
         async = true;
+      }
+
+      // BUGFIX
+      // IE < 8 cannot reuse the XmlHttpRequest to issue many requests
+      if (this.readyState > qx.bom.request.Xhr.UNSENT && this.__isLegacyIE()) {
+        // XmlHttpRequest Level 1 requires open() to abort any pending requests
+        // associated to the object. Since we're dealing with a new object here,
+        // we have to emulate this behavior.
+        this.abort();
+        
+        // Replace the underlying native XHR with a new one that can
+        // be used to issue new requests.
+        this.__initNativeXhr();
       }
 
       // Restore if replaced by noop function before
@@ -222,7 +230,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       return this.__nativeXhr;
     },
 
-
+    /**
+     * Create XMLHttpRequest (or equivalent).
+     *
+     * @return {Object} XMLHttpRequest or equivalent.
+     */
+    _createNativeXhr: function() {
+      return qx.core.Environment.get("io.xhr") ? new XMLHttpRequest() : new window.ActiveXObject("Microsoft.XMLHTTP");
+    },
 
     /*
     ---------------------------------------------------------------------------
@@ -235,13 +250,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     __nativeXhr: null,
 
-    /**
-     * Create XMLHttpRequest (or equivalent).
-     *
-     * @return {Object} XMLHttpRequest or equivalent.
-     */
-    __createNativeXhr: function() {
-      return qx.core.Environment.get("io.xhr") ? new XMLHttpRequest() : new window.ActiveXObject("Microsoft.XMLHTTP");
+    __initNativeXhr: function() {
+      // Hold reference to native XHR or equivalent
+      this.__nativeXhr = this._createNativeXhr();
+
+      // Track native ready state changes
+      this.__nativeXhr.onreadystatechange =
+        qx.lang.Function.bind(this.__handleReadyStateChange, this);
     },
 
     /**
@@ -295,11 +310,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // IE < 7 cannot access responseText and other properties
       // when request is in progress. "The data necessary to complete
       // this operation is not yet available".
-      var isLegacyIE = qx.core.Environment.get("browser.name") == "ie" &&
-                       qx.core.Environment.get("browser.version") < 8;
-
-      return this.__nativeXhr.readyState > 1 && !isLegacyIE ||
+      return this.__nativeXhr.readyState > 1 && !this.__isLegacyIE() ||
         this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE;
+    },
+    
+    __isLegacyIE: function() {
+      return qx.core.Environment.get("browser.name") == "ie" &&
+             qx.core.Environment.get("browser.version") < 8;
     }
   }
 });
