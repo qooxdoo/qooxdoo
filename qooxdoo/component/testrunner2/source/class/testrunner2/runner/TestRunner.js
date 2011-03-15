@@ -232,6 +232,10 @@ qx.Class.define("testrunner2.runner.TestRunner", {
      */
     __getTestModel : function()
     {
+      if (this.currentTestData) {
+        this.currentTestData = null;
+        delete this.currentTestData;
+      }
       var oldModel = this.getTestModel();
       if (oldModel) {
         testrunner2.runner.ModelUtil.disposeModel(oldModel);
