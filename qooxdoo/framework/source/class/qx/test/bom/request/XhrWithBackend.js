@@ -47,7 +47,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should GET resource": function() {
-      if (this.isLocal) {
+      if (this.isLocal()) {
         return;
       }
 
@@ -70,7 +70,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should GET XML resource": function() {
-      if (this.isLocal) {
+      if (this.isLocal()) {
         return;
       }
 
@@ -96,7 +96,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should allow many requests with same object": function() {
-      if (this.isLocal) {
+      if (this.isLocal()) {
         return;
       }
 
@@ -126,7 +126,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should abort pending request": function() {
-      if (this.isLocal) {
+      if (this.isLocal()) {
         return;
       }
 
@@ -144,7 +144,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should call onreadystatechange once for OPEN": function() {
-      if (this.isLocal) {
+      if (this.isLocal()) {
         return;
       }
 
@@ -179,7 +179,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
     // Bugfix
     "test: should dispose hard-working": function() {
-      if (this.isLocal) {
+      if (this.isLocal()) {
         return;
       }
 
