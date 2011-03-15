@@ -40,12 +40,13 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     req : null,
 
     setUp: function() {
+      // All tests in this case require PHP
+      this.needsPHPWarning();
+
       this.req = new qx.bom.request.Xhr();
     },
 
     "test: should GET resource": function() {
-      this.needsPHPWarning();
-
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
       url = url + "?affe=true";
