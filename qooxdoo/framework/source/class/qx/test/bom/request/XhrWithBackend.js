@@ -75,7 +75,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       }
 
       var req = this.req;
-      var url = this.getUrl("qx/test/xmlhttp/animals.xml");
+      var url = this.getUrl("qx/test/xmlhttp/sample.xml");
 
       req.open("GET", url);
 
