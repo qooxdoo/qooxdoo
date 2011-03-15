@@ -84,7 +84,26 @@ qx.Class.define("qx.test.bom.media.Abstract",
     },
 
     testVolume: function() {
+      var that = this;
+
+      this._media.setVolume(1);
+      this.assertEquals(1, this._media.getVolume());
+
+      this._media.setVolume(0);
+      this.assertEquals(0, this._media.getVolume());
+
+      this.assertException(function() {
+        that._media.setVolume(-1);
+      }, DOMException, 'INDEX_SIZE_ERR');
+
+      this.assertException(function() {
+        that._media.setVolume(2);
+      }, DOMException, 'INDEX_SIZE_ERR');
+    },
+
+    testVolumeChange: function() {
       var vol = 0.3;
+      var that = this;
 
       this._media.addListener('volumechange', function(e) {
         this.resume(function() {
@@ -93,7 +112,6 @@ qx.Class.define("qx.test.bom.media.Abstract",
         }, this);
       }, this);
 
-      var that = this;
       window.setTimeout(function() {
         that._media.setVolume(vol);
       }, 0);
