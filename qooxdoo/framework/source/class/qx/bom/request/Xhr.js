@@ -104,7 +104,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // BUGFIX
-      // IE < 8 cannot reuse the XmlHttpRequest to issue many requests
+      // IE < 8 and FF < 3.5 cannot reuse the native XHR to issue many requests
       if (!this.__supportsManyRequests() && this.readyState > qx.bom.request.Xhr.UNSENT) {
         // XmlHttpRequest Level 1 requires open() to abort any pending requests
         // associated to the object. Since we're dealing with a new object here,
@@ -292,7 +292,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
        // BUGFIX: IE
        // Memory leak in XMLHttpRequest (on-page)
        if (this.readyState == qx.bom.request.Xhr.DONE) {
-         // Allow IE to garbage collect native Xhr
+         // Allow garbage collecting of native XHR
          if (this.__nativeXhr) {
            this.__nativeXhr.onreadystatechange = function() {};
            this.__onreadystatechangeNoop = true;
