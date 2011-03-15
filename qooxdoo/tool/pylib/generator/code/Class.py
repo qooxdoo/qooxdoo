@@ -974,6 +974,7 @@ class Class(Resource):
             classId  = dependencyItem.name
             methodId = dependencyItem.attribute
             function_pruned = False
+            console.dot("_")
 
             # Check known class
             if classId not in self._classesObj:

@@ -43,9 +43,6 @@
         "qx.allowUrlVariants" : "true",
         "qx.allowUrlSettings" : "true"
       },
-      "variants" : {
-        "qx.${DPACKAGE}" : ["on"]
-      },
       "compile-options" : {
         "paths" : {
           "file"     : "${BUILDTYPE}/script/${DCLASS}-${DTHEME}.js",
