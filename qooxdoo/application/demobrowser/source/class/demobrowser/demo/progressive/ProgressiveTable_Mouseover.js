@@ -4,6 +4,9 @@
  * DateCellRenderer class which does the fancy handling is defined in the
  * source file of this example.  Note that row height need not be constant!
  */
+/*
+ #ignore(demobrowser.demo.progressive.DateCellRenderer)
+ */
 qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Mouseover",
 {
   extend : qx.application.Standalone,
