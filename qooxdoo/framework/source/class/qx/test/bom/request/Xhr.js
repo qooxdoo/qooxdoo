@@ -570,16 +570,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     "test: should dispose native Xhr": function() {
       this.req.dispose();
 
-      this.assertObject(this.req._getNativeXhr());
-      this.assertUndefined(this.req._getNativeXhr().readyState);
-    },
-
-    "test: should dispose onreadystatechange": function() {
-      var req = this.req;
-      req.onreadystatechange = "TRAP";
-      req.dispose();
-
-      this.assertFunction(req.onreadystatechange);
+      this.assertNull(this.req._getNativeXhr());
     },
 
     fakeNativeXhr: function() {

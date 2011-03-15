@@ -80,7 +80,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     statusText: "",
 
-    __disposed: false,
+    __disposed: null,
 
     __onreadystatechangeNoop: false,
 
@@ -110,6 +110,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         // associated to the object. Since we're dealing with a new object here,
         // we have to emulate this behavior.
         this.abort();
+
+        // Allow old native XHR to be garbage collected
+        this.dispose();
 
         // Replace the underlying native XHR with a new one that can
         // be used to issue new requests.
@@ -204,11 +207,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // Clear out listeners
-      this.__nativeXhr.onreadystatechange = this.onreadystatechange = function() {};
+      this.__nativeXhr.onreadystatechange = function() {};
 
       // Remove reference to native XHR.
-      // IE does not accept null here.
-      this.__nativeXhr = {};
+      this.__nativeXhr = null;
 
       this.__disposed = true;
       return true;
@@ -257,6 +259,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // Track native ready state changes
       this.__nativeXhr.onreadystatechange =
         qx.lang.Function.bind(this.__handleReadyStateChange, this);
+
+      this.__disposed = false;
     },
 
     /**
@@ -289,8 +293,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
        // Memory leak in XMLHttpRequest (on-page)
        if (this.readyState == qx.bom.request.Xhr.DONE) {
          // Allow IE to garbage collect native Xhr
-         this.__nativeXhr.onreadystatechange = function() {};
-         this.__onreadystatechangeNoop = true;
+         if (this.__nativeXhr) {
+           this.__nativeXhr.onreadystatechange = function() {};
+           this.__onreadystatechangeNoop = true;
+         }
       }
 
     },
