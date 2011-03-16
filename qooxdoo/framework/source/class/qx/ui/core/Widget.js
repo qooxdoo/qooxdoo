@@ -1900,7 +1900,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Recursively adds all children to the given queue
      *
-     * @param queue {Map} The queue to add widgets to
+     * @param queue {Array} The queue to add widgets to
      */
     addChildrenToQueue : function(queue)
     {
@@ -1913,7 +1913,7 @@ qx.Class.define("qx.ui.core.Widget",
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-        queue[child.$$hash] = child;
+        queue.push(child);
 
         child.addChildrenToQueue(queue);
       }

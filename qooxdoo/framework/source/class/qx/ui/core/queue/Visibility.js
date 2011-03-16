@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
     remove : function(widget)
     {
       delete this.__data[widget.$$hash];
-      qx.lang.Array.remove(this.__queue, widget)
+      qx.lang.Array.remove(this.__queue, widget);
     },
 
 
@@ -125,9 +125,9 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       // Dynamically add children to queue
       // Only respect already known widgets because otherwise the children
       // are also already in the queue (added on their own)
-      for (var i = queue.length - 1; i >= 0; i--)
+      for (var i = 0; i < queue.length; i++)
       {
-        var hash = queue[i];
+        var hash = queue[i].$$hash;
         if (data[hash] != null) {
           queue[i].addChildrenToQueue(queue);
         }
