@@ -122,6 +122,55 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
+    "test: should have readyState UNSENT": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      var req = this.req;
+      this.assertIdentical(0, req.readyState);
+    },
+
+    "test: should have readyState OPENED": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
+      req.open("GET", url);
+
+      this.assertIdentical(1, req.readyState);
+    },
+
+    "test: should progress to readyState DONE": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
+      req.open("GET", url + "?" + Math.random());
+
+      var that = this;
+      var count = 1;
+      req.onreadystatechange = function() {
+
+        that.resume(function() {
+          // HEADERS_RECEIVED, LOADING and DONE
+          that.assertIdentical(++count, req.readyState);
+
+          // Wait for DONE
+          if (req.readyState < 4) {
+            that.wait();
+          }
+        })
+      }
+      req.send();
+
+      this.wait();
+    },
+
     "test: should allow many requests with same object": function() {
       if (this.isLocal()) {
         return;
