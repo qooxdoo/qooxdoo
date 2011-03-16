@@ -638,7 +638,12 @@ class Class(Resource):
                     depsItem.needsRecursion = True
 
         elif node.type == "body" and node.parent.type == "function":
-            inLoadContext = False
+            if (node.parent.hasParentContext("call/operand") 
+                or node.parent.hasParentContext("call/operand/group")):
+                # if the function is immediately called, it's still load context (if that's what it was before)
+                pass
+            else:
+                inLoadContext = False
 
         if node.hasChildren():
             for child in node.children:
@@ -882,12 +887,21 @@ class Class(Resource):
         if featureNode:
             return self.id, featureNode
 
+        if featureId == 'construct':  # constructor requested, but not supplied in class map
+            # supply the default constructor
+            featureNode = treeutil.compileString("function(){this.base(arguments);}", self.path)
+            return self.id, featureNode
+
         # inspect inheritance/mixins
         parents = []
         extendVal = classMap.get('extend', None)
         if extendVal:
             extendVal = treeutil.variableOrArrayNodeToArray(extendVal)
             parents.extend(extendVal)
+            # this.base calls
+            if featureId == "base":
+                classId = parents[0]  # first entry must be super-class
+                return self._classesObj[classId].findClassForFeature('construct', variants, classMaps)
         includeVal = classMap.get('include', None)
         if includeVal:
             # 'include' value according to Class spec.
