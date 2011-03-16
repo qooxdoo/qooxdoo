@@ -11,122 +11,122 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: showcase/page/i18n/Content.js:141
+#: showcase/page/i18n/Content.js:147
 msgid "Form Elements"
 msgstr "Elemente de formular"
 
-#: showcase/page/i18n/Content.js:147 showcase/page/i18n/Content.js:249
+#: showcase/page/i18n/Content.js:153 showcase/page/i18n/Content.js:255
 msgid "Territory code:"
 msgstr "Cod postal:"
 
-#: showcase/page/i18n/Content.js:157
+#: showcase/page/i18n/Content.js:163
 msgid "Localized ComboBox:"
 msgstr "ComboBox localizată:"
 
-#: showcase/page/i18n/Content.js:160 showcase/page/i18n/Content.js:195
+#: showcase/page/i18n/Content.js:166 showcase/page/i18n/Content.js:201
 msgid "Cut"
 msgstr "Taie"
 
-#: showcase/page/i18n/Content.js:161 showcase/page/i18n/Content.js:197
+#: showcase/page/i18n/Content.js:167 showcase/page/i18n/Content.js:203
 msgid "Paste"
 msgstr "Lipește"
 
-#: showcase/page/i18n/Content.js:162 showcase/page/i18n/Content.js:196
+#: showcase/page/i18n/Content.js:168 showcase/page/i18n/Content.js:202
 msgid "Copy"
 msgstr "Copiază"
 
-#: showcase/page/i18n/Content.js:169
+#: showcase/page/i18n/Content.js:175
 msgid "A date:"
 msgstr "O dată:"
 
-#: showcase/page/i18n/Content.js:192
+#: showcase/page/i18n/Content.js:198
 msgid "Undo"
 msgstr "Desfă"
 
-#: showcase/page/i18n/Content.js:193
+#: showcase/page/i18n/Content.js:199
 msgid "Redo"
 msgstr "Refă"
 
-#: showcase/page/i18n/Content.js:198
+#: showcase/page/i18n/Content.js:204
 msgid "Delete"
 msgstr "Şterge"
 
-#: showcase/page/i18n/Content.js:199
+#: showcase/page/i18n/Content.js:205
 msgid "Select All"
 msgstr "Selectează tot"
 
-#: showcase/page/i18n/Content.js:201
+#: showcase/page/i18n/Content.js:207
 msgid "Search"
 msgstr "Caută"
 
-#: showcase/page/i18n/Content.js:202
+#: showcase/page/i18n/Content.js:208
 msgid "Search Again"
 msgstr "Caută din nou"
 
-#: showcase/page/i18n/Content.js:204
+#: showcase/page/i18n/Content.js:210
 msgid "Command Menu (keyboard shortcuts)"
 msgstr "Meniu de comandă (scurtături de tastatură)"
 
-#: showcase/page/i18n/Content.js:213
+#: showcase/page/i18n/Content.js:219
 msgid "Locale Information"
 msgstr "Informație despre localizare"
 
-#: showcase/page/i18n/Content.js:246
+#: showcase/page/i18n/Content.js:252
 msgid "Locale:"
 msgstr "Localizare:"
 
-#: showcase/page/i18n/Content.js:252
+#: showcase/page/i18n/Content.js:258
 msgid "Date format short:"
 msgstr "Format dată scurt:"
 
-#: showcase/page/i18n/Content.js:254
+#: showcase/page/i18n/Content.js:260
 msgid "Date short:"
 msgstr "Dată scurtă:"
 
-#: showcase/page/i18n/Content.js:257
+#: showcase/page/i18n/Content.js:263
 msgid "Date format medium:"
 msgstr "Format dată mediu:"
 
-#: showcase/page/i18n/Content.js:259
+#: showcase/page/i18n/Content.js:265
 msgid "Date medium:"
 msgstr "Dată medie:"
 
-#: showcase/page/i18n/Content.js:262
+#: showcase/page/i18n/Content.js:268
 msgid "Date format long:"
 msgstr "Format dată lung:"
 
-#: showcase/page/i18n/Content.js:264
+#: showcase/page/i18n/Content.js:270
 msgid "Date long:"
 msgstr "Dată lungă:"
 
-#: showcase/page/i18n/Content.js:267
+#: showcase/page/i18n/Content.js:273
 msgid "Date format full:"
 msgstr "Format dată întreg:"
 
-#: showcase/page/i18n/Content.js:269
+#: showcase/page/i18n/Content.js:275
 msgid "Date full:"
 msgstr "Dată întreagă:"
 
-#: showcase/page/i18n/Content.js:272
+#: showcase/page/i18n/Content.js:278
 msgid "Time format short:"
 msgstr "Format oră curt:"
 
-#: showcase/page/i18n/Content.js:274
+#: showcase/page/i18n/Content.js:280
 msgid "Time short:"
 msgstr "Oră scurtă:"
 
-#: showcase/page/i18n/Content.js:277
+#: showcase/page/i18n/Content.js:283
 msgid "Time format long:"
 msgstr "Format oră lung:"
 
-#: showcase/page/i18n/Content.js:279
+#: showcase/page/i18n/Content.js:285
 msgid "Time long:"
 msgstr "Oră lungă:"
 
-#: showcase/page/i18n/Content.js:282
+#: showcase/page/i18n/Content.js:288
 msgid "Week start:"
 msgstr "Începutul săptămânii:"
 
-#: showcase/page/i18n/Content.js:285
+#: showcase/page/i18n/Content.js:291
 msgid "Format of %1:"
 msgstr "Formatul %1:"
