@@ -64,26 +64,6 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this.assertTrue(this._media.isPaused());
     },
 
-    testEnd: function() {
-      this.assertFalse(this._media.isEnded());
-
-      this._media.addListener("ended", function(e) {
-        this.resume(function() {
-          this.assertInstance(e, qx.event.type.Event);
-        }, this);
-      }, this);
-
-      var that = this;
-      window.setTimeout(function() {
-        that._media.play();
-        that.assertFalse(that._media.isEnded());
-      }, 0);
-
-      this.wait(11000, function(e) {
-          this.assertTrue(this._media.isEnded());
-      }, this);
-    },
-
     testId: function() {
       var id = "mediaid";
       this._media.setId(id);
@@ -259,6 +239,27 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
         that._media.pause();
       }, 0);
       this.wait();
+    },
+
+    testEnd: function() {
+      this.assertFalse(this._media.isEnded());
+
+      this._media.addListener("ended", function(e) {
+        this.resume(function() {
+          this.assertInstance(e, qx.event.type.Event);
+        }, this);
+      }, this);
+
+      var that = this;
+      window.setTimeout(function() {
+        that._media.play();
+        that.assertFalse(that._media.isEnded());
+      }, 0);
+
+      this.wait(11000, function(e) {
+          this.assertTrue(this._media.isEnded());
+      }, this);
     }
+
   }
 });

@@ -69,9 +69,44 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @return {Boolean} <code>true</code> if video is supported
      */
     getVideo : function() {
-      return window.Video !=null;
+      return !!document.createElement('video').canPlayType;
     },
 
+    /** 
+     * Whether the client supports ogg video.
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if video is supported
+     */
+    getVideoOgg : function() {
+      if (!qx.bom.client.Html.getVideo) return false;
+      var v = document.createElement("video");
+      return v.canPlayType('video/ogg; codecs="theora, vorbis"');
+    },
+
+    /** 
+     * Whether the client supports mp4 video.
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if video is supported
+     */
+    getVideoH264 : function() {
+      if (!qx.bom.client.Html.getVideo) return false;
+      var v = document.createElement("video");
+      return v.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
+    },
+
+    /** 
+     * Whether the client supports webm video.
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if video is supported
+     */
+    getVideoWebm : function() {
+      if (!qx.bom.client.Html.getVideo) return false;
+      var v = document.createElement("video");
+      return v.canPlayType('video/webm; codecs="vp8, vorbis"');
+    },
 
     /** 
      * Whether the client supports local storage.

@@ -19,7 +19,9 @@
 
 /* ************************************************************************
 
-#asset(qx/test/audio.ogg)
+#asset(qx/test/big_buck_bunny.mp4)
+#asset(qx/test/big_buck_bunny.ogv)
+#asset(qx/test/big_buck_bunny.webm)
 
 ************************************************************************ */
 
@@ -31,7 +33,13 @@ qx.Class.define("qx.test.bom.media.Video",
   members :
   {
     _getSrc: function() {
-      return qx.util.ResourceManager.getInstance().toUri("qx/test/audio.ogg");
+      if (qx.core.Environment.get("html.video.h264")) {
+        return qx.util.ResourceManager.getInstance().toUri("qx/test/big_buck_bunny.mp4");
+      } else if(qx.core.Environment.get("html.video.ogg")) {
+        return qx.util.ResourceManager.getInstance().toUri("qx/test/big_buck_bunny.ogg");
+      } else if(qx.core.Environment.get("html.video.webm")) {
+        return qx.util.ResourceManager.getInstance().toUri("qx/test/big_buck_bunny.webm");
+      }
     },
 
     _createMedia: function() {
@@ -52,7 +60,23 @@ qx.Class.define("qx.test.bom.media.Video",
     testHeight: function() {
     },
 
-    testVideoWidthAndHeight: function() {
+    testVideoWidthAndHeight: function(e) {
+      this.assertEquals(0, this._media.getVideoWidth());
+      this.assertEquals(0, this._media.getVideoHeight());
+
+      //we know the video width and hight when meta data is loaded
+      this._media.addListener("loadedmetadata", function(e) {
+        var v = e._target;
+        this.assertEquals(640, v.getVideoWidth());
+        this.assertEquals(360, v.getVideoHeight());
+      }, this);
+
+      //or when the entire video is loaded
+      this._media.addListener("loadeddata", function(e) {
+        var v = e._target;
+        this.assertEquals(640, v.getVideoWidth());
+        this.assertEquals(360, v.getVideoHeight());
+      }, this);
     },
 
     testPoster: function() {

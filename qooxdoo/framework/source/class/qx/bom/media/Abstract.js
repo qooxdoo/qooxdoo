@@ -44,16 +44,21 @@ qx.Class.define("qx.bom.media.Abstract",
     this._handleTimeUpdateEventBound = Function.bind(this._handleTimeUpdateEvent, this);
     this._handleEndedEventBound = Function.bind(this._handleEndedEvent, this);
     this._handleVolumeChangeEventBound = Function.bind(this._handleVolumeChangeEvent, this);
+    this._handleLoadedDataEventBound = Function.bind(this._handleLoadedDataEvent, this);
+    this._handleLoadedMetaDataEventBound = Function.bind(this._handleLoadedMetaDataEvent, this);
 
     var Event = qx.bom.Event;
     Event.addNativeListener(this._media, "play", this._handlePlayEventBound);
     Event.addNativeListener(this._media, "pause", this._handlePauseEventBound);
     Event.addNativeListener(this._media, "timeupdate", this._handleTimeUpdateEventBound);
     Event.addNativeListener(this._media, "ended", this._handleEndedEventBound);
-    Event.addNativeListener(this._media, "volumechange", this._handleVolumeChangeEventBound);
+    Event.addNativeListener(this._media, "loadeddata", this._handleLoadedDataEventBound);
+    Event.addNativeListener(this._media, "loadedmetadata", this._handleLoadedMetaDataEventBound);
   },
 
 
+  //MORE HERE:
+  //http://www.whatwg.org/specs/web-apps/current-work/multipage/video.html#mediaevents
   events:
   {
     /** Fired when the media starts to play */
@@ -69,7 +74,13 @@ qx.Class.define("qx.bom.media.Abstract",
     "ended": "qx.event.type.Event",
 
     /** Fired when the volume property is changed */
-    "volumechange": "qx.event.type.Event"
+    "volumechange": "qx.event.type.Event",
+
+    /** Fired when the media is laoded enough to start play*/
+    "loadeddata": "qx.event.type.Event",
+
+    /** Fired when the media is laoded enough to start play*/
+    "loadedmetadata": "qx.event.type.Event"
   },
 
 
@@ -390,6 +401,22 @@ qx.Class.define("qx.bom.media.Abstract",
     _handleVolumeChangeEvent: function()
     {
       this.fireEvent("volumechange");
+    },
+
+    /**
+     * Event handler.
+     */
+    _handleLoadedDataEvent: function()
+    {
+      this.fireEvent("loadeddata");
+    },
+
+    /**
+     * Event handler.
+     */
+    _handleLoadedMetaDataEvent: function()
+    {
+      this.fireEvent("loadedmetadata");
     }
   },
 
@@ -397,11 +424,15 @@ qx.Class.define("qx.bom.media.Abstract",
   destruct: function()
   {
     var Event = qx.bom.Event;
+
     Event.removeNativeListener(this._media, "play", this._handlePlayEventBound);
     Event.removeNativeListener(this._media, "pause", this._handlePauseEventBound);
     Event.removeNativeListener(this._media, "timeupdate", this._handleTimeUpdateEventBound);
     Event.removeNativeListener(this._media, "ended", this._handleEndedEventBound);
     Event.removeNativeListener(this._media, "volumechange", this._handleVolumeChangeEventBound);
+    Event.removeNativeListener(this._media, "loadeddata", this._handleLoadedDataEventBound);
+    Event.removeNativeListener(this._media, "loadedmetadata", this._handleLoadedMetaDataEventBound);
+
     this.pause();
     this._media = null;
   }

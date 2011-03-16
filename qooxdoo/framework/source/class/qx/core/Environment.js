@@ -499,6 +499,15 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("html.video")) {
         this._checks["html.video"] = qx.bom.client.Html.getVideo;
       }
+      if (this.useCheck("html.video.ogg")) {
+        this._checks["html.video.ogg"] = qx.bom.client.Html.getVideoOgg;
+      }
+      if (this.useCheck("html.video.h264")) {
+        this._checks["html.video.h264"] = qx.bom.client.Html.getVideoH264;
+      }
+      if (this.useCheck("html.video.webm")) {
+        this._checks["html.video.webm"] = qx.bom.client.Html.getVideoWebm;
+      }
       if (this.useCheck("html.storage.local")) {
         this._checks["html.storage.local"] = qx.bom.client.Html.getLocalStorage;
       }

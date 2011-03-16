@@ -32,7 +32,10 @@ qx.Class.define("qx.bom.media.Video",
    */
   construct : function(source)
   {
-    this._video = new window.Video(source ? source : "");
+    this._video = document.createElement("video");
+    if (source) {
+      this._video.src = source;
+    }
     this.base(arguments, this._video);
   },
 
@@ -108,35 +111,6 @@ qx.Class.define("qx.bom.media.Video",
      */
     setPoster: function(value) {
       this._video.poster = value;
-    },
-
-
-    /**
-     * Whether the browser can play mp4 format.
-     * 
-     * @return {Boolean}
-     */
-    canPlayMp4 : function() {
-      return this.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
-    },
-
-    /**
-     * Whether the browser can play WebM format.
-     * 
-     * @return {Boolean}
-     */
-    canPlayWebm : function() {
-      return this.canPlayType('video/webm; codecs="vp8, vorbis"');
-    },
-
-
-    /**
-     * Whether the browser can play Ogg format.
-     * 
-     * @return {Boolean}
-     */
-    canPlayOgg : function() {
-      return this.canPlayType('video/ogg; codecs="theora, vorbis"');
     }
   }
 });
