@@ -23,6 +23,7 @@ Features
 * Auto sizing
 * Configurable second image for the disabled state
 * Support for PNG files with alpha transparency in all browsers (including IE6)
+* Support for a loading event (only available for images loaded externally)
 
 .. _pages/widget/image#demos:
 
@@ -37,5 +38,5 @@ Here are some links that demonstrate the usage of the widget:
 API
 ---
 | Here is a link to the API of the Widget:
-| `qx.ui.basic.Atom <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.basic.Atom>`_ 
+| `qx.ui.basic.Image <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.basic.Image>`_
 

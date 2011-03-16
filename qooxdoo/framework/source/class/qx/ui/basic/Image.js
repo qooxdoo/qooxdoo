@@ -157,12 +157,18 @@ qx.Class.define("qx.ui.basic.Image",
   {
     /**
      * Fired if the image source can not be loaded.
+     *
+     * *Attention*: This event is only used for images which are loaded externally
+     * (aka unmanaged images).
      */
     loadingFailed : "qx.event.type.Event",
 
 
     /**
      * Fired if the image has been loaded.
+     *
+     * *Attention*: This event is only used for images which are loaded externally
+     * (aka unmanaged images).
      */
     loaded : "qx.event.type.Event"
   },
