@@ -90,6 +90,18 @@ qx.Class.define("qx.util.DeferredCall",
      * Calls the callback directly.
      */
     call : function() {
+
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        // warn if the context is disposed
+        var context = this.__context;
+        if (context && context.isDisposed && context.isDisposed()) {
+          this.warn(
+            "The context object '" + context + "' of the defered call '" +
+            this + "'is already disposed."
+          );
+        }
+      }
+
       this.__context ? this.__callback.apply(this.__context) : this.__callback();
     }
   },

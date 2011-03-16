@@ -120,6 +120,17 @@ qx.Class.define("qx.event.dispatch.Direct",
         for (var i=0, l=listeners.length; i<l; i++)
         {
           var context = listeners[i].context || target;
+          
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            // warn if the context is disposed
+            if (context && context.isDisposed && context.isDisposed()) {
+              this.warn(
+                "The context object '" + context + "' for the event '" +
+                type + "' of '" + target + "'is already disposed."
+              );
+            }
+          }
+          
           listeners[i].handler.call(context, event);
         }
       }
