@@ -195,14 +195,6 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     */
 
 
-    // overridden
-    syncWidget : function()
-    {
-      this._removeBindings();
-      this._addBindings();
-    },
-    
-    
     /**
      * Shows the drop-down.
      */
@@ -258,24 +250,6 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     },
 
 
-    /**
-     * This abstract method is called when the binding can be added to the 
-     * widget. For e.q. bind the drop-down selection with the widget.
-     */
-    _addBindings : function() {
-      throw new Error("Abstract method: '_addBindings()' called!");
-    },
-    
-    
-    /**
-     * This abstract method is called when the binding can be removed from the 
-     * widget. For e.q. remove the bound drop-down selection.
-     */
-    _removeBindings : function() {
-      throw new Error("Abstract method: '_removeBindings()' called!");
-    },
-
-    
     /**
      * This method is called before the drop-down is opened.
      */
@@ -485,10 +459,5 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     _applyMaxListHeight : function(value, old) {
       this.getChildControl("dropdown").getChildControl("list").setMaxHeight(value);
     }
-  },
-  
-  
-  destruct : function() {
-    this._removeBindings();
   }
 });

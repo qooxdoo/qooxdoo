@@ -38,7 +38,12 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
 
     this._createChildControl("textfield");
     this._createChildControl("button");
-    this.getChildControl("dropdown").getChildControl("list").setSelectionMode("single");
+
+    var dropdown = this.getChildControl("dropdown");
+    dropdown.getChildControl("list").setSelectionMode("single");
+
+    this.__selection = dropdown.getSelection();
+    this.__selection.addListener("change", this.__onSelectionChange, this);
   },
 
   properties :
@@ -87,10 +92,14 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
 
   members :
   {
-    /** {var} The current binding id form the selection. */
-    __selectionBindingId : null,
+    /** {qx.data.Array} the drop-down selection. */
+    __selection : null,
 
     
+    /** {Boolean} Indicator to ignore selection changes from the list. */
+    __ignoreChangeSelection : null, 
+
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
@@ -195,9 +204,6 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       {
         case "textfield" :
           control = new qx.ui.form.TextField();
-          control.addListener("changeValue", function(ev) {
-            this.fireDataEvent("changeValue", ev.getData(), ev.getOldData());
-          }, this);
           control.setFocusable(false);
           control.addState("inner");
           this._add(control, {flex : 1});
@@ -255,30 +261,6 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     },
       
     
-    // overridden
-    _addBindings : function()
-    {
-      var selection = this.getChildControl("dropdown").getSelection();
-
-      var labelSourcePath = this._getBindPath("", this.getLabelPath());
-      this.__selectionBindingId = selection.bind(labelSourcePath, 
-        this, "value", this.__getLabelFilterOptions());
-    },
-    
-    
-    // overridden
-    _removeBindings : function()
-    {
-      var selection = this.getChildControl("dropdown").getSelection();
-      
-      if (this.__selectionBindingId != null)
-      {
-        selection.removeBinding(this.__selectionBindingId);
-        this.__selectionBindingId = null;
-      }
-    },
-    
-    
     /*
     ---------------------------------------------------------------------------
       EVENT LISTENERS
@@ -304,7 +286,25 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       }
     },
 
-    
+
+    /**
+     * Handler to synchronize selection changes with the value property.
+     * 
+     * @param event {qx.event.type.Data} The change event from the qx.data.Array.
+     */
+    __onSelectionChange : function(event) {
+      if (this.__ignoreChangeSelection == true) {
+        return;
+      }
+
+      var selected = this.__selection.getItem(0);
+      selected = this.__convertValue(selected);
+
+      this.setValue(selected);
+      this.getChildControl("textfield").setValue(selected);
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -328,64 +328,35 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     
     
     /**
-     * Returns an options map used for binding the selected item's label to
-     * the {@link #value} property. If {@link #stripTags} is set, a converter 
-     * that strips HTML tags from the label string is added.
-     * 
-     * @return {Map} Options map.
-     */
-    __getLabelFilterOptions : function()
-    {
-      var labelOptions = this.getLabelOptions();
-      var options = null;
-      var formatter = this.getDefaultFormat();
-      
-      if (labelOptions != null) {
-        options = qx.lang.Object.clone(labelOptions);
-      } else {
-        options = {};
-      }
-      
-      var that = this;
-      options.converter = function(data) {
-        if (data == null) {
-          return that.getValue();
-        }
-        
-        var converter = qx.util.Delegate.getMethod(labelOptions, "converter");
-        if (converter != null) {
-          data = converter(data);
-        }
-        
-        if (formatter != null) {
-          return formatter(data);
-        } 
-        return data;
-      }
-      return options;
-    },
-
-
-    /**
      * Selects the first list item that starts with the text field's value.
      */
     __selectFirstMatch : function()
     {
       var value = this.getChildControl("textfield").getValue();
-      var selection = this.getChildControl("dropdown").getSelection();
+      var dropdown = this.getChildControl("dropdown");
+      var selection = dropdown.getSelection();
       
-      if (selection.getItem(0) !== value)
+      if (this.__convertValue(selection.getItem(0)) !== value)
       {
+        // reset the old selection 
+        this.__ignoreChangeSelection = true;
+        selection.removeAll();
+        this.__ignoreChangeSelection = false;
+
+        // No calculation is needed when the value is empty
+        if (value == null || value == "") {
+          return;
+        }
+
         var model = this.getModel();
-        var lookupTable = this.getChildControl("dropdown").getChildControl("list")._getLookupTable();
-        
+        var lookupTable = dropdown.getChildControl("list")._getLookupTable();
         for (var i = 0, l = lookupTable.length; i < l; i++)
         {
           var modelItem = model.getItem(lookupTable[i]);
           var itemLabel = this.__convertValue(modelItem);
           
           if (itemLabel && itemLabel.indexOf(value) == 0) {
-            this.getChildControl("dropdown").setPreselected(modelItem);
+            dropdown.setPreselected(modelItem);
             break;
           }
         }
@@ -401,26 +372,34 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
      */
     __convertValue : function(modelItem)
     {
+      var labelOptions = this.getLabelOptions();
+      var formatter = this.getDefaultFormat();
       var labelPath = this.getLabelPath();
       var result = null;
       
-      if (labelPath) {
+      if (labelPath != null) {
         result = qx.data.SingleValueBinding.getValueFromObject(modelItem, labelPath);
-      }
-      else if (typeof(modelItem) == "string") {
+      } else if (qx.lang.Type.isString(modelItem)) {
         result = modelItem;
       }
-      
-      if (result && this.getDefaultFormat()) {
-        result = this.getDefaultFormat()(qx.lang.String.stripTags(result));
+
+      var converter = qx.util.Delegate.getMethod(labelOptions, "converter");
+      if (converter != null) {
+        result = converter(result);
       }
+
+      if (result != null && formatter != null) {
+        result = formatter(qx.lang.String.stripTags(result));
+      } 
       
       return result;
     }
   },
   
   
-  destruct : function() {
+  destruct : function()
+  {
+    this.__selection.removeListener("change", this.__onSelectionChange, this);
     this.__selection = null;
   }
 });
