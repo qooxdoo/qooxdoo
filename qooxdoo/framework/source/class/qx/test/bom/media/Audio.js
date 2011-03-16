@@ -17,23 +17,33 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/test/audio.ogg)
+
+************************************************************************ */
+
 qx.Class.define("qx.test.bom.media.Audio",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : qx.test.bom.media.MediaTestCase,
+  include: [qx.dev.unit.MRequirements],
 
   members :
   {
-    setUp : function() {
+    _getSrc: function() {
+      return qx.util.ResourceManager.getInstance().toUri("qx/test/audio.ogg");
     },
 
-
-    tearDown : function() {
+    _createMedia: function() {
+      return new qx.bom.media.Audio(this._src);
     },
 
+    _checkFeature: function() {
+      this.require(["audio"]);
+    },
 
-    testMe: function()
-    {
-      this.assertTrue(true);
+    hasAudio: function() {
+      return qx.core.Environment.get("html.audio");
     }
   }
 });

@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2007-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,35 +13,35 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Adrian Olaru (adrianolaru)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/test/audio.ogg)
-
-************************************************************************ */
-
-qx.Class.define("qx.test.bom.media.Abstract",
+qx.Class.define("qx.test.bom.media.MediaTestCase",
 {
+  type : "abstract",
   extend : qx.dev.unit.TestCase,
-  include: [qx.dev.unit.MRequirements],
 
   members :
   {
     _media: null,
     _src: null,
 
-    hasAudio: function() {
-      return qx.core.Environment.get("html.audio");
+    _getSrc: function() {
     },
 
-    setUp : function() {
-      this.require(["audio"]);
+    _createMedia: function() {
+    },
 
-      this._src = qx.util.ResourceManager.getInstance().toUri("qx/test/audio.ogg");
-      this._media = new qx.bom.media.Audio(this._src);
+    _checkFeature: function() {
+    },
+
+
+    setUp : function() {
+      this._checkFeature();
+
+      this._src = this._getSrc();
+      this._media = this._createMedia();
     },
 
     tearDown : function() {
