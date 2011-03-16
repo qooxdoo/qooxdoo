@@ -486,9 +486,18 @@ qx.Class.define("qx.core.Assert",
       this.assertArray(expected, msg);
       this.assertArray(found, msg);
 
-      this.assertEquals(expected.length, found.length, msg);
+      msg = msg ||
+        "Expected [" + expected.join(", ") +
+        "], but found [" + found.join(", ") + "]";
+
+      if (expected.length !== found.length) {
+        this.fail(msg, true);
+      }
+
       for (var i=0; i<expected.length; i++) {
-        this.assertIdentical(expected[i], found[i], msg);
+        if (expected[i] !== found[i]) {
+          this.fail(msg, true);
+        }
       }
     },
 
