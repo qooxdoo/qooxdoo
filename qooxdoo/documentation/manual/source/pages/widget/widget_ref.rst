@@ -61,7 +61,7 @@ Form Widgets
 
 Virtual Widgets
 ===============
-:doc:`virtuallist`, :doc:`virtualselectbox`
+:doc:`virtuallist`, :doc:`virtualcombobox`, :doc:`virtualselectbox`
 
 .. _pages/widget#indicators:
 

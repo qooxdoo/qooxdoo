@@ -13,8 +13,6 @@ Preview Image
 
 .. |widget/virtualselectbox.png| image:: /pages/widget/virtualselectbox.png
 
-.. _pages/widget/virtualselectbox#description:
-
 .. _pages/widget/virtualselectbox#features:
 
 Features
