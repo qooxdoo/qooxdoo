@@ -38,7 +38,6 @@ from generator.resource.AssetHint   import AssetHint
 from generator.resource.Resource    import Resource
 
 DefaultIgnoredNamesDynamic = None
-counter = 0
 
 QXGLOBALS = [
     #"clazz",
@@ -98,6 +97,12 @@ class Class(Resource):
     type = property(_getType)
 
 
+    ##
+    # classInfo = {
+    #   'svariants' : ['qx.debug']    # supported variants
+    #   'deps-<path>-<variants>' : ([<Dep>qx.Class#define], <timestamp>)  # class dependencies
+    #   'messages-<variants>' : ["Hello %1"]  # message strings
+    # }
     def _getClassCache(self):
         cache = self.context["cache"]
         classInfo, modTime = cache.read(self.cacheId, self.path, memory=True)
@@ -518,18 +523,7 @@ class Class(Resource):
           or not transitiveDepsAreFresh(deps, cacheModTime)):
             cached = False
             deps = buildShallowDeps()
-            #-->
-            d = [0]
-            def foo(d):
-                d[0] = buildTransitiveDeps(deps)
-            import cProfile
-            global counter
-            counter += 1
-            #cProfile.runctx("foo(d)", globals(), locals(), "/tmp/prof/deps.prof"+str(counter))
-            foo(d)
-            deps = d[0]
-            #<--
-            #deps = buildTransitiveDeps(deps)
+            deps = buildTransitiveDeps(deps)
             classInfo[cacheId] = (deps, time.time())
             self._writeClassCache(classInfo)
 
