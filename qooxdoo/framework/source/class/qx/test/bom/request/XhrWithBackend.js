@@ -143,32 +143,52 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.assertIdentical(1, req.readyState);
     },
 
+    // BUGFIX
+    // This is a mess, see
+    // http://www.quirksmode.org/blog/archives/2005/09/xmlhttp_notes_r_2.html.
     "test: should progress to readyState DONE": function() {
       if (this.isLocal()) {
         return;
       }
 
-      var req = this.req;
-      var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
-      req.open("GET", url + "?" + Math.random());
+      var req = this.req,
+          states = [],
+          that = this;
 
-      var that = this;
-      var count = 1;
       req.onreadystatechange = function() {
-
+        states.push(req.readyState);
         that.resume(function() {
-          // HEADERS_RECEIVED, LOADING and DONE
-          that.assertIdentical(++count, req.readyState);
-
-          // Wait for DONE
           if (req.readyState < 4) {
             that.wait();
+          } else {
+            that.assertArrayEquals([1, 2, 3, 4], states);
           }
         })
       }
+
+      var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
+      req.open("GET", url);
       req.send();
 
       this.wait();
+    },
+
+    "test: should progress to readyState DONE synchronously": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      var req = this.req,
+          states = [];
+
+      req.onreadystatechange = function() {
+        states.push(req.readyState);
+      }
+
+      var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
+      req.open("GET", url, false);
+      req.send();
+      this.assertArrayEquals([1, 2, 3, 4], states);
     },
 
     "test: should allow many requests with same object": function() {
