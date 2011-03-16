@@ -27,7 +27,7 @@ from ecmascript.frontend import treeutil
 from ecmascript.transform.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer
 from ecmascript.transform.optimizer import privateoptimizer, protectedoptimizer, propertyoptimizer
 from ecmascript.transform.optimizer import featureoptimizer
-from generator.code import Class
+from generator.code.Class import Class
 from misc import util
 
 class TreeCompiler(object):

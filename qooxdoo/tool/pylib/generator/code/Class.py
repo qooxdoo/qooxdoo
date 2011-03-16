@@ -38,6 +38,7 @@ from generator.resource.AssetHint   import AssetHint
 from generator.resource.Resource    import Resource
 
 DefaultIgnoredNamesDynamic = None
+counter = 0
 
 QXGLOBALS = [
     #"clazz",
@@ -72,10 +73,10 @@ class Class(Resource):
         self.resources  = set() # set of resource objects needed by the class
         self._assetRegex= None  # regex from #asset hints, for resource matching
         self.cacheId    = "class-%s" % self.path  # cache object for class-specific infos (outside tree, compile)
- 
+        
         console = context["console"]
         cache   = context["cache"]
-
+        
         DefaultIgnoredNamesDynamic = [lib["namespace"] for lib in self.context['jobconf'].get("library", [])]
 
 
@@ -154,7 +155,7 @@ class Class(Resource):
             tree = self._getSourceTree(unoptCacheId, tradeSpaceForSpeed)
             classVariants= self._variantsFromTree(tree)
 
-        relevantVariants = projectClassVariantsToCurrent(classVariants, variantSet)
+        relevantVariants = self.projectClassVariantsToCurrent(classVariants, variantSet)
         cacheId          = "tree-%s-%s" % (self.path, util.toString(relevantVariants))
 
         # Get the right tree to return
@@ -266,7 +267,7 @@ class Class(Resource):
     def _getCompiled(self, optimize, variants, format):
 
         classVariants     = self.classVariants()
-        relevantVariants  = projectClassVariantsToCurrent(classVariants, variants)
+        relevantVariants  = self.projectClassVariantsToCurrent(classVariants, variants)
         variantsId        = util.toString(relevantVariants)
         optimizeId        = self._getOptimizeId(optimize)
 
@@ -372,6 +373,18 @@ class Class(Resource):
 
         return tree
 
+    ##
+    # only return those keys from <variantSet> that are supported
+    # in <classVariants>
+    @staticmethod
+    def projectClassVariantsToCurrent(classVariants, variantSet):
+        res = {}
+        for key in variantSet:
+            if key in classVariants:
+                res[key] = variantSet[key]
+        return res
+
+
 
     # --------------------------------------------------------------------------
     #   Dependencies Interface
@@ -460,9 +473,10 @@ class Class(Resource):
 
         def buildTransitiveDeps(shallowDeps):
             newLoad = set(shallowDeps['load'])
+            classMaps = {}
             for dep in shallowDeps['load']:
                 if dep.needsRecursion:
-                    recDeps = self.getTransitiveDeps(dep, variantSet)
+                    recDeps = self.getTransitiveDeps(dep, variantSet, classMaps)
                     newLoad.update(recDeps)
             shallowDeps['load'] = list(newLoad)
 
@@ -493,7 +507,7 @@ class Class(Resource):
         # handles cache and invokes worker function
 
         classVariants    = self.classVariants()
-        relevantVariants = projectClassVariantsToCurrent(classVariants, variantSet)
+        relevantVariants = self.projectClassVariantsToCurrent(classVariants, variantSet)
         cacheId          = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
         cached           = True
 
@@ -508,8 +522,10 @@ class Class(Resource):
             d = [0]
             def foo(d):
                 d[0] = buildTransitiveDeps(deps)
-            #import cProfile
-            #cProfile.runctx("foo(d)", globals(), locals(), "/tmp/prof.deps")
+            import cProfile
+            global counter
+            counter += 1
+            #cProfile.runctx("foo(d)", globals(), locals(), "/tmp/prof/deps.prof"+str(counter))
             foo(d)
             deps = d[0]
             #<--
@@ -837,7 +853,7 @@ class Class(Resource):
     # @out <string> class that defines method
     # @out <tree>   tree node value of methodId in the class map
 
-    def findClassForFeature(self, featureId, variants):
+    def findClassForFeature(self, featureId, variants, classMaps):
 
         # get the method name
         clazzId = self.id
@@ -864,7 +880,10 @@ class Class(Resource):
                 return None, None
 
         # now try this class
-        classMap = self.getClassMap (variants)
+        if self.id in classMaps:
+            classMap = classMaps[self.id]
+        else:
+            classMap = classMaps[self.id] = self.getClassMap (variants)
         featureNode = self.getFeatureNode(featureId, variants, classMap)
         if featureNode:
             return self.id, featureNode
@@ -896,7 +915,7 @@ class Class(Resource):
             if parClass not in self._classesObj:
                 continue
             parClassObj = self._classesObj[parClass]
-            rclass, keyval = parClassObj.findClassForFeature(featureId, variants)
+            rclass, keyval = parClassObj.findClassForFeature(featureId, variants, classMaps)
             if rclass:
                 return rclass, keyval
         return None, None
@@ -962,7 +981,7 @@ class Class(Resource):
     #
     # currently only a thin wrapper around its recursive sibling, getTransitiveDepsR
 
-    def getTransitiveDeps(self, depsItem, variants, checkSet=None):
+    def getTransitiveDeps(self, depsItem, variants, classMaps, checkSet=None):
 
         ##
         # find dependencies of a method <methodId> that has been referenced from
@@ -982,6 +1001,7 @@ class Class(Resource):
             cachedDeps, _ = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
             if cachedDeps != None:
                 console.debug("using cached result")
+                #print "\nusing cached result for", classId, methodId
                 return cachedDeps
 
             # Need to calculate deps
@@ -996,11 +1016,11 @@ class Class(Resource):
             # Check other class
             elif classId != self.id:
                 classObj = self._classesObj[classId]
-                otherdeps = classObj.getTransitiveDeps(dependencyItem, variants, totalDeps)
+                otherdeps = classObj.getTransitiveDeps(dependencyItem, variants, classMaps, totalDeps)
                 return otherdeps
 
             # Check own hierarchy
-            defClassId, attribNode = self.findClassForFeature(methodId, variants)
+            defClassId, attribNode = self.findClassForFeature(methodId, variants, classMaps)
 
             # lookup error
             if not defClassId or defClassId not in self._classesObj:
@@ -1015,7 +1035,7 @@ class Class(Resource):
             if defClassId != classId:
                 self.resultAdd(defDepsItem, localDeps)
                 defClass = self._classesObj[defClassId]
-                otherdeps = defClass.getTransitiveDeps(defDepsItem, variants, totalDeps)
+                otherdeps = defClass.getTransitiveDeps(defDepsItem, variants, classMaps, totalDeps)
                 localDeps.update(otherdeps)
                 return localDeps
 
@@ -1070,7 +1090,7 @@ class Class(Resource):
             @functools.wraps(fn)
             def wrapper(self, variants):
                 classVariants     = self.classVariants()
-                relevantVariants  = projectClassVariantsToCurrent(classVariants, variants)
+                relevantVariants  = self.projectClassVariantsToCurrent(classVariants, variants)
                 cacheId           = "%s-%s-%s" % (prefix, self.path, util.toString(relevantVariants))
                 res, _ = cache.read(cacheId)
                 if not res:
@@ -1093,7 +1113,7 @@ class Class(Resource):
         # this duplicates codef from Locale.getTranslation
         
         classVariants     = self.classVariants()
-        relevantVariants  = projectClassVariantsToCurrent(classVariants, variants)
+        relevantVariants  = self.projectClassVariantsToCurrent(classVariants, variants)
         variantsId        = util.toString(relevantVariants)
         cacheId           = "messages-%s" % (variantsId,)
         cached            = True
@@ -1564,19 +1584,4 @@ class CompileOptions(object):
         self.format     = _format
         self.source_with_comments = source_with_comments
         self.privateMap = {} # {"<classId>:<private>":"<repl>"}
-
-
-# -- temp. module helper functions ---------------------------------------------
-
-
-##
-# only return those keys from <variantSet> that are supported
-# in <classVariants>
-
-def projectClassVariantsToCurrent(classVariants, variantSet):
-    res = {}
-    for key in variantSet:
-        if key in classVariants:
-            res[key] = variantSet[key]
-    return res
 
