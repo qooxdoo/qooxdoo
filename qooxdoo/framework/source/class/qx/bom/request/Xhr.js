@@ -101,6 +101,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *        Optional password to use for authentication purposes.
      */
     open: function(method, url, async, user, password) {
+      if (this.__disposed) {
+        return;
+      }
+
       if (typeof async == "undefined") {
         async = true;
       }
@@ -138,6 +142,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     *        The value to set as the body of the header.
     */
     setRequestHeader: function(header, value) {
+      if (this.__disposed) {
+        return;
+      }
+
       this.__nativeXhr.setRequestHeader(header, value);
     },
 
@@ -148,6 +156,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *        Optional data to send.
      */
     send: function(data) {
+      if (this.__disposed) {
+        return;
+      }
+
       // BUGFIX: Firefox 2
       // "NS_ERROR_XPC_NOT_ENOUGH_ARGS" when calling send() without arguments
       data = typeof data == "undefined" ? null : data;
@@ -162,6 +174,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *
      */
     abort: function() {
+      if (this.__disposed) {
+        return;
+      }
+
       this.__nativeXhr.abort();
 
       if (this.__nativeXhr) {
@@ -185,6 +201,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *         Response header.
      */
     getResponseHeader: function(header) {
+      if (this.__disposed) {
+        return;
+      }
+
       return this.__nativeXhr.getResponseHeader(header);
     },
 
@@ -194,6 +214,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * @return {String} All response headers.
      */
     getAllResponseHeaders: function() {
+      if (this.__disposed) {
+        return;
+      }
+
       return this.__nativeXhr.getAllResponseHeaders();
     },
 
