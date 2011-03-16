@@ -105,7 +105,10 @@ class DependencyLoader(object):
         if  self._jobconf.get("dependencies/sort-topological", False):
             result = self.sortClassesTopological(result, variants)
         else:
+            #print result
             result = self.sortClasses(result, variants, buildType)
+            #print result
+            pass
         self._console.nl()
 
         if self._console.getLevel() == "debug":
@@ -137,7 +140,7 @@ class DependencyLoader(object):
                 return
 
             # add self
-            result.append(depsItem)
+            #result.append(depsItem)
             resultNames.append(depsItem.name)
 
             # reading dependencies
@@ -157,16 +160,18 @@ class DependencyLoader(object):
 
             # process lists
             try:
-              skipNames = [x.name for x in deps["warn"] + deps["ignore"]]
-
-              for subitem in deps["load"]:
-                  if subitem.name not in resultNames and subitem.name not in skipNames:
-                      classlistFromClassRecursive(subitem, excludeWithDeps, variants, result, warn_deps, allowBlockLoaddeps)
-
-              for subitem in deps["run"]:
-                  if subitem.name not in resultNames and subitem.name not in skipNames:
-                      classlistFromClassRecursive(subitem, excludeWithDeps, variants, result, warn_deps, allowBlockLoaddeps)
-
+                skipNames = [x.name for x in deps["warn"] + deps["ignore"]]
+  
+                for subitem in deps["load"]:
+                    if subitem.name not in resultNames and subitem.name not in skipNames:
+                        classlistFromClassRecursive(subitem, excludeWithDeps, variants, result, warn_deps, allowBlockLoaddeps)
+  
+                result.append(depsItem)
+  
+                for subitem in deps["run"]:
+                    if subitem.name not in resultNames and subitem.name not in skipNames:
+                        classlistFromClassRecursive(subitem, excludeWithDeps, variants, result, warn_deps, allowBlockLoaddeps)
+  
             except DependencyError, detail:
                 raise ValueError("Attempt to block load-time dependency of class %s to %s" % (depsItem.name, subitem.name))
 
@@ -324,10 +329,10 @@ class DependencyLoader(object):
     #  CLASS SORT SUPPORT
     ######################################################################
 
-    def sortClasses(self, includeWithDeps, variants, buildType=""):
+    def sortClasses(self, classList, variants, buildType=""):
 
-        def sortClassesRecurser(classId, available, variants, result, path):
-            if classId in result:
+        def sortClassesRecurser(classId, classListSorted, path):
+            if classId in classListSorted:
                 return
 
             # reading dependencies
@@ -343,7 +348,7 @@ class DependencyLoader(object):
             # process loadtime requirements
             for dep in deps["load"]:
                 dep_name = dep.name
-                if dep_name in available and not dep_name in result:
+                if dep_name in classList and not dep_name in classListSorted:
                     if dep_name in path:
                         self._console.warn("Detected circular dependency between: %s and %s" % (classId, dep_name))
                         self._console.indent()
@@ -351,26 +356,26 @@ class DependencyLoader(object):
                         self._console.outdent()
                         raise RuntimeError("Circular class dependencies")
                     else:
-                        sortClassesRecurser(dep_name, available, variants, result, path)
+                        sortClassesRecurser(dep_name, classListSorted, path)
 
-            if not classId in result:
+            if not classId in classListSorted:
                 # remove element from path
                 path.remove(classId)
 
                 # print "Add: %s" % classId
-                result.append(classId)
+                classListSorted.append(classId)
 
             return
 
         # ---------------------------------
 
-        result = []
+        classListSorted = []
         path   = []
 
-        for classId in includeWithDeps:
-            sortClassesRecurser(classId, includeWithDeps, variants, result, path)
+        for classId in classList:
+            sortClassesRecurser(classId, classListSorted, path)
 
-        return result
+        return classListSorted
 
 
     def sortClassesTopological(self, includeWithDeps, variants):
