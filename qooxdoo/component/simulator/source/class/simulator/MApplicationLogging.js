@@ -79,7 +79,7 @@ qx.Mixin.define("simulator.MApplicationLogging",
     /**
      * Returns the contents of the RingBuffer storing the AUT's log messages.
      * 
-     * @param win {String} JavaScript snippet that evaluates as a Window object
+     * @param win {String?} JavaScript snippet that evaluates as a Window object
      * 
      * @return {String[]} Array of AUT log messages
      */

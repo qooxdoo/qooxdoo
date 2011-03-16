@@ -129,7 +129,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
      * Goes through the AUT's global error store and throws an exception for 
      * each entry.
      * 
-     * @param win {String} JavaScript snippet that evaluates as a Window object 
+     * @param win {String?} JavaScript snippet that evaluates as a Window object 
      * accessible to the current Selenium instance. Default: The AUT's window.
      */
     throwGlobalErrors : function(win)
@@ -143,7 +143,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
     /**
      * Empties the given window's global exception store.
      *
-     * @param win {String} JavaScript snippet that evaluates as a Window object 
+     * @param win {String?} JavaScript snippet that evaluates as a Window object 
      * accessible to the current Selenium instance. Default: The AUT's window.
      */
     clearGlobalErrorStore : function(win)
