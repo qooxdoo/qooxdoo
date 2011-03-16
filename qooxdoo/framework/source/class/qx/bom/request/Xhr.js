@@ -295,6 +295,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.responseXML = null;
        }
 
+       // BUGFIX: Opera
+       // Opera skips HEADERS_RECEIVED and jumps right to LOADING.
+       if (qx.core.Environment.get("browser.name") == "opera" &&
+           this.__nativeXhr.readyState === 3) {
+         this.readyState = 2;
+         this.onreadystatechange();
+       }
+
        // BUGFIX: IE, Firefox
        // onreadystatechange() is called twice for readyState OPENED.
        if (this.readyState !== this.__nativeXhr.readyState) {
