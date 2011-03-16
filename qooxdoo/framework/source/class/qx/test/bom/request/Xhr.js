@@ -123,7 +123,6 @@ qx.Class.define("qx.test.bom.request.Xhr",
     "test: should init onreadystatechange when new native XHR": function() {
       if (this.isIEBelow(8) || this.isFFBelow(3.5)) {
         var req = this.req;
-        var fakeReq = this.getFakeReq();
 
         req.onreadystatechange = function() {};
         var req = this.req;
@@ -470,13 +469,10 @@ qx.Class.define("qx.test.bom.request.Xhr",
     //
 
     "test: http status should be 0 when UNSENT": function() {
-      var fakeReq = this.getFakeReq();
-
       this.assertIdentical(0, this.req.status);
     },
 
     "test: http status should be 0 when OPENED": function() {
-      var fakeReq = this.getFakeReq();
       var req = this.req;
       req.open();
 
@@ -484,8 +480,8 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     "test: http status when DONE": function() {
-      var fakeReq = this.getFakeReq();
       var req = this.req;
+      var fakeReq = this.getFakeReq();
       req.open();
       fakeReq.respond(200);
 
@@ -493,8 +489,6 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     "test: statusText should be empty string when UNSENT": function() {
-      var fakeReq = this.getFakeReq();
-
       this.assertIdentical("", this.req.statusText);
     },
 
