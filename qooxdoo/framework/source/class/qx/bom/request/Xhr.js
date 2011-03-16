@@ -163,7 +163,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     abort: function() {
       this.__nativeXhr.abort();
-      
+
       if (this.__nativeXhr) {
         this.readyState = this.__nativeXhr.readyState;
       }
@@ -272,26 +272,29 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * Handle native onreadystatechange.
      *
      * Calls user-defined function onreadystatechange on each
-     * state change and syncs the readyState property.
+     * state change and syncs the XHR properties.
      */
     __onReadyStateChange: function() {
+      var nxhr = this.__nativeXhr;
 
       if (this.__statusPropertiesReadable()) {
+
         // BUGFIX: IE
         // IE sometimes returns 1223 when it should be 204
-        this.status = this.__nativeXhr.status == 1223 ?
-                      204 : this.__nativeXhr.status;
+        this.status = nxhr.status == 1223 ?
+                      204 : nxhr.status;
 
         // BUGFIX: Most browsers
         // Most browsers tell status 0 when it should be 200 for local files
         if (this._getProtocol() === "file:") {
-          this.status = this.__nativeXhr.status == 0 ?
-                        200 : this.__nativeXhr.status;
+          this.status = nxhr.status == 0 ?
+                        200 : nxhr.status;
         }
 
-        this.statusText = this.__nativeXhr.statusText;
-        this.responseText = this.__nativeXhr.responseText;
-        this.responseXML = this.__nativeXhr.responseXML;
+        this.statusText = nxhr.statusText;
+        this.responseText = nxhr.responseText;
+        this.responseXML = nxhr.responseXML;
+
       } else {
         this.status = 0;
         this.statusText = this.responseText = "";
@@ -301,15 +304,15 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
        // BUGFIX: Opera
        // Opera skips HEADERS_RECEIVED and jumps right to LOADING.
        if (qx.core.Environment.get("browser.name") == "opera" &&
-           this.__nativeXhr.readyState === 3) {
+           nxhr.readyState === 3) {
          this.readyState = 2;
          this.onreadystatechange();
        }
 
        // BUGFIX: IE, Firefox
        // onreadystatechange() is called twice for readyState OPENED.
-       if (this.readyState !== this.__nativeXhr.readyState) {
-         this.readyState = this.__nativeXhr.readyState;
+       if (this.readyState !== nxhr.readyState) {
+         this.readyState = nxhr.readyState;
          this.onreadystatechange();
        }
 
@@ -317,8 +320,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
        // Memory leak in XMLHttpRequest (on-page)
        if (this.readyState == qx.bom.request.Xhr.DONE) {
          // Allow garbage collecting of native XHR
-         if (this.__nativeXhr) {
-           this.__nativeXhr.onreadystatechange = function() {};
+         if (nxhr) {
+           nxhr.onreadystatechange = function() {};
          }
       }
 
