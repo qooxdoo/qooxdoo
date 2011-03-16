@@ -241,6 +241,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       return qx.core.Environment.get("io.xhr") ? new XMLHttpRequest() : new window.ActiveXObject("Microsoft.XMLHTTP");
     },
 
+    _getProtocol: function() {
+      return window.location.protocol;
+    },
+
     /*
     ---------------------------------------------------------------------------
       PRIVATE
@@ -276,6 +280,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         // IE sometimes returns 1223 when it should be 204
         this.status = this.__nativeXhr.status == 1223 ?
                       204 : this.__nativeXhr.status;
+
+        // BUGFIX: Most browsers
+        // Most browsers tell status 0 when it should be 200 for local files
+        if (this._getProtocol() === "file:") {
+          this.status = this.__nativeXhr.status == 0 ?
+                        200 : this.__nativeXhr.status;
+        }
 
         this.statusText = this.__nativeXhr.statusText;
         this.responseText = this.__nativeXhr.responseText;

@@ -545,6 +545,28 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertIdentical(204, req.status);
     },
 
+    // BUGFIX
+    "test: should normalize status 0 to 200 when DONE and file protocol": function() {
+      var fakeReq = this.getFakeReq();
+      var req = this.req;
+      req.open();
+      req.send();
+
+      this.stub(req, "_getProtocol").returns("file:");
+      fakeReq.respond(0);
+
+      this.assertEquals(200, req.status);
+    },
+
+    "test: should not normalize status 0 when OPENED and file protocol": function() {
+      var req = this.req;
+      this.stub(req, "_getProtocol").returns("file:");
+
+      req.open();
+
+      this.assertNotEquals(200, req.status);
+    },
+
     //
     // getResponseHeader()
     //
