@@ -163,7 +163,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     abort: function() {
       this.__nativeXhr.abort();
-      this.readyState = this.__nativeXhr.readyState;
+      
+      if (this.__nativeXhr) {
+        this.readyState = this.__nativeXhr.readyState;
+      }
     },
 
     /**
