@@ -1828,11 +1828,14 @@ class Generator(object):
         cmd = " ".join(textutil.quoteCommandArgs(argv))
         
         settings = self._job.get("settings", None)
+        for key in settings:
+            if type(settings[key]) == unicode:
+                settings[key] = settings[key].replace(" ", "$")
         if settings:
-            settings = json.dumps(settings)
+            settings = json.dumps(settings, separators=(",", ":"))
             if sys.platform[0:3] == "win":
-                settings = settings.replace(" ", "").replace('"','\\"')
-            settings = "'settings=" + settings + "'"
+                settings = settings.replace('"','\\"')
+            settings = "settings=" + settings
             cmd += " " + settings
         
         self._console.debug("Selenium start command: " + cmd)
