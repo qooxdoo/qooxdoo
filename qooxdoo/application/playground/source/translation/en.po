@@ -15,57 +15,57 @@ msgstr ""
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
 msgstr ""
 
-#: playground/Application.js:212
+#: playground/Application.js:213
 msgid "You changed the code of the current sample.|Click OK to discard your changes."
 msgstr ""
 
-#: playground/Application.js:336 playground/Application.js:381
+#: playground/Application.js:349 playground/Application.js:394
 msgid "Showing gist %1"
 msgstr ""
 
-#: playground/Application.js:341 playground/Application.js:388
+#: playground/Application.js:354 playground/Application.js:401
 msgid "Custom Code"
 msgstr ""
 
-#: playground/Application.js:407
+#: playground/Application.js:420
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
 msgstr ""
 
-#: playground/Application.js:410
+#: playground/Application.js:423
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
 msgstr ""
 
-#: playground/Application.js:427
+#: playground/Application.js:440
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
 msgstr ""
 
-#: playground/Application.js:451
+#: playground/Application.js:464
 msgid "No such user found."
 msgstr ""
 
-#: playground/Application.js:516
+#: playground/Application.js:529
 msgid "Gist contains no content."
 msgstr ""
 
-#: playground/Application.js:522
+#: playground/Application.js:535
 msgid "Can't load the gist."
 msgstr ""
 
-#: playground/Application.js:614
+#: playground/Application.js:627
 msgid "Starting application"
 msgstr ""
 
-#: playground/Application.js:617
+#: playground/Application.js:630
 msgid "Successfully started"
 msgstr ""
 
-#: playground/Application.js:676
+#: playground/Application.js:689
 msgid "%1 (modified)"
 msgstr ""
 
-#: playground/view/Editor.js:80
+#: playground/view/Editor.js:79
 msgid "Source Code"
 msgstr ""
 
@@ -135,6 +135,14 @@ msgstr ""
 
 #: playground/view/Toolbar.js:132
 msgid "Open the qooxdoo Manual"
+msgstr ""
+
+#: playground/view/Toolbar.js:139
+msgid "Demo Browser"
+msgstr ""
+
+#: playground/view/Toolbar.js:142
+msgid "Open the qooxdoo Demo Browser"
 msgstr ""
 
 #: playground/view/gist/GistMenu.js:44
