@@ -344,11 +344,11 @@ qx.Class.define("qx.test.core.Environment",
     },
 
     testOldVariants : function() {
-      this.assertBoolean(qx.core.Environment.get("qx.debug"));
-      this.assertBoolean(qx.core.Environment.get("qx.aspects"));
-      this.assertBoolean(qx.core.Environment.get("qx.dynlocale"));
-      this.assertBoolean(qx.core.Environment.get("qx.mobile.emulatetouch"));
-      this.assertBoolean(qx.core.Environment.get("qx.mobile.nativescroll"));
+      this.assertBoolean(qx.core.Environment.get("qx.debug"), "1");
+      this.assertBoolean(qx.core.Environment.get("qx.aspects"), "2");
+      this.assertBoolean(qx.core.Environment.get("qx.dynlocale"), "3");
+      this.assertBoolean(qx.core.Environment.get("qx.mobile.emulatetouch"), "4");
+      this.assertBoolean(qx.core.Environment.get("qx.mobile.nativescroll"), "5");
     }
   }
 });

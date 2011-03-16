@@ -246,9 +246,9 @@ qx.Bootstrap.define("qx.core.Environment",
           if (value == "on") {
             value = true;
           } else if (value == "off") {
-            value == false;
+            value = false;
           }
-          
+
           this._checks[key] = this.__createCheck(value);
         }
       }
@@ -263,9 +263,9 @@ qx.Bootstrap.define("qx.core.Environment",
           if (value == "on") {
             value = true;
           } else if (value == "off") {
-            value == false;
+            value = false;
           }
-          
+
           this._checks[key] = this.__createCheck(value);
         }
       }      
@@ -273,13 +273,13 @@ qx.Bootstrap.define("qx.core.Environment",
       // import the environment map
       if (qx && qx.$$environment)
       {
-        for (var key in qx.$$environment) {          
+        for (var key in qx.$$environment) {
           var value = qx.$$environment[key];
           // normalization for "on" and "off" @deprecated since 1.4
           if (value == "on") {
             value = true;
           } else if (value == "off") {
-            value == false;
+            value = false;
           }
 
           this._checks[key] = this.__createCheck(value);
