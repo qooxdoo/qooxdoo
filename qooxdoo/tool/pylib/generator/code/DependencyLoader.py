@@ -105,10 +105,7 @@ class DependencyLoader(object):
         if  self._jobconf.get("dependencies/sort-topological", False):
             result = self.sortClassesTopological(result, variants)
         else:
-            #print result
             result = self.sortClasses(result, variants, buildType)
-            #print result
-            pass
         self._console.nl()
 
         if self._console.getLevel() == "debug":
@@ -140,7 +137,7 @@ class DependencyLoader(object):
                 return
 
             # add self
-            #result.append(depsItem)
+            result.append(depsItem)
             resultNames.append(depsItem.name)
 
             # reading dependencies
@@ -166,7 +163,13 @@ class DependencyLoader(object):
                     if subitem.name not in resultNames and subitem.name not in skipNames:
                         classlistFromClassRecursive(subitem, excludeWithDeps, variants, result, warn_deps, allowBlockLoaddeps)
   
-                result.append(depsItem)
+                ##
+                # putting this here allows sorting and expanding of the class
+                # list in one go! what's missing from sortClassesRecursor is
+                # the cycle check
+                #if depsItem.name not in resultNames:
+                #    result.append(depsItem)
+                #    resultNames.append(depsItem.name)
   
                 for subitem in deps["run"]:
                     if subitem.name not in resultNames and subitem.name not in skipNames:
