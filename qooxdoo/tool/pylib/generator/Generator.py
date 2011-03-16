@@ -21,7 +21,7 @@
 ################################################################################
 
 import re, os, sys, zlib, optparse, types, string, glob
-import functools, codecs, operator
+import functools, codecs, operator, time
 import graph
 
 from misc                            import filetool, textutil, util, Path, json, copytool
@@ -518,6 +518,7 @@ class Generator(object):
 
         # -- Main --------------------------------------------------------------
 
+        starttime = time.time()
         config = self._job
         job    = self._job
         require = config.get("require", {})
@@ -645,7 +646,8 @@ class Generator(object):
                 self.runLogUnusedClasses(script)
                 self.runLogResources(script)
                 
-        self._console.info("Done")
+        elapsedsecs = time.time() - starttime
+        self._console.info("Done (%dm%05.2f)" % (int(elapsedsecs/60), elapsedsecs % 60))
 
         return
 
