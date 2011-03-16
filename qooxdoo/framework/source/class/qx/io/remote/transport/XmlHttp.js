@@ -343,7 +343,19 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           }
         }
 
-        vRequest.send(this.getData());
+        // IE9 executes the call synchronous when the call is to file protocol
+        // See [BUG #4762] for details
+        if (
+          vLocalRequest && vAsynchronous &&
+          qx.core.Environment.get("engine.name") == "mshtml" &&
+          qx.core.Environment.get("engine.version") == 9
+        ) {
+          qx.event.Timer.once(function() {
+            vRequest.send(this.getData());
+          }, this, 0);
+        } else {
+          vRequest.send(this.getData());
+        }
       }
       catch(ex)
       {
@@ -443,6 +455,11 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           this.failed();
           return;
         }
+      }
+
+      // Sometimes the xhr call skips the send state
+      if (vReadyState == 3 && this.__lastReadyState == 1) {
+        this.setState(qx.io.remote.Exchange._nativeMap[++this.__lastReadyState]);
       }
 
       // Updating internal state
