@@ -28,6 +28,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 {
 
   construct: function() {
+    this.__onReadyStateChangeBound = qx.Bootstrap.bind(this.__onReadyStateChange, this);
+
     this.__initNativeXhr();
   },
 
@@ -82,7 +84,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
     __disposed: null,
 
-    __onreadystatechangeNoop: false,
+    __onReadyStateChangeBound: null,
 
     /**
      * Initialize (prepare) a request.
@@ -119,11 +121,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.__initNativeXhr();
       }
 
-      // Restore if replaced by noop function before
-      if (this.__onreadystatechangeNoop) {
-        this.__nativeXhr.onreadystatechange =
-          qx.lang.Function.bind(this.__handleReadyStateChange, this);
-      }
+      // Restore handler in case it was removed before
+      this.__nativeXhr.onreadystatechange = this.__onReadyStateChangeBound;
 
       this.__nativeXhr.open(method, url, async, user, password);
     },
@@ -261,8 +260,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__nativeXhr = this._createNativeXhr();
 
       // Track native ready state changes
-      this.__nativeXhr.onreadystatechange =
-        qx.lang.Function.bind(this.__handleReadyStateChange, this);
+      this.__nativeXhr.onreadystatechange = this.__onReadyStateChangeBound;
 
       this.__disposed = false;
     },
@@ -273,7 +271,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * Calls user-defined function onreadystatechange on each
      * state change and syncs the readyState property.
      */
-    __handleReadyStateChange: function() {
+    __onReadyStateChange: function() {
 
       if (this.__statusPropertiesReadable()) {
         // BUGFIX: IE
@@ -310,7 +308,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
          // Allow garbage collecting of native XHR
          if (this.__nativeXhr) {
            this.__nativeXhr.onreadystatechange = function() {};
-           this.__onreadystatechangeNoop = true;
          }
       }
 
