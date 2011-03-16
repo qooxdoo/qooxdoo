@@ -360,7 +360,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertIdentical("", req.responseText);
     },
 
-    "test: responseText should be populated when DONE": function() {
+    "test: responseText should be set when DONE": function() {
       var req = this.req;
       var fakeReq = this.getFakeReq();
 
@@ -509,7 +509,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
     "test: status should be set when LOADING": function() {
       if (this.isIEBelow(7)) {
-        this.warn("In IE < 7 status is not populated when LOADING");
+        this.warn("In IE < 7 status is not set when LOADING");
         return;
       }
 
