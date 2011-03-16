@@ -19,6 +19,7 @@
       "en", "en_GB", "en_US", 
       "de", "de_DE", "de_AT", 
       "es", "es_ES", "es_MX", 
+      "ro", "ro_RO",
       "sv", "sv_SE"
     ],
     "ROOT"         : "."

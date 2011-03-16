@@ -94,6 +94,11 @@ qx.Class.define("showcase.page.i18n.Content",
           language: "sv",
           selected: null,
           countries: [{code: "SE", name: "Sweden"}]
+        },
+        {
+          language: "ro",
+          selected: null,
+          countries: [{code: "RO", name: "Romania"}]
         }
       ]);
 
