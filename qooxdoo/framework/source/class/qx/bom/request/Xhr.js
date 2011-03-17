@@ -321,6 +321,15 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __onReadyStateChange: function() {
       var nxhr = this.__nativeXhr;
 
+      // BUGFIX: IE
+      // IE fires onreadystatechange HEADERS_RECEIVED and LOADING when sync
+      //
+      // According to spec, only onreadystatechange OPENED and DONE should
+      // be fired.
+      if (!this.__async && (nxhr.readyState == 2 || nxhr.readyState == 3)) {
+        return;
+      }
+
       if (this.__statusPropertiesReadable()) {
 
         this.status = nxhr.status;
