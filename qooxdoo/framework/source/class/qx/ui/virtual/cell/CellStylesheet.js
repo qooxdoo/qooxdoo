@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
 
     /**
      * Dynamically create a CSS rule for the given style string. The selector is
-     * a unique class name, which is returned. The class is stored under the
+     * an unique class name, which is returned. The class is stored under the
      * given key name and can be queried using {@link #getCssClass}.
      *
      * @param key {String} The key under which the class name should be stored

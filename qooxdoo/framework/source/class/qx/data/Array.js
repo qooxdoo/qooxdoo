@@ -178,7 +178,7 @@ qx.Class.define("qx.data.Array",
 
 
     /**
-     * Adds a element at the end of the array.
+     * Adds an element at the end of the array.
      *
      * @param varargs {var} Multiple elements. Every element will be added to
      *   the end of the array. An change event will be fired.

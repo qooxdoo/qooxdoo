@@ -17,7 +17,7 @@
  * To *build a GUI* it is usually a good idea to start with one of the
  * *qx.ui.container* widgets, add a layout manager and then some functional
  * widgets to it. This helps you to organize your application.  A
- * minimal example for creating a user interface might look like this:
+ * minimal example for creating an user interface might look like this:
  *
  * <pre class='javascript'>
  * var c = new qx.ui.container.Composite(new qx.ui.layout.Grow); // this adds the layout manager in one go

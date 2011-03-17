@@ -1022,7 +1022,7 @@ qx.Class.define("qx.event.handler.Focus",
 
 
     /**
-     * Returns the next focusable parent element of a activated DOM element.
+     * Returns the next focusable parent element of an activated DOM element.
      *
      * @param el {Element} Element to start lookup with.
      * @return {Element|null} The next focusable element.

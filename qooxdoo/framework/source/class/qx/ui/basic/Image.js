@@ -344,7 +344,7 @@ qx.Class.define("qx.ui.basic.Image",
 
     /**
      * Applies the source to the clipped image instance or preload
-     * a image to detect sizes and apply it afterwards.
+     * an image to detect sizes and apply it afterwards.
      *
      * @return {void}
      */

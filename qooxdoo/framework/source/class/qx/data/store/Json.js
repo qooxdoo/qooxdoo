@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * The json data store is responsible for fetching data from a url. The type
+ * The json data store is responsible for fetching data from an url. The type
  * of the data has to be json.
  *
  * The loaded data will be parsed and saved in qooxdoo objects. Every value

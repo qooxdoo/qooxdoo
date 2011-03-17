@@ -519,7 +519,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * Convert the first character of the string to upper case.
      *
      * @param str {String} the string
-     * @return {String} the string with a upper case first character
+     * @return {String} the string with an upper case first character
      */
     firstUp : function(str) {
       return str.charAt(0).toUpperCase() + str.substr(1);
@@ -571,7 +571,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     {
       // Added "value !== null" because IE throws an exception "Object expected"
       // by executing "value instanceof Array" if value is a DOM element that
-      // doesn't exist. It seems that there is a internal different between a
+      // doesn't exist. It seems that there is an internal different between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
       return (
@@ -594,7 +594,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     {
       // Added "value !== null" because IE throws an exception "Object expected"
       // by executing "value instanceof Array" if value is a DOM element that
-      // doesn't exist. It seems that there is a internal different between a
+      // doesn't exist. It seems that there is an internal different between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
       return (

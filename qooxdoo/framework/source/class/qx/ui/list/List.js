@@ -701,7 +701,7 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * Returns a unique group name for the passed group.
+     * Returns an unique group name for the passed group.
      *
      * @param group {String|Object} Group to find unique group name.
      * @return {String} Unique group name.

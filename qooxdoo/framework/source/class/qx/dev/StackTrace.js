@@ -180,7 +180,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * The file names are converted into qooxdoo class names if possible.
      *
      * This works reliably in Gecko-based browsers. Later Opera versions and 
-     * Chrome also provide a useful stack trace. For Safari, only the class or 
+     * Chrome also provide an useful stack trace. For Safari, only the class or 
      * file name and line number where the error occurred are returned. 
      * IE 6/7/8 does not attach any stack information to error objects so an 
      * empty array is returned.

@@ -38,7 +38,7 @@
  * });
  * </pre>
  *
- * Additionally to a selection event a execute event is available which is
+ * Additionally to a selection event an execute event is available which is
  * fired by doubleclick or taping the space / enter key. With this event you
  * can for example save the selection and close the date chooser.
  *

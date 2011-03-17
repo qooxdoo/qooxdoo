@@ -80,7 +80,7 @@
  *     Whether this property can be set using themes.
  *   </td></tr>
  *   <tr><th>inheritable</th><td>Boolean</td><td>
- *     Whether the property value should be inheritable. If the property does not have a user defined or an
+ *     Whether the property value should be inheritable. If the property does not have an user defined or an
  *     init value, the property will try to get the value from the parent of the current object.
  *   </td></tr>
  *   <tr><th>nullable</th><td>Boolean</td><td>
@@ -1275,7 +1275,7 @@ qx.Bootstrap.define("qx.core.Property",
 
         // reset() is impossible, because the user has higher priority than
         // the themed value, so the themed value has no chance to ever get used,
-        // when there is a user value, too.
+        // when there is an user value, too.
 
         else if (variant === "setThemed")
         {
@@ -1329,7 +1329,7 @@ qx.Bootstrap.define("qx.core.Property",
 
       // reset(), resetRuntime() and resetStyle() are impossible, because the user and themed values have a
       // higher priority than the init value, so the init value has no chance to ever get used,
-      // when there is a user or themed value, too.
+      // when there is an user or themed value, too.
 
       else if (variant === "set" || variant === "setRuntime" || variant === "setThemed" || variant === "refresh")
       {

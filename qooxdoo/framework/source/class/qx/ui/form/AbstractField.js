@@ -308,7 +308,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     /**
      * Hook into {@link qx.ui.form.AbstractField#renderLayout} method.
-     * Called after the contentElement has a width and a innerWidth.
+     * Called after the contentElement has a width and an innerWidth.
      *
      * Note: This was introduced to fix BUG#1585
      *

@@ -93,7 +93,7 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
           "Selection is wrong!");
       }, "'changeSelection' event not fired!");
 
-      // A second selectAll() shouldn't fire a event
+      // A second selectAll() shouldn't fire an event
       this.assertEventNotFired(widget, "changeSelection", function () {
         widget.selectAll();
       }, function(event) {}, "'changeSelection' event fired!");
@@ -122,7 +122,7 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
           "The result of the selection is wrong");
       }, "'changeSelection' event not fired!");
 
-      // A second selection shouldn't fire a event
+      // A second selection shouldn't fire an event
       this.assertEventNotFired(widget, "changeSelection", function () {
         widget.addToSelection(newValue);
       }, function(event) {}, "'changeSelection' event fired!");

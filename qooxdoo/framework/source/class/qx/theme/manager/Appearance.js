@@ -206,7 +206,7 @@ qx.Class.define("qx.theme.manager.Appearance",
         return null;
       }
 
-      // Build a unique cache name from ID and state combination
+      // Build an unique cache name from ID and state combination
       var unique = resolved;
       if (states)
       {
@@ -253,7 +253,7 @@ qx.Class.define("qx.theme.manager.Appearance",
       // Compile the appearance
       var result;
 
-      // If a include or base is defined, too, we need to merge the entries
+      // If an include or base is defined, too, we need to merge the entries
       if (entry.include || entry.base)
       {
         

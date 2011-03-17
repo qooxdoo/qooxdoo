@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.root.Inline",
     {
       if (this.__dynX || this.__dynY)
       {
-        // Check the DOM element for a usable width and height
+        // Check the DOM element for an usable width and height
         var elementDimensions = qx.bom.element.Dimension.getSize(this.__elem);
 
         if (this.__dynX && elementDimensions.width < 1) {

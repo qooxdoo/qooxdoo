@@ -197,12 +197,12 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Adds a asynchronous check to the environment. If there is already a check 
+     * Adds an asynchronous check to the environment. If there is already a check 
      * added for the given key, the add will be ignored.
      * 
      * @param key {String} The key of the check e.g. html.featureabc
      * @param check {Function} A function which should check for a specific 
-     *   environment setting in a asynchronous way. The method should take two 
+     *   environment setting in an asynchronous way. The method should take two 
      *   arguments. First one is the callback and the second one is the context.
      */
     addAsync : function(key, check) {

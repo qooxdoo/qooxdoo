@@ -152,7 +152,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       if (qx.bom.client.Engine.getName() == "mshtml")
       {
         // Use the Engine version, because the IE8 and higher change the user agent
-        // string to a older version in compatibility mode
+        // string to an older version in compatibility mode
         version = qx.bom.client.Engine.getVersion();
 
         if (name === "msie" && qx.bom.client.OperatingSystem.getVersion() == "ce") {

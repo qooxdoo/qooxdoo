@@ -45,7 +45,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
 
     /**
      * The path to the property which holds the information that should be
-     * shown as a icon. This is only needed if objects are stored in the model
+     * shown as an icon. This is only needed if objects are stored in the model
      * and if the icon should be shown.
      */
     iconPath :

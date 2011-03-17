@@ -590,7 +590,7 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
-     * Whether a given class directly includes a interface.
+     * Whether a given class directly includes an interface.
      *
      * This function will only return "true" if the interface was defined
      * in the class declaration ({@link qx.Class#define}) using the "implement"
@@ -1211,7 +1211,7 @@ qx.Bootstrap.define("qx.Class",
           var existingProperty = this.getPropertyDefinition(clazz, name);
 
           if (config.refine && existingProperty.init === undefined) {
-            throw new Error("Could not refine a init value if there was previously no init value defined. Property '" + name + "' of class '" + clazz.classname + "'.");
+            throw new Error("Could not refine an init value if there was previously no init value defined. Property '" + name + "' of class '" + clazz.classname + "'.");
           }
         }
 

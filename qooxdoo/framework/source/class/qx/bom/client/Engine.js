@@ -143,7 +143,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
           version = RegExp.$1;
 
           // If the IE8 or IE9 is running in the compatibility mode, the MSIE value
-          // is set to a older version, but we need the correct version. The only 
+          // is set to an older version, but we need the correct version. The only 
           // way is to compare the trident version.
           if (version < 8 && /Trident\/([^\);]+)(\)|;)/.test(agent)) {
             if (RegExp.$1 == "4.0") {

@@ -194,7 +194,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this._media.setPreload(auto);
       this.assertEquals(auto, this._media.getPreload());
 
-      //if setting the preload to a unspecified value,
+      //if setting the preload to an unspecified value,
       //the preload is set to auto
       this._media.setPreload(none);
       this._media.setPreload("unspecified");

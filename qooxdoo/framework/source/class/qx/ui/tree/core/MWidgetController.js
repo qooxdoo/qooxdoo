@@ -47,7 +47,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
 
     /**
      * The path to the property which holds the information that should be
-     * shown as a icon.
+     * shown as an icon.
      */
     iconPath :
     {

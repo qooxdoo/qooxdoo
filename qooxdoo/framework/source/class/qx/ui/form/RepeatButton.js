@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * Usually the {@link #release} function will be called before the call of
      * this function.
      *
-     * @param fireExecuteEvent {Boolean?true} flag which signals, if a event should be fired
+     * @param fireExecuteEvent {Boolean?true} flag which signals, if an event should be fired
      * @return {void}
      */
     release : function(fireExecuteEvent)

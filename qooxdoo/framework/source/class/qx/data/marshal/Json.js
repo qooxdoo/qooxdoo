@@ -316,7 +316,7 @@ qx.Class.define("qx.data.marshal.Json",
           if (qx.core.Variant.isSet("qx.debug", "on")) {
             if (key != propertyName) {
               this.warn(
-                "The model contained a illegal name: '" + key + 
+                "The model contained an illegal name: '" + key + 
                 "'. Replaced it with '" + propertyName + "'."
               );
             }

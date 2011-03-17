@@ -130,7 +130,7 @@ qx.Class.define("qx.util.ResourceManager",
 
 
     /**
-     * Whether the given resource identifier is a image
+     * Whether the given resource identifier is an image
      * with clipping information available.
      *
      * @deprecated since 1.4: superseded by getCombinedFormat()

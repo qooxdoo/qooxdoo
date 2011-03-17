@@ -88,7 +88,7 @@ qx.Class.define("qx.event.Manager",
 
 
     /**
-     * Returns a unique ID which may be used in combination with a target and
+     * Returns an unique ID which may be used in combination with a target and
      * a type to identify an event entry.
      *
      * @return {String} The next free identifier (auto-incremented)
@@ -348,7 +348,7 @@ qx.Class.define("qx.event.Manager",
      * For details please have a look there.
      *
      * @param target {Object} Any valid event target
-     * @param list {Map} A map where every listener has a unique key.
+     * @param list {Map} A map where every listener has an unique key.
      * @return {void}
      */
     importListeners : function(target, list)
@@ -592,7 +592,7 @@ qx.Class.define("qx.event.Manager",
 
 
     /**
-     * Remove an event listener from a event target.
+     * Remove an event listener from an event target.
      *
      * @param target {Object} Any valid event target
      * @param type {String} Name of the event

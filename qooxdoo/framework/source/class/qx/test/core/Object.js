@@ -199,7 +199,7 @@ qx.Class.define("qx.test.core.Object",
 
     testDisposeSingletonObject : function()
     {
-      // object dispose with a singleton and a object
+      // object dispose with a singleton and an object
       qx.Class.define("qx.test.Single", {
         extend : qx.core.Object,
         type : "singleton"

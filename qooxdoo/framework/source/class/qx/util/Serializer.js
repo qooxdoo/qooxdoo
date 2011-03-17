@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * This is a util class responsible for serializing qooxdoo objects.
+ * This is an util class responsible for serializing qooxdoo objects.
  */
 qx.Class.define("qx.util.Serializer",
 {

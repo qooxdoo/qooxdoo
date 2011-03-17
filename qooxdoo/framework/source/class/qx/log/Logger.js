@@ -274,7 +274,7 @@ qx.Class.define("qx.log.Logger",
 
 
     /**
-     * Prints a event deprecation warning and a stack trace if the setting
+     * Prints an event deprecation warning and a stack trace if the setting
      * <code>qx.debug</code> is set to <code>on</code>.
      *
      * @param clazz {Class} reference to the deprecated class.

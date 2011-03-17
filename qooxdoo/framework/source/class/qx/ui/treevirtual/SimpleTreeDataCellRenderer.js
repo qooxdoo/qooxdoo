@@ -654,7 +654,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           // If we're not showing tree lines...
           if (!bUseTreeLines)
           {
-            // ... then just use a expand or contract
+            // ... then just use an expand or contract
             return (node.bOpened
                     ? STDCR.__icon.contract
                     : STDCR.__icon.expand);

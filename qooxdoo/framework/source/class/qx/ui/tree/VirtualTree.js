@@ -174,7 +174,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     
     /**
      * The path to the property which holds the information that should be
-     * shown as a icon.
+     * shown as an icon.
      */
     iconPath :
     {

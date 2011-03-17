@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /**
- * This class provides a unified mouse event handler for Internet Explorer,
+ * This class provides an unified mouse event handler for Internet Explorer,
  * Firefox, Opera and Safari
  */
 qx.Class.define("qx.event.handler.Mouse",

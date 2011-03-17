@@ -349,7 +349,7 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *       causes problems such as single clicks not always selecting a
      *       row, and, in IE, double click operations failing
      *       completely. (For more information, see bugs 605 and 2021.) To
-     *       re-enable the option to have a unique icon that is displayed
+     *       re-enable the option to have an unique icon that is displayed
      *       when the node is selected, issue
      *       <code>tree.setAlwaysUpdateCells(true);</code>
      *
