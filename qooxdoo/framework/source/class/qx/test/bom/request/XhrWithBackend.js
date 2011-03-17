@@ -385,37 +385,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
-    // BUGFIX
-    "test: should call onreadystatechange for OPEN when sync": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
-      var req = this.req;
-      var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
-      req.onreadystatechange = this.spy();
-      req.open("GET", this.noCache(url), false);
-
-      this.assertCalledOnce(req.onreadystatechange);
-      this.assertIdentical(1, req.readyState);
-    },
-
-    // BUGFIX
-    "test: should call onreadystatechange for DONE when sync": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
-      var req = this.req;
-      var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
-      req.open("GET", this.noCache(url), false);
-      req.onreadystatechange = this.spy();
-      req.send();
-
-      this.assertCalledOnce(req.onreadystatechange);
-      this.assertIdentical(4, req.readyState);
-    },
-
     "test: should not call onreadystatechange when aborting OPENED": function() {
       if (this.isLocal()) {
         return;
