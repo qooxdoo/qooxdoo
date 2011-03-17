@@ -22,6 +22,12 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
+ *
+ * Persistent key-value data storage
+ *
+ * For more information see:
+ * http://www.w3.org/TR/webstorage/
+ *
  */
 qx.Class.define("qx.bom.storage.Abstract",
 {
@@ -41,6 +47,7 @@ qx.Class.define("qx.bom.storage.Abstract",
 
     this._storage = window[this._type + "Storage"];
     this._handleStorageEventBound = qx.lang.Function.bind(this._handleStorageEvent, this);
+
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
       qx.bom.Event.addNativeListener(document, "storage", this._handleStorageEventBound);
     } else {
@@ -50,7 +57,7 @@ qx.Class.define("qx.bom.storage.Abstract",
 
   events:
   {
-    /** Fired when online status changed */
+    /** Fired when data storage is changed*/
     "storage": "qx.event.type.Data"
   },
 
@@ -78,7 +85,7 @@ qx.Class.define("qx.bom.storage.Abstract",
      */
     setItem: function(key, value)
     {
-      this._storage.setItem(key, value);
+      this._storage.setItem(key, qx.lang.Json.stringify(value));
     },
 
 
@@ -90,7 +97,7 @@ qx.Class.define("qx.bom.storage.Abstract",
      */
     getItem: function(key)
     {
-      return this._storage.getItem(key);
+      return qx.lang.Json.parse(this._storage.getItem(key));
     },
 
 
@@ -157,7 +164,6 @@ qx.Class.define("qx.bom.storage.Abstract",
         url: e.url,
         storageArea: e.storageArea
       };
-
       this.fireDataEvent("storage",data);
     }
   },

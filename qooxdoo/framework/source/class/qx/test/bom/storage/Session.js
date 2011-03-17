@@ -19,20 +19,22 @@
 
 qx.Class.define("qx.test.bom.storage.Session",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : qx.test.bom.storage.WebStorageTestCase,
+  include: [qx.dev.unit.MRequirements],
 
-  members :
-  {
-    setUp : function() {
+  members: {
+    _getStorage: function() {
+      return qx.bom.storage.Session.getInstance();
     },
 
-
-    tearDown : function() {
+    _checkFeature: function() {
+      this.require(["storage"]);
     },
 
-
-    testMe: function() {
-      this.assertTrue(true);
+    hasStorage: function() {
+      return qx.core.Environment.get("html.storage.session");
     }
   }
+  
+
 });

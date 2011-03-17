@@ -22,6 +22,7 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
+ * http://www.w3.org/TR/webstorage/
  */
 qx.Class.define("qx.bom.storage.Session",
 {
@@ -31,25 +32,5 @@ qx.Class.define("qx.bom.storage.Session",
   construct : function()
   {
     this.base(arguments, "session");
-  },
-
-
-  statics :
-  {
-    /**
-     * Whether the feature is supported or not.
-     * 
-     * @return {Boolean}
-     */
-    isSupported : function()
-    {
-      try {
-        return window.sessionStorage != null;
-      } catch (exc) {
-        // Firefox Bug: Local execution of window.sessionStorage throws error
-        // see https://bugzilla.mozilla.org/show_bug.cgi?id=357323
-        return false;
-      }
-    }
   }
 });

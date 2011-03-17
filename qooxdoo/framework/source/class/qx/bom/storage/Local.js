@@ -31,27 +31,5 @@ qx.Class.define("qx.bom.storage.Local",
   construct : function()
   {
     this.base(arguments, "local");
-  },
-
-
-  statics :
-  {
-    /**
-     * Whether the feature is supported or not.
-     * 
-     * @return {Boolean}
-     */
-    isSupported : function()
-    {
-      try {
-        return window.localStorage != null;
-      } catch (exc) {
-        // Firefox Bug: Local execution of window.sessionStorage throws error
-        // see https://bugzilla.mozilla.org/show_bug.cgi?id=357323
-        return false;
-      }
-    }
   }
-
-
 });

@@ -115,7 +115,13 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @return {Boolean} <code>true</code> if local storage is supported
      */
     getLocalStorage : function() {
-      return window.LocalStorage != null;
+      try {
+        return window.localStorage != null;
+      } catch (exc) {
+        // Firefox Bug: Local execution of window.sessionStorage throws error
+        // see https://bugzilla.mozilla.org/show_bug.cgi?id=357323
+        return false;
+      }
     },
 
 
@@ -126,7 +132,13 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @return {Boolean} <code>true</code> if session storage is supported
      */
     getSessionStorage : function() {
-      return window.SessionStorage != null;
+      try {
+        return window.sessionStorage != null;
+      } catch (exc) {
+        // Firefox Bug: Local execution of window.sessionStorage throws error
+        // see https://bugzilla.mozilla.org/show_bug.cgi?id=357323
+        return false;
+      }
     },
 
 

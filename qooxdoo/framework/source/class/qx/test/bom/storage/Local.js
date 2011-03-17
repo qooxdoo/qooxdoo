@@ -19,21 +19,20 @@
 
 qx.Class.define("qx.test.bom.storage.Local",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : qx.test.bom.storage.WebStorageTestCase,
+  include: [qx.dev.unit.MRequirements],
 
-  members :
-  {
-    setUp : function() {
+  members: {
+    _getStorage: function() {
+      return qx.bom.storage.Local.getInstance();
     },
 
-
-    tearDown : function() {
+    _checkFeature: function() {
+      this.require(["storage"]);
     },
 
-
-    testMe: function()
-    {
-      this.assertTrue(true);
+    hasStorage: function() {
+      return qx.core.Environment.get("html.storage.local");
     }
   }
 });
