@@ -196,6 +196,42 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.assertArrayEquals([1, 4], states);
     },
 
+    "test: should progress to readyState DONE when from cache": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      var req = this.req,
+          url = this.getUrl("qx/test/xmlhttp/sample.html");
+          states = [],
+          count = 0,
+          that = this;
+
+      req.onreadystatechange = function() {
+        states.push(req.readyState);
+        if (req.readyState == 4) {
+          if (++count < 2) {
+            // Ignore changes from previous request
+            states = [];
+            // From cache
+            req.open("GET", url);
+            req.send();
+          } else {
+            that.resume(function() {
+              that.assertArrayEquals([1, 2, 3, 4], states);
+            });
+          }
+        }
+      }
+
+      // Prime cache
+      req.open("GET", url);
+      req.send();
+
+      this.wait();
+    },
+
+    // BUGFIX
     "test: should allow many requests with same object": function() {
       if (this.isLocal()) {
         return;
