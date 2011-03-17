@@ -95,6 +95,8 @@ Custom decorators are created by extending the decorator theme and adding new on
 * **Single**: Like ``Background``, but adds support for separate borders for each edge.
 * **Double**: Like ``Single`` but with the option to add two separate border to each edge.
 * **Beveled**: Pseudo (lightweight) rounded border with support for inner glow. May contain a background image / gradient.
+* **HBox**: Uses three images in a row with a center image which is stretched horizontally. Useful for widgets with a fixed height, which can be stretched horizontally.
+* **VBox**: Uses three images in a column with a center image which is stretched vertically. Useful for widgets with a fixed width, which can be stretched vertically.
 * **Grid**: Complex decorator based on nine images. Allows very customized styles (rounded borders, alpha transparency, gradients, ...). Optionally make use of image sprites to reduce image number.
 
 Each entry of the theme is automatically made available using the ``setDecorator``/``setShadow`` functions of the widget class. The instances needed are automatically created when required initially. This mechanism keeps instance numbers down and basically ignores decorators which are defined but never used.
