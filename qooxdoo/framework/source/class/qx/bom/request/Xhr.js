@@ -389,7 +389,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
        // Opera skips HEADERS_RECEIVED and jumps right to LOADING.
        //
        // Trigger additional onreadystatechange with LOADING readyState.
-       if (qx.core.Environment.get("browser.name") == "opera" &&
+       if (qx.core.Environment.get("engine.name") == "opera" &&
            nxhr.readyState === qx.bom.request.Xhr.LOADING) {
          this.readyState = qx.bom.request.Xhr.HEADERS_RECEIVED;
          this.onreadystatechange();
@@ -441,19 +441,19 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // IE < 9 cannot access responseText and other properties
       // when request is in progress. "The data necessary to complete
       // this operation is not yet available".
-      var isLegacyIE = qx.core.Environment.get("browser.name") == "ie" &&
-                       qx.core.Environment.get("browser.version") < 9;
+      var isLegacyIE = qx.core.Environment.get("engine.name") == "mshtml" &&
+                       qx.core.Environment.get("engine.version") < 9;
 
       return (this.__nativeXhr.readyState > qx.bom.request.Xhr.OPENED && !isLegacyIE) ||
              (this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE);
     },
 
     __supportsManyRequests: function() {
-      var name = qx.core.Environment.get("browser.name");
-      var version = qx.core.Environment.get("browser.version");
+      var name = qx.core.Environment.get("engine.name");
+      var version = qx.core.Environment.get("engine.version");
 
-      return !(name == "ie" && version < 8 ||
-               name == "firefox" && version < 3.5);
+      return !(name == "mshtml" && version < 8 ||
+               name == "gecko" && version < 3.5);
     }
   }
 });

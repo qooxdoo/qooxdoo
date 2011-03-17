@@ -605,17 +605,17 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     isIEBelow: function(targetVersion) {
-      var name = qx.core.Environment.get("browser.name");
-      var version = qx.core.Environment.get("browser.version");
+      var name = qx.core.Environment.get("engine.name");
+      var version = qx.core.Environment.get("engine.version");
 
-      return name == "ie" && version < targetVersion;
+      return name == "mshtml" && version < targetVersion;
     },
 
     isFFBelow: function(targetVersion) {
-      var name = qx.core.Environment.get("browser.name");
-      var version = qx.core.Environment.get("browser.version");
+      var name = qx.core.Environment.get("engine.name");
+      var version = qx.core.Environment.get("engine.version");
 
-      return name == "firefox" && version < targetVersion;
+      return name == "gecko" && version < targetVersion;
     }
 
   }
