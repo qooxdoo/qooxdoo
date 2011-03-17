@@ -242,21 +242,6 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // onreadystatechange()
     //
 
-    "test: should call onreadystatechange on change of readyState": function() {
-      var fakeReq = this.getFakeReq();
-      this.spy(this.req, "onreadystatechange");
-
-      // Simulate response.
-      //
-      // Iterates readyStates:
-      // - HEADERS_RECEIVED
-      // - LOADING
-      // - DONE
-      fakeReq.respond(this.constructor.DONE);
-
-      this.assertCallCount(this.req.onreadystatechange, 3);
-    },
-
     // BUGFIX
     "test: should ignore onreadystatechange when readyState is unchanged": function() {
       var req = this.req;
