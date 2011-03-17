@@ -296,7 +296,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * Handle native onreadystatechange.
      *
      * Calls user-defined function onreadystatechange on each
-     * state change and syncs the XHR properties.
+     * state change and syncs the XHR status properties.
      */
     __onReadyStateChange: function() {
       var nxhr = this.__nativeXhr;
@@ -329,23 +329,32 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.responseXML = nxhr.responseXML;
 
       } else {
+
+        // Default values according to spec.
         this.status = 0;
         this.statusText = this.responseText = "";
         this.responseXML = null;
+
        }
 
        // BUGFIX: Opera
        // Opera skips HEADERS_RECEIVED and jumps right to LOADING.
+       //
+       // Trigger additional onreadystatechange with LOADING readyState.
        if (qx.core.Environment.get("browser.name") == "opera" &&
-           nxhr.readyState === 3) {
-         this.readyState = 2;
+           nxhr.readyState === qx.bom.request.Xhr.LOADING) {
+         this.readyState = qx.bom.request.Xhr.HEADERS_RECEIVED;
          this.onreadystatechange();
        }
 
        // BUGFIX: IE, Firefox
        // onreadystatechange() is called twice for readyState OPENED.
+       //
+       // Call onreadystatechange only when readyState has changed.
        if (this.readyState !== nxhr.readyState) {
+         // Set current readyState before calling onreadystatechange
          this.readyState = nxhr.readyState;
+
          this.onreadystatechange();
        }
 
@@ -378,8 +387,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       var isLegacyIE = qx.core.Environment.get("browser.name") == "ie" &&
                        qx.core.Environment.get("browser.version") < 8;
 
-      return this.__nativeXhr.readyState > 1 && !isLegacyIE ||
-        this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE;
+      return (this.__nativeXhr.readyState > qx.bom.request.Xhr.OPENED && !isLegacyIE) ||
+             (this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE);
     },
 
     __supportsManyRequests: function() {
