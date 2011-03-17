@@ -426,7 +426,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         var charCode = 0;
         var type = domEvent.type;
 
-        // starting with Safari 3.1 (verion 525.13) Apple switched the key
+        // starting with Safari 3.1 (version 525.13) Apple switched the key
         // handling to match the IE behaviour.
         if (parseFloat(qx.core.Environment.get("engine.version")) < 525.13)
         {
@@ -553,7 +553,7 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       "webkit" : function(domEvent)
       {
-        // starting with Safari 3.1 (verion 525.13) Apple switched the key
+        // starting with Safari 3.1 (version 525.13) Apple switched the key
         // handling to match the IE behaviour.
         if (parseFloat(qx.core.Environment.get("engine.version")) < 525.13)
         {
@@ -954,7 +954,7 @@ qx.Class.define("qx.event.handler.Keyboard",
     }
     else if (qx.core.Variant.isSet("qx.client", "webkit"))
     {
-      // starting with Safari 3.1 (verion 525.13) Apple switched the key
+      // starting with Safari 3.1 (version 525.13) Apple switched the key
       // handling to match the IE behaviour.
       if (parseFloat(qx.core.Environment.get("engine.version")) < 525.13 )
       {

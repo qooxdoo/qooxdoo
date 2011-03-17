@@ -541,7 +541,7 @@ qx.Class.define("qx.test.data.controller.Form",
     },
 
 
-    testModelCreateionWithListController : function()
+    testModelCreationWithListController : function()
     {
       // create a select box
       var selectBox = new qx.ui.form.SelectBox();

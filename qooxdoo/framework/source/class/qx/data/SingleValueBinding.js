@@ -664,7 +664,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       for (var i = 0; i < properties.length - 1; i++) {
         try {
           var property = properties[i];
-          // if there is an array notaion
+          // if there is an array notation
           if (property.indexOf("]") == property.length - 1) {
             var index = property.substring(
               property.indexOf("[") + 1, property.length - 1

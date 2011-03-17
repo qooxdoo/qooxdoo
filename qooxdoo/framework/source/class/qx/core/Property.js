@@ -608,7 +608,7 @@ qx.Bootstrap.define("qx.core.Property",
     /**
      * Special function for IE6 and FF2 which returns if the reference for
      * the given property check should be removed on dispose.
-     * As IE6 and FF2 seem to have bad garbage collecion behaviors, we should
+     * As IE6 and FF2 seem to have bad garbage collection behaviors, we should
      * additionally remove all references between qooxdoo objects and
      * interfaces.
      *
