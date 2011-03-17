@@ -36,14 +36,13 @@ qx.Class.define("testrunner2.view.Reporter", {
   construct : function()
   {
     this.base(arguments);
+    this.__testResults = {};
     this.__reportServerUrl = qx.core.Environment.get("testrunner2.reportServer");
   },
   
   members :
   {
-    __packages : null,
-    __currentPackage : null,
-    __loadAttempts : null,
+    __testPackages : null,
     __reportServerUrl : null,
     
     _applyTestSuiteState : function(value, old)
@@ -51,164 +50,120 @@ qx.Class.define("testrunner2.view.Reporter", {
       switch(value) 
       {
         case "loading":
-          if (this.__currentPackage) {
-            this.info("Loading package " + this.__currentPackage);
-          }
-          else {
-            this.info("Loading test suite");
-          }
+          this.debug("Loading test suite")
           break;
         case "ready" :
-          this.__loadAttempts = 0;
-          if (!this.__packages) {
-            this.__packages = this.getTestPackages();
-            //this.__packages = this.getTestClasses();
-            if (qx.core.Variant.isSet("qx.debug", "on")) {
-              this.debug(this.__packages.length + " test packages in this suite");
-            }
-            this.loadPackage();
-          }
-          else {
-            this.run();
-          }
+          this.debug("Test suite ready")
+          this.autoRun();
+          break;
+        case "running" :
+          this.debug("Running tests")
+          break;
+        case "finished" :
+          this.debug("Finished running tests")
+          this._loadNextPackage();
           break;
         case "error":
-          if (this.__currentPackage) {
-            this.error("Package " + this.__currentPackage + " not loaded after 3 attempts, quitting!");
-          }
-          else {
-            this.error("Couldn't load test suite.");
-          }
-          break;
-        case "running":
-          this.info("Running tests");
-          break;
-        case "finished":
-          this.info("Package finished, " + this.__packages.length + " to go");
-          this.loadPackage();
-          break;
-        case "aborted":
+          this.error("Couldn't load test suite!");
           break;
       }
     },
     
-    
-    /**
-     * Uses the "testclass" paramater of the AUT iframe URL to load a subset of
-     * tests from the current suite.
-     * 
-     * @param packageName {String?} Name of a test package or class. Default: 
-     * The next entry from the current list of packages
-     */
-    loadPackage : function(packageName)
+    run : function()
     {
-      var testPackage = packageName || this.__packages.shift();
-      if (testPackage) {
-        this.__currentPackage = testPackage;
+      this.fireEvent("runTests");
+    },
+    
+    autoRun : function()
+    {
+      var nextPackageName = this.__testPackages.shift();
+      var nextPackage = testrunner2.runner.ModelUtil.getItemByFullName(this.getTestModel(), nextPackageName);
+      if (nextPackage) {
+        this.getSelectedTests().removeAll();
+        this.getSelectedTests().push(nextPackage);
+        this.setStatus("Running package " + nextPackage.fullName);
+        this.run();
+      }
+    },
+    
+    _applyTestModel : function(value, old)
+    {
+      if (!value) {
+        return;
+      }
+      this.base(arguments, value, old);
+      if (!this.__testPackages) {
+        this.__testPackages = [];
+        var packages = value.getChildren().getItem(0).getChildren();
+        for (var i=0,l=packages.length; i<l; i++) {
+          this.__testPackages.push(packages.getItem(i).fullName);
+        }
+      }
+    },
+
+    _loadNextPackage : function()
+    {
+      if (this.__testPackages.length > 0) {
+        var testPackage = this.__testPackages[0];
         var newAutUri = this.getAutUri().replace(/(.*?testclass=)(.*)/, "$1" + testPackage);
+        this.setStatus("Loading package " + testPackage);
         this.setAutUri(newAutUri);
       }
-    },
-    
-    
-    /**
-     * Compiles a list of test packages by looking at the full list of tests for
-     * the current suite.
-     * 
-     * @return {String[]} List of test package names
-     */
-    getTestPackages : function()
-    {
-      var packageList = [];
-      var testNameSpace = qx.core.Init.getApplication().runner._testNameSpace;
-      var fullList = this.getInitialTestList();
-      for (var i=0,l=fullList.length; i<l; i++) {
-        var test = fullList[i];
-        var testClass = test.substring(test.indexOf(testNameSpace) + testNameSpace.length + 1, test.indexOf(":"));
-        var testPackage;
-        if (testClass.substr(0,1) === testClass.substr(0,1).toUpperCase()) {
-          testPackage = testClass;
-        } else {
-          var match = /^(.*?)\./.exec(testClass);
-          if (match[1]) {
-            testPackage = match[1];
-          }
-        }
-        var fullPackageName = testNameSpace + "." + testPackage;
-        if (testPackage && (!qx.lang.Array.contains(packageList, fullPackageName))) {
-          packageList.push(fullPackageName);
-        }
+      else {
+        this.setStatus("finished");
       }
-      return packageList;
     },
     
-    
-    /**
-     * Returns a list of all classes in the current test suite.
-     * 
-     * @return {String[]} List of test class names
-     */
-    getTestClasses : function()
-    {
-      var classList = [];
-      var fullList = this.getInitialTestList();
-      for (var i=0,l=fullList.length; i<l; i++) {
-        var testName = fullList[i];
-        var match = /(.*?)\:/.exec(testName);
-        if (match[1]) {
-          if (!qx.lang.Array.contains(classList, match[1])) {
-            classList.push(match[1]);
-          }
-        }
-      }
-      return classList;
-    },
-    
-    
-    /**
-     * Reports any tests that change state to "failure" or "error"
-     * 
-     * @param testResultData {testrunner2.unit.TestResultData} Result data 
-     * object
-     */
     _onTestChangeState : function(testResultData)
     {
-      this.base(arguments, testResultData);
+      var testName = testResultData.getFullName();
       var state = testResultData.getState();
+      var exceptions = testResultData.getExceptions();
       
-      if (state == "failure" || state == "error") {
-        var testName = testResultData.getFullName();
-        var exceptions = testResultData.getExceptions();
-        
-        var autUri = qx.bom.Iframe.queryCurrentUrl(this.getIframe());
-        if (autUri.indexOf("?") > 0) {
-          autUri = autUri.substring(0, autUri.indexOf("?"));
-        }
-        
-        var message = "";
-        if (exceptions) {
-          for (var i=0,l=exceptions.length; i<l; i++) {
-            if (exceptions[i].exception.message) {
-              message += exceptions[i].exception.message + "\n";
-            }
-            else {
-              message += exceptions[i].exception.toString() + "\n";
-            }
-          }
-        }
-        
-        if (this.__reportServerUrl) {
-          var data = {
-            testName : testName,
-            message : message,
-            autUri : autUri
-          };
-          
-          this.reportResult(data);
-        }
+      //Update test results map
+      if (!this.__testResults[testName]) {
+        this.__testResults[testName] = {};        
       }
+      this.__testResults[testName].state = state;
+      
+      var messages = [];
+      if (exceptions) {
+        for (var i=0,l=exceptions.length; i<l; i++) {
+          var message = exceptions[i].exception.toString() + "<br/>";
+          message += testResultData.getStackTrace(exceptions[i].exception);
+          messages.push(message);
+        }
+        this.__testResults[testName].messages = messages;
+      }
+      
+      var autUri = qx.bom.Iframe.queryCurrentUrl(this.getIframe());
+      if (autUri.indexOf("?") > 0) {
+        autUri = autUri.substring(0, autUri.indexOf("?"));
+      }
+      
+      if (this.__reportServerUrl) {
+        var data = {
+          testName : testName,
+          message : messages.join("<br/>"),
+          autUri : autUri
+        };
+        
+        this.reportResult(data);
+      }
+      
     },
     
+    getUnsuccessfulResults : function()
+    {
+      var failedTests = {};
+      for (var testName in this.__testResults) {
+        var result = this.__testResults[testName];
+        if (result.state !== "success") {
+          failedTests[testName] = result;
+        }
+      }
+      return failedTests;
+    },
     
     /**
      * Adds environment information to a test result map and sends it to the
@@ -244,5 +199,4 @@ qx.Class.define("testrunner2.view.Reporter", {
       req.send();
     }
   }
-  
 });
