@@ -178,14 +178,14 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     //   if (this.isLocal()) {
     //     return;
     //   }
-    // 
+    //
     //   var req = this.req,
     //       states = [];
-    // 
+    //
     //   req.onreadystatechange = function() {
     //     states.push(req.readyState);
     //   }
-    // 
+    //
     //   var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
     //   req.open("GET", this.noCache(url), false);
     //   req.send();
@@ -237,6 +237,76 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       req.abort();
 
       this.assertNotEquals(4, req.readyState, "Request must not complete");
+    },
+
+    "test: should have status 200 when modified": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
+
+      // Make sure resource is not served from cache
+      req.open("GET", this.noCache(url));
+
+      var that = this;
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume(function() {
+            that.assertEquals(200, req.status);
+          });
+        }
+      }
+      req.send();
+
+      this.wait();
+    },
+
+    // BUGFIX
+    "test: should have status 304 when cache is fresh": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/sample.html");
+      var count = 0;
+
+      var that = this;
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume(function() {
+            that.assertIdentical(304, req.status);
+          });
+        }
+      }
+      req.open("GET", url);
+
+      // Pretend that client has a fresh representation of
+      // this resource in its cache. Please note the ETag given
+      // must be in sync with the current ETag of the file requested.
+      //
+      // XMLHttpRequest states:
+      //
+      // For 304 Not Modified responses that are a result of a user
+      // agent generated conditional request the user agent must act
+      // as if the server gave a 200 OK response with the appropriate
+      // content. The user agent must allow setRequestHeader() to
+      // override automatic cache validation by setting request
+      // headers (e.g. If-None-Match or If-Modified-Since),
+      // in which case 304 Not Modified responses must be passed through.
+      //
+      // Copied from:
+      //
+      // XMLHttpRequest [http://www.w3.org/TR/XMLHttpRequest/]
+      // W3C Candidate Recommendation
+      // Copyright © 2009 W3C® (MIT, ERCIM, Keio), All Rights Reserved.
+      //
+      req.setRequestHeader("If-None-Match", "\"4893a3a-b0-49ea970349b00\"");
+      req.send();
+
+      this.wait();
     },
 
     //
@@ -348,7 +418,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
       this.wait();
     },
-    
+
     noCache: function(url) {
       return url + "?nocache=" + Math.random();
     }

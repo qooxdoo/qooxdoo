@@ -304,9 +304,16 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       if (this.__statusPropertiesReadable()) {
 
         // BUGFIX: IE
-        // IE sometimes returns 1223 when it should be 204
+        // IE sometimes tells 1223 when it should be 204
         this.status = nxhr.status == 1223 ?
                       204 : nxhr.status;
+
+        // BUGFIX: Opera
+        // Opera tells 0 when it should be 304
+        if (nxhr.readyState === qx.bom.request.Xhr.DONE) {
+          this.status = nxhr.status == 0 ?
+                        304 : nxhr.status;
+        }
 
         // BUGFIX: Most browsers
         // Most browsers tell status 0 when it should be 200 for local files
