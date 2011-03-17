@@ -24,6 +24,9 @@
 # VARIABLES
 ################################################################################
 
+# Ubuntu's /bin/sh struggles with 'time' (bug#4398)
+SHELL = /bin/bash
+
 FRAMEWORK_VERSION := $(shell cat version.txt)
 FRAMEWORK_SVNINFO := $(shell python tool/admin/bin/svninfo.py .)
 
