@@ -82,6 +82,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     statusText: "",
 
+    __async: null,
+
     __disposed: null,
 
     __onReadyStateChangeBound: null,
@@ -108,6 +110,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       if (typeof async == "undefined") {
         async = true;
       }
+      this.__async = async;
 
       // BUGFIX
       // IE < 8 and FF < 3.5 cannot reuse the native XHR to issue many requests
@@ -129,6 +132,16 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__nativeXhr.onreadystatechange = this.__onReadyStateChangeBound;
 
       this.__nativeXhr.open(method, url, async, user, password);
+
+      // BUGFIX: Firefox
+      // Firefox fails to trigger onreadystatechange OPENED for sync requests
+      if (qx.core.Environment.get("engine.name") === "gecko" && !this.__async) {
+        // Native XHR is already set to readyState DONE. Fake readyState
+        // and call onreadystatechange manually.
+        this.readyState = qx.bom.request.Xhr.OPENED;
+        this.onreadystatechange();
+      }
+
     },
 
     /**
@@ -165,6 +178,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       data = typeof data == "undefined" ? null : data;
 
       this.__nativeXhr.send(data);
+
+      // BUGFIX: Firefox
+      // Firefox fails to trigger onreadystatechange DONE for sync requests
+      if (qx.core.Environment.get("engine.name") === "gecko" && !this.__async) {
+        // Properties all set, only missing native readystatechange event
+        this.__onReadyStateChange();
+      }
     },
 
     /**
