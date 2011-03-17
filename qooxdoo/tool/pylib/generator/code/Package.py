@@ -197,7 +197,7 @@ qx.Part.$$notifyLoad("%s", function() {
                 return -1
             else:
                 msg = "Circular dependencies between packages: #%d - #%d" % (a.id, b.id)
-                console.warn(msg)
+                console.debug(msg)
                 return 0
 
     ##
@@ -216,6 +216,6 @@ qx.Part.$$notifyLoad("%s", function() {
         else:
             # b in a.packageDeps *and* a in b.packageDeps
             msg = "Circular dependencies between packages: #%d - #%d" % (a.id, b.id)
-            console.warn(msg)
+            console.debug(msg)
             return 0
 
