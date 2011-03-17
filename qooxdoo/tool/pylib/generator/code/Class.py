@@ -901,7 +901,10 @@ class Class(Resource):
             # this.base calls
             if featureId == "base":
                 classId = parents[0]  # first entry must be super-class
-                return self._classesObj[classId].findClassForFeature('construct', variants, classMaps)
+                if classId in self._classesObj:
+                    return self._classesObj[classId].findClassForFeature('construct', variants, classMaps)
+                else:
+                    return None, None
         includeVal = classMap.get('include', None)
         if includeVal:
             # 'include' value according to Class spec.
