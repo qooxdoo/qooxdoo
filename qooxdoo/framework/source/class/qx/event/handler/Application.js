@@ -164,20 +164,6 @@ qx.Class.define("qx.event.handler.Application",
       // Wrapper qxloader needed to be compatible with old generator
       if (!this.__isReady && this.__domReady && qx.$$loader.scriptLoaded)
       {
-        // wrap the call in a try-catch because e.g. bom applications don't
-        // have an application and no qx.application setting
-        try {
-          // check if the application is already loaded. If not just don't fire
-          // the ready event [BUG #3793]
-          var app = qx.core.Environment.get("qx.application");
-          if (!qx.Class.getByName(app)) {
-            return;
-          }
-        } catch (e) {
-          // it's ok to ignore the error because if we don't find an application
-          // we can fire the event
-        }
-
         // If qooxdoo is loaded within a frame in IE, the document is ready before
         // the "ready" listener can be added. To avoid any startup issue check
         // for the availability of the "ready" listener before firing the event.
