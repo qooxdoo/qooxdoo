@@ -103,7 +103,7 @@ qx.Bootstrap.define("qx.bom.client.Locale",
       // Android Bug: Android does not return the system language from the 
       // navigator language. Try to parse the language from the userAgent.
       // See http://code.google.com/p/android/issues/detail?id=4641
-      if (qx.core.Environment.get("os.name") == "android")
+      if (qx.bom.client.OperatingSystem.getName() == "android")
       {
         var match = /(\w{2})-(\w{2})/i.exec(navigator.userAgent);
         if (match) {
