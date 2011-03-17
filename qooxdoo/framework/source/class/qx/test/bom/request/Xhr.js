@@ -392,8 +392,8 @@ qx.Class.define("qx.test.bom.request.Xhr",
       success(this.constructor.DONE);
 
       // Assert responseText to be set when in progress
-      // in browsers other than IE < 7
-      if (!this.isIEBelow(7)) {
+      // in browsers other than IE < 8
+      if (!this.isIEBelow(9)) {
         success(this.constructor.HEADERS_RECEIVED);
         success(this.constructor.LOADING);
       }
@@ -419,7 +419,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
                              "When readyState is " + state);
       }
 
-      if (this.isIEBelow(7)) {
+      if (this.isIEBelow(9)) {
         trap(this.constructor.UNSENT);
         trap(this.constructor.OPENED);
         trap(this.constructor.HEADERS_RECEIVED);
@@ -502,8 +502,8 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     "test: status should be set when LOADING": function() {
-      if (this.isIEBelow(7)) {
-        this.warn("In IE < 7 status is not set when LOADING");
+      if (this.isIEBelow(9)) {
+        this.warn("In IE < 9 status is not set when LOADING");
         return;
       }
 

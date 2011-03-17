@@ -394,18 +394,18 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * are safe to read.
      *
      * This is true if if the request is in progress (or done) for most
-     * browsers or done in IE < 8.
+     * browsers or done in IE < 9.
      *
      * @return {Boolean} Whether certain properties of the XmlHttpRequest
      *                   object are safe to read.
      */
     __statusPropertiesReadable: function() {
       // BUGFIX: IE
-      // IE < 8 cannot access responseText and other properties
+      // IE < 9 cannot access responseText and other properties
       // when request is in progress. "The data necessary to complete
       // this operation is not yet available".
       var isLegacyIE = qx.core.Environment.get("browser.name") == "ie" &&
-                       qx.core.Environment.get("browser.version") < 8;
+                       qx.core.Environment.get("browser.version") < 9;
 
       return (this.__nativeXhr.readyState > qx.bom.request.Xhr.OPENED && !isLegacyIE) ||
              (this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE);
