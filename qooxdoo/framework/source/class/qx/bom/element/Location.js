@@ -61,7 +61,7 @@ qx.Class.define("qx.bom.element.Location",
 
 
     /**
-     * Queries a style property for the given element and parses it to a integer value
+     * Queries a style property for the given element and parses it to an integer value
      *
      * @param elem {Element} DOM element to query
      * @param style {String} Style property

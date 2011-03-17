@@ -78,7 +78,7 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__controller.addTarget(this.__label1, "value", "zIndex");
       this.__controller.addTarget(this.__label2, "value", "zIndex");
 
-      // set a old zIndex
+      // set an old zIndex
       this.__model.setZIndex(10);
 
       // create a new model with a different zIndex
@@ -207,7 +207,7 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__controller.addTarget(this.__label1, "value", "zIndex", true);
       this.__controller.addTarget(this.__label2, "value", "zIndex", true);
 
-      // set a old zIndex
+      // set an old zIndex
       this.__model.setZIndex(10);
 
       // create a new model with a different zIndex
@@ -311,7 +311,7 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__controller.addTarget(this.__label1, "value", "zIndex", false, opt);
       this.__controller.addTarget(this.__label2, "value", "zIndex", false, opt);
 
-      // set a old zIndex
+      // set an old zIndex
       this.__model.setZIndex(3);
 
       // create a new model with a different zIndex

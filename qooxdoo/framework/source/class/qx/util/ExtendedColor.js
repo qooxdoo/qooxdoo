@@ -183,10 +183,10 @@ qx.Class.define("qx.util.ExtendedColor",
 
 
     /**
-     * Whether the incoming value is a extended named color.
+     * Whether the incoming value is an extended named color.
      *
      * @param value {String} the color value to test
-     * @return {Boolean} true if the color is a extended named color
+     * @return {Boolean} true if the color is an extended named color
      */
     isExtendedColor : function(value) {
       return this.EXTENDED[value] !== undefined;

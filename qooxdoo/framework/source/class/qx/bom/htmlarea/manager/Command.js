@@ -889,7 +889,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
              }
              else
              {
-               // if the image is within a e.g. "font" element or a "font"
+               // if the image is e.g. within a "font" element or a "font"
                // element with several nested "span" elements
                // -> just add a "span" element and use the inheritance
                inline = this.__doc.createElement("span");

@@ -119,7 +119,7 @@ qx.Class.define("qx.util.ResourceManager",
 
 
     /**
-     * Whether the given resource identifier is a image
+     * Whether the given resource identifier is an image
      * with clipping information available.
      *
      * @param id {String} Resource identifier

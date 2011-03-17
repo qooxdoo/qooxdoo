@@ -85,7 +85,7 @@ qx.Class.define("qx.bom.Viewport",
   statics :
   {
     /**
-     * Returns the current width of the viewport (excluding a eventually visible scrollbar).
+     * Returns the current width of the viewport (excluding an eventually visible scrollbar).
      *
      * <code>clientWidth</code> is the inner width of an element in pixels. It includes padding
      * but not the vertical scrollbar (if present, if rendered), border or margin.
@@ -146,7 +146,7 @@ qx.Class.define("qx.bom.Viewport",
 
 
     /**
-     * Returns the current height of the viewport (excluding a eventually visible scrollbar).
+     * Returns the current height of the viewport (excluding an eventually visible scrollbar).
      *
      * <code>clientHeight</code> is the inner height of an element in pixels. It includes padding
      * but not the vertical scrollbar (if present, if rendered), border or margin.

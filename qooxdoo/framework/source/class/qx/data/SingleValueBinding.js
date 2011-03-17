@@ -646,7 +646,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       for (var i = 0; i < properties.length - 1; i++) {
         try {
           var property = properties[i];
-          // if there is a array notaion
+          // if there is an array notation
           if (property.indexOf("]") == property.length - 1) {
             var index = property.substring(
               property.indexOf("[") + 1, property.length - 1
@@ -756,7 +756,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           if (arrayIndex !== "last") {
             if (arrayIndex == "" || isNaN(parseInt(arrayIndex, 10))) {
               throw new Error("No number or 'last' value hast been given"
-                + " in a array binding: " + name + " does not work.");
+                + " in an array binding: " + name + " does not work.");
             }
           }
 

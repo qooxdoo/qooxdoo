@@ -99,7 +99,7 @@ qx.Class.define("qx.util.Validate",
 
 
     /**
-     * Returns the function that checks for a email address.
+     * Returns the function that checks for an email address.
      *
      * @param errorMessage {String?null} Custom error message.
      * @return {Function} The {@link #checkEmail} Function.
@@ -112,7 +112,7 @@ qx.Class.define("qx.util.Validate",
 
 
     /**
-     * The function checks the incoming value to see if it is a email address.
+     * The function checks the incoming value to see if it is an email address.
      * If not, an ValidationError will be thrown.
      * If you want to use the email check in a property definition,
      * use the {@link #email} method.
@@ -173,7 +173,7 @@ qx.Class.define("qx.util.Validate",
 
 
     /**
-     * Returns the function that checks for a url.
+     * Returns the function that checks for an url.
      *
      * @param errorMessage {String?null} Custom error message.
      * @return {Function} The {@link #checkUrl} Function.
@@ -195,7 +195,7 @@ qx.Class.define("qx.util.Validate",
      * @param formItem {qx.ui.form.IForm} The form item to check if used in a
      *   {@link qx.ui.form.Form}.
      * @param errorMessage {String?null} Custom error message.
-     * @throws {qx.core.ValidationError} If the value parameter is not a url.
+     * @throws {qx.core.ValidationError} If the value parameter is not an url.
      */
     checkUrl : function(value, formItem, errorMessage)
     {

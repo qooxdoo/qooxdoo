@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.form.SplitButton",
     },
 
 
-    /** Any URI String supported by qx.ui.basic.Image to display a icon */
+    /** Any URI String supported by qx.ui.basic.Image to display an icon */
     icon :
     {
       check : "String",

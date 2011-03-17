@@ -214,7 +214,7 @@ qx.Class.define("qx.lang.String",
      *
      * @signature function(str)
      * @param str {String} the string
-     * @return {String} the string with a upper case first character
+     * @return {String} the string with an upper case first character
      */
     firstUp : qx.Bootstrap.firstUp,
 

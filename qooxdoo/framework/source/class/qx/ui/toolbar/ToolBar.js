@@ -165,7 +165,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       var hint = this.base(arguments);
       if (true && this.getOverflowHandling()) {
         var minWidth = 0;
-        // if a overflow widget is given, use its width + spacing as min width
+        // if an overflow widget is given, use its width + spacing as min width
         var overflowWidget = this.getOverflowIndicator();
         if (overflowWidget) {
           minWidth = overflowWidget.getSizeHint().width + this.getSpacing();

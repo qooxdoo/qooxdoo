@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.root.Page",
       // Mark the element of this root with a special attribute to prevent
       // that qx.event.handler.Focus is performing a focus action.
       // This would end up in a scrolling to the top which is not wanted in
-      // a inline scenario
+      // an inline scenario
       // see Bug #2740
       if (qx.core.Variant.isSet("qx.client", "gecko")) {
         root.setAttribute("qxIsRootPage", 1);

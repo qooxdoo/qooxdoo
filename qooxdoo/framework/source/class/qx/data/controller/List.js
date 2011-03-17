@@ -148,7 +148,7 @@ qx.Class.define("qx.data.controller.List",
 
     /**
      * The path to the property which holds the information that should be
-     * shown as a icon. This is only needed if objects are stored in the model
+     * shown as an icon. This is only needed if objects are stored in the model
      * and if the icon should be shown.
      */
     iconPath :
@@ -405,7 +405,7 @@ qx.Class.define("qx.data.controller.List",
      * be done by the binding.
      */
     __changeModel: function() {
-      // need a asynchron selection update because the bindings have to be
+      // need an asynchron selection update because the bindings have to be
       // executed to update the selection probably (using the widget queue)
       // this.__syncTagetSelection = true;
       this.__syncModelSelection = true;
@@ -940,7 +940,7 @@ qx.Class.define("qx.data.controller.List",
       // renew the bindings
       this.__renewBindings();
 
-      // need a asynchron selection update because the bindings have to be
+      // need an asynchron selection update because the bindings have to be
       // executed to update the selection probably (using the widget queue)
       this.__syncModelSelection = true;
       qx.ui.core.queue.Widget.add(this);

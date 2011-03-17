@@ -160,7 +160,7 @@ qx.Class.define("qx.util.ColorUtil",
 
 
     /**
-     * Try to convert a incoming string to an RGB array.
+     * Try to convert an incoming string to an RGB array.
      * Supports themed, named and system colors, but also RGB strings,
      * hex3 and hex6 values.
      *
@@ -200,7 +200,7 @@ qx.Class.define("qx.util.ColorUtil",
 
 
     /**
-     * Try to convert a incoming string to an RGB array.
+     * Try to convert an incoming string to an RGB array.
      * Support named colors, RGB strings, hex3 and hex6 values.
      *
      * @param str {String} any string
@@ -239,7 +239,7 @@ qx.Class.define("qx.util.ColorUtil",
 
 
     /**
-     * Try to convert a incoming string to an RGB string, which can be used
+     * Try to convert an incoming string to an RGB string, which can be used
      * for all color properties.
      * Supports themed, named and system colors, but also RGB strings,
      * hex3 and hex6 values.

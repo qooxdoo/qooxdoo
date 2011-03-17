@@ -198,7 +198,7 @@ qx.Class.define("qx.core.ObjectRegistry",
 
 
     /**
-     * Get a object instance by its hash code as returned by {@link #toHashCode}.
+     * Get an object instance by its hash code as returned by {@link #toHashCode}.
      * If the object is already disposed or the hashCode is invalid,
      * <code>null</code> is returned.
      *

@@ -73,7 +73,7 @@ qx.Class.define("qx.util.placement.Placement",
 
     /**
      * DOM and widget independent method to compute the location
-     * of a object to make it relative to any other object.
+     * of an object to make it relative to any other object.
      *
      * @param size {Map} With the keys <code>width</code> and <code>height</code>
      *   of the object to align
@@ -165,7 +165,7 @@ qx.Class.define("qx.util.placement.Placement",
 
     /**
      * DOM and widget independent method to compute the location
-     * of a object to make it relative to any other object.
+     * of an object to make it relative to any other object.
      *
      * @param size {Map} With the keys <code>width</code> and <code>height</code>
      *   of the object to align

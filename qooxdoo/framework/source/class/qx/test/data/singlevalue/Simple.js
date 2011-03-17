@@ -221,7 +221,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       var bindings = qx.data.SingleValueBinding.getAllBindingsForObject(this.__a);
       this.assertEquals(0, bindings.length, "Still bindings there!");
 
-      // check if a remove of a object without a binding works
+      // check if a remove of an object without a binding works
       var o = new qx.core.Object();
       qx.data.SingleValueBinding.removeAllBindings();
       o.dispose();

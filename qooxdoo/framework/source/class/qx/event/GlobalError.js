@@ -23,7 +23,7 @@
  *
  *  This function is called for each uncatched JavaScript exception. To enable
  *  global error handling the setting <code>qx.globalErrorHandling</code> must
- *  be enabled and a error handler must be registered.
+ *  be enabled and an error handler must be registered.
  *  Further each JavaScript "entry point" must be wrapped with a call to
  *  {@link qx.event.GlobalError#observeMethod}.
  */

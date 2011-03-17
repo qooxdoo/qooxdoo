@@ -149,7 +149,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
 
 
     /**
-     * Add a item before another already inserted item
+     * Add an item before another already inserted item
      *
      * This method works on the widget's children list. Some layout managers
      * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
@@ -166,7 +166,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
 
 
     /**
-     * Add a item after another already inserted item
+     * Add an item after another already inserted item
      *
      * This method works on the widget's children list. Some layout managers
      * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional

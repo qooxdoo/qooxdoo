@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.window.Manager",
       var zIndex = this._minZIndex;
       var zIndexOnTop = zIndex + windows.length * 2;
       var zIndexModal = zIndex + windows.length * 4;
-      // marker if there is a active window
+      // marker if there is an active window
       var active = null;
 
       for (var i = 0, l = windows.length; i < l; i++)

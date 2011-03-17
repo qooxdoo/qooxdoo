@@ -249,7 +249,7 @@ qx.Class.define("qx.ui.form.Form",
     /**
      * Returns all added items as a map.
      *
-     * @return {Map} A map containing for every item a entry with its name.
+     * @return {Map} A map containing for every item an entry with its name.
      *
      * @internal
      */

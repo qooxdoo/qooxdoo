@@ -252,7 +252,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     /**
      * Sets the position. Uses low-level, high-performance DOM
      * methods when the property {@link #domMove} is enabled.
-     * Checks if a always visible element is set and moves the widget to not
+     * Checks if an always visible element is set and moves the widget to not
      * overlay the always visible widget if possible. The algorithm tries to
      * move the widget as far left as necessary but not of the screen.
      * ({@link #setVisibleElement})
@@ -264,7 +264,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     {
       var visible = qx.ui.core.MPlacement.getVisibleElement();
 
-      // if we have a always visible element
+      // if we have an always visible element
       if (visible) {
 
         var bounds = this.getBounds();

@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.embed.Html",
       elem.setAttribute("html", value||"");
 
       // Local style override problematic sections applied through
-      // a optional classname
+      // an optional classname
       elem.setStyles({
         "padding": "0px",
         "border": "none"

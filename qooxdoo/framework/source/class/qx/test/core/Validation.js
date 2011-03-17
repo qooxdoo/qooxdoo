@@ -158,10 +158,10 @@ qx.Class.define("qx.test.core.Validation",
       var model = this.__model;
 
       // test some wrong inputs
-      this.assertException(function() {model.setUrl(1)}, qx.core.ValidationError, null, "A number is not a url!");
-      this.assertException(function() {model.setUrl(false)}, qx.core.ValidationError, null, "A boolean is not a url!");
-      this.assertException(function() {model.setUrl("i am a url")}, qx.core.ValidationError, null, "'i am a url' as a string is not a url!");
-      this.assertException(function() {model.setUrl("http:/iamaurl")}, qx.core.ValidationError, null, "'http://iamaurl' is not a url!");
+      this.assertException(function() {model.setUrl(1)}, qx.core.ValidationError, null, "A number is not an url!");
+      this.assertException(function() {model.setUrl(false)}, qx.core.ValidationError, null, "A boolean is not an url!");
+      this.assertException(function() {model.setUrl("i am an url")}, qx.core.ValidationError, null, "'i am an url' as a string is not an url!");
+      this.assertException(function() {model.setUrl("http:/iamaurl")}, qx.core.ValidationError, null, "'http://iamaurl' is not an url!");
 
       // Test some working inputs
       model.setUrl("http://www.1und1.de");

@@ -423,7 +423,7 @@ qx.Class.define("qx.ui.menu.Manager",
       target = qx.ui.core.Widget.getWidgetByElement(target, true);
 
       // If the target is 'null' the click appears on a DOM element witch is not
-      // a widget. This happens normally with a inline application, when the user
+      // a widget. This happens normally with an inline application, when the user
       // clicks not in the inline application. In this case all all currently
       // open menus should be closed.
       if (target == null) {
