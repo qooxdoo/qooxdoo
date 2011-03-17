@@ -31,6 +31,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     this.__onReadyStateChangeBound = qx.Bootstrap.bind(this.__onReadyStateChange, this);
 
     this.__initNativeXhr();
+
+    // BUGFIX: IE
+    // IE keeps connections alive unless aborted on unload
+    if (window.attachEvent) {
+      this.__onUnloadBound = qx.Bootstrap.bind(this.__onUnload, this);
+      window.attachEvent("onunload", this.__onUnloadBound);
+    }
+
   },
 
   statics :
@@ -87,6 +95,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __disposed: null,
 
     __onReadyStateChangeBound: null,
+
+    __onUnloadBound: null,
 
     /**
      * Initialize (prepare) a request.
@@ -255,8 +265,17 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // Clear out listeners
       this.__nativeXhr.onreadystatechange = function() {};
 
-      // Remove reference to native XHR.
+      // Abort any network activity
+      this.abort();
+
+      // Remove reference to native XHR
       this.__nativeXhr = null;
+
+      // Remove unload listener in IE. Aborting on unload is no longer required
+      // for this instance.
+      if (window.detachEvent) {
+        window.detachEvent("onunload", this.__onUnloadBound);
+      }
 
       this.__disposed = true;
       return true;
@@ -396,6 +415,15 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
          }
       }
 
+    },
+
+    __onUnload: function() {
+      try {
+        // Abort and dispose
+        if (this) {
+          this.dispose();
+        }
+      } catch(e) {}
     },
 
     /**
