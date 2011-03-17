@@ -106,6 +106,21 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this.wait();
     },
 
+    /* 
+     * the assertEventFired doesn't work with none of Media events
+     * althouth they seem to be sync events...
+
+    testVolumeChange: function() {
+      var vol = 0.3;
+      var that = this;
+
+      that.assertEventFired(that._media, "volumechange", function() {
+        that.setVolume(vol);
+        that.assertEquals(Math.round(vol*100), Math.round(that._media.getVolume()*100));
+      });
+    },
+    */
+
     testMute: function() {
       this.assertFalse(this._media.isMuted());
 
@@ -241,6 +256,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this.wait();
     },
 
+    //this will work only for audio.
     testEnd: function() {
       this.assertFalse(this._media.isEnded());
 

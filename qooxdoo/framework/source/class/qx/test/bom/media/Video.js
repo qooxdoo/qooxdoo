@@ -55,9 +55,13 @@ qx.Class.define("qx.test.bom.media.Video",
     },
 
     testWidth: function() {
+      this._media.setWidth(200);
+      this.assertEquals(200, this._media.getWidth());
     },
 
     testHeight: function() {
+      this._media.setWidth(200);
+      this.assertEquals(200, this._media.getWidth());
     },
 
     testVideoWidthAndHeight: function(e) {
@@ -80,6 +84,7 @@ qx.Class.define("qx.test.bom.media.Video",
     },
 
     testPoster: function() {
+
     }
   }
 });
