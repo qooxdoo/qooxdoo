@@ -96,8 +96,22 @@ qx.Bootstrap.define("qx.bom.client.Locale",
      * 
      * @return {String} The language set by the navigator.
      */
-    __getNavigatorLocale : function() {
-      return (navigator.userLanguage || navigator.language || "").toLowerCase();
+    __getNavigatorLocale : function()
+    {
+      var locale = (navigator.userLanguage || navigator.language || "");
+
+      // Android Bug: Android does not return the system language from the 
+      // navigator language. Try to parse the language from the userAgent.
+      // See http://code.google.com/p/android/issues/detail?id=4641
+      if (qx.core.Environment.get("os.name") == "android")
+      {
+        var match = /(\w{2})-(\w{2})/i.exec(navigator.userAgent);
+        if (match) {
+          locale = match[0];
+        }
+      }
+
+      return locale.toLowerCase();
     }
   },
 
