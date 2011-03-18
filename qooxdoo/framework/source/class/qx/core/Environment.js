@@ -461,7 +461,7 @@ qx.Bootstrap.define("qx.core.Environment",
         this._checks["io.maxrequests"] = qx.bom.client.Transport.getMaxConcurrentRequestCount;
       }
       if (this.useCheck("io.ssl")) {
-        this._checks["io.ssl"] = qx.bom.client.Transport.getSSL;
+        this._checks["io.ssl"] = qx.bom.client.Transport.getSsl;
       }
       if (this.useCheck("io.xhr")) {
         this._checks["io.xhr"] = qx.bom.client.Transport.getXmlHttpRequest;
@@ -524,17 +524,17 @@ qx.Bootstrap.define("qx.core.Environment",
         this._checks["html.xpath"] = qx.bom.client.Html.getXPath;
       }
       if (this.useCheck("html.xul")) {
-        this._checks["html.xul"] = qx.bom.client.Html.getXUL;
+        this._checks["html.xul"] = qx.bom.client.Html.getXul;
       }
 
       if (this.useCheck("html.canvas")) {
         this._checks["html.canvas"] = qx.bom.client.Html.getCanvas;
       }
       if (this.useCheck("html.svg")) {
-        this._checks["html.svg"] = qx.bom.client.Html.getSVG;
+        this._checks["html.svg"] = qx.bom.client.Html.getSvg;
       }
       if (this.useCheck("html.vml")) {
-        this._checks["html.vml"] = qx.bom.client.Html.getVML;
+        this._checks["html.vml"] = qx.bom.client.Html.getVml;
       }
       if (this.useCheck("html.dataurl")) {
         this._asyncChecks["html.dataurl"] = qx.bom.client.Html.getDataUrl;

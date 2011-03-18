@@ -173,7 +173,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if XUL is supported.
      */
-    getXUL : function() {
+    getXul : function() {
       try {
         document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
         return true;
@@ -189,7 +189,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if SVG is supported.
      */
-    getSVG : function() {
+    getSvg : function() {
       return document.implementation && document.implementation.hasFeature &&
         (document.implementation.hasFeature("org.w3c.dom.svg", "1.0") ||
         document.implementation.hasFeature(
@@ -206,7 +206,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if VML is supported.
      */
-    getVML : function() {
+    getVml : function() {
       return qx.bom.client.Engine.getName() == "mshtml";
     },
 
@@ -236,7 +236,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
         window.setTimeout(function() {
           callback.call(null, (data.width == 1 && data.height == 1));
         }, 0);
-      }
+      };
       data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";      
     }
   }

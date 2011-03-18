@@ -121,7 +121,7 @@ qx.Bootstrap.define("qx.bom.client.Transport",
      * @internal
      * @return {Boolean} <code>true</code>, if the app runs on https
      */
-    getSSL : function() {
+    getSsl : function() {
       return window.location.protocol === "https:";
     },
 

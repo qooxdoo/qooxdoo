@@ -37,38 +37,38 @@ qx.Bootstrap.define("qx.bom.client.Feature",
   {
     /** 
      * {BOOLEAN} Whether the client supports the "pointer-events" CSS property 
-     * @deprecated since 1.4: Plese use qx.core.Environment.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     CSS_POINTER_EVENTS : false,
     
     /** 
      * {BOOLEAN} Whether the client supports the "text-overflow" CSS property 
-     * @deprecated since 1.4: Plese use qx.core.Environment.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     CSS_TEXT_OVERFLOW : false,
 
     /** 
      * {BOOLEAN} Whether the client supports placeholders for input fields 
-     * @deprecated since 1.4: Plese use qx.core.Environment.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     PLACEHOLDER : false,
 
     /** 
      * {Boolean} Flag to detect if the current document is rendered in standard mode 
-     * @deprecated since 1.4: Plese use qx.core.Environment.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     STANDARD_MODE : false,
 
     /** 
      * {Boolean} Flag to detect if the current document is rendered in quirks mode 
-     * @deprecated since 1.4: Plese use qx.core.Environment.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     QUIRKS_MODE : false,
 
     /**
      * {Boolean} Whether the browser supports CSS class lists
      *   http://hacks.mozilla.org/2010/01/classlist-in-firefox-3-6/
-     * @deprecated since 1.4: Plese use qx.core.Environment.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     HTML5_CLASSLIST : !!(document.documentElement.classList &&
       qx.Bootstrap.getClass(document.documentElement.classList) === "DOMTokenList"
@@ -76,76 +76,76 @@ qx.Bootstrap.define("qx.bom.client.Feature",
 
     /** 
      * {Boolean} Flag to detect if the client runs in SSL mode 
-     * @deprecated since 1.4: Plese use qx.core.Environemnt.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     SSL : window.location.protocol === "https:",
     
     /** 
      * {Boolean} Flag to detect if is a Gears client 
-     * @deprecated since 1.4: Plese use qx.core.Environemnt.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     GEARS : !!(window.google && window.google.gears),
 
     /** 
      * {Boolean} Flag to detect if the client uses the W3C box model to 
      * render the current document 
-     * @deprecated since 1.4: Plese use qx.core.Environemnt.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     CONTENT_BOX : false,
 
     /** 
      * {Boolean} Flag to detect if the client uses the IE box model to render 
      * the current document 
-     * @deprecated since 1.4: Plese use qx.core.Environemnt.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     BORDER_BOX : false,
 
     /** 
      * {Boolean} Flag to detect if the client supports SVG graphics 
-     * @deprecated since 1.4: Plese use qx.core.Environemnt.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     SVG : false,
 
     /** 
      * {Boolean} Flag to detect if the client supports Canvas graphics 
-     * @deprecated since 1.4: Plese use qx.core.Environemnt.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     CANVAS : !!window.CanvasRenderingContext2D,
 
     /** 
      * {Boolean} Flag to detect if the client supports VML graphics 
-     * @deprecated since 1.4: Plese use qx.core.Environemnt.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     VML : false,
 
     /** 
      * {Boolean} Flag to detect if the client supports XPATH queries 
-     * @deprecated since 1.4: Plese use qx.core.Environemnt.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     XPATH : !!document.evaluate,
 
     /** 
      * {BOOLEAN} Whether the client supports XUL 
-     * @deprecated since 1.4: Plese use qx.core.Environemnt.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     XUL : false,
 
     /** 
      * {Boolean} Flag to detect if is an AIR client 
-     * @deprecated since 1.4: Plese use qx.core.Environemnt.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     AIR : navigator.userAgent.indexOf("adobeair") !== -1,
 
     /** 
      * {BOOLEAN} Whether the device is touch enabled. 
-     * @deprecated since 1.4: Plese use qx.core.Environemnt.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     TOUCH : false,
 
     /** 
      * {BOOLEAN} Whether the object type supports the 
      * <code>__count__</code> property.
-     * @deprecated since 1.4: Plese use qx.core.Environemnt.get
+     * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     ECMA_OBJECT_COUNT : (({}).__count__ == 0)
   },
@@ -158,7 +158,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
   */
 
   defer : function(statics) {
-    // @deprecated since 1.4 (wholel defer block)
+    // @deprecated since 1.4 (this entire defer block)
     statics.PLACEHOLDER = qx.bom.client.Css.getPlaceholder();
     statics.CSS_TEXT_OVERFLOW = qx.bom.client.Css.getTextOverflow();
     statics.CSS_POINTER_EVENTS = qx.bom.client.Event.getPointer();
@@ -169,9 +169,9 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     statics.BORDER_BOX = qx.bom.client.Css.getBoxModel() == "border";
     statics.CONTENT_BOX = qx.bom.client.Css.getBoxModel() == "content";
 
-    statics.SVG = qx.bom.client.Html.getSVG();
-    statics.VML = qx.bom.client.Html.getVML();
-    statics.XUL = qx.bom.client.Html.getXUL();
+    statics.SVG = qx.bom.client.Html.getSvg();
+    statics.VML = qx.bom.client.Html.getVml();
+    statics.XUL = qx.bom.client.Html.getXul();
     
     statics.TOUCH = qx.bom.client.Event.getTouch();
     
@@ -187,7 +187,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
         statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
           qx.Bootstrap.warn(
             "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-            "Plese check the API documentation of qx.core.Environemt.\n" + 
+            "Please check the API documentation of qx.core.Environemt.\n" + 
             "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
           );
           return c;
