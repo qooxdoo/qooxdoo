@@ -396,16 +396,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
     __triggerOnReadyStateChange: function() {
       var nxhr = this.__nativeXhr;
-      
-      // BUGFIX: Opera
-      // Opera skips HEADERS_RECEIVED and jumps right to LOADING.
-      //
-      // Trigger additional onreadystatechange with LOADING readyState.
-      if (qx.core.Environment.get("engine.name") == "opera" &&
-          nxhr.readyState === qx.bom.request.Xhr.LOADING) {
-        this.readyState = qx.bom.request.Xhr.HEADERS_RECEIVED;
-        this.onreadystatechange();
-      }
 
       // BUGFIX: IE, Firefox
       // onreadystatechange() is called twice for readyState OPENED.
