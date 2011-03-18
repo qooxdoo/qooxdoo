@@ -302,6 +302,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("css.borderradius"));
       this.assertBoolean(qx.core.Environment.get("css.boxshadow"));
       this.assertBoolean(qx.core.Environment.get("css.gradients"));
+      this.assertBoolean(qx.core.Environment.get("css.translate3d"));
     },
     
     testEvent : function() {
