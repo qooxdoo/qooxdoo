@@ -350,6 +350,17 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __onReadyStateChange: function() {
       var nxhr = this.__nativeXhr;
 
+      // BUGFIX: IE, Firefox
+      // onreadystatechange() is called twice for readyState OPENED.
+      //
+      // Call onreadystatechange only when readyState has changed.
+      if (this.readyState == nxhr.readyState) {
+        return;
+      }
+
+      // Sync current readyState
+      this.readyState = nxhr.readyState;
+
       // BUGFIX: IE
       // IE fires onreadystatechange HEADERS_RECEIVED and LOADING when sync
       //
@@ -373,7 +384,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           this.responseText = nxhr.responseText;
           this.responseXML = nxhr.responseXML;
         } catch(XhrPropertyNotReadable) {
-          this.__triggerOnReadyStateChange();
+          this.onreadystatechange();
           return;
         }
 
@@ -381,7 +392,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.__normalizeResponseXML();
       }
 
-      this.__triggerOnReadyStateChange();
+      this.onreadystatechange();
 
       // BUGFIX: IE
       // Memory leak in XMLHttpRequest (on-page)
@@ -392,22 +403,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         }
       }
 
-    },
-
-    __triggerOnReadyStateChange: function() {
-      var nxhr = this.__nativeXhr;
-
-      // BUGFIX: IE, Firefox
-      // onreadystatechange() is called twice for readyState OPENED.
-      //
-      // Call onreadystatechange only when readyState has changed.
-      if (this.readyState == nxhr.readyState) {
-        return;
-      }
-
-      // Finally, call user-defined onreadystatechange
-      this.readyState = nxhr.readyState;
-      this.onreadystatechange();
     },
 
     __normalizeStatus: function() {
