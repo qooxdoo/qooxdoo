@@ -448,7 +448,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // Check if Content-Type is +xml, verify missing responseXML then parse
       // responseText as XML.
       if (qx.core.Environment.get("engine.name") == "mshtml" &&
-          this.getResponseHeader("Content-Type").match(/[^\/]+\/[^\+]+\+xml/) &&
+          (this.getResponseHeader("Content-Type") || "").match(/[^\/]+\/[^\+]+\+xml/) &&
           !this.responseXML.documentElement) {
         var dom = new window.ActiveXObject("Microsoft.XMLDOM");
         dom.async = false;
