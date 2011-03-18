@@ -359,87 +359,103 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         return;
       }
 
-      if (this.__statusPropertiesReadable()) {
+      // Default values according to spec.
+      this.status = 0;
+      this.statusText = this.responseText = "";
+      this.responseXML = null;
 
-        this.status = nxhr.status;
-
-        // BUGFIX: IE
-        // IE sometimes tells 1223 when it should be 204
-        this.status = nxhr.status == 1223 ?
-                      204 : this.status;
-
-        // BUGFIX: Opera
-        // Opera tells 0 when it should be 304
-        if (nxhr.readyState === qx.bom.request.Xhr.DONE) {
-          this.status = nxhr.status == 0 ?
-                        304 : this.status;
+      if (nxhr.readyState > qx.bom.request.Xhr.OPENED) {
+        // In some browsers, XHR properties are not readable
+        // while request is in progress.
+        try {
+          this.status = nxhr.status;
+          this.statusText = nxhr.statusText;
+          this.responseText = nxhr.responseText;
+          this.responseXML = nxhr.responseXML;
+        } catch(XhrPropertyNotReadable) {
+          return;
         }
 
-        // BUGFIX: Most browsers
-        // Most browsers tell status 0 when it should be 200 for local files
-        if (this._getProtocol() === "file:") {
-          this.status = nxhr.status == 0 ?
-                        200 : this.status;
-        }
-
-        this.statusText = nxhr.statusText;
-        this.responseText = nxhr.responseText;
-        this.responseXML = nxhr.responseXML;
-
-        // BUGFIX: IE
-        // IE does not recognize +xml extension, resulting in empty responseXML.
-        //
-        // Check if Content-Type is +xml, verify missing responseXML then parse
-        // responseText as XML.
-        if (qx.core.Environment.get("engine.name") == "mshtml" &&
-            this.getResponseHeader("Content-Type").match(/[^\/]+\/[^\+]+\+xml/) &&
-            !this.responseXML.documentElement) {
-          var dom = new window.ActiveXObject("Microsoft.XMLDOM");
-          dom.async = false;
-          dom.validateOnParse = false;
-          dom.loadXML(this.responseText);
-          this.responseXML = dom;
-        }
-
-      } else {
-
-        // Default values according to spec.
-        this.status = 0;
-        this.statusText = this.responseText = "";
-        this.responseXML = null;
-
-       }
-
-       // BUGFIX: Opera
-       // Opera skips HEADERS_RECEIVED and jumps right to LOADING.
-       //
-       // Trigger additional onreadystatechange with LOADING readyState.
-       if (qx.core.Environment.get("engine.name") == "opera" &&
-           nxhr.readyState === qx.bom.request.Xhr.LOADING) {
-         this.readyState = qx.bom.request.Xhr.HEADERS_RECEIVED;
-         this.onreadystatechange();
-       }
-
-       // BUGFIX: IE, Firefox
-       // onreadystatechange() is called twice for readyState OPENED.
-       //
-       // Call onreadystatechange only when readyState has changed.
-       if (this.readyState !== nxhr.readyState) {
-         // Set current readyState before calling onreadystatechange
-         this.readyState = nxhr.readyState;
-
-         this.onreadystatechange();
-       }
-
-       // BUGFIX: IE
-       // Memory leak in XMLHttpRequest (on-page)
-       if (this.readyState == qx.bom.request.Xhr.DONE) {
-         // Allow garbage collecting of native XHR
-         if (nxhr) {
-           nxhr.onreadystatechange = function() {};
-         }
+        this.__normalizeStatus();
+        this.__normalizeResponseXML();
       }
 
+      this.__triggerOnReadyStateChange();
+
+      // BUGFIX: IE
+      // Memory leak in XMLHttpRequest (on-page)
+      if (this.readyState == qx.bom.request.Xhr.DONE) {
+        // Allow garbage collecting of native XHR
+        if (nxhr) {
+          nxhr.onreadystatechange = function() {};
+        }
+      }
+
+    },
+
+    __triggerOnReadyStateChange: function() {
+      var nxhr = this.__nativeXhr;
+      
+      // BUGFIX: Opera
+      // Opera skips HEADERS_RECEIVED and jumps right to LOADING.
+      //
+      // Trigger additional onreadystatechange with LOADING readyState.
+      if (qx.core.Environment.get("engine.name") == "opera" &&
+          nxhr.readyState === qx.bom.request.Xhr.LOADING) {
+        this.readyState = qx.bom.request.Xhr.HEADERS_RECEIVED;
+        this.onreadystatechange();
+      }
+
+      // BUGFIX: IE, Firefox
+      // onreadystatechange() is called twice for readyState OPENED.
+      //
+      // Call onreadystatechange only when readyState has changed.
+      if (this.readyState == nxhr.readyState) {
+        return;
+      }
+
+      // Finally, call user-defined onreadystatechange
+      this.readyState = nxhr.readyState;
+      this.onreadystatechange();
+    },
+
+    __normalizeStatus: function() {
+      var nxhr = this.__nativeXhr;
+
+      // BUGFIX: Most browsers
+      // Most browsers tell status 0 when it should be 200 for local files
+      if (this._getProtocol() === "file:" && this.status === 0) {
+        this.status = 200;
+      }
+
+      // BUGFIX: IE
+      // IE sometimes tells 1223 when it should be 204
+      if (this.status === 1223) {
+        this.status = 204;
+      }
+
+      // BUGFIX: Opera
+      // Opera tells 0 when it should be 304
+      if (nxhr.readyState === qx.bom.request.Xhr.DONE && this.status == 0) {
+        this.status = 304;
+      }
+    },
+
+    __normalizeResponseXML: function() {
+      // BUGFIX: IE
+      // IE does not recognize +xml extension, resulting in empty responseXML.
+      //
+      // Check if Content-Type is +xml, verify missing responseXML then parse
+      // responseText as XML.
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+          this.getResponseHeader("Content-Type").match(/[^\/]+\/[^\+]+\+xml/) &&
+          !this.responseXML.documentElement) {
+        var dom = new window.ActiveXObject("Microsoft.XMLDOM");
+        dom.async = false;
+        dom.validateOnParse = false;
+        dom.loadXML(this.responseText);
+        this.responseXML = dom;
+      }
     },
 
     __onUnload: function() {
@@ -449,28 +465,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           this.dispose();
         }
       } catch(e) {}
-    },
-
-    /**
-     * Indicates if certain properties of the XmlHttpRequest object
-     * are safe to read.
-     *
-     * This is true if if the request is in progress (or done) for most
-     * browsers or done in IE < 9.
-     *
-     * @return {Boolean} Whether certain properties of the XmlHttpRequest
-     *                   object are safe to read.
-     */
-    __statusPropertiesReadable: function() {
-      // BUGFIX: IE
-      // IE < 9 cannot access responseText and other properties
-      // when request is in progress. "The data necessary to complete
-      // this operation is not yet available".
-      var isLegacyIE = qx.core.Environment.get("engine.name") == "mshtml" &&
-                       qx.core.Environment.get("engine.version") < 9;
-
-      return (this.__nativeXhr.readyState > qx.bom.request.Xhr.OPENED && !isLegacyIE) ||
-             (this.__nativeXhr.readyState == qx.bom.request.Xhr.DONE);
     },
 
     __supportsManyRequests: function() {
