@@ -367,7 +367,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       // W3C Candidate Recommendation
       // Copyright © 2009 W3C® (MIT, ERCIM, Keio), All Rights Reserved.
       //
-      
+
       // The actual ETag is not of importance here, since the server
       // is returning 304 anyway. We're just triggering the behavior
       // specified above.

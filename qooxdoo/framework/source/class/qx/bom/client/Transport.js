@@ -21,10 +21,10 @@
 
 /**
  * Determines browser-dependent information about the transport layer.
- * 
- * This class is used by {@link qx.core.Environment} and should not be used 
+ *
+ * This class is used by {@link qx.core.Environment} and should not be used
  * directly. Please check its class comment for details how to use it.
- * 
+ *
  * @internal
  */
 qx.Bootstrap.define("qx.bom.client.Transport",
@@ -49,7 +49,7 @@ qx.Bootstrap.define("qx.bom.client.Transport",
      * detected from JavaScript and because modern browsers have enough
      * parallel connections already - it's unlikely an app will require more
      * than 4 parallel XMLHttpRequests to one server at a time.
-     * 
+     *
      * @internal
      */
     getMaxConcurrentRequestCount: function()
@@ -117,7 +117,7 @@ qx.Bootstrap.define("qx.bom.client.Transport",
 
     /**
      * Checks whether the app is loaded with SSL enabled which means via https.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code>, if the app runs on https
      */
@@ -126,18 +126,44 @@ qx.Bootstrap.define("qx.bom.client.Transport",
     },
 
     /**
-     * Checks whether the browser supports the XMLHttpRequest object.
+     * Checks what kind of XMLHttpRequest object the browser supports
+     * for the current protocol, if any.
+     *
+     * The standard XMLHttpRequest is preferred over ActiveX XMLHTTP.
      *
      * @internal
-     * @return {Boolean} <code>true</code>, if the browser provides <code>XMLHttpRequest</code>.
+     * @return {String}
+     *  <code>"xhr"</code>, if the browser provides standard XMLHttpRequest.<br/>
+     *  <code>"activex"</code>, if the browser provides ActiveX XMLHTTP.<br/>
+     *  <code>""</code>, if there is not XHR support at all.
      */
     getXmlHttpRequest : function() {
-      // Do not use qx.core.Environment to avoid circular references
-      var name = qx.bom.client.Engine.getName();
-      var version = qx.bom.client.Engine.getVersion();
+      // Standard XHR can be disabled in IE's security settings,
+      // therefore provide ActiveX as fallback. Additionaly,
+      // standard XHR in IE7 is broken for file protocol.
+      var supports = window.ActiveXObject ?
+        (function() {
+          if ( window.location.protocol !== "file:" ) {
+            try {
+              new window.XMLHttpRequest();
+              return "xhr";
+            } catch(noXhr) {}
+          }
 
-      var isIE7 = name == "mshtml" && version == "7.0";
-      return !!(!isIE7 && window.XMLHttpRequest);
+          try {
+            new window.ActiveXObject("Microsoft.XMLHTTP");
+            return "activex";
+          } catch(noActiveX) {}
+        })()
+        :
+        (function() {
+          try {
+            new window.XMLHttpRequest();
+            return "xhr";
+          } catch(noXhr) {}
+        })();
+      
+      return supports || "";
     }
   }
 });

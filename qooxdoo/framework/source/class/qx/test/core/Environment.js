@@ -265,14 +265,12 @@ qx.Class.define("qx.test.core.Environment",
 
     testIOXhr : function() {
       var xhr = qx.core.Environment.get("io.xhr");
-      
-      var engine = qx.core.Environment.get("engine.name");
-      var version = qx.core.Environment.get("engine.version");
+      this.assertString(xhr);
 
-      if (engine == "mshtml" && version < 8) {
-        this.assertFalse(xhr);
-      } else {
-        this.assertTrue(xhr);
+      // Should return "xhr" when standard XHR is available
+      if (window.XMLHttpRequest && 
+          window.location.protocol !== "file:") {
+        this.assertEquals("xhr", xhr);
       }
     },
 

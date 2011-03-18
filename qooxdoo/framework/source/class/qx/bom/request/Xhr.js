@@ -303,7 +303,17 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * @return {Object} XMLHttpRequest or equivalent.
      */
     _createNativeXhr: function() {
-      return qx.core.Environment.get("io.xhr") ? new XMLHttpRequest() : new window.ActiveXObject("Microsoft.XMLHTTP");
+      var xhr = qx.core.Environment.get("io.xhr");
+
+      if (xhr === "xhr") {
+        return new XMLHttpRequest();
+      }
+
+      if (xhr == "activex") {
+        return new window.ActiveXObject("Microsoft.XMLHTTP");
+      }
+
+      qx.log.Logger.error(this, "No XHR support available.");
     },
 
     _getProtocol: function() {
