@@ -310,7 +310,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       }
 
       var req = this.req;
-      var url = this.getUrl("qx/test/xmlhttp/sample.html");
+      var url = this.getUrl("qx/test/xmlhttp/not_modified.php");
 
       var that = this;
       req.onreadystatechange = function() {
@@ -342,6 +342,10 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       // W3C Candidate Recommendation
       // Copyright © 2009 W3C® (MIT, ERCIM, Keio), All Rights Reserved.
       //
+      
+      // The actual ETag is not of importance here, since the server
+      // is returning 304 anyway. We're just triggering the behavior
+      // specified above.
       req.setRequestHeader("If-None-Match", "\"4893a3a-b0-49ea970349b00\"");
       req.send();
 
