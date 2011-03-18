@@ -358,8 +358,8 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string} The icon URL of an event. */
     ICON_EVENT : "apiviewer/image/event18.gif",
 
-    /** {string} The icon URL of an entry. */
-    ICON_ENTRY : "apiviewer/image/event18.gif",
+    /** {string} The icon URL of an entry. Entry is a group property */
+    ICON_ENTRY : "apiviewer/image/property18.gif",
 
     /** {string} The icon URL of an interface. */
     ICON_INTERFACE : "apiviewer/image/interface18.gif",

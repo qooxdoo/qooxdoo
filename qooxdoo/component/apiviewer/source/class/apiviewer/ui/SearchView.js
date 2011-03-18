@@ -96,14 +96,14 @@ qx.Class.define("apiviewer.ui.SearchView",
         "PACKAGE":0,
         "ENTRY":4,
         "CLASS":1,
-        "INTERFACE":8,
+        "INTERFACE":7,
         "METHOD_PUB":2,
         "METHOD_PROT":2,
         "METHOD_PRIV":2,
         "PROPERTY_PUB":4,
-        "EVENT":6,
+        "EVENT":5,
         "CONSTANT":3,
-        "CHILDCONTROL":7
+        "CHILDCONTROL":6
       };
       this.__typeFilter = new qx.data.Array([true, true,true,true,true,true,true,true]);
       var types = ['package','class','method','constant','property','event','child control','interface'];
@@ -263,8 +263,19 @@ qx.Class.define("apiviewer.ui.SearchView",
       //        this.__note.show();
       //      }
 
+      // If all toggle butons are disabled stop here
+      var allFiltersDisabled = true;
+      for( var i=0;i<this.__typeFilter.length;i++ )
+      {
+        if(this.__typeFilter.getItem(i) === true)
+        {
+          allFiltersDisabled = false;
+          break;
+        }
+      }
+
       // If empty or too short search string stop here
-      if (svalue.length < 3)
+      if (svalue.length < 3 || allFiltersDisabled)
       {
         // Reset the result list
         if (this.__initresult) {
@@ -390,6 +401,9 @@ qx.Class.define("apiviewer.ui.SearchView",
                   } else {
                     if (elemtype != "PACKAGE" && elemtype != "INTERFACE") {  // just consider attribute types
                       fullname += key;
+                    }
+                    if (elemtype === "ENTRY") {
+                      fullname = key.substring(1);
                     }
                     icon = apiviewer.TreeUtil["ICON_" + elemtype];
                   }
