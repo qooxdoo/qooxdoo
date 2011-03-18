@@ -30,7 +30,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
   statics :
   {
     /**
-     * Cheks what box model is used in the curren environemnt.
+     * Checks what box model is used in the current environemnt.
      * @return {String} It either returns "content" or "border".
      * @internal
      */
