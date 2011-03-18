@@ -89,6 +89,17 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
+     * Checks if translate3d can be used.
+     * @return {Boolean} <code>true</code>, if it could be used.
+     * @internal
+     */
+    getTranslate3d : function()
+    {
+      return 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix();
+    },
+
+
+    /**
      * Checks if background gradients could be used.
      * @return {Boolean} <code>true</code>, if it could be used.
      * @internal
