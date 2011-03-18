@@ -17,14 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/test/big_buck_bunny.mp4)
-#asset(qx/test/big_buck_bunny.ogv)
-#asset(qx/test/big_buck_bunny.webm)
-
-************************************************************************ */
-
 qx.Class.define("qx.test.bom.media.Video",
 {
   //extend : qx.test.bom.media.MediaTestCase,
