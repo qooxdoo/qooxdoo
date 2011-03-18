@@ -77,18 +77,20 @@ qx.Class.define("apiviewer.ui.SearchView",
       //--------------------------------------------------------
 
       // Search form
-      var layout = new qx.ui.layout.Grid(4,4);
-      layout.setColumnFlex(0,1);
+      var layout = new qx.ui.layout.Grid(4, 4);
+      layout.setColumnFlex(1, 1);
+      layout.setRowAlign(2, "left", "middle");
+
       var sform = new qx.ui.container.Composite(layout);
       sform.setPadding(10);
 
       // Search form - input field
       this.sinput = new qx.ui.form.TextField().set({
-        placeholder : "Search..."
+        placeholder : "Enter search term ..."
       });
 
       sform.add(this.sinput, {
-        row: 0, column: 0
+        row: 0, column: 0, colSpan: 2
       });
 
       this.__typesIndex =
@@ -105,75 +107,77 @@ qx.Class.define("apiviewer.ui.SearchView",
         "CONSTANT":3,
         "CHILDCONTROL":6
       };
-      this.__typeFilter = new qx.data.Array([true, true,true,true,true,true,true]);
-      var types = ['package','class','method','constant','property','event','child control'];
-      var iconNameParts = ['package','class','method_public','constant','property','event','childcontrol'];
+      this.__typeFilter = new qx.data.Array([true, true, true, true, true, true, true]);
+      var types = ["Packages", "Classes, Mixins, Interfaces", "Methods", "Constants", "Properties", "Events", "Child Controls"];
+      var iconNameParts = ["package", "class", "method_public", "constant", "property", "event", "childcontrol"];
       
       var typeContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox());
       
-      for(var i=0;i<types.length;i++)
+      for(var i=0; i<types.length; i++)
       {
         var type=types[i];
         var iconNamePart = iconNameParts[i];
-        var typeToggleButton = new qx.ui.form.ToggleButton('','apiviewer/image/'+iconNamePart+'18.gif');
+        var typeToggleButton = new qx.ui.form.ToggleButton("", "apiviewer/image/"+iconNamePart+"18.gif");
         typeToggleButton.setToolTipText(type);
-        // we need variable paddingLeft in order to acommodate the icons in the center of the toggleButton
+        // we need variable paddingLeft in order to accommodate the icons in the center of the toggleButton
         var paddingLeft = 0;
         var paddingBottom = 0;
         var paddingTop = 0;
-        if(['class','interface'].indexOf(iconNamePart)!=-1)
+        if(["class", "interface"].indexOf(iconNamePart)!=-1)
         {
           paddingLeft = 2;
         }
-        else if(['package','childcontrol'].indexOf(iconNamePart)!=-1)
+        else if(["package", "childcontrol"].indexOf(iconNamePart)!=-1)
         {
            paddingLeft = 1;
-           if(iconNamePart === 'childcontrol') {
+           if(iconNamePart === "childcontrol") {
              paddingBottom = 2;
            }
         }
-        else if (iconNamePart === 'constant')
+        else if (iconNamePart === "constant")
         {
           paddingTop = 1;
         }
         typeToggleButton.setPadding(paddingTop, 0, paddingBottom, paddingLeft);
         typeToggleButton.setMarginRight(2);
         typeToggleButton.setGap(0);
-        typeToggleButton.setIconPosition('top');
-        typeToggleButton.setShow('icon');
-        typeToggleButton.bind('value',this.__typeFilter,'array['+i+']');
+        typeToggleButton.setIconPosition("top");
+        typeToggleButton.setShow("icon");
+        typeToggleButton.bind("value", this.__typeFilter, "array["+i+"]");
         typeToggleButton.setKeepFocus(true);
         typeToggleButton.setValue(true);
         typeContainer.add(typeToggleButton);
-        typeToggleButton.addListener('click', function(e) {
+        typeToggleButton.addListener("click", function(e) {
           this._searchResult(this.sinput.getValue() || "");
         }, this);
-        this.__typeFilter.bind('['+i+']',typeToggleButton,'value');
+        this.__typeFilter.bind("["+i+"]", typeToggleButton, "value");
       }
       
-        var typeToggleButtonAll = new qx.ui.form.ToggleButton('All');
-        typeToggleButtonAll.setPadding(1,3,1,3);
-        typeToggleButtonAll.setShow('label');
+        var typeToggleButtonAll = new qx.ui.form.ToggleButton("Toggle Filters");
+        typeToggleButtonAll.setPadding(1, 3, 1, 3);
+        typeToggleButtonAll.setShow("label");
         typeToggleButtonAll.setValue(true);
         typeToggleButtonAll.setGap(0);
-        typeToggleButtonAll.setToolTipText('Deactivate all filters');
+        typeToggleButtonAll.setToolTipText("Deactivate all filters");
         typeToggleButtonAll.setKeepFocus(true);
+        typeToggleButtonAll.setMarginLeft(10);
         typeContainer.add(typeToggleButtonAll);
-        typeToggleButtonAll.addListener('changeValue', function(e) {
-          for(var i=0;i<this.__typeFilter.length;i++){
-            this.__typeFilter.setItem(i,e.getData());
+        typeToggleButtonAll.addListener("changeValue", function(e) {
+          for(var i=0; i<this.__typeFilter.length; i++){
+            this.__typeFilter.setItem(i, e.getData());
           }
           this._searchResult(this.sinput.getValue() || "");
-          typeToggleButtonAll.setToolTipText(e.getData() ? 'Deactivate all filters' : 'Activate all filters');
-        },this);
+          typeToggleButtonAll.setToolTipText(e.getData() ? "Deactivate all filters" : "Activate all filters");
+        }, this);
       
-      sform.add(typeContainer, {row: 1, column: 0});
+      sform.add(typeContainer, {row: 1, column: 0, colSpan: 2});
       
       this.namespaceTextField = new qx.ui.form.TextField().set({
-        placeholder : "Namespace [qx.*]"
+        placeholder : ""
       });
       
-      sform.add(this.namespaceTextField, {row: 2, column: 0});
+      sform.add(new qx.ui.basic.Label("Namespace starts with"), {row: 2, column: 0});
+      sform.add(this.namespaceTextField, {row: 2, column: 1});
       
       this.namespaceTextField.addListener("keyup", function(e) {
         this._searchResult(this.sinput.getValue() || "");
@@ -216,7 +220,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       resizeBehavior.set(1, {width:"1*"});
 
 
-      tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image(20,20));
+      tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image(20, 20));
 
 
       this.__initresult = true;
@@ -265,7 +269,7 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // If all toggle butons are disabled stop here
       var allFiltersDisabled = true;
-      for( var i=0;i<this.__typeFilter.length;i++ )
+      for( var i=0; i<this.__typeFilter.length; i++ )
       {
         if(this.__typeFilter.getItem(i) === true)
         {
@@ -368,7 +372,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       var fullNames = this.apiindex.__fullNames__;
       var types = this.apiindex.__types__;
       
-      var namespaceFilter = this.namespaceTextField.getValue() != null ? qx.lang.String.trim(this.namespaceTextField.getValue()) : '';
+      var namespaceFilter = this.namespaceTextField.getValue() != null ? qx.lang.String.trim(this.namespaceTextField.getValue()) : "";
       var useNamespaceFilter = namespaceFilter.length>0;
 
       for (var key in index) {
