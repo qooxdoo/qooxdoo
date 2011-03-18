@@ -230,6 +230,7 @@ qx.Bootstrap.define("qx.core.Environment",
       this.add("qx.mobile.nativescroll", function() {return false;});
 
       this.add("qx.dynamicmousewheel", function() {return true;});
+      this.add("qx.debug.databinding", function() {return false;});
     },
 
 

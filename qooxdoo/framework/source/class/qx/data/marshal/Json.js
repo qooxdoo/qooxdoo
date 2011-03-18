@@ -313,7 +313,10 @@ qx.Class.define("qx.data.marshal.Json",
         for (var key in data) {
           var propertyName = key.replace(/-/g, "");
           // warn if there has been a replacement
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
+          if (
+            qx.core.Variant.isSet("qx.debug", "on") && 
+            qx.core.Environment.get("qx.debug.databinding")
+          ) {
             if (key != propertyName) {
               this.warn(
                 "The model contained an illegal name: '" + key + 
