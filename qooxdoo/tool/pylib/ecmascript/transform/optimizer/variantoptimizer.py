@@ -73,13 +73,13 @@ def search(node, variantMap, fileId="", verb=False):
 
 
 ##
-# Processes qx.core.Environment|Variant.select blocks
+# Processes qx.core.[Environment|Variant].select blocks
 # Destructive! re-writes the AST tree passed in <callNode> by replacing choices with
 # the suitable branch.
 #
 # Mirror line:
 # <callNode>:
-# qx.core.Environment|Variant.select("qx.debug", { "on" : function(){return true;},
+# qx.core.[Environment|Variant].select("qx.debug", { "on" : function(){return true;},
 #                                      "off": function(){return false;}})
 # <variantMap>:
 # {
@@ -92,7 +92,7 @@ def processVariantSelect(callNode, variantMap):
         
     params = callNode.getChild("params")
     if len(params.children) != 2:
-        log("Warning", "Expecting exactly two arguments for qx.core.Environment|Variant.select. Ignoring this occurrence.", params)
+        log("Warning", "Expecting exactly two arguments for qx.core.[Environment|Variant].select. Ignoring this occurrence.", params)
         return False
 
     # Get the variant key from the select() call
@@ -135,7 +135,7 @@ def processVariantSelect(callNode, variantMap):
                 raise RuntimeError(makeLogMessage("Error", "Variantoptimizer: No matching case found for variant (%s:%s) at" % (variantKey, variantMap[variantKey]), callNode))
         return True
 
-    log("Warning", "The second parameter of qx.core.Environment|Variant.select must be a map or a string literal. Ignoring this occurrence.", secondParam)
+    log("Warning", "The second parameter of qx.core.[Environment|Variant].select must be a map or a string literal. Ignoring this occurrence.", secondParam)
     return False
 
 
@@ -224,7 +224,7 @@ def getSelectParams(callNode):
         
     params = callNode.getChild("params")
     if len(params.children) != 2:
-        log("Warning", "Expecting exactly two arguments for qx.core.Environment|Variant.select. Ignoring this occurrence.", params)
+        log("Warning", "Expecting exactly two arguments for qx.core.[Environment|Variant].select. Ignoring this occurrence.", params)
         return result
 
     # Get the variant key from the select() call
