@@ -202,7 +202,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       }
 
       var req = this.req,
-          url = this.getUrl("qx/test/xmlhttp/sample.html");
+          url = this.getUrl("qx/test/xmlhttp/sample.html"),
           states = [],
           count = 0,
           that = this;
@@ -311,7 +311,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.html");
-      var count = 0;
 
       var that = this;
       req.onreadystatechange = function() {
