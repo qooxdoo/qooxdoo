@@ -27,7 +27,8 @@
 
 qx.Class.define("qx.test.bom.media.Video",
 {
-  extend : qx.test.bom.media.MediaTestCase,
+  //extend : qx.test.bom.media.MediaTestCase,
+  extend : qx.core.Object,
   include: [qx.dev.unit.MRequirements],
 
   members :
