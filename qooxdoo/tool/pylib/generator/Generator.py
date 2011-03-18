@@ -1833,8 +1833,7 @@ class Generator(object):
                 settings[key] = settings[key].replace(" ", "$")
         if settings:
             settings = json.dumps(settings, separators=(",", ":"))
-            if sys.platform[0:3] == "win":
-                settings = settings.replace('"','\\"')
+            settings = settings.replace('"','\\"')
             settings = "settings=" + settings
             cmd += " " + settings
         
