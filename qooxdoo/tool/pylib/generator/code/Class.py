@@ -33,7 +33,7 @@ from ecmascript                     import compiler
 from ecmascript.frontend            import treeutil, tokenizer, treegenerator, lang
 from ecmascript.frontend.Script     import Script
 from ecmascript.frontend.tree       import Node
-from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
+from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer, environmentoptimizer
 from generator.resource.AssetHint   import AssetHint
 from generator.resource.Resource    import Resource
 
@@ -167,7 +167,7 @@ class Class(Resource):
         if cacheId == unoptCacheId and tree:  # early return optimization
             return tree
 
-        opttree, _ = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
+        opttree, cacheMod = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
         if not opttree:
             # start from source tree
             if tree:
@@ -194,11 +194,15 @@ class Class(Resource):
     # --------------------------------------------------------------------------
 
     ##
-    # look for places where qx.core.Variant.select|isSet|.. are called
-    # and return the list of first params (the variant name)
-    # 
+    # Return the list of variant keys (like "qx.debug") used in the source of
+    # this class. Uses the plain source syntax tree and _variantsFromTree, and
+    # caches to classCache.
     # Is used internally, but should also be usable as public interface.
-
+    # 
+    # @param generate {Boolean} whether to calculate the variant uses of the class
+    #   afresh from the tree when they are not cached
+    # @return {[String]} list of variant keys, e.g. ["qx.debug", ...]
+    #
     def classVariants(self, generate=True):
 
         classinfo, _ = self._getClassCache()
@@ -206,7 +210,7 @@ class Class(Resource):
         if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
             if generate:
                 tree = self.tree({})  # get complete tree
-                classvariants = self._variantsFromTree(tree)       # get variants used in qx.core.Variant...(<variant>,...)
+                classvariants = self._variantsFromTree(tree) # get list of variant keys
                 if classinfo == None:
                     classinfo = {}
                 classinfo['svariants'] = classvariants
@@ -217,27 +221,36 @@ class Class(Resource):
         return classvariants
 
     ##
-    # helper that operates on ecmascript.frontend.tree
-    #
+    # Calculate uses of qx.core.Environment.select|get|... from the source tree.
     # This helper is used by both, tree() and classVariants(), to resolve mutual
-    # recursion where tree() calls classVariants(), and classVariants() calls tree().
+    # recursion between them.
+    #
+    # @param  node {ecmascript.frontend.tree.Node} syntax tree to inspect (e.g.
+    #   a file or class map)
+    # @return {[String]}  list of variant keys, e.g. ["qx.debug", ...]
     #
     def _variantsFromTree(self, node):
         classvariants = set([])
-        # mostly taken from ecmascript.transform.optimizer.variantoptimizer
-        variants = treeutil.findVariablePrefix(node, "qx.core.Variant")
-        for variant in variants:
-            if not variant.hasParentContext("call/operand"):
-                continue
-            variantMethod = treeutil.selectNode(variant, "identifier[4]/@name")
-            if variantMethod not in ["select", "isSet", "compilerIsSet"]:
-                continue
-            firstParam = treeutil.selectNode(variant, "../../params/1")
+        for variantNode in variantoptimizer.findVariantNodes(node):
+            firstParam = treeutil.selectNode(variantNode, "../../params/1")
             if firstParam and treeutil.isStringLiteral(firstParam):
                 classvariants.add(firstParam.get("value"))
             else:
-                console.warn("! qx.core.Variant call without literal argument")
+                console.warn("qx.core.[Environment|Variant] call without literal argument")
         return classvariants
+
+
+    ##
+    # Only return those key:value pairs from <variantSet> that are supported
+    # in <classVariants>.
+    # 
+    # @param classVariants {[String]} list of variant keys used in a class
+    # @param variantSet {Map} map of variant key:value's used in current build
+    # @return {Map} map of variant key:value's relevant for given class
+    @staticmethod
+    def projectClassVariantsToCurrent(classVariants, variantSet):
+        res = dict([(key,val) for key,val in variantSet.iteritems() if key in classVariants])
+        return res
 
 
     # --------------------------------------------------------------------------
@@ -377,18 +390,6 @@ class Class(Resource):
         tree.addChild(wrapperNode)
 
         return tree
-
-    ##
-    # only return those keys from <variantSet> that are supported
-    # in <classVariants>
-    @staticmethod
-    def projectClassVariantsToCurrent(classVariants, variantSet):
-        res = {}
-        for key in variantSet:
-            if key in classVariants:
-                res[key] = variantSet[key]
-        return res
-
 
 
     # --------------------------------------------------------------------------
@@ -1093,25 +1094,6 @@ class Class(Resource):
         deps = getTransitiveDepsR(depsItem, variantString, checkset) # checkset is currently not used, leaving it for now
 
         return deps
-
-    ##
-    # Cache decorator
-    def caching(prefix):
-        def realdecorator(fn):
-            @functools.wraps(fn)
-            def wrapper(self, variants):
-                classVariants     = self.classVariants()
-                relevantVariants  = self.projectClassVariantsToCurrent(classVariants, variants)
-                cacheId           = "%s-%s-%s" % (prefix, self.path, util.toString(relevantVariants))
-                res, _ = cache.read(cacheId)
-                if not res:
-                    res = fn(self, variants)
-                    cache.write(cacheId, res)
-                return res
-            return wrapper
-        return realdecorator
-    
-
 
 
     # --------------------------------------------------------------------------

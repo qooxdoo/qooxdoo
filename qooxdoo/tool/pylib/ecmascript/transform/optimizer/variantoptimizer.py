@@ -6,7 +6,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2011 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -16,11 +16,13 @@
 #  Authors:
 #    * Sebastian Werner (wpbasti)
 #    * Fabian Jakobs (fjakobs)
+#    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
 import re, sys
 from ecmascript.frontend.treeutil import *
+from ecmascript.frontend          import treeutil
 
 global verbose
 
@@ -53,28 +55,31 @@ def search(node, variantMap, fileId="", verb=False):
     global file
     verbose = verb
     file = fileId
-    variants = findVariablePrefix(node, "qx.core.Variant")
+    variants = findVariantNodes(node)
     modified = False
     for variant in variants:
         variantMethod = selectNode(variant, "identifier[4]/@name")
-        if variantMethod == "select":
+        if variantMethod in ["select", "selectAsync"]:
             modified = processVariantSelect(selectNode(variant, "../.."), variantMap) or modified
         elif variantMethod == "isSet":
             modified = processVariantIsSet(selectNode(variant, "../.."), variantMap) or modified
         elif variantMethod == "compilerIsSet":
             modified = processVariantIsSet(selectNode(variant, "../.."), variantMap) or modified
+        elif variantMethod == "get":
+            #modified = processVariantGet(selectNode(variant, "../.."), variantMap) or modified
+            pass
 
     return modified
 
 
 ##
-# Processes qx.core.Variant.select blocks
+# Processes qx.core.Environment|Variant.select blocks
 # Destructive! re-writes the AST tree passed in <callNode> by replacing choices with
 # the suitable branch.
 #
 # Mirror line:
 # <callNode>:
-# qx.core.Variant.select("qx.debug", { "on" : function(){return true;},
+# qx.core.Environment|Variant.select("qx.debug", { "on" : function(){return true;},
 #                                      "off": function(){return false;}})
 # <variantMap>:
 # {
@@ -87,7 +92,7 @@ def processVariantSelect(callNode, variantMap):
         
     params = callNode.getChild("params")
     if len(params.children) != 2:
-        log("Warning", "Expecting exactly two arguments for qx.core.Variant.select. Ignoring this occurrence.", params)
+        log("Warning", "Expecting exactly two arguments for qx.core.Environment|Variant.select. Ignoring this occurrence.", params)
         return False
 
     # Get the variant key from the select() call
@@ -130,7 +135,7 @@ def processVariantSelect(callNode, variantMap):
                 raise RuntimeError(makeLogMessage("Error", "Variantoptimizer: No matching case found for variant (%s:%s) at" % (variantKey, variantMap[variantKey]), callNode))
         return True
 
-    log("Warning", "The second parameter of qx.core.Variant.select must be a map or a string literal. Ignoring this occurrence.", secondParam)
+    log("Warning", "The second parameter of qx.core.Environment|Variant.select must be a map or a string literal. Ignoring this occurrence.", secondParam)
     return False
 
 
@@ -219,7 +224,7 @@ def getSelectParams(callNode):
         
     params = callNode.getChild("params")
     if len(params.children) != 2:
-        log("Warning", "Expecting exactly two arguments for qx.core.Variant.select. Ignoring this occurrence.", params)
+        log("Warning", "Expecting exactly two arguments for qx.core.Environment|Variant.select. Ignoring this occurrence.", params)
         return result
 
     # Get the variant key from the select() call
@@ -241,4 +246,24 @@ def getSelectParams(callNode):
             branchMap[branchKey] = value
 
     return variantKey, branchMap
+
+
+##
+# Selector generator that yields all nodes in tree <node> where variant-specific
+# code is executed.
+#
+# @return {Iter<Node>} node generator
+#
+def findVariantNodes(node):
+    callNodes = set([])
+    variantNodes = treeutil.findVariablePrefix(node, "qx.core.Variant")
+    variantNodes.extend(treeutil.findVariablePrefix(node, "qx.core.Environment"))
+    for variantNode in variantNodes:
+        if not variantNode.hasParentContext("call/operand"):
+            continue
+        variantMethod = treeutil.selectNode(variantNode, "identifier[4]/@name")
+        if variantMethod not in ["select", "selectAsync", "isSet", "compilerIsSet", "get"]:
+            continue
+        else:
+            yield variantNode
 
