@@ -93,7 +93,32 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       req.onreadystatechange = function() {
         if (req.readyState == 4) {
           that.resume(function() {
-            that.assertObject(req.responseXML.documentElement, "Must be XML");
+            that.assertObject(req.responseXML.documentElement, "Must be XML object");
+          });
+        }
+      }
+      req.send();
+
+      this.wait();
+    },
+
+    // BUGFIX
+    "test: should handle arbitrary XML": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      // Content-Type: foo/bar+xml
+      var url = this.getUrl("qx/test/xmlhttp/xml.php");
+
+      var req = this.req;
+      req.open("GET", this.noCache(url));
+
+      var that = this;
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume(function() {
+            that.assertObject(req.responseXML.documentElement, "Must be XML object");
           });
         }
       }

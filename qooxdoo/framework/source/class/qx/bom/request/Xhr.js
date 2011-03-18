@@ -376,6 +376,21 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.responseText = nxhr.responseText;
         this.responseXML = nxhr.responseXML;
 
+        // BUGFIX: IE
+        // IE does not recognize +xml extension, resulting in empty responseXML.
+        //
+        // Check if Content-Type is +xml, verify missing responseXML then parse
+        // responseText as XML.
+        if (qx.core.Environment.get("engine.name") == "mshtml" &&
+            this.getResponseHeader("Content-Type").match(/[^\/]+\/[^\+]+\+xml/) &&
+            !this.responseXML.documentElement) {
+          var dom = new window.ActiveXObject("Microsoft.XMLDOM");
+          dom.async = false;
+          dom.validateOnParse = false;
+          dom.loadXML(this.responseText);
+          this.responseXML = dom;
+        }
+
       } else {
 
         // Default values according to spec.
