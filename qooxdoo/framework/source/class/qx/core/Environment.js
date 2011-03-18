@@ -571,6 +571,13 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("css.translate3d")) {
         this._checks["css.translate3d"] = qx.bom.client.Css.getTranslate3d;
       }
+
+      // /////////////////////////////////////////
+      // PHONEGAP
+      // /////////////////////////////////////////
+      if (this.useCheck("phonegap")) {
+        this._checks["phonegap"] = qx.bom.client.PhoneGap.getPhoneGap;
+      }
     }
   },
 

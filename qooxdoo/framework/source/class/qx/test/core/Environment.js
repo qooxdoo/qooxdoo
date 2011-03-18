@@ -304,6 +304,10 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("css.gradients"));
       this.assertBoolean(qx.core.Environment.get("css.translate3d"));
     },
+
+    testPhoneGap : function() {
+      this.assertBoolean(qx.core.Environment.get("phonegap"));
+    },
     
     testEvent : function() {
       this.assertBoolean(qx.core.Environment.get("event.touch"));
