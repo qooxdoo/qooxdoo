@@ -294,14 +294,8 @@ qx.Class.define("qx.dom.Node",
           return a.join("");
 
         case 2: // NODE_ATTRIBUTE
-          return node.nodeValue;
-          break;
-
         case 3: // NODE_TEXT
-          return node.nodeValue;
-          break;
-
-         case 4: // CDATA
+        case 4: // CDATA
           return node.nodeValue;
       }
 
