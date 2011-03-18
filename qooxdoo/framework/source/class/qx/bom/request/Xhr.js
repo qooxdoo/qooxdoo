@@ -373,6 +373,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           this.responseText = nxhr.responseText;
           this.responseXML = nxhr.responseXML;
         } catch(XhrPropertyNotReadable) {
+          this.__triggerOnReadyStateChange();
           return;
         }
 
