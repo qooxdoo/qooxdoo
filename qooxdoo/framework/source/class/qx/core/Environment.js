@@ -567,6 +567,10 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("css.boxmodel")) {
         this._checks["css.boxmodel"] = qx.bom.client.Css.getBoxModel;
       }
+
+      if (this.useCheck("css.translate3d")) {
+        this._checks["css.translate3d"] = qx.bom.client.Css.getTranslate3d;
+      }
     }
   },
 
