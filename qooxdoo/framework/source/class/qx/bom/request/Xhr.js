@@ -22,7 +22,22 @@
  *
  * Hides browser inconsistencies and works around bugs found in popular
  * implementations. Follows the interface described in
- * <a href="http://www.w3.org/TR/XMLHttpRequest/">XmlHttpRequest Level 1</a>.
+ * <a href="http://www.w3.org/TR/XMLHttpRequest/">XmlHttpRequest</a>.
+ * 
+ * The most basic setup looks similar to this:
+ * 
+ * <pre class="javascript">
+ *  var req = new qx.bom.request.Xhr();
+ *  req.onreadystatechange = function() {
+ *    if (req.readyState === 4) {
+ *      // Handle data received
+ *      req.responseText;
+ *    }
+ *  }
+ *  
+ *  req.open("GET", url);
+ *  req.send();
+ * </pre>
  */
 qx.Bootstrap.define("qx.bom.request.Xhr",
 {
@@ -71,41 +86,33 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     readyState: 0,
 
     /**
-     * The response of the request as text.
+     * {String} The response of the request as text.
      */
     responseText: "",
 
     /**
-     * The response of the request as a Document object.
+     * {Object} The response of the request as a Document object.
      */
     responseXML: null,
 
     /**
-     * The HTTP status code.
+     * {Number} The HTTP status code.
      */
     status: 0,
 
     /**
-     * The HTTP status text.
+     * {String} The HTTP status text.
      */
     statusText: "",
 
-    __async: null,
-
-    __disposed: null,
-
-    __onReadyStateChangeBound: null,
-
-    __onUnloadBound: null,
-
     /**
-     * Initialize (prepare) a request.
+     * Initializes (prepares) the request.
      *
      * @param method {String}
-     *        The HTTP method to use, either "GET" or "POST"
+     *        The HTTP method to use, either "GET" or "POST".
      * @param url {String}
      *        The URL to which to send the request.
-     * @param async {Boolean?false}
+     * @param async {Boolean?true}
      *        Whether or not to perform the operation asynchronously.
      * @param user {String?null}
      *        Optional user name to use for authentication purposes.
@@ -155,7 +162,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     },
 
     /**
-    * Sets the value of an HTTP request header.
+    * Sets an HTTP request header to be used by the request.
     *
     * Note: The request must be initialized before using this method.
     *
@@ -218,12 +225,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     /**
      * Event handler for an event that fires at every state change.
      *
-     * Override this method to get informed about the communication progress.
+     * Replace with custom method to get informed about the communication progress.
      */
     onreadystatechange: function() {},
 
     /**
-     * Get a single response header.
+     * Get a single response header from response.
      *
      * @param  header {String}
      *         Key of the header to get the value from.
@@ -239,7 +246,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     },
 
     /**
-     * Get all response headers.
+     * Get all response headers from response.
      *
      * @return {String} All response headers.
      */
@@ -257,6 +264,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Dispose object and wrapped native XHR.
+     */
     dispose: function() {
       if (this.__disposed) {
         return false;
@@ -288,10 +298,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     */
 
     /**
-     * Get native XMLHttpRequest (or equivalent).
+     * Get wrapped native XMLHttpRequest (or equivalent).
      *
      * Can be XMLHttpRequest or ActiveX.
      *
+     * @return {Object} XMLHttpRequest or equivalent.
      */
     _getNativeXhr: function() {
       return this.__nativeXhr;
@@ -316,6 +327,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       qx.log.Logger.error(this, "No XHR support available.");
     },
 
+    /**
+     * Get protocol.
+     * 
+     * @return {String} The current protocol.
+     */
     _getProtocol: function() {
       return window.location.protocol;
     },
@@ -327,12 +343,35 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     */
 
     /**
-     * XMLHttpRequest or equivalent.
+     * {Object} XMLHttpRequest or equivalent.
      */
     __nativeXhr: null,
 
+    /**
+     * {Boolean} Whether request is async.
+     */
+    __async: null,
+
+    /**
+     * {Function} Bound __onReadyStateChange handler.
+     */
+    __onReadyStateChangeBound: null,
+
+    /**
+     * {Function} Bound __onUnload handler.
+     */
+    __onUnloadBound: null,
+
+    /**
+     * {Boolean} Whether object has been disposed.
+     */
+    __disposed: null,
+
+    /**
+     * Init native XHR.
+     */
     __initNativeXhr: function() {
-      // Hold reference to native XHR or equivalent
+      // Create native XHR or equivalent and hold reference
       this.__nativeXhr = this._createNativeXhr();
 
       // Track native ready state changes
@@ -405,6 +444,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
     },
 
+    /**
+     * Normalize status property across browsers.
+     */
     __normalizeStatus: function() {
       var nxhr = this.__nativeXhr;
 
@@ -427,6 +469,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
     },
 
+    /**
+     * Normalize responseXML property across browsers.
+     */
     __normalizeResponseXML: function() {
       // BUGFIX: IE
       // IE does not recognize +xml extension, resulting in empty responseXML.
@@ -444,6 +489,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
     },
 
+    /**
+     * Handler for native unload event.
+     */
     __onUnload: function() {
       try {
         // Abort and dispose
@@ -453,6 +501,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       } catch(e) {}
     },
 
+    /**
+     * Helper method to determine whether browser supports reusing the
+     * same native XHR to send more requests.
+     */
     __supportsManyRequests: function() {
       var name = qx.core.Environment.get("engine.name");
       var version = qx.core.Environment.get("engine.version");
