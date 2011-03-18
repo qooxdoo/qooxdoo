@@ -589,6 +589,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var fakeReqs = this.fakeReqs = [];
       this.fakedXhr = this.useFakeXMLHttpRequest();
       this.fakedXhr.onCreate = function(xhr) {
+        xhr.responseHeaders = xhr.responseHeaders || {};
         fakeReqs.push(xhr);
       };
 
