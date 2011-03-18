@@ -487,11 +487,6 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     "test: status should be set when LOADING": function() {
-      if (this.isIEBelow(9)) {
-        this.warn("In IE < 9 status is not set when LOADING");
-        return;
-      }
-
       var fakeReq = this.getFakeReq();
       var req = this.req;
       req.open();
