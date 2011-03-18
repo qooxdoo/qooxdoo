@@ -66,7 +66,7 @@ def search(node, variantMap, fileId="", verb=False):
         elif variantMethod == "compilerIsSet":
             modified = processVariantIsSet(selectNode(variant, "../.."), variantMap) or modified
         elif variantMethod == "get":
-            #modified = processVariantGet(selectNode(variant, "../.."), variantMap) or modified
+            modified = processVariantGet(selectNode(variant, "../.."), variantMap) or modified
             pass
 
     return modified
@@ -139,12 +139,12 @@ def processVariantSelect(callNode, variantMap):
     return False
 
 
+##
+# processes qx.core.Variant.isSet() calls;
+# destructive! re-writes the AST tree passed in [callNode] by replacing choices with
+# the suitable branch
+#
 def processVariantIsSet(callNode, variantMap):
-    '''
-    processes qx.core.Variant.isSet() calls;
-    destructive! re-writes the AST tree passed in [callNode] by replacing choices with
-    the suitable branch
-    '''
     if callNode.type != "call":
         return False
         
@@ -200,6 +200,61 @@ def processVariantIsSet(callNode, variantMap):
 
     log("Warning", "The second parameter of qx.core.Variant.isSet must be a string literal. Ignoring this occurrence.", secondParam)
     return False
+
+
+
+##
+# Process calls to qx.core.Environment.get().
+# Remove dead branches of 'if' etc. constructs, if conditions can be decided.
+# Currently, optimizes if 
+# - the qx.core.Environment.get() call is the only condition
+# - the call is part of a simple compare with literals
+#   (e.g."qx.core.Environment.get("foo") == 3").
+#
+def processVariantGet(callNode, variantMap):
+
+    treeModified = False
+
+    # Simple sanity checks
+    params = callNode.getChild("params")
+    if len(params.children) != 1:
+        log("Warning", "Expecting exactly one argument for qx.core.Environment.get. Ignoring this occurrence.", params)
+        return treeModified
+
+    firstParam = params.getChildByPosition(0)
+    if not isStringLiteral(firstParam):
+        log("Warning", "First argument must be a string literal! Ignoring this occurrence.", firstParam)
+        return treeModified
+
+    variantKey = firstParam.get("value");
+    if not variantKey in variantMap.keys():
+        return treeModified
+
+    # Processing
+    # are we in a if/loop condition expression, i.e. a "loop/expression/..." context?
+    conditionExpression = None
+    loopType = None
+    node = callNode
+    while (node):
+        if node.type == "expression" and node.parent and node.parent.type == "loop":
+            conditionExpression = node
+            break
+        node = node.parent
+
+    if not conditionExpression:
+        return False
+
+    # handle "if" statements
+    if conditionExpression.parent.get("loopType") == "IF":
+        # get() call is only condition
+        if callNode.parent == conditionExpression:
+            loop = conditionExpression.parent
+            treeutil.inlineIfStatement(loop, bool(variantMap[variantKey])) # take the truth val of the key value
+            treeModified = True
+        # handle comparisons
+
+    return treeModified
+
 
 
 def __variantMatchKey(key, variantMap, variantKey):
