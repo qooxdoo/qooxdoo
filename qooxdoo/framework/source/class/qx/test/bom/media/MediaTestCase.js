@@ -89,6 +89,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     },
 
 
+    /*
     testVolumeChange: function() {
       var vol = 0.3;
       var that = this;
@@ -105,6 +106,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       }, 0);
       this.wait();
     },
+    */
 
     /* 
      * the assertEventFired doesn't work with none of Media events
@@ -142,6 +144,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this.assertTrue(this._media.getCurrentTime()>1);
     },
 
+    /*
     testDuration: function() {
       this.assertTrue(isNaN(this._media.getDuration()));
 
@@ -152,6 +155,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
 
       this.assertTrue(this._media.getDuration()>1);
     },
+    */
 
 
     testSource: function() {
@@ -180,6 +184,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     },
 
 
+    /*
     testAutoplay: function() {
       this.assertTrue(this._media.isPaused());
 
@@ -225,6 +230,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this._media.setLoop(false);
       this.assertFalse(this._media.isLoop());
     },
+    */
 
     testPlayEvent: function() {
       this._media.addListener("play", function(e) {
@@ -254,9 +260,10 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
         that._media.pause();
       }, 0);
       this.wait();
-    },
+    }
 
     //this will work only for audio.
+    /*
     testEnd: function() {
       this.assertFalse(this._media.isEnded());
 
@@ -276,6 +283,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
           this.assertTrue(this._media.isEnded());
       }, this);
     }
+    */
 
   }
 });
