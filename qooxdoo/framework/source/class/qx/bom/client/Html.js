@@ -79,7 +79,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @return {Boolean} <code>true</code> if video is supported
      */
     getVideoOgg : function() {
-      if (!qx.bom.client.Html.getVideo) return false;
+      if (!qx.bom.client.Html.getVideo) {
+        return false;
+      }
       var v = document.createElement("video");
       return v.canPlayType('video/ogg; codecs="theora, vorbis"');
     },
@@ -91,7 +93,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @return {Boolean} <code>true</code> if video is supported
      */
     getVideoH264 : function() {
-      if (!qx.bom.client.Html.getVideo) return false;
+      if (!qx.bom.client.Html.getVideo) {
+        return false;
+      }
       var v = document.createElement("video");
       return v.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
     },
@@ -103,7 +107,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @return {Boolean} <code>true</code> if video is supported
      */
     getVideoWebm : function() {
-      if (!qx.bom.client.Html.getVideo) return false;
+      if (!qx.bom.client.Html.getVideo) {
+        return false;
+      }
       var v = document.createElement("video");
       return v.canPlayType('video/webm; codecs="vp8, vorbis"');
     },
