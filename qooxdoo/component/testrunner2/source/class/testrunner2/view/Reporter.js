@@ -42,6 +42,7 @@ qx.Class.define("testrunner2.view.Reporter", {
   
   members :
   {
+    __testResults : null,
     __testPackages : null,
     __reportServerUrl : null,
     
