@@ -269,8 +269,9 @@ qx.Class.define("qx.dom.Node",
 
 
     /**
-     * Returns the text content of an node where the node may be of node type NODE_ELEMENT, NODE_ATTRIBUTE or NODE_TEXT
-     *
+     * Returns the text content of an node where the node may be of node type
+     * NODE_ELEMENT, NODE_ATTRIBUTE, NODE_TEXT or NODE_CDATA
+     * 
      * @param node {Node} the node from where the search should start.
      *     If the node has subnodes the text contents are recursively retreived and joined.
      * @return {String} the joined text content of the given node or null if not appropriate.
@@ -299,6 +300,9 @@ qx.Class.define("qx.dom.Node",
         case 3: // NODE_TEXT
           return node.nodeValue;
           break;
+
+         case 4: // CDATA
+          return node.nodeValue;
       }
 
       return null;

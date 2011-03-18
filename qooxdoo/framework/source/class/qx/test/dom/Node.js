@@ -24,7 +24,13 @@ qx.Class.define("qx.test.dom.Node",
   members :
   {
 
-    setUp : function()
+    setUp : function() {},
+
+
+    tearDown : function() {},
+
+
+    testBlockNodes : function()
     {
       var blockNodeList = [ "body", "h1", "h2", "h3", "h4", "h5", "div", "blockquote",
                             "hr", "form", "textarea", "fieldset", "iframe",
@@ -32,66 +38,74 @@ qx.Class.define("qx.test.dom.Node",
                             "pre", "table", "thead", "tbody", "tfoot", "tr",
                             "td", "th", "iframe", "address" ];
 
-      var inlineNodeList = [ "a", "span", "abbr", "acronym", "dfn", "object", "param",
-                             "em", "strong", "code", "b", "i", "tt", "samp",
-                             "kbd", "var", "big", "small", "br", "bdo", "cite",
-                             "del", "ins", "q", "sub", "sup", "img", "map" ];
-
-      this.__blockNodes = [];
-
       var blockElement;
+      var blockElements = [];
       for (var i=0, j=blockNodeList.length; i<j; i++)
       {
         blockElement = document.createElement(blockNodeList[i]);
         document.body.appendChild(blockElement);
-        this.__blockNodes.push(blockElement);
+
+        blockElements.push(blockElement);
+
+        this.info("Testing node " + qx.dom.Node.getName(blockElement));
+        this.assertTrue(qx.dom.Node.isBlockNode(blockElement));
       }
 
-      this.__inlineNodes = [];
-
-      var inlineElement;
-      for (var i=0, j=inlineNodeList.length; i<j; i++)
-      {
-        inlineElement = document.createElement(inlineNodeList[i]);
-        document.body.appendChild(inlineElement);
-        this.__inlineNodes.push(inlineElement);
-      }
-    },
-
-
-    tearDown : function()
-    {
-      for (var i=0, j=this.__blockNodes.length; i<j; i++) {
-        document.body.removeChild(this.__blockNodes[i]);
-      }
-      this.__blockNodes = null;
-
-      for (var i=0, j=this.__inlineNodes.length; i<j; i++) {
-        document.body.removeChild(this.__inlineNodes[i]);
-      }
-      this.__inlineNodes = null;
-    },
-
-
-    testBlockNodes : function()
-    {
-      var blockNode;
-      for (var i=0, j=this.__blockNodes.length; i<j; i++)
-      {
-        this.info("Testing node " + qx.dom.Node.getName(this.__blockNodes[i]));
-        this.assertTrue(qx.dom.Node.isBlockNode(this.__blockNodes[i]));
+      for (var i=0, j=blockElements.length; i<j; i++) {
+        document.body.removeChild(blockElements[i]);
       }
     },
 
 
     testInlineNodes : function()
     {
-      var inlineNode;
-      for (var i=0, j=this.__inlineNodes.length; i<j; i++)
+      var inlineNodeList = [ "a", "span", "abbr", "acronym", "dfn", "object", "param",
+                             "em", "strong", "code", "b", "i", "tt", "samp",
+                             "kbd", "var", "big", "small", "br", "bdo", "cite",
+                             "del", "ins", "q", "sub", "sup", "img", "map" ];
+
+      var inlineElement;
+      var inlineElements = [];
+      for (var i=0, j=inlineNodeList.length; i<j; i++)
       {
-        this.info("Testing node " + qx.dom.Node.getName(this.__inlineNodes[i]));
-        this.assertFalse(qx.dom.Node.isBlockNode(this.__inlineNodes[i]));
+        inlineElement = document.createElement(inlineNodeList[i]);
+        document.body.appendChild(inlineElement);
+
+        inlineElements.push(inlineElement);
+
+        this.info("Testing node " + qx.dom.Node.getName(inlineElement));
+        this.assertFalse(qx.dom.Node.isBlockNode(inlineElement));
       }
+
+      for (var i=0, j=inlineElements.length; i<j; i++) {
+        document.body.removeChild(inlineElements[i]);
+      }
+    },
+
+
+    testTextNodes : function()
+    {
+      var blockElement = document.createElement("div");
+      var blockElementText = document.createTextNode("schokobaer");
+      blockElement.appendChild(blockElementText);
+
+      var innerElement = document.createElement("span");
+      blockElement.appendChild(innerElement);
+
+      var innerTextNode = document.createTextNode("vanillebaer");
+      innerElement.appendChild(innerTextNode);
+
+      document.body.appendChild(blockElement);
+
+      var data = "<Root><foo></foo></Root>";
+      var xml = qx.xml.Document.fromString(data);
+
+      var cdataElement = xml.createCDATASection("karamelbaer");
+      xml.getElementsByTagName("foo")[0].appendChild(cdataElement);
+
+      this.assertEquals("vanillebaer", qx.dom.Node.getText(innerTextNode), "Failed to get the right value for one text node.");
+      this.assertEquals("schokobaervanillebaer", qx.dom.Node.getText(blockElement), "Failed to get the right value for text of an element.");
+      this.assertEquals("karamelbaer", qx.dom.Node.getText(xml.getElementsByTagName("foo")[0].firstChild), "Failed to get the text of a CData text node.");
     }
   }
 });
