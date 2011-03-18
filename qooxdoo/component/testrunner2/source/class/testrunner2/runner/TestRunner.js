@@ -302,11 +302,18 @@ qx.Class.define("testrunner2.runner.TestRunner", {
               this.fireDataEvent("assertionFailed", ex);
             }
           };
-          var body = f.toString();
-          body = /{(.*)}/img.exec(body.replace(/\n/gm, ""))[1];
-          // need to use the AUT window's Function since IE 6/7/8 can't catch
-          // exceptions from other windows.
-          tCase[prop] = new win.Function(body);
+          
+          if (qx.core.Environment.get("browser.name") === "ie" &&
+              qx.core.Environment.get("browser.version") < 9) {
+            // need to use the AUT window's Function since IE 6/7/8 can't catch
+            // exceptions from other windows.
+            var body = f.toString();
+            body = /{(.*)}/img.exec(body.replace(/\n/gm, ""))[1];
+            tCase[prop] = new win.Function(body);
+          }
+          else {
+            tCase[prop] = f;
+          }
           tCase[prop].originalName = originalName;
         }
       }
