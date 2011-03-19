@@ -144,6 +144,10 @@ class Node(object):
         else:
             return [c for c in self.children if c.type not in ("comment", "commentsBefore", "commentsAfter")]
 
+
+    getChildren = hasChildren
+
+
     def addChild(self, childNode, index = None):
         if childNode:
             if childNode.parent:

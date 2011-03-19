@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import re, sys
+import re, sys, operator
 from ecmascript.frontend.treeutil import *
 from ecmascript.frontend          import treeutil
 
@@ -229,29 +229,61 @@ def processVariantGet(callNode, variantMap):
     variantKey = firstParam.get("value");
     if not variantKey in variantMap.keys():
         return treeModified
+    else:
+        variantValue = variantMap[variantKey]
 
     # Processing
     # are we in a if/loop condition expression, i.e. a "loop/expression/..." context?
-    conditionExpression = None
+    conditionNode = None
     loopType = None
     node = callNode
     while (node):
         if node.type == "expression" and node.parent and node.parent.type == "loop":
-            conditionExpression = node
+            conditionNode = node
             break
         node = node.parent
 
-    if not conditionExpression:
-        return False
+    if not conditionNode:
+        return treeModified
 
     # handle "if" statements
-    if conditionExpression.parent.get("loopType") == "IF":
+    if conditionNode.parent.get("loopType") == "IF":
+        loopNode = conditionNode.parent
         # get() call is only condition
-        if callNode.parent == conditionExpression:
-            loop = conditionExpression.parent
-            treeutil.inlineIfStatement(loop, bool(variantMap[variantKey])) # take the truth val of the key value
+        if callNode.parent == conditionNode:
+            treeutil.inlineIfStatement(loopNode, bool(variantValue)) # take the truth val of the key value
             treeModified = True
-        # handle comparisons
+        # a single comparison is the condition
+        elif (callNode.parent.parent.type == "operation"
+              and callNode.parent.parent.parent == conditionNode):
+            cmpNode = callNode.parent.parent
+            # check operator
+            cmpOp  = cmpNode.get("operator")
+            if cmpOp in ["EQ", "SHEQ"]:
+                cmpFcn = operator.eq
+            elif cmpOp in ["NE", "SHNE"]:
+                cmpFcn = operator.ne
+            else: # unsupported compare
+                cmpFcn = None
+            if cmpFcn:
+                # get other compare operand
+                cmpOperands = cmpNode.getChildren(True)
+                if cmpOperands[0] == callNode.parent: # switch between "first" and "second"
+                    otherValue = cmpOperands[1].getFirstChild(ignoreComments=True)
+                else:
+                    otherValue = cmpOperands[0].getFirstChild(ignoreComments=True)
+                if otherValue.type == "constant":
+                    constType = otherValue.get("constantType")
+                    if constType == "number":
+                        op1 = int(variantValue)
+                        op2 = int(otherValue.get("value"))
+                    elif constType == "string":
+                        op1 = variantValue
+                        op2 = otherValue.get("value")
+                    # compare result
+                    if constType in ("number", "string"):
+                        treeutil.inlineIfStatement(loopNode, cmpFcn(op1,op2))
+                        treeModified = True
 
     return treeModified
 
