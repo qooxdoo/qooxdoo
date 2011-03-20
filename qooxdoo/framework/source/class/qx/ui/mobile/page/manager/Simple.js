@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
      */
     __registerEventListeners : function()
     {
-      if (qx.bom.client.Feature.PHONEGAP && qx.bom.client.System.ANDROID)
+      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("os.name") == "android")
       {
         this.__backButtonHandler = qx.lang.Function.bind(this._onBackButton, this);
         this.__menuButtonHandler = qx.lang.Function.bind(this._onMenuButton, this);
@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
     __unregisteEventListeners : function()
     {
-      if (qx.bom.client.Feature.PHONEGAP && qx.bom.client.System.ANDROID)
+      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("os.name") == "android")
       {
         qx.bom.Event.removeNativeListener(document, "backKeyDown", this.__backButtonHandler);
         qx.bom.Event.removeNativeListener(document, "menuKeyDown", this.__menuButtonHandler);
@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
     _onBackButton : function()
     {
-      if (qx.bom.client.Feature.PHONEGAP && qx.bom.client.System.ANDROID)
+      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("os.name") == "android")
       {
         var exit = true;
         if (this.__currentPage) {
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
     _onMenuButton : function()
     {
-      if (qx.bom.client.Feature.PHONEGAP && qx.bom.client.System.ANDROID)
+      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("os.name") == "android")
       {
         if (this.__currentPage) {
           this.__currentPage.menu();

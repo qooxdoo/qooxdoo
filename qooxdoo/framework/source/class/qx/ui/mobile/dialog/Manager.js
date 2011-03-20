@@ -30,7 +30,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
     // TOOD : MOVE THIS TO PHONE GAP CLASS
     alert : function(title, text, handler, scope, button)
     {
-      if (qx.bom.client.Feature.PHONEGAP && navigator.notification) {
+      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("phonegap.notification")) {
         var callback = function() {
           if (handler) {
             handler.call(scope);
@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
     confirm : function(title, text, handler, scope, buttons)
     {
-      if (qx.bom.client.Feature.PHONEGAP && navigator.notification)
+      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("phonegap.notification"))
       {
         var callback = function(index)
         {
