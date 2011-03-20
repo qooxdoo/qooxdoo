@@ -1,0 +1,365 @@
+@media all and (orientation:portrait) {
+
+}
+
+@media all and (orientation:landscape) {
+
+}
+ 
+@media screen and (max-device-width: 480px) {
+ 
+}
+
+@media screen and (-webkit-device-pixel-ratio:1.5) {
+  
+}
+
+
+body {
+    background: #181818;
+}
+
+body > * {
+    background: #181818;
+}
+
+h1, h2 {
+    font-family: Helvetica;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+h1 {
+  color: #fff;
+  font-size: 20px;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
+}
+
+
+h2 {
+   font-size: 16px;
+   margin-left: 5px;
+   margin-top: 10px;
+   margin-bottom:10px;
+   line-height:20px;
+   text-shadow: rgba(255,255,255,.2) 0 1px 1px;
+   color: #bdbebd;
+   background-color: #212021;
+   border-bottom: 1px solid #313431;
+}
+
+.fontNormal {
+  color : #ffffff;
+  font-weight:normal;
+  font-size:0.8em;
+}
+
+input, select { vertical-align:middle; }
+input, select, textarea { 
+  font-family: Helvetica;
+  font-size:.9em;
+}
+
+a:hover, a:active { outline: none; }
+a, a:active, a:visited { color: #e89c00; }
+a:hover { color: #e89c00; }
+
+.window {
+  position : absolute;
+  z-index:100000;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  top:0px;
+  margin-left: auto;
+  margin-top:auto;
+  margin-right:auto;
+  margin-bottom:auto;
+  width:100px;
+  height: 50px;
+  background-color:red;
+}
+
+
+.loading {
+  display:none;
+  position : absolute;
+  z-index:100;
+  width:100%;
+  height:100%;
+  left:0;
+  top:0;
+  background-color:gray;
+  opacity : 0.5;
+}
+
+
+.loading > div {
+  position:relative;
+  z-index:100;
+  left:50%;
+  right:50%;
+  top:50%;
+  bottom:50%;
+  margin-left:-16px;
+}
+
+.tabBar {
+  bottom:1px;
+  height:45px;
+}
+
+.tabButton {
+  height:45px !important;
+  text-align: center;
+  line-height: 45px;
+  margin:0 !important;
+  -webkit-box-sizing: border-box;
+}
+
+.tabButton.active, .tabButton.selected {
+  border: 2px solid orange;
+}
+
+.toolbar {
+    border-bottom: 1px solid #2d3642;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 45px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#9a9a9a), to(#7c7e7c));
+}
+
+
+.toolbarButton, .toolbarBackButton {
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 0 3px;
+    width: auto;
+    height: 30px;
+    line-height: 30px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: bold;
+    color: #black;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    white-space: nowrap;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#c4c4c4));
+    border: 2px solid #232323;
+    -webkit-border-radius: 4px;
+}
+
+.toolbarButton.active, .toolbarBackButton.active {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
+}
+
+
+.button, .tabButton {
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  color: black;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#c4c4c4));
+  border: 1px solid #232323;
+  -webkit-border-radius: 4px;
+  font: bold 17px Helvetica;
+  line-height : 40px;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 15px;
+}
+
+
+.button.active {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
+}
+
+
+.content {
+  margin : 5px;
+}
+
+/* @group Toggle */
+
+.toggleButton {
+    width: 94px;
+    height: 27px;
+    display: block;
+    overflow: hidden;
+    position:relative;
+    -webkit-border-radius: 5px;
+}
+
+.toggleButton > div.checked {
+    left: 0px;
+}
+
+.toggleButton > div {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    margin: 0;
+    -webkit-border-radius: 5px;
+    background: #fff url(../icon/android/on_off.png) 0 0 no-repeat;
+    height: 27px;
+    overflow: hidden;
+    width: 149px;
+    border: 0;
+    background-color: transparent;
+    -webkit-transition: left .15s;
+    position: absolute;
+    top: 0px;
+    left: -55px;
+}
+
+.slider {
+  position:relative;
+  border:1px solid #6b6d6b;
+  height:30px;
+}
+
+.slider > div {
+  position:absolute;
+  border:1px solid #6b6d6b;
+  top:0px;
+  left:0%;
+  background-color:#fff;
+  width:30px;
+  height:30px;
+}
+
+/* @end */
+
+ul {
+    font: bold 17px Helvetica;
+    padding: 0px;
+}
+
+ul li {
+    color: #ffffff;
+    border-top: 1px solid #6b6d6b;
+    list-style-type: none;
+    padding: 10px 25px 10px 10px;
+}
+
+ul li * {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+ul li.arrow {
+    background: url("../icon/android/arrow.png") no-repeat right center;
+}
+
+ul li.active.arrow, ul li.selected.arrow {
+    background: url("../icon/android/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
+}
+
+ul li.active, ul li.selected {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
+    color: #000;
+}
+
+ul li .subtitle {
+  font-weight:normal;
+  font-size:0.8em;
+  color : #949a94;
+}
+
+ul li.active .subtitle {
+    color: #313429;
+}
+
+
+/* when you have a first LI item on any list */
+
+li:first-child, li:first-child a {
+    border-top: 0px;
+}
+
+
+/* @group Forms */
+
+ul.form li {
+    padding: 10px 10px 10px 10px;
+}
+
+ul.form li.error {
+    border: 2px solid red;
+}
+
+ul.form li.error + li.error {
+    border-top: 0;
+}
+
+ul.form li * {
+    white-space: normal;
+    text-overflow: ellipsis;
+}
+
+ul li input[type="text"], ul li input[type="password"], ul li textarea, ul li select {
+    color: #222222;
+    background: -webkit-gradient(linear, left top, left bottom, from(#e2e0e2), to(#f8f5f8));
+    border: 1px solid #242424;
+    width: 100%;
+    height: 2em;
+    outline: none;
+    -webkit-appearance: textarea;
+    -webkit-border-radius: .4em;
+}
+
+ul li textarea {
+    height: 120px;
+    padding: 0;
+    text-indent: -2px;
+}
+
+ul li select {
+    text-indent: 0px;
+    background: transparent url(../icon/android/arrow.png) no-repeat 103% 3px;
+    -webkit-appearance: textfield;
+    margin-left: -6px;
+    width: 104%;
+}
+
+ul li input[type="checkbox"], ul li input[type="radio"] {
+    margin: 0;
+    color: rgb(50,79,133);
+    padding: 10px 10px;
+}
+
+ul li input[type="checkbox"]:after, ul li input[type="radio"]:after {
+    content: attr(title);
+    font: 17px Helvetica;
+    display: block;
+    width: 246px;
+    margin: -12px 0 0 17px;
+}
+
+/* @end */
+
+.scrollbar {
+    position: absolute;
+    z-index: 1;
+    width: 1px;
+    height: 1px;
+    border-width: 3px;
+    -webkit-border-image: url(../images/android/scrollbar.png) 3;
+}
+
+.scrollbar.horizontal {
+    bottom: 1px;
+    left: 1px;
+}
+
+.scrollbar.vertical {
+    top: 1px;
+    right: 1px;
+}

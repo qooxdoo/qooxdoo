@@ -1,0 +1,235 @@
+/* MAIN */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow-x: hidden;
+    -webkit-user-select: none;
+    -webkit-text-size-adjust: none;
+    font-family: Helvetica;
+    -webkit-perspective: 800;
+    -webkit-transform-style: preserve-3d;
+}
+
+body > * {
+    -webkit-backface-visibility: hidden;
+    -webkit-box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    -webkit-transform: translate3d(0,0,0) rotate(0) scale(1);
+}
+
+.selectable, input, textarea {
+    -webkit-user-select: auto;
+}
+
+/* SCROLLER */
+
+.scroller {
+    position:relative;
+    z-index:1;
+    width:auto/* your desired width, auto and 100% are fine */;
+    height:auto/* element height */;
+    overflow:hidden/* hidden|auto|scroll */;
+}
+
+
+.scroller > div {
+  padding-bottom:10px;/* todo: experimental */;
+}
+
+
+/* ANIMATIONS */
+
+.in {
+    z-index: 10;
+}
+
+.out {
+    z-index: 0;
+}
+
+.in, .out {
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-duration: 350ms;
+  -webkit-animation-fill-mode: forwards; /* Persist the last frame of the animation */
+}
+
+
+.slide.in {
+    -webkit-animation-name: slideLeftIn;
+}
+
+.slide.out {
+    -webkit-animation-name: slideLeftOut;
+}
+
+@-webkit-keyframes slideLeftIn {
+    0% {
+        -webkit-transform: translateX(100%);
+    } 
+    100% {
+        -webkit-transform: translateX(0);
+    }
+}
+
+@-webkit-keyframes slideLeftOut {
+    0% {
+        -webkit-transform: translateX(0px);
+    } 
+    100% {
+        -webkit-transform: translateX(-100%);
+    }
+}
+
+
+.slide.in.reverse {
+    -webkit-animation-name: slideRightIn;
+}
+
+.slide.out.reverse {
+    -webkit-animation-name: slideRightOut;
+}
+
+@-webkit-keyframes slideRightIn {
+    0% {
+        -webkit-transform: translateX(-100%);
+    } 
+    100% {
+        -webkit-transform: translateX(0);
+    }
+}
+
+@-webkit-keyframes slideRightOut {
+    0% {
+        -webkit-transform: translateX(0);
+    } 
+    100% {
+        -webkit-transform: translateX(100%);
+    }
+}
+
+
+/* Layout */
+
+.hbox {
+        display: -webkit-box;
+        -webkit-box-orient: horizontal;
+        -webkit-box-align: stretch;
+ 
+        display: -moz-box;
+        -moz-box-orient: horizontal;
+        -moz-box-align: stretch;
+ 
+        display: box;
+        box-orient: horizontal;
+        box-align: stretch;
+}
+
+.hbox> * {
+        -webkit-box-flex: 0;
+        -moz-box-flex: 0;
+        box-flex: 0;
+}
+
+.vbox {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-box-align: stretch;
+ 
+        display: -moz-box;
+        -moz-box-orient: vertical;
+        -moz-box-align: stretch;
+ 
+        display: box;
+        box-orient: vertical;
+        box-align: stretch;
+}
+
+.vbox> * {
+        -webkit-box-flex: 0;
+        -moz-box-flex: 0;
+        box-flex: 0;
+}
+ 
+.boxSpacer {
+        -webkit-box-flex: 1;
+        -moz-box-flex: 1;
+        box-flex: 1;
+}
+
+.boxReverse {
+        -webkit-box-direction: reverse;
+        -moz-box-direction: reverse;
+        box-direction: reverse;
+}
+
+.boxAlignStart {
+        -webkit-box-align: start;
+        -moz-box-align: start;
+        box-align: start;
+}
+
+.boxAlignCenter {
+        -webkit-box-align: center;
+        -moz-box-align: center;
+        box-align: center;
+}
+
+.boxAlignEnd {
+        -webkit-box-align: end;
+        -moz-box-align: end;
+        box-align: end;
+}
+
+
+.boxPackStart {
+        -webkit-box-pack: start;
+        -moz-box-pack: start;
+        box-pack: start;
+}
+
+.boxPackCenter {
+        -webkit-box-pack: center;
+        -moz-box-pack: center;
+        box-pack: center;
+}
+
+.boxPackEnd {
+        -webkit-box-pack: end;
+        -moz-box-pack: end;
+        box-pack: end;
+}
+
+.boxFlex0 {
+        -webkit-box-flex: 0;
+        -moz-box-flex: 0;
+        box-flex: 0;
+}
+ 
+.boxFlex1, .boxFlex {
+        -webkit-box-flex: 1;
+        -moz-box-flex: 1;
+        box-flex: 1;
+}
+ 
+.boxFlex2 {
+        -webkit-box-flex: 2;
+        -moz-box-flex: 2;
+        box-flex: 2;
+}
+ 
+.boxGroup1 {
+        -webkit-box-flex-group: 1;
+        -moz-box-flex-group: 1;
+        box-flex-group: 1;
+}
+ 
+.boxGroup2 {
+        -webkit-box-flex-group: 2;
+        -moz-box-flex-group: 2;
+        box-flex-group: 2;
+}
