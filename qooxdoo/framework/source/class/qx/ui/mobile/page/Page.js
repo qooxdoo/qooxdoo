@@ -257,9 +257,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
   defer : function(statics)
   {
-    // TODO: MOVE THIS CHECK TO FEATURE DETECTION
-    var supports3d = 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix();
-    if (supports3d) {
+    if (qx.core.Environment.get("css.translate3d")) {
       statics.setManagerClass(qx.ui.mobile.page.manager.Animation);
     } else {
       statics.setManagerClass(qx.ui.mobile.page.manager.Simple);
