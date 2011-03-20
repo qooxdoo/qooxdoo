@@ -32,7 +32,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 {
   extend : qx.core.Object,
   include : [qx.locale.MTranslation],
-  type : "abstract",
 
 
   construct : function()
