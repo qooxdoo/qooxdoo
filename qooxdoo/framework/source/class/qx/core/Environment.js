@@ -578,6 +578,10 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("phonegap")) {
         this._checks["phonegap"] = qx.bom.client.PhoneGap.getPhoneGap;
       }
+
+      if (this.useCheck("phonegap.notification")) {
+        this._checks["phonegap.notification"] = qx.bom.client.PhoneGap.getNotification;
+      }
     }
   },
 

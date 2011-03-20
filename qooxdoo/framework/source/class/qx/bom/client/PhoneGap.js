@@ -36,6 +36,16 @@ qx.Bootstrap.define("qx.bom.client.PhoneGap",
      */
     getPhoneGap : function() {
       return "PhoneGap" in window;
+    },
+
+
+    /**
+     * Checks if notifications can be displayed.
+     * @return {Boolean} <code>true</code>, if it could be used.
+     * @internal
+     */
+    getNotification : function() {
+      return "notification" in navigator;
     }
   }
 });
