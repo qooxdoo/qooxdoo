@@ -19,7 +19,8 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * // TODO: rename to toolbar
+ *
+ * This widget displays a tab bar.
  */
 qx.Class.define("qx.ui.mobile.tabbar.TabBar",
 {
@@ -30,15 +31,12 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     this.base(arguments);
     this._setLayout(new qx.ui.mobile.layout.HBox());
     this.addListener("tap", this._onTap, this);
-    //this._setStyle("visibility" , "hidden");
-    //this.addListener("domupdated", function() {
-    //  this._setStyle("visibility" , "visible");
-    //}, this);
   },
 
 
   properties :
   {
+    // overridden
     cssClass :
     {
       refine : true,
@@ -46,9 +44,12 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     },
 
 
+    /**
+     * Sets the selected tab.
+     */
     selectedTab :
     {
-      check : "qx.ui.mobile.tabbar.TabButton",
+      check : "qx.ui.mobile.core.Widget",
       nullable : false,
       init : null,
       apply : "_applySelectedTab",
@@ -61,6 +62,11 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
   {
     __currentTab : null,
 
+    /**
+     * Event handler. Called when a tab event occurs.
+     * 
+     * @param evt {qx.event.type.Tap} The event object
+     */
     _onTap : function(evt)
     {
       var target = evt.getTarget();
@@ -70,6 +76,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     },
 
 
+    // property apply
     _applySelectedTab : function(value, old)
     {
       if (old) {
@@ -79,6 +86,11 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     },
 
 
+    /**
+     * Adds a tab button to the tab bar.
+     * 
+     * @param button {qx.ui.mobile.tabbar.TabButton} The button to add
+     */
     add : function(button)
     {
       this._add(button, {flex:1});
@@ -88,6 +100,11 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     },
 
 
+    /**
+     * Removes a tab button from the tab bar.
+     * 
+     * @param button {qx.ui.mobile.tabbar.TabButton} The button to remove
+     */
     remove : function(button)
     {
       this._remove(button);
