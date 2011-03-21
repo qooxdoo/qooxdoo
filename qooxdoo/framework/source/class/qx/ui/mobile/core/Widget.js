@@ -505,12 +505,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Add a widget after another already inserted widget
+     * Add a widget after another already inserted widget.
      *
-     * @param child {Widget} widget to add
-     * @param afterWidget {Widget} widget, after which the new widget will be inserted
+     * @param child {Widget} The widget to add.
+     * @param afterWidget {Widget} Widget, after which the new widget will be inserted.
      * @param layoutProperties {Map?null} Optional layout data for widget.
-     * @return {void}
      */
     _addAfter : function(child, afterWidget, layoutProperties)
     {
@@ -534,16 +533,21 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
-
+    /**
+     * Removes a given child from the widget.
+     * 
+     * @param child {Widget} The widget to remove.
+     */
     _remove : function(child) 
     {
-      qx.lang.Array.remove(this.__children, child);
       child.setLayoutParent(null);
-      this.getContentElement().removeChild(child.getContainerElement());
       this._domUpdated();
     },
 
 
+    /**
+     * Removes all children from the widget.
+     */
     _removeAll : function()
     {
       // create a copy of the array
@@ -551,12 +555,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       for (var i = 0, l=children.length; i < l; i++) {
         this._remove(children[i]);
       }
-    },
-
-
-    __removeHelper : function(child)
-    {
-      
     },
 
 
@@ -579,13 +577,39 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * Internal method. Sets the layout parent.
+     * 
+     * @param parent {qx.ui.mobile.Widget} The parent widget
+     * 
+     * @internal
+     */
     setLayoutParent : function(parent)
     {
       if (this.__layoutParent === parent) {
         return;
       }
 
+      var oldParent = this.__layoutParent;
+      if (oldParent && !oldParent.$$disposed) {
+        this.__layoutParent.removeChild(this);
+      }
+
       this.__layoutParent = parent || null; 
+    },
+
+
+    /**
+     * Internal method. Removes a given child widget and the corresponding DOM element.
+     * 
+     * @param child {Widget} The widget to remove
+     * 
+     * @internal
+     */
+    removeChild : function(child)
+    {
+      qx.lang.Array.remove(this.__children, child);
+      this.getContentElement().removeChild(child.getContainerElement());
     },
 
 
