@@ -827,15 +827,24 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
+      var delta = e.getWheelDelta();
       // FireFox seems to scroll faster than other browsers
       var factor = qx.bom.client.Engine.GECKO ? 1 : 3;
       var value = this.__verScrollBar.getPosition() +
-                  ((e.getWheelDelta() * factor) * table.getRowHeight());
+                  ((delta * factor) * table.getRowHeight());
       this.__verScrollBar.scrollTo(value);
+      this.__verScrollBar.scrollBySteps(delta);
 
       // Update the focus
       if (this.__lastMousePageX && this.getFocusCellOnMouseMove()) {
         this._focusCellAtPagePos(this.__lastMousePageX, this.__lastMousePageY);
+      }
+
+      var position = this.__verScrollBar.getPosition();
+      var max = this.__verScrollBar.getMaximum();
+      // pass the event to the parent if the scrollbar is at an edge
+      if (delta < 0 && position <= 0 || delta > 0 && position >= max) {
+        return;
       }
 
       e.stop();
