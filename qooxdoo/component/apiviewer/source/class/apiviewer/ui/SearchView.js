@@ -468,22 +468,28 @@ qx.Class.define("apiviewer.ui.SearchView",
     {
       var icons =
       {
-        "package":0,
-        "class_abstract":1,
-        "class":2,
+        "package": 0,
+        "class_abstract": 1,
+        "class": 2,
         "class_singleton": 3,
-        "interface":4,
-        "mixin":5,
-        "method_public":6,
-        "method_protected":7,
-        "method_private":8,
-        "property":9,
-        "property_protected":10,
-        "property_private":11,
-        "event":12,
-        "constructor":13,
-        "constant":14,
-        "childcontrol":15
+        "class_static": 4,
+        "class_warning": 5,
+        "class_static_warning": 6,
+        "class_abstract_warning" : 7,
+        "class_singleton_warning" : 8,
+        "interface":  9,
+        "mixin": 10,
+        "mixin_warning": 11,
+        "method_public": 12,
+        "method_protected": 13,
+        "method_private": 14,
+        "property": 15,
+        "property_protected": 16,
+        "property_private": 17,
+        "event": 18,
+        "constructor": 19,
+        "constant": 20,
+        "childcontrol": 21
       };
       // Get the filename
       var aType = a[0];
