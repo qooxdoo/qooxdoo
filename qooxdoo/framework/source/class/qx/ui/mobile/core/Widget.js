@@ -189,9 +189,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
   events : 
   {
-     /** Fired when the innerHTML of the widget is cleared. */  
-    clear : "qx.event.type.Event",
-
     /** Fired if the mouse cursor moves over the widget. */
     mousemove : "qx.event.type.Mouse",
 
@@ -814,23 +811,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      Clear handling
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODO -> Widget should only provide a protected method
-     */
-    clear : function()
-    {
-      var contentElement = this.getContentElement();
-      contentElement.innerHTML = "";
-      this.fireEvent("clear");
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
       Visibility handling
     ---------------------------------------------------------------------------
     */
@@ -874,9 +854,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Returns the content DOM element of the widget. 
-     * Note: Most times this element points to to the container element.
-     * When the widget has a more complex element structure, 
-     * the function should return the element that should contain the content.
      * 
      * @return {Element} the content DOM element of the widget
      *
@@ -891,6 +868,16 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * Returns the content DOM element of the widget.
+     * Override this method, to define another element as the content element.
+     * 
+     * Note: Most times this element points to to the container element.
+     * When the widget has a more complex element structure, 
+     * the function should return the element that should contain the content.
+     * 
+     * @return {Element} the content DOM element of the widget
+     */
     _getContentElement : function()
     {
       return this.getContainerElement();
@@ -906,9 +893,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Removes this widget from its parent and disposes it.
      *
-     * Please note that the widget is not disposed synchronously. The
-     * real dispose happens after the next queue flush.
-     *
      * @return {void}
      */
     destroy : function()
@@ -922,7 +906,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         parent._remove(this);
       }
       this.dispose();
-    },
+    }
   },
 
 
