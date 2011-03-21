@@ -254,6 +254,11 @@ msgstr ""
 msgid "test two"
 msgstr ""
 
+#: qx/test/util/Serializer.js:484 qx/test/util/Serializer.js:489
+#: qx/test/util/Serializer.js:496
+msgid "test affe"
+msgstr ""
+
 #: qx/ui/control/ColorPopup.js:147
 msgid "Automatic"
 msgstr ""
@@ -274,47 +279,47 @@ msgstr ""
 msgid "Color Selector"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:258
+#: qx/ui/control/ColorSelector.js:256
 msgid "Visual"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:318
+#: qx/ui/control/ColorSelector.js:316
 msgid "Presets"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:349
+#: qx/ui/control/ColorSelector.js:347
 msgid "Details"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:360 qx/ui/control/ColorPopup.js:162
+#: qx/ui/control/ColorSelector.js:358 qx/ui/control/ColorPopup.js:162
 msgid "Preview (Old/New)"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:378
+#: qx/ui/control/ColorSelector.js:376
 msgid "Hex"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:400
+#: qx/ui/control/ColorSelector.js:398
 msgid "RGB"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:432
+#: qx/ui/control/ColorSelector.js:430
 msgid "HSB"
 msgstr ""
 
-#: qx/ui/control/DateChooser.js:243
+#: qx/ui/control/DateChooser.js:253
 msgid "Last year"
 msgstr ""
 
-#: qx/ui/control/DateChooser.js:255
+#: qx/ui/control/DateChooser.js:265
 msgid "Last month"
 msgstr ""
 
-#: qx/ui/control/DateChooser.js:267
+#: qx/ui/control/DateChooser.js:277
 msgid "Next month"
 msgstr ""
 
-#: qx/ui/control/DateChooser.js:279
+#: qx/ui/control/DateChooser.js:289
 msgid "Next year"
 msgstr ""
 
@@ -322,13 +327,13 @@ msgstr ""
 msgid "This field is required"
 msgstr ""
 
-#: qx/ui/table/Table.js:1907
+#: qx/ui/table/Table.js:1953
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qx/ui/table/Table.js:1909
+#: qx/ui/table/Table.js:1955
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] ""
