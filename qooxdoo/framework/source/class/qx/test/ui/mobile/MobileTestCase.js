@@ -20,17 +20,39 @@
 qx.Class.define("qx.test.ui.mobile.MobileTestCase",
 {
   extend : qx.dev.unit.TestCase,
+  include : [qx.dev.unit.MRequirements],
+
+
+  statics :
+  {
+    _root : null,
+    _oldApplicationFunction : null
+  },
 
 
   members :
   {
-    setUp : function() {
-      this.getRoot();
+    setUp : function()
+    {
+      this.require(["webkit"]);
+
+      qx.test.ui.mobile.MobileTestCase._oldApplicationFunction = qx.core.Init.getApplication;
+
+      qx.core.Init.getApplication = function()
+      {
+        return {
+          getRoot : function() {
+            return this.getRoot();
+          }
+        }
+      }
     },
 
 
-    tearDown : function() {
+    tearDown : function()
+    {
       this.getRoot().removeAll();
+      qx.core.Init.getApplication = qx.test.ui.mobile.MobileTestCase._oldApplicationFunction;
     },
 
 
@@ -41,14 +63,6 @@ qx.Class.define("qx.test.ui.mobile.MobileTestCase",
       if (!clazz._root)
       {
         clazz._root = new qx.ui.mobile.core.Root();
-
-        qx.core.Init.getApplication = function() {
-          return {
-            getRoot : function() {
-              return clazz._root;
-            }
-          }
-        }
       }
 
       return clazz._root;
