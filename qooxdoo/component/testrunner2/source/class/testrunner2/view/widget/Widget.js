@@ -984,7 +984,8 @@ qx.Class.define("testrunner2.view.widget.Widget", {
           break;
         case "running" :
           this.__progressBar.setValue(0);
-          this.__progressBar.setMaximum(this.getSelectedTests().length);
+          var totalTests = testrunner2.runner.ModelUtil.getItemsByProperty(this.getSelectedTests().getItem(0), "type", "test");
+          this.__progressBar.setMaximum(totalTests.length);
           this.setStatus("Running tests...");
           this._setActiveButton(this.__stopButton);
           break;
@@ -1058,7 +1059,6 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     _onTestChangeState : function(testResultData) 
     {
       var state = testResultData.getState();
-      this.__progressBar.setValue(this.__progressBar.getValue() + 1);
       switch (state) {
         case "skip":
           this.setSkippedTestCount(this.getSkippedTestCount() + 1);
@@ -1146,6 +1146,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     // overridden
     addTestResult : function(testResultData)
     {
+      this.__progressBar.setValue(this.__progressBar.getValue() + 1);
       this.base(arguments, testResultData);
       this.__testResultView.addTestResult(testResultData);
     },
