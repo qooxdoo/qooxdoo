@@ -466,10 +466,12 @@ qx.Class.define("testrunner2.view.Html", {
       this.resetSuccessfulTestCount();
       this.resetSkippedTestCount();
       this.clearResults();
-      //var selectedTests = qx.lang.Array.clone(this.getSelectedTests());
-      //var selectedTests = this.getSelectedTests().copy();
-      //this.resetSelectedTests();
-      //this.setSelectedTests(selectedTests);
+      
+      var selected = this.getSelectedTests();
+      // trigger a "change" event on the selection to allow running it again
+      if (selected.length > 0) {
+        selected.push(selected.pop());
+      }
     },
     
     
