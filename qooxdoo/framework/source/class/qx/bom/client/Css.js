@@ -98,6 +98,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * Checks if translate3d can be used.
      * @return {Boolean} <code>true</code>, if it could be used.
      * @internal
+     * @lint ignoreUndefined(WebKitCSSMatrix)
      */
     getTranslate3d : function()
     {
