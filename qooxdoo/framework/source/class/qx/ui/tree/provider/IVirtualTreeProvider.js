@@ -38,19 +38,11 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider",
 
 
     /**
-     * Creates a renderer for node rendering.
+     * Creates a renderer for rendering.
      *
      * @return {var} new node renderer.
      */
-    createNodeRenderer : function() {},
-
-
-    /**
-     * Creates a renderer for leaf rendering.
-     *
-     * @return {var} new leaf renderer.
-     */
-    createLeafRenderer : function() {},
+    createRenderer : function() {},
 
 
     /**

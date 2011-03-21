@@ -75,6 +75,18 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
       nullable: true
     },
     
+    
+    /**
+     * The name of the property, where the children are stored in the model.
+     * Instead of the {@link #labelPath} must the child property a direct
+     * property form the model instance.
+     */
+    childProperty :
+    {
+      check: "String",
+      nullable: true
+    },
+    
 
     /**
      * Delegation object, which can have one or more functions defined by the
@@ -114,6 +126,20 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
       this.bindProperty(
         this.getLabelPath(), "label", this.getLabelOptions(), item, index
       );
+      
+      try
+      {
+        this.bindProperty(
+          this.getChildProperty() + ".length", "appearance",
+          {
+            converter : function() {
+              return "virtual-tree-folder";
+            }
+          }, item, index
+        );
+      } catch(ex) {
+        item.setAppearance("virtual-tree-file");
+      }
       
       if (this.getIconPath() != null)
       {
@@ -183,35 +209,17 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
     
     
     /**
-     * Sets up the binding for the given node and index.
+     * Sets up the binding for the given item and index.
      *
-     * @param item {qx.ui.core.Widget} The internally created and used node.
+     * @param item {qx.ui.core.Widget} The internally created and used item.
      * @param index {Integer} The index of the item.
      */
-    _bindNode : function(item, index)
+    _bindItem : function(item, index)
     {
-      var bindNode = qx.util.Delegate.getMethod(this.getDelegate(), "bindNode");
+      var bindItem = qx.util.Delegate.getMethod(this.getDelegate(), "bindItem");
       
-      if (bindNode != null) {
-        bindNode(this, item, index);
-      } else {
-        this.bindDefaultProperties(item, index);
-      }
-    },
-
-
-    /**
-     * Sets up the binding for the given leaf and index.
-     *
-     * @param item {qx.ui.core.Widget} The internally created and used leaf.
-     * @param index {Integer} The index of the item.
-     */
-    _bindLeaf : function(item, index)
-    {
-      var bindLeaf = qx.util.Delegate.getMethod(this.getDelegate(), "bindLeaf");
-
-      if (bindLeaf != null) {
-        bindLeaf(this, item, index);
+      if (bindItem != null) {
+        bindItem(this, item, index);
       } else {
         this.bindDefaultProperties(item, index);
       }

@@ -36,60 +36,25 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
   {
     /**
      * Gives the user the opportunity to set individual styles and properties
-     * on the node widget cells created by the controller.
+     * on the widget cells created by the controller.
      *
-     * @param node {qx.ui.core.Widget} Node to modify.
+     * @param item {qx.ui.core.Widget} Item to modify.
      */
-    configureNode : function(node) {},
+    configureItem : function(item) {},
 
 
     /**
-     * Gives the user the opportunity to set individual styles and properties
-     * on the leaf widget cells created by the controller.
-     *
-     * @param leaf {qx.ui.core.Widget} Leaf to modify.
-     */
-    configureLeaf : function(leaf) {},
-
-
-    /**
-     * Creates an node cell which will be used for rendering. Be sure to
-     * implement the {@link #bindNode} function as well to get the needed
+     * Creates a widget cell which will be used for rendering. Be sure to
+     * implement the {@link #bindItem} function as well to get the needed
      * properties bound.
      *
      * @return {qx.ui.core.Widget} A new created item cell.
      */
-    createNode : function() {},
+    createItem : function() {},
 
 
     /**
-     * Creates a leaf cell which will be used for rendering. Be sure to
-     * implement the {@link #bindLeaf} function as well to get the needed
-     * properties bound.
-     *
-     * @return {qx.ui.core.Widget} A new created item cell.
-     */
-    createLeaf : function() {},
-
-
-    /**
-     * Sets up the binding for the given node and index.
-     *
-     * For every property you want to bind, use
-     * {@link MWidgetController#bindProperty} like this:
-     * <code>
-     * controller.bindProperty("path.in.the.model", "label", options, item, id);
-     * </code>
-     *
-     * @param controller {MWidgetController} The currently used controller.
-     * @param node {qx.ui.core.Widget} The created and used node.
-     * @param id {Integer} The id for the binding.
-     */
-    bindNode : function(controller, node, id) {},
-
-
-    /**
-     * Sets up the binding for the given leaf and index.
+     * Sets up the binding for the given widget cell and index.
      *
      * For every property you want to bind, use
      * {@link MWidgetController#bindProperty} like this:
@@ -98,9 +63,9 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
      * </code>
      *
      * @param controller {MWidgetController} The currently used controller.
-     * @param leaf {qx.ui.core.Widget} The created and used leaf.
+     * @param item {qx.ui.core.Widget} The created and used item.
      * @param id {Integer} The id for the binding.
      */
-    bindLeaf : function(controller, leaf, id) {}
+    bindLeaf : function(controller, item, id) {}
   }
 });

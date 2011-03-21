@@ -172,7 +172,7 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Columns",
     
     
     // delegate implementation
-    bindNode : function(controller, item, id) {
+    bindItem : function(controller, item, id) {
       controller.bindDefaultProperties(item, id);
       controller.bindProperty("size", "size", null, item, id);
       controller.bindProperty("checked", "checked", null, item, id);
@@ -188,29 +188,7 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Columns",
     
     
     // delegate implementation
-    bindLeaf : function(controller, item, id) {
-      controller.bindDefaultProperties(item, id);
-      controller.bindProperty("size", "size", null, item, id);
-      controller.bindProperty("checked", "checked", null, item, id);
-      controller.bindPropertyReverse("checked", "checked", null, item, id);
-      controller.bindProperty("date", "date", null, item, id);
-      controller.bindProperty("mode", "mode", null, item, id);
-      controller.bindProperty("light", "leadIcon", {
-        converter : function(data) {
-          return data ? "icon/16/status/dialog-information.png" : "";
-        }
-      }, item, id);
-    },
-
-    
-    // delegate implementation
-    createNode : function() {
-      return new demobrowser.demo.virtual.tree.TreeItem();
-    },
-    
-    
-    // delegate implementation
-    createLeaf : function() {
+    createItem : function() {
       return new demobrowser.demo.virtual.tree.TreeItem();
     }
   }

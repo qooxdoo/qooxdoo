@@ -110,12 +110,11 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     
     testGetRootNodeWidget : function()
     {
-      var spyBinding = this.spy(this.provider, "_bindNode");
+      var spyBinding = this.spy(this.provider, "_bindItem");
       var spySelection = this.spy(this.provider, "_styleUnselectabled");
       var widget = this.provider.getCellWidget(0,0);
       
       this.assertInstance(widget, qx.ui.tree.VirtualTreeFolder);
-      this.assertEquals("node", widget.getUserData("cell.type"));
       this.assertTrue(widget.getUserData("cell.children"));
       this.assertEquals(0, widget.getUserData("cell.level"));
       this.assertTrue(widget.isOpen());
@@ -129,12 +128,11 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     
     testGetNodeWidget : function()
     {
-      var spyBinding = this.spy(this.provider, "_bindNode");
+      var spyBinding = this.spy(this.provider, "_bindItem");
       var spySelection = this.spy(this.provider, "_styleUnselectabled");
       var widget = this.provider.getCellWidget(1,0);
       
       this.assertInstance(widget, qx.ui.tree.VirtualTreeFolder);
-      this.assertEquals("node", widget.getUserData("cell.type"));
       this.assertTrue(widget.getUserData("cell.children"));
       this.assertEquals(1, widget.getUserData("cell.level"));
       this.assertFalse(widget.isOpen());
@@ -148,14 +146,15 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testGetLeafWidget : function()
     {
-      var spyBinding = this.spy(this.provider, "_bindLeaf");
+      var spyBinding = this.spy(this.provider, "_bindItem");
       var spySelection = this.spy(this.provider, "_styleUnselectabled");
       var widget = this.provider.getCellWidget(3,0);
 
-      this.assertInstance(widget, qx.ui.tree.VirtualTreeFile);
-      this.assertEquals("leaf", widget.getUserData("cell.type"));
-      this.assertNull(widget.getUserData("cell.children"));
+      this.assertInstance(widget, qx.ui.tree.VirtualTreeFolder);
+      this.assertFalse(widget.getUserData("cell.children"));
       this.assertEquals(1, widget.getUserData("cell.level"));
+      this.assertFalse(widget.isOpen());
+      this.assertTrue(widget.hasListener("changeOpen"));
       this.assertCalledOnce(spyBinding);
       this.assertCalledWith(spyBinding, widget, 3);
       this.assertCalledOnce(spySelection);
@@ -163,27 +162,11 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
     
     
-    testPoolNodeWidget : function()
-    {
-      var widget = this.provider.getCellWidget(0,0);
-
-      var spyPool = this.spy(this.provider._nodeRenderer, "pool");
-      var spyBinding = this.spy(this.provider, "_removeBindingsFrom");
-
-      this.provider.poolCellWidget(widget);
-      this.assertCalledOnce(spyPool);
-      this.assertCalledWith(spyPool, widget);
-      this.assertCalledOnce(spyBinding);
-      this.assertCalledWith(spyBinding, widget);
-      this.assertFalse(widget.hasListener("changeOpen"));
-    },
-
-
-    testPoolLeafWidget : function()
+    testPoolWidget : function()
     {
       var widget = this.provider.getCellWidget(3,0);
 
-      var spyPool = this.spy(this.provider._leafRenderer, "pool");
+      var spyPool = this.spy(this.provider._renderer, "pool");
       var spyBinding = this.spy(this.provider, "_removeBindingsFrom");
 
       this.provider.poolCellWidget(widget);
@@ -198,16 +181,18 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     {
       var widget = new qx.ui.tree.VirtualTreeFolder();
 
-      this.provider._bindNode(widget, 0);
-      this.assertEquals(3, this.getLookupTable().getBindings().length, "Bindings count not correct!");
+      this.provider._bindItem(widget, 0);
+      this.assertEquals(4, this.getLookupTable().getBindings().length, "Bindings count not correct!");
       this.assertEquals("Root", widget.getLabel());
       this.assertEquals("Root", widget.getIcon());
+      this.assertEquals("virtual-tree-folder", widget.getAppearance());
       this.assertEquals(this.model, widget.getModel());
       
-      this.provider._bindNode(widget, 1);
-      this.assertEquals(6, this.getLookupTable().getBindings().length, "Bindings count not correct!");
+      this.provider._bindItem(widget, 1);
+      this.assertEquals(8, this.getLookupTable().getBindings().length, "Bindings count not correct!");
       this.assertEquals("Node1", widget.getLabel());
       this.assertEquals("Node1", widget.getIcon());
+      this.assertEquals("virtual-tree-folder", widget.getAppearance());
       this.assertEquals(this.model.getKids().getItem(0), widget.getModel());
     },
 
@@ -216,10 +201,11 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     {
       var widget = new qx.ui.tree.VirtualTreeFile();
 
-      this.provider._bindLeaf(widget, 3);
+      this.provider._bindItem(widget, 3);
       this.assertEquals(3, this.getLookupTable().getBindings().length, "Bindings count not correct!");
       this.assertEquals("Leaf1", widget.getLabel());
       this.assertEquals("Leaf1", widget.getIcon());
+      this.assertEquals("virtual-tree-file", widget.getAppearance());
       this.assertEquals(this.model.getKids().getItem(2), widget.getModel());
     },
    
@@ -230,7 +216,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var oldWidgetBindungs = widget.getBindings().length;
       var oldModelBindungs = this.getLookupTable().getBindings().length;
       
-      this.provider._bindNode(widget, 0);
+      this.provider._bindItem(widget, 0);
       this.provider._removeBindingsFrom(widget);
       
       var newWidgetBindungs = widget.getBindings().length;
@@ -295,29 +281,14 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
     
     
-    testCreateNode : function() {
+    testCreateItem : function() {
       var delegate = {
-        createNode : function() {
+        createItem : function() {
           return new qx.ui.tree.VirtualTreeFolder();
         }
       };
       
-      var spy = this.spy(delegate, "createNode");
-      this.provider.setDelegate(delegate);
-      
-      this.provider.getCellWidget(2,0);
-      this.assertCalledOnce(spy);
-    },
-    
-    
-    testCreateLeaf : function() {
-      var delegate = {
-        createLeaf : function() {
-          return new qx.ui.tree.VirtualTreeFile();
-        }
-      };
-      
-      var spy = this.spy(delegate, "createLeaf");
+      var spy = this.spy(delegate, "createItem");
       this.provider.setDelegate(delegate);
       
       this.provider.getCellWidget(4,0);
@@ -325,26 +296,12 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
     
     
-    testConfigureNode : function() {
+    testConfigureItem : function() {
       var delegate = {
-        configureNode : function(note) {}
+        configureItem : function(leaf) {}
       };
       
-      var spy = this.spy(delegate, "configureNode");
-      this.provider.setDelegate(delegate);
-      
-      var widget = this.provider.getCellWidget(2,0);
-      this.assertCalledOnce(spy);
-      this.assertCalledWith(spy, widget);
-    },
-    
-    
-    testConfigureLeaf : function() {
-      var delegate = {
-        configureLeaf : function(leaf) {}
-      };
-      
-      var spy = this.spy(delegate, "configureLeaf");
+      var spy = this.spy(delegate, "configureItem");
       this.provider.setDelegate(delegate);
       
       var widget = this.provider.getCellWidget(4,0);
@@ -353,26 +310,12 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
     
     
-    testBindNode : function() {
+    testBindItem : function() {
       var delegate = {
-        bindNode : function(controller, node, id) {}
+        bindItem : function(controller, leaf, id) {}
       };
       
-      var spy = this.spy(delegate, "bindNode");
-      this.provider.setDelegate(delegate);
-      
-      var widget = this.provider.getCellWidget(2,0);
-      this.assertCalledOnce(spy);
-      this.assertCalledWith(spy, this.provider, widget, 2);
-    },
-    
-    
-    testBindLeaf : function() {
-      var delegate = {
-        bindLeaf : function(controller, leaf, id) {}
-      };
-      
-      var spy = this.spy(delegate, "bindLeaf");
+      var spy = this.spy(delegate, "bindItem");
       this.provider.setDelegate(delegate);
       
       var widget = this.provider.getCellWidget(4,0);

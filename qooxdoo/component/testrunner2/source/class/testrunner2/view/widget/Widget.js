@@ -570,8 +570,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         labelPath : "name",
         childProperty : "children",
         delegate : {
-          bindNode : this.__bindTreeItem,
-          bindLeaf : this.__bindTreeItem
+          bindItem : this.__bindTreeItem
         },
         decorator : "separator-vertical"
       });
