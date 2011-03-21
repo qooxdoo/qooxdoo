@@ -34,7 +34,8 @@
       [
         "qx.test.*",
         "qx.dev.unit.*",
-        "playground.test.*"
+        "playground.test.*",
+        "qx.ui.mobile.*"
       ],
 
       "variants" :
