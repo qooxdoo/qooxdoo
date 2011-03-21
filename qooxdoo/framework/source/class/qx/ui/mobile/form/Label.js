@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.mobile.form.Label",
   },
 
 
-  members : function()
+  members :
   {
     // overridden
     _getTagName : function()
