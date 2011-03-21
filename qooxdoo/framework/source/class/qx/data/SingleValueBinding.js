@@ -26,7 +26,12 @@ qx.Class.define("qx.data.SingleValueBinding",
 
   statics :
   {
-    /** Static debug flag to enable log messages on every invoke of a listener */
+    /** 
+     * Static debug flag to enable log messages on every invoke of a listener.
+     * 
+     * @depreacted since 1.4: Plesae use 
+     *   qx.core.Environment.get("qx.debug.databinding") instaad.
+     */
     DEBUG_ON: false,
 
 
@@ -902,7 +907,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         }
 
         // debug message
-        if (qx.data.SingleValueBinding.DEBUG_ON) {
+        if (qx.core.Environment.get("qx.debug.databinding")) {
           qx.log.Logger.debug("Binding executed from " + sourceObject + " by " +
             sourceEvent + " to " + targetObject + " (" + targetProperty + ")");
           qx.log.Logger.debug("Data before conversion: " + data);
@@ -914,7 +919,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         );
 
         // debug message
-        if (qx.data.SingleValueBinding.DEBUG_ON) {
+        if (qx.core.Environment.get("qx.debug.databinding")) {
           qx.log.Logger.debug("Data after conversion: " + data);
         }
 
@@ -1262,3 +1267,6 @@ qx.Class.define("qx.data.SingleValueBinding",
 
   }
 });
+
+//@deprecated since 1.4
+qx.log.Logger.deprecatedConstantWarning("qx.data.SingleValueBinding", "DEBUG_ON");

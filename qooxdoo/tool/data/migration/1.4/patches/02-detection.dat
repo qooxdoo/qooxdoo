@@ -81,3 +81,5 @@
 \bqx\.core\.Setting\.get\b=qx.core.Environment.get
 \bqx\.core\.Setting\.define\b=qx.core.Environment.add
 \bqx\.core\.Setting\.set\b=qx.core.Environment.add
+
+\bqx\.data\.SingleValueBinding\.DEBUG_ON=qx.core.Environment.get("qx.debug.databinding")
