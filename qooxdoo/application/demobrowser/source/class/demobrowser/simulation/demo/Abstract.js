@@ -16,6 +16,10 @@
 
 /* ************************************************************************
 #ignore(simulator) 
+#ignore(simulator.unit.TestCase)
+#ignore(simulator.Simulation)
+#ignore(simulator.reporter)
+#ignore(simulator.reporter.Reporter)
 ************************************************************************ */
 
 /**
