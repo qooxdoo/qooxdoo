@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       var id = widget.getId();
       var registry = qx.ui.mobile.core.Widget.__registry;
       if (registry[id]) {
-        qx.core.Assert.assertUndefined(widgets[id], "Widget with the id '" + id + "' is already registered");
+        qx.core.Assert.assertUndefined(registry[id], "Widget with the id '" + id + "' is already registered");
       }
       registry[id] = widget;
     },
@@ -339,15 +339,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
-    layoutParent :
-    {
-      check : "qx.ui.mobile.core.Widget",
-      init : null,
-      nullable : true,
-      apply : "_applyLayoutParent"
-    },
-
-
     /**
      * Whether the widget is an terminator for an event. This is an hint for the
      * event handler only.
@@ -390,6 +381,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     __containerElement : null,
     __contentElement : null,
 
+    __layoutParent : null,
     __children : null,
     __layoutManager : null,
 
@@ -554,16 +546,17 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     _removeAll : function()
     {
-      var contentElement = this.getContentElement();
-      if (contentElement) {
-        contentElement.innerHTML = "";
-      }
-      var children = this.__children;
+      // create a copy of the array
+      var children = this.__children.concat();
       for (var i = 0, l=children.length; i < l; i++) {
-        children[i].setLayoutParent(null);
+        this._remove(children[i]);
       }
-      this.__children = [];
-      this._domUpdated();
+    },
+
+
+    __removeHelper : function(child)
+    {
+      
     },
 
 
@@ -586,9 +579,19 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
-    _applyLayoutParent : function(value, old)
+    setLayoutParent : function(parent)
     {
-      
+      if (this.__layoutParent === parent) {
+        return;
+      }
+
+      this.__layoutParent = parent || null; 
+    },
+
+
+    getLayoutParent : function()
+    {
+      return this.__layoutParent;
     },
 
 
@@ -867,7 +870,35 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     _getContentElement : function()
     {
       return this.getContainerElement();
-    }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ENHANCED DISPOSE SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Removes this widget from its parent and disposes it.
+     *
+     * Please note that the widget is not disposed synchronously. The
+     * real dispose happens after the next queue flush.
+     *
+     * @return {void}
+     */
+    destroy : function()
+    {
+      if (this.$$disposed) {
+        return;
+      }
+
+      var parent = this.__layoutParent;
+      if (parent) {
+        parent._remove(this);
+      }
+      this.dispose();
+    },
   },
 
 
@@ -885,17 +916,14 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       // Cleanup event listeners
       // Needed as we rely on the containerElement in the qx.ui.mobile.core.EventHandler
       qx.event.Registration.removeAllListeners(this);
-      var children = this.__children;
-      for (var i = 0, l = children.length; i < l; i++) {
-        children[i].dispose();
-      }
+
       if (this.getId()) 
       {
         qx.ui.mobile.core.Widget.unregisterWidget(this.getId());
       }
     }
 
-    this.__containerElement = this.__contentElement = null;
+    this.__layoutParent = this.__containerElement = this.__contentElement = null;
 
     this.__layoutManager = null;
   },
