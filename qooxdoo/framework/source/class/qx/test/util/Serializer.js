@@ -24,7 +24,7 @@ qx.Class.define("qx.test.util.Serializer",
   construct : function() {
     this.__s = qx.util.Serializer;
 
-    qx.Class.define("qx.test.SerializModel", {
+    qx.Class.define("qx.test.SerializerModel", {
       extend : qx.core.Object,
       properties : {
         data1 : {
@@ -49,7 +49,7 @@ qx.Class.define("qx.test.util.Serializer",
 
 
     setUp : function() {
-      this.__model = new qx.test.SerializModel();
+      this.__model = new qx.test.SerializerModel();
     },
 
     tearDown : function() {
@@ -102,7 +102,7 @@ qx.Class.define("qx.test.util.Serializer",
 
 
     testUrlKeyEncoded : function() {
-      qx.Class.define("qx.test.SerializModelEnc", {
+      qx.Class.define("qx.test.SerializerModelEnc", {
         extend: qx.core.Object,
         properties : {
           "äüö" : {
@@ -110,7 +110,7 @@ qx.Class.define("qx.test.util.Serializer",
           }
         }
       });
-      var model = new qx.test.SerializModelEnc();
+      var model = new qx.test.SerializerModelEnc();
 
       this.assertEquals("%C3%A4%C3%BC%C3%B6=%C3%84%C3%9C%C3%96", this.__s.toUriParameter(model));
 
@@ -169,7 +169,7 @@ qx.Class.define("qx.test.util.Serializer",
 
 
     testJsonDeep2 : function() {
-      var model = new qx.test.SerializModel();
+      var model = new qx.test.SerializerModel();
       model.setData1("a");
       model.setData2(11);
       model.setData3(false);
@@ -306,7 +306,7 @@ qx.Class.define("qx.test.util.Serializer",
 
 
     testNativeObjectDeep2 : function() {
-      var model = new qx.test.SerializModel();
+      var model = new qx.test.SerializerModel();
       model.setData1("a");
       model.setData2(11);
       model.setData3(false);
@@ -481,21 +481,21 @@ qx.Class.define("qx.test.util.Serializer",
      
     testJsonLocalizedStrings : function() {
       this.assertEquals(
-        '"affe"', qx.util.Serializer.toJson(qx.locale.Manager.tr("affe"))
+        '"test affe"', qx.util.Serializer.toJson(qx.locale.Manager.tr("test affe"))
       );
     },
     
     testNativeLocalizedStrings : function() {
-      var ser = qx.util.Serializer.toNativeObject(qx.locale.Manager.tr("affe"));
-      this.assertEquals("affe", ser);
+      var ser = qx.util.Serializer.toNativeObject(qx.locale.Manager.tr("test affe"));
+      this.assertEquals("test affe", ser);
       // regular strings should not have a translate method
       this.assertUndefined(ser.translate);
     },
     
     testUrlLocalizedStrings : function() {
-      this.__model.setData1(qx.locale.Manager.tr("affe"));
+      this.__model.setData1(qx.locale.Manager.tr("test affe"));
       this.assertEquals(
-        "data1=affe&data2=null&data3=null", 
+        "data1=test%20affe&data2=null&data3=null", 
         qx.util.Serializer.toUriParameter(this.__model)
       );
     }

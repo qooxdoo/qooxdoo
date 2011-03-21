@@ -255,6 +255,11 @@ msgstr ""
 msgid "test two"
 msgstr ""
 
+#: qx/test/util/Serializer.js:484 qx/test/util/Serializer.js:489
+#: qx/test/util/Serializer.js:496
+msgid "test affe"
+msgstr ""
+
 #: qx/ui/control/ColorPopup.js:147
 msgid "Automatic"
 msgstr "Automatisch"
@@ -323,13 +328,13 @@ msgstr "Nächstes Jahr"
 msgid "This field is required"
 msgstr "Dieses Feld ist erforderlich"
 
-#: qx/ui/table/Table.js:1907
+#: qx/ui/table/Table.js:1920
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "Eine Zeile"
 msgstr[1] "%1 Zeilen"
 
-#: qx/ui/table/Table.js:1909
+#: qx/ui/table/Table.js:1922
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "Eine von einer Zeile"
