@@ -1,3 +1,8 @@
+
+/* ************************************************************************
+#ignore(demobrowser.demo.progressive.DateCellRenderer)
+************************************************************************ */
+
 /*
  * Example of Progressive rendering of a table with fancy handling of
  * mouseover.  Try moving the mouse over the date column.  The

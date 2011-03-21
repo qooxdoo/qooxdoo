@@ -18,6 +18,7 @@
 ************************************************************************ */
 
 /* ************************************************************************
+#ignore(demobrowser.demo.showcase.CalculatorLogic)
 
 #asset(qx/icon/${qx.icontheme}/22/apps/utilities-calculator.png)
 

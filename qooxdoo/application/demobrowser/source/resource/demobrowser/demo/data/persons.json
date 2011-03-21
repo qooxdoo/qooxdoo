@@ -1,0 +1,24 @@
+{
+    "persons": [
+        {
+            "lastname": "Simpson",
+            "firstname": "Homer"
+        },
+        {
+            "lastname": "Simpson",
+            "firstname": "Marge"
+        },
+        {
+            "lastname": "Simpson",
+            "firstname": "Bart"
+        },
+        {
+            "lastname": "Simpson",
+            "firstname": "Lisa"
+        },
+        {
+            "lastname": "Simpson",
+            "firstname": "Maggy"
+        } 
+    ]
+}

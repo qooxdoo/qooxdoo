@@ -1,0 +1,109 @@
+{
+  "name": "root",
+  "files": [
+    {"name": "User", "files": [
+      {"name": "All", "files": [
+        {"name": "Adobe"},
+        {"name": "Parallels"}
+      ]},
+      {"name": "mw", "files": [
+        {"name": "Documents"},
+        {"name": "Downloads"},
+        {"name": "Movies"},
+        {"name": "Library"},
+        {"name": "Music"},
+        {"name": "Public"},
+        {"name": "Programms"}
+      ]}      
+    ]},
+    
+    {"name": "Developer", "files": [
+      {"name": "Applications", "files": [
+        {"name": "Audio"},
+        {"name": "Dashcode"},
+        {"name": "Instruments"}
+      ]},
+      {"name": "Documentation", "files": [
+        {"name": "Acknowledgements"},
+        {"name": "DocSet"},
+        {"name": "Python"}
+      ]},
+      {"name": "Examples", "files": [
+        {"name": "AppKit"},
+        {"name": "ATSUI"},
+        {"name": "CHUD"},
+        {"name": "IOKit"}
+      ]},
+      {"name": "Extras", "files": [
+        {"name": "Core Image"},
+        {"name": "Core Audio"}
+      ]},
+      {"name": "Headers", "files": [
+        {"name": "FlatCarbon"},
+        {"name": "FlatHeaderConversion"}
+      ]},
+      {"name": "Library", "files": [
+        {"name": "Frameworks"},
+        {"name": "Instruments"},
+        {"name": "Quartz Composer"},
+        {"name": "uninstaller"},
+        {"name": "Xcode"}
+      ]},
+      {"name": "Makefiles", "files": [
+        {"name": "bin"},
+        {"name": "Carbon"},
+        {"name": "CoreOS"}
+      ]},
+      {"name": "Platforms", "files": [
+        {"name": "iPhoneOS.platform"},
+        {"name": "iPhoneSimulator.platform"},
+        {"name": "MacOSX.platform"}
+      ]}                        
+    ]},
+    
+    {"name": "Library", "files": [
+      {"name": "Audio", "files": [
+        {"name": "Apple Loops"},
+        {"name": "Apple Loops Index"},
+        {"name": "MIDI Configuration"},
+        {"name": "MIDI Devices"},
+        {"name": "MIDI Drivers"},
+        {"name": "Sounds"}
+      ]},
+      {"name": "Fonts", "files": [
+        {"name": "Academy Engraved LET Fonts"},
+        {"name": "ACaslonPro-Regular"},
+        {"name": "AdobeHeitiStd-Regular"},
+        {"name": "AdobeMingStd-Light"},
+        {"name": "BellGothicStd-Black"},
+        {"name": "Blackmoor LET Fonts"}
+      ]}
+    ]},
+    
+    {"name": "Programms", "files": [
+      {"name": "Adium", "files": []},
+      {"name": "Addressbook", "files": []},
+      {"name": "Automator", "files": []},
+      {"name": "Camino", "files": []},
+      {"name": "Chess", "files": []},
+      {"name": "Cyberduck", "files": []},
+      {"name": "Deskzilla", "files": []},
+      {"name": "Drosera", "files": []},
+      {"name": "DVD-Player", "files": []},
+      {"name": "Exposé", "files": []}       
+    ]},
+    
+    {"name": "System", "files": [
+      {"name": "Library", "files": [
+        {"name": "Automator"},
+        {"name": "Caches"},
+        {"name": "Colors"},
+        {"name": "DTDs"},
+        {"name": "Extensions"},
+        {"name": "filesystem"},
+        {"name": "Filters"},
+        {"name": "Fonts"}
+      ]}    
+    ]}                     
+  ]
+}

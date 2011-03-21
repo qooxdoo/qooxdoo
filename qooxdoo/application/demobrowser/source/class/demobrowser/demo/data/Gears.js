@@ -17,6 +17,14 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(demobrowser.demo.data.store.Gears)
+#ignore(google)
+#ignore(google.gears)
+#ignore(google.gears.factory)
+#ignore(GearsFactory)
+************************************************************************ */
+
 /**
  * @tag databinding
  */

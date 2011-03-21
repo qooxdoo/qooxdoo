@@ -23,10 +23,8 @@
 #asset(qx/icon/Oxygen/16/actions/format-*.png)
 #asset(qx/icon/Oxygen/16/actions/edit-*.png)
 #asset(qx/icon/Oxygen/16/actions/insert-image.png)
-#asset(qx/icon/Oxygen/16/actions/insert-table.png)
 #asset(qx/icon/Oxygen/16/actions/insert-link.png)
 #asset(qx/icon/Oxygen/16/actions/insert-text.png)
-#asset(qx/icon/Oxygen/16/actions/insert-horizontal-rule.png)
 #asset(demobrowser/demo/icons/htmlarea/*)
 
 ************************************************************************ */

@@ -1,0 +1,30 @@
+{
+  "items": [
+    {"name": "a", "type": "media-video"},
+    {"name": "b", "type": "office-calendar" },
+    {"name": "c", "type": "media-audio" },
+    {"name": "d", "type": "office-presentation" },
+    {"name": "e", "type": "office-document" },
+    {"name": "f", "type": "archive" },
+    {"name": "g", "type": "media-audio" },
+    {"name": "h", "type": "text-html" },
+    {"name": "i", "type": "media-image" },
+    {"name": "j", "type": "office-spreadsheet" },
+    {"name": "k", "type": "executable" },
+    {"name": "l", "type": "office-contact" },
+    {"name": "m", "type": "text-html" },
+    {"name": "n", "type": "text-plain" },
+    {"name": "o", "type": "executable" },
+    {"name": "p", "type": "text-plain" },
+    {"name": "q", "type": "office-illustration" },
+    {"name": "r", "type": "office-contact" },
+    {"name": "s", "type": "office-spreadsheet" },
+    {"name": "t", "type": "office-presentation" },
+    {"name": "u", "type": "media-video" },
+    {"name": "v", "type": "office-calendar" },
+    {"name": "w", "type": "office-document" },
+    {"name": "x", "type": "archive" },
+    {"name": "y", "type": "office-illustration" },
+    {"name": "z", "type": "media-image" }
+  ]
+}
