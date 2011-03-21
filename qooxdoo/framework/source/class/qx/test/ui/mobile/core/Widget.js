@@ -31,7 +31,7 @@ qx.Class.define("qx.test.ui.mobile.core.Widget",
       var element = document.getElementById("affe");
       this.assertElement(element);
 
-      widget.dispose();
+      widget.destroy();
     },
 
 
@@ -45,13 +45,14 @@ qx.Class.define("qx.test.ui.mobile.core.Widget",
 
       var name = widget.getName();
       this.assertEquals(name, "affe");
-      widget.dispose();
+      widget.destroy();
     },
 
 
     testSetCssClass : function()
     {
       var widget = new qx.ui.mobile.core.Widget();
+
       this.getRoot().add(widget);
 
       var element = widget.getContainerElement();
@@ -73,7 +74,7 @@ qx.Class.define("qx.test.ui.mobile.core.Widget",
       var className = qx.bom.element.Class.get(element);
       this.assertEquals(className, "bar");
 
-      widget.dispose();
+      widget.destroy();
     },
 
 
@@ -95,7 +96,7 @@ qx.Class.define("qx.test.ui.mobile.core.Widget",
       var className = qx.bom.element.Class.get(element);
       this.assertEquals(className, "");
 
-      widget.dispose();
+      widget.destroy();
     },
 
 
@@ -112,7 +113,7 @@ qx.Class.define("qx.test.ui.mobile.core.Widget",
       var widgetId = widget.getId();
       this.assertEquals(widgetId, id);
 
-      widget.dispose();
+      widget.destroy();
     },
 
 
@@ -124,7 +125,7 @@ qx.Class.define("qx.test.ui.mobile.core.Widget",
       widget = qx.ui.mobile.core.Widget.getWidgetById(id);
       this.assertQxMobileWidget(widget);
 
-      widget.dispose();
+      widget.destroy();
     },
 
 
@@ -136,7 +137,7 @@ qx.Class.define("qx.test.ui.mobile.core.Widget",
         var widget2 = new qx.ui.mobile.core.Widget().set({id:"affe"});
       });
 
-      widget.dispose();
+      widget.destroy();
     },
 
 
@@ -147,7 +148,7 @@ qx.Class.define("qx.test.ui.mobile.core.Widget",
       this.assertTrue(qx.Class.hasMixin(qx.ui.mobile.core.Widget, qx.locale.MTranslation), "No translation mixin found");
       this.assertFunction(widget.tr);
 
-      widget.dispose();
+      widget.destroy();
     },
 
 
@@ -156,7 +157,7 @@ qx.Class.define("qx.test.ui.mobile.core.Widget",
       var widget = new qx.ui.mobile.core.Widget();
 
       var id = widget.getId();
-      widget.dispose();
+      widget.destroy();
       widget = qx.ui.mobile.core.Widget.getWidgetById(id);
       this.assertUndefined(widget);
     }
