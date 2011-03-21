@@ -314,18 +314,21 @@ def updateRRD(apps, tstamp=None):
     return
 
 
-def harvest(args):
+def harvest(args, opts):
     data_source = args[0] if len(args) else ""
     data, timestamp = getTestLog(data_source)
     appsdata = parseTestLog(data)
-    updateRRD(appsdata, timestamp)
+    if not opts.no_commit:
+        updateRRD(appsdata, timestamp)
+    else:
+        print appsdata
 
 
 # ------------------------------------------------------------------------------
 # Reporting Stuff
 # ------------------------------------------------------------------------------
 
-def graph(args):
+def graph(args, opts):
 
     template = ''
     #template += "echo "
@@ -383,6 +386,8 @@ def options():
     usage_str = '%s [harvest|graph] args...' % os.path.basename(__file__)
     parser.set_usage(usage_str)
 
+    parser.add_option("-c", "--no-commit", dest="no_commit", action="store_true", default=False, help="do not commit to RRD db")
+
     opts, args = parser.parse_args()
 
     if args[0] not in sub_commands:
@@ -395,7 +400,7 @@ def options():
 if __name__ == "__main__":
     opts, args = options()
     if args[0] == "harvest":
-        harvest(args[1:])
+        harvest(args[1:], opts)
     elif args[0] == "graph":
-        graph(args[1:])
+        graph(args[1:], opts)
     #processDurations(mapps)
