@@ -500,6 +500,64 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     //
+    // Call order
+    //
+
+    "test: should call handler in order when request successful": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/sample.html");
+
+      var that = this;
+      req.onloadend = function() {
+        that.resume(function() {
+          that.assertCallOrder(
+            req.onreadystatechange,
+            req.onload,
+            req.onloadend
+          );
+        });
+      }
+      this.spy(req, "onreadystatechange");
+      this.spy(req, "onload");
+      this.spy(req, "onloadend");
+      req.open("GET", url);
+      req.send();
+
+      this.wait();
+    },
+
+    "test: should call handler in order when request failed": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/sample.html");
+
+      var that = this;
+      req.onloadend = function() {
+        that.resume(function() {
+          that.assertCallOrder(
+            req.onreadystatechange,
+            req.onerror,
+            req.onloadend
+          );
+        });
+      }
+      this.spy(req, "onreadystatechange");
+      this.spy(req, "onerror");
+      this.spy(req, "onloadend");
+      req.open("GET", "http://fail:672935");
+      req.send();
+
+      this.wait();
+    },
+
+    //
     // Disposing
     //
 
