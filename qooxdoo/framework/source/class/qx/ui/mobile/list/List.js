@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.mobile.list.List",
      */
     __render : function()
     {
-      this.clear();
+      this.getContentElement().innerHTML = "";
       var itemCount = this.getItemCount();
       var model = this.getModel();
 
