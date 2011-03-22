@@ -42,6 +42,51 @@ qx.Class.define("qx.test.mobile.container.Composite",
     },
 
 
+    testAddSame : function()
+    {
+      var composite = new qx.ui.mobile.container.Composite();
+      this.getRoot().add(composite);
+
+      var widget1 = new qx.ui.mobile.core.Widget();
+      composite.add(widget1);
+
+      this.assertException(function() {
+         composite.add(widget1);
+      });
+
+      this._assertChildren(composite, 1);
+
+      widget1.destroy();
+      composite.destroy();
+    },
+
+
+    testAddOther : function()
+    {
+      var composite1 = new qx.ui.mobile.container.Composite();
+      this.getRoot().add(composite1);
+      var composite2 = new qx.ui.mobile.container.Composite();
+      this.getRoot().add(composite2);
+
+      var widget = new qx.ui.mobile.core.Widget();
+      composite1.add(widget);
+
+      this._assertChildren(composite1, 1);
+
+      composite2.add(widget);
+
+      this._assertChildren(composite1, 0);
+      this.assertFalse(composite1.getContainerElement().hasChildNodes());
+
+      this._assertChildren(composite2, 1);
+      this.assertEquals(composite2.getContainerElement(), widget.getContainerElement().parentNode);
+
+      widget.destroy();
+      composite1.destroy();
+      composite2.destroy();
+    },
+
+
     testDestroy : function()
     {
       var composite = new qx.ui.mobile.container.Composite();
