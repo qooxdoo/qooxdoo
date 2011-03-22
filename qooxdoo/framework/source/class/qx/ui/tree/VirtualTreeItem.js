@@ -2,7 +2,7 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
 {
   extend : qx.ui.tree.core.AbstractItem,
 //  extend : qx.ui.tree.core.AbstractTreeItem,
-  
+
 
   properties :
   {
@@ -20,8 +20,8 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
     getTree : function() {
       return true;
     },
-    
-    
+
+
     // overridden
     _addWidgets : function()
     {
@@ -30,8 +30,8 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
       this.addIcon();
       this.addLabel();
     },
-    
-    
+
+
     // overridden
     _shouldShowOpenSymbol : function()
     {
@@ -42,14 +42,14 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
 
       return this.isOpenable();
     },
-    
-    
+
+
     // overridden
     getLevel : function() {
       return this.getUserData("cell.level");
     },
 
-    
+
     // overridden
     hasChildren : function() {
       return !!this.getUserData("cell.children");

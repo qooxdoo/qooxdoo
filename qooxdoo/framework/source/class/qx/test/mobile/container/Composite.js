@@ -30,7 +30,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
 
       var widget1 = new qx.ui.mobile.core.Widget();
       composite.add(widget1);
-      
+
       var widget2 = new qx.ui.mobile.core.Widget();
       composite.add(widget2);
 
@@ -94,7 +94,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
 
       var widget1 = new qx.ui.mobile.core.Widget();
       composite.add(widget1);
-      
+
       var widget2 = new qx.ui.mobile.core.Widget();
       composite.add(widget2);
 
@@ -116,7 +116,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
 
       var widget1 = new qx.ui.mobile.core.Widget();
       composite.add(widget1);
-      
+
       var widget2 = new qx.ui.mobile.core.Widget();
       composite.add(widget2);
 
@@ -141,7 +141,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
 
       var widget1 = new qx.ui.mobile.core.Widget();
       composite.add(widget1);
-      
+
       var widget2 = new qx.ui.mobile.core.Widget();
       composite.add(widget2);
 
@@ -163,7 +163,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
       var length = children.length;
       this.assertEquals(length, number);
     }
-    
+
   }
 
 });
