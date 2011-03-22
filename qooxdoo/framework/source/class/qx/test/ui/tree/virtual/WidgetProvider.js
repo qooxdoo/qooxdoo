@@ -114,7 +114,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var spySelection = this.spy(this.provider, "_styleUnselectabled");
       var widget = this.provider.getCellWidget(0,0);
 
-      this.assertInstance(widget, qx.ui.tree.VirtualTreeFolder);
+      this.assertInstance(widget, qx.ui.tree.VirtualTreeItem);
       this.assertTrue(widget.getUserData("cell.children"));
       this.assertEquals(0, widget.getUserData("cell.level"));
       this.assertTrue(widget.isOpen());
@@ -132,7 +132,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var spySelection = this.spy(this.provider, "_styleUnselectabled");
       var widget = this.provider.getCellWidget(1,0);
 
-      this.assertInstance(widget, qx.ui.tree.VirtualTreeFolder);
+      this.assertInstance(widget, qx.ui.tree.VirtualTreeItem);
       this.assertTrue(widget.getUserData("cell.children"));
       this.assertEquals(1, widget.getUserData("cell.level"));
       this.assertFalse(widget.isOpen());
@@ -150,7 +150,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var spySelection = this.spy(this.provider, "_styleUnselectabled");
       var widget = this.provider.getCellWidget(3,0);
 
-      this.assertInstance(widget, qx.ui.tree.VirtualTreeFolder);
+      this.assertInstance(widget, qx.ui.tree.VirtualTreeItem);
       this.assertFalse(widget.getUserData("cell.children"));
       this.assertEquals(1, widget.getUserData("cell.level"));
       this.assertFalse(widget.isOpen());
@@ -179,7 +179,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testDefaultNodeBinding : function()
     {
-      var widget = new qx.ui.tree.VirtualTreeFolder();
+      var widget = new qx.ui.tree.VirtualTreeItem();
 
       this.provider._bindItem(widget, 0);
       this.assertEquals(4, this.getLookupTable().getBindings().length, "Bindings count not correct!");
@@ -199,7 +199,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testDefaultLeafBinding : function()
     {
-      var widget = new qx.ui.tree.VirtualTreeFile();
+      var widget = new qx.ui.tree.VirtualTreeItem();
 
       this.provider._bindItem(widget, 3);
       this.assertEquals(3, this.getLookupTable().getBindings().length, "Bindings count not correct!");
@@ -212,7 +212,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testRemoveBindingsFromNode : function()
     {
-      var widget = new qx.ui.tree.VirtualTreeFolder();
+      var widget = new qx.ui.tree.VirtualTreeItem();
       var oldWidgetBindungs = widget.getBindings().length;
       var oldModelBindungs = this.getLookupTable().getBindings().length;
 
@@ -229,7 +229,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testReverseBinding : function()
     {
-      var widget = new qx.ui.tree.VirtualTreeFolder();
+      var widget = new qx.ui.tree.VirtualTreeItem();
       var oldWidgetBindungs = widget.getBindings().length;
       var oldModelBindungs = this.getLookupTable().getBindings().length;
 
@@ -247,8 +247,8 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testRemoveAllBindings : function()
     {
-      var widget1 = new qx.ui.tree.VirtualTreeFolder();
-      var widget2 = new qx.ui.tree.VirtualTreeFolder();
+      var widget1 = new qx.ui.tree.VirtualTreeItem();
+      var widget2 = new qx.ui.tree.VirtualTreeItem();
 
       var oldWidget1Bindungs = widget1.getBindings().length;
       var oldWidget2Bindungs = widget2.getBindings().length;
@@ -284,7 +284,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     testCreateItem : function() {
       var delegate = {
         createItem : function() {
-          return new qx.ui.tree.VirtualTreeFolder();
+          return new qx.ui.tree.VirtualTreeItem();
         }
       };
 

@@ -21,7 +21,7 @@
 
 qx.Class.define("demobrowser.demo.virtual.tree.TreeItem",
 {
-  extend : qx.ui.tree.VirtualTreeFolder,
+  extend : qx.ui.tree.VirtualTreeItem,
 
   properties :
   {

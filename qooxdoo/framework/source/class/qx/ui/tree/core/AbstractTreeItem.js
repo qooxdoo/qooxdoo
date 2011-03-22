@@ -30,84 +30,20 @@
  */
 qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.tree.core.AbstractItem,
   type : "abstract",
-  include : [qx.ui.form.MModelProperty],
-  implement : [qx.ui.form.IModel],
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  /**
-   * @param label {String?null} The tree item's caption text
-   */
   construct : function(label)
   {
-    this.base(arguments);
-
-    if (label != null) {
-      this.setLabel(label);
-    }
+    this.base(arguments, label);
 
     this.__children = [];
-
-    this._setLayout(new qx.ui.layout.HBox());
-    this._addWidgets();
-
-    this.initOpen();
   },
 
 
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
-    /**
-     * Whether the tree item is opened.
-     */
-    open :
-    {
-      check : "Boolean",
-      init : false,
-      event : "changeOpen",
-      apply : "_applyOpen"
-    },
-
-
-    /**
-     * Controls, when to show the open symbol. If the mode is "auto" , the open
-     * symbol is shown only if the item has child items.
-     */
-    openSymbolMode :
-    {
-      check : ["always", "never", "auto"],
-      init : "auto",
-      event : "changeOpenSymbolMode",
-      apply : "_applyOpenSymbolMode"
-    },
-
-
-    /**
-     * The number of pixel to indent the tree item for each level.
-     */
-    indent :
-    {
-      check : "Integer",
-      init : 19,
-      apply : "_applyIndent",
-      themeable : true
-    },
-
-
     /**
      * The parent tree folder.
      */
@@ -115,107 +51,14 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     {
       check : "qx.ui.tree.core.AbstractTreeItem",
       nullable : true
-    },
-
-
-    /**
-     * URI of "closed" icon. Can be any URI String supported by qx.ui.basic.Image.
-     **/
-    icon :
-    {
-      check : "String",
-      apply : "_applyIcon",
-      nullable : true,
-      themeable : true
-    },
-
-
-    /**
-     * URI of "opened" icon. Can be any URI String supported by qx.ui.basic.Image.
-     **/
-    iconOpened :
-    {
-      check : "String",
-      apply : "_applyIconOpened",
-      nullable : true,
-      themeable : true
-    },
-
-
-    /**
-     * The label/caption/text
-     */
-    label :
-    {
-      check : "String",
-      apply : "_applyLabel",
-      init : ""
     }
   },
 
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
     __children : null,
     __childrenContainer : null,
-    __labelAdded : null,
-    __iconAdded : null,
-    __spacer : null,
-    __closedIcon : null,
-
-
-    /**
-     * This method configures the tree item by adding its sub widgets like
-     * label, icon, open symbol, ...
-     *
-     * This method must be overridden by sub classes.
-     */
-    _addWidgets : function() {
-      throw new Error("Abstract method call.");
-    },
-
-
-    // overridden
-    _createChildControlImpl : function(id, hash)
-    {
-      var control;
-
-      switch(id)
-      {
-        case "label":
-          control = new qx.ui.basic.Label().set({
-            alignY: "middle",
-            value: this.getLabel()
-          });
-          break;
-
-        case "icon":
-          control = new qx.ui.basic.Image().set({
-            alignY: "middle",
-            source: this.getIcon()
-          });
-          break;
-
-        case "open":
-          control = new qx.ui.tree.core.FolderOpenButton().set({
-            alignY: "middle"
-          });
-          control.addListener("changeOpen", this._onChangeOpen, this);
-          control.addListener("resize", this._updateIndent, this);
-          break;
-      }
-
-      return control || this.base(arguments, id);
-    },
 
 
     /**
@@ -239,107 +82,89 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     },
 
 
+    // property apply
+    _applyOpen : function(value, old)
+    {
+      if (this.hasChildren()) {
+        this.getChildrenContainer().setVisibility(value ? "visible" : "excluded");
+      }
 
-
+      this.base(arguments, value, old);
+    },
 
     /*
     ---------------------------------------------------------------------------
-      TREE ITEM CONFIGURATION
+      INDENT HANDLING
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Adds a sub widget to the tree item's horizontal box layout.
-     *
-     * @param widget {qx.ui.core.Widget} The widget to add
-     * @param options {Map?null} The (optional) layout options to use for the widget
-     */
-    addWidget : function(widget, options) {
-      this._add(widget, options);
-    },
-
-
-    /**
-     * Adds the spacer used to render the indentation to the item's horizontal
-     * box layout. If the spacer has been added before, it is removed from its
-     * old position and added to the end of the layout.
-     */
-    addSpacer : function()
+    // overridden
+    _shouldShowOpenSymbol : function()
     {
-      if (!this.__spacer) {
-        this.__spacer = new qx.ui.core.Spacer();
-      } else {
-        this._remove(this.__spacer);
+      var open = this.getChildControl("open", true);
+      if (!open) {
+        return false;
       }
 
-      this._add(this.__spacer);
+      var tree = this.getTree();
+      if (!tree.getRootOpenClose())
+      {
+        if (tree.getHideRoot())
+        {
+          if (tree.getRoot() == this.getParent()) {
+            return false;
+          }
+        }
+        else
+        {
+          if (tree.getRoot() == this) {
+            return false;
+          }
+        }
+      }
+
+      return this.isOpenable();
     },
 
 
-    /**
-     * Adds the open button to the item's horizontal box layout. If the open
-     * button has been added before, it is removed from its old position and
-     * added to the end of the layout.
-     */
-    addOpenButton : function() {
-      this._add(this.getChildControl("open"));
-    },
-
-
-    /**
-     * Event handler, which listens to open state changes of the open button
-     *
-     * @param e {qx.event.type.Data} The event object
-     */
-    _onChangeOpen : function(e)
+    // overridden
+    _updateIndent : function()
     {
-      if (this.isOpenable()) {
-        this.setOpen(e.getData());
+      if (!this.getTree()) {
+        return;
       }
+
+      this.base(arguments);
     },
 
 
-    /**
-     * Adds the icon widget to the item's horizontal box layout. If the icon
-     * widget has been added before, it is removed from its old position and
-     * added to the end of the layout.
-     */
-    addIcon : function()
+    // overridden
+    getLevel : function()
     {
-      var icon = this.getChildControl("icon");
-
-      if (this.__iconAdded) {
-        this._remove(icon);
+      var tree = this.getTree();
+      if (!tree) {
+        return;
       }
 
-      this._add(icon);
-      this.__iconAdded = true;
-    },
+      var treeItem = this;
+      var level = -1;
 
-
-    /**
-     * Adds the label to the item's horizontal box layout. If the label
-     * has been added before, it is removed from its old position and
-     * added to the end of the layout.
-     *
-     * @param text {String?0} The label's contents
-     */
-    addLabel : function(text)
-    {
-      var label = this.getChildControl("label");
-
-      if (this.__labelAdded) {
-        this._remove(label);
+      while (treeItem)
+      {
+        treeItem = treeItem.getParent();
+        level += 1;
       }
 
-      if (text) {
-        this.setLabel(text);
-      } else {
-        label.setValue(this.getLabel());
+      // don't count the hidden root node in the tree widget
+      if (tree.getHideRoot()) {
+        level -= 1;
       }
 
-      this._add(label);
-      this.__labelAdded = true;
+      if (!tree.getRootOpenClose()) {
+        level -= 1;
+      }
+
+      return level;
     },
 
 
@@ -374,277 +199,11 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
       for (var i=0,l=children.length; i<l; i++)
       {
         var child = children[i];
-        if (child.addState) {
+        if (child.removeState) {
           children[i].removeState(state);
         }
       }
     },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyIcon : function(value, old)
-    {
-      // Set "closed" icon - even when "opened" - if no "opened" icon was
-      // user-defined
-      if (!this.__getUserValueIconOpened()) {
-        this.__setIconSource(value);
-      }
-
-      else if (!this.isOpen()) {
-        this.__setIconSource(value);
-      }
-
-    },
-
-
-    // property apply
-    _applyIconOpened : function(value, old)
-    {
-
-      if (this.isOpen()) {
-
-        // ... both "closed" and "opened" icon were user-defined
-        if (this.__getUserValueIcon() && this.__getUserValueIconOpened()) {
-          this.__setIconSource(value);
-        }
-
-        // .. only "opened" icon was user-defined
-        else if (!this.__getUserValueIcon() && this.__getUserValueIconOpened()) {
-          this.__setIconSource(value);
-        }
-      }
-
-    },
-
-
-    // property apply
-    _applyLabel : function(value, old)
-    {
-      var label = this.getChildControl("label", true);
-      if (label) {
-        label.setValue(value);
-      }
-    },
-
-    // property apply
-    _applyOpen : function(value, old)
-    {
-
-      if (this.hasChildren()) {
-        this.getChildrenContainer().setVisibility(value ? "visible" : "excluded");
-      }
-
-      var open = this.getChildControl("open", true);
-      if (open) {
-        open.setOpen(value);
-      }
-
-      //
-      // Determine source of icon for "opened" or "closed" state
-      //
-      var source;
-
-      // Opened
-      if (value) {
-        // Never overwrite user-defined icon with themed "opened" icon
-        source = this.__getUserValueIconOpened() ? this.getIconOpened() : null;
-      }
-
-      // Closed
-      else {
-        source = this.getIcon();
-      }
-
-      if (source) {
-        this.__setIconSource(source);
-      }
-
-      value ? this.addState("opened") : this.removeState("opened");
-
-    },
-
-    /**
-    * Get user-defined value of "icon" property
-    *
-    * @return {var} The user value of the property "icon"
-    */
-    __getUserValueIcon : function() {
-      return qx.util.PropertyUtil.getUserValue(this, "icon");
-    },
-
-    /**
-    * Get user-defined value of "iconOpened" property
-    *
-    * @return {var} The user value of the property "iconOpened"
-    */
-    __getUserValueIconOpened : function() {
-      return qx.util.PropertyUtil.getUserValue(this, "iconOpened");
-    },
-
-    /**
-    * Set source of icon child control
-    *
-    * @param url {String} The URL of the icon
-    * @return {void}
-    */
-    __setIconSource : function(url) {
-      var icon = this.getChildControl("icon", true);
-      if (icon) {
-        icon.setSource(url);
-      }
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      INDENT HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Whether the tree item can be opened.
-     *
-     * @return {Boolean} Whether the tree item can be opened.
-     */
-    isOpenable : function()
-    {
-      var openMode = this.getOpenSymbolMode();
-      return (
-        openMode === "always" ||
-        openMode === "auto" && this.hasChildren()
-      );
-    },
-
-
-    /**
-     * Whether the open symbol should be shown
-     *
-     * @return {Boolean} Whether the open symbol should be shown.
-     */
-    _shouldShowOpenSymbol : function()
-    {
-      var open = this.getChildControl("open", true);
-      if (!open) {
-        return false;
-      }
-
-      var tree = this.getTree();
-      if (!tree.getRootOpenClose())
-      {
-        if (tree.getHideRoot())
-        {
-          if (tree.getRoot() == this.getParent()) {
-            return false;
-          }
-        }
-        else
-        {
-          if (tree.getRoot() == this) {
-            return false;
-          }
-        }
-      }
-
-      return this.isOpenable();
-    },
-
-
-    // property apply
-    _applyOpenSymbolMode : function(value, old) {
-      this._updateIndent();
-    },
-
-
-    /**
-     * Update the indentation of the tree item.
-     */
-    _updateIndent : function()
-    {
-      if (!this.getTree()) {
-        return;
-      }
-
-      var openWidth = 0;
-      var open = this.getChildControl("open", true);
-
-      if (open)
-      {
-        if (this._shouldShowOpenSymbol())
-        {
-          open.show();
-
-          var openBounds = open.getBounds();
-          if (openBounds) {
-            openWidth = openBounds.width;
-          } else {
-            return;
-          }
-        }
-        else
-        {
-          open.exclude();
-        }
-      }
-
-      if (this.__spacer) {
-        this.__spacer.setWidth((this.getLevel()+1) * this.getIndent() - openWidth);
-      }
-    },
-
-
-    // property apply
-    _applyIndent : function(value, old) {
-      this._updateIndent();
-    },
-
-
-    /**
-     * Computes the item's nesting level. If the item is not part of a tree
-     * this function will return <code>null</code>.
-     *
-     * @return {Integer|null} The item's nesting level or <code>null</code>.
-     */
-    getLevel : function()
-    {
-      var tree = this.getTree();
-      if (!tree) {
-        return;
-      }
-
-      var treeItem = this;
-      var level = -1;
-
-      while (treeItem)
-      {
-        treeItem = treeItem.getParent();
-        level += 1;
-      }
-
-      // don't count the hidden root node in the tree widget
-      if (tree.getHideRoot()) {
-        level -= 1;
-      }
-
-      if (!tree.getRootOpenClose()) {
-        level -= 1;
-      }
-
-      return level;
-    },
-
-
-    // overridden
-    syncWidget : function() {
-      this._updateIndent();
-    },
-
-
 
 
     /*
@@ -720,11 +279,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     },
 
 
-    /**
-     * Whether the item has any children
-     *
-     * @return {Boolean} Whether the item has any children.
-     */
+    // overridden
     hasChildren : function() {
       return this.__children ? this.__children.length > 0 : false;
     },
@@ -1018,18 +573,9 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
   },
 
 
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
   destruct : function()
   {
     this._disposeArray("__children");
-    this._disposeObjects("__spacer", "__childrenContainer");
+    this._disposeObjects("__childrenContainer");
   }
 });
