@@ -892,8 +892,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Removes this widget from its parent and disposes it.
-     *
-     * @return {void}
      */
     destroy : function()
     {
