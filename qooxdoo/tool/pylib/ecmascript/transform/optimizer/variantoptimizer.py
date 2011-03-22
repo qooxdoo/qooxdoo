@@ -113,13 +113,15 @@ def processVariantSelect(callNode, variantMap):
     variantValue = variantMap[variantKey]
     if secondParam.type == "map":
         # map keys are always JS strings -> simulate a JS .toString() conversion
-        if isinstance(variantValue, (types.IntType, types.FloatType)):
-            variantValue = str(variantValue)
-        elif isinstance(variantValue, types.BooleanType):
+        if isinstance(variantValue, types.BooleanType):
+            # this has to come first, as isinstance(True, types.IntType) is also true!
             variantValue = str(variantValue).lower()
+        elif isinstance(variantValue, (types.IntType, types.FloatType)):
+            variantValue = str(variantValue)
         elif variantValue == None:
             variantValue = "null"
 
+        print "variantValue:", variantValue
         for node in secondParam.children:
             if node.type != "keyvalue":
                 continue
@@ -293,7 +295,6 @@ def processVariantGet(callNode, variantMap):
                         op1 = variantValue
                         op2 = {"true":True, "false":False}[otherValue.get("value")]
                     elif constType == "null":
-                        print "%r" % variantValue
                         op1 = variantValue
                         op2 = None
                     # compare result
