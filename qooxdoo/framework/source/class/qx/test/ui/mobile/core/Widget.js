@@ -152,7 +152,7 @@ qx.Class.define("qx.test.ui.mobile.core.Widget",
     },
 
 
-    testDispose : function()
+    testDestroy : function()
     {
       var widget = new qx.ui.mobile.core.Widget();
 
@@ -160,7 +160,18 @@ qx.Class.define("qx.test.ui.mobile.core.Widget",
       widget.destroy();
       widget = qx.ui.mobile.core.Widget.getWidgetById(id);
       this.assertUndefined(widget);
+      var element = document.getElementById(id);
+      this.assertNull(element);
+    },
+
+
+    testDomUpdatedFired : function()
+    {
+      var widget = new qx.ui.mobile.core.Widget();
+      this.assertEventNotFired(widget, "domupdated", qx.ui.mobile.core.Widget.fireDomUpdatedEvent);
+      this.getRoot().add(widget);
+      this.assertEventFired(widget, "domupdated", qx.ui.mobile.core.Widget.fireDomUpdatedEvent);
+      widget.destroy();
     }
   }
-
 });
