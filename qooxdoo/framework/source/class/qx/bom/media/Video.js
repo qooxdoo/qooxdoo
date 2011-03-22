@@ -28,7 +28,7 @@ qx.Class.define("qx.bom.media.Video",
   extend : qx.bom.media.Abstract,
 
   /**
-   * @param source {String} the source url to the sound file. 
+   * @param source {String} the source url to the sound file.
    */
   construct : function(source)
   {
@@ -54,7 +54,7 @@ qx.Class.define("qx.bom.media.Video",
 
     /**
      * Sets the width of the video element.
-     * 
+     *
      * @param value {Number} The new value of width.
      */
     setWidth: function(value) {
@@ -72,7 +72,7 @@ qx.Class.define("qx.bom.media.Video",
 
     /**
      * Sets the height of the video element.
-     * 
+     *
      * @param value {Number} The new value of height.
      */
     setHeight: function(value) {
@@ -106,7 +106,7 @@ qx.Class.define("qx.bom.media.Video",
 
     /**
      * Sets the poster of the video.
-     * 
+     *
      * @param value {String} The new value of poster.
      */
     setPoster: function(value) {

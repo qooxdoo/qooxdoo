@@ -21,7 +21,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * GeoPosition event used by GeoLocation class.
  *
  *
@@ -29,7 +29,7 @@
 qx.Class.define("qx.event.type.GeoPosition",
 {
   extend : qx.core.Object,
-  
+
   /**
    * Create a new instance.
    *
@@ -58,7 +58,7 @@ qx.Class.define("qx.event.type.GeoPosition",
     {
       check : "Integer"
     },
-    
+
     /**
      *  Attributes is the geographic coordinates specified in decimal degrees
      */
@@ -101,9 +101,9 @@ qx.Class.define("qx.event.type.GeoPosition",
 
 
     /**
-     * Attribute denotes the direction of travel of the hosting device and is 
+     * Attribute denotes the direction of travel of the hosting device and is
      * specified in degrees, where 0° ≤ heading < 360°, counting clockwis
-     * relative to the true north. 
+     * relative to the true north.
      */
     heading : {
       nullable : true
@@ -111,7 +111,7 @@ qx.Class.define("qx.event.type.GeoPosition",
 
 
     /**
-     * Attribute denotes the current ground speed of the hosting device and is 
+     * Attribute denotes the current ground speed of the hosting device and is
      * specified in meters per second.
      */
     speed : {

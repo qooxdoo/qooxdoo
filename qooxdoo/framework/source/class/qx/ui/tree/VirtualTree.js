@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     this.initItemHeight();
     this.initOpenMode();
-    
+
     this.addListener("keypress", this._onKeyPress, this);
   },
 
@@ -171,7 +171,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       nullable: true
     },
 
-    
+
     /**
      * The path to the property which holds the information that should be
      * shown as an icon.
@@ -182,8 +182,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       apply: "_applyIconPath",
       nullable: true
     },
-    
-    
+
+
     /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       nullable: true
     },
 
-    
+
     /**
      * A map containing the options for the icon binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       apply: "_applyIconOptions",
       nullable: true
     },
-    
+
 
     /**
      * The model containing the data (nodes and/or leafs) which should be shown
@@ -218,8 +218,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       nullable : true,
       deferredInit : true
     },
-    
-    
+
+
     /**
      * Delegation object, which can have one or more functions defined by the
      * {@link qx.ui.tree.core.IVirtualTreeDelegate} interface.
@@ -260,32 +260,32 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * row.
      */
     __nestingLevel : null,
-    
-    
+
+
     /**
-     * {qx.util.DeferredCall} Adds this instance to the widget queue on a 
+     * {qx.util.DeferredCall} Adds this instance to the widget queue on a
      * deferred call.
      */
     __deferredCall : null,
 
-    
+
     /** {Integer} Holds the max item width from a rendered widget. */
     __itemWidth : 0,
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
     ---------------------------------------------------------------------------
     */
 
-    
+
     // overridden
     syncWidget : function()
     {
       var firstRow = this._layer.getFirstRow();
       var rowSize = this._layer.getRowSizes().length;
-      
+
       for (var row = firstRow; row < firstRow + rowSize; row++)
       {
         var widget = this._layer.getRenderedCellWidget(row, 0);
@@ -294,7 +294,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       var paneWidth = this.getPane().getBounds().width;
       this.getPane().getColumnConfig().setItemSize(0, Math.max(this.__itemWidth, paneWidth));
     },
-    
+
 
     // Interface implementation
     openNode : function(node)
@@ -472,20 +472,20 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     _applyLabelPath : function(value, old) {
       this._provider.setLabelPath(value);
     },
-    
-    
+
+
     // property apply
     _applyIconPath : function(value, old) {
       this._provider.setIconPath(value);
     },
-    
-    
+
+
     // property apply
     _applyLabelOptions : function(value, old) {
       this._provider.setLabelOptions(value);
     },
-    
-    
+
+
     // property apply
     _applyIconOptions : function(value, old) {
       this._provider.setIconOptions(value);
@@ -519,8 +519,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
       this.buildLookupTable();
     },
-    
-    
+
+
     // property apply
     _applyDelegate : function(value, old)
     {
@@ -539,7 +539,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     /**
      * Event handler for the changeBubble event. The handler rebuild the lookup
      * table when the child structure changed.
-     * 
+     *
      * @param event {qx.event.type.Data} The data event.
      */
     _onChangeBubble : function(event)
@@ -555,7 +555,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         this.buildLookupTable();
       }
     },
-    
+
 
     /**
      * Event handler for the update event.
@@ -575,14 +575,14 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     /**
      * Event handler to open/close clicked nodes.
-     * 
+     *
      * @param event {qx.ui.virtual.core.CellEvent} The cell click event.
      */
     _onOpen : function(event)
     {
       var row = event.getRow();
       var item = this.__lookupTable.getItem(row);
-      
+
       if (this.isNode(item))
       {
         if (this.isNodeOpen(item)) {
@@ -592,8 +592,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         }
       }
     },
-    
-    
+
+
     /**
      * Event handler for key press events. Open and close the current selected
      * item on key left and right press. Jump to parent on key left if already
@@ -604,12 +604,12 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     _onKeyPress : function(e)
     {
       var selection = this.getSelection();
-      
+
       if (selection.getLength() > 0)
       {
         var item = selection.getItem(0);
         var isNode = this.isNode(item);
-        
+
         switch(e.getKeyIdentifier())
         {
           case "Left":
@@ -626,7 +626,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
           case "Right":
             if (isNode && !this.isNodeOpen(item)) {
               this.openNode(item);
-            } 
+            }
             else
             {
               if (isNode)
@@ -665,13 +665,13 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     /**
      * Helper method to build the internal data structure.
-     * 
+     *
      * @internal
      */
     buildLookupTable : function()
     {
       if (
-        this.getModel() != null && 
+        this.getModel() != null &&
         (this.getChildProperty() == null || this.getLabelPath() == null)
       )
       {
@@ -815,7 +815,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       return false;
     },
 
-    
+
     /**
      * Helper method to remove items form the selection which are not in the
      * lookup table.
@@ -827,10 +827,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         var item = selection.getItem(0);
         if (!this.__lookupTable.contains(item)) {
           selection.remove(item);
-        } 
+        }
       }
     },
-    
+
 
     /**
      * Helper method to update the row count.
@@ -840,14 +840,14 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.getPane().getRowConfig().setItemCount(this.__lookupTable.getLength());
       this.getPane().fullUpdate();
     },
-    
-    
+
+
     /**
      * Helper method to get the parent node. Node! This only works with leaf and
      * nodes which are in the internal lookup table.
-     * 
+     *
      * @param item {qx.core.Object} Node or leaf to get parent.
-     * @return {qx.core.Object|null} The parent note or <code>null</code> when 
+     * @return {qx.core.Object|null} The parent note or <code>null</code> when
      *   no parent found.
      */
     __getParent : function(item)
@@ -856,7 +856,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       if (index < 0) {
         return null;
       }
-      
+
       var level = this.__nestingLevel[index];
       while(index > 0)
       {
@@ -866,7 +866,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
           return this.__lookupTable.getItem(index);
         }
       }
-      
+
       return null;
     }
   },
@@ -883,7 +883,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         pane.removeListener("cellClick", this._onOpen, this);
       }
     }
-    
+
     this._layer.removeListener("updated", this._onUpdated, this);
     this._layer.destroy();
     this._provider.dispose();

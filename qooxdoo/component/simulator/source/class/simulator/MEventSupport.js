@@ -31,21 +31,21 @@ qx.Mixin.define("simulator.MEventSupport",
   {
     /**
      * Adds utility functions to the AUT that allow attaching and removing event
-     * listeners to qooxdoo objects identified by their object registry hash. 
-     * 
+     * listeners to qooxdoo objects identified by their object registry hash.
+     *
      * @lint ignoreUndefined(selenium)
      */
     _addListenerSupport : function()
     {
       simulator.QxSelenium.getInstance().getEval('selenium.qxStoredVars["eventStore"] = [];');
-      
+
       var addListener = function(objectHash, event, callback, context) {
         var context = context || selenium.qxStoredVars['autWindow'].qx.core.Init.getApplication();
         var qxObj = selenium.qxStoredVars['autWindow'].qx.core.ObjectRegistry.fromHashCode(objectHash);
         return qxObj.addListener(event, callback, context);
       };
       this._addOwnFunction("addListener", addListener);
-      
+
       var removeListenerById = function(objectHash, listenerId) {
         var qxObj = selenium.qxStoredVars['autWindow'].qx.core.ObjectRegistry.fromHashCode(objectHash);
         return qxObj.removeListenerById(listenerId);
@@ -55,15 +55,15 @@ qx.Mixin.define("simulator.MEventSupport",
 
     /**
      * Adds an event listener to a qooxdoo object in the AUT.
-     * 
-     * @param locator {String} A (Qx)Selenium locator string that finds a 
+     *
+     * @param locator {String} A (Qx)Selenium locator string that finds a
      * qooxdoo widget
      * @param event {String} Name of the event to listen for
      * @param callback {Function} Javascript code to be executed if the event is
      * fired
-     * @param script {String?} JavaScript snippet to be executed in the context 
-     * of the widget determined by the locator. The listener will be attached 
-     * to the object returned by this snippet 
+     * @param script {String?} JavaScript snippet to be executed in the context
+     * of the widget determined by the locator. The listener will be attached
+     * to the object returned by this snippet
      * @return {String} the generated listener's ID
      */
     addListener : function(locator, event, callback, script)
@@ -73,19 +73,19 @@ qx.Mixin.define("simulator.MEventSupport",
       } else {
         var objectHash = simulator.QxSelenium.getInstance().getQxObjectHash(locator);
       }
-      var callbackName = event + "_" + new Date().getTime(); 
+      var callbackName = event + "_" + new Date().getTime();
       this._addOwnFunction(callbackName, callback);
-      var callbackInContext = 'selenium.qxStoredVars["autWindow"].qx.Simulation["' + callbackName + '"]';  
+      var callbackInContext = 'selenium.qxStoredVars["autWindow"].qx.Simulation["' + callbackName + '"]';
       var cmd = 'selenium.qxStoredVars["autWindow"].qx.Simulation.addListener("' + objectHash + '", "' + event + '", ' + callbackInContext + ')';
       return simulator.QxSelenium.getInstance().getEval(cmd);
     },
 
     /**
      * Removes an event listener from a qooxdoo widget in the AUT.
-     * 
-     * @param locator {String} A (Qx)Selenium locator string that finds a 
+     *
+     * @param locator {String} A (Qx)Selenium locator string that finds a
      * qooxdoo widget
-     * @param listenerId {String}  The listener's ID as returned by 
+     * @param listenerId {String}  The listener's ID as returned by
      * {@see #addListener}
      * @return {Boolean} Whether the listener was
      * removed successfully
@@ -100,16 +100,16 @@ qx.Mixin.define("simulator.MEventSupport",
     },
 
     /**
-     * Attaches a listener to a qooxdoo object that clones the incoming event 
+     * Attaches a listener to a qooxdoo object that clones the incoming event
      * object and adds it to the event store.
-     * 
-     * @param locator {String} A (Qx)Selenium locator string that finds a 
+     *
+     * @param locator {String} A (Qx)Selenium locator string that finds a
      * qooxdoo widget
      * @param event {String} The name of the event to listen for
      * @param script {String?} Javascript snippet to be executed in the widget's
      * context
      * @return {String} The listener's ID as returned by addListener
-     * 
+     *
      * @lint ignoreUndefined(selenium)
      */
     storeEvent : function(locator, event, script)
@@ -123,10 +123,10 @@ qx.Mixin.define("simulator.MEventSupport",
 
     /**
      * Executes a JavaScript snippet on a stored event and returns the result.
-     * 
+     *
      * @param index {Integer} Index of the event in the store
-     * @param detailString {String} Code snippet to execute, e.g. 
-     * "getTarget().classname" 
+     * @param detailString {String} Code snippet to execute, e.g.
+     * "getTarget().classname"
      * @return {String} The result of the executed code
      */
     getStoredEventDetail : function(index, detailString)
@@ -149,7 +149,7 @@ qx.Mixin.define("simulator.MEventSupport",
 
     /**
      * Returns the number of entries in the event store.
-     * 
+     *
      * @return {Integer} The event count
      */
     getStoredEventCount : function()

@@ -110,9 +110,9 @@ qx.Class.define("apiviewer.ui.SearchView",
       this.__typeFilter = new qx.data.Array([true, true, true, true, true, true, true]);
       var types = ["Packages", "Classes, Mixins, Interfaces", "Methods", "Constants", "Properties", "Events", "Child Controls"];
       var iconNameParts = ["package", "class", "method_public", "constant", "property", "event", "childcontrol"];
-      
+
       var typeContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-      
+
       for(var i=0; i<types.length; i++)
       {
         var type=types[i];
@@ -152,7 +152,7 @@ qx.Class.define("apiviewer.ui.SearchView",
         }, this);
         this.__typeFilter.bind("["+i+"]", typeToggleButton, "value");
       }
-      
+
         var typeToggleButtonAll = new qx.ui.form.ToggleButton("Toggle Filters");
         typeToggleButtonAll.setPadding(1, 3, 1, 3);
         typeToggleButtonAll.setShow("label");
@@ -169,16 +169,16 @@ qx.Class.define("apiviewer.ui.SearchView",
           this._searchResult(this.sinput.getValue() || "");
           typeToggleButtonAll.setToolTipText(e.getData() ? "Deactivate all filters" : "Activate all filters");
         }, this);
-      
+
       sform.add(typeContainer, {row: 1, column: 0, colSpan: 2});
-      
+
       this.namespaceTextField = new qx.ui.form.TextField().set({
         placeholder : ""
       });
-      
+
       sform.add(new qx.ui.basic.Label("Namespace starts with"), {row: 2, column: 0});
       sform.add(this.namespaceTextField, {row: 2, column: 1});
-      
+
       this.namespaceTextField.addListener("keyup", function(e) {
         this._searchResult(this.sinput.getValue() || "");
       }, this);
@@ -371,7 +371,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       var index = this.apiindex.__index__;
       var fullNames = this.apiindex.__fullNames__;
       var types = this.apiindex.__types__;
-      
+
       var namespaceFilter = this.namespaceTextField.getValue() != null ? qx.lang.String.trim(this.namespaceTextField.getValue()) : "";
       var useNamespaceFilter = namespaceFilter.length>0;
 
@@ -396,7 +396,7 @@ qx.Class.define("apiviewer.ui.SearchView",
             for (var i=0, l=index[key].length; i<l; i++) {
               elemtype = types[index[key][i][0]].toUpperCase();
               fullname = fullNames[index[key][i][1]];
-              
+
               if(this._isTypeFilteredIn(elemtype)){
                 if(!useNamespaceFilter || fullname.indexOf(namespaceFilter)===0) {
 
@@ -430,7 +430,7 @@ qx.Class.define("apiviewer.ui.SearchView",
     _isTypeFilteredIn: function(type){
       return this.__typeFilter.getItem(this.__typesIndex[type]);
     },
-    
+
     /**
      * Set data for the listview
      *

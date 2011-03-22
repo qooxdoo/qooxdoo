@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * The list widget displays the data of a model in a list.
  */
 qx.Class.define("qx.ui.mobile.list.List",
@@ -32,8 +32,8 @@ qx.Class.define("qx.ui.mobile.list.List",
     this.base(arguments);
     this.addListener("tap", this._onTap, this);
   },
-  
-  
+
+
   events :
   {
     /**
@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.mobile.list.List",
   },
 
 
-  properties : 
+  properties :
   {
     // overridden
     cssClass :
@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.mobile.list.List",
     /**
      * The list item that should be used to render the data.
      */
-    listItem : 
+    listItem :
     {
       check : "qx.ui.mobile.list.ListItem",
       apply : "_applyListItem",
@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.mobile.list.List",
 
     /**
      * Event handler for the "tap" event.
-     * 
+     *
      * @param evt {qx.event.type.Tap} The tap event
      */
     _onTap : function(evt)
@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.mobile.list.List",
 
     /**
      * Sets the data to the list item and creates a clone of it.
-     * 
+     *
      * @return {Element} the cloned list item.
      */
     __createItemElement : function(index, data)

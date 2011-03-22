@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * The label widget displays a text or HTML content.
  *
  */
@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.mobile.basic.Label",
   },
 
 
-  properties : 
+  properties :
   {
     // overridden
     cssClass :
@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.mobile.basic.Label",
     }
   },
 
-  members : 
+  members :
   {
     // property apply
     _applyValue : function(value, old)
@@ -106,7 +106,7 @@ qx.Class.define("qx.ui.mobile.basic.Label",
       }
       string = "" + string;
       string = string.replace(/\r\n/g,"\n");
-      
+
       var utftext = "";
       // Todo: check if only the non space / non breaking character is enough
       for (var n = 0; n < string.length; n++) {
@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.mobile.basic.Label",
         else
         {
           utftext += chr;
-        } 
+        }
       }
       return utftext;
     }

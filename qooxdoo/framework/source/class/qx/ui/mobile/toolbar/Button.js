@@ -24,7 +24,7 @@ qx.Class.define("qx.ui.mobile.toolbar.Button",
 {
   extend : qx.ui.mobile.form.Button,
 
-  properties : 
+  properties :
   {
     cssClass :
     {

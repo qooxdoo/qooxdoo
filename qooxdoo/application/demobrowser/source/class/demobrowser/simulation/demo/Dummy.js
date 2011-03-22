@@ -27,23 +27,23 @@
 qx.Class.define("demobrowser.simulation.demo.Dummy", {
 
   extend : demobrowser.simulation.demo.Abstract,
-  
+
   construct : function()
   {
     this.base(arguments);
     this.__ignoredDemos = ["bom.Iframe", "showcase.Browser", "widget.Iframe"];
   },
-  
+
   members :
   {
     __demoList : null,
-    /** 
+    /**
      * List of demos that must not be loaded.
-     * The iframe demos somehow confuse Selenium: selenium.browserbot is a 
+     * The iframe demos somehow confuse Selenium: selenium.browserbot is a
      * reference to the HTML iframe element after they're loaded.
      **/
     __ignoredDemos : null,
-    
+
     //overridden
     setUp : function() {
       this._initReporter();
@@ -53,16 +53,16 @@ qx.Class.define("demobrowser.simulation.demo.Dummy", {
         this._removeIgnoredDemos();
       }
     },
-    
+
     //overridden
     tearDown : function() {
-    
+
     },
-    
-    
+
+
     /**
-     * Looks at the demo tree items' labels to get a list of category/demo names 
-     * 
+     * Looks at the demo tree items' labels to get a list of category/demo names
+     *
      * @return {String[]} List of demos (format: categoryName.demoName)
      */
     _getDemoList : function()
@@ -82,16 +82,16 @@ qx.Class.define("demobrowser.simulation.demo.Dummy", {
         }
         return demos.join("|");
       }
-      
+
       this.getSimulation()._addOwnFunction("getDemoNames", getDemoNames);
       var demos = String(this.getQxSelenium().getEval(simulator.Simulation.AUTWINDOW + ".qx.Simulation.getDemoNames()"));
       return demos.split("|");
     },
-    
-    
+
+
     /**
-     * Removes the names of all demos that have custom test classes from the 
-     * list 
+     * Removes the names of all demos that have custom test classes from the
+     * list
      */
     _removeDemosWithTests : function()
     {
@@ -104,8 +104,8 @@ qx.Class.define("demobrowser.simulation.demo.Dummy", {
       }
       this.__demoList = demoList;
     },
-    
-    
+
+
     /**
      * Removes all demos in the ignore list from the list of demos to be tested
      */
@@ -115,21 +115,21 @@ qx.Class.define("demobrowser.simulation.demo.Dummy", {
         qx.lang.Array.remove(this.__demoList, this.__ignoredDemos[i]);
       }
     },
-    
-    
+
+
     //overridden
     loadDemo : function(demoName) {
       var hash = demoName.replace(/\./, "~") + ".html";
-      
-      var fullUrl = qx.core.Environment.get("simulator.autHost") 
+
+      var fullUrl = qx.core.Environment.get("simulator.autHost")
       + qx.core.Environment.get("simulator.autPath") + "#" + hash;
       this.getSimulation().qxOpen(fullUrl);
       this.getSimulation().waitForQxApplication(10000, this.demoWindow);
       this.getSimulation()._prepareNameSpace(this.demoWindow);
       this.demoName = demoName;
     },
-    
-    
+
+
     /**
      * Loads each demo in the list and logs any errors/warnings found in the
      * demo application's log or caught by the global error handler

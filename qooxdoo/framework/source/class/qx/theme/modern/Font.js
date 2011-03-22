@@ -27,13 +27,13 @@ qx.Theme.define("qx.theme.modern.Font",
   {
     "default" :
     {
-      size : (qx.core.Environment.get("os.name") == "win" && 
+      size : (qx.core.Environment.get("os.name") == "win" &&
         (qx.core.Environment.get("os.version") == "7" ||
         qx.core.Environment.get("os.version") == "vista")) ? 12 : 11,
       lineHeight : 1.4,
-      family : qx.core.Environment.get("os.name") == "osx" ? 
+      family : qx.core.Environment.get("os.name") == "osx" ?
         [ "Lucida Grande" ] :
-        ((qx.core.Environment.get("os.name") == "win" && 
+        ((qx.core.Environment.get("os.name") == "win" &&
           (qx.core.Environment.get("os.version") == "7" ||
           qx.core.Environment.get("os.version") == "vista"))) ?
         [ "Segoe UI", "Candara" ] :
@@ -42,13 +42,13 @@ qx.Theme.define("qx.theme.modern.Font",
 
     "bold" :
     {
-      size : (qx.core.Environment.get("os.name") == "win" && 
+      size : (qx.core.Environment.get("os.name") == "win" &&
         (qx.core.Environment.get("os.version") == "7" ||
         qx.core.Environment.get("os.version") == "vista")) ? 12 : 11,
       lineHeight : 1.4,
-      family : qx.core.Environment.get("os.name") == "osx" ? 
+      family : qx.core.Environment.get("os.name") == "osx" ?
         [ "Lucida Grande" ] :
-        ((qx.core.Environment.get("os.name") == "win" && 
+        ((qx.core.Environment.get("os.name") == "win" &&
           (qx.core.Environment.get("os.version") == "7" ||
           qx.core.Environment.get("os.version") == "vista"))) ?
         [ "Segoe UI", "Candara" ] :
@@ -58,13 +58,13 @@ qx.Theme.define("qx.theme.modern.Font",
 
     "small" :
     {
-      size : (qx.core.Environment.get("os.name") == "win" && 
+      size : (qx.core.Environment.get("os.name") == "win" &&
         (qx.core.Environment.get("os.version") == "7" ||
         qx.core.Environment.get("os.version") == "vista")) ? 11 : 10,
       lineHeight : 1.4,
-      family : qx.core.Environment.get("os.name") == "osx" ? 
+      family : qx.core.Environment.get("os.name") == "osx" ?
         [ "Lucida Grande" ] :
-        ((qx.core.Environment.get("os.name") == "win" && 
+        ((qx.core.Environment.get("os.name") == "win" &&
           (qx.core.Environment.get("os.version") == "7" ||
           qx.core.Environment.get("os.version") == "vista"))) ?
         [ "Segoe UI", "Candara" ] :
@@ -75,9 +75,9 @@ qx.Theme.define("qx.theme.modern.Font",
     {
       size: 11,
       lineHeight : 1.4,
-      family : qx.core.Environment.get("os.name") == "osx" ? 
+      family : qx.core.Environment.get("os.name") == "osx" ?
         [ "Lucida Console", "Monaco" ] :
-        ((qx.core.Environment.get("os.name") == "win" && 
+        ((qx.core.Environment.get("os.name") == "win" &&
           (qx.core.Environment.get("os.version") == "7" ||
           qx.core.Environment.get("os.version") == "vista"))) ?
         [ "Consolas" ] :

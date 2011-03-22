@@ -162,7 +162,7 @@ qx.Bootstrap.define("qx.bom.client.Transport",
             return "xhr";
           } catch(noXhr) {}
         })();
-      
+
       return supports || "";
     }
   }

@@ -43,7 +43,7 @@ qx.Class.define('demobrowser.demo.table.RemoteTableModel', {
       if (this.__checkingForPHP) {
         return;
       }
-      
+
       if (this.__PHPSupported) {
         this.__loadPHPRowCount();
       } else {
@@ -63,19 +63,19 @@ qx.Class.define('demobrowser.demo.table.RemoteTableModel', {
         this.__loadPHPRowData(firstRow, lastRow);
       } else {
         this.__rowDataLoadded(firstRow, lastRow);
-      }      
+      }
     },
-    
-    
+
+
     // Server communication
-    
+
     __checkPHP : function() {
       if (this.__checkingForPHP || this.__PHPSupported !== null) {
         return;
       }
-      
+
       this.__checkingForPHP = true;
-      
+
       this.__call("", function(data) {
         this.__checkingForPHP = false;
         this.__PHPSupported = (data == "WTF PHP");
@@ -90,15 +90,15 @@ qx.Class.define('demobrowser.demo.table.RemoteTableModel', {
         this._onRowCountLoaded(parseInt(data));
       });
     },
-    
+
     __loadPHPRowData : function(firstRow, lastRow) {
       var param = "method=getRowData&start=" + firstRow + "&end=" + lastRow;
       this.__call(param, function(data) {
         this._onRowDataLoaded(qx.util.Json.parse(data));
       });
     },
-    
-    
+
+
     __call : function(param, callback) {
       var req = new qx.io.HttpRequest(
         "../../resource/demobrowser/backend/remote_table.php?" + param
@@ -113,15 +113,15 @@ qx.Class.define('demobrowser.demo.table.RemoteTableModel', {
 
 
     // Fake the server localy
-    
+
     __setRowCount : function() {
       var self = this;
       window.setTimeout(function() {
         self._onRowCountLoaded(1000000);
       }, 0);
     },
-    
-    
+
+
     __rowDataLoadded : function(firstRow, lastRow) {
       var self = this;
       window.setTimeout(function() {

@@ -260,7 +260,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
       var that = this;
       var handler = function(e) {
         that.assertArrayEquals(["C", "B", "A"], that.array.toArray(), "Changes are not applied when handler is executed!");
-        
+
         // check the data
         that.assertArrayEquals(["C", "B", "A"], e.getData().value);
         that.assertEquals("data[0-2]", e.getData().name);

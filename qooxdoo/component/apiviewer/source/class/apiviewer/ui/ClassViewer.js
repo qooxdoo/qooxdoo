@@ -432,8 +432,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       if (hierarchy.length <= 1) { return; }
 
       html.add("<h2>", "Inheritance hierarchy:", "</h2>");
-  
-      var indent = 0, l = hierarchy.length; 
+
+      var indent = 0, l = hierarchy.length;
       for (var i=l-1; i>=0; i--) {
         var name = hierarchy[i].getFullName();
         var icon = TreeUtil.getIconUrl(hierarchy[i]);

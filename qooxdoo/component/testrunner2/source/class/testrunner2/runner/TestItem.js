@@ -21,13 +21,13 @@
 qx.Class.define("testrunner2.runner.TestItem", {
 
   extend : qx.core.Object,
-  
+
   construct : function()
   {
     this.base(arguments);
     this.$$test = this;
   },
-  
+
   properties :
   {
     /** The item's state. The state of a parent item reflects its children:
@@ -39,9 +39,9 @@ qx.Class.define("testrunner2.runner.TestItem", {
       init : "start",
       event : "changeState"
     },
-    
+
     /**
-     * Any exceptions caught during a test's execution. 
+     * Any exceptions caught during a test's execution.
      */
     exceptions :
     {
@@ -50,12 +50,12 @@ qx.Class.define("testrunner2.runner.TestItem", {
       event : "changeExceptions"
     }
   },
-  
+
   statics :
   {
     /**
      * Compare function for test model items.
-     * 
+     *
      * @param aItem {testrunner2.runner.TestItem} First item
      * @param bItem {testrunner2.runner.TestItem} Second item
      * @return {Integer} Comparison result
@@ -71,52 +71,52 @@ qx.Class.define("testrunner2.runner.TestItem", {
       if (aType == "class" && bType == "package") {
         return 1;
       }
-      
+
       var a = aItem.getName();
       var b = bItem.getName();
-      if (a < b) { 
-        return -1; 
+      if (a < b) {
+        return -1;
       }
       if (a > b ) {
         return 1;
-      } 
+      }
       return 0;
     }
   },
-  
+
   members :
   {
-    /** 
+    /**
      * Returns this instance. Workaround needed to bind each child item's state
      * to the parent's.
-     * 
+     *
      * @return {Object} This model object
      */
     getModel : function() {
       return this.$$test;
     },
-    
+
     /**
-     * Returns the fully qualified name of a model item, e.g. 
+     * Returns the fully qualified name of a model item, e.g.
      * "someApp.test.foo.Bar:testBaz"
-     * 
+     *
      * @return {String} The item's fully qualified name
      */
     getFullName : function()
     {
       return this.fullName;
     },
-    
-    
+
+
     /**
      * Return the item's type ("package", "class" or "test")
-     * 
+     *
      * @return {String} The item's type
      */
     getType : function()
     {
       var itemName = this.getName();
-      
+
       if (itemName.indexOf("test") === 0 && itemName.length > 4) {
         // ugly workaround for packages with names beginning with "test"
         if (this.getChildren) {
@@ -129,8 +129,8 @@ qx.Class.define("testrunner2.runner.TestItem", {
       }
       return "package";
     },
-    
-    
+
+
     /**
      * Sorts the item's children. Packages are always listed before classes.
      */
@@ -138,11 +138,11 @@ qx.Class.define("testrunner2.runner.TestItem", {
     {
       this.getChildren().sort(testrunner2.runner.TestItem.sortFunction);
     },
-    
-    
+
+
     /**
      * Serializes and returns any exceptions caught during the test's execution
-     * 
+     *
      * @return {String} Exceptions
      */
     getMessage : qx.core.Variant.select("qx.client",
@@ -155,7 +155,7 @@ qx.Class.define("testrunner2.runner.TestItem", {
           for (var i=0,l=exceptions.length; i<l; i++) {
             message += exceptions[i].exception.toString() + " ";
           }
-          return message;          
+          return message;
         } else {
           return "";
         }

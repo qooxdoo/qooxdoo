@@ -23,26 +23,26 @@
 qx.Class.define("testrunner2.view.Abstract", {
 
   type : "abstract",
-  
+
   extend : qx.core.Object,
-  
+
 
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
-  
+
   events :
   {
     /** Event fired to instruct the TestRunner to start running the test suite */
     runTests : "qx.event.type.Event",
-    
+
     /** Event fired to instruct the TestRunner to stop running the test suite */
     stopTests : "qx.event.type.Event"
   },
-  
-  
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -56,8 +56,8 @@ qx.Class.define("testrunner2.view.Abstract", {
       check : "String",
       apply : "_applyStatus"
     },
-    
-    /** The test suite's current state, synchronized with 
+
+    /** The test suite's current state, synchronized with
       {@link testrunner2.runner.TestRunner#testSuiteState} */
     testSuiteState :
     {
@@ -65,7 +65,7 @@ qx.Class.define("testrunner2.view.Abstract", {
       apply : "_applyTestSuiteState",
       event : "changeTestSuiteState"
     },
-    
+
     /** Number of configured tests that haven't run yet. */
     testCount :
     {
@@ -74,7 +74,7 @@ qx.Class.define("testrunner2.view.Abstract", {
       apply : "_applyTestCount",
       event : "changeTestCount"
     },
-    
+
     /** Model object representing the test namespace. */
     testModel :
     {
@@ -82,7 +82,7 @@ qx.Class.define("testrunner2.view.Abstract", {
       nullable : true,
       apply : "_applyTestModel"
     },
-    
+
     /** List of tests selected by the user */
     selectedTests :
     {
@@ -90,7 +90,7 @@ qx.Class.define("testrunner2.view.Abstract", {
       nullable : true,
       event : "changeSelectedTests"
     },
-    
+
     /** URI of the application containing the test classes */
     autUri :
     {
@@ -100,8 +100,8 @@ qx.Class.define("testrunner2.view.Abstract", {
       apply : "_applyAutUri"
     }
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -111,7 +111,7 @@ qx.Class.define("testrunner2.view.Abstract", {
   {
     /**
      * Add a listener to a TestResultData object to be informed of state changes.
-     * @param testResultData {testrunner2.unit.TestResultData} 
+     * @param testResultData {testrunner2.unit.TestResultData}
      * Test result data object
      */
     addTestResult : function(testResultData)
@@ -120,22 +120,22 @@ qx.Class.define("testrunner2.view.Abstract", {
         this._onTestChangeState(testResultData);
       }, this);
     },
-    
-    
+
+
     /**
      * Visualize TestResultData state changes.
-     * @param testResultData {testrunner2.unit.TestResultData} 
+     * @param testResultData {testrunner2.unit.TestResultData}
      * Test result data object
      */
     _onTestChangeState : function(testResultData)
     {
       this.error("Missing implementation of _onTestChangeState!");
     },
-    
-    
+
+
     /**
      * Displays a status message.
-     * 
+     *
      * @param value {String} The message to be displayed
      * @param old {String} Previous value
      */
@@ -143,12 +143,12 @@ qx.Class.define("testrunner2.view.Abstract", {
     {
       this.info(value);
     },
-    
-    
+
+
     /**
      * Visualizes the current state of the test suite.
-     * 
-     * @param value {String} The test suite's state, one of "init", "loading", 
+     *
+     * @param value {String} The test suite's state, one of "init", "loading",
      * "ready", "running", "finished", "aborted", "error"
      * @param old {String} Previous value
      */
@@ -156,11 +156,11 @@ qx.Class.define("testrunner2.view.Abstract", {
     {
       this.info("Test suite state: " + value);
     },
-    
-    
+
+
     /**
      * Visualizes the amount of tests remaining.
-     * 
+     *
      * @param value {Integer} Number of pending tests
      * @param old {Integer} Previous value
      */
@@ -168,11 +168,11 @@ qx.Class.define("testrunner2.view.Abstract", {
     {
       this.info(value + " tests pending.")
     },
-    
-    
+
+
     /**
      * Apply the test model: Build a list of tests in the GUI etc.
-     * 
+     *
      * @param value {Object} Test model object
      * @param old {Object} Previous value
      */
@@ -180,26 +180,26 @@ qx.Class.define("testrunner2.view.Abstract", {
     {
       this.error("Missing implementation of _applyTestModel!");
     },
-    
+
     /**
      * Visualizes the list of loaded tests.
-     * 
+     *
      * @param value {Array} Test list
      * @param old {Array} Previous value
-     
+
     _applyInitialTestList : function(value, old)
     {},
     */
-    
-    
+
+
     /**
      * Applies the AUT's URI, e.g. by setting an Iframe's source
-     * 
+     *
      * @param value {String} AUT URI
      * @param old {String} Previous value
      */
     _applyAutUri : function(value, old)
     {}
   }
-  
+
 });

@@ -22,8 +22,8 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * GeoLocation provides access to geographical location information 
- * associated with the hosting device. 
+ * GeoLocation provides access to geographical location information
+ * associated with the hosting device.
  *
  * For more information see:
  * http://www.w3.org/TR/geolocation-API
@@ -39,7 +39,7 @@ qx.Class.define("qx.bom.GeoLocation",
 
     /**
      * Create a handler
-     * 
+     *
      * @param cb {Function} callback
      * @return {Function} handler
      */
@@ -51,16 +51,16 @@ qx.Class.define("qx.bom.GeoLocation",
       };
     },
 
-    
+
     /**
      * Retrieves the current postion and calls the given handler when successfull.
      * When called several times only the last handler ist called.
-     * 
-     * @param handler {Function} the handler that should be called when the 
+     *
+     * @param handler {Function} the handler that should be called when the
      * position is retrieved. Parameter is an on object of GeoLocationPostion.
      * @param errorHandler {Function} called when an error occurs.
      * @param enableHighAccuracy {Function} provide the best possible results
-     * @param timeout {Function} maximum time in ms that is allowed to pass from 
+     * @param timeout {Function} maximum time in ms that is allowed to pass from
      * the call to getCurrentPosition() or watchPosition() until the corresponding
      * callback is invoked.
      * @param maximumAge {Function} cache the position for a specified time.
@@ -78,16 +78,16 @@ qx.Class.define("qx.bom.GeoLocation",
 
     /**
      * Retrieves the current postion and calls the given handler when successfull.
-     * The watch operation then continue to monitor the position of the device 
-     * and invoke the appropriate callback every time this position changes. 
-     * The watch operation continue until the clearWatch  method is called 
-     * with the corresponding identifier. 
-     * 
-     * @param handler {Function} the handler that should be called when the position 
+     * The watch operation then continue to monitor the position of the device
+     * and invoke the appropriate callback every time this position changes.
+     * The watch operation continue until the clearWatch  method is called
+     * with the corresponding identifier.
+     *
+     * @param handler {Function} the handler that should be called when the position
      * is retrieved. Parameter is an on object of GeoLocationPostion.
      * @param errorHandler {Function} called when an error occurs.
      * @param enableHighAccuracy {Function} provide the best possible results
-     * @param timeout {Function} maximum time in ms that is allowed to pass from 
+     * @param timeout {Function} maximum time in ms that is allowed to pass from
      * the call to getCurrentPosition() or watchPosition() until the corresponding
      * callback is invoked.
      * @param maximumAge {Function} cache the position for a specified time.
@@ -112,7 +112,7 @@ qx.Class.define("qx.bom.GeoLocation",
       navigator.geolocation.clearWatch(watchId);
     }
   },
-  
+
   events:
   {
     /** Fired when the position is updated */
@@ -121,7 +121,7 @@ qx.Class.define("qx.bom.GeoLocation",
     /** Fired when an error occurs */
     "error": "qx.event.type.Data"
   },
-  
+
   members:
   {
     _watchId: null,
@@ -152,7 +152,7 @@ qx.Class.define("qx.bom.GeoLocation",
      * Retrieves the current postion and calls the "positon" event.
      *
      * @param enableHighAccuracy {Function} provide the best possible results
-     * @param timeout {Function} maximum time in ms that is allowed to pass from 
+     * @param timeout {Function} maximum time in ms that is allowed to pass from
      * the call to getCurrentPosition() or watchPosition() until the corresponding
      * callback is invoked.
      * @param maximumAge {Function} cache the position for a specified time.
@@ -167,9 +167,9 @@ qx.Class.define("qx.bom.GeoLocation",
 
     /**
      * Starts to watch the postion. Calls the "positon" event, when the position changed.
-     * 
+     *
      * @param enableHighAccuracy {Function} provide the best possible results
-     * @param timeout {Function} maximum time in ms that is allowed to pass from 
+     * @param timeout {Function} maximum time in ms that is allowed to pass from
      * the call to getCurrentPosition() or watchPosition() until the corresponding
      * callback is invoked.
      * @param maximumAge {Function} cache the position for a specified time.

@@ -361,7 +361,7 @@ qx.Class.define("qx.bom.element.Decoration",
       var dimension = this.__getDimension(sourceid);
       var uri;
 
-      if (clipped) 
+      if (clipped)
       {
         var data = ResourceManager.getData(sourceid);
         var combinedid = data[4];

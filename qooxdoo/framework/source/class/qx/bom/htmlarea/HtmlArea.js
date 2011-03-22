@@ -1123,14 +1123,14 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       // Clone the node
       var nodeClone = node.cloneNode(true);
       var innerHTML = nodeClone.innerHTML;
-      
+
       // Replace all ">" with space "> " to create new word borders
       innerHTML = innerHTML.replace(/>/gi, "> ");
       // Remove all line breaks
       innerHTML = innerHTML.replace(/\n/gi, " ");
       // Remove all comments
       innerHTML = innerHTML.replace(/<!--.*-->/gi, "");
-      
+
       nodeClone.innerHTML = innerHTML;
       var text  = qx.core.Variant.isSet("qx.client", "mshtml|opera") ? nodeClone.innerText : nodeClone.textContent;
       var words = text.match(qx.bom.htmlarea.HtmlArea.GetWordsRegExp);
@@ -1531,7 +1531,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       // "overflow-x" explicit to "hidden"
       // In mshtml browsers this does NOT work. The property "overflow-x"
       // overwrites the value of "overflow-y".
-      var overflow = qx.core.Environment.get("engine.name") == "gecko" ? 
+      var overflow = qx.core.Environment.get("engine.name") == "gecko" ?
         " html, body {overflow-x: visible; } " : "";
 
       var skeletonParts = this.__documentSkeletonParts[this.getContentType()];
@@ -2146,7 +2146,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
           // Firefox 2 needs some additional work to select the first line
           // completely in case the selection is already on the first line and
           // "key up" is pressed.
-          if (qx.core.Environment.get("engine.name") == "gecko" && 
+          if (qx.core.Environment.get("engine.name") == "gecko" &&
             qx.core.Environment.get("engine.version") < 1.9 && isShiftPressed)
           {
             var sel = this.getSelection();
@@ -2174,7 +2174,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         // Firefox 2 needs some extra work to move the cursor (and optionally
         // select text while moving) to first position in the first line.
         case "home":
-          if (qx.core.Environment.get("engine.name") == "gecko" && 
+          if (qx.core.Environment.get("engine.name") == "gecko" &&
             qx.core.Environment.get("engine.version") < 1.9)
           {
             if(isCtrlPressed)
@@ -3644,7 +3644,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       Registration.removeListener(doc.body, "keyup", this._handleKeyUp, this);
       Registration.removeListener(doc.body, "keydown", this._handleKeyDown, this);
 
-      var focusBlurTarget = qx.core.Environment.get("engine.name") == "webkit" 
+      var focusBlurTarget = qx.core.Environment.get("engine.name") == "webkit"
         ? this._getIframeWindow() : doc.body;
       Registration.removeListener(focusBlurTarget, "focus", this._handleFocusEvent);
       Registration.removeListener(focusBlurTarget, "blur",  this._handleBlurEvent);

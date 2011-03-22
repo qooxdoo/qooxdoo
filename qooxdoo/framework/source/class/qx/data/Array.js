@@ -160,8 +160,8 @@ qx.Class.define("qx.data.Array",
       this._registerEventChaining(null, item, this.length - 1);
       // fire change bubble event
       this.fireDataEvent("changeBubble", {
-        value: [], 
-        name: this.length, 
+        value: [],
+        name: this.length,
         old: [item]
       });
 
@@ -191,11 +191,11 @@ qx.Class.define("qx.data.Array",
         this.__updateLength();
         // apply to every pushed item an event listener for the bubbling
         this._registerEventChaining(arguments[i], null, this.length - 1);
-        
+
         // fire change bubbles event
         this.fireDataEvent("changeBubble", {
-          value: [arguments[i]], 
-          name: this.length - 1, 
+          value: [arguments[i]],
+          name: this.length - 1,
           old: []
         });
 
@@ -221,17 +221,17 @@ qx.Class.define("qx.data.Array",
       if (this.length == 0) {
         return;
       }
-      
+
       var oldArray = this.__array.concat();
       this.__array.reverse();
       this.fireDataEvent("change",
         {start: 0, end: this.length - 1, type: "order", items: null}, null
       );
-      
+
       // fire change bubbles event
       this.fireDataEvent("changeBubble", {
-        value: this.__array, 
-        name: "0-" + (this.__array.length - 1), 
+        value: this.__array,
+        name: "0-" + (this.__array.length - 1),
         old: oldArray
       });
     },
@@ -253,11 +253,11 @@ qx.Class.define("qx.data.Array",
       this.__updateLength();
       // remove the possible added event listener
       this._registerEventChaining(null, item, this.length -1);
-      
+
       // fire change bubbles event
       this.fireDataEvent("changeBubble", {
-        value: [], 
-        name: "0", 
+        value: [],
+        name: "0",
         old: [item]
       });
 
@@ -369,16 +369,16 @@ qx.Class.define("qx.data.Array",
         return;
       }
       var oldArray = this.__array.concat();
-      
+
       this.__array.sort.apply(this.__array, arguments);
       this.fireDataEvent("change",
         {start: 0, end: this.length - 1, type: "order", items: null}, null
       );
-      
+
       // fire change bubbles event
       this.fireDataEvent("changeBubble", {
-        value: this.__array, 
-        name: "0-" + (this.length - 1), 
+        value: this.__array,
+        name: "0-" + (this.length - 1),
         old: oldArray
       });
     },
@@ -396,14 +396,14 @@ qx.Class.define("qx.data.Array",
         this.__updateLength();
         // apply to every pushed item an event listener for the bubbling
         this._registerEventChaining(arguments[i], null, 0);
-        
+
         // fire change bubbles event
         this.fireDataEvent("changeBubble", {
-          value: [this.__array[0]], 
-          name: "0", 
+          value: [this.__array[0]],
+          name: "0",
           old: [this.__array[1]]
-        });        
-        
+        });
+
         // fire change event
         this.fireDataEvent("change",
           {
@@ -459,11 +459,11 @@ qx.Class.define("qx.data.Array",
       if (this.length != this.__array.length) {
         this.__updateLength();
       }
-      
+
       // fire change bubbles event
       this.fireDataEvent("changeBubble", {
-        value: [item], 
-        name: index, 
+        value: [item],
+        name: index,
         old: [oldItem]
       });
 
@@ -601,7 +601,7 @@ qx.Class.define("qx.data.Array",
 
     /**
      * Remove all elements from the array.
-     * 
+     *
      * @return {Array} A native array containing the removed elements.
      */
     removeAll : function() {
@@ -625,8 +625,8 @@ qx.Class.define("qx.data.Array",
 
       // fire change bubbles event
       this.fireDataEvent("changeBubble", {
-        value: [], 
-        name: "0-" + (oldLength - 1), 
+        value: [],
+        name: "0-" + (oldLength - 1),
         old: items
       });
 
@@ -669,14 +669,14 @@ qx.Class.define("qx.data.Array",
       for (var i = 0; i < array.length; i++) {
         this._registerEventChaining(array[i], null, this.__array.length + i);
       }
-      
+
       var oldLength = this.length;
       this.__updateLength();
 
       // fire change bubbles
       this.fireDataEvent("changeBubble", {
-        value: array, 
-        name: oldLength == (this.length-1) ? oldLength : oldLength + "-" + (this.length-1), 
+        value: array,
+        name: oldLength == (this.length-1) ? oldLength : oldLength + "-" + (this.length-1),
         old: []
       });
 

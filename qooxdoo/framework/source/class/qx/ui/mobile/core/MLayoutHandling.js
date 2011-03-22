@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * This mixin exposes all methods to manage the layout manager of a widget.
  * It can only be included into instances of {@link Widget}.
  *

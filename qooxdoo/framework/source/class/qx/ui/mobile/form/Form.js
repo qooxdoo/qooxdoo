@@ -28,7 +28,7 @@ qx.Class.define("qx.ui.mobile.form.Form",
 
   properties :
   {
-    cssClass : 
+    cssClass :
     {
       refine : true,
       init : "form"

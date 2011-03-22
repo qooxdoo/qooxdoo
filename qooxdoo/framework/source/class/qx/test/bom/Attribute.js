@@ -92,7 +92,7 @@ qx.Class.define("qx.test.bom.Attribute",
 
       if (qx.core.Variant.isSet("qx.client", "mshtml") &&
           (parseFloat(qx.core.Environment.get("engine.version")) <= 7 ||
-           (parseFloat(qx.core.Environment.get("engine.version")) == 8 && 
+           (parseFloat(qx.core.Environment.get("engine.version")) == 8 &&
            qx.core.Environment.get("browser.documentmode") == 7))) {
         this._checkBox.setAttribute("checked", false);
       } else {
@@ -168,8 +168,8 @@ qx.Class.define("qx.test.bom.Attribute",
       this.assertNull(Attribute.get(this._el, "innerHTML"));
 
       // Skip this for Safari 2
-      if (qx.core.Environment.get("engine.name") == "webkit" && 
-        parseFloat(qx.core.Environment.get("engine.version")) < 530) 
+      if (qx.core.Environment.get("engine.name") == "webkit" &&
+        parseFloat(qx.core.Environment.get("engine.version")) < 530)
       {
         this.warn("Test skipped in Safari 2.");
       } else {

@@ -59,7 +59,7 @@ qx.Theme.define("qx.theme.modern.Color",
 
     // html area
     "htmlarea-background" : "white",
-    
+
     // progress bar
     "progressbar-background" : "white",
 
@@ -143,7 +143,7 @@ qx.Theme.define("qx.theme.modern.Color",
 
     // drag & drop
     "border-dragover" : "#33508D",
-    
+
     "keyboard-focus" : "black",
 
 
@@ -196,8 +196,8 @@ qx.Theme.define("qx.theme.modern.Color",
     "progressive-progressbar-indicator-undone"   : "white",
     "progressive-progressbar-percent-background" : "gray",
     "progressive-progressbar-percent-text"       : "white",
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       CSS ONLY COLORS
@@ -205,19 +205,19 @@ qx.Theme.define("qx.theme.modern.Color",
     */
     "selected-start" : "#004DAD",
     "selected-end" : "#00368A",
-    
+
     "tabview-background" : "#07125A",
 
     "shadow" : "#999999",
-    
+
     "pane-start" : "#FBFBFB",
     "pane-end" : "#F0F0F0",
-    
+
     "group-background" : "#E8E8E8",
     "group-border" : "#B4B4B4",
-    
+
     "radiobutton-background" : "#EFEFEF",
-    
+
     "checkbox-border" : "#314A6E",
     "checkbox-focus" : "#87AFE7",
     "checkbox-hovered" : "#B2D2FF",
@@ -236,14 +236,14 @@ qx.Theme.define("qx.theme.modern.Color",
     "radiobutton-disabled" : "#D5D5D5",
     "radiobutton-checked-disabled" : "#7B7B7B",
     "radiobutton-hovered-invalid" : "#F7EAEA",
-    
+
     "tooltip-error" : "#C82C2C",
-    
+
     "scrollbar-start" : "#CCCCCC",
     "scrollbar-end" : "#F1F1F1",
     "scrollbar-slider-start" : "#EEEEEE",
     "scrollbar-slider-end" : "#C3C3C3",
-    
+
     "button-border-disabeld" : "#959595",
     "button-start" : "#F0F0F0",
     "button-end" : "#AFAFAF",
@@ -252,9 +252,9 @@ qx.Theme.define("qx.theme.modern.Color",
     "button-hovered-start" : "#F0F9FE",
     "button-hovered-end" : "#8EB8D6",
     "button-focused" : "#83BAEA",
-    
+
     "border-invalid" : "#930000",
-    
+
     "input-start" : "#F0F0F0",
     "input-end" : "#FBFCFB",
     "input-focused-start" : "#D7E7F4",
@@ -265,7 +265,7 @@ qx.Theme.define("qx.theme.modern.Color",
 
     "toolbar-start" : "#EFEFEF",
     "toolbar-end" : "#DDDDDD",
-    
+
     "window-border" : "#00204D",
     "window-border-caption" : "#727272",
     "window-caption-active-text" : "white",
@@ -274,20 +274,20 @@ qx.Theme.define("qx.theme.modern.Color",
     "window-caption-inactive-start" : "#F2F2F2",
     "window-caption-inactive-end" : "#DBDBDB",
     "window-statusbar-background" : "#EFEFEF",
-    
+
     "tabview-start" : "#FCFCFC",
     "tabview-end" : "#EEEEEE",
     "tabview-inactive" : "#777D8D",
     "tabview-inactive-start" : "#EAEAEA",
     "tabview-inactive-end" : "#CECECE",
-    
+
     "table-header-start" : "#E8E8E8",
     "table-header-end" : "#B3B3B3",
-    
+
     "menu-start" : "#E8E8E9",
     "menu-end" : "#D9D9D9",
     "menubar-start" : "#E8E8E8",
-    
+
     "groupitem-start" : "#A7A7A7",
     "groupitem-end" : "#949494",
     "groupitem-text" : "white",

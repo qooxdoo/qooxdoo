@@ -25,7 +25,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
   extend : qx.core.Object,
   type : "singleton",
 
-  members : 
+  members :
   {
     // TOOD : MOVE THIS TO PHONE GAP CLASS
     alert : function(title, text, handler, scope, button)

@@ -20,12 +20,12 @@
 qx.Class.define("testrunner2.view.Performance", {
 
   extend : testrunner2.view.Console,
-  
+
   properties :
   {
-    /** 
+    /**
      * Use the browser's built-in profiling capabilities (console.profile)
-     * if true 
+     * if true
      */
     profile :
     {
@@ -33,7 +33,7 @@ qx.Class.define("testrunner2.view.Performance", {
       init : true
     }
   },
-  
+
   construct : function()
   {
     this.base(arguments);
@@ -50,19 +50,19 @@ qx.Class.define("testrunner2.view.Performance", {
     this.__logElem.style.marginTop = "5px";
     this.__logElem.style.border = "1px solid #AEAEAE";
     this.__logElem.style.overflow = "auto";
-    
+
     var cb = document.getElementById("profile");
     qx.event.Registration.addListener(cb, "change", function(ev) {
       var value = ev.getData();
       this.setProfile(value);
     }, this);
-    
+
     var runButton = document.getElementById("qxtestrunner_run");
     qx.event.Registration.addListener(runButton, "click", function(ev) {
       this.fireEvent("runTests");
     }, this);
   },
-  
+
   members :
   {
     _onTestChangeState : function(testResultData)
@@ -70,12 +70,12 @@ qx.Class.define("testrunner2.view.Performance", {
       // No log output needed
     },
 
-    
+
     __measurements : null,
-    
+
     /**
-     * Adds an entry to the stored results 
-     * 
+     * Adds an entry to the stored results
+     *
      * @param clazz {String} Name of the test class
      * @param msg {String} Test description
      * @param iterations {Integer} Number of iterations
@@ -85,11 +85,11 @@ qx.Class.define("testrunner2.view.Performance", {
     logMeasurement : function(clazz, msg, iterations, ownTime, renderTime) {
       this.__measurements.push([clazz, msg, iterations, ownTime, renderTime].join("; "));
     },
-    
-    
+
+
     _applyTestSuiteState : function(value, old)
     {
-      switch(value) 
+      switch(value)
       {
         case "loading" :
           console.log("Loading tests");
@@ -109,9 +109,9 @@ qx.Class.define("testrunner2.view.Performance", {
           break;
       };
     },
-    
+
     __logElem : null,
-    
+
     /**
      * Returns an HTML element to be used for the AUT's log output
      * @return {Element} The log appender element
@@ -121,5 +121,5 @@ qx.Class.define("testrunner2.view.Performance", {
       return this.__logElem;
     }
   }
-  
+
 });

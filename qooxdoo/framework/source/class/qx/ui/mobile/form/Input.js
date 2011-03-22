@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
   },
 
 
-  properties : 
+  properties :
   {
     liveUpdate :
     {

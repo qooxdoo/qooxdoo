@@ -31,7 +31,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
   },
 
 
-  properties : 
+  properties :
   {
     cssClass : {
       refine : true,
@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
   },
 
 
-  members : 
+  members :
   {
     show : function()
     {

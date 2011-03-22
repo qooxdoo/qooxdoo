@@ -118,17 +118,17 @@ qx.Class.define("demobrowser.DemoBrowser",
     this._searchTextField.setLiveUpdate(true);
     this._searchTextField.setAppearance("widget");
     this._searchTextField.setPlaceholder("Filter...");
-    
+
     var filterTimer = new qx.event.Timer(500);
     filterTimer.addListener("interval", function(ev) {
       this.filter(this._searchTextField.getValue());
       filterTimer.stop();
     }, this);
-    
+
     this._searchTextField.addListener("changeValue", function(ev) {
       filterTimer.restart();
     }, this);
-    
+
     searchComposlite.add(this._searchTextField, {flex: 1});
 
     // create the status of the tree
@@ -217,7 +217,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.__logSync = new qx.event.Timer(250);
     this.__logSync.addListener("interval", this.__onLogInterval, this);
     this.__logSync.start();
-    
+
     this.__infoWindow = new demobrowser.InfoWindow(this.tr("Info"));
     this.__infoWindow.setAutoCenter(true);
   },
@@ -315,7 +315,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       } else {
         msg = "Unable to access namespace. Maybe no demo loaded.";
       }
-      
+
       var area = new qx.ui.form.TextArea(msg);
       area.setDecorator(null);
       area.setAutoSize(true);
@@ -381,7 +381,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var vers = (qx.core.Environment.get("qx.version").split("-")[0]);
       window.open("http://manual.qooxdoo.org/" + vers);
     },
-    
+
     /**
      * TODOC
      * @param e {Event} TODOC
@@ -399,7 +399,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         msg = this.tr("Unable to access application.");
       }
-      
+
       var label = new qx.ui.basic.Label(msg);
       label.setRich(true);
       label.setWrap(true);
@@ -470,7 +470,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       nextbutt.addListener("execute", this.playNext, this);
       nextbutt.setToolTipText("Run next demo");
       this._navPart.add(nextbutt);
-      
+
       var navButtonOptions =  {
         converter : function(data) {
           return data == "visible";
@@ -501,7 +501,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         this.__playgroundButton = playgroundButton;
         this._navPart.add(playgroundButton);
-        
+
         // api button
         var apiButton = new qx.ui.toolbar.Button(
           this.tr("API Viewer"), "icon/22/actions/help-contents.png"
@@ -517,7 +517,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         this._navPart.add(helpButton);
         helpButton.setToolTipText(this.tr("Open the qooxdoo Manual"));
         helpButton.addListener("execute", this.__onManualOpen, this);
-        
+
       }
 
 
@@ -543,7 +543,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         t1.setValue(true);
         t2.setUserData("value", "qx.theme.Classic");
         t3.setUserData("value", "qx.theme.Simple");
-        
+
         var group = new qx.ui.form.RadioGroup(t1, t2, t3);
         group.addListener("changeSelection", this.__onChangeTheme, this);
 
@@ -734,8 +734,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       return tree1;
     },
-    
-    
+
+
     __makeUrlMenu : function()
     {
       var urlWindow = new qx.ui.window.Window(this.tr("Demo Link"), "icon/22/mimetypes/text-html.png");
@@ -755,9 +755,9 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (top < 0) {
         top = 0;
       }
-      urlWindow.moveTo(left, top);      
+      urlWindow.moveTo(left, top);
       this.getApplicationRoot().add(urlWindow);
-      
+
       var menu = new qx.ui.menu.Menu();
       var copyButton = new qx.ui.menu.Button(this.tr("Get Demo Link"), "icon/22/mimetypes/text-html.png");
       copyButton.addListener("execute", function(e) {
@@ -770,7 +770,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         this._urlWindow.open();
       }, this);
       menu.add(copyButton);
-      this._tree.setContextMenu(menu);    
+      this._tree.setContextMenu(menu);
     },
 
 
@@ -990,7 +990,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (qx.core.Variant.isSet("qx.contrib", "off")) {
           url += "?qx.theme=" + this.__currentTheme;
         }
-        
+
         var currentTags = treeNode.getUserData("tags");
         if (currentTags) {
           this.__playgroundButton.setEnabled(!qx.lang.Array.contains(currentTags, "noPlayground"));
@@ -1359,11 +1359,11 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (!otherSamp || otherSamp == this.tree.getRoot()) {
           return;
         }
-        
+
         while (otherSamp.isVisible && !otherSamp.isVisible()) {
           otherSamp = this.tree.getPreviousNodeOf(otherSamp, false);
         }
-        
+
         if (otherSamp.getParent() == this.tree.getRoot()) {
           // otherSamp is the parent
           var candidate = this.tree.getPreviousNodeOf(otherSamp, false);
@@ -1383,7 +1383,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             otherSamp = candidate;
           }
         }
-        
+
         if (!otherSamp || otherSamp === currSamp) {
           // Remove stop button, display run button
           this._stopbutton.setVisibility("excluded");
@@ -1418,7 +1418,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           this._runbutton.setVisibility("visible");
           return;
         }
-        
+
         if (otherSamp.getParent() == this.tree.getRoot()) {
           if (this.getPlayDemos() == "category") {
             if (otherSamp != currSamp && otherSamp != currSamp.getParent()) {
@@ -1431,13 +1431,13 @@ qx.Class.define("demobrowser.DemoBrowser",
           otherSamp.setOpen(true);
           otherSamp = this.tree.getNextNodeOf(otherSamp);
         }
-        
+
         if (!otherSamp) {
           this._stopbutton.setVisibility("excluded");
           this._runbutton.setVisibility("visible");
           return;
         }
-        
+
         while (!otherSamp.isVisible()) {
           var candidate = this.tree.getNextNodeOf(otherSamp);
           if (!candidate) {

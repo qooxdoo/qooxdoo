@@ -43,7 +43,7 @@ qx.Class.define("qx.xml.Element",
      * <code>false</code> otherwise.
      */
     XML_SERIALIZER : false,
-    
+
     /**
      * The subtree rooted by the specified element or document is serialized to a string.
      *
@@ -68,8 +68,8 @@ qx.Class.define("qx.xml.Element",
      * Selects the first XmlNode that matches the XPath expression.
      *
      * <p>Note: XPath queries containing namespace prefixes won't work in
-     * Chromium-based browsers until Chromium bug #671 
-     * [<a href="http://code.google.com/p/chromium/issues/detail?id=671">1</a>] 
+     * Chromium-based browsers until Chromium bug #671
+     * [<a href="http://code.google.com/p/chromium/issues/detail?id=671">1</a>]
      * is fixed. Opera versions < 9.52 do not seem to support namespaces in
      * XPath queries at all.</p>
      *
@@ -135,7 +135,7 @@ qx.Class.define("qx.xml.Element",
      *
      * <p>Note: XPath queries containing namespace prefixes won't work in
      * Chromium-based browsers until Chromium bug #671
-     * [<a href="http://code.google.com/p/chromium/issues/detail?id=671">1</a>] 
+     * [<a href="http://code.google.com/p/chromium/issues/detail?id=671">1</a>]
      * is fixed. Opera versions < 9.52 do not seem to support namespaces in
      * XPath queries at all.</p>
      *
@@ -206,7 +206,7 @@ qx.Class.define("qx.xml.Element",
     /**
      * Returns a list of elements with the given tag name belonging to the given namespace
      *
-     * (See 
+     * (See
      * <a href="http://developer.mozilla.org/en/DOM/element.getElementsByTagNameNS">MDN
      * Reference</a>).
      *
@@ -349,8 +349,8 @@ qx.Class.define("qx.xml.Element",
 
   defer : function(statics)
   {
-    statics.XML_SERIALIZER = (window.XMLSerializer && 
-     !( qx.core.Environment.get("engine.name") == "mshtml" && 
-     qx.core.Environment.get("engine.version") >= 9)); 
+    statics.XML_SERIALIZER = (window.XMLSerializer &&
+     !( qx.core.Environment.get("engine.name") == "mshtml" &&
+     qx.core.Environment.get("engine.version") >= 9));
   }
 });

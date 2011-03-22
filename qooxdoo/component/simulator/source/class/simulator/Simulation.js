@@ -26,11 +26,11 @@
 qx.Class.define("simulator.Simulation", {
 
   extend : qx.core.Object,
-  
+
   type : "singleton",
 
   /**
-   * @param options {Map} Configuration settings 
+   * @param options {Map} Configuration settings
    */
   construct : function()
   {
@@ -49,12 +49,12 @@ qx.Class.define("simulator.Simulation", {
         this.__options[setting] = false;
       }
     }
-    
+
     this.startDate = new Date();
     // for backwards compatibility:
     this.qxSelenium = simulator.QxSelenium.getInstance();
   },
-  
+
   statics :
   {
     AUTWINDOW : 'selenium.qxStoredVars["autWindow"]',
@@ -66,9 +66,9 @@ qx.Class.define("simulator.Simulation", {
     __options : null,
 
     /**
-     * Starts the QxSelenium session, opens the AUT in the browser and waits 
-     * until the qooxdoo application is ready. Also makes the necessary 
-     * preparations to enable global error logging and/or application log 
+     * Starts the QxSelenium session, opens the AUT in the browser and waits
+     * until the qooxdoo application is ready. Also makes the necessary
+     * preparations to enable global error logging and/or application log
      * extraction if these options are configured.
      */
     startSession : function()
@@ -83,8 +83,8 @@ qx.Class.define("simulator.Simulation", {
       this.waitForQxApplication();
       this._includeFeatures();
     },
-    
-    
+
+
     /**
      * Includes and initializes features as configured by settings
      */
@@ -95,24 +95,24 @@ qx.Class.define("simulator.Simulation", {
         this._addGlobalErrorHandler();
         this._addGlobalErrorGetter();
       }
-      
+
       if (this.__options.applicationLog || this.__options.disposerDebug) {
         qx.Class.include(simulator.Simulation, simulator.MApplicationLogging);
         this._addAutLogStore();
         this._addAutLogGetter();
       }
-      
+
       if (this.__options.testEvents) {
         qx.Class.include(simulator.Simulation, simulator.MEventSupport);
         this._addListenerSupport();
       }
     },
-    
-    
+
+
     /**
-     * Waits until qx.core.Init.getApplication() in the AUT window returns 
+     * Waits until qx.core.Init.getApplication() in the AUT window returns
      * something.
-     * 
+     *
      * @param timeout {Integer} Time to wait (in milliseconds). Default: 3000
      * @param window {DOMWindow} Window the qooxdoo application is running in
      * @throws {Error} If the application isn't ready within the timeout
@@ -120,20 +120,20 @@ qx.Class.define("simulator.Simulation", {
     waitForQxApplication : function(timeout, window)
     {
       var qxWin = window || simulator.Simulation.AUTWINDOW;
-      var qxAppReady = 'var qxReady = false; try { if (' + 
-                  qxWin + '.' + 
-                  simulator.Simulation.QXAPPLICATION + 
+      var qxAppReady = 'var qxReady = false; try { if (' +
+                  qxWin + '.' +
+                  simulator.Simulation.QXAPPLICATION +
                   ') { qxReady = true; } } catch(e) {} qxReady;';
-                            
+
       simulator.QxSelenium.getInstance().waitForCondition(qxAppReady, timeout || 30000);
     },
-    
-    
+
+
         /**
      * Uses the given locator to search the AUT for a qooxdoo widget. If found,
-     * the return value of its toString method is returned. Otherwise, null is 
+     * the return value of its toString method is returned. Otherwise, null is
      * returned.
-     * 
+     *
      * @param locator {String} (Qx)Selenium locator string
      * @return {String|null} String representation of the widget or null
      */
@@ -148,14 +148,14 @@ qx.Class.define("simulator.Simulation", {
       }
       return widget;
     },
-    
+
     /**
      * Uses the given locator to search the AUT for a qooxdoo widget. If found,
-     * the getter function for the property with the given name is called 
+     * the getter function for the property with the given name is called
      * and the value is returned. If no widget is found or the property does not
      * exist, null is returned.
-     * 
-     * @param locator {String} (Qx)Selenium locator string 
+     *
+     * @param locator {String} (Qx)Selenium locator string
      * @param property {String} Name of a qooxdoo property
      * @return {String|null} Property value string or null
      */
@@ -171,12 +171,12 @@ qx.Class.define("simulator.Simulation", {
       }
       return propertyValue;
     },
-    
+
     /**
      * Repeatedly tries to find a visible widget using the given locator until
      * the timeout is reached.
-     * 
-     * @throws an Error if no visible widget is found before the timeout is 
+     *
+     * @throws an Error if no visible widget is found before the timeout is
      * reached
      * @param locator {String} (Qx)Selenium locator string
      * @param timeout {Integer?} Timeout in milliseconds. Default: 5000
@@ -193,7 +193,7 @@ qx.Class.define("simulator.Simulation", {
         }\
         return widget.isVisible();\
       })()';
-      
+
       var timeout = timeout || 5000;
       try {
         simulator.QxSelenium.getInstance().waitForCondition(snippet, timeout.toString());
@@ -201,7 +201,7 @@ qx.Class.define("simulator.Simulation", {
       catch(ex) {
         if (ex.toString().match(/Timed out after/)) {
           // Use a more meaningful error message
-          throw new Error("waitForWidget: No visible widget found for locator " + locator 
+          throw new Error("waitForWidget: No visible widget found for locator " + locator
           + " in " + timeout + "ms!");
         } else {
           //something else went wrong
@@ -209,34 +209,34 @@ qx.Class.define("simulator.Simulation", {
         }
       }
     },
-    
-    
+
+
     /**
      * Adds a map to the global selenium object in the AUT that is used to store
      * testing-related data. Also stores a reference to the AUT's window object
-     * that is used to avoid calling 
+     * that is used to avoid calling
      * <code>selenium.browserbot.getCurrentWindow()</code> repeatedly.
      * This method must called be whenever a qooxdoo application is (re)loaded.
      */
     _setupEnvironment : function()
     {
-      /* 
-       * Store the AUT window object to avoid calling 
+      /*
+       * Store the AUT window object to avoid calling
        * selenium.browserbot.getCurrentWindow() repeatedly.
        */
-      simulator.QxSelenium.getInstance().getEval('selenium.qxStoredVars = {}');    
+      simulator.QxSelenium.getInstance().getEval('selenium.qxStoredVars = {}');
       this._storeEval('selenium.browserbot.getCurrentWindow()', 'autWindow');
-      
+
       this._prepareNameSpace();
     },
 
     /**
-     * Attaches a "Simulation" namespace object to the specified window's qx 
+     * Attaches a "Simulation" namespace object to the specified window's qx
      * object. This will be used to store custom methods added by the testing
-     * framework using {@see #_addOwnFunction}. If no window is specified, the 
+     * framework using {@see #_addOwnFunction}. If no window is specified, the
      * AUT's window is used.
-     * 
-     * @param win {String?} JavaScript snippet that evaluates as a Window object 
+     *
+     * @param win {String?} JavaScript snippet that evaluates as a Window object
      * accessible from the current Selenium instance. Default: The AUT's window.
      */
     _prepareNameSpace : function(win)
@@ -249,13 +249,13 @@ qx.Class.define("simulator.Simulation", {
     },
 
     /**
-     * Evaluates a JavaScript snippet and stores the result in the 
+     * Evaluates a JavaScript snippet and stores the result in the
      * "qxStoredVars" map attached to the AUT's global selenium object.
      * Stored values can be retrieved through Selenium.getEval:
-     * <code>getEval('selenium.qxStoredVars["keyName"]')</code> 
+     * <code>getEval('selenium.qxStoredVars["keyName"]')</code>
      *
      * @param code {String} JavaScript snippet to be evaluated
-     * @param keyName {String} The name for the key the eval result will be 
+     * @param keyName {String} The name for the key the eval result will be
      * stored under.
      */
     _storeEval : function(code, keyName)
@@ -263,7 +263,7 @@ qx.Class.define("simulator.Simulation", {
       if (!code) {
         throw new Error("No code specified for _storeEval()");
       }
-      
+
       if (!keyName) {
         throw new Error("No key name specified for _storeEval()");
       }
@@ -272,10 +272,10 @@ qx.Class.define("simulator.Simulation", {
     },
 
     /**
-     * Adds a user-defined function to the "qx.Simulation" namespace of the 
-     * application under test. This function can then be called using 
+     * Adds a user-defined function to the "qx.Simulation" namespace of the
+     * application under test. This function can then be called using
      * <code>selenium.getEval("selenium.browserbot.getCurrentWindow().qx.Simulation.funcName();")</code>
-     * 
+     *
      * @param funcName {String} name of the function to be added
      * @param func {Function|String} the function to be added
      */
@@ -284,37 +284,37 @@ qx.Class.define("simulator.Simulation", {
       if (!funcName) {
         throw new Error("Please choose a name for the function to be added.");
       }
-      
+
       if (!func) {
         throw new Error("No function specified.");
       }
-      
+
       if (typeof func != "string") {
-        func = func.toString();    
+        func = func.toString();
       }
 
       func = func.replace(/\n/,'');
       func = func.replace(/\r/,'');
-      
+
       simulator.QxSelenium.getInstance().getEval('selenium.browserbot.getCurrentWindow().qx.Simulation.' + funcName + ' = ' + func);
     },
-    
-    
+
+
     /**
      * Logs the Simulation's start date, URL of the AUT and the operating system
      * platform.
-     * 
+     *
      * @lint ignoreUndefined(environment)
      */
     logEnvironment : function()
     {
       this.info("Simulator run on " + this.startDate.toUTCString());
-      this.info("Application under test: " 
-                + this.__options.autHost 
+      this.info("Application under test: "
+                + this.__options.autHost
                 + unescape(this.__options.autPath));
       this.info("Platform: " + environment["os.name"]);
     },
-    
+
     /**
      * Logs the test browser's user agent string.
      */
@@ -326,35 +326,35 @@ qx.Class.define("simulator.Simulation", {
 
     /**
      * Logs disposer debug messages, exceptions caught by qooxdoo's global error
-     * handling and/or the AUT's log messages, depending on the test 
+     * handling and/or the AUT's log messages, depending on the test
      * configuration used.
-     * Note: Disposer debug logging will shut down the qx application so this 
+     * Note: Disposer debug logging will shut down the qx application so this
      * should be the last action of the test case.
      */
     logResults : function()
     {
       if (this.__options.disposerDebug) {
-        var getDisposerDebugLevel = simulator.Simulation.AUTWINDOW 
+        var getDisposerDebugLevel = simulator.Simulation.AUTWINDOW
           + ".qx.core.Environment.get('qx.disposerDebugLevel')";
         var disposerDebugLevel = simulator.QxSelenium.getInstance().getEval(getDisposerDebugLevel);
-        
+
         if (parseInt(disposerDebugLevel, 10) > 0 ) {
           this.qxShutdown();
-        } 
-        else { 
-          this.warn("Dispose logging is active but the application's disposer debug level is 0!"); 
+        }
+        else {
+          this.warn("Dispose logging is active but the application's disposer debug level is 0!");
         }
       }
-      
+
       if (this.__options.globalErrorLogging) {
         this.logGlobalErrors();
       }
-      
+
       if (this.__options.applicationLog || this.__options.disposerDebug) {
         this.logAutLogEntries();
-      }      
+      }
     },
-    
+
     /**
      * Logs the total duration of this simulation.
      */
@@ -368,36 +368,36 @@ qx.Class.define("simulator.Simulation", {
       if (sec < 10) {
         sec = "0" + sec;
       }
-    
+
       this.info("Simulator run finished in: " + min + " minutes " + sec + " seconds.");
     },
-    
+
     /**
      * Pauses test execution for a given amount of time.
-     * 
+     *
      * @param interval {Integer} Time (in milliseconds) to wait.
      */
     wait : function(interval)
     {
       Packages.java.lang.Thread.sleep(interval);
     },
-    
-    
+
+
     /**
      * Shuts down the AUT's qooxdoo application.
      */
     qxShutdown : function()
     {
-      simulator.QxSelenium.getInstance().getEval(simulator.Simulation.AUTWINDOW 
-                              + '.qx.core.ObjectRegistry.shutdown()', 
+      simulator.QxSelenium.getInstance().getEval(simulator.Simulation.AUTWINDOW
+                              + '.qx.core.ObjectRegistry.shutdown()',
                               "Shutting down qooxdoo application");
     },
-    
+
     /**
-     * Loads a qooxdoo application in the test browser and prepares 
+     * Loads a qooxdoo application in the test browser and prepares
      * it for testing. If no URI is given, the current AUT is reloaded.
-     * 
-     * @param uri {String?} Optional URI of the qooxdoo application to be 
+     *
+     * @param uri {String?} Optional URI of the qooxdoo application to be
      * loaded. Default: The AUT host/path defined in the settings.
      */
     qxOpen : function(uri)
@@ -407,6 +407,6 @@ qx.Class.define("simulator.Simulation", {
       this._setupEnvironment();
     }
 
-  }  
+  }
 
 });

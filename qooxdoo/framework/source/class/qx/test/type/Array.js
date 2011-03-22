@@ -16,25 +16,25 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.type.Array", 
+qx.Class.define("qx.test.type.Array",
 {
   extend : qx.test.ui.LayoutTestCase,
 
   members :
   {
     __arr : null,
-    
-    setUp : function() 
+
+    setUp : function()
     {
       this.__arr = new qx.type.Array();
-    },    
-    
+    },
+
     testAppend : function() {
       // native array
       this.__arr.append([1, 2]);
       this.assertEquals(this.__arr[0], 1);
       this.assertEquals(this.__arr[1], 2);
-      
+
       // type array
       var a = new qx.type.Array();
       a.push(3);

@@ -18,15 +18,15 @@
 ************************************************************************ */
 
 /**
- * The class is responsible for device detection. This is specially usefull 
+ * The class is responsible for device detection. This is specially usefull
  * if you are on a mobile device.
  *
- * This class is used by {@link qx.core.Environment} and should not be used 
+ * This class is used by {@link qx.core.Environment} and should not be used
  * directly. Please check its class comment for details how to use it.
- * 
+ *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Device", 
+qx.Bootstrap.define("qx.bom.client.Device",
 {
   statics :
   {
@@ -35,7 +35,7 @@ qx.Bootstrap.define("qx.bom.client.Device",
       "iPod" : "ipod",
       "iPad" : "ipad",
       "iPhone" : "iPhone",
-      
+
       "PSP" : "psp",
       "PLAYSTATION 3" : "ps3",
       "Nintendo Wii" : "wii",
@@ -46,9 +46,9 @@ qx.Bootstrap.define("qx.bom.client.Device",
 
 
     /**
-     * Returns the name of the current device if detectable. It falls back to 
+     * Returns the name of the current device if detectable. It falls back to
      * <code>pc</code> if the detection of all other devices fails.
-     * 
+     *
      * @internal
      * @return {String} The string of the found device.
      */

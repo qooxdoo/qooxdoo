@@ -29,14 +29,14 @@ qx.Class.define("qx.test.util.NumberFormat",
   {
     __nf : null,
     __oldLocale : null,
-    
+
     setUp : function() {
       this.assertNotUndefined(qx.util.format.NumberFormat);
 
       this.__oldLocale = qx.locale.Manager.getInstance().getLocale();
       qx.locale.Manager.getInstance().setLocale("de_DE");
 
-      this.__nf = new qx.util.format.NumberFormat();      
+      this.__nf = new qx.util.format.NumberFormat();
     },
 
 

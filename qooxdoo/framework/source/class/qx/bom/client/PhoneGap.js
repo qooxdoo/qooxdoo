@@ -19,13 +19,13 @@
 
 /**
  * The purpose of this class is to contain all checks for PhoneGap.
- * 
- * This class is used by {@link qx.core.Environment} and should not be used 
+ *
+ * This class is used by {@link qx.core.Environment} and should not be used
  * directly. Please check its class comment for details how to use it.
- * 
+ *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.PhoneGap", 
+qx.Bootstrap.define("qx.bom.client.PhoneGap",
 {
   statics :
   {

@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
           // this hack is used to fix [BUG #3688]
           if(
-            qx.core.Environment.get("browser.name") == 'ie' && 
+            qx.core.Environment.get("browser.name") == 'ie' &&
             qx.core.Environment.get("browser.version") <= 7
           ) {
             finallyCode();
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
     // Register to user action
     qx.event.Registration.addListener(window, "useraction",
-      qx.core.Environment.get("event.touch") ? 
+      qx.core.Environment.get("event.touch") ?
         statics.__onUserAction : statics.flush
     );
   }

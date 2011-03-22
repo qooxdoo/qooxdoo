@@ -36,41 +36,41 @@
  * Basic browser detection for qooxdoo. Based on "qx.client" variant for
  * optimal performance and less overhead.
  *
- * This class is used by {@link qx.core.Environment} and should not be used 
+ * This class is used by {@link qx.core.Environment} and should not be used
  * directly. Please check its class comment for details how to use it.
- * 
+ *
  * @internal
  */
 qx.Bootstrap.define("qx.bom.client.Browser",
 {
   statics :
   {
-    /** 
-     * {Boolean} Whether the browser could not be determined 
+    /**
+     * {Boolean} Whether the browser could not be determined
      * @deprecated since 1.4: See qx.core.Environment
      */
     UNKNOWN : true,
 
-    /** 
-     * {String} Name of the browser 
+    /**
+     * {String} Name of the browser
      * @deprecated since 1.4: See qx.core.Environment
      */
     NAME : "unknown",
 
-    /** 
-     * {String} Combination of name and version e.g. "firefox 3.5" 
+    /**
+     * {String} Combination of name and version e.g. "firefox 3.5"
      * @deprecated since 1.4: See qx.core.Environment
      */
     TITLE : "unknown 0.0",
 
-    /** 
-     * {Number} Floating point number of browser version 
+    /**
+     * {Number} Floating point number of browser version
      * @deprecated since 1.4: See qx.core.Environment
      */
     VERSION : 0.0,
 
-    /** 
-     * {String} Full version. Might contain two dots e.g. "3.5.1" 
+    /**
+     * {String} Full version. Might contain two dots e.g. "3.5.1"
      * @deprecated since 1.4: See qx.core.Environment
      */
     FULLVERSION : "0.0.0",
@@ -123,8 +123,8 @@ qx.Bootstrap.define("qx.bom.client.Browser",
           name = "operamini";
         }
       }
-      
-      return name;   
+
+      return name;
     },
 
 
@@ -140,7 +140,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       if (!match) {
         return "";
       }
-      
+
       var name = match[1].toLowerCase();
       var version = match[3];
 
@@ -163,15 +163,15 @@ qx.Bootstrap.define("qx.bom.client.Browser",
 
       return version;
     },
-    
+
 
     /**
      * Returns in which document mode the current document is (only for IE).
-     * 
+     *
      * @internal
      * @return {Number} The mode in which the browser is.
      */
-    getDocumentMode : function() {      
+    getDocumentMode : function() {
       if (document.documentMode) {
         return document.documentMode;
       }
@@ -181,13 +181,13 @@ qx.Bootstrap.define("qx.bom.client.Browser",
 
     /**
      * Check for quirks mode.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code>, if the environemt is in quirks mode
      */
     getQuirksMode : function() {
-      if(qx.bom.client.Engine.getName() == "mshtml" && 
-        parseFloat(qx.bom.client.Engine.getVersion()) >= 8) 
+      if(qx.bom.client.Engine.getName() == "mshtml" &&
+        parseFloat(qx.bom.client.Engine.getVersion()) >= 8)
       {
         return qx.bom.client.Engine.DOCUMENT_MODE === 5;
       } else {
@@ -229,10 +229,10 @@ qx.Bootstrap.define("qx.bom.client.Browser",
     statics.TITLE = statics.NAME + " " + statics.VERSION;
 
     if (statics.NAME !== "") {
-      statics.UNKNOWN = false;      
+      statics.UNKNOWN = false;
     }
-    
-    // add @deprecation warnings    
+
+    // add @deprecation warnings
     var keys = ["FULLVERSION","VERSION","NAME","TITLE", "UNKNOWN"];
     for (var i = 0; i < keys.length; i++) {
       // check if __defineGetter__ is available
@@ -241,7 +241,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
         statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
           qx.Bootstrap.warn(
             "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-            "Plese check the API documentation of qx.core.Environemt.\n" + 
+            "Plese check the API documentation of qx.core.Environemt.\n" +
             "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
           );
           return c;

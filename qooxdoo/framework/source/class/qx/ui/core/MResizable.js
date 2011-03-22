@@ -178,9 +178,9 @@ qx.Mixin.define("qx.ui.core.MResizable",
       var location = this.__getLocation();
       var frame = this.__getResizeFrame();
       frame.setUserBounds(
-        location.left, 
-        location.top, 
-        location.right - location.left, 
+        location.left,
+        location.top,
+        location.right - location.left,
         location.bottom - location.top
       );
       frame.show();
@@ -315,12 +315,12 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
 
     /**
-     * Returns the location to use. Either the location of the decorator 
+     * Returns the location to use. Either the location of the decorator
      * element, or the location of the content element.
-     * 
+     *
      * @return {Map} Location map. (see {@link qx.bom.element.Location#get})
      */
-    __getLocation : function() 
+    __getLocation : function()
     {
       var decorator = this.getDecoratorElement();
       // use the decorator location if available (belongs to the resizable box)
@@ -348,7 +348,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
       var resizeActive = this.__computeResizeActive(
         location, mouseLeft, mouseTop, mouseTolerance
       );
-      
+
       // check again in case we have a corner [BUG #1200]
       if (resizeActive > 0) {
         // this is really a | (or)!
@@ -362,9 +362,9 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
 
     /**
-     * Internal helper for computing the proper resize action based on the 
+     * Internal helper for computing the proper resize action based on the
      * given parameters.
-     * 
+     *
      * @param location {Map} The current location of the widget.
      * @param mouseLeft {Integer} The left position of the mouse.
      * @param mouseTop {Integer} The top position of the mouse.
@@ -373,10 +373,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
      */
     __computeResizeActive : function(location, mouseLeft, mouseTop, mouseTolerance) {
       var resizeActive = 0;
-      
+
       // TOP
       if (
-        this.getResizableTop() && 
+        this.getResizableTop() &&
         Math.abs(location.top - mouseTop) < mouseTolerance &&
         mouseLeft > location.left - mouseTolerance &&
         mouseLeft < location.right + mouseTolerance
@@ -385,7 +385,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
       // BOTTOM
       } else if (
-        this.getResizableBottom() && 
+        this.getResizableBottom() &&
         Math.abs(location.bottom - mouseTop) < mouseTolerance &&
         mouseLeft > location.left - mouseTolerance &&
         mouseLeft < location.right + mouseTolerance
@@ -395,16 +395,16 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
       // LEFT
       if (
-        this.getResizableLeft() && 
+        this.getResizableLeft() &&
         Math.abs(location.left - mouseLeft) < mouseTolerance &&
         mouseTop > location.top - mouseTolerance &&
         mouseTop < location.bottom + mouseTolerance
       ) {
         resizeActive += this.RESIZE_LEFT;
-        
+
       // RIGHT
       } else if (
-        this.getResizableRight() && 
+        this.getResizableRight() &&
         Math.abs(location.right - mouseLeft) < mouseTolerance &&
         mouseTop > location.top - mouseTolerance &&
         mouseTop < location.bottom + mouseTolerance
@@ -442,7 +442,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
       // Cache bounds
       var containerLocation = this.getContainerLocation();
-      var decoratorLocation = this.__getLocation();      
+      var decoratorLocation = this.__getLocation();
       var bounds   = this.getBounds();
       this.__resizeStart = {
         top : decoratorLocation.top,

@@ -91,7 +91,7 @@ qx.Class.define("feedreader.Application",
       qx.io.PartLoader.getInstance().addListener("partLoaded", function(e) {
         this.debug("part loaded: " + e.getData().getName());
       }, this);
-      
+
       // Load current locale part
       var currentLanguage = qx.locale.Manager.getInstance().getLanguage();
       var knownParts = qx.Part.getInstance().getParts();
@@ -107,18 +107,18 @@ qx.Class.define("feedreader.Application",
       } else {
         // if we cant find the default locale, print a warning and load the gui
         this.warn(
-          "Cannot load locale part for current language " + 
+          "Cannot load locale part for current language " +
           currentLanguage + ", falling back to English."
         );
         this.buildUpGui();
       }
     },
 
-    
+
     /**
      * Main routine which builds the whole GUI.
      */
-    buildUpGui : function() 
+    buildUpGui : function()
     {
       // Initialize commands
       this._initializeCommands();
@@ -142,7 +142,7 @@ qx.Class.define("feedreader.Application",
       this.__treeController.getSelection().push(
         this.__staticFeedFolder.getFeeds().getItem(0)
       );
-      
+
       this.reload();
     },
 
@@ -361,7 +361,7 @@ qx.Class.define("feedreader.Application",
         feed.getArticles().contains(feed.getSelectedArticle())
       ) {
         qx.event.Timer.once(function() {
-          this.__listController.getSelection().push(feed.getSelectedArticle());          
+          this.__listController.getSelection().push(feed.getSelectedArticle());
         }, this, 0);
       } else {
         this.__listView.getList().scrollToY(0);
@@ -535,7 +535,7 @@ qx.Class.define("feedreader.Application",
     showPreferences : function()
     {
       if (!this.__preferencesWindowLoaded) {
-        this.__toolBarView.signalLoading("settings", true);        
+        this.__toolBarView.signalLoading("settings", true);
       }
       qx.io.PartLoader.require(["settings"], function()
       {
@@ -553,9 +553,9 @@ qx.Class.define("feedreader.Application",
         // open the window
         this.__prefWindow.center();
         this.__prefWindow.open();
-        
+
         // signal the end of the loading
-        this.__toolBarView.signalLoading("settings", false);        
+        this.__toolBarView.signalLoading("settings", false);
       }, this);
     },
 
@@ -592,7 +592,7 @@ qx.Class.define("feedreader.Application",
         // open the window
         this.__addFeedWindow.center();
         this.__addFeedWindow.open();
-        
+
         // signal the end of the loading
         this.__toolBarView.signalLoading("addfeed", false);
       }, this);

@@ -94,7 +94,7 @@ qx.Class.define("qx.test.bom.storage.WebStorageTestCase",
         this._storage.setItem("key"+i,"value");
       }
       //don't rely on the order
-      i = 0;  
+      i = 0;
       this._storage.iterate(function(key, item) {
         this.assertEquals(this._storage.getItem(key), item);
         i++;

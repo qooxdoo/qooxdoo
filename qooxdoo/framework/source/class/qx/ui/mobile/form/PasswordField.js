@@ -27,7 +27,7 @@ qx.Class.define("qx.ui.mobile.form.PasswordField",
 
   properties :
   {
-    type : 
+    type :
     {
       refine : true,
       init : "password"

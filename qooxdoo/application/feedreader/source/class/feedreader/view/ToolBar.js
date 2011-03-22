@@ -98,20 +98,20 @@ qx.Class.define("feedreader.view.ToolBar",
     aboutBtn.setCommand(aboutCmd);
     aboutBtn.setToolTipText("(" + aboutCmd.toString() + ")");
     this.add(aboutBtn);
-    
+
     // enable overflow handling
     this.setOverflowHandling(true);
-    
+
     // add a button for overflow handling
     var chevron = new qx.ui.toolbar.MenuButton(null, "icon/22/actions/media-seek-forward.png");
     chevron.setAppearance("toolbar-button");  // hide the down arrow icon
     this.add(chevron);
     this.setOverflowIndicator(chevron);
-    
+
     // add the overflow menu
     this.__overflowMenu = new qx.ui.menu.Menu();
     chevron.setMenu(this.__overflowMenu);
-    
+
     // add the listener
     this.addListener("hideItem", this._onHideItem, this);
     this.addListener("showItem", this._onShowItem, this);
@@ -137,8 +137,8 @@ qx.Class.define("feedreader.view.ToolBar",
     getRemoveButton: function() {
       return this.__removeBtn;
     },
-    
-    
+
+
     /**
      * Handler for the overflow handling which will be called on hide.
      * @param e {qx.event.type.Data} The event.
@@ -148,29 +148,29 @@ qx.Class.define("feedreader.view.ToolBar",
       var menuItem = this._getMenuItem(item);
       menuItem.setVisibility("visible");
     },
-    
-    
+
+
     /**
      * Handler for the overflow handling which will be called on show.
      * @param e {qx.event.type.Data} The event.
-     */    
+     */
     _onShowItem : function(e) {
       var item = e.getData();
       var menuItem = this._getMenuItem(item);
-      menuItem.setVisibility("excluded");      
+      menuItem.setVisibility("excluded");
     },
-    
-    
+
+
     /**
-     * Helper for the overflow handling. It is responsible for returning a 
+     * Helper for the overflow handling. It is responsible for returning a
      * corresponding menu item for the given toolbar item.
-     * 
+     *
      * @param toolbarItem {qx.ui.core.Widget} The toolbar item to look for.
      * @return {qx.ui.core.Widget} The coresponding menu item.
      */
     _getMenuItem : function(toolbarItem) {
       var cachedItem = this.__menuItemStore[toolbarItem.toHashCode()];
-      
+
       if (!cachedItem) {
         if (toolbarItem instanceof qx.ui.toolbar.Button) {
           cachedItem = new qx.ui.menu.Button(
@@ -187,18 +187,18 @@ qx.Class.define("feedreader.view.ToolBar",
         this.__overflowMenu.addAt(cachedItem, 0);
         this.__menuItemStore[toolbarItem.toHashCode()] = cachedItem;
       }
-      
+
       return cachedItem;
     },
-    
-    
+
+
     /**
      * Signals the toolbar which part currently loading.
-     * 
+     *
      * @param part {String} The name of the part currently loading.
      * @param loading {Boolean} ture, if the part is currently loading.
      */
-    signalLoading : function(part, loading) 
+    signalLoading : function(part, loading)
     {
       // get the right button
       if (part == "addfeed") {
@@ -209,7 +209,7 @@ qx.Class.define("feedreader.view.ToolBar",
         // do nothing on the rest of the parts if given
         return;
       }
-      
+
       // set / reset icon of the button
       if (loading) {
         button.setUserData("originalIcon", button.getIcon());

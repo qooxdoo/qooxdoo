@@ -73,7 +73,7 @@ qx.Class.define("demobrowser.demo.virtual.ComboBox",
       }
       var model = qx.data.marshal.Json.createModel(rawData);
       comboBox.setModel(model);
-      
+
       comboBox.addListener("changeValue", function(e) {
         this.debug("ChangeValue: " + e.getData());
       });
@@ -164,7 +164,7 @@ qx.Class.define("demobrowser.demo.virtual.ComboBox",
       // create the model
       var model = qx.data.marshal.Json.createModel(items);
       comboBox.setModel(model);
-      
+
       // Set the created list item's "rich" property
       var delegate = {
         configureItem : function(item)
@@ -172,9 +172,9 @@ qx.Class.define("demobrowser.demo.virtual.ComboBox",
           item.setRich(true);
         }
       }
-      
+
       comboBox.setDelegate(delegate);
-      
+
       // Provide a formatting function to convert the displayed value back to
       // plain text
       comboBox.setDefaultFormat(function(data) {
@@ -212,7 +212,7 @@ qx.Class.define("demobrowser.demo.virtual.ComboBox",
 
       // create a combo box
       var comboBox = new qx.ui.form.VirtualComboBox();
-      
+
       //create a simple model
       var rawData = [];
       for (var i=1; i<100; i++)
@@ -221,7 +221,7 @@ qx.Class.define("demobrowser.demo.virtual.ComboBox",
       }
       var model = qx.data.marshal.Json.createModel(rawData);
       comboBox.setModel(model);
-      
+
       var delegate = {
         // Inverts the order
         sorter : function(a, b) {
@@ -233,7 +233,7 @@ qx.Class.define("demobrowser.demo.virtual.ComboBox",
           return num % 2 ? true : false;
         }
       }
-      
+
       comboBox.setDelegate(delegate);
 
       // add the combobox to the documents root

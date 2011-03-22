@@ -19,7 +19,7 @@
 
 /**
  * A form virtual widget which allows a single selection. Looks somewhat like
- * a normal button, but opens a virtual list of items to select when clicking 
+ * a normal button, but opens a virtual list of items to select when clicking
  * on it.
  *
  * @childControl spacer {qx.ui.core.Spacer} Flexible spacer widget.
@@ -88,24 +88,24 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     __searchValue : "",
 
 
-    /** 
+    /**
      * {qx.event.Timer} The time which triggers the search for pre-selection.
      */
     __searchTimer : null,
 
-    
+
     /** {Array} Contains the id from all bindings. */
     __bindings : null,
-    
-    
+
+
     // overridden
     syncWidget : function()
     {
       this._removeBindings();
       this._addBindings();
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       INTERNAl API
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       return control || this.base(arguments, id, hash);
     },
 
-    
+
     // overridden
     _getAction : function(event)
     {
@@ -164,9 +164,9 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         return this.base(arguments, event);
       }
     },
-    
+
     /**
-     * This method is called when the binding can be added to the 
+     * This method is called when the binding can be added to the
      * widget. For e.q. bind the drop-down selection with the widget.
      */
     _addBindings : function()
@@ -180,17 +180,17 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       var labelSourcePath = this._getBindPath("selection", this.getLabelPath());
       id = this.bind(labelSourcePath, atom, "label", this.getLabelOptions());
       this.__bindings.push(id);
-      
+
       if (this.getIconPath() != null) {
         var iconSourcePath = this._getBindPath("selection", this.getIconPath());
         id = this.bind(iconSourcePath, atom, "icon", this.getIconOptions());
         this.__bindings.push(id);
       }
     },
-    
+
 
     /**
-     * This method is called when the binding can be removed from the 
+     * This method is called when the binding can be removed from the
      * widget. For e.q. remove the bound drop-down selection.
      */
     _removeBindings : function()
@@ -242,10 +242,10 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     /**
      * Listener method for "mouseover" event.
-     * 
+     *
      * <ul>
      * <li>Adds state "hovered"</li>
-     * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state 
+     * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state
      *   is set)</li>
      * </ul>
      *
@@ -269,10 +269,10 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     /**
      * Listener method for "mouseout" event.
-     * 
+     *
      * <ul>
      * <li>Removes "hovered" state</li>
-     * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state 
+     * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state
      *   is set)</li>
      * </ul>
      *
@@ -293,7 +293,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       }
     },
 
-    
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -307,7 +307,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       this.getChildControl("dropdown").setSelection(value);
       qx.ui.core.queue.Widget.add(this);
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------
@@ -318,7 +318,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     /**
      * Preselects an item in the drop-down, when item starts with the
-     * {@link #__seachValue} value. 
+     * {@link #__seachValue} value.
      */
     __preselect : function()
     {
@@ -344,13 +344,13 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
         if (this.getLabelPath() != null)
         {
-          value = qx.data.SingleValueBinding.getValueFromObject(item, 
+          value = qx.data.SingleValueBinding.getValueFromObject(item,
             this.getLabelPath());
 
-          var labelOptions = this.getLabelOptions(); 
+          var labelOptions = this.getLabelOptions();
           if (labelOptions != null)
           {
-            var converter = qx.util.Delegate.getMethod(labelOptions, 
+            var converter = qx.util.Delegate.getMethod(labelOptions,
               "converter");
 
             if (converter != null) {
@@ -374,7 +374,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     /**
      * Converts the keyIdentifier to a printable character e.q. <code>"Space"</code>
      * to <code>" "</code>.
-     * 
+     *
      * @param keyIdentifier {String} The keyIdentifier to convert.
      * @return {String} The converted keyIdentifier.
      */

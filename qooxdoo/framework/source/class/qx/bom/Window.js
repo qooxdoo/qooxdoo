@@ -186,7 +186,7 @@ qx.Class.define("qx.bom.Window",
       } else {
         newWindow = window.open(url, name, configurationString);
       }
-      
+
       if(newWindow && listener && (listener instanceof Function)){
         var context = self || newWindow;
         var onLoadFunction = qx.lang.Function.bind(listener, context);

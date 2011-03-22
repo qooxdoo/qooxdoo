@@ -26,12 +26,12 @@ qx.Theme.define("showcase.theme.Font",
     "legend" :
     {
       size : (
-        qx.core.Environment.get("os.name") == "win" && 
+        qx.core.Environment.get("os.name") == "win" &&
         (qx.core.Environment.get("os.version") == "7" ||
         qx.core.Environment.get("os.version") == "vista")) ? 15 : 14,
       lineHeight : 1.4,
       family : qx.core.Environment.get("os.name") == "osx" ? [ "Lucida Grande" ] :
-        (qx.core.Environment.get("os.name") == "win" && 
+        (qx.core.Environment.get("os.name") == "win" &&
           (qx.core.Environment.get("os.version") == "7" ||
           qx.core.Environment.get("os.version") == "vista")) ?
         [ "Segoe UI", "Candara" ] :

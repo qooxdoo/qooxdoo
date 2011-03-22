@@ -138,8 +138,8 @@ qx.Class.define("qx.test.bom.Blocker",
 
       var blockerElement = this.__blocker.getBlockerElement();
 
-      if (qx.core.Environment.get("engine.name") == "mshtml" || 
-        qx.core.Environment.get("engine.name") == "opera") 
+      if (qx.core.Environment.get("engine.name") == "mshtml" ||
+        qx.core.Environment.get("engine.name") == "opera")
       {
         this.assertEquals("#ff0000", qx.bom.element.Style.get(blockerElement, "backgroundColor"));
       } else {

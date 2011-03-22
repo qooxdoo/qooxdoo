@@ -2525,7 +2525,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "virtual-selectbox/dropdown/list" : {
       alias : "virtual-list"
     },
-    
+
     "virtual-combobox" : "combobox",
     "virtual-combobox/dropdown" : "popup",
     "virtual-combobox/dropdown/list" : {
@@ -2533,7 +2533,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
     "virtual-tree" : "list",
-    
+
     "virtual-tree-item" :
     {
       style : function(states)
@@ -2559,10 +2559,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "virtual-tree-item/label" : 
+    "virtual-tree-item/label" :
     {
       include : "label",
-      
+
       style : function(states)
       {
         return {
@@ -2584,7 +2584,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
+
     "virtual-tree-folder/open" :
     {
       include : "image",
@@ -2609,8 +2609,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           icon: "icon/16/mimetypes/text-plain.png"
         };
       }
-    },    
-    
+    },
+
     "cell" :
     {
       style : function(states)

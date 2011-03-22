@@ -39,7 +39,7 @@ qx.Class.define("testrunner2.GuiApplication",
 
   members :
   {
-    
+
     main : function()
     {
       // Call super class

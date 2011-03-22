@@ -25,9 +25,9 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * For a mobile application. Supports the mobile widget set.
- * 
+ *
  */
 qx.Class.define("qx.application.Mobile",
 {
@@ -66,8 +66,8 @@ qx.Class.define("qx.application.Mobile",
 
 
     /**
-     * Returns the application's root widget. 
-     * 
+     * Returns the application's root widget.
+     *
      * @return {qx.ui.mobile.core.Widget} The application's root widget.
      */
     getRoot : function() {
@@ -78,7 +78,7 @@ qx.Class.define("qx.application.Mobile",
     /**
      * Creates the application's root widget. Override this function to create
      * your own root widget.
-     * 
+     *
      * @return {qx.ui.mobile.core.Widget} The application's root widget.
      */
     _createRoot : function()

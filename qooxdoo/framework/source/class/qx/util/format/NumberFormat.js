@@ -55,9 +55,9 @@ qx.Class.define("qx.util.format.NumberFormat",
 
     /**
      * Returns an integer number format.
-     * 
+     *
      * @deprecated since 1.4
-     * 
+     *
      * @return {NumberFormat} an integer number format.
      */
     getIntegerInstance : function()

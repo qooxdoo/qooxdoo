@@ -16,14 +16,14 @@
 
 /**
  * A simple, reusable information display window.
- * 
+ *
  * @param caption The caption text
  * @param icon The URL of the caption bar icon
  */
 qx.Class.define("demobrowser.InfoWindow", {
 
   extend : qx.ui.window.Window,
-  
+
   construct : function(caption, icon)
   {
     this.base(arguments, caption, icon);
@@ -33,37 +33,37 @@ qx.Class.define("demobrowser.InfoWindow", {
     this.setMaxHeight(qx.bom.Viewport.getHeight() - 10);
     this.setShowMinimize(false);
     this.setShowMaximize(false);
-    
+
     this.add(this._getContentContainer(), {flex : 1});
     this.add(this._makeOkButton(), {flex : 0});
-    this.addListener("resize", this.__centerOnResize, this);    
+    this.addListener("resize", this.__centerOnResize, this);
   },
-  
+
   properties :
   {
     /**
-     * The window's content. Must be a widget. 
+     * The window's content. Must be a widget.
      */
     content : {
       apply : "_applyContent"
     },
-    
+
     /**
-     * If true, the window will be centered relative to the viewport on resize. 
+     * If true, the window will be centered relative to the viewport on resize.
      */
     autoCenter : {
       check : "Boolean",
       init : false
     }
   },
-  
+
   members :
   {
     __contentContainer : null,
-    
+
     /**
      * Returns the container for the conten widget
-     * 
+     *
      * @return {qx.ui.container.Composite} The container widget
      */
     _getContentContainer : function()
@@ -74,8 +74,8 @@ qx.Class.define("demobrowser.InfoWindow", {
       }
       return this.__contentContainer;
     },
-    
-    
+
+
     /**
      * Removes all child widgets from the content container
      */
@@ -83,11 +83,11 @@ qx.Class.define("demobrowser.InfoWindow", {
     {
       this._getContentContainer().removeAll();
     },
-    
-    
+
+
     /**
      * Returns the "OK" button that closes the window.
-     * 
+     *
      * @return {qx.ui.form.Button} The OK button
      */
     _makeOkButton : function()
@@ -101,15 +101,15 @@ qx.Class.define("demobrowser.InfoWindow", {
       okButton.setAlignX("center");
       return okButton;
     },
-    
-    
+
+
     _applyContent : function(value, old)
     {
       this.clear();
       this._getContentContainer().add(value);
     },
-    
-    
+
+
     /**
      * Centers the window relative to the viewport.
      */
@@ -121,8 +121,8 @@ qx.Class.define("demobrowser.InfoWindow", {
       y = y >= 0 ? y : 0;
       this.moveTo(x,y);
     },
-    
-    
+
+
     /**
      * Callback function for a resize listener that centers the window if the
      * @link{#autoCenter} property is active.
@@ -134,5 +134,5 @@ qx.Class.define("demobrowser.InfoWindow", {
       }
     }
   }
-  
+
 });

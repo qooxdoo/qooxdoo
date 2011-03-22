@@ -905,7 +905,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
 
       // Read in keyboard modifiers
-      var isCtrlPressed = event.isCtrlPressed() || 
+      var isCtrlPressed = event.isCtrlPressed() ||
         (qx.core.Environment.get("os.name") == "osx" && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
 
@@ -1018,7 +1018,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._userInteraction = true;
 
       // Read in keyboard modifiers
-      var isCtrlPressed = event.isCtrlPressed() || 
+      var isCtrlPressed = event.isCtrlPressed() ||
         (qx.core.Environment.get("os.name") == "osx" && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
 
@@ -1397,7 +1397,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var mode = this.getMode();
 
       // Support both control keys on Mac
-      var isCtrlPressed = event.isCtrlPressed() || 
+      var isCtrlPressed = event.isCtrlPressed() ||
         (qx.core.Environment.get("os.name") == "osx" && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
 

@@ -20,18 +20,18 @@
  * Internal class which contains the checks used by {@link qx.core.Environment}.
  * All checks in here are marked as internal which means you should never use
  * them directly.
- * 
+ *
  * This class should contain all checks about HTML.
- * 
+ *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Html", 
+qx.Bootstrap.define("qx.bom.client.Html",
 {
   statics:
   {
-    /** 
+    /**
      * Whether the client supports Web Workers.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if webworkers are supported
      */
@@ -40,9 +40,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
     },
 
 
-    /** 
+    /**
      * Whether the client supports Geo Location.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if geolocation supported
      */
@@ -51,9 +51,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
     },
 
 
-    /** 
+    /**
      * Whether the client supports audio.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if audio is supported
      */
@@ -62,9 +62,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
     },
 
 
-    /** 
+    /**
      * Whether the client supports video.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if video is supported
      */
@@ -72,9 +72,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
       return !!document.createElement('video').canPlayType;
     },
 
-    /** 
+    /**
      * Whether the client supports ogg video.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if video is supported
      */
@@ -86,9 +86,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
       return v.canPlayType('video/ogg; codecs="theora, vorbis"');
     },
 
-    /** 
+    /**
      * Whether the client supports mp4 video.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if video is supported
      */
@@ -100,9 +100,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
       return v.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
     },
 
-    /** 
+    /**
      * Whether the client supports webm video.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if video is supported
      */
@@ -114,9 +114,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
       return v.canPlayType('video/webm; codecs="vp8, vorbis"');
     },
 
-    /** 
+    /**
      * Whether the client supports local storage.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if local storage is supported
      */
@@ -131,9 +131,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
     },
 
 
-    /** 
+    /**
      * Whether the client supports session storage.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if session storage is supported
      */
@@ -151,7 +151,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
     /**
      * Whether the browser supports CSS class lists.
      * https://developer.mozilla.org/en/DOM/element.classList
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if class list is supported.
      */
@@ -164,7 +164,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
     /**
      * Checks if XPath could be used.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if xpath is supported.
      */
@@ -175,7 +175,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
     /**
      * Checks if XUL could be used.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if XUL is supported.
      */
@@ -191,7 +191,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
     /**
      * Checks if SVG could be used
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if SVG is supported.
      */
@@ -208,7 +208,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
     /**
      * Checks if VML could be used
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if VML is supported.
      */
@@ -219,7 +219,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
     /**
      * Checks if canvas could be used
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if canvas is supported.
      */
@@ -230,9 +230,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
     /**
      * Asynchronous check for using data urls.
-     * 
+     *
      * @internal
-     * @param callback {Function} The function which should be executed as 
+     * @param callback {Function} The function which should be executed as
      *   soon as the check is done.
      */
     getDataUrl : function(callback) {
@@ -243,7 +243,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
           callback.call(null, (data.width == 1 && data.height == 1));
         }, 0);
       };
-      data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";      
+      data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
     }
   }
 });

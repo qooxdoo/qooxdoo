@@ -246,7 +246,7 @@ qx.Class.define("playground.Application",
       this.setOriginCode(this.__editor.getCode());
       this.setName(e.getData().name);
       this.run();
-      
+
       // update the URL
       var id = e.getData().id;
       this.__history.addToHistory("gist=" + id);
@@ -318,7 +318,7 @@ qx.Class.define("playground.Application",
         "/demobrowser/"
       );
     },
-    
+
     // ***************************************************
     // HISTORY SUPPORT
     // ***************************************************

@@ -81,10 +81,10 @@ qx.Class.define("apiviewer.dao.Class",
     {
       return this._top_level_classes;
     },
-    
+
     /**
      * Checks if the Class is a qooxdoo apiviewer.dao.Class Object or a native one
-     * 
+     *
      * @param clazz {apiviewer.dao.Class} the object to be checked
      * @return {Boolean} true if it is a JS native object
      */
@@ -473,7 +473,7 @@ qx.Class.define("apiviewer.dao.Class",
         if(!apiviewer.dao.Class.isNativeObject(currentClass) || (apiviewer.dao.Class.isNativeObject(currentClass) && includeNativeObjects)){
           result.push(currentClass);
         }
-        
+
         if(!apiviewer.dao.Class.isNativeObject(currentClass))
         {
           currentClass = currentClass.getSuperClass();
@@ -723,7 +723,7 @@ qx.Class.define("apiviewer.dao.Class",
       if(apiviewer.dao.Class.isNativeObject(clazz)){
         return foundClasses;
       }
-      
+
       foundClasses.push(clazz);
 
       var superClass = clazz.getSuperClass();

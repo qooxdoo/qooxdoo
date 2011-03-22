@@ -38,42 +38,42 @@ qx.Class.define("qx.test.util.DateFormat",
 
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
-      
+
       var formatStr = "yyyyMMdd";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
       var dateStr = dateFmt.format(date);
 
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
-      
+
       var formatStr = "ddMMyyyyy";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
       var dateStr = dateFmt.format(date);
 
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
-      
+
       var formatStr = "yyyyyyyyyddMM";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
       var dateStr = dateFmt.format(date);
 
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
-      
+
       var formatStr = "yyMMdd";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
       var dateStr = dateFmt.format(date);
 
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
-      
+
       var formatStr = "yMMdd";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
       var dateStr = dateFmt.format(date);
 
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
-      
+
       var formatStr = "yyyMMdd";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
       var dateStr = dateFmt.format(date);
@@ -105,14 +105,14 @@ qx.Class.define("qx.test.util.DateFormat",
 
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
-      
+
       var formatStr = "YYYY/MM/dd";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
       dateStr = dateFmt.format(date);
 
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
-      
+
     },
 
 
@@ -214,7 +214,7 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("2009", df.format(date));
       var parsedDate = df.parse("2009");
       this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
-      
+
       // case y
       df = new qx.util.format.DateFormat("y");
       this.assertEquals("2009", df.format(new Date(2009,10,30)));
@@ -239,17 +239,17 @@ qx.Class.define("qx.test.util.DateFormat",
       df = new qx.util.format.DateFormat("yyyyy");
       this.assertEquals("02009", df.format(new Date(2009,10,30)));
       df.dispose();
-      
+
       // case yyyyy
       df = new qx.util.format.DateFormat("yyyyyyyyyyy");
       this.assertEquals("00000002009", df.format(new Date(2009,10,30)));
       df.dispose();
     },
-    
+
     testPattern_M_ : function(){
       var df;
       var date = new Date(2009,8,30);
-      
+
       df = new qx.util.format.DateFormat("yyyy/MM");
       this.assertEquals("2009/09", df.format(date));
       df.dispose();
@@ -265,13 +265,13 @@ qx.Class.define("qx.test.util.DateFormat",
       df = new qx.util.format.DateFormat("yyyy/MMMMM");
       this.assertEquals("2009/O", df.format(date));
       df.dispose();
-      
+
     },
-    
+
     testPattern_L_ : function(){
       var df;
       var date = new Date(2009,8,30);
-      
+
       df = new qx.util.format.DateFormat("LL");
       this.assertEquals("09", df.format(date));
       df.dispose();
@@ -288,18 +288,18 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("O", df.format(date));
       df.dispose();
     },
-    
+
     testPattern_w_ : function(){
       var df;
       var date = new Date(2011,0,26);
-      
+
       df = new qx.util.format.DateFormat("w");
       this.assertEquals("5", df.format(date));
       df.dispose();
       df = new qx.util.format.DateFormat("ww");
       this.assertEquals("5", df.format(date));
       df.dispose();
-      
+
       date = new Date(2011,0,1);
       df = new qx.util.format.DateFormat("ww");
       this.assertEquals("1", df.format(date));
@@ -309,11 +309,11 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("2", df.format(date));
       df.dispose();
     },
-    
+
     testPattern_d_ : function(){
       var df;
       var date = new Date(2011,0,3);
-      
+
       df = new qx.util.format.DateFormat("d");
       this.assertEquals("3", df.format(date));
       df.dispose();
@@ -322,33 +322,33 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
 
     },
-    
+
     testPattern_D_ : function(){
       var df;
       var date = new Date(2011,0,3);
-      
+
       df = new qx.util.format.DateFormat("D");
       this.assertEquals("3", df.format(date));
       df.dispose();
       df = new qx.util.format.DateFormat("DD");
       this.assertEquals("3", df.format(date));
       df.dispose();
-      
+
       df = new qx.util.format.DateFormat("DDD");
       this.assertEquals("3", df.format(date));
       df.dispose();
-      
+
       date = new Date(2011,9,3);
       df = new qx.util.format.DateFormat("DDD");
       this.assertEquals("276", df.format(date));
       df.dispose();
 
     },
-    
+
     testPattern_E_ : function(){
       var df;
       var date = new Date(2011,0,4);
-      
+
       df = new qx.util.format.DateFormat("yyyy/E");
       this.assertEquals("2011/Tues", df.format(date));
       df.dispose();
@@ -366,11 +366,11 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
 
     },
-    
+
     testPattern_c_ : function(){
       var df;
       var date = new Date(2011,0,4);
-      
+
       df = new qx.util.format.DateFormat("c");
       this.assertEquals("2", df.format(date));
       df.dispose();
@@ -385,11 +385,11 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
 
     },
-    
+
     testPattern_a_ : function(){
       var df;
       var date = new Date(2011,0,4,9,9,9);
-      
+
       df = new qx.util.format.DateFormat("a");
       this.assertEquals("AM", df.format(date));
       df.dispose();
@@ -399,11 +399,11 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
 
     },
-    
+
     testPattern_h_ : function(){
       var df;
       var date = new Date(2011,0,4,9,9,9);
-      
+
       df = new qx.util.format.DateFormat("h");
       this.assertEquals("9", df.format(date));
       df.dispose();
@@ -416,11 +416,11 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
 
     },
-    
+
     testPattern_H_ : function(){
       var df;
       var date = new Date(2011,0,4,9,9,9);
-      
+
       df = new qx.util.format.DateFormat("H");
       this.assertEquals("9", df.format(date));
       df.dispose();
@@ -433,11 +433,11 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
 
     },
-    
+
     testPattern_k_ : function(){
       var df;
       var date = new Date(2011,0,4,0,9,9);
-      
+
       df = new qx.util.format.DateFormat("k");
       this.assertEquals("24", df.format(date));
       df.dispose();
@@ -450,11 +450,11 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
 
     },
-    
+
     testPattern_K_ : function(){
       var df;
       var date = new Date(2011,0,4,9,9,9);
-      
+
       df = new qx.util.format.DateFormat("K");
       this.assertEquals("9", df.format(date));
       df.dispose();
@@ -467,11 +467,11 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
 
     },
-    
+
     testPattern_m_ : function(){
       var df;
       var date = new Date(2011,0,4,9,9,9);
-      
+
       df = new qx.util.format.DateFormat("m");
       this.assertEquals("9", df.format(date));
       df.dispose();
@@ -480,11 +480,11 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
 
     },
-    
+
     testPattern_s_ : function(){
       var df;
       var date = new Date(2011,0,4,9,9,9);
-      
+
       df = new qx.util.format.DateFormat("s");
       this.assertEquals("9", df.format(date));
       df.dispose();
@@ -493,11 +493,11 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
 
     },
-    
+
     testPattern_S_ : function(){
       var df;
       var date = new Date(2011,0,4,9,9,9,367);
-      
+
       df = new qx.util.format.DateFormat("S");
       this.assertEquals("3", df.format(date));
       df.dispose();
@@ -509,15 +509,15 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
 
     },
-    
-    // z and Z can be tested when knowing the timezoneoffset of the machines the test will run on 
+
+    // z and Z can be tested when knowing the timezoneoffset of the machines the test will run on
     // here it is EET
-    
+
     testPattern_z_ : function(){
       var df;
       var date = new Date();
-      var localTimeZone = (''+date).replace(/^[^\(]+/,'').replace('(','').replace(')',''); // to be replaced with the one found on the machine 
-      
+      var localTimeZone = (''+date).replace(/^[^\(]+/,'').replace('(','').replace(')',''); // to be replaced with the one found on the machine
+
       df = new qx.util.format.DateFormat("z");
       this.assertEquals(localTimeZone, df.format(date));
       df.dispose();
@@ -529,21 +529,21 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
 
     }
-    
+
 //    to be unCommented later when implemented
-//    
+//
 //    testPattern_G_ : function(){
 //      var df;
 //      df = new qx.util.format.DateFormat("G");
 //      this.assertEquals("AD", df.format(new Date(2009,10,14)));
 //      this.assertEquals("BC", df.format(new Date(-20,10,14)));
-//      
+//
 //      var date = new Date(-20,10,14);
 //      df = new qx.util.format.DateFormat("yyyy MM dd G");
 //      var dateFormatted = df.format(new Date(-20,10,14));
 //      var parsedDate = df.parse(dateFormatted);
 //      this.assertEquals(date.getTime(), parsedDate.getTime());
 //    }
-//    
+//
   }
 });

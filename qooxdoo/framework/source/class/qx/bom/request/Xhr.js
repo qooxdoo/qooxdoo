@@ -23,9 +23,9 @@
  * Hides browser inconsistencies and works around bugs found in popular
  * implementations. Follows the interface described in
  * <a href="http://www.w3.org/TR/XMLHttpRequest/">XmlHttpRequest</a>.
- * 
+ *
  * The most basic setup looks similar to this:
- * 
+ *
  * <pre class="javascript">
  *  var req = new qx.bom.request.Xhr();
  *  req.onreadystatechange = function() {
@@ -34,7 +34,7 @@
  *      req.responseText;
  *    }
  *  }
- *  
+ *
  *  req.open("GET", url);
  *  req.send();
  * </pre>
@@ -329,7 +329,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
     /**
      * Get protocol.
-     * 
+     *
      * @return {String} The current protocol.
      */
     _getProtocol: function() {

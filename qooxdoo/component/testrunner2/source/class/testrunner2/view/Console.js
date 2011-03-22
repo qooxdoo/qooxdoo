@@ -18,26 +18,26 @@
 ************************************************************************ */
 
 /**
- * Simple, console-only TestRunner view. Use 
+ * Simple, console-only TestRunner view. Use
  * qx.core.Init.getApplication().runner.view.run() to run the test suite.
  */
 qx.Class.define("testrunner2.view.Console", {
 
   extend : testrunner2.view.Abstract,
-  
-  
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
-  
+
   construct : function()
   {
     qx.log.appender.Native;
     qx.log.appender.Console;
   },
-  
+
   /*
   *****************************************************************************
      MEMBERS
@@ -47,7 +47,7 @@ qx.Class.define("testrunner2.view.Console", {
   {
     __testResults : null,
     __iframe : null,
-    
+
     /**
      * Tells the TestRunner to run all configured tests.
      */
@@ -56,7 +56,7 @@ qx.Class.define("testrunner2.view.Console", {
       this.__testResults = {};
       this.fireEvent("runTests");
     },
-    
+
     /**
      * Tells the TestRunner to stop running any pending tests.
      */
@@ -64,11 +64,11 @@ qx.Class.define("testrunner2.view.Console", {
     {
       this.fireEvent("stopTests");
     },
-    
-    
+
+
     /**
      * Writes a status message to the browser's logging console.
-     * 
+     *
      * @param value {String} New status value
      * @param old {String} Previous status value
      */
@@ -77,20 +77,20 @@ qx.Class.define("testrunner2.view.Console", {
       if (!value[0] || (value === old)) {
         return;
       }
-      
+
       this.info(value);
     },
-    
-    
+
+
     /**
      * Log the test suite's current status.
-     * 
+     *
      * @param value {String} New testSuiteState
-     * @param value {String} Previous testSuiteState 
+     * @param value {String} Previous testSuiteState
      */
     _applyTestSuiteState : function(value, old)
     {
-      switch(value) 
+      switch(value)
       {
         case "loading" :
           this.setStatus("Loading tests...");
@@ -112,8 +112,8 @@ qx.Class.define("testrunner2.view.Console", {
           break;
       };
     },
-    
-    
+
+
     _applyTestModel : function(value, old)
     {
       if (!value) {
@@ -122,14 +122,14 @@ qx.Class.define("testrunner2.view.Console", {
       var testList = testrunner2.runner.ModelUtil.getItemsByProperty(value, "type", "test");
       this.setSelectedTests(new qx.data.Array(testList));
     },
-    
-    
+
+
     _applyTestCount : function(value, old)
     {},
-    
+
     /**
-     * Logs state changes in testResultData objects. 
-     * 
+     * Logs state changes in testResultData objects.
+     *
      * @param testResultData {testrunner2.unit.TestResultData} Test result data
      * object
      */
@@ -138,10 +138,10 @@ qx.Class.define("testrunner2.view.Console", {
       var testName = testResultData.getFullName();
       var state = testResultData.getState();
       var exceptions = testResultData.getExceptions();
-      
+
       //Update test results map
       if (!this.__testResults[testName]) {
-        this.__testResults[testName] = {};        
+        this.__testResults[testName] = {};
       }
       this.__testResults[testName].state = state;
       if (exceptions) {
@@ -153,9 +153,9 @@ qx.Class.define("testrunner2.view.Console", {
           messages.push(message);
         }
         this.__testResults[testName].messages = messages;
-        
+
       }
-      
+
       var level;
       switch(state) {
         case "skip":
@@ -168,20 +168,20 @@ qx.Class.define("testrunner2.view.Console", {
         default:
           level = "info";
       }
-      
+
       this[level](testName + " : " + state);
-      
+
       if (state == "error" && exceptions) {
         this.error(exceptions);
       }
     },
-    
+
     /**
      * Returns the results of all tests that have been executed.
-     * 
-     * @param exceptions {Boolean} Include an array of Error objects for any 
+     *
+     * @param exceptions {Boolean} Include an array of Error objects for any
      * test with exceptions
-     * 
+     *
      * @return {Map} Key: The test's full name. Value: Map containing two keys:
      * state (The test's result) and (if applicable) exceptions (array of errors
      * that occured during the test's run).
@@ -191,7 +191,7 @@ qx.Class.define("testrunner2.view.Console", {
       if (exceptions) {
         return this.__testResults;
       }
-      
+
       var readableResults = {};
       var res = this.__testResults;
       for (var key in res) {
@@ -204,10 +204,10 @@ qx.Class.define("testrunner2.view.Console", {
       }
       return readableResults;
     },
-    
+
     /**
      * Returns the iframe element the AUT should be loaded in.
-     * 
+     *
      * @return {DOMElement} The iframe
      */
     getIframe : function()
@@ -216,13 +216,13 @@ qx.Class.define("testrunner2.view.Console", {
         this.__iframe = qx.bom.Iframe.create();
         document.body.appendChild(this.__iframe);
       }
-      
+
       return this.__iframe;
     },
-    
+
     /**
      * (Re)Loads the AUT in the iframe.
-     * 
+     *
      * @param value {String} AUT URI
      * @param old {String} Previous value
      */

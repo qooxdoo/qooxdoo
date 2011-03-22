@@ -31,11 +31,11 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
   members:
   {
     /**
-     * Creates a global error handler that stores JavaScript exceptions thrown 
-     * in the specified window. Global Error Handling must be enabled in the 
+     * Creates a global error handler that stores JavaScript exceptions thrown
+     * in the specified window. Global Error Handling must be enabled in the
      * AUT.
      *
-     * @param win {String?} JavaScript snippet that evaluates as a Window object 
+     * @param win {String?} JavaScript snippet that evaluates as a Window object
      * accessible from the current Selenium instance. Default: The AUT's window.
      * @lint ignoreUndefined(selenium)
      */
@@ -43,7 +43,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
     {
       var qxWin = win || "selenium.qxStoredVars['autWindow']";
       simulator.QxSelenium.getInstance().getEval(qxWin + ".qx.Simulation.errorStore = [];");
-      
+
       var addHandler = function(autWin)
       {
         var targetWin = autWin || selenium.qxStoredVars['autWindow'];
@@ -74,23 +74,23 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
               }
             }
           }
-          
+
           targetWin.qx.Simulation.errorStore.push(exString);
         });
       };
-      
+
       this._addOwnFunction("addGlobalErrorHandler", addHandler);
-      simulator.QxSelenium.getInstance().getEval("selenium.qxStoredVars['autWindow'].qx.Simulation.addGlobalErrorHandler(" + qxWin + ");");  
+      simulator.QxSelenium.getInstance().getEval("selenium.qxStoredVars['autWindow'].qx.Simulation.addGlobalErrorHandler(" + qxWin + ");");
     },
-    
+
     /**
      * Adds a helper function to the AUT window that reads the contents of the
-     * global error store and returns them as a pipe-separated string so they 
+     * global error store and returns them as a pipe-separated string so they
      * can be read by the test script.
-     * 
-     * @param win {String?} JavaScript snippet that evaluates as a Window object 
+     *
+     * @param win {String?} JavaScript snippet that evaluates as a Window object
      * accessible from the current Selenium instance. Default: The AUT's window.
-     * 
+     *
      * @lint ignoreUndefined(selenium)
      */
     _addGlobalErrorGetter : function(win)
@@ -100,17 +100,17 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
          var targetWin = win || selenium.qxStoredVars['autWindow'];
          var exceptions = targetWin.qx.Simulation.errorStore;
          var exString = exceptions.join("|");
-         return exString;     
+         return exString;
       };
       this._addOwnFunction("getGlobalErrors", getGlobalErrors);
     },
-    
+
     /**
-     * Returns the error messages of any exceptions caught by the AUT's global 
+     * Returns the error messages of any exceptions caught by the AUT's global
      * error handler.
-     * 
-     * @param win {String?} JavaScript snippet that evaluates as a Window object 
-     * accessible from the current Selenium instance. Default: The AUT's window. 
+     *
+     * @param win {String?} JavaScript snippet that evaluates as a Window object
+     * accessible from the current Selenium instance. Default: The AUT's window.
      * @return {String[]} A list of error messages
      */
     getGlobalErrors : function(win)
@@ -124,12 +124,12 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
       var globalErrors = String(exceptions).split("|");
       return globalErrors;
     },
-    
+
     /**
-     * Goes through the AUT's global error store and throws an exception for 
+     * Goes through the AUT's global error store and throws an exception for
      * each entry.
-     * 
-     * @param win {String?} JavaScript snippet that evaluates as a Window object 
+     *
+     * @param win {String?} JavaScript snippet that evaluates as a Window object
      * accessible to the current Selenium instance. Default: The AUT's window.
      */
     throwGlobalErrors : function(win)
@@ -143,7 +143,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
     /**
      * Empties the given window's global exception store.
      *
-     * @param win {String?} JavaScript snippet that evaluates as a Window object 
+     * @param win {String?} JavaScript snippet that evaluates as a Window object
      * accessible to the current Selenium instance. Default: The AUT's window.
      */
     clearGlobalErrorStore : function(win)
@@ -151,18 +151,18 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
       var targetWin = win || "selenium.qxStoredVars['autWindow']";
       simulator.QxSelenium.getInstance().getEval(targetWin + ".qx.Simulation.errorStore = [];");
     },
-    
+
     /**
-     * Retrieves all exceptions caught by the AUT's global error handling and 
+     * Retrieves all exceptions caught by the AUT's global error handling and
      * logs them.
-     * 
-     * @param win {String?} JavaScript snippet that evaluates as a Window object 
+     *
+     * @param win {String?} JavaScript snippet that evaluates as a Window object
      * accessible from the current Selenium instance. Default: The AUT's window.
      */
     logGlobalErrors : function(win)
     {
       var globalErrors = this.getGlobalErrors(win);
-      
+
       for (var i=0,l=globalErrors.length; i<l; i++) {
         if (globalErrors[i].length > 0) {
           this.error(globalErrors[i]);

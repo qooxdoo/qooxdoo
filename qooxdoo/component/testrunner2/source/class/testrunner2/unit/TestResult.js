@@ -21,15 +21,15 @@
  * This TestResultData class does not throw exceptions raised by test code,
  * instead storing them in an array attached to the test function itself. This
  * ensures that the entire body of each test function is executed.
- * 
- * It also supports an additional "skipped" state for tests that aren't run 
+ *
+ * It also supports an additional "skipped" state for tests that aren't run
  * because infrastructure requirements are not met.
  */
 qx.Class.define("testrunner2.unit.TestResult", {
 
   extend : qx.dev.unit.TestResult,
-  
-  
+
+
   /*
   *****************************************************************************
      EVENTS
@@ -44,8 +44,8 @@ qx.Class.define("testrunner2.unit.TestResult", {
      */
     skip : "qx.event.type.Data"
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -54,7 +54,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
   members :
   {
     _timeout : null,
-    
+
     run : function(test, testFunction, self, resume)
     {
       /*
@@ -62,11 +62,11 @@ qx.Class.define("testrunner2.unit.TestResult", {
         this.__wrapAddListener(test.getTestClass()[test.getName()]);
       }
       */
-      
+
       if(!this._timeout) {
         this._timeout = {};
       }
-      
+
       var testClass = test.getTestClass();
       if (!testClass.hasListener("assertionFailed")) {
         testClass.addListener("assertionFailed", function(ev) {
@@ -85,7 +85,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
         //this.__removeListeners(test.getTestClass()[test.getName()]);
         return;
       }
-      
+
       this.fireDataEvent("startTest", test);
 
       if (this._timeout[test.getFullName()])
@@ -107,9 +107,9 @@ qx.Class.define("testrunner2.unit.TestResult", {
           }
           catch(except) {
             /* Any exceptions here are likely caused by setUp having failed
-               previously, so we'll ignore them. */ 
+               previously, so we'll ignore them. */
           }
-          
+
           if (ex.classname == "qx.dev.unit.RequirementError") {
             this._createError("skip", [ex], test);
           }
@@ -117,7 +117,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
             var qxEx = new qx.type.BaseError("Error setting up test: " + ex.name, ex.message);
             this._createError("error", [qxEx], test);
           }
-          
+
           //this.__removeListeners(test.getTestClass()[test.getName()]);
           return;
         }
@@ -167,7 +167,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
           this._createError("error", [ex], test);
         }
       }
-      
+
       if (!error)
       {
         try {
@@ -178,15 +178,15 @@ qx.Class.define("testrunner2.unit.TestResult", {
           this._createError("error", [qxEx], test);
         }
       }
-      
-      /*      
+
+      /*
       if (!this._timeout[test.getFullName()]) {
         this.__removeListeners(test.getTestClass()[test.getName()]);
       }
       */
     },
-    
-    
+
+
     /**
      * Fire an error event
      *
@@ -209,16 +209,16 @@ qx.Class.define("testrunner2.unit.TestResult", {
       this.fireDataEvent(eventName, errors);
       this.fireDataEvent("endTest", test);
     },
-    
-    
+
+
     /**
      * EXPERIMENTAL
-     * Wraps the AUT's qx.event.Registration.addListener function so that it 
-     * stores references to all added listeners in an array attached to the 
+     * Wraps the AUT's qx.event.Registration.addListener function so that it
+     * stores references to all added listeners in an array attached to the
      * current test function. This is done so that any listeners left over after
-     * test execution can be removed to make sure they don't influence other 
+     * test execution can be removed to make sure they don't influence other
      * tests.
-     * 
+     *
      * @param testFunction {qx.dev.unit.TestFunction} The current test
      */
     __wrapAddListener : function(testFunction)
@@ -229,22 +229,22 @@ qx.Class.define("testrunner2.unit.TestResult", {
         qx.event.Registration.addListener = function(target, type, listener, self, capture) {
           var listenerId =  qx.event.Registration.addListenerOriginal(target, type, listener, self, capture);
           var store = true;
-          if ( (target.classname && target.classname.indexOf("testrunner2.unit") == 0) 
+          if ( (target.classname && target.classname.indexOf("testrunner2.unit") == 0)
                || (self && self.classname && self.classname.indexOf("testrunner2.unit") == 0) ) {
-            store = false;              
+            store = false;
           }
           if (store) {
             testFunction._addedListeners.push([target, listenerId]);
           }
-          return listenerId;          
+          return listenerId;
         }
       }
     },
-    
+
     /**
      * EXPERIMENTAL
      * Removes any listeners left over after a test's run.
-     * 
+     *
      * @param testFunction {qx.dev.unit.TestFunction} The current test
      */
     __removeListeners : function(testFunction)

@@ -22,9 +22,9 @@
  * This class comes with all relevant information regarding
  * the client's engine.
  *
- * This class is used by {@link qx.core.Environment} and should not be used 
+ * This class is used by {@link qx.core.Environment} and should not be used
  * directly. Please check its class comment for details how to use it.
- * 
+ *
  * @internal
  */
 qx.Bootstrap.define("qx.bom.client.Engine",
@@ -34,56 +34,56 @@ qx.Bootstrap.define("qx.bom.client.Engine",
   // Firefox: http://en.wikipedia.org/wiki/History_of_Mozilla_Firefox
   statics :
   {
-    /** 
-     * {String} Name of the client's HTML/JS engine e.g. mshtml, gecko, webkit, opera, khtml 
+    /**
+     * {String} Name of the client's HTML/JS engine e.g. mshtml, gecko, webkit, opera, khtml
      * @deprecated since 1.4: See qx.core.Environment
      */
     NAME : "",
 
-    /** 
+    /**
      * {String} Full version string with multiple dots (major.minor.revision) e.g. 1.8.1, 8.5.4 #
      * @deprecated since 1.4: See qx.core.Environment
      */
     FULLVERSION : "0.0.0",
 
-    /** 
-     * {Float} Version of the client's HTML/JS engine e.g. 1.0, 1.7, 1.9 
+    /**
+     * {Float} Version of the client's HTML/JS engine e.g. 1.0, 1.7, 1.9
      * @deprecated since 1.4: See qx.core.Environment
      */
     VERSION : 0.0,
 
-    /** 
-     * {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine 
+    /**
+     * {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine
      * @deprecated since 1.4: See qx.core.Environment
      */
     OPERA : false,
 
-    /** 
-     * {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine 
+    /**
+     * {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine
      * @deprecated since 1.4: See qx.core.Environment
      */
     WEBKIT : false,
 
-    /** 
-     * {Boolean} Flag to detect if the client is based on the Gecko HTML/JS engine 
+    /**
+     * {Boolean} Flag to detect if the client is based on the Gecko HTML/JS engine
      * @deprecated since 1.4: See qx.core.Environment
      */
     GECKO : false,
 
-    /** 
-     * {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine 
+    /**
+     * {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine
      * @deprecated since 1.4: See qx.core.Environment
      */
     MSHTML : false,
 
-    /** 
-     * {Boolean} Flag to detect if the client engine is assumed 
+    /**
+     * {Boolean} Flag to detect if the client engine is assumed
      * @deprecated since 1.4: See qx.core.Environment
      */
     UNKNOWN_ENGINE : false,
 
-    /** 
-     * {Boolean} Flag to detect if the client engine version is assumed 
+    /**
+     * {Boolean} Flag to detect if the client engine version is assumed
      * @deprecated since 1.4: See qx.core.Environment
      */
     UNKNOWN_VERSION: false,
@@ -95,20 +95,20 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      * <code>5</code> Microsoft Internet Explorer 5 mode (also known as "quirks mode").
      * <code>7</code> Internet Explorer 7 Standards mode.
      * <code>8</code> Internet Explorer 8 Standards mode.
-     * 
+     *
      * @deprecated since 1.4: See qx.core.Environment
      */
     DOCUMENT_MODE : null,
 
     /**
      * Returns the version of the engine.
-     * 
+     *
      * @return {String} The version number of the current engine.
      * @internal
      */
     getVersion : function() {
       var agent = window.navigator.userAgent;
-      
+
       var version = "";
       if (qx.bom.client.Engine.__isOpera()) {
         // Opera has a special versioning scheme, where the second part is combined
@@ -143,7 +143,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
           version = RegExp.$1;
 
           // If the IE8 or IE9 is running in the compatibility mode, the MSIE value
-          // is set to an older version, but we need the correct version. The only 
+          // is set to an older version, but we need the correct version. The only
           // way is to compare the trident version.
           if (version < 8 && /Trident\/([^\);]+)(\)|;)/.test(agent)) {
             if (RegExp.$1 == "4.0") {
@@ -151,7 +151,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
             } else if (RegExp.$1 == "5.0") {
               version = "9.0";
             }
-          }          
+          }
         }
       } else {
         var failFunction = window.qxFail;
@@ -163,14 +163,14 @@ qx.Bootstrap.define("qx.bom.client.Engine",
             + "! Assumed gecko version 1.9.0.0 (Firefox 3.0).");
         }
       }
-      
+
       return version;
     },
 
 
     /**
      * Returns the name of the engine.
-     * 
+     *
      * @return {String} The name of the current engine.
      * @internal
      */
@@ -232,7 +232,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      * @return {boolean} true, if its MSHTML.
      */
     __isMshtml : function() {
-      return window.navigator.cpuClass && 
+      return window.navigator.cpuClass &&
         /MSIE\s+([^\);]+)(\)|;)/.test(window.navigator.userAgent);
     }
   },
@@ -249,27 +249,27 @@ qx.Bootstrap.define("qx.bom.client.Engine",
   defer : function(statics) {
     // @deprecated since 1.4: all code in the defer
     statics.NAME = statics.getName();
-    
+
     // check the version
     statics.FULLVERSION = statics.getVersion();
     if (statics.FULLVERSION == "") {
       statics.UNKNOWN_VERSION = true;
     }
-    
+
     if (statics.__isOpera()) {
       statics.OPERA = true;
       if (statics.FULLVERSION == "") {
-        statics.FULLVERSION = "9.6.0";        
+        statics.FULLVERSION = "9.6.0";
       }
     } else if (statics.__isWebkit()) {
       statics.WEBKIT = true;
       if (statics.FULLVERSION == "") {
-        statics.FULLVERSION = "525.26";        
+        statics.FULLVERSION = "525.26";
       }
     } else if (statics.__isGecko()) {
       statics.GECKO = true;
       if (statics.FULLVERSION == "") {
-        statics.FULLVERSION = "1.9.0.0";        
+        statics.FULLVERSION = "1.9.0.0";
       }
     } else if (statics.__isMshtml()) {
       statics.MSHTML = true;
@@ -281,7 +281,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
       var failFunction = window.qxFail;
       if (failFunction && typeof failFunction === "function") {
         if (failFunction().NAME) {
-          statics[failFunction().NAME.toUpperCase()] = true;                  
+          statics[failFunction().NAME.toUpperCase()] = true;
         }
       } else {
         statics.GECKO = true;
@@ -289,10 +289,10 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         statics.UNKNOWN_VERSION = true;
       }
     }
-    
+
     statics.VERSION = parseFloat(statics.FULLVERSION);
 
-    // add @deprecation warnings    
+    // add @deprecation warnings
     var keys = ["FULLVERSION","VERSION","OPERA","WEBKIT",
       "GECKO","MSHTML","UNKNOWN_ENGINE","UNKNOWN_VERSION","DOCUMENT_MODE"];
     for (var i = 0; i < keys.length; i++) {
@@ -302,7 +302,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
           qx.Bootstrap.warn(
             "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-            "Plese check the API documentation of qx.core.Environemt.\n" + 
+            "Plese check the API documentation of qx.core.Environemt.\n" +
             "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
           );
           return c;

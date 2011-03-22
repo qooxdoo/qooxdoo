@@ -117,7 +117,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
         }
         if (qx.core.Variant.isSet("qx.client", "mshtml")) {
           // IE parser treats html added to a pre tag like normal html and removes
-          // the whitespaces. To prevent this we create a wrapper element, add 
+          // the whitespaces. To prevent this we create a wrapper element, add
           // to its innerHTML the pre tag and the javaScript code and replace the
           // existing pre element with the wrapper element.
           var preWrapper = document.createElement("div");

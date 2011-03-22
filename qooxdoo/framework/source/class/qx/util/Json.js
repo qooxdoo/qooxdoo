@@ -89,8 +89,8 @@ qx.Class.define("qx.util.Json",
       "object"    : "__convertObject",
       "undefined" : "__convertUndefined"
     },
-    
-    
+
+
     /**
      * Single instance of number format for the JSON serialization.
      */
@@ -339,13 +339,13 @@ qx.Class.define("qx.util.Json",
 
       // if its set to true
       } else {
-        var dateParams = 
-          incoming.getUTCFullYear() + "," + 
-          incoming.getUTCMonth() + "," + 
-          incoming.getUTCDate() + "," + 
-          incoming.getUTCHours() + "," + 
-          incoming.getUTCMinutes() + "," + 
-          incoming.getUTCSeconds() + "," + 
+        var dateParams =
+          incoming.getUTCFullYear() + "," +
+          incoming.getUTCMonth() + "," +
+          incoming.getUTCDate() + "," +
+          incoming.getUTCHours() + "," +
+          incoming.getUTCMinutes() + "," +
+          incoming.getUTCSeconds() + "," +
           incoming.getUTCMilliseconds();
         return "new Date(Date.UTC(" + dateParams + "))";
       }

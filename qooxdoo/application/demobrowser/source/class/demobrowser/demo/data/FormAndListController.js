@@ -37,9 +37,9 @@ qx.Class.define("demobrowser.demo.data.FormAndListController",
         firstname: "Martin",
         lastname: "Wittemann",
         gender: [
-          {label: "male", data: "M"}, 
-          {label: "female", data: "F"}, 
-          {label: "dont know!", data: "?"}, 
+          {label: "male", data: "M"},
+          {label: "female", data: "F"},
+          {label: "dont know!", data: "?"},
           {label: "Alien", data: "A"}
         ]
       };
@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.data.FormAndListController",
       var genderController = new qx.data.controller.List(null, gender);
       genderController.setDelegate({bindItem: function(controller, item, index) {
         controller.bindProperty("label", "label", null, item, index);
-        controller.bindProperty("data", "model", null, item, index);        
+        controller.bindProperty("data", "model", null, item, index);
       }});
       genderController.setModel(model.getGender());
       form.add(gender, "Gender");

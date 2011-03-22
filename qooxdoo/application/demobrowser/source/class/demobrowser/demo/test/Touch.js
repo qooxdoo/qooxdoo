@@ -31,14 +31,14 @@ qx.Class.define("demobrowser.demo.test.Touch",
 
   members :
   {
-  
+
     __infoAreaOne : null,
     __infoAreaTwo : null,
 
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
     main : function()
@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.test.Touch",
 
 
       if (qx.core.Environment.get("engine.name") != "webkit" || (
-        !qx.core.Environment.get("event.touch") && 
+        !qx.core.Environment.get("event.touch") &&
         qx.core.Variant.isSet("qx.mobile.emulatetouch", "off")))
       {
         var warningLabelStyle = {
@@ -86,7 +86,7 @@ qx.Class.define("demobrowser.demo.test.Touch",
 
       this.__infoAreaTwo = this.__createInfoArea(110, 110);
       container.add(this.__infoAreaTwo);
-      
+
       container.add(this.__createCancelArea(210,10));
     },
 

@@ -120,7 +120,7 @@ qx.Class.define("qx.event.dispatch.Direct",
         for (var i=0, l=listeners.length; i<l; i++)
         {
           var context = listeners[i].context || target;
-          
+
           if (qx.core.Variant.isSet("qx.debug", "on")) {
             // warn if the context is disposed
             if (context && context.isDisposed && context.isDisposed()) {
@@ -130,7 +130,7 @@ qx.Class.define("qx.event.dispatch.Direct",
               );
             }
           }
-          
+
           listeners[i].handler.call(context, event);
         }
       }

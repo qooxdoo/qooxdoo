@@ -43,7 +43,7 @@ qx.Class.define("demobrowser.demo.mobile.ScaleImage",
     __currentScale : 0,
 
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -66,7 +66,7 @@ qx.Class.define("demobrowser.demo.mobile.ScaleImage",
 
 
       if (qx.core.Environment.get("engine.name") != "webkit" || (
-        !qx.core.Environment.get("event.touch") && 
+        !qx.core.Environment.get("event.touch") &&
         qx.core.Variant.isSet("qx.mobile.emulatetouch", "off")))
       {
         var warningLabelStyle = {
@@ -120,7 +120,7 @@ qx.Class.define("demobrowser.demo.mobile.ScaleImage",
     },
 
 
-    __onTouchEnd : function(e) 
+    __onTouchEnd : function(e)
     {
       if (e.isMultiTouch())
       {

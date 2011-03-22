@@ -279,7 +279,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
     // interface implementation
     tint : function(element, bgcolor) {
-      this._tintBackgroundColor(element, bgcolor, element.childNodes[3].style);      
+      this._tintBackgroundColor(element, bgcolor, element.childNodes[3].style);
     }
   },
 

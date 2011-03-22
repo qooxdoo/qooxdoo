@@ -54,14 +54,14 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
   properties :
   {
-    cssClass : 
+    cssClass :
     {
       refine : true,
       init : "page"
     },
 
 
-    title : 
+    title :
     {
       check : "String",
       init : ""
@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
     /**
      * @param clazz {Class}
-     */ 
+     */
     setManagerClass : function(clazz)
     {
       this.__managerClass = clazz;
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
     },
 
 
-    initialize : function() 
+    initialize : function()
     {
       if (!this.isInitialized())
       {
@@ -160,9 +160,9 @@ qx.Class.define("qx.ui.mobile.page.Page",
     /**
      * Abstract method.
      */
-    _initialize : function() 
+    _initialize : function()
     {
-      
+
     },
 
 
@@ -176,30 +176,30 @@ qx.Class.define("qx.ui.mobile.page.Page",
       this._start();
       this.fireEvent("start");
     },
-    
-    
+
+
     /**
      * Abstract method.
      */
-    _start : function() 
+    _start : function()
     {
-      
+
     },
 
 
     stop : function()
     {
-      this._stop(); 
+      this._stop();
       this.fireEvent("stop");
     },
-    
-    
+
+
      /**
      * Abstract method.
      */
-    _stop : function() 
+    _stop : function()
     {
-      
+
     },
 
 
@@ -212,9 +212,9 @@ qx.Class.define("qx.ui.mobile.page.Page",
     /**
      * Abstract method.
      */
-    _pause : function() 
+    _pause : function()
     {
-      
+
     },
 
 
@@ -227,9 +227,9 @@ qx.Class.define("qx.ui.mobile.page.Page",
     /**
      * Abstract method.
      */
-    _resume : function() 
+    _resume : function()
     {
-      
+
     },
 
 

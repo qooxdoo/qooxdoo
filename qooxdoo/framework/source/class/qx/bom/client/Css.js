@@ -25,13 +25,13 @@
 
 /**
  * The purpose of this class is to contain all checks about css.
- * 
- * This class is used by {@link qx.core.Environment} and should not be used 
+ *
+ * This class is used by {@link qx.core.Environment} and should not be used
  * directly. Please check its class comment for details how to use it.
- * 
+ *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Css", 
+qx.Bootstrap.define("qx.bom.client.Css",
 {
   statics :
   {
@@ -41,9 +41,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      */
     getBoxModel : function() {
-      var content = qx.bom.client.Engine.getName() !== "mshtml" || 
+      var content = qx.bom.client.Engine.getName() !== "mshtml" ||
         !qx.bom.client.Browser.getQuirksMode() ;
-        
+
       return content ? "content" : "broder";
     },
 
@@ -77,7 +77,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      */
     getBorderRadius : function() {
       return "borderRadius" in document.documentElement.style ||
-      "MozBorderRadius" in document.documentElement.style || 
+      "MozBorderRadius" in document.documentElement.style ||
       "WebkitBorderRadius" in document.documentElement.style;
     },
 
@@ -89,7 +89,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      */
     getBoxShadow : function() {
       return "BoxShadow" in document.documentElement.style ||
-      "MozBoxShadow" in document.documentElement.style || 
+      "MozBoxShadow" in document.documentElement.style ||
       "WebkitBoxShadow" in document.documentElement.style;
     },
 
@@ -125,7 +125,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
         "-o-linear-gradient(0deg, white 0%, red 100%)",
         "linear-gradient(0deg, white 0%, red 100%)"
       ];
-      
+
       for (var i=0; i < style.length; i++) {
         // try catch for IE
         try {

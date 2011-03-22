@@ -144,7 +144,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
   {
     qx.core.Environment.add("qx.globalErrorHandling", true);
     statics.setErrorHandler(null, null);
-    // @deprecated since 1.4 
+    // @deprecated since 1.4
     qx.core.Setting.defineDeprecated("qx.globalErrorHandling", "on");
   }
 });

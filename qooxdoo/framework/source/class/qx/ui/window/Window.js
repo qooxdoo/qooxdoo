@@ -875,7 +875,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       // store the state if the status bar is shown
       value ? this.addState("showStatusbar") : this.removeState("showStatusbar");
-      
+
       if (value) {
         this._showChildControl("statusbar");
       } else {

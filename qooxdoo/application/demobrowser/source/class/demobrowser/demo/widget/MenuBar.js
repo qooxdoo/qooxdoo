@@ -46,11 +46,11 @@ qx.Class.define("demobrowser.demo.widget.MenuBar",
 
       var bar = this.getMenuBar();
       container.add(bar, {left: 20, top: 50});
-      
+
       var button = new qx.ui.form.ToggleButton("Enabled");
       button.setValue(true);
       container.add(button, {left: 20, top: 10});
-      button.bind("value", bar, "enabled");      
+      button.bind("value", bar, "enabled");
     },
 
 

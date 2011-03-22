@@ -18,29 +18,29 @@
 ************************************************************************ */
 
 
-qx.Bootstrap.define("qx.core.Environment", 
+qx.Bootstrap.define("qx.core.Environment",
 {
   statics : {
-    
+
     /** Map containing the synchronous check functions. */
     _checks : {},
     /** Map containing the asynchronous check functions. */
     _asyncChecks : {},
 
-    /** Internal cache for all checks. */ 
+    /** Internal cache for all checks. */
     __cache : {},
 
 
     /**
-     * The default accessor for the checks. It returns the value the current 
-     * environment has for the given key. The key could be something like 
-     * "qx.debug", "css.textoverflow" or "io.ssl". A complete list of 
+     * The default accessor for the checks. It returns the value the current
+     * environment has for the given key. The key could be something like
+     * "qx.debug", "css.textoverflow" or "io.ssl". A complete list of
      * checks can be found in the class comment of this class.
-     * 
-     * Please keep in mind that the result is cached. If you want to run the 
-     * check function again in case something could have been changed, take a 
+     *
+     * Please keep in mind that the result is cached. If you want to run the
+     * check function again in case something could have been changed, take a
      * look at the {@link #invalidateCacheKey} function.
-     * 
+     *
      * @param key {String} The name of the check you want to query.
      */
     get : function(key) {
@@ -66,12 +66,12 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Invokes the callback as soon as the check has been done. If no check 
+     * Invokes the callback as soon as the check has been done. If no check
      * could be found, a warning will be printed.
-     * 
+     *
      * @param key {String} The key of the asynchronous check.
-     * @param callback {Function} The function to call as soon as the check is 
-     *   done. The function should have one argument which is the result of the 
+     * @param callback {Function} The function to call as soon as the check is
+     *   done. The function should have one argument which is the result of the
      *   check.
      * @param self {var} The context to use when invoking the callback.
      */
@@ -97,18 +97,18 @@ qx.Bootstrap.define("qx.core.Environment",
 
       // debug flag
       if (this.useCheck("qx.debug")) {
-        qx.Bootstrap.warn(key + " can not be checked.");        
+        qx.Bootstrap.warn(key + " can not be checked.");
       }
     },
 
 
     /**
      * Returns the proper value dependent on the check for the given key.
-     * 
+     *
      * @param key {String} The name of the check the select depends on.
      * @param values {Map} A map containing the values which should be returned
      *   in any case. The "default" key could be used as a catch all statement.
-     * @return {var} The value which is stored in the map for the given 
+     * @return {var} The value which is stored in the map for the given
      *   check of the key.
      */
     select : function(key, values) {
@@ -118,13 +118,13 @@ qx.Bootstrap.define("qx.core.Environment",
 
     /**
      * Selects the proper function dependent on the asynchronous check.
-     * 
+     *
      * @param key {String} The key for the async check.
-     * @param values {Map} A map containing functions. The map keys should 
+     * @param values {Map} A map containing functions. The map keys should
      *   contain all possibilities which could be returned by the given check
      *   key. The "default" key could be used as a catch all statement.
-     * @param self {var} The context which should be used when calling the 
-     *   method in the values map. 
+     * @param self {var} The context which should be used when calling the
+     *   method in the values map.
      */
     selectAsync : function(key, values, self) {
       this.getAsync(key, function(result) {
@@ -135,11 +135,11 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Internal helper which tries to pick the given key from the given values 
-     * map. If that key is not found, it tries to use a key named "default". 
-     * If there is also no default key, it prints out a warning and returns 
+     * Internal helper which tries to pick the given key from the given values
+     * map. If that key is not found, it tries to use a key named "default".
+     * If there is also no default key, it prints out a warning and returns
      * undefined.
-     * 
+     *
      * @param key {String} The key to search for in the values.
      * @param values {Map} A map containing some keys.
      * @return {var} The value stored as values[key] usually.
@@ -148,12 +148,12 @@ qx.Bootstrap.define("qx.core.Environment",
       var value = values[key];
       if (value) {
         return value;
-      } 
+      }
 
       if (values["default"] !== undefined) {
         return values["default"];
       }
-      
+
       if (this.useCheck("qx.debug", "on"))
       {
         throw new Error('No match for variant "' + key +
@@ -165,7 +165,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
     /**
      * Invalidates the cache for the given key.
-     * 
+     *
      * @param key {String} The key of the check.
      */
     invalidateCacheKey : function(key) {
@@ -174,11 +174,11 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Add a check to the environment class. If there is already a check 
+     * Add a check to the environment class. If there is already a check
      * added for the given key, the add will be ignored.
-     * 
+     *
      * @param key {String} The key for the check e.g. html.featurexyz.
-     * @param check {var} It could be either a function or a simple value. 
+     * @param check {var} It could be either a function or a simple value.
      *   The function should be responsible for the check and should return the
      *   result of the check.
      */
@@ -197,12 +197,12 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Adds an asynchronous check to the environment. If there is already a check 
+     * Adds an asynchronous check to the environment. If there is already a check
      * added for the given key, the add will be ignored.
-     * 
+     *
      * @param key {String} The key of the check e.g. html.featureabc
-     * @param check {Function} A function which should check for a specific 
-     *   environment setting in an asynchronous way. The method should take two 
+     * @param check {Function} A function which should check for a specific
+     *   environment setting in an asynchronous way. The method should take two
      *   arguments. First one is the callback and the second one is the context.
      */
     addAsync : function(key, check) {
@@ -239,11 +239,11 @@ qx.Bootstrap.define("qx.core.Environment",
      */
     __importFromGenerator : function()
     {
-      // @deprecated since 1.4: import from settings map in case someone 
+      // @deprecated since 1.4: import from settings map in case someone
       // added it manually
       if (window.qxsettings)
       {
-        for (var key in window.qxsettings) {          
+        for (var key in window.qxsettings) {
           var value = window.qxsettings[key];
           // normalization for "on" and "off" @deprecated since 1.4
           if (value == "on") {
@@ -255,12 +255,12 @@ qx.Bootstrap.define("qx.core.Environment",
           this._checks[key] = this.__createCheck(value);
         }
       }
-      
-      // @deprecated since 1.4: import from variants map in case someone 
+
+      // @deprecated since 1.4: import from variants map in case someone
       // added it manually
       if (window.qxvariants)
       {
-        for (var key in window.qxvariants) {          
+        for (var key in window.qxvariants) {
           var value = window.qxvariants[key];
           // normalization for "on" and "off" @deprecated since 1.4
           if (value == "on") {
@@ -271,8 +271,8 @@ qx.Bootstrap.define("qx.core.Environment",
 
           this._checks[key] = this.__createCheck(value);
         }
-      }      
-      
+      }
+
       // import the environment map
       if (qx && qx.$$environment)
       {
@@ -289,29 +289,29 @@ qx.Bootstrap.define("qx.core.Environment",
         }
       }
     },
-    
-    
+
+
     /**
-     * Checks the URL for environment settings and imports these into the 
+     * Checks the URL for environment settings and imports these into the
      * Environment class.
      */
     __importFromUrl : function() {
       if (window.document && window.document.location) {
         var urlChecks = window.document.location.search.slice(1).split("&");
-        
+
         for (var i = 0; i < urlChecks.length; i++)
         {
           var check = urlChecks[i].split(":");
           if (check.length != 3 || check[0] != "qxenv") {
             continue;
           }
-          
+
           var key = check[1];
           var value = decodeURIComponent(check[2]);
 
           this._checks[key] = this.__createCheck(value);
         }
-      }  
+      }
     },
 
 
@@ -329,9 +329,9 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * Internal helper for the generator to flag that this block contains the 
+     * Internal helper for the generator to flag that this block contains the
      * dependency for the given check key.
-     * 
+     *
      * @internal
      * @param key {String} the check key.
      * @return {Boolean} Always true
@@ -345,32 +345,32 @@ qx.Bootstrap.define("qx.core.Environment",
      * Initializer for the checks which are available on runtime.
      */
     _initChecksMap : function() {
-      // CAUTION! If you edit this function, be sure to use the following 
+      // CAUTION! If you edit this function, be sure to use the following
       // pattern to asure the removal of the generator on demand.
       // if (this.useCheck("check.name")) {
       //   this._checks["check.name"] = checkFunction;
       // }
-      // Also keep in mind to change the class comment to reflect the current 
+      // Also keep in mind to change the class comment to reflect the current
       // available checks.
-      
+
       // /////////////////////////////////////////
-      // Engine 
-      // /////////////////////////////////////////      
+      // Engine
+      // /////////////////////////////////////////
       if (this.useCheck("engine.version")) {
         this._checks["engine.version"] = qx.bom.client.Engine.getVersion;
       }
       if (this.useCheck("engine.name")) {
-        this._checks["engine.name"] = qx.bom.client.Engine.getName;        
+        this._checks["engine.name"] = qx.bom.client.Engine.getName;
       }
 
       // /////////////////////////////////////////
       // Browser
       // /////////////////////////////////////////
       if (this.useCheck("browser.name")) {
-        this._checks["browser.name"] = qx.bom.client.Browser.getName;   
+        this._checks["browser.name"] = qx.bom.client.Browser.getName;
       }
       if (this.useCheck("browser.version")) {
-        this._checks["browser.version"] = qx.bom.client.Browser.getVersion;        
+        this._checks["browser.version"] = qx.bom.client.Browser.getVersion;
       }
       if (this.useCheck("browser.documentmode")) {
         this._checks["browser.documentmode"] = qx.bom.client.Browser.getDocumentMode;
@@ -383,18 +383,18 @@ qx.Bootstrap.define("qx.core.Environment",
       // DEVICE
       // /////////////////////////////////////////
       if (this.useCheck("device.name")) {
-        this._checks["device.name"] = qx.bom.client.Device.getName;        
+        this._checks["device.name"] = qx.bom.client.Device.getName;
       }
-      
+
       // /////////////////////////////////////////
       // LOCALE
       // /////////////////////////////////////////
       if (this.useCheck("locale")) {
-        this._checks["locale"] = qx.bom.client.Locale.getLocale;        
+        this._checks["locale"] = qx.bom.client.Locale.getLocale;
       }
-      
+
       if (this.useCheck("locale.variant")) {
-        this._checks["locale.variant"] = qx.bom.client.Locale.getVariant;        
+        this._checks["locale.variant"] = qx.bom.client.Locale.getVariant;
       }
 
       // /////////////////////////////////////////
@@ -413,7 +413,7 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("plugin.gears")) {
         this._checks["plugin.gears"] = qx.bom.client.Plugin.getGears;
       }
-            
+
       if (this.useCheck("plugin.quicktime")) {
         this._checks["plugin.quicktime"] = qx.bom.client.Plugin.getQuicktime;
       }
@@ -457,7 +457,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
       // /////////////////////////////////////////
       // IO
-      // /////////////////////////////////////////      
+      // /////////////////////////////////////////
       if (this.useCheck("io.maxrequests")) {
         this._checks["io.maxrequests"] = qx.bom.client.Transport.getMaxConcurrentRequestCount;
       }
@@ -483,13 +483,13 @@ qx.Bootstrap.define("qx.core.Environment",
       // ECMA SCRIPT
       // /////////////////////////////////////////
       if (this.useCheck("ecmascript.objectcount")) {
-        this._checks["ecmascript.objectcount"] = 
+        this._checks["ecmascript.objectcount"] =
           qx.bom.client.EcmaScript.getObjectCount;
       }
 
       // /////////////////////////////////////////
       // HTML
-      // /////////////////////////////////////////      
+      // /////////////////////////////////////////
       if (this.useCheck("html.webworker")) {
         this._checks["html.webworker"] = qx.bom.client.Html.getWebWorker;
       }
@@ -545,23 +545,23 @@ qx.Bootstrap.define("qx.core.Environment",
       // CSS
       // /////////////////////////////////////////
       if (this.useCheck("css.textoverflow")) {
-        this._checks["css.textoverflow"] = qx.bom.client.Css.getTextOverflow;        
+        this._checks["css.textoverflow"] = qx.bom.client.Css.getTextOverflow;
       }
 
       if (this.useCheck("css.placeholder")) {
-        this._checks["css.placeholder"] = qx.bom.client.Css.getPlaceholder;        
+        this._checks["css.placeholder"] = qx.bom.client.Css.getPlaceholder;
       }
 
       if (this.useCheck("css.borderradius")) {
-        this._checks["css.borderradius"] = qx.bom.client.Css.getBorderRadius;        
+        this._checks["css.borderradius"] = qx.bom.client.Css.getBorderRadius;
       }
 
       if (this.useCheck("css.boxshadow")) {
-        this._checks["css.boxshadow"] = qx.bom.client.Css.getBoxShadow;        
+        this._checks["css.boxshadow"] = qx.bom.client.Css.getBoxShadow;
       }
 
       if (this.useCheck("css.gradients")) {
-        this._checks["css.gradients"] = qx.bom.client.Css.getGradients;        
+        this._checks["css.gradients"] = qx.bom.client.Css.getGradients;
       }
 
       if (this.useCheck("css.boxmodel")) {

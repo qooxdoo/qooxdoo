@@ -411,8 +411,8 @@ qx.Class.define("qx.test.data.store.Json",
 
       this.wait();
     },
-    
-    
+
+
     testErrorEvent : function() {
       this.__store.addListener("error", function() {
         this.resume(function() {}, this);

@@ -33,8 +33,8 @@ qx.Class.define("qx.ui.mobile.container.Scroller",
       init : "scroller"
     }
   },
-  
-  
+
+
   members :
   {
     // overridden

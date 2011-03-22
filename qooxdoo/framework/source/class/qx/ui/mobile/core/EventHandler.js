@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * Connects the widgets to the browser DOM events.
  */
 qx.Class.define("qx.ui.mobile.core.EventHandler",
@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
       drag : 1,
       dragchange : 1,
       droprequest : 1,
-      
+
       // touch events
       touchstart : 1,
       touchend : 1,
@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
     __onTouchMove : function(domEvent)
     {
       var EventHandler = qx.ui.mobile.core.EventHandler;
-      if (EventHandler.__activeTarget 
+      if (EventHandler.__activeTarget
           && (EventHandler.__scrollLeft != qx.bom.Viewport.getScrollLeft()
               || EventHandler.__scrollTop != qx.bom.Viewport.getScrollTop())) {
         EventHandler.__removeActiveState();
@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
       // EVENT RELATED TARGET
       if (domEvent.getRelatedTarget) {
         var domRelatedTarget = domEvent.getRelatedTarget();
-        
+
         if (domRelatedTarget && domRelatedTarget.id) {
           var widgetRelatedTarget = qx.ui.mobile.core.Widget.getWidgetById(domRelatedTarget.id);
         }

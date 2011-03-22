@@ -351,7 +351,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       el.setAttribute("spellcheck", "false");
 
       // Block resize handle in Safari
-      if (qx.core.Environment.get("engine.name") == "webkit" || 
+      if (qx.core.Environment.get("engine.name") == "webkit" ||
         qx.core.Environment.get("engine.name") == "gecko")
       {
         el.setStyle("resize", "none");

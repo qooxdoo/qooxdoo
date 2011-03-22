@@ -142,15 +142,15 @@ qx.Theme.define("qx.theme.modern.Decoration",
         baseImage : "decoration/groupbox/groupbox.png"
       }
     },
-    
-    "group-css" : 
+
+    "group-css" :
     {
       decorator : [
         qx.ui.decoration.MBackgroundColor,
         qx.ui.decoration.MBorderRadius,
         qx.ui.decoration.MSingleBorder
       ],
-      
+
       style : {
         backgroundColor : "group-background",
         radius : 4,
@@ -189,7 +189,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     /*
     ---------------------------------------------------------------------------
-      CSS RADIO BUTTON 
+      CSS RADIO BUTTON
     ---------------------------------------------------------------------------
     */
     "radiobutton" : {
@@ -207,7 +207,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         color : "checkbox-border",
         innerColor : "radiobutton-background",
         shadowLength : 0,
-        shadowBlurRadius : 0, 
+        shadowBlurRadius : 0,
         shadowColor : "checkbox-focus",
         insetLeft: 5 // used for the shadow (3 border + 2 extra for the shadow)
       }
@@ -219,7 +219,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundColor : "radiobutton-checked"
       }
     },
-        
+
     "radiobutton-checked-focused" : {
       include  : "radiobutton-checked",
       style : {
@@ -233,7 +233,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerColor : "checkbox-hovered"
       }
     },
-    
+
     "radiobutton-focused" : {
       include : "radiobutton",
       style : {
@@ -278,7 +278,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         color : "invalid"
       }
     },
-        
+
     "radiobutton-checked-focused-invalid" : {
       include  : "radiobutton-checked-focused",
       style : {
@@ -294,7 +294,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerColor : "radiobutton-hovered-invalid"
       }
     },
-    
+
     "radiobutton-focused-invalid" : {
       include : "radiobutton-focused",
       style : {
@@ -405,7 +405,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         insets    : [ 4, 8, 8, 4 ]
       }
     },
-    
+
     "shadow-window-css" :
     {
       decorator : [
@@ -556,7 +556,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         gradientStart : ["scrollbar-slider-start", 0],
         gradientEnd : ["scrollbar-slider-end", 100],
-        
+
         color : "border-main",
         width: 1
       }
@@ -613,7 +613,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "button-disabled-css" : 
+    "button-disabled-css" :
     {
       include : "button-css",
       style : {
@@ -622,8 +622,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
         endColor: "button-disabled-end"
       }
     },
-    
-    "button-hovered-css" : 
+
+    "button-hovered-css" :
     {
       include : "button-css",
       style : {
@@ -632,7 +632,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "button-checked-css" : 
+    "button-checked-css" :
     {
       include : "button-css",
       style : {
@@ -641,7 +641,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "button-pressed-css" : 
+    "button-pressed-css" :
     {
       include : "button-css",
       style : {
@@ -649,7 +649,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         startColor : "button-hovered-end"
       }
     },
-    
+
     "button-focused-css" : {
       decorator : [
         qx.ui.decoration.MDoubleBorder,
@@ -670,7 +670,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         endColorPosition: 100
       }
     },
-    
+
     "button-checked-focused-css" : {
       include : "button-focused-css",
       style : {
@@ -678,7 +678,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         startColor: "button-end"
       }
     },
-    
+
     // invalid
     "button-invalid-css" : {
       include : "button-css",
@@ -686,16 +686,16 @@ qx.Theme.define("qx.theme.modern.Decoration",
         color: "border-invalid"
       }
     },
-    
-    "button-disabled-invalid-css" : 
+
+    "button-disabled-invalid-css" :
     {
       include : "button-disabled-css",
       style : {
         color : "border-invalid"
       }
     },
-    
-    "button-hovered-invalid-css" : 
+
+    "button-hovered-invalid-css" :
     {
       include : "button-hovered-css",
       style : {
@@ -703,7 +703,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "button-checked-invalid-css" : 
+    "button-checked-invalid-css" :
     {
       include : "button-checked-css",
       style : {
@@ -711,30 +711,30 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "button-pressed-invalid-css" : 
+    "button-pressed-invalid-css" :
     {
       include : "button-pressed-css",
       style : {
         color : "border-invalid"
       }
     },
-    
+
     "button-focused-invalid-css" : {
       include : "button-focused-css",
       style : {
         color : "border-invalid"
       }
     },
-    
+
     "button-checked-focused-invalid-css" : {
       include : "button-checked-focused-css",
       style : {
         color : "border-invalid"
       }
-    },    
-    
-    
-    
+    },
+
+
+
     /*
     ---------------------------------------------------------------------------
       BUTTON
@@ -849,7 +849,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         insets: [0]
       }
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       PLAIN CSS CHECK BOX
@@ -861,20 +861,20 @@ qx.Theme.define("qx.theme.modern.Decoration",
         qx.ui.decoration.MLinearBackgroundGradient,
         qx.ui.decoration.MBoxShadow
       ],
-      
+
       style : {
         width: 1,
         color: "checkbox-border",
         innerWidth : 1,
         innerColor : "checkbox-inner",
-        
+
         gradientStart : ["checkbox-start", 0],
         gradientEnd : ["checkbox-end", 100],
-        
+
         shadowLength : 0,
         shadowBlurRadius : 0,
         shadowColor : "checkbox-focus",
-        
+
         insetLeft: 4 // (2 for the broder and two for the glow effect)
       }
     },
@@ -888,14 +888,14 @@ qx.Theme.define("qx.theme.modern.Decoration",
         gradientEnd : ["checkbox-hovered", 100]
       }
     },
-    
+
     "checkbox-focused" : {
       include : "checkbox",
       style : {
         shadowBlurRadius : 4
       }
     },
-    
+
     "checkbox-disabled" : {
       include : "checkbox",
       style : {
@@ -912,7 +912,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         color : "invalid"
       }
     },
-    
+
     "checkbox-hovered-invalid" : {
       include : "checkbox-hovered",
       style : {
@@ -922,7 +922,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         gradientEnd : ["checkbox-hovered-invalid", 100]
       }
     },
-    
+
     "checkbox-focused-invalid" : {
       include : "checkbox-focused",
       style : {
@@ -961,7 +961,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         colorPositionUnit : "px"
       }
     },
-    
+
     "border-invalid-css" : {
       include : "input-css",
       style : {
@@ -977,7 +977,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         endColorPosition : 4
       }
     },
-    
+
     "input-focused-invalid-css" : {
       include : "input-focused-css",
       style : {
@@ -1081,8 +1081,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "scale"
       }
     },
-    
-    "toolbar-css" : 
+
+    "toolbar-css" :
     {
       decorator : [qx.ui.decoration.MLinearBackgroundGradient],
       style : {
@@ -1118,7 +1118,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "scale"
       }
     },
-    
+
     "toolbar-button-hovered-css" :
     {
       decorator : [
@@ -1133,7 +1133,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         width: 1,
         innerWidth: 1,
         innerColor : "broder-toolbar-broder-inner",
-        radius : 2,    
+        radius : 2,
         gradientStart : ["button-start", 30],
         gradientEnd : ["button-end", 100]
       }
@@ -1148,7 +1148,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         gradientStart : ["button-end", 30],
         gradientEnd : ["button-start", 100]
       }
-    },    
+    },
 
     "toolbar-separator" :
     {
@@ -1197,15 +1197,15 @@ qx.Theme.define("qx.theme.modern.Decoration",
         insets : [ 4, 6, 7, 4 ]
       }
     },
-    
-    "tabview-pane-css" : 
+
+    "tabview-pane-css" :
     {
       decorator : [
         qx.ui.decoration.MBorderRadius,
         qx.ui.decoration.MLinearBackgroundGradient,
         qx.ui.decoration.MSingleBorder
       ],
-      
+
       style : {
         width: 1,
         color: "window-border",
@@ -1222,7 +1222,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         baseImage : "decoration/tabview/tab-button-top-active.png"
       }
-    },   
+    },
 
     "tabview-page-button-top-inactive" :
     {
@@ -1305,7 +1305,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundColor : "tabview-start",
         shadowLength: 1,
         shadowColor: "shadow",
-        shadowBlurRadius: 2        
+        shadowBlurRadius: 2
       }
     },
 
@@ -1396,10 +1396,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
         colorBottom : "tabview-inactive",
         colorLeft : "tabview-background"
       }
-    },    
-    
-    
-    
+    },
+
+
+
 
 
     /*
@@ -1472,8 +1472,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
         baseImage : "decoration/window/statusbar.png"
       }
     },
-    
-    
+
+
     // CSS WINDOW
     "window-captionbar-active-css" : {
       decorator : [
@@ -1494,14 +1494,14 @@ qx.Theme.define("qx.theme.modern.Decoration",
         shadowColor : "shadow"
       }
     },
-    
+
     "window-captionbar-inactive-css" : {
       include : "window-captionbar-active-css",
       style : {
         gradientStart : ["window-caption-inactive-start", 30],
         gradientEnd : ["window-caption-inactive-end", 70]
       }
-    },    
+    },
 
     "window-statusbar-css" :
     {
@@ -1538,7 +1538,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         width : 1,
         color : "window-border",
         widthTop : 0,
-        
+
         shadowBlurRadius : 4,
         shadowLength : 2,
         shadowColor : "shadow"
@@ -1725,7 +1725,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         style : "solid"
       }
     },
-    
+
     "menu-css" : {
       decorator : [
         qx.ui.decoration.MLinearBackgroundGradient,
@@ -1847,7 +1847,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "scale"
       }
     },
-    
+
     "group-item-css" :
     {
       decorator : [
@@ -1861,6 +1861,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
         startColor : "groupitem-start",
         endColor : "groupitem-end"
       }
-    }    
+    }
   }
 });

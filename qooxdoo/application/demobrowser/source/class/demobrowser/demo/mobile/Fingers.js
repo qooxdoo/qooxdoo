@@ -33,9 +33,9 @@ qx.Class.define("demobrowser.demo.mobile.Fingers",
   {
     __startDivX : null,
     __startDivY : null,
-    
+
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -58,17 +58,17 @@ qx.Class.define("demobrowser.demo.mobile.Fingers",
         "width" : "100%",
         "height" : "100%",
         "backgroundColor" : "black",
-        "margin" : "0px"        
+        "margin" : "0px"
       };
 
       var root = new qx.html.Element("div", backgroundStyles);
       root.useElement(document.body);
       root.setRoot(true);
-      
 
 
-      if (qx.core.Environment.get("engine.name") != "webkit" || 
-        (!qx.core.Environment.get("event.touch") && 
+
+      if (qx.core.Environment.get("engine.name") != "webkit" ||
+        (!qx.core.Environment.get("event.touch") &&
         qx.core.Variant.isSet("qx.mobile.emulatetouch", "off")))
       {
         var warningLabelStyle = {
@@ -96,7 +96,7 @@ qx.Class.define("demobrowser.demo.mobile.Fingers",
       var label = new qx.html.Element("div", lableStyles);
       root.add(label);
       label.setAttribute("innerHTML", "<b>Use your fingers to move the dots</b>");
-      
+
       // create some colored balls
       var colors = ["blue", "red", "green", "white", "yellow"];
       for (var i = 0; i < colors.length; i++) {
@@ -114,42 +114,42 @@ qx.Class.define("demobrowser.demo.mobile.Fingers",
         var div = new qx.html.Element("div", styles);
         root.add(div);
       };
-      
+
       this.__startDivX = [];
       this.__startDivY = [];
-      
+
       // attach the listeners
       root.addListener("touchstart", this._onTouchStart, this);
       root.addListener("touchmove", this._onTouchMove, this);
     },
-    
-    
+
+
     _onTouchStart : function(e) {
       var touches = e.getAllTouches();
       for (var i = 0; i < touches.length; i++) {
         var touch = touches[i];
         this.__startDivX[i] = parseInt(touch.target.style.left) - touch.pageX;
         this.__startDivY[i] = parseInt(touch.target.style.top) - touch.pageY;
-      };      
+      };
     },
-    
-    
+
+
     _onTouchMove : function(e) {
       var touches = e.getAllTouches();
       for (var i = 0; i < touches.length; i++) {
         var touch = touches[i];
-        
+
         if (touches.target == document.body) {
           continue;
         }
-      
+
         // apply new position
         qx.bom.element.Style.setStyles(touch.target, {
           "left" : (touch.pageX + this.__startDivX[i]) + "px",
           "top" : (touch.pageY + this.__startDivY[i]) + "px"
         });
       };
-      
+
       e.stop();
     }
   }

@@ -18,13 +18,13 @@
 ************************************************************************ */
 /**
  * This class is responsible for checking the operating systems name.
- * 
- * This class is used by {@link qx.core.Environment} and should not be used 
+ *
+ * This class is used by {@link qx.core.Environment} and should not be used
  * directly. Please check its class comment for details how to use it.
- * 
+ *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.OperatingSystem", 
+qx.Bootstrap.define("qx.bom.client.OperatingSystem",
 {
   statics :
   {
@@ -37,22 +37,22 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
       var input = navigator.platform;
 
       if (
-        input.indexOf("Windows") != -1 || 
-        input.indexOf("Win32") != -1 || 
+        input.indexOf("Windows") != -1 ||
+        input.indexOf("Win32") != -1 ||
         input.indexOf("Win64") != -1
       ) {
         return "win";
 
       } else if (
-        input.indexOf("Macintosh") != -1 || 
-        input.indexOf("MacPPC") != -1 || 
+        input.indexOf("Macintosh") != -1 ||
+        input.indexOf("MacPPC") != -1 ||
         input.indexOf("MacIntel") != -1
       ) {
         return "osx";
 
       } else if (
-        input.indexOf("iPod") != -1 || 
-        input.indexOf("iPhone") != -1 || 
+        input.indexOf("iPod") != -1 ||
+        input.indexOf("iPhone") != -1 ||
         input.indexOf("iPad") != -1
       ) {
         return "ios";
@@ -61,9 +61,9 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
         input.indexOf("Linux") != -1
       ) {
         return "linux";
-        
+
       } else if (
-        input.indexOf("X11") != -1 || 
+        input.indexOf("X11") != -1 ||
         input.indexOf("BSD") != -1
       ) {
         return "unix";
@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
         input.indexOf("Android") != -1
       ) {
         return "android";
-        
+
       } else if (
         input.indexOf("SymbianOS") != -1
       ) {
@@ -101,8 +101,8 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
       "Windows 98" : "98",
       "Win98" : "98",
       "Windows 95" : "95",
-      "Win95" : "95", 
-      
+      "Win95" : "95",
+
       // OS X
       "Mac OS X 10_7" : "10.7",
       "Mac OS X 10.7" : "10.7",
@@ -125,7 +125,7 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
 
     /**
      * Checks for the version of the operating system using the internal map.
-     * 
+     *
      * @internal
      * @return {String} The version as strin or an empty string if the version
      *   could not be detected.

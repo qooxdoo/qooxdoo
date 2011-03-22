@@ -179,10 +179,10 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * This will get the JavaScript file names and the line numbers of each call.
      * The file names are converted into qooxdoo class names if possible.
      *
-     * This works reliably in Gecko-based browsers. Later Opera versions and 
-     * Chrome also provide an useful stack trace. For Safari, only the class or 
-     * file name and line number where the error occurred are returned. 
-     * IE 6/7/8 does not attach any stack information to error objects so an 
+     * This works reliably in Gecko-based browsers. Later Opera versions and
+     * Chrome also provide an useful stack trace. For Safari, only the class or
+     * file name and line number where the error occurred are returned.
+     * IE 6/7/8 does not attach any stack information to error objects so an
      * empty array is returned.
      *
      * @param error {Error} Error exception instance.
@@ -233,7 +233,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
             if (!fileMatch) {
               fileMatch = fileRe.exec(hit[1]);
             }
-            
+
             if (fileMatch) {
               var className = this.__fileNameToClassName(fileMatch[1]);
               trace.push(className + fileMatch[2]);
@@ -241,9 +241,9 @@ qx.Bootstrap.define("qx.dev.StackTrace",
                 trace.push(hit[1]);
             }
           }
-          
+
           return trace;
-        } 
+        }
         else if (error.sourceURL && error.line) {
           return [this.__fileNameToClassName(error.sourceURL) + ":" + error.line];
         }

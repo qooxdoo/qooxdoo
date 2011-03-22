@@ -154,8 +154,8 @@ qx.Class.define("qx.test.Xml",
       // Older versions of Opera don't support XPathEvaluate.
       // TODO: Define XPathEvaluate as a requirement for this test once the
       // feature described in bug #1994 has been implemented.
-      else if (qx.core.Environment.get("engine.name") == "opera" && 
-        parseFloat(qx.core.Environment.get("engine.version")) < 9.5) 
+      else if (qx.core.Environment.get("engine.name") == "opera" &&
+        parseFloat(qx.core.Environment.get("engine.version")) < 9.5)
       {
         return true;
       }
@@ -227,7 +227,7 @@ qx.Class.define("qx.test.Xml",
         this.assertEquals(namespaceURI, node.getAttributeNode("qxid").namespaceURI);
       }
     },
-    
+
     /**
      * TODOC
      *

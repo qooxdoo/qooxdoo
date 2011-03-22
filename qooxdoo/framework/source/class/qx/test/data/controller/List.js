@@ -1058,7 +1058,7 @@ qx.Class.define("qx.test.data.controller.List",
       // select the first item
       this.__list.setSelection([selectables[0]]);
       // Workaround for Opera's asynchronous scrolling behavior, see bug #3613.
-      if (qx.core.Environment.get("engine.name") == "opera" && 
+      if (qx.core.Environment.get("engine.name") == "opera" &&
         parseFloat(qx.core.Environment.get("engine.version")) <= 9.6) {
         qx.event.Timer.once(function() {
           // scroll a bit down (scrollY is 40)
@@ -1095,7 +1095,7 @@ qx.Class.define("qx.test.data.controller.List",
       // select the first item
       this.__list.setSelection([selectables[0]]);
       // Workaround for Opera's asynchronous scrolling behavior, see bug #3613.
-      if (qx.core.Environment.get("engine.name") == "opera" && 
+      if (qx.core.Environment.get("engine.name") == "opera" &&
         parseFloat(qx.core.Environment.get("engine.version")) <= 9.6) {
         qx.event.Timer.once(function() {
           // scroll a bit down (scrollY is 40)

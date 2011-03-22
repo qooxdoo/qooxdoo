@@ -20,7 +20,7 @@
 qx.Class.define("simulator.reporter.Application", {
 
   extend : simulator.Application,
-  
+
   members :
   {
     main : function()
@@ -28,17 +28,17 @@ qx.Class.define("simulator.reporter.Application", {
       if (window.arguments) {
         this._argumentsToSettings(window.arguments);
       }
-      
+
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
-      
+
       var reportServer = qx.core.Environment.get("simulator.reportServer");
       simulator.reporter.Reporter.SERVER_URL = reportServer;
       qx.log.Logger.clear();
       qx.log.Logger.register(simulator.reporter.Reporter);
-      
+
       this.runner = new simulator.TestRunner();
       this.runner.runTests();
-      
+
       qx.log.Logger.clear();
       qx.log.Logger.unregister(simulator.reporter.Reporter);
     }

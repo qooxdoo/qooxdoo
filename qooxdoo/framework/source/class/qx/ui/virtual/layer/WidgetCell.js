@@ -70,11 +70,11 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
        init: false
      }
    },
-   
+
   events :
   {
     /**
-     * Is fired when the {@link #_fullUpdate} or the 
+     * Is fired when the {@link #_fullUpdate} or the
      * {@link #_updateLayerWindow} is finished.
      */
     updated : "qx.event.type.Event"
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         top += rowSizes[y];
         left = 0;
       }
-      
+
       this.fireEvent("updated");
     },
 
@@ -330,7 +330,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         top += rowSizes[y];
         left = 0;
       }
-      
+
       this.fireEvent("updated");
     }
   },

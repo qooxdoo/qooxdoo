@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.List", 
+qx.Class.define("qx.test.ui.form.List",
 {
   extend : qx.test.ui.LayoutTestCase,
 
@@ -25,7 +25,7 @@ qx.Class.define("qx.test.ui.form.List",
   {
     __list : null,
 
-    setUp : function() 
+    setUp : function()
     {
       var list = this.__list = new qx.ui.form.List();
       var items = ["AAA", "BBB", "CCC"];
@@ -61,7 +61,7 @@ qx.Class.define("qx.test.ui.form.List",
       this.assertInstance(container, qx.ui.container.Composite, "Wrong return value of '_createListItemContainer'");
     },
 
-    tearDown : function() 
+    tearDown : function()
     {
       this.__list.destroy();
     }

@@ -29,7 +29,7 @@ qx.Class.define("qx.bom.media.Audio",
   extend : qx.bom.media.Abstract,
 
   /**
-   * @param source {String} the source url to the sound file. 
+   * @param source {String} the source url to the sound file.
    */
   construct : function(source)
   {
@@ -44,7 +44,7 @@ qx.Class.define("qx.bom.media.Audio",
 
     /**
      * Whether the browser can play ogg format.
-     * 
+     *
      * @return {Boolean}
      */
     canPlayOgg : function()
@@ -55,7 +55,7 @@ qx.Class.define("qx.bom.media.Audio",
 
     /**
      * Whether the browser can play mp3 format.
-     * 
+     *
      * @return {Boolean}
      */
     canPlayMp3 : function()
@@ -66,7 +66,7 @@ qx.Class.define("qx.bom.media.Audio",
 
     /**
      * Whether the browser can play wave format.
-     * 
+     *
      * @return {Boolean}
      */
     canPlayWav : function()
@@ -77,7 +77,7 @@ qx.Class.define("qx.bom.media.Audio",
 
     /**
      * Whether the browser can play au format.
-     * 
+     *
      * @return {Boolean}
      */
     canPlayAu : function()
@@ -88,7 +88,7 @@ qx.Class.define("qx.bom.media.Audio",
 
     /**
      * Whether the browser can play aif format.
-     * 
+     *
      * @return {Boolean}
      */
     canPlayAif : function()

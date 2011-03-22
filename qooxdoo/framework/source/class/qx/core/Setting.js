@@ -47,9 +47,9 @@
  * * Timeout of the image preloader
  * * The init component (graphical or non-graphical)
  * * Different debugging options for json, remote io, etc.
- * 
+ *
  * You can find <a href="http://manual.qooxdoo.org/1.4/pages/core/settings.html#predefined-settings">predefined settings here</a>.
- * 
+ *
  * This list shows you some of your possibilities.
  *
  * *Usage*
@@ -64,7 +64,7 @@
  * map <code>qxsettings</code> are imported. This map can also created
  * by hand and should be defined before loading qooxdoo. After the import
  * the settings system deletes the map.
- * 
+ *
  * @deprecated since 1.4: Please use qx.core.Environment instead.
  */
 qx.Bootstrap.define("qx.core.Setting",
@@ -80,9 +80,9 @@ qx.Bootstrap.define("qx.core.Setting",
      *
      * @param key {String} The key to store the value under
      * @param defaultValue {String|Boolean|Number} Primitive default value for the new setting
-     * 
+     *
      * @deprecated since 1.4: Please use qx.core.Environment instead.
-     * 
+     *
      * @throws an exception if the setting is already defined (overwriting is not allowed at all)
      */
     define : function(key, defaultValue)
@@ -93,19 +93,19 @@ qx.Bootstrap.define("qx.core.Setting",
           "Please use qx.core.Environment.add() instead."
         );
       }
-            
+
       this.defineDeprecated(key, defaultValue);
     },
 
 
     /**
      * Special method for deprecation the settings.
-     * 
+     *
      * @param key {String} The key to store the value under
      * @param defaultValue {String|Boolean|Number} Primitive default value for the new setting
-     * 
+     *
      * @deprecated since 1.4: Please use qx.core.Environment instead.
-     * 
+     *
      * @throws an exception if the setting is already defined (overwriting is not allowed at all)
      */
     defineDeprecated : function(key, defaultValue)
@@ -130,7 +130,7 @@ qx.Bootstrap.define("qx.core.Setting",
      * @param key {String} The key where the data is stored under
      * @return {String|Boolean|Number} The primitive value stored for the given setting
      * @throws an exception is the setting does not exist or the default value was not assigned
-     * 
+     *
      * @deprecated since 1.4: Please use qx.core.Environment instead.
      */
     get : function(key)
@@ -140,7 +140,7 @@ qx.Bootstrap.define("qx.core.Setting",
           "The method 'qx.core.Setting.get' is deprecated: " +
           "Please use qx.core.Environment.get() instead."
         );
-      }      
+      }
       var cache = this.__settings[key];
 
       if (cache === undefined) {
@@ -161,7 +161,7 @@ qx.Bootstrap.define("qx.core.Setting",
      * @internal Only to be used in unit tests.
      * @param key {String} The setting name
      * @param value {var} The new setting's value
-     * 
+     *
      * @deprecated since 1.4: Please use qx.core.Environment instead.
      */
      set : function(key, value) {
@@ -182,7 +182,7 @@ qx.Bootstrap.define("qx.core.Setting",
      * @internal Only to be used in unit tests.
      * @param key {String} The setting name
      * @param value {var} The new setting's value
-     * 
+     *
      * @deprecated since 1.4: Please use qx.core.Environment instead.
      */
     setDeprecated : function(key, value)
@@ -204,7 +204,7 @@ qx.Bootstrap.define("qx.core.Setting",
      *
      * @return {void}
      * @throws an exception if a setting definition is in a wrong format
-     * 
+     *
      * @deprecated since 1.4: Please use qx.core.Environment instead.
      */
     __init : function()
@@ -229,7 +229,7 @@ qx.Bootstrap.define("qx.core.Setting",
     /**
      * Load settings from URL parameters if the setting <code>"qx.allowUrlSettings"</code>
      * is set to true.
-     * 
+     *
      * @deprecated since 1.4: Please use qx.core.Environment instead.
      */
     __loadUrlSettings : function()
@@ -249,7 +249,7 @@ qx.Bootstrap.define("qx.core.Setting",
 
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           qx.Bootstrap.warn(
-            "URL settings are deprecated. Please use URL environment " + 
+            "URL settings are deprecated. Please use URL environment " +
             "variables instead. (qxsetting --> qxenv)"
           );
         }

@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.toolbar.Part",
         } else if (i == 0 && i == children.length - 1) {
           children[i].removeState("left");
           children[i].removeState("middle");
-          children[i].removeState("right");          
+          children[i].removeState("right");
         } else {
           children[i].addState("middle");
           children[i].removeState("right");

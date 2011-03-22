@@ -595,8 +595,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertTrue(c0.isDisposed(), "array item");
       this.assertTrue(c1.isDisposed(), "array item");
     },
-    
-    
+
+
     testValidIdentifier: function() {
       // its a debug warning so only check on debug
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -623,7 +623,7 @@ qx.Class.define("qx.test.data.marshal.Json",
           // just check if the creation worked
           qx.data.marshal.Json.createModel(data).dispose();
         }, null, "The key '§AFFE' is not a valid JavaScript identifier.", "4");
-        
+
         data = {"ja!" : 1};
         this.assertException(function() {
           // just check if the creation worked

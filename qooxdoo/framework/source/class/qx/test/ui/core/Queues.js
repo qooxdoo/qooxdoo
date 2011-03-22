@@ -16,11 +16,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.core.Queues", 
+qx.Class.define("qx.test.ui.core.Queues",
 {
   extend : qx.dev.unit.TestCase,
   include : qx.dev.unit.MMock,
-  
+
   members :
   {
     __widget1 : null,
@@ -32,7 +32,7 @@ qx.Class.define("qx.test.ui.core.Queues",
     setUp : function() {
       // ensure an empty dispose queue befor starting the test
       qx.ui.core.queue.Manager.flush();
-      
+
       this.__widget1 = new qx.ui.core.Widget();
       this.__widget1.$$hash = 10e5;
       this.__widget2 = new qx.ui.core.Widget();

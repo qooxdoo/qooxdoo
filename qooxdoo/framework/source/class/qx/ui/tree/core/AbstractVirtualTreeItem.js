@@ -13,7 +13,7 @@ qx.Class.define("qx.ui.tree.core.AbstractVirtualTreeItem",
     if (label != null) {
       this.setLabel(label);
     }
-    
+
     this._setLayout(new qx.ui.layout.HBox());
     this._addWidgets();
   },
@@ -29,7 +29,7 @@ qx.Class.define("qx.ui.tree.core.AbstractVirtualTreeItem",
       init : 19
     },
 
-    
+
     icon :
     {
       check : "String",
@@ -38,8 +38,8 @@ qx.Class.define("qx.ui.tree.core.AbstractVirtualTreeItem",
       nullable : true,
       themeable : true
     },
-    
-    
+
+
     label :
     {
       check : "String",
@@ -53,26 +53,26 @@ qx.Class.define("qx.ui.tree.core.AbstractVirtualTreeItem",
   members :
   {
     __iconAdded : null,
-    
-    
+
+
     __labelAdded : null,
-    
-    
+
+
     _spacer : null,
 
-    
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
     ---------------------------------------------------------------------------
     */
 
-    
+
     addWidget : function(widget, options) {
       this._add(widget, options);
     },
-    
-    
+
+
     addSpacer : function()
     {
       if (!this._spacer) {
@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.tree.core.AbstractVirtualTreeItem",
       this._add(this._spacer);
     },
 
-    
+
     addIcon : function()
     {
       var icon = this.getChildControl("icon");
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.tree.core.AbstractVirtualTreeItem",
       this.__iconAdded = true;
     },
 
-    
+
     addLabel : function(text)
     {
       var label = this.getChildControl("label");
@@ -115,21 +115,21 @@ qx.Class.define("qx.ui.tree.core.AbstractVirtualTreeItem",
       this._add(label);
       this.__labelAdded = true;
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       INTERNAL API
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     // overridden
     syncWidget : function() {
       this._updateIndent();
     },
-    
-    
+
+
     // overridden
     _createChildControlImpl : function(id, hash)
     {
@@ -148,13 +148,13 @@ qx.Class.define("qx.ui.tree.core.AbstractVirtualTreeItem",
 
       return control || this.base(arguments, id, hash);
     },
-    
-    
+
+
     _addWidgets : function() {
       throw new Error("Abstract method call.");
     },
 
-    
+
     _updateIndent : function() {
       throw new Error("Abstract method call.");
     },
@@ -163,15 +163,15 @@ qx.Class.define("qx.ui.tree.core.AbstractVirtualTreeItem",
     _getLevel : function() {
       return this.getUserData("cell.level");
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY METHODS
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     // property apply
     _applyLabel : function(value, old)
     {
@@ -181,7 +181,7 @@ qx.Class.define("qx.ui.tree.core.AbstractVirtualTreeItem",
       }
     },
 
-    
+
     // property apply
     _applyIndent : function(value, old) {
       this._updateIndent();
@@ -198,13 +198,13 @@ qx.Class.define("qx.ui.tree.core.AbstractVirtualTreeItem",
     }
   },
 
-  
+
   destruct : function()
   {
     if (this._spacer != null) {
       this._spacer.dispose();
     }
-    
+
     this._spacer = null;
   }
 });

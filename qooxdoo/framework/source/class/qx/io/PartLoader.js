@@ -112,7 +112,7 @@ qx.Class.define("qx.io.PartLoader",
       return this.getParts()[name];
     },
 
-    
+
     /**
      * Checks if a part with the given name is available.
      * @param name {String} Name of the part as defined in the config file at
@@ -123,7 +123,7 @@ qx.Class.define("qx.io.PartLoader",
       return this.getPart(name) !== undefined;
     },
 
-    
+
     /**
      * Returns a map of all known parts.
      * @return {Map} Map containig all parts.

@@ -66,7 +66,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
       if (!window.iScroll)
       {
         var path = qx.util.ResourceManager.getInstance().toUri("qx/mobile/js/iscroll.js");
-        if (qx.core.Variant.isSet("qx.debug", "on")) 
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           path += "?" + new Date().getTime();
         }
@@ -109,7 +109,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
       {
         this._setScroller(this.__createScrollerInstance());
       } else {
-        if (qx.core.Variant.isSet("qx.debug", "on")) 
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           this.error("Could not load iScroll");
         }

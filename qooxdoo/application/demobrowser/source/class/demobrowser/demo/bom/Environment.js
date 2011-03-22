@@ -40,25 +40,25 @@ qx.Class.define("demobrowser.demo.bom.Environment",
       var checks = qx.core.Environment._checks;
       var keys = qx.lang.Object.getKeys(checks);
       keys.sort();
-      
+
       var lastPrefix = "";
       for (var i = 0; i < keys.length; i++)
       {
         var key = keys[i];
-        
+
         var prefix = key.split(".")[0];
-        
+
         if (prefix != lastPrefix) {
           lastPrefix = prefix;
           output.add("<tr><td colspan='2'>&nbsp;</td></tr>");
           output.add("<tr><td colspan='2'><b>" + prefix + "</b></td></tr>");
         }
-        
+
         output.add("<tr><td>", key, "</td><td>",
           qx.core.Environment.get(key), "</td></tr>");
       }
 
-      
+
       // ASYNC CHECKS
 
       output.add("<tr><td colspan='2'><h2>Asynchronous checks</h2></td></tr>");
@@ -67,7 +67,7 @@ qx.Class.define("demobrowser.demo.bom.Environment",
       checks = qx.core.Environment._asyncChecks;
       var numberOfChecks = qx.lang.Object.getLength(checks);
       keys = qx.lang.Object.getKeys(checks);
-      
+
       for (var i = 0; i < keys.length; i++)
       {
         var key = keys[i];

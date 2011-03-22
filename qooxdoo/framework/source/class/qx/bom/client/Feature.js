@@ -35,32 +35,32 @@ qx.Bootstrap.define("qx.bom.client.Feature",
 
   statics :
   {
-    /** 
-     * {BOOLEAN} Whether the client supports the "pointer-events" CSS property 
+    /**
+     * {BOOLEAN} Whether the client supports the "pointer-events" CSS property
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     CSS_POINTER_EVENTS : false,
-    
-    /** 
-     * {BOOLEAN} Whether the client supports the "text-overflow" CSS property 
+
+    /**
+     * {BOOLEAN} Whether the client supports the "text-overflow" CSS property
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     CSS_TEXT_OVERFLOW : false,
 
-    /** 
-     * {BOOLEAN} Whether the client supports placeholders for input fields 
+    /**
+     * {BOOLEAN} Whether the client supports placeholders for input fields
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     PLACEHOLDER : false,
 
-    /** 
-     * {Boolean} Flag to detect if the current document is rendered in standard mode 
+    /**
+     * {Boolean} Flag to detect if the current document is rendered in standard mode
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     STANDARD_MODE : false,
 
-    /** 
-     * {Boolean} Flag to detect if the current document is rendered in quirks mode 
+    /**
+     * {Boolean} Flag to detect if the current document is rendered in quirks mode
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     QUIRKS_MODE : false,
@@ -74,76 +74,76 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       qx.Bootstrap.getClass(document.documentElement.classList) === "DOMTokenList"
     ),
 
-    /** 
-     * {Boolean} Flag to detect if the client runs in SSL mode 
+    /**
+     * {Boolean} Flag to detect if the client runs in SSL mode
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     SSL : window.location.protocol === "https:",
-    
-    /** 
-     * {Boolean} Flag to detect if is a Gears client 
+
+    /**
+     * {Boolean} Flag to detect if is a Gears client
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     GEARS : !!(window.google && window.google.gears),
 
-    /** 
-     * {Boolean} Flag to detect if the client uses the W3C box model to 
-     * render the current document 
+    /**
+     * {Boolean} Flag to detect if the client uses the W3C box model to
+     * render the current document
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     CONTENT_BOX : false,
 
-    /** 
-     * {Boolean} Flag to detect if the client uses the IE box model to render 
-     * the current document 
+    /**
+     * {Boolean} Flag to detect if the client uses the IE box model to render
+     * the current document
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     BORDER_BOX : false,
 
-    /** 
-     * {Boolean} Flag to detect if the client supports SVG graphics 
+    /**
+     * {Boolean} Flag to detect if the client supports SVG graphics
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     SVG : false,
 
-    /** 
-     * {Boolean} Flag to detect if the client supports Canvas graphics 
+    /**
+     * {Boolean} Flag to detect if the client supports Canvas graphics
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     CANVAS : !!window.CanvasRenderingContext2D,
 
-    /** 
-     * {Boolean} Flag to detect if the client supports VML graphics 
+    /**
+     * {Boolean} Flag to detect if the client supports VML graphics
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     VML : false,
 
-    /** 
-     * {Boolean} Flag to detect if the client supports XPATH queries 
+    /**
+     * {Boolean} Flag to detect if the client supports XPATH queries
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     XPATH : !!document.evaluate,
 
-    /** 
-     * {BOOLEAN} Whether the client supports XUL 
+    /**
+     * {BOOLEAN} Whether the client supports XUL
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     XUL : false,
 
-    /** 
-     * {Boolean} Flag to detect if is an AIR client 
+    /**
+     * {Boolean} Flag to detect if is an AIR client
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     AIR : navigator.userAgent.indexOf("adobeair") !== -1,
 
-    /** 
-     * {BOOLEAN} Whether the device is touch enabled. 
+    /**
+     * {BOOLEAN} Whether the device is touch enabled.
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
     TOUCH : false,
 
-    /** 
-     * {BOOLEAN} Whether the object type supports the 
+    /**
+     * {BOOLEAN} Whether the object type supports the
      * <code>__count__</code> property.
      * @deprecated since 1.4: Please use qx.core.Environment.get
      */
@@ -162,7 +162,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     statics.PLACEHOLDER = qx.bom.client.Css.getPlaceholder();
     statics.CSS_TEXT_OVERFLOW = qx.bom.client.Css.getTextOverflow();
     statics.CSS_POINTER_EVENTS = qx.bom.client.Event.getPointer();
-    
+
     statics.QUIRKS_MODE = qx.bom.client.Browser.getQuirksMode();
     statics.STANDARD_MODE = !statics.QUIRKS_MODE;
 
@@ -172,13 +172,13 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     statics.SVG = qx.bom.client.Html.getSvg();
     statics.VML = qx.bom.client.Html.getVml();
     statics.XUL = qx.bom.client.Html.getXul();
-    
+
     statics.TOUCH = qx.bom.client.Event.getTouch();
-    
-    // add @deprecation warnings    
+
+    // add @deprecation warnings
     var keys = ["STANDARD_MODE","QUIRKS_MODE","CONTENT_BOX","BORDER_BOX", "SVG",
-      "CANVAS", "VML", "XPATH", "AIR", "GEARS", "SSL", "ECMA_OBJECT_COUNT", 
-      "CSS_POINTER_EVENTS", "XUL", "CSS_TEXT_OVERFLOW", "HTML5_CLASSLIST", 
+      "CANVAS", "VML", "XPATH", "AIR", "GEARS", "SSL", "ECMA_OBJECT_COUNT",
+      "CSS_POINTER_EVENTS", "XUL", "CSS_TEXT_OVERFLOW", "HTML5_CLASSLIST",
       "TOUCH", "PLACEHOLDER"];
     for (var i = 0; i < keys.length; i++) {
       // check if __defineGetter__ is available
@@ -187,7 +187,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
         statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
           qx.Bootstrap.warn(
             "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-            "Please check the API documentation of qx.core.Environemt.\n" + 
+            "Please check the API documentation of qx.core.Environemt.\n" +
             "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
           );
           return c;

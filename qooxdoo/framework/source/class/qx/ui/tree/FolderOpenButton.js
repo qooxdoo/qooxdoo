@@ -19,7 +19,7 @@
 
 /**
  * The small folder open/close button.
- * 
+ *
  * @deprecated Since 1.4 Please use 'qx.ui.tree.core.FolderOpenButton' instead.
  */
 qx.Class.define("qx.ui.tree.FolderOpenButton",

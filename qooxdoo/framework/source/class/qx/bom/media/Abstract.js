@@ -118,7 +118,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Checks if the media is paused or not.
-     * 
+     *
      * @return {Boolean}
      */
     isPaused: function()
@@ -129,7 +129,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Checks if the media is ended or not.
-     * 
+     *
      * @return {Boolean}
      */
     isEnded: function()
@@ -140,7 +140,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Sets the id of the media.
-     * 
+     *
      * @param id {String} The new value of id
      */
     setId: function(id)
@@ -159,7 +159,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Whether the browser can play the file format.
-     * 
+     *
      * @param type {String} the file format
      * @return {Boolean}
      */
@@ -170,9 +170,9 @@ qx.Class.define("qx.bom.media.Abstract",
 
 
     /**
-     * Sets the current playback volume, as a number in the range 0.0 to 1.0, 
+     * Sets the current playback volume, as a number in the range 0.0 to 1.0,
      * where 0.0 is the quietest and 1.0 the loudest.
-     * 
+     *
      * @param volume {Number} 0.0 - 1.0
      */
     setVolume: function(volume)
@@ -182,9 +182,9 @@ qx.Class.define("qx.bom.media.Abstract",
 
 
     /**
-     * Gets the current playback volume, as a number in the range 0.0 to 1.0, 
+     * Gets the current playback volume, as a number in the range 0.0 to 1.0,
      * where 0.0 is the quietest and 1.0 the loudest.
-     * 
+     *
      * @return {Number} 0.0 - 1.0
      */
     getVolume: function()
@@ -195,7 +195,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Sets the media element to mute.
-     * 
+     *
      * @param muted {Boolean} new value for mute
      */
     setMuted: function(muted)
@@ -206,7 +206,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Checks if the media element is muted or not
-     * 
+     *
      * @return {Boolean}
      */
     isMuted: function()
@@ -217,7 +217,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Gets the duration of the loaded media file.
-     * 
+     *
      * @return {Number}
      */
     getDuration: function()
@@ -228,7 +228,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Gets current time of the playback.
-     * 
+     *
      * @return {Number}
      */
     getCurrentTime: function()
@@ -238,8 +238,8 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Sets the source url of the media file.
-     *  
-     * @param source {String} the source url to the media file. 
+     *
+     * @param source {String} the source url to the media file.
      */
     setSource: function(source)
     {
@@ -249,8 +249,8 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Gets the source url of the media file.
-     *  
-     * @return {String} the source url to the media file. 
+     *
+     * @return {String} the source url to the media file.
      */
     getSource: function()
     {
@@ -260,8 +260,8 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Checks if the media element shows its controls.
-     *  
-     * @return {Boolean} 
+     *
+     * @return {Boolean}
      */
     hasControls: function()
     {
@@ -270,7 +270,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
 
     /**
-     * Shows the controls of the media element. 
+     * Shows the controls of the media element.
      */
     showControls: function()
     {
@@ -279,7 +279,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
 
     /**
-     * Hides the controls of the media element. 
+     * Hides the controls of the media element.
      */
     hideControls: function()
     {
@@ -289,7 +289,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Plays the media directly when it is loaded / the page is loaded.
-     * 
+     *
      *  @param autoplay {Boolean} To autoplay or not
      */
     setAutoplay: function(autoplay)
@@ -300,7 +300,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Whether the media is played directly when it is loaded / the page is loaded.
-     * 
+     *
      *  @return {Boolean}
      */
     getAutoplay: function()
@@ -310,17 +310,17 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Hints how much buffering the media resource will likely need.
-     * 
+     *
      * @param preload {String} One of the following values:
-     *  "none": Hints to the user agent that either the author does not expect 
-     *  the user to need the media resource, or that the server wants to minimise 
-     *  unnecessary traffic. 
-     *  "metadata": Hints to the user agent that the author does not expect the 
-     *  user to need the media resource, but that fetching the resource metadata 
-     *  (dimensions, first frame, track list, duration, etc) is reasonable. 
-     *  "auto": Hints to the user agent that the user agent can put the user's needs 
-     *  first without risk to the server, up to and including optimistically 
-     *  downloading the entire resource. 
+     *  "none": Hints to the user agent that either the author does not expect
+     *  the user to need the media resource, or that the server wants to minimise
+     *  unnecessary traffic.
+     *  "metadata": Hints to the user agent that the author does not expect the
+     *  user to need the media resource, but that fetching the resource metadata
+     *  (dimensions, first frame, track list, duration, etc) is reasonable.
+     *  "auto": Hints to the user agent that the user agent can put the user's needs
+     *  first without risk to the server, up to and including optimistically
+     *  downloading the entire resource.
      */
     setPreload: function(preload)
     {
@@ -330,7 +330,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Returns how much buffering the media resource will likely need.
-     * 
+     *
      * @return {String} hint how much buffering the media resource needs
      */
     getPreload: function()

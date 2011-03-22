@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
       this.__inAnimation = true;
       // TODO -> move animation code to an animation class
       this.fireDataEvent("animationStart", [this.__fromPage, this.__toPage]);
-      var fromElement = this.__fromPage.getContainerElement(); 
+      var fromElement = this.__fromPage.getContainerElement();
       var toElement = this.__toPage.getContainerElement();
 
       var fromCssClasses = this.__getAnimationClasses("out");
@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
     {
       if (this.__inAnimation)
       {
-        var fromElement = this.__fromPage.getContainerElement(); 
+        var fromElement = this.__fromPage.getContainerElement();
         var toElement = this.__toPage.getContainerElement();
 
         qx.event.Registration.removeListener(fromElement, "animationEnd", this._onAnimationEnd, this);

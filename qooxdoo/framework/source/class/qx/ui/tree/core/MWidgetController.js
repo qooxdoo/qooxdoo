@@ -20,7 +20,7 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * The mixin controls the binding between model and item.
  *
  * @internal
@@ -54,8 +54,8 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
       check: "String",
       nullable: true
     },
-    
-    
+
+
     /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
@@ -65,7 +65,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
       nullable: true
     },
 
-    
+
     /**
      * A map containing the options for the icon binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
@@ -74,8 +74,8 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
     {
       nullable: true
     },
-    
-    
+
+
     /**
      * The name of the property, where the children are stored in the model.
      * Instead of the {@link #labelPath} must the child property a direct
@@ -86,7 +86,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
       check: "String",
       nullable: true
     },
-    
+
 
     /**
      * Delegation object, which can have one or more functions defined by the
@@ -108,13 +108,13 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
 
 
     /**
-     * Helper-Method for binding the default properties from the model to the 
+     * Helper-Method for binding the default properties from the model to the
      * target widget. The used default properties  depends on the passed item.
      *
-     * This method should only be called in the {@link IVirtualTreeDelegate#bindItem} 
+     * This method should only be called in the {@link IVirtualTreeDelegate#bindItem}
      * function implemented by the {@link #delegate} property.
      *
-     * @param item {qx.ui.core.Widget} The internally created and used node or 
+     * @param item {qx.ui.core.Widget} The internally created and used node or
      *   leaf.
      * @param index {Integer} The index of the item (node or leaf).
      */
@@ -122,11 +122,11 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
     {
       // bind model first
       this.bindProperty("", "model", null, item, index);
-      
+
       this.bindProperty(
         this.getLabelPath(), "label", this.getLabelOptions(), item, index
       );
-      
+
       try
       {
         this.bindProperty(
@@ -140,7 +140,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
       } catch(ex) {
         item.setAppearance("virtual-tree-file");
       }
-      
+
       if (this.getIconPath() != null)
       {
         this.bindProperty(
@@ -153,8 +153,8 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
     /**
      * Helper-Method for binding a given property from the model to the target
      * widget.
-     * 
-     * This method should only be called in the {@link IVirtualTreeDelegate#bindItem} 
+     *
+     * This method should only be called in the {@link IVirtualTreeDelegate#bindItem}
      * function implemented by the {@link #delegate} property.
      *
      * @param sourcePath {String | null} The path to the property in the model.
@@ -206,8 +206,8 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
         this._removeBindingsFrom(item);
       }
     },
-    
-    
+
+
     /**
      * Sets up the binding for the given item and index.
      *
@@ -217,7 +217,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
     _bindItem : function(item, index)
     {
       var bindItem = qx.util.Delegate.getMethod(this.getDelegate(), "bindItem");
-      
+
       if (bindItem != null) {
         bindItem(this, item, index);
       } else {
@@ -225,11 +225,11 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
       }
     },
 
-    
+
     /**
      * Removes the binding of the given item.
      *
-     * @param item {qx.ui.core.Widget} The item which the binding should be 
+     * @param item {qx.ui.core.Widget} The item which the binding should be
      *   removed.
      */
     _removeBindingsFrom : function(item)

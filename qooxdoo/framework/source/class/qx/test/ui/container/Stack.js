@@ -60,7 +60,7 @@ qx.Class.define("qx.test.ui.container.Stack",
 
 
     /**
-     * if stack has a selected child, 
+     * if stack has a selected child,
      * the new added one should be excluded/hide but not selected.
      */
     testAddAndDontSelectChildInADynamicStack: function() {
@@ -73,7 +73,7 @@ qx.Class.define("qx.test.ui.container.Stack",
 
 
     /**
-     * if stack has a selected child, 
+     * if stack has a selected child,
      * the new added one should be excluded/hide but not selected.
      */
     testAddAndDontSelectChildInANonDynamicStack: function() {

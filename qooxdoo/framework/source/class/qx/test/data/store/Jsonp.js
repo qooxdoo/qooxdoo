@@ -148,9 +148,9 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
       this.wait();
     },
-    
+
     testErrorEvent : function() {
-      // do not test that for IE and Opera because of the missing 
+      // do not test that for IE and Opera because of the missing
       // error handler for script tags
       if (
         !(qx.core.Environment.get("browser.name") == "ie") &&
@@ -159,14 +159,14 @@ qx.Class.define("qx.test.data.store.Jsonp",
         this.__store.addListener("error", function() {
           this.resume(function() {}, this);
         }, this);
-        
+
         var self = this;
         window.setTimeout(function(){
           self.__store.setUrl("affe");
         }, 100);
-        
+
         this.wait();
       }
-    }    
+    }
   }
 });

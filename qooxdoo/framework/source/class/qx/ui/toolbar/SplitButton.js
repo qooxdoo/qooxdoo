@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.toolbar.SplitButton",
       middle : true,
       right : true
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API

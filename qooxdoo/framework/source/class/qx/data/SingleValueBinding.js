@@ -26,10 +26,10 @@ qx.Class.define("qx.data.SingleValueBinding",
 
   statics :
   {
-    /** 
+    /**
      * Static debug flag to enable log messages on every invoke of a listener.
-     * 
-     * @depreacted since 1.4: Plesae use 
+     *
+     * @depreacted since 1.4: Plesae use
      *   qx.core.Environment.get("qx.debug.databinding") instaad.
      */
     DEBUG_ON: false,
@@ -128,7 +128,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       var eventNames = [];
       var source = sourceObject;
 
-      // add a try catch to make it possible to remove the listeners of the 
+      // add a try catch to make it possible to remove the listeners of the
       // chain in case the loop breaks after some listeners already added.
       try {
         // go through all property names
@@ -140,10 +140,10 @@ qx.Class.define("qx.data.SingleValueBinding",
           } else {
             eventNames.push(this.__getEventNameForProperty(source, propertyNames[i]));
           }
-        
+
           // save the current source
           sources[i] = source;
-        
+
           // check for the last property
           if (i == propertyNames.length -1) {
             // if it is an array, set the initial value and bind the event
@@ -152,10 +152,10 @@ qx.Class.define("qx.data.SingleValueBinding",
               var itemIndex = arrayIndexValues[i] === "last" ?
                 source.length - 1 : arrayIndexValues[i];
               var currentValue = source.getItem(itemIndex);
-        
+
               // set the initial value
               this.__setInitialValue(currentValue, targetObject, targetPropertyChain, options, sourceObject);
-        
+
               // bind the event
               listenerIds[i] = this.__bindEventToProperty(
                 source, eventNames[i], targetObject, targetPropertyChain, options, arrayIndexValues[i]
@@ -171,10 +171,10 @@ qx.Class.define("qx.data.SingleValueBinding",
                 source, eventNames[i], targetObject, targetPropertyChain, options
               );
             }
-        
+
           // if its not the last property
           } else {
-        
+
             // create the contenxt for the listener
             var context = {
               index: i,
@@ -187,17 +187,17 @@ qx.Class.define("qx.data.SingleValueBinding",
               options: options,
               listeners: listeners
             };
-        
+
             // create a listener
             var listener = qx.lang.Function.bind(this.__chainListener, this, context);
-        
+
             // store the listener for further processing
             listeners.push(listener);
-        
+
             // add the chaining listener
             listenerIds[i] = source.addListener(eventNames[i], listener);
           }
-        
+
           // get and store the next source
           if (source["get" + qx.lang.String.firstUp(propertyNames[i])] == null) {
             source = null;
@@ -229,7 +229,7 @@ qx.Class.define("qx.data.SingleValueBinding",
             targets[i].removeListenerById(targetIds[i]);
           }
         }
-      
+
         throw ex;
       }
 
@@ -511,12 +511,12 @@ qx.Class.define("qx.data.SingleValueBinding",
 
     /**
      * Internal helper for getting the current set value at the property chain.
-     * 
+     *
      * @param o {qx.core.Object} The source of the binding.
      * @param propertyChain {String} The property chain which represents
      *   the source property.
      * @return {var?undefined} Returns the set value if defined.
-     * 
+     *
      * @internal
      */
     getValueFromObject : function(o, propertyChain) {
@@ -551,8 +551,8 @@ qx.Class.define("qx.data.SingleValueBinding",
           value = source["get" + qx.lang.String.firstUp(lastProperty)]();
         }
       }
-      
-      return value;      
+
+      return value;
     },
 
 

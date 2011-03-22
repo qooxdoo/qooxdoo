@@ -28,10 +28,10 @@ qx.Theme.define("qx.theme.simple.Color",
     "background" : "white",
     "dark-blue" : "#5685D6",
     "light-background" : "#E0ECFF",
-    
+
     // backgrounds
-    "background-selected" : "#6694E3",    
-    "background-selected-dark" : "#5685D6",    
+    "background-selected" : "#6694E3",
+    "background-selected-dark" : "#5685D6",
     "background-disabled" : "#F7F7F7",
     "background-disabled-checked" : "#BBBBBB",
     "background-pane" : "#FAFBFE",
@@ -42,12 +42,12 @@ qx.Theme.define("qx.theme.simple.Color",
 
     // text colors
     "link" : "#24B",
-    
+
     // scrollbar
     "scrollbar-bright" : "#F1F1F1",
     "scrollbar-dark" : "#EBEBEB",
-    
-    // form 
+
+    // form
     "button" : "#E8F0E3",
     "button-border" : "#BBB",
     "button-border-hovered" : "#939393",
@@ -55,19 +55,19 @@ qx.Theme.define("qx.theme.simple.Color",
     "button-box-bright" : "#F9F9F9",
     "button-box-dark" : "#E3E3E3",
     "button-box-bright-pressed" : "#DDDDDD",
-    "button-box-dark-pressed" : "#F5F5F5",    
+    "button-box-dark-pressed" : "#F5F5F5",
     "border-lead" : "#888888",
 
     // window
     "window-border" : "#2E3A46",
     "window-border-inner" : "#9DCBFE",
-  
+
     // group box
     "white-box-border" : "#BCBCBC",
-    
+
     // shaddows
     "shadow" : "#666666",
-    
+
     // borders
     "border-light" : "#B7B7B7",
     "border-light-shadow" : "#686868",
@@ -88,7 +88,7 @@ qx.Theme.define("qx.theme.simple.Color",
     // table
     "table-header" : [ 242, 242, 242 ],
     "table-focus-indicator" : [ 179, 217, 255 ],
-    
+
     // used in table code
     "table-header-cell" : [ 235, 234, 219 ],
     "table-row-background-focused-selected" : [ 90, 138, 211 ],

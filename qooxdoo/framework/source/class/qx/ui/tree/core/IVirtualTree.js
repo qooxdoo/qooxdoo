@@ -19,8 +19,8 @@
 
 /**
  * EXPERIMENTAL!
- * 
- * Interface describes the methods which the {@link qx.ui.tree.provider.WidgetProvider} 
+ *
+ * Interface describes the methods which the {@link qx.ui.tree.provider.WidgetProvider}
  * uses for communication.
  */
 qx.Interface.define("qx.ui.tree.core.IVirtualTree",
@@ -81,7 +81,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
 
     /**
      * Return whether the node has visible children or not.
-     * 
+     *
      * @internal
      * @param node {qx.core.Object} Node to check.
      * @return {Boolean} <code>True</code> when the node has visible children,
@@ -116,10 +116,10 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
       this.assertArgumentsCount(arguments, 1, 1);
       this.assertInterface(node, qx.core.Object);
     },
-    
+
     /**
      * Returns the current selection.
-     * 
+     *
      * @return {qx.data.Arra} The current selected elements.
      */
     getSelection : function() {}

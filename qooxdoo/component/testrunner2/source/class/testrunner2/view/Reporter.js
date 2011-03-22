@@ -16,39 +16,39 @@
 
 /**
  * This view automatically runs all unit tests in the current suite and reports
- * failed tests by sending a HTTP request to the URL defined by the 
- * REPORT_SERVER macro. The data is contained in the _ScriptTransport_data 
- * parameter. It begins with 'unittest=', followed by a JSON-encoded map 
+ * failed tests by sending a HTTP request to the URL defined by the
+ * REPORT_SERVER macro. The data is contained in the _ScriptTransport_data
+ * parameter. It begins with 'unittest=', followed by a JSON-encoded map
  * containing the following string values:
- * 
+ *
  * testName : full name of the test method, e.g. qx.test.bom.Blocker:testOpacity<br/>
  * message : error message(s) of any exceptions thrown during test execution<br/>
  * autUri : URI of the unit test application<br/>
  * browserName : value of qx.core.Environment.get("browser.name")<br/>
  * browserVersion : value of qx.core.Environment.get("browser.version")<br/>
  * os : value of qx.core.Environment.get("os.name")
- * 
+ *
  */
 qx.Class.define("testrunner2.view.Reporter", {
 
   extend : testrunner2.view.Console,
-  
+
   construct : function()
   {
     this.base(arguments);
     this.__testResults = {};
     this.__reportServerUrl = qx.core.Environment.get("testrunner2.reportServer");
   },
-  
+
   members :
   {
     __testResults : null,
     __testPackages : null,
     __reportServerUrl : null,
-    
+
     _applyTestSuiteState : function(value, old)
     {
-      switch(value) 
+      switch(value)
       {
         case "loading":
           this.debug("Loading test suite")
@@ -69,12 +69,12 @@ qx.Class.define("testrunner2.view.Reporter", {
           break;
       }
     },
-    
+
     run : function()
     {
       this.fireEvent("runTests");
     },
-    
+
     autoRun : function()
     {
       var nextPackageName = this.__testPackages.shift();
@@ -86,7 +86,7 @@ qx.Class.define("testrunner2.view.Reporter", {
         this.run();
       }
     },
-    
+
     _applyTestModel : function(value, old)
     {
       if (!value) {
@@ -114,19 +114,19 @@ qx.Class.define("testrunner2.view.Reporter", {
         this.setStatus("finished");
       }
     },
-    
+
     _onTestChangeState : function(testResultData)
     {
       var testName = testResultData.getFullName();
       var state = testResultData.getState();
       var exceptions = testResultData.getExceptions();
-      
+
       //Update test results map
       if (!this.__testResults[testName]) {
-        this.__testResults[testName] = {};        
+        this.__testResults[testName] = {};
       }
       this.__testResults[testName].state = state;
-      
+
       var messages = [];
       if (exceptions) {
         for (var i=0,l=exceptions.length; i<l; i++) {
@@ -136,24 +136,24 @@ qx.Class.define("testrunner2.view.Reporter", {
         }
         this.__testResults[testName].messages = messages;
       }
-      
+
       var autUri = qx.bom.Iframe.queryCurrentUrl(this.getIframe());
       if (autUri.indexOf("?") > 0) {
         autUri = autUri.substring(0, autUri.indexOf("?"));
       }
-      
+
       if (this.__reportServerUrl) {
         var data = {
           testName : testName,
           message : messages.join("<br/>"),
           autUri : autUri
         };
-        
+
         this.reportResult(data);
       }
-      
+
     },
-    
+
     getUnsuccessfulResults : function()
     {
       var failedTests = {};
@@ -165,11 +165,11 @@ qx.Class.define("testrunner2.view.Reporter", {
       }
       return failedTests;
     },
-    
+
     /**
      * Adds environment information to a test result map and sends it to the
      * server.
-     * 
+     *
      * @param data {Map} Test result data
      */
     reportResult : function(data)
@@ -180,14 +180,14 @@ qx.Class.define("testrunner2.view.Reporter", {
       data["browserName"] = qx.core.Environment.get("browser.name");
       data["browserVersion"] = qx.core.Environment.get("browser.version");
       data["os"] = qx.core.Environment.get("os.name");
-      
+
       var jsonData = qx.lang.Json.stringify(data);
-      
+
       var req = new qx.io.remote.Request(this.__reportServerUrl, "GET");
       req.setData("unittest=" + jsonData);
       req.setCrossDomain(true);
       req.addListener("failed", function(ev) {
-        this.error("Request failed!"); 
+        this.error("Request failed!");
       }, this);
       req.addListener("timeout", function(ev) {
         this.error("Request timed out!");

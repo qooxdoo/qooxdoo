@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * The list item widget represents an list entry.
  */
 qx.Class.define("qx.ui.mobile.list.ListItem",
@@ -36,7 +36,7 @@ qx.Class.define("qx.ui.mobile.list.ListItem",
   },
 
 
-  properties : 
+  properties :
   {
     // overridden
     cssClass :
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.mobile.list.ListItem",
 
     // property apply
     _applyData : function(value, old) {
-      
+
     },
 
 

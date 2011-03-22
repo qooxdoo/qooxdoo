@@ -50,9 +50,9 @@ qx.Class.define("widgetbrowser.pages.Embed",
 
   members :
   {
-    
+
     __grid: null,
-    
+
     initWidgets: function()
     {
       var widgets = this._widgets;

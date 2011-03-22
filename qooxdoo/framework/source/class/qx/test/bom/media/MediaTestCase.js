@@ -108,7 +108,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     },
     */
 
-    /* 
+    /*
      * the assertEventFired doesn't work with none of Media events
      * althouth they seem to be sync events...
 

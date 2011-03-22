@@ -26,7 +26,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
   type : "abstract",
 
 
-  members: 
+  members:
   {
     _widget : null,
     __cachedProperties : null,
@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
     },
 
 
-    setLayoutProperties : function(widget, properties) 
+    setLayoutProperties : function(widget, properties)
     {
       var supportedChildLayoutProperties = this._getSupportedChildLayoutProperties();
       for (var property in properties) {
@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
     },
 
 
-    connectToWidget : function(widget) 
+    connectToWidget : function(widget)
     {
       if (this._widget) {
          this._widget.removeCssClass(this.getCssClass());
@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
           for (var property in this.__cachedProperties)
           {
             this.reset(property)
-            this.set(property, this.__cachedProperties[property]);  
+            this.set(property, this.__cachedProperties[property]);
           }
         }
       } else {

@@ -125,12 +125,12 @@ qx.Class.define("qx.ui.control.DateChooser",
      * {string} The format for the date year label at the top center.
      */
     MONTH_YEAR_FORMAT : qx.locale.Date.getDateTimeFormat("yyyyMMMM", "MMMM yyyy"),
-    
+
     /**
      * {string} The format for the weekday labels (the headers of the date table).
      */
     WEEKDAY_FORMAT : "EE",
-    
+
     /**
      * {string} The format for the week numbers (the labels of the left column).
      */

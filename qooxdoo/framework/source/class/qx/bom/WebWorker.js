@@ -22,10 +22,10 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * Web Workers allows us to run JavaScript in parallel on a web page, 
- * without blocking the user interface. A 'worker' is just another script 
- * file that will be loaded and executed in the background. 
- * 
+ * Web Workers allows us to run JavaScript in parallel on a web page,
+ * without blocking the user interface. A 'worker' is just another script
+ * file that will be loaded and executed in the background.
+ *
  * For more information see:
  * http://www.w3.org/TR/workers
  */
@@ -36,22 +36,22 @@ qx.Class.define("qx.bom.WebWorker",
 
   /**
    * Create a new instance.
-   * 
+   *
    * @param src {String} The path to worker as an URL
    */
   construct: function(src)
   {
     this.base(arguments);
     this._worker = new window.Worker(src);
-    
+
     this._handleMessageBound = qx.lang.Function.bind(this._handleMessage, this);
     this._handleErrorBound = qx.lang.Function.bind(this._handleError, this);
 
     qx.bom.Event.addNativeListener(this._worker, "message", this._handleMessageBound);
     qx.bom.Event.addNativeListener(this._worker, "error", this._handleErrorBound);
   },
-  
-  
+
+
   events :
   {
     /** Fired when worker sends a message */
@@ -69,7 +69,7 @@ qx.Class.define("qx.bom.WebWorker",
     _handleMessageBound : null,
 
 
-    /** 
+    /**
      * Send a message to the worker.
      * @param msg {String} the message
      */
@@ -78,16 +78,16 @@ qx.Class.define("qx.bom.WebWorker",
     },
 
 
-    /** 
+    /**
      * Message handler
      * @param e {object} message event
-     */ 
+     */
     _handleMessage: function(e) {
       this.fireDataEvent("message", e.data);
     },
 
 
-    /** 
+    /**
      * Error handler
      * @param e {object} error event
      */
@@ -103,7 +103,7 @@ qx.Class.define("qx.bom.WebWorker",
   {
     qx.bom.Event.removeNativeListener(this._worker, "message", this._handleMessageBound);
     qx.bom.Event.removeNativeListener(this._worker, "error", this._handleErrorBound);
-    if (this._worker) 
+    if (this._worker)
     {
       this._worker.terminate();
       this._worker = null;

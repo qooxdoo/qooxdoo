@@ -53,7 +53,7 @@ qx.Class.define("qx.test.bom.element.Class",
         document.body.removeChild(svg);
       }
     },
-    
+
     "test: get on new element should return empty string" : function()
     {
       var Class = qx.bom.element.Class;

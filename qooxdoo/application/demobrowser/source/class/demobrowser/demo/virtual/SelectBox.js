@@ -136,7 +136,7 @@ qx.Class.define("demobrowser.demo.virtual.SelectBox",
       for (var i = 0; i < iconNames.length; i++) {
         rawData.push({
           label: iconNames[i],
-          icon: iconPrefix + iconNames[i] + iconPostfix 
+          icon: iconPrefix + iconNames[i] + iconPostfix
         });
       }
 

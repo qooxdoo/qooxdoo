@@ -140,7 +140,7 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
       {
         l5.setValue(this.marktr("Orange"));
       }, this);
-      
+
       // Listening on locale change and act on it
       // show locale and territory
       var l6 = new qx.ui.basic.Label('Locale and territory');
@@ -148,7 +148,7 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
       qx.locale.Manager.getInstance().addListener("changeLocale", function() {
         l6.setValue('Locale: '+qx.locale.Manager.getInstance().getLocale() + ' territory: ' + qx.locale.Manager.getInstance().getTerritory());
       }, this);
-      
+
       return;
     }
   }

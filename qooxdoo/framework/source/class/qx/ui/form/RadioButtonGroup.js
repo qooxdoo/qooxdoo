@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
 
     /**
      * Remove all children.
-     * 
+     *
      * @return {Array} An array of {@link qx.ui.core.LayoutItem}'s.
      */
     removeAll : function()

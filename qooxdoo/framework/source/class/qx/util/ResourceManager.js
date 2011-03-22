@@ -140,10 +140,10 @@ qx.Class.define("qx.util.ResourceManager",
      */
     isClippedImage : function(id)
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
         "isClippedImage has been superseded by getCombinedFormat");
       var entry = this.self(arguments).__registry[id];
-      return entry && entry.length > 4 && typeof(entry[4]) == "string" && 
+      return entry && entry.length > 4 && typeof(entry[4]) == "string" &&
         this.constructor.__registry[entry[4]];
     },
 
@@ -222,7 +222,7 @@ qx.Class.define("qx.util.ResourceManager",
      * @param resid {String} resource id of the image
      * @return {String} "data:" or "http:" URI
      */
-    toDataUri : function (resid) 
+    toDataUri : function (resid)
     {
       var resentry = this.constructor.__registry[resid];
       var combined = this.constructor.__registry[resentry[4]];

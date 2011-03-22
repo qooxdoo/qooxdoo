@@ -34,7 +34,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * This class provides support for HTML5 transition and animation events.
  * Currently only WebKit and Firefox are supported.
  */
@@ -211,7 +211,7 @@ qx.Class.define("qx.event.handler.Transition",
         if (events[hash]) {
           delete events[hash];
         }
- 
+
         qx.bom.Event.removeNativeListener(target, qx.event.handler.Transition.TYPE_TO_NATIVE[type], this.__onEventWrapper);
       },
 

@@ -74,9 +74,9 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
       var themeName = /\.([a-z]+)$/i.exec(qxTheme)[1];
       qx.util.AliasManager.getInstance().add("decoration", "qx/decoration/" + themeName);
       if (themeName == "Classic") {
-        qx.util.AliasManager.getInstance().add("icon", "qx/icon/Oxygen");  
+        qx.util.AliasManager.getInstance().add("icon", "qx/icon/Oxygen");
       }
-      else 
+      else
       {
         qx.util.AliasManager.getInstance().add("icon", "qx/icon/Tango");
       }

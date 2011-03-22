@@ -27,7 +27,7 @@ qx.Class.define("qx.ui.mobile.form.Group",
 
   properties :
   {
-    cssClass : 
+    cssClass :
     {
       refine : true,
       init : "group"

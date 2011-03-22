@@ -15,7 +15,7 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#ignore(simulator) 
+#ignore(simulator)
 #ignore(simulator.unit.TestCase)
 #ignore(simulator.Simulation)
 #ignore(simulator.reporter)
@@ -24,24 +24,24 @@
 
 /**
  * Base class for Demo simulations.
- * 
+ *
  * @lint ignoreUndefined(simulator)
  */
 qx.Class.define("demobrowser.simulation.demo.Abstract", {
 
   extend : simulator.unit.TestCase,
-  
+
   type : "abstract",
-  
+
   construct : function()
   {
     this.base(arguments);
     this.demoName = this._getDemoNameFromClass();
     this.demoWindow = simulator.Simulation.AUTWINDOW + "."
-      + simulator.Simulation.QXAPPLICATION 
+      + simulator.Simulation.QXAPPLICATION
       + ".viewer._iframe.getWindow()";
   },
-  
+
   members :
   {
     demoName : null,
@@ -49,8 +49,8 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
     demoWindow : null,
     iframeRootLocator : 'qxhv=[@classname=demobrowser.DemoBrowser]/qx.ui.splitpane.Pane/qx.ui.splitpane.Pane/qx.ui.embed.Iframe/qx.ui.root.Application',
     demoTreeLocator : 'qxhv=[@classname=demobrowser.DemoBrowser]/qx.ui.splitpane.Pane/qx.ui.container.Composite/qx.ui.tree.Tree',
-    
-    
+
+
     /**
      * Loads the demo to be tested.
      */
@@ -62,7 +62,7 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
       }
       this._initReporter();
     },
-    
+
     /**
      * Logs any warnings of errors found in the AUT's log or caught by the
      * global error handler
@@ -72,8 +72,8 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
       this.logAutLog();
       this.getSimulation().throwGlobalErrors(this.demoWindow);
     },
-    
-    
+
+
     /**
      * Loads the demo corresponding to this test class in the demobrowser.
      * A test class name like "demobrowser.simulation.demo.widget.Tree"
@@ -86,20 +86,20 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
       if (!hash) {
         throw new Error("Couldn't determine demo URL from class name!");
       }
-      
-      var fullUrl = qx.core.Environment.get("simulator.autHost") 
-      + qx.core.Environment.get("simulator.autPath") + "#" + hash; 
-      
+
+      var fullUrl = qx.core.Environment.get("simulator.autHost")
+      + qx.core.Environment.get("simulator.autPath") + "#" + hash;
+
       this.getSimulation().qxOpen(fullUrl);
       this.getSimulation().waitForQxApplication(10000, this.demoWindow);
       this.getSimulation()._prepareNameSpace(this.demoWindow);
       this.__demoLoaded = true;
     },
-    
-    
+
+
     /**
      * Prepares the demo application for testing.
-     *  
+     *
      *  @lint ignoreUndefined(simulator)
      */
     prepareDemo : function()
@@ -110,8 +110,8 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
       this.getSimulation()._addGlobalErrorHandler(this.demoWindow);
       this.getSimulation()._addGlobalErrorGetter(this.demoWindow);
     },
-    
-    
+
+
     /**
      * Logs the contents of the AUT-side logger
      */
@@ -122,12 +122,12 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
         this.warn(this.demoName + " said: " + entries[i]);
       }
     },
-    
-    
+
+
     /**
-     * Determines the name of the currently tested demo from the name of the 
+     * Determines the name of the currently tested demo from the name of the
      * test class, e.g. demobrowser.simulation.demo.widget.Tree -> widget.Tree
-     * 
+     *
      * @return {String} The demo's name
      */
     _getDemoNameFromClass : function()
@@ -141,7 +141,7 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
         return;
       }
     },
-    
+
     _initReporter : function()
     {
       var reportServer = qx.core.Environment.get("simulator.reportServer");
@@ -152,7 +152,7 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
       //qx.log.Logger.clear();
       qx.log.Logger.register(simulator.reporter.Reporter);
     }
-    
+
   }
-  
+
 });

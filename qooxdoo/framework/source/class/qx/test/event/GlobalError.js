@@ -26,11 +26,11 @@ qx.Class.define("qx.test.event.GlobalError",
     this.base(arguments);
     this.__initialSetting = qx.core.Environment._checks["qx.globalErrorHandling"];
   },
-  
+
   members :
   {
     __initialSetting : null,
-    
+
     setUp : function()
     {
       qx.core.Environment._checks["qx.globalErrorHandling"] = function() {

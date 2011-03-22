@@ -2,7 +2,7 @@ qx.Class.define("qx.ui.tree.VirtualTreeFile",
 {
   extend : qx.ui.tree.core.AbstractVirtualTreeItem,
 
-  
+
   properties :
   {
     // overridden
@@ -23,8 +23,8 @@ qx.Class.define("qx.ui.tree.VirtualTreeFile",
       this.addIcon();
       this.addLabel();
     },
-    
-    
+
+
     // overridden
     _updateIndent : function()
     {

@@ -41,9 +41,9 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
     __score : null,
     __scoreDivLeft : null,
     __scoreDivRight : null,
-    
+
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -60,7 +60,7 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
         qx.log.appender.Console;
       }
 
-      
+
       // ROOT
       var backgroundStyles = {
         "width" : "100%",
@@ -75,7 +75,7 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
 
 
       if (qx.core.Environment.get("engine.name") != "webkit" || (!
-        qx.core.Environment.get("event.touch") && 
+        qx.core.Environment.get("event.touch") &&
         qx.core.Variant.isSet("qx.mobile.emulatetouch", "off")))
       {
         var warningLabelStyle = {
@@ -98,19 +98,19 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
 
       var rightField = this.__createField("right");
       root.add(rightField);
-      
-      
+
+
       // Paddles
       this.__leftPaddle = this.__createPaddle("left");
       leftField.add(this.__leftPaddle);
-      leftField.addListener("touchmove", 
+      leftField.addListener("touchmove",
         qx.lang.Function.bind(this.__onTouchMove, this, this.__leftPaddle),
         this
       );
-      
+
       this.__rightPaddle = this.__createPaddle("right");
       rightField.add(this.__rightPaddle);
-      rightField.addListener("touchmove", 
+      rightField.addListener("touchmove",
         qx.lang.Function.bind(this.__onTouchMove, this, this.__rightPaddle),
         this
       );
@@ -118,7 +118,7 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
 
       // Ball
       this.__ball = this.__createBall();
-      root.add(this.__ball);    
+      root.add(this.__ball);
 
 
       // Scores
@@ -140,11 +140,11 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
       GAME CONTROLL
     ---------------------------------------------------------------------------
     */
-    
+
     __startGame : function() {
       // set ball start position
       this.__ball.setStyles({"left" : "200px", "top" : "200px"});
-      
+
       // ball movement
       this.__gameTimer = new qx.event.Timer(40);
       this.__gameTimer.addListener("interval", function() {
@@ -170,41 +170,41 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
 
       this.__startGame();
     },
-    
-    
+
+
     __detectColision : function() {
       var ballBounds = this.getBoundsFor(this.__ball);
-      
+
       // top wall
       if (ballBounds.top <= 0) {
         this.__yDirection = 1;
       }
-      
+
       // bottom wall
       if (ballBounds.bottom >= window.innerHeight - 5) {
         this.__yDirection = -1;
       }
-      
+
       // left / right wall
       if (ballBounds.left <= 0 || ballBounds.right >= window.innerWidth) {
         this.__restartGame(ballBounds.left <= 0 ? 1 : 0);
       }
-            
+
       // left Paddle collision
-      var leftPaddleBounds = this.getBoundsFor(this.__leftPaddle);      
+      var leftPaddleBounds = this.getBoundsFor(this.__leftPaddle);
       if (
-        ballBounds.left <= leftPaddleBounds.right && 
+        ballBounds.left <= leftPaddleBounds.right &&
         ballBounds.bottom >= leftPaddleBounds.top &&
         ballBounds.top <= leftPaddleBounds.bottom
       ) {
         this.__xDirection = 1;
         this.__speed = Math.min(this.__speed + 1, 20);
       }
-      
+
       // right Paddle collision
       var rightPaddleBounds = this.getBoundsFor(this.__rightPaddle);
       if (
-        ballBounds.right >= rightPaddleBounds.left && 
+        ballBounds.right >= rightPaddleBounds.left &&
         ballBounds.bottom >= rightPaddleBounds.top &&
         ballBounds.top <= rightPaddleBounds.bottom
       ) {
@@ -228,60 +228,60 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
     getBoundsFor : function(elem) {
       return qx.bom.element.Location.get(elem.getDomElement());
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       BUILDING BLOCKS
     ---------------------------------------------------------------------------
     */
-    
+
     __createField : function(side) {
       var styles = {
         "width" : "50%",
         "height" : "100%",
-        "position" : "absolute",        
+        "position" : "absolute",
         "backgroundColor" : "black"
       };
-      
+
       if (side == "left") {
         styles["border-right"] = "1px solid white";
       } else {
         styles["left"] = "50%";
         styles["border-left"] = "1px solid white";
       }
-      
+
       return new qx.html.Element("div", styles);
     },
-    
-    
+
+
     __createPaddle : function(side) {
       var styles = {
         "width" : "30px",
         "height" : "100px",
         "top" : "100px",
-        "position" : "absolute",        
-        "backgroundColor" : "white"     
+        "position" : "absolute",
+        "backgroundColor" : "white"
       };
-      
+
       styles[side] = "20px";
-      
-      return new qx.html.Element("div", styles);      
+
+      return new qx.html.Element("div", styles);
     },
-    
-    
+
+
     __createBall : function() {
       var styles = {
         "width" : "20px",
         "height" : "20px",
-        "position" : "absolute",        
+        "position" : "absolute",
         "backgroundColor" : "white",
         "userSelect" : "none"
       };
       return new qx.html.Element("div", styles);
     },
-    
-    
+
+
     __createScore : function() {
       var styles = {
         "width" : "100%",

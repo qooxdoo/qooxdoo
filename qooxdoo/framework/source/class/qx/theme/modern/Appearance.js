@@ -139,7 +139,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var useCSS = qx.core.Environment.get("css.boxshadow");
-        
+
         return {
           decorator : useCSS ? "popup-css" : "main",
           backgroundColor : "background-light",
@@ -204,13 +204,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "button";
           textColor = undefined;
         }
-        
+
         var shadow;
         // feature detect if we should use the CSS decorators
         if (qx.core.Environment.get("css.borderradius") &&
             qx.core.Environment.get("css.gradients")) {
           if (states.invalid && !states.disabled) {
-            decorator += "-invalid-css";            
+            decorator += "-invalid-css";
           } else {
             decorator += "-css";
           }
@@ -302,9 +302,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.gradients") && 
+        var useCSS = qx.core.Environment.get("css.gradients") &&
           qx.core.Environment.get("css.boxshadow");
-        
+
         var icon;
         if (useCSS) {
           if (states.checked) {
@@ -312,7 +312,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           } else if (states.undetermined) {
             icon = "decoration/form/undetermined.png";
           } else {
-            icon = "qx/static/blank.gif";            
+            icon = "qx/static/blank.gif";
           }
 
         } else {
@@ -321,7 +321,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           // already by replacing the current image with a disabled version
           // (if available). If no disabled image is found, the opacity style
           // is used.
-          
+
           // Checked
           if (states.checked) {
             if (states.disabled) {
@@ -335,7 +335,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
             } else {
               icon = "checkbox-checked";
             }
-          
+
           // Undetermined
           } else if (states.undetermined) {
             if (states.disabled) {
@@ -347,7 +347,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
             } else {
               icon = "checkbox-undetermined";
             }
-          
+
           // Focused & Pressed & Hovered (when enabled)
           } else if (!states.disabled) {
             if (states.focused) {
@@ -358,14 +358,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
               icon = "checkbox-hovered";
             }
           }
-          
+
           // Unchecked
           icon = icon || "checkbox";
 
           var invalid = states.invalid && !states.disabled ? "-invalid" : "";
           icon = "decoration/form/" + icon + invalid + ".png";
         }
-        
+
         return {
           icon: icon,
           minWidth : useCSS ? 14 : undefined, // ensure that we have the old padding
@@ -375,9 +375,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
     "checkbox/icon" : {
-      style : function(states) 
+      style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.gradients") && 
+        var useCSS = qx.core.Environment.get("css.gradients") &&
           qx.core.Environment.get("css.boxshadow");
         if (!useCSS) {
           // same as image
@@ -391,26 +391,26 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else if (states.focused) {
           decorator = "checkbox-focused";
         } else if (states.hovered) {
-          decorator = "checkbox-hovered";       
+          decorator = "checkbox-hovered";
         } else {
           decorator = "checkbox";
         }
-        
+
         decorator += states.invalid && !states.disabled ? "-invalid" : "";
-        
+
         var padding;
         // Undetermined
         if (states.undetermined) {
           padding = [2, 0];
         }
-        
+
         return {
           decorator : decorator,
           padding : padding,
           width: 12, // use 12 to allow the inset of the decorator to be applied
           height: 10
         }
-      }      
+      }
     },
 
     "radiobutton":
@@ -419,7 +419,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.borderradius") && 
+        var useCSS = qx.core.Environment.get("css.borderradius") &&
           qx.core.Environment.get("css.boxshadow");
 
         var icon;
@@ -445,7 +445,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           } else {
             icon = "radiobutton";
           }
-          
+
           var invalid = states.invalid && !states.disabled ? "-invalid" : "";
           icon = "decoration/form/" + icon + invalid + ".png";
         }
@@ -455,11 +455,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "radiobutton/icon" : {
-      style : function(states) 
+      style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.borderradius") && 
+        var useCSS = qx.core.Environment.get("css.borderradius") &&
           qx.core.Environment.get("css.boxshadow");
         if (!useCSS) {
           // same as image
@@ -481,19 +481,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else if (states.focused) {
           decorator = "radiobutton-focused";
         } else if (states.hovered) {
-          decorator = "radiobutton-hovered";          
+          decorator = "radiobutton-hovered";
         } else {
           decorator = "radiobutton";
         }
-        
+
         decorator += states.invalid && !states.disabled ? "-invalid" : "";
-        
+
         return {
           decorator : decorator,
           width: 12, // use 12 to allow the inset of the decorator to be applied
           height: 10
         }
-      }      
+      }
     },
 
     "textfield" :
@@ -517,7 +517,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           decorator = "input";
         }
-        
+
         if (qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
@@ -815,7 +815,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         if (states["native"]) {
           return {};
         }
-        
+
         var useCSS = qx.core.Environment.get("css.gradients");
         var decorator = states.horizontal ? "scrollbar-horizontal" : "scrollbar-vertical";
         if (useCSS) {
@@ -850,7 +850,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var useCSS = qx.core.Environment.get("css.gradients");
-        
+
         var decorator = states.horizontal ? "scrollbar-slider-horizontal" :
                                             "scrollbar-slider-vertical";
         if (states.disabled) {
@@ -942,7 +942,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           decorator = "input";
         }
-        
+
         if (qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
@@ -1003,7 +1003,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           decorator = "input";
         }
-        
+
         if (qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
@@ -1030,7 +1030,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = states.selected ? "selected" : undefined;
           if (decorator && qx.core.Environment.get("css.gradients")) {
             decorator += "-css";
-          }          
+          }
         }
 
         return {
@@ -1195,7 +1195,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.gradients") && 
+        var useCSS = qx.core.Environment.get("css.gradients") &&
           qx.core.Environment.get("css.borderradius");
         return {
           decorator : useCSS ? "tabview-pane-css" : "tabview-pane",
@@ -1212,10 +1212,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "tabview-page" : {
       alias : "widget",
       include : "widget",
-      
+
       style : function(states) {
         // is used for the padding of the pane
-        var useCSS = qx.core.Environment.get("css.gradients") && 
+        var useCSS = qx.core.Environment.get("css.gradients") &&
           qx.core.Environment.get("css.borderradius");
         return {
           padding : useCSS ? [4, 3] : undefined
@@ -1232,7 +1232,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var decorator, padding=0;
         var marginTop=0, marginBottom=0, marginLeft=0, marginRight=0;
 
-        var useCSS = qx.core.Environment.get("css.borderradius") && 
+        var useCSS = qx.core.Environment.get("css.borderradius") &&
           qx.core.Environment.get("css.boxshadow") &&
           qx.core.Environment.get("css.gradients");
 
@@ -1307,7 +1307,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
             marginRight = 1;
           }
         }
-        
+
         if (decorator && useCSS) {
           decorator += "-css";
         }
@@ -1410,16 +1410,16 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         var decorator;
         if (
-          states.pressed || 
-          (states.checked && !states.hovered) || 
-          (states.checked && states.disabled)) 
+          states.pressed ||
+          (states.checked && !states.hovered) ||
+          (states.checked && states.disabled))
         {
           decorator = "toolbar-button-checked";
         } else if (states.hovered && !states.disabled) {
           decorator = "toolbar-button-hovered";
         }
-        
-        var useCSS = qx.core.Environment.get("css.gradients") && 
+
+        var useCSS = qx.core.Environment.get("css.gradients") &&
           qx.core.Environment.get("css.borderradius");
         if (useCSS && decorator) {
           decorator += "-css";
@@ -1539,7 +1539,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         if (decorator && qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
-        
+
         return {
           padding    : [ 2, 6 ],
           textColor  : states.selected ? "text-selected" : undefined,
@@ -1767,7 +1767,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.borderradius") && 
+        var useCSS = qx.core.Environment.get("css.borderradius") &&
           qx.core.Environment.get("css.boxshadow");
         return {
           textColor: "text-selected",
@@ -1799,7 +1799,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var useCSS = qx.core.Environment.get("css.borderradius") &&
-          qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.gradients") &&
           qx.core.Environment.get("css.boxshadow");
         return {
           decorator : useCSS ? undefined : "shadow-window",
@@ -1813,7 +1813,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var useCSS = qx.core.Environment.get("css.borderradius") &&
-          qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.gradients") &&
           qx.core.Environment.get("css.boxshadow");
         return {
           decorator : useCSS ? "window-css" : "window",
@@ -1827,14 +1827,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var useCSS = qx.core.Environment.get("css.borderradius") &&
-          qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.gradients") &&
           qx.core.Environment.get("css.boxshadow");
 
         var decorator = states.active ? "window-captionbar-active" : "window-captionbar-inactive";
         if (useCSS) {
           decorator += "-css";
         }
-        
+
         return {
           decorator    : decorator,
           textColor    : states.active ? "window-caption-active-text" : "text-gray",
@@ -1933,7 +1933,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var useCSS = qx.core.Environment.get("css.borderradius") &&
-          qx.core.Environment.get("css.gradients") && 
+          qx.core.Environment.get("css.gradients") &&
           qx.core.Environment.get("css.boxshadow");
         return {
           padding   : [ 2, 6 ],
@@ -2227,7 +2227,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         if (decorator && qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
-        
+
         return {
           textAlign : "center",
           decorator : decorator,
@@ -2336,9 +2336,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var useCSS = qx.core.Environment.get("css.gradients") && 
+        var useCSS = qx.core.Environment.get("css.gradients") &&
           qx.core.Environment.get("css.boxshadow");
-        
+
         var result =
         {
           decorator : useCSS ? "menu-css" : "menu",
@@ -2372,7 +2372,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         if (decorator && qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
-        
+
         return {
           decorator : decorator,
           padding : 7,
@@ -2427,7 +2427,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         if (decorator && qx.core.Environment.get("css.gradients")) {
           decorator += "-css";
         }
-        
+
         return {
           decorator : decorator,
           textColor : states.selected ? "text-selected" : undefined,
@@ -2548,7 +2548,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
        if (decorator && qx.core.Environment.get("css.gradients")) {
          decorator += "-css";
        }
-       
+
        return {
          decorator : decorator,
          textColor : states.pressed || states.hovered ? "text-selected" : undefined,
@@ -3046,15 +3046,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "virtual-selectbox/dropdown/list" : {
       alias : "virtual-list"
     },
-    
+
     "virtual-combobox" : "combobox",
     "virtual-combobox/dropdown" : "popup",
     "virtual-combobox/dropdown/list" : {
       alias : "virtual-list"
     },
-    
+
     "virtual-tree" : "list",
-    
+
     "virtual-tree-item" :
     {
       style : function(states)
@@ -3080,10 +3080,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "virtual-tree-item/label" : 
+    "virtual-tree-item/label" :
     {
       include : "label",
-      
+
       style : function(states)
       {
         return {
@@ -3104,7 +3104,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "virtual-tree-folder/open" :
     {
       include : "image",
@@ -3141,8 +3141,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
           icon: "icon/22/mimetypes/office-document.png"
         };
       }
-    },    
-        
+    },
+
     "column-layer" : "widget",
 
     "cell" :

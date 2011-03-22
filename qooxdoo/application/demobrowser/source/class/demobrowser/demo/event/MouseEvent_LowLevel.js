@@ -30,13 +30,13 @@ qx.Class.define("demobrowser.demo.event.MouseEvent_LowLevel",
   members :
   {
     __logMouseEventWrapper : null,
-  
+
     main : function()
     {
       this.base(arguments);
 
       this.__logMouseEventWrapper = qx.lang.Function.bind(this.logMouseEvent, this);
-      
+
       this._initLogger(
         ["Target", "Event", "button", "clientX", "clientY", "screenX", "screenY", "relatedTarget"],
         document.getElementById("logger"),
@@ -88,7 +88,7 @@ qx.Class.define("demobrowser.demo.event.MouseEvent_LowLevel",
     logMouseEvent: function(mouseEvent)
     {
       qx.bom.Event.preventDefault(mouseEvent);
-      
+
       this._log([
         qx.bom.Event.getTarget(mouseEvent).id,
         mouseEvent.type,

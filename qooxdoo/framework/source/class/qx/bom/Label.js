@@ -95,7 +95,7 @@ qx.Class.define("qx.bom.Label",
       {
         style.whiteSpace = "nowrap";
 
-        if (!qx.core.Environment.get("css.textoverflow") && 
+        if (!qx.core.Environment.get("css.textoverflow") &&
           qx.core.Environment.get("html.xul"))
         {
           var inner = document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
@@ -132,7 +132,7 @@ qx.Class.define("qx.bom.Label",
       {
         styles.whiteSpace = "normal";
       }
-      else if (!qx.core.Environment.get("css.textoverflow") && 
+      else if (!qx.core.Environment.get("css.textoverflow") &&
         qx.core.Environment.get("html.xul"))
       {
         styles.display = "block";
@@ -182,7 +182,7 @@ qx.Class.define("qx.bom.Label",
         var el = win.document.createElement("div");
         el.useHtml = true;
       }
-      else if (!qx.core.Environment.get("css.textoverflow") && 
+      else if (!qx.core.Environment.get("css.textoverflow") &&
         qx.core.Environment.get("html.xul"))
       {
         // Gecko as of Firefox 2.x and 3.0 does not support ellipsis
@@ -237,8 +237,8 @@ qx.Class.define("qx.bom.Label",
 
       if (element.useHtml) {
         element.innerHTML = value;
-      } else if (!qx.core.Environment.get("css.textoverflow") && 
-        qx.core.Environment.get("html.xul")) 
+      } else if (!qx.core.Environment.get("css.textoverflow") &&
+        qx.core.Environment.get("html.xul"))
       {
         element.firstChild.setAttribute("value", value);
       } else {
@@ -257,8 +257,8 @@ qx.Class.define("qx.bom.Label",
     {
       if (element.useHtml) {
         return element.innerHTML;
-      } else if (!qx.core.Environment.get("css.textoverflow") && 
-        qx.core.Environment.get("html.xul")) 
+      } else if (!qx.core.Environment.get("css.textoverflow") &&
+        qx.core.Environment.get("html.xul"))
       {
         return element.firstChild.getAttribute("value") || "";
       } else {
@@ -299,8 +299,8 @@ qx.Class.define("qx.bom.Label",
     {
       var element = this._textElement || this.__prepareText();
 
-      if (!qx.core.Environment.get("css.textoverflow") && 
-        qx.core.Environment.get("html.xul")) 
+      if (!qx.core.Environment.get("css.textoverflow") &&
+        qx.core.Environment.get("html.xul"))
       {
         element.firstChild.setAttribute("value", text);
       } else {

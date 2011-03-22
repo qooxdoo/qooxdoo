@@ -291,8 +291,8 @@ qx.Class.define("qx.test.ui.form.TextArea",
       // once the textarea is in the DOM
       if (
         qx.core.Environment.get("engine.name") == "opera" ||
-        (qx.core.Environment.get("engine.name") == "mshtml" && 
-        parseFloat(qx.core.Environment.get("engine.version")) < 8)) 
+        (qx.core.Environment.get("engine.name") == "mshtml" &&
+        parseFloat(qx.core.Environment.get("engine.version")) < 8))
       {
         this.warn("Skipping test");
         return false;

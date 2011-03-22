@@ -54,9 +54,9 @@ qx.Class.define("qx.test.io.remote.RequestIframe",
       this.buggyBrowser = false;
       var engineString = qx.core.Environment.get("engine.version");
       var engineFloat = parseFloat(engineString);
-      if ( (qx.core.Environment.get("engine.name") == "webkit" && 
+      if ( (qx.core.Environment.get("engine.name") == "webkit" &&
             engineFloat < 526)
-            || (qx.core.Environment.get("engine.name") == "gecko" && 
+            || (qx.core.Environment.get("engine.name") == "gecko" &&
             engineString.indexOf("1.8.0") == 0 ) ) {
         this.buggyBrowser = true;
       }

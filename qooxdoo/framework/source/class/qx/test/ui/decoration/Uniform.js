@@ -24,8 +24,8 @@ qx.Class.define("qx.test.ui.decoration.Uniform",
   statics :
   {
     overflow : (
-      qx.core.Environment.get("engine.name") == "mshtml" && 
-      parseFloat(qx.core.Environment.get("engine.version")) == 6 ? 
+      qx.core.Environment.get("engine.name") == "mshtml" &&
+      parseFloat(qx.core.Environment.get("engine.version")) == 6 ?
       "overflow:hidden;" : "")
   },
 
@@ -40,9 +40,9 @@ qx.Class.define("qx.test.ui.decoration.Uniform",
       decorator.setColor(null);
       var markup = decorator.getMarkup();
       this.assertEquals(
-        '<div style="border-top:2px solid ;border-right:2px solid ;' + 
-        'border-bottom:2px solid ;border-left:2px solid ;position:absolute;' + 
-        'top:0;left:0;background-position:0 0;' + 
+        '<div style="border-top:2px solid ;border-right:2px solid ;' +
+        'border-bottom:2px solid ;border-left:2px solid ;position:absolute;' +
+        'top:0;left:0;background-position:0 0;' +
         qx.test.ui.decoration.Uniform.overflow + '"></div>', markup);
     },
 
@@ -54,9 +54,9 @@ qx.Class.define("qx.test.ui.decoration.Uniform",
       var markup = decorator.getMarkup();
 
       this.assertEquals(
-        '<div style="border-top:2px solid ;border-right:2px solid ;' + 
-        'border-bottom:2px solid ;border-left:2px solid ;position:absolute;' + 
-        'top:0;left:0;background-position:0 0;' + 
+        '<div style="border-top:2px solid ;border-right:2px solid ;' +
+        'border-bottom:2px solid ;border-left:2px solid ;position:absolute;' +
+        'top:0;left:0;background-position:0 0;' +
         qx.test.ui.decoration.Uniform.overflow + '"></div>', markup)
     }
 

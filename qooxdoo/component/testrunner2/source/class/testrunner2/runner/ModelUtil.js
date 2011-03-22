@@ -21,14 +21,14 @@
 qx.Class.define("testrunner2.runner.ModelUtil", {
 
   type : "static",
-  
+
   statics :
   {
-    
+
     /**
      * Creates a nested map for the test namespace from the flat list of tests
-     * 
-     * @param testRep {Object} Test suite object obtained by parsing the JSON 
+     *
+     * @param testRep {Object} Test suite object obtained by parsing the JSON
      * returned by {@link qx.dev.unit.TestLoader:getTestDescriptions}
      * @return {Object} Test suite object
      */
@@ -45,12 +45,12 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       }
       return data;
     },
-    
-    
+
+
     /**
      * Recursively searches a model for all items with a given property/value
      * combination
-     * 
+     *
      * @param model {Object} The test model to search
      * @param property {String} Property name
      * @param value {var} Property value
@@ -63,11 +63,11 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       if (model["get" + propertyName] && model["get" + propertyName]() === value) {
         testList.push(model);
       }
-      
+
       if (!model.getChildren) {
         return testList;
       }
-      
+
       var kids = model.getChildren();
       for (var i=0,l=kids.length; i<l; i++) {
         var child = kids.getItem(i);
@@ -75,11 +75,11 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       }
       return testList;
     },
-    
-    
+
+
     /**
      * Finds a model item by its full path name
-     * 
+     *
      * @param model {Object} The test model to search
      * @param fullName {String} The item's name
      * @return {Object|null} The matching item or null if there is no match
@@ -101,12 +101,12 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       }
       return null;
     },
-    
-    
+
+
     /**
      * Adds additional data fields to the model items:
      * parent : reference to the parent item
-     * 
+     *
      * @param model {Object} The model to process
      */
     addDataFields : function(model)
@@ -114,7 +114,7 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       if (!model.parent) {
         model.fullName = model.getName();
       }
-      
+
       if (model.getChildren) {
         var mType = model.getType();
         if (mType == "package" || mType == "class" ) {
@@ -124,7 +124,7 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
         for (var i=0,l=kids.length; i<l; i++) {
           var child = kids.getItem(i);
           child.parent = model;
-          
+
           if (child.getType() == "test") {
             child.fullName = model.fullName + ":" + child.getName();
           }
@@ -133,10 +133,10 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
           }
 
           arguments.callee(child);
-          
-          // skip binding the children's state to the parent in old IEs to 
+
+          // skip binding the children's state to the parent in old IEs to
           // accelerate application startup
-          if (!(qx.core.Environment.get("browser.name") === "ie" 
+          if (!(qx.core.Environment.get("browser.name") === "ie"
               && qx.core.Environment.get("browser.version") < 9)) {
             child.bind("state", model, "state", {
               converter : function(data, model) {
@@ -151,11 +151,11 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
         }
       }
     },
-    
-    
+
+
     /**
      * Recursively dispose the entire model
-     * 
+     *
      * @param model {Object} The model
      */
     disposeModel : function(model)
@@ -169,8 +169,8 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       }
       model.dispose();
     },
-    
-    
+
+
     /**
      * Adds nested keys to a map, e.g.: addChainToMap(["foo", "bar", "baz"], {})
      * creates the following structure:
@@ -183,7 +183,7 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
      *     }
      *   }
      * }
-     * 
+     *
      * @param nsArr {String[]} Array of key names
      * @param obj {Map} The initial map
      */
@@ -192,14 +192,14 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
       if (nsArr.length == 0) {
         return;
       }
-      
+
       var list = nsArr.concat();
       var next = list.shift();
-      
+
       if (!obj.children) {
         obj.children = [];
       }
-      
+
       var found = false;
       for (var i=0,l=obj.children.length; i<l; i++) {
         if (obj.children[i].name === next) {
@@ -207,22 +207,22 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
           break;
         }
       }
-      
+
       if (!found) {
         found = {
           name : next
         };
         obj.children.push(found);
       }
-      
+
       arguments.callee(list, found);
     },
-    
-    
+
+
     /**
      * Returns the following sibling of a given model item or null if there isn't
      * one.
-     * 
+     *
      * @param node {Object} Model node
      * @return {Object|null} Following sibling
      */

@@ -20,7 +20,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * Root widget for the mobile application.
  */
 qx.Class.define("qx.ui.mobile.core.Root",
@@ -29,7 +29,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
   include : [ qx.ui.mobile.core.MChildrenHandling],
 
-  properties : 
+  properties :
   {
     cssClass : {
       refine : true,
@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
   },
 
 
-  members : 
+  members :
   {
     // overridden
     _createContainerElement : function() {

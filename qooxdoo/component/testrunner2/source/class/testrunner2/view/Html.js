@@ -29,16 +29,16 @@
 qx.Class.define("testrunner2.view.Html", {
 
   extend : testrunner2.view.Abstract,
-  
-  
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
-  
+
   /**
-   * @param rootElement {DOMElement?} DOM Element in which the result view 
+   * @param rootElement {DOMElement?} DOM Element in which the result view
    * should be created. Default: document.body
    */
   construct : function(rootElement)
@@ -48,7 +48,7 @@ qx.Class.define("testrunner2.view.Html", {
     }
     var styleSrc = qx.util.ResourceManager.getInstance().toUri("testrunner2/view/html/css/testrunner2.css");
     qx.bom.Stylesheet.includeFile(styleSrc);
-    
+
     this._attachHeader();
     this._attachMainControls();
     this._attachTestControls();
@@ -57,8 +57,8 @@ qx.Class.define("testrunner2.view.Html", {
     this._attachFooter();
     this._makeCommands();
   },
-  
-  
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -73,8 +73,8 @@ qx.Class.define("testrunner2.view.Html", {
       init : true,
       apply : "_applyShowStack"
     },
-    
-    /** Controls whether successfully passed tests should appear in the results 
+
+    /** Controls whether successfully passed tests should appear in the results
      * list */
     showPassed :
     {
@@ -83,21 +83,21 @@ qx.Class.define("testrunner2.view.Html", {
       nullable : true,
       apply : "_applyShowPassed"
     },
-    
+
     /** Running count of failed tests */
     failedTestCount :
     {
       check : "Integer",
       init : 0
     },
-    
+
     /** Running count of passed tests */
     successfulTestCount :
     {
       check : "Integer",
       init : 0
     },
-    
+
     /** Running count of skipped tests */
     skippedTestCount :
     {
@@ -105,21 +105,21 @@ qx.Class.define("testrunner2.view.Html", {
       init : 0
     }
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
   members :
-  {    
+  {
     __domElements : null,
     __testNameToId : null,
     __filterTimer : null,
     __testModel : null,
     __testNamesList : null,
-    
+
     /**
      * Creates the header and attaches it to the root node.
      */
@@ -127,8 +127,8 @@ qx.Class.define("testrunner2.view.Html", {
     {
       this.__domElements.rootElement.innerHTML += "<h1>qooxdoo Test Runner</h1>";
     },
-    
-    
+
+
     /**
      * Creates the main controls and attaches them to the root node.
      */
@@ -138,35 +138,35 @@ qx.Class.define("testrunner2.view.Html", {
       elemControls.id = "qxtestrunner_controls";
       elemControls.innerHTML = '<input type="submit" title="Run selected tests (Ctrl+R)" id="qxtestrunner_run" value="Run Tests"></input>';
       elemControls.innerHTML += '<input type="submit" title="Stop the test suite (Ctrl+S)" id="qxtestrunner_stop" value="Stop Tests"></input>';
-      
+
       var stackToggle = qx.bom.Input.create("checkbox", {id: "qxtestrunner_togglestack", checked: "checked"});
       elemControls.appendChild(stackToggle);
       elemControls.innerHTML += '<label for="qxtestrunner_togglestack">Show stack trace</label>';
-      
+
       var passedToggle = qx.bom.Input.create("checkbox", {id: "qxtestrunner_togglepassed", checked: "checked"});
       elemControls.appendChild(passedToggle);
       elemControls.innerHTML += '<label for="qxtestrunner_togglepassed">Show successful tests</label>';
-      
+
       this.__domElements.rootElement.appendChild(elemControls);
-      
+
       this.__domElements.runButton = document.getElementById("qxtestrunner_run");
       qx.event.Registration.addListener(this.__domElements.runButton, "click", this.__runTests, this);
-      
+
       this.__domElements.stopButton = document.getElementById("qxtestrunner_stop");
-      qx.event.Registration.addListener(this.__domElements.stopButton, "click", this.__stopTests, this);      
-      
+      qx.event.Registration.addListener(this.__domElements.stopButton, "click", this.__stopTests, this);
+
       var stackToggle = document.getElementById("qxtestrunner_togglestack");
       qx.event.Registration.addListener(stackToggle, "change", function(ev) {
         this.setShowStack(ev.getData());
       }, this);
-      
+
       var passedToggle = document.getElementById("qxtestrunner_togglepassed");
       qx.event.Registration.addListener(passedToggle, "change", function(ev) {
         this.setShowPassed(ev.getData());
       }, this);
     },
-    
-    
+
+
     /**
      * Creates the test selection controls and attaches them to the root node.
      */
@@ -179,30 +179,30 @@ qx.Class.define("testrunner2.view.Html", {
       elemTestControls.innerHTML += '<input type="text" id="qxtestrunner_testfilter" />';
       elemTestControls.appendChild(allTestsToggle);
       elemTestControls.innerHTML += '<label for="qxtestrunner_togglealltests">Select/deselect all listed tests</label>';
-      
+
       this.__domElements.rootElement.appendChild(elemTestControls);
-      
+
       this.__domElements.allTestsToggle = document.getElementById("qxtestrunner_togglealltests");
       qx.event.Registration.addListener(this.__domElements.allTestsToggle, "change", function(ev) {
         var checked = ev.getTarget().checked;
-        this.toggleAllTests(checked, true);      
+        this.toggleAllTests(checked, true);
       }, this);
-      
+
       this.__filterTimer = new qx.event.Timer(500);
       this.__filterTimer.addListener("interval", function(ev) {
         var filter = this.__domElements.filterInput.value;
         this.__filterTimer.stop();
         this.filterTests(filter);
       }, this);
-      
+
       this.__domElements.filterInput = document.getElementById("qxtestrunner_testfilter");
       qx.event.Registration.addListener(this.__domElements.filterInput, "input", function(ev) {
         this.__filterTimer.restart();
       }, this);
-      
+
     },
-    
-    
+
+
     /**
      * Creates the list of available tests and attaches it to the root node.
      */
@@ -220,8 +220,8 @@ qx.Class.define("testrunner2.view.Html", {
       parent.appendChild(listContainer);
       this.__domElements.elemTestList = document.getElementById("qxtestrunner_testlist");
     },
-    
-    
+
+
     /**
      * Creates the test results list and attaches it to the root node.
      */
@@ -239,8 +239,8 @@ qx.Class.define("testrunner2.view.Html", {
       parent.appendChild(elemResults);
       this.__domElements.elemResultsList = document.getElementById("qxtestrunner_resultslist");
     },
-    
-    
+
+
     /**
      * Creates the footer/status bar and attaches it to the root node.
      */
@@ -249,13 +249,13 @@ qx.Class.define("testrunner2.view.Html", {
       var elemFooter = document.createElement("div");
       elemFooter.id = "qxtestrunner_footer";
       elemFooter.innerHTML = '<p id="qxtestrunner_status"></p>';
-      
+
       this.__domElements.rootElement.appendChild(elemFooter);
-      
+
       this.__domElements.elemStatus = document.getElementById("qxtestrunner_status");
     },
-    
-    
+
+
     /**
      * Empties the results display.
      */
@@ -263,7 +263,7 @@ qx.Class.define("testrunner2.view.Html", {
     {
       this.__domElements.elemResultsList.innerHTML = "";
     },
-    
+
     /**
      * Empties the test list.
      */
@@ -271,7 +271,7 @@ qx.Class.define("testrunner2.view.Html", {
     {
       this.__domElements.elemTestList.innerHTML = "";
     },
-    
+
     /**
      * Run the selected tests
      */
@@ -282,7 +282,7 @@ qx.Class.define("testrunner2.view.Html", {
       }
       this.fireEvent("runTests");
     },
-    
+
     /**
      * Stop a running test suite
      */
@@ -290,7 +290,7 @@ qx.Class.define("testrunner2.view.Html", {
     {
       this.fireEvent("stopTests");
     },
-    
+
     /**
      * Reload the test suite
      */
@@ -300,11 +300,11 @@ qx.Class.define("testrunner2.view.Html", {
       this.resetAutUri();
       this.setAutUri(src);
     },
-    
-    
+
+
     /**
      * Returns the iframe element the AUT should be loaded in.
-     * 
+     *
      * @return {DOMElement} The iframe
      */
     getIframe : function()
@@ -312,7 +312,7 @@ qx.Class.define("testrunner2.view.Html", {
       if (this.__domElements.elemIframe) {
         return this.__domElements.elemIframe;
       }
-      
+
       var parent = document.getElementById("qxtestrunner_framelogcontainer");
       if (!parent) {
         parent = document.createElement("div");
@@ -320,29 +320,29 @@ qx.Class.define("testrunner2.view.Html", {
         var controls = document.getElementById("qxtestrunner_controls");
         qx.dom.Element.insertAfter(parent, controls);
       }
-      
+
       var frameContainer = document.createElement("div");
       frameContainer.id = "qxtestrunner_framecontainer";
       parent.appendChild(frameContainer);
       frameContainer.innerHTML += '<input type="text" id="qxtestrunner_iframesrc"></input>';
       frameContainer.innerHTML += '<input type="submit" title="Reload the test suite (Ctrl+Shift+R)" id="qxtestrunner_setiframesrc" value="Reload"></input>';
-      
+
       var elemAut = document.createElement("div");
       elemAut.id = "qxtestrunner_aut";
       this.__domElements.elemIframe = qx.bom.Iframe.create({id : "qxtestrunner_autframe"});
       frameContainer.appendChild(this.__domElements.elemIframe);
-      
+
       this.__domElements.iframeSourceInput = document.getElementById("qxtestrunner_iframesrc");
       var reloadBtn = document.getElementById("qxtestrunner_setiframesrc");
       qx.event.Registration.addListener(reloadBtn, "click", this.__reloadAut, this);
-      
+
       return this.__domElements.elemIframe;
     },
-    
+
     /**
-     * Returns a DIV element that will be used by a 
+     * Returns a DIV element that will be used by a
      * {@link qx.log.appender.Element} to display the AUT's log output.
-     * 
+     *
      * @return {Element} DIV element
      */
     getLogAppenderElement : function()
@@ -350,7 +350,7 @@ qx.Class.define("testrunner2.view.Html", {
       if (this.__domElements.elemLogAppender) {
         return this.__domElements.elemLogAppender;
       }
-      
+
       var parent = document.getElementById("qxtestrunner_framelogcontainer");
       if (!parent) {
         parent = document.createElement("div");
@@ -358,20 +358,20 @@ qx.Class.define("testrunner2.view.Html", {
         var controls = document.getElementById("qxtestrunner_controls");
         qx.dom.Element.insertAfter(parent, controls);
       }
-      
+
       // Directly create DOM element to use
       var logelem = this.__domElements.elemLogAppender = document.createElement("div");
       logelem.id = "qxtestrunner_log";
       parent.appendChild(logelem);
-      
+
       return this.__domElements.elemLogAppender;
     },
-    
-    
+
+
     /**
      * Selects or deselects all tests in the current test suite.
-     * 
-     * @param selected {Boolean} true: select all tests; false: deselect all 
+     *
+     * @param selected {Boolean} true: select all tests; false: deselect all
      * tests
      * @param onlyVisible {Boolean} true: only modify tests if the corresponding
      * entry in the test list is visible. Default: false
@@ -392,18 +392,18 @@ qx.Class.define("testrunner2.view.Html", {
       }
       this.__toggleTestsSelected(testsToModify, selected);
     },
-    
-    
+
+
     /**
      * Shows and selects any tests matching the search term while hiding and
      * deselecting the rest.
-     * 
+     *
      * @param term {String} Search term
      */
     filterTests : function(term)
     {
       var searchRegExp = new RegExp("^.*" + term + ".*", "ig");
-      
+
       var matches = [];
       for (var i=0,l=this.__testNamesList.length; i<l; i++) {
         if (this.__testNamesList[i].match(searchRegExp)) {
@@ -428,8 +428,8 @@ qx.Class.define("testrunner2.view.Html", {
       }
       qx.bom.Cookie.set("testFilter", term);
     },
-    
-    
+
+
     /**
      * Hides all entries in the test list.
      */
@@ -440,12 +440,12 @@ qx.Class.define("testrunner2.view.Html", {
         items[i].style.display = "none";
       }
     },
-    
-    
+
+
     /**
      * Simplifies a test function's fully qualified name so it can be used as a
      * map key.
-     * 
+     *
      * @param testName {String} The test's full name
      * @return {String} The simplified string
      */
@@ -454,8 +454,8 @@ qx.Class.define("testrunner2.view.Html", {
       var id = testName.replace(/[\W]/ig, "");
       return id;
     },
-    
-    
+
+
     /**
      * Resets the result counters, clears the results display and reapplies the
      * test selection so that the suite can be run again.
@@ -466,18 +466,18 @@ qx.Class.define("testrunner2.view.Html", {
       this.resetSuccessfulTestCount();
       this.resetSkippedTestCount();
       this.clearResults();
-      
+
       var selected = this.getSelectedTests();
       // trigger a "change" event on the selection to allow running it again
       if (selected.length > 0) {
         selected.push(selected.pop());
       }
     },
-    
-    
+
+
     /**
      * Sets the CSS "display" attribute of all nodes with the given CSS class.
-     * 
+     *
      * @param cssClass {String} CSS class name
      * @param display {Boolean} Display value: true for "block", false for "none"
      */
@@ -489,18 +489,18 @@ qx.Class.define("testrunner2.view.Html", {
         qx.bom.element.Style.set(elems[i], "display", displayVal);
       }
     },
-    
-    
+
+
     /**
      * Visualizes the status of a single test result as it changes during test
      * execution.
-     * 
+     *
      * @param testResultData {Object} A test model object
      */
     _onTestChangeState : function(testResultData) {
       var testName = testResultData.getFullName();
       var state = testResultData.getState();
-      
+
       switch (state) {
         case "skip":
           this.setSkippedTestCount(this.getSkippedTestCount() + 1);
@@ -512,7 +512,7 @@ qx.Class.define("testrunner2.view.Html", {
         case "success":
           this.setSuccessfulTestCount(this.getSuccessfulTestCount() + 1);
       }
-      
+
       var exceptions =  testResultData.getExceptions();
       var key = this.__simplifyName(testName);
       var listItem = document.getElementById(key);
@@ -528,24 +528,24 @@ qx.Class.define("testrunner2.view.Html", {
         item.innerHTML = testName;
         listItem = document.getElementById(key);
       }
-      
+
       if (state == "success" && this.getShowPassed() === false) {
         qx.bom.element.Style.set(listItem, "display", "none");
       }
-      
+
       if (exceptions && exceptions.length > 0) {
         var errorList = document.createElement("ul");
         for (var i=0,l=exceptions.length; i<l; i++) {
           var error = exceptions[i].exception;
           var errorItem = document.createElement("li");
           errorItem.innerHTML += error;
-          
+
           var trace = testResultData.getStackTrace(error);
           if (trace.length > 0) {
             var stackDiv = document.createElement("div");
             qx.bom.element.Class.add(stackDiv, "stacktrace");
             stackDiv.innerHTML = 'Stack Trace:<br/>' + trace;
-            
+
             var displayVal = this.getShowStack() ? "block" : "none";
             qx.bom.element.Style.set(stackDiv, "display", displayVal);
             errorItem.appendChild(stackDiv);
@@ -555,11 +555,11 @@ qx.Class.define("testrunner2.view.Html", {
         listItem.appendChild(errorList);
       }
     },
-    
-    
+
+
     /**
-     * Listener for the checkbox associated with each test in the suite. 
-     * 
+     * Listener for the checkbox associated with each test in the suite.
+     *
      * @param ev {qx.event.type.Event} change event
      */
     __onToggleTest : function(ev)
@@ -568,11 +568,11 @@ qx.Class.define("testrunner2.view.Html", {
       var selected = ev.getTarget().checked;
       this.__toggleTestsSelected([testName], selected);
     },
-    
-    
+
+
     /**
      * Adds or removes tests from the list of selected tests.
-     * 
+     *
      * @param tests {String[]} List of tests to be added or removed
      * @param selected {Boolean} Whether the given tests should be added to or
      * removed from the selection
@@ -581,7 +581,7 @@ qx.Class.define("testrunner2.view.Html", {
     {
       //var selectedTests = qx.lang.Array.clone(this.getSelectedTests());
       var selectedTests = this.getSelectedTests().copy();
-      
+
       for (var i=0,l=tests.length; i<l; i++) {
         var testName = tests[i];
         var testInSelection = this._listContainsTest(selectedTests, testName);
@@ -593,12 +593,12 @@ qx.Class.define("testrunner2.view.Html", {
           this._removeTestFromList(selectedTests, testName);
         }
       }
-      
+
       //selectedTests.sort();
       this.setSelectedTests(selectedTests);
       this._writeCookie();
     },
-    
+
     _writeCookie : function()
     {
       var selected = this.getSelectedTests();
@@ -608,14 +608,14 @@ qx.Class.define("testrunner2.view.Html", {
       }
       qx.bom.Cookie.set("selectedTests", names.join("#"));
     },
-    
-    
+
+
     /*
     ****************************************************************************
        APPLY METHODS
     ****************************************************************************
     */
-    
+
     /**
      * Displays a status message.
      * @param value {String} The message to be displayed
@@ -626,21 +626,21 @@ qx.Class.define("testrunner2.view.Html", {
       if (!value[0] || (value === old)) {
         return;
       }
-            
+
       this.__domElements.elemStatus.innerHTML = value;
     },
-    
-    
+
+
     /**
-     * Visualizes the current state of the test suite by displaying a status 
+     * Visualizes the current state of the test suite by displaying a status
      * message and showing/hiding the "run" button.
-     * 
+     *
      * @param value {String} The test suite's status
      * @param value {String} The previous status
      */
     _applyTestSuiteState : function(value, old)
     {
-      switch(value) 
+      switch(value)
       {
         case "loading" :
           this.setStatus("Loading tests...");
@@ -700,33 +700,33 @@ qx.Class.define("testrunner2.view.Html", {
           break;
       };
     },
-    
-    
+
+
     _applyTestModel : function(value, old)
     {
       if (value == null) {
         return;
       }
-      
+
       this.__testModel = value;
-      
+
       var testList = testrunner2.runner.ModelUtil.getItemsByProperty(value, "type", "test");
       this.setSelectedTests(new qx.data.Array());
       this.__testNameToId = {};
       this.clearTestList();
       this.clearResults();
-      
+
       this.__testNamesList = [];
       for (var i=0,l=testList.length; i<l; i++) {
         this.__testNamesList.push(testList[i].getFullName());
       }
-      
+
       this._createTestList(this.__testNamesList);
-      
+
       this._applyCookieSelection();
     },
-    
-    
+
+
     _applyCookieSelection : function()
     {
       var cookieSelection = qx.bom.Cookie.get("selectedTests");
@@ -739,11 +739,11 @@ qx.Class.define("testrunner2.view.Html", {
             foundTests.push(found.getFullName());
           }
         }
-        
+
         if (foundTests.length > 0) {
           this.toggleAllTests(false);
           this.__toggleTestsSelected(foundTests, true);
-          
+
           for (var i=0,l=foundTests.length; i<l; i++) {
             this._setTestChecked(foundTests[i], true);
           }
@@ -754,18 +754,18 @@ qx.Class.define("testrunner2.view.Html", {
         this.getSelectedTests().append(testList);
       }
     },
-    
+
     _setTestChecked : function(testName, checked)
     {
       var value = checked ? "checked" : "";
       var target = testName ? "#cb_" + this.__simplifyName(testName) : "input";
       qx.bom.Collection.query("#qxtestrunner_testlist " + target).setAttribute("checked", value);
     },
-    
+
     /**
      * Removes a single test item from a qx.data.Array of test items
-     * 
-     * @param list {qx.data.Array} Test array 
+     *
+     * @param list {qx.data.Array} Test array
      * @param testName {String} Full name of the test to be removed
      */
     _removeTestFromList : function(list, testName)
@@ -777,11 +777,11 @@ qx.Class.define("testrunner2.view.Html", {
         }
       }
     },
-    
-    
+
+
     /**
      * Checks if a list of test items contains an entry with the given name
-     * 
+     *
      * @param list {qx.data.Array} The test list
      * @param testName {String} Full name of the test to look for
      * @return {Boolean} True if the test is in the list
@@ -795,8 +795,8 @@ qx.Class.define("testrunner2.view.Html", {
       }
       return false;
     },
-    
-    
+
+
     /**
      * Creates an entry in the HTML test list for each test in the given list
      * @param testList {String[]} Array of test names
@@ -817,11 +817,11 @@ qx.Class.define("testrunner2.view.Html", {
         qx.event.Registration.addListener(cb, "change", this.__onToggleTest, this);
       }
     },
-    
-    
+
+
     /**
      * Displays the amount of pending tests.
-     * 
+     *
      * @param value {Integer} Amount of pending tests
      * @param old {Integer} Old value
      */
@@ -841,11 +841,11 @@ qx.Class.define("testrunner2.view.Html", {
           break;
       };
     },
-    
-    
+
+
     /**
      * (Re)Loads the AUT in the iframe.
-     * 
+     *
      * @param value {String} AUT URI
      * @param old {String} Previous value
      */
@@ -857,11 +857,11 @@ qx.Class.define("testrunner2.view.Html", {
       this.__domElements.iframeSourceInput.value = value;
       qx.bom.Iframe.setSource(this.__domElements.elemIframe, value);
     },
-    
-    
+
+
     /**
      * Shows/hides all stack trace nodes in the results list.
-     * 
+     *
      * @param value {Boolean} Incoming property value
      * @param value {Boolean} Previous property value
      */
@@ -870,14 +870,14 @@ qx.Class.define("testrunner2.view.Html", {
       if (value == old) {
         return;
       }
-      
+
       this.__setDisplayForClass(".stacktrace", value);
     },
-    
-    
+
+
     /**
      * Shows/hides all successful tests in the results list.
-     * 
+     *
      * @param value {Boolean} Incoming property value
      * @param value {Boolean} Previous property value
      */
@@ -888,7 +888,7 @@ qx.Class.define("testrunner2.view.Html", {
       }
       this.__setDisplayForClass(".success", value);
     },
-    
+
     /**
      * Create keyboard shortcuts for the main controls.
      */
@@ -896,14 +896,14 @@ qx.Class.define("testrunner2.view.Html", {
     {
       var runTests = new qx.ui.core.Command("Ctrl+R");
       runTests.addListener("execute", this.__runTests, this);
-      
+
       var stopTests = new qx.ui.core.Command("Ctrl+S");
       stopTests.addListener("execute", this.__stopTests, this);
-      
+
       var reloadAut = new qx.ui.core.Command("Ctrl+Shift+R");
       reloadAut.addListener("execute", this.__reloadAut, this);
     }
-    
+
   }
-  
+
 });

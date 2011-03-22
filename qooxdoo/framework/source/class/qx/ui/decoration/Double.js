@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.decoration.Double",
     if (color != null) {
       this.setColor(color);
     }
-    
+
     if (innerWidth != null) {
       this.setInnerWidth(innerWidth);
     }
@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.decoration.Double",
       if (this.__markup) {
         return this.__markup;
       }
-      
+
       var innerStyles = {};
       this._styleBorder(innerStyles);
 
@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.decoration.Double",
 
     // interface implementation
     resize : function(element, width, height)
-    {      
+    {
       // Fix box model
       // Note: Scaled images are always using content box
       var scaledImage = this.getBackgroundImage() && this.getBackgroundRepeat() == "scale";
@@ -165,11 +165,11 @@ qx.Class.define("qx.ui.decoration.Double",
         this.getWidthTop() -
         this.getInnerWidthTop()) + "px";
     },
-    
+
     // interface implementation
     tint : function(element, bgcolor) {
       this._tintBackgroundColor(element, bgcolor, element.style);
-    }    
+    }
   },
 
 

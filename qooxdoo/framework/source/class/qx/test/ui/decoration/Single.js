@@ -24,8 +24,8 @@ qx.Class.define("qx.test.ui.decoration.Single",
   statics :
   {
     overflow : (
-      qx.core.Environment.get("engine.name") == "mshtml" && 
-      parseFloat(qx.core.Environment.get("engine.version")) == 6 ? 
+      qx.core.Environment.get("engine.name") == "mshtml" &&
+      parseFloat(qx.core.Environment.get("engine.version")) == 6 ?
       "overflow:hidden;" : "")
   },
 

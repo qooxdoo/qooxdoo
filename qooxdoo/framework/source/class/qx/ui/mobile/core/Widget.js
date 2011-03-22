@@ -25,7 +25,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * This is the base class for all mobile widgets.
  */
 qx.Class.define("qx.ui.mobile.core.Widget",
@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * @param widget {Object}
-     * 
+     *
      * @internal
      */
     registerWidget : function(widget)
@@ -90,11 +90,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       registry[id] = widget;
     },
 
-    
+
     /**
      *
      * @param id {String}
-     * 
+     *
      * @internal
      */
     unregisterWidget : function(id)
@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     addAttributeMapping : function(property, attribute, values)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var attributeMapping = qx.ui.mobile.core.Widget.ATTRIBUTE_MAPPING;
         if (attributeMapping[property]) {
@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
   },
 
 
-  events : 
+  events :
   {
     /** Fired if the mouse cursor moves over the widget. */
     mousemove : "qx.event.type.Mouse",
@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         {@link qx.event.type.Mouse#getButton} for more details.*/
     click : "qx.event.type.Mouse",
 
-    /** Widget is double clicked using left or middle button. 
+    /** Widget is double clicked using left or middle button.
         {@link qx.event.type.Mouse#getButton} for more details.*/
     dblclick : "qx.event.type.Mouse",
 
@@ -223,13 +223,13 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /** Fired if a touch at the screen is started. */
     touchstart : "qx.event.type.Touch",
-    
-    /** Fired if a touch at the screen has ended. */    
+
+    /** Fired if a touch at the screen has ended. */
     touchend : "qx.event.type.Touch",
-    
+
     /** Fired during a touch at the screen. */
     touchmove : "qx.event.type.Touch",
-    
+
     /** Fired if a touch at the screen is cancled. */
     touchcancel : "qx.event.type.Touch",
 
@@ -339,7 +339,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Whether the widget is an terminator for an event. This is an hint for the
      * event handler only.
-     * 
+     *
      * @internal
      */
     anonymous :
@@ -396,7 +396,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
    /**
     * Creates the container DOM element of the widget.
     * Override this method if you want to create a custom widget.
-    * 
+    *
     * @return {Element} the container element.
     */
     _createContainerElement : function()
@@ -442,7 +442,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       element.id = value;
       // Register the widget
       qx.ui.mobile.core.Widget.registerWidget(this);
-      
+
     },
 
 
@@ -453,7 +453,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     */
 
 
-    _add : function(child, layoutProperties) 
+    _add : function(child, layoutProperties)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -510,7 +510,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     _addAfter : function(child, afterWidget, layoutProperties)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (child.getLayoutParent() === this) {
           throw new Error("The child is already added to this widget. Please remove it first.")
@@ -532,10 +532,10 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Removes a given child from the widget.
-     * 
+     *
      * @param child {Widget} The widget to remove.
      */
-    _remove : function(child) 
+    _remove : function(child)
     {
       child.setLayoutParent(null);
       this._domUpdated();
@@ -576,9 +576,9 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Internal method. Sets the layout parent.
-     * 
+     *
      * @param parent {qx.ui.mobile.Widget} The parent widget
-     * 
+     *
      * @internal
      */
     setLayoutParent : function(parent)
@@ -592,15 +592,15 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         this.__layoutParent.removeChild(this);
       }
 
-      this.__layoutParent = parent || null; 
+      this.__layoutParent = parent || null;
     },
 
 
     /**
      * Internal method. Removes a given child widget and the corresponding DOM element.
-     * 
+     *
      * @param child {Widget} The widget to remove
-     * 
+     *
      * @internal
      */
     removeChild : function(child)
@@ -724,11 +724,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         qx.bom.element.Attribute.reset(element, attribute);
       }
     },
-    
-    
+
+
     /**
-     * 
-     * @param attribute {String} 
+     *
+     * @param attribute {String}
      */
     _getAttribute : function(attribute)
     {
@@ -771,8 +771,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * 
-     * @param style {String} 
+     *
+     * @param style {String}
      */
     _getStyle : function(style)
     {
@@ -817,9 +817,9 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * isSeeable 
+     * isSeeable
      * Warning: forces rendering of the browser. Do not use this method during
-     * animations or performance critical tasks. 
+     * animations or performance critical tasks.
      */
     isSeeable : function()
     {
@@ -853,8 +853,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Returns the content DOM element of the widget. 
-     * 
+     * Returns the content DOM element of the widget.
+     *
      * @return {Element} the content DOM element of the widget
      *
      * @internal
@@ -871,11 +871,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Returns the content DOM element of the widget.
      * Override this method, to define another element as the content element.
-     * 
+     *
      * Note: Most times this element points to to the container element.
-     * When the widget has a more complex element structure, 
+     * When the widget has a more complex element structure,
      * the function should return the element that should contain the content.
-     * 
+     *
      * @return {Element} the content DOM element of the widget
      */
     _getContentElement : function()
@@ -917,7 +917,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
   *****************************************************************************
   */
 
-  destruct : function() 
+  destruct : function()
   {
     if (!qx.core.ObjectRegistry.inShutDown)
     {
@@ -925,7 +925,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       // Needed as we rely on the containerElement in the qx.ui.mobile.core.EventHandler
       qx.event.Registration.removeAllListeners(this);
 
-      if (this.getId()) 
+      if (this.getId())
       {
         qx.ui.mobile.core.Widget.unregisterWidget(this.getId());
       }
@@ -944,7 +944,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      DEFER
   *****************************************************************************
   */
-  
+
   defer : function(statics) {
     qx.bom.Lifecycle.onShutdown(statics.onShutdown, statics);
   }

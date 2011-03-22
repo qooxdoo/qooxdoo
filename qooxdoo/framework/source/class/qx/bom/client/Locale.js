@@ -22,9 +22,9 @@
  * This class comes with all relevant information regarding
  * the client's selected locale.
  *
- * This class is used by {@link qx.core.Environment} and should not be used 
+ * This class is used by {@link qx.core.Environment} and should not be used
  * directly. Please check its class comment for details how to use it.
- * 
+ *
  * @internal
  */
 qx.Bootstrap.define("qx.bom.client.Locale",
@@ -38,16 +38,16 @@ qx.Bootstrap.define("qx.bom.client.Locale",
   statics :
   {
 
-    /** 
-     * {String} The name of the system locale e.g. "de" when the full 
-     * locale is "de_AT" 
+    /**
+     * {String} The name of the system locale e.g. "de" when the full
+     * locale is "de_AT"
      * @deprecated since 1.4: See qx.core.Environment
      */
     LOCALE : "",
 
-    /** 
-     * {String} The name of the variant for the system locale e.g. 
-     * "at" when the full locale is "de_AT" 
+    /**
+     * {String} The name of the variant for the system locale e.g.
+     * "at" when the full locale is "de_AT"
      * @deprecated since 1.4: See qx.core.Environment
      */
     VARIANT : "",
@@ -70,10 +70,10 @@ qx.Bootstrap.define("qx.bom.client.Locale",
     },
 
 
-    /** 
-     * The name of the variant for the system locale e.g. "at" when the 
-     * full locale is "de_AT" 
-     * 
+    /**
+     * The name of the variant for the system locale e.g. "at" when the
+     * full locale is "de_AT"
+     *
      * @return {String} The locales variant.
      * @internal
      */
@@ -93,14 +93,14 @@ qx.Bootstrap.define("qx.bom.client.Locale",
 
     /**
      * Internal helper for accessing the navigators language.
-     * 
+     *
      * @return {String} The language set by the navigator.
      */
     __getNavigatorLocale : function()
     {
       var locale = (navigator.userLanguage || navigator.language || "");
 
-      // Android Bug: Android does not return the system language from the 
+      // Android Bug: Android does not return the system language from the
       // navigator language. Try to parse the language from the userAgent.
       // See http://code.google.com/p/android/issues/detail?id=4641
       if (qx.bom.client.OperatingSystem.getName() == "android")
@@ -137,7 +137,7 @@ qx.Bootstrap.define("qx.bom.client.Locale",
         statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
           qx.Bootstrap.warn(
             "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-            "Plese check the API documentation of qx.core.Environemt.\n" + 
+            "Plese check the API documentation of qx.core.Environemt.\n" +
             "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
           );
           return c;

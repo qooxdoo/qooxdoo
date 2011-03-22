@@ -94,9 +94,9 @@ qx.Class.define("qx.data.marshal.Json",
      * {@link #__jsonToHash}. Two objects containing the same keys will not
      * create two different classes. The class creation process also supports
      * the functions provided by its delegate.
-     * 
-     * Important, please keep in mind that only valid JavaScript identifiers 
-     * can be used as keys in the data map. For convenience '-' in keys will 
+     *
+     * Important, please keep in mind that only valid JavaScript identifiers
+     * can be used as keys in the data map. For convenience '-' in keys will
      * be removed (a-b will be ab in the end).
      *
      * @see qx.data.store.IStoreDelegate
@@ -156,7 +156,7 @@ qx.Class.define("qx.data.marshal.Json",
         key = key.replace(/-/g, "");
         // check for valid JavaScript identifier
         if (qx.core.Variant.isSet("qx.debug", "on")) {
-          this.assertTrue((/^[$A-Za-z_][0-9A-Za-z_]*$/).test(key), 
+          this.assertTrue((/^[$A-Za-z_][0-9A-Za-z_]*$/).test(key),
           "The key '" + key + "' is not a valid JavaScript identifier.")
         }
 
@@ -314,12 +314,12 @@ qx.Class.define("qx.data.marshal.Json",
           var propertyName = key.replace(/-/g, "");
           // warn if there has been a replacement
           if (
-            qx.core.Variant.isSet("qx.debug", "on") && 
+            qx.core.Variant.isSet("qx.debug", "on") &&
             qx.core.Environment.get("qx.debug.databinding")
           ) {
             if (key != propertyName) {
               this.warn(
-                "The model contained an illegal name: '" + key + 
+                "The model contained an illegal name: '" + key +
                 "'. Replaced it with '" + propertyName + "'."
               );
             }

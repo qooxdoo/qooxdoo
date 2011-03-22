@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   },
 
 
-  properties : 
+  properties :
   {
     cssClass :
     {

@@ -147,7 +147,7 @@ qx.Class.define("qx.test.ui.Destroy",
 
     testControls : function()
     {
-      if(qx.core.Environment.get("engine.name") == "mshtml" && 
+      if(qx.core.Environment.get("engine.name") == "mshtml" &&
         parseFloat(qx.core.Environment.get("engine.version")) < 7)
       {
         this.warn("This test is skipped in IE6.");

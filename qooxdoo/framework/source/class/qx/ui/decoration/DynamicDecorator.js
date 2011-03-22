@@ -17,11 +17,11 @@
 
 ************************************************************************ */
 /**
- * This class is an abstract base calls and used by 
- * {@link qx.theme.manager.Decoration}. It's main purpose is to combine the 
+ * This class is an abstract base calls and used by
+ * {@link qx.theme.manager.Decoration}. It's main purpose is to combine the
  * included mixins into one working decorator.
  */
-qx.Class.define("qx.ui.decoration.DynamicDecorator", 
+qx.Class.define("qx.ui.decoration.DynamicDecorator",
 {
   extend : qx.ui.decoration.Abstract,
   type: "abstract",
@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
       if (this._markup) {
         return this._markup;
       }
-      
+
       // get the styles
       var styles = {};
       for (var name in this) {
@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
           this[name](styles);
         }
       }
-      
+
       // build the markup
       if (!this._generateMarkup) {
         var html = ['<div style="'];
@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
 
 
     // overridden
-    resize : function(element, width, height) {  
+    resize : function(element, width, height) {
       // get the left and top of the mixins
       var pos = {};
       for (var name in this) {
@@ -67,21 +67,21 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
             pos.left = currentPos.left;
             pos.top = currentPos.top;
           }
-          
+
           if (pos.width == undefined) {
             pos.width = currentPos.width;
             pos.height = currentPos.height;
           }
-          
+
           if (currentPos.elementToApplyDimensions) {
             pos.elementToApplyDimensions = currentPos.elementToApplyDimensions;
           }
-          
+
           // use the lowest left and top coordinate to make sure everything
           // is visible
           pos.left = currentPos.left < pos.left ? currentPos.left : pos.left;
           pos.top = currentPos.top < pos.top ? currentPos.top : pos.top;
-          
+
           // use the bigest width and height
           pos.width = currentPos.width > pos.width ? currentPos.width : pos.width;
           pos.height = currentPos.height > pos.height ? currentPos.height : pos.height;
@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
         element.style.left = pos.left + "px";
         element.style.top = pos.top + "px";
       }
-      
+
       // apply the width if required
       if (pos.width != undefined) {
         // Fix to keep applied size above zero
@@ -122,8 +122,8 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
         }
       }
     },
-    
-    
+
+
     // overridden
     _isInitialized: function() {
       return !!this._markup;
@@ -152,10 +152,10 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
           };
         }
       }
-      
+
       // check if the mixins have created a default insets
       if (defaultInsets["top"] != undefined) {
-        return defaultInsets;        
+        return defaultInsets;
       }
       // return a fallback which is 0 for all insets
       return {top: 0, right: 0, bottom: 0, left: 0};

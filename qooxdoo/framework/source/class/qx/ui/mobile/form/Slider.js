@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
   properties :
   {
-    cssClass : 
+    cssClass :
     {
       refine : true,
       init : "slider"
@@ -223,7 +223,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       var width = this._containerElementWidth;
 
       // Fix the position so that it is easier to set the last value
-      // Plus a bugfix: Seems like you can not hit the last pixel of the slider 
+      // Plus a bugfix: Seems like you can not hit the last pixel of the slider
       // div in the browser
       var pixelPerStep = this._pixelPerStep(width);
       if (position <= 4) {

@@ -139,8 +139,8 @@ qx.Class.define("qx.ui.form.RadioButton",
       invalid : true,
       hovered : true
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES

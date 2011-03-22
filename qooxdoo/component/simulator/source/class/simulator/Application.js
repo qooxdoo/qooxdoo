@@ -20,25 +20,25 @@
 qx.Class.define("simulator.Application", {
 
   extend : qx.application.Native,
-  
+
   members :
   {
-  
+
     main : function()
     {
       if (window.arguments) {
         this._argumentsToSettings(window.arguments);
       }
-      
+
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
-      
+
       this.runner = new simulator.TestRunner();
       this.runner.runTests();
     },
-    
+
     /**
      * Converts the value of the "settings" command line option to qx settings.
-     * 
+     *
      * @param args {String[]} Rhino arguments object
      */
     _argumentsToSettings : function(args)
@@ -70,5 +70,5 @@ qx.Class.define("simulator.Application", {
       }
     }
   }
-  
+
 });

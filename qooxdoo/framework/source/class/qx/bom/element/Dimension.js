@@ -181,7 +181,7 @@ qx.Class.define("qx.bom.element.Dimension",
 
           // IE renders the paddingRight as well with scrollbars on
           if (
-            qx.core.Environment.get("engine.name") == "mshtml" && 
+            qx.core.Environment.get("engine.name") == "mshtml" &&
             qx.core.Environment.get("engine.version") >= 6
           ) {
             width -= paddingRight;
@@ -234,7 +234,7 @@ qx.Class.define("qx.bom.element.Dimension",
 
           // IE renders the paddingBottom as well with scrollbars on
           if (qx.core.Environment.get("engine.name") == "mshtml" &&
-             qx.core.Environment.get("engine.version") == 6) 
+             qx.core.Environment.get("engine.version") == 6)
           {
             height -= paddingBottom;
           }

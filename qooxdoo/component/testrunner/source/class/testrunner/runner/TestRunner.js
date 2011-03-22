@@ -53,7 +53,7 @@ qx.Class.define("testrunner.runner.TestRunner",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.__menuItemStore = {};
     this.__logLevelData = {
         debug :
@@ -292,7 +292,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      * Track unsafe attempt to access frame with URL.
      */
     __frameUnsafeAttempt : null,
-    
+
     __overflowMenu : null,
     __menuItemStore : null,
     __logLevelData : null,
@@ -421,26 +421,26 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // enable overflow handling
       toolbar.setOverflowHandling(true);
-    
+
       // add a button for overflow handling
       var chevron = new qx.ui.toolbar.MenuButton(null, "icon/22/actions/media-seek-forward.png");
       chevron.setAppearance("toolbar-button");  // hide the down arrow icon
       toolbar.add(chevron);
       toolbar.setOverflowIndicator(chevron);
-    
+
       // set priorities for overflow handling
       toolbar.setRemovePriority(part1, 2);
       toolbar.setRemovePriority(part3, 3);
       toolbar.setRemovePriority(part2, 1);
-      
+
       // add the overflow menu
       this.__overflowMenu = new qx.ui.menu.Menu();
       chevron.setMenu(this.__overflowMenu);
-    
+
       // add the listener
       toolbar.addListener("hideItem", this._onHideItem, this);
       toolbar.addListener("showItem", this._onShowItem, this);
-    
+
       return toolbar;
     },  // makeToolbar
 
@@ -455,12 +455,12 @@ qx.Class.define("testrunner.runner.TestRunner",
         menuItems[i].setVisibility("visible");
       }
     },
-    
-    
+
+
     /**
      * Handler for the overflow handling which will be called on show.
      * @param e {qx.event.type.Data} The event.
-     */    
+     */
     _onShowItem : function(e) {
       var partItem = e.getData();
       var menuItems = this._getMenuItems(partItem);
@@ -468,12 +468,12 @@ qx.Class.define("testrunner.runner.TestRunner",
         menuItems[i].setVisibility("excluded");
       }
     },
-    
-        
+
+
     /**
-     * Helper for the overflow handling. It is responsible for returning a 
+     * Helper for the overflow handling. It is responsible for returning a
      * corresponding menu item for the given toolbar item.
-     * 
+     *
      * @param toolbarItem {qx.ui.core.Widget} The toolbar item to look for.
      * @return {qx.ui.core.Widget} The coresponding menu items.
      */
@@ -488,7 +488,7 @@ qx.Class.define("testrunner.runner.TestRunner",
             continue;
           }
           var cachedItem = this.__menuItemStore[partButtons[i].toHashCode()];
-      
+
           if (!cachedItem)
           {
             if(partButtons[i] instanceof qx.ui.toolbar.Button)
@@ -561,7 +561,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       return cachedItems;
     },
-    
+
     /**
      * TODOC
      *
@@ -609,7 +609,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      __logLevelIconConverter: function(data) {
         return this.__logLevelData[data].icon;
       },
-      
+
     /**
      * TODOC
      *

@@ -18,14 +18,14 @@
 ************************************************************************ */
 
 /**
- * The test result class runs test functions and fires events as the test's 
+ * The test result class runs test functions and fires events as the test's
  * state changes.
  */
- 
+
 qx.Class.define("simulator.unit.TestResult", {
 
   extend : qx.core.Object,
-  
+
   events :
   {
     /**
@@ -54,11 +54,11 @@ qx.Class.define("simulator.unit.TestResult", {
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
     failure   : "qx.event.type.Data"
-  },  
-  
+  },
+
   members :
   {
-    
+
     /**
      * Run the test
      *
@@ -69,7 +69,7 @@ qx.Class.define("simulator.unit.TestResult", {
     run : function(test, testFunction, self)
     {
       this.fireDataEvent("startTest", test);
-      
+
       try {
         test.setUp();
       } catch(ex) {
@@ -80,7 +80,7 @@ qx.Class.define("simulator.unit.TestResult", {
         this.fireDataEvent("endTest", test);
         return;
       }
-      
+
       try {
         testFunction.call(self);
       }
@@ -93,16 +93,16 @@ qx.Class.define("simulator.unit.TestResult", {
           this.fireDataEvent("error", ex);
         }
       }
-      
+
       try {
         test.tearDown();
-      } 
+      }
       catch(ex) {
         this.fireDataEvent("error", ex);
       }
-      
+
       this.fireDataEvent("endTest", test);
     }
   }
-  
+
 });

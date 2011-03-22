@@ -40,9 +40,9 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
     qx.core.Assert.assertNotUndefined(target, "Invalid parameter 'target'!");
     qx.core.Assert.assertInterface(target, qx.ui.form.core.AbstractVirtualBox,
       "Invalid parameter 'target'!");
-        
+
     this.base(arguments, new qx.ui.layout.VBox());
-    
+
     this._target = target;
 
     this._createChildControl("list");
@@ -92,8 +92,8 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
     _preselected : null,
 
 
-    /** 
-     * {Boolean} Indicator to ignore selection changes from the 
+    /**
+     * {Boolean} Indicator to ignore selection changes from the
      * {@link #selection} array.
      */
     __ignoreSelection : false,
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
 
     /**
      * Pre-selects the drop-down item corresponding to the given model object.
-     * 
+     *
      * @param modelItem {Object} Item to be pre-selected.
      */
     setPreselected : function(modelItem)
@@ -142,14 +142,14 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
       this.__ignoreListSelection = false;
     },
 
-    
+
     /*
     ---------------------------------------------------------------------------
       INTERNAL API
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     // overridden
     _createChildControlImpl : function(id, hash)
     {
@@ -167,7 +167,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
             selectionMode: "one",
             quickSelection: true
           });
-          
+
           control.getSelection().addListener("change", this._onListChangeSelection, this);
           control.addListener("mouseup", this._handleMouse, this);
           control.addListener("changeModel", this._onChangeModel, this);
@@ -310,7 +310,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
       this.getSelection().removeAll();
     },
 
-    
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -331,7 +331,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
         value, this.getChildControl("list").getSelection(value)
       );
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------
@@ -341,7 +341,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
 
 
     /**
-     * Helper method to select the current preselected item, also closes the 
+     * Helper method to select the current preselected item, also closes the
      * drop-down.
      */
     __selectPreselected : function()
@@ -357,7 +357,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
 
 
     /**
-     * Helper method to synchronize both selection. The target selection has 
+     * Helper method to synchronize both selection. The target selection has
      * the same selection like the source selection after the synchronization.
      *
      * @param source {qx.data.Array} The source selection.
@@ -371,7 +371,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
 
       if (source.getLength() <= 0) {
         target.removeAll();
-      } 
+      }
       else
       {
         var nativeArray = target.toArray();
@@ -399,7 +399,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
 
 
     /**
-     * Adjust the drop-down to the available width. The width is limited by 
+     * Adjust the drop-down to the available width. The width is limited by
      * the current with from the {@link #_target}.
      */
     __adjustWidth : function()

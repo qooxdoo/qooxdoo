@@ -2,7 +2,7 @@ qx.Class.define("qx.ui.tree.VirtualTreeFolder",
 {
   extend : qx.ui.tree.core.AbstractVirtualTreeItem,
 
-  
+
   construct : function(label)
   {
     this.base(arguments, label);
@@ -10,7 +10,7 @@ qx.Class.define("qx.ui.tree.VirtualTreeFolder",
     this.initOpen();
   },
 
-  
+
   properties :
   {
     // overridden
@@ -19,8 +19,8 @@ qx.Class.define("qx.ui.tree.VirtualTreeFolder",
       init: "virtual-tree-folder",
       refine: true
     },
-    
-    
+
+
     open :
     {
       check: "Boolean",
@@ -28,8 +28,8 @@ qx.Class.define("qx.ui.tree.VirtualTreeFolder",
       apply: "_applyOpen",
       init: false
     },
-    
-    
+
+
     openSymbolMode :
     {
       check: ["always", "never", "auto"],
@@ -47,20 +47,20 @@ qx.Class.define("qx.ui.tree.VirtualTreeFolder",
       PUBLIC API
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     addOpenButton : function() {
       this._add(this.getChildControl("open"));
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       INTERNAL API
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     // overridden
     _createChildControlImpl : function(id, hash)
     {
@@ -77,8 +77,8 @@ qx.Class.define("qx.ui.tree.VirtualTreeFolder",
 
       return control || this.base(arguments, id, hash);
     },
-    
-    
+
+
     // overridden
     _addWidgets : function()
     {
@@ -87,8 +87,8 @@ qx.Class.define("qx.ui.tree.VirtualTreeFolder",
       this.addIcon();
       this.addLabel();
     },
-    
-    
+
+
     // overridden
     _updateIndent : function()
     {
@@ -118,30 +118,30 @@ qx.Class.define("qx.ui.tree.VirtualTreeFolder",
         this._spacer.setWidth((this._getLevel()+1) * this.getIndent() - openWidth);
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     _onChangeOpen : function(e)
     {
       if (this.__isOpenable()) {
         this.setOpen(e.getData());
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY METHODS
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     // property apply
     _applyOpen : function(value, old)
     {
@@ -152,21 +152,21 @@ qx.Class.define("qx.ui.tree.VirtualTreeFolder",
 
       value ? this.addState("opened") : this.removeState("opened");
     },
-    
-    
+
+
     // property apply
     _applyOpenSymbolMode : function(value, old) {
       this._updateIndent();
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     __shouldShowOpenButton : function()
     {
       var open = this.getChildControl("open", true);
@@ -176,8 +176,8 @@ qx.Class.define("qx.ui.tree.VirtualTreeFolder",
 
       return this.__isOpenable();
     },
-    
-    
+
+
     __isOpenable : function()
     {
       var openMode = this.getOpenSymbolMode();
@@ -186,8 +186,8 @@ qx.Class.define("qx.ui.tree.VirtualTreeFolder",
         openMode === "auto" && this.__hasChildren()
       );
     },
-    
-    
+
+
     __hasChildren : function() {
       return this.getUserData("cell.children");
     }

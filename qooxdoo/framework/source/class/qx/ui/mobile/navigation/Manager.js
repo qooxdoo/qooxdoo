@@ -161,7 +161,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
       } else {
         this.__addToHistory(path, customData);
       }
- 
+
       this.__navigationHandler.setHash(path);
       this._execute("get", path, null, customData);
     },

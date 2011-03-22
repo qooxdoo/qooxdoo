@@ -78,11 +78,11 @@ qx.Class.define("qx.bom.element.Background",
 
       return leftCss + " " + topCss;
     },
-    
-    
+
+
     /**
      * Checks if the given image URL is a base64-encoded one.
-     * 
+     *
      * @param url {String} image url to check for
      * @return {Boolean} whether it is a base64-encoded image url
      */
@@ -90,7 +90,7 @@ qx.Class.define("qx.bom.element.Background",
     {
       var String = qx.lang.String;
 
-      // only check the first 50 characters for performance, since we do not 
+      // only check the first 50 characters for performance, since we do not
       // know how long a base64 image url can be.
       var firstPartOfUrl = url.substr(0, 50);
       return String.startsWith(firstPartOfUrl, "data:") && String.contains(firstPartOfUrl, "base64");
@@ -118,7 +118,7 @@ qx.Class.define("qx.bom.element.Background",
     {
       var position = this.__computePosition(left, top);
       var backgroundImageUrl = qx.util.ResourceManager.getInstance().toUri(source);
-      
+
       if (this.__isBase64EncodedImage(backgroundImageUrl)) {
         backgroundImageUrl = "'" + backgroundImageUrl + "'";
       }
@@ -159,8 +159,8 @@ qx.Class.define("qx.bom.element.Background",
 
       var position = this.__computePosition(left, top);
       var backgroundImageUrl = qx.util.ResourceManager.getInstance().toUri(source);
-      
-      var backgroundImageCssString; 
+
+      var backgroundImageCssString;
       if (this.__isBase64EncodedImage(backgroundImageUrl)) {
         backgroundImageCssString = "url('" + backgroundImageUrl + "')";
       } else {

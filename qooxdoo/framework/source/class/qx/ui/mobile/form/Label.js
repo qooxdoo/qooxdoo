@@ -31,7 +31,7 @@ qx.Class.define("qx.ui.mobile.form.Label",
   },
 
 
-  properties : 
+  properties :
   {
     cssClass :
     {

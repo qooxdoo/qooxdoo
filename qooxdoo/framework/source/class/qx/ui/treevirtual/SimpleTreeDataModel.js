@@ -667,7 +667,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
     /**
      * Orders the node and creates all data needed to render the tree.
-     * 
+     *
      * @param nodeId {Integer}
      *   A node identifier, as previously returned by {@link #addBranch} or
      *   {@link #addLeaf}.
@@ -707,7 +707,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         child.bFirstChild = (index == 0);
 
         // Set the last child flag of the node only when no node was skipped.
-        // Otherwise we will have to recalculate the last child flags, as 
+        // Otherwise we will have to recalculate the last child flags, as
         // the parent or sibling node might become the first child.
         if (!this.__recalculateLastChildFlags) {
           this.__setLastChildFlag(child, i == numChildren - 1);
@@ -779,9 +779,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
 
     /**
-     * Calcultes the lastChild flags to the nodes, so that the tree can render the 
+     * Calcultes the lastChild flags to the nodes, so that the tree can render the
      * tree lines right.
-     * 
+     *
      * @param nodeId {Integer}
      *   A node identifier, as previously returned by {@link #addBranch} or
      *   {@link #addLeaf}.
@@ -807,7 +807,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
     /**
      * Sets the last child flag for a node and all it's parents.
-     * 
+     *
      * @param node {Object} the node object
      * @param isLastChild {Boolean} whether the node is the last child
      */
@@ -834,7 +834,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      */
     __render : function()
     {
-      // Reset the __tempTreeData 
+      // Reset the __tempTreeData
       this.__tempTreeData = [];
       this.__recalculateLastChildFlags = false;
 
@@ -851,13 +851,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       // _rowArr.
       this.__inorder(0, 1);
 
-      // Reset the lastChild flags when needed, so that the tree can render the 
+      // Reset the lastChild flags when needed, so that the tree can render the
       // tree lines right.
       if (this.__recalculateLastChildFlags) {
         this.__calculateLastChildFlags(0);
       }
 
-      // Give the memory free 
+      // Give the memory free
       this.__tempTreeData = null;
 
       // Inform the listeners

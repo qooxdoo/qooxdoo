@@ -256,13 +256,13 @@ qx.Class.define("qx.theme.manager.Appearance",
       // If an include or base is defined, too, we need to merge the entries
       if (entry.include || entry.base)
       {
-        
+
         // Gather included data
         var incl;
         if (entry.include) {
           incl = this.styleFrom(entry.include, states, theme, defaultId);
         }
-        
+
         // This process tries to insert the original data first, and
         // append the new data later, to higher prioritize the local
         // data above the included/inherited data. This is especially needed

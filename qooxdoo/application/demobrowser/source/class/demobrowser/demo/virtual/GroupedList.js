@@ -35,11 +35,11 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
   members :
   {
     __list : null,
-    
+
     __listGroupedByName : null,
-    
+
     __listGroupedByGroup : null,
-  
+
     main: function()
     {
       this.base(arguments);
@@ -73,7 +73,7 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
       );
       container.add(description);
 
-      var listContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(20)); 
+      var listContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
       container.add(listContainer, {flex: 1});
 
       listContainer.add(firstExample);
@@ -89,7 +89,7 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
       store.bind("model.persons", this.__listGroupedByName, "model");
       store.bind("model.persons", this.__listGroupedByGroup, "model");
     },
-    
+
     createFirstExample : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
@@ -109,10 +109,10 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
         }}
       });
       container.add(list, {top: 20});
-      
+
       return container;
     },
-    
+
     createSecondExample : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
@@ -132,7 +132,7 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
         }}
       });
       container.add(list, {top: 20});
-      
+
       // Creates the delegate for sorting and grouping
       var delegate = {
         // Sorts the model data by last name
@@ -140,23 +140,23 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
         {
           a = a.getLastname();
           b = b.getLastname();
-          
+
           return a > b ? 1 : a < b ? -1 : 0;
         },
-        
+
         // Assign the group name for each item (fist char form last name)
         group : function(model) {
           return model.getLastname().charAt(0).toUpperCase();
         }
       };
       list.setDelegate(delegate);
-      
+
       // Share the selection with the fist list
       list.setSelection(this.__list.getSelection());
-      
+
       return container;
     },
-    
+
     createThirdExample : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
@@ -176,7 +176,7 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
         }}
       });
       container.add(list, {top: 20});
-      
+
       // Creates the delegate for sorting and grouping
       var delegate = {
         // Sorts the model data by last name
@@ -184,10 +184,10 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
         {
           a = a.getLastname();
           b = b.getLastname();
-          
+
           return a > b ? 1 : a < b ? -1 : 0;
         },
-          
+
         // Uses the defined group name form the model.
         // When the model doesn't define a group name,
         // The default group name from the list is used.
@@ -199,13 +199,13 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
         createGroupItem : function() {
           return new qx.ui.form.ListItem();
         },
-        
+
         // Configures each item
         configureGroupItem : function(item) {
           item.setBackgroundColor("#005E00");
           item.setTextColor("white");
         },
-        
+
         // Binds the group name to the label and
         // assign a icon dependent on the group name
         bindGroupItem : function(controller, item, id) {
@@ -225,14 +225,14 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
         }
       };
       list.setDelegate(delegate);
-      
+
       // Share the selection with the first list
       list.setSelection(this.__list.getSelection());
-      
+
       return container;
     }
   },
-  
+
   destruct : function()
   {
     this.__list.dispose();

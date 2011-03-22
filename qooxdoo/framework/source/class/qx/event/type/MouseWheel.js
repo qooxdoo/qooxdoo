@@ -57,10 +57,10 @@ qx.Class.define("qx.event.type.MouseWheel",
 
     /**
      * Normalizer for the mouse wheel data.
-     * 
+     *
      * @param delta {Number} The mouse delta.
      */
-    __normalize : function(delta) {      
+    __normalize : function(delta) {
       // store the min value
       if (qx.event.type.MouseWheel.MINSCROLL > absDelta) {
         qx.event.type.MouseWheel.MINSCROLL = absDelta;
@@ -76,13 +76,13 @@ qx.Class.define("qx.event.type.MouseWheel",
 
       // special case for systems not speeding up
       if (
-        qx.event.type.MouseWheel.MAXSCROLL === absDelta && 
+        qx.event.type.MouseWheel.MAXSCROLL === absDelta &&
         qx.event.type.MouseWheel.MINSCROLL === absDelta
       ) {
         return 2 * (delta / absDelta);
       }
 
-      var range = 
+      var range =
         qx.event.type.MouseWheel.MAXSCROLL - qx.event.type.MouseWheel.MINSCROLL;
       var ret = (delta / range) * Math.log(range);
 

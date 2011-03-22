@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
       var ResourceManager = qx.util.ResourceManager.getInstance();
 
       // Show a warning message that the baseImage is not available
-      // otherwise the developer would only see a property error message 
+      // otherwise the developer would only see a property error message
       // without mentioning which resource is missing.
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {

@@ -15,7 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Adrian Olaru (adrianolaru)
-   
+
    ======================================================================
 
    This class contains code based on the following work:

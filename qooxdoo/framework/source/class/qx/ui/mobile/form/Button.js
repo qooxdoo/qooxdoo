@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.mobile.form.Button",
   },
 
 
-  properties : 
+  properties :
   {
     cssClass :
     {
@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.mobile.form.Button",
       check : "String",
       nullable : true,
       init : null,
-      apply : "_applyValue" 
+      apply : "_applyValue"
     }
   },
 
@@ -59,6 +59,6 @@ qx.Class.define("qx.ui.mobile.form.Button",
       var element = this.getContentElement();
       element.innerHTML = value;
     }
- 
+
   }
 });

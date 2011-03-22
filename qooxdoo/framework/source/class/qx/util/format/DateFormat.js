@@ -167,7 +167,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
     /** {String} The pm marker. */
     PM_MARKER : "pm",
-    
+
     // MEDIUM_TIMEZONE_NAMES and FULL_TIMEZONE_NAMES are taken from:
     // http://www.timeanddate.com/library/abbreviations/timezones/
     /** {String[]} The medium (three letter) timezone names. */

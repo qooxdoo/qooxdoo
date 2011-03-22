@@ -750,10 +750,10 @@ qx.Class.define("qx.event.handler.Keyboard",
       145 : "Scroll",       // The scroll lock key
        19 : "Pause",        // The pause/break key
        // The left Windows Logo key or left cmd key
-       91 : qx.core.Environment.get("os.name") == "osx" ? "cmd" : "Win", 
+       91 : qx.core.Environment.get("os.name") == "osx" ? "cmd" : "Win",
        92 : "Win",          // The right Windows Logo key or left cmd key
        // The Application key (Windows Context Menu) or right cmd key
-       93 : qx.core.Environment.get("os.name") == "osx" ? "cmd" : "Apps" 
+       93 : qx.core.Environment.get("os.name") == "osx" ? "cmd" : "Apps"
     },
 
 

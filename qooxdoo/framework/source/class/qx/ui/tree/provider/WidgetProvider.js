@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * The provider implements the {@link qx.ui.virtual.core.IWidgetCellProvider}
  * API, which can be used as delegate for the widget cell rendering and it
  * provides a API to bind the model with the rendered item.
@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
   include : [qx.ui.tree.core.MWidgetController],
 
-  
+
   /**
    * @param tree {qx.ui.tree.VirtualTree} tree to provide.
    */
@@ -67,30 +67,30 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       PUBLIC API
     ---------------------------------------------------------------------------
     */
-    
+
 
     // interface implementation
     getCellWidget : function(row, column)
     {
       var item = this._tree.getLookupTable().getItem(row);
-      
+
       var hasChildren = false;
       if (this._tree.isNode(item)) {
         hasChildren = this._tree.hasChildren(item);
       }
-        
+
       var widget = this._renderer.getCellWidget();
       widget.setOpen(hasChildren && this._tree.isNodeOpen(item));
       widget.setUserData("cell.children", hasChildren);
       widget.addListener("changeOpen", this.__onOpenChanged, this);
       this._bindItem(widget, row);
-      
+
       if(this._tree.getSelection().contains(item)) {
         this._styleSelectabled(widget);
       } else {
         this._styleUnselectabled(widget);
       }
-      
+
       widget.setUserData("cell.level", this._tree.getLevel(row));
       qx.ui.core.queue.Widget.add(widget);
 
@@ -159,8 +159,8 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
         return true;
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       INTERNAL API
@@ -194,15 +194,15 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
       this._renderer.updateStates(widget, {});
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLERS
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     /**
      * Event handler for the created item's.
      *
@@ -211,14 +211,14 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     _onItemCreated : function(event)
     {
       var configureItem = qx.util.Delegate.getMethod(this.getDelegate(), "configureItem");
-      
+
       if (configureItem != null) {
         var leaf = event.getData();
         configureItem(leaf);
       }
     },
-    
-    
+
+
     /**
      * Event handler for the change delegate event.
      *
@@ -230,15 +230,15 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
         this._renderer.dispose();
         this.removeBindings();
       }
-      
+
       this._renderer = this.createRenderer();
       this._renderer.addListener("created", this._onItemCreated, this);
     },
-    
-    
+
+
     /**
      * Handler when a node changes opened or closed state.
-     * 
+     *
      * @param event {qx.event.type.Data} The data event.
      */
     __onOpenChanged : function(event)

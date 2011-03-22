@@ -92,7 +92,7 @@ qx.Class.define("qx.bom.element.Location",
       // http://edvakf.googlepages.com/clientrect.html
       // http://tc.labs.opera.com/apis/cssom/clientrects/
       // Until these are fixed we will not use this method in Opera.
-      if (elem.getBoundingClientRect && 
+      if (elem.getBoundingClientRect &&
         qx.core.Environment.get("engine.name") != "opera")
       {
         // Find window
@@ -507,7 +507,7 @@ qx.Class.define("qx.bom.element.Location",
       {
         var top = body.offsetTop;
         var left = body.offsetLeft;
-        if (!((parseFloat(qx.core.Environment.get("engine.version")) < 8 || 
+        if (!((parseFloat(qx.core.Environment.get("engine.version")) < 8 ||
           qx.core.Environment.get("browser.documentmode") < 8) &&
           !qx.core.Environment.get("browser.quirksmode")))
         {

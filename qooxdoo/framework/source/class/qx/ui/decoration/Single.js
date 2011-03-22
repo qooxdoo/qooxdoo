@@ -26,7 +26,7 @@ qx.Class.define("qx.ui.decoration.Single",
 {
   extend : qx.ui.decoration.Abstract,
   include : [
-    qx.ui.decoration.MBackgroundImage, 
+    qx.ui.decoration.MBackgroundImage,
     qx.ui.decoration.MBackgroundColor,
     qx.ui.decoration.MSingleBorder
   ],
@@ -86,12 +86,12 @@ qx.Class.define("qx.ui.decoration.Single",
       if (this._markup) {
         return this._markup;
       }
-      
+
       var styles = {};
 
       // get the single border styles
       this._styleBorder(styles, element);
-      
+
       var html = this._generateBackgroundMarkup(styles);
 
       return this._markup = html;
@@ -116,7 +116,7 @@ qx.Class.define("qx.ui.decoration.Single",
 
       element.style.width = width + "px";
       element.style.height = height + "px";
-      
+
       // get the left and top of the mixins
       var pos = this._resizeBorder(element, width, height);
       element.style.left = pos.left + "px";
@@ -128,8 +128,8 @@ qx.Class.define("qx.ui.decoration.Single",
     tint : function(element, bgcolor) {
       this._tintBackgroundColor(element, bgcolor, element.style);
     },
-    
-    
+
+
     // overridden
     _isInitialized: function() {
       return !!this._markup;

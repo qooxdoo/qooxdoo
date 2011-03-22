@@ -26,14 +26,14 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
 
 
   properties : {
-    type : 
+    type :
     {
       refine : true,
       init : "text"
     },
 
 
-    cssClass : 
+    cssClass :
     {
       refine : true,
       init : "textArea"

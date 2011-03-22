@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.core.Environment", 
+qx.Class.define("qx.test.core.Environment",
 {
   extend : qx.test.ui.LayoutTestCase,
 
@@ -24,7 +24,7 @@ qx.Class.define("qx.test.core.Environment",
   {
     // /////////////////////////////////
     // TESTS FOR THE ENVIRONMENT CLASS
-    // ////////////////////////////// //   
+    // ////////////////////////////// //
     testGet : function() {
       // fake the check
       qx.core.Environment._checks["affe"] = function() {
@@ -35,15 +35,15 @@ qx.Class.define("qx.test.core.Environment",
       delete qx.core.Environment._checks["affe"];
       qx.core.Environment.invalidateCacheKey("affe");
     },
-    
+
     testGetAsync : function() {
       // fake the check
       qx.core.Environment._asyncChecks["affe"] = function(clb, self) {
         window.setTimeout(function() {
-          clb.call(self, "affe");          
+          clb.call(self, "affe");
         }, 0);
       }
-      
+
       qx.core.Environment.getAsync("affe", function(result) {
         this.resume(function() {
           this.assertEquals("affe", result);
@@ -55,7 +55,7 @@ qx.Class.define("qx.test.core.Environment",
 
       this.wait();
     },
-    
+
     testSelect : function() {
       // fake the check
       qx.core.Environment._checks["affe"] = function() {
@@ -71,7 +71,7 @@ qx.Class.define("qx.test.core.Environment",
       delete qx.core.Environment._checks["affe"];
       qx.core.Environment.invalidateCacheKey("affe");
     },
-    
+
     testSelectDefault : function() {
       // fake the check
       qx.core.Environment._checks["affe"] = function() {
@@ -93,7 +93,7 @@ qx.Class.define("qx.test.core.Environment",
       // fake the check
       qx.core.Environment.addAsync("affe", function(clb, self) {
         window.setTimeout(function() {
-          clb.call(self, "AFFE");    
+          clb.call(self, "AFFE");
         }, 0);
       });
 
@@ -103,7 +103,7 @@ qx.Class.define("qx.test.core.Environment",
           this.resume(function() {
             // clear the fake check
             delete qx.core.Environment._checks["affe"];
-            qx.core.Environment.invalidateCacheKey("affe");            
+            qx.core.Environment.invalidateCacheKey("affe");
           }, this);
         }
       }, this);
@@ -120,9 +120,9 @@ qx.Class.define("qx.test.core.Environment",
       this.assertEquals("affe", qx.core.Environment.get("affe"));
       // clear the fake check
       delete qx.core.Environment._checks["affe"];
-      
+
       this.assertEquals("affe", qx.core.Environment.get("affe"));
-      
+
       qx.core.Environment.invalidateCacheKey("affe");
     },
 
@@ -142,31 +142,31 @@ qx.Class.define("qx.test.core.Environment",
       this.assertEquals("affe2", qx.core.Environment.get("affe"));
 
       // clear the fake check
-      delete qx.core.Environment._checks["affe"];      
+      delete qx.core.Environment._checks["affe"];
       qx.core.Environment.invalidateCacheKey("affe");
     },
-    
-    
+
+
     testAddFunction : function() {
       qx.core.Environment.add("affe", function() {
         return "AFFE";
       });
 
       this.assertEquals("AFFE", qx.core.Environment.get("affe"));
-      
+
       // clear the check
-      delete qx.core.Environment._checks["affe"];      
+      delete qx.core.Environment._checks["affe"];
       qx.core.Environment.invalidateCacheKey("affe");
     },
-    
-    
+
+
     testAddValue : function() {
       qx.core.Environment.add("affe", "AFFE");
 
       this.assertEquals("AFFE", qx.core.Environment.get("affe"));
-      
+
       // clear the check
-      delete qx.core.Environment._checks["affe"];      
+      delete qx.core.Environment._checks["affe"];
       qx.core.Environment.invalidateCacheKey("affe");
     },
 
@@ -174,10 +174,10 @@ qx.Class.define("qx.test.core.Environment",
     testAddAsyncFunction : function() {
       qx.core.Environment.addAsync("affe", function(clb, self) {
         window.setTimeout(function() {
-          clb.call(self, "AFFE");    
+          clb.call(self, "AFFE");
         }, 0);
       });
-      
+
       qx.core.Environment.getAsync("affe", function(result) {
         this.resume(function() {
           this.assertEquals("AFFE", result);
@@ -188,7 +188,7 @@ qx.Class.define("qx.test.core.Environment",
       }, this);
 
       this.wait();
-    },    
+    },
 
 
     // //////////////////////////////
@@ -197,19 +197,19 @@ qx.Class.define("qx.test.core.Environment",
     testEngineName : function() {
       this.assertNotEquals("", qx.core.Environment.get("engine.name"));
     },
-    
+
     testEngineVersion : function() {
-      this.assertNotEquals("", qx.core.Environment.get("engine.version"));      
+      this.assertNotEquals("", qx.core.Environment.get("engine.version"));
     },
-    
+
     testBrowser : function() {
       this.assertNotEquals("", qx.core.Environment.get("browser.name"));
       this.assertNotEquals("", qx.core.Environment.get("browser.version"));
-      
+
       qx.core.Environment.get("browser.documentmode");
       this.assertBoolean(qx.core.Environment.get("browser.quirksmode"));
     },
-    
+
     testLocale : function() {
       this.assertNotEquals("", qx.core.Environment.get("locale"));
     },
@@ -268,7 +268,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assertString(xhr);
 
       // Should return "xhr" when standard XHR is available
-      if (window.XMLHttpRequest && 
+      if (window.XMLHttpRequest &&
           window.location.protocol !== "file:") {
         this.assertEquals("xhr", xhr);
       }
@@ -292,11 +292,11 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("html.svg"));
       this.assertBoolean(qx.core.Environment.get("html.vml"));
     },
-    
+
     testGears : function() {
       this.assertBoolean(qx.core.Environment.get("plugin.gears"));
     },
-    
+
     testCss : function() {
       this.assertNotEquals("", qx.core.Environment.get("css.boxmodel"));
       this.assertBoolean(qx.core.Environment.get("css.textoverflow"));
@@ -311,16 +311,16 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("phonegap"));
       this.assertBoolean(qx.core.Environment.get("phonegap.notification"));
     },
-    
+
     testEvent : function() {
       this.assertBoolean(qx.core.Environment.get("event.touch"));
       this.assertBoolean(qx.core.Environment.get("event.pointer"));
     },
-    
+
     testEcmaScript : function() {
       this.assertBoolean(qx.core.Environment.get("ecmascript.objectcount"));
     },
-    
+
     testDataUrl : function() {
       qx.core.Environment.getAsync("html.dataurl", function(result) {
         this.resume(function() {
@@ -329,11 +329,11 @@ qx.Class.define("qx.test.core.Environment",
       }, this);
       this.wait();
     },
-    
+
     testDevice : function() {
       this.assertString(qx.core.Environment.get("device.name"));
     },
-    
+
     testOldSettings : function() {
       this.assertBoolean(qx.core.Environment.get("qx.allowUrlSettings"));
       this.assertBoolean(qx.core.Environment.get("qx.allowUrlVariants"));

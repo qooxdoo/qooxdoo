@@ -20,17 +20,17 @@
 
 /**
  * QxSelenium test case for the widget.Tree demo.
- * 
+ *
  * @lint ignoreUndefined(simulator)
  */
 qx.Class.define("demobrowser.simulation.demo.widget.Tree", {
 
   extend : demobrowser.simulation.demo.Abstract,
-  
+
   members :
   {
     locators : null,
-    
+
     setUp : function()
     {
       this.base(arguments);
@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.simulation.demo.widget.Tree", {
         this.locators.textField = this.iframeRootLocator + "/qx.ui.container.Composite/qx.ui.groupbox.GroupBox/qx.ui.form.TextField"
       }
     },
-    
+
     testSingleSelection : function()
     {
       //get the label of the tree root's first child

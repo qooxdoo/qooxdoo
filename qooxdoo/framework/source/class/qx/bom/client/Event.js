@@ -26,13 +26,13 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Event", 
+qx.Bootstrap.define("qx.bom.client.Event",
 {
   statics :
   {
     /**
      * Checks if touch events are supported.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if touch events are supported.
      */
@@ -43,7 +43,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
 
     /**
      * Checks if pointer events are available.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if pointer events are supported.
      */
@@ -54,7 +54,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
         // Do not rely on pointer events in Opera until this browser issue is fixed.
         // IE9 only supports pointer events only for SVG.
         // See http://msdn.microsoft.com/en-us/library/ff972269%28v=VS.85%29.aspx
-        var browserName = qx.bom.client.Engine.getName(); 
+        var browserName = qx.bom.client.Engine.getName();
         return browserName != "opera" && browserName != "mshtml";
       }
       return false;

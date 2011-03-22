@@ -37,7 +37,7 @@ qx.Class.define("qx.test.event.dispatch.MouseEventOnDocument",
       qx.log.Logger.unregister(this.ringAppender);
       qx.log.Logger.clear();
       this.ringAppender=null;
-      
+
       var Reg = qx.event.Registration;
 
       Reg.removeAllListeners(document);
@@ -46,19 +46,19 @@ qx.Class.define("qx.test.event.dispatch.MouseEventOnDocument",
 
       document.body.removeChild(document.getElementById("root"));
     },
-    
+
     testMouseEventsOnDocument: function(){
       this.doWork(document);
     },
-    
+
     testMouseEventsOnWindow: function(){
       this.doWork(window);
     },
-    
+
     testMouseEventsOnDomNode: function(){
       this.doWork(this.root);
     },
-    
+
     doWork: function(el){
       if (qx.core.Variant.isSet("qx.debug", "on")){
         qx.log.Logger.clear();
@@ -70,6 +70,6 @@ qx.Class.define("qx.test.event.dispatch.MouseEventOnDocument",
         this.assertTrue( 0 === warnings , warnings + " events in ['mousemove','click','mousedown','mouseup'] generated a warning when added to target "+el);
       }
     }
-    
+
   }
 });

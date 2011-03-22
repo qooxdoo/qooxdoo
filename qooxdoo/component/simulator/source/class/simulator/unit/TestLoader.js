@@ -32,9 +32,9 @@ qx.Class.define("simulator.unit.TestLoader", {
       check    : "qx.dev.unit.TestSuite"
     }
   },
-  
+
   /**
-   * 
+   *
    * @param nameSpace {String} Test namespace, e.g. myapplication.simulation.*
    */
   construct : function(nameSpace)

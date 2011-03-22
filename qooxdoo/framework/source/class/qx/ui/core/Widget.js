@@ -2091,7 +2091,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Remove all children.
-     * 
+     *
      * @return {Array} An array containing the removed children.
      */
     _removeAll : function()
@@ -2110,7 +2110,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       qx.ui.core.queue.Layout.add(this);
-      
+
       return children;
     },
 

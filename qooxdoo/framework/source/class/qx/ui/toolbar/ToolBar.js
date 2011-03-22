@@ -191,7 +191,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * Responsible for calculation the overflow based on the available width.
      *
      * @param width {Integer?null} The available width.
-     * @param requiredWidth {Integer?null} The required width for the widget 
+     * @param requiredWidth {Integer?null} The required width for the widget
      *   if available.
      */
     _recalculateOverflow : function(width, requiredWidth)
@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       if (width == undefined && this.getBounds() != null) {
         width = this.getBounds().width;
       }
-      
+
       // if we still don't have a width, than we are not added to a parrent
       if (width == undefined) {
         // we should ignore it in that case
@@ -243,8 +243,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
             // if we need to add the overflow indicator, we need to add its width
             requiredWidth += overflowWidgetWidth;
             // add spacing or margins
-            var overflowWidgetMargins = 
-              overflowWidget.getMarginLeft() + 
+            var overflowWidgetMargins =
+              overflowWidget.getMarginLeft() +
               overflowWidget.getMarginRight();
             requiredWidth += Math.max(overflowWidgetMargins, this.getSpacing());
           }
@@ -259,13 +259,13 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
             // get the margins or spacing
             var margins = removedChild.getMarginLeft() + removedChild.getMarginRight();
             margins = Math.max(margins, this.getSpacing());
-            
+
             // check if the element has been rendered before [BUG #4542]
             if (removedChild.getDecoratorElement() == null) {
-              // if not, apply the decorator element because it can change the 
+              // if not, apply the decorator element because it can change the
               // width of the child with padding e.g.
               removedChild.syncAppearance();
-              // also invalidate the layout cache to trigger size hint 
+              // also invalidate the layout cache to trigger size hint
               // recalculation
               removedChild.invalidateLayoutCache();
             }
@@ -276,10 +276,10 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
             // if we can remove the overflow widget if its available
             if (this.__removedItems.length == 1 && overflowWidgetWidth > 0) {
               var addedMargin = margins - this.getSpacing();
-              var wouldRequiredWidth = 
-                requiredWidth - 
-                overflowWidgetWidth + 
-                removedChildWidth + 
+              var wouldRequiredWidth =
+                requiredWidth -
+                overflowWidgetWidth +
+                removedChildWidth +
                 addedMargin;
               fits = width > wouldRequiredWidth;
             }
@@ -496,67 +496,67 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       CHILD HANDLING
     ---------------------------------------------------------------------------
     */
-    // overridden    
+    // overridden
     _add : function(child, options) {
       this.base(arguments, child, options);
-      var newWidth = 
-        this.getSizeHint().width + 
-        child.getSizeHint().width + 
-        2 * this.getSpacing();
-      this._recalculateOverflow(null, newWidth);
-    },
-    
-    // overridden
-    _addAt : function(child, index, options) {
-      this.base(arguments, child, index, options);
-      var newWidth = 
-        this.getSizeHint().width + 
+      var newWidth =
+        this.getSizeHint().width +
         child.getSizeHint().width +
         2 * this.getSpacing();
       this._recalculateOverflow(null, newWidth);
     },
-    
+
+    // overridden
+    _addAt : function(child, index, options) {
+      this.base(arguments, child, index, options);
+      var newWidth =
+        this.getSizeHint().width +
+        child.getSizeHint().width +
+        2 * this.getSpacing();
+      this._recalculateOverflow(null, newWidth);
+    },
+
     // overridden
     _addBefore : function(child, before, options) {
       this.base(arguments, child, before, options);
-      var newWidth = 
-        this.getSizeHint().width + 
-        child.getSizeHint().width + 
+      var newWidth =
+        this.getSizeHint().width +
+        child.getSizeHint().width +
         2 * this.getSpacing();
       this._recalculateOverflow(null, newWidth);
     },
-    
+
     // overridden
     _addAfter : function(child, after, options) {
       this.base(arguments, child, after, options);
-      var newWidth = 
-        this.getSizeHint().width + 
-        child.getSizeHint().width + 
+      var newWidth =
+        this.getSizeHint().width +
+        child.getSizeHint().width +
         2 * this.getSpacing();
       this._recalculateOverflow(null, newWidth);
     },
-    
+
     // overridden
     _remove : function(child) {
       this.base(arguments, child);
-      var newWidth = 
-        this.getSizeHint().width - 
-        child.getSizeHint().width - 
+      var newWidth =
+        this.getSizeHint().width -
+        child.getSizeHint().width -
         2 * this.getSpacing();
       this._recalculateOverflow(null, newWidth);
     },
-    
+
     // overridden
     _removeAt : function(index) {
       var child = this._getChildren()[index];
       this.base(arguments, index);
-      var newWidth = 
-        this.getSizeHint().width - 
-        child.getSizeHint().width - 
+      var newWidth =
+        this.getSizeHint().width -
+        child.getSizeHint().width -
         2 * this.getSpacing();
       this._recalculateOverflow(null, newWidth);
     },
-    
+
     // overridden
     _removeAll : function() {
       this.base(arguments);

@@ -225,7 +225,7 @@ qx.Bootstrap.define("qx.Class",
         for (var key in config.environment) {
           qx.core.Environment.add(key, config.environment[key]);
         }
-        
+
         // @deprecated since 1.4 (also put the environment into the settings)
         for (var key in config.environment) {
           qx.core.Setting.defineDeprecated(key, config.environment[key]);
@@ -882,8 +882,8 @@ qx.Bootstrap.define("qx.Class",
           for (var key in config.environment)
           {
             if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
-              throw new Error('Forbidden environment setting "' + key + 
-                '" found in "' + name + '". It is forbidden to define a ' + 
+              throw new Error('Forbidden environment setting "' + key +
+                '" found in "' + name + '". It is forbidden to define a ' +
                 'environment setting for an external namespace!');
             }
           }

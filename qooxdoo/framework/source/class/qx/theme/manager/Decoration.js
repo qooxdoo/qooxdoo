@@ -96,7 +96,7 @@ qx.Class.define("qx.theme.manager.Decoration",
       if (!entry) {
         return null;
       }
-      
+
       // create empty style map if necessary
       if (!entry.style) {
         entry.style = {};
@@ -110,7 +110,7 @@ qx.Class.define("qx.theme.manager.Decoration",
         if (!entry.decorator && currentEntry.decorator) {
           entry.decorator = currentEntry.decorator;
         }
-        
+
         // styles key
         if (currentEntry.style) {
           for (var key in currentEntry.style) {

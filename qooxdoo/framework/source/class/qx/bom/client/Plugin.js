@@ -18,21 +18,21 @@
 ************************************************************************ */
 /**
  * Contains detection for QuickTime, Windows Media, DivX, Silverlight adn gears.
- * If no version could be detected the version is set to an empty string as 
+ * If no version could be detected the version is set to an empty string as
  * default.
- * 
- * This class is used by {@link qx.core.Environment} and should not be used 
+ *
+ * This class is used by {@link qx.core.Environment} and should not be used
  * directly. Please check its class comment for details how to use it.
- * 
+ *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Plugin", 
+qx.Bootstrap.define("qx.bom.client.Plugin",
 {
   statics :
   {
     /**
      * Checkes for the availability of google gears plugin.
-     * 
+     *
      * @internal
      * @return {Boolean} <code>true</code> if gears is available
      */
@@ -80,7 +80,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
 
     /**
      * Fetches the version of the quicktime plugin.
-     * @return {String} The version of the plugin, if available, 
+     * @return {String} The version of the plugin, if available,
      *   an empty string otherwise
      * @internal
      */
@@ -92,19 +92,19 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
 
     /**
      * Fetches the version of the windows media plugin.
-     * @return {String} The version of the plugin, if available, 
+     * @return {String} The version of the plugin, if available,
      *   an empty string otherwise
      * @internal
      */
     getWindowsMediaVersion : function() {
       var entry = qx.bom.client.Plugin.__db["wmv"];
       return qx.bom.client.Plugin.__getVersion(entry.control, entry.plugin);
-    }, 
+    },
 
 
     /**
      * Fetches the version of the divx plugin.
-     * @return {String} The version of the plugin, if available, 
+     * @return {String} The version of the plugin, if available,
      *   an empty string otherwise
      * @internal
      */
@@ -116,7 +116,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
 
     /**
      * Fetches the version of the silverlight plugin.
-     * @return {String} The version of the plugin, if available, 
+     * @return {String} The version of the plugin, if available,
      *   an empty string otherwise
      * @internal
      */
@@ -172,10 +172,10 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
 
     /**
      * Internal helper for getting the version of a given plugin.
-     * 
-     * @param activeXName {String} The name which should be used to generate 
+     *
+     * @param activeXName {String} The name which should be used to generate
      *   the test ActiveX Object.
-     * @param pluginName {String} The name with which the pugin is listed in 
+     * @param pluginName {String} The name with which the pugin is listed in
      *   the navigator.plugins list.
      * @return {String} The version of the plugin as string.
      */
@@ -187,22 +187,22 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
       if (!available) {
         return "";
       }
-      
+
       // IE checks
       if (qx.bom.client.Engine.getName() == "mshtml") {
         var obj = new ActiveXObject(activeXName);
-        
+
         try {
           var version = obj.versionInfo;
           if (version != undefined) {
             return version;
           }
-          
+
           version = obj.version;
           if (version != undefined) {
             return version;
           }
-          
+
           version = obj.settings.version;
           if (version != undefined) {
             return version;
@@ -210,10 +210,10 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
         } catch (ex) {
           return "";
         }
-        
+
         return "";
 
-      // all other browsers        
+      // all other browsers
       } else {
         var plugins = navigator.plugins;
 
@@ -237,17 +237,17 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
 
     /**
      * Internal helper for getting the availability of a given plugin.
-     * 
-     * @param activeXName {String} The name which should be used to generate 
+     *
+     * @param activeXName {String} The name which should be used to generate
      *   the test ActiveX Object.
-     * @param pluginName {String} The name with which the pugin is listed in 
+     * @param pluginName {String} The name with which the pugin is listed in
      *   the navigator.plugins list.
      * @return {Boolean} <code>true</code>, if the plugin available
      */
     __isAvailable : function(activeXName, pluginName) {
       // IE checks
       if (qx.bom.client.Engine.getName() == "mshtml") {
-        
+
         var control = window.ActiveXObject;
         if (!control) {
           return false;
@@ -258,7 +258,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
         } catch(ex) {
           return false;
         }
-        
+
         return true;
       // all other
       } else {

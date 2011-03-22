@@ -38,21 +38,21 @@ qx.Class.define("demobrowser.demo.virtual.tree.TreeItem",
       event: "changeChecked",
       nullable : true
     },
-    
+
     size :
     {
       check : "String",
       event: "changeSize",
       nullable : true
     },
-    
+
     date :
     {
       check : "String",
       event: "changeDate",
       nullable : true
     },
-    
+
     mode :
     {
       check : "String",
@@ -68,7 +68,7 @@ qx.Class.define("demobrowser.demo.virtual.tree.TreeItem",
     __size : null,
     __date : null,
     __mode : null,
-    
+
     _addWidgets : function()
     {
       var leadIcon = this.__leadIcon = new qx.ui.basic.Image();

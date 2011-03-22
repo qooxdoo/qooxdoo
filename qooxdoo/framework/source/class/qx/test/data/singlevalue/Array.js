@@ -376,8 +376,8 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       this.__a.getArray().setItem(0, "ONE");
       this.assertEquals("ONE", this.__label.getValue(), "[0] binding does not work!");
     },
-    
-    
+
+
     testDirectTarget : function()
     {
       this.__label.setValue("affe");
@@ -413,8 +413,8 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       // check the binding
       this.assertEquals("AFFE", this.__label.getValue(), "[0].name binding does not work!");
     },
-    
-    
+
+
     testTargetChildren : function() {
       // create the objects
       this.__a.getChildren().push(this.__b1);

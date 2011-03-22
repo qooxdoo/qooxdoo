@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.table.Table_Drag_And_Drop",
       tcm.setHeaderCellRenderer(2, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));
 
 
-      table.setDraggable(true); 
+      table.setDraggable(true);
       table.setDroppable(true);
       table.setFocusCellOnMouseMove(true);
 
@@ -82,19 +82,19 @@ qx.Class.define("demobrowser.demo.table.Table_Drag_And_Drop",
     },
 
 
-    _handleDragStart: function(e) { 
-      e.addAction("move"); 
-      e.addType("movetransfer"); 
+    _handleDragStart: function(e) {
+      e.addAction("move");
+      e.addType("movetransfer");
     },
 
 
-    _handleDropRequest: function(e) 
-    { 
-      var type = e.getCurrentType(); 
+    _handleDropRequest: function(e)
+    {
+      var type = e.getCurrentType();
       var sel = this._table.getSelectionModel().getSelectedRanges();
 
       var selMap = [];
-    
+
       for (var i=0; i<sel.length; i++)
       {
         for (var s = sel[i].minIndex; s <= sel[i].maxIndex; s++)
@@ -107,20 +107,20 @@ qx.Class.define("demobrowser.demo.table.Table_Drag_And_Drop",
           rowdata.rowId = s;
           selMap.push(rowdata);
         }
-      } 
-      e.addData(type, selMap); 
+      }
+      e.addData(type, selMap);
     },
 
 
-    _handleDrop: function(e) 
-    { 
-      if (e.supportsType("movetransfer")) 
+    _handleDrop: function(e)
+    {
+      if (e.supportsType("movetransfer"))
       {
         var data = e.getData("movetransfer");
         var dm = this._table.getTableModel();
         dm.removeRows(data[0].rowId, data.length);
         dm.addRows(data, this._table.getFocusedRow() );
-      } 
+      }
     }
   },
 

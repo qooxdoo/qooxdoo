@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
           "right" : "boxAlignEnd"
         }
       },
-      "alignY" : 
+      "alignY" :
       {
         "hbox" :
         {
@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
           "bottom" : "boxPackEnd"
         }
       },
-      "reverse" : 
+      "reverse" :
       {
         "hbox" :
         {
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
   properties :
   {
     /**
-     * Horizontal alignment of the whole children block. 
+     * Horizontal alignment of the whole children block.
      */
     alignX :
     {
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
   },
 
 
-  members : 
+  members :
   {
     // overridden
     _getSupportedChildLayoutProperties : function() {
@@ -149,9 +149,9 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
       }
     },
 
-    
+
     // overridden
-    connectToWidget : function(widget) 
+    connectToWidget : function(widget)
     {
       if (this._widget) {
         this.resetAlignX();
@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
 
     _applyLayoutChange : function(value, old, property)
     {
-      if (this._widget) 
+      if (this._widget)
       {
         var layoutCss = this.getCssClass();
         var CSS_MAPPING = qx.ui.mobile.layout.AbstractBox.PROPERTY_CSS_MAPPING[property][layoutCss];
@@ -175,12 +175,12 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
             this._widget.removeCssClass(oldCssClass);
           }
         }
-        if (value) 
+        if (value)
         {
           var cssClass = CSS_MAPPING[value];
           if (cssClass) {
             this._widget.addCssClass(cssClass);
-          }  
+          }
         }
       } else {
         // remember the state until the widget is connected

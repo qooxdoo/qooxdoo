@@ -116,7 +116,7 @@ qx.Class.define("testrunner2.view.widget.TestResultView",
 
           if (testResult.getExceptions()) {
             var exceptArr = testResult.getExceptions();
-            if (exceptArr.length > 0) { 
+            if (exceptArr.length > 0) {
               html.add("<div class='trace");
               if (!this.getShowStackTrace()) {
                 html.add(" hiddenST");

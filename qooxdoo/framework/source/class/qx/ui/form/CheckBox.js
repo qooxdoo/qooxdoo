@@ -81,9 +81,9 @@ qx.Class.define("qx.ui.form.CheckBox",
       init : false
     }
   },
-  
-  
-  members : 
+
+
+  members :
   {
     // overridden
     /**

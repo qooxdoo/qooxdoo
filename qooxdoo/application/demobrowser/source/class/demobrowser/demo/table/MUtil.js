@@ -72,7 +72,7 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
         getDataCellRenderer : function() {
           return new qx.ui.table.cellrenderer.Default();
         },
-        
+
         addListener : function() {},
         removeListener : function() {}
       };

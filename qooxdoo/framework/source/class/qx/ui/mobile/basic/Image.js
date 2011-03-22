@@ -19,9 +19,9 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * The image widget displays an image file.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -54,12 +54,12 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     }
   },
 
-  properties : 
+  properties :
   {
     /**
      * The URL of the image to display.
      */
-    source : 
+    source :
     {
       check : "String",
       nullable : true,

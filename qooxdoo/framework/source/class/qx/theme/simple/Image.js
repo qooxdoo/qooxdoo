@@ -24,7 +24,7 @@
 /**
  * Mapping class for all images used in the simple theme.
  */
-qx.Class.define("qx.theme.simple.Image", 
+qx.Class.define("qx.theme.simple.Image",
 {
   extend : qx.core.Object,
 
@@ -34,26 +34,26 @@ qx.Class.define("qx.theme.simple.Image",
      * Holds a map containig all the URL to the images.
      * @internal
      */
-    URLS : 
+    URLS :
     {
       "blank" : "qx/static/blank.gif",
-      
+
       // checkbox
       "checkbox-checked" : "decoration/checkbox/checked.png",
       "checkbox-undetermined" : "decoration/checkbox/undetermined.png",
-      
+
       // window
       "window-minimize" : "decoration/window/minimize.gif",
       "window-maximize" : "decoration/window/maximize.gif",
       "window-restore" : "decoration/window/restore.gif",
       "window-close" : "decoration/window/close.gif",
-      
+
       // cursor
       "cursor-copy" : "decoration/cursors/copy.gif",
       "cursor-move" : "decoration/cursors/move.gif",
       "cursor-alias" : "decoration/cursors/alias.gif",
       "cursor-nodrop" : "decoration/cursors/nodrop.gif",
-      
+
       // arrows
       "arrow-right" : "decoration/arrows/right.gif",
       "arrow-left" : "decoration/arrows/left.gif",
@@ -62,7 +62,7 @@ qx.Class.define("qx.theme.simple.Image",
       "arrow-forward" : "decoration/arrows/forward.gif",
       "arrow-rewind" : "decoration/arrows/rewind.gif",
       "arrow-down-small" : "decoration/arrows/down-small.gif",
-      "arrow-up-small" : "decoration/arrows/up-small.gif",      
+      "arrow-up-small" : "decoration/arrows/up-small.gif",
       "arrow-up-invert" : "decoration/arrows/up-invert.gif",
       "arrow-down-invert" : "decoration/arrows/down-invert.gif",
       "arrow-right-invert" : "decoration/arrows/right-invert.gif",
@@ -70,16 +70,16 @@ qx.Class.define("qx.theme.simple.Image",
       // split pane
       "knob-horizontal" : "decoration/splitpane/knob-horizontal.png",
       "knob-vertical" : "decoration/splitpane/knob-vertical.png",
-      
+
       // tree
       "tree-minus" : "decoration/tree/minus.gif",
       "tree-plus" : "decoration/tree/plus.gif",
-      
+
       // table
       "select-column-order" : "decoration/table/select-column-order.png",
       "table-ascending" : "decoration/table/ascending.png",
       "table-descending" : "decoration/table/descending.png",
-      
+
       // tree virtual
       "treevirtual-line" : "decoration/treevirtual/line.gif",
       "treevirtual-minus-only" : "decoration/treevirtual/only_minus.gif",
@@ -92,13 +92,13 @@ qx.Class.define("qx.theme.simple.Image",
       "treevirtual-plus-cross" : "decoration/treevirtual/cross_plus.gif",
       "treevirtual-end" : "decoration/treevirtual/end.gif",
       "treevirtual-cross" : "decoration/treevirtual/cross.gif",
-      
+
       // menu
       "menu-checkbox" : "decoration/menu/checkbox.gif",
       "menu-checkbox-invert" : "decoration/menu/checkbox-invert.gif",
       "menu-radiobutton-invert" : "decoration/menu/radiobutton-invert.gif",
       "menu-radiobutton" : "decoration/menu/radiobutton.gif",
-      
+
       // tabview
       "tabview-close" : "decoration/tabview/close.gif"
     }

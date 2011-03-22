@@ -30,7 +30,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
   },
 
 
-  properties : 
+  properties :
   {
     cssClass :
     {
@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
     }
   },
 
- 
+
   members :
   {
     __count : 0,

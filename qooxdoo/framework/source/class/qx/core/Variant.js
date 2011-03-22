@@ -395,8 +395,8 @@ qx.Bootstrap.define("qx.core.Variant",
   defer : function(statics)
   {
     statics.define(
-      "qx.client", 
-      [ "gecko", "mshtml", "opera", "webkit" ], 
+      "qx.client",
+      [ "gecko", "mshtml", "opera", "webkit" ],
       qx.bom.client.Engine.getName()
     );
     statics.define("qx.debug", [ "on", "off" ], "on");

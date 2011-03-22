@@ -26,7 +26,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
 
     setUp : function()
     {
-      this.base(arguments); 
+      this.base(arguments);
       this.__comboBox = new qx.ui.form.VirtualComboBox();
       this.getRoot().add(this.__comboBox);
 
@@ -51,7 +51,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
 
       return model;
     },
-    
+
     __createRichModel : function()
     {
       var model = new qx.data.Array();
@@ -62,7 +62,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
 
       return model;
     },
-    
+
     __createNestedModel : function()
     {
       var rawData = [
@@ -96,7 +96,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.assertNotEquals("item 1", this.__comboBox.getValue());
       this.assertEquals("i", this.__comboBox.getValue());
     },
-    
+
     testSelectFirstMatch : function()
     {
       this.__comboBox.setModel(this.__createSimpleModel());
@@ -108,7 +108,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.assertEquals("item 4", preselected);
       this.assertEquals("item 4", this.__comboBox.getValue());
     },
-    
+
     testSelectFirstMatchWithSortedModel : function()
     {
       this.__comboBox.setModel(this.__createSimpleModel());
@@ -127,7 +127,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.assertEquals("item 49", preselected);
       this.assertEquals("item 4", this.__comboBox.getValue());
     },
-    
+
     testSelectFirstMatchWithFilteredModel : function()
     {
       this.__comboBox.setModel(this.__createSimpleModel());
@@ -148,7 +148,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.assertNull(preselected);
       this.assertEquals("item 22", this.__comboBox.getValue());
     },
-    
+
     testSelectFirstMatchWithFormatter : function()
     {
       this.__comboBox.setModel(this.__createRichModel());
@@ -174,7 +174,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.assertEquals("<b>item 4</b>", preselected);
       this.assertEquals("item 4", this.__comboBox.getValue());
     },
-    
+
     testSelectFirstMatchByLabelPath : function()
     {
       this.__comboBox.setLabelPath("lastname");

@@ -32,7 +32,7 @@ qx.Class.define("qx.ui.mobile.form.Row",
 
   properties :
   {
-    cssClass : 
+    cssClass :
     {
       refine : true,
       init : "formRow"
@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.mobile.form.Row",
       apply : "_applyAttribute"
     }
   },
-  
+
   members :
   {
     // overridden

@@ -31,17 +31,17 @@ qx.Class.define("qx.test.bom.Font",
     tearDown : function() {
       this.__font.dispose();
     },
-    
-    
+
+
     testBold : function()
     {
       this.__font.setBold(true);
-      
+
       var styles = this.__font.getStyles();
       this.assertEquals("bold", styles.fontWeight, "Wrong style value for 'bold' property!");
     },
-    
-    
+
+
     testItalic : function()
     {
       this.__font.setItalic(true);
@@ -49,12 +49,12 @@ qx.Class.define("qx.test.bom.Font",
       var styles = this.__font.getStyles();
       this.assertEquals("italic", styles.fontStyle, "Wrong style value for 'italic' property!");
     },
-    
-    
+
+
     testDecorationUnderline : function()
     {
       this.__font.setDecoration("underline");
-      
+
       var styles = this.__font.getStyles();
       this.assertEquals("underline", styles.textDecoration, "Wrong style value for 'decoration' property!");
     },
@@ -86,7 +86,7 @@ qx.Class.define("qx.test.bom.Font",
       this.assertEquals("Arial", styles.fontFamily, "Wrong style value for 'family' property!");
     },
 
-    
+
     testFontFamilyMultipleWords : function()
     {
       this.__font.setFamily( ['Times New Roman'] );

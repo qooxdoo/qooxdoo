@@ -56,7 +56,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
         color : "background-selected"
       }
     },
-    
+
     "main-dark" :
     {
       decorator: qx.ui.decoration.Uniform,
@@ -67,23 +67,23 @@ qx.Theme.define("qx.theme.simple.Decoration",
         color : "button-border"
       }
     },
-    
-    
-    "popup" : 
+
+
+    "popup" :
     {
       decorator : [
         qx.ui.decoration.MSingleBorder,
         qx.ui.decoration.MBoxShadow,
         qx.ui.decoration.MBackgroundColor
       ],
-      
-      style : 
+
+      style :
       {
         width: 1,
         color: "window-border",
         shadowLength : 2,
         shadowBlurRadius : 5,
-        shadowColor : "shadow"        
+        shadowColor : "shadow"
       }
     },
 
@@ -93,7 +93,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       BUTTON
     ---------------------------------------------------------------------------
     */
-    "button-box" : 
+    "button-box" :
     {
       decorator : [
         qx.ui.decoration.MLinearBackgroundGradient,
@@ -101,8 +101,8 @@ qx.Theme.define("qx.theme.simple.Decoration",
         qx.ui.decoration.MSingleBorder,
         qx.ui.decoration.MBackgroundColor
       ],
-      
-      style : 
+
+      style :
       {
         radius : 3,
         width : 1,
@@ -112,97 +112,97 @@ qx.Theme.define("qx.theme.simple.Decoration",
         backgroundColor : "button-box-bright"
       }
     },
-    
-    "button-box-pressed" : 
+
+    "button-box-pressed" :
     {
       include : "button-box",
-      
-      style : 
+
+      style :
       {
         gradientStart : ["button-box-bright-pressed", 40],
         gradientEnd : ["button-box-dark-pressed", 70],
         backgroundColor : "button-box-bright-pressed"
       }
     },
-    
-    "button-box-pressed-hovered" : 
+
+    "button-box-pressed-hovered" :
     {
       include : "button-box-pressed",
 
-      style : 
+      style :
       {
         color : "button-border-hovered"
       }
     },
-    
-    "button-box-hovered" : 
+
+    "button-box-hovered" :
     {
       include : "button-box",
-      
-      style : 
+
+      style :
       {
         color : "button-border-hovered"
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       BUTTON INVALID
     ---------------------------------------------------------------------------
     */
-    "button-box-invalid" : 
+    "button-box-invalid" :
     {
       include : "button-box",
-      
-      style : 
+
+      style :
       {
         color : "invalid"
       }
     },
-    
-    "button-box-pressed-invalid" : 
+
+    "button-box-pressed-invalid" :
     {
       include : "button-box-pressed",
-      
-      style : 
+
+      style :
       {
         color : "invalid"
       }
     },
-    
+
     "button-box-hovered-invalid" : {include: "button-box-invalid"},
-    
+
     "button-box-pressed-hovered-invalid" : {include: "button-box-pressed-invalid"},
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       BUTTON FOCUSED
     ---------------------------------------------------------------------------
     */
-    "button-box-focused" : 
+    "button-box-focused" :
     {
       include : "button-box",
-      
-      style : 
+
+      style :
       {
         color : "background-selected"
       }
     },
-    
-    "button-box-pressed-focused" : 
+
+    "button-box-pressed-focused" :
     {
       include : "button-box-pressed",
-      
-      style : 
+
+      style :
       {
         color : "background-selected"
       }
     },
-    
+
     "button-box-hovered-focused" : {include: "button-box-focused"},
-    
+
     "button-box-pressed-hovered-focused" : {include: "button-box-pressed-focused"},
 
 
@@ -211,140 +211,140 @@ qx.Theme.define("qx.theme.simple.Decoration",
       BUTTON RIGHT
     ---------------------------------------------------------------------------
     */
-    "button-box-right" : 
+    "button-box-right" :
     {
       include : "button-box",
-      
-      style : 
+
+      style :
       {
         radius : [0, 3, 3, 0]
       }
     },
-    
-    "button-box-pressed-right" : 
+
+    "button-box-pressed-right" :
     {
       include : "button-box-pressed",
-      
-      style : 
+
+      style :
       {
         radius : [0, 3, 3, 0]
       }
     },
-    
-    "button-box-pressed-hovered-right" : 
+
+    "button-box-pressed-hovered-right" :
     {
       include : "button-box-pressed-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [0, 3, 3, 0]
       }
     },
-    
-    "button-box-hovered-right" : 
+
+    "button-box-hovered-right" :
     {
       include : "button-box-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [0, 3, 3, 0]
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       BUTTON BORDERLESS RIGHT
     ---------------------------------------------------------------------------
-    */    
-    "button-box-right-borderless" : 
+    */
+    "button-box-right-borderless" :
     {
       include : "button-box",
-      
-      style : 
+
+      style :
       {
         radius : [0, 3, 3, 0],
         width: [1, 1, 1, 0]
       }
     },
-    
-    "button-box-pressed-right-borderless" : 
+
+    "button-box-pressed-right-borderless" :
     {
       include : "button-box-pressed",
-      
-      style : 
+
+      style :
       {
         radius : [0, 3, 3, 0],
         width: [1, 1, 1, 0]
       }
     },
-    
-    "button-box-pressed-hovered-right-borderless" : 
+
+    "button-box-pressed-hovered-right-borderless" :
     {
       include : "button-box-pressed-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [0, 3, 3, 0],
         width: [1, 1, 1, 0]
       }
     },
-    
-    "button-box-hovered-right-borderless" : 
+
+    "button-box-hovered-right-borderless" :
     {
       include : "button-box-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [0, 3, 3, 0],
         width: [1, 1, 1, 0]
       }
-    },    
-    
-    
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       BUTTON TOP RIGHT
     ---------------------------------------------------------------------------
     */
-    "button-box-top-right" : 
+    "button-box-top-right" :
     {
       include : "button-box",
-      
-      style : 
+
+      style :
       {
         radius : [0, 3, 0, 0],
         width: [1, 1, 1, 0]
       }
     },
-    
-    "button-box-pressed-top-right" : 
+
+    "button-box-pressed-top-right" :
     {
       include : "button-box-pressed",
-      
-      style : 
+
+      style :
       {
         radius : [0, 3, 0, 0],
         width: [1, 1, 1, 0]
       }
     },
-    
-    "button-box-pressed-hovered-top-right" : 
+
+    "button-box-pressed-hovered-top-right" :
     {
       include : "button-box-pressed-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [0, 3, 0, 0],
         width: [1, 1, 1, 0]
       }
     },
-    
-    "button-box-hovered-top-right" : 
+
+    "button-box-hovered-top-right" :
     {
       include : "button-box-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [0, 3, 0, 0],
         width: [1, 1, 1, 0]
@@ -357,44 +357,44 @@ qx.Theme.define("qx.theme.simple.Decoration",
       BUTTON BOTOM RIGHT
     ---------------------------------------------------------------------------
     */
-    "button-box-bottom-right" : 
+    "button-box-bottom-right" :
     {
       include : "button-box",
-      
-      style : 
+
+      style :
       {
         radius : [0, 0, 3, 0],
         width : [0, 1, 1, 0]
       }
     },
-    
-    "button-box-pressed-bottom-right" : 
+
+    "button-box-pressed-bottom-right" :
     {
       include : "button-box-pressed",
-      
-      style : 
+
+      style :
       {
         radius : [0, 0, 3, 0],
         width : [0, 1, 1, 0]
       }
     },
-    
-    "button-box-pressed-hovered-bottom-right" : 
+
+    "button-box-pressed-hovered-bottom-right" :
     {
       include : "button-box-pressed-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [0, 0, 3, 0],
         width : [0, 1, 1, 0]
       }
     },
-    
-    "button-box-hovered-bottom-right" : 
+
+    "button-box-hovered-bottom-right" :
     {
       include : "button-box-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [0, 0, 3, 0],
         width : [0, 1, 1, 0]
@@ -407,44 +407,44 @@ qx.Theme.define("qx.theme.simple.Decoration",
       BUTTON BOTOM LEFT
     ---------------------------------------------------------------------------
     */
-    "button-box-bottom-left" : 
+    "button-box-bottom-left" :
     {
       include : "button-box",
-      
-      style : 
+
+      style :
       {
         radius : [0, 0, 0, 3],
         width : [0, 0, 1, 1]
       }
     },
-    
-    "button-box-pressed-bottom-left" : 
+
+    "button-box-pressed-bottom-left" :
     {
       include : "button-box-pressed",
-      
-      style : 
+
+      style :
       {
         radius : [0, 0, 0, 3],
         width : [0, 0, 1, 1]
       }
     },
-    
-    "button-box-pressed-hovered-bottom-left" : 
+
+    "button-box-pressed-hovered-bottom-left" :
     {
       include : "button-box-pressed-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [0, 0, 0, 3],
         width : [0, 0, 1, 1]
       }
     },
-    
-    "button-box-hovered-bottom-left" : 
+
+    "button-box-hovered-bottom-left" :
     {
       include : "button-box-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [0, 0, 0, 3],
         width : [0, 0, 1, 1]
@@ -457,44 +457,44 @@ qx.Theme.define("qx.theme.simple.Decoration",
       BUTTON TOP LEFT
     ---------------------------------------------------------------------------
     */
-    "button-box-top-left" : 
+    "button-box-top-left" :
     {
       include : "button-box",
-      
-      style : 
+
+      style :
       {
         radius : [3, 0, 0, 0],
         width : [1, 0, 0, 1]
       }
     },
-    
-    "button-box-pressed-top-left" : 
+
+    "button-box-pressed-top-left" :
     {
       include : "button-box-pressed",
-      
-      style : 
+
+      style :
       {
         radius : [3, 0, 0, 0],
         width : [1, 0, 0, 1]
       }
     },
-    
-    "button-box-pressed-hovered-top-left" : 
+
+    "button-box-pressed-hovered-top-left" :
     {
       include : "button-box-pressed-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [3, 0, 0, 0],
         width : [1, 0, 0, 1]
       }
     },
-    
-    "button-box-hovered-top-left" : 
+
+    "button-box-hovered-top-left" :
     {
       include : "button-box-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [3, 0, 0, 0],
         width : [1, 0, 0, 1]
@@ -507,44 +507,44 @@ qx.Theme.define("qx.theme.simple.Decoration",
       BUTTON MIDDLE
     ---------------------------------------------------------------------------
     */
-    "button-box-middle" : 
+    "button-box-middle" :
     {
       include : "button-box",
-      
-      style : 
+
+      style :
       {
         radius : 0,
         width : [1, 0, 1, 1]
       }
     },
-    
-    "button-box-pressed-middle" : 
+
+    "button-box-pressed-middle" :
     {
       include : "button-box-pressed",
-      
-      style : 
+
+      style :
       {
         radius : 0,
         width : [1, 0, 1, 1]
       }
     },
-    
-    "button-box-pressed-hovered-middle" : 
+
+    "button-box-pressed-hovered-middle" :
     {
       include : "button-box-pressed-hovered",
-      
-      style : 
+
+      style :
       {
         radius : 0,
         width : [1, 0, 1, 1]
       }
     },
-    
-    "button-box-hovered-middle" : 
+
+    "button-box-hovered-middle" :
     {
       include : "button-box-hovered",
-      
-      style : 
+
+      style :
       {
         radius : 0,
         width : [1, 0, 1, 1]
@@ -557,44 +557,44 @@ qx.Theme.define("qx.theme.simple.Decoration",
       BUTTON LEFT
     ---------------------------------------------------------------------------
     */
-    "button-box-left" : 
+    "button-box-left" :
     {
       include : "button-box",
-      
-      style : 
+
+      style :
       {
         radius : [3, 0, 0, 3],
         width : [1, 0, 1, 1]
       }
     },
-    
-    "button-box-pressed-left" : 
+
+    "button-box-pressed-left" :
     {
       include : "button-box-pressed",
-      
-      style : 
+
+      style :
       {
         radius : [3, 0, 0, 3],
         width : [1, 0, 1, 1]
       }
     },
-    
-    "button-box-pressed-hovered-left" : 
+
+    "button-box-pressed-hovered-left" :
     {
       include : "button-box-pressed-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [3, 0, 0, 3],
         width : [1, 0, 1, 1]
       }
     },
-    
-    "button-box-hovered-left" : 
+
+    "button-box-hovered-left" :
     {
       include : "button-box-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [3, 0, 0, 3],
         width : [1, 0, 1, 1]
@@ -635,16 +635,16 @@ qx.Theme.define("qx.theme.simple.Decoration",
     ---------------------------------------------------------------------------
       SCROLL KNOB
     ---------------------------------------------------------------------------
-    */    
-    "scroll-knob" : 
+    */
+    "scroll-knob" :
     {
       decorator : [
         qx.ui.decoration.MBorderRadius,
         qx.ui.decoration.MSingleBorder,
         qx.ui.decoration.MBackgroundColor
       ],
-      
-      style : 
+
+      style :
       {
         radius : 3,
         width : 1,
@@ -652,32 +652,32 @@ qx.Theme.define("qx.theme.simple.Decoration",
         backgroundColor : "scrollbar-bright"
       }
     },
-    
-    "scroll-knob-pressed" : 
+
+    "scroll-knob-pressed" :
     {
       include : "scroll-knob",
-      
-      style : 
+
+      style :
       {
         backgroundColor : "scrollbar-dark"
       }
     },
-    
-    "scroll-knob-hovered" : 
+
+    "scroll-knob-hovered" :
     {
       include: "scroll-knob",
 
-      style : 
+      style :
       {
         color : "button-border-hovered"
       }
     },
-    
-    "scroll-knob-pressed-hovered" : 
+
+    "scroll-knob-pressed-hovered" :
     {
       include: "scroll-knob-pressed",
 
-      style : 
+      style :
       {
         color : "button-border-hovered"
       }
@@ -688,14 +688,14 @@ qx.Theme.define("qx.theme.simple.Decoration",
       HOVER BUTTON
     ---------------------------------------------------------------------------
     */
-    "button-hover" : 
+    "button-hover" :
     {
       decorator : [
         qx.ui.decoration.MBackgroundColor,
         qx.ui.decoration.MBorderRadius
       ],
-      
-      style : 
+
+      style :
       {
         backgroundColor : "button",
         radius : 3
@@ -707,7 +707,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
     ---------------------------------------------------------------------------
       WINDOW
     ---------------------------------------------------------------------------
-    */    
+    */
     "window" :
     {
       decorator: [
@@ -728,36 +728,36 @@ qx.Theme.define("qx.theme.simple.Decoration",
         backgroundColor : "background"
       }
     },
-    
-    "window-active" : 
+
+    "window-active" :
     {
       include : "window",
-      
-      style : 
+
+      style :
       {
         shadowLength : 2,
         shadowBlurRadius : 5
       }
     },
-    
-    
+
+
     "window-caption" : {
       decorator : qx.ui.decoration.Single,
-      
-      style : 
+
+      style :
       {
         width : [0, 0, 2, 0],
         color : "window-border-inner"
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       GROUP BOX
     ---------------------------------------------------------------------------
     */
-    "white-box" : 
+    "white-box" :
     {
       decorator : [
         qx.ui.decoration.MBorderRadius,
@@ -765,8 +765,8 @@ qx.Theme.define("qx.theme.simple.Decoration",
         qx.ui.decoration.MSingleBorder,
         qx.ui.decoration.MBackgroundColor
       ],
-      
-      style : 
+
+      style :
       {
         width: 1,
         color: "white-box-border",
@@ -847,11 +847,11 @@ qx.Theme.define("qx.theme.simple.Decoration",
     "tooltip" :
     {
       decorator : [
-        qx.ui.decoration.MSingleBorder, 
+        qx.ui.decoration.MSingleBorder,
         qx.ui.decoration.MBackgroundColor,
         qx.ui.decoration.MBoxShadow
       ],
-      
+
       style :
       {
         width : 1,
@@ -866,7 +866,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
     "tooltip-error" :
     {
       decorator : [
-        qx.ui.decoration.MBorderRadius, 
+        qx.ui.decoration.MBorderRadius,
         qx.ui.decoration.MBackgroundColor
       ],
 
@@ -912,22 +912,22 @@ qx.Theme.define("qx.theme.simple.Decoration",
         colorTop : "background-selected"
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       MENU BAR
     ---------------------------------------------------------------------------
-    */    
-    "menubar-button-hovered" : 
+    */
+    "menubar-button-hovered" :
     {
       decorator : [
         qx.ui.decoration.MSingleBorder,
         qx.ui.decoration.MBorderRadius,
         qx.ui.decoration.MBackgroundColor
       ],
-      
-      style : 
+
+      style :
       {
         width : 1,
         color : "background-selected",
@@ -937,17 +937,17 @@ qx.Theme.define("qx.theme.simple.Decoration",
     },
 
 
-    "menubar-button-pressed" : 
+    "menubar-button-pressed" :
     {
       include : "menubar-button-hovered",
-      
-      style : 
+
+      style :
       {
         radius : [3, 3, 0, 0],
         width : [1, 1, 0, 1]
       }
     },
-  
+
 
     /*
     ---------------------------------------------------------------------------
@@ -1026,25 +1026,25 @@ qx.Theme.define("qx.theme.simple.Decoration",
         color : "tabview-button-border"
       }
     },
-    
-    "tabview-page-button-top-bottom-first" : 
+
+    "tabview-page-button-top-bottom-first" :
     {
       include : "tabview-page-button-top-bottom",
-      
-      style : 
+
+      style :
       {
         color : [
-          "tabview-button-border", "tabview-button-border", 
+          "tabview-button-border", "tabview-button-border",
           "tabview-button-border", "tabview-unselected"
         ]
       }
     },
 
-    "tabview-page-button-top-bottom-last" : 
+    "tabview-page-button-top-bottom-last" :
     {
       include : "tabview-page-button-top-bottom",
-      
-      style : 
+
+      style :
       {
         color : [
           "tabview-button-border", "tabview-unselected",
@@ -1063,23 +1063,23 @@ qx.Theme.define("qx.theme.simple.Decoration",
         color : "tabview-button-border"
       }
     },
-    
-    "tabview-page-button-right-left-first" : 
+
+    "tabview-page-button-right-left-first" :
     {
       include : "tabview-page-button-right-left",
-      
+
       style : {
         color : [
-          "tabview-unselected", "tabview-button-border", 
+          "tabview-unselected", "tabview-button-border",
           "tabview-button-border", "tabview-button-border"
         ]
       }
     },
-    
-    "tabview-page-button-right-left-last" : 
+
+    "tabview-page-button-right-left-last" :
     {
       include : "tabview-page-button-right-left",
-      
+
       style : {
         color : [
           "tabview-button-border", "tabview-button-border",
@@ -1143,7 +1143,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
       }
     },
 
-    "table-header-column-button" : 
+    "table-header-column-button" :
     {
       include : "table-header",
       style : {
@@ -1189,84 +1189,84 @@ qx.Theme.define("qx.theme.simple.Decoration",
         color: "border-separator"
       }
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       RADIO BUTTON
     ---------------------------------------------------------------------------
     */
-    "radiobutton" : 
+    "radiobutton" :
     {
       decorator : [
         qx.ui.decoration.MBorderRadius,
         qx.ui.decoration.MDoubleBorder,
         qx.ui.decoration.MBackgroundColor
       ],
-      
-      style : 
+
+      style :
       {
         radius : 10,
         width : 1,
         color : "button-border",
         innerColor: "background",
         innerWidth: 2
-      }      
+      }
     },
-    
-    "radiobutton-focused" : 
+
+    "radiobutton-focused" :
     {
       include : "radiobutton",
-      style : 
+      style :
       {
         color : "background-selected"
       }
     },
-    
-    "radiobutton-invalid" : 
+
+    "radiobutton-invalid" :
     {
       include : "radiobutton",
-      style : 
+      style :
       {
         color : "invalid"
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       CHECK BOX
     ---------------------------------------------------------------------------
     */
-    
-    "checkbox" : 
+
+    "checkbox" :
     {
       decorator : [
         qx.ui.decoration.MSingleBorder,
         qx.ui.decoration.MBackgroundColor
       ],
-      
-      style : 
+
+      style :
       {
         width : 1,
         color : "button-border"
-      }      
+      }
     },
-    
-    "checkbox-focused" : 
+
+    "checkbox-focused" :
     {
       include : "checkbox",
-      style : 
+      style :
       {
         color : "background-selected"
       }
     },
-    
-    "checkbox-invalid" : 
+
+    "checkbox-invalid" :
     {
       include : "checkbox",
-      style : 
+      style :
       {
         color : "invalid"
       }

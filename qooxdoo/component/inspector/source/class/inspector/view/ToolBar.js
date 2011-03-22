@@ -278,9 +278,9 @@ qx.Class.define("inspector.view.ToolBar",
     this._consoleWindow.dispose();
     this.__overflowMenu.dispose();
 
-    this._separator = this._inspectButton = this._selectedWidgetLabel = 
+    this._separator = this._inspectButton = this._selectedWidgetLabel =
       this._urlTextField = this._reloadButton = this._objectsButton =
-      this._widgetsButton = this._propertyButton = this._consoleButton = 
+      this._widgetsButton = this._propertyButton = this._consoleButton =
       this._seleniumButton = this._consoleWindow = this.__overflowMenu = null;
   }
 });

@@ -64,8 +64,8 @@ qx.Class.define("qx.test.util.ResourceManager",
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
       var resourceUri = qx.$$libraries["qx"].resourceUri + "/" + "qx/static/blank.gif";
-      if (qx.core.Environment.get("engine.name") == "mshtml" && 
-        qx.core.Environment.get("io.ssl")) 
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("io.ssl"))
       {
         var href = window.location.href;
         resourceUri = href.substring(0, href.lastIndexOf("/") + 1) + resourceUri;

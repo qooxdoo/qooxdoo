@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
 
     /**
      * Event handler. Called when a tab event occurs.
-     * 
+     *
      * @param evt {qx.event.type.Tap} The event object
      */
     _onTap : function(evt)
@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
 
     /**
      * Adds a tab button to the tab bar.
-     * 
+     *
      * @param button {qx.ui.mobile.tabbar.TabButton} The button to add
      */
     add : function(button)
@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
 
     /**
      * Removes a tab button from the tab bar.
-     * 
+     *
      * @param button {qx.ui.mobile.tabbar.TabButton} The button to remove
      */
     remove : function(button)

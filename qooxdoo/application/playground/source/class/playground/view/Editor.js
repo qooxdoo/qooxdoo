@@ -59,7 +59,7 @@ qx.Class.define("playground.view.Editor",
     /**
      * The constructor was spit up to make the included mixin available during
      * the init process.
-     * 
+     *
      * @lint ignoreUndefined(require)
      */
     init: function()
@@ -94,7 +94,7 @@ qx.Class.define("playground.view.Editor",
         padding   : [0,0,0,5]
       });
       this.add(this.__textarea, { flex : 1 });
-      
+
       this.__editor = new qx.ui.core.Widget();
       this.__editor.setDecorator("separator-vertical");
       var highlightDisabled = false;
@@ -110,16 +110,16 @@ qx.Class.define("playground.view.Editor",
       this.__editor.setVisibility("excluded");
       this.add(this.__editor, { flex : 1 });
 
-      
+
       // load the CSS files for the code editor
       qx.bom.Stylesheet.includeFile("resource/playground/css/editor.css");
       qx.bom.Stylesheet.includeFile("resource/playground/css/tm.css");
-      
+
       // override the focus border CSS of the editor
       qx.bom.Stylesheet.createElement(
         ".ace_editor {border: 0px solid #9F9F9F !important;}"
       );
-      
+
       // chech the initial highlight state
       var shouldHighligth = qx.bom.Cookie.get("playgroundHighlight") !== "false";
       this.useHighlight(!highlightDisabled && shouldHighligth);
@@ -136,10 +136,10 @@ qx.Class.define("playground.view.Editor",
       var container = this.__editor.getContentElement().getDomElement();
        // fix for ACE
        container.textContent = " ";
-       
+
       // create the editor
       var editor = this.__ace = ace.edit(container);
-       
+
       // set javascript mode
       var JavaScriptMode = require("ace/mode/javascript").Mode;
       editor.getSession().setMode(new JavaScriptMode());
@@ -148,7 +148,7 @@ qx.Class.define("playground.view.Editor",
       var session = editor.getSession();
       session.setUseSoftTabs(true);
       session.setTabSize(2);
-      
+
       // copy the inital value
       session.setValue(this.__textarea.getValue());
 
@@ -157,7 +157,7 @@ qx.Class.define("playground.view.Editor",
       this.__editor.addListener("resize", function() {
         // use a timeout to let the layout queue apply its changes to the dom
         window.setTimeout(function() {
-          self.__ace.resize();            
+          self.__ace.resize();
         }, 0);
       });
     },
@@ -199,19 +199,19 @@ qx.Class.define("playground.view.Editor",
         // change the visibility
         this.__editor.setVisibility("visible");
         this.__textarea.setVisibility("excluded");
-        
+
         // copy the value, if the editor already availabe
         if (this.__ace) {
           this.__ace.getSession().setValue(this.__textarea.getValue());
         }
       } else {
-        // change the visibility        
+        // change the visibility
         this.__editor.setVisibility("excluded");
         this.__textarea.setVisibility("visible");
-        
+
         // copy the value, if the editor already availabe
         if (this.__ace) {
-          this.__textarea.setValue(this.__ace.getSession().getValue());          
+          this.__textarea.setValue(this.__ace.getSession().getValue());
         }
       }
     }

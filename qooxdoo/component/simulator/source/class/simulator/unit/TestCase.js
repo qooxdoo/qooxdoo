@@ -24,20 +24,20 @@
 qx.Class.define("simulator.unit.TestCase", {
 
   extend : qx.dev.unit.TestCase,
-  
+
   include : [qx.core.MAssert],
-  
+
   members :
   {
     /** {@link simulator.QxSelenium} instance */
     __qxSelenium : null,
-    
+
     /** {@link simulator.Simulation} instance */
     __simulation : null,
-    
+
     /**
      * Returns a Simulation instance.
-     * 
+     *
      * @return {simulator.Simulation} Simulation object
      */
     getSimulation : function()
@@ -47,10 +47,10 @@ qx.Class.define("simulator.unit.TestCase", {
       }
       return this.__simulation;
     },
-    
+
     /**
      * Returns a QxSelenium instance.
-     * 
+     *
      * @return {simulator.selenium.QxSelenium} QxSelenium object
      */
     getQxSelenium : function()
@@ -61,5 +61,5 @@ qx.Class.define("simulator.unit.TestCase", {
       return this.__qxSelenium;
     }
   }
-  
+
 });
