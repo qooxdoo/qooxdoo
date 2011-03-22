@@ -203,7 +203,10 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.req.open("GET", "/affe");
       this.req.send();
 
-      this.assertCalledWith(fakeReq.send, null);
+      // Always async due to browser fix
+      this.wait(10, function() {
+        this.assertCalledWith(fakeReq.send, null);
+      }, this);
     },
 
     "test: should send request with data": function() {
@@ -214,7 +217,10 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.req.open("GET", "/affe");
       this.req.send(data);
 
-      this.assertCalledWith(fakeReq.send, data);
+      // Always async due to browser fix
+      this.wait(10, function() {
+        this.assertCalledWith(fakeReq.send, data);
+      }, this);
     },
 
     //
@@ -299,6 +305,30 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
       this.assertCalled(req.onreadystatechange);
     },
+
+    //
+    // onload()
+    //
+
+    "test: should call onload on successful request": function() {
+      var req = this.req;
+      var fakeReq = this.getFakeReq();
+
+      this.spy(req, "onload");
+      req.open();
+      req.send();
+
+      // Status does not matter
+      fakeReq.respond(status);
+
+      this.assertCalled(req.onload);
+    },
+
+    //
+    // onerror()
+    //
+    // See XhrWithBackend
+    //
 
     //
     // readyState

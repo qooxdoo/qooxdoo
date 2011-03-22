@@ -21,18 +21,18 @@
  * A wrapper of the XMLHttpRequest host object (or equivalent).
  *
  * Hides browser inconsistencies and works around bugs found in popular
- * implementations. Follows the interface described in
- * <a href="http://www.w3.org/TR/XMLHttpRequest/">XmlHttpRequest</a>.
+ * implementations. Follows the interface specified in
+ * <a href="http://www.w3.org/TR/XMLHttpRequest/">XmlHttpRequest</a>. Also
+ * borrows some methods as described in
+ * <a href="http://www.w3.org/TR/XMLHttpRequest2/">XmlHttpRequest2</a>.
  *
  * The most basic setup looks similar to this:
  *
  * <pre class="javascript">
  *  var req = new qx.bom.request.Xhr();
- *  req.onreadystatechange = function() {
- *    if (req.readyState === 4) {
- *      // Handle data received
- *      req.responseText;
- *    }
+ *  req.onload = function() {
+ *    // Handle data received
+ *    req.responseText;
  *  }
  *
  *  req.open("GET", url);
@@ -194,7 +194,22 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // "NS_ERROR_XPC_NOT_ENOUGH_ARGS" when calling send() without arguments
       data = typeof data == "undefined" ? null : data;
 
-      this.__nativeXhr.send(data);
+      // BUGFIX: Chrome
+      // Chrome fires "NETWORK_ERR: XMLHttpRequest Exception 101" even when async
+      // This violates XMLHttpRequest Level 2, see
+      // http://www.w3.org/TR/XMLHttpRequest2/#network-error
+      if (this.__async) {
+        // send() is sync in Chrome when NETWORK_ERR
+        // Force async
+        window.setTimeout(qx.Bootstrap.bind(function() {
+          try {
+            this.__nativeXhr.send(data);
+            this.__onReadyStateChange();
+          } catch(NetworkError) {}
+        }, this));
+      } else {
+        this.__nativeXhr.send(data);
+      }
 
       // BUGFIX: Firefox
       // Firefox fails to trigger onreadystatechange DONE for sync requests
@@ -228,6 +243,25 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * Replace with custom method to get informed about the communication progress.
      */
     onreadystatechange: function() {},
+
+    /**
+    * Event handler for XHR event "load" that is fired on successful retrieval.
+    * 
+    * Note: This handler is called even when the HTTP status indicates an error.
+    * 
+    * Replace with custom method to listen to the "load" event.
+    */
+    onload: function() {},
+
+    /**
+    * Event handler for XHR event "error" that is fired on a network error.
+    * 
+    * Note: This handler is NOT called on successful retrieval, even when
+    * the HTTP status code indicates an error.
+    * 
+    * Replace with custom method to listen to the "error" event.
+    */
+    onerror: function() {},
 
     /**
      * Get a single response header from response.
@@ -274,6 +308,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       // Clear out listeners
       this.__nativeXhr.onreadystatechange = function() {};
+      this.__nativeXhr.onload = function() {};
+      this.__nativeXhr.onerror = function() {};
 
       // Abort any network activity
       this.abort();
@@ -387,8 +423,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * state change and syncs the XHR status properties.
      */
     __onReadyStateChange: function() {
-      var nxhr = this.__nativeXhr;
-
+      var nxhr = this.__nativeXhr,
+          propertiesReadable = true;
+      
       // BUGFIX: IE, Firefox
       // onreadystatechange() is called twice for readyState OPENED.
       //
@@ -414,7 +451,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.statusText = this.responseText = "";
       this.responseXML = null;
 
-      if (nxhr.readyState > qx.bom.request.Xhr.OPENED) {
+      if (this.readyState > qx.bom.request.Xhr.OPENED) {
         // In some browsers, XHR properties are not readable
         // while request is in progress.
         try {
@@ -422,16 +459,27 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           this.statusText = nxhr.statusText;
           this.responseText = nxhr.responseText;
           this.responseXML = nxhr.responseXML;
-        } catch(XhrPropertyNotReadable) {
-          this.onreadystatechange();
-          return;
+        } catch(XhrPropertiesNotReadable) {
+          propertiesReadable = false;
         }
 
-        this.__normalizeStatus();
-        this.__normalizeResponseXML();
+        if (propertiesReadable) {
+          this.__normalizeStatus();
+          this.__normalizeResponseXML();
+        }
       }
-
+      
+      // Always fire "readystatechange"
       this.onreadystatechange();
+
+      // Fire either "load" or "error" 
+      if (this.readyState === qx.bom.request.Xhr.DONE) {
+        // Infer the XHR internal error flag from statusText.
+        //
+        // See http://www.w3.org/TR/XMLHttpRequest2/#error-flag and
+        // http://www.w3.org/TR/XMLHttpRequest2/#the-statustext-attribute 
+        this.statusText ? this.onload() : this.onerror();
+      }
 
       // BUGFIX: IE
       // Memory leak in XMLHttpRequest (on-page)
