@@ -121,7 +121,6 @@ def processVariantSelect(callNode, variantMap):
         elif variantValue == None:
             variantValue = "null"
 
-        print "variantValue:", variantValue
         for node in secondParam.children:
             if node.type != "keyvalue":
                 continue
