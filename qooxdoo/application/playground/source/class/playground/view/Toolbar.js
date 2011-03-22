@@ -133,10 +133,10 @@ qx.Class.define("playground.view.Toolbar",
     helpButton.addListener("execute", function() {
       this.fireEvent("openManual");
     }, this);
-    
+
     // enable doverflow handling
     this.setOverflowHandling(true);
-    
+
     // remove priority for overflow handling
     this.setRemovePriority(helpButton, 7);
     this.setRemovePriority(apiButton, 6);
@@ -145,17 +145,17 @@ qx.Class.define("playground.view.Toolbar",
     this.setRemovePriority(this.__highlightButton, 3);
     this.setRemovePriority(gistButton, 2);
     this.setRemovePriority(urlShortButton, 1);
-    
+
     // add a button for overflow handling
     var chevron = new qx.ui.toolbar.MenuButton(null, "icon/22/actions/media-seek-forward.png");
     chevron.setAppearance("toolbar-button");  // hide the down arrow icon
     this.add(chevron);
     this.setOverflowIndicator(chevron);
-    
+
     // add the overflow menu
     this.__overflowMenu = new qx.ui.menu.Menu();
     chevron.setMenu(this.__overflowMenu);
-    
+
     // add the listener
     this.addListener("hideItem", function(e) {
       var item = e.getData();
@@ -168,7 +168,7 @@ qx.Class.define("playground.view.Toolbar",
         menuItem.setMenu(menu);
       }
     }, this);
-    
+
     this.addListener("showItem", function(e) {
       var item = e.getData();
       var menuItem = this._getMenuItem(item);
@@ -321,18 +321,18 @@ qx.Class.define("playground.view.Toolbar",
     invalidGist : function(invalid, message) {
       this.__gistMenu.invalidUser(invalid, message);
     },
-    
-    
+
+
     /**
-     * Helper for the overflow handling. It is responsible for returning a 
+     * Helper for the overflow handling. It is responsible for returning a
      * corresponding menu item for the given toolbar item.
-     * 
+     *
      * @param toolbarItem {qx.ui.core.Widget} The toolbar item to look for.
      * @return {qx.ui.core.Widget} The coresponding menu item.
      */
     _getMenuItem : function(toolbarItem) {
       var cachedItem = this.__menuItemStore[toolbarItem.toHashCode()];
-      
+
       if (!cachedItem) {
         if (toolbarItem instanceof qx.ui.toolbar.CheckBox) {
           cachedItem = new qx.ui.menu.CheckBox(toolbarItem.getLabel());
@@ -344,7 +344,7 @@ qx.Class.define("playground.view.Toolbar",
             cachedItem.setIcon(null);
           }
         }
-        
+
         // connect the execute
         cachedItem.addListener("execute", function() {
           toolbarItem.execute();
@@ -353,9 +353,9 @@ qx.Class.define("playground.view.Toolbar",
         this.__overflowMenu.addAt(cachedItem, 0);
         this.__menuItemStore[toolbarItem.toHashCode()] = cachedItem;
       }
-      
+
       return cachedItem;
-    }    
+    }
   },
 
 

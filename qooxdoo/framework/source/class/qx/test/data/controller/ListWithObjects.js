@@ -464,7 +464,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
     testModelInConverter: function() {
       // create the controller
       this.__controller = new qx.data.controller.List(this.__model, this.__list, "name");
-      
+
       this.__controller.setLabelOptions({converter : function (value, model) {
         return model.getIcon();
       }});
@@ -480,7 +480,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
         var label = this.__list.getChildren()[i].getLabel();
         this.assertEquals(this.__data[i].getIcon(), label, "Binding " + i + " is wrong!");
       }
-      
+
       var label = this.__list.getChildren()[this.__data.length].getLabel();
       this.assertEquals("iconx", label, "New binding is wrong!");
     }

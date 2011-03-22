@@ -21,15 +21,15 @@
  * This TestResultData class does not throw exceptions raised by test code,
  * instead storing them in an array attached to the test function itself. This
  * ensures that the entire body of each test function is executed.
- * 
- * It also supports an additional "skipped" state for tests that aren't run 
+ *
+ * It also supports an additional "skipped" state for tests that aren't run
  * because infrastructure requirements are not met.
  */
 qx.Class.define("testrunner2.unit.TestResult", {
 
   extend : qx.dev.unit.TestResult,
-  
-  
+
+
   /*
   *****************************************************************************
      EVENTS
@@ -44,8 +44,8 @@ qx.Class.define("testrunner2.unit.TestResult", {
      */
     skip : "qx.event.type.Data"
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -54,7 +54,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
   members :
   {
     _timeout : null,
-    
+
     run : function(test, testFunction, self, resume)
     {
       /*
@@ -62,7 +62,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
         this.__wrapAddListener(test.getTestClass()[test.getName()]);
       }
       */
-      
+
       if(!this._timeout) {
         this._timeout = {};
       }
@@ -74,7 +74,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
         //this.__removeListeners(test.getTestClass()[test.getName()]);
         return;
       }
-      
+
       // delete any exceptions stored in a previous run
       if (test.getTestClass()[test.getName()]._exceptions) {
         test.getTestClass()[test.getName()]._exceptions = [];
@@ -101,7 +101,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
           }
           catch(ex) {
             /* Any exceptions here are likely caused by setUp having failed
-               previously, so we'll ignore them. */ 
+               previously, so we'll ignore them. */
           }
           var qxEx = new qx.type.BaseError("Error setting up test: " + ex.name, ex.message);
           this._createError("error", [qxEx], test);
@@ -154,7 +154,7 @@ qx.Class.define("testrunner2.unit.TestResult", {
           this._createError("error", [ex], test);
         }
       }
-      
+
       var savedExceptions = test.getTestClass()[test.getName()]._exceptions;
       if (savedExceptions && savedExceptions.length > 0) {
         var error = true;
@@ -174,15 +174,15 @@ qx.Class.define("testrunner2.unit.TestResult", {
           this._createError("error", [qxEx], test);
         }
       }
-      
-      /*      
+
+      /*
       if (!this._timeout[test.getFullName()]) {
         this.__removeListeners(test.getTestClass()[test.getName()]);
       }
       */
     },
-    
-    
+
+
     /**
      * Fire an error event
      *
@@ -205,8 +205,8 @@ qx.Class.define("testrunner2.unit.TestResult", {
       this.fireDataEvent(eventName, errors);
       this.fireDataEvent("endTest", test);
     },
-    
-    
+
+
     __wrapAddListener : function(testFunction)
     {
       testFunction._addedListeners = [];
@@ -215,18 +215,18 @@ qx.Class.define("testrunner2.unit.TestResult", {
         qx.event.Registration.addListener = function(target, type, listener, self, capture) {
           var listenerId =  qx.event.Registration.addListenerOriginal(target, type, listener, self, capture);
           var store = true;
-          if ( (target.classname && target.classname.indexOf("testrunner2.unit") == 0) 
+          if ( (target.classname && target.classname.indexOf("testrunner2.unit") == 0)
                || (self && self.classname && self.classname.indexOf("testrunner2.unit") == 0) ) {
-            store = false;              
+            store = false;
           }
           if (store) {
             testFunction._addedListeners.push([target, listenerId]);
           }
-          return listenerId;          
+          return listenerId;
         }
       }
     },
-    
+
     __removeListeners : function(testFunction)
     {
       // remove listeners added during test execution

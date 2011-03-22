@@ -17,20 +17,20 @@
 
 ************************************************************************ */
 
-qx.Mixin.define("demobrowser.demo.ui.overview.MControls", 
+qx.Mixin.define("demobrowser.demo.ui.overview.MControls",
 {
-  
+
   members:
   {
-    
+
     _initControls: function(widgets, options)
     {
       options = options || {};
-      
+
       var controls = new qx.ui.container.Composite;
       controls.setLayout(new qx.ui.layout.HBox(10));
       this.add(controls);
-      
+
       if (options.disabled) {
         var toggleDisabled = new qx.ui.form.ToggleButton("Disabled");
         toggleDisabled.addListener("changeValue", function(e) {
@@ -42,7 +42,7 @@ qx.Mixin.define("demobrowser.demo.ui.overview.MControls",
         }, this);
         controls.add(toggleDisabled);
       }
-      
+
       if (options.hovered) {
         var toggleHovered = new qx.ui.form.ToggleButton("Hovered");
         toggleHovered.addListener("changeValue", function(e) {
@@ -56,7 +56,7 @@ qx.Mixin.define("demobrowser.demo.ui.overview.MControls",
         }, this);
         controls.add(toggleHovered);
       }
-      
+
       if (options.selected) {
         var toggleSelected = new qx.ui.form.ToggleButton("Selected");
         toggleSelected.addListener("changeValue", function(e) {
@@ -70,7 +70,7 @@ qx.Mixin.define("demobrowser.demo.ui.overview.MControls",
         }, this);
         controls.add(toggleSelected);
       }
-      
+
       if (options.focused) {
         var toggleFocused = new qx.ui.form.ToggleButton("Focused");
         toggleFocused.addListener("changeValue", function(e) {
@@ -84,20 +84,20 @@ qx.Mixin.define("demobrowser.demo.ui.overview.MControls",
         }, this);
         controls.add(toggleFocused);
       }
-      
+
       if (options.invalid) {
         var toggleInvalid = new qx.ui.form.ToggleButton("Invalid");
         toggleInvalid.addListener("changeValue", function(e) {
           widgets.forEach(function(widget, index) {
             if (widget.setInvalidMessage && widget.setValid) {
               widget.setInvalidMessage("Invalid (" + index + ")");
-              widget.setValid(!e.getData());            
+              widget.setValid(!e.getData());
             }
           });
         }, this);
         controls.add(toggleInvalid);
       }
-      
+
     }
   }
 });

@@ -53,7 +53,7 @@ qx.Class.define("testrunner2.runner.TestResultData",
 
   properties :
   {
-    /** The test's name */    
+    /** The test's name */
     name : { check : "String" },
 
     /** The test's current state */
@@ -71,7 +71,7 @@ qx.Class.define("testrunner2.runner.TestResultData",
     }
   },
 
-  
+
   /*
   *****************************************************************************
      MEMBERS
@@ -90,7 +90,7 @@ qx.Class.define("testrunner2.runner.TestResultData",
           for (var i=0,l=exceptions.length; i<l; i++) {
             message += exceptions[i].toString() + " ";
           }
-          return message;          
+          return message;
         } else {
           return "";
         }

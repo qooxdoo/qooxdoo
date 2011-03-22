@@ -113,7 +113,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
           }, item, id);
         }
       };
-      
+
       // sets the delegate to the list
       list.setDelegate(delegate);
 

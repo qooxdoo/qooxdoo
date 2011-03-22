@@ -113,17 +113,17 @@ qx.Class.define("demobrowser.DemoBrowser",
     this._searchTextField.setLiveUpdate(true);
     this._searchTextField.setAppearance("widget");
     this._searchTextField.setPlaceholder("Filter...");
-    
+
     var filterTimer = new qx.event.Timer(500);
     filterTimer.addListener("interval", function(ev) {
       this.filter(this._searchTextField.getValue());
       filterTimer.stop();
     }, this);
-    
+
     this._searchTextField.addListener("changeValue", function(ev) {
       filterTimer.restart();
     }, this);
-    
+
     searchComposlite.add(this._searchTextField, {flex: 1});
 
     // create the status of the tree
@@ -870,7 +870,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (qx.core.Variant.isSet("qx.contrib", "off")) {
           url += "?qx.theme=" + this.__currentTheme;
         }
-        
+
         var currentTags = treeNode.getUserData("tags");
         if (currentTags) {
           this.__playgroundButton.setEnabled(!qx.lang.Array.contains(currentTags, "noPlayground"));
@@ -1239,11 +1239,11 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (!otherSamp || otherSamp == this.tree.getRoot()) {
           return;
         }
-        
+
         while (otherSamp.isVisible && !otherSamp.isVisible()) {
           otherSamp = this.tree.getPreviousNodeOf(otherSamp, false);
         }
-        
+
         if (otherSamp.getParent() == this.tree.getRoot()) {
           // otherSamp is the parent
           var candidate = this.tree.getPreviousNodeOf(otherSamp, false);
@@ -1263,7 +1263,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             otherSamp = candidate;
           }
         }
-        
+
         if (!otherSamp || otherSamp === currSamp) {
           // Remove stop button, display run button
           this._stopbutton.setVisibility("excluded");
@@ -1298,7 +1298,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           this._runbutton.setVisibility("visible");
           return;
         }
-        
+
         if (otherSamp.getParent() == this.tree.getRoot()) {
           if (this.getPlayDemos() == "category") {
             if (otherSamp != currSamp && otherSamp != currSamp.getParent()) {
@@ -1311,13 +1311,13 @@ qx.Class.define("demobrowser.DemoBrowser",
           otherSamp.setOpen(true);
           otherSamp = this.tree.getNextNodeOf(otherSamp);
         }
-        
+
         if (!otherSamp) {
           this._stopbutton.setVisibility("excluded");
           this._runbutton.setVisibility("visible");
           return;
         }
-        
+
         while (!otherSamp.isVisible()) {
           var candidate = this.tree.getNextNodeOf(otherSamp);
           if (!candidate) {

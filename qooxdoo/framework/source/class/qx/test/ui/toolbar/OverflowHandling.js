@@ -278,7 +278,7 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
         self.assertEquals("visible", self.__b3.getVisibility());
       });
     },
-    
+
     testAddItem : function() {
       this.__indicator = new qx.ui.basic.Label(".");
       this.__toolbar.add(this.__indicator);

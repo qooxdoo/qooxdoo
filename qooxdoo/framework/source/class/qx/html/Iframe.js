@@ -64,11 +64,11 @@ qx.Class.define("qx.html.Iframe",
      * The "load" event is fired after the iframe content has successfully been loaded.
      */
     "load" : "qx.event.type.Event",
-    
+
     /**
     * The "navigate" event is fired whenever the location of the iframe
     * changes.
-    * 
+    *
     * Useful to track user navigation and internally used to keep the source
     * property in sync. Only works when the destination source is of same
     * origin than the page embedding the iframe.

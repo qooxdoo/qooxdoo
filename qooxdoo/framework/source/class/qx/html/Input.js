@@ -101,7 +101,7 @@ qx.Class.define("qx.html.Input",
 
         // qx.bom.Input#setWrap has the side-effect that the CSS property
         // overflow is set via DOM methods, causing queue and DOM to get
-        // out of sync. Mirror all overflow properties to handle the case 
+        // out of sync. Mirror all overflow properties to handle the case
         // when group and x/y property differ.
         this.setStyle("overflow", element.style.overflow, true);
         this.setStyle("overflowX", element.style.overflowX, true);

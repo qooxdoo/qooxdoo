@@ -88,13 +88,13 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       radioGroup.setAllowEmptySelection(true);
 
       toolbar.addSpacer();
-      
+
       // add a widget which signals that something has been removed
       var overflow = new qx.ui.toolbar.MenuButton("More...");
       toolbar.add(overflow);
-      toolbar.setOverflowIndicator(overflow);      
+      toolbar.setOverflowIndicator(overflow);
 
-      // create Help Button and add it to the toolbar      
+      // create Help Button and add it to the toolbar
       var helpButton = new qx.ui.toolbar.Button("Help", "icon/22/actions/help-contents.png");
       toolbar.add(helpButton);
 
@@ -104,7 +104,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       toolbar.setRemovePriority(part1, 4);
       toolbar.setRemovePriority(part3, 3);
       toolbar.setRemovePriority(part2, 2);
-      
+
       // create overflow menu
       var overflowMenu = new qx.ui.menu.Menu();
       overflow.setMenu(overflowMenu);
@@ -118,14 +118,14 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       overflowMenu.add(copyButton);
       overflowMenu.add(cutButton);
       overflowMenu.add(pasteButton);
-      
+
       var sep2 = new qx.ui.menu.Separator();
       var radioButton1 = new qx.ui.menu.RadioButton("Left");
       var radioButton2 = new qx.ui.menu.RadioButton("Center");
       var radioButton3 = new qx.ui.menu.RadioButton("Right");
       radioButton1.setIcon("icon/16/actions/format-justify-left.png");
       radioButton2.setIcon("icon/16/actions/format-justify-center.png");
-      radioButton3.setIcon("icon/16/actions/format-justify-right.png");            
+      radioButton3.setIcon("icon/16/actions/format-justify-right.png");
       overflowMenu.add(sep2);
       overflowMenu.add(radioButton1);
       overflowMenu.add(radioButton2);
@@ -136,7 +136,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       for (var i = 0; i < menuItem.length; i++) {
         menuItem[i].setVisibility("excluded");
       };
-      
+
       var showHideHandler = function(item, visibility) {
         var items = [];
         if (item == part1) {
@@ -144,17 +144,17 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
         } else if (item == part3) {
           items.push(sep2, radioButton1, radioButton2, radioButton3);
         }
-        
+
         for (var i = 0; i < items.length; i++) {
           items[i].setVisibility(visibility)
         };
       }
-      
+
       // handler for showind and hiding toobar items
       toolbar.addListener("showItem", function(e) {
         showHideHandler(e.getData(), "excluded");
       }, this);
-      
+
       toolbar.addListener("hideItem", function(e) {
         showHideHandler(e.getData(), "visible");
       }, this);
@@ -239,17 +239,17 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
           toolbar.setShow("label");
         }
       }, this);
-      
+
       //////////////////////// Overflow handling stuff
       // create the checkbox
       var enabledOverflowBox = new qx.ui.form.CheckBox("on");
 
       // add the buttons to the grid
       controlContainer.add(new qx.ui.basic.Label("Overflow handling:"), {row:2, column:0});
-      controlContainer.add(enabledOverflowBox, {row:2, column:1});  
-      
+      controlContainer.add(enabledOverflowBox, {row:2, column:1});
+
       enabledOverflowBox.bind("value", toolbar, "overflowHandling");
-      enabledOverflowBox.bind("value", showManager, "enabled", {converter: 
+      enabledOverflowBox.bind("value", showManager, "enabled", {converter:
         function(data) {return !data;}
       });
     }

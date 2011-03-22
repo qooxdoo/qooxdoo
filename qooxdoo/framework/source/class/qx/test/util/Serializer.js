@@ -141,10 +141,10 @@ qx.Class.define("qx.test.util.Serializer",
       this.__model.setData2(a2);
       this.__model.setData3(a3);
       this.assertEquals(
-        "data1=a&data2=a&data2=b&data3=a&data3=b&data3=c", 
+        "data1=a&data2=a&data2=b&data3=a&data3=b&data3=c",
         this.__s.toUriParameter(this.__model)
       );
-      
+
       // get rid of the objects
       a1.dispose();
       a2.dispose();
@@ -473,29 +473,29 @@ qx.Class.define("qx.test.util.Serializer",
 
       formater.dispose();
     },
-    
-    
+
+
     /* ******************************
      * Localized strings
      * **************************** */
-     
+
     testJsonLocalizedStrings : function() {
       this.assertEquals(
         '"test affe"', qx.util.Serializer.toJson(qx.locale.Manager.tr("test affe"))
       );
     },
-    
+
     testNativeLocalizedStrings : function() {
       var ser = qx.util.Serializer.toNativeObject(qx.locale.Manager.tr("test affe"));
       this.assertEquals("test affe", ser);
       // regular strings should not have a translate method
       this.assertUndefined(ser.translate);
     },
-    
+
     testUrlLocalizedStrings : function() {
       this.__model.setData1(qx.locale.Manager.tr("test affe"));
       this.assertEquals(
-        "data1=test%20affe&data2=null&data3=null", 
+        "data1=test%20affe&data2=null&data3=null",
         qx.util.Serializer.toUriParameter(this.__model)
       );
     }

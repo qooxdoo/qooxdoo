@@ -311,7 +311,7 @@ qx.Class.define("qx.util.Json",
       if (!qx.util.Json.CONVERT_DATES) {
         // use the native toJSON if available but not on IE [BUG #4674]
         if (
-          incoming.toJSON && !qx.bom.client.Engine.OPERA 
+          incoming.toJSON && !qx.bom.client.Engine.OPERA
           && !qx.bom.client.Engine.MSHTML
         ) {
           return '"' + incoming.toJSON() + '"';
@@ -333,13 +333,13 @@ qx.Class.define("qx.util.Json",
 
       // if its set to true
       } else {
-        var dateParams = 
-          incoming.getUTCFullYear() + "," + 
-          incoming.getUTCMonth() + "," + 
-          incoming.getUTCDate() + "," + 
-          incoming.getUTCHours() + "," + 
-          incoming.getUTCMinutes() + "," + 
-          incoming.getUTCSeconds() + "," + 
+        var dateParams =
+          incoming.getUTCFullYear() + "," +
+          incoming.getUTCMonth() + "," +
+          incoming.getUTCDate() + "," +
+          incoming.getUTCHours() + "," +
+          incoming.getUTCMinutes() + "," +
+          incoming.getUTCSeconds() + "," +
           incoming.getUTCMilliseconds();
         return "new Date(Date.UTC(" + dateParams + "))";
       }

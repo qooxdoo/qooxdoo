@@ -32,7 +32,7 @@ qx.Class.define("qx.test.ui.embed.Iframe",
     tearDown : function() {
       this.__iframe.dispose();
     },
-    
+
     testGetWindow : function()
     {
       this.__iframe.setSource("http://www.qooxdoo.org");

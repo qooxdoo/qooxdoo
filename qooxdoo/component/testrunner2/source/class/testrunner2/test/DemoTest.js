@@ -20,21 +20,21 @@
 /**
  * This class demonstrates how to define unit tests for your application.
  *
- * Execute <code>generate.py test</code> to generate a testrunner application 
+ * Execute <code>generate.py test</code> to generate a testrunner application
  * and open it from <tt>test/index.html</tt>
  *
- * The methods that contain the tests are instance methods with a 
- * <code>test</code> prefix. You can create an arbitrary number of test 
- * classes like this one. They can be organized in a regular class hierarchy, 
- * i.e. using deeper namespaces and a corresponding file structure within the 
+ * The methods that contain the tests are instance methods with a
+ * <code>test</code> prefix. You can create an arbitrary number of test
+ * classes like this one. They can be organized in a regular class hierarchy,
+ * i.e. using deeper namespaces and a corresponding file structure within the
  * <tt>test</tt> folder.
  */
 qx.Class.define("testrunner2.test.DemoTest",
 {
   extend : qx.dev.unit.TestCase,
-  
+
   include : [qx.dev.unit.MRequirements],
-  
+
 
   members :
   {
@@ -43,11 +43,11 @@ qx.Class.define("testrunner2.test.DemoTest",
       TESTS
     ---------------------------------------------------------------------------
     */
-  
+
     /*
     setUp : function()
     {
-      
+
     },
 
 
@@ -61,7 +61,7 @@ qx.Class.define("testrunner2.test.DemoTest",
       this.assertEquals(4, 3+1, "This should never fail!");
       this.assertFalse(false, "Can false be true?!");
     },
-    
+
     testException : function()
     {
       this.assertException(function() {
@@ -69,13 +69,13 @@ qx.Class.define("testrunner2.test.DemoTest",
       }, Error, "varmint");
     },
 
-    testFail: function () 
+    testFail: function ()
     {
       this.assertTrue(false, "Well, what did you expect?");
       this.assertEquals(0, 1, "Nope");
       //alert("Executed code after failed assertion!");
     },
-    
+
     testAsyncSimple : function()
     {
       var self = this;
@@ -89,12 +89,12 @@ qx.Class.define("testrunner2.test.DemoTest",
       this.wait();
     },
 
-    testSsl : function() 
+    testSsl : function()
     {
       this.require(["ssl"]);
       this.assert(qx.bom.client.Feature.SSL, "This test should have been skipped!");
     },
-    
+
     testAsyncBom : function()
     {
       var div = document.createElement("div");
@@ -102,7 +102,7 @@ qx.Class.define("testrunner2.test.DemoTest",
 
       this._el = div;
       document.body.appendChild(div);
-      
+
       qx.event.Registration.addListener(this._el, "focus", function() {
         this.resume(function() {
           this.info("Element focused.");
@@ -110,15 +110,15 @@ qx.Class.define("testrunner2.test.DemoTest",
       },this);
 
       var self = this;
-      
+
       window.setTimeout(qx.event.GlobalError.observeMethod(function() {
         qx.bom.Element.focus(self._el);
         throw new Error("catch me if you can!");
       }), 2000);
-      
+
       this.wait();
     },
-    
+
     tearDownTestAsyncBom : function()
     {
       this.info("test specific teardown for testAsyncBom");
@@ -126,7 +126,7 @@ qx.Class.define("testrunner2.test.DemoTest",
       document.body.removeChild(this._el);
       delete this._el;
     },
-    
+
     testListenerA : function()
     {
       qx.locale.Manager.getInstance().addListener("changeLocale", function(ev) {
@@ -139,17 +139,17 @@ qx.Class.define("testrunner2.test.DemoTest",
       }, 100 );
       this.wait();
     },
-    
+
     testListenerB : function()
     {
       qx.locale.Manager.getInstance().setLocale("de");
     },
-    
+
     testPolluteDom : function()
     {
       var el = document.createElement("div");
       document.body.appendChild(el);
     }
-    
+
   }
 });

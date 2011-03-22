@@ -250,7 +250,7 @@ qx.Class.define("qx.bom.Input",
 
     /**
      * Sets the text wrap behaviour of a text area element.
-     * This property uses the attribute "wrap" respectively 
+     * This property uses the attribute "wrap" respectively
      * the style property "whiteSpace"
      *
      * @signature function(element, wrap)

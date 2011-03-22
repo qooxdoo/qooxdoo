@@ -145,7 +145,7 @@ qx.Theme.define("qx.test.ui.core.Theme", {
         };
       }
     },
-    
+
     "test2/text2" : {
       style : function(states)
       {

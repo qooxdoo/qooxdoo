@@ -52,7 +52,7 @@ qx.Class.define("apiviewer.Viewer",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.__menuItemStore = {};
 
     var layout = new qx.ui.layout.VBox;
@@ -201,10 +201,10 @@ qx.Class.define("apiviewer.Viewer",
       privateBtn.setId("btn_private");
       privateBtn.setToolTipText(this.tr("Show/hide private members of the current class."));
       part.add(privateBtn);
-      
+
       // overflow handling
       toolbar.setOverflowHandling(true);
-      
+
       // add a button for overflow handling
       var chevron = new qx.ui.toolbar.MenuButton(null, "icon/22/actions/media-seek-forward.png");
       chevron.setAppearance("toolbar-button");  // hide the down arrow icon
@@ -223,7 +223,7 @@ qx.Class.define("apiviewer.Viewer",
           menuItems[i].setVisibility("visible");
         };
       }, this);
-      
+
       toolbar.addListener("showItem", function(e) {
         var item = e.getData();
         var menuItems = this._getMenuItems(item);
@@ -231,22 +231,22 @@ qx.Class.define("apiviewer.Viewer",
           menuItems[i].setVisibility("excluded");
         };
       }, this);
-      
+
       return toolbar;
     },
 
 
     /**
-     * Helper for the overflow handling. It is responsible for returning a 
+     * Helper for the overflow handling. It is responsible for returning a
      * corresponding menu item for the given toolbar item.
-     * 
+     *
      * @param toolbarPart {qx.ui.toolbar.Part} The toolbar part to look for.
      * @return {qx.ui.core.Widget[]} The coresponding menu items.
      */
     _getMenuItems : function(toolbarPart) {
       var partChildren = toolbarPart.getChildren();
       var menuItems = [];
-      
+
       // only add a separator if the first part pops in
       if (toolbarPart.toHashCode() === this.__firstPartHash) {
         var cachedItem = this.__menuItemStore[toolbarPart.toHashCode()];
@@ -257,7 +257,7 @@ qx.Class.define("apiviewer.Viewer",
         }
         menuItems.push(cachedItem);
       }
-      
+
       // take every item in the part
       for (var i = partChildren.length -1; i >= 0; i--) {
         var toolbarItem = partChildren[i];
@@ -276,14 +276,14 @@ qx.Class.define("apiviewer.Viewer",
           this.__overflowMenu.addAt(cachedItem, 0);
           this.__menuItemStore[toolbarItem.toHashCode()] = cachedItem;
         }
-        
+
         menuItems.push(cachedItem);
       };
-      
+
       return menuItems;
     },
-    
-    
+
+
     /**
      * Create the detail Frame and adds the Class-, Package and Loader-views to it.
      *

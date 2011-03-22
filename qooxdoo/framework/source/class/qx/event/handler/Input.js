@@ -159,8 +159,8 @@ qx.Class.define("qx.event.handler.Input",
     registerEvent : function(target, type, capture)
     {
       if (
-        qx.bom.client.Engine.MSHTML && 
-        qx.bom.client.Engine.VERSION < 9 && 
+        qx.bom.client.Engine.MSHTML &&
+        qx.bom.client.Engine.VERSION < 9 &&
         qx.bom.client.Engine.DOCUMENT_MODE < 9
       )
       {
@@ -216,7 +216,7 @@ qx.Class.define("qx.event.handler.Input",
       "mshtml" : function(target)
       {
         if (
-          qx.bom.client.Engine.VERSION >= 9 && 
+          qx.bom.client.Engine.VERSION >= 9 &&
           qx.bom.client.Engine.DOCUMENT_MODE >= 9
         ) {
           qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
@@ -256,8 +256,8 @@ qx.Class.define("qx.event.handler.Input",
     unregisterEvent : function(target, type)
     {
       if (
-        qx.bom.client.Engine.MSHTML && 
-        qx.bom.client.Engine.VERSION < 9 && 
+        qx.bom.client.Engine.MSHTML &&
+        qx.bom.client.Engine.VERSION < 9 &&
         qx.bom.client.Engine.DOCUMENT_MODE < 9
       )
       {
@@ -317,7 +317,7 @@ qx.Class.define("qx.event.handler.Input",
       "mshtml" : function(target)
       {
         if (
-          qx.bom.client.Engine.VERSION >= 9 && 
+          qx.bom.client.Engine.VERSION >= 9 &&
           qx.bom.client.Engine.DOCUMENT_MODE >= 9
         ) {
           qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);

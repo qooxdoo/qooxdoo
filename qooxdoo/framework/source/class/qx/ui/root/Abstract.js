@@ -237,7 +237,7 @@ qx.Class.define("qx.ui.root.Abstract",
     *
     * @param e {qx.event.type.KeySequence} The KeySequence event
     */
-    __preventScrollWhenFocused: function(e) {      
+    __preventScrollWhenFocused: function(e) {
       // Require space pressed
       if (e.getKeyIdentifier() !== "Space") {
         return;

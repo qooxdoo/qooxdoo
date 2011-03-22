@@ -20,14 +20,14 @@
 /**
  * The test result class runs the test functions and logs the results.
  */
- 
+
 qx.Class.define("simulator.unit.TestResult", {
 
   extend : qx.core.Object,
-  
+
   members :
   {
-    
+
     /**
      * Run the test
      *
@@ -46,7 +46,7 @@ qx.Class.define("simulator.unit.TestResult", {
         this.error("Error setting up " + test.getFullName() + ": " + ex);
         return;
       }
-      
+
       try {
         testFunction.call(self);
         this.info("PASS  " + test.getFullName());
@@ -67,5 +67,5 @@ qx.Class.define("simulator.unit.TestResult", {
       }
     }
   }
-  
+
 });

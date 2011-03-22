@@ -388,14 +388,14 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         return "";
       }
     },
-    
+
     /**
      * Gets a class item from baseClassNode. if it is not found there, the class' hierarchy is searched until the item is found.
-     * 
+     *
      * @param itemName {String} the name of the item.
      * @param baseClassNode {apiviewer.dao.Class} class doc node
      * @return {apiviewer.dao.ClassItem} the classItem
-     * 
+     *
      */
     __getItemFromClassHierarchy : function(itemName,baseClassNode)
     {

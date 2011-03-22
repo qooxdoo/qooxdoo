@@ -20,16 +20,16 @@
 /**
  * Utility functions for Simulator tests.
  */
- 
+
 qx.Mixin.define("simulator.MSeleniumUtil", {
 
   members :
   {
     /**
      * Uses the given locator to search the AUT for a qooxdoo widget. If found,
-     * the return value of its toString method is returned. Otherwise, null is 
+     * the return value of its toString method is returned. Otherwise, null is
      * returned.
-     * 
+     *
      * @param locator {String} (Qx)Selenium locator string
      * @return {String|null} String representation of the widget or null
      */
@@ -44,14 +44,14 @@ qx.Mixin.define("simulator.MSeleniumUtil", {
       }
       return widget;
     },
-    
+
     /**
      * Uses the given locator to search the AUT for a qooxdoo widget. If found,
-     * the getter function for the property with the given name is called 
+     * the getter function for the property with the given name is called
      * and the value is returned. If no widget is found or the property does not
      * exist, null is returned.
-     * 
-     * @param locator {String} (Qx)Selenium locator string 
+     *
+     * @param locator {String} (Qx)Selenium locator string
      * @param property {String} Name of a qooxdoo property
      * @return {String|null} Property value string or null
      */

@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Provides functionality to capture the log messages of a tested qooxdoo 
+ * Provides functionality to capture the log messages of a tested qooxdoo
  * application.
  */
 
@@ -27,7 +27,7 @@ qx.Mixin.define("simulator.MApplicationLogging",
   members:
   {
     /**
-     * Adds a function to the AUT that retrieves all messages from the logger 
+     * Adds a function to the AUT that retrieves all messages from the logger
      * created by {@link #addRingBuffer}.
      * @lint ignoreUndefined(selenium)
      */
@@ -51,22 +51,22 @@ qx.Mixin.define("simulator.MApplicationLogging",
         }
         return entryArray.join('|');
       };
-      
-      this.addOwnFunction("getRingBufferEntries", getRingBufferEntries);  
+
+      this.addOwnFunction("getRingBufferEntries", getRingBufferEntries);
     },
 
     /**
-     * Creates a new qx.log.appender.RingBuffer in the AUT and registers it. 
+     * Creates a new qx.log.appender.RingBuffer in the AUT and registers it.
      * This can be used to access the AUT's log messages from the test code.
-     * 
-     * @param win {String} JavaScript snippet that evaluates as a Window object 
+     *
+     * @param win {String} JavaScript snippet that evaluates as a Window object
      * accessible to the current Selenium instance. Default: The AUT's window.
      */
     addRingBuffer : function(win)
     {
       var qxWin = win || "selenium.qxStoredVars['autWindow']";
       var rb = "new " + qxWin + ".qx.log.appender.RingBuffer()";
-      this.storeEval(rb, "ringBuffer");  
+      this.storeEval(rb, "ringBuffer");
       this.qxSelenium.getEval(qxWin + ".qx.log.Logger.register(selenium.qxStoredVars['ringBuffer'])");
     }
 

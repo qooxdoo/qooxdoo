@@ -129,7 +129,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
       if (!this.base(arguments)) {
         return;
       }
-      
+
       this.__notRunEffects = [];
 
       var counter = 0;
@@ -166,7 +166,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
         });
       }
      },
-     
+
     /**
     * Cancels the member effects first and then cancels itself.
     */
@@ -178,9 +178,9 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
       }
       this.base(arguments);
     }
-    
+
    },
-    
+
    /*
    *****************************************************************************
       DESTRUCTOR

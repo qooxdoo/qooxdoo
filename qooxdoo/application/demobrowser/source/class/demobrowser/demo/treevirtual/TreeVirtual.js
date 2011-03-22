@@ -1,7 +1,7 @@
 /**
  * Test large trees.  This one adds a Spam branch with 3000 leaf nodes.
  */
- 
+
  /* ************************************************************************
 
  #asset(qx/icon/${qx.icontheme}/22/apps/internet-mail.png)

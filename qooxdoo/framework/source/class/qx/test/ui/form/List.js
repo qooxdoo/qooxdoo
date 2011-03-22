@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.List", 
+qx.Class.define("qx.test.ui.form.List",
 {
   extend : qx.test.ui.LayoutTestCase,
 
@@ -25,7 +25,7 @@ qx.Class.define("qx.test.ui.form.List",
   {
     __list : null,
 
-    setUp : function() 
+    setUp : function()
     {
       var list = this.__list = new qx.ui.form.List();
       var items = ["AAA", "BBB", "CCC"];
@@ -54,7 +54,7 @@ qx.Class.define("qx.test.ui.form.List",
       this.assertInstance(found, qx.ui.form.ListItem, "Item not found");
     },
 
-    tearDown : function() 
+    tearDown : function()
     {
       this.__list.destroy();
     }

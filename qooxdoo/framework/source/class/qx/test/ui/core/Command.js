@@ -238,7 +238,7 @@ qx.Class.define("qx.test.ui.core.Command",
 
       cmd.dispose();
     },
-    
+
     testIconAsToolTipText : function() {
       // for [BUG #4534]
       var cmd = new qx.ui.core.Command("Control+D");
@@ -248,12 +248,12 @@ qx.Class.define("qx.test.ui.core.Command",
       button1.setCommand(cmd);
 
       this.assertEquals("affe", button1.getToolTipText());
-      
+
       button1.dispose();
       cmd.dispose();
     },
-    
-    
+
+
     testDestructExecutable : function() {
       // Create the command
       var cmd = new qx.ui.core.Command("Meta+T")
@@ -266,9 +266,9 @@ qx.Class.define("qx.test.ui.core.Command",
       // make sure the dipose queue is flushed
       qx.ui.core.queue.Manager.flush();
       cmd.setEnabled(true);
-      
+
       cmd.dispose();
-      
+
       // test makes sure that code is running, no assert needed
     }
   }

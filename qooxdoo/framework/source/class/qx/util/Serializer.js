@@ -189,7 +189,7 @@ qx.Class.define("qx.util.Serializer",
       if (qx.lang.Type.isDate(object) && dateFormat != null) {
         return dateFormat.format(object);
       }
-      
+
       // localized strings
       if (object instanceof qx.locale.LocalizedString) {
         return object.toString();
@@ -236,7 +236,7 @@ qx.Class.define("qx.util.Serializer",
         return "null";
       }
 
-      // data array      
+      // data array
       if (qx.Class.hasInterface(object.constructor, qx.data.IListData)) {
         result += "[";
         for (var i = 0; i < object.getLength(); i++) {
@@ -246,7 +246,7 @@ qx.Class.define("qx.util.Serializer",
           result = result.substring(0, result.length - 1);
         }
         return result + "]";
-      } 
+      }
 
       // other arrays
       if (qx.lang.Type.isArray(object)) {
@@ -285,7 +285,7 @@ qx.Class.define("qx.util.Serializer",
         }
         return result + "}";
       }
-      
+
       // localized strings
       if (object instanceof qx.locale.LocalizedString) {
         object = object.toString();
@@ -308,7 +308,7 @@ qx.Class.define("qx.util.Serializer",
           result = result.substring(0, result.length - 1);
         }
         return result + "}";
-      } 
+      }
 
       // strings
       if (qx.lang.Type.isString(object)) {
@@ -328,7 +328,7 @@ qx.Class.define("qx.util.Serializer",
       if (qx.lang.Type.isDate(object) || qx.lang.Type.isRegExp(object)) {
         return '"' + object + '"';
       }
-      
+
       // all other stuff
       return object + "";
     }

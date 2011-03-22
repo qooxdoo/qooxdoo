@@ -58,7 +58,7 @@ qx.Class.define("playground.view.Editor",
     /**
      * The constructor was spit up to make the included mixin available during
      * the init process.
-     * 
+     *
      * @lint ignoreUndefined(require)
      */
     init: function()
@@ -94,7 +94,7 @@ qx.Class.define("playground.view.Editor",
         padding   : [0,0,0,5]
       });
       this.add(this.__textarea, { flex : 1 });
-      
+
       this.__editor = new qx.ui.core.Widget();
       var highlightDisabled = false;
       // FF2 does not have that...
@@ -112,16 +112,16 @@ qx.Class.define("playground.view.Editor",
       this.__editor.setVisibility("excluded");
       this.add(this.__editor, { flex : 1 });
 
-      
+
       // load the CSS files for the code editor
       qx.bom.Stylesheet.includeFile("resource/playground/css/editor.css");
       qx.bom.Stylesheet.includeFile("resource/playground/css/tm.css");
-      
+
       // override the focus border CSS of the editor
       qx.bom.Stylesheet.createElement(
         ".ace_editor {border: 0px solid #9F9F9F !important;}"
       );
-      
+
       // chech the initial highlight state
       var shouldHighligth = qx.bom.Cookie.get("playgroundHighlight") !== "false";
       this.useHighlight(!highlightDisabled && shouldHighligth);
@@ -136,7 +136,7 @@ qx.Class.define("playground.view.Editor",
      */
      __onEditorAppear : function() {
        var self = this;
-       
+
        // ajax.org code editor include
        require(
          {baseUrl: "resource/playground/editor"},
@@ -148,7 +148,7 @@ qx.Class.define("playground.view.Editor",
              "ace/undomanager"
          ], function(
            Editor, Renderer, Document, JavaScriptMode, UndoManager
-          ) { 
+          ) {
 
          var container = self.__editor.getContentElement().getDomElement();
          self.__ace = new Editor(new Renderer(container));
@@ -158,22 +158,22 @@ qx.Class.define("playground.view.Editor",
          doc.setUndoManager(new UndoManager());
          doc.setUseSoftTabs(true);
          doc.setTabSize(2);
-         self.__ace.setDocument(doc);  
-         
+         self.__ace.setDocument(doc);
+
          self.__ace.focus();
 
-         // remove the print margin and move it to column 3 
+         // remove the print margin and move it to column 3
          // [http://github.com/ajaxorg/editor/issues/issue/1]
          self.__ace.setShowPrintMargin(false);
          self.__ace.setPrintMarginColumn(3);
 
          self.__ace.resize();
-         
+
          // append resize listener
         self.__editor.addListener("resize", function() {
           // use a timeout to let the layout queue apply its changes to the dom
           window.setTimeout(function() {
-            self.__ace.resize();            
+            self.__ace.resize();
           }, 0);
          });
        });
@@ -216,23 +216,23 @@ qx.Class.define("playground.view.Editor",
         // change the visibility
         this.__editor.setVisibility("visible");
         this.__textarea.setVisibility("excluded");
-        
+
         // copy the value, if the editor already availabe
         if (this.__ace) {
           this.__ace.getDocument().setValue(this.__textarea.getValue());
           // workaround for a drawing issue in the editor
           this.__editor.addListenerOnce("appear", function() {
-            this.__ace.resize();            
+            this.__ace.resize();
           }, this);
         }
       } else {
-        // change the visibility        
+        // change the visibility
         this.__editor.setVisibility("excluded");
         this.__textarea.setVisibility("visible");
-        
+
         // copy the value, if the editor already availabe
         if (this.__ace) {
-          this.__textarea.setValue(this.__ace.getDocument().toString());          
+          this.__textarea.setValue(this.__ace.getDocument().toString());
         }
       }
     }

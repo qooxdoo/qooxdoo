@@ -24,28 +24,28 @@
 qx.Class.define("simulator.unit.TestCase", {
 
   extend : qx.dev.unit.TestCase,
-  
+
   include : [simulator.MSeleniumUtil, qx.core.MAssert],
-  
+
   members :
   {
     __simulation : null,
-    
-    
+
+
     /**
      * Returns the QxSimulation instance configured by the TestLoader.
-     * 
-     * @return {simulator.QxSimulation} QxSimulation object 
+     *
+     * @return {simulator.QxSimulation} QxSimulation object
      */
     getSimulation : function()
     {
       if (this.__simulation) {
         return this.__simulation;
       }
-      
+
       this.__simulation = simulator.Init.getApplication().simulation;
       return this.__simulation;
     }
   }
-  
+
 });

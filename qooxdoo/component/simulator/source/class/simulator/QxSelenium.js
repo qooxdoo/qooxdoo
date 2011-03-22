@@ -27,9 +27,9 @@ qx.Class.define("simulator.QxSelenium", {
   statics :
   {
     /**
-     * Imports the com.thoughtworks.selenium.QxSelenium Java class and creates 
+     * Imports the com.thoughtworks.selenium.QxSelenium Java class and creates
      * an instance.
-     * 
+     *
      * @param server {String} The Selenium RC server's domain, e.g. "localhost"
      * @param port {Integer} The Selenium server's port number
      * @param browser {String} Selenium browser launcher, e.g. "*firefox3"
@@ -44,10 +44,10 @@ qx.Class.define("simulator.QxSelenium", {
         importClass(Packages.com.thoughtworks.selenium.QxSelenium);
       }
       catch(ex) {
-        throw new Error("Couldn't import QxSelenium class! Make sure the qooxdoo " 
+        throw new Error("Couldn't import QxSelenium class! Make sure the qooxdoo "
         + "Selenium user extensions are installed in your Selenium client.\n" + ex);
       }
-      
+
       // Create and configure QxSelenium instance
       return new QxSelenium(server, port, browser, host);
 

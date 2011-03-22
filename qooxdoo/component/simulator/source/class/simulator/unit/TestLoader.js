@@ -28,50 +28,50 @@ qx.Class.define("simulator.unit.TestLoader", {
   statics :
   {
     /**
-     * {Array} Names of optional configuration settings for the 
-     * {@link simulator.QxSimulation} instance to be used for this test. 
-     * Options are defined as settings in the "simulation" job.  
+     * {Array} Names of optional configuration settings for the
+     * {@link simulator.QxSimulation} instance to be used for this test.
+     * Options are defined as settings in the "simulation" job.
      */
-    SETTING_NAMES : ["globalTimeout", "stepSpeed", "windowMaximize", 
-                    "globalErrorLogging", "testEvents", "disposerDebug", 
+    SETTING_NAMES : ["globalTimeout", "stepSpeed", "windowMaximize",
+                    "globalErrorLogging", "testEvents", "disposerDebug",
                     "applicationLog"]
   },
-  
+
   members :
   {
-    
+
     main : function()
     {
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
       var nameSpace = qx.core.Setting.get("simulator.nameSpace");
-      
+
       var qxSelenium = simulator.QxSelenium.create(
         qx.core.Setting.get("simulator.selServer"),
         qx.core.Setting.get("simulator.selPort"),
         qx.core.Setting.get("simulator.testBrowser"),
         qx.core.Setting.get("simulator.autHost"));
-      
-      var simulation = this.simulation = new simulator.QxSimulation(qxSelenium, 
+
+      var simulation = this.simulation = new simulator.QxSimulation(qxSelenium,
         qx.core.Setting.get("simulator.autHost"),
         qx.core.Setting.get("simulator.autPath"),
         this._getOptionalSettings());
-      
+
       simulation.startSession();
       simulation.logEnvironment();
       simulation.logUserAgent();
       simulation.qxSelenium.setSpeed("1000");
-      
+
       var suite = new qx.dev.unit.TestSuite(nameSpace);
       var testResult = new simulator.unit.TestResult();
       suite.run(testResult);
-      
+
       simulation.qxSelenium.stop();
     },
-    
-    
+
+
     /**
      * Returns a map containing QxSimulation options.
-     * 
+     *
      * @return {Map} Settings map
      */
     _getOptionalSettings : function()
