@@ -40,7 +40,7 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
     /**
      * Returns the children list
      *
-     * @return {LayoutItem[]} The children array (Arrays are
+     * @return {Widget[]} The children array (Arrays are
      *   reference types, please to not modify them in-place)
      */
     getChildren : function() {
@@ -62,11 +62,6 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
      * Returns the index position of the given widget if it is
      * a child widget. Otherwise it returns <code>-1</code>.
      *
-     * This method works on the widget's children list. Some layout managers
-     * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
-     * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
-     * ignore the children order for the layout process.
-     *
      * @param child {Widget} the widget to query for
      * @return {Integer} The index position or <code>-1</code> when
      *   the given widget is no child of this layout.
@@ -79,13 +74,8 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
     /**
      * Adds a new child widget.
      *
-     * The supported keys of the layout options map depend on the layout manager
-     * used to position the widget. The options are documented in the class
-     * documentation of each layout manager {@link qx.ui.layout}.
-     *
-     * @param child {LayoutItem} the widget to add.
+     * @param child {Widget} the widget to add.
      * @param options {Map?null} Optional layout data for widget.
-     * @return {void}
      */
     add : function(child, options) {
       this._add(child, options);
@@ -94,17 +84,11 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
 
     /**
      * Add a widget before another already inserted widget
-     *
-     * This method works on the widget's children list. Some layout managers
-     * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
-     * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
-     * ignore the children order for the layout process.
-     *
-     * @param child {LayoutItem} Widget to add
-     * @param before {LayoutItem} Widget before the new widget will be inserted.
+     * *
+     * @param child {Widget} Widget to add
+     * @param before {Widget} Widget before the new widget will be inserted.
      * @param options {Map?null} Optional layout data for widget.
-     * @return {void}
-     */
+s     */
     addBefore : function(child, before, options) {
       this._addBefore(child, before, options);
     },
@@ -113,15 +97,9 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
     /**
      * Add a widget after another already inserted widget
      *
-     * This method works on the widget's children list. Some layout managers
-     * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
-     * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
-     * ignore the children order for the layout process.
-     *
-     * @param child {LayoutItem} Widget to add
-     * @param after {LayoutItem} Widget, after which the new widget will be inserted
+     * @param child {Widget} Widget to add
+     * @param after {Widget} Widget, after which the new widget will be inserted
      * @param options {Map?null} Optional layout data for widget.
-     * @return {void}
      */
     addAfter : function(child, after, options) {
       this._addAfter(child, after, options);
@@ -131,8 +109,7 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
     /**
      * Remove the given child widget.
      *
-     * @param child {LayoutItem} the widget to remove
-     * @return {void}
+     * @param child {Widget} the widget to remove
      */
     remove : function(child) {
       this._remove(child);
