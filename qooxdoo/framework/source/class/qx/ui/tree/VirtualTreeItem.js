@@ -18,6 +18,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL!
+ *
  * The tree item is a tree element for the {@link VirtualTree}, which can have 
  * nested tree elements.
  */
