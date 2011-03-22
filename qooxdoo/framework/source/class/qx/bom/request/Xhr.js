@@ -43,7 +43,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 {
 
   construct: function() {
-    this.__onReadyStateChangeBound = qx.Bootstrap.bind(this.__onReadyStateChange, this);
+    this.__onNativeReadyStateChangeBound = qx.Bootstrap.bind(this.__onNativeReadyStateChange, this);
 
     this.__initNativeXhr();
 
@@ -146,7 +146,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // Restore handler in case it was removed before
-      this.__nativeXhr.onreadystatechange = this.__onReadyStateChangeBound;
+      this.__nativeXhr.onreadystatechange = this.__onNativeReadyStateChangeBound;
 
       this.__nativeXhr.open(method, url, async, user, password);
 
@@ -204,7 +204,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         window.setTimeout(qx.Bootstrap.bind(function() {
           try {
             this.__nativeXhr.send(data);
-            this.__onReadyStateChange();
+            this.__onNativeReadyStateChange();
           } catch(NetworkError) {}
         }, this));
       } else {
@@ -215,7 +215,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // Firefox fails to trigger onreadystatechange DONE for sync requests
       if (qx.core.Environment.get("engine.name") === "gecko" && !this.__async) {
         // Properties all set, only missing native readystatechange event
-        this.__onReadyStateChange();
+        this.__onNativeReadyStateChange();
       }
     },
 
@@ -246,19 +246,19 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
     /**
     * Event handler for XHR event "load" that is fired on successful retrieval.
-    * 
+    *
     * Note: This handler is called even when the HTTP status indicates an error.
-    * 
+    *
     * Replace with custom method to listen to the "load" event.
     */
     onload: function() {},
 
     /**
     * Event handler for XHR event "error" that is fired on a network error.
-    * 
+    *
     * Note: This handler is NOT called on successful retrieval, even when
     * the HTTP status code indicates an error.
-    * 
+    *
     * Replace with custom method to listen to the "error" event.
     */
     onerror: function() {},
@@ -307,9 +307,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // Clear out listeners
-      this.__nativeXhr.onreadystatechange = function() {};
-      this.__nativeXhr.onload = function() {};
-      this.__nativeXhr.onerror = function() {};
+      var noop = function() {};
+      this.__nativeXhr.onreadystatechange = noop;
+      this.__nativeXhr.onload = noop;
+      this.__nativeXhr.onerror = noop;
 
       // Abort any network activity
       this.abort();
@@ -389,9 +390,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __async: null,
 
     /**
-     * {Function} Bound __onReadyStateChange handler.
+     * {Function} Bound __onNativeReadyStateChange handler.
      */
-    __onReadyStateChangeBound: null,
+    __onNativeReadyStateChangeBound: null,
 
     /**
      * {Function} Bound __onUnload handler.
@@ -411,7 +412,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__nativeXhr = this._createNativeXhr();
 
       // Track native ready state changes
-      this.__nativeXhr.onreadystatechange = this.__onReadyStateChangeBound;
+      this.__nativeXhr.onreadystatechange = this.__onNativeReadyStateChangeBound;
 
       this.__disposed = false;
     },
@@ -422,10 +423,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * Calls user-defined function onreadystatechange on each
      * state change and syncs the XHR status properties.
      */
-    __onReadyStateChange: function() {
+    __onNativeReadyStateChange: function() {
       var nxhr = this.__nativeXhr,
           propertiesReadable = true;
-      
+
       // BUGFIX: IE, Firefox
       // onreadystatechange() is called twice for readyState OPENED.
       //
@@ -468,16 +469,16 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           this.__normalizeResponseXML();
         }
       }
-      
+
       // Always fire "readystatechange"
       this.onreadystatechange();
 
-      // Fire either "load" or "error" 
+      // Fire either "load" or "error"
       if (this.readyState === qx.bom.request.Xhr.DONE) {
         // Infer the XHR internal error flag from statusText.
         //
         // See http://www.w3.org/TR/XMLHttpRequest2/#error-flag and
-        // http://www.w3.org/TR/XMLHttpRequest2/#the-statustext-attribute 
+        // http://www.w3.org/TR/XMLHttpRequest2/#the-statustext-attribute
         this.statusText ? this.onload() : this.onerror();
       }
 
