@@ -319,7 +319,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       req.send();
 
       // Status does not matter
-      fakeReq.respond(status);
+      fakeReq.respond();
 
       this.assertCalled(req.onload);
     },
@@ -329,6 +329,24 @@ qx.Class.define("qx.test.bom.request.Xhr",
     //
     // See XhrWithBackend
     //
+
+    //
+    // onloadend()
+    //
+
+    "test: should call onloadend when request complete": function() {
+      var req = this.req;
+      var fakeReq = this.getFakeReq();
+
+      this.spy(req, "onloadend");
+      req.open();
+      req.send();
+
+      // Status does not matter
+      fakeReq.respond();
+
+      this.assertCalled(req.onloadend);
+    },
 
     //
     // readyState

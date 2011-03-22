@@ -254,6 +254,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     onload: function() {},
 
     /**
+     * Event handler for XHR event "loadend" that is fired when request completes.
+     *
+     * Replace with custom method to listen to the "load" event.
+     */
+    onloadend: function() {},
+
+    /**
     * Event handler for XHR event "error" that is fired on a network error.
     *
     * Note: This handler is NOT called on successful retrieval, even when
@@ -480,6 +487,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         // See http://www.w3.org/TR/XMLHttpRequest2/#error-flag and
         // http://www.w3.org/TR/XMLHttpRequest2/#the-statustext-attribute
         this.statusText ? this.onload() : this.onerror();
+
+        // Always fire "onloadend" when DONE
+        this.onloadend();
       }
 
       // BUGFIX: IE

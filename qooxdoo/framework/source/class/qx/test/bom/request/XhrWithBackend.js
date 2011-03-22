@@ -482,6 +482,24 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     //
+    // onloadend()
+    //
+    "test: should call onloadend on network error": function() {
+      var req = this.req;
+      
+      var that = this;
+      req.onloadend = function() {
+        that.resume();
+      }
+      
+      // Network error
+      req.open("GET", "http://fail:672935");
+      req.send();
+      
+      this.wait();
+    },
+
+    //
     // Disposing
     //
 
