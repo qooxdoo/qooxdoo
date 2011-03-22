@@ -254,9 +254,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     onload: function() {},
 
     /**
-     * Event handler for XHR event "loadend" that is fired when request completes.
+     * Event handler for XHR event "loadend" that is fired on retrieval.
      *
-     * Replace with custom method to listen to the "load" event.
+     * Note: This handler is called even when a network error (or similar)
+     * occurred.
+     *
+     * Replace with custom method to listen to the "loadend" event.
      */
     onloadend: function() {},
 

@@ -466,17 +466,21 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     //
 
     "test: should call onerror on network error": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
       var req = this.req;
-      
+
       var that = this;
       req.onerror = function() {
         that.resume();
       }
-      
+
       // Network error
       req.open("GET", "http://fail:672935");
       req.send();
-      
+
       this.wait();
     },
 
@@ -485,17 +489,21 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     //
 
     "test: should call onloadend on network error": function() {
+      if (this.isLocal()) {
+        return;
+      }
+
       var req = this.req;
-      
+
       var that = this;
       req.onloadend = function() {
         that.resume();
       }
-      
+
       // Network error
       req.open("GET", "http://fail:672935");
       req.send();
-      
+
       this.wait();
     },
 
