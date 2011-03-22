@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import re, sys, operator
+import re, sys, operator, types
 from ecmascript.frontend.treeutil import *
 from ecmascript.frontend          import treeutil
 
@@ -293,10 +293,11 @@ def processVariantGet(callNode, variantMap):
                         op1 = variantValue
                         op2 = {"true":True, "false":False}[otherValue.get("value")]
                     elif constType == "null":
+                        print "%r" % variantValue
                         op1 = variantValue
                         op2 = None
                     # compare result
-                    if constType in ("number", "string", "boolean"):
+                    if constType in ("number", "string", "boolean", "null"):
                         treeutil.inlineIfStatement(loopNode, cmpFcn(op1,op2))
                         treeModified = True
 
