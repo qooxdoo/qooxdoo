@@ -117,6 +117,16 @@ s     */
 
 
     /**
+     * Remove the widget at the specified index.
+     *
+     * @param index {Integer} Index of the widget to remove.
+     */
+    removeAt : function(index) {
+      return this._removeAt(index);
+    },
+
+
+    /**
      * Remove all children.
      */
     removeAll : function() {
@@ -152,6 +162,7 @@ s     */
       members.addAfter = members._addAfter;
 
       members.remove = members._remove;
+      members.removeAt = members._removeAt;
       members.removeAll = members._removeAll;
     }
   }

@@ -562,6 +562,22 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
+     * Remove the widget at the specified index.
+     *
+     * @param index {Integer} Index of the widget to remove.
+     */
+    _removeAt : function(index)
+    {
+      if (!this.__children) {
+        throw new Error("This widget has no children!");
+      }
+
+      var child = this.__children[index];
+      this._remove(child);
+    },
+
+
+    /**
      * Removes all children from the widget.
      */
     _removeAll : function()
