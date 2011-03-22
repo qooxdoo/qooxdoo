@@ -55,7 +55,6 @@
       "=settings" :
       {
         "qx.version"     : "${QOOXDOO_VERSION}",
-        "qx.revision"    : "${QOOXDOO_REVISION}",
         "qx.application" : "$${APPLICATION}.Application"
       },
 
@@ -74,12 +73,11 @@
       {
         "files" :
         [
-          "index.html",
-          "index_phonegap.html"
+          "index.html"
         ],
 
-        "source" : "${ROOT}/source/resource",
-        "target" : "${BUILD_PATH}"
+        "source" : "$${ROOT}/source/resource",
+        "target" : "$${BUILD_PATH}"
       }
     },
 

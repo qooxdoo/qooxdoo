@@ -58,7 +58,7 @@ qx.Class.define("${Namespace}.Application",
       */
 
       var page1 = new qx.ui.mobile.page.Page();
-      page1.addListener("initialized", function()
+      page1.addListener("initialize", function()
       {
         var button = new qx.ui.mobile.form.Button("Next Page");
         page1.add(button);
@@ -70,7 +70,7 @@ qx.Class.define("${Namespace}.Application",
 
 
       var page2 = new qx.ui.mobile.page.Page();
-      page2.addListener("initialized", function()
+      page2.addListener("initialize", function()
       {
         var button = new qx.ui.mobile.form.Button("Previous Page");
         page2.add(button);
