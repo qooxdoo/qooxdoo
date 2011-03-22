@@ -1,0 +1,127 @@
+{
+  "name"    : "${Name}",
+
+  "include" :
+  [
+    {
+      "path" : "$${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "api-data",
+    "build",
+    "clean",
+    "distclean",
+    "fix",
+    "info",
+    "lint",
+    "migration",
+    "pretty",
+    "profiling",
+    "source",
+    "source-all",
+    "source-hybrid",
+    "test",
+    "test-source",
+    "translation"
+  ],
+  
+  "default-job" : "source",
+
+  "let" :
+  {
+    "APPLICATION"  : "${Namespace}",
+    "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${Cache}",
+    "ROOT"         : "."
+  },
+
+  // You only need to edit the remainder of this file, if you want to customize
+  // specific jobs, or add own job definitions.
+
+  "jobs" :
+  {
+    "common" :
+    {
+      "=include" :
+      [
+        "$${APPLICATION}.Application"
+      ],
+      
+      "=settings" :
+      {
+        "qx.version"     : "${QOOXDOO_VERSION}",
+        "qx.revision"    : "${QOOXDOO_REVISION}",
+        "qx.application" : "$${APPLICATION}.Application"
+      },
+
+      "variants" :
+      {
+        "qx.mobile.emulatetouch" : ["on"],
+        "qx.mobile.nativescroll" : ["off"],
+        "qx.client" : ["webkit"]
+      }
+    },
+
+
+    "build-files" :
+    {
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index.html",
+          "index_phonegap.html"
+        ],
+
+        "source" : "${ROOT}/source/resource",
+        "target" : "${BUILD_PATH}"
+      }
+    },
+
+
+    "source-all-script" :
+    {
+      "=exclude" : 
+      [
+        "qx.test.*",
+        "$${APPLICATION}.test.*"
+      ]
+    }
+    // Uncomment the following entry to add a contrib or library to your
+    // project; make sure to adapt the path to the Manifest.json; if you are
+    // using a contrib: library, it will be downloaded into the path specified
+    // by the 'cache/downloads' config key
+    /*
+    "libraries" : 
+    {
+      "library" :
+      [
+        {
+          "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json"
+        }
+      ]
+    },
+    */
+
+    // If you want to tweak a job setting, see the following sample where
+    // the "format" feature of the "build-script" job is overridden.
+    // To see a list of available jobs, invoke 'generate.py x'.
+    /*
+    "build-script" :
+    {
+      "compile-options" : 
+      {
+        "code" :
+        {
+          "format" : false
+        }
+      }
+    }
+    */
+  }
+}
