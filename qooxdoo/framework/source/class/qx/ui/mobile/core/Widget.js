@@ -462,11 +462,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         }
       }
 
-      this.__children.push(child);
       child.setLayoutParent(this);
       child.setLayoutProperties(layoutProperties);
 
       this.getContentElement().appendChild(child.getContainerElement());
+      this.__children.push(child);
+
       this._domUpdated();
     },
 
@@ -494,11 +495,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         return;
       }
 
-      qx.lang.Array.insertBefore(this.__children, child, beforeWidget);
       child.setLayoutParent(this);
       child.setLayoutProperties(layoutProperties);
 
       this.getContentElement().insertBefore(child.getContainerElement(), beforeWidget.getContainerElement());
+      qx.lang.Array.insertBefore(this.__children, child, beforeWidget);
+
       this._domUpdated();
     },
 
@@ -525,7 +527,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         return;
       }
 
-      qx.lang.Array.insertAfter(this.__children, child, afterWidget);
       child.setLayoutParent(this);
       child.setLayoutProperties(layoutProperties);
 
@@ -541,8 +542,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         this.getContentElement().insertBefore(child.getContainerElement(), beforeWidget.getContainerElement());
       }
 
+      qx.lang.Array.insertAfter(this.__children, child, afterWidget);
+
       this._domUpdated();
     },
+
 
 
     /**
