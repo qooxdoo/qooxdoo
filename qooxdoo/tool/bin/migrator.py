@@ -747,7 +747,7 @@ def main():
 
     (options, args) = parser.parse_args()
 
-    default_old_version = "1.2"
+    default_old_version = "1.3"
 
     while options.from_version == "":
         choice = raw_input("""
