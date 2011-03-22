@@ -275,13 +275,16 @@ def processVariantGet(callNode, variantMap):
                 if otherValue.type == "constant":
                     constType = otherValue.get("constantType")
                     if constType == "number":
-                        op1 = int(variantValue)
+                        op1 = variantValue
                         op2 = int(otherValue.get("value"))
                     elif constType == "string":
                         op1 = variantValue
                         op2 = otherValue.get("value")
+                    elif constType == "boolean":
+                        op1 = variantValue
+                        op2 = {"true":True, "false":False}[otherValue.get("value")]
                     # compare result
-                    if constType in ("number", "string"):
+                    if constType in ("number", "string", "boolean"):
                         treeutil.inlineIfStatement(loopNode, cmpFcn(op1,op2))
                         treeModified = True
 
