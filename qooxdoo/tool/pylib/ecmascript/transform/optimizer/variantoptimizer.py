@@ -110,7 +110,16 @@ def processVariantSelect(callNode, variantMap):
     secondParam = params.getChildByPosition(1)
     default = None
     found = False
+    variantValue = variantMap[variantKey]
     if secondParam.type == "map":
+        # map keys are always JS strings -> simulate a JS .toString() conversion
+        if isinstance(variantValue, (types.IntType, types.FloatType)):
+            variantValue = str(variantValue)
+        elif isinstance(variantValue, types.BooleanType):
+            variantValue = str(variantValue).lower()
+        elif variantValue == None:
+            variantValue = "null"
+
         for node in secondParam.children:
             if node.type != "keyvalue":
                 continue
@@ -121,7 +130,7 @@ def processVariantSelect(callNode, variantMap):
 
             # Go through individual value constants
             for key in keys:
-                if key == variantMap[variantKey]:
+                if key == variantValue:
                     callNode.parent.replaceChild(callNode, value)
                     found = True
                     break
@@ -132,7 +141,7 @@ def processVariantSelect(callNode, variantMap):
             if default != None:
                 callNode.parent.replaceChild(callNode, default)
             else:
-                raise RuntimeError(makeLogMessage("Error", "Variantoptimizer: No matching case found for variant (%s:%s) at" % (variantKey, variantMap[variantKey]), callNode))
+                raise RuntimeError(makeLogMessage("Error", "Variantoptimizer: No matching case found for variant (%s:%s) at" % (variantKey, variantValue), callNode))
         return True
 
     log("Warning", "The second parameter of qx.core.[Environment|Variant].select must be a map or a string literal. Ignoring this occurrence.", secondParam)
@@ -283,6 +292,9 @@ def processVariantGet(callNode, variantMap):
                     elif constType == "boolean":
                         op1 = variantValue
                         op2 = {"true":True, "false":False}[otherValue.get("value")]
+                    elif constType == "null":
+                        op1 = variantValue
+                        op2 = None
                     # compare result
                     if constType in ("number", "string", "boolean"):
                         treeutil.inlineIfStatement(loopNode, cmpFcn(op1,op2))
