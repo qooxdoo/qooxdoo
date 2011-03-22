@@ -162,15 +162,15 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     },
 
     /**
-    * Sets an HTTP request header to be used by the request.
-    *
-    * Note: The request must be initialized before using this method.
-    *
-    * @param header {String}
-    *        The name of the header whose value is to be set.
-    * @param value {String}
-    *        The value to set as the body of the header.
-    */
+     * Sets an HTTP request header to be used by the request.
+     *
+     * Note: The request must be initialized before using this method.
+     *
+     * @param header {String}
+     *        The name of the header whose value is to be set.
+     * @param value {String}
+     *        The value to set as the body of the header.
+     */
     setRequestHeader: function(header, value) {
       if (this.__disposed) {
         return;
@@ -245,12 +245,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     onreadystatechange: function() {},
 
     /**
-    * Event handler for XHR event "load" that is fired on successful retrieval.
-    *
-    * Note: This handler is called even when the HTTP status indicates an error.
-    *
-    * Replace with custom method to listen to the "load" event.
-    */
+     * Event handler for XHR event "load" that is fired on successful retrieval.
+     *
+     * Note: This handler is called even when the HTTP status indicates an error.
+     *
+     * Replace with custom method to listen to the "load" event.
+     */
     onload: function() {},
 
     /**
@@ -261,13 +261,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     onloadend: function() {},
 
     /**
-    * Event handler for XHR event "error" that is fired on a network error.
-    *
-    * Note: This handler is NOT called on successful retrieval, even when
-    * the HTTP status code indicates an error.
-    *
-    * Replace with custom method to listen to the "error" event.
-    */
+     * Event handler for XHR event "error" that is fired on a network error.
+     *
+     * Note: This handler is NOT called on successful retrieval, even when
+     * the HTTP status code indicates an error.
+     *
+     * Replace with custom method to listen to the "error" event.
+     */
     onerror: function() {},
 
     /**

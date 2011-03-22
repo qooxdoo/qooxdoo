@@ -461,7 +461,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
-
     //
     // onerror()
     //
@@ -484,6 +483,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     //
     // onloadend()
     //
+
     "test: should call onloadend on network error": function() {
       var req = this.req;
       
