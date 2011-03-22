@@ -19,7 +19,7 @@
 
 qx.Class.define("qx.test.mobile.core.Widget",
 {
-  extend : qx.test.ui.mobile.MobileTestCase,
+  extend : qx.test.mobile.MobileTestCase,
 
   members :
   {

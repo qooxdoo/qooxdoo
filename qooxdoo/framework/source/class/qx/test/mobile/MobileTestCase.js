@@ -36,7 +36,7 @@ qx.Class.define("qx.test.mobile.MobileTestCase",
     {
       this.require(["webkit"]);
 
-      qx.test.ui.mobile.MobileTestCase._oldApplicationFunction = qx.core.Init.getApplication;
+      qx.test.mobile.MobileTestCase._oldApplicationFunction = qx.core.Init.getApplication;
 
       qx.core.Init.getApplication = function()
       {
@@ -52,13 +52,13 @@ qx.Class.define("qx.test.mobile.MobileTestCase",
     tearDown : function()
     {
       this.getRoot().removeAll();
-      qx.core.Init.getApplication = qx.test.ui.mobile.MobileTestCase._oldApplicationFunction;
+      qx.core.Init.getApplication = qx.test.mobile.MobileTestCase._oldApplicationFunction;
     },
 
 
     getRoot : function()
     {
-      var clazz = qx.test.ui.mobile.MobileTestCase;
+      var clazz = qx.test.mobile.MobileTestCase;
 
       if (!clazz._root)
       {
