@@ -42,7 +42,7 @@ qx.Mixin.define("qx.ui.mobile.core.MLayoutHandling",
      * with one widget. Reset the connection with a previous widget first, if you
      * like to use it in another widget instead.
      *
-     * @param layout {qx.ui.layout.Abstract} The new layout or
+     * @param layout {qx.ui.mobile.layout.Abstract} The new layout or
      *     <code>null</code> to reset the layout.
      * @return {void}
      */
@@ -54,7 +54,7 @@ qx.Mixin.define("qx.ui.mobile.core.MLayoutHandling",
     /**
      * Get the widget's layout manager.
      *
-     * @return {qx.ui.layout.Abstract} The widget's layout manager
+     * @return {qx.ui.mobile.layout.Abstract} The widget's layout manager
      */
     getLayout : function() {
       return this._getLayout();
