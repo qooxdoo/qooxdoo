@@ -1,0 +1,121 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Martin Wittemann (martinwittemann)
+     * Tino Butz (tbtz)
+
+************************************************************************ */
+
+/**
+ * The feed reader's mobile main application class.
+ */
+qx.Class.define("feedreader.MobileApplication",
+{
+  extend : qx.application.Mobile,
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // private memebers
+    __feedFolder : null,
+
+
+    /*
+    ---------------------------------------------------------------------------
+      APPLICATION METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Application initialization which happens when
+     * all library files are loaded and ready
+     */
+    main : function()
+    {
+      this.base(arguments);
+
+      // Add log appenders
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.appender.Native;
+        qx.log.appender.Console;
+      }
+
+      var model = new feedreader.model.Model();
+      var loader = feedreader.io.FeedLoader.getInstance();
+      this.__feedFolder = model.getFeedFolder();
+      loader.loadAll(this.__feedFolder);
+      
+      this.buildUpGui();
+    },
+
+    
+    /**
+     * Main routine which builds the whole GUI.
+     */
+    buildUpGui : function() 
+    {
+      // create the pages
+      var overview = new feedreader.mobile.OverviewPage();
+      var feedpage = new feedreader.mobile.FeedPage();
+      var articlePage = new feedreader.mobile.ArticlePage();
+
+      // show the first page and set the feeds
+      overview.show();
+      overview.setFeeds(this.__feedFolder);
+
+      // connect the back buttons
+      feedpage.addListener("back", function() {
+        overview.show({reverse: true});
+      });
+
+      articlePage.addListener("back", function() {
+        feedpage.show({reverse: true});
+      });
+
+      // connect the page flow
+      feedpage.addListener("changeSelectedArticle", function(e) {
+        articlePage.show();
+      });
+
+      overview.addListener("changeSelectedFeed", function(e) {
+        feedpage.show();
+      });
+
+      // bind the data
+      overview.bind("selectedFeed", feedpage, "feed");
+      feedpage.bind("selectedArticle", articlePage, "article");
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    
+  }
+});

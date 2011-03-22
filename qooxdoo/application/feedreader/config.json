@@ -25,6 +25,49 @@
   
   "jobs" :
   {
+    "source-mobile" : 
+    {
+      "extend" : ["source"],
+      "let" : 
+      {
+        "APPLICATION_MAIN_CLASS" : "${APPLICATION}.MobileApplication"
+      },
+      
+      "variants" :
+      {
+        "qx.mobile.emulatetouch" : ["on"]
+      },
+
+      "compile-options" :
+      {
+        "paths" : { "file" : "source/script/${APPLICATION}-mobile.js" }
+      },
+
+      "=packages" : {}
+    },
+
+
+    "build-mobile" : 
+    {
+      "extend" : ["build"],
+      "let" :
+      {
+        "APPLICATION_MAIN_CLASS" : "${APPLICATION}.MobileApplication",
+        "BUILD_PATH" : "build-mobile"
+      },
+
+      "compile-options" :
+      {
+        "paths" : { 
+          "file" : "build-mobile/script/${APPLICATION}.js",
+          "scripts-add-hash" : false
+        }
+      },
+
+      "=packages" : {}
+    },
+
+
     "common" :
     {
       "settings" :
@@ -35,7 +78,7 @@
       "compile-options" :
       {
         "paths" : { "scripts-add-hash" : true },
-        "uris"  : { "add-nocache-param": false}
+        "uris"  : { "add-nocache-param": false }
       },
 
       "packages" : 

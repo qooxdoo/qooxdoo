@@ -127,7 +127,10 @@ qx.Class.define("feedreader.Application",
       this._createLayout();
 
       // Initialize the model
-      this._initializeModel();
+      var model = new feedreader.model.Model();
+      this.__feedFolder = model.getFeedFolder();
+      this.__staticFeedFolder = model.getStaticFeedFolder();
+      this.__userFeedFolder = model.getUserFeedFolder();
 
       // Initialize the bindings
       this._setUpBinding();
@@ -145,80 +148,6 @@ qx.Class.define("feedreader.Application",
 
       this.reload();
     },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MODEL RELATED
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Initialize the feed data model
-     */
-    _initializeModel : function()
-    {
-      // create the root folder
-      this.__feedFolder = new feedreader.model.FeedFolder("Feeds");
-
-      // Add static feeds
-      this.__staticFeedFolder =
-        new feedreader.model.FeedFolder(this.tr("Static Feeds"));
-      this.__feedFolder.getFeeds().push(this.__staticFeedFolder);
-      this.__staticFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
-          "qooxdoo News", "http://feeds2.feedburner.com/qooxdoo/news/content", "static"
-        )
-      );
-      this.__staticFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
-          "JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "static"
-        )
-      );
-      this.__staticFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
-          "Daring Fireball", "http://daringfireball.net/index.xml", "static"
-        )
-      );
-      this.__staticFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
-          "Surfin' Safari", "http://webkit.org/blog/feed/", "static"
-        )
-      );
-      this.__staticFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
-          "Ajaxian","http://feeds2.feedburner.com/ajaxian", "static"
-        )
-      );
-
-      // Add user feeds
-      this.__userFeedFolder =
-        new feedreader.model.FeedFolder(this.tr("User Feeds"));
-      this.__feedFolder.getFeeds().push(this.__userFeedFolder);
-      this.__userFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
-          "Heise", "http://www.heise.de/newsticker/heise-atom.xml", "user"
-        )
-      );
-      this.__userFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
-          "IEBlog", "http://blogs.msdn.com/ie/rss.xml", "user"
-        )
-      );
-      this.__userFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
-          "The Mozilla Blog", "http://blog.mozilla.com/feed/", "user"
-        )
-      );
-      this.__userFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
-          "Opera Desktop Blog", "http://my.opera.com/desktopteam/xml/rss/blog/", "user"
-        )
-      );
-    },
-
-
-
 
 
     /*

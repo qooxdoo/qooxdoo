@@ -91,7 +91,7 @@ qx.Class.define("feedreader.view.Article",
     _applyArticle : function(value, old)
     {
       // set the given article to html
-      var html = this.__getArticleHtml();
+      var html = feedreader.ArticleBuilder.createHtml(this.getArticle(), true);
       this.setHtml(html);
 
       // flush all elements (needed to access the content of the dom element)
@@ -107,57 +107,6 @@ qx.Class.define("feedreader.view.Article",
       for (var i = 0; i < links.length; i++) {
         links[i].target = "_blank";
       }
-    },
-
-
-    /**
-     * Helper method which uses the set article and builds
-     * a html view of it. Ths string containing the html will
-     * be returned.
-     * If no article is set, an emptys string will be returned.
-     *
-     * @return {String} The formated article as a html string.
-     */
-    __getArticleHtml : function()
-    {
-      // get the article
-      var article = this.getArticle();
-
-      // return an empty string if no article is set
-      if (!article) {
-        return "";
-      }
-
-      // build the article html using a StringBuilder
-      var html = new qx.util.StringBuilder();
-
-      // some of the values may be missing
-      var date = (article.getPubDate && article.getPubDate()) || "";
-
-      // normalize the content
-      var description = "";
-      if (article.getDescription) {
-        description = article.getDescription();
-      } else if (article.getContent) {
-        description = article.getContent().getContent && article.getContent().getContent();
-      }
-
-      // link handling
-      var link = article.getLink();
-      if (link.getHref) {
-        link = link.getHref();
-      } else if (link instanceof qx.data.Array) {
-        link = link.getItem(0).getHref();
-      }
-
-      html.add("<div class='container'>");
-      html.add("<h1 class='blog'>", article.getTitle(), "</h1>");
-      html.add("<div class='date'>", date, "</div>");
-      html.add("<div class='description'>", description, "</div>");
-      html.add("<a target='_blank' href='", link, "'>read more ...</a>");
-      html.add("</div>");
-
-      return html.get();
     }
   }
 });

@@ -32,7 +32,7 @@
 qx.Class.define("qx.application.Mobile",
 {
   extend : qx.application.Native,
-
+  include : qx.locale.MTranslation,
 
   construct : function()
   {

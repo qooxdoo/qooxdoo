@@ -47,8 +47,7 @@ qx.Class.define("qx.ui.mobile.embed.Html",
 
   members :
   {
-    _applyHtml : function(value, old)
-    {
+    _applyHtml : function(value, old) {
       this.getContentElement().innerHTML = value;
     }
   }
