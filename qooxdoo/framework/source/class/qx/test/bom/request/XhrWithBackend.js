@@ -42,7 +42,9 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
     setUp: function() {
       // All tests in this case require PHP
-      this.needsPHPWarning();
+      if (this.isLocal()) {
+        this.needsPHPWarning();
+      }
 
       this.req = new qx.bom.request.Xhr();
     },
