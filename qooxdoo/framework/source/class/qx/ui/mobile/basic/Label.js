@@ -93,6 +93,7 @@ qx.Class.define("qx.ui.mobile.basic.Label",
       }
       var element = this.getContentElement();
       element.innerHTML = value;
+      this._domUpdated();
     },
 
 
