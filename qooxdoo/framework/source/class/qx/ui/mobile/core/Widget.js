@@ -497,6 +497,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       qx.lang.Array.insertBefore(this.__children, child, beforeWidget);
       child.setLayoutParent(this);
       child.setLayoutProperties(layoutProperties);
+
+      this.getContentElement().insertBefore(child.getContainerElement(), beforeWidget.getContainerElement());
       this._domUpdated();
     },
 
@@ -526,6 +528,19 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       qx.lang.Array.insertAfter(this.__children, child, afterWidget);
       child.setLayoutParent(this);
       child.setLayoutProperties(layoutProperties);
+
+      var length = this._getChildren().length;
+      var index = this._indexOf(afterWidget);
+
+      if (index == length - 1) {
+        this.getContentElement().appendChild(child.getContainerElement());
+      }
+      else
+      {
+        var beforeWidget = this._getChildren()[index+1];
+        this.getContentElement().insertBefore(child.getContainerElement(), beforeWidget.getContainerElement());
+      }
+
       this._domUpdated();
     },
 
