@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#asset(qx/test/colorstrip.gif)
+************************************************************************ */
+
 qx.Class.define("qx.test.io.ImageLoader",
 {
   extend : qx.dev.unit.TestCase,
@@ -26,11 +30,8 @@ qx.Class.define("qx.test.io.ImageLoader",
 
     setUp : function()
     {
-      var location = window.parent.location.href;
-      var pathName = location.substring(0, location.lastIndexOf("/") + 1);
-
-      this.__imageUri = pathName + "resource/testrunner/image/colorstrip.gif";
-      this.__wrongImageUri = pathName + "resource/testrunner/image/foocolorstrip.gif";
+      this.__imageUri = qx.util.ResourceManager.getInstance().toUri("qx/test/colorstrip.gif");
+      this.__wrongImageUri = this.__imageUri.replace(/color/, "foocolor");
     },
 
 
@@ -82,7 +83,7 @@ qx.Class.define("qx.test.io.ImageLoader",
       qx.event.Timer.once(function(e) {
         var self = this;
         this.resume(function() {
-          this.assertEquals(qx.io.ImageLoader.getWidth(this.__imageSource), 192);
+          this.assertEquals(192, qx.io.ImageLoader.getWidth(this.__imageSource));
         }, self);
       }, this, 2000);
 
@@ -99,7 +100,7 @@ qx.Class.define("qx.test.io.ImageLoader",
       qx.event.Timer.once(function(e) {
         var self = this;
         this.resume(function() {
-          this.assertEquals(qx.io.ImageLoader.getHeight(this.__imageSource), 10);
+          this.assertEquals(10, qx.io.ImageLoader.getHeight(this.__imageSource));
         }, self);
       }, this, 2000);
 
@@ -117,8 +118,8 @@ qx.Class.define("qx.test.io.ImageLoader",
         var self = this;
         this.resume(function() {
           var size = qx.io.ImageLoader.getSize(this.__imageSource);
-          this.assertEquals(size.width, 192);
-          this.assertEquals(size.height, 10);
+          this.assertEquals(192, size.width);
+          this.assertEquals(10, size.height);
         }, self);
       }, this, 2000);
 
@@ -135,7 +136,7 @@ qx.Class.define("qx.test.io.ImageLoader",
       qx.event.Timer.once(function(e) {
         var self = this;
         this.resume(function() {
-          this.assertEquals(qx.io.ImageLoader.getFormat(this.__imageSource), "gif");
+          this.assertEquals("gif", qx.io.ImageLoader.getFormat(this.__imageSource));
         }, self);
       }, this, 2000);
 
@@ -150,7 +151,7 @@ qx.Class.define("qx.test.io.ImageLoader",
       qx.io.ImageLoader.load(this.__imageUri, function(source, entry) {
         aborted = true;
         this.assertTrue(entry.aborted);
-        this.assertEquals(source, this.__imageUri);
+        this.assertEquals(this.__imageUri, source);
       }, this);
 
       qx.io.ImageLoader.abort(this.__imageUri);
