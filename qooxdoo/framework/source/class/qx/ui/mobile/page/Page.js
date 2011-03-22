@@ -29,12 +29,14 @@
  */
 qx.Class.define("qx.ui.mobile.page.Page",
 {
-  extend : qx.ui.mobile.core.Widget,
-  include : [ qx.ui.mobile.core.MChildrenHandling],
+  extend : qx.ui.mobile.container.Composite,
 
-  construct : function()
+  construct : function(layout)
   {
-    this.base(arguments);
+    this.base(arguments, layout);
+    if (!layout) {
+      this.setLayout(new qx.ui.mobile.layout.VBox());
+    }
     qx.ui.mobile.page.Page.getManager().add(this);
     this._resize();
     qx.event.Registration.addListener(window, "orientationchange", this._resize, this);
