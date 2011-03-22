@@ -87,6 +87,35 @@ qx.Class.define("qx.test.mobile.container.Composite",
     },
 
 
+    testAddBefore : function()
+    {
+      var composite = new qx.ui.mobile.container.Composite();
+      this.getRoot().add(composite);
+ 
+      var widget1 = new qx.ui.mobile.core.Widget();
+      composite.add(widget1);
+
+      var widget2 = new qx.ui.mobile.core.Widget();
+      composite.add(widget2);
+
+      this.assertException(function() {
+         omposite.addBefore(widget2, widget3);
+      });
+
+      var widget3 = new qx.ui.mobile.core.Widget();
+      composite.addBefore(widget3, widget2);
+
+      this.assertEquals(composite.indexOf(widget3), 1);
+
+      this.assertEquals(composite.getContentElement().childNodes[1], widget3.getContainerElement());
+
+      widget1.destroy();
+      widget2.destroy();
+      widget3.destroy();
+      composite.destroy();
+    },
+
+
     testDestroy : function()
     {
       var composite = new qx.ui.mobile.container.Composite();
@@ -149,6 +178,48 @@ qx.Class.define("qx.test.mobile.container.Composite",
 
       composite.removeAll();
       this._assertChildren(composite, 0);
+
+      widget1.destroy();
+      widget2.destroy();
+      composite.destroy();
+    },
+
+
+    testHasChildren : function()
+    {
+      var composite = new qx.ui.mobile.container.Composite();
+      this.getRoot().add(composite);
+      
+      this.assertFalse(composite.hasChildren());
+      
+      var widget = new qx.ui.mobile.core.Widget();
+      composite.add(widget);
+
+      this.assertTrue(composite.hasChildren());
+
+      widget.destroy();
+
+      this.assertFalse(composite.hasChildren());
+
+      composite.destroy();
+    },
+
+
+    testIndexOf : function()
+    {
+      var composite = new qx.ui.mobile.container.Composite();
+      this.getRoot().add(composite);
+      
+      var widget1 = new qx.ui.mobile.core.Widget();
+      composite.add(widget1);
+
+      var widget2 = new qx.ui.mobile.core.Widget();
+      composite.add(widget2);
+
+      this.assertNumber(composite.indexOf(widget1));
+      this.assertEquals(composite.indexOf(widget1), 0);
+      this.assertNumber(composite.indexOf(widget2));
+      this.assertEquals(composite.indexOf(widget2), 1);
 
       widget1.destroy();
       widget2.destroy();
