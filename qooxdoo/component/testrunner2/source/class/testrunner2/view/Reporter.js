@@ -36,16 +36,18 @@ qx.Class.define("testrunner2.view.Reporter", {
   construct : function()
   {
     this.base(arguments);
-    this.__testResults = {};
+    this.__testResultsMap = {};
     this.__reportServerUrl = qx.core.Environment.get("testrunner2.reportServer");
+    this.__autErrors = {};
   },
 
   members :
   {
-    __testResults : null,
+    __testResultsMap : null,
     __testPackages : null,
     __reportServerUrl : null,
-
+    __autErrors : null,
+    
     _applyTestSuiteState : function(value, old)
     {
       switch(value)
@@ -55,6 +57,7 @@ qx.Class.define("testrunner2.view.Reporter", {
           break;
         case "ready" :
           this.debug("Test suite ready")
+          this.setGlobalErrorHandler();
           this.autoRun();
           break;
         case "running" :
@@ -69,12 +72,72 @@ qx.Class.define("testrunner2.view.Reporter", {
           break;
       }
     },
-
+    
+    // overridden
     run : function()
     {
       this.fireEvent("runTests");
     },
-
+    
+    /**
+     * Use the AUT's global error logging to catch any uncaught exceptions 
+     * triggered by the unit tests
+     */
+    setGlobalErrorHandler : function()
+    {
+      var iframe = this.getIframe();
+      if (!iframe) {
+        return;
+      }
+      var iframeWindow = qx.bom.Iframe.getWindow(iframe);
+      var geh = iframeWindow.qx.core.Environment.get("qx.globalErrorHandling");
+      if (geh) {
+        iframeWindow.qx.event.GlobalError.setErrorHandler(this._handleIframeError, this);
+      }
+    },
+    
+    /**
+     * Callback function for qooxdoo's global error handler. Stores the caught
+     * exceptions in a map.
+     * 
+     * @param ex {Error} Caught exception
+     */
+    _handleIframeError : function(ex)
+    {
+      var currentTest = qx.core.Init.getApplication().runner.currentTestData.fullName;
+      if (!this.__autErrors[currentTest]) {
+        this.__autErrors[currentTest] = [];
+      }
+      this.__autErrors[currentTest].push(ex);
+    },
+    
+    /**
+     * Returns any errors caught in the AUT in a readable format containing the
+     * name of the unit test that triggered the exception, its message and, if
+     * available, the stack trace.
+     * 
+     * @return {String[]} Array of error messages
+     */
+    getFormattedAutErrors : function()
+    {
+      var formattedErrors = [];
+      for (var testName in this.__autErrors) {
+        for (var i=0, l=this.__autErrors[testName].length; i<l; i++) {
+          var exception = this.__autErrors[testName][i];
+          var message = testName + ": " + exception.toString();
+          var trace = qx.dev.StackTrace.getStackTraceFromError(exception);
+          if (trace.length > 0) {
+            message += "<br/>Stack Trace:<br/>" + trace.join("<br/>");
+          }
+          formattedErrors.push(message);
+        }
+      }
+      return formattedErrors;
+    },
+    
+    /**
+     * Runs the next package from the list of test namespaces.
+     */
     autoRun : function()
     {
       var nextPackageName = this.__testPackages.shift();
@@ -86,13 +149,15 @@ qx.Class.define("testrunner2.view.Reporter", {
         this.run();
       }
     },
-
+    
+    // overridden
     _applyTestModel : function(value, old)
     {
       if (!value) {
         return;
       }
       this.base(arguments, value, old);
+      // get a list of test namespaces
       if (!this.__testPackages) {
         this.__testPackages = [];
         var packages = value.getChildren().getItem(0).getChildren();
@@ -102,6 +167,9 @@ qx.Class.define("testrunner2.view.Reporter", {
       }
     },
 
+    /**
+     * Reloads the AUT with the next package from the list.
+     */
     _loadNextPackage : function()
     {
       if (this.__testPackages.length > 0) {
@@ -114,7 +182,8 @@ qx.Class.define("testrunner2.view.Reporter", {
         this.setStatus("finished");
       }
     },
-
+    
+    // overridden
     _onTestChangeState : function(testResultData)
     {
       var testName = testResultData.getFullName();
@@ -122,11 +191,11 @@ qx.Class.define("testrunner2.view.Reporter", {
       var exceptions = testResultData.getExceptions();
 
       //Update test results map
-      if (!this.__testResults[testName]) {
-        this.__testResults[testName] = {};
+      if (!this.__testResultsMap[testName]) {
+        this.__testResultsMap[testName] = {};
       }
-      this.__testResults[testName].state = state;
-
+      this.__testResultsMap[testName].state = state;
+      
       var messages = [];
       if (exceptions) {
         for (var i=0,l=exceptions.length; i<l; i++) {
@@ -134,7 +203,7 @@ qx.Class.define("testrunner2.view.Reporter", {
           message += testResultData.getStackTrace(exceptions[i].exception);
           messages.push(message);
         }
-        this.__testResults[testName].messages = messages;
+        this.__testResultsMap[testName].messages = messages;
       }
 
       var autUri = qx.bom.Iframe.queryCurrentUrl(this.getIframe());
@@ -153,12 +222,16 @@ qx.Class.define("testrunner2.view.Reporter", {
       }
 
     },
-
+    
+    /**
+     * Returns the results of all tests that didn't end with the status "success"
+     * @return {Map} Unsuccessful test results
+     */
     getUnsuccessfulResults : function()
     {
       var failedTests = {};
-      for (var testName in this.__testResults) {
-        var result = this.__testResults[testName];
+      for (var testName in this.__testResultsMap) {
+        var result = this.__testResultsMap[testName];
         if (result.state !== "success") {
           failedTests[testName] = result;
         }
@@ -166,6 +239,23 @@ qx.Class.define("testrunner2.view.Reporter", {
       return failedTests;
     },
 
+    /**
+     * Returns the results of all tests that ended with the status "error" or
+     * "failure". Skipped tests are not included.
+     * @return {Map} Failed test results
+     */
+    getFailedResults : function()
+    {
+      var failedTests = {};
+      for (var testName in this.__testResultsMap) {
+        var result = this.__testResultsMap[testName];
+        if (result.state == "error" || result.state == "failure") {
+          failedTests[testName] = result;
+        }
+      }
+      return failedTests;
+    },
+    
     /**
      * Adds environment information to a test result map and sends it to the
      * server.
