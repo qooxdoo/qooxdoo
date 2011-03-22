@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/data/list.json)
+#asset(demobrowser/demo/data/tree.json)
 #asset(qx/icon/${qx.icontheme}/16/mimetypes/*)
 
 ************************************************************************ */
@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.data.JsonToTree",
       var controller = new qx.data.controller.Tree(null, tree, "kids", "name");
 
       // create the data store
-      var url = "json/tree.json";
+      var url = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/data/tree.json");
       var store = new qx.data.store.Json(url);
 
       // create the status label
