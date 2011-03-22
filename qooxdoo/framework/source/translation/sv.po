@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-15 10:00+0100\n"
-"PO-Revision-Date: 2010-04-26 11:01+0100\n"
+"PO-Revision-Date: 2011-03-15 14:57+0100\n"
 "Last-Translator: Henric Johansson <henric DOT johansson AT mindset DOT se>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr "BS"
 
 #: qx/locale/Key.js:81
 msgid "key_short_Tab"
-msgstr "Tabb"
+msgstr "Tab"
 
 #: qx/locale/Key.js:82
 msgid "key_short_Space"
@@ -268,7 +268,7 @@ msgstr "Öppna färgväljare"
 
 #: qx/ui/control/ColorPopup.js:180
 msgid "OK"
-msgstr "OK"
+msgstr "Ok"
 
 #: qx/ui/control/ColorPopup.js:185
 msgid "Cancel"
@@ -356,7 +356,7 @@ msgstr "%1 är inte en sträng."
 
 #: qx/util/Validate.js:203
 msgid "%1 is not an url."
-msgstr "%1 är inte en url"
+msgstr "%1 är inte en webbplatsadress (URL)"
 
 #: qx/util/Validate.js:244
 msgid "%1 is not a color! %2"
