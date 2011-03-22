@@ -114,13 +114,13 @@ qx.Class.define("qx.event.handler.Touch",
      *      the performed tap is less or equal the value of this constant, a tap
      *      event is fired.
      */
-    TAP_MAX_DISTANCE : 10,
+    TAP_MAX_DISTANCE : qx.core.Environment.get("os.name") != "android" ? 10 : 40,
 
     /** {Integer} The minimum distance of a swipe. Only if the x or y distance
      *      of the performed swipe is greater as or equal the value of this
      *      constant, a swipe event is fired.
      */
-    SWIPE_MIN_DISTANCE : 11,
+    SWIPE_MIN_DISTANCE : qx.core.Environment.get("os.name") != "android" ? 11 : 41,
 
     /** {Integer} The minimum velocity of a swipe. Only if the velocity of the
      *      performed swipe is greater as or equal the value of this constant, a
