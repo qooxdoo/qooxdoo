@@ -89,10 +89,12 @@ qx.Class.define("feedreader.MobileApplication",
       // connect the back buttons
       feedpage.addListener("back", function() {
         overview.show({reverse: true});
+        overview.setSelectedFeed(null);
       });
 
       articlePage.addListener("back", function() {
         feedpage.show({reverse: true});
+        feedpage.setSelectedArticle(null);
       });
 
       // connect the page flow

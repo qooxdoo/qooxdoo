@@ -40,7 +40,8 @@ qx.Class.define("feedreader.mobile.OverviewPage",
      */
     selectedFeed : {
       event : "changeSelectedFeed",
-      init : null
+      init : null,
+      nullable : true
     }
   },
 
