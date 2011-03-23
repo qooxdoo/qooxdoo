@@ -25,6 +25,13 @@ qx.Class.define("qx.ui.mobile.container.Scroller",
   extend : qx.ui.mobile.container.Composite,
   include : [ qx.ui.mobile.core.MChildrenHandling, qx.ui.mobile.core.MLayoutHandling],
 
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
     cssClass :
@@ -34,6 +41,14 @@ qx.Class.define("qx.ui.mobile.container.Scroller",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -58,6 +73,14 @@ qx.Class.define("qx.ui.mobile.container.Scroller",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
 
   defer : function(statics)
   {
