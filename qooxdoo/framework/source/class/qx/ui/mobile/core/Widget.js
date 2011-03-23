@@ -165,9 +165,10 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Adds an attribute mapping entry. Used by the {@link #_applyAttribute}
+     * Adds an attribute mapping entry. This entry is used by the {@link #_applyAttribute}
      * method. Shortcut when the property name differs from the real
-     * attribute name.
+     * attribute name. Use this method if you want to add an attribute entry to the mapping
+     * from the defer function of a different widget.
      * 
      * e.g.:
      * "selectable" :
@@ -191,12 +192,51 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       {
         var attributeMapping = qx.ui.mobile.core.Widget.ATTRIBUTE_MAPPING;
         if (attributeMapping[property]) {
-          qx.core.Assert.assertUndefined(attributeMapping[property], "Mapping for " + property + " already exists");
+          qx.core.Assert.assertUndefined(attributeMapping[property], "Attribute mapping for " + property + " already exists");
         }
       }
 
       qx.ui.mobile.core.Widget.ATTRIBUTE_MAPPING[property] = {
         attribute : attribute,
+        values : values
+      }
+    },
+
+
+    /**
+     * Adds an style mapping entry. This entry is used by the {@link #_applyStyle}
+     * method. Shortcut when the property name differs from the real
+     * style name. Use this method if you want to add a style entry to the mapping
+     * from the defer function of a different widget.
+     * 
+     * e.g.:
+     * "anonymous" :
+     * {
+     *  style : "pointer-events",
+     *  values :
+     *  {
+     *    "true" : "none",
+     *    "false" : null
+     *  }
+     * }
+     * 
+     * @param property {String} The property name 
+     * @param attribute {String} The real attribute name
+     * @param values {Map} Values of the property to the real style value.
+     *      Use null, when you want not to set the style.
+     */
+    addStyleMapping : function(property, style, values)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        var styleMapping = qx.ui.mobile.core.Widget.STYLE_MAPPING;
+        if (styleMapping[property]) {
+          qx.core.Assert.assertUndefined(styleMapping[property], "Style mapping for " + property + " already exists");
+        }
+      }
+
+      qx.ui.mobile.core.Widget.STYLE_MAPPING[property] = {
+        style : style,
         values : values
       }
     },
