@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.form.renderer.Double",
         }
 
         // store the names for translation
-        if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+        if (qx.core.Environment.get("qx.dynlocale")) {
           this._names.push({name: names[i], label: label, item: items[i]});
         }
       }

@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     }
 
     // translation support
-    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+    if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().addListener(
         "changeLocale", this._onChangeLocale, this
       );
@@ -813,9 +813,9 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @signature function(e)
      * @param e {Event} the change event
      */
-    _onChangeLocale : qx.core.Variant.select("qx.dynlocale",
+    _onChangeLocale : qx.core.Environment.select("qx.dynlocale",
     {
-      "on" : function(e)
+      "true" : function(e)
       {
         var content = this.getPlaceholder();
         if (content && content.translate) {
@@ -823,7 +823,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         }
       },
 
-      "off" : null
+      "false" : null
     }),
 
 
@@ -893,7 +893,7 @@ qx.Class.define("qx.ui.form.AbstractField",
   {
     this.__placeholder = null;
 
-    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+    if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
   }

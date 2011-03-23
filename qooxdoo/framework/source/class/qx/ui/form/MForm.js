@@ -25,7 +25,7 @@ qx.Mixin.define("qx.ui.form.MForm",
 
   construct : function()
   {
-    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+    if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().addListener("changeLocale", this.__onChangeLocale, this);
     }
   },
@@ -90,9 +90,9 @@ qx.Mixin.define("qx.ui.form.MForm",
      * @signature function(e)
      * @param e {Event} the change event
      */
-    __onChangeLocale : qx.core.Variant.select("qx.dynlocale",
+    __onChangeLocale : qx.core.Environment.select("qx.dynlocale",
     {
-      "on" : function(e)
+      "true" : function(e)
       {
         // invalid message
         var invalidMessage = this.getInvalidMessage();
@@ -106,14 +106,14 @@ qx.Mixin.define("qx.ui.form.MForm",
         }
       },
 
-      "off" : null
+      "false" : null
     })
   },
 
 
   destruct : function()
   {
-    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+    if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this.__onChangeLocale, this);
     }
   }

@@ -428,7 +428,7 @@ qx.Class.define("qx.locale.Manager",
         txt = qx.lang.String.format(txt, translatedArgs);
       }
 
-      if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+      if (qx.core.Environment.get("qx.dynlocale")) {
         txt = new qx.locale.LocalizedString(txt, messageId, args);
       }
 

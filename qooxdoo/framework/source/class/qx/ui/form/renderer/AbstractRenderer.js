@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
     this._visibilityBindingIds = [];
 
     // translation support
-    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+    if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().addListener(
         "changeLocale", this._onChangeLocale, this
       );
@@ -89,9 +89,9 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
      * @signature function(e)
      * @param e {Event} the change event
      */
-    _onChangeLocale : qx.core.Variant.select("qx.dynlocale",
+    _onChangeLocale : qx.core.Environment.select("qx.dynlocale",
     {
-      "on" : function(e) {
+      "true" : function(e) {
         for (var i = 0; i < this._names.length; i++) {
           var entry = this._names[i];
           if (entry.name && entry.name.translate) {
@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
         };
       },
 
-      "off" : null
+      "false" : null
     }),
 
 
@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
 
   destruct : function()
   {
-    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+    if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
     this._names = null;

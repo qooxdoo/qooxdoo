@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.basic.Label",
       this.setValue(value);
     }
 
-    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+    if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
     }
   },
@@ -452,9 +452,9 @@ qx.Class.define("qx.ui.basic.Label",
      * @signature function(e)
      * @param e {Event} the change event
      */
-    _onChangeLocale : qx.core.Variant.select("qx.dynlocale",
+    _onChangeLocale : qx.core.Environment.select("qx.dynlocale",
     {
-      "on" : function(e)
+      "true" : function(e)
       {
         var content = this.getValue();
         if (content && content.translate) {
@@ -462,7 +462,7 @@ qx.Class.define("qx.ui.basic.Label",
         }
       },
 
-      "off" : null
+      "false" : null
     }),
 
 
@@ -492,7 +492,7 @@ qx.Class.define("qx.ui.basic.Label",
 
   destruct : function()
   {
-    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+    if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
 

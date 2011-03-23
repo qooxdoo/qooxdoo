@@ -499,7 +499,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       var node = cellInfo.value;
       var label = node.label;
 
-      if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+      if (qx.core.Environment.get("qx.dynlocale")) {
         if (label && label.translate) {
           label = label.translate();
         }

@@ -2476,7 +2476,7 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyToolTipText : function(value, old)
     {
-      if (qx.core.Variant.isSet("qx.dynlocale", "on"))
+      if (qx.core.Environment.get("qx.dynlocale"))
       {
         if (this.__toolTipTextListenerId) {
           return;
@@ -4027,7 +4027,7 @@ qx.Class.define("qx.ui.core.Widget",
     // it just slows down things a bit, so do not do them.
     if (!qx.core.ObjectRegistry.inShutDown)
     {
-      if (qx.core.Variant.isSet("qx.dynlocale", "on"))
+      if (qx.core.Environment.get("qx.dynlocale"))
       {
         if (this.__toolTipTextListenerId)
         {

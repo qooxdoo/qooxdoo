@@ -244,7 +244,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
         return;
       }
 
-      if (qx.core.Variant.isSet("qx.dynlocale", "on"))
+      if (qx.core.Environment.get("qx.dynlocale"))
       {
         var oldCommand = e.getOldData();
         if (!oldCommand) {
@@ -263,16 +263,16 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     /**
      * Update command string on locale changes
      */
-    _onChangeLocale : qx.core.Variant.select("qx.dynlocale",
+    _onChangeLocale : qx.core.Environment.select("qx.dynlocale",
     {
-      "on" : function(e) {
+      "true" : function(e) {
         var command = this.getCommand();
         if (command != null) {
           this.getChildControl("shortcut").setValue(command.toString());
         }
       },
 
-      "off" : null
+      "false" : null
     }),
 
 
@@ -341,7 +341,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       }
     }
 
-    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+    if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
   }

@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.table.Table",
     this.__focusedRow = null;
 
     // add an event listener which updates the table content on locale change
-    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+    if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
     }
 
@@ -2237,7 +2237,7 @@ qx.Class.define("qx.ui.table.Table",
   destruct : function()
   {
     // remove the event listener which handled the locale change
-    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+    if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
 
