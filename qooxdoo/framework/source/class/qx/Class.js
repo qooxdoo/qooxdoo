@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#require(qx.core.Environment)
 #require(qx.Interface)
 #require(qx.Mixin)
 #require(qx.core.Property)
