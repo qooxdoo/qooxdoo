@@ -56,12 +56,28 @@
         "BUILD_PATH" : "build-mobile"
       },
 
+      "variants" :
+      {
+        "qx.mobile.emulatetouch" : ["on"]
+      },
+
       "compile-options" :
       {
         "paths" : { 
           "file" : "build-mobile/script/${APPLICATION}.js",
           "scripts-add-hash" : false
         }
+      },
+
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index.html"
+        ],
+
+        "source" : "${ROOT}/source/resource",
+        "target" : "${BUILD_PATH}"
       },
 
       "=packages" : {}
