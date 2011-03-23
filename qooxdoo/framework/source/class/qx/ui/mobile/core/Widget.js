@@ -928,7 +928,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       * Sets the innerHTML of the content element and calls the {@see #_domUpdated}
       * method.
       * 
-      * @param value {String} The html to set in the content element.
+      * @param value {String?""} The html to set in the content element.
       */
      _setHtml : function(value)
      {
