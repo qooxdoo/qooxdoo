@@ -41,6 +41,13 @@ qx.Class.define("qx.ui.mobile.basic.Image",
   extend : qx.ui.mobile.core.Widget,
 
 
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   /**
    * @param source {String?null} The URL of the image to display.
    */
@@ -53,7 +60,6 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       this.initSource();
     }
   },
-
 
 
 
@@ -81,7 +87,6 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
 
 
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -101,7 +106,6 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       apply : "_applySource"
     }
   },
-
 
 
 

@@ -988,7 +988,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Returns the set value of an given attribute.
+     * Returns the set value of the given attribute.
      * 
      * @param attribute {String} The attribute name
      */
