@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.core.Environment",
       {
         // check for true --> on
         if (value === true && values["on"] != undefined) {
-          qx.Boostrap.warn(
+          qx.Bootstrap.warn(
             "The check '" + key + "' is a boolean value. "+ 
             "Please change your select map from 'on' to 'true'."
           );
@@ -165,7 +165,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
         // check for false --> off
         if (value === false && values["off"] != undefined) {
-          qx.Boostrap.warn(
+          qx.Bootstrap.warn(
             "The check '" + key + "' is a boolean value. "+ 
             "Please change your select map from 'off' to 'false'."
           );
