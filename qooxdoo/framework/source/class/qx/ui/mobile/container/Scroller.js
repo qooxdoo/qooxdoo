@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.mobile.container.Scroller",
   defer : function(statics)
   {
     // TODO: Move this somewere else
-    if (qx.core.Variant.isSet("qx.mobile.nativescroll", "off"))
+    if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
     {
       qx.Class.include(statics, qx.ui.mobile.container.MIScroll);
     } else {

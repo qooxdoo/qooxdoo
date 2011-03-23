@@ -67,7 +67,7 @@ qx.Class.define("qx.application.Mobile",
 
       this.__root = this._createRoot();
 
-      if (qx.core.Variant.isSet("qx.mobile.nativescroll", "off")) {
+      if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
         this.__root.setShowScrollbarY(false);
       }
     },

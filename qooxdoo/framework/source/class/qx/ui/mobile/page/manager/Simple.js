@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
         return;
       }
 
-      if (qx.core.Variant.isSet("qx.mobile.nativescroll", "on"))
+      if (qx.core.Environment.get("qx.mobile.nativescroll"))
       {
         // Scroll the page up
         scrollTo(0,0);

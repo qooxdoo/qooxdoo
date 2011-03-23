@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
     _resize : function()
     {
-      if (qx.core.Variant.isSet("qx.mobile.nativescroll", "on"))
+      if (qx.core.Environment.get("qx.mobile.nativescroll"))
       {
         this._setStyle("minHeight", window.innerHeight + "px");
       } else {
