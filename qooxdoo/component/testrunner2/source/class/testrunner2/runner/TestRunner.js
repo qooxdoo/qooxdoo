@@ -44,6 +44,9 @@ qx.Class.define("testrunner2.runner.TestRunner", {
 
     // Connect view and controller
     this.view.addListener("runTests", function() {
+      if (this.__logAppender) {
+        this.__logAppender.clear();
+      }
       this.runTests();
     }, this);
 
