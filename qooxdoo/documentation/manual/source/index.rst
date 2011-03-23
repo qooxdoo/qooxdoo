@@ -77,6 +77,16 @@ Manual |version|
    pages/low_level.rst
 
 
+.. _index#mobile
+
+.. Mobile Framework
+
+.. toctree::
+   :maxdepth: 2
+
+   pages/mobile.rst
+
+
 .. _index#communication:
 
 .. Communication
