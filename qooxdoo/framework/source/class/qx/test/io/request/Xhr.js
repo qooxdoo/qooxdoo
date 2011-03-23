@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.io.request.Xhr", 
+qx.Class.define("qx.test.io.request.Xhr",
 {
   extend : qx.dev.unit.TestCase,
 
@@ -31,33 +31,33 @@ qx.Class.define("qx.test.io.request.Xhr",
       var stubCreateTransport = this.stub(qx.io.request.Xhr.prototype, "_createTransport").
           returns(this.stub(transport));
       var req =  new qx.io.request.Xhr;
-      
+
       this.transport = transport;
       this.stubCreateTransport = stubCreateTransport;
       this.req = req;
     },
-    
+
     tearDown : function() {
       // Restore
       this.stubCreateTransport.restore();
-      
+
       this.transport.dispose();
       this.req.dispose();
     },
-    
+
     "test: should send request": function() {
       var req = this.req;
       var transport = this.transport;
-      
+
       this.spy(transport, "open");
       this.spy(transport, "send");
-      
+
       req.setUrl("sample.json");
       req.send();
-      
+
       this.assertCalledWith(transport.open, "GET", "sample.json");
       this.assertCalled(transport.send);
     }
-    
+
   }
 });

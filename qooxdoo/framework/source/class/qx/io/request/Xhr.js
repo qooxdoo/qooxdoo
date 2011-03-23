@@ -17,14 +17,14 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.io.request.Xhr", 
+qx.Class.define("qx.io.request.Xhr",
 {
   extend: qx.core.Object,
 
   construct: function()
   {
     this.base(arguments);
-    
+
     this.__transport = this._createTransport();
   },
 
@@ -34,7 +34,7 @@ qx.Class.define("qx.io.request.Xhr",
       check : [ "GET", "POST"],
       init : "GET"
     },
-    
+
     url: {
       check: "String"
     }
@@ -43,12 +43,12 @@ qx.Class.define("qx.io.request.Xhr",
   members:
   {
     __transport: null,
-    
+
     send: function() {
       this.__transport.open(this.getMethod(), this.getUrl());
       this.__transport.send();
     },
-    
+
     _createTransport: function() {
       return new qx.bom.request.Xhr();
     }
