@@ -92,14 +92,19 @@ qx.Mixin.define("qx.dev.unit.MMock",
 {
   construct: function()
   {
+    var sinon = this.__getSinon();
     // Expose Sinon.JS assertions. Provides methods such
     // as assertCalled(), assertCalledWith().
     // (http://sinonjs.org/docs/api/#assert-expose)
-    this.__getSinon().assert.expose(this, {includeFail: false});
+    sinon.assert.expose(this, {includeFail: false});
+
+    this.__sandbox = sinon.sandbox;
   },
 
   members :
   {
+
+    __sandbox: null,
 
     /**
     * Get the Sinon.JS object.
@@ -160,6 +165,10 @@ qx.Mixin.define("qx.dev.unit.MMock",
     *
     * See http://sinonjs.org/docs/api/#spies.
     *
+    * Note: Spies are transparently added to a sandbox. To restore
+    * the original function for all spies run this.getSandbox().restore()
+    * in your tearDown() method.
+    *
     * @param  function_or_object {Function?null|Object?null}
     *         Spies on the provided function or object.
     * @param  method {String?null}
@@ -169,8 +178,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     *         methods that allow for introspection.
     */
     spy: function(function_or_object, method) {
-      var sinon = this.__getSinon();
-      return sinon.spy.apply(sinon, arguments);
+      return this.__sandbox.spy.apply(this.__sandbox, arguments);
     },
 
     /**
@@ -198,6 +206,10 @@ qx.Mixin.define("qx.dev.unit.MMock",
     *
     * See http://sinonjs.org/docs/api/#stubs.
     *
+    * Note: Stubs are transparently added to a sandbox. To restore
+    * the original function for all stubs run this.getSandbox().restore()
+    * in your tearDown() method.
+    *
     * @param  object {Object?null}
     *         Object to stub. Stubs all methods if no
     *         method is given.
@@ -211,8 +223,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     *
     */
     stub: function(object, method) {
-      var sinon = this.__getSinon();
-      return sinon.stub.apply(sinon, arguments);
+      return this.__sandbox.stub.apply(this.__sandbox, arguments);
     },
 
     /**
@@ -268,6 +279,19 @@ qx.Mixin.define("qx.dev.unit.MMock",
     useFakeXMLHttpRequest: function() {
       var sinon = this.__getSinon();
       return sinon.useFakeXMLHttpRequest();
+    },
+
+    /**
+    * Get sandbox.
+    *
+    * The sandbox holds all stubs and mocks. Run this.getSandbox().restore()
+    * to restore all mock objects.
+    *
+    * @return {Object}
+    *        Sandbox object.
+    */
+    getSandbox: function() {
+      return this.__sandbox;
     }
   }
 });

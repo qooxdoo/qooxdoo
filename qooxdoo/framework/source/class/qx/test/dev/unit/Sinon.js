@@ -86,6 +86,18 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       this.assertCalled(spy);
     },
 
+    "test: should sandbox and restore": function() {
+      var func = function() {};
+      var obj = {"a": function() {}}
+
+      var spy = this.spy(func);
+      var stub = this.stub(obj, "a");
+
+      this.getSandbox().restore();
+      this.assertUndefined(func.called);
+      this.assertUndefined(obj.a.called);
+    },
+
     tearDown : function()
     {
       this.sinon = null;
