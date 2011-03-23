@@ -106,7 +106,7 @@ qx.Class.define("inspector.console.ConsoleView",
         // go threw all children
         for (var i = 0; i < children.length; i++) {
           // if the browser is a ie
-          if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+          if (qx.core.Environment.get("engine.name") == "mshtml") {
             // take the innerText as content
             var content = children[i].innerText;
           }  else {

@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.demo.mobile.ScaleImage",
       this.base(arguments);
 
       // Enable logging in debug variant
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (qx.core.Environment.get("qx.debug"))
       {
         // support native logging capabilities, e.g. Firebug for Firefox
         qx.log.appender.Native;
@@ -67,7 +67,7 @@ qx.Class.define("demobrowser.demo.mobile.ScaleImage",
 
       if (qx.core.Environment.get("engine.name") != "webkit" || (
         !qx.core.Environment.get("event.touch") &&
-        qx.core.Variant.isSet("qx.mobile.emulatetouch", "off")))
+        qx.core.Environment.get("qx.mobile.emulatetouch") == false))
       {
         var warningLabelStyle = {
           "color" : "green",

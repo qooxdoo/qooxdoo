@@ -101,7 +101,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     leftComposite.setBackgroundColor("background-splitpane");
     mainsplit.add(leftComposite, 0);
 
-    if (qx.core.Variant.isSet("qx.contrib", "on")) {
+    if (qx.core.Environmetn.get("qx.contrib")) {
       this._makeVersionSelect();
     }
 
@@ -146,7 +146,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     this._demoView = this.__makeDemoView();
 
-    if (qx.core.Variant.isSet("qx.contrib", "off")) {
+    if (qx.core.Environment.get("qx.contrib") == false) {
       infosplit.add(this._demoView, 2);
     }
 
@@ -210,7 +210,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.__themePart
     ];
 
-    if (qx.core.Variant.isSet("qx.contrib", "off")) {
+    if (qx.core.Environment.get("qx.contrib") == false) {
       this.__menuElements.push(this.__playgroundButton);
     }
 
@@ -487,7 +487,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._navPart.add(sobutt);
 
       // -- to playground
-      if (qx.core.Variant.isSet("qx.contrib", "off")) {
+      if (qx.core.Environment.get("qx.contrib") == false) {
         var playgroundButton = new qx.ui.toolbar.Button(this.tr("To Playground"), "icon/22/actions/application-exit.png");
         playgroundButton.addListener("execute", this.__toPlayground, this);
         playgroundButton.setToolTipText("Open demo in the playground");
@@ -529,7 +529,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.__themePart = menuPart;
       bar.add(menuPart);
 
-      if (qx.core.Variant.isSet("qx.contrib", "off"))
+      if (qx.core.Environment.get("qx.contrib") == false)
       {
         var themeMenu = new qx.ui.menu.Menu;
 
@@ -563,7 +563,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var menu = new qx.ui.menu.Menu;
 
-      if (qx.core.Variant.isSet("qx.contrib", "off"))
+      if (qx.core.Environment.get("qx.contrib") == false)
       {
         var summaryBtn = new qx.ui.menu.Button(this.tr("Object Summary"));
         summaryBtn.setCommand(this._cmdObjectSummary);
@@ -590,7 +590,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       bar.addSpacer();
       bar.add(viewPart);
 
-      if (qx.core.Variant.isSet("qx.contrib", "off"))
+      if (qx.core.Environment.get("qx.contrib") == false)
       {
         var htmlView = new qx.ui.toolbar.RadioButton("HTML Code", "icon/22/apps/internet-web-browser.png");
         htmlView.setToolTipText("Display HTML source");
@@ -615,7 +615,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       viewGroup.setAllowEmptySelection(true);
       viewGroup.add(logView);
 
-      if (qx.core.Variant.isSet("qx.contrib", "off")) {
+      if (qx.core.Environment.get("qx.contrib") == false) {
         viewGroup.add(htmlView, jsView);
       }
 
@@ -802,7 +802,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var _initialNode = null;
 
       var autorun;
-      if (qx.core.Variant.isSet("qx.contrib", "on")) {
+      if (qx.core.Environment.get("qx.contrib") == true) {
         autorun = false;
       }
       else {
@@ -875,7 +875,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             if (currNode.tags) {
               t.setUserData("tags", currNode.tags);
-              if (qx.core.Variant.isSet("qx.contrib", "on")) {
+              if (qx.core.Environment.get("qx.contrib") == true) {
                 that._getVersionTags(currNode.tags);
                 for (var j=0,m=currNode.tags.length; j<m; j++) {
                   var tag = currNode.tags[j];
@@ -906,7 +906,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.tree.getRoot().setOpen(true)
       buildSubTree(this.tree.getRoot(), ttree);
 
-      if (qx.core.Variant.isSet("qx.contrib", "on")) {
+      if (qx.core.Environment.get("qx.contrib") == true) {
         this._getVersionItems();
       }
 
@@ -987,7 +987,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         treeNode.getTree().setSelection([treeNode]);
         url = 'demo/' + value;
-        if (qx.core.Variant.isSet("qx.contrib", "off")) {
+        if (qx.core.Environment.get("qx.contrib") == false) {
           url += "?qx.theme=" + this.__currentTheme;
         }
 
@@ -1235,7 +1235,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         var content = evt.getContent();
         // if there is a content
         if (content) {
-          if (qx.core.Variant.isSet("qx.contrib", "off")) {
+          if (qx.core.Environment.get("qx.contrib") == false) {
             // extract the name of the js file
             var secondSrcTagPosition = content.indexOf("<script", content.indexOf("<script")+7);
             var srcAttributeStart = content.indexOf("src", secondSrcTagPosition);

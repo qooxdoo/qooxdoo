@@ -43,12 +43,12 @@ qx.Class.define("portal.Application",
     {
       this.base(arguments);
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (qx.core.Environment.get("qx.debug"))
       {
         qx.log.appender.Native;
         qx.log.appender.Console;
 
-        if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        if (qx.core.Environement.get("engine.name") == "mshtml") {
           qx.log.appender.Console.init();
         }
       }

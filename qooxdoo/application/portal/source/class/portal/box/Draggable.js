@@ -151,7 +151,7 @@ qx.Class.define("portal.box.Draggable",
      *
      * @signature function()
      */
-    __monitorMouseLeaveViewport : qx.core.Variant.select("qx.client",
+    __monitorMouseLeaveViewport : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function()
       {

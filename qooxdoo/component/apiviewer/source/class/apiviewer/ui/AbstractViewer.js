@@ -115,7 +115,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
         if (element.className !== "javascript") {
           continue;
         }
-        if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        if (qx.core.Environment.get("engine.name") == "mshtml") {
           // IE parser treats html added to a pre tag like normal html and removes
           // the whitespaces. To prevent this we create a wrapper element, add
           // to its innerHTML the pre tag and the javaScript code and replace the

@@ -264,7 +264,7 @@ qx.Class.define("testrunner2.view.Reporter", {
      */
     reportResult : function(data)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.debug("Reporting result");
       }
       data["browserName"] = qx.core.Environment.get("browser.name");
@@ -283,7 +283,7 @@ qx.Class.define("testrunner2.view.Reporter", {
         this.error("Request timed out!");
       }, this);
       req.addListener("completed", function(ev) {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
+        if (qx.core.Environment.get("qx.debug")) {
           this.debug("Request completed.");
         }
       }, this);

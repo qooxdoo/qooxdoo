@@ -221,7 +221,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
      var listItem;
      var button = qx.bom.Element.create("select", { title: "Change font family" });
 
-     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+     if (qx.core.Environment.get("engine.name") == "mshtml") {
        qx.bom.element.Attribute.set(button, "hideFocus", "true");
      } else {
        qx.bom.element.Style.set(button, "outline", "none");
@@ -242,7 +242,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
                      "value='" + entries[i] + "'>" + entries[i] + "</option>";
        entry = qx.bom.Collection.html(htmlString);
 
-       if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+       if (qx.core.Environment.get("engine.name") == "mshtml") {
          qx.bom.element.Attribute.set(entry[0], "hideFocus", "true");
        } else {
          qx.bom.element.Style.set(entry[0], "outline", "none");
@@ -282,7 +282,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
      var listItem;
      var button = qx.bom.Element.create("select", { title: "Change font size" });
 
-     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+     if (qx.core.Environment.get("engine.name") == "mshtml") {
        qx.bom.element.Attribute.set(button, "hideFocus", "true");
      } else {
        qx.bom.element.Style.set(button, "outline", "none");
@@ -299,7 +299,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
                      "value='" + i + "'>" + i + "</option>";
        entry = qx.bom.Collection.html(htmlString);
 
-       if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+       if (qx.core.Environment.get("engine.name") == "mshtml") {
          qx.bom.element.Attribute.set(entry[0], "hideFocus", "true");
        } else {
          qx.bom.element.Style.set(entry[0], "outline", "none");
@@ -412,7 +412,7 @@ qx.Class.define("demobrowser.demo.bom.HtmlArea",
                                                     height: "16px",
                                                     padding: "4px" });
 
-           if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+           if (qx.core.Environment.get("engine.name") == "mshtml") {
              qx.bom.element.Attribute.set(button, "hideFocus", "true");
            } else {
              qx.bom.element.Style.set(button, "outline", "none");

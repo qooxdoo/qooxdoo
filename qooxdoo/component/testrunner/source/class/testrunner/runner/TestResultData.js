@@ -73,7 +73,7 @@ qx.Class.define("testrunner.runner.TestResultData",
 
   members :
   {
-    getMessage : qx.core.Variant.select("qx.client",
+    getMessage : qx.core.Environment.select("engine.name",
     {
       "default" : function()
       {

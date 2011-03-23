@@ -104,7 +104,7 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       var localeManager = qx.locale.Manager.getInstance();
 
       // Check for a mismatch of available and used locales
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (qx.core.Environment.get("qx.debug"))
       {
         var availableLocales = localeManager.getAvailableLocales().sort().join(", ");
         var usedLocales = qx.lang.Object.getKeys(languages).sort().join(", ");

@@ -81,7 +81,7 @@ qx.Class.define("inspector.Application",
       // Call super class
       this.base(arguments);
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (qx.core.Environment.get("qx.debug"))
       {
         qx.log.appender.Native;
         qx.log.appender.Console;

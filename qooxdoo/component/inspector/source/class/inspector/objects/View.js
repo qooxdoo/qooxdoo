@@ -38,7 +38,7 @@ qx.Class.define("inspector.objects.View",
   {
     this.base(arguments);
 
-    if (qx.core.Variant.isSet("qx.debug", "on"))
+    if (qx.core.Environment.get("qx.debug"))
     {
       qx.core.Assert.assertInterface(
         controller,
@@ -75,7 +75,7 @@ qx.Class.define("inspector.objects.View",
      *  <code>false</code> otherwise.
      */
     setByHashActive : function(active) {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertBoolean(active, "Invalid parameter 'active'.");
       }
       this.__hash.setValue(active);
@@ -88,7 +88,7 @@ qx.Class.define("inspector.objects.View",
      *  <code>false</code> otherwise.
      */
     setByCountActive : function(active) {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertBoolean(active, "Invalid parameter 'active'.");
       }
       this.__count.setValue(active);
@@ -100,7 +100,7 @@ qx.Class.define("inspector.objects.View",
      * @param model {qx.ui.table.ITableModel} model to show.
      */
     setTableModel : function(model) {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (qx.core.Environment.get("qx.debug"))
       {
         qx.core.Assert.assertInterface(
           model, qx.ui.table.ITableModel, "Invalid parameter 'model'."
@@ -116,7 +116,7 @@ qx.Class.define("inspector.objects.View",
      * @param mode {Integer} new selection mode.
      */
     setTableSelectionMode : function(mode) {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertInteger(mode, "Invalid parameter 'mode'.");
       }
       this.__table.getSelectionModel().setSelectionMode(mode);

@@ -56,7 +56,7 @@ qx.Class.define("showcase.page.databinding.Content",
       controller.setLabelPath("text");
 
       // set the name for the icon property
-      if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if (qx.core.Environment.get("engine.name") != "mshtml") {
         controller.setIconPath("user.profile_image_url");
       }
 
@@ -152,7 +152,7 @@ qx.Class.define("showcase.page.databinding.Content",
         data.splice(1, 0, "target='_blank'");
         return data.join(" ");
       }});
-      if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if (qx.core.Environment.get("engine.name") != "mshtml") {
         detailsBox.add(new qx.ui.basic.Label("Avatar: "), {row: 4, column: 0});
         var avatar = new qx.ui.basic.Image();
         detailsBox.add(avatar, {row: 4, column: 1});

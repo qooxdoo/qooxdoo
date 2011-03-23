@@ -581,7 +581,7 @@ qx.Class.define("playground.Application",
      */
     __isCodeNotEqual : function(code1, code2)
     {
-      if (qx.core.Variant.isSet("qx.client", "opera")) {
+      if (qx.core.Environment.get("engine.name") == "opera") {
         code1 = code1.replace(/\r?\n/g, "\n");
         code2 = code2.replace(/\r?\n/g, "\n");
         return code1 != code2;

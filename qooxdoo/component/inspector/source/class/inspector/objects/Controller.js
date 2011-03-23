@@ -34,7 +34,7 @@ qx.Class.define("inspector.objects.Controller",
   {
     this.base(arguments);
 
-    if (qx.core.Variant.isSet("qx.debug", "on"))
+    if (qx.core.Environment.get("qx.debug"))
     {
       qx.core.Assert.assertInterface(
         model,

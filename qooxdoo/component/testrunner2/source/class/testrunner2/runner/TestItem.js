@@ -145,7 +145,7 @@ qx.Class.define("testrunner2.runner.TestItem", {
      *
      * @return {String} Exceptions
      */
-    getMessage : qx.core.Variant.select("qx.client",
+    getMessage : qx.core.Environment.select("engine.name",
     {
       "default" : function()
       {

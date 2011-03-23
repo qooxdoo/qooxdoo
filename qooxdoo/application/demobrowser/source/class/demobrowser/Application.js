@@ -56,7 +56,7 @@ qx.Class.define("demobrowser.Application",
       this.base(arguments);
 
       // Enable logging in source (or debug build)
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (qx.core.Environment.get("qx.debug"))
       {
         qx.log.appender.Native;
         qx.log.appender.Console;

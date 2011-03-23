@@ -221,7 +221,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
                 var iconUrl = apiviewer.TreeUtil.getIconUrl(itemNode);
                 var iconCode = apiviewer.ui.ClassViewer.createImageHtml(iconUrl);
 
-                if (qx.core.Variant.isSet("qx.client", "webkit"))
+                if (qx.core.Environment.get("engine.name") == "webkit")
                 {
                   if(iconCode.indexOf("overlay_") !== -1) {
                     style = "margin-left:18px;";

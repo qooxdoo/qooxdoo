@@ -170,7 +170,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
       {
         for (var j=0; j<struct.children.length; j++) {
           var subTree = this.readTree(struct.children[j]);
-          if (qx.core.Variant.isSet("qx.contrib", "on")) {
+          if (qx.core.Environment.get("qx.contrib") == true) {
             if (struct.children[j].manifest) {
               subTree.manifest = struct.children[j].manifest;
             }
@@ -185,7 +185,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
         }
       }
 
-      if (qx.core.Variant.isSet("qx.contrib", "on")) {
+      if (qx.core.Environment.get("qx.contrib") == true) {
         if (struct.readme) {
           tree.readme = struct.readme;
         }

@@ -38,7 +38,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     }
 
     // Create view
-    var viewSetting = qx.core.Variant.get("testrunner2.view");
+    var viewSetting = qx.core.Environment.get("testrunner2.view");
     var viewClass = qx.Class.getByName(viewSetting);
     this.view = new viewClass();
 
@@ -64,7 +64,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       this.__logAppender = new qx.log.appender.Element();
       qx.log.Logger.unregister(this.__logAppender);
       this.__logAppender.setElement(this.view.getLogAppenderElement());
-      if (!qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
+      if (qx.core.Environment.get("testrunner2.testOrigin") != "iframe") {
         qx.log.Logger.register(this.__logAppender);
       }
     }
@@ -78,7 +78,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     }
 
     // Load unit tests
-    if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
+    if (qx.core.Environment.get("testrunner2.testOrigin") == "iframe") {
       // Load the tests from a standalone AUT
       this.__iframe = this.view.getIframe();
       qx.event.Registration.addListener(this.__iframe, "load", this._onLoadIframe, this);
@@ -387,7 +387,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
      */
     __initTestResult : function()
     {
-      if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
+      if (qx.core.Environment.get("testrunner2.testOrigin") == "iframe") {
         var frameWindow = qx.bom.Iframe.getWindow(this.__iframe);
         try {
           var testResult = new frameWindow.testrunner2.unit.TestResult();
@@ -410,7 +410,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         }
 
         /* EXPERIMENTAL: Check if the test polluted the DOM
-        if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
+        if (qx.core.Environment.get("testrunner2.testOrigin") == "iframe") {
           if (this.frameWindow.qx.test && this.frameWindow.qx.test.ui &&
               this.frameWindow.qx.test.ui.LayoutTestCase &&
               test.getTestClass() instanceof this.frameWindow.qx.test.ui.LayoutTestCase ) {
@@ -445,7 +445,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       }, this);
 
       testResult.addListener("endTest", function(e) {
-        if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
+        if (qx.core.Environment.get("testrunner2.testOrigin") == "iframe") {
           if (this.__logAppender) {
             this.__fetchIframeLog();
           }
@@ -459,7 +459,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         /* EXPERIMENTAL: Check if the test polluted the DOM
         var fWin = this.frameWindow;
 
-        if (qx.core.Variant.isSet("testrunner2.testOrigin", "iframe")) {
+        if (qx.core.Environment.get("testrunner2.testOrigin") == "iframe") {
           fWin.qx.ui.core.queue.Dispose.flush();
           fWin.qx.ui.core.queue.Manager.flush();
 
