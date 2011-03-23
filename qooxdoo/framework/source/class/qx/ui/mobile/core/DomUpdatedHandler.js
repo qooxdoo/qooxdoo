@@ -96,7 +96,6 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
 
 
 
-
   /*
   *****************************************************************************
      MEMBERS
@@ -177,7 +176,6 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
       }
     }
   },
-
 
 
 
