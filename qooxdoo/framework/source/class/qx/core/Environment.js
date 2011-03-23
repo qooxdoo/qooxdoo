@@ -151,12 +151,12 @@ qx.Bootstrap.define("qx.core.Environment",
       }
 
       // check for piped values
-      for (var key in values) {
-        if (key.indexOf("|") != -1) {
-          var keys = key.split("|");
-          for (var i = 0; i < keys.length; i++) {
-            if (keys[i] == key) {
-              return values[key];
+      for (var id in values) {
+        if (id.indexOf("|") != -1) {
+          var ids = id.split("|");
+          for (var i = 0; i < ids.length; i++) {
+            if (ids[i] == key) {
+              return values[id];
             }
           };
         }
