@@ -690,7 +690,7 @@ qx.Bootstrap.define("qx.core.Property",
       }
 
       // Enable profiling code
-      if (qx.core.Variant.isSet("qx.aspects", "on")) {
+      if (qx.core.Environment.get("qx.aspects")) {
         members[store] = qx.core.Aspect.wrap(instance.classname + "." + store, members[store], "property");
       }
 

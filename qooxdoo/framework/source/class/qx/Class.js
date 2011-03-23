@@ -968,7 +968,7 @@ qx.Bootstrap.define("qx.Class",
     {
       var clazz;
 
-      if (!extend && qx.core.Variant.isSet("qx.aspects", "off"))
+      if (!extend && qx.core.Environment.get("qx.aspects") == false)
       {
         // Create empty/non-empty class
         clazz = statics || {};
@@ -1011,7 +1011,7 @@ qx.Bootstrap.define("qx.Class",
             key = a[i];
             var staticValue = statics[key];
 
-            if (qx.core.Variant.isSet("qx.aspects", "on"))
+            if (qx.core.Environment.get("qx.aspects"))
             {
 
               if (staticValue instanceof Function) {
@@ -1053,7 +1053,7 @@ qx.Bootstrap.define("qx.Class",
         // Store destruct onto class
         if (destruct)
         {
-          if (qx.core.Variant.isSet("qx.aspects", "on")) {
+          if (qx.core.Environment.get("qx.aspects")) {
             destruct = qx.core.Aspect.wrap(name, destruct, "destructor");
           }
 
@@ -1336,7 +1336,7 @@ qx.Bootstrap.define("qx.Class",
             member.self = clazz;
           }
 
-          if (qx.core.Variant.isSet("qx.aspects", "on")) {
+          if (qx.core.Environment.get("qx.aspects")) {
             member = qx.core.Aspect.wrap(clazz.classname + "." + key, member, "member");
           }
         }
@@ -1686,7 +1686,7 @@ qx.Bootstrap.define("qx.Class",
         return retval;
       };
 
-      if (qx.core.Variant.isSet("qx.aspects", "on"))
+      if (qx.core.Environment.get("qx.aspects"))
       {
         var aspectWrapper = qx.core.Aspect.wrap(name, wrapper, "constructor");
         wrapper.$$original = construct;
@@ -1708,7 +1708,7 @@ qx.Bootstrap.define("qx.Class",
   defer : function()
   {
     // Binding of already loaded bootstrap classes
-    if (qx.core.Variant.isSet("qx.aspects", "on"))
+    if (qx.core.Environment.get("qx.aspects"))
     {
       for (var classname in qx.Bootstrap.$$registry)
       {

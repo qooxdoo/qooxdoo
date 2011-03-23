@@ -332,7 +332,7 @@ qx.Bootstrap.define("qx.dev.Profile",
 
   defer : function(statics)
   {
-    if (qx.core.Variant.isSet("qx.aspects", "on"))
+    if (qx.core.Environment.get("qx.aspects"))
     {
       // Inform user
       qx.Bootstrap.debug("Enable global profiling...");
