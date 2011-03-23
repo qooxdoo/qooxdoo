@@ -13,7 +13,7 @@ msgstr ""
 
 #: playground/Application.js:87
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
-msgstr "Tyvärr har ett opterkalleligt internt fel orsakat av din kod inträffat. Detta kan förhindra testeditorn att köra riktigt.||"
+msgstr "Tyvärr har ett oåterkalleligt internt fel orsakat av din kod inträffat. Detta kan förhindra testeditorn att köra riktigt.||"
 
 #: playground/Application.js:213
 msgid "You changed the code of the current sample.|Click OK to discard your changes."
@@ -31,7 +31,8 @@ msgstr "Egen kod"
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
-msgstr "// %1"
+msgstr "// Kunde inte hanter URL-parametern! \n"
+"// %1"
 
 #: playground/Application.js:423
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
@@ -43,11 +44,11 @@ msgstr "Kan inte lägga till exempelkoden till URL:en eftersom den är för lån
 
 #: playground/Application.js:464
 msgid "No such user found."
-msgstr "Ingen sådan användaren har hittats."
+msgstr "Ingen sådan användare har hittats."
 
 #: playground/Application.js:529
 msgid "Gist contains no content."
-msgstr "Gist innehåller inget."
+msgstr "Kärnan innehåller inget."
 
 #: playground/Application.js:535
 msgid "Can't load the gist."
@@ -139,11 +140,11 @@ msgstr "Öppna qooxdoo-handledningen"
 
 #: playground/view/Toolbar.js:139
 msgid "Demo Browser"
-msgstr ""
+msgstr "Demopresentatör"
 
 #: playground/view/Toolbar.js:142
 msgid "Open the qooxdoo Demo Browser"
-msgstr "Öppna qooxdoo Demo Browser"
+msgstr "Öppna qooxdoo demopresentatör"
 
 #: playground/view/gist/GistMenu.js:44
 msgid "Activate filter for [qx]"
