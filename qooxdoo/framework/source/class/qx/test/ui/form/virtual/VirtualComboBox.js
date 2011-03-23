@@ -126,6 +126,17 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       var preselected = this.__comboBox.getChildControl("dropdown")._preselected;
       this.assertEquals("item 49", preselected);
       this.assertEquals("item 4", this.__comboBox.getValue());
+      
+      // The virtual list uses a timeout to asynchronously flush the layout 
+      // queue and scroll the (pre)selected item into view. tearDown is called
+      // before this timer's callback so the list container tries to scroll a 
+      // disposed widget which causes an exception. To get around this, we use
+      // a timeout to delay the tearDown call.
+      var that = this;
+      window.setTimeout(function() {
+        that.resume();
+      }, 100);
+      this.wait(200);
     },
 
     testSelectFirstMatchWithFilteredModel : function()
