@@ -16,7 +16,11 @@
 
 
 body {
+    font-family: Helvetica;
     background: #181818;
+    color : #ffffff;
+    font-weight:normal;
+    font-size:0.8em;
 }
 
 body > * {
@@ -24,7 +28,6 @@ body > * {
 }
 
 h1, h2 {
-    font-family: Helvetica;
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
