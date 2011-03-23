@@ -33,18 +33,18 @@
 
 /* ************************************************************************
 
-#require(qx.type.BaseArray)
+*#require(qx.type.BaseArray)
 
 #require(qx.bom.Document)
-#require(qx.bom.Element)
-#require(qx.bom.Input)
+ *#require(qx.bom.Element)
+ *#require(qx.bom.Input)
 #require(qx.bom.Viewport)
 #require(qx.bom.Selector)
 
-#require(qx.bom.element.Attribute)
-#require(qx.bom.element.Class)
-#require(qx.bom.element.Location)
-#require(qx.bom.element.Style)
+ *#require(qx.bom.element.Attribute)
+ *#require(qx.bom.element.Class)
+ *#require(qx.bom.element.Location)
+ *#require(qx.bom.element.Style)
 
 ************************************************************************ */
 
