@@ -6,3 +6,17 @@
 
 \bqx\.core\.Setting\.get\(\"qx\.bom\.htmlarea\.HtmlArea\.debug\"\)\b=This check used to return "on" or "off" but now returns a boolean (true/false)
 \bqx\.core\.Setting\.get\(\"qx\.globalErrorHandling\"\)\b=This check used to return "on" or "off" but now returns a boolean (true/false)
+
+\bqx\.core\.Variant\.isSet\("qx\.debug",=This check used to return "on" or "off" but now returns a boolean (true/false)
+\bqx\.core\.Variant\.get\("qx\.debug"\)=This check used to return "on" or "off" but now returns a boolean (true/false)
+\bqx\.core\.Variant\.select\("qx\.debug"=This check used to return "on" or "off" but now returns a boolean (true/false)
+\bqx\.core\.Variant.\select\("qx\.aspects\",=This check used to return "on" or "off" but now returns a boolean (true/false)
+\bqx\.core\.Variant.\select\("qx\.mobile\.nativescroll",=This check used to return "on" or "off" but now returns a boolean (true/false)
+\bqx\.core\.Variant.\select\("qx\.mobile\.emulatetouch",=This check used to return "on" or "off" but now returns a boolean (true/false)
+\bqx\.core\.Variant.\select\("qx\.dynlocale",=This check used to return "on" or "off" but now returns a boolean (true/false)
+\bqx\.core\.Variant.\isSet\("qx\.mobile\.nativescroll",=This check used to return "on" or "off" but now returns a boolean (true/false)
+\bqx\.core\.Variant.\isSet\("qx\.mobile\.emulatetouch",=This check used to return "on" or "off" but now returns a boolean (true/false)
+\bqx\.core\.Variant.\isSet\("qx\.dynlocale",=This check used to return "on" or "off" but now returns a boolean (true/false)
+\bqx\.core\.Variant.\get\("qx\.mobile\.nativescroll"\)=This check used to return "on" or "off" but now returns a boolean (true/false)
+\bqx\.core\.Variant.\get\("qx\.mobile\.emulatetouch"\)=This check used to return "on" or "off" but now returns a boolean (true/false)
+\bqx\.core\.Variant.\get\("qx\.dynlocale"\)=This check used to return "on" or "off" but now returns a boolean (true/false)

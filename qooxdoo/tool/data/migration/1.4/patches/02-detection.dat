@@ -83,3 +83,35 @@
 \bqx\.core\.Setting\.set\b=qx.core.Environment.add
 
 \bqx\.data\.SingleValueBinding\.DEBUG_ON=qx.core.Environment.get("qx.debug.databinding")
+
+
+\bqx\.core\.Variant.\isSet\("qx\.dynlocale", "on"\)=qx.core.Environment.get("qx.dynlocale")
+\bqx\.core\.Variant.\isSet\("qx\.dynlocale","on"\)=qx.core.Environment.get("qx.dynlocale")
+\bqx\.core\.Variant.\select\("qx\.dynlocale",=qx.core.Environment.select("qx.dynlocale"
+\bqx\.core\.Variant.\get\("qx\.dynlocale")=qx.core.Environment.get("qx.dynlocale")
+
+\bqx\.core\.Variant.\isSet\("qx\.mobile\.emulatetouch", "on"\)=qx.core.Environment.get("qx.mobile.emulatetouch")
+\bqx\.core\.Variant.\isSet\("qx\.mobile\.emulatetouch","on"\)=qx.core.Environment.get("qx.mobile.emulatetouch")
+\bqx\.core\.Variant.\select\("qx\.mobile\.emulatetouch",=qx.core.Environment.select("qx.mobile.emulatetouch"
+\bqx\.core\.Variant.\get\("qx\.mobile\.emulatetouch")=qx.core.Environment.get("qx.mobile.emulatetouch")
+
+\bqx\.core\.Variant.\isSet\("qx\.mobile\.nativescroll", "on"\)=qx.core.Environment.get("qx.mobile.nativescroll")
+\bqx\.core\.Variant.\isSet\("qx\.mobile\.nativescroll","on"\)=qx.core.Environment.get("qx.mobile.nativescroll")
+\bqx\.core\.Variant.\select\("qx\.mobile\.nativescroll",=qx.core.Environment.select("qx.mobile.nativescroll"
+\bqx\.core\.Variant.\get\("qx\.mobile\.nativescroll")=qx.core.Environment.get("qx.mobile.nativescroll")
+
+\bqx\.core\.Variant.\isSet\("qx\.aspects",\s*"on"\)=qx.core.Environment.get("qx.aspects")
+\bqx\.core\.Variant.\select\("qx\.aspects\",=qx.core.Environment.select("qx.aspects"
+\bqx\.core\.Variant.\get\("qx\.aspects\")=qx.core.Environment.get("qx.aspects")
+
+\bqx\.core\.Variant\.isSet\("qx\.client",\s*"mshtml"\)=(qx.core.Environment.get("engine.name") == "mshtml")
+\bqx\.core\.Variant\.isSet\("qx\.client",\s*"gecko"\)=(qx.core.Environment.get("engine.name") == "gecko")
+\bqx\.core\.Variant\.isSet\("qx\.client",\s*"webkit"\)=(qx.core.Environment.get("engine.name") == "webkit")
+\bqx\.core\.Variant\.isSet\("qx\.client",\s*"opera"\)=(qx.core.Environment.get("engine.name") == "opera")
+\bqx\.core\.Variant\.select\("qx\.client",=qx.core.Environment.select("engine.name",
+\bqx\.core\.Variant\.get\("qx\.client"\)=qx.core.Environment.get("engine.name")
+
+\bqx\.core\.Variant\.get\("qx\.debug"\)=qx.core.Environment.get("qx.debug")
+\bqx\.core\.Variant\.isSet\("qx\.debug",\s*"on"\)=(qx.core.Environment.get("qx.debug"))
+\bqx\.core\.Variant\.isSet\("qx\.debug",\s*"off"\)=(qx.core.Environment.get("qx.debug") == false)
+\bqx\.core\.Variant\.select\("qx\.debug"=qx.core.Environment.select("qx.debug"
