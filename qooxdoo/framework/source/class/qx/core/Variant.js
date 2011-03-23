@@ -62,6 +62,8 @@
  *  <td>qx.mobile.nativescroll     <td>[ "on", "off" ]                    <td>"off"
  *  </tr>
  * </table>
+ * 
+ * @deprecated since 1.4: Please use qx.core.Environment instead.
  */
 qx.Bootstrap.define("qx.core.Variant",
 {
@@ -78,6 +80,7 @@ qx.Bootstrap.define("qx.core.Variant",
     /**
      * Pseudo function as replacement for isSet() which will only be handled by the optimizer
      *
+     * @internal
      * @return {Boolean}
      */
     compilerIsSet : function() {
@@ -93,8 +96,33 @@ qx.Bootstrap.define("qx.core.Variant",
      * @param allowedValues {String[]} An array of all allowed values for this variant.
      * @param defaultValue {String} Default value for the variant. Must be one of the values
      *   defined in <code>defaultValues</code>.
+     * 
+     * @deprecated since 1.4: Please use qx.core.Environment.add() instead.
      */
     define : function(key, allowedValues, defaultValue)
+    {
+      if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
+      {
+        qx.Bootstrap.warn(
+          "The method 'qx.core.Variant.define' is deprecated: " +
+          "Please use qx.core.Environment.add() instead."
+        );
+      }
+      
+      this.defineDeprecated(key, allowedValues, defaultValue);
+    },
+
+    /**
+     * Define a variant without the deprecation warning.
+     *
+     * @param key {String} An Unique key for the variant. The key must be prefixed with a
+     *   namespace identifier (e.g. <code>"qx.debug"</code>)
+     * @param allowedValues {String[]} An array of all allowed values for this variant.
+     * @param defaultValue {String} Default value for the variant. Must be one of the values
+     *   defined in <code>defaultValues</code>.
+     * @internal
+     */
+    defineDeprecated : function(key, allowedValues, defaultValue)
     {
       if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
       {
@@ -128,6 +156,8 @@ qx.Bootstrap.define("qx.core.Variant",
      *
      * @param key {String} name of the variant
      * @return {String} current value of the variant
+     * 
+     * @deprecated since 1.4: Please use qx.core.Environment.get() instead.
      */
     get : function(key)
     {
@@ -135,6 +165,11 @@ qx.Bootstrap.define("qx.core.Variant",
 
       if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
       {
+        qx.Bootstrap.warn(
+          "The method 'qx.core.Variant.get' is deprecated: " +
+          "Please use qx.core.Environment.get() instead."
+        );
+
         if (data === undefined) {
           throw new Error('Variant "' + key + '" is not defined.');
         }
@@ -210,6 +245,12 @@ qx.Bootstrap.define("qx.core.Variant",
           this.__variants[key] = {};
         }
 
+        if (qx.core.Variant.compilerIsSet("qx.debug", "on")) {
+          qx.Bootstrap.warn(
+            "URL variants are deprecated. Please use URL environment " +
+            "variables instead. (qxvariant --> qxenv)"
+          );
+        }
         this.__variants[key].value = decodeURIComponent(variant[2]);
       }
     },
@@ -237,11 +278,18 @@ qx.Bootstrap.define("qx.core.Variant",
      *   this selection, the key must be a string literal.
      * @param variantFunctionMap {Map} map with variant names as keys and functions as values.
      * @return {Function} The selected function from the map.
+     * 
+     * @deprecated since 1.4: Please use qx.core.Environment.select() instead.
      */
     select : function(key, variantFunctionMap)
     {
       if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
       {
+        qx.Bootstrap.warn(
+          "The method 'qx.core.Variant.select' is deprecated: " +
+          "Please use qx.core.Environment.select() instead."
+        );
+        
         // WARINING: all changes to this function must be duplicated in the generator!!
         // modules/variantoptimizer.py (processVariantSelect)
         if (!this.__isValidObject(this.__variants[key])) {
@@ -298,9 +346,17 @@ qx.Bootstrap.define("qx.core.Variant",
      *   them with a "|" character. A value of "mshtml|opera" would for example check if the variant is
      *   set to "mshtml" or "opera"
      * @return {Boolean} whether the variant is set to the given value
+     * 
+     * @deprecated since 1.4: Please use 'qx.core.Environment.get() == ' instead.
      */
     isSet : function(key, variants)
     {
+      if (qx.core.Variant.compilerIsSet("qx.debug", "on")) {
+        qx.Bootstrap.warn(
+          "The method 'qx.core.Variant.isSet' is deprecated: " +
+          "Please use 'qx.core.Environment.get() ==' instead."
+        );
+      }
       var access = key + "$" + variants;
       if (this.__cache[access] !== undefined) {
         return this.__cache[access];
@@ -394,16 +450,16 @@ qx.Bootstrap.define("qx.core.Variant",
 
   defer : function(statics)
   {
-    statics.define(
+    statics.defineDeprecated(
       "qx.client",
       [ "gecko", "mshtml", "opera", "webkit" ],
       qx.bom.client.Engine.getName()
     );
-    statics.define("qx.debug", [ "on", "off" ], "on");
-    statics.define("qx.aspects", [ "on", "off" ], "off");
-    statics.define("qx.dynlocale", [ "on", "off" ], "on");
-    statics.define("qx.mobile.emulatetouch", [ "on", "off" ], "off");
-    statics.define("qx.mobile.nativescroll", [ "on", "off" ], "off");
+    statics.defineDeprecated("qx.debug", [ "on", "off" ], "on");
+    statics.defineDeprecated("qx.aspects", [ "on", "off" ], "off");
+    statics.defineDeprecated("qx.dynlocale", [ "on", "off" ], "on");
+    statics.defineDeprecated("qx.mobile.emulatetouch", [ "on", "off" ], "off");
+    statics.defineDeprecated("qx.mobile.nativescroll", [ "on", "off" ], "off");
 
     statics.__init();
   }

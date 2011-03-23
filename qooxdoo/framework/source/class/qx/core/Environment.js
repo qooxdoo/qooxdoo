@@ -298,7 +298,9 @@ qx.Bootstrap.define("qx.core.Environment",
           if (
             key == "qx.aspects" ||
             key == "qx.debug" ||
-            key == "qx.dynlocale"
+            key == "qx.dynlocale" ||
+            key == "qx.mobile.emulatetouch" || 
+            key == "qx.mobile.nativescroll"
           ) {
             // normalization for "on" and "off" @deprecated since 1.4
             if (value == "on") {
