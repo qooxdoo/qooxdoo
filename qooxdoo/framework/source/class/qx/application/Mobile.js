@@ -31,7 +31,8 @@
  */
 qx.Class.define("qx.application.Mobile",
 {
-  extend : qx.application.Native,
+  extend : qx.core.Object,
+  implement : [qx.application.IApplication],
   include : qx.locale.MTranslation,
 
 
@@ -60,12 +61,10 @@ qx.Class.define("qx.application.Mobile",
     __root : null,
 
 
-    // overridden
+    // interface method
     main : function()
     {
-      this.base(arguments);
-
-      this.__root = this._createRoot();
+      this.__root = this._createRootWidget();
 
       if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
         this.__root.setShowScrollbarY(false);
@@ -89,9 +88,30 @@ qx.Class.define("qx.application.Mobile",
      *
      * @return {qx.ui.mobile.core.Widget} The application's root widget.
      */
-    _createRoot : function()
+    _createRootWidget : function()
     {
       return new qx.ui.mobile.core.Root();
+    },
+
+
+    // interface method
+    finalize : function()
+    {
+      // empty
+    },
+
+
+    // interface method
+    close : function()
+    {
+      // empty
+    },
+
+
+    // interface method
+    terminate : function()
+    {
+      // empty
     }
   },
 
