@@ -149,7 +149,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Fires the DOM updated event directly. Triggers the {@see qx.event.handler.Appear#refresh} and 
-     * {@see qx.ui.mobile.core.DomUpdatedHandler#refresh} methods.
+     * {@see qx.ui.mobile.core.DomUpdatedHandler#refresh} methods. Do not use this
+     * method during massive DOM manipulations. Use {@see #scheduleDomUpdated} instead.
      * 
      * @internal
      */
