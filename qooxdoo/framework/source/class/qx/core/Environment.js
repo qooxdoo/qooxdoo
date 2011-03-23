@@ -150,6 +150,29 @@ qx.Bootstrap.define("qx.core.Environment",
         return value;
       }
 
+      // @deprecated since 1.4: This is only for deprecation of 
+      // qx.core.Variant.select
+      if (this.useCheck("qx.debug", "on"))
+      {
+        // check for true --> on
+        if (value === true && values["on"] != undefined) {
+          qx.Boostrap.warn(
+            "The check '" + key + "' is a boolean value. "+ 
+            "Please change your select map from 'on' to 'true'."
+          );
+          return values["on"];
+        }
+
+        // check for false --> off
+        if (value === false && values["off"] != undefined) {
+          qx.Boostrap.warn(
+            "The check '" + key + "' is a boolean value. "+ 
+            "Please change your select map from 'off' to 'false'."
+          );
+          return values["off"];
+        }
+      }
+
       if (values["default"] !== undefined) {
         return values["default"];
       }
@@ -245,11 +268,16 @@ qx.Bootstrap.define("qx.core.Environment",
       {
         for (var key in window.qxsettings) {
           var value = window.qxsettings[key];
-          // normalization for "on" and "off" @deprecated since 1.4
-          if (value == "on") {
-            value = true;
-          } else if (value == "off") {
-            value = false;
+          if (
+            key == "qx.bom.htmlarea.HtmlArea.debug" || 
+            key == "qx.globalErrorHandlin"
+          ) {
+            // normalization for "on" and "off" @deprecated since 1.4
+            if (value == "on") {
+              value = true;
+            } else if (value == "off") {
+              value = false;
+            }
           }
 
           this._checks[key] = this.__createCheck(value);
@@ -262,11 +290,17 @@ qx.Bootstrap.define("qx.core.Environment",
       {
         for (var key in window.qxvariants) {
           var value = window.qxvariants[key];
-          // normalization for "on" and "off" @deprecated since 1.4
-          if (value == "on") {
-            value = true;
-          } else if (value == "off") {
-            value = false;
+          if (
+            key == "qx.aspects" ||
+            key == "qx.debug" ||
+            key == "qx.dynlocale"
+          ) {
+            // normalization for "on" and "off" @deprecated since 1.4
+            if (value == "on") {
+              value = true;
+            } else if (value == "off") {
+              value = false;
+            }
           }
 
           this._checks[key] = this.__createCheck(value);
@@ -278,12 +312,6 @@ qx.Bootstrap.define("qx.core.Environment",
       {
         for (var key in qx.$$environment) {
           var value = qx.$$environment[key];
-          // normalization for "on" and "off" @deprecated since 1.4
-          if (value == "on") {
-            value = true;
-          } else if (value == "off") {
-            value = false;
-          }
 
           this._checks[key] = this.__createCheck(value);
         }
