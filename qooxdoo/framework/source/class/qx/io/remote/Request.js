@@ -537,12 +537,12 @@ qx.Class.define("qx.io.remote.Request",
      *
      * @param e {qx.event.type.Event} The original event
      */
-    __forwardEvent : qx.event.GlobalError.observeMethod(function(e)
+    __forwardEvent : function(e) 
     {
       var clonedEvent = e.clone();
       clonedEvent.setTarget(this);
       this.dispatchEvent(clonedEvent);
-    }),
+    },
 
 
 

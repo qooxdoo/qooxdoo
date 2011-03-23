@@ -312,7 +312,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * @param e {qx.event.type.Event} event object
      * @return {void}
      */
-    _oncompleted : function(e)
+    _oncompleted : qx.event.GlobalError.observeMethod(function(e)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -366,7 +366,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       {
         this._remove(e.getTarget());
       }
-    },
+    }),
 
 
 
