@@ -898,8 +898,6 @@ qx.Class.define("qx.util.format.DateFormat",
               } else if (wildcardSize == 3) {
                 replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "stand-alone");
               } else if (wildcardSize == 4) {
-                alert(qx.locale.Date.getMonthName("wide", month, locale, "stand-alone"));
-                alert(qx.locale.Date.getMonthName("wide", month, locale, "stand-alone").substr(0,1));
                 replacement = qx.locale.Date.getMonthName("wide", month, locale, "stand-alone").substr(0,1);
               }
 
