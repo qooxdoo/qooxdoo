@@ -623,6 +623,13 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       try {
         vStatusCode = this.getRequest().status;
+
+        // [BUG #4476]
+        // IE sometimes tells 1223 when it should be 204
+        if (vStatusCode === 1223) {
+          vStatusCode = 204;
+        }
+
       } catch(ex) {}
 
       return vStatusCode;
