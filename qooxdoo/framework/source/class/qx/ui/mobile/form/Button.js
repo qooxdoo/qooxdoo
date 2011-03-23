@@ -56,9 +56,7 @@ qx.Class.define("qx.ui.mobile.form.Button",
   {
     _applyValue : function(value, old)
     {
-      var element = this.getContentElement();
-      element.innerHTML = value;
-      this._domUpdated();
+      this._setHtml(value);
     }
 
   }

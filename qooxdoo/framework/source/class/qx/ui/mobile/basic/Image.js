@@ -54,6 +54,40 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     }
   },
 
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /**
+     * Fired if the image source can not be loaded.
+     */
+    loadingFailed : "qx.event.type.Event",
+
+
+    /**
+     * Fired if the image has been loaded.
+     */
+    loaded : "qx.event.type.Event"
+  },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
     /**
@@ -64,9 +98,19 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       check : "String",
       nullable : true,
       init : null,
-      apply : "_applyAttribute"
+      apply : "_applySource"
     }
   },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -76,16 +120,51 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     },
 
 
-    // overridden
-    _applyAttribute : function(value, old, attribute)
+    // property apply
+    _applySource : function(value, old)
     {
-      value = qx.util.ResourceManager.getInstance().toUri(value);
-      this.base(arguments, value, old, attribute);
+      if (value)
+      {
+        var source = qx.util.ResourceManager.getInstance().toUri(value);
+        var ImageLoader = qx.io.ImageLoader;
+        if(!ImageLoader.isFailed(source)) {
+          ImageLoader.load(source, this.__loaderCallback, this);
+        }
+      }
+    },
+
+
+    /**
+     * Event handler fired after the preloader has finished loading the icon
+     *
+     * @param source {String} Image source which was loaded
+     * @param imageInfo {Map} Dimensions of the loaded image
+     */
+    __loaderCallback : function(source, imageInfo)
+    {
+      // Output a warning if the image could not loaded and quit
+      if (imageInfo.failed)
+      {
+        this.warn("Image could not be loaded: " + source);
+        this.fireEvent("loadingFailed");
+      }
+      else
+      {
+        this._setSource(source);
+        this.fireEvent("loaded");
+      }
+    },
+
+
+    /**
+     * Sets the source attribute of the image tag.
+     * 
+     * @param source {String} Image source which was loaded 
+     */
+    _setSource : function(source)
+    {
+      this._setAttribute("src", source);
+      this._domUpdated();
     }
-  },
-
-
-  defer : function(statics) {
-    qx.ui.mobile.core.Widget.addAttributeMapping("source" , "src");
   }
 });

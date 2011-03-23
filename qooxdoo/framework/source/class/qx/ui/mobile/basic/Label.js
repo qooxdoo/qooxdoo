@@ -91,9 +91,7 @@ qx.Class.define("qx.ui.mobile.basic.Label",
       if (this.getPreventPhoneNumber()) {
         value = this._preventPhoneNumberAutoDetection(value);
       }
-      var element = this.getContentElement();
-      element.innerHTML = value;
-      this._domUpdated();
+      this._setHtml(value);
     },
 
 
