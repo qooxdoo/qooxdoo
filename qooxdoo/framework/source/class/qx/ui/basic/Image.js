@@ -540,7 +540,7 @@ qx.Class.define("qx.ui.basic.Image",
     {
       var ImageLoader = qx.io.ImageLoader;
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         // loading external images via HTTP/HTTPS is a common usecase
         if (!qx.lang.String.startsWith(source.toLowerCase(), "http"))

@@ -39,13 +39,13 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
   members :
   {
     // overridden
-    verifyLayoutProperty : qx.core.Variant.select("qx.debug",
+    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
     {
-      "on" : function(item, name, value) {
+      "true" : function(item, name, value) {
         this.assert(name=="column", "The property '"+name+"' is not supported by the MenuButton layout!");
       },
 
-      "off" : null
+      "false" : null
     }),
 
 

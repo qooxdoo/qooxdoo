@@ -147,7 +147,7 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
         var item = selection.getItem(i);
         var row = this.getLookupTable().indexOf(item);
 
-        if (qx.core.Variant.isSet("qx.debug", "on"))
+        if ((qx.core.Environment.get("qx.debug")))
         {
           if (row < 0)
           {

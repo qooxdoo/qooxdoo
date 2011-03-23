@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
   construct : function(scroller, settings)
   {
 
-    if (qx.core.Variant.isSet("qx.debug", "on"))
+    if ((qx.core.Environment.get("qx.debug")))
     {
       this.assertObject(settings);
       this.assertPositiveInteger(settings.minLeft);

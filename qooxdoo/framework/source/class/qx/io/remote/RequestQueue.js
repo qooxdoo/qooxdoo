@@ -159,7 +159,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
      */
     _debug : function()
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebug"))
         {
@@ -278,7 +278,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
      */
     _onsending : function(e)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebug"))
         {
@@ -312,9 +312,9 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * @param e {qx.event.type.Event} event object
      * @return {void}
      */
-    _oncompleted : qx.event.GlobalError.observeMethod(function(e)
+    _oncompleted : function(e)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebug"))
         {
@@ -366,7 +366,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       {
         this._remove(e.getTarget());
       }
-    }),
+    },
 
 
 

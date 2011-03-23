@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
   {
     this.base(arguments);
 
-    if (qx.core.Variant.isSet("qx.debug", "on"))
+    if ((qx.core.Environment.get("qx.debug")))
     {
       this.assertInstance(rowConfig, qx.ui.virtual.core.Axis);
       this.assertInstance(columnConfig, qx.ui.virtual.core.Axis);

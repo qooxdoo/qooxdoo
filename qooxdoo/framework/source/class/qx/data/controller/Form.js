@@ -312,7 +312,7 @@ qx.Class.define("qx.data.controller.Form",
           }
         // ignore not working items
         } catch (ex) {
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
+          if ((qx.core.Environment.get("qx.debug"))) {
             this.warn("Could not bind property " + name + " of " + this.getModel());
           }
         }

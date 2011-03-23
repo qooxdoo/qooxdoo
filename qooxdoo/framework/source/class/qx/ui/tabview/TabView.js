@@ -184,7 +184,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     add : function(page)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (!(page instanceof qx.ui.tabview.Page)) {
           throw new Error("Incompatible child for TabView: " + page);

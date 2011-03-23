@@ -61,7 +61,7 @@ qx.Class.define("qx.dev.unit.TestCase",
      * @return {Boolean} Whether debugging is enabled
      */
     isDebugOn : function() {
-      return qx.core.Variant.isSet("qx.debug", "on") ? true : false;
+      return (qx.core.Environment.get("qx.debug")) ? true : false;
     },
 
     /**

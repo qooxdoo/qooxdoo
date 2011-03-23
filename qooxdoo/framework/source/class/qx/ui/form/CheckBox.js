@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.form.CheckBox",
    */
   construct : function(label)
   {
-    if (qx.core.Variant.isSet("qx.debug", "on")) {
+    if ((qx.core.Environment.get("qx.debug"))) {
       this.assertArgumentsCount(arguments, 0, 1);
     }
 

@@ -367,7 +367,7 @@ qx.Class.define("qx.type.BaseString",
    defer : function(statics, members)
    {
      // add asserts into each debug build
-     if (qx.core.Variant.isSet("qx.debug", "on")) {
+     if ((qx.core.Environment.get("qx.debug"))) {
        qx.Class.include(statics, qx.core.MAssert);
      }
 

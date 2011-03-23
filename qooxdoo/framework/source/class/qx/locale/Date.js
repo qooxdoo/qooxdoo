@@ -75,7 +75,7 @@ qx.Class.define("qx.locale.Date",
     {
       var context = context ? context : "format";
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
@@ -110,7 +110,7 @@ qx.Class.define("qx.locale.Date",
     {
       var context = context ? context : "format";
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
         qx.core.Assert.assertInteger(day);
@@ -139,7 +139,7 @@ qx.Class.define("qx.locale.Date",
     {
       var context = context ? context : "format";
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
@@ -171,7 +171,7 @@ qx.Class.define("qx.locale.Date",
     {
       var context = context ? context : "format";
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
@@ -191,7 +191,7 @@ qx.Class.define("qx.locale.Date",
      */
     getDateFormat : function(size, locale)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert.assertInArray(size, ["short", "medium", "long", "full"]);
       }
 
@@ -234,7 +234,7 @@ qx.Class.define("qx.locale.Date",
      */
     getTimeFormat : function(size, locale)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert.assertInArray(size, ["short", "medium", "long", "full"]);
       }
 

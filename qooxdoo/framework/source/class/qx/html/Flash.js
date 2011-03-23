@@ -92,7 +92,7 @@ qx.Class.define("qx.html.Flash",
      */
     setSource : function(value)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert.assertString(value, "Invalid attribute 'value'.");
       }
 
@@ -110,7 +110,7 @@ qx.Class.define("qx.html.Flash",
      */
     setId : function(value)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert.assertString(value, "Invalid attribute 'value'.");
       }
 
@@ -139,7 +139,7 @@ qx.Class.define("qx.html.Flash",
      */
     setVariables : function(value)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert.assertMap(value, "Invalid attribute 'value'.");
       }
 
@@ -167,7 +167,7 @@ qx.Class.define("qx.html.Flash",
      */
     setAttribute : function (key, value)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert.assertString(key, "Invalid attribute 'key'.");
 
         if (arguments.length > 1 && value !== null) {
@@ -205,7 +205,7 @@ qx.Class.define("qx.html.Flash",
      */
     setParam : function(key, value)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert.assertString(key, "Invalid attribute 'key'.");
 
         if (arguments.length > 1 && value !== null) {

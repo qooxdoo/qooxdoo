@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     add : function(obj)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (!(obj instanceof qx.ui.menu.Menu)) {
           throw new Error("Object is no menu: " + obj);
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     remove : function(obj)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (!(obj instanceof qx.ui.menu.Menu)) {
           throw new Error("Object is no menu: " + obj);

@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
     // property apply
     _applyStyle : function()
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (this.__markup) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");

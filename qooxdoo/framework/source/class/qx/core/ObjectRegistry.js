@@ -80,7 +80,7 @@ qx.Class.define("qx.core.ObjectRegistry",
         obj.$$hash = hash;
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (!obj.dispose) {
           throw new Error("Invalid object: " + obj);
@@ -136,7 +136,7 @@ qx.Class.define("qx.core.ObjectRegistry",
      */
     toHashCode : function(obj)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (obj == null) {
           throw new Error("Invalid object: " + obj);
@@ -168,7 +168,7 @@ qx.Class.define("qx.core.ObjectRegistry",
      */
     clearHashCode : function(obj)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (obj == null) {
           throw new Error("Invalid object: " + obj);

@@ -45,7 +45,7 @@ qx.Class.define("qx.locale.Key",
      */
     getKeyName : function(size, keyIdentifier, locale)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert.assertInArray(size, ["short", "full"]);
       }
 

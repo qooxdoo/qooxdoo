@@ -354,7 +354,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
           range.collapse();
         }
 
-        if (qx.core.Variant.isSet("qx.debug", "on") &&
+        if ((qx.core.Environment.get("qx.debug")) &&
             qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug")) {
           this.debug("execCommand " + command + " with value " + value + " succeded");
         }
@@ -364,7 +364,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       }
       catch(ex)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on") &&
+        if ((qx.core.Environment.get("qx.debug")) &&
             qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug")) {
           this.debug("execCommand " + command + " with value " + value + " failed");
         }
@@ -1121,7 +1121,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
          }
          catch(e)
          {
-           if (qx.core.Variant.isSet("qx.debug", "on")) {
+           if ((qx.core.Environment.get("qx.debug"))) {
              this.error("inserthyperlink failed!");
            }
            return false;
@@ -1887,7 +1887,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
        //the error in debug mode
        if (repeat != null && !qx.lang.String.contains(Command.__backgroundRepeat, repeat))
        {
-         if (qx.core.Variant.isSet("qx.debug", "on")) {
+         if ((qx.core.Environment.get("qx.debug"))) {
            this.error("The value '" +repeat + "' is not allowed for parameter 'repeat'. Possible values are '" + Command.__backgroundRepeat + "'");
          }
          return false;
@@ -1901,7 +1901,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
          if (qx.lang.Type.isString(position) &&
              !qx.lang.String.contains(Command.__backgroundPosition, '|'+position+'|'))
          {
-           if (qx.core.Variant.isSet("qx.debug", "on")) {
+           if ((qx.core.Environment.get("qx.debug"))) {
              this.error("The value '" + position + "' is not allowed for parameter 'position'. Possible values are '" + Command.__backgroundPosition + "'");
            }
            return false;
@@ -1913,7 +1913,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
            }
            else
            {
-             if (qx.core.Variant.isSet("qx.debug", "on")) {
+             if ((qx.core.Environment.get("qx.debug"))) {
                this.error("If an array is provided for parameter 'position' it has to define two elements!");
              }
              return false;

@@ -174,9 +174,9 @@ qx.Class.define("qx.ui.layout.Grid",
 
 
     // overridden
-    verifyLayoutProperty : qx.core.Variant.select("qx.debug",
+    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
     {
-      "on" : function(item, name, value)
+      "true" : function(item, name, value)
       {
         var layoutProperties = {
           "row" : 1,
@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.layout.Grid",
         this.assert(value >= 0, "Value must be positive");
       },
 
-      "off" : null
+      "false" : null
     }),
 
 
@@ -361,7 +361,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     setColumnAlign : function(column, hAlign, vAlign)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         this.assertInteger(column, "Invalid parameter 'column'");
         this.assertInArray(hAlign, ["left", "center", "right"]);
@@ -413,7 +413,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     setRowAlign : function(row, hAlign, vAlign)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         this.assertInteger(row, "Invalid parameter 'row'");
         this.assertInArray(hAlign, ["left", "center", "right"]);

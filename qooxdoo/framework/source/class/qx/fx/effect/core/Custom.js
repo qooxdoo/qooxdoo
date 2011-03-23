@@ -55,7 +55,7 @@ qx.Class.define("qx.fx.effect.core.Custom",
    */
   construct : function(element, func)
   {
-    if (qx.core.Variant.isSet("qx.debug", "on")) {
+    if ((qx.core.Environment.get("qx.debug"))) {
       this.assertFunction(func);
     }
     this.__func = func;

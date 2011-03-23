@@ -487,7 +487,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
         catch(error)
         {
           /* It appears, that an execCommand was bound to an element which is not available when calling 'undo' */
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
+          if ((qx.core.Environment.get("qx.debug"))) {
             this.error("execCommand failed! Details: " + error)
           }
         }
@@ -1043,7 +1043,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
       */
      __addToUndoStack : function(changeInfo)
      {
-       if (qx.core.Variant.isSet("qx.debug", "on") &&
+       if ((qx.core.Environment.get("qx.debug")) &&
            qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug"))
        {
          this.debug("ADD TO UNDO STACK");
@@ -1062,7 +1062,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
       */
     __addToRedoStack : function(changeInfo)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on") &&
+      if ((qx.core.Environment.get("qx.debug")) &&
           qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug"))
       {
         this.debug("ADD TO REDO STACK");

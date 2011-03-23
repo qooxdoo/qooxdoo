@@ -223,7 +223,7 @@ qx.Class.define("qx.lang.Function",
      */
     create : function(func, options)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert && qx.core.Assert.assertFunction(func, "Invalid parameter 'func'.");
       }
 
@@ -239,7 +239,7 @@ qx.Class.define("qx.lang.Function",
 
       return function(event)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
+        if ((qx.core.Environment.get("qx.debug")))
         {
           if (options.self instanceof qx.core.Object)
           {

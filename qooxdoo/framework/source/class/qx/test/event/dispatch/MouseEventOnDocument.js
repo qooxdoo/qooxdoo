@@ -60,8 +60,8 @@ qx.Class.define("qx.test.event.dispatch.MouseEventOnDocument",
     },
 
     doWork: function(el){
-      if (qx.core.Variant.isSet("qx.debug", "on")){
-        this.ringAppender.clear();
+      if ((qx.core.Environment.get("qx.debug"))){
+        qx.log.Logger.clear();
         var events = ['mousemove','click','mousedown','mouseup'];
         for(var i=0;i<events.length;i++ ) {
           qx.bom.Element.addListener(el, events[i], function(){});

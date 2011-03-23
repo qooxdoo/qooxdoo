@@ -91,7 +91,7 @@ qx.Class.define("qx.util.DeferredCall",
      */
     call : function() {
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         // warn if the context is disposed
         var context = this.__context;
         if (context && context.isDisposed && context.isDisposed()) {

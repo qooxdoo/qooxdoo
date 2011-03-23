@@ -45,9 +45,9 @@ qx.Class.define("qx.ui.splitpane.VLayout",
     */
 
     // overridden
-    verifyLayoutProperty : qx.core.Variant.select("qx.debug",
+    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
     {
-      "on" : function(item, name, value)
+      "true" : function(item, name, value)
       {
         this.assert(name === "type" || name === "flex", "The property '"+name+"' is not supported by the split layout!");
 
@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.splitpane.VLayout",
         }
       },
 
-      "off" : null
+      "false" : null
     }),
 
 

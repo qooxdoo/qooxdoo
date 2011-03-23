@@ -234,7 +234,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
       }
 
       // Check if valid
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (styles.length === 0) {
           throw new Error("Invalid Single decorator (zero border width). Use qx.ui.decorator.Background instead!");
@@ -307,7 +307,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     // property apply
     _applyStyle : function()
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (this._markup) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");

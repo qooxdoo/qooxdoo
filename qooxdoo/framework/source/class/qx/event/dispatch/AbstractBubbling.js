@@ -165,7 +165,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
           listener = localList[j];
           context = listener.context || currentTarget;
 
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
+          if ((qx.core.Environment.get("qx.debug"))) {
             // warn if the context is disposed
             if (context && context.isDisposed && context.isDisposed()) {
               this.warn(
@@ -195,7 +195,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
           listener = localList[j];
           context = listener.context || target;
 
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
+          if ((qx.core.Environment.get("qx.debug"))) {
             // warn if the context is disposed
             if (context && context.isDisposed && context.isDisposed()) {
               this.warn(
@@ -228,7 +228,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
           listener = localList[j];
           context = listener.context || currentTarget;
 
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
+          if ((qx.core.Environment.get("qx.debug"))) {
             // warn if the context is disposed
             if (context && context.isDisposed && context.isDisposed()) {
               this.warn(

@@ -316,7 +316,7 @@ qx.Class.define("qx.test.core.Property",
 
     testWrongPropertyDefinitions : function()
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         // date
         this.assertException(function() {
           qx.Class.define("qx.test.clName", {

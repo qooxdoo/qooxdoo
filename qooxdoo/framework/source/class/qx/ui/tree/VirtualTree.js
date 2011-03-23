@@ -499,7 +499,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
       if (value != null)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
+        if ((qx.core.Environment.get("qx.debug")))
         {
           if (!qx.Class.hasMixin(value.constructor,
                 qx.data.marshal.MEventBubbling))

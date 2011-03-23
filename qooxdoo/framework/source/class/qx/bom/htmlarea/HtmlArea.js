@@ -1277,7 +1277,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         }
         else
         {
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
+          if ((qx.core.Environment.get("qx.debug"))) {
             this.error('document not available, try again...');
           }
 
@@ -1831,7 +1831,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       var keyIdentifier = e.getKeyIdentifier().toLowerCase();
       this.__currentEvent = e;
 
-      if (qx.core.Variant.isSet("qx.debug", "on") &&
+      if ((qx.core.Environment.get("qx.debug")) &&
           qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug")) {
         this.debug(e.getType() + " | " + keyIdentifier);
       }
@@ -1935,7 +1935,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       {
         var keyIdentifier   = e.getKeyIdentifier().toLowerCase();
 
-        if (qx.core.Variant.isSet("qx.debug", "on") &&
+        if ((qx.core.Environment.get("qx.debug")) &&
             qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug")) {
           //this.debug(e.getType() + " | " + e.getKeyIdentifier().toLowerCase());
         }
@@ -1979,7 +1979,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       var isShiftPressed  = e.isShiftPressed();
       this.__currentEvent = e;
 
-      if (qx.core.Variant.isSet("qx.debug", "on") &&
+      if ((qx.core.Environment.get("qx.debug")) &&
           qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug")) {
         this.debug(e.getType() + " | " + keyIdentifier);
       }
@@ -2408,7 +2408,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      */
     _handleMouseUpOnBody : function(e)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on") &&
+      if ((qx.core.Environment.get("qx.debug")) &&
           qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug")) {
         this.debug("handleMouse " + e.getType());
       }

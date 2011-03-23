@@ -115,7 +115,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
     // property apply
     _applyBorderRadius : function()
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (this._isInitialized()) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");

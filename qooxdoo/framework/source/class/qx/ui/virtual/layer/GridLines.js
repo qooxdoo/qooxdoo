@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
      */
     setLineColor : function(index, color)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         qx.core.Assert.assertPositiveNumber(index);
         qx.core.Assert.assertString(color);
@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
      */
     setLineSize : function(index, size)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         qx.core.Assert.assertPositiveInteger(index);
         qx.core.Assert.assertPositiveInteger(size);

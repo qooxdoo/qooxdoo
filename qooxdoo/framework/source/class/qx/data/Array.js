@@ -659,7 +659,7 @@ qx.Class.define("qx.data.Array",
 
       // this check is important because opera throws an uncatchable error if
       // apply is called without an array as argument.
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert.assertArray(array, "The parameter must be an array.");
       }
 

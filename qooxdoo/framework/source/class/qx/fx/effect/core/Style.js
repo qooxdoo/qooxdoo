@@ -61,7 +61,7 @@ qx.Class.define("qx.fx.effect.core.Style",
   {
     if (cssAttribute)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         this.assertString(cssAttribute);
       }
       this.__cssAttribute = cssAttribute;
@@ -71,7 +71,7 @@ qx.Class.define("qx.fx.effect.core.Style",
 
     if (func)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         this.assertFunction(func);
       }
       this.__func = func;

@@ -404,7 +404,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     addAttributeMapping : function(property, attribute, values)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         var attributeMapping = qx.ui.mobile.core.Widget.ATTRIBUTE_MAPPING;
         if (attributeMapping[property]) {
@@ -443,7 +443,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     addStyleMapping : function(property, style, values)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         var styleMapping = qx.ui.mobile.core.Widget.STYLE_MAPPING;
         if (styleMapping[property]) {
@@ -619,7 +619,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     _add : function(child, layoutProperties)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (child.getLayoutParent() === this) {
           throw new Error("The widget is already added this widget. Please remove it first.")
@@ -646,7 +646,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     _addBefore : function(child, beforeWidget, layoutProperties)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (child.getLayoutParent() === this) {
           throw new Error("The widget is already added this widget. Please remove it first.")
@@ -678,7 +678,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     _addAfter : function(child, afterWidget, layoutProperties)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (child.getLayoutParent() === this) {
           throw new Error("The child is already added to this widget. Please remove it first.")
@@ -856,7 +856,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     _setLayout : function(layout)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         if (layout) {
           this.assertInstance(layout, qx.ui.mobile.layout.Abstract);
         }

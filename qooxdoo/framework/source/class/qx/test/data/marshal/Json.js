@@ -599,7 +599,7 @@ qx.Class.define("qx.test.data.marshal.Json",
 
     testValidIdentifier: function() {
       // its a debug warning so only check on debug
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         var data = {"#affe" : 1};
         this.assertException(function() {
           // just check if the creation worked

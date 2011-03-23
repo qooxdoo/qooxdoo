@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.mobile.navigation.Handler",
 
     _applyHash : function(value, old)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         this.debug("Hash changed " + value);
       }

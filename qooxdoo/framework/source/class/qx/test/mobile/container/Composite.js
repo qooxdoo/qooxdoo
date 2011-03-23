@@ -50,7 +50,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
       var widget1 = new qx.ui.mobile.core.Widget();
       composite.add(widget1);
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         this.assertException(function() {
            composite.add(widget1);
@@ -101,7 +101,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
       var widget2 = new qx.ui.mobile.core.Widget();
       composite.add(widget2);
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         this.assertException(function() {
            composite.addBefore(widget2, widget3);
@@ -133,7 +133,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
       var widget2 = new qx.ui.mobile.core.Widget();
       composite.add(widget2);
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         this.assertException(function() {
            composite.addAfter(widget2, widget3);

@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
       // Show a warning message that the baseImage is not available
       // otherwise the developer would only see a property error message
       // without mentioning which resource is missing.
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (!ResourceManager.has(base)) {
           this.warn("The border image '" + base + "' is not available!");

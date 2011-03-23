@@ -204,13 +204,13 @@ qx.Class.define("qx.ui.layout.Flow",
     */
 
     // overridden
-    verifyLayoutProperty : qx.core.Variant.select("qx.debug",
+    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
     {
-      "on" : function(item, name, value) {
+      "true" : function(item, name, value) {
         this.assertEquals("lineBreak", name, "The property '"+name+"' is not supported by the flow layout!" );
       },
 
-      "off" : null
+      "false" : null
     }),
 
 

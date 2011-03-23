@@ -99,7 +99,7 @@ qx.Bootstrap.define("qx.Interface",
         }
 
         // Validate incoming data
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
+        if ((qx.core.Environment.get("qx.debug"))) {
           this.__validateConfig(name, config);
         }
 
@@ -438,9 +438,9 @@ qx.Bootstrap.define("qx.Interface",
      *   Otherwise an exception is thrown.
      * @return {Function} wrapped function
      */
-    __wrapInterfaceMember : qx.core.Variant.select("qx.debug",
+    __wrapInterfaceMember : qx.core.Environment.select("qx.debug",
     {
-      "on": function(iface, origFunction, functionName, preCondition)
+      "true": function(iface, origFunction, functionName, preCondition)
       {
         function wrappedFunction()
         {
@@ -460,9 +460,9 @@ qx.Bootstrap.define("qx.Interface",
 
 
     /** {Map} allowed keys in interface definition */
-    __allowedKeys : qx.core.Variant.select("qx.debug",
+    __allowedKeys : qx.core.Environment.select("qx.debug",
     {
-      "on":
+      "true":
       {
         "extend"     : "object", // Interface | Interface[]
         "statics"    : "object", // Map
@@ -482,11 +482,11 @@ qx.Bootstrap.define("qx.Interface",
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      */
-    __validateConfig : qx.core.Variant.select("qx.debug",
+    __validateConfig : qx.core.Environment.select("qx.debug",
     {
-      "on": function(name, config)
+      "true": function(name, config)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
+        if ((qx.core.Environment.get("qx.debug")))
         {
           // Validate keys
           var allowed = this.__allowedKeys;

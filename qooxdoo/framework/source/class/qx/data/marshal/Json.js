@@ -155,7 +155,7 @@ qx.Class.define("qx.data.marshal.Json",
         // stip the unwanted characters
         key = key.replace(/-/g, "");
         // check for valid JavaScript identifier
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
+        if ((qx.core.Environment.get("qx.debug"))) {
           this.assertTrue((/^[$A-Za-z_][0-9A-Za-z_]*$/).test(key),
           "The key '" + key + "' is not a valid JavaScript identifier.")
         }
@@ -314,7 +314,7 @@ qx.Class.define("qx.data.marshal.Json",
           var propertyName = key.replace(/-/g, "");
           // warn if there has been a replacement
           if (
-            qx.core.Variant.isSet("qx.debug", "on") &&
+            (qx.core.Environment.get("qx.debug")) &&
             qx.core.Environment.get("qx.debug.databinding")
           ) {
             if (key != propertyName) {

@@ -270,7 +270,7 @@ qx.Class.define("qx.ui.basic.Label",
       {
         if (value && !this.isRich())
         {
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
+          if ((qx.core.Environment.get("qx.debug"))) {
             this.warn("Only rich labels are selectable in browsers with Gecko engine!");
           }
           return;
@@ -432,7 +432,7 @@ qx.Class.define("qx.ui.basic.Label",
     {
       if (value && !this.isRich())
       {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
+        if ((qx.core.Environment.get("qx.debug"))) {
           this.warn("Only rich labels support wrap.");
         }
       }

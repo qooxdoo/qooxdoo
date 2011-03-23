@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
     this.base(arguments);
     this.setZIndex(2);
 
-    if (qx.core.Variant.isSet("qx.debug", "on")) {
+    if ((qx.core.Environment.get("qx.debug"))) {
       this.assertInterface(
         widgetCellProvider,
         qx.ui.virtual.core.IWidgetCellProvider
@@ -227,7 +227,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       //
 
 
-    if (qx.core.Variant.isSet("qx.debug", "on"))
+    if ((qx.core.Environment.get("qx.debug")))
     {
       this.assertPositiveInteger(firstRow);
       this.assertPositiveInteger(firstColumn);

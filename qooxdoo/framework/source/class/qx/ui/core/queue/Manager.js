@@ -171,16 +171,16 @@ qx.Class.define("qx.ui.core.queue.Manager",
      * @param callback {Function} the callback function
      * @param finallyCode {Function} function to be called in the finally block
      */
-    __executeAndRescheduleOnError : qx.core.Variant.select("qx.debug",
+    __executeAndRescheduleOnError : qx.core.Environment.select("qx.debug",
     {
-      "on" : function(callback, finallyCode)
+      "true" : function(callback, finallyCode)
       {
         callback();
         finallyCode();
       },
 
 
-      "off" : function(callback, finallyCode)
+      "false" : function(callback, finallyCode)
       {
         var self = qx.ui.core.queue.Manager;
 
@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
         }
         catch (e)
         {
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
+          if ((qx.core.Environment.get("qx.debug"))) {
             qx.log.Logger.error(
               "Error while layout flush: " + e + "\n" +
               "Stack trace: \n" +

@@ -230,7 +230,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      */
     abort : function()
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebug")) {
           this.warn("Aborting...");
@@ -250,7 +250,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      */
     timeout : function()
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebug")) {
           this.warn("Timeout...");
@@ -270,7 +270,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      */
     failed : function()
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebug")) {
           this.warn("Failed...");
@@ -457,7 +457,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      */
     _applyState : function(value, old)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebug")) {
           this.debug("State: " + value);

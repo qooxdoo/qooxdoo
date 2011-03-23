@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
     {
       var element = new qx.html.Decorator(decorator, id);
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         element.setAttribute("qxType", "decorator");
       }
 
@@ -132,9 +132,9 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
     },
 
 
-    toString : qx.core.Variant.select("qx.debug",
+    toString : qx.core.Environment.select("qx.debug",
     {
-      "on" : function()
+      "true" : function()
       {
         var keys = 0;
         var elements = 0;
@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
         ].join("");
       },
 
-      "off" : function() {
+      "false" : function() {
         return this.base(arguments);
       }
     })

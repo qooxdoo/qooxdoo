@@ -159,13 +159,13 @@ qx.Class.define("qx.ui.layout.Abstract",
      * @param name {Object} Name of the layout property
      * @param value {Object} Value of the layout property
      */
-    verifyLayoutProperty : qx.core.Variant.select("qx.debug",
+    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
     {
-      "on" : function(item, name, value) {
+      "true" : function(item, name, value) {
         // empty implementation
       },
 
-      "off" : null
+      "false" : null
     }),
 
 

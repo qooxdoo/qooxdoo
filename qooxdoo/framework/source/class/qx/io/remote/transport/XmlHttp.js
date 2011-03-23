@@ -335,7 +335,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       //   Sending data
       // --------------------------------------
       try {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
+        if ((qx.core.Environment.get("qx.debug")))
         {
           if (qx.core.Environment.get("qx.ioRemoteDebugData"))
           {
@@ -425,7 +425,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         case "aborted":
         case "failed":
         case "timeout":
-          if (qx.core.Variant.isSet("qx.debug", "on"))
+          if ((qx.core.Environment.get("qx.debug")))
           {
             if (qx.core.Environment.get("qx.ioRemoteDebug")) {
               this.warn("Ignore Ready State Change");
@@ -762,7 +762,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       var state = this.getState();
       if (state !== "completed" && state != "failed")
       {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
+        if ((qx.core.Environment.get("qx.debug")))
         {
           if (qx.core.Environment.get("qx.ioRemoteDebug")) {
             this.warn("Transfer not complete or failed, ignoring content!");
@@ -772,7 +772,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         return null;
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebug")) {
           this.debug("Returning content for responseType: " + this.getResponseType());
@@ -783,7 +783,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       if (state == "failed")
       {
-          if (qx.core.Variant.isSet("qx.debug", "on"))
+          if ((qx.core.Environment.get("qx.debug")))
           {
             if (qx.core.Environment.get("qx.ioRemoteDebugData"))
             {
@@ -798,7 +798,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       {
         case "text/plain":
         case "text/html":
-          if (qx.core.Variant.isSet("qx.debug", "on"))
+          if ((qx.core.Environment.get("qx.debug")))
           {
             if (qx.core.Environment.get("qx.ioRemoteDebugData"))
             {
@@ -809,7 +809,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           return vText;
 
         case "application/json":
-          if (qx.core.Variant.isSet("qx.debug", "on"))
+          if ((qx.core.Environment.get("qx.debug")))
           {
             if (qx.core.Environment.get("qx.ioRemoteDebugData"))
             {
@@ -841,7 +841,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           }
 
         case "text/javascript":
-          if (qx.core.Variant.isSet("qx.debug", "on"))
+          if ((qx.core.Environment.get("qx.debug")))
           {
             if (qx.core.Environment.get("qx.ioRemoteDebugData"))
             {
@@ -867,7 +867,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         case "application/xml":
           vText = this.getResponseXml();
 
-          if (qx.core.Variant.isSet("qx.debug", "on"))
+          if ((qx.core.Environment.get("qx.debug")))
           {
             if (qx.core.Environment.get("qx.ioRemoteDebugData"))
             {
@@ -902,7 +902,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      */
     _applyState : function(value, old)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebug")) {
           this.debug("State: " + value);

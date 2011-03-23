@@ -537,12 +537,12 @@ qx.Class.define("qx.io.remote.Request",
      *
      * @param e {qx.event.type.Event} The original event
      */
-    __forwardEvent : function(e) 
+    __forwardEvent : qx.event.GlobalError.observeMethod(function(e)
     {
       var clonedEvent = e.clone();
       clonedEvent.setTarget(this);
       this.dispatchEvent(clonedEvent);
-    },
+    }),
 
 
 
@@ -695,7 +695,7 @@ qx.Class.define("qx.io.remote.Request",
     // property apply
     _applyState : function(value, old)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if ((qx.core.Environment.get("qx.debug")))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebug")) {
           this.debug("State: " + value);

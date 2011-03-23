@@ -396,7 +396,7 @@ qx.Class.define("qx.ui.form.TextArea",
 
     // property apply
     _applyAutoSize: function(value, old) {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         this.__warnAutoSizeAndHeight();
       }
 
@@ -422,7 +422,7 @@ qx.Class.define("qx.ui.form.TextArea",
     _applyDimension : function(value) {
       this.base(arguments);
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         this.__warnAutoSizeAndHeight();
       }
 

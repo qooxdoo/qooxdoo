@@ -60,7 +60,7 @@ qx.Class.define("qx.fx.effect.core.Property",
   {
     if(qxProperty)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         this.assertString(qxProperty);
       }
       this.__qxProperty = qxProperty;
@@ -70,7 +70,7 @@ qx.Class.define("qx.fx.effect.core.Property",
 
     if (func)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         this.assertFunction(func);
       }
       this.__func = func;

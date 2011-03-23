@@ -100,7 +100,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
     {
       "mshtml" : function(value)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
+        if ((qx.core.Environment.get("qx.debug")))
         {
           qx.log.Logger.warn(this, "This client do not support the dynamic modification of the box-sizing property.");
           qx.log.Logger.trace();
@@ -177,7 +177,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
     {
       "mshtml" : function(element, value)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
+        if ((qx.core.Environment.get("qx.debug"))) {
           qx.log.Logger.warn(this, "This client do not support the dynamic modification of the box-sizing property.");
         }
       },

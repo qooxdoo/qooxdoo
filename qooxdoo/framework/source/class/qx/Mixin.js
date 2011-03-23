@@ -89,7 +89,7 @@ qx.Bootstrap.define("qx.Mixin",
         }
 
         // Validate incoming data
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
+        if ((qx.core.Environment.get("qx.debug"))) {
           this.__validateConfig(name, config);
         }
 
@@ -323,9 +323,9 @@ qx.Bootstrap.define("qx.Mixin",
 
 
     /** {Map} allowed keys in mixin definition */
-    __allowedKeys : qx.core.Variant.select("qx.debug",
+    __allowedKeys : qx.core.Environment.select("qx.debug",
     {
-      "on":
+      "true":
       {
         "include"    : "object",   // Mixin | Mixin[]
         "statics"    : "object",   // Map
@@ -347,9 +347,9 @@ qx.Bootstrap.define("qx.Mixin",
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      */
-    __validateConfig : qx.core.Variant.select("qx.debug",
+    __validateConfig : qx.core.Environment.select("qx.debug",
     {
-      "on": function(name, config)
+      "true": function(name, config)
       {
         // Validate keys
         var allowed = this.__allowedKeys;

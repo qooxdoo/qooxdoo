@@ -868,7 +868,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       targetProperty, options, arrayIndex)
     {
       // checks
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         // check for the data event
         var eventType = qx.Class.getEventType(
           sourceObject.constructor, sourceEvent
@@ -1152,7 +1152,7 @@ qx.Class.define("qx.data.SingleValueBinding",
     removeAllBindingsForObject : function(object) {
       // check for the null value
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if ((qx.core.Environment.get("qx.debug"))) {
         qx.core.Assert.assertNotNull(object,
           "Can not remove the bindings for null object!");
       }
