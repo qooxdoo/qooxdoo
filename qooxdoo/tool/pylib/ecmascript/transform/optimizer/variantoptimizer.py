@@ -55,19 +55,22 @@ def search(node, variantMap, fileId="", verb=False):
     global file
     verbose = verb
     file = fileId
-    variants = findVariantNodes(node)
     modified = False
-    for variant in variants:
-        variantMethod = selectNode(variant, "identifier[4]/@name")
+
+    #if fileId == "qx.core.Environment":
+    #    modified = processEnvironmentClass(node, variantMap)
+
+    variantNodes = findVariantNodes(node)
+    for variantNode in variantNodes:
+        variantMethod = selectNode(variantNode, "identifier[4]/@name")
         if variantMethod in ["select", "selectAsync"]:
-            modified = processVariantSelect(selectNode(variant, "../.."), variantMap) or modified
+            modified = processVariantSelect(selectNode(variantNode, "../.."), variantMap) or modified
         elif variantMethod == "isSet":
-            modified = processVariantIsSet(selectNode(variant, "../.."), variantMap) or modified
+            modified = processVariantIsSet(selectNode(variantNode, "../.."), variantMap) or modified
         elif variantMethod == "compilerIsSet":
-            modified = processVariantIsSet(selectNode(variant, "../.."), variantMap) or modified
-        elif variantMethod == "get":
-            modified = processVariantGet(selectNode(variant, "../.."), variantMap) or modified
-            pass
+            modified = processVariantIsSet(selectNode(variantNode, "../.."), variantMap) or modified
+        elif variantMethod in ["get", "getAsync"]:
+            modified = processVariantGet(selectNode(variantNode, "../.."), variantMap) or modified
 
     return modified
 
@@ -304,6 +307,67 @@ def processVariantGet(callNode, variantMap):
     return treeModified
 
 
+##
+# qx.core.Environment gets special treatment, as it uses a pseudo-method,
+# to indicate optimizable code
+#
+def processEnvironmentClass(node, variantMap):
+    
+    def myVariantNodes(node):
+        variantNodes = treeutil.findVariablePrefix(node, "this.useCheck")
+        for variantNode in variantNodes:
+            print variantNode.toXml()
+            if not variantNode.hasParentContext("call/operand"):
+                continue
+            else:
+                yield variantNode
+
+    treeModified = False
+
+    #TODO: use myVariantNodes()
+
+    # Simple sanity checks
+    params = callNode.getChild("params")
+    if len(params.children) != 1:
+        log("Warning", "Expecting exactly one argument for qx.core.Environment.get. Ignoring this occurrence.", params)
+        return treeModified
+
+    firstParam = params.getChildByPosition(0)
+    if not isStringLiteral(firstParam):
+        log("Warning", "First argument must be a string literal! Ignoring this occurrence.", firstParam)
+        return treeModified
+
+    variantKey = firstParam.get("value");
+    if not variantKey in variantMap.keys():
+        return treeModified
+    else:
+        variantValue = variantMap[variantKey]
+
+    # Processing
+    # are we in a if/loop condition expression, i.e. a "loop/expression/..." context?
+    conditionNode = None
+    loopType = None
+    node = callNode
+    while (node):
+        if node.type == "expression" and node.parent and node.parent.type == "loop":
+            conditionNode = node
+            break
+        node = node.parent
+
+    if not conditionNode:
+        return treeModified
+
+    # handle "if" statements
+    if conditionNode.parent.get("loopType") == "IF":
+        loopNode = conditionNode.parent
+        # get() call is only condition
+        if callNode.parent == conditionNode:
+            #TODO: variantValue is not interesting, only if variantKey is in variantMap (!?)
+            treeutil.inlineIfStatement(loopNode, bool(variantValue)) # take the truth val of the key value
+            treeModified = True
+
+    return treeModified
+
 
 def __variantMatchKey(key, variantMap, variantKey):
     for keyPart in key.split("|"):
@@ -358,14 +422,13 @@ def getSelectParams(callNode):
 # @return {Iter<Node>} node generator
 #
 def findVariantNodes(node):
-    callNodes = set([])
     variantNodes = treeutil.findVariablePrefix(node, "qx.core.Variant")
     variantNodes.extend(treeutil.findVariablePrefix(node, "qx.core.Environment"))
     for variantNode in variantNodes:
         if not variantNode.hasParentContext("call/operand"):
             continue
         variantMethod = treeutil.selectNode(variantNode, "identifier[4]/@name")
-        if variantMethod not in ["select", "selectAsync", "isSet", "compilerIsSet", "get"]:
+        if variantMethod not in ["select", "selectAsync", "isSet", "compilerIsSet", "get", "getAsync"]:
             continue
         else:
             yield variantNode
