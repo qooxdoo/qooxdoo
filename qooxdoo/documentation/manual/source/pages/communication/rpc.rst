@@ -7,12 +7,12 @@ RPC (Remote Procedure Call)
 
 The qooxdoo RPC is based on `JSON-RPC <http://json-rpc.org/>`_ as the serialization and method call protocol, and qooxdoo provides server backends for Java, PHP, and Perl projects. A Python backend library is also provided by a third party. All parameters and return values are automatically converted between JavaScript and the server-side language.
 
-.. _pages/rpc#json_rpc_protocol
+.. _pages/rpc#json_rpc_protocol:
 
 JSON-RPC Protocol
 =================
 
-According to Wikipedia, `JSON-RPC <http://en.wikipedia.org/wiki/JSON-RPC>`_ "is a very simple protocol (and very similar to XML-RPC), defining only a handful of data types and commands. In contrast to XML-RPC or SOAP, it allows for bidirectional communication between the service and the client, treating each more like peers and allowing peers to call one another or send notifications to one another. It also allows multiple calls to be sent to a peer which may be answered out of order." The current servers do not yet support bi-directional communication.
+According to `JSON-RPC (Wikipedia) <http://en.wikipedia.org/wiki/JSON-RPC>`_ "[JSON-RPC] is a very simple protocol (and very similar to XML-RPC), defining only a handful of data types and commands. In contrast to XML-RPC or SOAP, it allows for bidirectional communication between the service and the client, treating each more like peers and allowing peers to call one another or send notifications to one another. It also allows multiple calls to be sent to a peer which may be answered out of order." The current servers do not yet support bi-directional communication.
 
 .. _pages/rpc#setup:
 
@@ -260,37 +260,37 @@ There is one instance of a service class per session. To get access to the curre
 
 The environment provides access to the current request (via ``getRequest``) and the RpcServlet instance that is handling the current call (via ``getRpcServlet``).
 
-.. _pages/rpc#debugging_backends
+.. _pages/rpc#debugging_backends:
 
 Debugging Backends
 ==================
 
 In order to debug your service methods on the backend independently of the client application, use the `RpcConsole <http://qooxdoo.org/contrib/project#rpcconsole>`_ contribution.
 
-.. _pages/rpc#creating_mockup_data
+.. _pages/rpc#creating_mockup_data:
 
 Creating mockup data
 ====================
 
-The RpcConsole also contains a mixin class for qx.io.remote.Rpc which allows to prepare code relying on a json-rpc backend to work with static mockup data independently of the server. This allows to develop client and server independently and to create static demos. For more information, see the documentation of the `rpcconsole <http://qooxdoo.org/contrib/project/rpcconsole`_ contribution.
+The RpcConsole also contains a mixin class for qx.io.remote.Rpc which allows to prepare code relying on a json-rpc backend to work with static mockup data independently of the server. This allows to develop client and server independently and to create static demos. For more information, see the documentation of the `RpcConsole (project) <http://qooxdoo.org/contrib/project/rpcconsole>`_ contribution.
 
-.. _pages/rpc#advanced_java_topics:
+.. _pages/rpc#qooxdoo_json_rpc_specification:
 
 qooxdoo JSON-RPC specification
 ===============================
 
 In order to qualify as a qooxdoo json-rpc backend, a server must comply with the qooxdoo JSON-RPC server specifications. See the  :doc:`rpc_server_writer_guide` for more details.
 
-.. _pages/rpc#adding_to_the_standard
+.. _pages/rpc#adding_to_the_standard:
 
 Adding to the standard
 ----------------------
 
 If you think that the standard is missing a feature that should be implemented in all backends, please add it as a `bug <http://bugzilla.qooxdoo.org/enter_bug.cgi?product=contrib&component=RpcExample>`_, marking it as a "core feature request". 
 
-.. _pages/rpc#extending_the_standard
+.. _pages/rpc#extending_the_standard:
 
 Extending the standard
 ----------------------
 
-If a server *extends* the standard with a certain optional behavior, please add a detailed description to it on the :doc:`JSON-RPC Extensions page <jsonrpc_extensions>`, with information which server implements this behavior. please also add a `bug <http://bugzilla.qooxdoo.org/enter_bug.cgi?product=contrib&component=RpcExample>`_, marked as a "extension" so that other server maintainers can discuss the pros and cons of adding the extension to their own servers. 
+If a server *extends* the standard with a certain optional behavior, please add a detailed description to it on the `JSON-RPC Extensions page <http://qooxdoo.org/documentation/general/rpc/jsonrpc_extensions>`_, with information which server implements this behavior. Please also add a `bug <http://bugzilla.qooxdoo.org/enter_bug.cgi?product=contrib&component=RpcExample>`_, marked as a "extension" so that other server maintainers can discuss the pros and cons of adding the extension to their own servers. 
