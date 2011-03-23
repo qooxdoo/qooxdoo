@@ -165,7 +165,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Adds an attribute mapping entry. This entry is used by the {@link #_setAttribute}
+     * Adds an attribute mapping entry. This entry is used by the {@link #_applyAttribute}
      * method. Shortcut when the property name differs from the real
      * attribute name. Use this method if you want to add an attribute entry to the mapping
      * from the defer function of a different widget.
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Adds a style mapping entry. This entry is used by the {@link #_setStyle}
+     * Adds a style mapping entry. This entry is used by the {@link #_applyStyle}
      * method. Shortcut when the property name differs from the real
      * style name. Use this method if you want to add a style entry to the mapping
      * from the defer function of a different widget.
@@ -906,10 +906,15 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     */
 
     /**
-     * Shortcut for each property that should change a certain attribute.
+     * Shortcut for each property that should change a certain attribute of the
+     * container element.
      * Use the {@see #addAttributeMapping} method to add a property to attribute
      * mapping when the attribute name or value differs from the property name or
      * value.
+     * 
+     * @param value {var} The set value
+     * @param old {var} The old value
+     * @param attribute {String} The property name
      */
     _applyAttribute : function(value, old, attribute)
     {
@@ -917,6 +922,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * Sets an attribute with the given value of the container element.
+     * 
+     * @param attribute {String} The attribute name.
+     * @param value {var} The attribute value. Null will reset the attribute.
+     */
     _setAttribute : function(attribute, value)
     {
       var mapping = qx.ui.mobile.core.Widget.ATTRIBUTE_MAPPING[attribute]
@@ -939,8 +950,9 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     *
-     * @param attribute {String}
+     * Returns the set value of an given attribute.
+     * 
+     * @param attribute {String} The attribute name
      */
     _getAttribute : function(attribute)
     {
@@ -957,7 +969,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Shortcut for each property that should change a certain style.
+     * Shortcut for each property that should change a certain style of the container
+     * element.
      * Use the {@see #addStyleMapping} method to add a property to style
      * mapping when the style name or value differs from the property name or
      * value.
