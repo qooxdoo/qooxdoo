@@ -427,7 +427,7 @@ qx.Class.define("qx.test.util.Serializer",
      * **************************** */
 
     __setUpDateModel : function() {
-      var formater = new qx.util.format.DateFormat("YYYY-mm-dd", "en");
+      var formater = new qx.util.format.DateFormat("yyyy-mm-dd", "en");
       var date1 = new Date(0);
       var date2 = new Date(100000);
       var date3 = new Date(25168418651);
