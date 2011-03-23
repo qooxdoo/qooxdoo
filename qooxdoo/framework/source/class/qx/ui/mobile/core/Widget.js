@@ -165,7 +165,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Adds an attribute mapping entry. This entry is used by the {@link #_applyAttribute}
+     * Adds an attribute mapping entry. This entry is used by the {@link #_setAttribute}
      * method. Shortcut when the property name differs from the real
      * attribute name. Use this method if you want to add an attribute entry to the mapping
      * from the defer function of a different widget.
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Adds an style mapping entry. This entry is used by the {@link #_applyStyle}
+     * Adds a style mapping entry. This entry is used by the {@link #_setStyle}
      * method. Shortcut when the property name differs from the real
      * style name. Use this method if you want to add a style entry to the mapping
      * from the defer function of a different widget.
@@ -905,6 +905,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Shortcut for each property that should change a certain attribute.
+     * Use the {@see #addAttributeMapping} method to add a property to attribute
+     * mapping when the attribute name or value differs from the property name or
+     * value.
+     */
     _applyAttribute : function(value, old, attribute)
     {
       this._setAttribute(attribute, value);
@@ -949,6 +955,13 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+
+    /**
+     * Shortcut for each property that should change a certain style.
+     * Use the {@see #addStyleMapping} method to add a property to style
+     * mapping when the style name or value differs from the property name or
+     * value.
+     */
     _applyStyle : function(value, old, style)
     {
       this._setStyle(style, value);
