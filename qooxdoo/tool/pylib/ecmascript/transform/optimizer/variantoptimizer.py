@@ -139,6 +139,10 @@ def processVariantSelect(callNode, variantMap):
                     or (key == "on" and variantValue == True)
                     # @deprecated
                     or (key == "off" and variantValue == False)
+                    # @deprecated
+                    or (key == "true" and variantValue == "on")
+                    # @deprecated
+                    or (key == "false" and variantValue == "off")
                     ):
                     callNode.parent.replaceChild(callNode, mapvalue)
                     found = True

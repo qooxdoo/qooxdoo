@@ -452,7 +452,8 @@ class CodeGenerator(object):
         globalCodes                = {}
         globalCodes["Settings"]    = settings
         globalCodes["Variants"]    = self.generateVariantsCode(variants)
-        globalCodes["EnvSettings"] = dict(j for i in (globalCodes["Settings"], globalCodes["Variants"]) for j in i.iteritems())  # variants currently contain script.envsettings
+        #globalCodes["EnvSettings"] = dict(j for i in (globalCodes["Settings"], globalCodes["Variants"]) for j in i.iteritems())  # variants currently contain script.envsettings
+        globalCodes["EnvSettings"] = compConf.get("environment", {})
         globalCodes["Libinfo"]     = self.generateLibInfoCode(libs, format, resourceUri, scriptUri)
         # add synthetic output lib
         if scriptUri: out_sourceUri= scriptUri
