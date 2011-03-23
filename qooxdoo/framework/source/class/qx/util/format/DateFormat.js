@@ -804,6 +804,7 @@ qx.Class.define("qx.util.format.DateFormat",
       var timezoneSign = timezoneOffset > 0 ? 1 : -1;
       var timezoneHours = Math.floor(Math.abs(timezoneOffset) / 60);
       var timezoneMinutes = Math.abs(timezoneOffset) % 60;
+      var timezoneName = (''+date).replace(/^[^\(]+/,'').replace('(','').replace(')','');
 
       // Create the output
       this.__initFormatTree();
@@ -853,7 +854,7 @@ qx.Class.define("qx.util.format.DateFormat",
               break;
 
             case 'w': // Week in year (e.g. 27)
-              replacement = this.__fillNumber(this.__getWeekInYear(date), wildcardSize);
+              replacement = this.__getWeekInYear(date);
               break;
 
             case 'E': // Day in week
@@ -936,21 +937,25 @@ qx.Class.define("qx.util.format.DateFormat",
               break;
 
             case 'z': // Time zone
-              if (wildcardSize == 1)
+              if (wildcardSize >= 1 && wildcardSize <= 3)
               {
-                replacement =
+                replacement = timezoneName;
+                if(!replacement || replacement.length<1)
+                {
+                  replacement =
                   "GMT" +
                   ((timezoneSign > 0) ? "-" : "+") +
                   this.__fillNumber(Math.abs(timezoneHours)) +
                   ":" + this.__fillNumber(timezoneMinutes, 2);
+                }
               }
-              else if (wildcardSize == 2)
+              else if (wildcardSize == 4)
               {
-                replacement = DateFormat.MEDIUM_TIMEZONE_NAMES[timezoneHours];
-              }
-              else if (wildcardSize == 3)
-              {
+                var key = timezoneHours;
+                if(!timezoneName || timezoneName.length<1) {
+                var key = 
                 replacement = DateFormat.FULL_TIMEZONE_NAMES[timezoneHours];
+              }
               }
 
               break;

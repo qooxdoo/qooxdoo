@@ -294,17 +294,21 @@ qx.Class.define("qx.test.util.DateFormat",
       var date = new Date(2011,0,26);
 
       df = new qx.util.format.DateFormat("w");
-      this.assertEquals("5", df.format(date));
+      this.assertEquals("4", df.format(date));
       df.dispose();
       df = new qx.util.format.DateFormat("ww");
-      this.assertEquals("5", df.format(date));
+      this.assertEquals("4", df.format(date));
       df.dispose();
 
       date = new Date(2011,0,1);
       df = new qx.util.format.DateFormat("ww");
-      this.assertEquals("1", df.format(date));
+      this.assertEquals("52", df.format(date));
       df.dispose();
       date = new Date(2011,0,3);
+      df = new qx.util.format.DateFormat("ww");
+      this.assertEquals("1", df.format(date));
+      df.dispose();
+      date = new Date(2011,0,10);
       df = new qx.util.format.DateFormat("ww");
       this.assertEquals("2", df.format(date));
       df.dispose();
@@ -516,8 +520,9 @@ qx.Class.define("qx.test.util.DateFormat",
     testPattern_z_ : function(){
       var df;
       var date = new Date();
-      var localTimeZone = (''+date).replace(/^[^\(]+/,'').replace('(','').replace(')',''); // to be replaced with the one found on the machine
 
+      var localTimeZone = (''+date).replace(/^[^\(]+/,'').replace('(','').replace(')','');
+      
       df = new qx.util.format.DateFormat("z");
       this.assertEquals(localTimeZone, df.format(date));
       df.dispose();
