@@ -297,7 +297,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * @param element {Element} DOM element which represents the image
      * @return {Integer} Image width
      */
-    __getWidth : qx.core.Variant.select("qx.client",
+    __getWidth : qx.core.Environment.select("engine.name",
     {
       "gecko" : function(element) {
         return element.naturalWidth;
@@ -315,7 +315,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * @param element {Element} DOM element which represents the image
      * @return {Integer} Image height
      */
-    __getHeight : qx.core.Variant.select("qx.client",
+    __getHeight : qx.core.Environment.select("engine.name",
     {
       "gecko" : function(element) {
         return element.naturalHeight;

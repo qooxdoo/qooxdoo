@@ -257,7 +257,7 @@ qx.Class.define("qx.bom.Input",
      * @param element {Element} DOM element to modify
      * @param wrap {Boolean} Whether to turn text wrap on or off.
      */
-    setWrap : qx.core.Variant.select("qx.client",
+    setWrap : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(element, wrap) {
         var wrapValue = wrap ? "soft" : "off";

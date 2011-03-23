@@ -40,7 +40,7 @@ qx.Class.define("qx.bom.Selection",
      * @param documentNode {Object} The document node
      * @return {Selection} native selection object
      */
-    getSelectionObject : qx.core.Variant.select("qx.client",
+    getSelectionObject : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(documentNode) {
         return documentNode.selection;
@@ -60,7 +60,7 @@ qx.Class.define("qx.bom.Selection",
      * @param node {Node} node to retrieve the selection for
      * @return {String?null) selected text as string
      */
-    get : qx.core.Variant.select("qx.client",
+    get : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(node)
       {
@@ -90,7 +90,7 @@ qx.Class.define("qx.bom.Selection",
      * @param node {node} Form node or document/window to check.
      * @return {Integer|null} length of the selection or null
      */
-    getLength : qx.core.Variant.select("qx.client",
+    getLength : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(node)
       {
@@ -151,7 +151,7 @@ qx.Class.define("qx.bom.Selection",
      * @return {Integer} start of current selection or "-1" if the current
      *                   selection is not within the given node
      */
-    getStart : qx.core.Variant.select("qx.client",
+    getStart : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(node)
       {
@@ -254,7 +254,7 @@ qx.Class.define("qx.bom.Selection",
      * @param node {Node} node to check
      * @return {Integer} end of current selection
      */
-    getEnd : qx.core.Variant.select("qx.client",
+    getEnd : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(node)
       {
@@ -377,7 +377,7 @@ qx.Class.define("qx.bom.Selection",
      * @param end {Integer} end of the selection
      * @return {Boolean} whether a selection is drawn
      */
-    set : qx.core.Variant.select("qx.client",
+    set : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(node, start, end)
       {
@@ -583,7 +583,7 @@ qx.Class.define("qx.bom.Selection",
      * @param node {Node} node to clear the selection for
      * @return {void}
      */
-    clear : qx.core.Variant.select("qx.client",
+    clear : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(node)
       {

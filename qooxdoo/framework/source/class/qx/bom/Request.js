@@ -562,7 +562,7 @@ qx.Class.define("qx.bom.Request",
      * @return {Object} native XMLHttpRequest object (IE uses ActiveX as default if enabled)
      * @signature function()
      */
-    __createNative : qx.core.Variant.select("qx.client",
+    __createNative : qx.core.Environment.select("engine.name",
     {
       "default" : function() {
         return new XMLHttpRequest;

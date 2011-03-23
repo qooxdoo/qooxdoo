@@ -120,7 +120,7 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * {Map} See: http://msdn.microsoft.com/en-us/library/ms534654(VS.85).aspx
      */
-    FOCUSABLE_ELEMENTS : qx.core.Variant.select("qx.client",
+    FOCUSABLE_ELEMENTS : qx.core.Environment.select("engine.name",
     {
       "mshtml|gecko" :
       {
@@ -355,7 +355,7 @@ qx.Class.define("qx.event.handler.Focus",
      *
      * @signature function()
      */
-    _initObserver : qx.core.Variant.select("qx.client",
+    _initObserver : qx.core.Environment.select("engine.name",
     {
       "gecko" : function()
       {
@@ -458,7 +458,7 @@ qx.Class.define("qx.event.handler.Focus",
      *
      * @signature function()
      */
-    _stopObserver : qx.core.Variant.select("qx.client",
+    _stopObserver : qx.core.Environment.select("engine.name",
     {
       "gecko" : function()
       {
@@ -517,7 +517,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @signature function(domEvent)
      * @param domEvent {Event} Native event
      */
-    __onNativeDragGesture : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
+    __onNativeDragGesture : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
       "gecko" : function(domEvent)
       {
@@ -537,7 +537,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @signature function(domEvent)
      * @param domEvent {Event} Native event
      */
-    __onNativeFocusIn : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
+    __onNativeFocusIn : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(domEvent)
       {
@@ -601,7 +601,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @signature function(domEvent)
      * @param domEvent {Event} Native event
      */
-    __onNativeFocusOut : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
+    __onNativeFocusOut : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(domEvent)
       {
@@ -669,7 +669,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @signature function(domEvent)
      * @param domEvent {Event} Native event
      */
-    __onNativeBlur : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
+    __onNativeBlur : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
       "gecko" : function(domEvent)
       {
@@ -710,7 +710,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @signature function(domEvent)
      * @param domEvent {Event} Native event
      */
-    __onNativeFocus : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
+    __onNativeFocus : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
       "gecko" : function(domEvent)
       {
@@ -763,7 +763,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @signature function(domEvent)
      * @param domEvent {Event} Native event
      */
-    __onNativeMouseDown : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
+    __onNativeMouseDown : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
       "gecko" : function(domEvent)
       {
@@ -910,7 +910,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @signature function(domEvent)
      * @param domEvent {Event} Native event
      */
-    __onNativeMouseUp : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
+    __onNativeMouseUp : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(domEvent)
       {
@@ -954,7 +954,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @param target {Element} target element from mouse up event
      * @return {Element} Element to activate;
      */
-    __fixFocus : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
+    __fixFocus : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
       "mshtml|webkit" : function(target)
       {
@@ -979,7 +979,7 @@ qx.Class.define("qx.event.handler.Focus",
      *@signature function(domEvent)
      * @param domEvent {Event} Native event
      */
-    __onNativeSelectStart : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
+    __onNativeSelectStart : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
       "mshtml|webkit" : function(domEvent)
       {

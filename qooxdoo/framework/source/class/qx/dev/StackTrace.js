@@ -41,7 +41,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      *     represents one call in the stack trace.
      * @signature function()
      */
-    getStackTrace : qx.core.Variant.select("qx.client",
+    getStackTrace : qx.core.Environment.select("engine.name",
     {
       "gecko" : function()
       {
@@ -130,7 +130,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      *     Each line in the array represents one call in the stack trace.
      * @signature function(args)
      */
-    getStackTraceFromCaller : qx.core.Variant.select("qx.client",
+    getStackTraceFromCaller : qx.core.Environment.select("engine.name",
     {
       "opera" : function(args)
       {
@@ -190,7 +190,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      *     represents one call in the stack trace.
      * @signature function(error)
      */
-    getStackTraceFromError : qx.core.Variant.select("qx.client",
+    getStackTraceFromError : qx.core.Environment.select("engine.name",
     {
       "gecko" : function(error)
       {

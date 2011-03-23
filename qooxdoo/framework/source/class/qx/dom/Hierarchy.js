@@ -152,7 +152,7 @@ qx.Class.define("qx.dom.Hierarchy",
      * @param target {Node} Child node
      * @return {Boolean}
      */
-    contains : qx.core.Variant.select("qx.client",
+    contains : qx.core.Environment.select("engine.name",
     {
       "webkit|mshtml|opera" : function(element, target)
       {
@@ -201,7 +201,7 @@ qx.Class.define("qx.dom.Hierarchy",
      * @return {Boolean} <code>true</code> when the element is inserted
      *    into the document.
      */
-    isRendered : qx.core.Variant.select("qx.client",
+    isRendered : qx.core.Environment.select("engine.name",
     {
       // This module is highly used by new qx.html.Element
       // Copied over details from qx.dom.Node.getDocument() and
@@ -264,7 +264,7 @@ qx.Class.define("qx.dom.Hierarchy",
      * @param element2 {Element} Second element
      * @return {Element} the found parent, if none was found <code>null</code>
      */
-    getCommonParent : qx.core.Variant.select("qx.client",
+    getCommonParent : qx.core.Environment.select("engine.name",
     {
       "mshtml|opera" : function(element1, element2)
       {

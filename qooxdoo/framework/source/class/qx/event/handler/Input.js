@@ -211,7 +211,7 @@ qx.Class.define("qx.event.handler.Input",
     },
 
 
-    __registerInputListener : qx.core.Variant.select("qx.client",
+    __registerInputListener : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(target)
       {
@@ -312,7 +312,7 @@ qx.Class.define("qx.event.handler.Input",
     },
 
 
-    __unregisterInputListener : qx.core.Variant.select("qx.client",
+    __unregisterInputListener : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(target)
       {
@@ -369,7 +369,7 @@ qx.Class.define("qx.event.handler.Input",
      * @param e {Event} DOM event object
      * @param target {Element} The event target
      */
-    _onKeyPress : qx.core.Variant.select("qx.client",
+    _onKeyPress : qx.core.Environment.select("engine.name",
     {
       "mshtml|opera" : function(e, target)
       {
@@ -397,7 +397,7 @@ qx.Class.define("qx.event.handler.Input",
      * @signature function(e)
      * @param e {Event} DOM event object
      */
-    _onKeyDown : qx.core.Variant.select("qx.client",
+    _onKeyDown : qx.core.Environment.select("engine.name",
     {
       "opera" : function(e)
       {
@@ -418,7 +418,7 @@ qx.Class.define("qx.event.handler.Input",
      * @signature function(e)
      * @param e {Event} DOM event object
      */
-    _onKeyUp : qx.core.Variant.select("qx.client",
+    _onKeyUp : qx.core.Environment.select("engine.name",
     {
       "opera" : function(e)
       {
@@ -438,7 +438,7 @@ qx.Class.define("qx.event.handler.Input",
      * @signature function(e)
      * @param e {Event} DOM event object
      */
-    _onBlur : qx.core.Variant.select("qx.client",
+    _onBlur : qx.core.Environment.select("engine.name",
     {
       "opera" : function(e)
       {
@@ -538,7 +538,7 @@ qx.Class.define("qx.event.handler.Input",
      * @signature function(e)
      * @param e {Event} Native DOM event
      */
-    _onProperty : qx.core.Variant.select("qx.client",
+    _onProperty : qx.core.Environment.select("engine.name",
     {
       "mshtml" : qx.event.GlobalError.observeMethod(function(e)
       {

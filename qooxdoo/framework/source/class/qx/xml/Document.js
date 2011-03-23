@@ -75,7 +75,7 @@ qx.Class.define("qx.xml.Document",
      * @param qualifiedName {String ? null} The qualified name of the document element to be created or null.
      * @return {Document} empty XML object
      */
-    create : qx.core.Variant.select("qx.client",
+    create : qx.core.Environment.select("engine.name",
     {
       "mshtml": function(namespaceUri, qualifiedName)
       {
@@ -116,7 +116,7 @@ qx.Class.define("qx.xml.Document",
      * @return {Document} XML document with given content
      * @signature function(str)
      */
-    fromString : qx.core.Variant.select("qx.client",
+    fromString : qx.core.Environment.select("engine.name",
     {
       "mshtml": function(str)
       {

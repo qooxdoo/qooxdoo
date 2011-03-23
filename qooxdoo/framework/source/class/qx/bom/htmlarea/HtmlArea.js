@@ -887,7 +887,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
           doctype : '<!' + 'DOCTYPE html PUBLIC "-/' + '/W3C/' + '/DTD XHTML 1.0 Transitional/' + '/EN" "http:/' + '/www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
           html : '<html xmlns="http:/' + '/www.w3.org/1999/xhtml" xml:lang="en" lang="en">',
           meta: '<title></title><meta http-equiv="Content-type" content="text/html; charset=UTF-8" />',
-          style : qx.core.Variant.select("qx.client",
+          style : qx.core.Environment.select("engine.name",
           {
             "mshtml" : 'html { margin:0px; padding:0px; } ' +
                        'body { font-size: 100.01%; font-family:Verdana, Geneva, Arial, Helvetica, sans-serif; width:100%; height:100%; background-color:transparent; overflow:auto; background-image:none; margin:0px; padding:5px; } ',
@@ -1389,7 +1389,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * be useful (especially for Gecko) whenever the HtmlArea was hidden and
      * gets visible again.
      */
-    forceEditable : qx.core.Variant.select("qx.client",
+    forceEditable : qx.core.Environment.select("engine.name",
     {
       "gecko" : function()
       {
@@ -1432,7 +1432,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *
      * @signature function()
      */
-    invalidateEditor : qx.core.Variant.select("qx.client",
+    invalidateEditor : qx.core.Environment.select("engine.name",
     {
       "gecko" : function()
       {
@@ -1455,7 +1455,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *
      * @signature function()
      */
-    __resetEditorToValidState : qx.core.Variant.select("qx.client",
+    __resetEditorToValidState : qx.core.Environment.select("engine.name",
     {
       "gecko" : function()
       {
@@ -1921,7 +1921,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @param e {Object} Event object
      * @return {void}
      */
-    _handleKeyDown : qx.core.Variant.select("qx.client",
+    _handleKeyDown : qx.core.Environment.select("engine.name",
     {
       "mshtml|webkit" : function(e)
       {
@@ -2418,7 +2418,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @signature function(e)
      * @return {void}
      */
-    _handleMouseUpOnDocument : qx.core.Variant.select("qx.client", {
+    _handleMouseUpOnDocument : qx.core.Environment.select("engine.name", {
       "mshtml" : qx.lang.Function.empty,
 
       "default" : function(e)
@@ -2865,7 +2865,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *
      * @return {Boolean} True, if area is empty - otherwise false.
      */
-    containsOnlyPlaceholder : qx.core.Variant.select("qx.client",
+    containsOnlyPlaceholder : qx.core.Environment.select("engine.name",
     {
 
       "mshtml" : function()
@@ -2907,7 +2907,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *
      * @signature function()
      */
-    focusContent : qx.core.Variant.select("qx.client",
+    focusContent : qx.core.Environment.select("engine.name",
     {
       "gecko" : function()
       {
@@ -2970,7 +2970,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *
      * @signature function()
      */
-    __isContentAvailable : qx.core.Variant.select("qx.client",
+    __isContentAvailable : qx.core.Environment.select("engine.name",
     {
       "gecko" : function()
       {
@@ -3028,7 +3028,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *
      * @signature function()
      */
-    __resetToDefaultContentAndSelect : qx.core.Variant.select("qx.client",
+    __resetToDefaultContentAndSelect : qx.core.Environment.select("engine.name",
     {
       "gecko|webkit" : function()
       {
@@ -3250,7 +3250,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *
      * @return {Selection} Selection object
     */
-    getSelection : qx.core.Variant.select("qx.client",
+    getSelection : qx.core.Environment.select("engine.name",
     {
        "mshtml" : function() {
          return this._getIframeDocument() ? this._getIframeDocument().selection : null;
@@ -3267,7 +3267,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *
      * @return {Boolean} collapsed status of selection
      */
-    isSelectionCollapsed : qx.core.Variant.select("qx.client",
+    isSelectionCollapsed : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function() {
         return this.getSelection() && this.getSelection().type == "None";
@@ -3284,7 +3284,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *
      * @return {String} Selected plain text.
      */
-    getSelectedText : qx.core.Variant.select("qx.client",
+    getSelectedText : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function() {
         return this.getRange() ? this.getRange().text : "";
@@ -3327,7 +3327,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @signature function(range)
      * @return {String} range contents
      */
-    __getRangeContents : qx.core.Variant.select("qx.client",
+    __getRangeContents : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(range)
       {
@@ -3371,7 +3371,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      *
      * @return {void}
      */
-    clearSelection : qx.core.Variant.select("qx.client",
+    clearSelection : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function()
       {
@@ -3400,7 +3400,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @signature function()
      * @return {Boolean} within word boundary
      */
-    __isSelectionWithinWordBoundary : qx.core.Variant.select("qx.client", {
+    __isSelectionWithinWordBoundary : qx.core.Environment.select("engine.name", {
       "gecko" : function()
       {
         var sel = this.getSelection();
@@ -3427,7 +3427,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @signature function()
      * @return {Boolean} selection focus node
      */
-    __isFocusNodeAnElement : qx.core.Variant.select("qx.client", {
+    __isFocusNodeAnElement : qx.core.Environment.select("engine.name", {
       "gecko" : function() {
         return qx.dom.Node.isElement(this.getFocusNode());
       },
@@ -3462,7 +3462,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @signature function(sel)
      * @return {Range?null} Range object or null if the document is not available
      */
-    __createRange : qx.core.Variant.select("qx.client",
+    __createRange : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(sel)
       {
@@ -3509,7 +3509,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @signature function()
      * @return {void}
      */
-    saveRange : qx.core.Variant.select("qx.client", {
+    saveRange : qx.core.Environment.select("engine.name", {
       "mshtml" : function() {
         this.__savedRange = this.getRange();
       },
@@ -3524,7 +3524,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @signature function()
      * @return {Range|null} range object or null
      */
-    getSavedRange : qx.core.Variant.select("qx.client", {
+    getSavedRange : qx.core.Environment.select("engine.name", {
       "mshtml" : function() {
         return this.__savedRange;
       },
@@ -3539,7 +3539,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @signature function()
      * @return {void}
      */
-    resetSavedRange : qx.core.Variant.select("qx.client", {
+    resetSavedRange : qx.core.Environment.select("engine.name", {
       "mshtml" : function() {
         this.__savedRange = null;
       },
@@ -3559,7 +3559,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
      * @signature function()
      * @return {Element?null} Focus node or null if no range is available
      */
-    getFocusNode : qx.core.Variant.select("qx.client",
+    getFocusNode : qx.core.Environment.select("engine.name",
     {
        "mshtml" : function()
        {

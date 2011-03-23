@@ -1451,7 +1451,7 @@ qx.Class.define("qx.html.Element",
      * @signature function(value)
      * @param value {Boolean} True, if the element should be selectable.
      */
-    setSelectable : qx.core.Variant.select("qx.client",
+    setSelectable : qx.core.Environment.select("engine.name",
     {
       "webkit" : function(value)
       {

@@ -106,7 +106,7 @@ qx.Class.define("qx.bom.Iframe",
      * @return {Document} The DOM document object of the iframe.
      * @signature function(iframe)
      */
-    getDocument : qx.core.Variant.select("qx.client",
+    getDocument : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(iframe)
       {

@@ -364,7 +364,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      * @signature function(domEvent)
      * @param domEvent {Event} DOM event object
      */
-    __onKeyUpDown : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
+    __onKeyUpDown : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(domEvent)
       {
@@ -486,7 +486,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      * @param type {String} The event type
      * @param keyCode {Integer} the key code
      */
-    __firefoxInputFix : qx.core.Variant.select("qx.client",
+    __firefoxInputFix : qx.core.Environment.select("engine.name",
     {
       "gecko" : function(target, type, keyCode)
       {
@@ -529,7 +529,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      * @signature function(domEvent)
      * @param domEvent {Event} DOM event object
      */
-    __onKeyPress : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
+    __onKeyPress : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(domEvent)
       {
@@ -688,7 +688,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      *
      * @lint ignoreReferenceField(_emulateKeyPress)
      */
-    _emulateKeyPress : qx.core.Variant.select("qx.client",
+    _emulateKeyPress : qx.core.Environment.select("engine.name",
     {
       "mshtml" : {
         8: true,

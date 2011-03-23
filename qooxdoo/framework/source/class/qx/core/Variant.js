@@ -262,7 +262,7 @@ qx.Bootstrap.define("qx.core.Variant",
      * Example:
      *
      * <pre class='javascript'>
-     * var f = qx.core.Variant.select("qx.client", {
+     * var f = qx.core.Environment.select("engine.name", {
      *   "gecko": function() { ... },
      *   "mshtml|opera": function() { ... },
      *   "default": function() { ... }

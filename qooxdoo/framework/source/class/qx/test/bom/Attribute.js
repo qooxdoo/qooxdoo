@@ -129,7 +129,7 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._input, "maxLength", 10);
       Attribute.set(this._input, "maxLength", null);
 
-      var maxLengthValue = qx.core.Variant.select("qx.client", {
+      var maxLengthValue = qx.core.Environment.select("engine.name", {
                             "mshtml": 2147483647,
                             "webkit": 524288,
                             "default": -1

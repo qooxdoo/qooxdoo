@@ -175,7 +175,7 @@ qx.Class.define("qx.bom.element.Attribute",
         textContent : "",
         htmlFor : "",
         tabIndex : 0,
-        maxLength: qx.core.Variant.select("qx.client", {
+        maxLength: qx.core.Environment.select("engine.name", {
           "mshtml" : 2147483647,
           "webkit": 524288,
           "default": -1
@@ -237,7 +237,7 @@ qx.Class.define("qx.bom.element.Attribute",
      * @return {var} The value of the attribute
      * @signature function(element, name)
      */
-    get : qx.core.Variant.select("qx.client",
+    get : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(element, name)
       {

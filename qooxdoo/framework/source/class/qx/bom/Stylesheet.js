@@ -69,7 +69,7 @@ qx.Class.define("qx.bom.Stylesheet",
      * @return {Stylesheet} the generates stylesheet element
      * @signature function(text)
      */
-    createElement : qx.core.Variant.select("qx.client",
+    createElement : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(text)
       {
@@ -106,7 +106,7 @@ qx.Class.define("qx.bom.Stylesheet",
      * @return {void}
      * @signature function(sheet, selector, entry)
      */
-    addRule : qx.core.Variant.select("qx.client",
+    addRule : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(sheet, selector, entry) {
         sheet.addRule(selector, entry);
@@ -126,7 +126,7 @@ qx.Class.define("qx.bom.Stylesheet",
      * @return {void}
      * @signature function(sheet, selector)
      */
-    removeRule : qx.core.Variant.select("qx.client",
+    removeRule : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(sheet, selector)
       {
@@ -163,7 +163,7 @@ qx.Class.define("qx.bom.Stylesheet",
      * @return {void}
      * @signature function(sheet)
      */
-    removeAllRules : qx.core.Variant.select("qx.client",
+    removeAllRules : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(sheet)
       {
@@ -195,7 +195,7 @@ qx.Class.define("qx.bom.Stylesheet",
      * @return {void}
      * @signature function(sheet, url)
      */
-    addImport : qx.core.Variant.select("qx.client",
+    addImport : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(sheet, url) {
         sheet.addImport(url);
@@ -215,7 +215,7 @@ qx.Class.define("qx.bom.Stylesheet",
      * @return {void}
      * @signature function(sheet, url)
      */
-    removeImport : qx.core.Variant.select("qx.client",
+    removeImport : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(sheet, url)
       {
@@ -252,7 +252,7 @@ qx.Class.define("qx.bom.Stylesheet",
      * @return {void}
      * @signature function(sheet)
      */
-    removeAllImports : qx.core.Variant.select("qx.client",
+    removeAllImports : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(sheet)
       {

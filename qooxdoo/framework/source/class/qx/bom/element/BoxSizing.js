@@ -36,7 +36,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
   statics :
   {
     /** {Map} Internal helper structure to return the valid box-sizing style property names */
-    __styleProperties : qx.core.Variant.select("qx.client",
+    __styleProperties : qx.core.Environment.select("engine.name",
     {
       "mshtml" : null,
       "webkit" : ["boxSizing", "KhtmlBoxSizing", "WebkitBoxSizing"],
@@ -46,7 +46,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
 
 
     /** {Map} Internal helper structure to return the valid box-sizing CSS property names */
-    __cssProperties : qx.core.Variant.select("qx.client",
+    __cssProperties : qx.core.Environment.select("engine.name",
     {
       "mshtml" : null,
       "webkit" : ["box-sizing", "-khtml-box-sizing", "-webkit-box-sizing"],
@@ -96,7 +96,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
      * @param value {String} Valid CSS box-sizing value
      * @return {String} CSS string
      */
-    compile : qx.core.Variant.select("qx.client",
+    compile : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(value)
       {
@@ -131,7 +131,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
      * @param element {Element} The element to query
      * @return {String} Box sizing value of the given element.
      */
-    get : qx.core.Variant.select("qx.client",
+    get : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(element)
       {
@@ -173,7 +173,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
      * @param value {String} New box sizing value to set
      * @return {void}
      */
-    set : qx.core.Variant.select("qx.client",
+    set : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(element, value)
       {

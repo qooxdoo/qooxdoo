@@ -172,7 +172,7 @@ qx.Class.define("qx.bom.Flash",
      * @return {void}
      * @signature function(element, win)
      */
-    destroy : qx.core.Variant.select("qx.client",
+    destroy : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(element, win)
       {
@@ -229,7 +229,7 @@ qx.Class.define("qx.bom.Flash",
      * @signature function(element)
      * @param element {Element} Flash object element to destroy.
      */
-    __destroyObjectInIE : qx.core.Variant.select("qx.client",
+    __destroyObjectInIE : qx.core.Environment.select("engine.name",
     {
       "mshtml" : qx.event.GlobalError.observeMethod(function(element)
       {
@@ -276,7 +276,7 @@ qx.Class.define("qx.bom.Flash",
      * @param win {Window} Window to create the element for.
      * @signature function(element, attributes, params, win)
      */
-    __createSwf : qx.core.Variant.select("qx.client",
+    __createSwf : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(element, attributes, params, win)
       {

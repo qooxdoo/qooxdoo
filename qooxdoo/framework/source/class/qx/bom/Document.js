@@ -79,7 +79,7 @@ qx.Class.define("qx.bom.Document",
      * @param win {Window?window} The window to query
      * @return {Boolean} true when containing document is in quirks mode
      */
-    isQuirksMode : qx.core.Variant.select("qx.client",
+    isQuirksMode : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(win)
       {

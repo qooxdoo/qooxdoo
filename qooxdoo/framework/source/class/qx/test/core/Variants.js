@@ -39,7 +39,7 @@ qx.Class.define("qx.test.core.Variants",
 
         members :
         {
-          getName : qx.core.Variant.select("qx.client",
+          getName : qx.core.Environment.select("engine.name",
           {
             "default" : function() {
               return "unknown browser";
@@ -94,7 +94,7 @@ qx.Class.define("qx.test.core.Variants",
 
         members :
         {
-          getName : qx.core.Variant.select("qx.client",
+          getName : qx.core.Environment.select("engine.name",
           {
             "default" : function() {
               return "unknown browser";
@@ -128,7 +128,7 @@ qx.Class.define("qx.test.core.Variants",
 
         members :
         {
-          getName : qx.core.Variant.select("qx.client",
+          getName : qx.core.Environment.select("engine.name",
           {
             "default" : function() {
               return "default browser";

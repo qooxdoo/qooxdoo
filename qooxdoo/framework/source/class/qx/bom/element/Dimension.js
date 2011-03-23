@@ -47,7 +47,7 @@ qx.Class.define("qx.bom.element.Dimension",
      * @param element {Element} element to query
      * @return {Integer} width of the element
      */
-    getWidth : qx.core.Variant.select("qx.client",
+    getWidth : qx.core.Environment.select("engine.name",
     {
       "gecko" : function(element)
       {
@@ -84,7 +84,7 @@ qx.Class.define("qx.bom.element.Dimension",
      * @param element {Element} element to query
      * @return {Integer} height of the element
      */
-    getHeight : qx.core.Variant.select("qx.client",
+    getHeight : qx.core.Environment.select("engine.name",
     {
       "gecko" : function(element)
       {

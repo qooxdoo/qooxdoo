@@ -388,7 +388,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       * @signature function()
       * @return {Range} native range object
       */
-     __getTargetRange : qx.core.Variant.select("qx.client", {
+     __getTargetRange : qx.core.Environment.select("engine.name", {
       "mshtml" : function()
       {
         var editor = this.__editorInstance;
@@ -411,7 +411,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       * @param commandObject {Object} command information
       * @return {Boolean} Success of the operation
       */
-     __insertHtml : qx.core.Variant.select("qx.client",
+     __insertHtml : qx.core.Environment.select("engine.name",
      {
        "mshtml" : function(value, commandObject)
        {
@@ -466,7 +466,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       * @signature function()
       * @return {Boolean} whether the key event should be stopped or not
       */
-     insertParagraphOnLinebreak : qx.core.Variant.select("qx.client",
+     insertParagraphOnLinebreak : qx.core.Environment.select("engine.name",
      {
        "gecko" : function()
        {
@@ -565,7 +565,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
         * @param currentStylesGrouped {Map} Data structure with current styles
         * @return {String} Style attributes for paragraph element
         */
-      __generateParagraphStyle : qx.core.Variant.select("qx.client",
+      __generateParagraphStyle : qx.core.Environment.select("engine.name",
       {
         "gecko" : function(currentStylesGrouped)
         {
@@ -634,7 +634,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
        * @return {void}
        * @signature function()
        */
-      __hideSuperfluousParagraph : qx.core.Variant.select("qx.client",
+      __hideSuperfluousParagraph : qx.core.Environment.select("engine.name",
       {
         "gecko" : function()
         {
@@ -695,7 +695,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       *
       * @return {Boolean} Returns true if an br element is inserted
       */
-     __insertBrOnLinebreak : qx.core.Variant.select("qx.client",
+     __insertBrOnLinebreak : qx.core.Environment.select("engine.name",
      {
        "mshtml" : function()
        {
@@ -818,7 +818,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      * @param commandObject {Object} command object
      * @return {Boolean} Success of operation
      */
-     __insertImage : qx.core.Variant.select("qx.client", {
+     __insertImage : qx.core.Environment.select("engine.name", {
        "gecko" : function(attributes, commandObject)
        {
          // Only insert an image if the src attribute info is available
@@ -1059,7 +1059,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       * @param commandObject {Object} command object
       * @return {Boolean} result
       */
-     __insertHyperLink : qx.core.Variant.select("qx.client",
+     __insertHyperLink : qx.core.Environment.select("engine.name",
      {
        "gecko|opera" : function(url, commandObject)
        {
@@ -1737,7 +1737,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       * @param commandObject {Object} command infos
       * @return {Boolean} success of operation
       */
-     __setTextBackgroundColor : qx.core.Variant.select("qx.client", {
+     __setTextBackgroundColor : qx.core.Environment.select("engine.name", {
        "mshtml" : function(value, commandObject)
        {
          // Body element must have focus before executing command
@@ -1940,7 +1940,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       *
       * @return {Boolean} Success of operation
       */
-     __selectAll : qx.core.Variant.select("qx.client", {
+     __selectAll : qx.core.Environment.select("engine.name", {
        "mshtml" : function(value, commandObject)
        {
          var rng = this.__doc.body.createTextRange();
@@ -2032,7 +2032,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      *
      * @signature function(value, commandObject)
      */
-    __setBold : qx.core.Variant.select("qx.client",
+    __setBold : qx.core.Environment.select("engine.name",
     {
       "gecko" : function(value, commandObject)
       {
@@ -2061,7 +2061,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      *
      * @signature function(value, commandObject)
      */
-    __setItalic : qx.core.Variant.select("qx.client",
+    __setItalic : qx.core.Environment.select("engine.name",
     {
       "gecko" : function(value, commandObject)
       {
@@ -2093,7 +2093,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       * @return {Boolean} Success of operation
       * @signature function(value, commandObject)
       */
-     __setUnderline  : qx.core.Variant.select("qx.client",
+     __setUnderline  : qx.core.Environment.select("engine.name",
      {
        "gecko" : function(value, commandObject)
        {
@@ -2168,7 +2168,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       *
       * @signature function(value, commandObject)
       */
-     __setStrikeThrough  : qx.core.Variant.select("qx.client",
+     __setStrikeThrough  : qx.core.Environment.select("engine.name",
      {
        "gecko" : function(value, commandObject)
        {

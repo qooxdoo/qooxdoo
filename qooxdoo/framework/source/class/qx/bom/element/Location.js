@@ -139,7 +139,7 @@ qx.Class.define("qx.bom.element.Location",
      * @param elem {Element} DOM element to query
      * @return {Map} Map which contains the <code>left</code> and <code>top</code> offsets
      */
-    __computeBody : qx.core.Variant.select("qx.client",
+    __computeBody : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(elem)
       {
@@ -253,7 +253,7 @@ qx.Class.define("qx.bom.element.Location",
      * @param elem {Element} DOM element to query
      * @return {Map} Map which contains the <code>left</code> and <code>top</code> offsets
      */
-    __computeOffset : qx.core.Variant.select("qx.client",
+    __computeOffset : qx.core.Environment.select("engine.name",
     {
       "mshtml|webkit" : function(elem)
       {
@@ -494,7 +494,7 @@ qx.Class.define("qx.bom.element.Location",
      * Get the location of the body element relative to the document.
      * @param body {Element} The body element.
      */
-    __getBodyLocation : qx.core.Variant.select("qx.client",
+    __getBodyLocation : qx.core.Environment.select("engine.name",
     {
       "default" : function(body)
       {

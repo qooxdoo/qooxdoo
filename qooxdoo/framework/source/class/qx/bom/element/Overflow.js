@@ -68,7 +68,7 @@ qx.Class.define("qx.bom.element.Overflow",
         );
       };
 
-      var getInsetRight = qx.core.Variant.select("qx.client",
+      var getInsetRight = qx.core.Environment.select("engine.name",
       {
         "mshtml" : function(el)
         {
@@ -130,7 +130,7 @@ qx.Class.define("qx.bom.element.Overflow",
      * @param value {String} Overflow value for the given axis
      * @return {String} CSS string
      */
-    _compile : qx.core.Variant.select("qx.client",
+    _compile : qx.core.Environment.select("engine.name",
     {
       // gecko support differs
       "gecko" : parseFloat(qx.core.Environment.get("engine.version")) < 1.8 ?
@@ -218,7 +218,7 @@ qx.Class.define("qx.bom.element.Overflow",
      *   The computed mode is the default one.
      * @return {String} computed overflow value
      */
-    getX : qx.core.Variant.select("qx.client",
+    getX : qx.core.Environment.select("engine.name",
     {
       // gecko support differs
       "gecko" : parseFloat(qx.core.Environment.get("engine.version")) < 1.8 ?
@@ -270,7 +270,7 @@ qx.Class.define("qx.bom.element.Overflow",
      * @param value {String} Any of "visible", "scroll", "hidden", "auto" or ""
      * @return {void}
      */
-    setX : qx.core.Variant.select("qx.client",
+    setX : qx.core.Environment.select("engine.name",
     {
       // gecko support differs
       "gecko" : parseFloat(qx.core.Environment.get("engine.version")) < 1.8 ?
@@ -319,7 +319,7 @@ qx.Class.define("qx.bom.element.Overflow",
      * @param element {Element} DOM element to modify
      * @return {void}
      */
-    resetX : qx.core.Variant.select("qx.client",
+    resetX : qx.core.Environment.select("engine.name",
     {
       "gecko" : parseFloat(qx.core.Environment.get("engine.version")) < 1.8 ?
 
@@ -362,7 +362,7 @@ qx.Class.define("qx.bom.element.Overflow",
      *   The computed mode is the default one.
      * @return {String} computed overflow value
      */
-    getY : qx.core.Variant.select("qx.client",
+    getY : qx.core.Environment.select("engine.name",
     {
       // gecko support differs
       "gecko" : parseFloat(qx.core.Environment.get("engine.version")) < 1.8 ?
@@ -414,7 +414,7 @@ qx.Class.define("qx.bom.element.Overflow",
      * @param value {String} Any of "visible", "scroll", "hidden", "auto" or ""
      * @return {void}
      */
-    setY : qx.core.Variant.select("qx.client",
+    setY : qx.core.Environment.select("engine.name",
     {
       // gecko support differs
       "gecko" : parseFloat(qx.core.Environment.get("engine.version")) < 1.8 ?
@@ -465,7 +465,7 @@ qx.Class.define("qx.bom.element.Overflow",
      * @param element {Element} DOM element to modify
      * @return {void}
      */
-    resetY : qx.core.Variant.select("qx.client",
+    resetY : qx.core.Environment.select("engine.name",
     {
       "gecko" : parseFloat(qx.core.Environment.get("engine.version")) < 1.8 ?
 

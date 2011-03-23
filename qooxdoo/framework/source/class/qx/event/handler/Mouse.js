@@ -439,7 +439,7 @@ qx.Class.define("qx.event.handler.Mouse",
      *
      * @signature function(domEvent, type, target)
      */
-    __rightClickFixPre : qx.core.Variant.select("qx.client",
+    __rightClickFixPre : qx.core.Environment.select("engine.name",
     {
       "webkit" : function(domEvent, type, target)
       {
@@ -473,7 +473,7 @@ qx.Class.define("qx.event.handler.Mouse",
      *
      * @signature function(domEvent, type, target)
      */
-    __rightClickFixPost : qx.core.Variant.select("qx.client",
+    __rightClickFixPost : qx.core.Environment.select("engine.name",
     {
       "opera" : function(domEvent, type, target)
       {
@@ -507,7 +507,7 @@ qx.Class.define("qx.event.handler.Mouse",
      *
      * @signature function(domEvent, type, target)
      */
-    __doubleClickFixPre : qx.core.Variant.select("qx.client",
+    __doubleClickFixPre : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(domEvent, type, target)
       {
@@ -541,7 +541,7 @@ qx.Class.define("qx.event.handler.Mouse",
      *
      * @signature function(domEvent, type, target)
      */
-    __differentTargetClickFixPost : qx.core.Variant.select("qx.client",
+    __differentTargetClickFixPost : qx.core.Environment.select("engine.name",
     {
       "mshtml" : null,
 

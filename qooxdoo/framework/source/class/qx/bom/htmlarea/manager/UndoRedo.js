@@ -322,7 +322,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
       * @param undoInfo {Object} Undo info object
       * @return {Boolean}
       */
-    __undoCustom : qx.core.Variant.select("qx.client", {
+    __undoCustom : qx.core.Environment.select("engine.name", {
       "mshtml|webkit" : function(undoInfo)
       {
         var currentContent = this.__doc.body.innerHTML;
@@ -393,7 +393,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * @return {Boolean}
      * @signature function(undoInfo)
      */
-    __undoCommand : qx.core.Variant.select("qx.client", {
+    __undoCommand : qx.core.Environment.select("engine.name", {
       "mshtml|webkit" : function(undoInfo) {},
 
       "default" : function(undoInfo)
@@ -476,7 +476,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * @return {Boolean}
      * @signature function(undoInfo)
      */
-    __undoContent : qx.core.Variant.select("qx.client", {
+    __undoContent : qx.core.Environment.select("engine.name", {
       "gecko" : function(undoInfo)
       {
         this.__addToRedoStack(undoInfo);
@@ -605,7 +605,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * @return {Boolean}
      * @signature function(redoInfo)
      */
-    __redoCustom : qx.core.Variant.select("qx.client", {
+    __redoCustom : qx.core.Environment.select("engine.name", {
       "mshtml|webkit" : function(redoInfo)
       {
         var currentContent = this.__doc.body.innerHTML;
@@ -636,7 +636,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * @return {Boolean}
      * @signature function(redoInfo)
      */
-    __redoCommand : qx.core.Variant.select("qx.client", {
+    __redoCommand : qx.core.Environment.select("engine.name", {
       "mshtml|webkit" : function(redoInfo) {},
 
       "default" : function(redoInfo)
@@ -749,7 +749,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      *
      * @return {void}
      */
-    __correctCaretPositionAfterRedo : qx.core.Variant.select("qx.client", {
+    __correctCaretPositionAfterRedo : qx.core.Environment.select("engine.name", {
       "gecko" : function(currentParagraph)
       {
         if (currentParagraph == this.__editorInstance.getContentBody().lastChild) {
@@ -797,7 +797,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * @return {Boolean}
      * @signature function(redoInfo)
      */
-    __redoContent : qx.core.Variant.select("qx.client", {
+    __redoContent : qx.core.Environment.select("engine.name", {
       "mshtml|webkit" : function(redoInfo) {},
 
       "default" : function(redoInfo)
@@ -872,7 +872,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * @param commandObject {Object} internal commandObject
      * @return {void}
      */
-    __collectUndoInfo : qx.core.Variant.select("qx.client", {
+    __collectUndoInfo : qx.core.Environment.select("engine.name", {
       "mshtml|webkit" : function(command, value, commandObject)
       {
         var undoObject = this.getUndoRedoObject();
@@ -1157,7 +1157,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * @param e {DOM event} mouse event instance
      * @return {void}
      */
-    _handleMouseDown : qx.core.Variant.select("qx.client", {
+    _handleMouseDown : qx.core.Environment.select("engine.name", {
       "mshtml" : function(e)
       {
         var checkNode = e.getOriginalTarget();
@@ -1186,7 +1186,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      * @param e {DOM event} mouse event instance
      * @return {void}
      */
-    _handleMouseUp : qx.core.Variant.select("qx.client",
+    _handleMouseUp : qx.core.Environment.select("engine.name",
     {
       "gecko" : function(e)
       {
@@ -1309,7 +1309,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
      *
      * @return {void}
      */
-    __addInternalUndoStep : qx.core.Variant.select("qx.client", {
+    __addInternalUndoStep : qx.core.Environment.select("engine.name", {
       "mshtml|webkit" : function() {
         this.__collectUndoInfo("Internal", null, null);
       },

@@ -114,7 +114,7 @@ qx.Class.define("qx.bom.client.Multimedia",
      * @return {void}
      * @signature function()
      */
-    __init : qx.core.Variant.select("qx.client",
+    __init : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function()
       {

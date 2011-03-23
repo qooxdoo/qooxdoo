@@ -384,7 +384,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @param source {String} source of the image
      * @return {void}
      */
-    __checkForContentElementSwitch : qx.core.Variant.select("qx.client",
+    __checkForContentElementSwitch : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(source)
       {

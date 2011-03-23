@@ -63,7 +63,7 @@ qx.Class.define("qx.bom.element.Decoration",
 
 
     /** {Map} List of repeat modes which supports the IE AlphaImageLoader */
-    __alphaFixRepeats : qx.core.Variant.select("qx.client",
+    __alphaFixRepeats : qx.core.Environment.select("engine.name",
     {
       "mshtml" :
       {
@@ -615,7 +615,7 @@ qx.Class.define("qx.bom.element.Decoration",
      * @signature function()
      * @return {Boolean} <code>true</code> when the AlphaImageLoader is used, <code>false</code> otherwise.
      */
-    isAlphaImageLoaderEnabled : qx.core.Variant.select("qx.client",
+    isAlphaImageLoaderEnabled : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function() {
         return qx.bom.element.Decoration.__enableAlphaFix;

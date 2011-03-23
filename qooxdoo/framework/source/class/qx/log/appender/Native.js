@@ -53,7 +53,7 @@ qx.Class.define("qx.log.appender.Native",
      * @param entry {Map} The entry to process
      * @return {void}
      */
-    process : qx.core.Variant.select("qx.client",
+    process : qx.core.Environment.select("engine.name",
     {
       "gecko" : function(entry)
       {

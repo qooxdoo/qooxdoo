@@ -275,7 +275,7 @@ qx.Class.define("qx.bom.Event",
      * @param type {String} Type of the event e.g. click, mousedown
      * @return {Boolean} Whether the given event is supported
      */
-    supportsEvent : qx.core.Variant.select("qx.client",
+    supportsEvent : qx.core.Environment.select("engine.name",
     {
       "webkit" : function(target, type) {
         return target.hasOwnProperty("on" + type);

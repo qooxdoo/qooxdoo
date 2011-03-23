@@ -182,7 +182,7 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
      * @signature function(e)
      * @param e {Event} Native event object
      */
-    __onevent : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
+    __onevent : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(e)
       {

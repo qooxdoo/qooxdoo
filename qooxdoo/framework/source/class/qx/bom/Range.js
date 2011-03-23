@@ -39,7 +39,7 @@ qx.Class.define("qx.bom.Range",
      * @param node {Node} node to get the range of
      * @return {Range} valid range of given selection
      */
-    get : qx.core.Variant.select("qx.client",
+    get : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(node)
       {

@@ -69,7 +69,7 @@ qx.Class.define("qx.bom.Html",
       tr : [ 2, "<table><tbody>", "</tbody></table>" ],
       td : [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ],
       col : [ 2, "<table><tbody></tbody><colgroup>", "</colgroup></table>" ],
-      def : qx.core.Variant.select("qx.client",
+      def : qx.core.Environment.select("engine.name",
       {
         "mshtml" : [ 1, "div<div>", "</div>" ],
         "default" : null

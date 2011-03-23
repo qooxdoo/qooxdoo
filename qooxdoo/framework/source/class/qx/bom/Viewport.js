@@ -113,7 +113,7 @@ qx.Class.define("qx.bom.Viewport",
      * @param win {Window?window} The window to query
      * @return {Integer} The width of the viewable area of the page (excludes scrollbars).
      */
-    getWidth : qx.core.Variant.select("qx.client",
+    getWidth : qx.core.Environment.select("engine.name",
     {
       "opera" : function(win) {
         if (parseFloat(qx.core.Environment.get("engine.version")) < 9.5) {
@@ -174,7 +174,7 @@ qx.Class.define("qx.bom.Viewport",
      * @param win {Window?window} The window to query
      * @return {Integer} The Height of the viewable area of the page (excludes scrollbars).
      */
-    getHeight : qx.core.Variant.select("qx.client",
+    getHeight : qx.core.Environment.select("engine.name",
     {
       "opera" : function(win) {
         if (parseFloat(qx.core.Environment.get("engine.version")) < 9.5) {
@@ -226,7 +226,7 @@ qx.Class.define("qx.bom.Viewport",
      * @param win {Window?window} The window to query
      * @return {Integer} Scroll position from left edge, always a positive integer
      */
-    getScrollLeft : qx.core.Variant.select("qx.client",
+    getScrollLeft : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(win)
       {
@@ -261,7 +261,7 @@ qx.Class.define("qx.bom.Viewport",
      * @param win {Window?window} The window to query
      * @return {Integer} Scroll position from top edge, always a positive integer
      */
-    getScrollTop : qx.core.Variant.select("qx.client",
+    getScrollTop : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(win)
       {

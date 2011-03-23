@@ -119,7 +119,7 @@ qx.Class.define("qx.bom.element.Style",
 
       this.__styleNames = styleNames;
 
-      this.__styleNames["userModify"] = qx.core.Variant.select("qx.client", {
+      this.__styleNames["userModify"] = qx.core.Environment.select("engine.name", {
         "gecko" : "MozUserModify",
         "webkit" : "WebkitUserModify",
         "default" : "userSelect"
@@ -130,7 +130,7 @@ qx.Class.define("qx.bom.element.Style",
         this.__cssNames[key] = this.__hyphenate(styleNames[key]);
       }
 
-      this.__styleNames["float"] = qx.core.Variant.select("qx.client", {
+      this.__styleNames["float"] = qx.core.Environment.select("engine.name", {
         "mshtml" : "styleFloat",
         "default" : "cssFloat"
       });
@@ -258,7 +258,7 @@ qx.Class.define("qx.bom.element.Style",
      * @signature function(element, value)
      * @return {void}
      */
-    setCss : qx.core.Variant.select("qx.client",
+    setCss : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(element, value) {
         element.style.cssText = value;
@@ -277,7 +277,7 @@ qx.Class.define("qx.bom.element.Style",
      * @return {String} the full CSS string
      * @signature function(element)
      */
-    getCss : qx.core.Variant.select("qx.client",
+    getCss : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(element) {
         return element.style.cssText.toLowerCase();
@@ -470,7 +470,7 @@ qx.Class.define("qx.bom.element.Style",
      *    special implementations for some properties
      * @return {var} The value of the property
      */
-    get : qx.core.Variant.select("qx.client",
+    get : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(element, name, mode, smart)
       {

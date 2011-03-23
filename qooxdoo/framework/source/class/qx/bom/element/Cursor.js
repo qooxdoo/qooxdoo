@@ -32,7 +32,7 @@ qx.Class.define("qx.bom.element.Cursor",
   statics :
   {
     /** Internal helper structure to map cursor values to supported ones */
-    __map : qx.core.Variant.select("qx.client",
+    __map : qx.core.Environment.select("engine.name",
     {
       "mshtml" :
       {

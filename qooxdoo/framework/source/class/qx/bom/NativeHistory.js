@@ -100,7 +100,7 @@ qx.Class.define("qx.bom.NativeHistory",
      * @param state {String} state to save
      * @return {void}
      */
-    _writeState : qx.core.Variant.select("qx.client",
+    _writeState : qx.core.Environment.select("engine.name",
     {
       "opera" : function(state)
       {

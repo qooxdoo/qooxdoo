@@ -95,7 +95,7 @@ qx.Class.define("qx.event.handler.Transition",
     IGNORE_CAN_HANDLE : true,
 
     /** Mapping of supported event types to native event types */
-    TYPE_TO_NATIVE : qx.core.Variant.select("qx.client",
+    TYPE_TO_NATIVE : qx.core.Environment.select("engine.name",
     {
       "webkit" :
       {
@@ -117,7 +117,7 @@ qx.Class.define("qx.event.handler.Transition",
     }),
 
     /** Mapping of native event types to supported event types */
-    NATIVE_TO_TYPE : qx.core.Variant.select("qx.client",
+    NATIVE_TO_TYPE : qx.core.Environment.select("engine.name",
     {
       "webkit" :
       {
@@ -171,7 +171,7 @@ qx.Class.define("qx.event.handler.Transition",
     /**
      * @signature function(target, type, capture)
      */
-    registerEvent: qx.core.Variant.select("qx.client",
+    registerEvent: qx.core.Environment.select("engine.name",
     {
       "webkit|gecko" : function(target, type, capture)
       {
@@ -196,7 +196,7 @@ qx.Class.define("qx.event.handler.Transition",
     /**
      * @signature function(target, type, capture)
      */
-    unregisterEvent: qx.core.Variant.select("qx.client",
+    unregisterEvent: qx.core.Environment.select("engine.name",
     {
       "webkit|gecko" : function(target, type, capture)
       {

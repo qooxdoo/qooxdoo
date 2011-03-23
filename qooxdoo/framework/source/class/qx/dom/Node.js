@@ -97,7 +97,7 @@ qx.Class.define("qx.dom.Node",
      * @param node {Node|Document|Window} node to inspect
      * @return {Window} the <code>defaultView</code> of the given node
      */
-    getWindow : qx.core.Variant.select("qx.client",
+    getWindow : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(node)
       {

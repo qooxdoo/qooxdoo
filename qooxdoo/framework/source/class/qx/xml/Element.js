@@ -79,7 +79,7 @@ qx.Class.define("qx.xml.Element",
      * @return {Element} first matching element
      * @signature function(element, query, namespaces)
      */
-    selectSingleNode : qx.core.Variant.select("qx.client",
+    selectSingleNode : qx.core.Environment.select("engine.name",
     {
       "mshtml": function(element, query, namespaces) {
         if (namespaces) {
@@ -145,7 +145,7 @@ qx.Class.define("qx.xml.Element",
      * @return {Element[]} List of matching elements
      * @signature function(element, query, namespaces)
      */
-    selectNodes : qx.core.Variant.select("qx.client",
+    selectNodes : qx.core.Environment.select("engine.name",
     {
       "mshtml": function(element, query, namespaces) {
         if (namespaces) {
@@ -218,7 +218,7 @@ qx.Class.define("qx.xml.Element",
      * @return {Element[]} a list of found elements in the order they appear in the tree.
      * @signature function(element, namespaceURI, tagname)
      */
-    getElementsByTagNameNS : qx.core.Variant.select("qx.client",
+    getElementsByTagNameNS : qx.core.Environment.select("engine.name",
     {
       "mshtml": function(element, namespaceURI, tagname)
       {
@@ -262,7 +262,7 @@ qx.Class.define("qx.xml.Element",
      * @param value {String} Attribute value
      * @signature function(document, element, namespaceUri, name, value)
      */
-    setAttributeNS : qx.core.Variant.select("qx.client",
+    setAttributeNS : qx.core.Environment.select("engine.name",
     {
       "mshtml": function(document, element, namespaceUri, name, value) {
         var attr = document.createNode(2, name, namespaceUri);
@@ -284,7 +284,7 @@ qx.Class.define("qx.xml.Element",
      * @return {String} the value of the attribute, empty string if not found
      * @signature function(element, namespaceUri, name)
      */
-    getAttributeNS : qx.core.Variant.select("qx.client",
+    getAttributeNS : qx.core.Environment.select("engine.name",
     {
       "mshtml": function(element, namespaceUri, name) {
         var attributes = element.attributes;
@@ -320,7 +320,7 @@ qx.Class.define("qx.xml.Element",
      *
      * @return {Element} The newly created sub-element
      */
-    createSubElementNS: qx.core.Variant.select("qx.client",
+    createSubElementNS: qx.core.Environment.select("engine.name",
     {
       "mshtml" : function(document, parent, name, namespaceUri) {
         var node = document.createNode(1, name, namespaceUri);

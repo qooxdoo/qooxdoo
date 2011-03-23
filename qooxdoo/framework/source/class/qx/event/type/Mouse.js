@@ -147,7 +147,7 @@ qx.Class.define("qx.event.type.Mouse",
      * In all other browsers and IE, the method is null.
      * @signature function()
      */
-    __normalizeIEClick : qx.core.Variant.select("qx.client",
+    __normalizeIEClick : qx.core.Environment.select("engine.name",
     {
       "mshtml" : function() {
         return "left";
