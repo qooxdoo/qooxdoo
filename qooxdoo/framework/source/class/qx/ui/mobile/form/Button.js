@@ -25,6 +25,12 @@ qx.Class.define("qx.ui.mobile.form.Button",
   extend : qx.ui.mobile.core.Widget,
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(value)
   {
     this.base(arguments);
@@ -33,6 +39,14 @@ qx.Class.define("qx.ui.mobile.form.Button",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
   properties :
   {
@@ -43,7 +57,8 @@ qx.Class.define("qx.ui.mobile.form.Button",
     },
 
 
-    value : {
+    value :
+    {
       check : "String",
       nullable : true,
       init : null,
@@ -52,12 +67,18 @@ qx.Class.define("qx.ui.mobile.form.Button",
   },
 
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
-    _applyValue : function(value, old)
-    {
+    _applyValue : function(value, old) {
       this._setHtml(value);
     }
-
   }
 });
