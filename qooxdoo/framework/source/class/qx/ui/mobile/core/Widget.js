@@ -129,6 +129,10 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * 
+     * @internal
+     */
     scheduleDomUpdatedEvent : function()
     {
       if (qx.ui.mobile.core.Widget.__domUpdatedEventTimerId == null)
@@ -141,6 +145,10 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * 
+     * @internal
+     */
     fireDomUpdatedEvent : qx.event.GlobalError.observeMethod(function()
     {
       var clazz = qx.ui.mobile.core.Widget;
@@ -151,6 +159,27 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     }),
 
 
+    /**
+     * Adds an attribute mapping entry. Used by the {@link #_applyAttribute}
+     * method. Shortcut when the property name differs from the real
+     * attribute name.
+     * 
+     * e.g.:
+     * "selectable" :
+     * {
+     *   attribute : "data-selectable",
+     *   values :
+     *   {
+     *     "true" : null,
+     *     "false" : "false"
+     *   }
+     * }
+     * 
+     * @param property {String} The property name 
+     * @param attribute {String} The real attribute name
+     * @param values {Map} Values of the property to the real attribute value.
+     *      Use null, when you want not to set the attribute.
+     */
     addAttributeMapping : function(property, attribute, values)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -165,10 +194,14 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         attribute : attribute,
         values : values
       }
-      attribute;
     },
 
 
+    /**
+     * Mapping of attribute properties to their real attribute name.
+     * 
+     * @internal
+     */
     ATTRIBUTE_MAPPING :
     {
       "selectable" :
@@ -183,6 +216,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * Mapping of style properties to their real style name.
+     *  
+     * @internal
+     */
     STYLE_MAPPING :
     {
       "anonymous" :
