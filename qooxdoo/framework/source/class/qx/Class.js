@@ -143,7 +143,7 @@ qx.Bootstrap.define("qx.Class",
      *       <tr><th>settings</th><td>Map</td><td>Map of settings for this class. For a description of the format of a setting see
      *           {@link qx.core.Setting}. This is deprecated since 1.4.</td></tr>
      *       <tr><th>variants</th><td>Map</td><td>Map of settings for this class. For a description of the format of a setting see
-     *           {@link qx.core.Variant}</td></tr>
+     *           {@link qx.core.Variant} This is deprecated since 1.4.</td></tr>
      *       <tr><th>events</th><td>Map</td><td>
      *           Map of events the class fires. The keys are the names of the events and the values are the
      *           corresponding event type class names.
@@ -248,6 +248,10 @@ qx.Bootstrap.define("qx.Class",
       // Process variants
       if (config.variants)
       {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.Bootstrap.warn("The usage of variants in class '" + name +
+            "'is deprecated. Please use the 'environment' key instead");
+        }
         for (var key in config.variants) {
           qx.core.Variant.define(key, config.variants[key].allowedValues, config.variants[key].defaultValue);
         }
