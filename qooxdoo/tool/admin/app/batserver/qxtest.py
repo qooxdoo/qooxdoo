@@ -441,7 +441,10 @@ class QxTest:
       self.log("Updating Simulator checkout.")
       ret,out,err = invokePiped("svn up " + self.testConf["simulatorSvn"])
       if (out):
-        self.log(out)
+        try:
+          self.log(out)
+        except Exception, e:
+          print(repr(e))
       if (err):
         self.log(err)
 
