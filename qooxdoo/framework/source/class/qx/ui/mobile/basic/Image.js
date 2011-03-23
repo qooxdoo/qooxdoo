@@ -134,6 +134,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
         if(!ImageLoader.isFailed(source)) {
           ImageLoader.load(source, this.__loaderCallback, this);
         }
+        this._setSource(source);
       }
     },
 
@@ -154,7 +155,6 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       }
       else
       {
-        this._setSource(source);
         this.fireEvent("loaded");
       }
     },

@@ -153,6 +153,15 @@ qx.Class.define("qx.ui.mobile.list.List",
 
 
     /**
+     * Clears the list.
+     */
+    clear : function()
+    {
+      this._setHtml("");
+    },
+
+
+    /**
      * Renders the list.
      */
     __render : function()
