@@ -106,7 +106,7 @@ qx.Class.define("qx.test.mobile.core.Widget",
       this.getRoot().add(widget);
 
       var clazz =  qx.ui.mobile.core.Widget;
-      var id = clazz.ID_PREFIX + (clazz.__idCounter - 1);
+      var id = clazz.ID_PREFIX + (clazz.getCurrentId() - 1);
       var element = document.getElementById(id);
       this.assertElement(element);
 

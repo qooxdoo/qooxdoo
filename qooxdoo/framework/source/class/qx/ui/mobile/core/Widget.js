@@ -75,6 +75,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    getCurrentId : function()
+    {
+      return qx.ui.mobile.core.Widget.__idCounter
+    },
+
+
     /**
      * @param widget {Object}
      *
