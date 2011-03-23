@@ -43,9 +43,6 @@ qx.Class.define("qx.ui.popup.Popup",
   {
     this.base(arguments, layout);
 
-    // Automatically add to application's root
-    qx.core.Init.getApplication().getRoot().add(this);
-
     // Initialize visibiltiy
     this.initVisibility();
   },
@@ -105,6 +102,21 @@ qx.Class.define("qx.ui.popup.Popup",
       WIDGET API
     ---------------------------------------------------------------------------
     */
+
+
+    // overridden
+    show : function()
+    {
+      // Lazy adding to the root element, otherwise it could happen that
+      // IE scrolls automatically to top, see bug #3955 for details.
+      if (this.getLayoutParent() == null)
+      {
+        // Automatically add to application's root
+        qx.core.Init.getApplication().getRoot().add(this);
+      }
+      this.base(arguments);
+    },
+
 
     // overridden
     _applyVisibility : function(value, old)
