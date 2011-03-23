@@ -24,6 +24,13 @@ qx.Class.define("qx.ui.mobile.layout.HBox",
 {
   extend : qx.ui.mobile.layout.AbstractBox,
 
+
+ /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     getCssClass : function(){

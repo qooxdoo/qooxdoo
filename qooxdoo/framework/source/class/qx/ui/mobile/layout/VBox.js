@@ -24,6 +24,13 @@ qx.Class.define("qx.ui.mobile.layout.VBox",
 {
   extend : qx.ui.mobile.layout.AbstractBox,
 
+
+ /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     getCssClass : function(){
