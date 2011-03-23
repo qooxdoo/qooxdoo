@@ -26,20 +26,17 @@ qx.Class.define("qx.test.io.request.Xhr",
   members :
   {
     setUp : function() {
-      // Stub _createTransport in qx.io.request.Xhr
       var transport = new qx.bom.request.Xhr();
-      var stubCreateTransport = this.stub(qx.io.request.Xhr.prototype, "_createTransport").
+      this.stub(qx.io.request.Xhr.prototype, "_createTransport").
           returns(this.stub(transport));
       var req =  new qx.io.request.Xhr;
 
       this.transport = transport;
-      this.stubCreateTransport = stubCreateTransport;
       this.req = req;
     },
 
     tearDown : function() {
-      // Restore
-      this.stubCreateTransport.restore();
+      this.getSandbox().restore();
 
       this.transport.dispose();
       this.req.dispose();
