@@ -584,8 +584,7 @@ class Generator(object):
             variantData = getVariants("variants")
             environData = getVariants("environment") 
             # for the time being, lets merge variant and environment data, putting
-            # variantData last so it overrules
-            combiData   = dict(j for i in (environData, variantData) for j in i.iteritems())
+            combiData   = self._mergeVariantsEnvironment(variantData, environData)
             variantSets = util.computeCombinations(combiData)
             script.variants = variantSets[0] 
             script.libraries = self._libraries
@@ -603,8 +602,7 @@ class Generator(object):
         variantData = getVariants("variants")  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
         environData = getVariants("environment") 
         # for the time being, lets merge variant and environment data, putting
-        # variantData last so it overrules
-        combiData   = dict(j for i in (environData, variantData) for j in i.iteritems())
+        combiData   = self._mergeVariantsEnvironment(variantData, environData)
         variantSets  = util.computeCombinations(combiData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
         for variantSetNum, variantset in enumerate(variantSets):
 
@@ -651,6 +649,27 @@ class Generator(object):
         self._console.info("Done (%dm%05.2f)" % (int(elapsedsecs/60), elapsedsecs % 60))
 
         return
+
+
+    def _mergeVariantsEnvironment(self, variantData, environData):
+        # variantData last so it overrules
+        combiData = {}
+        #combiData   = dict(j for i in (environData, variantData) for j in i.iteritems())
+
+        # using a special string type, mstr, for the result keys, so i can
+        # annotate it (used in CodeGenerator to separate envrionment keys)
+        for k,val in variantData.iteritems():
+            if k in environData:
+                self._console.warn('Key of deprecated "variants" config clashing with "environment" config: %s; skipping...' % k)
+                continue
+            key = mstr(k)
+            combiData[key] = val
+        for k,val in environData.iteritems():
+            key = mstr(k)
+            key.type = "env"
+            combiData[key] = val
+
+        return combiData
 
 
     def runPrivateDebug(self):
@@ -1929,4 +1948,13 @@ class Generator(object):
                 memo['appname'] = appname
         return memo['appname']
 
+
+##
+# String class, extensibel
+#
+class mstr(str):
+    def __init__(self,*args,**kwargs):
+        #super(mstr, self).__init__(*args,**kwargs) -- throws deprecWarning under 2.6+!
+        str.__init__(*args,**kwargs)
+        self.type = None
 
