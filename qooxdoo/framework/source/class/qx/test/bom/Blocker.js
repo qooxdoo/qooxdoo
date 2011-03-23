@@ -59,7 +59,7 @@ qx.Class.define("qx.test.bom.Blocker",
       this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(blockerElement));
       this.assertEquals(qx.bom.Document.getHeight(), qx.bom.element.Dimension.getHeight(blockerElement));
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         var childElements = qx.dom.Hierarchy.getChildElements(document.body);
         var blockerIframeElement = childElements[childElements.length - 1];
@@ -77,7 +77,7 @@ qx.Class.define("qx.test.bom.Blocker",
     {
       this.__blocker.block();
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         var childElements = qx.dom.Hierarchy.getChildElements(document.body);
         var blockerIframeElement = childElements[childElements.length - 1];
@@ -88,7 +88,7 @@ qx.Class.define("qx.test.bom.Blocker",
       var blockerElement = this.__blocker.getBlockerElement();
       this.assertFalse(qx.dom.Element.isInDom(blockerElement, window), "Blocker element not correctly removed");
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
         this.assertFalse(qx.dom.Element.isInDom(blockerIframeElement, window), "Blocker iframe element not correctly removed");
       }
     },
@@ -115,7 +115,7 @@ qx.Class.define("qx.test.bom.Blocker",
 
           self.assertEquals(qx.bom.element.Style.get(self.__blockedElement, "zIndex") - 1, qx.bom.element.Style.get(blockerElement, "zIndex"));
 
-          if (qx.core.Variant.isSet("qx.client", "mshtml"))
+          if ((qx.core.Environment.get("engine.name") == "mshtml"))
           {
             var childElements = qx.dom.Hierarchy.getChildElements(document.body);
             var blockerIframeElement = childElements[childElements.length - 1];
@@ -175,7 +175,7 @@ qx.Class.define("qx.test.bom.Blocker",
 
       var after = qx.dom.Hierarchy.getDescendants(document.body);
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
         this.assertEquals(after.length, before.length + 2);
       } else {
         this.assertEquals(after.length, before.length + 1);

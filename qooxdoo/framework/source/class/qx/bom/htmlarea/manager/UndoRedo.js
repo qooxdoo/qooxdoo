@@ -57,7 +57,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
     this.__handleKeyPress = qx.lang.Function.bind(this._handleKeyPress, this);
     this.__handleMouseUp = qx.lang.Function.bind(this._handleMouseUp, this);
 
-    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+    if ((qx.core.Environment.get("engine.name") == "mshtml")) {
       this.__handleMouseDown = qx.lang.Function.bind(this._handleMouseDown, this);
     }
   },
@@ -111,7 +111,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
       // monitor internal changes like image resizing etc.
       qx.event.Registration.addListener(doc.body, "mouseup", this.__handleMouseUp, this);
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         // monitor internal changes like image resizing etc.
         qx.event.Registration.addListener(doc.body, "mousedown", this.__handleMouseDown, this, true);
@@ -160,8 +160,8 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
       }
       else
       {
-        if (qx.core.Variant.isSet("qx.client", "mshtml") ||
-            qx.core.Variant.isSet("qx.client", "webkit"))
+        if ((qx.core.Environment.get("engine.name") == "mshtml") ||
+            (qx.core.Environment.get("engine.name") == "webkit"))
         {
           this.__collectUndoInfo(command, value, this.__commandManager.getCommandObject(command));
 
@@ -363,7 +363,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
         // Only necessary if the link was inserted at a collapsed selection
         if (undoInfo.command == "inserthyperlink")
         {
-          if (qx.core.Variant.isSet("qx.client", "gecko"))
+          if ((qx.core.Environment.get("engine.name") == "gecko"))
           {
             var linkId = "qx_link" + this.__commandManager.__hyperLinkId;
             var link = this.__doc.getElementById(linkId);
@@ -400,7 +400,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
       {
         this.__addToRedoStack(undoInfo);
 
-        if (qx.core.Variant.isSet("qx.client", "gecko"))
+        if ((qx.core.Environment.get("engine.name") == "gecko"))
         {
           if (undoInfo.command == "inserthtml" &&
               undoInfo.value == qx.bom.htmlarea.HtmlArea.EMPTY_DIV &&
@@ -645,7 +645,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
 
         var result = this.__performRedo();
 
-        if (qx.core.Variant.isSet("qx.client", "gecko"))
+        if ((qx.core.Environment.get("engine.name") == "gecko"))
         {
           if (this.__checkForNextRedoStep("inserthtml", qx.bom.htmlarea.HtmlArea.EMPTY_DIV))
           {
@@ -854,7 +854,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
       this.__commandManager.getCommandObject("backgroundcolor").customUndo = true;
       this.__commandManager.getCommandObject("backgroundimage").customUndo = true;
 
-      if (qx.core.Variant.isSet("qx.client", "gecko")) {
+      if ((qx.core.Environment.get("engine.name") == "gecko")) {
         // TODO: disable the undo of links which are not created at a text selection.
         //       Check if it's applicable at all to allow inserting links without
         //       a valid text selection
@@ -926,7 +926,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
         }
         else
         {
-          if (qx.core.Variant.isSet("qx.client", "gecko"))
+          if ((qx.core.Environment.get("engine.name") == "gecko"))
           {
             /*
              * Ignore commands which normally act on ranges if the current range
@@ -1001,8 +1001,8 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
          var undoObject = this.getUndoRedoObject();
          undoObject.actionType = "Content";
 
-         if (qx.core.Variant.isSet("qx.client", "mshtml") ||
-             qx.core.Variant.isSet("qx.client", "webkit")) {
+         if ((qx.core.Environment.get("engine.name") == "mshtml") ||
+             (qx.core.Environment.get("engine.name") == "webkit")) {
            undoObject.content = this.__currentContent;
            undoObject.actionType = "Custom";
            this.__currentContent = null;
@@ -1135,8 +1135,8 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
         this.__undoPossible = true;
 
         // store current content for adding it to undo stack later
-        if (qx.core.Variant.isSet("qx.client", "mshtml") ||
-            qx.core.Variant.isSet("qx.client", "webkit")) {
+        if ((qx.core.Environment.get("engine.name") == "mshtml") ||
+            (qx.core.Environment.get("engine.name") == "webkit")) {
           this.__currentContent = this.__doc.body.innerHTML;
         }
 
@@ -1361,7 +1361,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
       qx.event.Registration.removeListener(this.__doc.body, "keypress", this.__handleKeyPress);
       qx.event.Registration.removeListener(this.__doc, "mouseup", this.__handleMouseUp);
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
         qx.event.Registration.removeListener(this.__doc, "mousedown", this.__handleMouseDown);
       }
     }

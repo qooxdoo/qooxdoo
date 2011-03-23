@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.root.Application",
       /**
        * @lint ignoreDeprecated(alert)
        */
-      if (qx.core.Variant.isSet("qx.client", "webkit"))
+      if ((qx.core.Environment.get("engine.name") == "webkit"))
       {
         // In the "DOMContentLoaded" event of WebKit (Safari, Chrome) no body
         // element seems to be available in the DOM, if the HTML file did not

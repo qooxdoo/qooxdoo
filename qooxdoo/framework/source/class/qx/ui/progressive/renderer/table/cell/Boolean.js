@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
           "if (value == '0') " +
           "{";
 
-        if (qx.core.Variant.isSet("qx.client", "mshtml") &&
+        if ((qx.core.Environment.get("engine.name") == "mshtml") &&
             /\.png$/i.test(this.__iconUrlTrue))
         {
           imageData.extras +=
@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
           "else " +
           "{";
 
-        if (qx.core.Variant.isSet("qx.client", "mshtml") &&
+        if ((qx.core.Environment.get("engine.name") == "mshtml") &&
             /\.png$/i.test(this.__iconUrlFalse))
         {
           imageData.extras +=

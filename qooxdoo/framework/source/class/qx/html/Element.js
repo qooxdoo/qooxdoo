@@ -243,7 +243,7 @@ qx.Class.define("qx.html.Element",
         if (!obj.$$disposed) {
           element.style.display = obj.__visible ? "" : "none";
           // also hide the element (fixed some rendering problem in IE<8 & IE8 quirks)
-          if (qx.core.Variant.isSet("qx.client", "mshtml"))
+          if ((qx.core.Environment.get("engine.name") == "mshtml"))
           {
             if (!(document.documentMode >= 8)) {
               element.style.visibility = obj.__visible ? "visible" : "hidden";
@@ -1387,7 +1387,7 @@ qx.Class.define("qx.html.Element",
       // when we try to use the same DOM node again. I am not sure
       // why this happens. Would be a good performance improvement,
       // but does not seem to work.
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
         var helper = document.createElement("div");
       } else {
         var helper = qx.bom.Element.getHelperElement();

@@ -319,7 +319,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       // http://www.mercurytide.co.uk/whitepapers/issues-working-with-ajax/ ). Even when
       // not using a backend that evaluates the referrer, it's still useful to have it
       // set correctly, e.g. when looking at server log files.
-      if (!qx.core.Variant.isSet("qx.client", "webkit"))
+      if (!(qx.core.Environment.get("engine.name") == "webkit"))
       {
         // avoid "Refused to set unsafe header Referer" in Safari and other Webkit-based browsers
         vRequest.setRequestHeader('Referer', window.location.href);

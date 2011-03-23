@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     this.__blockerElement = this._createBlockerElement();
     this.getContainerElement().add(this.__blockerElement);
 
-    if (qx.core.Variant.isSet("qx.client", "gecko"))
+    if ((qx.core.Environment.get("engine.name") == "gecko"))
     {
       this.addListenerOnce("appear", function(e)
       {

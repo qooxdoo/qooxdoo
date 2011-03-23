@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.form.TextField",
 
     // overridden
     _renderContentElement : function(innerHeight, element) {
-     if (qx.core.Variant.isSet("qx.client", "mshtml") &&
+     if ((qx.core.Environment.get("engine.name") == "mshtml") &&
          qx.core.Environment.get("engine.version") < 9)
      {
        element.setStyles({

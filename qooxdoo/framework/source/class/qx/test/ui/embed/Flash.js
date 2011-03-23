@@ -98,7 +98,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
         that.assertIdentical("flashmovie", flash.id);
 
         // object attribute tests for IE or other browser
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        if ((qx.core.Environment.get("engine.name") == "mshtml"))
         {
           that.assertIdentical("clsid:D27CDB6E-AE6D-11cf-96B8-444553540000", flash.classid);
         }

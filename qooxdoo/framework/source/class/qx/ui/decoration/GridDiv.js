@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.decoration.GridDiv",
       element.childNodes[7].style.height = innerHeight + "px";
       element.childNodes[8].style.height = innerHeight + "px";
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         // Internet Explorer as of version 6 or version 7 in quirks mode
         // have rounding issues when working with odd dimensions:

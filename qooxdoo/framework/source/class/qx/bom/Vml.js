@@ -142,7 +142,7 @@ qx.Class.define("qx.bom.Vml",
 
   defer : function()
   {
-    if (qx.core.Variant.isSet("qx.client", "mshtml"))
+    if ((qx.core.Environment.get("engine.name") == "mshtml"))
     {
       qx.bom.Stylesheet.createElement("v\\: * { behavior:url(#default#VML);display:inline-block; }");
 

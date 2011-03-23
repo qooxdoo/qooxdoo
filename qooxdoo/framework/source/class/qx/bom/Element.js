@@ -413,7 +413,7 @@ qx.Class.define("qx.bom.Element",
     {
       var clone;
 
-      if (events || (qx.core.Variant.isSet("qx.client", "mshtml") && !qx.xml.Document.isXmlDocument(element)))
+      if (events || ((qx.core.Environment.get("engine.name") == "mshtml") && !qx.xml.Document.isXmlDocument(element)))
       {
         var mgr = qx.event.Registration.getManager(element);
         var all = qx.dom.Hierarchy.getDescendants(element);
@@ -427,7 +427,7 @@ qx.Class.define("qx.bom.Element",
       // In order to get around this, we detach all locally
       // attached events first, do the cloning and recover
       // them afterwards again.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         for (var i=0, l=all.length; i<l; i++) {
           mgr.toggleAttachedEvents(all[i], false);
@@ -438,7 +438,7 @@ qx.Class.define("qx.bom.Element",
       var clone = element.cloneNode(true);
 
       // Recover events on original elements
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         for (var i=0, l=all.length; i<l; i++) {
           mgr.toggleAttachedEvents(all[i], true);

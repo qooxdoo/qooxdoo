@@ -251,7 +251,7 @@ qx.Bootstrap.define("qx.io.part.Package",
             }
           }
 
-          if (qx.core.Variant.isSet("qx.client", "webkit"))
+          if ((qx.core.Environment.get("engine.name") == "webkit"))
           {
             // force asynchronous load
             // Safari fails with an "maximum recursion depth exceeded" error if it is

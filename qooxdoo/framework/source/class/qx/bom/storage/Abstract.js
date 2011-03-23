@@ -48,7 +48,7 @@ qx.Class.define("qx.bom.storage.Abstract",
     this._storage = window[this._type + "Storage"];
     this._handleStorageEventBound = qx.lang.Function.bind(this._handleStorageEvent, this);
 
-    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+    if ((qx.core.Environment.get("engine.name") == "mshtml")) {
       qx.bom.Event.addNativeListener(document, "storage", this._handleStorageEventBound);
     } else {
       qx.bom.Event.addNativeListener(window, "storage", this._handleStorageEventBound);
@@ -173,7 +173,7 @@ qx.Class.define("qx.bom.storage.Abstract",
   {
     this._storage = null;
 
-    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+    if ((qx.core.Environment.get("engine.name") == "mshtml")) {
       qx.bom.Event.removeNativeListener(document, "storage", this._handleStorageEventBound);
     } else {
       qx.bom.Event.removeNativeListener(window, "storage", this._handleStorageEventBound);

@@ -198,7 +198,7 @@ qx.Class.define("qx.event.handler.Focus",
     focus : function(element)
     {
       // Fixed timing issue with IE, see [BUG #3267]
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         window.setTimeout(function()
         {

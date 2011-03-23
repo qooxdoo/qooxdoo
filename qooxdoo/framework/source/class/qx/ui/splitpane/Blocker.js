@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.splitpane.Blocker",
     };
 
     // IE needs some extra love here to convince it to block events.
-    if (qx.core.Variant.isSet("qx.client", "mshtml"))
+    if ((qx.core.Environment.get("engine.name") == "mshtml"))
     {
       styles.backgroundImage = "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")";
       styles.backgroundRepeat = "repeat";

@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     this.addListener("mouseup", this._stopPropagation, this);
     this.addListener("mousemove", this._stopPropagation, this);
 
-    if (qx.core.Variant.isSet("qx.client", "opera")) {
+    if ((qx.core.Environment.get("engine.name") == "opera")) {
       this.addListener("appear", this._onAppear, this);
     }
 
@@ -269,7 +269,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       // Scrollbars don't work properly in IE if the element with overflow has
       // excatly the size of the scrollbar. Thus we move the element one pixel
       // out of the view and increase the size by one.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         var bounds = this.getBounds();
         this.getContentElement().setStyles({

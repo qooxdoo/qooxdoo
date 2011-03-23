@@ -90,7 +90,7 @@ qx.Class.define("qx.test.bom.Attribute",
       this._checkBox.setAttribute("checked", true);
       this.assertEquals(true, Attribute.get(this._checkBox, "checked"));
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml") &&
+      if ((qx.core.Environment.get("engine.name") == "mshtml") &&
           (parseFloat(qx.core.Environment.get("engine.version")) <= 7 ||
            (parseFloat(qx.core.Environment.get("engine.version")) == 8 &&
            qx.core.Environment.get("browser.documentmode") == 7))) {

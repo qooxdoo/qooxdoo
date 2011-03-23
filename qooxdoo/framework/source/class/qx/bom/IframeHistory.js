@@ -19,7 +19,7 @@
 
 ************************************************************************ */
 
-if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+if ((qx.core.Environment.get("engine.name") == "mshtml")) {
 
 /**
  * Implements an iFrame based history manager for IE6/7.

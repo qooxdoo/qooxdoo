@@ -144,7 +144,7 @@ qx.Class.define("qx.bom.Label",
         styles.textOverflow = "ellipsis";
 
         // Opera as of 9.2.x only supports -o-text-overflow
-        if (qx.core.Variant.isSet("qx.client", "opera")) {
+        if ((qx.core.Environment.get("engine.name") == "opera")) {
           styles.OTextOverflow = "ellipsis";
         }
       }
@@ -333,7 +333,7 @@ qx.Class.define("qx.bom.Label",
 
       // detect size
       var size = qx.bom.element.Dimension.getSize(element);
-      if (qx.core.Variant.isSet("qx.client", "gecko"))
+      if ((qx.core.Environment.get("engine.name") == "gecko"))
       {
         // Under Mac at least with Firefox 3.0 alpha 6 and earlier
         // there was an issue that the text size calculation returns
@@ -346,7 +346,7 @@ qx.Class.define("qx.bom.Label",
         }
       }
       // IE9 has problems with the text size calculation for details have a look at bug #4038
-      if (qx.core.Variant.isSet("qx.client", "mshtml") && parseFloat(qx.core.Environment.get("engine.version")) >= 9) {
+      if ((qx.core.Environment.get("engine.name") == "mshtml") && parseFloat(qx.core.Environment.get("engine.version")) >= 9) {
         size.width++;
       }
       return size;

@@ -57,7 +57,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
     // This is to prevent the "mixed secure and insecure content" warning in IE with https
     var vFrameSource;
-    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+    if ((qx.core.Environment.get("engine.name") == "mshtml")) {
       vFrameSource = "javascript:void(0)";
     }
 
@@ -636,7 +636,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
       // Reset source to a blank image for gecko
       // Otherwise it will switch into a load-without-end behaviour
-      if (qx.core.Variant.isSet("qx.client", "gecko")) {
+      if ((qx.core.Environment.get("engine.name") == "gecko")) {
         this.__frame.src = qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif");
       }
 

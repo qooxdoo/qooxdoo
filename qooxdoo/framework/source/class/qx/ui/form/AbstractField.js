@@ -358,7 +358,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       }
 
       // IE8 in standard mode needs some extra love here to receive events.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         el.setStyles({
           backgroundImage: "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")"

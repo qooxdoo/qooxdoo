@@ -207,7 +207,7 @@ qx.Class.define("qx.bom.Blocker",
     {
       this.__setupBlockerElement();
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
         this.__setupIframeElement();
       }
 
@@ -294,7 +294,7 @@ qx.Class.define("qx.bom.Blocker",
       qx.bom.element.Style.setStyles(this.__blockerElement, styles);
       qx.dom.Element.insertEnd(this.__blockerElement, target);
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         styles.zIndex = this.getBlockerZIndex() - 1;
 
@@ -311,7 +311,7 @@ qx.Class.define("qx.bom.Blocker",
     {
       qx.dom.Element.remove(this.__blockerElement);
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
         qx.dom.Element.remove(this.__iframeElement);
       }
     },
@@ -351,7 +351,7 @@ qx.Class.define("qx.bom.Blocker",
     {
       qx.bom.element.Style.setStyles(this.__blockerElement, dimension);
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
         qx.bom.element.Style.setStyles(this.__iframeElement, dimension);
       }
     },

@@ -196,7 +196,7 @@ qx.Class.define("qx.test.core.Variants",
       /**
        *
        */
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
         b = "mshtml";
       }
 
@@ -204,7 +204,7 @@ qx.Class.define("qx.test.core.Variants",
       /**
        *
        */
-      else if (qx.core.Variant.isSet("qx.client", "gecko")) {
+      else if ((qx.core.Environment.get("engine.name") == "gecko")) {
         b = "gecko";
       }
 
@@ -212,7 +212,7 @@ qx.Class.define("qx.test.core.Variants",
       /**
        *
        */
-      else if (qx.core.Variant.isSet("qx.client", "webkit")) {
+      else if ((qx.core.Environment.get("engine.name") == "webkit")) {
         b = "webkit";
       }
 
@@ -220,13 +220,13 @@ qx.Class.define("qx.test.core.Variants",
       /**
        *
        */
-      else if (qx.core.Variant.isSet("qx.client", "opera")) {
+      else if ((qx.core.Environment.get("engine.name") == "opera")) {
         b = "opera";
       }
 
       this.assertEquals(qx.core.Variant.get("qx.client"), b);
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))  // The Microsoft style
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))  // The Microsoft style
       {
         b = "mshtml";
       }
@@ -271,7 +271,7 @@ qx.Class.define("qx.test.core.Variants",
      */
     testTernary : function()
     {
-      var a = qx.core.Variant.isSet("qx.client", "mshtml") ? "mshtml" : "other";
+      var a = (qx.core.Environment.get("engine.name") == "mshtml") ? "mshtml" : "other";
 
       if (qx.core.Environment.get("engine.name") == "mshtml") {
         this.assertEquals("mshtml", a);
@@ -323,7 +323,7 @@ qx.Class.define("qx.test.core.Variants",
 
       if (true) {
         var i = 3;
-      } else if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      } else if ((qx.core.Environment.get("engine.name") == "mshtml")) {
         this.debug("");
       }
 

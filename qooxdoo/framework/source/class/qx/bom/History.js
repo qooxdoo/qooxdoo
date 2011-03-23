@@ -164,7 +164,7 @@ qx.Class.define("qx.bom.History",
       {
         if (this.SUPPORTS_HASH_CHANGE_EVENT) {
           this.$$instance = new qx.bom.NativeHistory();
-        } else if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        } else if ((qx.core.Environment.get("engine.name") == "mshtml")) {
           this.$$instance = new qx.bom.IframeHistory();
         } else {
           this.$$instance = new qx.bom.NativeHistory();

@@ -59,7 +59,7 @@ qx.Class.define("qx.bom.element.Decoration",
      * this DOM structure to only use DIV elements which do not have a negative
      * performance impact. See Bug #2185 for details.
      */
-    __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml") && qx.core.Environment.get("engine.version") < 9,
+    __enableAlphaFix : (qx.core.Environment.get("engine.name") == "mshtml") && qx.core.Environment.get("engine.version") < 9,
 
 
     /** {Map} List of repeat modes which supports the IE AlphaImageLoader */
@@ -175,7 +175,7 @@ qx.Class.define("qx.bom.element.Decoration",
      */
     getTagName : function(repeat, source)
     {
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         if (source && this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && qx.lang.String.endsWith(source, ".png")) {
           return "div";
@@ -205,14 +205,14 @@ qx.Class.define("qx.bom.element.Decoration",
         style.position = "absolute";
       }
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         // Add a fix for small blocks where IE has a minHeight
         // of the fontSize in quirks mode
         style.fontSize = 0;
         style.lineHeight = 0;
       }
-      else if (qx.core.Variant.isSet("qx.client", "webkit"))
+      else if ((qx.core.Environment.get("engine.name") == "webkit"))
       {
         // This stops images from being dragable in webkit
         style.WebkitUserDrag = "none";

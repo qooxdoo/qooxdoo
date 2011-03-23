@@ -89,7 +89,7 @@ qx.Class.define("qx.lang.Array",
 
       // Some collections in mshtml are not able to be sliced.
       // These lines are a special workaround for this client.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         if (object.item)
         {
@@ -134,7 +134,7 @@ qx.Class.define("qx.lang.Array",
     {
       // Some collection is mshtml are not able to be sliced.
       // This lines are a special workaround for this client.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         if (coll.item)
         {

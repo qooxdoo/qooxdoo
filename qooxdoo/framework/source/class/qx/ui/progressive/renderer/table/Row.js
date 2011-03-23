@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         "  cursor:default;" +
         "  font-size: 11px;" +
         "  font-family: 'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif;" +
-        (qx.core.Variant.isSet("qx.client", "mshtml")
+        ((qx.core.Environment.get("engine.name") == "mshtml")
          ? ''
          : ';-moz-user-select:none;')
   },

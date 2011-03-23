@@ -174,7 +174,7 @@ qx.Class.define("qx.ui.embed.Html",
        * We have to set the value to "text" in Webkit for the container and
        * content element
        */
-      if (qx.core.Variant.isSet("qx.client", "webkit"))
+      if ((qx.core.Environment.get("engine.name") == "webkit"))
       {
         this.getContainerElement().setStyle("userSelect", value ? "text" : "none");
         this.getContentElement().setStyle("userSelect", value ? "text" : "none");

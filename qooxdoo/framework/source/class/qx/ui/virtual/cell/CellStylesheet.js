@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
       }) +
       "} ";
 
-    if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
+    if (!(qx.core.Environment.get("engine.name") == "mshtml")) {
       stylesheet += ".qx-cell {" + qx.bom.element.BoxSizing.compile("content-box") + "}";
     }
 

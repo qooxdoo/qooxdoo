@@ -146,7 +146,7 @@ qx.Class.define("qx.xml.Document",
   defer : function(statics)
   {
     // Detecting available ActiveX implementations.
-    if (qx.core.Variant.isSet("qx.client", "mshtml"))
+    if ((qx.core.Environment.get("engine.name") == "mshtml"))
     {
       // According to information on the Microsoft XML Team's WebLog
       // it is recommended to check for availability of MSXML versions 6.0 and 3.0.

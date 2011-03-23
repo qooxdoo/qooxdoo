@@ -148,7 +148,7 @@ qx.Class.define("qx.bom.Event",
         // In Firefox the related target of mouse events is sometimes an
         // anonymous div inside of a text area, which raises an exception if
         // the nodeType is read. This is why the try/catch block is needed.
-        if (qx.core.Variant.isSet("qx.client", "gecko"))
+        if ((qx.core.Environment.get("engine.name") == "gecko"))
         {
           try {
             e.relatedTarget && e.relatedTarget.nodeType;
@@ -184,7 +184,7 @@ qx.Class.define("qx.bom.Event",
         // Firefox 3 does not fire a "contextmenu" event if the mousedown
         // called "preventDefault" => don't prevent the default behavior for
         // right clicks.
-        if (qx.core.Variant.isSet("qx.client", "gecko") &&
+        if ((qx.core.Environment.get("engine.name") == "gecko") &&
             parseFloat(qx.core.Environment.get("engine.version")) >= 1.9 &&
             e.type == "mousedown" &&
             e.button == 2) {
@@ -194,7 +194,7 @@ qx.Class.define("qx.bom.Event",
         e.preventDefault();
 
         // not working in firefox 3 and above
-        if (qx.core.Variant.isSet("qx.client", "gecko") &&
+        if ((qx.core.Environment.get("engine.name") == "gecko") &&
             parseFloat(qx.core.Environment.get("engine.version")) < 1.9)
         {
           try

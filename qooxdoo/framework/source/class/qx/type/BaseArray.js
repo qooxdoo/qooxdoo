@@ -439,7 +439,7 @@ function createStackConstructor(stack)
 {
   // In IE don't inherit from Array but use an empty object as prototype
   // and copy the methods from Array
-  if (qx.core.Variant.isSet("qx.client", "mshtml"))
+  if ((qx.core.Environment.get("engine.name") == "mshtml"))
   {
     Stack.prototype = {
       length : 0,

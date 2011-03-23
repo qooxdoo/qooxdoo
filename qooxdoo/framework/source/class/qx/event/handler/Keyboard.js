@@ -59,7 +59,7 @@ qx.Class.define("qx.event.handler.Keyboard",
     this.__window = manager.getWindow();
 
     // Gecko ignores key events when not explicitly clicked in the document.
-    if (qx.core.Variant.isSet("qx.client", "gecko")) {
+    if ((qx.core.Environment.get("engine.name") == "gecko")) {
       this.__root = this.__window;
     } else {
       this.__root = this.__window.document.documentElement;
@@ -938,7 +938,7 @@ qx.Class.define("qx.event.handler.Keyboard",
       }
     }
 
-    if (qx.core.Variant.isSet("qx.client", "mshtml"))
+    if ((qx.core.Environment.get("engine.name") == "mshtml"))
     {
       members._charCode2KeyCode =
       {
@@ -946,13 +946,13 @@ qx.Class.define("qx.event.handler.Keyboard",
         27 : 27
       };
     }
-    else if (qx.core.Variant.isSet("qx.client", "gecko"))
+    else if ((qx.core.Environment.get("engine.name") == "gecko"))
     {
       members._keyCodeFix = {
         12 : members._identifierToKeyCode("NumLock")
       };
     }
-    else if (qx.core.Variant.isSet("qx.client", "webkit"))
+    else if ((qx.core.Environment.get("engine.name") == "webkit"))
     {
       // starting with Safari 3.1 (version 525.13) Apple switched the key
       // handling to match the IE behaviour.

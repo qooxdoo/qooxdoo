@@ -315,7 +315,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
         //
         // Ignore the "SelectAll" command otherwise the range handling would
         // interfere with it.
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        if ((qx.core.Environment.get("engine.name") == "mshtml"))
         {
           if(command != "selectall")
           {
@@ -339,7 +339,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
           // IE has the unwanted behavior to select text after executing some commands
           // (see this.__invalidFocusCommands).
           // If this happens, we have to collapse the range afterwards.
-          if( (qx.core.Variant.isSet("qx.client", "mshtml")) && (this.__invalidFocusCommands[command]) )
+          if( ((qx.core.Environment.get("engine.name") == "mshtml")) && (this.__invalidFocusCommands[command]) )
           {
             if (range.text == "") {
               emptyRange = true;
@@ -732,7 +732,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
       */
      __setTextAlign : function(value, commandObject)
      {
-       var commandTarget = qx.core.Variant.isSet("qx.client", "mshtml") ? this.__editorInstance.getRange() : this.__doc;
+       var commandTarget = (qx.core.Environment.get("engine.name") == "mshtml") ? this.__editorInstance.getRange() : this.__doc;
 
        return commandTarget.execCommand(commandObject.identifier, false, value);
      },
@@ -752,7 +752,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      __insertList : function(value, commandObject)
      {
        // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=1608 for details
-       if (qx.core.Variant.isSet("qx.client", "mshtml"))
+       if ((qx.core.Environment.get("engine.name") == "mshtml"))
        {
          // Get the focusNode as starting node for looking after blockquotes.
          var focusNode = this.__editorInstance.getFocusNode();
@@ -764,7 +764,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
        var returnValue = this.__doc.execCommand(commandObject.identifier, false, value);
 
-       if (qx.core.Variant.isSet("qx.client", "webkit"))
+       if ((qx.core.Environment.get("engine.name") == "webkit"))
        {
          // Get the parent of the current focusNode as starting node for
          // looking after blockquotes for webkit.
@@ -1146,7 +1146,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
 
        // Gecko needs some extra HTML elements to keep the current style setting
        // after inserting the <hr> tag.
-       if (qx.core.Variant.isSet("qx.client", "gecko")) {
+       if ((qx.core.Environment.get("engine.name") == "gecko")) {
          htmlText += this.__generateHelperString();
        }
 
@@ -1525,7 +1525,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
      {
        var sel = this.__editorInstance.getSelection();
 
-       var rng = (qx.core.Variant.isSet("qx.client", "mshtml")) ?
+       var rng = ((qx.core.Environment.get("engine.name") == "mshtml")) ?
            this.__editorInstance.getRange() :
            rng = sel.getRangeAt(0);
 
@@ -1543,7 +1543,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
        // b) one single <ol> or <li> tag is selected
 
        // Fetch selected element node to examine what is inside the selection
-       element = (qx.core.Variant.isSet("qx.client", "mshtml")) ?
+       element = ((qx.core.Environment.get("engine.name") == "mshtml")) ?
            rng.parentElement() :
            rng.commonAncestorContainer;
 
@@ -1579,7 +1579,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
            // Note: If more than one element is selected in IE, they are all
            // selected completely. This is a good thing, since IE does not
            // support anchorOffset or nodeOffset. :-)
-           listEntrySelected = (qx.core.Variant.isSet("qx.client", "mshtml")) ?
+           listEntrySelected = ((qx.core.Environment.get("engine.name") == "mshtml")) ?
                // Element is selected or <body> tag is selected
                // (in this case, the list item inside the selection is selected, too)
                ( (listElement == element) || (element.tagName == "BODY") ) :
@@ -1636,7 +1636,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
          /* Check if element is inside a list entry */
 
          /* Retrieve selected element node */
-         var parentElement = (qx.core.Variant.isSet("qx.client", "mshtml")) ? element : sel.focusNode;
+         var parentElement = ((qx.core.Environment.get("engine.name") == "mshtml")) ? element : sel.focusNode;
 
          /* Get all parents */
          var parents = qx.dom.Hierarchy.getAncestors(parentElement);
@@ -1649,7 +1649,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
              if
              (
                (
-                 (qx.core.Variant.isSet("qx.client", "gecko"))
+                 ((qx.core.Environment.get("engine.name") == "gecko"))
                  &&
                  (
                    /* Selection starts at the beginning... */
@@ -1668,7 +1668,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
                ||
                (
                  /* In IE just check if the HTML of the range is equal to the actual list entry */
-                 (qx.core.Variant.isSet("qx.client", "mshtml")) &&
+                 ((qx.core.Environment.get("engine.name") == "mshtml")) &&
                  (rng.htmlText == parents[i].innerHTML)
                )
              ){
@@ -1685,7 +1685,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
        }
 
        /* Execute command on selection */
-       if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+       if ((qx.core.Environment.get("engine.name") == "mshtml")) {
          this.__doc.body.focus();
          this.__editorInstance.getRange().select();
          return this.__doc.execCommand("FontSize", false, value);
@@ -1697,7 +1697,7 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
         * For each span tag inside the selection the CSS property has to be
         * removed to hand over the control to the font size value of execCommand().
         */
-       else if(qx.core.Variant.isSet("qx.client", "gecko"))
+       else if((qx.core.Environment.get("engine.name") == "gecko"))
        {
 
          var parent = rng.commonAncestorContainer;

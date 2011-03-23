@@ -332,9 +332,9 @@ qx.Bootstrap.define("qx.core.Variant",
      * Example:
      *
      * <pre class='javascript'>
-     * if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+     * if ((qx.core.Environment.get("engine.name") == "mshtml")) {
      *   // some Internet Explorer specific code
-     * } else if(qx.core.Variant.isSet("qx.client", "opera")){
+     * } else if((qx.core.Environment.get("engine.name") == "opera")){
      *   // Opera specific code
      * } else {
      *   // common code for all other browsers

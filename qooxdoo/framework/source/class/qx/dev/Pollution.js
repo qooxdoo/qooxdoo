@@ -142,7 +142,7 @@ qx.Class.define("qx.dev.Pollution",
 
       // IE offers a window[index] access to the frames of a window, i. e.
       // for three frame, the window object will have attributes "0", "1" and "2"
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         if (objectName == "window")
         {

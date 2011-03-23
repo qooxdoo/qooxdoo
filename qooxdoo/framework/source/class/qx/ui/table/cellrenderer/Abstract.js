@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
         ".qooxdoo-table-cell-italic { font-style:italic} " +
         ".qooxdoo-table-cell-bold { font-weight:bold } ";
 
-      if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if (!(qx.core.Environment.get("engine.name") == "mshtml")) {
         stylesheet += ".qooxdoo-table-cell {" + qx.bom.element.BoxSizing.compile("content-box") + "}";
       }
 

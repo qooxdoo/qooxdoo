@@ -2330,7 +2330,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // IE needs some extra love here to convince it to block events.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         protect.setStyles({
           backgroundImage: "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")",
@@ -2533,7 +2533,7 @@ qx.Class.define("qx.ui.core.Widget",
       this.getContainerElement().setStyle("opacity", value == 1 ? null : value);
 
       // Fix for AlphaImageLoader - see Bug #1894 for details
-      if (qx.core.Variant.isSet("qx.client", "mshtml") &&
+      if ((qx.core.Environment.get("engine.name") == "mshtml") &&
           qx.bom.element.Decoration.isAlphaImageLoaderEnabled())
       {
         // Do not apply this fix on images - see Bug #2748
@@ -3053,7 +3053,7 @@ qx.Class.define("qx.ui.core.Widget",
         target.setAttribute("tabIndex", tabIndex);
 
         // Omit native dotted outline border
-        if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        if ((qx.core.Environment.get("engine.name") == "mshtml")) {
           target.setAttribute("hideFocus", "true");
         } else {
           target.setStyle("outline", "none");

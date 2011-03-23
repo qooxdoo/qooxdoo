@@ -75,7 +75,7 @@ qx.Class.define("qx.event.handler.Input",
     this._onPropertyWrapper = qx.lang.Function.listener(this._onProperty, this);
 
     // special event handler for opera
-    if (qx.core.Variant.isSet("qx.client", "opera")) {
+    if ((qx.core.Environment.get("engine.name") == "opera")) {
       this._onKeyDownWrapper = qx.lang.Function.listener(this._onKeyDown, this);
       this._onKeyUpWrapper = qx.lang.Function.listener(this._onKeyUp, this);
       this._onBlurWrapper = qx.lang.Function.listener(this._onBlur, this);
@@ -200,7 +200,7 @@ qx.Class.define("qx.event.handler.Input",
           }
 
           // special enter bugfix for opera
-          if (qx.core.Variant.isSet("qx.client", "opera") || qx.core.Variant.isSet("qx.client", "mshtml")) {
+          if ((qx.core.Environment.get("engine.name") == "opera") || (qx.core.Environment.get("engine.name") == "mshtml")) {
             if (target.type === "text" || target.type === "password") {
               this._onKeyPressWrapped = qx.lang.Function.listener(this._onKeyPress, this, target);
               qx.bom.Event.addNativeListener(target, "keypress", this._onKeyPressWrapped);
@@ -303,7 +303,7 @@ qx.Class.define("qx.event.handler.Input",
           }
         }
 
-        if (qx.core.Variant.isSet("qx.client", "opera") || qx.core.Variant.isSet("qx.client", "mshtml")) {
+        if ((qx.core.Environment.get("engine.name") == "opera") || (qx.core.Environment.get("engine.name") == "mshtml")) {
           if (target.type === "text" || target.type === "password") {
             qx.bom.Event.removeNativeListener(target, "keypress", this._onKeyPressWrapped);
           }
@@ -471,7 +471,7 @@ qx.Class.define("qx.event.handler.Input",
       if (!this.__enter || tag !== "input") {
         // opera lower 10.6 needs a special treatment for input events because
         // they are also fired on blur
-        if (qx.core.Variant.isSet("qx.client", "opera") &&
+        if ((qx.core.Environment.get("engine.name") == "opera") &&
             qx.core.Environment.get("browser.version") < 10.6) {
           this.__onInputTimeoutId = window.setTimeout(function() {
             qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);

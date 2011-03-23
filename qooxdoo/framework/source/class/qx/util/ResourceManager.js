@@ -203,7 +203,7 @@ qx.Class.define("qx.util.ResourceManager",
       }
 
       var urlPrefix = "";
-      if (qx.core.Variant.isSet("qx.client", "mshtml") &&
+      if ((qx.core.Environment.get("engine.name") == "mshtml") &&
           qx.core.Environment.get("io.ssl")) {
         urlPrefix = this.self(arguments).__urlPrefix[lib];
       }
@@ -244,7 +244,7 @@ qx.Class.define("qx.util.ResourceManager",
 
   defer : function(statics)
   {
-    if (qx.core.Variant.isSet("qx.client", "mshtml"))
+    if ((qx.core.Environment.get("engine.name") == "mshtml"))
     {
       // To avoid a "mixed content" warning in IE when the application is
       // delivered via HTTPS a prefix has to be added. This will transform the

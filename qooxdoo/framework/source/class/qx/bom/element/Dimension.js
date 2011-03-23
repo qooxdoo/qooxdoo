@@ -154,7 +154,7 @@ qx.Class.define("qx.bom.element.Dimension",
       {
         var contentWidth = element.clientWidth;
 
-        if (qx.core.Variant.isSet("qx.client", "opera")) {
+        if ((qx.core.Environment.get("engine.name") == "opera")) {
           contentWidth = contentWidth - paddingLeft - paddingRight;
         }
         else

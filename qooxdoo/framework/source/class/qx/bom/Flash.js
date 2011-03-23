@@ -344,7 +344,7 @@ qx.Class.define("qx.bom.Flash",
 
   defer : function(statics)
   {
-    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+    if ((qx.core.Environment.get("engine.name") == "mshtml")) {
       qx.bom.Event.addNativeListener(window, "beforeunload", statics.__fixOutOfMemoryError);
     }
   }

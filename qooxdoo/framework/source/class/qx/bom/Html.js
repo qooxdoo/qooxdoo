@@ -133,7 +133,7 @@ qx.Class.define("qx.bom.Html",
       }
 
       // Fix IE specific bugs
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if ((qx.core.Environment.get("engine.name") == "mshtml"))
       {
         // Remove IE's autoinserted <tbody> from table fragments
         // String was a <table>, *may* have spurious <tbody>

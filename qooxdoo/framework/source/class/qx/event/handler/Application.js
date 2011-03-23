@@ -168,7 +168,7 @@ qx.Class.define("qx.event.handler.Application",
         // the "ready" listener can be added. To avoid any startup issue check
         // for the availability of the "ready" listener before firing the event.
         // So at last the native "load" will trigger the "ready" event.
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        if ((qx.core.Environment.get("engine.name") == "mshtml"))
         {
           if (qx.event.Registration.hasListener(this._window, "ready"))
           {
@@ -229,7 +229,7 @@ qx.Class.define("qx.event.handler.Application",
           // Using native method supported by Mozilla, Webkits and Opera >= 9.0
           qx.bom.Event.addNativeListener(this._window, "DOMContentLoaded", this._onNativeLoadWrapped);
         }
-        else if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        else if ((qx.core.Environment.get("engine.name") == "mshtml"))
         {
           var self = this;
 

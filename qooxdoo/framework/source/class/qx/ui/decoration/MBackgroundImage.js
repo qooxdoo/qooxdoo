@@ -126,7 +126,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
       }
       else
       {
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        if ((qx.core.Environment.get("engine.name") == "mshtml"))
         {
           /*
            * Internet Explorer as of version 6 for quirks and standards mode,
