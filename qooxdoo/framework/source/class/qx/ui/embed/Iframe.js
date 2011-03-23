@@ -185,22 +185,11 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     _createBlockerElement : function()
     {
-      var el = new qx.html.Element("div");
-
+      var el = new qx.html.Blocker();
       el.setStyles({
         "zIndex": 20,
-        "position": "absolute",
         "display": "none"
       });
-
-      // IE needs some extra love here to convince it to block events.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        el.setStyles({
-          backgroundImage: "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")",
-          backgroundRepeat: "repeat"
-        });
-      }
 
       return el;
     },
