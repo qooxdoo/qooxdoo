@@ -190,7 +190,10 @@ qx.Class.define("qx.test.event.GlobalError",
 
         self.resume(function()
         {
-          if (qx.core.Variant.isSet("qx.client", "opera|webkit")) {
+          if (
+            qx.core.Environment.get("engine.name") == "opera" ||
+            qx.core.Environment.get("engine.name") == "webkit"
+          ) {
             this.warn("window.onerror is not supported by Opera and Webkit");
           } else {
             this.fail("window.onerror should be supported! Note: this test fails in IE if the debugger is active!");
@@ -259,7 +262,10 @@ qx.Class.define("qx.test.event.GlobalError",
 
         self.resume(function()
         {
-          if (qx.core.Variant.isSet("qx.client", "opera|webkit")) {
+          if (
+            qx.core.Environment.get("engine.name") == "opera"
+            qx.core.Environment.get("engine.name") == "webkit"
+          ) {
             this.warn("window.onerror is not supported by Opera and Webkit");
           } else {
             this.fail("window.onerror should be supported! Note: this test fails in IE if the debugger is active!");

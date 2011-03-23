@@ -224,7 +224,7 @@ qx.Class.define("qx.test.core.Variants",
         b = "opera";
       }
 
-      this.assertEquals(qx.core.Variant.get("qx.client"), b);
+      this.assertEquals(qx.core.Environment.get("engine.name"), b);
 
       if ((qx.core.Environment.get("engine.name") == "mshtml"))  // The Microsoft style
       {
@@ -254,7 +254,12 @@ qx.Class.define("qx.test.core.Variants",
 
       var c;
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit|gecko")) {
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" ||
+        qx.core.Environment.get("engine.name") == "opera" ||
+        qx.core.Environment.get("engine.name") == "webkit" ||
+        qx.core.Environment.get("engine.name") == "gecko"
+      ) {
         c = "all";
       } else {
         c = "unknown";
@@ -290,8 +295,12 @@ qx.Class.define("qx.test.core.Variants",
     {
       this.assertUndefined(window.abcdef);
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit|gecko"))
-      {
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" ||
+        qx.core.Environment.get("engine.name") == "opera" ||
+        qx.core.Environment.get("engine.name") == "webkit" ||
+        qx.core.Environment.get("engine.name") == "gecko"
+      ) {
         abcdef = "mshtml";
         var g;
       }

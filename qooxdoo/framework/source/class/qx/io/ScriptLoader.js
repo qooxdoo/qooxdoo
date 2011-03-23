@@ -152,8 +152,10 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
       // Execute user callback
       if (this.__callback)
       {
-        if (qx.core.Variant.isSet("qx.client", "mshtml|webkit"))
-        {
+        if (
+          qx.core.Environment.get("engine.name") == "mshtml" || 
+          qx.core.Environment.get("engine.name") == "webkit"
+        ) {
           // Safari fails with an "maximum recursion depth exceeded" error if
           // many files are loaded
 

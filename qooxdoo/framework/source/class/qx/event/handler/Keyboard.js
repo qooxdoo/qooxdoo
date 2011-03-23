@@ -255,7 +255,10 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       // IE and Safari suppress a "keypress" event if the "keydown" event's
       // default action was prevented. In this case we emulate the "keypress"
-      if (qx.core.Variant.isSet("qx.client", "mshtml|webkit"))
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" ||
+        qx.core.Environment.get("engine.name") == "webkit"
+      )
       {
         if (type == "keydown" && event.getDefaultPrevented())
         {

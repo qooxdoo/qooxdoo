@@ -963,7 +963,10 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       }
 
       var zeroWidthNoBreakSpace = value.length == 0 ? "\ufeff" : "";
-      var idForFontElement = qx.core.Variant.isSet("qx.client", "gecko|webkit") ? 'id="__elementToFocus__"' : '';
+      var idForFontElement = 
+        qx.core.Environment.get("engine.name") == "gecko" || 
+        qx.core.Environment.get("engine.name") == "webkit" ?
+        'id="__elementToFocus__"' : '';
 
       var defaultContent = '<p>' +
                            '<span style="font-family:' +
@@ -1132,7 +1135,10 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       innerHTML = innerHTML.replace(/<!--.*-->/gi, "");
 
       nodeClone.innerHTML = innerHTML;
-      var text  = qx.core.Variant.isSet("qx.client", "mshtml|opera") ? nodeClone.innerText : nodeClone.textContent;
+      var text  = 
+        qx.core.Environment.get("engine.name") == "mshtml" || 
+        qx.core.Environment.get("engine.name") == "opera" ?
+        nodeClone.innerText : nodeClone.textContent;
       var words = text.match(qx.bom.htmlarea.HtmlArea.GetWordsRegExp);
 
       return !words ? [] : words;
@@ -1835,8 +1841,10 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       // keyup event. The keypress delivers the "Ctrl" key and the keyup the
       // "Enter" key. If the latter occurs right after the first one the
       // linebreak gets inserted.
-      if (qx.core.Variant.isSet("qx.client", "mshtml|webkit"))
-      {
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" || 
+        qx.core.Environment.get("engine.name") == "webkit"
+      ) {
         if (this.__controlPressed)
         {
           switch(keyIdentifier)
@@ -2345,8 +2353,10 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     {
       this.__storedSelectedHtml = null;
 
-      if (qx.core.Variant.isSet("qx.client","gecko|webkit"))
-      {
+      if (
+        qx.core.Environment.get("engine.name") == "gecko" || 
+        qx.core.Environment.get("engine.name") == "webkit"
+      ) {
         // Remove element to focus, as the editor is focused for the first time
         // and the element is not needed anymore.
         var elementToFocus = this.getContentDocument().getElementById("__elementToFocus__");
@@ -3173,7 +3183,10 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
           justifyFull = focusNodeStyle.getPropertyValue("text-align") == "justify";
         }
 
-        if (qx.core.Variant.isSet("qx.client", "mshtml|opera")) {
+        if (
+          qx.core.Environment.get("engine.name") == "mshtml" || 
+          qx.core.Environment.get("engine.name") == "opera"
+        ) {
           isBold = focusNodeStyle.fontWeight == 700;
         } else {
           isBold = focusNodeStyle.getPropertyValue("font-weight") == "bold" ||

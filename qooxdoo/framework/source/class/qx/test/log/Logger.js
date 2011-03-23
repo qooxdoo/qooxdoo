@@ -39,8 +39,10 @@ qx.Class.define("qx.test.log.Logger",
       var events = appender.getAllLogEvents();
       this.assertEquals(1, events.length);
 
-      if (qx.core.Variant.isSet("qx.client", "webkit|gecko"))
-      {
+      if (
+        qx.core.Environment.get("engine.name") == "webkit" ||
+        qx.core.Environment.get("engine.name") == "gecko"
+      ) {
         if (window.navigator.userAgent.indexOf("Chrome") === -1) {
           this.assert(events[0].items[0].trace.length > 0);
         }

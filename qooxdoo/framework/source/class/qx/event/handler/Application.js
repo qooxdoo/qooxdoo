@@ -224,8 +224,11 @@ qx.Class.define("qx.event.handler.Application",
       {
         this._onNativeLoadWrapped = qx.lang.Function.bind(this._onNativeLoad, this);
 
-        if (qx.core.Variant.isSet("qx.client", "gecko|opera|webkit"))
-        {
+        if (
+          qx.core.Environment.get("engine.name") == "gecko" || 
+          qx.core.Environment.get("engine.name") == "opera" || 
+          qx.core.Environment.get("engine.name") == "webkit"
+        ) {
           // Using native method supported by Mozilla, Webkits and Opera >= 9.0
           qx.bom.Event.addNativeListener(this._window, "DOMContentLoaded", this._onNativeLoadWrapped);
         }
