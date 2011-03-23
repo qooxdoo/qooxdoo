@@ -9,10 +9,12 @@
 ************************************************************************ */
 
 /* ************************************************************************
- * If you have added resources to your app, remove the leading '*' in the 
- * following line to make use of them.
- 
+ * If you have added resources to your app, or if you want to use the resources
+ * of the current theme, remove the corresponding leading '*' in the 
+ * following lines to make use of them.
+
  * #asset(${Namespace}/*)
+ * #asset(qx/mobile/icon/android)
 
 ************************************************************************ */
 
