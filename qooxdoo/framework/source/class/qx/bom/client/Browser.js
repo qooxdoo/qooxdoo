@@ -33,8 +33,7 @@
 ************************************************************************ */
 
 /**
- * Basic browser detection for qooxdoo. Based on "qx.client" variant for
- * optimal performance and less overhead.
+ * Basic browser detection for qooxdoo.
  *
  * This class is used by {@link qx.core.Environment} and should not be used
  * directly. Please check its class comment for details how to use it.

@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.core.Environment",
           var keys = key.split("|");
           for (var i = 0; i < keys.length; i++) {
             if (keys[i] == key) {
-              retrun values[key];
+              return values[key];
             }
           };
         }
