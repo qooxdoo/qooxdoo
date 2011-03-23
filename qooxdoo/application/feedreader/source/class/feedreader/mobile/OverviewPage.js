@@ -17,17 +17,27 @@
      * Tino Butz (tbtz)
 
 ************************************************************************ */
+/**
+ * The main page of the mobile part of the feed reader.
+ */
 qx.Class.define("feedreader.mobile.OverviewPage", 
 {
   extend : qx.ui.mobile.page.Page,
 
   properties : {
+    /**
+     * Model for all feeds which should be shown.
+     */
     feeds : {
       event : "changeFeeds",
       init : null,
       apply : "_applyFeeds"
     },
-    
+
+
+    /**
+     * The current selected feed of the view.
+     */
     selectedFeed : {
       event : "changeSelectedFeed",
       init : null
@@ -40,6 +50,7 @@ qx.Class.define("feedreader.mobile.OverviewPage",
     __list : null,
     __predefinedFeeds : null,
 
+    // overridden
     _initialize : function() {
       this.base(arguments);
 
@@ -65,6 +76,7 @@ qx.Class.define("feedreader.mobile.OverviewPage",
     },
 
 
+    // property apply
     _applyFeeds : function(value, old) {
       this.__predefinedFeeds = value.getFeeds().getItem(0).getFeeds();
       this.__list.setModel(this.__predefinedFeeds);

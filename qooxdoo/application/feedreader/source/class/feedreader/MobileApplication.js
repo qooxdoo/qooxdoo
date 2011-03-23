@@ -103,19 +103,5 @@ qx.Class.define("feedreader.MobileApplication",
       overview.bind("selectedFeed", feedpage, "feed");
       feedpage.bind("selectedArticle", articlePage, "article");
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    
   }
 });

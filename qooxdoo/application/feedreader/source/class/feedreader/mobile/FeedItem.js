@@ -16,7 +16,9 @@
      * Tino Butz (tbtz)
 
 ************************************************************************ */
-
+/**
+ * Special feed iter for shoing feeds or articles in a mobile list.
+ */
 qx.Class.define("feedreader.mobile.FeedItem",
 {
   extend : qx.ui.mobile.list.ListItem,
@@ -45,7 +47,9 @@ qx.Class.define("feedreader.mobile.FeedItem",
   members :
   {
     __title : null,
-    
+
+
+    // property apply
     _applyData : function(value) {
       this.__title.setValue(value.getTitle());
     }

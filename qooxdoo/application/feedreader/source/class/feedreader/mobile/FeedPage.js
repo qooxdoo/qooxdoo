@@ -17,11 +17,17 @@
      * Tino Butz (tbtz)
 
 ************************************************************************ */
+/**
+ * Responsible for showing a list of articles for the mobile UI.
+ */
 qx.Class.define("feedreader.mobile.FeedPage", 
 {
   extend : qx.ui.mobile.page.Page,
 
   properties : {
+    /**
+     * Model object holding the feed which should be shown.
+     */
     feed : {
       event : "changeFeed", 
       init : null,
@@ -30,6 +36,9 @@ qx.Class.define("feedreader.mobile.FeedPage",
     },
 
 
+    /**
+     * Model of the currently selected article.
+     */
     selectedArticle : {
       event : "changeSelectedArticle",
       init : null,
@@ -37,7 +46,11 @@ qx.Class.define("feedreader.mobile.FeedPage",
     }
   },
 
+
   events : {
+    /**
+     * Navigation event for the back button.
+     */
     "back" : "qx.event.type.Event"
   },
 
@@ -47,6 +60,8 @@ qx.Class.define("feedreader.mobile.FeedPage",
     __title : null,
     __articles : null,
 
+
+    // overridden
     _initialize : function() {
       this.base(arguments);
 
@@ -77,6 +92,7 @@ qx.Class.define("feedreader.mobile.FeedPage",
     },
 
 
+    // property apply
     _applyFeed : function(value, old) {
       if (value != null) {
         this.__articles = value.getArticles();

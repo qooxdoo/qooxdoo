@@ -17,12 +17,18 @@
      * Tino Butz (tbtz)
 
 ************************************************************************ */
+/**
+ * Mobile page responsible for shoing a single article.
+ */
 qx.Class.define("feedreader.mobile.ArticlePage", 
 {
   extend : qx.ui.mobile.page.Page,
 
 
   properties : {
+    /**
+     * The article which should be shown.
+     */
     article : {
       event : "changeArticle",
       init : null,
@@ -33,6 +39,9 @@ qx.Class.define("feedreader.mobile.ArticlePage",
 
 
   events : {
+    /**
+     * Navigation event for the back button.
+     */
     "back" : "qx.event.type.Event"
   },
 
@@ -41,7 +50,9 @@ qx.Class.define("feedreader.mobile.ArticlePage",
   {
     __title : null,
     __article : null,
-    
+
+
+    // overridden
     _initialize : function() {
       this.base(arguments);
 
@@ -66,6 +77,7 @@ qx.Class.define("feedreader.mobile.ArticlePage",
     },
 
 
+    // property apply
     _applyArticle : function(value, old) {
       if (value != null) {
         this.__title.setValue(value.getTitle());

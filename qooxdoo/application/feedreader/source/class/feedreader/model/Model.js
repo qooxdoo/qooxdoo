@@ -17,6 +17,10 @@
      * Tino Butz (tbtz)
 
 ************************************************************************ */
+/**
+ * Main model containing the feeds and all the data. This is shared for 
+ * mobiel and desktop.
+ */
 qx.Class.define("feedreader.model.Model", 
 {
   extend : qx.core.Object,
@@ -31,18 +35,29 @@ qx.Class.define("feedreader.model.Model",
 
 
   properties : {
+    /**
+     * Contains the root folder of all feeds.
+     */
     feedFolder : {
       init : null,
       event : "changeFeedFolder",
       nullable: true
     },
-    
+
+
+    /**
+     * A folder containing all static feeds.
+     */
     staticFeedFolder : {
       init : null,
       event : "changeStaticFeedFolder",
       nullable: true
     },
-    
+
+
+    /**
+     * A folder containing all user feeds.
+     */
     userFeedFolder : {
       init : null,
       event : "changeUserFeedFolder",
@@ -53,6 +68,9 @@ qx.Class.define("feedreader.model.Model",
 
   members :
   {
+    /**
+     * Sets up the model data. Also initializes the load of all the feeds.
+     */
     _initializeModel : function()
     {
       // create the root folder
