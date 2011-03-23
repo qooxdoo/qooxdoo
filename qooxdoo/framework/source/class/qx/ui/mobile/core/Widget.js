@@ -492,10 +492,15 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Returns the tag name of the container element of this widget.
+     * Override this method if you want to create a custom widget.
+     */
     _getTagName : function()
     {
       return "div";
     },
+
 
    /**
     * Creates the container DOM element of the widget.
@@ -509,6 +514,10 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * Triggers the {@see #scheduleDomUpdated} method. This method needs to be called
+     * when the DOM has changed, e.g. an element was added / removed / styled. 
+     */
     _domUpdated : function()
     {
       qx.ui.mobile.core.Widget.scheduleDomUpdated();
@@ -522,6 +531,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     */
 
 
+    /**
+     * Transforms the value of the ID property. When the value is null, an auto
+     * generated ID is set. This makes shure that always an ID is set.
+     * 
+     * @param value {String} The set id of the widget
+     */
     _transformId : function(value)
     {
       var old = this.getId();
@@ -534,6 +549,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    // property apply
     _applyId : function(value, old)
     {
       if (old != null)
@@ -557,6 +573,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     */
 
 
+    /**
+     * Adds a new child widget.
+     *
+     * @param child {Widget} the widget to add.
+     * @param layoutProperties {Map?null} Optional layout data for widget.
+     */
     _add : function(child, layoutProperties)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -749,17 +771,32 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * Returns the parent widget of this widget.
+     * 
+     * @return {Widget} The parent of the widget
+     */
     getLayoutParent : function()
     {
       return this.__layoutParent;
     },
 
 
+    /**
+     * Returns the children of the widget.
+     * 
+     * @return {Widget[]} The children of the widget
+     */
     _getChildren : function() {
       return this.__children;
     },
 
 
+    /**
+     * Whether the widget has child widgets.
+     * 
+     * @return {Boolean} Whether the widget has children or not.
+     */
     _hasChildren : function() {
       return this.__children && this.__children.length > 0;
     },
@@ -772,13 +809,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     */
 
     /**
-     * Set a layout manager for the widget. A a layout manager can only be connected
+     * Set a layout manager for the widget. A layout manager can only be connected
      * with one widget. Reset the connection with a previous widget first, if you
      * like to use it in another widget instead.
      *
      * @param layout {qx.ui.mobile.layout.Abstract} The new layout or
      *     <code>null</code> to reset the layout.
-     * @return {void}
      */
     _setLayout : function(layout)
     {
@@ -799,16 +835,20 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * Returns the set layout manager for the widget.
+     * 
+     * @return  {qx.ui.mobile.layout.Abstract} the layout manager of the widget.
+     */
     _getLayout : function() {
       return this.__layoutManager;
     },
 
 
     /**
-     * Stores the given layout properties
+     * Stores the given layout properties.
      *
      * @param properties {Map} Incoming layout property data
-     * @return {void}
      */
     setLayoutProperties : function(properties)
     {
@@ -823,6 +863,13 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * Updates the layout properties of a given widget.
+     *
+     * @param properties {Map} Incoming layout property data
+     * 
+     * @internal
+     */
     updateLayoutProperties : function(widget, properties)
     {
       var layout = this._getLayout();
@@ -839,6 +886,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     */
 
 
+     /**
+      * Sets the innerHTML of the content element and calls the {@see #_domUpdated}
+      * method.
+      * 
+      * @param value {String} The html to set in the content element.
+      */
      _setHtml : function(value)
      {
        this.getContentElement().innerHTML = value || "";

@@ -75,22 +75,22 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
      * Adds a new child widget.
      *
      * @param child {Widget} the widget to add.
-     * @param options {Map?null} Optional layout data for widget.
+     * @param layoutProperties {Map?null} Optional layout data for widget.
      */
-    add : function(child, options) {
-      this._add(child, options);
+    add : function(child, layoutProperties) {
+      this._add(child, layoutProperties);
     },
 
 
     /**
      * Add a widget before another already inserted widget
-     * *
+     * 
      * @param child {Widget} Widget to add
      * @param before {Widget} Widget before the new widget will be inserted.
-     * @param options {Map?null} Optional layout data for widget.
-s     */
-    addBefore : function(child, before, options) {
-      this._addBefore(child, before, options);
+     * @param layoutProperties {Map?null} Optional layout data for widget.
+     */
+    addBefore : function(child, before, layoutProperties) {
+      this._addBefore(child, before, layoutProperties);
     },
 
 
@@ -99,10 +99,10 @@ s     */
      *
      * @param child {Widget} Widget to add
      * @param after {Widget} Widget, after which the new widget will be inserted
-     * @param options {Map?null} Optional layout data for widget.
+     * @param layoutProperties {Map?null} Optional layout data for widget.
      */
-    addAfter : function(child, after, options) {
-      this._addAfter(child, after, options);
+    addAfter : function(child, after, layoutProperties) {
+      this._addAfter(child, after, layoutProperties);
     },
 
 
