@@ -62,8 +62,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /** {Integer} Incremental counter of the current id */
     __idCounter : 0,
 
-    /** {Integer} Incremental counter of the current id */
-    __domUpdatedEventTimerId : null,
+    /** {Integer} ID of the timeout for the DOM update */
+    __domUpdatedScheduleId : null,
 
     /**
      * Event handler. Called when the application is in shutdown.
@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     onShutdown : function()
     {
-      window.clearTimeout(this.__domUpdatedEventTimerId);
+      window.clearTimeout(this.__domUpdatedScheduleId);
       delete qx.ui.mobile.core.Widget.__registry;
     },
 
@@ -130,15 +130,17 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
+     * Schedules the {@see #domUpdated} method. The method will be called after a timeout
+     * to prevent the triggered events to be fired to often, during massive DOM manipulations.
      * 
      * @internal
      */
-    scheduleDomUpdatedEvent : function()
+    scheduleDomUpdated : function()
     {
-      if (qx.ui.mobile.core.Widget.__domUpdatedEventTimerId == null)
+      if (qx.ui.mobile.core.Widget.__domUpdatedScheduleId == null)
       {
-        qx.ui.mobile.core.Widget.__domUpdatedEventTimerId = window.setTimeout(
-          qx.ui.mobile.core.Widget.fireDomUpdatedEvent,
+        qx.ui.mobile.core.Widget.__domUpdatedScheduleId = window.setTimeout(
+          qx.ui.mobile.core.Widget.domUpdated,
           0
         );
       }
@@ -146,14 +148,16 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
+     * Fires the DOM updated event directly. Triggers the {@see qx.event.handler.Appear#refresh} and 
+     * {@see qx.ui.mobile.core.DomUpdatedHandler#refresh} methods.
      * 
      * @internal
      */
-    fireDomUpdatedEvent : qx.event.GlobalError.observeMethod(function()
+    domUpdated : qx.event.GlobalError.observeMethod(function()
     {
-      var clazz = qx.ui.mobile.core.Widget;
-      window.clearTimeout(clazz.__domUpdatedEventTimerId);
-      clazz.__domUpdatedEventTimerId = null;
+      var clazz = qx.ui.mo__domUpdatedScheduleIdt;
+      window.clearTimeout(clazz.__domUpdatedScheduleId);
+      clazz.__domUpdatedScheduleId = null;
       qx.event.handler.Appear.refresh();
       qx.ui.mobile.core.DomUpdatedHandler.refresh();
     }),
@@ -466,7 +470,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     _domUpdated : function()
     {
-      qx.ui.mobile.core.Widget.scheduleDomUpdatedEvent();
+      qx.ui.mobile.core.Widget.scheduleDomUpdated();
     },
 
 
