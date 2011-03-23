@@ -152,26 +152,31 @@ qx.Bootstrap.define("qx.core.Environment",
 
       // @deprecated since 1.4: This is only for deprecation of 
       // qx.core.Variant.select
-      if (this.useCheck("qx.debug", "on"))
-      {
-        // check for true --> on
-        if (value === true && values["on"] != undefined) {
+
+      // check for true --> on
+      if (value === true && values["on"] != undefined) {
+        if (this.useCheck("qx.debug", "on"))
+        {
           qx.Bootstrap.warn(
             "The check '" + key + "' is a boolean value. "+ 
             "Please change your select map from 'on' to 'true'."
           );
-          return values["on"];
         }
-
-        // check for false --> off
-        if (value === false && values["off"] != undefined) {
+        return values["on"];
+      }
+      
+      // check for false --> off
+      if (value === false && values["off"] != undefined) {
+        if (this.useCheck("qx.debug", "on"))
+        {
           qx.Bootstrap.warn(
             "The check '" + key + "' is a boolean value. "+ 
             "Please change your select map from 'off' to 'false'."
           );
-          return values["off"];
         }
+        return values["off"];
       }
+
 
       if (values["default"] !== undefined) {
         return values["default"];
