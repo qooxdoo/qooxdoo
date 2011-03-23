@@ -106,9 +106,10 @@ qx.Class.define("qx.test.util.DateFormat",
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
 
-      var formatStr = "YYYY/MM/dd";
-      var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
-      dateStr = dateFmt.format(date);
+      // This will be enabled when YYYY will be supported
+      //var formatStr = "YYYY/MM/dd";
+      //var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
+      //dateStr = dateFmt.format(date);
 
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
@@ -450,7 +451,7 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
       date = new Date(2011,0,4,14,9,9);
       df = new qx.util.format.DateFormat("k");
-      this.assertEquals("2", df.format(date));
+      this.assertEquals("14", df.format(date));
       df.dispose();
 
     },
@@ -467,7 +468,7 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
       date = new Date(2011,0,4,14,9,9);
       df = new qx.util.format.DateFormat("K");
-      this.assertEquals("14", df.format(date));
+      this.assertEquals("2", df.format(date));
       df.dispose();
 
     },

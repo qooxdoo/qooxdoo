@@ -846,11 +846,11 @@ qx.Class.define("qx.util.format.DateFormat",
               break;
 
             case 'D': // Day in year (e.g. 189)
-              replacement = this.__fillNumber(this.__getDayInYear(date), wildcardSize);
+              replacement = this.__getDayInYear(date);
               break;
 
             case 'd': // Day in month
-              replacement = this.__fillNumber(dayOfMonth, wildcardSize);
+              replacement = dayOfMonth;
               break;
 
             case 'w': // Week in year (e.g. 27)
@@ -898,7 +898,9 @@ qx.Class.define("qx.util.format.DateFormat",
               } else if (wildcardSize == 3) {
                 replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "stand-alone");
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getMonthName("wide", month, locale, "stand-alone");
+                alert(qx.locale.Date.getMonthName("wide", month, locale, "stand-alone"));
+                alert(qx.locale.Date.getMonthName("wide", month, locale, "stand-alone").substr(0,1));
+                replacement = qx.locale.Date.getMonthName("wide", month, locale, "stand-alone").substr(0,1);
               }
 
               break;
@@ -909,19 +911,19 @@ qx.Class.define("qx.util.format.DateFormat",
               break;
 
             case 'H': // Hour in day (0-23)
-              replacement = this.__fillNumber(hours, wildcardSize);
+              replacement = hours;
               break;
 
             case 'k': // Hour in day (1-24)
-              replacement = this.__fillNumber((hours == 0) ? 24 : hours, wildcardSize);
+              replacement = (hours == 0) ? 24 : hours;
               break;
 
             case 'K': // Hour in am/pm (0-11)
-              replacement = this.__fillNumber(hours % 12, wildcardSize);
+              replacement = hours % 12;
               break;
 
             case 'h': // Hour in am/pm (1-12)
-              replacement = this.__fillNumber(((hours % 12) == 0) ? 12 : (hours % 12), wildcardSize);
+              replacement = ((hours % 12) == 0) ? 12 : (hours % 12);
               break;
 
             case 'm': // Minute in hour
@@ -933,7 +935,15 @@ qx.Class.define("qx.util.format.DateFormat",
               break;
 
             case 'S': // Millisecond
-              replacement = this.__fillNumber(ms, wildcardSize);
+              replacement = ms + "";
+              if (wildcardSize <= replacement.length) {
+                    replacement = replacement.substr(0,wildcardSize);
+                }
+                else {
+                  for (var j = replacement.length; j < wildcardSize; j++) {
+                    replacement = replacement + "0";
+                  };
+                }
               break;
 
             case 'z': // Time zone
