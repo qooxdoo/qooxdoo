@@ -128,18 +128,23 @@ def processVariantSelect(callNode, variantMap):
             if node.type != "keyvalue":
                 continue
 
-            fullKey = node.get("key")
-            value = node.getChild("value").getFirstChild()
-            keys = fullKey.split("|")
+            mapkey   = node.get("key")
+            mapvalue = node.getChild("value").getFirstChild()
+            keys = mapkey.split("|")
 
-            # Go through individual value constants
+            # Go through individual key constants
             for key in keys:
-                if key == variantValue:
-                    callNode.parent.replaceChild(callNode, value)
+                if (key == variantValue
+                    # @deprecated
+                    or (key == "on" and variantValue == True)
+                    # @deprecated
+                    or (key == "off" and variantValue == False)
+                    ):
+                    callNode.parent.replaceChild(callNode, mapvalue)
                     found = True
                     break
                 if key == "default":
-                    default = value
+                    default = mapvalue
                     
         if not found:
             if default != None:

@@ -583,8 +583,8 @@ class Generator(object):
             variantData = getVariants("variants")
             environData = getVariants("environment") 
             # for the time being, lets merge variant and environment data, putting
-            # environData last so it overrules
-            combiData   = dict(j for i in (variantData, environData) for j in i.iteritems())
+            # variantData last so it overrules
+            combiData   = dict(j for i in (environData, variantData) for j in i.iteritems())
             variantSets = util.computeCombinations(combiData)
             script.variants = variantSets[0] 
             script.libraries = self._libraries
@@ -602,8 +602,8 @@ class Generator(object):
         variantData = getVariants("variants")  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
         environData = getVariants("environment") 
         # for the time being, lets merge variant and environment data, putting
-        # environData last so it overrules
-        combiData   = dict(j for i in (variantData, environData) for j in i.iteritems())
+        # variantData last so it overrules
+        combiData   = dict(j for i in (environData, variantData) for j in i.iteritems())
         variantSets  = util.computeCombinations(combiData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
         for variantSetNum, variantset in enumerate(variantSets):
 
