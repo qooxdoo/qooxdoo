@@ -26,6 +26,12 @@ qx.Class.define("qx.ui.mobile.container.Composite",
   include : [ qx.ui.mobile.core.MChildrenHandling, qx.ui.mobile.core.MLayoutHandling],
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(layout)
   {
     this.base(arguments);
@@ -34,6 +40,14 @@ qx.Class.define("qx.ui.mobile.container.Composite",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
 
   defer : function(statics, members)
   {
