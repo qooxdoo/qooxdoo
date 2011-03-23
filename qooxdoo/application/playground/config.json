@@ -38,20 +38,16 @@
         "qx.ui.mobile.*"
       ],
 
-      "variants" :
+      "environment" :
       {
-        "=qx.debug" : ["on"]
+        "qx.debug" : true,
+        "qx.nativeScrollBars" : true
       }
     },
 
     "build-script" :
     {
-      "extend" : [ "playground-compile" ],
-
-      "settings" :
-      {
-        "qx.nativeScrollBars" : true
-      }
+      "extend" : [ "playground-compile" ]
     },
 
 
@@ -63,12 +59,7 @@
     
     "source" :
     {
-      "extend" : [ "playground-compile" ],
-
-      "settings" :
-      {
-        "qx.nativeScrollBars" : true
-      }
+      "extend" : [ "playground-compile" ]
     }    
   }
 }
