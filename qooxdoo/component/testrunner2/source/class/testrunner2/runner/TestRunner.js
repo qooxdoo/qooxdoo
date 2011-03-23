@@ -365,6 +365,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       }
 
       var currentTest = this.currentTestData = this.testList.shift();
+      currentTest.resetState();
       this.setTestCount(this.testList.length);
       var className = currentTest.parent.fullName;
       var functionName = currentTest.getName();
