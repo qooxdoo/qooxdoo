@@ -186,10 +186,6 @@ qx.Class.define("testrunner2.view.widget.TestResultView",
      */
     clear : function()
     {
-      for (var i=0; i<this.__testResults.length; i++) {
-        this.__testResults[i].dispose();
-      }
-
       this.__testResults = [];
       this.setHtml("");
     }
