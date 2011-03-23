@@ -858,47 +858,51 @@ qx.Class.define("qx.util.format.DateFormat",
               break;
 
             case 'E': // Day in week
-              if (wildcardSize == 2) {
-                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone");
-              } else if (wildcardSize == 3) {
+              if (wildcardSize >= 1 && wildcardSize <= 3) {
                 replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format");
               } else if (wildcardSize == 4) {
                 replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format");
+              } else if (wildcardSize == 5) {
+                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone");
               }
 
               break;
 
             case 'c': // Stand-alone local day in week
-              if (wildcardSize == 5) {
-                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone");
-              } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "stand-alone");
-              } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "stand-alone");
-              } else if (wildcardSize == 1) {
+              if (wildcardSize == 1) {
                 replacement = ''+dayOfWeek;
+              } else if (wildcardSize == 3) {
+                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format");
+              } else if (wildcardSize == 4) {
+                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format");
+              } else if (wildcardSize == 5) {
+                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone");
               }
 
               break;
 
             case 'M': // Month
               if (wildcardSize == 1 || wildcardSize == 2) {
-                replacement = this.__fillNumber(month + 1, wildcardSize);
+                replacement = this.__fillNumber(month + 1, 2); // September should be '09' in both cases , M and MM
               } else if (wildcardSize == 3) {
                 replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "format");
               } else if (wildcardSize == 4) {
                 replacement = qx.locale.Date.getMonthName("wide", month, locale, "format");
+              } else if (wildcardSize == 5) {
+                replacement = qx.locale.Date.getMonthName("narrow", month, locale, "stand-alone");
               }
 
               break;
 
             case 'L': // Stand-alone month
               if (wildcardSize == 1 || wildcardSize == 2) {
-                replacement = this.__fillNumber(month + 1, wildcardSize);
+                replacement = this.__fillNumber(month + 1, 2); // September should be '09' in both cases , L and LL
               } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "stand-alone");
+                replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "format");
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getMonthName("wide", month, locale, "stand-alone").substr(0,1);
+                replacement = qx.locale.Date.getMonthName("wide", month, locale, "format");
+              } else if (wildcardSize == 5) {
+                replacement = qx.locale.Date.getMonthName("narrow", month, locale, "stand-alone");
               }
 
               break;
@@ -1505,10 +1509,18 @@ qx.Class.define("qx.util.format.DateFormat",
 
       rules.push(
       {
-        pattern     : "EE",
-        regex       : "(" + narrowDayNames.join("|") + ")",
-        manipulator : narrowDayNamesManipulator
+        pattern     : "E",
+        regex       : "(" + abbrDayNames.join("|") + ")",
+        manipulator : abbrDayNamesManipulator
       });
+
+      rules.push(
+      {
+        pattern     : "EE",
+        regex       : "(" + abbrDayNames.join("|") + ")",
+        manipulator : abbrDayNamesManipulator
+      });
+
 
       rules.push(
       {
@@ -1522,6 +1534,13 @@ qx.Class.define("qx.util.format.DateFormat",
         pattern     : "EEEE",
         regex       : "(" + fullDayNames.join("|") + ")",
         manipulator : fullDayNamesManipulator
+      });
+
+      rules.push(
+      {
+        pattern     : "EEEEE",
+        regex       : "(" + narrowDayNames.join("|") + ")",
+        manipulator : narrowDayNamesManipulator
       });
 
       rules.push(
