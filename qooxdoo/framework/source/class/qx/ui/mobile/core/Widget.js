@@ -287,7 +287,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     onShutdown : function()
     {
-      window.clearTimeout(this.__domUpdatedScheduleId);
+      window.clearTimeout(qx.ui.mobile.core.Widget.__domUpdatedScheduleId);
       delete qx.ui.mobile.core.Widget.__registry;
     },
 
@@ -372,7 +372,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     domUpdated : qx.event.GlobalError.observeMethod(function()
     {
-      var clazz = qx.ui.mo__domUpdatedScheduleIdt;
+      var clazz = qx.ui.mobile.core.Widget;
       window.clearTimeout(clazz.__domUpdatedScheduleId);
       clazz.__domUpdatedScheduleId = null;
       qx.event.handler.Appear.refresh();
