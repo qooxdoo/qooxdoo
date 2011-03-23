@@ -225,27 +225,24 @@ msgstr ""
 msgid "Format of %1:"
 msgstr ""
 
-#: demobrowser/demo/showcase/Translation.js:98
+#: demobrowser/demo/showcase/Translation.js:117
 msgid "Hello World"
 msgstr "Hallo Welt"
 
-#: demobrowser/demo/showcase/Translation.js:109
 #: demobrowser/demo/showcase/Translation.js:120
 msgid "I have an apple"
 msgid_plural "I have %1 apples"
 msgstr[0] "Ich habe einen Apfel"
 msgstr[1] "Ich habe %1 Äpfel"
 
-#: demobrowser/demo/showcase/Translation.js:109
-#: demobrowser/demo/showcase/Translation.js:120
-msgid "two"
-msgstr "zwei"
-
 #. The mammal fox that is.
-#: demobrowser/demo/showcase/Translation.js:131
+#: demobrowser/demo/showcase/Translation.js:122
 msgid "The quick brown fox"
 msgstr "Der schnelle, braune Fuchs"
 
-#: demobrowser/demo/showcase/Translation.js:142
+#: demobrowser/demo/showcase/Translation.js:124
 msgid "Orange"
 msgstr ""
+
+#~ msgid "two"
+#~ msgstr "zwei"
