@@ -41,8 +41,46 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
   },
 
 
-  statics : {
-    PROPERTY_CSS_MAPPING : {
+  properties :
+  {
+    /**
+     * Horizontal alignment of the whole children block.
+     */
+    alignX :
+    {
+      check : [ "left", "center", "right" ],
+      nullable : true,
+      init : null,
+      apply : "_applyLayoutChange"
+    },
+
+
+    /**
+     * Vertical alignment of each child.
+     */
+    alignY :
+    {
+      check : [ "top", "middle", "bottom" ],
+      nullable : true,
+      init : null,
+      apply : "_applyLayoutChange"
+    },
+
+
+    reverse :
+    {
+      check : "Boolean",
+      nullable : true,
+      init : null,
+      apply : "_applyLayoutChange"
+    }
+  },
+
+
+  statics :
+  {
+    PROPERTY_CSS_MAPPING :
+    {
       "alignX":
       {
         "hbox" :
@@ -90,42 +128,6 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
 
     SUPPORTED_CHILD_LAYOUT_PROPERTIES : {
       "flex" : 1
-    }
-  },
-
-
-  properties :
-  {
-    /**
-     * Horizontal alignment of the whole children block.
-     */
-    alignX :
-    {
-      check : [ "left", "center", "right" ],
-      nullable : true,
-      init : null,
-      apply : "_applyLayoutChange"
-    },
-
-
-    /**
-     * Vertical alignment of each child.
-     */
-    alignY :
-    {
-      check : [ "top", "middle", "bottom" ],
-      nullable : true,
-      init : null,
-      apply : "_applyLayoutChange"
-    },
-
-
-    reverse :
-    {
-      check : "Boolean",
-      nullable : true,
-      init : null,
-      apply : "_applyLayoutChange"
     }
   },
 
