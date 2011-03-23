@@ -104,8 +104,8 @@ qx.Bootstrap.define("qx.core.Variant",
       if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
       {
         qx.Bootstrap.warn(
-          "The method 'qx.core.Variant.define' is deprecated: " +
-          "Please use qx.core.Environment.add() instead."
+          "The method 'qx.core.Variant.define('" + key + "')' is deprecated: " +
+          "Please use qx.core.Environment.add('" + key + "') instead."
         );
       }
       
@@ -166,8 +166,8 @@ qx.Bootstrap.define("qx.core.Variant",
       if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
       {
         qx.Bootstrap.warn(
-          "The method 'qx.core.Variant.get' is deprecated: " +
-          "Please use qx.core.Environment.get() instead."
+          "The method 'qx.core.Variant.get('" + key + "')' is deprecated: " +
+          "Please use qx.core.Environment.get('" + key + "') instead."
         );
 
         if (data === undefined) {
@@ -286,8 +286,8 @@ qx.Bootstrap.define("qx.core.Variant",
       if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
       {
         qx.Bootstrap.warn(
-          "The method 'qx.core.Variant.select' is deprecated: " +
-          "Please use qx.core.Environment.select() instead."
+          "The method 'qx.core.Variant.select('" + key + "')' is deprecated: " +
+          "Please use qx.core.Environment.select('" + key + "') instead."
         );
         
         // WARINING: all changes to this function must be duplicated in the generator!!
@@ -353,8 +353,8 @@ qx.Bootstrap.define("qx.core.Variant",
     {
       if (qx.core.Variant.compilerIsSet("qx.debug", "on")) {
         qx.Bootstrap.warn(
-          "The method 'qx.core.Variant.isSet' is deprecated: " +
-          "Please use 'qx.core.Environment.get() ==' instead."
+          "The method 'qx.core.Variant.isSet('" + key + "')' is deprecated: " +
+          "Please use 'qx.core.Environment.get('" + key + "') ==' instead. "
         );
       }
       var access = key + "$" + variants;
