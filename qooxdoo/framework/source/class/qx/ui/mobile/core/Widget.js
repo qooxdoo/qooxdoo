@@ -62,11 +62,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /** {Integer} Incremental counter of the current id */
     __idCounter : 0,
 
-
+    /** {Integer} Incremental counter of the current id */
     __domUpdatedEventTimerId : null,
 
     /**
      * Event handler. Called when the application is in shutdown.
+     * @internal
      */
     onShutdown : function()
     {
@@ -74,7 +75,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       delete qx.ui.mobile.core.Widget.__registry;
     },
 
-
+    /**
+     * Returns the current widget id of the registry.
+     
+     * @return {Integer} The current id
+     * @internal
+     */
     getCurrentId : function()
     {
       return qx.ui.mobile.core.Widget.__idCounter
@@ -82,7 +88,9 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * @param widget {Object}
+     * Registers a widget with its id for internal widget handling.
+     * 
+     * @param widget {Widget} The widget to register
      *
      * @internal
      */
@@ -98,8 +106,9 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     *
-     * @param id {String}
+     * Unregisters the widget with the given id.
+     * 
+     * @param id {String} The id of the widget to unregister
      *
      * @internal
      */
@@ -109,6 +118,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+   /**
+     * Returns the widget with the given id.
+     * 
+     * @param id {String} The id of the widget
+     * @return {Widget} The widget with the given id
+     */
     getWidgetById : function(id) {
       return qx.ui.mobile.core.Widget.__registry[id];
     },
