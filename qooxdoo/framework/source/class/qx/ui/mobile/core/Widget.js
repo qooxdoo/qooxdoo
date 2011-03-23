@@ -51,6 +51,195 @@ qx.Class.define("qx.ui.mobile.core.Widget",
   },
 
 
+
+
+
+  events :
+  {
+    /** Fired if the mouse cursor moves over the widget. */
+    mousemove : "qx.event.type.Mouse",
+
+    /** Fired if the mouse cursor enters the widget. */
+    mouseover : "qx.event.type.Mouse",
+
+    /** Fired if the mouse cursor leaves widget. */
+    mouseout : "qx.event.type.Mouse",
+
+    /** Mouse button is pressed on the widget. */
+    mousedown : "qx.event.type.Mouse",
+
+    /** Mouse button is released on the widget. */
+    mouseup : "qx.event.type.Mouse",
+
+    /** Widget is clicked using left or middle button.
+        {@link qx.event.type.Mouse#getButton} for more details.*/
+    click : "qx.event.type.Mouse",
+
+    /** Widget is double clicked using left or middle button.
+        {@link qx.event.type.Mouse#getButton} for more details.*/
+    dblclick : "qx.event.type.Mouse",
+
+    /** Widget is clicked using the right mouse button. */
+    contextmenu : "qx.event.type.Mouse",
+
+    /** Fired before the context menu is opened. */
+    beforeContextmenuOpen : "qx.event.type.Mouse",
+
+    /** Fired if the mouse wheel is used over the widget. */
+    mousewheel : "qx.event.type.MouseWheel",
+
+    /** Fired if a touch at the screen is started. */
+    touchstart : "qx.event.type.Touch",
+
+    /** Fired if a touch at the screen has ended. */
+    touchend : "qx.event.type.Touch",
+
+    /** Fired during a touch at the screen. */
+    touchmove : "qx.event.type.Touch",
+
+    /** Fired if a touch at the screen is cancled. */
+    touchcancel : "qx.event.type.Touch",
+
+    /** Fired when a finger taps on the screen. */
+    tap : "qx.event.type.Touch",
+
+    /** Fired when a finger swipes over the screen. */
+    swipe : "qx.event.type.Touch",
+
+    /**
+     * This event if fired if a keyboard key is released.
+     **/
+    keyup : "qx.event.type.KeySequence",
+
+    /**
+     * This event if fired if a keyboard key is pressed down. This event is
+     * only fired once if the user keeps the key pressed for a while.
+     */
+    keydown : "qx.event.type.KeySequence",
+
+    /**
+     * This event is fired any time a key is pressed. It will be repeated if
+     * the user keeps the key pressed. The pressed key can be determined using
+     * {@link qx.event.type.KeySequence#getKeyIdentifier}.
+     */
+    keypress : "qx.event.type.KeySequence",
+
+    /**
+     * This event is fired if the pressed key or keys result in a printable
+     * character. Since the character is not necessarily associated with a
+     * single physical key press, the event does not have a key identifier
+     * getter. This event gets repeated if the user keeps pressing the key(s).
+     *
+     * The unicode code of the pressed key can be read using
+     * {@link qx.event.type.KeyInput#getCharCode}.
+     */
+    keyinput : "qx.event.type.KeyInput",
+
+
+    domupdated : "qx.event.type.Event",
+
+    /**
+     * Fired after the widget appears on the screen.
+     */
+    appear : "qx.event.type.Event",
+
+    /**
+     * Fired after the widget disappears from the screen.
+     */
+    disappear : "qx.event.type.Event",
+
+
+    /**
+     * The event is fired when the widget gets focused. Only widgets which are
+     * {@link #focusable} receive this event.
+     */
+    focus : "qx.event.type.Focus",
+
+    /**
+     * The event is fired when the widget gets blurred. Only widgets which are
+     * {@link #focusable} receive this event.
+     */
+    blur : "qx.event.type.Focus",
+
+    /**
+     * When the widget itself or any child of the widget receive the focus.
+     */
+    focusin : "qx.event.type.Focus",
+
+    /**
+     * When the widget itself or any child of the widget lost the focus.
+     */
+    focusout : "qx.event.type.Focus",
+
+    /**
+     * When the widget gets active (receives keyboard events etc.)
+     */
+    activate : "qx.event.type.Focus",
+
+    /**
+     * When the widget gets inactive
+     */
+    deactivate : "qx.event.type.Focus"
+  },
+
+
+  properties :
+  {
+    cssClass :
+    {
+      check : "String",
+      init : null,
+      nullable : true,
+      apply  : "_applyCssClass"
+    },
+
+
+    name :
+    {
+      check : "String",
+      init : null,
+      nullable : true,
+      apply : "_applyAttribute"
+    },
+
+
+    /**
+     * Whether the widget is an terminator for an event. This is an hint for the
+     * event handler only.
+     *
+     * @internal
+     */
+    anonymous :
+    {
+      check : "Boolean",
+      init : null,
+      nullable : true,
+      apply : "_applyStyle"
+    },
+
+
+    id :
+    {
+      check : "String",
+      init : null,
+      nullable : true,
+      apply : "_applyId",
+      transform : "_transformId",
+      event : "changeId"
+    },
+
+
+    // Todo: setVisibility method / exclude / hide
+    display :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyStyle",
+      event : "changeDisplay"
+    }
+  },
+
+
   statics :
   {
     /** {String} Prefix for the auto id */
@@ -287,192 +476,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
           "false" : "none"
         }
       }
-    }
-  },
-
-
-  events :
-  {
-    /** Fired if the mouse cursor moves over the widget. */
-    mousemove : "qx.event.type.Mouse",
-
-    /** Fired if the mouse cursor enters the widget. */
-    mouseover : "qx.event.type.Mouse",
-
-    /** Fired if the mouse cursor leaves widget. */
-    mouseout : "qx.event.type.Mouse",
-
-    /** Mouse button is pressed on the widget. */
-    mousedown : "qx.event.type.Mouse",
-
-    /** Mouse button is released on the widget. */
-    mouseup : "qx.event.type.Mouse",
-
-    /** Widget is clicked using left or middle button.
-        {@link qx.event.type.Mouse#getButton} for more details.*/
-    click : "qx.event.type.Mouse",
-
-    /** Widget is double clicked using left or middle button.
-        {@link qx.event.type.Mouse#getButton} for more details.*/
-    dblclick : "qx.event.type.Mouse",
-
-    /** Widget is clicked using the right mouse button. */
-    contextmenu : "qx.event.type.Mouse",
-
-    /** Fired before the context menu is opened. */
-    beforeContextmenuOpen : "qx.event.type.Mouse",
-
-    /** Fired if the mouse wheel is used over the widget. */
-    mousewheel : "qx.event.type.MouseWheel",
-
-    /** Fired if a touch at the screen is started. */
-    touchstart : "qx.event.type.Touch",
-
-    /** Fired if a touch at the screen has ended. */
-    touchend : "qx.event.type.Touch",
-
-    /** Fired during a touch at the screen. */
-    touchmove : "qx.event.type.Touch",
-
-    /** Fired if a touch at the screen is cancled. */
-    touchcancel : "qx.event.type.Touch",
-
-    /** Fired when a finger taps on the screen. */
-    tap : "qx.event.type.Touch",
-
-    /** Fired when a finger swipes over the screen. */
-    swipe : "qx.event.type.Touch",
-
-    /**
-     * This event if fired if a keyboard key is released.
-     **/
-    keyup : "qx.event.type.KeySequence",
-
-    /**
-     * This event if fired if a keyboard key is pressed down. This event is
-     * only fired once if the user keeps the key pressed for a while.
-     */
-    keydown : "qx.event.type.KeySequence",
-
-    /**
-     * This event is fired any time a key is pressed. It will be repeated if
-     * the user keeps the key pressed. The pressed key can be determined using
-     * {@link qx.event.type.KeySequence#getKeyIdentifier}.
-     */
-    keypress : "qx.event.type.KeySequence",
-
-    /**
-     * This event is fired if the pressed key or keys result in a printable
-     * character. Since the character is not necessarily associated with a
-     * single physical key press, the event does not have a key identifier
-     * getter. This event gets repeated if the user keeps pressing the key(s).
-     *
-     * The unicode code of the pressed key can be read using
-     * {@link qx.event.type.KeyInput#getCharCode}.
-     */
-    keyinput : "qx.event.type.KeyInput",
-
-
-    domupdated : "qx.event.type.Event",
-
-    /**
-     * Fired after the widget appears on the screen.
-     */
-    appear : "qx.event.type.Event",
-
-    /**
-     * Fired after the widget disappears from the screen.
-     */
-    disappear : "qx.event.type.Event",
-
-
-    /**
-     * The event is fired when the widget gets focused. Only widgets which are
-     * {@link #focusable} receive this event.
-     */
-    focus : "qx.event.type.Focus",
-
-    /**
-     * The event is fired when the widget gets blurred. Only widgets which are
-     * {@link #focusable} receive this event.
-     */
-    blur : "qx.event.type.Focus",
-
-    /**
-     * When the widget itself or any child of the widget receive the focus.
-     */
-    focusin : "qx.event.type.Focus",
-
-    /**
-     * When the widget itself or any child of the widget lost the focus.
-     */
-    focusout : "qx.event.type.Focus",
-
-    /**
-     * When the widget gets active (receives keyboard events etc.)
-     */
-    activate : "qx.event.type.Focus",
-
-    /**
-     * When the widget gets inactive
-     */
-    deactivate : "qx.event.type.Focus"
-  },
-
-
-  properties :
-  {
-    cssClass :
-    {
-      check : "String",
-      init : null,
-      nullable : true,
-      apply  : "_applyCssClass"
-    },
-
-
-    name :
-    {
-      check : "String",
-      init : null,
-      nullable : true,
-      apply : "_applyAttribute"
-    },
-
-
-    /**
-     * Whether the widget is an terminator for an event. This is an hint for the
-     * event handler only.
-     *
-     * @internal
-     */
-    anonymous :
-    {
-      check : "Boolean",
-      init : null,
-      nullable : true,
-      apply : "_applyStyle"
-    },
-
-
-    id :
-    {
-      check : "String",
-      init : null,
-      nullable : true,
-      apply : "_applyId",
-      transform : "_transformId",
-      event : "changeId"
-    },
-
-
-    // Todo: setVisibility method / exclude / hide
-    display :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyStyle",
-      event : "changeDisplay"
     }
   },
 
