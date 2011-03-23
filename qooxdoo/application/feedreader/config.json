@@ -33,9 +33,9 @@
         "APPLICATION_MAIN_CLASS" : "${APPLICATION}.MobileApplication"
       },
       
-      "variants" :
+      "environment" :
       {
-        "qx.mobile.emulatetouch" : ["on"]
+        "qx.mobile.emulatetouch" : true
       },
 
       "compile-options" :
@@ -56,9 +56,9 @@
         "BUILD_PATH" : "build-mobile"
       },
 
-      "variants" :
+      "environment" :
       {
-        "qx.mobile.emulatetouch" : ["on"]
+        "qx.mobile.emulatetouch" : true
       },
 
       "compile-options" :
@@ -86,7 +86,7 @@
 
     "common" :
     {
-      "settings" :
+      "environment" :
       {
         "qx.nativeScrollBars" : true
       },
