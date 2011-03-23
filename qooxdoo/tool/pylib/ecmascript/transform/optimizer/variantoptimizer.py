@@ -299,7 +299,11 @@ def processVariantGet(callNode, variantMap):
                         op1 = variantValue
                         op2 = otherValue.get("value")
                     elif constType == "boolean":
-                        op1 = variantValue
+                        # @deprecated
+                        if isinstance(variantValue, types.StringTypes) and variantValue in ["on","off"]:
+                            op1 = {"on":True,"off":False}[variantValue]
+                        else:
+                            op1 = variantValue
                         op2 = {"true":True, "false":False}[otherValue.get("value")]
                     elif constType == "null":
                         op1 = variantValue

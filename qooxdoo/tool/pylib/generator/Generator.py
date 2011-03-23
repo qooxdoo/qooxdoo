@@ -346,7 +346,6 @@ class Generator(object):
         ##
         # Get the variants from the config
         def getVariants(confkey):
-            # TODO: Runtime variants support is currently missing
             variants = {}
             variantsConfig = self._job.get(confkey, {})
             variantsRuntime = self._variants
@@ -360,7 +359,9 @@ class Generator(object):
             # sanity check variants
             for key,val in variants.items():
                 if not isinstance(val, types.ListType):
-                    raise ValueError("Config error: Variant values must be lists: \"%s\":\"%r\"" % (key,val))
+                    #raise ValueError("Config error: Variant values must be lists: \"%s\":\"%r\"" % (key,val))
+                    # allow scalar values
+                    variants[key] = [ val ]
 
             return variants
 
