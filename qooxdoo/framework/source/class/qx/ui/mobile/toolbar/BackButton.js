@@ -24,6 +24,13 @@ qx.Class.define("qx.ui.mobile.toolbar.BackButton",
 {
   extend : qx.ui.mobile.toolbar.Button,
 
+
+ /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
     cssClass :

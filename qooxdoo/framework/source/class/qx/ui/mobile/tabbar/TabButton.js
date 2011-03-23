@@ -24,6 +24,13 @@ qx.Class.define("qx.ui.mobile.tabbar.TabButton",
 {
   extend : qx.ui.mobile.form.Button,
 
+
+ /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
     cssClass :

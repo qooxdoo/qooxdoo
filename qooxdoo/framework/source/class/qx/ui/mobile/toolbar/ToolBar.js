@@ -26,6 +26,12 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
   extend : qx.ui.mobile.container.Composite,
 
 
+ /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(layout)
   {
     this.base(arguments, layout);
@@ -36,6 +42,14 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
     }
   },
 
+
+
+
+ /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
   properties :
   {
