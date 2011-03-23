@@ -151,41 +151,6 @@ qx.Class.define("qx.test.core.Variants",
      *
      * @return {void}
      */
-    testInlineSwitch : function()
-    {
-      this.debug("test testInlineSwitch");
-
-      qx.core.Variant.define("test.animal", [ "dog", "cat", "snake" ], "snake");
-      this.assertEquals("snake", qx.core.Variant.get("test.animal"));
-
-      var c;
-
-      if (qx.core.Variant.isSet("test.animal", "dog|snake"))
-      {
-        if (qx.core.Variant.isSet("test.animal", "dog")) {
-          c = "dog";
-        } else {
-          c = "snake";
-        }
-      }
-      else if (qx.core.Variant.isSet("test.animal", "cat"))
-      {
-        c = "cat";
-      }
-
-      if (qx.core.Variant.isSet("test.animal", "default")) {
-        c = "snake";
-      }
-
-      this.assertEquals(qx.core.Variant.get("test.animal"), c);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @return {void}
-     */
     testIfWithComment : function()
     {
       this.debug("test testIfWithComment");

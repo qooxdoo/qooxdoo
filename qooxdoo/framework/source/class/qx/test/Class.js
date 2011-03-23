@@ -215,7 +215,7 @@ qx.Class.define("qx.test.Class",
     {
       qx.Class.define("qx.Variant1",
       {
-        variants :
+        environment :
         {
           "qx.juhu" :
           {
@@ -225,7 +225,7 @@ qx.Class.define("qx.test.Class",
         }
       });
 
-      this.assertEquals("kinners", qx.core.Variant.get("qx.juhu"));
+      this.assertEquals("kinners", qx.core.Environment.get("qx.juhu"));
 
       if (this.isDebugOn())
       {
