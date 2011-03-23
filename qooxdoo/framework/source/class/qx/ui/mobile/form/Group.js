@@ -25,6 +25,13 @@ qx.Class.define("qx.ui.mobile.form.Group",
 {
   extend : qx.ui.mobile.container.Composite,
 
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
     cssClass :

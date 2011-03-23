@@ -30,6 +30,13 @@ qx.Class.define("qx.ui.mobile.form.Input",
   extend : qx.ui.mobile.core.Widget,
   type : "abstract",
 
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(value)
   {
     this.base(arguments);
@@ -47,6 +54,14 @@ qx.Class.define("qx.ui.mobile.form.Input",
     qx.event.Registration.addListener(this.getContentElement(), "input", this._onInput, this);
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
 
   events :
   {
@@ -73,6 +88,14 @@ qx.Class.define("qx.ui.mobile.form.Input",
     "changeValue" : "qx.event.type.Data"
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
   properties :
   {
@@ -128,6 +151,14 @@ qx.Class.define("qx.ui.mobile.form.Input",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
