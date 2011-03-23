@@ -34,10 +34,18 @@ qx.Class.define("qx.application.Mobile",
   extend : qx.application.Native,
   include : qx.locale.MTranslation,
 
+
+ /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
   },
+
 
 
 
@@ -87,6 +95,14 @@ qx.Class.define("qx.application.Mobile",
     }
   },
 
+
+
+
+ /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
   destruct : function()
   {
