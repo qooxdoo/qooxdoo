@@ -35,8 +35,8 @@ qx.Class.define("simulator.Simulation", {
   construct : function()
   {
     this.__options = {
-      autHost : String(qx.core.Environment.get("simulator.autHost")),
-      autPath : String(qx.core.Environment.get("simulator.autPath"))
+      autHost : qx.core.Environment.get("simulator.autHost"),
+      autPath : qx.core.Environment.get("simulator.autPath")
     };
     var booleanSettings = ["threadSafe", "applicationLog", "globalErrorLogging",
       "testEvents"];
@@ -404,6 +404,7 @@ qx.Class.define("simulator.Simulation", {
     {
       var openUri = uri || this.__options.autHost + "" + this.__options.autPath;
       simulator.QxSelenium.getInstance().open(openUri);
+      simulator.QxSelenium.getInstance().waitForCondition("selenium.browserbot.getCurrentWindow().qx", 5000);
       this._setupEnvironment();
     }
 
