@@ -42,6 +42,16 @@ qx.Class.define("qx.io.request.Xhr",
     async: {
       check: "Boolean",
       init: true
+    },
+
+    username: {
+      check: "String",
+      nullable: true
+    },
+
+    password: {
+      check: "String",
+      nullable: true
     }
   },
 
@@ -50,7 +60,8 @@ qx.Class.define("qx.io.request.Xhr",
     __transport: null,
 
     send: function() {
-      this.__transport.open(this.getMethod(), this.getUrl(), this.getAsync());
+      this.__transport.open(this.getMethod(), this.getUrl(), this.getAsync(),
+           this.getUsername(), this.getPassword());
       this.__transport.send();
     },
 

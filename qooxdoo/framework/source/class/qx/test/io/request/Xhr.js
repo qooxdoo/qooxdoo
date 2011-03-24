@@ -66,6 +66,16 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "POST");
+    },
+
+    "test: should send authorized request": function() {
+      this.spy(this.transport, "open");
+      this.req.setUsername("affe");
+      this.req.setPassword("geheim");
+
+      this.req.send();
+
+      this.assertCalledWith(this.transport.open, "GET", "url", true, "affe", "geheim");
     }
 
   }
