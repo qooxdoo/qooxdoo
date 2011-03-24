@@ -20,7 +20,7 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  */
-qx.Class.define("qx.ui.mobile.container.Scroller",
+qx.Class.define("qx.ui.mobile.container.Scroll",
 {
   extend : qx.ui.mobile.container.Composite,
   include : [ qx.ui.mobile.core.MChildrenHandling, qx.ui.mobile.core.MLayoutHandling],

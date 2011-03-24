@@ -77,7 +77,7 @@ qx.Class.define("feedreader.mobile.FeedPage",
       this.add(navigationbar);
 
       // add a scroller
-      var scroller = new qx.ui.mobile.container.Scroller();
+      var scroller = new qx.ui.mobile.container.Scroll();
       this.add(scroller, {flex: 1});
       
       // add a list

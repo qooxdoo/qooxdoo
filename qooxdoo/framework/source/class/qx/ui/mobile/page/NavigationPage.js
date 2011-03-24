@@ -226,7 +226,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     _createContent : function()
     {
-      return new qx.ui.mobile.container.Scroller();
+      return new qx.ui.mobile.container.Scroll();
     },
 
 
