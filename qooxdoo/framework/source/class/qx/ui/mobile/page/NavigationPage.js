@@ -110,6 +110,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     __backButton : null,
     __button : null,
     __content : null,
+    __scrollContainer : null,
 
 
     getContent : function()
@@ -139,6 +140,12 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     _getButton : function()
     {
       return this.__button;
+    },
+
+
+    _getScrollContainer : function()
+    {
+      return this.__scroll;
     },
 
 
@@ -213,20 +220,32 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     _initialize : function()
     {
       this.base(arguments);
+
       this.__navigationBar = this._createNavigationBar();
       if (this.__navigationBar) {
         this.add(this.__navigationBar);
       }
+      this.__scrollContainer = this._createScrollContainer();
       this.__content = this._createContent();
       if (this.__content) {
-        this.add(this.__content, {flex:1});
+        this.__scroll.add(this.__content);
       }
+      if (this.__scroll) {
+        this.add(this.__scroll, {flex:1});
+      }
+    },
+
+    _createScrollContainer : function()
+    {
+      return new qx.ui.mobile.container.Scroll();
     },
 
 
     _createContent : function()
     {
-      return new qx.ui.mobile.container.Scroll();
+      var content = new qx.ui.mobile.container.Composite();
+      content.setDefaultCssClass("content");
+      return content;
     },
 
 
@@ -288,5 +307,11 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     {
       this.fireEvent("action");
     }
+  },
+
+
+  destruct : function()
+  {
+    this.__navigationBar = this.__title = this.__backButton = this.__button = this.__content = this.__scrollContainer = null;
   }
 });
