@@ -192,6 +192,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     __testTree : null,
     __runButton : null,
     __stopButton : null,
+    __autUriField : null,
     __progressBar : null,
     __testResultView : null,
     __testCountField : null,
@@ -305,10 +306,14 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       toolbar.add(part2);
 
       var autUriField = new qx.ui.form.TextField();
+      this.__autUriField = autUriField;
       this.bind("autUri", autUriField, "value");
-      autUriField.addListener("changeValue", function(ev) {
-        this.__iframe.setSource(ev.getData());
+      autUriField.addListener("keydown", function(ev) {
+        if (ev.getKeyIdentifier() == "Enter") {
+          this.__reloadAut();
+        }
       }, this);
+      
       autUriField.setToolTipText(this.__app.tr("Application under test URL"));
       autUriField.set(
       {
@@ -1025,6 +1030,11 @@ qx.Class.define("testrunner2.view.widget.Widget", {
           this.setStatus("Invalid test file selected!");
       };
     },
+    
+    _applyAutUri : function(value, old)
+    {
+      this.__iframe.setSource(value);
+    },
 
     _applyTestModel : function(value, old)
     {
@@ -1142,7 +1152,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
      */
     __reloadAut : function()
     {
-      var src = this.getAutUri();
+      var src = this.__autUriField.getValue();
       this.resetAutUri();
       this.setAutUri(src);
     },
@@ -1202,6 +1212,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     "__testCountField",
     "__selectedTestField",
     "__statusField",
+    "__autUriField",
     "__app");
   }
 });
