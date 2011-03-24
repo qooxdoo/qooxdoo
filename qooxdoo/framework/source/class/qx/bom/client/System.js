@@ -353,25 +353,6 @@ qx.Bootstrap.define("qx.bom.client.System",
   defer : function(statics) {
     statics.__init();
 
-<<<<<<< HEAD
-    // add @deprecation warnings
-    var keys = ["NAME", "SP1", "SP2", "WIN95", "WIN98", "WINME", "WINNT4",
-      "WIN2000", "WINXP", "WIN2003", "WINVISTA", "WIN7", "WINCE", "LINUX",
-      "SUNOS", "FREEBSD", "NETBSD", "OPENBSD", "OSX", "OS9", "IPHONE", "IPAD",
-      "SYMBIAN", "NINTENDODS", "PSP", "UNKNOWN_SYSTEM"];
-    for (var i = 0; i < keys.length; i++) {
-      // check if __defineGetter__ is available
-      if (statics.__defineGetter__) {
-        var constantValue = statics[keys[i]];
-        statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
-          qx.Bootstrap.warn(
-            "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-            "Please check the API documentation of qx.core.Environment.\n" +
-            "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
-          );
-          return c;
-        }, statics, keys[i], constantValue));
-=======
     // only when debug is on (@deprecated)
     if (qx.Bootstrap.DEBUG) {
       // add @deprecation warnings
@@ -394,7 +375,6 @@ qx.Bootstrap.define("qx.bom.client.System",
             return c;
           }, statics, keys[i], constantValue));
         }
->>>>>>> [BUG #4641] Wrapped all deprecation warnings for the old feature checks in a debug only block.
       }
     }
   }

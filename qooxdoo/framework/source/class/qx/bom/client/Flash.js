@@ -315,23 +315,6 @@ qx.Bootstrap.define("qx.bom.client.Flash",
     statics.STRICT_SECURITY_MODEL = statics.getStrictSecurityModel();
     statics.EXPRESSINSTALL = statics.getExpressInstall();
 
-<<<<<<< HEAD
-    // add @deprecation warnings
-    var keys = ["FULLVERSION", "VERSION", "AVAILABLE",
-      "REVISION", "STRICT_SECURITY_MODEL", "EXPRESSINSTALL"];
-    for (var i = 0; i < keys.length; i++) {
-      // check if __defineGetter__ is available
-      if (statics.__defineGetter__) {
-        var constantValue = statics[keys[i]];
-        statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
-          qx.Bootstrap.warn(
-            "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-            "Please check the API documentation of qx.core.Environment.\n" +
-            "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
-          );
-          return c;
-        }, statics, keys[i], constantValue));
-=======
     // only when debug is on (@deprecated)
     if (qx.Bootstrap.DEBUG) {
       // add @deprecation warnings
@@ -352,7 +335,6 @@ qx.Bootstrap.define("qx.bom.client.Flash",
             return c;
           }, statics, keys[i], constantValue));
         }
->>>>>>> [BUG #4641] Wrapped all deprecation warnings for the old feature checks in a debug only block.
       }
     }
   }

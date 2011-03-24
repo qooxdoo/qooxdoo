@@ -226,23 +226,6 @@ qx.Bootstrap.define("qx.bom.client.Version",
     statics.VERSION = version;
     statics.TITLE = name + " " + version;
 
-<<<<<<< HEAD
-    // @deprecated since 1.4 (whole class)
-    // add @deprecation warnings
-    var keys = ["NAME", "TITLE", "VERSION"];
-    for (var i = 0; i < keys.length; i++) {
-      // check if __defineGetter__ is available
-      if (statics.__defineGetter__) {
-        var constantValue = statics[keys[i]];
-        statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
-          qx.Bootstrap.warn(
-            "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-            "Please check the API documentation of qx.core.Environment.\n" +
-            "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
-          );
-          return c;
-        }, statics, keys[i], constantValue));
-=======
     // only when debug is on (@deprecated)
     if (qx.Bootstrap.DEBUG) {
       // @deprecated since 1.4 (whole class)
@@ -263,7 +246,6 @@ qx.Bootstrap.define("qx.bom.client.Version",
             return c;
           }, statics, keys[i], constantValue));
         }
->>>>>>> [BUG #4641] Wrapped all deprecation warnings for the old feature checks in a debug only block.
       }
     }
   }
