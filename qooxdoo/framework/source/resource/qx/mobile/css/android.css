@@ -139,6 +139,7 @@ a:hover { color: #e89c00; }
 
 .navigationbar-button, .navigationbar-backbutton {
     text-align: center;
+    min-width:40px;
     cursor: pointer;
     overflow: hidden;
     padding: 0 3px;
