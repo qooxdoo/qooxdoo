@@ -237,10 +237,10 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       this.__scrollContainer = this._createScrollContainer();
       this.__content = this._createContent();
       if (this.__content) {
-        this.__scroll.add(this.__content);
+        this.__scrollContainer.add(this.__content);
       }
-      if (this.__scroll) {
-        this.add(this.__scroll, {flex:1});
+      if (this.__scrollContainer) {
+        this.add(this.__scrollContainer, {flex:1});
       }
     },
 
