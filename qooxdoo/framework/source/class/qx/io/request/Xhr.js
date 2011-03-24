@@ -80,11 +80,11 @@ qx.Class.define("qx.io.request.Xhr",
         }
 
         // Avoid duplication
-        data = null;
+        serializedData = null;
       }
 
       this.__transport.open(method, url, async, username, password);
-      this.__transport.send(data);
+      this.__transport.send(serializedData);
     },
 
     _createTransport: function() {
