@@ -146,7 +146,7 @@ qx.Bootstrap.define("qx.core.Environment",
      */
     __pickFromValues : function(key, values) {
       var value = values[key];
-      if (value) {
+      if (value !== undefined) {
         return value;
       }
 
