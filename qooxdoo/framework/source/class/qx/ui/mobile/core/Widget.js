@@ -248,13 +248,22 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
-    // Todo: setVisibility method / exclude / hide
-    display :
+    /**
+     * Controls the visibility. Valid values are:
+     *
+     * <ul>
+     *   <li><b>visible</b>: Render the widget</li>
+     *   <li><b>hidden</b>: Hide the widget but don't relayout the widget's parent.</li>
+     *   <li><b>excluded</b>: Hide the widget and relayout the parent as if the
+     *     widget was not a child of its parent.</li>
+     * </ul>
+     */
+    visibility :
     {
-      check : "Boolean",
-      init : true,
-      apply : "_applyStyle",
-      event : "changeDisplay"
+      check : ["visible", "hidden", "excluded"],
+      init : "visible",
+      apply : "_applyVisibility",
+      event : "changeVisibility"
     }
   },
 
@@ -491,16 +500,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         {
           "true" : "none",
           "false" : null
-        }
-      },
-
-
-      "display" :
-      {
-        values :
-        {
-          "true" : null,
-          "false" : "none"
         }
       }
     }
@@ -1084,6 +1083,88 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       Visibility handling
     ---------------------------------------------------------------------------
     */
+
+
+     _applyVisibility : function(value, old)
+     {
+       if (value == "excluded") {
+         this._setStyle("display", "none");
+       }
+       else if(value == "visible")
+       {
+         this._setStyle("display", null);
+         this._setStyle("visibility", null);
+       } 
+       else if (value == "hidden") {
+         this._setStyle("visibility", "hidden");
+       }
+     },
+
+
+    /**
+     * Make this widget visible.
+     *
+     * @return {void}
+     */
+    show : function() {
+      this.setVisibility("visible");
+    },
+
+
+    /**
+     * Hide this widget.
+     *
+     * @return {void}
+     */
+    hide : function() {
+      this.setVisibility("hidden");
+    },
+
+
+    /**
+     * Hide this widget and exclude it from the underlying layout.
+     *
+     * @return {void}
+     */
+    exclude : function() {
+      this.setVisibility("excluded");
+    },
+
+
+    /**
+     * Whether the widget is locally visible.
+     *
+     * Note: This method does not respect the hierarchy.
+     *
+     * @return {Boolean} Returns <code>true</code> when the widget is visible
+     */
+    isVisible : function() {
+      return this.getVisibility() === "visible";
+    },
+
+
+    /**
+     * Whether the widget is locally hidden.
+     *
+     * Note: This method does not respect the hierarchy.
+     *
+     * @return {Boolean} Returns <code>true</code> when the widget is hidden
+     */
+    isHidden : function() {
+      return this.getVisibility() !== "visible";
+    },
+
+
+    /**
+     * Whether the widget is locally excluded.
+     *
+     * Note: This method does not respect the hierarchy.
+     *
+     * @return {Boolean} Returns <code>true</code> when the widget is excluded
+     */
+    isExcluded : function() {
+      return this.getVisibility() === "excluded";
+    },
 
 
     /**
