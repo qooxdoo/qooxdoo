@@ -22,8 +22,8 @@
  */
 qx.Class.define("qx.ui.mobile.container.Scroll",
 {
-  extend : qx.ui.mobile.container.Composite,
-  include : [ qx.ui.mobile.core.MChildrenHandling, qx.ui.mobile.core.MLayoutHandling],
+  extend : qx.ui.mobile.core.Widget,
+  include : [ qx.ui.mobile.core.MChildrenHandling ],
 
 
   /*
