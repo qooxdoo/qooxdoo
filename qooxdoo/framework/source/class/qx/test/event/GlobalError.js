@@ -263,7 +263,7 @@ qx.Class.define("qx.test.event.GlobalError",
         self.resume(function()
         {
           if (
-            qx.core.Environment.get("engine.name") == "opera"
+            qx.core.Environment.get("engine.name") == "opera" ||
             qx.core.Environment.get("engine.name") == "webkit"
           ) {
             this.warn("window.onerror is not supported by Opera and Webkit");
