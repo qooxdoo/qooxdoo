@@ -201,7 +201,7 @@ qx.Class.define("qx.bom.client.Multimedia",
               entry.installed = true;
 
               if (verreg.test(plugin.name) || verreg.test(plugin.description)) {
-                entry.version = parseFloat(RegExp.$1, 10);
+                entry.version = parseFloat(RegExp.$1);
               } else {
                 entry.version = 0;
               }

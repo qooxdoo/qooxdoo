@@ -117,7 +117,7 @@ qx.Bootstrap.define("qx.bom.client.Version",
     if (/Presto[\s\/]([0-9]+\.[0-9\.]+)/.test(agent))
     {
       name = "presto";
-      version = parseFloat(RegExp.$1, 10);
+      version = parseFloat(RegExp.$1);
 
       if (version >= 2.4) {
         version = 4;
@@ -134,7 +134,7 @@ qx.Bootstrap.define("qx.bom.client.Version",
     else if (/Opera[\s\/]([0-9]+)\.([0-9])/.test(agent))
     {
       name = "presto";
-      version = parseFloat(RegExp.$1 + "." + RegExp.$2, 10);
+      version = parseFloat(RegExp.$1 + "." + RegExp.$2);
 
       if (version >= 9.7) {
         version = 3;
@@ -158,7 +158,7 @@ qx.Bootstrap.define("qx.bom.client.Version",
       }
 
       // Parse and convert version number
-      version = parseFloat(version, 10);
+      version = parseFloat(version);
       if (version >= 526) {
         version = 4;
       } else if (version >= 525) {

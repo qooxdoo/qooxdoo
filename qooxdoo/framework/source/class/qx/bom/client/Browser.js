@@ -228,7 +228,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
     // @deprecated since 1.4: all code in this defer method
     statics.NAME = statics.getName();
     statics.FULLVERSION = statics.getVersion();
-    statics.VERSION = parseFloat(statics.FULLVERSION, 10);
+    statics.VERSION = parseFloat(statics.FULLVERSION);
     statics.TITLE = statics.NAME + " " + statics.VERSION;
 
     if (statics.NAME !== "") {

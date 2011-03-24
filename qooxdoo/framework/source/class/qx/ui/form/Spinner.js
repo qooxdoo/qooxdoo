@@ -680,7 +680,7 @@ qx.Class.define("qx.ui.form.Spinner",
       if (value === undefined)
       {
         // try to parse the number as a float
-        value = parseFloat(textField.getValue(), 10);
+        value = parseFloat(textField.getValue());
       }
 
       // if the result is a number
