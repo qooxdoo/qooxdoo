@@ -77,7 +77,8 @@ qx.Class.define("qx.io.request.Xhr",
     __transport: null,
 
     send: function() {
-      var method = this.getMethod(),
+      var transport = this.__transport,
+          method = this.getMethod(),
           url = this.getUrl(),
           async = this.getAsync(),
           username = this.getUsername(),
@@ -86,7 +87,7 @@ qx.Class.define("qx.io.request.Xhr",
 
       var serializedData = this.__serializeData(data);
 
-      if (method == "GET") {
+      if (method === "GET") {
         // Add data to query string
         if (serializedData) {
           url = url + "?" + serializedData;
@@ -96,9 +97,17 @@ qx.Class.define("qx.io.request.Xhr",
         serializedData = null;
       }
 
-      this.__transport.open(method, url, async, username, password);
+      // Initialize request
+      transport.open(method, url, async, username, password);
+
+      // Set headers
       this.__setRequestHeaders();
-      this.__transport.send(serializedData);
+      if (method === "POST") {
+        transport.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      }
+
+      // Send request
+      transport.send(serializedData);
     },
 
     _createTransport: function() {

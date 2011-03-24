@@ -133,6 +133,15 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Data with POST
     //
 
+    "test: should set content type urlencoded for POST request": function() {
+      this.spy(this.transport, "setRequestHeader");
+      this.req.setMethod("POST");
+      this.req.send();
+
+      this.assertCalledWith(this.transport.setRequestHeader,
+           "Content-type", "application/x-www-form-urlencoded");
+    },
+
     "test: should send string data with POST request": function() {
       this.spy(this.transport, "send");
       this.req.setMethod("POST");
