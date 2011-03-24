@@ -9,9 +9,11 @@ if (!window.navigator) window.navigator = {
   language: "en-US"
 };
 
+if (!navigator.platform) navigator.platform = environment["os.name"];
+
 if (!window.qx) window.qx = {};
-  
-if (!this.qxsettings) qxsettings = {};
+if (!this.qxsettings) window.qxsettings = {};
+if (!this.qxvariants) window.qxvariants = {};
 var settings = %{Settings};
 for (var k in settings) qxsettings[k] = settings[k];
 
