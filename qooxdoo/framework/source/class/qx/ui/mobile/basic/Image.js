@@ -157,6 +157,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       {
         this.fireEvent("loaded");
       }
+      this._domUpdated();
     },
 
 
