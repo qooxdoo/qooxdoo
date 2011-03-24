@@ -101,7 +101,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     leftComposite.setBackgroundColor("background-splitpane");
     mainsplit.add(leftComposite, 0);
 
-    if (qx.core.Environmetn.get("qx.contrib")) {
+    if (qx.core.Environment.get("qx.contrib")) {
       this._makeVersionSelect();
     }
 
