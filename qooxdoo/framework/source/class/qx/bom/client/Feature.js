@@ -191,7 +191,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
           statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
             var warning = 
               "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-              "Plese check the API documentation of qx.core.Environemt."
+              "Please check the API documentation of qx.core.Environemt."
             if (qx.dev && qx.dev.StackTrace) {
               warning += "\nTrace:" + qx.dev.StackTrace.getStackTrace().join("\n")
             }
