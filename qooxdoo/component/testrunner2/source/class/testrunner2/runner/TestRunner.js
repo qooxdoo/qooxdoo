@@ -244,6 +244,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       var oldModel = this.getTestModel();
       if (oldModel) {
         testrunner2.runner.ModelUtil.disposeModel(oldModel);
+        this.__testsInView = [];
       }
       this.setTestModel(null);
 

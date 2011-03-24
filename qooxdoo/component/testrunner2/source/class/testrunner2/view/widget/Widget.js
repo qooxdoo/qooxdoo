@@ -1032,6 +1032,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         var model = qx.data.marshal.Json.createModel(value);
         this.__testTree.setModel(model);
         this.__testTree.openNode(model.getChildren().getItem(0));
+        this.__testResultView.clear();
 
         var cookieSelection = qx.bom.Cookie.get("testrunner.selectedTest");
         if (cookieSelection) {
@@ -1061,13 +1062,16 @@ qx.Class.define("testrunner2.view.widget.Widget", {
       var state = testResultData.getState();
       switch (state) {
         case "skip":
+          this.__progressBar.setValue(this.__progressBar.getValue() + 1);
           this.setSkippedTestCount(this.getSkippedTestCount() + 1);
           break;
         case "error":
         case "failure":
+          this.__progressBar.setValue(this.__progressBar.getValue() + 1);
           this.setFailedTestCount(this.getFailedTestCount() + 1);
           break;
         case "success":
+          this.__progressBar.setValue(this.__progressBar.getValue() + 1);
           this.setSuccessfulTestCount(this.getSuccessfulTestCount() + 1);
       }
     },
@@ -1146,21 +1150,18 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     // overridden
     addTestResult : function(testResultData)
     {
-      this.__progressBar.setValue(this.__progressBar.getValue() + 1);
       this.base(arguments, testResultData);
       this.__testResultView.addTestResult(testResultData);
     },
 
     /**
-     * Resets the result counters and clears the results display so that the
-     * suite can be run again.
+     * Resets the result counters so that the suite can be run again.
      */
     reset : function()
     {
       this.resetFailedTestCount();
       this.resetSuccessfulTestCount();
       this.resetSkippedTestCount();
-      this.__testResultView.clear();
       /*
        * TODO
       var selection = qx.lang.Array.clone(this.getSelectedTests());
