@@ -25,6 +25,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * @internal
  */
 qx.Class.define("qx.ui.mobile.page.manager.Simple",
 {
