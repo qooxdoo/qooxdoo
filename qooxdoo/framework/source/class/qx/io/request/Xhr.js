@@ -55,6 +55,11 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     data: {
+      check: function(value) {
+        return qx.lang.Type.isString(value) || 
+               qx.Class.isSubClassOf(value.constructor, qx.core.Object) ||
+               qx.lang.Type.isObject(value)
+      },
       nullable: true
     }
   },
@@ -106,10 +111,6 @@ qx.Class.define("qx.io.request.Xhr",
 
       if (qx.lang.Type.isObject(data)) {
         return qx.lang.Object.toUriParameter(data);
-      }
-
-      if (qx.core.Environment.get("qx.debug")) {
-        this.debug("Cannot serialize data. Type not supported.");
       }
     }
 
