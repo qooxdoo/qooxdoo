@@ -32,14 +32,14 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
   members :
   {
     // Mixin method
-    _createScrollerElement : function()
+    _createScrollElement : function()
     {
       return null
     },
 
 
     // Mixin method
-    _getScrollerContentElement : function()
+    _getScrollContentElement : function()
     {
       return null
     }

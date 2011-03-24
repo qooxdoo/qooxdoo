@@ -39,7 +39,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 
   construct : function()
   {
-    this.__initScroller();
+    this.__initScroll();
     this.__registerEventListeners();
   },
 
@@ -54,19 +54,19 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 
   members :
   {
-    __scroller : null,
+    __scroll : null,
     __onDomSubtreeModified : null,
 
     // Mixin method
-    _createScrollerElement : function()
+    _createScrollElement : function()
     {
-      var scroller = qx.bom.Element.create("div");
-      return scroller;
+      var scroll = qx.bom.Element.create("div");
+      return scroll;
     },
 
 
     // Mixin method
-    _getScrollerContentElement : function()
+    _getScrollContentElement : function()
     {
       return this.getContainerElement().childNodes[0];
     },
@@ -75,9 +75,9 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     /**
      * @lint ignoreUndefined(iScroll)
      */
-    __initScroller : function()
+    __initScroll : function()
     {
-      var scroller = null;
+      var scroll = null;
       if (!window.iScroll)
       {
         var path = qx.util.ResourceManager.getInstance().toUri("qx/mobile/js/iscroll.js");
@@ -86,18 +86,18 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           path += "?" + new Date().getTime();
         }
         var loader = new qx.io.ScriptLoader();
-        loader.load(path, this.__onScrollerLoaded, this);
+        loader.load(path, this.__onScrollLoaded, this);
       } else {
-        this._setScroller(this.__createScrollerInstance());
+        this._setScroll(this.__createScrollInstance());
       }
     },
 
 
-    __createScrollerInstance : function()
+    __createScrollInstance : function()
     {
       var desktopCompatibility = qx.core.Environment.get("qx.mobile.emulatetouch");
-      var scroller = new iScroll(this.getContentElement(), {desktopCompatibility:desktopCompatibility});
-      return scroller;
+      var scroll = new iScroll(this.getContentElement(), {desktopCompatibility:desktopCompatibility});
+      return scroll;
     },
 
 
@@ -118,11 +118,11 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     },
 
 
-    __onScrollerLoaded : function(status)
+    __onScrollLoaded : function(status)
     {
       if (status == "success")
       {
-        this._setScroller(this.__createScrollerInstance());
+        this._setScroll(this.__createScrollInstance());
       } else {
         if (qx.core.Environment.get("qx.debug"))
         {
@@ -132,16 +132,16 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     },
 
 
-    _setScroller : function(scroller)
+    _setScroll : function(scroll)
     {
-      this.__scroller = scroller;
+      this.__scroll = scroll;
     },
 
 
     _refresh : function(evt)
     {
-      if (this.__scroller) {
-        this.__scroller.refresh();
+      if (this.__scroll) {
+        this.__scroll.refresh();
       }
     }
   },
@@ -160,9 +160,9 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     this.__unregisterEventListeners();
 
     // Cleanup iScroll
-    if (this.__scroller) {
-      this.__scroller.destroy();
+    if (this.__scroll) {
+      this.__scroll.destroy();
     }
-    this.__scroller = this.__onDomSubtreeModified = null;
+    this.__scroll = this.__onDomSubtreeModified = null;
   }
 });

@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     defaultCssClass :
     {
       refine : true,
-      init : "scroller"
+      init : "scroll"
     }
   },
 
@@ -56,9 +56,9 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     _createContainerElement : function()
     {
       var element = this.base(arguments);
-      var scrollerElement = this._createScrollerElement();
-      if (scrollerElement) {
-        element.appendChild(scrollerElement);
+      var scrollElement = this._createScrollElement();
+      if (scrollElement) {
+        element.appendChild(scrollElement);
       }
       return element;
     },
@@ -68,8 +68,8 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     _getContentElement : function()
     {
       var contentElement = this.base(arguments);
-      var scrollerContentElement = this._getScrollerContentElement();
-      return scrollerContentElement || contentElement;
+      var scrollContentElement = this._getScrollContentElement();
+      return scrollContentElement || contentElement;
     }
   },
 
