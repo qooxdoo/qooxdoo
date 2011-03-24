@@ -26,13 +26,12 @@ qx.Class.define("qx.test.io.request.Xhr",
   members :
   {
     setUp : function() {
-      var transport = new qx.bom.request.Xhr();
+      this.transport = new qx.bom.request.Xhr();
       this.stub(qx.io.request.Xhr.prototype, "_createTransport").
-          returns(this.stub(transport));
-      var req =  new qx.io.request.Xhr;
+          returns(this.stub(this.transport));
 
-      this.transport = transport;
-      this.req = req;
+      this.req = new qx.io.request.Xhr;
+      this.req.setUrl("url");
     },
 
     tearDown : function() {
@@ -43,17 +42,30 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should send request": function() {
-      var req = this.req;
-      var transport = this.transport;
+      this.spy(this.transport, "open");
+      this.spy(this.transport, "send");
 
-      this.spy(transport, "open");
-      this.spy(transport, "send");
+      this.req.send();
 
-      req.setUrl("sample.json");
-      req.send();
+      this.assertCalledWith(this.transport.open, "GET", "url", true);
+      this.assertCalled(this.transport.send);
+    },
 
-      this.assertCalledWith(transport.open, "GET", "sample.json");
-      this.assertCalled(transport.send);
+    "test: should send sync request": function() {
+      this.spy(this.transport, "open");
+
+      this.req.setAsync(false);
+      this.req.send();
+
+      this.assertCalledWith(this.transport.open, "GET", "url", false);
+    },
+
+    "test: should send POST request": function() {
+      this.spy(this.transport, "open");
+      this.req.setMethod("POST");
+      this.req.send();
+
+      this.assertCalledWith(this.transport.open, "POST");
     }
 
   }

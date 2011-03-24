@@ -31,12 +31,17 @@ qx.Class.define("qx.io.request.Xhr",
   properties:
   {
     method: {
-      check : [ "GET", "POST"],
-      init : "GET"
+      check: [ "GET", "POST"],
+      init: "GET"
     },
 
     url: {
       check: "String"
+    },
+
+    async: {
+      check: "Boolean",
+      init: true
     }
   },
 
@@ -45,7 +50,7 @@ qx.Class.define("qx.io.request.Xhr",
     __transport: null,
 
     send: function() {
-      this.__transport.open(this.getMethod(), this.getUrl());
+      this.__transport.open(this.getMethod(), this.getUrl(), this.getAsync());
       this.__transport.send();
     },
 
