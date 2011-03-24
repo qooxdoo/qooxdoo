@@ -28,7 +28,7 @@ body > * {
 
 /* SCROLLER */
 
-.scroller {
+.scroll {
     position:relative;
     z-index:1;
     width:auto/* your desired width, auto and 100% are fine */;
@@ -37,7 +37,7 @@ body > * {
 }
 
 
-.scroller > div {
+.scroll > div {
   padding-bottom:10px;/* todo: experimental */;
 }
 
