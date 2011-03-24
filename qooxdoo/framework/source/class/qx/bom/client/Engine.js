@@ -245,7 +245,9 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      DEFER
   *****************************************************************************
   */
-
+  /**
+   * @lint ignoreUndefined(qxvariants)
+   */
   defer : function(statics) {
     // @deprecated since 1.4: all code in the defer
     statics.NAME = statics.getName();
@@ -292,23 +294,27 @@ qx.Bootstrap.define("qx.bom.client.Engine",
 
     statics.VERSION = parseFloat(statics.FULLVERSION);
 
-    // add @deprecation warnings
-    var keys = ["FULLVERSION","VERSION","OPERA","WEBKIT",
-      "GECKO","MSHTML","UNKNOWN_ENGINE","UNKNOWN_VERSION","DOCUMENT_MODE"];
-    for (var i = 0; i < keys.length; i++) {
-      // check if __defineGetter__ is available
-      if (statics.__defineGetter__) {
-        var constantValue = statics[keys[i]];
-        statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
-          qx.Bootstrap.warn(
-            "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-            "Please check the API documentation of qx.core.Environment.\n" +
-            "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
-          );
-          return c;
-        }, statics, keys[i], constantValue));
+    // only when debug is on (@deprecated)
+    if (qx.Bootstrap.DEBUG) {
+      // add deprecation warnings
+      var keys = ["NAME", "FULLVERSION","VERSION","OPERA","WEBKIT",
+        "GECKO","MSHTML","UNKNOWN_ENGINE","UNKNOWN_VERSION","DOCUMENT_MODE"];
+      for (var i = 0; i < keys.length; i++) {
+        // check if __defineGetter__ is available
+        if (statics.__defineGetter__) {
+          var constantValue = statics[keys[i]];
+          statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
+            var warning = 
+              "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
+              "Plese check the API documentation of qx.core.Environemt."
+            if (qx.dev && qx.dev.StackTrace) {
+              warning += "\nTrace:" + qx.dev.StackTrace.getStackTrace().join("\n")
+            }
+            qx.Bootstrap.warn(warning);
+            return c;
+          }, statics, keys[i], constantValue));
+        }
       }
     }
   }
 });
-

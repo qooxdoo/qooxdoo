@@ -156,7 +156,9 @@ qx.Bootstrap.define("qx.bom.client.Feature",
      DEFER
   *****************************************************************************
   */
-
+  /**
+   * @lint ignoreUndefined(qxvariants)
+   */
   defer : function(statics) {
     // @deprecated since 1.4 (this entire defer block)
     statics.PLACEHOLDER = qx.bom.client.Css.getPlaceholder();
@@ -175,23 +177,28 @@ qx.Bootstrap.define("qx.bom.client.Feature",
 
     statics.TOUCH = qx.bom.client.Event.getTouch();
 
-    // add @deprecation warnings
-    var keys = ["STANDARD_MODE","QUIRKS_MODE","CONTENT_BOX","BORDER_BOX", "SVG",
-      "CANVAS", "VML", "XPATH", "AIR", "GEARS", "SSL", "ECMA_OBJECT_COUNT",
-      "CSS_POINTER_EVENTS", "XUL", "CSS_TEXT_OVERFLOW", "HTML5_CLASSLIST",
-      "TOUCH", "PLACEHOLDER"];
-    for (var i = 0; i < keys.length; i++) {
-      // check if __defineGetter__ is available
-      if (statics.__defineGetter__) {
-        var constantValue = statics[keys[i]];
-        statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
-          qx.Bootstrap.warn(
-            "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-            "Please check the API documentation of qx.core.Environemt.\n" +
-            "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
-          );
-          return c;
-        }, statics, keys[i], constantValue));
+    // only when debug is on (@deprecated)
+    if (qx.Bootstrap.DEBUG) {
+      // add @deprecation warnings
+      var keys = ["STANDARD_MODE","QUIRKS_MODE","CONTENT_BOX","BORDER_BOX", "SVG",
+        "CANVAS", "VML", "XPATH", "AIR", "GEARS", "SSL", "ECMA_OBJECT_COUNT",
+        "CSS_POINTER_EVENTS", "XUL", "CSS_TEXT_OVERFLOW", "HTML5_CLASSLIST",
+        "TOUCH", "PLACEHOLDER"];
+      for (var i = 0; i < keys.length; i++) {
+        // check if __defineGetter__ is available
+        if (statics.__defineGetter__) {
+          var constantValue = statics[keys[i]];
+          statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
+            var warning = 
+              "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
+              "Plese check the API documentation of qx.core.Environemt."
+            if (qx.dev && qx.dev.StackTrace) {
+              warning += "\nTrace:" + qx.dev.StackTrace.getStackTrace().join("\n")
+            }
+            qx.Bootstrap.warn(warning);
+            return c;
+          }, statics, keys[i], constantValue));
+        }
       }
     }
   }

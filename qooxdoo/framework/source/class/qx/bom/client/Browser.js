@@ -221,7 +221,9 @@ qx.Bootstrap.define("qx.bom.client.Browser",
     }[qx.bom.client.Engine.getName()]
   },
 
-
+  /**
+   * @lint ignoreUndefined(qxvariants)
+   */
   defer : function(statics) {
     // @deprecated since 1.4: all code in this defer method
     statics.NAME = statics.getName();
@@ -233,20 +235,25 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       statics.UNKNOWN = false;
     }
 
-    // add @deprecation warnings
-    var keys = ["FULLVERSION","VERSION","NAME","TITLE", "UNKNOWN"];
-    for (var i = 0; i < keys.length; i++) {
-      // check if __defineGetter__ is available
-      if (statics.__defineGetter__) {
-        var constantValue = statics[keys[i]];
-        statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
-          qx.Bootstrap.warn(
-            "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-            "Please check the API documentation of qx.core.Environment.\n" +
-            "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
-          );
-          return c;
-        }, statics, keys[i], constantValue));
+    // only when debug is on (@deprecated)
+    if (qx.Bootstrap.DEBUG) {
+      // add @deprecation warnings
+      var keys = ["FULLVERSION","VERSION","NAME","TITLE", "UNKNOWN"];
+      for (var i = 0; i < keys.length; i++) {
+        // check if __defineGetter__ is available
+        if (statics.__defineGetter__) {
+          var constantValue = statics[keys[i]];
+          statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
+            var warning = 
+              "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
+              "Plese check the API documentation of qx.core.Environemt."
+            if (qx.dev && qx.dev.StackTrace) {
+              warning += "\nTrace:" + qx.dev.StackTrace.getStackTrace().join("\n")
+            }
+            qx.Bootstrap.warn(warning);
+            return c;
+          }, statics, keys[i], constantValue));
+        }
       }
     }
   }
