@@ -487,7 +487,7 @@ qx.Class.define("qx.bom.htmlarea.manager.UndoRedo",
         catch(error)
         {
           /* It appears, that an execCommand was bound to an element which is not available when calling 'undo' */
-          if ((qx.core.Environment.get("qx.debug"))) {
+          if (qx.core.Environment.get("qx.debug")) {
             this.error("execCommand failed! Details: " + error)
           }
         }

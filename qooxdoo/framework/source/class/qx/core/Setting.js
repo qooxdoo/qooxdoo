@@ -87,7 +87,7 @@ qx.Bootstrap.define("qx.core.Setting",
      */
     define : function(key, defaultValue)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.Bootstrap.warn(
           "The method 'qx.core.Setting.define' is deprecated: " +
           "Please use qx.core.Environment.add() instead."
@@ -135,7 +135,7 @@ qx.Bootstrap.define("qx.core.Setting",
      */
     get : function(key)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.Bootstrap.warn(
           "The method 'qx.core.Setting.get' is deprecated: " +
           "Please use qx.core.Environment.get() instead."
@@ -165,7 +165,7 @@ qx.Bootstrap.define("qx.core.Setting",
      * @deprecated since 1.4: Please use qx.core.Environment instead.
      */
      set : function(key, value) {
-       if ((qx.core.Environment.get("qx.debug"))) {
+       if (qx.core.Environment.get("qx.debug")) {
          qx.Bootstrap.warn(
            "The method 'qx.core.Setting.set' is deprecated: " +
            "Please use qx.core.Environment.add() instead."
@@ -247,7 +247,7 @@ qx.Bootstrap.define("qx.core.Setting",
           continue;
         }
 
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           qx.Bootstrap.warn(
             "URL settings are deprecated. Please use URL environment " +
             "variables instead. (qxsetting --> qxenv)"

@@ -151,7 +151,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
         return;
       }
 
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertArray(modelSelection, "Please use an array as parameter.");
       }
 

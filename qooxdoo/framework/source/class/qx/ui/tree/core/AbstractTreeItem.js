@@ -406,7 +406,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
      */
     addAt : function(treeItem, index)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assert(
           index <= this.__children.length && index >= 0,
           "Invalid child index: " + index
@@ -457,7 +457,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
      */
     addBefore : function(treeItem, before)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assert(this.__children.indexOf(before) >= 0)
       }
 
@@ -480,7 +480,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
      */
     addAfter : function(treeItem, after)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assert(this.__children.indexOf(after) >= 0)
       }
 

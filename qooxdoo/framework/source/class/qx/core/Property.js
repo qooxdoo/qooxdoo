@@ -415,7 +415,7 @@ qx.Bootstrap.define("qx.core.Property",
       var members = clazz.prototype;
       var themeable = config.themeable === true;
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (qx.core.Environment.get("qx.propertyDebugLevel") > 1) {
           qx.Bootstrap.debug("Generating property group: " + name);
@@ -451,7 +451,7 @@ qx.Bootstrap.define("qx.core.Property",
 
       for (var i=0, a=config.group, l=a.length; i<l; i++)
       {
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           if (!this.$$method.set[a[i]]||!this.$$method.reset[a[i]]) {
             throw new Error("Cannot create property group '" + name + "' including non-existing property '" + a[i] + "'!");
@@ -463,7 +463,7 @@ qx.Bootstrap.define("qx.core.Property",
 
         if (themeable)
         {
-          if ((qx.core.Environment.get("qx.debug")))
+          if (qx.core.Environment.get("qx.debug"))
           {
             if (!this.$$method.setThemed[a[i]]) {
               throw new Error("Cannot add the non themable property '" + a[i] + "' to the themable property group '"+ name +"'");
@@ -509,7 +509,7 @@ qx.Bootstrap.define("qx.core.Property",
       var upname = qx.Bootstrap.firstUp(name);
       var members = clazz.prototype;
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (qx.core.Environment.get("qx.propertyDebugLevel") > 1) {
           qx.Bootstrap.debug("Generating property wrappers: " + name);
@@ -671,7 +671,7 @@ qx.Bootstrap.define("qx.core.Property",
       var store = this.$$method[variant][name];
 
       // Output generate code
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (qx.core.Environment.get("qx.propertyDebugLevel") > 1) {
           qx.Bootstrap.debug("Code[" + this.$$method[variant][name] + "]: " + code.join(""));
@@ -699,7 +699,7 @@ qx.Bootstrap.define("qx.core.Property",
       // Executing new function
       if (args === undefined) {
         return instance[store]();
-      } else if ((qx.core.Environment.get("qx.debug"))) {
+      } else if (qx.core.Environment.get("qx.debug")) {
         return instance[store].apply(instance, args);
       } else {
         return instance[store](args[0]);
@@ -819,7 +819,7 @@ qx.Bootstrap.define("qx.core.Property",
         code.push('var inherit=prop.$$inherit;');
       }
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (incomingValue) {
           this.__emitIncomingValueValidation(code, config, clazz, name, variant);
@@ -893,7 +893,7 @@ qx.Bootstrap.define("qx.core.Property",
      */
     __emitSetterPreConditions : function(code, config, name, variant, incomingValue)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         code.push('var prop=qx.core.Property;');
 

@@ -88,7 +88,7 @@ qx.Class.define("qx.event.dispatch.Direct",
     // interface implementation
     dispatchEvent : function(target, event, type)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (target instanceof qx.core.Object)
         {
@@ -121,7 +121,7 @@ qx.Class.define("qx.event.dispatch.Direct",
         {
           var context = listeners[i].context || target;
 
-          if ((qx.core.Environment.get("qx.debug"))) {
+          if (qx.core.Environment.get("qx.debug")) {
             // warn if the context is disposed
             if (context && context.isDisposed && context.isDisposed()) {
               this.warn(

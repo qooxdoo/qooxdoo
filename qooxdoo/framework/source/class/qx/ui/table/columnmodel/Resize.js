@@ -222,7 +222,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       this.__bInProgress = true;
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (qx.core.Environment.get("qx.tableResizeDebug"))
         {
@@ -261,7 +261,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       this.__bInProgress = true;
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (qx.core.Environment.get("qx.tableResizeDebug"))
         {
@@ -294,7 +294,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       this.__bInProgress = true;
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (qx.core.Environment.get("qx.tableResizeDebug"))
         {
@@ -336,7 +336,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       this.__bInProgress = true;
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (qx.core.Environment.get("qx.tableResizeDebug"))
         {
@@ -368,7 +368,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       this.__bInProgress = true;
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (qx.core.Environment.get("qx.tableResizeDebug"))
         {

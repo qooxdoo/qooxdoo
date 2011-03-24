@@ -226,7 +226,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       var topSlice = ResourceManager.getImageHeight(prefix + "-t" + ext);
       var leftSlice = ResourceManager.getImageWidth(prefix + "-l" + ext);
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         var assertMessageTop = "The value of the property 'topSlice' is null! " +
           "Please verify the image '" + prefix + "-t" + ext + "' is present.";

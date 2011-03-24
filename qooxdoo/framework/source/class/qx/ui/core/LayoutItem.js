@@ -397,7 +397,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      */
     renderLayout : function(left, top, width, height)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         var msg = "Something went wrong with the layout of " + this.toString() + "!";
         this.assertInteger(left, "Wrong 'left' argument. " + msg);
@@ -857,7 +857,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
       if (layout)
       {
         // Verify values through underlying layout
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           if (props)
           {

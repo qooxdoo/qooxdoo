@@ -148,7 +148,7 @@ qx.Class.define("qx.bom.element.Class",
           }
           else
           {
-            if ((qx.core.Environment.get("qx.debug"))) {
+            if (qx.core.Environment.get("qx.debug")) {
               qx.log.Logger.warn(this, "className for element " + element + " cannot be determined");
             }
             className = '';
@@ -156,7 +156,7 @@ qx.Class.define("qx.bom.element.Class",
         }
         if(typeof className === 'undefined')
         {
-          if ((qx.core.Environment.get("qx.debug"))) {
+          if (qx.core.Environment.get("qx.debug")) {
             qx.log.Logger.warn(this, "className for element " + element + " is undefined");
           }
           className = '';

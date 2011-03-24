@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      */
     setItemSize : function(index, size)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         this.assertArgumentsCount(arguments, 2, 2);
         this.assert(

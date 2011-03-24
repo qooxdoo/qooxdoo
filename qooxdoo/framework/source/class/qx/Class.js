@@ -176,7 +176,7 @@ qx.Bootstrap.define("qx.Class",
       }
 
       // Validate incoming data
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         try {
           this.__validateConfig(name, config);
         } catch(ex) {
@@ -235,7 +235,7 @@ qx.Bootstrap.define("qx.Class",
       // Process settings
       if (config.settings)
       {
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           qx.Bootstrap.warn("The usage of settings in class '" + name +
             "'is deprecated. Please use the 'environment' key instead");
         }
@@ -247,7 +247,7 @@ qx.Bootstrap.define("qx.Class",
       // Process variants
       if (config.variants)
       {
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           qx.Bootstrap.warn("The usage of variants in class '" + name +
             "'is deprecated. Please use the 'environment' key instead");
         }
@@ -265,7 +265,7 @@ qx.Bootstrap.define("qx.Class",
       }
 
 
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.__validateAbstractInterfaces(clazz);
       }
 
@@ -362,7 +362,7 @@ qx.Bootstrap.define("qx.Class",
      */
     include : function(clazz, mixin)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (!mixin) {
           throw new Error("The mixin to include into class '" + clazz.classname + "' is undefined/null!");
@@ -390,7 +390,7 @@ qx.Bootstrap.define("qx.Class",
      */
     patch : function(clazz, mixin)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (!mixin) {
           throw new Error("The mixin to patch class '" + clazz.classname + "' is undefined/null!");
@@ -1088,7 +1088,7 @@ qx.Bootstrap.define("qx.Class",
      */
     __addEvents : function(clazz, events, patch)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (typeof events !== "object" || events instanceof Array) {
           throw new Error(clazz.classname + ": the events must be defined as map!");
@@ -1149,7 +1149,7 @@ qx.Bootstrap.define("qx.Class",
         config = properties[name];
 
         // Check incoming configuration
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           this.__validateProperty(clazz, name, config, patch);
         }
 
@@ -1303,7 +1303,7 @@ qx.Bootstrap.define("qx.Class",
         key = a[i];
         member = members[key];
 
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           if (proto[key] !== undefined && key.charAt(0) == "_" && key.charAt(1) == "_") {
             throw new Error('Overwriting private member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
@@ -1382,7 +1382,7 @@ qx.Bootstrap.define("qx.Class",
      */
     __addInterface : function(clazz, iface)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (!clazz || !iface) {
           throw new Error("Incomplete parameters!")
@@ -1493,7 +1493,7 @@ qx.Bootstrap.define("qx.Class",
      */
     __addMixin : function(clazz, mixin, patch)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (!clazz || !mixin) {
           throw new Error("Incomplete parameters!")
@@ -1591,7 +1591,7 @@ qx.Bootstrap.define("qx.Class",
      */
     __needsConstructorWrapper : function(base, mixins)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         return true;
       }
 
@@ -1637,7 +1637,7 @@ qx.Bootstrap.define("qx.Class",
       {
         var clazz = wrapper;
 
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           // new keyword check
           if (!(this instanceof clazz)) {
@@ -1674,7 +1674,7 @@ qx.Bootstrap.define("qx.Class",
           }
         }
 
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           // Mark instance as initialized
           if (this.classname === name) {
             this.$$initialized = true;

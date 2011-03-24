@@ -695,7 +695,7 @@ qx.Class.define("qx.io.remote.Request",
     // property apply
     _applyState : function(value, old)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebug")) {
           this.debug("State: " + value);

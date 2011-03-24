@@ -1375,7 +1375,7 @@
         var col = [];
         for (var i=0, l=args.length; i<l; i++)
         {
-          if ((qx.core.Environment.get("qx.debug")))
+          if (qx.core.Environment.get("qx.debug"))
           {
             if (typeof args[i] !== "string") {
               throw new Error("Invalid argument for selector query: " + args[i]);

@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.decoration.GridDiv",
     // property apply
     _applyBaseImage : function(value, old)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (this.__markup) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");

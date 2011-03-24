@@ -955,7 +955,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _setLayout : function(layout)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         if (layout) {
           this.assertInstance(layout, qx.ui.layout.Abstract);
         }
@@ -1251,7 +1251,7 @@ qx.Class.define("qx.ui.core.Widget",
       var minHeight = this.getMinHeight();
       var maxHeight = this.getMaxHeight();
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (minWidth !== null && maxWidth !== null) {
           this.assert(minWidth <= maxWidth, "minWidth is larger than maxWidth!");
@@ -1357,7 +1357,7 @@ qx.Class.define("qx.ui.core.Widget",
         {
           var hint = layout.getSizeHint();
 
-          if ((qx.core.Environment.get("qx.debug")))
+          if (qx.core.Environment.get("qx.debug"))
           {
             var msg = "The layout of the widget" + this.toString() +
               " returned an invalid size hint!";
@@ -1451,7 +1451,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         var inset = this.__decoratorElement.getInsets();
 
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           this.assertNumber(
             inset.top,
@@ -1644,7 +1644,7 @@ qx.Class.define("qx.ui.core.Widget",
         "$$widget": this.toHashCode()
       }
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         attributes.qxType = "container";
         attributes.qxClass = this.classname;
@@ -1668,7 +1668,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var el = this._createContentElement();
 
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         el.setAttribute("qxType", "content");
       }
 
@@ -1992,7 +1992,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _addBefore : function(child, before, options)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInArray(before, this._getChildren(),
           "The 'before' widget is not a child of this widget!");
       }
@@ -2027,7 +2027,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _addAfter : function(child, after, options)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInArray(after, this._getChildren(),
           "The 'after' widget is not a child of this widget!");
       }
@@ -2160,7 +2160,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     __addHelper : function(child, options)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         this.assertInstance(child, qx.ui.core.LayoutItem, "Invalid widget to add: " + child);
         this.assertNotIdentical(child, this, "Could not add widget to itself: " + child);
@@ -2203,7 +2203,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     __removeHelper : function(child)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertNotUndefined(child);
       }
 
@@ -2308,7 +2308,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       var protect = this.__protectorElement = new qx.html.Element;
 
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         protect.setAttribute("qxType", "protector");
       }
 
@@ -2345,7 +2345,7 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyDecorator : function(value, old)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (value && typeof value === "object") {
           if (qx.ui.core.Widget.DEBUG) {
@@ -2843,7 +2843,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
 
         // Check property availability of new data
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           for (var prop in newData)
           {

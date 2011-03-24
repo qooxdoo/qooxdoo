@@ -172,7 +172,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         styles["border-left"] = width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getInnerColorLeft());
       }
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (!styles["border-top"] && !styles["border-right"] &&
           !styles["border-bottom"] && !styles["border-left"]) {
@@ -233,7 +233,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         styles["border-left"] = width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft());
       }
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (styles["border-top"] == '' && styles["border-right"] == '' &&
           styles["border-bottom"] == '' && styles["border-left"] == '') {

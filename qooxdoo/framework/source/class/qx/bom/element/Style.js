@@ -344,7 +344,7 @@ qx.Class.define("qx.bom.element.Style",
      */
     set : function(element, name, value, smart)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         qx.core.Assert.assertElement(element, "Invalid argument 'element'");
         qx.core.Assert.assertString(name, "Invalid argument 'name'");
@@ -380,7 +380,7 @@ qx.Class.define("qx.bom.element.Style",
      */
     setStyles : function(element, styles, smart)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         qx.core.Assert.assertElement(element, "Invalid argument 'element'");
         qx.core.Assert.assertMap(styles, "Invalid argument 'styles'");

@@ -89,7 +89,7 @@ qx.Class.define("qx.event.type.Event",
      */
     init : function(canBubble, cancelable)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (canBubble !== undefined)
         {
@@ -178,7 +178,7 @@ qx.Class.define("qx.event.type.Event",
      */
     stopPropagation : function()
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertTrue(this._bubbles, "Cannot stop propagation on a non bubbling event: " + this.getType());
       }
       this._stopPropagation = true;
@@ -203,7 +203,7 @@ qx.Class.define("qx.event.type.Event",
      */
     preventDefault : function()
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertTrue(this._cancelable, "Cannot prevent default action on a non cancelable event: " + this.getType());
       }
       this._preventDefault = true;

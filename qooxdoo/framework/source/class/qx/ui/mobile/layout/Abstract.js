@@ -39,14 +39,14 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
     __cachedChildLayoutProperties : null,
 
     getCssClass: function() {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         throw new Error("Abstract method call");
       }
     },
 
 
     _getSupportedChildLayoutProperties : function() {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         throw new Error("Abstract method call");
       }
     },
@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
 
 
     _setLayoutProperty : function(widget, property, value) {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         throw new Error("Abstract method call");
       }
     },

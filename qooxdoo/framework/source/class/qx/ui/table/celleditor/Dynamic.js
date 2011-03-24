@@ -110,7 +110,7 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
     {
       var cellEditorFactoryFunction = this.getCellEditorFactoryFunction();
 
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertFunction(cellEditorFactoryFunction, "No function provided! Aborting.");
       }
 
@@ -129,7 +129,7 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
     {
       var cellEditorFactoryFunction = this.getCellEditorFactoryFunction();
 
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertFunction(cellEditorFactoryFunction, "No function provided! Aborting.");
       }
 

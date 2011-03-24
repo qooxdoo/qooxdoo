@@ -426,7 +426,7 @@ qx.Class.define("qx.ui.window.Window",
     // overridden
     setLayoutParent : function(parent)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         parent && this.assertInterface(
           parent, qx.ui.window.IDesktop,
@@ -678,7 +678,7 @@ qx.Class.define("qx.ui.window.Window",
         }
       }
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         this.warn("Centering depends on parent bounds!");
       }

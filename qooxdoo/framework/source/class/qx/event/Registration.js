@@ -61,7 +61,7 @@ qx.Class.define("qx.event.Registration",
     {
       if (target == null)
       {
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           qx.log.Logger.error("qx.event.Registration.getManager(null) was called!");
           qx.log.Logger.trace(this);
@@ -233,7 +233,7 @@ qx.Class.define("qx.event.Registration",
      */
     createEvent : function(type, clazz, args)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (arguments.length > 1 && clazz === undefined) {
           throw new Error("Create event of type " + type + " with undefined class. Please use null to explicit fallback to default event type!");
@@ -294,7 +294,7 @@ qx.Class.define("qx.event.Registration",
      */
     fireEvent : function(target, type, clazz, args)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (arguments.length > 2 && clazz === undefined && args !== undefined) {
           throw new Error("Create event of type " + type + " with undefined class. Please use null to explicit fallback to default event type!");
@@ -327,7 +327,7 @@ qx.Class.define("qx.event.Registration",
      */
     fireNonBubblingEvent : function(target, type, clazz, args)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (arguments.length > 2 && clazz === undefined && args !== undefined) {
           throw new Error("Create event of type " + type + " with undefined class. Please use null to explicit fallback to default event type!");
@@ -383,7 +383,7 @@ qx.Class.define("qx.event.Registration",
      */
     addHandler : function(handler)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertInterface(handler, qx.event.IEventHandler, "Invalid event handler.");
       }
 
@@ -432,7 +432,7 @@ qx.Class.define("qx.event.Registration",
      */
     addDispatcher : function(dispatcher, priority)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertInterface(dispatcher, qx.event.IEventDispatcher, "Invalid event dispatcher!");
       }
 

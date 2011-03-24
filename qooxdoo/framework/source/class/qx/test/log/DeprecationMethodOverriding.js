@@ -72,7 +72,7 @@ qx.Class.define("qx.test.log.DeprecationMethodOverriding",
       this.assertEquals(callCountOldProperty, instance.getCallCountApplyOldProperty());
       this.assertEquals(callCountNewProperty, instance.getCallCountApplyNewProperty());
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (reqExpWarnMsg) {
           this.assertTrue(reqExpWarnMsg.test(this.__lastWarnMsg));

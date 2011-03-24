@@ -312,7 +312,7 @@ qx.Class.define("qx.event.Manager",
      */
     hasListener : function(target, type, capture)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (target == null)
         {
@@ -353,7 +353,7 @@ qx.Class.define("qx.event.Manager",
      */
     importListeners : function(target, list)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (target == null)
         {
@@ -416,7 +416,7 @@ qx.Class.define("qx.event.Manager",
      */
     addListener : function(target, type, listener, self, capture)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         var msg = "Failed to add event listener for type '"+ type +"'" +
           " to the target '" + target.classname + "': ";
@@ -580,7 +580,7 @@ qx.Class.define("qx.event.Manager",
         return;
       }
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         qx.log.Logger.warn(
           this,
@@ -606,7 +606,7 @@ qx.Class.define("qx.event.Manager",
      */
     removeListener : function(target, type, listener, self, capture)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         var msg = "Failed to remove event listener for type '" + type + "'" +
           " from the target '" + target.classname + "': ";
@@ -668,7 +668,7 @@ qx.Class.define("qx.event.Manager",
      */
     removeListenerById : function(target, id)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         var msg = "Failed to remove event listener for id '" + id + "'" +
           " from the target '" + target.classname + "': ";
@@ -787,7 +787,7 @@ qx.Class.define("qx.event.Manager",
         return;
       }
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         qx.log.Logger.warn(
           this,
@@ -822,7 +822,7 @@ qx.Class.define("qx.event.Manager",
      */
     dispatchEvent : function(target, event)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         var msg = "Could not dispatch event '" + event + "' on target '" + target.classname +"': ";
 
@@ -866,7 +866,7 @@ qx.Class.define("qx.event.Manager",
 
       if (!dispatched)
       {
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           qx.log.Logger.error(this, "No dispatcher can handle event of type " + type + " on " + target);
         }
         return true;

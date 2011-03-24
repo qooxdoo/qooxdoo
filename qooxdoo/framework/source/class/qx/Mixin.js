@@ -89,7 +89,7 @@ qx.Bootstrap.define("qx.Mixin",
         }
 
         // Validate incoming data
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           this.__validateConfig(name, config);
         }
 

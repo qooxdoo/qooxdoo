@@ -183,7 +183,7 @@ qx.Class.define("qx.util.placement.Placement",
      */
     compute : function(size, area, target, offsets)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         this.assertObject(size, "size");
         this.assertNumber(size.width, "size.width");

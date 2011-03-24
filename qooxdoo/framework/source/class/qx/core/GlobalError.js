@@ -32,7 +32,7 @@ qx.Bootstrap.define("qx.core.GlobalError",
    */
   construct : function(exc, args)
   {
-    if ((qx.core.Environment.get("qx.debug"))) {
+    if (qx.core.Environment.get("qx.debug")) {
       qx.core.Assert.assertNotUndefined(exc);
     }
 

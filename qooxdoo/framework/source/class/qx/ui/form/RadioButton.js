@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.form.RadioButton",
    */
   construct : function(label)
   {
-    if ((qx.core.Environment.get("qx.debug"))) {
+    if (qx.core.Environment.get("qx.debug")) {
       this.assertArgumentsCount(arguments, 0, 1);
     }
 

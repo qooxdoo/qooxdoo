@@ -291,7 +291,7 @@ qx.Class.define("qx.lang.Array",
     {
       // this check is important because opera throws an uncatchable error if apply is called without
       // an arr as second argument.
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         qx.core.Assert && qx.core.Assert.assertArray(arr1, "The first parameter must be an array.");
         qx.core.Assert && qx.core.Assert.assertArray(arr2, "The second parameter must be an array.");
@@ -315,7 +315,7 @@ qx.Class.define("qx.lang.Array",
     {
       // this check is important because opera throws an uncatchable error if apply is called without
       // an arr as second argument.
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         qx.core.Assert && qx.core.Assert.assertArray(arr1, "The first parameter must be an array.");
         qx.core.Assert && qx.core.Assert.assertArray(arr2, "The second parameter must be an array.");
@@ -418,7 +418,7 @@ qx.Class.define("qx.lang.Array",
      */
     max : function(arr)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertArray(arr, "Parameter must be an array.");
       }
 
@@ -444,7 +444,7 @@ qx.Class.define("qx.lang.Array",
      */
     min : function(arr)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertArray(arr, "Parameter must be an array.");
       }
 

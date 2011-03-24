@@ -32,7 +32,7 @@ qx.Class.define("qx.lang.Object",
      */
     empty : function(map)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
 
@@ -55,7 +55,7 @@ qx.Class.define("qx.lang.Object",
     isEmpty : (qx.core.Environment.get("ecmascript.objectcount")) ?
       function(map)
       {
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
         }
         return map.__count__ === 0;
@@ -63,7 +63,7 @@ qx.Class.define("qx.lang.Object",
       :
       function(map)
       {
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
         }
 
@@ -86,7 +86,7 @@ qx.Class.define("qx.lang.Object",
     hasMinLength : (qx.core.Environment.get("ecmascript.objectcount")) ?
       function(map, minLength)
       {
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
           qx.core.Assert && qx.core.Assert.assertInteger(minLength, "Invalid argument 'minLength'");
@@ -96,7 +96,7 @@ qx.Class.define("qx.lang.Object",
       :
       function(map, minLength)
       {
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
           qx.core.Assert && qx.core.Assert.assertInteger(minLength, "Invalid argument 'minLength'");
@@ -158,7 +158,7 @@ qx.Class.define("qx.lang.Object",
      */
     getValues : function(map)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
 
@@ -196,7 +196,7 @@ qx.Class.define("qx.lang.Object",
      */
     carefullyMergeWith : function(target, source)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         qx.core.Assert && qx.core.Assert.assertMap(target, "Invalid argument 'target'");
         qx.core.Assert && qx.core.Assert.assertMap(source, "Invalid argument 'source'");
@@ -215,7 +215,7 @@ qx.Class.define("qx.lang.Object",
      */
     merge : function(target, varargs)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertMap(target, "Invalid argument 'target'");
       }
 
@@ -237,7 +237,7 @@ qx.Class.define("qx.lang.Object",
      */
     clone : function(source)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertMap(source, "Invalid argument 'source'");
       }
 
@@ -262,7 +262,7 @@ qx.Class.define("qx.lang.Object",
      */
     invert : function(map)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
 
@@ -287,7 +287,7 @@ qx.Class.define("qx.lang.Object",
      */
     getKeyFromValue: function(map, value)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
 
@@ -311,7 +311,7 @@ qx.Class.define("qx.lang.Object",
      */
     contains : function(map, value)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
 
@@ -328,7 +328,7 @@ qx.Class.define("qx.lang.Object",
     */
     select: function(key, map)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
       return map[key];
@@ -347,7 +347,7 @@ qx.Class.define("qx.lang.Object",
     */
     fromArray: function(array)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert && qx.core.Assert.assertArray(array, "Invalid argument 'array'");
       }
 
@@ -355,7 +355,7 @@ qx.Class.define("qx.lang.Object",
 
       for (var i=0, l=array.length; i<l; i++)
       {
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           switch(typeof array[i])
           {

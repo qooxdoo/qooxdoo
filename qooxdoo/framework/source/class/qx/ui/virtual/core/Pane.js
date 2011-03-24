@@ -184,7 +184,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      */
     addLayer : function(layer)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInterface(layer, qx.ui.virtual.core.ILayer);
       }
 

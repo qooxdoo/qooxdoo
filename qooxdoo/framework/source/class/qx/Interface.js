@@ -99,7 +99,7 @@ qx.Bootstrap.define("qx.Interface",
         }
 
         // Validate incoming data
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           this.__validateConfig(name, config);
         }
 
@@ -486,7 +486,7 @@ qx.Bootstrap.define("qx.Interface",
     {
       "true": function(name, config)
       {
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           // Validate keys
           var allowed = this.__allowedKeys;

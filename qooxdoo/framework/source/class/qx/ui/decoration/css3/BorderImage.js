@@ -286,7 +286,7 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     // property apply
     _applyStyle : function()
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (this._isInitialized()) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");

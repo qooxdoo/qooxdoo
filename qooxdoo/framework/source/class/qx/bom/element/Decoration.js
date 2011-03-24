@@ -220,7 +220,7 @@ qx.Class.define("qx.bom.element.Decoration",
 
       var format = qx.util.ResourceManager.getInstance().getImageFormat(source) ||
                    qx.io.ImageLoader.getFormat(source);
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (source != null && format == null) {
           qx.log.Logger.warn("ImageLoader: Not recognized format of external image '" + source + "'!");
@@ -387,7 +387,7 @@ qx.Class.define("qx.bom.element.Decoration",
       // No clipped image available
       else
       {
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           this.__checkForPotentialClippedImage(sourceid);
         }
 
@@ -525,7 +525,7 @@ qx.Class.define("qx.bom.element.Decoration",
       }
       else
       {
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           if (repeat !== "repeat") {
             this.__checkForPotentialClippedImage(sourceid);

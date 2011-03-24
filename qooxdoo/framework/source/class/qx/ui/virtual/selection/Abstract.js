@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
   {
     this.base(arguments);
 
-    if ((qx.core.Environment.get("qx.debug"))) {
+    if (qx.core.Environment.get("qx.debug")) {
       this.assertInstance(pane, qx.ui.virtual.core.Pane);
     }
 

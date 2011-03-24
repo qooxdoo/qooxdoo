@@ -155,7 +155,7 @@ qx.Class.define("qx.data.marshal.Json",
         // stip the unwanted characters
         key = key.replace(/-/g, "");
         // check for valid JavaScript identifier
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           this.assertTrue((/^[$A-Za-z_][0-9A-Za-z_]*$/).test(key),
           "The key '" + key + "' is not a valid JavaScript identifier.")
         }

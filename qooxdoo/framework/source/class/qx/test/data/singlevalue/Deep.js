@@ -218,7 +218,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       var label = this.__label;
 
       // only in source version
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         // set a wrong first parameter in the chain
         this.assertException(function() {
           qx.data.SingleValueBinding.bind(a, "chiild.name", label, "value");

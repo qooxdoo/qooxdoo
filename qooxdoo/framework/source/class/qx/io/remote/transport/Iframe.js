@@ -509,7 +509,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     {
       if (this.getState() !== "completed")
       {
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           if (qx.core.Environment.get("qx.ioRemoteDebug")) {
             this.warn("Transfer not complete, ignoring content!");
@@ -519,7 +519,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
         return null;
       }
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebug")) {
           this.debug("Returning content for responseType: " + this.getResponseType());
@@ -531,7 +531,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       switch(this.getResponseType())
       {
         case "text/plain":
-          if ((qx.core.Environment.get("qx.debug")))
+          if (qx.core.Environment.get("qx.debug"))
           {
             if (qx.core.Environment.get("qx.ioRemoteDebugData"))
             {
@@ -543,7 +543,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
         case "text/html":
           vText = this.getIframeHtmlContent();
-          if ((qx.core.Environment.get("qx.debug")))
+          if (qx.core.Environment.get("qx.debug"))
           {
             if (qx.core.Environment.get("qx.ioRemoteDebugData"))
             {
@@ -555,7 +555,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
         case "application/json":
           vText = this.getIframeHtmlContent();
-          if ((qx.core.Environment.get("qx.debug")))
+          if (qx.core.Environment.get("qx.debug"))
           {
             if (qx.core.Environment.get("qx.ioRemoteDebugData"))
             {
@@ -571,7 +571,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
         case "text/javascript":
           vText = this.getIframeHtmlContent();
-          if ((qx.core.Environment.get("qx.debug")))
+          if (qx.core.Environment.get("qx.debug"))
           {
             if (qx.core.Environment.get("qx.ioRemoteDebugData"))
             {
@@ -587,7 +587,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
         case "application/xml":
           vText = this.getIframeDocument();
-          if ((qx.core.Environment.get("qx.debug")))
+          if (qx.core.Environment.get("qx.debug"))
           {
             if (qx.core.Environment.get("qx.ioRemoteDebugData"))
             {

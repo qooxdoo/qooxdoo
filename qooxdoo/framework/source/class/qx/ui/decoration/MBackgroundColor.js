@@ -81,7 +81,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
     // property apply
     _applyBackgroundColor : function()
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (this._isInitialized()) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");

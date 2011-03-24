@@ -81,7 +81,7 @@ qx.Bootstrap.define("qx.Theme",
       config.patch = this.__normalizeArray(config.patch);
 
       // Validate incoming data
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.__validateConfig(name, config);
       }
 
@@ -284,7 +284,7 @@ qx.Bootstrap.define("qx.Theme",
         // Convert base flag to class reference (needed for mixin support)
         if (target[id].base)
         {
-          if ((qx.core.Environment.get("qx.debug")))
+          if (qx.core.Environment.get("qx.debug"))
           {
             if (!config.extend) {
               throw new Error("Found base flag in entry '" + id + "' of theme '" + config.name + "'. Base flags are not allowed for themes without a valid super theme!");

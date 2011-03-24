@@ -80,12 +80,12 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
     testWrongPropertyNames : function()
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         var a = this.__a;
         var b = this.__b;
 
         // only in source version
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           // wrong source
           this.assertException(function() {
             qx.data.SingleValueBinding.bind(a, "BacccccckgroundColor", b, "backgroundColor");
@@ -97,12 +97,12 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
     testWrongEventType : function()
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         var a = this.__a;
         var b = this.__b;
 
         // only in source version
-        if ((qx.core.Environment.get("qx.debug"))) {
+        if (qx.core.Environment.get("qx.debug")) {
           // wrong eventName
           this.assertException(function() {
             qx.data.SingleValueBinding.bind(a, "affe", b, "backgroundColor");
@@ -163,7 +163,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       this.assertEquals(0, bindings.length, "Binding still in the registry!");
 
       // only in source version
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         // test wrong binding id
         var a = this.__a;
         this.assertException(function() {
@@ -227,7 +227,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       o.dispose();
 
       // only test in the source version
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         // test for null object
         this.assertException(function() {
           qx.data.SingleValueBinding.removeAllBindingsForObject(null);

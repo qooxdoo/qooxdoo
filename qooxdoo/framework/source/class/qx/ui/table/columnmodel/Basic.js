@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     init : function(colCount, table)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(colCount, "Invalid argument 'colCount'.");
       }
 
@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     setColumnWidth : function(col, width, isMouseAction)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInteger(width, "Invalid argument 'width'.");
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     getColumnWidth : function(col)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
       }
@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     setHeaderCellRenderer : function(col, renderer)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInterface(renderer, qx.ui.table.IHeaderRenderer, "Invalid argument 'renderer'.");
@@ -326,7 +326,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     getHeaderCellRenderer : function(col)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
@@ -348,7 +348,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     setDataCellRenderer : function(col, renderer)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInterface(renderer, qx.ui.table.ICellRenderer, "Invalid argument 'renderer'.");
@@ -373,7 +373,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     getDataCellRenderer : function(col)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     setCellEditorFactory : function(col, factory)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInterface(factory, qx.ui.table.ICellEditorFactory, "Invalid argument 'factory'.");
@@ -416,7 +416,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     getCellEditorFactory : function(col)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
@@ -477,7 +477,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     getVisibleColumnAtX : function(visXPos)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(visXPos, "Invalid argument 'visXPos'.");
       }
 
@@ -493,7 +493,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     getVisibleX : function(col)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
       }
 
@@ -519,7 +519,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     getOverallColumnAtX : function(overXPos)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(overXPos, "Invalid argument 'overXPos'.");
       }
 
@@ -535,7 +535,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     getOverallX : function(col)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
       }
 
@@ -551,7 +551,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     isColumnVisible : function(col)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
       }
 
@@ -568,7 +568,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     setColumnVisible : function(col, visible)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertBoolean(visible, "Invalid argument 'visible'.");
@@ -644,7 +644,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     moveColumn : function(fromOverXPos, toOverXPos)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         this.assertInteger(fromOverXPos, "Invalid argument 'fromOverXPos'.");
         this.assertInteger(toOverXPos, "Invalid argument 'toOverXPos'.");
@@ -693,7 +693,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     setColumnsOrder : function(newPositions)
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertArray(newPositions, "Invalid argument 'newPositions'.");
       }
 

@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.embed.Flash",
   {
     this.base(arguments);
 
-    if ((qx.core.Environment.get("qx.debug")))
+    if (qx.core.Environment.get("qx.debug"))
     {
       qx.core.Assert.assertString(source, "Invalid parameter 'source'.");
 

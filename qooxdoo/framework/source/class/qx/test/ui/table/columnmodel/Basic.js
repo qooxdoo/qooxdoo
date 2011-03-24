@@ -51,7 +51,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if ((qx.core.Environment.get("qx.debug")))
+     if (qx.core.Environment.get("qx.debug"))
      {
        this.assertException(function(){
          tcm.setColumnWidth(6, 10)
@@ -69,7 +69,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if ((qx.core.Environment.get("qx.debug")))
+     if (qx.core.Environment.get("qx.debug"))
      {
        this.assertException(function()
        {
@@ -90,7 +90,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if ((qx.core.Environment.get("qx.debug")))
+     if (qx.core.Environment.get("qx.debug"))
      {
        this.assertException(function()
        {
@@ -108,7 +108,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if ((qx.core.Environment.get("qx.debug")))
+     if (qx.core.Environment.get("qx.debug"))
      {
        this.assertException(function()
        {
@@ -127,7 +127,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if ((qx.core.Environment.get("qx.debug")))
+     if (qx.core.Environment.get("qx.debug"))
      {
        this.assertException(function()
        {
@@ -146,7 +146,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if ((qx.core.Environment.get("qx.debug")))
+     if (qx.core.Environment.get("qx.debug"))
      {
        this.assertException(function()
        {
@@ -165,7 +165,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if ((qx.core.Environment.get("qx.debug")))
+     if (qx.core.Environment.get("qx.debug"))
      {
        this.assertException(function()
        {
@@ -184,7 +184,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      var table = new qx.ui.table.Table(model);
      var tcm = table.getTableColumnModel();
 
-     if ((qx.core.Environment.get("qx.debug")))
+     if (qx.core.Environment.get("qx.debug"))
      {
        this.assertException(function()
        {

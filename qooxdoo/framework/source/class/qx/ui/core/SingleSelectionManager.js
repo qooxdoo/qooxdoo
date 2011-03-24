@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
   construct : function(selectionProvider) {
     this.base(arguments);
 
-    if ((qx.core.Environment.get("qx.debug"))) {
+    if (qx.core.Environment.get("qx.debug")) {
       qx.core.Assert.assertInterface(selectionProvider,
         qx.ui.core.ISingleSelectionProvider,
         "Invalid selectionProvider!");

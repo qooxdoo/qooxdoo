@@ -62,7 +62,7 @@ qx.Class.define("qx.util.format.NumberFormat",
      */
     getIntegerInstance : function()
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(
           arguments.callee, "Please create an instance of the number format instead."
         );
@@ -90,7 +90,7 @@ qx.Class.define("qx.util.format.NumberFormat",
      */
     getInstance : function()
     {
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(
           arguments.callee, "Please create an instance of the number format instead."
         );

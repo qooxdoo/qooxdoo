@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
     {
       var element = new qx.html.Decorator(decorator, id);
 
-      if ((qx.core.Environment.get("qx.debug"))) {
+      if (qx.core.Environment.get("qx.debug")) {
         element.setAttribute("qxType", "decorator");
       }
 

@@ -165,7 +165,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
     // property apply
     _applyLinearBackgroundGradient : function()
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (this._isInitialized()) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");

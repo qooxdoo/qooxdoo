@@ -1277,7 +1277,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         }
         else
         {
-          if ((qx.core.Environment.get("qx.debug"))) {
+          if (qx.core.Environment.get("qx.debug")) {
             this.error('document not available, try again...');
           }
 

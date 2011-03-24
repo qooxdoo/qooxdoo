@@ -165,7 +165,7 @@ qx.Class.define("qx.io.remote.transport.Script",
 
       if (vInstance == null)
       {
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           if (qx.core.Environment.get("qx.ioRemoteDebug")) {
             this.warn("Request finished for an unknown instance (probably aborted or timed out before)");
@@ -261,7 +261,7 @@ qx.Class.define("qx.io.remote.transport.Script",
       this.__element.charset = "utf-8";
       this.__element.src = vUrl;
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebugData"))
         {
@@ -398,7 +398,7 @@ qx.Class.define("qx.io.remote.transport.Script",
     {
       if (this.getState() !== "completed")
       {
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           if (qx.core.Environment.get("qx.ioRemoteDebug")) {
             this.warn("Transfer not complete, ignoring content!");
@@ -408,7 +408,7 @@ qx.Class.define("qx.io.remote.transport.Script",
         return null;
       }
 
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (qx.core.Environment.get("qx.ioRemoteDebug")) {
           this.debug("Returning content for responseType: " + this.getResponseType());
@@ -421,7 +421,7 @@ qx.Class.define("qx.io.remote.transport.Script",
           // server is responsible for using a string as the response
         case "application/json":
         case "text/javascript":
-          if ((qx.core.Environment.get("qx.debug")))
+          if (qx.core.Environment.get("qx.debug"))
           {
             if (qx.core.Environment.get("qx.ioRemoteDebugData"))
             {

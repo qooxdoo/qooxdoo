@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.popup.Manager",
      */
     add : function(obj)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (!(obj instanceof qx.ui.popup.Popup)) {
           throw new Error("Object is no popup: " + obj);
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.popup.Manager",
      */
     remove : function(obj)
     {
-      if ((qx.core.Environment.get("qx.debug")))
+      if (qx.core.Environment.get("qx.debug"))
       {
         if (!(obj instanceof qx.ui.popup.Popup)) {
           throw new Error("Object is no popup: " + obj);

@@ -451,7 +451,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         // Get this column width.
         width = columnData[i].getComputedWidth();
 
-        if ((qx.core.Environment.get("qx.debug")))
+        if (qx.core.Environment.get("qx.debug"))
         {
           if (qx.core.Environment.get("qx.tableResizeDebug"))
           {
