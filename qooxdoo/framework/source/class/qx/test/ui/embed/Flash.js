@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2007-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2007-2010 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -193,60 +193,6 @@ qx.Class.define("qx.test.ui.embed.Flash",
         {
           that.__flash.setVariables({key: "value"});
         }, Error, null, "Error expected by calling 'setVariables'!");
-      });
-    },
-
-    testReloadWithExclude : function()
-    {
-      // TODO activate test if bug #2367 is fixed
-      //this.__testReload("exclude");
-    },
-
-    testReloadWithHide : function()
-    {
-      // TODO activate test if bug #2367 is fixed
-      //this.__testReload("hide");
-    },
-
-    __testReload : function(method)
-    {
-      // skip this test because it only runs with a webserver
-      if (location.protocol.indexOf("http") !== 0) {
-        this.warn("Skipped test 'testReload', because a webserver " +
-          "is needed to run this test.");
-        return;
-      }
-
-      var result = 0;
-
-      var that = this;
-      this.wait(5000, function()
-      {
-        if (!qx.test.ui.embed.Flash.isFlashReady)
-        {
-          that.warn("ExternalInterface not ready -> skipped test");
-          return;
-        }
-
-        var flash = that.__flash.getFlashElement();
-
-        if (flash.setValue) {
-          flash.setValue(99);
-          result = flash.getValue();
-        }
-
-        that.assertIdentical(99, result, "Test setup error!");
-
-        that.__flash[method]();
-        that.flush();
-        that.__flash.show();
-        that.flush();
-
-        that.wait(5000, function()
-        {
-          result = flash.getValue();
-          that.assertIdentical(99, result, "Flash is reinitialized!!");
-        });
       });
     },
 
