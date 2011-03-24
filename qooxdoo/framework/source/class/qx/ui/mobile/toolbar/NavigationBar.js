@@ -21,7 +21,7 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  * Todo: rename to title bar
  */
-qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
+qx.Class.define("qx.ui.mobile.navigationbar.NavigationBar",
 {
   extend : qx.ui.mobile.container.Composite,
 
@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
     defaultCssClass :
     {
       refine : true,
-      init : "toolbar"
+      init : "navigationbar"
     }
   }
 });

@@ -20,7 +20,7 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  */
-qx.Class.define("qx.ui.mobile.toolbar.Button",
+qx.Class.define("qx.ui.mobile.navigationbar.Button",
 {
   extend : qx.ui.mobile.form.Button,
 
@@ -36,7 +36,7 @@ qx.Class.define("qx.ui.mobile.toolbar.Button",
     defaultCssClass :
     {
       refine : true,
-      init : "toolbarButton"
+      init : "navigationbar-button"
     }
   }
 });

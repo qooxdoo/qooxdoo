@@ -20,7 +20,7 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  */
-qx.Class.define("qx.ui.mobile.toolbar.Title",
+qx.Class.define("qx.ui.mobile.navigationbar.Title",
 {
   extend : qx.ui.mobile.basic.Label,
 

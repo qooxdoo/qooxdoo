@@ -20,7 +20,7 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  */
-qx.Class.define("qx.ui.mobile.toolbar.BackButton",
+qx.Class.define("qx.ui.mobile.navigationbar.BackButton",
 {
   extend : qx.ui.mobile.toolbar.Button,
 
@@ -36,7 +36,7 @@ qx.Class.define("qx.ui.mobile.toolbar.BackButton",
     defaultCssClass :
     {
       refine : true,
-      init : "toolbarBackButton"
+      init : "navigationbar-backbutton"
     }
   }
 });
