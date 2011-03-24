@@ -128,7 +128,7 @@ a:hover { color: #e89c00; }
   border: 2px solid orange;
 }
 
-.toolbar {
+.navigationbar {
     border-bottom: 1px solid #2d3642;
     padding-left: 10px;
     padding-right: 10px;
@@ -137,7 +137,7 @@ a:hover { color: #e89c00; }
 }
 
 
-.toolbarButton, .toolbarBackButton {
+.navigationbar-button, .navigationbar-backbutton {
     text-align: center;
     cursor: pointer;
     overflow: hidden;
@@ -157,7 +157,7 @@ a:hover { color: #e89c00; }
     -webkit-border-radius: 4px;
 }
 
-.toolbarButton.active, .toolbarBackButton.active {
+.navigationbar-button.active, .navigationbar-backbutton.active {
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
 }
 
