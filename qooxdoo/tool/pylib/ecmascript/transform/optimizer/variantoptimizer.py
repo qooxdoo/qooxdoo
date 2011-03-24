@@ -59,6 +59,9 @@ def search(node, variantMap, fileId="", verb=False):
 
     #if fileId == "qx.core.Environment":
     #    modified = processEnvironmentClass(node, variantMap)
+    if file == "qx.ui.decoration.MLinearBackgroundGradient":
+        #import pydb; pydb.debugger()
+        pass
 
     variantNodes = findVariantNodes(node)
     for variantNode in variantNodes:
@@ -248,12 +251,12 @@ def processVariantGet(callNode, variantMap):
         return treeModified
 
     variantKey = firstParam.get("value");
-    variantValue = __keyLookup(variantKey, variantMap)
+    confValue = __keyLookup(variantKey, variantMap)
     #if not variantKey in variantMap.keys():
-    if not variantKey:
+    if not confValue:
         return treeModified
     #else:
-    #    variantValue = variantMap[variantKey]
+    #    confValue = variantMap[variantKey]
 
     # Processing
     # are we in a if/loop condition expression, i.e. a "loop/expression/..." context?
@@ -275,10 +278,10 @@ def processVariantGet(callNode, variantMap):
         # get() call is only condition
         if callNode.parent == conditionNode:
             # @deprecated
-            if variantValue in ["off", "false"]:
+            if confValue in ["off", "false"]:
                 varValue = False
             else:
-                varValue = bool(variantValue)
+                varValue = bool(confValue)
             treeutil.inlineIfStatement(loopNode, varValue)
             treeModified = True
         # a single comparison is the condition
@@ -303,20 +306,20 @@ def processVariantGet(callNode, variantMap):
                 if otherValue.type == "constant":
                     constType = otherValue.get("constantType")
                     if constType == "number":
-                        op1 = variantValue
+                        op1 = confValue
                         op2 = int(otherValue.get("value"))
                     elif constType == "string":
-                        op1 = variantValue
+                        op1 = confValue
                         op2 = otherValue.get("value")
                     elif constType == "boolean":
                         # @deprecated
-                        if isinstance(variantValue, types.StringTypes) and variantValue in ["on","off"]:
-                            op1 = {"on":True,"off":False}[variantValue]
+                        if isinstance(confValue, types.StringTypes) and confValue in ["on","off"]:
+                            op1 = {"on":True,"off":False}[confValue]
                         else:
-                            op1 = variantValue
+                            op1 = confValue
                         op2 = {"true":True, "false":False}[otherValue.get("value")]
                     elif constType == "null":
-                        op1 = variantValue
+                        op1 = confValue
                         op2 = None
                     # compare result
                     if constType in ("number", "string", "boolean", "null"):
