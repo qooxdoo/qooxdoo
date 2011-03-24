@@ -69,7 +69,7 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
      */
     tearDown : function()
     {
-      this.logAutLog();
+      this.logAutLogEntries();
       this.getSimulation().throwGlobalErrors(this.demoWindow);
     },
 
