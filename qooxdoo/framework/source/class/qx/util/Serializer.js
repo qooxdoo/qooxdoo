@@ -27,8 +27,8 @@ qx.Class.define("qx.util.Serializer",
 
     /**
      * Serializes the properties of the given qooxdoo object. To get the
-     * serialization working, every property needs has to have a string
-     * representation because the value od the property will be concated to the
+     * serialization working, every property needs to have a string
+     * representation because the value of the property will be concatenated to the
      * serialized string.
      *
      * @param object {qx.core.Object} Any qooxdoo object
