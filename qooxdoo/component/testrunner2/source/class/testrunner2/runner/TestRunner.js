@@ -38,6 +38,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     }
 
     // Create view
+    this.__testsInView = [];
     var viewSetting = qx.core.Environment.get("testrunner2.view");
     var viewClass = qx.Class.getByName(viewSetting);
     this.view = new viewClass();
@@ -165,6 +166,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     __loadAttempts : null,
     __logAppender : null,
     __testParts : null,
+    __testsInView : null,
     _testNameSpace : null,
 
 
@@ -330,6 +332,9 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     {
       var suiteState = this.getTestSuiteState();
       switch (suiteState) {
+        case "loading":
+          this.__testsInView = [];
+          break;
         case "ready":
         case "finished":
           if (this.testList.length > 0) {
@@ -421,8 +426,10 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         }
         */
 
-        //this.currentTestData = new testrunner2.runner.TestResultData(test.getFullName());
-        this.view.addTestResult(this.currentTestData);
+        if (!qx.lang.Array.contains(this.__testsInView, this.currentTestData.fullName)) {
+          this.view.addTestResult(this.currentTestData);
+          this.__testsInView.push(this.currentTestData.fullName);
+        }
       }, this);
 
       testResult.addListener("wait", function(e) {
