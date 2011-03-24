@@ -652,20 +652,22 @@ class Generator(object):
 
 
     def _mergeVariantsEnvironment(self, variantData, environData):
-        # variantData last so it overrules
         combiData = {}
+        # variantData last so it overrules
         #combiData   = dict(j for i in (environData, variantData) for j in i.iteritems())
 
         # using a special string type, mstr, for the result keys, so i can
         # annotate it (used in CodeGenerator to separate envrionment keys)
         for k,val in variantData.iteritems():
-            if k in environData:
-                self._console.warn('Key of deprecated "variants" config clashing with "environment" config: %s; skipping...' % k)
-                continue
             key = mstr(k)
             combiData[key] = val
         for k,val in environData.iteritems():
-            key = mstr(k)
+            if k in variantData:
+                self._console.warn('Key "%s" of deprecated "variants" config clashing with "environment" config; using variants.' % k)
+                #continue
+            key = mstr('<env>:'+k)
+            if key in combiData: # this should never happen
+                raise RuntimeError('Rename variants key "%s" in your config.' % key)
             key.type = "env"
             combiData[key] = val
 

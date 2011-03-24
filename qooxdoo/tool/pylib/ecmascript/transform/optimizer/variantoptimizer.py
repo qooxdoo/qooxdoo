@@ -106,14 +106,15 @@ def processVariantSelect(callNode, variantMap):
 
     variantKey = firstParam.get("value");
     # is this key covered by the current variant map?
-    if not variantKey in variantMap.keys():
+    #variantValue = variantMap[variantKey]
+    variantValue = __keyLookup(variantKey, variantMap)
+    if not variantValue:
         return False
 
     # Get the resolution map, keyed by possible variant key values (or value expressions)
     secondParam = params.getChildByPosition(1)
     default = None
     found = False
-    variantValue = variantMap[variantKey]
     if secondParam.type == "map":
         # map keys are always JS strings -> simulate a JS .toString() conversion
         if isinstance(variantValue, types.BooleanType):
@@ -177,7 +178,9 @@ def processVariantIsSet(callNode, variantMap):
         return False
 
     variantKey = firstParam.get("value");
-    if not variantKey in variantMap.keys():
+    confValue  = __keyLookup(variantKey, variantMap)
+    #if not variantKey in variantMap.keys():
+    if not confValue:
         return False
 
     secondParam = params.getChildByPosition(1)
@@ -189,7 +192,7 @@ def processVariantIsSet(callNode, variantMap):
         if ifcondition.type == "expression" and ifcondition.getChildrenLength(True) == 1 and ifcondition.parent.type == "loop":
             loop = ifcondition.parent
             variantValue = secondParam.get("value")
-            inlineIfStatement(loop, __variantMatchKey(variantValue, variantMap, variantKey))
+            inlineIfStatement(loop, __variantMatchKey(variantValue, confValue))
 
         # ternery operator  .. ? .. : ..
         elif (
@@ -199,7 +202,7 @@ def processVariantIsSet(callNode, variantMap):
             ifcondition.parent.get("operator") == "HOOK"
         ):
             variantValue = secondParam.get("value")
-            if __variantMatchKey(variantValue, variantMap, variantKey):
+            if __variantMatchKey(variantValue, confValue):
                 repleacement = selectNode(ifcondition, "../second")
             else:
                 repleacement = selectNode(ifcondition, "../third")
@@ -208,7 +211,7 @@ def processVariantIsSet(callNode, variantMap):
         else:
             variantValue = secondParam.get("value")
             constantNode = tree.Node("constant")
-            constantNode.set("value", str(__variantMatchKey(variantValue, variantMap, variantKey)).lower())
+            constantNode.set("value", str(__variantMatchKey(variantValue, confValue)).lower())
             constantNode.set("constantType", "boolean")
             constantNode.set("line", callNode.get("line"))
             callNode.parent.replaceChild(callNode, constantNode)
@@ -245,10 +248,12 @@ def processVariantGet(callNode, variantMap):
         return treeModified
 
     variantKey = firstParam.get("value");
-    if not variantKey in variantMap.keys():
+    variantValue = __keyLookup(variantKey, variantMap)
+    #if not variantKey in variantMap.keys():
+    if not variantKey:
         return treeModified
-    else:
-        variantValue = variantMap[variantKey]
+    #else:
+    #    variantValue = variantMap[variantKey]
 
     # Processing
     # are we in a if/loop condition expression, i.e. a "loop/expression/..." context?
@@ -269,7 +274,12 @@ def processVariantGet(callNode, variantMap):
         loopNode = conditionNode.parent
         # get() call is only condition
         if callNode.parent == conditionNode:
-            treeutil.inlineIfStatement(loopNode, bool(variantValue)) # take the truth val of the key value
+            # @deprecated
+            if variantValue in ["off", "false"]:
+                varValue = False
+            else:
+                varValue = bool(variantValue)
+            treeutil.inlineIfStatement(loopNode, varValue)
             treeModified = True
         # a single comparison is the condition
         elif (callNode.parent.parent.type == "operation"
@@ -347,10 +357,12 @@ def processEnvironmentClass(node, variantMap):
         return treeModified
 
     variantKey = firstParam.get("value");
-    if not variantKey in variantMap.keys():
+    variantValue = __keyLookup(variantKey, variantMap)
+    #if not variantKey in variantMap.keys():
+    if not variantValue:
         return treeModified
-    else:
-        variantValue = variantMap[variantKey]
+    #else:
+    #    variantValue = variantMap[variantKey]
 
     # Processing
     # are we in a if/loop condition expression, i.e. a "loop/expression/..." context?
@@ -378,11 +390,23 @@ def processEnvironmentClass(node, variantMap):
     return treeModified
 
 
-def __variantMatchKey(key, variantMap, variantKey):
+def __variantMatchKey(key, variantValue):
     for keyPart in key.split("|"):
-        if variantMap[variantKey] == keyPart:
+        if variantValue == keyPart:
             return True
     return False
+
+
+##
+# @deprecated
+def __keyLookup(key, variantMap):
+    try:
+        return variantMap[key]
+    except KeyError:
+        try:
+            return variantMap['<env>:'+key]
+        except KeyError:
+            return None
 
 
 ##

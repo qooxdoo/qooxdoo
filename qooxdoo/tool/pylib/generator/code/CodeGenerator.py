@@ -452,9 +452,9 @@ class CodeGenerator(object):
         globalCodes = {}
         globalCodes["Settings"] = settings
         variantsMap = self.generateVariantsCode(variants)
-        globalCodes["Variants"] = dict((k,v) for (k,v) in variantsMap.iteritems() if k.type != "env")
+        globalCodes["Variants"] = dict((k,v) for (k,v) in variantsMap.iteritems() if not k.startswith("<env>:"))
         #globalCodes["EnvSettings"] = dict(j for i in (globalCodes["Settings"], globalCodes["Variants"]) for j in i.iteritems())  # variants currently contain script.envsettings
-        globalCodes["EnvSettings"] = dict((k,v) for (k,v) in variantsMap.iteritems() if k.type == "env")
+        globalCodes["EnvSettings"] = dict((k.replace('<env>:','',1), v) for (k,v) in variantsMap.iteritems() if k.startswith("<env>:"))
         globalCodes["Libinfo"]     = self.generateLibInfoCode(libs, format, resourceUri, scriptUri)
         # add synthetic output lib
         if scriptUri: out_sourceUri= scriptUri
