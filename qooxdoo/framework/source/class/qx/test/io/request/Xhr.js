@@ -128,7 +128,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
       this.assertCalledWith(this.transport.open, "GET", "url?affe=true");
     },
-    
+
     //
     // Data with POST
     //
@@ -141,7 +141,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
       this.assertCalledWith(this.transport.send, "str");
     },
-    
+
     "test: should send obj data with POST request": function() {
       this.spy(this.transport, "send");
       this.req.setMethod("POST");
@@ -150,7 +150,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
       this.assertCalledWith(this.transport.send, "af+fe=true");
     },
-    
+
     "test: should send qooxdoo obj data with POST request": function() {
       var obj = new Klass();
       this.spy(this.transport, "send");
@@ -160,5 +160,19 @@ qx.Class.define("qx.test.io.request.Xhr",
 
       this.assertCalledWith(this.transport.send, "affe=true");
     },
+
+    //
+    // Header
+    //
+
+    "test: should set request headers": function() {
+      this.spy(this.transport, "setRequestHeader");
+      this.req.setRequestHeaders({key1: "value", key2: "value"});
+      this.req.send();
+
+      this.assertCalledWith(this.transport.setRequestHeader, "key1", "value");
+      this.assertCalledWith(this.transport.setRequestHeader, "key2", "value");
+    }
+
   }
 });

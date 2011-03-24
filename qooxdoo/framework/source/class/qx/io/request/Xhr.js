@@ -57,9 +57,14 @@ qx.Class.define("qx.io.request.Xhr",
       nullable: true
     },
 
+    requestHeaders: {
+      check: "Map",
+      nullable: true
+    },
+
     data: {
       check: function(value) {
-        return qx.lang.Type.isString(value) || 
+        return qx.lang.Type.isString(value) ||
                qx.Class.isSubClassOf(value.constructor, qx.core.Object) ||
                qx.lang.Type.isObject(value)
       },
@@ -92,6 +97,7 @@ qx.Class.define("qx.io.request.Xhr",
       }
 
       this.__transport.open(method, url, async, username, password);
+      this.__setRequestHeaders();
       this.__transport.send(serializedData);
     },
 
@@ -116,6 +122,16 @@ qx.Class.define("qx.io.request.Xhr",
 
       if (qx.lang.Type.isObject(data)) {
         return qx.lang.Object.toUriParameter(data, isPost);
+      }
+    },
+
+    __setRequestHeaders: function() {
+      var requestHeaders = this.getRequestHeaders();
+
+      for (var key in requestHeaders) {
+        if (requestHeaders.hasOwnProperty(key)) {
+          this.__transport.setRequestHeader(key, requestHeaders[key]);
+        }
       }
     }
 
