@@ -181,6 +181,21 @@ qx.Bootstrap.define("qx.Bootstrap",
     /** Timestamp of qooxdoo based application startup */
     LOADSTART : qx.$$start || new Date(),
 
+    /**
+     * Mapping for early use of the qx.debug environment setting.
+     * @lint ignoreUndefined(qxvariants)
+     */
+     DEBUG : (function() {
+       // make sure to reflect all changes here to the environment class!
+       var debug = true;
+       if (qx.$$environment && qx.$$environment["qx.debug"] === false) {
+         debug = false;
+       }
+       if (qxvariants && qxvariants["qx.debug"] == "off") {
+         debug = false;
+       }
+       return debug;
+     })(),
 
     /**
      * Creates a namespace and assigns the given object to it.
