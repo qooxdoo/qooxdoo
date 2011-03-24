@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
       {
         this._updateSize();
         this.__registerEventListener();
-        this.setDisplay(true);
+        this.base(arguments);
       }
     },
 
@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
       if (this.__count <= 0)
       {
         this.__count = 0;
-        this.setDisplay(false);
+        this.exclude();
       }
     },
 
