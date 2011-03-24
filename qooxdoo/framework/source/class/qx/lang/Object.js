@@ -370,6 +370,43 @@ qx.Class.define("qx.lang.Object",
       }
 
       return obj;
+    },
+
+    /**
+     * Serializes an object to URI parameters (also known as query string).
+     *
+     * Escapes characters that have a special meaning in URIs as well as
+     * umlauts. Uses the global function encodeURIComponent, see
+     * https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/encodeURIComponent
+     *
+     * Note: For URI parameters that are be send as
+     * application/x-www-form-urlencoded (POST), spaces should be encoded
+     * with "+".
+     *
+     * @param obj {Object}   Object to serialize.
+     * @param post {Boolean} Whether spaces should be encoded with "+"
+     * @return {String}      Serialized object. Safe to append to URIs or send as
+     *                       URL encoded string.
+     *
+     */
+    toUriParameter: function(obj, post)
+    {
+      var key,
+          parts = [],
+          encode = window.encodeURIComponent
+
+      for (key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          if (post) {
+            parts.push(encode(key).replace(/%20/g, "+") + "=" +
+              encode(obj[key]).replace(/%20/g, "+"));
+          } else {
+            parts.push(encode(key) + "=" + encode(obj[key]));
+          }
+        }
+      }
+
+      return parts.join("&");
     }
   }
 });
