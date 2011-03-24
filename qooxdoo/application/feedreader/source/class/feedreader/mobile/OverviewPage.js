@@ -55,11 +55,11 @@ qx.Class.define("feedreader.mobile.OverviewPage",
     _initialize : function() {
       this.base(arguments);
 
-      // create the toolbar
-      var toolbar = new qx.ui.mobile.toolbar.ToolBar();
-      var title = new qx.ui.mobile.toolbar.Title("Feed Reader");
-      toolbar.add(title, {flex: 1});
-      this.add(toolbar);
+      // create the navigationbar
+      var navigationbar = new qx.ui.mobile.navigationbar.NavigationBar();
+      var title = new qx.ui.mobile.navigationbar.Title("Feed Reader");
+      navigationbar.add(title, {flex: 1});
+      this.add(navigationbar);
 
       // add a scroller
       var scroller = new qx.ui.mobile.container.Scroller();

@@ -65,16 +65,16 @@ qx.Class.define("feedreader.mobile.FeedPage",
     _initialize : function() {
       this.base(arguments);
 
-      // create the toolbar
-      var toolbar = new qx.ui.mobile.toolbar.ToolBar();
-      var backButton = new qx.ui.mobile.toolbar.BackButton(this.tr("Back"));
-      toolbar.add(backButton);
+      // create the navigationbar
+      var navigationbar = new qx.ui.mobile.navigationbar.NavigationBar();
+      var backButton = new qx.ui.mobile.navigationbar.BackButton(this.tr("Back"));
+      navigationbar.add(backButton);
       backButton.addListener("tap", function() {
         this.fireEvent("back");
       }, this);
-      this.__title = new qx.ui.mobile.toolbar.Title("Feed");
-      toolbar.add(this.__title, {flex: 1});
-      this.add(toolbar);
+      this.__title = new qx.ui.mobile.navigationbar.Title("Feed");
+      navigationbar.add(this.__title, {flex: 1});
+      this.add(navigationbar);
 
       // add a scroller
       var scroller = new qx.ui.mobile.container.Scroller();
