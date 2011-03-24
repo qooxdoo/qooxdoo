@@ -22,7 +22,7 @@
  */
 qx.Class.define("qx.ui.mobile.navigationbar.BackButton",
 {
-  extend : qx.ui.mobile.toolbar.Button,
+  extend : qx.ui.mobile.navigationbar.Button,
 
 
  /*
