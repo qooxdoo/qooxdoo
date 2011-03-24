@@ -18,6 +18,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
  * A wrapper of the XMLHttpRequest host object (or equivalent).
  *
  * Hides browser inconsistencies and works around bugs found in popular

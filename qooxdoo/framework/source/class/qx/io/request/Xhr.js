@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ */
 qx.Class.define("qx.io.request.Xhr",
 {
   extend: qx.core.Object,
@@ -98,7 +101,7 @@ qx.Class.define("qx.io.request.Xhr",
 
     __serializeData: function(data) {
       var isPost = this.getMethod() == "POST";
-      
+
       if (!data) {
         return;
       }
