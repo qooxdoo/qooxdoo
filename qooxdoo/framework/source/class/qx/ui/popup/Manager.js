@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.popup.Manager",
   {
     this.base(arguments);
 
-    // Create data structure, usa an array becasue order matters [BUG #4323]
+    // Create data structure, use an array becasue order matters [BUG #4323]
     this.__objects = [];
 
     // Register mousedown handler
