@@ -384,7 +384,7 @@ qx.Class.define("qx.lang.Object",
      * with "+".
      *
      * @param obj {Object}   Object to serialize.
-     * @param post {Boolean} Whether spaces should be encoded with "+"
+     * @param post {Boolean} Whether spaces should be encoded with "+".
      * @return {String}      Serialized object. Safe to append to URIs or send as
      *                       URL encoded string.
      *
