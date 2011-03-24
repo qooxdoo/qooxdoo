@@ -54,36 +54,6 @@ qx.Class.define("qx.test.io.request.Xhr",
       qx.Class.undefine("Klass");
     },
 
-    // //
-    // // Properties
-    // //
-    //
-    // "test: data can be string": function() {
-    //   this.setData("str");
-    // },
-    //
-    // "test: data can be plain object": function() {
-    //   this.setData({});
-    // },
-    //
-    // "test: data can be qooxdoo object": function() {
-    //   this.setData(new Klass);
-    // },
-    //
-    // "test: data cannot be number": function() {
-    //   var that = this;
-    //   this.assertException(function() {
-    //     that.setData(0);
-    //   });
-    // },
-    //
-    // "test: data cannot be array": function() {
-    //   var that = this;
-    //   this.assertException(function() {
-    //     that.setData([]);
-    //   });
-    // },
-
     //
     // General
     //
