@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#ignore(WebKitCSSMatrix)
-
-************************************************************************ */
-
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  */
@@ -66,7 +60,9 @@ qx.Class.define("qx.ui.mobile.page.Page",
     "start" : "qx.event.type.Event",
     "stop" : "qx.event.type.Event",
     "pause" : "qx.event.type.Event",
-    "resume" : "qx.event.type.Event"
+    "resume" : "qx.event.type.Event",
+    "back" : "qx.event.type.Event",
+    "menu" : "qx.event.type.Event"
   },
 
 
@@ -84,13 +80,6 @@ qx.Class.define("qx.ui.mobile.page.Page",
     {
       refine : true,
       init : "page"
-    },
-
-
-    title :
-    {
-      check : "String",
-      init : ""
     }
   },
 
@@ -163,20 +152,14 @@ qx.Class.define("qx.ui.mobile.page.Page",
       qx.ui.mobile.page.Page.getManager().add(this);
     },
 
-    /*
-    ---------------------------------------------------------------------------
-      Lifecycle Methods
-    ---------------------------------------------------------------------------
-    */
-
 
     /**
      * Abstract method.
-     *  TODO: Remove this method
      */
-    back : function() {
-      //
-      return true;
+    back : function()
+    {
+      this.fireEvent("back", true)
+      return false;
     },
 
 
@@ -184,9 +167,15 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * Abstract method.
      */
     menu : function() {
-      // TODO: Remove this
+      this.fireEvent("menu");
     },
 
+
+    /*
+    ---------------------------------------------------------------------------
+      Lifecycle Methods
+    ---------------------------------------------------------------------------
+    */
 
     initialize : function()
     {
