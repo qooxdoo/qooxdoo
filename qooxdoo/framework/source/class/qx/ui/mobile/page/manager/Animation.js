@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
     defaultAnimation :
     {
       check : "String",
-      init : "slide"
+      init : "cube"
     }
   },
 
@@ -89,7 +89,14 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
   statics :
   {
     ANIMATIONS : {
-      "slide" : true // USE THIS FOR MORE INFORMATION
+      "slide" : true, // USE THIS FOR MORE INFORMATION
+      "pop" : true,
+      "fade" : true,
+      "dissolve" : true,
+      "slideup" : true,
+      "flip" : true,
+      "swap" : true,
+      "cube" : true
     }
   },
 
@@ -127,6 +134,11 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
       data = data || {};
 
       this.__animation = data.animation || this.getDefaultAnimation();
+
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        this.assertNotUndefined(qx.ui.mobile.page.manager.Animation.ANIMATIONS[this.__animation], "Animation " + this.__animation + " is not defined.");
+      }
 
       data.reverse = data.reverse == null ? false : data.reverse;
 
