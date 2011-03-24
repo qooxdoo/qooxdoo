@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     _getScrollContainer : function()
     {
-      return this.__scroll;
+      return this.__scrollContainer;
     },
 
 
@@ -203,6 +203,15 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
+    // property apply
+    _applyContentCssClass : function(value, old)
+    {
+      if (this.__content) {
+        this.__content.setDefaultCssClass(value);
+      }
+    },
+
+
     _showButton : function()
     {
       if (this.__button)
@@ -244,7 +253,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     _createContent : function()
     {
       var content = new qx.ui.mobile.container.Composite();
-      content.setDefaultCssClass("content");
+      content.setDefaultCssClass(this.getContentCssClass());
       return content;
     },
 
