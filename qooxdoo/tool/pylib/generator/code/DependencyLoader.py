@@ -275,18 +275,21 @@ class DependencyLoader(object):
                     runFinal.append(dep)
 
         # fix source dependency to qx.core.Variant
-        if len(variants) and buildType in ("source","hybrid") and classObj.id != "qx.core.Variant":
+        variantSelectClasses = ("qx.core.Variant", "qx.core.Environment")
+        if len(variants) and (buildType in ("source","hybrid")) and (classObj.id not in variantSelectClasses):
             depsUnOpt, _ = classObj.dependencies({})  # get unopt deps
             # this might incur extra generation if unoptimized deps
             # haven't computed before for this fileId
             for depItem in depsUnOpt["load"]:
-                if depItem.name == "qx.core.Variant":
+                if depItem.name in variantSelectClasses:
                     loadFinal.append(depItem)
-                    break
+                    # @deprecated
+                    #break
             for depItem in depsUnOpt["run"]:
-                if depItem.name == "qx.core.Variant":
+                if depItem.name in variantSelectClasses:
                     runFinal.append(depItem)
-                    break
+                    # @deprecated
+                    #break
 
         # add config dependencies
         if fileId in self._require:
