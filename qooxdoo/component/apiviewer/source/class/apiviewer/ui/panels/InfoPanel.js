@@ -1017,7 +1017,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         else if (node.isProtected() && !showProtected) {
           qx.lang.Array.removeAt(copyArr, i);
         }
-        else if (node.isInternal() && !showInternal) {
+        else if (node.isInternal() && (node.getNodeType()=='method' && node.getName().indexOf('__')>0) && !showInternal) {
           qx.lang.Array.removeAt(copyArr, i);
         }
       }
