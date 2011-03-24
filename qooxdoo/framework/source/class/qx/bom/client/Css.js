@@ -44,7 +44,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
       var content = qx.bom.client.Engine.getName() !== "mshtml" ||
         !qx.bom.client.Browser.getQuirksMode() ;
 
-      return content ? "content" : "broder";
+      return content ? "content" : "border";
     },
 
 
@@ -60,7 +60,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Checks if placeholder could be used.
+     * Checks if a placeholder could be used.
      * @return {Boolean} <code>true</code>, if it could be used.
      * @internal
      */
@@ -131,7 +131,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
         try {
           el.style["background"] = style[i];
           if (el.style["background"].indexOf("gradient") != -1) {
-            return true
+            return true;
           }
         } catch (ex) {}
       };

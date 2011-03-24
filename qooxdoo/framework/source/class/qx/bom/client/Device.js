@@ -47,10 +47,10 @@ qx.Bootstrap.define("qx.bom.client.Device",
 
     /**
      * Returns the name of the current device if detectable. It falls back to
-     * <code>pc</code> if the detection of all other devices fails.
+     * <code>pc</code> if the detection for other devices fails.
      *
      * @internal
-     * @return {String} The string of the found device.
+     * @return {String} The string of the device found.
      */
     getName : function() {
       var str = [];

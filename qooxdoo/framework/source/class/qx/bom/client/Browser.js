@@ -91,14 +91,16 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       var name = match[1].toLowerCase();
 
       var engine = qx.bom.client.Engine.getName();
-      if (engine === "webkit") {
-        // Fix Chrome name (which is still wrong defined in user agent on Android 1.6)
-        if (name === "android") {
+      if (engine === "webkit") 
+      {
+        if (name === "android") 
+        {
+          // Fix Chrome name (for instance wrongly defined in user agent on Android 1.6)
           name = "mobile chrome";
-        }
-
-        // Fix Safari name
-        else if (agent.indexOf("Mobile Safari") !== -1 || agent.indexOf("Mobile/") !== -1) {
+        } 
+        else if (agent.indexOf("Mobile Safari") !== -1 || agent.indexOf("Mobile/") !== -1) 
+        {
+          // Fix Safari name
           name = "mobile safari";
         }
       }
@@ -128,7 +130,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
 
 
     /**
-     * Checks the version of the curren browser.
+     * Determines the version of the current browser.
      * @return {String} The name of the current browser.
      * @internal
      */
@@ -150,7 +152,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
 
       if (qx.bom.client.Engine.getName() == "mshtml")
       {
-        // Use the Engine version, because the IE8 and higher change the user agent
+        // Use the Engine version, because IE8 and higher change the user agent
         // string to an older version in compatibility mode
         version = qx.bom.client.Engine.getVersion();
 
@@ -179,10 +181,10 @@ qx.Bootstrap.define("qx.bom.client.Browser",
 
 
     /**
-     * Check for quirks mode.
+     * Check if in quirks mode.
      *
      * @internal
-     * @return {Boolean} <code>true</code>, if the environemt is in quirks mode
+     * @return {Boolean} <code>true</code>, if the environment is in quirks mode
      */
     getQuirksMode : function() {
       if(qx.bom.client.Engine.getName() == "mshtml" &&
@@ -196,7 +198,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
 
 
     /**
-     * Internal herlper map for picking the right browser names to check.
+     * Internal helper map for picking the right browser names to check.
      */
     __agents : {
       // Safari should be the last one to check, because some other Webkit-based browsers
@@ -221,7 +223,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
 
 
   defer : function(statics) {
-    // @deprecated since 1.4: all code in the defer
+    // @deprecated since 1.4: all code in this defer method
     statics.NAME = statics.getName();
     statics.FULLVERSION = statics.getVersion();
     statics.VERSION = parseFloat(statics.FULLVERSION, 10);
@@ -240,7 +242,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
         statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
           qx.Bootstrap.warn(
             "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-            "Plese check the API documentation of qx.core.Environemt.\n" +
+            "Please check the API documentation of qx.core.Environment.\n" +
             "Trace:" + qx.dev.StackTrace.getStackTrace().join("\n")
           );
           return c;
