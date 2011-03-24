@@ -52,6 +52,10 @@ qx.Class.define("qx.io.request.Xhr",
     password: {
       check: "String",
       nullable: true
+    },
+
+    data: {
+      nullable: true
     }
   },
 
@@ -60,13 +64,54 @@ qx.Class.define("qx.io.request.Xhr",
     __transport: null,
 
     send: function() {
-      this.__transport.open(this.getMethod(), this.getUrl(), this.getAsync(),
-           this.getUsername(), this.getPassword());
-      this.__transport.send();
+      var method = this.getMethod(),
+          url = this.getUrl(),
+          async = this.getAsync(),
+          username = this.getUsername(),
+          password = this.getPassword(),
+          data = this.getData();
+
+      var serializedData = this.__serializeData(data);
+
+      if (method == "GET") {
+        // Add data to query string
+        if (serializedData) {
+          url = url + "?" + serializedData;
+        }
+
+        // Avoid duplication
+        data = null;
+      }
+
+      this.__transport.open(method, url, async, username, password);
+      this.__transport.send(data);
     },
 
     _createTransport: function() {
       return new qx.bom.request.Xhr();
+    },
+
+    __serializeData: function(data) {
+      if (!data) {
+        return;
+      }
+
+      if (qx.lang.Type.isString(data)) {
+        return data;
+      }
+
+      if (qx.Class.isSubClassOf(data.constructor, qx.core.Object)) {
+        return qx.util.Serializer.toUriParameter(data);
+      }
+
+      if (qx.lang.Type.isObject(data)) {
+        return qx.lang.Object.toUriParameter(data);
+      }
+
+      if (qx.core.Environment.get("qx.debug")) {
+        this.debug("Cannot serialize data. Type not supported.");
+      }
     }
+
   }
 });

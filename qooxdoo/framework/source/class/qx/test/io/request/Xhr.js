@@ -32,6 +32,17 @@ qx.Class.define("qx.test.io.request.Xhr",
 
       this.req = new qx.io.request.Xhr;
       this.req.setUrl("url");
+
+      qx.Class.define("Klass", {
+        extend : qx.core.Object,
+
+        properties :
+        {
+          affe: {
+            init: true
+          }
+        }
+      });
     },
 
     tearDown : function() {
@@ -39,12 +50,47 @@ qx.Class.define("qx.test.io.request.Xhr",
 
       this.transport.dispose();
       this.req.dispose();
+
+      qx.Class.undefine("Klass");
     },
+
+    // //
+    // // Properties
+    // //
+    //
+    // "test: data can be string": function() {
+    //   this.setData("str");
+    // },
+    //
+    // "test: data can be plain object": function() {
+    //   this.setData({});
+    // },
+    //
+    // "test: data can be qooxdoo object": function() {
+    //   this.setData(new Klass);
+    // },
+    //
+    // "test: data cannot be number": function() {
+    //   var that = this;
+    //   this.assertException(function() {
+    //     that.setData(0);
+    //   });
+    // },
+    //
+    // "test: data cannot be array": function() {
+    //   var that = this;
+    //   this.assertException(function() {
+    //     that.setData([]);
+    //   });
+    // },
+
+    //
+    // General
+    //
 
     "test: should send request": function() {
       this.spy(this.transport, "open");
       this.spy(this.transport, "send");
-
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "url", true);
@@ -53,7 +99,6 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     "test: should send sync request": function() {
       this.spy(this.transport, "open");
-
       this.req.setAsync(false);
       this.req.send();
 
@@ -72,11 +117,46 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.spy(this.transport, "open");
       this.req.setUsername("affe");
       this.req.setPassword("geheim");
-
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "url", true, "affe", "geheim");
-    }
+    },
 
+    //
+    // Data with GET
+    //
+
+    "test: should not send data with GET request": function() {
+      this.spy(this.transport, "send");
+      this.req.setData("str");
+      this.req.send();
+
+      this.assertCalledWith(this.transport.send, null);
+    },
+
+    "test: should append string data to URL with GET request": function() {
+      this.spy(this.transport, "open");
+      this.req.setData("str");
+      this.req.send();
+
+      this.assertCalledWith(this.transport.open, "GET", "url?str");
+    },
+
+    "test: should append obj data to URL with GET request": function() {
+      this.spy(this.transport, "open");
+      this.req.setData({affe: true});
+      this.req.send();
+
+      this.assertCalledWith(this.transport.open, "GET", "url?affe=true");
+    },
+
+    "test: should append qooxdoo obj data to URL with GET request": function() {
+      var obj = new Klass();
+      this.spy(this.transport, "open");
+      this.req.setData(obj);
+      this.req.send();
+
+      this.assertCalledWith(this.transport.open, "GET", "url?affe=true");
+    }
   }
 });
