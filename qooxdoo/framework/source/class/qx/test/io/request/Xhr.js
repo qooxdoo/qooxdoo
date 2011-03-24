@@ -175,10 +175,10 @@ qx.Class.define("qx.test.io.request.Xhr",
     "test: should send obj data with POST request": function() {
       this.spy(this.transport, "send");
       this.req.setMethod("POST");
-      this.req.setData({affe: true});
+      this.req.setData({"af fe": true});
       this.req.send();
 
-      this.assertCalledWith(this.transport.send, "affe=true");
+      this.assertCalledWith(this.transport.send, "af+fe=true");
     },
     
     "test: should send qooxdoo obj data with POST request": function() {

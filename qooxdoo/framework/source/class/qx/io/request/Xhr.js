@@ -97,6 +97,8 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     __serializeData: function(data) {
+      var isPost = this.getMethod() == "POST";
+      
       if (!data) {
         return;
       }
@@ -110,7 +112,7 @@ qx.Class.define("qx.io.request.Xhr",
       }
 
       if (qx.lang.Type.isObject(data)) {
-        return qx.lang.Object.toUriParameter(data);
+        return qx.lang.Object.toUriParameter(data, isPost);
       }
     }
 
