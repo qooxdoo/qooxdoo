@@ -381,7 +381,7 @@ qx.Class.define("apiviewer.Viewer",
   *****************************************************************************
   */
 
-  settings :
+  environment :
   {
     "apiviewer.title"            : "qooxdoo",
     "apiviewer.initialTreeDepth" : 1
