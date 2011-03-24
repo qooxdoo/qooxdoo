@@ -59,9 +59,6 @@ def search(node, variantMap, fileId="", verb=False):
 
     #if fileId == "qx.core.Environment":
     #    modified = processEnvironmentClass(node, variantMap)
-    if file == "qx.ui.decoration.MLinearBackgroundGradient":
-        #import pydb; pydb.debugger()
-        pass
 
     variantNodes = findVariantNodes(node)
     for variantNode in variantNodes:
