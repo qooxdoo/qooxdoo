@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     this.__children = [];
 
     this.setId(this.getId());
-    this.initCssClass();
+    this.initDefaultCssClass();
     this.initName();
     this.initAnonymous();
   },
