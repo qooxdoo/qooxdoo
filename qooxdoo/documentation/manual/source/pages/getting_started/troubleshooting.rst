@@ -96,3 +96,9 @@ Mac OS X
 Older Macs (e.g. 10.4) may need an update of the pre-installed Python. See the following comment from the `Python on Mac page <http://www.python.org/download/mac/>`_ :
 "Python comes pre-installed on Mac OS X, but due to Apple's release cycle, it's often one or even two years old. The overwhelming recommendation of the "MacPython" community is to upgrade your Python by downloading and installing a newer version from `the Python standard release page <http://www.python.org/download/releases/>`_."
 
+If the generator is very slow on your Mac, it may be due to Spotlight or more precisely it's indexing daemon ``mds``. ``mds`` can end up in an infinite loop resulting in very high disk load. While this is a general Mac issue, the generator can trigger this behaviour. To end the infinite loop:
+
+::
+
+  # Delete Spotlight cache
+  sudo rm -r /.Spotlight-V100
