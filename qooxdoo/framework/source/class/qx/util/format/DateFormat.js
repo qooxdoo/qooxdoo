@@ -166,515 +166,8 @@ qx.Class.define("qx.util.format.DateFormat",
     AM_MARKER : "am",
 
     /** {String} The pm marker. */
-    PM_MARKER : "pm",
+    PM_MARKER : "pm"
 
-    // MEDIUM_TIMEZONE_NAMES and FULL_TIMEZONE_NAMES are taken from:
-    // http://www.timeanddate.com/library/abbreviations/timezones/
-    /** {String[]} The medium (three letter) timezone names. */
-    MEDIUM_TIMEZONE_NAMES : [ 'A',
-                                                      'ADT',
-                                                      'ADT',
-                                                      'AFT',
-                                                      'AKDT',
-                                                      'AKST',
-                                                      'ALMT',
-                                                      'AMST',
-                                                      'AMST',
-                                                      'AMT',
-                                                      'AMT',
-                                                      'ANAST',
-                                                      'ANAT',
-                                                      'AQTT',
-                                                      'ART',
-                                                      'AST',
-                                                      'AST',
-                                                      'AST',
-                                                      'AST',
-                                                      'AZOST',
-                                                      'AZOT',
-                                                      'AZST',
-                                                      'AZT',
-                                                      'B',
-                                                      'BNT',
-                                                      'BOT',
-                                                      'BRST',
-                                                      'BRT',
-                                                      'BST',
-                                                      'BST',
-                                                      'BTT',
-                                                      'C',
-                                                      'CAST',
-                                                      'CAT',
-                                                      'CCT',
-                                                      'CDT',
-                                                      'CDT',
-                                                      'CDT',
-                                                      'CEST',
-                                                      'CET',
-                                                      'CET',
-                                                      'CHADT',
-                                                      'CHAST',
-                                                      'CKT',
-                                                      'CLST',
-                                                      'CLT',
-                                                      'COT',
-                                                      'CST',
-                                                      'CST',
-                                                      'CST',
-                                                      'CST',
-                                                      'CST',
-                                                      'CVT',
-                                                      'CXT',
-                                                      'ChST',
-                                                      'D',
-                                                      'DAVT',
-                                                      'E',
-                                                      'EASST',
-                                                      'EAST',
-                                                      'EAT',
-                                                      'EAT',
-                                                      'ECT',
-                                                      'EDT',
-                                                      'EDT',
-                                                      'EDT',
-                                                      'EDT',
-                                                      'EEST',
-                                                      'EEST',
-                                                      'EEST',
-                                                      'EET',
-                                                      'EET',
-                                                      'EET',
-                                                      'EGST',
-                                                      'EGT',
-                                                      'EST',
-                                                      'EST',
-                                                      'EST',
-                                                      'EST',
-                                                      'ET',
-                                                      'ET',
-                                                      'ET',
-                                                      'F',
-                                                      'FJST',
-                                                      'FJT',
-                                                      'FKST',
-                                                      'FKT',
-                                                      'FNT',
-                                                      'G',
-                                                      'GALT',
-                                                      'GAMT',
-                                                      'GET',
-                                                      'GFT',
-                                                      'GILT',
-                                                      'GMT',
-                                                      'GMT',
-                                                      'GST',
-                                                      'GYT',
-                                                      'H',
-                                                      'HAA',
-                                                      'HAA',
-                                                      'HAC',
-                                                      'HADT',
-                                                      'HAE',
-                                                      'HAE',
-                                                      'HAP',
-                                                      'HAR',
-                                                      'HAST',
-                                                      'HAT',
-                                                      'HAY',
-                                                      'HKT',
-                                                      'HLV',
-                                                      'HNA',
-                                                      'HNA',
-                                                      'HNA',
-                                                      'HNC',
-                                                      'HNC',
-                                                      'HNE',
-                                                      'HNE',
-                                                      'HNE',
-                                                      'HNP',
-                                                      'HNR',
-                                                      'HNT',
-                                                      'HNY',
-                                                      'HOVT',
-                                                      'I',
-                                                      'ICT',
-                                                      'IDT',
-                                                      'IOT',
-                                                      'IRDT',
-                                                      'IRKST',
-                                                      'IRKT',
-                                                      'IRST',
-                                                      'IST',
-                                                      'IST',
-                                                      'IST',
-                                                      'JST',
-                                                      'K',
-                                                      'KGT',
-                                                      'KRAST',
-                                                      'KRAT',
-                                                      'KST',
-                                                      'KUYT',
-                                                      'L',
-                                                      'LHDT',
-                                                      'LHST',
-                                                      'LINT',
-                                                      'M',
-                                                      'MAGST',
-                                                      'MAGT',
-                                                      'MART',
-                                                      'MAWT',
-                                                      'MDT',
-                                                      'MHT',
-                                                      'MMT',
-                                                      'MSD',
-                                                      'MSK',
-                                                      'MST',
-                                                      'MUT',
-                                                      'MVT',
-                                                      'MYT',
-                                                      'N',
-                                                      'NCT',
-                                                      'NDT',
-                                                      'NFT',
-                                                      'NOVST',
-                                                      'NOVT',
-                                                      'NPT',
-                                                      'NST',
-                                                      'NUT',
-                                                      'NZDT',
-                                                      'NZDT',
-                                                      'NZST',
-                                                      'NZST',
-                                                      'O',
-                                                      'OMSST',
-                                                      'OMST',
-                                                      'P',
-                                                      'PDT',
-                                                      'PET',
-                                                      'PETST',
-                                                      'PETT',
-                                                      'PGT',
-                                                      'PHOT',
-                                                      'PHT',
-                                                      'PKT',
-                                                      'PMDT',
-                                                      'PMST',
-                                                      'PONT',
-                                                      'PST',
-                                                      'PST',
-                                                      'PT',
-                                                      'PWT',
-                                                      'PYST',
-                                                      'PYT',
-                                                      'Q',
-                                                      'R',
-                                                      'RET',
-                                                      'S',
-                                                      'SAMT',
-                                                      'SAST',
-                                                      'SBT',
-                                                      'SCT',
-                                                      'SGT',
-                                                      'SRT',
-                                                      'SST',
-                                                      'T',
-                                                      'TAHT',
-                                                      'TFT',
-                                                      'TJT',
-                                                      'TKT',
-                                                      'TLT',
-                                                      'TMT',
-                                                      'TVT',
-                                                      'U',
-                                                      'ULAT',
-                                                      'UYST',
-                                                      'UYT',
-                                                      'UZT',
-                                                      'V',
-                                                      'VET',
-                                                      'VLAST',
-                                                      'VLAT',
-                                                      'VUT',
-                                                      'W',
-                                                      'WAST',
-                                                      'WAT',
-                                                      'WDT',
-                                                      'WEST',
-                                                      'WEST',
-                                                      'WET',
-                                                      'WET',
-                                                      'WFT',
-                                                      'WGST',
-                                                      'WGT',
-                                                      'WIB',
-                                                      'WIT',
-                                                      'WITA',
-                                                      'WST',
-                                                      'WST',
-                                                      'WST',
-                                                      'WT',
-                                                      'X',
-                                                      'Y',
-                                                      'YAKST',
-                                                      'YAKT',
-                                                      'YAPT',
-                                                      'YEKST',
-                                                      'YEKT',
-                                                      'Z'
-],
-
-    /** {String[]} The full timezone names. */
-    FULL_TIMEZONE_NAMES : [  "Alpha Time Zone Military",
-                                                  "Atlantic Daylight Time Atlantic",
-                                                  "Atlantic Daylight Time North America",
-                                                  "Afghanistan Time Asia",
-                                                  "Alaska Daylight Time North America",
-                                                  "Alaska Standard Time North America",
-                                                  "Alma-Ata Time Asia",
-                                                  "Armenia Summer Time Asia",
-                                                  "Amazon Summer Time South America",
-                                                  "Armenia Time Asia",
-                                                  "Amazon Time South America",
-                                                  "Anadyr Summer Time Asia",
-                                                  "Anadyr Time Asia",
-                                                  "Aqtobe Time Asia",
-                                                  "Argentina Time South America",
-                                                  "Arabia Standard Time Asia",
-                                                  "Atlantic Standard Time Atlantic",
-                                                  "Atlantic Standard Time Caribbean",
-                                                  "Atlantic Standard Time North America",
-                                                  "Azores Summer Time Atlantic",
-                                                  "Azores Time Atlantic",
-                                                  "Azerbaijan Summer Time Asia",
-                                                  "Azerbaijan Time Asia",
-                                                  "Bravo Time Zone Military",
-                                                  "Brunei Darussalam Time Asia",
-                                                  "Bolivia Time South America",
-                                                  "Brasilia Summer Time South America",
-                                                  "Brasília time South America",
-                                                  "Bangladesh Standard Time Asia",
-                                                  "British Summer Time Europe",
-                                                  "Bhutan Time Asia",
-                                                  "Charlie Time Zone Military",
-                                                  "Casey Time Antarctica",
-                                                  "Central Africa Time Africa",
-                                                  "Cocos Islands Time Indian Ocean",
-                                                  "Central Daylight Time Australia",
-                                                  "Cuba Daylight Time Caribbean",
-                                                  "Central Daylight Time North America",
-                                                  "Central European Summer Time Europe",
-                                                  "Central European Time Africa",
-                                                  "Central European Time Europe",
-                                                  "Chatham Island Daylight Time Pacific",
-                                                  "Chatham Island Standard Time Pacific",
-                                                  "Cook Island Time Pacific",
-                                                  "Chile Summer Time South America",
-                                                  "Chile Standard Time South America",
-                                                  "Colombia Time South America",
-                                                  "China Standard Time Asia",
-                                                  "Central Standard Time Australia",
-                                                  "Central Standard Time Central America",
-                                                  "Cuba Standard Time Caribbean",
-                                                  "Central Standard Time North America",
-                                                  "Cape Verde Time Africa",
-                                                  "Christmas Island Time Australia",
-                                                  "Chamorro Standard Time Pacific",
-                                                  "Delta Time Zone Military",
-                                                  "Davis Time Antarctica",
-                                                  "Echo Time Zone Military",
-                                                  "Easter Island Summer Time Pacific",
-                                                  "Easter Island Standard Time Pacific",
-                                                  "Eastern Africa Time Africa",
-                                                  "East Africa Time Indian Ocean",
-                                                  "Ecuador Time South America",
-                                                  "Eastern Daylight Time Australia",
-                                                  "Eastern Daylight Time Caribbean",
-                                                  "Eastern Daylight Time North America",
-                                                  "Eastern Daylight Time Pacific",
-                                                  "Eastern European Summer Time Africa",
-                                                  "Eastern European Summer Time Asia",
-                                                  "Eastern European Summer Time Europe",
-                                                  "Eastern European Time Africa",
-                                                  "Eastern European Time Asia",
-                                                  "Eastern European Time Europe",
-                                                  "Eastern Greenland Summer Time North America",
-                                                  "East Greenland Time North America",
-                                                  "Eastern Standard Time Australia",
-                                                  "Eastern Standard Time Central America",
-                                                  "Eastern Standard Time Caribbean",
-                                                  "Eastern Standard Time North America",
-                                                  "Tiempo del Este Central America",
-                                                  "Tiempo del Este Caribbean",
-                                                  "Tiempo Del Este  North America",
-                                                  "Foxtrot Time Zone Military",
-                                                  "Fiji Summer Time Pacific",
-                                                  "Fiji Time Pacific",
-                                                  "Falkland Islands Summer Time South America",
-                                                  "Falkland Island Time South America",
-                                                  "Fernando de Noronha Time South America",
-                                                  "Golf Time Zone Military",
-                                                  "Galapagos Time Pacific",
-                                                  "Gambier Time Pacific",
-                                                  "Georgia Standard Time Asia",
-                                                  "French Guiana Time South America",
-                                                  "Gilbert Island Time Pacific",
-                                                  "Greenwich Mean Time Africa",
-                                                  "Greenwich Mean Time Europe",
-                                                  "Gulf Standard Time Asia",
-                                                  "Guyana Time South America",
-                                                  "Hotel Time Zone Military",
-                                                  "Heure Avancée de l'Atlantique Atlantic",
-                                                  "Heure Avancée de l'Atlantique North America",
-                                                  "Heure Avancée du Centre North America",
-                                                  "Hawaii-Aleutian Daylight Time North America",
-                                                  "Heure Avancée de l'Est  Caribbean",
-                                                  "Heure Avancée de l'Est  North America",
-                                                  "Heure Avancée du Pacifique North America",
-                                                  "Heure Avancée des Rocheuses North America",
-                                                  "Hawaii-Aleutian Standard Time North America",
-                                                  "Heure Avancée de Terre-Neuve North America",
-                                                  "Heure Avancée du Yukon North America",
-                                                  "Hong Kong Time Asia",
-                                                  "Hora Legal de Venezuela South America",
-                                                  "Heure Normale de l'Atlantique Atlantic",
-                                                  "Heure Normale de l'Atlantique Caribbean",
-                                                  "Heure Normale de l'Atlantique North America",
-                                                  "Heure Normale du Centre Central America",
-                                                  "Heure Normale du Centre North America",
-                                                  "Heure Normale de l'Est Central America",
-                                                  "Heure Normale de l'Est Caribbean",
-                                                  "Heure Normale de l'Est North America",
-                                                  "Heure Normale du Pacifique North America",
-                                                  "Heure Normale des Rocheuses North America",
-                                                  "Heure Normale de Terre-Neuve North America",
-                                                  "Heure Normale du Yukon North America",
-                                                  "Hovd Time Asia",
-                                                  "India Time Zone Military",
-                                                  "Indochina Time Asia",
-                                                  "Israel Daylight Time Asia",
-                                                  "Indian Chagos Time Indian Ocean",
-                                                  "Iran Daylight Time Asia",
-                                                  "Irkutsk Summer Time Asia",
-                                                  "Irkutsk Time Asia",
-                                                  "Iran Standard Time Asia",
-                                                  "Israel Standard Time Asia",
-                                                  "India Standard Time Asia",
-                                                  "Irish Standard Time Europe",
-                                                  "Japan Standard Time Asia",
-                                                  "Kilo Time Zone Military",
-                                                  "Kyrgyzstan Time Asia",
-                                                  "Krasnoyarsk Summer Time Asia",
-                                                  "Krasnoyarsk Time Asia",
-                                                  "Korea Standard Time Asia",
-                                                  "Kuybyshev Time Europe",
-                                                  "Lima Time Zone Military",
-                                                  "Lord Howe Daylight Time Australia",
-                                                  "Lord Howe Standard Time Australia",
-                                                  "Line Islands Time Pacific",
-                                                  "Mike Time Zone Military",
-                                                  "Magadan Summer Time Asia",
-                                                  "Magadan Time Asia",
-                                                  "Marquesas Time Pacific",
-                                                  "Mawson Time Antarctica",
-                                                  "Mountain Daylight Time North America",
-                                                  "Marshall Islands Time Pacific",
-                                                  "Myanmar Time Asia",
-                                                  "Moscow Daylight Time Europe",
-                                                  "Moscow Standard Time Europe",
-                                                  "Mountain Standard Time North America",
-                                                  "Mauritius Time Africa",
-                                                  "Maldives Time Asia",
-                                                  "Malaysia Time Asia",
-                                                  "November Time Zone Military",
-                                                  "New Caledonia Time Pacific",
-                                                  "Newfoundland Daylight Time North America",
-                                                  "Norfolk Time Australia",
-                                                  "Novosibirsk Summer Time Asia",
-                                                  "Novosibirsk Time Asia",
-                                                  "Nepal Time  Asia",
-                                                  "Newfoundland Standard Time North America",
-                                                  "Niue Time Pacific",
-                                                  "New Zealand Daylight Time Antarctica",
-                                                  "New Zealand Daylight Time Pacific",
-                                                  "New Zealand Standard Time Antarctica",
-                                                  "New Zealand Standard Time Pacific",
-                                                  "Oscar Time Zone Military",
-                                                  "Omsk Summer Time Asia",
-                                                  "Omsk Standard Time Asia",
-                                                  "Papa Time Zone Military",
-                                                  "Pacific Daylight Time North America",
-                                                  "Peru Time South America",
-                                                  "Kamchatka Summer Time Asia",
-                                                  "Kamchatka Time Asia",
-                                                  "Papua New Guinea Time Pacific",
-                                                  "Phoenix Island Time Pacific",
-                                                  "Philippine Time Asia",
-                                                  "Pakistan Standard Time Asia",
-                                                  "Pierre & Miquelon Daylight Time North America",
-                                                  "Pierre & Miquelon Standard Time North America",
-                                                  "Pohnpei Standard Time Pacific",
-                                                  "Pacific Standard Time North America",
-                                                  "Pitcairn Standard Time Pacific",
-                                                  "Tiempo del Pacífico North America",
-                                                  "Palau Time Pacific",
-                                                  "Paraguay Summer Time South America",
-                                                  "Paraguay Time South America",
-                                                  "Quebec Time Zone Military",
-                                                  "Romeo Time Zone Military",
-                                                  "Reunion Time Africa",
-                                                  "Sierra Time Zone Military",
-                                                  "Samara Time Europe",
-                                                  "South Africa Standard Time Africa",
-                                                  "Solomon IslandsTime Pacific",
-                                                  "Seychelles Time Africa",
-                                                  "Singapore Time Asia",
-                                                  "Suriname Time South America",
-                                                  "Samoa Standard Time Pacific",
-                                                  "Tango Time Zone Military",
-                                                  "Tahiti Time Pacific",
-                                                  "French Southern and Antarctic Time Indian Ocean",
-                                                  "Tajikistan Time Asia",
-                                                  "Tokelau Time Pacific",
-                                                  "East Timor Time Asia",
-                                                  "Turkmenistan Time Asia",
-                                                  "Tuvalu Time Pacific",
-                                                  "Uniform Time Zone Military",
-                                                  "Ulaanbaatar Time Asia",
-                                                  "Uruguay Summer Time South America",
-                                                  "Uruguay Time South America",
-                                                  "Uzbekistan Time Asia",
-                                                  "Victor Time Zone Military",
-                                                  "Venezuelan Standard Time South America",
-                                                  "Vladivostok Summer Time Asia",
-                                                  "Vladivostok Time Asia",
-                                                  "Vanuatu Time Pacific",
-                                                  "Whiskey Time Zone Military",
-                                                  "West Africa Summer Time Africa",
-                                                  "West Africa Time Africa",
-                                                  "Western Daylight Time Australia",
-                                                  "Western European Summer Time Africa",
-                                                  "Western European Summer Time Europe",
-                                                  "Western European Time Africa",
-                                                  "Western European Time Europe",
-                                                  "Wallis and Futuna Time Pacific",
-                                                  "Western Greenland Summer Time North America",
-                                                  "West Greenland Time North America",
-                                                  "Western Indonesian Time Asia",
-                                                  "Eastern Indonesian Time Asia",
-                                                  "Central Indonesian Time Asia",
-                                                  "Western Sahara Summer Time Africa",
-                                                  "Western Standard Time Australia",
-                                                  "West Samoa Time Pacific",
-                                                  "Western Sahara Standard Time Africa",
-                                                  "X-ray Time Zone Military",
-                                                  "Yankee Time Zone Military",
-                                                  "Yakutsk Summer Time Asia",
-                                                  "Yakutsk Time Asia",
-                                                  "Yap Time Pacific",
-                                                  "Yekaterinburg Summer Time Asia",
-                                                  "Yekaterinburg Time Asia",
-                                                  "Zulu Time Zone"
-    ]
   },
 
 
@@ -773,6 +266,21 @@ qx.Class.define("qx.util.format.DateFormat",
       // Calculate the calendar week
       return Math.floor(1.5 + (thursdayDate.getTime() - thursdayWeek1.getTime()) / 86400000 / 7);
     },
+    
+    /**
+     * Returns the week year of a date. (that is the year of the week where this date happens to be)
+     * For a week in the middle of the summer, the year is easily obtained, but for a week
+     * when New Year's Eve takes place, the year of that week is ambigous.
+     * The thursday day of that week is used to determine the year.
+     *
+     * @param date {Date} the date to get the week in year of.
+     * @return {Integer} the week year.
+     */
+    __getWeekYear : function(date)
+    {
+      var thursdayDate = this.__thursdayOfSameWeek(date);
+      return thursdayDate.getFullYear();
+    },
 
 
     /**
@@ -844,17 +352,47 @@ qx.Class.define("qx.util.format.DateFormat",
               }
 
               break;
+              
+            case 'Y': // Year
+              replacement = this.__getWeekYear(date) + "";
+              if (wildcardSize > replacement.length) {
+                for (var j = replacement.length; j < wildcardSize; j++) {
+                  replacement = "0" + replacement;
+                };
+              }
+
+              break;
+
+            case 'Q': // quarter
+              if (wildcardSize == 1 || wildcardSize == 2) {
+                replacement = this.__fillNumber(parseInt(month/4) + 1, wildcardSize);
+              }
+              if(wildcardSize == 3) {
+                replacement = 'Q' + (parseInt(month/4) + 1);
+              }
+
+              break;
+              
+            case 'q': // quarter stand alone
+              if (wildcardSize == 1 || wildcardSize == 2) {
+                replacement = this.__fillNumber(parseInt(month/4) + 1, wildcardSize);
+              }
+              if(wildcardSize == 3) {
+                replacement = 'Q' + (parseInt(month/4) + 1);
+              }
+
+              break;
 
             case 'D': // Day in year (e.g. 189)
-              replacement = this.__getDayInYear(date);
+              replacement = this.__fillNumber(this.__getDayInYear(date), wildcardSize);
               break;
 
             case 'd': // Day in month
-              replacement = dayOfMonth;
+              replacement = this.__fillNumber(dayOfMonth,wildcardSize);
               break;
 
             case 'w': // Week in year (e.g. 27)
-              replacement = this.__getWeekInYear(date);
+              replacement = this.__fillNumber(this.__getWeekInYear(date),wildcardSize);
               break;
 
             case 'E': // Day in week
@@ -883,7 +421,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
             case 'M': // Month
               if (wildcardSize == 1 || wildcardSize == 2) {
-                replacement = this.__fillNumber(month + 1, 2); // September should be '09' in both cases , M and MM
+                replacement = this.__fillNumber(month + 1, wildcardSize);
               } else if (wildcardSize == 3) {
                 replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "format");
               } else if (wildcardSize == 4) {
@@ -896,7 +434,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
             case 'L': // Stand-alone month
               if (wildcardSize == 1 || wildcardSize == 2) {
-                replacement = this.__fillNumber(month + 1, 2); // September should be '09' in both cases , L and LL
+                replacement = this.__fillNumber(month + 1, wildcardSize);
               } else if (wildcardSize == 3) {
                 replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "format");
               } else if (wildcardSize == 4) {
@@ -913,19 +451,19 @@ qx.Class.define("qx.util.format.DateFormat",
               break;
 
             case 'H': // Hour in day (0-23)
-              replacement = hours;
+              replacement = this.__fillNumber(hours,wildcardSize);
               break;
 
             case 'k': // Hour in day (1-24)
-              replacement = (hours == 0) ? 24 : hours;
+              replacement = this.__fillNumber((hours == 0) ? 24 : hours,wildcardSize);
               break;
 
             case 'K': // Hour in am/pm (0-11)
-              replacement = hours % 12;
+              replacement = this.__fillNumber(hours % 12,wildcardSize);
               break;
 
             case 'h': // Hour in am/pm (1-12)
-              replacement = ((hours % 12) == 0) ? 12 : (hours % 12);
+              replacement = this.__fillNumber(((hours % 12) == 0) ? 12 : (hours % 12),wildcardSize);
               break;
 
             case 'm': // Minute in hour
@@ -949,7 +487,7 @@ qx.Class.define("qx.util.format.DateFormat",
               break;
 
             case 'z': // Time zone
-              if (wildcardSize >= 1 && wildcardSize <= 3)
+              if (wildcardSize >= 1 && wildcardSize <= 4)
               {
                 replacement = timezoneName;
                 if(!replacement || replacement.length<1)
@@ -960,14 +498,6 @@ qx.Class.define("qx.util.format.DateFormat",
                   this.__fillNumber(Math.abs(timezoneHours)) +
                   ":" + this.__fillNumber(timezoneMinutes, 2);
                 }
-              }
-              else if (wildcardSize == 4)
-              {
-                var key = timezoneHours;
-                if(!timezoneName || timezoneName.length<1) {
-                var key = 
-                replacement = DateFormat.FULL_TIMEZONE_NAMES[timezoneHours];
-              }
               }
 
               break;
@@ -1328,7 +858,7 @@ qx.Class.define("qx.util.format.DateFormat",
      */
     __isRuleForWildcard : function(rule, wildcardChar, wildcardSize)
     {
-      if(wildcardChar==='y' && rule.pattern==='y+')
+      if(wildcardChar.toLowerCase()==='y' && rule.pattern.toLowerCase()==='y+')
       {
         rule.regex = rule.regexFunc(wildcardSize);
         return true;
@@ -1412,6 +942,16 @@ qx.Class.define("qx.util.format.DateFormat",
         value = LString.escapeRegexpChars(value);
         dateValues.month = fullMonthNames.indexOf(value);
       }
+      
+      var narrowMonthNames = qx.locale.Date.getMonthNames("narrow", this.__locale, "stand-alone");
+      for (var i=0; i<narrowMonthNames.length; i++) {
+        narrowMonthNames[i] = LString.escapeRegexpChars(narrowMonthNames[i].toString());
+      }
+
+      var narrowMonthNamesManipulator = function(dateValues, value) {
+        value = LString.escapeRegexpChars(value);
+        dateValues.month = narrowMonthNames.indexOf(value);
+      }
 
       var narrowDayNames = qx.locale.Date.getDayNames("narrow", this.__locale, "stand-alone");
       for (var i=0; i<narrowDayNames.length; i++) {
@@ -1420,7 +960,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var narrowDayNamesManipulator = function(dateValues, value) {
         value = LString.escapeRegexpChars(value);
-        dateValues.month = narrowDayNames.indexOf(value);
+        dateValues.day = narrowDayNames.indexOf(value);
       }
 
       var abbrDayNames = qx.locale.Date.getDayNames("abbreviated", this.__locale, "format");
@@ -1430,7 +970,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var abbrDayNamesManipulator = function(dateValues, value) {
         value = LString.escapeRegexpChars(value);
-        dateValues.month = abbrDayNames.indexOf(value);
+        dateValues.day = abbrDayNames.indexOf(value);
       }
 
       var fullDayNames = qx.locale.Date.getDayNames("wide", this.__locale, "format");
@@ -1440,7 +980,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var fullDayNamesManipulator = function(dateValues, value) {
         value = LString.escapeRegexpChars(value);
-        dateValues.month = fullDayNames.indexOf(value);
+        dateValues.day = fullDayNames.indexOf(value);
       }
 
       // Unsupported: w (Week in year), W (Week in month), D (Day in year),
@@ -1464,11 +1004,30 @@ qx.Class.define("qx.util.format.DateFormat",
           },
         manipulator : yearManipulator
       });
+      
+      rules.push(
+      {
+        pattern     : "Y+",
+        regexFunc       : function(yNumber)
+          {
+            var regex = "(";
+            for(var i=0;i<yNumber;i++)
+            {
+              regex += "\\d";
+              if(i===yNumber-1) {
+                regex += "+?";
+              }
+            }
+            regex += ")";
+            return regex;
+          },
+        manipulator : yearManipulator
+      });
 
       rules.push(
       {
         pattern     : "M",
-        regex       : "(\\d\\d?)",
+        regex       : "(\\d\\d*?)",
         manipulator : monthManipulator
       });
 
@@ -1492,6 +1051,48 @@ qx.Class.define("qx.util.format.DateFormat",
         regex       : "(" + fullMonthNames.join("|") + ")",
         manipulator : fullMonthNamesManipulator
       });
+      
+      rules.push(
+      {
+        pattern     : "MMMMM",
+        regex       : "(" + narrowMonthNames.join("|") + ")",
+        manipulator : narrowMonthNamesManipulator
+      });
+      
+      rules.push(
+      {
+        pattern     : "L",
+        regex       : "(\\d\\d*?)",
+        manipulator : monthManipulator
+      });
+
+      rules.push(
+      {
+        pattern     : "LL",
+        regex       : "(\\d\\d?)",
+        manipulator : monthManipulator
+      });
+
+      rules.push(
+      {
+        pattern     : "LLL",
+        regex       : "(" + shortMonthNames.join("|") + ")",
+        manipulator : shortMonthNamesManipulator
+      });
+
+      rules.push(
+      {
+        pattern     : "LLLL",
+        regex       : "(" + fullMonthNames.join("|") + ")",
+        manipulator : fullMonthNamesManipulator
+      });
+      
+      rules.push(
+      {
+        pattern     : "LLLLL",
+        regex       : "(" + narrowMonthNames.join("|") + ")",
+        manipulator : narrowMonthNamesManipulator
+      });
 
       rules.push(
       {
@@ -1503,7 +1104,28 @@ qx.Class.define("qx.util.format.DateFormat",
       rules.push(
       {
         pattern : "d",
+        regex   : "(\\d\\d*?)",
+        field   : "day"
+      });
+      
+      rules.push(
+      {
+        pattern : "D",
+        regex   : "(\\d?)",
+        field   : "day"
+      });
+
+      rules.push(
+      {
+        pattern : "DD",
         regex   : "(\\d\\d?)",
+        field   : "day"
+      });
+      
+      rules.push(
+      {
+        pattern : "DDD",
+        regex   : "(\\d\\d\\d?)",
         field   : "day"
       });
 
@@ -1513,15 +1135,14 @@ qx.Class.define("qx.util.format.DateFormat",
         regex       : "(" + abbrDayNames.join("|") + ")",
         manipulator : abbrDayNamesManipulator
       });
-
+      
       rules.push(
       {
         pattern     : "EE",
         regex       : "(" + abbrDayNames.join("|") + ")",
         manipulator : abbrDayNamesManipulator
       });
-
-
+      
       rules.push(
       {
         pattern     : "EEE",
@@ -1542,12 +1163,54 @@ qx.Class.define("qx.util.format.DateFormat",
         regex       : "(" + narrowDayNames.join("|") + ")",
         manipulator : narrowDayNamesManipulator
       });
+      
+      rules.push(
+      {
+        pattern     : "c",
+        regex       : "\\d?",
+        manipulator : abbrDayNamesManipulator
+      });
+      
+      rules.push(
+      {
+        pattern     : "ccc",
+        regex       : "(" + abbrDayNames.join("|") + ")",
+        manipulator : abbrDayNamesManipulator
+      });
+
+      rules.push(
+      {
+        pattern     : "cccc",
+        regex       : "(" + fullDayNames.join("|") + ")",
+        manipulator : fullDayNamesManipulator
+      });
+
+      rules.push(
+      {
+        pattern     : "ccccc",
+        regex       : "(" + narrowDayNames.join("|") + ")",
+        manipulator : narrowDayNamesManipulator
+      });
 
       rules.push(
       {
         pattern     : "a",
         regex       : "(" + amMarker + "|" + pmMarker + ")",
         manipulator : ampmManipulator
+      });
+      
+      rules.push(
+      {
+        pattern : "w",
+        regex   : "(\\d?)",
+        field   : "week"
+      });
+      
+      rules.push(
+      {
+        pattern : "ww",
+        regex   : "(\\d\\d?)",
+        field   : "week"
       });
 
       rules.push(

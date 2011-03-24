@@ -257,7 +257,7 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("2009/09", df.format(date));
       df.dispose();
       df = new qx.util.format.DateFormat("yyyy/M");
-      this.assertEquals("2009/09", df.format(date));
+      this.assertEquals("2009/9", df.format(date));
       df.dispose();
       df = new qx.util.format.DateFormat("yyyy/MMM");
       this.assertEquals("2009/"+qx.locale.Date.getMonthName("abbreviated", 8, locale, "format"), df.format(date));
@@ -281,7 +281,7 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("09", df.format(date));
       df.dispose();
       df = new qx.util.format.DateFormat("L");
-      this.assertEquals("09", df.format(date));
+      this.assertEquals("9", df.format(date));
       df.dispose();
       df = new qx.util.format.DateFormat("LLL");
       this.assertEquals(qx.locale.Date.getMonthName("abbreviated", 8, locale, "format"), df.format(date));
@@ -302,7 +302,7 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("4", df.format(date));
       df.dispose();
       df = new qx.util.format.DateFormat("ww");
-      this.assertEquals("4", df.format(date));
+      this.assertEquals("04", df.format(date));
       df.dispose();
 
       date = new Date(2011,0,1);
@@ -311,11 +311,11 @@ qx.Class.define("qx.test.util.DateFormat",
       df.dispose();
       date = new Date(2011,0,3);
       df = new qx.util.format.DateFormat("ww");
-      this.assertEquals("1", df.format(date));
+      this.assertEquals("01", df.format(date));
       df.dispose();
       date = new Date(2011,0,10);
       df = new qx.util.format.DateFormat("ww");
-      this.assertEquals("2", df.format(date));
+      this.assertEquals("02", df.format(date));
       df.dispose();
     },
 
@@ -327,7 +327,7 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("3", df.format(date));
       df.dispose();
       df = new qx.util.format.DateFormat("dd");
-      this.assertEquals("3", df.format(date));
+      this.assertEquals("03", df.format(date));
       df.dispose();
 
     },
@@ -340,11 +340,11 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("3", df.format(date));
       df.dispose();
       df = new qx.util.format.DateFormat("DD");
-      this.assertEquals("3", df.format(date));
+      this.assertEquals("03", df.format(date));
       df.dispose();
 
       df = new qx.util.format.DateFormat("DDD");
-      this.assertEquals("3", df.format(date));
+      this.assertEquals("003", df.format(date));
       df.dispose();
 
       date = new Date(2011,9,3);
@@ -421,7 +421,7 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("9", df.format(date));
       df.dispose();
       df = new qx.util.format.DateFormat("hh");
-      this.assertEquals("9", df.format(date));
+      this.assertEquals("09", df.format(date));
       df.dispose();
       date = new Date(2011,0,4,14,9,9);
       df = new qx.util.format.DateFormat("h");
@@ -438,7 +438,7 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("9", df.format(date));
       df.dispose();
       df = new qx.util.format.DateFormat("HH");
-      this.assertEquals("9", df.format(date));
+      this.assertEquals("09", df.format(date));
       df.dispose();
       date = new Date(2011,0,4,14,9,9);
       df = new qx.util.format.DateFormat("H");
@@ -472,7 +472,7 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("9", df.format(date));
       df.dispose();
       df = new qx.util.format.DateFormat("KK");
-      this.assertEquals("9", df.format(date));
+      this.assertEquals("09", df.format(date));
       df.dispose();
       date = new Date(2011,0,4,14,9,9);
       df = new qx.util.format.DateFormat("K");

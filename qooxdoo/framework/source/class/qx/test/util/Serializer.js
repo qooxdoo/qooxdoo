@@ -442,8 +442,8 @@ qx.Class.define("qx.test.util.Serializer",
 
       this.assertJsonEquals(
         {
-          "data1" : "1970-00-1",
-          "data2" : "1970-01-1",
+          "data1" : "1970-00-01",
+          "data2" : "1970-01-01",
           "data3" : "1970-13-19"
         },
         this.__s.toNativeObject(this.__model, null, formater)
@@ -456,7 +456,7 @@ qx.Class.define("qx.test.util.Serializer",
       var formater = this.__setUpDateModel();
 
       this.assertEquals(
-        '{"data1":"1970-00-1","data2":"1970-01-1","data3":"1970-13-19"}',
+        '{"data1":"1970-00-01","data2":"1970-01-01","data3":"1970-13-19"}',
         this.__s.toJson(this.__model, null, formater)
       );
 
@@ -467,7 +467,7 @@ qx.Class.define("qx.test.util.Serializer",
       var formater = this.__setUpDateModel();
 
       this.assertEquals(
-        "data1=1970-00-1&data2=1970-01-1&data3=1970-13-19",
+        "data1=1970-00-01&data2=1970-01-01&data3=1970-13-19",
         this.__s.toUriParameter(this.__model, null, formater)
       );
 
