@@ -204,12 +204,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
   properties :
   {
-    cssClass :
+    defaultCssClass :
     {
       check : "String",
       init : null,
       nullable : true,
-      apply  : "_applyCssClass"
+      apply  : "_applyDefaultCssClass"
     },
 
 
@@ -1056,7 +1056,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    _applyCssClass : function(value, old)
+    _applyDefaultCssClass : function(value, old)
     {
       if (old) {
         this.removeCssClass(old);

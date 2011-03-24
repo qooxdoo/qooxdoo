@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.mobile.container.Scroller",
 
   properties :
   {
-    cssClass :
+    defaultCssClass :
     {
       refine : true,
       init : "scroller"

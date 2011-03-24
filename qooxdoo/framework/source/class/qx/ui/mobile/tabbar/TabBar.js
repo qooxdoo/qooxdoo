@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
   properties :
   {
     // overridden
-    cssClass :
+    defaultCssClass :
     {
       refine : true,
       init : "tabBar"

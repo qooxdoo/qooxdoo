@@ -60,17 +60,17 @@ qx.Class.define("qx.test.mobile.core.Widget",
       var className = qx.bom.element.Class.get(element);
       this.assertEquals(className, "");
 
-      widget.setCssClass("affe");
+      widget.setDefaultCssClass("affe");
       var className = qx.bom.element.Class.get(element);
       this.assertEquals(className, "affe");
 
       /*
-      widget.setCssClass("foo bar");
+      widget.setDefaultCssClass("foo bar");
       var className = qx.bom.element.Class.get(element);
       this.assertEquals(className, "foo bar");
       */
 
-      widget.setCssClass("bar");
+      widget.setDefaultCssClass("bar");
       var className = qx.bom.element.Class.get(element);
       this.assertEquals(className, "bar");
 

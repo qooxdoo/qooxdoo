@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.mobile.toolbar.BackButton",
 
   properties :
   {
-    cssClass :
+    defaultCssClass :
     {
       refine : true,
       init : "toolbarBackButton"

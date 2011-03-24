@@ -53,7 +53,7 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
 
   properties :
   {
-    cssClass :
+    defaultCssClass :
     {
       refine : true,
       init : "toolbar"

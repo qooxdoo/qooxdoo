@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.mobile.form.Button",
 
   properties :
   {
-    cssClass :
+    defaultCssClass :
     {
       refine : true,
       init : "button"

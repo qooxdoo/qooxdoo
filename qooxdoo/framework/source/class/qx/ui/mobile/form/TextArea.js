@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
     },
 
 
-    cssClass :
+    defaultCssClass :
     {
       refine : true,
       init : "textArea"

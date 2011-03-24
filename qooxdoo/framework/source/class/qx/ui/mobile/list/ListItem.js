@@ -53,7 +53,7 @@ qx.Class.define("qx.ui.mobile.list.ListItem",
   properties :
   {
     // overridden
-    cssClass :
+    defaultCssClass :
     {
       refine : true,
       init : "listItem"

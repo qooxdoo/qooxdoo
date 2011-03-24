@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
   properties :
   {
-    cssClass : {
+    defaultCssClass : {
       refine : true,
       init : "root"
     },

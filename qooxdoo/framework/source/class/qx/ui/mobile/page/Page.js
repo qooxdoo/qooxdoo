@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
   properties :
   {
-    cssClass :
+    defaultCssClass :
     {
       refine : true,
       init : "page"

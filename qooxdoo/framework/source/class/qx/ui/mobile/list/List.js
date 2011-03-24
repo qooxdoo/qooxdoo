@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.mobile.list.List",
   properties :
   {
     // overridden
-    cssClass :
+    defaultCssClass :
     {
       refine : true,
       init : "list"

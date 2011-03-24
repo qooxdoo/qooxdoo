@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
 
   properties :
   {
-    cssClass :
+    defaultCssClass :
     {
       refine : true,
       init : "blocker"

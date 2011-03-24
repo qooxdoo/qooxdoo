@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabButton",
 
   properties :
   {
-    cssClass :
+    defaultCssClass :
     {
       refine : true,
       init : "tabButton"

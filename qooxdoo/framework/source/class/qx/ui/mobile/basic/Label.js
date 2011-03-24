@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.mobile.basic.Label",
   properties :
   {
     // overridden
-    cssClass :
+    defaultCssClass :
     {
       refine : true,
       init : "label"

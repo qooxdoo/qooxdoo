@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
   properties :
   {
-    cssClass : {
+    defaultCssClass : {
       refine : true,
       init : "popup"
     }

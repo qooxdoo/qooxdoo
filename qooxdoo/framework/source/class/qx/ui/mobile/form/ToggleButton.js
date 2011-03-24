@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 
   properties :
   {
-    cssClass :
+    defaultCssClass :
     {
       refine : true,
       init : "toggleButton"
