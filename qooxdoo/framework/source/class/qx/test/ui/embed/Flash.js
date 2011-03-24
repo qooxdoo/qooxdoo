@@ -26,13 +26,14 @@
 qx.Class.define("qx.test.ui.embed.Flash",
 {
   extend : qx.test.ui.LayoutTestCase,
+  include : qx.dev.unit.MMock,
 
   statics :
   {
     isFlashReady : false,
 
-    flashCallback : function()
-    {
+
+    flashCallback : function() {
       qx.test.ui.embed.Flash.isFlashReady = true;
     }
   },
@@ -41,12 +42,16 @@ qx.Class.define("qx.test.ui.embed.Flash",
   {
     __flash : null,
 
+
     __params : null,
+
 
     __variables : null,
 
+
     setUp : function()
     {
+      this.flush();
       this.__params = {
         wmode : "opaque",
         quality : "best",
@@ -71,17 +76,75 @@ qx.Class.define("qx.test.ui.embed.Flash",
       flash.setMenu(true);
 
       this.getRoot().add(this.__flash, {edge: 10});
-      this.flush();
     },
+
 
     tearDown : function() {
       qx.test.ui.embed.Flash.isFlashReady = false;
       this.getRoot().removeAll();
       this.__flash.destroy();
       this.__flash = null;
-      this.flush();
     },
 
+
+    testEvents : function()
+    {
+      var test = {
+        loading : function() {},
+        loaded : function() {},
+        timeout : function() {}
+      };
+      
+      var loading = this.spy(test, "loading");
+      var loaded = this.spy(test, "loaded");
+      var timeout = this.spy(test, "timeout");
+      this.__flash.addListener("loading", test.loading);
+      this.__flash.addListener("loaded", test.loaded);
+      this.__flash.addListener("timeout", test.timeout);
+      
+      var that = this;
+      this.wait(2000, function()
+      {
+        that.assertCalled(loading);
+        that.assertCalled(loaded);
+        that.assertNotCalled(timeout);
+        loaded.calledAfter(loading);
+      });
+    },
+    
+    
+    testLoadTimeout : function()
+    {
+      var test = {
+        loading : function() {},
+        loaded : function() {},
+        timeout : function() {}
+      };
+      
+      var loading = this.spy(test, "loading");
+      var loaded = this.spy(test, "loaded");
+      var timeout = this.spy(test, "timeout");
+      
+      var flash = new qx.ui.embed.Flash("qx/test/invalidmovie.swf", "invalidmovie");
+      flash.setLoadTimeout(1000);
+      this.getRoot().removeAll();
+      this.getRoot().add(flash, {edge: 10});
+      
+      flash.addListener("loading", test.loading);
+      flash.addListener("loaded", test.loaded);
+      flash.addListener("timeout", test.timeout);
+      
+      var that = this;
+      this.wait(2000, function()
+      {
+        that.assertCalled(loading);
+        that.assertNotCalled(loaded);
+        that.assertCalled(timeout);
+        timeout.calledAfter(loading);
+      });
+    },
+    
+    
     testCreateFlash : function()
     {
       var that = this;

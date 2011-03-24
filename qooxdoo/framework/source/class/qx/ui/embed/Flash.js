@@ -25,13 +25,6 @@ qx.Class.define("qx.ui.embed.Flash",
   extend : qx.ui.core.Widget,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-
   /**
    * Constructs a flash widget.
    *
@@ -65,26 +58,44 @@ qx.Class.define("qx.ui.embed.Flash",
     this.initAllowScriptAccess();
     this.initLiveConnect();
 
-    /*
-     * Creates the Flash DOM element (movie) on appear,
-     * because otherwise IE 7 and higher blocks the
-     * ExternelInterface from Flash.
-     *
-     * TODO find a better solution, instead of adding on appear
-     */
+    // Creates the Flash DOM element (movie) on appear,
+    // because otherwise IE 7 and higher blocks the
+    // ExternelInterface from Flash.
     this.addListenerOnce("appear", function()
     {
+      this._checkLoading();
       this.getContentElement().createFlash();
     }, this);
   },
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
+  events :
+  {
+    /**
+     * Fired when the flash object still is loading.
+     *
+     * The loading action can be prevented by calling
+     * {@link qx.event.type.Event#preventDefault} on the event object
+     */
+    "loading" : "qx.event.type.Event",
+   
+    /**
+     * Fired after the flash object has been loaded.
+     *
+     * The loaded action can be prevented by calling
+     * {@link qx.event.type.Event#preventDefault} on the event object
+     */
+    "loaded" : "qx.event.type.Event",
+   
+    /**
+     * Fired after the flash object has got a timeout.
+     *
+     * The timeout action can be prevented by calling
+     * {@link qx.event.type.Event#preventDefault} on the event object
+     */
+    "timeout" : "qx.event.type.Event"
+  },
+  
 
   properties :
   {
@@ -208,15 +219,17 @@ qx.Class.define("qx.ui.embed.Flash",
       init : {},
       check : "Map",
       apply : "_applyVariables"
+    },
+    
+    /**
+     * A timeout when trying to load the flash source.
+     */
+    loadTimeout :
+    {
+      check : "Integer",
+      init : 10000
     }
   },
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
 
   members :
@@ -247,10 +260,92 @@ qx.Class.define("qx.ui.embed.Flash",
       }
     },
 
+    
+    /**
+     * Checks if the movie is loaded.
+     * 
+     * @return {Boolean} <code>true</code> When the movie is completely loaded,
+     *   otherwise <code>false</code>.
+     */
+    isLoaded : function() {
+      return this.getPercentLoaded() === 100;
+    },
+     
+
+    /**
+     * Returns the current loaded state from the Flash movie.
+     * 
+     * @return {Integer} The loaded percent value.
+     */
+    getPercentLoaded : function()
+    {
+      var flashFE = this.getFlashElement();
+     
+      // First make sure the movie is defined and has received a non-zero object id.
+      if(typeof(flashFE) != "undefined" && flashFE != null)
+      {
+        try {
+          return flashFE.PercentLoaded();
+        } 
+        catch(err)
+        {
+          // Not an accessible function yet.
+          return 0;
+        }
+      }
+      else {
+        return 0;
+      }
+    },
+
 
     // overridden
     _createContentElement : function() {
       return new qx.html.Flash();
+    },
+
+    /**
+     * Checks the current loaded state and fires one of the defined events:
+     * {@link #loading}, {@link #loaded} or {@link #timeout}.
+     * 
+     * Note the {@link #timeout} event is fired when the check reached the 
+     * defined {@link #loadTimeout}.
+     */
+    _checkLoading : function()
+    {
+      var source = this.getSource();
+      if(source != "" && source != null && source != "undefined")
+      {
+        if(!this.isLoaded())
+        {
+          if(!this.__time) {
+            this.__time = new Date().getTime();
+          }
+     
+          var timeDiff = new Date().getTime() - this.__time;
+     
+          if(this.getLoadTimeout() > timeDiff)
+          {
+            var timer = qx.util.TimerManager.getInstance();
+            timer.start(this._checkLoading, 0, this, null, 10);
+
+            this.fireEvent("loading");
+          }
+          else
+          {
+            if (qx.core.Environment.get("qx.debug")) {
+              this.debug("Timeout after: " + timeDiff);
+            }
+            this.fireEvent("timeout");
+            this.__time = null;
+          }
+        }
+        else
+        {
+          this.fireEvent("loaded");
+          this.__time = null;
+        }
+      }
     },
 
 
