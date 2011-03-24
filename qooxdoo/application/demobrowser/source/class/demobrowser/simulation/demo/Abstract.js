@@ -14,14 +14,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#ignore(simulator)
-#ignore(simulator.unit.TestCase)
-#ignore(simulator.Simulation)
-#ignore(simulator.reporter)
-#ignore(simulator.reporter.Reporter)
-************************************************************************ */
-
 /**
  * Base class for Demo simulations.
  *
@@ -69,7 +61,7 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
      */
     tearDown : function()
     {
-      this.logAutLogEntries();
+      this.logAutLog();
       this.getSimulation().throwGlobalErrors(this.demoWindow);
     },
 
