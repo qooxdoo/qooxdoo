@@ -18,6 +18,17 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(qx.test.ExtendSuper)
+#ignore(qx.test.ExtendSuper.prototype)
+#ignore(qx.test.Super.prototype)
+#ignore(qx.test.Super)
+#ignore(qx.test.ExtendNull)
+#ignore(qx.test.ExtendQxObject)
+#ignore(qx.test.ExtendError)
+#ignore(qx.test.Construct)
+************************************************************************ */
+
 qx.Class.define("qx.test.Bootstrap",
 {
   extend : qx.dev.unit.TestCase,

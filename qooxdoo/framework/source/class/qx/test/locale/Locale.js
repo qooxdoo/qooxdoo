@@ -171,6 +171,24 @@ qx.Class.define("qx.test.locale.Locale",
         this.assertEquals("Strg", qx.locale.Key.getKeyName("short", "Control", "de_DE"));
         this.assertEquals("Steuerung", qx.locale.Key.getKeyName("full", "Control", "de_DE"));
       }
+    },
+    
+    testResetLocale : function()
+    {
+      var locale = qx.core.Environment.get("locale");
+      var variant = qx.core.Environment.get("locale.variant");
+      if (variant !== "") {
+        locale += "_" + variant;
+      }
+
+      var manager = qx.locale.Manager.getInstance();
+      manager.addTranslation("en_QX", {
+        "test one": "one!",
+        "test two": "two!"
+      });
+      manager.setLocale("en_QX");
+      manager.resetLocale();
+      this.assertEquals(locale, manager.getLocale());
     }
 
   }

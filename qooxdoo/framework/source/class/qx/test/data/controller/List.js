@@ -16,6 +16,12 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+/* ************************************************************************
+#ignore(qx.demo.Kid)
+#ignore(qx.demo.Parent)
+************************************************************************ */
+
 qx.Class.define("qx.test.data.controller.List",
 {
   extend : qx.test.ui.LayoutTestCase,

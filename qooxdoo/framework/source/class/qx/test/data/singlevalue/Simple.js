@@ -16,6 +16,14 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+/* ************************************************************************
+#ignore(qx.test.SVB)
+#ignore(qx.test.TwoProperties)
+#ignore(qx.Target)
+#ignore(qx.Test)
+************************************************************************ */
+
 /**
  * Test-Class for testing the single value binding
  */
