@@ -27,11 +27,11 @@ from ecmascript.frontend          import treeutil
 global verbose
 
 def makeLogMessage(level, msg, node=None):
-    global file
+    global fileId
     str = "%s: %s" % (level, msg);
     if node != None:
-        if file != "":
-            str += " (%s:%s)" % (file, node.get("line", False))
+        if fileId != "":
+            str += " (%s:%s)" % (fileId, node.get("line", False))
         else:
             str += " (Line %s)" % node.get("line", False)
     return str
@@ -47,33 +47,47 @@ def log(level, msg, node=None):
             print str
 
 
-def search(node, variantMap, fileId="", verb=False):
+def search(node, variantMap, fileId_="", verb=False):
     if variantMap == None:
         return False
     
     global verbose
-    global file
+    global fileId
     verbose = verb
-    file = fileId
+    fileId = fileId_
     modified = False
 
-    #if fileId == "qx.core.Environment":
+    #if fileId_ == "qx.core.Environment":
     #    modified = processEnvironmentClass(node, variantMap)
 
     variantNodes = findVariantNodes(node)
     for variantNode in variantNodes:
         variantMethod = selectNode(variantNode, "identifier[4]/@name")
         if variantMethod in ["select", "selectAsync"]:
-            modified = processVariantSelect(selectNode(variantNode, "../.."), variantMap) or modified
+            #modified = processVariantSelect(selectNode(variantNode, "../.."), variantMap) or modified
+            modified = processVariantSelect(selectCallNode(variantNode), variantMap) or modified
         elif variantMethod == "isSet":
-            modified = processVariantIsSet(selectNode(variantNode, "../.."), variantMap) or modified
+            #modified = processVariantIsSet(selectNode(variantNode, "../.."), variantMap) or modified
+            modified = processVariantIsSet(selectCallNode(variantNode), variantMap) or modified
         elif variantMethod == "compilerIsSet":
-            modified = processVariantIsSet(selectNode(variantNode, "../.."), variantMap) or modified
+            #modified = processVariantIsSet(selectNode(variantNode, "../.."), variantMap) or modified
+            modified = processVariantIsSet(selectCallNode(variantNode), variantMap) or modified
         elif variantMethod in ["get", "getAsync"]:
-            modified = processVariantGet(selectNode(variantNode, "../.."), variantMap) or modified
+            #modified = processVariantGet(selectNode(variantNode, "../.."), variantMap) or modified
+            modified = processVariantGet(selectCallNode(variantNode), variantMap) or modified
 
     return modified
 
+
+
+def selectCallNode(variableNode):
+    # the call node is usually two levels up from the variable node that holds
+    # the function name ("call/operator/variable")
+    callNode = selectNode(variableNode, "../..")
+    # also remove unnecessary grouping around the call node
+    #while callNode.parent and callNode.parent.type == "group" and len(callNode.parent.children)==1:
+    #    callNode = callNode.parent
+    return callNode
 
 ##
 # Processes qx.core.[Environment|Variant].select blocks
@@ -107,8 +121,8 @@ def processVariantSelect(callNode, variantMap):
     variantKey = firstParam.get("value");
     # is this key covered by the current variant map?
     #variantValue = variantMap[variantKey]
-    variantValue = __keyLookup(variantKey, variantMap)
-    if not variantValue:
+    variantValue, found = __keyLookup(variantKey, variantMap)
+    if not found:
         return False
 
     # Get the resolution map, keyed by possible variant key values (or value expressions)
@@ -178,9 +192,9 @@ def processVariantIsSet(callNode, variantMap):
         return False
 
     variantKey = firstParam.get("value");
-    confValue  = __keyLookup(variantKey, variantMap)
+    confValue, found  = __keyLookup(variantKey, variantMap)
     #if not variantKey in variantMap.keys():
-    if not confValue:
+    if not found:
         return False
 
     secondParam = params.getChildByPosition(1)
@@ -248,12 +262,9 @@ def processVariantGet(callNode, variantMap):
         return treeModified
 
     variantKey = firstParam.get("value");
-    confValue = __keyLookup(variantKey, variantMap)
-    #if not variantKey in variantMap.keys():
-    if not confValue:
+    confValue, found = __keyLookup(variantKey, variantMap)
+    if not found:
         return treeModified
-    #else:
-    #    confValue = variantMap[variantKey]
 
     # Processing
     # are we in a if/loop condition expression, i.e. a "loop/expression/..." context?
@@ -357,9 +368,9 @@ def processEnvironmentClass(node, variantMap):
         return treeModified
 
     variantKey = firstParam.get("value");
-    variantValue = __keyLookup(variantKey, variantMap)
+    variantValue, found = __keyLookup(variantKey, variantMap)
     #if not variantKey in variantMap.keys():
-    if not variantValue:
+    if not found:
         return treeModified
     #else:
     #    variantValue = variantMap[variantKey]
@@ -401,12 +412,12 @@ def __variantMatchKey(key, variantValue):
 # @deprecated
 def __keyLookup(key, variantMap):
     try:
-        return variantMap[key]
+        return variantMap[key], True
     except KeyError:
         try:
-            return variantMap['<env>:'+key]
+            return variantMap['<env>:'+key], True
         except KeyError:
-            return None
+            return None, False
 
 
 ##

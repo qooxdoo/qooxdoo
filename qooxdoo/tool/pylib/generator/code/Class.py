@@ -249,7 +249,10 @@ class Class(Resource):
     # @return {Map} map of variant key:value's relevant for given class
     @staticmethod
     def projectClassVariantsToCurrent(classVariants, variantSet):
-        res = dict([(key,val) for key,val in variantSet.iteritems() if key in classVariants])
+        #res = dict([(key,val) for key,val in variantSet.iteritems() if key in classVariants])
+        # @deprecated
+        res = dict([(key,val) for key,val in variantSet.iteritems() if (key in classVariants
+                                           or (key.replace('<env>:','',1)) in classVariants)])
         return res
 
 
