@@ -456,6 +456,32 @@ def __keyLookup(key, variantMap):
 
 
 ##
+# some preps for better processing
+#
+
+##
+# 1. pass:
+# replace qx.c.Env.get(key) with its value, qx.core.Environment.get("foo") => 3
+def reduceCalls(): pass
+
+
+##
+# 2. pass:
+# replace literal compares, "3 == 3" => true
+def reduceCompares(): pass
+
+##
+# 3. pass:
+# now replace logical expression over literals, "true && false" => false
+def reduceLogicOps(): pass
+
+##
+# 4. pass:
+# now reduce all 'if's with constant conditions "if (true)..." => <then>-branch
+def reduceLoops(): pass
+
+
+##
 # Returns e.g.
 #   ( "qx.debug", 
 #     {
