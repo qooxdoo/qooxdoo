@@ -427,7 +427,7 @@ qx.Bootstrap.define("qx.core.Environment",
       }
 
       // debug flag
-      if (this.useCheck("qx.debug")) {
+      if (qx.Bootstrap.DEBUG) {
         qx.Bootstrap.warn(key + " can not be checked.");
       }
     },
@@ -464,7 +464,7 @@ qx.Bootstrap.define("qx.core.Environment",
       }
 
       // debug flag
-      if (this.useCheck("qx.debug")) {
+      if (qx.Bootstrap.DEBUG) {
         qx.Bootstrap.warn(key + " can not be checked.");
       }
     },
@@ -535,7 +535,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
       // check for true --> on
       if (value === true && values["on"] != undefined) {
-        if (this.useCheck("qx.debug", "on"))
+        if (qx.Bootstrap.DEBUG)
         {
           qx.Bootstrap.warn(
             "The check '" + key + "' is a boolean value. "+ 
@@ -547,7 +547,7 @@ qx.Bootstrap.define("qx.core.Environment",
       
       // check for false --> off
       if (value === false && values["off"] != undefined) {
-        if (this.useCheck("qx.debug", "on"))
+        if (qx.Bootstrap.DEBUG)
         {
           qx.Bootstrap.warn(
             "The check '" + key + "' is a boolean value. "+ 
@@ -562,7 +562,7 @@ qx.Bootstrap.define("qx.core.Environment",
         return values["default"];
       }
 
-      if (this.useCheck("qx.debug", "on"))
+      if (qx.Bootstrap.DEBUG)
       {
         throw new Error('No match for variant "' + key +
           '" in variants [' + qx.Bootstrap.getKeysAsString(values) +
