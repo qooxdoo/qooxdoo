@@ -101,9 +101,8 @@ qx.Class.define("qx.io.request.Xhr",
       }
 
       if (method === "GET") {
-        // Add data to query string
         if (serializedData) {
-          url = url + "?" + serializedData;
+          url = qx.io.request.Xhr.appendDataToUrl(url, serializedData);
         }
 
         // Avoid duplication
