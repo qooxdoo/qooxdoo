@@ -74,7 +74,7 @@ qx.Class.define("testrunner2.test.DemoTest",
     {
       this.assertTrue(false, "Well, what did you expect?");
       this.assertEquals(0, 1, "Nope");
-      //alert("Executed code after failed assertion!");
+      this.debug("Executed code after failed assertion!");
     },
 
     testAsyncSimple : function()
