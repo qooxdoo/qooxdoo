@@ -418,11 +418,15 @@ Configuration
    
    * - settings	
      - Map
-     - Map of settings for this class. For a description of the format of a setting see `qx.core.Setting <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Setting>`_.
+     - **Deprecated** map of settings for this class. For a description of the format of a setting see `qx.core.Setting <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Setting>`_.
    
-   * - variants	
+   * - variants 
      - Map
-     - Map of settings for this class. For a description of the format of a setting see `qx.core.Variant <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Variant>`_.
+     - **Deprecated** map of settings for this class. For a description of the format of a setting see `qx.core.Variant <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Variant>`_.
+
+   * - environment
+     - Map
+     - Map of settings for this class. For a description of the format of a setting see `qx.core.Environment <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Environment>`_.
    
    * - events	
      - Map	 
