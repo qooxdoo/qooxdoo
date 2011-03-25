@@ -132,7 +132,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__async = async;
 
       // BUGFIX
-      // IE < 8 and FF < 3.5 cannot reuse the native XHR to issue many requests
+      // IE < 9 and FF < 3.5 cannot reuse the native XHR to issue many requests
       if (!this.__supportsManyRequests() && this.readyState > qx.bom.request.Xhr.UNSENT) {
         // XmlHttpRequest Level 1 requires open() to abort any pending requests
         // associated to the object. Since we're dealing with a new object here,
@@ -575,7 +575,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       var name = qx.core.Environment.get("engine.name");
       var version = qx.core.Environment.get("engine.version");
 
-      return !(name == "mshtml" && version < 8 ||
+      return !(name == "mshtml" && version < 9 ||
                name == "gecko" && version < 3.5);
     }
   }
