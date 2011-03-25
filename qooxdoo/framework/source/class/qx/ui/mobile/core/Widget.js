@@ -416,9 +416,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       if (qx.core.Environment.get("qx.debug"))
       {
         var attributeMapping = qx.ui.mobile.core.Widget.ATTRIBUTE_MAPPING;
-        if (attributeMapping[property]) {
-          qx.core.Assert.assertUndefined(attributeMapping[property], "Attribute mapping for " + property + " already exists");
-        }
+        qx.core.Assert.assertUndefined(attributeMapping[property], "Attribute mapping for " + property + " already exists");
       }
 
       qx.ui.mobile.core.Widget.ATTRIBUTE_MAPPING[property] = {
@@ -455,9 +453,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       if (qx.core.Environment.get("qx.debug"))
       {
         var styleMapping = qx.ui.mobile.core.Widget.STYLE_MAPPING;
-        if (styleMapping[property]) {
-          qx.core.Assert.assertUndefined(styleMapping[property], "Style mapping for " + property + " already exists");
-        }
+        qx.core.Assert.assertUndefined(styleMapping[property], "Style mapping for " + property + " already exists");
       }
 
       qx.ui.mobile.core.Widget.STYLE_MAPPING[property] = {
