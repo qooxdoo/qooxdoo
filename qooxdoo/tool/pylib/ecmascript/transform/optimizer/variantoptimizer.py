@@ -249,6 +249,7 @@ def processVariantIsSet(callNode, variantMap):
 def processVariantGet(callNode, variantMap):
 
     treeModified = False
+    fresult      = [None]  # input-output parameter for functions
 
     # Simple sanity checks
     params = callNode.getChild("params")
@@ -284,7 +285,8 @@ def processVariantGet(callNode, variantMap):
     if conditionNode.parent.get("loopType") == "IF":
         loopNode = conditionNode.parent
         # get() call is only condition
-        if callNode.parent == conditionNode:
+        #if callNode.parent == conditionNode:
+        if isDirectDescendant(callNode, conditionNode):
             # @deprecated
             if confValue in ["off", "false"]:
                 varValue = False
@@ -293,9 +295,10 @@ def processVariantGet(callNode, variantMap):
             treeutil.inlineIfStatement(loopNode, varValue)
             treeModified = True
         # a single comparison is the condition
-        elif (callNode.parent.parent.type == "operation"
-              and callNode.parent.parent.parent == conditionNode):
-            cmpNode = callNode.parent.parent
+        #elif (callNode.parent.parent.type == "operation"
+        #      and callNode.parent.parent.parent == conditionNode):
+        elif isComparisonOperand(callNode, conditionNode, fresult):
+            cmpNode = fresult[0]
             # check operator
             cmpOp  = cmpNode.get("operator")
             if cmpOp in ["EQ", "SHEQ"]:
@@ -400,6 +403,38 @@ def processEnvironmentClass(node, variantMap):
 
     return treeModified
 
+
+##
+# 
+def isDirectDescendant(child, ancestor):
+    result = False
+    p = nextNongroupParent(child, ancestor)
+    if p == ancestor:
+        result = True
+    return result
+
+def isComparisonOperand(callNode, conditionNode, capture):
+    result = None
+    capture[0] = None
+    callParent = nextNongroupParent(callNode, conditionNode)
+    if callParent.parent.type == "operation":   # e.g. callParent is operation/first
+        operNode = callParent.parent
+        operParent = nextNongroupParent(operNode, conditionNode)
+        if operParent == conditionNode:
+            result = operNode
+            capture[0] = operNode
+    return result
+
+def nextNongroupParent(node, stopnode):
+    result = stopnode
+    n = node.parent
+    while n and n != stopnode:
+        if n.type != "group":
+            result = n
+            break
+        else:
+            n = n.parent
+    return result
 
 def __variantMatchKey(key, variantValue):
     for keyPart in key.split("|"):
