@@ -30,9 +30,12 @@ qx.Class.define("qx.test.io.request.Xhr",
   members :
   {
     setUp : function() {
-      this.transport = new qx.bom.request.Xhr();
+      this.transport = this.stub(new qx.bom.request.Xhr());
+      this.spy(this.transport, "open");
+      this.spy(this.transport, "setRequestHeader");
+      this.spy(this.transport, "send");
       this.stub(qx.io.request.Xhr.prototype, "_createTransport").
-          returns(this.stub(this.transport));
+          returns(this.transport);
 
       this.req = new qx.io.request.Xhr;
       this.req.setUrl("url");
@@ -85,8 +88,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     //
 
     "test: should send request": function() {
-      this.spy(this.transport, "open");
-      this.spy(this.transport, "send");
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "url", true);
@@ -94,7 +95,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should send sync request": function() {
-      this.spy(this.transport, "open");
       this.req.setAsync(false);
       this.req.send();
 
@@ -102,7 +102,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should send POST request": function() {
-      this.spy(this.transport, "open");
       this.req.setMethod("POST");
       this.req.send();
 
@@ -110,7 +109,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should send authorized request": function() {
-      this.spy(this.transport, "open");
       this.req.setUsername("affe");
       this.req.setPassword("geheim");
       this.req.send();
@@ -119,7 +117,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should drop fragment from URL": function() {
-      this.spy(this.transport, "open");
       this.req.setUrl("example.com#fragment")
       this.req.send();
 
@@ -131,7 +128,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     //
 
     "test: should not send data with GET request": function() {
-      this.spy(this.transport, "send");
       this.req.setData("str");
       this.req.send();
 
@@ -139,7 +135,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should append string data to URL with GET request": function() {
-      this.spy(this.transport, "open");
       this.req.setData("str");
       this.req.send();
 
@@ -147,7 +142,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should append obj data to URL with GET request": function() {
-      this.spy(this.transport, "open");
       this.req.setData({affe: true});
       this.req.send();
 
@@ -156,7 +150,6 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     "test: should append qooxdoo obj data to URL with GET request": function() {
       var obj = new Klass();
-      this.spy(this.transport, "open");
       this.req.setData(obj);
       this.req.send();
 
@@ -168,7 +161,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     //
 
     "test: should set content type urlencoded for POST request": function() {
-      this.spy(this.transport, "setRequestHeader");
       this.req.setMethod("POST");
       this.req.send();
 
@@ -177,7 +169,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should send string data with POST request": function() {
-      this.spy(this.transport, "send");
       this.req.setMethod("POST");
       this.req.setData("str");
       this.req.send();
@@ -186,7 +177,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should send obj data with POST request": function() {
-      this.spy(this.transport, "send");
       this.req.setMethod("POST");
       this.req.setData({"af fe": true});
       this.req.send();
@@ -196,7 +186,6 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     "test: should send qooxdoo obj data with POST request": function() {
       var obj = new Klass();
-      this.spy(this.transport, "send");
       this.req.setMethod("POST");
       this.req.setData(obj);
       this.req.send();
@@ -209,7 +198,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     //
 
     "test: should set request headers": function() {
-      this.spy(this.transport, "setRequestHeader");
       this.req.setRequestHeaders({key1: "value", key2: "value"});
       this.req.send();
 
