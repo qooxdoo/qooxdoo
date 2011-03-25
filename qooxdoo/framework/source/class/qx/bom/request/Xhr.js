@@ -17,6 +17,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#ignore(XDomainRequest)
+
+************************************************************************ */
+
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
@@ -125,6 +131,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       if (this.__disposed) {
         return;
       }
+
+      // Send flag may have been set on previous request
+      this.__send = false;
+
+      // Abort flag may have been set on previous request
+      this.__abort = false;
 
       if (typeof async == "undefined") {
         async = true;
@@ -246,6 +258,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         // Properties all set, only missing native readystatechange event
         this.__onNativeReadyStateChange();
       }
+
+      // Set send flag
+      this.__send = true;
     },
 
     /**
@@ -259,6 +274,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         return;
       }
 
+      this.__abort = true;
       this.__nativeXhr.abort();
 
       if (this.__nativeXhr) {
@@ -439,6 +455,16 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __onUnloadBound: null,
 
     /**
+     * {Boolean} Send flag
+     */
+    __send: null,
+
+    /**
+     * {Boolean} Abort flag
+     */
+    __abort: null,
+
+    /**
      * {Boolean} Whether object has been disposed.
      */
     __disposed: null,
@@ -476,6 +502,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       // Sync current readyState
       this.readyState = nxhr.readyState;
+
+      // BUGFIX: IE
+      // Superfluous onreadystatechange DONE when aborting OPENED
+      // without send flag
+      if (this.readyState === qx.bom.request.Xhr.DONE &&
+          this.__abort && !this.__send) {
+        return;
+      }
 
       // BUGFIX: IE
       // IE fires onreadystatechange HEADERS_RECEIVED and LOADING when sync

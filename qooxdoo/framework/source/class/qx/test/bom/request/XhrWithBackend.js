@@ -481,7 +481,8 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       req.open("GET", "http://fail.tld");
       req.send();
 
-      this.wait();
+      // May take a while to detect network error
+      this.wait(10000);
     },
 
     //
@@ -504,7 +505,8 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       req.open("GET", "http://fail.tld");
       req.send();
 
-      this.wait();
+      // May take a while to detect network error
+      this.wait(10000);
     },
 
     //
@@ -544,7 +546,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       }
 
       var req = this.req;
-      var url = this.getUrl("qx/test/xmlhttp/sample.html");
 
       var that = this;
       req.onloadend = function() {
@@ -562,7 +563,8 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       req.open("GET", "http://fail.tld");
       req.send();
 
-      this.wait();
+      // May take a while to detect network error
+      this.wait(10000);
     },
 
     //
