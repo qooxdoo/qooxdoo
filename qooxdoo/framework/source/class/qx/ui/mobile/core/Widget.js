@@ -323,7 +323,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     {
       var id = widget.getId();
       var registry = qx.ui.mobile.core.Widget.__registry;
-      if (registry[id]) {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertUndefined(registry[id], "Widget with the id '" + id + "' is already registered");
       }
       registry[id] = widget;
