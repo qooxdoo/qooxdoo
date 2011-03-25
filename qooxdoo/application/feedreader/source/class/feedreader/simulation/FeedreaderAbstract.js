@@ -1,0 +1,78 @@
+qx.Class.define("feedreader.simulation.FeedreaderAbstract", {
+
+  extend : simulator.unit.TestCase,
+  
+  type : "abstract",
+  
+  members :
+  {
+    locators : {
+      articleView : 'qxh=qx.ui.container.Composite/qx.ui.splitpane.Pane/qx.ui.splitpane.Pane/[@classname="feedreader.view.Article"]',
+      feedTree : 'qxh=qx.ui.container.Composite/qx.ui.splitpane.Pane/qx.ui.tree.Tree',
+      feedTreeItemStaticFeeds : 'qxhv=*/qx.ui.tree.Tree/*/qx.ui.tree.TreeFolder',
+      reloadButton : 'qxhv=*/[@label="Reload"]',
+      firstFeed : 'qxh=app:qx.ui.tree.Tree/child[0]/child[0]/child[0]',
+      firstFeedItem : 'qxh=app:[@classname="feedreader.view.List"]/qx.ui.container.Stack/qx.ui.form.List/child[0]',
+      staticFeedsItem : 'qxh=qx.ui.container.Composite/qx.ui.splitpane.Pane/qx.ui.tree.Tree/child[0]/child[1]',
+      preferencesButton : 'qxhv=*/[@label="Preferences"]',
+      preferencesWindow : 'qxhv=[@classname="feedreader.view.PreferenceWindow"]',
+      buttonItalian : 'qxh=app:[@caption=".*"]/qx.ui.groupbox.GroupBox/[@label="Italiano"]',
+      buttonOk : 'qxh=app:[@caption=".*"]/qx.ui.container.Composite/[@label="OK"]',
+      addFeedButton : 'qxhv=*/[@label="Add"]',
+      feedWindow : 'qxhv=[@classname="feedreader.view.AddFeedWindow"]',
+      feedWindowButton : 'qxh=app:[@caption=".*feed.*"]/qx.ui.form.renderer.SinglePlaceholder/qx.ui.container.Composite/qx.ui.form.Button'
+    },
+    
+    
+    setUp : function()
+    {
+      this.getQxSelenium().getEval(simulator.Simulation.AUTWINDOW + '.qx.log.Logger.setLevel("warn");');
+      this.getQxSelenium().getEval(simulator.Simulation.AUTWINDOW + '.qx.log.Logger.clear();');
+      this.getSimulation().clearAutLogStore();
+      this.getSimulation().clearGlobalErrorStore();
+      this.waitForFeeds();
+      this.getQxSelenium().setSpeed(250);
+    },
+    
+    tearDown : function()
+    {
+      this.getQxSelenium().setSpeed(0);
+      this.getSimulation().logAutLogEntries();
+      this.getSimulation().logGlobalErrors();
+    },
+    
+    /**
+     * Checks if all feeds in the tree have finished loading. If any feeds are 
+     * still displaying the "loading" icon after 30 seconds, the "Reload" 
+     * button is clicked and we wait for another 30 seconds.
+     */
+    waitForFeeds : function()
+    {
+      var feedsLoaded = function(treeLocator) {
+        var tree = selenium.getQxWidgetByLocator(treeLocator);
+        var ready = true;
+        var items = tree.getItems();
+        for (var i=0,l=items.length; i<l; i++) {
+          if (items[i].getChildren().length == 0) {
+            var icon = items[i].getIcon();
+            if (!(icon.indexOf('internet-feed-reader.png') >=0 || icon.indexOf('process-stop') >=0 )) {
+              ready = false;
+            }
+          }
+        }
+        return ready;
+      };
+      this.getSimulation()._addOwnFunction("feedsLoaded", feedsLoaded);
+      var condition = 'selenium.qxStoredVars["autWindow"].qx.Simulation.feedsLoaded("' + this.locators.feedTree + '")';
+      try {
+        this.getQxSelenium().waitForCondition(condition, "30000");
+        //this.debug("All feeds finished loading.");
+      } catch(ex) {
+        this.warn("Feeds not loaded after 30 seconds, clicking reload");
+        this.getQxSelenium().qxClick(this.locators.reloadButton);
+        this.getQxSelenium().waitForCondition(condition, "30000");
+      }
+    }
+  }
+  
+});
