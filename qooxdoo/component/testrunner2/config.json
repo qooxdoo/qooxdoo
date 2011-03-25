@@ -76,7 +76,7 @@
       
       "settings" :
       {
-        "qx.testParts" : ["${TEST_NAMESPACE}.ui", "${TEST_NAMESPACE}.data"]
+        "testrunner2.testParts" : ["${TEST_NAMESPACE}.ui", "${TEST_NAMESPACE}.data"]
       }
     },
     */
