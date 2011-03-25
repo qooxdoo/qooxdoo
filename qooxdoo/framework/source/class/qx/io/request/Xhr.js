@@ -72,6 +72,13 @@ qx.Class.define("qx.io.request.Xhr",
     }
   },
 
+  statics:
+  {
+    appendDataToUrl: function(url, data) {
+      return url += /\?/.test(url) ? "&" + data : "?" + data;
+    }
+  },
+
   members:
   {
     __transport: null,

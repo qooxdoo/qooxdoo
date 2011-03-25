@@ -59,7 +59,29 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     //
-    // General
+    // Helper
+    //
+
+    "test: should append data to URL": function() {
+      var url = "http://example.com/path";
+      var data = "affe=true&maus=false";
+
+      var expected = "http://example.com/path?affe=true&maus=false";
+      var result = qx.io.request.Xhr.appendDataToUrl(url, data);
+      this.assertEquals(expected, result);
+    },
+
+    "test: should append data to URL with query string": function() {
+      var url = "http://example.com/path?giraffe=true";
+      var data = "affe=true&maus=false";
+
+      var expected = "http://example.com/path?giraffe=true&affe=true&maus=false";
+      var result = qx.io.request.Xhr.appendDataToUrl(url, data);
+      this.assertEquals(expected, result);
+    },
+
+    //
+    // Send
     //
 
     "test: should send request": function() {
