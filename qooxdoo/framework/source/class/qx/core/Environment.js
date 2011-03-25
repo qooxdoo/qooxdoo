@@ -564,8 +564,9 @@ qx.Bootstrap.define("qx.core.Environment",
 
       if (qx.Bootstrap.DEBUG)
       {
-        throw new Error('No match for variant "' + key +
-          '" in variants [' + qx.Bootstrap.getKeysAsString(values) +
+        throw new Error('No match for variant "' + key + 
+          '" (' + (typeof key) + ' type)' +
+          ' in variants [' + qx.Bootstrap.getKeysAsString(values) +
           '] found, and no default ("default") given');
       }
     },
