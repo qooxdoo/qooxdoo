@@ -335,18 +335,18 @@ qx.Class.define("qx.test.core.Environment",
     },
 
     testOldSettings : function() {
-      this.assertBoolean(qx.core.Environment.get("qx.allowUrlSettings"));
-      this.assertBoolean(qx.core.Environment.get("qx.allowUrlVariants"));
-      this.assertString(qx.core.Environment.get("qx.application"));
-      this.assertBoolean(qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug"));
-      this.assertNumber(qx.core.Environment.get("qx.disposerDebugLevel"));
-      this.assertBoolean(qx.core.Environment.get("qx.globalErrorHandling"));
-      this.assertBoolean(qx.core.Environment.get("qx.ioRemoteDebug"));
-      this.assertBoolean(qx.core.Environment.get("qx.ioRemoteDebugData"));
-      this.assertBoolean(qx.core.Environment.get("qx.jsonEncodeUndefined"));
-      this.assertBoolean(qx.core.Environment.get("qx.jsonDebugging"));
-      this.assertBoolean(qx.core.Environment.get("qx.nativeScrollBars"));
-      this.assertNumber(qx.core.Environment.get("qx.propertyDebugLevel"));
+      this.assertBoolean(qx.core.Environment.get("qx.allowUrlSettings"), "1");
+      this.assertBoolean(qx.core.Environment.get("qx.allowUrlVariants"), "2");
+      this.assertString(qx.core.Environment.get("qx.application"), "3");
+      this.assertBoolean(qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug"), "4");
+      this.assertNumber(qx.core.Environment.get("qx.disposerDebugLevel"), "5");
+      this.assertBoolean(qx.core.Environment.get("qx.globalErrorHandling"), "6");
+      this.assertBoolean(qx.core.Environment.get("qx.ioRemoteDebug"), "7");
+      this.assertBoolean(qx.core.Environment.get("qx.ioRemoteDebugData"), "8");
+      this.assertBoolean(qx.core.Environment.get("qx.jsonEncodeUndefined"), "9");
+      this.assertBoolean(qx.core.Environment.get("qx.jsonDebugging"), "10");
+      this.assertBoolean(qx.core.Environment.get("qx.nativeScrollBars"), "11");
+      this.assertNumber(qx.core.Environment.get("qx.propertyDebugLevel"), "12");
     },
 
     testOldVariants : function() {

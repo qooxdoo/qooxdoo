@@ -140,7 +140,7 @@ qx.Class.define("qx.test.Class",
       if (this.isDebugOn())
       {
         this.assertException(function() {
-          var car = new qx.AbstractCar("blue");
+          new qx.AbstractCar("blue");
         }, Error, new RegExp("The class .* is abstract"));
       }
 
@@ -208,45 +208,6 @@ qx.Class.define("qx.test.Class",
       this.assertEquals("kinners", qx.core.Environment.get("qx.juhu"));
 
       qx.Class.undefine("qx.Setting1");
-    },
-
-
-    testVariant : function()
-    {
-      qx.Class.define("qx.Variant1",
-      {
-        environment :
-        {
-          "qx.juhu" :
-          {
-            allowedValues : [ "kinners", "juhu" ],
-            defaultValue  : "kinners"
-          }
-        }
-      });
-
-      this.assertEquals("kinners", qx.core.Environment.get("qx.juhu"));
-
-      if (this.isDebugOn())
-      {
-        this.assertException(function()
-        {
-          qx.Class.define("qx.Variant2",
-          {
-            variants :
-            {
-              "foo.juhu" :
-              {
-                allowedValues : [ "kinners", "juhu" ],
-                defaultValue  : "kinners"
-              }
-            }
-          });
-        },
-        Error, "Forbidden variant");
-      };
-
-      qx.Class.undefine("qx.Variant1");
     },
 
 
