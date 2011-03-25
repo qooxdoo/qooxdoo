@@ -16,6 +16,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+/* ************************************************************************
+#ignore(qx.test.data.singlevalue.Array_MultiBinding)
+************************************************************************ */
+
 /**
  * Test-Class for testing the single value binding
  */

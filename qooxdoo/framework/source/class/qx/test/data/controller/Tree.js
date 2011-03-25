@@ -16,6 +16,13 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+/* ************************************************************************
+#ignore(qx.test.MyTreeNode)
+#ignore(qx.test.TreeEndNode)
+#ignore(qx.test.TreeNode)
+************************************************************************ */
+
 qx.Class.define("qx.test.data.controller.Tree",
 {
   extend : qx.dev.unit.TestCase,

@@ -17,6 +17,21 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(qx.DeferFoo)
+#ignore(qx.MyClass)
+#ignore(qx.test.u.u)
+#ignore(qx.FuncName)
+#ignore(qx.Defer)
+#ignore(qx.Single1)
+#ignore(qx.ConcreteCar)
+#ignore(qx.AbstractCar)
+#ignore(qx.Bmw)
+#ignore(qx.Car)
+#ignore(qx.Empty)
+#ignore(qx.DeferFoo)
+************************************************************************ */
+
 qx.Class.define("qx.test.Class",
 {
   extend : qx.dev.unit.TestCase,

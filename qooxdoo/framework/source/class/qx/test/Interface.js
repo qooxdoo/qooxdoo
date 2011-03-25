@@ -17,6 +17,14 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(qx.AbstractJuhu2)
+#ignore(qx.AbstractJuhu1)
+#ignore(qx.Complex)
+#ignore(qx.ICar)
+#ignore(qx.Audi)
+************************************************************************ */
+
 qx.Class.define("qx.test.Interface",
 {
   extend : qx.dev.unit.TestCase,
