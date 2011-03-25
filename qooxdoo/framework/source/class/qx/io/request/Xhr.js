@@ -160,5 +160,10 @@ qx.Class.define("qx.io.request.Xhr",
       }
     }
 
+  },
+
+  destruct: function() 
+  {
+    this.__transport.dispose();
   }
 });

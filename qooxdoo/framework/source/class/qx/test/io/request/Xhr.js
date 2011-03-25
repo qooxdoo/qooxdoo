@@ -55,11 +55,19 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     tearDown : function() {
       this.getSandbox().restore();
-
-      this.transport.dispose();
       this.req.dispose();
 
       qx.Class.undefine("Klass");
+    },
+
+    //
+    // General
+    //
+    "test: should dispose transport on destruct": function() {
+      this.spy(this.transport, "dispose");
+      this.req.dispose();
+
+      this.assertCalled(this.transport.dispose);
     },
 
     //
