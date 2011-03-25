@@ -19,16 +19,16 @@
 
 /* ************************************************************************
 
-#asset(testrunner2/view/html/*)
+#asset(testrunner/view/html/*)
 
 ************************************************************************ */
 
 /**
  * Plain HTML TestRunner view.
  */
-qx.Class.define("testrunner2.view.Html", {
+qx.Class.define("testrunner.view.Html", {
 
-  extend : testrunner2.view.Abstract,
+  extend : testrunner.view.Abstract,
 
 
   /*
@@ -46,7 +46,7 @@ qx.Class.define("testrunner2.view.Html", {
     this.__domElements = {
       rootElement : rootElement || document.body
     }
-    var styleSrc = qx.util.ResourceManager.getInstance().toUri("testrunner2/view/html/css/testrunner2.css");
+    var styleSrc = qx.util.ResourceManager.getInstance().toUri("testrunner/view/html/css/testrunner.css");
     qx.bom.Stylesheet.includeFile(styleSrc);
 
     this._attachHeader();
@@ -586,7 +586,7 @@ qx.Class.define("testrunner2.view.Html", {
         var testName = tests[i];
         var testInSelection = this._listContainsTest(selectedTests, testName);
         if (selected && !testInSelection) {
-          var testItem = testrunner2.runner.ModelUtil.getItemsByProperty(this.__testModel, "fullName", testName)[0];
+          var testItem = testrunner.runner.ModelUtil.getItemsByProperty(this.__testModel, "fullName", testName)[0];
           selectedTests.push(testItem);
         }
         else if (!selected && testInSelection) {
@@ -710,7 +710,7 @@ qx.Class.define("testrunner2.view.Html", {
 
       this.__testModel = value;
 
-      var testList = testrunner2.runner.ModelUtil.getItemsByProperty(value, "type", "test");
+      var testList = testrunner.runner.ModelUtil.getItemsByProperty(value, "type", "test");
       this.setSelectedTests(new qx.data.Array());
       this.__testNameToId = {};
       this.clearTestList();
@@ -734,7 +734,7 @@ qx.Class.define("testrunner2.view.Html", {
         var cookieSelection = cookieSelection.split("#");
         var foundTests = [];
         for (var i=0,l=cookieSelection.length; i<l; i++) {
-          var found = testrunner2.runner.ModelUtil.getItemByFullName(this.__testModel, cookieSelection[i]);
+          var found = testrunner.runner.ModelUtil.getItemByFullName(this.__testModel, cookieSelection[i]);
           if (found) {
             foundTests.push(found.getFullName());
           }
@@ -750,7 +750,7 @@ qx.Class.define("testrunner2.view.Html", {
         }
       }
       else {
-        var testList = testrunner2.runner.ModelUtil.getItemsByProperty(this.__testModel, "type", "test");
+        var testList = testrunner.runner.ModelUtil.getItemsByProperty(this.__testModel, "type", "test");
         this.getSelectedTests().append(testList);
       }
     },

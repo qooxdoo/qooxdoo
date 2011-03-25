@@ -1,7 +1,7 @@
 {
   "info" : 
   {
-    "name" : "TestRunner2",
+    "name" : "testrunner",
 
     "summary" : "Unit testing framework",
     "description" : "A modular test runner application to run JSUnit-like unit tests.",
@@ -24,7 +24,7 @@
   
   "provides" : 
   {
-    "namespace"   : "testrunner2",
+    "namespace"   : "testrunner",
     "encoding"    : "utf-8",
     "class"       : "source/class",
     "resource"    : "source/resource",

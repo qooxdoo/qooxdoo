@@ -21,7 +21,7 @@
  * The TestRunner is responsible for loading the test classes and keeping track
  * of the test suite's state.
  */
-qx.Class.define("testrunner2.runner.TestRunner", {
+qx.Class.define("testrunner.runner.TestRunner", {
 
   extend : qx.core.Object,
 
@@ -39,7 +39,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
 
     // Create view
     this.__testsInView = [];
-    var viewSetting = qx.core.Environment.get("testrunner2.view");
+    var viewSetting = qx.core.Environment.get("testrunner.view");
     var viewClass = qx.Class.getByName(viewSetting);
     this.view = new viewClass();
 
@@ -65,7 +65,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       this.__logAppender = new qx.log.appender.Element();
       qx.log.Logger.unregister(this.__logAppender);
       this.__logAppender.setElement(this.view.getLogAppenderElement());
-      if (qx.core.Environment.get("testrunner2.testOrigin") != "iframe") {
+      if (qx.core.Environment.get("testrunner.testOrigin") != "iframe") {
         qx.log.Logger.register(this.__logAppender);
       }
     }
@@ -79,7 +79,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
     }
 
     // Load unit tests
-    if (qx.core.Environment.get("testrunner2.testOrigin") == "iframe") {
+    if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
       // Load the tests from a standalone AUT
       this.__iframe = this.view.getIframe();
       qx.event.Registration.addListener(this.__iframe, "load", this._onLoadIframe, this);
@@ -93,7 +93,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
 
     // Check if any test parts are defined
     this.__testParts = [];
-    //var parts = qx.core.Environment.get("testrunner2.testParts");
+    //var parts = qx.core.Environment.get("testrunner.testParts");
     var parts = null;
     if (parts) {
       this.__testParts = this.__testParts.concat(parts);
@@ -243,7 +243,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       }
       var oldModel = this.getTestModel();
       if (oldModel) {
-        testrunner2.runner.ModelUtil.disposeModel(oldModel);
+        testrunner.runner.ModelUtil.disposeModel(oldModel);
         this.__testsInView = [];
       }
       this.setTestModel(null);
@@ -254,18 +254,18 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         return;
       }
       //var startDate = new Date();
-      var modelData = testrunner2.runner.ModelUtil.createModelData(testRep);
+      var modelData = testrunner.runner.ModelUtil.createModelData(testRep);
       //this.info("createModelData: " + (new Date().getTime() - startDate.getTime()) / 1000 );
       var delegate = {
         getModelSuperClass : function(properties) {
-          return testrunner2.runner.TestItem;
+          return testrunner.runner.TestItem;
         }
       };
       var marshal = new qx.data.marshal.Json(delegate);
       marshal.toClass(modelData.children[0], true);
       var model = marshal.toModel(modelData.children[0]);
       //this.info("marshal.toModel: " + (new Date().getTime() - startDate.getTime()) / 1000 );
-      testrunner2.runner.ModelUtil.addDataFields(model);
+      testrunner.runner.ModelUtil.addDataFields(model);
       //this.info("addDataFields: " + (new Date().getTime() - startDate.getTime()) / 1000 );
       this.setTestModel(model);
       this.setTestSuiteState("ready");
@@ -284,7 +284,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
      * Doing this in the Testrunner application is a temporary solution: It
      * really should be done in qx.dev.unit.TestCase, but that would break
      * backwards compatibility with the existing testrunner component. Once
-     * testrunner2 has fully replaced testrunner, this code should be moved.
+     * testrunner has fully replaced testrunner, this code should be moved.
      *
      * @param autWindow {DOMWindow?} The test application's window. Default: The
      * Testrunner's window.
@@ -389,21 +389,21 @@ qx.Class.define("testrunner2.runner.TestRunner", {
 
     /**
      * Creates the TestResult object that will run the actual test functions.
-     * @return {testrunner2.unit.TestResult} The configured TestResult object
+     * @return {testrunner.unit.TestResult} The configured TestResult object
      */
     __initTestResult : function()
     {
-      if (qx.core.Environment.get("testrunner2.testOrigin") == "iframe") {
+      if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
         var frameWindow = qx.bom.Iframe.getWindow(this.__iframe);
         try {
-          var testResult = new frameWindow.testrunner2.unit.TestResult();
+          var testResult = new frameWindow.testrunner.unit.TestResult();
         } catch(ex) {
-          // TODO: Remove after testrunner2.unit.TestResult has replaced
+          // TODO: Remove after testrunner.unit.TestResult has replaced
           // qx.dev.unit.TestResult
           var testResult = new frameWindow.qx.dev.unit.TestResult();
         }
       } else {
-        var testResult = new testrunner2.unit.TestResult();
+        var testResult = new testrunner.unit.TestResult();
       }
 
       testResult.addListener("startTest", function(e) {
@@ -416,7 +416,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         }
 
         /* EXPERIMENTAL: Check if the test polluted the DOM
-        if (qx.core.Environment.get("testrunner2.testOrigin") == "iframe") {
+        if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
           if (this.frameWindow.qx.test && this.frameWindow.qx.test.ui &&
               this.frameWindow.qx.test.ui.LayoutTestCase &&
               test.getTestClass() instanceof this.frameWindow.qx.test.ui.LayoutTestCase ) {
@@ -453,7 +453,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       }, this);
 
       testResult.addListener("endTest", function(e) {
-        if (qx.core.Environment.get("testrunner2.testOrigin") == "iframe") {
+        if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
           if (this.__logAppender) {
             this.__fetchIframeLog();
           }
@@ -467,7 +467,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
         /* EXPERIMENTAL: Check if the test polluted the DOM
         var fWin = this.frameWindow;
 
-        if (qx.core.Environment.get("testrunner2.testOrigin") == "iframe") {
+        if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
           fWin.qx.ui.core.queue.Dispose.flush();
           fWin.qx.ui.core.queue.Manager.flush();
 
@@ -521,12 +521,12 @@ qx.Class.define("testrunner2.runner.TestRunner", {
 
       if (this.__loadAttempts <= 300) {
         // Repeat until testrunner in iframe is loaded
-        if (!this.frameWindow.testrunner2) {
+        if (!this.frameWindow.testrunner) {
           this.__loadTimer = qx.event.Timer.once(this._onLoadIframe, this, 100);
           return;
         }
 
-        this.loader = this.frameWindow.testrunner2.TestLoader.getInstance();
+        this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
         // Avoid errors in slow browsers
 
         if (!this.loader) {
@@ -547,7 +547,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
 
       this.__loadAttempts = 0;
 
-      var frameParts = this.frameWindow.qx.core.Environment.get("testrunner2.testParts");
+      var frameParts = this.frameWindow.qx.core.Environment.get("testrunner.testParts");
       if (frameParts instanceof this.frameWindow.Boolean) {
         frameParts = frameParts.valueOf();
       }
@@ -611,7 +611,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
       var testList = [];
       for (var i=0,l=selection.length; i<l; i++) {
         var item = selection.getItem(i);
-        var testsFromItem = testrunner2.runner.ModelUtil.getItemsByProperty(item, "type", "test");
+        var testsFromItem = testrunner.runner.ModelUtil.getItemsByProperty(item, "type", "test");
         testList = testList.concat(testsFromItem);
       }
       return testList;
@@ -653,7 +653,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
 
   destruct : function()
   {
-    testrunner2.runner.ModelUtil.disposeModel(this.getTestModel());
+    testrunner.runner.ModelUtil.disposeModel(this.getTestModel());
   }
 
 });

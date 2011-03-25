@@ -29,15 +29,15 @@
  * os : value of qx.core.Environment.get("os.name")
  *
  */
-qx.Class.define("testrunner2.view.Reporter", {
+qx.Class.define("testrunner.view.Reporter", {
 
-  extend : testrunner2.view.Console,
+  extend : testrunner.view.Console,
 
   construct : function()
   {
     this.base(arguments);
     this.__testResultsMap = {};
-    this.__reportServerUrl = qx.core.Environment.get("testrunner2.reportServer");
+    this.__reportServerUrl = qx.core.Environment.get("testrunner.reportServer");
     this.__autErrors = {};
   },
 
@@ -140,7 +140,7 @@ qx.Class.define("testrunner2.view.Reporter", {
     autoRun : function()
     {
       var nextPackageName = this.__testPackages.shift();
-      var nextPackage = testrunner2.runner.ModelUtil.getItemByFullName(this.getTestModel(), nextPackageName);
+      var nextPackage = testrunner.runner.ModelUtil.getItemByFullName(this.getTestModel(), nextPackageName);
       if (nextPackage) {
         this.getSelectedTests().removeAll();
         this.getSelectedTests().push(nextPackage);

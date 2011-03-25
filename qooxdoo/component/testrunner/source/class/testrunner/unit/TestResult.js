@@ -25,7 +25,7 @@
  * It also supports an additional "skipped" state for tests that aren't run
  * because infrastructure requirements are not met.
  */
-qx.Class.define("testrunner2.unit.TestResult", {
+qx.Class.define("testrunner.unit.TestResult", {
 
   extend : qx.dev.unit.TestResult,
 
@@ -229,8 +229,8 @@ qx.Class.define("testrunner2.unit.TestResult", {
         qx.event.Registration.addListener = function(target, type, listener, self, capture) {
           var listenerId =  qx.event.Registration.addListenerOriginal(target, type, listener, self, capture);
           var store = true;
-          if ( (target.classname && target.classname.indexOf("testrunner2.unit") == 0)
-               || (self && self.classname && self.classname.indexOf("testrunner2.unit") == 0) ) {
+          if ( (target.classname && target.classname.indexOf("testrunner.unit") == 0)
+               || (self && self.classname && self.classname.indexOf("testrunner.unit") == 0) ) {
             store = false;
           }
           if (store) {

@@ -18,7 +18,7 @@
  * Common superclass for test suite model items
  */
 
-qx.Class.define("testrunner2.runner.TestItem", {
+qx.Class.define("testrunner.runner.TestItem", {
 
   extend : qx.core.Object,
 
@@ -56,8 +56,8 @@ qx.Class.define("testrunner2.runner.TestItem", {
     /**
      * Compare function for test model items.
      *
-     * @param aItem {testrunner2.runner.TestItem} First item
-     * @param bItem {testrunner2.runner.TestItem} Second item
+     * @param aItem {testrunner.runner.TestItem} First item
+     * @param bItem {testrunner.runner.TestItem} Second item
      * @return {Integer} Comparison result
      */
     sortFunction : function(aItem, bItem)
@@ -136,7 +136,7 @@ qx.Class.define("testrunner2.runner.TestItem", {
      */
     sortChildren : function()
     {
-      this.getChildren().sort(testrunner2.runner.TestItem.sortFunction);
+      this.getChildren().sort(testrunner.runner.TestItem.sortFunction);
     },
 
 

@@ -26,15 +26,15 @@
 #asset(qx/icon/Tango/22/actions/document-properties.png)
 #asset(qx/icon/Tango/22/actions/media-seek-forward.png)
 
-#asset(testrunner2/view/widget/css/testrunner.css)
-#asset(testrunner2/view/widget/image/*)
+#asset(testrunner/view/widget/css/testrunner.css)
+#asset(testrunner/view/widget/image/*)
 ************************************************************************ */
 /**
  * Widget-based Testrunner view
  */
-qx.Class.define("testrunner2.view.widget.Widget", {
+qx.Class.define("testrunner.view.widget.Widget", {
 
-  extend : testrunner2.view.Abstract,
+  extend : testrunner.view.Abstract,
 
   construct : function()
   {
@@ -96,25 +96,25 @@ qx.Class.define("testrunner2.view.widget.Widget", {
     /** Grey icons for items without a result */
     TREEICONS :
     {
-      "package" : "testrunner2/view/widget/image/package18_grey.gif",
-      "class" : "testrunner2/view/widget/image/class18_grey.gif",
-      "test" : "testrunner2/view/widget/image/method_public18_grey.gif"
+      "package" : "testrunner/view/widget/image/package18_grey.gif",
+      "class" : "testrunner/view/widget/image/class18_grey.gif",
+      "test" : "testrunner/view/widget/image/method_public18_grey.gif"
     },
 
     /** Green icons for items without failures */
     TREEICONSOK :
     {
-      "package" : "testrunner2/view/widget/image/package18.gif",
-      "class" : "testrunner2/view/widget/image/class18.gif",
-      "test" : "testrunner2/view/widget/image/method_public18.gif"
+      "package" : "testrunner/view/widget/image/package18.gif",
+      "class" : "testrunner/view/widget/image/class18.gif",
+      "test" : "testrunner/view/widget/image/method_public18.gif"
     },
 
     /** Red icons for items with failures */
     TREEICONSERROR :
     {
-      "package" : "testrunner2/view/widget/image/package_warning18.gif",
-      "class" : "testrunner2/view/widget/image/class_warning18.gif",
-      "test" : "testrunner2/view/widget/image/method_public_error18.gif"
+      "package" : "testrunner/view/widget/image/package_warning18.gif",
+      "class" : "testrunner/view/widget/image/class_warning18.gif",
+      "test" : "testrunner/view/widget/image/method_public_error18.gif"
     }
   },
 
@@ -638,7 +638,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
               iconMap = "TREEICONS";
             break;
           }
-          return testrunner2.view.widget.Widget[iconMap][type];
+          return testrunner.view.widget.Widget[iconMap][type];
         }
       }, node, id);
     },
@@ -691,8 +691,8 @@ qx.Class.define("testrunner2.view.widget.Widget", {
 
       p1.add(this.__createProgressBar());
 
-      qx.bom.Stylesheet.includeFile("testrunner2/view/widget/css/testrunner.css");
-      this.__testResultView = new testrunner2.view.widget.TestResultView();
+      qx.bom.Stylesheet.includeFile("testrunner/view/widget/css/testrunner.css");
+      this.__testResultView = new testrunner.view.widget.TestResultView();
       p1.add(this.__testResultView, {flex : 1});
       this.bind("showStackTrace", this.__testResultView, "showStackTrace");
 
@@ -933,7 +933,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
         var count = 0;
         var selectedTests = this.getSelectedTests();
         if (selectedTests !== null && selectedTests.length > 0) {
-          count = testrunner2.runner.ModelUtil.getItemsByProperty(selectedTests.getItem(0), "type", "test").length;
+          count = testrunner.runner.ModelUtil.getItemsByProperty(selectedTests.getItem(0), "type", "test").length;
           selectedName = this.getSelectedTests().getItem(0).getFullName();
 
           // Prevent qooxdoo's framework tests from being executed all in one go.
@@ -989,7 +989,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
           break;
         case "running" :
           this.__progressBar.setValue(0);
-          var totalTests = testrunner2.runner.ModelUtil.getItemsByProperty(this.getSelectedTests().getItem(0), "type", "test");
+          var totalTests = testrunner.runner.ModelUtil.getItemsByProperty(this.getSelectedTests().getItem(0), "type", "test");
           this.__progressBar.setMaximum(totalTests.length);
           this.setStatus("Running tests...");
           this._setActiveButton(this.__stopButton);
@@ -1000,10 +1000,10 @@ qx.Class.define("testrunner2.view.widget.Widget", {
 
           if (this.getReloadAfterEachPackage()) {
             if (this.__lastAutoRunItemName) {
-              var lastAutoRunItem = testrunner2.runner.ModelUtil.getItemByFullName(this.getTestModel(), this.__lastAutoRunItemName);
+              var lastAutoRunItem = testrunner.runner.ModelUtil.getItemByFullName(this.getTestModel(), this.__lastAutoRunItemName);
             }
             if (lastAutoRunItem) {
-              var nextAutoRunItem = testrunner2.runner.ModelUtil.getNextSiblingOf(lastAutoRunItem);
+              var nextAutoRunItem = testrunner.runner.ModelUtil.getNextSiblingOf(lastAutoRunItem);
               if (nextAutoRunItem) {
                 this.__lastAutoRunItemName = nextAutoRunItem.getFullName();
                 this.getSelectedTests().removeAll();
@@ -1046,7 +1046,7 @@ qx.Class.define("testrunner2.view.widget.Widget", {
 
         var cookieSelection = qx.bom.Cookie.get("testrunner.selectedTest");
         if (cookieSelection) {
-          var found = testrunner2.runner.ModelUtil.getItemByFullName(model, cookieSelection);
+          var found = testrunner.runner.ModelUtil.getItemByFullName(model, cookieSelection);
           if (found) {
             this.getSelectedTests().removeAll();
             this.getSelectedTests().push(found);

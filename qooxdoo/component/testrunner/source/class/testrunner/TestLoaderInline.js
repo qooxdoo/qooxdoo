@@ -18,10 +18,10 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(testrunner2/data/*)
+#asset(testrunner/data/*)
 ************************************************************************ */
 
-qx.Class.define("testrunner2.TestLoaderInline",
+qx.Class.define("testrunner.TestLoaderInline",
 {
   extend : qx.dev.unit.TestLoaderInline,
 
@@ -58,7 +58,7 @@ qx.Class.define("testrunner2.TestLoaderInline",
      */
     main : function()
     {
-      testrunner2.TestLoader.instance = this;
+      testrunner.TestLoader.instance = this;
       this.base(arguments);
     }
   }

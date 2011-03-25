@@ -22,7 +22,7 @@
 /**
  * Widget which displays the test results as a formatted list.
  */
-qx.Class.define("testrunner2.view.widget.TestResultView",
+qx.Class.define("testrunner.view.widget.TestResultView",
 {
   extend : qx.ui.embed.Html,
 

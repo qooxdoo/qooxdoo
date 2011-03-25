@@ -21,9 +21,9 @@
  * Simple, console-only TestRunner view. Use
  * qx.core.Init.getApplication().runner.view.run() to run the test suite.
  */
-qx.Class.define("testrunner2.view.Console", {
+qx.Class.define("testrunner.view.Console", {
 
-  extend : testrunner2.view.Abstract,
+  extend : testrunner.view.Abstract,
 
 
   /*
@@ -119,7 +119,7 @@ qx.Class.define("testrunner2.view.Console", {
       if (!value) {
         return;
       }
-      var testList = testrunner2.runner.ModelUtil.getItemsByProperty(value, "type", "test");
+      var testList = testrunner.runner.ModelUtil.getItemsByProperty(value, "type", "test");
       this.setSelectedTests(new qx.data.Array(testList));
     },
 
@@ -130,7 +130,7 @@ qx.Class.define("testrunner2.view.Console", {
     /**
      * Logs state changes in testResultData objects.
      *
-     * @param testResultData {testrunner2.unit.TestResultData} Test result data
+     * @param testResultData {testrunner.unit.TestResultData} Test result data
      * object
      */
     _onTestChangeState : function(testResultData)

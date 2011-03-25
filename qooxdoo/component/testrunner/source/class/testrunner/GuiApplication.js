@@ -19,14 +19,14 @@
 
 /* ************************************************************************
 
-#asset(testrunner2/*)
+#asset(testrunner/*)
 
 ************************************************************************ */
 
 /**
  * TestRunner main application class.
  */
-qx.Class.define("testrunner2.GuiApplication",
+qx.Class.define("testrunner.GuiApplication",
 {
   extend : qx.application.Standalone,
 
@@ -54,7 +54,7 @@ qx.Class.define("testrunner2.GuiApplication",
         qx.log.appender.Console;
       }
 
-      this.runner = new testrunner2.runner.TestRunner();
+      this.runner = new testrunner.runner.TestRunner();
     }
   },
 

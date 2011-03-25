@@ -18,10 +18,10 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(testrunner2/data/*)
+#asset(testrunner/data/*)
 ************************************************************************ */
 
-qx.Class.define("testrunner2.TestLoader",
+qx.Class.define("testrunner.TestLoader",
 {
   extend : qx.dev.unit.TestLoader,
 
@@ -36,7 +36,7 @@ qx.Class.define("testrunner2.TestLoader",
     /**
      * Returns the TestLoader instance
      *
-     * @return {testrunner2.TestLoader} TestLoader instance
+     * @return {testrunner.TestLoader} TestLoader instance
      */
     getInstance : function() {
       return this.instance;
@@ -53,7 +53,7 @@ qx.Class.define("testrunner2.TestLoader",
   {
     main : function()
     {
-      testrunner2.TestLoader.instance = this;
+      testrunner.TestLoader.instance = this;
       this.base(arguments);
     }
   }

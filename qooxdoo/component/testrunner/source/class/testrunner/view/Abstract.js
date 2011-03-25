@@ -20,7 +20,7 @@
 /**
  * Common base class for TestRunner views.
  */
-qx.Class.define("testrunner2.view.Abstract", {
+qx.Class.define("testrunner.view.Abstract", {
 
   type : "abstract",
 
@@ -58,7 +58,7 @@ qx.Class.define("testrunner2.view.Abstract", {
     },
 
     /** The test suite's current state, synchronized with
-      {@link testrunner2.runner.TestRunner#testSuiteState} */
+      {@link testrunner.runner.TestRunner#testSuiteState} */
     testSuiteState :
     {
       init : "init",
@@ -111,7 +111,7 @@ qx.Class.define("testrunner2.view.Abstract", {
   {
     /**
      * Add a listener to a TestResultData object to be informed of state changes.
-     * @param testResultData {testrunner2.unit.TestResultData}
+     * @param testResultData {testrunner.unit.TestResultData}
      * Test result data object
      */
     addTestResult : function(testResultData)
@@ -124,7 +124,7 @@ qx.Class.define("testrunner2.view.Abstract", {
 
     /**
      * Visualize TestResultData state changes.
-     * @param testResultData {testrunner2.unit.TestResultData}
+     * @param testResultData {testrunner.unit.TestResultData}
      * Test result data object
      */
     _onTestChangeState : function(testResultData)

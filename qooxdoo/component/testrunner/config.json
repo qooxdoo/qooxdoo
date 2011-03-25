@@ -1,5 +1,5 @@
 {
-  "name"    : "testrunner2",
+  "name"    : "testrunner",
 
   "include" :
   [
@@ -26,7 +26,7 @@
 
   "let" :
   {
-    "APPLICATION"  : "testrunner2",
+    "APPLICATION"  : "testrunner",
     "QOOXDOO_PATH" : "../..",
     "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" ],
@@ -78,7 +78,7 @@
       
       "settings" :
       {
-        "testrunner2.testParts" : ["${TEST_NAMESPACE}.ui", "${TEST_NAMESPACE}.data"]
+        "testrunner.testParts" : ["${TEST_NAMESPACE}.ui", "${TEST_NAMESPACE}.data"]
       }
     },
     */

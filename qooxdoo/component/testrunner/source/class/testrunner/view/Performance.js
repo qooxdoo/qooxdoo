@@ -17,9 +17,9 @@
 /**
  * View for performance tests.
  */
-qx.Class.define("testrunner2.view.Performance", {
+qx.Class.define("testrunner.view.Performance", {
 
-  extend : testrunner2.view.Console,
+  extend : testrunner.view.Console,
 
   properties :
   {

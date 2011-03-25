@@ -18,7 +18,7 @@
  * Utilities for creating and querying the test (suite) model.
  */
 
-qx.Class.define("testrunner2.runner.ModelUtil", {
+qx.Class.define("testrunner.runner.ModelUtil", {
 
   type : "static",
 
@@ -40,7 +40,7 @@ qx.Class.define("testrunner2.runner.ModelUtil", {
         var testList = testRep[i].tests;
         testList.sort();
         for (var x=0,y=testList.length; x<y; x++) {
-          testrunner2.runner.ModelUtil.addChainToMap(nameSpace.concat(testList[x]), data);
+          testrunner.runner.ModelUtil.addChainToMap(nameSpace.concat(testList[x]), data);
         }
       }
       return data;
