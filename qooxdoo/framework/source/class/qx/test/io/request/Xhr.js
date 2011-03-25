@@ -118,6 +118,14 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalledWith(this.transport.open, "GET", "url", true, "affe", "geheim");
     },
 
+    "test: should drop fragment from URL": function() {
+      this.spy(this.transport, "open");
+      this.req.setUrl("example.com#fragment")
+      this.req.send();
+
+      this.assertCalledWith(this.transport.open, "GET", "example.com");
+    },
+
     //
     // Data with GET
     //

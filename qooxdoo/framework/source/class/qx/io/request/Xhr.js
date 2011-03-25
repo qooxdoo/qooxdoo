@@ -94,6 +94,12 @@ qx.Class.define("qx.io.request.Xhr",
 
       var serializedData = this.__serializeData(data);
 
+      // Drop fragment (anchor) from URL as per
+      // http://www.w3.org/TR/XMLHttpRequest/#the-open-method
+      if (/\#/.test(url)) {
+        url = url.replace(/\#.*/, "");
+      }
+
       if (method === "GET") {
         // Add data to query string
         if (serializedData) {
