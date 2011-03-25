@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
     defaultAnimation :
     {
       check : "String",
-      init : "cube"
+      init : "slide"
     }
   },
 
