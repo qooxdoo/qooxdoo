@@ -34,6 +34,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.spy(this.transport, "open");
       this.spy(this.transport, "setRequestHeader");
       this.spy(this.transport, "send");
+      this.spy(this.transport, "abort");
       this.stub(qx.io.request.Xhr.prototype, "_createTransport").
           returns(this.transport);
 
@@ -203,7 +204,16 @@ qx.Class.define("qx.test.io.request.Xhr",
 
       this.assertCalledWith(this.transport.setRequestHeader, "key1", "value");
       this.assertCalledWith(this.transport.setRequestHeader, "key2", "value");
-    }
+    },
 
+    //
+    // Abort
+    //
+
+    "test: should abort request": function() {
+      this.req.abort();
+
+      this.assertCalled(this.transport.abort);
+    }
   }
 });

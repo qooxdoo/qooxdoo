@@ -122,6 +122,10 @@ qx.Class.define("qx.io.request.Xhr",
       transport.send(serializedData);
     },
 
+    abort: function() {
+      this.__transport.abort();
+    },
+
     _createTransport: function() {
       return new qx.bom.request.Xhr();
     },
