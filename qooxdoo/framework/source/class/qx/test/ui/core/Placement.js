@@ -43,6 +43,9 @@ qx.Class.define("qx.test.ui.core.Placement",
 
     __testAlwaysVisibleElement : function(w)
     {
+      // force an addition to the dom!
+      w.show();
+      w.hide();
        // modify the placed widget
        w.setWidth(100);
        w.setVisibility("visible");
@@ -76,6 +79,9 @@ qx.Class.define("qx.test.ui.core.Placement",
 
     __testAlwaysVisibleElementTooBig : function(w)
     {
+       // force an addition to the dom!
+       w.show();
+       w.hide();
        // modify the placed widget
        w.setWidth(200);
        w.setVisibility("visible");
@@ -110,8 +116,10 @@ qx.Class.define("qx.test.ui.core.Placement",
 
     __testAlwaysVisibleElementAbove : function(w)
     {
-
-      this.__nogo.setLayoutProperties({top: 100});
+       // force an addition to the dom!
+       w.show();
+       w.hide();
+       this.__nogo.setLayoutProperties({top: 100});
 
        // modify the placed widget
        w.setWidth(100);
@@ -146,6 +154,9 @@ qx.Class.define("qx.test.ui.core.Placement",
 
     __testAlwaysVisibleElementBelow : function(w)
     {
+       // force an addition to the dom!
+       w.show();
+       w.hide();
        // modify the placed widget
        w.setWidth(100);
        w.setVisibility("visible");
