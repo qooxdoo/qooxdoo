@@ -439,17 +439,20 @@ qx.Class.define("qx.ui.form.RadioGroup",
       return this.isAllowEmptySelection();
     },
 
+
     /**
      * Returns whether the item is selectable. In opposite to the default
      * implementation (which checks for visible items) every radio button
      * which is part of the group is selected even if it is currently not visible.
      *
+     * @param item {qx.ui.form.IRadioItem} The item to check if its selectable.
      * @return {Boolean} <code>true</code> if the item is part of the radio group
      *    <code>false</code> otherwise.
      */
     _isItemSelectable : function(item) {
       return this.__items.indexOf(item) != -1;
     },
+
 
     /**
      * Event handler for <code>changeSelection</code>.
