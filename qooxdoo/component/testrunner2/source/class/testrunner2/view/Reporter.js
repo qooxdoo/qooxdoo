@@ -53,18 +53,17 @@ qx.Class.define("testrunner2.view.Reporter", {
       switch(value)
       {
         case "loading":
-          this.debug("Loading test suite")
+          this.debug("Loading test suite");
           break;
         case "ready" :
-          this.debug("Test suite ready")
-          this.setGlobalErrorHandler();
+          this.debug("Test suite ready");
           this.autoRun();
           break;
         case "running" :
-          this.debug("Running tests")
+          this.debug("Running tests");
           break;
         case "finished" :
-          this.debug("Finished running tests")
+          this.debug("Finished running tests");
           this._loadNextPackage();
           break;
         case "error":
@@ -145,6 +144,9 @@ qx.Class.define("testrunner2.view.Reporter", {
       if (nextPackage) {
         this.getSelectedTests().removeAll();
         this.getSelectedTests().push(nextPackage);
+        if (nextPackage.fullName.indexOf("qx.test.io") !== 0) {
+          this.setGlobalErrorHandler();
+        }
         this.setStatus("Running package " + nextPackage.fullName);
         this.run();
       }
