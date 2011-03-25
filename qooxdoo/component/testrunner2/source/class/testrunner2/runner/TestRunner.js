@@ -33,7 +33,7 @@ qx.Class.define("testrunner2.runner.TestRunner", {
   */
   construct : function()
   {
-    if (qx.core.Environment.get("qx.globalErrorHandling") === "on") {
+    if (qx.core.Environment.get("qx.globalErrorHandling")) {
       qx.event.GlobalError.setErrorHandler(this._handleGlobalError, this);
     }
 

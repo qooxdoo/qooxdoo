@@ -656,7 +656,7 @@ qx.Bootstrap.define("qx.core.Environment",
           var value = window.qxsettings[key];
           if (
             key == "qx.bom.htmlarea.HtmlArea.debug" || 
-            key == "qx.globalErrorHandlin"
+            key == "qx.globalErrorHandling"
           ) {
             // normalization for "on" and "off" @deprecated since 1.4
             if (value == "on") {
