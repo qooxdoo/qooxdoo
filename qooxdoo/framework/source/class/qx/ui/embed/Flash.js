@@ -234,6 +234,10 @@ qx.Class.define("qx.ui.embed.Flash",
 
   members :
   {
+    /** {Integer} The time stamp when the loading begins. */
+    __time : null,
+
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC WIDGET API
