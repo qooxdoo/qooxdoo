@@ -150,7 +150,32 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // Restore handler in case it was removed before
       this.__nativeXhr.onreadystatechange = this.__onNativeReadyStateChangeBound;
 
-      this.__nativeXhr.open(method, url, async, user, password);
+      try {
+        this.__nativeXhr.open(method, url, async, user, password);
+
+      // BUGFIX: IE
+      // IE does not (yet) support Cross-Origin Resource Sharing (CORS)
+      // for XMLHttpRequest. Instead, an exception is thrown if URL is
+      // cross-origin (as per XHR level 1). Use the proprietary XDomainRequest
+      // (supports CORS) and handle error (if there is one) this way.
+      //
+      // Basically, this allows to send requests to cross-origin URLs.
+      } catch(OpenFailed) {
+        if (window.XDomainRequest) {
+          // Success case not handled on purpose
+          this.readyState = 4;
+          this.__nativeXhr = new XDomainRequest();
+          this.__nativeXhr.onerror = qx.Bootstrap.bind(function() {
+            this.onreadystatechange();
+            this.onerror();
+            this.onloadend();
+          }, this);
+          this.__nativeXhr.open(method, url, async, user, password);
+          return;
+        } else {
+          throw OpenFailed;
+        }
+      }
 
       // BUGFIX: Firefox
       // Firefox <4 fails to trigger onreadystatechange OPENED for sync requests

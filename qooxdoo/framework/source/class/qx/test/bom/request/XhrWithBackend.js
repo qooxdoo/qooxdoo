@@ -478,7 +478,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       }
 
       // Network error
-      req.open("GET", "http://fail:672935");
+      req.open("GET", "http://fail.tld");
       req.send();
 
       this.wait();
@@ -501,7 +501,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       }
 
       // Network error
-      req.open("GET", "http://fail:672935");
+      req.open("GET", "http://fail.tld");
       req.send();
 
       this.wait();
@@ -559,7 +559,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.spy(req, "onreadystatechange");
       this.spy(req, "onerror");
       this.spy(req, "onloadend");
-      req.open("GET", "http://fail:672935");
+      req.open("GET", "http://fail.tld");
       req.send();
 
       this.wait();
