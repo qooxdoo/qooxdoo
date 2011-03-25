@@ -17,7 +17,375 @@
 
 ************************************************************************ */
 
+/**
+ * This class is the single point to access all settings that may be different 
+ * in different environments. This contains e.g. the browser name, engine 
+ * version but also qooxdoo or application specific settings.
+ * 
+ * It's public API can be found in its four main methods. One pair of methods 
+ * are used to check the synchronous values of the environment. The other pais 
+ * is used for asynchronous checks.
+ * 
+ * The most used method should be {@link #get} which is used to return the 
+ * current value for a given environment check.
+ * 
+ * All qx settings can be changed via the generator's config. See the manual 
+ * for more details about the environment key in the config. As you can see 
+ * from the methods API, there is no way to override an existing key. So if you
+ * need to change a qx setting, you have to use the generator to do so.
+ * 
+ * The following table shows all checks which could be used. If you are 
+ * interessted in more details, check the reference to the implementation of 
+ * each check. Plese do not use these check implementation directly due to the 
+ * missing caching feature the Environment class offers.
+ * 
+ * <table border="0" cellspacing="10">
+ *   <tbody>
+ *     <tr>
+ *       <td colspan="4"><h2>Synchronous checks</h2>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <th><h3>Key</h3></th>
+ *       <th><h3>Type</h3></th>
+ *       <th><h3>Example</h3></th>
+ *       <th><h3>Details</h3></th>
+ *     </tr>
+ *     <tr>
+ *       <td colspan="4"><b>browser</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>browser.documentmode</td><td><i>Integer</em></td><td><code>0</code></td>
+ *       <td>{@link qx.bom.client.Browser#getDocumentMode}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>browser.name</td><td><i>String</em></td><td><code> chrome </code></td>
+ *       <td>{@link qx.bom.client.Browser#getName}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>browser.quirksmode</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Browser#getQuirksMode}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>browser.version</td><td><i>String</em></td><td><code>11.0</code></td>
+ *       <td>{@link qx.bom.client.Browser#getVersion}</td>
+ *     </tr>
 
+ *     <tr>
+ *       <td colspan="4"><b>css</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.borderradius</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getBorderRadius}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.boxmodel</td><td><i>String</em></td><td><code>content</code></td>
+ *       <td>{@link qx.bom.client.Css#getBoxModel}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.boxshadow</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getBoxShadow}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.gradients</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getGradients}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.placeholder</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getPlaceholder}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.textoverflow</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getTextOverflow}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.translate3d</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getTranslate3d}</td>
+ *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>device</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>device.name</td><td><i>String</em></td><td><code>pc</code></td>
+ *       <td>{@link qx.bom.client.Device#getName}</td>
+ *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>ecmascript</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.objectcount</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getObjectCount}</td>
+ *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>engine</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>engine.name</td><td><i>String</em></td><td><code>webkit</code></td>
+ *       <td>{@link qx.bom.client.Engine#getName}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>engine.version</td><td><i>String</em></td><td><code>534.24</code></td>
+ *       <td>{@link qx.bom.client.Engine#getVersion}</td>
+ *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>event</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>event.pointer</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Event#getPointer}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>event.touch</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Event#getTouch}</td>
+ *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>html</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.audio</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getAudio}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.canvas</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getCanvas}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.classlist</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getClassList}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.geolocation</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getGeoLocation}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.storage.local</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getLocalStorage}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.storage.session</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getSessionStorage}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.svg</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getSvg}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.video</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getVideo}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.video.h264</td><td><i>String</em></td><td><code>probably</code></td>
+ *       <td>{@link qx.bom.client.Html#getVideoH264}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.video.ogg</td><td><i>String</em></td><td><code>probably</code></td>
+ *       <td>{@link qx.bom.client.Html#getVideoOgg}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.video.webm</td><td><i>String</em></td><td><code>probably</code></td>
+ *       <td>{@link qx.bom.client.Html#getVideoWebm}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.vml</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Html#getVml}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.webworker</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getWebWorker}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.xpath</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getXPath}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.xul</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getXul}</td>
+ *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>io</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>io.maxrequests</td><td><i>Integer</em></td><td><code>4</code></td>
+ *       <td>{@link qx.bom.client.Transport#getMaxConcurrentRequestCount}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>io.ssl</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Transport#getSsl}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>io.xhr</td><td><i>String</em></td><td><code>xhr</code></td>
+ *       <td>{@link qx.bom.client.Transport#getXmlHttpRequest}</td>
+ *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>locale</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>locale</td><td><i>String</em></td><td><code>de</code></td>
+ *       <td>{@link qx.bom.client.Locale#getLocale}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>locale.variant</td><td><i>String</em></td><td><code>de</code></td>
+ *       <td>{@link qx.bom.client.Locale#getVariant}</td>
+ *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>os</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>os.name</td><td><i>String</em></td><td><code>osx</code></td>
+ *       <td>{@link qx.bom.client.OperatingSystem#getName}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>os.version</td><td><i>String</em></td><td><code>10.6</code></td>
+ *       <td>{@link qx.bom.client.OperatingSystem#getVersion}</td>
+ *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>phonegap</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>phonegap</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.PhoneGap#getPhoneGap}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>phonegap.notification</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.PhoneGap#getNotification}</td>
+ *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>plugin</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.divx</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Plugin#getDivX}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.divx.version</td><td><i>String</em></td><td></td>
+ *       <td>{@link qx.bom.client.Plugin#getDivXVersion}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.flash</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Flash#isAvailable}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.flash.express</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Flash#getExpressInstall}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.flash.strictsecurity</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Flash#getStrictSecurityModel}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.flash.version</td><td><i>String</em></td><td><code>10.2.154</code></td>
+ *       <td>{@link qx.bom.client.Flash#getVersion}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.gears</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Plugin#getGears}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.quicktime</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Plugin#getQuicktime}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.quicktime.version</td><td><i>String</em></td><td><code>7.6</code></td>
+ *       <td>{@link qx.bom.client.Plugin#getQuicktimeVersion}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.silverlight</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Plugin#getSilverlight}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.silverlight.version</td><td><i>String</em></td><td></td>
+ *       <td>{@link qx.bom.client.Plugin#getSilverlightVersion}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.windowsmedia</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Plugin#getWindowsMedia}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.windowsmedia.version</td><td><i>String</em></td><td></td>
+ *       <td>{@link qx.bom.client.Plugin#getWindowsMediaVersion}</td>
+ *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>qx</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.allowUrlSettings</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.allowUrlVariants</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.application</td><td><i>String</em></td><td><code>name.space</code></td>
+ *       <td><i>default:</i> <code>&lt;&lt;application name&gt;&gt;</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.aspects</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.debug</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>true</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.debug.databinding</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.disposerDebugLevel</td><td><i>Integer</em></td><td><code>0</code></td>
+ *       <td><i>default:</i> <code>0</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.dynamicmousewheel</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>true</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.dynlocale</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>true</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.globalErrorHandling</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.mobile.emulatetouch</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.mobile.nativescroll</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.propertyDebugLevel</td><td><i>Integer</em></td><td><code>0</code></td>
+ *       <td><i>default:</i> <code>0</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.theme</td><td><i>String</em></td><td><code>qx.theme.Modern</code></td>
+ *       <td><i>default:</i> <code>&lt;&lt;theme name&gt;&gt;</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td colspan="4"><h3>Asynchronous checks</h3>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.dataurl</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getDataUrl}</td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ *
+ */
 qx.Bootstrap.define("qx.core.Environment",
 {
   statics : {
@@ -263,6 +631,7 @@ qx.Bootstrap.define("qx.core.Environment",
       this.add("qx.propertyDebugLevel", function() {return 0;});
 
       // old variants
+      // make sure to reflect all changes to qx.debug here to thebootstrap class!
       this.add("qx.debug", function() {return true;});
       this.add("qx.aspects", function() {return false;});
       this.add("qx.dynlocale", function() {return true;});
