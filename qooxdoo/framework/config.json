@@ -226,13 +226,12 @@
     {
       "desc" : "Create a Performance Test Runner for the qx.test.performance namespace",
       
-      "extend" : ["testrunner2::build"],
+      "extend" : ["testrunner::build"],
       
       "let" :
       {
-        "TESTRUNNER_TYPE" : "testrunner2",
-        "TESTRUNNER_VIEW" : "testrunner2.view.Performance",
-        "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/${TESTRUNNER_TYPE}",
+        "TESTRUNNER_VIEW" : "testrunner.view.Performance",
+        "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
         "TEST_INCLUDE"    : "qx.test.performance.*",
         "TEST_EXCLUDE"    : "",
         "BUILD_PATH"      : "${ROOT}/test-performance"
@@ -243,13 +242,12 @@
     {
       "desc" : "Create a Performance Test Runner for the qx.test.performance namespace",
       
-      "extend" : ["testrunner2::build-with-tests-source"],
+      "extend" : ["testrunner::build-with-tests-source"],
       
       "let" :
       {
-        "TESTRUNNER_TYPE" : "testrunner2",
-        "TESTRUNNER_VIEW" : "testrunner2.view.Performance",
-        "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/${TESTRUNNER_TYPE}",
+        "TESTRUNNER_VIEW" : "testrunner.view.Performance",
+        "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
         "TEST_INCLUDE"    : "qx.test.performance.*",
         "TEST_EXCLUDE"    : "",
         "BUILD_PATH"      : "${ROOT}/test-performance"
