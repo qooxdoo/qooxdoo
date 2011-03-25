@@ -153,8 +153,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__nativeXhr.open(method, url, async, user, password);
 
       // BUGFIX: Firefox
-      // Firefox fails to trigger onreadystatechange OPENED for sync requests
-      if (qx.core.Environment.get("engine.name") === "gecko" && !this.__async) {
+      // Firefox <4 fails to trigger onreadystatechange OPENED for sync requests
+      if (qx.core.Environment.get("engine.name") === "gecko" &&
+          qx.core.Environment.get("engine.version") < 2 &&
+          !this.__async) {
         // Native XHR is already set to readyState DONE. Fake readyState
         // and call onreadystatechange manually.
         this.readyState = qx.bom.request.Xhr.OPENED;
