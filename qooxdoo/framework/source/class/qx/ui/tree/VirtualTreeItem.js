@@ -34,13 +34,22 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
     appearance :
     {
       refine : true,
-      init : "tree-folder"
+      init : "virtual-tree-folder"
     }
   },
 
 
   members :
   {
+    // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates)
+     */
+    _forwardStates : {
+      selected : true
+    },
+
+
     // overridden
     _addWidgets : function()
     {
