@@ -88,7 +88,8 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
 
   statics :
   {
-    ANIMATIONS : {
+    ANIMATIONS :
+    {
       "slide" : true, // USE THIS FOR MORE INFORMATION
       "pop" : true,
       "fade" : true,
