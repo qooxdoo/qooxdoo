@@ -9,6 +9,179 @@ The environment of an application is a set of values that can be queried through
 Environment settings are also used in the framework, among other things to add debug code for additional tests and logging, to provide browser-specific implementations of certain methods, asf. Certain environment keys are pre-defined by qooxdoo, the values of which can be overridden by the application. Applications are also free to define their own environment keys and query their values at run time.
 
 
+.. _pages/core/environment#motivation:
+
+Motivation
+==========
+
+Environment settings address various needs around JavaScript applications:
+
+* Control initial settings of the framework, before the custom classes are loaded.
+* Pass values from outside to the application.
+* Trigger the creation of multiple build files.
+* Query features of the platform at run time (browser engine, HTML5 support, etc.)
+* Create builds optimized for a specific target environment.
+* Create feature-based builds.
+
+
+.. _pages/core/environment#defining:
+
+Defining New Environment Settings
+=================================
+
+An environment setting, a key:value pair, can be defined in multiple ways:
+
+* in application code
+* in the class map
+* in the generator configuration
+* in JavaScript code in the index.html
+* via URL parameter
+
+Those possibilities are explained in the following sections.
+
+
+.. _pages/core/environment#in_application_code:
+
+In Application Code
+-------------------
+
+::
+
+  qx.core.Environment.add("key", "value");
+
+
+.. _pages/core/environment#in_class_map:
+
+In the Class Map
+----------------
+
+::
+
+  qx.Class.define("myapp.ClassA", 
+  {
+    [...]
+
+    environment : {
+      "myapp.key" : value
+    }
+  });
+
+
+.. _pages/core/environment#in_configuration:
+
+In the Generator Config
+-----------------------
+
+::
+
+  "myjob" : 
+  {
+    [...]
+
+    "environment" : {
+      "myapp.key" : value
+    }
+  }
+
+Specifying a list of values for a key triggers the creation of multiple output files by the generator. 
+
+::
+
+  "myjob" : 
+  {
+    [...]
+
+    "environment" : {
+      "myapp.key" : [value1, value2]
+    }
+  }
+
+
+The generator will create two output filesSee the :ref:`environment <pages/tool/generator_config_ref#environment` key.
+
+
+.. _pages/core/environment#in_index_html:
+
+In the Loading index.html
+-------------------------
+
+::
+
+  <script>
+    window.qxenv =
+    {
+      "myapp.key" : value
+    }
+  </script>
+
+
+.. _pages/core/environment#querying:
+
+Querying Environment Settings
+=============================
+
+
+::
+
+  qx.core.Environment.get("myapp.key");
+
+
+::
+
+  qx.core.Environment.select("myapp.key", {
+    "value1" : value,
+    "value2" : value
+  }
+
+
+Removal of Code
+---------------
+
+Usually, function calls like *qx.core.Environment.get()* are executed at run time and return the given value of the environment key. This is useful if such value is determined only at run time, or can change between runs. But if you want to pre-determine the value, you can set it in the generator config. The generator can then anticipate the outcome of a query and remove code that wouldn't be used at run time.
+
+For example,
+
+::
+
+    function foo(a, b) {
+      if (qx.core.Variant.get("qx.debug") == true) {
+        if ( (arguments.length != 2) || (typeof a != "string") ) {
+          throw new Error("Bad arguments!");   
+        }
+      }
+      return 3;
+    }
+
+will be reduced in the case *qx.debug* is *false* to 
+
+::
+
+    function foo(a, b) {
+      return 3;
+    }
+
+
+In the case of a *select* call,
+
+::
+
+  qx.core.Environment.select("myapp.key", {
+    "value1" : resvalue1,
+    "value2" : resvalue2
+  }
+
+will reduce if *myapp.key* has the value *value2* to
+
+::
+
+    resvalue2
+
+
+
+
+
+
+.. _pages/core/environment#pre_defined:
 
 Pre-defined Environment Keys
 ============================
