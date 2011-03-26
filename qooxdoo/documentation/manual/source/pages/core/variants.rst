@@ -4,6 +4,9 @@
 Variants
 ********
 
+.. note::
+   Variants are deprecated since version 1.4 in favor of :doc:`environment <environment>` settings.
+
 Variants enable the selection and removal (in the build version) of code.
 A variant is a named value from a finite collection from which exactly one is set
 at load time of the framework. The static class ``qx.core.Setting`` can be used to query the value of a setting.

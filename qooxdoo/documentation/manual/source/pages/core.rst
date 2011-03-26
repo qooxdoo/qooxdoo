@@ -22,11 +22,12 @@ Properties
   core/property_behavior
   core/property_features
 
-Settings and Variants
-=====================
+Environment, Settings and Variants
+==================================
 
 .. toctree::
 
+  core/environment
   core/settings
   core/variants
   core/variants_working

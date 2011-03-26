@@ -4,6 +4,9 @@
 Settings
 ***************************
 
+.. note::
+   Settings are deprecated since version 1.4 in favor of :doc:`environment <environment>` settings.
+
 One of the major problems of JavaScript frameworks is that you, as the user of such a framework, cannot easily control one of the initial settings. For example the framework may have defaults which can only be changed after the framework is loaded, but not before. Most of the time this restriction is not problematic. Most applications are only interested in settings once their main routine gets processed. But there are exceptions when things must be configured at or before load time.
 
 .. _pages/core/settings#what_are_settings:
