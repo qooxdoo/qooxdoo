@@ -72,7 +72,6 @@ Miscellaneous
 .. toctree::
    :maxdepth: 2
 
-   development/variants
    development/image_clipping_and_combining
 
    development/write_api_documentation
