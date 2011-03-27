@@ -77,7 +77,6 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
      */
     __initScroll : function()
     {
-      var scroll = null;
       if (!window.iScroll)
       {
         var path = qx.util.ResourceManager.getInstance().toUri("qx/mobile/js/iscroll.js");
