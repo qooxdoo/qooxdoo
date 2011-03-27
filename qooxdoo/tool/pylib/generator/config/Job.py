@@ -74,7 +74,10 @@ class Job(object):
            assumes no JobMergeValue be passed, all macros expanded'''
 
         if isinstance(target, types.ListType):
-            return self.listMerge(source, target)
+            if not isinstance(source, (types.ListType,)):
+                return self.listMerge([source], target)
+            else:
+                return self.listMerge(source, target)
         elif isinstance(target, types.DictType):
             return self.deepJsonMerge(source, target)
         else:  # scalar value
