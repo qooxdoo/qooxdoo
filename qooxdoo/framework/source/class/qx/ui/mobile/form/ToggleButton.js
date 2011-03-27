@@ -55,6 +55,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 
   properties :
   {
+    // overridden
     defaultCssClass :
     {
       refine : true,
@@ -62,6 +63,9 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     },
 
 
+    /**
+     * The value of the toggle button.
+     */
     value :
     {
       check : "Boolean",
@@ -85,16 +89,26 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     __child : null,
 
 
+    /**
+     * Returns the child control of the toggle button.
+     * 
+     * @return {qx.ui.mobile.container.Composite} the child control.
+     */
     _getChild : function() {
       return this.__child;
     },
 
 
+    /**
+     * Creates the child control of the widget. Needed to display the toggle
+     * button.
+     */
     _createChild : function() {
       return new qx.ui.mobile.container.Composite();
     },
 
 
+    // property apply
     _applyValue : function(value, old)
     {
       if (value) {
@@ -105,17 +119,33 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     },
 
 
+    /**
+     * Toggles the value of the button.
+     */
     toggle : function() {
       this.setValue(!this.getValue());
     },
 
 
+    /**
+     * Event handler. Called when the tap event occurs.
+     * Toggles the button.
+     * 
+     * @param evt {qx.event.type.Tap} The tap event.
+     */
     _onTap : function(evt)
     {
       this.toggle();
     },
 
 
+
+    /**
+     * Event handler. Called when the swipe event occurs.
+     * Toggles the button.
+     * 
+     * @param evt {qx.event.type.Swipe} The swipe event.
+     */
     _onSwipe : function(evt)
     {
       this.toggle();
