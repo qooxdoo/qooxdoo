@@ -34,6 +34,7 @@ qx.Class.define("qx.ui.mobile.form.Group",
 
   properties :
   {
+    // overridden
     defaultCssClass :
     {
       refine : true,

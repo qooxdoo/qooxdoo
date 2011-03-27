@@ -33,6 +33,7 @@ qx.Class.define("qx.ui.mobile.form.PasswordField",
 
   properties :
   {
+    // overridden
     type :
     {
       refine : true,
@@ -40,6 +41,7 @@ qx.Class.define("qx.ui.mobile.form.PasswordField",
     },
 
 
+    // overridden
     defaultCssClass :
     {
       refine : true,

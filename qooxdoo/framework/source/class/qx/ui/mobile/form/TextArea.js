@@ -31,7 +31,9 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
   *****************************************************************************
   */
 
-  properties : {
+  properties :
+  {
+    // overridden
     type :
     {
       refine : true,
@@ -39,6 +41,7 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
     },
 
 
+    // overridden
     defaultCssClass :
     {
       refine : true,

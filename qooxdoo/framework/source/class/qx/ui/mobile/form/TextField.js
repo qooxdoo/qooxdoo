@@ -31,7 +31,9 @@ qx.Class.define("qx.ui.mobile.form.TextField",
   *****************************************************************************
   */
 
-  properties : {
+  properties :
+  {
+    // overridden
     type :
     {
       refine : true,
@@ -39,6 +41,7 @@ qx.Class.define("qx.ui.mobile.form.TextField",
     },
 
 
+    // overridden
     defaultCssClass :
     {
       refine : true,

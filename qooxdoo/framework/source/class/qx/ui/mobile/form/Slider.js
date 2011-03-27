@@ -48,6 +48,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
   properties :
   {
+    // overridden
     defaultCssClass :
     {
       refine : true,

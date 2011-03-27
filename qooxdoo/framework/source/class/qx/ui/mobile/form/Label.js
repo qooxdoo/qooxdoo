@@ -47,6 +47,7 @@ qx.Class.define("qx.ui.mobile.form.Label",
 
   properties :
   {
+    // overridden
     defaultCssClass :
     {
       refine : true,
