@@ -35,6 +35,9 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
   members :
   {
     // TOOD : MOVE THIS TO PHONE GAP CLASS
+    /**
+     * @lint ignoreDeprecated(alert)
+     */
     alert : function(title, text, handler, scope, button)
     {
       if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("phonegap.notification")) {
@@ -64,6 +67,9 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
     },
 
 
+    /**
+     * @lint ignoreDeprecated(confirm)
+     */
     confirm : function(title, text, handler, scope, buttons)
     {
       if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("phonegap.notification"))
