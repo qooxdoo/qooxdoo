@@ -33,6 +33,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabButton",
 
   properties :
   {
+    // overridden
     defaultCssClass :
     {
       refine : true,
