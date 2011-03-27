@@ -56,7 +56,6 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
       }
       else
       {
-        var result = true;
         alert(text);
         if (handler) {
           handler.call(scope);
