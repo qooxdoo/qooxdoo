@@ -74,6 +74,9 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     __pages : null,
     __currentPage : null,
     __root : null,
+    __backButtonHandler : null,
+    __menuButtonHandler : null,
+
 
     /**
      * @lint ignoreUndefined(BackButton)
