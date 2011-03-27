@@ -129,7 +129,6 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
       if (qx.lang.Type.isString(route))
       {
         var paramsRegexp = /:([\w\d]+)/g;
-        var match = null;
 
         while ((param = paramsRegexp.exec(route)) !== null) {
           params.push(param[1]);
