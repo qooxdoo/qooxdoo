@@ -572,7 +572,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     _transformId : function(value)
     {
-      var old = this.getId();
       if (value == null)
       {
         var clazz = qx.ui.mobile.core.Widget;
