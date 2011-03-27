@@ -102,6 +102,9 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     },
 
 
+    /**
+     * @lint ignoreUndefined(BackButton)
+     */
     _onBackButton : function()
     {
       if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("os.name") == "android")
