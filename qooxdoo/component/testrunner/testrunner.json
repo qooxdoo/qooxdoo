@@ -122,10 +122,10 @@
         }
       },
       
-      "variants" :
+      "environment" :
       {
-        "testrunner.view" : ["${TESTRUNNER_VIEW}"],
-        "testrunner.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
+        "testrunner.view" : "${TESTRUNNER_VIEW}",
+        "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
       },
       
       "compile" : { "type" : "build" }
@@ -154,10 +154,10 @@
         }
       },
       
-      "variants" :
+      "environment" :
       {
-        "testrunner.view" : ["${TESTRUNNER_VIEW}"],
-        "testrunner.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
+        "testrunner.view" : "${TESTRUNNER_VIEW}",
+        "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
       },
       
       "compile" : { "type" : "source" }
@@ -188,7 +188,7 @@
         "${THEME}"
       ],
 
-      "settings" :
+      "environment" :
       {
         "qx.application"   : "${TESTRUNNER_MAIN_CLASS}",
         "qx.version"       : "${QOOXDOO_VERSION}",
@@ -231,10 +231,10 @@
       
       "exclude" : ["${TEST_EXCLUDE}"],
 
-      "settings" :
+      "environment" :
       {
         "qx.theme" : "${QXTHEME}",
-        "qx.globalErrorHandling" : "on",
+        "qx.globalErrorHandling" : true,
         "testrunner.testParts" : false
       },
 
@@ -250,9 +250,9 @@
     
       "extend" : ["tests-common"],
 
-      "variants": 
+      "environment": 
       {
-        "qx.debug" : ["off"]
+        "qx.debug" : false
       },
 
       "compile-options" :
@@ -391,10 +391,10 @@
         "build-tests-script"
       ],
         
-      "variants" :
+      "environment" :
       {
-        "testrunner.view" : ["${TESTRUNNER_VIEW}"],
-        "testrunner.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
+        "testrunner.view" : "${TESTRUNNER_VIEW}",
+        "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
       }
     },
     
@@ -422,10 +422,10 @@
       "run" : ["source-script",
         "source-tests-script"],
         
-      "variants" :
+      "environment" :
       {
-        "testrunner.view" : ["${TESTRUNNER_VIEW}"],
-        "testrunner.testOrigin" : ["${TESTRUNNER_ORIGIN}"]
+        "testrunner.view" : "${TESTRUNNER_VIEW}",
+        "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
       }
     }
   }

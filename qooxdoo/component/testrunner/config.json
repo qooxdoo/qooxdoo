@@ -76,7 +76,7 @@
         }
       },
       
-      "settings" :
+      "environment" :
       {
         "testrunner.testParts" : ["${TEST_NAMESPACE}.ui", "${TEST_NAMESPACE}.data"]
       }
