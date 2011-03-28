@@ -129,7 +129,7 @@ qx.Class.define("qx.data.controller.Object",
         var reverseOptions = this.__targets[i][5];
 
         // remove it from the old if possible
-        if (old != undefined) {
+        if (old != undefined && !old.isDisposed()) {
           this.__removeTargetFrom(targetObject, targetProperty, sourceProperty, old);
         }
 
