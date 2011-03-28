@@ -180,7 +180,12 @@ qx.Class.define("qx.bom.Selection",
 
           // get a range which holds the text of the parent element
           var elementRange = qx.bom.Range.get();
-          elementRange.moveToElementText(parentElement);
+          try {
+            // IE throws an invalid argument error when the document has no selection
+            elementRange.moveToElementText(parentElement);
+          } catch(ex) {
+            return 0;
+          }
 
           // Move end points of full range so it starts at the user selection
           // and ends at the end of the element text.
@@ -283,7 +288,12 @@ qx.Class.define("qx.bom.Selection",
 
           // get a range which holds the text of the parent element
           var elementRange = qx.bom.Range.get();
-          elementRange.moveToElementText(parentElement);
+          try {
+            // IE throws an invalid argument error when the document has no selection
+            elementRange.moveToElementText(parentElement);
+          } catch(ex) {
+            return 0;
+          }
           var len = elementRange.text.length;
 
           // Move end points of full range so it ends at the user selection
