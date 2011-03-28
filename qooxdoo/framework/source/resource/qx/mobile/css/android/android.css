@@ -212,7 +212,7 @@ a:hover { color: #e89c00; }
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     margin: 0;
     -webkit-border-radius: 5px;
-    background: #fff url(../icon/android/on_off.png) 0 0 no-repeat;
+    background: #fff url(../../icon/android/on_off.png) 0 0 no-repeat;
     height: 27px;
     overflow: hidden;
     width: 149px;
@@ -271,11 +271,11 @@ ul li * {
 }
 
 ul li.arrow {
-    background: url("../icon/android/arrow.png") no-repeat right center;
+    background: url("../../icon/android/arrow.png") no-repeat right center;
 }
 
 ul li.active.arrow, ul li.selected.arrow {
-    background: url("../icon/android/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
+    background: url("../../icon/android/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
 }
 
 ul li.active, ul li.selected {
@@ -339,7 +339,7 @@ ul li textarea {
 
 ul li select {
     text-indent: 0px;
-    background: transparent url(../icon/android/arrow.png) no-repeat 103% 3px;
+    background: transparent url(../../icon/android/arrow.png) no-repeat 103% 3px;
     -webkit-appearance: textfield;
     margin-left: -6px;
     width: 104%;
@@ -367,7 +367,7 @@ ul li input[type="checkbox"]:after, ul li input[type="radio"]:after {
     width: 1px;
     height: 1px;
     border-width: 3px;
-    -webkit-border-image: url(../images/android/scrollbar.png) 3;
+    -webkit-border-image: url(../../icon/android/scrollbar.png) 3;
 }
 
 .scrollbar.horizontal {

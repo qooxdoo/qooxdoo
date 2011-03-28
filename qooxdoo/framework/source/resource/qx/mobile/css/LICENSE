@@ -1,4 +1,7 @@
-This folder contains icons based on the following work:
+Information On Available CSS Themes
+====================================
+
+This folder contains css content based on the following work:
 
 ======================================================================
 
@@ -13,12 +16,6 @@ This folder contains icons based on the following work:
      License:
        MIT: http://www.opensource.org/licenses/mit-license.php
 
-     Icons used:
-      * arrow_pressed.png
-      * arrow.png
-      * cancel.png
-      * on_off.png
-
 ======================================================================
 
    * iScroll Project
@@ -31,6 +28,3 @@ This folder contains icons based on the following work:
 
      License:
        MIT: http://www.opensource.org/licenses/mit-license.php
-
-     Icons used:
-      * scrollbar.png
