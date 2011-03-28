@@ -829,17 +829,18 @@ qx.Class.define("qx.event.handler.Focus",
       },
 
       "webkit" : function(domEvent) {
-        this.__onNativeMouseDownWebkitOpera(domEvent);
+        this.__onNativeMouseDownWebkitBuggyOpera(domEvent);
       },
 
       "opera" : function(domEvent)
       {
 
-        // Recent Operas
-        if (qx.core.Environment.get("browser.version") >= 11) {
-          this.__onNativeMouseDownWebkitOpera(domEvent);
+        // Opera 11.0
+        // Work-around (see else clause) would reveal browser bug [BUG #4543]
+        if (qx.core.Environment.get("browser.version") == "11.0") {
+          this.__onNativeMouseDownWebkitBuggyOpera(domEvent);
 
-        // Legacy Operas
+        // All other versions of Opera
         } else {
           var target = qx.bom.Event.getTarget(domEvent);
           var focusTarget = this.__findFocusableElement(target);
@@ -886,11 +887,11 @@ qx.Class.define("qx.event.handler.Focus",
      * @param domEvent {Event} Native event
      *
      */
-    __onNativeMouseDownWebkitOpera : function(domEvent) {
+    __onNativeMouseDownWebkitBuggyOpera : function(domEvent) {
       var target = qx.bom.Event.getTarget(domEvent);
       var focusTarget = this.__findFocusableElement(target);
 
-      // In recent Operas, only prevent the default action
+      // In Opera 11.0 only prevent the default action
       // if no focusable element was found.
       //
       // Preventing the default in other cases (such as for all non-selectable
