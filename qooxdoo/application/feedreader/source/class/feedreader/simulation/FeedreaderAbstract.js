@@ -1,12 +1,35 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+************************************************************************ */
+
+/**
+ * Base class for Feedreader GUI tests
+ * 
+ * @lint ignoreUndefined(simulator)
+ * @lint ignoreUndefined(selenium)
+ */
 qx.Class.define("feedreader.simulation.FeedreaderAbstract", {
 
   extend : simulator.unit.TestCase,
   
   type : "abstract",
   
-  members :
+  construct : function()
   {
-    locators : {
+    this.base(arguments);
+    this.locators = {
       articleView : 'qxh=qx.ui.container.Composite/qx.ui.splitpane.Pane/qx.ui.splitpane.Pane/[@classname="feedreader.view.Article"]',
       feedTree : 'qxh=qx.ui.container.Composite/qx.ui.splitpane.Pane/qx.ui.tree.Tree',
       feedTreeItemStaticFeeds : 'qxhv=*/qx.ui.tree.Tree/*/qx.ui.tree.TreeFolder',
@@ -21,8 +44,12 @@ qx.Class.define("feedreader.simulation.FeedreaderAbstract", {
       addFeedButton : 'qxhv=*/[@label="Add"]',
       feedWindow : 'qxhv=[@classname="feedreader.view.AddFeedWindow"]',
       feedWindowButton : 'qxh=app:[@caption=".*feed.*"]/qx.ui.form.renderer.SinglePlaceholder/qx.ui.container.Composite/qx.ui.form.Button'
-    },
-    
+    };
+  },
+  
+  members :
+  {
+    locators : null,
     
     setUp : function()
     {
@@ -45,6 +72,8 @@ qx.Class.define("feedreader.simulation.FeedreaderAbstract", {
      * Checks if all feeds in the tree have finished loading. If any feeds are 
      * still displaying the "loading" icon after 30 seconds, the "Reload" 
      * button is clicked and we wait for another 30 seconds.
+     * 
+     * @lint ignoreUndefined(selenium)
      */
     waitForFeeds : function()
     {

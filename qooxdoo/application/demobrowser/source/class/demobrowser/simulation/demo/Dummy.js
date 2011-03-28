@@ -21,6 +21,9 @@
 /**
  * Loads all demos for which no custom test classes are defined and logs any
  * errors.
+
+ * @lint ignoreUndefined(simulator)
+ * @lint ignoreUndefined(selenium)
  */
 qx.Class.define("demobrowser.simulation.demo.Dummy", {
 
@@ -62,6 +65,8 @@ qx.Class.define("demobrowser.simulation.demo.Dummy", {
      * Looks at the demo tree items' labels to get a list of category/demo names
      *
      * @return {String[]} List of demos (format: categoryName.demoName)
+     * @lint ignoreUndefined(simulator)
+     * @lint ignoreUndefined(selenium)
      */
     _getDemoList : function()
     {
