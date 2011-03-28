@@ -150,7 +150,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
     getValue : function()
     {
-      return this._getAttribute("value");
+      return this._convertValue(this._getAttribute("value"));
     },
 
 
