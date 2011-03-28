@@ -38,6 +38,25 @@ qx.Class.define("qx.ui.mobile.tabbar.TabButton",
     {
       refine : true,
       init : "tabButton"
+    },
+
+
+    view :
+    {
+      check : "qx.ui.mobile.core.Widget",
+      nullable : false,
+      init : null,
+      apply : "_applyView",
+      event : "changeView"
+    }
+  },
+
+
+  members :
+  {
+    _applyView : function(value, old)
+    {
+      value.exclude();
     }
   }
 });

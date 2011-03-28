@@ -62,13 +62,13 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     /**
      * Sets the selected tab.
      */
-    selectedTab :
+    selection :
     {
-      check : "qx.ui.mobile.core.Widget",
+      check : "qx.ui.mobile.tabbar.TabButton",
       nullable : false,
       init : null,
-      apply : "_applySelectedTab",
-      event : "changeSelectedTab"
+      apply : "_applySelection",
+      event : "changeSelection"
     }
   },
 
@@ -83,8 +83,6 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
 
   members :
   {
-    __currentTab : null,
-
     /**
      * Event handler. Called when a tab event occurs.
      *
@@ -94,18 +92,24 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     {
       var target = evt.getTarget();
       if (target instanceof qx.ui.mobile.tabbar.TabButton) {
-        this.setSelectedTab(target);
+        this.setSelection(target);
       }
     },
 
 
     // property apply
-    _applySelectedTab : function(value, old)
+    _applySelection : function(value, old)
     {
       if (old) {
         old.removeCssClass("selected");
+        if (old.getView()) {
+          old.getView().exclude();
+        }
       }
       value.addCssClass("selected");
+      if (value.getView()) {
+        value.getView().show();
+      }
     },
 
 
@@ -117,8 +121,17 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     add : function(button)
     {
       this._add(button, {flex:1});
-      if (!this.getSelectedTab()) {
-        this.setSelectedTab(button);
+      if (!this.getSelection()) {
+        this.setSelection(button);
+      }
+      button.addListener("changeView", this._onChangeView, this);
+    },
+
+
+    _onChangeView : function(evt)
+    {
+      if (this.getSelection() == evt.getTarget()) {
+        evt.getData().show();
       }
     },
 
@@ -131,6 +144,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     remove : function(button)
     {
       this._remove(button);
+      button.removeListener("changeView", this._onChangeView, this);
     }
   },
 
