@@ -52,19 +52,15 @@
         "${THEME}"
       ],
 
-      "settings" :
+      "environment" :
       {
         "qx.version" : "${QOOXDOO_VERSION}",
         "qx.revision" : "${QOOXDOO_REVISION}",
         "qx.application" : "${APPLICATION}.Application",
-        "qx.theme" : "${THEME}"
+        "qx.theme" : "${THEME}",
+        "qx.contrib" : false
       },
       
-      "variants" :
-      {
-        "qx.contrib" : [false]
-      },
-
       // the next is in since resource copying is done here for the demos as well
       "asset-let" :
       {

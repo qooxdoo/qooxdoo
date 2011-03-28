@@ -93,7 +93,7 @@
         "${THEME}"
       ],
 
-      "settings" :
+      "environment" :
       {
         "qx.version" : "${QOOXDOO_VERSION}",
         "qx.revision" : "${QOOXDOO_REVISION}",
@@ -227,7 +227,7 @@
         "SIMULATOR_REPORTSERVER" : false
       },
       
-      "settings" :
+      "environment" :
       {
         "simulator.selServer"   : "${SELENIUM_SERVER}",
         "simulator.selPort"     : "${SELENIUM_PORT}",
