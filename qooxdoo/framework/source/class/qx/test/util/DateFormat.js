@@ -590,7 +590,7 @@ qx.Class.define("qx.test.util.DateFormat",
       {
         var date = this.__dates[i].date;
         var hour = date.getHours();
-        df = new qx.util.format.DateFormat("a");
+        df = new qx.util.format.DateFormat("a",locale);
         this.assertEquals(hour < 12 ? qx.locale.Date.getAmMarker(locale).toString() : qx.locale.Date.getPmMarker(locale).toString(), df.format(date));
         df.dispose();
       }
