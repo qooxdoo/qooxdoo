@@ -276,5 +276,49 @@ qx.Class.define("qx.core.ObjectRegistry",
     getRegistry : function() {
       return this.__registry;
     }
+  },
+
+
+  defer : function(statics)
+  {
+    // We have to assure that the hash code generation is unique over frames
+    // otherwise we could get several problems for e.q. with the event
+    // system [bug #4886].
+   
+    // Assure a permission denied failure (same origin policy)  
+    try
+    {
+      // ignore if we are the top window
+      if (window.top === window) {
+        return;
+      }
+  
+      // check the top frame
+      if (window.top.qx && window.top.qx.core && window.top.qx.core.ObjectRegistry) {
+        qx.core.ObjectRegistry = window.top.qx.core.ObjectRegistry;
+        return;
+      }
+  
+      // check all other frames
+      var queue = [];
+      var frames = window.top.frames;
+      for (var i = 0; i < frames.length; i++) {
+        queue.push(frames[i]);
+      }
+  
+      while(queue.length > 0)
+      {
+        var frame = queue.pop(); 
+        if (frame.qx && frame.qx.core && frame.qx.core.ObjectRegistry) {
+          qx.core.ObjectRegistry = frame.qx.core.ObjectRegistry;
+          return;
+        }
+  
+        frames = frame.frames;
+        for (var i = 0; i < frames.length; i++) {
+          queue.push(frames[i]);
+        }
+      }
+    } catch(ex) {}
   }
 });
