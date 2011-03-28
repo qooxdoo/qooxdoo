@@ -28,7 +28,7 @@
         }
       ],
 
-      "settings" :
+      "environment" :
       {
         "qx.application"  : "${APIVIEWER}.Application",
         "qx.theme"        : "${APIVIEWER}.Theme",
@@ -79,10 +79,10 @@
       "extend" : ["common"],
       "include" : ["${APIVIEWER}.*"],
       
-      "variants" :
+      "environment" :
       {
-        "qx.aspects" : ["off"],
-        "qx.debug" : ["off"]
+        "qx.aspects" : false,
+        "qx.debug" : true
       },
 
       "compile-options" :
@@ -125,10 +125,10 @@
       "extend" : ["common"],
       "include" : ["${APIVIEWER}.*"],
 
-      "variants" :
+      "environment" :
       {
-        "qx.aspects" : ["off"],
-        "qx.debug" : ["off"]
+        "qx.aspects" : false,
+        "qx.debug" : false
       },
 
       "copy-resources" :
