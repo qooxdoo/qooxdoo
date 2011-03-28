@@ -187,7 +187,7 @@
         "qx.theme.Classic",
         "qx.theme.Simple",
         "qx.theme.Modern",
-        "demobrowser.*"
+        "demobrowser.demo.*"
       ],
 
       "copy-resources" :
