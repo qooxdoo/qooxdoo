@@ -842,6 +842,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       var delta = e.getWheelDelta();
+      // normalize that at least one step is scrolled at a time
+      if (delta > 0 && delta < 1) {
+        delta = 1;
+      } else if (delta < 0 && delta > -1) {
+        delta = -1;
+      }
       this.__verScrollBar.scrollBySteps(delta);
 
       // Update the focus
