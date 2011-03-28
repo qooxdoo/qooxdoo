@@ -22,7 +22,15 @@
  */
 qx.Class.define("feedreader.mobile.ArticlePage", 
 {
-  extend : qx.ui.mobile.page.Page,
+  extend : qx.ui.mobile.page.NavigationPage,
+
+
+  construct : function()
+  {
+    this.base(arguments);
+    this.setShowBackButton(true);
+    this.setBackButtonText(this.tr("Back"));
+  },
 
 
   properties : {
@@ -38,53 +46,30 @@ qx.Class.define("feedreader.mobile.ArticlePage",
   },
 
 
-  events : {
-    /**
-     * Navigation event for the back button.
-     */
-    "back" : "qx.event.type.Event"
-  },
-
-
   members :
   {
-    __title : null,
     __article : null,
 
 
     // overridden
-    _initialize : function() {
+    _initialize : function()
+    {
       this.base(arguments);
 
-      // create the navigationbar
-      var navigationbar = new qx.ui.mobile.navigationbar.NavigationBar();
-      var backButton = new qx.ui.mobile.navigationbar.BackButton(this.tr("Back"));
-      navigationbar.add(backButton);
-      backButton.addListener("tap", function() {
-        this.fireEvent("back");
-      }, this);
-      this.__title = new qx.ui.mobile.navigationbar.Title("Feed");
-      navigationbar.add(this.__title, {flex: 1});
-      this.add(navigationbar);
-
-      // add a scroller
-      var scroller = new qx.ui.mobile.container.Scroll();
-      this.add(scroller, {flex: 1});
-      
       // add the article embed
       this.__article = new qx.ui.mobile.embed.Html();
-      scroller.add(this.__article);
+      this.getContent().add(this.__article);
     },
 
 
     // property apply
-    _applyArticle : function(value, old) {
-      if (value != null) {
-        this.__title.setValue(value.getTitle());
+    _applyArticle : function(value, old)
+    {
+      if (value != null)
+      {
+        this.setTitle(value.getTitle());
         var html = feedreader.ArticleBuilder.createHtml(value);
-        this.__article.setHtml(
-          "<div style='color: white; padding: 10px'>" + html + "</div>"
-        );
+        this.__article.setHtml(html);
       }
     }
   }

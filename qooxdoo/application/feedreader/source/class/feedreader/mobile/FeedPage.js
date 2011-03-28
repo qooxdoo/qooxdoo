@@ -22,7 +22,16 @@
  */
 qx.Class.define("feedreader.mobile.FeedPage", 
 {
-  extend : qx.ui.mobile.page.Page,
+  extend : qx.ui.mobile.page.NavigationPage,
+
+
+  construct : function()
+  {
+    this.base(arguments);
+    this.setShowBackButton(true);
+    this.setBackButtonText(this.tr("Back"));
+  },
+
 
   properties : {
     /**
@@ -47,57 +56,43 @@ qx.Class.define("feedreader.mobile.FeedPage",
   },
 
 
-  events : {
-    /**
-     * Navigation event for the back button.
-     */
-    "back" : "qx.event.type.Event"
-  },
-
   members :
   {
     __list : null,
-    __title : null,
     __articles : null,
 
 
     // overridden
-    _initialize : function() {
+    _initialize : function()
+    {
       this.base(arguments);
 
-      // create the navigationbar
-      var navigationbar = new qx.ui.mobile.navigationbar.NavigationBar();
-      var backButton = new qx.ui.mobile.navigationbar.BackButton(this.tr("Back"));
-      navigationbar.add(backButton);
-      backButton.addListener("tap", function() {
-        this.fireEvent("back");
-      }, this);
-      this.__title = new qx.ui.mobile.navigationbar.Title("Feed");
-      navigationbar.add(this.__title, {flex: 1});
-      this.add(navigationbar);
-
-      // add a scroller
-      var scroller = new qx.ui.mobile.container.Scroll();
-      this.add(scroller, {flex: 1});
-      
       // add a list
       this.__list = new qx.ui.mobile.list.List();
-      this.__list.setListItem(new feedreader.mobile.FeedItem());
-      scroller.add(this.__list);
+      this.__list.setDelegate({
+        configureItem : function(item, data)
+        {
+          item.setTitle(data.getTitle());
+        }
+      });
 
       this.__list.addListener("changeSelection", function(e) {
         var item = this.__articles.getItem(e.getData());
         this.setSelectedArticle(item);
       }, this);
+
+      this.getContent().add(this.__list);
     },
 
 
     // property apply
-    _applyFeed : function(value, old) {
-      if (value != null) {
+    _applyFeed : function(value, old)
+    {
+      if (value != null)
+      {
         this.__articles = value.getArticles();
         this.__list.setModel(this.__articles);
-        this.__title.setValue(value.getTitle());
+        this.setTitle(value.getTitle());
       }
     }
   }

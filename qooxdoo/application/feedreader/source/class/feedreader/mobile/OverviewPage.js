@@ -22,7 +22,15 @@
  */
 qx.Class.define("feedreader.mobile.OverviewPage", 
 {
-  extend : qx.ui.mobile.page.Page,
+  extend : qx.ui.mobile.page.NavigationPage,
+
+
+  construct : function()
+  {
+    this.base(arguments);
+    this.setTitle("Feed Reader");
+  },
+
 
   properties : {
     /**
@@ -52,28 +60,25 @@ qx.Class.define("feedreader.mobile.OverviewPage",
     __predefinedFeeds : null,
 
     // overridden
-    _initialize : function() {
+    _initialize : function()
+    {
       this.base(arguments);
 
-      // create the navigationbar
-      var navigationbar = new qx.ui.mobile.navigationbar.NavigationBar();
-      var title = new qx.ui.mobile.navigationbar.Title("Feed Reader");
-      navigationbar.add(title, {flex: 1});
-      this.add(navigationbar);
-
-      // add a scroller
-      var scroller = new qx.ui.mobile.container.Scroll();
-      this.add(scroller, {flex: 1});
-      
       // add a list
       this.__list = new qx.ui.mobile.list.List();
-      this.__list.setListItem(new feedreader.mobile.FeedItem());
-      scroller.add(this.__list);
-      
+      this.__list.setDelegate({
+        configureItem : function(item, data)
+        {
+          item.setTitle(data.getTitle());
+        }
+      });
+
       this.__list.addListener("changeSelection", function(e) {
         var item = this.__predefinedFeeds.getItem(e.getData());
         this.setSelectedFeed(item);
       }, this);
+
+      this.getContent().add(this.__list);
     },
 
 
