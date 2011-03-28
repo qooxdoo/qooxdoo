@@ -186,34 +186,6 @@ qx.Class.define("testrunner.runner.TestRunner", {
 
 
     /**
-     * Stores test names in a list.
-     */
-    __getTestData : function()
-    {
-      var testRep = this.__getTestRep();
-      if (!testRep) {
-        return;
-      }
-
-      this.testList = [];
-      this.testPackageList = [];
-
-      for (var i=0,l=testRep.length; i<l; i++) {
-        var testClassName = testRep[i].classname;
-        var testPackageName = /(.*?)\.[A-Z]/.exec(testClassName)[1];
-        if (!qx.lang.Array.contains(this.testPackageList, testPackageName)) {
-          this.testPackageList.push(testPackageName);
-        }
-        for (var j=0,m=testRep[i].tests.length; j<m; j++) {
-          this.testList.push(testClassName + ":" + testRep[i].tests[j]);
-        }
-      }
-      this.testList.sort();
-      this.setTestSuiteState("ready");
-    },
-
-
-    /**
      * Constructs a model of the test suite from the loader's test
      * representation data
      */
@@ -231,10 +203,6 @@ qx.Class.define("testrunner.runner.TestRunner", {
       this.setTestModel(null);
 
       var testRep = this.__getTestRep();
-      if (!testRep || testRep.length == 0) {
-        this.setTestSuiteState("error");
-        return;
-      }
       //var startDate = new Date();
       var modelData = testrunner.runner.ModelUtil.createModelData(testRep);
       //this.info("createModelData: " + (new Date().getTime() - startDate.getTime()) / 1000 );
