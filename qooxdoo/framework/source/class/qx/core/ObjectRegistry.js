@@ -281,6 +281,7 @@ qx.Class.define("qx.core.ObjectRegistry",
 
   defer : function(statics)
   {
+    /*
     // We have to assure that the hash code generation is unique over frames
     // otherwise we could get several problems for e.q. with the event
     // system [bug #4886].
@@ -320,5 +321,6 @@ qx.Class.define("qx.core.ObjectRegistry",
         }
       }
     } catch(ex) {}
+    */
   }
 });
