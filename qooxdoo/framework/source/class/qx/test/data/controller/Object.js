@@ -85,6 +85,9 @@ qx.Class.define("qx.test.data.controller.Object",
       var newModel = new qx.ui.core.Widget();
       newModel.setZIndex(20);
 
+      // dispose the old model to check that the controller can handle that
+      this.__model.dispose();
+
       // set the new Model
       this.__controller.setModel(newModel);
 
