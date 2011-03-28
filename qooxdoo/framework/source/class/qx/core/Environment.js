@@ -428,7 +428,11 @@ qx.Bootstrap.define("qx.core.Environment",
 
       // debug flag
       if (qx.Bootstrap.DEBUG) {
-        qx.Bootstrap.warn(key + " can not be checked.");
+        qx.Bootstrap.warn(
+          key + " is not a valid key. Please see the API-doc of " + 
+          "qx.core.Environment for a list of predefined keys."
+        );
+        qx.Bootstrap.trace(this);
       }
     },
 
@@ -465,7 +469,11 @@ qx.Bootstrap.define("qx.core.Environment",
 
       // debug flag
       if (qx.Bootstrap.DEBUG) {
-        qx.Bootstrap.warn(key + " can not be checked.");
+        qx.Bootstrap.warn(
+          key + " is not a valid key. Please see the API-doc of " + 
+          "qx.core.Environment for a list of predefined keys."
+        );
+        qx.Bootstrap.trace(this);
       }
     },
 
@@ -541,6 +549,7 @@ qx.Bootstrap.define("qx.core.Environment",
             "The check '" + key + "' is a boolean value. "+ 
             "Please change your select map from 'on' to 'true'."
           );
+          qx.Bootstrap.trace(this);
         }
         return values["on"];
       }
@@ -553,6 +562,7 @@ qx.Bootstrap.define("qx.core.Environment",
             "The check '" + key + "' is a boolean value. "+ 
             "Please change your select map from 'off' to 'false'."
           );
+          qx.Bootstrap.trace(this);
         }
         return values["off"];
       }
