@@ -207,10 +207,20 @@ qx.Class.define("showcase.page.form.Content",
       booleanGroupBox.add(label, {row: 0, column: 0});
       booleanGroupBox.add(checkBox, {row: 0, column: 1});
 
+      // Tri-State check box
+      var triCheckBox = new qx.ui.form.CheckBox("Tri-State CheckBox").set({
+        triState: true,
+        value: null
+      });
+      label = new qx.ui.basic.Label("Tri-State CheckBox:");
+      label.setBuddy(triCheckBox);
+      booleanGroupBox.add(label, {row: 1, column: 0});
+      booleanGroupBox.add(triCheckBox, {row: 1, column: 1});
+
       // radio button
       var radioButton = new qx.ui.form.RadioButton("RadioButton").set({tabIndex: tabIndex++});
-      booleanGroupBox.add(new qx.ui.basic.Label("RadioButtons:"), {row: 1, column: 0});
-      booleanGroupBox.add(radioButton, {row: 1, column: 1});
+      booleanGroupBox.add(new qx.ui.basic.Label("RadioButtons:"), {row: 2, column: 0});
+      booleanGroupBox.add(radioButton, {row: 2, column: 1});
 
 
 
