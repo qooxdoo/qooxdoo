@@ -70,15 +70,11 @@
         "qx.event.GlobalError"
       ],
 
-      "variants" :
+      "environment" :
       {
-        "qx.debug" : ["off"],
-        "qx.aspects" : ["off"]
-      },
-
-      "settings" :
-      {
-        "qx.globalErrorHandling" : "off"
+        "qx.debug" : false,
+        "qx.aspects" : false,
+        "qx.globalErrorHandling" : false
       },
 
       "compile-options" :
@@ -150,10 +146,10 @@
       "include": ["qx.*"],
       "exclude": ["=qx.test.*"],
 
-      "variants" :
+      "environment" :
       {
-        "qx.debug" : ["on"],
-        "qx.aspects" : ["off"]
+        "qx.debug" : true,
+        "qx.aspects" : false
       },
 
       "compile-options" :
