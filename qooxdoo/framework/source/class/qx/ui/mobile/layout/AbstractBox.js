@@ -137,12 +137,12 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
       {
         "hbox" :
         {
-          "true" : "reverse",
+          "true" : "boxReverse",
           "false" : null
         },
         "vbox" :
         {
-          "true" : "reverse",
+          "true" : "boxReverse",
           "false" : null
         }
       }
