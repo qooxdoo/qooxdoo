@@ -40,6 +40,8 @@ h1 {
   font-size: 20px;
   text-align: center;
   text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
+  margin-left:4px;
+  margin-right:4px;
 }
 
 
@@ -239,6 +241,16 @@ a:hover { color: #e89c00; }
 }
 
 /* @end */
+
+
+.list-itemimage {
+
+}
+
+.list-itemtext {
+  margin-left:7px;
+}
+
 
 ul {
     font: bold 17px Helvetica;
