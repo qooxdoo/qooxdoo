@@ -224,7 +224,7 @@ Child control aliases are compared to the normal aliases mentioned above, just d
     {
       [...],
 
-      "spinner-upbutton" :
+      "spinner/upbutton" :
       {
         alias : "button",
 
@@ -258,7 +258,7 @@ As you can see the ``spinner/upbutton`` is kept in its original state. This allo
     {
       [...],
 
-      "spinner-upbutton" :
+      "spinner/upbutton" :
       {
         alias : "button",
         include : "button",
