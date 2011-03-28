@@ -50,7 +50,7 @@
         "invalidate-on-tool-change" : true
       },
 
-      "settings" :
+      "environment" :
       {
         "qx.version"     : "${QOOXDOO_VERSION}",
         "qx.revision"    : "${QOOXDOO_REVISION}",
@@ -74,9 +74,9 @@
 
       "extend" : ["common"],
 
-      "variants" :
+      "environment" :
       {
-        "qx.debug" : ["off"]
+        "qx.debug" : false
       },
 
       "compile-options" :
@@ -166,7 +166,7 @@
         "build-files-simulator"
       ],
       
-      "settings" :
+      "environment" :
       {
         "inspector.selenium.extensions" : "script/user-extensions.js"
       }
@@ -174,7 +174,7 @@
     
     "source" :
     {
-      "settings" :
+      "environment" :
       {
         "inspector.selenium.extensions" : false
       }
