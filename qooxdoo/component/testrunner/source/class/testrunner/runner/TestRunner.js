@@ -383,21 +383,16 @@ qx.Class.define("testrunner.runner.TestRunner", {
 
     /**
      * Creates the TestResult object that will run the actual test functions.
-     * @return {testrunner.unit.TestResult} The configured TestResult object
+     * @return {qx.dev.unit.TestResult} The configured TestResult object
      */
     __initTestResult : function()
     {
       if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
         var frameWindow = qx.bom.Iframe.getWindow(this.__iframe);
-        try {
-          var testResult = new frameWindow.testrunner.unit.TestResult();
-        } catch(ex) {
-          // TODO: Remove after testrunner.unit.TestResult has replaced
-          // qx.dev.unit.TestResult
-          var testResult = new frameWindow.qx.dev.unit.TestResult();
-        }
+        var testResult = new frameWindow.qx.dev.unit.TestResult();
+       
       } else {
-        var testResult = new testrunner.unit.TestResult();
+        var testResult = new qx.dev.unit.TestResult();
       }
 
       testResult.addListener("startTest", function(e) {
