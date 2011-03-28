@@ -39,6 +39,10 @@ qx.Class.define("testrunner.view.Reporter", {
     this.__testResultsMap = {};
     this.__reportServerUrl = qx.core.Environment.get("testrunner.reportServer");
     this.__autErrors = {};
+    var info = document.createElement("div");
+    info.id = "info";
+    document.body.appendChild(info);
+    this.__infoElem = document.getElementById("info");
   },
 
   members :
@@ -47,6 +51,7 @@ qx.Class.define("testrunner.view.Reporter", {
     __testPackages : null,
     __reportServerUrl : null,
     __autErrors : null,
+    __infoElem : null,
     
     _applyTestSuiteState : function(value, old)
     {
@@ -57,7 +62,7 @@ qx.Class.define("testrunner.view.Reporter", {
           break;
         case "ready" :
           this.debug("Test suite ready");
-          this.autoRun();
+          //this.autoRun();
           break;
         case "running" :
           this.debug("Running tests");
@@ -207,6 +212,8 @@ qx.Class.define("testrunner.view.Reporter", {
         }
         this.__testResultsMap[testName].messages = messages;
       }
+      
+      this.__infoElem.innerHTML = testName + ": " + state;
 
       var autUri = qx.bom.Iframe.queryCurrentUrl(this.getIframe());
       if (autUri.indexOf("?") > 0) {
@@ -224,6 +231,7 @@ qx.Class.define("testrunner.view.Reporter", {
       }
 
     },
+
     
     /**
      * Returns the results of all tests that didn't end with the status "success"
