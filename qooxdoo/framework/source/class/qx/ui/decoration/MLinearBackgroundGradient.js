@@ -25,6 +25,7 @@
  * * Safari 4.0+
  * * Chrome 4.0+
  * * Firefox 3.6+
+ * * Opera 11.1+
  */
 qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 {
@@ -132,7 +133,12 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         var start = Color.resolve(this.getStartColor()) + " " + this.getStartColorPosition() + unit;
         var end = Color.resolve(this.getEndColor()) + " " + this.getEndColorPosition() + unit;
 
-        var prefix = qx.core.Environment.get("engine.name") == "gecko" ? "-moz-" : "";
+        var prefix = "";
+        if (qx.core.Environment.get("engine.name") == "gecko") {
+          prefix = "-moz-";
+        } else if (qx.core.Environment.get("engine.name") == "opera") {
+          prefix = "-o-";
+        }
         styles["background"] =
           prefix + "linear-gradient(" + deg + "deg, " + start + "," + end + ")";
       }
