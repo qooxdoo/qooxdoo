@@ -22,7 +22,20 @@
  */
 qx.Class.define("qx.ui.mobile.form.TextArea",
 {
-  extend : qx.ui.mobile.form.Input,
+  extend : qx.ui.mobile.core.Widget,
+  include : [qx.ui.mobile.form.MValue],
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(value)
+  {
+    this.base(arguments);
+  },
 
 
   /*
@@ -34,18 +47,20 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
   properties :
   {
     // overridden
-    type :
-    {
-      refine : true,
-      init : "text"
-    },
-
-
-    // overridden
     defaultCssClass :
     {
       refine : true,
       init : "textArea"
+    }
+  },
+
+
+  members :
+  {
+    // overridden
+    _getTagName : function()
+    {
+      return "textarea";
     }
   }
 });
