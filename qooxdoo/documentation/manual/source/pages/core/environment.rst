@@ -20,8 +20,7 @@ Environment settings address various needs around JavaScript applications:
 * Pass values from outside to the application.
 * Trigger the creation of multiple build files.
 * Query features of the platform at run time (browser engine, HTML5 support, etc.)
-* Create builds optimized for a specific target environment.
-* Create feature-based builds.
+* Create builds optimized for a specific target environment, i.e. feature-based builds.
 
 
 .. _pages/core/environment#defining:
@@ -29,49 +28,32 @@ Environment settings address various needs around JavaScript applications:
 Defining New Environment Settings
 =================================
 
-Before defining a new environment setting, you have to decide if you want to specify a setting which has a value which is determinated by the runtime or if its a setting you can use like a key:value pair.
+Values of environment keys can be specified in one of two ways, as a literal value, or as a function that returns a value at run time. The former can be achieve through various ways (see further), the latter only through method code. (An environment key with a concrete literal value is also referred to as an environment *setting*).
 
-key:value pais settings
------------------------
+.. _pages/core/environment#defining_as_value:
 
-An environment setting, a key:value pair, can be defined in multiple ways:
+As Literal Values
+------------------
 
-* in application code
+To assign a literal value to an environment key, you can define the setting
+
 * in the class map
+* in method code
+* through inline ``<script>`` code in the index.html
 * in the generator configuration
-* in JavaScript code in the index.html
 * via URL parameter
 
+The list is sorted in ascending precedence, i.e. if a key is defined multiple times, mechanisms further down the list take higher precedence.
+
 Those possibilities are explained in the following sections.
-
-
-.. _pages/core/environment#in_url:
-
-In the URL
-^^^^^^^^^^^^^^^^^^^
-
-To enable the setting of environment settings in the URL, you have to specify a special environment setting in the generator which is named ``qx.allowUrlSettings``. After that, you can append the settings to the url.
-
-::
-
-  index.html?qxenv:mayapp.key:value
-
-As you can see, the pattern is easy. It are three parts all separated by a colon. The first part is always ``qxenv``, the second part is the key of the environment setting and the last part is the value of the setting.
-
-.. _pages/core/environment#in_application_code:
-
-In Application Code
-^^^^^^^^^^^^^^^^^^^
-
-::
-
-  qx.core.Environment.add("key", "value");
 
 
 .. _pages/core/environment#in_class_map:
 
 In the Class Map
 ^^^^^^^^^^^^^^^^
+
+You can define a key and its value through the *environment* key of the map defining a qooxdoo class:
 
 ::
 
@@ -85,10 +67,41 @@ In the Class Map
   });
 
 
+.. _pages/core/environment#in_application_code:
+
+In Application Code
+^^^^^^^^^^^^^^^^^^^
+
+You can define a key and its value in your class methods using the *qx.core.Environment.call* method:
+
+::
+
+  qx.core.Environment.add("key", "value");
+
+
+.. _pages/core/environment#in_index_html:
+
+In the Loading index.html
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In the web page loading your qooxdoo application, and before the ``<script>`` tag loading the initial qooxdoo file, add another ``<script>`` tag with code that assignes a map to ``window.qxenv``, containing your environment settings.
+
+.. code-block:: html
+
+  <script>
+    window.qxenv =
+    {
+      "myapp.key" : value
+    }
+  </script>
+
+
 .. _pages/core/environment#in_configuration:
 
 In the Generator Config
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+You can define a key and its value in the *environment* key of the job with which you build the script files of your application (e.g. *source-script*, *build-script*):
 
 ::
 
@@ -101,7 +114,7 @@ In the Generator Config
     }
   }
 
-Specifying a list of values for a key triggers the creation of multiple output files by the generator. 
+Using the generator config adds a special meaning to the provided environment settings. Specifying a **list** of values for a key triggers the creation of multiple output files by the generator. 
 
 ::
 
@@ -115,34 +128,26 @@ Specifying a list of values for a key triggers the creation of multiple output f
   }
 
 
-The generator will create two output files. See the :ref:`environment <pages/tool/generator_config_ref#environment>` key.
+In this example, the generator will create two output files. See the :ref:`environment <pages/tool/generator_config_ref#environment>` key.
 
 
-.. _pages/core/environment#in_index_html:
+.. _pages/core/environment#in_url:
 
-In the Loading index.html
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Via URL parameter
+^^^^^^^^^^^^^^^^^^^
 
-::
+Before using URL parameter to define environment settings, you have to specify another environment setting in the generator configuration which is named ``qx.allowUrlSettings``. If the application is generated with this config setting in place, you can then use URL parameter to add further key:value pairs.
 
-  <script>
-    window.qxenv =
-    {
-      "myapp.key" : value
-    }
-  </script>
+.. code-block:: html
 
-Priority chain
-^^^^^^^^^^^^^^
+  http://my.server.com/path/to/app/index.html?qxenv:mayapp.key:value
 
-Defining the same key separate ways is not a problem for the environment system. It has a priority chain which decides which value to use. The following list shows the order of priorities:
+The pattern in the URL parameter is easy. It has three parts separated by colons. The first part is the constant ``qxenv``, the second part is the key of the environment setting and the last part is the value of the setting.
 
-* Defined in the URL
-* Defined in the generators config
-* defined in the index.html
-* defined in application code (class map or simple add call)
 
-Settings defined by the runtime
+.. _pages/core/environment#defining_as_function:
+
+As a Check Function
 -------------------------------
 
 Usually, settings defined by the runtime, are feature checks like checking for dedicated css or html features. These checks can be synchronous or asynchronous (See :ref:`Querying Environment Settings <pages/core/environment#querying>`).
