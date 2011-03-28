@@ -46,10 +46,10 @@
         "qx.event.GlobalError"
       ],
       
-       "variants" :
+       "environment" :
       {
-        "qx.debug" : ["on"],
-        "qx.aspects" : ["off"]
+        "qx.debug" : true,
+        "qx.aspects" : false
       },
       
       "compile-options" :
@@ -73,13 +73,13 @@
       
       "compile" : { "type" : "build" },
       
-      "settings" :
+      "environment" :
       {
         "qx.version"     : "${QOOXDOO_VERSION}",
         "qx.revision"    : "${QOOXDOO_REVISION}",
         "qx.application" : "${SIMULATOR_APPLICATION}",
         "simulator.nameSpace" : "${APPLICATION}.simulation",
-        "qx.globalErrorHandling" : "off"
+        "qx.globalErrorHandling" : false
       }
       
     },
@@ -96,7 +96,7 @@
         "simulator-script" : "${BUILD_PATH}/script/simulator.js"
       },
       
-      "settings" :
+      "environment" :
       {
         "simulator.selServer" : "localhost",
         "simulator.selPort" : 4444,
