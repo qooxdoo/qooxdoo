@@ -70,6 +70,7 @@ qx.Class.define("feedreader.mobile.OverviewPage",
         configureItem : function(item, data)
         {
           item.setTitle(data.getTitle());
+          item.setShowArrow(true);
         }
       });
 
