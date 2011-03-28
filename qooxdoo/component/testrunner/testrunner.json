@@ -227,7 +227,7 @@
         }
       ],
 
-      "include" : ["testrunner.TestLoader", "testrunner.unit.TestResult", "${TEST_INCLUDE}", "${QXTHEME}"],
+      "include" : ["testrunner.TestLoader", "${TEST_INCLUDE}", "${QXTHEME}"],
       
       "exclude" : ["${TEST_EXCLUDE}"],
 
