@@ -459,12 +459,12 @@ qx.Class.define("qx.test.util.DateFormat",
     },
 
     testPattern_D_ : function(){
-      var df;
+      var df, dateStr;
       for(var i=0; i<this.__dates.length; i++)
       {
+        var date = this.__dates[i].date;
         if(this.__dates[i].result.dayOfYear)
         {
-          var date = this.__dates[i].date;
           var dayOfYear = this.__dates[i].result.dayOfYear + "";
 
           df = new qx.util.format.DateFormat("D");
@@ -479,6 +479,15 @@ qx.Class.define("qx.test.util.DateFormat",
           this.assertEquals(this.__fillNumber(dayOfYear,3), df.format(date));
           df.dispose();
         }
+
+        var dateFmt = new qx.util.format.DateFormat("MM / yyy / DDD");
+        dateStr = dateFmt.format(date);
+
+        var parsedDate = dateFmt.parse(dateStr);
+        this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+        this.assertEquals(date.getMonth(), parsedDate.getMonth());
+        this.assertEquals(date.getDate(), parsedDate.getDate());
+        this.assertEquals(date.getDay(), parsedDate.getDay());
       }
 
     },
@@ -787,7 +796,10 @@ qx.Class.define("qx.test.util.DateFormat",
           df = new qx.util.format.DateFormat("yyyy MM dd G");
           var dateFormatted = df.format(date);
           var parsedDate = df.parse(dateFormatted);
-          this.assertEquals(date.getTime(), parsedDate.getTime());
+          this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+          this.assertEquals(date.getMonth(), parsedDate.getMonth());
+          this.assertEquals(date.getDate(), parsedDate.getDate());
+          this.assertEquals(date.getDay(), parsedDate.getDay());
         }
     }
 

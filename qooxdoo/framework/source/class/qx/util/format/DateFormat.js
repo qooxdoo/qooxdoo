@@ -25,23 +25,23 @@
  * Here is a quick overview of the format pattern keys:
  * <table>
  * <tr><th>Key &nbsp;<th>Description
- * <tr><td><code> G </code><td> era, e.g. "AD" [Not supported yet]
+ * <tr><td><code> G </code><td> era, e.g. "AD"
  * <tr><td><code> y </code><td> year
- * <tr><td><code> Y </code><td> year [Not supported yet]
+ * <tr><td><code> Y </code><td> week year
  * <tr><td><code> u </code><td> extended year [Not supported yet]
- * <tr><td><code> Q </code><td> quater [Not supported yet]
- * <tr><td><code> q </code><td> stand-alone quater [Not supported yet]
+ * <tr><td><code> Q </code><td> quarter
+ * <tr><td><code> q </code><td> stand-alone quarter
  * <tr><td><code> M </code><td> month
- * <tr><td><code> L </code><td> stand-alone month [Not supported yet]
+ * <tr><td><code> L </code><td> stand-alone month
  * <tr><td><code> I </code><td> chinese leap month [Not supported yet]
  * <tr><td><code> w </code><td> week of year
- * <tr><td><code> W </code><td> week of month [Not supported yet]
+ * <tr><td><code> W </code><td> week of month
  * <tr><td><code> d </code><td> day of month
  * <tr><td><code> D </code><td> day of year
  * <tr><td><code> F </code><td> day of week in month [Not supported yet]
  * <tr><td><code> g </code><td> modified Julian day [Not supported yet]
  * <tr><td><code> E </code><td> day of week
- * <tr><td><code> e </code><td> local day of week [Not supported yet]
+ * <tr><td><code> e </code><td> local day of week
  * <tr><td><code> c </code><td> stand-alone local day of week
  * <tr><td><code> a </code><td> period of day (am or pm)
  * <tr><td><code> h </code><td> 12-hour hour
@@ -296,13 +296,62 @@ qx.Class.define("qx.util.format.DateFormat",
     },
 
     /**
-     * Returns the week year of a date. (that is the year of the week where this date happens to be)
-     * For a week in the middle of the summer, the year is easily obtained, but for a week
-     * when New Year's Eve takes place, the year of that week is ambigous.
-     * The thursday day of that week is used to determine the year.
+     * Returns true if the year is a leap one.
      *
-     * @param date {Date} the date to get the week in year of.
-     * @return {Integer} the week year.
+     * @param year {Integer} the year to check.
+     * @return {Boolean} true if it is a leap year.
+     */
+    __isLeapYear : function(year)
+    {
+      var februaryDate = new Date(year,2,1);
+      februaryDate.setDate(-1);
+      return februaryDate.getDate() + 1 === 29;
+    },
+
+    /**
+     * Returns a json object with month and day as keys.
+     *
+     * @param dayOfYear {Integer} the day of year.
+     * @param year {Integer} the year to check.
+     * @return {Object} a json object {month: M, day: D}.
+     */
+    __getMonthAndDayFromDayOfYear : function(dayOfYear,year)
+    {
+      var month = 0;
+      var day = 0;
+      // if we don't know the year, we take a non-leap year'
+      if(!year) {
+        year = 1971;
+      }
+      var dayCounter = 0;
+      for(var i=1; i <= 12; i++)
+      {
+        var tempDate = new Date(year,i,1);
+        tempDate.setDate(-1);
+        var days = tempDate.getDate() + 1;
+        dayCounter += days;
+        if(dayCounter < dayOfYear)
+        {
+          month++;
+          day += days;
+        }
+        else
+        {
+          day = dayOfYear - (dayCounter-days);
+          break;
+        }
+      }
+
+      return {month: month,day: day};
+    },
+
+    /**
+     * Returns the year of a date when we know the week year
+     *
+     * @param weekYear {Integer} the week year.
+     * @param month {Integer} the month
+     * @param dayOfMonth {Integer} the day in month
+     * @return {Integer} the year.
      */
     __getYearFromWeekYearAndMonth : function(weekYear, month, dayOfMonth)
     {
@@ -379,8 +428,6 @@ qx.Class.define("qx.util.format.DateFormat",
 
           switch(wildcardChar)
           {
-              // TODO: G - Era designator (e.g. AD). Problem: Not covered by JScript Date class
-              // TODO: W - Week in month (e.g. 2)
               // TODO: F - Day of week in month (e.g.   2). Problem: What is this?
             case 'y': // Year
               if (wildcardSize == 2) {
@@ -628,6 +675,7 @@ qx.Class.define("qx.util.format.DateFormat",
         quarter     : 1,
         month       : 0,
         day         : 1,
+        dayOfYear   : 1,
         hour        : 0,
         ispm        : false,
         weekDay     : 4,
@@ -641,6 +689,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var currGroup = 1;
       var applyWeekYearAfterRule = false;
+      var applyDayOfYearAfterRule = false;
 
       for (var i=0; i<this.__parseFeed.usedRules.length; i++)
       {
@@ -668,10 +717,35 @@ qx.Class.define("qx.util.format.DateFormat",
           }
         }
 
+        if(rule.pattern.indexOf("D") != -1)
+        {
+          var dayRuleApplied = false;
+          for(var k=0; k<this.__parseFeed.usedRules.length; k++) {
+            if(this.__parseFeed.usedRules[k].pattern.indexOf("d") != -1){
+              dayRuleApplied = true;
+              break;
+            }
+          }
+          if(!dayRuleApplied) {
+            applyDayOfYearAfterRule = true;
+          }
+        }
+
         currGroup += (rule.groups == null) ? 1 : rule.groups;
       }
       if(applyWeekYearAfterRule) {
         dateValues.year = this.__getYearFromWeekYearAndMonth(dateValues.weekYear,dateValues.month,dateValues.day);
+      }
+
+      if(applyDayOfYearAfterRule)
+      {
+        var dayAndMonth = this.__getMonthAndDayFromDayOfYear(dateValues.dayOfYear, dateValues.year);
+        dateValues.month = dayAndMonth.month;
+        dateValues.day = dayAndMonth.day;
+      }
+
+      if(dateValues.era < 0 && (dateValues.year * dateValues.era < 0)) {
+        dateValues.year = dateValues.year * dateValues.era;
       }
 
       var date = new Date(dateValues.year, dateValues.month, dateValues.day, (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour, dateValues.min, dateValues.sec, dateValues.ms);
@@ -1250,6 +1324,34 @@ qx.Class.define("qx.util.format.DateFormat",
 
       rules.push(
       {
+        pattern     : "q",
+        regex       : "(\\d\\d*?)",
+        field : "quarter"
+      });
+
+      rules.push(
+      {
+        pattern     : "qq",
+        regex       : "(\\d\\d?)",
+        field : "quarter"
+      });
+
+      rules.push(
+      {
+        pattern     : "qqq",
+        regex       : "(" + abbrevQuarterNames.join("|") + ")",
+        manipulator : abbrevQuarterManipulator
+      });
+
+      rules.push(
+      {
+        pattern     : "qqqq",
+        regex       : "(" + fullQuarterNames.join("|") + ")",
+        manipulator : fullQuarterManipulator
+      });
+
+      rules.push(
+      {
         pattern     : "M",
         regex       : "(\\d\\d*?)",
         manipulator : monthManipulator
@@ -1336,21 +1438,21 @@ qx.Class.define("qx.util.format.DateFormat",
       {
         pattern : "D",
         regex   : "(\\d?)",
-        field   : "day"
+        field   : "dayOfYear"
       });
 
       rules.push(
       {
         pattern : "DD",
         regex   : "(\\d\\d?)",
-        field   : "day"
+        field   : "dayOfYear"
       });
 
       rules.push(
       {
         pattern : "DDD",
         regex   : "(\\d\\d\\d?)",
-        field   : "day"
+        field   : "dayOfYear"
       });
 
       rules.push(
