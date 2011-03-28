@@ -152,13 +152,21 @@ qx.Class.define("qx.ui.mobile.page.Page",
     },
 
 
+
+    back : function()
+    {
+      this.fireEvent("back");
+      var value = this._back();
+      return value || false;
+    },
+
+
     /**
      * Abstract method.
      */
-    back : function()
+    _back : function()
     {
-      this.fireEvent("back", true)
-      return false;
+      
     },
 
 

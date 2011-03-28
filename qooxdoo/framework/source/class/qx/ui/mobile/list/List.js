@@ -33,10 +33,14 @@ qx.Class.define("qx.ui.mobile.list.List",
   *****************************************************************************
   */
 
-  construct : function()
+  construct : function(delegate)
   {
     this.base(arguments);
     this.addListener("tap", this._onTap, this);
+    this.__provider = new qx.ui.mobile.list.provider.Provider(this);
+    if (delegate) {
+      this.setDelegate(delegate);
+    }
   },
 
 
@@ -67,15 +71,12 @@ qx.Class.define("qx.ui.mobile.list.List",
     },
 
 
-    /**
-     * The list item that should be used to render the data.
-     */
-    listItem :
+    delegate :
     {
-      check : "qx.ui.mobile.list.ListItem",
-      apply : "_applyListItem",
-      nullable : true,
-      init : null
+      apply: "_applyDelegate",
+      event: "changeDelegate",
+      init: null,
+      nullable: true
     },
 
 
@@ -113,6 +114,9 @@ qx.Class.define("qx.ui.mobile.list.List",
 
   members :
   {
+    __provider : null,
+
+
     // overridden
     _getTagName : function()
     {
@@ -141,14 +145,16 @@ qx.Class.define("qx.ui.mobile.list.List",
 
 
     // property apply
-    _applyListItem : function(value, old) {},
-
-
-    // property apply
     _applyModel : function(value, old)
     {
       this.setItemCount(value ? value.getLength() : 0);
       this.__render();
+    },
+
+
+    // property apply
+    _applyDelegate : function(value, old) {
+      this.__provider.setDelegate(value);
     },
 
 
@@ -172,27 +178,16 @@ qx.Class.define("qx.ui.mobile.list.List",
 
       var element = this.getContentElement();
       for (var index = 0; index < itemCount; index++) {
-        element.appendChild(this.__createItemElement(index, model.getItem(index)));
+        var itemElement = this.__provider.getItemElement(model.getItem(index), index);
+        element.appendChild(itemElement);
       }
       this._domUpdated();
-    },
-
-
-    /**
-     * Sets the data to the list item and creates a clone of it.
-     *
-     * @return {Element} the cloned list item.
-     */
-    __createItemElement : function(index, data)
-    {
-      var listItem = this.getListItem();
-      listItem.setData(data);
-      var selectable = listItem.isSelectable();
-      var children = listItem.getChildren();
-      for (var i = 0, length=children.length; i < length; i++) {
-        children[i].setAnonymous(selectable);
-      }
-      return listItem.getContainerElement().cloneNode(true);
     }
+  },
+
+
+  destruct : function()
+  {
+    this._disposeObjects("__provider");
   }
 });

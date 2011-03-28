@@ -22,9 +22,10 @@
  *
  * The list item widget represents an list entry.
  */
-qx.Class.define("qx.ui.mobile.list.ListItem",
+qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
 {
   extend : qx.ui.mobile.core.Widget,
+  type : "abstract",
   include : [ qx.ui.mobile.core.MChildrenHandling ],
 
 
@@ -103,16 +104,13 @@ qx.Class.define("qx.ui.mobile.list.ListItem",
 
   members :
   {
+    // abstract method
+    reset : function() {},
+
     // overridden
     _getTagName : function()
     {
       return "li";
-    },
-
-
-    // property apply
-    _applyData : function(value, old) {
-
     },
 
 
