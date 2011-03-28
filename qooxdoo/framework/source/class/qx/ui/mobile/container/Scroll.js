@@ -34,6 +34,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
   properties :
   {
+    // overridden
     defaultCssClass :
     {
       refine : true,
