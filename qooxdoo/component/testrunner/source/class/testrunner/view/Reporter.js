@@ -62,7 +62,7 @@ qx.Class.define("testrunner.view.Reporter", {
           break;
         case "ready" :
           this.debug("Test suite ready");
-          //this.autoRun();
+          this.autoRun();
           break;
         case "running" :
           this.debug("Running tests");
