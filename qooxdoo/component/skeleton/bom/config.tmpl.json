@@ -42,15 +42,11 @@
         "qx.event.handler.DragDrop"
       ],
 
-      "variants" :
+      "environment" :
       {
-        "qx.debug" : ["off"],
-        "qx.aspects" : ["off"]
-      },
-
-      "settings" :
-      {
-        "qx.globalErrorHandling" : "off"
+        "qx.debug" : false,
+        "qx.aspects" : false,
+        "qx.globalErrorHandling" : false
       },
 
       "compile-options" :

@@ -52,17 +52,13 @@
         "$${APPLICATION}.Application"
       ],
       
-      "=settings" :
+      "environment" :
       {
         "qx.version"     : "${QOOXDOO_VERSION}",
-        "qx.application" : "$${APPLICATION}.Application"
-      },
-
-      "variants" :
-      {
-        "qx.mobile.emulatetouch" : ["on"],
-        "qx.mobile.nativescroll" : ["off"],
-        "qx.client" : ["webkit"]
+        "qx.application" : "$${APPLICATION}.Application",
+        "qx.mobile.emulatetouch" : true,
+        "qx.mobile.nativescroll" : false,
+        "qx.client" : "webkit"
       }
     },
 
