@@ -151,13 +151,13 @@ There are three ways to set a variant:
 * Set the variant in the generator configuration, using the ``variants`` config key.
 * Set the variant in JS class code, using ``qx.core.Variant.define``.
 
-For the first approach just define a global map named ``qxvariants``. This is how ``qx.debug`` can be set to ``off`` using in the loader HTML file of a qooxdoo application:
+For the first approach just define a global map named ``qxvariants``. This is how it could look in your application application:
 
 .. code-block:: html
 
     <script language="JavaScript" type="text/javascript">
     qxvariants = {
-        "qx.debug": "off"
+        "custom.variant": "off"
     }
     </script>     
     <script language="JavaScript" type="text/javascript" src="script/qooxdoo_application.js"></script>
