@@ -80,81 +80,122 @@ qx.Class.define("qx.test.util.DateFormat",
         var dateStr = dateFmt.format(date);
 
         var parsedDate = dateFmt.parse(dateStr);
-        this.assertEquals(date.getTime(), parsedDate.getTime());
+        this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+        this.assertEquals(date.getMonth(), parsedDate.getMonth());
+        this.assertEquals(date.getDate(), parsedDate.getDate());
+        this.assertEquals(date.getDay(), parsedDate.getDay());
 
         var formatStr = "yyyyMMdd";
         var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
         var dateStr = dateFmt.format(date);
 
         var parsedDate = dateFmt.parse(dateStr);
-        this.assertEquals(date.getTime(), parsedDate.getTime());
+        this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+        this.assertEquals(date.getMonth(), parsedDate.getMonth());
+        this.assertEquals(date.getDate(), parsedDate.getDate());
+        this.assertEquals(date.getDay(), parsedDate.getDay());
 
         var formatStr = "ddMMyyyyy";
         var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
         var dateStr = dateFmt.format(date);
 
         var parsedDate = dateFmt.parse(dateStr);
-        this.assertEquals(date.getTime(), parsedDate.getTime());
+        this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+        this.assertEquals(date.getMonth(), parsedDate.getMonth());
+        this.assertEquals(date.getDate(), parsedDate.getDate());
+        this.assertEquals(date.getDay(), parsedDate.getDay());
 
         var formatStr = "yyyyyyyyyddMM";
         var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
         var dateStr = dateFmt.format(date);
 
         var parsedDate = dateFmt.parse(dateStr);
-        this.assertEquals(date.getTime(), parsedDate.getTime());
+        this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+        this.assertEquals(date.getMonth(), parsedDate.getMonth());
+        this.assertEquals(date.getDate(), parsedDate.getDate());
+        this.assertEquals(date.getDay(), parsedDate.getDay());
 
         var formatStr = "yyMMdd";
         var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
         var dateStr = dateFmt.format(date);
 
         var parsedDate = dateFmt.parse(dateStr);
-        this.assertEquals(date.getTime(), parsedDate.getTime());
+        this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+        this.assertEquals(date.getMonth(), parsedDate.getMonth());
+        this.assertEquals(date.getDate(), parsedDate.getDate());
+        this.assertEquals(date.getDay(), parsedDate.getDay());
 
         var formatStr = "yMMdd";
         var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
         var dateStr = dateFmt.format(date);
 
         var parsedDate = dateFmt.parse(dateStr);
-        this.assertEquals(date.getTime(), parsedDate.getTime());
+        this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+        this.assertEquals(date.getMonth(), parsedDate.getMonth());
+        this.assertEquals(date.getDate(), parsedDate.getDate());
+        this.assertEquals(date.getDay(), parsedDate.getDay());
 
         var formatStr = "yyyMMdd";
         var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
         var dateStr = dateFmt.format(date);
 
         var parsedDate = dateFmt.parse(dateStr);
-        this.assertEquals(date.getTime(), parsedDate.getTime());
+        this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+        this.assertEquals(date.getMonth(), parsedDate.getMonth());
+        this.assertEquals(date.getDate(), parsedDate.getDate());
+        this.assertEquals(date.getDay(), parsedDate.getDay());
 
         var formatStr = "EEE dd. MM yyyy";
         var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
         dateStr = dateFmt.format(date);
 
         var parsedDate = dateFmt.parse(dateStr);
-        this.assertEquals(date.getTime(), parsedDate.getTime());
+        this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+        this.assertEquals(date.getMonth(), parsedDate.getMonth());
+        this.assertEquals(date.getDate(), parsedDate.getDate());
+        this.assertEquals(date.getDay(), parsedDate.getDay());
 
         var formatStr = "EE dd. M yyyy";
         var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
         dateStr = dateFmt.format(date);
 
         var parsedDate = dateFmt.parse(dateStr);
-        this.assertEquals(date.getTime(), parsedDate.getTime());
+        this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+        this.assertEquals(date.getMonth(), parsedDate.getMonth());
+        this.assertEquals(date.getDate(), parsedDate.getDate());
+        this.assertEquals(date.getDay(), parsedDate.getDay());
 
         var formatStr = "EEEE dd. MMM yyyy";
         var dateFmt = new qx.util.format.DateFormat(formatStr, "fr_FR");
         dateStr = dateFmt.format(date);
+
+        var parsedDate = dateFmt.parse(dateStr);
+        this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+        this.assertEquals(date.getMonth(), parsedDate.getMonth());
+        this.assertEquals(date.getDate(), parsedDate.getDate());
+        this.assertEquals(date.getDay(), parsedDate.getDay());
 
         var formatStr = "MMM d, y h:mm a";
         var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
         dateStr = dateFmt.format(date);
 
         var parsedDate = dateFmt.parse(dateStr);
-        this.assertEquals(date.getTime(), parsedDate.getTime());
+        this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+        this.assertEquals(date.getMonth(), parsedDate.getMonth());
+        this.assertEquals(date.getDate(), parsedDate.getDate());
+        this.assertEquals(date.getDay(), parsedDate.getDay());
+        this.assertEquals(date.getHours(), parsedDate.getHours());
+        this.assertEquals(date.getMinutes(), parsedDate.getMinutes());
 
         var formatStr = "YYYY/MM/dd";
         var dateFmt = new qx.util.format.DateFormat(formatStr, "en_US");
         dateStr = dateFmt.format(date);
 
         var parsedDate = dateFmt.parse(dateStr);
-        this.assertEquals(date.getTime(), parsedDate.getTime());
+        this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
+        this.assertEquals(date.getMonth(), parsedDate.getMonth());
+        this.assertEquals(date.getDate(), parsedDate.getDate());
+        this.assertEquals(date.getDay(), parsedDate.getDay());
       }
 
     },
@@ -188,7 +229,7 @@ qx.Class.define("qx.test.util.DateFormat",
 
         var formatStr = qx.locale.Date.getDateFormat("short", "fr_FR");
         var dateFmt = new qx.util.format.DateFormat(formatStr, "fr_FR");
-        dateStr = dateFmt.format(date);
+        var dateStr = dateFmt.format(date);
 
         var parsedDate = dateFmt.parse(dateStr);
         this.assertEquals(date.getFullYear(), parsedDate.getFullYear());

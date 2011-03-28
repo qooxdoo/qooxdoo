@@ -266,7 +266,7 @@ qx.Class.define("qx.util.format.DateFormat",
       // Calculate the calendar week
       return Math.floor(1.5 + (thursdayDate.getTime() - thursdayWeek1.getTime()) / 86400000 / 7);
     },
-    
+
     /**
      * Returns the week in month of a date.
      *
@@ -279,7 +279,7 @@ qx.Class.define("qx.util.format.DateFormat",
       var thursdayWeek1 = this.__thursdayOfSameWeek(new Date(date.getFullYear(), date.getMonth(), 4));
       return Math.floor(1.5 + (thursdayDate.getTime() - thursdayWeek1.getTime()) / 86400000 / 7);
     },
-    
+
     /**
      * Returns the week year of a date. (that is the year of the week where this date happens to be)
      * For a week in the middle of the summer, the year is easily obtained, but for a week
@@ -293,6 +293,37 @@ qx.Class.define("qx.util.format.DateFormat",
     {
       var thursdayDate = this.__thursdayOfSameWeek(date);
       return thursdayDate.getFullYear();
+    },
+
+    /**
+     * Returns the week year of a date. (that is the year of the week where this date happens to be)
+     * For a week in the middle of the summer, the year is easily obtained, but for a week
+     * when New Year's Eve takes place, the year of that week is ambigous.
+     * The thursday day of that week is used to determine the year.
+     *
+     * @param date {Date} the date to get the week in year of.
+     * @return {Integer} the week year.
+     */
+    __getYearFromWeekYearAndMonth : function(weekYear, month, dayOfMonth)
+    {
+      var year;
+      switch(month){
+        case 11 :
+          year = weekYear - 1;
+          if (weekYear != this.__getWeekYear(new Date(year,month,dayOfMonth))) {
+            year = weekYear;
+          }
+        break;
+        case 0 :
+          year = weekYear + 1;
+          if (weekYear != this.__getWeekYear(new Date(year,month,dayOfMonth))) {
+            year = weekYear;
+          }
+        break;
+        default :
+          year = weekYear;
+      }
+      return year;
     },
 
 
@@ -368,7 +399,7 @@ qx.Class.define("qx.util.format.DateFormat",
               }
 
               break;
-              
+
             case 'Y': // Year
               replacement = this.__getWeekYear(date) + "";
               var year = replacement.replace('-','');
@@ -403,7 +434,7 @@ qx.Class.define("qx.util.format.DateFormat",
               }
 
               break;
-              
+
             case 'q': // quarter stand alone
               if (wildcardSize == 1 || wildcardSize == 2) {
                 replacement = this.__fillNumber(parseInt(month/4) + 1, wildcardSize);
@@ -609,6 +640,7 @@ qx.Class.define("qx.util.format.DateFormat",
       };
 
       var currGroup = 1;
+      var applyWeekYearAfterRule = false;
 
       for (var i=0; i<this.__parseFeed.usedRules.length; i++)
       {
@@ -622,7 +654,24 @@ qx.Class.define("qx.util.format.DateFormat",
           rule.manipulator(dateValues, value);
         }
 
+        if(rule.pattern == "Y+")
+        {
+          var yearRuleApplied = false;
+          for(var k=0; k<this.__parseFeed.usedRules.length; k++) {
+            if(this.__parseFeed.usedRules[k].pattern=='y+'){
+              yearRuleApplied = true;
+              break;
+            }
+          }
+          if(!yearRuleApplied) {
+            applyWeekYearAfterRule = true;
+          }
+        }
+
         currGroup += (rule.groups == null) ? 1 : rule.groups;
+      }
+      if(applyWeekYearAfterRule) {
+        dateValues.year = this.__getYearFromWeekYearAndMonth(dateValues.weekYear,dateValues.month,dateValues.day);
       }
 
       var date = new Date(dateValues.year, dateValues.month, dateValues.day, (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour, dateValues.min, dateValues.sec, dateValues.ms);
@@ -916,7 +965,12 @@ qx.Class.define("qx.util.format.DateFormat",
      */
     __isRuleForWildcard : function(rule, wildcardChar, wildcardSize)
     {
-      if(wildcardChar.toLowerCase()==='y' && rule.pattern.toLowerCase()==='y+')
+      if(wildcardChar==='y' && rule.pattern==='y+')
+      {
+        rule.regex = rule.regexFunc(wildcardSize);
+        return true;
+      }
+      else if(wildcardChar==='Y' && rule.pattern==='Y+')
       {
         rule.regex = rule.regexFunc(wildcardSize);
         return true;
@@ -950,7 +1004,7 @@ qx.Class.define("qx.util.format.DateFormat",
       var yearManipulator = function(dateValues, value)
       {
         value = parseInt(value, 10);
-        
+
         if(value > 0)
         {
           if (value < DateFormat.ASSUME_YEAR_2000_THRESHOLD) {
@@ -967,10 +1021,13 @@ qx.Class.define("qx.util.format.DateFormat",
       {
         value = parseInt(value, 10);
 
-        if (value < DateFormat.ASSUME_YEAR_2000_THRESHOLD) {
-          value += 2000;
-        } else if (value < 100) {
-          value += 1900;
+        if(value > 0)
+        {
+          if (value < DateFormat.ASSUME_YEAR_2000_THRESHOLD) {
+            value += 2000;
+          } else if (value < 100) {
+            value += 1900;
+          }
         }
 
         dateValues.weekYear = value;
@@ -1047,7 +1104,7 @@ qx.Class.define("qx.util.format.DateFormat",
         value = LString.escapeRegexpChars(value);
         dateValues.month = fullMonthNames.indexOf(value);
       }
-      
+
       var narrowMonthNames = qx.locale.Date.getMonthNames("narrow", this.__locale, "stand-alone");
       for (var i=0; i<narrowMonthNames.length; i++) {
         narrowMonthNames[i] = LString.escapeRegexpChars(narrowMonthNames[i].toString());
@@ -1108,13 +1165,13 @@ qx.Class.define("qx.util.format.DateFormat",
           },
         manipulator : yearManipulator
       });
-      
+
       rules.push(
       {
         pattern     : "Y+",
         regexFunc       : function(yNumber)
           {
-            var regex = "(";
+            var regex = "(-*";
             for(var i=0;i<yNumber;i++)
             {
               regex += "\\d";
@@ -1218,14 +1275,14 @@ qx.Class.define("qx.util.format.DateFormat",
         regex       : "(" + fullMonthNames.join("|") + ")",
         manipulator : fullMonthNamesManipulator
       });
-      
+
       rules.push(
       {
         pattern     : "MMMMM",
         regex       : "(" + narrowMonthNames.join("|") + ")",
         manipulator : narrowMonthNamesManipulator
       });
-      
+
       rules.push(
       {
         pattern     : "L",
@@ -1253,7 +1310,7 @@ qx.Class.define("qx.util.format.DateFormat",
         regex       : "(" + fullMonthNames.join("|") + ")",
         manipulator : fullMonthNamesManipulator
       });
-      
+
       rules.push(
       {
         pattern     : "LLLLL",
@@ -1274,7 +1331,7 @@ qx.Class.define("qx.util.format.DateFormat",
         regex   : "(\\d\\d*?)",
         field   : "day"
       });
-      
+
       rules.push(
       {
         pattern : "D",
@@ -1288,7 +1345,7 @@ qx.Class.define("qx.util.format.DateFormat",
         regex   : "(\\d\\d?)",
         field   : "day"
       });
-      
+
       rules.push(
       {
         pattern : "DDD",
@@ -1302,14 +1359,14 @@ qx.Class.define("qx.util.format.DateFormat",
         regex       : "(" + abbrDayNames.join("|") + ")",
         manipulator : abbrDayNamesManipulator
       });
-      
+
       rules.push(
       {
         pattern     : "EE",
         regex       : "(" + abbrDayNames.join("|") + ")",
         manipulator : abbrDayNamesManipulator
       });
-      
+
       rules.push(
       {
         pattern     : "EEE",
@@ -1330,7 +1387,7 @@ qx.Class.define("qx.util.format.DateFormat",
         regex       : "(" + narrowDayNames.join("|") + ")",
         manipulator : narrowDayNamesManipulator
       });
-      
+
       rules.push(
       {
         pattern     : "e",
@@ -1372,7 +1429,7 @@ qx.Class.define("qx.util.format.DateFormat",
         regex       : "\\d?",
         manipulator : localWeekDayManipulator
       });
-      
+
       rules.push(
       {
         pattern     : "ccc",
@@ -1400,7 +1457,7 @@ qx.Class.define("qx.util.format.DateFormat",
         regex       : "(" + amMarker + "|" + pmMarker + ")",
         manipulator : ampmManipulator
       });
-      
+
       rules.push(
       {
         pattern : "W",
@@ -1414,7 +1471,7 @@ qx.Class.define("qx.util.format.DateFormat",
         regex   : "(\\d?)",
         field   : "weekOfYear"
       });
-      
+
       rules.push(
       {
         pattern : "ww",
