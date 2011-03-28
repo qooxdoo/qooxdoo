@@ -57,7 +57,7 @@
         "qx.theme.Modern"      // used theme
       ],
 
-      "settings" : 
+      "environment" : 
       { 
         "qx.application" : "custom.Application"
       },
@@ -84,7 +84,7 @@
 
       "include" : [ "custom.Application", "qx.theme.Modern" ],
 
-      "settings" : 
+      "environment" : 
       { 
         "qx.application" : "custom.Application"
       },
@@ -109,10 +109,10 @@
 
       "include" : ["qx.bom.Element"],
 
-      "variants" :
+      "environment" :
       {
-        "qx.debug" : ["off"],
-        "qx.aspects" : ["off"],
+        "qx.debug" : false,
+        "qx.aspects" : false,
         "qx.client" : ["gecko","mshtml"]
       },
 
@@ -138,10 +138,10 @@
 
       "include" : ["qx.io2.*"],
 
-      "variants" :
+      "environment" :
       {
-        "qx.debug" : ["off"],
-        "qx.aspects" : ["off"],
+        "qx.debug" : false,
+        "qx.aspects" : false,
         "qx.client" : ["gecko","mshtml"]
       },
 
@@ -198,7 +198,7 @@
       "extend"  : ["includer-job", "feedreader-parts"],
       "include" : ["feedreader.*", "qx.theme.Modern"],
 
-      "settings" :
+      "environment" :
       {
         "qx.application" : "feedreader.Application"
       },
