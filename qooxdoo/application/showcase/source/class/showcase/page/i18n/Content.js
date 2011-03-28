@@ -137,11 +137,13 @@ qx.Class.define("showcase.page.i18n.Content",
       {
         var selection = this.__controller.getSelection().getItem(0);
         var countries = selection.getCountries();
-        // check if the coúntry is valid for the selected langauge
+        // check if the country is valid for the selected language
         var validCountry = false;
-        for (var i = 0; i < countries.getLength(); i++) {
-          if (countries.getItem(i).getCode() == country) {
-            validCountry == true;
+        for (var i = 0; i < countries.getLength(); i++)
+        {
+          if (countries.getItem(i).getCode() == country)
+          {
+            validCountry = true;
             break;
           }
         };
