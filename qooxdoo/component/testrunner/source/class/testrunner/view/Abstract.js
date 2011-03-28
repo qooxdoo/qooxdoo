@@ -181,16 +181,6 @@ qx.Class.define("testrunner.view.Abstract", {
       this.error("Missing implementation of _applyTestModel!");
     },
 
-    /**
-     * Visualizes the list of loaded tests.
-     *
-     * @param value {Array} Test list
-     * @param old {Array} Previous value
-
-    _applyInitialTestList : function(value, old)
-    {},
-    */
-
 
     /**
      * Applies the AUT's URI, e.g. by setting an Iframe's source
@@ -200,6 +190,11 @@ qx.Class.define("testrunner.view.Abstract", {
      */
     _applyAutUri : function(value, old)
     {}
+  },
+  
+  destruct : function()
+  {
+    this.removeAllBindings();
   }
 
 });

@@ -44,19 +44,11 @@ qx.Class.define("testrunner.runner.TestRunner", {
     this.view = new viewClass();
 
     // Connect view and controller
-    this.view.addListener("runTests", function() {
-      if (this.__logAppender) {
-        this.__logAppender.clear();
-      }
-      this.runTests();
-    }, this);
+    this.view.addListener("runTests", this.__runTests, this);
 
-    this.view.addListener("stopTests", function() {
-      this.setTestSuiteState("aborted");
-    }, this);
+    this.view.addListener("stopTests", this.__stopTests, this);
     this.bind("testSuiteState", this.view, "testSuiteState");
     this.bind("testCount", this.view, "testCount");
-    //this.bind("initialTestList", this.view, "initialTestList");
     this.bind("testModel", this.view, "testModel");
     qx.data.SingleValueBinding.bind(this.view, "selectedTests", this, "selectedTests");
 
@@ -132,15 +124,6 @@ qx.Class.define("testrunner.runner.TestRunner", {
       init : null,
       nullable : true,
       event : "changeTestModel"
-    },
-
-    /** Flat list of all tests in the current suite */
-    initialTestList :
-    {
-      init : null,
-      nullable : true,
-      check : "Array",
-      event : "changeInitialTestList"
     },
 
     /** List of tests selected by the user */
@@ -226,7 +209,6 @@ qx.Class.define("testrunner.runner.TestRunner", {
         }
       }
       this.testList.sort();
-      this.setInitialTestList(this.testList);
       this.setTestSuiteState("ready");
     },
 
@@ -243,7 +225,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
       }
       var oldModel = this.getTestModel();
       if (oldModel) {
-        testrunner.runner.ModelUtil.disposeModel(oldModel);
+        this.getTestModel().dispose();
         this.__testsInView = [];
       }
       this.setTestModel(null);
@@ -323,6 +305,18 @@ qx.Class.define("testrunner.runner.TestRunner", {
           tCase[prop].originalName = originalName;
         }
       }
+    },
+    
+    
+    __runTests : function() {
+      if (this.__logAppender) {
+        this.__logAppender.clear();
+      }
+      this.runTests();
+    },
+    
+    __stopTests : function() {
+      this.setTestSuiteState("aborted");
     },
 
 
@@ -653,7 +647,20 @@ qx.Class.define("testrunner.runner.TestRunner", {
 
   destruct : function()
   {
+    this.view.removeListener("runTests", this.__runTests, this);
+    this.view.removeListener("stopTests", this.__stopTests, this);
+    this.removeAllBindings();
     testrunner.runner.ModelUtil.disposeModel(this.getTestModel());
+    this._disposeArray("testsInView");
+    this._disposeArray("testList");
+    this._disposeArray("__testParts");
+    this._disposeArray("testPackageList");
+    this._disposeObjects("view", "__logAppender", "currentTestData", "loader",
+    "__loadTimer");
+    this.__iframe = null;
+    delete this.__iframe;
+    this.frameWindow = null;
+    delete this.frameWindow;
   }
 
 });
