@@ -122,6 +122,13 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
     __timer : null,
 
 
+    /**
+     * Event handler. Called when the touch start event occurs.
+     * Sets the <code>active</class> class to the event target after a certain
+     * time.
+     * 
+     * @param domEvent {qx.event.type.Touch} The touch start event
+     */
     __onTouchStart : function(domEvent)
     {
       var EventHandler = qx.ui.mobile.core.EventHandler;
@@ -143,12 +150,25 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
     },
 
 
+    /**
+     * Event handler. Called when the touch end event occurs.
+     * Removes the <code>active</class> class from the event target.
+     * 
+     * @param domEvent {qx.event.type.Touch} The touch end event
+     */
     __onTouchEnd : function(domEvent)
     {
       qx.ui.mobile.core.EventHandler.__removeActiveState();
     },
 
 
+    /**
+     * Event handler. Called when the touch move event occurs.
+     * Removes the <code>active</class> class from the event target
+     * when the viewport was scrolled.
+     * 
+     * @param domEvent {qx.event.type.Touch} The touch move event
+     */
     __onTouchMove : function(domEvent)
     {
       var EventHandler = qx.ui.mobile.core.EventHandler;
@@ -160,6 +180,9 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
     },
 
 
+    /**
+     * Cancels the active state timer.
+     */
     __cancelActiveStateTimer : function()
     {
       var EventHandler = qx.ui.mobile.core.EventHandler;
@@ -170,6 +193,9 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
     },
 
 
+    /**
+     * Removes the <code>active</class> class from the active target.
+     */
     __removeActiveState : function()
     {
       var EventHandler = qx.ui.mobile.core.EventHandler;
