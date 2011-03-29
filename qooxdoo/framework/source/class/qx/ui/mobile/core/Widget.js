@@ -1067,6 +1067,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    // property apply
     _applyDefaultCssClass : function(value, old)
     {
       if (old) {
@@ -1097,20 +1098,21 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     */
 
 
-     _applyVisibility : function(value, old)
-     {
-       if (value == "excluded") {
-         this._setStyle("display", "none");
-       }
-       else if(value == "visible")
-       {
-         this._setStyle("display", null);
-         this._setStyle("visibility", null);
-       } 
-       else if (value == "hidden") {
-         this._setStyle("visibility", "hidden");
-       }
-     },
+    // property apply
+    _applyVisibility : function(value, old)
+    {
+      if (value == "excluded") {
+        this._setStyle("display", "none");
+      }
+      else if(value == "visible")
+      {
+        this._setStyle("display", null);
+        this._setStyle("visibility", null);
+      } 
+      else if (value == "hidden") {
+        this._setStyle("visibility", "hidden");
+      }
+    },
 
 
     /**
