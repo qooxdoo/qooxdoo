@@ -361,7 +361,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       var end = new Date();
       //window.top.console.profileEnd();
 
-      this.warn("setup time (best case): " + ((end - start) / this.SETUP_ITER) + "ms");
+      // this.warn("setup time (best case): " + ((end - start) / this.SETUP_ITER) + "ms");
     },
 
     testPerformanceSetupWorstCase : function()
@@ -381,7 +381,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       var end = new Date();
       //window.top.console.profileEnd();
 
-      this.warn("setup time (worst case): " + ((end - start) / this.SETUP_ITER) + "ms");
+      // this.warn("setup time (worst case): " + ((end - start) / this.SETUP_ITER) + "ms");
     },
 
 
@@ -399,7 +399,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       var end = new Date();
       //window.top.console.profileEnd();
 
-      this.warn("find time (best case): " + ((end - start) / this.FIND_ITER) + "ms");
+      // this.warn("find time (best case): " + ((end - start) / this.FIND_ITER) + "ms");
     },
 
 
@@ -420,7 +420,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       var end = new Date();
       //window.top.console.profileEnd();
 
-      this.warn("find time (worst case): " + ((end - start) / this.FIND_ITER) + "ms");
+      // this.warn("find time (worst case): " + ((end - start) / this.FIND_ITER) + "ms");
     }
 
   },

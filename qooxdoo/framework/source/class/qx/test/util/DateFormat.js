@@ -294,7 +294,7 @@ qx.Class.define("qx.test.util.DateFormat",
         dateStr = dateFmt.format(date);
 
         var parsedDate = dateFmt.parse(dateStr);
-        this.debug(date + " " + parsedDate);
+        // this.debug(date + " " + parsedDate);
         this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
         this.assertEquals(date.getMonth(), parsedDate.getMonth());
         this.assertEquals(date.getDate(), parsedDate.getDate());
