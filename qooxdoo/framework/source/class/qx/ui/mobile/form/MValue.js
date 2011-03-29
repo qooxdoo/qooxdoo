@@ -197,12 +197,22 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
     },
 
 
+    /**
+     * Event handler. Called when the {@link qx.event.handler.Input#change} event occurs.
+     * 
+     * @param evt {qx.event.type.Data} The event, containing the changed content. 
+     */
     _onChangeContent : function(evt)
     {
       this.__fireChangeValue(this._convertValue(evt.getData()));
     },
 
 
+    /**
+     * Event handler. Called when the {@link qx.event.handler.Input#input} event occurs.
+     * 
+     * @param evt {qx.event.type.Data} The event, containing the changed content.
+     */
     _onInput : function(evt)
     {
       this.fireDataEvent("input", evt.getData(), true);
@@ -213,6 +223,9 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
     },
 
 
+    /**
+     * Fires the {@link #changeValue} event.
+     */
     __fireChangeValue : function(value)
     {
       if (this.__oldValue != value)
