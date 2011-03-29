@@ -32,7 +32,16 @@ qx.Class.define("qx.test.io.request.Xhr",
 
   members :
   {
-    setUp : function() {
+    setUp: function() {
+      this.setUpRequest();
+    },
+
+    setUpRequest: function() {
+      this.req = new qx.io.request.Xhr;
+      this.req.setUrl("url");
+    },
+    
+    setUpFakeTransport: function() {
       this.transport = this.stub(new qx.bom.request.Xhr());
       this.spy(this.transport, "open");
       this.spy(this.transport, "setRequestHeader");
@@ -41,9 +50,18 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.stub(qx.io.request.Xhr.prototype, "_createTransport").
           returns(this.transport);
 
-      this.req = new qx.io.request.Xhr;
-      this.req.setUrl("url");
+      this.setUpRequest();
+    },
 
+    setUpFakeServer: function() {
+      this.useFakeServer();
+      this.setUpRequest();
+
+      this.server = this.getServer();
+      this.server.respondWith("GET", "/found", [200, {}, "FOUND"]);
+    },
+
+    setUpKlass: function() {
       qx.Class.define("Klass", {
         extend : qx.core.Object,
 
@@ -56,7 +74,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       });
     },
 
-    tearDown : function() {
+    tearDown: function() {
       this.getSandbox().restore();
       this.req.dispose();
 
@@ -67,6 +85,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     // General
     //
     "test: should dispose transport on destruct": function() {
+      this.setUpFakeTransport();
       this.spy(this.transport, "dispose");
       this.req.dispose();
 
@@ -100,6 +119,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     //
 
     "test: should send GET request": function() {
+      this.setUpFakeTransport();
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "url", true);
@@ -107,6 +127,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should send sync request": function() {
+      this.setUpFakeTransport();
       this.req.setAsync(false);
       this.req.send();
 
@@ -114,6 +135,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should send POST request": function() {
+      this.setUpFakeTransport();
       this.req.setMethod("POST");
       this.req.send();
 
@@ -121,6 +143,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should send authorized request": function() {
+      this.setUpFakeTransport();
       this.req.setUsername("affe");
       this.req.setPassword("geheim");
       this.req.send();
@@ -129,6 +152,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should drop fragment from URL": function() {
+      this.setUpFakeTransport();
       this.req.setUrl("example.com#fragment")
       this.req.send();
 
@@ -140,6 +164,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     //
 
     "test: should not send data with GET request": function() {
+      this.setUpFakeTransport();
       this.req.setData("str");
       this.req.send();
 
@@ -147,6 +172,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should append string data to URL with GET request": function() {
+      this.setUpFakeTransport();
       this.req.setData("str");
       this.req.send();
 
@@ -154,6 +180,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should append obj data to URL with GET request": function() {
+      this.setUpFakeTransport();
       this.req.setData({affe: true});
       this.req.send();
 
@@ -161,6 +188,8 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should append qooxdoo obj data to URL with GET request": function() {
+      this.setUpFakeTransport();
+      this.setUpKlass();
       var obj = new Klass();
       this.req.setData(obj);
       this.req.send();
@@ -173,6 +202,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     //
 
     "test: should set content type urlencoded for POST request": function() {
+      this.setUpFakeTransport();
       this.req.setMethod("POST");
       this.req.send();
 
@@ -181,6 +211,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should send string data with POST request": function() {
+      this.setUpFakeTransport();
       this.req.setMethod("POST");
       this.req.setData("str");
       this.req.send();
@@ -189,6 +220,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should send obj data with POST request": function() {
+      this.setUpFakeTransport();
       this.req.setMethod("POST");
       this.req.setData({"af fe": true});
       this.req.send();
@@ -197,6 +229,8 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should send qooxdoo obj data with POST request": function() {
+      this.setUpFakeTransport();
+      this.setUpKlass();
       var obj = new Klass();
       this.req.setMethod("POST");
       this.req.setData(obj);
@@ -210,6 +244,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     //
 
     "test: should set request headers": function() {
+      this.setUpFakeTransport();
       this.req.setRequestHeaders({key1: "value", key2: "value"});
       this.req.send();
 
@@ -218,10 +253,44 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     //
+    // Events
+    //
+
+    "test: should fire multiple readystatechange": function() {
+      this.setUpFakeServer();
+      var req = this.req,
+          server = this.server,
+          spy = this.spy();
+
+      req.setUrl("/found");
+      req.setMethod("GET");
+
+      req.addListener("readystatechange", spy);
+      req.send();
+      server.respond();
+
+      this.assertCallCount(spy, 4);
+    },
+
+    // "test: should fire success": function() {
+    //   this.useFakeServer();
+    //   var server = this.getServer();
+    //   server.respondWith("GET", "found", [200, {}, "FOUND"]);
+    //
+    //   var req = this.req;
+    //   req.setUrl("found");
+    //   req.setMethod("GET");
+    //   this.assertEventFired(req, "success", function() {
+    //     req.send();
+    //   });
+    // },
+
+    //
     // Abort
     //
 
     "test: should abort request": function() {
+      this.setUpFakeTransport();
       this.req.abort();
 
       this.assertCalled(this.transport.abort);
