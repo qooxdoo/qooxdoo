@@ -25,6 +25,23 @@
  *
  * Note that this class can only have one child widget. This container has a
  * fixed layout, which cannot be changed.
+ * 
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   // create the scroll widget
+ *   var scroll = new qx.ui.mobile.container.Scroll()
+ *
+ *   // add a children
+ *   scroll.add(new qx.ui.mobile.basic.Label("Name: "));
+ *
+ *   this.getRoot().add(scroll);
+ * </pre>
+ *
+ * This example horizontally groups a label and text field by using a
+ * Composite configured with a horizontal box layout as a container.
  */
 qx.Class.define("qx.ui.mobile.container.Scroll",
 {
