@@ -43,9 +43,10 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
     },
 
     tearDown : function() {
+      qx.data.SingleValueBinding.removeAllBindingsForObject(this.__a);
+      qx.data.SingleValueBinding.removeAllBindingsForObject(this.__b);
       this.__a.dispose();
       this.__b.dispose();
-      qx.data.SingleValueBinding.removeAllBindings();
     },
 
     testStringPropertyBinding : function()
@@ -54,10 +55,11 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       this.__a.setAppearance("affe");
       this.assertEquals("affe", this.__b.getAppearance(), "String binding does not work!");
 
-      var affe = new qx.test.data.singlevalue.TextFieldDummy()
+      var affe = new qx.test.data.singlevalue.TextFieldDummy();
       affe.setAppearance("Jonny");
       qx.data.SingleValueBinding.bind(affe, "appearance", this.__b, "appearance");
       this.assertEquals("Jonny", this.__b.getAppearance(), "String binding does not work!");
+      qx.data.SingleValueBinding.removeAllBindingsForObject(affe);
       affe.dispose();
     },
 
@@ -147,6 +149,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       s.setFloatt(13.5);
       this.assertEquals("13.5", this.__b.getAppearance(), "Float --> String does not work!");
 
+      qx.data.SingleValueBinding.removeAllBindingsForObject(s);
       s.dispose();
     },
 
@@ -355,6 +358,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       affe.setAppearance("Jonny");
       qx.data.SingleValueBinding.bind(affe, "appearance", this.__b, "appearance");
       this.assertEquals("Jonny", this.__b.getAppearance(), "String binding does not work!");
+      qx.data.SingleValueBinding.removeAllBindingsForObject(affe);
       affe.dispose();
     },
 
@@ -558,6 +562,8 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       a.setX(null);
       this.assertEquals(a.getX(), b.getX());
 
+      qx.data.SingleValueBinding.removeAllBindingsForObject(a);
+      qx.data.SingleValueBinding.removeAllBindingsForObject(b);
       a.dispose();
       b.dispose();
       qx.Class.undefine("qx.test.SVB");
@@ -585,6 +591,9 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
       this.assertEquals(a.getX(), b.getX());
 
+      qx.data.SingleValueBinding.removeAllBindingsForObject(a);
+      qx.data.SingleValueBinding.removeAllBindingsForObject(b);
+
       a.dispose();
       b.dispose();
       qx.Class.undefine("qx.test.SVB");
@@ -608,6 +617,9 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       this.assertException(function() {
         qx.data.SingleValueBinding.bind(a, "x", b, "x");
       }, qx.core.AssertionError, "Binding property x of object qx.test.SVB");
+
+      qx.data.SingleValueBinding.removeAllBindingsForObject(a);
+      qx.data.SingleValueBinding.removeAllBindingsForObject(b);
 
       a.dispose();
       b.dispose();
