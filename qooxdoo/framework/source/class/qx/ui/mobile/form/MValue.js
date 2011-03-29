@@ -24,6 +24,9 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * The mixin contains all functionality to provide a value property for input
+ * widgets. 
  */
 qx.Mixin.define("qx.ui.mobile.form.MValue",
 {
@@ -34,6 +37,9 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
   *****************************************************************************
   */
 
+  /**
+   * @param value {var} The value of the widget.
+   */
   construct : function(value)
   {
     if (value) {
@@ -41,7 +47,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
     }
 
     this.initPlaceholder();
-    this.initReadonly();
+    this.initReadOnly();
 
     qx.event.Registration.addListener(this.getContentElement(), "change", this._onChangeContent, this);
     qx.event.Registration.addListener(this.getContentElement(), "input", this._onInput, this);
@@ -92,6 +98,11 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
   properties :
   {
+    /**
+     * Whether the {@link #changeValue} event should be fired on every key
+     * input. If set to true, the changeValue event is equal to the
+     * {@link #input} event.
+     */
     liveUpdate :
     {
       check : "Boolean",
@@ -99,6 +110,11 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
     },
 
 
+    /**
+     * String value which will be shown as a hint if the field is all of:
+     * unset, unfocused and enabled. Set to <code>null</code> to not show a placeholder
+     * text.
+     */
     placeholder :
     {
       check : "String",
@@ -108,7 +124,8 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
     },
 
 
-    readonly :
+    /** Whether the field is read only */
+    readOnly :
     {
       check : "Boolean",
       nullable : true,
@@ -184,5 +201,23 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
         this.fireDataEvent("changeValue", value)
       }
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    qx.ui.mobile.core.Widget.addAttributeMapping("readOnly",
+      {
+        attribute : "readonly"
+      }
+    );
   }
 });

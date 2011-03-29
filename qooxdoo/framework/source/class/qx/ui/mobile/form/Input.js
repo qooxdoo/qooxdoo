@@ -101,9 +101,10 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
   /*
   *****************************************************************************
-     MEMBERS
+     DEFER
   *****************************************************************************
   */
+
   defer : function(statics)
   {
     qx.ui.mobile.core.Widget.addAttributeMapping("maxLength",
