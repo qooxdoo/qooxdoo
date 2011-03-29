@@ -17,8 +17,21 @@
 
 ************************************************************************ */
 
+
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
+ * The Html widget embeds plain HTML code into the application
+ *
+ * *Example*
+ *
+ * Here is a little example of how to use the html widget.
+ *
+ * <pre class='javascript'>
+ * var html = new qx.ui.mobile.embed.Html();
+ * html.setHtml("<h1>Hello World</h1>");
+ * </pre>
+ *
  */
 qx.Class.define("qx.ui.mobile.embed.Html",
 {
@@ -31,6 +44,9 @@ qx.Class.define("qx.ui.mobile.embed.Html",
   *****************************************************************************
   */
 
+  /**
+   * @param html {String} Initial HTML content
+   */
   construct : function(html)
   {
     this.base(arguments);
@@ -50,6 +66,7 @@ qx.Class.define("qx.ui.mobile.embed.Html",
 
   properties :
   {
+    /** Any text string which can contain HTML, too */
     html :
     {
       check : "String",
@@ -69,6 +86,7 @@ qx.Class.define("qx.ui.mobile.embed.Html",
 
   members :
   {
+    // property apply
     _applyHtml : function(value, old)
     {
       this._setHtml(value);
