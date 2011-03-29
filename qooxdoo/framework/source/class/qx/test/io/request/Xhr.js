@@ -21,6 +21,9 @@
 #ignore(Klass)
 ************************************************************************ */
 
+/**
+ * @lint ignoreUndefined(Klass)
+ */
 qx.Class.define("qx.test.io.request.Xhr",
 {
   extend : qx.dev.unit.TestCase,
@@ -96,7 +99,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Send
     //
 
-    "test: should send request": function() {
+    "test: should send GET request": function() {
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "url", true);
