@@ -85,7 +85,7 @@ For binding of an array the same method will be used as for the binding of chain
 Options: Conversion and Validation
 ----------------------------------
 The method for binding introduced so far has the same set of arguments. The first three arguments are mostly the same. There is a forth argument called options. This should be a map containing the options itself. In that you can specify three things currently:
-  * **converter**: A own converter which is a function with one argument returning the converted value.
+  * **converter**: A own converter which is a function with four arguments returning the converted value. (See the API for more details)
   * **onSetOk**: A key in the options map under which you can add a method. This method will be called on a validation case if the validation was successful.
   * **onSetFail**: The counterpart to onSetOk which will be called if the validation fails.
 

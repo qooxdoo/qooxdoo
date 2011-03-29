@@ -612,6 +612,23 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       a.dispose();
       b.dispose();
       qx.Class.undefine("qx.test.SVB");
+    },
+
+
+    testConverterParam : function() {
+      var self = this;
+      var options = {converter : function(data, model, source, target) {
+        // will be called twice (init and set)
+        self.assertEquals(self.__a, source);
+        self.assertEquals(self.__b, target);
+        return data;
+      }};
+
+      qx.data.SingleValueBinding.bind(
+        this.__a, "appearance", this.__b, "appearance", options
+      );
+      this.__a.setAppearance("affe");
+      this.assertEquals("affe", this.__b.getAppearance(), "String binding does not work!");
     }
   }
 });

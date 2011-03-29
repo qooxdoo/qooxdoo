@@ -86,12 +86,13 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param targetPropertyChain {String} The property chain to the target
      *   object.
      * @param options {Map?null} A map containing the options.
-     *   <li>converter: A converter function which takes two parameters
+     *   <li>converter: A converter function which takes four parameters
      *       and should return the converted value. The first parameter is the
-     *       data so convert and the second one is the corresponding model
-     *       object, which is only set in case of the use of an controller.
-     *       If no conversion has been done, the given value should be
-     *       returned.</li>
+     *       data to convert and the second one is the corresponding model
+     *       object, which is only set in case of the use of an controller. 
+     *       The third parameter is the source object for the binding and the 
+     *       fourth parameter the target object. If no conversion has been 
+     *       done, the given value should be returned.</li>
      *   <li>onUpdate: A callback function can be given here. This method will be
      *       called if the binding was updated successful. There will be
      *       three parameter you do get in that method call: the source object,
@@ -502,7 +503,7 @@ qx.Class.define("qx.data.SingleValueBinding",
 
       // convert the data before setting
       value = qx.data.SingleValueBinding.__convertValue(
-        value, targetObject, targetPropertyChain, options
+        value, targetObject, targetPropertyChain, options, sourceObject
       );
 
       this.__setTargetValue(targetObject, targetPropertyChain, value);
@@ -742,7 +743,7 @@ qx.Class.define("qx.data.SingleValueBinding",
     {
       // first convert the initial value
       value = this.__convertValue(
-        value, targetObject, targetPropertyChain, options
+        value, targetObject, targetPropertyChain, options, sourceObject
       );
       // check if the converted value is undefined
       if (value === undefined) {
@@ -915,7 +916,7 @@ qx.Class.define("qx.data.SingleValueBinding",
 
         // convert the data
         data = qx.data.SingleValueBinding.__convertValue(
-          data, targetObject, targetProperty, options
+          data, targetObject, targetProperty, options, sourceObject
         );
 
         // debug message
@@ -1004,20 +1005,23 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param options {Map} The options map which can includes the converter.
      *   For a detailed information on the map, take a look at
      *   {@link #bind}.
+     * @param sourceObject {qx.core.Object} The source obejct for the binding.
      *
      * @return {var} The converted value. If no conversion has been done, the
      *   value property will be returned.
      * @throws {qx.core.AssertionError} If there is no property definition
      *   of the given target object and target property.
      */
-    __convertValue : function(value, targetObject, targetPropertyChain, options) {
+    __convertValue : function(
+      value, targetObject, targetPropertyChain, options, sourceObject
+    ) {
       // do the conversion given by the user
       if (options && options.converter) {
         var model;
         if (targetObject.getModel) {
           model = targetObject.getModel();
         }
-        return options.converter(value, model);
+        return options.converter(value, model, sourceObject, targetObject);
       // try default conversion
       } else {
         var target = this.__getTargetFromChain(targetObject, targetPropertyChain);
