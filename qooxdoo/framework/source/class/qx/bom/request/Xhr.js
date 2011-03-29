@@ -242,14 +242,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // This violates XMLHttpRequest Level 2, see
       // http://www.w3.org/TR/XMLHttpRequest2/#network-error
       if (this.__async) {
-        // send() is sync in Chrome when NETWORK_ERR
-        // Force async
-        window.setTimeout(qx.Bootstrap.bind(function() {
-          try {
-            this.__nativeXhr.send(data);
-            this.__onNativeReadyStateChange();
-          } catch(NetworkError) {}
-        }, this));
+        try {
+          this.__nativeXhr.send(data);
+          this.__onNativeReadyStateChange();
+        } catch(NetworkError) {}
       } else {
         this.__nativeXhr.send(data);
       }

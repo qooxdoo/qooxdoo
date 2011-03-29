@@ -195,10 +195,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.req.open("GET", "/affe");
       this.req.send();
 
-      // Always async due to browser fix
-      this.wait(10, function() {
-        this.assertCalledWith(fakeReq.send, null);
-      }, this);
+      this.assertCalledWith(fakeReq.send, null);
     },
 
     "test: should send request with data": function() {
@@ -209,10 +206,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.req.open("GET", "/affe");
       this.req.send(data);
 
-      // Always async due to browser fix
-      this.wait(10, function() {
-        this.assertCalledWith(fakeReq.send, data);
-      }, this);
+      this.assertCalledWith(fakeReq.send, data);
     },
 
     //
