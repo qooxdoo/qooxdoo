@@ -19,6 +19,30 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * The Slider widget provides horizontal slider.
+ *
+ * The Slider is the classic widget for controlling a bounded value.
+ * It lets the user move a slider handle along a horizontal
+ * groove and translates the handle's position into an integer value
+ * within the defined range.
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+     var slider= new qx.ui.mobile.form.Slider().set({
+        minimum : 0,
+        maximum : 10,
+        step : 2
+      });
+      slider.addListener("changeValue", handler, this);
+ *
+ *   this.getRoot.add(slider);
+ * </pre>
+ *
+ * This example creates a slider and attaches an
+ * event listener to the {@link #changeValue} event.
  */
 qx.Class.define("qx.ui.mobile.form.Slider",
 {
@@ -56,6 +80,11 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * The current slider value.
+     *
+     * Strictly validates according to {@link #minimum} and {@link #maximum}.
+     */
     value :
     {
       check : "Integer",
@@ -65,6 +94,10 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * The minimum slider value (may be negative). This value must be smaller
+     * than {@link #maximum}.
+     */
     minimum :
     {
       check : "Integer",
@@ -73,6 +106,10 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * The maximum slider value (may be negative). This value must be larger
+     * than {@link #minimum}.
+     */
     maximum :
     {
       check : "Integer",
@@ -81,6 +118,10 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * The amount to increment on each event. Typically corresponds
+     * to the user moving the knob.
+     */
     step :
     {
       check : "Integer",
