@@ -736,6 +736,15 @@ qx.Bootstrap.define("qx.core.Environment",
           var key = check[1];
           var value = decodeURIComponent(check[2]);
 
+          // implicit type conversion
+          if (value == "true") {
+            value = true;
+          } else if (value == "false") {
+            value = false;
+          } else if (/^(\d|\.)+$/.test(value)) {
+            value = parseFloat(value);
+          }
+
           this._checks[key] = this.__createCheck(value);
         }
       }
