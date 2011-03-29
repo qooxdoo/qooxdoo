@@ -114,6 +114,23 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertEquals(expected, result);
     },
 
+    "test: should indicate success": function() {
+      this.setUpFakeTransport();
+      var isSuccessful = qx.lang.Function.bind(this.req.isSuccessful, this.req);
+
+      this.transport.status = 200;
+      this.assertTrue(isSuccessful());
+
+      this.transport.status = 304;
+      this.assertTrue(isSuccessful());
+
+      this.transport.status = 404;
+      this.assertFalse(isSuccessful());
+
+      this.transport.status = 500;
+      this.assertFalse(isSuccessful());
+    },
+
     //
     // Send
     //
@@ -272,18 +289,19 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCallCount(spy, 4);
     },
 
-    // "test: should fire success": function() {
-    //   this.useFakeServer();
-    //   var server = this.getServer();
-    //   server.respondWith("GET", "found", [200, {}, "FOUND"]);
-    //
-    //   var req = this.req;
-    //   req.setUrl("found");
-    //   req.setMethod("GET");
-    //   this.assertEventFired(req, "success", function() {
-    //     req.send();
-    //   });
-    // },
+    "test: should fire success": function() {
+      this.setUpFakeServer();
+      var req = this.req,
+          server = this.server;
+
+      req.setUrl("/found");
+      req.setMethod("GET");
+
+      this.assertEventFired(req, "success", function() {
+        req.send();
+        server.respond();
+      });
+    },
 
     //
     // Properties

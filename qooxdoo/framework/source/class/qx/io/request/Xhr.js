@@ -36,7 +36,8 @@ qx.Class.define("qx.io.request.Xhr",
 
   events:
   {
-    readystatechange: "qx.event.type.Event"
+    readystatechange: "qx.event.type.Event",
+    success: "qx.event.type.Event"
   },
 
   properties:
@@ -150,12 +151,21 @@ qx.Class.define("qx.io.request.Xhr",
       return this.__transport.responseText;
     },
 
+    isSuccessful: function() {
+      var status = this.getStatus();
+      return (status >= 200 && status < 300 || status === 304)
+    },
+
     _createTransport: function() {
       return new qx.bom.request.Xhr();
     },
 
     __onReadyStateChange: function() {
       this.fireEvent("readystatechange");
+
+      if (this.isSuccessful()) {
+        this.fireEvent("success");
+      }
     },
 
     __serializeData: function(data) {
