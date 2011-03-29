@@ -290,38 +290,34 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should fire success": function() {
-      this.setUpFakeServer();
+      this.setUpFakeTransport();
       var req = this.req,
-          server = this.server;
-
-      req.setUrl("/found");
-      req.setMethod("GET");
+          transport = this.transport;
 
       this.assertEventFired(req, "success", function() {
-        req.send();
-        server.respond();
+        transport.readyState = 4;
+        transport.status = 200;
+        transport.onreadystatechange();
       });
     },
 
     "test: should fire load": function() {
-      this.setUpFakeServer();
+      this.setUpFakeTransport();
       var req = this.req,
-          server = this.server;
+          transport = this.transport;
 
       this.assertEventFired(req, "load", function() {
-        req.send();
-        server.respond();
+        transport.onload();
       });
     },
 
     "test: should fire loadend": function() {
-      this.setUpFakeServer();
+      this.setUpFakeTransport();
       var req = this.req,
-          server = this.server;
+          transport = this.transport;
 
       this.assertEventFired(req, "loadend", function() {
-        req.send();
-        server.respond();
+        transport.onloadend();
       });
     },
 
