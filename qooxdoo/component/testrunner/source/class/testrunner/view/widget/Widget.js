@@ -993,10 +993,12 @@ qx.Class.define("testrunner.view.widget.Widget", {
           this.__progressBar.setMaximum(totalTests.length);
           this.setStatus("Running tests...");
           this._setActiveButton(this.__stopButton);
+          this.__testTree.setEnabled(false);
           break;
         case "finished" :
           this.setStatus("Test suite finished.");
           this._setActiveButton(this.__runButton);
+          this.__testTree.setEnabled(true);
 
           if (this.getReloadAfterEachPackage()) {
             if (this.__lastAutoRunItemName) {
