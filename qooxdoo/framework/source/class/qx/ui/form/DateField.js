@@ -59,9 +59,10 @@ qx.Class.define("qx.ui.form.DateField",
     // listen for locale changes
     if (qx.core.Environment.get("qx.dynlocale"))
     {
-      qx.locale.Manager.getInstance().addListener("changeLocale", function() {
-        this.setDateFormat(qx.ui.form.DateField.getDefaultDateFormatter());
-      }, this);
+      this.__localeListenerId = 
+        qx.locale.Manager.getInstance().addListener("changeLocale", function() {
+          this.setDateFormat(qx.ui.form.DateField.getDefaultDateFormatter());
+        }, this);
     }
   },
 
@@ -140,6 +141,7 @@ qx.Class.define("qx.ui.form.DateField",
 
   members :
   {
+    __localeListenerId : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -378,6 +380,17 @@ qx.Class.define("qx.ui.form.DateField",
     {
       var value = this.getChildControl("textfield").getValue();
       return value == null || value == "";
+    }
+  },
+
+
+  destruct : function() {
+    // listen for locale changes
+    if (qx.core.Environment.get("qx.dynlocale"))
+    {
+      if (this.__localeListenerId) {
+        this.removeListenerById(this.__localeListenerId);
+      }
     }
   }
 });

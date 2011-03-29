@@ -164,5 +164,6 @@ qx.Class.define("qx.ui.core.Command",
   destruct : function()
   {
     this._disposeObjects("_shortcut");
+    this.removeListener("execute", this.execute, this);
   }
 });

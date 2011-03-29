@@ -334,6 +334,8 @@ qx.Class.define("qx.ui.menu.AbstractButton",
 
   destruct : function()
   {
+    this.removeListener("changeCommand", this._onChangeCommand, this);
+
     if (this.getMenu())
     {
       if (!qx.core.ObjectRegistry.inShutDown) {
