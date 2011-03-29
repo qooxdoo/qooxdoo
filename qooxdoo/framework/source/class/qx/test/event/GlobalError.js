@@ -149,7 +149,7 @@ qx.Class.define("qx.test.event.GlobalError",
       {
         wasHandled = true;
         this.assertInstance(ex, qx.core.WindowError);
-        this.assertEquals("Doofer Fehler", ex.toString());
+        this.assertMatch(ex.toString(), "Doofer Fehler");
 
         this.assertString(ex.getUri());
         this.assertInteger(ex.getLineNumber());
@@ -204,7 +204,7 @@ qx.Class.define("qx.test.event.GlobalError",
       {
         wasNativeHandled = true;
 
-        self.assertEquals("Doofer Fehler", msg);
+        self.assertMatch(msg, "Doofer Fehler");
         self.assertString(uri);
         self.assertInteger(lineNumber);
 
