@@ -971,10 +971,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Sets an attribute with the given value of the container element.
+     * Sets an attribute with the given value of the container element. The
+     * <code>null</code> value resets the attribute.
      * 
      * @param attribute {String} The attribute name.
-     * @param value {var} The attribute value. Null will reset the attribute.
+     * @param value {var} The attribute value. <code>Null</code> will reset the attribute.
      */
     _setAttribute : function(attribute, value)
     {
@@ -1030,10 +1031,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Sets the value of a certain style of the container element.
+     * Sets the value of a certain style of the container element. The
+     * <code>null</code> value resets the attribute.
      * 
      * @param style {String} The style of which the value should be set
-     * @param value {var} The value of the style
+     * @param value {var} The value of the style. <code>Null</code> will reset the attribute.
      */
     _setStyle : function(style, value)
     {
