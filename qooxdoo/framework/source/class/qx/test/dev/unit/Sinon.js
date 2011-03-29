@@ -104,6 +104,22 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       this.assertFunction(server.respondWith);
     },
 
+    "test: should respond to request": function() {
+      this.useFakeServer();
+      var nxhr = window.XMLHttpRequest || window.ActiveXObject("Microsoft.XMLHTTP"),
+          req = new nxhr,
+          server = this.getServer();
+
+      server.respondWith("GET", "found", [200, {}, "FOUND"]);
+      req.open("GET", "found");
+      req.send();
+      server.respond();
+
+      this.assertEquals(4, req.readyState);
+      this.assertEquals(200, req.status);
+      this.assertEquals("FOUND", req.responseText);
+    },
+
     "test: should sandbox and restore": function() {
       var func = function() {};
       var obj = {"a": function() {}}
