@@ -38,62 +38,8 @@ qx.Class.define("qx.bom.media.Audio",
   },
 
 
-  members :
-  {
-    _audio : null,
-
-    /**
-     * Whether the browser can play ogg format.
-     *
-     * @return {Boolean}
-     */
-    canPlayOgg : function()
-    {
-      return this.canPlayType("audio/ogg");
-    },
-
-
-    /**
-     * Whether the browser can play mp3 format.
-     *
-     * @return {Boolean}
-     */
-    canPlayMp3 : function()
-    {
-      return this.canPlayType("audio/mpeg");
-    },
-
-
-    /**
-     * Whether the browser can play wave format.
-     *
-     * @return {Boolean}
-     */
-    canPlayWav : function()
-    {
-      return this.canPlayType("audio/x-wav");
-    },
-
-
-    /**
-     * Whether the browser can play au format.
-     *
-     * @return {Boolean}
-     */
-    canPlayAu : function()
-    {
-      return this.canPlayType("audio/basic");
-    },
-
-
-    /**
-     * Whether the browser can play aif format.
-     *
-     * @return {Boolean}
-     */
-    canPlayAif : function()
-    {
-      return this.canPlayType("audio/x-aiff");
-    }
+  members : {
+    _audio : null
   }
 });
+

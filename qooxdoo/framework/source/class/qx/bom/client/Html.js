@@ -58,7 +58,77 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @return {Boolean} <code>true</code> if audio is supported
      */
     getAudio : function() {
-      return window.Audio != null;
+      return !!document.createElement('audio').canPlayType;
+    },
+
+    /**
+     * Whether the client can play ogg audio format.
+     *
+     * @internal
+     * @return {String} "" or "maybe" or "probably"
+     */
+    getAudioOgg : function() {
+      if (!qx.bom.client.Html.getAudio()) {
+        return "";
+      }
+      var a = document.createElement("audio");
+      return a.canPlayType("audio/ogg");
+    },
+
+    /**
+     * Whether the client can play mp3 audio format.
+     *
+     * @internal
+     * @return {String} "" or "maybe" or "probably"
+     */
+    getAudioMp3 : function() {
+      if (!qx.bom.client.Html.getAudio()) {
+        return "";
+      }
+      var a = document.createElement("audio");
+      return a.canPlayType("audio/mpeg");
+    },
+
+    /**
+     * Whether the client can play wave audio wave format.
+     *
+     * @internal
+     * @return {String} "" or "maybe" or "probably"
+     */
+    getAudioWav : function() {
+      if (!qx.bom.client.Html.getAudio()) {
+        return "";
+      }
+      var a = document.createElement("audio");
+      return a.canPlayType("audio/x-wav");
+    },
+
+    /**
+     * Whether the client can play au audio format.
+     *
+     * @internal
+     * @return {String} "" or "maybe" or "probably"
+     */
+    getAudioAu : function() {
+      if (!qx.bom.client.Html.getAudio()) {
+        return "";
+      }
+      var a = document.createElement("audio");
+      return a.canPlayType("audio/basic");
+    },
+
+    /**
+     * Whether the client can play aif audio format.
+     *
+     * @internal
+     * @return {String} "" or "maybe" or "probably"
+     */
+    getAudioAif : function() {
+      if (!qx.bom.client.Html.getAudio()) {
+        return "";
+      }
+      var a = document.createElement("audio");
+      return a.canPlayType("audio/x-aiff");
     },
 
 
@@ -76,7 +146,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * Whether the client supports ogg video.
      *
      * @internal
-     * @return {Boolean} <code>true</code> if video is supported
+     * @return {String} "" or "maybe" or "probably"
      */
     getVideoOgg : function() {
       if (!qx.bom.client.Html.getVideo()) {
@@ -90,7 +160,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * Whether the client supports mp4 video.
      *
      * @internal
-     * @return {Boolean} <code>true</code> if video is supported
+     * @return {String} "" or "maybe" or "probably"
      */
     getVideoH264 : function() {
       if (!qx.bom.client.Html.getVideo()) {
@@ -104,7 +174,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * Whether the client supports webm video.
      *
      * @internal
-     * @return {Boolean} <code>true</code> if video is supported
+     * @return {String} "" or "maybe" or "probably"
      */
     getVideoWebm : function() {
       if (!qx.bom.client.Html.getVideo()) {

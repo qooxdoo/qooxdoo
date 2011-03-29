@@ -279,6 +279,13 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("html.webworker"));
       this.assertBoolean(qx.core.Environment.get("html.geolocation"));
       this.assertBoolean(qx.core.Environment.get("html.audio"));
+
+      this.assertString(qx.core.Environment.get("html.audio.ogg"));
+      this.assertString(qx.core.Environment.get("html.audio.mp3"));
+      this.assertString(qx.core.Environment.get("html.audio.wav"));
+      this.assertString(qx.core.Environment.get("html.audio.aif"));
+      this.assertString(qx.core.Environment.get("html.audio.au"));
+
       this.assertBoolean(qx.core.Environment.get("html.video"));
       this.assertString(qx.core.Environment.get("html.video.ogg"));
       this.assertString(qx.core.Environment.get("html.video.h264"));

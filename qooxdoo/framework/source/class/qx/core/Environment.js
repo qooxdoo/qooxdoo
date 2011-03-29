@@ -151,6 +151,26 @@
  *       <td>{@link qx.bom.client.Html#getAudio}</td>
  *     </tr>
  *     <tr>
+ *       <td>html.audio.mp3</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
+ *       <td>{@link qx.bom.client.Html#getAudioMp3}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.audio.ogg</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
+ *       <td>{@link qx.bom.client.Html#getAudioOgg}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.audio.wav</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
+ *       <td>{@link qx.bom.client.Html#getAudioWav}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.audio.ai</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
+ *       <td>{@link qx.bom.client.Html#getAudioAi}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.audio.aif</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
+ *       <td>{@link qx.bom.client.Html#getAudioAif}</td>
+ *     </tr>
+ *     <tr>
  *       <td>html.canvas</td><td><i>Boolean</em></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getCanvas}</td>
  *     </tr>
@@ -179,15 +199,15 @@
  *       <td>{@link qx.bom.client.Html#getVideo}</td>
  *     </tr>
  *     <tr>
- *       <td>html.video.h264</td><td><i>String</em></td><td><code>probably</code></td>
+ *       <td>html.video.h264</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
  *       <td>{@link qx.bom.client.Html#getVideoH264}</td>
  *     </tr>
  *     <tr>
- *       <td>html.video.ogg</td><td><i>String</em></td><td><code>probably</code></td>
+ *       <td>html.video.ogg</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
  *       <td>{@link qx.bom.client.Html#getVideoOgg}</td>
  *     </tr>
  *     <tr>
- *       <td>html.video.webm</td><td><i>String</em></td><td><code>probably</code></td>
+ *       <td>html.video.webm</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
  *       <td>{@link qx.bom.client.Html#getVideoWebm}</td>
  *     </tr>
  *     <tr>
@@ -934,6 +954,21 @@ qx.Bootstrap.define("qx.core.Environment",
       }
       if (this.useCheck("html.audio")) {
         this._checks["html.audio"] = qx.bom.client.Html.getAudio;
+      }
+      if (this.useCheck("html.audio.ogg")) {
+        this._checks["html.audio.ogg"] = qx.bom.client.Html.getAudioOgg;
+      }
+      if (this.useCheck("html.audio.mp3")) {
+        this._checks["html.audio.mp3"] = qx.bom.client.Html.getAudioMp3;
+      }
+      if (this.useCheck("html.audio.wav")) {
+        this._checks["html.audio.wav"] = qx.bom.client.Html.getAudioWav;
+      }
+      if (this.useCheck("html.audio.au")) {
+        this._checks["html.audio.au"] = qx.bom.client.Html.getAudioAu;
+      }
+      if (this.useCheck("html.audio.aif")) {
+        this._checks["html.audio.aif"] = qx.bom.client.Html.getAudioAif;
       }
       if (this.useCheck("html.video")) {
         this._checks["html.video"] = qx.bom.client.Html.getVideo;
