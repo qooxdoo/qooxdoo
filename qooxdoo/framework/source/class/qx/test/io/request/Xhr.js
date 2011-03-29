@@ -303,6 +303,28 @@ qx.Class.define("qx.test.io.request.Xhr",
       });
     },
 
+    "test: should fire load": function() {
+      this.setUpFakeServer();
+      var req = this.req,
+          server = this.server;
+
+      this.assertEventFired(req, "load", function() {
+        req.send();
+        server.respond();
+      });
+    },
+
+    "test: should fire loadend": function() {
+      this.setUpFakeServer();
+      var req = this.req,
+          server = this.server;
+
+      this.assertEventFired(req, "loadend", function() {
+        req.send();
+        server.respond();
+      });
+    },
+
     //
     // Properties
     //

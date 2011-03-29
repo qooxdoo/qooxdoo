@@ -31,12 +31,18 @@ qx.Class.define("qx.io.request.Xhr",
     var transport = this.__transport = this._createTransport();
 
     this.__onReadyStateChangeBound = qx.lang.Function.bind(this.__onReadyStateChange, this);
+    this.__onLoadBound = qx.lang.Function.bind(this.__onLoad, this);
+    this.__onLoadEndBound = qx.lang.Function.bind(this.__onLoadEnd, this);
+
     transport.onreadystatechange = this.__onReadyStateChangeBound;
+    transport.onload = this.__onLoadBound;
+    transport.onloadend = this.__onLoadEndBound;
   },
 
   events:
   {
     readystatechange: "qx.event.type.Event",
+    load: "qx.event.type.Event",
     success: "qx.event.type.Event"
   },
 
@@ -166,6 +172,14 @@ qx.Class.define("qx.io.request.Xhr",
       if (this.isSuccessful()) {
         this.fireEvent("success");
       }
+    },
+
+    __onLoad: function() {
+      this.fireEvent("load");
+    },
+
+    __onLoadEnd: function() {
+      this.fireEvent("loadend");
     },
 
     __serializeData: function(data) {
