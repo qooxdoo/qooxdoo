@@ -242,6 +242,9 @@ qx.Class.define("qx.locale.Manager",
     __extractLanguage : function(locale)
     {
       var language;
+      if (locale == null) {
+        return null;
+      }
       var pos = locale.indexOf("_");
 
       if (pos == -1) {

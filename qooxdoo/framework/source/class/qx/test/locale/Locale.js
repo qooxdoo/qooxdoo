@@ -187,7 +187,7 @@ qx.Class.define("qx.test.locale.Locale",
         "test two": "two!"
       });
       manager.setLocale("en_QX");
-      manager.resetLocale();
+      manager.setLocale(locale);
       this.assertEquals(locale, manager.getLocale());
     }
 

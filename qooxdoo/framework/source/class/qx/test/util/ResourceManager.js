@@ -57,7 +57,7 @@ qx.Class.define("qx.test.util.ResourceManager",
     testIsClippedImage : function()
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
-      this.assertFalse(ResourceManager.isClippedImage("qx/static/blank.gif"));
+      this.assertFalse(ResourceManager.getCombinedFormat("qx/static/blank.gif") != "");
     },
 
     testToUri : function()
