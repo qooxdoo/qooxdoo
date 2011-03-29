@@ -19,6 +19,25 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
+ * A Button widget.
+ *
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   var button = new qx.ui.mobile.form.Button("Hello World");
+ *
+ *   button.addListener("tap", function(e) {
+ *     alert("Button was clicked");
+ *   }, this);
+ *
+ *   this.getRoot.add(button);
+ * </pre>
+ *
+ * This example creates a button with the label "Hello World" and attaches an
+ * event listener to the {@link #tap} event.
  */
 qx.Class.define("qx.ui.mobile.form.Button",
 {
@@ -31,6 +50,9 @@ qx.Class.define("qx.ui.mobile.form.Button",
   *****************************************************************************
   */
 
+  /**
+   * @param value {String} The value of the button
+   */
   construct : function(value)
   {
     this.base(arguments);
@@ -50,6 +72,7 @@ qx.Class.define("qx.ui.mobile.form.Button",
 
   properties :
   {
+    // overridden
     defaultCssClass :
     {
       refine : true,
@@ -57,6 +80,9 @@ qx.Class.define("qx.ui.mobile.form.Button",
     },
 
 
+    /**
+     * The value of the widget.
+     */
     value :
     {
       check : "String",
@@ -77,6 +103,7 @@ qx.Class.define("qx.ui.mobile.form.Button",
 
   members :
   {
+    // property apply
     _applyValue : function(value, old) {
       this._setHtml(value);
     }
