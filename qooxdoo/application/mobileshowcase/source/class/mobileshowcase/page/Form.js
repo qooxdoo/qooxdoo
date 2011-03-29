@@ -96,7 +96,7 @@ qx.Class.define("mobileshowcase.page.Form",
      * 
      * @param evt {qx.event.type.Tap} The tap event.
      */
-    _onButtonTap : function()
+    _onButtonTap : function(evt)
     {
       var result = [];
       result.push("Username: " +  this.__name.getValue());

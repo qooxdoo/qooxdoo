@@ -73,6 +73,7 @@ qx.Class.define("mobileshowcase.page.Tab",
     /**
      * Creates the view for the tab.
      * 
+     * @param text {String} The text of the label used in this view.
      * @return {qx.ui.mobile.basic.Label} the created view.
      */
     __createView : function(text)
