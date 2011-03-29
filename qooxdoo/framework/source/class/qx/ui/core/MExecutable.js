@@ -180,7 +180,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
 
 
   destruct : function() {
-    this.setCommand(null);
+    this._applyCommand(null, this.getCommand());
     this.__executableBindingIds = null;
   }
 });
