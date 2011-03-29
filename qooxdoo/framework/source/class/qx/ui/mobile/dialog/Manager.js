@@ -24,6 +24,25 @@
  * the application is running in a PhoneGap environment. For debugging in a browser
  * it displays the browser <code>alert</code> or <code>confirm</code> dialog. In the near
  * future this should be replaced by dialog widgets.
+ * 
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *    var buttons = [];
+ *    buttons.push(qx.locale.Manager.tr("OK"));
+ *    buttons.push(qx.locale.Manager.tr("Cancel"));
+ *    var title = "Delete item";
+ *    var text = "Do you want to delete the item?"
+ *    qx.ui.mobile.dialog.Manager.getInstance().confirm(title, text, function(index) {
+ *      if (index==1) {
+ *        // delete the item
+ *      }
+ *    }, this, buttons);
+ * </pre>
+ *
+ * This example displays a confirm dialog and defines a button click handler.
  */
 qx.Class.define("qx.ui.mobile.dialog.Manager",
 {

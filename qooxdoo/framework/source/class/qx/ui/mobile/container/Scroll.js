@@ -40,8 +40,7 @@
  *   this.getRoot().add(scroll);
  * </pre>
  *
- * This example horizontally groups a label and text field by using a
- * Composite configured with a horizontal box layout as a container.
+ * This example creates a scroll container and adds a label to it.
  */
 qx.Class.define("qx.ui.mobile.container.Scroll",
 {
