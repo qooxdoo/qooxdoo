@@ -28,7 +28,15 @@ qx.Class.define("qx.io.request.Xhr",
   {
     this.base(arguments);
 
-    this.__transport = this._createTransport();
+    var transport = this.__transport = this._createTransport();
+
+    this.__onReadyStateChangeBound = qx.lang.Function.bind(this.__onReadyStateChange, this);
+    transport.onreadystatechange = this.__onReadyStateChangeBound;
+  },
+
+  events:
+  {
+    readystatechange: "qx.event.type.Event"
   },
 
   properties:
@@ -128,6 +136,10 @@ qx.Class.define("qx.io.request.Xhr",
 
     _createTransport: function() {
       return new qx.bom.request.Xhr();
+    },
+
+    __onReadyStateChange: function() {
+      this.fireEvent("readystatechange");
     },
 
     __serializeData: function(data) {
