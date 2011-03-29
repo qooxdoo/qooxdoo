@@ -3,8 +3,8 @@
   {
     "name" : "${Name}",
 
-    "summary" : "Custom Application",
-    "description" : "This is a skeleton for a custom application with qooxdoo.",
+    "summary" : "Custom Mobile Application",
+    "description" : "This is a skeleton for a custom mobile application with qooxdoo.",
     
     "homepage" : "http://some.homepage.url/",
 

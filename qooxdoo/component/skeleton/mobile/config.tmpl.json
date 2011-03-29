@@ -93,7 +93,7 @@
     // using a contrib: library, it will be downloaded into the path specified
     // by the 'cache/downloads' config key
     /*
-    "libraries" : 
+    , "libraries" : 
     {
       "library" :
       [
@@ -101,14 +101,14 @@
           "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json"
         }
       ]
-    },
+    }
     */
 
     // If you want to tweak a job setting, see the following sample where
     // the "format" feature of the "build-script" job is overridden.
     // To see a list of available jobs, invoke 'generate.py x'.
     /*
-    "build-script" :
+    , "build-script" :
     {
       "compile-options" : 
       {
