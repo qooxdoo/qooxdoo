@@ -20,6 +20,10 @@ qooxdoo/tool/admin/app/commitlogreport/log*.txt
 # Directories
 #
 qooxdoo/framework/cache
+qooxdoo/application/mobileshowcase/test
+qooxdoo/application/mobileshowcase/build
+qooxdoo/application/mobileshowcase/source/script
+
 qooxdoo/application/playground/test
 qooxdoo/application/feedreader/api
 qooxdoo/application/performance/test
