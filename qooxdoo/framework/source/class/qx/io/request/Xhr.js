@@ -159,6 +159,14 @@ qx.Class.define("qx.io.request.Xhr",
       return this.__transport.responseText;
     },
 
+    getAllResponseHeaders: function() {
+      return this.__transport.getAllResponseHeaders();
+    },
+
+    getResponseHeader: function(header) {
+      return this.__transport.getResponseHeader(header);
+    },
+
     isSuccessful: function() {
       var status = this.getStatus();
       return (status >= 200 && status < 300 || status === 304)
