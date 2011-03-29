@@ -461,7 +461,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * }
      * 
      * @param property {String} The property name 
-     * @param attribute {String} The real attribute name
+     * @param style {String} The real style name
      * @param values {Map} Values of the property to the real style value.
      *      Use null, when you want not to set the style.
      */
