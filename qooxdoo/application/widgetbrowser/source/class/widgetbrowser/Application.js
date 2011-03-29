@@ -17,6 +17,11 @@
 
 ************************************************************************ */
 
+/*
+ * The next is to inform resource copying
+ #asset(widgetbrowser/helper.js)
+ */
+
 qx.Class.define("widgetbrowser.Application",
 {
   extend : qx.application.Standalone,
