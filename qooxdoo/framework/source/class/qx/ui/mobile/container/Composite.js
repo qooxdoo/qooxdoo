@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.mobile.container.Composite",
   */
 
   /**
-   * @param layout {qx.ui.mobile.layout.Abstract} The layout that should be used for this
+   * @param layout {qx.ui.mobile.layout.Abstract?null} The layout that should be used for this
    *     container
    */
   construct : function(layout)

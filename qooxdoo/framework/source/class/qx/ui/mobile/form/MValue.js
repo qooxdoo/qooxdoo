@@ -38,7 +38,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
   */
 
   /**
-   * @param value {var} The value of the widget.
+   * @param value {var?null} The value of the widget.
    */
   construct : function(value)
   {
@@ -148,12 +148,22 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
     __oldValue : null,
 
 
+    /**
+     * Converts the incoming value.
+     * 
+     * @param value {var} The value to convert
+     */
     _convertValue : function(value)
     {
       return value || "";
     },
 
 
+    /**
+     * Sets the value.
+     * 
+     * @param value {var} The value to set
+     */
     setValue : function(value)
     {
       value = this._convertValue(value);
@@ -165,12 +175,22 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
     },
 
 
+    /**
+     * Returns the set value.
+     * 
+     * @return {var} The set value
+     */
     getValue : function()
     {
       return this._convertValue(this._getAttribute("value"));
     },
 
 
+    /**
+     * Resets the value.
+     * 
+     * @return {var} The set value
+     */
     resetValue : function()
     {
       this.setValue(null);

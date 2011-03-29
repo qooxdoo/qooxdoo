@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.mobile.form.Button",
   */
 
   /**
-   * @param value {String} The value of the button
+   * @param value {String?null} The value of the button
    */
   construct : function(value)
   {

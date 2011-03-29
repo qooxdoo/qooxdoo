@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.mobile.basic.Label",
   */
 
   /**
-   * @param value {String} Text or HTML content to display
+   * @param value {String?null} Text or HTML content to display
    */
   construct : function(value)
   {

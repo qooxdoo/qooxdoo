@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.mobile.embed.Html",
   */
 
   /**
-   * @param html {String} Initial HTML content
+   * @param html {String?null} Initial HTML content
    */
   construct : function(html)
   {
