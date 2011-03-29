@@ -63,7 +63,7 @@ def search(node, variantMap, fileId_="", verb=False):
     variantNodes = findVariantNodes(node)
     for variantNode in variantNodes:
         variantMethod = selectNode(variantNode, "identifier[4]/@name")
-        if variantMethod in ["select", "selectAsync"]:
+        if variantMethod in ["select"]:
             #modified = processVariantSelect(selectNode(variantNode, "../.."), variantMap) or modified
             modified = processVariantSelect(selectCallNode(variantNode), variantMap) or modified
         elif variantMethod == "isSet":
@@ -72,7 +72,7 @@ def search(node, variantMap, fileId_="", verb=False):
         elif variantMethod == "compilerIsSet":
             #modified = processVariantIsSet(selectNode(variantNode, "../.."), variantMap) or modified
             modified = processVariantIsSet(selectCallNode(variantNode), variantMap) or modified
-        elif variantMethod in ["get", "getAsync"]:
+        elif variantMethod in ["get"]:
             #modified = processVariantGet(selectNode(variantNode, "../.."), variantMap) or modified
             modified = processVariantGet(selectCallNode(variantNode), variantMap) or modified
 
@@ -533,7 +533,7 @@ def findVariantNodes(node):
         if not variantNode.hasParentContext("call/operand"):
             continue
         variantMethod = treeutil.selectNode(variantNode, "identifier[4]/@name")
-        if variantMethod not in ["select", "selectAsync", "isSet", "compilerIsSet", "get", "getAsync"]:
+        if variantMethod not in ["select", "isSet", "compilerIsSet", "get"]:
             continue
         else:
             yield variantNode
