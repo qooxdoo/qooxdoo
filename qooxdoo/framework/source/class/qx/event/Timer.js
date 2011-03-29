@@ -102,7 +102,7 @@ qx.Class.define("qx.event.Timer",
      */
     once : function(func, obj, timeout)
     {
-      if (qx.core.Environment.get("qx.debug")) {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
         // check the given parameter
         qx.core.Assert.assertFunction(func, "func is not a function");
         qx.core.Assert.assertNotUndefined(timeout, "No timeout given");
