@@ -522,7 +522,7 @@ qx.Bootstrap.define("qx.core.Environment",
      */
     __pickFromValues : function(key, values) {
       var value = values[key];
-      if (value !== undefined) {
+      if (values.hasOwnProperty(key)) {
         return value;
       }
 
