@@ -21,6 +21,17 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * The label widget displays a text or HTML content.
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   var label = new qx.ui.mobile.basic.Label("Hello World");
+ *
+ *   this.getRoot().add(label);
+ * </pre>
+ *
+ * This example create a widget to display the label.
  *
  */
 qx.Class.define("qx.ui.mobile.basic.Label",
