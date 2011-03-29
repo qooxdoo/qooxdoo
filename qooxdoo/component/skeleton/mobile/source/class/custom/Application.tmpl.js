@@ -56,28 +56,31 @@ qx.Class.define("${Namespace}.Application",
       -------------------------------------------------------------------------
       */
 
-      var page1 = new qx.ui.mobile.page.Page();
+      var page1 = new qx.ui.mobile.page.NavigationPage();
+      page1.setTitle("Page 1");
       page1.addListener("initialize", function()
       {
         var button = new qx.ui.mobile.form.Button("Next Page");
-        page1.add(button);
+        page1.getContent().add(button);
 
         button.addListener("tap", function() {
           page2.show();
         }, this);
       },this);
 
-
-      var page2 = new qx.ui.mobile.page.Page();
+      var page2 = new qx.ui.mobile.page.NavigationPage();
+      page2.setTitle("Page 2");
+      page2.setShowBackButton(true);
+      page2.setBackButtonText("Back");
       page2.addListener("initialize", function()
       {
-        var button = new qx.ui.mobile.form.Button("Previous Page");
-        page2.add(button);
-
-        button.addListener("tap", function() {
-          page1.show({reverse:true});
-        }, this);
+        var label = new qx.ui.mobile.basic.Label("Content of Page 2");
+        page2.getContent().add(label);
       },this);
+
+      page2.addListener("back", function() {
+        page1.show({reverse:true});
+      }, this);
 
       page1.show();
     }
