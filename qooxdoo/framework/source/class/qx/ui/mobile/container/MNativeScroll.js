@@ -21,7 +21,7 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  * 
  * Mixin for the {@link Scroll} container. Used when the variant
- * "qx.mobile.nativescroll" is set to "on".
+ * <code>qx.mobile.nativescroll</code> is set to "on".
  */
 qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 {
