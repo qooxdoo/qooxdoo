@@ -208,16 +208,16 @@ qx.Class.define("qx.test.util.DateFormat",
       var formatStr = "z";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
 
-      this.assertEquals("GMT+1:00", dateFmt.format(date));
+      this.assertEquals("GMT+01:00", dateFmt.format(date));
 
       var date = new qx.test.util.DateMock({timezoneOffset: 60});
-      this.assertEquals("GMT-1:00", dateFmt.format(date));
+      this.assertEquals("GMT-01:00", dateFmt.format(date));
 
       var date = new qx.test.util.DateMock({timezoneOffset: -90});
-      this.assertEquals("GMT+1:30", dateFmt.format(date));
+      this.assertEquals("GMT+01:30", dateFmt.format(date));
 
       var date = new qx.test.util.DateMock({timezoneOffset: 90});
-      this.assertEquals("GMT-1:30", dateFmt.format(date));
+      this.assertEquals("GMT-01:30", dateFmt.format(date));
     },
 
 
@@ -763,7 +763,12 @@ qx.Class.define("qx.test.util.DateFormat",
       {
         var date = this.__dates[i].date;
 
-        var localTimeZone = (''+date).replace(/^[^\(]+/,'').replace('(','').replace(')','');
+        var timezoneOffset = date.getTimezoneOffset();
+        var timezoneSign = timezoneOffset > 0 ? 1 : -1;
+        var timezoneHours = Math.floor(Math.abs(timezoneOffset) / 60);
+        var timezoneMinutes = Math.abs(timezoneOffset) % 60;
+        
+        var localTimeZone = "GMT" + ((timezoneSign > 0) ? "-" : "+") + this.__fillNumber(Math.abs(timezoneHours),2) + ":" + this.__fillNumber(timezoneMinutes, 2);
 
         df = new qx.util.format.DateFormat("z");
         this.assertEquals(localTimeZone, df.format(date));

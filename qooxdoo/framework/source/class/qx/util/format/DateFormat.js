@@ -404,7 +404,6 @@ qx.Class.define("qx.util.format.DateFormat",
       var timezoneSign = timezoneOffset > 0 ? 1 : -1;
       var timezoneHours = Math.floor(Math.abs(timezoneOffset) / 60);
       var timezoneMinutes = Math.abs(timezoneOffset) % 60;
-      var timezoneName = (''+date).replace(/^[^\(]+/,'').replace('(','').replace(')','');
 
       // Create the output
       this.__initFormatTree();
@@ -619,24 +618,31 @@ qx.Class.define("qx.util.format.DateFormat",
             case 'z': // Time zone
               if (wildcardSize >= 1 && wildcardSize <= 4)
               {
-                replacement = timezoneName;
-                if(!replacement || replacement.length<1)
-                {
-                  replacement =
-                  "GMT" +
-                  ((timezoneSign > 0) ? "-" : "+") +
-                  this.__fillNumber(Math.abs(timezoneHours)) +
-                  ":" + this.__fillNumber(timezoneMinutes, 2);
-                }
+                replacement =
+                "GMT" +
+                ((timezoneSign > 0) ? "-" : "+") +
+                this.__fillNumber(Math.abs(timezoneHours),2) +
+                ":" + this.__fillNumber(timezoneMinutes, 2);
               }
 
               break;
 
             case 'Z': // RFC 822 time zone
+              if (wildcardSize >= 1 && wildcardSize <= 3)
+              {
               replacement =
                 ((timezoneSign > 0) ? "-" : "+") +
                 this.__fillNumber(Math.abs(timezoneHours), 2) +
                 this.__fillNumber(timezoneMinutes, 2);
+              }
+              else
+              {
+                replacement =
+                "GMT" +
+                ((timezoneSign > 0) ? "-" : "+") +
+                this.__fillNumber(Math.abs(timezoneHours),2) +
+                ":" + this.__fillNumber(timezoneMinutes, 2);
+              }
               break;
           }
 
@@ -1689,14 +1695,14 @@ qx.Class.define("qx.util.format.DateFormat",
       rules.push(
       {
         pattern     : "Z",
-        regex       : "([\\+\\-]\\d\\d:?\\d\\d)",
+        regex       : "([\\+\\-]\\d\\d\\d\\d)",
         manipulator : ignoreManipulator
       });
 
       rules.push(
       {
         pattern     : "z",
-        regex       : "([a-zA-Z]+)",
+        regex       : "(GMT[\\+\\-]\\d\\d:\\d\\d)",
         manipulator : ignoreManipulator
       });
     }
