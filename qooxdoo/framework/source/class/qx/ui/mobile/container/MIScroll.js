@@ -30,8 +30,8 @@
  * 
  * Mixin for the {@link Scroll} container. Used when the variant
  * "qx.mobile.nativescroll" is set to "off". Uses the iScroll script to simulate
- * the CSS position:fixed style. Position fixed is not available in iOS and Android
- * < 2.2.
+ * the CSS position:fixed style. Position fixed is not available in iOS and
+ * Android < 2.2.
  */
 qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 {
