@@ -374,6 +374,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Schedules the {@link #domUpdated} method. The method will be called after a timeout
      * to prevent the triggered events to be fired to often, during massive DOM manipulations.
+     * 
+     * @internal
      */
     scheduleDomUpdated : function()
     {
@@ -392,6 +394,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * {@link qx.ui.mobile.core.DomUpdatedHandler#refresh} methods. Do not use this
      * method during massive DOM manipulations. Use {@link #scheduleDomUpdated} instead.
      *
+     * @internal
      */
     domUpdated : qx.event.GlobalError.observeMethod(function()
     {
