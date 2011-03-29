@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * Mobile page responsible for showing the "event" showcase.
+ */
 qx.Class.define("mobileshowcase.page.Event",
 { 
   extend : qx.ui.mobile.page.NavigationPage,
@@ -37,6 +40,7 @@ qx.Class.define("mobileshowcase.page.Event",
     __inMove : null,
 
 
+    // overridden
     _initialize : function()
     {
       this.base(arguments);
@@ -61,18 +65,33 @@ qx.Class.define("mobileshowcase.page.Event",
     },
 
 
+    /**
+     * Event handler.
+     * 
+     * @param evt {qx.event.type.Tap} The tap event.
+     */
     _onTap : function(evt)
     {
       this.__label.setValue(this.__label.getValue() + " tap");
     },
 
 
+    /**
+     * Event handler.
+     * 
+     * @param evt {qx.event.type.Swipe} The swipe event.
+     */
     _onSwipe : function(evt)
     {
       this.__label.setValue(this.__label.getValue() + " swipe");      
     },
 
 
+    /**
+     * Event handler.
+     * 
+     * @param evt {qx.event.type.Touch} The touch event.
+     */
     _onTouch : function(evt)
     {
       var type = evt.getType();
@@ -81,8 +100,8 @@ qx.Class.define("mobileshowcase.page.Event",
       }
       this.__label.setValue(this.__label.getValue() + " " + evt.getType());
     },
-    
-    
+
+
     // overridden
     _back : function()
     {

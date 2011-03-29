@@ -17,10 +17,14 @@
 
 ************************************************************************ */
 
+/**
+ * Mobile page responsible for showing the "tab" showcase.
+ */
 qx.Class.define("mobileshowcase.page.Tab",
 { 
   extend : qx.ui.mobile.page.NavigationPage,
-  
+
+
   construct : function()
   {
     this.base(arguments);
@@ -32,6 +36,7 @@ qx.Class.define("mobileshowcase.page.Tab",
 
   members :
   {
+    // overridden
     _initialize : function()
     {
       this.base(arguments);
@@ -40,6 +45,11 @@ qx.Class.define("mobileshowcase.page.Tab",
     },
 
 
+    /**
+     * Creates the tab bar.
+     * 
+     * @return {qx.ui.mobile.tabbar.TabBar} created tab bar.
+     */
     __createTabBar : function()
     {
       var tabBar = new qx.ui.mobile.tabbar.TabBar();
@@ -58,17 +68,21 @@ qx.Class.define("mobileshowcase.page.Tab",
       tabBar.add(tabButton4);
       return tabBar;
     },
-    
-    
+
+
+    /**
+     * Creates the view for the tab.
+     * 
+     * @return {qx.ui.mobile.basic.Label} the created view.
+     */
     __createView : function(text)
     {
       var label = new qx.ui.mobile.basic.Label(text);
       this.getContent().add(label);
       return label;
     },
-    
-    
-    
+
+
     // overridden
     _back : function()
     {

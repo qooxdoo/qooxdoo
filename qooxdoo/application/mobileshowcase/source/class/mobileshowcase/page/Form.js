@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * Mobile page responsible for showing the "form" showcase.
+ */
 qx.Class.define("mobileshowcase.page.Form",
 { 
   extend : qx.ui.mobile.page.NavigationPage,
@@ -27,11 +30,6 @@ qx.Class.define("mobileshowcase.page.Form",
     this.setTitle("Form");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
-  },
-  
-  events :
-  {
-    "show" : "qx.event.type.Data"
   },
 
 
@@ -58,6 +56,11 @@ qx.Class.define("mobileshowcase.page.Form",
     },
 
 
+    /**
+     * Creates the form for this showcase.
+     * 
+     * @return {qx.ui.mobile.form.Form} the created form.
+     */
     __createForm : function()
     {
       var form = new qx.ui.mobile.form.Form();
@@ -88,6 +91,11 @@ qx.Class.define("mobileshowcase.page.Form",
     },
 
 
+    /**
+     * Event handler.
+     * 
+     * @param evt {qx.event.type.Tap} The tap event.
+     */
     _onButtonTap : function()
     {
       var result = [];

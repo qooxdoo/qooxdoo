@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * Mobile page responsible for showing the different showcases.
+ */
 qx.Class.define("mobileshowcase.page.Overview",
 { 
   extend : qx.ui.mobile.page.NavigationPage,
@@ -26,9 +29,11 @@ qx.Class.define("mobileshowcase.page.Overview",
     this.base(arguments);
     this.setTitle("Overview");
   },
-  
+
+
   events :
   {
+    /** The page to show */
     "show" : "qx.event.type.Data"
   },
 

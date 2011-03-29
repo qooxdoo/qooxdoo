@@ -21,6 +21,10 @@
 #asset(qx/icon/Tango/22/apps/internet-mail.png)
 
 ************************************************************************ */
+
+/**
+ * Mobile page responsible for showing the "list" showcase.
+ */
 qx.Class.define("mobileshowcase.page.List",
 { 
   extend : qx.ui.mobile.page.NavigationPage,
@@ -66,8 +70,8 @@ qx.Class.define("mobileshowcase.page.List",
       }, this);
       this.getContent().add(list);
     },
-    
-    
+
+
     // overridden
     _back : function()
     {

@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /**
- * This is the main application class of your custom application "mobileshowcase"
+ * This is the main application class for the mobile showcase app.
  */
 qx.Class.define("mobileshowcase.Application",
 {
@@ -65,8 +65,8 @@ qx.Class.define("mobileshowcase.Application",
         Below is your actual application code...
       -------------------------------------------------------------------------
       */
-      var nm = qx.ui.mobile.navigation.Manager.getInstance();
-      
+
+      // Create the pages
       var overview = new mobileshowcase.page.Overview();  
       var events = new mobileshowcase.page.Event();
       var list = new mobileshowcase.page.List();
@@ -75,6 +75,9 @@ qx.Class.define("mobileshowcase.Application",
       var animation = new mobileshowcase.page.Animation();
       var animationLanding = new mobileshowcase.page.AnimationLanding();
 
+
+      // Navigation
+      var nm = qx.ui.mobile.navigation.Manager.getInstance();
       nm.onGet("/", function(data) {
         overview.show(data.customData);
       },this);  
@@ -83,7 +86,6 @@ qx.Class.define("mobileshowcase.Application",
       {
         events.show();
       },this);
-
 
       nm.onGet("/tab", function(data)
       {
@@ -94,7 +96,7 @@ qx.Class.define("mobileshowcase.Application",
       {
         list.show();
       },this);
-      
+
       nm.onGet("/form", function(data)
       {
         form.show();
@@ -103,7 +105,6 @@ qx.Class.define("mobileshowcase.Application",
       nm.onGet("/animation", function(data) {
         animation.show(data.customData);
       },this);
-
 
       nm.onGet("/animation/:animation", function(data) {
         var animation = data.params.animation;
