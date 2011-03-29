@@ -40,7 +40,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.req = new qx.io.request.Xhr;
       this.req.setUrl("url");
     },
-    
+
     setUpFakeTransport: function() {
       this.transport = this.stub(new qx.bom.request.Xhr());
       this.spy(this.transport, "open");
@@ -284,6 +284,35 @@ qx.Class.define("qx.test.io.request.Xhr",
     //     req.send();
     //   });
     // },
+
+    //
+    // Properties
+    //
+
+    "test: should sync XHR properties for every readyState": function() {
+      this.setUpFakeServer();
+      var req = this.req,
+          server = this.server,
+          readyStates = [],
+          statuses = [];
+
+      req.setUrl("/found");
+      req.setMethod("GET");
+
+      readyStates.push(req.getReadyState());
+      req.addListener("readystatechange", function() {
+        readyStates.push(req.getReadyState());
+        statuses.push(req.getStatus());
+      }, this);
+
+      req.send();
+      server.respond();
+
+      this.assertArrayEquals([0, 1, 2, 3, 4], readyStates);
+      this.assertArrayEquals([0, 0, 200, 200], statuses);
+      this.assertEquals("OK", req.getStatusText());
+      this.assertEquals("FOUND", req.getResponseText());
+    },
 
     //
     // Abort

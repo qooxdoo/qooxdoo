@@ -134,6 +134,22 @@ qx.Class.define("qx.io.request.Xhr",
       this.__transport.abort();
     },
 
+    getReadyState: function() {
+      return this.__transport.readyState;
+    },
+
+    getStatus: function() {
+      return this.__transport.status;
+    },
+
+    getStatusText: function() {
+      return this.__transport.statusText;
+    },
+
+    getResponseText: function() {
+      return this.__transport.responseText;
+    },
+
     _createTransport: function() {
       return new qx.bom.request.Xhr();
     },
@@ -174,7 +190,7 @@ qx.Class.define("qx.io.request.Xhr",
 
   },
 
-  destruct: function() 
+  destruct: function()
   {
     this.__transport.dispose();
   }
