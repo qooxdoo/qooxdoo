@@ -3,17 +3,17 @@
   {
     "name" : "widgetbrowser",
 
-    "summary" : "Custom Application",
-    "description" : "This is a skeleton for a custom application with qooxdoo.",
+    "summary" : "Widget browser",
+    "description" : "This app demonstrates many widgets of qooxdoo.",
     
-    "homepage" : "http://some.homepage.url/",
+    "homepage" : "http://demo.qooxdoo.org/current/widgetbrowser",
 
-    "license" : "SomeLicense",
+    "license" : "LGPL/EPL",
     "authors" : 
     [
       {
-        "name" : "First Author (uid)",
-        "email" : "first.author@some.domain"
+        "name" : "Tristan Koch (tristankoch)",
+        "email" : "tristan.koch@1und1.de"
       }
     ],
 
