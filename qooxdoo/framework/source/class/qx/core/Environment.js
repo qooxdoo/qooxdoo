@@ -151,23 +151,23 @@
  *       <td>{@link qx.bom.client.Html#getAudio}</td>
  *     </tr>
  *     <tr>
- *       <td>html.audio.mp3</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
+ *       <td>html.audio.mp3</td><td><i>String</em></td><td><code>""</code></td>
  *       <td>{@link qx.bom.client.Html#getAudioMp3}</td>
  *     </tr>
  *     <tr>
- *       <td>html.audio.ogg</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
+ *       <td>html.audio.ogg</td><td><i>String</em></td><td><code>"maybe"</code></td>
  *       <td>{@link qx.bom.client.Html#getAudioOgg}</td>
  *     </tr>
  *     <tr>
- *       <td>html.audio.wav</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
+ *       <td>html.audio.wav</td><td><i>String</em></td><td><code>"probably"</code></td>
  *       <td>{@link qx.bom.client.Html#getAudioWav}</td>
  *     </tr>
  *     <tr>
- *       <td>html.audio.ai</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
+ *       <td>html.audio.ai</td><td><i>String</em></td><td><code>"maybe"</code></td>
  *       <td>{@link qx.bom.client.Html#getAudioAi}</td>
  *     </tr>
  *     <tr>
- *       <td>html.audio.aif</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
+ *       <td>html.audio.aif</td><td><i>String</em></td><td><code>"probably"</code></td>
  *       <td>{@link qx.bom.client.Html#getAudioAif}</td>
  *     </tr>
  *     <tr>
@@ -199,15 +199,15 @@
  *       <td>{@link qx.bom.client.Html#getVideo}</td>
  *     </tr>
  *     <tr>
- *       <td>html.video.h264</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
+ *       <td>html.video.h264</td><td><i>String</em></td><td><code>"probably"</code></td>
  *       <td>{@link qx.bom.client.Html#getVideoH264}</td>
  *     </tr>
  *     <tr>
- *       <td>html.video.ogg</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
+ *       <td>html.video.ogg</td><td><i>String</em></td><td><code>""</code></td>
  *       <td>{@link qx.bom.client.Html#getVideoOgg}</td>
  *     </tr>
  *     <tr>
- *       <td>html.video.webm</td><td><i>String</em></td><td><code>"" || "maybe" || "probably"</code></td>
+ *       <td>html.video.webm</td><td><i>String</em></td><td><code>"maybe"</code></td>
  *       <td>{@link qx.bom.client.Html#getVideoWebm}</td>
  *     </tr>
  *     <tr>
