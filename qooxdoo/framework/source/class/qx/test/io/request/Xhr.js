@@ -21,6 +21,10 @@
 #ignore(Klass)
 ************************************************************************ */
 
+/* ************************************************************************
+#asset(qx/test/xmlhttp/*)
+************************************************************************ */
+
 /**
  * @lint ignoreUndefined(Klass)
  */
@@ -28,7 +32,8 @@ qx.Class.define("qx.test.io.request.Xhr",
 {
   extend : qx.dev.unit.TestCase,
 
-  include : qx.dev.unit.MMock,
+  include : [qx.test.io.MRemoteTest,
+             qx.dev.unit.MMock],
 
   members :
   {
@@ -83,8 +88,29 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     //
+    // Full stack tests
+    //
+
+    "test: should fetch resource": function() {
+      var req = new qx.io.request.Xhr(),
+          url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt"));
+
+      req.addListener("success", function() {
+        this.resume(function() {
+          this.assertEquals("SAMPLE", req.getResponseText());
+        }, this);
+      }, this);
+
+      req.setUrl(url);
+      req.send();
+
+      this.wait();
+    },
+
+    //
     // General
     //
+
     "test: should dispose transport on destruct": function() {
       this.setUpFakeTransport();
       this.spy(this.transport, "dispose");
@@ -303,6 +329,17 @@ qx.Class.define("qx.test.io.request.Xhr",
       });
     },
 
+    "test: should not fire success": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport;
+
+      this.assertEventNotFired(req, "success", function() {
+        transport.status = 200;
+        transport.onreadystatechange();
+      });
+    },
+
     "test: should fire load": function() {
       this.setUpFakeTransport();
       var req = this.req,
@@ -373,6 +410,10 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.req.abort();
 
       this.assertCalled(this.transport.abort);
+    },
+
+    noCache: function(url) {
+      return url + "?nocache=" + Math.random();
     }
   }
 });

@@ -173,6 +173,10 @@ qx.Class.define("qx.io.request.Xhr",
       return this.__transport.getResponseHeader(header);
     },
 
+    isDone: function() {
+      return this.getReadyState() === 4;
+    },
+
     isSuccessful: function() {
       var status = this.getStatus();
       return (status >= 200 && status < 300 || status === 304)
@@ -185,7 +189,7 @@ qx.Class.define("qx.io.request.Xhr",
     __onReadyStateChange: function() {
       this.fireEvent("readystatechange");
 
-      if (this.isSuccessful()) {
+      if (this.isDone() && this.isSuccessful()) {
         this.fireEvent("success");
       }
     },
