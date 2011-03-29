@@ -62,7 +62,12 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     __scroll : null,
     __onDomSubtreeModified : null,
 
-    // Mixin method
+
+    /**
+     * Mixin method. Creates the scroll element.
+     * 
+     * @return {Element} The scroll element
+     */
     _createScrollElement : function()
     {
       var scroll = qx.bom.Element.create("div");
@@ -70,7 +75,11 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     },
 
 
-    // Mixin method
+    /**
+     * Mixin method. Returns the scroll content element..
+     * 
+     * @return {Element} The scroll content element
+     */
     _getScrollContentElement : function()
     {
       return this.getContainerElement().childNodes[0];
@@ -171,7 +180,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
      * Calls the refresh function of iScroll. Needed to recalculate the
      * scrolling container.
      */
-    _refresh : function(evt)
+    _refresh : function()
     {
       if (this.__scroll) {
         // TODO: Set minHeight of containerElement?
