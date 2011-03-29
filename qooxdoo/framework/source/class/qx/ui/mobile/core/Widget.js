@@ -767,7 +767,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * Returns the index position of the given widget if it is
      * a child widget. Otherwise it returns <code>-1</code>.
      *
-     * @param widget {Widget} the widget to query for
+     * @param child {Widget} the widget to query for
      * @return {Integer} The index position or <code>-1</code> when
      *   the given widget is no child of this layout.
      */
