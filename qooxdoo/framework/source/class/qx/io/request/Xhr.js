@@ -44,8 +44,10 @@ qx.Class.define("qx.io.request.Xhr",
   events:
   {
     readystatechange: "qx.event.type.Event",
+    success: "qx.event.type.Event",
     load: "qx.event.type.Event",
-    success: "qx.event.type.Event"
+    loadend: "qx.event.type.Event",
+    error: "qx.event.type.Event"
   },
 
   properties:

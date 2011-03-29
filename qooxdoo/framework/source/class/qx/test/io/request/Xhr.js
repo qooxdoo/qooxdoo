@@ -143,20 +143,21 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalled(this.transport.send);
     },
 
-    "test: should send sync request": function() {
-      this.setUpFakeTransport();
-      this.req.setAsync(false);
-      this.req.send();
-
-      this.assertCalledWith(this.transport.open, "GET", "url", false);
-    },
-
     "test: should send POST request": function() {
       this.setUpFakeTransport();
       this.req.setMethod("POST");
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "POST");
+    },
+
+    "test: should send sync request": function() {
+      this.setUpFakeTransport();
+      this.req.setAsync(false);
+      this.req.send();
+
+      this.assertCalledWith(this.transport.open, "GET", "url", false);
+      this.assertCalled(this.transport.send);
     },
 
     "test: should send authorized request": function() {
