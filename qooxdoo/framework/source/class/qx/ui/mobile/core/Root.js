@@ -38,12 +38,17 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
   properties :
   {
-    defaultCssClass : {
+    // overridden
+    defaultCssClass :
+    {
       refine : true,
       init : "root"
     },
 
 
+    /**
+     * Whether the native scrollbar should be shown or not.
+     */
     showScrollbarY :
     {
       check : "Boolean",
@@ -69,6 +74,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
     },
 
 
+    // property apply
     _applyShowScrollbarY : function(value, old) {
       this._setStyle("overflow-y", value ? "auto" : "hidden");
     }
