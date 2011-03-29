@@ -88,11 +88,20 @@ qx.Class.define("qx.test.dev.unit.Sinon",
 
     "test: should fake XHR": function() {
       this.useFakeXMLHttpRequest();
-      var nxhr = window.XMLHttpRequest || window.ActiveXObject("Microsoft.XMLHTTP")
-      var req = new nxhr;
-      this.assertFunction(nxhr.restore);
-      this.assertFunction(req.open);
-      this.assertFunction(req.send);
+      var nxhr = window.XMLHttpRequest || window.ActiveXObject("Microsoft.XMLHTTP");
+      new nxhr;
+      var req = this.getRequests()[0];
+
+      this.assertFunction(nxhr.restore, "restore");
+      this.assertFunction(req.open, "open");
+      this.assertFunction(req.send, "send");
+    },
+
+    "test: should fake server": function() {
+      this.useFakeServer();
+      var server = this.getServer();
+      this.assertFunction(server.respond);
+      this.assertFunction(server.respondWith);
     },
 
     "test: should sandbox and restore": function() {

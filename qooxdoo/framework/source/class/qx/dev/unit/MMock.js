@@ -106,6 +106,8 @@ qx.Mixin.define("qx.dev.unit.MMock",
 
     __sandbox: null,
 
+    __fakeXhr: null,
+
     /**
     * Get the Sinon.JS object.
     *
@@ -278,7 +280,19 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * @return {Xhr}
     */
     useFakeXMLHttpRequest: function() {
-      return this.__sandbox.useFakeXMLHttpRequest();
+      return this.__fakeXhr = this.__sandbox.useFakeXMLHttpRequest();
+    },
+
+    getRequests: function() {
+      return this.__fakeXhr.requests;
+    },
+
+    useFakeServer: function() {
+      return this.__fakeXhr = this.__sandbox.useFakeServer();
+    },
+
+    getServer: function() {
+      return this.__sandbox.server;
     },
 
     /**
