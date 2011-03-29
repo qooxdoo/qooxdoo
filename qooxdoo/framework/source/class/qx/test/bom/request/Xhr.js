@@ -58,15 +58,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     tearDown : function()
     {
       this.req = null;
-
-      // Restore native XMLHttpRequest
-      if (this.fakedXhr) {
-        this.fakedXhr.restore();
-        this.fakedXhr = null;
-      }
-
-      // Empty request queue
-      this.fakeReqs = [];
+      this.getSandbox().restore();
     },
 
     "test: should create instance": function() {
@@ -629,11 +621,9 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     fakeNativeXhr: function() {
-      var fakeReqs = this.fakeReqs = [];
       this.fakedXhr = this.useFakeXMLHttpRequest();
       this.fakedXhr.onCreate = function(xhr) {
         xhr.responseHeaders = xhr.responseHeaders || {};
-        fakeReqs.push(xhr);
       };
 
       // Reset pre-existing request so that it uses the faked XHR
@@ -644,8 +634,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
     // Get last instance created by the faked XMLHttpRequest
     getFakeReq: function() {
-      var last = this.fakeReqs.length-1;
-      return this.fakeReqs[last];
+      return this.getRequests().slice(0,1)[0];
     },
 
     isIEBelow: function(targetVersion) {
