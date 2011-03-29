@@ -46,11 +46,15 @@
  *
  *       // Assert that spy was called
  *       this.assertCalled(obj.doSpecial);
- *
- *       // Depending on the life cycle of the object you spied upon, this
- *       // may or may not be necessary. Restore the original method.
- *       // obj.restore();
  *     },
+ *
+ *     tearDown: function() {
+ *       // Restore all stubs, spies and overridden host objects.
+ *       //
+ *       // It is a good idea to always run this in the tearDown()
+ *       // method, especially when overwriting global or host objects.
+ *       this.getSandbox().restore();
+ *     }
  *   }
  * });
  *
@@ -283,14 +287,42 @@ qx.Mixin.define("qx.dev.unit.MMock",
       return this.__fakeXhr = this.__sandbox.useFakeXMLHttpRequest();
     },
 
+    /**
+    * Get requests made with faked XHR or server.
+    *
+    * Each request can be queried for url, method, requestHeaders,
+    * status and more.
+    *
+    * See http://sinonjs.org/docs/api/#FakeXMLHttpRequest.
+    *
+    * @return {Array} Array of faked requests.
+    */
     getRequests: function() {
       return this.__fakeXhr.requests;
     },
 
+    /**
+    * As {@link #useFakeXMLHttpRequest}, but additionally provides a high-level
+    * API to setup server responses. To setup responses, use the server
+    * returned by {@link #getServer}.
+    *
+    * See http://sinonjs.org/docs/api/#server.
+    *
+    * Note: The fake server is transparently added to a sandbox. To restore
+    * the original host method run this.getSandbox().restore()
+    * in your tearDown() method.
+    *
+    * @return {Server}
+    */
     useFakeServer: function() {
       return this.__fakeXhr = this.__sandbox.useFakeServer();
     },
 
+    /**
+    * Get fake server created by {@link #useFakeServer}.
+    *
+    * @return {Object} Fake server.
+    */
     getServer: function() {
       return this.__sandbox.server;
     },
