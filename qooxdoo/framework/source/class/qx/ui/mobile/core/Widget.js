@@ -147,6 +147,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     keyinput : "qx.event.type.KeyInput",
 
 
+    /**
+     * Fired after a massive DOM manipulation, e.g. when DOM elements were
+     * added or styles were changed. Listen to this event, if you need to 
+     * recalculate a layout or have to update your view.
+     */
     domupdated : "qx.event.type.Event",
 
     /**
