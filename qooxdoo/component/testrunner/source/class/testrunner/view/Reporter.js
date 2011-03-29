@@ -112,7 +112,16 @@ qx.Class.define("testrunner.view.Reporter", {
       if (!this.__autErrors[currentTest]) {
         this.__autErrors[currentTest] = [];
       }
-      this.__autErrors[currentTest].push(ex);
+      var msg;
+      if (qx.core.Environment.get("browser.name") == "ie" && 
+              qx.core.Environment.get("browser.version") < 9)
+      {
+        msg = ex.toString();
+      }
+      else {
+        msg = ex;
+      }
+      this.__autErrors[currentTest].push(msg);
     },
     
     /**
@@ -126,12 +135,21 @@ qx.Class.define("testrunner.view.Reporter", {
     {
       var formattedErrors = [];
       for (var testName in this.__autErrors) {
-        for (var i=0, l=this.__autErrors[testName].length; i<l; i++) {
-          var exception = this.__autErrors[testName][i];
-          var message = testName + ": " + exception.toString();
-          var trace = qx.dev.StackTrace.getStackTraceFromError(exception);
-          if (trace.length > 0) {
-            message += "<br/>Stack Trace:<br/>" + trace.join("<br/>");
+        var testErrors = this.__autErrors[testName];
+        for (var i=0, l=testErrors.length; i<l; i++) {
+          var exception = testErrors[i];
+          var message;
+          if (qx.core.Environment.get("browser.name") == "ie" && 
+              qx.core.Environment.get("browser.version") < 9)
+          {
+            message = exception;
+          }
+          else {
+            message = testName + ": " + exception.toString();
+            var trace = qx.dev.StackTrace.getStackTraceFromError(exception);
+            if (trace.length > 0) {
+              message += "<br/>Stack Trace:<br/>" + trace.join("<br/>");
+            }
           }
           formattedErrors.push(message);
         }
