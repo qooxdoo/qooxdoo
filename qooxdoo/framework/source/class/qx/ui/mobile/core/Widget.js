@@ -204,6 +204,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
   properties :
   {
+    /**
+     * The default CSS class used for this widget. The default CSS class
+     * should contain the common appearance of the widget.
+     * It is set to the container element of the widget. Use {@link #addCssClass}
+     * to enhance the default appearance of the widget.
+     */
     defaultCssClass :
     {
       check : "String",
@@ -213,6 +219,10 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * The name attribute of the container element. Usefull when you want to find
+     * an element by its name attribute.
+     */
     name :
     {
       check : "String",
@@ -223,10 +233,9 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Whether the widget is an terminator for an event. This is an hint for the
-     * event handler only.
-     *
-     * @internal
+     * Whether the widget should be the target of an event. Set this property
+     * to <code>false</code> when the widget is a child of another widget and
+     * shouldn't react on events.
      */
     anonymous :
     {
@@ -237,6 +246,10 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * The ID of the widget. When the ID is set to <code>null</code> an auto
+     * id will be generated.
+     */
     id :
     {
       check : "String",
@@ -253,9 +266,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      *
      * <ul>
      *   <li><b>visible</b>: Render the widget</li>
-     *   <li><b>hidden</b>: Hide the widget but don't relayout the widget's parent.</li>
-     *   <li><b>excluded</b>: Hide the widget and relayout the parent as if the
-     *     widget was not a child of its parent.</li>
+     *   <li><b>hidden</b>: Hide the widget. The space will be still available.</li>
+     *   <li><b>excluded</b>: Hide the widget. The space will be released.</li>
      * </ul>
      */
     visibility :
