@@ -19,6 +19,8 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * Abstract class for all input fields.
  */
 qx.Class.define("qx.ui.mobile.form.Input",
 {
@@ -33,12 +35,11 @@ qx.Class.define("qx.ui.mobile.form.Input",
   *****************************************************************************
   */
 
-  construct : function(value)
+  construct : function()
   {
     this.base(arguments);
 
     this.initType();
-    this.initSize();
     this.initMaxLength();
   },
 
@@ -53,6 +54,9 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
   properties :
   {
+    /**
+     * The type of the input field.
+     */
     type :
     {
       check : "String",
@@ -62,18 +66,12 @@ qx.Class.define("qx.ui.mobile.form.Input",
     },
 
 
-    size :
-    {
-      check : "Integer",
-      nullable : true,
-      init : null,
-      apply : "_applyAttribute"
-    },
-
-
+    /**
+     * Maximal number of characters that can be entered in the input field.
+     */
     maxLength :
     {
-      check : "Integer",
+      check : "PositiveInteger",
       nullable : true,
       init : null,
       apply : "_applyAttribute"
@@ -96,5 +94,22 @@ qx.Class.define("qx.ui.mobile.form.Input",
     {
       return "input";
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+  defer : function(statics)
+  {
+    qx.ui.mobile.core.Widget.addAttributeMapping("maxLength",
+      {
+        attribute : "maxlength"
+      }
+    );
   }
 });
