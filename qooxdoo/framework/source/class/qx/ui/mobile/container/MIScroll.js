@@ -78,6 +78,8 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 
 
     /**
+     * Loads and inits the iScroll instance.
+     * 
      * @lint ignoreUndefined(iScroll)
      */
     __initScroll : function()
@@ -98,6 +100,9 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 
 
     /**
+     * Creates the iScroll instance.
+     * 
+     * @return {iScroll} The iScroll instance
      * @lint ignoreUndefined(iScroll)
      */
     __createScrollInstance : function()
@@ -108,6 +113,9 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     },
 
 
+    /**
+     * Registers all needed event listener.
+     */
     __registerEventListeners : function()
     {
       qx.event.Registration.addListener(window, "orientationchange", this._refresh, this);
@@ -117,6 +125,9 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     },
 
 
+    /**
+     * Unregisters all needed event listener.
+     */
     __unregisterEventListeners : function()
     {
       qx.event.Registration.removeListener(window, "orientationchange", this._refresh, this);
@@ -125,6 +136,12 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     },
 
 
+    /**
+     * Load callback. Called when the iScroll script is loaded.
+     * 
+     * @param status {String} the status of the script loading. See
+     *     {@link qx.io.ScriptLoader#load} for more information.
+     */
     __onScrollLoaded : function(status)
     {
       if (status == "success")
@@ -139,12 +156,21 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     },
 
 
+    /**
+     * Setter for the scroll instance.
+     * 
+     * @param scroll {iScroll} iScroll instance.
+     */
     _setScroll : function(scroll)
     {
       this.__scroll = scroll;
     },
 
 
+    /**
+     * Calls the refresh function of iScroll. Needed to recalculate the
+     * scrolling container.
+     */
     _refresh : function(evt)
     {
       if (this.__scroll) {
