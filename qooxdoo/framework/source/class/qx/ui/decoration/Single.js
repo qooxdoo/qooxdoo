@@ -100,27 +100,11 @@ qx.Class.define("qx.ui.decoration.Single",
 
     // interface implementation
     resize : function(element, width, height) {
-      var insets = this.getInsets();
-      width -= insets.left + insets.right;
-      height -= insets.top + insets.bottom;
-
-      // Fix to keep applied size above zero
-      // Makes issues in IE7 when applying value like '-4px'
-      if (width < 0) {
-        width = 0;
-      }
-
-      if (height < 0) {
-        height = 0;
-      }
-
-      element.style.width = width + "px";
-      element.style.height = height + "px";
-
-      // get the left and top of the mixins
+      // get the width and height of the mixins
       var pos = this._resizeBorder(element, width, height);
-      element.style.left = pos.left + "px";
-      element.style.top = pos.top + "px";
+
+      element.style.width = pos.width + "px";
+      element.style.height = pos.height + "px";
     },
 
 
