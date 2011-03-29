@@ -20,7 +20,7 @@ body {
     background: #181818;
     color : #ffffff;
     font-weight:normal;
-    font-size:0.8em;
+    font-size:0.9em;
 }
 
 body > * {
@@ -244,11 +244,11 @@ a:hover { color: #e89c00; }
 
 
 .list-itemimage {
-
+   margin-right:7px;
 }
 
 .list-itemtext {
-  margin-left:7px;
+ 
 }
 
 
@@ -333,8 +333,7 @@ ul li input[type="text"], ul li input[type="password"], ul li textarea, ul li se
 
 ul li textarea {
     height: 120px;
-    padding: 0;
-    text-indent: -2px;
+    width: 100%;
 }
 
 ul li select {
