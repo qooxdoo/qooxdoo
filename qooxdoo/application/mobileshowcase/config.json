@@ -34,7 +34,7 @@
   "let" :
   {
     "APPLICATION"  : "mobileshowcase",
-    "QOOXDOO_PATH" : "../qx_trunk",
+    "QOOXDOO_PATH" : "../..",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."
