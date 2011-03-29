@@ -4,83 +4,92 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Application Test Matrix</title>
   <style type="text/css">
-	   table {
-	       margin: 10px;
-	   }
-     th { vertical-align: top; text-align: left }
+    th { 
+      vertical-align: top; 
+      text-align: left;
+      page-break-after: avoid;
+    }
+    
+    /* s. http://tinyurl.com/49eatag */
+    table { 
+      /*margin: 10px;*/
+      page-break-inside:auto 
+    }
+    tr    { page-break-inside:avoid; page-break-after:auto }
+    thead { display:table-header-group }
+    tfoot { display:table-footer-group }
+
 	</style>
 </head>
 <body>
 <em>$Rev$</em>
 <div align="center"><b>qooxdoo ...</b></div>
 <br>
-<table style="width: 1298px; height: 2971px;" border="1" cellpadding="5"
- cellspacing="0">
-  <tbody>
-    <tr>
-      <th rowspan="3" colspan="2">Application Tests</th>
-      <th colspan="9">Platform</th>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;"><b>FF 3.6</b><br>
+<table border="1" cellpadding="2" cellspacing="0">
+  <thead> <tr>
+    <th rowspan="3" colspan="2">Application Tests</th>
+    <th colspan="9">Platform</th>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;"><b>FF 3.6</b><br>
 Linux<br>
-      <br>
-      <br>
-      </td>
-      <td style="vertical-align: top;"><b>FF 4.0</b><br>
+    <br>
+    <br>
+    </td>
+    <td style="vertical-align: top;"><b>FF 4.0</b><br>
 Win7<br>
-      <br>
-      <br>
-      </td>
-      <td style="vertical-align: top;"><b>Ope <br>
-11.10 (10.6)</b><br>
+    <br>
+    <br>
+    </td>
+    <td style="vertical-align: top;"><b>Ope </b><br>
 XP<br>
-      <br>
-      <br>
-      </td>
-      <td style="vertical-align: top;"><b>Saf 5</b><br>
+    <br>
+    <br>
+    </td>
+    <td style="vertical-align: top;"><b>Saf 5</b><br>
 OSX<br>
-      <br>
-      <br>
-      </td>
-      <td style="vertical-align: top;"><b>Chr 10</b><br>
+    <br>
+    <br>
+    </td>
+    <td style="vertical-align: top;"><b>Chr 10</b><br>
 XP<br>
-      <br>
-      <br>
-      </td>
-      <td style="vertical-align: top;"><b>Chr 11</b><br>
+    <br>
+    <br>
+    </td>
+    <td style="vertical-align: top;"><b>Chr 11</b><br>
 OSX<br>
-      </td>
-      <td style="vertical-align: top;"><b>IE 7 (6)</b><br>
+    </td>
+    <td style="vertical-align: top;"><b>IE 7 (6)</b><br>
 XP<br>
-      <br>
-      <br>
-      </td>
-      <td style="vertical-align: top;"><b>IE 8</b><br>
+    <br>
+    <br>
+    </td>
+    <td style="vertical-align: top;"><b>IE 8</b><br>
 XP<br>
-      <br>
-      <br>
-      </td>
-      <td style="vertical-align: top;"><b>IE 9</b><br>
+    <br>
+    <br>
+    </td>
+    <td style="vertical-align: top;"><b>IE 9</b><br>
 Win7<br>
-      </td>
-    </tr>
-<!-- API Viewer --> <tr>
-      <td colspan="1" style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;">stable</td>
-      <td style="vertical-align: top;">stable</td>
-      <td style="vertical-align: top;">stable<br>
-      </td>
-      <td style="vertical-align: top;">stable</td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;">stable</td>
-    </tr>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="1" style="vertical-align: top;"><br>
+    </td>
+    <td style="vertical-align: top;">stable</td>
+    <td style="vertical-align: top;">stable</td>
+    <td style="vertical-align: top;">stable<br>
+    </td>
+    <td style="vertical-align: top;">stable</td>
+    <td style="vertical-align: top;"><br>
+    </td>
+    <td style="vertical-align: top;"><br>
+    </td>
+    <td style="vertical-align: top;"><br>
+    </td>
+    <td style="vertical-align: top;">stable</td>
+  </tr>
+  </thead> <tbody>
     <tr>
       <th>1</th>
       <th colspan="10">API Viewer</th>
@@ -263,7 +272,7 @@ Win7<br>
       <td style="vertical-align: top;"><br>
       </td>
     </tr>
-<!-- Test Runner --> <tr>
+ <tr>
       <th>2</th>
       <th colspan="10">Test Runner</th>
     </tr>
@@ -422,7 +431,7 @@ requires failing test)</td>
       <td style="vertical-align: top;"><br>
       </td>
     </tr>
-<!-- Demo Browser --> <tr>
+ <tr>
       <th>3</th>
       <th colspan="10">Demo Browser</th>
     </tr>
@@ -666,7 +675,7 @@ requires failing test)</td>
       <td style="vertical-align: top;"><br>
       </td>
     </tr>
-<!-- Feed Reader --> <tr>
+ <tr>
       <th>4</th>
       <th colspan="10">Feed Reader</th>
     </tr>
@@ -1403,7 +1412,7 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
       <td style="vertical-align: top;"><br>
       </td>
     </tr>
-<!-- Portal --> <tr>
+ <tr>
       <th>7</th>
       <th colspan="10">Portal</th>
     </tr>
@@ -1429,7 +1438,7 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
       <td style="vertical-align: top;"><br>
       </td>
     </tr>
-<!-- Showcase --> <tr>
+<tr>
       <th>8</th>
       <th colspan="10">Showcase</th>
     </tr>
@@ -1500,10 +1509,8 @@ http://qooxdoo.org/contrib/project/simulator/inspector-selenium)
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><span style="font-weight: bold;">9</span><br>
-      </td>
-      <td colspan="10" style="vertical-align: top;"><span
- style="font-weight: bold;">Widgetbrowser</span><br>
+      <th>9</td>
+      <th colspan="10">Widgetbrowser<br>
       </td>
     </tr>
     <tr>
@@ -1558,19 +1565,11 @@ effect (all themes)<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><span style="font-weight: bold;">10</span><br>
-      </td>
-      <td colspan="2" style="vertical-align: top;"><span
- style="font-weight: bold;">Feed Reader - Mobile</span><br>
-      <br>
-      </td>
-      <td style="vertical-align: top;"><span style="font-weight: bold;">iPod</span></td>
-      <td colspan="1" style="vertical-align: top;"><span
- style="font-weight: bold;"></span><span style="font-weight: bold;">Samsung</span><br
- style="font-weight: bold;">
-      <span style="font-weight: bold;">andr2.1</span> </td>
-      <td colspan="6" style="vertical-align: top;"><span
- style="font-weight: bold;"></span><br>
+      <th>10</th>
+      <th colspan="2">Feed Reader - Mobile</th>
+      <td><b>iPod</b></td>
+      <td><b>Andr2.1</b> </td>
+      <td colspan="6" style="vertical-align: top;"> <br>
       <br>
       </td>
     </tr>
@@ -1683,20 +1682,12 @@ adapts</td>
       <td style="vertical-align: top;">N/A</td>
       <td style="vertical-align: top;">N/A</td>
     </tr>
-<!-- Playground --> <tr>
-      <td style="vertical-align: top;"><span style="font-weight: bold;">11</span><br>
-      </td>
-      <td colspan="2" style="vertical-align: top;"><span
- style="font-weight: bold;">Mobile Showcase</span><br>
-      <br>
-      </td>
-      <td style="vertical-align: top;"><span style="font-weight: bold;">iPod</span></td>
-      <td colspan="1" style="vertical-align: top;"><span
- style="font-weight: bold;">Samsung</span><br style="font-weight: bold;">
-      <span style="font-weight: bold;">andr2.1</span></td>
-      <td colspan="6" style="vertical-align: top;"><span
- style="font-weight: bold;"><br>
-      </span><span style="font-weight: bold;"></span><br>
+ <tr>
+      <th>11</th>
+      <th colspan="2">Mobile Showcase</th>
+      <td><b>iPod</b></td>
+      <td><b>Andr2.1</b></td>
+      <td colspan="6" style="vertical-align: top;"> <br>
       </td>
     </tr>
     <tr>
