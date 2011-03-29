@@ -101,6 +101,10 @@ qx.Class.define("qx.io.request.Xhr",
   members:
   {
     __transport: null,
+    __onReadyStateChangeBound: null,
+    __onLoadBound: null,
+    __onLoadEndBound: null,
+    __onErrorBound: null,
 
     send: function() {
       var transport = this.__transport,
