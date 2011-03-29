@@ -355,7 +355,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Schedules the {@see #domUpdated} method. The method will be called after a timeout
+     * Schedules the {@link #domUpdated} method. The method will be called after a timeout
      * to prevent the triggered events to be fired to often, during massive DOM manipulations.
      * 
      * @internal
@@ -373,9 +373,9 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Fires the DOM updated event directly. Triggers the {@see qx.event.handler.Appear#refresh} and 
-     * {@see qx.ui.mobile.core.DomUpdatedHandler#refresh} methods. Do not use this
-     * method during massive DOM manipulations. Use {@see #scheduleDomUpdated} instead.
+     * Fires the DOM updated event directly. Triggers the {@link qx.event.handler.Appear#refresh} and 
+     * {@link qx.ui.mobile.core.DomUpdatedHandler#refresh} methods. Do not use this
+     * method during massive DOM manipulations. Use {@link #scheduleDomUpdated} instead.
      * 
      * @internal
      */
@@ -548,7 +548,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Triggers the {@see #scheduleDomUpdated} method. This method needs to be called
+     * Triggers the {@link #scheduleDomUpdated} method. This method needs to be called
      * when the DOM has changed, e.g. an element was added / removed / styled. 
      */
     _domUpdated : function()
@@ -919,7 +919,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
      /**
-      * Sets the innerHTML of the content element and calls the {@see #_domUpdated}
+      * Sets the innerHTML of the content element and calls the {@link #_domUpdated}
       * method.
       * 
       * @param value {String?""} The html to set in the content element.
@@ -940,7 +940,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Shortcut for each property that should change a certain attribute of the
      * container element.
-     * Use the {@see #addAttributeMapping} method to add a property to attribute
+     * Use the {@link #addAttributeMapping} method to add a property to attribute
      * mapping when the attribute name or value differs from the property name or
      * value.
      * 
@@ -1003,7 +1003,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Shortcut for each property that should change a certain style of the container
      * element.
-     * Use the {@see #addStyleMapping} method to add a property to style
+     * Use the {@link #addStyleMapping} method to add a property to style
      * mapping when the style name or value differs from the property name or
      * value.
      */

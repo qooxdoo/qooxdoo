@@ -19,6 +19,8 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * Mixin for the {@link Scroll}
  */
 qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 {
