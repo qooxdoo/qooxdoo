@@ -19,7 +19,22 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * Todo: Add Legend
+ * 
+ * A group widget arranges several widgets visual.
+ * 
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   var group = new qx.ui.mobile.form.Group();
+ *   var list = new qx.ui.mobile.list.List();
+ *   group.add(list);
+ *
+ *   this.getRoot.add(group);
+ * </pre>
+ *
+ * This example creates a group and adds a list to it.
  */
 qx.Class.define("qx.ui.mobile.form.Group",
 {
