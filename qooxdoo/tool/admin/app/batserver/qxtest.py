@@ -368,6 +368,12 @@ class QxTest:
               m = nre.search(err)
               if m:
                 self.buildStatus[target]["BuildError"] = m.group(1)
+            elif err != "":
+              self.log("Warning while building " + target + ", see build log file for details.")
+              err = err.rstrip('\n')
+              err = err.rstrip('\r')
+              buildLogFile.write(target + "\n" + cmd + "\n" + err)
+              buildLogFile.write("\n========================================================\n\n")
             else:
               self.log(target + " build finished without errors.")
               self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
