@@ -1,0 +1,108 @@
+/* ************************************************************************
+
+   Copyright:
+
+   License:
+
+   Authors:
+
+************************************************************************ */
+
+/* ************************************************************************
+ * If you have added resources to your app remove the leading '*' in the 
+ * following line to make use of them.
+
+ * #asset(mobileshowcase/*)
+
+#asset(qx/mobile/icon/android/*)
+
+************************************************************************ */
+
+/**
+ * This is the main application class of your custom application "mobileshowcase"
+ */
+qx.Class.define("mobileshowcase.Application",
+{
+  extend : qx.application.Mobile,
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * This method contains the initial application code and gets called 
+     * during startup of the application
+     */
+    main : function()
+    {
+      // Call super class
+      this.base(arguments);
+
+      // Enable logging in debug variant
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        // support native logging capabilities, e.g. Firebug for Firefox
+        qx.log.appender.Native;
+        // support additional cross-browser console. Press F7 to toggle visibility
+        qx.log.appender.Console;
+      }
+
+      /*
+      -------------------------------------------------------------------------
+        Below is your actual application code...
+      -------------------------------------------------------------------------
+      */
+      var nm = qx.ui.mobile.navigation.Manager.getInstance();
+      
+      var overview = new mobileshowcase.page.Overview();  
+      var events = new mobileshowcase.page.Event();
+      var list = new mobileshowcase.page.List();
+      var tab = new mobileshowcase.page.Tab();
+      var form = new mobileshowcase.page.Form();
+      var animation = new mobileshowcase.page.Animation();
+      var animationLanding = new mobileshowcase.page.AnimationLanding();
+
+      nm.onGet("/", function(data) {
+        overview.show(data.customData);
+      },this);  
+
+      nm.onGet("/event", function(data)
+      {
+        events.show();
+      },this);
+
+
+      nm.onGet("/tab", function(data)
+      {
+        tab.show();
+      },this);
+      
+      nm.onGet("/list", function(data)
+      {
+        list.show();
+      },this);
+      
+      nm.onGet("/form", function(data)
+      {
+        form.show();
+      },this);
+
+      nm.onGet("/animation", function(data) {
+        animation.show(data.customData);
+      },this);
+
+
+      nm.onGet("/animation/:animation", function(data) {
+        var animation = data.params.animation;
+        animationLanding.setAnimation(animation);
+        animationLanding.show({animation:animation});
+      },this);
+
+    }
+  }
+});
