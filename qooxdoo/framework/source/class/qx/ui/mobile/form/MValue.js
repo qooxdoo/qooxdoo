@@ -225,6 +225,8 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
     /**
      * Fires the {@link #changeValue} event.
+     * 
+     * @param value {var} The current value to fire.
      */
     __fireChangeValue : function(value)
     {
