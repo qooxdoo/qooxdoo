@@ -166,14 +166,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * The event is fired when the widget gets focused. Only widgets which are
-     * {@link #focusable} receive this event.
+     * The event is fired when the widget gets focused.
      */
     focus : "qx.event.type.Focus",
 
     /**
-     * The event is fired when the widget gets blurred. Only widgets which are
-     * {@link #focusable} receive this event.
+     * The event is fired when the widget gets blurred. 
      */
     blur : "qx.event.type.Focus",
 
