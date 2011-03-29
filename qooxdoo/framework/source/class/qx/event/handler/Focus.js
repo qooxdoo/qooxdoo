@@ -837,7 +837,7 @@ qx.Class.define("qx.event.handler.Focus",
 
         // Opera 11.0
         // Work-around (see else clause) would reveal browser bug [BUG #4543]
-        if (qx.core.Environment.get("browser.version") == "11.0") {
+        if (qx.bom.client.Engine.VERSION == "11.0") {
           this.__onNativeMouseDownWebkitBuggyOpera(domEvent);
 
         // All other versions of Opera
