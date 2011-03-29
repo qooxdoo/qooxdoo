@@ -325,6 +325,16 @@ qx.Class.define("qx.test.io.request.Xhr",
       });
     },
 
+    "test: should fire error": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport;
+
+      this.assertEventFired(req, "error", function() {
+        transport.onerror();
+      });
+    },
+
     //
     // Properties
     //

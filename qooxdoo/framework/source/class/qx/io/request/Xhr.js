@@ -33,10 +33,12 @@ qx.Class.define("qx.io.request.Xhr",
     this.__onReadyStateChangeBound = qx.lang.Function.bind(this.__onReadyStateChange, this);
     this.__onLoadBound = qx.lang.Function.bind(this.__onLoad, this);
     this.__onLoadEndBound = qx.lang.Function.bind(this.__onLoadEnd, this);
+    this.__onErrorBound = qx.lang.Function.bind(this.__onError, this);
 
     transport.onreadystatechange = this.__onReadyStateChangeBound;
     transport.onload = this.__onLoadBound;
     transport.onloadend = this.__onLoadEndBound;
+    transport.onerror = this.__onErrorBound;
   },
 
   events:
@@ -180,6 +182,10 @@ qx.Class.define("qx.io.request.Xhr",
 
     __onLoadEnd: function() {
       this.fireEvent("loadend");
+    },
+
+    __onError: function() {
+      this.fireEvent("error");
     },
 
     __serializeData: function(data) {
