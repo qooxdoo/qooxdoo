@@ -3,17 +3,17 @@
   {
     "name" : "mobileshowcase",
 
-    "summary" : "Custom Application",
-    "description" : "This is a skeleton for a custom application with qooxdoo.",
+    "summary" : "Mobile showcase",
+    "description" : "This is a showcase for some mobile features of qooxdoo.",
     
-    "homepage" : "http://some.homepage.url/",
+    "homepage" : "http://demo.qooxdoo.org/current/mobileshowcase",
 
-    "license" : "SomeLicense",
+    "license" : "LGPL/EPL",
     "authors" : 
     [
       {
-        "name" : "First Author (uid)",
-        "email" : "first.author@some.domain"
+        "name" : "Tino Butz (tbtz)",
+        "email" : "tino.butz@1und1.de"
       }
     ],
 
