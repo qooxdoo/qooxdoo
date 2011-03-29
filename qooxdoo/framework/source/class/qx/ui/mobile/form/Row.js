@@ -19,6 +19,8 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * The Row widget represents a row in a {@link Form}.
  */
 qx.Class.define("qx.ui.mobile.form.Row",
 {
@@ -31,6 +33,10 @@ qx.Class.define("qx.ui.mobile.form.Row",
   *****************************************************************************
   */
 
+  /**
+   * @param layout {qx.ui.mobile.layout.Abstract?null} The layout that should be used for this
+   *     container
+   */
   construct : function(layout)
   {
     this.base(arguments, layout);
@@ -55,6 +61,10 @@ qx.Class.define("qx.ui.mobile.form.Row",
       init : "formRow"
     },
 
+
+    /**
+     * Whether the widget is selectable or not.
+     */
     selectable :
     {
       check : "Boolean",
