@@ -86,20 +86,33 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       this.assertCalled(spy);
     },
 
+    "test: should fake XHR": function() {
+      this.useFakeXMLHttpRequest();
+      var nxhr = window.XMLHttpRequest || window.ActiveXObject("Microsoft.XMLHTTP")
+      var req = new nxhr;
+      this.assertFunction(nxhr.restore);
+      this.assertFunction(req.open);
+      this.assertFunction(req.send);
+    },
+
     "test: should sandbox and restore": function() {
       var func = function() {};
       var obj = {"a": function() {}}
 
       var spy = this.spy(func);
       var stub = this.stub(obj, "a");
+      var xhr = this.useFakeXMLHttpRequest();
+      var nxhr = window.XMLHttpRequest || window.ActiveXObject("Microsoft.XMLHTTP");
 
       this.getSandbox().restore();
       this.assertUndefined(func.called);
       this.assertUndefined(obj.a.called);
+      this.assertUndefined(nxhr.restore);
     },
 
     tearDown : function()
     {
+      this.getSandbox().restore();
       this.sinon = null;
     }
   }

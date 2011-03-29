@@ -269,16 +269,16 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * Replace the native XMLHttpRequest object in browsers that support it with
     * a custom implementation which does not send actual requests.
     *
-    * Note: You must not forget to call restore() in your TestCase tearDown or
-    * equivalent to prevent your test from leaking.
+    * Note: The fake XHR is transparently added to a sandbox. To restore
+    * the original host method run this.getSandbox().restore()
+    * in your tearDown() method.
     *
     * See http://sinonjs.org/docs/api/#useFakeXMLHttpRequest.
     *
     * @return {Xhr}
     */
     useFakeXMLHttpRequest: function() {
-      var sinon = this.__getSinon();
-      return sinon.useFakeXMLHttpRequest();
+      return this.__sandbox.useFakeXMLHttpRequest();
     },
 
     /**
