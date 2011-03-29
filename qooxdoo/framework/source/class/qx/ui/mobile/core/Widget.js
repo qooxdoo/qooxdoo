@@ -1030,6 +1030,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * Sets the value of a certain style of the container element.
+     * 
+     * @param style {String} The style of which the value should be set
+     * @param value {var} The value of the style
+     */
     _setStyle : function(style, value)
     {
       var mapping = qx.ui.mobile.core.Widget.STYLE_MAPPING[style]
@@ -1052,8 +1058,10 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     *
-     * @param style {String}
+     * Returns the value of a certain style of the container element.
+     * 
+     * @param style {String} The style name of which the value should be returned
+     * @return {var} The value of the style
      */
     _getStyle : function(style)
     {
@@ -1079,12 +1087,23 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     },
 
 
+    /**
+     * Adds a CSS class to the container element of the widget. Use this method
+     * to enhance the default appearance of the widget.
+     * 
+     * @param cssClass {String} The CSS class to add
+     */
     addCssClass : function(cssClass) {
       var element = this.getContainerElement();
       qx.bom.element.Class.add(element, cssClass);
     },
 
 
+    /**
+     * Removes a CSS class from the container element of the widget.
+     * 
+     * @param cssClass {String} The CSS class to remove 
+     */
     removeCssClass : function(cssClass) {
       var element = this.getContainerElement();
       qx.bom.element.Class.remove(element, cssClass);
@@ -1198,6 +1217,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Sets the container DOM element of the widget.
+     * 
+     * @param element {Element} The container DOM element of the widet
+     */
     _setContainerElement : function(element)
     {
       this.__containerElement = element;
