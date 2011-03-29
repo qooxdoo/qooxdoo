@@ -829,7 +829,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
         else {
           // nothing preselected
-          _initialSection = "animation";
+          _initialSection = "Demos";
           if (autorun) {
             this.setPlayDemos("all");
           }
