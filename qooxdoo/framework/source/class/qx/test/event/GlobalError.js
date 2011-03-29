@@ -169,7 +169,7 @@ qx.Class.define("qx.test.event.GlobalError",
         this.assertString(ex.getUri());
         this.assertInteger(ex.getLineNumber());
 
-        this.debug(ex.toString() + " at " + ex.getUri() + ":" + ex.getLineNumber());
+        // this.debug(ex.toString() + " at " + ex.getUri() + ":" + ex.getLineNumber());
       }, this); }
 
       this.errorHandler.setErrorHandler(handler, this);
@@ -241,7 +241,7 @@ qx.Class.define("qx.test.event.GlobalError",
         this.assertEquals(originalUri, ex.getUri());
         this.assertEquals(originalLineNumber, ex.getLineNumber());
 
-        this.debug(ex.toString() + " at " + ex.getUri() + ":" + ex.getLineNumber());
+        // this.debug(ex.toString() + " at " + ex.getUri() + ":" + ex.getLineNumber());
       }, this); }
 
       this.errorHandler.setErrorHandler(handler, this);

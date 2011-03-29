@@ -32,8 +32,6 @@ qx.Class.define("qx.test.core.Property",
   {
     testBasic : function()
     {
-      this.debug("Exec: testBasic");
-
       this.assertNotUndefined(qx.core.Property);
 
       // Check instance
@@ -49,15 +47,11 @@ qx.Class.define("qx.test.core.Property",
 
       // Boolean property
       this.assertFunction(inst.toggleBooleanProp, "boolean toggler");
-
-      this.debug("Done: testBasic");
     },
 
 
     testBuiltinTypes : function()
     {
-      this.debug("Exec: testBuiltinTypes");
-
       this.assertNotUndefined(qx.core.Property);
 
       // Check instance
@@ -103,15 +97,11 @@ qx.Class.define("qx.test.core.Property",
       var arr = new Array;
       this.assertIdentical(arr, inst.setArrayProp(arr), "array property, set");
       this.assertIdentical(arr, inst.getArrayProp(), "array property, get");
-
-      this.debug("Done: testBuiltinTypes");
     },
 
 
     testInheritance : function()
     {
-      this.debug("Exec: testInheritance");
-
       this.assertNotUndefined(qx.core.Property);
 
       var pa = new qx.test.core.InheritanceDummy();
@@ -152,8 +142,6 @@ qx.Class.define("qx.test.core.Property",
       this.assertTrue(chh1.getEnabled(), "c3");
       this.assertTrue(chh2.getEnabled(), "c4");
       this.assertTrue(chh3.getEnabled(), "c5");
-
-      this.debug("Done: testInheritance");
     },
 
 
@@ -191,8 +179,6 @@ qx.Class.define("qx.test.core.Property",
 
     testMultiValues : function()
     {
-      this.debug("Exec: testMultiValues");
-
       this.assertNotUndefined(qx.core.Property);
 
       // Check instance
@@ -225,8 +211,6 @@ qx.Class.define("qx.test.core.Property",
 
       // No prop
       this.assertIdentical(inst.getNoProp(), null, "c1");
-
-      this.debug("Done: testMultiValues");
     },
 
 
