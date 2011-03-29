@@ -19,6 +19,11 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * Very basic dialog manager. Displays a native alert or confirm dialog if
+ * the application is running in a PhoneGap environment. For debugging in a browser
+ * it displays the browser <code>alert</code> or <code>confirm</code> dialog. In the near
+ * future this should be replaced by dialog widgets.
  */
 qx.Class.define("qx.ui.mobile.dialog.Manager",
 {
@@ -34,18 +39,31 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
   members :
   {
-    // TOOD : MOVE THIS TO PHONE GAP CLASS
+    
     /**
+     * Displays an alert box. When the application is running in an PhoneGap
+     * environment, a native alert box is shown. For debugging in a browser, a
+     * browser alert is shown.
+     * 
+     * @param title {String} The title of the alert box
+     * @param text {String} The text to display in the alert box
+     * @param handler {Function} The handler to call when the <code>OK</code> button
+     *    was pressed
+     * @param scope {Object} The scope of the handler
+     * @param button {String} The button text
+     * 
      * @lint ignoreDeprecated(alert)
      */
     alert : function(title, text, handler, scope, button)
     {
+      // TOOD : MOVE THIS TO PHONEGAP CLASS
       if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("phonegap.notification")) {
         var callback = function() {
           if (handler) {
             handler.call(scope);
           }
         }
+        // Make sure we have strings
         if (text) {
           text = ""+ text;
         }
@@ -68,6 +86,17 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
 
     /**
+     * Displays a confirm box. When the application is running in an PhoneGap
+     * environment, a native confirm box is shown. For debugging in a browser, a
+     * browser confirm is shown.
+     * 
+     * @param title {String} The title of the alert box
+     * @param text {String} The text to display in the alert box
+     * @param handler {Function} The handler to call when the <code>OK</code> button
+     *    was pressed. The first parameter of the function is the <code>index</code>
+     *    of the pressed button, starting from 1.
+     * @param scope {Object} The scope of the handler
+     * @param button {String[]} Each text entry of the array represents a button
      * @lint ignoreDeprecated(confirm)
      */
     confirm : function(title, text, handler, scope, buttons)

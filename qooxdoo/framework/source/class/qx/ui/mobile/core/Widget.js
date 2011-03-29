@@ -915,6 +915,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Updates the layout properties of a given widget.
      *
+     * @param widget {qx.ui.mobile.core.Widget} The widget that should be updated
      * @param properties {Map} Incoming layout property data
      * 
      * @internal
