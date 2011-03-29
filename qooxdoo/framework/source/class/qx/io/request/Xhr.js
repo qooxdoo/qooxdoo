@@ -232,6 +232,8 @@ qx.Class.define("qx.io.request.Xhr",
 
   destruct: function()
   {
-    this.__transport.dispose();
+    if (this.__transport) {
+      this.__transport.dispose();
+    }
   }
 });

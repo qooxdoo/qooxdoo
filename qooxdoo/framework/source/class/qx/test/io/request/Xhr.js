@@ -78,7 +78,8 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.getSandbox().restore();
       this.req.dispose();
 
-      qx.Class.undefine("Klass");
+      // May fail in IE
+      try { qx.Class.undefine("Klass"); } catch(e) {};
     },
 
     //

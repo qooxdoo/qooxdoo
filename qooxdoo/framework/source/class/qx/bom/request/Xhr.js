@@ -175,6 +175,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       //
       // Basically, this allows to send requests to cross-origin URLs.
       } catch(OpenFailed) {
+
+        // Try again with XDomainRequest
         if (window.XDomainRequest) {
           // Success case not handled on purpose
           this.readyState = 4;
@@ -186,9 +188,24 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           }, this);
           this.__nativeXhr.open(method, url, async, user, password);
           return;
-        } else {
-          throw OpenFailed;
         }
+
+        // Access denied
+        // -IE 6: -2146828218
+        // -IE 7: -2147024891
+        if (OpenFailed.number &&
+            OpenFailed.number == -2146828218 ||
+            OpenFailed.number == -2147024891) {
+          window.setTimeout(qx.Bootstrap.bind(function() {
+            this.readyState = 4;
+            this.onreadystatechange();
+            this.onerror();
+            this.onloadend();
+          }, this));
+          return;
+        }
+
+        throw OpenFailed;
       }
 
       // BUGFIX: Firefox
@@ -359,6 +376,19 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         return false;
       }
 
+      // Remove unload listener in IE. Aborting on unload is no longer required
+      // for this instance.
+      if (window.detachEvent) {
+        window.detachEvent("onunload", this.__onUnloadBound);
+      }
+
+      // May fail in IE
+      try {
+        this.__nativeXhr.onreadystatechange;
+      } catch(PropertiesNotAccessable) {
+        return;
+      }
+
       // Clear out listeners
       var noop = function() {};
       this.__nativeXhr.onreadystatechange = noop;
@@ -370,12 +400,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       // Remove reference to native XHR
       this.__nativeXhr = null;
-
-      // Remove unload listener in IE. Aborting on unload is no longer required
-      // for this instance.
-      if (window.detachEvent) {
-        window.detachEvent("onunload", this.__onUnloadBound);
-      }
 
       this.__disposed = true;
       return true;
