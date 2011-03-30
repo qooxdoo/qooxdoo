@@ -147,16 +147,23 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _containerElementLeft : null,
 
 
+    /**
+     * Increments the current value.
+     */
     nextValue : function() {
        this.setValue(this.getValue() + this.getStep());
     },
 
 
+    /**
+     * Decrements the current value.
+     */
     previousValue : function() {
        this.setValue(this.getValue() - this.getStep());
     },
 
 
+    // overridden
     _createContainerElement : function()
     {
       var container = this.base(arguments);
@@ -165,12 +172,20 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * Creates the knob element.
+     * 
+     * @return {Element} The created knob element
+     */
     _createKnobElement : function()
     {
       return qx.bom.Element.create("div");
     },
 
 
+    /**
+     * Registers all needed event listener.
+     */
     _registerEventListener : function()
     {
       this.addListener("touchstart", this._onTouchStart, this);
@@ -179,6 +194,9 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * Unregisters all needed event listener.
+     */
     _unregisterEventListener : function()
     {
       this.removeListener("touchstart", this._onTouchStart, this);
@@ -187,6 +205,11 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * Event handler. Called when the touch start event occurs.
+     * 
+     * @param evt {qx.event.type.Touch} The touch event
+     */
     _onTouchStart: function(evt)
     {
       this._isMovingKnob = false;
@@ -212,6 +235,11 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * Event handler. Called when the touch move event occurs.
+     * 
+     * @param evt {qx.event.type.Touch} The touch event
+     */
     _onTouchMove : function(evt)
     {
       if (this._isMovingKnob)
@@ -230,12 +258,23 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * Returns the current position of the knob.
+     * 
+     * @param documentLeft {Integer} The left positon of the knob 
+     * @return {Integer} The current position of the container elemnt.
+     */
     _getPosition : function(documentLeft)
     {
       return documentLeft - this._containerElementLeft;
     },
 
 
+    /**
+     * Returns the knob DOM element.
+     * 
+     * @return {Element} The knob DOM element.
+     */
     _getKnobElement : function()
     {
       if (!this._knobElement) {
@@ -248,12 +287,20 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * Updates the knob position based on the current value.
+     */
     _updateKnobPosition : function()
     {
       this._setKnobPosition(this._valueToPercent(this.getValue()));
     },
 
 
+    /**
+     * Sets the knob positon based on the give percent value.
+     * 
+     * @param percent {Float} The knob position
+     */
     _setKnobPosition : function(percent)
     {
       var knobElement = this._getKnobElement();
@@ -275,6 +322,12 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * Converts the given value to percent.
+     * 
+     * @param value {Integer} The value to convert
+     * @return {Integer} The value in percent
+     */
     _valueToPercent : function(value)
     {
       var min = this.getMinimum();
@@ -283,6 +336,12 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * Converts the given position to the corresponding value.
+     * 
+     * @param position {Integer} The position to convert
+     * @return {Integer} The converted value
+     */
     _positionToValue : function(position)
     {
       var width = this._containerElementWidth;
@@ -301,12 +360,25 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * Converts the given percent to the position of the knob.
+     * 
+     * @param width {Integer} The width of the slider container element
+     * @param percent {Integer} The percent to convert
+     * @return {Integer} The position of the knob
+     */
     _percentToPosition : function(width, percent)
     {
       return width * (percent / 100);
     },
 
 
+    /**
+     * Limits a value to the set {@link #minimum} and {@link #maximum} properties.
+     * 
+     * @param value {Integer} The value to limit
+     * @return {Integer} The limited value
+     */
     _limitValue : function(value)
     {
       value = Math.min(value, this.getMaximum());
@@ -315,18 +387,34 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * Return the number of pixels per step.
+     * 
+     * @param width {Integer} The width of the slider container element
+     * @return {Integer} The pixels per step
+     */
     _pixelPerStep : function(width)
     {
       return width / this._getOverallSteps();
     },
 
 
+    /**
+     * Return the overall number of steps.
+     * 
+     * @return {Integer} The number of steps
+     */
     _getOverallSteps : function()
     {
       return (this._getRange() / this.getStep());
     },
 
 
+    /**
+     * Return the range between {@link #maximum} and {@link #minimum}.
+     * 
+     * @return {Integer} The range between {@link #maximum} and {@link #minimum}
+     */
     _getRange : function()
     {
       return this.getMaximum() - this.getMinimum();
