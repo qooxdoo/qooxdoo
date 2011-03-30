@@ -242,7 +242,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     /**
      * Sets the root widget.
      * 
-     * @return {qx.ui.mobile.core.Widget} The root widget to use.
+     * @param {qx.ui.mobile.core.Widget} The root widget to use
      */
     _setRoot : function(root)
     {
