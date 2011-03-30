@@ -111,7 +111,7 @@ qx.Class.define("qx.ui.menu.Button",
           return;
         }
       } else {
-        // don't close menus when context menu is shown
+        // don't close menus if the button has a context menu
         if (this.getContextMenu()) {
           return;
         }
