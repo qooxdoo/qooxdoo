@@ -236,23 +236,5 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
         this.fireDataEvent("changeValue", value)
       }
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics)
-  {
-    qx.ui.mobile.core.Widget.addAttributeMapping("readOnly",
-      {
-        attribute : "readonly"
-      }
-    );
   }
 });
