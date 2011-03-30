@@ -886,10 +886,34 @@ qx.Class.define("qx.ui.layout.Grid",
           } else {
             var totalSpacing = vSpacing * (widgetProps.rowSpan - 1);
             var availableHeight = hint.height - totalSpacing;
-            // check how high each row has to be to fit the set height
-            var rowHeight = Math.floor(availableHeight / widgetProps.rowSpan);
+
+            // get the row height which every child would need to share the 
+            // available hight equally
+            var avgRowHeight = 
+              Math.floor(availableHeight / widgetProps.rowSpan);
+
+            // get the hight already used and the number of children which do 
+            // not have at least that avg row height
+            var usedHeight = 0;
+            var rowsNeedAddition = 0;
             for (var k = 0; k < widgetProps.rowSpan; k++) {
-              rowHeights[widgetRow + k].height = rowHeight;
+              var currentHeight = rowHeights[widgetRow + k].height;
+              usedHeight += currentHeight;
+              if (currentHeight < avgRowHeight) {
+                rowsNeedAddition++;
+              }
+            }
+
+            // the difference of available and used needs to be shared among 
+            // those not having the min size
+            var additionalRowHeight = 
+              Math.floor((availableHeight - usedHeight) / rowsNeedAddition);
+
+            // add the extra height to the too small children
+            for (var k = 0; k < widgetProps.rowSpan; k++) {
+              if (rowHeights[widgetRow + k].height < avgRowHeight) {
+                rowHeights[widgetRow + k].height += additionalRowHeight;
+              }
             }
           }
         }
