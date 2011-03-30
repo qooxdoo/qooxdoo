@@ -19,6 +19,67 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * Very basic navigation manager. Still work in progress.
+ * 
+ * Define routes to react on certain GET / POST / DELETE / PUT operations.
+ * 
+ *  * GET is triggered when the hash value of the url is changed. Can be called
+ *    manually by calling the {@link #executeGet} method.
+ *  * POST / DELETE / PUT has to be triggered manually right now (will be changed later)
+ *    by calling the {@link #executePost}, {@link #executeDelete}, {@link #executePut} method.
+ * 
+ * This manager can also be used to provide browser history. 
+ * 
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   var nm = qx.ui.mobile.navigation.Manager.getInstance();
+ *
+ *   // show the start page, when no hash is given or the hash is "#/"
+ *   nm.onGet("/", function(data) {
+ *     startPage.show();
+ *   },this);  
+ *
+ *   // whenever the url /address is called show the addressbook page.
+ *   nm.onGet("/address", function(data)
+ *   {
+ *     addressBookPage.show();
+ *   },this);
+ * 
+ *   // address with the parameter "id"
+ *   nm.onGet("/address/:id", function(data)
+ *   {
+ *     addressPage.show();
+ *     model.loadAddress(data.params.id);
+ *   },this);
+ * 
+ *   // make sure that the data is always loaded
+ *   nm.onGet("/address.*", function(data)
+ *   {
+ *     if (!model.isLoaded()) {
+ *       model.loadAddresses();
+ *     }
+ *   },this);
+ * 
+ *   // update the address
+ *   nm.onPost("/address/:id, function(data)
+ *   {
+ *     model.updateAddress(data.params.id);
+ *   },this);
+ * 
+ *   // delete the address and navigate back
+ *   nm.onDelete("/address/:id, function(data)
+ *   {
+ *     model.deleteAddress(data.params.id);
+ *     nm.executeGet("/address", {reverse:true});
+ *   },this);
+ * </pre>
+ *
+ * This example defines different routes to handle navigation events. 
+ *
  */
 qx.Class.define("qx.ui.mobile.navigation.Manager",
 {
