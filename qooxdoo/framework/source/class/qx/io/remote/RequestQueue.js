@@ -331,10 +331,13 @@ qx.Class.define("qx.io.remote.RequestQueue",
       var request = e.getTarget().getRequest();
       var requestHandler = "_on" + e.getType();
 
+      // remove the request from the queue,
+      // keep local reference, see [BUG #4422]
+      this._remove(e.getTarget());
+
       // It's possible that the request handler can fail, possibly due to
       // being sent garbage data. We want to prevent that from crashing
-      // the program, but instead  display an error, and, importantly
-      // (regardless of error) remove the request from the queue.
+      // the program, but instead display an error.
       try
       {
         if (request[requestHandler])
@@ -361,10 +364,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
         catch(ex)
         {
         }
-      }
-      finally
-      {
-        this._remove(e.getTarget());
       }
     },
 
