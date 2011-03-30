@@ -19,6 +19,29 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * Specialiced page. This page includes already a {@link qx.ui.mobile.navigationbar.NavigationBar}
+ * and a {@link qx.ui.mobile.container.Scroll} container.
+ * 
+  * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *  var page = new qx.ui.mobile.page.NavigationPage();
+ *  page.setTitle("Page Title");
+ *  page.setShowBackButton(true);
+ *  page.setBackButtonText("Back")
+ *  page.addListener("initialize", function()
+ *  {
+ *    var button = new qx.ui.mobile.form.Button("Next Page");
+ *    page.getContent().add(button);
+ *  },this);
+ *  page.show();
+ * </pre>
+ *
+ * This example creates a NavigationPage with a title and a back button. In the
+ * <code>initialize</code> lifecycle method a button is added.
  */
 qx.Class.define("qx.ui.mobile.page.NavigationPage",
 {
@@ -33,6 +56,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
   events :
   {
+    /** Fired when the user tapped on the navigation button */
     action : "qx.event.type.Event"
   },
 
@@ -47,6 +71,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
   properties :
   {
+    /** The title of the page */
     title :
     {
       check : "String",
@@ -55,6 +80,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
+    /** The back button text */
     backButtonText :
     {
       check : "String",
@@ -63,6 +89,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
+    /** The action button text */
     buttonText :
     {
       check : "String",
@@ -71,6 +98,9 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
+    /**
+     * Whether to show the back button.
+     */
     showBackButton:
     {
       check : "Boolean",
@@ -79,6 +109,9 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
+    /**
+     * Whether to show the action button.
+     */
     showButton:
     {
       check : "Boolean",
@@ -87,6 +120,9 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
+    /**
+     * The CSS class to add to the content per default.
+     */
     contentCssClass :
     {
       check : "String",
@@ -113,36 +149,66 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     __scrollContainer : null,
 
 
+    /**
+     * Returns the content container. Add all your widgets to this container.
+     * 
+     * @return {qx.ui.mobile.container.Composite} The content container
+     */
     getContent : function()
     {
       return this.__content;
     },
 
 
+    /**
+     * Returns the title widget.
+     * 
+     * @return {qx.ui.mobile.navigationbar.Title} The title widget
+     */
     _getTitle : function()
     {
       return this.__title;
     },
 
 
+    /**
+     * Returns the navigation bar widget.
+     * 
+     * @return {qx.ui.mobile.navigationbar.NavigationBar} The navigation bar widget
+     */
     _getNavigationBar : function()
     {
       return this.__navigationBar();
     },
 
 
+    /**
+     * Returns the back button widget.
+     * 
+     * @return {qx.ui.mobile.navigationbar.BackButton} The back button widget
+     */
     _getBackButton : function()
     {
       return this.__backButton;
     },
 
 
+    /**
+     * Returns the action button widget.
+     * 
+     * @return {qx.ui.mobile.navigationbar.Button} The action button widget
+     */
     _getButton : function()
     {
       return this.__button;
     },
 
 
+    /**
+     * Returns the scroll container.
+     * 
+     * @return {qx.ui.mobile.container.Scroll} The scroll container
+     */
     _getScrollContainer : function()
     {
       return this.__scrollContainer;
@@ -183,19 +249,6 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
-    _showBackButton : function()
-    {
-      if (this.__backButton)
-      {
-        if (this.getShowBackButton()) {
-            this.__backButton.show();
-        } else {
-          this.__backButton.hide();
-        }
-      }
-    },
-
-
     // property apply
     _applyShowButton : function(value, old)
     {
@@ -212,6 +265,25 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
+    /**
+     * Helper method to show the back button.
+     */
+    _showBackButton : function()
+    {
+      if (this.__backButton)
+      {
+        if (this.getShowBackButton()) {
+            this.__backButton.show();
+        } else {
+          this.__backButton.hide();
+        }
+      }
+    },
+
+
+    /**
+     * Helper method to show the button.
+     */
     _showButton : function()
     {
       if (this.__button)
@@ -244,12 +316,23 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       }
     },
 
+
+    /**
+     * Creates the scroll container.
+     * 
+     * @return {qx.ui.mobile.container.Scroll} The created scroll container
+     */
     _createScrollContainer : function()
     {
       return new qx.ui.mobile.container.Scroll();
     },
 
 
+    /**
+     * Creates the content container.
+     * 
+     * @return {qx.ui.mobile.container.Composite} The created content container
+     */
     _createContent : function()
     {
       var content = new qx.ui.mobile.container.Composite();
@@ -258,6 +341,11 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
+    /**
+     * Creates the navigation bar.
+     * 
+     * @return {qx.ui.mobile.navigationbar.NavigationBar} The created navigation bar
+     */
     _createNavigationBar : function()
     {
       var bar = new qx.ui.mobile.navigationbar.NavigationBar();
@@ -290,28 +378,53 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     },
 
 
+    /**
+     * Creates the navigation bar title.
+     * 
+     * @return {qx.ui.mobile.navigationbar.Title} The created title widget
+     */
     _createTitle : function()
     {
       return new qx.ui.mobile.navigationbar.Title(this.getTitle());
     },
 
 
+    /**
+     * Creates the navigation bar back button.
+     * 
+     * @return {qx.ui.mobile.navigationbar.BackButton} The created back button widget
+     */
     _createBackButton : function() {
       return new qx.ui.mobile.navigationbar.BackButton();
     },
 
 
+    /**
+     * Creates the navigation bar button.
+     * 
+     * @return {qx.ui.mobile.navigationbar.Button} The created button widget
+     */
     _createButton : function() {
       return new qx.ui.mobile.navigationbar.Button();
     },
 
 
+    /**
+     * Event handler. Called when the tap event occurs on the back button.
+     * 
+     * @param evt {qx.event.type.Tap} The tap event
+     */
     _onBackButtonTap : function(evt)
     {
       this.back();
     },
 
 
+    /**
+     * Event handler. Called when the tap event occurs on the button.
+     * 
+     * @param evt {qx.event.type.Tap} The tap event
+     */
     _onButtonTap : function(evt)
     {
       this.fireEvent("action");

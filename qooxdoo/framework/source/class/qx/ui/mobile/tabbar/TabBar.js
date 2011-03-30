@@ -38,7 +38,7 @@
  *   this.getRoot.add(tabBar);
  * </pre>
  *
- * This example creates a navigation bar and adds a back button and a title to it.
+ * This example creates a tab bar and adds two tab buttons to it.
  */
 qx.Class.define("qx.ui.mobile.tabbar.TabBar",
 {
