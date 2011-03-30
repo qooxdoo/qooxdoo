@@ -19,6 +19,8 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * A navigation bar back button widget.
  */
 qx.Class.define("qx.ui.mobile.navigationbar.BackButton",
 {

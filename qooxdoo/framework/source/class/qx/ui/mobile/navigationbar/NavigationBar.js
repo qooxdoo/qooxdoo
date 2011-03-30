@@ -19,7 +19,24 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * Todo: rename to title bar
+ *
+ * A navigation bar widget.
+ * 
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   var bar = new qx.ui.mobile.navigationbar.NavigationBar();
+ *   var backButton = new qx.ui.mobile.navigationbar.BackButton();
+ *   bar.add(backButton);
+ *   var title = new qx.ui.mobile.navigationbar.Title();
+ *   var.add(title, {flex:1});
+ *
+ *   this.getRoot.add(bar);
+ * </pre>
+ *
+ * This example creates a navigation bar and adds a back button and a title to it.
  */
 qx.Class.define("qx.ui.mobile.navigationbar.NavigationBar",
 {

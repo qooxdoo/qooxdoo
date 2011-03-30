@@ -19,6 +19,8 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * A navigation bar title widget.
  */
 qx.Class.define("qx.ui.mobile.navigationbar.Title",
 {
