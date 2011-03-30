@@ -1,18 +1,13 @@
 .. _pages/development/simulator#simulator:
 
-Simulator (Experimental)
-************************
+Simulator
+*********
 
 Overview
 --------
 
 The purpose of the Simulator component is to help developers rapidly develop and run a suite of simulated user interaction tests for their application with a minimum amount of configuration and using familiar technologies, e.g. qooxdoo-style JavaScript.
 To do so it uses a combination of qooxdoo's own toolchain, Mozilla's `Rhino <http://www.mozilla.org/rhino/>`_ JavaScript engine and `Selenium RC <http://seleniumhq.org/projects/remote-control/>`__.
-
-.. note::
-
-    The Simulator is a highly experimental feature; the API is by no means finalized. It is included in this qooxdoo release as a preview.    
-    Also, the Simulator is *not* intended as a replacement for any existing automated test setup, e.g. using Selenium with JUnit. It is merely one of many ways to run Selenium tests on a qooxdoo application.
 
 Feature Highlights
 ------------------
@@ -25,7 +20,7 @@ The Simulator enables developers to:
 * Utilize the standard Selenium API as well as qooxdoo-specific user extensions to locate and interact with qooxdoo widgets
 * Capture and log uncaught exceptions thrown in the tested application
 * Use Selenium RC to run tests in `many different browser/platform combinations <http://seleniumhq.org/about/platforms.html#browsers>`_
-* Write custom logger classes using qooxdoo's flexible logging system
+* Write custom log appenders using qooxdoo's flexible logging system
 
 How it works
 ------------
@@ -41,7 +36,7 @@ A separate Generator job is used to start Rhino and instruct it to load the Simu
 Setting up the test environment
 -------------------------------
 
-The following sections describe the steps necessary to set up Simulator tests for an application based on qooxdoo's GUI or inline skeleton.
+The following sections describe the steps necessary to set up Simulator tests for an application based on qooxdoo's GUI or Inline skeleton.
 
 Required Libraries
 ==================
@@ -49,18 +44,18 @@ Required Libraries
 The Simulator needs the following external resources to run: 
 
 * Java Runtime Environment: Version 1.6 is known to work 
-* `Selenium RC <http://seleniumhq.org/download/>`__: The required components are selenium-server.jar and selenium-java-client-driver.jar. Versions 1.0 up to and including 2.0a5 are known to work.
-* `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Versions 1.7R1 and later.
+* `Selenium Server (Standalone) and Selenium for Java (Selenium Java bindings) <http://code.google.com/p/selenium/downloads/list>`_: **Version 1.0.3 is recommended.** Version 2.0b3 has problems using Internet Explorer as a test browser. 
+* `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Version 1.7R1 or later.
 
-The Selenium Client Driver (selenium-java-client-driver.jar) and Rhino (js.jar) archives must be located on the same machine as the application to be tested.
+The Selenium Client Driver (selenium-java-<version>.jar) and Rhino (js.jar) archives must be located on the same machine as the application to be tested.
 
-The Selenium Server (selenium-server.jar) can optionally run on a physically separate host (see the Selenium RC documentation for details). The qooxdoo user extensions must be located on the same machine as the server (see below).
+The Selenium Server (selenium-server-standalone-<version>.jar) can optionally run on a physically separate host (see the Selenium RC documentation for details). The qooxdoo user extensions must be located on the same machine as the server (see below).
 
 
 Generator Configuration
 =======================
 
-Unlike other framework components, the Simulator isn't ready to run out of the box: The application developer needs to specify the location of the required external libraries (Selenium's Java Client Driver and Mozilla Rhino). This is easily accomplished by redefining the *SIMULATOR_CLASSPATH* macro (in the applicaton's config.json file):
+Unlike other framework components, the Simulator isn't ready to run out of the box: The application developer needs to specify the location of the required external libraries (Selenium's Java bindings and Mozilla Rhino). This is easily accomplished by redefining the *SIMULATOR_CLASSPATH* macro (in the applicaton's config.json file):
 
 ::
 
@@ -69,8 +64,8 @@ Unlike other framework components, the Simulator isn't ready to run out of the b
       "SIMULATOR_CLASSPATH" : ["../selenium/selenium-java-client-driver.jar", "../rhino/js.jar"]
     } 
 
-The "settings" section of the "simulation-run" job configures where the AUT is located and how to reach the Selenium RC server that will launch the test browser and run the test commands.
-The following example shows the minimum configuration needed to build a Simulator application that will test the source version of the current library in Firefox 3 using a Selenium RC server instance running on the same machine (localhost):
+The "settings" section of the "simulation-run" job configures where the AUT is located and how to reach the Selenium server that will launch the test browser and run the test commands.
+The following example shows the minimum configuration needed to launch a Simulator application that will test the source version of the current application in Firefox 3 using a Selenium server instance running on the same machine (localhost):
 
 ::
 
@@ -97,10 +92,11 @@ They inherit from simulator.unit.TestCase, which includes the assertion function
 Simulator tests look very similar to qooxdoo unit tests as they follow the same pattern of **setUp**, **testSomething**, **tearDown**. Typically, each test* method will use the QxSelenium API to interact with some part of the AUT,
 then use assertions to check if the AUT's state has changed as expected, e.g. by querying the value of a qooxdoo property.
 
-The following articles describe the QxSelenium API in greater detail than can be covered here:
+See the following pages for more information:
 
-* `The qooxdoo user extensions for Selenium <http://qooxdoo.org/contrib/project/simulator/selenium-user-extension>`_
-* `How to write qooxdoo tests with Selenium <http://qooxdoo.org/contrib/project/simulator/qooxdoo-tests-with-selenium>`_
+* :ref:`Locating elements <pages/development/simulator_locators#simulator_locators>`
+* :ref:`Interacting with elements <pages/development/simulator_interaction#simulator_interaction>`
+* :ref:`Running tests against multiple browsers and platforms <pages/development/simulator_interaction#simulator_platforms>`
 
 Also, qooxdoo's :ref:`Inspector component <pages/application/inspector_selenium#using_the_qooxdoo_inspector_to_write_selenium_tests>` can provide assistance to test developers.
 
