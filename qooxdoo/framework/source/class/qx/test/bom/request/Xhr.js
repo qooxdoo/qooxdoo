@@ -257,6 +257,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       }
       fakeReq.responseText = "Affe";
       fakeReq.readyState = 4;
+      fakeReq.responseHeaders = {};
       fakeReq.onreadystatechange();
     },
 
@@ -400,6 +401,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
         // Stub and prepare success
         fakeReq.readyState = state;
         fakeReq.responseText = "YIPPIE";
+        fakeReq.responseHeaders = {};
 
         // Trigger readystatechange handler
         fakeReq.onreadystatechange();
@@ -526,6 +528,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       req.open();
       fakeReq.readyState = this.constructor.LOADING;
       fakeReq.status = 200;
+      fakeReq.responseHeaders = {};
       fakeReq.onreadystatechange();
 
       this.assertIdentical(200, req.status);
@@ -616,9 +619,6 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
     fakeNativeXhr: function() {
       this.fakedXhr = this.useFakeXMLHttpRequest();
-      this.fakedXhr.onCreate = function(xhr) {
-        xhr.responseHeaders = xhr.responseHeaders || {};
-      };
 
       // Reset pre-existing request so that it uses the faked XHR
       if (this.req) {
