@@ -27,10 +27,12 @@
  * Here is a little example of how to use the widget.
  *
  * <pre class='javascript'>
+ *   var title = new qx.ui.mobile.form.Title("Group");
  *   var form = new qx.ui.mobile.form.Form();
  *   var row = new qx.ui.mobile.form.Row();
  *   row.add(new qx.ui.mobile.form.TextField());
  * 
+ *   this.getRoot.add(title);
  *   this.getRoot.add(form);
  * </pre>
  *
