@@ -115,7 +115,6 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       req.send();
       server.respond();
 
-      this.assertEquals(4, req.readyState);
       this.assertEquals(200, req.status);
       this.assertEquals("FOUND", req.responseText);
     },
