@@ -126,6 +126,11 @@ qx.Class.define("qx.ui.menu.CheckBox",
     {
       if (e.isLeftPressed()) {
         this.execute();
+      } else {
+        // don't close menus if the button has a context menu
+        if (this.getContextMenu()) {
+          return;
+        }
       }
       qx.ui.menu.Manager.getInstance().hideAll();
     },

@@ -110,6 +110,11 @@ qx.Class.define("qx.ui.menu.Button",
         if (this.getMenu()) {
           return;
         }
+      } else {
+        // don't close menus when context menu is shown
+        if (this.getContextMenu()) {
+          return;
+        }
       }
 
       qx.ui.menu.Manager.getInstance().hideAll();
