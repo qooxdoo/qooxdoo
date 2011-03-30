@@ -25,6 +25,9 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
+ * The simple page manager displays the next page without animation.
+ *  
  * @internal
  */
 qx.Class.define("qx.ui.mobile.page.manager.Simple",
@@ -38,6 +41,9 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
   *****************************************************************************
   */
 
+  /**
+   * @param root {qx.ui.mobile.core.Widget} The root widget to use
+   */
   construct : function(root)
   {
     this.base(arguments);
@@ -58,7 +64,14 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
   events :
   {
+    /**
+     * Fired when a new page was added to the manager.
+     */
     add : "qx.event.type.Data",
+
+    /**
+     * Fired when a page was removed from the manager.
+     */
     remove : "qx.event.type.Data"
   },
 
@@ -79,6 +92,8 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
 
     /**
+     * Registers all needed event listener.
+     *
      * @lint ignoreUndefined(BackButton)
      */
     __registerEventListeners : function()
@@ -95,6 +110,9 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     },
 
 
+    /**
+     * Unregisters all needed event listener.
+     */
     __unregisteEventListeners : function()
     {
       if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("os.name") == "android")
@@ -106,6 +124,8 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
 
     /**
+     * Event handler. Called when the back button of the device was pressed.
+     * 
      * @lint ignoreUndefined(BackButton)
      */
     _onBackButton : function()
@@ -123,6 +143,9 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     },
 
 
+    /**
+     * Event handler. Called when the menu button of the device was pressed.
+     */
     _onMenuButton : function()
     {
       if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("os.name") == "android")
@@ -134,6 +157,11 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     },
 
 
+    /**
+     * Adds a page to the manager.
+     * 
+     * @param page {qx.ui.mobile.page.Page} The page to add
+     */
     add : function(page)
     {
       this.__pages[page.getId()] = page;
@@ -141,6 +169,11 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     },
 
 
+    /**
+     * Removes a page by its ID.
+     * 
+     * @param id {String} The ID of the page that should be removed
+     */
     remove : function(id)
     {
       var page = this.getPage(id);
@@ -152,6 +185,11 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     },
 
 
+    /**
+     * Shows a certain registered page.
+     * 
+     * @param page {qx.ui.mobile.page.Page} The page to show
+     */
     show : function(page)
     {
       var currentPage = this.__currentPage;
@@ -181,41 +219,75 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     },
 
 
+    /**
+     * Removes the current page from the DOM.
+     */
     _removeCurrentPage : function()
     {
       this.__root.remove(this.__currentPage);
     },
 
 
+    /**
+     * Returns the root widget.
+     * 
+     * @return {qx.ui.mobile.core.Widget} The used root widget
+     */
     _getRoot : function()
     {
       return this.__root;
     },
 
 
+    /**
+     * Sets the root widget.
+     * 
+     * @return {qx.ui.mobile.core.Widget} The root widget to use.
+     */
     _setRoot : function(root)
     {
       this.__root = root;
     },
 
 
+    /**
+     * Returns the currently shown page.
+     * 
+     * @return page {qx.ui.mobile.page.Page} The currently shown page
+     */
     getCurrentPage : function()
     {
       return this.__currentPage;
     },
 
 
+    /**
+     * Sets the current page. Does not do any logic. Use the {@link #show} method
+     * instead.
+     * 
+     * @param page {qx.ui.mobile.page.Page} The currently shown page
+     */
     _setCurrentPage : function(page)
     {
       this.__currentPage = page;
     },
 
 
+    /**
+     * Returns a page by its ID.
+     * 
+     * @param id {String} The ID of the page to return
+     * @return page {qx.ui.mobile.page.Page} The page with the given ID
+     */
     getPage : function(id) {
       return this.__pages[id];
     },
 
 
+    /**
+     * Removes the focus from all input fields in the DOM. Used as on some devices
+     * the mouse cursor is still shown, even when the input field is hidden.
+     */
     __removeFocusFromInputFields : function()
     {
       // Remove focus from input elements, so that the keyboard and the mouse cursor is hidden
