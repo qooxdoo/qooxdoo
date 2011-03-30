@@ -100,11 +100,33 @@ qx.Class.define("qx.io.request.Xhr",
 
   members:
   {
+
+    /*
+    ---------------------------------------------------------------------------
+      PRIVATE FIELDS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Holds transport.
+     *
+     * Is instance of qx.bom.request.Xhr.
+     */
     __transport: null,
+
+    /**
+     * Bound handlers.
+     */
     __onReadyStateChangeBound: null,
     __onLoadBound: null,
     __onLoadEndBound: null,
     __onErrorBound: null,
+
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC
+    ---------------------------------------------------------------------------
+    */
 
     send: function() {
       var transport = this.__transport,
@@ -182,9 +204,11 @@ qx.Class.define("qx.io.request.Xhr",
       return (status >= 200 && status < 300 || status === 304)
     },
 
-    _createTransport: function() {
-      return new qx.bom.request.Xhr();
-    },
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLING
+    ---------------------------------------------------------------------------
+    */
 
     __onReadyStateChange: function() {
       this.fireEvent("readystatechange");
@@ -204,6 +228,16 @@ qx.Class.define("qx.io.request.Xhr",
 
     __onError: function() {
       this.fireEvent("error");
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL / HELPERS
+    ---------------------------------------------------------------------------
+    */
+
+    _createTransport: function() {
+      return new qx.bom.request.Xhr();
     },
 
     __serializeData: function(data) {
