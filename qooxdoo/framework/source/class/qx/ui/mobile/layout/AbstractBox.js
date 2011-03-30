@@ -170,6 +170,7 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
     },
 
 
+    // overridden
     _setLayoutProperty : function(widget, property, value)
     {
       if (property == "flex") {
@@ -194,6 +195,7 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
     },
 
 
+    // property apply
     _applyLayoutChange : function(value, old, property)
     {
       if (this._widget)

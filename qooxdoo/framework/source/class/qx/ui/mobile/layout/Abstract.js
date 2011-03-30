@@ -19,6 +19,11 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * Base class for all layout managers.
+ *
+ * Custom layout manager must derive from
+ * this class.
  */
 qx.Class.define("qx.ui.mobile.layout.Abstract",
 {
