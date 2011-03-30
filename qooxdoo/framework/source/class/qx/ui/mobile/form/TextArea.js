@@ -34,6 +34,9 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
   *****************************************************************************
   */
 
+  /**
+   * @param value {var?null} The value of the widget.
+   */
   construct : function(value)
   {
     this.base(arguments);
