@@ -136,7 +136,12 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
     },
 
 
-    // overridden
+    /**
+     * Shows a certain registered page. The page transition will be animated.
+     * 
+     * @param page {qx.ui.mobile.page.Page} The page to show
+     * @param data {Map} The data for animation, e.g. {animation:"fade", reverse:true}
+     */
     show : function(page, data)
     {
       if (this.__inAnimation) {
