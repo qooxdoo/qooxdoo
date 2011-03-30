@@ -19,6 +19,8 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * Base class for all box layout managers.
  */
 qx.Class.define("qx.ui.mobile.layout.AbstractBox",
 {
@@ -32,6 +34,11 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
   *****************************************************************************
   */
 
+  /**
+   * @param alignX {String}
+   * @param alignY {String}
+   * @param reverse {Boolean}
+   */
   construct : function(alignX, alignY, reverse)
   {
     this.base(arguments);
@@ -81,7 +88,10 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
     },
 
 
-    reverse :
+    /**
+     * Children will be displayed in reverse order.
+     */
+    reversed :
     {
       check : "Boolean",
       nullable : true,
@@ -101,6 +111,9 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
 
   statics :
   {
+    /**
+     * The property to CSS mapping.
+     */
     PROPERTY_CSS_MAPPING :
     {
       "alignX":
@@ -133,7 +146,7 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
           "bottom" : "boxPackEnd"
         }
       },
-      "reverse" :
+      "reversed" :
       {
         "hbox" :
         {
@@ -148,6 +161,11 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
       }
     },
 
+
+    /**
+     * Supported child layout properties. Used to check if the property is allowed.
+     * List all supported child layout properties here.
+     */
     SUPPORTED_CHILD_LAYOUT_PROPERTIES : {
       "flex" : 1
     }

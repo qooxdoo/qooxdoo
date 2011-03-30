@@ -43,14 +43,16 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
     __cachedProperties : null,
     __cachedChildLayoutProperties : null,
 
-    getCssClass: function() {
+    getCssClass: function()
+    {
       if (qx.core.Environment.get("qx.debug")) {
         throw new Error("Abstract method call");
       }
     },
 
 
-    _getSupportedChildLayoutProperties : function() {
+    _getSupportedChildLayoutProperties : function()
+    {
       if (qx.core.Environment.get("qx.debug")) {
         throw new Error("Abstract method call");
       }
