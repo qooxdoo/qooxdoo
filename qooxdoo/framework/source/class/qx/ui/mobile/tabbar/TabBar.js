@@ -21,6 +21,24 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * This widget displays a tab bar.
+ * 
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   var tabBar = new qx.ui.mobile.tabbar.TabBar();
+ *   var tabButton1 = new qx.ui.mobile.tabbar.TabButton("Tab 1");
+ *   tabButton1.setView(view1);
+ *   tabBar.add(tabButton1);
+ *   var tabButton2 = new qx.ui.mobile.tabbar.TabButton("Tab 2");
+ *   tabButton2.setView(view2);
+ *   tabBar.add(tabButton2);
+ *
+ *   this.getRoot.add(tabBar);
+ * </pre>
+ *
+ * This example creates a navigation bar and adds a back button and a title to it.
  */
 qx.Class.define("qx.ui.mobile.tabbar.TabBar",
 {

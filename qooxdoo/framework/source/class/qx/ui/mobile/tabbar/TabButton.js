@@ -19,6 +19,11 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * A tab button widget.
+ * 
+ * A tab button can be added to the tab bar and is associated with a
+ * {@link #view}.
  */
 qx.Class.define("qx.ui.mobile.tabbar.TabButton",
 {
@@ -41,6 +46,9 @@ qx.Class.define("qx.ui.mobile.tabbar.TabButton",
     },
 
 
+    /**
+     * The associated view.
+     */
     view :
     {
       check : "qx.ui.mobile.core.Widget",
@@ -54,6 +62,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabButton",
 
   members :
   {
+    // property apply
     _applyView : function(value, old)
     {
       value.exclude();
