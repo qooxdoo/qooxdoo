@@ -144,11 +144,20 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     __history : null,
 
 
+    /**
+     * Returns the current path behind the # hash.
+     * 
+     * @return {String} The current hash path
+     */
     getCurrentGetPath : function()
     {
       return this.__currentGetPath;
     },
 
+
+    /**
+     * 
+     */
     onGet : function(route, handler, scope)
     {
       return this._addRoute("get", route, handler, scope);
@@ -295,6 +304,17 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     },
 
 
+    /**
+     * Executes a certain operation with a given path. Informs all matching
+     * handlers.
+     * 
+     * @param operation {String} The operation to execute.
+     * @param path {String} The path to check
+     * @param params {Map} The given parameters that should be propagated
+     * @param customData {var} The given custom data that should be propagated
+     * 
+     * @return {Boolean} Whether the route has been executed 
+     */
     _execute : function(operation, path, params, customData)
     {
       this.debug("Execute " + operation + " for path " + path);
@@ -312,6 +332,18 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     },
 
 
+    /**
+     * Executes all given routes for a certain operation. Checks all routes if they match with the given path and
+     * executes the stored handler of the matching route.
+     * 
+     * @param operation {String} The operation to execute.
+     * @param path {String} The path to check
+     * @param routes {Map[]} All routes to test and execute.
+     * @param params {Map} The given parameters that should be propagated
+     * @param customData {var} The given custom data that should be propagated
+     * 
+     * @return {Boolean} Whether the route has been executed 
+     */
     _executeRoutes : function(operation, path, routes, params, customData)
     {
       if (!routes || qx.lang.Object.isEmpty(routes)) {
@@ -327,6 +359,18 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     },
 
 
+    /**
+     * Executes a certain route. Checks if the route matches the given path and
+     * executes the stored handler of the route.
+     * 
+     * @param operation {String} The operation to execute.
+     * @param path {String} The path to check
+     * @param route {Map} The route data.
+     * @param params {Map} The given parameters that should be propagated
+     * @param customData {var} The given custom data that should be propagated
+     * 
+     * @return {Boolean} Whether the route has been executed 
+     */
     _executeRoute : function(operation, path, route, params, customData)
     {
       var match = route.regExp.exec(path);
@@ -353,18 +397,35 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     },
 
 
+    /**
+     * Encodes a given value.
+     *
+     * @param value {String} The value to encode
+     * @return {String} The encoded value
+     */
     _encode : function(value)
     {
       return encodeURIComponent(value);
     },
 
 
+    /**
+     * Decodes a given value.
+     *
+     * @param value {String} The value to decode
+     * @return {String} The decoded value
+     */
     _decode : function(value)
     {
       return decodeURIComponent(value);
     },
 
 
+    /**
+     * Returns all routes.
+     * 
+     * @return {Map} The registered routes.
+     */
     _getRoutes : function()
     {
       return this.__routes;
