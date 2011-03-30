@@ -19,6 +19,11 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * A toggle Button widget
+ *
+ * If the user tap the button, the button toggles between the <code>ON</code>
+ * and <code>OFF</code> state.
  */
 qx.Class.define("qx.ui.mobile.form.ToggleButton",
 {
@@ -31,6 +36,9 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   *****************************************************************************
   */
 
+  /**
+   * @param value {String?null} The value of the button
+   */
   construct : function(value)
   {
     this.base(arguments);
