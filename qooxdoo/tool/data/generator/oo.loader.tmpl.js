@@ -9,10 +9,12 @@ if (!window.navigator) window.navigator = {
 }; 
 
 if (!window.qx) window.qx = {};
+
+if (!window.qxvariants) qxvariants = {};
   
-if (!this.qxsettings) qxsettings = {};
-var settings = %{Settings};
-for (var k in settings) qxsettings[k] = settings[k];
+if (!qx.$$environment) qx.$$environment = {};
+var envinfo = %{EnvSettings};
+for (var k in envinfo) qx.$$environment[k] = envinfo[k];
 
 qx.$$packageData = {};
 qx.$$loader = {};
