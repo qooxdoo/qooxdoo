@@ -107,7 +107,19 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
   members :
   {
     // abstract method
-    reset : function() {},
+    /**
+     * Resets all defined child widgets. Override this method in your custom
+     * list item renderer and reset all widgets displaying data. Needed as the
+     * renderer is used for every row and otherwise data of a different row
+     * might be displayed, when not all data displaying widgets are used for the row.
+     * Gets called automatically by the {@link qx.ui.mobile.list.provider.Provider}.
+     * 
+     */
+    reset : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+        throw new Error("Abstract method call");
+      }
+    },
 
     // overridden
     _getTagName : function()
