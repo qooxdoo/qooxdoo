@@ -128,6 +128,11 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     },
 
 
+    /**
+     * Event handler. Called when the view was changed.
+     * 
+     * @param evt {qx.event.type.Data} The event
+     */
     _onChangeView : function(evt)
     {
       if (this.getSelection() == evt.getTarget()) {
