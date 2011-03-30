@@ -1849,7 +1849,7 @@ class Generator(object):
         
         cmd = " ".join(textutil.quoteCommandArgs(argv))
         
-        settings = self._job.get("settings", None)
+        settings = self._job.get("environment", None)
         for key in settings:
             if type(settings[key]) == unicode:
                 settings[key] = settings[key].replace(" ", "$")
