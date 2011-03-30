@@ -388,16 +388,18 @@ Define global key-value mappings for the application. Takes a map.
 
   "environment" :
   {
-    "<key>" : [ <value> , ... ]
+    "<key>" : (value | [<value>, ... ])
   }
 
 The "environment" of a qooxdoo application can be viewed as a global, write-once key-value store. The *environment* key allows you to pre-define values for such keys. All key-value pairs are available at run time through `qx.core.Environment <http://api.qooxdoo.org/%{version}/#qx.core.Environment>`_. There are pre-defined keys that are established by qooxdoo, and you can add user-defined keys. Both are handled the same.
 
 Possible keys are
 
-* <key> : a global key; keys are just strings; see `qx.core.Environment`_ for a list of pre-defined keys; if you provide a user-defined key, make sure it starts with a name space and a dot (e.g. *"myapp.settingA"*); the entry's value is a list of the key's desired value(s) (e.g. *["foo"]*)
+* **<key>** : a global key; keys are just strings; see `qx.core.Environment`_ for a list of pre-defined keys; if you provide a user-defined key, make sure it starts with a name space and a dot (e.g. *"myapp.settingA"*); the entry's value is either a scalar value, or a list of such values.
 
-As soon as you specify more than one element in the list value for a key, the generator will generate different builds for each element. If the current job has multiple keys defined, some of them with multiple elements in the value, the generator will generate a dedicated build **for each possible combination** of the given keys.
+As soon as you specify more than one element in the list value for a key, the generator will generate different builds for each element. If the current job has more than one key defined with multiple elements in the value, the generator will generate a dedicated build **for each possible combination** of the given keys. See special section.
+
+:ref:`Special section <pages/tool/generator_config_articles#environment_key>`
 
 
 .. _pages/tool/generator_config_ref#exclude:

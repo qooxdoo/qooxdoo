@@ -626,3 +626,157 @@ The *optimize* key is a subkey of the :ref:`compile-options key<pages/tool/gener
 **basecalls**
   Calls to :ref:`this.base() <pages/classes#inheritance>`, which invoke the corresponding superclass method, are inlined, i.e. the superclass method call  is inserted in place of the this.base() call.
 
+
+
+.. _pages/tool/generator_config_articles#environment_key:
+
+"environment" Key
+=================
+
+Variant-specific Builds
+-----------------------
+
+The *environment* configuration key allows you to create different variants from the same code base. Variants enable the selection and removal of code from the build version. A variant is a concrete build of your application with a specific set of environment values "wired in". Code not covered by this set of values is removed, so the resulting script code is leaner. We call this code *variant-optimized*. But as a consequence, such a variant usually cannot handle situations where other values of the same environment keys are in place. The generated code is *variant-specific*. The generator can create multiple variants in one go. Variants can be used to implement feature-based builds, or to remove debugging code from the build version. It is comparable to conditional compilation in C/C++.
+
+There are two things to know about variant-specific builds:
+
+* How code is optimized
+* How to create multiple variants in one go.
+
+Both items are covered now.
+
+
+.. _pages/tool/generator_config_articles#environment_optimized:
+
+How Code is Optimized
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+For any generation process of a build version of an app, there is a certain set of environment settings in effect. In the simplest form, this set is empty, so there is no variant-optimization applied to the code at all. If this set is non-empty, but contains environment keys with their current values, code is variant-optimized by looking at certain calls to `qx.core.Environment <http://demo.qooxdoo.org/%{version}/apiviewer#qx.core.Environment>`__ that reference a key that has an existing setting. Here are the different calls and how they are treated.
+
+.get()
++++++++++++++++++++++++++
+
+*qx.core.Environment.get()* refences the environment key as its first parameter. If this parameter is a literal, i.e. a string, representing a known environment key, and the call happens inside the condition of an ``if`` statement, the call is replaced by the corresponding environment value. If the call is the only expression of the *if* condition, it is evaluated and the whole *if* statement is replaced by either its *then* or its *else* branch, depending on the truth value of the environment key.
+
+::
+
+    if (qx.core.Environment.get("myapp.foo")) {
+      // some code if mayapp.foo has a true value
+    } else {
+      // some code if myapp.foo evalutates to false
+    }
+
+The same holds true if the call to *qx.core.Environment.get()* is not the only expression in the *if* condition, but is part of a simple compare condition where
+
+* the condition operator is one of ``==``, ``===``, ``!=``, ``!===``
+* the other operand is a literal value (like ``"foo"``, ``3``, or ``true``)
+
+::
+
+    if (qx.core.Environment.get("myapp.foo") == "bar") {
+      ...
+    } else {
+      ...
+    }
+
+Again, the branch of the *if* statement is chosen according to the outcome of the comparison.
+
+
+.select()
+++++++++++++++++++++++++++++
+
+With *qx.core.Environment.select()* you can choose an expression from a set of expressions according to the current value of an environment key. The first parameter to the call is again the environment key, the second is a map that maps environment keys to arbitrary expressions.
+
+Again, if the key is a literal string and can be found in the environment settings known to the generator, the whole *qx.core.Environment.select()* expression is replaced by the corresponding expression from the map parameter.
+
+::
+
+    var a = qx.core.Environment.select("myapp.foo", {
+      "bar" : function (x) { return x+3;},
+      "baz" : 24
+    }
+
+Depending on the value of ``myapp.foo``, the variable ``a`` will be asigned a function, or the number literal *24*.
+
+You can include the special key **"default"** in the map parameter to *.select()*. Its expression will be chosen if the value of the environment key does not match any of the other concrete map keys. If the generator comes across a *.select()* call where the environment value does not match any of the map keys *and* there is no *"default"* key, it will raise an exception.
+
+
+.. _pages/tool/generator_config_articles#environment_multiple_go:
+
+How to Create Multiple Variants in One Go
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The above section describes the processing for creating a single build output, where for each environment key there is exactly one value. (This is also how the qooxdoo run time sees the environment).
+
+The generator configuration has an additional feature attached to environment settings. If you specify **more than one** value for an environment key (in a list), the generator will automatically generate multiple output files. Each of the builds will be created with one of the values from the list in effect.
+
+::
+
+    "environment" : {
+      "myapp.foo" : [13, 26],
+      "myapp.bar" : "hugo",
+      "myapp.baz" : true
+    }
+
+The envrionment set for producing the first build output would be *{myapp.foo:13, myapp.bar:"hugo", myapp.baz:true}*, the set for the second *{myapp.foo:26, myapp.bar:"hugo", myapp.baz:true}*. 
+
+For configurations with multiple keys with lists as values, the process is repeated for any possible combination of values. E.g.
+
+
+::
+
+    "environment" : {
+      "myapp.foo" : [13, 26],
+      "myapp.bar" : ["a", "b"],
+      "myapp.baz" : true
+    }
+
+would result in 4 runs with the following environment sets in effect:
+
+* *{myapp.foo:13, myapp.bar:"a", myapp.baz:true}*
+* *{myapp.foo:13, myapp.bar:"b", myapp.baz:true}*
+* *{myapp.foo:26, myapp.bar:"a", myapp.baz:true}*
+* *{myapp.foo:26, myapp.bar:"b", myapp.baz:true}*
+
+Caveat
+++++++
+
+The special caveat when creating multiple build files in one go is that you need to adapt to this in the configuration of the **output file name**. If you have just a single output file name, every generated build script will be saved over the previous! I.e. the generator might produce multiple output files, but they are all stored under the same name, so what you get eventually is just the last of those output file.
+
+The cure is to hint to the generator to create different output files during processing. This is done by using a simple macro that reflects the current value of an environment key in the output file name.
+
+::
+
+    "build-script" : 
+    {
+      "environment" : {
+        "myapp.foo" : ["bar", "baz"]
+      },
+      "compile-options" : {
+        "paths": {
+          "file" : "build/script/myapp_{myapp.foo}.js"
+        }
+      }
+    }
+
+This will two output files in the *build/script* path, ``myapp_bar.js`` and ``myapp_baz.js``. 
+
+
+Removal of debugging code
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+As an example, one application of the above optimization features is the use of the ``qx.debug`` environment key. Often one wants to add additional checks and assertions to the code but don't want the build to suffer from these checks. This can be solved elegantly by using variants too. The environment key ``qx.debug`` with the allowed values *true* and *false* can be used to add debugging code which is only active in the source version and removed from the build version.
+
+Example:
+
+::
+
+    function foo(a, b) {
+      if (qx.core.Environment.get("qx.debug")) {
+        if ( (arguments.length != 2) || (typeof a != "string") ) {
+          throw new Error("Bad arguments!");   
+      }
+    }
+
+The framework sets ``qx.debug`` to *true* for the source version and to *false* for the build version by default, so this check in your code is now only enabled in the source version. (You can of course override the setting for ``qx.debug`` in your own config).
+
