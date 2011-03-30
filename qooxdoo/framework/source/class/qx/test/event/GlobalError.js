@@ -77,7 +77,7 @@ qx.Class.define("qx.test.event.GlobalError",
     },
 
 
-    testDontWarpIfSettingIsOff : function()
+    testDontWrapIfSettingIsOff : function()
     {
       this.require(["NoGlobalErrorHandling"]);
 
