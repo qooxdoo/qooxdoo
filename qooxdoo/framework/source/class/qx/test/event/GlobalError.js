@@ -20,34 +20,33 @@
 qx.Class.define("qx.test.event.GlobalError",
 {
   extend : qx.dev.unit.TestCase,
+  include : qx.dev.unit.MRequirements,
 
-  construct : function()
-  {
-    this.base(arguments);
-    this.__initialSetting = qx.core.Environment._checks["qx.globalErrorHandling"];
-  },
 
   members :
   {
-    __initialSetting : null,
+    hasGlobalErrorHandling : function() {
+      return !!qx.core.Environment.get("qx.globalErrorHandling");
+    },
+
+
+    hasNoGlobalErrorHandling : function() {
+      return !this.hasGlobalErrorHandling();
+    },
+
 
     setUp : function()
     {
-      qx.core.Environment._checks["qx.globalErrorHandling"] = function() {
-        return true;
-      };
       this.errorHandler = qx.event.GlobalError;
 
       this.called = false;
       this.calledParams = [];
       this.errorHandler.setErrorHandler(this.onError, this);
-      qx.core.Environment.invalidateCacheKey("qx.globalErrorHandling");
     },
 
 
     tearDown : function ()
     {
-      qx.core.Environment._checks["qx.globalErrorHandling"] = this.__initialSetting;
       this.errorHandler.setErrorHandler(null);
       if (window.onerror) {
         window.onerror = null;
@@ -63,14 +62,10 @@ qx.Class.define("qx.test.event.GlobalError",
     },
 
 
-    testSetting : function()
-    {
-      this.assertTrue(qx.core.Environment.get("qx.globalErrorHandling"));
-    },
-
-
     testObserveMethod : function()
     {
+      this.require(["GlobalErrorHandling"]);
+
       var fail = function() {
         throw new Error("fail");
       }
@@ -84,9 +79,8 @@ qx.Class.define("qx.test.event.GlobalError",
 
     testDontWarpIfSettingIsOff : function()
     {
-      qx.core.Environment._checks["qx.globalErrorHandling"] = function() {
-        return false;
-      };
+      this.require(["NoGlobalErrorHandling"]);
+
       var fcn = function() {};
       var wrapped = this.errorHandler.observeMethod(fcn);
 
@@ -96,6 +90,8 @@ qx.Class.define("qx.test.event.GlobalError",
 
     testWrappedParameterAndReturnValue : function()
     {
+      this.require(["GlobalErrorHandling"]);
+
       var fcn = function(a,b,c) {
         var args = [a, b, c];
         return args;
@@ -111,6 +107,8 @@ qx.Class.define("qx.test.event.GlobalError",
 
     testObserveMethodButNoHandler : function()
     {
+      this.require(["GlobalErrorHandling"]);
+
       var fail = function() {
         throw new Error("fail");
       }
@@ -127,6 +125,8 @@ qx.Class.define("qx.test.event.GlobalError",
 
     testHandlerContext : function()
     {
+      this.require(["GlobalErrorHandling"]);
+
       var fail = function() {
         throw new Error("fail");
       }
@@ -146,6 +146,8 @@ qx.Class.define("qx.test.event.GlobalError",
 
     testHandleError : function()
     {
+      this.require(["GlobalErrorHandling"]);
+
       var error = new Error("New Error");
       this.errorHandler.handleError(error);
 
@@ -156,6 +158,8 @@ qx.Class.define("qx.test.event.GlobalError",
 
     testOnWindowError : function()
     {
+      this.require(["GlobalErrorHandling"]);
+
       // reset the handler
       this.errorHandler.setErrorHandler(null);
 
@@ -207,6 +211,8 @@ qx.Class.define("qx.test.event.GlobalError",
 
     testOnWindowErrorWrapped : function()
     {
+      this.require(["GlobalErrorHandling"]);
+
       // reset error handler on startup
       this.errorHandler.setErrorHandler(null);
 
@@ -275,18 +281,5 @@ qx.Class.define("qx.test.event.GlobalError",
 
       this.wait(500);
     }
-
-
-    // timer setTimeout/setInterval - OK
-    // addNativeListener - OK
-    // attachEvent - OK
-    // mouse - OK
-    // key - OK
-    // focus - OK
-    // scroll - OK
-    // rpc/io - OK
-    // load - OK
-    // animation - OK
-    // iframe - OK
   }
 });
