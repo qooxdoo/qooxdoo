@@ -33,6 +33,7 @@ qx.Class.define("qx.ui.mobile.navigationbar.Button",
 
   properties :
   {
+    // overridden
     defaultCssClass :
     {
       refine : true,

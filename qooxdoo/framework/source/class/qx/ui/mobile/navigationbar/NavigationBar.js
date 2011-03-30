@@ -53,6 +53,7 @@ qx.Class.define("qx.ui.mobile.navigationbar.NavigationBar",
 
   properties :
   {
+    // overridden
     defaultCssClass :
     {
       refine : true,
