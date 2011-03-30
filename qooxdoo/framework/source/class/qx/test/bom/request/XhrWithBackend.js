@@ -28,7 +28,8 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
   extend : qx.dev.unit.TestCase,
 
   include : [qx.test.io.MRemoteTest,
-             qx.dev.unit.MMock],
+             qx.dev.unit.MMock,
+             qx.dev.unit.MRequirements],
 
   construct : function()
   {
@@ -41,10 +42,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     req : null,
 
     setUp: function() {
-      // All tests in this case require PHP
-      if (this.isLocal()) {
-        this.needsPHPWarning();
-      }
+      this.require(["php"]);
 
       this.req = new qx.bom.request.Xhr();
     },
@@ -58,10 +56,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     //
 
     "test: should GET": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
       url = url + "?affe=yippie&nocache=" + Math.random();
@@ -82,10 +76,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should GET XML": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.xml");
 
@@ -106,10 +96,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
     // BUGFIX
     "test: should handle arbitrary XML": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       // Content-Type: foo/bar+xml
       var url = this.getUrl("qx/test/xmlhttp/xml.php");
 
@@ -130,10 +116,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should POST": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
       req.open("POST", this.noCache(url));
@@ -153,19 +135,11 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should have readyState UNSENT": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
       this.assertIdentical(0, req.readyState);
     },
 
     "test: should have readyState OPENED": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
       req.open("GET", this.noCache(url));
@@ -177,10 +151,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     // This is a mess, see
     // http://www.quirksmode.org/blog/archives/2005/09/xmlhttp_notes_r_2.html.
     "test: should progress to readyState DONE": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req,
           states = [],
           that = this;
@@ -203,10 +173,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
     // BUGFIX
     "test: should progress to readyState DONE when sync": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req,
           states = [];
 
@@ -224,10 +190,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should progress to readyState DONE when from cache": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req,
           url = this.getUrl("qx/test/xmlhttp/sample.html"),
           states = [],
@@ -260,10 +222,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
     // BUGFIX
     "test: should allow many requests with same object": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
       var count = 0;
@@ -293,10 +251,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should abort pending request": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
 
@@ -307,10 +261,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should have status 200 when modified": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
 
@@ -332,10 +282,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
     // BUGFIX
     "test: should have status 304 when cache is fresh": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/not_modified.php");
 
@@ -384,10 +330,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     //
 
     "test: should call onreadystatechange for OPEN": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
 
@@ -416,10 +358,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should not call onreadystatechange when aborting OPENED": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
 
       // OPENED, without send flag
@@ -435,10 +373,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should call onreadystatechange when aborting LOADING": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
       var that = this;
 
@@ -466,10 +400,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     //
 
     "test: should call onerror on network error": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
 
       var that = this;
@@ -490,10 +420,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     //
 
     "test: should call onloadend on network error": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
 
       var that = this;
@@ -514,10 +440,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     //
 
     "test: should call handler in order when request successful": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.html");
 
@@ -541,10 +463,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     "test: should call handler in order when request failed": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
 
       var that = this;
@@ -573,10 +491,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
     // BUGFIX
     "test: should dispose hard-working": function() {
-      if (this.isLocal()) {
-        return;
-      }
-
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
       req.open("GET", this.noCache(url));
