@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
      * 
      * @return {qx.ui.mobile.list.renderer.Abstract} The used item renderer
      */
-    _getItemRenderer : function(renderer) {
+    _getItemRenderer : function() {
       return this.__itemRenderer;
     },
 
