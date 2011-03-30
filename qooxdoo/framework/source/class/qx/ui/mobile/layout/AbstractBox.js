@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
     _setLayoutProperty : function(widget, property, value)
     {
       if (property == "flex") {
-        var old = this._getChildLayoutProperty(widget, property, value);
+        var old = this._getChildLayoutPropertyValue(widget, property);
         if (old != null) {
           widget.removeCssClass("boxFlex" + value);
         }
