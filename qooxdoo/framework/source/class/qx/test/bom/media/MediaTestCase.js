@@ -49,14 +49,10 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     },
 
     tearDown : function() {
+      this._media.pause();
       this._media = null;
       this._src = null;
     },
-
-    testGetMediaObject: function() {
-      this.assertElement(this._media.getMediaObject());
-    },
-
 
     testPlayPause: function() {
       this.assertTrue(this._media.isPaused());
@@ -93,40 +89,6 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     },
 
 
-    /*
-    testVolumeChange: function() {
-      var vol = 0.3;
-      var that = this;
-
-      this._media.addListener("volumechange", function(e) {
-        this.resume(function() {
-        this.assertEquals(Math.round(vol*100), Math.round(this._media.getVolume()*100));
-          this.assertInstance(e, qx.event.type.Event);
-        }, this);
-      }, this);
-
-      window.setTimeout(function() {
-        that._media.setVolume(vol);
-      }, 0);
-      this.wait();
-    },
-    */
-
-    /*
-     * the assertEventFired doesn't work with none of Media events
-     * althouth they seem to be sync events...
-
-    testVolumeChange: function() {
-      var vol = 0.3;
-      var that = this;
-
-      that.assertEventFired(that._media, "volumechange", function() {
-        that.setVolume(vol);
-        that.assertEquals(Math.round(vol*100), Math.round(that._media.getVolume()*100));
-      });
-    },
-    */
-
     testMute: function() {
       this.assertFalse(this._media.isMuted());
 
@@ -138,28 +100,20 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     },
 
     testCurrentTime: function() {
+      var that = this;
       this.assertEquals(0, this._media.getCurrentTime());
-
-      this._media.play();
-      this.wait(1200, function(e) {
-          this._media.pause();
-      }, this);
-
-      this.assertTrue(this._media.getCurrentTime()>1);
+      //todo: test the setCurrentTime; doesn't seem to work at all
     },
 
-    /*
     testDuration: function() {
+      var that = this;
+
       this.assertTrue(isNaN(this._media.getDuration()));
 
-      this._media.play();
-      this.wait(1200, function(e) {
-          this._media.pause();
-      }, this);
-
-      this.assertTrue(this._media.getDuration()>1);
+      this._media.addListener("loadeddata", function() {
+        that.assertEquals(11, Math.ceil(this.getDuration()));
+      }, this._media);
     },
-    */
 
 
     testSource: function() {
@@ -188,16 +142,13 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     },
 
 
-    /*
     testAutoplay: function() {
-      this.assertTrue(this._media.isPaused());
-
+      this.assertFalse(this._media.getAutoplay());
       this._media.setAutoplay(true);
-      this._media.setSource(this._src);
-      this.wait(500, function(e) {
-        this.assertFalse(this._media.isPaused());
-        this._media.pause();
-      }, this);
+      this.assertTrue(this._media.getAutoplay());
+
+      this._media.setAutoplay(false);
+      this.assertFalse(this._media.getAutoplay());
     },
 
 
@@ -234,60 +185,38 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this._media.setLoop(false);
       this.assertFalse(this._media.isLoop());
     },
-    */
 
-    testPlayEvent: function() {
-      this._media.addListener("play", function(e) {
-        this.resume(function() {
-          this.assertInstance(e, qx.event.type.Event);
-          this._media.pause();
-        }, this);
-      }, this);
-
-      var that = this;
-      window.setTimeout(function() {
-        that._media.play();
-      }, 0);
-      this.wait();
+    testGetMediaObject: function() {
+      this.assertElement(this._media.getMediaObject());
     },
 
-    testPauseEvent: function() {
-      this._media.addListener("pause", function(e) {
-        this.resume(function() {
-          this.assertInstance(e, qx.event.type.Event);
-        }, this);
-      }, this);
-
+    testVolumeChangeEvent: function() {
       var that = this;
-      window.setTimeout(function() {
-        that._media.play();
-        that._media.pause();
-      }, 0);
-      this.wait();
-    }
 
-    //this will work only for audio.
-    /*
-    testEnd: function() {
-      this.assertFalse(this._media.isEnded());
+      //this work
+      this._media.addListener("volumechange", function() {
+        console.log("this works");
+      });
+      this._media.setVolume(0.3);
 
-      this._media.addListener("ended", function(e) {
-        this.resume(function() {
-          this.assertInstance(e, qx.event.type.Event);
-        }, this);
-      }, this);
+      //but assert doesn't work
+      this.assertEventFired(this._media, "volumechange", function() {
+        that._media.setVolume(0.2);
+      });
+    },
 
+    testPlayEvent: function() {
       var that = this;
-      window.setTimeout(function() {
+      //this work
+      this._media.addListener("play", function() {
+        console.log("play works");
+      });
+      this._media.play();
+
+      //this doesn't
+      this.assertEventFired(this._media, "play", function() {
         that._media.play();
-        that.assertFalse(that._media.isEnded());
-      }, 0);
-
-      this.wait(11000, function(e) {
-          this.assertTrue(this._media.isEnded());
-      }, this);
+      });
     }
-    */
-
   }
 });

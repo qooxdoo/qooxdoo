@@ -52,6 +52,7 @@ qx.Class.define("qx.bom.media.Abstract",
     Event.addNativeListener(this._media, "pause", this._handlePauseEventBound);
     Event.addNativeListener(this._media, "timeupdate", this._handleTimeUpdateEventBound);
     Event.addNativeListener(this._media, "ended", this._handleEndedEventBound);
+    Event.addNativeListener(this._media, "volumechange", this._handleVolumeChangeEventBound);
     Event.addNativeListener(this._media, "loadeddata", this._handleLoadedDataEventBound);
     Event.addNativeListener(this._media, "loadedmetadata", this._handleLoadedMetaDataEventBound);
   },
@@ -223,6 +224,17 @@ qx.Class.define("qx.bom.media.Abstract",
     getDuration: function()
     {
       return this._media.duration;
+    },
+
+
+    /**
+     * Sets the value of current time.
+     *
+     * @param source {Number} the new value of current time
+     */
+    setCurrentTime: function(value)
+    {
+      this._media.currentTime = value;
     },
 
 
