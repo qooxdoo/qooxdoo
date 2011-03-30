@@ -71,6 +71,9 @@ qx.Class.define("qx.ui.mobile.list.List",
   *****************************************************************************
   */
 
+  /**
+   * @param delegate {Object?null} The {@link #delegate} to use 
+   */
   construct : function(delegate)
   {
     this.base(arguments);
@@ -109,6 +112,10 @@ qx.Class.define("qx.ui.mobile.list.List",
     },
 
 
+    /**
+     * Delegation object which can have one or more functions defined by the
+     * {@link qx.ui.mobile.list.IListDelegate} interface.
+     */
     delegate :
     {
       apply: "_applyDelegate",
@@ -223,6 +230,14 @@ qx.Class.define("qx.ui.mobile.list.List",
     }
   },
 
+
+
+
+ /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
   destruct : function()
   {
