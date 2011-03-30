@@ -104,6 +104,7 @@
         "simulator.autHost" : "http://localhost",
         "simulator.autPath" : "/${APPLICATION}/source/index.html",
         
+        "simulator.logFile" : false,
         "simulator.globalErrorLogging" : false,
         "simulator.testEvents" : false,
         "simulator.applicationLog" : false,
