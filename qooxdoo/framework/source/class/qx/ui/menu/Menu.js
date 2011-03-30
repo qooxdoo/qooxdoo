@@ -467,6 +467,10 @@ qx.Class.define("qx.ui.menu.Menu",
         return null;
       }
 
+      if (widget && widget.getContextMenu() === this) {
+        return null;
+      }
+
       while (widget && !(widget instanceof qx.ui.menu.Menu)) {
         widget = widget.getLayoutParent();
       }
