@@ -33,7 +33,8 @@ qx.Class.define("qx.test.io.request.Xhr",
   extend : qx.dev.unit.TestCase,
 
   include : [qx.test.io.MRemoteTest,
-             qx.dev.unit.MMock],
+             qx.dev.unit.MMock,
+             qx.dev.unit.MRequirements],
 
   members :
   {
@@ -92,6 +93,9 @@ qx.Class.define("qx.test.io.request.Xhr",
     //
 
     "test: should fetch resource": function() {
+      // TODO: Adjust URL when file://
+      this.require(["http"]);
+
       var req = new qx.io.request.Xhr(),
           url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt"));
 
@@ -179,6 +183,9 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: should send sync request": function() {
+      // TODO: Firefox: "Access to restricted URI denied"
+      this.require(["http"]);
+
       this.setUpFakeTransport();
       this.req.setAsync(false);
       this.req.send();
@@ -375,6 +382,9 @@ qx.Class.define("qx.test.io.request.Xhr",
     //
 
     "test: should sync XHR properties for every readyState": function() {
+      // TODO: Status is [0, 200, 200, 200] when from file://
+      this.require(["http"]);
+
       this.setUpFakeServer();
       var req = this.req,
           server = this.server,
