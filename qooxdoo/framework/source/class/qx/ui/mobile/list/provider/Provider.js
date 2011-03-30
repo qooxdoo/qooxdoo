@@ -19,14 +19,30 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * Provides a list item element for a certain row and its data.
+ * Uses the {@link qx.ui.mobile.list.renderer.Default} list item renderer as a
+ * default renderer when no other renderer is given by the {@link qx.ui.mobile.list.List#delegate}.
  */
 qx.Class.define("qx.ui.mobile.list.provider.Provider",
 {
   extend : qx.core.Object,
 
 
+ /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties:
   {
+    /**
+     * Delegation object which can have one or more functions defined by the
+     * {@link qx.ui.mobile.list.IListDelegate} interface. Set by the list.
+     * 
+     * @internal
+     */
     delegate :
     {
       event: "changeDelegate",
@@ -37,21 +53,47 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
   },
 
 
+
+
+ /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     __itemRenderer : null,
 
 
+    /**
+     * Sets the item renderer.
+     * 
+     * @param renderer {qx.ui.mobile.list.renderer.Abstract} The used item renderer
+     */
     _setItemRenderer : function(renderer) {
       this.__itemRenderer = renderer;
     },
 
 
+    /**
+     * Returns the set item renderer.
+     * 
+     * @return {qx.ui.mobile.list.renderer.Abstract} The used item renderer
+     */
     _getItemRenderer : function(renderer) {
       return this.__itemRenderer;
     },
 
 
+    /**
+     * Returns the list item element for a given row.
+     * 
+     * @param data {var} The data of the row.
+     * @param row {Integer} The row index.
+     * 
+     * @return {Element} the list item element.
+     */
     getItemElement : function(data, row)
     {
       this.__itemRenderer.reset();
@@ -65,6 +107,12 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
     },
 
 
+    /**
+     * Configure the list item renderer with the given data.
+     * 
+     * @param data {var} The data of the row.
+     * @param row {Integer} The row index.
+     */
     _configureItem : function(data, row)
     {
       var delegate = this.getDelegate();
@@ -75,6 +123,14 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
     },
 
 
+
+    /**
+     * Creates an instance of the item renderer to use. When no delegate method
+     * is given the function will return an instance of {@link qx.ui.mobile.list.renderer.Default}.
+     *
+     * @return {qx.ui.mobile.list.renderer.Abstract} An instance of the item renderer.
+     *
+     */
     _createItemRenderer : function()
     {
       var createItemRenderer = qx.util.Delegate.getMethod(this.getDelegate(), "createItemRenderer");
@@ -90,12 +146,21 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
     },
 
 
+    // property apply
     _applyDelegate : function(value, old)
     {
       this._setItemRenderer(this._createItemRenderer());
     }
   },
 
+
+
+
+ /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
   destruct : function()
   {
