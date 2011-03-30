@@ -456,7 +456,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
       window.setTimeout(function() {
         req.abort();
-      }, 100);
+      }, 0);
 
       this.wait();
     },
