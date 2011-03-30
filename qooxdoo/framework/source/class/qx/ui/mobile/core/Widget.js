@@ -493,6 +493,10 @@ qx.Class.define("qx.ui.mobile.core.Widget",
           "true" : null,
           "false" : "false"
         }
+      },
+      "readOnly" :
+      {
+        attribute : "readonly"
       }
     },
 
