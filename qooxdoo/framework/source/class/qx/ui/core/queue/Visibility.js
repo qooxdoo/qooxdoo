@@ -125,10 +125,12 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       // Dynamically add children to queue
       // Only respect already known widgets because otherwise the children
       // are also already in the queue (added on their own)
-      for (var i = 0; i < queue.length; i++)
+      for (var i = queue.length - 1; i >= 0; i--)
       {
         var hash = queue[i].$$hash;
         if (data[hash] != null) {
+          // recursive method call which adds widgets to the queue so be 
+          // careful with that one (performance critical)
           queue[i].addChildrenToQueue(queue);
         }
       }
