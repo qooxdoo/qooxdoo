@@ -25,6 +25,21 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * The animation page manager displays the next page with an animation.
+ * One of the following animations can be used:
+ * 
+ *  <ul>
+ *   <li>slide</li>
+ *   <li>pop</li>
+ *   <li>fade</li>
+ *   <li>dissolve</li>
+ *   <li>slideup</li>
+ *   <li>flip</li>
+ *   <li>swap</li>
+ *   <li>cube</li>
+ *  </ul>
+ * 
  * @internal
  */
 qx.Class.define("qx.ui.mobile.page.manager.Animation",
@@ -40,7 +55,10 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
 
   events :
   {
+    /** Fired when the animation of a page transition starts */
     animationStart : "qx.event.type.Data",
+    
+    /** Fired when the animation of a page transition ends */
     animationEnd : "qx.event.type.Data"
   },
 
@@ -55,6 +73,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
 
   properties :
   {
+    /** The default animation to use for page transition */
     defaultAnimation :
     {
       check : "String",
@@ -73,9 +92,10 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
 
   statics :
   {
+    /** All supported animations */
     ANIMATIONS :
     {
-      "slide" : true, // USE THIS FOR MORE INFORMATION
+      "slide" : true, // Todo: USE THIS FOR MORE INFORMATION
       "pop" : true,
       "fade" : true,
       "dissolve" : true,
@@ -105,6 +125,11 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
     __toPage : null,
 
 
+    /**
+     * Whether the manager is animating a page transition right now.
+     * 
+     * @return {Boolean} In page transition or not.
+     */
     isInAnimation : function()
     {
       return this.__inAnimation;
@@ -143,6 +168,9 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
     },
 
 
+    /**
+     * Starts the animation for the page transition.
+     */
     __startAnimation : function()
     {
       this.__inAnimation = true;
@@ -162,6 +190,11 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
     },
 
 
+    /**
+     * Event handler. Called when the animation of the page transition ends.
+     * 
+     * @param evt {qx.event.type.Event} The causing event
+     */
     _onAnimationEnd : function(evt)
     {
       this._getRoot().remove(this.__fromPage);
@@ -170,6 +203,9 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
     },
 
 
+    /**
+     * Stops the animation for the page transtion.
+     */
     __stopAnimation : function()
     {
       if (this.__inAnimation)
@@ -187,6 +223,13 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
     },
 
 
+    /**
+     * Returns the animation CSS classes for a given direction. The direction
+     * can be <code>in</code> or <code>out</code>.
+     * 
+     * @param direction {String} The direction of the animation. <code>in</code> or <code>out</code>.
+     * @return {String[]} The CSS classes for the set animation.
+     */
     __getAnimationClasses : function(direction)
     {
       var classes = [this.__animation, direction];
