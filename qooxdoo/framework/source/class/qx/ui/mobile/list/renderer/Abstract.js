@@ -20,7 +20,7 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * The list item widget represents an list entry.
+ * Base class for all list item renderer.
  */
 qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
 {
@@ -61,14 +61,10 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
     },
 
 
-    data :
-    {
-      apply : "_applyData",
-      event : "dataChange"
-    },
-
-
     // todo -> move selected / selectable to mixin
+    /**
+     * Whether the row is selected.
+     */
     selected :
     {
       check : "Boolean",
@@ -77,6 +73,9 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
     },
 
 
+    /**
+     * Whether the row is selectable.
+     */
     selectable :
     {
       check : "Boolean",
@@ -85,6 +84,9 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
     },
 
 
+    /**
+     * Whether to show an arrow in the row.
+     */
     showArrow :
     {
       check : "Boolean",
