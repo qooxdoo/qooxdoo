@@ -104,17 +104,6 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this.assertEquals(0, this._media.getCurrentTime());
     },
 
-    testDuration: function() {
-      var that = this;
-
-      this.assertTrue(isNaN(this._media.getDuration()));
-
-      this._media.addListener("loadeddata", function() {
-        that.assertEquals(11, Math.ceil(this.getDuration()));
-      }, this._media);
-    },
-
-
     testSource: function() {
       this._media = new qx.bom.media.Audio();
 
