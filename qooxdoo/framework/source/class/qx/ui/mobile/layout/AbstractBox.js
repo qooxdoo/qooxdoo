@@ -35,11 +35,11 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
   */
 
   /**
-   * @param alignX {String}
-   * @param alignY {String}
-   * @param reverse {Boolean}
+   * @param alignX {String?null} Sets the {@link #alignX} property
+   * @param alignY {String?null} Sets the {@link #alignY} property
+   * @param reversed {Boolean?null} Sets the {@link #reversed} property
    */
-  construct : function(alignX, alignY, reverse)
+  construct : function(alignX, alignY, reversed)
   {
     this.base(arguments);
     if (alignX) {
@@ -48,8 +48,8 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
     if (alignY) {
       this.setAlignY(alignY);
     }
-    if (reverse) {
-      this.setReverse(reverse);
+    if (reversed) {
+      this.setReversed(reversed);
     }
   },
 
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
       if (this._widget) {
         this.resetAlignX();
         this.resetAlignY();
-        this.resetReverse();
+        this.resetReversed();
       }
       this.base(arguments, widget);
     },

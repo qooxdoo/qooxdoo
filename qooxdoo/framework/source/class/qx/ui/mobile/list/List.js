@@ -21,6 +21,44 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * The list widget displays the data of a model in a list.
+ * 
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *
+ *    // Data for the list
+ *    var data = [
+ *       {title : "Row1", subTitle : "Sub1"},
+ *       {title : "Row2", subTitle : "Sub2"},
+ *       {title : "Row3", subTitle : "Sub3"}
+ *   ];
+ * 
+ *   // Create the list with a delegate that
+ *   // configures the list item.
+ *   var list = new qx.ui.mobile.list.List({
+ *     configureItem : function(item, data, row)
+ *     {
+ *       item.setTitle(data.title);
+ *       item.setSubTitle(data.subTitle);
+ *       item.setShowArrow(true);
+ *     }
+ *   });
+ *
+ *   // Set the model of the list
+ *   list.setModel(new qx.data.Array(data));
+ * 
+ *   // Add an changeSelection event
+ *   list.addListener("changeSelection", function(evt) {
+ *     alert("Index: " + evt.getData())
+ *   }, this);
+ *
+ *   this.getRoot.add(list);
+ * </pre>
+ *
+ * This example creates a list with a delegate that configures the list item with
+ * the given data. A listener for the event {@link #changeSelection} is added.
  */
 qx.Class.define("qx.ui.mobile.list.List",
 {
