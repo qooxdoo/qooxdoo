@@ -167,16 +167,18 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       try {
         this.__nativeXhr.open(method, url, async, user, password);
 
-      // BUGFIX: IE
-      // IE does not (yet) support Cross-Origin Resource Sharing (CORS)
+      // BUGFIX: IE, Firefox < 3.5
+      // Some browsers do not support Cross-Origin Resource Sharing (CORS)
       // for XMLHttpRequest. Instead, an exception is thrown if URL is
       // cross-origin (as per XHR level 1). Use the proprietary XDomainRequest
-      // (supports CORS) and handle error (if there is one) this way.
+      // if available (supports CORS) and handle error (if there is one) this
+      // way. Otherwise just assume network error.
       //
       // Basically, this allows to send requests to cross-origin URLs.
       } catch(OpenFailed) {
 
         // Try again with XDomainRequest
+        // - IE 9
         if (window.XDomainRequest) {
           // Success case not handled on purpose
           this.readyState = 4;
@@ -191,21 +193,15 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         }
 
         // Access denied
-        // -IE 6: -2146828218
-        // -IE 7: -2147024891
-        if (OpenFailed.number &&
-            OpenFailed.number == -2146828218 ||
-            OpenFailed.number == -2147024891) {
-          window.setTimeout(qx.Bootstrap.bind(function() {
-            this.readyState = 4;
-            this.onreadystatechange();
-            this.onerror();
-            this.onloadend();
-          }, this));
-          return;
-        }
-
-        throw OpenFailed;
+        // - IE 6: -2146828218
+        // - IE 7: -2147024891
+        // - Legacy Firefox
+        window.setTimeout(qx.Bootstrap.bind(function() {
+          this.readyState = 4;
+          this.onreadystatechange();
+          this.onerror();
+          this.onloadend();
+        }, this));
       }
 
       // BUGFIX: Firefox
