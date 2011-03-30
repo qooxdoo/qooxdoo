@@ -205,9 +205,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // BUGFIX: Firefox
-      // Firefox <4 fails to trigger onreadystatechange OPENED for sync requests
+      // Firefox < 4 fails to trigger onreadystatechange OPENED for sync requests
       if (qx.core.Environment.get("engine.name") === "gecko" &&
-          qx.core.Environment.get("engine.version") < 2 &&
+          parseInt(qx.core.Environment.get("engine.version"), 10) < 2 &&
           !this.__async) {
         // Native XHR is already set to readyState DONE. Fake readyState
         // and call onreadystatechange manually.
