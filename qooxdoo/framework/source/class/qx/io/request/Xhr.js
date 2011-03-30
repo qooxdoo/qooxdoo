@@ -20,6 +20,9 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
+ * Note: This class is going to replace {@link qx.io.HttpRequest} in a
+ * future release.
+ *
  * Send HTTP requests and handle responses. Configuration of the request
  * is done with properties. Events are fired for various states in the life
  * cycle of a request, such as "success". Request data is transparently

@@ -20,6 +20,9 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
+ * Note: This class is going to be replaced by {@link qx.io.request.Xhr}
+ * in a future release.
+ *
  * A more comfortable HTTP request object than the native one under
  * {@link qx.bom.Request}.
  *
