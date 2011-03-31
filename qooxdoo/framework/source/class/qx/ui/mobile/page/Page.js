@@ -54,8 +54,9 @@
  * method is called, either by listening to the {@link #initialize} event or overriding 
  * the {@link #_initialize} method. This is because a page can be instanced during
  * application startup and would then decrease performance when the widgets would be
- * added during constructor call. The {@link #_initialize} lifecycle method is only called
- * when the page is shown for the first time.
+ * added during constructor call. The <code>initialize</code> event and the
+ * {@link #_initialize} lifecycle method are only called when the page is shown
+ * for the first time.
  */
 qx.Class.define("qx.ui.mobile.page.Page",
 {
