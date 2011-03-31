@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -15,6 +15,7 @@
    Authors:
      * Tino Butz (tbtz)
      * Adrian Olaru (adrianolaru)
+     * Andreas Ecker (ecker)
 
 ************************************************************************ */
 
@@ -52,15 +53,16 @@ qx.Class.define("qx.event.type.GeoPosition",
   properties :
   {
     /**
-     *  Attribute represents the time when the Position object was acquired.
+     *  The time when the position was acquired.
      */
     timestamp :
     {
-      check : "Integer"
+      check : "Date"
     },
 
     /**
-     *  Attributes is the geographic coordinates specified in decimal degrees
+     * The angular distance north or south of the earth's equator, measured in 
+     * decimal degrees along a meridian
      */
     latitude : {
       check : "Number"
@@ -68,7 +70,8 @@ qx.Class.define("qx.event.type.GeoPosition",
 
 
     /**
-     *  Attributes is the geographic coordinates specified in decimal degrees
+     * The angular distance on the earth's surface, measured east or west from 
+     * the prime meridian at Greenwich, England, in decimal degrees
      */
     longitude : {
       check : "Number"
@@ -76,7 +79,8 @@ qx.Class.define("qx.event.type.GeoPosition",
 
 
     /**
-     * Attribute denotes the height of the position, specified in meters above the ellipsoid.
+     * The height of the position, specified in meters above the earth's 
+     * surface.
      */
     altitude : {
       check : "Number",
@@ -85,14 +89,15 @@ qx.Class.define("qx.event.type.GeoPosition",
 
 
     /**
-     * Attribute denotes the accuracy level of the latitude and longitude coordinates.
+     * The accuracy level of the latitude and longitude coordinates specified 
+     * in meters.
      */
     accuracy : {
       check : "Number"
     },
 
     /**
-     * Attribute is specified in meters.
+     * The accuracy level of the altitude specified in meters.
      */
     altitudeAccuracy : {
       check : "Number",
@@ -101,9 +106,13 @@ qx.Class.define("qx.event.type.GeoPosition",
 
 
     /**
-     * Attribute denotes the direction of travel of the hosting device and is
-     * specified in degrees, where 0° ≤ heading < 360°, counting clockwis
-     * relative to the true north.
+     * The direction of travel of the hosting device specified in degrees in a 
+     * range from 0 to 360, counting clockwise relative to the true north.
+     *
+     * If the implementation cannot provide heading information, the value of 
+     * this attribute must be null. If the hosting device is stationary (i.e. 
+     * the value of the speed attribute is 0), then the value of the heading 
+     * property must be NaN. 
      */
     heading : {
       nullable : true
@@ -111,10 +120,14 @@ qx.Class.define("qx.event.type.GeoPosition",
 
 
     /**
-     * Attribute denotes the current ground speed of the hosting device and is
-     * specified in meters per second.
+     * The current ground speed of the hosting device specified in meters per 
+     * second.
+     *
+     * If the implementation cannot provide speed information, the value of 
+     * this property must be null.
      */
     speed : {
+      check : "Number",
       nullable : true
     }
   }

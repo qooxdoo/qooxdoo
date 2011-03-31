@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -15,6 +15,7 @@
    Authors:
      * Tino Butz (tbtz)
      * Adrian Olaru (adrianolaru)
+     * Andreas Ecker (ecker)
 
 ************************************************************************ */
 
@@ -43,7 +44,7 @@ qx.Class.define("qx.bom.GeoLocation",
   events:
   {
     /** Fired when the position is updated */
-    "position": "qx.event.type.Data",
+    "position": "qx.event.type.GeoPosition",
 
     /** Fired when an error occurs */
     "error": "qx.event.type.Data"
@@ -57,7 +58,7 @@ qx.Class.define("qx.bom.GeoLocation",
 
 
     /**
-     * Retrieves the current postion and calls the "positon" event.
+     * Retrieves the current position and calls the "position" event.
      *
      * @param enableHighAccuracy {Function} provide the best possible results
      * @param timeout {Function} maximum time in ms that is allowed to pass from
@@ -80,7 +81,7 @@ qx.Class.define("qx.bom.GeoLocation",
 
 
     /**
-     * Starts to watch the postion. Calls the "positon" event, when the position changed.
+     * Starts to watch the position. Calls the "position" event, when the position changed.
      *
      * @param enableHighAccuracy {Function} provide the best possible results
      * @param timeout {Function} maximum time in ms that is allowed to pass from
@@ -108,7 +109,9 @@ qx.Class.define("qx.bom.GeoLocation",
      * Stops watching the position.
      */
     stopWatchPosition: function() {
-      this._geolocation.clearWatch(this._watchId);
+      if (this._watchId != undefined) {    
+        this._geolocation.clearWatch(this._watchId);
+      }
     },
 
 
@@ -148,7 +151,7 @@ qx.Class.define("qx.bom.GeoLocation",
   },
 
 
-  destruct: function()
+  destruct: function() 
   {
     this.stopWatchPosition();
   }
