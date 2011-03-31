@@ -96,8 +96,8 @@
  *  page1.show();
  * </pre>
  *
- * This example creates a NavigationPage with a title and a back button. In the
- * <code>initialize</code> lifecycle method a button is added.
+ * This example creates two pages with one button each. Tapping on the button
+ * will show the page respectively.
  */
 qx.Class.define("qx.ui.mobile.page.Page",
 {
