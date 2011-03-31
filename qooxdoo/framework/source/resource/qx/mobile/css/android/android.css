@@ -1,20 +1,4 @@
-@media all and (orientation:portrait) {
-
-}
-
-@media all and (orientation:landscape) {
-
-}
- 
-@media screen and (max-device-width: 480px) {
- 
-}
-
-@media screen and (-webkit-device-pixel-ratio:1.5) {
-  
-}
-
-
+/* MAIN */
 body {
     font-family: Helvetica;
     background: #181818;
@@ -26,6 +10,13 @@ body {
 body > * {
     background: #181818;
 }
+
+.content {
+  margin : 5px;
+}
+
+
+/* HEADINGS */
 
 h1, h2 {
     font-weight: bold;
@@ -57,113 +48,14 @@ h2 {
    border-bottom: 1px solid #313431;
 }
 
-.fontNormal {
-  color : #ffffff;
-  font-weight:normal;
-  font-size:0.8em;
-}
 
-input, select { vertical-align:middle; }
-input, select, textarea { 
-  font-family: Helvetica;
-  font-size:.9em;
-}
+/* LINKS */
 
 a:hover, a:active { outline: none; }
 a, a:active, a:visited { color: #e89c00; }
 a:hover { color: #e89c00; }
 
-.window {
-  position : absolute;
-  z-index:100000;
-  left:0px;
-  right:0px;
-  bottom:0px;
-  top:0px;
-  margin-left: auto;
-  margin-top:auto;
-  margin-right:auto;
-  margin-bottom:auto;
-  width:100px;
-  height: 50px;
-  background-color:red;
-}
-
-
-.loading {
-  display:none;
-  position : absolute;
-  z-index:100;
-  width:100%;
-  height:100%;
-  left:0;
-  top:0;
-  background-color:gray;
-  opacity : 0.5;
-}
-
-
-.loading > div {
-  position:relative;
-  z-index:100;
-  left:50%;
-  right:50%;
-  top:50%;
-  bottom:50%;
-  margin-left:-16px;
-}
-
-.tabBar {
-  bottom:1px;
-  height:45px;
-}
-
-.tabButton {
-  height:45px !important;
-  text-align: center;
-  line-height: 45px;
-  margin:0 !important;
-  -webkit-box-sizing: border-box;
-}
-
-.tabButton.active, .tabButton.selected {
-  border: 2px solid orange;
-}
-
-.navigationbar {
-    border-bottom: 1px solid #2d3642;
-    padding-left: 10px;
-    padding-right: 10px;
-    height: 45px;
-    background: -webkit-gradient(linear, left top, left bottom, from(#9a9a9a), to(#7c7e7c));
-}
-
-
-.navigationbar-button, .navigationbar-backbutton {
-    text-align: center;
-    min-width:40px;
-    cursor: pointer;
-    overflow: hidden;
-    padding: 0 3px;
-    width: auto;
-    height: 30px;
-    line-height: 30px;
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: bold;
-    color: #black;
-    text-overflow: ellipsis;
-    text-decoration: none;
-    white-space: nowrap;
-    background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#c4c4c4));
-    border: 2px solid #232323;
-    -webkit-border-radius: 4px;
-}
-
-.navigationbar-button.active, .navigationbar-backbutton.active {
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
-}
-
+/* BUTTONS */
 
 .button, .tabButton {
   cursor: pointer;
@@ -188,60 +80,7 @@ a:hover { color: #e89c00; }
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
 }
 
-
-.content {
-  margin : 5px;
-}
-
-/* @group Toggle */
-
-.toggleButton {
-    width: 94px;
-    height: 27px;
-    display: block;
-    overflow: hidden;
-    position:relative;
-    -webkit-border-radius: 5px;
-}
-
-.toggleButton > div.checked {
-    left: 0px;
-}
-
-.toggleButton > div {
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    margin: 0;
-    -webkit-border-radius: 5px;
-    background: #fff url(../../icon/android/on_off.png) 0 0 no-repeat;
-    height: 27px;
-    overflow: hidden;
-    width: 149px;
-    border: 0;
-    background-color: transparent;
-    -webkit-transition: left .15s;
-    position: absolute;
-    top: 0px;
-    left: -55px;
-}
-
-.slider {
-  position:relative;
-  border:1px solid #6b6d6b;
-  height:30px;
-}
-
-.slider > div {
-  position:absolute;
-  border:1px solid #6b6d6b;
-  top:0px;
-  left:0%;
-  background-color:#fff;
-  width:30px;
-  height:30px;
-}
-
-/* @end */
-
+/* LISTS */
 
 .list-itemimage {
    margin-right:7px;
@@ -250,7 +89,6 @@ a:hover { color: #e89c00; }
 .list-itemtext {
  
 }
-
 
 ul {
     font: bold 17px Helvetica;
@@ -301,7 +139,13 @@ li:first-child, li:first-child a {
 }
 
 
-/* @group Forms */
+/* FORMS */
+
+input, select { vertical-align:middle; }
+input, select, textarea { 
+  font-family: Helvetica;
+  font-size:.9em;
+}
 
 ul.form li {
     padding: 10px 10px 10px 10px;
@@ -358,7 +202,116 @@ ul li input[type="checkbox"]:after, ul li input[type="radio"]:after {
     margin: -12px 0 0 17px;
 }
 
-/* @end */
+
+/* TOGGLE BUTTON */
+
+.toggleButton {
+    width: 94px;
+    height: 27px;
+    display: block;
+    overflow: hidden;
+    position:relative;
+    -webkit-border-radius: 5px;
+}
+
+.toggleButton > div.checked {
+    left: 0px;
+}
+
+.toggleButton > div {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    margin: 0;
+    -webkit-border-radius: 5px;
+    background: #fff url(../../icon/android/on_off.png) 0 0 no-repeat;
+    height: 27px;
+    overflow: hidden;
+    width: 149px;
+    border: 0;
+    background-color: transparent;
+    -webkit-transition: left .15s;
+    position: absolute;
+    top: 0px;
+    left: -55px;
+}
+
+
+/* SLIDER */
+
+.slider {
+  position:relative;
+  border:1px solid #6b6d6b;
+  height:30px;
+}
+
+.slider > div {
+  position:absolute;
+  border:1px solid #6b6d6b;
+  top:0px;
+  left:0%;
+  background-color:#fff;
+  width:30px;
+  height:30px;
+}
+
+
+/* TABBAR */
+
+.tabBar {
+  bottom:1px;
+  height:45px;
+}
+
+.tabButton {
+  height:45px !important;
+  text-align: center;
+  line-height: 45px;
+  margin:0 !important;
+  -webkit-box-sizing: border-box;
+}
+
+.tabButton.active, .tabButton.selected {
+  border: 2px solid orange;
+}
+
+
+/* NAVIGATIONBAR */
+
+.navigationbar {
+    border-bottom: 1px solid #2d3642;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 45px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#9a9a9a), to(#7c7e7c));
+}
+
+
+.navigationbar-button, .navigationbar-backbutton {
+    text-align: center;
+    min-width:40px;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 0 3px;
+    width: auto;
+    height: 30px;
+    line-height: 30px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: bold;
+    color: #black;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    white-space: nowrap;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#c4c4c4));
+    border: 2px solid #232323;
+    -webkit-border-radius: 4px;
+}
+
+.navigationbar-button.active, .navigationbar-backbutton.active {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
+}
+
+
+/* SCROLLBAR */
 
 .scrollbar {
     position: absolute;
