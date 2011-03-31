@@ -3,7 +3,7 @@
 body {
     background: rgb(197,204,211) url(../../icon/ios/pinstripes.png);
     font-family: Helvetica;
-    color : #ffffff;
+    color : #666;
     font-weight:normal;
     font-size:0.8em;
 }
@@ -19,7 +19,7 @@ body > * {
 /* FONTS */
 
 .fontNormal {
-  color : #ffffff;
+  color : #666;
   font-weight:normal;
   font-size:0.8em;
 }
@@ -294,6 +294,7 @@ ul li input[type="checkbox"]:after, ul li input[type="radio"]:after {
 }
 
 .tabButton.active, .tabButton.selected {
+  color:#ffffff;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#393939), color-stop(50%,#292929), color-stop(51%,#1d1d1d),color-stop(100%,#1c1c1c));
 }
 
