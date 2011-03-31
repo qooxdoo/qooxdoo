@@ -27,6 +27,7 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * The simple page manager displays the next page without animation.
+ * Is used automatically when no transform3d is available.
  *  
  * @internal
  */

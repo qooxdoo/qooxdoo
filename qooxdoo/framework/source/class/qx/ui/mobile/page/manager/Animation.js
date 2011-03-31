@@ -27,6 +27,8 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  * 
  * The animation page manager displays the next page with an animation.
+ * Is used automatically when transform3d is available.
+ * 
  * One of the following animations can be used:
  * 
  *  <ul>

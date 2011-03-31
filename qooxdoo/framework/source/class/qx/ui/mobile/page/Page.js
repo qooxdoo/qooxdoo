@@ -19,6 +19,26 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * A page is a widget which provides a screen with which users 
+ * can interact in order to do something. Most times a page provides a single task
+ * or a group of related tasks.
+ * 
+ * A qooxdoo mobile application is usually composed of one or more loosely bound
+ * pages. Typically there is one page that presents the "main" view.
+ * 
+ * Pages can have one or more child widgets from the {@link qx.ui.mobile}
+ * namespace. Normally a page provides a {@link qx.ui.mobile.navigationbar.NavigationBar}
+ * for the navigation between pages.
+ * 
+ * To navigate between two pages, just inform the next page by calling the
+ * {@link #show} method. Depending on the used page manager 
+ * ({@link qx.ui.mobile.page.manager.Simple} or {@link qx.ui.mobile.page.manager.Animation})
+ * a page transition will be animated. There are several animations available. Have
+ * a look at the {@link qx.ui.mobile.manager.Animation} manager for more information.
+ * 
+ * A page has predefined lifecycle methods that get called when a page gets
+ * shown. 
  */
 qx.Class.define("qx.ui.mobile.page.Page",
 {
