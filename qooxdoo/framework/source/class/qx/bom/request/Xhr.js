@@ -257,7 +257,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       if (this.__async) {
         try {
           this.__nativeXhr.send(data);
+
+          // TODO: May throw error in IE.
+          // 'readyState' is null or no object.
           this.__onNativeReadyStateChange();
+
         } catch(NetworkError) {}
       } else {
         this.__nativeXhr.send(data);
