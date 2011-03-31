@@ -44,11 +44,9 @@
  * 
  * Call of the {@link #show} method triggers the following lifecycle methods:
  * 
- * <ul>
- *   <li><strong>stop</strong>: Stops the current page</li>
- *   <li><strong>initialize</strong>: Initializes the page to show</li>
- *   <li><strong>start</strong>: Gets called when the page to show is started</li>
- * <ul>
+ * * *initialize*: Initializes the page to show
+ * * *start*: Gets called when the page to show is started
+ * * *stop*:  Stops the current page
  * 
  * IMPORTANT: Define all child widgets of a page when the {@link #initialize} lifecycle
  * method is called, either by listening to the {@link #initialize} event or overriding 
