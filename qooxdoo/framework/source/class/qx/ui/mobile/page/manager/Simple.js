@@ -26,7 +26,8 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * The simple page manager displays the next page without animation.
+ * The simple page manager displays the next page without animation. It calls
+ * the lifecycle methods of a page.
  * Is used automatically when no transform3d is available.
  *  
  * @internal

@@ -37,8 +37,25 @@
  * a page transition will be animated. There are several animations available. Have
  * a look at the {@link qx.ui.mobile.manager.Animation} manager for more information.
  * 
- * A page has predefined lifecycle methods that get called when a page gets
- * shown. 
+ * A page has predefined lifecycle methods that get called by the used page manger
+ * when a page gets shown. Each time another page is requested to be shown the current shown page
+ * is stopped. The other page, will be, if shown for the first time, initialized and started
+ * afterwards. For all called methods an event is fired.
+ * 
+ * Call of the {@link #show} method triggers the following lifecycle methods:
+ * 
+ * <ul>
+ *   <li><strong>stop</strong>: Stops the current page</li>
+ *   <li><strong>initialize</strong>: Initializes the page to show</li>
+ *   <li><strong>start</strong>: Gets called when the page to show is started</li>
+ * <ul>
+ * 
+ * IMPORTANT: Define all child widgets of a page when the {@link #initialize} lifecycle
+ * method is called, either by listening to the {@link #initialize} event or overriding 
+ * the {@link #_initialize} method. This is because a page can be instanced during
+ * application startup and would then decrease performance when the widgets would be
+ * added during constructor call. The {@link #initialize} lifecycle method is only called
+ * when the page is shown for the first time.
  */
 qx.Class.define("qx.ui.mobile.page.Page",
 {
