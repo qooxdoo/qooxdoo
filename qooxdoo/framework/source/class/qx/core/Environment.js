@@ -518,14 +518,15 @@ qx.Bootstrap.define("qx.core.Environment",
      * @param key {String} The key for the async check.
      * @param values {Map} A map containing functions. The map keys should
      *   contain all possibilities which could be returned by the given check
-     *   key. The "default" key could be used as a catch all statement.
+     *   key. The "default" key could be used as a catch all statement. 
+     *   The called function will get one parameter, the result of the query.
      * @param self {var} The context which should be used when calling the
      *   method in the values map.
      */
     selectAsync : function(key, values, self) {
       this.getAsync(key, function(result) {
         var value = this.__pickFromValues(key, values);
-        value.call(self)
+        value.call(self, result)
       }, this);
     },
 

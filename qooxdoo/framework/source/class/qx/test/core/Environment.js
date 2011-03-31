@@ -99,11 +99,12 @@ qx.Class.define("qx.test.core.Environment",
 
 
       qx.core.Environment.selectAsync("affe", {
-        "affe" : function() {
+        "affe" : function(result) {
           this.resume(function() {
             // clear the fake check
             delete qx.core.Environment._checks["affe"];
             qx.core.Environment.invalidateCacheKey("affe");
+            this.assertEquals("AFFE", result);
           }, this);
         }
       }, this);
