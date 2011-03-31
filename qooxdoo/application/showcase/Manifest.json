@@ -3,22 +3,22 @@
   {
     "name" : "showcase",
 
-    "summary" : "Custom Application",
-    "description" : "This is a skeleton for a custom application with qooxdoo.",
+    "summary" : "Showcase",
+    "description" : "This app demonstrates many features of qooxdoo.",
     
-    "homepage" : "http://some.homepage.url/",
+    "homepage" : "http://demo.qooxdoo.org/current/showcase",
 
-    "license" : "SomeLicense",
+    "license" : "LGPL/EPL",
     "authors" : 
     [
       {
-        "name" : "First Author (uid)",
-        "email" : "first.author@some.domain"
+        "name" : "Martin Wittemann (martinwittemann)",
+        "email" : "martin.wittemann@1und1.de"
       }
     ],
 
     "version" : "trunk",
-    "qooxdoo-versions": ["1.0-pre"]
+    "qooxdoo-versions": ["1.4-pre"]
   },
   
   "provides" : 
