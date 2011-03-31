@@ -12,7 +12,7 @@
  *
  * Most important classes for new users are:
  * 
- *  * {@link qx.ui.mobile.page.Page}
- *  * {@link qx.ui.mobile.core.Widget}
+ * * {@link qx.ui.mobile.page.Page}
+ * * {@link qx.ui.mobile.core.Widget}
  * 
  */
