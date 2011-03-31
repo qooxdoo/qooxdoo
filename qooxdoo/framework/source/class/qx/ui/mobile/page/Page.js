@@ -188,6 +188,9 @@ qx.Class.define("qx.ui.mobile.page.Page",
     __initialized : false,
 
 
+    /**
+     * Resizes the page to the current window.innerHeight.
+     */
     _resize : function()
     {
       if (qx.core.Environment.get("qx.mobile.nativescroll"))
@@ -212,6 +215,15 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
 
 
+    /**
+     * Fires the <code>back</code> event. Call this method if you want to request
+     * a back action. For Android PhoneGap applications this method gets called
+     * by the used page manager when the back button was pressed. Return <code>true</code>
+     * to exit the application.
+     * 
+     * @return {Boolean} Whether the exit should be exit or not. Return <code>true</code
+     *     to exit the application. Only needed for Android PhoneGap applications.
+     */
     back : function()
     {
       this.fireEvent("back");
@@ -221,7 +233,12 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
 
     /**
-     * Abstract method.
+     * Override this method if you want to perform a certain action when back
+     * is called.
+     * 
+     * @return {Boolean} Whether the exit should be exit or not. Return <code>true</code
+     *     to exit the application. Only needed for Android PhoneGap applications.
+     * @see #back
      */
     _back : function()
     {
@@ -230,7 +247,8 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
 
     /**
-     * Abstract method.
+     * Only used by Android PhoneGap applications. Called by the used page manger
+     * when the menu button was pressed. Fires the <code>menu</code> event.
      */
     menu : function() {
       this.fireEvent("menu");
