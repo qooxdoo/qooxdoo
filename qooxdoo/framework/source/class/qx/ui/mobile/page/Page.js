@@ -54,7 +54,7 @@
  * method is called, either by listening to the {@link #initialize} event or overriding 
  * the {@link #_initialize} method. This is because a page can be instanced during
  * application startup and would then decrease performance when the widgets would be
- * added during constructor call. The {@link #initialize} lifecycle method is only called
+ * added during constructor call. The {@link #_initialize} lifecycle method is only called
  * when the page is shown for the first time.
  */
 qx.Class.define("qx.ui.mobile.page.Page",
@@ -274,6 +274,15 @@ qx.Class.define("qx.ui.mobile.page.Page",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Lifecycle method. Called by the page manager when the page is shown.
+     * Fires the <code>initialize</code> event. You should create and add all your
+     * child widgets of the view,  either by listening to the {@link #initialize} event or overriding 
+     * the {@link #_initialize} method. This is because a page can be instanced during
+     * application startup and would then decrease performance when the widgets would be
+     * added during constructor call. The {@link #_initialize} lifecycle method and the
+     * <code>initialize</code> are only called once when the page is shown for the first time.
+     */
     initialize : function()
     {
       if (!this.isInitialized())
