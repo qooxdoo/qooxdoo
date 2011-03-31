@@ -11,7 +11,7 @@
 /**
  * This class demonstrates how to define simulated interaction tests for your 
  * application. See the manual for details:
- * {@link http://manual.qooxdoo.org/1.3/pages/development/simulator.html}
+ * {@link http://manual.qooxdoo.org/1.3.1/pages/development/simulator.html}
  * 
  * @lint ignoreUndefined(simulator)
  */
