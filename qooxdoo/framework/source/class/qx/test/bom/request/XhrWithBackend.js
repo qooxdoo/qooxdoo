@@ -191,7 +191,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
     "test: should progress to readyState DONE when from cache": function() {
       var req = this.req,
-          url = this.getUrl("qx/test/xmlhttp/sample.html"),
+          url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.html")),
           states = [],
           count = 0,
           that = this;
