@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
      * renderer is used for every row and otherwise data of a different row
      * might be displayed, when not all data displaying widgets are used for the row.
      * Gets called automatically by the {@link qx.ui.mobile.list.provider.Provider}.
-     * 
+     *
      */
     reset : function() {
       if (qx.core.Environment.get("qx.debug")) {

@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * Handler for the URL hash change.
  */
 qx.Class.define("qx.ui.mobile.navigation.Handler",
@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.mobile.navigation.Handler",
   properties :
   {
     /**
-     * Default hash that should be returned when the real hash is <code>null</code>. 
+     * Default hash that should be returned when the real hash is <code>null</code>.
      */
     defaultHash :
     {
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.mobile.navigation.Handler",
 
     /**
      * Hash change event handler.
-     * 
+     *
      * @param evt {Event} The native event
      */
     __onHashChange : function(evt)
@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.mobile.navigation.Handler",
 
     /**
      * Returns the current location hash or the default hash.
-     * 
+     *
      * @return {String} The current location hash or the default hash
      */
     getLocationHash : function()

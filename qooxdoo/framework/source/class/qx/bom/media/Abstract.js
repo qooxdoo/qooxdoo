@@ -229,7 +229,7 @@ qx.Class.define("qx.bom.media.Abstract",
     /**
      * Gets the duration of the loaded media file.
      *
-     * @return {Number} the duration 
+     * @return {Number} the duration
      */
     getDuration: function()
     {
@@ -283,7 +283,7 @@ qx.Class.define("qx.bom.media.Abstract",
     /**
      * Checks if the media element shows its controls.
      *
-     * @return {Boolean} 
+     * @return {Boolean}
      */
     hasControls: function()
     {

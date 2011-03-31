@@ -19,18 +19,18 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * Very basic navigation manager. Still work in progress.
- * 
+ *
  * Define routes to react on certain GET / POST / DELETE / PUT operations.
- * 
+ *
  * * GET is triggered when the hash value of the url is changed. Can be called
  *   manually by calling the {@link #executeGet} method.
  * * POST / DELETE / PUT has to be triggered manually right now (will be changed later)
  *    by calling the {@link #executePost}, {@link #executeDelete}, {@link #executePut} method.
- * 
- * This manager can also be used to provide browser history. 
- * 
+ *
+ * This manager can also be used to provide browser history.
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -41,21 +41,21 @@
  *   // show the start page, when no hash is given or the hash is "#/"
  *   nm.onGet("/", function(data) {
  *     startPage.show();
- *   },this);  
+ *   },this);
  *
  *   // whenever the url /address is called show the addressbook page.
  *   nm.onGet("/address", function(data)
  *   {
  *     addressBookPage.show();
  *   },this);
- * 
+ *
  *   // address with the parameter "id"
  *   nm.onGet("/address/:id", function(data)
  *   {
  *     addressPage.show();
  *     model.loadAddress(data.params.id);
  *   },this);
- * 
+ *
  *   // make sure that the data is always loaded
  *   nm.onGet("/address.*", function(data)
  *   {
@@ -63,13 +63,13 @@
  *       model.loadAddresses();
  *     }
  *   },this);
- * 
+ *
  *   // update the address
  *   nm.onPost("/address/:id, function(data)
  *   {
  *     model.updateAddress(data.params.id);
  *   },this);
- * 
+ *
  *   // delete the address and navigate back
  *   nm.onDelete("/address/:id, function(data)
  *   {
@@ -78,7 +78,7 @@
  *   },this);
  * </pre>
  *
- * This example defines different routes to handle navigation events. 
+ * This example defines different routes to handle navigation events.
  *
  */
 qx.Class.define("qx.ui.mobile.navigation.Manager",
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
     /**
      * Returns the current path behind the # hash.
-     * 
+     *
      * @return {String} The current hash path
      */
     getCurrentGetPath : function()
@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     /**
      * Adds a route handler for the "get" operation. The route gets called
      * when the {@link #executeGet} method found a match.
-     * 
+     *
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
@@ -172,7 +172,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     /**
      * Adds a route handler for the "post" operation. The route gets called
      * when the {@link #executePost} method found a match.
-     * 
+     *
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     /**
      * Adds a route handler for the "put" operation. The route gets called
      * when the {@link #executePut} method found a match.
-     * 
+     *
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
@@ -200,7 +200,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     /**
      * Adds a route handler for the "delete" operation. The route gets called
      * when the {@link #executeDelete} method found a match.
-     * 
+     *
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     /**
      * Adds a route handler for the "any" operation. The "any" operation is called
      * before all other operations.
-     * 
+     *
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
@@ -227,8 +227,8 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
     /**
      * Adds a route handler for a certain operation.
-     * 
-     * @param operation {String} The operation the route should be registered for 
+     *
+     * @param operation {String} The operation the route should be registered for
      * @param route {String|RegExp} The route, used for checking if the executed path matches
      * @param handler {Function} The handler to call, when the route matches with the executed path
      * @param scope {Object} The scope of the handler
@@ -260,7 +260,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
     /**
      * Removes a registered route by the given id.
-     * 
+     *
      * @param id {String} The id of the registered route
      */
     remove : function(id)
@@ -274,7 +274,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
     /**
      * Hash change event handler.
-     * 
+     *
      * @param evt {qx.event.type.Data} The changeHash event.
      */
     __onChangeHash : function(evt)
@@ -290,7 +290,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
     /**
      * Executes the get operation and informs all matching route handler.
-     * 
+     *
      * @param path {String} The path to execute
      * @param customData {var} The given custom data that should be propagated
      */
@@ -318,7 +318,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
     /**
      * Executes the post operation and informs all matching route handler.
-     * 
+     *
      * @param path {String} The path to execute
      * @param params {Map} The given parameters that should be propagated
      * @param customData {var} The given custom data that should be propagated
@@ -331,7 +331,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
     /**
      * Executes the put operation and informs all matching route handler.
-     * 
+     *
      * @param path {String} The path to execute
      * @param params {Map} The given parameters that should be propagated
      * @param customData {var} The given custom data that should be propagated
@@ -344,7 +344,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
     /**
      * Executes the delete operation and informs all matching route handler.
-     * 
+     *
      * @param path {String} The path to execute
      * @param params {Map} The given parameters that should be propagated
      * @param customData {var} The given custom data that should be propagated
@@ -357,9 +357,9 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
     /**
      * Adds the custom data of a given path to the history.
-     * 
+     *
      * @param path {String} The path to store.
-     * @param customData {var} The custom data to store 
+     * @param customData {var} The custom data to store
      */
     __addToHistory : function(path, customData)
     {
@@ -373,9 +373,9 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
     /**
      * Returns a history entry for a certain path.
-     * 
+     *
      * @param path {String} The path of the entry
-     * @return {Map} The retrieved entry. <code>null</code> when no entry was found. 
+     * @return {Map} The retrieved entry. <code>null</code> when no entry was found.
      */
     __getFromHistory : function(path)
     {
@@ -396,15 +396,15 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
 
     /**
-     * Executes a certain operation with a given path. Informs all 
+     * Executes a certain operation with a given path. Informs all
      * route handlers that match with the path.
-     * 
+     *
      * @param operation {String} The operation to execute.
      * @param path {String} The path to check
      * @param params {Map} The given parameters that should be propagated
      * @param customData {var} The given custom data that should be propagated
-     * 
-     * @return {Boolean} Whether the route has been executed 
+     *
+     * @return {Boolean} Whether the route has been executed
      */
     _execute : function(operation, path, params, customData)
     {
@@ -426,14 +426,14 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     /**
      * Executes all given routes for a certain operation. Checks all routes if they match with the given path and
      * executes the stored handler of the matching route.
-     * 
+     *
      * @param operation {String} The operation to execute.
      * @param path {String} The path to check
      * @param routes {Map[]} All routes to test and execute.
      * @param params {Map} The given parameters that should be propagated
      * @param customData {var} The given custom data that should be propagated
-     * 
-     * @return {Boolean} Whether the route has been executed 
+     *
+     * @return {Boolean} Whether the route has been executed
      */
     _executeRoutes : function(operation, path, routes, params, customData)
     {
@@ -453,14 +453,14 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
     /**
      * Executes a certain route. Checks if the route matches the given path and
      * executes the stored handler of the route.
-     * 
+     *
      * @param operation {String} The operation to execute.
      * @param path {String} The path to check
      * @param route {Map} The route data.
      * @param params {Map} The given parameters that should be propagated
      * @param customData {var} The given custom data that should be propagated
-     * 
-     * @return {Boolean} Whether the route has been executed 
+     *
+     * @return {Boolean} Whether the route has been executed
      */
     _executeRoute : function(operation, path, route, params, customData)
     {
@@ -514,7 +514,7 @@ qx.Class.define("qx.ui.mobile.navigation.Manager",
 
     /**
      * Returns all routes.
-     * 
+     *
      * @return {Map} The registered routes.
      */
     _getRoutes : function()

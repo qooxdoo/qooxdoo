@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.mobile.basic.Label",
 
     /**
      * Prevents a phone number from being auto detected
-     * 
+     *
      * @param string {String} The original string to format
      * @return {String} The formated string
      */

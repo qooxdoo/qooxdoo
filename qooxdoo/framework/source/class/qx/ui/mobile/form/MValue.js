@@ -24,9 +24,9 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * The mixin contains all functionality to provide a value property for input
- * widgets. 
+ * widgets.
  */
 qx.Mixin.define("qx.ui.mobile.form.MValue",
 {
@@ -150,7 +150,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
     /**
      * Converts the incoming value.
-     * 
+     *
      * @param value {var} The value to convert
      */
     _convertValue : function(value)
@@ -161,7 +161,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
     /**
      * Sets the value.
-     * 
+     *
      * @param value {var} The value to set
      */
     setValue : function(value)
@@ -177,7 +177,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
     /**
      * Returns the set value.
-     * 
+     *
      * @return {var} The set value
      */
     getValue : function()
@@ -188,7 +188,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
     /**
      * Resets the value.
-     * 
+     *
      * @return {var} The set value
      */
     resetValue : function()
@@ -199,8 +199,8 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
     /**
      * Event handler. Called when the {@link qx.event.handler.Input#change} event occurs.
-     * 
-     * @param evt {qx.event.type.Data} The event, containing the changed content. 
+     *
+     * @param evt {qx.event.type.Data} The event, containing the changed content.
      */
     _onChangeContent : function(evt)
     {
@@ -210,7 +210,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
     /**
      * Event handler. Called when the {@link qx.event.handler.Input#input} event occurs.
-     * 
+     *
      * @param evt {qx.event.type.Data} The event, containing the changed content.
      */
     _onInput : function(evt)
@@ -225,7 +225,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
     /**
      * Fires the {@link #changeValue} event.
-     * 
+     *
      * @param value {var} The current value to fire.
      */
     __fireChangeValue : function(value)

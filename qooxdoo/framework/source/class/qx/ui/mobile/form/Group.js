@@ -19,9 +19,9 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * A group widget arranges several widgets visual.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.

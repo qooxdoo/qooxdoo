@@ -69,7 +69,7 @@ qx.Class.define("qx.dev.unit.TestResult",
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
     wait   : "qx.event.type.Data",
-    
+
     /**
      * Fired if the test was skipped, e.g. because a requirement was not met.
      *
@@ -276,8 +276,8 @@ qx.Class.define("qx.dev.unit.TestResult",
       this.fireDataEvent(eventName, errors);
       this.fireDataEvent("endTest", test);
     },
-    
-    
+
+
     /**
      * EXPERIMENTAL
      * Wraps the AUT's qx.event.Registration.addListener function so that it
@@ -307,8 +307,8 @@ qx.Class.define("qx.dev.unit.TestResult",
         }
       }
     },
-    
-    
+
+
     /**
      * EXPERIMENTAL
      * Removes any listeners left over after a test's run.

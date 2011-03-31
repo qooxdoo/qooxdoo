@@ -153,7 +153,7 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
       if (this.__callback)
       {
         if (
-          qx.core.Environment.get("engine.name") == "mshtml" || 
+          qx.core.Environment.get("engine.name") == "mshtml" ||
           qx.core.Environment.get("engine.name") == "webkit"
         ) {
           // Safari fails with an "maximum recursion depth exceeded" error if

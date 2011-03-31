@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * The Row widget represents a row in a {@link Form}.
  */
 qx.Class.define("qx.ui.mobile.form.Row",

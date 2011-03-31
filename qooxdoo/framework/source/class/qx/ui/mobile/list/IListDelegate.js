@@ -35,8 +35,8 @@ qx.Interface.define("qx.ui.mobile.list.IListDelegate",
   members :
   {
     /**
-     * Configure the list item renderer with the given data. Mandatory method. 
-     * At least this method has to be defined for the delegate. 
+     * Configure the list item renderer with the given data. Mandatory method.
+     * At least this method has to be defined for the delegate.
      *
      * @param item {qx.ui.mobile.list.renderer.Abstract} Instance of list item renderer to modify
      * @param data {var} The data of the row. Can be used to configure the given item.

@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * The Slider widget provides horizontal slider.
  *
  * The Slider is the classic widget for controlling a bounded value.
@@ -174,7 +174,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
     /**
      * Creates the knob element.
-     * 
+     *
      * @return {Element} The created knob element
      */
     _createKnobElement : function()
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
     /**
      * Event handler. Called when the touch start event occurs.
-     * 
+     *
      * @param evt {qx.event.type.Touch} The touch event
      */
     _onTouchStart: function(evt)
@@ -237,7 +237,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
     /**
      * Event handler. Called when the touch move event occurs.
-     * 
+     *
      * @param evt {qx.event.type.Touch} The touch event
      */
     _onTouchMove : function(evt)
@@ -260,8 +260,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
     /**
      * Returns the current position of the knob.
-     * 
-     * @param documentLeft {Integer} The left positon of the knob 
+     *
+     * @param documentLeft {Integer} The left positon of the knob
      * @return {Integer} The current position of the container elemnt.
      */
     _getPosition : function(documentLeft)
@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
     /**
      * Returns the knob DOM element.
-     * 
+     *
      * @return {Element} The knob DOM element.
      */
     _getKnobElement : function()
@@ -298,7 +298,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
     /**
      * Sets the knob positon based on the give percent value.
-     * 
+     *
      * @param percent {Float} The knob position
      */
     _setKnobPosition : function(percent)
@@ -324,7 +324,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
     /**
      * Converts the given value to percent.
-     * 
+     *
      * @param value {Integer} The value to convert
      * @return {Integer} The value in percent
      */
@@ -338,7 +338,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
     /**
      * Converts the given position to the corresponding value.
-     * 
+     *
      * @param position {Integer} The position to convert
      * @return {Integer} The converted value
      */
@@ -362,7 +362,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
     /**
      * Converts the given percent to the position of the knob.
-     * 
+     *
      * @param width {Integer} The width of the slider container element
      * @param percent {Integer} The percent to convert
      * @return {Integer} The position of the knob
@@ -375,7 +375,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
     /**
      * Limits a value to the set {@link #minimum} and {@link #maximum} properties.
-     * 
+     *
      * @param value {Integer} The value to limit
      * @return {Integer} The limited value
      */
@@ -389,7 +389,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
     /**
      * Return the number of pixels per step.
-     * 
+     *
      * @param width {Integer} The width of the slider container element
      * @return {Integer} The pixels per step
      */
@@ -401,7 +401,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
     /**
      * Return the overall number of steps.
-     * 
+     *
      * @return {Integer} The number of steps
      */
     _getOverallSteps : function()
@@ -412,7 +412,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
     /**
      * Return the range between {@link #maximum} and {@link #minimum}.
-     * 
+     *
      * @return {Integer} The range between {@link #maximum} and {@link #minimum}
      */
     _getRange : function()

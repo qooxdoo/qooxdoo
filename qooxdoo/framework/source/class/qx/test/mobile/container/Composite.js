@@ -94,7 +94,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
     {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
- 
+
       var widget1 = new qx.ui.mobile.core.Widget();
       composite.add(widget1);
 
@@ -126,7 +126,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
     {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
- 
+
       var widget1 = new qx.ui.mobile.core.Widget();
       composite.add(widget1);
 
@@ -266,9 +266,9 @@ qx.Class.define("qx.test.mobile.container.Composite",
     {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
-      
+
       this.assertFalse(composite.hasChildren());
-      
+
       var widget = new qx.ui.mobile.core.Widget();
       composite.add(widget);
 
@@ -286,7 +286,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
     {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
-      
+
       var widget1 = new qx.ui.mobile.core.Widget();
       composite.add(widget1);
 

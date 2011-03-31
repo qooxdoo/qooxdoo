@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * The TextArea is a multi-line text input field.
  */
 qx.Class.define("qx.ui.mobile.form.TextArea",

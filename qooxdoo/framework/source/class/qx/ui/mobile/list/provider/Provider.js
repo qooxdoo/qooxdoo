@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * Provides a list item element for a certain row and its data.
  * Uses the {@link qx.ui.mobile.list.renderer.Default} list item renderer as a
  * default renderer when no other renderer is given by the {@link qx.ui.mobile.list.List#delegate}.
@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
     /**
      * Delegation object which can have one or more functions defined by the
      * {@link qx.ui.mobile.list.IListDelegate} interface. Set by the list.
-     * 
+     *
      * @internal
      */
     delegate :
@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
     /**
      * Sets the item renderer.
-     * 
+     *
      * @param renderer {qx.ui.mobile.list.renderer.Abstract} The used item renderer
      */
     _setItemRenderer : function(renderer) {
@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
     /**
      * Returns the set item renderer.
-     * 
+     *
      * @return {qx.ui.mobile.list.renderer.Abstract} The used item renderer
      */
     _getItemRenderer : function() {
@@ -88,10 +88,10 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
     /**
      * Returns the list item element for a given row.
-     * 
+     *
      * @param data {var} The data of the row.
      * @param row {Integer} The row index.
-     * 
+     *
      * @return {Element} the list item element.
      */
     getItemElement : function(data, row)
@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
     /**
      * Configure the list item renderer with the given data.
-     * 
+     *
      * @param data {var} The data of the row.
      * @param row {Integer} The row index.
      */

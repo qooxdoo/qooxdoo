@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
     /**
      * Event handler. Called when the back button of the device was pressed.
-     * 
+     *
      * @lint ignoreUndefined(BackButton)
      */
     _onBackButton : function()
@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
     /**
      * Adds a page to the manager.
-     * 
+     *
      * @param page {qx.ui.mobile.page.Page} The page to add
      */
     add : function(page)
@@ -172,7 +172,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
     /**
      * Removes a page by its ID.
-     * 
+     *
      * @param id {String} The ID of the page that should be removed
      */
     remove : function(id)
@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
     /**
      * Shows a certain registered page.
-     * 
+     *
      * @param page {qx.ui.mobile.page.Page} The page to show
      */
     show : function(page)
@@ -231,7 +231,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
     /**
      * Returns the root widget.
-     * 
+     *
      * @return {qx.ui.mobile.core.Widget} The used root widget
      */
     _getRoot : function()
@@ -242,7 +242,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
     /**
      * Sets the root widget.
-     * 
+     *
      * @param root {qx.ui.mobile.core.Widget} The root widget to use
      */
     _setRoot : function(root)
@@ -253,7 +253,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
     /**
      * Returns the currently shown page.
-     * 
+     *
      * @return page {qx.ui.mobile.page.Page} The currently shown page
      */
     getCurrentPage : function()
@@ -265,7 +265,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     /**
      * Sets the current page. Does not do any logic. Use the {@link #show} method
      * instead.
-     * 
+     *
      * @param page {qx.ui.mobile.page.Page} The currently shown page
      */
     _setCurrentPage : function(page)
@@ -276,7 +276,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
     /**
      * Returns a page by its ID.
-     * 
+     *
      * @param id {String} The ID of the page to return
      * @return page {qx.ui.mobile.page.Page} The page with the given ID
      */

@@ -94,7 +94,7 @@ qx.Class.define("qx.event.Timer",
      *
      * @param func {Function} Function to call
      * @param obj {Object} context (this), the function is called with
-     * @param timeout {Number} Number of milliseconds to wait before the 
+     * @param timeout {Number} Number of milliseconds to wait before the
      *   function is called.
      * @return {qx.event.Timer} The timer object used for the timeout. This
      *    object can be used to cancel the timeout. Note that the timer is
@@ -111,7 +111,7 @@ qx.Class.define("qx.event.Timer",
       // Create time instance
       var timer = new qx.event.Timer(timeout);
 
-      // Bug #3481: append original function to timer instance so it can be 
+      // Bug #3481: append original function to timer instance so it can be
       // read by a debugger
       timer.__onceFunc = func;
 

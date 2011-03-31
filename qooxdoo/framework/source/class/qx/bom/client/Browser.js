@@ -91,14 +91,14 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       var name = match[1].toLowerCase();
 
       var engine = qx.bom.client.Engine.getName();
-      if (engine === "webkit") 
+      if (engine === "webkit")
       {
-        if (name === "android") 
+        if (name === "android")
         {
           // Fix Chrome name (for instance wrongly defined in user agent on Android 1.6)
           name = "mobile chrome";
-        } 
-        else if (agent.indexOf("Mobile Safari") !== -1 || agent.indexOf("Mobile/") !== -1) 
+        }
+        else if (agent.indexOf("Mobile Safari") !== -1 || agent.indexOf("Mobile/") !== -1)
         {
           // Fix Safari name
           name = "mobile safari";
@@ -244,7 +244,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
         if (statics.__defineGetter__) {
           var constantValue = statics[keys[i]];
           statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
-            var warning = 
+            var warning =
               "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
               "Please check the API documentation of qx.core.Environment."
             if (qx.dev && qx.dev.StackTrace) {

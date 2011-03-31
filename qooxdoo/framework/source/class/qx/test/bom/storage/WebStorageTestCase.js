@@ -44,40 +44,40 @@ qx.Class.define("qx.test.bom.storage.WebStorageTestCase",
 
     testItem: function() {
       this.assertNull(this._storage.getItem("key1"));
-    
+
       this._storage.setItem("key1","value1");
       this.assertEquals("value1", this._storage.getItem("key1"));
-    
+
       this._storage.removeItem("key1");
       this.assertNull(this._storage.getItem("key1"));
-    
+
       this._storage.setItem("key2", [1,"a"]);
       this.assertArrayEquals([1,"a"], this._storage.getItem("key2"));
-    
+
       this._storage.setItem("key2", {"a": 1, "b": "c"});
       this.assertMap({"a": 1, "b": "c"}, this._storage.getItem("key2"));
-    
+
       //overriding
       this._storage.setItem("key2", 12);
       this.assertEquals(12, this._storage.getItem("key2"));
     },
-    
+
     testGetKey: function() {
       //the order is unreliable, so just test that the getKey works
       this._storage.setItem("key1","value");
       this.assertEquals("key1", this._storage.getKey(0));
     },
-    
+
     testLength: function() {
       this.assertEquals(0, this._storage.getLength());
-    
+
       for (var i=0; i<10; i++) {
         this._storage.setItem("key"+i,"value");
       }
-    
+
       this.assertEquals(10, this._storage.getLength());
     },
-    
+
     testClear: function() {
       for (var i=0; i<10; i++) {
         this._storage.setItem("key"+i,"value");
@@ -86,7 +86,7 @@ qx.Class.define("qx.test.bom.storage.WebStorageTestCase",
       this._storage.clear();
       this.assertEquals(0, this._storage.getLength());
     },
-    
+
     testIterate: function() {
       var i;
       for (i=0; i<10; i++) {
@@ -118,9 +118,9 @@ qx.Class.define("qx.test.bom.storage.WebStorageTestCase",
       this._storage.addListenerOnce("storage", function() {
         this.resume(function() {
           // ignore
-        }, this);        
+        }, this);
       }, this);
-      
+
       this._storage.setItem("key1", "affe");
       this.wait();
     }

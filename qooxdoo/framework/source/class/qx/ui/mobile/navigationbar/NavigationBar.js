@@ -21,7 +21,7 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * A navigation bar widget.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.

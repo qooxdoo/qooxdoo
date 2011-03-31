@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * Base class for all layout managers.
  *
  * Custom layout manager must derive from
@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
 
     /**
      * Returns the css class that the layout is using.
-     * 
+     *
      * @return {String} The css class that the layout is using
      */
     getCssClass: function()
@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
     /**
      * Returns the supported child layout properites. Needed to validate
      * the incoming layout properites.
-     * 
+     *
      * @return {Map} The supported child layout properties, e.g. <code>{"property":1}</code>
      */
     _getSupportedChildLayoutProperties : function()
@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
 
     /**
      * Sets the given layout property to a widget.
-     * 
+     *
      * @param widget {qx.ui.mobile.core.Widget} The target widget
      * @param property {Strig} The layout property to set
      * @param value {var} The value of the layout property
@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
 
     /**
      * Sets the given layout properties to a widget.
-     * 
+     *
      * @param widget {qx.ui.mobile.core.Widget} The target widget
      * @param properties {Map} The layout properties to set. Key / value pairs.
      */
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
     /**
      * Adds a property to the cache. Needed when the layout is not yet
      * connected with the widget.
-     * 
+     *
      * @param property {Strig} The property to add
      * @param value {var} The value of the property to add
      */
@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
 
     /**
      * Returns a child layout property value.
-     * 
+     *
      * @param widget {qx.ui.mobile.core.Widget} The target widget
      * @param property {Strig} The property to retrieve the value from
      * @return {var} The value of the given property
@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
     /**
      * Adds a child layout property to the cache. When the value is
      * <code>null</code> the property will be deleted from the cache.
-     * 
+     *
      * @param widget {qx.ui.mobile.core.Widget} The target widget
      * @param property {Strig} The property to add
      * @param value {var} The value of the property to add
@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
 
     /**
      * Returns the child layout property cache.
-     * 
+     *
      * @param widget {qx.ui.mobile.core.Widget} The target widget
      * @return {Map} The child layout property cache for the given widget.
      *     Key / value pairs.

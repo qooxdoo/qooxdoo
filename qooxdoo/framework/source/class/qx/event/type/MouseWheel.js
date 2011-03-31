@@ -65,7 +65,7 @@ qx.Class.define("qx.event.type.MouseWheel",
 
       // store the min value
       if (
-        qx.event.type.MouseWheel.MINSCROLL == null || 
+        qx.event.type.MouseWheel.MINSCROLL == null ||
         qx.event.type.MouseWheel.MINSCROLL > absDelta
       ) {
         qx.event.type.MouseWheel.MINSCROLL = absDelta;
@@ -74,7 +74,7 @@ qx.Class.define("qx.event.type.MouseWheel",
 
       // store the max value
       if (
-        qx.event.type.MouseWheel.MAXSCROLL == null || 
+        qx.event.type.MouseWheel.MAXSCROLL == null ||
         qx.event.type.MouseWheel.MAXSCROLL < absDelta
       ) {
         qx.event.type.MouseWheel.MAXSCROLL = absDelta;

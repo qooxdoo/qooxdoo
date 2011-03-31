@@ -19,9 +19,9 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * Representation of a form. A form widget can contain one or more {@link Row} widgets.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -31,7 +31,7 @@
  *   var form = new qx.ui.mobile.form.Form();
  *   var row = new qx.ui.mobile.form.Row();
  *   row.add(new qx.ui.mobile.form.TextField());
- * 
+ *
  *   this.getRoot.add(title);
  *   this.getRoot.add(form);
  * </pre>

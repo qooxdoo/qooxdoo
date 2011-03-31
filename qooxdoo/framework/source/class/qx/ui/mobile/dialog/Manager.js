@@ -19,12 +19,12 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * Very basic dialog manager. Displays a native alert or confirm dialog if
  * the application is running in a PhoneGap environment. For debugging in a browser
  * it displays the browser <code>alert</code> or <code>confirm</code> dialog. In the near
  * future this should be replaced by dialog widgets.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -58,19 +58,19 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
   members :
   {
-    
+
     /**
      * Displays an alert box. When the application is running in an PhoneGap
      * environment, a native alert box is shown. For debugging in a browser, a
      * browser alert is shown.
-     * 
+     *
      * @param title {String} The title of the alert box
      * @param text {String} The text to display in the alert box
      * @param handler {Function} The handler to call when the <code>OK</code> button
      *     was pressed
      * @param scope {Object} The scope of the handler
      * @param button {String} The button title
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
     alert : function(title, text, handler, scope, button)
@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * Displays a confirm box. When the application is running in an PhoneGap
      * environment, a native confirm box is shown. For debugging in a browser, a
      * browser confirm is shown.
-     * 
+     *
      * @param title {String} The title of the alert box
      * @param text {String} The text to display in the alert box
      * @param handler {Function} The handler to call when the <code>OK</code> button

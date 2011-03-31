@@ -172,7 +172,7 @@ qx.Class.define("qx.test.locale.Locale",
         this.assertEquals("Steuerung", qx.locale.Key.getKeyName("full", "Control", "de_DE"));
       }
     },
-    
+
     testResetLocale : function()
     {
       var locale = qx.core.Environment.get("locale");

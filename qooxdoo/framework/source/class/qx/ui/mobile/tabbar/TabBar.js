@@ -21,7 +21,7 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * This widget displays a tab bar.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
 
     /**
      * Event handler. Called when the view was changed.
-     * 
+     *
      * @param evt {qx.event.type.Data} The event
      */
     _onChangeView : function(evt)

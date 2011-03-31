@@ -27,7 +27,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * Mixin for the {@link Scroll} container. Used when the variant
  * <code>qx.mobile.nativescroll</code> is set to "off". Uses the iScroll script to simulate
  * the CSS position:fixed style. Position fixed is not available in iOS and
@@ -65,7 +65,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 
     /**
      * Mixin method. Creates the scroll element.
-     * 
+     *
      * @return {Element} The scroll element
      */
     _createScrollElement : function()
@@ -77,7 +77,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 
     /**
      * Mixin method. Returns the scroll content element..
-     * 
+     *
      * @return {Element} The scroll content element
      */
     _getScrollContentElement : function()
@@ -88,7 +88,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 
     /**
      * Loads and inits the iScroll instance.
-     * 
+     *
      * @lint ignoreUndefined(iScroll)
      */
     __initScroll : function()
@@ -110,7 +110,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 
     /**
      * Creates the iScroll instance.
-     * 
+     *
      * @return {iScroll} The iScroll instance
      * @lint ignoreUndefined(iScroll)
      */
@@ -147,7 +147,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 
     /**
      * Load callback. Called when the iScroll script is loaded.
-     * 
+     *
      * @param status {String} the status of the script loading. See
      *     {@link qx.io.ScriptLoader#load} for more information.
      */
@@ -167,7 +167,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 
     /**
      * Setter for the scroll instance.
-     * 
+     *
      * @param scroll {iScroll} iScroll instance.
      */
     _setScroll : function(scroll)

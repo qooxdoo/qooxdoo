@@ -61,7 +61,7 @@ qx.Class.define("qx.event.type.GeoPosition",
     },
 
     /**
-     * The angular distance north or south of the earth's equator, measured in 
+     * The angular distance north or south of the earth's equator, measured in
      * decimal degrees along a meridian
      */
     latitude : {
@@ -70,7 +70,7 @@ qx.Class.define("qx.event.type.GeoPosition",
 
 
     /**
-     * The angular distance on the earth's surface, measured east or west from 
+     * The angular distance on the earth's surface, measured east or west from
      * the prime meridian at Greenwich, England, in decimal degrees
      */
     longitude : {
@@ -79,7 +79,7 @@ qx.Class.define("qx.event.type.GeoPosition",
 
 
     /**
-     * The height of the position, specified in meters above the earth's 
+     * The height of the position, specified in meters above the earth's
      * surface.
      */
     altitude : {
@@ -89,7 +89,7 @@ qx.Class.define("qx.event.type.GeoPosition",
 
 
     /**
-     * The accuracy level of the latitude and longitude coordinates specified 
+     * The accuracy level of the latitude and longitude coordinates specified
      * in meters.
      */
     accuracy : {
@@ -106,13 +106,13 @@ qx.Class.define("qx.event.type.GeoPosition",
 
 
     /**
-     * The direction of travel of the hosting device specified in degrees in a 
+     * The direction of travel of the hosting device specified in degrees in a
      * range from 0 to 360, counting clockwise relative to the true north.
      *
-     * If the implementation cannot provide heading information, the value of 
-     * this attribute must be null. If the hosting device is stationary (i.e. 
-     * the value of the speed attribute is 0), then the value of the heading 
-     * property must be NaN. 
+     * If the implementation cannot provide heading information, the value of
+     * this attribute must be null. If the hosting device is stationary (i.e.
+     * the value of the speed attribute is 0), then the value of the heading
+     * property must be NaN.
      */
     heading : {
       nullable : true
@@ -120,10 +120,10 @@ qx.Class.define("qx.event.type.GeoPosition",
 
 
     /**
-     * The current ground speed of the hosting device specified in meters per 
+     * The current ground speed of the hosting device specified in meters per
      * second.
      *
-     * If the implementation cannot provide speed information, the value of 
+     * If the implementation cannot provide speed information, the value of
      * this property must be null.
      */
     speed : {

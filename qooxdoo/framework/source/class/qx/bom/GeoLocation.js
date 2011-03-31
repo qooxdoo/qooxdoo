@@ -109,7 +109,7 @@ qx.Class.define("qx.bom.GeoLocation",
      * Stops watching the position.
      */
     stopWatchPosition: function() {
-      if (this._watchId != undefined) {    
+      if (this._watchId != undefined) {
         this._geolocation.clearWatch(this._watchId);
       }
     },
@@ -151,7 +151,7 @@ qx.Class.define("qx.bom.GeoLocation",
   },
 
 
-  destruct: function() 
+  destruct: function()
   {
     this.stopWatchPosition();
   }

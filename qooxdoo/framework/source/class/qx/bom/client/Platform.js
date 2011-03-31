@@ -130,7 +130,7 @@ qx.Class.define("qx.bom.client.Platform",
         if (statics.__defineGetter__) {
           var constantValue = statics[keys[i]];
           statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
-            var warning = 
+            var warning =
               "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
               "Please check the API documentation of qx.core.Environment."
             if (qx.dev && qx.dev.StackTrace) {

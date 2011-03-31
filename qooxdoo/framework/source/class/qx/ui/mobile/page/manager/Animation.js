@@ -25,12 +25,12 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * The animation page manager displays the next page with an animation.
  * Is used automatically when transform3d is available.
- * 
+ *
  * One of the following animations can be used:
- * 
+ *
  *  <ul>
  *   <li>slide</li>
  *   <li>pop</li>
@@ -41,7 +41,7 @@
  *   <li>swap</li>
  *   <li>cube</li>
  *  </ul>
- * 
+ *
  */
 qx.Class.define("qx.ui.mobile.page.manager.Animation",
 {
@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
   {
     /** Fired when the animation of a page transition starts */
     animationStart : "qx.event.type.Data",
-    
+
     /** Fired when the animation of a page transition ends */
     animationEnd : "qx.event.type.Data"
   },
@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
 
     /**
      * Whether the manager is animating a page transition right now.
-     * 
+     *
      * @return {Boolean} In page transition or not.
      */
     isInAnimation : function()
@@ -139,7 +139,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
 
     /**
      * Shows a certain registered page. The page transition will be animated.
-     * 
+     *
      * @param page {qx.ui.mobile.page.Page} The page to show
      * @param data {Map} The data for animation, e.g. {animation:"fade", reverse:true}
      */
@@ -198,7 +198,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
 
     /**
      * Event handler. Called when the animation of the page transition ends.
-     * 
+     *
      * @param evt {qx.event.type.Event} The causing event
      */
     _onAnimationEnd : function(evt)
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
     /**
      * Returns the animation CSS classes for a given direction. The direction
      * can be <code>in</code> or <code>out</code>.
-     * 
+     *
      * @param direction {String} The direction of the animation. <code>in</code> or <code>out</code>.
      * @return {String[]} The CSS classes for the set animation.
      */

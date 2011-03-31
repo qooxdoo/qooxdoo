@@ -62,7 +62,7 @@
  *  <td>qx.mobile.nativescroll     <td>[ "on", "off" ]                    <td>"off"
  *  </tr>
  * </table>
- * 
+ *
  * @deprecated since 1.4: Please use qx.core.Environment instead.
  */
 qx.Bootstrap.define("qx.core.Variant",
@@ -96,7 +96,7 @@ qx.Bootstrap.define("qx.core.Variant",
      * @param allowedValues {String[]} An array of all allowed values for this variant.
      * @param defaultValue {String} Default value for the variant. Must be one of the values
      *   defined in <code>defaultValues</code>.
-     * 
+     *
      * @deprecated since 1.4: Please use qx.core.Environment.add() instead.
      */
     define : function(key, allowedValues, defaultValue)
@@ -108,7 +108,7 @@ qx.Bootstrap.define("qx.core.Variant",
           "Please use qx.core.Environment.add('" + key + "') instead."
         );
       }
-      
+
       this.defineDeprecated(key, allowedValues, defaultValue);
     },
 
@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.core.Variant",
      *
      * @param key {String} name of the variant
      * @return {String} current value of the variant
-     * 
+     *
      * @deprecated since 1.4: Please use qx.core.Environment.get() instead.
      */
     get : function(key)
@@ -278,7 +278,7 @@ qx.Bootstrap.define("qx.core.Variant",
      *   this selection, the key must be a string literal.
      * @param variantFunctionMap {Map} map with variant names as keys and functions as values.
      * @return {Function} The selected function from the map.
-     * 
+     *
      * @deprecated since 1.4: Please use qx.core.Environment.select() instead.
      */
     select : function(key, variantFunctionMap)
@@ -289,7 +289,7 @@ qx.Bootstrap.define("qx.core.Variant",
           "The method 'qx.core.Variant.select('" + key + "')' is deprecated: " +
           "Please use qx.core.Environment.select('" + key + "') instead."
         );
-        
+
         // WARINING: all changes to this function must be duplicated in the generator!!
         // modules/variantoptimizer.py (processVariantSelect)
         if (!this.__isValidObject(this.__variants[key])) {
@@ -346,7 +346,7 @@ qx.Bootstrap.define("qx.core.Variant",
      *   them with a "|" character. A value of "mshtml|opera" would for example check if the variant is
      *   set to "mshtml" or "opera"
      * @return {Boolean} whether the variant is set to the given value
-     * 
+     *
      * @deprecated since 1.4: Please use 'qx.core.Environment.get() == ' instead.
      */
     isSet : function(key, variants)

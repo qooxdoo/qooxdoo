@@ -89,9 +89,9 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   <li>converter: A converter function which takes four parameters
      *       and should return the converted value. The first parameter is the
      *       data to convert and the second one is the corresponding model
-     *       object, which is only set in case of the use of an controller. 
-     *       The third parameter is the source object for the binding and the 
-     *       fourth parameter the target object. If no conversion has been 
+     *       object, which is only set in case of the use of an controller.
+     *       The third parameter is the source object for the binding and the
+     *       fourth parameter the target object. If no conversion has been
      *       done, the given value should be returned.</li>
      *   <li>onUpdate: A callback function can be given here. This method will be
      *       called if the binding was updated successful. There will be

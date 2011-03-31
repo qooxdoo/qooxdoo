@@ -963,8 +963,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       }
 
       var zeroWidthNoBreakSpace = value.length == 0 ? "\ufeff" : "";
-      var idForFontElement = 
-        qx.core.Environment.get("engine.name") == "gecko" || 
+      var idForFontElement =
+        qx.core.Environment.get("engine.name") == "gecko" ||
         qx.core.Environment.get("engine.name") == "webkit" ?
         'id="__elementToFocus__"' : '';
 
@@ -1135,8 +1135,8 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       innerHTML = innerHTML.replace(/<!--.*-->/gi, "");
 
       nodeClone.innerHTML = innerHTML;
-      var text  = 
-        qx.core.Environment.get("engine.name") == "mshtml" || 
+      var text  =
+        qx.core.Environment.get("engine.name") == "mshtml" ||
         qx.core.Environment.get("engine.name") == "opera" ?
         nodeClone.innerText : nodeClone.textContent;
       var words = text.match(qx.bom.htmlarea.HtmlArea.GetWordsRegExp);
@@ -1842,7 +1842,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       // "Enter" key. If the latter occurs right after the first one the
       // linebreak gets inserted.
       if (
-        qx.core.Environment.get("engine.name") == "mshtml" || 
+        qx.core.Environment.get("engine.name") == "mshtml" ||
         qx.core.Environment.get("engine.name") == "webkit"
       ) {
         if (this.__controlPressed)
@@ -2354,7 +2354,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
       this.__storedSelectedHtml = null;
 
       if (
-        qx.core.Environment.get("engine.name") == "gecko" || 
+        qx.core.Environment.get("engine.name") == "gecko" ||
         qx.core.Environment.get("engine.name") == "webkit"
       ) {
         // Remove element to focus, as the editor is focused for the first time
@@ -3184,7 +3184,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
         }
 
         if (
-          qx.core.Environment.get("engine.name") == "mshtml" || 
+          qx.core.Environment.get("engine.name") == "mshtml" ||
           qx.core.Environment.get("engine.name") == "opera"
         ) {
           isBold = focusNodeStyle.fontWeight == 700;

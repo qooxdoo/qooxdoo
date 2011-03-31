@@ -18,27 +18,27 @@
 ************************************************************************ */
 
 /**
- * This class is the single point to access all settings that may be different 
- * in different environments. This contains e.g. the browser name, engine 
+ * This class is the single point to access all settings that may be different
+ * in different environments. This contains e.g. the browser name, engine
  * version but also qooxdoo or application specific settings.
- * 
- * It's public API can be found in its four main methods. One pair of methods 
- * are used to check the synchronous values of the environment. The other pais 
+ *
+ * It's public API can be found in its four main methods. One pair of methods
+ * are used to check the synchronous values of the environment. The other pais
  * is used for asynchronous checks.
- * 
- * The most used method should be {@link #get} which is used to return the 
+ *
+ * The most used method should be {@link #get} which is used to return the
  * current value for a given environment check.
- * 
- * All qx settings can be changed via the generator's config. See the manual 
- * for more details about the environment key in the config. As you can see 
+ *
+ * All qx settings can be changed via the generator's config. See the manual
+ * for more details about the environment key in the config. As you can see
  * from the methods API, there is no way to override an existing key. So if you
  * need to change a qx setting, you have to use the generator to do so.
- * 
- * The following table shows all checks which could be used. If you are 
- * interessted in more details, check the reference to the implementation of 
- * each check. Plese do not use these check implementation directly due to the 
+ *
+ * The following table shows all checks which could be used. If you are
+ * interessted in more details, check the reference to the implementation of
+ * each check. Plese do not use these check implementation directly due to the
  * missing caching feature the Environment class offers.
- * 
+ *
  * <table border="0" cellspacing="10">
  *   <tbody>
  *     <tr>
@@ -449,7 +449,7 @@ qx.Bootstrap.define("qx.core.Environment",
       // debug flag
       if (qx.Bootstrap.DEBUG) {
         qx.Bootstrap.warn(
-          key + " is not a valid key. Please see the API-doc of " + 
+          key + " is not a valid key. Please see the API-doc of " +
           "qx.core.Environment for a list of predefined keys."
         );
         qx.Bootstrap.trace(this);
@@ -490,7 +490,7 @@ qx.Bootstrap.define("qx.core.Environment",
       // debug flag
       if (qx.Bootstrap.DEBUG) {
         qx.Bootstrap.warn(
-          key + " is not a valid key. Please see the API-doc of " + 
+          key + " is not a valid key. Please see the API-doc of " +
           "qx.core.Environment for a list of predefined keys."
         );
         qx.Bootstrap.trace(this);
@@ -518,7 +518,7 @@ qx.Bootstrap.define("qx.core.Environment",
      * @param key {String} The key for the async check.
      * @param values {Map} A map containing functions. The map keys should
      *   contain all possibilities which could be returned by the given check
-     *   key. The "default" key could be used as a catch all statement. 
+     *   key. The "default" key could be used as a catch all statement.
      *   The called function will get one parameter, the result of the query.
      * @param self {var} The context which should be used when calling the
      *   method in the values map.
@@ -559,7 +559,7 @@ qx.Bootstrap.define("qx.core.Environment",
         }
       }
 
-      // @deprecated since 1.4: This is only for deprecation of 
+      // @deprecated since 1.4: This is only for deprecation of
       // qx.core.Variant.select
 
       // check for true --> on
@@ -567,20 +567,20 @@ qx.Bootstrap.define("qx.core.Environment",
         if (qx.Bootstrap.DEBUG)
         {
           qx.Bootstrap.warn(
-            "The check '" + key + "' is a boolean value. "+ 
+            "The check '" + key + "' is a boolean value. "+
             "Please change your select map from 'on' to 'true'."
           );
           qx.Bootstrap.trace(this);
         }
         return values["on"];
       }
-      
+
       // check for false --> off
       if (value === false && values["off"] != undefined) {
         if (qx.Bootstrap.DEBUG)
         {
           qx.Bootstrap.warn(
-            "The check '" + key + "' is a boolean value. "+ 
+            "The check '" + key + "' is a boolean value. "+
             "Please change your select map from 'off' to 'false'."
           );
           qx.Bootstrap.trace(this);
@@ -595,7 +595,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
       if (qx.Bootstrap.DEBUG)
       {
-        throw new Error('No match for variant "' + key + 
+        throw new Error('No match for variant "' + key +
           '" (' + (typeof key) + ' type)' +
           ' in variants [' + qx.Bootstrap.getKeysAsString(values) +
           '] found, and no default ("default") given');
@@ -687,7 +687,7 @@ qx.Bootstrap.define("qx.core.Environment",
         for (var key in window.qxsettings) {
           var value = window.qxsettings[key];
           if (
-            key == "qx.bom.htmlarea.HtmlArea.debug" || 
+            key == "qx.bom.htmlarea.HtmlArea.debug" ||
             key == "qx.globalErrorHandling"
           ) {
             // normalization for "on" and "off" @deprecated since 1.4
@@ -712,7 +712,7 @@ qx.Bootstrap.define("qx.core.Environment",
             key == "qx.aspects" ||
             key == "qx.debug" ||
             key == "qx.dynlocale" ||
-            key == "qx.mobile.emulatetouch" || 
+            key == "qx.mobile.emulatetouch" ||
             key == "qx.mobile.nativescroll"
           ) {
             // normalization for "on" and "off" @deprecated since 1.4

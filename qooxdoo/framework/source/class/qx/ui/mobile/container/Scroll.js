@@ -19,13 +19,13 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * Container, which allows, depending on the set variant <code>qx.mobile.nativescroll</code>,
  * vertical and horizontal scrolling if the contents is larger than the container.
  *
  * Note that this class can only have one child widget. This container has a
  * fixed layout, which cannot be changed.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.

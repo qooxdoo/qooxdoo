@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * This class blocks events and can be included into all widgets.
  *
  */
@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
       }
     },
 
-    
+
     /**
      * Force the blocker to hide, even when the show counter is larger than
      * zero.
@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
     /**
      * Event handler. Called when the touch event occurs.
      * Prevents the default of the event.
-     * 
+     *
      * @param evt {qx.event.type.Touch} The touch event
      */
     _onTouch : function(evt)
@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
 
     /**
      * Event handler. Called when the scroll event occurs.
-     * 
+     *
      * @param evt {qx.event.type.Touch} The touch event
      */
     _onScroll : function(evt)

@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * {@link qx.event.type.Event#preventDefault} on the event object
      */
     "loading" : "qx.event.type.Event",
-   
+
     /**
      * Fired after the flash object has been loaded.
      *
@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * {@link qx.event.type.Event#preventDefault} on the event object
      */
     "loaded" : "qx.event.type.Event",
-   
+
     /**
      * Fired after the flash object has got a timeout.
      *
@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.embed.Flash",
      */
     "timeout" : "qx.event.type.Event"
   },
-  
+
 
   properties :
   {
@@ -220,7 +220,7 @@ qx.Class.define("qx.ui.embed.Flash",
       check : "Map",
       apply : "_applyVariables"
     },
-    
+
     /**
      * A timeout when trying to load the flash source.
      */
@@ -264,33 +264,33 @@ qx.Class.define("qx.ui.embed.Flash",
       }
     },
 
-    
+
     /**
      * Checks if the movie is loaded.
-     * 
+     *
      * @return {Boolean} <code>true</code> When the movie is completely loaded,
      *   otherwise <code>false</code>.
      */
     isLoaded : function() {
       return this.getPercentLoaded() === 100;
     },
-     
+
 
     /**
      * Returns the current loaded state from the Flash movie.
-     * 
+     *
      * @return {Integer} The loaded percent value.
      */
     getPercentLoaded : function()
     {
       var flashFE = this.getFlashElement();
-     
+
       // First make sure the movie is defined and has received a non-zero object id.
       if(typeof(flashFE) != "undefined" && flashFE != null)
       {
         try {
           return flashFE.PercentLoaded();
-        } 
+        }
         catch(err)
         {
           // Not an accessible function yet.
@@ -311,8 +311,8 @@ qx.Class.define("qx.ui.embed.Flash",
     /**
      * Checks the current loaded state and fires one of the defined events:
      * {@link #loading}, {@link #loaded} or {@link #timeout}.
-     * 
-     * Note the {@link #timeout} event is fired when the check reached the 
+     *
+     * Note the {@link #timeout} event is fired when the check reached the
      * defined {@link #loadTimeout}.
      */
     _checkLoading : function()
@@ -325,9 +325,9 @@ qx.Class.define("qx.ui.embed.Flash",
           if(!this.__time) {
             this.__time = new Date().getTime();
           }
-     
+
           var timeDiff = new Date().getTime() - this.__time;
-     
+
           if(this.getLoadTimeout() > timeDiff)
           {
             var timer = qx.util.TimerManager.getInstance();

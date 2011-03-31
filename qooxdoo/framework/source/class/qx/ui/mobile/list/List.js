@@ -21,7 +21,7 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * The list widget displays the data of a model in a list.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -34,7 +34,7 @@
  *       {title : "Row2", subTitle : "Sub2"},
  *       {title : "Row3", subTitle : "Sub3"}
  *   ];
- * 
+ *
  *   // Create the list with a delegate that
  *   // configures the list item.
  *   var list = new qx.ui.mobile.list.List({
@@ -48,7 +48,7 @@
  *
  *   // Set the model of the list
  *   list.setModel(new qx.data.Array(data));
- * 
+ *
  *   // Add an changeSelection event
  *   list.addListener("changeSelection", function(evt) {
  *     alert("Index: " + evt.getData())
@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.mobile.list.List",
   */
 
   /**
-   * @param delegate {Object?null} The {@link #delegate} to use 
+   * @param delegate {Object?null} The {@link #delegate} to use
    */
   construct : function(delegate)
   {

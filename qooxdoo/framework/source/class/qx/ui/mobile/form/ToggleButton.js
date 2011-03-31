@@ -19,12 +19,12 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * A toggle Button widget
  *
  * If the user tap the button, the button toggles between the <code>ON</code>
  * and <code>OFF</code> state.
- * 
+ *
  * Here is a little example of how to use the widget.
  *
  * <pre class='javascript'>
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 
     /**
      * Returns the child control of the toggle button.
-     * 
+     *
      * @return {qx.ui.mobile.container.Composite} the child control.
      */
     _getChild : function() {
@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     /**
      * Event handler. Called when the tap event occurs.
      * Toggles the button.
-     * 
+     *
      * @param evt {qx.event.type.Tap} The tap event.
      */
     _onTap : function(evt)
@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     /**
      * Event handler. Called when the swipe event occurs.
      * Toggles the button.
-     * 
+     *
      * @param evt {qx.event.type.Swipe} The swipe event.
      */
     _onSwipe : function(evt)

@@ -94,14 +94,14 @@ qx.Class.define("qx.test.ui.embed.Flash",
         loaded : function() {},
         timeout : function() {}
       };
-      
+
       var loading = this.spy(test, "loading");
       var loaded = this.spy(test, "loaded");
       var timeout = this.spy(test, "timeout");
       this.__flash.addListener("loading", test.loading);
       this.__flash.addListener("loaded", test.loaded);
       this.__flash.addListener("timeout", test.timeout);
-      
+
       var that = this;
       this.wait(2000, function()
       {
@@ -111,8 +111,8 @@ qx.Class.define("qx.test.ui.embed.Flash",
         loaded.calledAfter(loading);
       });
     },
-    
-    
+
+
     testLoadTimeout : function()
     {
       var test = {
@@ -120,20 +120,20 @@ qx.Class.define("qx.test.ui.embed.Flash",
         loaded : function() {},
         timeout : function() {}
       };
-      
+
       var loading = this.spy(test, "loading");
       var loaded = this.spy(test, "loaded");
       var timeout = this.spy(test, "timeout");
-      
+
       var flash = new qx.ui.embed.Flash("qx/test/invalidmovie.swf", "invalidmovie");
       flash.setLoadTimeout(1000);
       this.getRoot().removeAll();
       this.getRoot().add(flash, {edge: 10});
-      
+
       flash.addListener("loading", test.loading);
       flash.addListener("loaded", test.loaded);
       flash.addListener("timeout", test.timeout);
-      
+
       var that = this;
       this.wait(2000, function()
       {
@@ -143,8 +143,8 @@ qx.Class.define("qx.test.ui.embed.Flash",
         timeout.calledAfter(loading);
       });
     },
-    
-    
+
+
     testCreateFlash : function()
     {
       var that = this;

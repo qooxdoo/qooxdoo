@@ -19,10 +19,10 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * Specialiced page. This page includes already a {@link qx.ui.mobile.navigationbar.NavigationBar}
  * and a {@link qx.ui.mobile.container.Scroll} container.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -37,12 +37,12 @@
  *    var button = new qx.ui.mobile.form.Button("Next Page");
  *    page.getContent().add(button);
  *  },this);
- * 
+ *
  *  page.addListener("back", function()
  *  {
  *    otherPage.show({animation:"cube", reverse:true});
  *  },this);
- * 
+ *
  *  page.show();
  * </pre>
  *
@@ -157,7 +157,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     /**
      * Returns the content container. Add all your widgets to this container.
-     * 
+     *
      * @return {qx.ui.mobile.container.Composite} The content container
      */
     getContent : function()
@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     /**
      * Returns the title widget.
-     * 
+     *
      * @return {qx.ui.mobile.navigationbar.Title} The title widget
      */
     _getTitle : function()
@@ -179,7 +179,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     /**
      * Returns the navigation bar widget.
-     * 
+     *
      * @return {qx.ui.mobile.navigationbar.NavigationBar} The navigation bar widget
      */
     _getNavigationBar : function()
@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     /**
      * Returns the back button widget.
-     * 
+     *
      * @return {qx.ui.mobile.navigationbar.BackButton} The back button widget
      */
     _getBackButton : function()
@@ -201,7 +201,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     /**
      * Returns the action button widget.
-     * 
+     *
      * @return {qx.ui.mobile.navigationbar.Button} The action button widget
      */
     _getButton : function()
@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     /**
      * Returns the scroll container.
-     * 
+     *
      * @return {qx.ui.mobile.container.Scroll} The scroll container
      */
     _getScrollContainer : function()
@@ -325,7 +325,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     /**
      * Creates the scroll container.
-     * 
+     *
      * @return {qx.ui.mobile.container.Scroll} The created scroll container
      */
     _createScrollContainer : function()
@@ -336,7 +336,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     /**
      * Creates the content container.
-     * 
+     *
      * @return {qx.ui.mobile.container.Composite} The created content container
      */
     _createContent : function()
@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     /**
      * Creates the navigation bar.
-     * 
+     *
      * @return {qx.ui.mobile.navigationbar.NavigationBar} The created navigation bar
      */
     _createNavigationBar : function()
@@ -364,7 +364,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
         this._showBackButton()
         bar.add(this.__backButton);
       }
-      
+
 
       this.__title = this._createTitle();
       if (this.__title) {
@@ -380,13 +380,13 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
         bar.add(this.__button);
       }
 
-      return bar; 
+      return bar;
     },
 
 
     /**
      * Creates the navigation bar title.
-     * 
+     *
      * @return {qx.ui.mobile.navigationbar.Title} The created title widget
      */
     _createTitle : function()
@@ -397,7 +397,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     /**
      * Creates the navigation bar back button.
-     * 
+     *
      * @return {qx.ui.mobile.navigationbar.BackButton} The created back button widget
      */
     _createBackButton : function() {
@@ -407,7 +407,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     /**
      * Creates the navigation bar button.
-     * 
+     *
      * @return {qx.ui.mobile.navigationbar.Button} The created button widget
      */
     _createButton : function() {
@@ -417,7 +417,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     /**
      * Event handler. Called when the tap event occurs on the back button.
-     * 
+     *
      * @param evt {qx.event.type.Tap} The tap event
      */
     _onBackButtonTap : function(evt)
@@ -428,7 +428,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
     /**
      * Event handler. Called when the tap event occurs on the button.
-     * 
+     *
      * @param evt {qx.event.type.Tap} The tap event
      */
     _onButtonTap : function(evt)

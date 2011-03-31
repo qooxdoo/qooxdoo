@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.form.DateField",
     // listen for locale changes
     if (qx.core.Environment.get("qx.dynlocale"))
     {
-      this.__localeListenerId = 
+      this.__localeListenerId =
         qx.locale.Manager.getInstance().addListener("changeLocale", function() {
           this.setDateFormat(qx.ui.form.DateField.getDefaultDateFormatter());
         }, this);

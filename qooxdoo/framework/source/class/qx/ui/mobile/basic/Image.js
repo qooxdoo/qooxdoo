@@ -163,8 +163,8 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
     /**
      * Sets the source attribute of the image tag.
-     * 
-     * @param source {String} Image source which was loaded 
+     *
+     * @param source {String} Image source which was loaded
      */
     _setSource : function(source)
     {

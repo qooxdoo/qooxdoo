@@ -35,7 +35,7 @@ qx.Class.define("qx.test.mobile.basic.Label",
       label.setValue("");
       this.assertEquals(label.getValue(), "");
       this.assertEquals(label.getValue(), label.getContentElement().innerHTML);
-      
+
       label.destroy();
     }
   }

@@ -375,7 +375,7 @@ qx.Class.define("qx.event.handler.Mouse",
       // Safari (and maybe gecko) takes text nodes as targets for events
       // See: http://www.quirksmode.org/js/events_properties.html
       if (
-        qx.core.Environment.get("engine.name") == "gecko" || 
+        qx.core.Environment.get("engine.name") == "gecko" ||
         qx.core.Environment.get("engine.name") == "webkit"
       ) {
         if (target && target.nodeType == 3) {

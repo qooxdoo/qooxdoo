@@ -84,7 +84,7 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
 
     /**
      * Add a widget before another already inserted widget
-     * 
+     *
      * @param child {Widget} Widget to add
      * @param before {Widget} Widget before the new widget will be inserted.
      * @param layoutProperties {Map?null} Optional layout data for widget.

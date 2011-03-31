@@ -262,7 +262,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
       var insets = this.getInsets();
       width -= insets.left + insets.right;
       height -= insets.top + insets.bottom;
-      
+
       // Fix to keep applied size above zero
       // Makes issues in IE7 when applying value like '-4px'
       if (width < 0) {

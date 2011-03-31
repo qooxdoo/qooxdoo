@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Fired after a massive DOM manipulation, e.g. when DOM elements were
-     * added or styles were changed. Listen to this event, if you need to 
+     * added or styles were changed. Listen to this event, if you need to
      * recalculate a layout or have to update your view.
      */
     domupdated : "qx.event.type.Event",
@@ -171,7 +171,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     focus : "qx.event.type.Focus",
 
     /**
-     * The event is fired when the widget gets blurred. 
+     * The event is fired when the widget gets blurred.
      */
     blur : "qx.event.type.Focus",
 
@@ -317,7 +317,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Returns the current widget id of the registry.
-     
+
      * @return {Integer} The current id
      * @internal
      */
@@ -329,7 +329,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Registers a widget with its id for internal widget handling.
-     * 
+     *
      * @param widget {Widget} The widget to register
      *
      * @internal
@@ -347,7 +347,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Unregisters the widget with the given id.
-     * 
+     *
      * @param id {String} The id of the widget to unregister
      *
      * @internal
@@ -360,7 +360,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
    /**
      * Returns the widget with the given id.
-     * 
+     *
      * @param id {String} The id of the widget
      * @return {Widget} The widget with the given id
      */
@@ -372,7 +372,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Schedules the {@link #domUpdated} method. The method will be called after a timeout
      * to prevent the triggered events to be fired to often, during massive DOM manipulations.
-     * 
+     *
      * @internal
      */
     scheduleDomUpdated : function()
@@ -388,7 +388,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * Fires the DOM updated event directly. Triggers the {@link qx.event.handler.Appear#refresh} and 
+     * Fires the DOM updated event directly. Triggers the {@link qx.event.handler.Appear#refresh} and
      * {@link qx.ui.mobile.core.DomUpdatedHandler#refresh} methods. Do not use this
      * method during massive DOM manipulations. Use {@link #scheduleDomUpdated} instead.
      *
@@ -409,7 +409,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * method. Shortcut when the property name differs from the real
      * attribute name. Use this method if you want to add an attribute entry to the mapping
      * from the defer function of a different widget.
-     * 
+     *
      * e.g.:
      * "selectable" :
      * {
@@ -420,8 +420,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      *     "false" : "false"
      *   }
      * }
-     * 
-     * @param property {String} The property name 
+     *
+     * @param property {String} The property name
      * @param attribute {String} The real attribute name
      * @param values {Map} Values of the property to the real attribute value.
      *      Use null, when you want not to set the attribute.
@@ -446,7 +446,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * method. Shortcut when the property name differs from the real
      * style name. Use this method if you want to add a style entry to the mapping
      * from the defer function of a different widget.
-     * 
+     *
      * e.g.:
      * "anonymous" :
      * {
@@ -457,8 +457,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      *    "false" : null
      *  }
      * }
-     * 
-     * @param property {String} The property name 
+     *
+     * @param property {String} The property name
      * @param style {String} The real style name
      * @param values {Map} Values of the property to the real style value.
      *      Use null, when you want not to set the style.
@@ -480,7 +480,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Mapping of attribute properties to their real attribute name.
-     * 
+     *
      * @internal
      */
     ATTRIBUTE_MAPPING :
@@ -503,7 +503,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Mapping of style properties to their real style name.
-     *  
+     *
      * @internal
      */
     STYLE_MAPPING :
@@ -568,7 +568,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Triggers the {@link #scheduleDomUpdated} method. This method needs to be called
-     * when the DOM has changed, e.g. an element was added / removed / styled. 
+     * when the DOM has changed, e.g. an element was added / removed / styled.
      */
     _domUpdated : function()
     {
@@ -586,7 +586,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Transforms the value of the ID property. When the value is null, an auto
      * generated ID is set. This makes shure that always an ID is set.
-     * 
+     *
      * @param value {String} The set id of the widget
      */
     _transformId : function(value)
@@ -824,7 +824,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Returns the parent widget of this widget.
-     * 
+     *
      * @return {Widget} The parent of the widget
      */
     getLayoutParent : function()
@@ -835,7 +835,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Returns the children of the widget.
-     * 
+     *
      * @return {Widget[]} The children of the widget
      */
     _getChildren : function() {
@@ -845,7 +845,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Whether the widget has child widgets.
-     * 
+     *
      * @return {Boolean} Whether the widget has children or not.
      */
     _hasChildren : function() {
@@ -888,7 +888,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Returns the set layout manager for the widget.
-     * 
+     *
      * @return  {qx.ui.mobile.layout.Abstract} the layout manager of the widget.
      */
     _getLayout : function() {
@@ -919,7 +919,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      *
      * @param widget {qx.ui.mobile.core.Widget} The widget that should be updated
      * @param properties {Map} Incoming layout property data
-     * 
+     *
      * @internal
      */
     updateLayoutProperties : function(widget, properties)
@@ -941,7 +941,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      /**
       * Sets the innerHTML of the content element and calls the {@link #_domUpdated}
       * method.
-      * 
+      *
       * @param value {String?""} The html to set in the content element.
       */
      _setHtml : function(value)
@@ -963,7 +963,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * Use the {@link #addAttributeMapping} method to add a property to attribute
      * mapping when the attribute name or value differs from the property name or
      * value.
-     * 
+     *
      * @param value {var} The set value
      * @param old {var} The old value
      * @param attribute {String} The property name
@@ -977,7 +977,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Sets an attribute with the given value of the container element. The
      * <code>null</code> value resets the attribute.
-     * 
+     *
      * @param attribute {String} The attribute name.
      * @param value {var} The attribute value. <code>Null</code> will reset the attribute.
      */
@@ -1004,7 +1004,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Returns the set value of the given attribute.
-     * 
+     *
      * @param attribute {String} The attribute name
      */
     _getAttribute : function(attribute)
@@ -1037,7 +1037,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Sets the value of a certain style of the container element. The
      * <code>null</code> value resets the attribute.
-     * 
+     *
      * @param style {String} The style of which the value should be set
      * @param value {var} The value of the style. <code>Null</code> will reset the attribute.
      */
@@ -1064,7 +1064,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Returns the value of a certain style of the container element.
-     * 
+     *
      * @param style {String} The style name of which the value should be returned
      * @return {var} The value of the style
      */
@@ -1095,7 +1095,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Adds a CSS class to the container element of the widget. Use this method
      * to enhance the default appearance of the widget.
-     * 
+     *
      * @param cssClass {String} The CSS class to add
      */
     addCssClass : function(cssClass) {
@@ -1106,8 +1106,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Removes a CSS class from the container element of the widget.
-     * 
-     * @param cssClass {String} The CSS class to remove 
+     *
+     * @param cssClass {String} The CSS class to remove
      */
     removeCssClass : function(cssClass) {
       var element = this.getContainerElement();
@@ -1132,7 +1132,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       {
         this._setStyle("display", null);
         this._setStyle("visibility", null);
-      } 
+      }
       else if (value == "hidden") {
         this._setStyle("visibility", "hidden");
       }
@@ -1224,7 +1224,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Sets the container DOM element of the widget.
-     * 
+     *
      * @param element {Element} The container DOM element of the widet
      */
     _setContainerElement : function(element)
