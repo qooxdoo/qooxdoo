@@ -13,122 +13,122 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: showcase/page/i18n/Content.js:147
+#: showcase/page/i18n/Content.js:167
 msgid "Form Elements"
 msgstr ""
 
-#: showcase/page/i18n/Content.js:153 showcase/page/i18n/Content.js:255
+#: showcase/page/i18n/Content.js:173 showcase/page/i18n/Content.js:275
 msgid "Territory code:"
 msgstr "Código regional:"
 
-#: showcase/page/i18n/Content.js:163
+#: showcase/page/i18n/Content.js:183
 msgid "Localized ComboBox:"
 msgstr "ComboBox:"
 
-#: showcase/page/i18n/Content.js:166 showcase/page/i18n/Content.js:201
+#: showcase/page/i18n/Content.js:186 showcase/page/i18n/Content.js:221
 msgid "Cut"
 msgstr "Cortar"
 
-#: showcase/page/i18n/Content.js:167 showcase/page/i18n/Content.js:203
+#: showcase/page/i18n/Content.js:187 showcase/page/i18n/Content.js:223
 msgid "Paste"
 msgstr "Pegar"
 
-#: showcase/page/i18n/Content.js:168 showcase/page/i18n/Content.js:202
+#: showcase/page/i18n/Content.js:188 showcase/page/i18n/Content.js:222
 msgid "Copy"
 msgstr "Copiar"
 
-#: showcase/page/i18n/Content.js:175
+#: showcase/page/i18n/Content.js:195
 msgid "A date:"
 msgstr "Una fecha:"
 
-#: showcase/page/i18n/Content.js:198
+#: showcase/page/i18n/Content.js:218
 msgid "Undo"
 msgstr "Deshacer"
 
-#: showcase/page/i18n/Content.js:199
+#: showcase/page/i18n/Content.js:219
 msgid "Redo"
 msgstr "Rehacer"
 
-#: showcase/page/i18n/Content.js:204
+#: showcase/page/i18n/Content.js:224
 msgid "Delete"
 msgstr "Borrar"
 
-#: showcase/page/i18n/Content.js:205
+#: showcase/page/i18n/Content.js:225
 msgid "Select All"
 msgstr "Seleccionar todo"
 
-#: showcase/page/i18n/Content.js:207
+#: showcase/page/i18n/Content.js:227
 msgid "Search"
 msgstr "Búsqueda"
 
-#: showcase/page/i18n/Content.js:208
+#: showcase/page/i18n/Content.js:228
 msgid "Search Again"
 msgstr "Buscar otra vez"
 
-#: showcase/page/i18n/Content.js:210
+#: showcase/page/i18n/Content.js:230
 msgid "Command Menu (keyboard shortcuts)"
 msgstr "Menú de comando (claves del teclado)"
 
-#: showcase/page/i18n/Content.js:219
+#: showcase/page/i18n/Content.js:239
 msgid "Locale Information"
 msgstr "Información de la localisación"
 
-#: showcase/page/i18n/Content.js:252
+#: showcase/page/i18n/Content.js:272
 msgid "Locale:"
 msgstr "Localisación:"
 
-#: showcase/page/i18n/Content.js:258
+#: showcase/page/i18n/Content.js:278
 msgid "Date format short:"
 msgstr "Formato de hora corto:"
 
-#: showcase/page/i18n/Content.js:260
+#: showcase/page/i18n/Content.js:280
 msgid "Date short:"
 msgstr "Hora corto:"
 
-#: showcase/page/i18n/Content.js:263
+#: showcase/page/i18n/Content.js:283
 msgid "Date format medium:"
 msgstr "Formato de fecha mediano:"
 
-#: showcase/page/i18n/Content.js:265
+#: showcase/page/i18n/Content.js:285
 msgid "Date medium:"
 msgstr "Fecha mediano:"
 
-#: showcase/page/i18n/Content.js:268
+#: showcase/page/i18n/Content.js:288
 msgid "Date format long:"
 msgstr "Formato de fecha largo:"
 
-#: showcase/page/i18n/Content.js:270
+#: showcase/page/i18n/Content.js:290
 msgid "Date long:"
 msgstr "Fecha largo:"
 
-#: showcase/page/i18n/Content.js:273
+#: showcase/page/i18n/Content.js:293
 msgid "Date format full:"
 msgstr "Formato de fecha completo:"
 
-#: showcase/page/i18n/Content.js:275
+#: showcase/page/i18n/Content.js:295
 msgid "Date full:"
 msgstr "Fecha completo:"
 
-#: showcase/page/i18n/Content.js:278
+#: showcase/page/i18n/Content.js:298
 msgid "Time format short:"
 msgstr "Formato de hora corto:"
 
-#: showcase/page/i18n/Content.js:280
+#: showcase/page/i18n/Content.js:300
 msgid "Time short:"
 msgstr "Hora corto:"
 
-#: showcase/page/i18n/Content.js:283
+#: showcase/page/i18n/Content.js:303
 msgid "Time format long:"
 msgstr "Formato de hora largo:"
 
-#: showcase/page/i18n/Content.js:285
+#: showcase/page/i18n/Content.js:305
 msgid "Time long:"
 msgstr "Hora largo:"
 
-#: showcase/page/i18n/Content.js:288
+#: showcase/page/i18n/Content.js:308
 msgid "Week start:"
 msgstr "Inicio de semana:"
 
-#: showcase/page/i18n/Content.js:291
+#: showcase/page/i18n/Content.js:311
 msgid "Format of %1:"
 msgstr "Formato de %1:"
