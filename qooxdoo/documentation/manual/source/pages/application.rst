@@ -59,6 +59,17 @@ Demo Applications
   
   `Online demo <http://demo.qooxdoo.org/%{version}/showcase>`__
 
+.. toctree::
+   :maxdepth: 1
+
+   application/widgetbrowser
+
+..
+
+  Features the widgets and themes available in qooxdoo.
+
+  `Online demo <http://demo.qooxdoo.org/%{version}/widgetbrowser>`__
+
 
 Developer Tools
 ===============
