@@ -23,7 +23,7 @@
  * Specialiced page. This page includes already a {@link qx.ui.mobile.navigationbar.NavigationBar}
  * and a {@link qx.ui.mobile.container.Scroll} container.
  * 
-  * *Example*
+ * *Example*
  *
  * Here is a little example of how to use the widget.
  *
@@ -37,6 +37,12 @@
  *    var button = new qx.ui.mobile.form.Button("Next Page");
  *    page.getContent().add(button);
  *  },this);
+ * 
+ *  page.addListener("back", function()
+ *  {
+ *    otherPage.show({animation:"cube", reverse:true});
+ *  },this);
+ * 
  *  page.show();
  * </pre>
  *

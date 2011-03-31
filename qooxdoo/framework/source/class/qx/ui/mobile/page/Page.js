@@ -57,6 +57,47 @@
  * added during constructor call. The <code>initialize</code> event and the
  * {@link #_initialize} lifecycle method are only called when the page is shown
  * for the first time.
+ * 
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *  // Create a page
+ *  var page1 = new qx.ui.mobile.page.Page();
+ *
+ *  // Create all child widgets on initialize
+ *  page1.addListener("initialize", function()
+ *  {
+ *    var button = new qx.ui.mobile.form.Button("Next Page");
+ *    button.addListener("tap", function() {
+ *      // show the next page
+ *      page2.show();
+ *    }, this);
+ *    page1.add(button);
+ *  },this);
+ * 
+ *  // Create a second page
+ *  var page2 = new qx.ui.mobile.page.Page();
+ *
+ *  // Create all child widgets on initialize
+ *  page2.addListener("initialize", function()
+ *  {
+ *    var button = new qx.ui.mobile.form.Button("Back");
+ *    button.addListener("tap", function() {
+ *      // show the first page with a reverse animation if the Animation
+ *      // page mangager is used.
+ *      page1.show({animation:"fade", reverse:true});
+ *    }, this);
+ * })
+ *    page2.add(button);
+ *  },this);
+ *
+ *  page1.show();
+ * </pre>
+ *
+ * This example creates a NavigationPage with a title and a back button. In the
+ * <code>initialize</code> lifecycle method a button is added.
  */
 qx.Class.define("qx.ui.mobile.page.Page",
 {
