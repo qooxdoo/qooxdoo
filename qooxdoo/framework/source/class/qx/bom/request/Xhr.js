@@ -497,7 +497,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // Track native ready state changes
       this.__nativeXhr.onreadystatechange = this.__onNativeReadyStateChangeBound;
 
-      this.__disposed = false;
+      // Reset flags
+      this.__disposed = this.__send = this.__abort = false;
     },
 
     /**
