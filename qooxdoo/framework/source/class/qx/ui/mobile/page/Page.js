@@ -286,7 +286,10 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
 
     /**
-     * Abstract method.
+     * Override this method if you would like to perform a certain action when initialize
+     * is called.
+     *
+     * @see #initialize
      */
     _initialize : function()
     {
@@ -294,12 +297,23 @@ qx.Class.define("qx.ui.mobile.page.Page",
     },
 
 
+    /**
+     * Returns the current status of the initialization of the page.
+     * 
+     * @return {Boolean} Whether the page is already initialized or not 
+     */
     isInitialized : function()
     {
       return this.__initialized;
     },
 
 
+    /**
+     * Lifecycle method. Called by the page manager after the {@link #initialize}
+     * method when the page is shown. Fires the <code>start</code> event. You should
+     * register all your event listener when this event occurs, so that no page
+     * updates are down when page is not shown.
+     */
     start : function() {
       this._start();
       this.fireEvent("start");
@@ -307,7 +321,10 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
 
     /**
-     * Abstract method.
+     * Override this method if you would like to perform a certain action when start
+     * is called.
+     *
+     * @see #start
      */
     _start : function()
     {
@@ -315,6 +332,11 @@ qx.Class.define("qx.ui.mobile.page.Page",
     },
 
 
+    /**
+     * Lifecycle method. Called by the page manager when another page is shown.
+     * Fires the <code>stop</code> event. You should unregister all your event 
+     * listener when this event occurs, so that no page updates are down when page is not shown.
+     */
     stop : function()
     {
       this._stop();
@@ -322,8 +344,11 @@ qx.Class.define("qx.ui.mobile.page.Page",
     },
 
 
-     /**
-     * Abstract method.
+    /**
+     * Override this method if you would like to perform a certain action when stop
+     * is called.
+     *
+     * @see #stop
      */
     _stop : function()
     {
@@ -331,6 +356,11 @@ qx.Class.define("qx.ui.mobile.page.Page",
     },
 
 
+    /**
+     * Lifecycle method. Not used right now. Should be called when the current page
+     * is interrupted, e.g. by a dialog, so that page view updates can be interrupted.
+     * Fires the <code>pause</code> event.
+     */
     pause : function() {
       this._pause();
       this.fireEvent("pause");
@@ -338,7 +368,10 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
 
     /**
-     * Abstract method.
+     * Override this method if you would like to perform a certain action when pause
+     * is called.
+     *
+     * @see #pause
      */
     _pause : function()
     {
@@ -346,6 +379,12 @@ qx.Class.define("qx.ui.mobile.page.Page",
     },
 
 
+    /**
+     * Lifecycle method. Not used right now. Should be called when the current page
+     * is resuming from a interruption, e.g. when a dialog is closed, so that page
+     * can resume updating the view.
+     * Fires the <code>resume</code> event.
+     */
     resume : function() {
       this._resume();
       this.fireEvent("resume");
@@ -353,7 +392,10 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
 
     /**
-     * Abstract method.
+     * Override this method if you would like to perform a certain action when resume
+     * is called.
+     *
+     * @see #resume
      */
     _resume : function()
     {
