@@ -379,7 +379,7 @@ qx.Class.define("qx.lang.Object",
      * umlauts. Uses the global function encodeURIComponent, see
      * https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/encodeURIComponent
      *
-     * Note: For URI parameters that are to be send as
+     * Note: For URI parameters that are to be sent as
      * application/x-www-form-urlencoded (POST), spaces should be encoded
      * with "+".
      *
