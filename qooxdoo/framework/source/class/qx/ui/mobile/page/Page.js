@@ -38,9 +38,9 @@
  * a look at the {@link qx.ui.mobile.page.manager.Animation} manager for more information.
  *
  * A page has predefined lifecycle methods that get called by the used page manger
- * when a page gets shown. Each time another page is requested to be shown the current shown page
+ * when a page gets shown. Each time another page is requested to be shown the currently shown page
  * is stopped. The other page, will be, if shown for the first time, initialized and started
- * afterwards. For all called methods an event is fired.
+ * afterwards. For all called lifecylce methods an event is fired.
  *
  * Call of the {@link #show} method triggers the following lifecycle methods:
  *
