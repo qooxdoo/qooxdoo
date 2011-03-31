@@ -254,8 +254,8 @@ msgstr ""
 msgid "test two"
 msgstr ""
 
-#: qx/test/util/Serializer.js:484 qx/test/util/Serializer.js:489
-#: qx/test/util/Serializer.js:496
+#: qx/test/util/Serializer.js:489 qx/test/util/Serializer.js:494
+#: qx/test/util/Serializer.js:501
 msgid "test affe"
 msgstr ""
 

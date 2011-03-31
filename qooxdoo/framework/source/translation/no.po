@@ -254,8 +254,8 @@ msgstr ""
 msgid "test two"
 msgstr ""
 
-#: qx/test/util/Serializer.js:484 qx/test/util/Serializer.js:489
-#: qx/test/util/Serializer.js:496
+#: qx/test/util/Serializer.js:489 qx/test/util/Serializer.js:494
+#: qx/test/util/Serializer.js:501
 msgid "test affe"
 msgstr ""
 
@@ -343,34 +343,34 @@ msgstr[1] "%1 av %2 rader"
 msgid "Reset column widths"
 msgstr "Nullstill kolonnebreddene"
 
-#: qx/util/Validate.js:97
+#: qx/util/Validate.js:91
 msgid "%1 is not a number."
 msgstr "%1 er ikke et tall."
 
-#: qx/util/Validate.js:137
+#: qx/util/Validate.js:130
 msgid "'%1' is not an email address."
 msgstr "'%1' er ikke en e-postadresse."
 
-#: qx/util/Validate.js:175
+#: qx/util/Validate.js:167
 msgid "%1 is not a string."
 msgstr "%1 er ikke en streng."
 
-#: qx/util/Validate.js:213
+#: qx/util/Validate.js:203
 msgid "%1 is not an url."
 msgstr "%1 er ikke en internettadresse (URL)."
 
-#: qx/util/Validate.js:260
+#: qx/util/Validate.js:244
 msgid "%1 is not a color! %2"
 msgstr "%1 er ikke en farge! %2"
 
-#: qx/util/Validate.js:287
+#: qx/util/Validate.js:268
 msgid "%1 is not in the range from [%2, %3]."
 msgstr "%1 er ikke i området fra [%2, %3]."
 
-#: qx/util/Validate.js:311
+#: qx/util/Validate.js:291
 msgid "%1 is not in %2"
 msgstr "%1 er ikke i %2"
 
-#: qx/util/Validate.js:336
+#: qx/util/Validate.js:315
 msgid "%1 does not fit %2."
 msgstr "%1 passer ikke inn %2."
