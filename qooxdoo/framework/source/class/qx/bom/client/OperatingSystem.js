@@ -34,7 +34,10 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
      * @internal
      */
     getName : function() {
-      var input = navigator.platform;
+      var input = navigator && navigator.platform;
+      if (!input) {
+        return "";
+      }
 
       if (
         input.indexOf("Windows") != -1 ||
