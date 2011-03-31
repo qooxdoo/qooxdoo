@@ -75,7 +75,7 @@ This will recursively search from the first level below the search root for an o
 
   qxh=*/[@label="Section 3"]/[@page]/*/[@label="First Button"]
 
-This will search recursively from the root for an object with label “Section 3” and then, assuming it is a ButtonView which has a page property, navigate to the corresponding page, where it again searches recursively for an item with label “First Button”. This is much more effective than searching the entire object space with “*/[@label=“First Button”]”.
+This will search recursively from the root for an object with label “Section 3” and then, assuming it is a ButtonView which has a page property, navigate to the corresponding page, where it again searches recursively for an item with label “First Button”. This is much more effective than searching the entire object space with “\*/[@label=“First Button”]”.
 
 * **app:** Three special operators at the beginning of a locator specify which object space you want to search:
 

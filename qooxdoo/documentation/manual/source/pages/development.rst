@@ -30,11 +30,12 @@ Testing
 =======
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    development/unit_testing
    development/frame_apps_testrunner
    development/framework_unit_testing
+   development/simulator
 
 
 .. _index#parts:
