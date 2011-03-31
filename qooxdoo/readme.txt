@@ -1,7 +1,7 @@
 About
 =====
 
-qooxdoo is a comprehensive and innovative Ajax application
+qooxdoo is a comprehensive and innovative JavaScript application
 framework. Leveraging object-oriented JavaScript allows developers to
 build impressive cross-browser applications. No HTML, CSS nor DOM
 knowledge is needed.
@@ -39,7 +39,7 @@ For the impatient, here is a short version:
 Use the 'tool/bin/create-application.py' script to setup a new application.
 This will create a minimal directory structure of an application, which is ready to
 be built and run. Within the newly created application folder run the command
-'generate.py source-all' to build a development version of your app.
+'generate.py source-all' to generate a development version of your app.
 Open 'source/index.html' in your browser and see your first application in action. You can
 then go on and extend it into an application of your liking by changing the
 'Application.js' class file below the 'source/class/' folder.
