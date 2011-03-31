@@ -30,7 +30,7 @@
  * created by Selenium Grid's ThreadSafeSeleniumSessionStorage is returned
  * instead.
  *
- * QxSelenium extends DefaultSelenium (see {@link http://www.jarvana.com/jarvana/view/org/seleniumhq/selenium/selenium-rc-documentation/1.0-beta-2/selenium-rc-documentation-1.0-beta-2-doc.zip!/java/com/thoughtworks/selenium/DefaultSelenium.html}),
+ * QxSelenium extends DefaultSelenium (see {@link http://jarvana.com/jarvana/view/org/seleniumhq/selenium/selenium-rc-documentation/1.0/selenium-rc-documentation-1.0-doc.zip!/java/com/thoughtworks/selenium/DefaultSelenium.html}),
  * adding the qooxdoo-specific commands documented below.
  *
  * Commands that simulate mouse clicks such as {@link #qxClick} take a
