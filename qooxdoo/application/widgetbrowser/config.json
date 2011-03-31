@@ -33,7 +33,10 @@
 
     "source-script-classic" :
     {
-      "let"     : {"QXTHEME" : "qx.theme.Classic"},
+      "let"     : {
+        "QXTHEME" : "qx.theme.Classic",
+        "QXICONTHEME" : ["Oxygen"]
+        },
       "extend"  : ["source-script"],
       "compile-options" : {
         "paths" :
