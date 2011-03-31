@@ -16,16 +16,16 @@
 
 /**
  * Base class for Feedreader GUI tests
- * 
+ *
  * @lint ignoreUndefined(simulator)
  * @lint ignoreUndefined(selenium)
  */
 qx.Class.define("feedreader.simulation.FeedreaderAbstract", {
 
   extend : simulator.unit.TestCase,
-  
+
   type : "abstract",
-  
+
   construct : function()
   {
     this.base(arguments);
@@ -46,11 +46,11 @@ qx.Class.define("feedreader.simulation.FeedreaderAbstract", {
       feedWindowButton : 'qxh=app:[@caption=".*feed.*"]/qx.ui.form.renderer.SinglePlaceholder/qx.ui.container.Composite/qx.ui.form.Button'
     };
   },
-  
+
   members :
   {
     locators : null,
-    
+
     setUp : function()
     {
       this.getQxSelenium().getEval(simulator.Simulation.AUTWINDOW + '.qx.log.Logger.setLevel("warn");');
@@ -60,19 +60,19 @@ qx.Class.define("feedreader.simulation.FeedreaderAbstract", {
       this.waitForFeeds();
       this.getQxSelenium().setSpeed(250);
     },
-    
+
     tearDown : function()
     {
       this.getQxSelenium().setSpeed(0);
       this.getSimulation().logAutLogEntries();
       this.getSimulation().logGlobalErrors();
     },
-    
+
     /**
-     * Checks if all feeds in the tree have finished loading. If any feeds are 
-     * still displaying the "loading" icon after 30 seconds, the "Reload" 
+     * Checks if all feeds in the tree have finished loading. If any feeds are
+     * still displaying the "loading" icon after 30 seconds, the "Reload"
      * button is clicked and we wait for another 30 seconds.
-     * 
+     *
      * @lint ignoreUndefined(selenium)
      */
     waitForFeeds : function()
@@ -103,5 +103,5 @@ qx.Class.define("feedreader.simulation.FeedreaderAbstract", {
       }
     }
   }
-  
+
 });

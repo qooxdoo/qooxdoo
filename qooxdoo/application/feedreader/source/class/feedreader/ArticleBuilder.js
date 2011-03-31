@@ -17,10 +17,10 @@
 
 ************************************************************************ */
 /**
- * This class is a static helper responsible for formating an loaded article 
- * model to a HTML output. 
+ * This class is a static helper responsible for formating an loaded article
+ * model to a HTML output.
  */
-qx.Class.define("feedreader.ArticleBuilder", 
+qx.Class.define("feedreader.ArticleBuilder",
 {
   statics:
   {
@@ -31,7 +31,7 @@ qx.Class.define("feedreader.ArticleBuilder",
      * If no article is set, an emptys string will be returned.
      *
      * @param article {qx.core.Object} The article model.
-     * @param withTitle {Boolean} <code>true</code> if the title should 
+     * @param withTitle {Boolean} <code>true</code> if the title should
      *   be included in the HTML.
      * @return {String} The formated article as a html string.
      */

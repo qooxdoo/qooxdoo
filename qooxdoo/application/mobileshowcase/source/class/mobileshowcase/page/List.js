@@ -26,9 +26,9 @@
  * Mobile page responsible for showing the "list" showcase.
  */
 qx.Class.define("mobileshowcase.page.List",
-{ 
+{
   extend : qx.ui.mobile.page.NavigationPage,
-  
+
   construct : function()
   {
     this.base(arguments);
@@ -77,5 +77,5 @@ qx.Class.define("mobileshowcase.page.List",
     {
      qx.ui.mobile.navigation.Manager.getInstance().executeGet("/", {reverse:true});
     }
-  } 
+  }
 });

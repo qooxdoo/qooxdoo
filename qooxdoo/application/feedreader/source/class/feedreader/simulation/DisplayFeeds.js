@@ -20,7 +20,7 @@
 qx.Class.define("feedreader.simulation.DisplayFeeds", {
 
   extend : feedreader.simulation.FeedreaderAbstract,
-  
+
   members :
   {
     /**
@@ -37,23 +37,23 @@ qx.Class.define("feedreader.simulation.DisplayFeeds", {
         }\
       }\
       return invalidFeeds';
-      
+
       var result = String(this.getQxSelenium().getRunInContext(this.locators.feedTree, itemScript));
       var resultArray = qx.lang.Json.parse(result);
       this.assertArrayEquals([], resultArray, "Feed(s) not loaded correctly! " + resultArray.join(","));
     },
-    
+
     /**
      * Select the first item of the first feed in the tree and check the article
      * view's model
      */
     testSelectFirstArticle : function()
     {
-      this.getQxSelenium().qxClick(this.locators.firstFeed);  
+      this.getQxSelenium().qxClick(this.locators.firstFeed);
       this.getQxSelenium().qxClick(this.locators.firstFeedItem);
       var result = this.getQxSelenium().getQxObjectFunction(this.locators.articleView, "getArticle");
       this.assertMatch(result, "qx\.data\.model");
     }
   }
-  
+
 });

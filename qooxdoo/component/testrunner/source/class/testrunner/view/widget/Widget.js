@@ -313,7 +313,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
           this.__reloadAut();
         }
       }, this);
-      
+
       autUriField.setToolTipText(this.__app.tr("Application under test URL"));
       autUriField.set(
       {
@@ -1032,7 +1032,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
           this.setStatus("Invalid test file selected!");
       };
     },
-    
+
     _applyAutUri : function(value, old)
     {
       this.__iframe.setSource(value);

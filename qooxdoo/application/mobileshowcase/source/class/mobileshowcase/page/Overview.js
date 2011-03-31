@@ -21,9 +21,9 @@
  * Mobile page responsible for showing the different showcases.
  */
 qx.Class.define("mobileshowcase.page.Overview",
-{ 
+{
   extend : qx.ui.mobile.page.NavigationPage,
-  
+
   construct : function()
   {
     this.base(arguments);
@@ -61,7 +61,7 @@ qx.Class.define("mobileshowcase.page.Overview",
           {title : "Events", subTitle : "Touch, Tap, Swipe...", path:"event"},
           {title : "Page Transitions", subTitle : "Slide, Fade, Cube...", path:"animation"}
       ];
-       
+
       list.setModel(new qx.data.Array(data));
       list.addListener("changeSelection", function(evt) {
         var path = data[evt.getData()].path;
@@ -69,5 +69,5 @@ qx.Class.define("mobileshowcase.page.Overview",
       }, this);
       this.getContent().add(list);
     }
-  } 
+  }
 });

@@ -52,7 +52,7 @@ qx.Class.define("testrunner.view.Reporter", {
     __reportServerUrl : null,
     __autErrors : null,
     __infoElem : null,
-    
+
     _applyTestSuiteState : function(value, old)
     {
       switch(value)
@@ -76,15 +76,15 @@ qx.Class.define("testrunner.view.Reporter", {
           break;
       }
     },
-    
+
     // overridden
     run : function()
     {
       this.fireEvent("runTests");
     },
-    
+
     /**
-     * Use the AUT's global error logging to catch any uncaught exceptions 
+     * Use the AUT's global error logging to catch any uncaught exceptions
      * triggered by the unit tests
      */
     setGlobalErrorHandler : function()
@@ -99,11 +99,11 @@ qx.Class.define("testrunner.view.Reporter", {
         iframeWindow.qx.event.GlobalError.setErrorHandler(this._handleIframeError, this);
       }
     },
-    
+
     /**
      * Callback function for qooxdoo's global error handler. Stores the caught
      * exceptions in a map.
-     * 
+     *
      * @param ex {Error} Caught exception
      */
     _handleIframeError : function(ex)
@@ -113,7 +113,7 @@ qx.Class.define("testrunner.view.Reporter", {
         this.__autErrors[currentTest] = [];
       }
       var msg;
-      if (qx.core.Environment.get("browser.name") == "ie" && 
+      if (qx.core.Environment.get("browser.name") == "ie" &&
               qx.core.Environment.get("browser.version") < 9)
       {
         msg = ex.toString();
@@ -123,12 +123,12 @@ qx.Class.define("testrunner.view.Reporter", {
       }
       this.__autErrors[currentTest].push(msg);
     },
-    
+
     /**
      * Returns any errors caught in the AUT in a readable format containing the
      * name of the unit test that triggered the exception, its message and, if
      * available, the stack trace.
-     * 
+     *
      * @return {String[]} Array of error messages
      */
     getFormattedAutErrors : function()
@@ -139,7 +139,7 @@ qx.Class.define("testrunner.view.Reporter", {
         for (var i=0, l=testErrors.length; i<l; i++) {
           var exception = testErrors[i];
           var message;
-          if (qx.core.Environment.get("browser.name") == "ie" && 
+          if (qx.core.Environment.get("browser.name") == "ie" &&
               qx.core.Environment.get("browser.version") < 9)
           {
             message = exception;
@@ -156,7 +156,7 @@ qx.Class.define("testrunner.view.Reporter", {
       }
       return formattedErrors;
     },
-    
+
     /**
      * Runs the next package from the list of test namespaces.
      */
@@ -174,7 +174,7 @@ qx.Class.define("testrunner.view.Reporter", {
         this.run();
       }
     },
-    
+
     // overridden
     _applyTestModel : function(value, old)
     {
@@ -207,7 +207,7 @@ qx.Class.define("testrunner.view.Reporter", {
         this.setStatus("finished");
       }
     },
-    
+
     // overridden
     _onTestChangeState : function(testResultData)
     {
@@ -220,7 +220,7 @@ qx.Class.define("testrunner.view.Reporter", {
         this.__testResultsMap[testName] = {};
       }
       this.__testResultsMap[testName].state = state;
-      
+
       var messages = [];
       if (exceptions) {
         for (var i=0,l=exceptions.length; i<l; i++) {
@@ -230,7 +230,7 @@ qx.Class.define("testrunner.view.Reporter", {
         }
         this.__testResultsMap[testName].messages = messages;
       }
-      
+
       this.__infoElem.innerHTML = testName + ": " + state;
 
       var autUri = qx.bom.Iframe.queryCurrentUrl(this.getIframe());
@@ -250,7 +250,7 @@ qx.Class.define("testrunner.view.Reporter", {
 
     },
 
-    
+
     /**
      * Returns the results of all tests that didn't end with the status "success"
      * @return {Map} Unsuccessful test results
@@ -283,7 +283,7 @@ qx.Class.define("testrunner.view.Reporter", {
       }
       return failedTests;
     },
-    
+
     /**
      * Adds environment information to a test result map and sends it to the
      * server.

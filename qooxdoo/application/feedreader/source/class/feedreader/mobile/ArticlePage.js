@@ -20,7 +20,7 @@
 /**
  * Mobile page responsible for shoing a single article.
  */
-qx.Class.define("feedreader.mobile.ArticlePage", 
+qx.Class.define("feedreader.mobile.ArticlePage",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 

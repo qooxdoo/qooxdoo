@@ -67,15 +67,15 @@ qx.Class.define("feedreader.MobileApplication",
       var loader = feedreader.io.FeedLoader.getInstance();
       this.__feedFolder = model.getFeedFolder();
       loader.loadAll(this.__feedFolder);
-      
+
       this.buildUpGui();
     },
 
-    
+
     /**
      * Main routine which builds the whole GUI.
      */
-    buildUpGui : function() 
+    buildUpGui : function()
     {
       // create the pages
       var overview = new feedreader.mobile.OverviewPage();

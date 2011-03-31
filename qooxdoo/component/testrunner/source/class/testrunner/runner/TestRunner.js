@@ -274,15 +274,15 @@ qx.Class.define("testrunner.runner.TestRunner", {
         }
       }
     },
-    
-    
+
+
     __runTests : function() {
       if (this.__logAppender) {
         this.__logAppender.clear();
       }
       this.runTests();
     },
-    
+
     __stopTests : function() {
       this.setTestSuiteState("aborted");
     },
@@ -358,7 +358,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
       if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
         var frameWindow = qx.bom.Iframe.getWindow(this.__iframe);
         var testResult = new frameWindow.qx.dev.unit.TestResult();
-       
+
       } else {
         var testResult = new qx.dev.unit.TestResult();
       }

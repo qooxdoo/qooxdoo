@@ -20,7 +20,7 @@
 /**
  * Responsible for showing a list of articles for the mobile UI.
  */
-qx.Class.define("feedreader.mobile.FeedPage", 
+qx.Class.define("feedreader.mobile.FeedPage",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
@@ -38,7 +38,7 @@ qx.Class.define("feedreader.mobile.FeedPage",
      * Model object holding the feed which should be shown.
      */
     feed : {
-      event : "changeFeed", 
+      event : "changeFeed",
       init : null,
       nullable : true,
       apply : "_applyFeed"

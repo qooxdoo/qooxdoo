@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /* ************************************************************************
- * If you have added resources to your app remove the leading '*' in the 
+ * If you have added resources to your app remove the leading '*' in the
  * following line to make use of them.
 
 #asset(mobileshowcase/*)
@@ -43,7 +43,7 @@ qx.Class.define("mobileshowcase.Application",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -67,7 +67,7 @@ qx.Class.define("mobileshowcase.Application",
       */
 
       // Create the pages
-      var overview = new mobileshowcase.page.Overview();  
+      var overview = new mobileshowcase.page.Overview();
       var events = new mobileshowcase.page.Event();
       var list = new mobileshowcase.page.List();
       var tab = new mobileshowcase.page.Tab();
@@ -80,7 +80,7 @@ qx.Class.define("mobileshowcase.Application",
       var nm = qx.ui.mobile.navigation.Manager.getInstance();
       nm.onGet("/", function(data) {
         overview.show(data.customData);
-      },this);  
+      },this);
 
       nm.onGet("/event", function(data)
       {
@@ -91,7 +91,7 @@ qx.Class.define("mobileshowcase.Application",
       {
         tab.show();
       },this);
-      
+
       nm.onGet("/list", function(data)
       {
         list.show();

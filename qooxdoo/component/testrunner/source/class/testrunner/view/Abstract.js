@@ -191,7 +191,7 @@ qx.Class.define("testrunner.view.Abstract", {
     _applyAutUri : function(value, old)
     {}
   },
-  
+
   destruct : function()
   {
     this.removeAllBindings();

@@ -22,9 +22,9 @@
  * Mobile page responsible for showing the landing page for the "animation" showcase.
  */
 qx.Class.define("mobileshowcase.page.AnimationLanding",
-{ 
+{
   extend : qx.ui.mobile.page.NavigationPage,
-  
+
   construct : function()
   {
     this.base(arguments);
@@ -62,5 +62,5 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
     {
      qx.ui.mobile.navigation.Manager.getInstance().executeGet("/animation", {animation:this.getAnimation(), reverse:true});
     }
-  } 
+  }
 });

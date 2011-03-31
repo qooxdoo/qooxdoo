@@ -18,10 +18,10 @@
 
 ************************************************************************ */
 /**
- * Main model containing the feeds and all the data. This is shared for 
+ * Main model containing the feeds and all the data. This is shared for
  * mobiel and desktop.
  */
-qx.Class.define("feedreader.model.Model", 
+qx.Class.define("feedreader.model.Model",
 {
   extend : qx.core.Object,
 
@@ -29,7 +29,7 @@ qx.Class.define("feedreader.model.Model",
   construct : function()
   {
     this.base(arguments);
-    
+
     this._initializeModel();
   },
 

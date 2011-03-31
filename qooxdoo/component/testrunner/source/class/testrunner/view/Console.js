@@ -231,7 +231,7 @@ qx.Class.define("testrunner.view.Console", {
       qx.bom.Iframe.setSource(this.getIframe(), value);
     }
   },
-  
+
   destruct : function()
   {
     this._disposeMap("testResults");

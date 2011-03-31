@@ -21,7 +21,7 @@
  * Mobile page responsible for showing the "tab" showcase.
  */
 qx.Class.define("mobileshowcase.page.Tab",
-{ 
+{
   extend : qx.ui.mobile.page.NavigationPage,
 
 
@@ -40,21 +40,21 @@ qx.Class.define("mobileshowcase.page.Tab",
     _initialize : function()
     {
       this.base(arguments);
-      
+
       this.add(this.__createTabBar());
     },
 
 
     /**
      * Creates the tab bar.
-     * 
+     *
      * @return {qx.ui.mobile.tabbar.TabBar} created tab bar.
      */
     __createTabBar : function()
     {
       var tabBar = new qx.ui.mobile.tabbar.TabBar();
       var tabButton1 = new qx.ui.mobile.tabbar.TabButton("Tab 1");
-      
+
       tabBar.add(tabButton1);
       tabButton1.setView(this.__createView("View 1"));
       var tabButton2 = new qx.ui.mobile.tabbar.TabButton("Tab 2");
@@ -72,7 +72,7 @@ qx.Class.define("mobileshowcase.page.Tab",
 
     /**
      * Creates the view for the tab.
-     * 
+     *
      * @param text {String} The text of the label used in this view.
      * @return {qx.ui.mobile.basic.Label} the created view.
      */
@@ -89,5 +89,5 @@ qx.Class.define("mobileshowcase.page.Tab",
     {
      qx.ui.mobile.navigation.Manager.getInstance().executeGet("/", {reverse:true});
     }
-  } 
+  }
 });

@@ -21,9 +21,9 @@
  * Mobile page responsible for showing the "animation" showcase.
  */
 qx.Class.define("mobileshowcase.page.Animation",
-{ 
+{
   extend : qx.ui.mobile.page.NavigationPage,
-  
+
   construct : function()
   {
     this.base(arguments);
@@ -73,5 +73,5 @@ qx.Class.define("mobileshowcase.page.Animation",
     {
      qx.ui.mobile.navigation.Manager.getInstance().executeGet("/", {reverse:true});
     }
-  } 
+  }
 });

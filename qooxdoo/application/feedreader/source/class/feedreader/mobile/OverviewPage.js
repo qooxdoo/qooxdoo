@@ -20,7 +20,7 @@
 /**
  * The main page of the mobile part of the feed reader.
  */
-qx.Class.define("feedreader.mobile.OverviewPage", 
+qx.Class.define("feedreader.mobile.OverviewPage",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
