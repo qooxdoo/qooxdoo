@@ -84,6 +84,9 @@ could be retained. There are some differences, listed below:
 
 * Theming: The theming is done via CSS files. Have a look into the existing themes, to see
   how the styling is done. You can find the themes under ``framework/source/resource/qx/mobile/css/``.
+  To change the theme, just change the included CSS file in the ``index.html`` and change the loaded
+  assets in your mobile application. There is a ``index.html`` file for the build version as well. You can
+  find it in the ``source/resource/`` folder of your application.
 * No layout item: Only a few, essential, styles are provided by a widget. You
   should set all other styles of a widget via CSS, using the ``addCssClass`` method of a widget.
 * No queues: Elements are created directly. There is no element, layout, display queue. Keep this in
@@ -93,6 +96,17 @@ could be retained. There are some differences, listed below:
 * `qx.ui.mobile.page.Page <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile.page.Page>`_:
   A page is a widget which provides a screen with which users can interact in order to do something. Most times a page provides a single task or a group of related tasks. A qooxdoo mobile application is usually composed of one or more loosely bound pages.
   Typically there is one page that presents the “main” view.
+  
+  
+Demo Applications
+=================
+
+To see qooxdoo mobile applications in action or to see how to implement an application,
+you can have a look on the following demo applications:
+
+* `Mobile Showcase <http://demo.qooxdoo.org/%{version}/mobileshowcase>`_ - see all mobile widgets in action
+
+All applications can be found in the ``application`` folder of your qooxdoo checkout.
   
 How to contribute?
 ==================
