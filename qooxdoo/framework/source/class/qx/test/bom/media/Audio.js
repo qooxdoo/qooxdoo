@@ -51,19 +51,5 @@ qx.Class.define("qx.test.bom.media.Audio",
     hasAudio: function() {
       return qx.core.Environment.get("html.audio");
     }
-
-
-    //DOESN"T WORK ON FF3.5/Linux
-    //testDuration: function() {
-      //var that = this;
-
-      //this.assertTrue(isNaN(this._media.getDuration()));
-
-      //this._media.addListener("loadeddata", function() {
-        //that.assertEquals(11, Math.ceil(this.getDuration()));
-      //}, this._media);
-    //}
-
-
   }
 });

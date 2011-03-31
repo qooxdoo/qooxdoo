@@ -81,16 +81,5 @@ qx.Class.define("qx.test.bom.media.Video",
         this.assertEquals(704, v.getVideoHeight());
       }, this);
     }
-
-    //DOESN"T WORK ON FF3.5/Linux
-    //testDuration: function() {
-      //var that = this;
-
-      //this.assertTrue(isNaN(this._media.getDuration()));
-
-      //this._media.addListener("loadeddata", function() {
-        //that.assertEquals(30, Math.ceil(this.getDuration()));
-      //}, this._media);
-    //}
   }
 });

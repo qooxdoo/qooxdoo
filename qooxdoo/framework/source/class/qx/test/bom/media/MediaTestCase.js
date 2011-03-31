@@ -41,36 +41,31 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     },
 
 
-    setUp : function() {
+    setUp : function()
+    {
       this._checkFeature();
 
       this._src = this._getSrc();
       this._media = this._createMedia();
     },
 
-    tearDown : function() {
-      this._media.pause();
+    tearDown : function()
+    {
+      //this._media.pause();
+      this._media.dispose();
       this._media = null;
       this._src = null;
     },
 
-    testPlayPause: function() {
-      this.assertTrue(this._media.isPaused());
-
-      this._media.play();
-      this.assertFalse(this._media.isPaused());
-
-      this._media.pause();
-      this.assertTrue(this._media.isPaused());
-    },
-
-    testId: function() {
+    testId: function()
+    {
       var id = "mediaid";
       this._media.setId(id);
       this.assertEquals(id, this._media.getId());
     },
 
-    testVolume: function() {
+    testVolume: function()
+    {
       var that = this;
 
       this._media.setVolume(1);
@@ -89,7 +84,8 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     },
 
 
-    testMute: function() {
+    testMute: function()
+    {
       this.assertFalse(this._media.isMuted());
 
       this._media.setMuted(true);
@@ -99,12 +95,14 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this.assertFalse(this._media.isMuted());
     },
 
-    testCurrentTime: function() {
+    testCurrentTime: function()
+    {
       var that = this;
       this.assertEquals(0, this._media.getCurrentTime());
     },
 
-    testSource: function() {
+    testSource: function()
+    {
       this._media = new qx.bom.media.Audio();
 
       this._media.setSource(this._src);
@@ -119,7 +117,8 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     },
 
 
-    testControls: function() {
+    testControls: function()
+    {
       this.assertFalse(this._media.hasControls());
 
       this._media.showControls();
@@ -130,7 +129,8 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     },
 
 
-    testAutoplay: function() {
+    testAutoplay: function()
+    {
       this.assertFalse(this._media.getAutoplay());
       this._media.setAutoplay(true);
       this.assertTrue(this._media.getAutoplay());
@@ -141,69 +141,79 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
 
     testGetMediaObject: function() {
       this.assertElement(this._media.getMediaObject());
+    },
+
+    testPreload: function()
+    {
+      //default
+      this.assertEquals("auto", this._media.getPreload(), "a");
+
+      this._media.setPreload("none");
+      this.assertEquals("none", this._media.getPreload());
+
+      this._media.setPreload("metadata");
+      this.assertEquals("metadata", this._media.getPreload(), "12");
+
+      this._media.setPreload("auto");
+      this.assertEquals("auto", this._media.getPreload(), "b");
+
+      //the preload default is auto
+      this._media.setPreload("none");
+      this._media.setPreload("affe");
+      this.assertEquals("auto", this._media.getPreload(), "c");
+    },
+
+    testLoop: function()
+    {
+      this.assertFalse(this._media.isLoop());
+
+      this._media.setLoop(true);
+      this.assertTrue(this._media.isLoop());
+
+      this._media.setLoop(false);
+      this.assertFalse(this._media.isLoop());
+    },
+
+
+    testVolumeChangeEvent: function()
+    {
+      this._media.addListener("volumechange", function(e)
+      {
+        this.resume(function() {
+          this.assertEquals(0.5, this._media.getVolume());
+        }, this);
+      }, this);
+      
+      this._media.setVolume(0.5);
+      
+      this.wait();
+    },
+
+    testPlayEvent: function()
+    {
+      this.assertTrue(this._media.isPaused());
+      
+      this._media.addListener("play", function(e)
+      {
+        this.resume(function() {
+          this.assertFalse(this._media.isPaused());
+        }, this);
+      }, this);
+      
+      this._media.play();
+      
+      this.wait();
+    },
+    
+    testDuration: function()
+    {
+      var that = this;
+
+      this.assertTrue(isNaN(this._media.getDuration()));
+
+      this._media.addListener("loadeddata", function() {
+        that.assertEquals(30, Math.ceil(this.getDuration()));
+      }, this._media);
     }
-
-    //DOESN"T WORK ON IE9/Win 7, FF4/Win 7, FF3.5/Linux
-    //testPreload: function() {
-      ////default
-      //this.assertEquals(auto, this._media.getPreload());
-
-      //this._media.setPreload("none");
-      //this.assertEquals("none", this._media.getPreload());
-
-      //this._media.setPreload("metadata");
-      //this.assertEquals("metadata", this._media.getPreload());
-
-      //this._media.setPreload("auto");
-      //this.assertEquals("auto", this._media.getPreload());
-
-      ////the preload default is auto
-      //this._media.setPreload("none");
-      //this._media.setPreload("unspecified");
-      //this.assertEquals(auto, this._media.getPreload());
-    //},
-
-    //testLoop: function() {
-      //this.assertFalse(this._media.isLoop());
-
-      //this._media.setLoop(true);
-      //this.assertTrue(this._media.isLoop());
-
-      //this._media.setLoop(false);
-      //this.assertFalse(this._media.isLoop());
-    //},
-
-
-
-
-    //THEY ARE ASYNC; TEST THEM WITH wait/resume
-    //testVolumeChangeEvent: function() {
-      //var that = this;
-
-      ////this work
-      //this._media.addListener("volumechange", function() {
-        //console.log("this works");
-      //});
-      //this._media.setVolume(0.3);
-
-      ////but assert doesn't work
-      //this.assertEventFired(this._media, "volumechange", function() {
-        //that._media.setVolume(0.2);
-      //});
-    //},
-
-    //testPlayEvent: function() {
-      //var that = this;
-      ////this work
-      //this._media.addListener("play", function() {
-        //console.log("play works");
-      //});
-      //this._media.play();
-
-      ////this doesn't
-      //this.assertEventFired(this._media, "play", function() {
-        //that._media.play();
-      //});
-    //}
   }
 });

@@ -106,7 +106,10 @@ qx.Class.define("qx.bom.media.Abstract",
      */
     play: function()
     {
-      this._media.play();
+      // Force asynchronous event firing for IE e.g.
+      qx.event.Timer.once(function() {
+        this._media.play();
+      }, this, 0);
     },
 
 
@@ -340,7 +343,12 @@ qx.Class.define("qx.bom.media.Abstract",
      */
     setPreload: function(preload)
     {
-      this._media.preload = preload;
+      if (preload == "none" || preload == "metadata" || preload == "auto") {
+        this._media.preload = preload;
+      } else {
+        // Set auto as default
+        this._media.preload = "auto";
+      }
     },
 
 
@@ -373,7 +381,7 @@ qx.Class.define("qx.bom.media.Abstract",
      */
     isLoop: function()
     {
-      return this._media.loop;
+      return !!this._media.loop;
     },
 
 
