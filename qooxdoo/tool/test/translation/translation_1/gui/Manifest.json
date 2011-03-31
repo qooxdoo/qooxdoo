@@ -18,7 +18,7 @@
     ],
 
     "version" : "trunk",
-    "qooxdoo-versions": ["1.1"]
+    "qooxdoo-versions": ["1.4"]
   },
   
   "provides" : 
