@@ -30,13 +30,13 @@ qx.Class.define("qx.event.type.MouseWheel",
      * The maximal mesured scroll wheel delta.
      * @internal
      */
-    MAXSCROLL : 1,
+    MAXSCROLL : null,
 
     /**
      * The minimal mesured scroll wheel delta.
      * @internal
      */
-    MINSCROLL : 1,
+    MINSCROLL : null,
 
     /**
      * The normalization factor for the speed calculation.
@@ -61,15 +61,22 @@ qx.Class.define("qx.event.type.MouseWheel",
      * @param delta {Number} The mouse delta.
      */
     __normalize : function(delta) {
+      var absDelta = Math.abs(delta);
+
       // store the min value
-      if (qx.event.type.MouseWheel.MINSCROLL > absDelta) {
+      if (
+        qx.event.type.MouseWheel.MINSCROLL == null || 
+        qx.event.type.MouseWheel.MINSCROLL > absDelta
+      ) {
         qx.event.type.MouseWheel.MINSCROLL = absDelta;
         this.__recalculateMultiplicator();
       }
 
       // store the max value
-      var absDelta = Math.abs(delta)
-      if (qx.event.type.MouseWheel.MAXSCROLL < absDelta) {
+      if (
+        qx.event.type.MouseWheel.MAXSCROLL == null || 
+        qx.event.type.MouseWheel.MAXSCROLL < absDelta
+      ) {
         qx.event.type.MouseWheel.MAXSCROLL = absDelta;
         this.__recalculateMultiplicator();
       }
