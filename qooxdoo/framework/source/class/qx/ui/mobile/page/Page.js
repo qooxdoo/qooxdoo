@@ -43,7 +43,7 @@
  * afterwards. For all called methods an event is fired.
  * 
  * Call of the {@link #show} method triggers the following lifecycle methods:
- * 
+ *
  * * *initialize*: Initializes the page to show
  * * *start*: Gets called when the page to show is started
  * * *stop*:  Stops the current page
