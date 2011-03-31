@@ -58,6 +58,7 @@ body > * {
   -webkit-animation-fill-mode: forwards; /* Persist the last frame of the animation */
 }
 
+/* Slide left */
 
 .slide.in {
     -webkit-animation-name: slideLeftIn;
@@ -85,6 +86,7 @@ body > * {
     }
 }
 
+/* Slide right */
 
 .slide.in.reverse {
     -webkit-animation-name: slideRightIn;
@@ -112,6 +114,9 @@ body > * {
     }
 }
 
+
+/* Fade */
+
 .fade.in {
     -webkit-animation-name: fadeIn;
 }
@@ -138,6 +143,8 @@ body > * {
     }
 }
 
+
+/* Pop */
 
 .pop.in {
     -webkit-animation-name: popIn;
@@ -169,6 +176,8 @@ body > * {
     }
 }
 
+/* Dissolve */
+
 .dissolve.in {
     -webkit-animation-name: dissolveIn;
 }
@@ -195,6 +204,8 @@ body > * {
     }
 }
 
+
+/* Slide up */
 
 .slideup.in {
     z-index: 10;
