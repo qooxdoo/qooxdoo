@@ -35,6 +35,4 @@ qx.Class.define("qx.test.bom.storage.Session",
       return qx.core.Environment.get("html.storage.session");
     }
   }
-
-
 });

@@ -37,9 +37,6 @@ qx.Class.define("qx.bom.media.Video",
       this._video.src = source;
     }
     this.base(arguments, this._video);
-
-    // set default value
-    this._video.preload = "auto";
   },
 
 

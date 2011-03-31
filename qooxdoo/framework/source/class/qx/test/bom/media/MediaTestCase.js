@@ -51,7 +51,6 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
 
     tearDown : function()
     {
-      //this._media.pause();
       this._media.dispose();
       this._media = null;
       this._src = null;
@@ -203,17 +202,6 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this._media.play();
       
       this.wait();
-    },
-    
-    testDuration: function()
-    {
-      var that = this;
-
-      this.assertTrue(isNaN(this._media.getDuration()));
-
-      this._media.addListener("loadeddata", function() {
-        that.assertEquals(30, Math.ceil(this.getDuration()));
-      }, this._media);
     }
   }
 });

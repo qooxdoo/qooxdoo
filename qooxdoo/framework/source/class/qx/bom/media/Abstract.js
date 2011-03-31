@@ -55,6 +55,9 @@ qx.Class.define("qx.bom.media.Abstract",
     Event.addNativeListener(this._media, "volumechange", this._handleVolumeChangeEventBound);
     Event.addNativeListener(this._media, "loadeddata", this._handleLoadedDataEventBound);
     Event.addNativeListener(this._media, "loadedmetadata", this._handleLoadedMetaDataEventBound);
+
+    // set default value
+    this._media.preload = "auto";
   },
 
 
