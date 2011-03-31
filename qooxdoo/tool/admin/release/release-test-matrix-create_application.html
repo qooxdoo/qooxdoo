@@ -763,11 +763,59 @@ concerning <em>simulator</em>-related classes. </dd>
   <dt>[h]</dt>
   <dd> The console output should contain no warnings. </dd>
   <dt>[i]</dt>
-  <dd> This job requires extensive additional installation (java,
-selenium rc, ...) and configuration efforts. See the appropriate manual
-page (e.g. <a
- href="../../../documentation/manual/build/html/pages/development/simulator.html">../../../documentation/manual/build/html/pages/development/simulator.html</a>).
-
+  <dd> How to set up the Simulator environment:
+    <ul>
+      <li>Download the following files and place them in an easily accessible folder, e.g. <em>~/affe/workspace/simulator</em>:
+        <ul>
+          <li><a href="http://webtechfe-test01.schlund.de/~qooxdoo/workspace/simulator/js.jar">Rhino</a></li>
+          <li><a href="http://webtechfe-test01.schlund.de/~qooxdoo/workspace/simulator/selenium-java-client-driver.jar">Selenium Java Client</a></li>
+          <li><a href="http://webtechfe-test01.schlund.de/~qooxdoo/workspace/simulator/selenium-server.jar">Selenium Server</a></li>
+        </ul>
+      </li>
+      <li>Open a shell and go to the directory where you downloaded the files, then run this command:
+        <pre>java -jar selenium-server.jar -userExtensions &lt;QOOXDOO_PATH&gt;/component/simulator/tool/user-extensions/user-extensions.js</pre>
+        <ul>
+          <li><em>QOOXDOO_PATH</em> must be replaced with the (relative or absolute) file system path of a qooxdoo 1.4-pre SDK or trunk checkout.</li>
+          <li>The Selenium server should now run on localhost:4444. Do not close the shell window.</li>
+        </ul>
+      </li>
+      <li>Create a qooxdoo GUI skeleton application, e.g. <em>myapplication</em>, and generate the build version.</li>
+      <li>Make sure the application can be accessed over HTTP, e.g. by running <em>python -m CGIHTTPServer</em>
+      <li>Edit the config.json file of the application.
+        <ul>
+          <li>Add the following job configuration:
+          <pre>
+    "simulation-run" :
+    {
+      "let" :
+      {
+        "SIMULATOR_CLASSPATH" : [ "~/affe/workspace/simulator/selenium-java-client-driver.jar",
+                                  "~/affe/workspace/simulator/js.jar" ]
+      },
+      
+      "environment" :
+      {
+        "simulator.selServer" : "localhost",
+        "simulator.selPort" : 4444,
+        "simulator.testBrowser" : "*firefox3",
+        "simulator.autHost" : "http://localhost",
+        "simulator.autPath" : "/~affe/workspace/myapplication/build/index.html"
+      }
+    }
+          </pre>
+          </li>
+          <li>Use the file system path of the directory where you downloaded the files earlier for the two entries in <em>SIMULATOR_CLASSPATH</em> </li>
+          <li>Replace the value of <em>simulator.autPath</em> with the web server path of your application</li>
+        </ul>
+      </li>
+      <li>Build and run the Simulator application
+        <ul>
+          <li>In your application skeleton, run <pre>generate.py simulation-build</pre> and note any warnings</li>
+          <li>Provided there were no errors, run <pre>generate.py simulation-run</pre></li>
+          <li>Two Firefox windows should open and the test should run. The Generator's shell output should list two tests as passed.</li>
+        </ul>
+      </li>
+    </ul>
 
 
 
