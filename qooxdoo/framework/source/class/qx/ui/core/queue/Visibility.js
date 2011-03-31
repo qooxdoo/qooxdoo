@@ -129,7 +129,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       {
         var hash = queue[i].$$hash;
         if (data[hash] != null) {
-          // recursive method call which adds widgets to the queue so be 
+          // recursive method call which adds widgets to the queue so be
           // careful with that one (performance critical)
           queue[i].addChildrenToQueue(queue);
         }

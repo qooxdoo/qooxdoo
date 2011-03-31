@@ -40,7 +40,7 @@ qx.Class.define("qx.xml.Element",
      * <code>false</code> otherwise.
      */
     XML_SERIALIZER : false,
-    
+
     /**
      * The subtree rooted by the specified element or document is serialized to a string.
      *
@@ -313,7 +313,7 @@ qx.Class.define("qx.xml.Element",
 
   defer : function(statics)
   {
-    statics.XML_SERIALIZER = (window.XMLSerializer && 
-     !( qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION >= 9)); 
+    statics.XML_SERIALIZER = (window.XMLSerializer &&
+     !( qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION >= 9));
   }
 });

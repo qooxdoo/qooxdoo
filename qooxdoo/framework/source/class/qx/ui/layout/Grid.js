@@ -887,12 +887,12 @@ qx.Class.define("qx.ui.layout.Grid",
             var totalSpacing = vSpacing * (widgetProps.rowSpan - 1);
             var availableHeight = hint.height - totalSpacing;
 
-            // get the row height which every child would need to share the 
+            // get the row height which every child would need to share the
             // available hight equally
-            var avgRowHeight = 
+            var avgRowHeight =
               Math.floor(availableHeight / widgetProps.rowSpan);
 
-            // get the hight already used and the number of children which do 
+            // get the hight already used and the number of children which do
             // not have at least that avg row height
             var usedHeight = 0;
             var rowsNeedAddition = 0;
@@ -904,9 +904,9 @@ qx.Class.define("qx.ui.layout.Grid",
               }
             }
 
-            // the difference of available and used needs to be shared among 
+            // the difference of available and used needs to be shared among
             // those not having the min size
-            var additionalRowHeight = 
+            var additionalRowHeight =
               Math.floor((availableHeight - usedHeight) / rowsNeedAddition);
 
             // add the extra height to the too small children
