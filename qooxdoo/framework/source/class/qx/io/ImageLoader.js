@@ -253,6 +253,10 @@ qx.Bootstrap.define("qx.io.ImageLoader",
     {
       // Shorthand
       var entry = this.__data[source];
+      
+      if (!entry) {
+        // return;
+      }
 
       // Store dimensions
       if (event.type === "load")
