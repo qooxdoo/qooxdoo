@@ -42,7 +42,6 @@
  *   <li>cube</li>
  *  </ul>
  * 
- * @internal
  */
 qx.Class.define("qx.ui.mobile.page.manager.Animation",
 {
