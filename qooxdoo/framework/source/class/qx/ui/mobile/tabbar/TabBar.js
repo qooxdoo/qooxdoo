@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
   construct : function()
   {
     this.base(arguments);
-    this._setLayout(new qx.ui.mobile.layout.HBox());
+    this._setLayout(new qx.ui.mobile.layout.HBox(null, "middle"));
     this.addListener("tap", this._onTap, this);
   },
 
