@@ -1,5 +1,9 @@
 (function(){
 
+if(typeof print == "function") {
+  print("Loading Simulator...");
+}
+
 if (!this.window) window = this;
 
 if (!window.navigator) window.navigator = {
