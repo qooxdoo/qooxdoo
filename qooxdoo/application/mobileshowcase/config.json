@@ -51,7 +51,7 @@
       
       "environment" :
       {
-        "qx.version"     : "1.4-pre",
+        "qx.version"     : "${QOOXDOO_VERSION}",
         "qx.application" : "${APPLICATION}.Application",
         "qx.mobile.emulatetouch" : true,
         "qx.mobile.nativescroll" : false,
