@@ -24,9 +24,9 @@
  * 
  * Define routes to react on certain GET / POST / DELETE / PUT operations.
  * 
- *  * GET is triggered when the hash value of the url is changed. Can be called
- *    manually by calling the {@link #executeGet} method.
- *  * POST / DELETE / PUT has to be triggered manually right now (will be changed later)
+ * * GET is triggered when the hash value of the url is changed. Can be called
+ *   manually by calling the {@link #executeGet} method.
+ * * POST / DELETE / PUT has to be triggered manually right now (will be changed later)
  *    by calling the {@link #executePost}, {@link #executeDelete}, {@link #executePut} method.
  * 
  * This manager can also be used to provide browser history. 
