@@ -31,8 +31,8 @@
  * namespace. Normally a page provides a {@link qx.ui.mobile.navigationbar.NavigationBar}
  * for the navigation between pages.
  * 
- * To navigate between two pages, just inform the next page by calling the
- * {@link #show} method. Depending on the used page manager 
+ * To navigate between two pages, just call the {@link #show} method of the page
+ * that should be shown. Depending on the used page manager 
  * ({@link qx.ui.mobile.page.manager.Simple} or {@link qx.ui.mobile.page.manager.Animation})
  * a page transition will be animated. There are several animations available. Have
  * a look at the {@link qx.ui.mobile.page.manager.Animation} manager for more information.
@@ -44,9 +44,9 @@
  * 
  * Call of the {@link #show} method triggers the following lifecycle methods:
  *
- * * *initialize*: Initializes the page to show
- * * *start*: Gets called when the page to show is started
- * * *stop*:  Stops the current page
+ * * <strong>initialize</strong>: Initializes the page to show
+ * * <strong>start</strong>: Gets called when the page to show is started
+ * * <strong>stop</strong>:  Stops the current page
  * 
  * IMPORTANT: Define all child widgets of a page when the {@link #initialize} lifecycle
  * method is called, either by listening to the {@link #initialize} event or overriding 
