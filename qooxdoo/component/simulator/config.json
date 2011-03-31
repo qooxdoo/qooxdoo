@@ -9,17 +9,8 @@
     
     {
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
-      "import"   : 
-      [ 
-        "api",
-        "cache",
-        "distclean",
-        "fix",
-        "info",
-        "lint",
-        "pretty"
-
-        /* "block":
+      "block"   : 
+      [
         "common",
         "source",
         "source-script",
@@ -28,7 +19,6 @@
         "build-resources",
         "build-files",
         "clean" 
-        */
       ]
     }
   ],
