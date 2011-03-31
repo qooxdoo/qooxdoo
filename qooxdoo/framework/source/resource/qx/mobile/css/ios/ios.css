@@ -57,8 +57,8 @@ h2 {
 /* LINKS */
 
 a:hover, a:active { outline: none; }
-a, a:active, a:visited { rgb(76, 86, 108); }
-a:hover { rgb(76, 86, 108); }
+a, a:active, a:visited {  color: rgb(76, 86, 108); }
+a:hover {  color:rgb(76, 86, 108); }
 
 
 /* BUTTONS */
