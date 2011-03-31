@@ -94,7 +94,9 @@ qx.Class.define("qx.test.html.Iframe",
       // As soon as the original frame has loaded,
       // fake user-action and browse
       var source = this.__destSource;
-      frame.addListenerOnce("load", function() {
+      frame.addListenerOnce("load", function()
+      {
+        qx.html.Element.flush();
         qx.bom.Iframe.setSource(frame.getDomElement(), source);
       });
 
