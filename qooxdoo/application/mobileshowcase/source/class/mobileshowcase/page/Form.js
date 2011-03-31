@@ -49,7 +49,11 @@ qx.Class.define("mobileshowcase.page.Form",
       var title = new qx.ui.mobile.form.Title("Form");
       this.getContent().add(title);
       this.getContent().add(this.__createForm());
-      
+
+      var button = new qx.ui.mobile.form.Button("Submit");
+      button.addListener("tap", this._onButtonTap, this);
+      this.getContent().add(button);
+
       var title = new qx.ui.mobile.form.Title("Form Content");
       this.getContent().add(title);
       this.__result = new qx.ui.mobile.embed.Html();
@@ -91,13 +95,6 @@ qx.Class.define("mobileshowcase.page.Form",
       form.add(row);
       this.__slide = new qx.ui.mobile.form.Slider();
       row.add(this.__slide, {flex:1});
-
-      var row = new qx.ui.mobile.form.Row();
-      form.add(row);
-      var button = new qx.ui.mobile.form.Button("Submit");
-      button.addListener("tap", this._onButtonTap, this);
-      row.add(button);
-      
       return form;
     },
 
