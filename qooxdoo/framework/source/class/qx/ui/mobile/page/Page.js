@@ -35,7 +35,7 @@
  * {@link #show} method. Depending on the used page manager 
  * ({@link qx.ui.mobile.page.manager.Simple} or {@link qx.ui.mobile.page.manager.Animation})
  * a page transition will be animated. There are several animations available. Have
- * a look at the {@link qx.ui.mobile.manager.Animation} manager for more information.
+ * a look at the {@link qx.ui.mobile.page.manager.Animation} manager for more information.
  * 
  * A page has predefined lifecycle methods that get called by the used page manger
  * when a page gets shown. Each time another page is requested to be shown the current shown page
@@ -255,6 +255,10 @@ qx.Class.define("qx.ui.mobile.page.Page",
     },
 
 
+    /**
+     * The show method displays the page. Depending on the used page manager,
+     * the transition is animated or not.
+     */
     show : function(data)
     {
       qx.ui.mobile.page.Page.getManager().show(this, data);
