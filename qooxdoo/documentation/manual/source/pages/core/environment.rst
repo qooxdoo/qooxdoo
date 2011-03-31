@@ -1,4 +1,4 @@
-Envrionment
+Environment
 ***********
 
 Introduction
@@ -6,7 +6,7 @@ Introduction
 
 The environment of an application is a set of values that can be queried through a well-defined interface. Values are referenced through unique keys. You can think of this set as a global key:value store for the application. Values are write-once, read-many, but there are also read-only values. If a value for a certain key can be set, it can be set in various ways, e.g. by code, through build configuration, etc., usually during startup of the application, and not changed later. Other environment values are automatically discovered when they are queried at run time, such as the name of the current browser, or the number of allowed server connections. This way, the environment API also implements browser feature detection, and these values cannot be arbitrarily set.
 
-Environment settings are also used in the framework, among other things to add debug code in the form of additional tests and logging, to provide browser-specific implementations of certain methods, asf. Certain setable environment keys are pre-defined by qooxdoo, the values of which can be overridden by the application. Applications are also free to define their own environment keys and query their values at run time.
+Environment settings are also used in the framework, among other things to add debug code in the form of additional tests and logging, to provide browser-specific implementations of certain methods, asf. Certain settable environment keys are pre-defined by qooxdoo, the values of which can be overridden by the application. Applications are also free to define their own environment keys and query their values at run time.
 
 So for the application developer, the environment represents a set of global values that mirrors the general parameters under which the application runs. It can be used to both *detect* (e.g. browser features) as well as *inject* such parameters (e.g. through build configuration). For global values that are *not* derived from the outside world in some way, just use e.g. a static application class.
 
@@ -36,7 +36,7 @@ In general, there are two different kinds of settings, **synchronous** and **asy
 Synchronous
 -----------
 
-Let's first take a look at the synchronous API and the two possiblities of accessing the data:
+Let's first take a look at the synchronous API and the two possibilities of accessing the data:
 
 ::
 
@@ -82,7 +82,7 @@ This principle carries over to the corresponding select call:
     }
   }, context)
 
-In case of an asynchronous select the type of the values has to be a function, which will be called as soon as the key value is available. Again, you can provide a *"default"* case. As with the callbacks usef for *.getAsync*, the callbeacks used with the *.selectAsync* will also get the result as parameter, which could be very handy especially in the *"default"* case.
+In case of an asynchronous select the type of the values has to be a function, which will be called as soon as the key value is available. Again, you can provide a *"default"* case. As with the callbacks used for *.getAsync*, the callbacks used with *.selectAsync* will also get the key value as parameter, which might come handy especially in the *"default"* case.
 
 
 .. _pages/core/environment#caching:
@@ -214,7 +214,7 @@ You can define a key and its value in a class method using the *qx.core.Environm
 In the Loading index.html
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In the web page loading your qooxdoo application, and before the ``<script>`` tag loading the initial qooxdoo file, add another ``<script>`` tag with code that assignes a map to ``window.qxenv``, containing your environment settings.
+In the web page loading your qooxdoo application, and before the ``<script>`` tag loading the initial qooxdoo file, add another ``<script>`` tag with code that assigns a map to ``window.qx.$$environment``, containing your environment settings.
 
 .. code-block:: html
 
@@ -258,7 +258,7 @@ Before using URL parameter to define environment settings, you have to specify a
 
 .. code-block:: html
 
-  http://my.server.com/path/to/app/index.html?qxenv:mayapp.key:value
+  http://my.server.com/path/to/app/index.html?qxenv:myapp.key:value
 
 The pattern in the URL parameter is easy. It has three parts separated by colons. The first part is the constant ``qxenv``, the second part is the key of the environment setting and the last part is the value of the setting.
 
