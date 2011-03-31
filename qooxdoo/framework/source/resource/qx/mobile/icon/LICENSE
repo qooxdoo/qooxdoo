@@ -52,3 +52,50 @@ This folder contains icons based on the following work:
 
      Icons used:
       * scrollbar.png
+
+
+======================================================================
+icon/ios:
+======================================================================
+
+This folder contains icons based on the following work:
+
+======================================================================
+
+   * JQTouch Project
+
+     Homepage:
+       http://www.jqtouch.com/
+
+     Copyright:
+       2009 David Kaneda
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php
+
+     Icons used:
+      * arrow_pressed.png
+      * arrow.png
+      * cancel.png
+      * on_off.png
+      * backButton_pressed.png
+      * backButton.png
+      * pinstripes.png
+      * toolButton_pressed.png
+      * toolButton.png
+
+======================================================================
+
+   * iScroll Project
+
+     Homepage:
+       http://cubiq.org/iscroll
+
+     Copyright:
+       2009 Matteo Spinelli
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php
+
+     Icons used:
+      * scrollbar.png
