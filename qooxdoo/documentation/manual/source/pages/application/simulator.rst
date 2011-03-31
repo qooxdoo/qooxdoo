@@ -44,12 +44,12 @@ Required Libraries
 The Simulator needs the following external resources to run: 
 
 * Java Runtime Environment: Version 1.6 is known to work 
-* `Selenium Server (Standalone) and Selenium for Java (Selenium Java bindings) <http://code.google.com/p/selenium/downloads/list>`_: **Version 1.0.3 is recommended.** Version 2.0b3 has problems using Internet Explorer as a test browser. 
+* `Selenium RC <http://code.google.com/p/selenium/downloads/detail?name=selenium-remote-control-1.0.3.zip&can=2&q=>`_: **Version 1.0.3 is recommended.** Version 2.0b3 has problems using Internet Explorer as a test browser. 
 * `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Version 1.7R1 or later.
 
-The Selenium Client Driver (selenium-java-<version>.jar) and Rhino (js.jar) archives must be located on the same machine as the application to be tested.
+The Selenium Client Driver (selenium-java-client-driver.jar) and Rhino (js.jar) archives must be located on the same machine as the application to be tested.
 
-The Selenium Server (selenium-server-standalone-<version>.jar) can optionally run on a physically separate host (see the Selenium RC documentation for details). The qooxdoo user extensions must be located on the same machine as the server (see below).
+The Selenium Server (selenium-server.jar) can optionally run on a physically separate host (see the Selenium RC documentation for details). The qooxdoo user extensions must be located on the same machine as the server (see below).
 
 
 Generator Configuration
@@ -96,7 +96,7 @@ See the following pages for more information:
 
 * :ref:`Locating elements <pages/development/simulator_locators#simulator_locators>`
 * :ref:`Interacting with elements <pages/development/simulator_interaction#simulator_interaction>`
-* :ref:`Running tests against multiple browsers and platforms <pages/development/simulator_interaction#simulator_platforms>`
+* :ref:`Running tests against multiple browsers and platforms <pages/development/simulator_platforms#simulator_platforms>`
 
 Also, qooxdoo's :ref:`Inspector component <pages/application/inspector_selenium#using_the_qooxdoo_inspector_to_write_selenium_tests>` can provide assistance to test developers.
 
