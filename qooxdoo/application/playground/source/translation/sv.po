@@ -31,7 +31,8 @@ msgstr "Egen kod"
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
-msgstr "// Kunde inte hanter URL-parametern! \n"
+msgstr ""
+"// Kunde inte hanter URL-parametern! \n"
 "// %1"
 
 #: playground/Application.js:423
@@ -66,7 +67,7 @@ msgstr "Lyckad uppstart"
 msgid "%1 (modified)"
 msgstr "%1 (modifierad)"
 
-#: playground/view/Editor.js:79
+#: playground/view/Editor.js:80
 msgid "Source Code"
 msgstr "Källkod"
 

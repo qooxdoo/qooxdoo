@@ -69,7 +69,7 @@ msgstr "Anwendung gestartet"
 msgid "%1 (modified)"
 msgstr "%1 (geändert)"
 
-#: playground/view/Editor.js:79
+#: playground/view/Editor.js:80
 msgid "Source Code"
 msgstr "Quelltext"
 
