@@ -24,8 +24,8 @@ qx.Class.define("qx.test.dev.unit.Sinon",
 {
   extend : qx.dev.unit.TestCase,
 
-  // Convenience and custom asserts
-  include : qx.dev.unit.MMock,
+  include : [qx.dev.unit.MMock,
+             qx.dev.unit.MRequirements],
 
   members :
   {
@@ -87,8 +87,10 @@ qx.Class.define("qx.test.dev.unit.Sinon",
     },
 
     "test: should fake XHR": function() {
+      this.require(["xhr"]);
+
       this.useFakeXMLHttpRequest();
-      var nxhr = window.XMLHttpRequest || window.ActiveXObject("Microsoft.XMLHTTP");
+      var nxhr = window.XMLHttpRequest;
       new nxhr;
       var req = this.getRequests()[0];
 
@@ -105,8 +107,10 @@ qx.Class.define("qx.test.dev.unit.Sinon",
     },
 
     "test: should respond to request": function() {
+      this.require(["xhr"]);
+
       this.useFakeServer();
-      var nxhr = window.XMLHttpRequest || window.ActiveXObject("Microsoft.XMLHTTP"),
+      var nxhr = window.XMLHttpRequest,
           req = new nxhr,
           server = this.getServer();
 
@@ -132,6 +136,10 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       this.assertUndefined(func.called);
       this.assertUndefined(obj.a.called);
       this.assertUndefined(nxhr.restore);
+    },
+
+    hasXhr: function() {
+      return qx.core.Environment.get("io.xhr") === "xhr";
     },
 
     tearDown : function()
