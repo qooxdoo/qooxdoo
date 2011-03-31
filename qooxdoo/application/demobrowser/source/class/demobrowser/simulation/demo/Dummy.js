@@ -70,6 +70,9 @@ qx.Class.define("demobrowser.simulation.demo.Dummy", {
      */
     _getDemoList : function()
     {
+      /**
+       * @lint ignoreUndefined(selenium)
+       */
       var getDemoNames = function() {
         var items = selenium.qxStoredVars['autWindow'].qx.core.Init.getApplication().viewer.tree.getItems();
         var demos = [];
