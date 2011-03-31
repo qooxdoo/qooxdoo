@@ -64,14 +64,14 @@ Unlike other framework components, the Simulator isn't ready to run out of the b
       "SIMULATOR_CLASSPATH" : ["../selenium/selenium-java-client-driver.jar", "../rhino/js.jar"]
     } 
 
-The "settings" section of the "simulation-run" job configures where the AUT is located and how to reach the Selenium server that will launch the test browser and run the test commands.
+The "environment" section of the "simulation-run" job configures where the AUT is located and how to reach the Selenium server that will launch the test browser and run the test commands.
 The following example shows the minimum configuration needed to launch a Simulator application that will test the source version of the current application in Firefox 3 using a Selenium server instance running on the same machine (localhost):
 
 ::
 
     "simulation-run" :
     {
-      "settings" :
+      "environment" :
       {
         "simulator.testBrowser" : "*firefox3",
         "simulator.selServer" : "localhost",
