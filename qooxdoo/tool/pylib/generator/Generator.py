@@ -663,8 +663,9 @@ class Generator(object):
             combiData[key] = val
         for k,val in environData.iteritems():
             if k in variantData:
-                self._console.warn('Key "%s" of deprecated "variants" config clashing with "environment" config; using variants.' % k)
+                #self._console.warn('Key "%s" of deprecated "variants" config clashing with "environment" config; using variants.' % k)
                 #continue
+                pass
             key = mstr('<env>:'+k)
             if key in combiData: # this should never happen
                 raise RuntimeError('Rename variants key "%s" in your config.' % key)
