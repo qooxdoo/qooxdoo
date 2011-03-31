@@ -3,7 +3,8 @@ Mobile Framework
 
 .. note::
 
-    This is an experimental feature.
+    This is an experimental feature. You should use the ``trunk`` version of
+    qooxdoo mobile and this documentation.
 
 This is an introduction into qooxdoo's experimental mobile framework. qooxdoo mobile
 provides a optimized widget set to build applications for mobile devices.
@@ -105,6 +106,8 @@ To see qooxdoo mobile applications in action or to see how to implement an appli
 you can have a look on the following demo applications:
 
 * `Mobile Showcase <http://demo.qooxdoo.org/%{version}/mobileshowcase>`_ - see all mobile widgets in action
+* `Mobile Feedreader <http://demo.qooxdoo.org/%{version}/feedreader-mobile>`_ - the feedreader as a mobile app. Using the same logic and models as the feedreader for desktop browsers does.
+
 
 All applications can be found in the ``application`` folder of your qooxdoo checkout.
   
