@@ -87,6 +87,9 @@ could be retained. There are some differences, listed below:
   mind when you create and add widgets.
 * Layouts: Layouts are done vis CSS(3). HBox / VBox layouts are implemented using the
   `flexible box layout <http://www.w3.org/TR/css3-flexbox/>`_
+* `qx.ui.mobile.page.Page <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile.page.Page>`_:
+  A page is a widget which provides a screen with which users can interact in order to do something. Most times a page provides a single task or a group of related tasks. A qooxdoo mobile application is usually composed of one or more loosely bound pages.
+  Typically there is one page that presents the “main” view.
   
 How to contribute?
 ==================
