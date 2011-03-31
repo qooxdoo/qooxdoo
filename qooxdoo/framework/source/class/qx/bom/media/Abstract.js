@@ -92,6 +92,8 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Returns the media object, so that you can add it to the DOM.
+     *
+     * @return {Object} the native media object
      */
     getMediaObject: function()
     {
@@ -151,6 +153,8 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Gets the id of the media.
+     *
+     * @return {String} the id of the media element
      */
     getId: function()
     {
@@ -219,7 +223,7 @@ qx.Class.define("qx.bom.media.Abstract",
     /**
      * Gets the duration of the loaded media file.
      *
-     * @return {Number}
+     * @return {Number} the duration 
      */
     getDuration: function()
     {
@@ -230,7 +234,7 @@ qx.Class.define("qx.bom.media.Abstract",
     /**
      * Sets the value of current time.
      *
-     * @param source {Number} the new value of current time
+     * @param value {Number} the new value of current time
      */
     setCurrentTime: function(value)
     {
@@ -241,7 +245,7 @@ qx.Class.define("qx.bom.media.Abstract",
     /**
      * Gets current time of the playback.
      *
-     * @return {Number}
+     * @return {Number} the current time
      */
     getCurrentTime: function()
     {
@@ -273,7 +277,7 @@ qx.Class.define("qx.bom.media.Abstract",
     /**
      * Checks if the media element shows its controls.
      *
-     * @return {Boolean}
+     * @return {Boolean} 
      */
     hasControls: function()
     {
@@ -313,7 +317,7 @@ qx.Class.define("qx.bom.media.Abstract",
     /**
      * Whether the media is played directly when it is loaded / the page is loaded.
      *
-     *  @return {Boolean}
+     *  @return {Boolean} if autoplay is on or not
      */
     getAutoplay: function()
     {
@@ -364,6 +368,8 @@ qx.Class.define("qx.bom.media.Abstract",
 
     /**
      * Whether the media element is to seek back to the start of the media resource upon reaching the end.
+     *
+     * @return {Boolean} if loop is on or not
      */
     isLoop: function()
     {
@@ -372,7 +378,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
 
     /**
-     * Event handler.
+     * Play event handler.
      */
     _handlePlayEvent: function()
     {
@@ -381,7 +387,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
 
     /**
-     * Event handler.
+     * Pause event handler.
      */
     _handlePauseEvent: function()
     {
@@ -390,7 +396,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
 
     /**
-     * Event handler.
+     * Time Update event handler.
      */
     _handleTimeUpdateEvent: function()
     {
@@ -399,7 +405,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
 
     /**
-     * Event handler.
+     * Ended event handler.
      */
     _handleEndedEvent: function()
     {
@@ -408,7 +414,7 @@ qx.Class.define("qx.bom.media.Abstract",
 
 
     /**
-     * Event handler.
+     * Volume Change event handler.
      */
     _handleVolumeChangeEvent: function()
     {
@@ -416,7 +422,7 @@ qx.Class.define("qx.bom.media.Abstract",
     },
 
     /**
-     * Event handler.
+     * Loaded Data event handler.
      */
     _handleLoadedDataEvent: function()
     {
@@ -424,7 +430,7 @@ qx.Class.define("qx.bom.media.Abstract",
     },
 
     /**
-     * Event handler.
+     * Loaded Metadata event handler.
      */
     _handleLoadedMetaDataEvent: function()
     {

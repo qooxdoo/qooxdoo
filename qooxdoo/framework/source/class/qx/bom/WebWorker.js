@@ -92,8 +92,6 @@ qx.Class.define("qx.bom.WebWorker",
      * @param e {object} error event
      */
     _handleError: function(e) {
-      //console.log("handleError");
-      //console.log(e.message);
       this.fireDataEvent("error", e.message);
     }
   },

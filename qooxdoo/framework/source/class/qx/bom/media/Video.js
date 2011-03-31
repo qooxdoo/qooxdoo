@@ -47,6 +47,8 @@ qx.Class.define("qx.bom.media.Video",
 
     /**
      * Gets the width of the video element.
+     *
+     * @return {Number} the width of the video element
      */
     getWidth: function() {
       return this._video.width;
@@ -64,6 +66,8 @@ qx.Class.define("qx.bom.media.Video",
 
     /**
      * Gets the height of the video element.
+     *
+     * @return {Number} the height of the video element
      */
     getHeight: function() {
       return this._video.height;
@@ -82,6 +86,8 @@ qx.Class.define("qx.bom.media.Video",
 
     /**
      * Gets the width of the video.
+     *
+     * @return {Number} the width of the video
      */
     getVideoWidth: function() {
       return this._video.videoWidth;
@@ -90,6 +96,8 @@ qx.Class.define("qx.bom.media.Video",
 
     /**
      * Gets the height of the video.
+     *
+     * @return {Number} the height of the video
      */
     getVideoHeight: function() {
       return this._video.videoHeight;
@@ -98,6 +106,8 @@ qx.Class.define("qx.bom.media.Video",
 
     /**
      * Gets the poster of the video.
+     *
+     * @return {String} the URL of an image to act as the video poster
      */
     getPoster: function() {
       return this._video.poster;

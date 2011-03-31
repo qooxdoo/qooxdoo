@@ -70,6 +70,8 @@ qx.Class.define("qx.bom.storage.Abstract",
 
     /**
      * The length of storage
+     *
+     * @return {Number} the length
      */
     getLength: function()
     {
@@ -93,7 +95,7 @@ qx.Class.define("qx.bom.storage.Abstract",
      * Get an item
      *
      * @param key {String} value of key
-     * @return {Object}
+     * @return {Object} the stored item
      */
     getItem: function(key)
     {
@@ -125,6 +127,7 @@ qx.Class.define("qx.bom.storage.Abstract",
      * Get the key based on index
      *
      * @param index {Number} index value
+     * @return {String} the key
      */
     getKey: function(index)
     {
