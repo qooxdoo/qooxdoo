@@ -3,8 +3,6 @@
 Simulator: Locating elements
 ****************************
 
-In order to simulate interaction with a qooxdoo widget, Selenium needs to locate it first. This is accomplished by using one or more of the locator strategies described here.
-
 Selenium locators
 -----------------
 

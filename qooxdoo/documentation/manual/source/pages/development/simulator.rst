@@ -7,7 +7,7 @@ Overview
 --------
 
 The purpose of the Simulator component is to help developers rapidly develop and run a suite of simulated user interaction tests for their application with a minimum amount of configuration and using familiar technologies, e.g. qooxdoo-style JavaScript.
-To do so it uses a combination of qooxdoo's own toolchain, Mozilla's `Rhino <http://www.mozilla.org/rhino/>`_ JavaScript engine and `Selenium RC <http://seleniumhq.org/projects/remote-control/>`__.
+To do so it uses a combination of qooxdoo's own toolchain, Mozilla's `Rhino <http://www.mozilla.org/rhino/>`_ JavaScript engine and `Selenium Remote Control <http://seleniumhq.org/projects/remote-control/>`_.
 
 Feature Highlights
 ------------------
@@ -27,11 +27,12 @@ How it works
 
 Similar to :ref:`unit tests <pages/unit_testing#unit_testing>`, Simulator test cases are defined as qooxdoo classes living in the application's source directory. As such they support qooxdoo's OO features such as inheritance and nested namespaces. The setUp, testSomething, tearDown pattern is supported, as well as all assertion functions defined by `qx.core.MAssert <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.MAssert>`_.
 
-The main API that is used to define the test logic is **QxSelenium**, which means the `DefaultSelenium API <http://release.seleniumhq.org/selenium-remote-control/0.9.0/doc/java/>`_ plus the Locator strategies and commands from the `qooxdoo user extensions for Selenium <http://qooxdoo.org/contrib/project/simulator#selenium_user_extension_for_qooxdoo>`_.
+The main API that is used to define the test logic is **QxSelenium**, which means the `DefaultSelenium API <http://jarvana.com/jarvana/view/org/seleniumhq/selenium/selenium-rc-documentation/1.0/selenium-rc-documentation-1.0-doc.zip!/java/com/thoughtworks/selenium/DefaultSelenium.html>`_ plus the Locator strategies and commands from the `qooxdoo user extensions for Selenium <http://qooxdoo.org/contrib/project/simulator#selenium_user_extension_for_qooxdoo>`_.
 
 As with qooxdoo's unit testing framework, the Generator is used to create a test runner application (the Simulator). User-defined test classes are included into this application, which extends `qx.application.Native <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Native>`_ and uses a simplified loader so it can run in Rhino.
 
 A separate Generator job is used to start Rhino and instruct it to load the Simulator application, which uses Selenium's Java API to send test commands to a Selenium RC server (over HTTP, so the server can run on a separate machine). The Server then launches the selected browser, loads the qooxdoo application to be tested and executes the commands specified in the test case.
+
 
 Setting up the test environment
 -------------------------------
@@ -92,13 +93,37 @@ They inherit from simulator.unit.TestCase, which includes the assertion function
 Simulator tests look very similar to qooxdoo unit tests as they follow the same pattern of **setUp**, **testSomething**, **tearDown**. Typically, each test* method will use the QxSelenium API to interact with some part of the AUT,
 then use assertions to check if the AUT's state has changed as expected, e.g. by querying the value of a qooxdoo property.
 
-See the following pages for more information:
+Locating Elements
+-----------------
+
+In order to simulate interaction with a qooxdoo widget, Selenium needs to locate it first. This is accomplished by using one or more of the locator strategies described on this page:
 
 * :ref:`Locating elements <pages/development/simulator_locators#simulator_locators>`
-* :ref:`Interacting with elements <pages/development/simulator_interaction#simulator_interaction>`
-* :ref:`Running tests against multiple browsers and platforms <pages/development/simulator_platforms#simulator_platforms>`
 
-Also, qooxdoo's :ref:`Inspector component <pages/application/inspector_selenium#using_the_qooxdoo_inspector_to_write_selenium_tests>` can provide assistance to test developers.
+
+Simulating Interaction
+----------------------
+
+In addition to Selenium's built-in commands, a number of qooxdoo-specific methods are available in the simulator.QxSelenium and simulator.Simulation classes. Run **generate.py api** in the *component/simulator* directory of the qooxdoo SDK to create an API Viewer for these classes.
+
+
+Test Development Tools
+----------------------
+
+Selenium IDE
+============
+
+This Firefox plugin allows test developers to run Selenium commands against a web application, making it a very useful to debug locators and check if commands produce the expected results. In order to use Selenium IDE with the qooxdoo-specific locators and commands, open the Options menu and enter the path to the qooxdoo extensions for Selenium in the field labeled *Selenium Core extensions*, e.g.:
+
+::
+
+  C:\workspace\qooxdoo-1.4-sdk\component\simulator\tool\user-extensions\user-extensions.js
+  
+Inspector
+=========
+
+qooxdoo's :ref:`Inspector component <pages/application/inspector_selenium#using_the_qooxdoo_inspector_to_write_selenium_tests>` can provide assistance to test developers by automatically determining locators for widgets.
+
 
 Generating the Simulator
 ------------------------
@@ -107,6 +132,8 @@ The "simulation-build" job explained above is used to generate the Simulator app
 ::
 
   generate.py simulation-build
+
+Note that the Simulator application contains the test classes. This means that it must be re-generated whenever existing tests are modified or new ones are added.
 
 Starting the Selenium RC server
 -------------------------------
@@ -118,7 +145,7 @@ The Selenium RC server must be started with the *-userExtensions* command line o
   java -jar selenium-server.jar -userExtensions <QOOXDOO-TRUNK>/component/simulator/tool/user-extensions/user-extensions.js
 
 Running the Tests
--------------------------------
+-----------------
 
 Once the Simulator application is configured and compiled and the Selenium RC server is running, the test suite can be executed using the "simulation-run" job:
 
@@ -145,3 +172,65 @@ The Simulator's default logger writes the result of each test to the shell as it
   >>> Main runtime: 11476ms
   >>> Finalize runtime: 0ms
   >>> Done
+
+
+Testing multiple browser/OS combinations
+----------------------------------------
+
+General
+=======
+
+Since the Simulator uses Selenium RC to start the browser and run tests, the relevant sections from the `Selenium documentation <http://seleniumhq.org/docs/05_selenium_rc.html>`_ apply. Due to the special nature of qooxdoo applications, however, some browsers require additional configuration steps before they can be tested.
+
+Firefox
+=======
+
+The 3.x line of Mozilla Firefox is usually the most reliable option for Simulator tests. Firefox 3.0, 3.5 and 3.6 are all known to work on Windows XP and 7 as well as Linux and OS X.
+
+Firefox 4 is not supported by Selenium 1.0.3 out of the box, but it can be used for testing by starting it with a custom profile. These are the necessary steps:
+
+* Start Firefox 4 with the -P option to bring up the Profile Manager
+* Create a new profile, naming it e.g. "FF4-selenium"
+* Under Options -> Advanced -> Network -> Settings, select Manual Proxy Configuration and enter the host name or IP address and port number of your Selenium server
+* In your application's config.json, use the *\*custom* browser launcher followed by the full path to the Firefox executable and the name of the profile:
+
+::
+
+  "simulation-run" :
+  {
+    "environment" :
+    {
+      "simulator.testBrowser" : "*custom C:/Program Files/Mozilla Firefox/firefox.exe -P FF4-selenium",
+      [...]
+    }
+  }
+
+Internet Explorer 6, 7, 8 and 9
+===============================
+
+Starting the server
+___________________
+
+When testing with IE, the Selenium server **must** be started with the *-singleWindow* option so the AUT will be loaded in an iframe. This is deactivated by default so two separate windows are opened for Selenium and the AUT. IE restricts cross-window JavaScript object access, causing the tests to fail.
+
+::
+
+  java -jar selenium-server.jar -singleWindow -userExtension [...]
+
+
+Launching the browser
+_____________________
+
+To launch IE, the *\*iexploreproxy* launcher should be used. The *\*iexplore* launcher starts the embedded version of IE which in some ways behaves differently from the full-blown browser.
+
+::
+
+  "simulation-run" :
+  {
+    "environment" :
+    {
+      "simulator.testBrowser" : "*iexploreproxy",
+      [...]
+    }
+  }
+  
