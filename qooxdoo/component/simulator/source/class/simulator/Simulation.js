@@ -36,19 +36,12 @@ qx.Class.define("simulator.Simulation", {
   {
     this.__options = {
       autHost : qx.core.Environment.get("simulator.autHost"),
-      autPath : qx.core.Environment.get("simulator.autPath")
+      autPath : qx.core.Environment.get("simulator.autPath"),
+      threadSafe : qx.core.Environment.get("simulator.threadSafe") || false,
+      applicationLog : qx.core.Environment.get("simulator.applicationLog") || false,
+      globalErrorLogging : qx.core.Environment.get("simulator.globalErrorLogging") || false,
+      testEvents : qx.core.Environment.get("simulator.testEvents") || false
     };
-    var booleanSettings = ["threadSafe", "applicationLog", "globalErrorLogging",
-      "testEvents"];
-    for (var i=0,l=booleanSettings.length; i<l; i++) {
-      var setting = booleanSettings[i];
-      if (String(qx.core.Environment.get("simulator." + setting)) == "true") {
-        this.__options[setting] = true;
-      }
-      else {
-        this.__options[setting] = false;
-      }
-    }
 
     this.startDate = new Date();
     // for backwards compatibility:
