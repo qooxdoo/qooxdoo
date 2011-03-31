@@ -53,7 +53,7 @@ The ``get`` method is likely the most important one. It returns the value for th
     "default" : catchAllValue 
   }
 
-The ``select`` method is a way to select a value from a given map. This offers a convenient way to select an expression for a given key value. It also allows you to specify the special map key **"default"**, that will be used if the current value of the environment key does not match any of the other map keys. This is very handy when only one of the expected values needs a special case treatment. In the example above, ``resvalue`` could be a function or any other valid JavaScript expression.
+The ``select`` method is a way to select a value from a given map. This offers a convenient way to select an expression for a given key value. It also allows you to specify the special map key **"default"**, that will be used if the current value of the environment key does not match any of the other map keys. This is very handy when only one of the expected values needs a special case treatment. In the example above, the ``resvalue(s)`` could be a function or any other valid JavaScript expression.
 
 
 Asynchronous
@@ -74,15 +74,15 @@ This principle carries over to the corresponding select call:
 ::
 
   qx.core.Environment.selectAsync("myapp.key", {
-    "value" : function() { 
+    "value" : function(result) { 
       // callback value 1
     },
-    "default" : function() {
+    "default" : function(result) {
       // catch all callback
     }
   }, context)
 
-In case of an asynchronous select the type of the values has to be a function, which will be called as soon as the key value is available. Again, you can provide a *"default"* case.
+In case of an asynchronous select the type of the values has to be a function, which will be called as soon as the key value is available. Again, you can provide a *"default"* case. As with the callbacks usef for *.getAsync*, the callbeacks used with the *.selectAsync* will also get the result as parameter, which could be very handy especially in the *"default"* case.
 
 
 .. _pages/core/environment#caching:
@@ -219,9 +219,11 @@ In the web page loading your qooxdoo application, and before the ``<script>`` ta
 .. code-block:: html
 
   <script>
-    window.qxenv =
+    window.qx =
     {
-      "myapp.key" : value
+      $$environment : {
+        "myapp.key" : value
+      }
     }
   </script>
 
@@ -296,5 +298,5 @@ To add an asynchronous check, use *.addAsync()*:
     }, 1000);
   });
 
-This example shows how to add a asynchronous feature check. A timeout is used to get the asynchronous behavior in this simple example. That can be more complicated for course but the timeout is good enough to showcase the API. As you can see in the check function we are adding, it has one parameter called ``callback`` which is the callback passed by *.getAsync()* or *.selectAsync()* asynchronous queries. As before, the check function is responsible for computing the value of the environment key. But rather than just returning the value (as in the synchronous case), it calls the callback function and passes the value. The callback function is then responsible to integrate the result value with the querying layer. In this simple example, the check waits a second and calls the callback with the result ``true``.
+This example shows how to add a asynchronous feature check. A timeout is used to get the asynchronous behavior in this simple example. That can be more complicated of course but the timeout is good enough to showcase the API. As you can see in the check function we are adding, it has one parameter called ``callback`` which is the callback passed by *.getAsync()* or *.selectAsync()* asynchronous queries. As before, the check function is responsible for computing the value of the environment key. But rather than just returning the value (as in the synchronous case), it calls the callback function and passes the value. The callback function is then responsible to integrate the result value with the querying layer. In this simple example, the check waits a second and calls the callback with the result ``true``.
 
