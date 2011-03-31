@@ -84,9 +84,9 @@ could be retained. There are some differences, listed below:
 
 * Theming: The theming is done via CSS files. Have a look into the existing themes, to see
   how the styling is done. You can find the themes under ``framework/source/resource/qx/mobile/css/``.
-* No Layout Item: Only a few, essential, styles are provided by a widget. You
+* No layout item: Only a few, essential, styles are provided by a widget. You
   should set all other styles of a widget via CSS, using the ``addCssClass`` method of a widget.
-* No Queues: Elements are created directly. There is no element, layout, display queue. Keep this in
+* No queues: Elements are created directly. There is no element, layout, display queue. Keep this in
   mind when you create and add widgets.
 * Layouts: Layouts are done vis CSS(3). HBox / VBox layouts are implemented using the
   `flexible box layout <http://www.w3.org/TR/css3-flexbox/>`_
