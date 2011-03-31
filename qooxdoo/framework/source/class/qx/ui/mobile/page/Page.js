@@ -92,12 +92,25 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
   events :
   {
+    /** Fired when the lifecycle method {@link #initialize} is called */
     "initialize" : "qx.event.type.Event",
+
+    /** Fired when the lifecycle method {@link #start} is called */
     "start" : "qx.event.type.Event",
+
+    /** Fired when the lifecycle method {@link #stop} is called */
     "stop" : "qx.event.type.Event",
+
+    /** Fired when the lifecycle method {@link #pause} is called */
     "pause" : "qx.event.type.Event",
+
+    /** Fired when the lifecycle method {@link #resume} is called */
     "resume" : "qx.event.type.Event",
+
+    /** Fired when the method {@link #back} is called */
     "back" : "qx.event.type.Event",
+
+    /** Fired when the method {@link #menu} is called */
     "menu" : "qx.event.type.Event"
   },
 
@@ -112,6 +125,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
   properties :
   {
+    // overridden
     defaultCssClass :
     {
       refine : true,
@@ -215,6 +229,11 @@ qx.Class.define("qx.ui.mobile.page.Page",
     },
 
 
+    show : function(data)
+    {
+      qx.ui.mobile.page.Page.getManager().show(this, data);
+    },
+
     /*
     ---------------------------------------------------------------------------
       Lifecycle Methods
@@ -305,12 +324,6 @@ qx.Class.define("qx.ui.mobile.page.Page",
     _resume : function()
     {
 
-    },
-
-
-    show : function(data)
-    {
-      qx.ui.mobile.page.Page.getManager().show(this, data);
     }
   },
 
