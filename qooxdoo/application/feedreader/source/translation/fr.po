@@ -13,17 +13,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: feedreader/Application.js:163
+#: feedreader/Application.js:497
+msgid "FeedReader (qooxdoo powered)"
+msgstr "Agrégateur de fils de syndication (fait à l'aide de qooxdoo)"
+
+#: feedreader/mobile/ArticlePage.js:32 feedreader/mobile/FeedPage.js:32
+msgid "Back"
+msgstr ""
+
+#: feedreader/model/Model.js:81
 msgid "Static Feeds"
 msgstr "Fils statiques"
 
-#: feedreader/Application.js:193
+#: feedreader/model/Model.js:111
 msgid "User Feeds"
 msgstr "Fils de l'utilisateur"
-
-#: feedreader/Application.js:559
-msgid "FeedReader (qooxdoo powered)"
-msgstr "Agrégateur de fils de syndication (fait à l'aide de qooxdoo)"
 
 #: feedreader/view/AddFeedWindow.js:49
 msgid "Add a feed"
@@ -53,11 +57,11 @@ msgstr "Messages"
 msgid "Language"
 msgstr "Langue"
 
-#: feedreader/view/PreferenceWindow.js:138
+#: feedreader/view/PreferenceWindow.js:141
 msgid "Cancel"
 msgstr "Annuler"
 
-#: feedreader/view/PreferenceWindow.js:141
+#: feedreader/view/PreferenceWindow.js:147
 msgid "OK"
 msgstr "OK"
 

@@ -13,17 +13,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: feedreader/Application.js:163
+#: feedreader/Application.js:497
+msgid "FeedReader (qooxdoo powered)"
+msgstr "Cititor de Fluxuri (bazat pe qooxdoo)"
+
+#: feedreader/mobile/ArticlePage.js:32 feedreader/mobile/FeedPage.js:32
+msgid "Back"
+msgstr ""
+
+#: feedreader/model/Model.js:81
 msgid "Static Feeds"
 msgstr "Fluxuri statice"
 
-#: feedreader/Application.js:193
+#: feedreader/model/Model.js:111
 msgid "User Feeds"
 msgstr "Fluxuri utilizator"
-
-#: feedreader/Application.js:559
-msgid "FeedReader (qooxdoo powered)"
-msgstr "Cititor de Fluxuri (bazat pe qooxdoo)"
 
 #: feedreader/view/AddFeedWindow.js:49
 msgid "Add a feed"
@@ -53,11 +57,11 @@ msgstr "Articole"
 msgid "Language"
 msgstr "Limbă"
 
-#: feedreader/view/PreferenceWindow.js:138
+#: feedreader/view/PreferenceWindow.js:141
 msgid "Cancel"
 msgstr "Anulează"
 
-#: feedreader/view/PreferenceWindow.js:141
+#: feedreader/view/PreferenceWindow.js:147
 msgid "OK"
 msgstr "OK"
 
