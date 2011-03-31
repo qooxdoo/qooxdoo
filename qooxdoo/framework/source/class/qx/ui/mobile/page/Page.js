@@ -257,7 +257,11 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
     /**
      * The show method displays the page. Depending on the used page manager,
-     * the transition is animated or not.
+     * the transition is animated or not. Calls the <code>show</code> method of
+     * the used page manager. See {@link qx.ui.mobile.page.manager.Simple#start}
+     * or {@link qx.ui.mobile.page.manager.Animation#start} for more information.
+     * 
+     * @param data {var?null} The data that is used by the currently set page manger. 
      */
     show : function(data)
     {
