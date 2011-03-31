@@ -2,131 +2,131 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"Report-Msgid-Bugs-To: you@your.org\n"
-"POT-Creation-Date: 2009-12-10 14:36+0100\n"
-"PO-Revision-Date: 2009-12-10 14:36+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: Team <yourteam@your.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-03-31 19:33+0100\n"
+"PO-Revision-Date: 2011-03-31 19:33+0100\n"
+"Last-Translator: Stefan Andersson <stefan DOT andersson AT live DOT com>\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: showcase/page/i18n/Content.js:167
 msgid "Form Elements"
-msgstr "Formulärelement"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:173 showcase/page/i18n/Content.js:275
 msgid "Territory code:"
-msgstr "Territoriekod"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:183
 msgid "Localized ComboBox:"
-msgstr "Lokaliserad rullgardin"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:186 showcase/page/i18n/Content.js:221
 msgid "Cut"
-msgstr "Klipp ut"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:187 showcase/page/i18n/Content.js:223
 msgid "Paste"
-msgstr "Klistra in"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:188 showcase/page/i18n/Content.js:222
 msgid "Copy"
-msgstr "Kopiera"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:195
 msgid "A date:"
-msgstr "Ett datum:"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:218
 msgid "Undo"
-msgstr "Ångra"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:219
 msgid "Redo"
-msgstr "Återgöra"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:224
 msgid "Delete"
-msgstr "Radera"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:225
 msgid "Select All"
-msgstr "Välj alla"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:227
 msgid "Search"
-msgstr "Sök"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:228
 msgid "Search Again"
-msgstr "Sök igen"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:230
 msgid "Command Menu (keyboard shortcuts)"
-msgstr "Kommandomeny (kortkommandon)"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:239
 msgid "Locale Information"
-msgstr "Lokalinformation"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:272
 msgid "Locale:"
-msgstr "Lokal:"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:278
 msgid "Date format short:"
-msgstr "Kort datumformat"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:280
 msgid "Date short:"
-msgstr "Kort datum"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:283
 msgid "Date format medium:"
-msgstr "Medellångt datumformat"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:285
 msgid "Date medium:"
-msgstr "Medellångt datum"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:288
 msgid "Date format long:"
-msgstr "Långt datumformat"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:290
 msgid "Date long:"
-msgstr "Långt datum"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:293
 msgid "Date format full:"
-msgstr "Fullängdsdatumformat"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:295
 msgid "Date full:"
-msgstr "Fullängdsdatum:"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:298
 msgid "Time format short:"
-msgstr "Kort tidsformat:"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:300
 msgid "Time short:"
-msgstr "Kort tid:"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:303
 msgid "Time format long:"
-msgstr "Långt tidsformat:"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:305
 msgid "Time long:"
-msgstr "Lång tid:"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:308
 msgid "Week start:"
-msgstr "Veckostart:"
+msgstr ""
 
 #: showcase/page/i18n/Content.js:311
 msgid "Format of %1:"
-msgstr "Format av %1:"
+msgstr ""
