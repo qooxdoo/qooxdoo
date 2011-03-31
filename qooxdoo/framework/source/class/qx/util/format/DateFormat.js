@@ -495,11 +495,11 @@ qx.Class.define("qx.util.format.DateFormat",
               break;
 
             case 'd': // Day in month
-              replacement = this.__fillNumber(dayOfMonth,wildcardSize);
+              replacement = this.__fillNumber(dayOfMonth, wildcardSize);
               break;
 
             case 'w': // Week in year (e.g. 27)
-              replacement = this.__fillNumber(this.__getWeekInYear(date),wildcardSize);
+              replacement = this.__fillNumber(this.__getWeekInYear(date), wildcardSize);
               break;
 
             case 'W': // Week in year (e.g. 27)
@@ -579,19 +579,19 @@ qx.Class.define("qx.util.format.DateFormat",
               break;
 
             case 'H': // Hour in day (0-23)
-              replacement = this.__fillNumber(hours,wildcardSize);
+              replacement = this.__fillNumber(hours, wildcardSize);
               break;
 
             case 'k': // Hour in day (1-24)
-              replacement = this.__fillNumber((hours == 0) ? 24 : hours,wildcardSize);
+              replacement = this.__fillNumber((hours == 0) ? 24 : hours, wildcardSize);
               break;
 
             case 'K': // Hour in am/pm (0-11)
-              replacement = this.__fillNumber(hours % 12,wildcardSize);
+              replacement = this.__fillNumber(hours % 12, wildcardSize);
               break;
 
             case 'h': // Hour in am/pm (1-12)
-              replacement = this.__fillNumber(((hours % 12) == 0) ? 12 : (hours % 12),wildcardSize);
+              replacement = this.__fillNumber(((hours % 12) == 0) ? 12 : (hours % 12), wildcardSize);
               break;
 
             case 'm': // Minute in hour
@@ -605,7 +605,7 @@ qx.Class.define("qx.util.format.DateFormat",
             case 'S': // Millisecond
               replacement = ms + "";
               if (wildcardSize <= replacement.length) {
-                    replacement = replacement.substr(0,wildcardSize);
+                    replacement = replacement.substr(0, wildcardSize);
                 }
                 else {
                   for (var j = replacement.length; j < wildcardSize; j++) {
@@ -620,7 +620,7 @@ qx.Class.define("qx.util.format.DateFormat",
                 replacement =
                 "GMT" +
                 ((timezoneSign > 0) ? "-" : "+") +
-                this.__fillNumber(Math.abs(timezoneHours),2) +
+                this.__fillNumber(Math.abs(timezoneHours), 2) +
                 ":" + this.__fillNumber(timezoneMinutes, 2);
               }
 
@@ -639,7 +639,7 @@ qx.Class.define("qx.util.format.DateFormat",
                 replacement =
                 "GMT" +
                 ((timezoneSign > 0) ? "-" : "+") +
-                this.__fillNumber(Math.abs(timezoneHours),2) +
+                this.__fillNumber(Math.abs(timezoneHours), 2) +
                 ":" + this.__fillNumber(timezoneMinutes, 2);
               }
               break;
@@ -712,7 +712,7 @@ qx.Class.define("qx.util.format.DateFormat",
         {
           var yearRuleApplied = false;
           for(var k=0; k<this.__parseFeed.usedRules.length; k++) {
-            if(this.__parseFeed.usedRules[k].pattern=='y+'){
+            if(this.__parseFeed.usedRules[k].pattern == 'y+'){
               yearRuleApplied = true;
               break;
             }
