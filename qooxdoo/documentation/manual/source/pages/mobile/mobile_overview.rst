@@ -35,7 +35,7 @@ Features
 * Touch events: touchstart, touchmove, touchend, touchcancel 
 * Gesture events: swipe, tap
 * Animations between pages
-* Touch event emulation for debugging in desktop browser
+* Touch event emulation for debugging in desktop browsers
 * Fixed toolbars and momentum scrolling via `iScroll <http://cubiq.org/iscroll>`_
 * Basic `PhoneGap <http://www.phonegap.com/>`_ support
 
@@ -52,7 +52,7 @@ API Documentation
 Create a Mobile Application
 ===========================
 
-To create an mobile application ``mobileapp`` in your home directory with your shell, change to your home directory (just ``cd``). With a qooxdoo SDK available at ``/opt/qooxdoo-%{version}-sdk``, call the script as follows:
+To create a mobile application ``mobileapp`` in your home directory with your shell, change to your home directory (just ``cd``). With a qooxdoo SDK available at ``/opt/qooxdoo-%{version}-sdk``, call the script as follows:
 
 ::
 
