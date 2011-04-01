@@ -17,8 +17,8 @@ From qooxdoo 1.2 onward, the Inspector features a Selenium window that duplicate
 
 Prerequisites
 -------------
-The Selenium window needs to load **Selenium Core** (the JavaScript part of Selenium) and the `qooxdoo user extensions for Selenium <http://qooxdoo.org/contrib/project/simulator/selenium-user-extension>`__ from the Simulator contribution to work. Selenium Core can be downloaded as a zip archive from the `Selenium website <http://seleniumhq.org/download/>`_.
-The user extensions are located in the Simulator contribution (``trunk/tool/selenium/user_extension/user-extensions-qooxdoo.js``). Check out the Simulator from SVN or use `SourceForge's SVN view <http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/Simulator/trunk/tool/selenium/user_extension/user-extensions-qooxdoo.js?view=loghttp://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/Simulator/trunk/tool/selenium/user_extension/user-extensions-qooxdoo.js?view=log>`_ to download the file directly.
+The Selenium window needs to load **Selenium Core** (the JavaScript part of Selenium) and the `qooxdoo user extensions for Selenium <http://qooxdoo.org/contrib/project/simulator/selenium-user-extension>`__ to work. Selenium Core can be downloaded as a zip archive from the `Selenium website <http://seleniumhq.org/download/>`_.
+The user extensions are located in the qooxdoo framework since version 1.4 (``component/simulator/tool/user-extensions/user-extensions.js``). Users of older qooxdoo versions can use `SourceForge's SVN view <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_1_4/qooxdoo/component/simulator/tool/user-extensions/user-extensions.js>`_ to download the file.
 
 If the Inspector is loaded over HTTP, the required scripts can be loaded directly from their online repositories by clicking the ``Set default URIs`` button in the Options window. 
 
@@ -33,11 +33,11 @@ The protocol used **must** be the same the Inspector is loaded over:
 * If you're loading the Inspector from your local file system, extract the archive locally and use a file system URI (``file:///...``).
 * If the Inspector is loaded from a web server, the Selenium Core directory must be accessed over HTTP. In this case, Same Origin Policy restrictions do **not** apply, so the script directory needn't be on the same server as the Inspector itself. If it is, a relative path can be used.
 
-The same restrictions apply for the qooxdoo user extensions for Selenium, except here the path should just point to the one file. If the Inspector is accessed over HTTP, you can use this link to get the latest version directly `from SVN <http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/Simulator/trunk/tool/selenium/user_extension/user-extensions-qooxdoo.js>`__:
+The same restrictions apply for the qooxdoo user extensions for Selenium, except here the path should just point to the one file. If the Inspector is accessed over HTTP, you can use this link to get the latest version directly `from SVN <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_1_4/qooxdoo/component/simulator/tool/user-extensions/user-extensions.js>`__:
 
 ::
 
-    http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/Simulator/trunk/tool/selenium/user_extension/user-extensions-qooxdoo.js
+    http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_1_4/qooxdoo/component/simulator/tool/user-extensions/user-extensions.js
 
 Click "OK" after entering the paths. The rest of the Selenium window's GUI will be activated once the external scripts are loaded. Path information is saved in Cookies so this step is only necessary once per browser.
 

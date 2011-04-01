@@ -7,7 +7,7 @@ Overview
 --------
 
 The purpose of the Simulator component is to help developers rapidly develop and run a suite of simulated user interaction tests for their application with a minimum amount of configuration and using familiar technologies, e.g. qooxdoo-style JavaScript.
-To do so it uses a combination of qooxdoo's own toolchain, Mozilla's `Rhino <http://www.mozilla.org/rhino/>`_ JavaScript engine and `Selenium RC <http://seleniumhq.org/projects/remote-control/>`_.
+To do so it uses a combination of qooxdoo's own toolchain, Mozilla's `Rhino <http://www.mozilla.org/rhino/>`_ JavaScript engine and `Selenium Remote Control <http://seleniumhq.org/projects/remote-control/>`_.
 
 .. note::
 
@@ -51,7 +51,7 @@ The Simulator needs the following external resources to run:
 * Java Runtime Environment: Version 1.6 is known to work 
 * `Selenium RC <http://seleniumhq.org/download/>`_: The required components are selenium-server.jar and selenium-java-client-driver.jar. Versions 1.0 up to and including 2.0a5 are known to work.
 * `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Versions 1.7R1 and later.
-* `Qooxdoo User Extensions for Selenium (user-extensions-qooxdoo.js) <http://qooxdoo.org/contrib/project/simulator>`_ from the Simulator contribution: Use the latest trunk version from SVN.
+* `Qooxdoo User Extensions for Selenium (user-extensions.js) <http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/tags/release_1_4/qooxdoo/component/simulator/tool/user-extensions/user-extensions.js>`_. 
 
 The Selenium Client Driver (selenium-java-client-driver.jar) and Rhino (js.jar) archives must be located on the same machine as the application to be tested.
 
@@ -59,7 +59,7 @@ The Selenium Server (selenium-server.jar) can optionally run on a physically sep
 
 .. note::
 
-  The qooxdoo User Extensions for Selenium will be moved into the Simulator component for a future release so that it will no longer be necessary to download the file or check out the contribution repository.
+  The qooxdoo User Extensions for Selenium will be moved into the Simulator component for a future release so that it will no longer be necessary to download the file separately.
 
 Generator Configuration
 =======================
