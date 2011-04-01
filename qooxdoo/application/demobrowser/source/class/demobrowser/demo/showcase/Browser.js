@@ -85,7 +85,7 @@ qx.Class.define("demobrowser.demo.showcase.Browser",
 
       this.txtUrl = new qx.ui.form.TextField().set({
         marginLeft: 1,
-        value: "http://web.de",
+        value: "http://qooxdoo.org",
         padding: 2,
         alignY: "middle"
       });
