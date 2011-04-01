@@ -25,6 +25,8 @@
     "source",
     "source-all",
     "source-hybrid",
+    "simulation-build",
+    "simulation-run",
     "test",
     "test-source",
     "translation"
