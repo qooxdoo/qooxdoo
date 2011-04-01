@@ -128,9 +128,11 @@ qx.Class.define("qx.event.handler.Input",
     __enter : false,
     __onInputTimeoutId : null,
 
-    // stores the former seet value for opera and IE
+    // stores the former set value for opera and IE
     __oldValue : null,
 
+    // stores the former set value for IE
+    __oldInputValue : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -220,6 +222,13 @@ qx.Class.define("qx.event.handler.Input",
           qx.core.Environment.get("browser.documentmode") >= 9
         ) {
           qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
+
+          if (target.type === "text" || target.type === "password")
+          {
+            // Fixed input for delete and backspace key
+            this._inputFixWrapper = qx.lang.Function.listener(this._inputFix, this, target);
+            qx.bom.Event.addNativeListener(target, "keyup", this._inputFixWrapper);
+          }
         }
       },
 
@@ -321,6 +330,11 @@ qx.Class.define("qx.event.handler.Input",
           qx.core.Environment.get("browser.documentmode") >= 9
         ) {
           qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
+
+          if (target.type === "text" || target.type === "password") {
+            // Fixed input for delete and backspace key
+            qx.bom.Event.removeNativeListener(target, "keyup", this._inputFixWrapper);
+          }
         }
       },
 
@@ -377,6 +391,41 @@ qx.Class.define("qx.event.handler.Input",
           if (target.value !== this.__oldValue) {
             this.__oldValue = target.value;
             qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
+          }
+        }
+      },
+
+      "default" : null
+    }),
+
+
+    /*
+    ---------------------------------------------------------------------------
+      FOR IE (KEYUP TO SIMULATE INPUT EVENT)
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Handler for fixing the different behavior when pressing the backspace or
+     * delete key.
+     *
+     * The other browsers fire a "input" event if the user presses the backspace
+     * or delete key.
+     * IE fire the event only for other keys.
+     *
+     * @signature function(e, target)
+     * @param e {Event} DOM event object
+     * @param target {Element} The event target
+     */
+    _inputFix : qx.core.Environment.select("engine.name",
+    {
+      "mshtml" : function(e, target)
+      {
+        if (e.keyCode === 46 || e.keyCode === 8)
+        {
+          if (target.value !== this.__oldInputValue)
+          {
+            this.__oldInputValue = target.value;
+            qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);
           }
         }
       },
