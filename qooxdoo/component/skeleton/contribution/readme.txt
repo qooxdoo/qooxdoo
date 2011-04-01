@@ -8,3 +8,5 @@ can then be further extended. Please refer to the script and other documentation
 for further information.
 
 Please use the provided application inside the 'demo' folder to test your contribution.
+
+short:: is suitable for qooxdoo-contrib
