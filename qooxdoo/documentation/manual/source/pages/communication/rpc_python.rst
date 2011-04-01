@@ -14,9 +14,9 @@ Setup
 
 Python 2.4 or 2.5 is required to run a JSON-RPC server. Download and install python from `python.org <http://python.org>`_ if you don't have it.
 
-The JSON-RPC backend itself is based on the `qxjsonrpc <http://python.cx.hu/qxjsonrpc>`_ library. Download the qxjsonrpc package from `here <http://python.cx.hu/qxjsonrpc/#download>`_, extract the archive and run python setup.py install as usual. This will install the qxjsonrpc package into the site-packages subdirectory of your python installation.
+The JSON-RPC backend itself is based on the *qxjsonrpc* library. The qxjsonrpc package is part of the `RpcPython <http://qooxdoo.org/contrib/project#rpcpython>`_ contribution which has links to the software itself. Extract the archive and run python setup.py install as usual. This will install the qxjsonrpc package into the site-packages subdirectory of your python installation.
 
-The backend requires `python-cjson <http://python.cx.hu/python-cjson>`_ or `simplejson <http://cheeseshop.python.org/pypi/simplejson>`_ for JSON serialization. Install at least one of them. Building python-cjson requires a C compiler, but it is much faster (10-100x) than the pure python simplejson package.
+The backend requires `python-cjson <http://python.cx.hu/python-cjson>`_ or `simplejson <http://pypi.python.org/pypi/simplejson>`_ (also just ``import json as simplejson`` for Python 2.6 or higher) for JSON serialization. Install at least one of them. Building python-cjson requires a C compiler, but it is much faster (10-100x) than the pure python simplejson package.
 
 A backend based on qxjsonrpc can be run as
 

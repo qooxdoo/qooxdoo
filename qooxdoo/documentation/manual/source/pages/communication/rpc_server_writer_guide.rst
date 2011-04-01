@@ -3,8 +3,7 @@
 RPC Server Writer Guide
 ***********************
 
-Writing a new JSON-RPC server for use with qooxdoo is fairly easy.  If you
-follow these rules, you should end up with a conformant implementation. See also the other `available qooxdoo RPC servers <http://qooxdoo.org/documentation/RPC>`_.
+Writing a new JSON-RPC server for use with qooxdoo is fairly easy.  If you follow these rules, you should end up with a conformant implementation. See also the other `available qooxdoo RPC servers <http://qooxdoo.org/contrib/project#backend>`__.
 
 .. _pages/rpc_server_writer_guide#json:
 

@@ -7,12 +7,12 @@ General
 Overview
 --------
 
-* `Overview <http://qooxdoo.org/documentation/lowleveloverview>`_
+* `Overview <http://qooxdoo.org/documentation/general/lowleveloverview>`_
 
 Scenarios
 ---------
 
-* `Scenarios <http://qooxdoo.org/documentation/lowlevelscenarios>`_
+* `Scenarios <http://qooxdoo.org/documentation/general/lowlevelscenarios>`_
 
 Tutorials
 =========

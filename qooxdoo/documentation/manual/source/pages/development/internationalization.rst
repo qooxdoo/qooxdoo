@@ -149,7 +149,7 @@ Some of the programs that support manipulation of ``.po`` files are:
 
 * `Poedit <http://www.poedit.net/>`_ (Windows, Mac OS X, Linux)
 * `LocFactory Editor <http://www.triplespin.com/en/products/locfactoryeditor.html>`_ (Mac OS X)
-* `KBabel <http://kbabel.kde.org/>`_ (Linux)
+* `Lokalize <http://l10n.kde.org/tools/>`_ (Linux)
 
 .. _pages/internationalization#update_the_application:
 

@@ -44,7 +44,6 @@ More Information (online)
 * `Developers <http://qooxdoo.org/about/developers>`_
 * `Committers Guide <http://qooxdoo.org/documentation/general/committers_guide>`_
 
-* `Screenshots <http://qooxdoo.org/about/screenshots>`_
 * `Media Download <http://qooxdoo.org/about/media_download>`_
 
 

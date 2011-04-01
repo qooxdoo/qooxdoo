@@ -45,7 +45,7 @@ Layout properties
 
 Alternative Names
 -----------------
-* `AbsoluteLayout <http://extjs.com/deploy/dev/docs/?class=Ext.layout.AbsoluteLayout>`_ (ExtJS)
+* `AbsoluteLayout <http://dev.sencha.com/deploy/dev/docs/?class=Ext.layout.AbsoluteLayout>`__ (ExtJS)
 
 .. _pages/layout/basic#demos:
 
