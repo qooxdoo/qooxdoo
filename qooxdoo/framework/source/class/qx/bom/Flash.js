@@ -195,7 +195,11 @@ qx.Class.define("qx.bom.Flash",
 
       "default" : function(element, win) {
         element = this.__getFlashObject(element);
-        element.parentNode.removeChild(element);
+
+        if (element.parentNode) {
+          element.parentNode.removeChild(element);
+        }
+
         delete this._flashObjects[element.id];
       }
     }),
@@ -240,7 +244,9 @@ qx.Class.define("qx.bom.Flash",
           }
         }
 
-        element.parentNode.removeChild(element);
+        if (element.parentNode) {
+          element.parentNode.removeChild(element);
+        }
         delete this._flashObjects[element.id];
       }),
 
@@ -263,7 +269,7 @@ qx.Class.define("qx.bom.Flash",
       window.__flash_savedUnloadHandler = function() {};
 
       // Remove listener again
-      window.detachEvent("onbeforeunload", qx.bom.Flash.__fixOutOfMemoryError);
+      qx.bom.Event.removeNativeListener(window, "beforeunload", qx.bom.Flash.__fixOutOfMemoryError);
     }),
 
 
