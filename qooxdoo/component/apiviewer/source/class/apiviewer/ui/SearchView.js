@@ -132,8 +132,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       resizeBehavior.set(1, {width:"1*"});
 
 
-      var tcm = table.getTableColumnModel();
-      tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image());
+      tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image(20,20));
 
 
       this.__initresult = true;
