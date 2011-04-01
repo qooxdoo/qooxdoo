@@ -16,6 +16,9 @@
      * Daniel Wagner (d_wagner)
 
 ************************************************************************ */
+/*
+#ignore(selenium)
+*/
 
 /**
  * Allows GUI tests to access exceptions caught by the tested application's

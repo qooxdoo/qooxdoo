@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/*
+#ignore(selenium)
+*/
+
 /**
  * Provides functionality to capture the log messages of a tested qooxdoo
  * application.

@@ -17,6 +17,11 @@
 
 ************************************************************************ */
 
+/*
+#ignore(importClass)
+#ignore(QxSelenium)
+*/
+
 /**
  * Creates and configures a QxSelenium instance.
  */
