@@ -464,12 +464,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       prevbutt.addListener("execute", this.playPrev, this);
       prevbutt.setToolTipText("Run previous demo");
       this._navPart.add(prevbutt);
+      this._prevButton = prevbutt;
 
       // -- next navigation
       var nextbutt = new qx.ui.toolbar.Button(this.tr("Next"), "icon/22/actions/go-next.png");
       nextbutt.addListener("execute", this.playNext, this);
       nextbutt.setToolTipText("Run next demo");
       this._navPart.add(nextbutt);
+      this._nextButton = nextbutt;
 
       var navButtonOptions =  {
         converter : function(data) {
@@ -961,6 +963,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     stopSample : function(e)
     {
       this.setPlayDemos("current");
+      this._nextButton.setEnabled(true);
+      this._prevButton.setEnabled(true);
       this._stopbutton.setVisibility("excluded");
       this._runbutton.setVisibility("visible");
     },
@@ -1074,6 +1078,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         } else {
           var self = this;
           this.__autorunTimer = qx.event.Timer.once(this.playNext, self, 5000);
+          this._nextButton.setEnabled(false);
+          this._prevButton.setEnabled(false);
         }
       } else {
         // Remove stop button, display run button
@@ -1408,6 +1414,8 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     playNext : function(e)
     {
+      this._nextButton.setEnabled(true);
+      this._prevButton.setEnabled(true);
       var currSamp = this.tree.getSelection()[0];  // widget
 
       if (currSamp)
@@ -1664,6 +1672,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       "_navPart", "_runbutton", "_stopbutton", "__sobutt", "__themePart",
       "__viewPart", "viewGroup", "__menuBar", "_infosplit", "_searchTextField",
       "_status", "_tree", "_iframe", "_demoView", "__menuElements",
-      "__logSync", "_leftComposite", "_urlWindow");
+      "__logSync", "_leftComposite", "_urlWindow", "_nextButton", "_prevButton");
   }
 });
