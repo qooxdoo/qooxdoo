@@ -477,6 +477,20 @@ qx.Class.define("testrunner.runner.TestRunner", {
       }
 
       if (this.__loadAttempts <= 300) {
+
+        // Detect failure to access frame after some period of time
+        if (!this.frameWindow.body) {
+          if (this.__loadAttempts >= 20 && window.location.protocol == "file:") {
+            alert("Failed to load application from the file system.\n\n" +
+                  "The security settings of your browser may prohibit to access " +
+                  "frames loaded using the file protocol. Please try the http " +
+                  "protocol instead.");
+
+            // Quit
+            return;
+          }
+        }
+
         // Repeat until testrunner in iframe is loaded
         if (!this.frameWindow.testrunner) {
           this.__loadTimer = qx.event.Timer.once(this._onLoadIframe, this, 100);
