@@ -39,11 +39,6 @@
  *
  * * Does not support margins and alignment of {@link qx.ui.core.LayoutItem}.
  *
- * *External Documentation*
- *
- * <a href='http://manual.qooxdoo.org/1.4/pages/layout/atom.html'>
- * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
- *
  * *Alternative Names*
  *
  * None
