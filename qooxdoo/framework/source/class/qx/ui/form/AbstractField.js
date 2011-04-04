@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // shortcut for placeholder feature detection
     this.__useQxPlaceholder = !qx.bom.client.Feature.PLACEHOLDER ||
-      qx.bom.client.Browser.TITLE == "firefox 4";
+      (qx.bom.client.Engine.NAME == "gecko" && qx.bom.client.Engine.VERSION == 2.0);
 
     if (value != null) {
       this.setValue(value);
