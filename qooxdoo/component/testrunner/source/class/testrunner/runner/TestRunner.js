@@ -263,11 +263,6 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     __progress : null,
 
-    /**
-     * Track unsafe attempt to access frame with URL.
-     */
-    __frameUnsafeAttempt : null,
-
     /** This one is called by Application.js
      */
     load : function() {
@@ -1356,19 +1351,15 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       if (this.__loadAttempts <= 300) {
 
-        // Catch unsafe JavaScript attempt to access frame with URL
-        try {
-          this.frameWindow.testrunner;
-        } catch(e) {
-          if (window.location.protocol == "file:" && !this.__frameUnsafeAttempt) {
+        // Detect failure to access frame after some period of time
+        if (!this.frameWindow.body) {
+          if (this.__loadAttempts >= 20 && window.location.protocol == "file:") {
             alert("Failed to load application from the file system.\n\n" +
                   "The security settings of your browser may prohibit to access " +
                   "frames loaded using the file protocol. Please try the http " +
                   "protocol instead.");
 
-            // Prohibit the alert from being shown again
-            this.__frameUnsafeAttempt = true;
-
+            // Quit
             return;
           }
         }
