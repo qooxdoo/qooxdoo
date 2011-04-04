@@ -14,6 +14,8 @@ This section describes how browsers and other applications react on different ke
 Browsers
 ========
 
+ 
+
 .. list-table::
    :header-rows: 1
  
@@ -43,6 +45,8 @@ Browsers
 Word processors / E-mail clients
 ================================
 
+
+ 
 .. list-table::
    :header-rows: 1
  

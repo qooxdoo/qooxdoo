@@ -83,6 +83,8 @@ General
 Overview of exisiting WYSIWYG editors
 =====================================
 
+ 
+
 .. list-table::
    :header-rows: 1
 
