@@ -77,7 +77,7 @@ qx.Class.define("qx.dev.Pollution",
         "statusbar", "directories", "closed", "crypto", "pkcs11", "opener", "status",
         "defaultStatus", "innerWidth", "innerHeight", "outerWidth", "outerHeight",
         "screenX", "screenY", "pageXOffset", "pageYOffset", "scrollMaxX", "scrollMaxY",
-        "fullScreen", "frameElement", "XMLHttpRequest"
+        "fullScreen", "frameElement", "XMLHttpRequest", "applicationCache", "localStorage"
       ],
 
       "document" :
