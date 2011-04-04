@@ -1027,6 +1027,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
         case "aborted" :
           this.setStatus("Test run stopped");
           this._setActiveButton(this.__runButton);
+          this.__testTree.setEnabled(true);
           break;
         case "error" :
           this.setStatus("Invalid test file selected!");
