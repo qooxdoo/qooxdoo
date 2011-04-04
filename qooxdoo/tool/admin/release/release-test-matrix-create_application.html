@@ -818,7 +818,7 @@ concerning <em>simulator</em>-related classes. </dd>
   <dt>[i]</dt>
   <dd> How to set up the Simulator environment:
     <ul>
-      <li>Download the following files and place them in an easily accessible folder, e.g. <em>~/affe/workspace/simulator</em>:
+      <li>Download the following files and place them in an easily accessible folder, e.g. <em>/home/affe/workspace/simulator</em>:
         <ul>
           <li><a href="http://webtechfe-test01.schlund.de/%7Eqooxdoo/workspace/simulator/js.jar">Rhino</a></li>
           <li><a href="http://webtechfe-test01.schlund.de/%7Eqooxdoo/workspace/simulator/selenium-java-client-driver.jar">Selenium Java Client</a></li>
@@ -842,8 +842,8 @@ running <em>python -m CGIHTTPServer</em> </li>
     {
       "let" :
       {
-        "SIMULATOR_CLASSPATH" : [ "~/affe/workspace/simulator/selenium-java-client-driver.jar",
-                                  "~/affe/workspace/simulator/js.jar" ]
+        "SIMULATOR_CLASSPATH" : [ "/home/affe/workspace/simulator/selenium-java-client-driver.jar",
+                                  "/home/affe/workspace/simulator/js.jar" ]
       },
       
       "environment" :
@@ -852,7 +852,7 @@ running <em>python -m CGIHTTPServer</em> </li>
         "simulator.selPort" : 4444,
         "simulator.testBrowser" : "*firefox3",
         "simulator.autHost" : "http://localhost",
-        "simulator.autPath" : "/~affe/workspace/myapplication/build/index.html"
+        "simulator.autPath" : "/home/affe/workspace/myapplication/build/index.html"
       }
     }
           </pre>
