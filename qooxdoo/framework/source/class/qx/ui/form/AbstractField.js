@@ -55,7 +55,8 @@ qx.Class.define("qx.ui.form.AbstractField",
     this.base(arguments);
 
     // shortcut for placeholder feature detection
-    this.__useQxPlaceholder = !qx.bom.client.Feature.PLACEHOLDER;
+    this.__useQxPlaceholder = !qx.bom.client.Feature.PLACEHOLDER ||
+      qx.bom.client.Browser.TITLE == "firefox 4";
 
     if (value != null) {
       this.setValue(value);
