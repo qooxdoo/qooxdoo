@@ -253,7 +253,8 @@ PARANTHESIS_BEFORE = ["ELSE", "FINALLY", "CATCH", "WHILE"]
 
 IDENTIFIER_CHARS          = r'(?u)[\.\w$]'
 IDENTIFIER_ILLEGAL_CHARS  = r'(?u)[^\.\w$]'
-IDENTIFIER_REGEXP         = r'%s+' % IDENTIFIER_CHARS
+#IDENTIFIER_REGEXP         = r'%s+' % IDENTIFIER_CHARS
+IDENTIFIER_REGEXP         = r'(?u)^(?:[^\W\d]|\$)[\.\w$]*'
 
 ##
 # Re-creating some Unicode information here, as it is not provided by Python

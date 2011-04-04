@@ -265,8 +265,13 @@ def checkNamespace(options):
             console.log("WARNING: Converted illegal characters in namespace (from %s to %s)" % (options.namespace, convertedNamespace))
             options.namespace = convertedNamespace
 
+    # check well-formed identifier
+    if not re.match(lang.IDENTIFIER_REGEXP, options.namespace):
+        console.error("Name space must be a legal JS identifier, but is not: '%s'" % options.namespace)
+        sys.exit(1)
+
     # check reserved words
-    if options.namespace in lang.GLOBALS:
+    if options.namespace in (lang.GLOBALS + lang.RESERVED.keys()):
         console.error("JS reserved word '%s' is not allowed as name space" % options.namespace)
         sys.exit(1)
 
