@@ -52,10 +52,6 @@ qx.Class.define("qx.html.Root",
     if (elem != null) {
       this.useElement(elem);
     }
-
-    if (qx.core.Environment.get("browser.name") === "chrome") {
-      this.addListener("selectstart", this.__forcePreventSelection);
-    }
   },
 
 
@@ -88,31 +84,6 @@ qx.Class.define("qx.html.Root",
 
       // Register for syncronization
       qx.html.Element._modified[this.$$hash] = this;
-    },
-
-    /**
-    * Prevent text selection by force for browsers where disabling
-    * text selection by means of CSS has undesirable side-effects,
-    * e.g. text not being searchable in Chrome.
-    *
-    * @param e {qx.event.type.Native} Selection event
-    * @return {void}
-    */
-    __forcePreventSelection : function(e)
-    {
-      var node = e.getTarget();
-
-      // Node can be of type "text". Get element node.
-      if (node && node.nodeType === 3) {
-        node = node.parentNode;
-      }
-
-      if (node) {
-        if (node.getAttribute("qxSelectable") === "off") {
-          e.preventDefault();
-        }
-      }
-
     }
   }
 });
