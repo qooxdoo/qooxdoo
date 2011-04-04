@@ -51,8 +51,12 @@ qx.Class.define("inspector.console.Util",
           }
 
           var returnCode = "";
-          if (qx.core.Variant.isSet("qx.client", "webkit") ||
-              qx.core.Variant.isSet("qx.client", "opera")) {
+          if (
+            qx.core.Variant.isSet("qx.client", "webkit") ||
+            qx.core.Variant.isSet("qx.client", "opera") ||
+            (qx.core.Variant.isSet("qx.client", "mshtml") && qx.bom.client.Engine.VERSION >= 9) ||
+            (qx.core.Variant.isSet("qx.client", "gecko") && qx.bom.client.Engine.VERSION >= 2)
+          ) {
             returnCode = "return eval('" + code + "');"
           } else {
             returnCode = "return eval.call(window, '" + code + "');"
