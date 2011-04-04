@@ -973,6 +973,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
         case "loading" :
           this.__testTree.resetModel();
           this.setStatus("Loading tests...");
+          this.__testTree.setEnabled(false);
           break;
         case "ready" :
           this.setStatus("Test suite ready");
@@ -986,6 +987,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
             this.setFailedTestCount(0);
             this.setSuccessfulTestCount(0);
           }
+          this.__testTree.setEnabled(true);
           break;
         case "running" :
           this.__progressBar.setValue(0);
