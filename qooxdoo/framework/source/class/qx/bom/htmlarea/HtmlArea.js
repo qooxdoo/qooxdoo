@@ -2516,12 +2516,21 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
 
     /**
-     * Removes all formatting styles on the current selection content
+     * Removes all formatting styles on the current selection content and resets
+     * the font family and size to the default ones. See {@link #defaultFontSize} 
+     * and {@link #defaultFontFamily}.
      *
      * @return {Boolean} Success of operation
      */
-    removeFormat : function() {
-      return this.__commandManager.execute("removeformat");
+    removeFormat : function()
+    {
+      var value = this.__commandManager.execute("removeformat");
+
+      // reset the default font size and family
+      this.__commandManager.execute("fontsize", this.getDefaultFontSize());
+      this.__commandManager.execute("fontfamily", this.getDefaultFontFamily());
+
+      return value;
     },
 
 
