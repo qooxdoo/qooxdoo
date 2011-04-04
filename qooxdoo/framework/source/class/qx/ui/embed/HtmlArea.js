@@ -841,7 +841,9 @@ qx.Class.define("qx.ui.embed.HtmlArea",
 
 
     /**
-     * Removes all formatting styles on the current selection content
+     * Removes all formatting styles on the current selection content and resets
+     * the font family and size to the default ones. See {@link #defaultFontSize}
+     * and {@link #defaultFontFamily}.
      *
      * @return {Boolean} Success of operation
      */
