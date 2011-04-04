@@ -69,7 +69,6 @@ qx.Class.define("qx.event.handler.Element",
       abort : true,    // Image elements
       scroll : true,
       select : true,
-      selectstart: true,
       reset : true,    // Form Elements
       submit : true   // Form Elements
     },
