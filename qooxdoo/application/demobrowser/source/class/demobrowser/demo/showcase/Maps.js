@@ -42,37 +42,38 @@ qx.Class.define("demobrowser.demo.showcase.Maps",
       var yahooMap = this._createYahooMap();
       var googleMap = this._createGoogleMap();
 
-      this.getRoot().add(this._createWindow("Yahoo Maps", yahooMap),{
-        left : 10,
-        top  : 10
+      this.getRoot().add(this._createMapContainer("Yahoo Maps", yahooMap), {
+        left : 20,
+        top  : 20
       });
-      this.getRoot().add(this._createWindow("Google Maps", googleMap),{
-        left : 100,
-        top  : 100
+      this.getRoot().add(this._createMapContainer("Google Maps", googleMap), {
+        left : 490,
+        top  : 20
       });
 
     },
 
-    _createWindow : function(title, map)
+    _createMapContainer : function(title, map)
     {
-      var win = new qx.ui.window.Window(title);
-      win.setLayout(new qx.ui.layout.VBox);
-      win.setMaxWidth(450);
-      win.setMaxHeight(400);
-      win.setMinWidth(450);
-      win.setMinHeight(400);
-      win.setAllowMaximize(false);
-      win.setContentPadding(0);
-      win.add(map);
-      win.open();
-      return win;
+      var comp = new qx.ui.container.Composite();
+      comp.setLayout(new qx.ui.layout.VBox().set({spacing: 10}));
+      comp.setWidth(450);
+      comp.setHeight(400);
+      
+      var headline = new qx.ui.basic.Label("<b>" + title + "</b>").set({
+        rich: true
+      });
+      comp.add(headline);
+      comp.add(map);
+      return comp;
     },
 
     _createYahooMap : function()
     {
       var isle = new qx.ui.core.Widget().set({
         width: 450,
-        height: 400
+        height: 400,
+        decorator: "main"
       });
 
       isle.addListenerOnce("appear", function() {
