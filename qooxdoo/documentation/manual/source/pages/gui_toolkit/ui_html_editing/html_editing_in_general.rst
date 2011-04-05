@@ -80,8 +80,10 @@ General
 
 .. _pages/ui_html_editing/html_editing_in_general#overview_of_exisiting_wysiwyg_editors:
 
-Overview of exisiting WYSIWYG editors
+Overview of existing WYSIWYG editors
 =====================================
+
+Here is an overview table:
 
 .. list-table::
    :header-rows: 1

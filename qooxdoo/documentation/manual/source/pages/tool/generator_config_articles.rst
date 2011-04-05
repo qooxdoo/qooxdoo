@@ -370,6 +370,7 @@ But not all of the above resource types are actually referenced through URIs in 
 * references to style sheet files
 
 The **build** version uses a different approach, since it strives to be a self-contained Web application that has no outgoing references. Therefore, all necessary resources are copied over to the build directory tree. Having said that, URIs are still used in the build version, yet these are only references confined to the build directory tree:
+
   * JS class code is put into the (probably various) output files of the generator run (what you typically find under the *build/script* path). The bootstrap file references the others with relative URIs.
   * Graphics and other resources are referenced with relative URIs from the compiled scripts. Those resources are typically found under the *build/resource* path.
   * Translation strings and CLDR information can be directly included in the generated files (where they need not be referenced through URIs), or be put in separate files (where they have to be referenced).
