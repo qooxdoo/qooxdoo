@@ -29,7 +29,7 @@ One important step is necessary to get the HtmlArea up and running.
 
   If you setup the component without handing the **source** parameter you have to place a **blank.html** file next to your applications **index.html**.
 
-This is necessary due the `Same-Origin Policy <http://taossa.com/index.php/2007/02/08/same-origin-policy/>`_ implemented by most browsers.
+This is necessary due the `Same-Origin Policy <http://en.wikipedia.org/wiki/Same_origin_policy>`_ implemented by most browsers.
 
 .. _pages/ui_html_editing#features:
 

@@ -53,6 +53,7 @@ release = '1.4'
 qxmacros = {
     "version"  : version
    ,"versionL" : "1.4.x"   # 'latest' in this line
+   ,"versionU" : "1_4"     # underscore notation for SourceForge viewvc links
    ,"JS"       : "JavaScript"
 }
 

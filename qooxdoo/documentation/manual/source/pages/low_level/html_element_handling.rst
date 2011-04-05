@@ -91,7 +91,7 @@ This element is used to create iframes to embed content from other sources to th
 Canvas
 ------
 
-Renders a `HTML5 Canvas <http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas.html>`_ to the DOM. Has methods to access the render context as well to configure the dimensions of the Canvas.
+Renders a `HTML5 Canvas <http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html>`_ to the DOM. Has methods to access the render context as well to configure the dimensions of the Canvas.
 
 .. _pages/html_element_handling#the_queue:
 

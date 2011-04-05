@@ -3,7 +3,7 @@
 Canvas
 ******
 
-This widget embed the `HTML canvas element <http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas.html#the-canvas>`_.
+This widget embed the `HTML canvas element <http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html#the-canvas-element>`_.
 
 .. note::
 

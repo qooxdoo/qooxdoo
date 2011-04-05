@@ -57,7 +57,6 @@ Safari
 * `WebKit: HTML Editing <http://webkit.org/projects/editing/index.html>`_
 * `Quietly, Safari Finally Gains WYSIWYG Editing Powers <http://www.musingsfrommars.org/2007/03/quietly-safaris-rendering-engine-gains-wysiwyg-editing-powers.html>`_
 * `execCommand list <http://lists.apple.com/archives/Webcore-dev/2005/May/msg00013.html>`_
-* `WYSIWYG comes to Safari 1.3 <http://allforces.com/2005/04/19/wysiwyg-comes-to-safari-13/>`_
 
 .. _pages/ui_html_editing/html_editing_in_general#compatibility:
 
@@ -96,7 +95,7 @@ Here is an overview table:
      - BSD
      - **Pro**: works with all well-known browsers ( IE / Gecko / Opera / Safari / Konquerer ); **Con**: Still in Beta (although the final release version should be out soon). 
 
-   * - `Xinha <http://xinha.python-hosting.com/>`__
+   * - `Xinha <http://xinha.org/>`__
      - HTMLArea (BSD based)
      -
 
@@ -112,7 +111,7 @@ Here is an overview table:
      - MIT/GPL
      - **Pro**: produces XHTML, uses CSS; **Con**: currently only available for IE and Gecko.
 
-   * - `dojo <http://dojotoolkit.org/docs/rich_text.html>`__
+   * - `dojo <http://dojotoolkit.org/reference-guide/dijit/Editor.html>`__
      - BSD
      - 
 

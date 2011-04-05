@@ -38,13 +38,10 @@ More Information (online)
 * `FAQ <http://qooxdoo.org/documentation/general/faq>`_
 * `License <http://qooxdoo.org/license>`_
 * `Framework Features <http://qooxdoo.org/about/framework>`_
-
 * `Release Notes <http://qooxdoo.org/about/release_notes>`_
 * `Roadmap <http://qooxdoo.org/about/roadmap>`_
 * `Developers <http://qooxdoo.org/about/developers>`_
 * `Committers Guide <http://qooxdoo.org/documentation/general/committers_guide>`_
-
-* `Screenshots <http://qooxdoo.org/about/screenshots>`_
 * `Media Download <http://qooxdoo.org/about/media_download>`_
 
 
