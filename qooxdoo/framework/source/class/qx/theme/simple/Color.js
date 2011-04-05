@@ -69,6 +69,8 @@ qx.Theme.define("qx.theme.simple.Color",
     "shadow" : "#666666",
 
     // borders
+    // 'border-main' is an alias of 'background-selected' (compatibility reasons)
+    "border-main" : "#6694E3",
     "border-light" : "#B7B7B7",
     "border-light-shadow" : "#686868",
 
