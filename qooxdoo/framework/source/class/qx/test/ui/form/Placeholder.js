@@ -162,7 +162,11 @@ qx.Class.define("qx.test.ui.form.Placeholder",
     },
 
     __getPlaceholderValueOf: function(widget) {
-      if (qx.core.Environment.get("css.placeholder")) {
+      var useHtml5Placeholder = qx.core.Environment.get("css.placeholder") ||
+        (qx.core.Environment.get("engine.name") == "gecko" && 
+         parseFloat(qx.core.Environment.get("engine.version")) >= 2);
+
+      if (!useHtml5Placeholder) {
         if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
           return widget.getContentElement().getAttribute("placeholder");
         } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
@@ -178,7 +182,11 @@ qx.Class.define("qx.test.ui.form.Placeholder",
     },
 
     __isPlaceholderVisible: function(widget) {
-      if (qx.core.Environment.get("css.placeholder")) {
+      var useHtml5Placeholder = qx.core.Environment.get("css.placeholder") ||
+        (qx.core.Environment.get("engine.name") == "gecko" && 
+         parseFloat(qx.core.Environment.get("engine.version")) >= 2);
+      
+      if (!useHtml5Placeholder) {
         if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
           var contentElem = widget.getContentElement();
           return widget.getValue() == null &&
