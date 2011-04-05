@@ -497,8 +497,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         // Loading demos into IE fails most of the time because IE truncates
         // long URLs
-        if (qx.core.Environment.get("browser.name") == "ie"
-         && qx.core.Environment.get("browser.version") < 9) {
+        if (qx.core.Environment.get("browser.name") == "ie") {
           playgroundButton.exclude();
         }
 
