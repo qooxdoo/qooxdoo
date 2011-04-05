@@ -939,6 +939,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
           // Prevent qooxdoo's framework tests from being executed all in one go.
           // If the top node is selected, select the first child instead to
           // enable the reloadAfterEachPackage feature
+          /*
           if (selectedName == "qx") {
             var firstChild = selectedTests.getItem(0).getChildren().getItem(0);
             this.getSelectedTests().removeAll();
@@ -947,6 +948,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
           if (selectedName == "qx.test") {
             this.setReloadAfterEachPackage(true);
           }
+          */
         }
         this.__selectedTestField.setValue(selectedName);
         this.__testCountField.setValue(count.toString());
