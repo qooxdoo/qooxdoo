@@ -2349,6 +2349,15 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "table-header-cell/icon" : {
+      style : function(states)
+      {
+        return {
+          marginRight: 4
+        }
+      }
+    },
+
     "table-header-cell/sort-icon" : {
       style : function(states)
       {
