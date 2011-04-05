@@ -385,7 +385,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "treevirtual" : {},
+    "treevirtual" : "table",
 
     "treevirtual-folder" :
     {
