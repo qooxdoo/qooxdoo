@@ -277,6 +277,9 @@ qx.Class.define("testrunner.runner.TestRunner", {
 
 
     __runTests : function() {
+      if (this.getTestSuiteState() === "aborted") {
+        this.setTestSuiteState("ready");
+      }
       if (this.__logAppender) {
         this.__logAppender.clear();
       }

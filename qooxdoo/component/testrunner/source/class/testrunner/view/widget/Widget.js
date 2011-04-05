@@ -302,6 +302,18 @@ qx.Class.define("testrunner.view.widget.Widget", {
       reloadButton.setToolTipText(this.__app.tr("Reload the test suite (Ctrl+Shift+R)"));
       reloadButton.addListener("execute", this.__reloadAut, this);
 
+      this.bind("testSuiteState", reloadButton, "enabled", {converter : function(data) {
+        switch(data) {
+          case "init":
+          case "loading":
+          case "running":
+            return false;
+            break;
+          default:
+            return true;
+        }
+      }});
+
       var part2 = new qx.ui.toolbar.Part();
       toolbar.add(part2);
 
@@ -979,6 +991,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
           break;
         case "ready" :
           this.setStatus("Test suite ready");
+          this.__progressBar.setValue(0);
           this._setActiveButton(this.__runButton);
           this._applyTestCount(this.getTestCount());
           if ( (this.getReloadAfterEachPackage() && this.__lastAutoRunItemName)
@@ -986,10 +999,14 @@ qx.Class.define("testrunner.view.widget.Widget", {
             this.fireEvent("runTests");
           }
           else {
-            this.setFailedTestCount(0);
-            this.setSuccessfulTestCount(0);
+            this.reset();
           }
           this.__testTree.setEnabled(true);
+          // Don't apply the cookie selection if the previous state was 
+          // "aborted" (user clicked stop, then run)
+          if (old === "loading") {
+            this.__setSelectionFromCookie();
+          }
           break;
         case "running" :
           this.__progressBar.setValue(0);
@@ -1050,15 +1067,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
         this.__testTree.setModel(model);
         this.__testTree.openNode(model.getChildren().getItem(0));
         this.__testResultView.clear();
-
-        var cookieSelection = qx.bom.Cookie.get("testrunner.selectedTest");
-        if (cookieSelection) {
-          var found = testrunner.runner.ModelUtil.getItemByFullName(model, cookieSelection);
-          if (found) {
-            this.getSelectedTests().removeAll();
-            this.getSelectedTests().push(found);
-          }
-        }
       }
 
     },
@@ -1130,9 +1138,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
         this.__reloadAut();
         return;
       }
-      else {
-        this.reset();
-      }
 
       /*
        * Reverse the selection to trigger a "change" event on the selection
@@ -1164,6 +1169,18 @@ qx.Class.define("testrunner.view.widget.Widget", {
       this.setAutUri(src);
     },
 
+    __setSelectionFromCookie : function()
+    {
+      var cookieSelection = qx.bom.Cookie.get("testrunner.selectedTest");
+      if (cookieSelection) {
+        var found = testrunner.runner.ModelUtil.getItemByFullName(this.getTestModel(), cookieSelection);
+        if (found) {
+          this.getSelectedTests().removeAll();
+          this.getSelectedTests().push(found);
+        }
+      }    
+    },
+
     // overridden
     addTestResult : function(testResultData)
     {
@@ -1179,12 +1196,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
       this.resetFailedTestCount();
       this.resetSuccessfulTestCount();
       this.resetSkippedTestCount();
-      /*
-       * TODO
-      var selection = qx.lang.Array.clone(this.getSelectedTests());
-      this.resetSelectedTests();
-      this.setSelectedTests(selection);
-      */
     },
 
     /**
