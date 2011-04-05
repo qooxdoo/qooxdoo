@@ -1842,7 +1842,12 @@ class Generator(object):
         if util.getPlatformInfo()[0] == "Windows":
             classPathSeparator = ";"
         
-        argv.append(classPathSeparator.join(configClassPath))
+        configClassPath = classPathSeparator.join(configClassPath)
+        
+        if "CYGWIN" in util.getPlatformInfo()[0]:
+            configClassPath = "`cygpath -wp " + configClassPath + "`"
+        
+        argv.append(configClassPath)
         
         rhinoClass = self._job.get("simulate/rhino-class", "org.mozilla.javascript.tools.shell.Main")
         runnerScript = self._job.get("simulate/simulator-script")
