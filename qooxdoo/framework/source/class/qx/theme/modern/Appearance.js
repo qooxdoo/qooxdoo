@@ -898,8 +898,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
         else
         {
+          var useCSS = qx.core.Environment.get("css.gradients");
+
           return {
-            padding : 3,
+            padding : useCSS ? 3 : [3, 2],
             icon : icon,
             width: 14,
             height: 15
