@@ -162,7 +162,9 @@ qx.Class.define("qx.test.ui.form.Placeholder",
     },
 
     __getPlaceholderValueOf: function(widget) {
-      if (qx.bom.client.Feature.PLACEHOLDER) {
+      var useQxPlaceholder = !qx.bom.client.Feature.PLACEHOLDER ||
+        (qx.bom.client.Engine.NAME == "gecko" && qx.bom.client.Engine.VERSION == 2.0);
+      if (!useQxPlaceholder) {
         if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
           return widget.getContentElement().getAttribute("placeholder");
         } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
@@ -178,7 +180,10 @@ qx.Class.define("qx.test.ui.form.Placeholder",
     },
 
     __isPlaceholderVisible: function(widget) {
-      if (qx.bom.client.Feature.PLACEHOLDER) {
+      var useQxPlaceholder = !qx.bom.client.Feature.PLACEHOLDER ||
+        (qx.bom.client.Engine.NAME == "gecko" && qx.bom.client.Engine.VERSION == 2.0);
+
+      if (!useQxPlaceholder) {
         if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
           var contentElem = widget.getContentElement();
           return widget.getValue() == null &&
