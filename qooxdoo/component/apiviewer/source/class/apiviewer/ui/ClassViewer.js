@@ -534,7 +534,18 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       else if (itemNode.getListName() == "methods")
       {
         // Check for privates
-        if (itemName.indexOf("__") === 0) {
+        if (itemName.indexOf("__") === 0 || itemNode.isInternal()) {
+          uiModel.setShowPrivate(true);
+        }
+        // Check for protected
+        else if (itemName.indexOf("_") === 0){
+          uiModel.setShowProtected(true);
+        }
+      }
+      else if (itemNode.getListName() == "methods-static")
+      {
+        // Check for privates
+        if (itemName.indexOf("__") === 0 || itemNode.isInternal()) {
           uiModel.setShowPrivate(true);
         }
         // Check for protected
