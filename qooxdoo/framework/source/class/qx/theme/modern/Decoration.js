@@ -1475,12 +1475,32 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
 
     // CSS WINDOW
+    "window-css" : {
+      decorator : [
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MBoxShadow,
+        qx.ui.decoration.MSingleBorder
+      ],
+      style : {
+        radius : [5, 5, 0, 0],
+        shadowBlurRadius : 4,
+        shadowLength : 2,
+        shadowColor : "shadow"
+      }
+    },
+
+    "window-incl-statusbar-css" : {
+       include : "window-css",
+       style : {
+         radius : [5, 5, 5, 5]
+       }
+    },
+
     "window-captionbar-active-css" : {
       decorator : [
         qx.ui.decoration.MSingleBorder,
         qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MLinearBackgroundGradient,
-        qx.ui.decoration.MBoxShadow
+        qx.ui.decoration.MLinearBackgroundGradient
       ],
       style : {
         width : 1,
@@ -1488,10 +1508,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         colorBottom : "window-border-caption",
         radius : [5, 5, 0, 0],
         gradientStart : ["window-caption-active-start", 30],
-        gradientEnd : ["window-caption-active-end", 70],
-        shadowBlurRadius : 4,
-        shadowLength : 2,
-        shadowColor : "shadow"
+        gradientEnd : ["window-caption-active-end", 70]
       }
     },
 
@@ -1508,40 +1525,30 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : [
         qx.ui.decoration.MBackgroundColor,
         qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MBoxShadow
+        qx.ui.decoration.MBorderRadius
       ],
 
       style : {
         backgroundColor : "window-statusbar-background",
         width: [0, 1, 1, 1],
         color: "window-border",
-        radius : [0, 0, 5, 5],
-        shadowBlurRadius : 4,
-        shadowLength : 2,
-        shadowColor : "shadow"
+        radius : [0, 0, 5, 5]
       }
     },
 
-    "window-css" :
+    "window-pane-css" :
     {
       decorator: [
         qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBoxShadow,
         qx.ui.decoration.MBackgroundColor
       ],
 
       style :
       {
         backgroundColor : "background-pane",
-
         width : 1,
         color : "window-border",
-        widthTop : 0,
-
-        shadowBlurRadius : 4,
-        shadowLength : 2,
-        shadowColor : "shadow"
+        widthTop : 0
       }
     },
 

@@ -1801,9 +1801,20 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var useCSS = qx.core.Environment.get("css.borderradius") &&
           qx.core.Environment.get("css.gradients") &&
           qx.core.Environment.get("css.boxshadow");
+        var decorator = "shadow-window";
+        
+        if (useCSS) {
+          if (states.showStatusbar) {
+            decorator = "window-incl-statusbar-css";
+          } else {
+            decorator = "window-css";
+          }
+        }
         return {
-          decorator : useCSS ? undefined : "shadow-window",
-          contentPadding : [ 10, 10, 10, 10 ]
+          decorator : decorator,
+          contentPadding : [ 10, 10, 10, 10 ],
+          margin : [0, 5, 5, 0]
+          
         };
       }
     },
@@ -1816,8 +1827,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           qx.core.Environment.get("css.gradients") &&
           qx.core.Environment.get("css.boxshadow");
         return {
-          decorator : useCSS ? "window-css" : "window",
-          margin : useCSS ? [0, 5, states.showStatusbar ? 0 : 5, 0] : undefined // necessary for the shadow
+          decorator : useCSS ? "window-pane-css" : "window"
         };
       }
     },
@@ -1839,8 +1849,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator    : decorator,
           textColor    : states.active ? "window-caption-active-text" : "text-gray",
           minHeight    : 26,
-          paddingRight : 2,
-          margin : useCSS ? [0, 5, 0, 0] : undefined // necessary for the shadow
+          paddingRight : 2
         };
       }
     },
@@ -1938,8 +1947,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding   : [ 2, 6 ],
           decorator : useCSS ? "window-statusbar-css" : "window-statusbar",
-          minHeight : 18,
-          margin : useCSS ? [0, 5, 5, 0] : undefined // necessary for the shadow
+          minHeight : 18
         };
       }
     },
