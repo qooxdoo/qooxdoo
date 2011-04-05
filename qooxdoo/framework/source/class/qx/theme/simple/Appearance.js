@@ -1681,6 +1681,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
     "tree-folder/open" :
     {
+      include : "image",
       style : function(states)
       {
         return {
@@ -1707,6 +1708,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
     "tree-folder/icon" :
     {
+      include : "image",
       style : function(states)
       {
         return {
