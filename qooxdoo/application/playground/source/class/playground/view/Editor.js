@@ -98,8 +98,14 @@ qx.Class.define("playground.view.Editor",
       this.__editor = new qx.ui.core.Widget();
       this.__editor.setDecorator("separator-vertical");
       var highlightDisabled = false;
+      var badIE = qx.core.Environment.get("engine.name") == "mshtml";
+      if (badIE) {
+        badIE = parseFloat(qx.core.Environment.get("browser.version")) < 8 ||
+          qx.core.Environment.get("browser.documentmode") < 8;
+      }
+      console.log("badIE", badIE);
       // FF2 does not have that...
-      if (!document.createElement("div").getBoundingClientRect) {
+      if (!document.createElement("div").getBoundingClientRect || badIE) {
         this.fireEvent("disableHighlighting");
         highlightDisabled = true;
       } else {
