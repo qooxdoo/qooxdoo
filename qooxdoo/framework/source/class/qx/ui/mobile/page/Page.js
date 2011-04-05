@@ -37,7 +37,7 @@
  * a page transition will be animated. There are several animations available. Have
  * a look at the {@link qx.ui.mobile.page.manager.Animation} manager for more information.
  *
- * A page has predefined lifecycle methods that get called by the used page manger
+ * A page has predefined lifecycle methods that get called by the used page manager
  * when a page gets shown. Each time another page is requested to be shown the currently shown page
  * is stopped. The other page, will be, if shown for the first time, initialized and started
  * afterwards. For all called lifecylce methods an event is fired.
@@ -189,10 +189,10 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
 
     /**
-     * Returns the current page manager. The page manager is responsible for the
+     * Returns the used page manager. The page manager is responsible for the
      * page transition and calling the lifecycle methods of a page.
      *
-     * @return {var} The currently used page manager
+     * @return {var} The used page manager
      */
     getManager : function()
     {
@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
     /**
      * Sets the page manager to use.
      *
-     * @param clazz {Class} The page manger Class to use
+     * @param clazz {Class} The page manager class to use
      */
     setManagerClass : function(clazz)
     {
@@ -229,7 +229,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
 
     /**
-     * Resizes the page to the current window.innerHeight.
+     * Resizes the page to the innerHeight of the window.
      */
     _resize : function()
     {
@@ -287,7 +287,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
 
     /**
-     * Only used by Android PhoneGap applications. Called by the used page manger
+     * Only used by Android PhoneGap applications. Called by the used page manager
      * when the menu button was pressed. Fires the <code>menu</code> event.
      */
     menu : function() {
@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * the used page manager. See {@link qx.ui.mobile.page.manager.Simple#show}
      * or {@link qx.ui.mobile.page.manager.Animation#show} for more information.
      *
-     * @param data {var?null} The data that is used by the currently set page manger.
+     * @param data {var?null} The data that is used by the set page manager.
      */
     show : function(data)
     {
@@ -348,7 +348,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
 
     /**
-     * Returns the current status of the initialization of the page.
+     * Returns the status of the initialization of the page.
      *
      * @return {Boolean} Whether the page is already initialized or not
      */
