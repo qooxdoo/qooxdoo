@@ -77,6 +77,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
       qx.event.Registration.addListener(this.__iframe, "load", this._onLoadIframe, this);
       var src = qx.core.Environment.get("qx.testPageUri");
       src += "?testclass=" + this._testNameSpace;
+      this.setTestSuiteState("loading");
       this.view.setAutUri(src);
     }
     else {
@@ -203,9 +204,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
       this.setTestModel(null);
 
       var testRep = this.__getTestRep();
-      //var startDate = new Date();
       var modelData = testrunner.runner.ModelUtil.createModelData(testRep);
-      //this.info("createModelData: " + (new Date().getTime() - startDate.getTime()) / 1000 );
       var delegate = {
         getModelSuperClass : function(properties) {
           return testrunner.runner.TestItem;
@@ -214,9 +213,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
       var marshal = new qx.data.marshal.Json(delegate);
       marshal.toClass(modelData.children[0], true);
       var model = marshal.toModel(modelData.children[0]);
-      //this.info("marshal.toModel: " + (new Date().getTime() - startDate.getTime()) / 1000 );
       testrunner.runner.ModelUtil.addDataFields(model);
-      //this.info("addDataFields: " + (new Date().getTime() - startDate.getTime()) / 1000 );
       this.setTestModel(model);
       this.setTestSuiteState("ready");
     },
