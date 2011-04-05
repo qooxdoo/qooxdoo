@@ -1,4 +1,4 @@
-﻿\bqx\.bom\.client\.Engine\.NAME\b=qx.core.Environment.get("engine.name")
+\bqx\.bom\.client\.Engine\.NAME\b=qx.core.Environment.get("engine.name")
 \bqx\.bom\.client\.Engine\.FULLVERSION\b=qx.core.Environment.get("engine.version")
 \bqx\.bom\.client\.Engine\.VERSION\b=parseFloat(qx.core.Environment.get("engine.version"))
 \bqx\.bom\.client\.Engine\.OPERA\b=(qx.core.Environment.get("engine.name") \=\=\= "opera")
