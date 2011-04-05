@@ -91,9 +91,10 @@ qx.Class.define("qx.event.type.MouseWheel",
 
       var range =
         qx.event.type.MouseWheel.MAXSCROLL - qx.event.type.MouseWheel.MINSCROLL;
-      var ret = (delta / range) * Math.log(range);
+      var ret = (delta / range) * Math.log(range) * qx.event.type.MouseWheel.FACTOR;
 
-      return ret * qx.event.type.MouseWheel.FACTOR;
+      // return at least 1 or -1
+      return ret < 0 ? Math.min(ret, -1) : Math.max(ret, 1);
     },
 
 
