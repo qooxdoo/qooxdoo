@@ -179,6 +179,7 @@ qx.Class.define("widgetbrowser.pages.Misc",
       });
 
       subcontainer.add(source);
+      widgets.push(source);
 
       var target = new qx.ui.form.List;
       target.setDroppable(true);
@@ -193,6 +194,7 @@ qx.Class.define("widgetbrowser.pages.Misc",
       });
 
       subcontainer.add(target);
+      widgets.push(target);
 
     }
   }
