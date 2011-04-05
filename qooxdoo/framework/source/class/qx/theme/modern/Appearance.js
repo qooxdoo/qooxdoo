@@ -3147,9 +3147,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "progressbar/progress":
     {
-      style: function(states) {
+      style: function(states)
+      {
+        var decorator = states.disabled ? "group-item" : "selected";
+        if (qx.core.Environment.get("css.gradients")) {
+          decorator += "-css";
+        }
+
         return {
-          decorator: qx.core.Environment.get("css.gradients") ? "selected-css" : "selected"
+          decorator: decorator
         }
       }
     }

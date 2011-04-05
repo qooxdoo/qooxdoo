@@ -2606,7 +2606,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style: function(states) {
         return {
-          backgroundColor: "background-selected"
+          backgroundColor: states.disabled ? "background-disabled" : "background-selected"
         }
       }
     },
