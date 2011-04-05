@@ -71,7 +71,7 @@ qx.Class.define("widgetbrowser.pages.Control",
       });
 
       // DateChooser
-      var dateChooser = new qx.ui.control.DateChooser().set({maxWidth: 200});
+      var dateChooser = new qx.ui.control.DateChooser().set({maxWidth: 240});
       label = new qx.ui.basic.Label("DateChooser");
       widgets.push(dateChooser);
       this.__vbox.add(label);
