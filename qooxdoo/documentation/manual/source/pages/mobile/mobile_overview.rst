@@ -16,7 +16,7 @@ qooxdoo mobile was tested with the native browsers of the following operating
 systems:
 
 * iOS
-* Android >= 1.6
+* Android 1.6+
 
 Supported Desktop Browsers
 ==========================
@@ -24,7 +24,7 @@ Supported Desktop Browsers
 qooxdoo mobile was tested with the following desktop browsers:
 
 * Safari 5
-* Chrome >= 10
+* Chrome 10+
 
 Features
 ========
