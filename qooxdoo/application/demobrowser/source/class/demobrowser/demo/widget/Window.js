@@ -213,6 +213,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
     {
       var win = new qx.ui.window.Window("Third Window", "icon/16/apps/internet-telephony.png");
       win.setLayout(new qx.ui.layout.VBox);
+      win.setMinWidth(200);
       win.setMaxWidth(450);
       win.setMaxHeight(400);
       win.setAllowMaximize(false);
