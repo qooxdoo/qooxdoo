@@ -103,7 +103,7 @@ qx.Class.define("playground.view.Editor",
         badIE = parseFloat(qx.core.Environment.get("browser.version")) < 8 ||
           qx.core.Environment.get("browser.documentmode") < 8;
       }
-      console.log("badIE", badIE);
+
       // FF2 does not have that...
       if (!document.createElement("div").getBoundingClientRect || badIE) {
         this.fireEvent("disableHighlighting");
