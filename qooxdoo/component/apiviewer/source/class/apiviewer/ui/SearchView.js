@@ -138,6 +138,7 @@ qx.Class.define("apiviewer.ui.SearchView",
         {
           paddingTop = 1;
         }
+        typeToggleButton.setFocusable(false);
         typeToggleButton.setPadding(paddingTop, 0, paddingBottom, paddingLeft);
         typeToggleButton.setMarginRight(2);
         typeToggleButton.setGap(0);
@@ -154,6 +155,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       }
 
         var typeToggleButtonAll = new qx.ui.form.ToggleButton("Toggle Filters");
+        typeToggleButtonAll.setFocusable(false);
         typeToggleButtonAll.setPadding(1, 3, 1, 3);
         typeToggleButtonAll.setShow("label");
         typeToggleButtonAll.setValue(true);
