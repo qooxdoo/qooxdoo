@@ -200,6 +200,8 @@ qx.Class.define("testrunner.view.widget.Widget", {
     __statusField : null,
     __lastAutoRunItemName : null,
     __autoReloadActive : false,
+    __loadingContainer : null,
+    __stack : null,
 
     /**
      * Returns the iframe element the AUT should be loaded in.
@@ -582,6 +584,8 @@ qx.Class.define("testrunner.view.widget.Widget", {
       });
       container.add(caption);
 
+      var stack = this.__stack = new qx.ui.container.Stack();
+      
       this.__testTree = new qx.ui.tree.VirtualTree();
       this.__testTree.set({
         labelPath : "name",
@@ -600,7 +604,17 @@ qx.Class.define("testrunner.view.widget.Widget", {
 
       this.setSelectedTests(this.__testTree.getSelection());
 
-      container.add(this.__testTree, {flex : 1});
+      stack.add(this.__testTree);
+      
+      var loadingContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+      loadingContainer.setDecorator("separator-vertical");
+      loadingContainer.setBackgroundColor("white");
+      this.__loadingContainer = loadingContainer;
+      stack.add(loadingContainer);
+      var loadingImg = new qx.ui.basic.Image("testrunner/view/widget/image/loading66.gif");
+      loadingContainer.add(loadingImg, {left: "40%", top: "40%"});
+      
+      container.add(stack, {flex : 1});
 
       return container;
     },
@@ -985,11 +999,13 @@ qx.Class.define("testrunner.view.widget.Widget", {
       switch(value)
       {
         case "loading" :
-          this.__testTree.resetModel();
+          this.__stack.setSelection([this.__loadingContainer]);
           this.setStatus("Loading tests...");
           this.__testTree.setEnabled(false);
+          this.__testTree.resetModel();
           break;
         case "ready" :
+          this.__stack.setSelection([this.__testTree]);
           this.setStatus("Test suite ready");
           this.__progressBar.setValue(0);
           this._setActiveButton(this.__runButton);
@@ -1231,6 +1247,8 @@ qx.Class.define("testrunner.view.widget.Widget", {
     "__selectedTestField",
     "__statusField",
     "__autUriField",
+    "__loadingContainer",
+    "__stack",
     "__app");
   }
 });
