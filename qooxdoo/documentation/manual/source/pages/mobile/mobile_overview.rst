@@ -62,6 +62,9 @@ To create a mobile application ``mobileapp`` in your home directory with your sh
 Have a look into the API documentation of `qx.ui.mobile.page.Page <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile.page.Page>`_
 to understand the basic concepts of qooxdoo mobile.
 
+If you are new to qooxdoo, make sure you have read the :ref:`getting started <pages/getting_started/helloworld#setup_the_framework>` tutorial to
+understand the basics of qooxdoo.
+
 Environment Keys
 ================
 
@@ -116,10 +119,12 @@ How to contribute?
 
 You can contribute in different ways:
 
-* Testing: Test qooxdoo mobile on your mobile device and give us feedback
-* Theming: You can optimize the current CSS files or even create your own theme
-* Widgets: Widget / Feature missing? Create an widget an post it back to us
+* Testing: Test qooxdoo mobile on your mobile device and give us feedback.
+* Theming: You can optimize the current CSS files or even create your own theme.
+* Widgets: Widget / Feature missing? Create an widget an post it back to us.
 * Bugs: If you have found a bug, or when you have fixed it already, please open
   a bug report in the qooxdoo `Bugzilla <http://bugzilla.qooxdoo.org/>`_ with the
   ``core-mobile`` component.
-* Discussion/Feedback: Please post questions to `our mailinglist <http://lists.sourceforge.net/lists/listinfo/qooxdoo-devel>`__. 
+* Devices: If you have an old smartphone (Android, iPhone, Blackberry, Windows Phone, WebOS, etc.)
+  that you don't need anymore, you could donate it to qooxdoo. We would be happy to test qooxdoo mobile on it.
+* Discussion/Feedback: Please post questions to `our mailing list <http://lists.sourceforge.net/lists/listinfo/qooxdoo-devel>`__. 
