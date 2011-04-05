@@ -8,6 +8,10 @@
 
 ************************************************************************ */
 
+/*
+#ignore(simulator.unit.TestCase)
+*/
+
 /**
  * This class demonstrates how to define simulated interaction tests for your 
  * application. See the manual for details:
