@@ -462,7 +462,11 @@ qx.Class.define("qx.bom.media.Abstract",
     Event.removeNativeListener(this._media, "loadeddata", this._handleLoadedDataEventBound);
     Event.removeNativeListener(this._media, "loadedmetadata", this._handleLoadedMetaDataEventBound);
 
-    this.pause();
+    try {
+      // IE9 sometimes throws an can't access error
+      this.pause();
+    } catch(ex) {}
+
     this._media = null;
   }
 });
