@@ -223,7 +223,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator : decorator,
           textColor : textColor,
           shadow : shadow,
-          padding : padding
+          padding : padding,
+          margin : [1, 0]
         };
       }
     },
@@ -2308,7 +2309,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var ret = {
           icon : "decoration/arrows/down.png",
           padding : [superStyles.padding[0], superStyles.padding[1] - 6],
-          shadow : undefined
+          shadow : undefined,
+          margin : undefined
         };
 
         if (states.selected) {

@@ -820,13 +820,12 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "button-invalid-shadow" :
     {
-      decorator : qx.ui.decoration.Beveled,
+      decorator : qx.ui.decoration.Single,
 
       style :
       {
-        outerColor : "invalid",
-        innerColor : "border-focused-invalid",
-        insets: [1]
+        color : "invalid",
+        width : 1
       }
     },
 
