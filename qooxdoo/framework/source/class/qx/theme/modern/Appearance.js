@@ -1806,17 +1806,22 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var useCSS = qx.core.Environment.get("css.borderradius") &&
           qx.core.Environment.get("css.gradients") &&
           qx.core.Environment.get("css.boxshadow");
-        var decorator = "shadow-window";
-        
+
+        var decorator;
+        var shadow;
+
         if (useCSS) {
           if (states.showStatusbar) {
             decorator = "window-incl-statusbar-css";
           } else {
             decorator = "window-css";
           }
+        } else {
+           shadow = "shadow-window";
         }
         return {
           decorator : decorator,
+          shadow : shadow,
           contentPadding : [ 10, 10, 10, 10 ],
           margin : [0, 5, 5, 0]
           
