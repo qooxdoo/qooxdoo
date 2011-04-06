@@ -164,7 +164,7 @@ exec-showcase-build:
 info-inspector:
 	@echo
 	@echo "****************************************************************************"
-	@echo "  GENERATING INSPECTOR"
+	@echo "  GENERATING INSPECTOR COMPONENT"
 	@echo "****************************************************************************"
 
 
@@ -172,6 +172,24 @@ inspector: info-inspector exec-inspector-build
 
 exec-inspector-build:
 	@time ( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
+
+
+
+################################################################################
+# TESTRUNNER TARGETS
+################################################################################
+
+info-testrunner:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING TESTRUNNER COMPONENT"
+	@echo "****************************************************************************"
+
+
+testrunner: info-testrunner exec-testrunner-build
+
+exec-testrunner-build:
+	@time ( cd component/testrunner && $(CMD_GENERATOR) build ) || exit 1
 
 
 
@@ -298,7 +316,7 @@ check-docs-pdf:
 # PUBLISH TARGETS
 ################################################################################
 
-publish-build: build-apps inspector build-framework build-docs
+publish-build: build-apps inspector testrunner build-framework build-docs
 
 publish-check: check-banner check-apps check-components check-framework check-docs
 	@echo "    - Looks good"
