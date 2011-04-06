@@ -915,6 +915,9 @@ These jobs will all be run in place of the defining job (which is sort of a 'met
 
 settings
 ========
+
+*(Deprecated)*
+
 Define qooxdoo settings. Takes a map.
 
 ::
@@ -1064,6 +1067,8 @@ Each key is a
 
 variants
 ========
+
+*(Deprecated)*
 
 Define variants for the current app. Takes a map.
 
