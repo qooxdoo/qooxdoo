@@ -155,6 +155,11 @@ qx.Class.define("playground.view.Editor",
       session.setUseSoftTabs(true);
       session.setTabSize(2);
 
+      // disable the lint check in opera. Its not working anyway!
+      if (qx.core.Environment.get("browser.name") == "opera") {
+        session.setAnnotations = function() {};
+      }
+
       // copy the inital value
       session.setValue(this.__textarea.getValue());
 
