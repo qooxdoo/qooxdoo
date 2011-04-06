@@ -1010,18 +1010,18 @@ qx.Class.define("testrunner.view.widget.Widget", {
           this.__progressBar.setValue(0);
           this._setActiveButton(this.__runButton);
           this._applyTestCount(this.getTestCount());
+          this.__testTree.setEnabled(true);
+          // Don't apply the cookie selection if the previous state was 
+          // "aborted" (user clicked stop, then run)
+          if (old === "loading") {
+            this.__setSelectionFromCookie();
+          }
           if ( (this.getReloadAfterEachPackage() && this.__lastAutoRunItemName)
               || (this.getAutoReload() && this.__autoReloadActive == true) ) {
             this.fireEvent("runTests");
           }
           else {
             this.reset();
-          }
-          this.__testTree.setEnabled(true);
-          // Don't apply the cookie selection if the previous state was 
-          // "aborted" (user clicked stop, then run)
-          if (old === "loading") {
-            this.__setSelectionFromCookie();
           }
           break;
         case "running" :
