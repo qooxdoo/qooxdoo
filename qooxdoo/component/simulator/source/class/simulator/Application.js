@@ -26,11 +26,16 @@ qx.Class.define("simulator.Application", {
 
     main : function()
     {
-      if (window.arguments) {
-        this._argumentsToSettings(window.arguments);
-      }
-
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
+
+      if (window.arguments) {
+        try {
+          this._argumentsToSettings(window.arguments);
+        } catch(ex) {
+          this.error(ex.toString());
+          return;
+        }
+      }
 
       this.runner = new simulator.TestRunner();
       this.runner.runTests();
@@ -56,7 +61,13 @@ qx.Class.define("simulator.Application", {
       }
       if (opts) {
         opts = opts.replace(/\\\{/g, "{").replace(/\\\}/g, "}");
-        opts = qx.lang.Json.parse(opts);
+        try {
+          opts = qx.lang.Json.parse(opts);
+        } catch(ex) {
+          var msg = ex.toString() + "\nMake sure none of the settings configured"
+          + " in simulation-run/environment contain paths with spaces!";
+          throw new Error(msg);
+        }
         for (var prop in opts) {
           var value = opts[prop];
           if (typeof value == "string") {
