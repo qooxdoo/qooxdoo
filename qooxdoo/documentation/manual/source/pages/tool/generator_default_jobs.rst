@@ -213,6 +213,12 @@ source-all
 ----------
 Create source version of current application, with all classes.
 
+.. _pages/tool/generator_default_jobs#source-hybrid:
+
+source-hybrid
+-------------
+Create hybrid source version of current application, where the class files of the current application are loaded as individual files (as with *source*), but the others are collected into common .js files, for faster application start-up.
+
 .. _pages/tool/generator_default_jobs#test:
 
 test
