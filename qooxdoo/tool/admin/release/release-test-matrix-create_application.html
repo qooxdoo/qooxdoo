@@ -9,23 +9,30 @@
        margin: 10px;
        width: 100%;
      }
-     td { font-family: sans-serif }
-     th { font-family: sans-serif; vertical-align: top; text-align: left }
+     td { 
+        font-family: sans-serif;
+        text-align: left;
+        vertical-align: top; 
+     }
+     th { 
+        font-family: sans-serif; 
+        vertical-align: middle; 
+        text-align: left 
+     }
   </style>
+
+  <script  type="text/javascript" src="release-matrix-utils.js"></script>
+
 </head>
-<body>
+<body onload="autonumbering();">
 <em>$Rev$</em>
 <div align="center"><b>qooxdoo 1.4</b></div>
 <h3 valign="left">Tool Chain Tests</h3>
 <table border="1" cellpadding="2" cellspacing="0">
   <tbody>
     <tr>
-      <th rowspan="2"><br>
-      <br>
-1</th>
-      <th rowspan="2"><br>
-      <br>
-XP</th>
+      <th rowspan="2" name="number">1</th>
+      <th rowspan="2">XP</th>
       <th colspan="11">Job&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(Python
 vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</small></th>
     </tr>
@@ -55,7 +62,7 @@ run<sup>[i]</sup></td>
 [l]</sup></td>
     </tr>
     <tr>
-      <td>1.1</td>
+      <td name="number">1.1</td>
       <td>GUI skeleton</td>
       <td><br>
       </td>
@@ -81,7 +88,7 @@ run<sup>[i]</sup></td>
       </td>
     </tr>
     <tr>
-      <td>1.2</td>
+      <td name="number">1.2</td>
       <td>Inline skeleton</td>
       <td><br>
       </td>
@@ -106,7 +113,7 @@ run<sup>[i]</sup></td>
       <td>N/A</td>
     </tr>
     <tr>
-      <td>1.3</td>
+      <td name="number">1.3</td>
       <td>Native skeleton</td>
       <td><br>
       </td>
@@ -128,7 +135,7 @@ run<sup>[i]</sup></td>
       <td>N/A</td>
     </tr>
     <tr>
-      <td>1.4</td>
+      <td name="number">1.4</td>
       <td>BOM skeleton</td>
       <td>N/A</td>
       <td>N/A</td>
@@ -149,12 +156,8 @@ run<sup>[i]</sup></td>
 <table border="1" cellpadding="2" cellspacing="0">
   <tbody>
     <tr>
-      <th rowspan="2"><br>
-      <br>
-2</th>
-      <th rowspan="2"><br>
-      <br>
-Win7<br>
+      <th rowspan="2" name="number">2</th>
+      <th rowspan="2">Win7<br>
       </th>
       <th colspan="11">Job&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(Python
 vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</small></th>
@@ -185,7 +188,7 @@ run<sup>[i]</sup></td>
 [l]</sup></td>
     </tr>
     <tr>
-      <td>2.1</td>
+      <td name="number">2.1</td>
       <td>GUI skeleton</td>
       <td><br>
       </td>
@@ -211,7 +214,7 @@ run<sup>[i]</sup></td>
       </td>
     </tr>
     <tr>
-      <td>2.2</td>
+      <td name="number">2.2</td>
       <td>Inline skeleton</td>
       <td><br>
       </td>
@@ -236,7 +239,7 @@ run<sup>[i]</sup></td>
       <td>N/A</td>
     </tr>
     <tr>
-      <td>2.3</td>
+      <td name="number">2.3</td>
       <td>Native skeleton</td>
       <td><br>
       </td>
@@ -258,7 +261,7 @@ run<sup>[i]</sup></td>
       <td>N/A</td>
     </tr>
     <tr>
-      <td>2.4</td>
+      <td name="number">2.4</td>
       <td>BOM skeleton</td>
       <td>N/A</td>
       <td>N/A</td>
@@ -279,12 +282,8 @@ run<sup>[i]</sup></td>
 <table border="1" cellpadding="2" cellspacing="0">
   <tbody>
     <tr>
-      <th rowspan="2"><br>
-      <br>
-3</th>
-      <th rowspan="2"><br>
-      <br>
-Cygwin</th>
+      <th rowspan="2" name="number">3</th>
+      <th rowspan="2">Cygwin</th>
       <th colspan="11">Job&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(Python
 vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</small></th>
     </tr>
@@ -314,7 +313,7 @@ run<sup>[i]</sup></td>
 [l]</sup></td>
     </tr>
     <tr>
-      <td>3.1</td>
+      <td name="number">3.1</td>
       <td>GUI skeleton</td>
       <td><br>
       </td>
@@ -340,7 +339,7 @@ run<sup>[i]</sup></td>
       </td>
     </tr>
     <tr>
-      <td>3.2</td>
+      <td name="number">3.2</td>
       <td>Inline skeleton</td>
       <td><br>
       </td>
@@ -365,7 +364,7 @@ run<sup>[i]</sup></td>
       <td>N/A</td>
     </tr>
     <tr>
-      <td>3.3</td>
+      <td name="number">3.3</td>
       <td>Native skeleton</td>
       <td><br>
       </td>
@@ -387,7 +386,7 @@ run<sup>[i]</sup></td>
       <td>N/A</td>
     </tr>
     <tr>
-      <td>3.4</td>
+      <td name="number">3.4</td>
       <td>BOM skeleton</td>
       <td>N/A</td>
       <td>N/A</td>
@@ -408,12 +407,8 @@ run<sup>[i]</sup></td>
 <table border="1" cellpadding="2" cellspacing="0">
   <tbody>
     <tr>
-      <th rowspan="2"><br>
-      <br>
-4</th>
-      <th rowspan="2"><br>
-      <br>
-OSX</th>
+      <th rowspan="2" name="number">4</th>
+      <th rowspan="2">OSX</th>
       <th colspan="11">Job&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(Python
 vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</small></th>
     </tr>
@@ -443,7 +438,7 @@ run<sup>[i]</sup></td>
 [l]</sup></td>
     </tr>
     <tr>
-      <td>4.1</td>
+      <td name="number">4.1</td>
       <td>GUI skeleton</td>
       <td><br>
       </td>
@@ -469,7 +464,7 @@ run<sup>[i]</sup></td>
       </td>
     </tr>
     <tr>
-      <td>4.2</td>
+      <td name="number">4.2</td>
       <td>Inline skeleton</td>
       <td><br>
       </td>
@@ -494,7 +489,7 @@ run<sup>[i]</sup></td>
       <td>N/A</td>
     </tr>
     <tr>
-      <td>4.3</td>
+      <td name="number">4.3</td>
       <td>Native skeleton</td>
       <td><br>
       </td>
@@ -516,7 +511,7 @@ run<sup>[i]</sup></td>
       <td>N/A</td>
     </tr>
     <tr>
-      <td>4.4</td>
+      <td name="number">4.4</td>
       <td>BOM skeleton</td>
       <td>N/A</td>
       <td>N/A</td>
@@ -537,12 +532,8 @@ run<sup>[i]</sup></td>
 <table border="1" cellpadding="2" cellspacing="0">
   <tbody>
     <tr>
-      <th rowspan="2"><br>
-      <br>
-5</th>
-      <th rowspan="2"><br>
-      <br>
-Linux</th>
+      <th rowspan="2" name="number">5</th>
+      <th rowspan="2">Linux</th>
       <th colspan="11">Job&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(Python
 vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</small></th>
     </tr>
@@ -572,7 +563,7 @@ run<sup>[i]</sup></td>
 [l]</sup></td>
     </tr>
     <tr>
-      <td>5.1</td>
+      <td name="number">5.1</td>
       <td>GUI skeleton</td>
       <td><br>
       </td>
@@ -598,7 +589,7 @@ run<sup>[i]</sup></td>
       </td>
     </tr>
     <tr>
-      <td>5.2</td>
+      <td name="number">5.2</td>
       <td>Inline skeleton</td>
       <td><br>
       </td>
@@ -623,7 +614,7 @@ run<sup>[i]</sup></td>
       <td>N/A</td>
     </tr>
     <tr>
-      <td>5.3</td>
+      <td name="number">5.3</td>
       <td>Native skeleton</td>
       <td><br>
       </td>
@@ -645,7 +636,7 @@ run<sup>[i]</sup></td>
       <td>N/A</td>
     </tr>
     <tr>
-      <td>5.4</td>
+      <td name="number">5.4</td>
       <td>BOM skeleton</td>
       <td>N/A</td>
       <td>N/A</td>
@@ -666,12 +657,8 @@ run<sup>[i]</sup></td>
 <table border="1" cellpadding="2" cellspacing="0">
   <tbody>
     <tr>
-      <th rowspan="2"><br>
-      <br>
-6</th>
-      <th rowspan="2"><br>
-      <br>
-&lt;any&gt;<sup style="font-weight: normal;">[n]</sup> </th>
+      <th rowspan="2" name="number">6</th>
+      <th rowspan="2">&lt;any&gt;<sup style="font-weight: normal;">[n]</sup> </th>
       <th colspan="11">Job&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(Python
 vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</small></th>
     </tr>
@@ -698,7 +685,7 @@ hybrid<sup><br>
 [l]</sup></td>
     </tr>
     <tr>
-      <td>6.1</td>
+      <td name="number">6.1</td>
       <td>Contrib demo<sup>[k]</sup> skeleton</td>
       <td><br>
       </td>
@@ -727,12 +714,8 @@ hybrid<sup><br>
 <table border="1" cellpadding="2" cellspacing="0">
   <tbody>
     <tr>
-      <th rowspan="2"><br>
-      <br>
-7</th>
-      <th rowspan="2"><br>
-      <br>
-Safari 5<sup style="font-weight: normal;">[m]</sup> </th>
+      <th rowspan="2" name="number">7</th>
+      <th rowspan="2">Safari 5<sup style="font-weight: normal;">[m]</sup> </th>
       <th colspan="11">Job&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(Python
 vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</small></th>
     </tr>
@@ -759,7 +742,7 @@ hybrid<sup><br>
 [l]</sup></td>
     </tr>
     <tr>
-      <td>7.1</td>
+      <td name="number">7.1</td>
       <td>Mobile Skeleton</td>
       <td><br>
       </td>
