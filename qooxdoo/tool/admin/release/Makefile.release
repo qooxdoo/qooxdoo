@@ -69,7 +69,7 @@ FRAMEWORK_TARGETS = api test qxoo-build qxoo-noopt
 release: release-sdk
 
 release-sdk: distclean release-sdk-sans-clean
-release-sdk-sans-clean: release-sdk-info apiviewer showcase release-sdk-svn-collect release-sdk-archive
+release-sdk-sans-clean: release-sdk-info apiviewer showcase build-docs release-sdk-svn-collect release-sdk-archive
 
 release-sdk-info:
 	@echo
