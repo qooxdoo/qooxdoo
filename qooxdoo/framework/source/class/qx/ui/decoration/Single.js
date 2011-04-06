@@ -105,6 +105,9 @@ qx.Class.define("qx.ui.decoration.Single",
 
       element.style.width = pos.width + "px";
       element.style.height = pos.height + "px";
+
+      element.style.left = parseInt(element.style.left) + pos.left + "px";
+      element.style.top = parseInt(element.style.top) + pos.top + "px";
     },
 
 
