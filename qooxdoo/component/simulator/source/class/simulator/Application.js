@@ -55,6 +55,7 @@ qx.Class.define("simulator.Application", {
         }
       }
       if (opts) {
+        opts = opts.replace(/\\\{/g, "{").replace(/\\\}/g, "}");
         opts = qx.lang.Json.parse(opts);
         for (var prop in opts) {
           var value = opts[prop];
