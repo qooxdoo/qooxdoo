@@ -77,8 +77,8 @@ qx.Bootstrap.define("qx.bom.client.Css",
      */
     getBorderRadius : function() {
       return "borderRadius" in document.documentElement.style ||
-      "MozBorderRadius" in document.documentElement.style ||
-      "WebkitBorderRadius" in document.documentElement.style;
+        "MozBorderRadius" in document.documentElement.style ||
+        "WebkitBorderRadius" in document.documentElement.style;
     },
 
 
@@ -88,9 +88,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      */
     getBoxShadow : function() {
-      return "BoxShadow" in document.documentElement.style ||
-      "MozBoxShadow" in document.documentElement.style ||
-      "WebkitBoxShadow" in document.documentElement.style;
+      return "boxShadow" in document.documentElement.style ||
+        "MozBoxShadow" in document.documentElement.style ||
+        "WebkitBoxShadow" in document.documentElement.style;
     },
 
 
