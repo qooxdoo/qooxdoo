@@ -888,10 +888,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
           icon += "down.png";
         }
 
+        var useCSS = qx.core.Environment.get("css.gradients");
+
         if (states.left || states.right)
         {
+          var paddingLeft = states.left ? 3 : 4;
           return {
-            padding : [0, 0, 0, states.left ? 3 : 4],
+            padding : useCSS ? [3, 0, 3, paddingLeft] : [2, 0, 2, paddingLeft],
             icon : icon,
             width: 15,
             height: 14
@@ -899,7 +902,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
         else
         {
-          var useCSS = qx.core.Environment.get("css.gradients");
 
           return {
             padding : useCSS ? 3 : [3, 2],
