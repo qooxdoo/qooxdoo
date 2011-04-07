@@ -58,8 +58,8 @@
      }
     ],
 
-    "version"         : "1.4",
-    "qooxdoo-versions": ["1.4"]
+    "version"         : "1.5",
+    "qooxdoo-versions": ["1.5"]
   },
   
   "provides" : 
