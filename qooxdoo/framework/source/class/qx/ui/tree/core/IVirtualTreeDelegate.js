@@ -66,6 +66,6 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
      * @param item {qx.ui.core.Widget} The created and used item.
      * @param id {Integer} The id for the binding.
      */
-    bindLeaf : function(controller, item, id) {}
+    bindItem : function(controller, item, id) {}
   }
 });
