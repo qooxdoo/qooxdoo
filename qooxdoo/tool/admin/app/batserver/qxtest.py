@@ -343,6 +343,7 @@ class QxTest:
         self.buildStatus[target] = {
           "SVNRevision" : False,
           "BuildError"  : False,
+          "BuildWarning" : False,
           "BuildStarted" : time.strftime(self.timeFormat),
           "BuildFinished" : False
         }
@@ -374,6 +375,8 @@ class QxTest:
               err = err.rstrip('\r')
               buildLogFile.write(target + "\n" + cmd + "\n" + err)
               buildLogFile.write("\n========================================================\n\n")
+              self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
+              self.buildStatus[target]["BuildWarning"] = err
             else:
               self.log(target + " build finished without errors.")
               self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
