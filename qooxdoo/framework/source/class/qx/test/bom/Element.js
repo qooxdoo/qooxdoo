@@ -138,8 +138,16 @@ qx.Class.define("qx.test.bom.Element",
       } else {
         this.assertIdentical(document, qx.dom.Hierarchy.getCommonParent(this._el, document));
       }
-    }
+    },
 
+    testClone : function()
+    {
+      var clone = qx.bom.Element.clone(this._el);
+
+      this.assertElement(clone, "Cloning of the element failed!");
+      this.assertEquals(clone.id, "el",  "Cloning of the element failed! Attribute 'id' was not cloned.")
+      this.assertEquals(clone.nodeName.toLowerCase(), "div",  "Cloning of the element failed! Different node name.")
+    }
   }
 
 });
