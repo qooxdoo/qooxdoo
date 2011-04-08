@@ -91,7 +91,7 @@ qx.Class.define("qx.test.io.part.Package",
       }
 
       var urls = [
-        this.getUrl("qx/test/part/delay.php") + "?sleep=0.3&file=file1.js",
+        this.getUrl("qx/test/part/delay.php") + "?sleep=0.3",
         this.getUrl("qx/test/part/file2.js"),
         this.getUrl("qx/test/part/file3.js")
       ];
