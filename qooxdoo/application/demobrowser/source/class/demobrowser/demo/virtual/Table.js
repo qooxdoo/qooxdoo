@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.virtual.Table",
 {
   extend : qx.application.Standalone,

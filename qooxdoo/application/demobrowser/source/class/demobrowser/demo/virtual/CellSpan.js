@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.virtual.CellSpan",
 {
   extend : qx.application.Standalone,

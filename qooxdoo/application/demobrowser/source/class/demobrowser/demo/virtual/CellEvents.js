@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.virtual.CellEvents",
 {
   extend : qx.application.Standalone,

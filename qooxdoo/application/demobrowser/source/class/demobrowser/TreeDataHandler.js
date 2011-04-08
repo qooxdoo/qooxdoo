@@ -156,12 +156,30 @@ qx.Class.define("demobrowser.TreeDataHandler",
 
         for (var j=0; j<struct.tests.length; j++)
         {
-          node = new demobrowser.Tree(struct.tests[j].name);
-          node.tags = struct.tests[j].tags;
-          node.type = "test";  // tests are leaf nodes
-          node.desc = struct.tests[j].desc;
-          node.manifest = struct.tests[j].manifest;
-          tree.add(node);
+          var tags = struct.tests[j].tags;
+          var ignoreNode = false;
+          
+          if (!qx.core.Environment.get("demobrowser.withTests"))
+          {
+            for (var k=0; k < tags.length; k++)
+            {
+              if (tags[k] === "test")
+              {
+                ignoreNode = true;
+                break;
+              }
+            }
+          }
+
+          if (!ignoreNode)
+          {
+            node = new demobrowser.Tree(struct.tests[j].name);
+            node.tags = struct.tests[j].tags;
+            node.type = "test";  // tests are leaf nodes
+            node.desc = struct.tests[j].desc;
+            node.manifest = struct.tests[j].manifest;
+            tree.add(node);
+          }
         }
       }
 
@@ -485,7 +503,9 @@ qx.Class.define("demobrowser.TreeDataHandler",
     }
   },
 
-
+  environment : {
+    "demobrowser.withTests" : false
+  },
 
 
   /*

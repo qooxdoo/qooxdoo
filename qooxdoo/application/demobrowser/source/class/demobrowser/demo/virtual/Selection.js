@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.virtual.Selection",
 {
   extend : qx.application.Standalone,

@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.virtual.Pane_Column",
 {
   extend : qx.application.Standalone,
