@@ -20,9 +20,10 @@
 #
 ################################################################################
 
-import re, sys, operator, types
+import re, sys, operator as operators, types
 from ecmascript.frontend.treeutil import *
 from ecmascript.frontend          import treeutil
+from misc                         import json
 
 global verbose
 
@@ -249,7 +250,6 @@ def processVariantIsSet(callNode, variantMap):
 def processVariantGet(callNode, variantMap):
 
     treeModified = False
-    fresult      = [None]  # input-output parameter for functions
 
     # Simple sanity checks
     params = callNode.getChild("params")
@@ -267,75 +267,17 @@ def processVariantGet(callNode, variantMap):
     if not found:
         return treeModified
 
-    # Processing
-    # are we in a if/loop condition expression, i.e. a "loop/expression/..." context?
-    conditionNode = None
-    loopType = None
-    node = callNode
-    while (node):
-        if node.type == "expression" and node.parent and node.parent.type == "loop":
-            conditionNode = node
-            break
-        node = node.parent
+    # Replace the .get() with its value
+    resultNode = reduceCall(callNode, confValue)
+    treeModified = True
 
-    if not conditionNode:
-        return treeModified
+    # Reduce any potential operations with literals (+3, =='hugo', ?a:b, ...)
+    treeMod = True
+    while treeMod:
+        resultNode, treeMod = reduceOperation(resultNode)
 
-    # handle "if" statements
-    if conditionNode.parent.get("loopType") == "IF":
-        loopNode = conditionNode.parent
-        # get() call is only condition
-        #if callNode.parent == conditionNode:
-        if isDirectDescendant(callNode, conditionNode):
-            # @deprecated
-            if confValue in ["off", "false"]:
-                varValue = False
-            else:
-                varValue = bool(confValue)
-            treeutil.inlineIfStatement(loopNode, varValue)
-            treeModified = True
-        # a single comparison is the condition
-        #elif (callNode.parent.parent.type == "operation"
-        #      and callNode.parent.parent.parent == conditionNode):
-        elif isComparisonOperand(callNode, conditionNode, fresult):
-            cmpNode = fresult[0]
-            # check operator
-            cmpOp  = cmpNode.get("operator")
-            if cmpOp in ["EQ", "SHEQ"]:
-                cmpFcn = operator.eq
-            elif cmpOp in ["NE", "SHNE"]:
-                cmpFcn = operator.ne
-            else: # unsupported compare
-                cmpFcn = None
-            if cmpFcn:
-                # get other compare operand
-                cmpOperands = cmpNode.getChildren(True)
-                if cmpOperands[0] == callNode.parent: # switch between "first" and "second"
-                    otherValue = cmpOperands[1].getFirstChild(ignoreComments=True)
-                else:
-                    otherValue = cmpOperands[0].getFirstChild(ignoreComments=True)
-                if otherValue.type == "constant":
-                    constType = otherValue.get("constantType")
-                    if constType == "number":
-                        op1 = confValue
-                        op2 = int(otherValue.get("value"))
-                    elif constType == "string":
-                        op1 = confValue
-                        op2 = otherValue.get("value")
-                    elif constType == "boolean":
-                        # @deprecated
-                        if isinstance(confValue, types.StringTypes) and confValue in ["on","off"]:
-                            op1 = {"on":True,"off":False}[confValue]
-                        else:
-                            op1 = confValue
-                        op2 = {"true":True, "false":False}[otherValue.get("value")]
-                    elif constType == "null":
-                        op1 = confValue
-                        op2 = None
-                    # compare result
-                    if constType in ("number", "string", "boolean", "null"):
-                        treeutil.inlineIfStatement(loopNode, cmpFcn(op1,op2))
-                        treeModified = True
+    # Reduce a potential condition
+    _ = reduceLoop(resultNode)
 
     return treeModified
 
@@ -425,7 +367,7 @@ def isComparisonOperand(callNode, conditionNode, capture):
             capture[0] = operNode
     return result
 
-def nextNongroupParent(node, stopnode):
+def nextNongroupParent(node, stopnode=None):
     result = stopnode
     n = node.parent
     while n and n != stopnode:
@@ -435,6 +377,38 @@ def nextNongroupParent(node, stopnode):
         else:
             n = n.parent
     return result
+
+
+def getOtherOperand(opNode, oneOperand):
+    operands = opNode.getChildren(True)
+    if operands[0] == oneOperand.parent: # switch between "first" and "second"
+        otherOperand = operands[1].getFirstChild(ignoreComments=True)
+    else:
+        otherOperand = operands[0].getFirstChild(ignoreComments=True)
+    return otherOperand
+
+
+def constNodeToPyValue(node):
+    if node.type != "constant":
+        raise ValueError("Can only intern a constant node's value")
+    constvalue = node.get("value")
+    consttype = node.get("constantType")
+    if consttype == "number":
+        constdetail = node.get("detail")
+        if constdetail == "int":
+            value = int(constvalue)
+        elif constdetail == "float":
+            value = float(constvalue)
+    elif consttype == "string":
+        value = constvalue
+    elif consttype == "boolean":
+        value = {"true":True, "false":False}[constvalue]
+    elif consttype == "null":
+        value = None
+
+    return value
+ 
+
 
 def __variantMatchKey(key, variantValue):
     for keyPart in key.split("|"):
@@ -462,23 +436,139 @@ def __keyLookup(key, variantMap):
 ##
 # 1. pass:
 # replace qx.c.Env.get(key) with its value, qx.core.Environment.get("foo") => 3
-def reduceCalls(): pass
+# handles parent relation
+def reduceCall(callNode, value):
+    # construct the value node
+    valueNode = tree.Node("constant")
+    valueNode.set("value", str(value))
+    valueNode.set("line", callNode.get("line"))
+    if isinstance(value, types.StringTypes):
+        valueNode.set("constantType","string")
+        valueNode.set("detail", "doublequotes")
+    # this has to come first, as isinstance(True, types.IntType) is also true!
+    elif isinstance(value, types.BooleanType):
+        valueNode.set("constantType","boolean")
+        valueNode.set("value", str(value).lower())
+    elif isinstance(value, types.IntType):
+        valueNode.set("constantType","number")
+        valueNode.set("detail", "int")
+    elif isinstance(value, types.FloatType):
+        valueNode.set("constantType","number")
+        valueNode.set("detail", "float")
+    elif isinstance(value, types.NoneType):
+        valueNode.set("constantType","null")
+        valueNode.set("value", "null")
+    else:
+        raise ValueError("Illegal value for JS constant: %s" % str(value))
+    # put it in place of the callNode
+    #print "optimizing: .get()"
+    callNode.parent.replaceChild(callNode, valueNode)
+    return valueNode
 
 
 ##
 # 2. pass:
-# replace literal compares, "3 == 3" => true
-def reduceCompares(): pass
+# replace operations between literals, e.g. compares ("3 == 3" => true),
+# arithmetic ("3+4" => "7"), logical ("true && false" => false)
+def reduceOperation(literalNode): 
+    resultNode = literalNode
+    treeModified = False
+
+    # can only reduce with constants
+    if literalNode.type != "constant":
+        return resultNode, treeModified
+
+    # check if we're in an operation
+    ngParent = nextNongroupParent(literalNode) # could be "first" or "second" in ops
+    if not ngParent or not ngParent.parent or ngParent.parent.type != "operation":
+        return resultNode, treeModified
+    else:
+        operationNode = ngParent.parent
+
+    # check the other operand
+    operator = operationNode.get("operator")
+    otherOperand = getOtherOperand(operationNode, literalNode)
+    if otherOperand.type != "constant":
+        return resultNode, treeModified
+
+    # equal, unequal
+    if operator in ["EQ", "SHEQ", "NE", "SHNE"]:
+        if operator in ["EQ", "SHEQ"]:
+            cmpFcn = operators.eq
+        elif operator in ["NE", "SHNE"]:
+            cmpFcn = operators.ne
+
+        # TODO: this only works for commutative operations!
+        operands = []
+        for operand in (literalNode, otherOperand):
+            opval = constNodeToPyValue(operand)
+            # @deprecated
+            if isinstance(opval, types.StringTypes) and opval in ["on","off"]:
+                opval = {"on":True,"off":False}[opval]
+            # -- @deprecated
+            operands.append(opval)
+             
+        result = cmpFcn(operands[0],operands[1])
+        resultNode = tree.Node("constant")
+        resultNode.set("constantType","boolean")
+        resultNode.set("value", str(result).lower())
+        resultNode.set("line", operationNode.get("line"))
+
+    # unsupported operation
+    else:
+        pass
+
+    if resultNode != literalNode:
+        #print "optimizing: operation"
+        operationNode.parent.replaceChild(operationNode, resultNode)
+        treeModified = True
+
+    return resultNode, treeModified
+
 
 ##
 # 3. pass:
-# now replace logical expression over literals, "true && false" => false
-def reduceLogicOps(): pass
-
-##
-# 4. pass:
 # now reduce all 'if's with constant conditions "if (true)..." => <then>-branch
-def reduceLoops(): pass
+def reduceLoop(startNode):
+    treeModified = False
+    conditionNode = None
+    loopType = None
+
+    # Can only reduce constant condition expression
+    if startNode.type != "constant":
+        return treeModified
+
+    # Can only reduce a condition expression,
+    # i.e. a "loop/expression/..." context
+    node = startNode
+    while (node):
+        if node.type == "expression" and node.parent and node.parent.type == "loop":
+            conditionNode = node
+            break
+        node = node.parent
+    if not conditionNode:
+        return treeModified
+
+    # handle "if" statements
+    if conditionNode.parent.get("loopType") == "IF":
+        loopNode = conditionNode.parent
+        # startNode must be only condition
+        if isDirectDescendant(startNode, conditionNode):
+            value = startNode.get("value")
+            if startNode.get("constantType") == 'string':
+                value = '"' + value + '"'
+            # re-parse into an internal value
+            value = json.loads(value)
+            # @deprecated
+            if value in ["off", "false"]:
+                condValue = False
+            else:
+                condValue = bool(value)
+            #print "optimizing: if"
+            treeutil.inlineIfStatement(loopNode, condValue)
+            treeModified = True
+
+    return treeModified
 
 
 ##
