@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2006, 2007 Derrell Lipman
+     2006, 2007, 2011 Derrell Lipman
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -24,15 +24,6 @@ qx.Class.define("qx.util.fsm.State",
 {
   extend : qx.core.Object,
 
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
    * @param stateName {String}
    *   The name of this state.  This is the name which may be referenced in
@@ -42,6 +33,9 @@ qx.Class.define("qx.util.fsm.State",
    * @param stateInfo {Map}
    *   <pre>
    *   An object containing any of the following properties:
+   *
+   *     context -
+   *       A context in which all of the following functions should be run.
    *
    *     onentry -
    *       A function which is called upon entry to the state.  Its signature
@@ -88,7 +82,7 @@ qx.Class.define("qx.util.fsm.State",
    *       "autoActionsBeforeOnentry" :
    *       {
    *         // The name of a function.
-   *         "enabled" :
+   *         "setEnabled" :
    *         [
    *           {
    *             // The parameter value, thus "setEnabled(true);"
@@ -105,10 +99,10 @@ qx.Class.define("qx.util.fsm.State",
    *         ],
    *
    *         // The name of another function.
-   *         "visible" :
+   *         "setVisible" :
    *         [
    *           {
-   *             // The parameter value, thus "setEnabled(true);"
+   *             // The parameter value, thus "setVisible(false);"
    *             "parameters" : [ false ],
    *
    *             // The function would be called on each object and group, as
@@ -152,6 +146,8 @@ qx.Class.define("qx.util.fsm.State",
    */
   construct : function(stateName, stateInfo)
   {
+    var context;
+
     // Call our superclass' constructor
     this.base(arguments);
 
@@ -163,49 +159,61 @@ qx.Class.define("qx.util.fsm.State",
       throw new Error("State info must be an object");
     }
 
+    // If a context was specified, retrieve it.
+    context = stateInfo.context || window;
+    
+    // Save it for future use
+    this.setUserData("context", context);
+
     // Save data from the stateInfo object
     for (var field in stateInfo)
     {
       // If we find one of our properties, call its setter.
       switch(field)
       {
-        case "onentry":
-          this.setOnentry(stateInfo[field]);
-          break;
+      case "onentry":
+        this.setOnentry(
+          this.__bindIfFunction(stateInfo[field], context));
+        break;
 
-        case "onexit":
-          this.setOnexit(stateInfo[field]);
-          break;
+      case "onexit":
+        this.setOnexit(
+          this.__bindIfFunction(stateInfo[field], context));
+        break;
 
-        case "autoActionsBeforeOnentry":
-          this.setAutoActionsBeforeOnentry(stateInfo[field]);
-          break;
+      case "autoActionsBeforeOnentry":
+        this.setAutoActionsBeforeOnentry(stateInfo[field]);
+        break;
 
-        case "autoActionsAfterOnentry":
-          this.setAutoActionsAfterOnentry(stateInfo[field]);
-          break;
+      case "autoActionsAfterOnentry":
+        this.setAutoActionsAfterOnentry(stateInfo[field]);
+        break;
 
-        case "autoActionsBeforeOnexit":
-          this.setAutoActionsBeforeOnexit(stateInfo[field]);
-          break;
+      case "autoActionsBeforeOnexit":
+        this.setAutoActionsBeforeOnexit(stateInfo[field]);
+        break;
 
-        case "autoActionsAfterOnexit":
-          this.setAutoActionsAfterOnexit(stateInfo[field]);
-          break;
+      case "autoActionsAfterOnexit":
+        this.setAutoActionsAfterOnexit(stateInfo[field]);
+        break;
 
-        case "events":
-          this.setEvents(stateInfo[field]);
-          break;
+      case "events":
+        this.setEvents(stateInfo[field]);
+        break;
 
-        default:
-          // Anything else is user-provided data for their own use.  Save it.
-          this.setUserData(field, stateInfo[field]);
+      case "context":
+        // already handled
+        break;
 
-          // Log it in case it was a typo and they intended a built-in field
-          this.debug("State " + stateName + ": " +
-                     "Adding user-provided field to state: " + field);
+      default:
+        // Anything else is user-provided data for their own use.  Save it.
+        this.setUserData(field, stateInfo[field]);
 
-          break;
+        // Log it in case it was a typo and they intended a built-in field
+        this.debug("State " + stateName + ": " +
+                   "Adding user-provided field to state: " + field);
+
+        break;
       }
     }
 
@@ -221,12 +229,6 @@ qx.Class.define("qx.util.fsm.State",
 
   statics :
   {
-    /*
-    ---------------------------------------------------------------------------
-      CLASS CONSTANTS
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Common function for checking the value provided for
      * auto actions.
@@ -270,8 +272,12 @@ qx.Class.define("qx.util.fsm.State",
      * @param value {Object}
      *   The property value which is being validated
      *
+     * @param context {Object}
+     *   The object to which the created function should be bound.
+     * 
      * @return {Function}
-     *   Function that implements calls to each of the requested automatic actions
+     *   Function that implements calls to each of the requested automatic
+     *   actions
      *
      * @throws {Error} If the value has an invalid type.
      * @throws {Error} If the function type is not an array.
@@ -281,7 +287,7 @@ qx.Class.define("qx.util.fsm.State",
      * @throws {Error} If a name in the 'objects' list is not valid.
      * @throws {Error} If the 'groups' list is not valid.
      */
-    _commonTransformAutoActions : function(actionType, value)
+    _commonTransformAutoActions : function(actionType, value, context)
     {
       // Validate that we received an object property value
       if (typeof (value) != "object") {
@@ -455,17 +461,11 @@ qx.Class.define("qx.util.fsm.State",
       // We've now built the entire body of a function that implements calls
       // to each of the requested automatic actions.  Create and return the
       // function, which will become the property value.
-      return new Function("fsm", func);
+      return qx.lang.Function.bind(new Function("fsm", func), context);
     }
   },
 
 
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
   properties :
   {
@@ -669,22 +669,8 @@ qx.Class.define("qx.util.fsm.State",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Internal transform method
      *
@@ -722,7 +708,7 @@ qx.Class.define("qx.util.fsm.State",
 
         case "function":
           // We're cool.  No changes required
-          return value;
+          return qx.lang.Function.bind(value, this.getUserData("context"));
 
         default:
           throw new Error("Invalid onentry type: " + typeof (value));
@@ -748,7 +734,7 @@ qx.Class.define("qx.util.fsm.State",
 
         case "function":
           // We're cool.  No changes required
-          return value;
+        return qx.lang.Function.bind(value, this.getUserData("context"));
 
         default:
           throw new Error("Invalid onexit type: " + typeof (value));
@@ -841,7 +827,8 @@ qx.Class.define("qx.util.fsm.State",
     {
       return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsBeforeOnentry",
-        value);
+        value,
+        this.getUserData("context"));
     },
 
 
@@ -855,7 +842,8 @@ qx.Class.define("qx.util.fsm.State",
     {
       return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsAfterOnentry",
-        value);
+        value,
+        this.getUserData("context"));
     },
 
 
@@ -869,7 +857,8 @@ qx.Class.define("qx.util.fsm.State",
     {
       return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsBeforeOnexit",
-        value);
+        value,
+        this.getUserData("context"));
     },
 
 
@@ -883,17 +872,37 @@ qx.Class.define("qx.util.fsm.State",
     {
       return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsAfterOnexit",
-        value);
+        value,
+        this.getUserData("context"));
     },
 
 
+    /**
+     * If given a function, bind it to a specified context.
+     *
+     * @param f {Function|Any}
+     *   The (possibly) function to be bound to the specified context.
+     *
+     * @param context
+     *   The context to bind the function to.
+     *
+     * @return
+     *   If f was a function, the return value is f wrapped such that it will
+     *   be called in the specified context. Otherwise, f is returned
+     *   unaltered.
+     */
+    __bindIfFunction : function(f, context)
+    {
+      // Is the first parameter a function?
+      if (typeof(f) == "function")
+      {
+        // Yup. Bind it to the specified context.
+        f = qx.lang.Function.bind(f, context);
+      }
+      
+      return f;
+    },
 
-
-    /*
-    ---------------------------------------------------------------------------
-      UTILITIES
-    ---------------------------------------------------------------------------
-    */
 
     /**
      * Add a transition to a state

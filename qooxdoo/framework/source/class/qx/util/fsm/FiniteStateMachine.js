@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2006, 2007 Derrell Lipman
+     2006, 2007, 2011 Derrell Lipman
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -28,14 +28,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 {
   extend : qx.core.Object,
 
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
 
   /**
    * @param machineName {String} The name of this finite state machine
@@ -88,14 +80,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     this.__friendlyToGroups = {};
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
 
   statics :
   {
@@ -161,12 +145,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * The name of this finite state machine (for debug messages)
      */
@@ -252,14 +230,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     }
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -656,6 +626,25 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       }
     },
 
+
+    /**
+     * Pop the saved state stack.
+     *
+     * @return {String|Boolean}
+     *   The name of a state or a boolean flag that had most recently been
+     *   pushed onto the saved-state stack.
+     */
+    popState : function()
+    {
+      // Is there anything on the saved-state stack?
+      if (this.__savedStates.length == 0)
+      {
+        // Nope. Programmer error.
+        throw new Error("Saved-state stack is empty");
+      }
+      
+      return this.__savedStates.pop();
+    },
 
     /**
      * Add the specified event to a list of events to be passed to the next
@@ -1186,8 +1175,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         currentState.getAutoActionsAfterOnentry()(this);
 
         // Add any blocked events back onto the pending event queue
-        var e;
-
         for (var i=0; i<this.__blockedEvents.length; i++)
         {
           e = this.__blockedEvents.pop();
@@ -1216,14 +1203,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     }
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {

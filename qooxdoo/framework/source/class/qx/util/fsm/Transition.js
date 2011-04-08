@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2006, 2007 Derrell Lipman
+     2006, 2007, 2011 Derrell Lipman
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -25,14 +25,6 @@ qx.Class.define("qx.util.fsm.Transition",
   extend : qx.core.Object,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
    * @param transitionName {String}
    *   The name of this transition, used in debug messages.
@@ -40,6 +32,9 @@ qx.Class.define("qx.util.fsm.Transition",
    * @param transitionInfo {Object}
    *   <pre>
    *   An object optionally containing any of the following properties:
+   *
+   *     context -
+   *       A context in which all of the following functions should be run.
    *
    *     predicate -
    *       A function which is called to determine whether this transition is
@@ -135,11 +130,19 @@ qx.Class.define("qx.util.fsm.Transition",
    */
   construct : function(transitionName, transitionInfo)
   {
+    var context;
+
     // Call our superclass' constructor
     this.base(arguments);
 
     // Save the state name
     this.setName(transitionName);
+
+    // If a context was specified, retrieve it.
+    context = transitionInfo.context || window;
+
+    // Save it for future use
+    this.setUserData("context", context);
 
     // Save data from the transitionInfo object
     for (var field in transitionInfo)
@@ -147,47 +150,47 @@ qx.Class.define("qx.util.fsm.Transition",
       // If we find one of our properties, call its setter.
       switch(field)
       {
-        case "predicate":
-          this.setPredicate(transitionInfo[field]);
-          break;
+      case "predicate":
+        this.setPredicate(
+          this.__bindIfFunction(transitionInfo[field], context));
+        break;
 
-        case "nextState":
-          this.setNextState(transitionInfo[field]);
-          break;
+      case "nextState":
+        this.setNextState(transitionInfo[field]);
+        break;
 
-        case "autoActionsBeforeOntransition":
-          this.setAutoActionsBeforeOntransition(transitionInfo[field]);
-          break;
+      case "autoActionsBeforeOntransition":
+        this.setAutoActionsBeforeOntransition(
+          this.__bindIfFunction(transitionInfo[field], context));
+        break;
 
-        case "autoActionsAfterOntransition":
-          this.setAutoActionsAfterOntransition(transitionInfo[field]);
-          break;
+      case "autoActionsAfterOntransition":
+        this.setAutoActionsAfterOntransition(
+          this.__bindIfFunction(transitionInfo[field], context));
+        break;
 
-        case "ontransition":
-          this.setOntransition(transitionInfo[field]);
-          break;
+      case "ontransition":
+        this.setOntransition(
+          this.__bindIfFunction(transitionInfo[field], context));
+        break;
 
-        default:
-          // Anything else is user-provided data for their own use.  Save it.
-          this.setUserData(field, transitionInfo[field]);
+      case "context":
+        // already handled
+        break;
 
-          // Log it in case it was a typo and they intended a built-in field
-          this.debug("Transition " + transitionName + ": " +
-                     "Adding user-provided field to transition: " + field);
+      default:
+        // Anything else is user-provided data for their own use.  Save it.
+        this.setUserData(field, transitionInfo[field]);
 
-          break;
+        // Log it in case it was a typo and they intended a built-in field
+        this.debug("Transition " + transitionName + ": " +
+                   "Adding user-provided field to transition: " + field);
+
+        break;
       }
     }
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
   properties :
   {
@@ -228,7 +231,6 @@ qx.Class.define("qx.util.fsm.Transition",
     nextState :
     {
       init : qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE,
-
       transform : "__transformNextState"
     },
 
@@ -242,7 +244,8 @@ qx.Class.define("qx.util.fsm.Transition",
      */
     autoActionsBeforeOntransition :
     {
-      init : function(fsm, event) {}
+      init : function(fsm, event) {},
+      transform : "__transformAutoActionsBeforeOntransition"
     },
 
 
@@ -255,7 +258,8 @@ qx.Class.define("qx.util.fsm.Transition",
      */
     autoActionsAfterOntransition :
     {
-      init : function(fsm, event) {}
+      init : function(fsm, event) {},
+      transform : "__transformAutoActionsAfterOntransition"
     },
 
 
@@ -268,10 +272,10 @@ qx.Class.define("qx.util.fsm.Transition",
     ontransition :
     {
       init : function(fsm, event) {},
-
       transform : "__transformOntransition"
     }
   },
+
 
   members:
   {
@@ -302,7 +306,7 @@ qx.Class.define("qx.util.fsm.Transition",
 
       case "function":
         // Use user-provided function.
-        return value;
+        return qx.lang.Function.bind(value, this.getUserData("context"));
 
       default:
         throw new Error("Invalid transition predicate type: " +
@@ -313,10 +317,10 @@ qx.Class.define("qx.util.fsm.Transition",
 
 
     /**
-     * Validates the incoming state.
+     * Internal transform method
      *
-     * @param value {Object} incoming state
-     * @return {var} the value
+     * @param value {var} Current value
+     * @return {Function} the final value
      */
     __transformNextState : function(value)
     {
@@ -353,10 +357,40 @@ qx.Class.define("qx.util.fsm.Transition",
 
 
     /**
-     * Validate the ontransition function. Converts all incoming values to functions.
+     * Internal transform method
      *
-     * @param value {var} incoming value
-     * @return {Function} predicate function
+     * @param value {var} Current value
+     * @return {Function} the final value
+     */
+    __transformAutoActionsBeforeOntransition : function(value)
+    {
+      return qx.util.fsm.State._commonTransformAutoActions(
+        "autoActionsBeforeOntransition",
+        value,
+        this.getUserData("context"));
+      
+    },
+
+    /**
+     * Internal transform method
+     *
+     * @param value {var} Current value
+     * @return {Function} the final value
+     */
+    __transformAutoActionsAfterOntransition : function(value)
+    {
+      return qx.util.fsm.State._commonTransformAutoActions(
+        "autoActionsAfterOntransition",
+        value,
+        this.getUserData("context"));
+      
+    },
+
+    /**
+     * Internal transform method
+     *
+     * @param value {var} Current value
+     * @return {Function} the final value
      */
     __transformOntransition : function(value)
     {
@@ -370,12 +404,38 @@ qx.Class.define("qx.util.fsm.Transition",
 
       case "function":
         // Use user-provided function.
-        return value;
+        return qx.lang.Function.bind(value, this.getUserData("context"));
 
       default:
         throw new Error("Invalid ontransition type: " + typeof (value));
         break;
       }
+    },
+    
+    /**
+     * If given a function, bind it to a specified context.
+     *
+     * @param f {Function|Any}
+     *   The (possibly) function to be bound to the specified context.
+     *
+     * @param context
+     *   The context to bind the function to.
+     *
+     * @return
+     *   If f was a function, the return value is f wrapped such that it will
+     *   be called in the specified context. Otherwise, f is returned
+     *   unaltered.
+     */
+    __bindIfFunction : function(f, context)
+    {
+      // Is the first parameter a function?
+      if (typeof(f) == "function")
+      {
+        // Yup. Bind it to the specified context.
+        f = qx.lang.Function.bind(f, context);
+      }
+      
+      return f;
     }
   }
 });
