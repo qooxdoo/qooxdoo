@@ -203,6 +203,8 @@ qx.Class.define("testrunner.view.widget.TestResultView",
         // Allow content to grow
         contentStyles.width = "auto";
         contentStyles.height = "auto";
+        contentStyles.minWidth = width;
+        contentStyles.minHeight = height;
         content.setStyles(contentStyles);
 
         // Show scrollbar when necessary
