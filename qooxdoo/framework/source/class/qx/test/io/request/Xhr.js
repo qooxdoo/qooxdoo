@@ -111,6 +111,42 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.wait();
     },
 
+    // TODO: Comment out
+    "test: fetch resources simultaneously": function() {
+      this.require(["php"]);
+
+      var count = 1,
+          upTo = 20;
+          startedAt = new Date(),
+          duration = 0;
+
+      for (var i=0; i<upTo; i++) {
+        var req = new qx.io.request.Xhr(),
+            url = this.noCache(this.getUrl("qx/test/xmlhttp/loading.php")) + "&duration=6";
+
+        req.addListener("success", function() {
+          this.resume(function() {
+            // In seconds
+            duration = (new Date() - startedAt) / 1000;
+            this.debug("Request #" + count + " completed (" +  duration + ")");
+            if (count == upTo) {
+              return;
+            }
+
+            ++count;
+            this.wait(6000 + 1000);
+          }, this);
+        }, this);
+
+        req.setUrl(url);
+        req.send();
+      }
+
+      // Provided two concurrent requests are made (each 6s), 20 requests
+      // (i.e. 10 packs of requests) should complete after 60s
+      this.wait(60000 + 1000);
+    },
+
     //
     // General
     //
