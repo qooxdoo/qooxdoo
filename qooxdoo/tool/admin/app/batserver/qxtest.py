@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import sys, os, time, codecs, unicodedata
+import sys, os, time, codecs, unicodedata, re
 sys.path.append( os.path.join('..', '..', 'bin') )
 
 ##
@@ -340,12 +340,19 @@ class QxTest:
       if target[0] == target[0].capitalize():
         cmd += " " + buildConf['targets'][target]
         self.log("Building " + target + "\n  " + cmd)
+        reg = re.compile("-g\ (.*?)\ -n")
+        match = reg.search(cmd)
+        if match:
+          job = match.group(1)
+        else:
+          job = cmd
         self.buildStatus[target] = {
           "SVNRevision" : False,
           "BuildError"  : False,
           "BuildWarning" : False,
           "BuildStarted" : time.strftime(self.timeFormat),
-          "BuildFinished" : False
+          "BuildFinished" : False,
+          "BuildJob" : job
         }
         if (self.sim):
           status = 0
@@ -364,7 +371,6 @@ class QxTest:
               
               """Get the last line of batbuild.py's STDERR output which contains
               the actual error message. """
-              import re
               nre = re.compile('[\n\r](.*)$')
               m = nre.search(err)
               if m:
@@ -1069,8 +1075,6 @@ class QxTest:
   #
   # @param aut {str} The name of the tested application
   def sendReport(self, aut, reportfile):    
-    import re
-    
     self.log("Preparing to send " + aut + " report: " + reportfile)
     if ( not(os.path.exists(reportfile)) ):
       self.log("ERROR: Report file not found, quitting.")
