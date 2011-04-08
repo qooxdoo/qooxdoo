@@ -40,10 +40,11 @@ qx.Class.define("testrunner.view.widget.TestResultView",
     this.__testResults = [];
 
     this.setBackgroundColor("white");
-    this.setOverflowY("scroll");
+    this.setOverflowY("auto");
     this.setOverflowX("auto");
 
     this.setCssClass("resultPane");
+    this.getContainerElement().setAttribute("class", "resultPaneContainer");
 
     this.setHtml(this.__createHtml());
   },
