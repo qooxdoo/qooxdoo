@@ -92,7 +92,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Full stack tests
     //
 
-    "test: should fetch resource": function() {
+    "test: fetch resource": function() {
       // TODO: Adjust URL when file://
       this.require(["http"]);
 
@@ -115,7 +115,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     // General
     //
 
-    "test: should dispose transport on destruct": function() {
+    "test: dispose transport on destruct": function() {
       this.setUpFakeTransport();
       this.spy(this.transport, "dispose");
       this.req.dispose();
@@ -127,7 +127,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Helper
     //
 
-    "test: should append data to URL": function() {
+    "test: append data to URL": function() {
       var url = "http://example.com/path";
       var data = "affe=true&maus=false";
 
@@ -136,7 +136,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertEquals(expected, result);
     },
 
-    "test: should append data to URL with query string": function() {
+    "test: append data to URL with query string": function() {
       var url = "http://example.com/path?giraffe=true";
       var data = "affe=true&maus=false";
 
@@ -145,7 +145,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertEquals(expected, result);
     },
 
-    "test: should indicate success": function() {
+    "test: indicate success": function() {
       this.setUpFakeTransport();
       var isSuccessful = qx.lang.Function.bind(this.req.isSuccessful, this.req);
 
@@ -166,7 +166,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Send
     //
 
-    "test: should send GET request": function() {
+    "test: send GET request": function() {
       this.setUpFakeTransport();
       this.req.send();
 
@@ -174,7 +174,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalled(this.transport.send);
     },
 
-    "test: should send POST request": function() {
+    "test: send POST request": function() {
       this.setUpFakeTransport();
       this.req.setMethod("POST");
       this.req.send();
@@ -182,7 +182,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalledWith(this.transport.open, "POST");
     },
 
-    "test: should send sync request": function() {
+    "test: send sync request": function() {
       // TODO: Firefox: "Access to restricted URI denied"
       this.require(["http"]);
 
@@ -194,7 +194,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalled(this.transport.send);
     },
 
-    "test: should send authorized request": function() {
+    "test: send authorized request": function() {
       this.setUpFakeTransport();
       this.req.setUsername("affe");
       this.req.setPassword("geheim");
@@ -203,7 +203,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalledWith(this.transport.open, "GET", "url", true, "affe", "geheim");
     },
 
-    "test: should drop fragment from URL": function() {
+    "test: drop fragment from URL": function() {
       this.setUpFakeTransport();
       this.req.setUrl("example.com#fragment")
       this.req.send();
@@ -215,7 +215,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Data with GET
     //
 
-    "test: should not send data with GET request": function() {
+    "test: not send data with GET request": function() {
       this.setUpFakeTransport();
       this.req.setData("str");
       this.req.send();
@@ -223,7 +223,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalledWith(this.transport.send, null);
     },
 
-    "test: should append string data to URL with GET request": function() {
+    "test: append string data to URL with GET request": function() {
       this.setUpFakeTransport();
       this.req.setData("str");
       this.req.send();
@@ -231,7 +231,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalledWith(this.transport.open, "GET", "url?str");
     },
 
-    "test: should append obj data to URL with GET request": function() {
+    "test: append obj data to URL with GET request": function() {
       this.setUpFakeTransport();
       this.req.setData({affe: true});
       this.req.send();
@@ -239,7 +239,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalledWith(this.transport.open, "GET", "url?affe=true");
     },
 
-    "test: should append qooxdoo obj data to URL with GET request": function() {
+    "test: append qooxdoo obj data to URL with GET request": function() {
       this.setUpFakeTransport();
       this.setUpKlass();
       var obj = new Klass();
@@ -253,7 +253,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Data with POST
     //
 
-    "test: should set content type urlencoded for POST request": function() {
+    "test: set content type urlencoded for POST request": function() {
       this.setUpFakeTransport();
       this.req.setMethod("POST");
       this.req.send();
@@ -262,7 +262,7 @@ qx.Class.define("qx.test.io.request.Xhr",
            "Content-type", "application/x-www-form-urlencoded");
     },
 
-    "test: should send string data with POST request": function() {
+    "test: send string data with POST request": function() {
       this.setUpFakeTransport();
       this.req.setMethod("POST");
       this.req.setData("str");
@@ -271,7 +271,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalledWith(this.transport.send, "str");
     },
 
-    "test: should send obj data with POST request": function() {
+    "test: send obj data with POST request": function() {
       this.setUpFakeTransport();
       this.req.setMethod("POST");
       this.req.setData({"af fe": true});
@@ -280,7 +280,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalledWith(this.transport.send, "af+fe=true");
     },
 
-    "test: should send qooxdoo obj data with POST request": function() {
+    "test: send qooxdoo obj data with POST request": function() {
       this.setUpFakeTransport();
       this.setUpKlass();
       var obj = new Klass();
@@ -295,7 +295,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Header
     //
 
-    "test: should set request headers": function() {
+    "test: set request headers": function() {
       this.setUpFakeTransport();
       this.req.setRequestHeaders({key1: "value", key2: "value"});
       this.req.send();
@@ -308,7 +308,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Events
     //
 
-    "test: should fire multiple readystatechange": function() {
+    "test: fire multiple readystatechange": function() {
       this.setUpFakeServer();
       var req = this.req,
           server = this.server,
@@ -324,7 +324,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCallCount(spy, 4);
     },
 
-    "test: should fire success": function() {
+    "test: fire success": function() {
       this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport;
@@ -336,7 +336,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       });
     },
 
-    "test: should not fire success": function() {
+    "test: not fire success": function() {
       this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport;
@@ -347,7 +347,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       });
     },
 
-    "test: should fire load": function() {
+    "test: fire load": function() {
       this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport;
@@ -357,7 +357,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       });
     },
 
-    "test: should fire loadend": function() {
+    "test: fire loadend": function() {
       this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport;
@@ -367,7 +367,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       });
     },
 
-    "test: should fire error": function() {
+    "test: fire error": function() {
       this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport;
@@ -381,7 +381,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Properties
     //
 
-    "test: should sync XHR properties for every readyState": function() {
+    "test: sync XHR properties for every readyState": function() {
       // TODO: Status is [0, 200, 200, 200] when from file://
       this.require(["http"]);
 
@@ -415,7 +415,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Abort
     //
 
-    "test: should abort request": function() {
+    "test: abort request": function() {
       this.setUpFakeTransport();
       this.req.abort();
 

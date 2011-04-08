@@ -55,7 +55,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     // Basic
     //
 
-    "test: should GET": function() {
+    "test: GET": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
       url = url + "?affe=yippie&nocache=" + Math.random();
@@ -75,7 +75,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
-    "test: should GET XML": function() {
+    "test: GET XML": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.xml");
 
@@ -95,7 +95,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     // BUGFIX
-    "test: should handle arbitrary XML": function() {
+    "test: handle arbitrary XML": function() {
       // Content-Type: foo/bar+xml
       var url = this.getUrl("qx/test/xmlhttp/xml.php");
 
@@ -115,7 +115,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
-    "test: should POST": function() {
+    "test: POST": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
       req.open("POST", this.noCache(url));
@@ -134,12 +134,12 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
-    "test: should have readyState UNSENT": function() {
+    "test: have readyState UNSENT": function() {
       var req = this.req;
       this.assertIdentical(0, req.readyState);
     },
 
-    "test: should have readyState OPENED": function() {
+    "test: have readyState OPENED": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
       req.open("GET", this.noCache(url));
@@ -150,7 +150,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     // BUGFIX
     // This is a mess, see
     // http://www.quirksmode.org/blog/archives/2005/09/xmlhttp_notes_r_2.html.
-    "test: should progress to readyState DONE": function() {
+    "test: progress to readyState DONE": function() {
       var req = this.req,
           states = [],
           that = this;
@@ -172,7 +172,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     // BUGFIX
-    "test: should progress to readyState DONE when sync": function() {
+    "test: progress to readyState DONE when sync": function() {
       var req = this.req,
           states = [];
 
@@ -189,7 +189,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.assertArrayEquals([1, 4], states);
     },
 
-    "test: should progress to readyState DONE when from cache": function() {
+    "test: progress to readyState DONE when from cache": function() {
       var req = this.req,
           url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.html")),
           states = [],
@@ -221,7 +221,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     // BUGFIX
-    "test: should allow many requests with same object": function() {
+    "test: allow many requests with same object": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
       var count = 0;
@@ -250,7 +250,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
-    "test: should abort pending request": function() {
+    "test: abort pending request": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
 
@@ -260,7 +260,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.assertNotEquals(4, req.readyState, "Request must not complete");
     },
 
-    "test: should have status 200 when modified": function() {
+    "test: have status 200 when modified": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
 
@@ -281,7 +281,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     // BUGFIX
-    "test: should have status 304 when cache is fresh": function() {
+    "test: have status 304 when cache is fresh": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/not_modified.php");
 
@@ -329,7 +329,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     // onreadystatechange()
     //
 
-    "test: should call onreadystatechange for OPEN": function() {
+    "test: call onreadystatechange for OPEN": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
 
@@ -357,7 +357,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
-    "test: should not call onreadystatechange when aborting OPENED": function() {
+    "test: not call onreadystatechange when aborting OPENED": function() {
       var req = this.req;
 
       // OPENED, without send flag
@@ -372,7 +372,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       }, this);
     },
 
-    "test: should call onreadystatechange when aborting LOADING": function() {
+    "test: call onreadystatechange when aborting LOADING": function() {
       var req = this.req;
       var that = this;
 
@@ -399,7 +399,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     // onerror()
     //
 
-    "test: should call onerror on network error": function() {
+    "test: call onerror on network error": function() {
       var req = this.req;
 
       var that = this;
@@ -419,7 +419,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     // onloadend()
     //
 
-    "test: should call onloadend on network error": function() {
+    "test: call onloadend on network error": function() {
       var req = this.req;
 
       var that = this;
@@ -439,7 +439,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     // Call order
     //
 
-    "test: should call handler in order when request successful": function() {
+    "test: call handler in order when request successful": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.html");
 
@@ -462,7 +462,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
-    "test: should call handler in order when request failed": function() {
+    "test: call handler in order when request failed": function() {
       var req = this.req;
 
       var that = this;
@@ -490,7 +490,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     //
 
     // BUGFIX
-    "test: should dispose hard-working": function() {
+    "test: dispose hard-working": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
       req.open("GET", this.noCache(url));
