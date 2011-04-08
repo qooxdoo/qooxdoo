@@ -466,7 +466,10 @@ class LibraryVersion:
             demoPath = os.path.join(demoBrowser, "demo", self.parent.name, self.name)
             buildPath = os.path.join(demoPath, variantName, qxVersion)
           
-          tempdir = tempfile.gettempdir()
+          if options.cachedir and os.path.isdir(options.cachedir):
+            tempdir = options.cachedir
+          else:
+            tempdir = tempfile.gettempdir()
           macro = {
             "BUILD_PATH" : buildPath,
             "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion,
@@ -484,7 +487,12 @@ class LibraryVersion:
         if qxVersion:
           if not qxVersion in buildQueue:
             buildQueue[qxVersion] = []
-          tempdir = tempfile.gettempdir()
+          
+          if options.cachedir and os.path.isdir(options.cachedir):
+            tempdir = options.cachedir
+          else:
+            tempdir = tempfile.gettempdir()
+          
           macro = {
             "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion,
             "CACHE"        : tempdir + "/cache/" + qxVersion
@@ -711,6 +719,11 @@ def getComputedConf():
     help="Store any errors encountered during job processing in a JSON file (issues.json)."
   )
   
+  parser.add_option(
+    "-C", "--cache-dir", dest="cachedir", default=None, type="string",
+    help="Cache directory to be used for all build jobs."
+  )
+  
   (options, args) = parser.parse_args()
 
   return (options, args)
@@ -830,7 +843,10 @@ def main():
       
       # any other job: run it on all library versions
       else:
-        tempdir = tempfile.gettempdir()
+        if options.cachedir and os.path.isdir(options.cachedir):
+          tempdir = options.cachedir
+        else:
+          tempdir = tempfile.gettempdir()
         macro = {
           "QOOXDOO_PATH" : "../../qooxdoo/trunk",
           "CACHE"        : tempdir + "/cache/trunk"
