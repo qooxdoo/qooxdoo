@@ -354,6 +354,10 @@ qx.Class.define("qx.io.request.Xhr",
      * HTTP status indicating success.
      */
     isSuccessful: function() {
+      if (!this.isDone()) {
+        return false;
+      }
+
       var status = this.getStatus();
       return (status >= 200 && status < 300 || status === 304)
     },

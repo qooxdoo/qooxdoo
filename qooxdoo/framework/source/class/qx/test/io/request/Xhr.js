@@ -147,6 +147,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     "test: indicate success": function() {
       this.setUpFakeTransport();
+      this.transport.readyState = 4;
       var isSuccessful = qx.lang.Function.bind(this.req.isSuccessful, this.req);
 
       this.transport.status = 200;
