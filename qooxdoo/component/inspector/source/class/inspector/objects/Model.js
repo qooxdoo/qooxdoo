@@ -128,7 +128,9 @@ qx.Class.define("inspector.objects.Model",
     __onChangeInspected : function(event)
     {
       var currentSize = this.__getRegistrySize();
-      if (currentSize != this.__registrySize) {
+      if (currentSize != this.__registrySize)
+      {
+        this.__registrySize = currentSize;
         this.fireEvent("changeObjects");
       }
 
@@ -138,7 +140,7 @@ qx.Class.define("inspector.objects.Model",
     /**
      * Returns the current size from the object registry.
      *
-     * @retun {Interger} current size from the object registry.
+     * @return {Integer} current size from the object registry.
      */
     __getRegistrySize : function()
     {
