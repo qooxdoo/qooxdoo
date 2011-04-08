@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.test.io_HttpRequest",
 {
   extend : qx.application.Native,

@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.test.SelectBox_EdgeCases",
 {
   extend : qx.application.Standalone,

@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.test.Element_4",
 {
   extend : qx.application.Native,

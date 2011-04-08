@@ -25,6 +25,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.test.Decoration_UseCases",
 {
   extend : qx.application.Native,

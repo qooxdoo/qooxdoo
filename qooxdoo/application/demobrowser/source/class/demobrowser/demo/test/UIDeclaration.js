@@ -22,6 +22,10 @@
 #asset(qx/icon/${qx.icontheme}/32/apps/office-address-book.png)
 
 ************************************************************************ */
+
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.test.UIDeclaration",
 {
   extend : qx.application.Standalone,

@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.test.ScrollContainer_ResizeMatch",
 {
   extend : qx.application.Standalone,

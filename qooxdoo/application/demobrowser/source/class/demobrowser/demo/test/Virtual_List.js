@@ -28,6 +28,7 @@
 
 /**
  * @tag noPlayground
+ * @tag test
  */
 qx.Class.define("demobrowser.demo.test.Virtual_List",
 {

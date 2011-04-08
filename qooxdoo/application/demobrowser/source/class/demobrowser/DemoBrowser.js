@@ -873,6 +873,11 @@ qx.Class.define("demobrowser.DemoBrowser",
           }
           else
           {
+            // When the node has no type, it is a folder without childeren
+            if (!currNode.type) {
+              break;
+            }
+            
             t = new qx.ui.tree.TreeFile(that.polish(currNode.label));
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             if (currNode.tags) {

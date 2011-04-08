@@ -23,6 +23,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.test.Opacity",
 {
   extend : qx.application.Standalone,

@@ -23,6 +23,9 @@
 
 ************************************************************************ */
 
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.test.Decorator_Box",
 {
   extend : qx.application.Standalone,

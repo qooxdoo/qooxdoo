@@ -21,6 +21,9 @@
 #ignore(demobrowser.demo.test.Person)
 ************************************************************************ */
 
+/**
+ * @tag test
+ */
 qx.Class.define("demobrowser.demo.test.Validation",
 {
   extend : qx.application.Standalone,
