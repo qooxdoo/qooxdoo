@@ -189,7 +189,30 @@ qx.Class.define("testrunner.view.widget.TestResultView",
     {
       this.__testResults = [];
       this.setHtml("");
+    },
+
+    // overridden
+    renderLayout : function(left, top, width, height) {
+      var changes = this.base(arguments, left, top, width, height),
+          content = this.getContentElement(),
+          container = this.getContainerElement(),
+          contentStyles = {},
+          containerStyles= {};
+
+      if (changes.size) {
+        // Allow content to grow
+        contentStyles.width = "auto";
+        contentStyles.height = "auto";
+        content.setStyles(contentStyles);
+
+        // Show scrollbar when necessary
+        containerStyles.overflow = "auto";
+        container.setStyles(containerStyles);
+      }
+
+      return changes;
     }
+
   },
 
 

@@ -35,15 +35,6 @@
   padding: 0;
 }
 
-.resultPaneContainer {
-  overflow: auto !important;
-}
-
-.resultPane {
-  width: auto !important;
-  height: auto !important;
-}
-
 .testResult{
   font-family: "Consolas", "Courier New", monospace;
 	font-size: 11px;
