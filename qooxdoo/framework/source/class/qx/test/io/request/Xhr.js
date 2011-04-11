@@ -403,6 +403,31 @@ qx.Class.define("qx.test.io.request.Xhr",
       });
     },
 
+    "test: fire abort": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport;
+
+      this.assertEventFired(req, "abort", function() {
+        transport.onabort();
+      });
+    },
+
+    "test: fire timeout": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport;
+
+      req.setTimeout(100);
+      req.send();
+
+      this.assertEventFired(req, "timeout", function() {
+        transport.ontimeout();
+      });
+
+      this.assertEquals(100, transport.timeout);
+    },
+
     "test: fire error": function() {
       this.setUpFakeTransport();
       var req = this.req,

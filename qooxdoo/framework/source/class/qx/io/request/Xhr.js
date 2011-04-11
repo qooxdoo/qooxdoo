@@ -49,11 +49,15 @@ qx.Class.define("qx.io.request.Xhr",
     this.__onReadyStateChangeBound = qx.lang.Function.bind(this.__onReadyStateChange, this);
     this.__onLoadBound = qx.lang.Function.bind(this.__onLoad, this);
     this.__onLoadEndBound = qx.lang.Function.bind(this.__onLoadEnd, this);
+    this.__onAbortBound = qx.lang.Function.bind(this.__onAbort, this);
+    this.__onTimeoutBound = qx.lang.Function.bind(this.__onTimeout, this);
     this.__onErrorBound = qx.lang.Function.bind(this.__onError, this);
 
     transport.onreadystatechange = this.__onReadyStateChangeBound;
     transport.onload = this.__onLoadBound;
     transport.onloadend = this.__onLoadEndBound;
+    transport.onabort = this.__onAbortBound;
+    transport.ontimeout = this.__onTimeoutBound;
     transport.onerror = this.__onErrorBound;
   },
 
@@ -81,6 +85,16 @@ qx.Class.define("qx.io.request.Xhr",
      * Fired even when e.g. a network failure occured.
      */
     "loadend": "qx.event.type.Event",
+
+    /**
+     * Fires when request was aborted.
+     */
+    "abort": "qx.event.type.Event",
+
+    /**
+     * Fires when request reached timeout limit.
+     */
+    "timeout": "qx.event.type.Event",
 
     /**
      * Fires when request could not complete
@@ -144,6 +158,15 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     /**
+     * Timeout limit. Default (0) means no limit.
+     */
+    timeout: {
+      check: "Number",
+      nullable: true,
+      init: 0
+    },
+
+    /**
      * Data to be send as part of the request.
      *
      * Supported types:
@@ -204,6 +227,8 @@ qx.Class.define("qx.io.request.Xhr",
     __onReadyStateChangeBound: null,
     __onLoadBound: null,
     __onLoadEndBound: null,
+    __onAbortBound: null,
+    __onTimeoutBound: null,
     __onErrorBound: null,
 
     /*
@@ -260,6 +285,9 @@ qx.Class.define("qx.io.request.Xhr",
       if (method === "POST") {
         transport.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       }
+
+      // Set timeout
+      transport.timeout = this.getTimeout();
 
       // Send request
       transport.send(serializedData);
@@ -394,6 +422,20 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     /**
+     * Handle abstracted "abort" event.
+     */
+    __onAbort: function() {
+      this.fireEvent("abort");
+    },
+
+    /**
+     * Handle abstracted "timeout" event.
+     */
+    __onTimeout: function() {
+      this.fireEvent("timeout");
+    },
+
+    /**
      * Handle abstracted "error" event.
      */
     __onError: function() {
@@ -458,8 +500,14 @@ qx.Class.define("qx.io.request.Xhr",
 
   destruct: function()
   {
+    var transport = this.__transport,
+        noop = function() {}
+
     if (this.__transport) {
-      this.__transport.dispose();
+      transport.onreadystatechange = transport.onload = transport.onloadend =
+      transport.onabort = transport.ontimeout = transport.onerror = noop;
+
+      transport.dispose();
     }
   }
 });
