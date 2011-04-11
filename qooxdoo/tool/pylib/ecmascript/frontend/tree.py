@@ -62,8 +62,8 @@ class NodeAccessException (Exception):
 
 class Node(object):
 
-    def __init__ (self, type):
-        self.type = type
+    def __init__ (self, ntype):
+        self.type = ntype
         self.parent = None
         self.children = []
 
@@ -174,37 +174,37 @@ class Node(object):
             newChild.parent = self
             self.children.remove(oldChild)
 
-    def getChild(self, type, mandatory = True):
+    def getChild(self, ntype, mandatory = True):
         if self.children:
             for child in self.children:
-                if child.type == type:
+                if child.type == ntype:
                     return child
         if mandatory:
-            raise NodeAccessException("Node " + self.type + " has no child with type " + type, self)
+            raise NodeAccessException("Node " + self.type + " has no child with type " + ntype, self)
 
-    def hasChildRecursive(self, type):
-        if isinstance(type, basestring):
-            if self.type == type:
+    def hasChildRecursive(self, ntype):
+        if isinstance(ntype, basestring):
+            if self.type == ntype:
                 return True
-        elif isinstance(type, list):
-            if self.type in type:
+        elif isinstance(ntype, list):
+            if self.type in ntype:
                 return True
 
         if self.children:
             for child in self.children:
-                if child.hasChildRecursive(type):
+                if child.hasChildRecursive(ntype):
                     return True
 
         return False
 
-    def hasChild(self, type):
+    def hasChild(self, ntype):
         if self.children:
             for child in self.children:
-                if isinstance(type, basestring):
-                    if child.type == type:
+                if isinstance(ntype, basestring):
+                    if child.type == ntype:
                         return True
-                elif isinstance(type, list):
-                    if child.type in type:
+                elif isinstance(ntype, list):
+                    if child.type in ntype:
                         return True
 
         return False
@@ -422,14 +422,14 @@ class Node(object):
         if mandatory:
             raise NodeAccessException("Node " + self.type + " has no child with attribute " + key + " = " + value, self)
 
-    def getChildByTypeAndAttribute(self, type, key, value, mandatory = True):
+    def getChildByTypeAndAttribute(self, ntype, key, value, mandatory = True):
         if self.children:
             for child in self.children:
-                if child.type == type and child.get(key,mandatory) == value:
+                if child.type == ntype and child.get(key,mandatory) == value:
                     return child
 
         if mandatory:
-            raise NodeAccessException("Node " + self.type + " has no child with type " + type + " and attribute " + key + " = " + value, self)
+            raise NodeAccessException("Node " + self.type + " has no child with type " + ntype + " and attribute " + key + " = " + value, self)
 
     def getFirstChild(self, mandatory = True, ignoreComments = False):
         if self.children:
@@ -531,16 +531,16 @@ class Node(object):
         if mandatory:
             raise NodeAccessException("Node " + self.type + " has no child " + listName, self)
 
-    def getAllChildrenOfType(self, type):
-        return self._getAllChildrenOfType(type, [])
+    def getAllChildrenOfType(self, ntype):
+        return self._getAllChildrenOfType(ntype, [])
 
-    def _getAllChildrenOfType(self, type, found=[]):
+    def _getAllChildrenOfType(self, ntype, found=[]):
         if self.children:
             for child in self.children:
-                if child.type == type:
+                if child.type == ntype:
                     found.append(child)
 
-                child._getAllChildrenOfType(type, found)
+                child._getAllChildrenOfType(ntype, found)
 
         return found
 

@@ -120,7 +120,7 @@ def findChild(node, type):
 # @defreturn          The return type
 # @exception IOError  The error it throws
 #
-def selectNode(node, path):
+def selectNode(node, path, ignoreComments=False):
     """
     Selects a node using a XPath like path expression.
     This function returns None if no matching node was found.
@@ -128,10 +128,10 @@ def selectNode(node, path):
     Warning: This function uses a depth first search without backtracking!!
 
     ".."          navigates to the parent node
-    "nodeName"    navigates to the first child node of type nodeName
-    "nodeName[3]" navigates to the third child node of type nodeName
-    "nodeName[@key='members'] navigates to the first child node of type
-                              nodeName with the attribute "key" equals "member"
+    "nodeType"    navigates to the first child node of type nodeType
+    "nodeType[3]" navigates to the third child node of type nodeType
+    "nodeType[@key='value'] navigates to the first child node of type
+                              nodeType with the attribute "key" equals "value"
     "4"           navigates to the fourth child node
     "@key"        returns the value of the attribute "key" of the current node.
                   This must be the last statement.
@@ -152,20 +152,20 @@ def selectNode(node, path):
                     # only index
                     try:
                         position = int(part)-1
-                        node = node.getChildByPosition(position)
+                        node = node.getChildByPosition(position, ignoreComments)
                         continue
                     except ValueError:
                         pass
 
-                    # indexed node
+                    # indexed node "[1]"
                     match = re_indexedNode.match(part)
                     if match:
-                        type = match.group(1)
+                        nodetype = match.group(1)
                         index = int(match.group(2))-1
                         i = 0
                         found = False
                         for child in node.children:
-                            if child.type == type:
+                            if child.type == nodetype:
                                 if index == i:
                                     node = child
                                     found = True
@@ -176,26 +176,27 @@ def selectNode(node, path):
                         else:
                             continue
 
+                    # attributed node "[@key=val]"
                     match = re_attributeNode.match(part)
                     if match:
-                        type = match.group(1)
+                        nodetype = match.group(1)
                         attribName = match.group(2)
-                        attribType = match.group(3)
+                        attribValue = match.group(3)
                         found = False
-                        if node.hasChildren():
-                            for child in node.children:
-                                if child.type == type:
-                                    if child.get(attribName) == attribType:
-                                        node = child
-                                        found = True
+                        for child in node.children:
+                            if child.type == nodetype:
+                                if child.get(attribName) == attribValue:
+                                    node = child
+                                    found = True
+                                    break
                         if not found:
                             return None
-
 
                     # attribute
                     elif part[0] == "@":
                         return node.get(part[1:])
-                    # normal node
+
+                    # type
                     else:
                         node = node.getChild(part)
 

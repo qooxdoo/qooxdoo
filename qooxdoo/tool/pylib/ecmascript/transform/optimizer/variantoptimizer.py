@@ -209,7 +209,7 @@ def processVariantIsSet(callNode, variantMap):
             variantValue = secondParam.get("value")
             inlineIfStatement(loop, __variantMatchKey(variantValue, confValue))
 
-        # ternery operator  .. ? .. : ..
+        # ternary operator  ?:
         elif (
             ifcondition.type == "first" and
             ifcondition.getChildrenLength(True) == 1 and
@@ -218,10 +218,10 @@ def processVariantIsSet(callNode, variantMap):
         ):
             variantValue = secondParam.get("value")
             if __variantMatchKey(variantValue, confValue):
-                repleacement = selectNode(ifcondition, "../second")
+                replacement = selectNode(ifcondition, "../second")
             else:
-                repleacement = selectNode(ifcondition, "../third")
-            replaceChildWithNodes(ifcondition.parent.parent, ifcondition.parent, repleacement.children)
+                replacement = selectNode(ifcondition, "../third")
+            replaceChildWithNodes(ifcondition.parent.parent, ifcondition.parent, replacement.children)
 
         else:
             variantValue = secondParam.get("value")
@@ -270,6 +270,9 @@ def processVariantGet(callNode, variantMap):
     # Replace the .get() with its value
     resultNode = reduceCall(callNode, confValue)
     treeModified = True
+
+    if variantKey == "env.number_5":
+        import pydb; pydb.debugger()
 
     # Reduce any potential operations with literals (+3, =='hugo', ?a:b, ...)
     treeMod = True
@@ -471,51 +474,64 @@ def reduceCall(callNode, value):
 # replace operations between literals, e.g. compares ("3 == 3" => true),
 # arithmetic ("3+4" => "7"), logical ("true && false" => false)
 def reduceOperation(literalNode): 
+
+    def patchValue(val):
+        if isinstance(val, types.StringTypes) and val in ["on","off"]:
+            val = {"on":True,"off":False}[val]
+        return val
+
+
     resultNode = literalNode
     treeModified = False
 
     # can only reduce with constants
     if literalNode.type != "constant":
         return resultNode, treeModified
+    else:
+        literalValue = constNodeToPyValue(literalNode)
+        # @deprecated
+        literalValue = patchValue(literalValue)
 
     # check if we're in an operation
-    ngParent = nextNongroupParent(literalNode) # could be "first" or "second" in ops
+    ngParent = nextNongroupParent(literalNode) # could be "first", "second" etc. in ops
     if not ngParent or not ngParent.parent or ngParent.parent.type != "operation":
         return resultNode, treeModified
     else:
         operationNode = ngParent.parent
 
-    # check the other operand
+    # get operator
     operator = operationNode.get("operator")
-    # assure dyadic operator
-    if operator not in ["EQ", "SHEQ", "NE", "SHNE"]:
-        return resultNode, treeModified
-    otherOperand = getOtherOperand(operationNode, literalNode)
-    if otherOperand.type != "constant":
-        return resultNode, treeModified
 
     # equal, unequal
     if operator in ["EQ", "SHEQ", "NE", "SHNE"]:
+        otherOperand = getOtherOperand(operationNode, literalNode)
+        if otherOperand.type != "constant":
+            return resultNode, treeModified
         if operator in ["EQ", "SHEQ"]:
             cmpFcn = operators.eq
         elif operator in ["NE", "SHNE"]:
             cmpFcn = operators.ne
 
         # TODO: this only works for commutative operations!
-        operands = []
-        for operand in (literalNode, otherOperand):
-            opval = constNodeToPyValue(operand)
-            # @deprecated
-            if isinstance(opval, types.StringTypes) and opval in ["on","off"]:
-                opval = {"on":True,"off":False}[opval]
-            # -- @deprecated
-            operands.append(opval)
-             
+        operands = [literalValue]
+        otherVal = constNodeToPyValue(otherOperand)
+        # @deprecated
+        otherVal = patchValue(otherVal)
+        operands.append(otherVal)
+         
         result = cmpFcn(operands[0],operands[1])
         resultNode = tree.Node("constant")
         resultNode.set("constantType","boolean")
         resultNode.set("value", str(result).lower())
         resultNode.set("line", operationNode.get("line"))
+
+    # hook ?: operator
+    elif operator in ["HOOK"]:
+        if ngParent.type == "first": # optimize a literal condition
+            if bool(literalValue):
+                resultNode = treeutil.selectNode(operationNode, "second/1", True)
+            else:
+                resultNode = treeutil.selectNode(operationNode, "third/1", True)
 
     # unsupported operation
     else:
