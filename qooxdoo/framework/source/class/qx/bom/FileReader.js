@@ -157,6 +157,9 @@ qx.Class.define("qx.bom.FileReader",
      * The data will be provided in a binary format where each byte is in the
      * range [0,255].
      *
+     * NOTE: On FireFox, this method works if the page was loaded via the
+     * file:// protocol. In Chrome, it does not.
+     *
      * @param fileObj {File}
      *   A File object, as obtained by calling {@link #getFile} with an
      *   element of type <input type="file">.
@@ -172,6 +175,9 @@ qx.Class.define("qx.bom.FileReader",
      * the "load" event will be fired.
      *
      * The data will be provided as text, in the specified encoding.
+     *
+     * NOTE: On FireFox, this method works if the page was loaded via the
+     * file:// protocol. In Chrome, it does not.
      *
      * @param fileObj {File}
      *   A File object, as obtained by calling {@link #getFile} with an
@@ -192,6 +198,9 @@ qx.Class.define("qx.bom.FileReader",
      *
      * The data is returned in a binary format where each byte is in the range
      * [0,255].
+     *
+     * NOTE: On FireFox, this method works if the page was loaded via the
+     * file:// protocol. In Chrome, it does not.
      *
      * @param fileObj {File}
      *   A File object, as obtained by calling {@link #getFile} with an
