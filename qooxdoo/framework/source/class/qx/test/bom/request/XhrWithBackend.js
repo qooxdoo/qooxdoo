@@ -479,6 +479,39 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     //
+    // ontimeout()
+    //
+
+    // "timeout error" is specified here
+    // http://www.w3.org/TR/XMLHttpRequest2/#timeout-error
+    "test: timeout triggers timeout error": function() {
+      var req = this.req,
+          url = this.getUrl("qx/test/xmlhttp/loading.php"),
+          that = this;
+
+      req.ontimeout = function() {
+        that.resume(function() {
+          that.assertEquals(4, req.readyState);
+          that.assertIdentical("", req.responseText);
+          that.assertIdentical(null, req.responseXML);
+          that.assertCallOrder(req.onreadystatechange,
+                               req.ontimeout,
+                               req.onloadend);
+        });
+      };
+
+      req.timeout = 100;
+      req.open("GET", url + "?duration=100");
+      req.send();
+
+      this.spy(req, "onreadystatechange");
+      this.spy(req, "ontimeout");
+      this.spy(req, "onloadend");
+
+      this.wait();
+    },
+
+    //
     // onloadend()
     //
 

@@ -52,6 +52,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
   construct: function() {
     this.__onNativeReadyStateChangeBound = qx.Bootstrap.bind(this.__onNativeReadyStateChange, this);
+    this.__onTimeoutBound = qx.Bootstrap.bind(this.__onTimeout, this);
 
     this.__initNativeXhr();
 
@@ -276,6 +277,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       // Set send flag
       this.__send = true;
+
+      // Timeout
+      if (this.timeout > 0) {
+        this.__timerId = window.setTimeout(this.__onTimeoutBound, this.timeout);
+      }
     },
 
     /**
@@ -332,6 +338,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * Replace with custom method to listen to the "error" event.
      */
     onerror: function() {},
+
+    ontimeout: function() {},
 
     /**
      * Get a single response header from response.
@@ -491,6 +499,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     __disposed: null,
 
+    __timerId: null,
+
     /**
      * Init native XHR.
      */
@@ -566,20 +576,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         }
       }
 
-      // Always fire "readystatechange"
-      this.onreadystatechange();
-
-      // Fire either "load" or "error"
-      if (this.readyState === qx.bom.request.Xhr.DONE) {
-        // Infer the XHR internal error flag from statusText.
-        //
-        // See http://www.w3.org/TR/XMLHttpRequest2/#error-flag and
-        // http://www.w3.org/TR/XMLHttpRequest2/#the-statustext-attribute
-        this.statusText ? this.onload() : this.onerror();
-
-        // Always fire "onloadend" when DONE
-        this.onloadend();
-      }
+      this.__readyStateChange();
 
       // BUGFIX: IE
       // Memory leak in XMLHttpRequest (on-page)
@@ -590,6 +587,49 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         }
       }
 
+    },
+
+    __readyStateChange: function() {
+      // Always fire "readystatechange"
+      this.onreadystatechange();
+
+      // Fire either "load" or "error"
+      if (this.readyState === qx.bom.request.Xhr.DONE) {
+        // Request determined DONE. Cancel timeout.
+        window.clearTimeout(this.__timerId);
+
+        // Infer the XHR internal error flag from statusText.
+        //
+        // See http://www.w3.org/TR/XMLHttpRequest2/#error-flag and
+        // http://www.w3.org/TR/XMLHttpRequest2/#the-statustext-attribute
+        this.statusText ? this.onload() : this.onerror();
+
+        // Fire "timeout" if timeout flag is set
+        if (this.__timeout) {
+          this.ontimeout();
+          this.__timeout = false;
+        }
+
+        // Always fire "onloadend" when DONE
+        this.onloadend();
+      }
+    },
+
+    __onTimeout: function() {
+      // Basically, mimick http://www.w3.org/TR/XMLHttpRequest2/#timeout-error
+      var nxhr = this.__nativeXhr;
+      this.readyState = qx.bom.request.Xhr.DONE;
+
+      // Set timeout flag
+      this.__timeout = true;
+
+      // No longer consider request. Abort.
+      nxhr.abort();
+      this.responseText = "";
+      this.responseXML = null;
+
+      // Signal readystatechange
+      this.__readyStateChange();
     },
 
     /**
