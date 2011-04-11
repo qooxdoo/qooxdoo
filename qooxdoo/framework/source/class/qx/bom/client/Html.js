@@ -41,6 +41,17 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
 
     /**
+     * Whether the client supports File Readers
+     *
+     * @internal
+     * @return {Boolean} <code>true</code> if FileReaders are supported
+     */
+    getFileReaders : function() {
+      return window.FileReader != null;
+    },
+
+
+    /**
      * Whether the client supports Geo Location.
      *
      * @internal

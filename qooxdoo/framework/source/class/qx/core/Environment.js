@@ -217,6 +217,9 @@
  *     <tr>
  *       <td>html.webworker</td><td><i>Boolean</em></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getWebWorker}</td>
+ *     <tr>
+ *       <td>html.filereader</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getFileReader}</td>
  *     </tr>
  *     <tr>
  *       <td>html.xpath</td><td><i>Boolean</em></td><td><code>true</code></td>
@@ -949,6 +952,9 @@ qx.Bootstrap.define("qx.core.Environment",
       // /////////////////////////////////////////
       if (this.useCheck("html.webworker")) {
         this._checks["html.webworker"] = qx.bom.client.Html.getWebWorker;
+      }
+      if (this.useCheck("html.filereader")) {
+        this._checks["html.filereader"] = qx.bom.client.Html.getFileReader;
       }
       if (this.useCheck("html.geolocation")) {
         this._checks["html.geolocation"] = qx.bom.client.Html.getGeoLocation;
