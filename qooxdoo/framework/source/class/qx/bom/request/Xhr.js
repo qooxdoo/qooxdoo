@@ -306,6 +306,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       if (this.__nativeXhr) {
         this.readyState = this.__nativeXhr.readyState;
       }
+
+      this.onabort();
     },
 
     /**
@@ -343,6 +345,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * Replace with custom method to listen to the "error" event.
      */
     onerror: function() {},
+
+    /**
+    * Event handler for XHR event "abort" that is fired when request
+    * is aborted.
+    *
+    * Replace with custom method to listen to the "abort" event.
+    */
+    onabort: function() {},
 
     /**
     * Event handler for XHR event "timeout" that is fired when timeout

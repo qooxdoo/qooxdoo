@@ -318,6 +318,23 @@ qx.Class.define("qx.test.bom.request.Xhr",
     //
 
     //
+    // onabort()
+    //
+
+    "test: call onabort": function() {
+      var fakeReq = this.getFakeReq(),
+          req = this.req;
+
+      this.spy(req, "onabort");
+
+      req.open();
+      req.send();
+      req.abort();
+
+      this.assertCalled(req.onabort);
+    },
+
+    //
     // ontimeout()
     //
 
