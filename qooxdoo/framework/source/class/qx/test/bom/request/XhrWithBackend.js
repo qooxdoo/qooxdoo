@@ -437,6 +437,27 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
+    "test: call onloadend when aborting LOADING": function() {
+      var req = this.req;
+      var that = this;
+
+      req.onloadend = function() {
+        that.resume();
+      }
+
+      // Will "never" complete
+      // OPENED, finally LOADING
+      var url = this.getUrl("qx/test/xmlhttp/loading.php");
+      req.open("GET", url + "?duration=100");
+      req.send();
+
+      window.setTimeout(function() {
+        req.abort();
+      }, 0);
+
+      this.wait();
+    },
+
     //
     // onerror()
     //
