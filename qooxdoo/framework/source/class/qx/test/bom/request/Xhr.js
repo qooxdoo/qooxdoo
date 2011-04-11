@@ -694,9 +694,9 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
     isFFBelow: function(targetVersion) {
       var name = qx.core.Environment.get("engine.name");
-      var version = qx.core.Environment.get("engine.version");
+      var version = qx.core.Environment.get("browser.version");
 
-      return name == "gecko" && version < targetVersion;
+      return name == "gecko" && parseInt(version, 10) < targetVersion;
     }
 
   }
