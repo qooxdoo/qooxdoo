@@ -325,48 +325,47 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
-    // TODO: Comment out
-    "test: GET simultaneously": function() {
-      var count = 1,
-          upTo = 20,
-          startedAt = new Date(),
-          duration = 0,
-          that = this;
-
-      for (var i=0; i<upTo; i++) {
-        (function() {
-          var req = new qx.bom.request.Xhr(),
-              url = that.noCache(that.getUrl("qx/test/xmlhttp/loading.php")) + "&duration=2";
-
-          req.onreadystatechange = function() {
-            if (req.readyState != 4) {
-              return;
-            }
-
-            that.resume(function() {
-
-              // In seconds
-              duration = (new Date() - startedAt) / 1000;
-              that.debug("Request #" + count + " completed (" +  duration + ")");
-
-              if (count == upTo) {
-                return;
-              }
-
-              ++count;
-              that.wait();
-            });
-          }
-
-          req.open("GET", url);
-          req.send();
-        })();
-      }
-
-      // Provided two concurrent requests are made (each 6s), 20 requests
-      // (i.e. 10 packs of requests) should complete after 60s
-      this.wait(10000 + 1000);
-    },
+    // "test: GET simultaneously": function() {
+    //   var count = 1,
+    //       upTo = 20,
+    //       startedAt = new Date(),
+    //       duration = 0,
+    //       that = this;
+    //
+    //   for (var i=0; i<upTo; i++) {
+    //     (function() {
+    //       var req = new qx.bom.request.Xhr(),
+    //           url = that.noCache(that.getUrl("qx/test/xmlhttp/loading.php")) + "&duration=2";
+    //
+    //       req.onreadystatechange = function() {
+    //         if (req.readyState != 4) {
+    //           return;
+    //         }
+    //
+    //         that.resume(function() {
+    //
+    //           // In seconds
+    //           duration = (new Date() - startedAt) / 1000;
+    //           that.debug("Request #" + count + " completed (" +  duration + ")");
+    //
+    //           if (count == upTo) {
+    //             return;
+    //           }
+    //
+    //           ++count;
+    //           that.wait();
+    //         });
+    //       }
+    //
+    //       req.open("GET", url);
+    //       req.send();
+    //     })();
+    //   }
+    //
+    //   // Provided two concurrent requests are made (each 6s), 20 requests
+    //   // (i.e. 10 packs of requests) should complete after 60s
+    //   this.wait(10000 + 1000);
+    // },
 
     //
     // onreadystatechange()
