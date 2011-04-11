@@ -487,6 +487,9 @@ def reduceOperation(literalNode):
 
     # check the other operand
     operator = operationNode.get("operator")
+    # assure dyadic operator
+    if operator not in ["EQ", "SHEQ", "NE", "SHNE"]:
+        return resultNode, treeModified
     otherOperand = getOtherOperand(operationNode, literalNode)
     if otherOperand.type != "constant":
         return resultNode, treeModified
