@@ -318,6 +318,43 @@ qx.Class.define("qx.test.bom.request.Xhr",
     //
 
     //
+    // ontimeout()
+    //
+
+    "test: call ontimeout": function() {
+      var fakeReq = this.getFakeReq(),
+          req = this.req,
+          that = this;
+
+      req.ontimeout = function() {
+        that.resume();
+      }
+
+      req.timeout = 10;
+      req.open();
+      req.send();
+
+      this.wait();
+    },
+
+    "test: cancel timeout when DONE": function() {
+      var fakeReq = this.getFakeReq(),
+          req = this.req,
+          that = this;
+
+      this.spy(req, "ontimeout");
+
+      req.timeout = 10;
+      req.open();
+      req.send();
+      fakeReq.respond();
+
+      this.wait(20, function() {
+        this.assertNotCalled(req.ontimeout);
+      }, this);
+    },
+
+    //
     // onloadend()
     //
 
@@ -576,43 +613,6 @@ qx.Class.define("qx.test.bom.request.Xhr",
       req.open();
 
       this.assertNotEquals(200, req.status);
-    },
-
-    //
-    // timeout
-    //
-
-    "test: call ontimeout": function() {
-      var fakeReq = this.getFakeReq(),
-          req = this.req,
-          that = this;
-
-      req.ontimeout = function() {
-        that.resume();
-      }
-
-      req.timeout = 10;
-      req.open();
-      req.send();
-
-      this.wait();
-    },
-
-    "test: cancel timeout when DONE": function() {
-      var fakeReq = this.getFakeReq(),
-          req = this.req,
-          that = this;
-
-      this.spy(req, "ontimeout");
-
-      req.timeout = 10;
-      req.open();
-      req.send();
-      fakeReq.respond();
-
-      this.wait(20, function() {
-        this.assertNotCalled(req.ontimeout);
-      }, this);
     },
 
     //
