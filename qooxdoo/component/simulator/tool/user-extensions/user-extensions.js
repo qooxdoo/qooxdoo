@@ -1700,9 +1700,11 @@ Selenium.prototype.getInputElement = function(element)
  */
 Selenium.prototype._isVisibleTextInput = function(element)
 {
+  var tagName = element.tagName.toLowerCase();
+  var type = element.type ? element.type.toLowerCase() : "";
   return (element.style.display !== "none" && element.style.visibility !== "hidden") 
-      && (element.tagName.toLowerCase() == "textarea" ||
-      (element.tagName.toLowerCase() == "input" && element.type.toLowerCase() == "text"));
+      && (tagName == "textarea" ||
+      (tagName == "input" && (type == "text" || type == "password")));
 };
 
 /** 
