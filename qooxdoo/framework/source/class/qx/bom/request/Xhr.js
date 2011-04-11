@@ -115,6 +115,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     statusText: "",
 
     /**
+     * {Number} Timeout limit in milliseconds.
+     */
+    timeout: 0,
+
+    /**
      * Initializes (prepares) the request.
      *
      * @lint ignoreUndefined(XDomainRequest)
@@ -339,6 +344,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     onerror: function() {},
 
+    /**
+    * Event handler for XHR event "timeout" that is fired when timeout
+    * interval has passed.
+    *
+    * Replace with custom method to listen to the "timeout" event.
+    */
     ontimeout: function() {},
 
     /**
@@ -499,6 +510,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     __disposed: null,
 
+    /**
+     * {Number} ID of timeout timer.
+     */
     __timerId: null,
 
     /**
@@ -589,6 +603,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
     },
 
+    /**
+     * Handle readystatechange. Called internally when readyState is changed.
+     */
     __readyStateChange: function() {
       // Always fire "readystatechange"
       this.onreadystatechange();
@@ -615,6 +632,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
     },
 
+    /**
+     * Handle faked timeout.
+     */
     __onTimeout: function() {
       // Basically, mimick http://www.w3.org/TR/XMLHttpRequest2/#timeout-error
       var nxhr = this.__nativeXhr;
