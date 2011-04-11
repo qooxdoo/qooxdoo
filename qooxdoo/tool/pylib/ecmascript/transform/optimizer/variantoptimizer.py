@@ -386,9 +386,11 @@ def getOtherOperand(opNode, oneOperand):
     operands = opNode.getChildren(True)
     if operands[0] == oneOperand.parent: # switch between "first" and "second"
         otherOperand = operands[1].getFirstChild(ignoreComments=True)
+        otherPosition   = 1
     else:
         otherOperand = operands[0].getFirstChild(ignoreComments=True)
-    return otherOperand
+        otherPosition   = 0
+    return otherOperand, otherPosition
 
 
 def constNodeToPyValue(node):
@@ -504,7 +506,7 @@ def reduceOperation(literalNode):
 
     # equal, unequal
     if operator in ["EQ", "SHEQ", "NE", "SHNE"]:
-        otherOperand = getOtherOperand(operationNode, literalNode)
+        otherOperand, _ = getOtherOperand(operationNode, literalNode)
         if otherOperand.type != "constant":
             return resultNode, treeModified
         if operator in ["EQ", "SHEQ"]:
@@ -512,7 +514,6 @@ def reduceOperation(literalNode):
         elif operator in ["NE", "SHNE"]:
             cmpFcn = operators.ne
 
-        # TODO: this only works for commutative operations!
         operands = [literalValue]
         otherVal = constNodeToPyValue(otherOperand)
         # @deprecated
@@ -520,6 +521,56 @@ def reduceOperation(literalNode):
         operands.append(otherVal)
          
         result = cmpFcn(operands[0],operands[1])
+        resultNode = tree.Node("constant")
+        resultNode.set("constantType","boolean")
+        resultNode.set("value", str(result).lower())
+        resultNode.set("line", operationNode.get("line"))
+
+    # order compares <, =<, ...
+    elif operator in ["LT", "LE", "GT", "GE"]:
+        otherOperand, otherPosition = getOtherOperand(operationNode, literalNode)
+        if otherOperand.type != "constant":
+            return resultNode, treeModified
+        if operator == "LT":
+            cmpFcn = operators.lt
+        elif operator == "LE":
+            cmpFcn = operators.le
+        elif operator == "GT":
+            cmpFcn = operators.gt
+        elif operator == "GE":
+            cmpFcn = operators.ge
+
+        operands = {}
+        operands[1 - otherPosition] = literalValue
+        otherVal = constNodeToPyValue(otherOperand)
+        # @deprecated
+        otherVal = patchValue(otherVal)
+        operands[otherPosition] = otherVal
+
+        result = cmpFcn(operands[0], operands[1])
+        resultNode = tree.Node("constant")
+        resultNode.set("constantType","boolean")
+        resultNode.set("value", str(result).lower())
+        resultNode.set("line", operationNode.get("line"))
+
+    # logical operators &&, ||
+    elif operator in ["AND", "OR"]:
+        otherOperand, otherPosition = getOtherOperand(operationNode, literalNode)
+        if otherOperand.type != "constant":
+            return resultNode, treeModified
+        if operator == "AND":
+            cmpFcn = (lambda x,y: x and y)
+        elif operator == "OR":
+            cmpFcn = (lambda x,y: x or y)
+
+        operands = {}
+        operands[1 - otherPosition] = literalValue
+        otherVal = constNodeToPyValue(otherOperand)
+        # @deprecated
+        otherVal = patchValue(otherVal)
+        operands[otherPosition] = otherVal
+
+        result = cmpFcn(operands[0], operands[1])
         resultNode = tree.Node("constant")
         resultNode.set("constantType","boolean")
         resultNode.set("value", str(result).lower())
