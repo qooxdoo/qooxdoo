@@ -511,6 +511,26 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
+    "test: timeout not call onabort": function() {
+      var req = this.req,
+          url = this.getUrl("qx/test/xmlhttp/loading.php"),
+          that = this;
+
+      req.ontimeout = function() {
+        that.resume(function() {
+          that.assertNotCalled(req.onabort);
+        });
+      };
+
+      req.timeout = 100;
+      req.open("GET", url + "?duration=100");
+      req.send();
+
+      this.spy(req, "onabort");
+
+      this.wait();
+    },
+
     //
     // onloadend()
     //
