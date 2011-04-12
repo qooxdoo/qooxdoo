@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import sys, os
+import sys, os, copy
 
 # reconfigure path to import own modules from modules subfolder
 #sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "../"))
@@ -100,6 +100,12 @@ class Node(object):
         del self.attributes[key]
         if len(self.attributes) == 0:
             del self.attributes
+
+    def clone(self):
+        clone_ = copy.copy(self)
+        if hasattr(self, "attributes"):
+            clone_.attributes = copy.copy(self.attributes)
+        return clone_
 
     def hasParent(self):
         return self.parent

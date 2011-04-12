@@ -392,6 +392,23 @@ def getOtherOperand(opNode, oneOperand):
         otherPosition   = 0
     return otherOperand, otherPosition
 
+##
+# As we are potentially optimizing this expression, we can strip non-essential
+# things like comments, spurious groups etc., on a copy
+def normalizeExpression(node):
+    simplified = node.clone()
+    simplified.children = [] # fresh children
+    simplified.parent = None # reset parent
+    for child in node.children:
+        if child.type in ["comment", "commentsBefore", "commentsAfter"]:
+            continue
+        child = normalizeExpression(child)
+        child.parent = simplified
+        simplified.children.append(child)
+    if simplified.type == "group" and len(simplified.children) == 1:
+        simplified = simplified.children[0]
+    return simplified
+
 
 def constNodeToPyValue(node):
     if node.type != "constant":
@@ -500,13 +517,20 @@ def reduceOperation(literalNode):
         return resultNode, treeModified
     else:
         operationNode = ngParent.parent
-
     # get operator
     operator = operationNode.get("operator")
 
+    # normalize expression
+    noperationNode = normalizeExpression(operationNode)
+    # re-gain knownn literal node
+    for node in treeutil.nodeIterator(noperationNode, [literalNode.type]):
+        if literalNode.attributes == node.attributes:
+            nliteralNode = node
+            break
+
     # equal, unequal
     if operator in ["EQ", "SHEQ", "NE", "SHNE"]:
-        otherOperand, _ = getOtherOperand(operationNode, literalNode)
+        otherOperand, _ = getOtherOperand(noperationNode, nliteralNode)
         if otherOperand.type != "constant":
             return resultNode, treeModified
         if operator in ["EQ", "SHEQ"]:
@@ -524,11 +548,11 @@ def reduceOperation(literalNode):
         resultNode = tree.Node("constant")
         resultNode.set("constantType","boolean")
         resultNode.set("value", str(result).lower())
-        resultNode.set("line", operationNode.get("line"))
+        resultNode.set("line", noperationNode.get("line"))
 
     # order compares <, =<, ...
     elif operator in ["LT", "LE", "GT", "GE"]:
-        otherOperand, otherPosition = getOtherOperand(operationNode, literalNode)
+        otherOperand, otherPosition = getOtherOperand(noperationNode, nliteralNode)
         if otherOperand.type != "constant":
             return resultNode, treeModified
         if operator == "LT":
@@ -551,7 +575,7 @@ def reduceOperation(literalNode):
         resultNode = tree.Node("constant")
         resultNode.set("constantType","boolean")
         resultNode.set("value", str(result).lower())
-        resultNode.set("line", operationNode.get("line"))
+        resultNode.set("line", noperationNode.get("line"))
 
     # logical ! (not)
     elif operator in ["NOT"]:
@@ -559,11 +583,11 @@ def reduceOperation(literalNode):
         resultNode = tree.Node("constant")
         resultNode.set("constantType","boolean")
         resultNode.set("value", str(result).lower())
-        resultNode.set("line", operationNode.get("line"))
+        resultNode.set("line", noperationNode.get("line"))
 
     # logical operators &&, ||
     elif operator in ["AND", "OR"]:
-        otherOperand, otherPosition = getOtherOperand(operationNode, literalNode)
+        otherOperand, otherPosition = getOtherOperand(noperationNode, nliteralNode)
         if otherOperand.type != "constant":
             return resultNode, treeModified
         if operator == "AND":
@@ -582,15 +606,15 @@ def reduceOperation(literalNode):
         resultNode = tree.Node("constant")
         resultNode.set("constantType","boolean")
         resultNode.set("value", str(result).lower())
-        resultNode.set("line", operationNode.get("line"))
+        resultNode.set("line", noperationNode.get("line"))
 
     # hook ?: operator
     elif operator in ["HOOK"]:
         if ngParent.type == "first": # optimize a literal condition
             if bool(literalValue):
-                resultNode = treeutil.selectNode(operationNode, "second/1", True)
+                resultNode = treeutil.selectNode(noperationNode, "second/1", True)
             else:
-                resultNode = treeutil.selectNode(operationNode, "third/1", True)
+                resultNode = treeutil.selectNode(noperationNode, "third/1", True)
 
     # unsupported operation
     else:
