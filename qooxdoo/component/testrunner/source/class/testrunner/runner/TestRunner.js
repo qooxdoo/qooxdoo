@@ -247,12 +247,12 @@ qx.Class.define("testrunner.runner.TestRunner", {
           var originalName = "__" + prop;
           tCase[originalName] = tCase[prop];
           // create wrapped assertion func
-          var body = 'var argumentsArray = qx.lang.Array.fromArguments(arguments);\
-            try {\
-              this[arguments.callee.originalName].apply(this, argumentsArray);\
-            } catch(ex) {\
-              this.fireDataEvent("assertionFailed", ex);\
-            }';
+          var body = 'var argumentsArray = qx.lang.Array.fromArguments(arguments);'
+            + 'try {'
+            + 'this[arguments.callee.originalName].apply(this, argumentsArray);'
+            + '} catch(ex) {'
+            + 'this.fireDataEvent("assertionFailed", ex);'
+            + '}';
 
           // need to use the AUT window's Function since IE 6/7/8 can't catch
           // exceptions from other windows.
