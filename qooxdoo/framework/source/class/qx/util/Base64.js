@@ -49,7 +49,7 @@ qx.Class.define("qx.util.Base64", {
     encode : function(input)
     {
       var charSet = document.characterSet || document.charset;
-      var isMultiByte = charSet.indexOf('UTF') != -1;
+      var isMultiByte = charSet.toLowerCase().indexOf('utf') != -1;
 
       if (!isMultiByte && window.btoa instanceof Function) {
         return btoa(input);
@@ -210,7 +210,7 @@ qx.Class.define("qx.util.Base64", {
       var base64Chars = this.__base64Chars;
 
       var charSet = document.characterSet || document.charset;
-      var isMultiByte = charSet.indexOf('UTF') != -1;
+      var isMultiByte = charSet.toLowerCase().indexOf('utf') != -1;
 
       if (!isMultiByte && window.atob instanceof Function) {
         return atob(input);
