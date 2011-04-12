@@ -17,9 +17,9 @@
 /**
  * Tests the "add feed" feature.
  */
-qx.Class.define("feedreader.simulation.AddFeed", {
+qx.Class.define("feedreader.simulation.ria.AddFeed", {
 
-  extend : feedreader.simulation.FeedreaderAbstract,
+  extend : feedreader.simulation.ria.FeedreaderAbstract,
 
   members :
   {

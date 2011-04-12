@@ -17,9 +17,9 @@
 /**
  * Tests the Feedreader's internationalization feature.
  */
-qx.Class.define("feedreader.simulation.Locale", {
+qx.Class.define("feedreader.simulation.ria.Locale", {
 
-  extend : feedreader.simulation.FeedreaderAbstract,
+  extend : feedreader.simulation.ria.FeedreaderAbstract,
 
   members :
   {

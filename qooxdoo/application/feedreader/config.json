@@ -139,7 +139,7 @@
         "SIMULATOR_REPORTSERVER" : null
       },
       
-      "settings" :
+      "environment" :
       {
         "simulator.selServer"   : "${SELENIUM_SERVER}",
         "simulator.selPort"     : "${SELENIUM_PORT}",
@@ -149,6 +149,24 @@
         "simulator.reportServer": "${SIMULATOR_REPORTSERVER}",
         "simulator.applicationLog" : true,
         "simulator.globalErrorLogging" : true
+      }
+    },
+    
+    "simulation-build" :
+    {
+      "let" :
+      {
+        "SIMULATION_INCLUDE" : "feedreader.simulation.ria.*"
+      }
+    },
+    
+    "simulation-build-mobile" :
+    {
+      "extend" : ["simulation-build"],
+    
+      "let" :
+      {
+        "SIMULATION_INCLUDE" : "feedreader.simulation.mobile.*"
       }
     }
   }  

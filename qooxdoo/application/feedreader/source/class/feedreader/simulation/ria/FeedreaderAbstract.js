@@ -20,7 +20,7 @@
  * @lint ignoreUndefined(simulator)
  * @lint ignoreUndefined(selenium)
  */
-qx.Class.define("feedreader.simulation.FeedreaderAbstract", {
+qx.Class.define("feedreader.simulation.ria.FeedreaderAbstract", {
 
   extend : simulator.unit.TestCase,
 

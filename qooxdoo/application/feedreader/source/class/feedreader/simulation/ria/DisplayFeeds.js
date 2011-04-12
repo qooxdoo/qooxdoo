@@ -17,9 +17,9 @@
 /**
  * Logs any feeds that didn't load correctly.
  */
-qx.Class.define("feedreader.simulation.DisplayFeeds", {
+qx.Class.define("feedreader.simulation.ria.DisplayFeeds", {
 
-  extend : feedreader.simulation.FeedreaderAbstract,
+  extend : feedreader.simulation.ria.FeedreaderAbstract,
 
   members :
   {
