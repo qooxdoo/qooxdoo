@@ -339,7 +339,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     //
-    // Header
+    // Header and Params
     //
 
     "test: set request headers": function() {
@@ -349,6 +349,31 @@ qx.Class.define("qx.test.io.request.Xhr",
 
       this.assertCalledWith(this.transport.setRequestHeader, "key1", "value");
       this.assertCalledWith(this.transport.setRequestHeader, "key2", "value");
+    },
+
+    "test: not append cache parameter to URL": function() {
+      this.setUpFakeTransport();
+      this.req.send();
+
+      var msg = "nocache parameter must not be set";
+      this.assertFalse(/\?nocache/.test(this.transport.open.args[0][1]), msg);
+    },
+
+    "test: append nocache parameter to URL": function() {
+      this.setUpFakeTransport();
+      this.req.setCache(false);
+      this.req.send();
+
+      var msg = "nocache parameter must be set to number";
+      this.assertTrue(/\?nocache=\d{13,}/.test(this.transport.open.args[0][1]), msg);
+    },
+
+    "test: set nocache request header": function() {
+      this.setUpFakeTransport();
+      this.req.setCache("force-validate");
+      this.req.send();
+
+      this.assertCalledWith(this.transport.setRequestHeader, "Cache-Control", "no-cache");
     },
 
     //

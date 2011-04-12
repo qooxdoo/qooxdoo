@@ -167,6 +167,26 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     /**
+     * Wheter to allow request to be answered from cache.
+     *
+     * Allowed values:
+     *
+     * * <code>true</code>: Allow caching (Default)
+     * * <code>false</code>: Prohibit caching. Appends nocache parameter to URL.
+     * * <code>"force-validate"</code>: Force cache to submit request in order to
+     *   validate freshness of resource. Sets HTTP header Cache-Control to "no-cache".
+     *   Note: Should the resource be considered fresh after validation, the requested
+     *   resource is still served from cache.
+     */
+    cache: {
+      check: function(value) {
+        return qx.lang.Type.isBoolean(value) ||
+               value === "force-validate";
+      },
+      init: true
+    },
+
+    /**
      * Data to be send as part of the request.
      *
      * Supported types:
@@ -289,14 +309,26 @@ qx.Class.define("qx.io.request.Xhr",
         serializedData = null;
       }
 
+      if (this.getCache() === false) {
+        // Make sure URL cannot be served from cache and new request is made
+        url = qx.io.request.Xhr.appendParamsToUrl(url, {nocache: new Date().valueOf()});
+      }
+
       // Initialize request
       transport.open(method, url, async, username, password);
 
-      // Set headers
-      this.__setRequestHeaders();
+      // Align headers to configuration of instance
+      if (this.getCache() === "force-validate") {
+        // Force validation. See http://www.mnot.net/cache_docs/#CACHE-CONTROL.
+        transport.setRequestHeader("Cache-Control", "no-cache");
+      }
+
       if (method === "POST") {
         transport.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       }
+
+      // User-provided headers
+      this.__setRequestHeaders();
 
       // Set timeout
       transport.timeout = this.getTimeout();
