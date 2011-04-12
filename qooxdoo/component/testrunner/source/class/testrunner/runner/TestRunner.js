@@ -247,26 +247,16 @@ qx.Class.define("testrunner.runner.TestRunner", {
           var originalName = "__" + prop;
           tCase[originalName] = tCase[prop];
           // create wrapped assertion func
-          var f = function() {
-            var argumentsArray = qx.lang.Array.fromArguments(arguments);
-            try {
-              this[arguments.callee.originalName].apply(this, argumentsArray);
-            } catch(ex) {
-              this.fireDataEvent("assertionFailed", ex);
-            }
-          };
+          var body = 'var argumentsArray = qx.lang.Array.fromArguments(arguments);\
+            try {\
+              this[arguments.callee.originalName].apply(this, argumentsArray);\
+            } catch(ex) {\
+              this.fireDataEvent("assertionFailed", ex);\
+            }';
 
-          if (qx.core.Environment.get("browser.name") === "ie" &&
-              qx.core.Environment.get("browser.version") < 9) {
-            // need to use the AUT window's Function since IE 6/7/8 can't catch
-            // exceptions from other windows.
-            var body = f.toString();
-            body = /{(.*)}/img.exec(body.replace(/\n/gm, ""))[1];
-            tCase[prop] = new win.Function(body);
-          }
-          else {
-            tCase[prop] = f;
-          }
+          // need to use the AUT window's Function since IE 6/7/8 can't catch
+          // exceptions from other windows.
+          tCase[prop] = new win.Function(body);
           tCase[prop].originalName = originalName;
         }
       }
