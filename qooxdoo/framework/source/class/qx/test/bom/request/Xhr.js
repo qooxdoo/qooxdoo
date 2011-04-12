@@ -21,7 +21,8 @@ qx.Class.define("qx.test.bom.request.Xhr",
 {
   extend : qx.dev.unit.TestCase,
 
-  include : qx.dev.unit.MMock,
+  include : [qx.dev.unit.MMock,
+             qx.dev.unit.MRequirements],
 
   statics :
   {
@@ -81,50 +82,49 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // IE6 and IE7
     // Firefox < 3.5
 
-    "test: create new native XHR when required": function() {
-      if (this.isIEBelow(8) || this.isFFBelow(3.5)) {
-        var req = this.req;
-        var fakeReq = this.getFakeReq();
+    "test: create new native XHR": function() {
+      this.require(["IEBelow8OrFFBelow35"]);
 
-        req.open();
-        req.send();
-        fakeReq.respond();
+      var req = this.req;
+      var fakeReq = this.getFakeReq();
 
-        this.spy(req, "_createNativeXhr");
-        req.open();
-        this.assertCalled(req._createNativeXhr);
-      }
+      req.open();
+      req.send();
+      fakeReq.respond();
+
+      this.spy(req, "_createNativeXhr");
+      req.open();
+      this.assertCalled(req._createNativeXhr);
     },
 
     "test: dispose old when new native XHR": function() {
-      if (this.isIEBelow(8) || this.isFFBelow(3.5)) {
-        var req = this.req;
-        var fakeReq = this.getFakeReq();
+      this.require(["IEBelow8OrFFBelow35"]);
 
-        req.open();
-        req.send();
+      var req = this.req;
 
-        this.spy(req, "dispose");
+      req.open();
+      req.send();
 
-        req.open();
-        this.assertCalled(req.dispose);
-      }
+      this.spy(req, "dispose");
+
+      req.open();
+      this.assertCalled(req.dispose);
     },
 
     "test: init onreadystatechange when new native XHR": function() {
-      if (this.isIEBelow(8) || this.isFFBelow(3.5)) {
-        var req = this.req;
+      this.require(["IEBelow8OrFFBelow35"]);
 
-        req.onreadystatechange = function() {};
-        var req = this.req;
-        req.open();
+      var req = this.req;
 
-        // Trigger creation of new native XHR
-        this.spy(req, "onreadystatechange");
-        req.open();
+      req.onreadystatechange = function() {};
+      var req = this.req;
+      req.open();
 
-        this.assertCalled(req.onreadystatechange);
-      }
+      // Trigger creation of new native XHR
+      this.spy(req, "onreadystatechange");
+      req.open();
+
+      this.assertCalled(req.onreadystatechange);
     },
 
     //
@@ -466,7 +466,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       success(this.constructor.DONE);
 
       // Assert responseText to be set when in progress
-      // in browsers other than IE < 8
+      // in browsers other than IE < 9
       if (!this.isIEBelow(9)) {
         success(this.constructor.HEADERS_RECEIVED);
         success(this.constructor.LOADING);
@@ -705,6 +705,22 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var version = qx.core.Environment.get("browser.version");
 
       return name == "gecko" && parseInt(version, 10) < targetVersion;
+    },
+
+    hasIEBelow8: function() {
+      return this.isIEBelow(8);
+    },
+
+    hasIEBelow9: function() {
+      return this.isIEBelow(9);
+    },
+
+    hasFFBelow35: function() {
+      return this.isFFBelow(3.5);
+    },
+
+    hasIEBelow8OrFFBelow35: function() {
+      return this.hasIEBelow8() || this.hasFFBelow35();
     }
 
   }
