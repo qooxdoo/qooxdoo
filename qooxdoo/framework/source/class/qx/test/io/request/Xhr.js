@@ -162,22 +162,33 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Helper
     //
 
-    "test: append data to URL": function() {
-      var url = "http://example.com/path";
-      var data = "affe=true&maus=false";
+    "test: append params string to URL": function() {
+      var url = "http://example.com/path",
+          params = "affe=true&maus=false",
+          expected = "http://example.com/path?affe=true&maus=false",
+          result = qx.io.request.Xhr.appendParamsToUrl(url, params);
 
-      var expected = "http://example.com/path?affe=true&maus=false";
-      var result = qx.io.request.Xhr.appendDataToUrl(url, data);
       this.assertEquals(expected, result);
     },
 
-    "test: append data to URL with query string": function() {
-      var url = "http://example.com/path?giraffe=true";
-      var data = "affe=true&maus=false";
+    "test: append params string to URL with query string": function() {
+      var url = "http://example.com/path?giraffe=true",
+          params = "affe=true&maus=false",
+          expected = "http://example.com/path?giraffe=true&affe=true&maus=false",
+          result = qx.io.request.Xhr.appendParamsToUrl(url, params);
 
-      var expected = "http://example.com/path?giraffe=true&affe=true&maus=false";
-      var result = qx.io.request.Xhr.appendDataToUrl(url, data);
       this.assertEquals(expected, result);
+    },
+
+    "test: append params hash to URL": function() {
+      var url = "http://example.com/path",
+          params = {affe: true, maus: false},
+          expected = "http://example.com/path?affe=true&maus=false",
+          result = qx.io.request.Xhr.appendParamsToUrl(url, params);
+
+      this.assertTrue(/^http.*example.com\/path/.test(result));
+      this.assertTrue(/affe=true/.test(result));
+      this.assertTrue(/maus=false/.test(result));
     },
 
     "test: indicate success": function() {

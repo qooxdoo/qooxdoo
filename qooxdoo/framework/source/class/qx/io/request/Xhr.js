@@ -199,12 +199,24 @@ qx.Class.define("qx.io.request.Xhr",
      * existing query.
      *
      * @param url {String} URL to append string to.
-     * @param data {String} Data to append to URL.
+     * @param params {String} Parameters to append to URL.
      * @return {String} URL with string appended in query part.
      */
-    appendDataToUrl: function(url, data) {
-      return url += /\?/.test(url) ? "&" + data : "?" + data;
+    appendParamsToUrl: function(url, params) {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (!(qx.lang.Type.isString(params) || qx.lang.Type.isObject(params))) {
+          qx.log.Logger.debug("param attribute must be either string or object");
+          return;
+        }
+      }
+
+      if (qx.lang.Type.isObject(params)) {
+        params = qx.lang.Object.toUriParameter(params);
+      }
+
+      return url += /\?/.test(url) ? "&" + params : "?" + params;
     }
+
   },
 
   members:
@@ -270,7 +282,7 @@ qx.Class.define("qx.io.request.Xhr",
 
       if (method === "GET") {
         if (serializedData) {
-          url = qx.io.request.Xhr.appendDataToUrl(url, serializedData);
+          url = qx.io.request.Xhr.appendParamsToUrl(url, serializedData);
         }
 
         // Avoid duplication
