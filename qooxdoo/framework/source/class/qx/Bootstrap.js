@@ -191,7 +191,7 @@ qx.Bootstrap.define("qx.Bootstrap",
        if (qx.$$environment && qx.$$environment["qx.debug"] === false) {
          debug = false;
        }
-       if (qxvariants && qxvariants["qx.debug"] == "off") {
+       if (window.qxvariants && window.qxvariants["qx.debug"] == "off") {
          debug = false;
        }
        return debug;
