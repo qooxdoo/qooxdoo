@@ -156,10 +156,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       if (!this.__supportsManyRequests() && this.readyState > qx.bom.request.Xhr.UNSENT) {
         // XmlHttpRequest Level 1 requires open() to abort any pending requests
         // associated to the object. Since we're dealing with a new object here,
-        // we have to emulate this behavior.
-        this.abort();
-
-        // Allow old native XHR to be garbage collected
+        // we have to emulate this behavior. Moreover, allow old native XHR to be garbage collected
+        //
+        // Dispose and abort.
+        //
         this.dispose();
 
         // Replace the underlying native XHR with a new one that can
@@ -294,8 +294,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *
      * Cancels any network activity.
      *
+     * @param skipCallback {Boolean?false}
+     *        Whether onabort should be called.
      */
-    abort: function() {
+    abort: function(skipCallback) {
       if (this.__disposed) {
         return;
       }
@@ -305,6 +307,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       if (this.__nativeXhr) {
         this.readyState = this.__nativeXhr.readyState;
+      }
+
+      if (skipCallback) {
+        return;
       }
 
       this.onabort();
@@ -424,8 +430,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__nativeXhr.onload = noop;
       this.__nativeXhr.onerror = noop;
 
-      // Abort any network activity
-      this.abort();
+      // Abort any network activity. Skip onabort callback.
+      this.abort(true);
 
       // Remove reference to native XHR
       this.__nativeXhr = null;

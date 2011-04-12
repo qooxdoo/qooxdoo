@@ -96,7 +96,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       }
     },
 
-    "test: abort old when new native XHR": function() {
+    "test: dispose old when new native XHR": function() {
       if (this.isIEBelow(8) || this.isFFBelow(3.5)) {
         var req = this.req;
         var fakeReq = this.getFakeReq();
@@ -104,11 +104,10 @@ qx.Class.define("qx.test.bom.request.Xhr",
         req.open();
         req.send();
 
-        this.spy(req, "abort");
-        this.spy(fakeReq, "abort");
+        this.spy(req, "dispose");
+
         req.open();
-        this.assertCalled(req.abort);
-        this.assertCalled(fakeReq.abort);
+        this.assertCalled(req.dispose);
       }
     },
 
@@ -213,7 +212,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // abort()
     //
 
-    "test: abort request": function() {
+    "test: aborting request aborts native Xhr": function() {
       var req = this.req;
       var fakeReq = this.getFakeReq();
       this.spy(fakeReq, "abort");
@@ -669,6 +668,15 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.req.dispose();
 
       this.assertNull(this.req._getNativeXhr());
+    },
+
+    "test: dispose aborts": function() {
+      var req = this.req;
+
+      this.spy(req, "abort");
+      this.req.dispose();
+
+      this.assertCalled(req.abort);
     },
 
     fakeNativeXhr: function() {
