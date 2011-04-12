@@ -140,7 +140,8 @@ qx.Class.define("qx.fx.effect.combination.Puff",
         to: 0.0,
         modifyDisplay : false
       });
-
+      
+      this.__mainEffect.setDuration(this.getDuration());
       this.__mainEffect.start();
     }
 
