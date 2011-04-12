@@ -217,13 +217,14 @@ qx.Class.define("qx.fx.effect.combination.Drop",
       };
 
       this.__fadeEffect.set({
-        duration      : 0.5,
+        duration      : Math.min(0.5, this.getDuration()),
         sync          : true,
         from          : (this.getMode() == "out") ? 1 : 0,
         to            : (this.getMode() == "out") ? 0 : 1,
         modifyDisplay : true
       });
-
+      
+      this.__mainEffect.setDuration(this.getDuration());
       this.__mainEffect.start();
 
     }

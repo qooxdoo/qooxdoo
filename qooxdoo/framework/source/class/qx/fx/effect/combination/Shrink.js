@@ -219,7 +219,8 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
         transition: this.getScaleTransition(),
         restoreAfterFinish: true
       });
-
+      
+      this.__mainEffect.setDuration(this.getDuration());
       this.__mainEffect.start();
 
     }
