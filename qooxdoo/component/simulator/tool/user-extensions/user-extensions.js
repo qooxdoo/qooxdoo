@@ -469,6 +469,9 @@ Selenium.prototype.doQxClickAt = function(locator, eventParams)
   var coordsXY = getClientXY(element);
   LOG.debug("qxClickAt element coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
   var qx = this.getQxGlobalObject();
+  if (!qx.bom || !qx.bom.element || !qx.bom.element.Dimension) {
+    throw new SeleniumError("qx.bom.Element is needed for qxClickAt but not present in the AUT!");
+  }
   var elemWidth = qx.bom.element.Dimension.getWidth(element);
   var elemHeight = qx.bom.element.Dimension.getHeight(element);
   coordsXY[0] = coordsXY[0] + Math.floor(elemWidth / 2);
@@ -858,7 +861,6 @@ Selenium.prototype.getQxObjectHash = function(locator, script)
   if (!qxObject) {
     throw new SeleniumError("No qooxdoo object found for locator: " + locator);
   }
-  LOG.error("qxObject: " + qxObject.classname);
   var qx = this.getQxGlobalObject();
   
   if (script) {
@@ -871,6 +873,43 @@ Selenium.prototype.getQxObjectHash = function(locator, script)
   return qx.core.ObjectRegistry.toHashCode(qxObject);
 };
 
+
+/**
+ * Returns the Widget that the given DOM element is a part of.
+ * 
+ * @param element {DOMElement} DOM Element
+ * @return {qx.ui.core.Widget|qx.ui.mobile.core.Widget} The corresponding widget
+ */
+PageBot.prototype.getQxWidgetByElement = function(element)
+{
+  var qx = this.getQxGlobalObject();
+  var widget = null;
+  
+  if (qx.ui && qx.ui.core && qx.ui.core.Widget) {
+    try {
+      widget = qx.ui.core.Widget.getWidgetByElement(element);
+    }
+    catch(ex) {}
+  }
+  
+  if (element.id && qx.ui && qx.ui.mobile && qx.ui.mobile.core.Widget) {
+    try {
+      widget = qx.ui.mobile.core.Widget.getWidgetById(element.id);
+    }
+    catch(ex) {}
+  }
+  
+  if (widget) {
+    LOG.debug("getQxWidgetByElement found widget " + widget.classname);
+  }
+  
+  return widget;
+};
+
+Selenium.prototype.getQxWidgetByElement = function(element)
+{
+  return this.page().getQxWidgetByElement(element);
+};
 
 /**
  * Uses the standard locators to find a qooxdoo widget and returns it.
@@ -897,7 +936,7 @@ Selenium.prototype.getQxWidgetByLocator = function(locator)
   }
 
   // this.page().findElement() returns the html element.
-  var qxObject = qx.ui.core.Widget.getWidgetByElement( element );
+  var qxObject = this.getQxWidgetByElement(element);
   if (qxObject) {
     return qxObject;
   }
@@ -1177,7 +1216,7 @@ Selenium.prototype.__getTableClipperElement = function(locator, qxTable)
     } catch(ex) {
       throw new SeleniumError("Couldn't find table clipper widget: " + ex);
     }
-    element = qxResultObject.getContentElement().getDomElement();
+    element = this._getDomElementFromWidget(qxResultObject);
   }
   return element;
 };
@@ -1202,7 +1241,7 @@ Selenium.prototype.__getTableHeaderCellElement = function(column, locator, qxTab
       LOG.error("Couldn't find header cell widget: " + ex);
       return null;
     }
-    element = qxResultObject.getContentElement().getDomElement();
+    element = this._getDomElementFromWidget(qxResultObject);
   }
   return element;
 };
@@ -1228,7 +1267,7 @@ Selenium.prototype.__getTableFocusIndicatorElement = function(locator, qxTable)
     } catch(ex) {
       throw new SeleniumError("Couldn't find table focus indicator: " + ex);
     }
-    element = qxResultObject.getContentElement().getDomElement();
+    element = this._getDomElementFromWidget(qxResultObject);
   }
   return element;
 };
@@ -1668,8 +1707,9 @@ Selenium.prototype.getInputElement = function(element)
     return element;
   }
   // Otherwise get the qooxdoo widget the element belongs to
-  var qx = this.getQxGlobalObject();
-  var qxWidget = qx.ui.core.Widget.getWidgetByElement(element);
+  var qxWidget = this.getQxWidgetByElement(element);
+  
+  LOG.error("getInputElement found widget " + qxWidget.classname);
   
   if (qxWidget.getIframeObject) {
     var iframe = qxWidget.getIframeObject();
@@ -1681,10 +1721,22 @@ Selenium.prototype.getInputElement = function(element)
   }
   
   // Get the DOM input element
-  element = qxWidget.getContentElement().getDomElement();
+  element = this._getDomElementFromWidget(qxWidget);
   if (this._isVisibleTextInput(element))
   {
     return element;
+  }
+  
+  var textClasses = ["qx.ui.form.TextField", "qx.ui.form.PasswordField", "qx.ui.form.TextArea"];
+  var childControls = this.getChildControls(qxWidget, textClasses);
+  
+  for (var i=0,l=childControls.length; i<l; i++) {
+    var child = childControls[i];
+    element = this._getDomElementFromWidget(child);
+    if (this._isVisibleTextInput(element))
+    {
+      return element;
+    }
   }
   
   throw new SeleniumError("No input/text area child found in widget " + qxWidget.classname);
@@ -1705,6 +1757,35 @@ Selenium.prototype._isVisibleTextInput = function(element)
   return (element.style.display !== "none" && element.style.visibility !== "hidden") 
       && (tagName == "textarea" ||
       (tagName == "input" && (type == "text" || type == "password")));
+};
+
+/**
+ * Returns a widget's DOM content element. Used for compatibility with qx.ui, 
+ * where the content element is a qx.html.Element which has a DOM element, and
+ * qx.mobile, where the content element is the DOM element.
+ * 
+ * @param qxObject {qx.ui.core.Widget|qx.ui.core.mobile.Widget} a widget
+ * @return {Element|null} The DOM Element or null
+ */
+PageBot.prototype._getDomElementFromWidget = function(qxObject)
+{
+  var cElement = qxObject.getContentElement();
+  if (cElement.nodeType && cElement.nodeType === 1) {
+    return cElement;
+  }
+  var domElement = cElement.getDomElement();
+  if (domElement && domElement.nodeType && domElement.nodeType === 1) {
+    return domElement;
+  }
+  return null;
+};
+
+/** 
+ * Makes PageBot._getDomElementFromWidget accessible from Selenium.
+ */
+Selenium.prototype._getDomElementFromWidget = function(qxObject) 
+{
+  return this.page()._getDomElementFromWidget(qxObject);
 };
 
 /** 
@@ -1791,7 +1872,7 @@ PageBot.prototype.locateElementByQx = function(qxLocator, inDocument, inWindow)
   var qxObject = this._findQxObjectInWindow(qxLocator, inWindow);
 
   if (qxObject) {
-    return qxObject.getContentElement().getDomElement();
+    return this._getDomElementFromWidget(qxObject);
   }
 };
 
@@ -1840,7 +1921,7 @@ PageBot.prototype.locateElementByQxp = function(qxLocator, inDocument, inWindow)
     return null;
   }
 
-  var qxElement = qxObject.getContentElement().getDomElement();
+  var qxElement = this._getDomElementFromWidget(qxObject);
   
   var resultElement;
   if (this.locateElementByXPath){
@@ -1884,7 +1965,7 @@ PageBot.prototype.locateElementByQxh = function(qxLocator, inDocument, inWindow)
   var qxObject = this._findQxObjectInWindowQxh(qxLocator, inWindow);
 
   if (qxObject) {
-    return qxObject.getContentElement().getDomElement();
+    return this._getDomElementFromWidget(qxObject);
   } else {
     return null;
   }
@@ -1921,7 +2002,7 @@ PageBot.prototype.locateElementByQxhv = function(qxLocator, inDocument, inWindow
   var qxObject = this._findQxObjectInWindowQxh(qxLocator, inWindow);
 
   if (qxObject) {
-    return qxObject.getContentElement().getDomElement();
+    return this._getDomElementFromWidget(qxObject);
   } else {
     return null;
   }
@@ -1973,13 +2054,9 @@ PageBot.prototype.locateElementByQxidv = function(qxLocator, inDocument, inWindo
     if (element.wrappedJSObject) {
       element = element.wrappedJSObject;
     }
-    try {
-      var qxWidget = qx.ui.core.Widget.getWidgetByElement(element);
-      if (qxWidget.isSeeable()) {
-        return element;
-      }
-    } catch(ex) {
-      continue;
+    var qxWidget = this.getQxWidgetByElement(element);
+    if (qxWidget && qxWidget.isSeeable()) {
+      return element;
     }
     
   }
@@ -2035,11 +2112,11 @@ PageBot.prototype.locateElementByQxhybrid = function(qxLocator, inDocument, inWi
         this.qx.findOnlyVisible = false;
       }
       try {
-        var rootWidget = qx.ui.core.Widget.getWidgetByElement(domElem);
+        var rootWidget = this.getQxWidgetByElement(domElem);
         var subLocator = nextPart.substr(nextPart.indexOf("=") + 1);
         var qxhParts = subLocator.split('/');
         var widget = this._searchQxObjectByQxHierarchy(rootWidget, qxhParts);
-        domElem = widget.getContentElement().getDomElement();
+        domElem = this._getDomElementFromWidget(widget);
         if (domElem.wrappedJSObject) {
           domElem = domElem.wrappedJSObject;
         }
@@ -2202,11 +2279,11 @@ PageBot.prototype._getLocatorAndRoot = function(locator, inWindow)
     
     // Get the inline root widget
     try {
-      appRoot = this.getQxGlobalObject().ui.core.Widget.getWidgetByElement(domElem);
+      appRoot = this.getQxWidgetByElement(domElem);
       // If the inline root instance is configured to to respect the dom 
       // element's original dimensions, an additional div is created: 
       if (!appRoot) {
-        appRoot = this.getQxGlobalObject().ui.core.Widget.getWidgetByElement(domElem.firstChild);
+        appRoot = this.getQxWidgetByElement(domElem.firstChild);
       }
       
     } catch(ex) {
@@ -2267,7 +2344,8 @@ PageBot.prototype._findQxObjectInWindow = function(qxLocator, inWindow)
 
   if (qxResultObject)
   {
-    LOG.debug("qxResultObject=" + qxResultObject + ", element=" + qxResultObject.getContentElement().getDomElement());
+    var element = this._getDomElementFromWidget(qxResultObject);
+    LOG.debug("qxResultObject=" + qxResultObject + ", element=" + element);
     return qxResultObject;
   }
   else
@@ -3242,7 +3320,8 @@ PageBot.prototype.locateElementByQxscript = function(qxFunction, inDocument, inW
   }
   
   if (qxObject) {
-    return qxObject.getContentElement().getDomElement();
+    return this._getDomElementFromWidget(qxObject);
+    //return qxObject.getContentElement().getDomElement();
   } else {
     return null;
   }
