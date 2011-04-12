@@ -20,6 +20,7 @@
 qx.Class.define("qx.test.util.Delegate",
 {
   extend : qx.dev.unit.TestCase,
+  include : qx.dev.unit.MMock,
 
   members :
   {
@@ -45,7 +46,6 @@ qx.Class.define("qx.test.util.Delegate",
     {
       this.assertNotNull(qx.util.Delegate.getMethod(this.__delegate, "myMethod"));
       this.assertFunction(qx.util.Delegate.getMethod(this.__delegate, "myMethod"));
-      this.assertEquals(this.__delegate["myMethod"], qx.util.Delegate.getMethod(this.__delegate, "myMethod"));
 
       this.assertNull(qx.util.Delegate.getMethod(this.__delegate, "STATIC"));
       this.assertNull(qx.util.Delegate.getMethod(this.__delegate, "banana"));
@@ -57,6 +57,19 @@ qx.Class.define("qx.test.util.Delegate",
       this.assertTrue(qx.util.Delegate.containsMethod(this.__delegate, "myMethod"));
       this.assertFalse(qx.util.Delegate.containsMethod(this.__delegate, "STATIC"));
       this.assertFalse(qx.util.Delegate.containsMethod(this.__delegate, "banana"));
+    },
+
+
+    testMethodCall : function()
+    {
+      var spy = this.spy(this.__delegate, "myMethod");
+
+      var myMethod = qx.util.Delegate.getMethod(this.__delegate, "myMethod");
+      myMethod(99, 89, 99);
+
+      this.assertCalled(spy);
+      this.assertCalledWith(spy, 99, 89, 99);
+      this.assertCalledOn(spy, this.__delegate);
     }
   }
 });
