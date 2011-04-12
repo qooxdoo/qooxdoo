@@ -553,6 +553,14 @@ def reduceOperation(literalNode):
         resultNode.set("value", str(result).lower())
         resultNode.set("line", operationNode.get("line"))
 
+    # logical ! (not)
+    elif operator in ["NOT"]:
+        result = not literalValue
+        resultNode = tree.Node("constant")
+        resultNode.set("constantType","boolean")
+        resultNode.set("value", str(result).lower())
+        resultNode.set("line", operationNode.get("line"))
+
     # logical operators &&, ||
     elif operator in ["AND", "OR"]:
         otherOperand, otherPosition = getOtherOperand(operationNode, literalNode)
