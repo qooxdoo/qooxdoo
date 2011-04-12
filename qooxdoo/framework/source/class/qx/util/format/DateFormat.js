@@ -94,9 +94,18 @@ qx.Class.define("qx.util.format.DateFormat",
       this.__locale = locale;
     }
 
-    if (format != null) {
+    if (format != null)
+    {
       this.__format = format.toString();
-    } else {
+      if(this.__format in qx.util.format.DateFormat.ISO_MASKS)
+      {
+        if(this.__format === 'isoUtcDateTime') {
+          this.__UTC = true;
+        }
+        this.__format = qx.util.format.DateFormat.ISO_MASKS[this.__format];
+      }
+    } else
+    {
       this.__format = qx.locale.Date.getDateFormat("long", this.__locale) + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss", this.__locale);
     }
   },
@@ -160,6 +169,14 @@ qx.Class.define("qx.util.format.DateFormat",
 
     /** {String} The date format used for logging. */
     LOGGING_DATE_TIME__format : "yyyy-MM-dd HH:mm:ss",
+    
+    /** Special masks of patterns that are used frequently*/
+    ISO_MASKS : {
+      isoDate :        "yyyy-MM-dd",
+      isoTime :        "HH:mm:ss",
+      isoDateTime :    "yyyy-MM-dd'T'HH:mm:ss",
+      isoUtcDateTime : "yyyy-MM-dd'T'HH:mm:ss'Z'"
+    },
 
     /** {String} The am marker. */
     AM_MARKER : "am",
@@ -186,6 +203,7 @@ qx.Class.define("qx.util.format.DateFormat",
     __parseFeed : null,
     __parseRules : null,
     __formatTree : null,
+    __UTC : null,
 
     /**
      * Fills a number with leading zeros ("25" -> "0025").
@@ -386,6 +404,10 @@ qx.Class.define("qx.util.format.DateFormat",
       // check for null dates
       if (date == null) {
         return null;
+      }
+      
+      if(this.__UTC) {
+        date = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds(),date.getUTCMilliseconds());
       }
 
       var locale = this.__locale;
@@ -754,6 +776,10 @@ qx.Class.define("qx.util.format.DateFormat",
       }
 
       var date = new Date(dateValues.year, dateValues.month, dateValues.day, (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour, dateValues.min, dateValues.sec, dateValues.ms);
+      
+      if(this.__UTC) {
+        date = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds(),date.getUTCMilliseconds());
+      }
 
       if (dateValues.month != date.getMonth() || dateValues.year != date.getFullYear())
       {

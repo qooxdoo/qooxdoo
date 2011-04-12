@@ -823,6 +823,40 @@ qx.Class.define("qx.test.util.DateFormat",
         }
     }
 
+  },
+  
+  testIsoMasks : function()
+  {
+      for(var i=0; i<this.__dates.length; i++)
+      {
+        var date = this.__dates[i].date;
+        var isodf = new qx.util.format.DateFormat('isoDate');
+        var df = new qx.util.format.DateFormat('yyyy-MM-dd');
+        var isoDateFormatted = isodf.format(date);
+        var dateFormatted = df.format(date);
+        this.assertEquals(isoDateFormatted,dateFormatted);
+        this.assertEquals(isodf.parse(isoDateFormatted).getTime(),df.parse(dateFormatted).getTime());
+        
+        var isodf = new qx.util.format.DateFormat('isoTime');
+        var df = new qx.util.format.DateFormat('HH:mm:ss');
+        var isoDateFormatted = isodf.format(date);
+        var dateFormatted = df.format(date);
+        this.assertEquals(isoDateFormatted,dateFormatted);
+        this.assertEquals(isodf.parse(isoDateFormatted).getTime(),df.parse(dateFormatted).getTime());
+        
+        var isodf = new qx.util.format.DateFormat('isoDateTime');
+        var df = new qx.util.format.DateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        var isoDateFormatted = isodf.format(date);
+        var dateFormatted = df.format(date);
+        this.assertEquals(isoDateFormatted,dateFormatted);
+        this.assertEquals(isodf.parse(isoDateFormatted).getTime(),df.parse(dateFormatted).getTime());
+        
+//        var isodf = new qx.util.format.DateFormat('isoUtcDateTime');
+//        var df = new qx.util.format.DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+//        var isoDateFormatted = isodf.format(date);
+//        var dateFormatted = df.format(date);
+//        this.assertEquals(isodf.parse(isoDateFormatted).getTime(),df.parse(dateFormatted).getTime());
+      }
   }
   }
 });
