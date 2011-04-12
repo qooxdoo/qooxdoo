@@ -294,6 +294,14 @@ qx.Class.define("qx.ui.list.List",
     __defaultGroupUsed : false,
 
 
+    /**
+     * Trigger a rebuild from the internal data structure.
+     */
+    refresh : function() {
+      this.__buildUpLookupTable();
+    },
+
+
     // overridden
     _createChildControlImpl : function(id, hash)
     {
