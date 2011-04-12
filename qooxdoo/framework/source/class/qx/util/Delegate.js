@@ -35,7 +35,7 @@ qx.Class.define("qx.util.Delegate",
     getMethod : function(delegate, specificMethod)
     {
       if (qx.util.Delegate.containsMethod(delegate, specificMethod)) {
-        return delegate[specificMethod];
+        return qx.lang.Function.bind(delegate[specificMethod], delegate);
       }
 
       return null;
