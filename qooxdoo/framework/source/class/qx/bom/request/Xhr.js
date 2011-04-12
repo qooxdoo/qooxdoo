@@ -512,6 +512,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __onUnloadBound: null,
 
     /**
+     * {Function} Bound __onTimeout handler.
+     */
+    __onTimeoutBound: null,
+
+    /**
      * {Boolean} Send flag
      */
     __send: null,
@@ -520,6 +525,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * {Boolean} Abort flag
      */
     __abort: null,
+
+    /**
+     * {Boolean} Timeout flag
+     */
+    __timeout: null,
 
     /**
      * {Boolean} Whether object has been disposed.

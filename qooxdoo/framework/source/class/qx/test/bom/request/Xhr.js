@@ -321,8 +321,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     //
 
     "test: call onabort": function() {
-      var fakeReq = this.getFakeReq(),
-          req = this.req;
+      var req = this.req;
 
       this.spy(req, "onabort");
 
@@ -338,8 +337,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     //
 
     "test: call ontimeout": function() {
-      var fakeReq = this.getFakeReq(),
-          req = this.req,
+      var req = this.req,
           that = this;
 
       req.ontimeout = function() {
@@ -355,8 +353,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
     "test: cancel timeout when DONE": function() {
       var fakeReq = this.getFakeReq(),
-          req = this.req,
-          that = this;
+          req = this.req;
 
       this.spy(req, "ontimeout");
 

@@ -167,7 +167,7 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     /**
-     * Wheter to allow request to be answered from cache.
+     * Whether to allow request to be answered from cache.
      *
      * Allowed values:
      *
