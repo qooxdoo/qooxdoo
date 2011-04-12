@@ -682,7 +682,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
     // Get last instance created by the faked XMLHttpRequest
     getFakeReq: function() {
-      return this.getRequests().slice(0,1)[0];
+      return this.getRequests().slice(-1)[0];
     },
 
     isIEBelow: function(targetVersion) {
