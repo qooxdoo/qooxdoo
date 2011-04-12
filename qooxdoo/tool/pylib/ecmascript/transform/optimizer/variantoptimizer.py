@@ -588,28 +588,28 @@ def reduceOperation(literalNode):
     # logical operators &&, ||
     elif operator in ["AND", "OR"]:
         result = None
+        otherOperand, otherPosition = getOtherOperand(noperationNode, nliteralNode)
         if operator == "AND":
-            if not literalValue:  # short circuit
+            if otherPosition==1 and not literalValue:  # short circuit
                 result = False
             else:
                 cmpFcn = (lambda x,y: x and y)
         elif operator == "OR":
-            if literalValue:  # short circuit
+            if otherPosition==1 and literalValue:  # short circuit
                 result = True
             else:
                 cmpFcn = (lambda x,y: x or y)
-        otherOperand, otherPosition = getOtherOperand(noperationNode, nliteralNode)
-        if result == None and otherOperand.type != "constant":
-            return resultNode, treeModified
 
         if result == None:
+            if otherOperand.type != "constant":
+                return resultNode, treeModified
             operands = {}
             operands[1 - otherPosition] = literalValue
             otherVal = constNodeToPyValue(otherOperand)
             # @deprecated
             otherVal = patchValue(otherVal)
             operands[otherPosition] = otherVal
-            result = cmpFcn(operands[0], operands[1])
+            result = bool(cmpFcn(operands[0], operands[1]))
 
         resultNode = tree.Node("constant")
         resultNode.set("constantType","boolean")
