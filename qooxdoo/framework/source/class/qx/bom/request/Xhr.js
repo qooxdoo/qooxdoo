@@ -725,7 +725,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     __supportsManyRequests: function() {
       var name = qx.core.Environment.get("engine.name");
-      var version = qx.core.Environment.get("engine.version");
+      var version = qx.core.Environment.get("browser.version");
 
       return !(name == "mshtml" && version < 9 ||
                name == "gecko" && version < 3.5);
