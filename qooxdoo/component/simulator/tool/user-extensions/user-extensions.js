@@ -1709,7 +1709,7 @@ Selenium.prototype.getInputElement = function(element)
   // Otherwise get the qooxdoo widget the element belongs to
   var qxWidget = this.getQxWidgetByElement(element);
   
-  LOG.error("getInputElement found widget " + qxWidget.classname);
+  LOG.debug("getInputElement found widget " + qxWidget.classname);
   
   if (qxWidget.getIframeObject) {
     var iframe = qxWidget.getIframeObject();
