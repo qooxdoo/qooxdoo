@@ -418,6 +418,9 @@ class CodeGenerator(object):
         format = compConf.get("code/format", False)
         script.scriptCompress = compConf.get("paths/gzip", False)
 
+        # Read optimizaitons
+        optimize = compConf.get("code/optimize", [])
+
         # Read in settings
         settings = self.getSettings()
         script.settings = settings
@@ -455,6 +458,9 @@ class CodeGenerator(object):
         globalCodes["Variants"] = dict((k,v) for (k,v) in variantsMap.iteritems() if not k.startswith("<env>:"))
         #globalCodes["EnvSettings"] = dict(j for i in (globalCodes["Settings"], globalCodes["Variants"]) for j in i.iteritems())  # variants currently contain script.envsettings
         globalCodes["EnvSettings"] = dict((k.replace('<env>:','',1), v) for (k,v) in variantsMap.iteritems() if k.startswith("<env>:"))
+        # add optimizations
+        for val in optimize:
+            globalCodes["EnvSettings"]["qx.optimization."+val] = True
         globalCodes["Libinfo"]     = self.generateLibInfoCode(libs, format, resourceUri, scriptUri)
         # add synthetic output lib
         if scriptUri: out_sourceUri= scriptUri
