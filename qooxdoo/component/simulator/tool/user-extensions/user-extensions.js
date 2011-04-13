@@ -1427,12 +1427,8 @@ Selenium.prototype.doQxTableClick = function(locator, eventParams)
     + ",clientY=" + coordsXY[1];
   LOG.debug("newEventParamString=" + newEventParamString);
 
-  // Always do a standard click to focus the cell
-  //this.clickElementQx(element, newEventParamString);
-
   // If requested, execute a right click/context menu event :
   if (doContextMenu) {
-    this.clickElementQx(element, newEventParamString);
     LOG.debug("Right clicking table cell with params: " + newEventParamString);
     this.clickElementQx(element, newEventParamString + ",button=right");
   }
