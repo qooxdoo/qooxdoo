@@ -467,13 +467,12 @@ Selenium.prototype.doQxClickAt = function(locator, eventParams)
 {
   var element = this.page().findElement(locator);
   var qx = this.getQxGlobalObject();
-  var pos = qx.bom.element.Location.get(element);
-  var coordsXY = [pos["left"], pos["top"]];
-  LOG.debug("qxClickAt element coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
-  var qx = this.getQxGlobalObject();
   if (!qx.bom || !qx.bom.element || !qx.bom.element.Dimension) {
     throw new SeleniumError("qx.bom.Element is needed for qxClickAt but not present in the AUT!");
   }
+  var pos = qx.bom.element.Location.get(element);
+  var coordsXY = [pos["left"], pos["top"]];
+  LOG.debug("qxClickAt element coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
   var elemWidth = qx.bom.element.Dimension.getWidth(element);
   var elemHeight = qx.bom.element.Dimension.getHeight(element);
   coordsXY[0] = coordsXY[0] + Math.floor(elemWidth / 2);
