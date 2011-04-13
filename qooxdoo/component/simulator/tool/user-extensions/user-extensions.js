@@ -110,7 +110,7 @@
  *  information, see the file 'user-extensions.js.sample' in the Selenium Core 
  *  distribution.
  *
- * Changed to work with selenium 0.8.3
+ * Changed to work with selenium 1.0.3
  *
  * Based on the orginal Selenium user extension for qooxdoo (version: 0.3)
  * by Robert Zimmermann
@@ -466,9 +466,13 @@ Selenium.prototype.doGetViewport = function(locator, eventParams)
 Selenium.prototype.doQxClickAt = function(locator, eventParams)
 {
   var element = this.page().findElement(locator);
-  var coordsXY = getClientXY(element);
-  LOG.debug("qxClickAt element coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
   var qx = this.getQxGlobalObject();
+  if (!qx.bom || !qx.bom.element || !qx.bom.element.Dimension) {
+    throw new SeleniumError("qx.bom.Element is needed for qxClickAt but not present in the AUT!");
+  }
+  var pos = qx.bom.element.Location.get(element);
+  var coordsXY = [pos["left"], pos["top"]];
+  LOG.debug("qxClickAt element coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
   var elemWidth = qx.bom.element.Dimension.getWidth(element);
   var elemHeight = qx.bom.element.Dimension.getHeight(element);
   coordsXY[0] = coordsXY[0] + Math.floor(elemWidth / 2);
@@ -858,7 +862,6 @@ Selenium.prototype.getQxObjectHash = function(locator, script)
   if (!qxObject) {
     throw new SeleniumError("No qooxdoo object found for locator: " + locator);
   }
-  LOG.error("qxObject: " + qxObject.classname);
   var qx = this.getQxGlobalObject();
   
   if (script) {
@@ -1265,9 +1268,11 @@ Selenium.prototype.__getUpdatedFirstVisibleRow = function(column, row, qxTable)
  * @throws SeleniumError if the target column is invisible
  */
 Selenium.prototype.__getCellCoordinates = function(column, row, qxTable, clipperElement) {
-  // Get the coordinates of the table:
-  var coordsXY = getClientXY(clipperElement);
-  LOG.debug("computed coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
+  // Get the coordinates of the table's Clipper:
+  var qx = this.getQxGlobalObject();
+  var pos = qx.bom.element.Location.get(clipperElement);
+  LOG.debug("computed coords: X=" + pos["left"] + " Y=" + pos["top"]);
+  var coordsXY = [pos["left"], pos["top"]];
   // Add in table height plus row height to get to the right row:
   //LOG.debug("Table Header Height = " + qxTable.getHeaderCellHeight() );
   //LOG.debug("Table Row Height = " + qxTable.getRowHeight() );
@@ -1384,19 +1389,21 @@ Selenium.prototype.doQxTableClick = function(locator, eventParams)
     + ",clientY=" + coordsXY[1];
   LOG.debug("newEventParamString=" + newEventParamString);
 
-  // Always do a standard click to focus the cell
-  this.clickElementQx(element, newEventParamString);
-
-  // If requested, also do a context menu request:
+  // If requested, execute a right click/context menu event :
   if (doContextMenu) {
     LOG.debug("Right clicking table cell with params: " + newEventParamString);
     this.clickElementQx(element, newEventParamString + ",button=right");
   }
 
-  // If requested, also do a double-click request:
-  if (doDoubleClick) {
+  // If requested, execute a double-click:
+  else if (doDoubleClick) {
     LOG.debug("Double clicking table cell with params: " + newEventParamString);
     this.clickElementQx(element, newEventParamString + ",double=true");
+  }
+  
+  // Otherwise execute a single click
+  else {
+    this.clickElementQx(element, newEventParamString);
   }
 
 };
@@ -1452,9 +1459,10 @@ Selenium.prototype.doQxTableHeaderClick = function(locator, eventParams)
     throw new SeleniumError("Could not find the header cell with the index " + col);
   }
   
-  var coords = getClientXY(element);
-  var headerCellX = coords[0];
-  var headerCellY = coords[1];
+  var qx = this.getQxGlobalObject();
+  var pos = qx.bom.element.Location.get(element);
+  var headerCellX = pos["left"];
+  var headerCellY = pos["top"];
   
   var headerCellHeight = qxObject.getHeaderCellHeight();
   
@@ -3153,9 +3161,10 @@ Selenium.prototype.doQxDragAndDrop = function(locator, movementsString, targetLo
   * @param targetLocator locator (optional) locator for the drop target. Neccessary for dragAndDropToObject to work in qooxdoo 0.8
   */
   var element = this.page().findElement(locator);  
-  var clientStartXY = getClientXY(element);
-  var clientStartX = clientStartXY[0];
-  var clientStartY = clientStartXY[1];
+  var qx = this.getQxGlobalObject();
+  var pos = qx.bom.element.Location.get(element);
+  var clientStartX = pos["left"];
+  var clientStartY = pos["top"];
   
   var movements = movementsString.split(/,/);
   var movementX = Number(movements[0]);
