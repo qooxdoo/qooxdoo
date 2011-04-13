@@ -1661,7 +1661,7 @@ Selenium.prototype.doQxTypeKeys = function(locator, value)
 /**
  * Investigates a DOM element. If the element is a text field or text area, it
  * is returned. If not, the element's corresponding qooxdoo widget is checked 
- * and the first text field/text area child node is returned.  
+ * and the first text field/text area child node is returned.
  * 
  * @param {DOMElement} element The DOM element to start with
  * @return {DOMElement} The found input or textarea element
@@ -1679,6 +1679,10 @@ Selenium.prototype.getInputElement = function(element)
   var qx = this.getQxGlobalObject();
   var qxWidget = qx.ui.core.Widget.getWidgetByElement(element);
   
+  if (!qxWidget) {
+    throw new SeleniumError("getInputElement: The given element is not part of a qooxdoo widget!");
+  }
+  
   if (qxWidget.getIframeObject) {
     var iframe = qxWidget.getIframeObject();
     try {
@@ -1695,7 +1699,19 @@ Selenium.prototype.getInputElement = function(element)
     return element;
   }
   
-  throw new SeleniumError("No input/text area child found in widget " + qxWidget.classname);
+  LOG.debug("getInputElement: Searching child controls of " + qxWidget.classname);
+  var childControls = qxWidget._getChildren();
+  
+  for (var i=0,l=childControls.length; i<l; i++) {
+    var child = childControls[i];
+    element = child.getContentElement().getDomElement();
+    if (element && this._isVisibleTextInput(element))
+    {
+      return element;
+    }
+  }
+  
+  throw new SeleniumError("getInputElement: No input/text area child found in widget " + qxWidget.classname);
 };
 
 
@@ -1710,7 +1726,8 @@ Selenium.prototype._isVisibleTextInput = function(element)
 {
   return (element.style.display !== "none" && element.style.visibility !== "hidden") 
       && (element.tagName.toLowerCase() == "textarea" ||
-      (element.tagName.toLowerCase() == "input" && element.type.toLowerCase() == "text"));
+      (element.tagName.toLowerCase() == "input" && element.type.toLowerCase() == "text")
+      || (element.tagName.toLowerCase() == "input" && element.type.toLowerCase() == "password"));
 };
 
 /** 
