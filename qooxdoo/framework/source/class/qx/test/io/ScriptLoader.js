@@ -169,6 +169,23 @@ qx.Class.define("qx.test.io.ScriptLoader",
       this.wait();
     },
 
+    testTimeoutReached: function() {
+      var loader = new qx.io.ScriptLoader(),
+          url = "http://fail.tld";
+
+      // Actually, in browsers that support the "error" event, the
+      // error is detected and handled (with status "fail") before
+      // the timeout is reached
+      loader.setTimeout(1);
+      loader.load(url, function(status) {
+        this.resume(function() {
+          this.assertEquals("fail", status);
+        }, this);
+      }, this);
+
+      this.wait();
+    },
+
     hasNotOpera: function() {
       return !this.hasOpera();
     }
