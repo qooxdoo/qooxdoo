@@ -26,7 +26,8 @@ Authors:
 qx.Class.define("qx.test.io.ScriptLoader",
 {
   extend : qx.dev.unit.TestCase,
-  include : qx.test.io.MRemoteTest,
+  include : [qx.test.io.MRemoteTest,
+             qx.dev.unit.MRequirements],
 
   members :
   {
@@ -60,11 +61,8 @@ qx.Class.define("qx.test.io.ScriptLoader",
         return;
       }
 
-      // Opera will fire an event at all
-      if (qx.core.Environment.get("engine.name") == "opera") {
-        this.warn("Test skipped in Opera, since it doesn't fire events here.");
-        return;
-      }
+      // Opera will not fire an event at all
+      this.require(["notOpera"]);
 
       var url = this.getUrl("qx/test/xmlhttp/404.php");
 
@@ -84,11 +82,8 @@ qx.Class.define("qx.test.io.ScriptLoader",
 
     testLoadError : function()
     {
-      // Opera will fire an event at all
-      if (qx.core.Environment.get("engine.name") == "opera") {
-        this.warn("Test skipped in Opera, since it doesn't fire events here.");
-        return;
-      }
+      // Opera will not fire an event at all
+      this.require(["notOpera"]);
 
       var protocol = location.protocol;
       if (protocol.indexOf("file:") == 0) {
@@ -172,6 +167,10 @@ qx.Class.define("qx.test.io.ScriptLoader",
       }, this);
 
       this.wait();
+    },
+
+    hasNotOpera: function() {
+      return !this.hasOpera();
     }
   }
 });
