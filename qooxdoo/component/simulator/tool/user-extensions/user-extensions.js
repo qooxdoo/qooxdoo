@@ -1698,7 +1698,7 @@ Selenium.prototype.doQxTypeKeys = function(locator, value)
 /**
  * Investigates a DOM element. If the element is a text field or text area, it
  * is returned. If not, the element's corresponding qooxdoo widget is checked 
- * and the first text field/text area child node is returned.  
+ * and the first text field/text area child node is returned.
  * 
  * @param {DOMElement} element The DOM element to start with
  * @return {DOMElement} The found input or textarea element
@@ -1715,7 +1715,9 @@ Selenium.prototype.getInputElement = function(element)
   // Otherwise get the qooxdoo widget the element belongs to
   var qxWidget = this.getQxWidgetByElement(element);
   
-  LOG.debug("getInputElement found widget " + qxWidget.classname);
+  if (!qxWidget) {
+    throw new SeleniumError("getInputElement: The given element is not part of a qooxdoo widget!");
+  }
   
   if (qxWidget.getIframeObject) {
     var iframe = qxWidget.getIframeObject();
@@ -1733,19 +1735,19 @@ Selenium.prototype.getInputElement = function(element)
     return element;
   }
   
-  var textClasses = ["qx.ui.form.TextField", "qx.ui.form.PasswordField", "qx.ui.form.TextArea"];
-  var childControls = this.getChildControls(qxWidget, textClasses);
+  LOG.debug("getInputElement: Searching child controls of " + qxWidget.classname);
+  var childControls = qxWidget._getChildren();
   
   for (var i=0,l=childControls.length; i<l; i++) {
     var child = childControls[i];
     element = this._getDomElementFromWidget(child);
-    if (this._isVisibleTextInput(element))
+    if (element && this._isVisibleTextInput(element))
     {
       return element;
     }
   }
   
-  throw new SeleniumError("No input/text area child found in widget " + qxWidget.classname);
+  throw new SeleniumError("getInputElement: No input/text area child found in widget " + qxWidget.classname);
 };
 
 
@@ -1762,7 +1764,8 @@ Selenium.prototype._isVisibleTextInput = function(element)
   var type = element.type ? element.type.toLowerCase() : "";
   return (element.style.display !== "none" && element.style.visibility !== "hidden") 
       && (tagName == "textarea" ||
-      (tagName == "input" && (type == "text" || type == "password")));
+      (tagName == "input" && (type == "text" || type == "password"))
+      || (element.tagName.toLowerCase() == "input" && element.type.toLowerCase() == "password"));
 };
 
 /**
