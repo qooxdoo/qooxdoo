@@ -115,7 +115,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     //   this.require(["php"]);
     //
     //   var count = 1,
-    //       upTo = 20;
+    //       upTo = 20,
     //       startedAt = new Date(),
     //       duration = 0;
     //
@@ -183,7 +183,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     "test: append params hash to URL": function() {
       var url = "http://example.com/path",
           params = {affe: true, maus: false},
-          expected = "http://example.com/path?affe=true&maus=false",
           result = qx.io.request.Xhr.appendParamsToUrl(url, params);
 
       this.assertTrue(/^http.*example.com\/path/.test(result));
