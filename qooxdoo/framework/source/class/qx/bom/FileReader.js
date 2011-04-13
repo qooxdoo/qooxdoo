@@ -188,7 +188,7 @@ qx.Class.define("qx.bom.FileReader",
      */
     readAsText : function(fileObj, encoding)
     {
-      this._fileReader.readAsBinaryString(fileObj, encoding);
+      this._fileReader.readAsText(fileObj, encoding);
     },
 
     /**
@@ -196,8 +196,7 @@ qx.Class.define("qx.bom.FileReader",
      * object. This is an asynchronous request. When the file is fully loaded,
      * the "load" event will be fired.
      *
-     * The data is returned in a binary format where each byte is in the range
-     * [0,255].
+     * The data is returned in DataURL format.
      *
      * NOTE: On FireFox, this method works if the page was loaded via the
      * file:// protocol. In Chrome, it does not.
@@ -206,9 +205,9 @@ qx.Class.define("qx.bom.FileReader",
      *   A File object, as obtained by calling {@link #getFile} with an
      *   element of type <input type="file">.
      */
-    readAsBinaryString : function(fileObj)
+    readAsDataURL : function(fileObj)
     {
-      this._fileReader.readAsBinaryString(fileObj);
+      this._fileReader.readAsDataURL(fileObj);
     },
 
     /**
