@@ -701,7 +701,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var name = qx.core.Environment.get("engine.name");
       var version = qx.core.Environment.get("browser.version");
 
-      return name == "gecko" && parseInt(version, 10) < targetVersion;
+      return name == "gecko" && parseFloat(version) < targetVersion;
     },
 
     hasIEBelow8: function() {
