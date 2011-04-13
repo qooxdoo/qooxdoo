@@ -121,8 +121,13 @@ qx.Class.define("qx.io.remote.RpcError",
       }
     },
     
+    /** Information pertaining to a conformant JSON-RPC Version 2 */
     v2 :
     {
+      /** 
+       * Error data. In Version 1, each origin can have its own error codes.
+       * Only 'Server' error codes are globally-defined, however.
+       */
       error :
       {
         /** 
