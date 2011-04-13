@@ -40,6 +40,7 @@
 
 #asset(qx/icon/Tango/22/actions/help-contents.png)
 #asset(qx/icon/Tango/22/actions/help-about.png)
+#asset(qx/icon/Tango/22/actions/media-seek-forward.png)
 
 #asset(qx/icon/Tango/22/mimetypes/text-html.png)
 
@@ -64,6 +65,8 @@ qx.Class.define("demobrowser.DemoBrowser",
   construct : function()
   {
     this.base(arguments);
+    
+    this.__menuItemStore = {};
 
     // Configure layout
     var layout = new qx.ui.layout.VBox;
@@ -150,42 +153,15 @@ qx.Class.define("demobrowser.DemoBrowser",
       infosplit.add(this._demoView, 2);
     }
 
-    var htmlView = this.__makeHtmlCodeView();
-    var jsView = this.__makeJsCodeView();
-    var logView = this.__makeLogView();
+    var htmlView = this.__htmlView = this.__makeHtmlCodeView();
+    var jsView = this.__jsView = this.__makeJsCodeView();
+    var logView = this.__logView = this.__makeLogView();
 
-    var stack = new qx.ui.container.Stack;
+    var stack = this.__stack = new qx.ui.container.Stack;
     stack.setDecorator("main");
     stack.add(htmlView);
     stack.add(jsView);
     stack.add(logView);
-
-    this.viewGroup.addListener("changeSelection", function(e)
-    {
-      var selected = e.getData()[0];
-      var show = selected != null ? selected.getUserData("value") : "";
-      switch(show)
-      {
-        case "html":
-          this.setSelection([htmlView]);
-          stack.show();
-          break;
-
-        case "js":
-          this.setSelection([jsView]);
-          stack.show();
-          break;
-
-        case "log":
-          this.setSelection([logView]);
-          stack.show();
-          break;
-
-        default:
-          this.resetSelection();
-          stack.exclude();
-      }
-    }, stack);
 
     infosplit.add(stack, 1);
     stack.resetSelection();
@@ -269,8 +245,16 @@ qx.Class.define("demobrowser.DemoBrowser",
     _infosplit : null,
     _demoView : null,
     __autorunTimer : null,
+    __overflowMenu : null,
+    __menuItemStore : null,
+    __menuViewRadioGroup: null,
     _urlWindow : null,
     __infoWindow : null,
+    __stack : null,
+    __htmlView: null,
+    __jsView: null,
+    __logView: null,
+    __viewGroup: null,
 
 
     defaultUrl : "demo/welcome.html",
@@ -301,6 +285,44 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
+
+    /**
+     * TODOC
+     *
+     */
+    __syncRightView :  function(e)
+    {
+      var theOtherGroup = e.getTarget()===this.__viewGroup ? this.__menuViewRadioGroup : this.__viewGroup;
+      var selected = e.getData()[0];
+      if(theOtherGroup && selected) {
+        theOtherGroup.setModelSelection([selected.getModel()]);
+      }
+      if(e.getTarget() === this.__viewGroup)
+      {
+        var show = selected != null ? selected.getUserData("value") : "";
+        switch(show)
+        {
+          case "html":
+            this.__stack.setSelection([this.__htmlView]);
+            this.__stack.show();
+            break;
+
+          case "js":
+            this.__stack.setSelection([this.__jsView]);
+            this.__stack.show();
+            break;
+
+          case "log":
+            this.__stack.setSelection([this.__logView]);
+            this.__stack.show();
+            break;
+
+          default:
+            this.__stack.resetSelection();
+            this.__stack.exclude();
+        }
+      }
+    },
 
     /**
      * TODOC
@@ -596,8 +618,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         var htmlView = new qx.ui.toolbar.RadioButton("HTML Code", "icon/22/apps/internet-web-browser.png");
         htmlView.setToolTipText("Display HTML source");
+        htmlView.setModel('html');
         var jsView = new qx.ui.toolbar.RadioButton("JS Code", "icon/22/mimetypes/executable.png");
         jsView.setToolTipText("Display JavaScript source");
+        jsView.setModel('js');
 
         htmlView.setUserData("value", "html");
         jsView.setUserData("value", "js");
@@ -610,18 +634,42 @@ qx.Class.define("demobrowser.DemoBrowser",
       logView.setToolTipText("Display log file");
 
       logView.setUserData("value", "log");
+      logView.setModel('log');
 
       viewPart.add(logView);
 
-      var viewGroup = this.viewGroup = new qx.ui.form.RadioGroup;
+      var viewGroup = this.__viewGroup = new qx.ui.form.RadioGroup;
       viewGroup.setAllowEmptySelection(true);
       viewGroup.add(logView);
+      viewGroup.addListener('changeSelection',this.__syncRightView,this);
 
       if (qx.core.Environment.get("qx.contrib") == false) {
         viewGroup.add(htmlView, jsView);
       }
+      
 
-
+      // enable overflow handling
+      bar.setOverflowHandling(true);
+    
+      // add a button for overflow handling
+      var chevron = new qx.ui.toolbar.MenuButton(null, "icon/22/actions/media-seek-forward.png");
+      chevron.setAppearance("toolbar-button");  // hide the down arrow icon
+      bar.add(chevron);
+      bar.setOverflowIndicator(chevron);
+    
+      // set priorities for overflow handling
+      bar.setRemovePriority(viewPart, 3);
+      bar.setRemovePriority(menuPart, 2);
+      bar.setRemovePriority(this._navPart, 1);
+      
+      // add the overflow menu
+      this.__overflowMenu = new qx.ui.menu.Menu();
+      chevron.setMenu(this.__overflowMenu);
+    
+      // add the listener
+      bar.addListener("hideItem", this._onHideItem, this);
+      bar.addListener("showItem", this._onShowItem, this);
+    
 
       // DONE
       // -----------------------------------------------------
@@ -629,7 +677,134 @@ qx.Class.define("demobrowser.DemoBrowser",
       return bar;
     },
 
+    /**
+     * Handler for the overflow handling which will be called on hide.
+     * @param e {qx.event.type.Data} The event.
+     */
+    _onHideItem : function(e) {
+      var partItem = e.getData();
+      var menuItems = this._getMenuItems(partItem);
+      for(var i=0,l=menuItems.length;i<l;i++){
+        menuItems[i].setVisibility("visible");
+        if(partItem === this.__themePart) {
+          menuItems[i].getMenu().setPosition("right-top");
+        }
+      }
+    },
+    
+    
+    /**
+     * Handler for the overflow handling which will be called on show.
+     * @param e {qx.event.type.Data} The event.
+     */    
+    _onShowItem : function(e) {
+      var partItem = e.getData();
+      var menuItems = this._getMenuItems(partItem);
+      for(var i=0,l=menuItems.length;i<l;i++)
+      {
+        menuItems[i].setVisibility("excluded");
+      }
+      if(partItem === this.__themePart)
+      {
+        var menuButtons = partItem.getMenuButtons();
+        for(var i=0,l=menuButtons.length;i<l;i++) {
+          menuButtons[i].getMenu().setPosition("bottom-left");
+        }
+      }
+    },
+    
+        
+    /**
+     * Helper for the overflow handling. It is responsible for returning a 
+     * corresponding menu item for the given toolbar item.
+     * 
+     * @param toolbarItem {qx.ui.core.Widget} The toolbar item to look for.
+     * @return {qx.ui.core.Widget} The coresponding menu items.
+     */
+    _getMenuItems : function(partItem) {
+      var cachedItems = [];
+      if (partItem instanceof qx.ui.toolbar.Part)
+      {
+        var partButtons = partItem.getChildren();
+        for(var i=0, l=partButtons.length; i<l; i++)
+        {
+          if(partButtons[i].getVisibility() == 'excluded'){
+            continue;
+          }
+          var cachedItem = this.__menuItemStore[partButtons[i].toHashCode()];
+      
+          if (!cachedItem)
+          {
+            if(partButtons[i] instanceof qx.ui.toolbar.RadioButton)
+            {
+              cachedItem = new qx.ui.menu.RadioButton( partButtons[i].getLabel() );
+              cachedItem.setToolTipText(partButtons[i].getToolTipText());
+              cachedItem.setEnabled(partButtons[i].getEnabled());
+              cachedItem.setUserData('value',partButtons[i].getUserData('value'));
+              cachedItem.setModel(partButtons[i].getModel());
+              if(!this.__menuViewRadioGroup)
+              {
+                this.__menuViewRadioGroup = new qx.ui.form.RadioGroup();
+                this.__menuViewRadioGroup.setAllowEmptySelection(true);
+                this.__menuViewRadioGroup.addListener('changeSelection',this.__syncRightView,this);
+              }
+              this.__menuViewRadioGroup.add(cachedItem);
+            }
+            else if(partButtons[i] instanceof qx.ui.toolbar.MenuButton)
+            {
+              cachedItem = new qx.ui.menu.Button(
+                partButtons[i].getLabel().translate(),
+                partButtons[i].getIcon(),
+                partButtons[i].getCommand(),
+                partButtons[i].getMenu()
+                );
+              cachedItem.setToolTipText(partButtons[i].getToolTipText());
+              cachedItem.setEnabled(partButtons[i].getEnabled());
+              partButtons[i].bind("enabled", cachedItem, "enabled");
+            }
+            else if(partButtons[i] instanceof qx.ui.toolbar.Button)
+            {
+              cachedItem = new qx.ui.menu.Button(
+                partButtons[i].getLabel().translate(),
+                partButtons[i].getIcon()
+                );
+              cachedItem.getChildControl('label', false).setRich(true);
+              cachedItem.setTextColor(partButtons[i].getTextColor());
+              cachedItem.setToolTipText(partButtons[i].getToolTipText());
+              cachedItem.setEnabled(partButtons[i].getEnabled());
+              partButtons[i].bind("enabled", cachedItem, "enabled");
+              var listeners = qx.event.Registration.getManager(partButtons[i]).getListeners(partButtons[i],'execute');
+              if(listeners && listeners.length>0)
+              {
+                for(var j=0, k=listeners.length; j<k; j++) {
+                  cachedItem.addListener('execute', qx.lang.Function.bind(listeners[j].handler,listeners[j].context));
+                }
+              }
+            }
+            else if(partButtons[i] instanceof qx.ui.toolbar.CheckBox)
+            {
+              cachedItem = new qx.ui.menu.CheckBox(
+                partButtons[i].getLabel()
+                );
+              cachedItem.setToolTipText(partButtons[i].getToolTipText());
+              cachedItem.setEnabled(partButtons[i].getEnabled());
+              partButtons[i].bind("enabled", cachedItem, "enabled");
+            }
+            else
+            {
+              cachedItem = new qx.ui.menu.Separator();
+            }
 
+            this.__overflowMenu.addAt(cachedItem, 0);
+            this.__menuItemStore[partButtons[i].toHashCode()] = cachedItem;
+          }
+          cachedItems.push(cachedItem);
+        }
+      }
+
+      return cachedItems;
+    },
+    
     __makeDemoView : function()
     {
       var iframe = new qx.ui.embed.Iframe().set({
@@ -1674,8 +1849,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample',
       '_cmdSampleInOwnWindow', '_cmdDisposeSample', '_cmdNamespacePollution',
       "_navPart", "_runbutton", "_stopbutton", "__sobutt", "__themePart",
-      "__viewPart", "viewGroup", "__menuBar", "_infosplit", "_searchTextField",
+      "__viewPart", "__viewGroup", "__menuBar", "_infosplit", "_searchTextField",
       "_status", "_tree", "_iframe", "_demoView", "__menuElements",
-      "__logSync", "_leftComposite", "_urlWindow", "_nextButton", "_prevButton");
+      "__logSync", "_leftComposite", "_urlWindow", "_nextButton", "_prevButton","__menuItemStore");
   }
 });
