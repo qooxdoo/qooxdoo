@@ -135,7 +135,7 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
      */
     getVersion : function() {
       var str = [];
-      for (var key in this.__ids) {
+      for (var key in qx.bom.client.OperatingSystem.__ids) {
         str.push(key);
       }
 
