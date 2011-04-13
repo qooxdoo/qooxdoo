@@ -701,13 +701,13 @@ qx.Class.define("inspector.selenium.View", {
      */
     __scriptsLoaded : function(ev)
     {
-      if (ev.getData().fail > 0 ) {
-        alert("Couldn't load qooxdoo Selenium user extensions, make sure the path is correct!");
+      if (!window.Selenium) {
+        alert("Selenium instance could not be created!");
         return;
       }
 
-      if (!window.Selenium) {
-        alert("Unexpected error: Selenium instance not created!");
+      if ((ev.getData().fail > 0) || !window.Selenium.prototype.qx) {
+        alert("Couldn't load qooxdoo Selenium user extensions!");
         return;
       }
 
