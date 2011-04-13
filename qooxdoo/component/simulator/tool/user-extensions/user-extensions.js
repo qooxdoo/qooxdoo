@@ -1327,10 +1327,10 @@ Selenium.prototype.__getCellCoordinates = function(column, row, qxTable, clipper
     coordsXY[0] = coordsXY[0] + colWidth;
   }
 
-  LOG.error("updated coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
+  LOG.debug("updated coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
   coordsXY[0] = coordsXY[0] + 3;
   coordsXY[1] = coordsXY[1] + 3;
-  LOG.error("final coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
+  LOG.debug("final coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
   
   return coordsXY;
 };
@@ -3328,7 +3328,6 @@ PageBot.prototype.locateElementByQxscript = function(qxFunction, inDocument, inW
   
   if (qxObject) {
     return this._getDomElementFromWidget(qxObject);
-    //return qxObject.getContentElement().getDomElement();
   } else {
     return null;
   }
