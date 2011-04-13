@@ -630,6 +630,10 @@ class CodeGenerator(object):
             for key in variants:
                 pattern = "{%s}" % key
                 fileName = fileName.replace(pattern, str(variants[key]))
+            # @deprecated
+            for key in variants:
+                pattern = "{%s}" % key.replace('<env>:', '', 1)
+                fileName = fileName.replace(pattern, str(variants[key]))
 
         if settings:
             for key in settings:
