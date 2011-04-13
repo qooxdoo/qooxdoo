@@ -65,13 +65,13 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
      */
     show : function()
     {
-      this.__count++;
       if (this.__count == 0)
       {
         this._updateSize();
         this.__registerEventListener();
         this.base(arguments);
       }
+      this.__count++;
     },
 
 
