@@ -91,8 +91,10 @@ class Key(object):
         return val.find(r'${') > -1
 
 
+##
+# Class representing a map with macros (typically under the 'let' key)
+#
 class Let(Key):
-    '''Class representing a map with macros (typically under the 'let' key)'''
 
     def __init__(self, letMap):
         global console
@@ -100,10 +102,10 @@ class Let(Key):
         self._data = copy.deepcopy(letMap)
         console = Context.console
 
+    ##
+    #   do macro expansion within the "let" dict;
+    #   this is a self-modifying operation, tampering self._data"""
     def expandMacrosInLet(self):
-        # TODO: this code duplicates a lot of Job._expandMacrosInLet
-        """ do macro expansion within the "let" dict;
-            this is a self-modifying operation, tampering self._data"""
 
         letDict = self._data
         keys = letDict.keys()
@@ -112,7 +114,6 @@ class Let(Key):
             
             # construct a temporary mini-dict of translation maps for the calls to 
             # expandMacros() further down
-            # wpbasti: Crazy stuff: Could be find some better variable names here. Seems to be optimized for size already ;)
             if isinstance(kval, types.StringTypes):
                 kdicts = {'str': {k:kval}, 'bin': {}}
             else:
