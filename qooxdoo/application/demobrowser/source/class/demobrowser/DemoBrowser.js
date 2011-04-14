@@ -279,9 +279,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this._cmdDisposeSample = new qx.ui.core.Command("Ctrl+D");
       this._cmdDisposeSample.addListener("execute", this.__disposeSample, this);
-
-      this._cmdNamespacePollution = new qx.ui.core.Command("Ctrl+P");
-      this._cmdNamespacePollution.addListener("execute", this.__showPollution, this);
     },
 
 
@@ -422,27 +419,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         msg = this.tr("Unable to access application.");
       }
 
-      var label = new qx.ui.basic.Label(msg);
-      label.setRich(true);
-      label.setWrap(true);
-      this.__infoWindow.setContent(label);
-      this.__infoWindow.setWidth(350);
-      this.__infoWindow.show();
-    },
-
-    /**
-     * TODOC
-     * @param e {Event} TODOC
-     */
-    __showPollution : function(e)
-    {
-      var cw = this._iframe.getWindow();
-      var msg;
-      if (cw && cw.qx) {
-        msg = cw.qx.dev.Pollution.getInfo();
-      } else {
-        msg = this.tr("Unable to access application.");
-      }
       var label = new qx.ui.basic.Label(msg);
       label.setRich(true);
       label.setWrap(true);
@@ -592,10 +568,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         var summaryBtn = new qx.ui.menu.Button(this.tr("Object Summary"));
         summaryBtn.setCommand(this._cmdObjectSummary);
         menu.add(summaryBtn);
-
-        var namespaceBtn = new qx.ui.menu.Button(this.tr("Global Namespace Pollution"));
-        namespaceBtn.setCommand(this._cmdNamespacePollution);
-        menu.add(namespaceBtn);
       }
 
       var disposeBtn = new qx.ui.menu.Button(this.tr("Dispose Demo"));
@@ -1847,7 +1819,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     this._disposeObjects("mainsplit", "tree1", "left", "runbutton", "toolbar",
       "f1", "f2", "_history", "logappender", '_cmdObjectSummary',
       '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample',
-      '_cmdSampleInOwnWindow', '_cmdDisposeSample', '_cmdNamespacePollution',
+      '_cmdSampleInOwnWindow', '_cmdDisposeSample',
       "_navPart", "_runbutton", "_stopbutton", "__sobutt", "__themePart",
       "__viewPart", "__viewGroup", "__menuBar", "_infosplit", "_searchTextField",
       "_status", "_tree", "_iframe", "_demoView", "__menuElements",
