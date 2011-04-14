@@ -115,9 +115,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.require(["IEBelow8OrFFBelow35"]);
 
       var req = this.req;
-
       req.onreadystatechange = function() {};
-      var req = this.req;
       req.open();
 
       // Trigger creation of new native XHR
@@ -253,7 +251,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var that = this;
       req.onreadystatechange = function() {
         that.assertEquals("Affe", req.responseText);
-      }
+      };
       fakeReq.responseText = "Affe";
       fakeReq.readyState = 4;
       fakeReq.responseHeaders = {};
@@ -265,7 +263,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var req = this.req;
       var fakeReq = this.getFakeReq();
 
-      req.onreadystatechange = function() { return "OP" };
+      req.onreadystatechange = function() { return "OP"; };
       req.open();
       req.send();
 
@@ -280,7 +278,6 @@ qx.Class.define("qx.test.bom.request.Xhr",
       req.onreadystatechange = function() {};
 
       // Send and respond
-      var req = this.req;
       req.open();
       req.send();
       fakeReq.respond();
@@ -342,7 +339,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
       req.ontimeout = function() {
         that.resume();
-      }
+      };
 
       req.timeout = 10;
       req.open();
@@ -514,7 +511,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var req = this.req;
       req.open();
       req.send();
-      fakeReq.respond(200, { "Content-Type": "application/xml" }, "<affe></affe>")
+      fakeReq.respond(200, { "Content-Type": "application/xml" }, "<affe></affe>");
 
       // Reopen
       req.open();
@@ -589,7 +586,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var req = this.req;
       req.open();
       fakeReq.respond(200);
-      req.open()
+      req.open();
 
       this.assertIdentical(0, req.status);
       this.assertIdentical("", req.statusText);

@@ -206,7 +206,7 @@ qx.Class.define("qx.io.request.Xhr",
       check: function(value) {
         return qx.lang.Type.isString(value) ||
                qx.Class.isSubClassOf(value.constructor, qx.core.Object) ||
-               qx.lang.Type.isObject(value)
+               qx.lang.Type.isObject(value);
       },
       nullable: true
     }
@@ -234,7 +234,7 @@ qx.Class.define("qx.io.request.Xhr",
         params = qx.lang.Object.toUriParameter(params);
       }
 
-      return url += /\?/.test(url) ? "&" + params : "?" + params;
+      return url += (/\?/).test(url) ? "&" + params : "?" + params;
     }
 
   },
@@ -431,7 +431,7 @@ qx.Class.define("qx.io.request.Xhr",
       }
 
       var status = this.getStatus();
-      return (status >= 200 && status < 300 || status === 304)
+      return (status >= 200 && status < 300 || status === 304);
     },
 
     /*
@@ -545,7 +545,7 @@ qx.Class.define("qx.io.request.Xhr",
   destruct: function()
   {
     var transport = this.__transport,
-        noop = function() {}
+        noop = function() {};
 
     if (this.__transport) {
       transport.onreadystatechange = transport.onload = transport.onloadend =

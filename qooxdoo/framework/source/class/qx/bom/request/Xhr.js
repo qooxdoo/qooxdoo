@@ -698,7 +698,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       // BUGFIX: Opera
       // Opera tells 0 when it should be 304
-      if (nxhr.readyState === qx.bom.request.Xhr.DONE && this.status == 0) {
+      if (nxhr.readyState === qx.bom.request.Xhr.DONE && this.status === 0) {
         this.status = 304;
       }
     },

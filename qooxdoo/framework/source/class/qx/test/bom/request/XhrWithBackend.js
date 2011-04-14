@@ -69,7 +69,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
             that.assertEquals("yippie", data["affe"]);
           });
         }
-      }
+      };
       req.send();
 
       this.wait();
@@ -88,7 +88,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
             that.assertObject(req.responseXML.documentElement, "Must be XML object");
           });
         }
-      }
+      };
       req.send();
 
       this.wait();
@@ -109,7 +109,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
             that.assertObject(req.responseXML.documentElement, "Must be XML object");
           });
         }
-      }
+      };
       req.send();
 
       this.wait();
@@ -128,7 +128,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
             that.assertEquals('{"affe":"true"}', req.responseText);
           });
         }
-      }
+      };
       req.send("affe=true");
 
       this.wait();
@@ -162,7 +162,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
             that.assertArrayEquals([1, 2, 3, 4], states);
           });
         }
-      }
+      };
 
       var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
       req.open("GET", this.noCache(url));
@@ -178,7 +178,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
       req.onreadystatechange = function() {
         states.push(req.readyState);
-      }
+      };
 
       var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
       req.open("GET", this.noCache(url), false);
@@ -199,7 +199,8 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       req.onreadystatechange = function() {
         states.push(req.readyState);
         if (req.readyState == 4) {
-          if (++count < 2) {
+          ++count;
+          if (count < 2) {
             // Ignore changes from previous request
             states = [];
             // From cache
@@ -211,7 +212,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
             });
           }
         }
-      }
+      };
 
       // Prime cache
       req.open("GET", url);
@@ -232,7 +233,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
         req.send();
       }
 
-      var that = this;
       req.onreadystatechange = function() {
         if (req.readyState == 4) {
           that.resume(function() {
@@ -242,7 +242,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
             } else {
               that.assertEquals(3, count);
             }
-          })
+          });
         }
       };
       request();
@@ -274,7 +274,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
             that.assertEquals(200, req.status);
           });
         }
-      }
+      };
       req.send();
 
       this.wait();
@@ -292,7 +292,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
             that.assertIdentical(304, req.status);
           });
         }
-      }
+      };
       req.open("GET", url);
 
       // Pretend that client has a fresh representation of
@@ -422,7 +422,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
         if (req.readyState == 4) {
           that.resume();
         }
-      }
+      };
 
       // Will "never" complete
       // OPENED, finally LOADING
@@ -443,7 +443,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
       req.onloadend = function() {
         that.resume();
-      }
+      };
 
       // Will "never" complete
       // OPENED, finally LOADING
@@ -468,7 +468,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       var that = this;
       req.onerror = function() {
         that.resume();
-      }
+      };
 
       // Network error
       req.open("GET", "http://fail.tld");
@@ -541,7 +541,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       var that = this;
       req.onloadend = function() {
         that.resume();
-      }
+      };
 
       // Network error
       req.open("GET", "http://fail.tld");
@@ -565,10 +565,9 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
           that.assertCallOrder(
             req.onreadystatechange,
             req.onload,
-            req.onloadend
-          );
+            req.onloadend);
         });
-      }
+      };
       this.spy(req, "onreadystatechange");
       this.spy(req, "onload");
       this.spy(req, "onloadend");
@@ -587,10 +586,9 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
           that.assertCallOrder(
             req.onreadystatechange,
             req.onerror,
-            req.onloadend
-          );
+            req.onloadend);
         });
-      }
+      };
       this.spy(req, "onreadystatechange");
       this.spy(req, "onerror");
       this.spy(req, "onloadend");
@@ -619,7 +617,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
             req.dispose();
           });
         }
-      }
+      };
       req.send();
 
       this.wait();

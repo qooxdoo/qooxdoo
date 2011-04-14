@@ -85,7 +85,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.req.dispose();
 
       // May fail in IE
-      try { qx.Class.undefine("Klass"); } catch(e) {};
+      try { qx.Class.undefine("Klass"); } catch(e) {}
     },
 
     //
@@ -251,7 +251,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     "test: drop fragment from URL": function() {
       this.setUpFakeTransport();
-      this.req.setUrl("example.com#fragment")
+      this.req.setUrl("example.com#fragment");
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "example.com");
