@@ -1057,7 +1057,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           {
             // When the node has no type, it is a folder without childeren
             if (!currNode.type) {
-              break;
+              continue;
             }
             
             t = new qx.ui.tree.TreeFile(that.polish(currNode.label));
