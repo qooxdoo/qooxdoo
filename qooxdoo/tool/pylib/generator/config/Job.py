@@ -242,7 +242,8 @@ class Job(object):
         if self.hasFeature(Key.LET_KEY):
             # exand macros in the let
             letMap = self.getFeature(Key.LET_KEY)
-            letMap = self._expandMacrosInLet(letMap)
+            letObj = Let(letMap)
+            letMap = letObj.expandMacrosInLet()
             self.setFeature(Key.LET_KEY, letMap)
             
             # separate strings from other values
@@ -261,7 +262,6 @@ class Job(object):
 
 
     def includeGlobalLet(self, additionalLet=None):
-        #import pydb; pydb.debugger()
         newlet = self.mapMerge(self.getFeature(Key.LET_KEY,{}),{}) # init with local let
         if additionalLet:
             newlet = self.mapMerge(additionalLet, newlet)
@@ -380,33 +380,7 @@ class Job(object):
         else:
             result = data
 
-        #print "OUT: %r" % result
         return result
-
-
-    def _expandMacrosInLet(self, letDict):
-        """ do macro expansion within the "let" dict """
-
-        keys = letDict.keys()
-        for k in keys:
-            kval = letDict[k]
-            
-            # construct a temp. dict of translation maps, for later calls to _expand* funcs
-            # wpbasti: Crazy stuff: Could be find some better variable names here. Seems to be optimized for size already ;)
-            if isinstance(kval, types.StringTypes):
-                kdicts = {'str': {k:kval}, 'bin': {}}
-            else:
-                kdicts = {'str': {}, 'bin': {k:kval}}
-                
-            # cycle through other keys of this dict
-            for k1 in keys:
-                if k != k1: # no expansion with itself!
-                    enew = self._expandMacrosInValues(letDict[k1], kdicts)
-                    if enew != letDict[k1]:
-                        #console.debug("expanding: %s ==> %s" % (k1.encode('utf-8'), (enew.encode('utf-8'))))
-                        console.debug("expanding: %s ==> %s" % (k1, repr(enew)))
-                        letDict[k1] = enew
-        return letDict
 
 
     def getData(self):

@@ -271,9 +271,6 @@ def processVariantGet(callNode, variantMap):
     resultNode = reduceCall(callNode, confValue)
     treeModified = True
 
-    if variantKey == "env.number_5":
-        import pydb; pydb.debugger()
-
     # Reduce any potential operations with literals (+3, =='hugo', ?a:b, ...)
     treeMod = True
     while treeMod:
