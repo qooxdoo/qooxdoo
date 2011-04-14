@@ -99,9 +99,9 @@ qx.Class.define("qx.test.io.request.Xhr",
       var req = new qx.io.request.Xhr(),
           url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt"));
 
-      req.addListener("success", function() {
+      req.addListener("success", function(e) {
         this.resume(function() {
-          this.assertEquals("SAMPLE", req.getResponseText());
+          this.assertEquals("SAMPLE", e.getTarget().getResponseText());
         }, this);
       }, this);
 
@@ -398,7 +398,8 @@ qx.Class.define("qx.test.io.request.Xhr",
     "test: fire success": function() {
       this.setUpFakeTransport();
       var req = this.req,
-          transport = this.transport;
+          transport = this.transport,
+          that = this;
 
       this.assertEventFired(req, "success", function() {
         transport.readyState = 4;
@@ -471,6 +472,48 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertEventFired(req, "error", function() {
         transport.onerror();
       });
+    },
+
+    //
+    // Handler
+    //
+
+    // Documentation only
+    "test: event handler receives request": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport,
+          that = this;
+
+      transport.readyState = 4;
+      transport.status = 200;
+      transport.responseText = "Affe";
+
+      req.addListener("success", function(e) {
+        that.assertEquals(e.getTarget(), req);
+        that.assertEquals("Affe", e.getTarget().getResponseText());
+      });
+
+      transport.onreadystatechange();
+    },
+
+    // Documentation only
+    "test: event handler's this is request": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport,
+          that = this;
+
+      transport.readyState = 4;
+      transport.status = 200;
+      transport.responseText = "Affe";
+
+      req.addListener("success", function() {
+        that.assertEquals(this, req);
+        that.assertEquals("Affe", this.getResponseText());
+      });
+
+      transport.onreadystatechange();
     },
 
     //
