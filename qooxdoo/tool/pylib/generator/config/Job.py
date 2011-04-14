@@ -314,7 +314,11 @@ class Job(object):
                 sub = replval   # array references are ok for now
         else:
             templ = string.Template(s)
-            sub = templ.safe_substitute(mapstr)
+            #sub = templ.safe_substitute(mapstr)
+            try:
+                sub = templ.substitute(mapstr)
+            except KeyError, e:
+                raise ValueError("Macro left undefined in job (%s): '%s'\n(might be from an included config?!)" % (self.name, e.args[0]))
         return sub
 
 
