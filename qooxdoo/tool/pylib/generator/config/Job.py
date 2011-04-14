@@ -318,7 +318,7 @@ class Job(object):
             try:
                 sub = templ.substitute(mapstr)
             except KeyError, e:
-                raise ValueError("Macro left undefined in job (%s): '%s'\n(might be from an included config?!)" % (self.name, e.args[0]))
+                raise ValueError("Macro left undefined in job (%s): '%s'\n(might be from an included config)" % (self.name, e.args[0]))
         return sub
 
 

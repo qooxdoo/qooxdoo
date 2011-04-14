@@ -582,8 +582,8 @@ def reduceOperation(literalNode):
         resultNode.set("value", str(result).lower())
         resultNode.set("line", noperationNode.get("line"))
 
-    # logical operators &&, ||
-    elif operator in ["AND", "OR"]:
+    # logical operators &&, || -- Currently disabled, s. bug#4856
+    elif False and operator in ["AND", "OR"]:
         result = None
         otherOperand, otherPosition = getOtherOperand(noperationNode, nliteralNode)
         if operator == "AND":
@@ -608,11 +608,6 @@ def reduceOperation(literalNode):
             operands[otherPosition] = otherVal
             result = cmpFcn(operands[0], operands[1])
             resultNode = {literalValue:literalNode, otherVal:otherOperand}[result]
-
-        #resultNode = tree.Node("constant")
-        #resultNode.set("constantType","boolean")
-        #resultNode.set("value", str(result).lower())
-        #resultNode.set("line", noperationNode.get("line"))
 
     # hook ?: operator
     elif operator in ["HOOK"]:
