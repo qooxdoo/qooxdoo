@@ -656,9 +656,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     _onHideItem : function(e) {
       var partItem = e.getData();
       var menuItems = this._getMenuItems(partItem);
-      for(var i=0,l=menuItems.length;i<l;i++){
+      for(var i=0, l=menuItems.length; i<l; i++){
         menuItems[i].setVisibility("visible");
-        if(partItem === this.__themePart) {
+        if(partItem === this.__themePart && !(menuItems[i] instanceof qx.ui.menu.Separator)) {
           menuItems[i].getMenu().setPosition("right-top");
         }
       }
@@ -679,7 +679,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       if(partItem === this.__themePart)
       {
         var menuButtons = partItem.getMenuButtons();
-        for(var i=0,l=menuButtons.length;i<l;i++) {
+        for(var i=0, l=menuButtons.length; i<l; i++) {
           menuButtons[i].getMenu().setPosition("bottom-left");
         }
       }
@@ -698,6 +698,24 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (partItem instanceof qx.ui.toolbar.Part)
       {
         var partButtons = partItem.getChildren();
+        var separator = null;
+        var firstGroup = false;
+        var menuItems = this.__overflowMenu.getChildren();
+        if(partItem != this.__viewPart)
+        {
+          separator = this.__menuItemStore[partItem.toHashCode()];
+          if (!separator)
+          {
+          separator = new qx.ui.menu.Separator();
+          this.__overflowMenu.addBefore(separator,menuItems[0]);
+          this.__menuItemStore[partItem.toHashCode()] = separator;
+          }
+          cachedItems.push(separator);
+        }
+        else
+        {
+          firstGroup = true;
+        }
         for(var i=0, l=partButtons.length; i<l; i++)
         {
           if(partButtons[i].getVisibility() == 'excluded'){
@@ -714,6 +732,7 @@ qx.Class.define("demobrowser.DemoBrowser",
               cachedItem.setEnabled(partButtons[i].getEnabled());
               cachedItem.setUserData('value',partButtons[i].getUserData('value'));
               cachedItem.setModel(partButtons[i].getModel());
+              partButtons[i].bind("enabled", cachedItem, "enabled");
               if(!this.__menuViewRadioGroup)
               {
                 this.__menuViewRadioGroup = new qx.ui.form.RadioGroup();
@@ -766,8 +785,14 @@ qx.Class.define("demobrowser.DemoBrowser",
             {
               cachedItem = new qx.ui.menu.Separator();
             }
-
-            this.__overflowMenu.addAt(cachedItem, 0);
+            if(firstGroup)
+            {
+              this.__overflowMenu.add(cachedItem);
+            }
+            else
+            {
+              this.__overflowMenu.addBefore(cachedItem,separator);
+            }
             this.__menuItemStore[partButtons[i].toHashCode()] = cachedItem;
           }
           cachedItems.push(cachedItem);
