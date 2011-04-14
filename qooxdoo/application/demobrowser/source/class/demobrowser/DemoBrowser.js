@@ -457,18 +457,20 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._runbutton.setMinWidth(60);
       this._stopbutton.setMinWidth(60);
 
+      var prevNextPart = new qx.ui.toolbar.Part();
+      bar.add(prevNextPart);
       // -- previous navigation
       var prevbutt = new qx.ui.toolbar.Button(this.tr("Previous"), "icon/22/actions/go-previous.png");
       prevbutt.addListener("execute", this.playPrev, this);
       prevbutt.setToolTipText("Run previous demo");
-      this._navPart.add(prevbutt);
+      prevNextPart.add(prevbutt);
       this._prevButton = prevbutt;
 
       // -- next navigation
       var nextbutt = new qx.ui.toolbar.Button(this.tr("Next"), "icon/22/actions/go-next.png");
       nextbutt.addListener("execute", this.playNext, this);
       nextbutt.setToolTipText("Run next demo");
-      this._navPart.add(nextbutt);
+      prevNextPart.add(nextbutt);
       this._nextButton = nextbutt;
 
       var navButtonOptions =  {
@@ -479,12 +481,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       qx.data.SingleValueBinding.bind(this._runbutton, "visibility", prevbutt, "enabled", navButtonOptions);
       qx.data.SingleValueBinding.bind(this._runbutton, "visibility", nextbutt, "enabled", navButtonOptions);
 
+      var externLinksPart1 = new qx.ui.toolbar.Part();
+      bar.add(externLinksPart1);
       // -- spin-out sample
       var sobutt = new qx.ui.toolbar.Button(this.tr("Own Window"), "icon/22/actions/edit-redo.png");
       sobutt.addListener("execute", this.__openWindow, this);
       sobutt.setToolTipText("Open demo in new window");
       this.__sobutt = sobutt;
-      this._navPart.add(sobutt);
+      externLinksPart1.add(sobutt);
 
       // -- to playground
       if (qx.core.Environment.get("qx.contrib") == false) {
@@ -500,13 +504,15 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
 
         this.__playgroundButton = playgroundButton;
-        this._navPart.add(playgroundButton);
+        externLinksPart1.add(playgroundButton);
 
+        var externLinksPart2 = new qx.ui.toolbar.Part();
+        bar.add(externLinksPart2);
         // api button
         var apiButton = new qx.ui.toolbar.Button(
           this.tr("API Viewer"), "icon/22/actions/help-contents.png"
         );
-        this._navPart.add(apiButton);
+        externLinksPart2.add(apiButton);
         apiButton.setToolTipText(this.tr("Open the qooxdoo API Viewer"));
         apiButton.addListener("execute", this.__onApiOpen, this);
 
@@ -514,7 +520,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         var helpButton = new qx.ui.toolbar.Button(
           this.tr("Manual"), "icon/22/actions/help-about.png"
         );
-        this._navPart.add(helpButton);
+        externLinksPart2.add(helpButton);
         helpButton.setToolTipText(this.tr("Open the qooxdoo Manual"));
         helpButton.addListener("execute", this.__onManualOpen, this);
 
@@ -630,8 +636,11 @@ qx.Class.define("demobrowser.DemoBrowser",
       bar.setOverflowIndicator(chevron);
     
       // set priorities for overflow handling
-      bar.setRemovePriority(viewPart, 3);
-      bar.setRemovePriority(menuPart, 2);
+      bar.setRemovePriority(viewPart, 6);
+      bar.setRemovePriority(menuPart, 5);
+      bar.setRemovePriority(externLinksPart2, 4);
+      bar.setRemovePriority(externLinksPart1, 3);
+      bar.setRemovePriority(prevNextPart, 2);
       bar.setRemovePriority(this._navPart, 1);
       
       // add the overflow menu
