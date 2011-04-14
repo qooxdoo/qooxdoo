@@ -256,7 +256,16 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // "NS_ERROR_XPC_NOT_ENOUGH_ARGS" when calling send() without arguments
       data = typeof data == "undefined" ? null : data;
 
-      this.__nativeXhr.send(data);
+      // Some browsers may throw an error when sending of async request fails.
+      // This violates the spec which states only sync requests should.
+      try {
+        this.__nativeXhr.send(data);
+      } catch(SendError) {
+        if (!this.__async) {
+          throw new Error("Sending request failed due to network error or" +
+                          "access control restrictions");
+        }
+      }
 
       // BUGFIX: Firefox
       // Firefox fails to trigger onreadystatechange DONE for sync requests

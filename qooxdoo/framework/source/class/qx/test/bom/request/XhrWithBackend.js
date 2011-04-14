@@ -467,15 +467,28 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
 
       var that = this;
       req.onerror = function() {
-        that.resume();
+        that.resume(function() {
+          that.assertEquals(4, req.readyState);
+        });
       };
 
-      // Network error
+      // Network error (async)
       req.open("GET", "http://fail.tld");
       req.send();
 
       // May take a while to detect network error
       this.wait(10000);
+    },
+
+    "test: throw error on network error when sync": function() {
+      var req = this.req;
+
+      // Network error (sync)
+      req.open("GET", "http://fail.tld", false);
+
+      this.assertException(function() {
+        req.send();
+      }, Error);
     },
 
     //
