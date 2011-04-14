@@ -400,17 +400,21 @@ def inlineIfStatement(ifNode, conditionValue):
         node.addChild(defList,0)
 
     # move replacement
-    if replacement != []:
+    if replacement:
+        replacement = replacement[:] # retain copy for return value
         replaceChildWithNodes(ifNode.parent, ifNode, replacement)
     else:
+        emptyBlock = tree.Node("block");
+        emptyBlock.set("line", ifNode.get("line"))
         # TODO: experimental bug#4734: is this enough?
         if (ifNode.parent.type in ["block", "file"]):
             ifNode.parent.removeChild(ifNode)
         else:
             # don't leave single-statement parent loops empty
-            emptyBlock = tree.Node("block");
-            emptyBlock.set("line", ifNode.get("line"))
             ifNode.parent.replaceChild(ifNode, emptyBlock)
+        replacement = [emptyBlock]
+
+    return replacement
 
 
 def replaceChildWithNodes(node, oldChild, newChildren):

@@ -590,14 +590,16 @@ def reduceOperation(literalNode):
         result = None
         otherOperand, otherPosition = getOtherOperand(noperationNode, nliteralNode)
         if operator == "AND":
-            if otherPosition==1 and not literalValue:  # short circuit
-                result = False
-            else:
+            #if otherPosition==1 and not literalValue:  # short circuit
+            #    result = False
+            #else:
+            if True:
                 cmpFcn = (lambda x,y: x and y)
         elif operator == "OR":
-            if otherPosition==1 and literalValue:  # short circuit
-                result = True
-            else:
+            #if otherPosition==1 and literalValue:  # short circuit
+            #    result = True
+            #else:
+            if True:
                 cmpFcn = (lambda x,y: x or y)
 
         if result == None:

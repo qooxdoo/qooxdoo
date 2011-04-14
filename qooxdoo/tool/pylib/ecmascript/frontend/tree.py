@@ -203,6 +203,19 @@ class Node(object):
 
         return False
 
+    ##
+    # Whether <node> is self, or a descendant in the tree rooted by self.
+    def contains(self, node):
+        if self is node:
+            return node
+        else:
+            for child in self.children:
+                if child.contains(node):
+                    return node
+        return None
+
+    ##
+    # TODO: Rename this to hasChildByType
     def hasChild(self, ntype):
         if self.children:
             for child in self.children:
