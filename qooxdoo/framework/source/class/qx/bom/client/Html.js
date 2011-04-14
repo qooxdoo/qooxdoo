@@ -44,7 +44,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * Whether the client supports File Readers
      *
      * @internal
-     * @return {Boolean} <code>true</code> if FileReader are supported
+     * @return {Boolean} <code>true</code> if FileReaders are supported
      */
     getFileReader : function() {
       return window.FileReader != null;
