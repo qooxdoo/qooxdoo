@@ -236,6 +236,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __currentJSCode : null,
     __menuElements : null,
     _versionFilter : null,
+    _navPart : null,
     __sobutt : null,
     __viewPart : null,
     __themePart : null,
@@ -481,7 +482,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       qx.data.SingleValueBinding.bind(this._runbutton, "visibility", prevbutt, "enabled", navButtonOptions);
       qx.data.SingleValueBinding.bind(this._runbutton, "visibility", nextbutt, "enabled", navButtonOptions);
 
-      var externLinksPart1 = new qx.ui.toolbar.Part();
+      var externLinksPart1 = this._navPart = new qx.ui.toolbar.Part();
       bar.add(externLinksPart1);
       // -- spin-out sample
       var sobutt = new qx.ui.toolbar.Button(this.tr("Own Window"), "icon/22/actions/edit-redo.png");
@@ -1854,7 +1855,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       "f1", "f2", "_history", "logappender", '_cmdObjectSummary',
       '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample',
       '_cmdSampleInOwnWindow', '_cmdDisposeSample',
-      "_navPart", "_runbutton", "_stopbutton", "__sobutt", "__themePart",
+      "_navPart", "_runbutton", "_stopbutton", "_navPart", "__sobutt", "__themePart",
       "__viewPart", "__viewGroup", "__menuBar", "_infosplit", "_searchTextField",
       "_status", "_tree", "_iframe", "_demoView", "__menuElements",
       "__logSync", "_leftComposite", "_urlWindow", "_nextButton", "_prevButton","__menuItemStore");
