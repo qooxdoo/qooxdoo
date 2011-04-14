@@ -286,7 +286,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
             }
           }
           return trace;
-        } else if (error.message.indexOf("Backtrace:") >= 0) {
+        } else if (error.message && error.message.indexOf("Backtrace:") >= 0) {
           var trace = [];
           var traceString = qx.lang.String.trim(error.message.split("Backtrace:")[1]);
           var lines = traceString.split("\n");
