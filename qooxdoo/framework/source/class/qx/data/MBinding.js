@@ -18,8 +18,9 @@
 ************************************************************************ */
 
 /**
- * The data binding package is still under development so there will be changes
- * to the API. This Features is for texting purpose only.
+ * This mixin is forwarding the static methods of
+ * {@link qx.data.SingleValueBinding} to the instance including the mixin.
+ * The source object will be <code>this</code>.
  */
 qx.Mixin.define("qx.data.MBinding",
 {
