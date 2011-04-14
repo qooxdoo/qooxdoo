@@ -183,11 +183,15 @@ qx.Class.define("demobrowser.DemoBrowser",
     [
       this.__sobutt,
       this.__viewPart,
-      this.__themePart
+      this.__disposeBtn
     ];
 
     if (qx.core.Environment.get("qx.contrib") == false) {
       this.__menuElements.push(this.__playgroundButton);
+      this.__menuElements.push(this.__themePart);
+      this.__menuElements.push(this.__summaryBtn);
+    } else {
+      this.__menuElements.push(this.__debugButton);
     }
 
     this.__logSync = new qx.event.Timer(250);
@@ -241,6 +245,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     __viewPart : null,
     __themePart : null,
     __themeMenu : null,
+    __disposeBtn : null,
+    __debugButton : null,
+    __summaryBtn : null,
     __menuBar : null,
     _leftComposite : null,
     _infosplit : null,
@@ -402,6 +409,26 @@ qx.Class.define("demobrowser.DemoBrowser",
       window.open("http://manual.qooxdoo.org/" + vers);
     },
 
+
+    /**
+     * Handler for to hide/show all test demos.
+     * 
+     * @param event {qx.event.type.Data} The event.
+     */
+    _onHideShowTests : function(event)
+    {
+      var search = window.location.search;
+      var anchor = window.location.hash;
+      
+      var url = "index.html";
+      if (search == "") {
+        url += "?qxenv:demobrowser.withTests:true";
+      }
+      url += anchor;
+      location.replace(url);
+    },
+
+    
     /**
      * TODOC
      * @param e {Event} TODOC
@@ -533,7 +560,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       // -----------------------------------------------------
 
       var menuPart = new qx.ui.toolbar.Part;
-      this.__themePart = menuPart;
       bar.add(menuPart);
 
       if (qx.core.Environment.get("qx.contrib") == false)
@@ -559,6 +585,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         themeMenu.add(t3);
 
         var themeButton = new qx.ui.toolbar.MenuButton(this.tr("Theme"), "icon/22/apps/utilities-color-chooser.png", themeMenu);
+        this.__themePart = themeButton;
         themeButton.setToolTipText("Choose theme");
         menuPart.add(themeButton);
       }
@@ -573,15 +600,28 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (qx.core.Environment.get("qx.contrib") == false)
       {
         var summaryBtn = new qx.ui.menu.Button(this.tr("Object Summary"));
+        this.__summaryBtn = summaryBtn;
         summaryBtn.setCommand(this._cmdObjectSummary);
         menu.add(summaryBtn);
       }
 
       var disposeBtn = new qx.ui.menu.Button(this.tr("Dispose Demo"));
+      this.__disposeBtn = disposeBtn;
       disposeBtn.setCommand(this._cmdDisposeSample);
       menu.add(disposeBtn);
 
+      if (qx.core.Environment.get("qx.contrib") == false)
+      {
+        menu.addSeparator();
+
+        var hideTests = new qx.ui.menu.CheckBox(this.tr("Hide/Show Tests Demos"));
+        hideTests.setValue(!!qx.core.Environment.get("demobrowser.withTests"));
+        hideTests.addListener("changeValue", this._onHideShowTests, this);
+        menu.add(hideTests);
+      }
+
       var debugButton = new qx.ui.toolbar.MenuButton(this.tr("Debug"), "icon/22/apps/office-spreadsheet.png", menu);
+      this.__debugButton = debugButton;
       debugButton.setToolTipText("Debugging options");
       menuPart.add(debugButton);
 
@@ -1854,10 +1894,10 @@ qx.Class.define("demobrowser.DemoBrowser",
     this._disposeObjects("mainsplit", "tree1", "left", "runbutton", "toolbar",
       "f1", "f2", "_history", "logappender", '_cmdObjectSummary',
       '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample',
-      '_cmdSampleInOwnWindow', '_cmdDisposeSample',
-      "_navPart", "_runbutton", "_stopbutton", "_navPart", "__sobutt", "__themePart",
+      '_cmdSampleInOwnWindow', '_cmdDisposeSample', "__disposeBtn", "__debugButton",
+      "_navPart", "_runbutton", "_stopbutton", "__sobutt", "__themePart",
       "__viewPart", "__viewGroup", "__menuBar", "_infosplit", "_searchTextField",
-      "_status", "_tree", "_iframe", "_demoView", "__menuElements",
+      "_status", "_tree", "_iframe", "_demoView", "__menuElements", "__summaryBtn",
       "__logSync", "_leftComposite", "_urlWindow", "_nextButton", "_prevButton","__menuItemStore");
   }
 });
