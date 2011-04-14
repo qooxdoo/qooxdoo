@@ -21,6 +21,9 @@
 
 /**
  * Retrieve information about global namespace pollution
+ *
+ * @deprecated since 1.5
+ *
  */
 qx.Class.define("qx.dev.Pollution",
 {
@@ -34,6 +37,9 @@ qx.Class.define("qx.dev.Pollution",
   {
     /**
      * Classes to check for pollution
+     *
+     * @deprecated since 1.5
+     *
      */
     names :
     {
@@ -47,8 +53,19 @@ qx.Class.define("qx.dev.Pollution",
      * Known properties of the classes to check. These properties will not be
      * reported as pollution.
      *
+     * Note: This class has been deprecated in 1.5 without any alternatives.
+     *
+     * Instead you can check for globals using modern JavaScript developer tools such as
+     * Firebug by inspecting the window object (in case of a browser environment).
+     *
+     * To avoid introducing globals in the first place, it is recommended to use code
+     * quality tools (for instance, the lint checker included in qooxdoo's tool chain).
+     *
      * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects
      * http://developer.mozilla.org/en/docs/Gecko_DOM_Reference
+     *
+     * @deprecated since 1.5
+     *
      */
     ignore :
     {
@@ -111,9 +128,13 @@ qx.Class.define("qx.dev.Pollution",
      *       <li>body</li>
      *     </ul>
      * @return {void}
+     *
+     * @deprecated since 1.5
      */
     getInfo : function(objectName)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+
       var msg = qx.dev.Pollution.getTextList(objectName || "window");
 
       if (msg) {
@@ -134,9 +155,14 @@ qx.Class.define("qx.dev.Pollution",
      *       <li>body</li>
      *     </ul>
      * @return {Map[]} Array of values, which are not supposed to be in the given object.
+     *
+     * @deprecated since 1.5
+     *
      */
     extract : function(objectName)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+
       var ext = [];
       var ign = qx.dev.Pollution.ignore[objectName];
 
@@ -219,9 +245,14 @@ qx.Class.define("qx.dev.Pollution",
      *       <li>body</li>
      *     </ul>
      * @return {String} HTML fragment
+     *
+     * @deprecated since 1.5
+     *
      */
     getHtmlTable : function(objectName)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+
       var all = [];
 
       var rowStart = "<tr style='vertical-align:top'><td>";
@@ -252,9 +283,14 @@ qx.Class.define("qx.dev.Pollution",
      *       <li>body</li>
      *     </ul>
      * @return {String} global pollution list
+     *
+     * @deprecated since 1.5
+     *
      */
     getTextList : function(objectName)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+
       var all = [];
 
       var cellSplit = ": ";
