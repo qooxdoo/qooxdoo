@@ -90,7 +90,7 @@ class CodeGenerator(object):
             def fillTemplate(vals, template):
                 # Fill the code template with various vals 
                 templ  = MyTemplate(template)
-                result = templ.safe_substitute(vals)
+                result = templ.substitute(vals)
 
                 return result
 
@@ -160,7 +160,7 @@ class CodeGenerator(object):
                 
                 template = filetool.read(loaderFile)
 
-                return template
+                return template, loaderFile
 
             # ---------------------------------------------------------------
 
@@ -240,10 +240,14 @@ class CodeGenerator(object):
             vals["NoCacheParam"] = "true" if self._job.get("compile-options/uris/add-nocache-param", True) else "false"
 
             # Locate and load loader basic script
-            template = loadTemplate(bootCode)
+            template, loaderFile = loadTemplate(bootCode)
 
             # Fill template gives result
-            result = fillTemplate(vals, template)
+            try:
+                result = fillTemplate(vals, template)
+            except KeyError, e:
+                raise ValueError("Unknown macro used in loader template (%s): '%s'" % 
+                                 (loaderFile, e.args[0])) 
 
             return result
 
