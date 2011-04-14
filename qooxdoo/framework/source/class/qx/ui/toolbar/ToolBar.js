@@ -368,7 +368,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
     /**
      * The removal of the toolbar items is priority based. You can change these
-     * priorities with this method. The higher a priority, the earlier is will
+     * priorities with this method. The higher a priority, the earlier it will
      * be excluded. Remmeber to use every priority only once! If you want
      * override an already set priority, use the override parameter.
      * Keep in mind to only use already added items.
