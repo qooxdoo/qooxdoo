@@ -550,6 +550,37 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertEquals("FOUND", req.getResponseText());
     },
 
+    "test: get response": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport;
+
+      transport.readyState = 4;
+      transport.status = 200;
+      transport.responseText = "Affe";
+      transport.onreadystatechange();
+
+      this.assertEquals("Affe", req.getResponse());
+    },
+
+    "test: get response by change event": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport,
+          that = this;
+
+      transport.readyState = 4;
+      transport.status = 200;
+      transport.responseText = "Affe";
+
+      this.assertEventFired(req, "changeResponse", function() {
+        transport.onreadystatechange();
+      }, function(e) {
+        that.assertEquals("Affe", e.getData());
+      });
+
+    },
+
     //
     // Abort
     //

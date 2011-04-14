@@ -100,7 +100,12 @@ qx.Class.define("qx.io.request.Xhr",
      * Fires when request could not complete
      * due to a network error.
      */
-    "error": "qx.event.type.Event"
+    "error": "qx.event.type.Event",
+
+    /**
+    * Fires on change of the parsed response
+    */
+    "changeResponse": "qx.event.type.Data"
   },
 
   properties:
@@ -392,6 +397,29 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     /**
+     * Get response.
+     *
+     * @return {String} The parsed response of the request.
+     */
+    getResponse: function() {
+      return this.__response;
+    },
+
+    /**
+     * Set response.
+     *
+     * @param response {String} The parsed response of the request.
+     */
+    __setResponse: function(response) {
+      var oldResponse = response;
+
+      if (this.__response !== response) {
+        this.__response = response;
+        this.fireEvent("changeResponse", qx.event.type.Data, [this.__response, oldResponse]);
+      }
+    },
+
+    /**
      * Get all response headers from response.
      *
      * @return {String} All response headers.
@@ -447,6 +475,10 @@ qx.Class.define("qx.io.request.Xhr",
       this.fireEvent("readystatechange");
 
       if (this.isDone() && this.isSuccessful()) {
+
+        // TODO: Parse response according to response mime type
+        this.__setResponse(this.__transport.responseText);
+
         this.fireEvent("success");
       }
     },
