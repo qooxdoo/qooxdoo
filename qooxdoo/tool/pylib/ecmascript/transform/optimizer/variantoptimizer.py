@@ -500,12 +500,12 @@ def reduceOperation(literalNode):
         return val
 
 
-    resultNode = literalNode
+    resultNode = None
     treeModified = False
 
     # can only reduce with constants
     if literalNode.type != "constant":
-        return resultNode, treeModified
+        return literalNode, False
     else:
         literalValue = constNodeToPyValue(literalNode)
         # @deprecated
@@ -514,7 +514,7 @@ def reduceOperation(literalNode):
     # check if we're in an operation
     ngParent = nextNongroupParent(literalNode) # could be "first", "second" etc. in ops
     if not ngParent or not ngParent.parent or ngParent.parent.type != "operation":
-        return resultNode, treeModified
+        return literalNode, False
     else:
         operationNode = ngParent.parent
     # get operator
@@ -532,7 +532,7 @@ def reduceOperation(literalNode):
     if operator in ["EQ", "SHEQ", "NE", "SHNE"]:
         otherOperand, _ = getOtherOperand(noperationNode, nliteralNode)
         if otherOperand.type != "constant":
-            return resultNode, treeModified
+            return literalNode, False
         if operator in ["EQ", "SHEQ"]:
             cmpFcn = operators.eq
         elif operator in ["NE", "SHNE"]:
@@ -554,7 +554,7 @@ def reduceOperation(literalNode):
     elif operator in ["LT", "LE", "GT", "GE"]:
         otherOperand, otherPosition = getOtherOperand(noperationNode, nliteralNode)
         if otherOperand.type != "constant":
-            return resultNode, treeModified
+            return literalNode, False
         if operator == "LT":
             cmpFcn = operators.lt
         elif operator == "LE":
@@ -593,30 +593,29 @@ def reduceOperation(literalNode):
             #if otherPosition==1 and not literalValue:  # short circuit
             #    result = False
             #else:
-            if True:
-                cmpFcn = (lambda x,y: x and y)
+            cmpFcn = (lambda x,y: x and y)
         elif operator == "OR":
             #if otherPosition==1 and literalValue:  # short circuit
             #    result = True
             #else:
-            if True:
-                cmpFcn = (lambda x,y: x or y)
+            cmpFcn = (lambda x,y: x or y)
 
         if result == None:
             if otherOperand.type != "constant":
-                return resultNode, treeModified
+                return literalNode, False
             operands = {}
             operands[1 - otherPosition] = literalValue
             otherVal = constNodeToPyValue(otherOperand)
             # @deprecated
             otherVal = patchValue(otherVal)
             operands[otherPosition] = otherVal
-            result = bool(cmpFcn(operands[0], operands[1]))
+            result = cmpFcn(operands[0], operands[1])
+            resultNode = {literalValue:literalNode, otherVal:otherOperand}[result]
 
-        resultNode = tree.Node("constant")
-        resultNode.set("constantType","boolean")
-        resultNode.set("value", str(result).lower())
-        resultNode.set("line", noperationNode.get("line"))
+        #resultNode = tree.Node("constant")
+        #resultNode.set("constantType","boolean")
+        #resultNode.set("value", str(result).lower())
+        #resultNode.set("line", noperationNode.get("line"))
 
     # hook ?: operator
     elif operator in ["HOOK"]:
@@ -630,10 +629,13 @@ def reduceOperation(literalNode):
     else:
         pass
 
-    if resultNode != literalNode:
+    if resultNode != None:
         #print "optimizing: operation"
         operationNode.parent.replaceChild(operationNode, resultNode)
         treeModified = True
+    else:
+        resultNode = literalNode
+        treeModified = False
 
     return resultNode, treeModified
 
