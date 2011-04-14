@@ -295,7 +295,11 @@ class CodeGenerator(object):
             self._console.indent()
 
             # Compile file content
-            pkgCode = self._treeCompiler.compileClasses(package.classes, variants, optimize, format)
+            if "variants" not in optimize:
+                variats = {}
+            else:
+                variats = variants
+            pkgCode = self._treeCompiler.compileClasses(package.classes, variats, optimize, format)
             pkgData = getPackageData(package)
             hash    = sha.getHash(pkgData + pkgCode)[:12]  # first 12 chars should be enough
 

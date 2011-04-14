@@ -15,7 +15,7 @@
     },
     "QXTHEME"      : "qx.theme.Modern",
     "QXICONTHEME"  : ["Tango"],
-    "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings"],
+    "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings", "variants"],
     "LOCALES"      : [ "en" ],
     "APPLICATION_MAIN_CLASS" : "${APPLICATION}.Application",
     "BUILD_PATH"   : "${ROOT}/build"

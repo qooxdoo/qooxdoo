@@ -601,6 +601,7 @@ class Generator(object):
         # Processing all combinations of variants
         variantData = getVariants("variants")  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
         environData = getVariants("environment") 
+        # @deprecated
         # for the time being, lets merge variant and environment data, putting
         combiData   = self._mergeVariantsEnvironment(variantData, environData)
         variantSets  = util.computeCombinations(combiData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
