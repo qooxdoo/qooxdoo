@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2007-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2007-20011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -24,7 +24,7 @@ qx.Class.define("qx.test.toolchain.Optimizer",
   members :
   {
     testStringRenaming: function() {
-      // Can only fail in build version withall optimizations
+      // Can only fail in build version with all optimizations
       this.assertEquals("__te" + "st a", this.__test(), "Variable in a string renamed!");
       this.assertEquals("__te" + "st a test", this.__test() + " test", "Variable in a string renamed!");
     },
