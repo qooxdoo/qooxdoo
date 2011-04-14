@@ -43,15 +43,15 @@ qx.Class.define("feedreader.simulation.mobile.Feedreader", {
         return this.__feedTitles;
       }
       
-      var getFeedTitles = function() {
-        var titles = [];
-        var items = selenium.qxStoredVars['autWindow'].document.getElementsByClassName("listItem");
-        for (var i=0, l=items.length; i<l; i++) {
-          var title = items[i].firstChild.children[1].firstChild.firstChild.nodeValue;
-          titles.push(title);
-        }
-        return JSON.stringify(titles);
-      };
+      var getFeedTitles = 'function() {'
+      +   'var titles = [];'
+      +   'var items = selenium.qxStoredVars["autWindow"].document.getElementsByClassName("listItem");'
+      +   'for (var i=0, l=items.length; i<l; i++) {'
+      +   '  var title = items[i].firstChild.children[1].firstChild.firstChild.nodeValue;'
+      +   '  titles.push(title);'
+      +   '}'
+      +   'return JSON.stringify(titles);'
+      + '};';
       
       this.getSimulation()._addOwnFunction("getFeedTitles", getFeedTitles);
       var functionCall = 'selenium.qxStoredVars["autWindow"].qx.Simulation.getFeedTitles()';
