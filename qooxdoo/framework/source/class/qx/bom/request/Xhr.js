@@ -256,22 +256,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // "NS_ERROR_XPC_NOT_ENOUGH_ARGS" when calling send() without arguments
       data = typeof data == "undefined" ? null : data;
 
-      // BUGFIX: Chrome
-      // Chrome fires "NETWORK_ERR: XMLHttpRequest Exception 101" even when async
-      // This violates XMLHttpRequest Level 2, see
-      // http://www.w3.org/TR/XMLHttpRequest2/#network-error
-      if (this.__async) {
-        try {
-          this.__nativeXhr.send(data);
-
-          // TODO: May throw error in IE.
-          // 'readyState' is null or no object.
-          this.__onNativeReadyStateChange();
-
-        } catch(NetworkError) {}
-      } else {
-        this.__nativeXhr.send(data);
-      }
+      this.__nativeXhr.send(data);
 
       // BUGFIX: Firefox
       // Firefox fails to trigger onreadystatechange DONE for sync requests
