@@ -49,10 +49,10 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     setUpFakeTransport: function() {
       this.transport = this.stub(new qx.bom.request.Xhr());
-      this.spy(this.transport, "open");
-      this.spy(this.transport, "setRequestHeader");
-      this.spy(this.transport, "send");
-      this.spy(this.transport, "abort");
+      this.stub(this.transport, "open");
+      this.stub(this.transport, "setRequestHeader");
+      this.stub(this.transport, "send");
+      this.stub(this.transport, "abort");
       this.stub(qx.io.request.Xhr.prototype, "_createTransport").
           returns(this.transport);
 
