@@ -79,6 +79,24 @@ qx.Class.define("qx.ui.list.List",
 
     this._init();
 
+    this.initGroups(new qx.data.Array());
+
+    // @deprecated since 1.4: Code is only for deprecation 
+    this._groups = this.getGroups();
+    if (qx.core.Environment.get("qx.debug"))
+    {
+      if (this.__defineGetter__)
+      {
+        var originalValue = this._groups;
+        this.__defineGetter__("_groups", function()
+        {
+          qx.log.Logger.warn("The member '_groups' is deprecated: " +
+            "Please use the property 'groups' instead.");
+          return originalValue;
+        });
+      }
+    }
+
     if(model != null) {
       this.initModel(model);
     } else {
@@ -229,10 +247,26 @@ qx.Class.define("qx.ui.list.List",
     },
 
 
-    autoGroupCreation :
+    /**
+     * Indicates that the list is managing the {@link #groups} automatically.
+     */
+    autoGrouping :
     {
       check: "Boolean",
       init: true
+    },
+
+
+    /** 
+     * Contains all groups for data binding, but do only manipulate the array
+     * when the {@link #autoGrouping} is set to <code>false</code>.
+     */
+    groups : 
+    {
+      check: "qx.data.Array",
+      event: "changeGroups",
+      nullable: false,
+      deferredInit: true
     }
   },
 
@@ -260,7 +294,11 @@ qx.Class.define("qx.ui.list.List",
     __lookupTable : null,
 
 
-    /** {qx.data.Array} contains all group names */
+    /** 
+     * {qx.data.Array} contains all group names
+     * 
+     * @deprectated since 1.4 use the property group instead.
+     */
     _groups : null,
 
 
@@ -302,10 +340,6 @@ qx.Class.define("qx.ui.list.List",
     },
 
 
-    getGroups : function() {
-      return this._groups;
-    },
-
     // overridden
     _createChildControlImpl : function(id, hash)
     {
@@ -334,7 +368,6 @@ qx.Class.define("qx.ui.list.List",
       this.__groupStringsUsed = false;
       this.__groupObjectsUsed = false;
       this.__defaultGroupUsed = false;
-      this._groups = new qx.data.Array();
 
       this.getPane().addListener("resize", this._onResize, this);
 
@@ -380,7 +413,7 @@ qx.Class.define("qx.ui.list.List",
       var data = null;
 
       if (this._isGroup(row)) {
-        data = this._groups.getItem(this._lookupGroup(row));
+        data = this.getGroups().getItem(this._lookupGroup(row));
       } else {
         data = this.getModel().getItem(this._lookup(row));
       }
@@ -576,8 +609,8 @@ qx.Class.define("qx.ui.list.List",
       this.__lookupTableForGroup = [];
       this.__groupHashMap = {};
 
-      if (this.isAutoGroupCreation()) {
-        this._groups.removeAll();
+      if (this.isAutoGrouping()) {
+        this.getGroups().removeAll();
       }
 
       var model = this.getModel();
@@ -677,8 +710,8 @@ qx.Class.define("qx.ui.list.List",
       if (this.__groupHashMap[name] == null)
       {
         this.__groupHashMap[name] = [];
-        if (this.isAutoGroupCreation()) {
-          this._groups.push(group);
+        if (this.isAutoGrouping()) {
+          this.getGroups().push(group);
         }
       }
       this.__groupHashMap[name].push(index);
@@ -696,9 +729,10 @@ qx.Class.define("qx.ui.list.List",
 
       var result = [];
       var row = 0;
-      for (var i = 0; i < this._groups.getLength(); i++)
+      var groups = this.getGroups();
+      for (var i = 0; i < groups.getLength(); i++)
       {
-        var group = this._groups.getItem(i);
+        var group = groups.getItem(i);
 
         // indicate that the value is a group
         result.push(-1);
@@ -730,12 +764,12 @@ qx.Class.define("qx.ui.list.List",
       var name = null;
       if (!qx.lang.Type.isString(group))
       {
-        var index = this._groups.indexOf(group);
+        var index = this.getGroups().indexOf(group);
         this.__groupObjectsUsed = true;
 
         name = "group";
         if (index == -1) {
-           name += this._groups.getLength();
+           name += this.getGroups().getLength();
         } else {
           name += index;
         }
@@ -769,8 +803,7 @@ qx.Class.define("qx.ui.list.List",
     this._background.dispose();
     this._provider.dispose();
     this._layer.dispose();
-    this._groups.dispose();
-    this._background = this._provider = this._layer = this._groups =
+    this._background = this._provider = this._layer =
       this.__lookupTable = this.__lookupTableForGroup = 
       this.__groupHashMap = null;
   }

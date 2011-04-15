@@ -178,12 +178,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       var type = targetWidget.getUserData("cell.type")
       var bindPath = this.__getBindPath(index, sourcePath, type);
 
-      var bindTarget = this._list;
-      if (type == "group") {
-        bindTarget = this._list._groups;
-      }
-
-      var id = bindTarget.bind(bindPath, targetWidget, targetProperty, options);
+      var id = this._list.bind(bindPath, targetWidget, targetProperty, options);
       this.__addBinding(targetWidget, id);
     },
 
@@ -206,12 +201,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       var type = sourceWidget.getUserData("cell.type")
       var bindPath = this.__getBindPath(index, targetPath, type);
 
-      var bindTarget = this._list;
-      if (type == "group") {
-        bindTarget = this._list._groups;
-      }
-
-      var id = sourceWidget.bind(sourceProperty, bindTarget, bindPath, options);
+      var id = sourceWidget.bind(sourceProperty, this._list, bindPath, options);
       this.__addBinding(sourceWidget, id);
     },
 
@@ -309,11 +299,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
         try {
           this._list.removeBinding(id);
         } catch(e) {
-          try {
-            this._list._groups.removeBinding(id);
-          } catch(e) {
-            item.removeBinding(id);
-          }
+          item.removeBinding(id);
         }
       }
 
@@ -334,7 +320,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
     {
       var bindPath = "model[" + index + "]";
       if (type == "group") {
-        bindPath = "[" + index + "]";
+        bindPath = "groups[" + index + "]";
       }
 
       if (path != null && path != "") {
