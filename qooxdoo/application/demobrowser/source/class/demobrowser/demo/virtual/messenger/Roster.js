@@ -27,8 +27,6 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
   {
     this.base(arguments);
 
-    this.__groups = {};
-    
     var layout = new qx.ui.layout.VBox();
     this._setLayout(layout);
     
@@ -45,9 +43,9 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     list.setDelegate(this);
     this._add(list, {flex: 1});
     
+    this.__groups = list.getGroups();
     this.initModel(new qx.data.Array());
     this.initSelection(list.getSelection());
-    this.__groupsList = list.getGroups();
 
     this.bind("model", list, "model");
 
@@ -82,6 +80,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     {
       check : "qx.data.Array",
       event : "changeModel",
+      apply : "_applyModel",
       nullable : false,
       deferredInit : true
     },
@@ -98,8 +97,6 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
   members :
   {
     __groups : null,
-    
-    __groupsList : null,
     
 
     /*
@@ -152,6 +149,21 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     },
     
     
+    _applyModel : function(value, old)
+    {
+      value.addListener("change", this.__updateGroup, this);
+      value.addListener("changeBubble", this.__updateGroup, this);
+      
+      if(old != null)
+      {
+        old.removeListener("change", this.__updateGroup, this);
+        old.removeListener("changeBubble", this.__updateGroup, this);
+      }
+      
+      this.__updateGroup();
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
@@ -159,18 +171,66 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     */
     
     
-    __getGroupFor : function(name) {
-      var group = this.__groups[name];
+    __updateGroup : function(event)
+    {
+      var model = this.getModel();
+      var groups = this.__groups;
       
-      if (group != null) {
-        return group;
+      var groupsCount = {};
+      for (var i = 0; i < groups.getLength(); i++)
+      {
+        var group = groups.getItem(i);
+        groupsCount[group.getName()] = 0;
       }
       
-      group = this.__groups[name] = new demobrowser.demo.virtual.messenger.GroupModel(name);
-      group.addListener("changeOpen", this.__onChangeOpen, this);
-      this.__groupsList.push(group);
+      for (var i = 0; i < model.getLength(); i++)
+      {
+        var group = model.getItem(i).getGroup();
+        
+        if (groupsCount[group] == null) {
+          groupsCount[group] = 1;
+        } else {
+          groupsCount[group] += 1;
+        }
+      }
+      
+      for (var name in groupsCount)
+      {
+        var count = groupsCount[name];
+        var group = this.__getGroupFor(name);
+        group.setCount(count);
+      }
+      
+      if (event && event.getType() == "changeBubble") {
+        this.list.refresh();
+      }
+    },
+    
+    
+    __getGroupFor : function(name)
+    {
+      var groups = this.__groups;
+      var group = null;
+      
+      for (var i = 0; i < groups.getLength(); i++) {
+        var item = groups.getItem(i);
+        
+        if (name == item.getName()) {
+          group = item;
+          break;
+        }
+      }
+      
+      if (group == null)
+      {
+        group = new demobrowser.demo.virtual.messenger.GroupModel(name);
+        group.addListener("changeOpen", this.__onChangeOpen, this);
+        this.__groups.push(group);
+      }
+      
       return group;
     },
+    
     
     __onChangeOpen : function(event) {
       this.list.refresh();

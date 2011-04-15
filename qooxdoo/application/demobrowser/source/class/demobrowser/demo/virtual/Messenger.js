@@ -140,7 +140,6 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       inpStatus.add(new qx.ui.form.ListItem("away").set({model: "away"}));
       inpStatus.add(new qx.ui.form.ListItem("busy").set({model: "busy"}));
       inpStatus.add(new qx.ui.form.ListItem("offline").set({model: "offline"}));
-//      controller.addTarget(inpStatus, "value", "status", true);
 
       this.messenger.bind(
         "selection[0].status", inpStatus,
