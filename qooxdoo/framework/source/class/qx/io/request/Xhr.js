@@ -178,7 +178,7 @@ qx.Class.define("qx.io.request.Xhr",
      *
      * * <code>true</code>: Allow caching (Default)
      * * <code>false</code>: Prohibit caching. Appends nocache parameter to URL.
-     * * <code>"force-validate"</code>: Force cache to submit request in order to
+     * * <code>"force-validate"</code>: Force browser to submit request in order to
      *   validate freshness of resource. Sets HTTP header Cache-Control to "no-cache".
      *   Note: Should the resource be considered fresh after validation, the requested
      *   resource is still served from cache.
