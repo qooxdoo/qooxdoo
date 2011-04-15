@@ -730,9 +730,6 @@ qx.Class.define("qx.ui.table.Table",
 
     __timer : null,
 
-    __resizeInProgress : false,
-
-
 
     // overridden
     _createChildControlImpl : function(id, hash)
@@ -2153,28 +2150,11 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Resize event handler
      */
-    _onResize : function()
+    _onResize : function(e)
     {
-      // it is necessary to decouple the resizing operation of the table with
-      // a timer. Otherwise the resizing operations will trigger another resize
-      // which will then trigger again this routine ending up in a endless loop.
-      // This only happens if the table / treevirtual widget is added to a
-      // scroll container and the own scrolling ability of the table pane is *not*
-      // used (strange, but possible usage). See Bug #4934 for details.
-      if (!this.__resizeInProgress)
-      {
-        qx.event.Timer.once(function()
-        {
-          this.fireEvent("tableWidthChanged");
-
-          this._updateScrollerWidths();
-          this._updateScrollBarVisibility();
-
-          this.__resizeInProgress = false;
-        }, this, 0);
-
-        this.__resizeInProgress = true;
-      }
+      this.fireEvent("tableWidthChanged");
+      this._updateScrollerWidths();
+      this._updateScrollBarVisibility();
     },
 
 
