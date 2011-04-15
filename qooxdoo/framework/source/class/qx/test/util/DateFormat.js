@@ -30,6 +30,9 @@ qx.Class.define("qx.test.util.DateFormat",
     {'date' : new Date(2007, 3, 14), 'result' : {}},
     {'date' : new Date(2009, 10, 30), 'result' : {}},
     {'date' : new Date(2009, 8 ,30), 'result' : {}},
+    {'date' : new Date(2011, 3, 15), 'result' : {}},
+    {'date' : new Date(2011, 3, 16), 'result' : {}},
+    {'date' : new Date(2011, 3, 17), 'result' : {}},
     {'date' : new Date(2011, 0, 26), 'result' : {'weekOfYear' : 4}},
     {'date' : new Date(2011, 0, 1), 'result' : {'weekOfYear' : 52}},
     {'date' : new Date(2011, 0, 3), 'result' : {'weekOfYear' : 1}},
@@ -542,33 +545,35 @@ qx.Class.define("qx.test.util.DateFormat",
     testPattern_c_ : function(){
       var df;
       var locale = qx.locale.Manager.getInstance().getLocale();
-      for(var i=0; i<this.__dates.length; i++)
+      var locales = [locale,"en_US","ro_RO","de_DE","fr_FR"];
+      for(var k=0; k<locales.length; k++)
       {
-        if(this.__dates[i].result.dayOfWeek)
+        qx.locale.Manager.getInstance().setLocale(locales[k]);
+        for(var i=0; i<this.__dates.length; i++)
         {
           var date = this.__dates[i].date;
-          var dayOfWeek = this.__dates[i].result.dayOfWeek;
-          var startOfWeek = qx.locale.Date.getWeekStart(locale);
-          var localeDayOfWeek = dayOfWeek + (1-startOfWeek >=0 ? 1-startOfWeek : 7 + (1-startOfWeek));
+          var dayOfWeek = date.getDay();
+          var startOfWeek = qx.locale.Date.getWeekStart(locales[k]);
+          var expectedDayOfWeek = dayOfWeek - startOfWeek >=0 ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek);
 
-          df = new qx.util.format.DateFormat("c");
-          this.assertEquals(localeDayOfWeek + "", df.format(date));
+          df = new qx.util.format.DateFormat("c",locales[k]);
+          this.assertEquals(expectedDayOfWeek + "", df.format(date));
           df.dispose();
 
-          df = new qx.util.format.DateFormat("ccc");
-          this.assertEquals(qx.locale.Date.getDayName("abbreviated", localeDayOfWeek, locale, "format"), df.format(date));
+          df = new qx.util.format.DateFormat("ccc",locales[k]);
+          this.assertEquals(qx.locale.Date.getDayName("abbreviated", dayOfWeek, locales[k], "format"), df.format(date));
           df.dispose();
 
-          df = new qx.util.format.DateFormat("cccc");
-          this.assertEquals(qx.locale.Date.getDayName("wide", localeDayOfWeek, locale, "format"), df.format(date));
+          df = new qx.util.format.DateFormat("cccc",locales[k]);
+          this.assertEquals(qx.locale.Date.getDayName("wide", dayOfWeek, locales[k], "format"), df.format(date));
           df.dispose();
 
-          df = new qx.util.format.DateFormat("ccccc");
-          this.assertEquals(qx.locale.Date.getDayName("narrow", localeDayOfWeek, locale, "stand-alone"), df.format(date));
+          df = new qx.util.format.DateFormat("ccccc",locales[k]);
+          this.assertEquals(qx.locale.Date.getDayName("narrow", dayOfWeek, locales[k], "stand-alone"), df.format(date));
           df.dispose();
         }
       }
-
+      qx.locale.Manager.getInstance().setLocale(locale);
     },
 
     testPattern_e_ : function(){
@@ -576,33 +581,30 @@ qx.Class.define("qx.test.util.DateFormat",
       var locale = qx.locale.Manager.getInstance().getLocale();
       for(var i=0; i<this.__dates.length; i++)
       {
-        if(this.__dates[i].result.dayOfWeek)
-        {
-          var date = this.__dates[i].date;
-          var dayOfWeek = this.__dates[i].result.dayOfWeek;
-          var startOfWeek = qx.locale.Date.getWeekStart(locale);
-          var localeDayOfWeek = dayOfWeek + (1-startOfWeek >=0 ? 1-startOfWeek : 7 + (1-startOfWeek));
+        var date = this.__dates[i].date;
+        var dayOfWeek = date.getDay();
+        var startOfWeek = qx.locale.Date.getWeekStart(locale);
+        var expectedDayOfWeek = dayOfWeek - startOfWeek >=0 ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek);
 
-          df = new qx.util.format.DateFormat("e");
-          this.assertEquals(localeDayOfWeek + "", df.format(date));
-          df.dispose();
+        df = new qx.util.format.DateFormat("e");
+        this.assertEquals(expectedDayOfWeek + "", df.format(date));
+        df.dispose();
 
-          df = new qx.util.format.DateFormat("ee");
-          this.assertEquals("0" + localeDayOfWeek, df.format(date));
-          df.dispose();
+        df = new qx.util.format.DateFormat("ee");
+        this.assertEquals("0" + expectedDayOfWeek, df.format(date));
+        df.dispose();
 
-          df = new qx.util.format.DateFormat("eee");
-          this.assertEquals(qx.locale.Date.getDayName("abbreviated", localeDayOfWeek, locale, "format"), df.format(date));
-          df.dispose();
+        df = new qx.util.format.DateFormat("eee");
+        this.assertEquals(qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format"), df.format(date));
+        df.dispose();
 
-          df = new qx.util.format.DateFormat("eeee");
-          this.assertEquals(qx.locale.Date.getDayName("wide", localeDayOfWeek, locale, "format"), df.format(date));
-          df.dispose();
+        df = new qx.util.format.DateFormat("eeee");
+        this.assertEquals(qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format"), df.format(date));
+        df.dispose();
 
-          df = new qx.util.format.DateFormat("eeeee");
-          this.assertEquals(qx.locale.Date.getDayName("narrow", localeDayOfWeek, locale, "stand-alone"), df.format(date));
-          df.dispose();
-        }
+        df = new qx.util.format.DateFormat("eeeee");
+        this.assertEquals(qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone"), df.format(date));
+        df.dispose();
       }
 
     },

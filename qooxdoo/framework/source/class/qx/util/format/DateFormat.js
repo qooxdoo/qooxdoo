@@ -541,30 +541,30 @@ qx.Class.define("qx.util.format.DateFormat",
 
             case 'e': // Day in week
               var startOfWeek = qx.locale.Date.getWeekStart(locale);
-              var localeDayOfWeek = dayOfWeek + (1-startOfWeek >=0 ? 1-startOfWeek : 7 + (1-startOfWeek));
+              var localeDayOfWeek = dayOfWeek - startOfWeek >=0 ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek);
               if (wildcardSize >= 1 && wildcardSize <= 2) {
                 replacement = this.__fillNumber(localeDayOfWeek, wildcardSize);
               } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getDayName("abbreviated", localeDayOfWeek, locale, "format");
+                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format");
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getDayName("wide", localeDayOfWeek, locale, "format");
+                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format");
               } else if (wildcardSize == 5) {
-                replacement = qx.locale.Date.getDayName("narrow", localeDayOfWeek, locale, "stand-alone");
+                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone");
               }
 
               break;
 
             case 'c': // Stand-alone local day in week
               var startOfWeek = qx.locale.Date.getWeekStart(locale);
-              var localeDayOfWeek = dayOfWeek + (1-startOfWeek >=0 ? 1-startOfWeek : 7 + (1-startOfWeek));
+              var localeDayOfWeek = dayOfWeek - startOfWeek >=0 ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek);
               if (wildcardSize == 1) {
                 replacement = ''+localeDayOfWeek;
               } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getDayName("abbreviated", localeDayOfWeek, locale, "format");
+                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format");
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getDayName("wide", localeDayOfWeek, locale, "format");
+                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format");
               } else if (wildcardSize == 5) {
-                replacement = qx.locale.Date.getDayName("narrow", localeDayOfWeek, locale, "stand-alone");
+                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone");
               }
 
               break;
