@@ -14,6 +14,7 @@
 
    Authors:
    * Jonathan Weiß (jonathan_rass)
+   * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -32,11 +33,6 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupModel",
     }
   },
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
   properties :
   {
@@ -47,13 +43,6 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupModel",
       check : "String"
     },
 
-    row :
-    {
-      event : "changeRow",
-      check : "Integer",
-      apply : "_applyRow"
-    },
-
     open :
     {
       check : "Boolean",
@@ -61,27 +50,11 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupModel",
       event : "changeOpen"
     },
 
-    itemCount :
+    count :
     {
       check : "Integer",
       init : 0,
-      event : "changeItemCount"
-    }
-  },
-
-
-  members :
-  {
-    __oldRow : null,
-
-
-    _applyRow : function(value, old) {
-      this.__oldRow = old
-    },
-
-
-    getOldRow : function() {
-      return this.__oldRow;
+      event : "changeCount"
     }
   }
 });

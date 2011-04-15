@@ -15,43 +15,50 @@
    Authors:
    * Fabian Jakobs (fjakobs)
    * Jonathan Weiß (jonathan_rass)
+   * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
 qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
 {
-  extend : qx.ui.virtual.form.List,
+  extend : qx.ui.core.Widget,
 
   construct : function()
   {
     this.base(arguments);
 
-    this.set({
+    this.__groups = {};
+    
+    var layout = new qx.ui.layout.VBox();
+    this._setLayout(layout);
+    
+    var list = this.list = new qx.ui.list.List();
+    list.set({
       scrollbarX: "off",
       scrollbarY: "auto",
       width: 200,
       height: 300,
-      rowHeight: 28,
-      useWidgetCells: true,
+      itemHeight: 28,
       decorator: null
     });
+    list.setDelegate(this);
+    this._add(list);
+    
+    this.initModel(new qx.data.Array());
+    this.initSelection(list.getSelection());
 
-    // Create controller
-    var controller = new demobrowser.demo.virtual.messenger.Controller(null, this);
-    this.bind("model", controller, "model");
-    this.setSelection(controller.getSelection());
+    this.bind("model", list, "model");
 
     // configure row colors
-    this.rowLayer = this.getChildControl("row-layer");
-    this.rowLayer.set({
+    var rowLayer = list.getChildControl("row-layer");
+    rowLayer.set({
       colorEven: "white",
       colorOdd: "rgb(238, 243, 255)"
     });
-    this.getPane().addLayer(this.rowLayer);
-
+    
     // Creates the prefetch behavior
     new qx.ui.virtual.behavior.Prefetch(
-      this,
+      list,
       {
         minLeft : 0,
         maxLeft : 0,
@@ -67,42 +74,103 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     });
   },
 
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
     model :
     {
-      event : "changeModel",
       check : "qx.data.Array",
-      nullable : true
+      event : "changeModel",
+      nullable : false,
+      deferredInit : true
     },
 
     selection :
     {
-      event : "changeSelection"
+      check : "qx.data.Array",
+      event : "changeSelection",
+      nullable : false,
+      deferredInit : true
     }
   },
-
-
+  
   members :
   {
-    styleGroup : function(row)
-    {
-      var groupColor = "rgb(60, 97, 226)";
-      this.getPane().getRowConfig().setItemSize(row, 15);
-      this.rowLayer.setColor(row, groupColor);
+    __groups : null,
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      DELEGATE IMPLEMENTATION
+    ---------------------------------------------------------------------------
+    */
+    
+    
+    createItem : function() {
+      return new demobrowser.demo.virtual.messenger.Buddy();
     },
-
-    unstyleGroup : function(row)
+    
+    
+    createGroupItem : function() {
+      return new demobrowser.demo.virtual.messenger.Group();
+    },
+    
+    
+    bindItem : function(controller, item, id)
     {
-      this.getPane().getRowConfig().setItemSize(row, null);
-      this.rowLayer.setColor(row, null);
+      controller.bindProperty("name", "name", null, item, id);
+      controller.bindProperty("avatar", "avatar", null, item, id);
+      controller.bindProperty("status", "status", null, item, id);
+    },
+    
+    
+    bindGroupItem : function(controller, item, id)
+    {
+      var that = this;
+      controller.bindProperty("name", "name", null, item, id);
+      controller.bindProperty("count", "count", null, item, id);
+      controller.bindProperty("open", "open", null, item, id);
+      controller.bindPropertyReverse("open", "open", null, item, id);
+    },
+    
+    
+    filter : function(data) {
+      return this.__getGroupFor(data.getGroup()).isOpen();
+    },
+    
+    
+    sorter : function(a, b) {
+      return a.getName() < b.getName() ? -1 : 1;
+    },
+    
+    
+    group : function(data) {
+      return this.__getGroupFor(data.getGroup());
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS
+    ---------------------------------------------------------------------------
+    */
+    
+    
+    __getGroupFor : function(name) {
+      var group = this.__groups[name];
+      
+      groups = this.__groups;
+      
+      if (group != null) {
+        return group;
+      }
+      
+      group = this.__groups[name] = new demobrowser.demo.virtual.messenger.GroupModel(name);
+      group.addListener("changeOpen", this.__onChangeOpen, this);
+      return group;
+    },
+    
+    __onChangeOpen : function(event) {
+      this.list.refresh();
     }
   }
 });

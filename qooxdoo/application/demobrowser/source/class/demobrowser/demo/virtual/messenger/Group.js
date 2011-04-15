@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,17 +13,11 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-   * Fabian Jakobs (fjakobs)
-   * Jonathan Weiß (jonathan_rass)
    * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
-/* ************************************************************************
-#asset(demobrowser/demo/icons/imicons/*)
-************************************************************************ */
-
-qx.Class.define("demobrowser.demo.virtual.messenger.Buddy",
+qx.Class.define("demobrowser.demo.virtual.messenger.Group",
 {
   extend : qx.ui.core.Widget,
 
@@ -33,50 +27,44 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Buddy",
     this.base(arguments);
 
     this.set({
-      padding : [0, 3]
+      backgroundColor: "rgb(60, 97, 226)",
+      padding: [0, 3]
     });
 
     this._setLayout(new qx.ui.layout.HBox(3).set({
       alignY : "middle"
     }));
     
-    this._add(this.getChildControl("statusIcon"));
-    this._add(this.getChildControl("label"), {flex : 1});
     this._add(this.getChildControl("icon"));
+    this._add(this.getChildControl("label"), {flex : 1});
+    this._add(this.getChildControl("count"));
   },
   
   
   properties :
   {
-    // overridden
-    appearance :
+    open :
     {
-      refine : true,
-      init : "listitem"
+      check : "Boolean",
+      event : "changeOpen",
+      apply : "_applyOpen",
+      init : true
     },
     
     
     name :
     {
       check : "String",
-      apply : "_applyLabel",
+      apply : "_applyName",
       init : ""
     },
     
     
-    avatar :
+    count :
     {
-      check : "String",
-      apply : "_applyAvatar",
-      init : ""
-    },
-    
-    
-    status :
-    {
-      check : "String",
-      apply : "_applyStatus",
-      init : ""
+      check : "Integer",
+      apply : "_applyCount",
+      init : 0
     }
   },
   
@@ -91,18 +79,22 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Buddy",
       {
         case "label" :
           control = new qx.ui.basic.Label().set({
-            allowGrowX : true
+            allowGrowX : true,
+            textColor: "white",
+            font: "bold"
           });
           break;
         case "icon" :
           control = new qx.ui.basic.Image().set({
-            width : 26,
-            height : 26,
-            scale : true
+            source: "decoration/arrows/down-invert.png"
           });
+          control.addListener("click", this._onClick, this);
           break;
-        case "statusIcon" :
-          control = new qx.ui.basic.Image();
+        case "count" :
+          control = new qx.ui.basic.Label().set({
+            textColor: "white",
+            font: "bold"
+          });
           break;
       }
       return control || this.base(arguments, id);
@@ -110,22 +102,29 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Buddy",
     
     
     // apply method
-    _applyLabel : function(value, old) {
+    _applyOpen : function(value, old) {
+      var source = "decoration/arrows/down-invert.png"; 
+      if (value == false) {
+        source = "decoration/arrows/right-invert.png";
+      }
+      
+      this.getChildControl("icon").setSource(source);
+    },
+    
+    
+    // apply method
+    _applyName : function(value, old) {
       this.getChildControl("label").setValue(value);
     },
     
     
     // apply method
-    _applyAvatar : function(value, old) {
-      this.getChildControl("icon").setSource(value);
+    _applyCount : function(value, old) {
+      this.getChildControl("count").setValue("(" + value + ")");
     },
     
-    
-    // apply method
-    _applyStatus : function(value, old)
-    {
-      var source = "demobrowser/demo/icons/imicons/status_" + value + ".png";
-      this.getChildControl("statusIcon").setSource(source);
+    _onClick : function(event) {
+      this.toggleOpen();
     }
   }
 });
