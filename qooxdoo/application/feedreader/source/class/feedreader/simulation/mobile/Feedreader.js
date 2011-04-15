@@ -60,6 +60,16 @@ qx.Class.define("feedreader.simulation.mobile.Feedreader", {
       return this.__feedTitles;
     },
     
+    setUp : function()
+    {
+      this.getQxSelenium().setSpeed(1000);
+    },
+    
+    tearDown : function()
+    {
+      this.getQxSelenium().setSpeed(250);
+    },
+    
     "test feeds displayed" : function()
     {
       var feedTitles = this._getFeedTitles();
