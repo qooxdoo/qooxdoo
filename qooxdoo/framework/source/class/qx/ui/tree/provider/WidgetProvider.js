@@ -91,7 +91,18 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
         this._styleUnselectabled(widget);
       }
 
-      widget.setUserData("cell.level", this._tree.getLevel(row));
+      var level = this._tree.getLevel(row);
+      if (!this._tree.isShowTopLevelOpenCloseIcons()) {
+        level -= 1;
+      }
+      widget.setUserData("cell.level", level);
+
+      if (!this._tree.isShowTopLevelOpenCloseIcons() && level == -1) {
+        widget.setOpenSymbolMode("never");
+      } else {
+        widget.setOpenSymbolMode("auto");
+      }
+
       qx.ui.core.queue.Widget.add(widget);
 
       return widget;

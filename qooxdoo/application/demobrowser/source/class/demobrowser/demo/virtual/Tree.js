@@ -121,6 +121,13 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
         tree.setHideRoot(e.getData());
       });
 
+      var btnShowTopLevelOpenCloseIcons = new qx.ui.form.CheckBox("Show top level open/close icons");
+      commandFrame.add(btnShowTopLevelOpenCloseIcons, {row: row++, column: 1});
+
+      btnShowTopLevelOpenCloseIcons.addListener("changeValue", function(e) {
+        tree.setShowTopLevelOpenCloseIcons(e.getData());
+      });
+
 
       commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
       commandFrame.add(new qx.ui.basic.Label("Tree:"), {row: row, column: 0});

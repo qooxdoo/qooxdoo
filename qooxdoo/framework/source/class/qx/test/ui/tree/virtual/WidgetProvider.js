@@ -331,6 +331,11 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     */
 
 
+    isShowTopLevelOpenCloseIcons : function() {
+      return true;
+    },
+
+
     getSelection : function()
     {
       if (this.selection != null) {
