@@ -554,7 +554,7 @@ qx.Class.define("qx.test.util.DateFormat",
           var date = this.__dates[i].date;
           var dayOfWeek = date.getDay();
           var startOfWeek = qx.locale.Date.getWeekStart(locales[k]);
-          var expectedDayOfWeek = dayOfWeek - startOfWeek >=0 ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek);
+          var expectedDayOfWeek = 1+ (dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek);
 
           df = new qx.util.format.DateFormat("c",locales[k]);
           this.assertEquals(expectedDayOfWeek + "", df.format(date));
@@ -584,7 +584,7 @@ qx.Class.define("qx.test.util.DateFormat",
         var date = this.__dates[i].date;
         var dayOfWeek = date.getDay();
         var startOfWeek = qx.locale.Date.getWeekStart(locale);
-        var expectedDayOfWeek = dayOfWeek - startOfWeek >=0 ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek);
+        var expectedDayOfWeek = 1 + (dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek);
 
         df = new qx.util.format.DateFormat("e");
         this.assertEquals(expectedDayOfWeek + "", df.format(date));
@@ -606,7 +606,41 @@ qx.Class.define("qx.test.util.DateFormat",
         this.assertEquals(qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone"), df.format(date));
         df.dispose();
       }
+    },
 
+    testPattern_e_parse : function(){
+      var df, parsedDate;
+      var locale = qx.locale.Manager.getInstance().getLocale();
+      for(var i=0; i<this.__dates.length; i++)
+      {
+        var date = this.__dates[i].date;
+        var dayOfWeek = date.getDay();
+
+        df = new qx.util.format.DateFormat("e-yyyy-MM-dd");
+        parsedDate = df.parse(df.format(date));
+        this.assertEquals(dayOfWeek,parsedDate.getDay());
+        df.dispose();
+
+        df = new qx.util.format.DateFormat("ee-yyyy-MM-dd");
+        parsedDate = df.parse(df.format(date));
+        this.assertEquals(dayOfWeek,parsedDate.getDay());
+        df.dispose();
+
+        df = new qx.util.format.DateFormat("eee-yyyy-MM-dd");
+        parsedDate = df.parse(df.format(date));
+        this.assertEquals(dayOfWeek,parsedDate.getDay());
+        df.dispose();
+
+        df = new qx.util.format.DateFormat("eeee-yyyy-MM-dd");
+        parsedDate = df.parse(df.format(date));
+        this.assertEquals(dayOfWeek,parsedDate.getDay());
+        df.dispose();
+
+        df = new qx.util.format.DateFormat("eeeee-yyyy-MM-dd");
+        parsedDate = df.parse(df.format(date));
+        this.assertEquals(dayOfWeek,parsedDate.getDay());
+        df.dispose();
+      }
     },
 
     testPattern_a_ : function(){
