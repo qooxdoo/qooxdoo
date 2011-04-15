@@ -673,6 +673,23 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertCalled(req.abort);
     },
 
+    //
+    // Helper
+    //
+
+    "test: parse URI": function() {
+      var url = "http://www.example.com:80/foo/bar?affe=true#here",
+          result = qx.bom.request.Xhr.parseUri(url);
+
+      // Some integration tests, parseUri is better covered here
+      // http://stevenlevithan.com/demo/parseuri/js/
+      this.assertEquals("http", result.protocol);
+      this.assertEquals("www.example.com", result.host);
+      this.assertEquals("80", result.port);
+      this.assertEquals("/foo/bar?affe=true#here", result.relative);
+      this.assertEquals("here", result.anchor);
+    },
+
     fakeNativeXhr: function() {
       this.fakedXhr = this.useFakeXMLHttpRequest();
 
