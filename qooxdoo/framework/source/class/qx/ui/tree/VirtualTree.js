@@ -400,6 +400,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     hasChildren : function(node)
     {
       var children = node.get(this.getChildProperty());
+      if (children == null) {
+        return false;
+      }
+
       if (this.isShowLeafs()) {
         return children.length > 0;
       }
@@ -632,7 +636,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
               if (isNode)
               {
                 var children = item.get(this.getChildProperty());
-                if (children.getLength() > 0) {
+                if (children != null && children.getLength() > 0) {
                   selection.splice(0, 1, children.getItem(0));
                 }
               }
@@ -729,6 +733,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
 
       var children = node.get(this.getChildProperty());
+      if (children == null) {
+        return visible;
+      }
+
       for (var i = 0; i < children.getLength(); i++)
       {
         var child = children.getItem(i);
