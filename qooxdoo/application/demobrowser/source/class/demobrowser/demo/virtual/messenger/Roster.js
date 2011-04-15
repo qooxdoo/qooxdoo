@@ -42,7 +42,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
       decorator: null
     });
     list.setDelegate(this);
-    this._add(list);
+    this._add(list, {flex: 1});
     
     this.initModel(new qx.data.Array());
     this.initSelection(list.getSelection());
