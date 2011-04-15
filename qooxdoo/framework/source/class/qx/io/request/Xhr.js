@@ -259,6 +259,11 @@ qx.Class.define("qx.io.request.Xhr",
     __transport: null,
 
     /**
+     * Parsed response.
+     */
+    __response: null,
+
+    /**
      * Bound handlers.
      */
     __onReadyStateChangeBound: null,
