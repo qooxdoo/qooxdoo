@@ -39,13 +39,15 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
       width: 200,
       height: 300,
       itemHeight: 28,
-      decorator: null
+      decorator: null,
+      autoGroupCreation: false
     });
     list.setDelegate(this);
     this._add(list, {flex: 1});
     
     this.initModel(new qx.data.Array());
     this.initSelection(list.getSelection());
+    this.__groupsList = list.getGroups();
 
     this.bind("model", list, "model");
 
@@ -97,7 +99,9 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
   {
     __groups : null,
     
+    __groupsList : null,
     
+
     /*
     ---------------------------------------------------------------------------
       DELEGATE IMPLEMENTATION
@@ -164,6 +168,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
       
       group = this.__groups[name] = new demobrowser.demo.virtual.messenger.GroupModel(name);
       group.addListener("changeOpen", this.__onChangeOpen, this);
+      this.__groupsList.push(group);
       return group;
     },
     
