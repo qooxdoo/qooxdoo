@@ -764,6 +764,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       } catch(e) {}
     },
 
+    /**
+     * Throw network error.
+     */
     __throwNetworkError: function() {
       throw new Error("Sending request failed due to network error or " +
                       "access control restrictions");
