@@ -277,6 +277,22 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // Set send flag
       this.__send = true;
 
+      // BUGFIX: Opera
+      // On network error, Opera stalls at readyState HEADERS_RECEIVED
+      // This violates the spec. See here http://www.w3.org/TR/XMLHttpRequest2/#send
+      // (Section: If there is a network error)
+      //
+      // To fix, assume a default timeout of 10 seconds. Note: The "error"
+      // event will be fired correctly, because the error flag is inferred
+      // from the statusText property. Of course, compared to other
+      // browsers there is an additional call to ontimeout(), but this call
+      // should not harm.
+      //
+      if (qx.core.Environment.get("engine.name") === "opera" &&
+          this.timeout === 0) {
+        this.timeout = 10000;
+      }
+
       // Timeout
       if (this.timeout > 0) {
         this.__timerId = window.setTimeout(this.__onTimeoutBound, this.timeout);
