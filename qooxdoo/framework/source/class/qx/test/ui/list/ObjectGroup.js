@@ -95,7 +95,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       var groupedModel = this.__convertModel(this._model);
       this.assertModelEqualsRowData(groupedModel, this._list);
       this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
-      this.assertEquals(12, this._list._groups.getLength(), "On List");
+      this.assertEquals(12, this._list.getGroups().getLength(), "On List");
     },
 
     testMixWithObjectsAndDefaultGroup : function()
@@ -220,7 +220,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       var groupedModel = this.__convertModel(sortedModel);
       this.assertModelEqualsRowData(groupedModel, this._list);
       this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
-      this.assertEquals(12, this._list._groups.getLength(), "On List");
+      this.assertEquals(12, this._list.getGroups().getLength(), "On List");
     },
 
     __convertModel : function(model) {
