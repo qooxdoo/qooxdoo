@@ -454,14 +454,14 @@ qx.Class.define("qx.test.io.request.Xhr",
       var req = this.req,
           transport = this.transport;
 
-      req.setTimeout(100);
+      req.setTimeout(1);
       req.send();
 
       this.assertEventFired(req, "timeout", function() {
         transport.ontimeout();
       });
 
-      this.assertEquals(100, transport.timeout);
+      this.assertEquals(1000, transport.timeout);
     },
 
     "test: fire error": function() {

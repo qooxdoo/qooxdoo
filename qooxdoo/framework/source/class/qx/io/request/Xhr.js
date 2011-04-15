@@ -163,7 +163,7 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     /**
-     * Timeout limit. Default (0) means no limit.
+     * Timeout limit in seconds. Default (0) means no limit.
      */
     timeout: {
       check: "Number",
@@ -341,7 +341,7 @@ qx.Class.define("qx.io.request.Xhr",
       this.__setRequestHeaders();
 
       // Set timeout
-      transport.timeout = this.getTimeout();
+      transport.timeout = this.getTimeout() * 1000;
 
       // Send request
       transport.send(serializedData);
