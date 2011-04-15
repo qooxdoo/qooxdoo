@@ -373,7 +373,12 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
           url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
 
       this.assertException(function() {
-        req.open("TRACE", url);
+        // Type of error is of no interest
+        try {
+          req.open("TRACE", url);
+        } catch(e) {
+          throw Error();
+        }
       });
     },
 
@@ -497,8 +502,12 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       req.open("GET", "http://fail.tld", false);
 
       this.assertException(function() {
-        req.send();
-      }, Error);
+        try {
+          req.send();
+        } catch(e) {
+          throw Error();
+        }
+      });
     },
 
     //

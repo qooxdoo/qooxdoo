@@ -253,6 +253,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           throw OpenError;
         }
 
+        if (!this.__async) {
+          this.__openError = OpenError;
+        }
+
         if (this.__async) {
           // Try again with XDomainRequest
           // (Success case not handled on purpose)
@@ -281,9 +285,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           }, this));
         }
 
-        if (!this.__async) {
-          this.__throwNetworkErrorOnSend = true;
-        }
       }
 
       // BUGFIX: Firefox
@@ -332,8 +333,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // For sync requests, some browsers throw error on open()
       // while it should be on send()
       //
-      if (!this.__async && this.__throwNetworkErrorOnSend) {
-        this.__throwNetworkError();
+      if (!this.__async && this.__openError) {
+        throw this.__openError;
       }
 
       // BUGFIX: Firefox 2
@@ -346,7 +347,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.__nativeXhr.send(data);
       } catch(SendError) {
         if (!this.__async) {
-          this.__throwNetworkError();
+          throw SendError;
         }
       }
 
@@ -635,10 +636,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __timerId: null,
 
     /**
-     * {Boolean} Whether to throw network error that might
-     * have been captured earlier.
+     * {Error} Error thrown on open, if any.
      */
-    __throwNetworkErrorOnSend: null,
+    __openError: null,
 
     /**
      * Init native XHR.
@@ -832,14 +832,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           this.dispose();
         }
       } catch(e) {}
-    },
-
-    /**
-     * Throw network error.
-     */
-    __throwNetworkError: function() {
-      throw new Error("Sending request failed due to network error or " +
-                      "access control restrictions");
     },
 
     /**
