@@ -706,6 +706,10 @@ qx.Class.define("qx.test.bom.request.Xhr",
           isCrossDomain = qx.bom.request.Xhr.isCrossDomain;
 
       this.assertFalse(isCrossDomain(origin));
+      this.assertFalse(isCrossDomain("data.json"), "simple url");
+      this.assertFalse(isCrossDomain("/data.json"), "absolute url");
+      this.assertFalse(isCrossDomain("../data.json"), "relative url");
+      this.assertFalse(isCrossDomain("../foo-bar/meep.in/data.json"), "strange url");
     },
 
     fakeNativeXhr: function() {
