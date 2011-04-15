@@ -23,6 +23,12 @@ Tutorials
    tutorials/tutorial-part-4-3
    tutorials/tutorial-part-4-2-1
 
+Video Tutorials
+===============
+
+You can find some community made 
+`tutorial videos on vimeo <http://vimeo.com/channels/qooxdoo>`_.
+
 .. _index#sdk:
 
 SDK
