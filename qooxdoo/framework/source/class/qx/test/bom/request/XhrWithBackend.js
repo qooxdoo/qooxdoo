@@ -507,9 +507,8 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
           that.assertEquals(4, req.readyState);
           that.assertIdentical("", req.responseText);
           that.assertIdentical(null, req.responseXML);
-          that.assertCallOrder(req.onreadystatechange,
-                               req.ontimeout,
-                               req.onloadend);
+          that.assertCallOrder(req.onreadystatechange, req.ontimeout, req.onloadend);
+          that.assertNotCalled(req.onerror);
         });
       };
 
@@ -518,6 +517,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       req.send();
 
       this.spy(req, "onreadystatechange");
+      this.spy(req, "onerror");
       this.spy(req, "ontimeout");
       this.spy(req, "onloadend");
 
