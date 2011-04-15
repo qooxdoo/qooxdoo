@@ -158,8 +158,6 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     __getGroupFor : function(name) {
       var group = this.__groups[name];
       
-      groups = this.__groups;
-      
       if (group != null) {
         return group;
       }
