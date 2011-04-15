@@ -181,33 +181,39 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // way. Otherwise just assume network error.
       //
       // Basically, this allows to send requests to cross-origin URLs.
-      } catch(OpenFailed) {
+      } catch(OpenError) {
 
-        // Try again with XDomainRequest
-        // - IE 9
-        if (window.XDomainRequest) {
-          // Success case not handled on purpose
-          this.readyState = 4;
-          this.__nativeXhr = new XDomainRequest();
-          this.__nativeXhr.onerror = qx.Bootstrap.bind(function() {
+        if (this.__async) {
+          // Try again with XDomainRequest
+          // (Success case not handled on purpose)
+          // - IE 9
+          if (window.XDomainRequest) {
+            this.readyState = 4;
+            this.__nativeXhr = new XDomainRequest();
+            this.__nativeXhr.onerror = qx.Bootstrap.bind(function() {
+              this.onreadystatechange();
+              this.onerror();
+              this.onloadend();
+            }, this);
+            this.__nativeXhr.open(method, url, async, user, password);
+            return;
+          }
+
+          // Access denied
+          // - IE 6: -2146828218
+          // - IE 7: -2147024891
+          // - Legacy Firefox
+          window.setTimeout(qx.Bootstrap.bind(function() {
+            this.readyState = 4;
             this.onreadystatechange();
             this.onerror();
             this.onloadend();
-          }, this);
-          this.__nativeXhr.open(method, url, async, user, password);
-          return;
+          }, this));
         }
 
-        // Access denied
-        // - IE 6: -2146828218
-        // - IE 7: -2147024891
-        // - Legacy Firefox
-        window.setTimeout(qx.Bootstrap.bind(function() {
-          this.readyState = 4;
-          this.onreadystatechange();
-          this.onerror();
-          this.onloadend();
-        }, this));
+        if (!this.__async) {
+          this.__throwNetworkErrorOnSend = true;
+        }
       }
 
       // BUGFIX: Firefox
@@ -252,6 +258,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         return;
       }
 
+      // BUGFIX: IE & Firefox < 3.5
+      // For sync requests, some browsers throw error on open()
+      // while it should be on send()
+      //
+      if (!this.__async && this.__throwNetworkErrorOnSend) {
+        this.__throwNetworkError();
+      }
+
       // BUGFIX: Firefox 2
       // "NS_ERROR_XPC_NOT_ENOUGH_ARGS" when calling send() without arguments
       data = typeof data == "undefined" ? null : data;
@@ -262,8 +276,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.__nativeXhr.send(data);
       } catch(SendError) {
         if (!this.__async) {
-          throw new Error("Sending request failed due to network error or" +
-                          "access control restrictions");
+          this.__throwNetworkError();
         }
       }
 
@@ -552,6 +565,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __timerId: null,
 
     /**
+     * {Boolean} Whether to throw network error that might
+     * have been captured earlier.
+     */
+    __throwNetworkErrorOnSend: null,
+
+    /**
      * Init native XHR.
      */
     __initNativeXhr: function() {
@@ -743,6 +762,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           this.dispose();
         }
       } catch(e) {}
+    },
+
+    __throwNetworkError: function() {
+      throw new Error("Sending request failed due to network error or " +
+                      "access control restrictions");
     },
 
     /**
