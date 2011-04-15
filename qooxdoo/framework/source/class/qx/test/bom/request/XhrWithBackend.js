@@ -148,9 +148,10 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     // BUGFIX
-    // This is a mess, see
-    // http://www.quirksmode.org/blog/archives/2005/09/xmlhttp_notes_r_2.html.
     "test: progress to readyState DONE": function() {
+      // This is a mess, see
+      // http://www.quirksmode.org/blog/archives/2005/09/xmlhttp_notes_r_2.html.
+
       var req = this.req,
           states = [],
           that = this;
@@ -366,6 +367,15 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     //   // (i.e. 10 packs of requests) should complete after 60s
     //   this.wait(10000 + 1000);
     // },
+
+    "test: open throws error with insecure method": function() {
+      var req = this.req,
+          url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
+
+      this.assertException(function() {
+        req.open("TRACE", url);
+      });
+    },
 
     //
     // onreadystatechange()

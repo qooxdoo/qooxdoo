@@ -234,13 +234,19 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       // BUGFIX: IE, Firefox < 3.5
       // Some browsers do not support Cross-Origin Resource Sharing (CORS)
-      // for XMLHttpRequest. Instead, an exception is thrown if URL is
-      // cross-origin (as per XHR level 1). Use the proprietary XDomainRequest
+      // for XMLHttpRequest. Instead, an exception is thrown even for async requests
+      // if URL is cross-origin (as per XHR level 1). Use the proprietary XDomainRequest
       // if available (supports CORS) and handle error (if there is one) this
       // way. Otherwise just assume network error.
       //
-      // Basically, this allows to send requests to cross-origin URLs.
+      // Basically, this allows to detect network errors.
       } catch(OpenError) {
+
+        // Only work around exceptions caused by cross domain request attempts
+        if (!qx.bom.request.Xhr.isCrossDomain(url)) {
+          // Is same origin
+          throw OpenError;
+        }
 
         if (this.__async) {
           // Try again with XDomainRequest
