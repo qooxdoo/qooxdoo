@@ -690,6 +690,24 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertEquals("here", result.anchor);
     },
 
+    "test: is cross domain": function() {
+      var location = window.location,
+          origin = location.protocol + "//" + location.host,
+          isCrossDomain = qx.bom.request.Xhr.isCrossDomain;
+
+      this.assertTrue(isCrossDomain("http://cross.domain"), "cross");
+      this.assertTrue(isCrossDomain(origin + ":123456"), "port");
+      this.assertTrue(isCrossDomain("foobar" + "://" + location.host), "protocol");
+    },
+
+    "test: is not cross domain": function() {
+      var location = window.location,
+          origin = location.protocol + "//" + location.host,
+          isCrossDomain = qx.bom.request.Xhr.isCrossDomain;
+
+      this.assertFalse(isCrossDomain(origin));
+    },
+
     fakeNativeXhr: function() {
       this.fakedXhr = this.useFakeXMLHttpRequest();
 

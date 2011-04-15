@@ -116,6 +116,20 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       });
 
       return uri;
+    },
+
+    isCrossDomain: function(url) {
+      var result = qx.bom.request.Xhr.parseUri(url),
+          location = window.location,
+          protocol = location.protocol;
+
+      if (protocol.substr(0, protocol.length-1) == result.protocol &&
+          location.host === result.host &&
+          location.port === result.port) {
+        return false;
+      }
+
+      return true;
     }
   },
 
