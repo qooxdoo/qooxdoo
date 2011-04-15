@@ -226,6 +226,13 @@ qx.Class.define("qx.ui.list.List",
       event: "changeDelegate",
       init: null,
       nullable: true
+    },
+
+
+    autoGroupCreation :
+    {
+      check: "Boolean",
+      init: true
     }
   },
 
@@ -270,13 +277,6 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * {Array} contains all groups keys for the {@link #__groupHashMap}. This is
-     * needed to get the added order for the group items.
-     */
-    __groupHashKeyOrder : null,
-
-
-    /**
      * {Boolean} indicates when one or more <code>String</code> are used for grouping.
      */
     __groupStringsUsed : false,
@@ -301,6 +301,10 @@ qx.Class.define("qx.ui.list.List",
       this.__buildUpLookupTable();
     },
 
+
+    getGroups : function() {
+      return this._groups;
+    },
 
     // overridden
     _createChildControlImpl : function(id, hash)
@@ -571,8 +575,10 @@ qx.Class.define("qx.ui.list.List",
       this.__lookupTable = [];
       this.__lookupTableForGroup = [];
       this.__groupHashMap = {};
-      this.__groupHashKeyOrder = [];
-      this._groups.removeAll();
+
+      if (this.isAutoGroupCreation()) {
+        this._groups.removeAll();
+      }
 
       var model = this.getModel();
 
@@ -670,9 +676,10 @@ qx.Class.define("qx.ui.list.List",
       var name = this.__getUniqueGroupName(group);
       if (this.__groupHashMap[name] == null)
       {
-        this.__groupHashKeyOrder.push(name);
         this.__groupHashMap[name] = [];
-        this._groups.push(group);
+        if (this.isAutoGroupCreation()) {
+          this._groups.push(group);
+        }
       }
       this.__groupHashMap[name].push(index);
     },
@@ -689,19 +696,23 @@ qx.Class.define("qx.ui.list.List",
 
       var result = [];
       var row = 0;
-      for (var i = 0; i < this.__groupHashKeyOrder.length; i++)
+      for (var i = 0; i < this._groups.getLength(); i++)
       {
-        var key = this.__groupHashKeyOrder[i];
+        var group = this._groups.getItem(i);
 
         // indicate that the value is a group
         result.push(-1);
         this.__lookupTableForGroup.push(row);
         row++;
 
+        var key = this.__getUniqueGroupName(group);
         var groupMembers = this.__groupHashMap[key];
-        for (var k = 0; k < groupMembers.length; k++) {
-          result.push(groupMembers[k]);
-          row++;
+        if (groupMembers != null)
+        {
+          for (var k = 0; k < groupMembers.length; k++) {
+            result.push(groupMembers[k]);
+            row++;
+          }
         }
       }
       return result;
@@ -760,7 +771,7 @@ qx.Class.define("qx.ui.list.List",
     this._layer.dispose();
     this._groups.dispose();
     this._background = this._provider = this._layer = this._groups =
-      this.__lookupTable = this.__lookupTableForGroup = this.__groupHashMap =
-      this.__groupHashKeyOrder = null;
+      this.__lookupTable = this.__lookupTableForGroup = 
+      this.__groupHashMap = null;
   }
 });
