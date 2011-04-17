@@ -26,7 +26,7 @@ from misc.NameSpace import NameSpace
 ##
 # Class to represent a list of classes (potentially sorted)
 #
-# - support for calculating the list from include seeds, via depdencies
+# - support for calculating the list from include seeds, via dependencies
 # - support for dependency sorting
 #
 class ClassList(object):
