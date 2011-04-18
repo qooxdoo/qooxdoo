@@ -2150,7 +2150,7 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Resize event handler
      */
-    _onResize : function(e)
+    _onResize : function()
     {
       this.fireEvent("tableWidthChanged");
       this._updateScrollerWidths();
