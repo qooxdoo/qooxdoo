@@ -104,7 +104,7 @@ class QxTest:
   def getLogFile(self, logDirectory):
     try:
       if not os.path.isdir(logDirectory):
-        os.mkdir(logDirectory)
+        os.makedirs(logDirectory)
       filename = "testLog_" + self.startTimeString + ".txt"
       fullpath = os.path.join(logDirectory, filename)
       logFile = codecs.open(fullpath, 'a', 'utf-8')
@@ -285,10 +285,8 @@ class QxTest:
   # @param buildLogDir {str} The directory to create the log file in
   def getBuildLogFile(self, buildLogDir, target):
     try:
-      if not os.path.isdir(buildLogDir):
-        os.mkdir(buildLogDir)
       if not os.path.isdir(os.path.join(buildLogDir, target)):
-        os.mkdir(os.path.join(buildLogDir, target))
+        os.makedirs(os.path.join(buildLogDir, target))
     except Exception, e:
       self.logError(e, "Creating build log directory")
       return False
@@ -409,7 +407,7 @@ class QxTest:
     
     if not os.path.isdir(buildConf["buildLogDir"]):
       self.log("Creating build log directory %s" %buildConf["buildLogDir"])
-      os.mkdir(buildConf["buildLogDir"])
+      os.makedirs(buildConf["buildLogDir"])
     
     for target in sorted(buildConf["targets"]):
       self.buildStatus[target] = {
@@ -699,7 +697,7 @@ class QxTest:
     if getReportFrom == 'testLog':
       logPath = os.path.join(self.testConf['testLogDir'], appConf['appName'])
       if not os.path.isdir(logPath):
-        os.mkdir(logPath)
+        os.makedirs(logPath)
       tf = '%Y-%m-%d_%H-%M-%S'
       logFile = os.path.join(logPath, testStartDate + ".log")
       if not os.path.isabs(logFile):
@@ -710,7 +708,7 @@ class QxTest:
     
     reportPath = os.path.join(self.testConf['testReportDir'], appConf['appName'])
     if not os.path.isdir(reportPath):
-        os.mkdir(reportPath)
+        os.makedirs(reportPath)
     reportFile = os.path.join( reportPath, testStartDate + '.html')
 
     if appConf['appName'] in self.buildStatus:
