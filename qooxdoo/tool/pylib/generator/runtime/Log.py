@@ -48,6 +48,16 @@ class Log(object):
 
         self.filter_pattern = ""
 
+    def __getstate__(self):
+        d = self.__dict__.copy()
+        if d['logfile'] != False:
+            # don't pickle open file descriptors
+            d['logfile'] = d['logfile'].name
+        return d
+
+    def __setstate__(self, d):
+        self.__dict__  = d
+
     def setFilter(self, filterPatternsList=[]):
         if not filterPatternsList:
             self.filter_pattern = ""

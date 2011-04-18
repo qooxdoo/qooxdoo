@@ -109,8 +109,8 @@ class CodeGenerator(object):
                                 namespace  = script.namespace  # all name spaces point to the same paths in the libinfo struct, so any of them will do
                             relpath    = OsPath(fileId)
                         else:
-                            namespace  = self._classes[fileId]["namespace"]
-                            relpath    = OsPath(self._classes[fileId]["relpath"])
+                            namespace  = self._classes[fileId].namespace
+                            relpath    = OsPath(self._classes[fileId].relpath)
 
                         shortUri = Uri(relpath.toUri())
                         packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
@@ -136,8 +136,8 @@ class CodeGenerator(object):
                         packageUris = package.files
                     else: # "source" :
                         for clazz in package.classes:
-                            namespace  = self._classes[clazz]["namespace"]
-                            relpath    = OsPath(self._classes[clazz]["relpath"])
+                            namespace  = self._classes[clazz].library.namespace
+                            relpath    = OsPath(self._classes[clazz].relpath)
                             shortUri   = Uri(relpath.toUri())
                             packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
                     allUris.append(packageUris)
@@ -578,7 +578,7 @@ class CodeGenerator(object):
         return  # runCompiled()
 
 
-    def runPrettyPrinting(self, classes, classesObj):
+    def runPrettyPrinting(self, classesObj):
         "Gather all relevant config settings and pass them to the compiler"
 
         if not isinstance(self._job.get("pretty-print", False), types.DictType):
@@ -611,13 +611,13 @@ class CodeGenerator(object):
             setattr(options, 'prettypOpenCurlyIndentBefore', ppsettings.get('blocks/open-curly/indent-before'))
 
         self._console.info("Pretty-printing files: ", False)
-        numClasses = len(classes)
-        for pos, classId in enumerate(classes):
+        numClasses = len(classesObj)
+        for pos, classId in enumerate(classesObj):
             self._console.progress(pos+1, numClasses)
             #tree = treeLoader.getTree(classId)
             tree = classesObj[classId].tree()
             compiled = compiler.compile(tree, options)
-            filetool.save(self._classes[classId]['path'], compiled)
+            filetool.save(self._classes[classId].path, compiled)
 
         self._console.outdent()
 

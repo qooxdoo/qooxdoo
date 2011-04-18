@@ -30,6 +30,7 @@ from ecmascript.transform.optimizer  import privateoptimizer
 from misc.ExtMap                     import ExtMap
 from generator.code.Class            import Class
 from generator.code.DependencyLoader import DependencyLoader
+from generator.code.ClassList        import ClassList
 from generator.code.PartBuilder      import PartBuilder
 from generator.code.TreeCompiler     import TreeCompiler
 from generator.code.Script           import Script
@@ -192,10 +193,13 @@ class Generator(object):
         ##
         # Invoke the DependencyLoader to calculate the list of required classes
         # from include/exclude settings
-        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps=False, script=None):
+        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, variants, verifyDeps=False, script=None):
             self._console.info("Resolving dependencies")
             self._console.indent()
-            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps, script)
+            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, [], variants, verifyDeps, script)
+            #buildType = script.buildType if script else ""
+            #classList = ClassList(self._libraries, includeWithDeps, includeNoDeps, excludeWithDeps, variants, buildType)
+            #classList = classList.calculate(verifyDeps)
             self._console.outdent()
 
             return classList
@@ -243,6 +247,7 @@ class Generator(object):
 
             _namespaces = []
             _classes = {}
+            classes  = {}
             _classesObj = {}
             _docs = {}
             _translations = {}
@@ -266,16 +271,13 @@ class Generator(object):
                 namespace = libObj.getNamespace()
                 _namespaces.append(namespace)
 
-                classes = libObj.getClasses()
+                classList = libObj.getClasses()
+
+                for entry in classList:
+                    entry._classesObj = _classesObj
+                    _classesObj[entry.id] = entry
+
                 _classes.update(classes)
-
-                for key,entry in classes.items():
-                    clazz = Class(key, entry["path"], libObj, self._context, _classesObj)
-                    clazz.encoding = entry["encoding"]
-                    clazz.size     = entry["size"]     # dependency logging uses this
-                    clazz.package  = entry["package"]  # Apiloader uses this
-                    _classesObj[key] = clazz
-
                 _docs.update(libObj.getDocs())
                 _translations[namespace] = libObj.getTranslations()
                 _libraries.append(libObj)
@@ -405,15 +407,6 @@ class Generator(object):
                     self._console.warn("Skipping unresolvable exclude entry: \"%s\"" % entry)
             excludeWithDeps = nexcludeWithDeps
 
-            nexcludeNoDeps = []
-            for entry in excludeNoDeps:
-                try:
-                    expanded = self._expandRegExp(entry)
-                    nexcludeNoDeps.extend(expanded)
-                except RuntimeError:
-                    self._console.warn("Skipping unresolvable exclude entry: \"%s\"" % entry)
-            excludeNoDeps = nexcludeNoDeps
-
             self._console.outdent()
 
             return excludeWithDeps, excludeNoDeps
@@ -501,10 +494,9 @@ class Generator(object):
 
 
             # create tool chain instances
-            #self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
-            self._locale         = Locale(self._context, self._classes, self._classesObj, self._translations, self._cache, self._console, )
+            self._locale         = Locale(self._context, self._classesObj, self._translations, self._cache, self._console, )
             self._depLoader      = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
-            self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._classes)
+            self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._classesObj)
 
 
         ##
@@ -568,16 +560,16 @@ class Generator(object):
             # class list with no variants (all-encompassing)
             classListProducer = functools.partial(#args are complete, but invocation shall be later
                        computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
-                       excludeNoDeps, {}, verifyDeps=True, script=None)
+                       {}, verifyDeps=True, script=None)
             self.runApiData(classListProducer)
         if takeout(jobTriggers, "fix-files"):
-            self.runFix(self._classes)
+            self.runFix(self._classesObj)
         if takeout(jobTriggers, "lint-check"):
-            self.runLint(self._classes)
+            self.runLint(self._classesObj)
         if takeout(jobTriggers, "translate"):
             self.runUpdateTranslation()
         if takeout(jobTriggers, "pretty-print"):
-            self._codeGenerator.runPrettyPrinting(self._classes, self._classesObj)
+            self._codeGenerator.runPrettyPrinting(self._classesObj)
         if takeout(jobTriggers, "provider"):
             script = Script()
             script.classesObj = self._classesObj.values()
@@ -596,7 +588,7 @@ class Generator(object):
 
         # -- Process job triggers that require the full tool chain
         # Create tool chain instances
-        self._treeCompiler   = TreeCompiler(self._classes, self._classesObj, self._context)
+        self._treeCompiler   = TreeCompiler(self._classesObj, self._context)
 
         # Processing all combinations of variants
         variantData = getVariants("variants")  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
@@ -624,7 +616,7 @@ class Generator(object):
 
             # get current class list
             script.classes = computeClassList(includeWithDeps, excludeWithDeps, 
-                               includeNoDeps, excludeNoDeps, variantset, script=script, verifyDeps=True)
+                               includeNoDeps, variantset, script=script, verifyDeps=True)
               # keep the list of class objects in sync
             script.classesObj = [self._classesObj[id] for id in script.classes]
 
@@ -1045,12 +1037,12 @@ class Generator(object):
                     'compiled' : (8000, 2000),
                     'source'   : (20000, 5000)
                 }
-                if classId in self._classes:
+                if classId in self._classesObj:
                     if useCompiledSize:
                         fsize = self._treeCompiler.getCompiledSize(classId, variants, optimize, recompile=True)
                         mode  = 'compiled'
                     else:
-                        fsize = self._classes[classId]['size']
+                        fsize = self._classesObj[classId].size
                         mode  = 'source'
 
                     if fsize > sizes[mode][0]:
@@ -1229,8 +1221,8 @@ class Generator(object):
 
 
         def graphAddNode(gr, cid):
-            if cid in self._classes:
-                fsize = self._classes[cid]['size']
+            if cid in self._classesObj:
+                fsize = self._classesObj[cid].size
                 if fsize > 20000:
                     color = "red"
                 elif fsize > 5000:
@@ -1699,6 +1691,7 @@ class Generator(object):
         if not self._job.get('lint-check', False):
             return
 
+        classes = classes.keys()
         self._console.info("Checking Javascript source code...")
         self._console.indent()
         self._shellCmd  = ShellCmd()
@@ -1783,6 +1776,7 @@ class Generator(object):
         if not isinstance(self._job.get("fix-files", False), types.DictType):
             return
 
+        classes = classes.keys()
         fixsettings = ExtMap(self._job.get("fix-files"))
 
         # Fixing JS source files
@@ -1795,9 +1789,9 @@ class Generator(object):
         tabWidth = fixsettings.get("tab-width", 2)
         for pos, classId in enumerate(classes):
             self._console.progress(pos+1, numClasses)
-            classEntry   = self._classes[classId]
-            filePath     = classEntry['path']
-            fileEncoding = classEntry['encoding']
+            classEntry   = self._classesObj[classId]
+            filePath     = classEntry.path
+            fileEncoding = classEntry.encoding
             fileContent  = filetool.read(filePath, fileEncoding)
             # Caveat: as filetool.read already calls any2Unix, converting to LF will
             # not work as the file content appears unchanged to this function
@@ -1902,7 +1896,7 @@ class Generator(object):
     # full list of classes that are covered by the initial list.
     def _expandRegExp(self, entry, container=None):
         if not container:
-            container = self._classes
+            container = self._classesObj
         result = []
 
         # Fast path: Try if a matching class could directly be found

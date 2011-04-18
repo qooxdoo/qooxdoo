@@ -36,6 +36,7 @@ from ecmascript.frontend.tree       import Node
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
 from generator.resource.AssetHint   import AssetHint
 from generator.resource.Resource    import Resource
+from generator                      import Context
 
 DefaultIgnoredNamesDynamic = None
 
@@ -54,12 +55,13 @@ DEFER_ARGS = ("statics", "members", "properties")
 
 class Class(Resource):
 
-    def __init__(self, id, path, library, context, container):
+    def __init__(self, name, path, library, context, container):
         #__slots__       = ('id', 'path', 'size', 'encoding', 'library', 'context', 'source', 'scopes', 'translations')
         global console, cache, DefaultIgnoredNamesDynamic
         super(Class, self).__init__(path)
-        self.id         = id   # qooxdoo name of class, classId
+        self.id         = name  # qooxdoo name of class, classId
         self.library    = library     # Library()
+        # TODO: we now have both a 'context' param, but also use generator.Context (needed in __setstate__)
         self.context    = context
         self._classesObj= container   # this is ugly, but curr. used to identify known names
         self.size       = -1
@@ -77,6 +79,20 @@ class Class(Resource):
         cache   = context["cache"]
         
         DefaultIgnoredNamesDynamic = [lib["namespace"] for lib in self.context['jobconf'].get("library", [])]
+
+
+    def __getstate__(self):
+        d = self.__dict__.copy()
+        # need to copy nested map, or i will modify original one
+        d['context'] = d['context'].copy()
+        del d['context']['cache']
+        return d
+
+    def __setstate__(self, d):
+        global DefaultIgnoredNamesDynamic
+        d['context']['cache'] = Context.cache
+        DefaultIgnoredNamesDynamic = [lib["namespace"] for lib in d['context']['jobconf'].get("library", [])]
+        self.__dict__ = d
 
 
     def _getType(self):
@@ -104,7 +120,7 @@ class Class(Resource):
     #   'messages-<variants>' : ["Hello %1"]  # message strings
     # }
     def _getClassCache(self):
-        cache = self.context["cache"]
+        cache = self.context['cache']
         classInfo, modTime = cache.read(self.cacheId, self.path, memory=True)
         if classInfo:
             return classInfo, modTime
@@ -112,7 +128,7 @@ class Class(Resource):
             return {}, None
  
     def _writeClassCache(self, data):
-        cache = self.context["cache"]
+        cache = self.context['cache']
         cache.write(self.cacheId, data, memory=True)
 
 
@@ -121,6 +137,9 @@ class Class(Resource):
     # --------------------------------------------------------------------------
 
     def _getSourceTree(self, cacheId, tradeSpaceForSpeed):
+
+        cache = self.context['cache']
+        console = self.context['console']
 
         # Lookup for unoptimized tree
         tree, _ = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
@@ -148,6 +167,7 @@ class Class(Resource):
 
     def tree(self, variantSet={}):
         context = self.context
+        cache   = context['cache']
         tradeSpaceForSpeed = False  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
 
         # Construct the right cache id
@@ -514,6 +534,8 @@ class Class(Resource):
         # -- Main ---------------------------------------------------------
 
         # handles cache and invokes worker function
+
+        console = self.context['console']
 
         classVariants    = self.classVariants()
         relevantVariants = self.projectClassVariantsToCurrent(classVariants, variantSet)
@@ -972,7 +994,7 @@ class Class(Resource):
     def resultAdd(self, depsItem, localDeps):
         # cyclic check
         if depsItem in (localDeps):
-            console.debug("Class.method already seen, skipping: %s#%s" % (depsItem.name, depsItem.attribute))
+            self.context['console'].debug("Class.method already seen, skipping: %s#%s" % (depsItem.name, depsItem.attribute))
             return False
         localDeps.add(depsItem)
         return True
@@ -1092,6 +1114,8 @@ class Class(Resource):
 
         # -- getTransitiveDeps -------------------------------------------------
 
+        cache = self.context['cache']
+        console = self.context['console']
         checkset = checkSet or set()
         variantString = util.toString(variants)
         deps = getTransitiveDepsR(depsItem, variantString, checkset) # checkset is currently not used, leaving it for now
@@ -1113,6 +1137,7 @@ class Class(Resource):
         variantsId        = util.toString(relevantVariants)
         cacheId           = "messages-%s" % (variantsId,)
         cached            = True
+        console           = self.context['console']
 
         #messages, _ = cache.readmulti(cacheId, self.path)
         classInfo, cacheModTime = self._getClassCache()
@@ -1395,6 +1420,8 @@ class Class(Resource):
         filePath = fileEntry.path
         fileId   = self.id
         cacheId = "meta-%s" % filePath
+        cache   = self.context['cache']
+        console = self.context['console']
 
         meta, _ = cache.readmulti(cacheId, filePath)
         if meta != None:

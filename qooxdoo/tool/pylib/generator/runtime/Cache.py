@@ -53,6 +53,12 @@ class Cache(object):
         return
 
 
+    def __getstate__(self):
+        d = self.__dict__.copy()
+        del d['_locked_files']
+        return d
+
+
     def _assureCacheIsValid(self, ):
         self._toolChainIsNewer = self._checkToolsNewer()
         if self._toolChainIsNewer:

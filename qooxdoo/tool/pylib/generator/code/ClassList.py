@@ -20,7 +20,12 @@
 ################################################################################
 
 import sys, os, re, types
-from misc.NameSpace import NameSpace
+import graph
+
+from generator                  import Context
+from misc.NameSpace             import NameSpace
+from ecmascript.frontend        import lang
+from generator.code.Class       import DependencyItem, DependencyError
 
 
 ##
@@ -31,26 +36,31 @@ from misc.NameSpace import NameSpace
 #
 class ClassList(object):
 
-    def __init__(self):
-        self._data = []
-        self.seed  = NameSpace()
-        self.seed.includeWithDeps = []
-        self.seed.includeSansDeps = []
-        self.seed.exclude = []
+    def __init__(self, libraries, includeWithDeps, includeNoDeps=[], exclude=[], variantSet={}, buildType=""):
+        global console
+        self._classList = []  # [Class()]
+        self.libraries  = libraries   # [Library()]
+        self.selection  = NameSpace()
+        self.selection.includeWithDeps = includeWithDeps  # ["qx.Class"]
+        self.selection.includeNoDeps = includeNoDeps
+        self.selection.exclude = exclude
+        self.variantSet  = variantSet    # {qx.debug:True}
+        self.buildType = buildType   # source/build/...
+        
+        self._classesObj = {}
+        for lib in self.libraries:
+            self._classesObj.update(lib.getClasses())
 
+        console = Context.console
 
     def list(self):
-        return self._data
+        return self._classList
 
 
     ##
     # Calculate the exhaustive class list from the seed
     #
-    def calculate(self, classObjs, force=False):
-
-        # already calculated - nothing to do
-        if self._data and not force:
-            return
+    def calculate(self, verifyDeps=False, force=False):
 
         ##
         # Resolve intelli include/exclude depdendencies
@@ -61,7 +71,7 @@ class ClassList(object):
                     pass
                 result = []
             else:
-                result = self.classlistFromInclude(includeWithDeps, excludeWithDeps, variants, verifyDeps, script)
+                result = self.classlistFromInclude(includeWithDeps, excludeWithDeps, variants, verifyDeps, )
 
             return result
 
@@ -70,7 +80,7 @@ class ClassList(object):
         # Explicit include/exclude
         def processExplicitCludes(result, includeNoDeps, excludeNoDeps):
             if len(includeNoDeps) > 0 or len(excludeNoDeps) > 0:
-                self._console.info("Processing explicitly configured includes/excludes...")
+                console.info("Processing explicitly configured includes/excludes...")
                 for entry in includeNoDeps:
                     if not entry in result:
                         result.append(entry)
@@ -82,29 +92,34 @@ class ClassList(object):
 
         # ---------------------------------------------------
 
-        if script:
-            buildType = script.buildType  # source/build, for sortClasses
-        else:
-            buildType = ""
+        # already calculated - nothing to do
+        if self._classList and not force:
+            return
+
+        buildType = self.buildType  # source/build, for sortClasses
+        includeWithDeps = self.selection.includeWithDeps
+        includeNoDeps = self.selection.includeNoDeps
+        excludeWithDeps = self.selection.exclude
+        variants = self.variantSet
 
         result = resolveDepsSmartCludes()
         result = processExplicitCludes(result, includeNoDeps, excludeWithDeps) # using excludeWithDeps here as well
         # Sort classes
-        self._console.info("Sorting %s classes " % len(result), False)
+        console.info("Sorting %s classes " % len(result), False)
         if  self._jobconf.get("dependencies/sort-topological", False):
             result = self.sortClassesTopological(result, variants)
         else:
             result = self.sortClasses(result, variants, buildType)
-        self._console.nl()
+        console.nl()
 
-        if self._console.getLevel() == "debug":
-            self._console.indent()
-            self._console.debug("Sorted class list:")
-            self._console.indent()
+        if console.getLevel() == "debug":
+            console.indent()
+            console.debug("Sorted class list:")
+            console.indent()
             for classId in result:
-                self._console.debug(classId)
-            self._console.outdent()
-            self._console.outdent()
+                console.debug(classId)
+            console.outdent()
+            console.outdent()
 
         # Return list
         return result
@@ -112,7 +127,7 @@ class ClassList(object):
 
 
     def classlistFromInclude(self, includeWithDeps, excludeWithDeps, variants, 
-                             verifyDeps=False, script=None, allowBlockLoaddeps=True):
+                             verifyDeps=False, allowBlockLoaddeps=True):
 
         def classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, allowBlockLoaddeps=True):
             # support blocking
@@ -130,11 +145,11 @@ class ClassList(object):
             resultNames.append(depsItem.name)
 
             # reading dependencies
-            self._console.debug("Gathering dependencies: %s" % depsItem.name)
-            self._console.indent()
+            console.debug("Gathering dependencies: %s" % depsItem.name)
+            console.indent()
             deps, cached = self.getCombinedDeps(depsItem.name, variants, buildType)
-            self._console.outdent()
-            if logInfos: self._console.dot("%s" % "." if cached else "*")
+            console.outdent()
+            if logInfos: console.dot("%s" % "." if cached else "*")
 
             # and evaluate them
             deps["warn"] = self._checkDepsAreKnown(deps)  # add 'warn' key to deps
@@ -174,19 +189,16 @@ class ClassList(object):
 
         # -------------------------------------------
 
-        if script:
-            buildType = script.buildType  # source/build, for classlistFromClassRecursive
-        else:
-            buildType = ""
+        buildType = self.buildType  # source/build, for classlistFromClassRecursive
 
         result = []
         resultNames = []
         warn_deps = []
-        logInfos = self._console.getLevel() == "info"
+        logInfos = console.getLevel() == "info"
 
         # No dependency calculation
         if len(includeWithDeps) == 0:
-            self._console.info("Including all known classes")
+            console.info("Including all known classes")
             result = self._classesObj.keys()
 
             # In this case the block works like an explicit exclude
@@ -196,15 +208,15 @@ class ClassList(object):
 
         # Calculate dependencies
         else:
-            self._console.info(" ", feed=False)
+            console.info(" ", feed=False)
 
             for item in includeWithDeps:
                 depsItem = DependencyItem(item, '', '|config|')
                 # calculate dependencies and add required classes
                 classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, allowBlockLoaddeps)
 
-            if self._console.getLevel() is "info":
-                self._console.nl()
+            if console.getLevel() is "info":
+                console.nl()
 
             # extract names of depsItems
             result = [x.name for x in result]
@@ -220,7 +232,7 @@ class ClassList(object):
             ignored_names.add(classnamespace)
         for dep in warn_deps:
             if dep.name not in ignored_names:
-                self._console.warn("Hint: Unknown global symbol referenced: %s (%s:%s)" % (dep.name, dep.requestor, dep.line))
+                console.warn("Hint: Unknown global symbol referenced: %s (%s:%s)" % (dep.name, dep.requestor, dep.line))
 
 
         return result
@@ -333,8 +345,8 @@ class ClassList(object):
             # reading dependencies
             deps, cached = self.getCombinedDeps(classId, variants, buildType)
 
-            if self._console.getLevel() is "info":
-                self._console.dot("%s" % "." if cached else "*")
+            if console.getLevel() is "info":
+                console.dot("%s" % "." if cached else "*")
 
             # path is needed for recursion detection
             if not classId in path:
@@ -345,10 +357,10 @@ class ClassList(object):
                 dep_name = dep.name
                 if dep_name in classList and not dep_name in classListSorted:
                     if dep_name in path:
-                        self._console.warn("Detected circular dependency between: %s and %s" % (classId, dep_name))
-                        self._console.indent()
-                        self._console.debug("currently explored dependency path: %r" % path)
-                        self._console.outdent()
+                        console.warn("Detected circular dependency between: %s and %s" % (classId, dep_name))
+                        console.indent()
+                        console.debug("currently explored dependency path: %r" % path)
+                        console.outdent()
                         raise RuntimeError("Circular class dependencies")
                     else:
                         sortClassesRecurser(dep_name, classListSorted, path)

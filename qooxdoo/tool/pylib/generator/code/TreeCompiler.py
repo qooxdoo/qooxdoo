@@ -31,9 +31,8 @@ from generator.code.Class import Class
 from misc import util
 
 class TreeCompiler(object):
-    def __init__(self, classes, classesObj, context):
+    def __init__(self, classes, context):
         self._classes = classes
-        self._classesObj = classesObj
         self._context = context
         self._cache   = context.get('cache')
         self._console = context.get('console')
@@ -209,7 +208,7 @@ class TreeCompiler(object):
         cmd = ""
         toolBinPath      = getToolBinPath()
         m['compilePath'] = os.path.join(toolBinPath, "compile.py -q")
-        m['filePath']    = os.path.normpath(self._classes[fileId]["path"])
+        m['filePath']    = os.path.normpath(self._classes[fileId].path)
         # optimizations
         optis = []
         for opti in optimize:
@@ -231,9 +230,9 @@ class TreeCompiler(object):
 
 
     def checkCache(self, fileId, variants, optimize, format=False):
-        filePath = self._classes[fileId]["path"]
+        filePath = self._classes[fileId].path
 
-        classVariants     = self._classesObj[fileId].classVariants()
+        classVariants     = self._classes[fileId].classVariants()
         relevantVariants  = Class.projectClassVariantsToCurrent(classVariants, variants)
         variantsId = util.toString(relevantVariants)
 
@@ -252,7 +251,7 @@ class TreeCompiler(object):
             return compiled
 
         #tree = self._treeLoader.getTree(fileId, variants)
-        tree = self._classesObj[fileId].tree(variants)
+        tree = self._classes[fileId].tree(variants)
 
         if len(optimize) > 0:
             # Protect original before optimizing
@@ -277,7 +276,7 @@ class TreeCompiler(object):
         if optimize == None:
             optimize = self._optimize      # use object setting as default
         fileEntry = self._classes[fileId]
-        filePath = fileEntry["path"]
+        filePath = fileEntry.path
 
         variantsId = util.toString(variants)
         if optimize:
@@ -383,7 +382,7 @@ class TreeCompiler(object):
         
     
     def _staticMethodsHelper(self, tree, id, variants):
-        if self._classesObj[id].type == 'static':
+        if self._classes[id].type == 'static':
             featureoptimizer.patch(tree, id, self._featureMap[id])
 
 

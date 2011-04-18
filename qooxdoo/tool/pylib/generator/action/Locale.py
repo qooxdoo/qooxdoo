@@ -53,9 +53,8 @@ polib.POFile.getIdIndex = pofileGetIdIndex
 polib.POFile.indexFind  = pofileIndexFind
 
 class Locale(object):
-    def __init__(self, context, classes, classesObj, translation, cache, console):
+    def __init__(self, context, classesObj, translation, cache, console):
         self._context = context
-        self._classes = classes
         self._classesObj = classesObj
         self._translation = translation
         self._cache = cache
@@ -164,9 +163,9 @@ class Locale(object):
         
         self._console.debug("Looking up relevant class files...")
         classList = []
-        classes = self._classes
+        classes = self._classesObj
         for classId in classes:
-            if classes[classId]["namespace"] == namespace:
+            if classes[classId].library.namespace == namespace:
                 classList.append(classId)
                     
         self._console.debug("Compiling filter...")
@@ -235,7 +234,7 @@ class Locale(object):
         # Find all influenced namespaces
         libnames = {}
         for classId in classList:
-            ns = self._classes[classId]["namespace"]
+            ns = self._classesObj[classId].library.namespace
             libnames[ns] = True
 
         # Create a map of locale => [pofiles]
@@ -385,7 +384,7 @@ class Locale(object):
                         target["hint"] = source["hint"]
 
                 target["occurrences"].append({
-                    "file" : self._classes[classId]["relpath"],
+                    "file" : self._classesObj[classId].relpath,
                     "line" : source["line"],
                     "column" : source["column"]
                 })

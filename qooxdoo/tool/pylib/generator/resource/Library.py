@@ -366,19 +366,20 @@ class Library(object):
                 contextdict["console"] = context.console
                 contextdict["cache"] = context.cache
                 contextdict["jobconf"] = context.jobconf
-                # TODO: currently creation of throw-away objects (unless they're .append'ed)
-                clazz = Class(classList[filePathId], filePath, self, contextdict, self._classesObj)
+                clazz = Class(filePathId, filePath, self, contextdict, self._classesObj)
                 clazz.encoding = encoding
                 clazz.size     = fileSize     # dependency logging uses this
                 clazz.package  = filePackage  # Apiloader uses this
-                #self._classesObj.append(clazz)
+                clazz.relpath  = fileRel      # Locale uses this
+                self._classesObj.append(clazz)
 
         self._console.indent()
         self._console.debug("Found %s classes" % len(classList))
         self._console.debug("Found %s docs" % len(docs))
         self._console.outdent()
 
-        return classList, docs 
+        #return classList, docs 
+        return self._classesObj, docs 
 
 
 
