@@ -287,11 +287,13 @@ class QxTest:
     try:
       if not os.path.isdir(buildLogDir):
         os.mkdir(buildLogDir)
+      if not os.path.isdir(os.path.join(buildLogDir, target)):
+        os.mkdir(os.path.join(buildLogDir, target))
     except Exception, e:
       self.logError(e, "Creating build log directory")
       return False
     
-    buildLog = os.path.join(buildLogDir, target + '_' + self.startTimeString + '.log')
+    buildLog = os.path.join(buildLogDir, target, self.startTimeString + '.log')
     self.log("Opening build log file " + buildLog)
     try:      
       buildLogFile = codecs.open(buildLog, 'a', 'utf-8')
@@ -327,9 +329,7 @@ class QxTest:
     buildConf = self.getConfig(defaultBuildConf, buildConf)
     
     for target in buildConf['targets']:
-      # Prepare log file
-      if ('buildLogDir' in buildConf):      
-        buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"], target)      
+      buildResults = {}
       
       # Assemble batbuild command line
       if (os.path.isabs(buildConf['batbuild'])):
@@ -346,7 +346,7 @@ class QxTest:
           job = match.group(1)
         else:
           job = cmd
-        self.buildStatus[target] = {
+        buildResults[target] = {
           "SVNRevision" : False,
           "BuildError"  : False,
           "BuildWarning" : False,
@@ -358,37 +358,40 @@ class QxTest:
           status = 0
           self.log("SIMULATION: Invoking build command:\n  " + cmd)
         else:
-          if (buildConf['buildLogLevel'] == "debug" and 'buildLogDir' in buildConf):
-            # Start build with full logging
-            invokeLog(cmd, buildLogFile)
-          else:
-            # Start build, only log errors
-            status, std, err = invokePiped(cmd)
-            if status > 0:
+          status, std, err = invokePiped(cmd)
+          if status > 0:
+            
+            if ('buildLogDir' in buildConf):      
+              buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"], target)
               self.logBuildErrors(buildLogFile, target, cmd, err)
-              
-              self.buildStatus[target]["BuildError"] = "Unknown build error"
-              
-              """Get the last line of batbuild.py's STDERR output which contains
-              the actual error message. """
-              nre = re.compile('[\n\r](.*)$')
-              m = nre.search(err)
-              if m:
-                self.buildStatus[target]["BuildError"] = m.group(1)
-            elif err != "":
-              self.log("Warning while building " + target + ", see build log file for details.")
-              err = err.rstrip('\n')
-              err = err.rstrip('\r')
+            
+            buildResults[target]["BuildError"] = "Unknown build error"
+            
+            """Get the last line of batbuild.py's STDERR output which contains
+            the actual error message. """
+            nre = re.compile('[\n\r](.*)$')
+            m = nre.search(err)
+            if m:
+              buildResults[target]["BuildError"] = m.group(1)
+          elif err != "":
+            self.log("Warning while building " + target + ", see build log file for details.")
+            err = err.rstrip('\n')
+            err = err.rstrip('\r')
+            if ('buildLogDir' in buildConf):      
+              buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"], target)
               buildLogFile.write(target + "\n" + cmd + "\n" + err)
               buildLogFile.write("\n========================================================\n\n")
-              self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
-              self.buildStatus[target]["BuildWarning"] = err
-            else:
-              self.log(target + " build finished without errors.")
-              self.buildStatus[target]["BuildFinished"] = time.strftime(self.timeFormat)
+            buildResults[target]["BuildFinished"] = time.strftime(self.timeFormat)
+            buildResults[target]["BuildWarning"] = err
+          else:
+            self.log(target + " build finished without errors.")
+            buildResults[target]["BuildFinished"] = time.strftime(self.timeFormat)
               
-          self.buildStatus[target]["SVNRevision"] = self.getLocalRevision()
-          self.storeBuildStatus()
+          buildResults[target]["SVNRevision"] = self.getLocalRevision()
+          self.storeBuildStatus(buildConf["buildLogDir"], buildResults)
+          for target in buildResults:
+            self.buildStatus[target] = buildResults[target]
+          self.storeBuildStatus(buildConf["buildLogDir"])
       
       if ('buildLogDir' in buildConf):        
         buildLogFile.close()
@@ -442,7 +445,7 @@ class QxTest:
           self.logBuildErrors(buildLogFile, target, buildcmd, err)              
           self.buildStatus[target]["BuildError"] = err.rstrip('\n')
     
-    self.storeBuildStatus()
+    self.storeBuildStatus(buildConf["buildLogDir"])
     self.qxRevision = self.getLocalRevision()
     self.storeRevision()
 
@@ -467,7 +470,7 @@ class QxTest:
   # Converts the buildStatus map to JSON and stores it in a file in the root 
   # directory of the local qooxdoo checkout where remote test runs can access 
   # it.
-  def storeBuildStatus(self):
+  def storeBuildStatus(self, logDir=None, buildResult=None):
     try:
       import json
     except ImportError, e:
@@ -477,8 +480,15 @@ class QxTest:
         self.log("ERROR: simplejson module not found, unable to store build status!")
         return False
     
-    jsonData = json.dumps(self.buildStatus, sort_keys=True, indent=2)
-    fPath = os.path.join(self.testConf['qxPathAbs'],'buildStatus.json')
+    if not logDir:
+      logDir = self.testConf['qxPathAbs']
+    
+    if buildResult:
+      jsonData = json.dumps(buildResult, sort_keys=True, indent=2)
+      fPath = os.path.join(logDir,'buildStatus_%s.json' %self.startTimeString)
+    else:
+      jsonData = json.dumps(self.buildStatus, sort_keys=True, indent=2)
+      fPath = os.path.join(logDir,'buildStatus.json')
     if (self.sim):
       self.log("SIMULATION: Storing build status in file " + fPath)
     else:  
@@ -639,7 +649,7 @@ class QxTest:
       reg = re.compile("\d+M?")
       found = reg.search(rev)
       if not found:
-        self.log("ERROR: Remote revision has unexpected format: %s")
+        self.log("ERROR: Remote revision has unexpected format: %s" %rev)
       else:
         self.log("Remote qooxdoo checkout at revision " + rev)
         return rev
