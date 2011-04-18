@@ -36,7 +36,7 @@ qx.Class.define("showcase.page.virtuallist.Page",
     this.set({
       name: "Virtual List",
       part: "virtuallist",
-      icon: "showcase/dragdrop/icon.png",
+      icon: "showcase/virtuallist/icon.png",
       contentClass: "showcase.page.virtuallist.Content",
       description: showcase.page.DescriptionBuilder.build(
         "Virtual List",
@@ -52,30 +52,20 @@ qx.Class.define("showcase.page.virtuallist.Page",
 
   members :
   {
-    __descriptionText : "These two list widgets simulate a shopping system. " +
-    "The list on the left contains all available items while the list on the " +
-    "right displays the shopping cart. The main idea of this demo is to " +
-    "illustrate the drag & drop feature.",
+    __descriptionText : "",
 
     __tryThis : {
-      "Drag" : "Try moving an item to the cart.",
-      "Reorder" : "You can reorder both lists.",
-      "Move" : "You can also move items back to the shop."
     },
 
     __features : null,
 
     __manual : {
-      "pages/gui_toolkit/ui_dragdrop.html" : "Drag &amp; Drop"
     },
 
     __demos : {
-      "#ui~DragDrop.html" : "Drag &amp; Drop with lists"
     },
 
     __api : {
-      "#qx.ui.core.Widget~drag" : "Widget Drag Event",
-      "#qx.ui.core.DragDropCursor" : "Drag&amp;Drop Cursor"
     }
   }
 });
