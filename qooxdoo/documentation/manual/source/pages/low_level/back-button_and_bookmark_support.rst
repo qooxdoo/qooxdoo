@@ -55,11 +55,12 @@ Each time the history changes by hitting the browser's back or forward button, t
 
 ::
 
+    // 'this' is a reference to your application instance
     qx.bom.History.getInstance().addListener("request", function(e) 
     {
       var state = e.getData();
 
-      // application specific state update
+      // application specific state update (= application code)
       this.setApplicationState(state);
     }, this);
 
