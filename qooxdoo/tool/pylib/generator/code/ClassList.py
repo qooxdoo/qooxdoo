@@ -51,9 +51,11 @@ class ClassList(object):
         self.variantSet  = variantSet    # {qx.debug:True}
         self.buildType = buildType   # source/build/...
         
-        self._classesObj = {}
+        self.globalClasses = {}
         for lib in self.libraries:
-            self._classesObj.update(lib.getClasses())
+            libclasses = lib.getClasses()
+            for clazz in libclasses:
+                self.globalClasses[clazz.id] = clazz
 
         console = Context.console
 
