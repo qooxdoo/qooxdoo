@@ -34,9 +34,13 @@ from generator.code.Class       import DependencyItem, DependencyError
 # - support for calculating the list from include seeds, via dependencies
 # - support for dependency sorting
 #
+# It should also be possible to set the final list of classes in an instance,
+# and then e.g. only use the sorting feature. Therefore, all constructor args
+# are optional.
+#
 class ClassList(object):
 
-    def __init__(self, libraries, includeWithDeps, includeNoDeps=[], exclude=[], variantSet={}, buildType=""):
+    def __init__(self, libraries=[], includeWithDeps=[], includeNoDeps=[], exclude=[], variantSet={}, buildType=""):
         global console
         self._classList = []  # [Class()]
         self.libraries  = libraries   # [Library()]
@@ -94,7 +98,7 @@ class ClassList(object):
 
         # already calculated - nothing to do
         if self._classList and not force:
-            return
+            return self._classList
 
         buildType = self.buildType  # source/build, for sortClasses
         includeWithDeps = self.selection.includeWithDeps
@@ -121,8 +125,9 @@ class ClassList(object):
             console.outdent()
             console.outdent()
 
+        self._classList = result
         # Return list
-        return result
+        return self._classList
 
 
 
