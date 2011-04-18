@@ -35,7 +35,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
      * @return {Boolean} Returns <code>true</code> when top level items should
      *   show open/close buttons, <code>false</code> otherwise.
      */
-    isShowTopLevelOpenCloseIcons : function(node) {},
+    isShowTopLevelOpenCloseIcons : function() {},
 
 
     /**
