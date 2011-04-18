@@ -26,6 +26,7 @@
  * * Chrome 4.0+
  * * Firefox 3.6+
  * * Opera 11.1+
+ * * IE 10+
  */
 qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 {
@@ -109,7 +110,10 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       var Color = qx.theme.manager.Color.getInstance();
       var unit = this.getColorPositionUnit();
 
-      if (qx.core.Environment.get("engine.name") == "webkit") {
+      // new implementation for webkit is available since chrome 10 --> verison
+      if (qx.core.Environment.get("engine.name") == "webkit" && 
+        parseFloat(qx.core.Environment.get("engine.version")) < 534.16) 
+      {
         // webkit uses px values if non are given
         unit = unit === "px" ? "" : unit;
 
@@ -128,6 +132,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         var value = "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")";
         styles["background"] = value;
 
+      // spec like syntax
       } else {
         var deg = this.getOrientation() == "horizontal" ? 0 : 270;
         var start = Color.resolve(this.getStartColor()) + " " + this.getStartColorPosition() + unit;
@@ -136,10 +141,15 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         var prefix = "";
         if (qx.core.Environment.get("engine.name") == "gecko") {
           prefix = "-moz-";
-        } else if (qx.core.Environment.get("engine.name") == "opera") {
+        } else if (qx.core.Environment.get("browser.name") == "opera") {
           prefix = "-o-";
+        } else if (qx.core.Environment.get("browser.name") == "ie") {
+          prefix = "-ms-";
+        } else if (qx.core.Environment.get("engine.name") == "webkit") {
+          prefix = "-webkit-";
         }
-        styles["background"] =
+
+        styles["background-image"] =
           prefix + "linear-gradient(" + deg + "deg, " + start + "," + end + ")";
       }
     },

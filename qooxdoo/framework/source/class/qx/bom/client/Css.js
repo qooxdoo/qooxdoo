@@ -121,8 +121,10 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
       var style = [
         "-webkit-gradient(linear,0% 0%,100% 100%,from(white), to(red))",
+        "-webkit-linear-gradient(left, white, black)",
         "-moz-linear-gradient(0deg, white 0%, red 100%)",
         "-o-linear-gradient(0deg, white 0%, red 100%)",
+        "-ms-linear-gradient(0deg, white 0%, red 100%)",
         "linear-gradient(0deg, white 0%, red 100%)"
       ];
 
