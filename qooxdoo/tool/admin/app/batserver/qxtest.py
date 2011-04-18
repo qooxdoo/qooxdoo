@@ -479,6 +479,9 @@ class QxTest:
     if not logDir:
       logDir = self.testConf['qxPathAbs']
     
+    if not os.path.isdir(logDir):
+      os.makedirs(logDir)
+    
     if buildResult:
       jsonData = json.dumps(buildResult, sort_keys=True, indent=2)
       fPath = os.path.join(logDir,'buildStatus_%s.json' %self.startTimeString)
