@@ -1588,7 +1588,7 @@ class ClassMatchList(object):
         if elems:
             self.__regexp = re.compile("|".join(elems))
         else:
-            self.__regexp = r".\A"  # match none
+            self.__regexp = re.compile(r".\A")  # match none
 
     def isEmpty(self):
         return len(self.matchlist) == 0
