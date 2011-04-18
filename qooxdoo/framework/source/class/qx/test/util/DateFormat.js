@@ -554,7 +554,7 @@ qx.Class.define("qx.test.util.DateFormat",
           var date = this.__dates[i].date;
           var dayOfWeek = date.getDay();
           var startOfWeek = qx.locale.Date.getWeekStart(locales[k]);
-          var expectedDayOfWeek = 1+ (dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek);
+          var expectedDayOfWeek = 1+ ((dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek));
 
           df = new qx.util.format.DateFormat("c",locales[k]);
           this.assertEquals(expectedDayOfWeek + "", df.format(date));
@@ -584,7 +584,7 @@ qx.Class.define("qx.test.util.DateFormat",
         var date = this.__dates[i].date;
         var dayOfWeek = date.getDay();
         var startOfWeek = qx.locale.Date.getWeekStart(locale);
-        var expectedDayOfWeek = 1 + (dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek);
+        var expectedDayOfWeek = 1 + ((dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek));
 
         df = new qx.util.format.DateFormat("e");
         this.assertEquals(expectedDayOfWeek + "", df.format(date));

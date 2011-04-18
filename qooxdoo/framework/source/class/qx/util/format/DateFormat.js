@@ -542,7 +542,7 @@ qx.Class.define("qx.util.format.DateFormat",
             case 'e': // Day in week
               var startOfWeek = qx.locale.Date.getWeekStart(locale);
               // the index is 1 based
-              var localeDayOfWeek = 1 + (dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek);
+              var localeDayOfWeek = 1 + ((dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek));
               if (wildcardSize >= 1 && wildcardSize <= 2) {
                 replacement = this.__fillNumber(localeDayOfWeek, wildcardSize);
               } else if (wildcardSize == 3) {
@@ -558,7 +558,7 @@ qx.Class.define("qx.util.format.DateFormat",
             case 'c': // Stand-alone local day in week
               var startOfWeek = qx.locale.Date.getWeekStart(locale);
               // the index is 1 based
-              var localeDayOfWeek = 1 + (dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek);
+              var localeDayOfWeek = 1 + ((dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek));
               if (wildcardSize == 1) {
                 replacement = ''+localeDayOfWeek;
               } else if (wildcardSize == 3) {
