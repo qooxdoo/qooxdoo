@@ -131,7 +131,6 @@ qx.Class.define("showcase.page.virtuallist.messenger.Roster",
     
     bindGroupItem : function(controller, item, id)
     {
-      var that = this;
       controller.bindProperty("name", "name", null, item, id);
       controller.bindProperty("count", "count", null, item, id);
       controller.bindProperty("open", "open", null, item, id);
