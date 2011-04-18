@@ -83,12 +83,13 @@ qx.Class.define("qx.ui.list.List",
 
     // @deprecated since 1.4: Code is only for deprecation 
     this._groups = this.getGroups();
+    var list = this;
     if (qx.core.Environment.get("qx.debug"))
     {
-      if (this.__defineGetter__)
+      if (list.__defineGetter__)
       {
         var originalValue = this._groups;
-        this.__defineGetter__("_groups", function()
+        list.__defineGetter__("_groups", function()
         {
           qx.log.Logger.warn("The member '_groups' is deprecated: " +
             "Please use the property 'groups' instead.");
