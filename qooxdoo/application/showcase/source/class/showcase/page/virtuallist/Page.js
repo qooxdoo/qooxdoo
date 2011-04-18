@@ -1,0 +1,81 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2011 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Christian Hagendorn (chris_schmidt)
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#use(showcase.page.virtuallist.Content)
+
+************************************************************************ */
+/**
+ * @lint ignoreReferenceField(__descriptionText, __tryThis,
+ *   __features, __manual, __demos, __api)
+ */
+qx.Class.define("showcase.page.virtuallist.Page",
+{
+  extend : showcase.Page,
+
+  construct: function()
+  {
+    this.base(arguments);
+    this.set({
+      name: "Virtual List",
+      part: "virtuallist",
+      icon: "showcase/dragdrop/icon.png",
+      contentClass: "showcase.page.virtuallist.Content",
+      description: showcase.page.DescriptionBuilder.build(
+        "Virtual List",
+        this.__descriptionText,
+        this.__tryThis,
+        this.__features,
+        this.__manual,
+        this.__demos,
+        this.__api
+      )
+    });
+  },
+
+  members :
+  {
+    __descriptionText : "These two list widgets simulate a shopping system. " +
+    "The list on the left contains all available items while the list on the " +
+    "right displays the shopping cart. The main idea of this demo is to " +
+    "illustrate the drag & drop feature.",
+
+    __tryThis : {
+      "Drag" : "Try moving an item to the cart.",
+      "Reorder" : "You can reorder both lists.",
+      "Move" : "You can also move items back to the shop."
+    },
+
+    __features : null,
+
+    __manual : {
+      "pages/gui_toolkit/ui_dragdrop.html" : "Drag &amp; Drop"
+    },
+
+    __demos : {
+      "#ui~DragDrop.html" : "Drag &amp; Drop with lists"
+    },
+
+    __api : {
+      "#qx.ui.core.Widget~drag" : "Widget Drag Event",
+      "#qx.ui.core.DragDropCursor" : "Drag&amp;Drop Cursor"
+    }
+  }
+});
