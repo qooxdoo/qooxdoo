@@ -245,15 +245,13 @@ class Generator(object):
             self._console.info("Scanning libraries...")
             self._console.indent()
 
-            _namespaces = []
-            _classes = {}
-            classes  = {}
-            _classesObj = {}
-            _docs = {}
-            _translations = {}
-            _libraries = []     # [generator.code.Library]
+            namespaces = []
+            classes = {}
+            docs = {}
+            translations = {}
+            libraries = []     # [generator.code.Library]
             if not isinstance(libraryKey, types.ListType):
-                return (_namespaces, _classes, _docs, _translations, _libraries)
+                return (namespaces, classes, docs, translations, libraries)
 
             for lib in libraryKey:
 
@@ -269,24 +267,23 @@ class Generator(object):
                     self._cache.write(cacheId, libObj, memory=True)
 
                 namespace = libObj.getNamespace()
-                _namespaces.append(namespace)
+                namespaces.append(namespace)
 
                 classList = libObj.getClasses()
 
                 for entry in classList:
-                    entry._classesObj = _classesObj
-                    _classesObj[entry.id] = entry
+                    entry._classesObj = classes
+                    classes[entry.id] = entry
 
-                _classes.update(classes)
-                _docs.update(libObj.getDocs())
-                _translations[namespace] = libObj.getTranslations()
-                _libraries.append(libObj)
+                docs.update(libObj.getDocs())
+                translations[namespace] = libObj.getTranslations()
+                libraries.append(libObj)
 
             self._console.outdent()
-            self._console.debug("Loaded %s libraries" % len(_namespaces))
+            self._console.debug("Loaded %s libraries" % len(namespaces))
             self._console.debug("")
 
-            return (_namespaces, _classes, _classesObj, _docs, _translations, _libraries)
+            return (namespaces, classes, docs, translations, libraries)
 
 
 
@@ -486,7 +483,6 @@ class Generator(object):
         def prepareGenerator1():
             # scanning given library paths
             (self._namespaces,
-             self._classes,
              self._classesObj,
              self._docs,
              self._translations,

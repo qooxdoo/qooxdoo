@@ -268,7 +268,7 @@ class Library(object):
 
         self._console.debug("Scanning class folder...")
 
-        classList = {}
+        classList = []
         docs = {}
 
         # Iterate...
@@ -352,15 +352,6 @@ class Library(object):
 
                 # Store file data
                 self._console.debug("Adding class %s" % filePathId)
-                classList[filePathId] = {
-                    "relpath" : fileRel,
-                    "path" : filePath,
-                    "encoding" : encoding,
-                    "namespace" : self.namespace,
-                    "id" : filePathId,
-                    "package" : filePackage,
-                    "size" : fileSize
-                }
                 # TODO: Clazz still relies on a context dict!
                 contextdict = {}
                 contextdict["console"] = context.console
@@ -371,7 +362,7 @@ class Library(object):
                 clazz.size     = fileSize     # dependency logging uses this
                 clazz.package  = filePackage  # Apiloader uses this
                 clazz.relpath  = fileRel      # Locale uses this
-                self._classesObj.append(clazz)
+                classList.append(clazz)
 
         self._console.indent()
         self._console.debug("Found %s classes" % len(classList))
@@ -379,7 +370,7 @@ class Library(object):
         self._console.outdent()
 
         #return classList, docs 
-        return self._classesObj, docs 
+        return classList, docs 
 
 
 
