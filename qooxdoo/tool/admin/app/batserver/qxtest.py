@@ -360,10 +360,10 @@ class QxTest:
         else:
           status, std, err = invokePiped(cmd)
           if status > 0:
-            
             if ('buildLogDir' in buildConf):      
               buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"], target)
               self.logBuildErrors(buildLogFile, target, cmd, err)
+              buildLogFile.close()
             
             buildResults[target]["BuildError"] = "Unknown build error"
             
@@ -381,6 +381,7 @@ class QxTest:
               buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"], target)
               buildLogFile.write(target + "\n" + cmd + "\n" + err)
               buildLogFile.write("\n========================================================\n\n")
+              buildLogFile.close()
             buildResults[target]["BuildFinished"] = time.strftime(self.timeFormat)
             buildResults[target]["BuildWarning"] = err
           else:
@@ -392,9 +393,6 @@ class QxTest:
           for target in buildResults:
             self.buildStatus[target] = buildResults[target]
           self.storeBuildStatus(buildConf["buildLogDir"])
-      
-      if ('buildLogDir' in buildConf):        
-        buildLogFile.close()
 
     self.qxRevision = self.getLocalRevision()
     self.storeRevision()
