@@ -43,7 +43,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     list.setDelegate(this);
     this._add(list, {flex: 1});
     
-    this.__groups = list.getGroups();
+    this.initGroups(list.getGroups());
     this.initModel(new qx.data.Array());
     this.initSelection(list.getSelection());
 
@@ -91,14 +91,19 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
       event : "changeSelection",
       nullable : false,
       deferredInit : true
+    },
+    
+    groups :
+    {
+      check : "qx.data.Array",
+      event : "changeGroup",
+      nullable : false,
+      deferredInit : true
     }
   },
   
   members :
   {
-    __groups : null,
-    
-
     /*
     ---------------------------------------------------------------------------
       DELEGATE IMPLEMENTATION
@@ -174,7 +179,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     __updateGroup : function(event)
     {
       var model = this.getModel();
-      var groups = this.__groups;
+      var groups = this.getGroups();
       
       var groupsCount = {};
       for (var i = 0; i < groups.getLength(); i++)
@@ -209,7 +214,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     
     __getGroupFor : function(name)
     {
-      var groups = this.__groups;
+      var groups = this.getGroups();
       var group = null;
       
       for (var i = 0; i < groups.getLength(); i++) {
@@ -225,7 +230,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
       {
         group = new demobrowser.demo.virtual.messenger.GroupModel(name);
         group.addListener("changeOpen", this.__onChangeOpen, this);
-        this.__groups.push(group);
+        groups.push(group);
       }
       
       return group;

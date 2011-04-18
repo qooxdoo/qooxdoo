@@ -130,7 +130,9 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       box.add(inpName, {row: 0, column:1});
 
       box.add(new qx.ui.basic.Label("Group: "), {row: 1, column: 0});
-      var inpGroup = new qx.ui.form.TextField();
+      var inpGroup = new qx.ui.form.VirtualComboBox();
+      inpGroup.setLabelPath("name");
+      inpGroup.setModel(this.messenger.getGroups());
       controller.addTarget(inpGroup, "value", "group", true);
       box.add(inpGroup, {row: 1, column:1});
 
@@ -192,9 +194,9 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
 
         var lblUsername = new qx.ui.basic.Label("Name:");
         var tfUsername = new qx.ui.form.TextField();
-        var tfGroup = new qx.ui.form.ComboBox("New Group");
-        tfGroup.add(new qx.ui.form.ListItem("qooxdoo"));
-        tfGroup.add(new qx.ui.form.ListItem("Friends"));
+        var tfGroup = new qx.ui.form.VirtualComboBox();
+        tfGroup.setLabelPath("name");
+        tfGroup.setModel(this.messenger.getGroups());
 
         var lblGroup = new qx.ui.basic.Label("Group:");
         var btnAdd = new qx.ui.form.Button("Add");
