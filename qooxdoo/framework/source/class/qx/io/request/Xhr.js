@@ -136,11 +136,16 @@ qx.Class.define("qx.io.request.Xhr",
     /**
      * Fires when request could not complete
      * due to a network error.
+     *
+     * Timeouts are not considered to be network
+     * errors. Usually, it is recommended to listen
+     * to both "error" and "timeout" event to handle
+     * errors.
      */
     "error": "qx.event.type.Event",
 
     /**
-    * Fires on change of the parsed response
+    * Fires on change of the parsed response.
     */
     "changeResponse": "qx.event.type.Data"
   },
