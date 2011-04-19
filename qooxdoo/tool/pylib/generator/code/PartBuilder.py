@@ -146,23 +146,35 @@ class PartBuilder(object):
             else:
                 self._console.warn("! "+msg)
 
-        self._console.info("Verifying Parts...")
+        self._console.info("Verifying Parts")
         self._console.indent()
         bomb_on_error = self._jobconf.get("packages/verifier-bombs-on-error", True)
         allpartsclasses = []
 
+        # 5) Check consistency between package.part_mask and part.packages
+        self._console.info("Verifying packages-to-parts relations...")
+        self._console.indent()
+        for package in script.packages:
+            for part in partsMap.values():
+                if package.part_mask & part.bit_mask:
+                    if package not in part.packages:
+                        handleError("Package '%d' supposed to be in part '%s', but isn't" % (package.id, part.name))
+        self._console.outdent()
+
+        self._console.info("Verifying individual parts...")
+        self._console.indent()
         for part in partsMap.values():
             if part.is_ignored:  # skip ignored parts
                 continue
-            self._console.info("Verifying: %s" % part.name)
+            self._console.info("Part: %s" % part.name)
             self._console.indent()
             # get set of current classes in this part
             classList = []
             classPackage = []
             for packageIdx, package in enumerate(part.packages): # TODO: not sure this is sorted
-                for classId in package.classes:
+                for pos,classId in enumerate(package.classes):
                     classList.append(classId)
-                    classPackage.append(packageIdx)
+                    classPackage.append((package.id,pos))
             allpartsclasses.extend(classList)
             # 1) Check the initial part defining classes are included (trivial sanity)
             for classId in part.initial_deps:
@@ -186,13 +198,18 @@ class PartBuilder(object):
                         try:
                             depsIdx = classList.index(depsId)
                         except ValueError:
-                            handleError("Unfullfilled dependency of class '%s'[%d]: '%s'" % (classId, packageIdx, depsId))
+                            handleError("Unfullfilled dependency of class '%s'[%d,%d]: '%s'" % 
+                               (classId, package.id, classIdx, depsId))
                             continue
                         if depsId in loadDeps and classIdx < depsIdx:
-                            handleError("Load-dep loaded after using class ('%s'[%d,%d]):  '%s'[%d,%d]" % (classId, packageIdx, classIdx, depsId, classPackage[depsIdx], depsIdx))
+                            handleError("Load-dep loaded after using class ('%s'[%d,%d]):  '%s'[%d,%d]" % 
+                               (classId, package.id, classIdx, 
+                                depsId, classPackage[depsIdx][0], classPackage[depsIdx][1]))
                     #if missingDeps:  # there is a load dep not in the part
                     #    self._console.warn("Unfullfilled load dependencies of class '%s': %r" % (classId, tuple(missingDeps)))
             self._console.outdent()
+
+        self._console.outdent()
 
         # 4) Check all classes from the global class list are contained in
         # *some* part
@@ -621,10 +638,10 @@ class PartBuilder(object):
             toPackage.classes.extend(fromPackage.classes)
             # Merging package dependencies
             depsDelta = fromPackage.packageDeps.difference(set((toPackage,))) # make sure toPackage is not included
-            self._console.debug("Adding packages dependencies to target package: %r" % (sorted([x.id for x in depsDelta]),))
+            self._console.debug("Adding packages dependencies to target package: %s" % (map(str, sorted([x.id for x in depsDelta])),))
             toPackage.packageDeps.update(depsDelta)
             toPackage.packageDeps.difference_update(set((fromPackage,))) # remove potential dependency to fromPackage
-            self._console.debug("Target package #%s now depends on: %r" % (toPackage.id, sorted([x.id for x in toPackage.packageDeps])))
+            self._console.debug("Target package #%s now depends on: %s" % (toPackage.id, map(str, sorted([x.id for x in toPackage.packageDeps]))))
             return toPackage
 
         # ----------------------------------------------------------------------
@@ -659,7 +676,7 @@ class PartBuilder(object):
                 package.packageDeps.update(set((toPackage,)))
 
         # Update part information:
-        # remove the fromPackage from all parts using it, and add new dependencies to part
+        # remove the fromPackage from all parts using it, and add new dependencies to parts
         # using toPackage
         for part in script.parts.values():
             # remove the merged package
@@ -750,7 +767,7 @@ class PartBuilder(object):
         for packageId in packageIds:
             self._console.debug("Package #%s contains %s classes" % (packageId, len(packages[packageId].classes)))
             self._console.debug("%r" % packages[packageId].classes)
-            self._console.debug("Package #%s depends on these packages: %r" % (packageId, sorted([x.id for x in packages[packageId].packageDeps])))
+            self._console.debug("Package #%s depends on these packages: %s" % (packageId, map(str, sorted([x.id for x in packages[packageId].packageDeps]))))
         self._console.outdent()
 
         self._console.debug("")

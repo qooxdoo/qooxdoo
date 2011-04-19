@@ -37,8 +37,8 @@ class Script(object):
         self.jobconfig  = None # Job() config object
         self.variants   = []
         self.envsettings= {}
-        self.parts      = {}   # parts defined by the configuration (if any); {part.name : part}
-        self.packages   = []   # .js files for this application / library;  {package.id : package}
+        self.parts      = {}   # parts defined by the configuration (if any); {part.name : Part()}
+        self.packages   = []   # .js files for this application / library;  [Package()]
         self.boot       = "boot"
         self.packageIdsSorted = []  # the keys of self.packages sorted in load order
         self.buildType  = ""   # "source"/"build"

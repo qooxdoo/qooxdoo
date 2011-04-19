@@ -54,7 +54,7 @@ class Package(object):
         self.data.resources    = {}   # {resourceId: resourceInfo}
         self.data.locales      = {}   # {"en" : {"cldr_am" : "AM"}}
         self.data.translations = {}   # {"en" : {"Hello"   : "Hallo"}}
-        self.packageDeps= set(()) # set packages this package depends on
+        self.packageDeps= set() # set(Package()) this package (load-)depends on
         self.compiled   = ""   # potential compiled string of the package classes
         self._hash      = ""   # property
 
