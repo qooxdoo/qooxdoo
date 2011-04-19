@@ -118,6 +118,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       return uri;
     },
 
+    /**
+     * Whether URL given points to resource that is cross-domain,
+     * i.e. not of same origin.
+     *
+     * @param url {String} URL.
+     * @return {Boolean} Whether URL is cross domain.
+     */
     isCrossDomain: function(url) {
       var result = qx.bom.request.Xhr.parseUri(url),
           location = window.location,
