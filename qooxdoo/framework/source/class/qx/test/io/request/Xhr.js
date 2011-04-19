@@ -165,6 +165,11 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalled(this.transport.dispose);
     },
 
+    "test: get transport": function() {
+      this.setUpFakeTransport();
+      this.assertEquals(this.transport, this.req.getTransport());
+    },
+
     //
     // Helper
     //

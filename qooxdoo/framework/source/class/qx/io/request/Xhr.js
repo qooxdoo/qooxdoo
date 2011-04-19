@@ -394,6 +394,32 @@ qx.Class.define("qx.io.request.Xhr",
     //
 
     /**
+     * Get low-level transport.
+     *
+     * Note: To be used with caution!
+     *
+     * This method can be used to query the transport directly,
+     * but should be used with caution. Especially, it
+     * is not advisable to call any destructive methods
+     * such as {@link qx.bom.request.Xhr#open} or
+     * {@link qx.bom.request.Xhr#send}.
+     *
+     * @return {qx.bom.request.Xhr} The transport
+     */
+
+     //
+     // This method mainly exists so that some methods found in the
+     // low-level transport can be deliberately omitted here,
+     // but still be accessed should it be absolutely necessary.
+     //
+     // Valid use cases include to query the transport’s responseXML
+     // property.
+     //
+    getTransport: function() {
+      return this.__transport;
+    },
+
+    /**
      * Get ready state.
      *
      * States can be:
