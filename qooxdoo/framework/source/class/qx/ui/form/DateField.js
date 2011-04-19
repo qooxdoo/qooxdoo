@@ -53,17 +53,10 @@ qx.Class.define("qx.ui.form.DateField",
   {
     this.base(arguments);
 
-    // create a default date format
-    this.setDateFormat(qx.ui.form.DateField.getDefaultDateFormatter());
-
-    // listen for locale changes
-    if (qx.core.Environment.get("qx.dynlocale"))
-    {
-      this.__localeListenerId =
-        qx.locale.Manager.getInstance().addListener("changeLocale", function() {
-          this.setDateFormat(qx.ui.form.DateField.getDefaultDateFormatter());
-        }, this);
-    }
+    // initializes the DateField with the default format
+    this._setDefaultDateFormat();
+    // adds a locale change listener 
+    this._addLocaleChangeLeistener();
   },
 
 
@@ -142,6 +135,37 @@ qx.Class.define("qx.ui.form.DateField",
   members :
   {
     __localeListenerId : null,
+
+    /*
+    ---------------------------------------------------------------------------
+      PROTECTED METHODS
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Sets the default date format which is returned by 
+     * {@link #getDefaultDateFormatter}. You can overrride this method to 
+     * define your own default format.
+     */
+    _setDefaultDateFormat : function() {
+      this.setDateFormat(qx.ui.form.DateField.getDefaultDateFormatter());
+    },
+
+
+    /**
+     * Checks for "qx.dynlocale" and adds a listener to the locale changes. 
+     * On every change, {@link #_setDefaultDateFormat} is called to reinitialize
+     * the format. You can easily override that method to prevent that behavior.
+     */
+    _addLocaleChangeLeistener : function() {
+      // listen for locale changes
+      if (qx.core.Environment.get("qx.dynlocale"))
+      {
+        this.__localeListenerId =
+          qx.locale.Manager.getInstance().addListener("changeLocale", function() {
+            this._setDefaultDateFormat();
+          }, this);
+      }
+    },
 
     /*
     ---------------------------------------------------------------------------
