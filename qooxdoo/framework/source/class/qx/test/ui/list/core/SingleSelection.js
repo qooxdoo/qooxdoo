@@ -152,6 +152,23 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
       // check selection from manager
       var selection = this._list._manager.getSelection();
       this.assertEquals(0, selection.length);
+    },
+
+    testRemoveItem : function()
+    {
+      var selection = this._list.getSelection();
+      selection.push(this._model.getItem(0));
+      this.flush();
+
+      this._model.removeAt(0);
+      this.flush();
+
+      // check selection from list
+      this.assertEquals(0, this._list.getSelection().getLength(), "On List");
+
+      // check selection from manager
+      var selection = this._list._manager.getSelection();
+      this.assertEquals(0, selection.length, "On Manager");
     }
   }
 });

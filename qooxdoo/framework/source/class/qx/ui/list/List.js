@@ -581,6 +581,7 @@ qx.Class.define("qx.ui.list.List",
     _onModelChange : function(e) {
       this.__buildUpLookupTable();
       this._applyDefaultSelection();
+      this._updateSelection();
     },
 
 
