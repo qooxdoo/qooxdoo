@@ -1433,22 +1433,25 @@ class Generator(object):
         if not self._job.get("copy-files/files", False):
             return
 
-        appfiles = self._job.get("copy-files/files",[])
-        if appfiles:
+        filePatts = self._job.get("copy-files/files",[])
+        if filePatts:
             buildRoot  = self._job.get("copy-files/target", "build")
             buildRoot  = self._config.absPath(buildRoot)
             sourceRoot = self._job.get("copy-files/source", "source")
             sourceRoot  = self._config.absPath(sourceRoot)
             self._console.info("Copying application files...")
             self._console.indent()
-            for file in appfiles:
-                srcfile = os.path.join(sourceRoot, file)
-                self._console.debug("copying %s" % srcfile)
-                if (os.path.isdir(srcfile)):
-                    destfile = os.path.join(buildRoot,file)
-                else:
-                    destfile = os.path.join(buildRoot, os.path.dirname(file))
-                self._copyResources(srcfile, destfile)
+            for patt in filePatts:
+                appfiles = glob.glob(os.path.join(sourceRoot, patt))
+                for srcfile in appfiles:
+                    self._console.debug("copying %s" % srcfile)
+                    srcfileSuffix = Path.getCommonPrefix(sourceRoot, srcfile)[2]
+                    destfile = os.path.join(buildRoot,srcfileSuffix)
+                    if (os.path.isdir(srcfile)):
+                        destdir = destfile
+                    else:
+                        destdir = os.path.dirname(destfile)
+                    self._copyResources(srcfile, destdir)
 
             self._console.outdent()
 
