@@ -742,21 +742,22 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // Always fire "readystatechange"
       this.onreadystatechange();
 
-      // Fire either "load" or "error"
       if (this.readyState === qx.bom.request.Xhr.DONE) {
         // Request determined DONE. Cancel timeout.
         window.clearTimeout(this.__timerId);
-
-        // Infer the XHR internal error flag from statusText.
-        //
-        // See http://www.w3.org/TR/XMLHttpRequest2/#error-flag and
-        // http://www.w3.org/TR/XMLHttpRequest2/#the-statustext-attribute
-        this.statusText ? this.onload() : this.onerror();
 
         // Fire "timeout" if timeout flag is set
         if (this.__timeout) {
           this.ontimeout();
           this.__timeout = false;
+
+        // Fire either "load" or "error"
+        //
+        // Infer the XHR internal error flag from statusText.
+        // See http://www.w3.org/TR/XMLHttpRequest2/#error-flag and
+        // http://www.w3.org/TR/XMLHttpRequest2/#the-statustext-attribute
+        } else {
+          this.statusText ? this.onload() : this.onerror();
         }
 
         // Always fire "onloadend" when DONE
