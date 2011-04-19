@@ -883,25 +883,40 @@ Selenium.prototype.getQxObjectHash = function(locator, script)
  */
 PageBot.prototype.getQxWidgetByElement = function(element)
 {
+  if (element.wrappedJSObject) {
+    element = element.wrappedJSObject;
+  }
+  
   var qx = this.getQxGlobalObject();
   var widget = null;
+  var exception = null;
   
   if (qx.ui && qx.ui.core && qx.ui.core.Widget) {
     try {
       widget = qx.ui.core.Widget.getWidgetByElement(element);
     }
-    catch(ex) {}
+    catch(ex) {
+      exception = ex;
+    }
   }
   
-  if (element.id && qx.ui && qx.ui.mobile && qx.ui.mobile.core.Widget) {
+  if (!widget && element.id && qx.ui && qx.ui.mobile && qx.ui.mobile.core.Widget) {
     try {
       widget = qx.ui.mobile.core.Widget.getWidgetById(element.id);
     }
-    catch(ex) {}
+    catch(ex) {
+      exception = ex;
+    }
   }
   
   if (widget) {
     LOG.debug("getQxWidgetByElement found widget " + widget.classname);
+  }
+  else {
+    LOG.error("getQxWidgetByElement did not find a widget");
+    if (exception && exception.message) {
+      LOG.error(exception.message);
+    }
   }
   
   return widget;
