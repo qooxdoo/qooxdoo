@@ -53,6 +53,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.stub(this.transport, "setRequestHeader");
       this.stub(this.transport, "send");
       this.stub(this.transport, "abort");
+      this.stub(this.transport, "getResponseHeader");
       this.stub(qx.io.request.Xhr.prototype, "_createTransport").
           returns(this.transport);
 
@@ -375,6 +376,13 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalledWith(this.transport.setRequestHeader, "Cache-Control", "no-cache");
     },
 
+    "test: set accept header": function() {
+      this.setUpFakeTransport();
+      this.req.setAccept("application/json");
+      this.req.send();
+
+      this.assertCalledWith(this.transport.setRequestHeader, "Accept", "application/json");
+    },
     //
     // Events
     //

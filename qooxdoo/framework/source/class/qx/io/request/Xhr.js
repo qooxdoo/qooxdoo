@@ -163,6 +163,21 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     /**
+     * The content type to accept. By default, every content type
+     * is accepted.
+     *
+     * Note: Some backends send distinct representations of the same
+     * resource depending on the content type accepted. For instance,
+     * a backend may respond with either a JSON (the accept header
+     * indicates so) or a HTML representation (the default, no accept
+     * header given).
+     */
+    accept: {
+      check: "String",
+      nullable: true
+    },
+
+    /**
      * Timeout limit in seconds. Default (0) means no limit.
      */
     timeout: {
@@ -335,6 +350,10 @@ qx.Class.define("qx.io.request.Xhr",
 
       if (method === "POST") {
         transport.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      }
+
+      if (this.getAccept()) {
+        transport.setRequestHeader("Accept", this.getAccept());
       }
 
       // User-provided headers
