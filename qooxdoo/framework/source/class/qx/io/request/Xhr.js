@@ -493,7 +493,7 @@ qx.Class.define("qx.io.request.Xhr",
     //
 
     /**
-     * Get response.
+     * Get parsed response.
      *
      * @return {String} The parsed response of the request.
      */
