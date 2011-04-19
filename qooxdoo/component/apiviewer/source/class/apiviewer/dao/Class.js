@@ -232,7 +232,7 @@ qx.Class.define("apiviewer.dao.Class",
 
 
     /**
-     * Get the dircet child classes of the class.
+     * Get the direct child classes of the class.
      *
      * @return {apiviewer.dao.Class[]} A list of direct child classes of the class.
      */
