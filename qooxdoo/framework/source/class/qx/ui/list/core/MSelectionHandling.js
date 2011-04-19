@@ -44,9 +44,9 @@
  */
 qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
 {
-  construct : function() {
+  construct : function()
+  {
     this._initSelectionManager();
-
     this.initSelection(new qx.data.Array());
   },
 
@@ -118,6 +118,31 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
 
     /** {Boolean} flag to ignore the selection change from {@link #_manager} */
     __ignoreManagerChangeSelection : false,
+
+
+    /**
+     * Method to update the selection, this method can be used when the model has
+     * changes.
+     */
+    _updateSelection : function()
+    {
+      if (this._manager == null) {
+        return;
+      }
+
+      var selection = this.getSelection();
+      var model = this.getModel();
+
+      this.__ignoreManagerChangeSelection = true;
+      for (var i = selection.getLength() - 1; i >= 0; i--)
+      {
+        if (!model.contains(selection.getItem(i))) {
+          selection.removeAt(i);
+        }
+      }
+      this.__ignoreManagerChangeSelection = false;
+      this._onChangeSelection();
+    },
 
 
     /**
