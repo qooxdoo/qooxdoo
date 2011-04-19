@@ -259,7 +259,7 @@ qx.Class.define("qx.io.request.Xhr",
      * {@link qx.lang.Object#toUriParameter}
      *
      */
-    data: {
+    requestData: {
       check: function(value) {
         return qx.lang.Type.isString(value) ||
                qx.Class.isSubClassOf(value.constructor, qx.core.Object) ||
@@ -325,9 +325,9 @@ qx.Class.define("qx.io.request.Xhr",
           async = this.getAsync(),
           username = this.getUsername(),
           password = this.getPassword(),
-          data = this.getData();
+          requestData = this.getRequestData();
 
-      var serializedData = this.__serializeData(data);
+      var serializedData = this.__serializeData(requestData);
 
       // Drop fragment (anchor) from URL as per
       // http://www.w3.org/TR/XMLHttpRequest/#the-open-method

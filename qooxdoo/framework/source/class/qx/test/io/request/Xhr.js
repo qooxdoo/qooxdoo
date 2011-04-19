@@ -264,7 +264,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     "test: not send data with GET request": function() {
       this.setUpFakeTransport();
-      this.req.setData("str");
+      this.req.setRequestData("str");
       this.req.send();
 
       this.assertCalledWith(this.transport.send, null);
@@ -272,7 +272,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     "test: append string data to URL with GET request": function() {
       this.setUpFakeTransport();
-      this.req.setData("str");
+      this.req.setRequestData("str");
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "url?str");
@@ -280,7 +280,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     "test: append obj data to URL with GET request": function() {
       this.setUpFakeTransport();
-      this.req.setData({affe: true});
+      this.req.setRequestData({affe: true});
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "url?affe=true");
@@ -290,7 +290,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.setUpFakeTransport();
       this.setUpKlass();
       var obj = new Klass();
-      this.req.setData(obj);
+      this.req.setRequestData(obj);
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "url?affe=true");
@@ -312,7 +312,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     "test: send string data with POST request": function() {
       this.setUpFakeTransport();
       this.req.setMethod("POST");
-      this.req.setData("str");
+      this.req.setRequestData("str");
       this.req.send();
 
       this.assertCalledWith(this.transport.send, "str");
@@ -321,7 +321,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     "test: send obj data with POST request": function() {
       this.setUpFakeTransport();
       this.req.setMethod("POST");
-      this.req.setData({"af fe": true});
+      this.req.setRequestData({"af fe": true});
       this.req.send();
 
       this.assertCalledWith(this.transport.send, "af+fe=true");
@@ -332,7 +332,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.setUpKlass();
       var obj = new Klass();
       this.req.setMethod("POST");
-      this.req.setData(obj);
+      this.req.setRequestData(obj);
       this.req.send();
 
       this.assertCalledWith(this.transport.send, "affe=true");
