@@ -67,13 +67,14 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
       layout: new qx.ui.layout.HBox()
     });
 
+    if (maximum != null) {
+      this.setMaximum(maximum);
+    }
+
     if (value != null) {
       this.setValue(value);
     }
 
-    if (maximum != null) {
-      this.setMaximum(maximum);
-    }
   },
 
 
