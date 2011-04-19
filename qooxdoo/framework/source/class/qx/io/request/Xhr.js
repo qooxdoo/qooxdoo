@@ -67,36 +67,12 @@ qx.Class.define("qx.io.request.Xhr",
      * {Map} Map of parser functions. Parsers defined here can be
      * referenced symbolically, e.g. with {@link #setParser}.
      *
-     * Known parsers are: <code>"json"</code>.
+     * Known parsers are: <code>"json"</code> and <code>"xml"</code>.
      */
     PARSER: {
       json: qx.lang.Json.parse,
       xml: qx.xml.Document.fromString
-    },
-
-    /**
-     * Append string to query part of the URL. Respects
-     * existing query.
-     *
-     * @param url {String} URL to append string to.
-     * @param params {String} Parameters to append to URL.
-     * @return {String} URL with string appended in query part.
-     */
-    appendParamsToUrl: function(url, params) {
-      if (qx.core.Environment.get("qx.debug")) {
-        if (!(qx.lang.Type.isString(params) || qx.lang.Type.isObject(params))) {
-          qx.log.Logger.debug("param attribute must be either string or object");
-          return;
-        }
-      }
-
-      if (qx.lang.Type.isObject(params)) {
-        params = qx.lang.Object.toUriParameter(params);
-      }
-
-      return url += (/\?/).test(url) ? "&" + params : "?" + params;
     }
-
   },
 
   events:
@@ -343,7 +319,7 @@ qx.Class.define("qx.io.request.Xhr",
 
       if (method === "GET") {
         if (serializedData) {
-          url = qx.io.request.Xhr.appendParamsToUrl(url, serializedData);
+          url = qx.util.Uri.appendParamsToUrl(url, serializedData);
         }
 
         // Avoid duplication
@@ -352,7 +328,7 @@ qx.Class.define("qx.io.request.Xhr",
 
       if (this.getCache() === false) {
         // Make sure URL cannot be served from cache and new request is made
-        url = qx.io.request.Xhr.appendParamsToUrl(url, {nocache: new Date().valueOf()});
+        url = qx.util.Uri.appendParamsToUrl(url, {nocache: new Date().valueOf()});
       }
 
       // Initialize request
@@ -498,21 +474,6 @@ qx.Class.define("qx.io.request.Xhr",
      */
     isDone: function() {
       return this.getReadyState() === 4;
-    },
-
-    /**
-     * Whether request was successful.
-     *
-     * Request is successful if it is done and comes with an
-     * HTTP status indicating success.
-     */
-    isSuccessful: function() {
-      if (!this.isDone()) {
-        return false;
-      }
-
-      var status = this.getStatus();
-      return (status >= 200 && status < 300 || status === 304);
     },
 
     //
@@ -663,7 +624,7 @@ qx.Class.define("qx.io.request.Xhr",
 
       this.fireEvent("readystatechange");
 
-      if (this.isDone() && this.isSuccessful()) {
+      if (this.isDone() && qx.bom.request.Xhr.isSuccessful(this.getStatus())) {
 
         // Parse response
         parsedResponse = this.__getParsedResponse();

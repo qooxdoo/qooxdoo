@@ -677,19 +677,6 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // Helper
     //
 
-    "test: parse URI": function() {
-      var url = "http://www.example.com:80/foo/bar?affe=true#here",
-          result = qx.bom.request.Xhr.parseUri(url);
-
-      // Some integration tests, parseUri is better covered here
-      // http://stevenlevithan.com/demo/parseuri/js/
-      this.assertEquals("http", result.protocol);
-      this.assertEquals("www.example.com", result.host);
-      this.assertEquals("80", result.port);
-      this.assertEquals("/foo/bar?affe=true#here", result.relative);
-      this.assertEquals("here", result.anchor);
-    },
-
     "test: is cross domain": function() {
       var location = window.location,
           origin = location.protocol + "//" + location.host,
@@ -710,6 +697,16 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertFalse(isCrossDomain("/data.json"), "absolute url");
       this.assertFalse(isCrossDomain("../data.json"), "relative url");
       this.assertFalse(isCrossDomain("../foo-bar/meep.in/data.json"), "strange url");
+    },
+
+    "test: indicate success": function() {
+      var Xhr = qx.bom.request.Xhr;
+
+      this.assertTrue(Xhr.isSuccessful(200));
+      this.assertTrue(Xhr.isSuccessful(304));
+
+      this.assertFalse(Xhr.isSuccessful(404));
+      this.assertFalse(Xhr.isSuccessful(500));
     },
 
     fakeNativeXhr: function() {

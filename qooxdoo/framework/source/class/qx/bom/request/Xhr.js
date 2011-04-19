@@ -74,51 +74,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     DONE: 4,
 
     /**
-     * Split URL
-     *
-     * Code taken from:
-     *   parseUri 1.2.2
-     *   (c) Steven Levithan <stevenlevithan.com>
-     *   MIT License
-     *
-     *
-     * @param str {String} String to parse as URI
-     * @param strict {Boolean} Whether to parse strictly by the rules
-     * @return {Object} Map with parts of URI as properties
-     */
-    parseUri: function(str, strict) {
-
-      var options = {
-        key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
-        q:   {
-          name:   "queryKey",
-          parser: /(?:^|&)([^&=]*)=?([^&]*)/g
-        },
-        parser: {
-          strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
-          loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
-        }
-      };
-
-      var o = options,
-          m = options.parser[strict ? "strict" : "loose"].exec(str),
-          uri = {},
-          i = 14;
-
-      while (i--) {
-        uri[o.key[i]] = m[i] || "";
-      }
-      uri[o.q.name] = {};
-      uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
-        if ($1) {
-          uri[o.q.name][$1] = $2;
-        }
-      });
-
-      return uri;
-    },
-
-    /**
      * Whether URL given points to resource that is cross-domain,
      * i.e. not of same origin.
      *
@@ -126,7 +81,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * @return {Boolean} Whether URL is cross domain.
      */
     isCrossDomain: function(url) {
-      var result = qx.bom.request.Xhr.parseUri(url),
+      var result = qx.util.Uri.parseUri(url),
           location = window.location,
           protocol = location.protocol;
 
@@ -142,6 +97,16 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       return true;
+    },
+
+    /**
+     * Determine if given HTTP status is considered successful.
+     *
+     * @param status {Number} HTTP status.
+     * @return {Boolean} Whether status is considered successful.
+     */
+    isSuccessful: function(status) {
+      return (status >= 200 && status < 300 || status === 304);
     }
   },
 

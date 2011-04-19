@@ -171,56 +171,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     //
-    // Helper
-    //
-
-    "test: append params string to URL": function() {
-      var url = "http://example.com/path",
-          params = "affe=true&maus=false",
-          expected = "http://example.com/path?affe=true&maus=false",
-          result = qx.io.request.Xhr.appendParamsToUrl(url, params);
-
-      this.assertEquals(expected, result);
-    },
-
-    "test: append params string to URL with query string": function() {
-      var url = "http://example.com/path?giraffe=true",
-          params = "affe=true&maus=false",
-          expected = "http://example.com/path?giraffe=true&affe=true&maus=false",
-          result = qx.io.request.Xhr.appendParamsToUrl(url, params);
-
-      this.assertEquals(expected, result);
-    },
-
-    "test: append params hash to URL": function() {
-      var url = "http://example.com/path",
-          params = {affe: true, maus: false},
-          result = qx.io.request.Xhr.appendParamsToUrl(url, params);
-
-      this.assertTrue(/^http.*example.com\/path/.test(result));
-      this.assertTrue(/affe=true/.test(result));
-      this.assertTrue(/maus=false/.test(result));
-    },
-
-    "test: indicate success": function() {
-      this.setUpFakeTransport();
-      this.transport.readyState = 4;
-      var isSuccessful = qx.lang.Function.bind(this.req.isSuccessful, this.req);
-
-      this.transport.status = 200;
-      this.assertTrue(isSuccessful());
-
-      this.transport.status = 304;
-      this.assertTrue(isSuccessful());
-
-      this.transport.status = 404;
-      this.assertFalse(isSuccessful());
-
-      this.transport.status = 500;
-      this.assertFalse(isSuccessful());
-    },
-
-    //
     // Send
     //
 
