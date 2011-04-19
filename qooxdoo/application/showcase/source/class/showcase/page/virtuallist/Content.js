@@ -35,6 +35,10 @@ qx.Class.define("showcase.page.virtuallist.Content",
 
   members :
   {
+    messenger : null,
+    __addUserDialog : null,
+    __tfUsername : null,
+    
     _createView : function()
     {
       var view = new qx.ui.window.Desktop(new qx.ui.window.Manager());
