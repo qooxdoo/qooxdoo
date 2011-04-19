@@ -37,10 +37,10 @@ qx.Class.define("qx.io.PartLoader",
 
     var self = this;
     loader.onpart = function(part) {
-      if (part.readyState == "success") {
+      if (part.getReadyState() == "complete") {
         self.fireDataEvent("partLoaded", part);
       } else {
-        self.fireDataEvent("partLoadingError", part.name);
+        self.fireDataEvent("partLoadingError", part.getName());
       }
     }
   },
