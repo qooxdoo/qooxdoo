@@ -61,6 +61,43 @@ qx.Class.define("qx.io.request.Xhr",
     transport.onerror = this.__onErrorBound;
   },
 
+  statics:
+  {
+    /**
+     * {Map} Map of parser functions. Parsers defined here can be
+     * referenced symbolically, e.g. with {@link #setParser}.
+     *
+     * Known parsers are: <code>"json"</code>.
+     */
+    PARSER: {
+      json: qx.lang.Json.parse
+    },
+
+    /**
+     * Append string to query part of the URL. Respects
+     * existing query.
+     *
+     * @param url {String} URL to append string to.
+     * @param params {String} Parameters to append to URL.
+     * @return {String} URL with string appended in query part.
+     */
+    appendParamsToUrl: function(url, params) {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (!(qx.lang.Type.isString(params) || qx.lang.Type.isObject(params))) {
+          qx.log.Logger.debug("param attribute must be either string or object");
+          return;
+        }
+      }
+
+      if (qx.lang.Type.isObject(params)) {
+        params = qx.lang.Object.toUriParameter(params);
+      }
+
+      return url += (/\?/).test(url) ? "&" + params : "?" + params;
+    }
+
+  },
+
   events:
   {
     /**
@@ -232,33 +269,6 @@ qx.Class.define("qx.io.request.Xhr",
     }
   },
 
-  statics:
-  {
-    /**
-     * Append string to query part of the URL. Respects
-     * existing query.
-     *
-     * @param url {String} URL to append string to.
-     * @param params {String} Parameters to append to URL.
-     * @return {String} URL with string appended in query part.
-     */
-    appendParamsToUrl: function(url, params) {
-      if (qx.core.Environment.get("qx.debug")) {
-        if (!(qx.lang.Type.isString(params) || qx.lang.Type.isObject(params))) {
-          qx.log.Logger.debug("param attribute must be either string or object");
-          return;
-        }
-      }
-
-      if (qx.lang.Type.isObject(params)) {
-        params = qx.lang.Object.toUriParameter(params);
-      }
-
-      return url += (/\?/).test(url) ? "&" + params : "?" + params;
-    }
-
-  },
-
   members:
   {
 
@@ -421,29 +431,6 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     /**
-     * Get response.
-     *
-     * @return {String} The parsed response of the request.
-     */
-    getResponse: function() {
-      return this.__response;
-    },
-
-    /**
-     * Set response.
-     *
-     * @param response {String} The parsed response of the request.
-     */
-    __setResponse: function(response) {
-      var oldResponse = response;
-
-      if (this.__response !== response) {
-        this.__response = response;
-        this.fireEvent("changeResponse", qx.event.type.Data, [this.__response, oldResponse]);
-      }
-    },
-
-    /**
      * Get all response headers from response.
      *
      * @return {String} All response headers.
@@ -462,6 +449,16 @@ qx.Class.define("qx.io.request.Xhr",
      */
     getResponseHeader: function(header) {
       return this.__transport.getResponseHeader(header);
+    },
+
+    /**
+     * Get the content type response header from response.
+     *
+     * @return {String}
+     *         Content type response header.
+     */
+    getResponseContentType: function() {
+      return this.getResponseHeader("Content-Type");
     },
 
     /**
@@ -486,6 +483,131 @@ qx.Class.define("qx.io.request.Xhr",
       return (status >= 200 && status < 300 || status === 304);
     },
 
+    //
+    // RESPONSE
+    //
+
+    /**
+     * Get response.
+     *
+     * @return {String} The parsed response of the request.
+     */
+    getResponse: function() {
+      return this.__response;
+    },
+
+    /**
+     * Set response.
+     *
+     * @param response {String} The parsed response of the request.
+     */
+    __setResponse: function(response) {
+      var oldResponse = response;
+
+      if (this.__response !== response) {
+        this.__response = response;
+        this.fireEvent("changeResponse", qx.event.type.Data, [this.__response, oldResponse]);
+      }
+    },
+
+    /**
+     * Set parser used to parse response once request has
+     * completed successfully.
+     *
+     * Usually, the parser is correctly inferred from the
+     * content type of the response. This method allows to force the
+     * parser being used, e.g. if the content type returned from
+     * the backend is wrong or the response needs special parsing.
+     *
+     * Parsers most typically used can be referenced symbolically.
+     * To cover edge cases, a function can be given. When parsing
+     * the response, this function is called with the raw response as
+     * first argument.
+     *
+     * @param parser {String|Function}
+     *
+     *        <br>Can be:
+     *
+     *         * A parser defined in {@link qx.io.request.Xhr#PARSER},
+     *           referenced by string.
+     *
+     *         * The function to invoke.
+     *           Receives the raw response as argument.
+     *
+     */
+    setParser: function(parser) {
+      var Xhr = qx.io.request.Xhr;
+
+      // Symbolically given known parser
+      if (typeof Xhr.PARSER[parser] === "function") {
+        return this.__parser = Xhr.PARSER[parser];
+      }
+
+      // If parser is not a symbol, it must be a function
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertFunction(parser);
+      }
+
+      return this.__parser = parser;
+    },
+
+
+    /**
+     * Get the parser.
+     *
+     * If not defined explicitly using {@link #setParser},
+     * the parser is inferred from the content type.
+     *
+     * Override this method to extend the list of content types
+     * being handled.
+     *
+     * @return {Function} The parser function.
+     *
+     */
+    _getParser: function() {
+      var parser = this.__parser,
+          msg;
+
+      // Use user-provided parser, if any
+      if (parser) {
+        return parser;
+      }
+
+      // Content type undetermined
+      if (!this.isDone()) {
+        return;
+      }
+
+      // Auto-detect parser based on content type
+      switch (this.getResponseContentType()) {
+        case "application/json":
+          parser = qx.io.request.Xhr.PARSER["json"];
+          break;
+
+        default:
+          parser = null;
+          break;
+
+      }
+
+      return parser;
+    },
+
+    /**
+     * Returns response parsed with parser determined by
+     * {@link #_getParser}.
+     */
+    __getParsedResponse: function() {
+      var response = this.__transport.responseText,
+          parser = this._getParser();
+
+      if (typeof parser === "function") {
+        return parser.call(this, response);
+      }
+
+      return response;
+    },
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLING
@@ -496,12 +618,15 @@ qx.Class.define("qx.io.request.Xhr",
      * Handle abstracted "readystatechange" event.
      */
     __onReadyStateChange: function() {
+      var parsedResponse;
+
       this.fireEvent("readystatechange");
 
       if (this.isDone() && this.isSuccessful()) {
 
-        // TODO: Parse response according to response mime type
-        this.__setResponse(this.__transport.responseText);
+        // Parse response
+        parsedResponse = this.__getParsedResponse();
+        this.__setResponse(parsedResponse);
 
         this.fireEvent("success");
       }

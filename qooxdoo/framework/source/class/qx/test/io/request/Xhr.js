@@ -383,6 +383,14 @@ qx.Class.define("qx.test.io.request.Xhr",
 
       this.assertCalledWith(this.transport.setRequestHeader, "Accept", "application/json");
     },
+
+    "test: get response content type": function() {
+      this.stub(this.req, "getResponseHeader");
+      this.req.getResponseContentType();
+
+      this.assertCalledWith(this.req.getResponseHeader, "Content-Type");
+    },
+
     //
     // Events
     //
@@ -558,6 +566,10 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertEquals("FOUND", req.getResponseText());
     },
 
+    //
+    // Response
+    //
+
     "test: get response": function() {
       this.setUpFakeTransport();
       var req = this.req,
@@ -587,6 +599,55 @@ qx.Class.define("qx.test.io.request.Xhr",
         that.assertEquals("Affe", e.getData());
       });
 
+    },
+
+    //
+    // Parsing
+    //
+
+    "test: get parser": function() {
+      var req = this.req;
+      this.stub(req, "isDone").returns(true);
+      this.stub(req, "getResponseContentType").returns("application/json");
+      this.assertFunction(req._getParser());
+    },
+
+    "test: get parser prematurely": function() {
+      var req = this.req;
+      req._getParser();
+    },
+
+    "test: set parser function": function() {
+      var req = this.req,
+          parser = function() {};
+      req.setParser(parser);
+      this.stub(req, "getResponseContentType").returns("text/javascript");
+      this.assertEquals(parser, req._getParser());
+    },
+
+    "test: set json parser symbolically": function() {
+      var req = this.req;
+      req.setParser("json");
+      this.assertFunction(req._getParser());
+    },
+
+    "test: parse json response": function() {
+      this.setUpFakeServer();
+      var req = this.req,
+          server = this.server,
+          response,
+          that = this;
+
+      this.stub(qx.io.request.Xhr.PARSER, "json");
+
+      server.respondWith("/found.json",
+        [200, {"Content-Type": "application/json"}, "JSON"]);
+
+      req.setUrl("/found.json");
+      req.send();
+      server.respond();
+
+      this.assertCalledWith(qx.io.request.Xhr.PARSER.json, "JSON");
     },
 
     //
