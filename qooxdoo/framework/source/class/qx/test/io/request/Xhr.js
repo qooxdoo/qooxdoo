@@ -66,6 +66,12 @@ qx.Class.define("qx.test.io.request.Xhr",
 
       this.server = this.getServer();
       this.server.respondWith("GET", "/found", [200, {"Content-Type": "text/html"}, "FOUND"]);
+      this.server.respondWith("GET", "/found.json", [200, {"Content-Type": "application/json"}, "JSON"]);
+    },
+
+    setUpFakeXhr: function() {
+      this.useFakeXMLHttpRequest();
+      this.setUpRequest();
     },
 
     setUpKlass: function() {
@@ -625,7 +631,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertEquals(parser, req._getParser());
     },
 
-    "test: set json parser symbolically": function() {
+    "test: set parser symbolically": function() {
       var req = this.req;
       req.setParser("json");
       this.assertFunction(req._getParser());
@@ -635,19 +641,38 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.setUpFakeServer();
       var req = this.req,
           server = this.server,
-          response,
           that = this;
 
       this.stub(qx.io.request.Xhr.PARSER, "json");
-
-      server.respondWith("/found.json",
-        [200, {"Content-Type": "application/json"}, "JSON"]);
 
       req.setUrl("/found.json");
       req.send();
       server.respond();
 
       this.assertCalledWith(qx.io.request.Xhr.PARSER.json, "JSON");
+    },
+
+    "test: parse xml response": function() {
+      this.setUpFakeXhr();
+
+      var req = this.req,
+          fakeReq = this.getFakeReq(),
+          that = this;
+
+      this.stub(qx.io.request.Xhr.PARSER, "xml");
+
+      function respond(contentType) {
+        var body = "XML: " + contentType;
+
+        req.setUrl("/found.xml");
+        req.send();
+        fakeReq.respond(200, {"Content-Type": contentType}, body);
+
+        that.assertCalledWith(qx.io.request.Xhr.PARSER.xml, body);
+      }
+
+      respond("application/xml");
+      respond("animal/affe+xml");
     },
 
     //
@@ -659,6 +684,10 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.req.abort();
 
       this.assertCalled(this.transport.abort);
+    },
+
+    getFakeReq: function() {
+      return this.getRequests().slice(-1)[0];
     },
 
     noCache: function(url) {

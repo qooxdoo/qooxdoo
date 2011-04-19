@@ -70,7 +70,8 @@ qx.Class.define("qx.io.request.Xhr",
      * Known parsers are: <code>"json"</code>.
      */
     PARSER: {
-      json: qx.lang.Json.parse
+      json: qx.lang.Json.parse,
+      xml: qx.xml.Document.fromString
     },
 
     /**
@@ -589,10 +590,19 @@ qx.Class.define("qx.io.request.Xhr",
           parser = qx.io.request.Xhr.PARSER["json"];
           break;
 
+        case "application/xml":
+          parser = qx.io.request.Xhr.PARSER["xml"];
+          break;
+
         default:
           parser = null;
           break;
 
+      }
+
+      // Content type ending with +xml
+      if ((/[^\/]+\/[^\+]+\+xml/).test(this.getResponseContentType())) {
+        parser = qx.io.request.Xhr.PARSER["xml"];
       }
 
       return parser;
