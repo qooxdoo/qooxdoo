@@ -102,7 +102,10 @@
  *       <td>css.translate3d</td><td><i>Boolean</em></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getTranslate3d}</td>
  *     </tr>
-
+ *     <tr>
+ *       <td>css.rgba</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getRgba}</td>
+ *     </tr>
  *     <tr>
  *       <td colspan="4"><b>device</b></td>
  *     </tr>
@@ -1048,6 +1051,10 @@ qx.Bootstrap.define("qx.core.Environment",
 
       if (this.useCheck("css.translate3d")) {
         this._checks["css.translate3d"] = qx.bom.client.Css.getTranslate3d;
+      }
+
+      if (this.useCheck("css.rgba")) {
+        this._checks["css.rgba"] = qx.bom.client.Css.getRgba;
       }
 
       // /////////////////////////////////////////

@@ -100,8 +100,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      * @lint ignoreUndefined(WebKitCSSMatrix)
      */
-    getTranslate3d : function()
-    {
+    getTranslate3d : function() {
       return 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix();
     },
 
@@ -137,6 +136,32 @@ qx.Bootstrap.define("qx.bom.client.Css",
           }
         } catch (ex) {}
       };
+
+      return false;
+    },
+
+
+    /**
+     * Checks if rgba collors can be used:
+     * http://www.w3.org/TR/2010/PR-css3-color-20101028/#rgba-color
+     * 
+     * @return {Boolean} <code>true</code>, if rgba colors are supported.
+     */
+    getRgba : function() {
+      var el;
+      try {
+        el = document.createElement("div");
+      } catch (ex) {
+        el = document.createElement();
+      }
+
+      // try catch for IE
+      try {
+        el.style["color"] = "rgba(1, 2, 3, 0.5)";
+        if (el.style["color"].indexOf("rgba") != -1) {
+          return true;
+        }
+      } catch (ex) {}
 
       return false;
     }
