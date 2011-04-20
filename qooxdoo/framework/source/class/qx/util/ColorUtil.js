@@ -287,7 +287,13 @@ qx.Class.define("qx.util.ColorUtil",
      * @return {Boolean} true when the incoming value is a valid qooxdoo color
      */
     isValidPropertyValue : function(str) {
-      return this.isThemedColor(str) || this.isNamedColor(str) || this.isHex3String(str) || this.isHex6String(str) || this.isRgbString(str);
+      return (
+        this.isThemedColor(str) || 
+        this.isNamedColor(str) || 
+        this.isHex3String(str) || 
+        this.isHex6String(str) || 
+        this.isRgbString(str) || 
+        this.isRgbaString(str));
     },
 
 
@@ -298,7 +304,13 @@ qx.Class.define("qx.util.ColorUtil",
      * @return {Boolean} true when the incoming value is a valid CSS color string
      */
     isCssString : function(str) {
-      return this.isSystemColor(str) || this.isNamedColor(str) || this.isHex3String(str) || this.isHex6String(str) || this.isRgbString(str);
+      return (
+        this.isSystemColor(str) || 
+        this.isNamedColor(str) || 
+        this.isHex3String(str) || 
+        this.isHex6String(str) || 
+        this.isRgbString(str) || 
+        this.isRgbaString(str));
     },
 
 
