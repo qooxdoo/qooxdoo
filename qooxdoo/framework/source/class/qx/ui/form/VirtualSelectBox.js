@@ -318,7 +318,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     /**
      * Preselects an item in the drop-down, when item starts with the
-     * {@link #__seachValue} value.
+     * __seachValue value.
      */
     __preselect : function()
     {

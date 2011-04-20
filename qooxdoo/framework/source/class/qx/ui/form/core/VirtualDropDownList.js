@@ -400,7 +400,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
 
     /**
      * Adjust the drop-down to the available width. The width is limited by
-     * the current with from the {@link #_target}.
+     * the current with from the _target.
      */
     __adjustWidth : function()
     {

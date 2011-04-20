@@ -2442,7 +2442,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
 
     /**
-     * If the property {@link nativeContextMenu} is set to <code>false</code> this handler method
+     * If the property {@link #nativeContextMenu} is set to <code>false</code> this handler method
      * stops the browser from displaying the native context menu and fires an own event for the
      * application developers to position their own (qooxdoo) contextmenu.
      *

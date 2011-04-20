@@ -41,8 +41,7 @@ qx.Mixin.define("qx.ui.treevirtual.MTreePrimitive",
      * Add a node to the tree.
      *
      * NOTE: This method is for <b>internal use</b> and should not be called by
-     *       users of this class.  Instead, call {@link #addBranch} or {@link
-     *       #addLeaf}.  There is no guarantee that the interface to this
+     *       users of this class. There is no guarantee that the interface to this
      *       method will remain unchanged over time.
      *
      * @param nodeArr {Array|Map}

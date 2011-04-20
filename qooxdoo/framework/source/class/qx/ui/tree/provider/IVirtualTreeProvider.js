@@ -47,8 +47,6 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider",
 
     /**
      * Sets the name of the property, where the children are stored in the model.
-     * Instead of the {@link #labelPath} must the child property a direct
-     * property form the model instance.
      *
      * @param value {String} The child property name.
      */
