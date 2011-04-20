@@ -153,22 +153,6 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     /**
-     * Authenticate with username.
-     */
-    username: {
-      check: "String",
-      nullable: true
-    },
-
-    /**
-     * Authenticate with password.
-     */
-    password: {
-      check: "String",
-      nullable: true
-    },
-
-    /**
      * Map of headers to be send as part of the request. Both
      * key and value are serialized to string.
      *
@@ -248,6 +232,16 @@ qx.Class.define("qx.io.request.Xhr",
                qx.lang.Type.isObject(value);
       },
       nullable: true
+    },
+
+    /**
+     * Authentication delegate.
+     *
+     * The delegate must implement {@link qx.io.request.auth.IAuthDelegate}
+     */
+    auth: {
+      check: "qx.io.request.auth.IAuthDelegate",
+      nullable: true
     }
   },
 
@@ -305,9 +299,8 @@ qx.Class.define("qx.io.request.Xhr",
           method = this.getMethod(),
           url = this.getUrl(),
           async = this.getAsync(),
-          username = this.getUsername(),
-          password = this.getPassword(),
-          requestData = this.getRequestData();
+          requestData = this.getRequestData(),
+          auth = this.getAuth();
 
       var serializedData = this.__serializeData(requestData);
 
@@ -332,7 +325,7 @@ qx.Class.define("qx.io.request.Xhr",
       }
 
       // Initialize request
-      transport.open(method, url, async, username, password);
+      transport.open(method, url, async);
 
       // Align headers to configuration of instance
       if (this.getCache() === "force-validate") {
@@ -346,6 +339,20 @@ qx.Class.define("qx.io.request.Xhr",
 
       if (this.getAccept()) {
         transport.setRequestHeader("Accept", this.getAccept());
+      }
+
+      if (auth) {
+        auth.getAuthHeaders().forEach(function(header) {
+
+          if (qx.core.Environment.get("qx.debug")) {
+            qx.core.Assert.assertString(header.key);
+            qx.core.Assert.assertString(header.value);
+          }
+
+          if (header.key && header.value) {
+            transport.setRequestHeader(header.key, header.value);
+          }
+        });
       }
 
       // User-provided headers
