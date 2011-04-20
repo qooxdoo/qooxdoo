@@ -170,7 +170,7 @@ qx.Class.define("qx.html.Image",
       // webkit browser do not allow to remove the required "src" attribute.
       // If removing the attribute the old image is still visible.
       if ((qx.core.Environment.get("engine.name") == "webkit")) {
-        this._setProperty("source", qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif"));
+        this._setProperty("source", "qx/static/blank.gif");
       } else {
         this._removeProperty("source", true);
       }
