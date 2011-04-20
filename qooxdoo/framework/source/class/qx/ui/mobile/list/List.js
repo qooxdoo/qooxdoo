@@ -192,8 +192,12 @@ qx.Class.define("qx.ui.mobile.list.List",
     // property apply
     _applyModel : function(value, old)
     {
-      this.setItemCount(value ? value.getLength() : 0);
-      this.__render();
+      if (value) {
+        this.setItemCount(value ? value.getLength() : 0);
+        this.__render();
+      } else {
+        this.clear();
+      }
     },
 
 

@@ -70,7 +70,8 @@ qx.Class.define("qx.ui.mobile.embed.Html",
     html :
     {
       check : "String",
-      init : "",
+      init : null,
+      nullable : true,
       apply : "_applyHtml"
     }
   },
