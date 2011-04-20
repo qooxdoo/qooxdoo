@@ -177,7 +177,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
      * Helper-Method for binding a given property from the target widget to
      * the model.
      * This method should only be called in the
-     * {@link IListDelegate#bindItem} function implemented by the
+     * {@link qx.ui.list.core.IListDelegate#bindItem} function implemented by the
      * {@link #delegate} property.
      *
      * @param targetPath {String | null} The path to the property in the model.

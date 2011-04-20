@@ -166,8 +166,8 @@
  *       <td>{@link qx.bom.client.Html#getAudioWav}</td>
  *     </tr>
  *     <tr>
- *       <td>html.audio.ai</td><td><i>String</em></td><td><code>"maybe"</code></td>
- *       <td>{@link qx.bom.client.Html#getAudioAi}</td>
+ *       <td>html.audio.au</td><td><i>String</em></td><td><code>"maybe"</code></td>
+ *       <td>{@link qx.bom.client.Html#getAudioAu}</td>
  *     </tr>
  *     <tr>
  *       <td>html.audio.aif</td><td><i>String</em></td><td><code>"probably"</code></td>

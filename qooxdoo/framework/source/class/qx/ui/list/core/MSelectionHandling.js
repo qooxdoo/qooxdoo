@@ -116,7 +116,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
     __ignoreChangeSelection : false,
 
 
-    /** {Boolean} flag to ignore the selection change from {@link #_manager} */
+    /** {Boolean} flag to ignore the selection change from _manager */
     __ignoreManagerChangeSelection : false,
 
 
@@ -266,7 +266,7 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
 
 
     /**
-     * Event handler for the selection change from the {@link #_manager}.
+     * Event handler for the selection change from the _manager.
      *
      * @param e {qx.event.type.Data} the change event.
      */
