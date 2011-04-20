@@ -1325,7 +1325,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
           marginBottom : marginBottom,
           marginLeft : marginLeft,
           marginRight : marginRight,
-          textColor : states.checked ? "text-active" : "text-inactive"
+          textColor : states.disabled ? "text-disabled" : 
+            states.checked ? "text-active" : "text-inactive"
         };
       }
     },
