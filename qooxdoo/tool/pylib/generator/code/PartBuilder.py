@@ -475,7 +475,7 @@ class PartBuilder(object):
 
         allPackages  = reversed(Package.sort(packages))
                                 # sorting and reversing assures we try "smaller" package id's first
-        addtl_merge_constraints = self._jobconf.get("packages/additional-merge-constraints", False)
+        addtl_merge_constraints = self._jobconf.get("packages/additional-merge-constraints", True)
 
         for targetPackage in allPackages:
             if mergePackage.id == targetPackage.id:  # no self-merging ;)
