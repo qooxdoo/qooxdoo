@@ -154,7 +154,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
      *
      * @return {qx.ui.core.Widget} The resize frame
      */
-    __getResizeFrame : function()
+    _getResizeFrame : function()
     {
       var frame = this.__resizeFrame;
       if (!frame)
@@ -176,7 +176,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __showResizeFrame : function()
     {
       var location = this.__getLocation();
-      var frame = this.__getResizeFrame();
+      var frame = this._getResizeFrame();
       frame.setUserBounds(
         location.left,
         location.top,
@@ -494,7 +494,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
       // Hide frame afterwards
       if (this.getUseResizeFrame()) {
-        this.__getResizeFrame().exclude();
+        this._getResizeFrame().exclude();
       }
 
       // Compute bounds
@@ -551,7 +551,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
       // Hide frame afterwards
       if (this.getUseResizeFrame()) {
-        this.__getResizeFrame().exclude();
+        this._getResizeFrame().exclude();
       }
     },
 
@@ -572,7 +572,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
         if (this.getUseResizeFrame())
         {
           // Sync new bounds to frame
-          var frame = this.__getResizeFrame();
+          var frame = this._getResizeFrame();
           frame.setUserBounds(bounds.viewportLeft, bounds.viewportTop, bounds.width, bounds.height);
         }
         else

@@ -1467,6 +1467,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "window-resize-frame" : "resize-frame",
+
     "window/pane" : {},
 
     "window/captionbar" :

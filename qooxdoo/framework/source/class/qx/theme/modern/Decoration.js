@@ -1495,6 +1495,25 @@ qx.Theme.define("qx.theme.modern.Decoration",
        }
     },
 
+    "window-resize-frame-css" : {
+      decorator : [
+        qx.ui.decoration.MBorderRadius,
+        qx.ui.decoration.MSingleBorder
+      ],
+      style : {
+        radius : [5, 5, 0, 0],
+        width : 1,
+        color : "border-main"
+      }
+    },
+
+    "window-resize-frame-incl-statusbar-css" : {
+       include : "window-resize-frame-css",
+       style : {
+         radius : [5, 5, 5, 5]
+       }
+    },
+
     "window-captionbar-active-css" : {
       decorator : [
         qx.ui.decoration.MSingleBorder,

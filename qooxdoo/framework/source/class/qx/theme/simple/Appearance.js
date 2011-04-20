@@ -1775,6 +1775,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
       }
     },
 
+    "window-resize-frame" : "resize-frame",
+
     "window/pane" : {},
 
     "window/captionbar" :

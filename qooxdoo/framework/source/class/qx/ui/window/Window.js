@@ -103,6 +103,9 @@ qx.Class.define("qx.ui.window.Window",
 
     // Register as root for the focus handler
     qx.ui.core.FocusHandler.getInstance().addRoot(this);
+
+    // change the reszie frames appearance
+    this._getResizeFrame().setAppearance("window-resize-frame");
   },
 
 
@@ -874,7 +877,14 @@ qx.Class.define("qx.ui.window.Window",
     _applyShowStatusbar : function(value, old)
     {
       // store the state if the status bar is shown
-      value ? this.addState("showStatusbar") : this.removeState("showStatusbar");
+      var resizeFrame = this._getResizeFrame();
+      if (value) {
+        this.addState("showStatusbar");
+        resizeFrame.addState("showStatusbar");
+      } else {
+        this.removeState("showStatusbar");
+        resizeFrame.removeState("showStatusbar");
+      }
 
       if (value) {
         this._showChildControl("statusbar");

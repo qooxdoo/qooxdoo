@@ -1830,6 +1830,28 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
+    "window-resize-frame" :
+    {
+      style : function(states)
+      {
+        var useCSS = qx.core.Environment.get("css.borderradius");
+        var decorator;
+
+        if (useCSS) {
+          if (states.showStatusbar) {
+            decorator = "window-resize-frame-incl-statusbar-css";
+          } else {
+            decorator = "window-resize-frame-css";
+          }
+        } else {
+           decorator = "main";
+        }
+        return {
+          decorator : decorator 
+        };
+      }
+    },
+
     "window/pane" :
     {
       style : function(states)
