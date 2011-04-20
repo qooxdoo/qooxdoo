@@ -49,12 +49,10 @@
           {
             "include" : ["showcase.page.form.Content"]
           },
-          /*
           "virtuallist": 
           {
             "include" : ["showcase.page.virtuallist.Content"]
           },
-          */
           "data": 
           {
             "include" : ["showcase.page.databinding.Content"]

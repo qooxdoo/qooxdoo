@@ -121,7 +121,7 @@ qx.Class.define("showcase.Application",
       pages.push(
         new showcase.page.table.Page(),
         new showcase.page.form.Page(),
-        //new showcase.page.virtuallist.Page(),
+        new showcase.page.virtuallist.Page(),
         new showcase.page.databinding.Page(),
         new showcase.page.tree.Page(),
         new showcase.page.theme.Page(),
