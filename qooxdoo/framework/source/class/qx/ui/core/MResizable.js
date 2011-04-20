@@ -240,7 +240,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
           height += (hint.minHeight - containerHeight);
           containerHeight = hint.minHeight;
         } else if (containerHeight > hint.maxHeight) {
-          height -= (hint.maxHeight - containerHeight);
+          height -= (containerHeight - hint.maxHeight);
           containerHeight = hint.maxHeight;
         }
 
@@ -268,7 +268,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
           width += (hint.minWidth - containerWidth);
           containerWidth = hint.minWidth;
         } else if (width > hint.maxWidth) {
-          width -= (hint.maxWidth - containerWidth);
+          width -= (containerWidth - hint.maxWidth);
           containerWidth = hint.maxWidth;
         }
 
