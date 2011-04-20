@@ -695,13 +695,18 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       if (this.getDebugFlags() &
           qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS)
       {
+        // Individual objects are listed.  Ensure target is a saved object
+        var friendly = this.getFriendlyName(event.getTarget());
+
         if (bAddAtHead)
         {
-          this.debug(this.getName() + ": Pushed event: " + event.getType());
+          this.debug(this.getName() + ": Pushed event: " + event.getType() +
+                   (friendly ? " on " + friendly : ""));
         }
         else
         {
-          this.debug(this.getName() + ": Queued event: " + event.getType());
+          this.debug(this.getName() + ": Queued event: " + event.getType() +
+                   (friendly ? " on " + friendly : ""));
         }
       }
     },
@@ -893,9 +898,13 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       var debugObjectNotFound =
         debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND;
 
+      // Individual objects are listed.  Ensure target is a saved object
+      var friendly = this.getFriendlyName(event.getTarget());
+
       if (debugEvents)
       {
-        this.debug(this.getName() + ": Process event: " + event.getType());
+        this.debug(this.getName() + ": Process event: " + event.getType() +
+                   (friendly ? " on " + friendly : ""));
       }
 
       // Get the current state name
@@ -928,9 +937,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       // BLOCKED).
       if (typeof (e) == "object")
       {
-        // Individual objects are listed.  Ensure target is a saved object
-        var friendly = this.getFriendlyName(event.getTarget());
-
         if (!friendly)
         {
           // Nope, it doesn't seem so.  Just discard it.
