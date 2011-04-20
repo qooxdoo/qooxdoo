@@ -70,7 +70,7 @@ qx.Class.define("qx.bom.GeoLocation",
     {
       var successHandler = qx.lang.Function.bind(this._successHandler, this);
       var errorHandler = qx.lang.Function.bind(this._errorHandler, this);
-      var wrappedHandler = qx.bom.GeoLocation._createHandler(successHandler);
+      var wrappedHandler = this._createHandler(successHandler);
 
       this._geolocation.getCurrentPosition(wrappedHandler, errorHandler, {
         enableHighAccuracy: enableHighAccuracy,
