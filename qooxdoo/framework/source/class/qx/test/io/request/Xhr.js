@@ -202,15 +202,6 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalled(this.transport.send);
     },
 
-    "test: send authorized request": function() {
-      this.setUpFakeTransport();
-      this.req.setUsername("affe");
-      this.req.setPassword("geheim");
-      this.req.send();
-
-      this.assertCalledWith(this.transport.open, "GET", "url", true, "affe", "geheim");
-    },
-
     "test: drop fragment from URL": function() {
       this.setUpFakeTransport();
       this.req.setUrl("example.com#fragment");
@@ -628,6 +619,29 @@ qx.Class.define("qx.test.io.request.Xhr",
 
       respond("application/xml");
       respond("animal/affe+xml");
+    },
+
+    //
+    // Auth
+    //
+
+    "test: basic auth": function() {
+      this.setUpFakeTransport();
+
+      var transport = this.transport,
+          auth, call, key, credentials;
+
+      auth = new qx.io.request.auth.BasicDelegate();
+      auth.setUsername("affe");
+      auth.setPassword("geheim");
+      this.req.setAuth(auth);
+      this.req.send();
+
+      call = transport.setRequestHeader.getCall(0);
+      key = "Authorization";
+      credentials = /Basic\s(.*)/.exec(call.args[1])[1];
+      this.assertEquals(key, call.args[0]);
+      this.assertEquals("affe:geheim", qx.util.Base64.decode(credentials));
     },
 
     //
