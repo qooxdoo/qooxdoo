@@ -260,6 +260,12 @@ qx.Class.define("qx.ui.container.SlideBar",
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
+    // overridden
+    _applyEnabled : function(value, old, name) {
+      this.base(arguments, value, old, name);
+      this._updateArrowsEnabled();
+    },
+
 
     // property apply
     _applyOrientation : function(value, old)
@@ -415,6 +421,14 @@ qx.Class.define("qx.ui.container.SlideBar",
      */
     _updateArrowsEnabled : function()
     {
+      // set the disables state directly because we are overriding the 
+      // inheritance
+      if (!this.getEnabled()) {
+        this.getChildControl("button-backward").setEnabled(false);
+        this.getChildControl("button-forward").setEnabled(false);
+        return;
+      }
+
       var pane = this.getChildControl("scrollpane");
 
       if (this.getOrientation() === "horizontal")
