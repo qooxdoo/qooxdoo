@@ -526,7 +526,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       req.send();
 
       var headers = { "Content-Type": "application/xml" };
-      var body = "<animals><moonkey/><mouse/></animals>";
+      var body = "<animals><monkey/><mouse/></animals>";
       fakeReq.respond(200, headers, body);
 
       this.assertObject(req.responseXML);

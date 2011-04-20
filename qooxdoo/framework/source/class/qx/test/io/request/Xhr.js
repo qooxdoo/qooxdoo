@@ -598,27 +598,27 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalledWith(qx.io.request.Xhr.PARSER.json, "JSON");
     },
 
-    "test: parse xml response": function() {
+    // XML
+
+    respondXml: function(contentType) {
       this.setUpFakeXhr();
+      var body = "XML: " + contentType;
 
-      var req = this.req,
-          fakeReq = this.getFakeReq(),
-          that = this;
+      this.req.setUrl("/found.xml");
+      this.req.send();
+      this.getFakeReq().respond(200, {"Content-Type": contentType}, body);
+    },
 
+    "test: parse xml response": function() {
       this.stub(qx.io.request.Xhr.PARSER, "xml");
+      this.respondXml("application/xml");
+      this.assertCalledWith(qx.io.request.Xhr.PARSER.xml, "XML: application/xml");
+    },
 
-      function respond(contentType) {
-        var body = "XML: " + contentType;
-
-        req.setUrl("/found.xml");
-        req.send();
-        fakeReq.respond(200, {"Content-Type": contentType}, body);
-
-        that.assertCalledWith(qx.io.request.Xhr.PARSER.xml, body);
-      }
-
-      respond("application/xml");
-      respond("animal/affe+xml");
+    "test: parse arbitrary xml response": function() {
+      this.stub(qx.io.request.Xhr.PARSER, "xml");
+      this.respondXml("animal/affe+xml");
+      this.assertCalledWith(qx.io.request.Xhr.PARSER.xml, "XML: animal/affe+xml");
     },
 
     //

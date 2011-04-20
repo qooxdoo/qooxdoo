@@ -786,7 +786,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // responseText as XML.
       if (qx.core.Environment.get("engine.name") == "mshtml" &&
           (this.getResponseHeader("Content-Type") || "").match(/[^\/]+\/[^\+]+\+xml/) &&
-          !this.responseXML.documentElement) {
+           this.responseXML && !this.responseXML.documentElement) {
         var dom = new window.ActiveXObject("Microsoft.XMLDOM");
         dom.async = false;
         dom.validateOnParse = false;
