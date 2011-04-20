@@ -2437,7 +2437,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           zIndex : states.checked ? 10 : 5,
           decorator : states.checked ? undefined : decorator,
           backgroundColor : states.checked ? "background-selected" : "tabview-unselected",
-          textColor: "white",
+          textColor : states.disabled ? states.checked ? "tabview-label-active-disabled" : "text-disabled" : "white",
           padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
           margin : [ marginTop, marginRight, marginBottom, marginLeft ]
         };

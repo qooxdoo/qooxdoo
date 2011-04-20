@@ -39,6 +39,7 @@ qx.Theme.define("qx.theme.simple.Color",
     // tabview
     "tabview-unselected" : "#1866B5",
     "tabview-button-border" : "#134983",
+    "tabview-label-active-disabled" : "#D9D9D9",
 
     // text colors
     "link" : "#24B",

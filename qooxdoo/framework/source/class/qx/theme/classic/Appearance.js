@@ -1027,7 +1027,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator : decorator,
           backgroundColor : "background",
           padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
-          margin : [ marginTop, marginRight, marginBottom, marginLeft ]
+          margin : [ marginTop, marginRight, marginBottom, marginLeft ],
+          textColor : states.disabled ? "text-disabled" : undefined
         };
       }
     },
