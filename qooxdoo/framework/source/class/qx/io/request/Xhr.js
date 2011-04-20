@@ -265,6 +265,11 @@ qx.Class.define("qx.io.request.Xhr",
     __response: null,
 
     /**
+     * Parser.
+     */
+    __parser: null,
+
+    /**
      * Bound handlers.
      */
     __onReadyStateChangeBound: null,
@@ -565,8 +570,7 @@ qx.Class.define("qx.io.request.Xhr",
      *
      */
     _getParser: function() {
-      var parser = this.__parser,
-          msg;
+      var parser = this.__parser;
 
       // Use user-provided parser, if any
       if (parser) {
