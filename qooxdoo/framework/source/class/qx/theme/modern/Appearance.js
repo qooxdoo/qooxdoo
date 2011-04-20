@@ -615,7 +615,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           icon : "decoration/arrows/up-small.png",
           padding : [superStyles.padding[0] - 1, superStyles.padding[1] - 5],
-          shadow: undefined
+          shadow: undefined,
+          margin : 0
         };
       }
     },
@@ -630,7 +631,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           icon : "decoration/arrows/down-small.png",
           padding : [superStyles.padding[0] - 1, superStyles.padding[1] - 5],
-          shadow: undefined
+          shadow: undefined,
+          margin : 0
         };
       }
     },
@@ -865,7 +867,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator : decorator,
           minHeight : states.horizontal ? undefined : 9,
           minWidth  : states.horizontal ? 9 : undefined,
-          padding : undefined
+          padding : undefined,
+          margin : 0
         };
       }
     },
@@ -907,7 +910,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
             padding : useCSS ? 3 : [3, 2],
             icon : icon,
             width: 14,
-            height: 15
+            height: 15,
+            margin: 0
           };
         }
       }
