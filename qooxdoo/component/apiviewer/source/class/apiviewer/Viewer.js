@@ -307,7 +307,7 @@ qx.Class.define("apiviewer.Viewer",
       this._detailLoader.setId("detail_loader");
       detailFrame.add(this._detailLoader, {edge : 0});
 
-      this._tabView = new qx.ui.tabview.TabView();
+      this._tabView = new apiviewer.DetailFrameTabView();
       this._tabView.setId("tabView");
       this._tabView.exclude();
       detailFrame.add(this._tabView, {edge : 0});
