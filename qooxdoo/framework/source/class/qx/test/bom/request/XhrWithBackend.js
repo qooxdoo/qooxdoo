@@ -115,6 +115,25 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
+    "test: handle invalid XML": function() {
+      var url = this.getUrl("qx/test/xmlhttp/invalid.xml"),
+          req = this.req,
+          that = this;
+
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume(function() {
+            req.responseXML;
+          });
+        }
+      };
+
+      req.open("GET", url);
+      req.send();
+
+      this.wait();
+    },
+
     "test: POST": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");

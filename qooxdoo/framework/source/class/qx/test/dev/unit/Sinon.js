@@ -106,7 +106,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       this.assertFunction(server.respondWith);
     },
 
-    "test: should respond to request": function() {
+    "test: should respond": function() {
       this.require(["xhr"]);
 
       this.useFakeServer();
@@ -121,6 +121,19 @@ qx.Class.define("qx.test.dev.unit.Sinon",
 
       this.assertEquals(200, req.status);
       this.assertEquals("FOUND", req.responseText);
+    },
+
+    "test: should respond with invalid XML": function() {
+      this.require(["xhr"]);
+
+      this.useFakeXMLHttpRequest();
+      var nxhr = window.XMLHttpRequest,
+      req = new nxhr,
+      fakeReq = this.getRequests()[0];
+
+      req.open();
+      req.send();
+      fakeReq.respond(200, { "Content-Type": "application/xml" }, "INVALID");
     },
 
     "test: should sandbox and restore": function() {

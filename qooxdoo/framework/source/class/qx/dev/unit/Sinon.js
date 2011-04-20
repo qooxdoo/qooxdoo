@@ -1666,7 +1666,9 @@ qx.Class.define("qx.dev.unit.Sinon",
 
               if (this.responseText &&
                   (!type || /(text\/xml)|(application\/xml)|(\+xml)/.test(type))) {
-                  this.responseXML = FakeXMLHttpRequest.parseXML(this.responseText);
+                  try {
+                    this.responseXML = FakeXMLHttpRequest.parseXML(this.responseText);
+                  } catch(e) {}
               }
 
               if (this.async) {
