@@ -442,6 +442,19 @@ qx.Class.define("qx.test.io.request.Xhr",
       });
     },
 
+    "test: fire remoteError": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport,
+          that = this;
+
+      this.assertEventFired(req, "remoteError", function() {
+        transport.readyState = 4;
+        transport.status = 500;
+        transport.onreadystatechange();
+      });
+    },
+
     //
     // Handler
     //

@@ -122,6 +122,11 @@ qx.Class.define("qx.io.request.Xhr",
     "error": "qx.event.type.Event",
 
     /**
+     * Fires when request completed with erroneous HTTP status,
+     * for instance indicating a server error or missing resource.
+     */
+    "remoteError": "qx.event.type.Event",
+
     * Fires on change of the parsed response.
     */
     "changeResponse": "qx.event.type.Data"
@@ -635,13 +640,21 @@ qx.Class.define("qx.io.request.Xhr",
 
       this.fireEvent("readystatechange");
 
-      if (this.isDone() && qx.bom.request.Xhr.isSuccessful(this.getStatus())) {
+      if (this.isDone()) {
 
-        // Parse response
-        parsedResponse = this.__getParsedResponse();
-        this.__setResponse(parsedResponse);
+        // Successfull HTTP status
+        if (qx.bom.request.Xhr.isSuccessful(this.getStatus())) {
 
-        this.fireEvent("success");
+          // Parse response
+          parsedResponse = this.__getParsedResponse();
+          this.__setResponse(parsedResponse);
+
+          this.fireEvent("success");
+
+        // Erroneous HTTP status
+        } else {
+          this.fireEvent("remoteError");
+        }
       }
     },
 
