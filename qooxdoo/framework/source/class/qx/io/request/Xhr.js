@@ -334,7 +334,7 @@ qx.Class.define("qx.io.request.Xhr",
       }
 
       if (method === "POST") {
-        transport.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        transport.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       }
 
       if (this.getAccept()) {

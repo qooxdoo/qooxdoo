@@ -119,7 +119,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
       req.open("POST", this.noCache(url));
-      req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
       var that = this;
       req.onreadystatechange = function() {

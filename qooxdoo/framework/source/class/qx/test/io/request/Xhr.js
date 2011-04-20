@@ -258,7 +258,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.req.send();
 
       this.assertCalledWith(this.transport.setRequestHeader,
-           "Content-type", "application/x-www-form-urlencoded");
+           "Content-Type", "application/x-www-form-urlencoded");
     },
 
     "test: send string data with POST request": function() {
