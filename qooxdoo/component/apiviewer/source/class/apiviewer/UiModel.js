@@ -29,12 +29,20 @@ qx.Class.define("apiviewer.UiModel",
       event : "changeShowProtected"
     },
 
-    /** whether to display private and internal items */
+    /** whether to display private items */
     showPrivate :
     {
       check: "Boolean",
       init: false,
       event : "changeShowPrivate"
+    },
+    
+    /** whether to display internal items */
+    showInternal :
+    {
+      check: "Boolean",
+      init: false,
+      event : "changeShowInternal"
     }
   }
 });

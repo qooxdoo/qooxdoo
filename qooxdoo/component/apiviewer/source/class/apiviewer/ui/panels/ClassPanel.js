@@ -140,7 +140,7 @@ qx.Class.define("apiviewer.ui.panels.ClassPanel",
 
       if (nodeArr && nodeArr.length > 0)
       {
-        this._sortItems(nodeArr);
+        classViewer.sortItems(nodeArr);
       }
 
       this._displayNodes(nodeArr, currentClassDocNode);

@@ -243,6 +243,57 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       return titleHtml.get();
     },
 
+    _getTocHtml : function(classNode)
+    {
+      var tocHtml = document.createDocumentFragment();
+      var members = ["events", "constructor", "properties", "methods", "methods-static", "constants", "appearances", "childControls"];
+      var iconURL = {"events" : "apiviewer/image/event18.gif",
+                                "constructor" : "apiviewer/image/constructor18.gif",
+                                "properties" : "apiviewer/image/property18.gif",
+                                "methods" : "apiviewer/image/method_public18.gif",
+                                "methods-static" : ["apiviewer/image/method_public18.gif","apiviewer/image/overlay_static18.gif"],
+                                "constants" : "apiviewer/image/constant18.gif",
+                                "childControls" : "apiviewer/image/childcontrol18.gif"};
+      var panels = this.getPanels();
+      var panelByName = {};
+      
+      for(var i=0, l=panels.length; i<l; i++)
+      {
+        var listName = panels[i].getListName();
+        panelByName[listName] = panels[i];
+      }
+      
+      var separatorFlag = false;
+      
+      for(var i=0, l=members.length; i<l; i++)
+      {
+        var memberList = classNode.getItemList(members[i]);
+        this.sortItems(memberList);
+        if(memberList.length>0)
+        {
+          if(separatorFlag) {
+            tocHtml.appendChild(document.createTextNode(' | '));
+          }
+          separatorFlag = true;
+          var tocItem = qx.bom.Element.create('span');
+          qx.bom.element.Class.add(tocItem,'tocitem');
+          
+          // add icon in front of the TOC item
+          tocItem.innerHTML = apiviewer.ui.ClassViewer.createImageHtml(iconURL[members[i]],members[i])+' ';
+          
+          qx.bom.Element.addListener(tocItem,'click',(function(panel,firstItem){
+            return function()
+            {
+              this.__enableSection(firstItem, firstItem.getName());
+              qx.bom.element.Scroll.intoView(panel.getTitleElement(), null, "left", "top");
+            };})(panelByName[members[i]],memberList[0]),this,false);
+          tocItem.appendChild(document.createTextNode(members[i]));
+          tocHtml.appendChild(tocItem);
+        }
+      }
+      
+      return tocHtml;
+    },
 
     _getDescriptionHtml : function(classNode)
     {
@@ -456,7 +507,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       return html.get();
     },
 
-
     /**
      * Highlights an item (property, method or constant) and scrolls it visible.
      *
@@ -511,7 +561,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     },
 
     /**
-     * Programatically enables the butto to show private, protected function or
+     * Programatically enables the button to show private, protected function or
      * properties so that the selected item can be shown.
      *
      * @param itemName {String} the name of the item to highlight.
@@ -530,26 +580,22 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         if(itemNode.isPrivate()) {
           uiModel.setShowPrivate(true);
         }
-      }
-      else if (itemNode.getListName() == "methods")
-      {
-        // Check for privates
-        if (itemName.indexOf("__") === 0 || itemNode.isInternal()) {
-          uiModel.setShowPrivate(true);
-        }
-        // Check for protected
-        else if (itemName.indexOf("_") === 0){
-          uiModel.setShowProtected(true);
+        if(itemNode.isInternal()) {
+          uiModel.setShowInternal(true);
         }
       }
-      else if (itemNode.getListName() == "methods-static")
+      else
       {
         // Check for privates
-        if (itemName.indexOf("__") === 0 || itemNode.isInternal()) {
+        if (itemNode.isPrivate()) {
           uiModel.setShowPrivate(true);
         }
+        // Check for internals
+        if (itemNode.isInternal()) {
+          uiModel.setShowInternal(true);
+        }
         // Check for protected
-        else if (itemName.indexOf("_") === 0){
+        else if (itemNode.isProtected()){
           uiModel.setShowProtected(true);
         }
       }

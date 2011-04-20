@@ -223,6 +223,10 @@ qx.Class.define("apiviewer.Controller",
       var btn_private = this._widgetRegistry.getWidgetById("btn_private");
       btn_private.bind("value", uiModel, "showPrivate");
       uiModel.bind("showPrivate", btn_private, "value");
+      
+      var btn_internal = this._widgetRegistry.getWidgetById("btn_internal");
+      btn_internal.bind("value", uiModel, "showInternal");
+      uiModel.bind("showInternal", btn_internal, "value");
     },
 
 

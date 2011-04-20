@@ -580,7 +580,10 @@ qx.Class.define("apiviewer.ui.SearchView",
         else if (/private/.test(itemType)) {
           uiModel.setShowPrivate(true);
         }
-
+        // Display internal stated items
+        else if (/internal/.test(itemType)) {
+          uiModel.setShowInternal(true);
+        }
         // Highlight item
         controller._updateHistory(fullItemName);
       }

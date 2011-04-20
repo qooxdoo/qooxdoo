@@ -904,7 +904,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
 
     /**
-     * Get the HTML fragmet of the info panel
+     * Get the HTML fragment of the info panel
      *
      * @return {String} HTML fragment of the info panel
      */
@@ -1000,6 +1000,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      * @param nodeArr {apiviewer.dao.ClassItem[]} array of class items
      * @param showProtected {Boolean} whether to show protected items
      * @param showPrivate {Boolean} whether to show private items
+     * @param showInternal {Boolean} whether to show internal items
      * @return {apiviewer.dao.ClassItem[]} filtered list of items
      */
     __filterItems : function(nodeArr, expandProperties, showProtected, showPrivate, showInternal)
@@ -1024,55 +1025,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
       return copyArr;
     },
-
-
-    /**
-     * Sorts the nodes in place.
-     *
-     * @param nodeArr {apiviewer.dao.ClassItem[]} array of class items
-     */
-    _sortItems : function(nodeArr)
-    {
-      // Sort the nodeArr by name
-      // Move protected methods to the end
-      nodeArr.sort(function(obj1, obj2)
-      {
-        var sum1 = 0;
-        if (obj1.isInternal()) {
-          sum1 += 4;
-        }
-        if (obj1.isPrivate()) {
-          sum1 += 2;
-        }
-        if (obj1.isProtected()) {
-          sum1 += 1;
-        }
-
-        var sum2 = 0;
-        if (obj2.isInternal()) {
-          sum2 += 4;
-        }
-        if (obj2.isPrivate()) {
-          sum2 += 2;
-        }
-        if (obj2.isProtected()) {
-          sum2 += 1;
-        }
-
-        if (sum1 == sum2)
-        {
-          var name1 = obj1.getName();
-          var name2 = obj2.getName();
-
-          return name1.toLowerCase() < name2.toLowerCase() ? -1 : 1;
-        }
-        else
-        {
-          return sum1 - sum2;
-        }
-      });
-    },
-
 
     _displayNodes : function(nodes, currentClassDocNode)
     {
@@ -1124,10 +1076,10 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         var expandProperties = classViewer.getExpandProperties();
         var showProtected = classViewer.getShowProtected();
         var showPrivate = classViewer.getShowPrivate();
-        var showInternal = showPrivate;
+        var showInternal = classViewer.getShowInternal();
 
         nodeArr = this.__filterItems(nodeArr, expandProperties, showProtected, showPrivate, showInternal);
-        this._sortItems(nodeArr);
+        classViewer.sortItems(nodeArr);
       }
 
       this._displayNodes(nodeArr, currentClassDocNode);

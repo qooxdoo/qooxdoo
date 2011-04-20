@@ -79,6 +79,10 @@ qx.Class.define("apiviewer.ui.PackageViewer",
       return vHtml;
     },
 
+    _getTocHtml : function(classNode)
+    {
+      return document.createTextNode('');
+    },
 
     _getDescriptionHtml : function(classNode)
     {

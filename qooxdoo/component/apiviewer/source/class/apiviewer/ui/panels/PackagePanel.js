@@ -77,7 +77,7 @@ qx.Class.define("apiviewer.ui.panels.PackagePanel",
       var nodeArr = currentClassDocNode.getPackages();
 
       if (nodeArr && nodeArr.length > 0) {
-        this._sortItems(nodeArr);
+        classViewer.sortItems(nodeArr);
       }
 
       this._displayNodes(nodeArr, currentClassDocNode);

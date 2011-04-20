@@ -76,8 +76,15 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       apply: "_updatePanels"
     },
 
-    /** whether to display private and internal items */
+    /** whether to display private items */
     showPrivate : {
+      check: "Boolean",
+      init: false,
+      apply: "_updatePanels"
+    },
+    
+    /** whether to display internal items */
+    showInternal : {
       check: "Boolean",
       init: false,
       apply: "_updatePanels"
@@ -158,6 +165,9 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       // Add title
       html.add('<h1></h1>');
 
+      // Add TOC
+      html.add('<div></div>');
+
       // Add description
       html.add('<div>', '</div>');
 
@@ -186,6 +196,11 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     {
       throw new Error("Abstract method called!");
     },
+    
+    _getTocHtml : function(classNode)
+    {
+      throw new Error("Abstract method called!");
+    },
 
 
     _getDescriptionHtml : function(classNode)
@@ -208,12 +223,13 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       apiviewer.ui.AbstractViewer.fixLinks(element);
 
       this._titleElem = divArr[0];
-      this._classDescElem = divArr[1];
+      this._tocElem = divArr[1];
+      this._classDescElem = divArr[2];
 
       for (var i=0; i<panels.length; i++)
       {
         var panel = panels[i];
-        panel.setElement(divArr[i+2]);
+        panel.setElement(divArr[i+3]);
       }
 
     },
@@ -270,6 +286,8 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       }
 
       this._titleElem.innerHTML = this._getTitleHtml(classNode);
+      qx.bom.Element.empty(this._tocElem);
+      this._tocElem.appendChild(this._getTocHtml(classNode));
       this._classDescElem.innerHTML = this._getDescriptionHtml(classNode);
       apiviewer.ui.AbstractViewer.fixLinks(this._classDescElem);
       apiviewer.ui.AbstractViewer.highlightCode(this._classDescElem);
@@ -303,10 +321,56 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       {
         this.error("Toggling info body failed", exc);
       }
+    },
+
+    /**
+     * Sorts the nodes in place.
+     *
+     * @param nodeArr {apiviewer.dao.ClassItem[]} array of class items
+     */
+    sortItems : function(nodeArr)
+    {
+      // Sort the nodeArr by name
+      // Move protected methods to the end
+      nodeArr.sort(function(obj1, obj2)
+      {
+        var sum1 = 0;
+        if (obj1.isInternal()) {
+          sum1 += 4;
+        }
+        if (obj1.isPrivate()) {
+          sum1 += 2;
+        }
+        if (obj1.isProtected()) {
+          sum1 += 1;
+        }
+
+        var sum2 = 0;
+        if (obj2.isInternal()) {
+          sum2 += 4;
+        }
+        if (obj2.isPrivate()) {
+          sum2 += 2;
+        }
+        if (obj2.isProtected()) {
+          sum2 += 1;
+        }
+
+        if (sum1 == sum2)
+        {
+          var name1 = obj1.getName();
+          var name2 = obj2.getName();
+
+          return name1.toLowerCase() < name2.toLowerCase() ? -1 : 1;
+        }
+        else
+        {
+          return sum1 - sum2;
+        }
+      });
     }
+
   },
-
-
 
   /*
   *****************************************************************************
@@ -316,7 +380,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
 
   destruct : function()
   {
-    this._classDescElem = this._titleElem = this._infoPanelHash =
+    this._classDescElem = this._titleElem = this._tocElem = this._infoPanelHash =
       this.__classNode = null;
     this._disposeArray("_infoPanels", 1);
   }

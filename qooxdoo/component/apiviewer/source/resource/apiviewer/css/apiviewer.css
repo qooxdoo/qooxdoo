@@ -258,6 +258,21 @@
 
 
 
+/* ==============================================
+    CLASS VIEWER: TOC Items
+============================================== */
+.tocitem {
+  color: #134275;
+  margin: 2px 10px 10px 5px;
+  line-height: 35px;
+  cursor: pointer;
+}
+
+
+
+
+
+
 
 /* ==============================================
     CLASS VIEWER: CLASS DESCRIPTION
@@ -340,7 +355,10 @@
   background: #FFFAED !important;
 }
 
-.ClassViewer table.info tr.item-private,
+.ClassViewer table.info tr.item-private{
+	background: #FFE3E4 !important;
+}
+
 .ClassViewer table.info tr.item-internal{
 	background: #FFF3F4 !important;
 }
