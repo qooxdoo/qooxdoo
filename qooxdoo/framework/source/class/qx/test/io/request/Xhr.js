@@ -455,6 +455,27 @@ qx.Class.define("qx.test.io.request.Xhr",
       });
     },
 
+    "test: fire fail": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport,
+          that = this;
+
+      this.assertEventFired(req, "fail", function() {
+        transport.readyState = 4;
+        transport.status = 500;
+        transport.onreadystatechange();
+      });
+
+      this.assertEventFired(req, "fail", function() {
+        transport.onerror();
+      });
+
+      this.assertEventFired(req, "fail", function() {
+        transport.onerror();
+      });
+    },
+
     //
     // Handler
     //

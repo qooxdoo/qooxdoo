@@ -113,11 +113,6 @@ qx.Class.define("qx.io.request.Xhr",
     /**
      * Fires when request could not complete
      * due to a network error.
-     *
-     * Timeouts are not considered to be network
-     * errors. Usually, it is recommended to listen
-     * to both "error" and "timeout" event to handle
-     * errors.
      */
     "error": "qx.event.type.Event",
 
@@ -127,6 +122,15 @@ qx.Class.define("qx.io.request.Xhr",
      */
     "remoteError": "qx.event.type.Event",
 
+    /**
+     * Fires on timeout, error or remote error.
+     *
+     * This event is fired for convenience. Usually, it is recommended
+     * to handle error related events in a more granular approach.
+     */
+    "fail": "qx.event.type.Event",
+
+    /**
     * Fires on change of the parsed response.
     */
     "changeResponse": "qx.event.type.Data"
@@ -654,6 +658,7 @@ qx.Class.define("qx.io.request.Xhr",
         // Erroneous HTTP status
         } else {
           this.fireEvent("remoteError");
+          this.fireEvent("fail");
         }
       }
     },
@@ -684,6 +689,7 @@ qx.Class.define("qx.io.request.Xhr",
      */
     __onTimeout: function() {
       this.fireEvent("timeout");
+      this.fireEvent("fail");
     },
 
     /**
@@ -691,6 +697,7 @@ qx.Class.define("qx.io.request.Xhr",
      */
     __onError: function() {
       this.fireEvent("error");
+      this.fireEvent("fail");
     },
 
     /*
