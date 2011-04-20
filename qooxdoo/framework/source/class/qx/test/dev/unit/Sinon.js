@@ -36,7 +36,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       this.sinon = qx.dev.unit.Sinon.getSinon();
     },
 
-    "test: should get sinon": function() {
+    "test: get sinon": function() {
       var sinon = this.sinon;
 
       this.assertObject(sinon, "Sinon not found");
@@ -47,46 +47,46 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       this.assertFunction(sinon.useFakeXMLHttpRequest, "No fake XHR");
     },
 
-    "test: should fail": function() {
+    "test: fail": function() {
       var sinon = this.sinon;
       this.assertException(function() {
         sinon.fail();
       });
     },
 
-    "test: should spy": function() {
+    "test: spy": function() {
       var spy = this.sinon.spy();
       spy();
       this.assertTrue(spy.called);
     },
 
-    "test: should spy conveniently": function() {
+    "test: spy conveniently": function() {
       var spy = this.spy();
       spy();
       this.assertTrue(spy.called);
     },
 
-    "test: should stub": function() {
+    "test: stub": function() {
       var whoami = this.sinon.stub();
       whoami.returns("Affe");
 
       this.assertEquals("Affe", whoami());
     },
 
-    "test: should stub conveniently": function() {
+    "test: stub conveniently": function() {
       var whoami = this.stub();
       whoami.returns("Affe");
 
       this.assertEquals("Affe", whoami());
     },
 
-    "test: should assert": function() {
+    "test: assert": function() {
       var spy = this.sinon.spy();
       spy();
       this.assertCalled(spy);
     },
 
-    "test: should fake XHR": function() {
+    "test: fake XHR": function() {
       this.require(["xhr"]);
 
       this.useFakeXMLHttpRequest();
@@ -99,14 +99,14 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       this.assertFunction(req.send, "send");
     },
 
-    "test: should fake server": function() {
+    "test: fake server": function() {
       this.useFakeServer();
       var server = this.getServer();
       this.assertFunction(server.respond);
       this.assertFunction(server.respondWith);
     },
 
-    "test: should respond": function() {
+    "test: respond": function() {
       this.require(["xhr"]);
 
       this.useFakeServer();
@@ -123,7 +123,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       this.assertEquals("FOUND", req.responseText);
     },
 
-    "test: should respond with invalid XML": function() {
+    "test: respond with invalid XML": function() {
       this.require(["xhr"]);
 
       this.useFakeXMLHttpRequest();
@@ -136,9 +136,9 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       fakeReq.respond(200, { "Content-Type": "application/xml" }, "INVALID");
     },
 
-    "test: should sandbox and restore": function() {
+    "test: sandbox and restore": function() {
       var func = function() {};
-      var obj = {"a": function() {}}
+      var obj = {"a": function() {}};
 
       var spy = this.spy(func);
       var stub = this.stub(obj, "a");
