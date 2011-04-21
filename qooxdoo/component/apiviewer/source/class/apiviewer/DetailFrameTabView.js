@@ -30,10 +30,9 @@ qx.Class.define("apiviewer.DetailFrameTabView",
         if(this.getChildren().length>1)
         {
           this.base(arguments,page);
-        }
-        else
-        {
-          this.getChildren()[0].setShowCloseButton(false);
+          if(this.getChildren().length==1) {
+            this.getChildren()[0].setShowCloseButton(false);
+          }
         }
       }
     }
