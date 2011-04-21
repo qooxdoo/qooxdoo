@@ -17,7 +17,7 @@
    * Sebastian Werner (wpbasti)
    * Andreas Ecker (ecker)
    * Fabian Jakobs (fjakobs)
-   * Alexander Back (aback)
+   * Alexander Steitz (aback)
    * Martin Wittemann (martinwittemann)
 
 ************************************************************************* */
