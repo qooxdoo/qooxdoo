@@ -43,7 +43,7 @@ Popups
 Embed Widgets
 =============
 
-:doc:`canvas`, :doc:`html`, :doc:`iframe`
+:doc:`canvas`, :doc:`html`, :doc:`iframe`, :doc:`flash`
 
 .. _pages/widget#form_widgets:
 

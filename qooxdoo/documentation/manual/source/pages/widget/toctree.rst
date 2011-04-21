@@ -14,6 +14,7 @@ Widget Reference List
    hoverbutton.rst
    html.rst
    iframe.rst
+   flash.rst
    image.rst
    label.rst
    list.rst
