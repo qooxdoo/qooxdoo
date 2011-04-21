@@ -76,7 +76,7 @@ Manual |version|
    pages/low_level.rst
 
 
-.. _index#mobile
+.. _index#mobile:
 
 .. Mobile Framework
 
