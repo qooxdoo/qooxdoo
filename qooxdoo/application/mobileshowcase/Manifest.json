@@ -13,12 +13,12 @@
     [
       {
         "name" : "Tino Butz (tbtz)",
-        "email" : "tino.butz@1und1.de"
+        "email" : "tino DOT butz AT 1und1 DOT de"
       }
     ],
 
     "version" : "trunk",
-    "qooxdoo-versions": ["1.4"]
+    "qooxdoo-versions": ["trunk"]
   },
   
   "provides" : 
