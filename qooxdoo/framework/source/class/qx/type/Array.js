@@ -27,6 +27,32 @@ qx.Class.define("qx.type.Array",
 {
   extend : qx.type.BaseArray,
 
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  /**
+   * Creates a new Array with the given length or the listed items.
+   *
+   * <pre class="javascript">
+   * var arr1 = new qx.type.Array(length);
+   * var arr2 = new qx.type.Array(elem0, elem1, ..., elemN);
+   * </pre>
+   *
+   * * <code>length</code>: The initial length of the array.
+   * * <code>item1, item2. .. itemN</code>:  the items that will make up the newly created array
+   *
+   * @param length_or_items {Integer|varargs?null} The initial size of the collection
+   *        OR an argument list of elements.
+   */
+  construct : function(length_or_items) {
+    qx.type.BaseArray.apply(this,arguments);
+  },
+
+
   members :
   {
     /**

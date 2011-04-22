@@ -37,6 +37,31 @@ qx.Class.define("qx.util.StringBuilder",
   extend : qx.type.BaseArray,
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  /**
+   * Creates a new StringBuilder with the given length or as a concatenation of the given arguments substrings.
+   *
+   * <pre class="javascript">
+   * var sb1 = new qx.util.StringBuilder(length);
+   * var sb2 = new qx.util.StringBuilder(item0, item1, ..., itemN);
+   * </pre>
+   *
+   *
+   * * <code>length</code>: The initial length of the StringBuilder.
+   * * <code>itemN</code>:  A substring that will make up the newly created StringBuilder.
+   * The StringBuilder's length property is set to the number of arguments.
+   *
+   * @param length_or_items {Integer|varargs?null} The initial length of the StringBuilder
+   *        OR an argument list of values.
+   */
+  construct : function(length_or_items) {
+    qx.type.BaseArray.apply(this, arguments);
+  },
 
   /*
   *****************************************************************************
