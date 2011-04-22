@@ -188,6 +188,32 @@
     extend : qx.type.BaseArray,
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  /**
+   * Creates a new Collection with the given size or the listed elements.
+   *
+   * <pre class="javascript">
+   * var col1 = new qx.bom.Collection(length);
+   * var col2 = new qx.bom.Collection(elem0, elem1, ..., elemN);
+   * </pre>
+   *
+   * * <code>length</code>: The initial size of the collection of elements.
+   * * <code>elem1, elem2. .. elemN</code>:  the elements that will compose the newly created collection
+   *
+   * @param length_or_items {Integer|varargs?null} The initial size of the collection
+   *        OR an argument list of elements.
+   */
+  construct : function(length_or_items) {
+    qx.type.BaseArray.apply(this,arguments);
+  },
+
+ 
+ 
     /*
     *****************************************************************************
        STATICS
