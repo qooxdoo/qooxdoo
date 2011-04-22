@@ -311,6 +311,7 @@ class Class(Resource):
         relevantVariants  = self.projectClassVariantsToCurrent(classVariants, variants)
         variantsId        = util.toString(relevantVariants)
         optimizeId        = self._getOptimizeId(optimize)
+        cache             = self.context["cache"]
 
         # Caution: This sharing cached compiled classes with TreeCompiler!
         cacheId = "compiled-%s-%s-%s-%s" % (self.path, variantsId, optimizeId, format)
@@ -361,6 +362,8 @@ class Class(Resource):
         if not optimize:
             return tree
         
+        cache = self.context['cache']
+
         # 'statics' has to come before 'privates', as it needs the original key names in tree
         if "statics" in optimize:
             if not featureMap:
