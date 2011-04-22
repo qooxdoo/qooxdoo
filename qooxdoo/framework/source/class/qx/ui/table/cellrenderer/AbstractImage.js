@@ -52,6 +52,45 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
   },
 
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+  properties :
+  {
+    /**
+     * Whether to repeat or scale the image.
+     *
+     * @param repeat {String} 
+     *   One of
+     *     <code>scale</code>,
+     *     <code>scale-x</code>,
+     *     <code>scale-y</code>,
+     *     <code>repeat</code>,
+     *     <code>repeat-x</code>,
+     *     <code>repeat-y</code>, 
+     *     <code>no-repeat</code>
+    */
+    repeat :
+    {
+      check : function(value)
+      {
+        var valid = 
+          [
+            "scale",
+            "scale-x",
+            "scale-y",
+            "repeat",
+            "repeat-x",
+            "repeat-y",
+            "no-repeat"
+          ];
+        return qx.lang.Array.contains(valid, value);
+      },
+      init  : "no-repeat"
+    }
+  },
 
 
   /*
@@ -197,7 +236,10 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
 
       // set image
       if (this.__imageData.url) {
-        content = qx.bom.element.Decoration.create(this.__imageData.url, "no-repeat", {
+        content = qx.bom.element.Decoration.create(
+          this.__imageData.url,
+          this.getRepeat(),
+          {
           width: this.__imageData.width + "px",
           height: this.__imageData.height + "px",
           display: qx.core.Environment.get("engine.name") == "gecko" &&
