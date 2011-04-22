@@ -137,6 +137,42 @@
     },
 
 
+    "source-script1" :
+    {
+      "desc"    : "create includer script of current application",
+
+      "extend" : ["common"],
+
+      /*
+      "require" :
+      {
+        // to have reporting infrastructure before custom classes
+        "qx.Class" : [ "qx.log.Logger", "qx.dev.StackTrace"]
+      },
+      */
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${ROOT}/source/script/${APPLICATION}.js",
+          "app-root" : "source"
+        },
+        "uris" : 
+        {
+          "add-nocache-param" : true
+        },
+        "code" :
+        {
+          "locales" : "${LOCALES}",
+          "except"  : ["*"]
+        }
+      },
+
+      "compile" : { "type" : "hybrid" }
+    },
+
+
     "source" :
     {
       "desc"    : "create source version of current application",
@@ -253,6 +289,48 @@
       },
       
       "compile" : { "type" : "build" }
+    },
+
+
+    "build-script1" :
+    {
+      "desc"    : "create build script of current application",
+
+      "extend" : ["common"],
+
+      // @deprecated
+      "variants" :
+      {
+        "qx.debug" : ["off"]
+      },
+
+      "environment" :
+      {
+        "qx.debug" : false
+      },
+
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/script/${APPLICATION}.js"
+        },
+        "uris"   :
+        {
+          "script"   : "script",
+          //"resource" : "resource",
+          "add-nocache-param" : false
+        },
+        "code"   :
+        {
+          "format"   : true,
+          "locales"  : "${LOCALES}",
+          "except"   : [],
+          "optimize" : "${OPTIMIZE}"
+        }
+      },
+      
+      "compile" : { "type" : "hybrid" }
     },
 
 
