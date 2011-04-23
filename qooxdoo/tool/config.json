@@ -57,7 +57,7 @@
       [
         "run-pythondoc",
         "run-xml-transform",
-        "run-json-transform
+        "run-json-transform"
       ]
     }
 

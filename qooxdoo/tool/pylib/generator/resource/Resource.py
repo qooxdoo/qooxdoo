@@ -7,7 +7,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2011 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -21,6 +21,9 @@
 
 ##
 # Base resource class
+#
+# A resource in our context is simply a file that has relevance for a
+# JavaScript application.
 ##
 
 import re, os, sys, types

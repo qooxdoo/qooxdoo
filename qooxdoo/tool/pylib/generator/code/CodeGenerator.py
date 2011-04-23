@@ -252,6 +252,87 @@ class CodeGenerator(object):
             return result
 
 
+        def loaderLibInfo(script, compConf):
+            pass
+
+        
+        ##
+        # Goes through all packages and returns the list of uri-like entries for
+        # JS files in each package.
+        #
+        # @return [[package_entry]]   e.g. [["gui:gui/Application.js"],["__out__:gui.21312313.js"]]
+        def loaderScriptUris(script, compConf):
+            uris = []
+            for package in script.packages:
+                package_scripts = []
+                uris.append(package_scripts)
+                for script in package:
+                    script_entry = "%s:%s" % (libname, file_basename)
+                    package_scripts.append(script_entry)
+
+            return uris
+
+
+        def loaderTranslations(script, compConf):
+                pass
+
+
+        def loaderResources(script, compConf):
+                pass
+
+
+        def loaderLocales(script, compConf):
+                pass
+
+
+        def loaderVariants(script, compConf):
+                pass
+
+
+        def loaderEnvironment(script, compConf):
+                pass
+
+
+        def loaderSettings(script, compConf):
+                pass
+
+
+        def loaderBootInline(script, compConf):
+                pass
+
+
+        def loaderBootPart(script, compConf):
+                pass
+
+
+        def loaderUrisBefore(script, compConf):
+                pass
+
+
+        def loaderPartsList(script, compConf):
+                pass
+
+
+        def loaderPackageHashes(script, compConf):
+                pass
+
+
+        def loaderBootPart(script, compConf):
+                pass
+
+
+        def loaderClosureParts(script, compConf):
+                pass
+
+
+        def loaderNocacheParam(script, compConf):
+                pass
+
+
+        def loaderDecodeUrisPlug(script, compConf):
+                pass
+
+
         ##
         # shallow layer above generateBootCode(), and its only client
         def generateBootScript(globalCodes, script, bootPackage="", compileType="build"):
