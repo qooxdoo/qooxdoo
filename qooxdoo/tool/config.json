@@ -1,0 +1,88 @@
+{
+  "name"    : "qooxdoo tool jobs",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" :
+  [
+    "api"
+  ],
+
+  "let" :
+  {
+    "APPLICATION"  : "tool",
+    "QOOXDOO_PATH" : "..",
+    "QXTHEME"      : "qx.theme.Modern",
+    "API_EXCLUDE"  : [],
+    "LOCALES"      : [ "en" ],
+    "ROOT"         : "."
+  }
+
+  ,"jobs" :
+  {
+    "api" : 
+    {
+      "desc" : "create an Apiviewer for the Python modules"
+      ,"extend" : ["cache"]
+      ,"let"    :
+      {
+        "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/component/apiviewer",
+        "BUILD_PATH"     : "${ROOT}/api",
+        "API_INCLUDE"    : ["*"]
+      }
+      ,"run":
+      [
+        "apiconf::build-resources",
+        "apiconf::build-script",
+        "apiconf::build-files",
+        "api-data"
+      ]
+    }
+
+    ,"api-data" : 
+    {
+      "desc" : "create api doc json data files"
+      ,"let" :
+      {
+        "API_SCRIPT" : "${BUILD_PATH}/script"
+        ,"XSLTPROC"  : "xsltproc"
+      }
+
+      ,"run" :
+      [
+        "run-pythondoc",
+        "run-xml-transform",
+        "run-json-transform
+      ]
+    }
+
+    ,"run-pythondoc" :
+    {
+      "shell" : 
+      {
+        "command" : "${PYTHON_CMD} admin/bin/pythondoc.py -x pylib/generator > ${API_SCRIPT}/pydoc.xml"
+      }
+    }
+
+    ,"run-xml-transform" :
+    {
+      "shell" : 
+      {
+        "command" : "${XSLTPROC} data/apidoc/pydoc2qx-xml.xsl ${API_SCRIPT}/pydoc.xml > ${API_SCRIPT}/qx.xml"
+      }
+    }
+
+    ,"run-json-transform" :
+    {
+      "shell" : 
+      {
+        "command" : "${XSLTPROC} data/apidoc/pydoc2qx-xml.xsl ${API_SCRIPT}/qx.xml > ${API_SCRIPT}/apidata.json"
+      }
+    }
+  }
+}
