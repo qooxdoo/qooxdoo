@@ -189,7 +189,7 @@ qx.Class.define("qx.bom.webfonts.Validator", {
         this.__checkTimer.restart();
       }
       else {
-        this.__checkTimer = new qx.event.Timer(50);
+        this.__checkTimer = new qx.event.Timer(100);
         this.__checkTimer.addListener("interval", this.__onTimerInterval, this);
         this.__checkTimer.start();
       }
@@ -240,7 +240,6 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       var requestedSerif = qx.bom.element.Dimension.getWidth(this.__requestedHelpers.serif);
       
       var cls = qx.bom.webfonts.Validator;
-      //debugger;
       if (requestedSans !== cls.__defaultSizes.sans &&
           requestedSerif !== cls.__defaultSizes.serif)
       {
