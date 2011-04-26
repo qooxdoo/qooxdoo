@@ -358,6 +358,13 @@ qx.Class.define("qx.io.request.Xhr",
       }
 
       // Initialize request
+      if (qx.core.Environment.get("qx.ioXhrDebug")) {
+        this.debug(
+          "Initialize request with " +
+          "method: '" + method +
+          "', url: '" + url +
+          "', async: " + async);
+      }
       transport.open(method, url, async);
 
       // Align headers to configuration of instance
@@ -373,6 +380,9 @@ qx.Class.define("qx.io.request.Xhr",
 
       // What representations to accept
       if (this.getAccept()) {
+        if (qx.core.Environment.get("qx.ioXhrDebug")) {
+          this.debug("Accepting: '" + this.getAccept() + "'");
+        }
         transport.setRequestHeader("Accept", this.getAccept());
       }
 
@@ -386,9 +396,14 @@ qx.Class.define("qx.io.request.Xhr",
           }
 
           if (header.key && header.value) {
+            if (qx.core.Environment.get("qx.ioXhrDebug")) {
+              this.debug(
+                "Set authentication header '" + header.key +
+                "' to '" + header.value + "'");
+            }
             transport.setRequestHeader(header.key, header.value);
           }
-        });
+        }, this);
       }
 
       // User-provided headers
@@ -398,6 +413,9 @@ qx.Class.define("qx.io.request.Xhr",
       transport.timeout = this.getTimeout() * 1000;
 
       // Send request
+      if (qx.core.Environment.get("qx.ioXhrDebug")) {
+        this.debug("Send request");
+      }
       transport.send(serializedData);
     },
 
@@ -405,6 +423,9 @@ qx.Class.define("qx.io.request.Xhr",
      * Aborts the request. Cancels any network activity.
      */
     abort: function() {
+      if (qx.core.Environment.get("qx.ioXhrDebug")) {
+        this.debug("Abort request");
+      }
       this.__transport.abort();
     },
 
@@ -668,10 +689,17 @@ qx.Class.define("qx.io.request.Xhr",
 
       if (this.isDone()) {
 
+        if (qx.core.Environment.get("qx.ioXhrDebug")) {
+          this.debug("Request completed with HTTP status: " + this.getStatus());
+        }
+
         // Successful HTTP status
         if (qx.bom.request.Xhr.isSuccessful(this.getStatus())) {
 
           // Parse response
+          if (qx.core.Environment.get("qx.ioXhrDebug")) {
+            this.debug("Response is of type: '" + this.getResponseContentType() + "'");
+          }
           parsedResponse = this.__getParsedResponse();
           this.__setResponse(parsedResponse);
 
@@ -782,6 +810,12 @@ qx.Class.define("qx.io.request.Xhr",
       }
     }
 
+  },
+
+  environment:
+  {
+    "qx.ioXhrDebug": false,
+    "qx.bomXhrDebug": false
   },
 
   destruct: function()
