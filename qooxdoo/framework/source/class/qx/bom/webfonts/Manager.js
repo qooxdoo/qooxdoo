@@ -36,6 +36,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     this.base(arguments);
     this.__createdStyles = [];
     this.__validators = {};
+    this.__queue = [];
     this.__preferredFormats = this.getPreferredFormats();
   },
 
@@ -75,8 +76,8 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     __styleSheet : null,
     __validators : null,
     __preferredFormats : null,
-    __lastAddedAt : null,
-
+    __queue : null,
+    __queueInterval : null,
 
 
     /*
@@ -102,44 +103,26 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      */
     require : function(familyName, sources, callback, context)
     {
-      var browser = qx.core.Environment.get("browser.name");
-      var version = qx.core.Environment.get("browser.version");   
-      if ((browser == "firefox" && version < 3.5) ||
-          (browser == "opera" && version < 10))
-      {
-        if (qx.core.Environment.get("qx.debug")) {
-          this.warn("This browser does not support @font-face");
-        }
+      // old IEs need a break in between adding @font-face rules
+      if (!(qx.core.Environment.get("browser.name") == "ie" && 
+      qx.bom.client.Browser.getVersion() < 9)) {
+        this.__require(familyName, sources, callback, context);
         return;
       }
       
-      if (!qx.lang.Array.contains(this.__createdStyles, familyName)) {
-        var sourcesMap = this.__getSourcesMap(sources);
-        var rule = this.__getRule(familyName, sourcesMap);
-        
-        if (!rule) {
-          throw new Error("Couldn't create @font-face rule for WebFont " + familyName + "!");
-        }
-        this.__addRule(rule);
-        this.__createdStyles.push(familyName);
-      }
-        
-      if (!this.__validators[familyName]) {
-        this.__validators[familyName] = new qx.bom.webfonts.Validator(familyName);
-        this.__validators[familyName].setTimeout(qx.bom.webfonts.Manager.VALIDATION_TIMEOUT);
-        this.__validators[familyName].addListener("fontInvalid", this.__onFontInvalid, this);
+      if (!this.__queueInterval) {
+        this.__queueInterval = new qx.event.Timer(100);
+        this.__queueInterval.addListener("interval", this.__flushQueue, this);
       }
       
-      if (callback) {
-        var cbContext = context || window;
-        this.__validators[familyName].addListener("fontValid", callback, cbContext);
-        this.__validators[familyName].addListener("fontInvalid", callback, cbContext);
+      if (!this.__queueInterval.isEnabled()) {
+        this.__queueInterval.start();
       }
       
-      this.__validators[familyName].validate();
+      this.__queue.push([familyName, sources, callback, context]);
     },
-    
-    
+
+
     /**
      * Removes a font's font-face definition from the style sheet. This means
      * the font will no longer be available and any elements using it will 
@@ -232,6 +215,74 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Does the actual work of adding stylesheet rules and triggering font
+     * validation
+     * 
+     * @param familyName {String} Name of the web font
+     * @param sources {String[]} List of source URLs. For maximum compatibility,
+     * this should include EOT, WOFF and TTF versions of the font.
+     * @param callback {Function?} Optional event listener callback that will be
+     * executed once the validator has determined whether the webFont was 
+     * applied correctly. 
+     * See {@link qx.bom.webfonts.Validator#fontValid} and 
+     * {@link qx.bom.webfonts.Validator#fontInvalid}
+     * @param context {Object?} Optional context for the callback function
+     */
+    __require : function(familyName, sources, callback, context)
+    {
+      var browser = qx.core.Environment.get("browser.name");
+      var version = qx.core.Environment.get("browser.version");   
+      if ((browser == "firefox" && version < 3.5) ||
+          (browser == "opera" && version < 10))
+      {
+        if (qx.core.Environment.get("qx.debug")) {
+          this.warn("This browser does not support @font-face");
+        }
+        return;
+      }
+      
+      if (!qx.lang.Array.contains(this.__createdStyles, familyName)) {
+        var sourcesMap = this.__getSourcesMap(sources);
+        var rule = this.__getRule(familyName, sourcesMap);
+        
+        if (!rule) {
+          throw new Error("Couldn't create @font-face rule for WebFont " + familyName + "!");
+        }
+        this.__addRule(rule);
+        this.__createdStyles.push(familyName);
+      }
+        
+      if (!this.__validators[familyName]) {
+        this.__validators[familyName] = new qx.bom.webfonts.Validator(familyName);
+        this.__validators[familyName].setTimeout(qx.bom.webfonts.Manager.VALIDATION_TIMEOUT);
+        this.__validators[familyName].addListener("fontInvalid", this.__onFontInvalid, this);
+      }
+      
+      if (callback) {
+        var cbContext = context || window;
+        this.__validators[familyName].addListener("fontValid", callback, cbContext);
+        this.__validators[familyName].addListener("fontInvalid", callback, cbContext);
+      }
+      
+      this.__validators[familyName].validate();
+    },
+    
+    
+    /**
+     * Processes the next item in the queue
+     */
+    __flushQueue : function()
+    {
+      if (this.__queue.length == 0) {
+        this.__queueInterval.stop();
+        return;
+      }
+      var next = this.__queue.shift();
+      this.__require.apply(this, next);
+    },
+    
+    
     /**
      * Removes the font-face declaration if a font could not be validated
      * 
@@ -361,7 +412,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     __removeRule : function(familyName)
     {
       var reg = new RegExp("@font-face.*?" + familyName, "m");
-      var rules = this.__styleSheet.cssRules;
+      var rules = this.__styleSheet.cssRules || this.__styleSheet.rules;
       for (var i=0,l=rules.length; i<l; i++) {
         var cssText = rules[i].cssText.replace(/\n/g, "");
         if (reg.exec(cssText)) {
