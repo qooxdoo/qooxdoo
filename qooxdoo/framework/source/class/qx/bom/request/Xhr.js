@@ -161,7 +161,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * @lint ignoreUndefined(XDomainRequest)
      *
      * @param method {String}
-     *        The HTTP method to use, either "GET" or "POST".
+     *        The HTTP method to use.
      * @param url {String}
      *        The URL to which to send the request.
      * @param async {Boolean?true}

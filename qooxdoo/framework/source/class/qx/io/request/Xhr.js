@@ -162,7 +162,7 @@ qx.Class.define("qx.io.request.Xhr",
      * The HTTP method.
      */
     method: {
-      check: [ "GET", "POST"],
+      check: [ "HEAD", "OPTIONS", "GET", "POST", "PUT", "DELETE"],
       init: "GET"
     },
 
