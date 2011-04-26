@@ -82,17 +82,25 @@ qx.Class.define("qx.util.format.DateFormat",
   /**
    * @param format {String|null} The format to use. If null, the locale's default
    * format is used.
-   * @param locale {String?} optional locale to be used.
+   * @param locale {String?} optional locale to be used. In case this is not present, the {@link #locale} property of DateFormat
+   * will be following the {@link qx.locale.Manager#locale} property of qx.locale.Manager
    */
   construct : function(format, locale)
   {
     this.base(arguments);
 
-    if (!locale) {
+    if (!locale)
+    {
       this.__locale = qx.locale.Manager.getInstance().getLocale();
-    } else {
-      this.__locale = locale;
+      qx.locale.Manager.getInstance().bind("locale", this, "locale");
     }
+    else
+    {
+      this.__locale = locale;
+      this.setLocale(locale);
+    }
+
+    this.__initialLocale = this.__locale;
 
     if (format != null)
     {
@@ -111,6 +119,23 @@ qx.Class.define("qx.util.format.DateFormat",
   },
 
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+
+    /** The locale used in this DateFormat instance*/
+    locale :
+    {
+      apply : "_applyLocale",
+      nullable : true,
+      check : "String"
+    }
+  },
 
   /*
   *****************************************************************************
@@ -199,6 +224,7 @@ qx.Class.define("qx.util.format.DateFormat",
   {
 
     __locale : null,
+    __initialLocale : null,
     __format : null,
     __parseFeed : null,
     __parseRules : null,
@@ -391,7 +417,17 @@ qx.Class.define("qx.util.format.DateFormat",
       }
       return year;
     },
-
+    
+    /**
+     * Applies the new value for locale property
+     * @param value {String} The new value.
+     * @param old {String} The old value.
+     * 
+     */
+    _applyLocale : function(value, old)
+    {
+      this.__locale = value === null ? this.setLocale(this.__initialLocale) : value;
+    },
 
     /**
      * Formats a date.

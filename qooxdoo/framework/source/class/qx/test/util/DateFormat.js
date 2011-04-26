@@ -893,6 +893,43 @@ qx.Class.define("qx.test.util.DateFormat",
 //        var dateFormatted = df.format(date);
 //        this.assertEquals(isodf.parse(isoDateFormatted).getTime(),df.parse(dateFormatted).getTime());
       }
+  },
+  
+  testChangingLocales : function()
+  {
+    var manager = qx.locale.Manager.getInstance();
+    manager.setLocale('en_US');
+
+    var df = new qx.util.format.DateFormat("EEEE yyyy-mm-dd");
+    var dfFR = new qx.util.format.DateFormat("EEEE yyyy-mm-dd","fr_FR");
+    var dfDE = new qx.util.format.DateFormat("EEEE yyyy-mm-dd","de_DE");
+    var dfUS = new qx.util.format.DateFormat("EEEE yyyy-mm-dd","en_US");
+    var d = new Date();
+
+    var frenchFormatteddateString = dfFR.format(d);
+
+    this.assertEquals(df.format(d),dfUS.format(d));
+
+    manager.setLocale('fr_FR');
+    this.assertEquals(df.format(d),dfFR.format(d));
+    manager.setLocale('de_DE');
+    this.assertEquals(df.format(d),dfDE.format(d));
+
+    manager.resetLocale();
+    this.assertEquals(df.format(d),dfUS.format(d));
+
+    manager.setLocale('fr_FR');
+    this.assertEquals(df.format(d),dfFR.format(d));
+
+    df.resetLocale();
+    this.assertEquals(df.format(d),dfUS.format(d));
+
+    dfFR.setLocale('de_DE');
+    this.assertEquals(dfFR.format(d),dfDE.format(d));
+
+    dfFR.resetLocale(frenchFormatteddateString,dfFR.format(d));
+
   }
+  
   }
 });
