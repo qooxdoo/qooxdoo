@@ -467,9 +467,18 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertCalledOnce(fail);
     },
 
-      this.assertEventFired(req, "fail", function() {
-        transport.onerror();
-      });
+    "test: fire fail on network error": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          fail = this.spy();
+
+      req.addListener("fail", fail);
+
+      // When a network error occured, an HTTP status can never be set
+      // (If it was, two fail events would be fired)
+      this.respondError(0);
+
+      this.assertCalledOnce(fail);
     },
 
     //

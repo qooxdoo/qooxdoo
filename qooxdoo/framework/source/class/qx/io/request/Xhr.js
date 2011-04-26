@@ -646,7 +646,7 @@ qx.Class.define("qx.io.request.Xhr",
 
       if (this.isDone()) {
 
-        // Successfull HTTP status
+        // Successful HTTP status
         if (qx.bom.request.Xhr.isSuccessful(this.getStatus())) {
 
           // Parse response
@@ -658,6 +658,8 @@ qx.Class.define("qx.io.request.Xhr",
         // Erroneous HTTP status
         } else {
           this.fireEvent("remoteError");
+
+          // A remote error failure
           this.fireEvent("fail");
         }
       }
@@ -697,6 +699,8 @@ qx.Class.define("qx.io.request.Xhr",
      */
     __onError: function() {
       this.fireEvent("error");
+
+      // A network error failure
       this.fireEvent("fail");
     },
 
