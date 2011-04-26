@@ -318,6 +318,14 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
+     * Trigger a rebuild from the internal data structure.
+     */
+    refresh : function() {
+      this.buildLookupTable();
+    },
+
+
+    /**
      * Opens the passed node and all his parents. *Note!* The algorithm
      * implements a depth-first search with a complexity: <code>O(n)</code> and
      * <code>n</code> are all model items.

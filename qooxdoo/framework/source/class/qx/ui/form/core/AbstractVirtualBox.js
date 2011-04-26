@@ -196,6 +196,16 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
 
     /**
+     * Trigger a rebuild from the internal data structure.
+     */
+    refresh : function()
+    {
+      this.getChildControl("dropdown").getChildControl("list").refresh();
+      qx.ui.core.queue.Widget.add(this);
+    },
+
+
+    /**
      * Shows the drop-down.
      */
     open : function() {
