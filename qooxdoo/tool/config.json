@@ -11,6 +11,7 @@
   "export" :
   [
     "api"
+    ,"info"
   ],
 
   "let" :
@@ -29,18 +30,24 @@
     {
       "desc" : "create an Apiviewer for the Python modules"
       ,"extend" : ["cache"]
+      ,"=library" : 
+      [ 
+        { "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json" }
+       ,{ "manifest" : "${QOOXDOO_PATH}/component/apiviewer/Manifest.json"}
+      ]
       ,"let"    :
       {
         "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/component/apiviewer",
         "BUILD_PATH"     : "${ROOT}/api",
         "API_INCLUDE"    : ["*"]
       }
-      ,"run":
+      ,"=run":
       [
         "apiconf::build-resources",
         "apiconf::build-script",
-        "apiconf::build-files",
+        "apiconf::build-files"/*,
         "api-data"
+        */
       ]
     }
 
