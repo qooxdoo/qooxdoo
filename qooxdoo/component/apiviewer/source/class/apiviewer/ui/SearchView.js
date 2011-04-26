@@ -178,7 +178,7 @@ qx.Class.define("apiviewer.ui.SearchView",
         placeholder : ""
       });
 
-      sform.add(new qx.ui.basic.Label("Namespace starts with"), {row: 2, column: 0});
+      sform.add(new qx.ui.basic.Label("Namespace filter: "), {row: 2, column: 0});
       sform.add(this.namespaceTextField, {row: 2, column: 1});
 
       this.namespaceTextField.addListener("keyup", function(e) {
@@ -375,7 +375,19 @@ qx.Class.define("apiviewer.ui.SearchView",
       var types = this.apiindex.__types__;
 
       var namespaceFilter = this.namespaceTextField.getValue() != null ? qx.lang.String.trim(this.namespaceTextField.getValue()) : "";
-      var useNamespaceFilter = namespaceFilter.length>0;
+      var namespaceRegexp = new RegExp(".*");
+      if(namespaceFilter.length > 0)
+      {
+        try
+        {
+          var search = this._validateInput(namespaceFilter);
+          namespaceRegexp = new RegExp(search[0], (/^.*[A-Z].*$/).test(search[0]) ? "" : "i");
+        }
+        catch(ex)
+        {
+          namespaceRegexp = new RegExp(".*");
+        }
+      }
 
       for (var key in index) {
         if (mo.test(key))
@@ -383,7 +395,7 @@ qx.Class.define("apiviewer.ui.SearchView",
           if (spath) {
             for (var i=0, l=index[key].length; i<l; i++) {
               var fullname = fullNames[index[key][i][1]];
-              if(!useNamespaceFilter || fullname.indexOf(namespaceFilter)===0) {
+              if(namespaceRegexp && namespaceRegexp.test(fullname)) {
                 if (new RegExp(spath, "i").test(fullname)) {
                   var elemtype = types[index[key][i][0]].toUpperCase();
                   if(this._isTypeFilteredIn(elemtype)){
@@ -400,7 +412,7 @@ qx.Class.define("apiviewer.ui.SearchView",
               fullname = fullNames[index[key][i][1]];
 
               if(this._isTypeFilteredIn(elemtype)){
-                if(!useNamespaceFilter || fullname.indexOf(namespaceFilter)===0) {
+                if(namespaceRegexp && namespaceRegexp.test(fullname)) {
 
                   if (elemtype == "CLASS") {
                     icon = apiviewer.TreeUtil.getIconUrl(apiviewer.dao.Class.getClassByName(fullname));
