@@ -8,11 +8,13 @@
     }
   ],
 
+  /*
   "export" :
   [
     "api"
     ,"info"
   ],
+  */
 
   "let" :
   {
@@ -88,7 +90,7 @@
     {
       "shell" : 
       {
-        "command" : "${XSLTPROC} data/apidoc/pydoc2qx-xml.xsl ${API_SCRIPT}/qx.xml > ${API_SCRIPT}/apidata.json"
+        "command" : "${XSLTPROC} data/apidoc/qx-xml2qx-json.xsl ${API_SCRIPT}/qx.xml > ${API_SCRIPT}/apidata.json"
       }
     }
   }

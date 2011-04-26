@@ -100,10 +100,10 @@ import glob, os, re, string, sys, tokenize
 # make sure elementtree is available
 try:
     try:
+        from elementtree import ElementTree, HTMLTreeBuilder
+    except ImportError:
         # note: HTMLTreeBuilder isn't included in Python 2.5 alpha 1
         from xml.etree import ElementTree, HTMLTreeBuilder
-    except ImportError:
-        from elementtree import ElementTree, HTMLTreeBuilder
 except ImportError:
     raise RuntimeError(
         "PythonDoc %s requires ElementTree 1.1 or later "
@@ -468,7 +468,7 @@ class ModuleParser:
                 if href[:1] == "#":
                     href = href[1:]
                 target = elems.get(self.name + "." + href)
-                if target:
+                if target is not None:
                     href = "#" + target.get("name") + "-" + target.tag
                     elem.set("href", href)
         if docstring:
@@ -516,6 +516,8 @@ class ModuleParser:
             while self.scope and self.scope[-1][0] >= self.indent:
                 del self.scope[-1]
                 del self.stack[-1]
+        elif self.handler == self.process_comment_body and args[0] == tokenize.NL:
+            return
         self.handler = apply(self.handler, args)
         if args[0] == tokenize.INDENT:
             self.indent = self.indent + 1
@@ -559,6 +561,9 @@ class ModuleParser:
     # comment lines to the current comment.
 
     def process_comment_body(self, type, token, start, end, line):
+        #if type == tokenize.NL:
+        #    pass
+        #elif type == tokenize.COMMENT:
         if type == tokenize.COMMENT:
             if start[1] != self.comment_start[1]:
                 self.warning(
@@ -1235,7 +1240,7 @@ if __name__ == "__main__":
             if not force:
                 for n in module:
                     i = n.find("info")
-                    if i and i.find("description") is not None:
+                    if i is not None and i.find("description") is not None:
                         break
                 else:
                     continue # no documented subjects
