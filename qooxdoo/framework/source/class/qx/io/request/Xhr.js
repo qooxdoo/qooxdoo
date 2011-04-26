@@ -248,8 +248,8 @@ qx.Class.define("qx.io.request.Xhr",
      *
      * The delegate must implement {@link qx.io.request.auth.IAuthDelegate}
      */
-    auth: {
-      check: "qx.io.request.auth.IAuthDelegate",
+    authentication: {
+      check: "qx.io.request.authentication.IAuthentication",
       nullable: true
     }
   },
@@ -314,7 +314,7 @@ qx.Class.define("qx.io.request.Xhr",
           url = this.getUrl(),
           async = this.getAsync(),
           requestData = this.getRequestData(),
-          auth = this.getAuth();
+          auth = this.getAuthentication();
 
       var serializedData = this.__serializeData(requestData);
 

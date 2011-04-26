@@ -20,12 +20,12 @@
 /**
  * Basic authentication.
  */
-qx.Class.define("qx.io.request.auth.BasicDelegate",
+qx.Class.define("qx.io.request.authentication.Basic",
 {
 
   extend: qx.core.Object,
 
-  implement: qx.io.request.auth.IAuthDelegate,
+  implement: qx.io.request.authentication.IAuthentication,
 
   properties:
   {

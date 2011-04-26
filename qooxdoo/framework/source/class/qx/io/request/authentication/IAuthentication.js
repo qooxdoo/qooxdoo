@@ -20,7 +20,7 @@
 /**
  * Interface of an authentication delegate.
  */
-qx.Interface.define("qx.io.request.auth.IAuthDelegate",
+qx.Interface.define("qx.io.request.authentication.IAuthentication",
 {
 
   members :
