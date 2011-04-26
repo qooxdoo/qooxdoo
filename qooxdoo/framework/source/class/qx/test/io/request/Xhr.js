@@ -118,6 +118,31 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.wait();
     },
 
+    "test: recycle request": function() {
+      this.require(["http"]);
+
+      var req = new qx.io.request.Xhr(),
+          url1 = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt") + "?1"),
+          url2 = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt") + "?2"),
+          count = 0;
+
+      req.addListener("success", function() {
+        count++;
+
+        if (count == 2) {
+          this.resume();
+        } else {
+          req.setUrl(url2);
+          req.send();
+        }
+      }, this);
+
+      req.setUrl(url1);
+      req.send();
+
+      this.wait();
+    },
+
     // "test: fetch resources simultaneously": function() {
     //   this.require(["php"]);
     //
@@ -699,7 +724,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     noCache: function(url) {
-      return url + "?nocache=" + Math.random();
+      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + Math.random());
     },
 
     respond: function(status, error) {
