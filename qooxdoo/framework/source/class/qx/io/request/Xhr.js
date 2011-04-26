@@ -334,9 +334,8 @@ qx.Class.define("qx.io.request.Xhr",
           url = this.getUrl(),
           async = this.getAsync(),
           requestData = this.getRequestData(),
-          auth = this.getAuthentication();
-
-      var serializedData = this.__serializeData(requestData);
+          auth = this.getAuthentication(),
+          serializedData = this.__serializeData(requestData);
 
       // Drop fragment (anchor) from URL as per
       // http://www.w3.org/TR/XMLHttpRequest/#the-open-method
@@ -367,14 +366,17 @@ qx.Class.define("qx.io.request.Xhr",
         transport.setRequestHeader("Cache-Control", "no-cache");
       }
 
+      // POST with request data needs special content-type
       if (method === "POST") {
         transport.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       }
 
+      // What representations to accept
       if (this.getAccept()) {
         transport.setRequestHeader("Accept", this.getAccept());
       }
 
+      // Read auth delegate and set headers accordingly
       if (auth) {
         auth.getAuthHeaders().forEach(function(header) {
 
@@ -711,6 +713,8 @@ qx.Class.define("qx.io.request.Xhr",
      */
     __onTimeout: function() {
       this.fireEvent("timeout");
+
+      // A network error failure
       this.fireEvent("fail");
     },
 
