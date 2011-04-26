@@ -83,19 +83,21 @@ qx.Class.define("qx.io.request.Xhr",
     "readystatechange": "qx.event.type.Event",
 
     /**
-     * Fires when request is complete and HTTP status
-     * indicates success.
+     * Fires when request is complete and HTTP status indicates success.
      */
     "success": "qx.event.type.Event",
 
     /**
-     * Fires when request is complete. Must not necessarily
-     * have an HTTP status that indicates success.
+     * Fires when request is complete.
+     *
+     * Must not necessarily have an HTTP status that indicates
+     * success.
      */
     "load": "qx.event.type.Event",
 
     /**
      * Fires when processing of request completes.
+     *
      * Fired even when e.g. a network failure occured.
      */
     "loadend": "qx.event.type.Event",
@@ -117,8 +119,9 @@ qx.Class.define("qx.io.request.Xhr",
     "error": "qx.event.type.Event",
 
     /**
-     * Fires when request completed with erroneous HTTP status,
-     * for instance indicating a server error or missing resource.
+     * Fires when request completed with erroneous HTTP status.
+     *
+     * For instance, indicating a server error or missing resource.
      */
     "remoteError": "qx.event.type.Event",
 
@@ -132,6 +135,23 @@ qx.Class.define("qx.io.request.Xhr",
 
     /**
     * Fires on change of the parsed response.
+    *
+    * This event allows to use data binding with the
+    * parsed response as source.
+    *
+    * For example:
+    *
+    * <pre class="javascript">
+    * // req is an instance of qx.io.request.Xhr,
+    * // label an instance of qx.ui.basic.Label
+    * req.bind("response", label, "value");
+    * </pre>
+    *
+    * The response is parsed (and therefore changed) only
+    * after the request completes successfully. This means
+    * that when a new request is made the initial emtpy value
+    * is ignored, instead only the final value is bound.
+    *
     */
     "changeResponse": "qx.event.type.Data"
   },
