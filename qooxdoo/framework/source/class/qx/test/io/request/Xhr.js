@@ -366,110 +366,106 @@ qx.Class.define("qx.test.io.request.Xhr",
     "test: fire success": function() {
       this.setUpFakeTransport();
       var req = this.req,
-          transport = this.transport,
-          that = this;
+          success = this.spy();
 
-      this.assertEventFired(req, "success", function() {
-        transport.readyState = 4;
-        transport.status = 200;
-        transport.onreadystatechange();
-      });
+      req.addListener("success", success);
+      this.respond();
+
+      this.assertCalledOnce(success);
     },
 
-    "test: not fire success": function() {
+    "test: not fire success on erroneous status": function() {
       this.setUpFakeTransport();
       var req = this.req,
-          transport = this.transport;
+          success = this.spy();
 
-      this.assertEventNotFired(req, "success", function() {
-        transport.status = 200;
-        transport.onreadystatechange();
-      });
+      req.addListener("success", success);
+      this.respond(500);
+
+      this.assertNotCalled(success);
     },
 
     "test: fire load": function() {
       this.setUpFakeTransport();
       var req = this.req,
-          transport = this.transport;
+          load = this.spy();
 
-      this.assertEventFired(req, "load", function() {
-        transport.onload();
-      });
+      req.addListener("load", load);
+      this.respond();
+
+      this.assertCalledOnce(load);
     },
 
     "test: fire loadend": function() {
       this.setUpFakeTransport();
       var req = this.req,
-          transport = this.transport;
+          loadend = this.spy();
 
-      this.assertEventFired(req, "loadend", function() {
-        transport.onloadend();
-      });
+      req.addListener("loadend", loadend);
+      this.respond();
+
+      this.assertCalledOnce(loadend);
     },
 
     "test: fire abort": function() {
       this.setUpFakeTransport();
       var req = this.req,
-          transport = this.transport;
+          abort = this.spy();
 
-      this.assertEventFired(req, "abort", function() {
-        transport.onabort();
-      });
+      req.addListener("abort", abort);
+      this.transport.onabort();
+
+      this.assertCalledOnce(abort);
     },
 
     "test: fire timeout": function() {
       this.setUpFakeTransport();
       var req = this.req,
-          transport = this.transport;
+          transport = this.transport,
+          timeout = this.spy();
 
       req.setTimeout(1);
       req.send();
 
-      this.assertEventFired(req, "timeout", function() {
-        transport.ontimeout();
-      });
+      req.addListener("timeout", timeout);
+      transport.ontimeout();
 
       this.assertEquals(1000, transport.timeout);
+      this.assertCalledOnce(timeout);
     },
 
     "test: fire error": function() {
       this.setUpFakeTransport();
       var req = this.req,
-          transport = this.transport;
+          error = this.spy();
 
-      this.assertEventFired(req, "error", function() {
-        transport.onerror();
-      });
+      req.addListener("error", error);
+      this.respondError();
+
+      this.assertCalledOnce(error);
     },
 
     "test: fire remoteError": function() {
       this.setUpFakeTransport();
       var req = this.req,
-          transport = this.transport,
-          that = this;
+          remoteError = this.spy();
 
-      this.assertEventFired(req, "remoteError", function() {
-        transport.readyState = 4;
-        transport.status = 500;
-        transport.onreadystatechange();
-      });
+      req.addListener("remoteError", remoteError);
+      this.respond(500);
+
+      this.assertCalledOnce(remoteError);
     },
 
-    "test: fire fail": function() {
+    "test: fire fail on erroneous status": function() {
       this.setUpFakeTransport();
       var req = this.req,
-          transport = this.transport,
-          that = this;
+          fail = this.spy();
 
-      this.assertEventFired(req, "fail", function() {
-        transport.readyState = 4;
-        transport.status = 500;
-        transport.onreadystatechange();
-      });
+      req.addListener("fail", fail);
+      this.respond(500);
 
-      this.assertEventFired(req, "fail", function() {
-        transport.onerror();
-      });
+      this.assertCalledOnce(fail);
+    },
 
       this.assertEventFired(req, "fail", function() {
         transport.onerror();
@@ -695,6 +691,21 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     noCache: function(url) {
       return url + "?nocache=" + Math.random();
+    },
+
+    respond: function(status, error) {
+      var transport = this.transport;
+
+      transport.status = status || 200;
+      transport.readyState = 4;
+
+      transport.onreadystatechange();
+      error ? transport.onerror() : transport.onload();
+      transport.onloadend();
+    },
+
+    respondError: function(status) {
+      this.respond(status || 0, true);
     }
   }
 });
