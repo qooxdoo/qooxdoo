@@ -366,6 +366,8 @@ qx.Class.define("qx.bom.webfonts.Validator", {
   destruct : function()
   {
     this._reset();
+    this.__checkTimer.stop();
+    this.__checkTimer.removeListener("interval", this.__onTimerInterval, this);
     this._disposeObjects(this.__checkTimer);
   }
   
