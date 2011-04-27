@@ -46,7 +46,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods", "methods"));
     this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods-static", "static methods"));
     this.addInfoPanel(new apiviewer.ui.panels.ConstantPanel("constants", "constants", false, true));
-    this.addInfoPanel(new apiviewer.ui.panels.AppearancePanel("appearances", "appearances", false, true));
     this.addInfoPanel(new apiviewer.ui.panels.ChildControlsPanel("childControls", "child controls"));
 
     this.getContentElement().setAttribute("class", "ClassViewer");
@@ -246,7 +245,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     _getTocHtml : function(classNode)
     {
       var tocHtml = document.createDocumentFragment();
-      var members = ["events", "constructor", "properties", "methods", "methods-static", "constants", "appearances", "childControls"];
+      var members = ["constructor", "events", "properties", "methods", "methods-static", "constants", "childControls"];
       var iconURL = {"events" : "apiviewer/image/event18.gif",
                                 "constructor" : "apiviewer/image/constructor18.gif",
                                 "properties" : "apiviewer/image/property18.gif",
@@ -269,7 +268,44 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       {
         var memberList = classNode.getItemList(members[i]);
         this.sortItems(memberList);
+        var showTOC = false;
         if(memberList.length>0)
+        {
+          showTOC = true;
+        }
+        else
+        {
+          if (
+            this.getShowInherited() &&
+            (
+              members[i] == "events" ||
+              members[i] == "properties" ||
+              members[i] == "methods"
+              )
+            )
+            {
+              var classNodes = null;
+              if (classNode.getType() == "interface") {
+                classNodes = classNode.getInterfaceHierarchy();
+              } else {
+                classNodes = classNode.getClassHierarchy();
+              }
+              for(var j=0;j<classNodes.length;j++)
+              {
+                if(apiviewer.dao.Class.isNativeObject(classNodes[j]) && classNodes[j].name==='Object') {
+                  continue;
+                }
+                memberList = classNodes[j].getItemList(members[i]);
+                if(memberList.length > 0)
+                {
+                  showTOC = true;
+                  break;
+                }
+              }
+          }
+        }
+        
+        if(showTOC)
         {
           if(separatorFlag) {
             tocHtml.appendChild(document.createTextNode(' | '));
@@ -287,7 +323,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
               this.__enableSection(firstItem, firstItem.getName());
               qx.bom.element.Scroll.intoView(panel.getTitleElement(), null, "left", "top");
             };})(panelByName[members[i]],memberList[0]),this,false);
-          tocItem.appendChild(document.createTextNode(members[i]));
+          tocItem.appendChild(document.createTextNode(qx.lang.String.capitalize(members[i])));
           tocHtml.appendChild(tocItem);
         }
       }

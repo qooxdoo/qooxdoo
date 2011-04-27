@@ -59,7 +59,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     showInherited : {
       check: "Boolean",
       init: false,
-      apply: "_updatePanels"
+      apply: "_updatePanelsWithInheritedMembers"
     },
 
     /** whether to display protected items */
@@ -265,6 +265,19 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       {
         var panel = panels[i];
         panel.update(this, this.__classNode);
+      }
+    },
+    
+    /**
+     * Updates all info panels and TOC with items reflecting appearance/disappearance of panels
+     * due to inherited members
+     */
+    _updatePanelsWithInheritedMembers : function(){
+      this._updatePanels();
+      if(this._tocElem)
+      {
+        qx.bom.Element.empty(this._tocElem);
+        this._tocElem.appendChild(this._getTocHtml(this.__classNode));
       }
     },
 

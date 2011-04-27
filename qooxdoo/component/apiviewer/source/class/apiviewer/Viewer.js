@@ -202,7 +202,7 @@ qx.Class.define("apiviewer.Viewer",
       privateBtn.setToolTipText(this.tr("Show/hide private members of the current class."));
       part.add(privateBtn);
       
-      var internalBtn = new qx.ui.toolbar.CheckBox(this.tr("Internal"), "apiviewer/image/method_private18.gif");
+      var internalBtn = new qx.ui.toolbar.CheckBox(this.tr("Internal"), "apiviewer/image/method_internal18.gif");
       internalBtn.setId("btn_internal");
       internalBtn.setToolTipText(this.tr("Show/hide internal members of the current class."));
       part.add(internalBtn);
