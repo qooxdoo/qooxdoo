@@ -72,7 +72,7 @@ class Class(Resource):
         self.scopes     = None # an ecmascript.frontend.Script instance
         self.translations = {} # map of translatable strings in this class
         self.resources  = set() # set of resource objects needed by the class
-        self._assetRegex= None  # regex from #asset hints, for resource matching
+        self._assetRegex= None  # [AssetHint], to hold regex's from #asset hints, for resource matching
         self.cacheId    = "class-%s" % self.path  # cache object for class-specific infos (outside tree, compile)
         
         console = context["console"]
@@ -90,7 +90,8 @@ class Class(Resource):
 
     def __setstate__(self, d):
         global DefaultIgnoredNamesDynamic
-        d['context']['cache'] = Context.cache
+        if hasattr(Context, "cache"):
+            d['context']['cache'] = Context.cache
         DefaultIgnoredNamesDynamic = [lib["namespace"] for lib in d['context']['jobconf'].get("library", [])]
         self.__dict__ = d
 

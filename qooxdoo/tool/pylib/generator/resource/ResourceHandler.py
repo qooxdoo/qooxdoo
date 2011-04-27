@@ -95,6 +95,7 @@ class ResourceHandler(object):
         assetHints  = []
         for clazz in classes:
             assetHints.extend(clazz.getAssets(assetMacros))
+            clazz.resources = set() #TODO: they might be filled by previous jobs, with different libs
 
         # Go through resources and asset patterns
         for res in resources:
@@ -105,6 +106,7 @@ class ResourceHandler(object):
                     hint.clazz.resources.add(res)
                 # add matches of embedded images
                 if isinstance(res, CombinedImage):
+                    pass
                     for embed in res.embeds:
                         if hint.regex.match(embed.id):
                             hint.seen = True
