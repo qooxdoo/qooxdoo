@@ -391,14 +391,14 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         this.__styleSheet = qx.bom.Stylesheet.createElement();
       }
       
+      var completeRule = "@font-face {" + rule + "}\n";
+      
       if (qx.core.Environment.get("browser.name") == "ie" &&
           qx.core.Environment.get("browser.version") < 9) {
-        // IE < 9 can't set @font-face rules using the addRule method
-        var completeRule = "@font-face {" + rule + "}\n";
         this.__styleSheet.cssText += completeRule;
       }
       else {
-        qx.bom.Stylesheet.addRule(this.__styleSheet, "@font-face", rule);
+        this.__styleSheet.insertRule(completeRule);
       }
     },
     
