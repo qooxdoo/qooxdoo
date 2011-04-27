@@ -398,7 +398,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         this.__styleSheet.cssText += completeRule;
       }
       else {
-        this.__styleSheet.insertRule(completeRule);
+        this.__styleSheet.insertRule(completeRule, this.__styleSheet.cssRules.length);
       }
     },
     
