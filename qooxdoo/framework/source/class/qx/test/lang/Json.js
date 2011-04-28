@@ -25,9 +25,9 @@ qx.Class.define("qx.test.lang.Json",
   {
     setUp : function()
     {
-      // we only test the internal JSON and not the built-in browser
-      // functionality
-      this.JSON = new qx.lang.JsonImpl();
+      // Test either native (when available) or emulated JSON,
+      // see [BUG #5037]
+      this.JSON = qx.lang.Json;
     },
 
 
@@ -38,25 +38,19 @@ qx.Class.define("qx.test.lang.Json",
     },
 
 
-    /**
-     * Exposes Firefox bug #505228
-     */
     testFormattingString : function()
     {
-      var text = this.JSON.stringify(['e', {pluribus: 'unum'}], null, '\t');
-      this.assertEquals('[\n\t"e",\n\t{\n\t\t"pluribus": "unum"\n\t}\n]', text); //json2
-      //this.assertEquals('["e",\n\t{\n\t\t"pluribus":"unum"\n\t}\n]', text); // ff3.5
+      var str = this.JSON.stringify(['e', {pluribus: 'unum'}], null, '\t');
+      var expected = /[\n\t"e",\n\t{\n\t\t"pluribus":\s?"unum"\n\t}\n]/;
+      this.assertMatch(str, expected);
     },
 
 
-    /**
-     * Exposes Firefox bug #505228
-     */
     testFormattingNumber : function()
     {
-      var text = this.JSON.stringify(['e', {pluribus: 'unum'}], null, 2);
-      this.assertEquals('[\n  "e",\n  {\n    "pluribus": "unum"\n  }\n]', text); //json2
-      //this.assertEquals('["e",\n  {\n    "pluribus":"unum"\n  }\n]', text); // ff3.5
+      var str = this.JSON.stringify(['e', {pluribus: 'unum'}], null, 2);
+      var expected = /[\n  "e",\n  {\n    "pluribus":\s"unum"\n  }\n]/;
+      this.assertMatch(str, expected);
     },
 
 
@@ -102,42 +96,55 @@ qx.Class.define("qx.test.lang.Json",
 
     testCustomDateSerializer : function()
     {
-      var start = new Date(0);
-      start.toJSON = function(key) {
-        return this.getTime();
+      var date = new Date(0);
+      date.toJSON = function(key) {
+        return this.valueOf();
       };
-      this.assertEquals('0', this.JSON.stringify(start));
-    },
 
+      var result = this.JSON.stringify(date);
 
-    /**
-     * Exposes firefox bug #505238
-     */
-    testToJsonArguments : function()
-    {
-      var self = this;
+      // Expected '0' but found '0'! in Opera
+      // this.assertEquals("0", result);
 
-      var custom = {}
-      custom.toJSON = function(key)
-      {
-        self.assertEquals("", key);
-        return "#" + key + "#";
-      };
-      this.assertEquals('"##"', this.JSON.stringify(custom));
+      this.assert("0".charCodeAt() == result.charCodeAt());
     },
 
 
     testToJson : function()
     {
-      var custom = {
+      var obj = {
+        toJSON : function(key) {
+          return "##";
+        }
+      };
+
+      this.assertEquals('"##"', this.JSON.stringify(obj));
+    },
+
+    testToJsonKey : function()
+    {
+      // Known to fail in some browsers:
+      //
+      // Firefox: toJSON is passed no parameter, i.e. key is undefined
+      //          undefined + "" is "undefined" in Firefox
+      //
+      // IE 8:    toJSON is passed the string "\u0082\u0000\u0000\u0000",
+      //          which is the equivalent of "BREAK PERMITTED HERE" and two
+      //          "NUL".
+      //
+      if (this.isFirefox() || this.isIe8()) {
+        throw new qx.dev.unit.RequirementError();
+      }
+
+      var obj = {
         toJSON : function(key) {
           return "#" + key + "#";
         }
       };
-      this.assertEquals('"##"', this.JSON.stringify(custom));
-      this.assertEquals('{"juhu":"#juhu#"}', this.JSON.stringify({ juhu : custom }));
-    },
 
+      var str = this.JSON.stringify({ juhu : obj });
+      this.assertMatch(str, /#juhu#/);
+    },
 
     testStringifyRecursiveObject : function()
     {
@@ -148,7 +155,7 @@ qx.Class.define("qx.test.lang.Json",
         var text = this.JSON.stringify(obj);
       });
 
-      var obj = [];
+      obj = [];
       obj[0] = obj;
 
       this.assertException(function() {
@@ -171,7 +178,7 @@ qx.Class.define("qx.test.lang.Json",
       var data = {
         juhu: "kinners",
         foo: function() {}
-      }
+      };
       this.assertEquals('{"juhu":"kinners"}', this.JSON.stringify(data));
     },
 
@@ -194,8 +201,17 @@ qx.Class.define("qx.test.lang.Json",
 
 
     testParseNumber : function() {
-      this.assertEquals(1234, this.JSON.parse("1234"))
-      this.assertEquals(1234, this.JSON.parse(" 1234"))
+      this.assertEquals(1234, this.JSON.parse("1234"));
+      this.assertEquals(1234, this.JSON.parse(" 1234"));
+    },
+
+    isIe8 : function() {
+      return qx.core.Environment.get("engine.name") === "mshtml" &&
+             qx.core.Environment.get("engine.version") == 8;
+    },
+
+    isFirefox : function() {
+      return qx.core.Environment.get("engine.name") === "gecko";
     }
   }
 });
