@@ -95,6 +95,7 @@ class ResourceHandler(object):
         assetHints  = []
         for clazz in classes:
             assetHints.extend(clazz.getAssets(assetMacros))
+            clazz.resources = set() #TODO: they might be filled by previous jobs, with different libs
 
         # Go through resources and asset patterns
         for res in resources:
