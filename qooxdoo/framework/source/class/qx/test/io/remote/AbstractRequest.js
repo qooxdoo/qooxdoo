@@ -14,6 +14,7 @@ License:
 
 Authors:
   * Fabian Jakobs (fjakobs)
+  * Tristan Koch (tristankoch)
 
 ************************************************************************ */
 
@@ -21,8 +22,9 @@ Authors:
 #asset(qx/test/*)
 */
 
-qx.Class.define("qx.test.io.remote.Request",
+qx.Class.define("qx.test.io.remote.AbstractRequest",
 {
+  type : "abstract",
   extend : qx.dev.unit.TestCase,
   include : qx.test.io.MRemoteTest,
 
@@ -34,10 +36,9 @@ qx.Class.define("qx.test.io.remote.Request",
     {
       this.__requests = [];
 
-      var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php")
-
       for (var i = 0; i < 10 ; i++) {
-        var request = new qx.io.remote.Request(url, "GET", "text/plain");
+        var request = this._createRequest();
+
         request.addListener("aborted", this.responseError, this);
         request.addListener("failed", this.responseError, this);
         request.addListener("timeout", this.responseError, this);
@@ -51,13 +52,17 @@ qx.Class.define("qx.test.io.remote.Request",
       var engineString = qx.core.Environment.get("engine.version");
       var engineFloat = parseFloat(engineString);
       if ( (qx.core.Environment.get("engine.name") == "webkit" &&
-           engineFloat < 526)
+            engineFloat < 526)
             || (qx.core.Environment.get("engine.name") == "gecko" &&
             engineString.indexOf("1.8.0") == 0 ) ) {
         this.buggyBrowser = true;
       }
     },
 
+
+    _createRequest : function() {
+      throw new Error("Abstract method call");
+    },
 
     tearDown : function() {
       this._disposeArray("__request");
@@ -83,42 +88,6 @@ qx.Class.define("qx.test.io.remote.Request",
       }, this);
     },
 
-
-    testSynchronous : function()
-    {
-      if (this.isLocal()) {
-        this.needsPHPWarning();
-        return;
-      }
-
-      if (this.buggyBrowser) {
-        this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
-        return;
-      }
-
-      var completedCount = 0;
-
-      for (var i = 0; i < this.__requests.length; i++)
-      {
-        var request = this.__requests[i];
-
-        request.setAsynchronous(false);
-        request.setParameter("test", "test" + i);
-
-        request.addListener("completed", function(e)
-        {
-          completedCount++;
-
-          var response = qx.lang.Json.parse(e.getContent());
-          request = e.getTarget();
-          this.assertEquals(request.getParameter("test"), response["test"]);
-        }, this);
-
-        request.send();
-      }
-
-      this.assertEquals(i, completedCount, "Test doesn't run synchronous!");
-    },
 
     testAsynchronous : function()
     {
@@ -160,60 +129,6 @@ qx.Class.define("qx.test.io.remote.Request",
       });
     },
 
-    testSynchronousAndAsynchronousMix : function()
-    {
-      if (this.isLocal()) {
-        this.needsPHPWarning();
-        return;
-      }
-
-      if (this.buggyBrowser) {
-        this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
-        return;
-      }
-
-      var asynchronousRequest = this.__requests[0];
-      var synchronousRequest = this.__requests[1];
-
-      asynchronousRequest.setParameter("test", "asynchronousRequest");
-      asynchronousRequest.setParameter("sleep", 1);
-      synchronousRequest.setParameter("test", "synchronousRequest");
-      synchronousRequest.setAsynchronous(false);
-
-      var asynchronousRequestFinished = false;
-      var synchronousRequestFinished = false;
-
-      asynchronousRequest.addListener("completed", function(e)
-      {
-        //this.resume(function()
-        //{
-          asynchronousRequestFinished = true;
-
-          var response = qx.lang.Json.parse(e.getContent());
-          var request = e.getTarget();
-          this.assertEquals(request.getParameter("test"), response["test"]);
-        //}, this);
-      }, this);
-
-      synchronousRequest.addListener("completed", function(e)
-      {
-        synchronousRequestFinished = true;
-
-        var response = qx.lang.Json.parse(e.getContent());
-        var request = e.getTarget();
-        this.assertEquals(request.getParameter("test"), response["test"]);
-      }, this);
-
-      asynchronousRequest.send();
-      synchronousRequest.send();
-
-      var that = this;
-      this.wait(5000, function()
-      {
-        that.assertTrue(asynchronousRequestFinished);
-        that.assertTrue(synchronousRequestFinished);
-      });
-    },
 
     testAbortedOnException : function()
     {
