@@ -18,12 +18,13 @@
 #asset(qx/icon/Tango/22/actions/media-playback-start.png)
 #asset(qx/icon/Tango/22/actions/media-playback-stop.png)
 #asset(qx/icon/Tango/22/actions/view-refresh.png)
+#asset(qx/icon/Tango/16/categories/system.png)
 #asset(qx/icon/Tango/22/categories/system.png)
 #asset(qx/icon/Tango/22/actions/system-run.png)
 #asset(qx/icon/Tango/22/status/dialog-information.png)
 #asset(qx/icon/Tango/22/status/dialog-warning.png)
 #asset(qx/icon/Tango/22/status/dialog-error.png)
-#asset(qx/icon/Tango/22/actions/document-properties.png)
+#asset(qx/icon/Tango/16/actions/document-properties.png)
 #asset(qx/icon/Tango/22/actions/media-seek-forward.png)
 
 #asset(testrunner/view/widget/css/testrunner.css)
@@ -357,16 +358,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
       }
       part3.add(autoReloadToggle);
 
-      part3.add(this.__createLogLevelMenu());
-
-      // Stack trace toggle
-      var stacktoggle = new qx.ui.toolbar.CheckBox(this.__app.tr("Show Stack Trace"), "icon/22/actions/document-properties.png");
-      part3.add(stacktoggle);
-      stacktoggle.setShow("both");
-      stacktoggle.setToolTipText(this.__app.tr("Show stack trace information for exceptions"));
-      stacktoggle.setValue(true);
-      stacktoggle.bind("value", this, "showStackTrace");
-
       // enable overflow handling
       toolbar.setOverflowHandling(true);
 
@@ -532,7 +523,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
     __createLogLevelMenu : function()
     {
       var logLevelMenu = new qx.ui.menu.Menu();
-      var logLevelMenuButton = new qx.ui.toolbar.MenuButton(this.__app.tr("Log Level"), "icon/22/categories/system.png");
+      var logLevelMenuButton = new qx.ui.form.MenuButton(this.__app.tr("Log Level"), "icon/16/categories/system.png");
       logLevelMenuButton.setMenu(logLevelMenu);
 
       for (var i=0,l=this.__logLevelData.length; i<l; i++) {
@@ -578,7 +569,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
       var caption = new qx.ui.basic.Label(this.__app.tr("Tests")).set({
         font : "bold",
         decorator : this.__labelDeco,
-        padding : 5,
+        padding : [8, 3, 7, 3],
         allowGrowX : true,
         allowGrowY : true
       });
@@ -706,14 +697,28 @@ qx.Class.define("testrunner.view.widget.Widget", {
       p1.setUserData("pane", "center");
       p1.addListener("resize", this.__onPaneResize);
 
+      var inner = new qx.ui.container.Composite(new qx.ui.layout.Dock());
+      p1.add(inner);
       var caption1 = new qx.ui.basic.Label(this.__app.tr("Test Results")).set({
         font : "bold",
         decorator : this.__labelDeco,
-        padding : 5,
+        padding : [8, 3, 7, 3],
         allowGrowX : true,
         allowGrowY : true
       });
-      p1.add(caption1);
+      inner.add(caption1, {edge: "west"});
+      
+      // Stack trace toggle
+      var stacktoggle = new qx.ui.form.ToggleButton(this.__app.tr("Show Stack Trace"), "icon/16/actions/document-properties.png");
+      inner.add(stacktoggle, {edge: "east"});
+      stacktoggle.set({
+        toolTipText : this.__app.tr("Show stack trace information for exceptions"),
+        value : true,
+        margin: [3, 5]
+      });
+      //stacktoggle.setShow("both");
+      stacktoggle.bind("value", this, "showStackTrace");
+      
 
       p1.add(this.__createProgressBar());
 
@@ -758,7 +763,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
       var caption3 = new qx.ui.basic.Label(this.__app.tr("Application under test")).set({
         font : "bold",
         decorator : this.__labelDeco,
-        padding : 5,
+        padding : [8, 3, 7, 3],
         allowGrowX : true,
         allowGrowY : true
       });
@@ -793,14 +798,21 @@ qx.Class.define("testrunner.view.widget.Widget", {
         decorator : "main"
       });
 
+      var inner = new qx.ui.container.Composite(new qx.ui.layout.Dock());
+      pp2.add(inner);
+      
       var caption2 = new qx.ui.basic.Label("Log").set({
         font : "bold",
         decorator : this.__labelDeco,
-        padding : [4, 3],
+        padding : [8, 3, 7, 3],
         allowGrowX : true,
         allowGrowY : true
       });
-      pp2.add(caption2);
+      inner.add(caption2, {edge: "west"});
+      
+      var logLevelButton = this.__createLogLevelMenu();
+      logLevelButton.setMargin([3, 5]);
+      inner.add(logLevelButton, {edge: "east"});
 
       // main output area
       var f2 = new qx.ui.embed.Html('');
