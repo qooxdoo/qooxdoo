@@ -106,7 +106,6 @@ class ResourceHandler(object):
                     hint.clazz.resources.add(res)
                 # add matches of embedded images
                 if isinstance(res, CombinedImage):
-                    pass
                     for embed in res.embeds:
                         if hint.regex.match(embed.id):
                             hint.seen = True
