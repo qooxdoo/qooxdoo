@@ -97,6 +97,7 @@ qx.Class.define("apiviewer.TabViewController",
           this.__destroyAndRemove(currentPage);
         }
       }
+      apiviewer.LoadingIndicator.getInstance().hide();
     },
 
     __createAndAdd : function(clazz, classNode) {

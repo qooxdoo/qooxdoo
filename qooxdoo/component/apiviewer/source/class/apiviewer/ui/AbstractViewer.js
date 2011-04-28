@@ -259,6 +259,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
      */
     _updatePanels : function()
     {
+      apiviewer.LoadingIndicator.getInstance().show();
       var panels = this.getPanels();
 
       for (var i=0; i<panels.length; i++)
@@ -266,6 +267,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
         var panel = panels[i];
         panel.update(this, this.__classNode);
       }
+      apiviewer.LoadingIndicator.getInstance().hide();
     },
     
     /**

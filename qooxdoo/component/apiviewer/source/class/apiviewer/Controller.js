@@ -324,6 +324,7 @@ qx.Class.define("apiviewer.Controller",
      */
     __selectItem : function(fullItemName)
     {
+      apiviewer.LoadingIndicator.getInstance().show();
       var className = fullItemName;
       var itemName = null;
       var hashPos = fullItemName.indexOf("#");
