@@ -87,75 +87,6 @@ class CodeGenerator(object):
 
                 return partData
 
-            ##
-            # Replace the placeholders in the loader template.
-            # @throw KeyError a placeholder could not be filled from <vals>
-            def loaderFillTemplate(vals, template):
-                templ  = MyTemplate(template)
-                result = templ.substitute(vals)
-                return result
-
-            def packageUrisToJS1(packages, version, namespace=None):
-                # Translate URI data to JavaScript
-                
-                allUris = []
-                for packageId, package in enumerate(packages):
-                    packageUris = []
-                    for fileId in package:
-
-                        if version == "build":
-                            # TODO: gosh, the next is an ugly hack!
-                            #namespace  = self._resourceHandler._genobj._namespaces[0]  # all name spaces point to the same paths in the libinfo struct, so any of them will do
-                            if not namespace:
-                                namespace  = script.namespace  # all name spaces point to the same paths in the libinfo struct, so any of them will do
-                            relpath    = OsPath(fileId)
-                        else:
-                            namespace  = self._classes[fileId].namespace
-                            relpath    = OsPath(self._classes[fileId].relpath)
-
-                        shortUri = Uri(relpath.toUri())
-                        packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
-                    allUris.append(packageUris)
-
-                return allUris
-
-            ##
-            # Translate URI data to JavaScript
-            # using Package objects
-            def packageUrisToJS(packages, version):
-
-                allUris = []
-                for packageId, package in enumerate(packages):
-                    packageUris = []
-                    if package.file: # build
-                        namespace = "__out__"
-                        fileId    = package.file
-                        relpath    = OsPath(fileId)
-                        shortUri   = Uri(relpath.toUri())
-                        packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
-                    elif package.files:  # hybrid
-                        packageUris = package.files
-                    else: # "source" :
-                        for clazz in package.classes:
-                            namespace  = self._classes[clazz].library.namespace
-                            relpath    = OsPath(self._classes[clazz].relpath)
-                            shortUri   = Uri(relpath.toUri())
-                            packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
-                    allUris.append(packageUris)
-
-                return allUris
-
-
-            ##
-            # Find and read the loader template.
-            def loaderTemplate(script, compConf):
-                templatePath = compConf.get("paths/loader-template", None)
-                if not templatePath:
-                    # use default template
-                    templatePath = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
-                templateCont = filetool.read(templatePath)
-                return templateCont, templatePath
-
             # ---------------------------------------------------------------
 
             if not parts:
@@ -176,53 +107,30 @@ class CodeGenerator(object):
 
             if version=="build":
                 vals["Resources"] = json.dumpsCode({})  # TODO: undo Resources from globalCodes!!!
-            vals["Boot"] = '"%s"' % boot
-            if version == "build":
-                vals["BootPart"] = bootCode
-            else:
-                vals["BootPart"] = ""
-                # fake package data
-                for key, package in enumerate(packages): 
-                    vals["BootPart"] += "qx.$$packageData['%d']={};\n" % key
+
+            # Name of the boot part
+            vals["Boot"] = loaderBootName(script, compConf)
+
+            # Code (pot.) of the boot part
+            vals["BootPart"] = loaderBootPart(script, compConf, bootCode)
 
             # Translate part information to JavaScript
             vals["Parts"] = partsMap(script)
 
             # Translate URI data to JavaScript
-            #vals["Uris"] = packageUrisToJS1(packages, version)
-            vals["Uris"] = packageUrisToJS(packages, version)
-            vals["Uris"] = json.dumpsCode(vals["Uris"])
+            vals["Uris"] = loaderScriptUris(script, compConf)
 
             # Add potential extra scripts
-            vals["UrisBefore"] = []
-            if self._job.get("add-script", False):
-                additional_scripts = self._job.get("add-script",[])
-                for additional_script in additional_scripts:
-                    vals["UrisBefore"].append(additional_script["uri"])
-            vals["UrisBefore"] = json.dumpsCode(vals["UrisBefore"])
+            vals["UrisBefore"] = loaderUrisBefore(script, compConf)
 
             # Whether boot package is inline
-            if version == "source":
-                vals["BootIsInline"] = json.dumpsCode(False)
-            else:
-                vals["BootIsInline"] = json.dumpsCode(loader_with_boot)
+            vals["BootIsInline"] = loaderBootInline(script, compConf)
                 
             # Closure package information
-            cParts = {}
-            if version == "build":
-                for part in script.parts:
-                    if not loader_with_boot or part != "boot":
-                        cParts[part] = True
-            vals["ClosureParts"] = json.dumpsCode(cParts)
+            vals["ClosureParts"] = loaderClosureParts(script, compConf)
 
             # Package Hashes
-            vals["PackageHashes"] = {}
-            for key, package in enumerate(packages):
-                if package.hash:
-                    vals["PackageHashes"][key] = package.hash
-                else:
-                    vals["PackageHashes"][key] = "%d" % key  # fake code package hashes in source ver.
-            vals["PackageHashes"] = json.dumpsCode(vals["PackageHashes"])
+            vals["PackageHashes"] = loaderPackageHashes(script, compConf)
 
             # Script hook for qx.$$loader.decodeUris() function
             vals["DecodeUrisPlug"] = loaderDecodeUrisPlug(script, compConf)
@@ -253,15 +161,21 @@ class CodeGenerator(object):
         #
         # @return [[package_entry]]   e.g. [["gui:gui/Application.js"],["__out__:gui.21312313.js"]]
         def loaderScriptUris(script, compConf):
+            #uris = packageUrisToJS1(packages, version)
+            uris = packageUrisToJS(script.packagesSorted(), script.buildType)
+            return json.dumpsCode(uris)
+
+        ##
+        # TODO: Replace the above function with this one when it works.
+        def loaderScriptUris_1(script, compConf):
             uris = []
-            for package in script.packages:
+            for package in script.packagesSorted():
                 package_scripts = []
                 uris.append(package_scripts)
                 for script in package:
                     script_entry = "%s:%s" % (libname, file_basename)
                     package_scripts.append(script_entry)
-
-            return uris
+            return json.dumpsCode(uris)
 
 
         def loaderTranslations(script, compConf):
@@ -288,16 +202,41 @@ class CodeGenerator(object):
                 pass
 
 
+        def loaderBootName(script, compConf):
+            return '"%s"' % script.boot
+
+
         def loaderBootInline(script, compConf):
-                pass
+            loader_with_boot = self._job.get("packages/loader-with-boot", True)
+            if script.buildType == "source":
+                bootIsInline = json.dumpsCode(False)
+            else:
+                bootIsInline = json.dumpsCode(loader_with_boot)
+            return bootIsInline
 
 
-        def loaderBootPart(script, compConf):
+        ##
+        # Code of the boot package to be included with the loader
+        # TODO: There must be a better way than pulling bootCode through all
+        # the functions.
+        def loaderBootPart(script, compConf, bootCode):
+            if script.buildType == "build":
+                val = bootCode
+            else:
+                val = ""
+                # fake package data
+                for key, package in enumerate(script.packagesSorted()): 
+                    val += "qx.$$packageData['%d']={};\n" % key
                 pass
+            return val
 
 
         def loaderUrisBefore(script, compConf):
-                pass
+            urisBefore = []
+            additional_scripts = self._job.get("add-script",[])
+            for additional_script in additional_scripts:
+                urisBefore.append(additional_script["uri"])
+            return json.dumpsCode(urisBefore)
 
 
         def loaderPartsList(script, compConf):
@@ -305,15 +244,23 @@ class CodeGenerator(object):
 
 
         def loaderPackageHashes(script, compConf):
-                pass
-
-
-        def loaderBootPart(script, compConf):
-                pass
+            packageHashes = {}
+            for key, package in enumerate(script.packagesSorted()):
+                if package.hash:
+                    packageHashes[key] = package.hash
+                else:
+                    packageHashes[key] = "%d" % key  # fake code package hashes in source ver.
+            return json.dumpsCode(packageHashes)
 
 
         def loaderClosureParts(script, compConf):
-                pass
+            cParts = {}
+            loader_with_boot = self._job.get("packages/loader-with-boot", True)
+            if script.buildType == "build":
+                for part in script.parts:
+                    if not loader_with_boot or part != script.boot:
+                        cParts[part] = True
+            return json.dumpsCode(cParts)
 
 
         def loaderNocacheParam(script, compConf):
@@ -331,6 +278,74 @@ class CodeGenerator(object):
             return plugCode.strip()
 
 
+        ##
+        # Replace the placeholders in the loader template.
+        # @throw KeyError a placeholder could not be filled from <vals>
+        def loaderFillTemplate(vals, template):
+            templ  = MyTemplate(template)
+            result = templ.substitute(vals)
+            return result
+
+        def packageUrisToJS1(packages, version, namespace=None):
+            # Translate URI data to JavaScript
+            
+            allUris = []
+            for packageId, package in enumerate(packages):
+                packageUris = []
+                for fileId in package:
+
+                    if version == "build":
+                        # TODO: gosh, the next is an ugly hack!
+                        #namespace  = self._resourceHandler._genobj._namespaces[0]  # all name spaces point to the same paths in the libinfo struct, so any of them will do
+                        if not namespace:
+                            namespace  = script.namespace  # all name spaces point to the same paths in the libinfo struct, so any of them will do
+                        relpath    = OsPath(fileId)
+                    else:
+                        namespace  = self._classes[fileId].namespace
+                        relpath    = OsPath(self._classes[fileId].relpath)
+
+                    shortUri = Uri(relpath.toUri())
+                    packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
+                allUris.append(packageUris)
+
+            return allUris
+
+        ##
+        # Translate URI data to JavaScript
+        # using Package objects
+        def packageUrisToJS(packages, version):
+
+            allUris = []
+            for packageId, package in enumerate(packages):
+                packageUris = []
+                if package.file: # build
+                    namespace = "__out__"
+                    fileId    = package.file
+                    relpath    = OsPath(fileId)
+                    shortUri   = Uri(relpath.toUri())
+                    packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
+                elif package.files:  # hybrid
+                    packageUris = package.files
+                else: # "source" :
+                    for clazz in package.classes:
+                        namespace  = self._classes[clazz].library.namespace
+                        relpath    = OsPath(self._classes[clazz].relpath)
+                        shortUri   = Uri(relpath.toUri())
+                        packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
+                allUris.append(packageUris)
+
+            return allUris
+
+
+        ##
+        # Find and read the loader template.
+        def loaderTemplate(script, compConf):
+            templatePath = compConf.get("paths/loader-template", None)
+            if not templatePath:
+                # use default template
+                templatePath = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
+            templateCont = filetool.read(templatePath)
+            return templateCont, templatePath
 
         ##
         # shallow layer above generateBootCode(), and its only client
