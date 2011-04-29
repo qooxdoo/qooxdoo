@@ -200,9 +200,12 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     removeStyleSheet : function()
     {
       this.__createdStyles = [];
-      if (this.__styleSheet && this.__styleSheet.ownerNode) {
-        qx.dom.Element.removeChild(this.__styleSheet.ownerNode, 
-          this.__styleSheet.ownerNode.parentNode);
+      if (this.__styleSheet) {
+        var owner = this.__styleSheet.ownerNode ?
+          this.__styleSheet.ownerNode :
+          this.__styleSheet.owningElement;
+        qx.dom.Element.removeChild(owner, 
+          owner.parentNode);
       }
       this.__styleSheet = null;
     },
