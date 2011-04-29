@@ -35,6 +35,6 @@ load = json.load
 # default compact encoding to serialize JS code
 #
 
-def dumpsCode(data):
-    return dumps(data, sort_keys=True, ensure_ascii=False, separators=(',', ':'))
+def dumpsCode(data, **kwargs):
+    return dumps(data, sort_keys=True, ensure_ascii=False, separators=(',', ':'), **kwargs)
 
