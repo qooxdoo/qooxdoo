@@ -64,6 +64,10 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
       throw new Error("Abstract method call");
     },
 
+    _getRequests: function() {
+      return this.__requests;
+    },
+
     tearDown : function() {
       this._disposeArray("__request");
     },

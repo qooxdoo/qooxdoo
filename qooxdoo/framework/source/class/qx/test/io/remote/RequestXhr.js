@@ -48,9 +48,9 @@ qx.Class.define("qx.test.io.remote.RequestXhr",
 
       var completedCount = 0;
 
-      for (var i = 0; i < this.__requests.length; i++)
+      for (var i = 0; i < this._getRequests().length; i++)
       {
-        var request = this.__requests[i];
+        var request = this._getRequests()[i];
 
         request.setAsynchronous(false);
         request.setParameter("test", "test" + i);
@@ -83,8 +83,8 @@ qx.Class.define("qx.test.io.remote.RequestXhr",
         return;
       }
 
-      var asynchronousRequest = this.__requests[0];
-      var synchronousRequest = this.__requests[1];
+      var asynchronousRequest = this._getRequests()[0];
+      var synchronousRequest = this._getRequests()[1];
 
       asynchronousRequest.setParameter("test", "asynchronousRequest");
       asynchronousRequest.setParameter("sleep", 1);
