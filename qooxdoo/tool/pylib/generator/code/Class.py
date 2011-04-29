@@ -1227,7 +1227,7 @@ class Class(Resource):
                 strings.append(self._concatOperation(child))
 
             elif len(strings) < minArgc:
-                console.warn("Unknown expression as argument to translation method at line %s" % (child.get("line"),))
+                console.warn("Unknown expression as argument to translation method (%s:%s)" % (treeutil.getFileFromSyntaxItem(child), child.get("line"),))
 
             # Ignore remaining (run time) arguments
             if len(strings) == minArgc:
