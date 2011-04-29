@@ -75,6 +75,7 @@ class Node(object):
     def hasAttributes(self):
         #return hasattr(self, "attributes")
         # ApiLoader._isNodeIdentical() needs this len() check
+        # TODO: remove commented calls to hasAttributes() and hasattr(self,attributes)
         return len(self.attributes)
 
     def set(self, key, value):
