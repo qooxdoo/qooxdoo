@@ -87,11 +87,12 @@ class CodeGenerator(object):
 
                 return partData
 
-            def fillTemplate(vals, template):
-                # Fill the code template with various vals 
+            ##
+            # Replace the placeholders in the loader template.
+            # @throw KeyError a placeholder could not be filled from <vals>
+            def loaderFillTemplate(vals, template):
                 templ  = MyTemplate(template)
                 result = templ.substitute(vals)
-
                 return result
 
             def packageUrisToJS1(packages, version, namespace=None):
@@ -145,22 +146,15 @@ class CodeGenerator(object):
                 return allUris
 
 
-            def loadTemplate(bootCode):
-                # try custom loader templates
-                loaderFile = compConf.get("paths/loader-template", None)
-                if not loaderFile:
-                    # use default templates
-                    if version=="build":
-                        #loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
-                        # TODO: test-wise using generic template
-                        loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
-                    else:
-                        #loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
-                        loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
-                
-                template = filetool.read(loaderFile)
-
-                return template, loaderFile
+            ##
+            # Find and read the loader template.
+            def loaderTemplate(script, compConf):
+                templatePath = compConf.get("paths/loader-template", None)
+                if not templatePath:
+                    # use default template
+                    templatePath = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.tmpl.js")
+                templateCont = filetool.read(templatePath)
+                return templateCont, templatePath
 
             # ---------------------------------------------------------------
 
@@ -231,23 +225,20 @@ class CodeGenerator(object):
             vals["PackageHashes"] = json.dumpsCode(vals["PackageHashes"])
 
             # Script hook for qx.$$loader.decodeUris() function
-            vals["DecodeUrisPlug"] = ""
-            if decodeUrisFile:
-                plugCode = filetool.read(self._config.absPath(decodeUrisFile))  # let it bomb if file can't be read
-                vals["DecodeUrisPlug"] = plugCode.strip()
+            vals["DecodeUrisPlug"] = loaderDecodeUrisPlug(script, compConf)
             
             # Enable "?nocache=...." for script loading?
-            vals["NoCacheParam"] = "true" if self._job.get("compile-options/uris/add-nocache-param", True) else "false"
+            vals["NoCacheParam"] = loaderNocacheParam(script, compConf)
 
-            # Locate and load loader basic script
-            template, loaderFile = loadTemplate(bootCode)
+            # Locate and load loader template
+            template, templatePath = loaderTemplate(script, compConf)
 
             # Fill template gives result
             try:
-                result = fillTemplate(vals, template)
+                result = loaderFillTemplate(vals, template)
             except KeyError, e:
                 raise ValueError("Unknown macro used in loader template (%s): '%s'" % 
-                                 (loaderFile, e.args[0])) 
+                                 (templatePath, e.args[0])) 
 
             return result
 
@@ -326,11 +317,19 @@ class CodeGenerator(object):
 
 
         def loaderNocacheParam(script, compConf):
-                pass
+            return "true" if compConf.get("uris/add-nocache-param", True) else "false"
 
 
+        ##
+        # Return the JS snippet that is to be plugged into the decodeUris
+        # function in the loader.
         def loaderDecodeUrisPlug(script, compConf):
-                pass
+            plugCodeFile = compConf.get("code/decode-uris-plug", False)
+            plugCode = ""
+            if plugCodeFile:
+                plugCode = filetool.read(self._config.absPath(plugCodeFile))  # let it bomb if file can't be read
+            return plugCode.strip()
+
 
 
         ##
