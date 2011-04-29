@@ -1268,7 +1268,7 @@ class Class(Resource):
                 result += second.get("value")
 
         except NodeAccessException:
-            console.warn("Unknown expression as argument to translation method at line %s" % (node.get("line"),))
+            console.warn("Unknown expression as argument to translation method (%s:%s)" % (treeutil.getFileFromSyntaxItem(node), node.get("line"),))
 
         return result
 
