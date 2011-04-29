@@ -152,7 +152,6 @@ qx.Class.define("testrunner.runner.TestRunner", {
     __testParts : null,
     __testsInView : null,
     _testNameSpace : null,
-    __testResult : null,
 
 
     /**
@@ -331,13 +330,11 @@ qx.Class.define("testrunner.runner.TestRunner", {
       this.setTestCount(this.testList.length);
       var className = currentTest.parent.fullName;
       var functionName = currentTest.getName();
-      if (!this.__testResult) {
-        this.__testResult = this.__initTestResult(currentTest);
-      }
+      var testResult = this.__initTestResult(currentTest);
 
       var self = this;
       window.setTimeout(function() {
-        self.loader.runTests(self.__testResult, className, functionName);
+        self.loader.runTests(testResult, className, functionName);
       }, 0);
     },
 
@@ -625,7 +622,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
     this._disposeArray("__testParts");
     this._disposeArray("testPackageList");
     this._disposeObjects("view", "__logAppender", "currentTestData", "loader",
-    "__loadTimer", "__testResult");
+    "__loadTimer");
     this.__iframe = null;
     delete this.__iframe;
     this.frameWindow = null;
