@@ -32,7 +32,7 @@ from misc.NameSpace                 import NameSpace
 from ecmascript                     import compiler
 from ecmascript.frontend            import treeutil, tokenizer, treegenerator, lang
 from ecmascript.frontend.Script     import Script
-from ecmascript.frontend.tree       import Node
+from ecmascript.frontend.tree       import Node, NodeAccessException
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
 from generator.resource.AssetHint   import AssetHint
 from generator.resource.Resource    import Resource
@@ -1266,7 +1266,7 @@ class Class(Resource):
             else:
                 result += second.get("value")
 
-        except tree.NodeAccessException:
+        except NodeAccessException:
             self._console.warn("Unknown expression as argument to translation method at line %s" % (node.get("line"),))
 
         return result
