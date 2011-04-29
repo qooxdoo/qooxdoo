@@ -1255,6 +1255,7 @@ class Class(Resource):
 
     def _concatOperation(self, node):
         result = ""
+        console = self.context['console']
 
         try:
             first = node.getChild("first").getChildByTypeAndAttribute("constant", "constantType", "string")
@@ -1267,7 +1268,7 @@ class Class(Resource):
                 result += second.get("value")
 
         except NodeAccessException:
-            self._console.warn("Unknown expression as argument to translation method at line %s" % (node.get("line"),))
+            console.warn("Unknown expression as argument to translation method at line %s" % (node.get("line"),))
 
         return result
 
