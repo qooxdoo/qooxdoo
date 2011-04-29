@@ -755,11 +755,12 @@ class CodeGenerator(object):
         return "%sKB / %sKB" % (origSize/1024, compressedSize/1024)
 
 
+    ##
+    # computes a complete resource URI for the given resource type rType, 
+    # from the information given in lib and, if lib doesn't provide a
+    # general uri prefix for it, use appRoot and lib path to construct
+    # one
     def _computeResourceUri(self, lib, resourcePath, rType="class", appRoot=None):
-        '''computes a complete resource URI for the given resource type rType, 
-           from the information given in lib and, if lib doesn't provide a
-           general uri prefix for it, use appRoot and lib path to construct
-           one'''
 
         if 'uri' in lib:
             libBaseUri = Uri(lib['uri'])
@@ -784,14 +785,6 @@ class CodeGenerator(object):
         uri.ensureNoTrailingSlash()
 
         return uri
-
-
-    def _makeVariantsName(self, pathName, variants):
-        (newname, ext) = os.path.splitext(pathName)
-        for key in variants:
-            newname += "_%s:%s" % (str(key), str(variants[key]))
-        newname += ext
-        return newname
 
 
     ##
