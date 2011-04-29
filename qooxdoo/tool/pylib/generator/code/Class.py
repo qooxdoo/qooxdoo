@@ -251,6 +251,7 @@ class Class(Resource):
     # @return {[String]}  list of variant keys, e.g. ["qx.debug", ...]
     #
     def _variantsFromTree(self, node):
+        console = self.context['console']
         classvariants = set([])
         for variantNode in variantoptimizer.findVariantNodes(node):
             firstParam = treeutil.selectNode(variantNode, "../../params/1")
@@ -364,6 +365,7 @@ class Class(Resource):
             return tree
         
         cache = self.context['cache']
+        console = self.context['console']
 
         # 'statics' has to come before 'privates', as it needs the original key names in tree
         if "statics" in optimize:
@@ -1196,6 +1198,7 @@ class Class(Resource):
             "line"   : node.get("line"),
             "column" : node.get("column")
         }
+        console = self.context['console']
 
         # tr(msgid, args)
         # trn(msgid, msgid_plural, count, args)
@@ -1330,6 +1333,7 @@ class Class(Resource):
                 raise SyntaxError, "Non-terminated macro in string: %s" % rsc
             return result
 
+        console = self.context['console']
         result = expMacRec(res)
         return result
 
