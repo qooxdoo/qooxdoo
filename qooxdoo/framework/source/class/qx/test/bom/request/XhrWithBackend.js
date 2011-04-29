@@ -94,7 +94,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
-    // BUGFIX
     "test: handle arbitrary XML": function() {
       // Content-Type: foo/bar+xml
       var url = this.getUrl("qx/test/xmlhttp/xml.php");
@@ -166,49 +165,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.assertIdentical(1, req.readyState);
     },
 
-    // BUGFIX
-    "test: progress to readyState DONE": function() {
-      // This is a mess, see
-      // http://www.quirksmode.org/blog/archives/2005/09/xmlhttp_notes_r_2.html.
-
-      var req = this.req,
-          states = [],
-          that = this;
-
-      req.onreadystatechange = function() {
-        states.push(req.readyState);
-        if (req.readyState == 4) {
-          that.resume(function() {
-            that.assertArrayEquals([1, 2, 3, 4], states);
-          });
-        }
-      };
-
-      var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
-      req.open("GET", this.noCache(url));
-      req.send();
-
-      this.wait();
-    },
-
-    // BUGFIX
-    "test: progress to readyState DONE when sync": function() {
-      var req = this.req,
-          states = [];
-
-      req.onreadystatechange = function() {
-        states.push(req.readyState);
-      };
-
-      var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
-      req.open("GET", this.noCache(url), false);
-      req.send();
-
-      // There is no HEADERS_RECEIVED and LOADING when sync.
-      // See http://www.w3.org/TR/XMLHttpRequest/#the-send-method
-      this.assertArrayEquals([1, 4], states);
-    },
-
     "test: progress to readyState DONE when from cache": function() {
       var req = this.req,
           url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.html")),
@@ -241,35 +197,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.wait();
     },
 
-    // BUGFIX
-    "test: allow many requests with same object": function() {
-      var req = this.req;
-      var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
-      var count = 0;
-
-      var that = this;
-      function request() {
-        req.open("GET", that.noCache(url));
-        req.send();
-      }
-
-      req.onreadystatechange = function() {
-        if (req.readyState == 4) {
-          that.resume(function() {
-            if (++count < 3) {
-              request();
-              this.wait();
-            } else {
-              that.assertEquals(3, count);
-            }
-          });
-        }
-      };
-      request();
-
-      this.wait();
-    },
-
     "test: abort pending request": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
@@ -295,51 +222,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
           });
         }
       };
-      req.send();
-
-      this.wait();
-    },
-
-    // BUGFIX
-    "test: have status 304 when cache is fresh": function() {
-      var req = this.req;
-      var url = this.getUrl("qx/test/xmlhttp/not_modified.php");
-
-      var that = this;
-      req.onreadystatechange = function() {
-        if (req.readyState == 4) {
-          that.resume(function() {
-            that.assertIdentical(304, req.status);
-          });
-        }
-      };
-      req.open("GET", url);
-
-      // Pretend that client has a fresh representation of
-      // this resource in its cache. Please note the ETag given
-      // must be in sync with the current ETag of the file requested.
-      //
-      // XMLHttpRequest states:
-      //
-      // For 304 Not Modified responses that are a result of a user
-      // agent generated conditional request the user agent must act
-      // as if the server gave a 200 OK response with the appropriate
-      // content. The user agent must allow setRequestHeader() to
-      // override automatic cache validation by setting request
-      // headers (e.g. If-None-Match or If-Modified-Since),
-      // in which case 304 Not Modified responses must be passed through.
-      //
-      // Copied from:
-      //
-      // XMLHttpRequest [http://www.w3.org/TR/XMLHttpRequest/]
-      // W3C Candidate Recommendation
-      // Copyright © 2009 W3C® (MIT, ERCIM, Keio), All Rights Reserved.
-      //
-
-      // The actual ETag is not of importance here, since the server
-      // is returning 304 anyway. We're just triggering the behavior
-      // specified above.
-      req.setRequestHeader("If-None-Match", "\"4893a3a-b0-49ea970349b00\"");
       req.send();
 
       this.wait();
@@ -399,6 +281,121 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
           throw Error();
         }
       });
+    },
+
+    // BUGFIXES
+
+    "test: progress to readyState DONE": function() {
+      // This is a mess, see
+      // http://www.quirksmode.org/blog/archives/2005/09/xmlhttp_notes_r_2.html.
+
+      var req = this.req,
+          states = [],
+          that = this;
+
+      req.onreadystatechange = function() {
+        states.push(req.readyState);
+        if (req.readyState == 4) {
+          that.resume(function() {
+            that.assertArrayEquals([1, 2, 3, 4], states);
+          });
+        }
+      };
+
+      var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
+      req.open("GET", this.noCache(url));
+      req.send();
+
+      this.wait();
+    },
+
+    "test: progress to readyState DONE when sync": function() {
+      var req = this.req,
+          states = [];
+
+      req.onreadystatechange = function() {
+        states.push(req.readyState);
+      };
+
+      var url = this.getUrl("qx/test/xmlhttp/echo_post_request.php");
+      req.open("GET", this.noCache(url), false);
+      req.send();
+
+      // There is no HEADERS_RECEIVED and LOADING when sync.
+      // See http://www.w3.org/TR/XMLHttpRequest/#the-send-method
+      this.assertArrayEquals([1, 4], states);
+    },
+
+    "test: have status 304 when cache is fresh": function() {
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/not_modified.php");
+
+      var that = this;
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume(function() {
+            that.assertIdentical(304, req.status);
+          });
+        }
+      };
+      req.open("GET", url);
+
+      // Pretend that client has a fresh representation of
+      // this resource in its cache. Please note the ETag given
+      // must be in sync with the current ETag of the file requested.
+      //
+      // XMLHttpRequest states:
+      //
+      // For 304 Not Modified responses that are a result of a user
+      // agent generated conditional request the user agent must act
+      // as if the server gave a 200 OK response with the appropriate
+      // content. The user agent must allow setRequestHeader() to
+      // override automatic cache validation by setting request
+      // headers (e.g. If-None-Match or If-Modified-Since),
+      // in which case 304 Not Modified responses must be passed through.
+      //
+      // Copied from:
+      //
+      // XMLHttpRequest [http://www.w3.org/TR/XMLHttpRequest/]
+      // W3C Candidate Recommendation
+      // Copyright © 2009 W3C® (MIT, ERCIM, Keio), All Rights Reserved.
+      //
+
+      // The actual ETag is not of importance here, since the server
+      // is returning 304 anyway. We're just triggering the behavior
+      // specified above.
+      req.setRequestHeader("If-None-Match", "\"4893a3a-b0-49ea970349b00\"");
+      req.send();
+
+      this.wait();
+    },
+
+    "test: allow many requests with same object": function() {
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
+      var count = 0;
+
+      var that = this;
+      function request() {
+        req.open("GET", that.noCache(url));
+        req.send();
+      }
+
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          that.resume(function() {
+            if (++count < 3) {
+              request();
+              this.wait();
+            } else {
+              that.assertEquals(3, count);
+            }
+          });
+        }
+      };
+      request();
+
+      this.wait();
     },
 
     //
@@ -533,9 +530,10 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     // ontimeout()
     //
 
-    // "timeout error" is specified here
-    // http://www.w3.org/TR/XMLHttpRequest2/#timeout-error
     "test: timeout triggers timeout error": function() {
+      // "timeout error" is specified here
+      // http://www.w3.org/TR/XMLHttpRequest2/#timeout-error
+
       var req = this.req,
           url = this.getUrl("qx/test/xmlhttp/loading.php"),
           that = this;
@@ -654,7 +652,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     // Disposing
     //
 
-    // BUGFIX
     "test: dispose hard-working": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
