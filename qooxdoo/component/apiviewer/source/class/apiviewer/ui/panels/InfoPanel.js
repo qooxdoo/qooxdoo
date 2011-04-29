@@ -541,7 +541,11 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           typeDimensions = types[j].dimensions;
 
           if (apiviewer.ui.ClassViewer.PRIMITIVES[typeName]) {
-            typeHtml.add(typeName);
+            if(apiviewer.ui.ClassViewer.MDC_LINKS[typeName]) {
+              typeHtml.add('<span style="white-space: nowrap;"><a href="'+apiviewer.ui.ClassViewer.MDC_LINKS[typeName]+'" target="_blank" title="'+typeName+'">'+typeName+'</a></span>');
+            } else {
+              typeHtml.add(typeName);
+            }
           }
           else
           {
