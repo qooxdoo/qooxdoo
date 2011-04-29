@@ -66,26 +66,31 @@ class Node(object):
         self.type = ntype
         self.parent = None
         self.children = []
+        self.attributes = {}
 
     def __str__(self):
         return nodeToXmlStringNR(self)
 
 
     def hasAttributes(self):
-        return hasattr(self, "attributes")
+        #return hasattr(self, "attributes")
+        # ApiLoader._isNodeIdentical() needs this len() check
+        return len(self.attributes)
 
     def set(self, key, value):
         """Sets an attribute"""
         if not isinstance(value, (basestring, int, long, float, complex, bool)):
             raise NodeAccessException("'value' is no string or number: " + str(value), self)
-        if not self.hasAttributes():
+        #if not self.hasAttributes():
+        if False:
             self.attributes = {}
         self.attributes[key] = value
         return self
 
     def get(self, key, mandatory = True):
         value = None
-        if hasattr(self, "attributes") and key in self.attributes:
+        #if hasattr(self, "attributes") and key in self.attributes:
+        if key in self.attributes:
             value = self.attributes[key]
 
         if value != None:
@@ -103,7 +108,8 @@ class Node(object):
 
     def clone(self):
         clone_ = copy.copy(self)
-        if hasattr(self, "attributes"):
+        #if hasattr(self, "attributes"):
+        if True:
             clone_.attributes = copy.copy(self.attributes)
         return clone_
 
@@ -610,7 +616,8 @@ class Node(object):
 def nodeToXmlStringNR(node, prefix="", encoding="utf-8"):
     hasText = False
     asString = prefix + "<" + node.type
-    if node.hasAttributes():
+    #if node.hasAttributes():
+    if True:
         for key in node.attributes:
             asString += " " + key + "=\"" + escapeXmlChars(node.attributes[key], True, encoding) + "\""
     asString += "/>"
@@ -621,7 +628,8 @@ def nodeToXmlStringNR(node, prefix="", encoding="utf-8"):
 def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
     hasText = False
     asString = prefix + "<" + node.type
-    if node.hasAttributes():
+    #if node.hasAttributes():
+    if True:
         for key in node.attributes:
             if key == "text":
                 hasText = True
@@ -651,7 +659,8 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encodin
 def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
     asString = prefix + '{type:"' + escapeJsonChars(node.type) + '"'
 
-    if node.hasAttributes():
+    #if node.hasAttributes():
+    if True:
         asString += ',attributes:{'
         firstAttribute = True
         for key in node.attributes:
@@ -686,7 +695,8 @@ def getNodeData(node):
       "type" : node.type
     }
 
-    if node.hasAttributes():
+    #if node.hasAttributes():
+    if True:
         data["attributes"] = {}
         for key in node.attributes:
             data["attributes"][key] = node.attributes[key]
