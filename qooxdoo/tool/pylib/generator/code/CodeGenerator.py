@@ -94,8 +94,6 @@ class CodeGenerator(object):
 
             result           = ""
             vals             = {}
-            packages         = script.packagesSorted()
-            loader_with_boot = self._job.get("packages/loader-with-boot", True)
 
             # stringify data in globalCodes
             for entry in globalCodes:
