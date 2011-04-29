@@ -182,7 +182,7 @@ qx.Class.define("qx.test.bom.request.Script",
         });
       };
 
-      this.req.timeout = 10;
+      this.req.timeout = 100;
       this.request();
       this.wait();
     },
