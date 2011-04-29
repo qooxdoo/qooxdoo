@@ -355,30 +355,6 @@ class CodeGenerator(object):
             templateCont = filetool.read(templatePath)
             return templateCont, templatePath
 
-        ##
-        # shallow layer above generateLoader(), and its only client
-        def generateBootScript(globalCodes, script, bootPackage="", compileType="build"):
-
-            self._console.info("Generating loader script...")
-
-            if not self._job.get("packages/i18n-with-boot", True):
-                # remove I18N info from globalCodes, so they don't go into the loader
-                globalCodes["Translations"] = {}
-                globalCodes["Locales"]      = {}
-            else:
-                if compileType == "build":
-                    # also remove them here, as this info is now with the packages
-                    globalCodes["Translations"] = {}
-                    globalCodes["Locales"]      = {}
-
-            if compileType == "build":
-                bootContent  = generateLoader(script, compConf, globalCodes, bootPackage)
-            else:
-                bootContent  = generateLoader(script, compConf, globalCodes, "")
-
-
-            return bootContent
-
 
         def getPackageData(package):
             data = {}
@@ -411,7 +387,7 @@ class CodeGenerator(object):
                 compiledContent += u'''qx.Part.$$notifyLoad("%s", function() {\n%s\n});''' % (hash, pkgCode)
             
             #
-            package.hash = hash  # to fill qx.$$loader.packageHashes in generateBootScript()
+            package.hash = hash  # to fill qx.$$loader.packageHashes in generateLoader()
 
             self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
             self._console.outdent()
@@ -612,7 +588,7 @@ class CodeGenerator(object):
                 loadPackage = Package(0)            # make a dummy Package for the loader
                 packages.insert(0, loadPackage)
 
-            # attach file names (do this before calling generateBootScript)
+            # attach file names (do this before calling generateLoader)
             for package, fileName in zip(packages, self.packagesFileNames(script.baseScriptPath, len(packages))):
                 package.file = os.path.basename(fileName)
                 if self._job.get("compile-options/paths/scripts-add-hash", False):
@@ -621,11 +597,9 @@ class CodeGenerator(object):
             # generate and integrate boot code
             if loader_with_boot:
                 # merge loader code with first package
-                #bootCode = generateBootScript(globalCodes, script, packages[0].compiled)
                 bootCode = generateLoader(script, compConf, globalCodes, packages[0].compiled)
                 packages[0].compiled = bootCode
             else:
-                #loaderCode = generateBootScript(globalCodes, script)
                 loaderCode = generateLoader(script, compConf, globalCodes, "")
                 packages[0].compiled = loaderCode
 
@@ -652,7 +626,6 @@ class CodeGenerator(object):
             packages.insert(0, loadPackage)
 
             # generate boot code
-            #loaderCode = generateBootScript(globalCodes, script, bootPackage="", compileType='source')
             loaderCode = generateLoader(script, compConf, globalCodes, "")
             packages[0].compiled = loaderCode
             self.writePackage(loaderCode, script.baseScriptPath, script)
@@ -661,7 +634,6 @@ class CodeGenerator(object):
         # ---- 'source' version ------------------------------------------------
         else:
 
-            #sourceContent = generateBootScript(globalCodes, script, bootPackage="", compileType=script.buildType)
             sourceContent = generateLoader(script, compConf, globalCodes, "")
 
             # Construct file name
