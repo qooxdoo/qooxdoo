@@ -80,12 +80,12 @@ def main():
         levels = apipackage.split('.')
         curr = apidata['children'][0]['children']
         for pos,level in enumerate(levels):
-            if level not in curr:
+            if level not in (x['attributes']['name'] for x in curr if 'name' in x['attributes']):
                 newentry = {
                     "children" : [],
                     "type" : "packages" if pos % 2 else "package",
                     "attributes" : {
-                        "packageName" : level,
+                        "packageName" : ".".join(levels[:pos]),
                         "name" : level,
                         "fullName" : ".".join(levels[:pos+1])
                     }
@@ -93,10 +93,12 @@ def main():
                 if pos==len(levels)-1:
                     newentry["externalRef"] = True
                     #del newentry['children']
+                    #newentry["type"] = "classes"
+                    pass
                 curr.append(newentry)
                 curr = newentry['children']
             else:
-                curr = [x for x in curr if x[name]==level][0]
+                curr = [x['children'] for x in curr if x['attributes']['name']==level][0]
         
 
     # store apidata

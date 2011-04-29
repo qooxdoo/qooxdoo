@@ -48,49 +48,24 @@
         "apiconf::build-resources",
         "apiconf::build-script",
         "apiconf::build-files"/*,
-        "api-data"
+        "tool-api-data"
         */
       ]
     }
 
-    ,"api-data" : 
+    ,"tool-api-data" : 
     {
       "desc" : "create api doc json data files"
+      ,"extend" : ["cache"]
       ,"let" :
       {
         "API_SCRIPT" : "${BUILD_PATH}/script"
         ,"XSLTPROC"  : "xsltproc"
       }
 
-      ,"run" :
-      [
-        "run-pythondoc",
-        "run-xml-transform",
-        "run-json-transform"
-      ]
-    }
-
-    ,"run-pythondoc" :
-    {
-      "shell" : 
+      ,"shell" : 
       {
-        "command" : "${PYTHON_CMD} admin/bin/pythondoc.py -x pylib/generator > ${API_SCRIPT}/pydoc.xml"
-      }
-    }
-
-    ,"run-xml-transform" :
-    {
-      "shell" : 
-      {
-        "command" : "${XSLTPROC} data/apidoc/pydoc2qx-xml.xsl ${API_SCRIPT}/pydoc.xml > ${API_SCRIPT}/qx.xml"
-      }
-    }
-
-    ,"run-json-transform" :
-    {
-      "shell" : 
-      {
-        "command" : "${XSLTPROC} data/apidoc/qx-xml2qx-json.xsl ${API_SCRIPT}/qx.xml > ${API_SCRIPT}/apidata.json"
+        "command" : "${PYTHON_CMD} bin/generator_api.py pylib/generator ${API_SCRIPT}"
       }
     }
   }
