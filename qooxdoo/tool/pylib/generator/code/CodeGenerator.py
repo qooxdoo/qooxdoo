@@ -7,7 +7,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2011 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -53,7 +53,6 @@ class CodeGenerator(object):
         cache   = cache_
 
 
-
     def runCompiled(self, script, treeCompiler, version="build"):
 
         def getOutputFile(compileType):
@@ -69,31 +68,27 @@ class CodeGenerator(object):
             return fileUri
 
         ##
-        # returns the Javascript code for the initial ("boot") script as a string,
-        #  using the loader.tmpl template and filling its placeholders
-        def generateBootCode(parts, packages, boot, script, compConf, variants, settings, bootCode, globalCodes, version="source", decodeUrisFile=None, format=False):
+        # returns the Javascript code for the loader script as a string,
+        # using the loader.tmpl template and filling its placeholders;
+        # can take the code of the first ("boot") script of class code
+        def generateLoader(script, compConf, globalCodes, bootCode='', ):
 
-            ##
-            # create a map with part names as key and array of package id's and
-            # return as string
-            def partsMap(script):
-                partData = {}
-                packages = script.packagesSorted()
-                #print "packages: %r" % packages
-                for part in script.parts:
-                    partData[part] = script.parts[part].packagesAsIndices(packages)
-                    #print "part '%s': %r" % (part, script.parts[part].packages)
-                partData = json.dumpsCode(partData)
+            self._console.info("Generating loader script...")
+            result = ""
+            vals   = {}
 
-                return partData
+            if not self._job.get("packages/i18n-with-boot", True):
+                # remove I18N info from globalCodes, so they don't go into the loader
+                globalCodes["Translations"] = {}
+                globalCodes["Locales"]      = {}
+            else:
+                if script.buildType == "build":
+                    # also remove them here, as this info is now with the packages
+                    globalCodes["Translations"] = {}
+                    globalCodes["Locales"]      = {}
 
-            # ---------------------------------------------------------------
-
-            if not parts:
-                return ""
-
-            result           = ""
-            vals             = {}
+            if not script.parts:
+                return result
 
             # stringify data in globalCodes
             for entry in globalCodes:
@@ -103,7 +98,7 @@ class CodeGenerator(object):
 
             vals.update(globalCodes)
 
-            if version=="build":
+            if script.buildType =="build":
                 vals["Resources"] = json.dumpsCode({})  # TODO: undo Resources from globalCodes!!!
 
             # Name of the boot part
@@ -113,7 +108,7 @@ class CodeGenerator(object):
             vals["BootPart"] = loaderBootPart(script, compConf, bootCode)
 
             # Translate part information to JavaScript
-            vals["Parts"] = partsMap(script)
+            vals["Parts"] = loaderPartsMap(script, compConf)
 
             # Translate URI data to JavaScript
             vals["Uris"] = loaderScriptUris(script, compConf)
@@ -147,6 +142,21 @@ class CodeGenerator(object):
                                  (templatePath, e.args[0])) 
 
             return result
+
+
+        ##
+        # create a map with part names as key and array of package id's and
+        # return as string
+        def loaderPartsMap(script, compConf):
+            partData = {}
+            packages = script.packagesSorted()
+            #print "packages: %r" % packages
+            for part in script.parts:
+                partData[part] = script.parts[part].packagesAsIndices(packages)
+                #print "part '%s': %r" % (part, script.parts[part].packages)
+            partData = json.dumpsCode(partData)
+
+            return partData
 
 
         def loaderLibInfo(script, compConf):
@@ -346,10 +356,10 @@ class CodeGenerator(object):
             return templateCont, templatePath
 
         ##
-        # shallow layer above generateBootCode(), and its only client
+        # shallow layer above generateLoader(), and its only client
         def generateBootScript(globalCodes, script, bootPackage="", compileType="build"):
 
-            self._console.info("Generating boot script...")
+            self._console.info("Generating loader script...")
 
             if not self._job.get("packages/i18n-with-boot", True):
                 # remove I18N info from globalCodes, so they don't go into the loader
@@ -361,13 +371,10 @@ class CodeGenerator(object):
                     globalCodes["Translations"] = {}
                     globalCodes["Locales"]      = {}
 
-            plugCodeFile = compConf.get("code/decode-uris-plug", False)
             if compileType == "build":
-                filepackages = [(x.file,) for x in packages]
-                bootContent  = generateBootCode(parts, filepackages, boot, script, compConf, variants, settings, bootPackage, globalCodes, compileType, plugCodeFile, format)
+                bootContent  = generateLoader(script, compConf, globalCodes, bootPackage)
             else:
-                filepackages = [x.classes for x in packages]
-                bootContent  = generateBootCode(parts, filepackages, boot, script, compConf, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, version=compileType, decodeUrisFile=plugCodeFile, format=format)
+                bootContent  = generateLoader(script, compConf, globalCodes, "")
 
 
             return bootContent
@@ -614,10 +621,12 @@ class CodeGenerator(object):
             # generate and integrate boot code
             if loader_with_boot:
                 # merge loader code with first package
-                bootCode = generateBootScript(globalCodes, script, packages[0].compiled)
+                #bootCode = generateBootScript(globalCodes, script, packages[0].compiled)
+                bootCode = generateLoader(script, compConf, globalCodes, packages[0].compiled)
                 packages[0].compiled = bootCode
             else:
-                loaderCode = generateBootScript(globalCodes, script)
+                #loaderCode = generateBootScript(globalCodes, script)
+                loaderCode = generateLoader(script, compConf, globalCodes, "")
                 packages[0].compiled = loaderCode
 
             # write packages
@@ -643,7 +652,8 @@ class CodeGenerator(object):
             packages.insert(0, loadPackage)
 
             # generate boot code
-            loaderCode = generateBootScript(globalCodes, script, bootPackage="", compileType='source')
+            #loaderCode = generateBootScript(globalCodes, script, bootPackage="", compileType='source')
+            loaderCode = generateLoader(script, compConf, globalCodes, "")
             packages[0].compiled = loaderCode
             self.writePackage(loaderCode, script.baseScriptPath, script)
 
@@ -651,7 +661,8 @@ class CodeGenerator(object):
         # ---- 'source' version ------------------------------------------------
         else:
 
-            sourceContent = generateBootScript(globalCodes, script, bootPackage="", compileType=script.buildType)
+            #sourceContent = generateBootScript(globalCodes, script, bootPackage="", compileType=script.buildType)
+            sourceContent = generateLoader(script, compConf, globalCodes, "")
 
             # Construct file name
             resolvedFilePath = self._resolveFileName(filePath, variants, settings)
