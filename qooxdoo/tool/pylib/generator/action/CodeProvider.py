@@ -25,9 +25,10 @@ import functools, codecs, operator
 from misc                                   import filetool, textutil, util, Path, PathType, json, copytool
 from misc.PathType                          import PathType
 from generator                              import Context as context
-from generator.resource.ResourceHandler     import ResourceHandler
+#from generator.resource.ResourceHandler     import ResourceHandler
 from generator.config.Config                import ConfigurationError
 from generator.code.Class                   import CompileOptions
+from generator.code.Script                  import Script
 
 global inclregexps, exclregexps
 
@@ -139,7 +140,7 @@ def _handleResources(script, generator, filtered=True):
         # get the main library
         mainlib = [x for x in script.libraries if x.namespace == script.namespace][0]
         reslist = mainlib.getResources()
-        allresources = ResourceHandler.createResourceStruct(reslist, updateOnlyExistingSprites = False)
+        allresources = Script.createResourceStruct(reslist, updateOnlyExistingSprites = False)
 
     # get resource info
     resinfos = {}

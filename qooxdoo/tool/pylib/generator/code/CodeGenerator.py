@@ -25,8 +25,9 @@ import urllib, urlparse, optparse, pprint
 from generator.config.Lang      import Key
 from generator.code.Part        import Part
 from generator.code.Package     import Package
-from generator.code.Class       import ClassMatchList, CompileOptions
-from generator.resource.ResourceHandler import ResourceHandler
+from generator.code.Class       import Class, ClassMatchList, CompileOptions
+from generator.code.Script      import Script
+#from generator.resource.ResourceHandler import ResourceHandler
 from ecmascript                 import compiler
 from misc                       import filetool, json, Path, securehash as sha
 from misc.ExtMap                import ExtMap
@@ -941,7 +942,7 @@ class CodeGenerator(object):
                 package_classes   = [x for x in script.classesObj if x.id in package.classes]
                 for clazz in package_classes:
                     package_resources.extend(clazz.resources)
-                package.data.resources = ResourceHandler.createResourceStruct(package_resources, formatAsTree=resources_tree,
+                package.data.resources = Script.createResourceStruct(package_resources, formatAsTree=resources_tree,
                                                              updateOnlyExistingSprites=True)
             return
 
@@ -952,12 +953,12 @@ class CodeGenerator(object):
         compConf       = ExtMap (compConf)
         resources_tree = compConf.get ("code/resources-tree", False)
 
-        classes = ResourceHandler.mapResourcesToClasses (libraries, script.classesObj,
+        classes = Class.mapResourcesToClasses (libraries, script.classesObj,
                                             self._job.get("asset-let", {}))
         filteredResources = []
         for clazz in classes:
             filteredResources.extend(clazz.resources)
-        resdata = ResourceHandler.createResourceStruct (filteredResources, formatAsTree=resources_tree,
+        resdata = Script.createResourceStruct (filteredResources, formatAsTree=resources_tree,
                                            updateOnlyExistingSprites=True)
         # add resource info to packages
         addResourceInfoToPackages(script)

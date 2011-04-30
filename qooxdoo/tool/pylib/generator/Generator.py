@@ -38,7 +38,7 @@ from generator.code.Package          import Package
 from generator.code.Part             import Part
 from generator.code.CodeGenerator    import CodeGenerator
 from generator.resource.Library      import Library
-from generator.resource.ResourceHandler  import ResourceHandler
+#from generator.resource.ResourceHandler  import ResourceHandler
 from generator.resource.ImageClipping    import ImageClipping
 from generator.resource.Image        import Image
 from generator.action.ApiLoader      import ApiLoader
@@ -947,7 +947,7 @@ class Generator(object):
             # class list
             classObjs = [x for x in script.classesObj if x.id in data.keys()]
             # map resources to class.resources
-            classObjs = ResourceHandler.mapResourcesToClasses(script.libraries, classObjs, self._job.get("asset-let", {}))
+            classObjs = Class.mapResourcesToClasses(script.libraries, classObjs, self._job.get("asset-let", {}))
 
             for clazz in classObjs:
                 reskeys = ["/resource/resources#"+x.id for x in clazz.resources]
@@ -1336,7 +1336,7 @@ class Generator(object):
         self.approot  = resTargetRoot  # this is a hack, because resource copying generates uri's
 
         # map resources to class.resources
-        classList = ResourceHandler.mapResourcesToClasses(script.libraries, classList, self._job.get("asset-let", {}))
+        classList = Class.mapResourcesToClasses(script.libraries, classList, self._job.get("asset-let", {}))
 
         self._console.indent()
         # make resources to copy unique

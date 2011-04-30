@@ -36,6 +36,7 @@ from ecmascript.frontend.tree       import Node, NodeAccessException
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
 from generator.resource.AssetHint   import AssetHint
 from generator.resource.Resource    import Resource
+from generator.resource.CombinedImage    import CombinedImage
 from generator                      import Context
 
 DefaultIgnoredNamesDynamic = None
@@ -1337,6 +1338,53 @@ class Class(Resource):
         console = self.context['console']
         result = expMacRec(res)
         return result
+
+
+    ##
+    # Map resources to classes.
+    # Takes a list of Library's and a list of Class'es, and modifies the
+    # classes' .resources member to hold suitable resources from the Libs.
+    @staticmethod
+    def mapResourcesToClasses(libs, classes, assetMacros={}):
+        
+        # Resource list
+        resources = []
+        for libObj in libs:
+            resources.extend(libObj.getResources()) # weightedness of same res id through order of script.libraries
+        # remove unwanted files
+        exclpatt = re.compile("\.(?:meta|py)$", re.I)
+        for res in resources[:]:
+            if exclpatt.search(res.id):
+                resources.remove(res)
+        
+        # Asset pattern list  -- this is basically an optimization, to condense
+        # asset patterns
+        #assetMacros = self._genobj._job.get('asset-let',{})
+        assetHints  = []
+        for clazz in classes:
+            assetHints.extend(clazz.getAssets(assetMacros))
+            clazz.resources = set() #TODO: they might be filled by previous jobs, with different libs
+
+        # Go through resources and asset patterns
+        for res in resources:
+            for hint in assetHints:
+                # add direct matches
+                if hint.regex.match(res.id):
+                    hint.seen = True
+                    hint.clazz.resources.add(res)
+                # add matches of embedded images
+                if isinstance(res, CombinedImage):
+                    for embed in res.embeds:
+                        if hint.regex.match(embed.id):
+                            hint.seen = True
+                            hint.clazz.resources.add(res)
+
+        # Now that the resource mapping is done, check if we have unfullfilled hints
+        for hint in assetHints:
+            if not hint.seen:
+                Context.console.warn("No resource matched #asset(%s) (%s)" % (hint.source, hint.clazz.id))
+        
+        return classes
 
 
     # --------------------------------------------------------------------------

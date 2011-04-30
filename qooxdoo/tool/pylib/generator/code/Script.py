@@ -24,9 +24,13 @@
 #           application / library
 ##
 
+import re
+
 from misc                   import util
 from misc.Trie              import Trie
+from misc.ExtMap            import ExtMap
 from generator.code.Package import Package
+from generator.resource.CombinedImage import CombinedImage
 
 class Script(object):
 
@@ -79,6 +83,54 @@ class Script(object):
     ##
     # generates consecutive package numbers
     getPackageNumber = util.numberSequence().next
+
+
+    ##
+    # Create a resource structure suitable for serializing. The main simpli-
+    # fication is that no resource *selection* is done in this method. It basi-
+    # cally just takes a lists of resources and creates an info structure for
+    # them. Combined images are honored.
+    #
+    # Takes:
+    #   [resourceObj1,...]
+    #   formatAsTree = True/False
+    # returns:
+    #   resource structure {"gui/test.png" : [32, 32, "png", "gui"], ...}
+    # or:
+    #   {"gui" : {"test.png" : [32, 32, "png", "gui"], ...}, ...}
+    @staticmethod
+    def createResourceStruct(resources, formatAsTree=False, updateOnlyExistingSprites=False):
+        
+        skippatt = re.compile(r'\.(meta|py)$', re.I)
+        result = {}
+        if formatAsTree:
+            result = ExtMap()
+
+        # Filter unwanted files
+        for res in resources:
+            if skippatt.search(res.path):
+                continue
+            result[res.id] = res
+
+        # Update simple images
+        for combImg in (x for x in result.values() if isinstance(x, CombinedImage)):
+            for embImg in combImg.embeds:
+                if embImg.id in result:
+                    result[embImg.id].attachCombinedImage(combImg)
+                elif not updateOnlyExistingSprites:
+                    embImg.attachCombinedImage(combImg)
+                    result[embImg.id] = embImg
+
+        # Flatten out the resource representation
+        for resid, res in result.items():
+            result[resid] = res.toResinfo()
+
+        # ExtMap returns nested maps
+        if formatAsTree:
+            result = result.getData()
+
+        return result
+            
 
     ##
     # Namespaces as Trie
