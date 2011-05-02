@@ -209,7 +209,7 @@ qx.Bootstrap.define("qx.Interface",
     /**
      * Assert members
      *
-     * @param object {Object} The object, which contains the methods
+     * @param object {qx.core.Object} The object, which contains the methods
      * @param clazz {Class} class of the object
      * @param iface {Interface} the interface to verify
      * @param wrap {Boolean ? false} wrap functions required by interface to
@@ -354,7 +354,7 @@ qx.Bootstrap.define("qx.Interface",
      * interface. This method throws an exception if the object does not
      * implement the interface.
      *
-     *  @param object {Object} Object to check interface for
+     *  @param object {qx.core.Object} Object to check interface for
      *  @param iface {Interface} The interface to verify
      */
     assertObject : function(object, iface)
