@@ -96,18 +96,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       "Element"   : true,
       "Document"  : true,
       "Window"    : true,
-      "Event"     : true,
-
-      "Class"     : true,
-      "Bootstrap" : true,
-      "List"      : true,
-      "Mixin"     : true,
-      "Interface" : true,
-      "Theme"     : true,
-
-      "Color"     : true,
-      "Decorator" : true,
-      "Font"      : true
+      "Event"     : true
     },
     
     MDC_LINKS :
