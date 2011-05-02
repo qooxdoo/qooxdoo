@@ -101,7 +101,48 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
+    "test: not call onload when loading failed because of network error": function() {
+
+      // Known to fail in IE < 9,
+      // i.e. all browsers using onreadystatechange event handlerattribute
+      //
+      // After a short delay, readyState progresses to "loaded" even
+      // though the resource could not be loaded.
+      if (this.isIeBelow(9)) {
+        this.skip();
+      }
+
+      var that = this,
+          timerId;
+
+      this.req.onload = function() {
+        that.resume(function() {
+          throw Error("Called onload");
+        });
+      };
+
+      // For browsers not supporting the "error" event, wait for a while
+      // and assume "error" will not be fired later
+      timerId = window.setTimeout(function() {
+      }, 5000);
+
+      this.req.onerror = function() {
+        window.clearTimeout(timerId);
+        that.resume();
+      };
+
+      this.request("http://fail.tld");
+      this.wait(6000);
+    },
+
     "test: call onerror when request failed because of network error": function() {
+
+      // Known to fail in IE < 9
+      // Legacy IEs do not support the "error" event.
+      if (this.isIeBelow(9)) {
+        this.skip();
+      }
+
       var that = this;
 
       this.req.onerror = function() {
@@ -113,7 +154,9 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: call onerror when request failed because of invalid script": function() {
-      // Native "error" event not fired in all browsers tested
+
+      // Known to fail in all browsers tested
+      // Native "error" event not fired for script element.
       //
       // A possible work-around is to listen to the global "error"
       // event dispatched on the window.
@@ -125,7 +168,9 @@ qx.Class.define("qx.test.bom.request.Script",
         that.resume(function() {});
       };
 
+      // Invalid JavaScript
       this.request(this.getUrl("qx/test/xmlhttp/sample.txt"));
+
       this.wait();
     },
 
@@ -164,7 +209,8 @@ qx.Class.define("qx.test.bom.request.Script",
       var script,
           that = this;
 
-      this.req.onerror = function() {
+      // In IE < 9, "load" is fired instead of "error"
+      this.req.onerror = this.req.onload = function() {
         that.resume(function() {
           script = this.req._getScriptElement();
           that.assertFalse(that.isInDom(script));
@@ -200,6 +246,11 @@ qx.Class.define("qx.test.bom.request.Script",
 
     isInDom: function(elem) {
       return elem.parentNode ? true : false;
+    },
+
+    isIeBelow: function(version) {
+      return qx.core.Environment.get("engine.name") === "mshtml" &&
+             qx.core.Environment.get("engine.version") < version;
     },
 
     skip: function(msg) {
