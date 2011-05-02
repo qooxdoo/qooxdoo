@@ -136,8 +136,12 @@ qx.Class.define("qx.test.bom.request.Script",
         that.resume(function() {});
       };
 
-      this.req.timeout = 10;
-      this.request(this.getUrl("qx/test/xmlhttp/loading.php") + "?duration=100");
+      this.req.timeout = 100;
+
+      // In legacy browser, a long running script request blocks subsequent requests
+      // even if the script element is removed. Keep duration below default timeout
+      // for wait to work around.
+      this.request(this.getUrl("qx/test/xmlhttp/loading.php") + "?duration=1");
       this.wait();
     },
 
