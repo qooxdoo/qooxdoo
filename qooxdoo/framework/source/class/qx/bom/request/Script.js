@@ -52,6 +52,15 @@ qx.Bootstrap.define("qx.bom.request.Script",
       head.insertBefore(script, head.firstChild);
 
       script.onload = this.__onNativeLoadBound;
+
+      // BUGFIX: IE < 9
+      // Legacy IEs do not fire the "load" event for script elements.
+      // Instead, the support the "readystatechange" event
+      if (qx.core.Environment.get("engine.name") === "mshtml" &&
+          qx.core.Environment.get("engine.version") < 9) {
+      script.onreadystatechange = this.__onNativeLoadBound;
+      }
+
       script.onerror = this.__onNativeErrorBound;
     },
 
@@ -93,6 +102,18 @@ qx.Bootstrap.define("qx.bom.request.Script",
     },
 
     __onNativeLoad: function(e) {
+      var script = this.__scriptElement;
+
+      // BUGFIX: IE < 9
+      // When handling "readystatechange" event, skip if readyState
+      // does not signal loaded script
+      if (qx.core.Environment.get("engine.name") === "mshtml" &&
+          qx.core.Environment.get("engine.version") < 9) {
+        if (!(/loaded|complete/).test(script.readyState)) {
+          return;
+        }
+      }
+
       this.__removeScriptElement();
       this.onload();
     },
