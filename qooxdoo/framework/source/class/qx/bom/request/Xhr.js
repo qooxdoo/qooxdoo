@@ -636,7 +636,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       var nxhr = this.__nativeXhr,
           propertiesReadable = true;
 
-      if (qx.core.Environment.get("qx.bomXhrDebug")) {
+      if (qx.core.Environment.get("qx.debug.xhr.bom")) {
         qx.Bootstrap.debug(qx.bom.request.Xhr, "Received native readyState: " + nxhr.readyState);
       }
 
@@ -649,7 +649,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // Sync current readyState
-      if (qx.core.Environment.get("qx.bomXhrDebug")) {
+      if (qx.core.Environment.get("qx.debug.xhr.bom")) {
         qx.Bootstrap.debug(qx.bom.request.Xhr, "Set readyState to: " + nxhr.readyState);
       }
       this.readyState = nxhr.readyState;
