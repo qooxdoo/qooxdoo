@@ -132,14 +132,21 @@ class Log(object):
         # add prefix
         if msg == "":
             prefix = ""
-        elif self._indent == 0:
-            prefix = ">>> "
-        elif self._indent > 0:
-            prefix = ("  " * self._indent) + "- "
-
+        else:
+            prefix = self.getPrefix()
         self.write(prefix + msg, level, feed)
 
 
+    def getPrefix(self):
+        # add prefix
+        prefix = ""
+        if self._indent == 0:
+            prefix = ">>> "
+        elif self._indent > 0:
+            prefix = ("  " * self._indent) + "- "
+        return prefix
+        
+        
     def debug(self, msg, feed=True):
         if self.filter_pattern:
             # check caller's name against module filter
@@ -176,15 +183,20 @@ class Log(object):
         self.log("Fatal: %s" % msg, "fatal", feed)
 
 
-    def progress(self, pos, length):
+    def progress(self, pos, length, msg=''):
         if self._levels[self._level] > self._levels["info"]:
             return
+
+        if msg:
+            totalprefix = '\r' + self.getPrefix() + msg
+        else:
+            totalprefix = ''
 
         thisstep = 10 * pos / length
         prevstep = 10 * (pos-1) / length
 
         if thisstep != prevstep:
-            sys.stdout.write(" %s%%" % (thisstep * 10))
+            sys.stdout.write("%s %s%%" % (totalprefix, thisstep * 10))
             sys.stdout.flush()
 
         if pos == length:
