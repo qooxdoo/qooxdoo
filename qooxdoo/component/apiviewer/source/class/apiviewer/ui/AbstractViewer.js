@@ -166,7 +166,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       html.add('<h1></h1>');
 
       // Add TOC
-      html.add('<div></div>');
+      html.add('<div class="tocContainer"></div>');
 
       // Add description
       html.add('<div>', '</div>');

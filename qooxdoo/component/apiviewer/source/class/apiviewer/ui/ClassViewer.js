@@ -284,7 +284,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         panelByName[listName] = panels[i];
       }
       
-      var separatorFlag = false;
+      var lastTocItem = null;
       
       for(var i=0, l=members.length; i<l; i++)
       {
@@ -329,10 +329,9 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         
         if(showTOC)
         {
-          if(separatorFlag) {
+          if(lastTocItem) {
             tocHtml.appendChild(document.createTextNode(' | '));
           }
-          separatorFlag = true;
           var tocItem = qx.bom.Element.create('span');
           qx.bom.element.Class.add(tocItem,'tocitem');
           
@@ -344,9 +343,19 @@ qx.Class.define("apiviewer.ui.ClassViewer",
             {
               this.__enableSection(firstItem, firstItem.getName());
               qx.bom.element.Scroll.intoView(panel.getTitleElement(), null, "left", "top");
+              if(!panel.getIsOpen()) {
+                this.togglePanelVisibility(panel);
+              }
             };})(panelByName[members[i]],memberList[0]),this,false);
-          tocItem.appendChild(document.createTextNode(qx.lang.String.capitalize(members[i])));
+          var textSpan = qx.bom.Element.create('span');
+          if(members[i] === 'methods-static' && qx.core.Environment.get("engine.name")=='webkit') {
+            qx.bom.element.Style.set(textSpan,'margin-left','25px');
+          }
+          textSpan.appendChild(document.createTextNode(' '));
+          textSpan.appendChild(document.createTextNode(members[i] === 'methods-static' ? 'Static Methods' : qx.lang.String.capitalize(members[i])));
+          tocItem.appendChild(textSpan);
           tocHtml.appendChild(tocItem);
+          lastTocItem = tocItem;
         }
       }
       
@@ -592,6 +601,9 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
 
       var panel = this._getPanelForItemNode(itemNode);
+      if(!panel.getIsOpen()) {
+        this.togglePanelVisibility(panel);
+      }
       var itemElement = panel.getItemElement(itemNode.getName());
 
       if (!itemElement) {
