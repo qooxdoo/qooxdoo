@@ -71,7 +71,6 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
   
   members :
   {
-    __sizes : null,
     __families : null,
     
     // property apply
@@ -81,11 +80,8 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
       for (var i=0, l=value.length; i<l; i++) {
         var familyName = this._quoteFontFamily(value[i].family);
         families.push(familyName);
-        var source = value[i].source;
-        if (value[i].size) {
-          this.__sizes[familyName] = value[i].size;
-        }
-        qx.bom.webfonts.Manager.getInstance().require(familyName, source, this._onWebFontChangeStatus, this);
+        var sourcesList = value[i].source;
+        qx.bom.webfonts.Manager.getInstance().require(familyName, sourcesList, this._onWebFontChangeStatus, this);
       }
       
       this.setFamily(families.concat(this.getFamily()));
