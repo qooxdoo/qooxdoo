@@ -41,8 +41,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     send: function() {
       var script = this.__scriptElement = document.createElement("script"),
-          head = this.__headElement,
-          that = this;
+          head = this.__headElement;
 
       script.src = this.__url;
 
@@ -87,10 +86,14 @@ qx.Bootstrap.define("qx.bom.request.Script",
       return this.__scriptElement;
     },
 
+    __scriptElement: null,
+    __headElement: null,
+
     __url: "",
 
     __onNativeLoadBound: null,
     __onNativeErrorBound: null,
+    __onTimeoutBound: null,
 
     __timeoutId: null,
 
