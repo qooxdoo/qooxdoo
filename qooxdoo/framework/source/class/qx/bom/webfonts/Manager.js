@@ -417,10 +417,10 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       var reg = new RegExp("@font-face.*?" + familyName, "m");
       var rules = this.__styleSheet.cssRules || this.__styleSheet.rules;
       for (var i=0,l=rules.length; i<l; i++) {
-        var cssText = rules[i].cssText.replace(/\n/g, "");
+        var cssText = rules[i].cssText.replace(/\n/g, "").replace(/\r/g, "");
         if (reg.exec(cssText)) {
           this.__styleSheet.deleteRule(i);
-          break;
+          return;
         }
       }
     }
