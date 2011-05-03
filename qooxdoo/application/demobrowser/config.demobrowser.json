@@ -87,6 +87,10 @@
         {
           "file" : "./source/script/${APPLICATION}.js",
           "app-root" : "source"
+        },
+        "code"   : 
+        {
+          "except" : ["*"]
         }
       },
       "compile" : { "type" : "source" }
@@ -140,11 +144,13 @@
       {
         "paths" :
         {
-          "file": "./build/script/${APPLICATION}.js"
+          "file": "./build/script/${APPLICATION}.js",
+          "app-root" : "./build"
         },
         "code"  :
         {
           "format" : true,
+          "except" : [],
           "optimize" : ["basecalls", "variables", "privates", "strings"]
         }
       },

@@ -55,8 +55,9 @@ class Package(object):
         self.data.locales      = {}   # {"en" : {"cldr_am" : "AM"}}
         self.data.translations = {}   # {"en" : {"Hello"   : "Hallo"}}
         self.packageDeps= set() # set(Package()) this package (load-)depends on
-        self.compiled   = ""   # potential compiled string of the package classes
+        self.compiled   = []   # potential compiled strings of self.files[]
         self._hash      = ""   # property
+        self.has_source = False # whether this package includes classes from their source file
 
         console = Context.console
 
@@ -109,7 +110,7 @@ class Package(object):
         packageContent = u'''qx.$$packageData["%s"]=%s;
 qx.Part.$$notifyLoad("%s", function() {
 %s
-});''' % (contentHash, dataString, contentHash, classesString)
+});''' % (self.id, dataString, self.id, classesString)
         return contentHash, packageContent
 
 

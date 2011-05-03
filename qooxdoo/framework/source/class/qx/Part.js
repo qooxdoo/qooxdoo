@@ -40,7 +40,7 @@ qx.Bootstrap.define("qx.Part",
   construct : function(loader)
   {
     // assert: boot part has a single package
-    var bootPackageIndex = loader.parts[loader.boot][0];
+    var bootPackageKey = loader.parts[loader.boot][0];
 
     this.__loader = loader;
 
@@ -50,13 +50,13 @@ qx.Bootstrap.define("qx.Part",
     this.__packageClosureListeners = {};
 
     // create the packages
-    this.__packages = [];
-    var uris = this.__getUris();
-    for (var i=0; i<uris.length; i++)
+    this.__packages = {};
+    for (var key in loader.packages)
     {
-      var hash = loader.packageHashes[i];
-      var pkg = new qx.io.part.Package(uris[i], hash, i==bootPackageIndex);
-      this.__packages.push(pkg);
+      var pkg = new qx.io.part.Package(
+        this.__decodeUris(loader.packages[key].uris), key, key==bootPackageKey
+      );
+      this.__packages[key] = pkg;
     };
 
     // create the parts
@@ -66,10 +66,10 @@ qx.Bootstrap.define("qx.Part",
 
     for (var name in parts)
     {
-      var pkgIndexes = parts[name];
+      var pkgKeys = parts[name];
       var packages = [];
-      for (var i = 0; i < pkgIndexes.length; i++) {
-        packages.push(this.__packages[pkgIndexes[i]]);
+      for (var i = 0; i < pkgKeys.length; i++) {
+        packages.push(this.__packages[pkgKeys[i]]);
       }
 
       // check for closure loading
@@ -165,7 +165,7 @@ qx.Bootstrap.define("qx.Part",
      *   registry of packages.
      */
     addToPackage : function(pkg) {
-      this.__packages.push(pkg);
+      this.__packages[pkg.getId()] = pkg;
     },
 
 
@@ -197,13 +197,7 @@ qx.Bootstrap.define("qx.Part",
     saveClosure : function(id, closure)
     {
       // search for the package
-      var pkg;
-      for (var i = 0; i < this.__packages.length; i++) {
-        if (this.__packages[i].getId() == id) {
-          pkg = this.__packages[i];
-          break;
-        }
-      };
+      var pkg = this.__packages[id];
 
       // error if no package could be found
       if (!pkg) {
@@ -328,10 +322,10 @@ qx.Bootstrap.define("qx.Part",
      */
     __getUris : function()
     {
-      var packages = this.__loader.uris;
+      var packages = this.__loader.packages;
       var uris = [];
-      for (var i=0; i<packages.length; i++) {
-        uris.push(this.__decodeUris(packages[i]));
+      for (var key in packages) {
+        uris.push(this.__decodeUris(packages[key].uris));
       }
       return uris;
     },

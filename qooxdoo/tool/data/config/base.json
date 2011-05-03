@@ -102,7 +102,7 @@
 
     // -- source jobs --------------------------------------------------
 
-    "source-script" :
+    "source-script1" :
     {
       "desc"    : "create includer script of current application",
 
@@ -137,7 +137,7 @@
     },
 
 
-    "source-script1" :
+    "source-script" :
     {
       "desc"    : "create includer script of current application",
 
@@ -251,7 +251,7 @@
 
     // -- build jobs ---------------------------------------------------
 
-    "build-script" :
+    "build-script1" :
     {
       "desc"    : "create build script of current application",
 
@@ -292,7 +292,7 @@
     },
 
 
-    "build-script1" :
+    "build-script" :
     {
       "desc"    : "create build script of current application",
 
@@ -313,7 +313,8 @@
       {
         "paths"  :
         {
-          "file" : "${BUILD_PATH}/script/${APPLICATION}.js"
+          "file" : "${BUILD_PATH}/script/${APPLICATION}.js",
+          "app-root" : "${BUILD_PATH}"
         },
         "uris"   :
         {

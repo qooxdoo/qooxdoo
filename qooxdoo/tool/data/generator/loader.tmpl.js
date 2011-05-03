@@ -27,9 +27,8 @@ qx.$$packageData = {};
 
 qx.$$loader = {
   parts : %{Parts},
-  uris : %{Uris},
+  packages : %{Packages},
   urisBefore : %{UrisBefore},
-  packageHashes : %{PackageHashes},
   boot : %{Boot},
   closureParts : %{ClosureParts},
   bootIsInline : %{BootIsInline},
@@ -156,12 +155,12 @@ qx.$$loader.init = function(){
 
 qx.$$loader.initUris = function(){
   var l=qx.$$loader;
-  var bootPackageHash=l.packageHashes[l.parts[l.boot][0]];
+  var bootPackageHash=l.parts[l.boot][0];
   if (l.bootIsInline){
     l.importPackageData(qx.$$packageData[bootPackageHash]);
     l.signalStartup();
   } else {
-    loadScriptList(l.decodeUris(l.uris[l.parts[l.boot]]), function(){
+    loadScriptList(l.decodeUris(l.packages[l.parts[l.boot][0]].uris), function(){
       // Opera needs this extra time to parse the scripts
       window.setTimeout(function(){
         l.importPackageData(qx.$$packageData[bootPackageHash] || {});
