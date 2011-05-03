@@ -191,6 +191,7 @@ qx.Bootstrap.define("qx.Bootstrap",
        if (qx.$$environment && qx.$$environment["qx.debug"] === false) {
          debug = false;
        }
+       //@deprecated since 1.4
        if (window.qxvariants && window.qxvariants["qx.debug"] == "off") {
          debug = false;
        }
