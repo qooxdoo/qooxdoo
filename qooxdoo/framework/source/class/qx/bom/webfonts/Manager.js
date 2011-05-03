@@ -425,12 +425,23 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     __removeRule : function(familyName)
     {
       var reg = new RegExp("@font-face.*?" + familyName, "m");
-      var rules = this.__styleSheet.cssRules || this.__styleSheet.rules;
-      for (var i=0,l=rules.length; i<l; i++) {
-        var cssText = rules[i].cssText.replace(/\n/g, "").replace(/\r/g, "");
-        if (reg.exec(cssText)) {
-          this.__styleSheet.deleteRule(i);
-          return;
+      for (var i=0,l=document.styleSheets.length; i<l; i++) {
+        var sheet = document.styleSheets[i];
+        if (sheet.cssText) {
+          var cssText = sheet.cssText.replace(/\n/g, "").replace(/\r/g, "");
+          if (reg.exec(cssText)) {
+            cssText = cssText.replace(reg, "");
+          }
+          sheet.cssText = cssText;
+        }
+        else if (sheet.cssRules) {
+          for (var j=0,m=sheet.cssRules.length; j<m; j++) {
+            var cssText = sheet.cssRules[j].cssText.replace(/\n/g, "").replace(/\r/g, "");
+            if (reg.exec(cssText)) {
+              this.__styleSheet.deleteRule(i);
+              return;
+            }
+          }
         }
       }
     }

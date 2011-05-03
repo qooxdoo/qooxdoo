@@ -64,7 +64,7 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
             return true;
           }
         }
-        else {
+        else if (sheet.cssRules) {
           for (var j=0,m=sheet.cssRules.length; j<m; j++) {
             if (helper(sheet.cssRules[j].cssText)) {
               return true;
