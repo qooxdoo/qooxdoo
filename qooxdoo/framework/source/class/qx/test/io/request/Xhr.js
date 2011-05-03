@@ -695,9 +695,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       var transport = this.transport,
           auth, call, key, credentials;
 
-      auth = new qx.io.request.authentication.Basic();
-      auth.setUsername("affe");
-      auth.setPassword("geheim");
+      auth = new qx.io.request.authentication.Basic("affe", "geheim");
       this.req.setAuthentication(auth);
       this.req.send();
 

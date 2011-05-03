@@ -27,35 +27,30 @@ qx.Class.define("qx.io.request.authentication.Basic",
 
   implement: qx.io.request.authentication.IAuthentication,
 
-  properties:
+  /**
+   * @param username {var} The username to use.
+   * @param password {var} The password to use.
+   */
+  construct : function(username, password)
   {
-    /**
-     * Authenticate with username.
-     */
-    username: {
-      check: "String",
-      nullable: true
-    },
-
-    /**
-     * Authenticate with password.
-     */
-    password: {
-      check: "String",
-      nullable: true
-    }
+     this.__credentials = qx.util.Base64.encode(username + ':' + password);
   },
 
   members :
   {
+    __credentials : null,
+
     /**
      * Headers to include for basic authentication.
      */
     getAuthHeaders: function() {
-      var credentials = qx.util.Base64.encode(this.getUsername() + ':' + this.getPassword());
       return [
-        {key: "Authorization", value: "Basic " + credentials}
+        {key: "Authorization", value: "Basic " + this.__credentials}
       ];
     }
+  },
+
+  destruct : function() {
+    this.__credentials = null;
   }
 });
