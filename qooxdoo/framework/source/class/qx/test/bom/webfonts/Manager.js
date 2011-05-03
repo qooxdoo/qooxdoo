@@ -20,7 +20,9 @@
 
 qx.Class.define("qx.test.bom.webfonts.Manager", {
 
-  extend : qx.dev.unit.TestCase,
+  extend : qx.test.bom.webfonts.Abstract,
+  
+  include : [qx.dev.unit.MRequirements],
   
   members :
   {
@@ -75,6 +77,7 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
     
     setUp : function()
     {
+      this.require(["webFontSupport"]);
       this.__nodesBefore = document.body.childNodes.length;
       this.__sheetsBefore = document.styleSheets.length;
       this.__manager = qx.bom.webfonts.Manager.getInstance();

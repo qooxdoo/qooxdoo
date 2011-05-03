@@ -16,13 +16,16 @@
 
 qx.Class.define("qx.test.bom.webfonts.Validator", {
 
-  extend : qx.dev.unit.TestCase,
+  extend : qx.test.bom.webfonts.Abstract,
+  
+  include : [qx.dev.unit.MRequirements],
   
   members :
   {
     setUp : function()
     {
       this.__nodesBefore = document.body.childNodes.length;
+      this.require(["webFontSupport"]);
       this.__val = new qx.bom.webfonts.Validator;
     },
     
