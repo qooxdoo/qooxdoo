@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#optional(qx.core.Environment)
+
+************************************************************************ */
+
 /**
  * The GlobalError class stores a reference to a global error handler function.
  *
@@ -32,6 +38,19 @@ qx.Bootstrap.define("qx.event.GlobalError",
   statics :
   {
     /**
+     * Little helper to check if the global error handling is enabled.
+     * @return {Boolean} <code>true</code>, if it is enabled.
+     */
+    __isGlobaErrorHandlingEnabled : function() {
+      if (qx.core && qx.core.Environment) {
+        return qx.core.Environment.get("qx.globalErrorHandling");
+      } else {
+        return !!qx.Bootstrap.getEnvironmentSetting("qx.globalErrorHandling");
+      }
+    },
+
+
+    /**
      * Set the global fallback error handler
      *
      * @param callback {Function} The error handler. The first argument is the
@@ -43,7 +62,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
       this.__callback = callback || null;
       this.__context = context || window;
 
-      if (qx.core.Environment.get("qx.globalErrorHandling"))
+      if (this.__isGlobaErrorHandlingEnabled())
       {
         // wrap the original onerror
         if (callback && window.onerror) {
@@ -103,7 +122,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
      */
     observeMethod : function(method)
     {
-      if (qx.core.Environment.get("qx.globalErrorHandling"))
+      if (this.__isGlobaErrorHandlingEnabled())
       {
         var self = this;
         return function()
@@ -142,7 +161,13 @@ qx.Bootstrap.define("qx.event.GlobalError",
 
   defer : function(statics)
   {
-    qx.core.Environment.add("qx.globalErrorHandling", true);
+    // only use the environment class if already loaded
+    if (qx.core && qx.core.Environment) {
+      qx.core.Environment.add("qx.globalErrorHandling", true);
+    } else {
+      qx.Bootstrap.setEnvironmentSetting("qx.globalErrorHandling", true);
+    }
+
     statics.setErrorHandler(null, null);
     // @deprecated since 1.4
     qx.core.Setting.defineDeprecated("qx.globalErrorHandling", "on");

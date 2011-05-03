@@ -168,10 +168,10 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
       // Execute user callback
       if (this.__callback)
       {
-        if (
-          qx.core.Environment.get("engine.name") == "mshtml" ||
-          qx.core.Environment.get("engine.name") == "webkit"
-        ) {
+        // Important to use engine detection directly to keep the minimal
+        // package size small [BUG #5068]
+        var engineName = qx.bom.client.Engine.getName();
+        if (engineName == "mshtml" || engineName == "webkit") {
           // Safari fails with an "maximum recursion depth exceeded" error if
           // many files are loaded
 
@@ -217,10 +217,13 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
      * @signature function(e)
      * @param e {Event} Native event object
      */
-    __onevent : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(e)
-      {
+    __onevent : qx.event.GlobalError.observeMethod(function(e) {
+      // Important to use engine detection directly to keep the minimal
+      // package size small [BUG #5068]
+      var engineName = qx.bom.client.Engine.getName();
+
+      // IE only
+      if (engineName == "mshtml") {
         var state = this.__elem.readyState;
 
         if (state == "loaded") {
@@ -230,10 +233,9 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
         } else {
           return;
         }
-      },
 
-      "opera" : function(e)
-      {
+      // opera only
+      } else if (engineName == "opera") {
         if (qx.Bootstrap.isString(e) || e.type === "error") {
           return this.dispose("fail");
         } else if (e.type === "load") {
@@ -241,10 +243,9 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
         } else {
           return;
         }
-      },
 
-      "default" : function(e)
-      {
+      /// all other browsers
+      } else {
         if (qx.Bootstrap.isString(e) || e.type === "error") {
           this.dispose("fail");
         } else if (e.type === "load") {
@@ -255,6 +256,6 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
           return;
         }
       }
-    }))
+    })
   }
 });

@@ -32,7 +32,9 @@ qx.Bootstrap.define("qx.core.GlobalError",
    */
   construct : function(exc, args)
   {
-    if (qx.core.Environment.get("qx.debug")) {
+    // Do not use the Environment class to keep the minimal
+    // package size small [BUG #5068]
+    if (qx.Bootstrap.DEBUG) {
       qx.core.Assert.assertNotUndefined(exc);
     }
 

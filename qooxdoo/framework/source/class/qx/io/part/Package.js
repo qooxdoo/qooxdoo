@@ -251,7 +251,9 @@ qx.Bootstrap.define("qx.io.part.Package",
             }
           }
 
-          if ((qx.core.Environment.get("engine.name") == "webkit"))
+          // Important to use engine detection directly to keep the minimal
+          // package size small [BUG #5068]
+          if ((qx.bom.client.Engine.getName() == "webkit"))
           {
             // force asynchronous load
             // Safari fails with an "maximum recursion depth exceeded" error if it is
