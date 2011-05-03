@@ -660,6 +660,26 @@ class CodeGenerator(object):
         # ---- 'hybrid' version ------------------------------------------------
         elif script.buildType in ("source", "hybrid", "build"):
 
+            # @deprecated
+            if script.buildType in ("source", "build"):
+                jobConf = self._jobconf
+                confkey = "compile-options/code/except"
+                if jobConf.get(confkey, None) == None:
+                    self._console.warn("You need to supply a '%s' key in your job configuration" % confkey)
+                    if script.buildType == "source":
+                        entry = ["*"]
+                    elif script.buildType == "build":
+                        entry = [] # this actually matches the default
+                    jobConf.set(confkey, entry)
+                    self._console.warn("   auto-supplying entry: '%s'" % entry)
+                confkey = "compile-options/paths/app-root"
+                if script.buildType == "build" and jobConf.get(confkey, None) == None:
+                    self._console.warn("You need to supply a '%s' key in your job configuration" % confkey)
+                    entry = "%s" % jobConf("let/BUILD_PATH", "build")
+                    jobConf.set(confkey, )
+                    self._console.warn("    auto-supplying entry: '%s'" % entry)
+            # @deprecated-end
+
             # - Generating packages ---------------------
             self._console.info("Generating packages...")
             self._console.indent()
