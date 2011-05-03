@@ -55,7 +55,6 @@ qx.Class.define("demobrowser.demo.ui.WebFonts",
               source:
               [
                 "demobrowser/demo/fonts/duedate-webfont.eot",
-                "demobrowser/demo/fonts/duedate-webfont.svg#DueDateRegular",
                 "demobrowser/demo/fonts/duedate-webfont.ttf",
                 "demobrowser/demo/fonts/duedate-webfont.woff"
               ]
@@ -74,7 +73,6 @@ qx.Class.define("demobrowser.demo.ui.WebFonts",
               source:
               [
                 "demobrowser/demo/fonts/fatfreddiecontour-webfont.eot",
-                "demobrowser/demo/fonts/fatfreddiecontour-webfont.svg#FatFreddieContourRegular",
                 "demobrowser/demo/fonts/fatfreddiecontour-webfont.ttf",
                 "demobrowser/demo/fonts/fatfreddiecontour-webfont.woff"
               ]
@@ -93,7 +91,6 @@ qx.Class.define("demobrowser.demo.ui.WebFonts",
               source:
               [
                 "demobrowser/demo/fonts/gorilla-webfont.eot",
-                "demobrowser/demo/fonts/gorilla-webfont.svg#webfontI8sEV11S",
                 "demobrowser/demo/fonts/gorilla-webfont.ttf",
                 "demobrowser/demo/fonts/gorilla-webfont.woff"
               ]
