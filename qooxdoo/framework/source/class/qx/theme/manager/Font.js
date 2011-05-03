@@ -94,7 +94,8 @@ qx.Class.define("qx.theme.manager.Font",
       var theme = this.getTheme();
       if (theme !== null && theme.fonts[value])
       {
-        return cache[value] = (new qx.bom.Font).set(theme.fonts[value]);
+        var font = this.__getFontClass(theme.fonts[value]);
+        return cache[value] = (new font).set(theme.fonts[value]);
       }
 
       return value;
@@ -123,7 +124,8 @@ qx.Class.define("qx.theme.manager.Font",
       var theme = this.getTheme();
       if (theme !== null && value && theme.fonts[value])
       {
-        cache[value] = (new qx.bom.Font).set(theme.fonts[value]);
+        var font = this.__getFontClass(theme.fonts[value]);
+        cache[value] = (new font).set(theme.fonts[value]);
         return true;
       }
 
@@ -172,7 +174,6 @@ qx.Class.define("qx.theme.manager.Font",
       if (value)
       {
         var source = value.fonts;
-        var font = qx.bom.Font;
 
         for (var key in source)
         {
@@ -180,11 +181,26 @@ qx.Class.define("qx.theme.manager.Font",
             this.__resolveInclude(source, key);
           }
 
+          var font = this.__getFontClass(source[key]);
           dest[key] = (new font).set(source[key]);
           dest[key].themed = true;
         }
       }
       this._setDynamic(dest);
+    },
+    
+    /**
+     * Decides which Font class should be used based on the theme configuration
+     * 
+     * @param config {Map} The font's configuration map
+     * @return {Class} 
+     */
+    __getFontClass : function(config)
+    {
+      if (config.sources) {
+        return qx.bom.webfonts.WebFont;
+      }
+      return qx.bom.Font;
     }
   }
 });
