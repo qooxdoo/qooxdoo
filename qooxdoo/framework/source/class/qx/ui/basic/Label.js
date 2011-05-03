@@ -342,6 +342,9 @@ qx.Class.define("qx.ui.basic.Label",
       if (value)
       {
         this.__font = qx.theme.manager.Font.getInstance().resolve(value);
+        if (this.__font instanceof qx.bom.webfonts.WebFont) {
+          this.__font.addListenerOnce("fontValid", this._onWebFontStatusChange, this);
+        }
         styles = this.__font.getStyles();
       }
       else
@@ -466,6 +469,18 @@ qx.Class.define("qx.ui.basic.Label",
     }),
 
 
+    /**
+     * Triggers layout recalculation after a web font was loaded
+     * 
+     * @param ev {qx.event.type.Data} "fontValid" event
+     */
+    _onWebFontStatusChange : function(ev)
+    {
+      this.__invalidContentSize = true;
+      qx.ui.core.queue.Layout.add(this);
+    },
+
+
     // property apply
     _applyValue : function(value, old)
     {
@@ -502,6 +517,10 @@ qx.Class.define("qx.ui.basic.Label",
       if (buddy != null && !buddy.isDisposed()) {
         buddy.removeBinding(this.__buddyEnabledBinding);
       }
+    }
+
+    if (this.__font.hasListener("fontValid")) {
+      this.__font.removeListener("fontValid", this._onWebFontStatusChange, this);
     }
 
     this.__font = this.__buddyEnabledBinding = null;
