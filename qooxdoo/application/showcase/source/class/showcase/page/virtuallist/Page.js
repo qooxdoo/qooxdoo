@@ -59,7 +59,7 @@ qx.Class.define("showcase.page.virtuallist.Page",
 
     __tryThis : {
       "Close Group" : "Click on the arrow of a group item to close the group.",
-      "Change User Data" : "Select a user and change values for e.q. status.",
+      "Change User Data" : "Select a user and change values for e.g. status.",
       "Add User" : "Press the add user button and enter name and group.",
       "Delete User" : "Select a user and press the delete button."
     },
@@ -71,8 +71,7 @@ qx.Class.define("showcase.page.virtuallist.Page",
       "Selection" : "You can use different selection modes (single selection," +
         " multi selection).",
       "Data Binding" : "You can bind model values with the rendered widget.",
-      "Custom Rendering" : "You can configure the used widgets or use your own" +
-        " ones."
+      "Custom Rendering" : "You can configure the used widgets or create your own."
     },
 
     __manual : {
