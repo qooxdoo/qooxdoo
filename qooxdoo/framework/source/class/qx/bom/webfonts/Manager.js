@@ -244,17 +244,6 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      */
     __require : function(familyName, sources, callback, context)
     {
-      var browser = qx.core.Environment.get("browser.name");
-      var version = qx.core.Environment.get("browser.version");   
-      if ((browser == "firefox" && version < 3.5) ||
-          (browser == "opera" && version < 10))
-      {
-        if (qx.core.Environment.get("qx.debug")) {
-          this.warn("This browser does not support @font-face");
-        }
-        return;
-      }
-      
       if (!qx.lang.Array.contains(this.__createdStyles, familyName)) {
         var sourcesMap = this.__getSourcesMap(sources);
         var rule = this.__getRule(familyName, sourcesMap);
@@ -262,7 +251,20 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         if (!rule) {
           throw new Error("Couldn't create @font-face rule for WebFont " + familyName + "!");
         }
-        this.__addRule(rule);
+
+        if (!this.__styleSheet) {
+          this.__styleSheet = qx.bom.Stylesheet.createElement();
+        }
+
+        try {
+          this.__addRule(rule);
+        }
+        catch(ex) {
+          if (qx.core.Environment.get("qx.debug")) {
+            this.warn("Error while adding @font-face rule:", ex.message);
+            return;
+          }
+        }
         this.__createdStyles.push(familyName);
       }
         
@@ -400,10 +402,6 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      */
     __addRule : function(rule)
     {
-      if (!this.__styleSheet) {
-        this.__styleSheet = qx.bom.Stylesheet.createElement();
-      }
-      
       var completeRule = "@font-face {" + rule + "}\n";
       
       if (qx.core.Environment.get("browser.name") == "ie" &&
