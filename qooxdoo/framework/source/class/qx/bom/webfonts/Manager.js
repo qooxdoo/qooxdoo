@@ -92,7 +92,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * checks if the webFont was applied correctly.
      * 
      * @param familyName {String} Name of the web font
-     * @param sources {String[]} List of source URLs. For maximum compatibility,
+     * @param sourcesList {String[]} List of source URLs. For maximum compatibility,
      * this should include EOT, WOFF and TTF versions of the font.
      * @param callback {Function?} Optional event listener callback that will be
      * executed once the validator has determined whether the webFont was 
