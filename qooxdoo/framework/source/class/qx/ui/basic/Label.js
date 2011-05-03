@@ -519,7 +519,7 @@ qx.Class.define("qx.ui.basic.Label",
       }
     }
 
-    if (this.__font.hasListener("fontValid")) {
+    if (this.__font && this.__font.hasListener("fontValid")) {
       this.__font.removeListener("fontValid", this._onWebFontStatusChange, this);
     }
 
