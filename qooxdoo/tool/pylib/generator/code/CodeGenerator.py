@@ -298,6 +298,17 @@ class CodeGenerator(object):
             return json.dumpsCode(packageHashes)
 
 
+        def isClosurePart(part, script):
+            loader_with_boot = self._job.get("packages/loader-with-boot", True)
+            if loader_with_boot and part.name == script.boot:
+                return False
+            if (len(part.packages) == 1 
+                and not any(x.has_source for x in part.packages)):
+                return True
+            return False
+
+
+
         def loaderClosureParts(script, compConf):
             cParts = {}
             loader_with_boot = self._job.get("packages/loader-with-boot", True)
