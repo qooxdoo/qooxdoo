@@ -438,7 +438,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
           for (var j=0,m=sheet.cssRules.length; j<m; j++) {
             var cssText = sheet.cssRules[j].cssText.replace(/\n/g, "").replace(/\r/g, "");
             if (reg.exec(cssText)) {
-              this.__styleSheet.deleteRule(i);
+              this.__styleSheet.deleteRule(j);
               return;
             }
           }
