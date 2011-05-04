@@ -34,6 +34,11 @@ qx.Bootstrap.define("qx.bom.request.Script",
   members :
   {
 
+    // XHR Properties
+    readyState: 0,
+    status: 0,
+    statusText: null,
+
     timeout: 0,
 
     open: function(method, url) {
@@ -101,8 +106,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
     __disposed: null,
 
     _onTimeout: function() {
+      this.__failure();
       this.ontimeout();
-      this.__disposeScriptElement();
     },
 
     _onNativeLoad: function(e) {
@@ -118,13 +123,27 @@ qx.Bootstrap.define("qx.bom.request.Script",
         }
       }
 
-      this.__disposeScriptElement();
+      this.__success();
       this.onload();
     },
 
     _onNativeError: function() {
-      this.__disposeScriptElement();
+      this.__failure();
       this.onerror();
+    },
+
+    __success: function() {
+      this.__disposeScriptElement();
+      this.readyState = 4;
+      this.status = 200;
+      this.statusText = "200 OK";
+    },
+
+    __failure: function() {
+      this.__disposeScriptElement();
+      this.readyState = 4;
+      this.status = 0;
+      this.statusText = null;
     },
 
     __disposeScriptElement: function() {

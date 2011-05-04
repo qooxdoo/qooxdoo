@@ -55,6 +55,71 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     //
+    // Properties
+    //
+
+    "test: properties indicate success when request completed": function() {
+      var that = this,
+          req = this.req;
+
+      req.onload = function() {
+        that.resume(function() {
+          that.assertEquals(4, req.readyState);
+          that.assertEquals(200, req.status);
+          that.assertEquals("200 OK", req.statusText);
+        });
+      };
+
+      this.request();
+      this.wait();
+    },
+
+    "test: properties indicate failure when request failed": function() {
+      // Known to fail in IE < 9
+      // Legacy IEs do not support the "error" event.
+      if (this.isIeBelow(9)) {
+        this.skip();
+      }
+
+      var that = this,
+          req = this.req;
+
+      req.onerror = function() {
+        that.resume(function() {
+          that.assertEquals(4, req.readyState);
+          that.assertEquals(0, req.status);
+          that.assertNull(req.statusText);
+        });
+      };
+
+      this.request("http://fail.tld");
+      this.wait();
+    },
+
+    "test: properties indicate failure when request timed out": function() {
+      // Known to fail in IE < 9
+      // Legacy IEs do not support the "error" event.
+      if (this.isIeBelow(9)) {
+        this.skip();
+      }
+
+      var that = this,
+          req = this.req;
+
+      req.timeout = 100;
+      req.ontimeout = function() {
+        that.resume(function() {
+          that.assertEquals(4, req.readyState);
+          that.assertEquals(0, req.status);
+          that.assertNull(req.statusText);
+        });
+      };
+
+      this.request(this.noCache(this.getUrl("qx/test/xmlhttp/echo_get_request.php")) + "&sleep=1");
+      this.wait();
+    },
+
+    //
     // open()
     //
 
