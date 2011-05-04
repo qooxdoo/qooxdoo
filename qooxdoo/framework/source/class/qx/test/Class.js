@@ -182,14 +182,10 @@ qx.Class.define("qx.test.Class",
         extend : Object,
         type : "singleton",
 
-        construct : function(name)
-        {
-          this._name = name;
+        construct : function() {
           this._date = new Date().toString();
         }
       });
-
-      this.assertEquals(qx.Single1.getInstance()._date, qx.Single1.getInstance()._date, "getInstance should always return the same object!");
 
       // direct instanctiation should fail
       if (this.isDebugOn())
@@ -198,6 +194,10 @@ qx.Class.define("qx.test.Class",
           new qx.Single1();
         }, Error, new RegExp("The class .* is a singleton"));
       };
+
+      this.assertEquals(qx.Single1.getInstance()._date, qx.Single1.getInstance()._date, "getInstance should always return the same object!");
+
+      qx.Class.undefine("qx.Single1");
     },
 
     testInvalidImplicitStatic : function()
