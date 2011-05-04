@@ -179,6 +179,29 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     //
+    // setRequestHeader()
+    //
+
+    "test: setRequestHeader() throws error when other than OPENED": function() {
+      var req = this.req;
+
+      this.assertException(function() {
+        req.setRequestHeader();
+      }, null, "Invalid state");
+    },
+
+    "test: setRequestHeader() appends to URL": function() {
+      var req = this.req;
+
+      req.open("GET", "/affe");
+      req.setRequestHeader("key1", "value1");
+      req.setRequestHeader("key2", "value2");
+
+      this.assertMatch(req._getUrl(), /key1=value1/);
+      this.assertMatch(req._getUrl(), /key2=value2/);
+    },
+
+    //
     // Event handlers
     //
 

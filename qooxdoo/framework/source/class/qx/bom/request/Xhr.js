@@ -282,12 +282,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * @param value {String}
      *        The value to set as the body of the header.
      */
-    setRequestHeader: function(header, value) {
+    setRequestHeader: function(key, value) {
       if (this.__disposed) {
         return;
       }
 
-      this.__nativeXhr.setRequestHeader(header, value);
+      this.__nativeXhr.setRequestHeader(key, value);
     },
 
     /**

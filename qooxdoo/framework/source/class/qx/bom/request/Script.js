@@ -81,6 +81,17 @@ qx.Bootstrap.define("qx.bom.request.Script",
       this.__readyStateChange(3);
     },
 
+    setRequestHeader: function(key, value) {
+      var param = {};
+
+      if (this.readyState !== 1) {
+        throw new Error("Invalid state");
+      }
+
+      param[key] = value;
+      this.__url = qx.util.Uri.appendParamsToUrl(this.__url, param);
+    },
+
     abort: function() {
       this.__abort = true;
       this.__disposeScriptElement();
