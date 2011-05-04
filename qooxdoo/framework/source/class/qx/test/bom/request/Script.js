@@ -152,6 +152,33 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     //
+    // abort()
+    //
+
+    "test: abort() removes script element": function() {
+      var req = this.req;
+
+      this.request(this.noCache(this.getUrl("qx/test/xmlhttp/echo_get_request.php")) + "&sleep=1");
+      req.abort();
+
+      this.assertFalse(this.isInDom(req._getScriptElement()), "Script element in DOM");
+    },
+
+    "test: abort() makes request not fire load": function() {
+      var req = this.req,
+          that = this;
+
+      this.spy(req, "onload");
+
+      this.request();
+      req.abort();
+
+      this.wait(300, function() {
+        this.assertNotCalled(req.onload);
+      }, this);
+    },
+
+    //
     // Event handlers
     //
 
@@ -309,6 +336,21 @@ qx.Class.define("qx.test.bom.request.Script",
         this.assertNotCalled(this.req.ontimeout);
       }, this);
     },
+
+    "test: call onabort when request was aborted": function() {
+      var req = this.req,
+          that = this;
+
+      this.spy(req, "onabort");
+      this.request();
+      req.abort();
+
+      this.assertCalled(req.onabort);
+    },
+
+    //
+    // Clean-Up
+    //
 
     "test: remove script from DOM when request completed": function() {
       var script,

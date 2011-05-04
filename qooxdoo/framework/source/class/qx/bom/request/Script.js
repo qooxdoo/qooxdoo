@@ -44,6 +44,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
     open: function(method, url) {
       this.__url = url;
 
+      // May have been aborted before
+      this.__abort = false;
+
+      // TODO
       this.readyState = 1;
       this.onreadystatechange();
     },
@@ -77,6 +81,12 @@ qx.Bootstrap.define("qx.bom.request.Script",
       this.__readyStateChange(3);
     },
 
+    abort: function() {
+      this.__abort = true;
+      this.__disposeScriptElement();
+      this.onabort();
+    },
+
     onreadystatechange: function() {},
 
     onload: function() {},
@@ -85,8 +95,15 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     ontimeout: function() {},
 
+    onabort: function() {},
+
     dispose: function() {
+      var script = this.__scriptElement;
+
       if (!this.__disposed) {
+
+        // Prevent memory leaks
+        script.onload = script.onreadystatechange = null;
 
         this.__disposeScriptElement();
 
@@ -117,6 +134,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     __timeoutId: null,
 
+    __abort: null,
     __disposed: null,
 
     _onTimeout: function() {
@@ -126,6 +144,11 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     _onNativeLoad: function(e) {
       var script = this.__scriptElement;
+
+      // Aborted request must not fire load
+      if (this.__abort) {
+        return;
+      }
 
       // BUGFIX: IE < 9
       // When handling "readystatechange" event, skip if readyState
@@ -174,7 +197,6 @@ qx.Bootstrap.define("qx.bom.request.Script",
       var script = this.__scriptElement;
 
       if (script && script.parentNode) {
-        script.onload = script.onreadystatechange = null;
         this.__headElement.removeChild(script);
       }
     }
