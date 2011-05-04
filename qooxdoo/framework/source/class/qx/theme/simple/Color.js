@@ -67,7 +67,7 @@ qx.Theme.define("qx.theme.simple.Color",
     "white-box-border" : "#BCBCBC",
 
     // shaddows
-    "shadow" : "#666666",
+    "shadow" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.4)" : "#666666",
 
     // borders
     // 'border-main' is an alias of 'background-selected' (compatibility reasons)
