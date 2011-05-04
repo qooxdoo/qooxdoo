@@ -46,7 +46,9 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
       query[this.__callbackParam || "callback"] =
         this.__callbackName || "qx.bom.request.Jsonp[" + this.__id + "].callback";
 
-      this.__url = qx.util.Uri.appendParamsToUrl(url, query);
+      url = qx.util.Uri.appendParamsToUrl(url, query);
+
+      this.__callBase("open", [method, url]);
     },
 
     send: function() {
