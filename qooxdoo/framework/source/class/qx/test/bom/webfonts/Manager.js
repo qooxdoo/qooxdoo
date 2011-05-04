@@ -33,8 +33,7 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
         family : "GorillaRegular",
         source: [ qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/gorilla-webfont.woff"),
                   qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/gorilla-webfont.ttf"),
-                  qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/gorilla-webfont.eot"),
-                  qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/gorilla-webfont.svg") ]
+                  qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/gorilla-webfont.eot") ]
       },
       invalid : 
       {
