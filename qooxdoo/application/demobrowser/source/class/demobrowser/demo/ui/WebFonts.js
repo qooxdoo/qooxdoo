@@ -46,17 +46,17 @@ qx.Class.define("demobrowser.demo.ui.WebFonts",
       {
         "webFont0" :
         {
-          size: 14,
+          size: 16,
           family: ["sans-serif"],
           sources:
           [
             {
-              family : "DueDate",
+              family : "FinelinerScriptRegular",
               source:
               [
-                "demobrowser/demo/fonts/duedate-webfont.eot",
-                "demobrowser/demo/fonts/duedate-webfont.ttf",
-                "demobrowser/demo/fonts/duedate-webfont.woff"
+                "demobrowser/demo/fonts/fineliner_script-webfont.eot",
+                "demobrowser/demo/fonts/fineliner_script-webfont.ttf",
+                "demobrowser/demo/fonts/fineliner_script-webfont.woff"
               ]
             }
           ]
@@ -64,17 +64,17 @@ qx.Class.define("demobrowser.demo.ui.WebFonts",
         
         "webFont1" :
         {
-          size: 14,
+          size: 13,
           family: ["sans-serif"],
           sources:
           [
             {
-              family : "FatFreddieContourRegular",
+              family : "ToBeContinuedRegular",
               source:
               [
-                "demobrowser/demo/fonts/fatfreddiecontour-webfont.eot",
-                "demobrowser/demo/fonts/fatfreddiecontour-webfont.ttf",
-                "demobrowser/demo/fonts/fatfreddiecontour-webfont.woff"
+                "demobrowser/demo/fonts/tobec___-webfont.eot",
+                "demobrowser/demo/fonts/tobec___-webfont.ttf",
+                "demobrowser/demo/fonts/tobec___-webfont.woff"
               ]
             }
           ]
@@ -82,17 +82,17 @@ qx.Class.define("demobrowser.demo.ui.WebFonts",
         
         "webFont2" :
         {
-          size: 15,
+          size: 16,
           family: ["sans-serif"],
           sources:
           [
             {
-              family : "GorillaRegular",
+              family : "YanoneKaffeesatzRegular",
               source:
               [
-                "demobrowser/demo/fonts/gorilla-webfont.eot",
-                "demobrowser/demo/fonts/gorilla-webfont.ttf",
-                "demobrowser/demo/fonts/gorilla-webfont.woff"
+                "demobrowser/demo/fonts/yanonekaffeesatz-regular-webfont.eot",
+                "demobrowser/demo/fonts/yanonekaffeesatz-regular-webfont.ttf",
+                "demobrowser/demo/fonts/yanonekaffeesatz-regular-webfont.woff"
               ]
             }
           ]
