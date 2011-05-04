@@ -940,7 +940,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      * @param currentClassDocNode {apiviewer.dao.Class} the currently displayed class
      * @return {apiviewer.dao.ClassItem[]} list of all items to display in the panel
      */
-    _getPanelItems : function(showInherited, currentClassDocNode)
+    _getPanelItems : function(showInherited, showIncluded, currentClassDocNode)
     {
 
       if (!currentClassDocNode) {
@@ -976,11 +976,14 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         var currClassNode = classNodes[classIndex];
         var currNodeArr = currClassNode.getItemList(listName);
         if (
-          listName == "events" ||
-          listName == "properties" ||
-          listName == "methods"
+          showIncluded &&
+          (
+            listName == "events" ||
+            listName == "properties" ||
+            listName == "methods"
+          )
           ) {
-          qx.lang.Array.append(currNodeArr, currClassNode.getNodesOfTypeFromMixins(this.getListName()));
+          qx.lang.Array.append(nodeArr, currClassNode.getNodesOfTypeFromMixins(this.getListName()));
         }
         // Add the nodes from this class
         for (var i=0; i<currNodeArr.length; i++)
@@ -1073,7 +1076,8 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       this.setDocNode(currentClassDocNode);
 
       var showInherited = classViewer.getShowInherited();
-      var nodeArr = this._getPanelItems(showInherited, currentClassDocNode);
+      var showIncluded = classViewer.getShowIncluded();
+      var nodeArr = this._getPanelItems(showInherited, showIncluded, currentClassDocNode);
 
       if (nodeArr && nodeArr.length > 0)
       {

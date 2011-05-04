@@ -62,6 +62,13 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       apply: "_updatePanelsWithInheritedMembers"
     },
 
+    /** whether to display included items */
+    showIncluded : {
+      check: "Boolean",
+      init: true,
+      apply: "_updatePanelsWithInheritedMembers"
+    },
+
     /** whether to display protected items */
     expandProperties :  {
       check: "Boolean",

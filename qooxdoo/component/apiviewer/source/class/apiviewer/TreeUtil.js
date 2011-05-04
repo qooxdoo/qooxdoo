@@ -153,8 +153,10 @@ qx.Class.define("apiviewer.TreeUtil",
           constName += "_PUB";
         } else if (node.isProtected()) {
           constName += "_PROT";
-        } else if (node.isPrivate() || node.isInternal()) {
+        } else if (node.isPrivate()) {
           constName += "_PRIV";
+        } else if (node.isInternal()) {
+          constName += "_INTERN";
         }
         if (node.isThemeable()) {
           constName += "_THEMEABLE";
@@ -174,8 +176,10 @@ qx.Class.define("apiviewer.TreeUtil",
             constName += "_PUB";
           } else if (node.isProtected()) {
             constName += "_PROT";
-          } else if (node.isPrivate() || node.isInternal()) {
+          } else if (node.isPrivate()) {
             constName += "_PRIV";
+          } else if (node.isInternal()) {
+            constName += "_INTERN";
           }
         }
 
@@ -250,7 +254,8 @@ qx.Class.define("apiviewer.TreeUtil",
         if (
           iconParts[2] == "PUB" ||
           iconParts[2] == "PROT" ||
-          iconParts[2] == "PRIV"
+          iconParts[2] == "PRIV" ||
+          iconParts[2] == "INTERN"
         ) {
           itemName += "_" +iconParts[2];
           var startIndex = 3;
@@ -351,6 +356,9 @@ qx.Class.define("apiviewer.TreeUtil",
 
     /** {string} The icon URL of a private property. */
     ICON_PROPERTY_PRIV : "apiviewer/image/property_private18.gif",
+    
+    /** {string} The icon URL of a internal property. */
+    ICON_PROPERTY_INTERN : "apiviewer/image/property_internal18.gif",
 
     /** {string} The icon URL of a themeable property. */
     ICON_PROPERTY_PUB_THEMEABLE : "apiviewer/image/property_themeable18.gif",
@@ -385,8 +393,11 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string} The icon URL of a protected method. */
     ICON_METHOD_PROT : "apiviewer/image/method_protected18.gif",
 
-    /** {string} The icon URL of a protected method. */
+    /** {string} The icon URL of a private method. */
     ICON_METHOD_PRIV : "apiviewer/image/method_private18.gif",
+    
+    /** {string} The icon URL of a internal method. */
+    ICON_METHOD_INTERN : "apiviewer/image/method_internal18.gif",
 
     /** {string} The icon URL of a constant. */
     ICON_CONSTANT : "apiviewer/image/constant18.gif",
@@ -436,6 +447,7 @@ qx.Class.define("apiviewer.TreeUtil",
       statics.ICON_PROPERTY_PUB,
       statics.ICON_PROPERTY_PROT,
       statics.ICON_PROPERTY_PRIV,
+      statics.ICON_PROPERTY_INTERN,
       statics.ICON_PROPERTY_PUB_THEMEABLE,
       statics.ICON_EVENT,
       statics.ICON_INTERFACE,
@@ -447,6 +459,7 @@ qx.Class.define("apiviewer.TreeUtil",
       statics.ICON_CTOR,
       statics.ICON_METHOD_PROT,
       statics.ICON_METHOD_PRIV,
+      statics.ICON_METHOD_INTERN,
       statics.ICON_CONSTANT,
       statics.ICON_CHILDCONTROL
     ];

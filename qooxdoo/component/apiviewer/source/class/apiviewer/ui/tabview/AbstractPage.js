@@ -78,6 +78,7 @@ qx.Class.define("apiviewer.ui.tabview.AbstractPage",
       var bindings = this._bindings;
 
       bindings.push(uiModel.bind("showInherited", viewer, "showInherited"));
+      bindings.push(uiModel.bind("showIncluded", viewer, "showIncluded"));
       bindings.push(uiModel.bind("expandProperties", viewer, "expandProperties"));
       bindings.push(uiModel.bind("showProtected", viewer, "showProtected"));
       bindings.push(uiModel.bind("showPrivate", viewer, "showPrivate"));

@@ -211,6 +211,9 @@ qx.Class.define("apiviewer.Controller",
       btn_inherited.bind("value", uiModel, "showInherited");
       uiModel.bind("showInherited", btn_inherited, "value");
 
+      var btn_included = this._widgetRegistry.getWidgetById("btn_included");
+      btn_included.bind("value", uiModel, "showIncluded");
+      uiModel.bind("showIncluded", btn_included, "value");
 
       var btn_expand = this._widgetRegistry.getWidgetById("btn_expand");
       btn_expand.bind("value", uiModel, "expandProperties");

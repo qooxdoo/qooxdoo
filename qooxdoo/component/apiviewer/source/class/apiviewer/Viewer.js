@@ -187,10 +187,24 @@ qx.Class.define("apiviewer.Viewer",
       expandBtn.setToolTipText(this.tr("Show/hide all generated property methods."));
       part.add(expandBtn);
 
-      var inheritBtn = new qx.ui.toolbar.CheckBox(this.tr("Inherited"), "apiviewer/image/method_public_inherited18.gif");
+      var includesBtn = new qx.ui.toolbar.MenuButton(this.tr("Includes"), "apiviewer/image/includes.gif");
+      includesBtn.setToolTipText(this.tr("Show/hide members of other classes/mixins inherited/included in the current class"));
+      part.add(includesBtn);
+
+      var includesMenu = new qx.ui.menu.Menu();
+      
+      var inheritBtn = new qx.ui.menu.CheckBox(this.tr("Inherited"));
       inheritBtn.setId("btn_inherited");
       inheritBtn.setToolTipText(this.tr("Show/hide inherited members of the current class."));
-      part.add(inheritBtn);
+      includesMenu.add(inheritBtn);
+      
+      var mixinIncludedBtn = new qx.ui.menu.CheckBox(this.tr("Mixin Included"));
+      mixinIncludedBtn.setId("btn_included");
+      mixinIncludedBtn.setToolTipText(this.tr("Show/hide included members of the current class."));
+      mixinIncludedBtn.setValue(true);
+      includesMenu.add(mixinIncludedBtn);
+      
+      includesBtn.setMenu(includesMenu);
 
       var protectedBtn = new qx.ui.toolbar.CheckBox(this.tr("Protected"), "apiviewer/image/method_protected18.gif");
       protectedBtn.setId("btn_protected");

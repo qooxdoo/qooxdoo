@@ -13,6 +13,14 @@ qx.Class.define("apiviewer.UiModel",
       event : "changeShowInherited"
     },
 
+    /** whether to display included items */
+    showIncluded :
+    {
+      check: "Boolean",
+      init: true,
+      event : "changeShowIncluded"
+    },
+
     /** whether to display protected items */
     expandProperties :
     {
