@@ -49,4 +49,5 @@ Themes
    gui_toolkit/ui_appearance
    gui_toolkit/ui_custom_themes
    gui_toolkit/ui_decorators
+   gui_toolkit/ui_webfonts
    gui_toolkit/ui_using_themes_of_contribs

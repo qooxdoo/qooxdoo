@@ -191,6 +191,7 @@ Font Theme
 ==========
 
 This theme is all about the information of the fonts used throughout your application. As the number of types/variants of fonts used with application isn't that big the font theme is normally a compact one. 
+Web fonts are also defined here. See the :ref:`article on web fonts<pages/ui_webfonts#webfonts>` for details.
 
 .. note::
 
@@ -224,7 +225,7 @@ To demonstrate how compact and powerful a font theme can look like, take a look 
       }
     });
 
-It is important to note that you can only specify values available as property on `qx.bom.Font <http://demo.qooxdoo.org/current/apiviewer/#qx.bom.Font>`_.
+It is important to note that you can only specify values available as property on `qx.bom.Font <http://demo.qooxdoo.org/current/apiviewer/#qx.bom.Font>`_ or `qx.bom.webfonts.WebFont <http://demo.qooxdoo.org/current/apiviewer/#qx.bom.webfonts.WebFont>`_.
 
 .. _pages/ui_theming#icon_theme:
 
