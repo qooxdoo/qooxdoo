@@ -96,7 +96,7 @@ class ExtMap(object):
     def set(self, key, value):
         """Sets a (possibly nested) data element in the dict
         """
-        return self._data.__setitem__(key, value)
+        return self.__setitem__(key, value)
 
 
     def __contains__(self, item):
