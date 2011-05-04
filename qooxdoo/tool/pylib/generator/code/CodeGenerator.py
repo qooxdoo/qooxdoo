@@ -682,7 +682,7 @@ class CodeGenerator(object):
 
             # @deprecated
             if script.buildType in ("source", "build"):
-                jobConf = self._job
+                jobConf = ExtMap(self._job.getData())
                 confkey = "compile-options/code/except"
                 if jobConf.get(confkey, None) == None:
                     self._console.warn("You need to supply a '%s' key in your job configuration" % confkey)
@@ -690,13 +690,13 @@ class CodeGenerator(object):
                         entry = ["*"]
                     elif script.buildType == "build":
                         entry = [] # this actually matches the default
-                    jobConf.setFeature(confkey, entry)
+                    jobConf.set(confkey, entry)
                     self._console.warn("   auto-supplying entry: '%s'" % entry)
                 confkey = "compile-options/paths/app-root"
                 if script.buildType == "build" and jobConf.get(confkey, None) == None:
                     self._console.warn("You need to supply a '%s' key in your job configuration" % confkey)
                     entry = "%s" % jobConf.get("let/BUILD_PATH", "build")
-                    jobConf.setFeature(confkey, entry)
+                    jobConf.set(confkey, entry)
                     self._console.warn("    auto-supplying entry: '%s'" % entry)
             # @deprecated-end
 
