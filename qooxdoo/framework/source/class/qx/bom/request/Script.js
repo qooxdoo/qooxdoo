@@ -80,6 +80,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
         this.__disposeScriptElement();
 
+        if (this.__timeoutId) {
+          window.clearTimeout(this.__timeoutId);
+        }
+
         this.__disposed = true;
       }
     },
@@ -121,6 +125,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
         if (!(/loaded|complete/).test(script.readyState)) {
           return;
         }
+      }
+
+      if (this.__timeoutId) {
+        window.clearTimeout(this.__timeoutId);
       }
 
       this.__success();

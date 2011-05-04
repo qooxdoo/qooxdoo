@@ -258,6 +258,18 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
+    "test: not call ontimeout when request is within timeout limit": function() {
+      var that = this;
+
+      this.spy(this.req, "ontimeout");
+      this.req.timeout = 100;
+
+      this.request();
+      this.wait(250, function() {
+        this.assertNotCalled(this.req.ontimeout);
+      }, this);
+    },
+
     "test: remove script from DOM when request completed": function() {
       var script,
           that = this;
@@ -293,6 +305,7 @@ qx.Class.define("qx.test.bom.request.Script",
       var script,
           that = this;
 
+      this.req.timeout = 100;
       this.req.ontimeout = function() {
         that.resume(function() {
           script = that.req._getScriptElement();
@@ -300,10 +313,7 @@ qx.Class.define("qx.test.bom.request.Script",
         });
       };
 
-      // Force timeout
-      this.req.timeout = 1;
-
-      this.request();
+      this.request(this.noCache(this.getUrl("qx/test/xmlhttp/echo_get_request.php")) + "&sleep=1");
       this.wait();
     },
 
@@ -319,6 +329,10 @@ qx.Class.define("qx.test.bom.request.Script",
     isIeBelow: function(version) {
       return qx.core.Environment.get("engine.name") === "mshtml" &&
              qx.core.Environment.get("engine.version") < version;
+    },
+
+    noCache: function(url) {
+      return url + "?nocache=" + (new Date()).valueOf();
     },
 
     skip: function(msg) {
