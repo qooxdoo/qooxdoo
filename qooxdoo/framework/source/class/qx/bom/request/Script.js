@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
     dispose: function() {
       if (!this.__disposed) {
 
-        this.__removeScriptElement();
+        this.__disposeScriptElement();
 
         this.__disposed = true;
       }
@@ -101,7 +101,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     __onTimeout: function() {
       this.ontimeout();
-      this.__removeScriptElement();
+      this.__disposeScriptElement();
     },
 
     __onNativeLoad: function(e) {
@@ -117,12 +117,12 @@ qx.Bootstrap.define("qx.bom.request.Script",
         }
       }
 
-      this.__removeScriptElement();
+      this.__disposeScriptElement();
       this.onload();
     },
 
     __onNativeError: function() {
-      this.__removeScriptElement();
+      this.__disposeScriptElement();
       this.onerror();
     },
 
@@ -130,9 +130,12 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     },
 
-    __removeScriptElement: function() {
-      if (this.__scriptElement && this.__scriptElement.parentNode) {
-        this.__headElement.removeChild(this.__scriptElement);
+    __disposeScriptElement: function() {
+      var script = this.__scriptElement;
+
+      if (script && script.parentNode) {
+        script.onload = script.onreadystatechange = null;
+        this.__headElement.removeChild(script);
       }
     }
   }
