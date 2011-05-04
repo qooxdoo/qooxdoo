@@ -47,9 +47,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       // May have been aborted before
       this.__abort = false;
 
-      // TODO
-      this.readyState = 1;
-      this.onreadystatechange();
+      this.__readyStateChange(1);
     },
 
     send: function() {
