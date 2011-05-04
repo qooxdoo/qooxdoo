@@ -242,7 +242,7 @@ class CodeGenerator(object):
                     return True
 
             # ------------------------------------------------------
-            configWithBoot = self._job.get("packages/loader-with-boot", False)
+            configWithBoot = self._job.get("packages/loader-with-boot", True)
             if configWithBoot and firstScriptCompiled(script, compConf):
                 return True
             else:
@@ -306,7 +306,6 @@ class CodeGenerator(object):
                 and not any(x.has_source for x in part.packages)):
                 return True
             return False
-
 
 
         def loaderClosureParts(script, compConf):
