@@ -242,16 +242,19 @@ qx.Class.define("qx.test.bom.request.Script",
     "test: call ontimeout when request exceeded timeout limit": function() {
       var that = this;
 
+      this.req.timeout = 100;
       this.req.ontimeout = function() {
         that.resume(function() {});
       };
 
-      this.req.timeout = 100;
+      this.req.onload = function() {
+        qx.log.Logger.debug("onload");
+      };
 
       // In legacy browser, a long running script request blocks subsequent requests
       // even if the script element is removed. Keep duration below default timeout
       // for wait to work around.
-      this.request(this.getUrl("qx/test/xmlhttp/loading.php") + "?duration=1");
+      this.request(this.noCache(this.getUrl("qx/test/xmlhttp/echo_get_request.php")) + "&sleep=1");
       this.wait();
     },
 
