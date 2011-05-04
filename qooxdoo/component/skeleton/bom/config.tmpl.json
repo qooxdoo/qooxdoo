@@ -53,7 +53,8 @@
       {
         "paths" :
         {
-          "file" : "qx-bom.js"
+          "file" : "qx-bom.js",
+          "app-root" : "."
         },
         "uris" :
         {
