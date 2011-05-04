@@ -41,18 +41,24 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     timeout: 0,
 
-    open: function(method, url) {
-      this.__url = url;
+    open: function(method, url, async) {
+      if (typeof async == "undefined") {
+        async = true;
+      }
+
+      this.__async = async;
 
       // May have been aborted before
       this.__abort = false;
 
+      this.__url = url;
       this.__readyStateChange(1);
     },
 
     send: function() {
       var script = this.__scriptElement,
-          head = this.__headElement;
+          head = this.__headElement,
+          that = this;
 
       script.src = this.__url;
       script.onerror = this.__onNativeErrorBound;
@@ -74,9 +80,11 @@ qx.Bootstrap.define("qx.bom.request.Script",
       head.insertBefore(script, head.firstChild);
 
       // The resource is loaded once the script is in DOM.
-      // Assume HEADERS_RECEIVED and LOADING.
-      this.__readyStateChange(2);
-      this.__readyStateChange(3);
+      // Assume HEADERS_RECEIVED and LOADING and dispatch async.
+      window.setTimeout(function() {
+        that.__readyStateChange(2);
+        that.__readyStateChange(3);
+      });
     },
 
     setRequestHeader: function(key, value) {
@@ -152,7 +160,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
     },
 
     _onNativeLoad: function(e) {
-      var script = this.__scriptElement;
+      var script = this.__scriptElement,
+          that = this;
 
       // Aborted request must not fire load
       if (this.__abort) {
@@ -173,9 +182,11 @@ qx.Bootstrap.define("qx.bom.request.Script",
         window.clearTimeout(this.__timeoutId);
       }
 
-      this.__success();
-      this.__readyStateChange(4);
-      this.onload();
+      window.setTimeout(function() {
+        that.__success();
+        that.__readyStateChange(4);
+        that.onload();
+      });
     },
 
     _onNativeError: function() {
