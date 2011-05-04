@@ -312,12 +312,21 @@ class CodeGenerator(object):
         def loaderClosureParts(script, compConf):
             cParts = {}
             loader_with_boot = self._job.get("packages/loader-with-boot", True)
-            if script.buildType == "build":
-                for part in script.parts:
-                    # each part is a closure part, except the boot part if it's inline
-                    if not loader_with_boot or part != script.boot:
-                        cParts[part] = True
+            for part in script.parts.values():
+                if not any(x.has_source for x in part.packages):
+                    # each part without source-containing packages is a closure part,
+                    # except the boot part if it's inline
+                    if not loader_with_boot or part.name != script.boot:
+                        cParts[part.name] = True
             return json.dumpsCode(cParts)
+
+
+        def isClosurePackage(package, part):
+            loader_with_boot = self._job.get("packages/loader-with-boot", True)
+            if not package.has_source and not (loader_with_boot and part.name == script.boot):
+                return True
+            else:
+                return False
 
 
         def loaderNocacheParam(script, compConf):
@@ -673,7 +682,7 @@ class CodeGenerator(object):
 
             # @deprecated
             if script.buildType in ("source", "build"):
-                jobConf = self._jobconf
+                jobConf = self._job
                 confkey = "compile-options/code/except"
                 if jobConf.get(confkey, None) == None:
                     self._console.warn("You need to supply a '%s' key in your job configuration" % confkey)
@@ -681,13 +690,13 @@ class CodeGenerator(object):
                         entry = ["*"]
                     elif script.buildType == "build":
                         entry = [] # this actually matches the default
-                    jobConf.set(confkey, entry)
+                    jobConf.setFeature(confkey, entry)
                     self._console.warn("   auto-supplying entry: '%s'" % entry)
                 confkey = "compile-options/paths/app-root"
                 if script.buildType == "build" and jobConf.get(confkey, None) == None:
                     self._console.warn("You need to supply a '%s' key in your job configuration" % confkey)
                     entry = "%s" % jobConf("let/BUILD_PATH", "build")
-                    jobConf.set(confkey, )
+                    jobConf.setFeature(confkey, )
                     self._console.warn("    auto-supplying entry: '%s'" % entry)
             # @deprecated-end
 
