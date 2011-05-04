@@ -1,14 +1,14 @@
     "source-XXX" : 
     {
       "extend" : ["default-demo"],
-      "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY", "BUILDTYPE" : "source" },
+      "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY", "BUILDTYPE" : "source", "EXCEPT": ["*"] },
       "run" : ["default-Classic", "default-Modern",  "default-Simple"]
     },
 
     "build-XXX" :
     {
       "extend" : ["default-demo"],
-      "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY", "BUILDTYPE" : "build" },
+      "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY", "BUILDTYPE" : "build", "EXCEPT": [] },
       "compile-options" : { "code" : { "optimize" : [ "variables", "basecalls", "strings", "privates" ] }},
       "run" : ["default-Classic", "default-Modern", "default-Simple"]
     }

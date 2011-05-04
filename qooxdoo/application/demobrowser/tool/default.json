@@ -54,6 +54,7 @@
         },
         "code" : {
           "locales"  : "${LOCALES}",
+          "except"   : "${EXCEPT}",
           "format"   : true
         }
       }
