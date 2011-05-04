@@ -302,27 +302,43 @@ class CodeGenerator(object):
             loader_with_boot = self._job.get("packages/loader-with-boot", True)
             if loader_with_boot and part.name == script.boot:
                 return False
-            if (len(part.packages) == 1 
-                and not any(x.has_source for x in part.packages)):
+            if (not any(x.has_source for x in part.packages)):
+                # currently, we use the package key as the closure key to load
+                # packages, hence the package must only contain a single script,
+                # which is currently true if the package is free of source
+                # scripts ("not any(x.has_source").
+                # ---
+                # theoretically, multiple scripts in a packages could be
+                # supported, if they're all compiled (no source scripts) and 
+                # each is assigned its own closure key.
                 return True
             return False
 
 
-        def loaderClosureParts(script, compConf):
+        def loaderClosureParts1(script, compConf):
             cParts = {}
             loader_with_boot = self._job.get("packages/loader-with-boot", True)
             for part in script.parts.values():
-                if not any(x.has_source for x in part.packages):
-                    # each part without source-containing packages is a closure part,
-                    # except the boot part if it's inline
-                    if not loader_with_boot or part.name != script.boot:
-                        cParts[part.name] = True
+                if isClosurePart(part, script):
+                    cParts[part.name] = True
+            return json.dumpsCode(cParts)
+
+        def loaderClosureParts(script, compConf):
+            cParts = {}
+            bootPkgId = bootPackageId(script)
+            for part in script.parts.values():
+                closurePackages = [isClosurePackage(p, bootPkgId) for p in part.packages if p.id != bootPkgId] # the 'boot' package may be the only non-closure package
+                if closurePackages and all(closurePackages):
+                    cParts[part.name] = True
             return json.dumpsCode(cParts)
 
 
-        def isClosurePackage(package, part):
-            loader_with_boot = self._job.get("packages/loader-with-boot", True)
-            if not package.has_source and not (loader_with_boot and part.name == script.boot):
+        def bootPackageId(script):
+            return script.parts[script.boot].packages[0].id # should only be one anyway
+
+
+        def isClosurePackage(package, bootPackageId):
+            if not package.has_source and not package.id == bootPackageId:
                 return True
             else:
                 return False
@@ -475,8 +491,10 @@ class CodeGenerator(object):
                 fname = self._fileNameWithHash(script.baseScriptPath, hash_)
                 return fname
 
-            def compileAndAdd(compiledClasses, packageUris, prelude=''):
+            def compileAndAdd(compiledClasses, packageUris, prelude='', wrap=''):
                 compiled = compileClasses(compiledClasses, compOptions)
+                if wrap:
+                    compiled = wrap % compiled
                 if prelude:
                     compiled = prelude + compiled
                 filename = compiledFilename(compiled)
@@ -491,24 +509,27 @@ class CodeGenerator(object):
             # ------------------------------------
             packageUris = []
             optimize = compConf.get("code/optimize", [])
+            format_   = compConf.get("code/format", False)
+            variantSet= script.variants
             sourceFilter = ClassMatchList(compConf.get("code/except", []))
-            compOptions  = CompileOptions(optimize=optimize)
+            compOptions  = CompileOptions(optimize=optimize, variants=variantSet, _format=format_)
 
             ##
             # This somewhat overlaps with packageUrisToJS
             compiledClasses = []
-            prelude = getPackageData(package)
-            prelude = ("qx.$$packageData['%s']=" % package.id) + prelude
+            packageData = getPackageData(package)
+            packageData = ("qx.$$packageData['%s']=" % package.id) + packageData
             package_classes = [y for x in package.classes for y in script.classesObj if y.id == x] # TODO: i need to make package.classes [Class]!
+            self._console.info("Package #%s:" % package.id, feed=False)
             for pos,clazz in enumerate(package_classes):
-                self._console.progress(pos+1, len(package_classes), "Package #%s: " % package.id)
+                self._console.progress(pos+1, len(package_classes)) #, "Package #%s: " % package.id)
                 if sourceFilter.match(clazz.id):
                     package.has_source = True
-                    if prelude or compiledClasses:
+                    if packageData or compiledClasses:
                         # treat compiled classes so far
-                        packageUris = compileAndAdd(compiledClasses, packageUris, prelude)
+                        packageUris = compileAndAdd(compiledClasses, packageUris, packageData)
                         compiledClasses = []  # reset the collection
-                        prelude = ""
+                        packageData = ""
                     # for a source class, just include the file uri
                     clazzRelpath = clazz.id.replace(".", "/") + ".js"
                     relpath  = OsPath(clazzRelpath)
@@ -520,7 +541,10 @@ class CodeGenerator(object):
             else:
                 # treat remaining to-be-compiled classes
                 if compiledClasses:
-                    packageUris = compileAndAdd(compiledClasses, packageUris, prelude)
+                    closureWrap = ''
+                    if isClosurePackage(package, bootPackageId(script)):
+                        closureWrap = u'''qx.Part.$$notifyLoad("%s", function() {\n%%s\n});''' % package.id
+                    packageUris = compileAndAdd(compiledClasses, packageUris, packageData, closureWrap)
 
             package.files = packageUris
             return package
@@ -711,10 +735,6 @@ class CodeGenerator(object):
 
             self._console.outdent()
 
-            # - Put loader in dedicated package  -------
-            loadPackage = Package(0)            # make a dummy Package for the loader
-            #packages.insert(0, loadPackage)
-
             # generate boot code
             if inlineBoot(script, compConf):
                 # read first script file from script dir
@@ -722,10 +742,10 @@ class CodeGenerator(object):
                 bfile = bfile.split(':')[1]   # "foo.js"
                 bfile = os.path.join(os.path.dirname(script.baseScriptPath), os.path.basename(bfile))
                 bcode = filetool.read(bfile)
+                os.unlink(bfile)
             else:
                 bcode = ""
             loaderCode = generateLoader(script, compConf, globalCodes, bcode)
-            #packages[0].compiled.append(loaderCode)
             self.writePackage(loaderCode, script.baseScriptPath, script)
 
 
