@@ -334,7 +334,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         }
         
         if (type) {
-          sourcesMap[type] = sources[i]
+          sourcesMap[type] = sources[i];
         }
       }
       return sourcesMap;
