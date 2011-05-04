@@ -257,12 +257,6 @@
 
       "extend" : ["common"],
 
-      // @deprecated
-      "variants" :
-      {
-        "qx.debug" : ["off"]
-      },
-
       "environment" :
       {
         "qx.debug" : false
@@ -297,12 +291,6 @@
       "desc"    : "create build script of current application",
 
       "extend" : ["common"],
-
-      // @deprecated
-      "variants" :
-      {
-        "qx.debug" : ["off"]
-      },
 
       "environment" :
       {
@@ -359,12 +347,6 @@
       "desc"    : "copy necessary resources for current application to build dir",
 
       "extend" : ["common"],
-
-      // @deprecated
-      "variants" :
-      {
-        "qx.debug" : ["off"]
-      },
 
       "environment" :
       {
@@ -675,12 +657,6 @@
     "profiling" :
     {
       "desc"    : "includer job, to activate profiling",
-
-      // @deprecated
-      "variants" :
-      {
-        "qx.aspects" : ["on"]
-      },
 
       "environment" :
       {
