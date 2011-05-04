@@ -43,6 +43,9 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     open: function(method, url) {
       this.__url = url;
+
+      this.readyState = 1;
+      this.onreadystatechange();
     },
 
     send: function() {
@@ -67,7 +70,14 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
       // Attach script to DOM
       head.insertBefore(script, head.firstChild);
+
+      // The resource is loaded once the script is in DOM.
+      // Assume HEADERS_RECEIVED and LOADING.
+      this.__readyStateChange(2);
+      this.__readyStateChange(3);
     },
+
+    onreadystatechange: function() {},
 
     onload: function() {},
 
@@ -132,12 +142,18 @@ qx.Bootstrap.define("qx.bom.request.Script",
       }
 
       this.__success();
+      this.__readyStateChange(4);
       this.onload();
     },
 
     _onNativeError: function() {
       this.__failure();
       this.onerror();
+    },
+
+    __readyStateChange: function(readyState) {
+      this.readyState = readyState;
+      this.onreadystatechange();
     },
 
     __success: function() {

@@ -155,6 +155,46 @@ qx.Class.define("qx.test.bom.request.Script",
     // Event handlers
     //
 
+    "test: call onreadystatechange with readyState 1 when opened": function() {
+      this.spy(this.req, "onreadystatechange");
+      this.req.open("GET", this.url);
+
+      this.assertCalledOnce(this.req.onreadystatechange);
+      this.assertEquals(1, this.req.readyState);
+    },
+
+    "test: call onreadystatechange with readyState 2 and 3 when send": function() {
+      var req = this.req,
+          readyStates = [];
+
+      req.onreadystatechange = function() {
+        readyStates.push(req.readyState);
+      };
+
+      this.request();
+      this.assertEquals(2, readyStates[1]);
+      this.assertEquals(3, readyStates[2]);
+    },
+
+    "test: call onreadystatechange with readyState 4 when loading completed successfully": function() {
+      var req = this.req,
+          readyStates = [],
+          that = this;
+
+      req.onreadystatechange = function() {
+        readyStates.push(req.readyState);
+
+        if (req.readyState === 4) {
+          that.resume(function() {
+            that.assertEquals(4, readyStates[3]);
+          });
+        }
+      };
+
+      this.request();
+      this.wait();
+    },
+
     "test: call onload when when loading completed successfully": function() {
       var that = this;
 
