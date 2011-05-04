@@ -22,10 +22,11 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
   construct : function()
   {
-    this.__onNativeLoadBound = qx.Bootstrap.bind(this.__onNativeLoad, this);
-    this.__onNativeErrorBound = qx.Bootstrap.bind(this.__onNativeError, this);
-    this.__onTimeoutBound = qx.Bootstrap.bind(this.__onTimeout, this);
+    this.__onNativeLoadBound = qx.Bootstrap.bind(this._onNativeLoad, this);
+    this.__onNativeErrorBound = qx.Bootstrap.bind(this._onNativeError, this);
+    this.__onTimeoutBound = qx.Bootstrap.bind(this._onTimeout, this);
 
+    this.__scriptElement = document.createElement("script");
     this.__headElement = document.head || document.getElementsByTagName( "head" )[0] ||
                          document.documentElement;
   },
@@ -40,16 +41,11 @@ qx.Bootstrap.define("qx.bom.request.Script",
     },
 
     send: function() {
-      var script = this.__scriptElement = document.createElement("script"),
+      var script = this.__scriptElement,
           head = this.__headElement;
 
       script.src = this.__url;
-
-      if (this.timeout > 0) {
-        this.__timeoutId = window.setTimeout(this.__onTimeoutBound, this.timeout);
-      }
-      head.insertBefore(script, head.firstChild);
-
+      script.onerror = this.__onNativeErrorBound;
       script.onload = this.__onNativeLoadBound;
 
       // BUGFIX: IE < 9
@@ -57,10 +53,15 @@ qx.Bootstrap.define("qx.bom.request.Script",
       // Instead, the support the "readystatechange" event
       if (qx.core.Environment.get("engine.name") === "mshtml" &&
           qx.core.Environment.get("engine.version") < 9) {
-      script.onreadystatechange = this.__onNativeLoadBound;
+        script.onreadystatechange = this._onNativeLoadBound;
       }
 
-      script.onerror = this.__onNativeErrorBound;
+      if (this.timeout > 0) {
+        this.__timeoutId = window.setTimeout(this.__onTimeoutBound, this.timeout);
+      }
+
+      // Attach script to DOM
+      head.insertBefore(script, head.firstChild);
     },
 
     onload: function() {},
@@ -99,12 +100,12 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     __disposed: null,
 
-    __onTimeout: function() {
+    _onTimeout: function() {
       this.ontimeout();
       this.__disposeScriptElement();
     },
 
-    __onNativeLoad: function(e) {
+    _onNativeLoad: function(e) {
       var script = this.__scriptElement;
 
       // BUGFIX: IE < 9
@@ -121,13 +122,9 @@ qx.Bootstrap.define("qx.bom.request.Script",
       this.onload();
     },
 
-    __onNativeError: function() {
+    _onNativeError: function() {
       this.__disposeScriptElement();
       this.onerror();
-    },
-
-    __onCompleted: function() {
-
     },
 
     __disposeScriptElement: function() {
