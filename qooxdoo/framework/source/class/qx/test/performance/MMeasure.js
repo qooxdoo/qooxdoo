@@ -44,7 +44,12 @@ qx.Mixin.define("qx.test.performance.MMeasure",
       setTimeout(function() { self.resume(function()
       {
         var renderTime = new Date() - renderStart;
-        self.log(msg, displayIterations, time, renderTime);
+        self.log(
+          msg, 
+          "Iterations: " + displayIterations, 
+          "Time: " + time + "ms", 
+          "Render time:" + renderTime + "ms"
+        );
         finalize.call(self);
       }); }, 0);
 
