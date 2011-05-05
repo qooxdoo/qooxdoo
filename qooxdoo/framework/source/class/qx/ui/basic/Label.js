@@ -227,6 +227,7 @@ qx.Class.define("qx.ui.basic.Label",
     __invalidContentSize : null,
     __buddyEnabledBinding : null,
     __clickListenerId : null,
+    __webfontListenerId : null,
 
 
 
@@ -337,13 +338,17 @@ qx.Class.define("qx.ui.basic.Label",
     // property apply
     _applyFont : function(value, old)
     {
+      if (old && this.__font && this.__webfontListenerId) {
+        this.__font.removeListenerById(this.__webfontListenerId);
+        this.__webfontListenerId = null;
+      }
       // Apply
       var styles;
       if (value)
       {
         this.__font = qx.theme.manager.Font.getInstance().resolve(value);
         if (this.__font instanceof qx.bom.webfonts.WebFont) {
-          this.__font.addListenerOnce("fontValid", this._onWebFontStatusChange, this);
+          this.__webfontListenerId = this.__font.addListener("fontValid", this._onWebFontStatusChange, this);
         }
         styles = this.__font.getStyles();
       }
@@ -519,8 +524,8 @@ qx.Class.define("qx.ui.basic.Label",
       }
     }
 
-    if (this.__font && this.__font.hasListener("fontValid")) {
-      this.__font.removeListener("fontValid", this._onWebFontStatusChange, this);
+    if (this.__font && this.__webfontListenerId) {
+      this.__font.removeListenerById(this.__webfontListenerId);
     }
 
     this.__font = this.__buddyEnabledBinding = null;
