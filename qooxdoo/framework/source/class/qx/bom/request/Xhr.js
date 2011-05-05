@@ -825,5 +825,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       return !(name == "mshtml" && version < 9 ||
                name == "gecko" && version < 3.5);
     }
+  },
+
+  defer: function() {
+    qx.core.Environment.add("qx.debug.xhr.bom", false);
   }
 });

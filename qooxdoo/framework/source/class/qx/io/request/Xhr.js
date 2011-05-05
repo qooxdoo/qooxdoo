@@ -345,7 +345,6 @@ qx.Class.define("qx.io.request.Xhr",
 
   environment:
   {
-    "qx.debug.xhr.io": false,
-    "qx.debug.xhr.bom": false
+    "qx.debug.xhr.io": false
   }
 });
