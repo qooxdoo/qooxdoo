@@ -267,6 +267,10 @@ def processVariantGet(callNode, variantMap):
     if not found:
         return treeModified
 
+    # @deprecated
+    # patch "on"/"off"
+    confValue = patchValue(confValue)
+
     # Replace the .get() with its value
     resultNode = reduceCall(callNode, confValue)
     treeModified = True
@@ -485,17 +489,17 @@ def reduceCall(callNode, value):
     return valueNode
 
 
+def patchValue(val):
+    if isinstance(val, types.StringTypes) and val in ["on","off"]:
+        val = {"on":True,"off":False}[val]
+    return val
+
+
 ##
 # 2. pass:
 # replace operations between literals, e.g. compares ("3 == 3" => true),
 # arithmetic ("3+4" => "7"), logical ("true && false" => false)
 def reduceOperation(literalNode): 
-
-    def patchValue(val):
-        if isinstance(val, types.StringTypes) and val in ["on","off"]:
-            val = {"on":True,"off":False}[val]
-        return val
-
 
     resultNode = None
     treeModified = False
