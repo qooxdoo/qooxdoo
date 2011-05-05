@@ -205,6 +205,17 @@ qx.Class.define("qx.test.bom.request.Script",
     // Event handlers
     //
 
+    "test: call onload when request completed": function() {
+      var that = this;
+
+      this.req.onload = function() {
+        that.resume(function() {});
+      };
+
+      this.request();
+      this.wait();
+    },
+
     "test: call onreadystatechange and have appropriate readyState": function() {
       var req = this.req,
           readyStates = [],
