@@ -11,6 +11,7 @@
 .settings/*
 qooxdoo/cache/*
 qooxdoo/framework/test/*
+qooxdoo/framework/test-performance/*
 qooxdoo/frontend/framework/source/class/qx/locale/data/*
 qooxdoo/frontend/application/demobrowser/source/class/demo/translation/*
 qooxdoo/frontend/framework/source/class/qx/locale/translation/*

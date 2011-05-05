@@ -48,7 +48,7 @@ qx.Mixin.define("qx.test.performance.MMeasure",
           msg, 
           "Iterations: " + displayIterations, 
           "Time: " + time + "ms", 
-          "Render time:" + renderTime + "ms"
+          "Render time: " + renderTime + "ms"
         );
         finalize.call(self);
       }); }, 0);
