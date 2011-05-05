@@ -143,14 +143,6 @@
 
       "extend" : ["common"],
 
-      /*
-      "require" :
-      {
-        // to have reporting infrastructure before custom classes
-        "qx.Class" : [ "qx.log.Logger", "qx.dev.StackTrace"]
-      },
-      */
-
       "compile-options" :
       {
         "paths" :
@@ -242,7 +234,7 @@
 
       "compile-options" : 
       {
-        "code" : { "except" : [ "${APPLICATION}.*" ] }
+        "code" : { "=except" : [ "${APPLICATION}.*" ] }
       },
 
       "compile" : { "type" : "hybrid" }
