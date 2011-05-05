@@ -17,12 +17,35 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#asset(qx/test/webfonts/*)
+************************************************************************ */
+
 qx.Class.define("qx.test.ui.basic.Label",
 {
   extend : qx.test.ui.LayoutTestCase,
+  
+  include : [qx.dev.unit.MRequirements, qx.dev.unit.MMock],
 
   members :
   {
+    hasWebFontSupport : function()
+    {
+      var browser = qx.core.Environment.get("browser.name");
+      var version = qx.core.Environment.get("browser.version");   
+      if ((browser == "firefox" && version < 3.5) ||
+          (browser == "opera" && version < 10))
+      {
+        return false;
+      }
+      return true;
+    },
+    
+    tearDown : function()
+    {
+      this.getSandbox().restore();
+    },
+    
     testHeightForWidth : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.Grow());
@@ -62,6 +85,45 @@ qx.Class.define("qx.test.ui.basic.Label",
       l.setWrap(false);
       this.assertEquals("nowrap", l.getContentElement().getStyle("whiteSpace"));
       l.dispose();
+    },
+    
+    testApplyWebFont : function() {
+      this.require(["webFontSupport"]);
+      var l = new qx.ui.basic.Label("Laugh while you can, monkey boy!");
+      
+      var f = new qx.bom.webfonts.WebFont();
+      f.set({
+        size: 18,
+        family: ["monospace"],
+        sources: 
+        [
+          {
+            family : "FinelinerScriptRegular",
+            source: [ qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.woff"),
+                      qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.ttf"),
+                      qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.eot") ]
+          },
+          {
+            family : "YanoneKaffeesatzRegular",
+            source: [ qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/yanonekaffeesatz-regular-webfont.woff"),
+                      qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/yanonekaffeesatz-regular-webfont.ttf"),
+                      qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/yanonekaffeesatz-regular-webfont.eot") ]
+          }
+        ]
+      });
+      
+      var statusChangeSpy = this.spy(l, "_onWebFontStatusChange");
+      l.setFont(f);
+      
+      qx.event.Timer.once(function() {
+        this.resume(function() {
+          l.dispose();
+          f.dispose();
+          this.assertCalledTwice(statusChangeSpy);
+        }, this);
+      }, this, 1000);
+      
+      this.wait(2000);
     }
   }
 });
