@@ -79,11 +79,7 @@ qx.Class.define("qx.data.marshal.Json",
      * @return {String} The hash representation of the given JavaScript object.
      */
     __jsonToHash: function(data) {
-      var properties = [];
-      for (var key in data) {
-        properties.push(key);
-      }
-      return properties.sort().join('"');
+      return qx.Bootstrap.getKeys(data).sort().join('"');
     },
 
 
@@ -106,36 +102,24 @@ qx.Class.define("qx.data.marshal.Json",
      *   the bubbling of change events or not.
      */
     toClass: function(data, includeBubbleEvents) {
+
       // break on all primitive json types and qooxdoo objects
       if (
-        qx.lang.Type.isNumber(data)
-        || qx.lang.Type.isString(data)
-        || qx.lang.Type.isBoolean(data)
-        || data == null
+        !qx.lang.Type.isObject(data)
         || data instanceof qx.core.Object
       ) {
-        return;
-      }
-
-      // check for arrays
-      if (qx.lang.Type.isArray(data)) {
-        for (var i = 0; i < data.length; i++) {
-          this.toClass(data[i], includeBubbleEvents);
+        // check for arrays
+        if (data instanceof Array || qx.Bootstrap.getClass(data) == "Array") {
+          for (var i = 0; i < data.length; i++) {
+            this.toClass(data[i], includeBubbleEvents);
+          }
         }
-        // dont create an class for an array
+
+        // ignore arrays and primitive types
         return;
       }
 
       var hash = this.__jsonToHash(data);
-
-      // class is defined by the delegate
-      if (
-        this.__delegate
-        && this.__delegate.getModelClass
-        && this.__delegate.getModelClass(hash) != null
-      ) {
-        return;
-      }
 
       // check for the possible child classes
       for (var key in data) {
@@ -144,6 +128,15 @@ qx.Class.define("qx.data.marshal.Json",
 
       // class already exists
       if (qx.Class.isDefined("qx.data.model." + hash)) {
+        return;
+      }
+
+      // class is defined by the delegate
+      if (
+        this.__delegate
+        && this.__delegate.getModelClass
+        && this.__delegate.getModelClass(hash) != null
+      ) {
         return;
       }
 
@@ -287,24 +280,23 @@ qx.Class.define("qx.data.marshal.Json",
      * @return {qx.core.Object} The created model object.
      */
     toModel: function(data) {
+      var isObject = qx.lang.Type.isObject(data);
+      var isArray = data instanceof Array || qx.Bootstrap.getClass(data) == "Array";
+
       if (
-        qx.lang.Type.isNumber(data)
-        || qx.lang.Type.isString(data)
-        || qx.lang.Type.isBoolean(data)
-        || qx.lang.Type.isDate(data)
-        || data == null
+        (!isObject && !isArray)
         || data instanceof qx.core.Object
       ) {
         return data;
 
-      } else if (qx.lang.Type.isArray(data)) {
+      } else if (isArray) {
         var array = new qx.data.Array();
         for (var i = 0; i < data.length; i++) {
           array.push(this.toModel(data[i]));
         }
         return array;
 
-      } else if (qx.lang.Type.isObject(data)) {
+      } else if (isObject) {
         // create an instance for the object
         var hash = this.__jsonToHash(data);
         var model = this.__createInstance(hash);
