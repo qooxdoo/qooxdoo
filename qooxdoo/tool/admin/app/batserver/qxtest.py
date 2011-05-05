@@ -326,9 +326,8 @@ class QxTest:
     
     buildConf = self.getConfig(defaultBuildConf, buildConf)
     
+    buildResults = {}
     for target in buildConf['targets']:
-      buildResults = {}
-      
       # Assemble batbuild command line
       if (os.path.isabs(buildConf['batbuild'])):
         cmd = buildConf['batbuild']
@@ -387,11 +386,16 @@ class QxTest:
             buildResults[target]["BuildFinished"] = time.strftime(self.timeFormat)
               
           buildResults[target]["SVNRevision"] = self.getLocalRevision()
-          self.storeBuildStatus(buildConf["buildLogDir"], buildResults)
-          for target in buildResults:
-            self.buildStatus[target] = buildResults[target]
-          self.storeBuildStatus(buildConf["buildLogDir"])
-
+          
+    # Store the results of this build run
+    self.storeBuildStatus(buildConf["buildLogDir"], buildResults)
+    # Update the 'total' build status with the results of this run
+    for target in buildResults:
+      self.buildStatus[target] = buildResults[target]
+    # Store results including the last result of any job that wasn't in this
+    # config
+    self.storeBuildStatus(buildConf["buildLogDir"])    
+    
     self.qxRevision = self.getLocalRevision()
     self.storeRevision()
     
