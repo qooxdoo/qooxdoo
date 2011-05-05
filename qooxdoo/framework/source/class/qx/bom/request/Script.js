@@ -42,6 +42,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
     timeout: 0,
 
     open: function(method, url, async) {
+      if (this.__disposed) {
+        return;
+      }
+
       if (typeof async == "undefined") {
         async = true;
       }
@@ -56,6 +60,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
     },
 
     send: function() {
+      if (this.__disposed) {
+        return;
+      }
+
       var script = this.__scriptElement,
           head = this.__headElement,
           that = this;
@@ -88,6 +96,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
     },
 
     setRequestHeader: function(key, value) {
+      if (this.__disposed) {
+        return;
+      }
+
       var param = {};
 
       if (this.readyState !== 1) {
@@ -99,6 +111,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
     },
 
     abort: function() {
+      if (this.__disposed) {
+        return;
+      }
+
       this.__abort = true;
       this.__disposeScriptElement();
       this.onabort();

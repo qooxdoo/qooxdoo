@@ -36,6 +36,10 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     responseJson: null,
 
     open: function(method, url) {
+      if (this.__disposed) {
+        return;
+      }
+
       var query = {};
 
       // User-defined callbacks must be handled by the user
@@ -51,11 +55,10 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
       this.__callBase("open", [method, url]);
     },
 
-    send: function() {
-     this.__callBase("send");
-    },
-
     callback: function(data) {
+      if (this.__disposed) {
+        return;
+      }
 
       // Signal callback was called
       this.callback.called = true;
