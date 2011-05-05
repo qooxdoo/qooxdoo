@@ -96,9 +96,8 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * this should include EOT, WOFF and TTF versions of the font.
      * @param callback {Function?} Optional event listener callback that will be
      * executed once the validator has determined whether the webFont was 
-     * applied correctly. 
-     * See {@link qx.bom.webfonts.Validator#fontValid} and 
-     * {@link qx.bom.webfonts.Validator#fontInvalid}
+     * applied correctly.
+     * See {@link qx.bom.webfonts.Validator#changeStatus}
      * @param context {Object?} Optional context for the callback function
      */
     require : function(familyName, sourcesList, callback, context)
@@ -237,9 +236,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * this should include EOT, WOFF and TTF versions of the font.
      * @param callback {Function?} Optional event listener callback that will be
      * executed once the validator has determined whether the webFont was 
-     * applied correctly. 
-     * See {@link qx.bom.webfonts.Validator#fontValid} and 
-     * {@link qx.bom.webfonts.Validator#fontInvalid}
+     * applied correctly.
      * @param context {Object?} Optional context for the callback function
      */
     __require : function(familyName, sources, callback, context)
@@ -271,13 +268,12 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       if (!this.__validators[familyName]) {
         this.__validators[familyName] = new qx.bom.webfonts.Validator(familyName);
         this.__validators[familyName].setTimeout(qx.bom.webfonts.Manager.VALIDATION_TIMEOUT);
-        this.__validators[familyName].addListener("fontInvalid", this.__onFontInvalid, this);
+        this.__validators[familyName].addListener("changeStatus", this.__onFontChangeStatus, this);
       }
       
       if (callback) {
         var cbContext = context || window;
-        this.__validators[familyName].addListener("fontValid", callback, cbContext);
-        this.__validators[familyName].addListener("fontInvalid", callback, cbContext);
+        this.__validators[familyName].addListener("changeStatus", callback, cbContext);
       }
       
       this.__validators[familyName].validate();
@@ -301,13 +297,14 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     /**
      * Removes the font-face declaration if a font could not be validated
      * 
-     * @param ev {qx.event.type.Data} qx.bom.webfonts.Validator#fontValid or
-     * qx.bom.webfonts.Validator#fontInvalid
+     * @param ev {qx.event.type.Data} qx.bom.webfonts.Validator#changeStatus
      */
-    __onFontInvalid : function(ev)
+    __onFontChangeStatus : function(ev)
     {
-      var familyName = ev.getData();
-      this.remove(familyName);
+      var result = ev.getData();
+      if (result.valid === false) {
+        this.remove(result.family);
+      }
     },
     
     

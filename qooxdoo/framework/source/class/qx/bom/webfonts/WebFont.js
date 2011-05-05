@@ -32,15 +32,11 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
   events :
   {
     /**
-     * Fired when a font was checked successfully. The event data is the 
-     * font-family name
+     * Fired when the status of a web font has been determined. The event data 
+     * is a map with the keys "family" (the font-family name) and "valid" 
+     * (Boolean).
      */
-    "fontValid" : "qx.event.type.Data",
-    
-    /**
-     * Fired when a font check failed. The event data is the font-family name
-     */
-    "fontInvalid" : "qx.event.type.Data"
+    "changeStatus" : "qx.event.type.Data"
   },
   
   
@@ -91,16 +87,15 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
     /**
      * Propagates web font status changes
      * 
-     * @param ev {qx.event.type.Data} "fontValid" or "fontInvalid" event
+     * @param ev {qx.event.type.Data} "changeStatus"
      */
     _onWebFontChangeStatus : function(ev)
     {
-      var type = ev.getType();
-      var family = ev.getData();
-      this.fireDataEvent(type, family);
+      var result = ev.getData();
+      this.fireDataEvent("changeStatus", result);
       if (qx.core.Environment.get("qx.debug")) {
-        if (type == "fontInvalid") {
-          this.warn("WebFont " + family + " was not applied, perhaps the source file could not be loaded.");
+        if (result.valid === false) {
+          this.warn("WebFont " + result.family + " was not applied, perhaps the source file could not be loaded.");
         }
       }
     },
