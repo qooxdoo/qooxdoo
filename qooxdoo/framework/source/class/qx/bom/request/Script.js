@@ -124,6 +124,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     onload: function() {},
 
+    onloadend: function() {},
+
     onerror: function() {},
 
     ontimeout: function() {},
@@ -202,12 +204,14 @@ qx.Bootstrap.define("qx.bom.request.Script",
         that.__success();
         that.__readyStateChange(4);
         that.onload();
+        that.onloadend();
       });
     },
 
     _onNativeError: function() {
       this.__failure();
       this.onerror();
+      this.onloadend();
     },
 
     __readyStateChange: function(readyState) {

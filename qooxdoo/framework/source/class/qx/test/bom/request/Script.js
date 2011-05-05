@@ -216,6 +216,32 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
+    "test: call onloadend on network error": function() {
+      if (this.isIeBelow(9)) {
+        this.skip();
+      }
+
+      var that = this;
+
+      this.req.onloadend = function() {
+        that.resume(function() {});
+      };
+
+      this.request("http://fail.tld");
+      this.wait();
+    },
+
+    "test: call onloadend when when request completed": function() {
+      var that = this;
+
+      this.req.onloadend = function() {
+        that.resume(function() {});
+      };
+
+      this.request();
+      this.wait();
+    },
+
     "test: call onreadystatechange and have appropriate readyState": function() {
       var req = this.req,
           readyStates = [],
