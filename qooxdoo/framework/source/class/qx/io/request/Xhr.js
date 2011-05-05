@@ -67,15 +67,7 @@ qx.Class.define("qx.io.request.Xhr",
      *
      * For instance, indicating a server error or missing resource.
      */
-    "remoteError": "qx.event.type.Event",
-
-    /**
-     * Fires on timeout, error or remote error.
-     *
-     * This event is fired for convenience. Usually, it is recommended
-     * to handle error related events in a more granular approach.
-     */
-    "fail": "qx.event.type.Event"
+    "remoteError": "qx.event.type.Event"
   },
 
   properties:

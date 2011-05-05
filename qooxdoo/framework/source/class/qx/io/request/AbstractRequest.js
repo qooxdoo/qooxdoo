@@ -95,6 +95,14 @@ qx.Class.define("qx.io.request.AbstractRequest",
     "error": "qx.event.type.Event",
 
     /**
+     * Fires on timeout, error or remote error.
+     *
+     * This event is fired for convenience. Usually, it is recommended
+     * to handle error related events in a more granular approach.
+     */
+    "fail": "qx.event.type.Event",
+
+    /**
     * Fires on change of the parsed response.
     *
     * This event allows to use data binding with the
