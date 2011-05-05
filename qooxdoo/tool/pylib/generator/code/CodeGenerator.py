@@ -288,41 +288,6 @@ class CodeGenerator(object):
             return json.dumpsCode(packageHashes)
 
 
-        def loaderPackageHashes_old(script, compConf):
-            packageHashes = {}
-            for key, package in enumerate(script.packagesSorted()):
-                if package.hash:
-                    packageHashes[key] = package.hash
-                else:
-                    packageHashes[key] = "%d" % key  # fake code package hashes in source ver.
-            return json.dumpsCode(packageHashes)
-
-
-        def isClosurePart(part, script):
-            loader_with_boot = self._job.get("packages/loader-with-boot", True)
-            if loader_with_boot and part.name == script.boot:
-                return False
-            if (not any(x.has_source for x in part.packages)):
-                # currently, we use the package key as the closure key to load
-                # packages, hence the package must only contain a single script,
-                # which is currently true if the package is free of source
-                # scripts ("not any(x.has_source").
-                # ---
-                # theoretically, multiple scripts in a packages could be
-                # supported, if they're all compiled (no source scripts) and 
-                # each is assigned its own closure key.
-                return True
-            return False
-
-
-        def loaderClosureParts1(script, compConf):
-            cParts = {}
-            loader_with_boot = self._job.get("packages/loader-with-boot", True)
-            for part in script.parts.values():
-                if isClosurePart(part, script):
-                    cParts[part.name] = True
-            return json.dumpsCode(cParts)
-
         def loaderClosureParts(script, compConf):
             cParts = {}
             bootPkgId = bootPackageId(script)
@@ -337,6 +302,15 @@ class CodeGenerator(object):
             return script.parts[script.boot].packages[0].id # should only be one anyway
 
 
+        ##
+        # currently, we use the package key as the closure key to load
+        # packages, hence the package must only contain a single script,
+        # which is currently true if the package is free of source
+        # scripts ("not any(x.has_source").
+        # ---
+        # theoretically, multiple scripts in a packages could be
+        # supported, if they're all compiled (no source scripts) and 
+        # each is assigned its own closure key.
         def isClosurePackage(package, bootPackageId):
             if not package.has_source and not package.id == bootPackageId:
                 return True
