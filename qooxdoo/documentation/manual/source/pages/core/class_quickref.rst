@@ -23,15 +23,13 @@ Properties, a particular part of the class declaration, have quite an extensive 
                        'implement'   ':' implement_spec   |
                        'include'     ':' include_spec     |
                        'construct'   ':' construct_spec   |
+                       'events'      ':' events_spec      |
                        'statics'     ':' statics_spec     |
                        'properties'  ':' properties_spec  |
                        'members'     ':' members_spec     |
-                       'settings'    ':' settings_spec    |
-                       'variants'    ':' variants_spec    |
                        'environment' ':' environment_spec |
-                       'events'      ':' events_spec      |
-                       'defer'       ':' defer_spec       |
-                       'destruct'    ':' destruct_spec 
+                       'destruct'    ':' destruct_spec    |
+                       'defer'       ':' defer_spec
 
     type_spec        := 'static' | 'abstract' | 'singleton'
                      
