@@ -29,6 +29,7 @@ qx.Class.define("qx.test.locale.Locale",
 
   members :
   {
+    __defaultLocale : null,
 
     setUp : function() {
       var manager = qx.locale.Manager.getInstance();
@@ -182,13 +183,19 @@ qx.Class.define("qx.test.locale.Locale",
       }
 
       var manager = qx.locale.Manager.getInstance();
+      var oldLocale = manager.getLocale();
       manager.addTranslation("en_QX", {
         "test one": "one!",
         "test two": "two!"
       });
       manager.setLocale("en_QX");
-      manager.setLocale(locale);
-      this.assertEquals(locale, manager.getLocale());
+
+      // try the reset of the locale
+      manager.resetLocale();
+      this.assertEquals(null, manager.getLocale());
+
+      // make sure we set the locale which was there before the test
+      manager.setLocale(oldLocale);
     }
 
   }
