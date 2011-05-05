@@ -70,7 +70,7 @@ qx.Class.define("qx.io.request.Jsonp",
       if (qx.core.Environment.get("qx.debug.xhr.io")) {
         this.debug("Send request");
       }
-      transport.send(serializedData);
+      transport.send(null);
     },
 
     _createTransport: function() {
