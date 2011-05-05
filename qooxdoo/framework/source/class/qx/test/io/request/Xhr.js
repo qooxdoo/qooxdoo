@@ -722,7 +722,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     noCache: function(url) {
-      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + Math.random());
+      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + (new Date).valueOf());
     },
 
     respond: function(status, error) {

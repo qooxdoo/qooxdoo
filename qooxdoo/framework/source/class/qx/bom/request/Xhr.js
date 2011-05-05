@@ -277,7 +277,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *
      * Note: The request must be initialized before using this method.
      *
-     * @param header {String}
+     * @param key {String}
      *        The name of the header whose value is to be set.
      * @param value {String}
      *        The value to set as the body of the header.
