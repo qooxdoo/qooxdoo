@@ -558,7 +558,6 @@ qx.Class.define("qx.ui.form.AbstractField",
     _onWebFontStatusChange : function(ev)
     {
       if (ev.getData().valid === true) {
-        console.log("valid!" + ev.getData().family);
         var styles = this.__font.getStyles();
         this.__textSize = qx.bom.Label.getTextSize("A", styles);
         qx.ui.core.queue.Layout.add(this);
