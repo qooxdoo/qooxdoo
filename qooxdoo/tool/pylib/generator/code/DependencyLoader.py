@@ -150,7 +150,6 @@ class DependencyLoader(object):
             # and evaluate them
             deps["warn"] = self._checkDepsAreKnown(deps)  # add 'warn' key to deps
             ignore_names = [x.name for x in deps["ignore"]]
-            ignored_names.update(ignore_names)
             if verifyDeps:
                 for dep in deps["warn"]:
                     if dep.name not in ignore_names:

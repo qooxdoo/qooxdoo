@@ -1101,8 +1101,13 @@ class Class(Resource):
                     self._analyzeClassDepsNode(attribNode, depslist, variants, inLoadContext=False)
                     console.debug( "shallow dependencies: %r" % (depslist,))
 
+                    # This depends on attribNode belonging to current class
+                    my_ignores = self.getHints("ignoreDeps")
+
                     for depsItem in depslist:
                         if depsItem in totalDeps:
+                            continue
+                        if depsItem.name in my_ignores:
                             continue
                         if self.resultAdd(depsItem, localDeps):
                             # Recurse dependencies
