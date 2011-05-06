@@ -53,6 +53,7 @@ qx.Class.define("${Namespace}.Application",
       /*
       -------------------------------------------------------------------------
         Below is your actual application code...
+        Remove or edit the following code to create your application.
       -------------------------------------------------------------------------
       */
 
