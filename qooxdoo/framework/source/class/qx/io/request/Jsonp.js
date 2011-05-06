@@ -49,7 +49,7 @@ qx.Class.define("qx.io.request.Jsonp",
       }
 
       // Initialize request
-      if (qx.core.Environment.get("qx.debug.xhr.io")) {
+      if (qx.core.Environment.get("qx.debug.io")) {
         this.debug(
           "Initialize request with " +
           "url: '" + url +
@@ -67,14 +67,14 @@ qx.Class.define("qx.io.request.Jsonp",
       transport.timeout = this.getTimeout() * 1000;
 
       // Send request
-      if (qx.core.Environment.get("qx.debug.xhr.io")) {
+      if (qx.core.Environment.get("qx.debug.io")) {
         this.debug("Send request");
       }
       transport.send(null);
     },
 
     abort: function() {
-      if (qx.core.Environment.get("qx.debug.xhr.io")) {
+      if (qx.core.Environment.get("qx.debug.io")) {
         this.debug("Abort request");
       }
       this._transport.abort();
@@ -87,5 +87,10 @@ qx.Class.define("qx.io.request.Jsonp",
     _getParsedResponse: function() {
       return this._transport.responseJson;
     }
+  },
+
+  environment:
+  {
+    "qx.debug.io": false
   }
 });

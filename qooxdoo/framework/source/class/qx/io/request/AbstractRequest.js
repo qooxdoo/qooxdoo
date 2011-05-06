@@ -409,7 +409,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
       if (this.isDone()) {
 
-        if (qx.core.Environment.get("qx.debug.xhr.io")) {
+        if (qx.core.Environment.get("qx.debug.io")) {
           this.debug("Request completed with HTTP status: " + this.getStatus());
         }
 
@@ -417,7 +417,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
         if (qx.bom.request.Xhr.isSuccessful(this.getStatus())) {
 
           // Parse response
-          if (qx.core.Environment.get("qx.debug.xhr.io")) {
+          if (qx.core.Environment.get("qx.debug.io")) {
             this.debug("Response is of type: '" + this.getResponseContentType() + "'");
           }
           parsedResponse = this._getParsedResponse();
@@ -549,7 +549,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
           }
 
           if (header.key && header.value) {
-            if (qx.core.Environment.get("qx.debug.xhr.io")) {
+            if (qx.core.Environment.get("qx.debug.io")) {
               this.debug(
                 "Set authentication header '" + header.key +
                 "' to '" + header.value + "'");
