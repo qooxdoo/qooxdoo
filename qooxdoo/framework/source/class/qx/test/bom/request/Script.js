@@ -75,12 +75,6 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: properties indicate failure when request failed": function() {
-      // Known to fail in IE < 9
-      // Legacy IEs do not support the "error" event.
-      if (this.isIeBelow(9)) {
-        this.skip();
-      }
-
       var that = this,
           req = this.req;
 
@@ -97,12 +91,6 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: properties indicate failure when request timed out": function() {
-      // Known to fail in IE < 9
-      // Legacy IEs do not support the "error" event.
-      if (this.isIeBelow(9)) {
-        this.skip();
-      }
-
       var that = this,
           req = this.req;
 
@@ -115,7 +103,7 @@ qx.Class.define("qx.test.bom.request.Script",
         });
       };
 
-      this.request(this.noCache(this.getUrl("qx/test/xmlhttp/echo_get_request.php")) + "&sleep=1");
+      this.requestPending();
       this.wait();
     },
 
@@ -158,7 +146,7 @@ qx.Class.define("qx.test.bom.request.Script",
     "test: abort() removes script element": function() {
       var req = this.req;
 
-      this.request(this.noCache(this.getUrl("qx/test/xmlhttp/echo_get_request.php")) + "&sleep=1");
+      this.requestPending();
       req.abort();
 
       this.assertFalse(this.isInDom(req._getScriptElement()), "Script element in DOM");
@@ -217,10 +205,6 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: call onloadend on network error": function() {
-      if (this.isIeBelow(9)) {
-        this.skip();
-      }
-
       var that = this;
 
       this.req.onloadend = function() {
@@ -296,13 +280,6 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: call onerror when request failed because of network error": function() {
-
-      // Known to fail in IE < 9
-      // Legacy IEs do not support the "error" event.
-      if (this.isIeBelow(9)) {
-        this.skip();
-      }
-
       var that = this;
 
       this.req.onerror = function() {
@@ -334,7 +311,25 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
-    "test: call ontimeout when request exceeded timeout limit": function() {
+    "test: not call onerror when request exceeds timeout limit": function() {
+      var req = this.req;
+
+      // Known to fail in browsers not supporting the error event
+      // because timeouts are used to fake the "error"
+      if (!this.supportsErrorHandler()) {
+        this.skip();
+      }
+
+      this.spy(req, "onerror");
+      req.timeout = 10;
+      this.requestPending();
+
+      this.wait(20, function() {
+        this.assertNotCalled(req.onerror);
+      }, this);
+    },
+
+    "test: call ontimeout when request exceeds timeout limit": function() {
       var that = this;
 
       this.req.timeout = 100;
@@ -342,14 +337,10 @@ qx.Class.define("qx.test.bom.request.Script",
         that.resume(function() {});
       };
 
-      this.req.onload = function() {
-        qx.log.Logger.debug("onload");
-      };
-
       // In legacy browser, a long running script request blocks subsequent requests
       // even if the script element is removed. Keep duration below default timeout
       // for wait to work around.
-      this.request(this.noCache(this.getUrl("qx/test/xmlhttp/echo_get_request.php")) + "&sleep=1");
+      this.requestPending();
       this.wait();
     },
 
@@ -423,13 +414,20 @@ qx.Class.define("qx.test.bom.request.Script",
         });
       };
 
-      this.request(this.noCache(this.getUrl("qx/test/xmlhttp/echo_get_request.php")) + "&sleep=1");
+      this.requestPending();
       this.wait();
     },
 
     request: function(customUrl) {
       this.req.open("GET", customUrl || this.url, true);
       this.req.send();
+    },
+
+    requestPending: function(sleep) {
+      var url = this.noCache(this.getUrl("qx/test/xmlhttp/echo_get_request.php"));
+
+      url += "&sleep=" + (sleep || 1);
+      this.request(url);
     },
 
     isInDom: function(elem) {
@@ -439,6 +437,15 @@ qx.Class.define("qx.test.bom.request.Script",
     isIeBelow: function(version) {
       return qx.core.Environment.get("engine.name") === "mshtml" &&
              qx.core.Environment.get("engine.version") < version;
+    },
+
+    supportsErrorHandler: function() {
+      var isLegacyIe = qx.core.Environment.get("engine.name") === "mshtml" &&
+        qx.core.Environment.get("engine.version") < 9;
+
+      var isOpera = qx.core.Environment.get("engine.name") === "opera";
+
+      return !(isLegacyIe || isOpera);
     },
 
     noCache: function(url) {

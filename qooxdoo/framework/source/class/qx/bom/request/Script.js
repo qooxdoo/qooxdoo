@@ -29,6 +29,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
     this.__scriptElement = document.createElement("script");
     this.__headElement = document.head || document.getElementsByTagName( "head" )[0] ||
                          document.documentElement;
+
+    if (!this.__supportsErrorHandler()) {
+      this.timeout = 5000;
+    }
   },
 
   members :
@@ -74,10 +78,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
       // BUGFIX: IE < 9
       // Legacy IEs do not fire the "load" event for script elements.
-      // Instead, the support the "readystatechange" event
+      // Instead, they support the "readystatechange" event
       if (qx.core.Environment.get("engine.name") === "mshtml" &&
           qx.core.Environment.get("engine.version") < 9) {
-        script.onreadystatechange = this._onNativeLoadBound;
+        script.onreadystatechange = this.__onNativeLoadBound;
       }
 
       if (this.timeout > 0) {
@@ -199,10 +203,19 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     _onTimeout: function() {
       this.__failure();
+
+      if (!this.__supportsErrorHandler()) {
+        this.onerror();
+      }
+
       this.ontimeout();
+
+      if (!this.__supportsErrorHandler()) {
+        this.onloadend();
+      }
     },
 
-    _onNativeLoad: function(e) {
+    _onNativeLoad: function() {
       var script = this.__scriptElement,
           that = this;
 
@@ -256,6 +269,15 @@ qx.Bootstrap.define("qx.bom.request.Script",
       this.readyState = 4;
       this.status = 0;
       this.statusText = null;
+    },
+
+    __supportsErrorHandler: function() {
+      var isLegacyIe = qx.core.Environment.get("engine.name") === "mshtml" &&
+        qx.core.Environment.get("engine.version") < 9;
+
+      var isOpera = qx.core.Environment.get("engine.name") === "opera";
+
+      return !(isLegacyIe || isOpera);
     },
 
     __disposeScriptElement: function() {
