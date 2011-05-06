@@ -121,9 +121,71 @@ qx.Class.define("qx.io.request.Xhr",
      */
     __parser: null,
 
-    //
-    // INTERACT WITH TRANSPORT
-    //
+    /*
+    ---------------------------------------------------------------------------
+      CONFIGURE TRANSPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Create XHR transport.
+     *
+     * @return {qx.bom.request.Xhr} Transport.
+     */
+    _createTransport: function() {
+      return new qx.bom.request.Xhr();
+    },
+
+    /**
+     * Get configured URL.
+     *
+     * Append request data to URL if HTTP method is GET. Append random
+     * string to URL if required by value of {@link #cache}.
+     *
+     * @return {String} The configured URL.
+     */
+    _getConfiguredUrl: function() {
+      var url = this.getUrl(),
+          serializedData;
+
+      if (this.getMethod() === "GET" && this.getRequestData()) {
+        serializedData = this._serializeData(this.getRequestData());
+        url = qx.util.Uri.appendParamsToUrl(url, serializedData);
+      }
+
+      if (this.getCache() === false) {
+        // Make sure URL cannot be served from cache and new request is made
+        url = qx.util.Uri.appendParamsToUrl(url, {nocache: new Date().valueOf()});
+      }
+
+      return url;
+    },
+
+    /**
+     * Set additional headers required by XHR transport.
+     */
+    _setRequestHeaders: function() {
+      var transport = this._transport;
+
+      // Align headers to configuration of instance
+      if (this.getCache() === "force-validate") {
+        // Force validation. See http://www.mnot.net/cache_docs/#CACHE-CONTROL.
+        transport.setRequestHeader("Cache-Control", "no-cache");
+      }
+
+      // POST with request data needs special content-type
+      if (this.getMethod() === "POST") {
+        transport.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      }
+
+      // What representations to accept
+      if (this.getAccept()) {
+        if (qx.core.Environment.get("qx.debug.io")) {
+          this.debug("Accepting: '" + this.getAccept() + "'");
+        }
+        transport.setRequestHeader("Accept", this.getAccept());
+      }
+    },
 
     /**
     * Send request.
@@ -136,91 +198,14 @@ qx.Class.define("qx.io.request.Xhr",
     *
     */
     send: function() {
-      var transport = this._transport,
-          method = this.getMethod(),
-          url = this.getUrl(),
-          async = this.getAsync(),
-          requestData = this.getRequestData(),
-          serializedData = this._serializeData(requestData);
-
-      // Drop fragment (anchor) from URL as per
-      // http://www.w3.org/TR/XMLHttpRequest/#the-open-method
-      if (/\#/.test(url)) {
-        url = url.replace(/\#.*/, "");
-      }
-
-      if (method === "GET") {
-        if (serializedData) {
-          url = qx.util.Uri.appendParamsToUrl(url, serializedData);
-        }
-
-        // Avoid duplication
-        serializedData = null;
-      }
-
-      if (this.getCache() === false) {
-        // Make sure URL cannot be served from cache and new request is made
-        url = qx.util.Uri.appendParamsToUrl(url, {nocache: new Date().valueOf()});
-      }
-
-      // Initialize request
-      if (qx.core.Environment.get("qx.debug.io")) {
-        this.debug(
-          "Initialize request with " +
-          "method: '" + method +
-          "', url: '" + url +
-          "', async: " + async);
-      }
-      transport.open(method, url, async);
-
-      // Align headers to configuration of instance
-      if (this.getCache() === "force-validate") {
-        // Force validation. See http://www.mnot.net/cache_docs/#CACHE-CONTROL.
-        transport.setRequestHeader("Cache-Control", "no-cache");
-      }
-
-      // POST with request data needs special content-type
-      if (method === "POST") {
-        transport.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      }
-
-      // What representations to accept
-      if (this.getAccept()) {
-        if (qx.core.Environment.get("qx.debug.io")) {
-          this.debug("Accepting: '" + this.getAccept() + "'");
-        }
-        transport.setRequestHeader("Accept", this.getAccept());
-      }
-
-      // Authentication headers
-      this._setAuthRequestHeaders();
-
-      // User-provided headers
-      this._setRequestHeaders();
-
-      // Set timeout
-      transport.timeout = this.getTimeout() * 1000;
-
-      // Send request
-      if (qx.core.Environment.get("qx.debug.io")) {
-        this.debug("Send request");
-      }
-      transport.send(serializedData);
+      this.base(arguments);
     },
 
-    /**
-     * Aborts the request. Cancels any network activity.
-     */
-    abort: function() {
-      if (qx.core.Environment.get("qx.debug.io")) {
-        this.debug("Abort request");
-      }
-      this._transport.abort();
-    },
-
-    //
-    // RESPONSE
-    //
+    /*
+    ---------------------------------------------------------------------------
+      RESPONSE
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Set parser used to parse response once request has
@@ -326,15 +311,6 @@ qx.Class.define("qx.io.request.Xhr",
       }
 
       return response;
-    },
-
-    /**
-     * Create and return transport.
-     *
-     * @return {qx.bom.request.Xhr} Transport.
-     */
-    _createTransport: function() {
-      return new qx.bom.request.Xhr();
     }
 
   }

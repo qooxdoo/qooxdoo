@@ -25,19 +25,16 @@ qx.Class.define("qx.io.request.Jsonp",
 
   members :
   {
-    send: function() {
-      var transport = this._transport,
-          url = this.getUrl(),
-          requestData = this.getRequestData(),
-          serializedData = this._serializeData(requestData);
+    _createTransport: function() {
+      return new qx.bom.request.Jsonp();
+    },
 
-      // Drop fragment (anchor) from URL as per
-      // http://www.w3.org/TR/XMLHttpRequest/#the-open-method
-      if (/\#/.test(url)) {
-        url = url.replace(/\#.*/, "");
-      }
+    _getConfiguredUrl: function() {
+      var url = this.getUrl(),
+          serializedData;
 
-      if (serializedData) {
+      if (this.getRequestData()) {
+        serializedData = this._serializeData(this.getRequestData());
         url = qx.util.Uri.appendParamsToUrl(url, serializedData);
       }
 
@@ -46,40 +43,7 @@ qx.Class.define("qx.io.request.Jsonp",
         url = qx.util.Uri.appendParamsToUrl(url, {nocache: new Date().valueOf()});
       }
 
-      // Initialize request
-      if (qx.core.Environment.get("qx.debug.io")) {
-        this.debug(
-          "Initialize request with " +
-          "url: '" + url +
-          "', async: " + async);
-      }
-      transport.open("GET", url);
-
-      // Authentication headers
-      this._setAuthRequestHeaders();
-
-      // User-provided headers
-      this._setRequestHeaders();
-
-      // Set timeout
-      transport.timeout = this.getTimeout() * 1000;
-
-      // Send request
-      if (qx.core.Environment.get("qx.debug.io")) {
-        this.debug("Send request");
-      }
-      transport.send(null);
-    },
-
-    abort: function() {
-      if (qx.core.Environment.get("qx.debug.io")) {
-        this.debug("Abort request");
-      }
-      this._transport.abort();
-    },
-
-    _createTransport: function() {
-      return new qx.bom.request.Jsonp();
+      return url;
     },
 
     _getParsedResponse: function() {

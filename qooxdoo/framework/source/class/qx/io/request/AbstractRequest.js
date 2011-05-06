@@ -23,6 +23,11 @@
  * AbstractRequest serves as a base class for {@link qx.io.request.Xhr}
  * and {@link qx.io.request.Jsonp}. It contains methods to conveniently
  * communicate with transports found in {@link qx.bom.request}.
+ *
+ * The general procedure to derive a new {@link io.request} from AbstractRequest
+ * is to choose a {@link qx.bom.request} transport (override
+ * {@link _createTransport}) and adjust the behavior of send (override
+ * {@link _getConfiguredUrl} and optionally {@link _setRequestHeader}).
  */
 qx.Class.define("qx.io.request.AbstractRequest",
 {
@@ -222,27 +227,114 @@ qx.Class.define("qx.io.request.AbstractRequest",
      */
     _transport: null,
 
-    //
-    // INTERACT WITH TRANSPORT
-    //
+    /*
+    ---------------------------------------------------------------------------
+      CONFIGURE TRANSPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Create and return transport.
+     *
+     * This method MUST be overridden, unless the constructor is overridden as
+     * well. It is called by the constructor and should return the transport that
+     * is to be interfaced.
+     *
+     * @return {qx.bom.request} Transport.
+     */
+    _createTransport: function() {
+      throw new Error("Abstract method call");
+    },
+
+    /**
+     * Get configured URL.
+     *
+     * A configured URL typically includes a query string.
+     *
+     * This method MUST be overridden, unless {@link #send} is overridden as well.
+     * It is called in {@link #send} before the request is initialized.
+     *
+     * @return {String} The configured URL.
+     */
+    _getConfiguredUrl: function() {
+      throw new Error("Abstract method call");
+    },
+
+    /**
+     * A request may include additional headers depending on the transport.
+     *
+     * This method MAY be overridden. It is called in {@link #send}
+     * after the request is initialized.
+     */
+    _setRequestHeaders: function() {},
+
+    /*
+    ---------------------------------------------------------------------------
+      INTERACT WITH TRANSPORT
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Send request.
      */
     send: function() {
-      throw new Error("Abstract method call");
+      var transport = this._transport,
+          url, method, async, serializedData;
+
+      //
+      // Initialize request
+      //
+
+      url = this._getConfiguredUrl();
+
+      // Drop fragment (anchor) from URL as per
+      // http://www.w3.org/TR/XMLHttpRequest/#the-open-method
+      if (/\#/.test(url)) {
+        url = url.replace(/\#.*/, "");
+      }
+
+      transport.timeout = this.getTimeout() * 1000;
+
+      // Support transports with enhanced feature set
+      method = qx.lang.Type.isFunction(this.getMethod) ? this.getMethod() : "GET";
+      async = qx.lang.Type.isFunction(this.getAsync) ? this.getAsync() : true;
+
+      // Open
+      transport.open(method, url, async);
+
+      //
+      // Send request
+      //
+
+      serializedData = this._serializeData(this.getRequestData());
+
+      this._setRequestHeaders();
+      this.__setAuthRequestHeaders();
+      this.__setUserRequestHeaders();
+
+      if (qx.core.Environment.get("qx.debug.io")) {
+        this.debug("Send request");
+      }
+
+      // Send
+      method == "GET" ? transport.send() : transport.send(serializedData);
     },
 
     /**
      * Abort request.
      */
-    abort: function() {
-      throw new Error("Abstract method call");
-    },
+     abort: function() {
+       if (qx.core.Environment.get("qx.debug.io")) {
+         this.debug("Abort request");
+       }
+       this._transport.abort();
+     },
 
-    //
-    // QUERY TRANSPORT
-    //
+     /*
+     ---------------------------------------------------------------------------
+       QUERY TRANSPORT
+     ---------------------------------------------------------------------------
+     */
 
     /**
      * Get low-level transport.
@@ -351,9 +443,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
       return this.getReadyState() === 4;
     },
 
-    //
-    // RESPONSE
-    //
+    /*
+    ---------------------------------------------------------------------------
+      RESPONSE
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Get parsed response.
@@ -370,7 +464,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Is called in the {@link _onReadyStateChange} event handler
      * to parse and store the transport's response.
      *
-     * This method must be overridden.
+     * This method SHOULD be overridden.
      *
      * @return {String} The parsed response of the request.
      */
@@ -482,18 +576,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
     */
 
     /**
-     * Create and return transport.
-     *
-     * This method must be overridden and should return the transport
-     * that is to be interfaced.
-     *
-     * @return {qx.bom.request} Transport.
-     */
-    _createTransport: function() {
-      throw new Error("Abstract method call");
-    },
-
-    /**
      * Serialize data
      *
      * @param data {String|Map|qx.core.Object} Data to serialize.
@@ -522,7 +604,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     /**
      * Set request headers.
      */
-    _setRequestHeaders: function() {
+    __setUserRequestHeaders: function() {
       var requestHeaders = this.getRequestHeaders();
 
       for (var key in requestHeaders) {
@@ -535,7 +617,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     /**
     * Read auth delegate and set headers accordingly
     */
-    _setAuthRequestHeaders: function() {
+    __setAuthRequestHeaders: function() {
       var auth = this.getAuthentication(),
           transport = this._transport;
 
