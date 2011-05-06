@@ -403,7 +403,9 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       
       if (qx.core.Environment.get("browser.name") == "ie" &&
           qx.core.Environment.get("browser.version") < 9) {
-        this.__styleSheet.cssText += completeRule;
+        var cssText = this.__fixCssText(this.__styleSheet.cssText);
+        cssText += completeRule;
+        this.__styleSheet.cssText = cssText;
       }
       else {
         this.__styleSheet.insertRule(completeRule, this.__styleSheet.cssRules.length);
@@ -424,6 +426,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         var sheet = document.styleSheets[i];
         if (sheet.cssText) {
           var cssText = sheet.cssText.replace(/\n/g, "").replace(/\r/g, "");
+          cssText = this.__fixCssText(cssText);
           if (reg.exec(cssText)) {
             cssText = cssText.replace(reg, "");
           }
@@ -439,6 +442,19 @@ qx.Class.define("qx.bom.webfonts.Manager", {
           }
         }
       }
+    },
+    
+    /**
+     * IE 6 and 7 omit the trailing quote after the format name when 
+     * querying cssText. This needs to be fixed before cssText is replaced
+     * or all rules will be invalid and no web fonts will work any more.
+     * 
+     * @param cssText {String} CSS text
+     * @return {String} Fixed CSS text
+     */
+    __fixCssText : function(cssText)
+    {
+      return cssText.replace("'eot)", "'eot')");
     }
   
   },
