@@ -187,7 +187,10 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       else {
         this.__checkTimer = new qx.event.Timer(100);
         this.__checkTimer.addListener("interval", this.__onTimerInterval, this);
-        this.__checkTimer.start();
+        // Give the browser a chance to render the new elements
+        qx.event.Timer.once(function() {
+          this.__checkTimer.start();
+        }, this, 0);
       }
     },
     
