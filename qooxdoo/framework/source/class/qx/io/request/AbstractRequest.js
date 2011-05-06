@@ -561,6 +561,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
     }
   },
 
+  environment:
+  {
+    "qx.debug.io": false
+  },
+
   destruct: function()
   {
     var transport = this._transport,

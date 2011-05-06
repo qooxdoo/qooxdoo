@@ -341,10 +341,5 @@ qx.Class.define("qx.io.request.Xhr",
       return new qx.bom.request.Xhr();
     }
 
-  },
-
-  environment:
-  {
-    "qx.debug.io": false
   }
 });

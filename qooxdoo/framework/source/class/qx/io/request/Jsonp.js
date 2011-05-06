@@ -87,10 +87,5 @@ qx.Class.define("qx.io.request.Jsonp",
     _getParsedResponse: function() {
       return this._transport.responseJson;
     }
-  },
-
-  environment:
-  {
-    "qx.debug.io": false
   }
 });
