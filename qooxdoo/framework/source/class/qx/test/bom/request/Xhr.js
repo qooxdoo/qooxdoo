@@ -348,6 +348,20 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.wait();
     },
 
+    "test: not call onerror when timeout": function() {
+      var req = this.req;
+
+      this.spy(req, "onerror");
+
+      req.timeout = 10;
+      req.open();
+      req.send();
+
+      this.wait(20, function() {
+        this.assertNotCalled(req.onerror);
+      }, this);
+    },
+
     "test: cancel timeout when DONE": function() {
       var fakeReq = this.getFakeReq(),
           req = this.req;

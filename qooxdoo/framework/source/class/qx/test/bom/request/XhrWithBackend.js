@@ -544,7 +544,6 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
           that.assertIdentical("", req.responseText);
           that.assertIdentical(null, req.responseXML);
           that.assertCallOrder(req.onreadystatechange, req.ontimeout, req.onloadend);
-          that.assertNotCalled(req.onerror);
         });
       };
 
