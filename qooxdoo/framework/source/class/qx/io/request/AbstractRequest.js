@@ -326,13 +326,13 @@ qx.Class.define("qx.io.request.AbstractRequest",
     /**
      * Get a single response header from response.
      *
-     * @param  header {String}
+     * @param  key {String}
      *         Key of the header to get the value from.
      * @return {String}
      *         Response header.
      */
-    getResponseHeader: function(header) {
-      return this._transport.getResponseHeader(header);
+    getResponseHeader: function(key) {
+      return this._transport.getResponseHeader(key);
     },
 
     /**
