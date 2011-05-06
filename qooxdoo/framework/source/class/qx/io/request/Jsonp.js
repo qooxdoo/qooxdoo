@@ -28,7 +28,6 @@ qx.Class.define("qx.io.request.Jsonp",
     send: function() {
       var transport = this._transport,
           url = this.getUrl(),
-          async = this.getAsync(),
           requestData = this.getRequestData(),
           serializedData = this._serializeData(requestData);
 
@@ -54,7 +53,7 @@ qx.Class.define("qx.io.request.Jsonp",
           "url: '" + url +
           "', async: " + async);
       }
-      transport.open("GET", url, async);
+      transport.open("GET", url);
 
       // Authentication headers
       this._setAuthRequestHeaders();

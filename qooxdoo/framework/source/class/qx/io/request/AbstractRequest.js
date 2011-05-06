@@ -95,6 +95,13 @@ qx.Class.define("qx.io.request.AbstractRequest",
     "error": "qx.event.type.Event",
 
     /**
+     * Fires when request completed with erroneous HTTP status.
+     *
+     * For instance, indicating a server error or missing resource.
+     */
+    "remoteError": "qx.event.type.Event",
+
+    /**
      * Fires on timeout, error or remote error.
      *
      * This event is fired for convenience. Usually, it is recommended
@@ -132,14 +139,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
      */
     url: {
       check: "String"
-    },
-
-    /**
-     * Whether the request should be executed asynchronously.
-     */
-    async: {
-      check: "Boolean",
-      init: true
     },
 
     /**

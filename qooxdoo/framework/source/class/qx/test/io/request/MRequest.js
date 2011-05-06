@@ -77,7 +77,7 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.setUpFakeTransport();
       this.req.send();
 
-      this.assertCalledWith(this.transport.open, "GET", "url", true);
+      this.assertCalledWith(this.transport.open, "GET", "url");
       this.assertCalled(this.transport.send);
     },
 
