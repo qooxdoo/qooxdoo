@@ -506,17 +506,6 @@ qx.Class.define("qx.test.io.request.Xhr",
       credentials = /Basic\s(.*)/.exec(call.args[1])[1];
       this.assertEquals(key, call.args[0]);
       this.assertEquals("affe:geheim", qx.util.Base64.decode(credentials));
-    },
-
-    //
-    // Abort
-    //
-
-    "test: abort request": function() {
-      this.setUpFakeTransport();
-      this.req.abort();
-
-      this.assertCalled(this.transport.abort);
     }
   }
 });

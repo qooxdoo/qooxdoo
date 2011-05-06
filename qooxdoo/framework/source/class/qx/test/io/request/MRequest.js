@@ -90,6 +90,17 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     //
+    // Abort
+    //
+
+    "test: abort request": function() {
+      this.setUpFakeTransport();
+      this.req.abort();
+
+      this.assertCalled(this.transport.abort);
+    },
+
+    //
     // Data
     //
 

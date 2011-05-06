@@ -73,6 +73,13 @@ qx.Class.define("qx.io.request.Jsonp",
       transport.send(null);
     },
 
+    abort: function() {
+      if (qx.core.Environment.get("qx.debug.xhr.io")) {
+        this.debug("Abort request");
+      }
+      this._transport.abort();
+    },
+
     _createTransport: function() {
       return new qx.bom.request.Jsonp();
     },
