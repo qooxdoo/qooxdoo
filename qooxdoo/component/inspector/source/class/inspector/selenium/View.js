@@ -530,7 +530,9 @@ qx.Class.define("inspector.selenium.View", {
     __getSelenese : function()
     {
       var url = qx.core.Init.getApplication().getIframeWindowObject().location.href;
-      var title = qx.core.Init.getApplication().getIframeWindowObject().qx.core.Environment.get("qx.application");
+      var iframeWindow = qx.core.Init.getApplication().getIframeWindowObject();
+      var iframeEnvironment = iframeWindow.qx.core.Environment;
+      var title = iframeEnvironment.get("qx.application");
 
       this.__seleneseTestCase = new inspector.selenium.SeleneseTestCase(url, title);
       this.__seleneseTestCase.addListenerOnce("appear", function(event) {
