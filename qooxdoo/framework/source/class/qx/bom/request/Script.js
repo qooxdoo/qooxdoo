@@ -38,12 +38,12 @@ qx.Bootstrap.define("qx.bom.request.Script",
   members :
   {
 
-    // XHR Properties
     readyState: 0,
     status: 0,
     statusText: null,
-
     timeout: 0,
+
+    __async: null,
 
     open: function(method, url, async) {
       if (this.__disposed) {

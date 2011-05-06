@@ -31,9 +31,12 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
 
   members :
   {
-    __callbackParam: null,
-
     responseJson: null,
+
+    __id: null,
+    __callbackParam: null,
+    __callbackName: null,
+    __disposed: null,
 
     open: function(method, url) {
       if (this.__disposed) {

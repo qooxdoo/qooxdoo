@@ -144,7 +144,6 @@ qx.Class.define("qx.io.request.Xhr",
           url = this.getUrl(),
           async = this.getAsync(),
           requestData = this.getRequestData(),
-          auth = this.getAuthentication(),
           serializedData = this._serializeData(requestData);
 
       // Drop fragment (anchor) from URL as per
