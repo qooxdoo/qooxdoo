@@ -306,7 +306,7 @@ class CodeGenerator(object):
         # currently, we use the package key as the closure key to load
         # packages, hence the package must only contain a single script,
         # which is currently true if the package is free of source
-        # scripts ("not any(x.has_source").
+        # scripts ("not package.has_source").
         # ---
         # theoretically, multiple scripts in a packages could be
         # supported, if they're all compiled (no source scripts) and 
