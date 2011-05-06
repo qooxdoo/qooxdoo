@@ -132,6 +132,31 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     onabort: function() {},
 
+    getResponseHeader: function(key) {
+      if (this.__disposed) {
+        return;
+      }
+
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.debug("Response header cannot be determined for" +
+          "requests made with script transport.");
+      }
+      return "unknown";
+    },
+
+    getAllResponseHeaders: function() {
+      if (this.__disposed) {
+        return;
+      }
+
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.debug("Response headers cannot be determined for" +
+          "requests made with script transport.");
+      }
+
+      return "Unknown response headers";
+    },
+
     dispose: function() {
       var script = this.__scriptElement;
 
