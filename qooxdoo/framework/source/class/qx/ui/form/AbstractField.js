@@ -222,6 +222,8 @@ qx.Class.define("qx.ui.form.AbstractField",
     __oldValue : null,
     __oldInputValue : null,
     __useQxPlaceholder : true,
+    __font : null,
+    __webfontListenerId : null,
 
 
     /*
@@ -416,12 +418,20 @@ qx.Class.define("qx.ui.form.AbstractField",
     // overridden
     _applyFont : function(value, old)
     {
+      if (old && this.__font && this.__webfontListenerId) {
+        this.__font.removeListenerById(this.__webfontListenerId);
+        this.__webfontListenerId = null;
+      }
+      
       // Apply
       var styles;
       if (value)
       {
-        var font = qx.theme.manager.Font.getInstance().resolve(value);
-        styles = font.getStyles();
+        this.__font = qx.theme.manager.Font.getInstance().resolve(value);
+        if (this.__font instanceof qx.bom.webfonts.WebFont) {
+          this.__webfontListenerId = this.__font.addListener("changeStatus", this._onWebFontStatusChange, this);
+        }
+        styles = this.__font.getStyles();
       }
       else
       {
@@ -537,6 +547,21 @@ qx.Class.define("qx.ui.form.AbstractField",
         if (this.getLiveUpdate()) {
           this.__fireChangeValueEvent(value);
         }
+      }
+    },
+    
+    /**
+     * Triggers text size recalculation after a web font was loaded
+     * 
+     * @param ev {qx.event.type.Data} "changeStatus" event
+     */
+    _onWebFontStatusChange : function(ev)
+    {
+      if (ev.getData().valid === true) {
+        console.log("valid!" + ev.getData().family);
+        var styles = this.__font.getStyles();
+        this.__textSize = qx.bom.Label.getTextSize("A", styles);
+        qx.ui.core.queue.Layout.add(this);
       }
     },
 
@@ -893,10 +918,14 @@ qx.Class.define("qx.ui.form.AbstractField",
   */
   destruct : function()
   {
-    this.__placeholder = null;
+    this.__placeholder = this.__font = null;
 
     if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+    }
+
+    if (this.__font && this.__webfontListenerId) {
+      this.__font.removeListenerById(this.__webfontListenerId);
     }
   }
 });
