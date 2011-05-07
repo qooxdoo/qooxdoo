@@ -127,7 +127,7 @@
 
       "compile-options" : 
       {
-        "code" : { "except" : [ "${APPLICATION}.*" ] }
+        "code" : { "=except" : [ "${APPLICATION}.*" ] }
       },
 
       "compile" : { "type" : "hybrid" }

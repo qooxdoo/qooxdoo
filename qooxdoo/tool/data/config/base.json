@@ -311,7 +311,7 @@
         }
       },
       
-      "compile" : { "type" : "hybrid" }
+      "compile" : { "type" : "build" }
     },
 
 
