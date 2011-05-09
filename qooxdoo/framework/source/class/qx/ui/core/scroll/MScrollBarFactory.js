@@ -18,7 +18,6 @@
 ************************************************************************ */
 
 qx.core.Environment.add("qx.nativeScrollBars", false);
-qx.core.Setting.defineDeprecated("qx.nativeScrollBars", false); //@deprecated since 1.4
 
 /**
  * Include this widget if you want to create scrollbars depending on the global

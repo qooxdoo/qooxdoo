@@ -25,8 +25,6 @@
 #require(qx.core.Property)
 #require(qx.lang.Core)
 
-#require(qx.core.Setting)
-
 #use(qx.lang.Generics)
 
 ************************************************************************ */
@@ -139,10 +137,6 @@ qx.Bootstrap.define("qx.Class",
      *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
      *       <tr><th>environment</th><td>Map</td><td>Map of environment settings for this class. For a description of the format of a setting see
      *           {@link qx.core.Environment}.</td></tr>
-     *       <tr><th>settings</th><td>Map</td><td>Map of settings for this class. For a description of the format of a setting see
-     *           {@link qx.core.Setting}. This is deprecated since 1.4.</td></tr>
-     *       <tr><th>variants</th><td>Map</td><td>Map of settings for this class. For a description of the format of a setting see
-     *           {@link qx.core.Variant} This is deprecated since 1.4.</td></tr>
      *       <tr><th>events</th><td>Map</td><td>
      *           Map of events the class fires. The keys are the names of the events and the values are the
      *           corresponding event type class names.
@@ -223,36 +217,6 @@ qx.Bootstrap.define("qx.Class",
       {
         for (var key in config.environment) {
           qx.core.Environment.add(key, config.environment[key]);
-        }
-
-        // @deprecated since 1.4 (also put the environment into the settings)
-        for (var key in config.environment) {
-          qx.core.Setting.defineDeprecated(key, config.environment[key]);
-        }
-      }
-
-      // @deprecated since 1.4 (settings are now environment)
-      // Process settings
-      if (config.settings)
-      {
-        if (qx.core.Environment.get("qx.debug")) {
-          qx.Bootstrap.warn("The usage of settings in class '" + name +
-            "'is deprecated. Please use the 'environment' key instead");
-        }
-        for (var key in config.settings) {
-          qx.core.Setting.define(key, config.settings[key]);
-        }
-      }
-
-      // Process variants
-      if (config.variants)
-      {
-        if (qx.core.Environment.get("qx.debug")) {
-          qx.Bootstrap.warn("The usage of variants in class '" + name +
-            "'is deprecated. Please use the 'environment' key instead");
-        }
-        for (var key in config.variants) {
-          qx.core.Variant.define(key, config.variants[key].allowedValues, config.variants[key].defaultValue);
         }
       }
 
@@ -753,9 +717,7 @@ qx.Bootstrap.define("qx.Class",
         "statics"    : "object",    // Map
         "properties" : "object",    // Map
         "members"    : "object",    // Map
-        "settings"   : "object",    // Map @deprecated since 1.4
         "environment"   : "object", // Map
-        "variants"   : "object",    // Map
         "events"     : "object",    // Map
         "defer"      : "function",  // Function
         "destruct"   : "function"   // Function
@@ -772,9 +734,7 @@ qx.Bootstrap.define("qx.Class",
       {
         "type"        : "string",    // String
         "statics"     : "object",    // Map
-        "settings"    : "object",    // Map @deprecated since 1.4
         "environment" : "object",    // Map
-        "variants"    : "object",    // Map
         "defer"       : "function"   // Function
       },
 

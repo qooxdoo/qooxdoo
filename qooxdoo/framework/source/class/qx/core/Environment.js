@@ -565,36 +565,6 @@ qx.Bootstrap.define("qx.core.Environment",
         }
       }
 
-      // @deprecated since 1.4: This is only for deprecation of
-      // qx.core.Variant.select
-
-      // check for true --> on
-      if (value === true && values["on"] != undefined) {
-        if (qx.Bootstrap.DEBUG)
-        {
-          qx.Bootstrap.warn(
-            "The check '" + key + "' is a boolean value. "+
-            "Please change your select map from 'on' to 'true'."
-          );
-          qx.Bootstrap.trace(this);
-        }
-        return values["on"];
-      }
-
-      // check for false --> off
-      if (value === false && values["off"] != undefined) {
-        if (qx.Bootstrap.DEBUG)
-        {
-          qx.Bootstrap.warn(
-            "The check '" + key + "' is a boolean value. "+
-            "Please change your select map from 'off' to 'false'."
-          );
-          qx.Bootstrap.trace(this);
-        }
-        return values["off"];
-      }
-
-
       if (values["default"] !== undefined) {
         return values["default"];
       }
@@ -686,53 +656,6 @@ qx.Bootstrap.define("qx.core.Environment",
      */
     __importFromGenerator : function()
     {
-      // @deprecated since 1.4: import from settings map in case someone
-      // added it manually
-      if (window.qxsettings)
-      {
-        for (var key in window.qxsettings) {
-          var value = window.qxsettings[key];
-          if (
-            key == "qx.bom.htmlarea.HtmlArea.debug" ||
-            key == "qx.globalErrorHandling"
-          ) {
-            // normalization for "on" and "off" @deprecated since 1.4
-            if (value == "on") {
-              value = true;
-            } else if (value == "off") {
-              value = false;
-            }
-          }
-
-          this._checks[key] = this.__createCheck(value);
-        }
-      }
-
-      // @deprecated since 1.4: import from variants map in case someone
-      // added it manually
-      if (window.qxvariants)
-      {
-        for (var key in window.qxvariants) {
-          var value = window.qxvariants[key];
-          if (
-            key == "qx.aspects" ||
-            key == "qx.debug" ||
-            key == "qx.dynlocale" ||
-            key == "qx.mobile.emulatetouch" ||
-            key == "qx.mobile.nativescroll"
-          ) {
-            // normalization for "on" and "off" @deprecated since 1.4
-            if (value == "on") {
-              value = true;
-            } else if (value == "off") {
-              value = false;
-            }
-          }
-
-          this._checks[key] = this.__createCheck(value);
-        }
-      }
-
       // import the environment map
       if (qx && qx.$$environment)
       {
