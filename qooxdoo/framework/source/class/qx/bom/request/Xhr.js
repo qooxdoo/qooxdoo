@@ -207,6 +207,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__nativeXhr.onreadystatechange = this.__onNativeReadyStateChangeBound;
 
       try {
+        if (qx.core.Environment.get("qx.debug.io")) {
+          qx.Bootstrap.debug(qx.bom.request.Xhr, "Open native request with method: " +
+            method + ", url: " + url + ", async: " + async);
+        }
+
         this.__nativeXhr.open(method, url, async, user, password);
 
       // BUGFIX: IE, Firefox < 3.5
@@ -241,6 +246,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
               this.onerror();
               this.onloadend();
             }, this);
+
+            if (qx.core.Environment.get("qx.debug.io")) {
+              qx.Bootstrap.debug(qx.bom.request.Xhr, "Retry open native request with method: " +
+                method + ", url: " + url + ", async: " + async);
+            }
             this.__nativeXhr.open(method, url, async, user, password);
             return;
           }
@@ -316,6 +326,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // Some browsers may throw an error when sending of async request fails.
       // This violates the spec which states only sync requests should.
       try {
+        if (qx.core.Environment.get("qx.debug.io")) {
+          qx.Bootstrap.debug(qx.bom.request.Xhr, "Send native request");
+        }
         this.__nativeXhr.send(data);
       } catch(SendError) {
         if (!this.__async) {
@@ -636,7 +649,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       var nxhr = this.__nativeXhr,
           propertiesReadable = true;
 
-      if (qx.core.Environment.get("qx.debug.xhr.bom")) {
+      if (qx.core.Environment.get("qx.debug.io")) {
         qx.Bootstrap.debug(qx.bom.request.Xhr, "Received native readyState: " + nxhr.readyState);
       }
 
@@ -649,9 +662,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // Sync current readyState
-      if (qx.core.Environment.get("qx.debug.xhr.bom")) {
-        qx.Bootstrap.debug(qx.bom.request.Xhr, "Set readyState to: " + nxhr.readyState);
-      }
       this.readyState = nxhr.readyState;
 
       // BUGFIX: IE
@@ -828,6 +838,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
   },
 
   defer: function() {
-    qx.core.Environment.add("qx.debug.xhr.bom", false);
+    qx.core.Environment.add("qx.debug.io", false);
   }
 });

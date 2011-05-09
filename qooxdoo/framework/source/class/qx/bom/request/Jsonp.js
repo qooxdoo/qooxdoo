@@ -43,16 +43,27 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
         return;
       }
 
-      var query = {};
+      var query = {},
+          callbackParam,
+          callbackName;
 
+      callbackParam = this.__callbackParam || "callback";
+      callbackName = this.__callbackName ||
+        "qx.bom.request.Jsonp[" + this.__id + "].callback";
+
+      // Callback this object's callback method
+      //
       // User-defined callbacks must be handled by the user
       if (!this.__callbackName) {
         this.constructor[this.__id] = this;
       }
 
-      query[this.__callbackParam || "callback"] =
-        this.__callbackName || "qx.bom.request.Jsonp[" + this.__id + "].callback";
+      if (qx.core.Environment.get("qx.debug.io")) {
+        qx.Bootstrap.debug(qx.bom.request.Jsonp,
+          "Expecting JavaScript response to call: " + callbackName);
+      }
 
+      query[callbackParam] = callbackName;
       url = qx.util.Uri.appendParamsToUrl(url, query);
 
       this.__callBase("open", [method, url]);

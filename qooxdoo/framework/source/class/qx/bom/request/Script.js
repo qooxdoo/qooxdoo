@@ -60,6 +60,12 @@ qx.Bootstrap.define("qx.bom.request.Script",
       this.__abort = false;
 
       this.__url = url;
+
+      if (qx.core.Environment.get("qx.debug.io")) {
+        qx.Bootstrap.debug(qx.bom.request.Script, "Open native request with " +
+          "url: " + url);
+      }
+
       this.__readyStateChange(1);
     },
 
@@ -86,6 +92,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
       if (this.timeout > 0) {
         this.__timeoutId = window.setTimeout(this.__onTimeoutBound, this.timeout);
+      }
+
+      if (qx.core.Environment.get("qx.debug.io")) {
+        qx.Bootstrap.debug(qx.bom.request.Script, "Send native request");
       }
 
       // Attach script to DOM
@@ -142,7 +152,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
       }
 
       if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.debug("Response header cannot be determined for" +
+        qx.log.Logger.debug("Response header cannot be determined for " +
           "requests made with script transport.");
       }
       return "unknown";
@@ -231,7 +241,15 @@ qx.Bootstrap.define("qx.bom.request.Script",
           qx.core.Environment.get("engine.version") < 9) {
         if (!(/loaded|complete/).test(script.readyState)) {
           return;
+        } else {
+          if (qx.core.Environment.get("qx.debug.io")) {
+            qx.Bootstrap.debug(qx.bom.request.Script, "Received native readyState: loaded");
+          }
         }
+      }
+
+      if (qx.core.Environment.get("qx.debug.io")) {
+        qx.Bootstrap.debug(qx.bom.request.Script, "Received native load");
       }
 
       if (this.__timeoutId) {
@@ -287,5 +305,9 @@ qx.Bootstrap.define("qx.bom.request.Script",
         this.__headElement.removeChild(script);
       }
     }
+  },
+
+  defer: function() {
+    qx.core.Environment.add("qx.debug.io", false);
   }
 });

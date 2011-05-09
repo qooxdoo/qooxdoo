@@ -282,7 +282,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
           url, method, async, serializedData;
 
       //
-      // Initialize request
+      // Open request
       //
 
       url = this._getConfiguredUrl();
@@ -300,6 +300,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
       async = qx.lang.Type.isFunction(this.getAsync) ? this.getAsync() : true;
 
       // Open
+      if (qx.core.Environment.get("qx.debug.io")) {
+        this.debug("Open low-level request with method: " +
+          method + ", url: " + url + ", async: " + async);
+      }
+
       transport.open(method, url, async);
 
       //
@@ -312,11 +317,10 @@ qx.Class.define("qx.io.request.AbstractRequest",
       this.__setAuthRequestHeaders();
       this.__setUserRequestHeaders();
 
-      if (qx.core.Environment.get("qx.debug.io")) {
-        this.debug("Send request");
-      }
-
       // Send
+      if (qx.core.Environment.get("qx.debug.io")) {
+        this.debug("Send low-level request");
+      }
       method == "GET" ? transport.send() : transport.send(serializedData);
     },
 
@@ -497,6 +501,10 @@ qx.Class.define("qx.io.request.AbstractRequest",
      */
     _onReadyStateChange: function() {
       var parsedResponse;
+
+      if (qx.core.Environment.get("qx.debug.io")) {
+        this.debug("Fire readyState: " + this.getReadyState());
+      }
 
       this.fireEvent("readystatechange");
 
