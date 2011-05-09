@@ -121,6 +121,10 @@ qx.Class.define("qx.data.store.Json",
     // apply function
     _applyUrl: function(value, old) {
       if (value != null) {
+        // take care of the resource management
+        value = qx.util.AliasManager.getInstance().resolve(value);
+        value = qx.util.ResourceManager.getInstance().toUri(value);
+
         this._createRequest(value);
       }
     },
