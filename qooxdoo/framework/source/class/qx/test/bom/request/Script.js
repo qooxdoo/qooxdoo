@@ -95,7 +95,7 @@ qx.Class.define("qx.test.bom.request.Script",
       var that = this,
           req = this.req;
 
-      req.timeout = 100;
+      req.timeout = 25;
       req.ontimeout = function() {
         that.resume(function() {
           that.assertEquals(4, req.readyState);
@@ -322,7 +322,7 @@ qx.Class.define("qx.test.bom.request.Script",
       }
 
       this.spy(req, "onerror");
-      req.timeout = 10;
+      req.timeout = 25;
       this.requestPending();
 
       this.wait(20, function() {
@@ -333,14 +333,11 @@ qx.Class.define("qx.test.bom.request.Script",
     "test: call ontimeout when request exceeds timeout limit": function() {
       var that = this;
 
-      this.req.timeout = 100;
+      this.req.timeout = 25;
       this.req.ontimeout = function() {
         that.resume(function() {});
       };
 
-      // In legacy browser, a long running script request blocks subsequent requests
-      // even if the script element is removed. Keep duration below default timeout
-      // for wait to work around.
       this.requestPending();
       this.wait();
     },
@@ -349,7 +346,7 @@ qx.Class.define("qx.test.bom.request.Script",
       var that = this;
 
       this.spy(this.req, "ontimeout");
-      this.req.timeout = 100;
+      this.req.timeout = 25;
 
       this.request();
       this.wait(250, function() {
@@ -407,7 +404,7 @@ qx.Class.define("qx.test.bom.request.Script",
       var script,
           that = this;
 
-      this.req.timeout = 100;
+      this.req.timeout = 25;
       this.req.ontimeout = function() {
         that.resume(function() {
           script = that.req._getScriptElement();
@@ -425,9 +422,13 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     requestPending: function(sleep) {
-      var url = this.noCache(this.getUrl("qx/test/xmlhttp/echo_get_request.php"));
+      var url = this.noCache(this.getUrl("qx/test/jsonp_primitive.php"));
 
-      url += "&sleep=" + (sleep || 1);
+      // In legacy browser, a long running script request blocks subsequent requests
+      // even if the script element is removed. Keep duration very low to work around.
+      //
+      // Sleep 50ms
+      url += "&sleep=" + (sleep || 50);
       this.request(url);
     },
 
