@@ -45,37 +45,6 @@ qx.Bootstrap.define("qx.bom.client.Browser",
   statics :
   {
     /**
-     * {Boolean} Whether the browser could not be determined
-     * @deprecated since 1.4: See qx.core.Environment
-     */
-    UNKNOWN : true,
-
-    /**
-     * {String} Name of the browser
-     * @deprecated since 1.4: See qx.core.Environment
-     */
-    NAME : "unknown",
-
-    /**
-     * {String} Combination of name and version e.g. "firefox 3.5"
-     * @deprecated since 1.4: See qx.core.Environment
-     */
-    TITLE : "unknown 0.0",
-
-    /**
-     * {Number} Floating point number of browser version
-     * @deprecated since 1.4: See qx.core.Environment
-     */
-    VERSION : 0.0,
-
-    /**
-     * {String} Full version. Might contain two dots e.g. "3.5.1"
-     * @deprecated since 1.4: See qx.core.Environment
-     */
-    FULLVERSION : "0.0.0",
-
-
-    /**
      * Checks for the name of the browser and returns it.
      * @return {String} The name of the current browser.
      * @internal
@@ -219,42 +188,5 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       // Keep "Opera" the last one to correctly prefer/match the mobile clients
       "opera" : "Opera Mini|Opera Mobi|Opera"
     }[qx.bom.client.Engine.getName()]
-  },
-
-  /**
-   * @lint ignoreUndefined(qxvariants)
-   */
-  defer : function(statics) {
-    // @deprecated since 1.4: all code in this defer method
-    statics.NAME = statics.getName();
-    statics.FULLVERSION = statics.getVersion();
-    statics.VERSION = parseFloat(statics.FULLVERSION);
-    statics.TITLE = statics.NAME + " " + statics.VERSION;
-
-    if (statics.NAME !== "") {
-      statics.UNKNOWN = false;
-    }
-
-    // only when debug is on (@deprecated)
-    if (qx.Bootstrap.DEBUG) {
-      // add @deprecation warnings
-      var keys = ["FULLVERSION","VERSION","NAME","TITLE", "UNKNOWN"];
-      for (var i = 0; i < keys.length; i++) {
-        // check if __defineGetter__ is available
-        if (statics.__defineGetter__) {
-          var constantValue = statics[keys[i]];
-          statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
-            var warning =
-              "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-              "Please check the API documentation of qx.core.Environment."
-            if (qx.dev && qx.dev.StackTrace) {
-              warning += "\nTrace:" + qx.dev.StackTrace.getStackTrace().join("\n")
-            }
-            qx.Bootstrap.warn(warning);
-            return c;
-          }, statics, keys[i], constantValue));
-        }
-      }
-    }
   }
 });

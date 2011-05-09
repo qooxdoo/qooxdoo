@@ -37,22 +37,6 @@ qx.Bootstrap.define("qx.bom.client.Locale",
 
   statics :
   {
-
-    /**
-     * {String} The name of the system locale e.g. "de" when the full
-     * locale is "de_AT"
-     * @deprecated since 1.4: See qx.core.Environment
-     */
-    LOCALE : "",
-
-    /**
-     * {String} The name of the variant for the system locale e.g.
-     * "at" when the full locale is "de_AT"
-     * @deprecated since 1.4: See qx.core.Environment
-     */
-    VARIANT : "",
-
-
     /**
      * The name of the system locale e.g. "de" when the full locale is "de_AT"
      * @return {String} The current locale
@@ -112,44 +96,6 @@ qx.Bootstrap.define("qx.bom.client.Locale",
       }
 
       return locale.toLowerCase();
-    }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-  /**
-   * @lint ignoreUndefined(qxvariants)
-   */
-  defer : function(statics) {
-    // @deprecated since 1.4 (whole defer block)
-    statics.LOCALE = statics.getLocale();
-    statics.VARIANT = statics.getVariant();
-
-    // only when debug is on (@deprecated)
-    if (qx.Bootstrap.DEBUG) {
-      var keys = ["LOCALE","VARIANT"];
-      for (var i = 0; i < keys.length; i++) {
-        // check if __defineGetter__ is available
-        if (statics.__defineGetter__) {
-          var constantValue = statics[keys[i]];
-          statics.__defineGetter__(keys[i], qx.Bootstrap.bind(function(key, c) {
-            var warning =
-              "The constant '"+ key + "' of '" + statics.classname + "'is deprecated: " +
-              "Please check the API documentation of qx.core.Environment."
-            if (qx.dev && qx.dev.StackTrace) {
-              warning += "\nTrace:" + qx.dev.StackTrace.getStackTrace().join("\n")
-            }
-            qx.Bootstrap.warn(warning);
-            return c;
-          }, statics, keys[i], constantValue));
-        }
-      }
     }
   }
 });
