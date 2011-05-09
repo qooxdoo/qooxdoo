@@ -180,7 +180,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       "webkit" : "AdobeAIR|Titanium|Fluid|Chrome|Android|Epiphany|Konqueror|iCab|OmniWeb|Maxthon|Pre|Mobile Safari|Safari",
 
       // Better security by keeping Firefox the last one to match
-      "gecko" : "prism|Fennec|Camino|Kmeleon|Galeon|Netscape|SeaMonkey|Firefox",
+      "gecko" : "prism|Fennec|Camino|Kmeleon|Galeon|Netscape|SeaMonkey|Namoroka|Firefox",
 
       // No idea what other browsers based on IE's engine
       "mshtml" : "IEMobile|Maxthon|MSIE",
