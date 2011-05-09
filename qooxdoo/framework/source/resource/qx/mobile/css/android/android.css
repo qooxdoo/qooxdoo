@@ -250,7 +250,7 @@ ul li input[type="checkbox"]:after, ul li input[type="radio"]:after {
   border:1px solid #0E0E0F;
   height: 20px;
   background: -webkit-gradient(linear,left top,left bottom,from(#9EA09D), color-stop(0.85, #5B5D5A), color-stop(0.95, #5F615E), to(#757774));
-  background: -webkit-linear-gradient(top, #9EA09D, #5B5D5A 85%,#5F615E 95%, #757774) 100px 0px no-repeat, -webkit-linear-gradient(top, #ecd343, #fab907 85%,#f0b705 95%, #f8ce2e) 0px 0px no-repeat;
+  background: -webkit-linear-gradient(top, #9EA09D, #5B5D5A 85%,#5F615E 95%, #757774) 0px 0px no-repeat, -webkit-linear-gradient(top, #ecd343, #fab907 85%,#f0b705 95%, #f8ce2e) 0px 0px no-repeat;
   -webkit-border-radius: .6em;
   boder-radius: .6em;
   -moz-border-radius: .6em;

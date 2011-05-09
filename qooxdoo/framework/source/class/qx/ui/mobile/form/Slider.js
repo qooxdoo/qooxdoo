@@ -292,9 +292,22 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     _updateKnobPosition : function()
     {
-      this._setKnobPosition(this._valueToPercent(this.getValue()));
+      var percent = this._valueToPercent(this.getValue());
+      this._setKnobPosition(percent);
+      this._setProgressIndicator(percent);
     },
 
+    /**
+     *
+     **/
+    _setProgressIndicator : function(percent)
+    {
+      var width = this._containerElementWidth;
+      var position = this._percentToPosition(width, percent);
+      var element = this.getContainerElement();
+      var backgroundPositionValue = position + 'px 0px, 0px 0px';
+      qx.bom.element.Style.set(element, "backgroundPosition", backgroundPositionValue);
+    },
 
     /**
      * Sets the knob positon based on the give percent value.
