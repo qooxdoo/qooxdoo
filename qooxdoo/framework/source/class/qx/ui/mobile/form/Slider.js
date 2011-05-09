@@ -305,6 +305,9 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       var width = this._containerElementWidth;
       var position = this._percentToPosition(width, percent);
       var element = this.getContainerElement();
+      if (position > width - this._knobWidth) {
+        position -= this._knobWidth/2;
+      }
       var backgroundPositionValue = position + 'px 0px, 0px 0px';
       qx.bom.element.Style.set(element, "backgroundPosition", backgroundPositionValue);
     },
