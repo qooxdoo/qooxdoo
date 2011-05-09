@@ -38,13 +38,12 @@ qx.Class.define("qx.test.Part",
           "juhu" : [0, 1],
           "kinners" : [0, 2]
         },
-        uris : [
-          ["1.js"],
-          ["2.js"],
-          ["3.1.js", "3.2.js"]
-        ],
+        packages : {
+          0 : {uris : ["1.js"]},
+          1 : {uris : ["2.js"]},
+          2 : {uris : ["3.1.js", "3.2.js"]}
+        },
         closureParts : {"juhu": true},
-        packageHashes : {"0":"0","1":"1","2":"2"},
         boot: "juhu"
       };
 
@@ -70,7 +69,7 @@ qx.Class.define("qx.test.Part",
       // check package uris
       var pkg2     = packages[1];
       var pkg2Urls = pkg2.getUrls();
-      var refUrls  = loader.uris[2];
+      var refUrls  = loader.packages[2].uris;
       for (var s=0; s<refUrls.length; s++){
         this.assertMatch(pkg2Urls[s], new RegExp(refUrls[s] + ".*")); // matches "?nocache=..." if present
       }
@@ -86,11 +85,11 @@ qx.Class.define("qx.test.Part",
           "juhu" : [1],
           "affe" : [0]
         },
-        uris : [
-          ["boot.js"], [this.getUrl("qx/test/part/file1-closure.js")]
-        ],
+        packages : {
+          0 : { uris : ["boot.js"]},
+          1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]}
+        },
         closureParts : {"juhu": true},
-        packageHashes : {"1": "file1-closure"},
         boot: "affe"
       };
 
@@ -128,11 +127,11 @@ qx.Class.define("qx.test.Part",
           "juhu" : [1],
           "affe" : [0]
         },
-        uris : [
-          ["boot.js"], [this.getUrl("qx/test/part/file1-closure.js")]
-        ],
+        packages : {
+          0 : { uris : ["boot.js"]},
+          1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]}
+        },
         closureParts : {"juhu": true},
-        packageHashes : {"1": "file1-closure"},
         boot: "affe"
       };
 
@@ -163,11 +162,11 @@ qx.Class.define("qx.test.Part",
           "juhu" : [1],
           "affe" : [0]
         },
-        uris : [
-          ["boot.js"], [this.getUrl("qx/test/part/file1-closure.js")]
-        ],
+        packages : {
+          0 : { uris : ["boot.js"]},
+          1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]}
+        },
         closureParts : {"juhu": true},
-        packageHashes : {"1": "file1-closure"},
         boot: "affe"
       };
 
@@ -209,11 +208,12 @@ qx.Class.define("qx.test.Part",
           "affe" : [0],
           "fail" : [2]
         },
-        uris : [
-          ["boot.js"], [this.getUrl("qx/test/part/file1-closure.js")], ["_fail.js"]
-        ],
+        packages : {
+          0 : { uris : ["boot.js"]},
+          1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]}, 
+          2 : { uris : ["_fail.js"]}
+        },
         closureParts : {"juhu": true, "fail" : true},
-        packageHashes : {"0": "boot", "1": "file1-closure", "2": "fail"},
         boot: "affe"
       };
 
