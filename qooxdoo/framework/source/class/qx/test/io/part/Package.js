@@ -146,7 +146,7 @@ qx.Class.define("qx.test.io.part.Package",
         this.getUrl("qx/test/part/file1-closure.js")
       ];
 
-      var pkg = this.createPackage(urls, "file1-closure", false);
+      var pkg = this.createPackage(urls, "p1", false);
 
       var loader = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = loader;
@@ -172,7 +172,7 @@ qx.Class.define("qx.test.io.part.Package",
         this.getUrl("qx/test/part/file1-closure.js")
       ];
 
-      var pkg = this.createPackage(urls, "file1-closure", false);
+      var pkg = this.createPackage(urls, "p1", false);
 
       var loader = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = loader;
@@ -198,7 +198,7 @@ qx.Class.define("qx.test.io.part.Package",
 
     "test: loading a non existing file with loadClosure() should timeout" : function()
     {
-      var pkg = this.createPackage(["___foo.js"], "file1-closure", false);
+      var pkg = this.createPackage(["___foo.js"], "p1", false);
 
       var loader = new qx.Part(this.__dummyLoader);
       qx.Part.$$instance = loader;
