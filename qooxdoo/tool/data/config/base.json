@@ -672,14 +672,35 @@
 
     "log-dependencies" : 
     {
-      "desc" : "includer job, to filter verbose messages for dependency analysis (with -v)",
+      "desc" : "includer job, to print dependency information with a job (use -v)",
 
       "log"  : 
       { 
         "filter" : { "debug" : [ "generator.code.DependencyLoader.*" ] },
         "dependencies" : { "type" : "using" }
       }
-    }
+    },
 
+    "log-dependencies-dot" : 
+    {
+      "desc" : "includer job, to generate a dot file for dependencies",
+
+      "log"  : 
+      { 
+        "dependencies" :
+        {
+          "type"   : "using"
+          ,"phase" : "loadtime"
+          ,"format" : "dot"
+          ,"dot"    :
+          {
+            "root"   : "${APPLICATION}.Application"
+            //,"radius" : 3
+            //,"span-tree-only" : true
+            ,"compiled-class-size" : false
+          }
+        }
+      }
+    }
   }
 }

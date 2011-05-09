@@ -25,6 +25,59 @@
   
   "jobs" :
   {
+    "common" :
+    {
+      "environment" :
+      {
+        "qx.nativeScrollBars" : true
+      },
+      
+      "compile-options" :
+      {
+        "paths" : { "scripts-add-hash" : true },
+        "uris"  : { "add-nocache-param": false }
+      },
+
+      "packages" : 
+      {
+        "loader-with-boot" : false,
+        "i18n-with-boot"   : false,
+        "parts" : 
+        {          
+          "boot": 
+          {
+            "include" : ["${QXTHEME}", "feedreader.Application"]
+          },
+          "settings": 
+          {
+            "include" : ["feedreader.view.PreferenceWindow"]
+            //,"expected-load-order" : 1
+          },
+          "addfeed": 
+          {
+            "include" : ["feedreader.view.AddFeedWindow"]
+            //,"expected-load-order" : 1
+          }
+        },
+        "sizes" : 
+        {
+          "min-package" : 10
+        } 
+      }
+    },
+    
+    // A logging example job
+
+    "source-with-dot" :
+    {
+      "extend" : ["source", "log-dependencies-dot"]
+      // override the default root class for the dot diagram
+      ,"log" : { "dependencies" : { "dot" : { "root" : "feedreader.view.PreferenceWindow" }}}
+    },
+
+
+    // -- Mobile App -----------------------------------------------------------
+
     "source-mobile" : 
     {
       "extend" : ["source"],
@@ -84,47 +137,8 @@
     },
 
 
-    "common" :
-    {
-      "environment" :
-      {
-        "qx.nativeScrollBars" : true
-      },
-      
-      "compile-options" :
-      {
-        "paths" : { "scripts-add-hash" : true },
-        "uris"  : { "add-nocache-param": false }
-      },
+    // -- Simulation Jobs ------------------------------------------------------
 
-      "packages" : 
-      {
-        "loader-with-boot" : false,
-        "i18n-with-boot"   : false,
-        "parts" : 
-        {          
-          "boot": 
-          {
-            "include" : ["${QXTHEME}", "feedreader.Application"]
-          },
-          "settings": 
-          {
-            "include" : ["feedreader.view.PreferenceWindow"]
-            //,"expected-load-order" : 1
-          },
-          "addfeed": 
-          {
-            "include" : ["feedreader.view.AddFeedWindow"]
-            //,"expected-load-order" : 1
-          }
-        },
-        "sizes" : 
-        {
-          "min-package" : 10
-        } 
-      }
-    },
-    
     "simulation-run" :
     {
       "let" : 
