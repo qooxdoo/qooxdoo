@@ -731,7 +731,7 @@ qx.Class.define("qx.data.controller.Tree",
      * implemented by the {@link #delegate} property.
      *
      * @param modelNode {qx.core.Object} The model node holding the data.
-     * @param treeNode {qx.ui.tree.TreeFolder} The corresponding tree folder
+     * @param treeNode {qx.ui.tree.AbstractTreeItem} The corresponding tree folder
      *   to the model node.
      */
     bindDefaultProperties : function(treeNode, modelNode)
