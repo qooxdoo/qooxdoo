@@ -81,23 +81,6 @@ qx.Class.define("qx.ui.list.List",
 
     this.initGroups(new qx.data.Array());
 
-    // @deprecated since 1.4: Code is only for deprecation 
-    this._groups = this.getGroups();
-    var list = this;
-    if (qx.core.Environment.get("qx.debug"))
-    {
-      if (list.__defineGetter__)
-      {
-        var originalValue = this._groups;
-        list.__defineGetter__("_groups", function()
-        {
-          qx.log.Logger.warn("The member '_groups' is deprecated: " +
-            "Please use the property 'groups' instead.");
-          return originalValue;
-        });
-      }
-    }
-
     if(model != null) {
       this.initModel(model);
     } else {
@@ -293,14 +276,6 @@ qx.Class.define("qx.ui.list.List",
      * Note the value <code>-1</code> indicates that the value is a group item.
      */
     __lookupTable : null,
-
-
-    /** 
-     * {qx.data.Array} contains all group names
-     * 
-     * @deprectated since 1.4 use the property group instead.
-     */
-    _groups : null,
 
 
     /** {Array} lookup table for getting the group index from the row */

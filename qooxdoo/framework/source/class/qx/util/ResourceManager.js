@@ -128,26 +128,6 @@ qx.Class.define("qx.util.ResourceManager",
       return entry ? entry[2] : null;
     },
 
-
-    /**
-     * Whether the given resource identifier is an image
-     * with clipping information available.
-     *
-     * @deprecated since 1.4: superseded by getCombinedFormat()
-     *
-     * @param id {String} Resource identifier
-     * @return {Boolean} Whether the resource ID is known as a clipped image
-     */
-    isClippedImage : function(id)
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-        "isClippedImage has been superseded by getCombinedFormat");
-      var entry = this.self(arguments).__registry[id];
-      return entry && entry.length > 4 && typeof(entry[4]) == "string" &&
-        this.constructor.__registry[entry[4]];
-    },
-
-
     /**
      * Returns the format of the combined image (png, gif, ...), if the given
      * resource identifier is an image contained in one, or the empty string

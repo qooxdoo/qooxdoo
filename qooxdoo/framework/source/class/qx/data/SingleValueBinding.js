@@ -26,15 +26,6 @@ qx.Class.define("qx.data.SingleValueBinding",
 
   statics :
   {
-    /**
-     * Static debug flag to enable log messages on every invoke of a listener.
-     *
-     * @depreacted since 1.4: Plesae use
-     *   qx.core.Environment.get("qx.debug.databinding") instaad.
-     */
-    DEBUG_ON: false,
-
-
     /** internal reference for all bindings */
     __bindings: {},
 
@@ -1271,6 +1262,3 @@ qx.Class.define("qx.data.SingleValueBinding",
 
   }
 });
-
-//@deprecated since 1.4
-qx.log.Logger.deprecatedConstantWarning("qx.data.SingleValueBinding", "DEBUG_ON");
