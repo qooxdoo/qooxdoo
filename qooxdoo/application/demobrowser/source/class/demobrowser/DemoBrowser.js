@@ -1546,6 +1546,19 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         var content = evt.getContent();
 
+        // For reasons unknown, requests made here that fail because of security
+        // restrictions fire a "completed" event. In other applications such as
+        // the API viewer, "failed" is fired instead.
+        if (!content) {
+          if (window.location.protocol == "file:") {
+            alert("Failed to load demo data from the file system.\n\n" +
+                  "The security settings of your browser may prohibit AJAX " +
+                  "when using the file protocol. Please try the http protocol " +
+                  "instead.");
+          }
+          return;
+        }
+
         var treeData = eval(content);
 
         // give the browser a chance to update its UI before doing more
