@@ -28,15 +28,13 @@
   {
     "source" :
     {
-      "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple"]
+      "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple"],
+      "let" : { "QXICONTHEME" : ["Oxygen", "Tango"] }
     },
 
     "source-script-classic" :
     {
-      "let"     : {
-        "QXTHEME" : "qx.theme.Classic",
-        "QXICONTHEME" : ["Oxygen"]
-      },
+      "let"     : { "QXTHEME" : "qx.theme.Classic"},
       "extend"  : ["source-script"],
       "compile-options" : {
         "paths" :
@@ -101,10 +99,7 @@
 
     "build-script-classic" :
     {
-      "let"     : {
-        "QXTHEME" : "qx.theme.Classic",
-        "QXICONTHEME" : ["Oxygen"]
-      },
+      "let"     : { "QXTHEME" : "qx.theme.Classic" },
       "extend"  : ["build-script"],
       "compile-options" : {
         "paths" :
