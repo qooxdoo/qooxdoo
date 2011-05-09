@@ -62,7 +62,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
     "test: load part with one package" : function()
     {
       var pkg = new qx.io.part.Package(
-        [this.getUrl("qx/test/part/file1-closure.js")], "file1-closure"
+        [this.getUrl("qx/test/part/file1-closure.js")], "p1"
       );
       var part = new qx.io.part.ClosurePart("juhu", [pkg], this.__loader);
 
@@ -85,10 +85,10 @@ qx.Class.define("qx.test.io.part.ClosurePart",
     "test: load part with two packages" : function()
     {
       var pkg1 = new qx.io.part.Package(
-        [this.getUrl("qx/test/part/file1-closure.js")], "file1-closure"
+        [this.getUrl("qx/test/part/file1-closure.js")], "p1"
       );
       var pkg2 = new qx.io.part.Package(
-        [this.getUrl("qx/test/part/file2-closure.js")], "file2-closure"
+        [this.getUrl("qx/test/part/file2-closure.js")], "p2"
       );
       var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], this.__loader);
 
@@ -110,8 +110,8 @@ qx.Class.define("qx.test.io.part.ClosurePart",
 
     "test: load part with two packages and one already loading" : function()
     {
-      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", null, null, null, true);
-      var pkg2 = new qx.test.io.part.MockPackage("file2-closure", null, null, null, true);
+      var pkg1 = new qx.test.io.part.MockPackage("p1", null, null, null, true);
+      var pkg2 = new qx.test.io.part.MockPackage("p2", null, null, null, true);
       var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], this.__loader);
 
       this.__loader.addToPackage(pkg1);
@@ -123,7 +123,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
       part.load(function(readyState) { self.resume(function()
       {
         self.assertJsonEquals(
-          ["file1-closure", "file2-closure"],
+          ["p1", "p2"],
           qx.test.Part.LOAD_ORDER
         );
       })});
@@ -134,8 +134,8 @@ qx.Class.define("qx.test.io.part.ClosurePart",
 
     "test: load part with two packages and both already loading" : function()
     {
-      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", null, null, null, true);
-      var pkg2 = new qx.test.io.part.MockPackage("file2-closure", null, null, null, true);
+      var pkg1 = new qx.test.io.part.MockPackage("p1", null, null, null, true);
+      var pkg2 = new qx.test.io.part.MockPackage("p2", null, null, null, true);
 
       var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], this.__loader);
 
@@ -149,7 +149,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
       part.load(function(readyState) { self.resume(function()
       {
         self.assertJsonEquals(
-          ["file1-closure", "file2-closure"],
+          ["p1", "p2"],
           qx.test.Part.LOAD_ORDER
         );
       })});
@@ -160,9 +160,9 @@ qx.Class.define("qx.test.io.part.ClosurePart",
 
     "test: load part with three packages and delay" : function()
     {
-      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", 200, null, null, true);
-      var pkg2 = new qx.test.io.part.MockPackage("file2-closure", null, null, null, true);
-      var pkg3 = new qx.test.io.part.MockPackage("file3-closure", 100, null, null, true);
+      var pkg1 = new qx.test.io.part.MockPackage("p1", 200, null, null, true);
+      var pkg2 = new qx.test.io.part.MockPackage("p2", null, null, null, true);
+      var pkg3 = new qx.test.io.part.MockPackage("p3", 100, null, null, true);
 
       this.__loader.addToPackage(pkg1);
       this.__loader.addToPackage(pkg2);
@@ -174,7 +174,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
       part.load(function(readyState) { self.resume(function()
       {
         self.assertJsonEquals(
-          ["file1-closure", "file2-closure", "file3-closure"],
+          ["p1", "p2", "p3"],
           qx.test.Part.LOAD_ORDER
         );
       })});
@@ -190,8 +190,8 @@ qx.Class.define("qx.test.io.part.ClosurePart",
         this.needsPHPWarning();
         return;
       }
-      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", 100, null, null, true);
-      var pkg2 = new qx.test.io.part.MockPackage("file2-closure", null, null, null, true);
+      var pkg1 = new qx.test.io.part.MockPackage("p1", 100, null, null, true);
+      var pkg2 = new qx.test.io.part.MockPackage("p2", null, null, null, true);
 
       var part = new qx.io.part.ClosurePart("juhu", [pkg1, pkg2], this.__loader);
 
@@ -202,7 +202,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
       part.load(function(readyState) { self.resume(function()
       {
         self.assertJsonEquals(
-          ["file1-closure", "file2-closure"],
+          ["p1", "p2"],
           qx.test.Part.LOAD_ORDER
         );
       })});
@@ -232,7 +232,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
 
     "test: load part with a loaded package should not reload the package again" : function()
     {
-      var pkg1 = new qx.test.io.part.MockPackage("file1-closure", null, null, "complete", true);
+      var pkg1 = new qx.test.io.part.MockPackage("p1", null, null, "complete", true);
       var part = new qx.io.part.ClosurePart("juhu", [pkg1], this.__loader);
 
       var self = this;
@@ -252,7 +252,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
 
     "test: load a part with preloaded package" : function()
     {
-      var pkg = new qx.test.io.part.MockPackage("file1-closure", null, null, null, true);
+      var pkg = new qx.test.io.part.MockPackage("p1", null, null, null, true);
       var part = new qx.io.part.ClosurePart("juhu", [pkg], this.__loader);
 
       this.__loader.addToPackage(pkg);
@@ -265,7 +265,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
         {
           self.assertEquals("complete", readyState);
           self.assertJsonEquals(
-            ["file1-closure"],
+            ["p1"],
             qx.test.Part.LOAD_ORDER
           );
         })});

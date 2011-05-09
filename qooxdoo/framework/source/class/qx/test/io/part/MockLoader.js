@@ -7,9 +7,8 @@ qx.Bootstrap.define("qx.test.io.part.MockLoader",
   construct : function() {},
   members :
   {
-    uris: [[]],
-    boot: "b",
-    parts:{"b":[0]},
-    packageHashes:{"0":"0"}
+    parts:{"b":["b"]},
+    packages : {"b" : {uris: []}},
+    boot: "b"
   }
 });

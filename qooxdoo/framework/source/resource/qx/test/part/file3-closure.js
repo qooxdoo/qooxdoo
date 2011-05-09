@@ -1,3 +1,3 @@
-qx.Part.$$notifyLoad("file3-closure", function() {
+qx.Part.$$notifyLoad("p3", function() {
 qx.test.PART_FILES.push("file3-closure")
 });

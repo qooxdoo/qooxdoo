@@ -82,12 +82,12 @@ qx.Class.define("qx.test.Part",
 
       var loader = {
         parts : {
-          "juhu" : [1],
-          "affe" : [0]
+          "juhu" : ["p1"],
+          "affe" : ["p0"]
         },
         packages : {
-          0 : { uris : ["boot.js"]},
-          1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]}
+          p0 : { uris : ["boot.js"]},
+          p1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]}
         },
         closureParts : {"juhu": true},
         boot: "affe"
@@ -124,12 +124,12 @@ qx.Class.define("qx.test.Part",
 
       var loader = {
         parts : {
-          "juhu" : [1],
-          "affe" : [0]
+          "juhu" : ["p1"],
+          "affe" : ["p0"]
         },
         packages : {
-          0 : { uris : ["boot.js"]},
-          1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]}
+          p0 : { uris : ["boot.js"]},
+          p1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]}
         },
         closureParts : {"juhu": true},
         boot: "affe"
@@ -159,12 +159,12 @@ qx.Class.define("qx.test.Part",
 
       var loader = {
         parts : {
-          "juhu" : [1],
-          "affe" : [0]
+          "juhu" : ["p1"],
+          "affe" : ["p0"]
         },
         packages : {
-          0 : { uris : ["boot.js"]},
-          1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]}
+          p0 : { uris : ["boot.js"]},
+          p1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]}
         },
         closureParts : {"juhu": true},
         boot: "affe"
@@ -204,14 +204,14 @@ qx.Class.define("qx.test.Part",
       // create a dummy loader
       var loader = {
         parts : {
-          "juhu" : [1],
-          "affe" : [0],
-          "fail" : [2]
+          "juhu" : ["p1"],
+          "affe" : ["p0"],
+          "fail" : ["p2"]
         },
         packages : {
-          0 : { uris : ["boot.js"]},
-          1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]}, 
-          2 : { uris : ["_fail.js"]}
+          p0 : { uris : ["boot.js"]},
+          p1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]}, 
+          p2 : { uris : ["_fail.js"]}
         },
         closureParts : {"juhu": true, "fail" : true},
         boot: "affe"
