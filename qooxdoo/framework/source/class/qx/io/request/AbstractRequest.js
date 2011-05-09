@@ -24,10 +24,12 @@
  * and {@link qx.io.request.Jsonp}. It contains methods to conveniently
  * communicate with transports found in {@link qx.bom.request}.
  *
- * The general procedure to derive a new {@link io.request} from AbstractRequest
- * is to choose a {@link qx.bom.request} transport (override
- * {@link _createTransport}) and adjust the behavior of send (override
- * {@link _getConfiguredUrl} and optionally {@link _setRequestHeader}).
+ * The general procedure to derive a new request is to choose a
+ * transport (override {@link #_createTransport}) and link
+ * the transport’s response (override {@link #_getParsedResponse}).
+ *
+ * To adjust the behavior of {@link #send} override
+ * {@link #_getConfiguredUrl} and {@link #_setRequestHeader}.
  */
 qx.Class.define("qx.io.request.AbstractRequest",
 {
@@ -59,27 +61,31 @@ qx.Class.define("qx.io.request.AbstractRequest",
   events :
   {
     /**
-     * Fires on every change of the readyState.
+     * Fires on every change of the transport’s readyState.
      */
     "readystatechange": "qx.event.type.Event",
 
     /**
      * Fires when request is complete and HTTP status indicates success.
+     *
+     * Note: Some transports, e.g. {@link qx.bom.request.Jsonp}, do not
+     * expose the HTTP status of the response. Instead they fake a
+     * successful response.
      */
     "success": "qx.event.type.Event",
 
     /**
      * Fires when request is complete.
      *
-     * Must not necessarily have an HTTP status that indicates
-     * success.
+     * Ignores the HTTP status.
      */
     "load": "qx.event.type.Event",
 
     /**
      * Fires when processing of request completes.
      *
-     * Fired even when e.g. a network failure occured.
+     * A request completes no matter if it was successful,
+     * or a network/timeout error occured.
      */
     "loadend": "qx.event.type.Event",
 
@@ -103,6 +109,8 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Fires when request completed with erroneous HTTP status.
      *
      * For instance, indicating a server error or missing resource.
+     *
+     * Note: Only ever fired for transports revealing an HTTP status.
      */
     "remoteError": "qx.event.type.Event",
 
@@ -123,7 +131,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     * For example:
     *
     * <pre class="javascript">
-    * // req is an instance of qx.io.request.Xhr,
+    * // req is an instance of qx.io.request.*,
     * // label an instance of qx.ui.basic.Label
     * req.bind("response", label, "value");
     * </pre>
@@ -141,6 +149,10 @@ qx.Class.define("qx.io.request.AbstractRequest",
   {
     /**
      * The URL of the resource to request.
+     *
+     * Note: Depending on the configuration of the request
+     * and/or the transport chosen, query params may be appended
+     * automatically.
      */
     url: {
       check: "String"
@@ -181,7 +193,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * with unsafe characters escaped is internally generated and sent
      * with the request. However, if a string is given the user must make
      * sure it is properly formatted and escaped. See
-     * {@link qx.lang.Object#toUriParameter}
+     * {@link qx.lang.Object#toUriParameter}.
      *
      */
     requestData: {
@@ -196,7 +208,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     /**
      * Authentication delegate.
      *
-     * The delegate must implement {@link qx.io.request.auth.IAuthDelegate}
+     * The delegate must implement {@link qx.io.request.auth.IAuthDelegate}.
      */
     authentication: {
       check: "qx.io.request.authentication.IAuthentication",
@@ -249,16 +261,16 @@ qx.Class.define("qx.io.request.AbstractRequest",
     /**
      * Get configured URL.
      *
-     * A configured URL typically includes a query string.
+     * A configured URL typically includes a query string that
+     * encapsulates transport specific settings such as request
+     * data or no-cache settings.
      *
-     * This method MUST be overridden, unless {@link #send} is overridden as well.
-     * It is called in {@link #send} before the request is initialized.
+     * This method MAY be overridden. It is called in {@link #send}
+     * before the request is initialized.
      *
      * @return {String} The configured URL.
      */
-    _getConfiguredUrl: function() {
-      throw new Error("Abstract method call");
-    },
+    _getConfiguredUrl: function() {},
 
     /**
      * A request may include additional headers depending on the transport.
@@ -267,6 +279,20 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * after the request is initialized.
      */
     _setRequestHeaders: function() {},
+
+    /**
+     * Get parsed response.
+     *
+     * Is called in the {@link _onReadyStateChange} event handler
+     * to parse and store the transport’s response.
+     *
+     * This method MUST be overridden.
+     *
+     * @return {String} The parsed response of the request.
+     */
+    _getParsedResponse: function() {
+      throw new Error("Abstract method call");
+    },
 
     /*
     ---------------------------------------------------------------------------
@@ -360,7 +386,8 @@ qx.Class.define("qx.io.request.AbstractRequest",
      // but still be accessed should it be absolutely necessary.
      //
      // Valid use cases include to query the transport’s responseXML
-     // property.
+     // property if performance is critical and any extra parsing
+     // should be avoided at all costs.
      //
     getTransport: function() {
       return this._transport;
@@ -463,20 +490,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
     },
 
     /**
-     * Get parsed response.
-     *
-     * Is called in the {@link _onReadyStateChange} event handler
-     * to parse and store the transport's response.
-     *
-     * This method SHOULD be overridden.
-     *
-     * @return {String} The parsed response of the request.
-     */
-    _getParsedResponse: function() {
-      throw new Error("Abstract method call");
-    },
-
-    /**
      * Set response.
      *
      * @param response {String} The parsed response of the request.
@@ -497,7 +510,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     */
 
     /**
-     * Handle abstracted "readystatechange" event.
+     * Handle "readystatechange" event.
      */
     _onReadyStateChange: function() {
       var parsedResponse;
@@ -537,28 +550,28 @@ qx.Class.define("qx.io.request.AbstractRequest",
     },
 
     /**
-     * Handle abstracted "load" event.
+     * Handle "load" event.
      */
     _onLoad: function() {
       this.fireEvent("load");
     },
 
     /**
-     * Handle abstracted "loadend" event.
+     * Handle "loadend" event.
      */
     _onLoadEnd: function() {
       this.fireEvent("loadend");
     },
 
     /**
-     * Handle abstracted "abort" event.
+     * Handle "abort" event.
      */
     _onAbort: function() {
       this.fireEvent("abort");
     },
 
     /**
-     * Handle abstracted "timeout" event.
+     * Handle "timeout" event.
      */
     _onTimeout: function() {
       this.fireEvent("timeout");
@@ -568,7 +581,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     },
 
     /**
-     * Handle abstracted "error" event.
+     * Handle "error" event.
      */
     _onError: function() {
       this.fireEvent("error");
@@ -623,7 +636,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     },
 
     /**
-    * Read auth delegate and set headers accordingly
+    * Read auth delegate and set headers accordingly.
     */
     __setAuthRequestHeaders: function() {
       var auth = this.getAuthentication(),

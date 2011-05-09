@@ -117,7 +117,7 @@ qx.Class.define("qx.io.request.Xhr",
   {
 
     /**
-     * Parser.
+     * {Function} Parser.
      */
     __parser: null,
 
@@ -188,22 +188,25 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     /**
-    * Send request.
-    *
-    * Configure HTTP method, URL, data etc. by setting the corresponding
-    * properties.
-    *
-    * Note: No network activity happens before
-    * running this method.
-    *
-    */
-    send: function() {
-      this.base(arguments);
+     * Returns response parsed with parser determined by
+     * {@link #_getParser}.
+     *
+     * @return {String|Object} The parsed response of the request.
+     */
+    _getParsedResponse: function() {
+      var response = this._transport.responseText,
+          parser = this._getParser();
+
+      if (typeof parser === "function") {
+        return parser.call(this, response);
+      }
+
+      return response;
     },
 
     /*
     ---------------------------------------------------------------------------
-      RESPONSE
+      PARSING
     ---------------------------------------------------------------------------
     */
 
@@ -296,22 +299,6 @@ qx.Class.define("qx.io.request.Xhr",
       }
 
       return parser;
-    },
-
-    /**
-     * Returns response parsed with parser determined by
-     * {@link #_getParser}.
-     */
-    _getParsedResponse: function() {
-      var response = this._transport.responseText,
-          parser = this._getParser();
-
-      if (typeof parser === "function") {
-        return parser.call(this, response);
-      }
-
-      return response;
     }
-
   }
 });
