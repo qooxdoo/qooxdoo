@@ -33,6 +33,7 @@ qx.Class.define("qx.test.bom.request.Script",
 
     tearDown: function() {
       this.req.dispose();
+      this.getSandbox().restore();
     },
 
     //
@@ -215,7 +216,7 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
-    "test: call onloadend when when request completed": function() {
+    "test: call onloadend when request completed": function() {
       var that = this;
 
       this.req.onloadend = function() {
