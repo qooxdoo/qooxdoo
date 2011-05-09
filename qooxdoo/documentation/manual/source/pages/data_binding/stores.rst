@@ -89,7 +89,7 @@ The following code demonstrates how to fetch some twitter messages.
 ::
 
   var query = "select * from twitter.user.timeline where id='wittemann'";
-  var store = new qx.data.store.YQL(query);
+  var store = new qx.data.store.Yql(query);
 
 .. _pages/data_binding/stores#combining_with_controllers:
 
