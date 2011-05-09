@@ -180,7 +180,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
             '<div class="item-detail-text">');
             for(var i=0;i<applyToProperties.length;i++){
               textHtml.add(apiviewer.ui.panels.InfoPanel.createItemLinkHtml(
-                applyToProperties[i].attributes.name, method.getClass(), true, true
+                applyToProperties[i].attributes.applies, method.getClass(), true, true
               ),', ');
             }
             textHtml.add('</div>');

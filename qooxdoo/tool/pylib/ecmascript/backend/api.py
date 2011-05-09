@@ -1374,7 +1374,7 @@ def markPropertyApply(docTree, classNode):
             for prop in props.children:
                 if prop.get("apply", None) == name:
                     propNode = tree.Node("entry")
-                    propNode.set("name", dep.get("fullName") + "#" + prop.get("name"))
+                    propNode.set("applies", dep.get("fullName") + "#" + prop.get("name"))
                     itemNode.addListChild("apply", propNode) 
                     removeErrors(itemNode)
                     applyFor.append(prop)
