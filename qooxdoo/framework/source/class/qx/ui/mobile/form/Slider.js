@@ -317,6 +317,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       qx.bom.element.Style.set(element, "backgroundPosition", backgroundPositionValue);
     },
 
+
     /**
      * Sets the knob positon based on the give percent value.
      *
