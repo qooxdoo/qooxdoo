@@ -30,6 +30,7 @@ qx.Class.define("qx.test.locale.Locale",
   members :
   {
     __defaultLocale : null,
+    __listenerId : null,
 
     setUp : function() {
       var manager = qx.locale.Manager.getInstance();
@@ -40,6 +41,9 @@ qx.Class.define("qx.test.locale.Locale",
     tearDown : function() {
       var manager = qx.locale.Manager.getInstance();
       manager.setLocale(this.__defaultLocale);
+      if (this.__listenerId) {
+        manager.removeListener(this.__listenerId);
+      }
     },
 
 
@@ -97,7 +101,7 @@ qx.Class.define("qx.test.locale.Locale",
       // check listener
       var fired = false;
       var evtLocale = "";
-      manager.addListener("changeLocale", function(e) {
+      this.__listenerId = manager.addListener("changeLocale", function(e) {
         fired = true;
         evtLocale = e.getData();
       });
