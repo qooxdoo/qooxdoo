@@ -76,6 +76,12 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: properties indicate failure when request failed": function() {
+
+      // Known to fail in legacy IEs
+      if (this.isIeBelow(9)) {
+        this.skip();
+      }
+
       var that = this,
           req = this.req;
 
@@ -92,6 +98,12 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: properties indicate failure when request timed out": function() {
+
+      // Known to fail in legacy IEs
+      if (this.isIeBelow(9)) {
+        this.skip();
+      }
+
       var that = this,
           req = this.req;
 
@@ -194,7 +206,11 @@ qx.Class.define("qx.test.bom.request.Script",
     // Event handlers
     //
 
-    "test: call onload when request completed": function() {
+    "test: call onload when request completes": function() {
+
+      // More precisely, the request completes when the browser
+      // has loaded and parsed the script
+
       var that = this;
 
       this.req.onload = function() {
@@ -216,7 +232,7 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
-    "test: call onloadend when request completed": function() {
+    "test: call onloadend when request completes": function() {
       var that = this;
 
       this.req.onloadend = function() {
@@ -281,6 +297,12 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: call onerror when request failed because of network error": function() {
+
+      // Known to fail in legacy IEs
+      if (this.isIeBelow(9)) {
+        this.skip();
+      }
+
       var that = this;
 
       this.req.onerror = function() {
@@ -331,6 +353,12 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: call ontimeout when request exceeds timeout limit": function() {
+
+      // Known to fail in legacy IEs
+      if (this.isIeBelow(9)) {
+        this.skip();
+      }
+
       var that = this;
 
       this.req.timeout = 25;

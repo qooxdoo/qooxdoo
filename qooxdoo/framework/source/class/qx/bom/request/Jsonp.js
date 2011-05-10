@@ -101,6 +101,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     _onNativeLoad: function() {
 
       if (!this.callback.called) {
+        // Fake native error
         this._onNativeError();
         return;
       }
