@@ -146,7 +146,6 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _containerElementWidth : null,
     _containerElementLeft : null,
     _pixelPerStep : null,
-    _transitionTimeout : null,
 
 
     /**
@@ -193,6 +192,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       this.addListener("touchstart", this._onTouchStart, this);
       this.addListener("touchmove", this._onTouchMove, this);
       qx.bom.Element.addListener(this._getKnobElement(), "touchstart", this._onTouchStart, this);
+      qx.bom.Element.addListener(this._getKnobElement(), "transitionEnd", this._onTransitionEnd, this);
       qx.event.Registration.addListener(window, "resize", this._refresh, this);
     },
 
@@ -205,6 +205,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       this.removeListener("touchstart", this._onTouchStart, this);
       this.removeListener("touchmove", this._onTouchMove, this);
       qx.bom.Element.removeListener(this._getKnobElement(), "touchstart", this._onTouchStart, this);
+      qx.bom.Element.removeListener(this._getKnobElement(), "transitionEnd", this._onTransitionEnd, this);
       qx.event.Registration.removeListener(window, "resize", this._refresh, this);
     },
 
@@ -254,17 +255,21 @@ qx.Class.define("qx.ui.mobile.form.Slider",
           evt.stopPropagation();
         } else {
           var element = this.getContainerElement();
-          window.clearTimeout(this._transitionTimeout);
           qx.bom.element.Style.set(knobElement, "-webkit-transition", "left .15s");
           qx.bom.element.Style.set(element, "-webkit-transition", "background-position .15s");
           this.setValue(this._positionToValue(position));
-          this._transitionTimeout = window.setTimeout(function()
-          {
-            qx.bom.element.Style.set(knobElement, "-webkit-transition", null);
-            qx.bom.element.Style.set(element, "-webkit-transition", null);
-          }, 150);
         }
       }
+    },
+
+
+    _onTransitionEnd : function(evt)
+    {
+      var knobElement = this._getKnobElement();
+      qx.bom.element.Style.set(knobElement, "-webkit-transition", null);
+
+      var element = this.getContainerElement();
+      qx.bom.element.Style.set(element, "-webkit-transition", null);
     },
 
 
@@ -468,7 +473,6 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
   destruct : function()
   {
-    window.clearTimeout(this._transitionTimeout);
     this._knobElement = null;
     this._unregisterEventListener();
   }
