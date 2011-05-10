@@ -306,7 +306,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       var width = this._containerElementWidth;
       var position = this._percentToPosition(width, percent);
       var element = this.getContainerElement();
-      
+
       var backgroundPositionValue = position + 'px 0px, 0px 0px';
       qx.bom.element.Style.set(element, "backgroundPosition", backgroundPositionValue);
     },
@@ -321,12 +321,9 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       var knobElement = this._getKnobElement();
       if (knobElement)
       {
-        var width = this._containerElementWidth;
-        var position = this._percentToPosition(width, percent);
-
-        marginLeft = (this._knobWidth) * (percent / 100);
-
         qx.bom.element.Style.set(knobElement, "left", percent + "%");
+        // Fix knob position, so that it can't be moved over the slider area
+        var marginLeft = this._knobWidth * (percent / 100); 
         qx.bom.element.Style.set(knobElement, "margin-left", "-" + marginLeft + "px");
       }
     },
