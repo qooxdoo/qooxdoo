@@ -219,7 +219,8 @@ def handleInterfaceExtend(valueItem, classNode, docTree, className):
 
         superInterfaceNode.set("childClasses", childInterfaces)
 
-        node = tree.Node("interface");
+        node = tree.Node("class")
+        node.set("type", "interface")
         node.set("name", superInterface)
         classNode.addListChild("superInterfaces", node)
         #superInterfaceNode.type = "interface"
@@ -251,7 +252,8 @@ def handleMixins(item, classNode, docTree, className):
 
             superMixinNode.set("childClasses", childMixins)
 
-            node = tree.Node("interface");
+            node = tree.Node("class")
+            node.set("type", "mixin")
             node.set("name", superMixin)
             classNode.addListChild("superMixins", node)
 
