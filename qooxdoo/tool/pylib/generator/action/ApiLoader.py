@@ -262,6 +262,8 @@ class ApiLoader(object):
                         sfx = '_prot'
                     elif acc == 'private':
                         sfx = '_priv'
+                    elif acc == 'internal':
+                        sfx = '_intl'
                     else:
                         sfx = '_pub'  # there seem to be methods with weird access attribs
                 else:
