@@ -110,7 +110,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     },
 
     __callBase: function(method, args) {
-      qx.bom.request.Script.prototype[method].apply(this, args);
+      qx.bom.request.Script.prototype[method].apply(this, args || []);
     },
 
     __generateId: function() {
