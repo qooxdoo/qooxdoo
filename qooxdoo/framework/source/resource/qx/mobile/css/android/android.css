@@ -249,7 +249,7 @@ ul li input[type="checkbox"]:after, ul li input[type="radio"]:after {
   position:relative;
   border:1px solid #0E0E0F;
   height: 20px;
-  background: -webkit-gradient(linear,left top,left bottom,from(#9EA09D), color-stop(0.85, #5B5D5A), color-stop(0.95, #5F615E), to(#757774));
+  background: -webkit-gradient(linear,left top,left bottom,from(#9EA09D), color-stop(0.85, #5B5D5A), color-stop(0.95, #5F615E), to(#757774)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from(#ecd343), color-stop(0.85, #fab907), color-stop(0.95, #f0b705), to(#f8ce2e));
   background: -webkit-linear-gradient(top, #9EA09D, #5B5D5A 85%,#5F615E 95%, #757774) 0px 0px no-repeat, -webkit-linear-gradient(top, #ecd343, #fab907 85%,#f0b705 95%, #f8ce2e) 0px 0px no-repeat;
   -webkit-border-radius: .6em;
   boder-radius: .6em;
@@ -270,6 +270,7 @@ ul li input[type="checkbox"]:after, ul li input[type="radio"]:after {
   -moz-box-shadow: 0 0 2px 1px #4A4A4A;
   -o-box-shadow: 0 0 2px 1px #4A4A4A;
   background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#c4c4c4));
+  background: -webkit-linear-gradient(top, #f4f4f4, #c4c4c4);
   boder-radius: .4em;
   -moz-border-radius: .4em;
   -webkit-border-radius: .4em;
