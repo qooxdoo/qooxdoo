@@ -417,36 +417,6 @@ class CodeGenerator(object):
             return data
 
 
-        def compilePackage(packageIndex, package):
-            self._console.info("Compiling package #%s:" % packageIndex, False)
-            self._console.indent()
-
-            # Compile file content
-            if "variants" not in optimize:
-                variats = {}
-            else:
-                variats = variants
-            pkgCode = self._treeCompiler.compileClasses(package.classes, variats, optimize, format)
-            pkgData = getPackageData(package)
-            hash    = sha.getHash(pkgData + pkgCode)[:12]  # first 12 chars should be enough
-
-            isBootPackage = packageIndex == 0
-            if isBootPackage:
-                compiledContent = ("qx.$$packageData['%s']=" % hash) + pkgData + pkgCode
-            else:
-                compiledContent  = u'''qx.$$packageData['%s']=%s\n''' % (hash, pkgData)
-                compiledContent += u'''qx.Part.$$notifyLoad("%s", function() {\n%s\n});''' % (hash, pkgCode)
-            
-            #
-            package.hash = hash  # to fill qx.$$loader.packageHashes in generateLoader()
-
-            self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
-            self._console.outdent()
-
-            return compiledContent
-
-
-
         def compileClasses(classList, compConf):
             result = []
             for clazz in classList:
@@ -629,55 +599,10 @@ class CodeGenerator(object):
             script = self.generateI18NParts(script, globalCodes)
             self.writePackages([p for p in script.packages if getattr(p, "__localeflag", False)], script)
 
-        # ---- 'build' version ------------------------------------------------
-        if False:
+        # ---- create script files ---------------------------------------------
+        if script.buildType in ("source", "hybrid", "build"):
 
-            # - Specific job config ---------------------
-            # read in compiler options
-            optimize = compConf.get("code/optimize", [])
-            self._treeCompiler.setOptimize(optimize)
-
-            # - Generating packages ---------------------
-            self._console.info("Generating packages...")
-            self._console.indent()
-
-            bootPackage = ""
-            for packageIndex, package in enumerate(packages):
-                package.compiled.append(compilePackage(packageIndex, package))
-
-            self._console.outdent()
-            if not len(packages):
-                raise RuntimeError("No valid boot package generated.")
-
-            # - Put loader and packages together -------
-            loader_with_boot = self._job.get("packages/loader-with-boot", True)
-            # handle loader and boot package
-            if not loader_with_boot:
-                loadPackage = Package(0)            # make a dummy Package for the loader
-                packages.insert(0, loadPackage)
-
-            # attach file names (do this before calling generateLoader)
-            for package, fileName in zip(packages, self.packagesFileNames(script.baseScriptPath, len(packages))):
-                package.file = os.path.basename(fileName)
-                if self._job.get("compile-options/paths/scripts-add-hash", False):
-                    package.file = self._fileNameWithHash(package.file, package.hash)
-
-            # generate and integrate boot code
-            if loader_with_boot:
-                # merge loader code with first package
-                bootCode = generateLoader(script, compConf, globalCodes, packages[0].compiled[0])
-                packages[0].compiled.append(bootCode)
-            else:
-                loaderCode = generateLoader(script, compConf, globalCodes, "")
-                packages[0].compiled.append(loaderCode)
-
-            # write packages
-            self.writePackages(packages, script)
-
-        # ---- 'hybrid' version ------------------------------------------------
-        elif script.buildType in ("source", "hybrid", "build"):
-
-            # @deprecated
+            # @deprecated: with 1.5
             if script.buildType in ("source", "build"):
                 jobConf = ExtMap(self._job.getData())
                 confkey = "compile-options/code/except"
@@ -722,24 +647,6 @@ class CodeGenerator(object):
             loaderCode = generateLoader(script, compConf, globalCodes, bcode)
             self.writePackage(loaderCode, script.baseScriptPath, script)
 
-
-        # ---- 'source' version ------------------------------------------------
-        elif False:
-
-            sourceContent = generateLoader(script, compConf, globalCodes, "")
-
-            # Construct file name
-            resolvedFilePath = self._resolveFileName(filePath, variants, settings)
-
-            # Save result file
-            filetool.save(resolvedFilePath, sourceContent)
-
-            if compConf.get("paths/gzip"):
-                filetool.gzip(resolvedFilePath, sourceContent)
-
-            self._console.outdent()
-            self._console.debug("Done: %s" % self._computeContentSize(sourceContent))
-            self._console.outdent()
 
         self._console.outdent()
 
