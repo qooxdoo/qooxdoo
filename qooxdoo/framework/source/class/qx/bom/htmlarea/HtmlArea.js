@@ -2011,8 +2011,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
             e.preventDefault();
             e.stopPropagation();
 
-            var dataEvent = new qx.event.type.Data("messengerContent", this.getComputedValue());
-            this.dispatchEvent(dataEvent, true);
+            this.fireDataEvent("messengerContent", this.getComputedValue());
             this.resetHtml();
           }
 
