@@ -304,10 +304,12 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _setProgressIndicator : function(percent)
     {
       var width = this._containerElementWidth;
-      var position = this._percentToPosition(width, percent);
+      var position = this._percentToPosition(width, percent) + (this._knobWidth / 2);
       var element = this.getContainerElement();
 
-      var backgroundPositionValue = position + 'px 0px, 0px 0px';
+      // Fix the indicator position, corresponding to the knob position
+      var marginLeft = this._knobWidth * (percent / 100); 
+      var backgroundPositionValue = (position - marginLeft) + 'px 0px, 0px 0px';
       qx.bom.element.Style.set(element, "backgroundPosition", backgroundPositionValue);
     },
 
