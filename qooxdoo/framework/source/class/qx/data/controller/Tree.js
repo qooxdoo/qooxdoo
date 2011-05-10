@@ -639,7 +639,7 @@ qx.Class.define("qx.data.controller.Tree",
     ---------------------------------------------------------------------------
     */
     /**
-     * Helper-Method for binding a given property from the model to the target
+     * Helper method for binding a given property from the model to the target
      * widget.
      * This method should only be called in the
      * {@link qx.data.controller.IControllerDelegate#bindItem} function
@@ -679,7 +679,7 @@ qx.Class.define("qx.data.controller.Tree",
 
 
     /**
-     * Helper-Method for binding a given property from the target widget to
+     * Helper method for binding a given property from the target widget to
      * the model.
      * This method should only be called in the
      * {@link qx.data.controller.IControllerDelegate#bindItem} function
@@ -723,16 +723,16 @@ qx.Class.define("qx.data.controller.Tree",
 
 
     /**
-     * Helper-Method for binding the default properties (label and icon) from
+     * Helper method for binding the default properties (label and icon) from
      * the model to the target widget.
      *
      * This method should only be called in the
      * {@link qx.data.controller.IControllerDelegate#bindItem} function
      * implemented by the {@link #delegate} property.
      *
+     * @param treeNode {qx.ui.tree.core.AbstractTreeItem} The tree node 
+     *   corresponding to the model node.
      * @param modelNode {qx.core.Object} The model node holding the data.
-     * @param treeNode {qx.ui.tree.AbstractTreeItem} The corresponding tree folder
-     *   to the model node.
      */
     bindDefaultProperties : function(treeNode, modelNode)
     {
