@@ -145,6 +145,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _knobWidth : null,
     _containerElementWidth : null,
     _containerElementLeft : null,
+    _pixelPerStep : null,
 
 
     /**
@@ -221,6 +222,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
         this._containerElementWidth = qx.bom.element.Dimension.getWidth(containerElement);
         this._containerElementLeft = qx.bom.element.Location.getLeft(containerElement);
         this._knobWidth = qx.bom.element.Dimension.getWidth(knobElement);
+        this._pixelPerStep = this._getPixelPerStep(this._containerElementWidth);
 
         var position = this._lastPosition =  this._getPosition(evt.getDocumentLeft());
 
@@ -245,9 +247,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       if (this._isMovingKnob)
       {
         var position = this._getPosition(evt.getDocumentLeft());
-        var pixelPerStep = this._pixelPerStep(this._containerElementWidth);
         // Optimize Performance - only update the position when needed
-        if (Math.abs(this._lastPosition - position) > pixelPerStep/2)
+        if (Math.abs(this._lastPosition - position) > this._pixelPerStep /2)
         {
           this._lastPosition = position;
           this.setValue(this._positionToValue(position));
@@ -365,13 +366,12 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       // Fix the position so that it is easier to set the last value
       // Plus a bugfix: Seems like you can not hit the last pixel of the slider
       // div in the browser
-      var pixelPerStep = this._pixelPerStep(width);
       if (position <= 4) {
         return this.getMinimum();
       } else if (position >= width - 4) {
         return this.getMaximum();
       }
-      var value = this.getMinimum() + (Math.round(position / pixelPerStep) * this.getStep());
+      var value = this.getMinimum() + (Math.round(position / this._pixelPerStep) * this.getStep());
       return this._limitValue(value);
     },
 
@@ -409,7 +409,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      * @param width {Integer} The width of the slider container element
      * @return {Integer} The pixels per step
      */
-    _pixelPerStep : function(width)
+    _getPixelPerStep : function(width)
     {
       return width / this._getOverallSteps();
     },
