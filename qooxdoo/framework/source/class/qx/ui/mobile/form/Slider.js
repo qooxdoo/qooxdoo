@@ -146,6 +146,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _containerElementWidth : null,
     _containerElementLeft : null,
     _pixelPerStep : null,
+    _transitionTimeout : null,
 
 
     /**
@@ -252,7 +253,16 @@ qx.Class.define("qx.ui.mobile.form.Slider",
           this._isMovingKnob = true;
           evt.stopPropagation();
         } else {
+          var element = this.getContainerElement();
+          window.clearTimeout(this._transitionTimeout);
+          qx.bom.element.Style.set(knobElement, "-webkit-transition", "left .15s");
+          qx.bom.element.Style.set(element, "-webkit-transition", "background-position .15s");
           this.setValue(this._positionToValue(position));
+          this._transitionTimeout = window.setTimeout(function()
+          {
+            qx.bom.element.Style.set(knobElement, "-webkit-transition", null);
+            qx.bom.element.Style.set(element, "-webkit-transition", null);
+          }, 150);
         }
       }
     },
@@ -458,6 +468,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
   destruct : function()
   {
+    window.clearTimeout(this._transitionTimeout);
     this._knobElement = null;
     this._unregisterEventListener();
   }
