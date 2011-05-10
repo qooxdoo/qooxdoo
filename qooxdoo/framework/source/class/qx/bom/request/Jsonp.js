@@ -86,7 +86,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
       // Set response
       this.responseJson = data;
 
-      // Delete handler
+      // Delete reference to this
       delete this.constructor[this.__id];
     },
 
@@ -100,11 +100,8 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
 
     _onNativeLoad: function() {
 
-      if (!this.callback.called) {
-        // Fake native error
-        this._onNativeError();
-        return;
-      }
+      // Flag error if callback not called
+      this._error = !this.callback.called;
 
       this.__callBase("_onNativeLoad");
     },

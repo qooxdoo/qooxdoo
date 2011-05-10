@@ -60,6 +60,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
     statusText: null,
     timeout: 0,
 
+    _error: null,
+
     __async: null,
 
     open: function(method, url, async) {
@@ -267,6 +269,15 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
       if (qx.core.Environment.get("qx.debug.io")) {
         qx.Bootstrap.debug(qx.bom.request.Script, "Received native load");
+      }
+
+      if (this._error) {
+        if (qx.core.Environment.get("qx.debug.io")) {
+          qx.Bootstrap.debug(qx.bom.request.Script, "Error detected");
+        }
+
+        this._onNativeError();
+        return;
       }
 
       if (this.__timeoutId) {
