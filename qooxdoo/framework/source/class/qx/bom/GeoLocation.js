@@ -56,7 +56,6 @@ qx.Class.define("qx.bom.GeoLocation",
     _watchId: null,
     _geolocation: null,
 
-
     /**
      * Retrieves the current position and calls the "position" event.
      *
@@ -68,11 +67,9 @@ qx.Class.define("qx.bom.GeoLocation",
      */
     getCurrentPosition: function(enableHighAccuracy, timeout, maximumAge)
     {
-      var successHandler = qx.lang.Function.bind(this._successHandler, this);
       var errorHandler = qx.lang.Function.bind(this._errorHandler, this);
-      var wrappedHandler = this._createHandler(successHandler);
-
-      this._geolocation.getCurrentPosition(wrappedHandler, errorHandler, {
+      var successHandler = qx.lang.Function.bind(this._successHandler, this);
+      this._geolocation.getCurrentPosition(successHandler, errorHandler, {
         enableHighAccuracy: enableHighAccuracy,
         timeout: timeout,
         maximumAge: maximumAge
@@ -93,11 +90,10 @@ qx.Class.define("qx.bom.GeoLocation",
     {
       this.stopWatchPosition();
 
-      var successHandler = qx.lang.Function.bind(this._successHandler, this);
       var errorHandler = qx.lang.Function.bind(this._errorHandler, this);
-      var wrappedHandler = this._createHandler(successHandler);
+      var successHandler = qx.lang.Function.bind(this._successHandler, this);
 
-      this._watchId = this._geolocation.watchPosition(wrappedHandler, errorHandler, {
+      this._watchId = this._geolocation.watchPosition(successHandler, errorHandler, {
         enableHighAccuracy: enableHighAccuracy,
         timeout: timeout,
         maximumAge: maximumAge
@@ -109,8 +105,9 @@ qx.Class.define("qx.bom.GeoLocation",
      * Stops watching the position.
      */
     stopWatchPosition: function() {
-      if (this._watchId != undefined) {
+      if (this._watchId != null) {
         this._geolocation.clearWatch(this._watchId);
+        this._watchId = null;
       }
     },
 
@@ -121,7 +118,7 @@ qx.Class.define("qx.bom.GeoLocation",
      * @param position {Function} position event
      */
     _successHandler: function(position) {
-      this.fireDataEvent("position", position);
+      this.fireEvent("position", qx.event.type.GeoPosition, [position]);
     },
 
 
@@ -132,27 +129,11 @@ qx.Class.define("qx.bom.GeoLocation",
      */
     _errorHandler: function(error) {
       this.fireDataEvent("error", error);
-    },
-
-
-    /**
-     * Create a handler
-     *
-     * @param cb {Function} callback
-     * @return {Function} handler
-     */
-    _createHandler : function(cb)
-    {
-      return function(position) {
-        var position = new qx.event.type.GeoPosition(position);
-        cb.call(null, position);
-      };
     }
   },
 
 
-  destruct: function()
-  {
+  destruct: function() {
     this.stopWatchPosition();
   }
 });

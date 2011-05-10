@@ -29,24 +29,16 @@
  */
 qx.Class.define("qx.event.type.GeoPosition",
 {
-  extend : qx.core.Object,
+  extend : qx.event.type.Event,
 
   /**
    * Create a new instance.
    *
    * @param position {Map} a position map.
    */
-  construct : function(position)
+  construct : function()
   {
     this.base(arguments);
-    this.setTimestamp(position.timestamp);
-    this.setLatitude(position.coords.latitude);
-    this.setLongitude(position.coords.longitude);
-    this.setAltitude(position.coords.altitude);
-    this.setAccuracy(position.coords.accuracy);
-    this.setAltitudeAccuracy(position.coords.altitudeAccuracy);
-    this.setHeading(position.coords.heading);
-    this.setSpeed(position.coords.speed);
   },
 
 
@@ -129,6 +121,19 @@ qx.Class.define("qx.event.type.GeoPosition",
     speed : {
       check : "Number",
       nullable : true
+    }
+  },
+
+  members: {
+    init: function(position) {
+      this.setTimestamp(position.timestamp);
+      this.setLatitude(position.coords.latitude);
+      this.setLongitude(position.coords.longitude);
+      this.setAltitude(position.coords.altitude);
+      this.setAccuracy(position.coords.accuracy);
+      this.setAltitudeAccuracy(position.coords.altitudeAccuracy);
+      this.setHeading(position.coords.heading);
+      this.setSpeed(position.coords.speed);
     }
   }
 });
