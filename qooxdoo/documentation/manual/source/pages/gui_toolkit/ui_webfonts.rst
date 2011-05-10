@@ -15,10 +15,10 @@ Like any font that should be used in a qooxdoo application, web fonts are define
 ::
 
     /* ************************************************************************
-      #asset(customapplication/fonts/*)
+      #asset(custom/fonts/*)
     ************************************************************************ */
     
-    qx.Theme.define("customapplication.theme.Font",
+    qx.Theme.define("custom.theme.Font",
     {
       fonts :
       {
@@ -33,10 +33,10 @@ Like any font that should be used in a qooxdoo application, web fonts are define
               family : "YanoneKaffeesatzRegular",
               source:
               [
-                "customapplication/fonts/yanonekaffeesatz-regular-webfont.eot",
-                "customapplication/fonts/yanonekaffeesatz-regular-webfont.ttf",
-                "customapplication/fonts/yanonekaffeesatz-regular-webfont.woff",
-                "customapplication/fonts/yanonekaffeesatz-regular-webfont.svg#YanoneKaffeesatzRegular"
+                "custom/fonts/yanonekaffeesatz-regular-webfont.eot",
+                "custom/fonts/yanonekaffeesatz-regular-webfont.ttf",
+                "custom/fonts/yanonekaffeesatz-regular-webfont.woff",
+                "custom/fonts/yanonekaffeesatz-regular-webfont.svg#YanoneKaffeesatzRegular"
               ]
             }
           ]
