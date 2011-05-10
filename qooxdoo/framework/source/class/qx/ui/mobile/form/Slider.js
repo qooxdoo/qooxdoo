@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
           evt.stopPropagation();
         } else {
           var element = this.getContainerElement();
-          qx.bom.element.Style.set(knobElement, "-webkit-transition", "left .15s");
+          qx.bom.element.Style.set(knobElement, "-webkit-transition", "left .15s, margin-left .15s");
           qx.bom.element.Style.set(element, "-webkit-transition", "background-position .15s");
           this.setValue(this._positionToValue(position));
         }
