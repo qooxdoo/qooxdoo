@@ -429,6 +429,12 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: remove script from DOM when request timed out": function() {
+
+      // Known to fail in legacy IEs
+      if (this.isIeBelow(9)) {
+        this.skip();
+      }
+
       var script,
           that = this;
 
