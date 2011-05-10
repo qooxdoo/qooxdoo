@@ -99,7 +99,6 @@ qx.Class.define("qx.test.bom.request.Jsonp",
     },
 
     "test: call onerror when request failed because of network error": function() {
-
       var that = this;
 
       this.req.onerror = function() {
@@ -107,7 +106,7 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       };
 
       this.request("http://fail.tld");
-      this.wait();
+      this.wait(10000);
     },
 
     "test: call onloadend on network error": function() {
@@ -118,7 +117,7 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       };
 
       this.request("http://fail.tld");
-      this.wait();
+      this.wait(10000);
     },
 
     request: function(customUrl) {
