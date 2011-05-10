@@ -304,6 +304,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _setProgressIndicator : function(percent)
     {
       var width = this._containerElementWidth;
+      // Center the indicator to the knob element
       var position = this._percentToPosition(width, percent) + (this._knobWidth / 2);
       var element = this.getContainerElement();
 
