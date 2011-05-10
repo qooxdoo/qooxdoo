@@ -54,7 +54,7 @@ class CodeGenerator(object):
         cache   = cache_
 
 
-    def runCompiled(self, script, treeCompiler, version="build"):
+    def runCompiled(self, script, treeCompiler):
 
         def getOutputFile(compileType):
             filePath = compConf.get("paths/file")
