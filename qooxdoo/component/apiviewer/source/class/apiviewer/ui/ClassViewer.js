@@ -42,10 +42,10 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     this.base(arguments);
     this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("constructor", "constructor"));
     this.addInfoPanel(new apiviewer.ui.panels.EventPanel("events", "events", true, true));
-    this.addInfoPanel(new apiviewer.ui.panels.PropertyPanel("properties", "properties", true, true));
-    this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods", "methods"));
     this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods-static", "static methods"));
     this.addInfoPanel(new apiviewer.ui.panels.ConstantPanel("constants", "constants", false, true));
+    this.addInfoPanel(new apiviewer.ui.panels.PropertyPanel("properties", "properties", true, true));
+    this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods", "methods"));
     this.addInfoPanel(new apiviewer.ui.panels.ChildControlsPanel("childControls", "child controls"));
 
     this.getContentElement().setAttribute("class", "ClassViewer");
@@ -256,7 +256,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     _getTocHtml : function(classNode)
     {
       var tocHtml = document.createDocumentFragment();
-      var members = ["constructor", "events", "properties", "methods", "methods-static", "constants", "childControls"];
+      var members = ["constructor", "events", "methods-static", "constants", "properties", "methods", "childControls"];
       var iconURL = {"events" : "apiviewer/image/event18.gif",
                                 "constructor" : "apiviewer/image/constructor18.gif",
                                 "properties" : "apiviewer/image/property18.gif",
