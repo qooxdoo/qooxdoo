@@ -192,6 +192,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       this.addListener("touchstart", this._onTouchStart, this);
       this.addListener("touchmove", this._onTouchMove, this);
       qx.bom.Element.addListener(this._getKnobElement(), "touchstart", this._onTouchStart, this);
+      qx.event.Registration.addListener(window, "resize", this._refresh, this);
     },
 
 
@@ -203,6 +204,31 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       this.removeListener("touchstart", this._onTouchStart, this);
       this.removeListener("touchmove", this._onTouchMove, this);
       qx.bom.Element.removeListener(this._getKnobElement(), "touchstart", this._onTouchStart, this);
+      qx.event.Registration.removeListener(window, "resize", this._refresh, this);
+    },
+
+
+    /**
+     * Refreshs the slider.
+     */
+    _refresh : function()
+    {
+      this._updateSizes();
+      this._updateKnobPosition();
+    },
+
+
+    /**
+     * Updates all internal sizes of the slider.
+     */
+    _updateSizes : function()
+    {
+      var knobElement = this._getKnobElement();
+      var containerElement = this.getContainerElement();
+      this._containerElementWidth = qx.bom.element.Dimension.getWidth(containerElement);
+      this._containerElementLeft = qx.bom.element.Location.getLeft(containerElement);
+      this._knobWidth = qx.bom.element.Dimension.getWidth(knobElement);
+      this._pixelPerStep = this._getPixelPerStep(this._containerElementWidth);
     },
 
 
@@ -217,15 +243,10 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       this._lastPosition = 0;
       if (!evt.isMultiTouch())
       {
-        var knobElement = this._getKnobElement();
-        var containerElement = this.getContainerElement();
-        this._containerElementWidth = qx.bom.element.Dimension.getWidth(containerElement);
-        this._containerElementLeft = qx.bom.element.Location.getLeft(containerElement);
-        this._knobWidth = qx.bom.element.Dimension.getWidth(knobElement);
-        this._pixelPerStep = this._getPixelPerStep(this._containerElementWidth);
-
+        this._updateSizes();
         var position = this._lastPosition =  this._getPosition(evt.getDocumentLeft());
 
+        var knobElement = this._getKnobElement();
         if (evt.getTarget() == knobElement)
         {
           this._isMovingKnob = true;
