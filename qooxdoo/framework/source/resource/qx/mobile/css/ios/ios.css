@@ -266,7 +266,7 @@ ul li input[type="checkbox"]:after, ul li input[type="radio"]:after {
   border-left:  1px solid #b5b5b5;
   border-right:  1px solid #b5b5b5;
   height: 15px;
-  background: -webkit-gradient(linear,left top,left bottom,from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 222px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from(#093887), color-stop(0.05, #2a5db1), color-stop(0.9, #6ca9f7), to(#4e8ad4)) 0px 0px no-repeat;
+  background: -webkit-gradient(linear,left top,left bottom,from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from(#093887), color-stop(0.05, #2a5db1), color-stop(0.9, #6ca9f7), to(#4e8ad4)) 0px 0px no-repeat;
   background: -webkit-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -webkit-linear-gradient(top, #093887, #2a5db1 5%,#6ca9f7 90%, #4e8ad4) 0px 0px no-repeat;
   -webkit-border-radius: .6em;
   boder-radius: .6em;
