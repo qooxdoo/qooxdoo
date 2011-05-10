@@ -63,7 +63,7 @@ a:hover {  color:rgb(76, 86, 108); }
 
 /* BUTTONS */
 
-.button, {
+.button {
   cursor: pointer;
   overflow: hidden;
   white-space: nowrap;
