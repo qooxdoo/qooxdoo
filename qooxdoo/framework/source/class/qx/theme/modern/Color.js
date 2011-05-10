@@ -15,7 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
-     * Alexander Back (aback)
+     * Alexander Steitz (aback)
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
