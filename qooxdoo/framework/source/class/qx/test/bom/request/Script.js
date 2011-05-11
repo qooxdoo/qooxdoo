@@ -17,6 +17,14 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/test/jsonp_primitive.php)
+#asset(qx/test/script.js)
+#asset(qx/test/xmlhttp/sample.txt)
+
+************************************************************************ */
+
 qx.Class.define("qx.test.bom.request.Script",
 {
   extend : qx.dev.unit.TestCase,
