@@ -274,22 +274,18 @@ class DependencyLoader(object):
                 if dep.name not in (x.name for x in runFinal):
                     runFinal.append(dep)
 
-        # fix source dependency to qx.core.Variant etc.
-        variantSelectClasses = ("qx.core.Variant", "qx.core.Environment")
-        if len(variants) and (buildType in ("source","hybrid", "build")) and (classObj.id not in variantSelectClasses):
+        # fix dependency to classes that get removed with variant optimization
+        variantSelectClasses = ("qx.core.Environment",)
+        if len(variants) and (classObj.id not in variantSelectClasses):
             depsUnOpt, _ = classObj.dependencies({})  # get unopt deps
             # this might incur extra generation if unoptimized deps
             # haven't computed before for this fileId
             for depItem in depsUnOpt["load"]:
                 if depItem.name in variantSelectClasses and depItem.name not in [x.name for x in loadFinal]:
                     loadFinal.append(depItem)
-                    # @deprecated
-                    #break
             for depItem in depsUnOpt["run"]:
                 if depItem.name in variantSelectClasses and depItem.name not in [x.name for x in runFinal]:
                     runFinal.append(depItem)
-                    # @deprecated
-                    #break
 
         # add config dependencies
         if fileId in self._require:
