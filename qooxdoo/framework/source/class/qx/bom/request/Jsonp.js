@@ -36,6 +36,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     __id: null,
     __callbackParam: null,
     __callbackName: null,
+    __callbackCalled: null,
     __disposed: null,
 
     open: function(method, url) {
@@ -75,7 +76,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
       }
 
       // Signal callback was called
-      this.callback.called = true;
+      this.__callbackCalled = true;
 
       // Sanitize and parse
       if (qx.core.Environment.get("qx.debug")) {
@@ -101,7 +102,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     _onNativeLoad: function() {
 
       // Flag error if callback not called
-      this._error = !this.callback.called;
+      this._error = !this.__callbackCalled;
 
       this.__callBase("_onNativeLoad");
     },

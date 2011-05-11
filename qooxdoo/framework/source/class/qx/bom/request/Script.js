@@ -273,7 +273,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
       if (this._error) {
         if (qx.core.Environment.get("qx.debug.io")) {
-          qx.Bootstrap.debug(qx.bom.request.Script, "Error detected");
+          qx.Bootstrap.debug(qx.bom.request.Script, "Detected error");
         }
 
         this._onNativeError();

@@ -84,7 +84,9 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       var that = this;
 
       this.req.onload = function() {
-        throw Error("Called onload");
+        that.resume(function() {
+          throw Error("Called onload");
+        });
       };
 
       this.req.onerror = function() {
