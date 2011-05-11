@@ -93,10 +93,10 @@ qx.Class.define("qx.test.bom.request.Jsonp",
         that.resume(function() {});
       };
 
-      // Unknown handler
-      this.req.setCallbackName("fail");
+      // Plain script that does not call any callbacks
+      // no matter what is passed in the query params
+      this.request(this.getUrl("qx/test/script.js"));
 
-      this.request(this.getUrl("qx/test/jsonp_primitive.php"));
       this.wait();
     },
 
