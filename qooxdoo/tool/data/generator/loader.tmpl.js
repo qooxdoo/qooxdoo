@@ -4,14 +4,6 @@ if (!window.qx) window.qx = {};
 
 qx.$$start = new Date();
   
-if (!window.qxsettings) qxsettings = {};
-var settings = %{Settings};
-for (var k in settings) qxsettings[k] = settings[k];
-
-if (!window.qxvariants) qxvariants = {};
-var variants = %{Variants};
-for (var k in variants) qxvariants[k] = variants[k];
-
 if (!qx.$$environment) qx.$$environment = {};
 var envinfo = %{EnvSettings};
 for (var k in envinfo) qx.$$environment[k] = envinfo[k];
