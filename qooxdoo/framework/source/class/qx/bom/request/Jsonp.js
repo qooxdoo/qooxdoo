@@ -101,8 +101,8 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
 
     _onNativeLoad: function() {
 
-      // Flag error if callback not called
-      this._error = !this.__callbackCalled;
+      // Indicate erroneous status if callback was not called
+      this.status = this.__callbackCalled ? 200 : 500;
 
       this.__callBase("_onNativeLoad");
     },

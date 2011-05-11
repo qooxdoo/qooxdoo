@@ -60,8 +60,6 @@ qx.Bootstrap.define("qx.bom.request.Script",
     statusText: null,
     timeout: 0,
 
-    _error: null,
-
     __async: null,
 
     open: function(method, url, async) {
@@ -271,13 +269,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
         qx.Bootstrap.debug(qx.bom.request.Script, "Received native load");
       }
 
-      if (this._error) {
+      if (this.status !== 200) {
         if (qx.core.Environment.get("qx.debug.io")) {
           qx.Bootstrap.debug(qx.bom.request.Script, "Detected error");
         }
-
-        this._onNativeError();
-        return;
       }
 
       if (this.__timeoutId) {
@@ -306,8 +301,13 @@ qx.Bootstrap.define("qx.bom.request.Script",
     __success: function() {
       this.__disposeScriptElement();
       this.readyState = 4;
-      this.status = 200;
-      this.statusText = "200 OK";
+
+      // By default, load is considered successful
+      if (!this.status) {
+        this.status = 200;
+      }
+
+      this.statusText = "" + this.status;
     },
 
     __failure: function() {

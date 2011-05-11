@@ -75,7 +75,7 @@ qx.Class.define("qx.test.bom.request.Script",
         that.resume(function() {
           that.assertEquals(4, req.readyState);
           that.assertEquals(200, req.status);
-          that.assertEquals("200 OK", req.statusText);
+          that.assertEquals("200", req.statusText);
         });
       };
 
@@ -214,7 +214,7 @@ qx.Class.define("qx.test.bom.request.Script",
     // Event handlers
     //
 
-    "test: call onload when request completes": function() {
+    "test: call onload": function() {
 
       // More precisely, the request completes when the browser
       // has loaded and parsed the script
