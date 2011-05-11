@@ -46,17 +46,29 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
 
       var query = {},
           callbackParam,
-          callbackName;
+          callbackName,
+          that = this;
 
       callbackParam = this.__callbackParam || "callback";
       callbackName = this.__callbackName ||
         "qx.bom.request.Jsonp[" + this.__id + "].callback";
 
-      // Callback this object's callback method
-      //
-      // User-defined callbacks must be handled by the user
+      // Default callback
       if (!this.__callbackName) {
+
+        // Store globally available reference to this object
         this.constructor[this.__id] = this;
+
+      // Custom callback
+      } else {
+
+        // Dynamically create globally available callback
+        // with user defined name. Delegate to this object's
+        // callback method.
+        window[this.__callbackName] = function(data) {
+          that.callback(data);
+        };
+
       }
 
       if (qx.core.Environment.get("qx.debug.io")) {

@@ -24,6 +24,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#ignore(myCallback)
+
+************************************************************************ */
+
 qx.Class.define("qx.test.bom.request.Jsonp",
 {
   extend : qx.dev.unit.TestCase,
@@ -33,15 +39,24 @@ qx.Class.define("qx.test.bom.request.Jsonp",
 
   members :
   {
+    /**
+     * @lint ignoreUndefined(myCallback)
+     */
     setUp: function() {
       this.req = new qx.bom.request.Jsonp();
-      this.url = this.getUrl("qx/test/script.js");
+      this.url = this.getUrl("qx/test/jsonp_primitive.php");
+      myCallback = function() {};
     },
 
     tearDown: function() {
-      window.SCRIPT_LOADED = false;
+      delete window.SCRIPT_LOADED;
+      delete window.myCallback;
       this.req.dispose();
     },
+
+    //
+    // Callback Param
+    //
 
     "test: set callback param and name": function() {
       var req = this.req;
@@ -66,7 +81,11 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       this.assertMatch(req._getUrl(), regExp);
     },
 
-    "test: responseJson is object when server returns valid JSONP": function() {
+    //
+    // Properties
+    //
+
+    "test: responseJson holds response with default callback": function() {
       var that = this;
 
       this.req.onload = function() {
@@ -77,31 +96,85 @@ qx.Class.define("qx.test.bom.request.Jsonp",
         });
       };
 
-      this.request(this.getUrl("qx/test/jsonp_primitive.php"));
+      this.request();
       this.wait();
     },
 
-    "test: call onerror when script loaded but callback not called": function() {
+    "test: status indicates success when default callback called": function() {
       var that = this;
 
       this.req.onload = function() {
         that.resume(function() {
-          throw Error("Called onload");
+          that.assertEquals(200, that.req.status);
         });
       };
 
-      this.req.onerror = function() {
-        that.resume(function() {});
-      };
-
-      // Plain script that does not call any callbacks
-      // no matter what is passed in the query params
-      this.request(this.getUrl("qx/test/script.js"));
-
+      this.req.setCallbackName("myCallback");
+      this.request();
       this.wait();
     },
 
-    "test: call onerror when request failed because of network error": function() {
+    "test: status indicates success when custom callback called": function() {
+      var that = this;
+
+      this.req.onload = function() {
+        that.resume(function() {
+          that.assertEquals(200, that.req.status);
+        });
+      };
+
+      this.req.setCallbackName("myCallback");
+      this.request();
+      this.wait();
+    },
+
+    // Error handling
+
+    "test: status indicates failure when default callback not called": function() {
+      var that = this;
+
+      this.req.onload = function() {
+        that.resume(function() {
+          that.assertEquals(500, that.req.status);
+        });
+      };
+
+      this.request(this.getUrl("qx/test/script.js"));
+      this.wait();
+    },
+
+    "test: status indicates failure when custom callback not called": function() {
+      var that = this;
+
+      this.req.onload = function() {
+        that.resume(function() {
+          that.assertEquals(500, that.req.status);
+        });
+      };
+
+      this.req.setCallbackName("myCallback");
+      this.request(this.getUrl("qx/test/script.js"));
+      this.wait();
+    },
+
+    //
+    // Event handlers
+    //
+
+    "test: call onload": function() {
+      var that = this;
+
+      this.req.onload = function() {
+        that.resume(function() {});
+      };
+
+      this.request();
+      this.wait();
+    },
+
+    // Error handling
+
+    "test: call onerror on network error": function() {
       var that = this;
 
       this.req.onerror = function() {
