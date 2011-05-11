@@ -32,23 +32,11 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     // BUGFIX: Browsers not supporting error handler
     // Set default timeout to capture network errors
+    //
+    // Note: The script is parsed and executed, before a "load" is fired.
+    //
     if (!this.__supportsErrorHandler()) {
-      this.timeout = 5000;
-
-      // BUGFIX: IE < 9
-      // Legacy IEs fire "load" event on network error after about 3 seconds.
-      // Unfortunately there is not way to distinguish a long loading request
-      // from a network error, since the "loading" event is fired right after
-      // sending.
-      //
-      // A work-around is to detect a timeout before "load" is fired. However,
-      // a timeout of 2s can have unwanted side-effects such as detect an
-      // error for long loading requests. It should be noted that browsers
-      // parse the script, before a "load" is fired.
-      // if (qx.core.Environment.get("engine.name") == "mshtml" &&
-      //     qx.core.Environment.get("engine.version") < 9) {
-      //   this.timeout = 2000;
-      // }
+      this.timeout = 7500;
     }
   },
 
