@@ -128,12 +128,14 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../pylib"))
 
 import datetime, time
 from pyparse.pyparsing import *
+from misc import json
 from warnings import warn
 import urllib2 as urllib
 
 # - Config section -------------------------------------------------------------
 rrd_db_name = "nightly_builds.rrd"
-build_server_logs  = "http://172.17.12.142/~dwagner/workspace/qooxdoo-schlund/project/testing/logs/"
+#build_server_logs  = "http://172.17.12.142/~dwagner/workspace/qooxdoo-schlund/project/testing/logs/"
+build_server_logs  = "http://172.17.12.142/qx/log/build/"
 # customize graph colors and line types directly in the 'template' var
 # - Config end -----------------------------------------------------------------
 
@@ -154,6 +156,8 @@ def seconds_to_hourminsecs(secs):
 # Parsing Stuff
 # ------------------------------------------------------------------------------
 apps = {}
+
+# -- Textual Log File ----------------------------------------------------------
 
 def processCompileStart(tokens):
     #appname = "Feedreader"
@@ -204,18 +208,47 @@ def parseTestLog(testlog):
     return apps
 
 
+# -- Json Log Data -------------------------------------------------------------
+
+def parseTestJson(jsonString):
+    apps = {}
+    jData = json.loads(jsonString)
+    format_in = "%Y-%m-%d_%H-%M-%S" 
+    format_out = "%Y-%m-%d_%H:%M:%S" 
+    for app, appVals in jData.items():
+        if appVals['BuildError'] != False:
+            continue
+        apps[app] = {}
+        # build start time
+        stime = datetime.datetime.strptime(appVals['BuildStarted'], format_in)
+        apps[app]['stime'] = stime.strftime(format_out)
+        # build end time
+        etime = datetime.datetime.strptime(appVals['BuildFinished'], format_in)
+        apps[app]['etime'] = etime.strftime(format_out)
+        # build duration in secs
+        apps[app]['duration'] = timedelta_to_seconds(etime - stime)
+
+    return apps
+
+
 # ------------------------------------------------------------------------------
 # Log Data Acquisition
 # ------------------------------------------------------------------------------
 
-def timestampFromLogname(logname):
-    logdates = logname.replace ('testLog_','').replace('.txt','')
+def timestampFromLogname(logname, prefix, extension):
+    logdates = logname.replace (prefix,'').replace(extension,'')
     # datetime.datetime.strptime ("2011-01-09_12-00-01", "%Y-%m-%d_%H-%M-%S")
     logdate = datetime.datetime.strptime (logdates, "%Y-%m-%d_%H-%M-%S")
     # datetime.timetuple:
     #   time.struct_time(tm_year=2011, tm_mon=1, tm_mday=10, tm_hour=15, tm_min=51, tm_sec=24, tm_wday=0, tm_yday=10, tm_isdst=-1)
     #   dst==-1 is "unknown"; correct it?!
     return int(time.mktime(logdate.timetuple()))
+
+##
+# Log file elements
+prefix = "buildStatus_"
+extension = ".json"
+
 
 ##
 # return the URL of the latest build log on the build server
@@ -225,12 +258,15 @@ def getLatestLogURL():
     baseurl = build_server_logs
     # calculate the next:
     # logfile = "testLog_2010-12-16_22-00-02.txt"
-    logpatt = "testLog_"
+    #logpatt = "testLog_"
+    # logfile = "buildStatus_2011-05-10_22-40-01.json"
+    logpatt = prefix
     # we assume to run the day after the latest build run has been started
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     logpatt += yesterday.strftime("%Y-%m-%d")
     logpatt += "_22-..-.."
-    logpatt += r"\.txt"
+    #logpatt += r"\.txt"
+    logpatt += extension.replace('.',r'\.')
     logpattr = re.compile(logpatt)
     # get yesterday's log file name
     po = urllib.urlopen (baseurl)
@@ -247,7 +283,7 @@ def getLatestLogURL():
         logfile = None
     assert logfile is not None
 
-    logtimestamp = timestampFromLogname(logfile)
+    logtimestamp = timestampFromLogname(logfile, prefix, extension)
 
     return baseurl + logfile, logtimestamp
 
@@ -257,7 +293,7 @@ def getTestLog(datasource):
         data_source = datasource
         filename = os.path.basename(data_source)
         try:
-            timestamp = timestampFromLogname(filename)
+            timestamp = timestampFromLogname(filename, prefix, extension)
         except ValueError,e :
             # this should be better
             print "  cannot extract time stamp from file name '%s', using current time" % filename
@@ -317,7 +353,8 @@ def updateRRD(apps, tstamp=None):
 def harvest(args, opts):
     data_source = args[0] if len(args) else ""
     data, timestamp = getTestLog(data_source)
-    appsdata = parseTestLog(data)
+    #appsdata = parseTestLog(data)
+    appsdata = parseTestJson(data)
     if not opts.no_commit:
         updateRRD(appsdata, timestamp)
     else:
