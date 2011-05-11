@@ -38,8 +38,6 @@
 #  the start of the script is a configuration section (search for "Config
 #  section"), where customizable settings can be set.
 #
-#  Test
-#
 #  'harvest'
 #
 #  The 'harvest' sub-command takes a URL as an optional argument. The URL might
