@@ -210,7 +210,7 @@ qx.Class.define("qx.test.Part",
         },
         packages : {
           p0 : { uris : ["boot.js"]},
-          p1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]}, 
+          p1 : { uris : [this.getUrl("qx/test/part/file1-closure.js")]},
           p2 : { uris : ["_fail.js"]}
         },
         closureParts : {"juhu": true, "fail" : true},

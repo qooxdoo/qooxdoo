@@ -21,7 +21,7 @@
 qx.Class.define("qx.bom.webfonts.Manager", {
 
   extend : qx.core.Object,
-  
+
   type : "singleton",
 
 
@@ -51,7 +51,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
   statics :
   {
     /**
-     * List of known font definition formats (i.e. file extensions). Used to 
+     * List of known font definition formats (i.e. file extensions). Used to
      * identify the type of each font file configured for a web font.
      */
     FONT_FORMATS : ["eot", "woff", "ttf", "svg"],
@@ -88,14 +88,14 @@ qx.Class.define("qx.bom.webfonts.Manager", {
 
     /**
      * Adds the necessary font-face rule for a web font to the document. Also
-     * creates a web font Validator ({@link qx.bom.webfonts.Validator}) that 
+     * creates a web font Validator ({@link qx.bom.webfonts.Validator}) that
      * checks if the webFont was applied correctly.
-     * 
+     *
      * @param familyName {String} Name of the web font
      * @param sourcesList {String[]} List of source URLs. For maximum compatibility,
      * this should include EOT, WOFF and TTF versions of the font.
      * @param callback {Function?} Optional event listener callback that will be
-     * executed once the validator has determined whether the webFont was 
+     * executed once the validator has determined whether the webFont was
      * applied correctly.
      * See {@link qx.bom.webfonts.Validator#changeStatus}
      * @param context {Object?} Optional context for the callback function
@@ -111,32 +111,32 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         }
         sources.push(src);
       }
-      
+
       // old IEs need a break in between adding @font-face rules
-      if (!(qx.core.Environment.get("browser.name") == "ie" && 
+      if (!(qx.core.Environment.get("browser.name") == "ie" &&
       qx.bom.client.Browser.getVersion() < 9)) {
         this.__require(familyName, sources, callback, context);
         return;
       }
-      
+
       if (!this.__queueInterval) {
         this.__queueInterval = new qx.event.Timer(100);
         this.__queueInterval.addListener("interval", this.__flushQueue, this);
       }
-      
+
       if (!this.__queueInterval.isEnabled()) {
         this.__queueInterval.start();
       }
-      
+
       this.__queue.push([familyName, sources, callback, context]);
     },
 
 
     /**
      * Removes a font's font-face definition from the style sheet. This means
-     * the font will no longer be available and any elements using it will 
+     * the font will no longer be available and any elements using it will
      * fall back to the their regular font-families.
-     * 
+     *
      * @param familyName {String} font-family name
      */
     remove : function(familyName) {
@@ -156,14 +156,14 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         delete this.__validators[familyName];
       }
     },
-    
-    
+
+
     /**
-     * Returns the preferred font format(s) for the currently used browser. Some 
+     * Returns the preferred font format(s) for the currently used browser. Some
      * browsers support multiple formats, e.g. WOFF and TTF or WOFF and EOT. In
      * those cases, WOFF is considered the preferred format.
-     * 
-     * @return {String[]} List of supported font formats ordered by preference 
+     *
+     * @return {String[]} List of supported font formats ordered by preference
      * or empty Array if none could be determined
      */
     getPreferredFormats : function()
@@ -173,13 +173,13 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       var browserVersion = qx.core.Environment.get("browser.version");
       var os = qx.core.Environment.get("os.name");
       var osVersion = qx.core.Environment.get("os.version");
-      
+
       if ((browser == "ie" && browserVersion >= 9) ||
           (browser == "firefox" && browserVersion >= 3.6) ||
           (browser == "chrome" && browserVersion >= 6)) {
         preferredFormats.push("woff");
       }
-      
+
       if ((browser == "opera" && browserVersion >= 10) ||
           (browser == "safari" && browserVersion >= 3.1) ||
           (browser == "firefox" && browserVersion >= 3.5) ||
@@ -187,23 +187,23 @@ qx.Class.define("qx.bom.webfonts.Manager", {
           (browser == "mobile safari" && os == "ios" && osVersion >= 4.2)) {
         preferredFormats.push("ttf");
       }
-      
+
       if (browser == "ie" && browserVersion >= 4) {
         preferredFormats.push("eot");
       }
-      
+
       if (browser == "mobileSafari" && os == "ios" && osVersion >= 4.1) {
-        preferredFormats.push("svg");        
+        preferredFormats.push("svg");
       }
-      
+
       return preferredFormats;
     },
-    
-    
+
+
     /**
      * Removes the styleSheet element used for all web font definitions from the
      * document. This means all web fonts declared by the manager will no longer
-     * be available and elements using them will fall back to their regular 
+     * be available and elements using them will fall back to their regular
      * font-families
      */
     removeStyleSheet : function()
@@ -213,7 +213,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         var owner = this.__styleSheet.ownerNode ?
           this.__styleSheet.ownerNode :
           this.__styleSheet.owningElement;
-        qx.dom.Element.removeChild(owner, 
+        qx.dom.Element.removeChild(owner,
           owner.parentNode);
       }
       this.__styleSheet = null;
@@ -230,12 +230,12 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     /**
      * Does the actual work of adding stylesheet rules and triggering font
      * validation
-     * 
+     *
      * @param familyName {String} Name of the web font
      * @param sources {String[]} List of source URLs. For maximum compatibility,
      * this should include EOT, WOFF and TTF versions of the font.
      * @param callback {Function?} Optional event listener callback that will be
-     * executed once the validator has determined whether the webFont was 
+     * executed once the validator has determined whether the webFont was
      * applied correctly.
      * @param context {Object?} Optional context for the callback function
      */
@@ -244,7 +244,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       if (!qx.lang.Array.contains(this.__createdStyles, familyName)) {
         var sourcesMap = this.__getSourcesMap(sources);
         var rule = this.__getRule(familyName, sourcesMap);
-        
+
         if (!rule) {
           throw new Error("Couldn't create @font-face rule for WebFont " + familyName + "!");
         }
@@ -264,22 +264,22 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         }
         this.__createdStyles.push(familyName);
       }
-        
+
       if (!this.__validators[familyName]) {
         this.__validators[familyName] = new qx.bom.webfonts.Validator(familyName);
         this.__validators[familyName].setTimeout(qx.bom.webfonts.Manager.VALIDATION_TIMEOUT);
         this.__validators[familyName].addListener("changeStatus", this.__onFontChangeStatus, this);
       }
-      
+
       if (callback) {
         var cbContext = context || window;
         this.__validators[familyName].addListener("changeStatus", callback, cbContext);
       }
-      
+
       this.__validators[familyName].validate();
     },
-    
-    
+
+
     /**
      * Processes the next item in the queue
      */
@@ -292,11 +292,11 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       var next = this.__queue.shift();
       this.__require.apply(this, next);
     },
-    
-    
+
+
     /**
      * Removes the font-face declaration if a font could not be validated
-     * 
+     *
      * @param ev {qx.event.type.Data} qx.bom.webfonts.Validator#changeStatus
      */
     __onFontChangeStatus : function(ev)
@@ -306,13 +306,13 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         this.remove(result.family);
       }
     },
-    
-    
+
+
     /**
      * Uses a naive regExp match to determine the format of each defined source
      * file for a webFont. Returns a map with the format names as keys and the
      * corresponding source URLs as values.
-     * 
+     *
      * @param sources {String[]} Array of source URLs
      * @return {Map} Map of formats and URLs
      */
@@ -329,18 +329,18 @@ qx.Class.define("qx.bom.webfonts.Manager", {
             type = match[1];
           }
         }
-        
+
         if (type) {
           sourcesMap[type] = sources[i];
         }
       }
       return sourcesMap;
     },
-    
-    
+
+
     /**
      * Assembles the body of a font-face rule for a single webFont.
-     * 
+     *
      * @param familyName {String} Font-family name
      * @param sourcesMap {Map} Map of font formats and sources
      * @return {String} The computed CSS rule
@@ -349,8 +349,8 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     {
       var rules = [];
 
-      var formatList = this.__preferredFormats.length > 0 
-        ? this.__preferredFormats : qx.bom.webfonts.Manager.FONT_FORMATS; 
+      var formatList = this.__preferredFormats.length > 0
+        ? this.__preferredFormats : qx.bom.webfonts.Manager.FONT_FORMATS;
 
       for (var i=0,l=formatList.length; i<l; i++) {
         var format = formatList[i];
@@ -360,14 +360,14 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       }
 
       var rule = "src: " + rules.join(",\n") + ";";
-      
+
       rule = "font-family: " + familyName + ";\n" + rule;
       rule = rule + "\nfont-style: normal;\nfont-weight: normal;";
 
       return rule;
     },
-    
-    
+
+
     /**
      * Returns the full src value for a given font URL depending on the type
 
@@ -390,17 +390,17 @@ qx.Class.define("qx.bom.webfonts.Manager", {
           return null;
       }
     },
-    
-    
+
+
     /**
      * Adds a font-face rule to the document
-     * 
+     *
      * @param rule {String} The body of the CSS rule
      */
     __addRule : function(rule)
     {
       var completeRule = "@font-face {" + rule + "}\n";
-      
+
       if (qx.core.Environment.get("browser.name") == "ie" &&
           qx.core.Environment.get("browser.version") < 9) {
         var cssText = this.__fixCssText(this.__styleSheet.cssText);
@@ -411,12 +411,12 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         this.__styleSheet.insertRule(completeRule, this.__styleSheet.cssRules.length);
       }
     },
-    
-    
+
+
     /**
-     * Removes the font-face declaration for the given font-family from the 
+     * Removes the font-face declaration for the given font-family from the
      * stylesheet
-     * 
+     *
      * @param familyName {String} The font-family name
      */
     __removeRule : function(familyName)
@@ -443,12 +443,12 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         }
       }
     },
-    
+
     /**
-     * IE 6 and 7 omit the trailing quote after the format name when 
+     * IE 6 and 7 omit the trailing quote after the format name when
      * querying cssText. This needs to be fixed before cssText is replaced
      * or all rules will be invalid and no web fonts will work any more.
-     * 
+     *
      * @param cssText {String} CSS text
      * @return {String} Fixed CSS text
      */
@@ -456,15 +456,15 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     {
       return cssText.replace("'eot)", "'eot')");
     }
-  
+
   },
-  
+
   /*
   *****************************************************************************
     DESTRUCTOR
   *****************************************************************************
   */
-  
+
   destruct : function()
   {
     delete this.__createdStyles;

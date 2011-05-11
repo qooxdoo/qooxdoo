@@ -27,13 +27,13 @@ qx.Class.define("qx.test.bom.GeoLocation",
 
   members :
   {
-    _geo: null, 
+    _geo: null,
     _position: null,
 
     hasGeolocation: function() {
       return qx.core.Environment.get("html.geolocation");
     },
-    
+
     setUp: function() {
       this._position = {
         timestamp: new Date(),
@@ -42,8 +42,8 @@ qx.Class.define("qx.test.bom.GeoLocation",
           longitude: 2,
           altitude: 3,
           accuracy: 4,
-          altitudeAccuracy: 5, 
-          heading: 6, 
+          altitudeAccuracy: 5,
+          heading: 6,
           speed: 7
         }
       };
@@ -63,8 +63,8 @@ qx.Class.define("qx.test.bom.GeoLocation",
 
       //test the position event
       var getCurrentPositionStub = this.stub(
-        this._geo._geolocation, 
-        "getCurrentPosition", 
+        this._geo._geolocation,
+        "getCurrentPosition",
         function(succ, err, config) {
           succ(that._position);
       });
@@ -88,8 +88,8 @@ qx.Class.define("qx.test.bom.GeoLocation",
 
       //test the error event
       var getCurrentPositionStub = this.stub(
-        this._geo._geolocation, 
-        "getCurrentPosition", 
+        this._geo._geolocation,
+        "getCurrentPosition",
         function(succ, err, config) {
           err({code: 1, message: "Error"});
       });
@@ -110,8 +110,8 @@ qx.Class.define("qx.test.bom.GeoLocation",
     testWatchPosition: function() {
       var that = this;
       var watchStub = this.stub(
-        this._geo._geolocation, 
-        "watchPosition", 
+        this._geo._geolocation,
+        "watchPosition",
         function(succ, err, config) {
           succ(that._position);
           return 200;

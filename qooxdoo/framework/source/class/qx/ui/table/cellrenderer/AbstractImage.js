@@ -62,21 +62,21 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     /**
      * Whether to repeat or scale the image.
      *
-     * @param repeat {String} 
+     * @param repeat {String}
      *   One of
      *     <code>scale</code>,
      *     <code>scale-x</code>,
      *     <code>scale-y</code>,
      *     <code>repeat</code>,
      *     <code>repeat-x</code>,
-     *     <code>repeat-y</code>, 
+     *     <code>repeat-y</code>,
      *     <code>no-repeat</code>
     */
     repeat :
     {
       check : function(value)
       {
-        var valid = 
+        var valid =
           [
             "scale",
             "scale-x",

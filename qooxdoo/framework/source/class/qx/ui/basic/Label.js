@@ -476,7 +476,7 @@ qx.Class.define("qx.ui.basic.Label",
 
     /**
      * Triggers layout recalculation after a web font was loaded
-     * 
+     *
      * @param ev {qx.event.type.Data} "changeStatus" event
      */
     _onWebFontStatusChange : function(ev)

@@ -196,12 +196,12 @@ qx.Bootstrap.define("qx.Bootstrap",
 
 
      /**
-      * Minimal accessor API for the environment settings given from the 
+      * Minimal accessor API for the environment settings given from the
       * generator.
-      * 
-      * WARNING: This method only should be used if the 
+      *
+      * WARNING: This method only should be used if the
       * {@link qx.core.Environment} class is not loaded!
-      * 
+      *
       * @param key {String} The ke to get the value from.
       * @return {var} The value of the setting or <code>undefined</code>.
       */
@@ -213,14 +213,14 @@ qx.Bootstrap.define("qx.Bootstrap",
 
 
      /**
-      * Minimal mutator for the environment settings given from the generator. 
-      * It checks for the existance of the environment settings and sets the 
+      * Minimal mutator for the environment settings given from the generator.
+      * It checks for the existance of the environment settings and sets the
       * key if its not given from the generator. If a setting is available from
       * the generator, the setting will be ignored.
-      * 
-      * WARNING: This method only should be used if the 
+      *
+      * WARNING: This method only should be used if the
       * {@link qx.core.Environment} class is not loaded!
-      * 
+      *
       * @param key {String} The key of the setting.
       * @param value {var} The value for the setting.
       */

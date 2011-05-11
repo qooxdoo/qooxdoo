@@ -241,11 +241,11 @@ qx.Class.define("qx.ui.list.List",
     },
 
 
-    /** 
+    /**
      * Contains all groups for data binding, but do only manipulate the array
      * when the {@link #autoGrouping} is set to <code>false</code>.
      */
-    groups : 
+    groups :
     {
       check: "qx.data.Array",
       event: "changeGroups",
@@ -781,7 +781,7 @@ qx.Class.define("qx.ui.list.List",
     this._provider.dispose();
     this._layer.dispose();
     this._background = this._provider = this._layer =
-      this.__lookupTable = this.__lookupTableForGroup = 
+      this.__lookupTable = this.__lookupTableForGroup =
       this.__groupHashMap = null;
   }
 });

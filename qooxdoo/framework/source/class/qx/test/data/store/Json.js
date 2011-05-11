@@ -98,7 +98,7 @@ qx.Class.define("qx.test.data.store.Json",
         this.resume(function() {
           var model = this.__store.getModel();
           this.assertEquals("String", model.getString(), "The model is not created how it should!");
-          qx.util.AliasManager.getInstance().remove("testLoadResource");          
+          qx.util.AliasManager.getInstance().remove("testLoadResource");
         }, this);
       }, this);
 

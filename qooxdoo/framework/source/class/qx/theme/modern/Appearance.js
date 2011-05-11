@@ -1329,7 +1329,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           marginBottom : marginBottom,
           marginLeft : marginLeft,
           marginRight : marginRight,
-          textColor : states.disabled ? "text-disabled" : 
+          textColor : states.disabled ? "text-disabled" :
             states.checked ? "text-active" : "text-inactive"
         };
       }
@@ -1829,7 +1829,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           shadow : shadow,
           contentPadding : [ 10, 10, 10, 10 ],
           margin : [0, 5, 5, 0]
-          
+
         };
       }
     },
@@ -1851,7 +1851,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
            decorator = "main";
         }
         return {
-          decorator : decorator 
+          decorator : decorator
         };
       }
     },

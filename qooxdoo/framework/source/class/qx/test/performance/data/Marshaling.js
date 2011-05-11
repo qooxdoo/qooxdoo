@@ -26,11 +26,11 @@ qx.Class.define("qx.test.performance.data.Marshaling",
     CREATE_ITERATIONS : 100000,
     __objects : null,
     __marshaler : null,
-    
+
     setUp : function() {
       this.__marshaler = new qx.data.marshal.Json();
     },
-    
+
     tearDown : function() {
       this.__marshaler.dispose();
       this.__marshaler = null;
@@ -39,7 +39,7 @@ qx.Class.define("qx.test.performance.data.Marshaling",
     testJsonSimpleToClass : function()
     {
       var data = {a: 10};
-      
+
       var self = this;
       this.measure(
         "simple json class creation",
@@ -58,7 +58,7 @@ qx.Class.define("qx.test.performance.data.Marshaling",
     testJsonSimpleToClassWithBubble : function()
     {
       var data = {a: 10};
-      
+
       var self = this;
       this.measure(
         "simple json class creation with bubble events",
@@ -78,7 +78,7 @@ qx.Class.define("qx.test.performance.data.Marshaling",
     {
       var data = {a: 10};
       this.__marshaler.toClass(data);
-      
+
       var self = this;
       this.__objects = [];
       this.measure(

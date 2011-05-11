@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Whether top level items should have an open/close button. The top level 
+     * Whether top level items should have an open/close button. The top level
      * item item is normally the root item, but when the root is hidden, the
      * root children are the top level items.
      */
@@ -479,8 +479,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     _applyHideRoot : function(value, old) {
       this.buildLookupTable();
     },
-    
-    
+
+
     // property apply
     _applyShowTopLevelOpenCloseIcons : function(value, old) {
       this.buildLookupTable();
@@ -714,7 +714,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       var lookupTable = [];
       this.__nestingLevel = [];
       var nestedLevel = -1;
-      
+
       var root = this.getModel();
       if (root != null)
       {

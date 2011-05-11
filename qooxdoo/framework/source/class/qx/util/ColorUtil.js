@@ -288,11 +288,11 @@ qx.Class.define("qx.util.ColorUtil",
      */
     isValidPropertyValue : function(str) {
       return (
-        this.isThemedColor(str) || 
-        this.isNamedColor(str) || 
-        this.isHex3String(str) || 
-        this.isHex6String(str) || 
-        this.isRgbString(str) || 
+        this.isThemedColor(str) ||
+        this.isNamedColor(str) ||
+        this.isHex3String(str) ||
+        this.isHex6String(str) ||
+        this.isRgbString(str) ||
         this.isRgbaString(str));
     },
 
@@ -305,11 +305,11 @@ qx.Class.define("qx.util.ColorUtil",
      */
     isCssString : function(str) {
       return (
-        this.isSystemColor(str) || 
-        this.isNamedColor(str) || 
-        this.isHex3String(str) || 
-        this.isHex6String(str) || 
-        this.isRgbString(str) || 
+        this.isSystemColor(str) ||
+        this.isNamedColor(str) ||
+        this.isHex3String(str) ||
+        this.isHex6String(str) ||
+        this.isRgbString(str) ||
         this.isRgbaString(str));
     },
 

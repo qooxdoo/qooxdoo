@@ -368,7 +368,7 @@ qx.Class.define("qx.util.fsm.Transition",
         "autoActionsBeforeOntransition",
         value,
         this.getUserData("context"));
-      
+
     },
 
     /**
@@ -383,7 +383,7 @@ qx.Class.define("qx.util.fsm.Transition",
         "autoActionsAfterOntransition",
         value,
         this.getUserData("context"));
-      
+
     },
 
     /**
@@ -411,7 +411,7 @@ qx.Class.define("qx.util.fsm.Transition",
         break;
       }
     },
-    
+
     /**
      * If given a function, bind it to a specified context.
      *
@@ -434,7 +434,7 @@ qx.Class.define("qx.util.fsm.Transition",
         // Yup. Bind it to the specified context.
         f = qx.lang.Function.bind(f, context);
       }
-      
+
       return f;
     }
   }

@@ -348,7 +348,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       var element = this.getContainerElement();
 
       // Fix the indicator position, corresponding to the knob position
-      var marginLeft = this._knobWidth * (percent / 100); 
+      var marginLeft = this._knobWidth * (percent / 100);
       var backgroundPositionValue = (position - marginLeft) + 'px 0px, 0px 0px';
       qx.bom.element.Style.set(element, "backgroundPosition", backgroundPositionValue);
     },
@@ -366,7 +366,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       {
         qx.bom.element.Style.set(knobElement, "left", percent + "%");
         // Fix knob position, so that it can't be moved over the slider area
-        var marginLeft = this._knobWidth * (percent / 100); 
+        var marginLeft = this._knobWidth * (percent / 100);
         qx.bom.element.Style.set(knobElement, "margin-left", "-" + marginLeft + "px");
       }
     },

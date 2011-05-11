@@ -421,7 +421,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      */
     _updateArrowsEnabled : function()
     {
-      // set the disables state directly because we are overriding the 
+      // set the disables state directly because we are overriding the
       // inheritance
       if (!this.getEnabled()) {
         this.getChildControl("button-backward").setEnabled(false);

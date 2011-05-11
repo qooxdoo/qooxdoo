@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.form.DateField",
 
     // initializes the DateField with the default format
     this._setDefaultDateFormat();
-    // adds a locale change listener 
+    // adds a locale change listener
     this._addLocaleChangeLeistener();
   },
 
@@ -142,8 +142,8 @@ qx.Class.define("qx.ui.form.DateField",
     ---------------------------------------------------------------------------
     */
     /**
-     * Sets the default date format which is returned by 
-     * {@link #getDefaultDateFormatter}. You can overrride this method to 
+     * Sets the default date format which is returned by
+     * {@link #getDefaultDateFormatter}. You can overrride this method to
      * define your own default format.
      */
     _setDefaultDateFormat : function() {
@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.form.DateField",
 
 
     /**
-     * Checks for "qx.dynlocale" and adds a listener to the locale changes. 
+     * Checks for "qx.dynlocale" and adds a listener to the locale changes.
      * On every change, {@link #_setDefaultDateFormat} is called to reinitialize
      * the format. You can easily override that method to prevent that behavior.
      */

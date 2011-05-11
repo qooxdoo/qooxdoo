@@ -163,7 +163,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
 
     __getPlaceholderValueOf: function(widget) {
       var useQxPlaceholder = !qx.core.Environment.get("css.placeholder") ||
-        (qx.core.Environment.get("engine.name") == "gecko" && 
+        (qx.core.Environment.get("engine.name") == "gecko" &&
          parseFloat(qx.core.Environment.get("engine.version")) >= 2);
 
       if (!useQxPlaceholder) {
@@ -183,9 +183,9 @@ qx.Class.define("qx.test.ui.form.Placeholder",
 
     __isPlaceholderVisible: function(widget) {
       var useQxPlaceholder = !qx.core.Environment.get("css.placeholder") ||
-        (qx.core.Environment.get("engine.name") == "gecko" && 
+        (qx.core.Environment.get("engine.name") == "gecko" &&
          parseFloat(qx.core.Environment.get("engine.version")) >= 2);
-      
+
       if (!useQxPlaceholder) {
         if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
           var contentElem = widget.getContentElement();

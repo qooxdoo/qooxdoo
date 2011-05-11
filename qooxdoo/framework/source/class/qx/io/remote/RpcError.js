@@ -35,8 +35,8 @@ qx.Class.define("qx.io.remote.RpcError",
         Transport   : 3,
         Client      : 4
       },
-      
-      /** 
+
+      /**
        * Error data. In Version 1, each origin can have its own error codes.
        * Only 'Server' error codes are globally-defined, however.
        */
@@ -120,31 +120,31 @@ qx.Class.define("qx.io.remote.RpcError",
         }
       }
     },
-    
+
     /** Information pertaining to a conformant JSON-RPC Version 2 */
     v2 :
     {
-      /** 
+      /**
        * Error data. In Version 1, each origin can have its own error codes.
        * Only 'Server' error codes are globally-defined, however.
        */
       error :
       {
-        /** 
+        /**
          * Parse Error
-         * 
-         * Invalid JSON was received by the server. 
+         *
+         * Invalid JSON was received by the server.
          * An error occurred on the server while parsing the JSON text.
          */
         ParseError     : -32700,
-        
+
         /**
          * Invalid Request
-         * 
+         *
          * The JSON received by the server is not a valid Request object.
          */
         InvalidRequest : -32600,
-        
+
         /**
          * Method Not Found
          *
@@ -152,7 +152,7 @@ qx.Class.define("qx.io.remote.RpcError",
          * service.
          */
         MethodNotFound : -32601,
-        
+
         /**
          * Invalid method parameter(s)
          *
@@ -161,12 +161,12 @@ qx.Class.define("qx.io.remote.RpcError",
          * it should return this error code to indicate so to the caller.
          */
         InvalidParams  : -32602,
-        
+
         /**
          * Internal JSON-RPC error
          */
         InternalError  : -32603,
-        
+
         /*********************************************************************
          * The values -32099 to -32000 are reserved for implementation-defined
          * server errors. RPC-specific error codes must be outside of this

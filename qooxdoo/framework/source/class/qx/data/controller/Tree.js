@@ -730,7 +730,7 @@ qx.Class.define("qx.data.controller.Tree",
      * {@link qx.data.controller.IControllerDelegate#bindItem} function
      * implemented by the {@link #delegate} property.
      *
-     * @param treeNode {qx.ui.tree.core.AbstractTreeItem} The tree node 
+     * @param treeNode {qx.ui.tree.core.AbstractTreeItem} The tree node
      *   corresponding to the model node.
      * @param modelNode {qx.core.Object} The model node holding the data.
      */

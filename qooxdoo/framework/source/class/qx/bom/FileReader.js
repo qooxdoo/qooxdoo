@@ -39,10 +39,10 @@ qx.Class.define("qx.bom.FileReader",
   {
     // Call the superclass constructor
     this.base(arguments);
-    
+
     // Get a FileReader object
     this._fileReader = new window.FileReader();
-    
+
     // Bind native handlers to this instance
     this._handleLoadStart = qx.lang.Function.bind(this._handleLoadStart, this);
     this._handleProgress  = qx.lang.Function.bind(this._handleProgress, this);
@@ -82,24 +82,24 @@ qx.Class.define("qx.bom.FileReader",
   {
     /** Fired when progress has begun. */
     "loadstart" : "qx.event.type.Data",
-    
+
     /** Fired while making progress, presumably at a minimum of every 50ms */
     "progress"  : "qx.event.type.Data",
 
     /** Fired when an error occurs */
     "error": "qx.event.type.Data",
 
-    /** 
+    /**
      * Fired when progression has failed, after the last "progress" has been
      * dispatched, or after "loadstart" has been dispatched, if "progress" has
      * not been dispatched"
      */
     "abort"  : "qx.event.type.Data",
-    
+
     /** Fired when progression is successful */
     "load"  : "qx.event.type.Data",
-    
-    /** 
+
+    /**
      * Fired when progress has stopped, after any of "error", "abort", or
      * "load" have been dispatched.
      */
@@ -182,7 +182,7 @@ qx.Class.define("qx.bom.FileReader",
      * @param fileObj {File}
      *   A File object, as obtained by calling {@link #getFile} with an
      *   element of type <input type="file">.
-     * 
+     *
      * @param encoding {String?"UTF-8"}
      *   The encoding for the resulting string.
      */
@@ -212,63 +212,63 @@ qx.Class.define("qx.bom.FileReader",
 
     /**
      * "loadstart" handler
-     * 
+     *
      * @param e {Object}
      *   Object which contains a 'progress' object which contains the members:
      *   - lengthComputable {Boolean} True if length is known; false otherwise
      *   - loaded {Number} The number of bytes transferred so far
      *   - total {Number} The length of the entire body being transferred
      */
-    _handleLoadStart: function(e) 
+    _handleLoadStart: function(e)
     {
       this.fireDataEvent("loadstart", { progress : e.data });
     },
 
     /**
      * "progress" handler
-     * 
+     *
      * @param e {Object}
      *   Object which contains a 'progress' object which contains the members:
      *   - lengthComputable {Boolean} True if length is known; false otherwise
      *   - loaded {Number} The number of bytes transferred so far
      *   - total {Number} The length of the entire body being transferred
      */
-    _handleProgress: function(e) 
+    _handleProgress: function(e)
     {
       this.fireDataEvent("progress", { progress : e.data });
     },
 
     /**
      * "error" handler
-     * 
+     *
      * @param e {Object}
      *   Object which contains a 'progress' object which contains the members:
      *   - lengthComputable {Boolean} True if length is known; false otherwise
      *   - loaded {Number} The number of bytes transferred so far
      *   - total {Number} The length of the entire body being transferred
      */
-    _handleError: function(e) 
+    _handleError: function(e)
     {
       this.fireDataEvent("error", { progress : e.data });
     },
 
     /**
      * "abort" handler
-     * 
+     *
      * @param e {Object}
      *   Object which contains a 'progress' object which contains the members:
      *   - lengthComputable {Boolean} True if length is known; false otherwise
      *   - loaded {Number} The number of bytes transferred so far
      *   - total {Number} The length of the entire body being transferred
      */
-    _handleAbort: function(e) 
+    _handleAbort: function(e)
     {
       this.fireDataEvent("abort", { progress : e.data });
     },
 
     /**
      * "load" handler
-     * 
+     *
      * @param e {Object}
      *   Object which contains:
      *   - A 'progress' object which contains the members:
@@ -277,7 +277,7 @@ qx.Class.define("qx.bom.FileReader",
      *     - total {Number} The length of the entire body being transferred
      *   - A 'content' member which contains the loaded file content
      */
-    _handleLoad: function(e) 
+    _handleLoad: function(e)
     {
       // Add the result to the event data
       this.fireDataEvent("load",
@@ -289,14 +289,14 @@ qx.Class.define("qx.bom.FileReader",
 
     /**
      * "loadend" handler
-     * 
+     *
      * @param e {Object}
      *   Object wich contains a 'progress' object which contains  the members:
      *   - lengthComputable {Boolean} True if length is known; false otherwise
      *   - loaded {Number} The number of bytes transferred so far
      *   - total {Number} The length of the entire body being transferred
      */
-    _handleLoadEnd: function(e) 
+    _handleLoadEnd: function(e)
     {
       this.fireDataEvent("loadend", { progress : e.data });
     }

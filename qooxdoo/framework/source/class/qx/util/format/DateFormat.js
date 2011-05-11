@@ -194,7 +194,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
     /** {String} The date format used for logging. */
     LOGGING_DATE_TIME__format : "yyyy-MM-dd HH:mm:ss",
-    
+
     /** Special masks of patterns that are used frequently*/
     ISO_MASKS : {
       isoDate :        "yyyy-MM-dd",
@@ -417,12 +417,12 @@ qx.Class.define("qx.util.format.DateFormat",
       }
       return year;
     },
-    
+
     /**
      * Applies the new value for locale property
      * @param value {String} The new value.
      * @param old {String} The old value.
-     * 
+     *
      */
     _applyLocale : function(value, old)
     {
@@ -441,7 +441,7 @@ qx.Class.define("qx.util.format.DateFormat",
       if (date == null) {
         return null;
       }
-      
+
       if(this.__UTC) {
         date = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds(),date.getUTCMilliseconds());
       }
@@ -814,7 +814,7 @@ qx.Class.define("qx.util.format.DateFormat",
       }
 
       var date = new Date(dateValues.year, dateValues.month, dateValues.day, (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour, dateValues.min, dateValues.sec, dateValues.ms);
-      
+
       if(this.__UTC) {
         date = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds(),date.getUTCMilliseconds());
       }

@@ -24,7 +24,7 @@ qx.Class.define("qx.test.util.Base64", {
     /**
      * TODOC
      *
-     * @return {void} 
+     * @return {void}
      */
     testEncodeDecode : function() {
       var str = "Luke, I'm your father! Nooooooooooo!";
@@ -36,7 +36,7 @@ qx.Class.define("qx.test.util.Base64", {
     /**
      * TODOC
      *
-     * @return {void} 
+     * @return {void}
      */
     testChineseChars : function() {
       var str = "Abecedariab语言工具";
@@ -48,7 +48,7 @@ qx.Class.define("qx.test.util.Base64", {
     /**
      * TODOC
      *
-     * @return {void} 
+     * @return {void}
      */
     testGermanChars : function() {
       var str = "Am Donnerstag diskutieren die Abgeordneten dann ab 9 Uhr zweieinhalb Stunden lang in erster Lesung über drei fraktionsübergreifende Gesetzentwürfe zur Präimplantationsdiagnostik (PID). Weitere Themen sind am Donnerstag unter anderem der Schutz vor Straßen- und Schienenlärm und die Einführung eines Mindestlohns";

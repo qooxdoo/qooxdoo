@@ -111,8 +111,8 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       var unit = this.getColorPositionUnit();
 
       // new implementation for webkit is available since chrome 10 --> verison
-      if (qx.core.Environment.get("engine.name") == "webkit" && 
-        parseFloat(qx.core.Environment.get("engine.version")) < 534.16) 
+      if (qx.core.Environment.get("engine.name") == "webkit" &&
+        parseFloat(qx.core.Environment.get("engine.version")) < 534.16)
       {
         // webkit uses px values if non are given
         unit = unit === "px" ? "" : unit;

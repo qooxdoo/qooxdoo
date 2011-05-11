@@ -24,7 +24,7 @@
 qx.Class.define("qx.test.ui.basic.Label",
 {
   extend : qx.test.ui.LayoutTestCase,
-  
+
   include : [qx.dev.unit.MRequirements, qx.dev.unit.MMock],
 
   members :
@@ -32,7 +32,7 @@ qx.Class.define("qx.test.ui.basic.Label",
     hasWebFontSupport : function()
     {
       var browser = qx.core.Environment.get("browser.name");
-      var version = qx.core.Environment.get("browser.version");   
+      var version = qx.core.Environment.get("browser.version");
       if ((browser == "firefox" && version < 3.5) ||
           (browser == "opera" && version < 10))
       {
@@ -40,12 +40,12 @@ qx.Class.define("qx.test.ui.basic.Label",
       }
       return true;
     },
-    
+
     tearDown : function()
     {
       this.getSandbox().restore();
     },
-    
+
     testHeightForWidth : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.Grow());
@@ -86,16 +86,16 @@ qx.Class.define("qx.test.ui.basic.Label",
       this.assertEquals("nowrap", l.getContentElement().getStyle("whiteSpace"));
       l.dispose();
     },
-    
+
     testApplyWebFont : function() {
       this.require(["webFontSupport"]);
       var l = new qx.ui.basic.Label("Laugh while you can, monkey boy!");
-      
+
       var f = new qx.bom.webfonts.WebFont();
       f.set({
         size: 18,
         family: ["monospace"],
-        sources: 
+        sources:
         [
           {
             family : "FinelinerScriptRegular",
@@ -111,10 +111,10 @@ qx.Class.define("qx.test.ui.basic.Label",
           }
         ]
       });
-      
+
       var statusChangeSpy = this.spy(l, "_onWebFontStatusChange");
       l.setFont(f);
-      
+
       qx.event.Timer.once(function() {
         this.resume(function() {
           l.dispose();
@@ -122,7 +122,7 @@ qx.Class.define("qx.test.ui.basic.Label",
           this.assertCalledTwice(statusChangeSpy);
         }, this);
       }, this, 1000);
-      
+
       this.wait(2000);
     }
   }

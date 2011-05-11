@@ -188,12 +188,12 @@ qx.Class.define("qx.theme.manager.Font",
       }
       this._setDynamic(dest);
     },
-    
+
     /**
      * Decides which Font class should be used based on the theme configuration
-     * 
+     *
      * @param config {Map} The font's configuration map
-     * @return {Class} 
+     * @return {Class}
      */
     __getFontClass : function(config)
     {

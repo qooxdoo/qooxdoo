@@ -161,7 +161,7 @@ qx.Class.define("qx.util.fsm.State",
 
     // If a context was specified, retrieve it.
     context = stateInfo.context || window;
-    
+
     // Save it for future use
     this.setUserData("context", context);
 
@@ -274,7 +274,7 @@ qx.Class.define("qx.util.fsm.State",
      *
      * @param context {Object}
      *   The object to which the created function should be bound.
-     * 
+     *
      * @return {Function}
      *   Function that implements calls to each of the requested automatic
      *   actions
@@ -899,7 +899,7 @@ qx.Class.define("qx.util.fsm.State",
         // Yup. Bind it to the specified context.
         f = qx.lang.Function.bind(f, context);
       }
-      
+
       return f;
     },
 

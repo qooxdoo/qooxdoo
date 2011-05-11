@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // shortcut for placeholder feature detection
     this.__useQxPlaceholder = !qx.core.Environment.get("css.placeholder") ||
-      (qx.core.Environment.get("engine.name") == "gecko" && 
+      (qx.core.Environment.get("engine.name") == "gecko" &&
        parseFloat(qx.core.Environment.get("engine.version")) >= 2);
 
     if (value != null) {
@@ -422,7 +422,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         this.__font.removeListenerById(this.__webfontListenerId);
         this.__webfontListenerId = null;
       }
-      
+
       // Apply
       var styles;
       if (value)
@@ -549,10 +549,10 @@ qx.Class.define("qx.ui.form.AbstractField",
         }
       }
     },
-    
+
     /**
      * Triggers text size recalculation after a web font was loaded
-     * 
+     *
      * @param ev {qx.event.type.Data} "changeStatus" event
      */
     _onWebFontStatusChange : function(ev)

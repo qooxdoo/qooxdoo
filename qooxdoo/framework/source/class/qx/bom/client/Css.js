@@ -144,7 +144,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
     /**
      * Checks if rgba collors can be used:
      * http://www.w3.org/TR/2010/PR-css3-color-20101028/#rgba-color
-     * 
+     *
      * @return {Boolean} <code>true</code>, if rgba colors are supported.
      */
     getRgba : function() {

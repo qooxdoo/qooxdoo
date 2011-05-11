@@ -24,7 +24,7 @@
 qx.Class.define("qx.test.ui.form.Field",
 {
   extend : qx.test.ui.LayoutTestCase,
-  
+
   include : [qx.dev.unit.MRequirements, qx.dev.unit.MMock],
 
   members :
@@ -32,7 +32,7 @@ qx.Class.define("qx.test.ui.form.Field",
     hasWebFontSupport : function()
     {
       var browser = qx.core.Environment.get("browser.name");
-      var version = qx.core.Environment.get("browser.version");   
+      var version = qx.core.Environment.get("browser.version");
       if ((browser == "firefox" && version < 3.5) ||
           (browser == "opera" && version < 10))
       {
@@ -40,7 +40,7 @@ qx.Class.define("qx.test.ui.form.Field",
       }
       return true;
     },
-    
+
     tearDown : function() {
       this.getSandbox().restore();
     },
@@ -159,16 +159,16 @@ qx.Class.define("qx.test.ui.form.Field",
         textfield.destroy();
       });
     },
-    
+
     testApplyWebFont : function() {
       this.require(["webFontSupport"]);
       var tf = new qx.ui.form.TextField("Laugh while you can, monkey boy!");
-      
+
       var f = new qx.bom.webfonts.WebFont();
       f.set({
         size: 18,
         family: ["monospace"],
-        sources: 
+        sources:
         [
           {
             family : "FinelinerScriptRegular",
@@ -184,10 +184,10 @@ qx.Class.define("qx.test.ui.form.Field",
           }
         ]
       });
-      
+
       var statusChangeSpy = this.spy(tf, "_onWebFontStatusChange");
       tf.setFont(f);
-      
+
       qx.event.Timer.once(function() {
         this.resume(function() {
           tf.dispose();
@@ -195,7 +195,7 @@ qx.Class.define("qx.test.ui.form.Field",
           this.assertCalledTwice(statusChangeSpy);
         }, this);
       }, this, 1000);
-      
+
       this.wait(2000);
     }
   }

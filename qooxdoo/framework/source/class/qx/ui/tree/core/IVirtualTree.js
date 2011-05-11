@@ -28,8 +28,8 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
   members :
   {
     /**
-     * Return whether top level items should have an open/close button. The top 
-     * level item item is normally the root item, but when the root is hidden, 
+     * Return whether top level items should have an open/close button. The top
+     * level item item is normally the root item, but when the root is hidden,
      * the root children are the top level items.
      *
      * @return {Boolean} Returns <code>true</code> when top level items should

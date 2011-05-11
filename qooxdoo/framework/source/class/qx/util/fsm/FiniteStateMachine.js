@@ -642,7 +642,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         // Nope. Programmer error.
         throw new Error("Saved-state stack is empty");
       }
-      
+
       return this.__savedStates.pop();
     },
 

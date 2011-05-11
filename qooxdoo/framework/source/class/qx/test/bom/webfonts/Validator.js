@@ -17,9 +17,9 @@
 qx.Class.define("qx.test.bom.webfonts.Validator", {
 
   extend : qx.test.bom.webfonts.Abstract,
-  
+
   include : [qx.dev.unit.MRequirements],
-  
+
   members :
   {
     setUp : function()
@@ -28,7 +28,7 @@ qx.Class.define("qx.test.bom.webfonts.Validator", {
       this.require(["webFontSupport"]);
       this.__val = new qx.bom.webfonts.Validator;
     },
-    
+
     tearDown : function()
     {
       if (this.__val) {
@@ -38,7 +38,7 @@ qx.Class.define("qx.test.bom.webfonts.Validator", {
       qx.bom.webfonts.Validator.removeDefaultHelperElements();
       this.assertEquals(this.__nodesBefore, document.body.childNodes.length, "Validator did not clean up correctly!");
     },
-    
+
     testValidFont : function()
     {
       this.__val.setFontFamily("monospace, courier");
@@ -48,14 +48,14 @@ qx.Class.define("qx.test.bom.webfonts.Validator", {
           this.assertTrue(result.valid);
         }, this);
       }, this);
-      
+
       var that = this;
       window.setTimeout(function() {
         that.__val.validate();
       }, 0);
       this.wait(1000);
     },
-    
+
     testInvalidFont : function()
     {
       this.__val.setFontFamily("zzzzzzzzzzzzzzz");
@@ -66,7 +66,7 @@ qx.Class.define("qx.test.bom.webfonts.Validator", {
           this.assertFalse(result.valid);
         }, this);
       }, this);
-      
+
       var that = this;
       window.setTimeout(function() {
         that.__val.validate();
