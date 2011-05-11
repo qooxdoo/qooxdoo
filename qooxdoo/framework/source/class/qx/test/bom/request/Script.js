@@ -411,15 +411,25 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: not call ontimeout when request is within timeout limit": function() {
-      var that = this;
+      var req = this.req,
+          that = this;
 
-      this.spy(this.req, "ontimeout");
-      this.req.timeout = 25;
+      this.spy(req, "ontimeout");
 
+      req.onload = function() {
+        that.resume(function() {
+
+          // Assert that onload() cancels timeout
+          that.wait(350, function() {
+            that.assertNotCalled(req.ontimeout);
+          });
+
+        });
+      };
+
+      req.timeout = 300;
       this.request();
-      this.wait(250, function() {
-        this.assertNotCalled(this.req.ontimeout);
-      }, this);
+      this.wait();
     },
 
     "test: call onabort when request was aborted": function() {
