@@ -391,11 +391,11 @@ Define global key-value mappings for the application. Takes a map.
     "<key>" : (value | [<value>, ... ])
   }
 
-The "environment" of a qooxdoo application can be viewed as a global, write-once key-value store. The *environment* key allows you to pre-define values for such keys. All key-value pairs are available at run time through `qx.core.Environment <http://api.qooxdoo.org/%{version}/#qx.core.Environment>`_. There are pre-defined keys that are established by qooxdoo, and you can add user-defined keys. Both are handled the same.
+The "environment" of a qooxdoo application can be viewed as a global, write-once key-value store. The *environment* key in a configuration allows you to pre-define values for such keys. All key-value pairs are available at run time through `qx.core.Environment <http://api.qooxdoo.org/%{version}/#qx.core.Environment>`_. There are pre-defined keys that are established by qooxdoo, and you can add user-defined keys. Both are handled the same.
 
 Possible keys are
 
-* **<key>** : a global key; keys are just strings; see `qx.core.Environment`_ for a list of pre-defined keys; if you provide a user-defined key, make sure it starts with a name space and a dot (e.g. *"myapp.settingA"*); the entry's value is either a scalar value, or a list of such values.
+* **<key>** : a global key; keys are just strings; see `qx.core.Environment`_ for a list of pre-defined keys; if you provide a user-defined key, make sure it starts with a name space and a dot (e.g. *"myapp.keyA"*); the entry's value is either a scalar value, or a list of such values.
 
 As soon as you specify more than one element in the list value for a key, the generator will generate different builds for each element. If the current job has more than one key defined with multiple elements in the value, the generator will generate a dedicated build **for each possible combination** of the given keys. See special section.
 
@@ -911,25 +911,6 @@ These jobs will all be run in place of the defining job (which is sort of a 'met
 
 :ref:`Special section <pages/tool/generator_config_articles#run_key>`
 
-.. _pages/tool/generator_config_ref#settings:
-
-settings
-========
-
-*(Deprecated)*
-
-Define qooxdoo settings. Takes a map.
-
-::
-
-  "settings" :
-  {
-    "qx.application" : "myapp"
-  }
-
-Possible keys are valid 
-
-* <qooxdoo_settings> : along with their desired values
 
 .. _pages/tool/generator_config_ref#shell:
 
@@ -1063,27 +1044,4 @@ Each key is a
 
 * <class_name> : each value is an array of used classes of this class.
 
-.. _pages/tool/generator_config_ref#variants:
-
-variants
-========
-
-*(Deprecated)*
-
-Define variants for the current app. Takes a map.
-
-::
-
-  "variants" :
-  {
-    "qx.debug" : [ "on" , "off" ]
-  }
-
-Possible keys are valid 
-
-* <variant_key> : (e.g. "qx.debug"), with a list of their desired values (e.g. '["off"]')
-
-As soon as you specify more than one element in the list value for a variant, the generator will generate different builds for each element. If the current job has multiple variants defined, some of them with multiple elements in the value, the generator will generate a variant **for each possible combination** of the given values.
-
-:doc:`Special section </pages/core/variants_working>`
 
