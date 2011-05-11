@@ -76,7 +76,7 @@ Here is an example of a minimal config file that defines a single job to create 
           "qx.log.Logger" : ["qx.log.appender.Native"]
         },
 
-        "settings" : 
+        "environment" : 
         {
           "qx.application" : "${APPLICATION}.Application"
         },
@@ -94,7 +94,7 @@ Here is an example of a minimal config file that defines a single job to create 
 Syntax
 ======
 
-Apart from the general Json rules, you can place '=' in front of job and key names, to indicate that this feature should prevail as specified when configs get merged. See :ref:`here <pages/tool/generator_config_articles#job_shadowing_and_partial_overriding>` for more details on that. The config system also allows the use of *macros*, details of which can be found :ref:`here <pages/tool/generator_config_articles#let_key>`.
+Apart from the general Json rules, you can place '=' in front of job and key names, to indicate that this feature should prevail as specified when configs get merged. See :ref:`here <pages/tool/generator_config_articles#job_shadowing_and_partial_overriding>` for more details on that. The config system also allows the use of *macros*, details of which can be found :ref:`here <pages/tool/generator_config_articles#let_key>`. If you use keys outside those listed here in your configuration, you will be warned about them, and they will be ignored in the processing.
 
 .. _pages/tool/generator_config#valid_job_keys:
 
@@ -111,7 +111,7 @@ Keys can be grouped into several categories:
 * ``runtime-settings`` - Keys pertaining to the working needs of the generator (e.g. *cache*).
 * ``miscellaneous`` - Keys that don't fall in any of the other categories (e.g. *desc*).
 
-First, here is an overview table, to list all possible keys in a job (unless otherwise noted). Below that you'll find a structured listing of all possible configuration keys in their respective context, with links to further information for each key.
+First, here is an overview table, to list all possible keys in a job (if the key has a different context, this is explicitly noted). Below that, you'll find a structured listing of all possible configuration keys in their respective context, with links to further information for each.
 
 .. list-table::
   :widths: 30 70
@@ -187,6 +187,8 @@ First, here is an overview table, to list all possible keys in a job (unless oth
     - Various options that taylor the *compile* action.
   * - dependencies
     - Fine-tune dependency processing.                         
+  * - environment
+    - Define key:value pairs for the app.
   * - exclude
     - Exclude classes from processing of the job.              
   * - include
@@ -258,6 +260,7 @@ This shows the complete possible contents of the top-level configuration map. Fu
     * :ref:`copy-resources <pages/tool/generator_config_ref#copy-resources>` Triggers the copying of resources, usually between source and build version.
     * :ref:`dependencies <pages/tool/generator_config_ref#dependencies>` Fine-tune the processing of class dependencies.
     * :ref:`desc <pages/tool/generator_config_ref#desc>` A string describing the job.
+    * :ref:`environment <pages/tool/generator_config_ref#environment>` Define key:value pairs for the application, covering settings, variants and features.
     * :ref:`exclude <pages/tool/generator_config_ref#exclude>` List classes to be excluded from the job. Takes an array of class specifiers.
     * :ref:`extend <pages/tool/generator_config_ref#extend>` Extend the current job with other jobs. Takes an array of job names. The information of these jobs are merged into the current job description, so the current job sort of "inherits" their settings. (See the special section on :ref:`"extend" semantics <pages/tool/generator_config_articles#extend_key>`).
     * :ref:`fix-files <pages/tool/generator_config_ref#fix-files>` Fix white space in source files.
