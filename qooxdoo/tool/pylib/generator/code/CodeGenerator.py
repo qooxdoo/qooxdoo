@@ -392,10 +392,11 @@ class CodeGenerator(object):
             return data
 
 
-        def compileClasses(classList, compConf):
+        def compileClasses(classList, compConf, log_progress=lambda:None):
             result = []
             for clazz in classList:
                 result.append(clazz.getCode(compConf))
+                log_progress()
             return u''.join(result)
 
         ##
@@ -411,7 +412,7 @@ class CodeGenerator(object):
                 return fname
 
             def compileAndAdd(compiledClasses, packageUris, prelude='', wrap=''):
-                compiled = compileClasses(compiledClasses, compOptions)
+                compiled = compileClasses(compiledClasses, compOptions, log_progress)
                 if wrap:
                     compiled = wrap % compiled
                 if prelude:
@@ -439,9 +440,15 @@ class CodeGenerator(object):
             packageData = getPackageData(package)
             packageData = ("qx.$$packageData['%s']=" % package.id) + packageData
             package_classes = [y for x in package.classes for y in script.classesObj if y.id == x] # TODO: i need to make package.classes [Class]!
+
             self._console.info("Package #%s:" % package.id, feed=False)
+            len_pack_classes = len(package_classes)
+            # helper log function, to log progress here, but also in compileClasses()
+            def log_progress(c=[0]):
+                c[0]+=1
+                self._console.progress(c[0],len_pack_classes)
+
             for pos,clazz in enumerate(package_classes):
-                self._console.progress(pos+1, len(package_classes)) #, "Package #%s: " % package.id)
                 if sourceFilter.match(clazz.id):
                     package.has_source = True
                     if packageData or compiledClasses:
@@ -455,6 +462,7 @@ class CodeGenerator(object):
                     shortUri = Uri(relpath.toUri())
                     entry    = "%s:%s" % (clazz.library.namespace, shortUri.encodedValue())
                     packageUris.append(entry)
+                    log_progress()
                 else:
                     compiledClasses.append(clazz)
             else:
