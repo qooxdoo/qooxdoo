@@ -285,8 +285,8 @@ ul li input[type="checkbox"]:after, ul li input[type="radio"]:after {
   -webkit-box-shadow: 0 0 2px 1px #a9a9a9;
   width: 30px;
   height: 30px;
-  background: -webkit-gradient(linear,left top,left bottom,from(#f5f5f5), color-stop(0.1,#d1d1d1), color-stop(0.7, #f4f4f4), to(#fcfcfc));
-  background: -webkit-linear-gradient(top, #f5f5f5, #d1d1d1 10%, #f4f4f4 70%, #fcfcfc);
+  background: -webkit-gradient(radial, 15 33, 6, 15 30, 29, from(#FCFCFC), color-stop(95%, #D1D1D1), to(#fff) );
+  background: -webkit-radial-gradient(50% 135%, 30px 44px, #fff, #fdfdfd, #d1d1d1 83%, #fff 95%);
   -webkit-border-radius: 1em;
   -webkit-background-clip: padding-box;
 }
