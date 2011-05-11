@@ -229,6 +229,27 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
+    "test: call onreadystatechange and have appropriate readyState": function() {
+      var req = this.req,
+          readyStates = [],
+          that = this;
+
+      req.onreadystatechange = function() {
+        readyStates.push(req.readyState);
+
+        if (req.readyState === 4) {
+          that.resume(function() {
+            that.assertArrayEquals([1, 2, 3, 4], readyStates);
+          });
+        }
+      };
+
+      this.request();
+      this.wait();
+    },
+
+    // Error handling
+
     "test: call onloadend on network error": function() {
       var that = this;
 
@@ -245,25 +266,6 @@ qx.Class.define("qx.test.bom.request.Script",
 
       this.req.onloadend = function() {
         that.resume(function() {});
-      };
-
-      this.request();
-      this.wait();
-    },
-
-    "test: call onreadystatechange and have appropriate readyState": function() {
-      var req = this.req,
-          readyStates = [],
-          that = this;
-
-      req.onreadystatechange = function() {
-        readyStates.push(req.readyState);
-
-        if (req.readyState === 4) {
-          that.resume(function() {
-            that.assertArrayEquals([1, 2, 3, 4], readyStates);
-          });
-        }
       };
 
       this.request();
