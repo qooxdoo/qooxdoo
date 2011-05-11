@@ -291,13 +291,9 @@ class ClassList(object):
             for depItem in depsUnOpt["load"]:
                 if depItem.name in variantSelectClasses:
                     loadFinal.append(depItem)
-                    # @deprecated
-                    #break
             for depItem in depsUnOpt["run"]:
                 if depItem.name in variantSelectClasses:
                     runFinal.append(depItem)
-                    # @deprecated
-                    #break
 
         # add config dependencies
         if fileId in self._require:

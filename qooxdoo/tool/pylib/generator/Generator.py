@@ -569,11 +569,8 @@ class Generator(object):
         if takeout(jobTriggers, "provider"):
             script = Script()
             script.classesObj = self._classesObj.values()
-            variantData = getVariants("variants")
             environData = getVariants("environment") 
-            # for the time being, lets merge variant and environment data, putting
-            combiData   = self._mergeVariantsEnvironment(variantData, environData)
-            variantSets = util.computeCombinations(combiData)
+            variantSets = util.computeCombinations(environData)
             script.variants = variantSets[0] 
             script.libraries = self._libraries
             script.namespace = self.getAppName()
@@ -587,16 +584,12 @@ class Generator(object):
         self._treeCompiler   = TreeCompiler(self._classesObj, self._context)
 
         # Processing all combinations of variants
-        variantData = getVariants("variants")  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
-        environData = getVariants("environment") 
-        # @deprecated
-        # for the time being, lets merge variant and environment data, putting
-        combiData   = self._mergeVariantsEnvironment(variantData, environData)
-        variantSets  = util.computeCombinations(combiData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
+        environData = getVariants("environment")   # e.g. {'qx.debug':false, 'qx.aspects':[true,false]}
+        variantSets  = util.computeCombinations(environData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
         for variantSetNum, variantset in enumerate(variantSets):
 
             # some console output
-            printVariantInfo(variantSetNum, variantset, variantSets, combiData)
+            printVariantInfo(variantSetNum, variantset, variantSets, environData)
 
             script           = Script()  # a new Script object represents the target code
             script.namespace = self.getAppName()
@@ -638,30 +631,6 @@ class Generator(object):
         self._console.info("Done (%dm%05.2f)" % (int(elapsedsecs/60), elapsedsecs % 60))
 
         return
-
-
-    def _mergeVariantsEnvironment(self, variantData, environData):
-        combiData = {}
-        # variantData last so it overrules
-        #combiData   = dict(j for i in (environData, variantData) for j in i.iteritems())
-
-        # using a special string type, mstr, for the result keys, so i can
-        # annotate it (used in CodeGenerator to separate envrionment keys)
-        for k,val in variantData.iteritems():
-            key = mstr(k)
-            combiData[key] = val
-        for k,val in environData.iteritems():
-            if k in variantData:
-                #self._console.warn('Key "%s" of deprecated "variants" config clashing with "environment" config; using variants.' % k)
-                #continue
-                pass
-            key = mstr('<env>:'+k)
-            if key in combiData: # this should never happen
-                raise RuntimeError('Rename variants key "%s" in your config.' % key)
-            key.type = "env"
-            combiData[key] = val
-
-        return combiData
 
 
     def runPrivateDebug(self):

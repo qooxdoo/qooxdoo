@@ -549,8 +549,7 @@ class CodeGenerator(object):
 
         # Get global script data (like qxlibraries, qxresources,...)
         globalCodes = {}
-        variantsMap = self.generateVariantsCode(variants)
-        globalCodes["EnvSettings"] = dict((k.replace('<env>:','',1), v) for (k,v) in variantsMap.iteritems() if k.startswith("<env>:"))
+        globalCodes["EnvSettings"] = self.generateVariantsCode(variants)
         # add optimizations
         for val in optimize:
             globalCodes["EnvSettings"]["qx.optimization."+val] = True
@@ -691,15 +690,6 @@ class CodeGenerator(object):
             for key in variants:
                 pattern = "{%s}" % key
                 fileName = fileName.replace(pattern, str(variants[key]))
-            # @deprecated
-            for key in variants:
-                pattern = "{%s}" % key.replace('<env>:', '', 1)
-                fileName = fileName.replace(pattern, str(variants[key]))
-
-        if settings:
-            for key in settings:
-                pattern = "{%s}" % key
-                fileName = fileName.replace(pattern, str(settings[key]))
 
         if packageId != "":
             fileName = fileName.replace(".js", "-%s.js" % packageId)

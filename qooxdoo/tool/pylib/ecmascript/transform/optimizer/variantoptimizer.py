@@ -121,9 +121,9 @@ def processVariantSelect(callNode, variantMap):
 
     variantKey = firstParam.get("value");
     # is this key covered by the current variant map?
-    #variantValue = variantMap[variantKey]
-    variantValue, found = __keyLookup(variantKey, variantMap)
-    if not found:
+    if variantKey in variantMap:
+        variantValue = variantMap[variantKey]
+    else:
         return False
 
     # Get the resolution map, keyed by possible variant key values (or value expressions)
@@ -150,12 +150,7 @@ def processVariantSelect(callNode, variantMap):
 
             # Go through individual key constants
             for key in keys:
-                if (key == variantValue
-                    # @deprecated
-                    or (key in ["on","true"] and variantValue in ["on","true",True])
-                    # @deprecated
-                    or (key in ["off","false"] and variantValue in ["off","false",False])
-                    ):
+                if (key == variantValue):
                     callNode.parent.replaceChild(callNode, mapvalue)
                     found = True
                     break
@@ -193,9 +188,9 @@ def processVariantIsSet(callNode, variantMap):
         return False
 
     variantKey = firstParam.get("value");
-    confValue, found  = __keyLookup(variantKey, variantMap)
-    #if not variantKey in variantMap.keys():
-    if not found:
+    if variantKey in variantMap:
+        confValue = variantMap[variantKey]
+    else:
         return False
 
     secondParam = params.getChildByPosition(1)
@@ -269,13 +264,10 @@ def processVariantGet(callNode, variantMap):
         return treeModified
 
     variantKey = firstParam.get("value");
-    confValue, found = __keyLookup(variantKey, variantMap)
-    if not found:
+    if variantKey in variantMap:
+        confValue = variantMap[variantKey]
+    else:
         return treeModified
-
-    # @deprecated
-    # patch "on"/"off"
-    confValue = patchValue(confValue)
 
     # Replace the .get() with its value
     resultNode = reduceCall(callNode, confValue)
@@ -323,12 +315,10 @@ def processEnvironmentClass(node, variantMap):
         return treeModified
 
     variantKey = firstParam.get("value");
-    variantValue, found = __keyLookup(variantKey, variantMap)
-    #if not variantKey in variantMap.keys():
-    if not found:
+    if variantKey in variantMap:
+        variantValue = variantMap[variantKey]
+    else:
         return treeModified
-    #else:
-    #    variantValue = variantMap[variantKey]
 
     # Processing
     # are we in a if/loop condition expression, i.e. a "loop/expression/..." context?
@@ -447,18 +437,6 @@ def __variantMatchKey(key, variantValue):
 
 
 ##
-# @deprecated
-def __keyLookup(key, variantMap):
-    try:
-        return variantMap[key], True
-    except KeyError:
-        try:
-            return variantMap['<env>:'+key], True
-        except KeyError:
-            return None, False
-
-
-##
 # some preps for better processing
 #
 
@@ -495,12 +473,6 @@ def reduceCall(callNode, value):
     return valueNode
 
 
-def patchValue(val):
-    if isinstance(val, types.StringTypes) and val in ["on","off"]:
-        val = {"on":True,"off":False}[val]
-    return val
-
-
 ##
 # 2. pass:
 # replace operations between literals, e.g. compares ("3 == 3" => true),
@@ -515,8 +487,6 @@ def reduceOperation(literalNode):
         return literalNode, False
     else:
         literalValue = constNodeToPyValue(literalNode)
-        # @deprecated
-        literalValue = patchValue(literalValue)
 
     # check if we're in an operation
     ngParent = nextNongroupParent(literalNode) # could be "first", "second" etc. in ops
@@ -547,8 +517,6 @@ def reduceOperation(literalNode):
 
         operands = [literalValue]
         otherVal = constNodeToPyValue(otherOperand)
-        # @deprecated
-        otherVal = patchValue(otherVal)
         operands.append(otherVal)
          
         result = cmpFcn(operands[0],operands[1])
@@ -574,8 +542,6 @@ def reduceOperation(literalNode):
         operands = {}
         operands[1 - otherPosition] = literalValue
         otherVal = constNodeToPyValue(otherOperand)
-        # @deprecated
-        otherVal = patchValue(otherVal)
         operands[otherPosition] = otherVal
 
         result = cmpFcn(operands[0], operands[1])
@@ -613,8 +579,6 @@ def reduceOperation(literalNode):
             operands = {}
             operands[1 - otherPosition] = literalValue
             otherVal = constNodeToPyValue(otherOperand)
-            # @deprecated
-            otherVal = patchValue(otherVal)
             operands[otherPosition] = otherVal
             result = cmpFcn(operands[0], operands[1])
             resultNode = {literalValue:literalNode, otherVal:otherOperand}[result]
@@ -675,11 +639,7 @@ def reduceLoop(startNode):
                 value = '"' + value + '"'
             # re-parse into an internal value
             value = json.loads(value)
-            # @deprecated
-            if value in ["off", "false"]:
-                condValue = False
-            else:
-                condValue = bool(value)
+            condValue = bool(value)
             #print "optimizing: if"
             treeutil.inlineIfStatement(loopNode, condValue)
             treeModified = True
