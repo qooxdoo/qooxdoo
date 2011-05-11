@@ -75,7 +75,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
   members :
   {
     /**
-     * Takes a styles map and adds the broder radius styles in place to the
+     * Takes a styles map and adds the border radius styles in place to the
      * given map. This is the needed behavior for
      * {@link qx.ui.decoration.DynamicDecorator}.
      *
