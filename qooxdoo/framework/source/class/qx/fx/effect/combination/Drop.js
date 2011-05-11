@@ -223,7 +223,7 @@ qx.Class.define("qx.fx.effect.combination.Drop",
         to            : (this.getMode() == "out") ? 0 : 1,
         modifyDisplay : true
       });
-      
+
       this.__mainEffect.setDuration(this.getDuration());
       this.__mainEffect.start();
 

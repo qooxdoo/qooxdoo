@@ -218,7 +218,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
       qx.bom.element.Style.set(element, "height", "0px");
       qx.bom.element.Style.set(element, "width", "0px");
-      
+
       this.__mainEffect.setDuration(this.getDuration());
       this.__mainEffect.start();
     }

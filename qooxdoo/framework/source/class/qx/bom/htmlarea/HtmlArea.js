@@ -2516,7 +2516,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
     /**
      * Removes all formatting styles on the current selection content and resets
-     * the font family and size to the default ones. See {@link #defaultFontSize} 
+     * the font family and size to the default ones. See {@link #defaultFontSize}
      * and {@link #defaultFontFamily}.
      *
      * @return {Boolean} Success of operation

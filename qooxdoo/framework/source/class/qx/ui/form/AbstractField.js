@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // shortcut for placeholder feature detection
     this.__useQxPlaceholder = !qx.core.Environment.get("css.placeholder") ||
-      (qx.core.Environment.get("engine.name") == "gecko" && 
+      (qx.core.Environment.get("engine.name") == "gecko" &&
        parseFloat(qx.core.Environment.get("engine.version")) >= 2);
 
     if (value != null) {
