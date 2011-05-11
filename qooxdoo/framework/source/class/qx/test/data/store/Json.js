@@ -472,8 +472,10 @@ qx.Class.define("qx.test.data.store.Json",
 
 
     testErrorEvent : function() {
-      this.__store.addListener("error", function() {
-        this.resume(function() {}, this);
+      this.__store.addListener("error", function(ev) {
+        this.resume(function() {
+          this.assertNotNull(ev);
+        }, this);
       }, this);
 
       var self = this;

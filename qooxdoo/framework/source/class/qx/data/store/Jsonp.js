@@ -86,7 +86,7 @@ qx.Class.define("qx.data.store.Jsonp",
       this.__loader.load(url, function(status) {
         delete this[id];
         if (status === "fail") {
-          this.fireEvent("error");
+          this.fireDataEvent("error");
         }
       }, this);
     },

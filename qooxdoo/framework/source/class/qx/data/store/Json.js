@@ -67,10 +67,10 @@ qx.Class.define("qx.data.store.Json",
 
     /**
      * Fired when an error (aborted, timeout or failed) occurred
-     * during the load. If you want more details, use the {@link #changeState}
-     * event.
+     * during the load. The data contains the respons of the request.
+     * If you want more details, use the {@link #changeState} event.
      */
-    "error" : "qx.event.type.Event"
+    "error" : "qx.event.type.Data"
   },
 
 
@@ -155,16 +155,29 @@ qx.Class.define("qx.data.store.Json",
         this._delegate.configureRequest(this.__request);
       }
 
-      // mapp the state to its own state
+      // map the state to its own state
       this.__request.addListener("changeState", function(ev) {
         var state = ev.getData();
         this.setState(state);
-        if (state === "failed" || state === "aborted" || state === "timeout") {
-          this.fireEvent("error");
-        }
       }, this);
 
+      // add failed, aborted and timeout listeners
+      this.__request.addListener("failed", this.__requestUnsuccessfulHandler, this);
+      this.__request.addListener("aborted", this.__requestUnsuccessfulHandler, this);
+      this.__request.addListener("timeout", this.__requestUnsuccessfulHandler, this);
+
       this.__request.send();
+    },
+
+
+    /**
+     * Handler called when not completing the request successfully. This includes 
+     * failed, aborted and timeout.
+     * 
+     * @param ev {qx.io.remote.Response} The respons object of the request.
+     */
+    __requestUnsuccessfulHandler : function(ev) {
+      this.fireDataEvent("error", ev);
     },
 
 
