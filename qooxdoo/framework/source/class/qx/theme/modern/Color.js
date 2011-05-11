@@ -113,8 +113,8 @@ qx.Theme.define("qx.theme.modern.Color",
 
     // between toolbars
     "border-separator" : "#808080",
-    "broder-toolbar-button-outer" : "#b6b6b6",
-    "broder-toolbar-broder-inner" : "#f8f8f8",
+    "border-toolbar-button-outer" : "#b6b6b6",
+    "border-toolbar-border-inner" : "#f8f8f8",
     "border-toolbar-separator-right" : "#f4f4f4",
     "border-toolbar-separator-left" : "#b8b8b8",
 

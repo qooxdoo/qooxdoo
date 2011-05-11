@@ -874,7 +874,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         shadowBlurRadius : 0,
         shadowColor : "checkbox-focus",
 
-        insetLeft: 4 // (2 for the broder and two for the glow effect)
+        insetLeft: 4 // (2 for the border and two for the glow effect)
       }
     },
 
@@ -1098,8 +1098,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        outerColor : "broder-toolbar-button-outer",
-        innerColor : "broder-toolbar-broder-inner",
+        outerColor : "border-toolbar-button-outer",
+        innerColor : "border-toolbar-border-inner",
         backgroundImage : "decoration/form/button-c.png",
         backgroundRepeat : "scale"
       }
@@ -1111,8 +1111,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        outerColor : "broder-toolbar-button-outer",
-        innerColor : "broder-toolbar-broder-inner",
+        outerColor : "border-toolbar-button-outer",
+        innerColor : "border-toolbar-border-inner",
         backgroundImage : "decoration/form/button-checked-c.png",
         backgroundRepeat : "scale"
       }
@@ -1128,10 +1128,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        color : "broder-toolbar-button-outer",
+        color : "border-toolbar-button-outer",
         width: 1,
         innerWidth: 1,
-        innerColor : "broder-toolbar-broder-inner",
+        innerColor : "border-toolbar-border-inner",
         radius : 2,
         gradientStart : ["button-start", 30],
         gradientEnd : ["button-end", 100]
