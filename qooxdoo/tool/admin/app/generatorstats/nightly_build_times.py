@@ -38,7 +38,7 @@
 #  the start of the script is a configuration section (search for "Config
 #  section"), where customizable settings can be set.
 #
-#  Test
+#  Test Test
 #
 #  'harvest'
 #
