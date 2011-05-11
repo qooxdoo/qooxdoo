@@ -83,6 +83,25 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
+    "test: status indicates success when determineSuccess returns true": function() {
+      var that = this;
+
+      this.req.onload = function() {
+        that.resume(function() {
+          that.assertEquals(200, that.req.status);
+        });
+      };
+
+      this.req.setDetermineSuccess(function() {
+        return SCRIPT_LOADED === true;
+      });
+
+      this.request(this.getUrl("qx/test/script.js"));
+      this.wait();
+    },
+
+    // Error handling
+
     "test: properties indicate failure when request failed": function() {
 
       // Known to fail in legacy IEs
@@ -125,6 +144,23 @@ qx.Class.define("qx.test.bom.request.Script",
       };
 
       this.requestPending();
+      this.wait();
+    },
+
+    "test: status indicates failure when determineSuccess returns false": function() {
+      var that = this;
+
+      this.req.onload = function() {
+        that.resume(function() {
+          that.assertEquals(500, that.req.status);
+        });
+      };
+
+      this.req.setDetermineSuccess(function() {
+        return false;
+      });
+
+      this.request();
       this.wait();
     },
 

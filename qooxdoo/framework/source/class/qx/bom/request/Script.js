@@ -61,6 +61,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
     timeout: 0,
 
     __async: null,
+    __determineSuccess: null,
 
     open: function(method, url, async) {
       if (this.__disposed) {
@@ -188,6 +189,12 @@ qx.Bootstrap.define("qx.bom.request.Script",
       return "Unknown response headers";
     },
 
+    setDetermineSuccess: function(delegate) {
+      qx.core.Assert.assertFunction(delegate);
+
+      this.__determineSuccess = delegate;
+    },
+
     dispose: function() {
       var script = this.__scriptElement;
 
@@ -244,6 +251,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
     _onNativeLoad: function() {
       var script = this.__scriptElement,
+          determineSuccess = this.__determineSuccess,
           that = this;
 
       // Aborted request must not fire load
@@ -269,7 +277,17 @@ qx.Bootstrap.define("qx.bom.request.Script",
         qx.Bootstrap.debug(qx.bom.request.Script, "Received native load");
       }
 
-      if (this.status !== 200) {
+      // Determine status by calling user-provided check function
+      if (determineSuccess) {
+
+        // Status set before has higher precedence
+        if (!this.status) {
+          this.status = determineSuccess() ? 200 : 500;
+        }
+
+      }
+
+      if (this.status === 500) {
         if (qx.core.Environment.get("qx.debug.io")) {
           qx.Bootstrap.debug(qx.bom.request.Script, "Detected error");
         }
