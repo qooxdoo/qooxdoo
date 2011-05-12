@@ -277,44 +277,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     //
-    // Events (cont.)
-    //
-
-    "test: not fire success on erroneous status": function() {
-      this.setUpFakeTransport();
-      var req = this.req,
-          success = this.spy();
-
-      req.addListener("success", success);
-      this.respond(500);
-
-      this.assertNotCalled(success);
-    },
-
-    "test: fire remoteError": function() {
-      this.setUpFakeTransport();
-      var req = this.req,
-          remoteError = this.spy();
-
-      req.addListener("remoteError", remoteError);
-      this.respond(500);
-
-      this.assertCalledOnce(remoteError);
-    },
-
-
-    "test: fire fail on erroneous status": function() {
-      this.setUpFakeTransport();
-      var req = this.req,
-          fail = this.spy();
-
-      req.addListener("fail", fail);
-      this.respond(500);
-
-      this.assertCalledOnce(fail);
-    },
-
-    //
     // Handler
     //
 

@@ -352,7 +352,7 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait(10000);
     },
 
-    "test: call onerror when request failed because of network error": function() {
+    "test: call onerror on network error": function() {
 
       // Known to fail in legacy IEs
       if (this.isIeBelow(9)) {
@@ -369,7 +369,7 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait(10000);
     },
 
-    "test: call onerror when request failed because of invalid script": function() {
+    "test: call onerror on invalid script": function() {
 
       // Known to fail in all browsers tested
       // Native "error" event not fired for script element.
