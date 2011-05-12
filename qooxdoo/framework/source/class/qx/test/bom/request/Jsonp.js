@@ -157,6 +157,24 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       this.wait();
     },
 
+    "test: status indicates failure when callback not called on second request": function() {
+      var count = 0,
+          that = this;
+
+      this.req.onload = function() {
+        count += 1;
+        that.request(that.getUrl("qx/test/script.js"));
+        if (count == 2) {
+          that.resume(function() {
+            that.assertEquals(500, that.req.status);
+          });
+        }
+      };
+
+      this.request();
+      this.wait();
+    },
+
     //
     // Event handlers
     //

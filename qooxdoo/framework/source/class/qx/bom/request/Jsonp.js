@@ -49,6 +49,9 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
           callbackName,
           that = this;
 
+      // Reset callback flag
+      this.__callbackCalled = false;
+
       callbackParam = this.__callbackParam || "callback";
       callbackName = this.__callbackName ||
         "qx.bom.request.Jsonp[" + this.__id + "].callback";

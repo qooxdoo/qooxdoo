@@ -63,6 +63,22 @@ qx.Class.define("qx.test.bom.request.Script",
       this.assertFalse(this.isInDom(script));
     },
 
+    "test: allow many requests with same object": function() {
+      var count = 0,
+          that = this;
+
+      this.req.onload = function() {
+        count += 1;
+        that.request();
+        if (count == 2) {
+          that.resume(function() {});
+        }
+      };
+
+      this.request();
+      this.wait();
+    },
+
     //
     // Properties
     //
