@@ -338,10 +338,6 @@ qx.Bootstrap.define("qx.bom.request.Script",
       if (script && script.parentNode) {
         this.__headElement.removeChild(script);
       }
-
-      if (window[this.__callbackName]) {
-        delete window[this.__callbackName];
-      }
     }
   },
 
