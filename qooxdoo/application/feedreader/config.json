@@ -126,7 +126,8 @@
       {
         "files" :
         [
-          "index.html"
+          "index-ios.html",
+          "index-android.html"
         ],
 
         "source" : "${ROOT}/source/resource",
