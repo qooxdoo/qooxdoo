@@ -34,7 +34,6 @@
  * and events are fired consistently on all platforms. Moreover, the same
  * instance of this class can be efficiently used to repeatedly send many
  * requests.
- *
  */
 qx.Class.define("qx.io.request.Xhr",
 {
@@ -43,6 +42,46 @@ qx.Class.define("qx.io.request.Xhr",
   construct: function()
   {
     this.base(arguments);
+  },
+
+  // Only document events with transport specific details.
+  // For a complete list of events, refer to AbstractRequest.
+
+  events:
+  {
+    /**
+     * Fired on every change of the transport’s readyState.
+     *
+     * See {@link qx.bom.request.Xhr#readyState} for available readyStates.
+     */
+    "readystatechange": "qx.event.type.Event",
+
+    /**
+    * Fired when request completes without eror and transport’s status
+    * indicates success.
+     *
+     * Refer to {@link qx.bom.request.Xhr#isSuccessful} for a list of HTTP
+     * status considered successful.
+     */
+    "success": "qx.event.type.Event",
+
+    /**
+     * Fired when request completes without error.
+     *
+     * Every request not canceled or aborted completes. This means that
+     * even requests receiving a response with erroneous HTTP status
+     * fire a "load" event. If you are only interested in successful
+     * responses, listen to the {@link #success} event instead.
+     */
+    "load": "qx.event.type.Event",
+
+    /**
+     * Fired when request completes without error but erroneous HTTP status.
+     *
+     * Refer to {@link qx.bom.request.Xhr#isSuccessful} for a list of HTTP
+     * status considered successful.
+     */
+    "statusError": "qx.event.type.Event"
   },
 
   statics:

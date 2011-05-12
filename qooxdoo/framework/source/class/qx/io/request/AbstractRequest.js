@@ -61,61 +61,48 @@ qx.Class.define("qx.io.request.AbstractRequest",
   events :
   {
     /**
-     * Fires on every change of the transport’s readyState.
+     * Fired on every change of the transport’s readyState.
      */
     "readystatechange": "qx.event.type.Event",
 
     /**
-     * Fires when request is complete and HTTP status indicates success.
-     *
-     * Note: Some transports, e.g. {@link qx.bom.request.Jsonp}, do not
-     * expose the HTTP status of the response. Instead they fake a
-     * successful response.
+     * Fired when request completes without eror and transport’s status
+     * indicates success.
      */
     "success": "qx.event.type.Event",
 
     /**
-     * Fires when request is complete.
-     *
-     * Ignores the HTTP status.
+     * Fired when request completes without error.
      */
     "load": "qx.event.type.Event",
 
     /**
-     * Fires when processing of request completes.
-     *
-     * A request completes no matter if it was successful,
-     * or a network/timeout error occured.
+     * Fired when request completes with or without error.
      */
     "loadend": "qx.event.type.Event",
 
     /**
-     * Fires when request was aborted.
+     * Fired when request is aborted.
      */
     "abort": "qx.event.type.Event",
 
     /**
-     * Fires when request reached timeout limit.
+     * Fired when request reaches timeout limit.
      */
     "timeout": "qx.event.type.Event",
 
     /**
-     * Fires when request could not complete
-     * due to a network error.
+     * Fired when request completes with error.
      */
     "error": "qx.event.type.Event",
 
     /**
-     * Fires when request completed with erroneous HTTP status.
-     *
-     * For instance, indicating a server error or missing resource.
-     *
-     * Note: Only ever fired for transports revealing an HTTP status.
+     * Fired when request completes without error but erroneous HTTP status.
      */
     "statusError": "qx.event.type.Event",
 
     /**
-     * Fires on timeout, error or remote error.
+     * Fired on timeout, error or remote error.
      *
      * This event is fired for convenience. Usually, it is recommended
      * to handle error related events in a more granular approach.
@@ -123,7 +110,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     "fail": "qx.event.type.Event",
 
     /**
-    * Fires on change of the parsed response.
+    * Fired on change of the parsed response.
     *
     * This event allows to use data binding with the
     * parsed response as source.

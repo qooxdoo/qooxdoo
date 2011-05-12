@@ -152,24 +152,26 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
     /**
      * {Number} Timeout limit in milliseconds.
+     *
+     * 0 (default) means no timeout.
      */
     timeout: 0,
 
     /**
-     * Initializes (prepares) the request.
+     * Initializes (prepares) request.
      *
      * @lint ignoreUndefined(XDomainRequest)
      *
      * @param method {String}
-     *        The HTTP method to use.
+     *  The HTTP method to use.
      * @param url {String}
-     *        The URL to which to send the request.
+     *  The URL to which to send the request.
      * @param async {Boolean?true}
-     *        Whether or not to perform the operation asynchronously.
+     *  Whether or not to perform the operation asynchronously.
      * @param user {String?null}
-     *        Optional user name to use for authentication purposes.
+     *  Optional user name to use for authentication purposes.
      * @param password {String?null}
-     *        Optional password to use for authentication purposes.
+     *  Optional password to use for authentication purposes.
      */
     open: function(method, url, async, user, password) {
       if (this.__disposed) {
@@ -288,9 +290,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * Note: The request must be initialized before using this method.
      *
      * @param key {String}
-     *        The name of the header whose value is to be set.
+     *  The name of the header whose value is to be set.
      * @param value {String}
-     *        The value to set as the body of the header.
+     *  The value to set as the body of the header.
      */
     setRequestHeader: function(key, value) {
       if (this.__disposed) {
@@ -301,10 +303,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     },
 
     /**
-     * Sends the request.
+     * Sends request.
      *
      * @param data {String|Document?null}
-     *        Optional data to send.
+     *  Optional data to send.
      */
     send: function(data) {
       if (this.__disposed) {
@@ -369,12 +371,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     },
 
     /**
-     * Aborts the request.
+     * Abort request.
      *
      * Cancels any network activity.
      *
      * @param skipCallback {Boolean?false}
-     *        Whether onabort should be called.
+     *  Whether onabort should be called.
      */
     abort: function(skipCallback) {
       if (this.__disposed) {
@@ -424,9 +426,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     /**
      * Event handler for XHR event "error" that is fired on a network error.
      *
-     * Note: This handler is NOT called on successful retrieval, even when
-     * the HTTP status code indicates an error.
-     *
      * Replace with custom method to listen to the "error" event.
      */
     onerror: function() {},
@@ -450,10 +449,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     /**
      * Get a single response header from response.
      *
-     * @param  header {String}
-     *         Key of the header to get the value from.
+     * @param header {String}
+     *  Key of the header to get the value from.
      * @return {String}
-     *         Response header.
+     *  Response header.
      */
     getResponseHeader: function(header) {
       if (this.__disposed) {
