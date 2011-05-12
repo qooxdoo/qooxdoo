@@ -1,0 +1,21 @@
+{
+  "author": "Martin Wittemann <martin.wittemann@1und1.de>",
+  "name": "qooxdoo",
+  "version": "1.4.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/qooxdoo/qooxdoo.git"
+  },
+  "licenses": [{
+    "type": "LGPL (2.1) & EPL (1.0)",
+    "url": "http://qooxdoo.org/license"
+  }],
+  "engines": {
+    "node": "~0.4"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "description": "Object-oriented porgramming using the qooxdoo class system",
+  "homepage": "http://qooxdoo.org",
+  "main": "qx-oo"
+}
