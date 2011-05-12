@@ -195,6 +195,14 @@ qx.Class.define("qx.test.bom.request.Jsonp",
     "test: call onerror on network error": function() {
       var that = this;
 
+      // For legacy IEs, timeout needs to be lower than browser timeout
+      // or false "load" is fired. Alternatively, a false "load"
+      // can be identified by checking status property.
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+          qx.core.Environment.get("engine.version") < 9) {
+        this.req.timeout = 2000;
+      }
+
       this.req.onerror = function() {
         that.resume(function() {});
       };
