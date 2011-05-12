@@ -510,12 +510,11 @@
       {
         "Cleaning up build" :
         [
-          "${BUILD_PATH}/script/${APPLICATION}.js",
-          "${BUILD_PATH}/script/${APPLICATION}[_-]*.js"
+          "${BUILD_PATH}/script/${APPLICATION}*.js"
         ],
         "Cleaning up source" :
         [
-          "${ROOT}/source/script/${APPLICATION}.js"
+          "${ROOT}/source/script/${APPLICATION}*.js"
         ]
         /*
         ,"Deleting local cache" :
