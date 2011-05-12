@@ -280,7 +280,7 @@ qx.Class.define("qx.bom.Label",
       var element = this._htmlElement || this.__prepareHtml();
 
       // apply width
-      element.style.width = width !== undefined ? width + "px" : "auto";
+      element.style.width = width != undefined ? width + "px" : "auto";
       // insert content
       element.innerHTML = content;
 
