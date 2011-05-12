@@ -79,6 +79,9 @@ class Library(object):
         self.namespace = self._config.get("namespace")
         if not self.namespace: raise RuntimeError
         self._checkNamespace(self._classPath)
+        
+        self.__youngest = (None, None) # to memoize youngest file in lib
+
 
 
     ##
@@ -98,25 +101,29 @@ class Library(object):
         self.__dict__ = d
 
 
-    def mostRecentlyChangedFile(self):
-        youngFiles = {}
+    def mostRecentlyChangedFile(self, force=False):
+        if self.__youngest != (None,None) and not force:
+            return self.__youngest
+
+        youngFiles = {} # {timestamp: "filepath"}
         # for each interesting library part
         for category in self.categories:
             catPath = self.categories[category]["path"]
             if category == "translation" and not os.path.isdir(catPath):
                 continue
             # find youngest file
-            file, mtime = filetool.findYoungest(catPath)
-            youngFiles[mtime] = file
+            file_, mtime = filetool.findYoungest(catPath)
+            youngFiles[mtime] = file_
             
         # also check the Manifest file
-        file, mtime = filetool.findYoungest(self.manifest)
-        youngFiles[mtime] = file
+        file_, mtime = filetool.findYoungest(self.manifest)
+        youngFiles[mtime] = file_
         
         # and return the maximum of those
         youngest = sorted(youngFiles.keys())[-1]
+        self.__youngest = (youngFiles[youngest], youngest) # ("filepath", mtime)
 
-        return (youngFiles[youngest], youngest)
+        return self.__youngest
 
 
     _codeExpr = re.compile(r'''qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["']((?u)[^"']+)["']''', re.M)

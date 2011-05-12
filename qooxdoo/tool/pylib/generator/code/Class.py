@@ -528,11 +528,19 @@ class Class(Resource):
                     if dep.requestor != self.id: # this was included through a recursive traversal
                         if dep.name in self._classesObj:
                             classObj = self._classesObj[dep.name]
-                            if cacheModTime < classObj.m_time():
-                                # if e.g. qx.Class was touched, this will invalidate a lot of depending classes!
+                            #if cacheModTime < classObj.m_time():
+                            if cacheModTime < classObj.library.mostRecentlyChangedFile()[1]:
                                 console.debug("Invalidating dep cache for %s, as %s is newer" % (self.id, classObj.id))
                                 result = False
                                 break
+                                # checking classObj.m_time() was done a lot, and was a major time consumer,
+                                # esp. when building demobrowser; just checking a library's youngest entry is
+                                # much faster, as it is only calculated once (when called without (force=True));
+                                # the downside is that a change of one class in a library will result in cache
+                                # invalidation for *all* classes in this lib; that's the trade-off;
+                                # i'd love to just check the libs directly ("for lib in script.libraries: 
+                                # if cacheModTime < lib.mostRecentlyChangedFile()[1]:..."), but I don't
+                                # have access to the script here in Class.
             
             return result
         # -- Main ---------------------------------------------------------

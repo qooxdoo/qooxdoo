@@ -221,25 +221,6 @@ class Generator(object):
                     raise RuntimeError("Unable to look up library \"%s\" in Job definition" % path)
                 return lib
 
-            def mostRecentlyChangedIn(lib):  # this should go into another class
-                youngFiles = {}
-                # for each interesting library part
-                for category in ["class", "translation", "resource"]:
-                    catPath = os.path.normpath(os.path.join(lib["path"], lib[category]))
-                    if category == "translation" and not os.path.isdir(catPath):
-                        continue
-                    # find youngest file
-                    file, mtime = filetool.findYoungest(catPath)
-                    youngFiles[mtime] = file
-                    
-                # also check the Manifest file
-                file, mtime = filetool.findYoungest(lib["manifest"])
-                youngFiles[mtime] = file
-                
-                # and return the maximum of those
-                ytime = sorted(youngFiles.keys())[-1]
-                return (youngFiles[ytime], ytime)
-
             # - Main -----------------------------------------------------------
 
             self._console.info("Scanning libraries...")
