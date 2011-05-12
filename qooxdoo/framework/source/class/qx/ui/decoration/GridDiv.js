@@ -112,9 +112,9 @@ qx.Class.define("qx.ui.decoration.GridDiv",
 
   members :
   {
-    __markup : null,
-    __images : null,
-    __edges : null,
+    _markup : null,
+    _images : null,
+    _edges : null,
 
 
     // overridden
@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.decoration.GridDiv",
 
     // overridden
     _isInitialized: function() {
-      return !!this.__markup;
+      return !!this._markup;
     },
 
 
@@ -144,13 +144,13 @@ qx.Class.define("qx.ui.decoration.GridDiv",
     // interface implementation
     getMarkup : function()
     {
-      if (this.__markup) {
-        return this.__markup;
+      if (this._markup) {
+        return this._markup;
       }
 
       var Decoration = qx.bom.element.Decoration;
-      var images = this.__images;
-      var edges = this.__edges;
+      var images = this._images;
+      var edges = this._edges;
 
       // Create edges and vertical sides
       // Order: tl, t, tr, bl, b, bt, l, c, r
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.decoration.GridDiv",
       html.push('</div>');
 
       // Store
-      return this.__markup = html.join("");
+      return this._markup = html.join("");
     },
 
 
@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.decoration.GridDiv",
     resize : function(element, width, height)
     {
       // Compute inner sizes
-      var edges = this.__edges;
+      var edges = this._edges;
       var innerWidth = width - edges.left - edges.right;
       var innerHeight = height - edges.top - edges.bottom;
 
@@ -270,7 +270,7 @@ qx.Class.define("qx.ui.decoration.GridDiv",
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (this.__markup) {
+        if (this._markup) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");
         }
       }
@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.decoration.GridDiv",
         var ext = split[2];
 
         // Store images
-        var images = this.__images =
+        var images = this._images =
         {
           tl : prefix + "-tl" + ext,
           t : prefix + "-t" + ext,
@@ -299,7 +299,7 @@ qx.Class.define("qx.ui.decoration.GridDiv",
         };
 
         // Store edges
-        this.__edges = this._computeEdgeSizes(images);
+        this._edges = this._computeEdgeSizes(images);
       }
     },
 
@@ -344,6 +344,6 @@ qx.Class.define("qx.ui.decoration.GridDiv",
   */
 
   destruct : function() {
-    this.__markup = this.__images = this.__edges = null;
+    this._markup = this._images = this._edges = null;
   }
 });
