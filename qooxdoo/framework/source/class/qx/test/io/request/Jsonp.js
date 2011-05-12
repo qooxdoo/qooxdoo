@@ -92,6 +92,26 @@ qx.Class.define("qx.test.io.request.Jsonp",
       req.send();
 
       this.wait();
+    },
+
+    //
+    // Callback management
+    //
+
+    "test: set callback param and name": function() {
+      this.setUpFakeTransport();
+
+      var req = this.req,
+          transport = this.transport;
+
+      this.spy(transport, "setCallbackParam");
+      this.spy(transport, "setCallbackName");
+
+      req.setCallbackParam("method");
+      req.setCallbackName("myCallback");
+
+      this.assertCalledWith(transport.setCallbackParam, "method");
+      this.assertCalledWith(transport.setCallbackName, "myCallback");
     }
   }
 });

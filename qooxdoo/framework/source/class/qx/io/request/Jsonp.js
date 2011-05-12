@@ -136,6 +136,35 @@ qx.Class.define("qx.io.request.Jsonp",
      */
     _getParsedResponse: function() {
       return this._transport.responseJson;
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      CALLBACK MANAGEMENT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Set callback parameter.
+     *
+     * See {@link qx.bom.request.Jsonp#setCallbackParam}.
+     *
+     * @param param {String} Name of the callback parameter.
+     */
+    setCallbackParam: function(param) {
+      // qx.log.Logger.debug("param: " + param);
+      this._transport.setCallbackParam(param);
+    },
+
+    /**
+     * Set callback name.
+     *
+     * See {@link qx.bom.request.Jsonp#setCallbackName}.
+     *
+     * @param name {String} Name of the callback function.
+     */
+    setCallbackName: function(name) {
+      this._transport.setCallbackName(name);
     }
   }
 });
