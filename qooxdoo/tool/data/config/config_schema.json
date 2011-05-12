@@ -251,6 +251,11 @@
             "description" : "Triggers the copying of resources, usually between source and build version."
           },
 
+          "environment" :
+          {
+            "description" : "Define global key:value pairs for the generated application."
+          },
+
           "extend" :
           {
             "description" : "Extend the current job with other jobs. Takes an array of job names. The information of these jobs are merged into the current job description, so the current job sort of “inherits” their settings. (See the special section on 'extend' semantics)."
@@ -291,11 +296,6 @@
             "description" : "Define a list of jobs to run in place of the current job. (See the special section on 'run' semantics)."
           },
 
-          "settings" :
-          {
-            "description" : "Define qooxdoo settings for the generated application."
-          },
-
           "shell" :
           {
             "description" : "Triggers the execution of an external command."
@@ -314,11 +314,6 @@
           "translate" :
           {
             "description" : "(Re-)generate .po files from source classes."
-          },
-
-          "variants" :
-          {
-            "description" : "Define variants for the generated application."
           }
         }
       }
