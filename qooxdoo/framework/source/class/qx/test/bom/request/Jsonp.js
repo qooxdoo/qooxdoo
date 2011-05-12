@@ -49,8 +49,8 @@ qx.Class.define("qx.test.bom.request.Jsonp",
     },
 
     tearDown: function() {
-      delete window.SCRIPT_LOADED;
-      delete window.myCallback;
+      window.SCRIPT_LOADED = undefined;
+      window.myCallback = undefined;
       this.req.dispose();
     },
 

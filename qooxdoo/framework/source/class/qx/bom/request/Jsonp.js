@@ -103,11 +103,11 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
       this.responseJson = data;
 
       // Delete reference to this
-      delete this.constructor[this.__id];
+      this.constructor[this.__id] = undefined;
 
       // Delete dynamically created callback
       if (window[this.__callbackName]) {
-        delete window[this.__callbackName];
+        window[this.__callbackName] = undefined;
       }
     },
 
