@@ -97,7 +97,7 @@
         "$${APPLICATION}.Application"
       ],
       
-      "=settings" :
+      "=environment" :
       {
         "qx.version"     : "${QOOXDOO_VERSION}",
         "qx.application" : "$${APPLICATION}.Application"
