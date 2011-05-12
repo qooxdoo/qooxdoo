@@ -363,7 +363,7 @@ qx.Class.define("qx.core.Assert",
      * @param invokeFunc {Function} The function which will be invoked and which
      *   fires the event.
      * @param listenerFunc {Function?null} The function which will be invoked in the
-     *   listener. The function has one parameter called e which is the event.
+     *   listener. The function receives one parameter which is the event.
      * @param msg {String?""} Message to be shows if the assertion fails.
      */
     assertEventFired : function(obj, event, invokeFunc, listenerFunc, msg)
