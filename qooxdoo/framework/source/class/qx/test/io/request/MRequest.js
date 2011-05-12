@@ -254,15 +254,15 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(error);
     },
 
-    "test: fire remoteError": function() {
+    "test: fire statusError": function() {
       this.setUpFakeTransport();
       var req = this.req,
-          remoteError = this.spy();
+          statusError = this.spy();
 
-      req.addListener("remoteError", remoteError);
+      req.addListener("statusError", statusError);
       this.respond(500);
 
-      this.assertCalledOnce(remoteError);
+      this.assertCalledOnce(statusError);
     },
 
     "test: fire fail on erroneous status": function() {

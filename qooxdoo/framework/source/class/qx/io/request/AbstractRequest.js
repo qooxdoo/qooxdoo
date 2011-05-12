@@ -112,7 +112,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
      *
      * Note: Only ever fired for transports revealing an HTTP status.
      */
-    "remoteError": "qx.event.type.Event",
+    "statusError": "qx.event.type.Event",
 
     /**
      * Fires on timeout, error or remote error.
@@ -541,7 +541,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
         // Erroneous HTTP status
         } else {
-          this.fireEvent("remoteError");
+          this.fireEvent("statusError");
 
           // A remote error failure
           this.fireEvent("fail");
