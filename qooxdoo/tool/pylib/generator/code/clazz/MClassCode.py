@@ -37,35 +37,6 @@ class MClassCode(object):
     #   Tree Interface
     # --------------------------------------------------------------------------
 
-    def _getSourceTree(self, cacheId, tradeSpaceForSpeed):
-
-        cache = self.context['cache']
-        console = self.context['console']
-
-        # Lookup for unoptimized tree
-        tree, _ = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
-
-        # Tree still undefined?, create it!
-        if tree == None:
-            console.debug("Parsing file: %s..." % self.id)
-            console.indent()
-
-            fileContent = filetool.read(self.path, self.encoding)
-            tokens = tokenizer.parseStream(fileContent, self.id)
-            
-            console.outdent()
-            console.debug("Generating tree: %s..." % self.id)
-            console.indent()
-            tree = treegenerator.createSyntaxTree(tokens)  # allow exceptions to propagate
-
-            # store unoptimized tree
-            #print "Caching %s" % cacheId
-            cache.write(cacheId, tree, memory=tradeSpaceForSpeed, writeToFile=True)
-
-            console.outdent()
-        return tree
-
-
     def tree(self, variantSet={}):
         context = self.context
         cache   = context['cache']
@@ -108,6 +79,35 @@ class MClassCode(object):
                 cache.write(cacheId, opttree, memory=tradeSpaceForSpeed, writeToFile=True)
 
         return opttree
+
+
+    def _getSourceTree(self, cacheId, tradeSpaceForSpeed):
+
+        cache = self.context['cache']
+        console = self.context['console']
+
+        # Lookup for unoptimized tree
+        tree, _ = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
+
+        # Tree still undefined?, create it!
+        if tree == None:
+            console.debug("Parsing file: %s..." % self.id)
+            console.indent()
+
+            fileContent = filetool.read(self.path, self.encoding)
+            tokens = tokenizer.parseStream(fileContent, self.id)
+            
+            console.outdent()
+            console.debug("Generating tree: %s..." % self.id)
+            console.indent()
+            tree = treegenerator.createSyntaxTree(tokens)  # allow exceptions to propagate
+
+            # store unoptimized tree
+            #print "Caching %s" % cacheId
+            cache.write(cacheId, tree, memory=tradeSpaceForSpeed, writeToFile=True)
+
+            console.outdent()
+        return tree
 
 
     # --------------------------------------------------------------------------
@@ -179,6 +179,8 @@ class MClassCode(object):
     #   Compile Interface
     # --------------------------------------------------------------------------
 
+    ##
+    # Interface method: selects the right code version to return
     def getCode(self, compOptions):
         def strip_comments(buffer):
             #TODO:
@@ -204,6 +206,8 @@ class MClassCode(object):
         return result
 
 
+    ##
+    # Checking the cache for the appropriate code, and pot. invoking self.compile
     def _getCompiled(self, optimize, variants, format):
 
         classVariants     = self.classVariants()
@@ -230,6 +234,8 @@ class MClassCode(object):
         return "[%s]" % ("-".join(optimize))
 
 
+    ##
+    # Interface to ecmascript.compiler.compile
     def compile(self, tree, format=False):
         # Emulate options  -- TODO: Refac interface
         parser = optparse.OptionParser()

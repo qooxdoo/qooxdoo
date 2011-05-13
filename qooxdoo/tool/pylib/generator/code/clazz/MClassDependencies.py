@@ -673,6 +673,14 @@ class MClassDependencies(object):
 
             # Check cache
             cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, variantString)
+                # The bad thing here is that 'variantString' contains environment setting
+                # that normally have no influence on the dependencies (like
+                # 'qx.Application'). So cached deps are rejected for no reason (ex.
+                # building the demos of Demobrowser). But I cannot easily apply
+                # variant-projection here, as it only proves that the current class is
+                # independent of a specific environement key; but its recursive deps could
+                # well be. Fix: Get the shallow deps of the current method from cache, and then get the
+                # trans. deps of those items. They then could appy the same reasoning.
             cachedDeps, _ = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
             if cachedDeps != None:
                 console.debug("using cached result")
