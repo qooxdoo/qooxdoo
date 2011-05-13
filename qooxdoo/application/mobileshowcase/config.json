@@ -67,7 +67,7 @@
         "files" :
         [
           "index-ios.html",
-          "index-android.html"
+          "index.html"
         ],
 
         "source" : "${ROOT}/source/resource",
