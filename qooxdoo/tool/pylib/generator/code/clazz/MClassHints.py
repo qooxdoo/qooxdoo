@@ -20,7 +20,7 @@
 ################################################################################
 
 ##
-#
+# generator.code.Class Mixin: class compile hints (#asset, #require, ...)
 ##
 
 import sys, os, types, re, string

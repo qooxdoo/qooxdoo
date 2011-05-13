@@ -20,7 +20,7 @@
 ################################################################################
 
 ##
-#
+# generator.code.Class Mixin: class resources
 ##
 
 import sys, os, types, re, string, copy

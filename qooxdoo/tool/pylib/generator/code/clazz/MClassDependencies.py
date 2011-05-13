@@ -20,7 +20,7 @@
 ################################################################################
 
 ##
-#
+# generator.code.Class Mixin: class dependencies
 ##
 
 import sys, os, types, re, string, time
@@ -68,7 +68,7 @@ class MClassDependencies(object):
 
             load   = []
             run    = []
-            ignore = [DependencyItem(x, '', "|DefaultIgnoredNamesDynamic|") for x in self.DefaultIgnoredNamesDynamic]
+            ignore = [DependencyItem(x, '', "|DefaultIgnoredNamesDynamic|") for x in self.defaultIgnoredNamesDynamic]
 
             console.debug("Analyzing tree: %s" % self.id)
             console.indent()

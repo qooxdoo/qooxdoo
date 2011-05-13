@@ -20,7 +20,7 @@
 ################################################################################
 
 ##
-#
+# generator.code.Class Mixin: class internationalization support (mainly translation)
 ##
 
 import sys, os, types, re, string

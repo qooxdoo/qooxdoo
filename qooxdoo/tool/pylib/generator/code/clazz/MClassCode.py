@@ -20,7 +20,7 @@
 ################################################################################
 
 ##
-#
+# generator.code.Class Mixin: class code (tree and compile)
 ##
 
 import sys, os, types, re, string, copy

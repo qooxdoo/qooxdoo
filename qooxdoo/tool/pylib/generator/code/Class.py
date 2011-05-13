@@ -40,7 +40,7 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
 
     def __init__(self, name, path, library, context, container):
         #__slots__       = ('id', 'path', 'size', 'encoding', 'library', 'context', 'source', 'scopes', 'translations')
-        global console, cache, DefaultIgnoredNamesDynamic
+        global console, cache
         super(Class, self).__init__(path)
         self.id         = name  # qooxdoo name of class, classId
         self.library    = library     # Library()
@@ -61,7 +61,7 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
         console = context["console"]
         cache   = context["cache"]
         
-        self.DefaultIgnoredNamesDynamic = [lib["namespace"] for lib in self.context['jobconf'].get("library", [])]
+        self.defaultIgnoredNamesDynamic = [lib["namespace"] for lib in self.context['jobconf'].get("library", [])]
 
 
     def __getstate__(self):
@@ -72,10 +72,9 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
         return d
 
     def __setstate__(self, d):
-        global DefaultIgnoredNamesDynamic
         if hasattr(Context, "cache"):
             d['context']['cache'] = Context.cache
-        d['DefaultIgnoredNamesDynamic'] = [lib["namespace"] for lib in d['context']['jobconf'].get("library", [])]
+        d['defaultIgnoredNamesDynamic'] = [lib["namespace"] for lib in d['context']['jobconf'].get("library", [])]
         self.__dict__ = d
 
 
