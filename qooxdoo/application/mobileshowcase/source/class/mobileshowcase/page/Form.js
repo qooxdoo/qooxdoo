@@ -41,6 +41,7 @@ qx.Class.define("mobileshowcase.page.Form",
     __save : null,
     __result : null,
     __slide : null,
+    __rememberPass : null,
 
     // overridden
     _initialize : function()
@@ -79,6 +80,15 @@ qx.Class.define("mobileshowcase.page.Form",
       form.add(row);
       this.__password = new qx.ui.mobile.form.PasswordField().set({placeholder:"Password"});
       row.add(this.__password);
+      
+      var row = new qx.ui.mobile.form.Row();
+      this.__rememberPass = new qx.ui.mobile.form.CheckBox();
+      this.__rememberPass._setStyle('margin-right','20px');
+      row.add(this.__rememberPass);
+      this.__rememberPass2 = new qx.ui.mobile.form.CheckBox();
+      this.__rememberPass2._setAttribute('disabled','disabled');
+      row.add(this.__rememberPass2);
+      form.add(row);
 
       var row = new qx.ui.mobile.form.Row();
       form.add(row);

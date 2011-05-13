@@ -218,15 +218,6 @@ ul li input[type="checkbox"], ul li input[type="radio"] {
     padding: 10px 10px;
 }
 
-ul li input[type="checkbox"]:after, ul li input[type="radio"]:after {
-    content: attr(title);
-    font: 17px Helvetica;
-    display: block;
-    width: 246px;
-    margin: -12px 0 0 17px;
-}
-
-
 /* TOGGLE BUTTON */
 
 .toggleButton {
@@ -383,4 +374,43 @@ ul li input[type="checkbox"]:after, ul li input[type="radio"]:after {
 .scrollbar.vertical {
     top: 1px;
     right: 1px;
+}
+
+
+/* CHECKBOX */
+
+input[type="checkbox"] {
+  background-color: #929292;
+  -webkit-appearance : none;
+  width: 30px;
+  height: 30px;
+  -webkit-border-radius: .5em;
+  background: #aaaaaa;
+  background: #aaaaaa;
+}
+
+input[type="checkbox"]:checked {
+  background: #aaaaaa url(../../icon/ios/checkbox.png) 50% 50% no-repeat;
+  background: #aaaaaa url(../../icon/ios/checkbox.png) 50% 50% no-repeat;
+}
+
+/*input[type="checkbox"]:checked::after {
+  content: "";
+  -webkit-transform: rotate(45deg);
+  border-bottom: 4px solid #0B0;
+  border-right: 3px solid #0B0;
+  border-top: none;
+  border-left: none;
+  font-size: 0px;
+  height: 20px;
+  line-height: 0;
+  width: 10px;
+  float: right;
+  margin: 0;
+  padding: 0;
+}*/
+
+input[type="checkbox"]:disabled {
+  background: #e1d9d9;
+  background: #e1d9d9;
 }
