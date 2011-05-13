@@ -82,6 +82,12 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
         return "symbian";
       }
 
+      else if (
+        input.indexOf("BlackBerry") != -1
+      ) {
+        return "blackberry";
+      }
+
       // don't know
       return "";
     },
