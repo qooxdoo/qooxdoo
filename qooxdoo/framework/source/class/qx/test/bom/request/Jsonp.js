@@ -26,7 +26,7 @@
 
 /* ************************************************************************
 
-#ignore(myCallback)
+#ignore(myExistingCallback)
 
 ************************************************************************ */
 
@@ -39,23 +39,19 @@ qx.Class.define("qx.test.bom.request.Jsonp",
 
   members :
   {
-    /**
-     * @lint ignoreUndefined(myCallback)
-     */
     setUp: function() {
       this.req = new qx.bom.request.Jsonp();
       this.url = this.getUrl("qx/test/jsonp_primitive.php");
-      myCallback = function() {};
     },
 
     tearDown: function() {
       window.SCRIPT_LOADED = undefined;
-      window.myCallback = undefined;
+      window.myExistingCallback = undefined;
       this.req.dispose();
     },
 
     //
-    // Callback Param
+    // Callback
     //
 
     "test: set callback param and name": function() {
@@ -79,6 +75,15 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       // String is URL encoded
       regExp = /\?callback=qx\.bom\.request\.Jsonp.*\d{16,}.*\.callback/;
       this.assertMatch(req._getUrl(), regExp);
+    },
+
+    "test: not overwrite existing callback": function() {
+      // User provided callback that must not be overwritten
+      myExistingCallback = "Affe";
+
+      this.req.setCallbackName("myExistingCallback");
+      this.request();
+      this.assertEquals("Affe", myExistingCallback);
     },
 
     //

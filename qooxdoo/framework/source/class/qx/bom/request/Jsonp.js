@@ -63,6 +63,11 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     __callbackCalled: null,
 
     /**
+     * {Boolean} Whether a custom callback was created automatically.
+     */
+    __customCallbackCreated: null,
+
+    /**
      * {Boolean} Whether request was disposed.
      */
     __disposed: null,
@@ -104,12 +109,20 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
       // Custom callback
       } else {
 
-        // Dynamically create globally available callback
-        // with user defined name. Delegate to this object’s
+        // Dynamically create globally available callback (if it does not
+        // exist yet) with user defined name. Delegate to this object’s
         // callback method.
-        window[this.__callbackName] = function(data) {
-          that.callback(data);
-        };
+        if (!window[this.__callbackName]) {
+          this.__customCallbackCreated = true;
+          window[this.__callbackName] = function(data) {
+            that.callback(data);
+          };
+        } else {
+          if (qx.core.Environment.get("qx.debug.io")) {
+            qx.log.Logger.debug(qx.bom.request.Jsonp, "Callback " +
+              this.__callbackName + " already exists");
+          }
+        }
 
       }
 
@@ -154,13 +167,10 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
       // Set response
       this.responseJson = data;
 
-      // Delete reference to this
+      // Delete global reference to this
       this.constructor[this.__id] = undefined;
 
-      // Delete dynamically created callback
-      if (window[this.__callbackName]) {
-        window[this.__callbackName] = undefined;
-      }
+      this.__deleteCustomCallback();
     },
 
     /**
@@ -189,12 +199,21 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      * callback name. This is when setting the callbackName is useful. A
      * function is created and made available globally under the given name.
      * The function receives the JSON data and dispatches it to this instance’s
-     * {@link #callback} method.
+     * {@link #callback} method. Please note that this function is only created
+     * if it does not exist before.
      *
      * @param name {String} Name of the callback function.
      */
     setCallbackName: function(name) {
       this.__callbackName = name;
+    },
+
+    dispose: function() {
+
+      // In case callback was not called
+      this.__deleteCustomCallback();
+
+      this.__callBase("dispose");
     },
 
     /**
@@ -206,6 +225,16 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
       this.status = this.__callbackCalled ? 200 : 500;
 
       this.__callBase("_onNativeLoad");
+    },
+
+    /**
+     *  Delete custom callback if dynamically created before.
+     */
+    __deleteCustomCallback: function() {
+      if (this.__customCallbackCreated && window[this.__callbackName]) {
+        window[this.__callbackName] = undefined;
+        this.__customCallbackCreated = false;
+      }
     },
 
     /**
