@@ -183,7 +183,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // send()
     //
 
-    "test: send request with data": function() {
+    "test: send() with data": function() {
       var fakeReq = this.getFakeReq();
       this.spy(fakeReq, "send");
 
@@ -196,7 +196,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
     // BUGFIXES
 
-    "test: send request without data": function() {
+    "test: send() without data": function() {
       var fakeReq = this.getFakeReq();
       this.spy(fakeReq, "send");
 
@@ -210,7 +210,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // abort()
     //
 
-    "test: aborting request aborts native Xhr": function() {
+    "test: abort() aborts native Xhr": function() {
       var req = this.req;
       var fakeReq = this.getFakeReq();
       this.spy(fakeReq, "abort");
@@ -219,7 +219,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertCalled(fakeReq.abort);
     },
 
-    "test: aborting request resets readyState": function() {
+    "test: abort() resets readyState": function() {
       var req = this.req;
       req.open();
       req.abort();
@@ -643,7 +643,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // getResponseHeader()
     //
 
-    "test: get response header": function() {
+    "test: getResponseHeader()": function() {
       var fakeReq = this.getFakeReq();
       fakeReq.setResponseHeaders({
         "key": "value"
@@ -657,7 +657,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // getAllResponseHeaders()
     //
 
-    "test: get all response headers": function() {
+    "test: getAllResponseHeaders()": function() {
       var fakeReq = this.getFakeReq();
       fakeReq.setResponseHeaders({
         "key1": "value1",
@@ -672,13 +672,13 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // dispose()
     //
 
-    "test: dispose native Xhr": function() {
+    "test: dispose() deletes native Xhr": function() {
       this.req.dispose();
 
       this.assertNull(this.req._getNativeXhr());
     },
 
-    "test: dispose aborts": function() {
+    "test: dispose() aborts": function() {
       var req = this.req;
 
       this.spy(req, "abort");
@@ -691,7 +691,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     // Helper
     //
 
-    "test: is cross domain": function() {
+    "test: isCrossDomain() returns true with cross-domain URL": function() {
       var location = window.location,
           origin = location.protocol + "//" + location.host,
           isCrossDomain = qx.bom.request.Xhr.isCrossDomain;
@@ -701,7 +701,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertTrue(isCrossDomain("foobar" + "://" + location.host), "protocol");
     },
 
-    "test: is not cross domain": function() {
+    "test: isCrossDomain() returns false with same-origin URL": function() {
       var location = window.location,
           origin = location.protocol + "//" + location.host,
           isCrossDomain = qx.bom.request.Xhr.isCrossDomain;
@@ -713,7 +713,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertFalse(isCrossDomain("../foo-bar/meep.in/data.json"), "strange url");
     },
 
-    "test: indicate success": function() {
+    "test: isSuccessful() returns true with successful HTTP status": function() {
       var Xhr = qx.bom.request.Xhr;
 
       this.assertTrue(Xhr.isSuccessful(200));
