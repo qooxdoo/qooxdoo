@@ -161,24 +161,9 @@ qx.Bootstrap.define("qx.bom.request.Script",
         return;
       }
 
-      var script,
+      var script = this.__createScriptElement(),
           head = this.__headElement,
           that = this;
-
-      // Create new script element for each request
-      script = this.__scriptElement = document.createElement("script");
-
-      script.src = this.__url;
-      script.onerror = this.__onNativeErrorBound;
-      script.onload = this.__onNativeLoadBound;
-
-      // BUGFIX: IE < 9
-      // Legacy IEs do not fire the "load" event for script elements.
-      // Instead, they support the "readystatechange" event
-      if (qx.core.Environment.get("engine.name") === "mshtml" &&
-          qx.core.Environment.get("engine.version") < 9) {
-        script.onreadystatechange = this.__onNativeLoadBound;
-      }
 
       if (this.timeout > 0) {
         this.__timeoutId = window.setTimeout(this.__onTimeoutBound, this.timeout);
@@ -571,6 +556,29 @@ qx.Bootstrap.define("qx.bom.request.Script",
       var isOpera = qx.core.Environment.get("engine.name") === "opera";
 
       return !(isLegacyIe || isOpera);
+    },
+
+    /**
+     * Create and configure script element.
+     *
+     * @return {Element} Configured script element.
+     */
+    __createScriptElement: function() {
+      var script = this.__scriptElement = document.createElement("script");
+
+      script.src = this.__url;
+      script.onerror = this.__onNativeErrorBound;
+      script.onload = this.__onNativeLoadBound;
+
+      // BUGFIX: IE < 9
+      // Legacy IEs do not fire the "load" event for script elements.
+      // Instead, they support the "readystatechange" event
+      if (qx.core.Environment.get("engine.name") === "mshtml" &&
+          qx.core.Environment.get("engine.version") < 9) {
+        script.onreadystatechange = this.__onNativeLoadBound;
+      }
+
+      return script;
     },
 
     /**
