@@ -28,11 +28,6 @@ qx.Class.define("qx.io.request.Jsonp",
 {
   extend: qx.io.request.AbstractRequest,
 
-  construct: function()
-  {
-    this.base(arguments);
-  },
-
   events:
   {
 

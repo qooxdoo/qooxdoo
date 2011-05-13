@@ -39,9 +39,16 @@ qx.Class.define("qx.io.request.Xhr",
 {
   extend: qx.io.request.AbstractRequest,
 
-  construct: function()
-  {
-    this.base(arguments);
+  /**
+   * @param url {String} The URL of the resource to request.
+   * @param method {String} The HTTP method.
+   */
+  construct: function(url, method) {
+    if (method !== undefined) {
+      this.setMethod(method);
+    }
+
+    this.base(arguments, url);
   },
 
   // Only document events with transport specific details.

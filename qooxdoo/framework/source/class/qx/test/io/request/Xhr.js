@@ -184,6 +184,20 @@ qx.Class.define("qx.test.io.request.Xhr",
     // },
 
     //
+    // General (cont.)
+    //
+
+    "test: set url property on construct": function() {
+      var req = new qx.io.request.Xhr("url");
+      this.assertEquals("url", req.getUrl());
+    },
+
+    "test: set method property on construct": function() {
+      var req = new qx.io.request.Xhr("url", "POST");
+      this.assertEquals("POST", req.getMethod());
+    },
+
+    //
     // Send (cont.)
     //
 

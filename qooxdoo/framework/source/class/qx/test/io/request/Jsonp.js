@@ -95,6 +95,15 @@ qx.Class.define("qx.test.io.request.Jsonp",
     },
 
     //
+    // General (cont.)
+    //
+
+    "test: set url property on construct": function() {
+      var req = new qx.io.request.Jsonp("url");
+      this.assertEquals("url", req.getUrl());
+    },
+
+    //
     // Callback management
     //
 

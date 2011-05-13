@@ -37,9 +37,16 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
   extend : qx.core.Object,
 
-  construct : function()
+  /**
+   * @param url {String} The URL of the resource to request.
+   */
+  construct : function(url)
   {
     this.base(arguments);
+
+    if (url !== undefined) {
+      this.setUrl(url);
+    }
 
     var transport = this._transport = this._createTransport();
 
