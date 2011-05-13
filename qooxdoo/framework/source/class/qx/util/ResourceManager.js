@@ -213,8 +213,6 @@ qx.Class.define("qx.util.ResourceManager",
               "," + resstruct["data"];
       }
       else {
-        //TODO: remove this for release
-        this.debug("ResourceManager.toDataUri: falling back for", resid);
         uri = this.toUri(resid);
       }
       return uri;
