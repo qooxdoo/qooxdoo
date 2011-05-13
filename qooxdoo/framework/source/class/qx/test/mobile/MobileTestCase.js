@@ -38,11 +38,12 @@ qx.Class.define("qx.test.mobile.MobileTestCase",
 
       qx.test.mobile.MobileTestCase._oldApplicationFunction = qx.core.Init.getApplication;
 
+      var self = this;
       qx.core.Init.getApplication = function()
       {
         return {
           getRoot : function() {
-            return this.getRoot();
+            return self.getRoot();
           }
         }
       }
