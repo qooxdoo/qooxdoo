@@ -26,6 +26,7 @@
 import sys, os, types, re, string, copy
 from generator.resource.AssetHint   import AssetHint
 from generator.resource.CombinedImage    import CombinedImage
+from generator import Context
 
 
 class MClassResources(object):
