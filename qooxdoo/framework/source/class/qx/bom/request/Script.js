@@ -38,7 +38,6 @@ qx.Bootstrap.define("qx.bom.request.Script",
     this.__onNativeErrorBound = qx.Bootstrap.bind(this._onNativeError, this);
     this.__onTimeoutBound = qx.Bootstrap.bind(this._onTimeout, this);
 
-    this.__scriptElement = document.createElement("script");
     this.__headElement = document.head || document.getElementsByTagName( "head" )[0] ||
                          document.documentElement;
 
@@ -162,9 +161,12 @@ qx.Bootstrap.define("qx.bom.request.Script",
         return;
       }
 
-      var script = this.__scriptElement,
+      var script,
           head = this.__headElement,
           that = this;
+
+      // Create new script element for each request
+      script = this.__scriptElement = document.createElement("script");
 
       script.src = this.__url;
       script.onerror = this.__onNativeErrorBound;
@@ -334,9 +336,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
       if (!this.__disposed) {
 
         // Prevent memory leaks
-        script.onload = script.onreadystatechange = null;
-
-        this.__disposeScriptElement();
+        if (script) {
+          script.onload = script.onreadystatechange = null;
+          this.__disposeScriptElement();
+        }
 
         if (this.__timeoutId) {
           window.clearTimeout(this.__timeoutId);
