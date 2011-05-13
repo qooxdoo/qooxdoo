@@ -7,6 +7,10 @@ HtmlArea is a html editing widget which is part of the framework. This widget is
 
 Here you can find some interesting technical info.
 
+.. note::
+
+  Please keep in mind that the HtmlArea component provides basic HTML editing functionality. It is **not** a full-blown HTML editor and will not be developed towards it.
+
 .. _pages/ui_html_editing#demo:
 
 Demo
