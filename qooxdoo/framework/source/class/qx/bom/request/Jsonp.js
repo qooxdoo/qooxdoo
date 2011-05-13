@@ -87,7 +87,8 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
           callbackName,
           that = this;
 
-      // Reset callback flag
+      // Reset properties that may have been set by previous request
+      this.responseJson = null;
       this.__callbackCalled = false;
 
       callbackParam = this.__callbackParam || "callback";

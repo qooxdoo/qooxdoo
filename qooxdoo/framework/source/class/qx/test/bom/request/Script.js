@@ -75,10 +75,11 @@ qx.Class.define("qx.test.bom.request.Script",
 
       this.req.onload = function() {
         count += 1;
-        that.request();
         if (count == 2) {
           that.resume(function() {});
+          return;
         }
+        that.request();
       };
 
       this.request();
@@ -181,6 +182,23 @@ qx.Class.define("qx.test.bom.request.Script",
       this.req.setDetermineSuccess(function() {
         return false;
       });
+
+      this.request();
+      this.wait();
+    },
+
+    "test: reset XHR properties when reopened": function() {
+      var req = this.req,
+          that = this;
+
+      req.onload = function() {
+        that.resume(function() {
+          req.open("GET", "/url");
+          that.assertIdentical(1, req.readyState);
+          that.assertIdentical(0, req.status);
+          that.assertIdentical("", req.statusText);
+        });
+      };
 
       this.request();
       this.wait();

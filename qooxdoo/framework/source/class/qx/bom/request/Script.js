@@ -32,6 +32,8 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
   construct : function()
   {
+    this.__initXhrProperties();
+
     this.__onNativeLoadBound = qx.Bootstrap.bind(this._onNativeLoad, this);
     this.__onNativeErrorBound = qx.Bootstrap.bind(this._onNativeError, this);
     this.__onTimeoutBound = qx.Bootstrap.bind(this._onTimeout, this);
@@ -45,9 +47,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
     //
     // Note: The script is parsed and executed, before a "load" is fired.
     //
-    if (!this.__supportsErrorHandler()) {
-      this.timeout = 7500;
-    }
+    this.timeout = this.__supportsErrorHandler() ? 0 : 7500;
   },
 
   members :
@@ -67,14 +67,14 @@ qx.Bootstrap.define("qx.bom.request.Script",
      * does not receive response headers. For compatibility, another LOADING
      * state is implemented that replaces the HEADERS_RECEIVED state.
      */
-    readyState: 0,
+    readyState: null,
 
     /**
      * {Number} The status code.
      *
-     * Note: The
+     * Note: The script transport cannot determine the HTTP status code.
      */
-    status: 0,
+    status: null,
 
     /**
      * {String} The status text.
@@ -82,14 +82,14 @@ qx.Bootstrap.define("qx.bom.request.Script",
      * The script transport does not receive response headers. For compatibility,
      * the statusText property is set to the status casted to string.
      */
-    statusText: "",
+    statusText: null,
 
     /**
      * {Number} Timeout limit in milliseconds.
      *
      * 0 (default) means no timeout.
      */
-    timeout: 0,
+    timeout: null,
 
     /**
      * {Function} Function that is executed once the script was loaded.
@@ -111,9 +111,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
         return;
       }
 
-      // May have been aborted before
-      this.__abort = false;
+      // Reset XHR properties that may have been set by previous request
+      this.__initXhrProperties();
 
+      this.__abort = null;
       this.__url = url;
 
       if (qx.core.Environment.get("qx.debug.io")) {
@@ -510,6 +511,15 @@ qx.Bootstrap.define("qx.bom.request.Script",
       HELPER
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * Initialize properties.
+     */
+    __initXhrProperties: function() {
+      this.readyState = 0;
+      this.status = 0;
+      this.statusText = "";
+    },
 
     /**
      * Change readyState.

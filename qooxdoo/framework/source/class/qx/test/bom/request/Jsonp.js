@@ -100,6 +100,21 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       this.wait();
     },
 
+    "test: reset responseJson when reopened": function() {
+      var req = this.req,
+          that = this;
+
+      req.onload = function() {
+        that.resume(function() {
+          req.open("GET", "/url");
+          that.assertNull(req.responseJson);
+        });
+      };
+
+      this.request();
+      this.wait();
+    },
+
     "test: status indicates success when default callback called": function() {
       var that = this;
 
@@ -159,16 +174,20 @@ qx.Class.define("qx.test.bom.request.Jsonp",
 
     "test: status indicates failure when callback not called on second request": function() {
       var count = 0,
+          req = this.req,
           that = this;
 
-      this.req.onload = function() {
+      req.onload = function() {
         count += 1;
-        that.request(that.getUrl("qx/test/script.js"));
+
         if (count == 2) {
           that.resume(function() {
-            that.assertEquals(500, that.req.status);
+            that.assertEquals(500, req.status);
           });
+          return;
         }
+
+        that.request(that.getUrl("qx/test/script.js"));
       };
 
       this.request();
