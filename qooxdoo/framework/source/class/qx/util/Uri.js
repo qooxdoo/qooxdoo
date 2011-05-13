@@ -78,15 +78,23 @@ qx.Class.define("qx.util.Uri",
      * @return {String} URL with string appended in query part.
      */
     appendParamsToUrl: function(url, params) {
+
+      if (params === undefined) {
+        return url;
+      }
+
       if (qx.core.Environment.get("qx.debug")) {
         if (!(qx.lang.Type.isString(params) || qx.lang.Type.isObject(params))) {
-          qx.log.Logger.debug("param attribute must be either string or object");
-          return;
+          throw new Error("params must be either string or object");
         }
       }
 
       if (qx.lang.Type.isObject(params)) {
         params = qx.lang.Object.toUriParameter(params);
+      }
+
+      if (!params) {
+        return url;
       }
 
       return url += (/\?/).test(url) ? "&" + params : "?" + params;

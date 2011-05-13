@@ -24,40 +24,56 @@ qx.Class.define("qx.test.util.Uri",
   members :
   {
     setUp : function() {
-      this.Url = qx.util.Uri;
+      this.Uri = qx.util.Uri;
     },
 
-    "test: append params string to URL": function() {
+    "test: appendParamsToUrl() with string": function() {
       var url = "http://example.com/path",
           params = "affe=true&maus=false",
           expected = "http://example.com/path?affe=true&maus=false",
-          result = this.Url.appendParamsToUrl(url, params);
+          result = this.Uri.appendParamsToUrl(url, params);
 
       this.assertEquals(expected, result);
     },
 
-    "test: append params string to URL with query string": function() {
+    "test: appendParamsToUrl() with string when existing query": function() {
       var url = "http://example.com/path?giraffe=true",
           params = "affe=true&maus=false",
           expected = "http://example.com/path?giraffe=true&affe=true&maus=false",
-          result = this.Url.appendParamsToUrl(url, params);
+          result = this.Uri.appendParamsToUrl(url, params);
 
       this.assertEquals(expected, result);
     },
 
-    "test: append params hash to URL": function() {
+    "test: appendParamsToUrl() with map": function() {
       var url = "http://example.com/path",
           params = {affe: true, maus: false},
-          result = this.Url.appendParamsToUrl(url, params);
+          result = this.Uri.appendParamsToUrl(url, params);
 
       this.assertTrue(/^http.*example.com\/path/.test(result));
       this.assertTrue(/affe=true/.test(result));
       this.assertTrue(/maus=false/.test(result));
     },
 
-    "test: parse URI": function() {
+    "test: appendParamsToUrl() with undefined": function() {
+      var url = "http://example.com/path",
+          params = undefined,
+          result = this.Uri.appendParamsToUrl(url, params);
+
+      this.assertEquals(url, result);
+    },
+
+    "test: appendParamsToUrl() with empty map": function() {
+      var url = "http://example.com/path",
+          params = {},
+          result = this.Uri.appendParamsToUrl(url, params);
+
+      this.assertEquals(url, result);
+    },
+
+    "test: parseUri()": function() {
       var url = "http://www.example.com:80/foo/bar?affe=true#here",
-          result = this.Url.parseUri(url);
+          result = this.Uri.parseUri(url);
 
       // Some integration tests, parseUri is better covered here
       // http://stevenlevithan.com/demo/parseuri/js/
