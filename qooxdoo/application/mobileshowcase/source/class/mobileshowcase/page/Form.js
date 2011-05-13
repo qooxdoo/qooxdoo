@@ -82,12 +82,8 @@ qx.Class.define("mobileshowcase.page.Form",
       row.add(this.__password);
       
       var row = new qx.ui.mobile.form.Row();
-      this.__rememberPass = new qx.ui.mobile.form.CheckBox();
-      this.__rememberPass._setStyle('margin-right','20px');
+      this.__rememberPass = new qx.ui.mobile.form.CheckBox(true);
       row.add(this.__rememberPass);
-      this.__rememberPass2 = new qx.ui.mobile.form.CheckBox();
-      this.__rememberPass2._setAttribute('disabled','disabled');
-      row.add(this.__rememberPass2);
       form.add(row);
 
       var row = new qx.ui.mobile.form.Row();

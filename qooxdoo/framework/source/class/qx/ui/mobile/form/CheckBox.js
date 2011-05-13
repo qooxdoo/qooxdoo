@@ -39,6 +39,9 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   construct : function(value)
   {
     this.base(arguments);
+    if (value) {
+      this.setValue(value);
+    }
   },
 
   /*
@@ -61,6 +64,29 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
     {
       refine : true,
       init : "checkBox"
+    },
+    
+    enable :
+    {
+      init: true,
+      check : "Boolean",
+      nullable: false,
+      apply: "_applyEnable"
+    }
+  },
+  
+  members :
+  {
+    _applyEnable : function(value,old)
+    {
+      if(value)
+      {
+        this._setAttribute("disabled",null)
+      }
+      else
+      {
+        this._setAttribute("disabled","disabled");
+      }
     }
   }
 });

@@ -352,32 +352,15 @@ input[type="checkbox"] {
   width: 30px;
   height: 30px;
   -webkit-border-radius: .3em;
+  background: url(../../icon/android/checkbox-gray.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
+  background: url(../../icon/android/checkbox-gray.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+}
+
+input[type="checkbox"]:checked {
   background: url(../../icon/android/checkbox-green.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
   background: url(../../icon/android/checkbox-green.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
 }
 
-input[type="checkbox"]:checked {
-  background: url(../../icon/android/checkbox-green.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#f9dc5e), color-stop(0.4, #eb9700), color-stop(0.6, #eb9700), to(#f9dc5e)) 0px 0px no-repeat;
-  background: url(../../icon/android/checkbox-green.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f9dc5e, #eb9700 40%, #eb9700 60%, #f9dc5e) 0px 0px no-repeat;
-}
-
-/*input[type="checkbox"]:checked::after {
-  content: "";
-  -webkit-transform: rotate(45deg);
-  border-bottom: 4px solid #0B0;
-  border-right: 3px solid #0B0;
-  border-top: none;
-  border-left: none;
-  font-size: 0px;
-  height: 20px;
-  line-height: 0;
-  width: 10px;
-  float: right;
-  margin: 0;
-  padding: 0;
-}*/
-
 input[type="checkbox"]:disabled {
-  background: url(../../icon/android/checkbox-gray.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#f1f1f1), color-stop(0.6, #c1c1c1), to(#d0d0d0)) 0px 0px no-repeat;
-  background: url(../../icon/android/checkbox-gray.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
+
 }
