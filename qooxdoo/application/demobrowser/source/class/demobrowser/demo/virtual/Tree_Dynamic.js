@@ -19,8 +19,8 @@
 
 /* ************************************************************************
 
-#asset(icon/22/places/folder.png)
-#asset(icon/22/mimetypes/office-document.png)
+#asset(qx/icon/${qx.icontheme}/22/places/folder.png)
+#asset(qx/icon/${qx.icontheme}/22/mimetypes/office-document.png)
 #asset(demobrowser/demo/icons/loading22.gif)
 
 ************************************************************************ */
