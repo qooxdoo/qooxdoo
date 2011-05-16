@@ -207,13 +207,28 @@ class MClassCode(object):
 
 
     ##
-    # Checking the cache for the appropriate code, and pot. invoking self.compile
+    # Checking the cache for the appropriate code, and pot. invoking compiler.compile
     def _getCompiled(self, optimize, variants, format):
+
+        ##
+        # Interface to ecmascript.compiler.compile
+        def invokeCompile(tree, format=False):
+            # Emulate options  -- TODO: Refac interface
+            parser = optparse.OptionParser()
+            parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False)
+            parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")
+            parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")
+            parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")
+
+            (options, args) = parser.parse_args([])
+
+            return compiler.compile(tree, options, format)
+
 
         classVariants     = self.classVariants()
         relevantVariants  = self.projectClassVariantsToCurrent(classVariants, variants)
         variantsId        = util.toString(relevantVariants)
-        optimizeId        = self._getOptimizeId(optimize)
+        optimizeId        = self._optimizeId(optimize)
         cache             = self.context["cache"]
 
         # Caution: This sharing cached compiled classes with TreeCompiler!
@@ -222,31 +237,18 @@ class MClassCode(object):
 
         if compiled == None:
             tree   = self.optimize(self.tree(variants), optimize)
-            compiled = self.compile(tree, format)
+            compiled = invokeCompile(tree, format)
             cache.write(cacheId, compiled)
 
         return compiled
 
 
-    def _getOptimizeId(self, optimize):
+    ##
+    # Create an id from the optimize list
+    def _optimizeId(self, optimize):
         optimize = copy.copy(optimize)
         optimize.sort()
         return "[%s]" % ("-".join(optimize))
-
-
-    ##
-    # Interface to ecmascript.compiler.compile
-    def compile(self, tree, format=False):
-        # Emulate options  -- TODO: Refac interface
-        parser = optparse.OptionParser()
-        parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False)
-        parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")
-        parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")
-        parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")
-
-        (options, args) = parser.parse_args([])
-
-        return compiler.compile(tree, options, format)
 
 
     def optimize(self, tree, optimize=[], featureMap={}):
