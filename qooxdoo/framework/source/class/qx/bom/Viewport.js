@@ -14,6 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Sebastian Fastner (fastner)
      * Tino Butz (tbtz)
 
    ======================================================================
@@ -276,25 +277,74 @@ qx.Class.define("qx.bom.Viewport",
 
 
     /**
+     * Returns an orientation normalizer value that should be added to device orientation 
+     * to normalize behaviour on different devices.
+     *
+     * @return {Map} Orientation normalizing value
+     */
+    __getOrientationNormalizer : function() {
+      // Calculate own understanding of orientation (0 = portrait, 90 = landscape)
+      var currentOrientation = this.getWidth() > this.getHeight() ? 90 : 0;
+      var deviceOrientation  = window.orientation;
+      if (deviceOrientation == null || Math.abs( deviceOrientation % 180 ) == currentOrientation) {
+        // No device orientation available or device orientation equals own understanding of orientation
+        return {
+          "-270":  90,
+          "-180": 180,
+           "-90": -90,
+             "0":   0,
+            "90":  90,
+           "180": 180,
+           "270": -90
+        };
+      } else {
+        // Device orientation is not equal to own understanding of orientation
+        return {
+          "-270": 180,
+          "-180": -90,
+           "-90":   0,
+             "0":  90,
+            "90": 180,
+           "180": -90,
+           "270":   0
+        };
+      }
+    },
+
+
+    // Cache orientation normalizer map on start
+    __orientationNormalizer : null,
+
+
+    /**
      * Returns the current orientation of the viewport in degree.
      *
      * All possible values and their meaning:
      *
+     * * <code>-90</code>: "Landscape"
      * * <code>0</code>: "Portrait"
-     * * <code>-90</code>: "Landscape (right, screen turned clockwise)"
-     * * <code>90</code>: "Landscape (left, screen turned counterclockwise)"
-     * * <code>180</code>: "Portrait (upside-down portrait)"
+     * * <code>90</code>: "Landscape"
+     * * <code>180</code>: "Portrait"
      *
      * @param win {Window?window} The window to query
      * @return {Integer} The current orientation in degree
      */
     getOrientation : function(win)
     {
-      // See http://developer.apple.com/library/safari/#documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html%23//apple_ref/doc/uid/TP40006511-SW16
-      // for more information.
+      // The orientation property of window does not have the same behaviour over all devices
+      // iPad has 0degrees = Portrait, Playbook has 90degrees = Portrait, same for Android Honeycomb
+      //
+      // To fix this an orientationNormalizer map is calculated on application start
+      //
+      // The calculation of getWidth and getHeight returns wrong values if you are in an input field
+      // on iPad and rotate your device!
       var orientation = (win||window).orientation;
       if (orientation == null) {
+        // Calculate orientation from window width and window height
         orientation = this.getWidth(win) > this.getHeight(win) ? 90 : 0;
+      } else {
+        // Normalize orientation value
+        orientation = this.__orientationNormalizer[orientation];
       }
       return orientation;
     },
@@ -321,8 +371,12 @@ qx.Class.define("qx.bom.Viewport",
      */
     isPortrait : function(win)
     {
-      var orientation = this.getOrientation(win);
-      return (orientation == 0 || orientation == 180);
+      return Math.abs(this.getOrientation(win)) !== 90;
     }
+  },
+
+
+  defer : function(statics) {
+    statics.__orientationNormalizer = statics.__getOrientationNormalizer();
   }
 });
