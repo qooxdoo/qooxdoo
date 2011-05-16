@@ -7,7 +7,7 @@
     "url": "git://github.com/qooxdoo/qooxdoo.git"
   },
   "licenses": [{
-    "type": "LGPL (2.1) & EPL (1.0)",
+    "type": "LGPL / EPL ",
     "url": "http://qooxdoo.org/license"
   }],
   "engines": {
@@ -15,7 +15,8 @@
   },
   "dependencies": {},
   "devDependencies": {},
-  "description": "Object-oriented porgramming using the qooxdoo class system",
-  "homepage": "http://qooxdoo.org",
+  "description": "OO programming with classes, mixins, interfaces and dynamic getters/setters",
+  "keywords" : ["oop", "class", "inheritance", "object-oriented"],
+  "homepage": "http://manual.qooxdoo.org/1.4/pages/core.html",
   "main": "qx-oo"
 }
