@@ -1147,8 +1147,8 @@ qx.Class.define("qx.ui.layout.Grid",
           width = Math.max(width, cellSize.width);
         }
 
-        var minWidth = Math.max(minWidth, this.getColumnMinWidth(col));
-        var maxWidth = this.getColumnMaxWidth(col);
+        minWidth = Math.max(minWidth, this.getColumnMinWidth(col));
+        maxWidth = this.getColumnMaxWidth(col);
 
         if (this.getColumnWidth(col) !== null) {
           var width = this.getColumnWidth(col);
