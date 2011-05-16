@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
      */
     setManager : function(manager) {
       qx.ui.mobile.page.Page.__manager = manager;
-    },
+    }
   },
 
 
