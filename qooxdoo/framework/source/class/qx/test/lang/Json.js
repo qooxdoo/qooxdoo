@@ -200,17 +200,45 @@ qx.Class.define("qx.test.lang.Json",
     },
 
 
-    testParseNumber : function() {
+    testParseNumber : function()
+    {
       this.assertEquals(1234, this.JSON.parse("1234"));
       this.assertEquals(1234, this.JSON.parse(" 1234"));
     },
 
-    isIe8 : function() {
+    testParseLegacyDate : function()
+    {
+      var str = '{ "date": "new Date(Date.UTC(2020,0,1,0,0,0,123))" }';
+
+      var obj = this.JSON.parse(str, function(key, value) {
+        if (value && typeof value === "string") {
+          if (value.indexOf("new Date(Date.UTC(") >= 0) {
+            var m = value.match(/new Date\(Date.UTC\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\)\)/);
+            return new Date(Date.UTC(m[1],m[2],m[3],m[4],m[5],m[6],m[7]));
+          }
+        } else {
+          return value;
+        }
+      });
+
+      var msg;
+
+      msg = "Must be date";
+      this.assertTrue(qx.lang.Type.isDate(obj.date), msg);
+
+      msg = "Must be same milliseconds";
+      this.assertEquals(new Date(Date.UTC(2020,0,1,0,0,0,123)).valueOf(),
+        obj.date.valueOf(), msg);
+    },
+
+    isIe8 : function()
+    {
       return qx.core.Environment.get("engine.name") === "mshtml" &&
              qx.core.Environment.get("engine.version") == 8;
     },
 
-    isFirefox : function() {
+    isFirefox : function()
+    {
       return qx.core.Environment.get("engine.name") === "gecko";
     }
   }
