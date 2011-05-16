@@ -163,6 +163,27 @@ qx.Class.define("qx.test.lang.Json",
       });
     },
 
+    testStringifyLegacyDate : function()
+    {
+      var obj = { date: new Date(Date.UTC(2020,0,1,0,0,0,123)) };
+      obj.date.toJSON = function() {
+        var dateParams =
+          this.getUTCFullYear() + "," +
+          this.getUTCMonth() + "," +
+          this.getUTCDate() + "," +
+          this.getUTCHours() + "," +
+          this.getUTCMinutes() + "," +
+          this.getUTCSeconds() + "," +
+          this.getUTCMilliseconds();
+        return "new Date(Date.UTC(" + dateParams + "))";
+      };
+
+      var msg,
+          result = this.JSON.stringify(obj);
+
+      msg = "Must contain legacy date literal";
+      this.assertMatch(result, /new Date\(Date.UTC\(2020,0,1,0,0,0,123\)\)/, msg);
+    },
 
     testIgnoreNamedPropertiesInArrays : function()
     {
