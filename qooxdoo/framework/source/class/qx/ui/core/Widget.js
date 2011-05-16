@@ -1282,6 +1282,10 @@ qx.Class.define("qx.ui.core.Widget",
 
         if (contentHint.minWidth != null) {
           minWidth += contentHint.minWidth;
+          // do not apply bigger min width than max width [BUG #5008]
+          if (minWidth > maxWidth && maxWidth != null) {
+            minWidth = maxWidth;
+          }
         }
       }
 
@@ -1291,6 +1295,10 @@ qx.Class.define("qx.ui.core.Widget",
 
         if (contentHint.minHeight != null) {
           minHeight += contentHint.minHeight;
+          // do not apply bigger min height than max height [BUG #5008]
+          if (minHeight > maxHeight && maxHeight != null) {
+            minHeight = maxHeight;
+          }
         }
       }
 
@@ -1300,6 +1308,10 @@ qx.Class.define("qx.ui.core.Widget",
           maxWidth = Infinity;
         } else {
           maxWidth = contentHint.maxWidth + insetX;
+          // do not apply bigger min width than max width [BUG #5008]
+          if (maxWidth < minWidth && minWidth != null) {
+            maxWidth = minWidth;
+          }
         }
       }
 
@@ -1309,6 +1321,10 @@ qx.Class.define("qx.ui.core.Widget",
           maxHeight = Infinity;
         } else {
           maxHeight = contentHint.maxHeight + insetY;
+          // do not apply bigger min width than max width [BUG #5008]
+          if (maxHeight < minHeight && minHeight != null) {
+            maxHeight = minHeight;
+          }
         }
       }
 

@@ -24,6 +24,7 @@
 qx.Class.define("qx.test.ui.core.Widget",
 {
   extend : qx.test.ui.LayoutTestCase,
+  include : [qx.dev.unit.MMock],
 
   members :
   {
@@ -332,6 +333,66 @@ qx.Class.define("qx.test.ui.core.Widget",
 
       w.dispose();
       qx.Class.undefine("qx.test.ui.core.W");
+    },
+
+
+    testComputeSizeHintMinWidthBiggerMax : function() {
+      var w = new qx.ui.core.Widget();
+      w.setMaxWidth(100);
+      
+      this.stub(w, "_getContentHint").returns({
+        minWidth : 200
+      });
+
+      var hint = w._computeSizeHint();
+
+      this.assertEquals(100, hint.minWidth);
+      w.dispose();
+    },
+
+
+    testComputeSizeHintMinHeightBiggerMax : function() {
+      var w = new qx.ui.core.Widget();
+      w.setMaxHeight(100);
+      
+      this.stub(w, "_getContentHint").returns({
+        minHeight : 200
+      });
+
+      var hint = w._computeSizeHint();
+
+      this.assertEquals(100, hint.minHeight);
+      w.dispose();
+    },
+
+
+    testComputeSizeHintMaxWidthSmallerMin : function() {
+      var w = new qx.ui.core.Widget();
+      w.setMinWidth(200);
+
+      this.stub(w, "_getContentHint").returns({
+        maxWidth : 100
+      });
+
+      var hint = w._computeSizeHint();
+
+      this.assertEquals(200, hint.maxWidth);
+      w.dispose();
+    },
+
+
+    testComputeSizeHintMaxHeightSmallerMin : function() {
+      var w = new qx.ui.core.Widget();
+      w.setMinHeight(200);
+
+      this.stub(w, "_getContentHint").returns({
+        maxHeight : 100
+      });
+
+      var hint = w._computeSizeHint();
+
+      this.assertEquals(200, hint.maxHeight);
+      w.dispose();
     }
   }
 });
