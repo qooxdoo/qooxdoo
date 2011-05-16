@@ -43,7 +43,9 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
   */
 
   /**
-   * @param root {qx.ui.mobile.core.Widget} The root widget to use
+   * @param root {qx.ui.mobile.core.Widget?null} Optional. The root widget to use.
+   *    If no root is set, the root widget of the application is used.
+   * 
    */
   construct : function(root)
   {
