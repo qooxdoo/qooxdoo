@@ -480,9 +480,9 @@ qx.Class.define("qx.ui.mobile.page.Page",
   defer : function(statics)
   {
     if (qx.core.Environment.get("css.translate3d")) {
-      statics.setManagerClass(new qx.ui.mobile.page.manager.Animation());
+      statics.setManager(new qx.ui.mobile.page.manager.Animation());
     } else {
-      statics.setManagerClass(new qx.ui.mobile.page.manager.Simple());
+      statics.setManager(new qx.ui.mobile.page.manager.Simple());
     }
   }
 });
