@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
   {
     this.base(arguments);
     this.__pages = {};
-    this._setRoot(root || qx.core.Init.getApplication().getRoot());
+    this._setRoot(root);
 
     this.__registerEventListeners();
   },
@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
       page.initialize();
       page.start();
-      this.__root.add(page);
+      this._getRoot().add(page);
 
 
       if (currentPage)
@@ -222,17 +222,21 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
      */
     _removeCurrentPage : function()
     {
-      this.__root.remove(this.__currentPage);
+      this._getRoot().remove(this.__currentPage);
     },
 
 
     /**
-     * Returns the root widget.
+     * Returns the root widget. If no root is set, the root of the application
+     * is returned.
      *
      * @return {qx.ui.mobile.core.Widget} The used root widget
      */
     _getRoot : function()
     {
+      if (this.__root == null) {
+        this._setRoot(qx.core.Init.getApplication().getRoot());
+      }
       return this.__root;
     },
 
