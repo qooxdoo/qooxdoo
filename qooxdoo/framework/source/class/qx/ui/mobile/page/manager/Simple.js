@@ -178,9 +178,6 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     remove : function(id)
     {
       var page = this.getPage(id);
-      if (this.__currentPage == page) {
-        throw new Error("Current page with the Id " + page.getId() + " can not be removed");
-      }
       delete this.__pages[page.getId()];
       this.fireDataEvent("remove", page);
     },
