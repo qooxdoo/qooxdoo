@@ -27,15 +27,15 @@ qx.Class.define("qx.test.mobile.page.Page",
     setUp : function()
     {
       this.base(arguments);
-      qx.ui.mobile.page.Page.setManagerClass(qx.ui.mobile.page.manager.Simple);
+      qx.ui.mobile.page.Page.setManager(new qx.ui.mobile.page.manager.Simple());
     },
 
 
     tearDown : function()
     {
       this.base(arguments);
-      var manager = qx.ui.mobile.page.Page.__manager;
-      qx.ui.mobile.page.Page.__manager = null;
+      var manager = qx.ui.mobile.page.Page.getManager();
+      qx.ui.mobile.page.Page.setManager(null);
       manager.dispose();
     },
 
@@ -48,6 +48,7 @@ qx.Class.define("qx.test.mobile.page.Page",
       var page = new qx.ui.mobile.page.Page();
 
       page.addListener("initialize", function() {
+        this.assertFalse(startEvent);
         initializedEvent = true;
       }, this);
 

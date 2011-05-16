@@ -185,8 +185,6 @@ qx.Class.define("qx.ui.mobile.page.Page",
   statics :
   {
     __manager : null,
-    __managerClass : null,
-
 
     /**
      * Returns the used page manager. The page manager is responsible for the
@@ -194,24 +192,18 @@ qx.Class.define("qx.ui.mobile.page.Page",
      *
      * @return {var} The used page manager
      */
-    getManager : function()
-    {
-      if (!this.__manager) {
-        this.__manager = new qx.ui.mobile.page.Page.__managerClass();
-      }
+    getManager : function() {
       return qx.ui.mobile.page.Page.__manager;
     },
 
 
     /**
-     * Sets the page manager to use.
-     *
-     * @param clazz {Class} The page manager class to use
+     * Sets the used page manager. The page manager is responsible for the
+     * page transition and calling the lifecycle methods of a page.
      */
-    setManagerClass : function(clazz)
-    {
-      qx.ui.mobile.page.Page.__managerClass = clazz;
-    }
+    setManager : function(manager) {
+      qx.ui.mobile.page.Page.__manager = manager;
+    },
   },
 
 
@@ -488,9 +480,9 @@ qx.Class.define("qx.ui.mobile.page.Page",
   defer : function(statics)
   {
     if (qx.core.Environment.get("css.translate3d")) {
-      statics.setManagerClass(qx.ui.mobile.page.manager.Animation);
+      statics.setManagerClass(new qx.ui.mobile.page.manager.Animation());
     } else {
-      statics.setManagerClass(qx.ui.mobile.page.manager.Simple);
+      statics.setManagerClass(new qx.ui.mobile.page.manager.Simple());
     }
   }
 });
