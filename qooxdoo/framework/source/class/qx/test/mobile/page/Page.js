@@ -27,6 +27,12 @@ qx.Class.define("qx.test.mobile.page.Page",
     setUp : function()
     {
       this.base(arguments);
+      var manager = qx.ui.mobile.page.Page.getManager();
+      if (manager)
+      {
+        qx.ui.mobile.page.Page.setManager(null);
+        manager.dispose();
+      }
       qx.ui.mobile.page.Page.setManager(new qx.ui.mobile.page.manager.Simple());
     },
 
