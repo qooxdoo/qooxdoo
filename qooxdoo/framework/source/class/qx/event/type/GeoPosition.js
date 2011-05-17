@@ -33,8 +33,6 @@ qx.Class.define("qx.event.type.GeoPosition",
 
   /**
    * Create a new instance.
-   *
-   * @param position {Map} a position map.
    */
   construct : function()
   {
@@ -125,6 +123,11 @@ qx.Class.define("qx.event.type.GeoPosition",
   },
 
   members: {
+    /**
+    * Initialize the fields of the event.
+    *
+    * @param position {Map} a position map.
+    */
     init: function(position) {
       this.setTimestamp(position.timestamp);
       this.setLatitude(position.coords.latitude);
