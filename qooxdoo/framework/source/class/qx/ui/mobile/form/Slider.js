@@ -263,6 +263,11 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     },
 
 
+    /**
+     * Event handler. Called when the transition end event occurs.
+     *
+     * @param evt {qx.event.type.Event} The causing event
+     */
     _onTransitionEnd : function(evt)
     {
       var knobElement = this._getKnobElement();
