@@ -230,7 +230,7 @@ class MClassCode(object):
         optimizeId        = self._optimizeId(optimize)
         cache             = self.context["cache"]
 
-        # Caution: This sharing cached compiled classes with TreeCompiler!
+        # Caution: Sharing cache id with TreeCompiler
         cacheId = "compiled-%s-%s-%s-%s" % (self.path, variantsId, optimizeId, format_)
         compiled, _ = cache.read(cacheId, self.path)
 
@@ -239,8 +239,7 @@ class MClassCode(object):
             tree   = self.optimize(tree, optimize)
             if optimize == ["comments"]:
                 compiled = serializeFormatted(tree)
-                # make sure it terminates with an empty line - better for cat'ing
-                if compiled[-1:] != "\n":
+                if compiled[-1:] != "\n": # assure trailing \n
                     compiled += '\n'
             else:
                 compiled = serializeCondensed(tree, format_)
