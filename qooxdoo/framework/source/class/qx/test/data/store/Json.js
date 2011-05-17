@@ -77,6 +77,21 @@ qx.Class.define("qx.test.data.store.Json",
     },
 
 
+    testConfigureNewTransport : function()
+    {
+      var store = new qx.data.store.Json();
+      store.setDeprecatedTransport(false);
+      this.assertFalse(store.isDeprecatedTransport());
+    },
+
+
+    testConfigureNewTransportConstructor : function()
+    {
+      var store = new qx.data.store.Json(this.url, null, false);
+      this.assertFalse(store.isDeprecatedTransport());
+    },
+
+
     testLoadUrl : function() {
       this.__store.addListener("loaded", function() {
         this.resume(function() {

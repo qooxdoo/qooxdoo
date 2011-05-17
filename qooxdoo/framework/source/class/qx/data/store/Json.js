@@ -54,8 +54,10 @@ qx.Class.define("qx.data.store.Json",
    *   everything is set up.
    * @param delegate {Object?null} The delegate containing one of the methods
    *   specified in {@link qx.data.store.IStoreDelegate}.
+   * @param deprecatedTransport {Boolean?true} Whether to use the old
+   *   transport.
    */
-  construct : function(url, delegate)
+  construct : function(url, delegate, deprecatedTransport)
   {
     this.base(arguments);
 
@@ -64,8 +66,9 @@ qx.Class.define("qx.data.store.Json",
     this._marshaler = new qx.data.marshal.Json(delegate);
     this._delegate = delegate;
 
+    this.__deprecatedTransport = deprecatedTransport !== undefined ?
+      deprecatedTransport : true;
 
-    this.__deprecatedTransport = true;
     this.__changePhaseHandlerBound = qx.lang.Function.bind(this.__changePhaseHandler, this);
 
     if (url != null) {
@@ -382,11 +385,11 @@ qx.Class.define("qx.data.store.Json",
     },
 
     /**
-     * Warn about depcrecated usage.
+     * Warn about deprecated usage.
      */
     __warnDeprecated: function() {
       qx.log.Logger.warn("Using qx.io.remote.Request in qx.data.store.Json " +
-        "is depcrecated. Please consult the API documentation.");
+        "is deprecated. Please consult the API documentation.");
     }
   },
 
