@@ -809,6 +809,10 @@ Triggers code beautification of source class files (in-place-editing). An empty 
     },
     "comments" :
     {
+      "block"  :
+      {
+        "add"  : true
+      },
       "trailing" :
       {
         "keep-column"        : false,
@@ -816,7 +820,7 @@ Triggers code beautification of source class files (in-place-editing). An empty 
         "padding"            : "  "
       }
     },
-    "blocks" :
+    "code" :
     {
       "align-with-curlies"   : false,
       "open-curly" :
@@ -835,20 +839,26 @@ Keys are:
 
 * **general** : General settings.
 
-  * **indent-string** : "<whitespace_string>", e.g. "\t" for tab (default: "  " (2spaces))
+  * **indent-string** : "<whitespace_string>", e.g. "\t" for tab (default: "  " (2 spaces))
+
 * **comments** : Settings for pretty-printing comments.
-  * **trailing** : Settings for pretty-printing line-end ("trailing") comments ("%%//%% ...").
+
+  * **block** : Settings for block comments ("/\*...\*/")
+
+    * **add** : (true|false) Whether to automatically add JSDoc comment templates, e.g. ahead of method definitions (default: true)
+
+  * **trailing** : Settings for pretty-printing line-end ("trailing") comments ("//...").
 
     * **keep-column** : (true|false) Tries to fix the column of the trailing comments to the value in the original source (default: false)
     * **comment-cols** : [n1, n2, ..., nN] Column positions to start trailing comments at, e.g. [50, 70, 90] (default: [])
-    * **padding** : "<whitespace_string>" White space to be inserted after statement end and beginning of comment (default: "  " (2spaces))
+    * **padding** : "<whitespace_string>" White space to be inserted after statement end and beginning of comment (default: "  " (2 spaces))
 
-* **blocks** : Settings for pretty-printing code blocks.
+* **code** : Settings for pretty-printing code blocks.
 
   * **align-with-curlies** : (true|false) Whether to put a block at the same column as the surrounding/ending curly bracket (default: false)
   * **open-curly** : Settings for the opening curly brace '{'.
 
-    * **newline-before** : "(a|A|n|N|m|M)" Whether to insert a line break before the opening curly always (aA), never (nN) or mixed (mM) depending on block complexity (default: "m")
+    * **newline-before** : "([aA]|[nN]|[mM])" Whether to insert a line break before the opening curly always (aA), never (nN) or mixed (mM) depending on block complexity (default: "m")
     * **indent-before** : (true|false) Whether to indent the opening curly if it is on a new line (default: false)
 
 .. _pages/tool/generator_config_ref#provider:

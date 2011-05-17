@@ -210,10 +210,9 @@ def nodeIterator(node, nodetypes):
     if node.type in nodetypes:
         yield node
 
-    if node.hasChildren():
-        for child in node.children:
-            for fcn in nodeIterator(child, nodetypes):
-                yield fcn
+    for child in node.children[:]: # using a copy in case nodes are removed by the caller
+        for fcn in nodeIterator(child, nodetypes):
+            yield fcn
 
 
 from collections import deque
@@ -225,7 +224,7 @@ from collections import deque
 # bread-first and depth-first searches.
 
 def nodeIteratorNonRec(snode, nodetypes=[], mode='df'):  # df=depth-first, bf=breadth-first
-    agenda      = deque()
+    agenda = deque()
     agenda.append((u'', snode)) # put the first element in
 
     while True:

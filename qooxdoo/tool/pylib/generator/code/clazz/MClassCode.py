@@ -25,9 +25,11 @@
 
 import sys, os, types, re, string, copy
 import optparse 
-from ecmascript                     import compiler
+from ecmascript.backend.Packer      import Packer
+from ecmascript.backend             import pretty
 from ecmascript.frontend import treeutil, tokenizer, treegenerator
-from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
+from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, commentoptimizer
+from ecmascript.transform.optimizer import stringoptimizer, basecalloptimizer, privateoptimizer
 from misc import util, filetool
 
 
@@ -182,20 +184,14 @@ class MClassCode(object):
     ##
     # Interface method: selects the right code version to return
     def getCode(self, compOptions):
-        def strip_comments(buffer):
-            #TODO:
-            return buffer
 
         optimize = compOptions.optimize
         variants = compOptions.variantset
         format = compOptions.format
-        source_with_comments = compOptions.source_with_comments
         result = u''
         # source versions
         if not optimize:
             result = filetool.read(self.path)
-            if not source_with_comments:
-                result = strip_comments(result)
             # make sure it terminates with an empty line - better for cat'ing
             if result[-1:] != "\n":
                 result += '\n'
@@ -207,22 +203,27 @@ class MClassCode(object):
 
 
     ##
-    # Checking the cache for the appropriate code, and pot. invoking compiler.compile
+    # Checking the cache for the appropriate code, and pot. invoking ecmascript.backend
     def _getCompiled(self, optimize, variants, format):
 
         ##
-        # Interface to ecmascript.compiler.compile
-        def invokeCompile(tree, format=False):
-            # Emulate options  -- TODO: Refac interface
-            parser = optparse.OptionParser()
-            parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False)
-            parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")
-            parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")
-            parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")
+        # Interface to ecmascript.backend
+        def serializeCondensed(tree, format_=False):
+            result = [u'']
+            result =  Packer().serializeNode(tree, None, result, format_)
+            return u''.join(result)
 
-            (options, args) = parser.parse_args([])
+        def serializeFormatted(tree):
+            # provide minimal pretty options
+            def options(): pass
+            pretty.defaultOptions(options)
+            options.prettypCommentsBlockAdd = False  # turn off comment filling
 
-            return compiler.compile(tree, options, format)
+            result = [u'']
+            result = pretty.prettyNode(tree, options, result)
+
+            return u''.join(result)
+
 
 
         classVariants     = self.classVariants()
@@ -236,8 +237,15 @@ class MClassCode(object):
         compiled, _ = cache.read(cacheId, self.path)
 
         if compiled == None:
-            tree   = self.optimize(self.tree(variants), optimize)
-            compiled = invokeCompile(tree, format)
+            tree   = self.tree(variants)
+            tree   = self.optimize(tree, optimize)
+            if optimize == ["comments"]:
+                compiled = serializeFormatted(tree)
+                # make sure it terminates with an empty line - better for cat'ing
+                if compiled[-1:] != "\n":
+                    compiled += '\n'
+            else:
+                compiled = serializeCondensed(tree, format)
             cache.write(cacheId, compiled)
 
         return compiled
@@ -271,6 +279,11 @@ class MClassCode(object):
         
         cache = self.context['cache']
         console = self.context['console']
+
+        if ["comments"] == optimize:
+            # do a mere comment stripping
+            commentoptimizer.patch(tree)
+            return tree
 
         # 'statics' has to come before 'privates', as it needs the original key names in tree
         if "statics" in optimize:

@@ -357,24 +357,27 @@ def prettyNode(node, opts, rslt, enableBreaks=False, enableVerbose=False):
     result = rslt
 
     options = opts
-    options.prettypIndentString          = eval("'" + options.prettypIndentString + "'")
-    options.prettypCommentsInlinePadding = eval("'" + options.prettypCommentsInlinePadding + "'")
+    opts.prettypIndentString          = eval("'" + opts.prettypIndentString + "'")
+    opts.prettypCommentsInlinePadding = eval("'" + opts.prettypCommentsInlinePadding + "'")
                                                               # allow for escapes like "\t"
     # split trailing comment cols into an array
-    if (options.prettypCommentsTrailingCommentCols and
-        isinstance(options.prettypCommentsTrailingCommentCols, basestring)):
-        options.prettypCommentsTrailingCommentCols = [int(column.strip()) for column in options.prettypCommentsTrailingCommentCols.split(",")]
-        options.prettypCommentsTrailingCommentCols.sort() # make sure they are ascending!
+    if (opts.prettypCommentsTrailingCommentCols and
+        isinstance(opts.prettypCommentsTrailingCommentCols, basestring)):
+        opts.prettypCommentsTrailingCommentCols = [int(column.strip()) for column in opts.prettypCommentsTrailingCommentCols.split(",")]
+        opts.prettypCommentsTrailingCommentCols.sort() # make sure they are ascending!
     # or make sure it's a list of int's
-    elif (isinstance(options.prettypCommentsTrailingCommentCols, list) and
+    elif (isinstance(opts.prettypCommentsTrailingCommentCols, list) and
         reduce(lambda y,z: y and z,
-               [isinstance(x,int) for x in options.prettypCommentsTrailingCommentCols],
+               [isinstance(x,int) for x in opts.prettypCommentsTrailingCommentCols],
                True)):
-        options.prettypCommentsTrailingCommentCols.sort() # make sure they are ascending!
+        opts.prettypCommentsTrailingCommentCols.sort() # make sure they are ascending!
     # or pass
     else:
         #raise TypeError, "Unsuitable type for option --pretty-print-comments-trailing-commentCols"
         pass
+
+    if opts.prettypCommentsBlockAdd:
+        comment.fill(node)
 
     indent       = 0
     result       = [u""]
@@ -390,7 +393,7 @@ def prettyNode(node, opts, rslt, enableBreaks=False, enableVerbose=False):
     return _prettyNode(node,opts,result)
 
 
-def _prettyNode(node,optns, result):
+def _prettyNode(node, optns, result):
 
     global pretty
     global indent
@@ -1594,3 +1597,14 @@ def _prettyNode(node,optns, result):
 
     return result
 
+def defaultOptions(optns):
+    optns.prettyPrint = True  # turn on pretty-printing
+    optns.prettypCommentsBlockAdd  = True  # comment filling
+    optns.prettypIndentString      = "  "   # general indent string
+    optns.prettypOpenCurlyNewlineBefore = 'm'  # mixed, dep. on complexity
+    optns.prettypOpenCurlyIndentBefore  = False  # indent curly on a new line
+    optns.prettypAlignBlockWithCurlies  = False  # put block on same column as curlies
+    optns.prettypCommentsTrailingCommentCols = ''  # put trailing comments on fixed columns
+    optns.prettypCommentsTrailingKeepColumn  = False  # fix trailing comment on column of original text
+    optns.prettypCommentsInlinePadding  = '  '   # space between end of code and beginning of comment
+    return optns

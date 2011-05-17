@@ -16,6 +16,7 @@
 #
 #  Authors:
 #    * Sebastian Werner (wpbasti)
+#    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
@@ -35,7 +36,8 @@ import sys, os, optparse, string, types, pprint, copy
 import qxenviron
 
 from misc.ExtendAction import ExtendAction
-from ecmascript import compiler
+from ecmascript.backend.Packer      import Packer
+from ecmascript.backend             import pretty
 from ecmascript.frontend import tokenizer, treegenerator, treeutil
 from ecmascript.transform.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variableoptimizer, variantoptimizer, inlineoptimizer
 from ecmascript.backend import api
@@ -201,21 +203,19 @@ def _optimizeStrings(tree, id):
 # Wrapper around the ugly compiler interface            
 #
 
-def _compileTree(tree, pretty):
-    # Emulate options
-    parser = optparse.OptionParser()
-    parser.add_option("-a", action="store_true", dest="prettyPrint", default=pretty)
-    parser.add_option("-b", action="store_true", dest="prettypIndentString", default="  ")
-    parser.add_option("-c", action="store_true", dest="prettypCommentsInlinePadding", default="  ")
-    parser.add_option("-d", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")
-    parser.add_option("-e", action="store_true", dest="prettypOpenCurlyNewlineBefore", default="")
-    parser.add_option("-f", action="store_true", dest="prettypOpenCurlyIndentBefore", default="")
-    parser.add_option("-g", action="store_true", dest="prettypCommentsTrailingKeepColumn", default=False)
-    parser.add_option("-i", action="store_true", dest="prettypAlignBlockWithCurlies", default=False)
+def _compileTree(tree, prettyFlag):
+    result = [u'']
 
-    (options, args) = parser.parse_args([])
+    if prettyFlag:
+        # Set options
+        def optns(): pass
+        optns = pretty.defaultOptions(optns)
+        #optns.prettypCommentsBlockAdd = False
+        result = pretty.prettyNode(tree, optns, result)
+    else:
+        result =  Packer().serializeNode(tree, None, result, True)
 
-    return compiler.compile(tree, options, True)
+    return u''.join(result)
      
 
 #

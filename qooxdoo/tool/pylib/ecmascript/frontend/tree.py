@@ -26,6 +26,7 @@ import sys, os, copy
 
 import simplejson
 
+
 ##
 #<h2>Module Description</h2>
 #<pre>
@@ -577,18 +578,12 @@ class Node(object):
         return nodeToJsonString(self, prefix, childPrefix, newLine)
 
     def toJavascript(self):
-        from ecmascript import compiler
+        from ecmascript.backend import pretty
         def options(): pass
-        options.prettyPrint =  True
-        options.prettypIndentString = "  "
-        options.prettypCommentsInlinePadding = "  "
-        options.prettypCommentsTrailingCommentCols = ""
-        options.prettypOpenCurlyNewlineBefore = "m"
-        options.prettypOpenCurlyIndentBefore = False
-        options.prettypAlignBlockWithCurlies = False
-        options.prettypCommentsTrailingKeepColumn = False
-
-        return compiler.compile(self, options)
+        pretty.defaultOptions(options)
+        result = [u'']
+        result = pretty.prettyNode(self, options, result)
+        return u''.join(result)
 
     def nodeIter(self):
         "A generator/iterator method, to traverse a tree and 'yield' each node"

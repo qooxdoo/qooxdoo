@@ -28,7 +28,7 @@ from generator.code.Package     import Package
 from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.Script      import Script
 #from generator.resource.ResourceHandler import ResourceHandler
-from ecmascript                 import compiler
+from ecmascript.backend         import pretty
 from misc                       import filetool, json, Path, securehash as sha
 from misc.ExtMap                import ExtMap
 from misc.Path                  import OsPath, Uri
@@ -632,9 +632,10 @@ class CodeGenerator(object):
         return  # runCompiled()
 
 
+    ##
+    # Pretty-print set of classes.
+    # Collects options and invokes ecmascript.backend.pretty
     def runPrettyPrinting(self, classesObj):
-        "Gather all relevant config settings and pass them to the compiler"
-
         if not isinstance(self._job.get("pretty-print", False), types.DictType):
             return
 
@@ -643,34 +644,36 @@ class CodeGenerator(object):
         ppsettings = ExtMap(self._job.get("pretty-print"))  # get the pretty-print config settings
 
         # init options
-        parser  = optparse.OptionParser()
-        compiler.addCommandLineOptions(parser)
-        (options, args) = parser.parse_args([])
+        def options(): pass
+        pretty.defaultOptions(options)
 
+        import pydb; pydb.debugger()
         # modify according to config
-        setattr(options, 'prettyPrint', True)  # turn on pretty-printing
-        if ppsettings.get('general/indent-string',False):
-            setattr(options, 'prettypIndentString', ppsettings.get('general/indent-string'))
-        if ppsettings.get('comments/trailing/keep-column',False):
-            setattr(options, 'prettypCommentsTrailingKeepColumn', ppsettings.get('comments/trailing/keep-column'))
-        if ppsettings.get('comments/trailing/comment-cols',False):
-            setattr(options, 'prettypCommentsTrailingCommentCols', ppsettings.get('comments/trailing/comment-cols'))
-        if ppsettings.get('comments/trailing/padding',False):
-            setattr(options, 'prettypCommentsInlinePadding', ppsettings.get('comments/trailing/padding'))
-        if ppsettings.get('blocks/align-with-curlies',False):
-            setattr(options, 'prettypAlignBlockWithCurlies', ppsettings.get('blocks/align-with-curlies'))
-        if ppsettings.get('blocks/open-curly/newline-before',False):
-            setattr(options, 'prettypOpenCurlyNewlineBefore', ppsettings.get('blocks/open-curly/newline-before'))
-        if ppsettings.get('blocks/open-curly/indent-before',False):
-            setattr(options, 'prettypOpenCurlyIndentBefore', ppsettings.get('blocks/open-curly/indent-before'))
+        if 'general/indent-string' in ppsettings:
+            options.prettypIndentString = ppsettings.get('general/indent-string')
+        if 'comments/block/add' in ppsettings:
+            options.prettypCommentsBlockAdd = ppsettings.get('comments/trailing/keep-column')
+        if 'comments/trailing/keep-column' in ppsettings:
+            options.prettypCommentsTrailingKeepColumn = ppsettings.get('comments/trailing/keep-column')
+        if 'comments/trailing/comment-cols' in ppsettings:
+            options.prettypCommentsTrailingCommentCols = ppsettings.get('comments/trailing/comment-cols')
+        if 'comments/trailing/padding' in ppsettings:
+            options.prettypCommentsInlinePadding = ppsettings.get('comments/trailing/padding')
+        if 'code/align-with-curlies' in ppsettings:
+            options.prettypAlignBlockWithCurlies = ppsettings.get('code/align-with-curlies')
+        if 'code/open-curly/newline-before' in ppsettings:
+            options.prettypOpenCurlyNewlineBefore = ppsettings.get('code/open-curly/newline-before')
+        if 'code/open-curly/indent-before' in ppsettings:
+            options.prettypOpenCurlyIndentBefore = ppsettings.get('code/open-curly/indent-before')
 
         self._console.info("Pretty-printing files: ", False)
         numClasses = len(classesObj)
         for pos, classId in enumerate(classesObj):
             self._console.progress(pos+1, numClasses)
-            #tree = treeLoader.getTree(classId)
             tree = classesObj[classId].tree()
-            compiled = compiler.compile(tree, options)
+            result = [u'']
+            result = pretty.prettyNode(tree, options, result)
+            compiled = u''.join(result)
             filetool.save(self._classes[classId].path, compiled)
 
         self._console.outdent()

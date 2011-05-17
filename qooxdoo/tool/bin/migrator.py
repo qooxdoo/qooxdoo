@@ -26,7 +26,7 @@ from misc import filetool
 from misc import textutil
 from ecmascript.frontend import tokenizer
 from ecmascript.frontend import treegenerator
-from ecmascript import compiler
+from ecmascript.backend  import pretty
 
 #sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), os.pardir, os.pardir, 'framework', 'tool'))
 
@@ -559,7 +559,9 @@ def migrateFile(
         # If there were any changes, compile the result
         if patch.patch(fileId, tree):
             options.prettyPrint = True  # make sure it's set
-            patchedContent = compiler.compile(tree, options)
+            result = [u'']
+            result = pretty.prettyNode(tree, options, result)
+            patchedContent = u''.join(result)
 
     # apply RE patches
     patchedContent = regtool(patchedContent, compiledPatches, True, filePath)
@@ -742,12 +744,13 @@ def main():
 
     # Options for pretty printing
     pp_options = optparse.OptionGroup(parser,"Pretty printer options")
-    compiler.addCommandLineOptions(pp_options)
+    #compiler.addCommandLineOptions(pp_options)
     parser.add_option_group(pp_options)
 
     (options, args) = parser.parse_args()
+    pretty.defaultOptions(options)
 
-    default_old_version = "1.3"
+    default_old_version = "1.4"
 
     while options.from_version == "":
         choice = raw_input("""

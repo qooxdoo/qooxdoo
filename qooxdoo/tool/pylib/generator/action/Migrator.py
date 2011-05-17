@@ -31,7 +31,7 @@ from misc import textutil
 from misc.NameSpace import NameSpace
 from ecmascript.frontend import tokenizer
 from ecmascript.frontend import treegenerator
-from ecmascript import compiler
+from ecmascript.backend             import pretty
 
 
 
@@ -287,7 +287,9 @@ class Migrator(object):
             # If there were any changes, compile the result
             if patch.patch(fileId, tree):
                 options.prettyPrint = True  # make sure it's set
-                patchedContent = compiler.compile(tree, options)
+                result = [u'']
+                result = pretty.prettyNode(tree, options, result)
+                patchedContent = u''.join(result)
 
         # apply RE patches
         patchedContent = self.regtool(patchedContent, compiledPatches, True, filePath)
