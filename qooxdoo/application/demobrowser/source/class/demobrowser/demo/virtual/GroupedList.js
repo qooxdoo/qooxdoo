@@ -84,7 +84,7 @@ qx.Class.define("demobrowser.demo.virtual.GroupedList",
     loadData : function()
     {
       var url = "json/persons.json";
-      var store = new qx.data.store.Json(url);
+      var store = new qx.data.store.Json(url, null, false);
       store.bind("model.persons", this.__list, "model");
       store.bind("model.persons", this.__listGroupedByName, "model");
       store.bind("model.persons", this.__listGroupedByGroup, "model");

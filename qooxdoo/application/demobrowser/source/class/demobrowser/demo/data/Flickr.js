@@ -147,7 +147,7 @@ qx.Class.define("demobrowser.demo.data.store.Flickr",
     // store a global function
     jsonFlickrApi = function(data) {
       demobrowser.demo.data.store.Flickr.RESULT = data;
-    }
+    };
 
     var url = "http://api.flickr.com/services/rest/?tags=" + tag;
     this.base(arguments, url);

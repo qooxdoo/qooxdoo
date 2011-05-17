@@ -250,7 +250,7 @@ qx.Class.define("demobrowser.demo.virtual.SelectBox",
 
       // Loads and create the model data
       var url = "json/persons.json";
-      var store = new qx.data.store.Json(url);
+      var store = new qx.data.store.Json(url, null, false);
       store.bind("model.persons", selectBox, "model");
 
       // Creates the delegate for sorting

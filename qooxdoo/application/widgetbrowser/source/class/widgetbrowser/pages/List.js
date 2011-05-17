@@ -87,7 +87,7 @@ qx.Class.define("widgetbrowser.pages.List",
     {
       var url = "widgetbrowser/people.json";
       url = qx.util.ResourceManager.getInstance().toUri(url);
-      var store = new qx.data.store.Json(url);
+      var store = new qx.data.store.Json(url, null, false);
       store.bind("model.people", this.__listGroupedByName, "model");
     }
   }

@@ -66,7 +66,7 @@ qx.Class.define("demobrowser.demo.data.Finder",
 
       // create the data store
       var url = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/data/finder.json");
-      var store = new qx.data.store.Json(url);
+      var store = new qx.data.store.Json(url, null, false);
 
       // connect the store and the first controller
       store.bind("model.files", controller1, "model");
