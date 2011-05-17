@@ -102,12 +102,6 @@ qx.Class.define("qx.test.ui.basic.Label",
       l.setTextAlign("center");
       this.assertEquals("center", l.getContentElement().getStyle("textAlign"));
       l.dispose();
-
-      var l = new qx.ui.basic.Label();
-      l.setRich(true);
-      l.setTextAlign("unnsuported");
-      this.assertEquals("center", l.getContentElement().getStyle("textAlign"));
-      l.dispose();
     },
 
 
