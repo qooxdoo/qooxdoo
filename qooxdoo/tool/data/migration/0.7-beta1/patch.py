@@ -5,9 +5,9 @@ import os
 import logging
 
 # reconfigure path to import modules from modules subfolder
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "../../modules"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "../pylib"))
 
-import tree, compiler, comment
+from ecmascript.frontend import tree, comment
 
 
 
