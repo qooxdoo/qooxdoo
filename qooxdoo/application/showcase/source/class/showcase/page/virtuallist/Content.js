@@ -91,9 +91,9 @@ qx.Class.define("showcase.page.virtuallist.Content",
         show: "icon"
       });
 
-      this.messenger.bind("selection[0]", delButton, "enabled", {
+      this.messenger.bind("selection.length", delButton, "enabled", {
         converter : function(value) {
-          return !!value;
+          return value > 0;
         }
       });
 

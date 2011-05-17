@@ -276,19 +276,23 @@ qx.Mixin.define("qx.ui.list.core.MSelectionHandling",
         return;
       }
 
-      var selection = this.getSelection();
-      var currentSelection = e.getData();
+      var managerSelection = e.getData();
+      var newSelection = [];
+
+      for (var i = 0; i < managerSelection.length; i++) {
+        newSelection.push(this._getDataFromRow(managerSelection[i]));
+      }
 
       this.__ignoreManagerChangeSelection = true;
 
-      // replace selection and fire event
-      this.__synchronizeSelection();
-      if (selection.getLength() > 0)
+      var listSelection = this.getSelection();
+      if (newSelection.length > 0)
       {
-        var lastIndex = selection.getLength() - 1;
-        selection.splice(lastIndex, 1, this._getDataFromRow(currentSelection[lastIndex]));
+        var args = [0, listSelection.getLength()];
+        args = args.concat(newSelection);
+        listSelection.splice.apply(listSelection, args);
       } else {
-        selection.removeAll();
+        listSelection.removeAll();
       }
 
       this.__ignoreManagerChangeSelection = false;
