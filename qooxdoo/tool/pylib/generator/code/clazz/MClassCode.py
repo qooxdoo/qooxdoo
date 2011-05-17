@@ -189,8 +189,7 @@ class MClassCode(object):
         # source versions
         if not compOptions.optimize:
             result = filetool.read(self.path)
-            # make sure it terminates with an empty line - better for cat'ing
-            if result[-1:] != "\n":
+            if result[-1:] != "\n": # assure trailing \n
                 result += '\n'
         # compiled versions
         else:
