@@ -176,11 +176,6 @@ qx.Class.define("qx.data.store.Json",
      * the new transport used by default.
      */
     isDeprecatedTransport: function() {
-
-      if (this.__deprecatedTransport) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
-      }
-
       return !!this.__deprecatedTransport;
     },
 
