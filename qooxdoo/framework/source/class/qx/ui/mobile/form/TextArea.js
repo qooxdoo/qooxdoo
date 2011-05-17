@@ -66,12 +66,6 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
     _getTagName : function()
     {
       return "textarea";
-    },
-
-
-    _applyValue : function(value)
-    {
-     alert(value); 
     }
   }
 });
