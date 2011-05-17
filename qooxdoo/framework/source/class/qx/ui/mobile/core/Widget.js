@@ -1101,6 +1101,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     addCssClass : function(cssClass) {
       var element = this.getContainerElement();
       qx.bom.element.Class.add(element, cssClass);
+      this._domUpdated();
     },
 
 
@@ -1112,6 +1113,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     removeCssClass : function(cssClass) {
       var element = this.getContainerElement();
       qx.bom.element.Class.remove(element, cssClass);
+      this._domUpdated();
     },
 
 
