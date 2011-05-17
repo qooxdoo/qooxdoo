@@ -258,11 +258,6 @@ qx.Bootstrap.define("qx.Theme",
       // Save theme type
       theme.type = type || "other";
 
-      // Return if there is no key defined at all
-      if (!type) {
-        return;
-      }
-
       // Create pseudo class
       var clazz = function() {};
 
@@ -409,11 +404,6 @@ qx.Bootstrap.define("qx.Theme",
           if (counter > 1) {
             throw new Error("You can only define one theme category per file! Invalid theme: " + name);
           }
-        }
-
-        // At least one entry
-        if (!config.extend && counter === 0) {
-          throw new Error("You must define at least one entry in your theme configuration :" + name);
         }
 
         // Validate meta
