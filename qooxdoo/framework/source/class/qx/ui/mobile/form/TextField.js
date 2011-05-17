@@ -25,6 +25,8 @@
 qx.Class.define("qx.ui.mobile.form.TextField",
 {
   extend : qx.ui.mobile.form.Input,
+  include : [qx.ui.mobile.form.MValue, qx.ui.mobile.form.MText],
+
 
 
   /*

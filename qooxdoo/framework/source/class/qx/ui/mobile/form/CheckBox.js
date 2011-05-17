@@ -34,15 +34,12 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   */
 
   /**
-   * @param value {var?null} The value of the checkbox.
+   * @param value {Boolean?null} The value of the checkbox.
    */
   construct : function(value)
   {
     this.base(arguments);
-    if (value) {
-      this.setValue(value);
-    }
-    this.addListener('click', this._syncCheckProperty, this);
+
     this.addListener('tap', this._syncCheckProperty, this);
     this.addListener('swipe', this._syncCheckProperty, this);
   },

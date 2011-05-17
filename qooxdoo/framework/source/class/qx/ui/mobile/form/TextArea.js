@@ -25,7 +25,7 @@
 qx.Class.define("qx.ui.mobile.form.TextArea",
 {
   extend : qx.ui.mobile.core.Widget,
-  include : [qx.ui.mobile.form.MValue],
+  include : [qx.ui.mobile.form.MValue, qx.ui.mobile.form.MText],
 
 
   /*
@@ -66,6 +66,12 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
     _getTagName : function()
     {
       return "textarea";
+    },
+
+
+    _applyValue : function(value)
+    {
+     alert(value); 
     }
   }
 });

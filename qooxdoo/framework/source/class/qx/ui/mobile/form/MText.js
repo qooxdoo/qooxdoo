@@ -16,17 +16,20 @@
      * Tino Butz (tbtz)
 
 ************************************************************************ */
+/* ************************************************************************
+
+#require(qx.event.handler.Input)
+
+************************************************************************ */
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * Abstract class for all input fields.
+ * The mixin contains all functionality to provide common properties for
+ * text fields.
  */
-qx.Class.define("qx.ui.mobile.form.Input",
+qx.Mixin.define("qx.ui.mobile.form.MText",
 {
-  extend : qx.ui.mobile.core.Widget,
-  type : "abstract",
-
 
   /*
   *****************************************************************************
@@ -34,14 +37,15 @@ qx.Class.define("qx.ui.mobile.form.Input",
   *****************************************************************************
   */
 
-  construct : function()
+  /**
+   * @param value {var?null} The value of the widget.
+   */
+  construct : function(value)
   {
-    this.base(arguments);
-
-    this.initType();
+    this.initMaxLength();
+    this.initPlaceholder();
+    this.initReadOnly();
   },
-
-
 
 
   /*
@@ -52,12 +56,36 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
   properties :
   {
-    /**
-     * The type of the input field.
+   /**
+     * Maximal number of characters that can be entered in the input field.
      */
-    type :
+    maxLength :
+    {
+      check : "PositiveInteger",
+      nullable : true,
+      init : null,
+      apply : "_applyMaxLength"
+    },
+
+
+    /**
+     * String value which will be shown as a hint if the field is all of:
+     * unset, unfocused and enabled. Set to <code>null</code> to not show a placeholder
+     * text.
+     */
+    placeholder :
     {
       check : "String",
+      nullable : true,
+      init : null,
+      apply : "_applyAttribute"
+    },
+
+
+    /** Whether the field is read only */
+    readOnly :
+    {
+      check : "Boolean",
       nullable : true,
       init : null,
       apply : "_applyAttribute"
@@ -73,12 +101,13 @@ qx.Class.define("qx.ui.mobile.form.Input",
   *****************************************************************************
   */
 
+
   members :
   {
-    // overridden
-    _getTagName : function()
+    // property apply
+    _applyMaxLength : function(value, old)
     {
-      return "input";
+      this._setAttribute("maxlength", value);
     }
   }
 });
