@@ -394,8 +394,6 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     _positionToValue : function(position)
     {
-      var width = this._containerElementWidth;
-
       var value = this.getMinimum() + (Math.round(position / this._pixelPerStep) * this.getStep());
       return this._limitValue(value);
     },
