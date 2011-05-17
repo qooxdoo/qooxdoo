@@ -290,6 +290,98 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(fail);
     },
 
+    "test: fire changePhase": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          that = this;
+
+      this.assertEventFired(req, "changePhase", function() {
+        that.respond();
+      }, function(evt) {
+        that.assertEquals("success", evt.getData());
+      });
+    },
+
+    //
+    // Phase
+    //
+
+    "test: phase is unsent": function() {
+      this.assertEquals("unsent", this.req.getPhase());
+    },
+
+    "test: phase was open before send": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          phases = [];
+
+      req.addListener("changePhase", function() {
+        phases.push(req.getPhase());
+      });
+
+      req.setUrl("/url");
+      req.send();
+
+      this.assertArrayEquals(["opened", "sent"], phases);
+    },
+
+    "test: phase is sent": function() {
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      req.setUrl("/url");
+      req.send();
+
+      this.assertEquals("sent", req.getPhase());
+    },
+
+    "test: phase is loading": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport;
+
+      transport.readyState = 3;
+      transport.onreadystatechange();
+
+      this.assertEquals("loading", req.getPhase());
+    },
+
+    "test: phase is success": function() {
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      this.respond();
+      this.assertEquals("success", req.getPhase());
+    },
+
+    // Error handling
+
+    "test: phase is statusError": function() {
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      this.respond(500);
+      this.assertEquals("statusError", req.getPhase());
+    },
+
+    "test: phase is abort": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport;
+
+      transport.onabort();
+      this.assertEquals("abort", req.getPhase());
+    },
+
+    "test: phase is timeout": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport;
+
+      transport.ontimeout();
+      this.assertEquals("timeout", req.getPhase());
+    },
+
     getFakeReq: function() {
       return this.getRequests().slice(-1)[0];
     },

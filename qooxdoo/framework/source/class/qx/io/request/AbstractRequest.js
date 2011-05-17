@@ -49,6 +49,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     }
 
     var transport = this._transport = this._createTransport();
+    this._setPhase("unsent");
 
     this.__onReadyStateChangeBound = qx.lang.Function.bind(this._onReadyStateChange, this);
     this.__onLoadBound = qx.lang.Function.bind(this._onLoad, this);
@@ -136,7 +137,12 @@ qx.Class.define("qx.io.request.AbstractRequest",
     * is ignored, instead only the final value is bound.
     *
     */
-    "changeResponse": "qx.event.type.Data"
+    "changeResponse": "qx.event.type.Data",
+
+    /**
+     * Fired on change of the phase.
+     */
+    "changePhase": "qx.event.type.Data"
   },
 
   properties :
@@ -227,6 +233,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Parsed response.
      */
     __response: null,
+
+    /**
+     * Current phase.
+     */
+    __phase: null,
 
     /**
      * Holds transport.
@@ -326,6 +337,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
       }
 
       transport.open(method, url, async);
+      this._setPhase("opened");
 
       //
       // Send request
@@ -342,6 +354,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
         this.debug("Send low-level request");
       }
       method == "GET" ? transport.send() : transport.send(serializedData);
+      this._setPhase("sent");
     },
 
     /**
@@ -388,7 +401,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     },
 
     /**
-     * Get ready state.
+     * Get current ready state.
      *
      * States can be:
      * UNSENT:           0,
@@ -401,6 +414,29 @@ qx.Class.define("qx.io.request.AbstractRequest",
      */
     getReadyState: function() {
       return this._transport.readyState;
+    },
+
+    /**
+     * Get current phase.
+     *
+     * A more elaborate version of {@link #getReadyState}, this method indicates
+     * the current phase of the request. Maps to stateful (i.e. deterministic)
+     * events (success, abort, timeout, statusError) and intermediate
+     * readyStates (unsent, configured, loading).
+     *
+     * When the requests is successful, it progresses the states:<br>
+     * 'unsent', 'opened', 'sent', 'loading', 'success'
+     *
+     * In case of failure, the final state is one of:<br>
+     * 'abort', 'timeout', 'statusError'
+     *
+     * For each change of the phase, a {@link #changePhase} data event is fired.
+     *
+     * @return {String} Current phase.
+     *
+     */
+    getPhase: function() {
+      return this.__phase;
     },
 
     /**
@@ -507,13 +543,18 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Handle "readystatechange" event.
      */
     _onReadyStateChange: function() {
-      var parsedResponse;
+      var parsedResponse,
+          readyState = this.getReadyState();
 
       if (qx.core.Environment.get("qx.debug.io")) {
-        this.debug("Fire readyState: " + this.getReadyState());
+        this.debug("Fire readyState: " + readyState);
       }
 
       this.fireEvent("readystatechange");
+
+      if (readyState === 3) {
+        this._setPhase("loading");
+      }
 
       if (this.isDone()) {
 
@@ -531,11 +572,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
           parsedResponse = this._getParsedResponse();
           this._setResponse(parsedResponse);
 
-          this.fireEvent("success");
+          this._fireStatefulEvent("success");
 
         // Erroneous HTTP status
         } else {
-          this.fireEvent("statusError");
+          this._fireStatefulEvent("statusError");
 
           // A remote error failure
           this.fireEvent("fail");
@@ -561,14 +602,14 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Handle "abort" event.
      */
     _onAbort: function() {
-      this.fireEvent("abort");
+      this._fireStatefulEvent("abort");
     },
 
     /**
      * Handle "timeout" event.
      */
     _onTimeout: function() {
-      this.fireEvent("timeout");
+      this._fireStatefulEvent("timeout");
 
       // A network error failure
       this.fireEvent("fail");
@@ -589,6 +630,39 @@ qx.Class.define("qx.io.request.AbstractRequest",
       INTERNAL / HELPERS
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * Fire stateful event.
+     *
+     * Fires event and sets phase to name of event.
+     *
+     * @param {String} Name of the event to fire.
+     */
+    _fireStatefulEvent: function(evt) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertString(evt);
+      }
+      this._setPhase(evt);
+      this.fireEvent(evt);
+    },
+
+    /**
+     * Set phase.
+     *
+     * @param phase {String} The phase to set.
+     */
+    _setPhase: function(phase) {
+      var previousPhase = this.__phase;
+
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertString(phase);
+        qx.core.Assert.assertMatch(phase,
+          /^(unsent)|(opened)|(sent)|(loading)|(success)|(abort)|(timeout)|(statusError)$/);
+      }
+
+      this.__phase = phase;
+      this.fireDataEvent("changePhase", phase, previousPhase);
+    },
 
     /**
      * Serialize data
