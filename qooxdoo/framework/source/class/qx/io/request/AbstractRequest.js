@@ -636,7 +636,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
      *
      * Fires event and sets phase to name of event.
      *
-     * @param {String} Name of the event to fire.
+     * @param evt {String} Name of the event to fire.
      */
     _fireStatefulEvent: function(evt) {
       if (qx.core.Environment.get("qx.debug")) {
