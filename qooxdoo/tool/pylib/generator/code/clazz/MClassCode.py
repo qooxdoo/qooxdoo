@@ -185,33 +185,22 @@ class MClassCode(object):
     # Interface method: selects the right code version to return
     def getCode(self, compOptions):
 
-        optimize = compOptions.optimize
-        variants = compOptions.variantset
-        format_ = compOptions.format
         result = u''
         # source versions
-        if not optimize:
+        if not compOptions.optimize:
             result = filetool.read(self.path)
             # make sure it terminates with an empty line - better for cat'ing
             if result[-1:] != "\n":
                 result += '\n'
         # compiled versions
         else:
-            result = self._getCompiled(optimize, variants, format_)
+            result = self._getCompiled(compOptions)
 
         return result
 
     ##
-    # Convenience method for length of compiled class
-    # (Might become necessary if I want to cache the length).
-    def getCompiledSize(self, compOptions):
-        code = self.getCode(compOptions)
-        return len(code)
-
-
-    ##
     # Checking the cache for the appropriate code, and pot. invoking ecmascript.backend
-    def _getCompiled(self, optimize, variants, format):
+    def _getCompiled(self, compOptions):
 
         ##
         # Interface to ecmascript.backend
@@ -231,8 +220,11 @@ class MClassCode(object):
 
             return u''.join(result)
 
+        # ----------------------------------------------------------------------
 
-
+        optimize          = compOptions.optimize
+        variants          = compOptions.variantset
+        format_           = compOptions.format
         classVariants     = self.classVariants()
         relevantVariants  = self.projectClassVariantsToCurrent(classVariants, variants)
         variantsId        = util.toString(relevantVariants)
@@ -240,7 +232,7 @@ class MClassCode(object):
         cache             = self.context["cache"]
 
         # Caution: This sharing cached compiled classes with TreeCompiler!
-        cacheId = "compiled-%s-%s-%s-%s" % (self.path, variantsId, optimizeId, format)
+        cacheId = "compiled-%s-%s-%s-%s" % (self.path, variantsId, optimizeId, format_)
         compiled, _ = cache.read(cacheId, self.path)
 
         if compiled == None:
@@ -252,7 +244,7 @@ class MClassCode(object):
                 if compiled[-1:] != "\n":
                     compiled += '\n'
             else:
-                compiled = serializeCondensed(tree, format)
+                compiled = serializeCondensed(tree, format_)
             cache.write(cacheId, compiled)
 
         return compiled
@@ -345,6 +337,14 @@ class MClassCode(object):
 
         return tree
 
+
+
+    ##
+    # Convenience method for length of compiled class
+    # (Might become necessary if I want to cache the length).
+    def getCompiledSize(self, compOptions):
+        code = self.getCode(compOptions)
+        return len(code)
 
 
 
