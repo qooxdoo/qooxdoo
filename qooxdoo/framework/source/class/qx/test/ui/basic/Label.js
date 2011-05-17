@@ -78,6 +78,38 @@ qx.Class.define("qx.test.ui.basic.Label",
       l.dispose();
     },
 
+    testTextAlign : function() {
+      var l = new qx.ui.basic.Label();
+      l.setRich(true);
+      l.setTextAlign("justify");
+      this.assertEquals("justify", l.getContentElement().getStyle("textAlign"));
+      l.dispose();
+
+      var l = new qx.ui.basic.Label();
+      l.setRich(true);
+      l.setTextAlign("right");
+      this.assertEquals("right", l.getContentElement().getStyle("textAlign"));
+      l.dispose();
+
+      var l = new qx.ui.basic.Label();
+      l.setRich(true);
+      l.setTextAlign("left");
+      this.assertEquals("left", l.getContentElement().getStyle("textAlign"));
+      l.dispose();
+
+      var l = new qx.ui.basic.Label();
+      l.setRich(true);
+      l.setTextAlign("center");
+      this.assertEquals("center", l.getContentElement().getStyle("textAlign"));
+      l.dispose();
+
+      var l = new qx.ui.basic.Label();
+      l.setRich(true);
+      l.setTextAlign("unnsuported");
+      this.assertEquals("center", l.getContentElement().getStyle("textAlign"));
+      l.dispose();
+    },
+
 
     testWrapNotSet : function() {
       var l = new qx.ui.basic.Label();
