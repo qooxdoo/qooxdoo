@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * Returns the used page manager. The page manager is responsible for the
      * page transition and calling the lifecycle methods of a page.
      *
-     * @return {var} The used page manager
+     * @return {var} The used page manager.
      */
     getManager : function() {
       return qx.ui.mobile.page.Page.__manager;
@@ -200,6 +200,8 @@ qx.Class.define("qx.ui.mobile.page.Page",
     /**
      * Sets the used page manager. The page manager is responsible for the
      * page transition and calling the lifecycle methods of a page.
+     * 
+     * @param manager {var} The manager to use. 
      */
     setManager : function(manager) {
       qx.ui.mobile.page.Page.__manager = manager;
