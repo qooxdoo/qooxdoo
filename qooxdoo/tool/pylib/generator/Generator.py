@@ -25,7 +25,6 @@ import functools, codecs, operator, time
 import graph
 
 from misc                            import filetool, textutil, util, Path, json, copytool
-from ecmascript                      import compiler
 from ecmascript.transform.optimizer  import privateoptimizer
 from misc.ExtMap                     import ExtMap
 from generator.code.Class            import Class

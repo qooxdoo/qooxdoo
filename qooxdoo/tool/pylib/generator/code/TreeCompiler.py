@@ -22,12 +22,11 @@
 import os, sys, re, types, copy, optparse, codecs
 import time
 
-from ecmascript import compiler
 from ecmascript.frontend import treeutil
 from ecmascript.transform.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer
 from ecmascript.transform.optimizer import privateoptimizer, protectedoptimizer, propertyoptimizer
 from ecmascript.transform.optimizer import featureoptimizer
-from generator.code.Class import Class
+from generator.code.Class import Class, CompileOptions
 from misc import util
 
 class TreeCompiler(object):
@@ -89,14 +88,18 @@ class TreeCompiler(object):
             return self.compileClassesXX(classes, variants, optimize, format)
 
 
-    #def compileClasses(self, classes, variants, optimize, format):
-    def compileClassesXX(self, classes, variants, optimize, format):
+    def compileClassesXX(self, classes, variants, optimize, format_):
         content = []
         length = len(classes)
+        compOptions = CompileOptions()
+        compOptions.optimize = optimize
+        compOptions.format = format_
+        compOptions.variantset = variants
         
         for pos, classId in enumerate(classes):
             self._console.progress(pos + 1, length)
-            content.append( self.getCompiled(classId, variants, optimize, format) )
+            #content.append( self.getCompiled(classId, variants, optimize, format) )
+            content.append( self._classes[fileId].getCode(compOptions) )
             
         return u''.join(content)
 
@@ -295,7 +298,12 @@ class TreeCompiler(object):
         self._console.debug("Computing compiled size: %s..." % fileId)
         #tree = self._treeLoader.getTree(fileId, variants)
         #compiled = self.compileTree(tree)
-        compiled = self.getCompiled(fileId, variants, optimize, format=True) # TODO: format=True is a hack here, since it is most likely
+        #compiled = self.getCompiled(fileId, variants, optimize, format=True) # TODO: format=True is a hack here, since it is most likely
+        compOptions = CompileOptions()
+        compOptions.optimize = optimize
+        compOptions.format = True
+        compOptions.variantset = variants
+        compiled = self._classes[fileId].getCode(compOptions) # TODO: format=True is a hack here, since it is most likely
         size = len(compiled)
 
         self._cache.writemulti(cacheId, size)
@@ -303,6 +311,7 @@ class TreeCompiler(object):
 
 
     def compileTree(self, restree, format=False):
+        from ecmascript import compiler
         # Emulate options
         parser = optparse.OptionParser()
         parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False)
