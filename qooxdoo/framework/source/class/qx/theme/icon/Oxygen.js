@@ -26,6 +26,5 @@ qx.Theme.define("qx.theme.icon.Oxygen",
   title : "Oxygen",
   aliases : {
     "icon" : "qx/icon/Oxygen"
-  },
-  icons : {}
+  }
 });

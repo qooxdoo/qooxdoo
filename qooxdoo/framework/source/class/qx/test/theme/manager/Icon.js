@@ -42,8 +42,7 @@ qx.Class.define("qx.test.theme.manager.Icon",
         aliases : {
           icon: "test/icon",
           custom : "test/custom"
-        },
-        icons : {}
+        }
       });
 
       this.manager.setTheme(qx.test.Theme.themes.A);
@@ -61,13 +60,11 @@ qx.Class.define("qx.test.theme.manager.Icon",
         aliases : {
           icon: "test/icon",
           custom : "test/custom"
-        },
-        icons : {}
+        }
       });
 
       qx.Theme.define("qx.test.Theme.themes.B", {
-        extend : qx.test.Theme.themes.A,
-        icons : {}
+        extend : qx.test.Theme.themes.A
       });
 
       this.manager.setTheme(qx.test.Theme.themes.B);
@@ -85,16 +82,14 @@ qx.Class.define("qx.test.theme.manager.Icon",
         aliases : {
           icon: "test/icon",
           custom : "test/custom"
-        },
-        icons : {}
+        }
       });
 
       qx.Theme.define("qx.test.Theme.themes.B", {
         extend : qx.test.Theme.themes.A,
         aliases : {
           icon: "juhu/icon"
-        },
-        icons : {}
+        }
       });
 
       this.manager.setTheme(qx.test.Theme.themes.B);
@@ -111,8 +106,7 @@ qx.Class.define("qx.test.theme.manager.Icon",
       qx.Theme.define("qx.test.Theme.themes.A", {
         aliases : {
           "icon" : "my/icon/Theme"
-        },
-        icons : {}
+        }
       });
 
       var that = this;
