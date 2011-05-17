@@ -187,7 +187,7 @@ class MClassCode(object):
 
         optimize = compOptions.optimize
         variants = compOptions.variantset
-        format = compOptions.format
+        format_ = compOptions.format
         result = u''
         # source versions
         if not optimize:
@@ -197,9 +197,16 @@ class MClassCode(object):
                 result += '\n'
         # compiled versions
         else:
-            result = self._getCompiled(optimize, variants, format)
+            result = self._getCompiled(optimize, variants, format_)
 
         return result
+
+    ##
+    # Convenience method for length of compiled class
+    # (Might become necessary if I want to cache the length).
+    def getCompiledSize(self, compOptions):
+        code = self.getCode(compOptions)
+        return len(code)
 
 
     ##

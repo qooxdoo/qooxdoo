@@ -31,6 +31,7 @@ import sys, collections
 from misc                    import util
 from generator.code.Part     import Part
 from generator.code.Package  import Package
+from generator.code.Class    import CompileOptions
 from generator.config.Config import ConfigurationError
 
 class PartBuilder(object):
@@ -363,12 +364,17 @@ class PartBuilder(object):
         return packages
 
 
-    def _computePackageSize(self, package, variants):
+    def _computePackageSize(self, package, variants, script):
         packageSize = 0
+        compOptions = CompileOptions()
+        compOptions.optimize = script.optimize
+        compOptions.format = True
+        compOptions.variantset = variants
+        classesObj = dict((x.id,x) for x in script.classesObj if x.id in package.classes)
 
         self._console.indent()
         for classId in package.classes:
-            packageSize += self._compiler.getCompiledSize(classId, variants)
+            packageSize += classesObj[classId].getCompiledSize(compOptions)
         self._console.outdent()
 
         return packageSize
@@ -418,7 +424,7 @@ class PartBuilder(object):
                     if allPartBitMasks[fromPackage.id].no_merge_private_package:
                         self._console.debug("Skipping private package #%s" % (fromPackage.id,))
                         continue
-                packageSize = self._computePackageSize(fromPackage, variants) / 1024
+                packageSize = self._computePackageSize(fromPackage, variants, script) / 1024
                 self._console.debug("Package #%s: %sKB" % (fromPackage.id, packageSize))
                 # check selectablility
                 if (fromPackage.part_count == 1) and (packageSize >= minPackageSizeForUnshared):

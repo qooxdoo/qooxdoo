@@ -27,7 +27,7 @@ import graph
 from misc                            import filetool, textutil, util, Path, json, copytool
 from ecmascript.transform.optimizer  import privateoptimizer
 from misc.ExtMap                     import ExtMap
-from generator.code.Class            import Class
+from generator.code.Class            import Class, CompileOptions
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.ClassList        import ClassList
 from generator.code.PartBuilder      import PartBuilder
@@ -552,6 +552,7 @@ class Generator(object):
             environData = getVariants("environment") 
             variantSets = util.computeCombinations(environData)
             script.variants = variantSets[0] 
+            script.optimize = config.get("compile-options/code/optimize", [])
             script.libraries = self._libraries
             script.namespace = self.getAppName()
             script.locales = config.get("compile-options/code/locales", [])
@@ -574,7 +575,7 @@ class Generator(object):
             script           = Script()  # a new Script object represents the target code
             script.namespace = self.getAppName()
             script.variants  = variantset
-            script.envsettings = variantset
+            script.optimize  = config.get("compile-options/code/optimize", [])
             script.libraries = self._libraries
             script.jobconfig = self._job
             # set source/build version
@@ -982,9 +983,13 @@ class Generator(object):
                     'compiled' : (8000, 2000),
                     'source'   : (20000, 5000)
                 }
+                compOptions = CompileOptions()
+                compOptions.optimize = optimize
+                compOptions.variantset = variants
+                compOptions.format = True # guess it's most likely
                 if classId in self._classesObj:
                     if useCompiledSize:
-                        fsize = self._treeCompiler.getCompiledSize(classId, variants, optimize, recompile=True)
+                        fsize = self._classesObj[classId].getCompiledSize(compOptions)
                         mode  = 'compiled'
                     else:
                         fsize = self._classesObj[classId].size

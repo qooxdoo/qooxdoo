@@ -38,27 +38,6 @@ class TreeCompiler(object):
         self._jobconf = context.get('jobconf')
         self._optimize   = []
 
-        #self._loadPrivateFields()
-
-
-    def _loadPrivateFields(self):
-        cacheId  = privateoptimizer.privatesCacheId
-        privates, _ = self._cache.read(cacheId, keepLock=True)
-        #privates, _ = self._cache.read(cacheId)
-        if privates != None:
-            #self._console.info("Loaded %s private fields" % len(privates))
-            #privateoptimizer.load(privates)
-            pass
-        else:
-            privates = {}
-        return privates
-
-        #cacheId = "protected-%s" % self._context['config']._fname
-        #protected, _ = self._cache.read(cacheId)
-        #if protected != None:
-        #    self._console.info("Loaded %s protected fields" % len(protected))
-        #    protectedoptimizer.load(protected)
-
 
     def setOptimize(self, optimize=None):  # combined getter/setter
         if optimize != None:
@@ -66,29 +45,14 @@ class TreeCompiler(object):
         return self._optimize
 
 
-    def _storePrivateFields(self, _globalprivs=None):
-        #cacheId = "privates-%s" % self._context['config']._fname  # use path to main config file for context
-        cacheId  = privateoptimizer.privatesCacheId
-        if _globalprivs:
-            globalprivs = _globalprivs
-        else:
-            globalprivs = privateoptimizer.get()
-        self._cache.write(cacheId, globalprivs)  # removes lock by default
-
-
-    def _storeProtectedFields(self):
-        cacheId = "protected-%s" % self._context['config']._fname  # use path to main config file for context
-        self._cache.write(cacheId, protectedoptimizer.get())
-
-
     def compileClasses(self, classes, variants, optimize, format, ):
         if self._jobconf.get('run-time/num-processes', 0) > 0:
-            return self.compileClassesMP(classes, variants, optimize, format, self._jobconf.get('run-time/num-processes'))
+            return self._compileClassesMP(classes, variants, optimize, format, self._jobconf.get('run-time/num-processes'))
         else:
-            return self.compileClassesXX(classes, variants, optimize, format)
+            return self._compileClassesXX(classes, variants, optimize, format)
 
 
-    def compileClassesXX(self, classes, variants, optimize, format_):
+    def _compileClassesXX(self, classes, variants, optimize, format_):
         content = []
         length = len(classes)
         compOptions = CompileOptions()
@@ -104,7 +68,7 @@ class TreeCompiler(object):
         return u''.join(content)
 
 
-    def compileClassesMP(self, classes, variants, optimize, format, maxproc=8):
+    def _compileClassesMP(self, classes, variants, optimize, format, maxproc=8):
         # experimental
         # improve by incorporating cache handling, as done in getCompiled()
         # hangs on Windows in the last call to reap_processes from the main loop
@@ -166,13 +130,13 @@ class TreeCompiler(object):
             if len(processes) > maxproc:
                 reap_processes()  # collect finished processes' results to make room
 
-            cacheId, content = self.checkCache(classId, variants, optimize, format)
+            cacheId, content = self._checkCache(classId, variants, optimize, format)
             contA[pos][CACHEID] = cacheId
             if content:
                 contA[pos][CONTENT] = content
                 contA[pos][INCACHE] = True
                 continue
-            cmd = self.getCompileCommand(classId, variants, optimize, format)
+            cmd = self._getCompileCommand(classId, variants, optimize, format)
             #print cmd
             tf = os.tmpfile()
             #print "-- starting process for class: %s" % classId
@@ -200,7 +164,8 @@ class TreeCompiler(object):
 
         return content
 
-    def getCompileCommand(self, fileId, variants, optimize, format):
+
+    def _getCompileCommand(self, fileId, variants, optimize, format):
 
         def getToolBinPath():
             path = sys.argv[0]
@@ -232,7 +197,7 @@ class TreeCompiler(object):
         return cmd
 
 
-    def checkCache(self, fileId, variants, optimize, format=False):
+    def _checkCache(self, fileId, variants, optimize, format=False):
         filePath = self._classes[fileId].path
 
         classVariants     = self._classes[fileId].classVariants()
@@ -247,116 +212,6 @@ class TreeCompiler(object):
         return cacheId, compiled
 
 
-    def getCompiled(self, fileId, variants, optimize, format=False):
-
-        cacheId, compiled = self.checkCache(fileId, variants, optimize, format)
-        if compiled != None:
-            return compiled
-
-        #tree = self._treeLoader.getTree(fileId, variants)
-        tree = self._classes[fileId].tree(variants)
-
-        if len(optimize) > 0:
-            # Protect original before optimizing
-            #tree = copy.deepcopy(tree)  # not! - it costs a lot of time and doesn't seem necessary at the moment (Bug#3073)
-
-            self._console.debug("Optimizing tree: %s..." % fileId)
-            self._console.indent()
-            self._optimizeHelper(tree, fileId, variants, optimize)
-            self._console.outdent()
-
-        self._console.debug("Compiling tree: %s..." % fileId)
-        compiled = self.compileTree(tree, format)
-        self._console.indent()
-        self._console.debug("Size: %d" % len(compiled))
-        self._console.outdent()
-
-        self._cache.write(cacheId, compiled)
-        return compiled
-
-
-    def getCompiledSize(self, fileId, variants, optimize=None, recompile=True):
-        if optimize == None:
-            optimize = self._optimize      # use object setting as default
-        fileEntry = self._classes[fileId]
-        filePath = fileEntry.path
-
-        variantsId = util.toString(variants)
-        if optimize:
-            optimizeId = self.generateOptimizeId(optimize)
-            cacheId = "compiledsize-%s-%s-%s" % (filePath, variantsId, optimizeId)
-        else:
-            cacheId = "compiledsize-%s-%s" % (filePath, variantsId)
-
-        size, _ = self._cache.readmulti(cacheId, filePath)
-        if size != None:
-            return size
-
-        if recompile == False:
-            return -1
-
-        self._console.debug("Computing compiled size: %s..." % fileId)
-        #tree = self._treeLoader.getTree(fileId, variants)
-        #compiled = self.compileTree(tree)
-        #compiled = self.getCompiled(fileId, variants, optimize, format=True) # TODO: format=True is a hack here, since it is most likely
-        compOptions = CompileOptions()
-        compOptions.optimize = optimize
-        compOptions.format = True
-        compOptions.variantset = variants
-        compiled = self._classes[fileId].getCode(compOptions) # TODO: format=True is a hack here, since it is most likely
-        size = len(compiled)
-
-        self._cache.writemulti(cacheId, size)
-        return size
-
-
-    def compileTree(self, restree, format=False):
-        from ecmascript import compiler
-        # Emulate options
-        parser = optparse.OptionParser()
-        parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False)
-        parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")
-        parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")
-        parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")
-
-        (options, args) = parser.parse_args([])
-
-        return compiler.compile(restree, options, format)
-
-
-    def _optimizeHelper(self, fileTree, fileId, variants, optimize):
-        # 'statics' has to come before 'privates', as it needs the original key names in tree
-        if "statics" in optimize:
-            self._console.debug("Optimize static methods...")
-            self._staticMethodsHelper(fileTree, fileId, variants)
-
-        if "basecalls" in optimize:
-            self._console.debug("Optimize base calls...")
-            self._baseCallOptimizeHelper(fileTree, fileId, variants)
-
-        if "privates" in optimize:
-            self._console.debug("Crypting private fields...")
-            self._privateOptimizeHelper(fileTree, fileId, variants)
-
-        #if "protected" in optimize:
-        #    self._console.debug("Crypting protected fields...")
-        #    self._protectedOptimizeHelper(fileTree, fileId, variants)
-
-        if "strings" in optimize:
-            self._console.debug("Optimizing strings...")
-            self._stringOptimizeHelper(fileTree, fileId, variants)
-
-        if "variables" in optimize:
-            self._console.debug("Optimizing local variables...")
-            self._variableOptimizeHelper(fileTree, fileId, variants)
-
-        if "properties" in optimize:
-            self._console.debug("Optimize properties...")
-            self._propertyOptimizeHelper(fileTree, fileId, variants)
-            
-        return fileTree
-
-
     def generateOptimizeId(self, optimize):
         optimize = copy.copy(optimize)
         optimize.sort()
@@ -364,60 +219,3 @@ class TreeCompiler(object):
         return "[%s]" % ("-".join(optimize))
 
 
-    def _baseCallOptimizeHelper(self, tree, id, variants):
-        basecalloptimizer.patch(tree)
-
-
-    def _variableOptimizeHelper(self, tree, id, variants):
-        variableoptimizer.search(tree)
-
-
-    def _privateOptimizeHelper(self, tree, id, variants):
-        globalprivs = self._loadPrivateFields()
-        #globalprivs = None
-        privateoptimizer.patch(tree, id, globalprivs)
-        # the next line also ensures privates consistency across runs, when already
-        # optimized classes are re-used in the build
-        self._storePrivateFields(globalprivs)
-
-
-    def _protectedOptimizeHelper(self, tree, id, variants):
-        protectedoptimizer.patch(tree, id)
-        self._storeProtectedFields()
-
-
-    def _propertyOptimizeHelper(self, tree, id, variants):
-        propertyoptimizer.patch(tree, id)
-        
-    
-    def _staticMethodsHelper(self, tree, id, variants):
-        if self._classes[id].type == 'static':
-            featureoptimizer.patch(tree, id, self._featureMap[id])
-
-
-    def _stringOptimizeHelper(self, tree, id, variants):
-        stringMap = stringoptimizer.search(tree)
-
-        if len(stringMap) == 0:
-            return
-
-        stringList = stringoptimizer.sort(stringMap)
-        stringoptimizer.replace(tree, stringList)
-
-        # Build JS string fragments
-        stringStart = "(function(){"
-        stringReplacement = stringoptimizer.replacement(stringList)
-        stringStop = "})();"
-
-        # Compile wrapper node
-        wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop, id + "||stringopt")
-
-        # Reorganize structure
-        funcBody = wrapperNode.getChild("operand").getChild("group").getChild("function").getChild("body").getChild("block")
-        if tree.hasChildren():
-            for child in copy.copy(tree.children):
-                tree.removeChild(child)
-                funcBody.addChild(child)
-
-        # Add wrapper to tree
-        tree.addChild(wrapperNode)
