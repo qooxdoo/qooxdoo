@@ -24,7 +24,7 @@
  */
 qx.Class.define("qx.ui.mobile.form.PasswordField",
 {
-  extend : qx.ui.mobile.form.Input,
+  extend : qx.ui.mobile.form.TextField,
 
 
   /*
