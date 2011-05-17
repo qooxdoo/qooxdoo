@@ -20,7 +20,7 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * The TextField is a single-line text input field.
+ * The Checkbox is the mobile correspondent of the html checkbox.
  */
 qx.Class.define("qx.ui.mobile.form.CheckBox",
 {
@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   */
 
   /**
-   * @param value {var?null} The value of the widget.
+   * @param value {var?null} The value of the checkbox.
    */
   construct : function(value)
   {
@@ -42,6 +42,9 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
     if (value) {
       this.setValue(value);
     }
+    this.addListener('click', this._syncCheckProperty, this);
+    this.addListener('tap', this._syncCheckProperty, this);
+    this.addListener('swipe', this._syncCheckProperty, this);
   },
 
   /*
@@ -66,17 +69,45 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
       init : "checkBox"
     },
     
+    /**
+     * Whether this checkbox is enabled or not
+     */
     enable :
     {
       init: true,
       check : "Boolean",
       nullable: false,
       apply: "_applyEnable"
+    },
+    
+    /**
+     * Whether this checkbox is checked or not
+     */
+    checked :
+    {
+      init: false,
+      check : "Boolean",
+      nullable: true,
+      apply: "_applyChecked"
     }
   },
   
   members :
   {
+  
+    /**
+     * Sets the check property to the check attribute value of the CheckBox.
+     */
+    _syncCheckProperty : function() {
+      this.setChecked(this._getAttribute('checked'));
+    },
+
+    /**
+     * Sets the enable property to the new value
+     * @param value {Boolean}, the new value of the checkbox
+     * @param old {Boolean?}, the old value of the checkbox
+     * 
+     */
     _applyEnable : function(value,old)
     {
       if(value)
@@ -86,6 +117,24 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
       else
       {
         this._setAttribute("disabled","disabled");
+      }
+    },
+    
+    /**
+     * Sets the checked property to the new value
+     * @param value {Boolean}, the new value of the checked property
+     * @param old {Boolean?}, the old value of the checked property
+     * 
+     */
+    _applyChecked : function(value,old)
+    {
+      if(value)
+      {
+        this._setAttribute("checked",value)
+      }
+      else
+      {
+        this._setAttribute("checked",null);
       }
     }
   }

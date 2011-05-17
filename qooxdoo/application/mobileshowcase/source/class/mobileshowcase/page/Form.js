@@ -52,7 +52,7 @@ qx.Class.define("mobileshowcase.page.Form",
       this.getContent().add(this.__createForm());
 
       var button = new qx.ui.mobile.form.Button("Submit");
-      button.addListener("tap", this._onButtonTap, this);
+      button.addListener("click", this._onButtonTap, this);
       this.getContent().add(button);
 
       var title = new qx.ui.mobile.form.Title("Form Content");
@@ -84,7 +84,13 @@ qx.Class.define("mobileshowcase.page.Form",
       var row = new qx.ui.mobile.form.Row();
       this.__rememberPass = new qx.ui.mobile.form.CheckBox(true);
       row.add(this.__rememberPass);
+      this.__rememberPass.setValue("89");
+      this.__rememberPass.addCssClass('marginExpander');
+      this.__rememberPass.setChecked(true);
+      this.__rememberPass.setChecked(false);
       form.add(row);
+      
+      this.__rememberPass.addListener('click', this._onCheckBoxClick, this);
 
       var row = new qx.ui.mobile.form.Row();
       form.add(row);
@@ -102,8 +108,13 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__slide = new qx.ui.mobile.form.Slider();
       row.add(this.__slide, {flex:1});
       return form;
+      
     },
 
+    _onCheckBoxClick : function(evt)
+    {
+      this.__info.setValue(this.__rememberPass.getChecked() ? this.__rememberPass.getValue() : "");
+    },
 
     /**
      * Event handler.
