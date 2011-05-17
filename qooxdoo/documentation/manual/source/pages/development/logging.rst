@@ -33,7 +33,7 @@ Log appenders tells the logging system where to write log messages. When you cre
 ::
 
     // Enable logging in debug variant
-    if (qx.core.Variant.isSet("qx.debug", "on")) {
+    if (qx.core.Environment.get("qx.debug")) {
       qx.log.appender.Native;
       qx.log.appender.Console;
     }
