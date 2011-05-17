@@ -169,9 +169,20 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       value = this._convertValue(value);
       if (this.__oldValue != value)
       {
-        this._setAttribute("value", value);
+        this._setValue(value);
         this.__fireChangeValue(value);
       }
+    },
+
+
+    /**
+     * Sets the value attribute to the DOM element.
+     *
+     * @param value {var} The value to set
+     */
+    _setValue : function(value)
+    {
+      this._setAttribute("value", value);
     },
 
 
