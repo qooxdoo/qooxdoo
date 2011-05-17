@@ -14,6 +14,7 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Tristan Koch (tristankoch)
 
 ************************************************************************ */
 
@@ -25,9 +26,21 @@
  * of the loaded data will be stored in a qooxdoo property. The model classes
  * for the data will be created automatically.
  *
- * For the fetching itself it uses the {@link qx.io.remote.Request} class and
+ * For the fetching itself it uses the {@link qx.io.request.Xhr} class and
  * for parsing the loaded javascript objects into qooxdoo objects, the
  * {@link qx.data.marshal.Json} class will be used.
+ *
+ * Up to qooxdoo 1.4 {@link qx.io.remote.Request} was used internally. For
+ * backwards-compatibility, qooxdoo 1.5 uses {@link qx.io.remote.Request}
+ * by default, but can (and should) be changed to use {@link qx.io.request.Xhr}
+ * instead. To update the transport, {@link setDeprecatedTransport} to false.
+ * Note that the methods of the delegate {@link qx.data.store.IStoreDelegate}
+ * receive the transport the store is configured to use. Changing the transport
+ * may therefore require to change the code of the delegate’s methods.
+ *
+ * Support for {@link qx.io.remote.Request} and {@link setDeprecatedTransport}
+ * will be removed in a future version of qooxdoo.
+ *
  */
 qx.Class.define("qx.data.store.Json",
 {
@@ -50,6 +63,10 @@ qx.Class.define("qx.data.store.Json",
     // store the marshaler and the delegate
     this._marshaler = new qx.data.marshal.Json(delegate);
     this._delegate = delegate;
+
+
+    this.__deprecatedTransport = true;
+    this.__changePhaseHandlerBound = qx.lang.Function.bind(this.__changePhaseHandler, this);
 
     if (url != null) {
       this.setUrl(url);
@@ -87,7 +104,7 @@ qx.Class.define("qx.data.store.Json",
 
     /**
      * The state of the request as an url. If you want to check if the request
-     * did his job, use, the {@link #changeState} event and check for one of the
+     * did it’s job, use, the {@link #changeState} event and check for one of the
      * listed values.
      */
     state : {
@@ -114,9 +131,10 @@ qx.Class.define("qx.data.store.Json",
 
   members :
   {
-    // private members
-    __request : null,
     _delegate : null,
+
+    __request : null,
+    __deprecatedTransport : null,
 
     // apply function
     _applyUrl: function(value, old) {
@@ -131,23 +149,92 @@ qx.Class.define("qx.data.store.Json",
 
 
     /**
-     * Creates and sends a GET request with the given url. Additionally two
-     * listeners will be added for the state and the completed event of the
-     * request.
+     * Set whether to use the old transport layer.
+     *
+     * @param value {Boolean} Whether to use the old transport layer.
+     *
+     * @deprecated In a future release, this setter will be removed and
+     * the new transport used by default.
+     */
+    setDeprecatedTransport: function(value) {
+      qx.core.Assert.assertBoolean(value);
+
+      if (value) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      }
+
+      this.__deprecatedTransport = value;
+    },
+
+
+    /**
+     * Get whether to use the old transport layer.
+     *
+     * @return {Boolean} Whether to use the old transport layer.
+     *
+     * @deprecated In a future release, this getter will be removed and
+     * the new transport used by default.
+     */
+    isDeprecatedTransport: function() {
+
+      if (this.__deprecatedTransport) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      }
+
+      return !!this.__deprecatedTransport;
+    },
+
+
+    /**
+     * Creates and sends a GET request with the given url.
+     *
+     * Listeners will be added to respond to the request’s "success",
+     * "changePhase" and "fail" event.
      *
      * @param url {String} The url for the request.
      */
     _createRequest: function(url) {
+      if (this.isDeprecatedTransport()) {
+        this.__warnDeprecated();
+        return this.__createRequestLegacy(url);
+      }
+
+      var req = this.__request = new qx.io.request.Xhr(url);
+      req.setAccept("application/json");
+
+      // register the internal event before the user has the change to
+      // register its own event in the delegate
+      req.addListener("success", this.__requestCompleteHandler, this);
+
+      // check for the request configuration hook
+      var del = this._delegate;
+      if (del && qx.lang.Type.isFunction(del.configureRequest)) {
+        this._delegate.configureRequest(req);
+      }
+
+      // map request phase to it’s own phase
+      req.addListener("changePhase", this.__changePhaseHandlerBound);
+
+      // add failed, aborted and timeout listeners
+      req.addListener("fail", this.__requestUnsuccessfulHandler, this);
+
+      req.send();
+    },
+
+    /**
+     * Creates and configures an instance of {@link qx.io.remote.Request}.
+     *
+     * @param url {String} The url for the request.
+     *
+     * @deprecated since 1.5
+     */
+    __createRequestLegacy: function(url) {
       // create the request
-      this.__request = new qx.io.remote.Request(
-        url, "GET", "application/json"
-      );
+      this.__request = new qx.io.remote.Request(url, "GET", "application/json");
 
       // register the internal even before the user has the change to
       // register its own event in the delegate
-      this.__request.addListener(
-        "completed", this.__requestCompleteHandler, this
-      );
+      this.__request.addListener("completed", this.__requestCompleteHandlerLegacy, this);
 
       // check for the request configuration hook
       var del = this._delegate;
@@ -162,21 +249,61 @@ qx.Class.define("qx.data.store.Json",
       }, this);
 
       // add failed, aborted and timeout listeners
-      this.__request.addListener("failed", this.__requestUnsuccessfulHandler, this);
-      this.__request.addListener("aborted", this.__requestUnsuccessfulHandler, this);
-      this.__request.addListener("timeout", this.__requestUnsuccessfulHandler, this);
+      this.__request.addListener("failed", this.__requestUnsuccessfulHandlerLegacy, this);
+      this.__request.addListener("aborted", this.__requestUnsuccessfulHandlerLegacy, this);
+      this.__request.addListener("timeout", this.__requestUnsuccessfulHandlerLegacy, this);
 
       this.__request.send();
     },
 
 
     /**
-     * Handler called when not completing the request successfully. This includes 
-     * failed, aborted and timeout.
-     * 
-     * @param ev {qx.io.remote.Response} The respons object of the request.
+     * Handler called when request phase changes.
+     *
+     * Sets the store’s state.
+     *
+     * @param ev {qx.event.type.Data} The request’s changePhase event.
+     */
+    __changePhaseHandler : function(ev) {
+      var requestPhase = ev.getData(),
+          requestPhaseToStorePhase = {},
+          state;
+
+      requestPhaseToStorePhase = {
+        "opened": "configured",
+        "sent": "sending",
+        "loading": "receiving",
+        "success": "completed",
+        "abort": "aborted",
+        "timeout": "timeout",
+        "statusError": "failed"
+      };
+
+      state = requestPhaseToStorePhase[requestPhase];
+      if (state) {
+        this.setState(state);
+      }
+    },
+
+
+    /**
+     * Handler called when not completing the request successfully.
+     *
+     * @param ev {qx.event.type.Event} The request’s fail event.
      */
     __requestUnsuccessfulHandler : function(ev) {
+      var req = ev.getTarget();
+      this.fireDataEvent("error", req);
+    },
+
+    /**
+     * Handler called when not completing the legacy request successfully.
+     *
+     * @param ev {qx.io.remote.Response} The response object of the request.
+     *
+     * @deprecated since 1.5
+     */
+    __requestUnsuccessfulHandlerLegacy : function(ev) {
       this.fireDataEvent("error", ev);
     },
 
@@ -186,9 +313,42 @@ qx.Class.define("qx.data.store.Json",
      * the needed classes and instances for the fetched data using
      * {@link qx.data.marshal.Json}.
      *
-     * @param ev {qx.io.remote.Response} The event fired by the request.
+     * @param ev {qx.event.type.Event} The request’s success event.
      */
     __requestCompleteHandler : function(ev)
+    {
+       var req = ev.getTarget(),
+           data = req.getResponse();
+
+       // check for the data manipulation hook
+       var del = this._delegate;
+       if (del && qx.lang.Type.isFunction(del.manipulateData)) {
+         data = this._delegate.manipulateData(data);
+       }
+
+       // create the class
+       this._marshaler.toClass(data, true);
+
+       var oldModel = this.getModel();
+
+       // set the initial data
+       this.setModel(this._marshaler.toModel(data));
+
+       // get rid of the old model
+       if (oldModel && oldModel.dispose) {
+         oldModel.dispose();
+       }
+
+       // fire complete event
+       this.fireDataEvent("loaded", this.getModel());
+    },
+
+    /**
+     * Handler for the completion of legacy requests.
+     *
+     * @param ev {qx.io.remote.Response} The event fired by the request.
+     */
+    __requestCompleteHandlerLegacy : function(ev)
     {
        var data = ev.getContent();
 
@@ -224,6 +384,14 @@ qx.Class.define("qx.data.store.Json",
       if (url != null) {
         this._createRequest(url);
       }
+    },
+
+    /**
+     * Warn about depcrecated usage.
+     */
+    __warnDeprecated: function() {
+      qx.log.Logger.warn("Using qx.io.remote.Request in qx.data.store.Json " +
+        "is depcrecated. Please consult the API documentation.");
     }
   },
 

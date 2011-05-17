@@ -14,23 +14,18 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
-     * Tristan Koch (tristankoch)
 
 ************************************************************************ */
 
 /* ************************************************************************
+
 #asset(qx/test/*)
+
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.io.request.Xhr)
-************************************************************************ */
-
-qx.Class.define("qx.test.data.store.Json",
+qx.Class.define("qx.test.data.store.JsonLegacy",
 {
   extend : qx.dev.unit.TestCase,
-
-  include : qx.dev.unit.MMock,
 
   members :
   {
@@ -42,22 +37,12 @@ qx.Class.define("qx.test.data.store.Json",
     setUp : function()
     {
       this.__store = new qx.data.store.Json();
-      this.__store.setDeprecatedTransport(false);
+
+      // Default
+      // this.__store.setDeprecatedTransport(true);
 
       this.__data = eval("({s: 'String', n: 12, b: true})");
       this.__propertyNames = ["s", "n", "b"];
-
-      this.url = qx.util.ResourceManager.getInstance().
-        toUri("qx/test/primitive.json");
-    },
-
-
-    setUpFakeRequest : function()
-    {
-      var req = new qx.io.request.Xhr(this.url);
-      req.send = function() {};
-      this.request = this.stub(req);
-      this.stub(qx.io.request, "Xhr").returns(this.request);
     },
 
 
@@ -72,8 +57,6 @@ qx.Class.define("qx.test.data.store.Json",
           delete qx.Class.$$registry[name];
         }
       }
-
-      this.getSandbox().restore();
     },
 
 
@@ -85,33 +68,12 @@ qx.Class.define("qx.test.data.store.Json",
         }, this);
       }, this);
 
-      var url = this.url;
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/primitive.json");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);
       }, 100);
 
-      this.wait();
-    },
-
-
-    testProgressStates : function() {
-      var url = this.url,
-          states = [];
-
-      this.__store.addListener("changeState", function(evt) {
-        var state = evt.getData();
-        states.push(state);
-
-        if (state == "completed") {
-          this.resume(function() {
-            var expected = ["configured", "sending", "receiving", "completed"];
-            this.assertArrayEquals(expected, states);
-          });
-        }
-      }, this);
-
-      this.__store.setUrl(url);
       this.wait();
     },
 
@@ -167,7 +129,7 @@ qx.Class.define("qx.test.data.store.Json",
         }, this);
       }, this);
 
-      var url = this.url;
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/primitive.json");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);
@@ -247,7 +209,6 @@ qx.Class.define("qx.test.data.store.Json",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -280,7 +241,6 @@ qx.Class.define("qx.test.data.store.Json",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -314,7 +274,6 @@ qx.Class.define("qx.test.data.store.Json",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -350,7 +309,6 @@ qx.Class.define("qx.test.data.store.Json",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -378,7 +336,6 @@ qx.Class.define("qx.test.data.store.Json",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -417,7 +374,6 @@ qx.Class.define("qx.test.data.store.Json",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -441,23 +397,22 @@ qx.Class.define("qx.test.data.store.Json",
 
 
     testManipulatePrimitive: function() {
+      var manipulated = false;
       var delegate = {manipulateData : function(data) {
+        manipulated = true;
         return data;
       }};
-
-      this.spy(delegate, "manipulateData");
-
       this.__store.dispose();
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
-          this.assertCalled(delegate.manipulateData);
+          // check if the method has been called
+          this.assertTrue(manipulated);
         }, this);
       }, this);
 
-      var url = this.url;
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/primitive.json");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);
@@ -468,26 +423,24 @@ qx.Class.define("qx.test.data.store.Json",
 
 
     testConfigureRequestPrimitive: function() {
-      var delegate,
-          self = this;
-
-      delegate = {configureRequest : function(request) {
-        self.assertInstance(request, qx.io.request.Xhr);
+      var configured = false;
+      var self = this;
+      var delegate = {configureRequest : function(request) {
+        configured = true;
+        self.assertTrue(request instanceof qx.io.remote.Request);
       }};
-
-      this.spy(delegate, "configureRequest");
-
       this.__store.dispose();
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
-          this.assertCalled(delegate.configureRequest);
+          // check if the method has been called
+          this.assertTrue(configured);
         }, this);
       }, this);
 
-      var url = this.url;
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/primitive.json");
+      self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);
       }, 100);
@@ -511,26 +464,13 @@ qx.Class.define("qx.test.data.store.Json",
       var fakeModel = new qx.core.Object();
       this.__store.setModel(fakeModel);
 
-      var url = this.url;
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/primitive.json");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);
       }, 100);
 
       this.wait();
-    },
-
-
-    testDisposeRequest: function() {
-      this.setUpFakeRequest();
-      var url = this.url;
-      this.__store.addListener("loaded", function() {
-        this.resume(function() {
-          this.__store.dispose();
-          this.assertCalled(this.request.dispose);
-        }, this);
-      }, this);
-      this.__store.setUrl(url);
     },
 
 
@@ -543,7 +483,7 @@ qx.Class.define("qx.test.data.store.Json",
 
       var self = this;
       window.setTimeout(function(){
-        self.__store.setUrl("not-found");
+        self.__store.setUrl("affe");
       }, 100);
 
       this.wait();
