@@ -56,7 +56,6 @@ qx.Bootstrap.define("qx.Theme",
      *   colors : {},
      *   decorations : {},
      *   fonts : {},
-     *   icons : {},
      *   widgets : {},
      *   appearances : {},
      *   meta : {}
@@ -386,6 +385,11 @@ qx.Bootstrap.define("qx.Theme",
         for (var i=0, l=maps.length; i<l; i++)
         {
           var key = maps[i];
+
+          // @deprecated since 1.5
+          if (config[key] !== undefined && key === "icons") {
+            qx.Bootstrap.warn("The key 'icons' is deprecated, please check your configuration: " + name);
+          }
 
           if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
             throw new Error('Invalid key "' + key + '" in theme "' + name + '"! The value needs to be a map!');
