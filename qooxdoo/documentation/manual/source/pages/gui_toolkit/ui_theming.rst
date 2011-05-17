@@ -232,9 +232,9 @@ It is important to note that you can only specify values available as property o
 Icon Theme
 ==========
 
-This theme is to define which icon set is used and normally consists only of 3 main keys (title, resource and icons).
+This theme is to define which icon set is used and normally consists only of 2 main keys (title and aliases).
 
-The important one is the ``resource`` key which points the generator to the location of the icon set. The ``icon`` alias, which is used to reference icons in qooxdoo applications, is set to the value of this key. The ``icons`` key is to define additional icons which are not part of the icon theme. 
+The important one is the ``aliases`` key which points the generator to the location of the icon set. The ``icon`` alias, which is used to reference icons in qooxdoo applications, is set to the value of this key. 
 As qooxdoo uses the free available `Tango <http://tango.freedesktop.org/Tango_Desktop_Project>`_ and `Oxygen <http://www.oxygen-icons.org>`_ icon sets it is not necessary to extend these.
 
 Complete code for the ``tango`` icon theme:
@@ -248,8 +248,7 @@ Complete code for the ``tango`` icon theme:
     {
       aliases : {
         "icon" : "qx/icon/Tango"
-      },
-      icons : {}
+      }
     });
 
 .. _pages/ui_theming#appearance_theme:
