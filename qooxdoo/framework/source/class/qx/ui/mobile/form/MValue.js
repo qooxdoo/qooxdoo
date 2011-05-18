@@ -150,8 +150,8 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       value = this._convertValue(value);
       if (this.__oldValue != value)
       {
-        if (this._applyValue) {
-          this._applyValue(value);
+        if (this._setValue) {
+          this._setValue(value);
         } else {
           this._setAttribute(this.getValueAttributeName(), value);
         }
