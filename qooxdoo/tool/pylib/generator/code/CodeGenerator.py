@@ -647,7 +647,6 @@ class CodeGenerator(object):
         def options(): pass
         pretty.defaultOptions(options)
 
-        import pydb; pydb.debugger()
         # modify according to config
         if 'general/indent-string' in ppsettings:
             options.prettypIndentString = ppsettings.get('general/indent-string')
