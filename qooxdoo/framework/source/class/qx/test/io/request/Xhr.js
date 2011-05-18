@@ -405,19 +405,19 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Parsing
     //
 
-    "test: get parser": function() {
+    "test: getParser()": function() {
       var req = this.req;
       this.stub(req, "isDone").returns(true);
       this.stub(req, "getResponseContentType").returns("application/json");
       this.assertFunction(req._getParser());
     },
 
-    "test: get parser prematurely": function() {
+    "test: getParser() prematurely": function() {
       var req = this.req;
       req._getParser();
     },
 
-    "test: set parser function": function() {
+    "test: setParser() function": function() {
       var req = this.req,
           parser = function() {};
       req.setParser(parser);
@@ -425,7 +425,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertEquals(parser, req._getParser());
     },
 
-    "test: set parser symbolically": function() {
+    "test: setParser() symbolically": function() {
       var req = this.req;
       req.setParser("json");
       this.assertFunction(req._getParser());
