@@ -17,7 +17,15 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.bom.Video",
+/* ************************************************************************
+
+#asset(demobrowser/demo/media/audiotest.mp3)
+#asset(demobrowser/demo/media/audiotest.ogg)
+#asset(demobrowser/demo/media/audiotest.wav)
+
+************************************************************************ */
+
+qx.Class.define("demobrowser.demo.bom.Audio",
 {
   extend : qx.application.Standalone,
 
@@ -31,58 +39,58 @@ qx.Class.define("demobrowser.demo.bom.Video",
       var container = new qx.ui.container.Composite(new qx.ui.layout.Basic());
       doc.add(container, {left:10, top: 40});
 
-      if (qx.core.Environment.get("html.video.h264")) {
-        var videoUrl= "http://video.blendertestbuilds.de/download.blender.org/peach/trailer_iphone.m4v";
+      if (qx.core.Environment.get("html.audio.mp3")) {
+        var uri = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/audiotest.mp3");
       }
-      else if(qx.core.Environment.get("html.video.ogg")) {
-        var videoUrl= "http://mirror.cessen.com/blender.org/peach/trailer/trailer_400p.ogg";
+      else if(qx.core.Environment.get("html.audio.ogg")) {
+        var uri = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/audiotest.ogg");
       } else {
-        doc.add(new qx.ui.basic.Label("It seems that your browser doesn't support HTML5 video", {left: 10, top: 10}));
+        doc.add(new qx.ui.basic.Label("It seems that your browser doesn't support HTML5 audio", {left: 10, top: 10}));
         return;
       }
 
-      var video = new qx.bom.media.Video(videoUrl);
+      var audio = new qx.bom.media.Audio(uri);
 
       var play = new qx.ui.form.Button("play");
       play.addListener("execute", function(e) {
-        if (video.isPaused()) {
-          video.play();
+        if (audio.isPaused()) {
+          audio.play();
           play.setLabel("pause");
         } else {
-          video.pause();
+          audio.pause();
           play.setLabel("play");
         } 
       }, this);
 
       var show = new qx.ui.form.Button("show controls");
       show.addListener("execute", function(e) {
-        if (video.hasControls()) {
-          video.hideControls();
+        if (audio.hasControls()) {
+          audio.hideControls();
           show.setLabel("show controls");
         } else {
-          video.showControls();
+          audio.showControls();
           show.setLabel("hide controls");
         } 
       }, this);
 
       var mute = new qx.ui.form.Button("mute");
       mute.addListener("execute", function(e) {
-        if (video.isMuted()) {
-          video.setMuted(false);
+        if (audio.isMuted()) {
+          audio.setMuted(false);
           mute.setLabel("mute");
         } else {
-          video.setMuted(true);
+          audio.setMuted(true);
           mute.setLabel("unmute");
         } 
       }, this);
 
       var loop = new qx.ui.form.Button("loop");
       loop.addListener("execute", function(e) {
-        if (video.isLoop()) {
-          video.setLoop(false);
+        if (audio.isLoop()) {
+          audio.setLoop(false);
           loop.setLabel("loop");
         } else {
-          video.setLoop(true);
+          audio.setLoop(true);
           loop.setLabel("unloop");
         } 
       }, this);
@@ -91,26 +99,23 @@ qx.Class.define("demobrowser.demo.bom.Video",
       pb.setHeight(21);
       pb.setWidth(140);
 
-      video.addListener("loadeddata", function() {
+      audio.addListener("loadeddata", function() {
         doc.add(play, {left: 10, top: 10});
         doc.add(mute, {left: 60, top: 10});
         doc.add(pb, { left : 120, top: 12});
         doc.add(loop, {left: 270, top: 10});
         doc.add(show, {left: 325, top: 10});
 
-        container.getContentElement().getDomElement().appendChild(video.getMediaObject());
+        container.getContentElement().getDomElement().appendChild(audio.getMediaObject());
 
         container.setWidth(400);
         container.setHeight(400);
-        video.setWidth(container.getWidth());
-        video.setHeight(container.getHeight());
-
       }, this);
 
 
-      video.addListener("timeupdate", function() {
-        pb.setMaximum(video.getDuration());
-        pb.setValue(video.getCurrentTime());
+      audio.addListener("timeupdate", function() {
+        pb.setValue(audio.getCurrentTime());
+        pb.setMaximum(audio.getDuration());
       }, this);
 
     }
