@@ -37,9 +37,7 @@ qx.Class.define("qx.test.data.store.JsonLegacy",
     setUp : function()
     {
       this.__store = new qx.data.store.Json();
-
-      // Default
-      // this.__store.setDeprecatedTransport(true);
+      this.__store.setDeprecatedTransport(true);
 
       this.__data = eval("({s: 'String', n: 12, b: true})");
       this.__propertyNames = ["s", "n", "b"];
@@ -209,6 +207,7 @@ qx.Class.define("qx.test.data.store.JsonLegacy",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
+      this.__store.setDeprecatedTransport(true);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -241,6 +240,7 @@ qx.Class.define("qx.test.data.store.JsonLegacy",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
+      this.__store.setDeprecatedTransport(true);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -274,6 +274,7 @@ qx.Class.define("qx.test.data.store.JsonLegacy",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
+      this.__store.setDeprecatedTransport(true);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -309,6 +310,7 @@ qx.Class.define("qx.test.data.store.JsonLegacy",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
+      this.__store.setDeprecatedTransport(true);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -336,6 +338,7 @@ qx.Class.define("qx.test.data.store.JsonLegacy",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
+      this.__store.setDeprecatedTransport(true);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -374,6 +377,7 @@ qx.Class.define("qx.test.data.store.JsonLegacy",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
+      this.__store.setDeprecatedTransport(true);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -404,6 +408,7 @@ qx.Class.define("qx.test.data.store.JsonLegacy",
       }};
       this.__store.dispose();
       this.__store = new qx.data.store.Json(null, delegate);
+      this.__store.setDeprecatedTransport(true);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -431,6 +436,7 @@ qx.Class.define("qx.test.data.store.JsonLegacy",
       }};
       this.__store.dispose();
       this.__store = new qx.data.store.Json(null, delegate);
+      this.__store.setDeprecatedTransport(true);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {

@@ -42,7 +42,6 @@ qx.Class.define("qx.test.data.store.Json",
     setUp : function()
     {
       this.__store = new qx.data.store.Json();
-      this.__store.setDeprecatedTransport(false);
 
       this.__data = eval("({s: 'String', n: 12, b: true})");
       this.__propertyNames = ["s", "n", "b"];
@@ -80,7 +79,6 @@ qx.Class.define("qx.test.data.store.Json",
     testConfigureNewTransport : function()
     {
       var store = new qx.data.store.Json();
-      store.setDeprecatedTransport(false);
       this.assertFalse(store.isDeprecatedTransport());
     },
 
@@ -88,7 +86,6 @@ qx.Class.define("qx.test.data.store.Json",
     testConfigureNewTransportConstructor : function()
     {
       var store = new qx.data.store.Json(this.url, null, false);
-      this.assertFalse(store.isDeprecatedTransport());
     },
 
 
@@ -262,7 +259,6 @@ qx.Class.define("qx.test.data.store.Json",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -295,7 +291,6 @@ qx.Class.define("qx.test.data.store.Json",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -329,7 +324,6 @@ qx.Class.define("qx.test.data.store.Json",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -365,7 +359,6 @@ qx.Class.define("qx.test.data.store.Json",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -393,7 +386,6 @@ qx.Class.define("qx.test.data.store.Json",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -432,7 +424,6 @@ qx.Class.define("qx.test.data.store.Json",
         }
       };
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -464,7 +455,6 @@ qx.Class.define("qx.test.data.store.Json",
 
       this.__store.dispose();
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -494,7 +484,6 @@ qx.Class.define("qx.test.data.store.Json",
 
       this.__store.dispose();
       this.__store = new qx.data.store.Json(null, delegate);
-      this.__store.setDeprecatedTransport(false);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {

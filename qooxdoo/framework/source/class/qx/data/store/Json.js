@@ -30,16 +30,18 @@
  * for parsing the loaded javascript objects into qooxdoo objects, the
  * {@link qx.data.marshal.Json} class will be used.
  *
- * Up to qooxdoo 1.4 {@link qx.io.remote.Request} was used internally. For
- * backwards-compatibility, qooxdoo 1.5 uses {@link qx.io.remote.Request}
- * by default, but can (and should) be changed to use {@link qx.io.request.Xhr}
- * instead. To update the transport, {@link setDeprecatedTransport} to false.
- * Note that the methods of the delegate {@link qx.data.store.IStoreDelegate}
- * receive the transport the store is configured to use. Changing the transport
- * may therefore require to change the code of the delegate’s methods.
+ * Up to qooxdoo 1.4 {@link qx.io.remote.Request} was used as the transport. For
+ * backwards-compatibility, qooxdoo 1.5 can be configured to use the old
+ * transport with {@link #setDeprecatedTransport}.
  *
- * Support for {@link qx.io.remote.Request} and {@link setDeprecatedTransport}
- * will be removed in a future version of qooxdoo.
+ * Please note that if you
+ *
+ * * upgrade from qooxdoo 1.4 or lower
+ * * choose not to force the old transport
+ * * use a delegate with qx.data.store.IStoreDelegate#configureRequest
+ *
+ * you probably need to change the implementation of your delegate to configure
+ * the {@link qx.io.request.Xhr} request.
  *
  */
 qx.Class.define("qx.data.store.Json",
@@ -54,10 +56,8 @@ qx.Class.define("qx.data.store.Json",
    *   everything is set up.
    * @param delegate {Object?null} The delegate containing one of the methods
    *   specified in {@link qx.data.store.IStoreDelegate}.
-   * @param deprecatedTransport {Boolean?true} Whether to use the old
-   *   transport.
    */
-  construct : function(url, delegate, deprecatedTransport)
+  construct : function(url, delegate)
   {
     this.base(arguments);
 
@@ -66,8 +66,8 @@ qx.Class.define("qx.data.store.Json",
     this._marshaler = new qx.data.marshal.Json(delegate);
     this._delegate = delegate;
 
-    this.__deprecatedTransport = deprecatedTransport !== undefined ?
-      deprecatedTransport : true;
+    // use new transport by default
+    this.__deprecatedTransport = false;
 
     this.__changePhaseHandlerBound = qx.lang.Function.bind(this.__changePhaseHandler, this);
 
