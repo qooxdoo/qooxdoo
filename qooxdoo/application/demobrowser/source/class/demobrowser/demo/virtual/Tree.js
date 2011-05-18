@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
 
       // loads the tree model
       var url = "json/tree.json";
-      var store = new qx.data.store.Json(url, null, false);
+      var store = new qx.data.store.Json(url);
 
       // connect the store and the tree
       store.bind("model", tree, "model");

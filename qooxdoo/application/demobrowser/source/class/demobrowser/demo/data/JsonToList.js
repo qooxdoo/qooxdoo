@@ -54,7 +54,7 @@ qx.Class.define("demobrowser.demo.data.JsonToList",
 
       // create the data store
       var url = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/data/list.json");
-      var store = new qx.data.store.Json(url, null, false);
+      var store = new qx.data.store.Json(url);
 
       // create the status label
       var status = new qx.ui.basic.Label("Loading...");
