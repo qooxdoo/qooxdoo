@@ -267,7 +267,12 @@ def processVariantGet(callNode, variantMap):
     if not found:
         return treeModified
 
-    # Processing
+    # @deprecated
+    # "on"/"off" conversion
+    if isinstance(confValue, types.StringTypes) and confValue in ["on","off"]:
+        confValue = {"on":True,"off":False}[confValue]
+
+   # Processing
     # are we in a if/loop condition expression, i.e. a "loop/expression/..." context?
     conditionNode = None
     loopType = None
