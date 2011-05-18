@@ -55,7 +55,7 @@ qx.Class.define("qx.test.data.store.Json",
     setUpFakeRequest : function()
     {
       var req = new qx.io.request.Xhr(this.url);
-      req.send = function() {};
+      req.send = req.setParser = function() {};
       this.request = this.stub(req);
       this.stub(qx.io.request, "Xhr").returns(this.request);
     },

@@ -198,7 +198,12 @@ qx.Class.define("qx.data.store.Json",
       }
 
       var req = this.__request = new qx.io.request.Xhr(url);
+
+      // request json representation
       req.setAccept("application/json");
+
+      // parse as json no matter what content type is returned
+      req.setParser("json");
 
       // register the internal event before the user has the change to
       // register its own event in the delegate
