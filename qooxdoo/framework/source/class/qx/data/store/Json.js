@@ -138,6 +138,7 @@ qx.Class.define("qx.data.store.Json",
 
     __request : null,
     __deprecatedTransport : null,
+    __changePhaseHandlerBound : null,
 
     // apply function
     _applyUrl: function(value, old) {
