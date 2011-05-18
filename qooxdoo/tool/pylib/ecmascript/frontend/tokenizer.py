@@ -247,12 +247,6 @@ def parseString(scanner, sstart):
     return res
 
 
-def parseString1(scanner, sstart):
-    # parse string literals
-    tokens = parseDelimited(scanner, sstart)
-    return scanner.slice(scanner, tokens[0].spos, tokens[-1].spos + tokens[-1].len)
-
-
 ##
 # parse a regular expression
 def parseRegexp(scanner):
@@ -278,35 +272,11 @@ def parseRegexp(scanner):
     return rexp
 
 
-def parseRegexp1(scanner):
-    # leading '/' is already consumed
-    tokens = parseDelimited(scanner, '/')
-
-    # regexp modifiers
-    try:
-        if scanner.peek()[0].name == "ident":
-            token = scanner.next()
-            tokens.append(token)
-    except StopIteration:
-        pass
-
-    return scanner.slice(scanner, tokens[0].spos, tokens[-1].spos + tokens[-1].len)
-
-
 ##
 # parse an inline comment // ...
 def parseCommentI(scanner):
     result = scanner.next('\n')  # inform the low-level scanner to switch to commentI
     return result.value
-
-def parseCommentI1(scanner):
-    result = ""
-    for token in scanner:
-        if token.name == 'nl':
-            scanner.putBack(token)
-            break
-        result += token.value
-    return result
 
 
 ##
@@ -320,22 +290,6 @@ def parseCommentM(scanner):
             break
         # run-away comments bomb in the above scanner.next()
     return u"".join(res)
-
-def parseCommentM1(scanner):
-    result = []
-    res    = u""
-    for token in scanner:
-        result.append(token.value)
-        if token.value == '*/':
-            res = u"".join(result)
-            if not Scanner.is_last_escaped(res):
-                break
-    else:
-        # this means we've run out of tokens without finishing the comment
-        res = u"".join(result)
-        raise SyntaxException("Run-away comment", res)
-
-    return res
 
 
 ##
