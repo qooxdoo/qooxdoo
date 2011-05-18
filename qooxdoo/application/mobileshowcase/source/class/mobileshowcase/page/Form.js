@@ -72,7 +72,7 @@ qx.Class.define("mobileshowcase.page.Form",
       var form = new qx.ui.mobile.form.Form();
 
       var row = new qx.ui.mobile.form.Row();
-      this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username"});
+      this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username - value bound to checkbox's model"});
       row.add(this.__name);
       form.add(row);
 
@@ -82,12 +82,11 @@ qx.Class.define("mobileshowcase.page.Form",
       row.add(this.__password);
       
       var row = new qx.ui.mobile.form.Row();
-      this.__rememberPass = new qx.ui.mobile.form.CheckBox(true);
+      this.__rememberPass = new qx.ui.mobile.form.CheckBox();
       row.add(this.__rememberPass);
-      this.__rememberPass.setValue("89");
-      this.__rememberPass.addCssClass('marginExpander');
-      this.__rememberPass.setChecked(true);
-      this.__rememberPass.setChecked(false);
+      this.__rememberPass.setModel("checkbox model bound to textField value. check the Checkbox to see its model in the textarea");
+      this.__rememberPass.bind("model",this.__name,"value");
+      this.__name.bind("value",this.__rememberPass,"model");
       form.add(row);
       
       this.__rememberPass.addListener('click', this._onCheckBoxClick, this);
@@ -113,7 +112,7 @@ qx.Class.define("mobileshowcase.page.Form",
 
     _onCheckBoxClick : function(evt)
     {
-      this.__info.setValue(this.__rememberPass.getChecked() ? this.__rememberPass.getValue() : "");
+      this.__info.setValue(this.__rememberPass.getValue() ? this.__rememberPass.getModel().toString() : "");
     },
 
     /**

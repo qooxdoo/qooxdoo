@@ -25,6 +25,14 @@
 qx.Class.define("qx.ui.mobile.form.Input",
 {
   extend : qx.ui.mobile.core.Widget,
+  include : [     
+    qx.ui.form.MForm,
+    qx.ui.form.MModelProperty
+  ],
+  implement : [
+    qx.ui.form.IForm,
+    qx.ui.form.IModel
+  ],
   type : "abstract",
 
 
@@ -40,6 +48,32 @@ qx.Class.define("qx.ui.mobile.form.Input",
     this._setAttribute("type", this._getType());
   },
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+     valueAttributeName :
+    {
+      check : "String",
+      init : "value"
+    },
+    
+    /**
+     * Whether this checkbox is enabled or not
+     */
+    enabled :
+    {
+      init: true,
+      check : "Boolean",
+      nullable: false,
+      event : "changeEnabled",
+      apply: "_applyEnabled"
+    }
+  },
 
   /*
   *****************************************************************************
@@ -64,6 +98,25 @@ qx.Class.define("qx.ui.mobile.form.Input",
     {
       if (qx.core.Environment.get("qx.debug")) {
         throw new Error("Abstract method call");
+      }
+    },
+    
+
+    /**
+     * Sets the enable property to the new value
+     * @param value {Boolean}, the new value of the checkbox
+     * @param old {Boolean?}, the old value of the checkbox
+     * 
+     */
+    _applyEnabled : function(value,old)
+    {
+      if(value)
+      {
+        this._setAttribute("disabled",null)
+      }
+      else
+      {
+        this._setAttribute("disabled","disabled");
       }
     }
   }

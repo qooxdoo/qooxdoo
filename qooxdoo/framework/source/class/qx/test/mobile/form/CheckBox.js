@@ -25,34 +25,27 @@ qx.Class.define("qx.test.mobile.form.CheckBox",
   {
     testValue : function()
     {
-      var checkBox = new qx.ui.mobile.form.CheckBox("1");
+      var checkBox = new qx.ui.mobile.form.CheckBox(false);
       this.getRoot().add(checkBox);
 
-      this.assertEquals("1",checkBox.getValue());
-      this.assertEquals("1",qx.bom.element.Attribute.get(checkBox.getContainerElement(),'value'));
-
-      checkBox.destroy();
-    },
-    testEnable : function()
-    {
-      var checkBox = new qx.ui.mobile.form.CheckBox(1);
-      this.getRoot().add(checkBox);
-      checkBox.setEnable(false);
-      this.assertEquals(false,checkBox.getEnable());
-
-      checkBox.destroy();
-    },
-    testCheck : function()
-    {
-      var checkBox = new qx.ui.mobile.form.CheckBox(1);
-      this.getRoot().add(checkBox);
-      checkBox.setChecked(false);
+      this.assertEquals(false,checkBox.getValue());
       this.assertEquals(false,qx.bom.element.Attribute.get(checkBox.getContainerElement(),'checked'));
-      checkBox.setChecked(true);
+      checkBox.setValue(true);
+      this.assertEquals(true,checkBox.getValue());
       this.assertEquals(true,qx.bom.element.Attribute.get(checkBox.getContainerElement(),'checked'));
-      this.assertEquals(true,checkBox.getChecked());
-      
+
+      checkBox.destroy();
+    },
+    testEnabled : function()
+    {
+      var checkBox = new qx.ui.mobile.form.CheckBox();
+      this.getRoot().add(checkBox);
+      checkBox.setEnabled(false);
+      this.assertEquals(false,checkBox.getEnabled());
+      this.assertEquals(true,qx.bom.element.Attribute.get(checkBox.getContainerElement(),'disabled'));
+
       checkBox.destroy();
     }
+
   }
 });

@@ -56,6 +56,12 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
     {
       refine : true,
       init : "textArea"
+    },
+    
+     valueAttributeName :
+    {
+      check : "String",
+      init : "value"
     }
   },
 

@@ -43,9 +43,6 @@ qx.Class.define("qx.ui.mobile.form.PasswordField",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -57,7 +54,7 @@ qx.Class.define("qx.ui.mobile.form.PasswordField",
     // overridden
     _getType : function()
     {
-      return "checkbox";
+      return "password";
     }
   }
 });

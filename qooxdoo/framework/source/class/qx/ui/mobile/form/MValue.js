@@ -105,6 +105,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       check : "Boolean",
       init : false
     }
+    
   },
 
 
@@ -128,7 +129,14 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      */
     _convertValue : function(value)
     {
-      return value || "";
+      if(typeof value !== 'boolean')
+      {
+        return value || "";
+      }
+      else
+      {
+        return value;
+      }
     },
 
 
@@ -145,12 +153,16 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
         if (this._applyValue) {
           this._applyValue(value);
         } else {
-          this._setAttribute("value", value);
+          this._setAttribute(this.getValueAttributeName(), value);
         }
         this.__fireChangeValue(value);
       }
     },
 
+    _getAttributeNameForValue: function()
+    {
+      return "value";
+    },
 
     /**
      * Returns the set value.
@@ -159,7 +171,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      */
     getValue : function()
     {
-      return this._convertValue(this._getAttribute("value"));
+      return this._convertValue(this._getAttribute(this.getValueAttributeName()));
     },
 
 
