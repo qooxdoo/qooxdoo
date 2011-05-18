@@ -333,17 +333,16 @@ qx.Class.define("qx.bom.Label",
 
       // detect size
       var size = qx.bom.element.Dimension.getSize(element);
-      if ((qx.core.Environment.get("engine.name") == "gecko"))
-      {
-        // Under Mac at least with Firefox 3.0 alpha 6 and earlier
-        // there was an issue that the text size calculation returns
-        // a size which is a bit too small and results into ellipsis
-        // even under the measured size.
-        // Linux shows the same bug (FF 3.0.6)
-        // https://bugzilla.mozilla.org/show_bug.cgi?id=450422
-        if (!(qx.core.Environment.get("os.name") == "win")) {
-          size.width++;
-        }
+
+      // Under Mac at least with Firefox 3.0 alpha 6 and earlier
+      // there was an issue that the text size calculation returns
+      // a size which is a bit too small and results into ellipsis
+      // even under the measured size.
+      // Linux shows the same bug (FF 3.0.6)
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=450422
+      // Also FF4 with Windows7 shows the same issue see bug #4961
+      if ((qx.core.Environment.get("engine.name") == "gecko")) {
+        size.width++;
       }
       // IE9 has problems with the text size calculation for details have a look at bug #4038
       if ((qx.core.Environment.get("engine.name") == "mshtml") && parseFloat(qx.core.Environment.get("engine.version")) >= 9) {
