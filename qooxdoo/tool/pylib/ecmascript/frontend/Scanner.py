@@ -134,7 +134,7 @@ class Scanner(IterObject):
                 mstart       = cursor
                 mend         = mo.end()
                 cursor       += mend
-                commentEnd = (yield (mo_lastgroup, mo.group(mo_lastgroup), cursor, mend))
+                commentEnd = (yield (mo_lastgroup, mo.group(mo_lastgroup), mstart, mend))
             else:
                 raise SyntaxError("Unable to tokenize text starting with: \"%s\"" % inData[cursor:cursor+200])
 

@@ -59,7 +59,8 @@ def scanner_slice(self, a, b):
 # Interface function
 def parseStream(content, uniqueId=""):
     tokens = []
-    line = column = sol = 1
+    line = column = 1
+    sol = 0  # index of start-of-line
     scanner = Scanner.LQueue(tokens_2_obj(content, ))
     scanner.content = content
     scanner.slice = scanner_slice
@@ -169,6 +170,7 @@ def parseStream(content, uniqueId=""):
                         except SyntaxException, e:
                             desc = e.args[0] + " starting with \"%r...\"" % (tok.value + e.args[1])[:20]
                             raiseSyntaxException(token, desc)
+                        commnt = alignMultiLines(commnt, token['column'])
                         token['source'] = tok.value + commnt
                         token['detail'] = comment.getFormat(token['source'])
                         token['begin'] = not hasLeadingContent(tokens)
@@ -369,5 +371,23 @@ def hasLeadingContent(tokens):
             return False
         else:
             return True
+
+##
+# Remove whitespace at the beginning of subsequent lines in a multiline text
+# (usually comment).
+LeadingSpace = re.compile('\A\s+',re.U)
+def alignMultiLines(text, firstColumn):
+    firstIndent = firstColumn - 1 # columns start with 1
+    lines = text.split('\n')
+    nlines = [lines[0]]
+    for line in lines[1:]:
+        mo = LeadingSpace.search(line)
+        # only touch lines that are at least indented as the first line
+        if mo and len(mo.group()) >= firstIndent:
+            nline = LeadingSpace.sub(' ' * (len(mo.group())-firstIndent), line)
+        else :
+            nline = line
+        nlines.append(nline)
+    return '\n'.join(nlines)
 
 
