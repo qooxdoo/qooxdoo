@@ -37,34 +37,8 @@ qx.Class.define("qx.ui.mobile.form.Input",
   construct : function()
   {
     this.base(arguments);
-
-    this.initType();
+    this._setAttribute("type", this._getType());
   },
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /**
-     * The type of the input field.
-     */
-    type :
-    {
-      check : "String",
-      nullable : true,
-      init : null,
-      apply : "_applyAttribute"
-    }
-  },
-
-
 
 
   /*
@@ -79,6 +53,18 @@ qx.Class.define("qx.ui.mobile.form.Input",
     _getTagName : function()
     {
       return "input";
+    },
+
+
+    /**
+     * Returns the type of the input field. Override this method in the
+     * specialized input class.
+     */
+    _getType : function()
+    {
+      if (qx.core.Environment.get("qx.debug")) {
+        throw new Error("Abstract method call");
+      }
     }
   }
 });

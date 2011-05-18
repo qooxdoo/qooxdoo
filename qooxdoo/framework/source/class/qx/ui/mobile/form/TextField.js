@@ -52,18 +52,28 @@ qx.Class.define("qx.ui.mobile.form.TextField",
   properties :
   {
     // overridden
-    type :
-    {
-      refine : true,
-      init : "text"
-    },
-
-
-    // overridden
     defaultCssClass :
     {
       refine : true,
       init : "textField"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    _getType : function()
+    {
+      return "text";
     }
   }
 });

@@ -53,13 +53,6 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   properties :
   {
     // overridden
-    type :
-    {
-      refine : true,
-      init : "checkbox"
-    },
-
-    // overridden
     defaultCssClass :
     {
       refine : true,
@@ -91,6 +84,12 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   
   members :
   {
+    // overridden
+    _getType : function()
+    {
+      return "checkbox";
+    },
+
   
     /**
      * Sets the check property to the check attribute value of the CheckBox.

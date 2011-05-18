@@ -36,18 +36,28 @@ qx.Class.define("qx.ui.mobile.form.PasswordField",
   properties :
   {
     // overridden
-    type :
-    {
-      refine : true,
-      init : "password"
-    },
-
-
-    // overridden
     defaultCssClass :
     {
       refine : true,
       init : "passwordField"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    _getType : function()
+    {
+      return "checkbox";
     }
   }
 });
