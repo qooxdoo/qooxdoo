@@ -47,13 +47,13 @@ copyright = u'2011, qooxdoo developers'
 # The short X.Y version.
 version = '1.4'
 # The full version, including alpha/beta/rc tags.
-release = '1.4'
+release = '1.4.1'
 
 # qooxdoo source text macros
 qxmacros = {
     "version"  : version
    ,"versionL" : "1.4.x"   # 'latest' in this line
-   ,"versionU" : "1_4"     # underscore notation for SourceForge viewvc links
+   ,"versionU" : "1_4_1"     # underscore notation for SourceForge viewvc links
    ,"JS"       : "JavaScript"
 }
 
