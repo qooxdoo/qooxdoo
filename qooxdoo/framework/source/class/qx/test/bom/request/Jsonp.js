@@ -55,15 +55,24 @@ qx.Class.define("qx.test.bom.request.Jsonp",
     // Callback
     //
 
-    "test: set callback param and name": function() {
+    "test: setCallbackParam()": function() {
       var req = this.req;
 
       req.setCallbackParam("myMethod");
+      req.open("GET", this.url);
+      req.send();
+
+      this.assertMatch(req._getUrl(), /(myMethod=)/);
+    },
+
+    "test: setCallbackName()": function() {
+      var req = this.req;
+
       req.setCallbackName("myCallback");
       req.open("GET", this.url);
       req.send();
 
-      this.assertMatch(req._getUrl(), /(myMethod=myCallback)/);
+      this.assertMatch(req._getUrl(), /(=myCallback)/);
     },
 
     "test: has default callback param and name": function() {
