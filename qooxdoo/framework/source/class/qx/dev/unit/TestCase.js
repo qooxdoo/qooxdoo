@@ -31,7 +31,7 @@ qx.Class.define("qx.dev.unit.TestCase",
     /**
      * This event can be fired by assertion functions instead of throwing a
      * {@link qx.core.AssertionError}, ensuring that any code defined after the
-     * assertion call will still run. Only supported by testrunner2.
+     * assertion call will still run.
      *
      * Event data: The {@link qx.core.AssertionError}
      */
