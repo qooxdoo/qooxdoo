@@ -64,7 +64,7 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalled(this.transport.dispose);
     },
 
-    "test: get transport": function() {
+    "test: getTransport()": function() {
       this.setUpFakeTransport();
       this.assertEquals(this.transport, this.req.getTransport());
     },
@@ -73,7 +73,7 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     // Send
     //
 
-    "test: send GET request": function() {
+    "test: send() GET": function() {
       this.setUpFakeTransport();
       this.req.send();
 
