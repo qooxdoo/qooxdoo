@@ -37,7 +37,6 @@ qx.Class.define("qx.test.data.store.Jsonp",
     setUp : function()
     {
       this.__store = new qx.data.store.Jsonp();
-      this.__store.setCallbackParam("callback");
 
       this.url = qx.util.ResourceManager.getInstance().
         toUri("qx/test/jsonp_primitive.php");
@@ -76,13 +75,25 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
     testSetCallbackParam: function() {
       this.setUpFakeRequest();
-      this.spy(this.request, "setCallbackParam");
+      this.stub(this.request, "setCallbackParam");
 
       this.__store = new qx.data.store.Jsonp();
       this.__store.setCallbackParam("myCallback");
       this.__store.setUrl("/url");
 
       this.assertCalledWith(this.request.setCallbackParam, "myCallback");
+    },
+
+
+    testSetCallbackName: function() {
+      this.setUpFakeRequest();
+      this.spy(this.request, "setCallbackName");
+
+      this.__store = new qx.data.store.Jsonp();
+      this.__store.setCallbackName("myCallback");
+      this.__store.setUrl("/url");
+
+      this.assertCalledWith(this.request.setCallbackName, "myCallback");
     },
 
 

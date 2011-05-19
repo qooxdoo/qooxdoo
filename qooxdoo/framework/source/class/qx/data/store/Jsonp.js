@@ -59,6 +59,17 @@ qx.Class.define("qx.data.store.Jsonp",
       init : "callback",
       nullable : true
     },
+
+
+    /**
+    * The name of the callback function. See
+    * {@link qx.bom.request.Jsonp#setCallbackName} for more details.
+    *
+    * Note: Ignored when legacy transport is used.
+    */
+    callbackName : {
+      check : "String",
+      nullable : true
     }
   },
 
@@ -79,8 +90,14 @@ qx.Class.define("qx.data.store.Jsonp",
         this.__request.dispose();
       }
 
-      var req = this.__loader = new qx.io.request.Jsonp(url);
+      var req = this.__loader = new qx.io.request.Jsonp();
+
+      // default when null
       req.setCallbackParam(this.getCallbackParam());
+      req.setCallbackName(this.getCallbackName());
+
+      // send
+      req.setUrl(url);
 
       // register the internal event before the user has the change to
       // register its own event in the delegate
