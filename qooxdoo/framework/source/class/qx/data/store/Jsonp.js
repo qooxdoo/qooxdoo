@@ -14,6 +14,7 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Tristan Koch (tristankoch)
 
 ************************************************************************ */
 
@@ -43,6 +44,7 @@ qx.Class.define("qx.data.store.Jsonp",
     if (callbackParam != undefined) {
       this.setCallbackParam(callbackParam);
     }
+
     this.base(arguments, url, delegate);
   },
 
@@ -62,9 +64,47 @@ qx.Class.define("qx.data.store.Jsonp",
   {
     __loader : null,
 
-
     // overridden
     _createRequest: function(url) {
+      if (this.isDeprecatedTransport()) {
+        this._warnDeprecated();
+        return this.__createRequestLoader(url);
+      }
+
+      // dispose old request
+      if (this.__request) {
+        this.__request.dispose();
+      }
+
+      var req = this.__request = new qx.io.request.Jsonp(url);
+
+      // register the internal event before the user has the change to
+      // register its own event in the delegate
+      req.addListener("success", this._onSuccess, this);
+
+      // check for the request configuration hook
+      var del = this._delegate;
+      if (del && qx.lang.Type.isFunction(del.configureRequest)) {
+        this._delegate.configureRequest(req);
+      }
+
+      // map request phase to it’s own phase
+      req.addListener("changePhase", this._onChangePhase, this);
+
+      // add failed, aborted and timeout listeners
+      req.addListener("fail", this._onFail, this);
+
+      req.send();
+    },
+
+    /**
+     * Creates and configures an instance of {@link qx.io.ScriptLoader}.
+     *
+     * @param url {String} The url for the request.
+     *
+     * @deprecated since 1.5
+     */
+    __createRequestLoader: function(url) {
       // if there is an old loader, dispose it
       if (this.__loader) {
         this.__loader.dispose();
@@ -97,22 +137,27 @@ qx.Class.define("qx.data.store.Jsonp",
      *
      * @param data {Object} The returned JSON data.
      * @internal
+     *
+     * @deprecated since 1.5
+     *
      */
     callback : function(data) {
       // check for disposed callback calls
       if (this.isDisposed()) {
         return;
       }
-      this.__loaded(data);
+      this.__loadedLoader(data);
     },
 
 
     /**
-     * Handles the completion of the request and the building of the model.
+     * Handles the completion of the legacy request and the building of the model.
      *
      * @param data {Object} The JSON data from the request.
+     *
+     * @deprecated since 1.5
      */
-    __loaded: function(data) {
+    __loadedLoader: function(data) {
       if (data == undefined) {
         this.setState("failed");
         this.fireEvent("error");

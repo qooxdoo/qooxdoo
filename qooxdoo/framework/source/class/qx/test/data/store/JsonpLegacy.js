@@ -23,12 +23,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.data.store.Jsonp",
+qx.Class.define("qx.test.data.store.JsonpLegacy",
 {
   extend : qx.dev.unit.TestCase,
-
-  include : [qx.dev.unit.MRequirements,
-             qx.dev.unit.MMock],
 
   members :
   {
@@ -37,10 +34,8 @@ qx.Class.define("qx.test.data.store.Jsonp",
     setUp : function()
     {
       this.__store = new qx.data.store.Jsonp();
+      this.__store.setDeprecatedTransport(true);
       this.__store.setCallbackParam("callback");
-
-      this.url = qx.util.ResourceManager.getInstance().
-        toUri("qx/test/jsonp_primitive.php");
     },
 
 
@@ -84,7 +79,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
         }, this);
       }, this);
 
-      var url = this.url;
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/jsonp_primitive.php");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);
@@ -108,6 +103,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
       this.__store.dispose();
       this.__store = new qx.data.store.Jsonp(null, delegate, "callback");
+      this.__store.setDeprecatedTransport(true);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -115,7 +111,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
         }, this);
       }, this);
 
-      var url = this.url;
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/jsonp_primitive.php");
       var self = this;
       window.setTimeout(function() {
         self.__store.setUrl(url);
@@ -126,26 +122,30 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
 
     testConfigureRequestPrimitive: function() {
-      var delegate,
-          self = this;
+      if (this.isLocal()) {
+        this.needsPHPWarning();
+        return;
+      }
 
-      delegate = {configureRequest : function(request) {
-        self.assertInstance(request, qx.io.request.Jsonp);
+      var configured = false;
+      var self = this;
+      var delegate = {configureRequest : function(request) {
+        configured = true;
+        self.assertTrue(request instanceof qx.io.ScriptLoader);
       }};
-
-      this.spy(delegate, "configureRequest");
-
       this.__store.dispose();
       this.__store = new qx.data.store.Jsonp(null, delegate, "callback");
+      this.__store.setDeprecatedTransport(true);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
-          this.assertCalled(delegate.configureRequest);
+          this.assertTrue(configured);
         }, this);
       }, this);
 
-      var url = this.url;
-      window.setTimeout(function(){
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/jsonp_primitive.php");
+      self = this;
+      window.setTimeout(function() {
         self.__store.setUrl(url);
       }, 100);
 
