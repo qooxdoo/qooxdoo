@@ -147,7 +147,6 @@ qx.Class.define("qx.io.request.Jsonp",
      * @param param {String} Name of the callback parameter.
      */
     setCallbackParam: function(param) {
-      // qx.log.Logger.debug("param: " + param);
       this._transport.setCallbackParam(param);
     },
 

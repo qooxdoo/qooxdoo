@@ -55,6 +55,8 @@ qx.Class.define("qx.test.data.store.Jsonp",
           delete qx.Class.$$registry[name];
         }
       }
+
+      this.getSandbox().restore();
     },
 
 
@@ -63,16 +65,29 @@ qx.Class.define("qx.test.data.store.Jsonp",
     },
 
 
-    needsPHPWarning : function() {
-      this.warn("This test can only be run from a web server with PHP support.");
+    setUpFakeRequest : function()
+    {
+      var req = new qx.io.request.Jsonp();
+      req.send = function() {};
+      this.request = this.stub(req);
+      this.stub(qx.io.request, "Jsonp").returns(this.request);
+    },
+
+
+    testSetCallbackParam: function() {
+      this.setUpFakeRequest();
+      this.spy(this.request, "setCallbackParam");
+
+      this.__store = new qx.data.store.Jsonp();
+      this.__store.setCallbackParam("myCallback");
+      this.__store.setUrl("/url");
+
+      this.assertCalledWith(this.request.setCallbackParam, "myCallback");
     },
 
 
     testWholePrimitive: function() {
-      if (this.isLocal()) {
-        this.needsPHPWarning();
-        return;
-      }
+      this.require(["php"]);
 
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -95,10 +110,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
 
     testManipulatePrimitive: function() {
-      if (this.isLocal()) {
-        this.needsPHPWarning();
-        return;
-      }
+      this.require(["php"]);
 
       var manipulated = false;
       var delegate = {manipulateData : function(data) {

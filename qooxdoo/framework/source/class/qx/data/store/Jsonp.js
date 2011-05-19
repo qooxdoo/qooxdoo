@@ -77,6 +77,7 @@ qx.Class.define("qx.data.store.Jsonp",
       }
 
       var req = this.__request = new qx.io.request.Jsonp(url);
+      req.setCallbackParam(this.getCallbackParam());
 
       // register the internal event before the user has the change to
       // register its own event in the delegate
