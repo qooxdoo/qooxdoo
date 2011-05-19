@@ -245,6 +245,7 @@ def commentNode(node):
                 space()
             ##space()
             write(commentText)
+            #print commentText
 
             if commentIsInline:
                 line()
@@ -1428,7 +1429,7 @@ def _prettyNode(node, optns, result):
 
     elif node.type == "function":
         if pretty:
-            commentNode(node)
+            #commentNode(node) # commented out due to bug#942
 
             if not node.isLastChild() and node.hasParent() and node.parent.type in ["block", "file"]:
                 sep()
