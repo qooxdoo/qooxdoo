@@ -765,7 +765,7 @@ def _prettyNode(node, optns, result):
     elif node.type == "case":
         if pretty:
             # force double new lines
-            if not node.isFirstChild() and not node.getPreviousSibling(True).type == "case":
+            if not node.isFirstChild():
                 sep()
                 dec_indent()
 
