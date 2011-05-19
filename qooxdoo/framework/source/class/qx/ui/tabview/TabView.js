@@ -181,14 +181,23 @@ qx.Class.define("qx.ui.tabview.TabView",
      * (contained in the page).
      *
      * @param page {qx.ui.tabview.Page} The page which should be added.
+     * @param index {Integer?null} Optional position where to add the page.
      */
-    add : function(page)
+    add : function(page, index)
     {
       if (qx.core.Environment.get("qx.debug"))
       {
         if (!(page instanceof qx.ui.tabview.Page)) {
           throw new Error("Incompatible child for TabView: " + page);
         }
+      }
+      var children = this.getChildren();
+      if(index && index > children.length) {
+        throw new Error("Index should be less than : " + children.length);
+      }
+      
+      if(!index) {
+        index = children.length;
       }
 
       var button = page.getButton();
@@ -199,8 +208,8 @@ qx.Class.define("qx.ui.tabview.TabView",
       page.exclude();
 
       // Add button and page
-      bar.add(button);
-      pane.add(page);
+      bar.addAt(button, index);
+      pane.addAt(page, index);
 
       // Register button
       this.__radioGroup.add(button);
@@ -209,8 +218,11 @@ qx.Class.define("qx.ui.tabview.TabView",
       page.addState(this.__barPositionToState[this.getBarPosition()]);
 
       // Update states
-      page.addState("lastTab");
-      var children = this.getChildren();
+      children = this.getChildren();
+      if(index == children.length-1) {
+        page.addState("lastTab");
+      }
+      
       if (children[0] == page) {
         page.addState("firstTab");
       } else {

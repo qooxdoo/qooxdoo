@@ -67,6 +67,30 @@ qx.Class.define("qx.test.ui.selection.TabView",
         return [];
       }
     },
+    
+    testAddAtIndex : function()
+    {
+      var index = parseInt(this._widget.getChildren().length/2);
+      var page = new qx.ui.tabview.Page("insertedPage_" + index);
+      this._widget.add(page, index);
+      this.assertEquals(page.getLabel(),this._widget.getChildren()[index].getLabel());
+    },
+
+    testAddPage : function()
+    {
+      var page = new qx.ui.tabview.Page("insertedPage_Last");
+      this._widget.add(page);
+      this.assertEquals(page.getLabel(),this._widget.getChildren()[this._widget.getChildren().length-1].getLabel());
+    },
+    
+    testAddAtLastIndex : function()
+    {
+      var index = this._widget.getChildren().length;
+      var page = new qx.ui.tabview.Page("insertedPage_" + index);
+      this._widget.add(page, index);
+      this.assertEquals(page.getLabel(),this._widget.getChildren()[index].getLabel());
+      this.assertEquals(page.getLabel(),this._widget.getChildren()[this._widget.getChildren().length-1].getLabel());
+    },
 
     _createTestElement : function(name) {
       return new qx.ui.tabview.Page(name);
