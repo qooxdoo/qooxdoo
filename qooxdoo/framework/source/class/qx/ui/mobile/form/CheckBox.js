@@ -57,12 +57,6 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
     {
       refine : true,
       init : "checkBox"
-    },
-    
-    valueAttributeName :
-    {
-      refine : true,
-      init : "checked"
     }
 
   },
@@ -80,6 +74,14 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
      */
     _syncValueProperty : function(e) {
       this.setValue(this.getValue());
+    },
+    
+    _setValue : function(value) {
+      this._setAttribute("checked", value);
+    },
+    
+    _getValue : function() {
+      return this._getAttribute("checked");
     }
 
   }

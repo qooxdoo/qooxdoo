@@ -52,7 +52,7 @@ qx.Class.define("mobileshowcase.page.Form",
       this.getContent().add(this.__createForm());
 
       var button = new qx.ui.mobile.form.Button("Submit");
-      button.addListener("click", this._onButtonTap, this);
+      button.addListener("tap", this._onButtonTap, this);
       this.getContent().add(button);
 
       var title = new qx.ui.mobile.form.Title("Form Content");
