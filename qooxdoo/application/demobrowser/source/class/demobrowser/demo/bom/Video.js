@@ -17,6 +17,14 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(demobrowser/demo/media/video1.m4v)
+#asset(demobrowser/demo/media/video1.ogv)
+#asset(demobrowser/demo/media/video1.webm)
+
+************************************************************************ */
+
 qx.Class.define("demobrowser.demo.bom.Video",
 {
   extend : qx.application.Standalone,
@@ -31,12 +39,17 @@ qx.Class.define("demobrowser.demo.bom.Video",
       var container = new qx.ui.container.Composite(new qx.ui.layout.Basic());
       doc.add(container, {left:10, top: 40});
 
+
       if (qx.core.Environment.get("html.video.h264")) {
-        var videoUrl= "http://video.blendertestbuilds.de/download.blender.org/peach/trailer_iphone.m4v";
+        var videoUrl = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/video1.m4v");
       }
       else if(qx.core.Environment.get("html.video.ogg")) {
-        var videoUrl= "http://mirror.cessen.com/blender.org/peach/trailer/trailer_400p.ogg";
-      } else {
+        var videoUrl = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/video1.ogv");
+      }
+      else if(qx.core.Environment.get("html.video.webm")) {
+        var videoUrl = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/video1.webm");
+      } 
+      else {
         doc.add(new qx.ui.basic.Label("It seems that your browser doesn't support HTML5 video", {left: 10, top: 10}));
         return;
       }
@@ -104,11 +117,11 @@ qx.Class.define("demobrowser.demo.bom.Video",
         container.setHeight(400);
         video.setWidth(container.getWidth());
         video.setHeight(container.getHeight());
-
       }, this);
 
 
       video.addListener("timeupdate", function() {
+        //duration headake
         pb.setMaximum(video.getDuration());
         pb.setValue(video.getCurrentTime());
       }, this);
