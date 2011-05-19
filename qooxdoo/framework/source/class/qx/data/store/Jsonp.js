@@ -19,26 +19,26 @@
 ************************************************************************ */
 
 /**
- * This store is respoinsible for loading data using JSON-P
- * (http://ajaxian.com/archives/jsonp-json-with-padding).
- * All the callback handling is handled by the store itself. The only thing
- * which the store needs to know is the name of the parameter, with which he
- * could specify the name of the callback function.
+ *
+ * The JSONP data store is a specialization of {@link qx.data.store.Json}. It
+ * differs in the type of transport used ({@link qx.io.request.Jsonp}). In
+ * order to fullfill requirements of the JSONP service, the method
+ * {@link #setCallbackParam} can be used.
+ *
+ * Please note that the upgrade notices described in {@link qx.data.store.Json}
+ * also apply to this class.
+ *
  */
 qx.Class.define("qx.data.store.Jsonp",
 {
   extend : qx.data.store.Json,
 
   /**
-   * @param url {String?} URL of the web service.
+   * @param url {String?} URL of the JSONP service.
    * @param delegate {Object?null} The delegate containing one of the methods
    *   specified in {@link qx.data.store.IStoreDelegate}.
-   * @param callbackParam {String} The name of the callback param for JSON-P.
-   *   This is *not* the name of a static function. It is the name of the URL
-   *   parameter where the server expects the name of the statif cuntion used
-   *   in JSON-P. Its something given by the service you use. In this examle:
-   *   <code>http://twitter.com/statuses/friends_timeline.json?callback=methodName</code>
-   *   the parameter should be <code>callback</code>.
+   * @param callbackParam {String} The name of the callback param. See
+   *   {@link qx.bom.request.Jsonp#setCallbackParam} for more details.
    */
   construct : function(url, delegate, callbackParam) {
     if (callbackParam != undefined) {
@@ -51,7 +51,8 @@ qx.Class.define("qx.data.store.Jsonp",
 
   properties : {
     /**
-     * The name of the callback parameter of the service.
+     * The name of the callback parameter of the service. See
+     * {@link qx.bom.request.Jsonp#setCallbackParam} for more details.
      */
     callbackParam : {
       check : "String",
