@@ -198,6 +198,17 @@ qx.Class.define("qx.data.store.Jsonp",
 
       // fire complete event
       this.fireDataEvent("loaded", this.getModel());
+    },
+
+
+    /**
+     * Warn about deprecated usage.
+     *
+     * @deprecated since 1.5
+     */
+    _warnDeprecated: function() {
+      qx.log.Logger.warn("Using qx.io.ScriptLoader in qx.data.store.Jsonp " +
+        "is deprecated. Please consult the API documentation.");
     }
   },
 
