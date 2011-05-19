@@ -1,3 +1,3 @@
 /**
- * Data binding stores, responsible for feting data.
+ * Data binding stores, responsible for fetching data.
  */
