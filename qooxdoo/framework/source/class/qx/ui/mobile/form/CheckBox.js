@@ -39,9 +39,9 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   construct : function(value)
   {
     this.base(arguments);
-
-    this.addListener('tap', this._syncValueProperty, this);
-    this.addListener('swipe', this._syncValueProperty, this);
+//
+//    this.addListener('tap', this._syncValueProperty, this);
+//    this.addListener('swipe', this._syncValueProperty, this);
   },
 
   /*
