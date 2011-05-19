@@ -5,9 +5,21 @@ Flash
 
 Container widget for Flash. 
 
+.. _pages/widget/flash#preview_image:
 
-Control of Flash by JavaScript
-------------------------------
+Preview Image
+-------------
+
+|widget/flash.png|
+
+.. |widget/flash.png| image:: /pages/widget/flash.png
+                       :width: 419 px
+                       :target: ../../_images/flash.png
+
+.. _pages/widget/flash#description:
+
+Description
+-----------
 
 A flash movie can be controlled in a certain extent directly from JavaScript with a `number of commands <http://www.adobe.com/support/flash/publishexport/scriptingwithflash/scriptingwithflash_03.html>`_.
 
@@ -19,16 +31,15 @@ To be able to use the JavaScript commands, three conditions must be full-filled:
 2. the flash object must have received an id
 3. the flash movie or document must have been enough loaded
 
-To implement this functionality in Qooxdoo we have added two events listening on the loading process; "loading" and "loaded". While the event "loading" is firing the three conditions have not been full-filled, and therefore the commands can not be used. When "loaded" has fired, all three conditions are met and you can start communicating directly with the Flash object.
-
-To know if it is possible to start using the commands, you have to test if it has been fully loaded; isLoaded(), else you get an error with a flashFE = null.
+To implement this functionality in qooxdoo we have added three events: "loading", "loaded" and "timeout". When the event "loading" is fired the three conditions have not been full-filled, and therefore the commands can't be used. If you wanna make sure the flash object is fully loaded and ready to be used listen to the "loaded" event. When the "loaded" event is fired you can start communicating directly with the Flash object. A "timeout" event is fired when the flash objects fails to load. You can also use the method isLoaded() in code to make sure that the Flash object is actually loaded.
 
 Here's an example that shows how you can control changing to previous frame of a flash movie.
 
 ::
 
-    if(flashWidget.isLoaded())
-    {
+    var flashWidget = new qx.ui.embed.Flash("demobrowser/demo/flash/TestFlash.swf");
+
+    flashWidget.addListener("loaded", function() {
       var flashFE = flashWidget.getFlashElement();
       
       var currentFrame = flashFE.CurrentFrame();
@@ -40,18 +51,20 @@ Here's an example that shows how you can control changing to previous frame of a
       {
         flashFE.GotoFrame(newFrame);
       }
-    }
+    });
+
 
 .. _pages/widget/flash#demos:
 
 Demos
 -----
+Here are some links that demonstrate the usage of the widget:
 
-Here's a `Flash demo <http://demo.qooxdoo.org/%{version}/demobrowser/index.html#widget-Flash.html>`_ of the widget.
+* `Embeded Flash in qooxdoo <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Flash.html>`_
 
 .. _pages/widget/flash#api:
 
 API
 ---
-
-`API of the Flash Widget <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.embed.Flash>`_
+| Here is a link to the API of the Widget:
+| `qx.ui.embed.Flash <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.embed.Flash>`_
