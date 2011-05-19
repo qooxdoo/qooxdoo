@@ -37,7 +37,7 @@ Here's an example that shows how you can control changing to previous frame of a
 
 ::
 
-    var flashWidget = new qx.ui.embed.Flash("demobrowser/demo/flash/TestFlash.swf");
+    var flashWidget = new qx.ui.embed.Flash("/flash.swf");
 
     flashWidget.addListener("loaded", function() {
       var flashFE = flashWidget.getFlashElement();
