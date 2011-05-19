@@ -35,7 +35,6 @@ qx.Class.define("qx.test.data.store.JsonpLegacy",
     {
       this.__store = new qx.data.store.Jsonp();
       this.__store.setDeprecatedTransport(true);
-      this.__store.setCallbackParam("callback");
     },
 
 
@@ -102,7 +101,7 @@ qx.Class.define("qx.test.data.store.JsonpLegacy",
       }};
 
       this.__store.dispose();
-      this.__store = new qx.data.store.Jsonp(null, delegate, "callback");
+      this.__store = new qx.data.store.Jsonp(null, delegate);
       this.__store.setDeprecatedTransport(true);
 
       this.__store.addListener("loaded", function() {
@@ -134,7 +133,7 @@ qx.Class.define("qx.test.data.store.JsonpLegacy",
         self.assertTrue(request instanceof qx.io.ScriptLoader);
       }};
       this.__store.dispose();
-      this.__store = new qx.data.store.Jsonp(null, delegate, "callback");
+      this.__store = new qx.data.store.Jsonp(null, delegate);
       this.__store.setDeprecatedTransport(true);
 
       this.__store.addListener("loaded", function() {

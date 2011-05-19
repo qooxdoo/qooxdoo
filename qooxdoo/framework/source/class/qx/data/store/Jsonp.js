@@ -37,7 +37,7 @@ qx.Class.define("qx.data.store.Jsonp",
    * @param url {String?} URL of the JSONP service.
    * @param delegate {Object?null} The delegate containing one of the methods
    *   specified in {@link qx.data.store.IStoreDelegate}.
-   * @param callbackParam {String} The name of the callback param. See
+   * @param callbackParam {String?} The name of the callback param. See
    *   {@link qx.bom.request.Jsonp#setCallbackParam} for more details.
    */
   construct : function(url, delegate, callbackParam) {
@@ -56,7 +56,9 @@ qx.Class.define("qx.data.store.Jsonp",
      */
     callbackParam : {
       check : "String",
-      nullable : false
+      init : "callback",
+      nullable : true
+    },
     }
   },
 
