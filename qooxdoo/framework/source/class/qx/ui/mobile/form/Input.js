@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
     },
     
     /**
-     * Whether this checkbox is enabled or not
+     * Whether this input element is enabled or not
      */
     enabled :
     {
@@ -104,8 +104,8 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
     /**
      * Sets the enable property to the new value
-     * @param value {Boolean}, the new value of the checkbox
-     * @param old {Boolean?}, the old value of the checkbox
+     * @param value {Boolean}, the new value of the input element
+     * @param old {Boolean?}, the old value of the input element
      * 
      */
     _applyEnabled : function(value,old)

@@ -71,6 +71,18 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
     {
       check : "String",
       init : "value"
+    },
+    
+    /**
+     * Whether this textarea is enabled or not
+     */
+    enabled :
+    {
+      init: true,
+      check : "Boolean",
+      nullable: false,
+      event : "changeEnabled",
+      apply: "_applyEnabled"
     }
   },
 
@@ -81,6 +93,24 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
     _getTagName : function()
     {
       return "textarea";
+    },
+    
+    /**
+     * Sets the enable property to the new value
+     * @param value {Boolean}, the new value of the textarea
+     * @param old {Boolean?}, the old value of the textarea
+     * 
+     */
+    _applyEnabled : function(value,old)
+    {
+      if(value)
+      {
+        this._setAttribute("disabled",null)
+      }
+      else
+      {
+        this._setAttribute("disabled","disabled");
+      }
     }
   }
 });

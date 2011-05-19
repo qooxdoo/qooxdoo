@@ -214,7 +214,6 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      */
     __fireChangeValue : function(value)
     {
-      console.log('changeValue');
       if (this.__oldValue != value)
       {
         this.__oldValue = value;

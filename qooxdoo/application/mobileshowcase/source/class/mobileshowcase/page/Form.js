@@ -87,6 +87,7 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__rememberPass.setModel("checkbox model bound to textField value. check the Checkbox to see its model in the textarea");
       this.__rememberPass.bind("model",this.__name,"value");
       this.__name.bind("value",this.__rememberPass,"model");
+      
       form.add(row);
       
       this.__rememberPass.addListener('click', this._onCheckBoxClick, this);

@@ -21,6 +21,22 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * The Checkbox is the mobile correspondent of the html checkbox.
+ * 
+ * *Example*
+ * 
+ * <pre class='javascript'>
+ *   var checkBox = new qx.ui.mobile.form.CheckBox();
+ *   var title = new qx.ui.mobile.form.Title("Title");
+ *   checkBox.setModel("Title Activated");
+ *   checkBox.bind("model",title,"value");
+ *   checkBox.addListener("changeValue", function(evt){
+ *    this.setModel(evt.getdata() ? "Title Activated" : "Title Deactivated");
+ *   });
+ *
+ *
+ *   this.getRoot.add(button);
+ * </pre>
+ * 
  */
 qx.Class.define("qx.ui.mobile.form.CheckBox",
 {
