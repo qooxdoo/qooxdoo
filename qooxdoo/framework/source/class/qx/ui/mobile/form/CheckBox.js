@@ -27,15 +27,20 @@
  * <pre class='javascript'>
  *   var checkBox = new qx.ui.mobile.form.CheckBox();
  *   var title = new qx.ui.mobile.form.Title("Title");
+ *   
  *   checkBox.setModel("Title Activated");
- *   checkBox.bind("model",title,"value");
+ *   checkBox.bind("model", title, "value");
+ *   
  *   checkBox.addListener("changeValue", function(evt){
- *    this.setModel(evt.getdata() ? "Title Activated" : "Title Deactivated");
+ *     this.setModel(evt.getdata() ? "Title Activated" : "Title Deactivated");
  *   });
  *
- *
- *   this.getRoot.add(button);
+ *   this.getRoot.add(checkBox);
+ *   this.getRoot.add(title);
  * </pre>
+ * 
+ * This example adds 2 widgets , a checkBox and a Title and binds them together by their model and value properties.
+ * When the user taps on the checkbox, its model changes and it is reflected in the Title's value.
  * 
  */
 qx.Class.define("qx.ui.mobile.form.CheckBox",
