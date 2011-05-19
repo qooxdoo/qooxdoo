@@ -1510,7 +1510,7 @@ def _prettyNode(node,optns, result):
         elif node.parent.type == "operation":
             # (?: hook operation)
             if node.parent.get("operator") == "HOOK":
-                noline()
+                #noline()  # commented out due to bug#3415
                 space(False)
                 write(":")
                 space(False)
