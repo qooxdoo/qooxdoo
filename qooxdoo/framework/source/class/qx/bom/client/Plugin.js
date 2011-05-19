@@ -74,6 +74,13 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
         // version string in: instance.version (Silverlight 1.0)
         // version string in: instance.settings.version (Silverlight 1.1)
         // version check possible using instance.IsVersionSupported
+      },
+
+      pdf :
+      {
+        plugin : "Adobe Acrobat",
+        control : "AcroPDF.PDF"
+        // this is detecting Acrobat PDF version > 7
       }
     },
 
@@ -127,6 +134,18 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
 
 
     /**
+     * Fetches the version of the pdf plugin.
+     * @return {String} The version of the plugin, if available,
+     *  an empty string otherwise
+     * @internal
+     */
+    getPdfVersion : function() {
+      var entry = qx.bom.client.Plugin.__db["pdf"];
+      return qx.bom.client.Plugin.__getVersion(entry.control, entry.plugin);
+    },
+
+
+    /**
      * Checks if the quicktime plugin is available.
      * @return {Boolean} <code>true</code> if the plugin is available
      * @internal
@@ -166,6 +185,17 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      */
     getSilverlight : function() {
       var entry = qx.bom.client.Plugin.__db["silverlight"];
+      return qx.bom.client.Plugin.__isAvailable(entry.control, entry.plugin);
+    },
+
+
+    /**
+     * Checks if the pdf plugin is available.
+     * @return {Boolean} <code>true</code> if the plugin is available
+     * @internal
+     */
+    getPdf : function() {
+      var entry = qx.bom.client.Plugin.__db["pdf"];
       return qx.bom.client.Plugin.__isAvailable(entry.control, entry.plugin);
     },
 

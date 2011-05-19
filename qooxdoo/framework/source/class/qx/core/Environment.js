@@ -317,6 +317,14 @@
  *       <td>{@link qx.bom.client.Plugin#getGears}</td>
  *     </tr>
  *     <tr>
+ *       <td>plugin.pdf</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Plugin#getPdf}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>plugin.pdf.version</td><td><i>String</em></td><td></td>
+ *       <td>{@link qx.bom.client.Plugin#getPdfVersion}</td>
+ *     </tr>
+ *     <tr>
  *       <td>plugin.quicktime</td><td><i>Boolean</em></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Plugin#getQuicktime}</td>
  *     </tr>
@@ -839,6 +847,13 @@ qx.Bootstrap.define("qx.core.Environment",
       }
       if (this.useCheck("plugin.flash.strictsecurity")) {
         this._checks["plugin.flash.strictsecurity"] = qx.bom.client.Flash.getStrictSecurityModel;
+      }
+
+      if (this.useCheck("plugin.pdf")) {
+        this._checks["plugin.pdf"] = qx.bom.client.Plugin.getPdf;
+      }
+      if (this.useCheck("plugin.pdf.version")) {
+        this._checks["plugin.pdf.version"] = qx.bom.client.Plugin.getPdfVersion;
       }
 
       // /////////////////////////////////////////
