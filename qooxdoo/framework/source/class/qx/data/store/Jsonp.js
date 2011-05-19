@@ -86,8 +86,8 @@ qx.Class.define("qx.data.store.Jsonp",
       }
 
       // dispose old request
-      if (this.__request) {
-        this.__request.dispose();
+      if (this.__loader) {
+        this.__loader.dispose();
       }
 
       var req = this.__loader = new qx.io.request.Jsonp();
