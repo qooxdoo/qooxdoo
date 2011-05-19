@@ -132,6 +132,7 @@ qx.Class.define("qx.data.store.Json",
 
   members :
   {
+    _marshaler : null,
     _delegate : null,
 
     __request : null,
@@ -146,6 +147,23 @@ qx.Class.define("qx.data.store.Json",
 
         this._createRequest(value);
       }
+    },
+
+    /**
+     * Get request
+     *
+     * @return {Object} The request.
+     */
+    _getRequest: function() {
+      return this.__request;
+    },
+
+
+    /**
+     * Set request.
+     */
+    _setRequest: function(request) {
+      this.__request = request;
     },
 
 
@@ -195,7 +213,8 @@ qx.Class.define("qx.data.store.Json",
         return this.__createRequestRemote(url);
       }
 
-      var req = this.__request = new qx.io.request.Xhr(url);
+      var req = new qx.io.request.Xhr(url);
+      this._setRequest(req);
 
       // request json representation
       req.setAccept("application/json");
@@ -231,30 +250,31 @@ qx.Class.define("qx.data.store.Json",
      */
     __createRequestRemote: function(url) {
       // create the request
-      this.__request = new qx.io.remote.Request(url, "GET", "application/json");
+      var req = new qx.io.remote.Request(url, "GET", "application/json");
+      this._setRequest(req);
 
       // register the internal even before the user has the change to
       // register its own event in the delegate
-      this.__request.addListener("completed", this.__onSuccessRemote, this);
+      req.addListener("completed", this.__onSuccessRemote, this);
 
       // check for the request configuration hook
       var del = this._delegate;
       if (del && qx.lang.Type.isFunction(del.configureRequest)) {
-        this._delegate.configureRequest(this.__request);
+        this._delegate.configureRequest(req);
       }
 
       // map the state to its own state
-      this.__request.addListener("changeState", function(ev) {
+      req.addListener("changeState", function(ev) {
         var state = ev.getData();
         this.setState(state);
       }, this);
 
       // add failed, aborted and timeout listeners
-      this.__request.addListener("failed", this.__onFailRemote, this);
-      this.__request.addListener("aborted", this.__onFailRemote, this);
-      this.__request.addListener("timeout", this.__onFailRemote, this);
+      req.addListener("failed", this.__onFailRemote, this);
+      req.addListener("aborted", this.__onFailRemote, this);
+      req.addListener("timeout", this.__onFailRemote, this);
 
-      this.__request.send();
+      req.send();
     },
 
 

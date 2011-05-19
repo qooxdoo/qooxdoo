@@ -67,7 +67,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
     setUpFakeRequest : function()
     {
       var req = new qx.io.request.Jsonp();
-      req.send = function() {};
+      req.send = req.dispose = function() {};
       this.request = this.stub(req);
       this.stub(qx.io.request, "Jsonp").returns(this.request);
     },
@@ -174,6 +174,29 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
       this.wait();
     },
+
+
+    testDisposeRequest: function() {
+      this.setUpFakeRequest();
+      var store = new qx.data.store.Jsonp(this.url);
+      store.dispose();
+
+      this.assertCalled(this.request.dispose);
+    },
+
+
+    testDisposeRequestDone: function() {
+      this.setUpFakeRequest();
+      var url = this.url;
+      this.__store.addListener("loaded", function() {
+        this.resume(function() {
+          this.__store.dispose();
+          this.assertCalled(this.request.dispose);
+        }, this);
+      }, this);
+      this.__store.setUrl(url);
+    },
+
 
     testErrorEvent : function() {
       // do not test that for IE and Opera because of the missing

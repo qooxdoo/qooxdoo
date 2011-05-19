@@ -54,7 +54,7 @@ qx.Class.define("qx.test.data.store.Json",
     setUpFakeRequest : function()
     {
       var req = new qx.io.request.Xhr(this.url);
-      req.send = req.setParser = function() {};
+      req.send = req.setParser = req.dispose = function() {};
       this.request = this.stub(req);
       this.stub(qx.io.request, "Xhr").returns(this.request);
     },
@@ -526,6 +526,15 @@ qx.Class.define("qx.test.data.store.Json",
 
 
     testDisposeRequest: function() {
+      this.setUpFakeRequest();
+      this.__store.setUrl(this.url);
+      this.__store.dispose();
+
+      this.assertCalled(this.request.dispose);
+    },
+
+
+    testDisposeRequestDone: function() {
       this.setUpFakeRequest();
       var url = this.url;
       this.__store.addListener("loaded", function() {

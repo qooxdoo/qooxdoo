@@ -76,7 +76,6 @@ qx.Class.define("qx.data.store.Jsonp",
 
   members :
   {
-    __loader : null,
 
     // overridden
     _createRequest: function(url) {
@@ -86,11 +85,12 @@ qx.Class.define("qx.data.store.Jsonp",
       }
 
       // dispose old request
-      if (this.__loader) {
-        this.__loader.dispose();
+      if (this._getRequest()) {
+        this._getRequest().dispose();
       }
 
-      var req = this.__loader = new qx.io.request.Jsonp();
+      var req = new qx.io.request.Jsonp();
+      this._setRequest(req);
 
       // default when null
       req.setCallbackParam(this.getCallbackParam());
@@ -127,15 +127,17 @@ qx.Class.define("qx.data.store.Jsonp",
      */
     __createRequestLoader: function(url) {
       // if there is an old loader, dispose it
-      if (this.__loader) {
-        this.__loader.dispose();
+      if (this._getRequest()) {
+        this._getRequest().dispose();
       }
-      this.__loader = new qx.io.ScriptLoader();
+
+      var req = new qx.io.ScriptLoader();
+      this._setRequest(req);
 
       // check for the request configuration hook
       var del = this._delegate;
       if (del && qx.lang.Type.isFunction(del.configureRequest)) {
-        this._delegate.configureRequest(this.__loader);
+        this._delegate.configureRequest(req);
       }
 
       var prefix = url.indexOf("?") == -1 ? "?" : "&";
@@ -144,7 +146,7 @@ qx.Class.define("qx.data.store.Jsonp",
 
       qx.data.store.Jsonp[id] = this;
       url += 'qx.data.store.Jsonp[' + id + '].callback';
-      this.__loader.load(url, function(status) {
+      req.load(url, function(status) {
         delete this[id];
         if (status === "fail") {
           this.fireDataEvent("error");
@@ -210,21 +212,5 @@ qx.Class.define("qx.data.store.Jsonp",
       qx.log.Logger.warn("Using qx.io.ScriptLoader in qx.data.store.Jsonp " +
         "is deprecated. Please consult the API documentation.");
     }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    if (this.__loader) {
-      this.__loader.dispose();
-    }
-    this.__loader = null;
   }
 });
