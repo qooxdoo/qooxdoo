@@ -50,8 +50,7 @@ qx.Class.define("${Namespace}.Application",
         }
       }
 
-      this.runner = new simulator.TestRunner();
-      this.runner.runTests();
+      this.info("Hello World!");
     },
 
     /**
