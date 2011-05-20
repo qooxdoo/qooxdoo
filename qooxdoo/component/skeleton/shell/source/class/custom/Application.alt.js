@@ -1,4 +1,5 @@
-qx.Class.define("qxootest.Native", {
+// Application class based on attachment of bug#5100, by John Spackman
+qx.Class.define("${Namespace}.Application", {
 	extend : qx.core.Object,
 	implement : [ qx.application.IApplication ],
 
@@ -6,7 +7,7 @@ qx.Class.define("qxootest.Native", {
 		this.base(arguments);
 		print(" ***************** ")
 		print(" ** ")
-		print(" ** in Native application");
+		print(" ** Server application");
 		print(" ** ")
 		print(" ***************** ")
 	},
