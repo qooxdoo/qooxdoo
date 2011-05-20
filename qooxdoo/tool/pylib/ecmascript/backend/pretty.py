@@ -1247,7 +1247,8 @@ def _prettyNode(node, optns, result):
 
     elif node.type == "group":
         if node.getChildrenLength(True) == 1:
-            noline()
+            #noline()  # commented out due to bug#811
+            pass
 
         write(")")
 
