@@ -57,12 +57,14 @@
         "code" :
         {
           "format"   : true,
-          "optimize" : [ "variables", "basecalls", "privates" ]
+          "optimize" : [ "variables", "basecalls", "privates" ],
+          "except" : []
         },
         "paths" :
         {
           "file" : "${BUILD_PATH}/script/simulator.js",
-          "loader-template" : "${QOOXDOO_PATH}/component/simulator/tool/simulator.loader.tmpl.js"
+          "loader-template" : "${QOOXDOO_PATH}/component/simulator/tool/simulator.loader.tmpl.js",
+          "app-root" : "${BUILD_PATH}"
         },
         "uris" :
         {
