@@ -50,7 +50,7 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json",
+          "manifest" : "$${QOOXDOO_PATH}/framework/Manifest.json",
           "uri" : ".."          
         }
       ],
@@ -80,7 +80,7 @@
       {
         "paths" :
         {
-          "loader-template" : "../tool/data/generator/oo.loader.tmpl.js"
+          "loader-template" : "resource/${Namespace}/rhino.loader_tmpl.js"
         },
         "uris" :
         {
@@ -111,37 +111,23 @@
         "qx.test.*",
         "$${APPLICATION}.test.*"
       ]
-    }
-    // Uncomment the following entry to add a contrib or library to your
-    // project; make sure to adapt the path to the Manifest.json; if you are
-    // using a contrib: library, it will be downloaded into the path specified
-    // by the 'cache/downloads' config key
-    /*
-    "libraries" : 
-    {
-      "library" :
-      [
-        {
-          "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json"
-        }
-      ]
     },
-    */
 
-    // If you want to tweak a job setting, see the following sample where
-    // the "format" feature of the "build-script" job is overridden.
-    // To see a list of available jobs, invoke 'generate.py x'.
-    /*
-    "build-script" :
+    "run" : 
     {
-      "compile-options" : 
-      {
-        "code" :
-        {
-          "format" : false
-        }
+      "shell" : {
+        "command" : "java -cp js.jar org.mozilla.javascript.tools.shell.Main ${BUILD}/script/${Namespace}.js
       }
+    },
+
+    "run-source" : {
+      "extend" : ["run"],
+      "let"    : { "BUILD" : "source" }
+    },
+
+    "run-build" : {
+      "extend" : ["run"],
+      "let"    : { "BUILD" : "build" }
     }
-    */
   }
 }
