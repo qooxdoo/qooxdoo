@@ -34,5 +34,5 @@ if (typeof exports != "undefined") {
     }
 }
 
-simulator.Init.ready();
+${Namespace}.framework.SimulatorInit.ready();
 
