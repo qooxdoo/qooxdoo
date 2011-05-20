@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,13 +14,15 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Daniel Wagner (d_wagner)
 
 ************************************************************************ */
 
 /**
- * This is the base class for all qx-oo applications (server based)
+ * Modified qx.core.Init for server-side applications where no browser events
+ * are available.
  */
-qx.Class.define("${Namespace}.framework.ServerInit",
+qx.Class.define("simulator.Init",
 {
   /*
   *****************************************************************************
@@ -52,16 +54,6 @@ qx.Class.define("${Namespace}.framework.ServerInit",
         return;
       }
 
-      if (qx.core.Environment.get("engine.name") == "") {
-        qx.log.Logger.warn("Could not detect engine!");
-      }
-      if (qx.core.Environment.get("engine.version") == "") {
-        qx.log.Logger.warn("Could not detect the version of the engine!");
-      }
-      if (qx.core.Environment.get("os.name") == "") {
-        qx.log.Logger.warn("Could not detect operating system!");
-      }
-
       qx.log.Logger.debug(this, "Load runtime: " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
 
       var app = qx.core.Environment.get("qx.application");
@@ -83,41 +75,6 @@ qx.Class.define("${Namespace}.framework.ServerInit",
       {
         qx.log.Logger.warn("Missing application class: " + app);
       }
-    },
-
-
-    /**
-     * Runs before the document is unloaded. Calls the application's close
-     * method to check if the unload process should be stopped.
-     *
-     * @param e {qx.event.type.Native} Incoming beforeunload event.
-     * @return {void}
-     */
-    close : function(e)
-    {
-      var app = this.__application;
-      if (app) {
-        app.close();
-      }
-    },
-
-
-    /**
-     * Runs when the document is unloaded. Automatically terminates a previously
-     * created application instance.
-     *
-     * @return {void}
-     */
-    shutdown : function()
-    {
-      var app = this.__application;
-
-      if (app) {
-        app.terminate();
-      }
-      
-      // Execute registry shutdown
-      qx.core.ObjectRegistry.shutdown();
     }
   }
 });

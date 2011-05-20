@@ -39,41 +39,60 @@ qx.Class.define("${Namespace}.Application",
      */
     main : function()
     {
-      // Call super class
-      this.base(arguments);
+      qx.log.Logger.register(qx.log.appender.RhinoConsole);
 
-      // Enable logging in debug variant
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        // support native logging capabilities, e.g. Firebug for Firefox
-        qx.log.appender.Native;
-        // support additional cross-browser console. Press F7 to toggle visibility
-        qx.log.appender.Console;
+      if (window.arguments) {
+        try {
+          this._argumentsToSettings(window.arguments);
+        } catch(ex) {
+          this.error(ex.toString());
+          return;
+        }
       }
 
-      /*
-      -------------------------------------------------------------------------
-        Below is your actual application code...
-      -------------------------------------------------------------------------
-      */
-      
-      var logger = qx.bom.Element.create("div");
-      var loggerStyles = {
-        "width" : "80%",
-        "height" : "250px",
-        "border" : "1px solid lightgrey",
-        "overflow" : "auto"
-      };      
-      qx.bom.element.Style.setStyles(logger, loggerStyles);
-      document.body.appendChild(logger);      
-      
-      // indicate startup
-      logger.innerHTML += "Application ready ...<br/>"; 
+      this.runner = new simulator.TestRunner();
+      this.runner.runTests();
+    },
 
-      qx.bom.Element.addListener(document.body, "keydown", function(e) {
-        logger.innerHTML += e.getKeyIdentifier() + "<br>";
-      });
-            
+    /**
+     * Converts the value of the "settings" command line option to qx settings.
+     *
+     * @param args {String[]} Rhino arguments object
+     */
+    _argumentsToSettings : function(args)
+    {
+      var opts;
+      for (var i=0, l=args.length; i<l; i++) {
+        if (args[i].indexOf("settings=") == 0) {
+          opts = args[i].substr(9);
+          break;
+        }
+        else if (args[i].indexOf("'settings=") == 0) {
+          opts = /'settings\=(.*?)'/.exec(args[i])[1];
+          break;
+        }
+      }
+      if (opts) {
+        opts = opts.replace(/\\\{/g, "{").replace(/\\\}/g, "}");
+        try {
+          opts = qx.lang.Json.parse(opts);
+        } catch(ex) {
+          var msg = ex.toString() + "\nMake sure none of the settings configured"
+          + " in simulation-run/environment contain paths with spaces!";
+          throw new Error(msg);
+        }
+        for (var prop in opts) {
+          var value = opts[prop];
+          if (typeof value == "string") {
+            value = value.replace(/\$/g, " ");
+          }
+          try {
+            qx.core.Environment.add(prop, value);
+          } catch(ex) {
+            this.error("Unable to define command-line setting " + prop + ": " + ex);
+          }
+        }
+      }
     }
   }
 });
