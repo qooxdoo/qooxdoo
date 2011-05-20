@@ -81,7 +81,7 @@
 
         signalStartup: function() {
             qx.$$loader.scriptLoaded = true;
-            qxootest.ServerInit.ready();
+            ${Namespace}.framework.ServerInit.ready();  // TODO: Better abstraction here?!
             qx.$$loader.applicationHandlerReady = true;
         },
 
