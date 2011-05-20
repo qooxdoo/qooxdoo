@@ -1,143 +1,130 @@
-(function(){ 
-	
-	if (typeof console == "undefined")
-		console = {};
-	if (!console.log)
-		console.log = function() {
-			var out = java.lang.System.out;
-			for (var i = 0; i < arguments.length; i++)
-				out.print(arguments[i]);
-			out.println();
-		};
-		
-	if (!this.qxloadPrefixUrl)
-		qxloadPrefixUrl = "";
+// This is based on an attachment to bug#5100, by John Spackman
+(function() {
 
-	if (!this.window) window = this;
-	
-	if (!window.navigator) window.navigator = {
-	  userAgent: "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; de-de) AppleWebKit/533.17.8 (KHTML, like Gecko) Version/5.0.1 Safari/533.17.8", 
-	  product: "", 
-	  cpuClass: ""
-	}; 
-	
-	if (!window.qx) window.qx = {};
-	
-	if (!window.qxsettings) qxsettings = {};
-	var settings = %{Settings};
-	for (var k in settings) qxsettings[k] = settings[k];
-	
-	if (!window.qxvariants) qxvariants = {};
-	var variants = %{Variants};
-	for (var k in variants) qxvariants[k] = variants[k];
+    if (typeof console == "undefined") console = {};
+    if (!console.log) console.log = function() {
+        var out = java.lang.System.out;
+        for (var i = 0; i < arguments.length; i++)
+        out.print(arguments[i]);
+        out.println();
+    };
 
-	if (!qx.$$environment) qx.$$environment = {};
-	var envinfo = %{EnvSettings};
-	for (var k in envinfo) qx.$$environment[k] = envinfo[k];
-	
-	if (!qx.$$libraries) qx.$$libraries = {};
-	var libinfo = %{Libinfo};
-	for (var k in libinfo) qx.$$libraries[k] = libinfo[k];
+    if (!this.qxloadPrefixUrl) qxloadPrefixUrl = "";
 
-	var isDebug = qx.$$environment["qx.debug"], 
-		log = isDebug ? console.log : function() { },
-		load = qxsettings["qx.load"] ? this[qxsettings["load"]] : this.load;
+    if (!this.window) window = this;
 
-	qx.$$resources = %{Resources};
-	qx.$$translations = %{Translations};
-	qx.$$locales = %{Locales};
-	qx.$$packageData = {};
-	qx.$$loader = {
-		parts : %{Parts},
-		uris : %{Uris},
-		urisBefore : %{UrisBefore},
-		packageHashes : %{PackageHashes},
-		boot : %{Boot},
-		closureParts : %{ClosureParts},
-		bootIsInline : %{BootIsInline},
-		  
-		decodeUris : function(compressedUris) {
-			var libs = qx.$$libraries;
-			var uris = [];
-			for ( var i = 0; i < compressedUris.length; i++) {
-				var uri = compressedUris[i].split(":");
-				var euri;
-				if (uri.length == 2 && uri[0] in libs) {
-					var prefix = libs[uri[0]].sourceUri;
-					euri = prefix + "/" + uri[1];
-				} else {
-					euri = compressedUris[i];
-				}
-				uris.push(qxloadPrefixUrl + euri);
-			}
-			return uris;
-		},
+    if (!window.navigator) window.navigator = {
+        userAgent: "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; de-de) AppleWebKit/533.17.8 (KHTML, like Gecko) Version/5.0.1 Safari/533.17.8",
+        product: "",
+        cpuClass: ""
+    };
 
-		init : function() {
-			var l = qx.$$loader;
-			if (l.urisBefore.length > 0)
-				this.loadScriptList(l.urisBefore);
+    if (!window.qx) window.qx = {};
 
-			var bootPackageHash = l.packageHashes[l.parts[l.boot][0]];
-			if (!l.bootIsInline)
-				this.loadScriptList(l.decodeUris(l.uris[l.parts[l.boot]]));
-			l.importPackageData(qx.$$packageData[bootPackageHash] || {});
-			l.signalStartup();
-		},
-		
-		loadScriptList: function(uris) {
-			for (var i = 0; i < uris.length; i++) {
-				log("loading uri " + uris[i]);
-				load(uris[i]);
-			}
-		},
+    if (!qx.$$environment) qx.$$environment = {};
+    var envinfo = %{EnvSettings};
+    for (var k in envinfo) qx.$$environment[k] = envinfo[k];
 
-		signalStartup : function() {
-			qx.$$loader.scriptLoaded = true;
-			qxootest.ServerInit.ready();
-			qx.$$loader.applicationHandlerReady = true;
-		},
+    if (!qx.$$libraries) qx.$$libraries = {};
+    var libinfo = %{Libinfo};
+    for (var k in libinfo) qx.$$libraries[k] = libinfo[k];
 
-		importPackageData : function(dataMap, callback) {
-			if (dataMap["resources"]) {
-				var resMap = dataMap["resources"];
-				for ( var k in resMap)
-					qx.$$resources[k] = resMap[k];
-			}
-			if (dataMap["locales"]) {
-				var locMap = dataMap["locales"];
-				var qxlocs = qx.$$locales;
-				for ( var lang in locMap) {
-					if (!qxlocs[lang])
-						qxlocs[lang] = locMap[lang];
-					else
-						for ( var k in locMap[lang])
-							qxlocs[lang][k] = locMap[lang][k];
-				}
-			}
-			if (dataMap["translations"]) {
-				var trMap = dataMap["translations"];
-				var qxtrans = qx.$$translations;
-				for ( var lang in trMap) {
-					if (!qxtrans[lang])
-						qxtrans[lang] = trMap[lang];
-					else
-						for ( var k in trMap[lang])
-							qxtrans[lang][k] = trMap[lang][k];
-				}
-			}
-			if (callback) {
-				callback(dataMap);
-			}
-		}
-};
+    var isDebug = qx.$$environment["qx.debug"],
+        log = isDebug ? console.log : function() {},
+        load = qxsettings["qx.load"] ? this[qxsettings["load"]] : this.load;
+
+    qx.$$resources = %{Resources};
+    qx.$$translations = %{Translations};
+    qx.$$locales = %{Locales};
+    qx.$$packageData = {};
+    qx.$$loader = {
+        parts: %{Parts},
+        packages: %{Packages},
+        urisBefore: %{UrisBefore},
+        boot: %{Boot},
+        closureParts: %{ClosureParts},
+        bootIsInline: %{BootIsInline},
+
+        decodeUris: function(compressedUris) {
+            var libs = qx.$$libraries;
+            var uris = [];
+            for (var i = 0; i < compressedUris.length; i++) {
+                var uri = compressedUris[i].split(":");
+                var euri;
+                if (uri.length == 2 && uri[0] in libs) {
+                    var prefix = libs[uri[0]].sourceUri;
+                    euri = prefix + "/" + uri[1];
+                } else {
+                    euri = compressedUris[i];
+                }
+                uris.push(qxloadPrefixUrl + euri);
+            }
+            return uris;
+        },
+
+        init: function() {
+            var l = qx.$$loader;
+            if (l.urisBefore.length > 0) this.loadScriptList(l.urisBefore);
+
+            var bootPackageHash = l.packageHashes[l.parts[l.boot][0]];
+            if (!l.bootIsInline) this.loadScriptList(l.decodeUris(l.uris[l.parts[l.boot]]));
+            l.importPackageData(qx.$$packageData[bootPackageHash] || {});
+            l.signalStartup();
+        },
+
+        loadScriptList: function(uris) {
+            for (var i = 0; i < uris.length; i++) {
+                log("loading uri " + uris[i]);
+                load(uris[i]);
+            }
+        },
+
+        signalStartup: function() {
+            qx.$$loader.scriptLoaded = true;
+            qxootest.ServerInit.ready();
+            qx.$$loader.applicationHandlerReady = true;
+        },
+
+        importPackageData: function(dataMap, callback) {
+            if (dataMap["resources"]) {
+                var resMap = dataMap["resources"];
+                for (var k in resMap)
+                qx.$$resources[k] = resMap[k];
+            }
+            if (dataMap["locales"]) {
+                var locMap = dataMap["locales"];
+                var qxlocs = qx.$$locales;
+                for (var lang in locMap) {
+                    if (!qxlocs[lang]) qxlocs[lang] = locMap[lang];
+                    else for (var k in locMap[lang])
+                    qxlocs[lang][k] = locMap[lang][k];
+                }
+            }
+            if (dataMap["translations"]) {
+                var trMap = dataMap["translations"];
+                var qxtrans = qx.$$translations;
+                for (var lang in trMap) {
+                    if (!qxtrans[lang]) qxtrans[lang] = trMap[lang];
+                    else for (var k in trMap[lang])
+                    qxtrans[lang][k] = trMap[lang][k];
+                }
+            }
+            if (callback) {
+                callback(dataMap);
+            }
+        }
+    };
 
 })();
 
 
 %{BootPart}
 
-if (typeof exports != "undefined") {for (var key in qx) {exports[key] = qx[key];}}
+if (typeof exports != "undefined") {
+    for (var key in qx) {
+        exports[key] = qx[key];
+    }
+}
 
 qx.$$loader.init();
 
