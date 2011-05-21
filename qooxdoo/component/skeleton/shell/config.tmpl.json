@@ -116,7 +116,7 @@
     "run" : 
     {
       "shell" : {
-        "command" : "java -cp js.jar org.mozilla.javascript.tools.shell.Main ${BUILD}/script/${Namespace}.js
+        "command" : "java -cp js.jar org.mozilla.javascript.tools.shell.Main $${BUILD}/script/${Namespace}.js
       }
     },
 

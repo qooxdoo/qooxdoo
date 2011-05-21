@@ -83,7 +83,7 @@ qx.Class.define("${Namespace}.Application",
         for (var prop in opts) {
           var value = opts[prop];
           if (typeof value == "string") {
-            value = value.replace(/\$/g, " ");
+            value = value.replace(/\$$/g, " ");
           }
           try {
             qx.core.Environment.add(prop, value);
