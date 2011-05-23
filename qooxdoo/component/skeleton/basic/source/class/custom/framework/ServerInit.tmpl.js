@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,11 +14,13 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Daniel Wagner (d_wagner)
 
 ************************************************************************ */
 
 /**
- * This is the base class for all qx-oo applications (server based)
+ * Modified qx.core.Init for non-browser applications where browser events
+ * are not available.
  */
 qx.Class.define("${Namespace}.framework.ServerInit",
 {
