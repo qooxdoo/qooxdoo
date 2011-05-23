@@ -1,5 +1,5 @@
 // Application class based on attachment of bug#5100, by John Spackman
-qx.Class.define("${Namespace}.Application", {
+qx.Class.define("${Namespace}.Application.alt", {
 	extend : qx.core.Object,
 	implement : [ qx.application.IApplication ],
 

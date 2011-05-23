@@ -22,7 +22,7 @@
  * Modified qx.core.Init for server-side applications where no browser events
  * are available.
  */
-qx.Class.define("simulator.Init",
+qx.Class.define("${Namespace}.framework.SimulatorInit",
 {
   /*
   *****************************************************************************
