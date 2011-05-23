@@ -385,32 +385,16 @@ input[type="checkbox"] {
   width: 30px;
   height: 30px;
   -webkit-border-radius: .5em;
-  background: #aaaaaa;
-  background: #aaaaaa;
+  border: 3px solid #4c4c4c;
+  background: -webkit-gradient(linear,left top,left bottom,from(#fefefe), to(#cecece));
+  background: -webkit-linear-gradient(top, #fefefe, #cecece);
 }
 
 input[type="checkbox"]:checked {
-  background: #aaaaaa url(../../icon/ios/checkbox.png) 50% 50% no-repeat;
-  background: #aaaaaa url(../../icon/ios/checkbox.png) 50% 50% no-repeat;
+  background: url(../../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
+  background: url(../../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
 }
 
-/*input[type="checkbox"]:checked::after {
-  content: "";
-  -webkit-transform: rotate(45deg);
-  border-bottom: 4px solid #0B0;
-  border-right: 3px solid #0B0;
-  border-top: none;
-  border-left: none;
-  font-size: 0px;
-  height: 20px;
-  line-height: 0;
-  width: 10px;
-  float: right;
-  margin: 0;
-  padding: 0;
-}*/
-
 input[type="checkbox"]:disabled {
-  background: #e1d9d9;
-  background: #e1d9d9;
+
 }
