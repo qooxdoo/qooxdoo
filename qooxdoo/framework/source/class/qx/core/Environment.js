@@ -23,7 +23,7 @@
  * version but also qooxdoo or application specific settings.
  *
  * It's public API can be found in its four main methods. One pair of methods
- * are used to check the synchronous values of the environment. The other pais
+ * are used to check the synchronous values of the environment. The other pair
  * is used for asynchronous checks.
  *
  * The most used method should be {@link #get} which is used to return the
