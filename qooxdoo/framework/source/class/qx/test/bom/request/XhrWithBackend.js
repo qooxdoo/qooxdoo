@@ -58,7 +58,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     "test: GET": function() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
-      url = url + "?affe=yippie&nocache=" + Math.random();
+      url = url + "?affe=yippie&nocache=" + (new Date()).valueOf();
       req.open("GET", url);
 
       var that = this;
@@ -671,7 +671,7 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
     },
 
     noCache: function(url) {
-      return url + "?nocache=" + Math.random();
+      return url + "?nocache=" + (new Date()).valueOf();
     }
   }
 });
