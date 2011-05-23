@@ -68,6 +68,9 @@ Building and running the test application
 
 In the top-level directory of the twitter tutorial application, run ``generate.py test``. This command builds both a stand-alone application containing the test classes (the AUT, or "application under test") and the Testrunner GUI which loads the AUT in an Iframe and visualizes the results. Load the Testrunner by opening the file ``test/index.html`` in your favorite browser and click the "Run Tests" button.
 
+.. note::
+
+    Some browsers, such as Google Chrome, severely restrict scripts from loading resources from the file system. In this case, the Testrunner should be loaded from a web server.
 
 |Testrunner displaying the results of twitter.DemoTest|
 
@@ -117,6 +120,8 @@ Setting up and tearing down
 
 Note the ``setUp`` and ``tearDown`` methods. Each test class can contain either or both (or none). setUp is called before each individual test function and is used to perform common initializations. Similarly, tearDown is called after each test method (even if the test failed), e.g. to dispose objects created by setUp or the test itself. Together, they can be used to make sure each test method runs in a "clean" environment: In this case, we create a new instance of the tested class for each test and dispose it afterwards, which is a very common pattern in unit testing.
 
+The ``tearDown`` logic is actually quite an important part of developing unit tests since tests that don't clean up after themselves can lead to nasty dependencies where test B will pass when run individually but fail when run after test A. Singletons are particularly vulnerable since their state carries over between tests. So if, for example, test A checks how a class reacts to a locale change by calling ``qx.locale.Manager.getInstance().setLocale`` while test B relies on the locale still being the application's default, B would fail whenever A ran first.
+
 For cases where the generic class-wide ``tearDown`` isn't enough, methods using the naming convention ``tearDown<TestName>`` can be defined. A method named e.g. ``tearDownTestFoo`` would be called after ``testFoo`` and the generic ``tearDown`` of the class were executed.
 
 The test function
@@ -129,29 +134,12 @@ OK, time to build the AUT again. This time, run ``generate.py test-source`` inst
 Asynchronous Tests
 ==================
 
-As with many GUI applications, the various components of the twitter app use events to communicate. The ``twitter.TweetService`` class, for example, has a method ``fetchTweets`` that causes a ``changeTweets`` event to fire once the data store has finished (re)loading. We can't know in advance just how long this takes, so we need some way to instruct the test to wait until the event fires. This is where asynchronous testing comes in:
+As with many GUI applications, the various components of the twitter app use events to communicate. The ``twitter.TweetService`` class, for example, has a method ``fetchTweets`` that causes a ``changeTweets`` event to fire once the data store has finished (re)loading. We can't know in advance just how long this takes, so we need some way to instruct the test to wait until the event fires. This is where asynchronous testing comes in.
+
+Once again, create a new test class named **twitter.test.TwitterService**. The ``setUp`` and ``tearDown`` methods are mostly identical to the ones from twitter.test.TweetView, except of course they initialize/destroy an instance of twitter.TwitterService instead. Here's the actual test function:
 
 ::
 
-  qx.Class.define("twitter.test.TwitterService",
-  {
-    extend : qx.dev.unit.TestCase,
-  
-    members :
-    {
-      __twitterService : null,
-  
-      setUp : function()
-      {
-        this.__twitterService = new twitter.TwitterService();
-      },
-  
-      tearDown : function()
-      {
-        this.__twitterService.dispose();
-        this.__twitterService = null;
-      },
-  
       testFetchTweets : function()
       {
         this.__twitterService.addListener("changeTweets", function()
@@ -163,8 +151,6 @@ As with many GUI applications, the various components of the twitter app use eve
   
         this.wait(5000);
       }
-    }
-  });
 
 First, we register a listener for the ``changeTweets`` event. The callback function invokes the `resume <http://demo.qooxdoo.org/current/apiviewer/#qx.dev.unit.TestCase~resume>`_ method, which informs the Testrunner that the asynchronous test has finished. We could pass a function parameter to resume if, for example, we wanted to check the data associated with the ``changeTweets`` event, but for now we just want to verify that it fires at all.
 
@@ -172,7 +158,7 @@ Next, we invoke the ``fetchTweets`` method which should cause the event to fire.
 
 Finally, the `wait <http://demo.qooxdoo.org/current/apiviewer/#qx.dev.unit.TestCase~wait>`_ method informs the Testrunner that it should wait for a ``resume`` call. The first argument is the amount of time to wait (in milliseconds) before the test is marked as failed. Note that wait **must** always be the last call in an asynchronous test function. Any code that follows it will never be executed.
 
-Now, if you run this test a couple times in quick succession, there's a good chance it will at some point fail with the error message "Error in asynchronous test: resume() called before wait()". This is because due to the browser caching the result of the Twitter API request sent by TweetService, the ``changeTweets`` listener callback is executed immediately after calling fetchTweets. This is a common problem in asynchronous texts, but luckily there's a simple fix for it: We just wrap the problematic method call in a timeout to make sure it's executed after ``wait()``:
+Now, if you run this test a couple times in quick succession, there's a good chance it will at some point fail with the error message "Error in asynchronous test: resume() called before wait()". This is because due to the browser caching the result of the Twitter API request sent by TweetService, the ``changeTweets`` listener callback is executed immediately after calling fetchTweets. This is a common problem in asynchronous tests, encountered whenever the tested code's behavior can be synchronous or asynchronous depending on external factors. Luckily, there's a simple fix for it: We just wrap the problematic method call in a timeout to make sure it's executed after ``wait()``:
 
 ::
 
