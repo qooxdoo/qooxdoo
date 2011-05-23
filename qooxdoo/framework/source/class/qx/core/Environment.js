@@ -401,12 +401,18 @@
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
+ *       <td>qx.revision</td><td><i>String</em></td><td><code>27348</code></td>
+ *     </tr>
+ *     <tr>
  *       <td>qx.propertyDebugLevel</td><td><i>Integer</em></td><td><code>0</code></td>
  *       <td><i>default:</i> <code>0</code></td>
  *     </tr>
  *     <tr>
  *       <td>qx.theme</td><td><i>String</em></td><td><code>qx.theme.Modern</code></td>
  *       <td><i>default:</i> <code>&lt;&lt;theme name&gt;&gt;</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.version</td><td><i>String</em></td><td><code>1.5</code></td>
  *     </tr>
  *     <tr>
  *       <td colspan="4"><h3>Asynchronous checks</h3>
