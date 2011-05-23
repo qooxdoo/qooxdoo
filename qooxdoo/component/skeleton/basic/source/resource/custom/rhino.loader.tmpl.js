@@ -1,4 +1,3 @@
-// This is based on an attachment to bug#5100, by John Spackman
 (function() {
 
     if (typeof console == "undefined") console = {};
