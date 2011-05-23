@@ -13,29 +13,18 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Tino Butz (tbtz)
+     * Gabriel Munteanu (gabriel.munteanu@1and1.ro)
 
 ************************************************************************ */
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * The TextArea is a multi-line text input field.
+ * The SelectBox
  */
-qx.Class.define("qx.ui.mobile.form.TextArea",
+qx.Class.define("qx.ui.mobile.form.SelectBox",
 {
   extend : qx.ui.mobile.core.Widget,
-  include : [
-    qx.ui.mobile.form.MValue,
-    qx.ui.mobile.form.MText,
-    qx.ui.form.MForm,
-    qx.ui.form.MModelProperty
-  ],
-  implement : [
-    qx.ui.form.IForm,
-    qx.ui.form.IModel
-  ],
-
 
   /*
   *****************************************************************************
@@ -46,7 +35,7 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
   /**
    * @param value {var?null} The value of the widget.
    */
-  construct : function(value)
+  construct : function()
   {
     this.base(arguments);
   },
@@ -60,15 +49,9 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
 
   properties :
   {
-    // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "textArea"
-    },
     
     /**
-     * Whether this textarea is enabled or not
+     * Whether this selectbox is enabled or not
      */
     enabled :
     {
@@ -77,18 +60,29 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
       nullable: false,
       event : "changeEnabled",
       apply: "_applyEnabled"
+    },
+    
+    /**
+     * The model to use to render the list.
+     */
+    model :
+    {
+      check : "qx.data.Array",
+      apply : "_applyModel",
+      event: "changeModel",
+      nullable : true,
+      init : null
     }
   },
-
 
   members :
   {
     // overridden
     _getTagName : function()
     {
-      return "textarea";
+      return "select";
     },
-    
+
     /**
      * Sets the enable property to the new value
      * @param value {Boolean}, the new value of the textarea
@@ -105,6 +99,28 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
       {
         this._setAttribute("disabled","disabled");
       }
+    },
+    
+    __render : function(){
+      
+    },
+    
+    __syncModelToDOM : function(){
+      this._setHtml("");
+      var element = this.getContentElement();
+      for(var i=0, l=this.getModel().getLength(); i<l; i++)
+      {
+        var item = this.getModel().getItem(i);
+        var option = qx.bom.Element.create("option");
+        qx.bom.element.Attribute.set(option,"value",item);
+        option.appendChild(document.createTextNode(item));
+        element.appendChild(option);
+      }
+      this._domUpdated();
+    },
+    
+    _applyModel : function(value, old){
+      this.__syncModelToDOM();
     }
   }
 });
