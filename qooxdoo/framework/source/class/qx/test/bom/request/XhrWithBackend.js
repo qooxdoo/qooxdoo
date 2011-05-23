@@ -165,37 +165,28 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.assertIdentical(1, req.readyState);
     },
 
-    "test: progress to readyState DONE when from cache": function() {
-      var req = this.req,
-          url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.html")),
-          states = [],
-          count = 0,
-          that = this;
-
-      req.onreadystatechange = function() {
-        states.push(req.readyState);
-        if (req.readyState == 4) {
-          ++count;
-          if (count < 2) {
-            // Ignore changes from previous request
-            states = [];
-            // From cache
-            req.open("GET", url);
-            req.send();
-          } else {
-            that.resume(function() {
-              that.assertArrayEquals([1, 2, 3, 4], states);
-            });
-          }
-        }
-      };
-
-      // Prime cache
-      req.open("GET", url);
-      req.send();
-
-      this.wait();
-    },
+    //
+    // var req = this.req,
+    //     count = 0,
+    //     url = this.getUrl("qx/test/xmlhttp/sample.html");
+    //
+    // var that = this;
+    //
+    // req.onload = function() {
+    //   // From cache with new request
+    //   var req = new qx.bom.request.Xhr();
+    //   req.open("GET", url);
+    //   req.send();
+    //   req.onload = function() {
+    //     that.resume();
+    //   };
+    // };
+    //
+    // // Prime cache
+    // req.open("GET", url);
+    // req.send();
+    //
+    // this.wait();
 
     "test: abort pending request": function() {
       var req = this.req;
@@ -324,6 +315,44 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       // There is no HEADERS_RECEIVED and LOADING when sync.
       // See http://www.w3.org/TR/XMLHttpRequest/#the-send-method
       this.assertArrayEquals([1, 4], states);
+    },
+
+    "test: progress to readyState DONE when from cache": function() {
+      var primeReq = this.req,
+          url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.html")),
+          states = [],
+          count = 0,
+          that = this;
+
+      primeReq.onreadystatechange = function() {
+        if (primeReq.readyState == 4) {
+
+          that.resume(function() {
+            // From cache with new request
+            var req = new qx.bom.request.Xhr();
+
+            req.onreadystatechange = function() {
+              states.push(req.readyState);
+              if (req.readyState == 4) {
+                that.resume(function() {
+                  that.assertArrayEquals([1, 2, 3, 4], states);
+                });
+              }
+            };
+
+            req.open("GET", url);
+            req.send();
+
+            that.wait();
+          });
+        }
+      };
+
+      // Prime cache
+      primeReq.open("GET", url);
+      primeReq.send();
+
+      this.wait();
     },
 
     "test: have status 304 when cache is fresh": function() {

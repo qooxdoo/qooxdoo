@@ -148,6 +148,29 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.wait();
     },
 
+    "test: progress phases": function() {
+      var req = this.req,
+          phases = [],
+          expectedPhases = ["opened", "sent", "loading", "success"];
+          url = this.getUrl("qx/test/xmlhttp/sample.txt");
+
+      req.addListener("changePhase", function() {
+        phases.push(req.getPhase());
+
+        if (req.getPhase() === "success") {
+          this.resume(function() {
+            this.assertArrayEquals(expectedPhases, phases);
+          }, this);
+        }
+
+      }, this);
+
+      req.setUrl(url);
+      req.send();
+
+      this.wait();
+    },
+
     // "test: fetch resources simultaneously": function() {
     //   this.require(["php"]);
     //

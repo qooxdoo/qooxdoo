@@ -720,9 +720,51 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * Handle readystatechange. Called internally when readyState is changed.
      */
     __readyStateChange: function() {
+      var that = this,
+          isLegacyIe = qx.core.Environment.get("engine.name") == "mshtml" &&
+            qx.core.Environment.get("engine.version") < 8;
+
+      // BUGFIX: IE
+      // IE < 8 fires LOADING and DONE on open() - before send() - when from cache
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+          qx.core.Environment.get("engine.version") < 8) {
+
+        // Detect premature events when async. LOADING and DONE is
+        // illogical to happen before request was sent.
+        if (this.__async && !this.__send && this.readyState >= qx.bom.request.Xhr.LOADING) {
+
+          if (this.readyState == qx.bom.request.Xhr.LOADING) {
+            // To early to fire, skip.
+            return;
+          }
+
+          if (this.readyState == qx.bom.request.Xhr.DONE) {
+            window.setTimeout(function() {
+
+              // Replay previously skipped
+              that.readyState = 3;
+              that.onreadystatechange();
+
+              that.readyState = 4;
+              that.onreadystatechange();
+              that.__readyStateChangeDone();
+            });
+            return;
+          }
+
+        }
+      }
+
       // Always fire "readystatechange"
       this.onreadystatechange();
+      this.__readyStateChangeDone();
+    },
 
+    /**
+     * Handle readystatechange. Called internally by
+     * {@link #__readyStateChange} when readyState is DONE.
+     */
+    __readyStateChangeDone: function() {
       if (this.readyState === qx.bom.request.Xhr.DONE) {
         // Request determined DONE. Cancel timeout.
         window.clearTimeout(this.__timerId);
