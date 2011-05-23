@@ -258,6 +258,13 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("plugin.flash.strictsecurity"));
     },
 
+    testPdf : function()
+    {
+      // just make sure the call is working
+      this.assertBoolean(qx.core.Environment.get("plugin.pdf"));
+      qx.core.Environment.get("plugin.pdf.version");
+    },
+
     testIO : function() {
       // just make sure the call is working
       qx.core.Environment.get("io.maxrequests");

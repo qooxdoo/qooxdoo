@@ -49,27 +49,27 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
     {
       quicktime :
       {
-        plugin : "QuickTime",
+        plugin : [ "QuickTime" ],
         control : "QuickTimeCheckObject.QuickTimeCheck.1"
         // call returns boolean: instance.IsQuickTimeAvailable(0)
       },
 
       wmv :
       {
-        plugin : "Windows Media",
+        plugin : [ "Windows Media" ],
         control : "WMPlayer.OCX.7"
         // version string in: instance.versionInfo
       },
 
       divx :
       {
-        plugin : "DivX Web Player",
+        plugin : [ "DivX Web Player" ],
         control : "npdivx.DivXBrowserPlugin.1"
       },
 
       silverlight :
       {
-        plugin : "Silverlight",
+        plugin : [ "Silverlight" ],
         control : "AgControl.AgControl"
         // version string in: instance.version (Silverlight 1.0)
         // version string in: instance.settings.version (Silverlight 1.1)
@@ -78,9 +78,9 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
 
       pdf :
       {
-        plugin : "Adobe Acrobat",
+        plugin : [ "Chrome PDF Viewer", "Adobe Acrobat" ],
         control : "AcroPDF.PDF"
-        // this is detecting Acrobat PDF version > 7
+        // this is detecting Acrobat PDF version > 7 and Chrome PDF Viewer
       }
     },
 
@@ -205,13 +205,13 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      *
      * @param activeXName {String} The name which should be used to generate
      *   the test ActiveX Object.
-     * @param pluginName {String} The name with which the pugin is listed in
+     * @param pluginNames {Array} The names with which the plugins are listed in
      *   the navigator.plugins list.
      * @return {String} The version of the plugin as string.
      */
-    __getVersion : function(activeXName, pluginName) {
+    __getVersion : function(activeXName, pluginNames) {
       var available = qx.bom.client.Plugin.__isAvailable(
-        activeXName, pluginName
+        activeXName, pluginNames
       );
       // don't check if the plugin is not available
       if (!available) {
@@ -251,16 +251,19 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
         for (var i = 0; i < plugins.length; i++)
         {
           var plugin = plugins[i];
-          if (plugin.name.indexOf(pluginName) !== -1)
+
+          for (var j = 0; j < pluginNames.length; j++)
           {
-            if (verreg.test(plugin.name) || verreg.test(plugin.description)) {
-              return RegExp.$1;
-            } else {
-              return "";
+            if (plugin.name.indexOf(pluginNames[j]) !== -1)
+            {
+              if (verreg.test(plugin.name) || verreg.test(plugin.description)) {
+                return RegExp.$1;
+              }
             }
-            return "";
           }
         }
+
+        return "";
       }
     },
 
@@ -270,11 +273,11 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      *
      * @param activeXName {String} The name which should be used to generate
      *   the test ActiveX Object.
-     * @param pluginName {String} The name with which the pugin is listed in
+     * @param pluginNames {Array} The names with which the plugins are listed in
      *   the navigator.plugins list.
      * @return {Boolean} <code>true</code>, if the plugin available
      */
-    __isAvailable : function(activeXName, pluginName) {
+    __isAvailable : function(activeXName, pluginNames) {
       // IE checks
       if (qx.bom.client.Engine.getName() == "mshtml") {
 
@@ -303,10 +306,14 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
         {
           name = plugins[i].name;
 
-          if (name.indexOf(pluginName) !== -1) {
-            return true;
+          for (var j = 0; j < pluginNames.length; j++)
+          {
+            if (name.indexOf(pluginNames[j]) !== -1) {
+              return true;
+            }
           }
         }
+
         return false;
       }
     }
