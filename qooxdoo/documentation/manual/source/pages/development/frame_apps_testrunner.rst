@@ -86,7 +86,7 @@ Here's an example: In our test, we want to send an AJAX request to the local web
       this.wait(10000);
     }
 
-.. _pages/frame_apps_testrunner#create_the_test_application:
+.. _pages/frame_apps_testrunner#requirements:
 
 Defining Test Requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -111,6 +111,8 @@ The mixin defines a method ``require`` that takes an array of strings: The requi
 ``require`` then searches the current test instance for a method that verifies the listed requirements: The naming convention is "has" + the requirement ID with the first letter capitalized, e.g. ``hasSsl``. This method is the called with the requirement ID as the only parameter. If it returns ``true``, the test code will be executed. Otherwise a `RequirementError <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.RequirementError>`_ is thrown. The Test Runner will catch these and mark the test as "skipped" in the results list. Any test code after the ``require`` call will not be executed.
 
 In addition to the verification methods in MRequirements, test developers can define their own right in the test class.
+
+.. _pages/frame_apps_testrunner#create_the_test_application:
 
 Create the Test Application
 ---------------------------
