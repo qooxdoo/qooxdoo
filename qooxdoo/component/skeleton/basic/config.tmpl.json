@@ -45,13 +45,12 @@
 
   "jobs" :
   {
-    "shell-common" :
+    "basic-common" :
     {
       "library" :
       [
         {
-          "manifest" : "$${QOOXDOO_PATH}/framework/Manifest.json"//,
-          //"uri" : ".."          
+          "manifest" : "$${QOOXDOO_PATH}/framework/Manifest.json"
         }
       ],
 
@@ -74,7 +73,6 @@
 
       "environment" :
       {
-        "qx.debug" : false,
         "qx.aspects" : false,
         "qx.globalErrorHandling" : false
       },
@@ -94,28 +92,38 @@
       }
     },
 
+
     "source" :
     {
-      "extend" : [ "shell-common" ],
+      "extend" : [ "basic-common" ],
       "environment" :
       {
         "qx.debug" : true
       }
     },
 
+
     "build-script" :
     {
-      "extend" : [ "shell-common" ]
+      "extend" : [ "basic-common" ],
+      "environment" :
+      {
+        "qx.debug" : false
+      }
     },
 
-    "source-all-script" :
+
+    "build-resources":
     {
-      "=exclude" : 
-      [
-        "qx.test.*",
-        "$${APPLICATION}.test.*"
-      ]
+      "extend" : [ "basic-common" ]
     },
+
+
+    "build-files" : 
+    {
+      "extend" : [ "basic-common" ]
+    },
+
 
     "run" : 
     {
