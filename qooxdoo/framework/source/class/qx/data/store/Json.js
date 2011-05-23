@@ -161,6 +161,8 @@ qx.Class.define("qx.data.store.Json",
 
     /**
      * Set request.
+     *
+     * @param request {Object} The request.
      */
     _setRequest: function(request) {
       this.__request = request;
