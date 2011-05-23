@@ -32,6 +32,7 @@ Tooling
    tool/generator_default_jobs
    tool/generator_config_ref
    tool/generator_config_macros
+   tool/ebnf_like
 
 Glossary
 ========

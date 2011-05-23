@@ -3,11 +3,7 @@
 Class Declaration Quick Ref
 ***************************
 
-.. note::
-
-  The variants and settings key is deprecated. Please use the environment key instead.
-
-This is a quick reference for the various features of a qooxdoo class declaration. It uses an EBNF-like syntax.
+This is a quick reference for the various features of a qooxdoo class declaration. It uses an :doc:`EBNF-like syntax </pages/tool/ebnf_like>`.
 
 Properties, a particular part of the class declaration, have quite an extensive sub-spec, and are therefore factored out to their :doc:`own page <properties_quickref>`.
 
@@ -50,41 +46,33 @@ Properties, a particular part of the class declaration, have quite an extensive 
                      
     members_spec     := c_map
                      
-    settings_spec    := '{' { '"' <settings_name> '"' ':' 
-                                  ( js_primitive_value | js_reference_value ) 
-                                  ',' } '}'
-                                  
+    environment_spec := '{' 
+                         { '"' <environment_name> '"' ':' 
+                             ( js_primitive_value | js_reference_value ) ',' }
+                        '}'
                      
-                     
-                     
-    environment_spec := '{' { '"' <environment_name> '"' ':' 
-                                  ( js_primitive_value | js_reference_value ) 
-                                  ',' } '}'
-                     
-                     
-                     
-    variants_spec    := 'qx.Variant.select' '(' '"' <variantName> '"' ','
-                          '{' { '"' <variantvalue_spec> '"' ':' <selectValue> 
-                                    ',' } '}'
-                        ')'
-                     
-    events_spec      := '{' { '"' <event_name> '"' ':' '"' qx_event_type '"' 
-                             ',' } '}'
+    events_spec      := '{' 
+                         { '"' <event_name> '"' ':' '"' qx_event_type '"' ',' } 
+                        '}'
                      
     defer_spec       := js_function_value
                      
     destruct_spec    := '{' 
-                         [ 'this._disposeFields'     '(' <fields_list> ')' ';' ]
-                         [ 'this._disposeObjects'    '(' <fields_list> ')' ';' ]
-                         [ 'this._disposeObjectDeep' '(' <deep_field> ')'      ]
-                         '}'
+                         { 'this._disposeFields'     '(' <fields_list> ')' ';' }
+                         { 'this._disposeObjects'    '(' <fields_list> ')' ';' }
+                         { 'this._disposeObjectDeep' '(' <deep_field> ')'      }
+                        '}'
                      
-    c_map            := '{' { <key> ':' [ js_primitive_value | 
-                                          js_reference_value | 
-                                          js_function_value  |
-                                          variants_spec      ] ',' } '}'
+    c_map            := '{' 
+                         { <key> ':' ( js_primitive_value | 
+                                       js_reference_value | 
+                                       js_function_value  |
+                                       js_function_call   ) ',' } 
+                        '}'
 
-    js_function_value   := ? Javascript anonymous function 'function (...) {...}' ?
+    js_function_value   := ? Javascript anonymous function 'function (...) 
+                             {...}' ?
+    js_function_call    := ? Javascript function call 'foo(...)' ?
     js_primitive_value  := ? any value from the Javascript primitive types ?
     js_reference_value  := ? any value from the Javascript reference types ?
     qx_event_type       := ? any qooxdoo event type class name, e.g. 

@@ -3,7 +3,7 @@
 Mixin Quick Ref
 ***************
 
-This is a quick reference for the various features of a qooxdoo mixin declaration. It uses an EBNF-like syntax.
+This is a quick reference for the various features of a qooxdoo mixin declaration. It uses an :doc:`EBNF-like syntax </pages/tool/ebnf_like>`.
 
 It is much like a class declaration, with a more limited set of features. Properties are documented on their :doc:`own page <properties_quickref>`.
 
@@ -33,21 +33,26 @@ It is much like a class declaration, with a more limited set of features. Proper
 
     members_spec    := c_map
 
-    events_spec     := '{' { '"' <event_name> '"' ':' '"' qx_event_type '"' 
-                            ',' } '}'
+    events_spec     := '{' 
+                        { '"' <event_name> '"' ':' '"' qx_event_type '"' ',' }
+                       '}'
 
     destruct_spec   := '{' 
-                        [ 'this._disposeFields'     '(' <fields_list> ')' ';' ]
-                        [ 'this._disposeObjects'    '(' <fields_list> ')' ';' ]
-                        [ 'this._disposeObjectDeep' '(' <deep_field> ')'      ]
+                        { 'this._disposeFields'     '(' <fields_list> ')' ';' }
+                        { 'this._disposeObjects'    '(' <fields_list> ')' ';' }
+                        { 'this._disposeObjectDeep' '(' <deep_field> ')'      }
                         '}'
 
-    c_map           := '{' { <key> ':' [ js_primitive_value | 
-                                         js_reference_value | 
-                                         js_function_value  |
-                                         variants_spec      ] ',' } '}'
+    c_map           := '{'
+                        { <key> ':' ( js_primitive_value | 
+                                      js_reference_value | 
+                                      js_function_value  |
+                                      js_function_call   ) ',' } 
+                       '}'
 
-    js_function_value   := ? Javascript anonymous function 'function (...) {...}' ?
+    js_function_value   := ? Javascript anonymous function 'function (...) 
+                             {...}' ?
+    js_function_call    := ? Javascript function call 'foo(...)' ?
     js_primitive_value  := ? any value from the Javascript primitive types ?
     js_reference_value  := ? any value from the Javascript reference types ?
     qx_event_type       := ? any qooxdoo event type class name, e.g. 

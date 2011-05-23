@@ -6,15 +6,15 @@ Properties Quick Reference
 
 This is a quick reference for the various property features available in qooxdoo.
 
-Properties are declared in the constructor map of the class as a dedicated key-value pair (here called ``properties_decl``). This is the quick reference for properties_decl (expressed in an EBNF'ish way):
+Properties are declared in the constructor map of the class as a dedicated key-value pair (here called ``properties_decl``). This is the quick reference for properties_decl (expressed in an :doc:`EBNF-ish </pages/tool/ebnf_like>` way):
 
 ::
 
     properties_decl  := 'properties' ':' properites_map
 
     properties_map   := '{' { prop_spec ',' } '}'
-    prop_spec        := '"' <property_name> '"' ':' '{'
-                          { property_feature ',' } '}'
+    prop_spec        := '"' <property_name> '"' ':' 
+                            '{' { property_feature ',' } '}'
 
     property_feature := nullable_spec      |
                         apply_spec         |
@@ -53,13 +53,14 @@ Properties are declared in the constructor map of the class as a dedicated key-v
     mode_spec        := 'mode'         ':' '"' 'shorthand' '"'
 
     type_spec        := 'Boolean' | 'String' | 'Number' | 'Integer' | 'Float' |
-                        'Double'  | 'Object'| 'Array'  | 'Map'     | 'Class' |
-                        'Mixin'   | 'Interface'        | 'Theme'   | 'Error' |
-                        'RegExp'  | 'Function'         | 'Date'    | 'Node'  |
-                        'Element' | 'Document'         | 'Window'  | 'Event'
+                        'Double'  | 'Object' | 'Array'  | 'Map'     | 'Class' |
+                        'Mixin'   | 'Interface'         | 'Theme'   | 'Error' |
+                        'RegExp'  | 'Function'          | 'Date'    | 'Node'  |
+                        'Element' | 'Document'          | 'Window'  | 'Event'
 
     bool_val         := 'true' | 'false'
     enum_spec        := '[' <val1>',' <val2> ',' ... ',' <valN> ']'
-    inline_function  := ? JavaScript anonymous function 'function (..) { ... }' ?
+    inline_function  := ? JavaScript anonymous function 'function (..) 
+                          { ... }' ?
     bool_expression  := ? JavaScript expression evaluating to true/false ?
 
