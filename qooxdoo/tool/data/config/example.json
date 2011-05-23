@@ -68,6 +68,10 @@
         {
           "file"     : "source-version.js",
           "app-root" : "."
+        },
+        "code" :
+        {
+          "except" : ["*"]
         }
       },
 
@@ -94,8 +98,13 @@
       {
         "paths" :
         {
-          "file"     : "build-version.js"
-        }
+          "file"     : "build-version.js",
+          "app-root" : "."
+        },
+        "code" :
+	    {
+	      "except" : []
+	    }
       },
 
       "compile" : { "type" : "build" }
@@ -113,19 +122,20 @@
       {
         "qx.debug" : false,
         "qx.aspects" : false,
-        "qx.client" : ["gecko","mshtml"]
+        "engine.name" : ["gecko","mshtml"]
       },
 
       "compile-options" :
       {
         "paths" : 
         {
-          "file" : "compile-bom-{qx.client}.js",
+          "file" : "compile-bom-{engine.name}.js",
           "app-root" : "."
         },
         "code" :
         {
-          "optimize" : [ "variables", "basecalls", "privates" ]
+          "optimize" : [ "variables", "basecalls", "privates" ],
+   	      "except" : []
         }
       },
 
@@ -142,19 +152,20 @@
       {
         "qx.debug" : false,
         "qx.aspects" : false,
-        "qx.client" : ["gecko","mshtml"]
+        "engine.name" : ["gecko","mshtml"]
       },
 
       "compile-options" :
       {
         "paths" :
         {
-          "file" : "compile-ajax-{qx.client}.js",
+          "file" : "compile-ajax-{engine.name}.js",
           "root" : "."
         },
         "code" :
         {
-          "optimize" : [ "variables", "basecalls", "privates", "strings" ]
+          "optimize" : [ "variables", "basecalls", "privates", "strings" ],
+  	      "except" : []
         }
       },
 
@@ -207,11 +218,13 @@
       {
         "paths" :
         {
-          "file" : "feedreader_source/feedreader-source.js"
+          "file" : "feedreader_source/feedreader-source.js",
+          "app-root" : "."
         },
         "code" :
         {
-          "locales" : ["en", "de", "es", "it"]
+          "locales" : ["en", "de", "es", "it"],
+   	      "except"  : ["*"]
         }
       },
 
