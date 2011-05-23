@@ -50,23 +50,26 @@
       "library" :
       [
         {
-          "manifest" : "$${QOOXDOO_PATH}/framework/Manifest.json",
-          "uri" : ".."          
+          "manifest" : "$${QOOXDOO_PATH}/framework/Manifest.json"//,
+          //"uri" : ".."          
         }
       ],
 
       "extend" : [ "cache" ],
       
-      "include" : 
+      "=include" : 
       [
-        "qx.Class",
-        "qx.Mixin",
-        "qx.Interface"
+        //"qx.Class",
+        //"qx.Mixin",
+        //"qx.Interface",
+        "$${APPLICATION}.Application",
+        "$${APPLICATION}.framework.ServerInit"
       ],
       
       "exclude" :
       [
-        "qx.event.GlobalError"
+        "qx.event.GlobalError",
+        "qx.core.Init"
       ],
 
       "environment" :
@@ -80,7 +83,8 @@
       {
         "paths" :
         {
-          "loader-template" : "resource/${Namespace}/rhino.loader_tmpl.js"
+          "app-root" : ".",
+          "loader-template" : "source/resource/${Namespace}/rhino.loader.js"
         },
         "uris" :
         {
@@ -90,18 +94,18 @@
       }
     },
 
-    "common" :
+    "source" :
     {
-      "=include" :
-      [
-        "$${APPLICATION}.Application"
-      ],
-      
-      "=environment" :
+      "extend" : [ "shell-common" ],
+      "environment" :
       {
-        "qx.version"     : "${QOOXDOO_VERSION}",
-        "qx.application" : "$${APPLICATION}.Application"
+        "qx.debug" : true
       }
+    },
+
+    "build-script" :
+    {
+      "extend" : [ "shell-common" ]
     },
 
     "source-all-script" :
