@@ -71,7 +71,7 @@ qx.Class.define("demobrowser.demo.data.Twitter",
        var userName = new qx.ui.form.TextField("wittemann");
        this.getRoot().add(userName, {left: 60, top: 55});
        userButton.addListener("execute", function() {
-         var url = "http://twitter.com/statuses/user_timeline/" + userName.getValue() + ".json"
+         var url = "http://twitter.com/statuses/user_timeline/" + userName.getValue() + ".json";
          if (store.getUrl() == url) {
            store.reload();
          } else {
@@ -101,7 +101,7 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       detailsBox.add(new qx.ui.basic.Label("Name: "), {row: 0, column: 0});
       detailsBox.add(new qx.ui.basic.Label("Location: "), {row: 1, column: 0});
       detailsBox.add(new qx.ui.basic.Label("Message: "), {row: 2, column: 0});
-      detailsBox.add(new qx.ui.basic.Label("Postet with: "), {row: 3, column: 0});
+      detailsBox.add(new qx.ui.basic.Label("Posted with: "), {row: 3, column: 0});
 
       var name = new qx.ui.basic.Label();
       detailsBox.add(name, {row: 0, column: 1});
@@ -179,46 +179,11 @@ qx.Class.define("demobrowser.demo.data.Twitter",
 
 qx.Class.define("demobrowser.demo.data.store.Twitter",
 {
-  extend : qx.data.store.Json,
-
-  statics : {
-    saveResult: function(result) {
-      this.__result = result;
-    }
-  },
+  extend : qx.data.store.Jsonp,
 
   construct : function(user)
   {
     var url = "http://twitter.com/statuses/user_timeline/" + user + ".json";
     this.base(arguments, url);
-  },
-
-  members :
-  {
-    _createRequest: function(url) {
-      var loader = new qx.io.ScriptLoader();
-      url += "?callback=demobrowser.demo.data.store.Twitter.saveResult";
-      loader.load(url, function(data) {
-        this.__loaded();
-      }, this);
-    },
-
-
-    __loaded: function() {
-      var data = demobrowser.demo.data.store.Twitter.__result;
-
-      if (data == undefined) {
-        this.setState("failed");
-        return;
-      }
-
-      // create the class
-      this._marshaler.toClass(data);
-      // set the initial data
-      this.setModel(this._marshaler.toModel(data));
-
-      // fire complete event
-      this.fireDataEvent("loaded", this.getModel());
-    }
   }
 });

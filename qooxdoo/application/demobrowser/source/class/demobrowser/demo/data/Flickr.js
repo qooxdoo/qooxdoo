@@ -133,24 +133,12 @@ qx.Class.define("demobrowser.demo.data.Flickr",
  */
 qx.Class.define("demobrowser.demo.data.store.Flickr",
 {
-  extend : qx.data.store.Json,
+  extend : qx.data.store.Jsonp,
 
-  statics : {
-    RESULT : null
-  },
-
-  /**
-   * @lint ignoreUndefined(jsonFlickrApi)
-   */
   construct : function(tag)
   {
-    // store a global function
-    jsonFlickrApi = function(data) {
-      demobrowser.demo.data.store.Flickr.RESULT = data;
-    }
-
-    var url = "http://api.flickr.com/services/rest/?tags=" + tag;
-    this.base(arguments, url);
+    this.setCallbackName("jsonFlickrApi");
+    this.base(arguments, this.__generateUrl(tag));
   },
 
   members :
@@ -158,36 +146,18 @@ qx.Class.define("demobrowser.demo.data.store.Flickr",
 
     searchForTag: function(tag) {
       if (tag != "") {
-        this.setUrl("http://api.flickr.com/services/rest/?tags=" + tag);
+        this.setUrl(this.__generateUrl(tag));
       }
     },
 
-    _createRequest: function(url) {
-      var loader = new qx.io.ScriptLoader();
-      this.setState("receiving");
-      url += "&method=flickr.photos.search&api_key=63a8042eead205f7e0040f488c02afd9&format=json";
-      loader.load(url, function(data) {
-        this.__loaded();
-      }, this);
-    },
-
-
-    __loaded: function() {
-      this.setState("completed");
-      var data = demobrowser.demo.data.store.Flickr.RESULT;
-
-      if (data == undefined) {
-        this.setState("failed");
+    __generateUrl: function(tag) {
+      if (!tag) {
         return;
       }
 
-      // create the class
-      this._marshaler.toClass(data);
-      // set the initial data
-      this.setModel(this._marshaler.toModel(data));
-
-      // fire complete event
-      this.fireDataEvent("loaded", this.getModel());
+      var url = "http://api.flickr.com/services/rest/?tags=" + tag;
+      url += "&method=flickr.photos.search&api_key=63a8042eead205f7e0040f488c02afd9&format=json";
+      return url;
     }
   }
 });

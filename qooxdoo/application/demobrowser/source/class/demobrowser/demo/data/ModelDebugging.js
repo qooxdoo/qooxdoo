@@ -92,47 +92,12 @@ qx.Class.define("demobrowser.demo.data.ModelDebugging",
  */
 
 qx.Class.define("demobrowser.demo.data.store.Twitter",
-{
-  extend : qx.data.store.Json,
+ {
+   extend : qx.data.store.Jsonp,
 
-  statics : {
-    saveResult: function(result) {
-      this.__result = result;
-    }
-  },
-
-  construct : function(user)
-  {
-    var url = "http://twitter.com/statuses/user_timeline/" + user + ".json";
-    this.base(arguments, url);
-  },
-
-  members :
-  {
-    _createRequest: function(url) {
-      var loader = new qx.io.ScriptLoader();
-      url += "?callback=demobrowser.demo.data.store.Twitter.saveResult";
-      loader.load(url, function(data) {
-        this.__loaded();
-      }, this);
-    },
-
-
-    __loaded: function() {
-      var data = demobrowser.demo.data.store.Twitter.__result;
-
-      if (data == undefined) {
-        this.setState("failed");
-        return;
-      }
-
-      // create the class
-      this._marshaler.toClass(data);
-      // set the initial data
-      this.setModel(this._marshaler.toModel(data));
-
-      // fire complete event
-      this.fireDataEvent("loaded", this.getModel());
-    }
-  }
-});
+   construct : function(user)
+   {
+     var url = "http://twitter.com/statuses/user_timeline/" + user + ".json";
+     this.base(arguments, url);
+   }
+ });

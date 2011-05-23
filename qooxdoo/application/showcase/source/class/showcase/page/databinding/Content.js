@@ -62,7 +62,7 @@ qx.Class.define("showcase.page.databinding.Content",
 
       // fetch some data from Twitter
       var url = "http://twitter.com/statuses/user_timeline/1and1.json";
-      var store = new qx.data.store.Jsonp(url, null, "callback");
+      var store = new qx.data.store.Jsonp(url);
 
       // connect the store and the controller
       store.bind("model", controller, "model");
@@ -86,7 +86,7 @@ qx.Class.define("showcase.page.databinding.Content",
        var userButton = new qx.ui.form.Button("Show");
        controlsBox.add(userButton);
        userButton.addListener("execute", function() {
-         var url = "http://twitter.com/statuses/user_timeline/" + userName.getValue() + ".json"
+         var url = "http://twitter.com/statuses/user_timeline/" + userName.getValue() + ".json";
          if (store.getUrl() == url) {
            store.reload();
          } else {
