@@ -111,10 +111,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
       }, this);
 
       var url = this.url;
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
 
       this.wait();
     },
@@ -139,10 +136,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
       }, this);
 
       var url = this.url;
-      var self = this;
-      window.setTimeout(function() {
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
 
       this.wait();
     },
@@ -168,9 +162,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
       }, this);
 
       var url = this.url;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
 
       this.wait();
     },
@@ -209,10 +201,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
           this.resume(function() {}, this);
         }, this);
 
-        var self = this;
-        window.setTimeout(function(){
-          self.__store.setUrl("affe");
-        }, 100);
+        this.__store.setUrl("affe");
 
         this.wait();
       }

@@ -98,10 +98,7 @@ qx.Class.define("qx.test.data.store.Json",
       }, this);
 
       var url = this.url;
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
 
       this.wait();
     },
@@ -137,10 +134,7 @@ qx.Class.define("qx.test.data.store.Json",
       }, this);
 
       var resource = "qx/test/primitive.json";
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(resource);
-      }, 100);
+      this.__store.setUrl(resource);
 
       this.wait();
     },
@@ -159,10 +153,7 @@ qx.Class.define("qx.test.data.store.Json",
       qx.util.AliasManager.getInstance().add("testLoadResource", "qx/test");
 
       var alias = "testLoadResource/primitive.json";
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(alias);
-      }, 100);
+      this.__store.setUrl(alias);
 
       this.wait();
     },
@@ -180,10 +171,7 @@ qx.Class.define("qx.test.data.store.Json",
       }, this);
 
       var url = this.url;
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
 
       this.wait();
     },
@@ -202,10 +190,7 @@ qx.Class.define("qx.test.data.store.Json",
       }, this);
 
       var url = qx.util.ResourceManager.getInstance().toUri("qx/test/array.json");
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
       this.wait();
     },
 
@@ -222,10 +207,7 @@ qx.Class.define("qx.test.data.store.Json",
       }, this);
 
       var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
       this.wait();
     },
 
@@ -274,10 +256,7 @@ qx.Class.define("qx.test.data.store.Json",
       }, this);
 
       var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
 
       this.wait();
     },
@@ -303,10 +282,7 @@ qx.Class.define("qx.test.data.store.Json",
       }, this);
 
       var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
       this.wait();
     },
 
@@ -337,10 +313,7 @@ qx.Class.define("qx.test.data.store.Json",
       }, this);
 
       var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
 
       this.wait();
     },
@@ -370,10 +343,7 @@ qx.Class.define("qx.test.data.store.Json",
       }, this);
 
       var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
 
       this.wait();
     },
@@ -397,10 +367,7 @@ qx.Class.define("qx.test.data.store.Json",
       }, this);
 
       var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
 
       this.wait();
     },
@@ -437,10 +404,7 @@ qx.Class.define("qx.test.data.store.Json",
       }, this);
 
       var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
 
       this.wait();
     },
@@ -463,10 +427,7 @@ qx.Class.define("qx.test.data.store.Json",
       }, this);
 
       var url = this.url;
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
 
       this.wait();
     },
@@ -492,9 +453,7 @@ qx.Class.define("qx.test.data.store.Json",
       }, this);
 
       var url = this.url;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
 
       this.wait();
     },
@@ -516,10 +475,7 @@ qx.Class.define("qx.test.data.store.Json",
       this.__store.setModel(fakeModel);
 
       var url = this.url;
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl(url);
-      }, 100);
+      this.__store.setUrl(url);
 
       this.wait();
     },
@@ -554,10 +510,7 @@ qx.Class.define("qx.test.data.store.Json",
         }, this);
       }, this);
 
-      var self = this;
-      window.setTimeout(function(){
-        self.__store.setUrl("not-found");
-      }, 100);
+      this.__store.setUrl("not-found");
 
       this.wait();
     }
