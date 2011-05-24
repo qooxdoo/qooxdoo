@@ -37,6 +37,7 @@ qx.Class.define("qx.bom.media.Abstract",
   {
     this.base(arguments);
     this._media = media;
+    this._hasLoop = !!this._media.loop;
 
     var Function = qx.lang.Function;
     this._handlePlayEventBound = Function.bind(this._handlePlayEvent, this);
@@ -91,7 +92,8 @@ qx.Class.define("qx.bom.media.Abstract",
   members:
   {
     _media: null,
-
+    _hasLoop: false,
+    _loopId: null,
 
     /**
      * Returns the media object, so that you can add it to the DOM.
@@ -373,6 +375,15 @@ qx.Class.define("qx.bom.media.Abstract",
      */
     setLoop: function(value)
     {
+      //ff doesn't have loop
+      if (!this._hasLoop) {
+        if (value === true) { 
+          this._loopId = this.addListener('ended', this.play, this);
+        } else if (value === false && this._loopId) { 
+          this.removeListenerById(this._loopId);
+          this._loopId = null;
+        }
+      }
       this._media.loop = value;
     },
 
