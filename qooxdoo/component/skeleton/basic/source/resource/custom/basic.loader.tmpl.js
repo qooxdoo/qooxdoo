@@ -19,7 +19,15 @@
         language: "en-US"
     };
 
-    if (!navigator.platform) navigator.platform = environment["os.name"];
+    if (typeof environment !== "undefined") { // Rhino runtime
+      if (!navigator.platform) navigator.platform = environment["os.name"];
+    } else if (typeof process !== "undefined") { // Node runtime
+      var os = require('os');
+      var fs = require('fs');
+      require.paths.push('.');  // add curdir
+      if (!navigator.platform) navigator.platform = os.type();
+      
+    }
 
     if (!window.qx) window.qx = {};
 
@@ -76,8 +84,15 @@
 
         loadScriptList: function(uris) {
             for (var i = 0; i < uris.length; i++) {
-                log("loading uri " + uris[i]);
-                load(uris[i]);
+                if (typeof process !== "undefined") { // Node
+                  var p = require.resolve(uris[i]);
+                  var s = fs.readFileSync(p, "utf-8");
+                  eval(s);
+                } else if (typeof environment !== "undefined") { // Rhino
+                  var p = uris[i];
+                  load(p);
+                }
+                //log("loaded uri " + p);
             }
         },
 

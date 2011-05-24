@@ -39,7 +39,11 @@ qx.Class.define("${Namespace}.Application",
      */
     main : function()
     {
-      qx.log.Logger.register(qx.log.appender.RhinoConsole);
+      if (typeof environment !== "undefined") { // Rhino runtime
+        qx.log.Logger.register(qx.log.appender.RhinoConsole);
+      } else if (typeof process !== "undefined") { // Node.js runtime
+        qx.log.Logger.register(${Namespace}.framework.NodeConsole);
+      }
 
       if (window.arguments) {
         try {
