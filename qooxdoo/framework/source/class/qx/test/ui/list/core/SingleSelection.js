@@ -153,7 +153,59 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
       var selection = this._list._manager.getSelection();
       this.assertEquals(0, selection.length);
     },
+    
+    testApplyFilterAfterSelection : function() {
+      var selection = this._list.getSelection();
+      selection.push(this._model.getItem(0));
+      this.flush();
+      
+      this._list.setDelegate({
+        filter : function(data) {
+          // Filters all even items
+          return ((parseInt(data.slice(5, data.length), 10)) % 2 == 1);
+        }
+      });
+      this.flush();
 
+      // check selection from list
+      this.assertEquals(0, this._list.getSelection().getLength(), "On List");
+
+      // check selection from manager
+      var selection = this._list._manager.getSelection();
+      this.assertEquals(0, selection.length);
+    },
+
+    testApplySortingAfterSelection : function()
+    {
+      var selection = this._list.getSelection();
+      selection.push(this._model.getItem(0));
+      this.flush();
+
+      // check selection from list
+      this.assertEquals(1, this._list.getSelection().getLength(), "On List");
+
+      // check selection from manager
+      var selection = this._list._manager.getSelection();
+      this.assertEquals(1, selection.length, "On Manager");
+      
+      this._list.setDelegate({
+        sorter : function(a, b) {
+          return a < b ? 1 : a > b ? -1 : 0;
+        }
+      });
+      this.flush();
+      
+      // check selection from list
+      this.assertEquals(1, this._list.getSelection().getLength(), "On List");
+
+      // check selection from manager
+      var selection = this._list._manager.getSelection();
+      this.assertEquals(1, selection.length, "On Manager");
+      
+      // check row == last index
+      this.assertEquals(this._model.getLength() - 1, this._list._manager.getSelection()[0], "Row is wrong on Manager");
+    },
+    
     testRemoveItem : function()
     {
       var selection = this._list.getSelection();

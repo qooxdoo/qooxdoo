@@ -556,7 +556,6 @@ qx.Class.define("qx.ui.list.List",
     _onModelChange : function(e) {
       this.__buildUpLookupTable();
       this._applyDefaultSelection();
-      this._updateSelection();
     },
 
 
@@ -599,6 +598,7 @@ qx.Class.define("qx.ui.list.List",
       this._runDelegateFilter(model);
       this._runDelegateSorter(model);
       this._runDelegateGroup(model);
+      this._updateSelection();
       this.__updateRowCount();
     },
 
