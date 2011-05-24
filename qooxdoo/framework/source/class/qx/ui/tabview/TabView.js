@@ -192,11 +192,11 @@ qx.Class.define("qx.ui.tabview.TabView",
         }
       }
       var children = this.getChildren();
-      if(index && index > children.length) {
+      if(!(index == null) && index > children.length) {
         throw new Error("Index should be less than : " + children.length);
       }
       
-      if(!index) {
+      if(index == null) {
         index = children.length;
       }
 
