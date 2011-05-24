@@ -184,11 +184,12 @@ def patchSkeleton(dir, framework_dir, options):
     for root, dirs, files in os.walk(dir):
         for file in files:
             split = file.split(".")
-            if len(split) >= 3 and split[1] == "tmpl":
-                outFile = os.path.join(root, split[0] + "." + ".".join(split[2:]))
+            if len(split) >= 3 and split[-2] == "tmpl":
+                outFile = os.path.join(root, ".".join(split[:-2] + split[-1:]))
                 inFile = os.path.join(root, file)
                 console.log("Patching file '%s'" % outFile)
 
+                #config = MyTemplate(open(inFile).read())
                 config = Template(open(inFile).read())
                 out = open(outFile, "w")
                 out.write(
@@ -341,6 +342,27 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
     createApplication(options)
 
     console.log("DONE")
+
+
+pattern = r"""
+%(delim)s(?:
+  (?P<escaped>%(delim)s) |   # Escape sequence of two delimiters
+  (?P<named>%(id)s)      |   # delimiter and a Python identifier
+  {(?P<braced>%(id)s)}   |   # delimiter and a braced identifier
+  (?P<invalid>)              # Other ill-formed delimiter exprs
+)
+"""
+
+class MyTemplate(Template):
+     #delimiter = "%"
+    pattern = r"""
+    \$(?:
+      (?P<escaped>\$) |   # Escape sequence of two delimiters
+      {(?P<braced>[_a-z][_a-z0-9]*)}   |   # delimiter and a braced identifier
+      (?P<invalid>)              # Other ill-formed delimiter exprs
+    )
+    """
+     
 
 
 if __name__ == '__main__':
