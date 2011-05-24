@@ -61,6 +61,7 @@ qooxdoo/application/showcase/source/script
 qooxdoo/application/showcase/build
 qooxdoo/application/showcase/cache
 qooxdoo/component/testrunner/source/script/
+qooxdoo/component/testrunner/build/
 qooxdoo/frontend/application/demobrowser/source/script
 qooxdoo/frontend/application/playground/source/script
 qooxdoo/frontend/framework/.cache
