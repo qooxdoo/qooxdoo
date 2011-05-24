@@ -101,7 +101,7 @@ qx.Class.define("qx.log.appender.RhinoFile", {
       for (var prop in entry) {
         if (prop == "items") {
           var items = entry[prop];
-          for (var p in items) {
+          for (var p=0, l=items.length; p<l; p++) {
             var item = items[p];
             this[level](item.text);
           }
