@@ -233,7 +233,7 @@ The invoking context can then tailor the remote job by tailoring the includer jo
   "includer-job" :
       {
          "library" : { ... },
-         "variants" : { ... },
+         "environment" : { ... },
          "compile-options" : { ... },
          ...
       }

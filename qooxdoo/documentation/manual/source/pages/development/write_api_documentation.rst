@@ -148,7 +148,7 @@ The ``@link`` attribute is similar to the ``@see`` attribute, but it is used for
 @signature:
 -----------
 
-sometimes the API documentation generator is not able to extract the method signature from the source code. This is for example the case, when the method is defined using ``variants`` of if the method is assigned from a method constant like ``qx.lang.Function.returnTrue``.
+sometimes the API documentation generator is not able to extract the method signature from the source code. This is for example the case, when the method is defined using ``environment`` of if the method is assigned from a method constant like ``qx.lang.Function.returnTrue``.
 
 In these cases the method signature can be declared inside the documentation comment using the @signature attribute.
 

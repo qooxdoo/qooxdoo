@@ -249,10 +249,10 @@ Create a test runner app for unit tests of the current library.
 
       "include" : ["testrunner.TestLoader", "${TEST_INCLUDE}", "${QXTHEME}"],
 
-      "settings" :
+      "environment" :
       {
         "qx.theme" : "${QXTHEME}",
-        "qx.globalErrorHandling" : "on"
+        "qx.globalErrorHandling" : true
       },
 
       "cache" :

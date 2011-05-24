@@ -20,8 +20,8 @@ Here is a code template which you may copy to your application namespace and ada
      * To enable the use of your aspect class, some extra settings need to be done
      * in your configuration file.
      *  * Add a require of your aspects class to qx.Class
-     *  * Set the variant qx.aspects to on
-     *  * Set the setting qx.enableAspect to true
+     *  * Set the environment setting qx.aspects to true
+     *  * Set the environment setting qx.enableAspect to true
      *
      */
 
@@ -99,13 +99,9 @@ A job in your configuration could look something like this:
               "qx.Class" : ["aspects.Aop"]
             },
 
-            "variants" :
+            "environment" :
             {
-              "qx.aspects" : [ "on" ]
-            },
-
-            "settings" :
-            {
+              "qx.aspects" : true,
               "qx.enableAspect" : true
             }
           }

@@ -25,16 +25,13 @@ Properties
    core/property_behavior
    core/property_features
 
-Environment, Settings and Variants
-==================================
+Environment
+===========
 
 .. toctree::
    :maxdepth: 2
  
    core/environment
-   core/settings
-   core/variants
-   core/variants_working
 
 
 Data Binding

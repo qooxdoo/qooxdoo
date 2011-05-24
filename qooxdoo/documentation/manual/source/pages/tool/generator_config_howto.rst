@@ -39,7 +39,7 @@ could say
 
   <!-- you need some inline stuff first -->
     <script type="text/javascript">
-      qxsettings = { "qx.application" : "Application" };  // if that's 
+      qx = {"$$environment" : { "qx.application" : "Application" }};  // if that's 
   your main app class
     </script>
 
@@ -104,14 +104,14 @@ effort on your side to sort things out.
         "exclude" : ["=qx.legacy.*"],
 
         // enable debug build
-        "variants" :
+        "environment" :
         {
-          "qx.debug" : ["on"],
-          "qx.aspects" : ["off"]
+          "qx.debug" : true,
+          "qx.aspects" : false
         },
 
         // Static application class (which is not included in build)
-        "settings" :
+        "environment" :
         {
           "qx.application" : "Application"
         },

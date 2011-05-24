@@ -12,7 +12,7 @@ Since the profiler is implemented in pure JavaScript, it is totally cross-browse
 How to enable the Profiler
 ==========================
 
-Basically set the variant ``qx.aspects`` to ``on`` and be sure to include the class `qx.dev.Profile <http://api.qooxdoo.org/#qx.dev.Profile>`_. The class should be included before other classes. The easiest way to achieve that is to extend the ``profiling`` helper job in a job that creates your application. For example, to enable profiling in the source version of your app, go to the ``"jobs"`` section of your config.json, and add ::
+Basically set the environment setting ``qx.aspects`` to ``true`` and be sure to include the class `qx.dev.Profile <http://api.qooxdoo.org/#qx.dev.Profile>`_. The class should be included before other classes. The easiest way to achieve that is to extend the ``profiling`` helper job in a job that creates your application. For example, to enable profiling in the source version of your app, go to the ``"jobs"`` section of your config.json, and add ::
 
   "source-script" : {
     "extend" : [ "profiling" ]

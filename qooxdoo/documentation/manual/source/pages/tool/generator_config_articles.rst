@@ -122,7 +122,7 @@ Config files let you define simple macros with the ``let`` key. The value of a m
 
     "let": {"MyApp" : "demobrowser"}
       ...
-      "myjob" : { "settings" : {"qx.application" : "${MyApp}.Application"}}
+      "myjob" : { "environment" : {"qx.application" : "${MyApp}.Application"}}
 
 If the value of the macro is a string you can use a reference to it in other strings, and the macro reference will be replaced by its value. You can have multiple macro references in one string. Usually, these macro references will show up in map values or array elements, but can also be used in map keys.
 
@@ -585,7 +585,7 @@ For brevity, let's jump right in into a config fragment that has all necessary i
                 "API_EXCLUDE" : ["myapp.tests.*"]
                 },
             "library" : { ... },
-            "settings" : {
+            "environment" : {
                 "myapp.resourceUri" : "./resource"
                 }
             }
