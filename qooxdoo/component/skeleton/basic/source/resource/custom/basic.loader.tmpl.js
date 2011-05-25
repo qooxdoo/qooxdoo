@@ -83,13 +83,19 @@
         },
 
         loadScriptList: function(uris) {
-            for (var i = 0; i < uris.length; i++) {
+            var i, p, s;
+            for (i = 0; i < uris.length; i++) {
                 if (typeof process !== "undefined") { // Node
-                  var p = require.resolve(uris[i]);
-                  var s = fs.readFileSync(p, "utf-8");
+                  if (uris[i][0] == '.') {
+                    p = '../../' + uris[i];
+                  } else {
+                    p = uris[i];
+                  }
+                  p = require.resolve(p);
+                  s = fs.readFileSync(p, "utf-8");
                   eval(s);
                 } else if (typeof environment !== "undefined") { // Rhino
-                  var p = uris[i];
+                  p = uris[i];
                   load(p);
                 }
                 //log("loaded uri " + p);
