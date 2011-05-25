@@ -153,8 +153,10 @@ qx.Class.define("qx.ui.decoration.Double",
         innerHeight = 0;
       }
 
-      element.firstChild.style.width = innerWidth + "px";
-      element.firstChild.style.height = innerHeight + "px";
+      if (element.firstChild) {
+        element.firstChild.style.width = innerWidth + "px";
+        element.firstChild.style.height = innerHeight + "px";
+      }
 
       element.style.left =
         (insets.left -
