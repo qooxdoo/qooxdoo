@@ -13,6 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
+     * Daniel Wagner (d_wagner)
      * Thomas Herchenroeder (thron7)
 
 ************************************************************************ */
@@ -28,7 +29,7 @@
  * messages to STDOUT/STDERR.
  */
 
-qx.Class.define("${Namespace}.framework.NodeConsole", {
+qx.Class.define("qx.log.appender.NodeConsole", {
 
   statics:
   {

@@ -15,14 +15,14 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Daniel Wagner (d_wagner)
+     * John Spackman
 
 ************************************************************************ */
 
 /**
- * Modified qx.core.Init for non-browser applications where browser events
- * are not available.
+ * This is the base class for non-browser qooxdoo applications.
  */
-qx.Class.define("${Namespace}.framework.ServerInit",
+qx.Class.define("qx.core.BaseInit",
 {
   /*
   *****************************************************************************
@@ -95,7 +95,7 @@ qx.Class.define("${Namespace}.framework.ServerInit",
      * @param e {qx.event.type.Native} Incoming beforeunload event.
      * @return {void}
      */
-    close : function(e)
+    __close : function(e)
     {
       var app = this.__application;
       if (app) {
@@ -110,7 +110,7 @@ qx.Class.define("${Namespace}.framework.ServerInit",
      *
      * @return {void}
      */
-    shutdown : function()
+    __shutdown : function()
     {
       var app = this.__application;
 

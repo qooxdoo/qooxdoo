@@ -43,9 +43,7 @@ qx.Class.define("qx.core.Init",
      *
      * @return {qx.core.Object} The application instance.
      */
-    getApplication : function() {
-      return this.__application || null;
-    },
+    getApplication : qx.core.BaseInit.getApplication,
 
 
     /**
@@ -54,44 +52,7 @@ qx.Class.define("qx.core.Init",
      *
      * @return {void}
      */
-    ready : function()
-    {
-      if (this.__application) {
-        return;
-      }
-
-      if (qx.core.Environment.get("engine.name") == "") {
-        qx.log.Logger.warn("Could not detect engine!");
-      }
-      if (qx.core.Environment.get("engine.version") == "") {
-        qx.log.Logger.warn("Could not detect the version of the engine!");
-      }
-      if (qx.core.Environment.get("os.name") == "") {
-        qx.log.Logger.warn("Could not detect operating system!");
-      }
-
-      qx.log.Logger.debug(this, "Load runtime: " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
-
-      var app = qx.core.Environment.get("qx.application");
-      var clazz = qx.Class.getByName(app);
-
-      if (clazz)
-      {
-        this.__application = new clazz;
-
-        var start = new Date;
-        this.__application.main();
-        qx.log.Logger.debug(this, "Main runtime: " + (new Date - start) + "ms");
-
-        var start = new Date;
-        this.__application.finalize();
-        qx.log.Logger.debug(this, "Finalize runtime: " + (new Date - start) + "ms");
-      }
-      else
-      {
-        qx.log.Logger.warn("Missing application class: " + app);
-      }
-    },
+    ready : qx.core.BaseInit.ready,
 
 
     /**

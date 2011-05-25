@@ -61,8 +61,8 @@
         //"qx.Class",
         //"qx.Mixin",
         //"qx.Interface",
-        "$${APPLICATION}.Application",
-        "$${APPLICATION}.framework.ServerInit"
+        "qx.core.BaseInit",
+        "$${APPLICATION}.Application"
       ],
       
       "exclude" :
@@ -82,7 +82,7 @@
         "paths" :
         {
           "app-root" : ".",
-          "loader-template" : "source/resource/${Namespace}/basic.loader.js"
+          "loader-template" : "$${QOOXDOO_PATH}/tool/data/generator/basic.loader.js"
         },
         "uris" :
         {

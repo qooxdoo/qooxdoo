@@ -31,23 +31,23 @@
 
     if (!window.qx) window.qx = {};
 
-    if (!qx.$$$$environment) qx.$$$$environment = {};
+    if (!qx.$$environment) qx.$$environment = {};
     var envinfo = %{EnvSettings};
-    for (var k in envinfo) qx.$$$$environment[k] = envinfo[k];
+    for (var k in envinfo) qx.$$environment[k] = envinfo[k];
 
-    if (!qx.$$$$libraries) qx.$$$$libraries = {};
+    if (!qx.$$libraries) qx.$$libraries = {};
     var libinfo = %{Libinfo};
-    for (var k in libinfo) qx.$$$$libraries[k] = libinfo[k];
+    for (var k in libinfo) qx.$$libraries[k] = libinfo[k];
 
-    var isDebug = qx.$$$$environment["qx.debug"],
+    var isDebug = qx.$$environment["qx.debug"],
         log = isDebug ? console.log : function() {},
-        load = qx.$$$$environment["qx.load"] ? this[qx.$$$$environment["load"]] : this.load;
+        load = qx.$$environment["qx.load"] ? this[qx.$$environment["load"]] : this.load;
 
-    qx.$$$$resources = %{Resources};
-    qx.$$$$translations = %{Translations};
-    qx.$$$$locales = %{Locales};
-    qx.$$$$packageData = {};
-    qx.$$$$loader = {
+    qx.$$resources = %{Resources};
+    qx.$$translations = %{Translations};
+    qx.$$locales = %{Locales};
+    qx.$$packageData = {};
+    qx.$$loader = {
         parts: %{Parts},
         packages: %{Packages},
         urisBefore: %{UrisBefore},
@@ -56,7 +56,7 @@
         bootIsInline: %{BootIsInline},
 
         decodeUris: function(compressedUris) {
-            var libs = qx.$$$$libraries;
+            var libs = qx.$$libraries;
             var uris = [];
             for (var i = 0; i < compressedUris.length; i++) {
                 var uri = compressedUris[i].split(":");
@@ -73,12 +73,12 @@
         },
 
         init: function() {
-            var l = qx.$$$$loader;
+            var l = qx.$$loader;
             if (l.urisBefore.length > 0) this.loadScriptList(l.urisBefore);
 
             var bootPackageHash = l.parts[l.boot][0];
             if (!l.bootIsInline) this.loadScriptList(l.decodeUris(l.packages[l.parts[l.boot][0]].uris));
-            l.importPackageData(qx.$$$$packageData[bootPackageHash] || {});
+            l.importPackageData(qx.$$packageData[bootPackageHash] || {});
             l.signalStartup();
         },
 
@@ -103,20 +103,20 @@
         },
 
         signalStartup: function() {
-            qx.$$$$loader.scriptLoaded = true;
-            ${Namespace}.framework.ServerInit.ready();  // TODO: Better abstraction here?!
-            qx.$$$$loader.applicationHandlerReady = true;
+            qx.$$loader.scriptLoaded = true;
+            qx.core.BaseInit.ready();
+            qx.$$loader.applicationHandlerReady = true;
         },
 
         importPackageData: function(dataMap, callback) {
             if (dataMap["resources"]) {
                 var resMap = dataMap["resources"];
                 for (var k in resMap)
-                qx.$$$$resources[k] = resMap[k];
+                qx.$$resources[k] = resMap[k];
             }
             if (dataMap["locales"]) {
                 var locMap = dataMap["locales"];
-                var qxlocs = qx.$$$$locales;
+                var qxlocs = qx.$$locales;
                 for (var lang in locMap) {
                     if (!qxlocs[lang]) qxlocs[lang] = locMap[lang];
                     else for (var k in locMap[lang])
@@ -125,7 +125,7 @@
             }
             if (dataMap["translations"]) {
                 var trMap = dataMap["translations"];
-                var qxtrans = qx.$$$$translations;
+                var qxtrans = qx.$$translations;
                 for (var lang in trMap) {
                     if (!qxtrans[lang]) qxtrans[lang] = trMap[lang];
                     else for (var k in trMap[lang])
@@ -149,5 +149,5 @@ if (typeof exports != "undefined") {
     }
 }
 
-qx.$$$$loader.init();
+qx.$$loader.init();
 
