@@ -21,6 +21,35 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * The SelectBox
+ * 
+ * an example of what can be done with the SelectBox:
+ * *Example*
+ * 
+ * <pre class='javascript'>
+ *     var page1 = new qx.ui.mobile.page.Page();
+ *     page1.addListener("initialize", function()
+ *     {
+ *       var sel = new qx.ui.mobile.form.SelectBox();
+ *       page1.add(sel);
+ *       var model = new qx.data.Array(["item1","item2"]);
+ *       sel.setModel(model);
+ *       dd.push("item3");
+ *       
+ *     
+ *       var but = new qx.ui.mobile.form.Button("setSelection");
+ *       page1.add(but);
+ *       but.addListener("tap", function(){
+ *         sel.setSelection("item3");
+ *       }, this);
+ *     
+ *       var title = new qx.ui.mobile.form.Title("item2");
+ *       title.bind("value",sel,"value");
+ *       sel.bind("value",title,"value");
+ *       page1.add(title); 
+ *     },this);
+ *     
+ *   page1.show();
+ *  </pre>
  */
 qx.Class.define("qx.ui.mobile.form.SelectBox",
 {
@@ -112,6 +141,29 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       {
         this._setAttribute("disabled","disabled");
       }
+    },
+    
+    /**
+     * Returns the selected value of the element
+     */
+    getSelection : function() {
+      return this.getValue();
+    },
+    
+    /**
+     * Sets the selected value of the element
+     */
+    setSelection : function(value) {
+      this.setValue(value);
+    },
+    
+    /**
+     * Implements the way the value is set for the element
+     */
+    
+    _setValue : function(value) {
+      var model = this.getModel();
+      this.getContainerElement().selectedIndex = model.indexOf(value);
     },
     
     /**
