@@ -112,7 +112,12 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
 
     testCreationWithSorter : function()
     {
+      var list = this.__dropdown.getChildControl("list");
+      list.resetModel();
+      
       var sortedModel = this.__applySortingAndReturnSortedModel();
+      list.setModel(this.__model);
+
       this.__testCreation(sortedModel);
     },
 

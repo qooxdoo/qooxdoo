@@ -317,7 +317,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     clearSelection : function()
     {
       if (this.getMode() == "one") {
-        return;
+        var first = this._getFirstSelectable();
+        if (first != null)
+        {
+          this.selectItem(first);
+          return;
+        }
       }
 
       this._clearSelection();
