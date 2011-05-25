@@ -95,10 +95,12 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
       this.setValue(this.getValue());
     },
     
+    // overridden
     _setValue : function(value) {
       this._setAttribute("checked", value);
     },
     
+    // overridden
     _getValue : function() {
       return this._getAttribute("checked");
     }

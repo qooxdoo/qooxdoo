@@ -56,11 +56,6 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
   properties :
   {
-     valueAttributeName :
-    {
-      check : "String",
-      init : "value"
-    },
     
     /**
      * Whether this input element is enabled or not
