@@ -277,6 +277,12 @@ def checkNamespace(options):
         sys.exit(1)
 
 
+def skeletonsHelpString():
+    helpString = "Type of the application to create, one of: "
+    helpString += str(map(str, sorted(APP_INFOS.keys()))) + "." 
+    helpString += str("; ".join(["'%s' -- %s" % (x, y) for x,y in sorted(APP_INFOS.items())])) 
+    helpString += ". (Default: %default)"
+    return helpString
 
 
 def main():
@@ -306,9 +312,7 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
     )
     parser.add_option(
         "-t", "--type", dest="type", metavar="TYPE", default="gui",
-        help="Type of the application to create, one of: "+str(map(str, sorted(APP_INFOS.keys())))+"." +
-          str(", ".join(["'%s' %s" % (x, y) for x,y in sorted(APP_INFOS.items())])) +
-          ". (Default: %default)"
+        help=skeletonsHelpString()
      )
     parser.add_option(
         "-l", "--logfile", dest="logfile", metavar="LOGFILE",
