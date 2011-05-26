@@ -29,7 +29,7 @@
  * or {@link qx.ui.toolbar.RadioButton} instances.
  *
  * We also offer a widget for the same purpose which uses this class. So if
- * you like to act with a widget instad of a pure logic coupling of the
+ * you like to act with a widget instead of a pure logic coupling of the
  * widgets, take a look at the {@link qx.ui.form.RadioButtonGroup} widget.
  */
 qx.Class.define("qx.ui.form.RadioGroup",
