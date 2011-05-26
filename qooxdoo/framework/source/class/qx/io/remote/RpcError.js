@@ -46,6 +46,15 @@ qx.Class.define("qx.io.remote.RpcError",
         server :
         {
           /*
+           * Script Error
+           *
+           * An error was thrown during the processing of a remote procedure
+           * call.
+           */
+          ScriptError       : -1,
+
+
+          /*
            * Unknown Error
            *
            * The default error code, used only when no specific error code is
