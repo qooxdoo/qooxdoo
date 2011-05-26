@@ -54,7 +54,7 @@ qx.Class.define("demobrowser.demo.bom.Video",
         return;
       }
 
-      video = new qx.bom.media.Video(videoUrl);
+      var video = new qx.bom.media.Video(videoUrl);
 
       var play = new qx.ui.form.ToggleButton("Play/Pause");
       play.addListener("changeValue", function(e) {
@@ -133,13 +133,5 @@ qx.Class.define("demobrowser.demo.bom.Video",
       }, this);
 
     }
-  },
-
-  /*
-   *****************************************************************************
-      DESTRUCT
-   *****************************************************************************
-   */
-  destruct: function() {
   }
 });
