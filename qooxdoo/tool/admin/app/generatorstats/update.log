@@ -593,3 +593,9 @@ rrdtool update nightly_builds.rrd 1305578402:249:5840:341:524:487:234:111:244
 rrdtool update nightly_builds.rrd 1305664801:235:5808:297:515:488:234:112:244
 rrdtool update nightly_builds.rrd 1305751201:230:5842:298:513:485:230:112:243
 rrdtool update nightly_builds.rrd 1305837601:233:5842:300:514:502:230:110:246
+rrdtool update nightly_builds.rrd 1305924001:227:5832:302:514:488:230:114:242
+rrdtool update nightly_builds.rrd 1306010401:233:5836:299:516:487:231:111:242
+rrdtool update nightly_builds.rrd 1306096801:213:5813:298:512:491:233:110:241
+rrdtool update nightly_builds.rrd 1306183201:237:5845:300:519:490:230:111:244
+rrdtool update nightly_builds.rrd 1306269602:241:5838:303:518:490:234:110:239
+rrdtool update nightly_builds.rrd 1306356001:248:5273:301:514:485:235:110:239
