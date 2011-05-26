@@ -1973,7 +1973,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var columnModel = this.getTable().getTableColumnModel();
       var paneModel = this.getTablePaneModel();
       var colCount = paneModel.getColumnCount();
-      var currX = this.__header.getContainerLocation().left;
+      var currX = this.__tablePane.getContentLocation().left;
 
       for (var x=0; x<colCount; x++)
       {
