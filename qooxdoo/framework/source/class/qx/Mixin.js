@@ -84,7 +84,7 @@ qx.Bootstrap.define("qx.Mixin",
       if (config)
       {
         // Normalize include
-        if (config.include && !(config.include instanceof Array)) {
+        if (config.include && !(qx.Bootstrap.getClass(config.include) === "Array")) {
           config.include = [config.include];
         }
 
@@ -374,7 +374,14 @@ qx.Bootstrap.define("qx.Mixin",
         {
           var key = maps[i];
 
-          if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
+          if (config[key] !== undefined && 
+              ([
+                 "Array", 
+                 "RegExp", 
+                 "Date"
+               ].indexOf(qx.Bootstrap.getClass(config[key])) != -1 ||
+               config[key].classname !== undefined)) {
+
             throw new Error('Invalid key "' + key + '" in mixin "' + name + '"! The value needs to be a map!');
           }
         }

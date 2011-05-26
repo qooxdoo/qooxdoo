@@ -153,12 +153,12 @@ qx.Bootstrap.define("qx.Class",
       }
 
       // Normalize include to array
-      if (config.include && !(config.include instanceof Array)) {
+      if (config.include && !(qx.Bootstrap.getClass(config.include) === "Array")) {
         config.include = [config.include];
       }
 
       // Normalize implement to array
-      if (config.implement && !(config.implement instanceof Array)) {
+      if (config.implement && !(qx.Bootstrap.getClass(config.implement) === "Array")) {
         config.implement = [config.implement];
       }
 
@@ -796,7 +796,7 @@ qx.Bootstrap.define("qx.Class",
         // Validate include definition
         if (config.include)
         {
-          if (config.include instanceof Array)
+          if (qx.Bootstrap.getClass(config.include) === "Array")
           {
             for (var i=0, a=config.include, l=a.length; i<l; i++)
             {
@@ -814,7 +814,7 @@ qx.Bootstrap.define("qx.Class",
         // Validate implement definition
         if (config.implement)
         {
-          if (config.implement instanceof Array)
+          if (qx.Bootstrap.getClass(config.implement) === "Array")
           {
             for (var i=0, a=config.implement, l=a.length; i<l; i++)
             {
@@ -1050,7 +1050,7 @@ qx.Bootstrap.define("qx.Class",
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (typeof events !== "object" || events instanceof Array) {
+        if (typeof events !== "object" || qx.Bootstrap.getClass(events) === "Array") {
           throw new Error(clazz.classname + ": the events must be defined as map!");
         }
 
