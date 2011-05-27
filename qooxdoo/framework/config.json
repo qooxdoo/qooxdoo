@@ -29,7 +29,8 @@
     "test-performance-source",
     "translation",
     "qxoo-build",
-    "qxoo-noopt"
+    "qxoo-noopt",
+    "qxoo-api"
   ],
 
 
@@ -94,6 +95,7 @@
 
     "qxoo-build" : 
     {
+      "desc" : "a basic qooxdoo OO library",
       "extend" : [ "qxoo" ],
       
       "compile-options" :
@@ -105,7 +107,7 @@
         "code" :
         {
           "format"   : true,
-          "optimize" : [ "variables", "basecalls", "privates", "strings" ]
+          "optimize" : [ "variables", "basecalls", "privates", "strings", "variants" ]
         }
       },
       "compile" : { "type" : "build" }
@@ -114,6 +116,7 @@
     
     "qxoo-noopt" : 
     {
+      "desc" : "a basic qooxdoo OO library (non-optimized)",
       "extend" : [ "qxoo" ],
       
       "compile-options" :
@@ -129,6 +132,20 @@
         }
       },
       "compile" : { "type" : "build" }
+    },
+
+
+    "qxoo-api" :
+    {
+      "desc" : "create api doc for qxoo",
+      "extend" : [ "apiconf::build" ],
+      "let" :
+      {
+        "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/component/apiviewer",
+        "BUILD_PATH"     : "${ROOT}/qxoo_api",
+        "API_INCLUDE"    : ["qx.Class", "qx.Mixin", "qx.Interface"],
+        "API_EXCLUDE"    : ["qx.test.*", "qx.event.GlobalError"]
+      }
     },
     
     
