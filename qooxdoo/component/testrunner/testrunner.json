@@ -273,7 +273,7 @@
         "code" :
         {
           "locales"  : "${LOCALES}",
-          "optimize" : ["variables", "basecalls", "privates", "strings"],
+          "optimize" : ["variables", "basecalls", "privates", "strings", "variants"],
           "except"   : [],
           "format"   : true
         }
