@@ -402,21 +402,27 @@
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.basecalls</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.comments</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.privates</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.strings</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.variables</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.variants</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
  *       <td>qx.propertyDebugLevel</td><td><i>Integer</em></td><td><code>0</code></td>
