@@ -90,7 +90,18 @@ qx.Class.define("mobileshowcase.page.Form",
       
       form.add(row);
       
-      this.__rememberPass.addListener('click', this._onCheckBoxClick, this);
+      this.__rememberPass.addListener('tap', this._onCheckBoxClick, this);
+      
+      var row = new qx.ui.mobile.form.Row();
+      this.__radio1 = new qx.ui.mobile.form.RadioButton();
+      this.__radio2 = new qx.ui.mobile.form.RadioButton();
+      this.__radio3 = new qx.ui.mobile.form.RadioButton();
+      var radioGroup = new qx.ui.form.RadioGroup(this.__radio1, this.__radio2, this.__radio3);
+      row.add(this.__radio1);row.add(new qx.ui.mobile.basic.Label("Germany"));
+      row.add(this.__radio2);row.add(new qx.ui.mobile.basic.Label("UK"));
+      row.add(this.__radio3);row.add(new qx.ui.mobile.basic.Label("USA"));
+      
+      form.add(row);
 
       var row = new qx.ui.mobile.form.Row();
       form.add(row);
