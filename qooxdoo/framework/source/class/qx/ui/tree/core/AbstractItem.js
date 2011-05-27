@@ -162,6 +162,7 @@ qx.Class.define("qx.ui.tree.core.AbstractItem",
         case "label":
           control = new qx.ui.basic.Label().set({
             alignY: "middle",
+            anonymous: true,
             value: this.getLabel()
           });
           break;
@@ -169,13 +170,15 @@ qx.Class.define("qx.ui.tree.core.AbstractItem",
         case "icon":
           control = new qx.ui.basic.Image().set({
             alignY: "middle",
+            anonymous: true,
             source: this.getIcon()
           });
           break;
 
         case "open":
           control = new qx.ui.tree.core.FolderOpenButton().set({
-            alignY: "middle"
+            alignY: "middle",
+            anonymous: true
           });
           control.addListener("changeOpen", this._onChangeOpen, this);
           control.addListener("resize", this._updateIndent, this);
