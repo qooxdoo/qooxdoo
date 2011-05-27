@@ -32,12 +32,21 @@ qx.Class.define("qx.ui.table.model.Abstract",
   {
     /**
      * Fired when the table data changed (the stuff shown in the table body).
-     * The data property of the event may be null or a map having the following attributes:
+     * The data property of the event will be a map having the following
+     * attributes:
      * <ul>
      *   <li>firstRow: The index of the first row that has changed.</li>
      *   <li>lastRow: The index of the last row that has changed.</li>
      *   <li>firstColumn: The model index of the first column that has changed.</li>
      *   <li>lastColumn: The model index of the last column that has changed.</li>
+     * </ul>
+     *
+     * Additionally, if the data changed as a result of rows being removed
+     * from the data model, then these additional attributes will be in the
+     * data:
+     * <ul>
+     *   <li>removeStart: The model index of the first row that was removed.</li>
+     *   <li>removeCount: The number of rows that were removed.</li>
      * </ul>
      */
     "dataChanged" : "qx.event.type.Data",
