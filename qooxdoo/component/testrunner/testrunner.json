@@ -109,11 +109,13 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/testrunner.js" // this should be relative to 'target'
+          "file" : "${BUILD_PATH}/script/testrunner.js", // this should be relative to 'target'
+          "app-root" : "${BUILD_PATH}"
         },
         "code" :
         {
-          "optimize" : ["variables", "basecalls", "privates", "strings"]
+          "optimize" : ["variables", "basecalls", "privates", "strings"],
+          "except"   : []
         },
         "uris"   :
         {
@@ -150,7 +152,8 @@
         },
         "code" :
         {
-          "locales" : "${LOCALES}"
+          "locales" : "${LOCALES}",
+          "except"  : ["*"]
         }
       },
       
@@ -259,7 +262,8 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/${TESTS_SCRIPT}"
+          "file" : "${BUILD_PATH}/script/${TESTS_SCRIPT}",
+          "app-root" : "${BUILD_PATH}/html"
         },
         "uris" :
         {
@@ -268,9 +272,10 @@
         },
         "code" :
         {
-          "locales" : "${LOCALES}",
+          "locales"  : "${LOCALES}",
           "optimize" : ["variables", "basecalls", "privates", "strings"],
-          "format" : true
+          "except"   : [],
+          "format"   : true
         }
       },
       
@@ -362,13 +367,14 @@
       {
         "paths" :
         {
-          "file"    : "${BUILD_PATH}/script/tests-source.js",
-          "app-root"    : "${BUILD_PATH}/html"
+          "file"     : "${BUILD_PATH}/script/tests-source.js",
+          "app-root" : "${BUILD_PATH}/html"
         },
         
         "code" :
         {
-          "locales" : "${LOCALES}"
+          "locales" : "${LOCALES}",
+          "except"  : ["*"]
         }
       },
       
