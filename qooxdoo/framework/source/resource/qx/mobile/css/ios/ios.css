@@ -186,7 +186,7 @@ ul.form ul li * {
     text-overflow: ellipsis;
 }
 
-ul li input[type="text"], ul li input[type="password"], ul li textarea, ul li select {
+ul li input[type="text"], ul li input[type="password"], ul li textarea {
     color: #777;
     background: #fff url(../.png);
     border: 0;
@@ -202,14 +202,6 @@ ul li input[type="text"], ul li input[type="password"], ul li textarea, ul li se
 ul li textarea {
     height: 120px;
     padding: 0;
-}
-
-ul li select {
-    text-indent: 0px;
-    background: transparent url("../../icon/ios/arrow.png") no-repeat 103% 3px;
-    -webkit-appearance: textfield;
-    margin-left: -6px;
-    width: 104%;
 }
 
 ul li input[type="checkbox"], ul li input[type="radio"] {

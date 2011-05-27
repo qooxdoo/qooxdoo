@@ -173,7 +173,7 @@ ul.form li * {
     text-overflow: ellipsis;
 }
 
-ul li input[type="text"], ul li input[type="password"], ul li textarea, ul li select {
+ul li input[type="text"], ul li input[type="password"], ul li textarea {
     color: #222222;
     background: -webkit-gradient(linear, left top, left bottom, from(#e2e0e2), to(#f8f5f8));
     border: 1px solid #242424;
@@ -188,14 +188,6 @@ ul li input[type="text"], ul li input[type="password"], ul li textarea, ul li se
 ul li textarea {
     height: 120px;
     width: 100%;
-}
-
-ul li select {
-    text-indent: 0px;
-    background: transparent url(../../icon/android/arrow.png) no-repeat 103% 3px;
-    -webkit-appearance: textfield;
-    margin-left: -6px;
-    width: 104%;
 }
 
 ul li input[type="checkbox"], ul li input[type="radio"] {
