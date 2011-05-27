@@ -177,8 +177,7 @@ qx.Class.define("qx.ui.tree.core.AbstractItem",
 
         case "open":
           control = new qx.ui.tree.core.FolderOpenButton().set({
-            alignY: "middle",
-            anonymous: true
+            alignY: "middle"
           });
           control.addListener("changeOpen", this._onChangeOpen, this);
           control.addListener("resize", this._updateIndent, this);
