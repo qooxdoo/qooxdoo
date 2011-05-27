@@ -222,6 +222,8 @@ def handleInterfaceExtend(valueItem, classNode, docTree, className):
         node = tree.Node("class")
         node.set("type", "interface")
         node.set("name", superInterface)
+        packageName = superInterface[:superInterface.rindex(".")]
+        node.set("packageName", packageName)
         classNode.addListChild("superInterfaces", node)
         #superInterfaceNode.type = "interface"
         #classNode.addListChild("superInterfaces", superInterfaceNode)
