@@ -1,3 +1,5 @@
 <?php
-echo json_encode(getallheaders());
+$a = getallheaders();
+if (isset($a['COOKIE'])) unset($a['COOKIE']);
+echo json_encode($a);
 ?>
