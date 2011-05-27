@@ -302,7 +302,13 @@ function() {}""" % className
 
 def handleInterfaces(item, classNode, docTree):
     className = classNode.get("fullName")
-    interfaces = variableOrArrayNodeToArray(item)
+    try:
+        interfaces = variableOrArrayNodeToArray(item)
+    except tree.NodeAccessException:
+        Context.console.warn("")
+        Context.console.warn("Illegal implement definition in " + classNode.get("fullName"))
+        return
+
     for interface in interfaces:
         interfaceNode = getClassNode(docTree, interface)
         impl = interfaceNode.get("implementations", False)
