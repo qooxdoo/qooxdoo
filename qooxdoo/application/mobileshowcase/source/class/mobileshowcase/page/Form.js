@@ -41,6 +41,7 @@ qx.Class.define("mobileshowcase.page.Form",
     __save : null,
     __result : null,
     __slide : null,
+    __sel : null,
     __rememberPass : null,
 
     // overridden
@@ -118,6 +119,14 @@ qx.Class.define("mobileshowcase.page.Form",
       form.add(row);
       this.__slide = new qx.ui.mobile.form.Slider();
       row.add(this.__slide, {flex:1});
+      
+      var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
+      form.add(row);
+      var dd = new qx.data.Array(["item 1", "Item 2", "Item 3"]);
+      this.__sel = new qx.ui.mobile.form.SelectBox();
+      this.__sel.setModel(dd);
+      row.add(this.__sel, {flex:1});
+      
       return form;
       
     },
