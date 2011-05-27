@@ -239,41 +239,22 @@ def handleInterfaceExtend(valueItem, classNode, docTree, className):
 
 
 def handleMixins(item, classNode, docTree, className):
-    if classNode.get("type", False) == "mixin":
-        superMixinNames = variableOrArrayNodeToArray(item)
-        for superMixin in superMixinNames:
-            superMixinNode = getClassNode(docTree, superMixin)
-            childMixins = superMixinNode.get("mixins", False)
+    try:
+        mixins = variableOrArrayNodeToArray(item)
+    except tree.NodeAccessException:
+        Context.console.warn("")
+        Context.console.warn("Illegal include definition in " + classNode.get("fullName"))
+        return
+    for mixin in mixins:
+        mixinNode = getClassNode(docTree, mixin)
+        includer = mixinNode.get("includer", False)
+        if includer:
+            includer += "," + className
+        else:
+            includer = className
+        mixinNode.set("includer", includer)
 
-            if childMixins:
-                childMixins += "," + className
-            else:
-                childMixins = className
-
-            superMixinNode.set("childClasses", childMixins)
-
-            node = tree.Node("class")
-            node.set("type", "mixin")
-            node.set("name", superMixin)
-            classNode.addListChild("superMixins", node)
-
-    else:
-        try:
-            mixins = variableOrArrayNodeToArray(item)
-        except tree.NodeAccessException:
-            Context.console.warn("")
-            Context.console.warn("Illegal include definition in " + classNode.get("fullName"))
-            return
-        for mixin in mixins:
-            mixinNode = getClassNode(docTree, mixin)
-            includer = mixinNode.get("includer", False)
-            if includer:
-                includer += "," + className
-            else:
-                includer = className
-            mixinNode.set("includer", includer)
-
-        classNode.set("mixins", ",".join(mixins))
+    classNode.set("mixins", ",".join(mixins))
 
 
 def handleSingleton(classNode, docTree):
