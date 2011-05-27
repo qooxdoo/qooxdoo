@@ -299,7 +299,8 @@ class Library(object):
                 filePath = os.path.join(root, fileName)
                 fileRel  = filePath.replace(path + os.sep, "")
                 fileExt  = os.path.splitext(fileName)[-1]
-                fileSize = os.stat(filePath).st_size
+                fileStat = os.stat(filePath)
+                fileSize = fileStat.st_size
 
                 # Compute full URI from relative path
                 fileUri = uri + "/" + fileRel.replace(os.sep, "/")
@@ -369,6 +370,7 @@ class Library(object):
                 clazz.size     = fileSize     # dependency logging uses this
                 clazz.package  = filePackage  # Apiloader uses this
                 clazz.relpath  = fileRel      # Locale uses this
+                clazz.m_time_  = fileStat.st_mtime
                 classList.append(clazz)
 
         self._console.indent()

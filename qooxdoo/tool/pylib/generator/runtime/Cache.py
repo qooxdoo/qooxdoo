@@ -29,7 +29,7 @@ from generator.action.ActionLib import ActionLib
 memcache  = {} # {key: {'content':content, 'time': (time.time()}}
 actionLib = None
 check_file     = u".cache_check_file"
-CACHE_REVISION = 27085  # Change this to the current qooxdoo svn revision when existing caches need clearing
+CACHE_REVISION = 27437 # Change this to the current qooxdoo svn revision when existing caches need clearing
 
 class Cache(object):
 

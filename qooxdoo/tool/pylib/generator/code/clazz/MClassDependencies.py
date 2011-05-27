@@ -154,8 +154,8 @@ class MClassDependencies(object):
                     if dep.requestor != self.id: # this was included through a recursive traversal
                         if dep.name in self._classesObj:
                             classObj = self._classesObj[dep.name]
-                            #if cacheModTime < classObj.m_time():
-                            if cacheModTime < classObj.library.mostRecentlyChangedFile()[1]:
+                            if cacheModTime < classObj.m_time():
+                            #if cacheModTime < classObj.library.mostRecentlyChangedFile()[1]:
                                 console.debug("Invalidating dep cache for %s, as %s is newer" % (self.id, classObj.id))
                                 result = False
                                 break
