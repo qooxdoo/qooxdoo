@@ -401,11 +401,29 @@
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.revision</td><td><i>String</em></td><td><code>27348</code></td>
+ *       <td>qx.optimization.basecalls</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.optimization.comments</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.optimization.privates</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.optimization.strings</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.optimization.variables</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.optimization.variants</td><td><i>Boolean</em></td><td><code>true</code></td>
  *     </tr>
  *     <tr>
  *       <td>qx.propertyDebugLevel</td><td><i>Integer</em></td><td><code>0</code></td>
  *       <td><i>default:</i> <code>0</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.revision</td><td><i>String</em></td><td><code>27348</code></td>
  *     </tr>
  *     <tr>
  *       <td>qx.theme</td><td><i>String</em></td><td><code>qx.theme.Modern</code></td>
