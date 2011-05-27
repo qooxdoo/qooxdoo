@@ -42,13 +42,14 @@ qx.Class.define("qx.bom.WebWorker",
   construct: function(src)
   {
     this.base(arguments);
-    this._worker = new window.Worker(src);
 
-    this._handleMessageBound = qx.lang.Function.bind(this._handleMessage, this);
-    this._handleErrorBound = qx.lang.Function.bind(this._handleError, this);
+    this.__isNative = qx.core.Environment.get("html.webworker");
 
-    qx.bom.Event.addNativeListener(this._worker, "message", this._handleMessageBound);
-    qx.bom.Event.addNativeListener(this._worker, "error", this._handleErrorBound);
+    if (this.__isNative) {
+      this.__initNative(src);
+    } else {
+      this.__initFake(src);
+    }
   },
 
 
@@ -64,9 +65,39 @@ qx.Class.define("qx.bom.WebWorker",
 
   members :
   {
+    _isNative : true,
     _worker : null,
     _handleErrorBound : null,
     _handleMessageBound : null,
+
+    __fake : null,
+    __FakeWorker: function(worker, code) {
+      var postMessage = this.postMessage = function (e) {
+        worker.fireDataEvent("message", e);
+      };
+      var onmessage;
+      eval(code); 
+      this.onmessage = onmessage;
+    },
+
+    __initNative: function(src) {
+      this._worker = new window.Worker(src);
+      this._handleMessageBound = qx.lang.Function.bind(this._handleMessage, this);
+      this._handleErrorBound = qx.lang.Function.bind(this._handleError, this);
+
+      qx.bom.Event.addNativeListener(this._worker, "message", this._handleMessageBound);
+      qx.bom.Event.addNativeListener(this._worker, "error", this._handleErrorBound);
+    },
+
+    __initFake: function(src) {
+      var that = this;
+      var req = new qx.bom.request.Xhr();
+      req.onload = function() {
+        that.__fake = new that.__FakeWorker(that, req.responseText);
+      };  
+      req.open("GET", src, false);
+      req.send();
+    },
 
 
     /**
@@ -74,7 +105,19 @@ qx.Class.define("qx.bom.WebWorker",
      * @param msg {String} the message
      */
     postMessage: function(msg) {
-      this._worker.postMessage(msg);
+      var that = this;
+
+      if (this.__isNative) {
+        this._worker.postMessage(msg);
+      } else {
+        window.setTimeout(function() {
+          try {
+            that.__fake.onmessage.call(that.__fake, {data: msg});
+          } catch (ex) {
+            that.fireDataEvent("error", ex);
+          } 
+        }, 0);
+      }
     },
 
 
@@ -99,12 +142,18 @@ qx.Class.define("qx.bom.WebWorker",
 
   destruct : function()
   {
-    qx.bom.Event.removeNativeListener(this._worker, "message", this._handleMessageBound);
-    qx.bom.Event.removeNativeListener(this._worker, "error", this._handleErrorBound);
-    if (this._worker)
-    {
-      this._worker.terminate();
-      this._worker = null;
+    if (this.__isNative) {
+      qx.bom.Event.removeNativeListener(this._worker, "message", this._handleMessageBound);
+      qx.bom.Event.removeNativeListener(this._worker, "error", this._handleErrorBound);
+      if (this._worker)
+      {
+        this._worker.terminate();
+        this._worker = null;
+      }
+    } else {
+      if (this.__fake) {
+        this.__fake = null;
+      }
     }
   }
 });
