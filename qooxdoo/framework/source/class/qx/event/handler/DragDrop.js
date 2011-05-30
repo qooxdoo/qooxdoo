@@ -517,6 +517,22 @@ qx.Class.define("qx.event.handler.DragDrop",
 
 
     /**
+     * Event listener for root's <code>keypress</code> event
+     *
+     * @param e {qx.event.type.KeySequence} Event object
+     */
+    _onKeyPress : function(e)
+    {
+      var iden = e.getKeyIdentifier();
+      switch(iden)
+      {
+        case "Escape":
+          this.__clearSession();
+      }
+    },
+
+
+    /**
      * Event listener for root's <code>mousedown</code> event
      *
      * @param e {qx.event.type.Mouse} Event object
@@ -598,6 +614,7 @@ qx.Class.define("qx.event.handler.DragDrop",
             this.__manager.addListener(this.__root, "mouseout", this._onMouseOut, this, true);
             this.__manager.addListener(this.__root, "keydown", this._onKeyDown, this, true);
             this.__manager.addListener(this.__root, "keyup", this._onKeyUp, this, true);
+            this.__manager.addListener(this.__root, "keyup", this._onKeyPress, this, true);
 
             // Reevaluate current action
             var keys = this.__keys;
