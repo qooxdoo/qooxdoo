@@ -31,9 +31,16 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
   {
     this.__oneventWrapped = qx.Bootstrap.bind(this.__onevent, this);
     this.__elem = document.createElement("script");
-    this.__timeout = 10;
   },
 
+  statics :
+  {
+    /**
+     * {Number} Timeout limit in seconds that applies to browsers not supporting
+     * the error handler. Default is 15 seconds. 0 means no timeout.
+     */
+    TIMEOUT: 15
+  },
 
   members :
   {
@@ -48,9 +55,6 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
 
     /** {Object} Context to execute the callback in */
     __context : null,
-
-    /** {Number} Timeout limit in seconds. Default is 10 seconds. 0 means no timeout. */
-    __timeout: 0,
 
     /** {Function} This function is a wrapper for the DOM listener */
     __oneventWrapped : null,
@@ -101,13 +105,18 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
       // Attach handlers for all browsers
       script.onerror = script.onload = script.onreadystatechange = this.__oneventWrapped;
 
+      // BUGFIX: Browsers not supporting error handler
+      //
+      // Note: Because of another browser bug (fires load even though a
+      // network error occured), it is virtually useless to work-around
+      // for IE < 8. Therefore, only work around for Opera.
       var self = this;
-      if (this.getTimeout() > 0) {
+      if (qx.core.Environment.get("engine.name") === "opera" && this._getTimeout() > 0) {
         // No need to clear timeout since on success the callback is called
         // and the loader disposed, meaning the callback is called only once
         setTimeout(function() {
           self.dispose("fail");
-        }, this.getTimeout() * 1000);
+        }, this._getTimeout() * 1000);
       }
 
       // Setup URL
@@ -197,18 +206,32 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
      * Set timeout in seconds.
      *
      * @param timeout {Number?10} Timeout limit in seconds
+     *
+     * @deprecated since 1.5
      */
     setTimeout: function(timeout) {
-      this.__timeout = timeout;
     },
 
     /**
      * Get timeout in seconds.
      *
      * @return {Number} Timeout limit in seconds
+     *
+     * @deprecated since 1.5
      */
     getTimeout: function() {
-      return this.__timeout;
+      return this._getTimeout();
+    },
+
+    /**
+     * Override to customize timeout limit.
+     *
+     * Note: Only affects browsers not supporting the error handler (Opera).
+     *
+     * @return {Number} Timeout limit in seconds
+     */
+    _getTimeout: function() {
+      return qx.io.ScriptLoader.TIMEOUT;
     },
 
     /**
