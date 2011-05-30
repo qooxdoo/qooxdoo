@@ -67,12 +67,6 @@ def search(node, variantMap, fileId_="", verb=False):
         if variantMethod in ["select"]:
             #modified = processVariantSelect(selectNode(variantNode, "../.."), variantMap) or modified
             modified = processVariantSelect(selectCallNode(variantNode), variantMap) or modified
-        elif variantMethod == "isSet":
-            #modified = processVariantIsSet(selectNode(variantNode, "../.."), variantMap) or modified
-            modified = processVariantIsSet(selectCallNode(variantNode), variantMap) or modified
-        elif variantMethod == "compilerIsSet":
-            #modified = processVariantIsSet(selectNode(variantNode, "../.."), variantMap) or modified
-            modified = processVariantIsSet(selectCallNode(variantNode), variantMap) or modified
         elif variantMethod in ["get"]:
             #modified = processVariantGet(selectNode(variantNode, "../.."), variantMap) or modified
             modified = processVariantGet(selectCallNode(variantNode), variantMap) or modified
@@ -91,13 +85,13 @@ def selectCallNode(variableNode):
     return callNode
 
 ##
-# Processes qx.core.[Environment|Variant].select blocks
+# Processes qx.core.Environment.select blocks
 # Destructive! re-writes the AST tree passed in <callNode> by replacing choices with
 # the suitable branch.
 #
 # Mirror line:
 # <callNode>:
-# qx.core.[Environment|Variant].select("qx.debug", { "on" : function(){return true;},
+# qx.core.Environment.select("qx.debug", { "on" : function(){return true;},
 #                                      "off": function(){return false;}})
 # <variantMap>:
 # {
@@ -110,7 +104,7 @@ def processVariantSelect(callNode, variantMap):
         
     params = callNode.getChild("params")
     if len(params.children) != 2:
-        log("Warning", "Expecting exactly two arguments for qx.core.[Environment|Variant].select. Ignoring this occurrence.", params)
+        log("Warning", "Expecting exactly two arguments for qx.core.Environment.select. Ignoring this occurrence.", params)
         return False
 
     # Get the variant key from the select() call
@@ -164,74 +158,8 @@ def processVariantSelect(callNode, variantMap):
                 raise RuntimeError(makeLogMessage("Error", "Variantoptimizer: No matching case found for variant (%s:%s) at" % (variantKey, variantValue), callNode))
         return True
 
-    log("Warning", "The second parameter of qx.core.[Environment|Variant].select must be a map or a string literal. Ignoring this occurrence.", secondParam)
+    log("Warning", "The second parameter of qx.core.Environment.select must be a map or a string literal. Ignoring this occurrence.", secondParam)
     return False
-
-
-##
-# processes qx.core.Variant.isSet() calls;
-# destructive! re-writes the AST tree passed in [callNode] by replacing choices with
-# the suitable branch
-#
-def processVariantIsSet(callNode, variantMap):
-    if callNode.type != "call":
-        return False
-        
-    params = callNode.getChild("params")
-    if len(params.children) != 2:
-        log("Warning", "Expecting exactly two arguments for qx.core.Variant.isSet. Ignoring this occurrence.", params)
-        return False
-
-    firstParam = params.getChildByPosition(0)
-    if not isStringLiteral(firstParam):
-        log("Warning", "First argument must be a string literal! Ignoring this occurrence.", firstParam)
-        return False
-
-    variantKey = firstParam.get("value");
-    if variantKey in variantMap:
-        confValue = variantMap[variantKey]
-    else:
-        return False
-
-    secondParam = params.getChildByPosition(1)
-
-    if isStringLiteral(secondParam):
-        ifcondition =  secondParam.parent.parent.parent
-
-        # normal if then else
-        if ifcondition.type == "expression" and ifcondition.getChildrenLength(True) == 1 and ifcondition.parent.type == "loop":
-            loop = ifcondition.parent
-            variantValue = secondParam.get("value")
-            inlineIfStatement(loop, __variantMatchKey(variantValue, confValue))
-
-        # ternary operator  ?:
-        elif (
-            ifcondition.type == "first" and
-            ifcondition.getChildrenLength(True) == 1 and
-            ifcondition.parent.type == "operation" and
-            ifcondition.parent.get("operator") == "HOOK"
-        ):
-            variantValue = secondParam.get("value")
-            if __variantMatchKey(variantValue, confValue):
-                replacement = selectNode(ifcondition, "../second")
-            else:
-                replacement = selectNode(ifcondition, "../third")
-            replaceChildWithNodes(ifcondition.parent.parent, ifcondition.parent, replacement.children)
-
-        else:
-            variantValue = secondParam.get("value")
-            constantNode = tree.Node("constant")
-            constantNode.set("value", str(__variantMatchKey(variantValue, confValue)).lower())
-            constantNode.set("constantType", "boolean")
-            constantNode.set("line", callNode.get("line"))
-            callNode.parent.replaceChild(callNode, constantNode)
-            #log("Warning", "Only processing qx.core.Variant.isSet directly inside of an if condition. Ignoring this occurrence.", secondParam)
-
-        return True
-
-    log("Warning", "The second parameter of qx.core.Variant.isSet must be a string literal. Ignoring this occurrence.", secondParam)
-    return False
-
 
 
 ##
@@ -662,7 +590,7 @@ def getSelectParams(callNode):
         
     params = callNode.getChild("params")
     if len(params.children) != 2:
-        log("Warning", "Expecting exactly two arguments for qx.core.[Environment|Variant].select. Ignoring this occurrence.", params)
+        log("Warning", "Expecting exactly two arguments for qx.core.Environment.select. Ignoring this occurrence.", params)
         return result
 
     # Get the variant key from the select() call
@@ -693,8 +621,7 @@ def getSelectParams(callNode):
 # @return {Iter<Node>} node generator
 #
 def findVariantNodes(node):
-    variantNodes = treeutil.findVariablePrefix(node, "qx.core.Variant")
-    variantNodes.extend(treeutil.findVariablePrefix(node, "qx.core.Environment"))
+    variantNodes = treeutil.findVariablePrefix(node, "qx.core.Environment")
     for variantNode in variantNodes:
         if not variantNode.hasParentContext("call/operand"):
             continue
