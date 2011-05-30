@@ -27,6 +27,8 @@ qx.Class.define("qx.test.html.Iframe",
 {
   extend : qx.dev.unit.TestCase,
 
+  include : qx.dev.unit.MMock,
+
   members :
   {
 
@@ -56,7 +58,7 @@ qx.Class.define("qx.test.html.Iframe",
       }
     },
 
-    "test: set source with same origin": function() {
+    "test: set source to URL with same origin": function() {
       var frame = this.__frame;
 
       var source = this.__destSource;
@@ -70,7 +72,7 @@ qx.Class.define("qx.test.html.Iframe",
 
           var msg = function(actual) {
             return "Must be " + currentUrl + ", but was " + actual;
-          }
+          };
 
           // BOM
           this.assertString(currentUrl);
@@ -145,12 +147,32 @@ qx.Class.define("qx.test.html.Iframe",
       this.wait();
     },
 
+    "test: set null source if frame is cross-origin": function() {
+      var frame = this.__frame;
+
+      // On cross origin
+      frame.setSource("http://qooxdoo.org");
+      frame.addListener("load", function() {
+        this.resume(function() {
+          var elem = frame.getDomElement();
+          this.spy(qx.bom.Iframe, "setSource");
+          frame.setSource(null);
+
+          qx.html.Element.flush();
+          this.assertCalledWith(qx.bom.Iframe.setSource, elem, undefined);
+        });
+      }, this);
+
+      this.wait();
+    },
+
     tearDown : function()
     {
       qx.html.Element.flush();
       var div = document.getElementById("doc");
       document.body.removeChild(div);
 
+      this.getSandbox().restore();
       this.__frame.dispose();
     }
   }

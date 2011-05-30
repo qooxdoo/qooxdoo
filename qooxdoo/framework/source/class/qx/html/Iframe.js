@@ -108,7 +108,7 @@ qx.Class.define("qx.html.Iframe",
         // When URL of Iframe and source property get out of sync, the source
         // property needs to be updated [BUG #4481]. This is to make sure the
         // same source is not set twice on the BOM level.
-        if (value == currentUrl) {
+        if (value === currentUrl) {
           return;
         }
 
