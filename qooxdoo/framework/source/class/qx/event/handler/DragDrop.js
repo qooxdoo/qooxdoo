@@ -430,6 +430,7 @@ qx.Class.define("qx.event.handler.DragDrop",
         this.__manager.removeListener(this.__root, "mouseout", this._onMouseOut, this, true);
         this.__manager.removeListener(this.__root, "keydown", this._onKeyDown, this, true);
         this.__manager.removeListener(this.__root, "keyup", this._onKeyUp, this, true);
+        this.__manager.removeListener(this.__root, "keypress", this._onKeyPress, this, true);
 
         // Fire dragend event
         this.__fireEvent("dragend", this.__dragTarget, this.__dropTarget, false);
@@ -614,7 +615,7 @@ qx.Class.define("qx.event.handler.DragDrop",
             this.__manager.addListener(this.__root, "mouseout", this._onMouseOut, this, true);
             this.__manager.addListener(this.__root, "keydown", this._onKeyDown, this, true);
             this.__manager.addListener(this.__root, "keyup", this._onKeyUp, this, true);
-            this.__manager.addListener(this.__root, "keyup", this._onKeyPress, this, true);
+            this.__manager.addListener(this.__root, "keypress", this._onKeyPress, this, true);
 
             // Reevaluate current action
             var keys = this.__keys;
