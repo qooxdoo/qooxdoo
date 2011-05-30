@@ -228,7 +228,7 @@ qx.Class.define("qx.bom.Iframe",
       }
       catch(ex) {};
 
-      return null;
+      return "";
     },
 
 
