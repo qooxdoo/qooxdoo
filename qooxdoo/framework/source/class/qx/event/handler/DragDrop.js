@@ -300,7 +300,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       if (this.__validDrop)
       {
-        if (keys.Shift && keys.Ctrl && actions.alias) {
+        if (keys.Shift && keys.Control && actions.alias) {
           current = "alias";
         } else if (keys.Shift && keys.Alt && actions.copy) {
           current = "copy";
@@ -308,7 +308,7 @@ qx.Class.define("qx.event.handler.DragDrop",
           current = "move";
         } else if (keys.Alt && actions.alias) {
           current = "alias";
-        } else if (keys.Ctrl && actions.copy) {
+        } else if (keys.Control && actions.copy) {
           current = "copy";
         } else if (actions.move) {
           current = "move";
@@ -483,7 +483,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       switch(iden)
       {
         case "Alt":
-        case "Ctrl":
+        case "Control":
         case "Shift":
           if (!this.__keys[iden])
           {
@@ -505,7 +505,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       switch(iden)
       {
         case "Alt":
-        case "Ctrl":
+        case "Control":
         case "Shift":
           if (this.__keys[iden])
           {
@@ -601,7 +601,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
             // Reevaluate current action
             var keys = this.__keys;
-            keys.Ctrl = e.isCtrlPressed();
+            keys.Control = e.isCtrlPressed();
             keys.Shift = e.isShiftPressed();
             keys.Alt = e.isAltPressed();
             this.__detectAction();
