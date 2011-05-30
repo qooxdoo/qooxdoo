@@ -71,6 +71,13 @@ qx.Class.define("qx.bom.WebWorker",
     _handleMessageBound : null,
 
     __fake : null,
+
+
+    /**
+     * The fake worker context
+     * @param worker {qx.bom.WebWorker} current worker
+     * @param code {String} The code to be evaluated
+     */
     __FakeWorker: function(worker, code) {
       var postMessage = this.postMessage = function (e) {
         worker.fireDataEvent("message", e);
@@ -80,6 +87,11 @@ qx.Class.define("qx.bom.WebWorker",
       this.onmessage = onmessage;
     },
 
+
+    /**
+     * Initialize the native worker
+     * @param src {String} The path to worker as an URL
+     */
     __initNative: function(src) {
       this._worker = new window.Worker(src);
       this._handleMessageBound = qx.lang.Function.bind(this._handleMessage, this);
@@ -89,6 +101,11 @@ qx.Class.define("qx.bom.WebWorker",
       qx.bom.Event.addNativeListener(this._worker, "error", this._handleErrorBound);
     },
 
+
+    /**
+     * Initialize the fake worker
+     * @param src {String} The path to worker as an URL
+     */
     __initFake: function(src) {
       var that = this;
       var req = new qx.bom.request.Xhr();
