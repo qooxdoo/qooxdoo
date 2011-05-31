@@ -43,6 +43,11 @@ qx.Class.define("qx.test.bom.request.Script",
     setUp: function() {
       var req = this.req = new qx.bom.request.Script(),
           url = this.url = this.getUrl("qx/test/script.js");
+
+      // Assume timeout after 1s in Opera (no error!)
+      if (qx.core.Environment.get("engine.name") === "opera") {
+        req.timeout = 1000;
+      }
     },
 
     tearDown: function() {
