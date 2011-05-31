@@ -770,6 +770,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         // Fire "timeout" if timeout flag is set
         if (this.__timeout) {
           this.ontimeout();
+
+          // BUGFIX: Opera
+          // Since Opera does not fire "error" on network error, fire additional
+          // "error" on timeout (may well be related to network error)
+          if (qx.core.Environment.get("engine.name") === "opera") {
+            this.onerror();
+          }
+
           this.__timeout = false;
 
         // Fire either "load" or "error"
