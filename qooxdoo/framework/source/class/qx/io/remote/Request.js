@@ -350,10 +350,10 @@ qx.Class.define("qx.io.remote.Request",
 
     /**
      * If true and the responseType property is set to "application/json", getContent() will
-     * return a Javascript map containing the JSON contents, i. e. the result qx.util.Json.parse().
+     * return a Javascript map containing the JSON contents, i. e. the result qx.lang.Json.parse().
      * If false, the raw string data will be returned and the parsing must be done manually.
      * This is usefull for special JSON dialects / extensions which are not supported by
-     * qx.util.Json.
+     * qx.lang.Json.
      *
      * Note that this is currently only respected by qx.io.remote.transport.XmlHttp, i. e.
      * if the transport used is the one using XMLHttpRequests. The other transports
