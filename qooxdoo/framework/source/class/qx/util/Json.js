@@ -51,17 +51,29 @@
 
 /**
  * JSON (JavaScript Object Notation) for qooxdoo
+ *
+ * @deprecated since 1.5
  */
 qx.Class.define("qx.util.Json",
 {
   statics :
   {
+    /**
+     * @deprecated since 1.5
+     */
     __nativeDateToJSON : null,
 
-    /** indent string for JSON pretty printing */
+    /**
+     * indent string for JSON pretty printing
+     *
+     * @deprecated since 1.5
+     */
     BEAUTIFYING_INDENT : "  ",
 
-    /** new line string for JSON pretty printing */
+    /** new line string for JSON pretty printing
+     *
+     * @deprecated since 1.5
+     */
     BEAUTIFYING_LINE_END : "\n",
 
     /**
@@ -72,6 +84,8 @@ qx.Class.define("qx.util.Json",
      *
      * As the default value changes, its a good idea to set the constant to
      * a specific value.
+     *
+     * @deprecated since 1.5
      */
     CONVERT_DATES : null,
 
@@ -79,6 +93,8 @@ qx.Class.define("qx.util.Json",
      * Mapping from types to function names.
      *
      * @internal
+     *
+     * @deprecated since 1.5
      */
     __map :
     {
@@ -93,6 +109,8 @@ qx.Class.define("qx.util.Json",
 
     /**
      * Single instance of number format for the JSON serialization.
+     *
+     * @deprecated since 1.5
      */
     NUMBER_FORMAT : new qx.util.format.NumberFormat(),
 
@@ -103,6 +121,8 @@ qx.Class.define("qx.util.Json",
      * @param incoming {function} The incoming value
      * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
+     *
+     * @deprecated since 1.5
      */
     __convertFunction : function(incoming, key) {
       return String(incoming);
@@ -115,6 +135,8 @@ qx.Class.define("qx.util.Json",
      * @param incoming {Boolean} The incoming value
      * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
+     *
+     * @deprecated since 1.5
      */
     __convertBoolean : function(incoming, key) {
       return String(incoming);
@@ -127,6 +149,8 @@ qx.Class.define("qx.util.Json",
      * @param incoming {Number} The incoming value
      * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
+     *
+     * @deprecated since 1.5
      */
     __convertNumber : function(incoming, key) {
       return isFinite(incoming) ? String(incoming) : "null";
@@ -139,6 +163,8 @@ qx.Class.define("qx.util.Json",
      * @param incoming {String} The incoming value
      * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
+     *
+     * @deprecated since 1.5
      */
     __convertString : function(incoming, key)
     {
@@ -157,6 +183,8 @@ qx.Class.define("qx.util.Json",
      * Mapping for string escape.
      *
      * @internal
+     *
+     * @deprecated since 1.5
      */
     __convertStringEscape :
     {
@@ -176,6 +204,8 @@ qx.Class.define("qx.util.Json",
      * @param a {Array} incoming array
      * @param b {String} character to convert
      * @return {String} converted character
+     *
+     * @deprecated since 1.5
      */
     __convertStringHelper : function(a, b)
     {
@@ -196,6 +226,8 @@ qx.Class.define("qx.util.Json",
      * @param incoming {Array} The incoming value
      * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
+     *
+     * @deprecated since 1.5
      */
     __convertArray : function(incoming, key)
     {
@@ -310,6 +342,8 @@ qx.Class.define("qx.util.Json",
      * @param key {String} The key under which the value is stored
      *
      * @return {String} value converted to a JSON string
+     *
+     * @deprecated since 1.5
      */
     __convertDate : function(incoming, key)
     {
@@ -358,6 +392,8 @@ qx.Class.define("qx.util.Json",
      * @param incoming {Map} The incoming value
      * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
+     *
+     * @deprecated since 1.5
      */
     __convertMap : function(incoming, key)
     {
@@ -416,6 +452,8 @@ qx.Class.define("qx.util.Json",
      * @param incoming {Object} The incoming value
      * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
+     *
+     * @deprecated since 1.5
      */
     __convertObject : function(incoming, key)
     {
@@ -446,6 +484,8 @@ qx.Class.define("qx.util.Json",
      * @param incoming {undefined} The incoming value
      * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
+     *
+     * @deprecated since 1.5
      */
     __convertUndefined : function(incoming, key)
     {
@@ -461,6 +501,8 @@ qx.Class.define("qx.util.Json",
      * @param incoming {var} The incoming value
      * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
+     *
+     * @deprecated since 1.5
      */
     __convert : function(incoming, key) {
       return this[this.__map[typeof incoming]](incoming, key);
@@ -474,9 +516,14 @@ qx.Class.define("qx.util.Json",
      * @param beautify {Boolean ? false} whether to beautify the serialized string
      *          by adding some white space that indents objects and arrays.
      * @return {String} the serialized object.
+     *
+     * @deprecated since 1.5
      */
     stringify : function(obj, beautify)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+        "Please use qx.lang.Json.stringify() instead.");
+
       // Hints for converter process
       this.__beautify = beautify;
       this.__indent = this.BEAUTIFYING_LINE_END;
@@ -507,9 +554,14 @@ qx.Class.define("qx.util.Json",
      *    should be validated, <code>false</code> otherwise.
      * @return {Object|null} Returns the object
      * @throws an error if the text could not be parsed or evaluated
+     *
+     * @deprecated since 1.5
      */
     parse : function(text, validate)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+        "Please use qx.lang.Json.parse() instead.");
+
       // Set default value if validate is not defined
       if (validate === undefined) {
         validate = true;
