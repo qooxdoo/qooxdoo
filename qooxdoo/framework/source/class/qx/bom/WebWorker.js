@@ -47,7 +47,6 @@ qx.Class.define("qx.bom.WebWorker",
 
     if (this.__isNative) {
       this.__initNative(src);
-    } else {
       this.__initFake(src);
     }
   },
@@ -123,7 +122,6 @@ qx.Class.define("qx.bom.WebWorker",
           try {
             that.__fake.onmessage && that.__fake.onmessage({data: msg});
           } catch (ex) {
-            console.log(ex);
             that.fireDataEvent("error", ex);
           } 
       }

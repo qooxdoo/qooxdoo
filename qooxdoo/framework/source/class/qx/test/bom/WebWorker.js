@@ -60,7 +60,6 @@ qx.Class.define("qx.test.bom.WebWorker",
 
     testMessageEvent: function() {
       this._send("message", function(mess, e) {
-        console.log(e.getData());
         this.assertIdentical(mess, e.getData());
       });
     },
@@ -69,7 +68,6 @@ qx.Class.define("qx.test.bom.WebWorker",
       var message = "error";
 
       this._worker.addListener("error", function(e) {
-        console.log(e.getData());
         this.assertTrue(/error/.test(e.getData()));
       }, this);
       this._worker.postMessage(message);
@@ -77,21 +75,18 @@ qx.Class.define("qx.test.bom.WebWorker",
 
     testPostMessageWithNumber: function() {
       this._send(1, function(mess, e) {
-        console.log(e.getData());
         this.assertIdentical(mess, e.getData());
       });
     },
 
     testPostMessageWithBoolean: function() {
       this._send(true, function(mess, e) {
-        console.log(e.getData());
         this.assertIdentical(mess, e.getData());
       });
     },
 
     testPostMessageWithNull: function() {
       this._send(null, function(mess, e) {
-        console.log(e.getData());
         this.assertIdentical(mess, e.getData());
       });
     },
