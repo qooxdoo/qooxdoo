@@ -176,7 +176,11 @@ qx.Class.define("qx.test.io.ScriptLoader",
 
       // Actually, in browsers that support the "error" event, the
       // error is detected and handled (with status "fail") before
-      // the timeout is reached
+      // the timeout is reached.
+      //
+      // Work-around does not work for legacy IEs. Run test only in Opera.
+      this.require(["opera"]);
+
       qx.io.ScriptLoader.TIMEOUT = 1;
       loader.load(url, function(status) {
         this.resume(function() {
