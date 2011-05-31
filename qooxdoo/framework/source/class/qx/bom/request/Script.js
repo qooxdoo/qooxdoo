@@ -45,8 +45,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
     // Set default timeout to capture network errors
     //
     // Note: The script is parsed and executed, before a "load" is fired.
-    //
-    this.timeout = this.__supportsErrorHandler() ? 0 : 7500;
+    this.timeout = this.__supportsErrorHandler() ? 0 : 15000;
   },
 
   members :

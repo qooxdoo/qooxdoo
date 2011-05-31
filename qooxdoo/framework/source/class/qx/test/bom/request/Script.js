@@ -144,7 +144,7 @@ qx.Class.define("qx.test.bom.request.Script",
       };
 
       this.request("http://fail.tld");
-      this.wait(10000);
+      this.wait(15000);
     },
 
     "test: properties indicate failure when request timed out": function() {
@@ -334,7 +334,7 @@ qx.Class.define("qx.test.bom.request.Script",
       };
 
       this.request("http://fail.tld");
-      this.wait(10000);
+      this.wait(15000);
     },
 
     "test: call onloadend when request completes": function() {
@@ -373,7 +373,7 @@ qx.Class.define("qx.test.bom.request.Script",
       };
 
       this.request("http://fail.tld");
-      this.wait(10000);
+      this.wait(15000);
     },
 
     "test: call onerror on network error": function() {
@@ -390,7 +390,7 @@ qx.Class.define("qx.test.bom.request.Script",
       };
 
       this.request("http://fail.tld");
-      this.wait(10000);
+      this.wait(15000);
     },
 
     "test: call onerror on invalid script": function() {
@@ -515,7 +515,7 @@ qx.Class.define("qx.test.bom.request.Script",
       };
 
       this.request("http://fail.tld");
-      this.wait(10000);
+      this.wait(15000);
     },
 
     "test: remove script from DOM when request timed out": function() {
