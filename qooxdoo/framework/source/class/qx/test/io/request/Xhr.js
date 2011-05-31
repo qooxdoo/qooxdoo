@@ -151,7 +151,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     "test: progress phases": function() {
       var req = this.req,
           phases = [],
-          expectedPhases = ["opened", "sent", "loading", "success"];
+          expectedPhases = ["opened", "sent", "loading", "success"],
           url = this.getUrl("qx/test/xmlhttp/sample.txt");
 
       req.addListener("changePhase", function() {
