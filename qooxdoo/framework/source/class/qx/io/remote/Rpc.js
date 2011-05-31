@@ -19,6 +19,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(qx.util.Json)
+************************************************************************ */
+
 /**
  * Provides a Remote Procedure Call (RPC) implementation.
  *
@@ -199,6 +203,15 @@ qx.Class.define("qx.io.remote.Rpc",
       timeout : 1,
       abort   : 2
     },
+
+
+    /**
+     * Boolean flag which controls the stringification of date objects.
+     * <code>null</code> for the default behavior, acts like false
+     * <code>true</code> for stringifying dates the old, qooxdoo specific way
+     * <code>false</code> using the native toJSON of date objects.
+     */
+    CONVERT_DATES : null,
 
 
     /**
@@ -605,7 +618,16 @@ qx.Class.define("qx.io.remote.Rpc",
         }
         else
         {
+
+          // Response as JSON string
           result = response["result"];
+
+          // Parse
+          if (self._isConvertDates()) {
+            result = result && result.length > 0 ? eval('(' + result + ')') : null;
+          } else {
+            result = qx.lang.Json.parse(result);
+          }
 
           if (refreshSession)
           {
@@ -625,7 +647,30 @@ qx.Class.define("qx.io.remote.Rpc",
         handleRequestFinished(eventType, eventTarget);
       });
 
-      req.setData(qx.util.Json.stringify(rpcData));
+      if (this._isConvertDates()) {
+        var params = rpcData.params;
+        if (params) {
+          for (var key in params) {
+            if (params.hasOwnProperty(key)) {
+              if (qx.lang.Type.isDate(params[key])) {
+                params[key].toJSON = function() {
+                  var dateParams =
+                    this.getUTCFullYear() + "," +
+                    this.getUTCMonth() + "," +
+                    this.getUTCDate() + "," +
+                    this.getUTCHours() + "," +
+                    this.getUTCMinutes() + "," +
+                    this.getUTCSeconds() + "," +
+                    this.getUTCMilliseconds();
+                  return "new Date(Date.UTC(" + dateParams + "))";
+                };
+              }
+            }
+          }
+        }
+      }
+
+      req.setData(qx.lang.Json.stringify(rpcData));
       req.setAsynchronous(callType > 0);
 
       if (req.getCrossDomain())
@@ -639,6 +684,9 @@ qx.Class.define("qx.io.remote.Rpc",
         // When not cross-domain, set type to text/json
         req.setRequestHeader("Content-Type", "application/json");
       }
+
+      // Do not parse as JSON. Later done conditionally.
+      req.setParseJson(false);
 
       req.send();
 
@@ -849,6 +897,20 @@ qx.Class.define("qx.io.remote.Rpc",
       {
         handler(false); // no refresh possible, but would be necessary
       }
+    },
+
+
+    /**
+     * Whether to convert date objects to pseudo literals and
+     * parse with eval.
+     *
+     * Controlled by {@link qx.util.Json.CONVERT_DATES}
+     * and {@link #CONVERT_DATES} (in this order).
+     *
+     * @return {Boolean} Whether to convert.
+     */
+    _isConvertDates: function() {
+      return !!((qx.util.Json && qx.util.Json.CONVERT_DATES) || qx.io.remote.Rpc.CONVERT_DATES);
     },
 
 
