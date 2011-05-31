@@ -14,8 +14,8 @@ Getting Started
 Tutorials
 =========
 
-Frontend RIA
-------------
+Rich Internet Applications (RIA)
+--------------------------------
 
 .. toctree::
    :maxdepth: 1
@@ -30,8 +30,8 @@ Frontend RIA
    tutorials/tutorial-part-4-4-1
    tutorials/tutorial-part-4-5
 
-Mobile
-------
+Mobile Apps
+-----------
 
 .. toctree::
    :maxdepth: 1
