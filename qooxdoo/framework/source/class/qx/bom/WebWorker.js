@@ -73,20 +73,6 @@ qx.Class.define("qx.bom.WebWorker",
     __fake : null,
 
 
-    /**
-     * The fake worker context
-     * @param worker {qx.bom.WebWorker} current worker
-     * @param code {String} The code to be evaluated
-     */
-    __FakeWorker: function(worker, code) {
-      var postMessage = this.postMessage = function (e) {
-        worker.fireDataEvent("message", e);
-      };
-      var onmessage;
-      eval(code); 
-      this.onmessage = onmessage;
-    },
-
 
     /**
      * Initialize the native worker
@@ -101,7 +87,6 @@ qx.Class.define("qx.bom.WebWorker",
       qx.bom.Event.addNativeListener(this._worker, "error", this._handleErrorBound);
     },
 
-
     /**
      * Initialize the fake worker
      * @param src {String} The path to worker as an URL
@@ -110,8 +95,16 @@ qx.Class.define("qx.bom.WebWorker",
       var that = this;
       var req = new qx.bom.request.Xhr();
       req.onload = function() {
-        that.__fake = new that.__FakeWorker(that, req.responseText);
+        that.__fake = (function(w) {
+          eval("var onmessage = null; var postMessage = function (e) "+
+          "{ w.fireDataEvent('message', e); };" + req.responseText);
+          return {
+            onmessage: onmessage,
+            postMessage: postMessage
+          }
+        })(that);
       };  
+
       req.open("GET", src, false);
       req.send();
     },
@@ -127,13 +120,12 @@ qx.Class.define("qx.bom.WebWorker",
       if (this.__isNative) {
         this._worker.postMessage(msg);
       } else {
-        window.setTimeout(function() {
           try {
-            that.__fake.onmessage.call(that.__fake, {data: msg});
+            that.__fake.onmessage && that.__fake.onmessage({data: msg});
           } catch (ex) {
+            console.log(ex);
             that.fireDataEvent("error", ex);
           } 
-        }, 0);
       }
     },
 

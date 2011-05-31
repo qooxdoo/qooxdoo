@@ -41,15 +41,10 @@ qx.Class.define("qx.test.bom.WebWorker",
 
       this._send = function(message, fn) {
         this._worker.addListener("message", function(e) {
-          this.resume(function() {
-            //check the type, it should be the same
-            this.assertType(e.getData(), typeof message);
-            //make other checks
-            fn.call(this, message, e);
-          }, this);
+          this.assertType(e.getData(), typeof message);
+          fn.call(this, message, e);
         }, this);
         this._worker.postMessage(message);
-        this.wait();
       };
     },
 
@@ -65,6 +60,7 @@ qx.Class.define("qx.test.bom.WebWorker",
 
     testMessageEvent: function() {
       this._send("message", function(mess, e) {
+        console.log(e.getData());
         this.assertIdentical(mess, e.getData());
       });
     },
@@ -73,29 +69,29 @@ qx.Class.define("qx.test.bom.WebWorker",
       var message = "error";
 
       this._worker.addListener("error", function(e) {
-        this.resume(function() {
-          this.assertTrue(/error/.test(e.getData()));
-        }, this);
+        console.log(e.getData());
+        this.assertTrue(/error/.test(e.getData()));
       }, this);
-
       this._worker.postMessage(message);
-      this.wait();
     },
 
     testPostMessageWithNumber: function() {
       this._send(1, function(mess, e) {
+        console.log(e.getData());
         this.assertIdentical(mess, e.getData());
       });
     },
 
     testPostMessageWithBoolean: function() {
       this._send(true, function(mess, e) {
+        console.log(e.getData());
         this.assertIdentical(mess, e.getData());
       });
     },
 
     testPostMessageWithNull: function() {
       this._send(null, function(mess, e) {
+        console.log(e.getData());
         this.assertIdentical(mess, e.getData());
       });
     },
