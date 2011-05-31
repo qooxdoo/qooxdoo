@@ -237,13 +237,12 @@ qx.Class.define("showcase.page.virtuallist.Content",
         layout.setColumnAlign(0, "left", "middle");
         layout.setColumnAlign(1, "right", "middle");
 
-        this.getView().add(win, {left:20, top:20});
+        this.getView().add(win, {left:270, top:40});
 
         this.__addUserDialog = win;
       }
 
       this.__tfUsername.setValue("");
-      this.__addUserDialog.center();
       this.__addUserDialog.open();
     },
 
