@@ -720,9 +720,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * Handle readystatechange. Called internally when readyState is changed.
      */
     __readyStateChange: function() {
-      var that = this,
-          isLegacyIe = qx.core.Environment.get("engine.name") == "mshtml" &&
-            qx.core.Environment.get("engine.version") < 8;
+      var that = this;
 
       // BUGFIX: IE
       // IE < 8 fires LOADING and DONE on open() - before send() - when from cache
