@@ -182,7 +182,7 @@ qx.Class.define("qx.test.lang.Json",
           result = this.JSON.stringify(obj);
 
       msg = "Must contain legacy date literal";
-      this.assertMatch(result, /new Date\(Date.UTC\(2020,0,1,0,0,0,123\)\)/, msg);
+      this.assertMatch(result, /"new Date\(Date.UTC\(2020,0,1,0,0,0,123\)\)"/, msg);
     },
 
     testIgnoreNamedPropertiesInArrays : function()
