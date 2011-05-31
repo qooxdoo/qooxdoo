@@ -65,11 +65,11 @@ qx.Class.define("qx.bom.WebWorker",
 
   members :
   {
-    _isNative : true,
     _worker : null,
     _handleErrorBound : null,
     _handleMessageBound : null,
 
+    __isNative : true,
     __fake : null,
 
 
