@@ -43,6 +43,9 @@ qooxdoo/component/apiviewer/source/script
 qooxdoo/component/apiviewer/build
 qooxdoo/component/apiviewer/test
 qooxdoo/component/apiviewer/api
+qooxdoo/component/library/formdemo/api
+qooxdoo/component/library/formdemo/build
+qooxdoo/component/library/formdemo/source/script
 qooxdoo/documentation/manual/build
 qooxdoo/application/feedreader/inspector
 qooxdoo/application/demobrowser/source/script/
