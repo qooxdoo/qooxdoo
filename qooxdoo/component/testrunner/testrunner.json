@@ -238,7 +238,8 @@
       {
         "qx.theme" : "${QXTHEME}",
         "qx.globalErrorHandling" : true,
-        "testrunner.testParts" : false
+        "testrunner.testParts" : false,
+        "qx.allowUrlSettings" : true
       },
 
       "cache" :

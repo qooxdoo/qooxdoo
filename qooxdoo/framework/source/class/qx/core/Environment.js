@@ -1047,7 +1047,7 @@ qx.Bootstrap.define("qx.core.Environment",
     // load the checks from the generator
     statics.__importFromGenerator();
     // load the checks from the url
-    if (statics.get("qx.allowUrlSettings") != true) {
+    if (statics.get("qx.allowUrlSettings") === true) {
       statics.__importFromUrl();
     }
   }
