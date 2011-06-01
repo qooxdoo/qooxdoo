@@ -1,0 +1,27 @@
+{
+ "export" : 
+ [
+  "source-data.Twitter",
+  "build-data.Twitter"
+ ],
+
+ "jobs" : 
+ {
+  "source-data.Twitter" : {
+    "library" : 
+    [
+      {
+        "manifest"   : "../../component/library/twitterdemo/Manifest.json"
+      }
+    ]
+  },
+  "build-data.Twitter" : {
+    "library" : 
+    [
+      {
+        "manifest"   : "../../component/library/twitterdemo/Manifest.json"
+      }
+    ]
+  }
+ }
+}
