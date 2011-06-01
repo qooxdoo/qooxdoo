@@ -41,7 +41,8 @@
       "environment" :
       {
         "qx.debug" : true,
-        "qx.nativeScrollBars" : true
+        "qx.nativeScrollBars" : true,
+        "qx.allowUrlSettings" : true
       }
     },
 
