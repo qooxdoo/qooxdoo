@@ -15,19 +15,19 @@ msgstr ""
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
 msgstr "Din păcate, o eroare internă gravă a fost determinată de codul tău. Acest lucru face ca aplicația playground să nu ruleze corect.||"
 
-#: playground/Application.js:213
+#: playground/Application.js:215
 msgid "You changed the code of the current sample.|Click OK to discard your changes."
 msgstr "Ai modificat codul curent.| Apasă OK pentru a nu salva modificările."
 
-#: playground/Application.js:349 playground/Application.js:394
+#: playground/Application.js:351 playground/Application.js:396
 msgid "Showing gist %1"
 msgstr "Afișez gist %1"
 
-#: playground/Application.js:354 playground/Application.js:401
+#: playground/Application.js:356 playground/Application.js:403
 msgid "Custom Code"
 msgstr "Cod propriu"
 
-#: playground/Application.js:420
+#: playground/Application.js:422
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
@@ -35,35 +35,35 @@ msgstr ""
 "// Nu am putut lucra cu acest parametru URL! \n"
 "// %1"
 
-#: playground/Application.js:423
+#: playground/Application.js:425
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
 msgstr "// Browserul tău are o restricție privind lunfimea URL-ului, lucru care e posibil sa fi cauzat problema."
 
-#: playground/Application.js:440
+#: playground/Application.js:442
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
 msgstr "Nu pot adăuga codul furnizat la URL, e prea lung. Anulez acest avertisment în viitor?"
 
-#: playground/Application.js:464
+#: playground/Application.js:466
 msgid "No such user found."
 msgstr "Nu am găsit nici un astfel de utilizator."
 
-#: playground/Application.js:529
+#: playground/Application.js:531
 msgid "Gist contains no content."
 msgstr "Gist nu conține nimic."
 
-#: playground/Application.js:535
+#: playground/Application.js:537
 msgid "Can't load the gist."
 msgstr "nu pot încărca gist."
 
-#: playground/Application.js:627
+#: playground/Application.js:629
 msgid "Starting application"
 msgstr "aplicația se pornește"
 
-#: playground/Application.js:630
+#: playground/Application.js:632
 msgid "Successfully started"
 msgstr "A pornit cu succes"
 
-#: playground/Application.js:689
+#: playground/Application.js:691
 msgid "%1 (modified)"
 msgstr "%1 (modificată)"
 
@@ -78,10 +78,6 @@ msgstr "qooxdoo %1"
 #: playground/view/Header.js:33
 msgid "Playground"
 msgstr "Loc de joacă"
-
-#: playground/view/Log.js:47
-msgid "Clear"
-msgstr "Curăță"
 
 #: playground/view/Toolbar.js:45
 msgid "Run"
@@ -107,7 +103,7 @@ msgstr "Sublinierea sintaxei"
 msgid "gist support"
 msgstr "suport gist"
 
-#: playground/view/Toolbar.js:99 playground/view/Log.js:36
+#: playground/view/Toolbar.js:99
 msgid "Log"
 msgstr "Jurnal"
 

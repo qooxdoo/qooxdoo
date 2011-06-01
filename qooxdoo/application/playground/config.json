@@ -29,7 +29,12 @@
         "${APPLICATION}.*",
         "qx.*"
       ],
-
+      "library" : 
+      [
+        {
+          "manifest"   : "../../component/library/log/Manifest.json"
+        }
+      ],
       "exclude" :
       [
         "qx.test.*",

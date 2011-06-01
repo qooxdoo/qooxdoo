@@ -15,53 +15,53 @@ msgstr ""
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
 msgstr ""
 
-#: playground/Application.js:213
+#: playground/Application.js:215
 msgid "You changed the code of the current sample.|Click OK to discard your changes."
 msgstr ""
 
-#: playground/Application.js:349 playground/Application.js:394
+#: playground/Application.js:351 playground/Application.js:396
 msgid "Showing gist %1"
 msgstr ""
 
-#: playground/Application.js:354 playground/Application.js:401
+#: playground/Application.js:356 playground/Application.js:403
 msgid "Custom Code"
 msgstr ""
 
-#: playground/Application.js:420
+#: playground/Application.js:422
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
 msgstr ""
 
-#: playground/Application.js:423
+#: playground/Application.js:425
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
 msgstr ""
 
-#: playground/Application.js:440
+#: playground/Application.js:442
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
 msgstr ""
 
-#: playground/Application.js:464
+#: playground/Application.js:466
 msgid "No such user found."
 msgstr ""
 
-#: playground/Application.js:529
+#: playground/Application.js:531
 msgid "Gist contains no content."
 msgstr ""
 
-#: playground/Application.js:535
+#: playground/Application.js:537
 msgid "Can't load the gist."
 msgstr ""
 
-#: playground/Application.js:627
+#: playground/Application.js:629
 msgid "Starting application"
 msgstr ""
 
-#: playground/Application.js:630
+#: playground/Application.js:632
 msgid "Successfully started"
 msgstr ""
 
-#: playground/Application.js:689
+#: playground/Application.js:691
 msgid "%1 (modified)"
 msgstr ""
 
@@ -75,10 +75,6 @@ msgstr ""
 
 #: playground/view/Header.js:33
 msgid "Playground"
-msgstr ""
-
-#: playground/view/Log.js:47
-msgid "Clear"
 msgstr ""
 
 #: playground/view/Toolbar.js:45
@@ -105,7 +101,7 @@ msgstr ""
 msgid "gist support"
 msgstr ""
 
-#: playground/view/Toolbar.js:99 playground/view/Log.js:36
+#: playground/view/Toolbar.js:99
 msgid "Log"
 msgstr ""
 
