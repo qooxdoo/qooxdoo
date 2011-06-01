@@ -52,6 +52,8 @@
 /**
  * JSON (JavaScript Object Notation) for qooxdoo
  *
+ * Note: This class is deprecated. Please use {@link qx.lang.Json} instead.
+ *
  * @deprecated since 1.5
  */
 qx.Class.define("qx.util.Json",
