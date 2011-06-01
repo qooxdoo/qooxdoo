@@ -42,13 +42,8 @@ qx.Class.define("qx.bom.WebWorker",
   construct: function(src)
   {
     this.base(arguments);
-
     this.__isNative = qx.core.Environment.get("html.webworker");
-
-    if (this.__isNative) {
-      this.__initNative(src);
-      this.__initFake(src);
-    }
+    this.__isNative ? this.__initNative(src) : this.__initFake(src);
   },
 
 
@@ -94,14 +89,20 @@ qx.Class.define("qx.bom.WebWorker",
       var that = this;
       var req = new qx.bom.request.Xhr();
       req.onload = function() {
-        that.__fake = (function(w) {
-          eval("var onmessage = null; var postMessage = function (e) "+
-          "{ w.fireDataEvent('message', e); };" + req.responseText);
+        that.__fake = (function() {
+          var postMessage = function(e) {
+            that.fireDataEvent('message', e);
+          };
+          //set up context vars before evaluating the code
+          eval("var onmessage = null, postMessage = " + postMessage + ";" + 
+            req.responseText);
+
+          //pick the right onmessage because of the uglifier
           return {
-            onmessage: onmessage,
+            onmessage: eval("onmessage"),
             postMessage: postMessage
-          }
-        })(that);
+          };
+        })();
       };  
 
       req.open("GET", src, false);
