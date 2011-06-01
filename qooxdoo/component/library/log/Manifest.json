@@ -1,0 +1,33 @@
+{
+  "info" : 
+  {
+    "name" : "log",
+
+    "summary" : "Common used log pannel.",
+    "description" : "This is a view for the qooxdoo log.",
+    
+    "homepage" : "http://qooxdoo.org/",
+
+    "license" : "LGPL/EPL",
+    "authors" : 
+    [
+      {
+        "name" : "Martin Wittemann (martinwittemann)",
+        "email" : "martin DOT wittemann AT 1und1 DOT de"
+      }
+    ],
+
+    "version" : "trunk",
+    "qooxdoo-versions": ["1.5"]
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "log",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "library"
+  }
+}

@@ -49,6 +49,9 @@ qooxdoo/component/library/formdemo/source/script
 qooxdoo/component/library/twitterdemo/api
 qooxdoo/component/library/twitterdemo/build
 qooxdoo/component/library/twitterdemo/source/script
+qooxdoo/component/library/log/api
+qooxdoo/component/library/log/build
+qooxdoo/component/library/log/source/script
 qooxdoo/documentation/manual/build
 qooxdoo/application/feedreader/inspector
 qooxdoo/application/demobrowser/source/script/
