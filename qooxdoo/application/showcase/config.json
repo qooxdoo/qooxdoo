@@ -33,6 +33,9 @@
       [
         {
           "manifest"   : "../../component/library/formdemo/Manifest.json"
+        },
+        {
+          "manifest"   : "../../component/library/twitterdemo/Manifest.json"
         }
       ],
       "packages" : 
