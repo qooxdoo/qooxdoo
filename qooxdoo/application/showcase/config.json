@@ -29,6 +29,12 @@
   {
     "common" :
     {
+      "library" : 
+      [
+        {
+          "manifest"   : "../../component/library/formdemo/Manifest.json"
+        }
+      ],
       "packages" : 
       {
         "parts" : 
