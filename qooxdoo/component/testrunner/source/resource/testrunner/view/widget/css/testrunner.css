@@ -81,11 +81,6 @@
   color: #6EA4BC;
 }
 
-#sessionlog{
-  font-family: "Consolas", "Courier New", monospace;
-	font-size: 11px;
-}
-
 .level-debug,
 .level-info,
 .level-warn,

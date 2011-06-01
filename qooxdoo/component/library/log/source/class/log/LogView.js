@@ -19,8 +19,12 @@
 
 /* ************************************************************************
 
-#asset(twitterdemo/*)
+#asset(log/*)
 #asset(qx/icon/Tango/16/actions/edit-clear.png)
+#asset(qx/icon/Tango/16/categories/system.png)
+#asset(qx/icon/Tango/16/status/dialog-information.png)
+#asset(qx/icon/Tango/16/status/dialog-warning.png)
+#asset(qx/icon/Tango/16/status/dialog-error.png)
 
 ************************************************************************ */
 
@@ -30,6 +34,13 @@ qx.Class.define("log.LogView", {
 
   construct : function()
   {
+    this.__logLevelData = [
+      ["debug", "Debug", "icon/16/categories/system.png"],
+      ["info", "Info", "icon/16/status/dialog-information.png"],
+      ["warn", "Warning", "icon/16/status/dialog-warning.png"],
+      ["error", "Error", "icon/16/status/dialog-error.png"]
+    ];
+    
     var layout = new qx.ui.layout.VBox();
     layout.setSeparator("separator-vertical");
     this.base(arguments, layout);
@@ -39,30 +50,32 @@ qx.Class.define("log.LogView", {
     var caption = new qx.ui.basic.Label(this.tr("Log")).set(
     {
       font       : "bold",
-      padding    : 5,
+      padding    : 6,
       allowGrowX : true,
       allowGrowY : true
     });
-    this.add(caption);
+    //this.add(caption);
 
     //toolbar of the log pane
-    var toolbar = new qx.ui.toolbar.ToolBar();
+    this.__toolbar = new qx.ui.toolbar.ToolBar();
+    this.__toolbar.add(caption);
+    this.__toolbar.addSpacer();
     var clearButton = new qx.ui.toolbar.Button(this.tr("Clear"), "icon/16/actions/edit-clear.png");
     clearButton.addListener("execute", function(e) {
       this.clear();
     }, this);
-    toolbar.add(clearButton);
-    this.add(toolbar);
+    this.__toolbar.add(clearButton);
+    this.add(this.__toolbar);
 
     // log pane
     var logArea = new qx.ui.embed.Html('');
     logArea.set(
     {
       backgroundColor : "white",
-      overflowY       : "scroll",
-      overflowX       : "auto",
-      font            : "monospace",
-      padding         : 5
+      overflowY : "scroll",
+      overflowX : "auto",
+      font : "monospace",
+      padding: 3
     });
     this.add(logArea, {flex : 1});
 
@@ -79,10 +92,31 @@ qx.Class.define("log.LogView", {
     }, this);
   },
 
+
+  properties : {
+    /** Shows the log level button */
+    showLogLevel : {
+      check : "Boolean",
+      apply : "_applyShowLogLevel",
+      init : false
+    },
+
+    /** Current set log level.*/
+    logLevel :
+    {
+      check : ["debug", "info", "warn", "error"],
+      init  : "debug",
+      event : "changeLogLevel"
+    }
+  },
+
   members :
   {
     __logElem : null,
     __logAppender : null,
+    __logLevelData : null,
+    __logLevelButton : null,
+    __toolbar : null,
 
 
     /**
@@ -109,6 +143,56 @@ qx.Class.define("log.LogView", {
 
       // Clear buffer
       Logger.clear();
+    },
+
+
+    /**
+     * Returns the div use as log appender element.
+     * @return {DIV} The appender element.
+     */
+    getAppenderElement : function() {
+      return this.__logElem;
+    },
+
+
+    // property apply
+    _applyShowLogLevel : function(value, old) {
+      if (!this.__logLevelButton) {
+        this.__logLevelButton = this.__createLogLevelMenu();
+        this.__toolbar.add(this.__logLevelButton);
+      }
+      if (value) {
+        this.__logLevelButton.show();
+      } else {
+        this.__logLevelButton.exclude();
+      }
+    },
+
+
+    /**
+     * Returns the menu button used to select the AUT's log level
+     *
+     * @return {qx.ui.toolbar.MenuButton}
+     */
+    __createLogLevelMenu : function()
+    {
+      var logLevelMenu = new qx.ui.menu.Menu();
+      var logLevelMenuButton = new qx.ui.toolbar.MenuButton("Log Level", "icon/16/categories/system.png");
+      logLevelMenuButton.setMenu(logLevelMenu);
+
+      for (var i = 0,l = this.__logLevelData.length; i < l; i++) {
+        var data = this.__logLevelData[i];
+        var button = new qx.ui.menu.Button(data[1], data[2]);
+        button.setUserData("model", data[0]);
+        button.addListener("execute", function(ev) {
+          var pressedButton = ev.getTarget();
+          this.setLogLevel(pressedButton.getUserData("model"));
+          logLevelMenuButton.setIcon(pressedButton.getIcon());
+        }, this);
+        logLevelMenu.add(button);
+      }
+
+      return logLevelMenuButton;
     }
   },
 
