@@ -1,14 +1,19 @@
 <?php
-  if (!isset($_GET['callback'])) {
-    echo 'Please supply a callback parameter';exit;
+  $callback = '';
+
+  if (isset($_GET['callback'])) {
+      $callback = $_GET['callback'];
+      if (!preg_match('/^[a-zA-Z_\.\[\]0-9]+\\z/', $callback)) {
+        echo 'Nice try attacker';exit;
+      }
   }
 
-  $callback = $_GET['callback'];
-  if (!preg_match('/^[a-zA-Z_\.\[\]0-9]+\\z/', $callback)) {
-    echo 'Nice try attacker';exit;
+  if (isset($_GET['sleep'])) {
+    $sleep = (int) $_GET['sleep'];
+    if ($sleep > 0 && $sleep <= 100) {
+        usleep($sleep * 1000);
+    }
   }
 
-  $callback = strip_tags($_GET['callback']);
-  $callback = str_replace(array("(", ")"), "", $callback);
-  echo $callback . '({"string": "String", "number": 12, "boolean": true, "null": null});'
+  echo $callback . '({"string": "String", "number": 12, "boolean": true, "null": null});';
 ?>
