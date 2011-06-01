@@ -55,7 +55,7 @@
         "qx.application" : "${APPLICATION}.Application",
         "qx.mobile.emulatetouch" : true,
         "qx.mobile.nativescroll" : false,
-        "qx.client" : "webkit"
+        "engine.name" : "webkit"
       }
     },
 
