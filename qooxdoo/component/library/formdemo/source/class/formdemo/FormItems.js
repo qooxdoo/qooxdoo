@@ -23,10 +23,13 @@ qx.Class.define("formdemo.FormItems", {
   construct : function() {
     this.base(arguments);
     
+    this.__widgets = [];
     this._createView();
   },
   
   members : {
+    __widgets : null,
+
     _createView : function()
     {
       var grid = new qx.ui.layout.Grid(20, 5);
@@ -52,6 +55,7 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(textField);
       textGroupBox.add(label, {row: 0, column: 0});
       textGroupBox.add(textField, {row: 0, column: 1});
+      this.__widgets.push(textField);
 
       // password field
       var passwordField = new qx.ui.form.PasswordField();
@@ -61,6 +65,7 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(passwordField);
       textGroupBox.add(label, {row: 1, column: 0});
       textGroupBox.add(passwordField, {row: 1, column: 1});
+      this.__widgets.push(passwordField);
 
       // text area
       var textArea = new qx.ui.form.TextArea();
@@ -70,6 +75,7 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(textArea);
       textGroupBox.add(label, {row: 2, column: 0});
       textGroupBox.add(textArea, {row: 2, column: 1});
+      this.__widgets.push(textArea);
 
       // combo box
       var comboBox = new qx.ui.form.ComboBox();
@@ -80,6 +86,7 @@ qx.Class.define("formdemo.FormItems", {
       textGroupBox.add(label, {row: 3, column: 0});
       textGroupBox.add(comboBox, {row: 3, column: 1});
       this.__createItems(comboBox);
+      this.__widgets.push(comboBox);
 
       // date field
       var dateField = new qx.ui.form.DateField();
@@ -89,7 +96,7 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(dateField);
       textGroupBox.add(label, {row: 4, column: 0});
       textGroupBox.add(dateField, {row: 4, column: 1});
-
+      this.__widgets.push(dateField);
 
 
       /** **************************************
@@ -109,6 +116,7 @@ qx.Class.define("formdemo.FormItems", {
       selectionGroupBox.add(label, {row: 0, column: 0});
       selectionGroupBox.add(selectBox, {row: 0, column: 1});
       this.__createItems(selectBox);
+      this.__widgets.push(selectBox);
 
       // list
       var list = new qx.ui.form.List();
@@ -120,6 +128,7 @@ qx.Class.define("formdemo.FormItems", {
       selectionGroupBox.add(label, {row: 1, column: 0});
       selectionGroupBox.add(list, {row: 1, column: 1});
       this.__createItems(list);
+      this.__widgets.push(list);
 
       // radio button group
       var radioButtonGroup = new qx.ui.form.RadioButtonGroup();
@@ -130,7 +139,7 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(radioButtonGroup);
       selectionGroupBox.add(label, {row: 2, column: 0});
       selectionGroupBox.add(radioButtonGroup, {row: 2, column: 1});
-
+      this.__widgets.push(radioButtonGroup);
 
 
 
@@ -150,6 +159,7 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(button);
       buttonGroupBox.add(label, {row: 0, column: 0});
       buttonGroupBox.add(button, {row: 0, column: 1});
+      this.__widgets.push(button);
 
       // toggle button
       var toggleButton = new qx.ui.form.ToggleButton("ToggleButton").set({tabIndex: tabIndex++});
@@ -157,6 +167,7 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(toggleButton);
       buttonGroupBox.add(label, {row: 1, column: 0});
       buttonGroupBox.add(toggleButton, {row: 1, column: 1});
+      this.__widgets.push(toggleButton);
 
       // toggle button
       var repeatButton = new qx.ui.form.RepeatButton("0").set({tabIndex: tabIndex++});
@@ -164,6 +175,7 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(repeatButton);
       buttonGroupBox.add(label, {row: 2, column: 0});
       buttonGroupBox.add(repeatButton, {row: 2, column: 1});
+      this.__widgets.push(repeatButton);
 
       // menu button
       var menueButton = new qx.ui.form.MenuButton("MenuButton", null, this.__createMenuForMenuButton()).set({tabIndex: tabIndex++});
@@ -171,6 +183,7 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(menueButton);
       buttonGroupBox.add(label, {row: 3, column: 0});
       buttonGroupBox.add(menueButton, {row: 3, column: 1});
+      this.__widgets.push(menueButton);
 
       // split button
       var splitButton = new qx.ui.form.SplitButton("SplitButton", null, this.__createMenuForSplitButton()).set({tabIndex: tabIndex++});
@@ -178,6 +191,7 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(splitButton);
       buttonGroupBox.add(label, {row: 4, column: 0});
       buttonGroupBox.add(splitButton, {row: 4, column: 1});
+      this.__widgets.push(splitButton);
 
       // Listener
       repeatButton.addListener("execute", function()
@@ -203,6 +217,7 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(checkBox);
       booleanGroupBox.add(label, {row: 0, column: 0});
       booleanGroupBox.add(checkBox, {row: 0, column: 1});
+      this.__widgets.push(checkBox);
 
       // Tri-State check box
       var triCheckBox = new qx.ui.form.CheckBox("Tri-State CheckBox").set({
@@ -213,12 +228,13 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(triCheckBox);
       booleanGroupBox.add(label, {row: 1, column: 0});
       booleanGroupBox.add(triCheckBox, {row: 1, column: 1});
+      this.__widgets.push(triCheckBox);
 
       // radio button
       var radioButton = new qx.ui.form.RadioButton("RadioButton").set({tabIndex: tabIndex++});
       booleanGroupBox.add(new qx.ui.basic.Label("RadioButtons:"), {row: 2, column: 0});
       booleanGroupBox.add(radioButton, {row: 2, column: 1});
-
+      this.__widgets.push(radioButton);
 
 
       /** **************************************
@@ -236,6 +252,7 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(spinner);
       numberGroupBox.add(label, {row: 0, column: 0});
       numberGroupBox.add(spinner, {row: 0, column: 1});
+      this.__widgets.push(spinner);
 
       // slider
       var slider = new qx.ui.form.Slider().set({tabIndex: tabIndex++});
@@ -244,6 +261,7 @@ qx.Class.define("formdemo.FormItems", {
       label.setBuddy(slider);
       numberGroupBox.add(label, {row: 1, column: 0});
       numberGroupBox.add(slider, {row: 1, column: 1});
+      this.__widgets.push(slider);
 
       slider.bind("value", spinner, "value");
       spinner.bind("value", slider, "value");
@@ -300,6 +318,11 @@ qx.Class.define("formdemo.FormItems", {
       menu.add(site3);
 
       return menu;
+    },
+
+
+    getWidgets : function() {
+      return this.__widgets;
     }
   }
 });
