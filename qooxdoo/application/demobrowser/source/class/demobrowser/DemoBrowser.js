@@ -62,6 +62,9 @@ qx.Class.define("demobrowser.DemoBrowser",
   *****************************************************************************
   */
 
+  /**
+   * @lint ignoreUndefined(log)
+   */
   construct : function()
   {
     this.base(arguments);
@@ -155,7 +158,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     var htmlView = this.__htmlView = this.__makeHtmlCodeView();
     var jsView = this.__jsView = this.__makeJsCodeView();
-    var logView = this.__logView = this.__makeLogView();
+    var logView = this.__logView = new log.LogView();
 
     var stack = this.__stack = new qx.ui.container.Stack;
     stack.setDecorator("main");
@@ -863,50 +866,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       return iframe;
     },
 
-    __makeLogView : function()
-    {
-      var logBox = new qx.ui.layout.VBox(0, "middle", "main");
-      logBox.setAlignX("right");
-
-      var logContainer = new qx.ui.container.Composite(logBox);
-      var deco = new qx.ui.decoration.Background().set({
-        backgroundColor : "background-medium"
-      });
-      logContainer.setDecorator(deco);
-
-      var clearBtn = new qx.ui.form.Button(this.tr("Clear log"), "icon/22/actions/edit-clear.png");
-      clearBtn.setAllowGrowX(false);
-      clearBtn.setMargin(5);
-      clearBtn.addListener("execute", function() {
-        this.logappender.clear();
-      }, this);
-
-      logContainer.add(clearBtn, {flex : 0});
-
-      this.f2 = new qx.ui.embed.Html();
-      this.f2.setOverflow("auto", "auto");
-      this.f2.setFont("monospace");
-      this.f2.setBackgroundColor("white");
-
-      // Create appender and unregister from this logger
-      // (we are interested in demo messages only)
-      this.logappender = new qx.log.appender.Element();
-      qx.log.Logger.unregister(this.logappender);
-
-      // Directly create DOM element to use
-      var wrap = document.createElement("div");
-      this.logelem = document.createElement("div");
-      this.logelem.style.padding="8px";
-      this.logappender.setElement(this.logelem);
-      wrap.appendChild(this.logelem);
-
-      this.f2.getContentElement().useElement(wrap);
-
-      logContainer.add(this.f2, {flex : 1});
-      //return this.f2;
-      return logContainer;
-    },
-
     __makeHtmlCodeView : function()
     {
       var f3 = new qx.ui.embed.Html("<div class='script'>The sample source will be displayed here.</div>");
@@ -1322,7 +1281,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       try
       {
-
         // Do this in a try-catch block. For instance if a demobrowser runs from
         // the local file system over the file:// protocol, there might be
         // security restrictions when trying to access some fwindow properties
@@ -1334,12 +1292,10 @@ qx.Class.define("demobrowser.DemoBrowser",
 
             this.debug("Demo loaded: " + this._currentSample);
 
-            // Register to logger
-            this.logappender.$$id = null;
-            this.logappender.clear();
+            this.__logView.clear();
 
             try {
-              fwindow.qx.log.Logger.register(this.logappender);
+              this.__logView.fetch(fwindow.qx.log.Logger);
             } catch (e) {
               // if the logger is not available, ignore it
               return;
@@ -1540,7 +1496,7 @@ qx.Class.define("demobrowser.DemoBrowser",
        * TODOC
        *
        * @param evt {var} TODOC
-       * @lint ignoreDeprecated(eval)
+       * @lint ignoreDeprecated(alert, eval)
        */
       req.addListener("completed", function(evt)
       {
@@ -1844,25 +1800,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       return str.replace(".html", "").replace("_", " ");
     },
 
-
-    __fetchLog : function()
-    {
-      var w = this._iframe.getWindow();
-      var logger;
-      if (w.qx && w.qx.log && w.qx.log.Logger)
-      {
-        logger = w.qx.log.Logger;
-
-        // Register to flush the log queue into the appender.
-        logger.register(this.logappender)
-
-        // Clear buffer
-        logger.clear();
-
-        // Unregister again, so that the logger can flush again the next time the tab is clicked.
-        logger.unregister(this.logappender);
-      }
-    },
 
     __onChangeTheme : function(e)
     {

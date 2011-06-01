@@ -20,6 +20,7 @@
 /* ************************************************************************
 
 #asset(twitterdemo/*)
+#asset(qx/icon/Tango/16/actions/edit-clear.png)
 
 ************************************************************************ */
 
@@ -46,7 +47,7 @@ qx.Class.define("log.LogView", {
 
     //toolbar of the log pane
     var toolbar = new qx.ui.toolbar.ToolBar();
-    var clearButton = new qx.ui.toolbar.Button(this.tr("Clear"));
+    var clearButton = new qx.ui.toolbar.Button(this.tr("Clear"), "icon/16/actions/edit-clear.png");
     clearButton.addListener("execute", function(e) {
       this.clear();
     }, this);
@@ -95,14 +96,19 @@ qx.Class.define("log.LogView", {
     /**
      * Fetches all logged data from the qx logging system and puts in into the
      * log widget.
+     * 
+     * @param Class {Logger?null} The logger class.
      */
-    fetch : function()
+    fetch : function(Logger)
     {
+      if (!Logger) {
+        Logger = qx.log.Logger;
+      }
       // Register to flush the log queue into the appender.
-      qx.log.Logger.register(this.__logAppender);
+      Logger.register(this.__logAppender);
 
       // Clear buffer
-      qx.log.Logger.clear();
+      Logger.clear();
     }
   },
 
