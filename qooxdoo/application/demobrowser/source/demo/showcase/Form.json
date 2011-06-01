@@ -11,7 +11,7 @@
     "library" : 
     [
       {
-        "manifest"   : "../../component/library/formdemo/Manifest.json"
+        "manifest"   : "${QOOXDOO_PATH}/component/library/formdemo/Manifest.json"
       }
     ]
   },
@@ -19,7 +19,7 @@
     "library" : 
     [
       {
-        "manifest"   : "../../component/library/formdemo/Manifest.json"
+        "manifest"   : "${QOOXDOO_PATH}/component/library/formdemo/Manifest.json"
       }
     ]
   }

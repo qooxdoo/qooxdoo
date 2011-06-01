@@ -11,7 +11,7 @@
     "library" : 
     [
       {
-        "manifest"   : "../../component/library/twitterdemo/Manifest.json"
+        "manifest"   : "${QOOXDOO_PATH}/component/library/twitterdemo/Manifest.json"
       }
     ]
   },
@@ -19,7 +19,7 @@
     "library" : 
     [
       {
-        "manifest"   : "../../component/library/twitterdemo/Manifest.json"
+        "manifest"   : "${QOOXDOO_PATH}/component/library/twitterdemo/Manifest.json"
       }
     ]
   }

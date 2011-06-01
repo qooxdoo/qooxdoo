@@ -32,10 +32,10 @@
       "library" : 
       [
         {
-          "manifest"   : "../../component/library/formdemo/Manifest.json"
+          "manifest"   : "${QOOXDOO_PATH}/component/library/formdemo/Manifest.json"
         },
         {
-          "manifest"   : "../../component/library/twitterdemo/Manifest.json"
+          "manifest"   : "${QOOXDOO_PATH}/component/library/twitterdemo/Manifest.json"
         }
       ],
       "packages" : 

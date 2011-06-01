@@ -32,7 +32,7 @@
       "library" : 
       [
         {
-          "manifest"   : "../../component/library/log/Manifest.json"
+          "manifest"   : "${QOOXDOO_PATH}/component/library/log/Manifest.json"
         }
       ],
       "exclude" :
