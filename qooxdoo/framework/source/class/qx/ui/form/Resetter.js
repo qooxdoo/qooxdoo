@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 /**
- * The resetter is responsible for managing a set of items and resetting this
+ * The resetter is responsible for managing a set of items and resetting these
  * items on a {@link #reset} call. It can handle all form items supplying a
  * value property and all widgets implementing the single selection linked list
  * or select box.
