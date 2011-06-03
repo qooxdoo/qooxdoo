@@ -349,6 +349,80 @@ qx.Mixin.define("qx.dev.unit.MMock",
     */
     getSandbox: function() {
       return this.__sandbox;
+    },
+
+    /**
+     * Returns a deep copied, API-identical stubbed out clone of the given
+     * object.
+     *
+     * In contrast to the shallow {@link #stub}, also stubs out properties that
+     * belong to the prototype chain.
+     */
+    deepStub: function(object) {
+      return this.stub(this.__deepClone(object));
+    },
+
+    /**
+     * Changes the given factory (e.g. a constructor) to return a stub. The
+     * method itself returns this stub.
+     *
+     * By default, the stub returned by the changed factory is a deep copied,
+     * API-identical stubbed out clone of the object built by the original
+     * factory. Alternatively, a custom stub may be given explicitly that is
+     * used instead.
+     *
+     * @param object {Object} Namespace to hold factory, e.g. qx.html.
+     * @param property {String} Property as string that functions as
+     *  constructor, e.g. "Element".
+     * @param customStub {Stub?} The stub to inject.
+     * @return {Stub} The injected stub.
+     */
+    injectStub: function(object, property, customStub) {
+      var stub = customStub ||
+        this.stub(this.__deepClone(new object[property]));
+
+      this.stub(object, property).returns(stub);
+      return stub;
+    },
+
+    /**
+     * Changes the given factory (e.g. a constructor) to make a mock of the
+     * object returned. The method itself returns this mock.
+     *
+     * By default, the object returned by the changed factory (that a mock is
+     * made of) is a deep copied, API-identical clone of the object built by the
+     * original factory. Alternatively, the object returned can be given
+     * explicitly.
+     *
+     * @param object {Object} Namespace to hold factory, e.g. qx.html.
+     * @param property {String} Property as string that functions as
+     *  constructor, e.g. "Element".
+     * @param customObject {Object?} The mock to inject.
+     * @return {Mock} The injected mock.
+     */
+    revealMock: function(object, property, customObject) {
+      var source = customObject ||
+        this.__deepClone(new object[property]);
+
+      this.stub(object, property).returns(source);
+      return this.mock(source);
+    },
+
+    /**
+     * Prepare object with it's prototype to be stubbed or mocked.
+     *
+     * @param obj {Object} The object to prepare (that is, clone).
+     * @return {Object} The prepared (deeply cloned) object.
+     */
+    __deepClone: function(obj) {
+      var clone = {};
+
+      // Copy from prototype
+      for (var prop in obj) {
+        clone[prop] = obj[prop];
+      }
+
+      return clone;
     }
   }
 });

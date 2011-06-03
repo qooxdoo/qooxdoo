@@ -36,6 +36,20 @@ qx.Class.define("qx.test.dev.unit.Sinon",
     setUp : function()
     {
       this.sinon = qx.dev.unit.Sinon.getSinon();
+
+      qx.Class.define("qx.test.Animal", {
+        extend: qx.core.Object,
+        members: {
+          getKind: function() { return ""; }
+        }
+      });
+
+      qx.Class.define("qx.test.Affe", {
+        extend: qx.test.Animal,
+        members: {
+          scratch: function() { return true; }
+        }
+      });
     },
 
     "test: get sinon": function() {
@@ -188,6 +202,63 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       this.assertUndefined(nxhr.restore);
     },
 
+    "test: deep stub": function() {
+      var obj = new qx.test.Affe();
+          obj = this.deepStub(obj);
+      obj.getKind();
+      this.assertCalled(obj.getKind);
+    },
+
+    "test: inject stub of original": function() {
+      this.injectStub(qx.test, "Affe");
+      var affe = new qx.test.Affe();
+
+      affe.scratch.returns(false);
+      this.assertFalse(affe.scratch());
+    },
+
+    "test: inject stub of original and return": function() {
+      var stub = this.injectStub(qx.test, "Affe"),
+          affe = new qx.test.Affe();
+
+      stub.scratch.returns(false);
+      this.assertFalse(affe.scratch());
+    },
+
+    "test: inject custom stub": function() {
+      this.injectStub(qx.test, "Affe", this.stub({ dance: function(){} }));
+      var affe = new qx.test.Affe();
+
+      affe.dance();
+      this.assertCalled(affe.dance);
+    },
+
+    "test: inject custom stub and return": function() {
+      var stub = this.injectStub(qx.test, "Affe", this.stub({ dance: function(){} })),
+          affe = new qx.test.Affe();
+
+      affe.dance();
+      this.assertCalled(stub.dance);
+    },
+
+    "test: reveal mock of original and return": function() {
+      var mock = this.revealMock(qx.test, "Affe"),
+          affe = new qx.test.Affe();
+
+      mock.expects("scratch").once();
+      affe.scratch();
+      mock.verify();
+    },
+
+    "test: reveal mock of custom and return": function() {
+      var mock = this.revealMock(qx.test, "Affe", { dance: function() {} }),
+          affe = new qx.test.Affe();
+
+      mock.expects("dance").once();
+      affe.dance();
+      mock.verify();
+    },
+
     hasXhr: function() {
       return qx.core.Environment.get("io.xhr") === "xhr";
     },
@@ -196,6 +267,9 @@ qx.Class.define("qx.test.dev.unit.Sinon",
     {
       this.getSandbox().restore();
       this.sinon = null;
+
+      qx.Class.undefine("qx.test.Affe");
+      qx.Class.undefine("qx.test.Animal");
     }
   }
 });
