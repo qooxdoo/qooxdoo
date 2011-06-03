@@ -665,7 +665,8 @@ qx.Class.define("qx.test.bom.request.Xhr",
       });
 
       var responseHeaders = this.req.getAllResponseHeaders();
-      this.assertEquals("value2", responseHeaders["key2"]);
+      this.assertMatch(responseHeaders, /key1: value1/);
+      this.assertMatch(responseHeaders, /key2: value2/);
     },
 
     //
