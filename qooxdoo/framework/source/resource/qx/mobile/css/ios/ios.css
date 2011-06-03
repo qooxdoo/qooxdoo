@@ -159,10 +159,24 @@ li:last-child, li:last-child a {
 
 /* FORMS */
 
+input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
+  border: 2px solid red;
+}
+
 input, select { vertical-align:middle; }
 input, select, textarea { 
   font-family: Helvetica;
   font-size:.9em;
+}
+
+select {
+  text-indent: 0;
+  background: transparent no-repeat right center;
+  -webkit-appearance: textfield;
+  margin-left: -6px;
+  width: 100%;
+  color: #777;
+  border: none;
 }
 
 ul.form {
@@ -186,7 +200,7 @@ ul.form ul li * {
     text-overflow: ellipsis;
 }
 
-ul li input[type="text"], ul li input[type="password"], ul li textarea {
+ input[type="text"], input[type="password"], textarea {
     color: #777;
     background: #fff url(../.png);
     border: 0;
@@ -199,12 +213,12 @@ ul li input[type="text"], ul li input[type="password"], ul li textarea {
     outline: none;
 }
 
-ul li textarea {
+textarea {
     height: 120px;
     padding: 0;
 }
 
-ul li input[type="checkbox"], ul li input[type="radio"] {
+input[type="checkbox"], input[type="radio"] {
     margin: 0;
     color: rgb(50,79,133);
     padding: 10px 10px;

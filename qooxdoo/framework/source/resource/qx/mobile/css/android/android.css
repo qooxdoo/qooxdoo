@@ -161,6 +161,16 @@ input, select, textarea {
   font-size:.9em;
 }
 
+select {
+  text-indent: 0;
+  background: transparent no-repeat right center;
+  -webkit-appearance: textfield;
+  margin-left: -6px;
+  width: 100%;
+  color: #777;
+  border: none;
+}
+
 ul.form li {
     padding: 10px 10px 10px 10px;
 }
