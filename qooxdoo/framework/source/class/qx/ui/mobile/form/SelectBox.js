@@ -121,14 +121,14 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
   members :
   {
-  
     __selectedIndex : null,
-    
+
     // overridden
     _getTagName : function()
     {
       return "select";
     },
+
 
     /**
      * Sets the enable property to the new value
@@ -147,34 +147,40 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
         this._setAttribute("disabled","disabled");
       }
     },
-    
+
+
     /**
      * Returns the selected value of the element
      */
     getSelection : function() {
       return this.getValue();
     },
-    
+
+
     /**
      * Sets the selected value of the element
      */
     setSelection : function(value) {
       this.setValue(value);
     },
-    
+
+
     /**
      * Implements the way the value is set for the element
      */
-    
+
+
     _setValue : function(value) {
       var model = this.getModel();
       this.getContainerElement().selectedIndex = model.indexOf(value);
     },
-    
+
+
     /**
-     * Keeps the model in sync with the options of the select element
+     * Renders the selectbox. Override this if you would like to display the
+     * values of the select box in a different way than the default.
      */
-    __syncModelToDOM : function(){
+    _render : function(){
       this._setHtml("");
       var element = this.getContentElement();
       for(var i=0, l=this.getModel().getLength(); i<l; i++)
@@ -190,18 +196,19 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       }
       this._domUpdated();
     },
-    
+
+
     /**
      * Sets the model property to the new value
      * @param value {qx.data.Array}, the new model
      * @param old {qx.data.Array?}, the old model
      */
     _applyModel : function(value, old){
-      value.addListener("change", this.__syncModelToDOM, this);
+      value.addListener("change", this._render, this);
       if (old != null) {
-        old.removeListener("change", this.__syncModelToDOM, this);
+        old.removeListener("change", this._render, this);
       }
-      this.__syncModelToDOM();
+      this._render();
     }
   }
 });
