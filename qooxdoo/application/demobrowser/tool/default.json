@@ -16,12 +16,13 @@
     {
       "let" : {
         "APPLICATION" : "demobrowser.demo",
+        "QOOXDOO_PATH": "../..",
         "DNAME"       : "${DPACKAGE}.${DSNAME}",
         "DCLASS"      : "${APPLICATION}.${DNAME}",
         "LOCALES"     : ["en", "en_US", "de", "de_DE", "fr", "fr_FR"]
       },
       "library" : [
-        { "manifest" : "../../framework/Manifest.json" },
+        { "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json" },
         { "manifest" : "Manifest.demo.json" }
       ],
       "include" : [
