@@ -408,7 +408,8 @@ class CodeGenerator(object):
 
             def compiledFilename(compiled):
                 hash_ = sha.getHash(compiled)[:12]
-                fname = self._fileNameWithHash(script.baseScriptPath, hash_)
+                fname = self._resolveFileName(script.baseScriptPath, script.variants, {}, "")
+                fname = self._fileNameWithHash(fname, hash_)
                 return fname
 
             def compileAndAdd(compiledClasses, packageUris, prelude='', wrap=''):
@@ -613,7 +614,7 @@ class CodeGenerator(object):
 
             self._console.outdent()
 
-            # generate boot code
+            # generate loader
             if inlineBoot(script, compConf):
                 # read first script file from script dir
                 bfile = packages[0].files[0]  # "__out__:foo.js"
@@ -624,7 +625,8 @@ class CodeGenerator(object):
             else:
                 bcode = ""
             loaderCode = generateLoader(script, compConf, globalCodes, bcode)
-            self.writePackage(loaderCode, script.baseScriptPath, script)
+            fname = self._resolveFileName(script.baseScriptPath, script.variants, {}, "")
+            self.writePackage(loaderCode, fname, script)
 
 
         self._console.outdent()
