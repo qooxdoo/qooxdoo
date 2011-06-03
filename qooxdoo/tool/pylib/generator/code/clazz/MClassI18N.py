@@ -25,6 +25,7 @@
 
 import sys, os, types, re, string
 from ecmascript.frontend import treeutil
+from ecmascript.frontend.tree import NodeAccessException
 from misc import util
 
 class MClassI18N(object):
