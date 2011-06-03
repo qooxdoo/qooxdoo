@@ -192,27 +192,18 @@ qx.Class.define("qx.ui.mobile.list.List",
     // property apply
     _applyModel : function(value, old)
     {
-      if (value) {
-        this.setItemCount(value ? value.getLength() : 0);
-        this.__render();
-      } else {
-        this.clear();
+      if (old != null) {
+        old.removeListener("change", this.__render, this);
       }
+      value.addListener("change", this.__render, this);
+      this.setItemCount(value ? value.getLength() : 0);
+      this.__render();
     },
 
 
     // property apply
     _applyDelegate : function(value, old) {
       this.__provider.setDelegate(value);
-    },
-
-
-    /**
-     * Clears the list.
-     */
-    clear : function()
-    {
-      this._setHtml("");
     },
 
 
