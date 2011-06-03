@@ -19,6 +19,8 @@
 
 /**
  * Rudimentary tests to check that Sinon.JS is integrated correctly.
+ *
+ * Also serves as a collection of examples.
  */
 qx.Class.define("qx.test.dev.unit.Sinon",
 {
@@ -78,6 +80,41 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       whoami.returns("Affe");
 
       this.assertEquals("Affe", whoami());
+    },
+
+    "test: stub property": function() {
+      qx.test.PROP = false;
+
+      this.stub(qx.test, "PROP", true);
+      this.assertEquals(true, qx.test.PROP);
+
+      qx.test.PROP = undefined;
+    },
+
+    "test: stub property in isolation": function() {
+      qx.test.PROP = false;
+
+      this.stub(qx.test, "PROP", true);
+      this.getSandbox().restore();
+      this.assertEquals(false, qx.test.PROP);
+
+      qx.test.PROP = undefined;
+    },
+
+    "test: stub environment setting": function() {
+      var setting = this.stub(qx.core.Environment, "get").withArgs("browser.name");
+      setting.returns("My Browser");
+      this.assertEquals("My Browser", qx.core.Environment.get("browser.name"));
+    },
+
+    "test: stub environment setting in isolation": function() {
+      var name = qx.core.Environment.get("browser.name"),
+          version = qx.core.Environment.get("browser.version"),
+          setting = this.stub(qx.core.Environment, "get").withArgs("browser.name");
+      setting.returns("My Browser");
+      this.getSandbox().restore();
+      this.assertEquals(name, qx.core.Environment.get("browser.name"));
+      this.assertEquals(version, qx.core.Environment.get("browser.version"));
     },
 
     "test: assert": function() {

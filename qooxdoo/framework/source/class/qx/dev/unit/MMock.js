@@ -140,6 +140,10 @@ qx.Mixin.define("qx.dev.unit.MMock",
     *   The returned spy is the function object which replaced the original method.
     *   spy === object.method.
     *
+    * * spy.withArgs(arg1[, arg2, ...])
+    *   Creates a spy that only records calls when the received arguments matches those
+    *   passed to <code>withArgs</code>.
+    *
     * A spy has a rich interface to introspect how the wrapped function was used:
     *
     * * spy.callCount
@@ -163,7 +167,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * * spy.alwaysThrew(obj)
     * * spy.returned(obj)
     * * spy.alwaysReturned(obj)
-    * * spy.getCall(n);
+    * * spy.getCall(n)
     * * spy.thisValues
     * * spy.args
     * * spy.exceptions
@@ -192,13 +196,19 @@ qx.Mixin.define("qx.dev.unit.MMock",
     *
     * * stub()
     *   Creates an anonymous stub function
+    *
     * * stub(object, "method")
     *   Replaces object.method with a stub function. The original function
     *   can be restored by calling object.method.restore() (or stub.restore()).
     *   An exception is thrown if the property is not already a function,
     *   to help avoid typos when stubbing methods.
+    *
     * * stub(obj)
     *   Stubs all the object's methods.
+    *
+    * * stub.withArgs(arg1[, arg2, ...])
+    *   Stubs the method only for the provided arguments. Can be used to create
+    *   a stub that acts differently in response to different arguments.
     *
     * A stub has the interface of a spy in addition to methods that allow to define behaviour:
     *
@@ -239,6 +249,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * * var mock = mock(obj)
     *   Creates a mock for the provided object. Does not change the object, but
     *   returns a mock object to set expectations on the object's methods.
+    *
     * * var expectation = mock.expects("method")
     *   Overrides obj.method with a mock function and returns an expectation
     *   object. Expectations implement both the spy and stub interface plus
