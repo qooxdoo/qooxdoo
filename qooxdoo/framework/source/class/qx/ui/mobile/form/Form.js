@@ -40,43 +40,19 @@
  */
 qx.Class.define("qx.ui.mobile.form.Form",
 {
-  extend : qx.ui.mobile.core.Widget,
-  include : [ qx.ui.mobile.core.MChildrenHandling ],
-
+  extend : qx.ui.form.Form,
 
   /*
   *****************************************************************************
-     PROPERTIES
+     CONSTRUCTOR
   *****************************************************************************
   */
 
-  properties :
+  construct : function()
   {
-    // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "form"
-    }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    // overridden
-    _getTagName : function()
-    {
-      // TODO: use real form tag here
-      // we need submit functionality
-      return "ul";
-    }
+    this.base(arguments);
+    
+    this._resetter = new qx.ui.mobile.form.Resetter();
   }
+
 });

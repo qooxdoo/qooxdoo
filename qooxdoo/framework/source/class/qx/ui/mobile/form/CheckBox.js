@@ -87,13 +87,6 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
     {
       return "checkbox";
     },
-  
-    /**
-     * Sets the check property to the check attribute value of the CheckBox.
-     */
-    _syncValueProperty : function(e) {
-      this.setValue(this.getValue());
-    },
     
     // overridden
     _setValue : function(value) {

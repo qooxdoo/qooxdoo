@@ -43,7 +43,16 @@
 qx.Class.define("qx.ui.mobile.form.ToggleButton",
 {
   extend : qx.ui.mobile.core.Widget,
-
+  include : [
+    qx.ui.mobile.form.MValue,
+    qx.ui.form.MForm,
+    qx.ui.form.MModelProperty,
+    qx.ui.mobile.form.MState
+  ],
+  implement : [
+    qx.ui.form.IForm,
+    qx.ui.form.IModel
+  ],
 
   /*
   *****************************************************************************
@@ -68,8 +77,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   },
 
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -84,18 +91,19 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
       refine : true,
       init : "toggleButton"
     },
-
-
+    
     /**
-     * The value of the toggle button.
+     * Whether this Slider is enabled or not
      */
-    value :
+    enabled :
     {
+      init: true,
       check : "Boolean",
-      init : false,
-      apply : "_applyValue",
-      event : "changeValue"
+      nullable: false,
+      event : "changeEnabled",
+      apply: "_applyEnabled"
     }
+    
   },
 
 
@@ -110,6 +118,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   members :
   {
     __child : null,
+    __value : null,
 
 
     /**
@@ -132,15 +141,22 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 
 
     // property apply
-    _applyValue : function(value, old)
+    _setValue : function(value)
     {
+      if(typeof value !== 'boolean') {
+        throw new Error("value for "+this+" should be boolean");
+      }
       if (value) {
         this._getChild().addCssClass("checked");
       } else {
         this._getChild().removeCssClass("checked");
       }
+       this.__value = value;
     },
-
+    
+    _getValue : function() {
+      return this.__value;
+    },
 
     /**
      * Toggles the value of the button.
@@ -172,6 +188,24 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     _onSwipe : function(evt)
     {
       this.toggle();
+    },
+    
+    /**
+     * Sets the enable property to the new value
+     * @param value {Boolean}, the new value of the element
+     * @param old {Boolean?}, the old value of the element
+     * 
+     */
+    _applyEnabled : function(value,old)
+    {
+      if(value)
+      {
+        this._setAttribute("disabled",null)
+      }
+      else
+      {
+        this._setAttribute("disabled","disabled");
+      }
     }
   },
 

@@ -47,7 +47,16 @@
 qx.Class.define("qx.ui.mobile.form.Slider",
 {
   extend : qx.ui.mobile.core.Widget,
-
+  include : [
+    qx.ui.mobile.form.MValue,
+    qx.ui.form.MForm,
+    qx.ui.form.MModelProperty,
+    qx.ui.mobile.form.MState
+  ],
+  implement : [
+    qx.ui.form.IForm,
+    qx.ui.form.IModel
+  ],
 
   /*
   *****************************************************************************
@@ -79,21 +88,6 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       init : "slider"
     },
 
-
-    /**
-     * The current slider value.
-     *
-     * Strictly validates according to {@link #minimum} and {@link #maximum}.
-     */
-    value :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_updateKnobPosition",
-      event : "changeValue"
-    },
-
-
     /**
      * The minimum slider value (may be negative). This value must be smaller
      * than {@link #maximum}.
@@ -102,7 +96,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       check : "Integer",
       init : 0,
-      apply : "_updateKnobPosition"
+      apply : "_setValue"
     },
 
 
@@ -114,7 +108,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       check : "Integer",
       init : 100,
-      apply : "_updateKnobPosition"
+      apply : "_setValue"
     },
 
 
@@ -126,6 +120,18 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       check : "Integer",
       init : 1
+    },
+    
+    /**
+     * Whether this Slider is enabled or not
+     */
+    enabled :
+    {
+      init: true,
+      check : "Boolean",
+      nullable: false,
+      event : "changeEnabled",
+      apply: "_applyEnabled"
     }
   },
 
@@ -328,7 +334,16 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       return this._knobElement;
     },
 
-
+    _setValue : function(value)
+    {
+      this.__value = value;
+      this._updateKnobPosition();
+    },
+    
+    _getValue : function() {
+      return this.__value;
+    },
+    
     /**
      * Updates the knob position based on the current value.
      */
@@ -462,6 +477,24 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _getRange : function()
     {
       return this.getMaximum() - this.getMinimum();
+    },
+    
+    /**
+     * Sets the enable property to the new value
+     * @param value {Boolean}, the new value of the element
+     * @param old {Boolean?}, the old value of the element
+     * 
+     */
+    _applyEnabled : function(value,old)
+    {
+      if(value)
+      {
+        this._setAttribute("disabled",null)
+      }
+      else
+      {
+        this._setAttribute("disabled","disabled");
+      }
     }
   },
 

@@ -27,7 +27,8 @@ qx.Class.define("qx.ui.mobile.form.Input",
   extend : qx.ui.mobile.core.Widget,
   include : [
     qx.ui.form.MForm,
-    qx.ui.form.MModelProperty
+    qx.ui.form.MModelProperty,
+    qx.ui.mobile.form.MState
   ],
   implement : [
     qx.ui.form.IForm,

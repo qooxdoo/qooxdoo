@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Tino Butz (tbtz)
+     * Tino Butz (tbtz)
 
 ************************************************************************ */
 
@@ -50,7 +50,8 @@ qx.Class.define("mobileshowcase.page.Form",
       this.base(arguments);
       var title = new qx.ui.mobile.form.Title("Form");
       this.getContent().add(title);
-      this.getContent().add(this.__createForm());
+      this.__form = this.__createForm();
+      this.getContent().add(new qx.ui.mobile.form.renderer.Single(this.__form));
 
       var button = new qx.ui.mobile.form.Button("Submit");
       button.addListener("tap", this._onButtonTap, this);
@@ -70,62 +71,53 @@ qx.Class.define("mobileshowcase.page.Form",
      */
     __createForm : function()
     {
+     
       var form = new qx.ui.mobile.form.Form();
+      var validationManager = form.getValidationManager();
 
-      var row = new qx.ui.mobile.form.Row();
       this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username - value bound to checkbox's model"});
-      row.add(this.__name);
-      form.add(row);
+      this.__name.setRequired(true);
+      form.add(this.__name, "Username: ");
+      validationManager.add(this.__name, function(value, item){
+        var valid = value != null && value.length>3;
+        if(!valid) {
+          item.setInvalidMessage("value should have more than 3 characters!");
+        }
+        return valid;
+      }, this);
 
-      var row = new qx.ui.mobile.form.Row();
-      form.add(row);
       this.__password = new qx.ui.mobile.form.PasswordField().set({placeholder:"Password"});
-      row.add(this.__password);
+      form.add(this.__password, "Password: ");
       
-      var row = new qx.ui.mobile.form.Row();
       this.__rememberPass = new qx.ui.mobile.form.CheckBox();
-      row.add(this.__rememberPass);
+      form.add(this.__rememberPass, "Remember password? ");
       this.__rememberPass.setModel("checkbox model bound to textField value. check the Checkbox to see its model in the textarea");
       this.__rememberPass.bind("model",this.__name,"value");
       this.__name.bind("value",this.__rememberPass,"model");
       
-      form.add(row);
-      
       this.__rememberPass.addListener('tap', this._onCheckBoxClick, this);
-      
-      var row = new qx.ui.mobile.form.Row();
+      form.addGroupHeader("Countries");
       this.__radio1 = new qx.ui.mobile.form.RadioButton();
       this.__radio2 = new qx.ui.mobile.form.RadioButton();
       this.__radio3 = new qx.ui.mobile.form.RadioButton();
       var radioGroup = new qx.ui.form.RadioGroup(this.__radio1, this.__radio2, this.__radio3);
-      row.add(this.__radio1);row.add(new qx.ui.mobile.basic.Label("Germany"));
-      row.add(this.__radio2);row.add(new qx.ui.mobile.basic.Label("UK"));
-      row.add(this.__radio3);row.add(new qx.ui.mobile.basic.Label("USA"));
+      form.add(this.__radio1, "Germany");
+      form.add(this.__radio2, "UK");
+      form.add(this.__radio3, "USA");
       
-      form.add(row);
-
-      var row = new qx.ui.mobile.form.Row();
-      form.add(row);
       this.__info = new qx.ui.mobile.form.TextArea().set({placeholder:"Some Info"});
-      row.add(this.__info);
+      form.add(this.__info,"Some Info: ");
 
-      var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
-      form.add(row);
-      row.add(new qx.ui.mobile.basic.Label("Save"), {flex:1});
       this.__save = new qx.ui.mobile.form.ToggleButton();
-      row.add(this.__save);
+      form.add(this.__save, "Save: ");
 
-      var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
-      form.add(row);
       this.__slide = new qx.ui.mobile.form.Slider();
-      row.add(this.__slide, {flex:1});
+      form.add(this.__slide,"Go: ");
       
-      var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
-      form.add(row);
       var dd = new qx.data.Array(["item 1", "Item 2", "Item 3"]);
       this.__sel = new qx.ui.mobile.form.SelectBox();
       this.__sel.setModel(dd);
-      row.add(this.__sel, {flex:1});
+      form.add(this.__sel, "Items ");
       
       return form;
       
@@ -143,13 +135,16 @@ qx.Class.define("mobileshowcase.page.Form",
      */
     _onButtonTap : function(evt)
     {
-      var result = [];
-      result.push("Username: " +  this.__name.getValue());
-      result.push("Password: " +  this.__password.getValue());
-      result.push("Info: " +  this.__info.getValue());
-      result.push("Save: " +  this.__save.getValue());
-      result.push("Slider: " +  this.__slide.getValue());
-      this.__result.setHtml(result.join("<br>"));
+      if(this.__form.validate())
+      {
+        var result = [];
+        result.push("Username: " +  this.__name.getValue());
+        result.push("Password: " +  this.__password.getValue());
+        result.push("Info: " +  this.__info.getValue());
+        result.push("Save: " +  this.__save.getValue());
+        result.push("Slider: " +  this.__slide.getValue());
+        this.__result.setHtml(result.join("<br>"));
+      }
     },
 
 

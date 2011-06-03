@@ -150,6 +150,11 @@ li:first-child, li:first-child a {
 
 /* FORMS */
 
+
+input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
+  border: 2px solid red;
+}
+
 input, select { vertical-align:middle; }
 input, select, textarea { 
   font-family: Helvetica;
@@ -173,7 +178,7 @@ ul.form li * {
     text-overflow: ellipsis;
 }
 
-ul li input[type="text"], ul li input[type="password"], ul li textarea {
+input[type="text"], input[type="password"], textarea {
     color: #222222;
     background: -webkit-gradient(linear, left top, left bottom, from(#e2e0e2), to(#f8f5f8));
     border: 1px solid #242424;
@@ -185,12 +190,12 @@ ul li input[type="text"], ul li input[type="password"], ul li textarea {
     -webkit-background-clip: padding-box;
 }
 
-ul li textarea {
+textarea {
     height: 120px;
     width: 100%;
 }
 
-ul li input[type="checkbox"], ul li input[type="radio"] {
+input[type="checkbox"], input[type="radio"] {
     margin: 0;
     color: rgb(50,79,133);
     padding: 10px 10px;
