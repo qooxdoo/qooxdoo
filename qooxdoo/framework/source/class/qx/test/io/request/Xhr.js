@@ -63,18 +63,8 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     setUpFakeTransport: function() {
-      this.transport = this.stub(new qx.bom.request.Xhr());
-
-      // XHR offers an extended feature set compared to JSONP
-      this.stub(this.transport, "open");
-      this.stub(this.transport, "setRequestHeader");
-      this.stub(this.transport, "send");
-      this.stub(this.transport, "abort");
-      this.stub(this.transport, "getResponseHeader");
-
-      this.stub(qx.io.request.Xhr.prototype, "_createTransport").
-          returns(this.transport);
-
+      this.transport = this.injectStub(qx.io.request.Xhr.prototype,
+        "_createTransport", this.deepStub(new qx.bom.request.Xhr()));
       this.setUpRequest();
     },
 

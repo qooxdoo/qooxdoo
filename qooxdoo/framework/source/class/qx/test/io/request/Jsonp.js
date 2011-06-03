@@ -51,17 +51,8 @@ qx.Class.define("qx.test.io.request.Jsonp",
     // Also called in shared tests, i.e. shared tests
     // use appropriate transport
     setUpFakeTransport: function() {
-      this.transport = this.stub(new qx.bom.request.Jsonp());
-
-      // JSONP only offers the bare minimum of a BOM request
-      this.stub(this.transport, "open");
-      this.stub(this.transport, "setRequestHeader");
-      this.stub(this.transport, "send");
-      this.stub(this.transport, "abort");
-
-      this.stub(qx.io.request.Jsonp.prototype, "_createTransport").
-          returns(this.transport);
-
+      this.transport = this.injectStub(qx.io.request.Jsonp.prototype,
+        "_createTransport", this.deepStub(new qx.bom.request.Jsonp()));
       this.setUpRequest();
     },
 
@@ -113,9 +104,7 @@ qx.Class.define("qx.test.io.request.Jsonp",
       var req = this.req,
           transport = this.transport;
 
-      this.spy(transport, "setCallbackParam");
       req.setCallbackParam("method");
-
       this.assertCalledWith(transport.setCallbackParam, "method");
     },
 
@@ -125,9 +114,7 @@ qx.Class.define("qx.test.io.request.Jsonp",
       var req = this.req,
           transport = this.transport;
 
-      this.spy(transport, "setCallbackName");
       req.setCallbackName("myCallback");
-
       this.assertCalledWith(transport.setCallbackName, "myCallback");
     }
   }

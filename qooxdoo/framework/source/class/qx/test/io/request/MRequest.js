@@ -58,7 +58,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
 
     "test: dispose transport on destruct": function() {
       this.setUpFakeTransport();
-      this.spy(this.transport, "dispose");
       this.req.dispose();
 
       this.assertCalled(this.transport.dispose);
