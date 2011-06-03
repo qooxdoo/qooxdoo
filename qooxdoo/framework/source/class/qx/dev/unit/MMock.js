@@ -179,13 +179,11 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * the original function for all spies run this.getSandbox().restore()
     * in your tearDown() method.
     *
-    * @param  function_or_object {Function?null|Object?null}
-    *         Spies on the provided function or object.
-    * @param  method {String?null}
-    *         The method to spy upon if an object was given.
-    * @return {Spy}
-    *         The wrapped function enhanced with properties and
-    *         methods that allow for introspection.
+    * @param function_or_object {Function?null|Object?null} Spies on the
+    *   provided function or object.
+    * @param method {String?null} The method to spy upon if an object was given.
+    * @return {Spy} The wrapped function enhanced with properties and methods
+    *   that allow for introspection.
     */
     spy: function(function_or_object, method) {
       return this.__sandbox.spy.apply(this.__sandbox, arguments);
@@ -226,16 +224,13 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * the original function for all stubs run this.getSandbox().restore()
     * in your tearDown() method.
     *
-    * @param  object {Object?null}
-    *         Object to stub. Stubs all methods if no
-    *         method is given.
-    * @param  method {String?null}
-    *         Replaces object.method with a stub function.
-    *         An exception is thrown if the property is not already a
-    *         function, to help avoid typos when stubbing methods.
-    * @return {Stub}
-    *         A stub. Has the interface of a spy in addition to methods
-    *         that allow to define behaviour.
+    * @param object {Object?null} Object to stub. Stubs all methods if no method
+    *   is given.
+    * @param  method {String?null} Replaces object.method with a stub function.
+    *   An exception is thrown if the property is not already a function, to
+    *   help avoid typos when stubbing methods.
+    * @return {Stub} A stub. Has the interface of a spy in addition to methods
+    *   that allow to define behaviour.
     *
     */
     stub: function(object, method) {
@@ -272,10 +267,8 @@ qx.Mixin.define("qx.dev.unit.MMock",
     *
     * See http://sinonjs.org/docs/api/#mocks.
     *
-    * @param object {Object}
-    *        The object to create a mock of.
-    * @return {Mock}
-    *        A mock to set expectations on.
+    * @param object {Object} The object to create a mock of.
+    * @return {Mock} A mock to set expectations on.
     */
     mock: function(object) {
       var sinon = this.__getSinon();
@@ -357,6 +350,9 @@ qx.Mixin.define("qx.dev.unit.MMock",
      *
      * In contrast to the shallow {@link #stub}, also stubs out properties that
      * belong to the prototype chain.
+     *
+     * @param object {Object} The object to stub deeply.
+     * @return {Stub} A stub.
      */
     deepStub: function(object) {
       return this.stub(this.__deepClone(object));
@@ -397,8 +393,8 @@ qx.Mixin.define("qx.dev.unit.MMock",
      * @param object {Object} Namespace to hold factory, e.g. qx.html.
      * @param property {String} Property as string that functions as
      *  constructor, e.g. "Element".
-     * @param customObject {Object?} The mock to inject.
-     * @return {Mock} The injected mock.
+     * @param customObject {Object?} The object to inject.
+     * @return {Mock} The mock of the object built.
      */
     revealMock: function(object, property, customObject) {
       var source = customObject ||

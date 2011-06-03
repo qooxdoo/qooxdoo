@@ -17,6 +17,13 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#ignore(qx.test.Animal)
+#ignore(qx.test.Affe)
+
+************************************************************************ */
+
 /**
  * Rudimentary tests to check that Sinon.JS is integrated correctly.
  *
@@ -33,6 +40,10 @@ qx.Class.define("qx.test.dev.unit.Sinon",
   {
     sinon: null,
 
+    /**
+     * @lint ignoreUndefined(qx.test.Animal)
+     * @lint ignoreUndefined(qx.test.Affe)
+     */
     setUp : function()
     {
       this.sinon = qx.dev.unit.Sinon.getSinon();
