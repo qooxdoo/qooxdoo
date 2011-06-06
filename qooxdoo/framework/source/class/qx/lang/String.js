@@ -254,9 +254,9 @@ qx.Class.define("qx.lang.String",
     format : function(pattern, args)
     {
       var str = pattern;
-      var l = args.length;
+      var i = args.length;
 
-      for (var i=l; i>=0; i--) {
+      while (i--) {
         // be sure to always use a string for replacement.
         str = str.replace(new RegExp("%" + (i + 1), "g"), args[i] + "");
       }
