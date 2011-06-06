@@ -38,6 +38,7 @@ qx.Class.define("qx.test.lang.String",
 
       this.assertEquals("1-2", Str.format("%1-%2", [ "1", "2" ]));
       this.assertEquals("2-1", Str.format("%2-%1", [ "1", "2" ]));
+      this.assertEquals("1-2-3-4-5-6-7-8-9-10-11", Str.format("%1-%2-%3-%4-%5-%6-%7-%8-%9-%10-%11", [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]));
     },
 
 
