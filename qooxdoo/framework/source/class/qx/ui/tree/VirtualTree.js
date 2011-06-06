@@ -647,7 +647,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
             if (isNode && this.isNodeOpen(item)) {
               this.closeNode(item);
             } else {
-              var parent = this.__getParent(item);
+              var parent = this.getParent(item);
               if (parent != null) {
                 selection.splice(0, 1, parent);
               }
@@ -879,8 +879,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * @param item {qx.core.Object} Node or leaf to get parent.
      * @return {qx.core.Object|null} The parent note or <code>null</code> when
      *   no parent found.
+     *   
+     * @internal
      */
-    __getParent : function(item)
+    getParent : function(item)
     {
       var index = this.__lookupTable.indexOf(item);
       if (index < 0) {

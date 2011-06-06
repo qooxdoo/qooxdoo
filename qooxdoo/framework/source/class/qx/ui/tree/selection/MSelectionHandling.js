@@ -66,6 +66,10 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
 
     /** {Boolean} flag to ignore the selection change from _manager */
     __ignoreManagerChangeSelection : false,
+    
+    
+    /** {Array} internal parent chain form the last selected node */
+    __parentChain : null,
 
 
     /**
@@ -207,6 +211,18 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
         }
       }
 
+      // set the first visible parent as selected
+      if (selection.getLength() === 0 &&
+          this.getSelectionMode() === "one")
+      {
+        var visibleParent = this.__getVisibleParent();
+        var row = this.getLookupTable().indexOf(visibleParent);
+        
+        if (row >= 0) {
+          newSelection.push(row);
+        }
+      } 
+      
       try {
         this._manager.replaceSelection(newSelection);
       }
@@ -215,6 +231,15 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
         this._manager.selectItem(newSelection[newSelection.length - 1]);
       }
       this.__synchronizeSelection();
+      
+      // build parent chain
+      if (selection.getLength() > 0 &&
+          this.getSelectionMode() === "one"
+      ) {
+        this.__buildParentChain(selection.getItem(0));
+      } else {
+        this.__parentChain = [];
+      }
 
       this.__ignoreChangeSelection = false;
     },
@@ -266,11 +291,54 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
       localSelection.length = nativArray.length;
     },
 
+    
+    /**
+     * Builds the parent chain form the passed item.
+     * 
+     * @param item {var} Item to build parent chain.
+     */
+    __buildParentChain : function(item)
+    {
+      this.__parentChain = [];
+      var parent = this.getParent(item); 
+      while(parent != null)
+      {
+        this.__parentChain.unshift(parent);
+        parent = this.getParent(parent); 
+      }
+    },
+    
+    
+    /**
+     * Return the first visible parent node from the last selected node.
+     * 
+     * @return {var} The first visible node.
+     */
+    __getVisibleParent : function()
+    {
+      if (this.__parentChain == null) {
+        return this.getModel();
+      }
+      
+      var lookupTable = this.getLookupTable();
+      var parent = this.__parentChain.pop();
+
+      while(parent != null)
+      {
+        if (lookupTable.contains(parent)) {
+          return parent;
+        }
+        parent = this.__parentChain.pop();
+      }
+      return this.getModel();
+    },
+    
 
     /**
      * Helper Method to select default item.
      */
-    _applyDefaultSelection : function() {
+    _applyDefaultSelection : function()
+    {
       if (this._manager != null) {
         this._manager._applyDefaultSelection();
       }
