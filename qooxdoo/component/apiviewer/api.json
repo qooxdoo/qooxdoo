@@ -89,12 +89,14 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/${APIVIEWER}.js"
+          "file" : "${BUILD_PATH}/script/${APIVIEWER}.js",
+          "app-root" : "${BUILD_PATH}"
         },
         "code" :
         {
           "format"   : true,
-          "optimize" : ["strings", "basecalls", "variables", "privates", "variants"]
+          "optimize" : ["strings", "basecalls", "variables", "privates", "variants"],
+          "except"   : []
         }
       },
         
