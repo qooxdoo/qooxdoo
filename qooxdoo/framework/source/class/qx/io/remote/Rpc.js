@@ -594,6 +594,14 @@ qx.Class.define("qx.io.remote.Rpc",
       req.addListener("completed", function(evt)
       {
         response = evt.getContent();
+
+        // Parse
+        if (self._isConvertDates()) {
+          response = response && response.length > 0 ? eval('(' + response + ')') : null;
+        } else {
+          response = qx.lang.Json.parse(response);
+        }
+
         id = response["id"];
 
         if (id != this.getSequenceNumber())
@@ -618,16 +626,7 @@ qx.Class.define("qx.io.remote.Rpc",
         }
         else
         {
-
-          // Response as JSON string
           result = response["result"];
-
-          // Parse
-          if (self._isConvertDates()) {
-            result = result && result.length > 0 ? eval('(' + result + ')') : null;
-          } else {
-            result = qx.lang.Json.parse(result);
-          }
 
           if (refreshSession)
           {

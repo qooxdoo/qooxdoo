@@ -30,8 +30,18 @@ qx.Class.define("qx.test.io.remote.Rpc",
     },
 
     setUpFakeRequest : function() {
-      var req = this.request = this.injectStub(qx.io.remote, "Request");
+      var req = this.request = new qx.io.remote.Request();
+
+      // In prototype chain
+      req.setState = req.getSequenceNumber =
+        req.setData = req.send = function() {};
+
+      // Stub
+      this.stub(req);
       req.getSequenceNumber.returns(undefined);
+
+      // Inject
+      this.injectStub(qx.io.remote, "Request", req);
     },
 
     setUpMockRequest : function() {
@@ -76,19 +86,23 @@ qx.Class.define("qx.test.io.remote.Rpc",
       var rpc = new qx.io.remote.Rpc(),
           req = this.request,
           evt = qx.event.Registration.createEvent("completed", qx.io.remote.Response),
-          literal = "new Date(Date.UTC(2020,0,1,0,0,0,123))",
+          str = '{"result": {"date": new Date(Date.UTC(2020,0,1,0,0,0,123))} }',
           that = this;
 
       this.stub(rpc, "_isConvertDates").returns(true);
 
-      rpc.callAsync(function(result) {
-        var msg = "Expected value to be date but found " + typeof result;
-        that.assertTrue(qx.lang.Type.isDate(result), msg);
+      var callback = this.spy(function(result) {
+        var msg = "Expected value to be date but found " + typeof result.date;
+        that.assertTrue(qx.lang.Type.isDate(result.date), msg);
       });
 
-      // Fake JSON string response
-      evt.setContent({result: literal});
+      rpc.callAsync(callback);
+
+      // Fake JSON-like (JavaScript) response
+      evt.setContent(str);
       req.dispatchEvent(evt);
+
+      this.assertCalled(callback);
     },
 
     "test: response is parsed as JSON": function() {
@@ -96,19 +110,23 @@ qx.Class.define("qx.test.io.remote.Rpc",
       var rpc = new qx.io.remote.Rpc(),
           req = this.request,
           evt = qx.event.Registration.createEvent("completed", qx.io.remote.Response),
-          str = '{"json": true}',
+          str = '{"result": { "json" : true} }',
           that = this;
 
       this.stub(rpc, "_isConvertDates").returns(false);
       this.spy(qx.lang.Json, "parse");
 
-      rpc.callAsync(function(result) {
+      var callback = this.spy(function(result) {
         that.assertCalledWith(qx.lang.Json.parse, str);
       });
 
-      // Fake JSON string response
-      evt.setContent({result: str});
+      rpc.callAsync(callback);
+
+      // Fake JSON (String) response
+      evt.setContent(str);
       req.dispatchEvent(evt);
+
+      this.assertCalled(callback);
     },
 
     //
