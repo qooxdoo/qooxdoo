@@ -9,6 +9,6 @@ function fib(n) {
 onmessage = function(e) {
   var n = parseInt(e.data);
   for(var i=1; i<=n; i++) {
-    postMessage(fib(i));
+    postMessage({result: fib(i), done: i==n});
   }
 };
