@@ -114,7 +114,7 @@
         },
         "code" :
         {
-          "optimize" : ["variables", "basecalls", "privates", "strings"],
+          "optimize" : ["variables", "basecalls", "privates", "strings", "variants"],
           "except"   : []
         },
         "uris"   :
