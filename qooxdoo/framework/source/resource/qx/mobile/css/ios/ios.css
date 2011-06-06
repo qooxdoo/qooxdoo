@@ -391,7 +391,7 @@ input[type="checkbox"] {
   width: 30px;
   height: 30px;
   -webkit-border-radius: .5em;
-  border: 3px solid #4c4c4c;
+  border: 2px solid #4c4c4c;
   background: -webkit-gradient(linear,left top,left bottom,from(#fefefe), to(#cecece));
   background: -webkit-linear-gradient(top, #fefefe, #cecece);
 }
@@ -402,7 +402,7 @@ input[type="checkbox"]:checked {
 }
 
 input[type="checkbox"]:disabled {
-  border: 3px solid #b8b8b8;
+  border: 2px solid #b8b8b8;
   background: -webkit-gradient(linear,left top,left bottom,from(#ffffff), to(#ebebeb));
   background: -webkit-linear-gradient(top, #ffffff, #ebebeb);
 }
