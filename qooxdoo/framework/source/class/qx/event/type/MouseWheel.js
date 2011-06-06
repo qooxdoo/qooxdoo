@@ -119,25 +119,83 @@ qx.Class.define("qx.event.type.MouseWheel",
     /**
      * Get the amount the wheel has been scrolled
      *
+     * @param axis {String?} Optional parameter which definex the scroll axis. 
+     *   The value can either be <code>"x"</code> or <code>"y"</code>. 
+     * @return {Integer} Scroll wheel movement for the given axis. If no axis 
+     *   is given, the y axis is used.
+     */
+    getWheelDelta : function(axis) {
+      var e = this._native;
+
+      // default case
+      if (axis === undefined) {
+        if (delta === undefined) {
+          // default case
+          var delta = -e.wheelDelta;
+          if (e.wheelDelta === undefined) {
+            delta = e.detail;
+          }
+        }
+        return this.__convertWheelDelta(delta);
+      }
+
+      // get the x scroll delta
+      if (axis === "x") {
+        var x = 0;
+        if (e.wheelDelta !== undefined) {
+          if (e.wheelDeltaX !== undefined) {
+            x = e.wheelDeltaX ? this.__convertWheelDelta(-e.wheelDeltaX) : 0;
+          }
+        } else {
+          if (e.axis && e.axis == e.HORIZONTAL_AXIS) {
+            x = this.__convertWheelDelta(e.detail);
+          }
+        }
+        return x;
+      }
+      
+      // get the y scroll delta
+      if (axis === "y") {
+        var y = 0;
+        if (e.wheelDelta !== undefined) {
+          if (e.wheelDeltaY !== undefined) {
+            y = e.wheelDeltaY ? this.__convertWheelDelta(-e.wheelDeltaY) : 0;
+          } else {
+            y = this.__convertWheelDelta(-e.wheelDelta);
+          }
+        } else {
+          if (!(e.axis && e.axis == e.HORIZONTAL_AXIS)) {
+            y = this.__convertWheelDelta(e.detail);
+          }
+        }
+        return y;
+      }
+
+      // default case, return 0
+      return 0;
+    },
+
+
+    /**
+     * Get the amount the wheel has been scrolled
+     *
+     * @param delta {Integer} The delta which is given by the mouse event.
      * @return {Integer} Scroll wheel movement
      */
-    getWheelDelta : function() {
+    __convertWheelDelta : function(delta) {
       // new feature detectiong behavior
       if (qx.core.Environment.get("qx.dynamicmousewheel")) {
-        if (this._native.detail) {
-          return this.__normalize(this._native.detail);
-        }
-        return this.__normalize(-this._native.wheelDelta);
+        return this.__normalize(delta);
 
       // old, browser detecting behavior
       } else {
         var handler = qx.core.Environment.select("engine.name", {
           "default" : function() {
-            return -(this._native.wheelDelta / 40);
+            return delta / 40;
           },
 
           "gecko" : function() {
-            return this._native.detail;
+            return delta;
           },
 
           "webkit" : function()
@@ -145,9 +203,9 @@ qx.Class.define("qx.event.type.MouseWheel",
             if (qx.core.Environment.get("browser.name") == "chrome") {
               // mac has a much higher sppedup during scrolling
               if (qx.core.Environment.get("os.name") == "osx") {
-                return -(this._native.wheelDelta / 60);
+                return delta / 60;
               } else {
-                return -(this._native.wheelDelta / 120);
+                return delta / 120;
               }
 
             } else {
@@ -169,7 +227,7 @@ qx.Class.define("qx.event.type.MouseWheel",
                   factor = 1200;
                 }
               }
-              return -(this._native.wheelDelta / factor);
+              return delta / factor;
             }
           }
         });

@@ -54,7 +54,13 @@ qx.Class.define("qx.event.type.Mouse",
       clone.screenX = nativeEvent.screenX;
       clone.screenY = nativeEvent.screenY;
       clone.wheelDelta = nativeEvent.wheelDelta;
+      clone.wheelDeltaX = nativeEvent.wheelDeltaX;
+      clone.wheelDeltaY = nativeEvent.wheelDeltaY;
       clone.detail = nativeEvent.detail;
+      clone.axis = nativeEvent.axis;
+      clone.wheelX = nativeEvent.wheelX;
+      clone.wheelY = nativeEvent.wheelY;
+      clone.HORIZONTAL_AXIS = nativeEvent.HORIZONTAL_AXIS;
       clone.srcElement = nativeEvent.srcElement;
       clone.target = nativeEvent.target;
 
