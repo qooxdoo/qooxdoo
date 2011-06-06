@@ -62,7 +62,8 @@
         "qx.revision" : "${QOOXDOO_REVISION}",
         "qx.application" : "${APPLICATION}.Application",
         "qx.theme" : "${THEME}",
-        "qx.contrib" : false
+        "qx.contrib" : false,
+        "qx.allowUrlSettings" : true
       },
       
       // the next is in since resource copying is done here for the demos as well
