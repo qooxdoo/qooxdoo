@@ -121,6 +121,9 @@ qx.Class.define("qx.log.appender.NodeConsole", {
 
   },
 
+  /**
+   * @lint ignoreUndefined(process)
+   */
   defer : function(statics)
   {
     if (typeof(process) !== "undefined") {
