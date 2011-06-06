@@ -1389,7 +1389,11 @@ Selenium.prototype.doQxTableClick = function(locator, eventParams)
   var qxObject = this.getQxWidgetByLocator(locator);
   
   if (!qxObject) {
-    throw new SeleniumError("No qooxdoo object found for locator: " + locator);
+    throw new SeleniumError("qxTableClick: No qooxdoo object found for locator: " + locator);
+  }
+    
+  if (!qxObject.getTableColumnModel) {
+    throw new SeleniumError("qxTableClick: The widget identified by the locator " + locator + " is not a table!");
   }
   
   var element = this.__getTableClipperElement(locator, qxObject);
