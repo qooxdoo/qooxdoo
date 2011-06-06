@@ -93,8 +93,8 @@
         },
         "code" :
         {
-          "format"   : false,
-          "optimize" : ["strings", "basecalls", "variables", "privates"]
+          "format"   : true,
+          "optimize" : ["strings", "basecalls", "variables", "privates", "variants"]
         }
       },
         
