@@ -100,7 +100,7 @@ qx.Class.define("qx.test.ui.tree.virtual.SingleSelection",
       this.tree.openNode(parent);
       selection.push(itemToSelect);
 
-      // check selection from list
+      // check selection from tree
       this.assertEquals(1, selection.getLength(), "On Tree");
       this.assertEquals(itemToSelect, selection.getItem(0), "On Tree");
 
@@ -113,6 +113,32 @@ qx.Class.define("qx.test.ui.tree.virtual.SingleSelection",
       var selectionOnManager = this.tree._manager.getSelection();
       this.assertEquals(0, selection.getLength(), "Selection not reset on Tree");
       this.assertEquals(0, selectionOnManager.length, "Selection not reset on manager");
+    },
+
+
+    testRemoveItem : function()
+    {
+      var root = this.createModelAndSetModel(2);
+      var selection = this.tree.getSelection();
+
+      var parent = root.getChildren().getItem(0);
+      var itemToSelect = parent.getChildren().getItem(2);
+      this.tree.openNode(parent);
+      selection.push(itemToSelect);
+
+      // check selection from tree before remove item
+      this.assertEquals(1, selection.getLength(), "On Tree (setup)");
+      this.assertEquals(itemToSelect, selection.getItem(0), "On Tree (setup)");
+
+      // remove selected item
+      parent.getChildren().removeAt(2);
+
+      // check selection from list
+      this.assertEquals(0, selection.getLength(), "On Tree");
+
+      // check selection from manager
+      var selectionOnManager = this.tree._manager.getSelection();
+      this.assertEquals(0, selectionOnManager.length, "On Manager");
     }
   }
 });
