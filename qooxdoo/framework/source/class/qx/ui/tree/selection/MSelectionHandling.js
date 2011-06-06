@@ -113,6 +113,25 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
       this._manager._applyDefaultSelection();
     },
 
+    
+    /**
+     * Remove items form the selection which are not in the
+     * lookup table.
+     */
+    _updateSelection : function()
+    {
+      var selection = this.getSelection();
+      var lookupTable = this.getLookupTable();
+      
+      if (selection.getLength() > 0)
+      {
+        var item = selection.getItem(0);
+        if (!lookupTable.contains(item)) {
+          selection.remove(item);
+        }
+      }
+    },
+    
 
     /*
     ---------------------------------------------------------------------------
