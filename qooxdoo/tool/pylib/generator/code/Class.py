@@ -24,9 +24,12 @@
 ##
 
 import os, sys, re, types, copy
+import time, math
+from pprint import pprint
 
 from misc                           import textutil
 from ecmascript.frontend            import treeutil
+from ecmascript.transform.optimizer import variantoptimizer
 from generator.resource.Resource    import Resource
 from generator                      import Context
 from generator.code.clazz.MClassHints        import MClassHints
@@ -106,15 +109,50 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
         cache = self.context['cache']
         classInfo, modTime = cache.read(self.cacheId, self.path, memory=True)
         if classInfo:
+            if self.writeCond():
+                print "\nReading %s (keys: %s)" % (self.cacheId, 
+                    ["%s:%s" % (i,self.foo(classInfo[i][1]) if len(classInfo[i])>1 else "-") for i in classInfo])
+                for k in classInfo.keys():
+                    if k.startswith("deps-"):
+                        data = classInfo[k][0]['load']
+                        print (sorted(data, key=str))
+                        print "len:", len(data)
             return classInfo, modTime
         else:
             return {}, None
  
-    def _writeClassCache(self, data):
+    def _writeClassCache(self, classInfo):
         cache = self.context['cache']
-        cache.write(self.cacheId, data, memory=True)
+        if self.writeCond():
+            import time
+            print "\nWriting %s (keys: %s)" % (self.cacheId, 
+                ["%s:%s" % (i,self.foo(classInfo[i][1]) if len(classInfo[i])>1 else "-") for i in classInfo])
+            for k in classInfo.keys():
+                if k.startswith("deps-"):
+                    data = classInfo[k][0]['load']
+                    print (sorted(data, key=str))
+                    print "len:", len(data)
+        cache.write(self.cacheId, classInfo, memory=True)
 
 
+    def foo(s,t):
+        d = time.strftime("%Y:%m:%d-%H:%M:%S::%%2.d", time.localtime(t))
+        d = d % ((t-math.trunc(t))*100,)
+        return d
+
+
+    def writeCond(self):
+        return False #self.id == "qx.core.Environment"
+
+
+    @staticmethod
+    def optimizeEnvironmentClass(envClass, compOptions):
+        tree = envClass.tree(compOptions.variantset)
+        # has to come before string optimization, or the "qx.debug" etc args are gone
+        tree = variantoptimizer.processEnvironmentClass(tree, compOptions.allClassVariants)
+        if compOptions.optimize:
+            tree = envClass.optimize(tree, compOptions.optimize)
+        return tree
 
 
 

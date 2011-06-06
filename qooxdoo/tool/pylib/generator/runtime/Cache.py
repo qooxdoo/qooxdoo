@@ -29,7 +29,7 @@ from generator.action.ActionLib import ActionLib
 memcache  = {} # {key: {'content':content, 'time': (time.time()}}
 actionLib = None
 check_file     = u".cache_check_file"
-CACHE_REVISION = 27437 # Change this to the current qooxdoo svn revision when existing caches need clearing
+CACHE_REVISION = 27530 # Change this to the current qooxdoo svn revision when existing caches need clearing
 
 class Cache(object):
 
@@ -236,10 +236,14 @@ class Cache(object):
         if dependsOn:
             dependsModTime = os.stat(dependsOn).st_mtime
 
+        if writeCond(cacheId):
+            print "\nReading %s ..." % (cacheId,),
         # Mem cache
         if cacheId in memcache:
             memitem = memcache[cacheId]
             if not dependsOn or dependsModTime < memitem['time']:
+                if writeCond(cacheId):
+                    print "from memcache"
                 return memitem['content'], memitem['time']
 
         # File cache
@@ -274,6 +278,9 @@ class Cache(object):
             if memory:
                 memcache[cacheId] = {'content':content, 'time': time.time()}
 
+            #print "read cacheId: %s" % cacheId
+            if writeCond(cacheId):
+                print "from disk"
             return content, cacheModTime
 
         except (IOError, EOFError, pickle.PickleError, pickle.UnpicklingError):
@@ -290,6 +297,8 @@ class Cache(object):
         filetool.directory(self._path)
         cacheFile = os.path.join(self._path, self.filename(cacheId))
 
+        if writeCond(cacheId):
+            print "\nWriting %s ..." % (cacheId,),
         if writeToFile:
             try:
                 if not cacheFile in self._locked_files:
@@ -305,12 +314,18 @@ class Cache(object):
                     filetool.unlock(cacheFile)
                     self._locked_files.remove(cacheFile)  # not atomic with the previous one!
 
+                #print "wrote cacheId: %s" % cacheId
+                if writeCond(cacheId):
+                    print "to disk"
+
             except (IOError, EOFError, pickle.PickleError, pickle.PicklingError), e:
                 e.args = ("Could not store cache to %s\n" % self._path + e.args[0], ) + e.args[1:]
                 raise e
 
         if memory:
             memcache[cacheId] = {'time': time.time(), 'content':content}
+            if writeCond(cacheId):
+                print "to memcache"
 
 
     def remove(self, cacheId, writeToFile=False):
@@ -321,6 +336,9 @@ class Cache(object):
         else:
             return None, None
 
+
+def writeCond(cacheId):
+    return False #cacheId.startswith("class-") and "Environment.js" in cacheId
 
 
 ##

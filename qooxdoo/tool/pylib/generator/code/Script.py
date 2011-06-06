@@ -201,3 +201,17 @@ class Script(object):
                 
 
 
+    ##
+    # Not much use memoizing the result of this function, as various class lists
+    # can be passed in during a single run (think parts), and I'd need to key
+    # the results with the input classes (e.g. using a hash over the set's
+    # element hashes). But it shouldn't incure a big penalty anyway, as the
+    # individual class' variants are always cached.
+    def classVariants(self, classesObj=[]):
+        allVariants = set()
+        classes = classesObj if classesObj else self.classesObj
+        for clazz in classes:
+            allVariants.update(clazz.classVariants())
+        return allVariants
+
+

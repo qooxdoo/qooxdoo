@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 ################################################################################
 #
 #  qooxdoo - the new era of web development
@@ -38,13 +39,14 @@
 #
 ##
 
-import sys, re, os, types
+import sys, re, os, types, time
 from operator import attrgetter
 import graph
 
 from misc.ExtMap                import ExtMap
+from misc                       import util
 from ecmascript.frontend        import lang
-from generator.code.Class       import DependencyItem, DependencyError
+from generator.code.Class       import Class, DependencyItem, DependencyError, CompileOptions
 
 class DependencyLoader(object):
 
@@ -185,16 +187,12 @@ class DependencyLoader(object):
 
         # -------------------------------------------
 
-        if script:
-            buildType = script.buildType  # source/build, for classlistFromClassRecursive
-        else:
-            buildType = ""
-
+        buildType = script.buildType  # source/build, for classlistFromClassRecursive
         result = []
-        resultNames = []
         warn_deps = []
         logInfos = self._console.getLevel() == "info"
         ignored_names = set()
+        firstTime = True
 
         # No dependency calculation
         if len(includeWithDeps) == 0:
@@ -210,10 +208,57 @@ class DependencyLoader(object):
         else:
             self._console.info(" ", feed=False)
 
-            for item in includeWithDeps:
-                depsItem = DependencyItem(item, '', '|config|')
-                # calculate dependencies and add required classes
-                classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, allowBlockLoaddeps)
+            # Multiple loop over class list calculation
+            processedEnvironment = False
+            while True:
+                result      = []          # reset any previous results for this iteration
+                resultNames = []
+
+                # calculate class list recursively
+                for item in includeWithDeps:
+                    depsItem = DependencyItem(item, '', '|config|')
+                    # calculate dependencies and add required classes
+                    classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, allowBlockLoaddeps)
+
+                print len(result)
+
+                # process qx.core.Environment
+                if ("qx.core.Environment" in resultNames 
+                    and "variants" in script.optimize
+                    and not processedEnvironment):
+                    envObj = self._classesObj["qx.core.Environment"]
+                    envTreeId = "tree-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
+                    if firstTime:
+                        self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
+                        firstTime = False
+                    compOpts = CompileOptions(optimize=[], variants=variants)
+                    compOpts.allClassVariants = script.classVariants([self._classesObj[x] for x in resultNames])
+                    tree = Class.optimizeEnvironmentClass(envObj, compOpts)
+                    self._cache.write(envTreeId, tree, memory=True, writeToFile=False)
+                    # this is for the side-effect of leaving a modified tree for qx.core.Environmet
+                    # in the cache!
+                    _ = envObj.dependencies(variants, force=True)
+                    # this is for the side-effect of re-calculating the transitive dependencies
+                    # of qx.core.Environment!
+                    processedEnvironment = True
+                else:
+                    # We currently know that one additional iteration is enough,
+                    # after optimizeEnvironmentClass() has run. This has to do
+                    # with the fact that it only removes dependencies to
+                    # qx.bom.client.* classes, which in turn do not use
+                    # qx.core.Env calls. So after calculating the new class
+                    # list, allClassVariants will not have changed. If it would,
+                    # we would need to re-calculate until the class list is
+                    # stable.
+                    processedEnvironment = False  # to force break after a single run through the 'then' part
+
+                if not processedEnvironment:
+                    break
+                else:
+                    # signify repetition
+                    self._console.dot("(@)")
+                    
+
 
             if self._console.getLevel() is "info":
                 self._console.nl()
@@ -338,6 +383,10 @@ class DependencyLoader(object):
                 return
 
             # reading dependencies
+            if classId == "qx.core.Environment":
+                envObj = self._classesObj["qx.core.Environment"]
+                envTreeId = "tree-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
+                self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
             deps, cached = self.getCombinedDeps(classId, variants, buildType)
 
             if self._console.getLevel() is "info":

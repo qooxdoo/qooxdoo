@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 ################################################################################
 #
@@ -29,6 +30,8 @@ from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.Script      import Script
 #from generator.resource.ResourceHandler import ResourceHandler
 from ecmascript.backend         import pretty
+from ecmascript.backend.Packer  import Packer
+from ecmascript.transform.optimizer    import variantoptimizer
 from misc                       import filetool, json, Path, securehash as sha
 from misc.ExtMap                import ExtMap
 from misc.Path                  import OsPath, Uri
@@ -395,7 +398,14 @@ class CodeGenerator(object):
         def compileClasses(classList, compConf, log_progress=lambda:None):
             result = []
             for clazz in classList:
-                result.append(clazz.getCode(compConf))
+                if clazz.id == "qx.core.Environment" and "variants" in compConf.optimize:
+                    # optimize qx.core.Environment.useCheck()
+                    tree = Class.optimizeEnvironmentClass(clazz, compConf)
+                    code = Packer().serializeNode(tree, None, [u''], compConf.format)
+                    code = u''.join(code)
+                else:
+                    code = clazz.getCode(compConf)
+                result.append(code)
                 log_progress()
             return u''.join(result)
 
@@ -404,7 +414,7 @@ class CodeGenerator(object):
         # a common .js file, constructing the URI to this file, or just construct
         # the URI to the source file directly if the class matches a filter.
         # Return the list of constructed URIs.
-        def compileAndWritePackage(package, compConf):
+        def compileAndWritePackage(package, compConf, allClassVariants):
 
             def compiledFilename(compiled):
                 hash_ = sha.getHash(compiled)[:12]
@@ -434,6 +444,7 @@ class CodeGenerator(object):
             variantSet= script.variants
             sourceFilter = ClassMatchList(compConf.get("code/except", []))
             compOptions  = CompileOptions(optimize=optimize, variants=variantSet, _format=format_)
+            compOptions.allClassVariants = allClassVariants
 
             ##
             # This somewhat overlaps with packageUrisToJS
@@ -609,8 +620,12 @@ class CodeGenerator(object):
             if not len(packages):
                 raise RuntimeError("No valid boot package generated.")
 
+            variantKeys      = set(script.variants.keys())
+            allClassVariants = script.classVariants()
+            allClassVariants.difference_update(variantKeys)
+            
             for packageIndex, package in enumerate(packages):
-                package = compileAndWritePackage(package, compConf)
+                package = compileAndWritePackage(package, compConf, allClassVariants)
 
             self._console.outdent()
 

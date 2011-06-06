@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 ################################################################################
 #
@@ -536,7 +537,7 @@ class Generator(object):
             # class list with no variants (all-encompassing)
             classListProducer = functools.partial(#args are complete, but invocation shall be later
                        computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
-                       {}, verifyDeps=True, script=None)
+                       {}, verifyDeps=True, script=Script())
             self.runApiData(classListProducer)
         if takeout(jobTriggers, "fix-files"):
             self.runFix(self._classesObj)

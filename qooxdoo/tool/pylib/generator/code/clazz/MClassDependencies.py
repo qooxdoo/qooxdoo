@@ -55,7 +55,7 @@ class MClassDependencies(object):
     # return all dependencies of class from its code (both meta hints as well
     # as source code, and transitive load deps)
 
-    def dependencies(self, variantSet):
+    def dependencies(self, variantSet, force=False):
 
         ##
         # Get deps from meta info and class code, and sort them into
@@ -135,7 +135,7 @@ class MClassDependencies(object):
             classMaps = {}
             for dep in shallowDeps['load']:
                 if dep.needsRecursion:
-                    recDeps = self.getTransitiveDeps(dep, variantSet, classMaps)
+                    recDeps = self.getTransitiveDeps(dep, variantSet, classMaps, force=force)
                     newLoad.update(recDeps)
             shallowDeps['load'] = list(newLoad)
 
@@ -184,14 +184,21 @@ class MClassDependencies(object):
         (deps, cacheModTime) =  classInfo[cacheId] if cacheId in classInfo else (None,None)
 
         if (deps == None
+          or force == True
           or not transitiveDepsAreFresh(deps, cacheModTime)):
             cached = False
             deps = buildShallowDeps()
             deps = buildTransitiveDeps(deps)
-            classInfo[cacheId] = (deps, time.time())
-            self._writeClassCache(classInfo)
-
+            if self.id != "qx.core.Environment":
+                # Mustn't cache q.c.Env deps across runs, as they depend on the entire
+                # class list
+                classInfo[cacheId] = (deps, time.time())
+                self._writeClassCache(classInfo)
         
+        if self.id == "qx.core.Environment":
+            #print (sorted(deps['load'], key=str))
+            #print len(deps['load'])
+            pass
         return deps, cached
 
         # end:dependencies()
@@ -656,7 +663,7 @@ class MClassDependencies(object):
     #
     # currently only a thin wrapper around its recursive sibling, getTransitiveDepsR
 
-    def getTransitiveDeps(self, depsItem, variants, classMaps, checkSet=None):
+    def getTransitiveDeps(self, depsItem, variants, classMaps, checkSet=None, force=False):
 
         ##
         # find dependencies of a method <methodId> that has been referenced from
@@ -671,7 +678,6 @@ class MClassDependencies(object):
             methodId = dependencyItem.attribute
             function_pruned = False
 
-            # Check cache
             cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, variantString)
                 # The bad thing here is that 'variantString' contains environment setting
                 # that normally have no influence on the dependencies (like
@@ -681,11 +687,13 @@ class MClassDependencies(object):
                 # independent of a specific environement key; but its recursive deps could
                 # well be. Fix: Get the shallow deps of the current method from cache, and then get the
                 # trans. deps of those items. They then could appy the same reasoning.
-            cachedDeps, _ = cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
-            if cachedDeps != None:
-                console.debug("using cached result")
-                #print "\nusing cached result for", classId, methodId
-                return cachedDeps
+            if not force:
+                # Check cache
+                cachedDeps, _ = cache.read(cacheId)  # no use to put this into a file, due to transitive dependencies to other files
+                if cachedDeps != None:
+                    console.debug("using cached result")
+                    #print "\nusing cached result for", classId, methodId
+                    return cachedDeps
 
             # Need to calculate deps
             console.dot("_")
