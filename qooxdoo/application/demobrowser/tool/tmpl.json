@@ -9,6 +9,6 @@
     {
       "extend" : ["default-demo"],
       "let" : { "DPACKAGE" : "ZZZ", "DSNAME" : "YYY", "BUILDTYPE" : "build", "EXCEPT": [] },
-      "compile-options" : { "code" : { "optimize" : [ "variables", "basecalls", "strings", "privates" ] }},
+      "compile-options" : { "code" : { "optimize" : [ "variables", "basecalls", "strings", "privates", "variants" ] }},
       "run" : ["default-Classic", "default-Modern", "default-Simple"]
     }
