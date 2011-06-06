@@ -49,6 +49,7 @@
 qx.Class.define("qx.ui.embed.ThemedIframe",
 {
   extend : qx.ui.embed.AbstractIframe,
+  include : qx.ui.core.scroll.MWheelHandling,
 
   construct : function(source)
   {
@@ -235,28 +236,6 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
       } catch (e) {
         this._disableScollbars();
       }
-    },
-
-
-    /**
-     * Mouse wheel event handler
-     *
-     * @param e {qx.event.type.Mouse} Mouse event
-     */
-    _onMouseWheel : function(e)
-    {
-      var showY =
-        this._isChildControlVisible("scrollbar-y") &&
-        this.getChildControl("scrollbar-y").isEnabled();
-
-      if (!showY) {
-        return;
-      }
-
-      var scrollbar = this.getChildControl("scrollbar-y", true);
-      scrollbar.scrollBySteps(parseInt(e.getWheelDelta()));
-
-      e.stop();
     },
 
 

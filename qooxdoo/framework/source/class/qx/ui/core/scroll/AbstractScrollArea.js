@@ -30,7 +30,10 @@
 qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 {
   extend : qx.ui.core.Widget,
-  include : qx.ui.core.scroll.MScrollBarFactory,
+  include : [
+    qx.ui.core.scroll.MScrollBarFactory, 
+    qx.ui.core.scroll.MWheelHandling
+  ],
   type : "abstract",
 
 
@@ -436,59 +439,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      */
     _onScrollPaneY : function(e) {
       this.scrollToY(e.getData());
-    },
-
-
-    /**
-     * Event handler for the mouse wheel
-     *
-     * @param e {qx.event.type.Mouse} The mouse wheel event
-     */
-    _onMouseWheel : function(e)
-    {
-      var showX = this._isChildControlVisible("scrollbar-x");
-      var showY = this._isChildControlVisible("scrollbar-y");
-
-      var scrollbarY = showY ? this.getChildControl("scrollbar-y", true) : null;
-      var scrollbarX = showX ? this.getChildControl("scrollbar-x", true) : null;
-
-      var deltaY = e.getWheelDelta("y");
-      var deltaX = e.getWheelDelta("x");
-
-      var endY = !showY;
-      var endX = !showX;
-
-      // y case
-      if (scrollbarY && deltaY !== 0) {
-        var steps = parseInt(deltaY);
-        scrollbarY.scrollBySteps(steps);
-
-        var position = scrollbarY.getPosition();
-        var max = scrollbarY.getMaximum();
-        // pass the event to the parent if the scrollbar is at an edge
-        if (steps < 0 && position <= 0 || steps > 0 && position >= max) {
-          endY = true;
-        }
-      }
-
-      // x case
-      if (scrollbarX && deltaX !== 0) {
-        var steps = parseInt(deltaX);
-        scrollbarX.scrollBySteps(steps);
-
-        var position = scrollbarX.getPosition();
-        var max = scrollbarX.getMaximum();
-        // pass the event to the parent if the scrollbar is at an edge
-        if (steps < 0 && position <= 0 || steps > 0 && position >= max) {
-          endX = true;
-        }
-      }
-
-      // pass the event to the parent if both scrollbars are at the end
-      if (!endY || !endX) {
-        // Stop bubbling and native event only if a scrollbar is visible
-        e.stop();
-      }
     },
 
 
