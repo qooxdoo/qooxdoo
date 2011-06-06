@@ -596,10 +596,12 @@ qx.Class.define("qx.io.remote.Rpc",
         response = evt.getContent();
 
         // Parse
-        if (self._isConvertDates()) {
-          response = response && response.length > 0 ? eval('(' + response + ')') : null;
-        } else {
-          response = qx.lang.Json.parse(response);
+        if (!qx.lang.Type.isObject(response)) {
+          if (self._isConvertDates()) {
+            response = response && response.length > 0 ? eval('(' + response + ')') : null;
+          } else {
+            response = qx.lang.Json.parse(response);
+          }
         }
 
         id = response["id"];

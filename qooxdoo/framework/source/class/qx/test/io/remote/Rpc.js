@@ -146,6 +146,30 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.assertCalled(callback);
     },
 
+    "test: response is not parsed when already object": function() {
+      this.setUpFakeRequest();
+      var rpc = new qx.io.remote.Rpc(),
+          req = this.request,
+          evt = qx.event.Registration.createEvent("completed", qx.io.remote.Response),
+          obj = {"result": { "json" : true} },
+          that = this;
+
+      this.stub(rpc, "_isConvertDates").returns(false);
+      this.spy(qx.lang.Json, "parse");
+
+      var callback = this.spy(function(result) {
+        that.assertNotCalled(qx.lang.Json.parse);
+      });
+
+      rpc.callAsync(callback);
+
+      // Object response
+      evt.setContent(obj);
+      req.dispatchEvent(evt);
+
+      this.assertCalled(callback);
+    },
+
     //
     // isConvertDates()
     //
