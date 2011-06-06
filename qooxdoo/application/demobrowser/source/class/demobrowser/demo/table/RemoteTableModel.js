@@ -94,7 +94,7 @@ qx.Class.define('demobrowser.demo.table.RemoteTableModel', {
     __loadPHPRowData : function(firstRow, lastRow) {
       var param = "method=getRowData&start=" + firstRow + "&end=" + lastRow;
       this.__call(param, function(data) {
-        this._onRowDataLoaded(qx.util.Json.parse(data));
+        this._onRowDataLoaded(qx.lang.Json.parse(data));
       });
     },
 

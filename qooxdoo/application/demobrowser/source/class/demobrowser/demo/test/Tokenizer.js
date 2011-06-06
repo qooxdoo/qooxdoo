@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.test.Tokenizer",
 
       document.getElementById("btn").onclick = function() {
         var tokens = qx.dev.Tokenizer.tokenizeJavaScript(input.value);
-        output.innerHTML = qx.bom.String.escape(qx.util.Json.stringify(tokens, true));
+        output.innerHTML = qx.bom.String.escape(qx.lang.Json.stringify(tokens, true));
       }
 
       var toJavascript = function()

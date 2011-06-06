@@ -416,7 +416,7 @@ qx.Class.define("playground.Application",
     __parseURLCode : function(state)
     {
       try {
-        var data = qx.util.Json.parse(state);
+        var data = qx.lang.Json.parse(state);
         return decodeURIComponent(data.code).replace(/%0D/g, "");
       } catch (e) {
         var error = this.tr("// Could not handle URL parameter! \n// %1", e);
