@@ -32,6 +32,9 @@ qx.Class.define("demobrowser.demo.data.Twitter",
 
   members :
   {
+    /**
+     * @lint ignoreUndefined(twitterdemo)
+     */
     main: function()
     {
       this.base(arguments);

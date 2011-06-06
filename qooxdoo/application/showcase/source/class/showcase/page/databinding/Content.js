@@ -22,6 +22,9 @@ qx.Class.define("showcase.page.databinding.Content",
 {
   extend : showcase.AbstractContent,
 
+  /**
+   * @lint ignoreUndefined(twitterdemo)
+   */
   construct : function(page) {
     this.base(arguments, page);
 
