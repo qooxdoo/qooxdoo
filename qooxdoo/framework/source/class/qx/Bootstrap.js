@@ -622,7 +622,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     isString : function(value)
     {
       // Added "value !== null" because IE throws an exception "Object expected"
-      // by executing "value instanceof Array" if value is a DOM element that
+      // by executing "value instanceof String" if value is a DOM element that
       // doesn't exist. It seems that there is an internal different between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").

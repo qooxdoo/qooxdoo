@@ -96,7 +96,7 @@ qx.Class.define("qx.lang.Type",
     */
     isNumber : function(value) {
       // Added "value !== null" because IE throws an exception "Object expected"
-      // by executing "value instanceof Array" if value is a DOM element that
+      // by executing "value instanceof Number" if value is a DOM element that
       // doesn't exist. It seems that there is an internal different between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
@@ -117,7 +117,7 @@ qx.Class.define("qx.lang.Type",
     isBoolean : function(value)
     {
       // Added "value !== null" because IE throws an exception "Object expected"
-      // by executing "value instanceof Array" if value is a DOM element that
+      // by executing "value instanceof Boolean" if value is a DOM element that
       // doesn't exist. It seems that there is an internal different between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
@@ -138,7 +138,7 @@ qx.Class.define("qx.lang.Type",
     isDate : function(value)
     {
       // Added "value !== null" because IE throws an exception "Object expected"
-      // by executing "value instanceof Array" if value is a DOM element that
+      // by executing "value instanceof Date" if value is a DOM element that
       // doesn't exist. It seems that there is an internal different between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
