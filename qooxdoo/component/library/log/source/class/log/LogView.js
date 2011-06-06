@@ -19,7 +19,6 @@
 
 /* ************************************************************************
 
-#asset(log/*)
 #asset(qx/icon/Tango/16/actions/edit-clear.png)
 #asset(qx/icon/Tango/16/categories/system.png)
 #asset(qx/icon/Tango/16/status/dialog-information.png)
