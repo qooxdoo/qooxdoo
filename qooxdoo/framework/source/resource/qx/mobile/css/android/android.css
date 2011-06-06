@@ -203,6 +203,7 @@ input[type="text"], input[type="password"], textarea {
 textarea {
     height: 120px;
     width: 100%;
+    resize: none;
 }
 
 input[type="checkbox"], input[type="radio"] {

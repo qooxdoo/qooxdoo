@@ -216,6 +216,7 @@ ul.form ul li * {
 textarea {
     height: 120px;
     padding: 0;
+    resize: none;
 }
 
 input[type="checkbox"], input[type="radio"] {
