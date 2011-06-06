@@ -841,7 +841,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
-      var delta = e.getWheelDelta();
+      // vertical scrolling
+      var delta = e.getWheelDelta("y");
       // normalize that at least one step is scrolled at a time
       if (delta > 0 && delta < 1) {
         delta = 1;
@@ -849,6 +850,16 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         delta = -1;
       }
       this.__verScrollBar.scrollBySteps(delta);
+
+      // horizontal scrolling
+      delta = e.getWheelDelta("x");
+      // normalize that at least one step is scrolled at a time
+      if (delta > 0 && delta < 1) {
+        delta = 1;
+      } else if (delta < 0 && delta > -1) {
+        delta = -1;
+      }
+      this.__horScrollBar.scrollBySteps(delta);
 
       // Update the focus
       if (this.__lastMousePageX && this.getFocusCellOnMouseMove()) {

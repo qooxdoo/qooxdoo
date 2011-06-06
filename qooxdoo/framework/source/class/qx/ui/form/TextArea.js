@@ -139,7 +139,7 @@ qx.Class.define("qx.ui.form.TextArea",
       var contentElement = this.getContentElement();
       var scrollY = contentElement.getScrollY();
 
-      contentElement.scrollToY(scrollY + e.getWheelDelta() * this.getSingleStep());
+      contentElement.scrollToY(scrollY + e.getWheelDelta("y") * this.getSingleStep());
 
       var newScrollY = contentElement.getScrollY();
 

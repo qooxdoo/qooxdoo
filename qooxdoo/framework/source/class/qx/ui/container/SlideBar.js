@@ -328,7 +328,13 @@ qx.Class.define("qx.ui.container.SlideBar",
      */
     _onMouseWheel : function(e)
     {
-      this.scrollBy(e.getWheelDelta() * this.getScrollStep());
+      var delta = 0;
+      if (this.getOrientation() === "horizontal") {
+        delta = e.getWheelDelta("x");
+      } else {
+        delta = e.getWheelDelta("y");
+      }
+      this.scrollBy(delta * this.getScrollStep());
 
       // Stop bubbling and native event
       e.stop();

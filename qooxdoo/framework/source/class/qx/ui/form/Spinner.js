@@ -646,9 +646,10 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _onMouseWheel: function(e)
     {
-      if (e.getWheelDelta() > 0) {
+      var delta = e.getWheelDelta("y");
+      if (delta > 0) {
         this._countDown();
-      } else {
+      } else if (delta < 0) {
         this._countUp();
       }
 

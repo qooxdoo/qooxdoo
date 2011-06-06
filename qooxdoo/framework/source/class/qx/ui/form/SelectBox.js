@@ -296,7 +296,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         return;
       }
 
-      var direction = e.getWheelDelta() > 0 ? 1 : -1;
+      var direction = e.getWheelDelta("y") > 0 ? 1 : -1;
       var children = this.getSelectables();
       var selected = this.getSelection()[0];
 

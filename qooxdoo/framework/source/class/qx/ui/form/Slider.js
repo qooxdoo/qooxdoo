@@ -320,7 +320,9 @@ qx.Class.define("qx.ui.form.Slider",
      */
     _onMouseWheel : function(e)
     {
-      var direction = e.getWheelDelta() > 0 ? 1 : -1;
+      var axis = this.getOrientation() === "horizontal" ? "x" : "y";
+      var delta = e.getWheelDelta(axis);
+      var direction =  delta > 0 ? 1 : delta < 0 ? -1 : 0;
       this.slideBy(direction * this.getSingleStep());
 
       e.stop();
