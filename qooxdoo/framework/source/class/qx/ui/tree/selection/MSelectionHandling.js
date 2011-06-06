@@ -36,6 +36,20 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
       apply : "_applySelection",
       nullable : false,
       deferredInit : true
+    },
+    
+    
+    /**
+     * The selection mode to use.
+     *
+     * For further details please have a look at:
+     * {@link qx.ui.core.selection.Abstract#mode}
+     */
+    selectionMode :
+    {
+      check : ["single", "one"],
+      init : "single",
+      apply : "_applySelectionMode"
     }
   },
 
@@ -117,6 +131,12 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
       }
 
       this._onChangeSelection();
+    },
+
+
+    // apply method
+    _applySelectionMode : function(value, old) {
+      this._manager.setMode(value);
     },
 
 
