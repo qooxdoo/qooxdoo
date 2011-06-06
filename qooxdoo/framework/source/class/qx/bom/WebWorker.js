@@ -120,11 +120,13 @@ qx.Class.define("qx.bom.WebWorker",
       if (this.__isNative) {
         this._worker.postMessage(msg);
       } else {
+        setTimeout(function() {
           try {
             that.__fake.onmessage && that.__fake.onmessage({data: msg});
           } catch (ex) {
             that.fireDataEvent("error", ex);
           } 
+        }, 0);
       }
     },
 
