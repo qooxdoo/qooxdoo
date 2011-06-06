@@ -49,6 +49,7 @@ qx.Class.define("widgetbrowser.pages.Misc",
 
   members :
   {
+    __vbox : null,
 
     initWidgets: function()
     {
