@@ -93,41 +93,6 @@
 
     // -- source jobs --------------------------------------------------
 
-    "source-script1" :
-    {
-      "desc"    : "create includer script of current application",
-
-      "extend" : ["common"],
-
-      /*
-      "require" :
-      {
-        // to have reporting infrastructure before custom classes
-        "qx.Class" : [ "qx.log.Logger", "qx.dev.StackTrace"]
-      },
-      */
-
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "file" : "${ROOT}/source/script/${APPLICATION}.js",
-          "app-root" : "source"
-        },
-        "uris" : 
-        {
-          "add-nocache-param" : true
-        },
-        "code" :
-        {
-          "locales" : "${LOCALES}"
-        }
-      },
-
-      "compile" : { "type" : "source" }
-    },
-
-
     "source-script" :
     {
       "desc"    : "create includer script of current application",
@@ -233,41 +198,6 @@
 
 
     // -- build jobs ---------------------------------------------------
-
-    "build-script1" :
-    {
-      "desc"    : "create build script of current application",
-
-      "extend" : ["common"],
-
-      "environment" :
-      {
-        "qx.debug" : false
-      },
-
-      "compile-options" :
-      {
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/script/${APPLICATION}.js"
-        },
-        "uris"   :
-        {
-          "script"   : "script",
-          //"resource" : "resource",
-          "add-nocache-param" : false
-        },
-        "code"   :
-        {
-          "format"   : true,
-          "locales"  : "${LOCALES}",
-          "optimize" : "${OPTIMIZE}"
-        }
-      },
-      
-      "compile" : { "type" : "build" }
-    },
-
 
     "build-script" :
     {
@@ -424,54 +354,6 @@
         "compile"  : ["source", "build"]
       }
     },
-    /*
-    */
-
-
-    /*
-    "provider" :
-    {
-      "desc"   : "create a provider structure, with code, dependency info, etc.",
-
-      "extend" : ["cache", "libraries"]
-
-      ,"let" :
-      {
-        "PROVIDER_ROOT" : "./provider"
-      }
-      
-      ,"include" : [ "${APPLICATION}.*" ]
-      ,"exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
-
-      ,"compile-options" : 
-      {
-        "code" : 
-        {
-          "locales"  : "${LOCALES}",
-          "format"   : false,
-          "optimize" : ["variables", "basecalls", "strings"] 
-        }
-      }
-
-      ,"provider" : 
-      {
-        "app-root" : "${PROVIDER_ROOT}",
-        "include"  : ["${APPLICATION}.*"],
-        "exclude"  : ["${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
-        "compile"  : ["source", "build"]
-      }
-
-      ,"log" : 
-      { 
-        "dependencies" : 
-        { 
-          "type" : "using", 
-          "format" : "provider",
-          "json" : {"pretty" : true, "file" : "${PROVIDER_ROOT}/dependencies.json"}
-        }
-      }
-    },
-    */
 
 
     "translation" :
