@@ -449,21 +449,43 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
       var showX = this._isChildControlVisible("scrollbar-x");
       var showY = this._isChildControlVisible("scrollbar-y");
 
-      // If vertical scrollbar is present, scroll vertically, otherwise check if
-      // horizontal scrollbar is present to scroll horizontally, else do not scroll at all.
-      var scrollbar = (showY) ? this.getChildControl("scrollbar-y", true) : ( showX ? this.getChildControl("scrollbar-x", true) : null );
-      if (scrollbar) {
-        var delta = parseInt(e.getWheelDelta());
-        scrollbar.scrollBySteps(delta);
+      var scrollbarY = showY ? this.getChildControl("scrollbar-y", true) : null;
+      var scrollbarX = showX ? this.getChildControl("scrollbar-x", true) : null;
 
-        var position = scrollbar.getPosition();
-        var max = scrollbar.getMaximum();
+      var deltaY = e.getWheelDelta("y");
+      var deltaX = e.getWheelDelta("x");
+
+      var endY = !showY;
+      var endX = !showX;
+
+      // y case
+      if (scrollbarY && deltaY !== 0) {
+        var steps = parseInt(deltaY);
+        scrollbarY.scrollBySteps(steps);
+
+        var position = scrollbarY.getPosition();
+        var max = scrollbarY.getMaximum();
         // pass the event to the parent if the scrollbar is at an edge
-        if (delta < 0 && position <= 0 || delta > 0 && position >= max) {
-          // Pass the mousewheel event to the parent
-          return;
+        if (steps < 0 && position <= 0 || steps > 0 && position >= max) {
+          endY = true;
         }
+      }
 
+      // x case
+      if (scrollbarX && deltaX !== 0) {
+        var steps = parseInt(deltaX);
+        scrollbarX.scrollBySteps(steps);
+
+        var position = scrollbarX.getPosition();
+        var max = scrollbarX.getMaximum();
+        // pass the event to the parent if the scrollbar is at an edge
+        if (steps < 0 && position <= 0 || steps > 0 && position >= max) {
+          endX = true;
+        }
+      }
+
+      // pass the event to the parent if both scrollbars are at the end
+      if (!endY || !endX) {
         // Stop bubbling and native event only if a scrollbar is visible
         e.stop();
       }
