@@ -64,10 +64,27 @@ qx.Class.define("qx.test.io.remote.Rpc",
       mock.verify();
     },
 
-    "test: request data contains pseudo date literal when convert dates": function() {
+    "test: request data for params with date contains date literal when convert dates": function() {
       this.setUpFakeRequest();
       var req = this.request,
           obj = { date: new Date(Date.UTC(2020,0,1,0,0,0,123)) },
+          msg,
+          data;
+
+      var rpc = new qx.io.remote.Rpc();
+      this.stub(rpc, "_isConvertDates").returns(true);
+      this.stub(rpc, "createRpcData").returns({"params": obj});
+      rpc.callAsync();
+
+      data = this.request.setData.getCall(0).args[0];
+      msg = "Must contain converted date literal";
+      this.assertMatch(data, /"new Date\(Date.UTC\(2020,0,1,0,0,0,123\)\)"/, msg);
+    },
+
+    "test: request data for params with nested date contains date literal when convert dates": function() {
+      this.setUpFakeRequest();
+      var req = this.request,
+          obj = {nested: {date: new Date(Date.UTC(2020,0,1,0,0,0,123))} },
           msg,
           data;
 

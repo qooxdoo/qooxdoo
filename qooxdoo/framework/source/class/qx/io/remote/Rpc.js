@@ -646,30 +646,30 @@ qx.Class.define("qx.io.remote.Rpc",
         handleRequestFinished(eventType, eventTarget);
       });
 
+      // Provide a replacer when convert dates is enabled
+      var replacer = null;
       if (this._isConvertDates()) {
-        var params = rpcData.params;
-        if (params) {
-          for (var key in params) {
-            if (params.hasOwnProperty(key)) {
-              if (qx.lang.Type.isDate(params[key])) {
-                params[key].toJSON = function() {
-                  var dateParams =
-                    this.getUTCFullYear() + "," +
-                    this.getUTCMonth() + "," +
-                    this.getUTCDate() + "," +
-                    this.getUTCHours() + "," +
-                    this.getUTCMinutes() + "," +
-                    this.getUTCSeconds() + "," +
-                    this.getUTCMilliseconds();
-                  return "new Date(Date.UTC(" + dateParams + "))";
-                };
-              }
-            }
+        replacer = function(key, value) {
+          // The value passed in is of type string, because the Date's
+          // toJson gets applied before. Get value from containing object.
+          value = this[key];
+
+          if (qx.lang.Type.isDate(value)) {
+            var dateParams =
+              value.getUTCFullYear() + "," +
+              value.getUTCMonth() + "," +
+              value.getUTCDate() + "," +
+              value.getUTCHours() + "," +
+              value.getUTCMinutes() + "," +
+              value.getUTCSeconds() + "," +
+              value.getUTCMilliseconds();
+            return "new Date(Date.UTC(" + dateParams + "))";
           }
-        }
+          return value;
+        };
       }
 
-      req.setData(qx.lang.Json.stringify(rpcData));
+      req.setData(qx.lang.Json.stringify(rpcData, replacer));
       req.setAsynchronous(callType > 0);
 
       if (req.getCrossDomain())
