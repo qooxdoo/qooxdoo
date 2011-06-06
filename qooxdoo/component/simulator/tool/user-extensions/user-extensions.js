@@ -1219,7 +1219,7 @@ Selenium.prototype.__getTableClipperElement = function(locator, qxTable)
   // This is the real object that we want to click on.
   var element = null;
   var subLocator = "qx.ui.container.Composite/qx.ui.table.pane.Scroller/qx.ui.table.pane.Clipper";
-  if (locator.indexOf("qxh=") == 0) {
+  if (locator.indexOf("qxh=") == 0 || locator.indexOf("qxhv=") == 0) {
     var innerLocator = locator + "/" + subLocator;
     // Now add the extra components to the locator to find the clipper itself.
     // This is the real object that we want to click on.
