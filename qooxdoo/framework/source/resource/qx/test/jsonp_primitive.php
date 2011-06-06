@@ -3,7 +3,7 @@
 
   if (isset($_GET['callback'])) {
       $callback = $_GET['callback'];
-      if (!preg_match('/^[a-zA-Z_\.\[\]0-9]+\\z/', $callback)) {
+      if (!preg_match('/^[a-zA-Z_\.\[\]0-9]+\z/', $callback)) {
         echo 'No valid callback'; exit;
       }
   }
