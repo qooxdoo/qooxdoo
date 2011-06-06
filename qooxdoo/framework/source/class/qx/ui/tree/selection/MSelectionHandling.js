@@ -120,9 +120,14 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
      */
     _updateSelection : function()
     {
+      if (this._manager == null) {
+        return;
+      }
+
       var selection = this.getSelection();
       var lookupTable = this.getLookupTable();
       
+      this.__ignoreManagerChangeSelection = true;
       if (selection.getLength() > 0)
       {
         var item = selection.getItem(0);
@@ -130,6 +135,8 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
           selection.remove(item);
         }
       }
+      this.__ignoreManagerChangeSelection = false;
+      this._onChangeSelection();
     },
     
 

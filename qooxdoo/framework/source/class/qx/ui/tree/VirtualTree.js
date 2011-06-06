@@ -548,7 +548,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         old.removeListener("changeBubble", this._onChangeBubble, this);
       }
 
-      this.buildLookupTable();
+      this.__applyModelChanges();
     },
 
 
@@ -583,7 +583,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
 
       if (qx.lang.String.startsWith(propertyName, this.getChildProperty())) {
-        this.buildLookupTable();
+        this.__applyModelChanges();
       }
     },
 
@@ -693,6 +693,17 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     ---------------------------------------------------------------------------
     */
 
+    
+    /**
+     * Helper method to apply model changes. Normally build the lookup table and
+     * apply the default selection. 
+     */
+    __applyModelChanges : function(e)
+    {
+      this.buildLookupTable();
+      this._applyDefaultSelection();
+    },
+    
 
     /**
      * Helper method to build the internal data structure.
