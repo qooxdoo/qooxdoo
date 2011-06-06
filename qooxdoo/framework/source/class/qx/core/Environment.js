@@ -677,7 +677,7 @@ qx.Bootstrap.define("qx.core.Environment",
       this.add("qx.propertyDebugLevel", function() {return 0;});
 
       // old variants
-      // make sure to reflect all changes to qx.debug here to thebootstrap class!
+      // make sure to reflect all changes to qx.debug here in the bootstrap class!
       this.add("qx.debug", function() {return true;});
       this.add("qx.aspects", function() {return false;});
       this.add("qx.dynlocale", function() {return true;});
@@ -686,6 +686,14 @@ qx.Bootstrap.define("qx.core.Environment",
 
       this.add("qx.dynamicmousewheel", function() {return true;});
       this.add("qx.debug.databinding", function() {return false;});
+
+      // generator optimization vectors
+      this.add("qx.optimization.basecalls", function() {return false;});
+      this.add("qx.optimization.comments", function() {return false;});
+      this.add("qx.optimization.privates", function() {return false;});
+      this.add("qx.optimization.strings", function() {return false;});
+      this.add("qx.optimization.variables", function() {return false;});
+      this.add("qx.optimization.variants", function() {return false;});
     },
 
 
