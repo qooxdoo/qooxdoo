@@ -68,19 +68,25 @@ qx.Class.define("demobrowser.demo.bom.Environment",
       var numberOfChecks = qx.lang.Object.getLength(checks);
       keys = qx.lang.Object.getKeys(checks);
 
-      for (var i = 0; i < keys.length; i++)
+      if (numberOfChecks) 
       {
-        var key = keys[i];
-        qx.core.Environment.getAsync(key, function(result) {
-          output.add("<tr><td>", this, "</td><td>", result, "</td></tr>");
-          numberOfChecks--;
-          if (numberOfChecks === 0) {
-            output.add("</table>");
-
-            var isle = document.getElementById("output");
-            isle.innerHTML = output.get();
-          }
-        }, key);
+        for (var i = 0; i < keys.length; i++)
+        {
+          var key = keys[i];
+          qx.core.Environment.getAsync(key, function(result) {
+            output.add("<tr><td>", this, "</td><td>", result, "</td></tr>");
+            numberOfChecks--;
+            if (numberOfChecks === 0) {
+              output.add("</table>");
+              var isle = document.getElementById("output");
+              isle.innerHTML = output.get();
+            }
+          }, key);
+        }
+      } else {
+        output.add("</table>");
+        var isle = document.getElementById("output");
+        isle.innerHTML = output.get();
       }
     }
   }
