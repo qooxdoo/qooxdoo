@@ -153,6 +153,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _containerElementWidth : null,
     _containerElementLeft : null,
     _pixelPerStep : null,
+    __value: 0,
 
 
     /**
