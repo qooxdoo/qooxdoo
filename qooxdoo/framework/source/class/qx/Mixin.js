@@ -263,7 +263,7 @@ qx.Bootstrap.define("qx.Mixin",
     /**
      * Determine the number of mixins which are defined
      *
-     * @return {Number} the number of classes
+     * @return {Number} the number of mixins
      */
     getTotalNumber : function() {
       return qx.Bootstrap.objectGetLength(this.$$registry);
