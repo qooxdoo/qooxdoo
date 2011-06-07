@@ -130,7 +130,7 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
     createModel : function(level)
     {
       var root = new qx.test.ui.tree.virtual.Node("Root node");
-      this.__createNodes(root, level);
+      this._createNodes(root, level);
 
       return root;
     },
@@ -153,7 +153,7 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
     */
 
 
-    __createNodes : function(parent, level) {
+    _createNodes : function(parent, level) {
       if (level > 0)
       {
         for (var i = 0; i < 5; i++)
@@ -161,14 +161,14 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
           var item = new qx.test.ui.tree.virtual.Node("Node " + this.__getPrefix(parent) + i);
           parent.getChildren().push(item);
 
-          this.__createNodes(item, level - 1);
-          this.__createLeafs(item);
+          this._createNodes(item, level - 1);
+          this._createLeafs(item);
         }
       }
     },
 
 
-    __createLeafs : function(parent)
+    _createLeafs : function(parent)
     {
       for (var i = 0; i < 5; i++)
       {

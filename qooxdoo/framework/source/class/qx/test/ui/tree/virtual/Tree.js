@@ -180,7 +180,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       this.__openNodes(nodesToOpen);
 
       var newBranch = new qx.test.ui.tree.virtual.Node("New Branch");
-      this.__createNodes(newBranch, 2);
+      this._createNodes(newBranch, 2);
       root.getChildren().getItem(2).getChildren().push(newBranch);
 
       var expected = this.__getVisibleItemsFrom(root, nodesToOpen);
@@ -455,7 +455,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       this.assertTrue(this.tree.hasChildren(root.getChildren().getItem(0)));
 
       var node = new qx.test.ui.tree.virtual.Node("Node");
-      this.__createLeafs(node, 1);
+      this._createLeafs(node, 1);
       this.assertFalse(this.tree.hasChildren(node));
       node.dispose();
 
