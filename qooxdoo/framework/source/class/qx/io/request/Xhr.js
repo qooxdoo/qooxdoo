@@ -71,8 +71,8 @@ qx.Class.define("qx.io.request.Xhr",
   extend: qx.io.request.AbstractRequest,
 
   /**
-   * @param url {String} The URL of the resource to request.
-   * @param method {String} The HTTP method.
+   * @param url {String?} The URL of the resource to request.
+   * @param method {String?} The HTTP method.
    */
   construct: function(url, method) {
     if (method !== undefined) {

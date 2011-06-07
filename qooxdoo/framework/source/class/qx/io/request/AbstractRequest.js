@@ -38,7 +38,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
   extend : qx.core.Object,
 
   /**
-   * @param url {String} The URL of the resource to request.
+   * @param url {String?} The URL of the resource to request.
    */
   construct : function(url)
   {
@@ -191,9 +191,14 @@ qx.Class.define("qx.io.request.AbstractRequest",
      *
      * For every supported type except strings, a URL encoded string
      * with unsafe characters escaped is internally generated and sent
-     * with the request. However, if a string is given the user must make
-     * sure it is properly formatted and escaped. See
-     * {@link qx.lang.Object#toUriParameter}.
+     * as part of the request.
+     *
+     * Depending on the underlying transport and it's configuration, the request
+     * data is transparently included as URL query parameters or embedded in the
+     * request header as form data.
+     *
+     * If a string is given the user must make sure it is properly formatted and
+     * escaped. See {@link qx.lang.Object#toUriParameter}.
      *
      */
     requestData: {
@@ -208,7 +213,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     /**
      * Authentication delegate.
      *
-     * The delegate must implement {@link qx.io.request.auth.IAuthDelegate}.
+     * The delegate must implement {@link qx.io.request.authentication.IAuthDelegate}.
      */
     authentication: {
       check: "qx.io.request.authentication.IAuthentication",
@@ -381,10 +386,10 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * This method can be used to query the transport directly,
      * but should be used with caution. Especially, it
      * is not advisable to call any destructive methods
-     * such as {@link qx.bom.request.Xhr#open} or
-     * {@link qx.bom.request.Xhr#send}.
+     * such as <code>open</code> or <code>send</code>.
      *
-     * @return {qx.bom.request.Xhr} The transport
+     * @return {Object} An instance of a class found in
+     *  <code>qx.bom.request.*</code>
      */
 
      // This method mainly exists so that some methods found in the
@@ -439,18 +444,18 @@ qx.Class.define("qx.io.request.AbstractRequest",
     },
 
     /**
-     * Get HTTP status code.
+     * Get status code.
      *
-     * @return {Number} The HTTP status code.
+     * @return {Number} The transport’s status code.
      */
     getStatus: function() {
       return this._transport.status;
     },
 
     /**
-     * Get HTTP status text.
+     * Get status text.
      *
-     * @return {String} The HTTP status text.
+     * @return {String} The transport’s status text.
      */
     getStatusText: function() {
       return this._transport.statusText;
