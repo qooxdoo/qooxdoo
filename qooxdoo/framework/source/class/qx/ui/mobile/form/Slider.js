@@ -335,12 +335,22 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       return this._knobElement;
     },
 
+    /**
+     * Sets the value of this slider.
+     * It is called by setValue method of qx.ui.mobile.form.MValue mixin
+     * @param value {Integer} the new value of the slider
+     */
     _setValue : function(value)
     {
       this.__value = value;
       this._updateKnobPosition();
     },
-    
+
+    /**
+     * Gets the value [true/false] of this slider.
+     * It is called by getValue method of qx.ui.mobile.form.MValue mixin
+     * @return value {Integer} the value of the slider
+     */
     _getValue : function() {
       return this.__value;
     },

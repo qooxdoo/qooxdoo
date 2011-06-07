@@ -159,6 +159,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
     /**
      * Sets the selected value of the element
+     * @param value {String} the value of the selection
      */
     setSelection : function(value) {
       this.setValue(value);
@@ -166,10 +167,11 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
 
     /**
-     * Implements the way the value is set for the element
+     * Sets the value of this selectbox.
+     * It is called by setValue method of qx.ui.mobile.form.MValue mixin.
+     * Implements the way the value is set for the element.
+     * @param value {Boolean} the new value of the selectbox
      */
-
-
     _setValue : function(value) {
       var model = this.getModel();
       this.getContainerElement().selectedIndex = model.indexOf(value);

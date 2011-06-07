@@ -88,12 +88,20 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
       return "checkbox";
     },
     
-    // overridden
+    /**
+     * Sets the value [true/false] of this checkbox.
+     * It is called by setValue method of qx.ui.mobile.form.MValue mixin
+     * @param value {Boolean} the new value of the checkbox
+     */
     _setValue : function(value) {
       this._setAttribute("checked", value);
     },
     
-    // overridden
+    /**
+     * Gets the value [true/false] of this checkbox.
+     * It is called by getValue method of qx.ui.mobile.form.MValue mixin
+     * @return value {Boolean} the value of the checkbox
+     */
     _getValue : function() {
       return this._getAttribute("checked");
     }

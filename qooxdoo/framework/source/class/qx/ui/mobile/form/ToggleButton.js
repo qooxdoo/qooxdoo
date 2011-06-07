@@ -140,7 +140,11 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     },
 
 
-    // property apply
+    /**
+     * Sets the value [true/false] of this toggle button.
+     * It is called by setValue method of qx.ui.mobile.form.MValue mixin
+     * @param value {Boolean} the new value of the toggle button
+     */
     _setValue : function(value)
     {
       if(typeof value !== 'boolean') {
@@ -153,7 +157,12 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
       }
        this.__value = value;
     },
-    
+
+    /**
+     * Gets the value [true/false] of this toggle button.
+     * It is called by getValue method of qx.ui.mobile.form.MValue mixin
+     * @return value {Boolean} the value of the toggle button
+     */
     _getValue : function() {
       return this.__value;
     },

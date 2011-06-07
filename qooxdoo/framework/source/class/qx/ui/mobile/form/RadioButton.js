@@ -92,13 +92,6 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     {
       return "radio";
     },
-  
-    /**
-     * Sets the check property to the check attribute value of the CheckBox.
-     */
-    _syncValueProperty : function(e) {
-      this.setValue(this.getValue());
-    },   
 
     /** The assigned {@link qx.ui.form.RadioGroup} which handles the switching between registered buttons */
     _applyGroup : function(value, old)
@@ -112,12 +105,20 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
       }
     },
     
-    // overridden
+    /**
+     * Sets the value [true/false] of this radio button.
+     * It is called by setValue method of qx.ui.mobile.form.MValue mixin
+     * @param value {Boolean} the new value of the radio button
+     */
     _setValue : function(value) {
       this._setAttribute("checked", value);
     },
     
-    // overridden
+    /**
+     * Gets the value [true/false] of this radio button.
+     * It is called by getValue method of qx.ui.mobile.form.MValue mixin
+     * @return value {Boolean} the value of the radio button
+     */
     _getValue : function() {
       return this._getAttribute("checked");
     }
