@@ -80,7 +80,7 @@
         "INSPECTOR_PATH"    : "${ROOT}/inspector"
       },
 
-      "=run" : ["inspector-resources", "inspector-script", "inspector-files"]
+      "=run" : ["inspector-resources", "inspector-script", "inspector-files", "inspector::build-files-simulator"]
     },
 
 
