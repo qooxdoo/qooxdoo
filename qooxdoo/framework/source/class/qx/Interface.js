@@ -172,7 +172,7 @@ qx.Bootstrap.define("qx.Interface",
     /**
      * Determine the number of interfaces which are defined
      *
-     * @return {Number} the number of classes
+     * @return {Number} the number of interfaces
      */
     getTotalNumber : function() {
       return qx.Bootstrap.objectGetLength(this.$$registry);
