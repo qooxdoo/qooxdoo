@@ -25,18 +25,17 @@
  * *Example*
  * 
  * <pre class='javascript'>
- *   var checkBox = new qx.ui.mobile.form.CheckBox();
- *   var title = new qx.ui.mobile.form.Title("Title");
- *   
- *   checkBox.setModel("Title Activated");
- *   checkBox.bind("model", title, "value");
- *   
- *   checkBox.addListener("changeValue", function(evt){
- *     this.setModel(evt.getdata() ? "Title Activated" : "Title Deactivated");
- *   });
+ *    var form = new qx.ui.mobile.form.Form();
+ *    var radio1 = new qx.ui.mobile.form.RadioButton();
+ *    var radio2 = new qx.ui.mobile.form.RadioButton();
+ *    var radio3 = new qx.ui.mobile.form.RadioButton();
+ *    var group = new qx.ui.form.RadioGroup(radio1, radio2, radio3);
+      
+ *    form.add(radio1, "Germany");
+ *    form.add(radio2, "UK");
+ *    form.add(radio3, "USA");
  *
- *   this.getRoot.add(checkBox);
- *   this.getRoot.add(title);
+ *    this.getRoot.add(new qx.ui.mobile.form.renderer.Single(form));
  * </pre>
  * 
  * 
