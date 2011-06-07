@@ -28,7 +28,9 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       for(var i=0, l=items.length; i<l; i++)
       {
         var row = new qx.ui.mobile.form.Row();
-        row.add(new qx.ui.mobile.basic.Label(names[i] ? names[i] : "---"));
+        if(names[i] != null) {
+          row.add(new qx.ui.mobile.basic.Label(names[i]));
+        }
         row.add(items[i]);
         this._add(row);
       }
