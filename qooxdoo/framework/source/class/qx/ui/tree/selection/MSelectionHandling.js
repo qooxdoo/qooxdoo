@@ -256,20 +256,9 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
         return;
       }
 
-      var selection = this.getSelection();
-      var currentSelection = e.getData();
-
       this.__ignoreManagerChangeSelection = true;
 
-      // replace selection and fire event
       this.__synchronizeSelection();
-      if (selection.getLength() > 0)
-      {
-        var lastIndex = selection.getLength() - 1;
-        selection.splice(lastIndex, 1, this.getLookupTable().getItem(currentSelection[lastIndex]));
-      } else {
-        selection.removeAll();
-      }
 
       this.__ignoreManagerChangeSelection = false;
     },
@@ -280,17 +269,49 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
      */
     __synchronizeSelection : function()
     {
-      var localSelection = this.getSelection();
-      var nativArray = localSelection.toArray();
-      var managerSelection = this._manager.getSelection();
-
-      qx.lang.Array.removeAll(nativArray);
-      for(var i = 0; i < managerSelection.length; i++) {
-        nativArray.push(this.getLookupTable().getItem(managerSelection[i]));
+      if (this.__isEquals()) {
+        return
       }
-      localSelection.length = nativArray.length;
+      
+      var managerSelection = this._manager.getSelection();
+      var newSelection = [];
+
+      for (var i = 0; i < managerSelection.length; i++) {
+        newSelection.push(this.getLookupTable().getItem(managerSelection[i]));
+      }
+
+      var selection = this.getSelection();
+      if (newSelection.length > 0)
+      {
+        var args = [0, selection.getLength()];
+        args = args.concat(newSelection);
+        selection.splice.apply(selection, args);
+      } else {
+        selection.removeAll();
+      }
     },
 
+    
+    __isEquals : function()
+    {
+      var selection = this.getSelection(); 
+      var managerSelection = this._manager.getSelection();
+      
+      if (selection.getLength() !== managerSelection.length) {
+        return false;
+      }
+      
+      for (var i = 0; i < selection.getLength(); i++)
+      {
+        var item = selection.getItem(i);
+        
+        if (this.getLookupTable().indexOf(item) !== managerSelection[i]) {
+          return false;
+        };
+      }
+      return true;
+    },
+    
     
     /**
      * Builds the parent chain form the passed item.
