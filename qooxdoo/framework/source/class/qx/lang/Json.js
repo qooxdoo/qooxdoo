@@ -49,8 +49,17 @@ qx.Class.define("qx.lang.Json",
      */
     JSON : (
       qx.lang.Type.getClass(window.JSON) == "JSON" &&
-      JSON.parse('{"x":1}').x === 1
-    ) ? window.JSON : new qx.lang.JsonImpl(),
+
+      // Parsing actually works.
+      JSON.parse('{"x":1}').x === 1 &&
+
+      // Stringify supports replacer.
+      //
+      // Catches browser bug found in Firefox >=3.5 && < 4, see
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=509184
+      JSON.stringify({"prop":"val"}, function(k,v) {
+        return k === "prop" ? "repl" : v;
+      }).indexOf("repl") > 0) ? window.JSON : new qx.lang.JsonImpl(),
 
     /**
      * This method produces a JSON text from a JavaScript value.
