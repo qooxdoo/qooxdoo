@@ -56,15 +56,32 @@ qx.Class.define("qx.test.lang.Json",
 
     testReplacer : function()
     {
-      var json = [new Date(0), "foo"];
+      var obj = [new Date(0), "foo"];
 
       var self = this;
       var replacer = function(key, value) {
         return this[key] instanceof Date ? 'Date(' + this[key].getTime() + ')' : value;
       };
 
-      var text = this.JSON.stringify(json, replacer);
-      this.assertEquals('["Date(0)","foo"]', text);
+      var json = this.JSON.stringify(obj, replacer);
+      this.assertEquals('["Date(0)","foo"]', json);
+    },
+
+    // Uncovers browser bug found in Firefox >=3.5 && < 4, see
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=509184
+    testReplacerNestedObject : function()
+    {
+      var obj = {"prop": "value"};
+
+      var replacer = function(key, value) {
+        if (value == "value") {
+          return "replaced";
+        }
+        return value;
+      };
+
+      var json = this.JSON.stringify(obj, replacer);
+      this.assertMatch(json, /replaced/);
     },
 
 
@@ -163,27 +180,6 @@ qx.Class.define("qx.test.lang.Json",
       });
     },
 
-    testStringifyLegacyDate : function()
-    {
-      var obj = { date: new Date(Date.UTC(2020,0,1,0,0,0,123)) };
-      obj.date.toJSON = function() {
-        var dateParams =
-          this.getUTCFullYear() + "," +
-          this.getUTCMonth() + "," +
-          this.getUTCDate() + "," +
-          this.getUTCHours() + "," +
-          this.getUTCMinutes() + "," +
-          this.getUTCSeconds() + "," +
-          this.getUTCMilliseconds();
-        return "new Date(Date.UTC(" + dateParams + "))";
-      };
-
-      var msg,
-          result = this.JSON.stringify(obj);
-
-      msg = "Must contain legacy date literal";
-      this.assertMatch(result, /"new Date\(Date.UTC\(2020,0,1,0,0,0,123\)\)"/, msg);
-    },
 
     testIgnoreNamedPropertiesInArrays : function()
     {
@@ -227,28 +223,18 @@ qx.Class.define("qx.test.lang.Json",
       this.assertEquals(1234, this.JSON.parse(" 1234"));
     },
 
-    testParseLegacyDate : function()
+    testParseRevive : function()
     {
-      var str = '{ "date": "new Date(Date.UTC(2020,0,1,0,0,0,123))" }';
+      var json = '{"prop": "value"}';
 
-      var obj = this.JSON.parse(str, function(key, value) {
-        if (value && typeof value === "string") {
-          if (value.indexOf("new Date(Date.UTC(") >= 0) {
-            var m = value.match(/new Date\(Date.UTC\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\)\)/);
-            return new Date(Date.UTC(m[1],m[2],m[3],m[4],m[5],m[6],m[7]));
-          }
+      var obj = this.JSON.parse(json, function(key, value) {
+        if (value == "value") {
+          return "revived";
         }
         return value;
       });
 
-      var msg;
-
-      msg = "Must be date";
-      this.assertTrue(qx.lang.Type.isDate(obj.date), msg);
-
-      msg = "Must be same milliseconds";
-      this.assertEquals(new Date(Date.UTC(2020,0,1,0,0,0,123)).valueOf(),
-        obj.date.valueOf(), msg);
+      this.assertEquals("revived", obj.prop);
     },
 
     isIe8 : function()
