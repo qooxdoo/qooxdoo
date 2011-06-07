@@ -122,6 +122,36 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.assertCalled(callback);
     },
 
+    "test: response contains date from literal when convert dates and json response": function() {
+      this.setUpFakeRequest();
+      var rpc = new qx.io.remote.Rpc(),
+          req = this.request,
+          evt = qx.event.Registration.createEvent("completed", qx.io.remote.Response),
+          str = '{"result": {"date": "new Date(Date.UTC(2020,0,1,0,0,0,123))"} }',
+          that = this;
+
+      this.stub(rpc, "_isConvertDates").returns(true);
+      this.stub(rpc, "_isResponseJson").returns(true);
+      this.spy(qx.lang.Json, "parse");
+
+      var callback = this.spy(function(result) {
+        var msg;
+
+        that.assertCalled(qx.lang.Json.parse);
+
+        msg = "Expected value to be date but found " + typeof result.date;
+        that.assertTrue(qx.lang.Type.isDate(result.date), msg);
+      });
+
+      rpc.callAsync(callback);
+
+      // Fake JSON (String) response
+      evt.setContent(str);
+      req.dispatchEvent(evt);
+
+      this.assertCalled(callback);
+    },
+
     "test: response is parsed as JSON": function() {
       this.setUpFakeRequest();
       var rpc = new qx.io.remote.Rpc(),

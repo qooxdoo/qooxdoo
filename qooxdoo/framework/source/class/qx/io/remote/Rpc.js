@@ -210,8 +210,44 @@ qx.Class.define("qx.io.remote.Rpc",
      * <code>null</code> for the default behavior, acts like false
      * <code>true</code> for stringifying dates the old, qooxdoo specific way
      * <code>false</code> using the native toJSON of date objects.
+     *
+     * When enabled, dates are converted to and parsed from
+     * a literal that complies to the format
+     *
+     * <code>new Date(Date.UTC(year,month,day,hour,min,sec,ms))</code>
+     *
+     * The server can fairly easily parse this in its JSON
+     * implementation by stripping off "new Date(Date.UTC("
+     * from the beginning of the string, and "))" from the
+     * end of the string. What remains is the set of
+     * comma-separated date components, which are also very
+     * easy to parse.
+     *
+     * The work-around compensates for the fact that while the
+     * Date object is a primitive type in Javascript, the
+     * specification neglects to provide a literal form for it.
      */
     CONVERT_DATES : null,
+
+
+    /**
+     * Boolean flag which controls whether to expect and verify a JSON
+     * response.
+     *
+     * Should be <code>true</code> when backend returns valid JSON.
+     *
+     * Date literals are parsed when CONVERT_DATES is <code>true</code>
+     * and comply to the format
+     *
+     * <code>"new Date(Date.UTC(year,month,day,hour,min,sec,ms))"</code>
+     *
+     * Note the surrounding quotes that encode the literal as string.
+     *
+     * Using valid JSON is recommended, because it allows to use
+     * {@link qx.lang.Json#parse} for parsing. {@link qx.lang.Json#parse}
+     * is preferred over the potentially insecure <code>eval</code>.
+     */
+    RESPONSE_JSON : null,
 
 
     /**
@@ -595,10 +631,31 @@ qx.Class.define("qx.io.remote.Rpc",
       {
         response = evt.getContent();
 
-        // Parse
+        // Parse. Skip when response is already an object
+        // because the script transport was used.
         if (!qx.lang.Type.isObject(response)) {
+
+          // Handle converted dates
           if (self._isConvertDates()) {
-            response = response && response.length > 0 ? eval('(' + response + ')') : null;
+
+            // Parse as JSON and revive date literals
+            if (self._isResponseJson()) {
+              response = qx.lang.Json.parse(response, function(key, value) {
+                if (value && typeof value === "string") {
+                  if (value.indexOf("new Date(Date.UTC(") >= 0) {
+                    var m = value.match(/new Date\(Date.UTC\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\)\)/);
+                    return new Date(Date.UTC(m[1],m[2],m[3],m[4],m[5],m[6],m[7]));
+                  }
+                }
+                return value;
+              });
+
+            // Eval
+            } else {
+              response = response && response.length > 0 ? eval('(' + response + ')') : null;
+            }
+
+          // No special date handling required, JSON assumed
           } else {
             response = qx.lang.Json.parse(response);
           }
@@ -912,6 +969,18 @@ qx.Class.define("qx.io.remote.Rpc",
      */
     _isConvertDates: function() {
       return !!((qx.util.Json && qx.util.Json.CONVERT_DATES) || qx.io.remote.Rpc.CONVERT_DATES);
+    },
+
+
+    /**
+     * Whether to expect and verify a JSON response.
+     *
+     * Controlled by {@link #RESPONSE_JSON}.
+     *
+     * @return {Boolean} Whether to expect JSON.
+     */
+    _isResponseJson: function() {
+      return !!(qx.io.remote.Rpc.RESPONSE_JSON);
     },
 
 
