@@ -61,6 +61,9 @@
  * Note that IE's <code>XDomainRequest</code> is not currently supported.
  * For a cross-browser alternative, consider {@link qx.io.request.Jsonp}.
  *
+ * In order to debug requests, set the environment flag
+ * <code>qx.debug.io</code>.
+ *
  * Internally uses {@link qx.bom.request.Xhr}.
  */
 qx.Class.define("qx.io.request.Xhr",

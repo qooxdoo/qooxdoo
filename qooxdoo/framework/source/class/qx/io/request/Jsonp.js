@@ -63,6 +63,9 @@
  * * Flexible callback handling
  * * Cross-origin requests
  *
+ * In order to debug requests, set the environment flag
+ * <code>qx.debug.io</code>.
+ *
  * Internally uses {@link qx.bom.request.Jsonp}.
  */
 qx.Class.define("qx.io.request.Jsonp",
