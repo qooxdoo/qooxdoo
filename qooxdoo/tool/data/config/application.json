@@ -80,6 +80,11 @@
         "INSPECTOR_PATH"    : "${ROOT}/inspector"
       },
 
+      "environment" :
+      {
+        "inspector.selenium.extensions" : "../inspector/script/user-extensions.js"
+      },
+
       "=run" : ["inspector-resources", "inspector-script", "inspector-files", "inspector::build-files-simulator"]
     },
 
