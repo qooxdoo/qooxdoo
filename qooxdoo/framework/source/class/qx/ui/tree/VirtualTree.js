@@ -64,6 +64,20 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     this.addListener("keypress", this._onKeyPress, this);
   },
 
+  events :
+  {
+    /**
+     * Fired when a node is opened.
+     */
+    open : "qx.event.type.Data",
+    
+    
+    /**
+     * Fired when a node is closed.
+     */
+    close : "qx.event.type.Data"
+  },
+  
 
   properties :
   {
@@ -345,6 +359,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       if (qx.lang.Array.contains(this.__openNodes, node))
       {
         qx.lang.Array.remove(this.__openNodes, node);
+        this.fireDataEvent("close", node);
         this.buildLookupTable();
       }
     },
@@ -815,6 +830,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     {
       if (!qx.lang.Array.contains(this.__openNodes, node)) {
         this.__openNodes.push(node);
+        this.fireDataEvent("open", node);
       }
     },
 
