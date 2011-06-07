@@ -269,7 +269,7 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
      */
     __synchronizeSelection : function()
     {
-      if (this.__isEquals()) {
+      if (this.__isSelectionEquals()) {
         return
       }
       
@@ -292,7 +292,13 @@ qx.Mixin.define("qx.ui.tree.selection.MSelectionHandling",
     },
 
     
-    __isEquals : function()
+    /**
+     * Checks whether the local and the manager selection is equals.
+     * 
+     * @return {Boolean} <code>true</code> when the selection is equals,
+     *   <code>false</code> otherwise.
+     */
+    __isSelectionEquals : function()
     {
       var selection = this.getSelection(); 
       var managerSelection = this._manager.getSelection();
