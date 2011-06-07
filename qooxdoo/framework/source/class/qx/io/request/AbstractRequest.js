@@ -387,7 +387,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * @return {qx.bom.request.Xhr} The transport
      */
 
-     //
      // This method mainly exists so that some methods found in the
      // low-level transport can be deliberately omitted here,
      // but still be accessed should it be absolutely necessary.

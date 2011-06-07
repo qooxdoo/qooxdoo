@@ -28,12 +28,40 @@
  * cycle of a request, such as "success". Request data is transparently
  * processed.
  *
- * Internally uses {@link qx.bom.request.Xhr} to abstract browser
- * inconsistencies in their implementation of XMLHttpRequest (or equivalent).
- * This means the HTTP status and other XHR properties can be safely queried
- * and events are fired consistently on all platforms. Moreover, the same
- * instance of this class can be efficiently used to repeatedly send many
- * requests.
+ * Here is how to request a JSON file and listen to the "success" event:
+ *
+ * <pre class="javascript">
+ * var req = new qx.io.request.Xhr("/some/path/file.json");
+ *
+ * req.addListener("success", function(e) {
+ *   var req = e.getTarget();
+ *
+ *   // Response parsed according to the server's
+ *   // response content type, e.g. JSON
+ *   req.getResponse();
+ * }, this);
+ *
+ * // Send request
+ * req.send();
+ * </pre>
+ *
+ * Some noteable features:
+ *
+ * * Abstraction of low-level request
+ * * Convenient setup using properties
+ * * Fine-grained events
+ * * Symbolic phases
+ * * Transparent processing of request data
+ * * Stream-lined authentication
+ * * Automagic parsing of response based on content type
+ *
+ * Cross-origin requests are supported, but require browser support
+ * (see <a href="http://caniuse.com/#search=CORS">caniuse.com</a>) and backend configuration
+ * (see <a href="https://developer.mozilla.org/en/http_access_control">MDN</a>).
+ * Note that IE's <code>XDomainRequest</code> is not currently supported.
+ * For a cross-browser alternative, consider {@link qx.io.request.Jsonp}.
+ *
+ * Internally uses {@link qx.bom.request.Xhr}.
  */
 qx.Class.define("qx.io.request.Xhr",
 {

@@ -22,6 +22,47 @@
  *
  * Query JSONP services. Requests may be cross-origin.
  *
+ * For an introduction to JSONP, please refer to
+ * <a href="http://ajaxian.com/archives/jsonp-json-with-padding">Ajaxian.com</a>.
+ *
+ * Here is how to request a JSON file from a REST service and listen to
+ * the "success" event:
+ *
+ * <pre class="javascript">
+ * var req = new qx.io.request.Jsonp();
+ * req.setUrl("http://feeds.delicious.com/v2/json/popular");
+ *
+ * // Some services have a fixed callback name
+ * // req.setCallbackName("callback");
+ *
+ * req.addListener("success", function(e) {
+ *   var req = e.getTarget();
+ *
+ *   // HTTP status code indicating success, e.g. 200
+ *   req.getStatus();
+ *
+ *   // "success"
+ *   req.getPhase();
+ *
+ *   // JSON response
+ *   req.getResponse();
+ * }, this);
+ *
+ * // Send request
+ * req.send();
+ * </pre>
+ *
+ * Some noteable features:
+ *
+ * * Abstraction of low-level request
+ * * Convenient setup using properties
+ * * Fine-grained events
+ * * Symbolic phases
+ * * Transparent processing of request data
+ * * Stream-lined authentication
+ * * Flexible callback handling
+ * * Cross-origin requests
+ *
  * Internally uses {@link qx.bom.request.Jsonp}.
  */
 qx.Class.define("qx.io.request.Jsonp",

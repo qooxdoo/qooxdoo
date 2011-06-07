@@ -22,6 +22,23 @@
  *
  * A special script loader handling JSONP responses. Automatically
  * provides callbacks and populates responseJson property.
+ *
+ * Example:
+ *
+ * <pre class="javascript">
+ *  var req = new qx.bom.request.Jsonp();
+ *
+ *  // Some services have a fixed callback name
+ *  // req.setCallbackName("callback");
+ *
+ *  req.onload = function() {
+ *    // Handle data received
+ *    req.responseJson;
+ *  }
+ *
+ *  req.open("GET", url);
+ *  req.send();
+ * </pre>
  */
 qx.Bootstrap.define("qx.bom.request.Jsonp",
 {

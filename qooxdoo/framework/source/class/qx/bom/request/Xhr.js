@@ -34,7 +34,7 @@
  * borrows some methods as described in
  * <a href="http://www.w3.org/TR/XMLHttpRequest2/">XmlHttpRequest2</a>.
  *
- * The most basic setup looks similar to this:
+ * Example:
  *
  * <pre class="javascript">
  *  var req = new qx.bom.request.Xhr();

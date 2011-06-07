@@ -26,6 +26,19 @@
  * The script loader can be used to load scripts from arbitrary sources.
  * For JSONP requests, consider the {@link qx.bom.request.Jsonp} transport
  * that derives from the script loader.
+ *
+ * Example:
+ *
+ * <pre class="javascript">
+ *  var req = new qx.bom.request.Script();
+ *  req.onload = function() {
+ *    // Script is loaded and parsed and
+ *    // globals set are available
+ *  }
+ *
+ *  req.open("GET", url);
+ *  req.send();
+ * </pre>
  */
 qx.Bootstrap.define("qx.bom.request.Script",
 {
