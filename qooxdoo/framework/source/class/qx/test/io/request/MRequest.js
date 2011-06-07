@@ -171,6 +171,17 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     // Events
     //
 
+    "test: fire readyStateChange": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          readystatechange = this.spy();
+
+      req.addListener("readyStateChange", readystatechange);
+      this.respond();
+
+      this.assertCalledOnce(readystatechange);
+    },
+
     "test: fire success": function() {
       this.setUpFakeTransport();
       var req = this.req,

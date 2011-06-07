@@ -363,7 +363,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       req.setMethod("GET");
 
       readyStates.push(req.getReadyState());
-      req.addListener("readystatechange", function() {
+      req.addListener("readyStateChange", function() {
         readyStates.push(req.getReadyState());
         statuses.push(req.getStatus());
       }, this);

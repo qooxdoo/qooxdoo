@@ -71,7 +71,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     /**
      * Fired on every change of the transport’s readyState.
      */
-    "readystatechange": "qx.event.type.Event",
+    "readyStateChange": "qx.event.type.Event",
 
     /**
      * Fired when request completes without eror and transport’s status
@@ -539,7 +539,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     */
 
     /**
-     * Handle "readystatechange" event.
+     * Handle "readyStateChange" event.
      */
     _onReadyStateChange: function() {
       var parsedResponse,
@@ -549,7 +549,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
         this.debug("Fire readyState: " + readyState);
       }
 
-      this.fireEvent("readystatechange");
+      this.fireEvent("readyStateChange");
 
       if (readyState === 3) {
         this._setPhase("loading");
