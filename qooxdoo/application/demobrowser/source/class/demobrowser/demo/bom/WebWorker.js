@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.bom.WebWorker",
       var result = new qx.ui.form.List().set({width: 200});
 
       if (qx.core.Environment.get("html.webworker")) {
-        info.setValue("Your browser support Web Workers");
+        info.setValue("Your browser supports Web Workers");
       } else {
         info.setValue("Your browser doesn't support Web Workers");
       }
@@ -73,16 +73,6 @@ qx.Class.define("demobrowser.demo.bom.WebWorker",
         what.setEnabled(false);
         calculate.setLabel("Calculating...");
       }, this);
-
     }
-  },
-
-  /*
-   *****************************************************************************
-      DESTRUCT
-   *****************************************************************************
-   */
-
-  destruct : function() {
   }
 });
