@@ -30,11 +30,11 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
 
   members :
   {
-    __requests : null,
+    _requests : null,
 
     setUp : function()
     {
-      this.__requests = [];
+      this._requests = [];
 
       for (var i = 0; i < 10 ; i++) {
         var request = this._createRequest();
@@ -43,7 +43,7 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
         request.addListener("failed", this.responseError, this);
         request.addListener("timeout", this.responseError, this);
 
-        this.__requests[i] = request;
+        this._requests[i] = request;
       }
 
       // These tests will always fail in Safari 3/FF1.5 due to the behavior
@@ -65,7 +65,7 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
     },
 
     _getRequests: function() {
-      return this.__requests;
+      return this._requests;
     },
 
     tearDown : function() {
@@ -107,9 +107,9 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
 
       var completedCount = 0;
 
-      for (var i = 0; i < this.__requests.length; i++)
+      for (var i = 0; i < this._requests.length; i++)
       {
-        var request = this.__requests[i];
+        var request = this._requests[i];
 
         request.setParameter("test", "test" + i);
 
