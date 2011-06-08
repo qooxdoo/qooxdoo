@@ -93,8 +93,7 @@ qx.Class.define("demobrowser.demo.bom.Audio",
         doc.add(mute, {left: 314, top: 10});
         doc.add(loop, {left: 364, top: 10});
 
-        mediaObject = audio.getMediaObject();
-        container.getContentElement().getDomElement().appendChild(mediaObject);
+        container.getContentElement().getDomElement().appendChild(audio.getMediaObject());
         container.setWidth(400);
         container.setHeight(100);
       }, this);
