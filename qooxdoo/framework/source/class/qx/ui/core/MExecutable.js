@@ -162,7 +162,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
           // handle the init value (dont sync the initial null)
           var cmdPropertyValue = value.get(property);
           if (cmdPropertyValue == null) {
-            selfPropertyValue = this.get(property)
+            selfPropertyValue = this.get(property);
           } else {
             // Reset the self property value [BUG #4534]
             selfPropertyValue = null;

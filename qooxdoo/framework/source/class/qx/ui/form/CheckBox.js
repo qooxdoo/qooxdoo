@@ -82,13 +82,12 @@ qx.Class.define("qx.ui.form.CheckBox",
     }
   },
 
-
+  /**
+   * @lint ignoreReferenceField(_forwardStates,_bindableProperties)
+   */
   members :
   {
     // overridden
-    /**
-     * @lint ignoreReferenceField(_forwardStates)
-     */
     _forwardStates :
     {
       invalid : true,
@@ -96,6 +95,17 @@ qx.Class.define("qx.ui.form.CheckBox",
       undetermined : true,
       checked : true,
       hovered : true
-    }
+    },
+
+
+    // overridden (from MExecutable to keet the icon out of the binding)
+    _bindableProperties :
+    [
+      "enabled",
+      "label",
+      "toolTipText",
+      "value",
+      "menu"
+    ]
   }
 });
