@@ -997,6 +997,9 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this.useCheck("html.dataurl")) {
         this._asyncChecks["html.dataurl"] = qx.bom.client.Html.getDataUrl;
       }
+      if (this.useCheck("html.dataset")) {
+        this._checks["html.dataset"] = qx.bom.client.Html.getDataset;
+      }
 
       // /////////////////////////////////////////
       // CSS

@@ -325,6 +325,16 @@ qx.Bootstrap.define("qx.bom.client.Html",
         }, 0);
       };
       data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+    },
+    
+    /**
+     * Checks if dataset could be used
+     *
+     * @internal
+     * @return {Boolean} <code>true</code> if dataset is supported.
+     */
+    getDataset : function() {
+      return !!document.documentElement.dataset;
     }
   }
 });
