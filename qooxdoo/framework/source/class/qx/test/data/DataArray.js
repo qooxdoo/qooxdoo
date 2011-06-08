@@ -533,10 +533,13 @@ qx.Class.define("qx.test.data.DataArray",
       var thisContext = {};
       var handlerCalled = false;
 
-      var forEachHandler = function(item) {
+      var forEachHandler = function(item, index, array) {
         handlerCalled = true;
         // check for the context
         self.assertEquals(this, thisContext);
+        // check the parameter
+        self.assertEquals(i, index);
+        self.assertEquals(self.__a, array);
         // check the tree items
         if (i == 0) {
           i++;
