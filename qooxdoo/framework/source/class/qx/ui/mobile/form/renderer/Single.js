@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
     addItems : function(items, names, title) {
       if(title != null)
       {
-        this.__showGroupHeader(title);
+        this._showGroupHeader(title);
       }
       for(var i=0, l=items.length; i<l; i++)
       {
@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * the way the header of that group is presented.
      * @param title {String} the title shown in the group header
      */
-    __showGroupHeader : function(title)
+    _showGroupHeader : function(title)
     {
       var row = new qx.ui.mobile.form.Row();
       row.add(new qx.ui.mobile.basic.Label(title));

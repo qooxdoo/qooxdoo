@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
     addItems : function(items, names, title) {
       if(title != null)
       {
-        this.__showGroupHeader(title);
+        this._showGroupHeader(title);
       }
       for(var i=0, l=items.length; i<l; i++)
       {
