@@ -100,10 +100,12 @@ class Scanner(IterObject):
         |(?P<op> \W)            # what remains (operators)
         ''', re.VERBOSE|re.DOTALL|re.MULTILINE|re.UNICODE) # re.LOCALE?!
 
-    # individual regex for comment ends, to search fast-forward
-    commentEnd         = {}
-    commentEnd['\n']   = re.compile('(?P<commI>.*(?=\n|$))', re.UNICODE)
-    commentEnd[r'\*/'] = re.compile(r'(?P<commM>.*?\*/)',  re.DOTALL|re.MULTILINE|re.UNICODE)
+    # individual regex to search fast-forward to potential string ends (both comments and quoted)
+    stringEnd         = {}
+    stringEnd['\n']   = re.compile('(?P<commI>.*(?=\n|$))', re.UNICODE)
+    stringEnd[r'\*/'] = re.compile(r'(?P<commM>.*?\*/)',  re.DOTALL|re.MULTILINE|re.UNICODE)
+    stringEnd['"']    = re.compile(r'(?P<dquote>.*?")', re.UNICODE)
+    stringEnd["'"]    = re.compile(r"(?P<squote>.*?')", re.UNICODE)
 
     # yields :
     # ( <group_name> , <scan_string> , <start_pos> , <scan_length> )
@@ -120,13 +122,13 @@ class Scanner(IterObject):
 
 
     def __iter__(self):
-        commentEnd = None
+        delimiter  = None
         inData     = self.inData
         lenData    = len(inData)
         cursor     = 0
         while cursor < lenData:
-            if commentEnd:
-                mo = self.commentEnd[commentEnd].search(inData[cursor:])
+            if delimiter:
+                mo = self.stringEnd[delimiter].search(inData[cursor:])
             else:
                 mo = self.patt.match(inData[cursor:])
             if mo:
@@ -134,7 +136,7 @@ class Scanner(IterObject):
                 mstart       = cursor
                 mend         = mo.end()
                 cursor       += mend
-                commentEnd = (yield (mo_lastgroup, mo.group(mo_lastgroup), mstart, mend))
+                delimiter = (yield (mo_lastgroup, mo.group(mo_lastgroup), mstart, mend))
             else:
                 raise SyntaxError("Unable to tokenize text starting with: \"%s\"" % inData[cursor:cursor+200])
 
@@ -262,6 +264,8 @@ if __name__ == "__main__":
             c = '\n'
         elif tok[1] == '/*':
             c = r'\*/'
+        elif tok[1] in ['"', "'"]:
+            c = tok[1]
         else:
             c = None
         print tok

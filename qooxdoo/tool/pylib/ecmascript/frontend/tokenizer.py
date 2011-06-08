@@ -235,18 +235,13 @@ def parseStream(content, uniqueId=""):
 def parseString(scanner, sstart):
     # parse string literals
     result = []
-    for token in scanner:
-        result.append(token.value)
-        if token.value == sstart:
-            res = u"".join(result)
-            if not Scanner.is_last_escaped(res):  # be aware of escaped quotes
-                break
-    else:
-        # this means we've run out of tokens without finishing the string
-        res = u"".join(result)
-        raise SyntaxException("Non-terminated string", res)
-
-    return res
+    while True:
+        part = scanner.next(sstart)
+        result.append(part.value)
+        if not Scanner.is_last_escaped(part.value):  # be aware of escaped quotes
+            break
+        # run-away strings bomb in the above scanner.next()
+    return u"".join(result)
 
 
 ##
