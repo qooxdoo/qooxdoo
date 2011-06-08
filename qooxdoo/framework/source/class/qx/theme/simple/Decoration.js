@@ -1088,19 +1088,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
       }
     },
 
-    "keyboard-focus" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        width : 1,
-        color : "black",
-        style : "dotted"
-      }
-    },
-
-
 
     /*
     ---------------------------------------------------------------------------

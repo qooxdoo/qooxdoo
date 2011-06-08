@@ -2454,8 +2454,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           padding : [0, 1, 0, 1],
-          margin : states.focused ? 0 : 1,
-          decorator : states.focused ? "keyboard-focus" : undefined
+          margin : states.focused ? 0 : 1
         };
       }
     },
