@@ -806,7 +806,7 @@ qx.Class.define("qx.core.Object",
      * Disconnects and disposes given objects from instance.
      * Only works with qx.core.Object based objects e.g. Widgets.
      *
-     * @param varargs {arguments} List of fields (which store objects) to dispose
+     * @param varargs {arguments} Names of fields (which store objects) to dispose
      */
     _disposeObjects : function(varargs) {
       qx.util.DisposeUtil.disposeObjects(this, arguments);
@@ -817,7 +817,7 @@ qx.Class.define("qx.core.Object",
      * Disconnects and disposes given singleton objects from instance.
      * Only works with qx.core.Object based objects e.g. Widgets.
      *
-     * @param varargs {arguments} List of fields (which store objects) to dispose
+     * @param varargs {arguments} Names of fields (which store objects) to dispose
      */
     _disposeSingletonObjects : function(varargs) {
       qx.util.DisposeUtil.disposeObjects(this, arguments, true);
