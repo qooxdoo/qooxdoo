@@ -137,7 +137,7 @@ Each decorator configuration means exactly one decorator instance (created with 
 Writing Decorator Mixins
 ========================
 
-If you wsnt to use your custom decorator with some build in decorator mixins, you can writ you decorator as mixin and used it in combination with all the other mixins. Its comparable to writing a standalone decorator. You are able to implement the following methods:
+If you want to use your custom decorator with some build in decorator mixins, you can write you decorator as mixin and use it in combination with all the other mixins. Its comparable to writing a standalone decorator. You are able to implement the following methods:
 
 * ``_style<yourName>``: This method has a styles map as parameter which should be manipulated directly. That way, you can just append your styles and thats it.
 
