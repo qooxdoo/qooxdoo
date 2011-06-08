@@ -34,15 +34,3 @@ Further Tools
 
    tool/source_code_validation
 
-Specific Topics
-===============
-
-.. _index#code_compilation:
-
-Code Compilation
-----------------
-
-.. toctree::
-   :maxdepth: 1
-
-   tool/astlets
