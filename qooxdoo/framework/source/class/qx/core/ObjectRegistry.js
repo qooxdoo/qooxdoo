@@ -44,6 +44,8 @@ qx.Class.define("qx.core.ObjectRegistry",
     /** {Array} List of all free hash codes */
     __freeHashes : [],
 
+    /** {String} Post id for hash code creation. */
+    __postId : "",
 
     /**
      * Registers an object into the database. This adds a hashcode
@@ -73,7 +75,7 @@ qx.Class.define("qx.core.ObjectRegistry",
         if (cache.length > 0) {
           hash = cache.pop();
         } else {
-          hash = (this.__nextHash++) + "";
+          hash = (this.__nextHash++) + this.__postId;
         }
 
         // Store hash code
@@ -153,7 +155,7 @@ qx.Class.define("qx.core.ObjectRegistry",
       if (cache.length > 0) {
         hash = cache.pop();
       } else {
-        hash = (this.__nextHash++) + "";
+        hash = (this.__nextHash++) + this.__postId;
       }
 
       // Store
@@ -276,5 +278,19 @@ qx.Class.define("qx.core.ObjectRegistry",
     getRegistry : function() {
       return this.__registry;
     }
+  },
+
+  defer : function(statics)
+  {
+    var frames = window.top.frames;
+    for (var i = 0; i < frames.length; i++)
+    {
+      if (frames[i] === window)
+      {
+        statics.__postId = "-" + (i + 1);
+        return;
+      }
+    }
+    statics.__postId = "-0";
   }
 });
