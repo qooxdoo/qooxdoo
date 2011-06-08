@@ -248,7 +248,7 @@ Specify various options for compile (and other) keys. Takes a map.
     {
       "format"          : (true|false),
       "locales"         : ["de", "en"],
-      "optimize"        : ["variables", "basecalls", "privates", "strings"],
+      "optimize"        : ["basecalls", "comments", "privates", "strings", "variables", "variants"],
       "decode-uris-plug"  : "<path>",
       "except"          : ["myapp.classA", "myapp.util.*"]
     }
@@ -276,7 +276,7 @@ Possible keys are
 
   * **format** : (*build*) whether to apply simple output formatting (it adds some sensible line breaks to the output code) (default: *false*)
   * **locales** : (*build*) a list of locales to include (default: *["C"]*)
-  * **optimize** : list of dimensions for optimization, max. '["variables", "basecalls", "privates", "strings"]' (default: *[]*) :ref:`special section <pages/tool/generator_config_articles#optimize_key>`
+  * **optimize** : list of dimensions for optimization, max. ["basecalls", "comments", "privates", "strings", "variables", "variants"] (default: *[]*) :ref:`special section <pages/tool/generator_config_articles#optimize_key>`
   * **decode-uris-plug** : path to a file containing JS code, which will be plugged into the loader script, into the ``qx.$$loader.decodeUris()`` method. This allows you to post-process script URIs, e.g. through pattern matching. The current produced script URI is available and can be modified in the variable ``euri``.
   * **except** : (*hybrid*) exclude the classes specified in the class pattern list from compilation when creating a :ref:`hybrid <pages/tool/generator_config_ref#compile>` version of the application
 

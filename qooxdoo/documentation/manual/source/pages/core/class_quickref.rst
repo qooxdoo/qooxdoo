@@ -57,11 +57,7 @@ Properties, a particular part of the class declaration, have quite an extensive 
                      
     defer_spec       := js_function_value
                      
-    destruct_spec    := '{' 
-                         { 'this._disposeFields'     '(' <fields_list> ')' ';' }
-                         { 'this._disposeObjects'    '(' <fields_list> ')' ';' }
-                         { 'this._disposeObjectDeep' '(' <deep_field> ')'      }
-                        '}'
+    destruct_spec    := js_function_value
                      
     c_map            := '{' 
                          { <key> ':' ( js_primitive_value | 
