@@ -375,7 +375,8 @@ qx.Mixin.define("qx.dev.unit.MMock",
      */
     injectStub: function(object, property, customStub) {
       var stub = customStub ||
-        this.stub(this.__deepClone(new object[property]));
+        // Include properties in prototype chain
+        this.stub(this.__deepClone(object[property].prototype));
 
       this.stub(object, property).returns(stub);
       return stub;
