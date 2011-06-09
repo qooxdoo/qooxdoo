@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.request.XhrWithBackend",
+qx.Class.define("qx.test.bom.request.XhrWithRemote",
 {
   extend : qx.dev.unit.TestCase,
 
