@@ -50,6 +50,10 @@ class Script(object):
         self.libraries  = []   # involved libraries [generator.code.Library, ...]
         self.namespace  = u""  # the main name space (config macro "APPLICATION")
 
+        # adding these methods on instance level, so the counters are fresh
+        self.getPartBitMask   = util.powersOfTwoSequence().next  # generator for part bitmasks
+        self.getPackageNumber = util.numberSequence().next  # generator for e.g. package numbers
+
     ##
     # return old-style array of arrays of classIds in self.packageIdsSorted order
     def packagesArraySorted(self):
@@ -75,15 +79,6 @@ class Script(object):
     
     def packagesSorted(self):
         return Package.sort(self.packages)
-
-    ##
-    # generates part bitmasks
-    getPartBitMask  = util.powersOfTwoSequence().next
-
-    ##
-    # generates consecutive package numbers
-    getPackageNumber = util.numberSequence().next
-
 
     ##
     # Create a resource structure suitable for serializing. The main simpli-
