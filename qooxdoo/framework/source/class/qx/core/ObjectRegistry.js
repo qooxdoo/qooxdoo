@@ -282,13 +282,16 @@ qx.Class.define("qx.core.ObjectRegistry",
 
   defer : function(statics)
   {
-    var frames = window.top.frames;
-    for (var i = 0; i < frames.length; i++)
+    if (window && window.top)
     {
-      if (frames[i] === window)
+      var frames = window.top.frames;
+      for (var i = 0; i < frames.length; i++)
       {
-        statics.__postId = "-" + (i + 1);
-        return;
+        if (frames[i] === window)
+        {
+          statics.__postId = "-" + (i + 1);
+          return;
+        }
       }
     }
     statics.__postId = "-0";
