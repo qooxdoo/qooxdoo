@@ -138,7 +138,7 @@
       "library" : 
       [
         {
-          "manifest"   : "../../component/library/formdemo/Manifest.json"
+          "manifest"   : "${QOOXDOO_PATH}/component/library/formdemo/Manifest.json"
         }
       ],
       "environment" :
