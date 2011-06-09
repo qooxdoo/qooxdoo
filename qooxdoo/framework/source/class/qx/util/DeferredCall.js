@@ -114,7 +114,7 @@ qx.Class.define("qx.util.DeferredCall",
   *****************************************************************************
   */
 
-  destruct : function(callback, context)
+  destruct : function()
   {
     this.cancel();
     this.__context = this.__callback = this.__manager = null;
