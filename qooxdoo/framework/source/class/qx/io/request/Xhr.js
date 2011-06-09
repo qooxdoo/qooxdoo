@@ -264,6 +264,12 @@ qx.Class.define("qx.io.request.Xhr",
       }
     },
 
+    /*
+    ---------------------------------------------------------------------------
+      PARSING
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Returns response parsed with parser determined by
      * {@link #_getParser}.
@@ -280,12 +286,6 @@ qx.Class.define("qx.io.request.Xhr",
 
       return response;
     },
-
-    /*
-    ---------------------------------------------------------------------------
-      PARSING
-    ---------------------------------------------------------------------------
-    */
 
     /**
      * Set parser used to parse response once request has

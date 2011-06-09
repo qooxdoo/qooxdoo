@@ -74,7 +74,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     "readyStateChange": "qx.event.type.Event",
 
     /**
-     * Fired when request completes without eror and transport’s status
+     * Fired when request completes without error and transport’s status
      * indicates success.
      */
     "success": "qx.event.type.Event",
