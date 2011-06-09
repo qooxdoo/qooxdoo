@@ -482,11 +482,17 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._stopbutton.addListener("execute", this.stopSample, this);
       this._stopbutton.setToolTipText("Stop playback after current demo");
       this._navPart.add(this._stopbutton);
-      this._stopbutton.setVisibility("excluded");
+      var self = this;
+      window.setTimeout(function() {
+        self._stopbutton.setVisibility("excluded");
+      }, 0);
 
       // Avoid flickering of the buttons are exchanged
-      this._runbutton.setMinWidth(60);
-      this._stopbutton.setMinWidth(60);
+      this._stopbutton.addListenerOnce("appear", function(ev) {
+        var sizeHint = this._stopbutton.getSizeHint();
+        this._stopbutton.setMinWidth(sizeHint.width);
+        this._runbutton.setMinWidth(sizeHint.width);
+      }, this);
 
       var prevNextPart = new qx.ui.toolbar.Part();
       bar.add(prevNextPart);
