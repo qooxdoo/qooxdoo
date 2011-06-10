@@ -266,15 +266,16 @@ def checkNamespace(options):
             console.log("WARNING: Converted illegal characters in namespace (from %s to %s)" % (options.namespace, convertedNamespace))
             options.namespace = convertedNamespace
 
-    # check well-formed identifier
-    if not re.match(lang.IDENTIFIER_REGEXP, options.namespace):
-        console.error("Name space must be a legal JS identifier, but is not: '%s'" % options.namespace)
-        sys.exit(1)
+    for namepart in options.namespace.split("."):
+        # check well-formed identifier
+        if not re.match(lang.IDENTIFIER_REGEXP, namepart):
+            console.error("Name space part must be a legal JS identifier, but is not: '%s'" % namepart)
+            sys.exit(1)
 
-    # check reserved words
-    if options.namespace in (lang.GLOBALS + lang.RESERVED.keys()):
-        console.error("JS reserved word '%s' is not allowed as name space" % options.namespace)
-        sys.exit(1)
+        # check reserved words
+        if namepart in (lang.GLOBALS + lang.RESERVED.keys()):
+            console.error("JS reserved word '%s' is not allowed as name space part" % namepart)
+            sys.exit(1)
 
 
 def skeletonsHelpString():
