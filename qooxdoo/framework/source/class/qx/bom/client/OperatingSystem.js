@@ -14,6 +14,7 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Sebastian Fastner (fastner)
 
 ************************************************************************ */
 /**
@@ -34,10 +35,11 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
      * @internal
      */
     getName : function() {
-      var input = navigator && navigator.platform;
-      if (!input) {
+      if (!navigator) {
         return "";
       }
+      var input = navigator.platform || "";
+      var agent = navigator.userAgent || "";
 
       if (
         input.indexOf("Windows") != -1 ||
@@ -52,6 +54,12 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
         input.indexOf("MacIntel") != -1
       ) {
         return "osx";
+
+      } else if (agent.indexOf("RIM Tablet OS") != -1) {
+        return "rim_tabletos";
+
+      } else if (agent.indexOf("webOS") != -1) {
+        return "webos";
 
       } else if (
         input.indexOf("iPod") != -1 ||
