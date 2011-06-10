@@ -19,14 +19,14 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/22/places/user-desktop.png)
+#asset(widgetbrowser/tree.json)
 
 ************************************************************************ */
 
 /**
  * Demonstrates qx.ui.tree(...):
  *
- * Tree, TreeFile, TreeFolder
+ * Tree, TreeVirtual, TreeFile, TreeFolder
  *
  */
 
@@ -38,6 +38,9 @@ qx.Class.define("widgetbrowser.pages.Tree",
   {
     this.base(arguments);
 
+    this.__grid = new qx.ui.container.Composite(new qx.ui.layout.Grid(10));
+    this.add(this.__grid);
+
     this.initWidgets();
   },
 
@@ -46,11 +49,22 @@ qx.Class.define("widgetbrowser.pages.Tree",
 
     initWidgets: function()
     {
+      var label;
       var widgets = this._widgets;
 
+      // Tree
+      label = new qx.ui.basic.Label("Tree");
+      this.__grid.add(label, {row: 0, column: 0});
       var tree = this.__getTree();
+      this.__grid.add(tree, {row: 1, column: 0});
       widgets.push(tree);
-      this.add(tree);
+
+      // VirtualTree
+      label = new qx.ui.basic.Label("VirtualTree");
+      this.__grid.add(label, {row: 0, column: 1});
+      var treeVirtual = this.__getTreeVirtual();
+      this.__grid.add(treeVirtual, {row: 1, column: 1});
+      widgets.push(treeVirtual);
     },
 
     __getTree : function()
@@ -66,7 +80,6 @@ qx.Class.define("widgetbrowser.pages.Tree",
 
       var te1 = new qx.ui.tree.TreeFolder("Desktop");
       te1.setOpen(true);
-      te1.setIcon("icon/22/places/user-desktop.png");
       root.add(te1);
 
       var te1_1 = new qx.ui.tree.TreeFolder("Files");
@@ -98,6 +111,24 @@ qx.Class.define("widgetbrowser.pages.Tree",
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5);
 
       root.add(te2);
+
+      return tree;
+    },
+
+    __getTreeVirtual: function() {
+      var tree = new qx.ui.tree.VirtualTree(null, "name", "children").set({
+        width : 200,
+        height : 400
+      });
+
+      var url = "widgetbrowser/tree.json";
+      var store = new qx.data.store.Json(url);
+
+      store.bind("model", tree, "model");
+
+      store.addListener("loaded", function() {
+        tree.openNode(tree.getModel().getChildren().getItem(0));
+      }, this);
 
       return tree;
     }
