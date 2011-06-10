@@ -111,7 +111,8 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
       // network error occured), it is virtually useless to work-around
       // for IE < 8. Therefore, only work around for Opera.
       var self = this;
-      if (qx.core.Environment.get("engine.name") === "opera" && this._getTimeout() > 0) {
+      // no dependency to Environemnt to keep the minimal boot package [BUG #5068]
+      if (qx.bom.client.Engine.getName() === "opera" && this._getTimeout() > 0) {
         // No need to clear timeout since on success the callback is called
         // and the loader disposed, meaning the callback is called only once
         setTimeout(function() {
