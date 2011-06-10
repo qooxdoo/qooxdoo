@@ -30,6 +30,10 @@
 import sys, os, re, string, types
 import datetime, time
 
+def print_appnames():
+    print "Apps:", ["feedreader","demobrowser","showcase","framework-tests","playground","apiviewer","portal","inspector"]
+
+print_appnames()
 oneday = datetime.timedelta(days=1)
 cmptime = None
 
@@ -52,3 +56,5 @@ for line in open(sys.argv[1],"r").readlines():
         buildtimes = ['U']
     print currtime.ctime(), ": ok", "%r" % buildtimes
     cmptime = currtime
+
+print_appnames()
