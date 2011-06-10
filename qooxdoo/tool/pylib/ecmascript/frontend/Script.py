@@ -71,8 +71,8 @@ class Script(object):
 
 
     ##
-    # Return a scope by (function) tree node
-
+    # If <functionNode> is the root of a scope, return the corresp. scope object
+    #
     def getScope(self, functionNode):
         try:
             idx = map(itemgetter(0), self.scopes).index(functionNode)

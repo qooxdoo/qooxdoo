@@ -152,6 +152,14 @@ class Node(object):
             currNode = currNode.parent
         return reversed (chain)
 
+    ##
+    # return the root of the current tree
+    def getRoot(self):
+        rnode = self
+        while rnode.parent:
+            rnode = rnode.parent
+        return rnode
+
 
     def hasChildren(self, ignoreComments = False):
         if not ignoreComments:

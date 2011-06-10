@@ -103,12 +103,12 @@ class DependencyLoader(object):
         result = resolveDepsSmartCludes()
         result = processExplicitCludes(result, includeNoDeps, excludeWithDeps) # using excludeWithDeps here as well
         # Sort classes
-        self._console.info("Sorting %s classes " % len(result), False)
-        if  self._jobconf.get("dependencies/sort-topological", False):
-            result = self.sortClassesTopological(result, variants)
-        else:
-            result = self.sortClasses(result, variants, buildType)
-        self._console.nl()
+        #self._console.info("Sorting %s classes " % len(result), False)
+        #if  self._jobconf.get("dependencies/sort-topological", False):
+        #    result = self.sortClassesTopological(result, variants)
+        #else:
+        #    result = self.sortClasses(result, variants, buildType)
+        #self._console.nl()
 
         if self._console.getLevel() == "debug":
             self._console.indent()
@@ -139,8 +139,15 @@ class DependencyLoader(object):
                 return
 
             # add self
-            result.append(depsItem)
-            resultNames.append(depsItem.name)
+            #result.append(depsItem)
+            #resultNames.append(depsItem.name)
+
+            # Handle qx.core.Environment
+            if depsItem.name == "qx.core.Environment" and firstTime[0]:
+                envObj = self._classesObj["qx.core.Environment"]
+                envTreeId = "tree-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
+                self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
+                firstTime[0] = False
 
             # reading dependencies
             self._console.debug("Gathering dependencies: %s" % depsItem.name)
@@ -169,9 +176,9 @@ class DependencyLoader(object):
                 # putting this here allows sorting and expanding of the class
                 # list in one go! what's missing from sortClassesRecursor is
                 # the cycle check
-                #if depsItem.name not in resultNames:
-                #    result.append(depsItem)
-                #    resultNames.append(depsItem.name)
+                if depsItem.name not in resultNames:
+                    result.append(depsItem)
+                    resultNames.append(depsItem.name)
   
                 for subitem in deps["run"]:
                     if subitem.name not in resultNames and subitem.name not in skipNames:
@@ -192,7 +199,7 @@ class DependencyLoader(object):
         warn_deps = []
         logInfos = self._console.getLevel() == "info"
         ignored_names = set()
-        firstTime = True
+        firstTime = [True]
 
         # No dependency calculation
         if len(includeWithDeps) == 0:
@@ -228,9 +235,9 @@ class DependencyLoader(object):
                     and not processedEnvironment):
                     envObj = self._classesObj["qx.core.Environment"]
                     envTreeId = "tree-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
-                    if firstTime:
+                    if firstTime[0]:
                         self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
-                        firstTime = False
+                        firstTime[0] = False
                     compOpts = CompileOptions(optimize=[], variants=variants)
                     compOpts.allClassVariants = script.classVariants([self._classesObj[x] for x in resultNames])
                     tree = Class.optimizeEnvironmentClass(envObj, compOpts)

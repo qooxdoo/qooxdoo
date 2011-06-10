@@ -443,6 +443,12 @@ class MClassDependencies(object):
         return className, classAttribute
 
 
+    ##
+    # Check if the detected (pot. complex) identifier <idStr>, with corresponding
+    # AST node <node>, is a scoped identifier in <fileId>.
+    #
+    # Uses scope analysis (ecmascript.frontend.Scope) of <fileId>; finds the
+    # enclosing scope of <node>, then looks up <idStr> in this scope.
     def _isScopedVar(self, idStr, node, fileId):
 
         def findScopeNode(node):
@@ -459,12 +465,6 @@ class MClassDependencies(object):
                 sNode = node1 # use root node
             return sNode
 
-        def findRoot(node):
-            rnode = node
-            while rnode.hasParent():
-                rnode = rnode.parent
-            return rnode
-
         def getScript(node, fileId, ):
             # TODO: checking the root nodes is a fix, as they sometimes differ (prob. caching)
             # -- looking up nodes in a Script() uses object identity for comparison; sometimes, the
@@ -474,13 +474,11 @@ class MClassDependencies(object):
             #    re-calculate the Script (which is expensive!) when the root node object changes;
             #    using __memo allows at least to re-use the existing script when a class is worked
             #    on and this method is called successively for the same tree.
-            rootNode = findRoot(node)
+            rootNode = node.getRoot()
             #if _memo1_[0] == fileId: # replace with '_memo1_[0] == rootNode', to make it more robust, but slightly less performant
             if _memo1_[0] == rootNode:
-                #print "-- re-using scopes for: %s" % fileId
                 script = _memo1_[1]
             else:
-                #print "-- re-calculating scopes for: %s" % fileId
                 script = Script(rootNode, fileId)
                 _memo1_[0], _memo1_[1] = rootNode, script
             return script
@@ -492,6 +490,8 @@ class MClassDependencies(object):
                 leadingId = idStr[:dotIdx]
             return leadingId
 
+        # -----------------------------------------------------------------------------
+
         # check composite id a.b.c, check only first part
         idString = getLeadingId(idStr)
         script   = getScript(node, fileId)
@@ -501,7 +501,7 @@ class MClassDependencies(object):
             fcnScope = script.getGlobalScope()
         else:
             fcnScope  = script.getScope(scopeNode)
-        #assert fcnScope != None, "idString: '%s', idStr: '%s', fileId: '%s'" % (idString, idStr, fileId)
+        assert fcnScope != None, "idString: '%s', idStr: '%s', fileId: '%s'" % (idString, idStr, fileId)
         varDef = script.getVariableDefinition(idString, fcnScope)
         if varDef:
             return True
@@ -696,6 +696,8 @@ class MClassDependencies(object):
                     return cachedDeps
 
             # Need to calculate deps
+            #print "calculating", dependencyItem
+            #import pydb; pydb.debugger()
             console.dot("_")
 
             # Check known class
