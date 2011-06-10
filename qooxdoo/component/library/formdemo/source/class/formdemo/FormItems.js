@@ -19,14 +19,14 @@
 
 qx.Class.define("formdemo.FormItems", {
   extend : qx.ui.container.Composite,
-  
+
   construct : function() {
     this.base(arguments);
-    
+
     this.__widgets = [];
     this._createView();
   },
-  
+
   members : {
     __widgets : null,
 
@@ -38,9 +38,10 @@ qx.Class.define("formdemo.FormItems", {
       this.setLayout(grid);
       this.setPadding(10);
       var tabIndex = 1;
-      /** **************************************
+
+      /*****************************************
        * TEXT INPUT
-       * **************************************/
+       ****************************************/
 
       var textGroupBox = new qx.ui.groupbox.GroupBox("Text");
       textGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
@@ -88,20 +89,29 @@ qx.Class.define("formdemo.FormItems", {
       this.__createItems(comboBox);
       this.__widgets.push(comboBox);
 
+      // virtual combo box
+      var virtualComboBox = new qx.ui.form.VirtualComboBox();
+      virtualComboBox.setTabIndex(tabIndex++);
+      label = new qx.ui.basic.Label("VirtualComboBox:");
+      label.setBuddy(virtualComboBox);
+      textGroupBox.add(label, {row: 4, column: 0});
+      textGroupBox.add(virtualComboBox, {row: 4, column: 1});
+      this.__createItemsVirtual(virtualComboBox);
+      this.__widgets.push(virtualComboBox);
+
       // date field
       var dateField = new qx.ui.form.DateField();
       dateField.setTabIndex(tabIndex++);
       dateField.setPlaceholder("dd.mm.YYYY");
       label = new qx.ui.basic.Label("DateField:");
       label.setBuddy(dateField);
-      textGroupBox.add(label, {row: 4, column: 0});
-      textGroupBox.add(dateField, {row: 4, column: 1});
+      textGroupBox.add(label, {row: 5, column: 0});
+      textGroupBox.add(dateField, {row: 5, column: 1});
       this.__widgets.push(dateField);
 
-
-      /** **************************************
+      /*****************************************
        * SELECTION
-       * **************************************/
+       ****************************************/
 
       var selectionGroupBox = new qx.ui.groupbox.GroupBox("Selection");
       selectionGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
@@ -118,15 +128,24 @@ qx.Class.define("formdemo.FormItems", {
       this.__createItems(selectBox);
       this.__widgets.push(selectBox);
 
+      // virtual select box
+      var virtualSelectBox = new qx.ui.form.VirtualSelectBox();
+      label = new qx.ui.basic.Label("VirtualSelectBox:");
+      label.setBuddy(virtualSelectBox);
+      selectionGroupBox.add(label, {row: 1, column: 0});
+      selectionGroupBox.add(virtualSelectBox, {row: 1, column: 1});
+      this.__createItemsVirtual(virtualSelectBox);
+      this.__widgets.push(virtualSelectBox);
+
       // list
       var list = new qx.ui.form.List();
       list.setTabIndex(tabIndex++);
       list.setHeight(60);
-      list.setWidth(155)
+      list.setWidth(155);
       label = new qx.ui.basic.Label("List:");
       label.setBuddy(list);
-      selectionGroupBox.add(label, {row: 1, column: 0});
-      selectionGroupBox.add(list, {row: 1, column: 1});
+      selectionGroupBox.add(label, {row: 2, column: 0});
+      selectionGroupBox.add(list, {row: 2, column: 1});
       this.__createItems(list);
       this.__widgets.push(list);
 
@@ -137,16 +156,13 @@ qx.Class.define("formdemo.FormItems", {
       radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 3").set({tabIndex: tabIndex++}));
       label = new qx.ui.basic.Label("RadioButtonGroup:");
       label.setBuddy(radioButtonGroup);
-      selectionGroupBox.add(label, {row: 2, column: 0});
-      selectionGroupBox.add(radioButtonGroup, {row: 2, column: 1});
+      selectionGroupBox.add(label, {row: 4, column: 0});
+      selectionGroupBox.add(radioButtonGroup, {row: 4, column: 1});
       this.__widgets.push(radioButtonGroup);
 
-
-
-
-      /** **************************************
-       * BUTTOS
-       * **************************************/
+      /*****************************************
+       * BUTTONS
+       ****************************************/
 
       var buttonGroupBox = new qx.ui.groupbox.GroupBox("Buttons");
       buttonGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
@@ -196,15 +212,13 @@ qx.Class.define("formdemo.FormItems", {
       // Listener
       repeatButton.addListener("execute", function()
       {
-        var tempValue = parseInt(repeatButton.getLabel()) + 1;
+        var tempValue = parseInt(repeatButton.getLabel(), 10) + 1;
         repeatButton.setLabel(tempValue.toString());
       });
 
-
-
-      /** **************************************
+      /*****************************************
        * BOOLEAN INPUT
-       * **************************************/
+       ****************************************/
 
       var booleanGroupBox = new qx.ui.groupbox.GroupBox("Boolean");
       booleanGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
@@ -236,10 +250,9 @@ qx.Class.define("formdemo.FormItems", {
       booleanGroupBox.add(radioButton, {row: 2, column: 1});
       this.__widgets.push(radioButton);
 
-
-      /** **************************************
+      /*****************************************
        * NUMBER INPUT
-       * **************************************/
+       ****************************************/
 
       var numberGroupBox = new qx.ui.groupbox.GroupBox("Number");
       numberGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
@@ -277,6 +290,17 @@ qx.Class.define("formdemo.FormItems", {
     },
 
 
+    __createItemsVirtual: function(widget)
+    {
+      // Creates the model data
+      var model = new qx.data.Array();
+      for (var i = 0; i < 300; i++) {
+        model.push("Item " + (i));
+      }
+      widget.setModel(model);
+    },
+
+
     __createMenuForMenuButton : function()
     {
       // Creates the option menu
@@ -292,7 +316,7 @@ qx.Class.define("formdemo.FormItems", {
       // create main menu and buttons
       var menu = new qx.ui.menu.Menu();
 
-      for (var i = 0; i < 3; i++) {
+      for (i = 0; i < 3; i++) {
         var tempButton = new qx.ui.menu.Button("Button" + i);
         menu.add(tempButton);
       }
