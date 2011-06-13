@@ -347,11 +347,11 @@ class Base64File(Image):
     # has to be a valid Json object
     def verify(self):
         self.fp.seek(0)
-        cont = self.fp.read()
         try:
+            cont = self.fp.read()
             json.loads(cont)
             isB64 = True
-        except ValueError:
+        except (UnicodeDecodeError,ValueError):
             isB64 = False
         return isB64
 
