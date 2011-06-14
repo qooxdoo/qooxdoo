@@ -1735,7 +1735,8 @@ Selenium.prototype._isVisibleTextInput = function(element)
  */
 PageBot.prototype.getQxGlobalObject = function()
 {
-  if (this._qxGlobalObject) {
+  if (this._qxGlobalObject && !this._qxGlobalObject.core.ObjectRegistry.inShutDown
+    && !this._qxGlobalObject.core.Init.getApplication().$$disposed) {
     return this._qxGlobalObject;
   }
   
