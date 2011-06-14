@@ -213,7 +213,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     /**
      * Authentication delegate.
      *
-     * The delegate must implement {@link qx.io.request.authentication.IAuthenticationDelegate}.
+     * The delegate must implement {@link qx.io.request.authentication.IAuthentication}.
      */
     authentication: {
       check: "qx.io.request.authentication.IAuthentication",
