@@ -207,22 +207,6 @@ qx.Class.define("qx.ui.virtual.selection.Row",
         top: itemTop,
         bottom: itemBottom
       }
-    },
-
-
-    /**
-     * The default selection selects the first possible item when the
-     * selection mode is "one" and no item is selected.
-     */
-    _applyDefaultSelection : function()
-    {
-      if (this.getMode() === "one" && this.isSelectionEmpty())
-      {
-        var first = this._getFirstSelectable();
-        if (first != null) {
-          this.selectItem(first);
-        }
-      }
     }
   }
 });

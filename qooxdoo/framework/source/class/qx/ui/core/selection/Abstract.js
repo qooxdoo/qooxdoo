@@ -259,13 +259,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       if (this.getMode() === "one" && this.isSelectionEmpty())
       {
-        var first = this._getFirstSelectable();
-        if (first) {
-          this.addItem(first);
-        }
+        var selected = this._applyDefaultSelection();
 
         // Do not fire any event in this case.
-        if (first == item) {
+        if (selected == item) {
           return;
         }
       }
@@ -316,11 +313,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     clearSelection : function()
     {
-      if (this.getMode() == "one") {
-        var first = this._getFirstSelectable();
-        if (first != null)
-        {
-          this.selectItem(first);
+      if (this.getMode() == "one") 
+      {
+        var selected = this._applyDefaultSelection(true);
+        if (selected != null) {
           return;
         }
       }
@@ -813,14 +809,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._clearSelection();
 
       // Mode "one" requires one selected item
-      if (value === "one")
-      {
-        var first = this._getFirstSelectable();
-        if (first != null)
-        {
-          this._setSelectedItem(first);
-          this._scrollItemIntoView(first);
-        }
+      if (value === "one") {
+        this._applyDefaultSelection(true);
       }
 
       this._fireChange();
@@ -1884,6 +1874,27 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         this.fireDataEvent("changeSelection", this.getSelection());
         delete this.__selectionModified;
       }
+    },
+    
+    
+    /**
+     * Applies the default selection. The default item is the first item.
+     * 
+     * @param force {Boolean} Whether the default selection sould forced. 
+     * 
+     * @return {var} The selected item.
+     */
+    _applyDefaultSelection : function(force)
+    {
+      if (force === true || this.getMode() === "one" && this.isSelectionEmpty())
+      {
+        var first = this._getFirstSelectable();
+        if (first != null) {
+          this.selectItem(first);
+        }
+        return first;
+      }
+      return null;
     }
   },
 

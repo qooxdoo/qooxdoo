@@ -156,7 +156,6 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       this._manager.attachMouseEvents(this.getPane());
       this._manager.attachKeyEvents(this);
       this._manager.addListener("changeSelection", this._onManagerChangeSelection, this);
-      this._manager._applyDefaultSelection();
     },
     
     
@@ -290,8 +289,6 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
         this.__parentChain = [];
       }
 
-      this.__ignoreChangeSelection = false;
-      
       this.__ignoreChangeSelection = false;
     },
 
