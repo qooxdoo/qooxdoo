@@ -696,8 +696,6 @@ class MClassDependencies(object):
                     return cachedDeps
 
             # Need to calculate deps
-            #print "calculating", dependencyItem
-            #import pydb; pydb.debugger()
             console.dot("_")
 
             # Check known class

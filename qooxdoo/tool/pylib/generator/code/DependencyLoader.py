@@ -138,14 +138,6 @@ class DependencyLoader(object):
             if depsItem.name in resultNames:  # string compares are perceivably faster than object compares (as DependencyItem defines __eq__)
                 return
 
-            # add self
-            #result.append(depsItem)
-            #resultNames.append(depsItem.name)
-
-            # cycle detection
-            #if not depsItem.name in loadDepsChain:
-            #    loadDepsChain.append(depsItem.name)
-
             # Handle qx.core.Environment
             if depsItem.name == "qx.core.Environment" and firstTime[0]:
                 envObj = self._classesObj["qx.core.Environment"]
@@ -175,7 +167,6 @@ class DependencyLoader(object):
                 # cycle detection
                 assert depsItem.name not in loadDepsChain
                 loadDepsChain.append(depsItem.name)
-                print depsItem.name
   
                 for subitem in deps["load"]:
                     # cycle check
