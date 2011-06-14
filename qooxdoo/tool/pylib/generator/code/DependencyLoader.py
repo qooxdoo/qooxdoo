@@ -127,7 +127,7 @@ class DependencyLoader(object):
     def classlistFromInclude(self, includeWithDeps, excludeWithDeps, variants, 
                              verifyDeps=False, script=None, allowBlockLoaddeps=True):
 
-        def classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, allowBlockLoaddeps=True):
+        def classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, loadDepsChain, allowBlockLoaddeps=True):
             # support blocking
             if depsItem.name in excludeWithDeps:
                 if depsItem.isLoadDep and not allowBlockLoaddeps:
@@ -141,6 +141,10 @@ class DependencyLoader(object):
             # add self
             #result.append(depsItem)
             #resultNames.append(depsItem.name)
+
+            # cycle detection
+            #if not depsItem.name in loadDepsChain:
+            #    loadDepsChain.append(depsItem.name)
 
             # Handle qx.core.Environment
             if depsItem.name == "qx.core.Environment" and firstTime[0]:
@@ -167,23 +171,37 @@ class DependencyLoader(object):
             # process lists
             try:
                 skipNames = [x.name for x in deps["warn"] + deps["ignore"]]
+
+                # cycle detection
+                assert depsItem.name not in loadDepsChain
+                loadDepsChain.append(depsItem.name)
+                print depsItem.name
   
                 for subitem in deps["load"]:
+                    # cycle check
+                    if subitem.name in loadDepsChain:
+                        self._console.warn("Detected circular dependency between: %s and %s" % (depsItem.name, subitem.name))
+                        self._console.indent()
+                        self._console.debug("currently explored dependency path: %r" % loadDepsChain)
+                        self._console.outdent()
+                        raise RuntimeError("Circular class dependencies")
                     if subitem.name not in resultNames and subitem.name not in skipNames:
-                        classlistFromClassRecursive(subitem, excludeWithDeps, variants, result, warn_deps, allowBlockLoaddeps)
-  
+                        classlistFromClassRecursive(subitem, excludeWithDeps, variants, result, warn_deps, loadDepsChain, allowBlockLoaddeps)
+
                 ##
                 # putting this here allows sorting and expanding of the class
-                # list in one go! what's missing from sortClassesRecursor is
-                # the cycle check
+                # list in one go!
                 if depsItem.name not in resultNames:
                     result.append(depsItem)
                     resultNames.append(depsItem.name)
-  
+                
+                # cycle check
+                loadDepsChain.remove(depsItem.name)
+
                 for subitem in deps["run"]:
                     if subitem.name not in resultNames and subitem.name not in skipNames:
-                        classlistFromClassRecursive(subitem, excludeWithDeps, variants, result, warn_deps, allowBlockLoaddeps)
-  
+                        classlistFromClassRecursive(subitem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
+
             except DependencyError, detail:
                 raise ValueError("Attempt to block load-time dependency of class %s to %s" % (depsItem.name, subitem.name))
 
@@ -225,7 +243,7 @@ class DependencyLoader(object):
                 for item in includeWithDeps:
                     depsItem = DependencyItem(item, '', '|config|')
                     # calculate dependencies and add required classes
-                    classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, allowBlockLoaddeps)
+                    classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
 
                 print len(result)
 
