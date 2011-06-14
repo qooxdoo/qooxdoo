@@ -82,6 +82,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     {
       check : "String",
       init : "",
+      nullable : true,
       apply : "_applyTitle"
     },
 
