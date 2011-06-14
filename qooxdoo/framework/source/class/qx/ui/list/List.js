@@ -65,7 +65,7 @@
 qx.Class.define("qx.ui.list.List",
 {
   extend : qx.ui.virtual.core.Scroller,
-  include : [qx.ui.list.core.MSelectionHandling],
+  include : [qx.ui.virtual.selection.MModel],
 
 
   /**
