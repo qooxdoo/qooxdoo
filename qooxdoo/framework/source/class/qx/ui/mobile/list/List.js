@@ -195,7 +195,9 @@ qx.Class.define("qx.ui.mobile.list.List",
       if (old != null) {
         old.removeListener("change", this.__render, this);
       }
-      value.addListener("change", this.__render, this);
+      if (value != null) {
+        value.addListener("change", this.__render, this);
+      }
       this.setItemCount(value ? value.getLength() : 0);
       this.__render();
     },
