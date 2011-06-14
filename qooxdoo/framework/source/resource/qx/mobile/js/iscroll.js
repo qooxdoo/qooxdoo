@@ -265,7 +265,8 @@ iScroll.prototype = {
       return;
     }
 
-    if (e.target.nodeName.toLowerCase() != "input") {
+    var nodeName = e.target.nodeName.toLowerCase();
+    if (nodeName != "input" && nodeName != "select" && nodeName != "textarea") {
       if (isTouch) // QOOXDOO FIX -> Do not prevent default when we are in the desktop browser
       {
         e.preventDefault();
