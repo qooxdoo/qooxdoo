@@ -8,7 +8,7 @@ Low-level requests
 
 At the very core, HTTP requests from the browser are made by interfacing with the HTTP client API or by adding a script tag to the document. Classes dealing with those low-level transport methods can be found in the ``qx.bom.request`` namespace. Usually they are not instantiated directly by the user.
 
-``Xhr`` is a wrapper of the HTTP client API offered by the browser. It’s purpose is to hide inconsistencies and to work around bugs found in popular implementations. The interface of ``qx.bom.request.Xhr`` is similar to XMLHttpRequest, the HTTP client API specified by the W3C.
+``Xhr`` is a wrapper of the HTTP client API offered by the browser. It’s purpose is to hide inconsistencies and to work around bugs found in popular implementations. The interface of ``qx.bom.request.Xhr`` is similar to `XMLHttpRequest <http://www.w3.org/TR/XMLHttpRequest2/>`_, the HTTP client API specified by the W3C.
 
 ``Script`` is a script loader. Internally, the class deals with adding and removing script tags to the document and keeping track of the load status. Just like ``qx.bom.request.Xhr``, the interface is modeled based on XMLHttpRequest.
 
