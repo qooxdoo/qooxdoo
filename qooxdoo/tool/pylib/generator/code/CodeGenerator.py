@@ -522,7 +522,7 @@ class CodeGenerator(object):
         self._variants     = variants
         self._script       = script
 
-        self._console.info("Generate %s version..." % script.buildType)
+        self._console.info("Generate application...")
         self._console.indent()
 
         # - Evaluate job config ---------------------

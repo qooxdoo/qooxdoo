@@ -117,7 +117,7 @@
         }
       },
 
-      "compile" : { "type" : "hybrid" }
+      "compile" : { "type" : "source" }
     },
 
 
