@@ -891,7 +891,7 @@ PageBot.prototype.getQxWidgetByElement = function(element)
   var widget = null;
   var exception = null;
   
-  if (qx.ui && qx.ui.core && qx.ui.core.Widget) {
+  if (qx && qx.ui && qx.ui.core && qx.ui.core.Widget) {
     try {
       widget = qx.ui.core.Widget.getWidgetByElement(element);
     }
@@ -1350,6 +1350,40 @@ Selenium.prototype.__getCellCoordinates = function(column, row, qxTable, clipper
   return coordsXY;
 };
 
+Selenium.prototype.__getQxTableByLocator = function(locator)
+{
+  var qxObject = this.getQxWidgetByLocator(locator);
+  
+  if (!qxObject) {
+    throw new SeleniumError("qxTableClick: No qooxdoo object found for locator: " + locator);
+  }
+    
+  if (!qxObject.getTableColumnModel) {
+    throw new SeleniumError("qxTableClick: The widget identified by the locator " + locator + " is not a table!");
+  }
+  
+  return qxObject;
+};
+
+Selenium.prototype.__getQxTableRowColFromParameters = function(additionalParamsForClick, qxObject)
+{
+  var rowCol = [];
+  if (additionalParamsForClick["cellValue"]) {
+    LOG.debug("Getting target row and column from cell value");
+    rowCol = this.getQxTableRowColByCellValue(qxObject, additionalParamsForClick["cellValue"]);
+    if (!rowCol) {
+      throw new SeleniumError("Could not find a visible cell with the given value");
+    }
+  }
+  else {
+    var row = Number(additionalParamsForClick["row"]);
+    var col = this.__getColumnIdFromParameters(additionalParamsForClick, qxObject);
+    rowCol = [row, col];
+  }
+  
+  return rowCol;
+};
+
 /**
  * Uses the given locator to find a table, and then processes a click on the 
  * table at the given row/column position.  Note, your locator should only find 
@@ -1386,15 +1420,7 @@ Selenium.prototype.__getCellCoordinates = function(column, row, qxTable, clipper
  */
 Selenium.prototype.doQxTableClick = function(locator, eventParams)
 {
-  var qxObject = this.getQxWidgetByLocator(locator);
-  
-  if (!qxObject) {
-    throw new SeleniumError("qxTableClick: No qooxdoo object found for locator: " + locator);
-  }
-    
-  if (!qxObject.getTableColumnModel) {
-    throw new SeleniumError("qxTableClick: The widget identified by the locator " + locator + " is not a table!");
-  }
+  var qxObject = this.__getQxTableByLocator(locator);
   
   var element = this.__getTableClipperElement(locator, qxObject);
   
@@ -1404,22 +1430,20 @@ Selenium.prototype.doQxTableClick = function(locator, eventParams)
 
   var additionalParamsForClick = this.__getParameterMap(eventParams);
   
-  if (additionalParamsForClick["cellValue"]) {
-    LOG.debug("Getting target row and column from cell value");
-    var rowCol = this.getQxTableRowColByCellValue(qxObject, additionalParamsForClick["cellValue"]);
-    if (!rowCol) {
-      throw new SeleniumError("Could not find a visible cell with the given value");
-    }
-    var row = rowCol[0];
-    var col = rowCol[1];
-  }
-  else {
-    var row = Number(additionalParamsForClick["row"]);
-    var col = this.__getColumnIdFromParameters(additionalParamsForClick, qxObject);
-  }
+  var rowCol = this.__getQxTableRowColFromParameters(additionalParamsForClick, qxObject);
+  var row = rowCol[0];
+  var col = rowCol[1];
   
   LOG.debug("Targeting Row(" + row + ") Column(" + col + ")");
 
+  // Adjust our row number to match the rows that are currently visible:
+  var firstRow = this.__getUpdatedFirstVisibleRow(col, row, qxObject);
+
+  // Adjust our "row" coordinate to be relative to the viewport:
+  row = row - firstRow;
+
+  var coordsXY = this.__getCellCoordinates(col, row, qxObject, element);
+  
   var doContextMenu = false;
   var doDoubleClick = false;
   if (additionalParamsForClick["button"] &&
@@ -1430,14 +1454,6 @@ Selenium.prototype.doQxTableClick = function(locator, eventParams)
       additionalParamsForClick["double"] === "true" ) {
     doDoubleClick = true;
   }
-
-  // Adjust our row number to match the rows that are currently visible:
-  var firstRow = this.__getUpdatedFirstVisibleRow(col, row, qxObject);
-
-  // Adjust our "row" coordinate to be relative to the viewport:
-  row = row - firstRow;
-
-  var coordsXY = this.__getCellCoordinates(col, row, qxObject, element);
   
   // TODO: very dirty no checking, maybe refactoring needed to get doQxClick
   // and doQxClickAt to work smoothly together.
@@ -3099,12 +3115,35 @@ PageBot.prototype._getWinHeight = function(w)
   }
 };
 
-Selenium.prototype.doQxDragAndDropToObject = function(locatorOfObjectToBeDragged, locatorOfDragDestinationObject) {
- /** Drags an element and drops it on another element
-  *
-  * @param locatorOfObjectToBeDragged an element to be dragged
-  * @param locatorOfDragDestinationObject an element whose location (i.e., whose center-most pixel) will be the point where locatorOfObjectToBeDragged  is dropped
-  */
+/** 
+ * Drags an element and drops it on another element. The second parameter is the
+ * locator of the drop target element, e.g.:
+ * 
+ * qxDragAndDropToObject("qxhv=/qx.ui.form.List/child[0]", "qxhv=qx.ui.form.TextArea");
+ * 
+ * For qx.ui.table.Table and widgets that inherit from it, drag operations 
+ * starting from a specific table cell are supported. In this case, the parameters
+ * string must contain the information needed to target a cell, as expected by
+ * {@link doQxTableClick}, e.g.:
+ * 
+ * qxDragAndDropToObject("qxhv=/qx.ui.table.Table", 
+ * "qxhv=qx.ui.form.TextArea,row=5,cell=3");
+ * 
+ * @param locatorOfObjectToBeDragged {String} an element to be dragged
+ * @param options {String} an element whose location (i.e., whose center-most 
+ * pixel) will be the point where the dragged element is dropped
+ */
+Selenium.prototype.doQxDragAndDropToObject = function(locatorOfObjectToBeDragged, options) {
+  if (options.indexOf("row=") >= 0 || options.indexOf("cellValue=") >= 0 )
+  {
+    this.__doQxDragAndDropFromTableToObject(locatorOfObjectToBeDragged, options);
+  }
+  else {
+    this.__doQxDragAndDropToObject(locatorOfObjectToBeDragged, options);
+  }
+};
+
+Selenium.prototype.__doQxDragAndDropToObject = function(locatorOfObjectToBeDragged, locatorOfDragDestinationObject) {
   var startX = this.getElementPositionLeft(locatorOfObjectToBeDragged);
   var startY = this.getElementPositionTop(locatorOfObjectToBeDragged);
   var destinationLeftX = this.getElementPositionLeft(locatorOfDragDestinationObject);
@@ -3117,6 +3156,62 @@ Selenium.prototype.doQxDragAndDropToObject = function(locatorOfObjectToBeDragged
   var deltaY = endY - startY;
   var movementsString = "" + deltaX + "," + deltaY;  
   this.doQxDragAndDrop(locatorOfObjectToBeDragged, movementsString, locatorOfDragDestinationObject);
+};
+
+/**
+ * Simulates a drag and drop operation starting on a table cell and ending on 
+ * any element or widget.
+ * 
+ * The parameters argument must specify a target cell using the same syntax as
+ * {@link #doQxTableClick}, e.g. "row=10,col=3" as well as a locator that 
+ * identifies the target for the operation, e.g. 
+ * "target=qxhv=qx.ui.form.TextArea".
+ * 
+ * @param locator {String} Table locator
+ * @param parameters {String} String defining the origin row/cell and the target 
+ * element locator 
+ */
+Selenium.prototype.__doQxDragAndDropFromTableToObject = function(locator, parameters)
+{
+  var qxObject = this.__getQxTableByLocator(locator);
+  
+  var element = this.__getTableClipperElement(locator, qxObject);
+  
+  if (!element) {
+    throw new SeleniumError("Could not find clipper child of the table");
+  }
+
+  var additionalParamsForClick = this.__getParameterMap(parameters);
+  
+  var rowCol = this.__getQxTableRowColFromParameters(additionalParamsForClick, qxObject);
+  var row = rowCol[0];
+  var col = rowCol[1];
+  
+  LOG.debug("Targeting Row(" + row + ") Column(" + col + ")");
+
+  // Adjust our row number to match the rows that are currently visible:
+  var firstRow = this.__getUpdatedFirstVisibleRow(col, row, qxObject);
+
+  // Adjust our "row" coordinate to be relative to the viewport:
+  row = row - firstRow;
+
+  var coordsXY = this.__getCellCoordinates(col, row, qxObject, element);
+  
+  var targetLocator = additionalParamsForClick.target;
+  LOG.debug("target locator: " + targetLocator);
+  
+  var startX = coordsXY[0];
+  var startY = coordsXY[1];
+  var destinationLeftX = this.getElementPositionLeft(targetLocator);
+  var destinationTopY = this.getElementPositionTop(targetLocator);
+  var destinationWidth = this.getElementWidth(targetLocator);
+  var destinationHeight = this.getElementHeight(targetLocator);
+  var endX = Math.round(destinationLeftX + (destinationWidth / 2));
+  var endY = Math.round(destinationTopY + (destinationHeight / 2));
+  var deltaX = endX - startX;
+  var deltaY = endY - startY;
+  var movementsString = "" + deltaX + "," + deltaY;  
+  this.__doQxDragAndDrop(element, startX, startY, movementsString, targetLocator);
 };
 
 Selenium.prototype.getElementPositionLeft = function(locator) {       
@@ -3256,17 +3351,16 @@ Selenium.prototype.getElementHeight = function(locator) {
 };
 
 Selenium.prototype.doQxDragAndDrop = function(locator, movementsString, targetLocator) {
- /** Drags an element a certain distance and then drops it
-  * @param locator an element locator
-  * @param movementsString offset in pixels from the current location to which the element should be moved, e.g., "+70,-300"
-  * @param targetLocator locator (optional) locator for the drop target. Neccessary for dragAndDropToObject to work in qooxdoo 0.8
-  */
-  var element = this.page().findElement(locator);  
+  var element = this.page().findElement(locator);
   var qx = this.getQxGlobalObject();
   var pos = qx.bom.element.Location.get(element);
   var clientStartX = pos["left"];
   var clientStartY = pos["top"];
   
+  this.__doQxDragAndDrop(element, clientStartX, clientStartY, movementsString, targetLocator);
+};
+
+Selenium.prototype.__doQxDragAndDrop = function(element, clientStartX, clientStartY, movementsString, targetLocator) {
   var movements = movementsString.split(/,/);
   var movementX = Number(movements[0]);
   var movementY = Number(movements[1]);

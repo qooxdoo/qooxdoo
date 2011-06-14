@@ -383,14 +383,27 @@ qx.Class.define("simulator.QxSelenium", {
 
 
     /**
-     * Simulates dragging an element and dropping it on another element.
+     * Simulates dragging an element and dropping it on another element. The 
+     * second parameter is the locator of the drop target element, e.g.:
+     * 
+     * <pre>qxDragAndDropToObject("qxhv=/qx.ui.form.List/child[0]", 
+     * "qxhv=qx.ui.form.TextArea");</pre>
+     * 
+     * For qx.ui.table.Table and widgets that inherit from it, drag operations 
+     * starting from a specific table cell are supported. In this case, the 
+     * parameters string must contain the information needed to target a cell, 
+     * as expected by {@link qxTableClick}. Also, the drop target locator must 
+     * be prefaced with "target=", e.g.:
+     * 
+     * <pre>qxDragAndDropToObject("qxhv=/qx.ui.table.Table", 
+     * "target=qxhv=qx.ui.form.TextArea,row=5,cell=3");</pre>
      *
      * @param locator {String} an element locator that finds a qooxdoo widget's
      * DOM element
-     * @param targetLocator an element whose location (i.e., whose
+     * @param options an element whose location (i.e., whose
      * center-most pixel) will be the point where the dragged element is dropped
      */
-    qxDragAndDropToObject : function(locator, targetLocator) {},
+    qxDragAndDropToObject : function(locator, options) {},
 
 
     /**
