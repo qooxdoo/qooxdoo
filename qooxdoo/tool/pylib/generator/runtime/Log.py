@@ -47,6 +47,7 @@ class Log(object):
             self.logfile = False
 
         self.filter_pattern = ""
+        self._inProgress = False
 
     def __getstate__(self):
         d = self.__dict__.copy()
@@ -111,6 +112,11 @@ class Log(object):
         msg = msg.encode('utf-8')
         # Standard streams
         if self._levels[level] >= self._levels[self._level]:  # filter msg according to level
+            # check necessary newline
+            if self._inProgress:
+                self.nl()
+                self._inProgress = False
+
             # select stream
             if self._levels[level] < self._levels["warning"]:
                 stream = sys.stdout
@@ -187,6 +193,8 @@ class Log(object):
         if self._levels[self._level] > self._levels["info"]:
             return
 
+        self._inProgress = True
+
         if msg:
             totalprefix = '\r' + self.getPrefix() + msg
         else:
@@ -200,11 +208,13 @@ class Log(object):
             sys.stdout.flush()
 
         if pos == length:
+            self._inProgress = False
             sys.stdout.write("\n")
             sys.stdout.flush()
 
 
     def dot(self, char='.'):
+        self._inProgress = True
         stream = sys.stdout
         stream.write(char)
         stream.flush()

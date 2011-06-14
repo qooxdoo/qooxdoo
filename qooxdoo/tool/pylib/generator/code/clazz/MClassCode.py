@@ -160,7 +160,7 @@ class MClassCode(object):
             if firstParam and treeutil.isStringLiteral(firstParam):
                 classvariants.add(firstParam.get("value"))
             else:
-                console.warn("qx.core.Environment call without literal argument")
+                console.warn("qx.core.Environment call without literal argument (%s:%s)" % (self.id, variantNode.get("line", False)))
         return classvariants
 
 
