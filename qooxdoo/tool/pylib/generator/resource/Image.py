@@ -229,9 +229,12 @@ class GifFile(Image):
 
     def verify(self):
         self.fp.seek(0)
-        header = self.fp.read(6)
-        signature = struct.unpack("3s3s", header[:6])
-        isGif = signature[0] == "GIF" and signature[1] in ["87a", "89a"]
+        try:
+            header = self.fp.read(6)
+            signature = struct.unpack("3s3s", header[:6])
+            isGif = signature[0] == "GIF" and signature[1] in ["87a", "89a"]
+        except (struct.error, IOError):
+            isGif = False
         return isGif
 
     def type(self):
@@ -258,9 +261,12 @@ class PngFile(Image):
 
     def verify(self):
         self.fp.seek(0)
-        header = self.fp.read(8)
-        signature = struct.pack("8B", 137, 80, 78, 71, 13, 10, 26, 10)
-        isPng = header[:8] == signature
+        try:
+            header = self.fp.read(8)
+            signature = struct.pack("8B", 137, 80, 78, 71, 13, 10, 26, 10)
+            isPng = header[:8] == signature
+        except (struct.error, IOError):
+            isPng = False
         return isPng
 
 
@@ -284,8 +290,11 @@ class JpegFile(Image):
 
     def verify(self):
         self.fp.seek(0)
-        signature = struct.unpack("!H", self.fp.read(2))
-        isJpeg = signature[0] == 0xFFD8
+        try:
+            signature = struct.unpack("!H", self.fp.read(2))
+            isJpeg = signature[0] == 0xFFD8
+        except (struct.error, IOError):
+            isJpeg = False
         return isJpeg
 
     def type(self):
