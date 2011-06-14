@@ -121,31 +121,6 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
 
 
     /**
-     * Method to update the selection, this method can be used when the model has
-     * changes.
-     */
-    _updateSelection : function()
-    {
-      if (this._manager == null) {
-        return;
-      }
-
-      var selection = this.getSelection();
-      var model = this.getModel();
-
-      this.__ignoreManagerChangeSelection = true;
-      for (var i = selection.getLength() - 1; i >= 0; i--)
-      {
-        if (!model.contains(selection.getItem(i))) {
-          selection.removeAt(i);
-        }
-      }
-      this.__ignoreManagerChangeSelection = false;
-      this._onChangeSelection();
-    },
-
-
-    /**
      * Initialize the selection manager with his delegate.
      */
     _initSelectionManager : function()
@@ -178,6 +153,31 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       this._manager.attachKeyEvents(this);
       this._manager.addListener("changeSelection", this._onManagerChangeSelection, this);
       this._manager._applyDefaultSelection();
+    },
+    
+    
+    /**
+     * Method to update the selection, this method can be used when the model has
+     * changes.
+     */
+    _updateSelection : function()
+    {
+      if (this._manager == null) {
+        return;
+      }
+
+      var selection = this.getSelection();
+      var selectables = this._getSelectables();
+
+      this.__ignoreManagerChangeSelection = true;
+      for (var i = selection.getLength() - 1; i >= 0; i--)
+      {
+        if (!selectables.contains(selection.getItem(i))) {
+          selection.removeAt(i);
+        }
+      }
+      this.__ignoreManagerChangeSelection = false;
+      this._onChangeSelection();
     },
 
 

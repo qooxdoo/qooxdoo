@@ -461,6 +461,10 @@ qx.Class.define("qx.ui.list.List",
     },
 
 
+    _getSelectables : function() {
+      return this.getModel();
+    },
+    
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
