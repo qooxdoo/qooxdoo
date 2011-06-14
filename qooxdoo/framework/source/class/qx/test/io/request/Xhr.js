@@ -280,9 +280,9 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Header and Params (cont.)
     //
 
-    "test: set nocache request header": function() {
+    "test: set cache control header": function() {
       this.setUpFakeTransport();
-      this.req.setCache("force-validate");
+      this.req.setCache("no-cache");
       this.req.send();
 
       this.assertCalledWith(this.transport.setRequestHeader, "Cache-Control", "no-cache");

@@ -123,7 +123,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     * This event allows to use data binding with the
     * parsed response as source.
     *
-    * For example:
+    * For example, to bind the response to the value of a label:
     *
     * <pre class="javascript">
     * // req is an instance of qx.io.request.*,
@@ -213,7 +213,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     /**
      * Authentication delegate.
      *
-     * The delegate must implement {@link qx.io.request.authentication.IAuthDelegate}.
+     * The delegate must implement {@link qx.io.request.authentication.IAuthenticationDelegate}.
      */
     authentication: {
       check: "qx.io.request.authentication.IAuthentication",

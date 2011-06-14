@@ -176,15 +176,34 @@ qx.Class.define("qx.io.request.Xhr",
      *
      * * <code>true</code>: Allow caching (Default)
      * * <code>false</code>: Prohibit caching. Appends nocache parameter to URL.
-     * * <code>"force-validate"</code>: Force browser to submit request in order to
-     *   validate freshness of resource. Sets HTTP header Cache-Control to "no-cache".
-     *   Note: Should the resource be considered fresh after validation, the requested
-     *   resource is still served from cache.
+     * * <code>String</code>: Any Cache-Control request directive
+     *
+     * If a string is given, it is inserted in the request's Cache-Control
+     * header. A request’s Cache-Control header may contain a number of directives
+     * controlling the behavior of any caches in between client and origin
+     * server.
+     *
+     * * <code>"no-cache"</code>: Force caches to submit request in order to
+     *   validate the freshness of the representation. Note that the requested
+     *   resource may still be served from cache if the representation is
+     *   considered fresh. Use this directive to ensure freshness but save
+     *   bandwidth when possible.
+     * * <code>"no-store"</code>: Do not keep a copy of the representation under
+     *   any conditions.
+     *
+     * See <a href="http://www.mnot.net/cache_docs/#CACHE-CONTROL">
+     * Caching tutorial</a> for an excellent introduction to Caching in general.
+     * Refer to the corresponding section in the
+     * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9">
+     * HTTP 1.1 specification</a> for more details and advanced directives.
+     *
+     * It is recommended to choose an appropriate Cache-Control directive rather
+     * than prohibit caching using the nocache parameter.
      */
     cache: {
       check: function(value) {
         return qx.lang.Type.isBoolean(value) ||
-               value === "force-validate";
+          qx.lang.Type.isString(value);
       },
       init: true
     }
@@ -245,9 +264,8 @@ qx.Class.define("qx.io.request.Xhr",
       var transport = this._transport;
 
       // Align headers to configuration of instance
-      if (this.getCache() === "force-validate") {
-        // Force validation. See http://www.mnot.net/cache_docs/#CACHE-CONTROL.
-        transport.setRequestHeader("Cache-Control", "no-cache");
+      if (qx.lang.Type.isString(this.getCache())) {
+        transport.setRequestHeader("Cache-Control", this.getCache());
       }
 
       // POST with request data needs special content-type
