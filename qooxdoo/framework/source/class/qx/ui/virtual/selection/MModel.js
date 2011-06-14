@@ -244,7 +244,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       for (var i = 0; i < selection.getLength(); i++)
       {
         var item = selection.getItem(i);
-        var index = this.getModel().indexOf(item);
+        var index = this._getSelectables().indexOf(item);
         var row = this._reverseLookup(index);
 
         if (row >= 0) {
@@ -276,46 +276,71 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
         return;
       }
 
-      var managerSelection = e.getData();
-      var newSelection = [];
-
-      for (var i = 0; i < managerSelection.length; i++) {
-        newSelection.push(this._getDataFromRow(managerSelection[i]));
-      }
-
       this.__ignoreManagerChangeSelection = true;
 
-      var listSelection = this.getSelection();
-      if (newSelection.length > 0)
-      {
-        var args = [0, listSelection.getLength()];
-        args = args.concat(newSelection);
-        listSelection.splice.apply(listSelection, args);
-      } else {
-        listSelection.removeAll();
-      }
+      this.__synchronizeSelection();
 
       this.__ignoreManagerChangeSelection = false;
     },
-
+    
 
     /**
      * Synchronized the selection form the manager with the local one.
      */
     __synchronizeSelection : function()
     {
-      var localSelection = this.getSelection();
-      var nativArray = localSelection.toArray();
-      var managerSelection = this._manager.getSelection();
-
-      qx.lang.Array.removeAll(nativArray);
-      for(var i = 0; i < managerSelection.length; i++) {
-        nativArray.push(this._getDataFromRow(managerSelection[i]));
+      if (this.__isSelectionEquals()) {
+        return
       }
-      localSelection.length = nativArray.length;
+      
+      var managerSelection = this._manager.getSelection();
+      var newSelection = [];
+
+      for (var i = 0; i < managerSelection.length; i++) {
+        newSelection.push(this._getDataFromRow(managerSelection[i]));
+      }
+
+      var selection = this.getSelection();
+      if (newSelection.length > 0)
+      {
+        var args = [0, selection.getLength()];
+        args = args.concat(newSelection);
+        selection.splice.apply(selection, args);
+      } else {
+        selection.removeAll();
+      }
     },
 
-
+    
+    /**
+     * Checks whether the local and the manager selection is equals.
+     * 
+     * @return {Boolean} <code>true</code> when the selection is equals,
+     *   <code>false</code> otherwise.
+     */
+    __isSelectionEquals : function()
+    {
+      var selection = this.getSelection(); 
+      var managerSelection = this._manager.getSelection();
+      
+      if (selection.getLength() !== managerSelection.length) {
+        return false;
+      }
+      
+      for (var i = 0; i < selection.getLength(); i++)
+      {
+        var item = selection.getItem(i);
+        var index = this._getSelectables().indexOf(item);
+        var row = this._reverseLookup(index);
+        
+        if (row !== managerSelection[i]) {
+          return false;
+        };
+      }
+      return true;
+    },
+    
+    
     /**
      * Helper Method to select default item.
      */
