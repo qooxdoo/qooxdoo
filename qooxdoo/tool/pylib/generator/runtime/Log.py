@@ -202,12 +202,6 @@ class Log(object):
         else:
             totalprefix = ''
 
-        if pos == 1:
-            prefix = ''
-        else:
-            prefix = '\b\b\b\b'
-            #prefix = ''
-
         thisstep = 10 * pos / length
         prevstep = 10 * (pos-1) / length
 
