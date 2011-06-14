@@ -999,6 +999,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       {
         qx.bom.element.Attribute.reset(element, attribute);
       }
+      this._domUpdated();
     },
 
 
