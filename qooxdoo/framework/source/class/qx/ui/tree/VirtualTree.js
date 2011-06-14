@@ -30,7 +30,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 {
   extend : qx.ui.virtual.core.Scroller,
   implement : qx.ui.tree.core.IVirtualTree,
-  include : qx.ui.tree.selection.MSelectionHandling,
+  include : qx.ui.virtual.selection.MModel,
 
   /**
    * @param model {qx.core.Object?null} The model structure for the tree, for
@@ -387,7 +387,6 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.__openNodes = [];
       this.__nestingLevel = [];
       this._initLayer();
-      this._initSelection();
     },
 
 
@@ -405,6 +404,34 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     // Interface implementation
     getLookupTable : function() {
+      return this.__lookupTable;
+    },
+
+
+    /**
+     * Performs a lookup from model index to row.
+     *
+     * @param index {Number} The index to look at.
+     * @return {Number} The row or <code>-1</code>
+     *  if the index is not a model index.
+     */
+    _reverseLookup : function(index) {
+      return index;
+    },
+
+
+    /**
+     * Returns the model data for the given row.
+     *
+     * @param row {Integer} row to get data for.
+     * @return {var|null} the row's model data.
+     */
+    _getDataFromRow : function(row) {
+      return this.__lookupTable.getItem(row);
+    },
+    
+    
+    _getSelectables : function() {
       return this.__lookupTable;
     },
 
