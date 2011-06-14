@@ -127,15 +127,16 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     // property apply
     _applySource : function(value, old)
     {
-      if (value)
+      var source = value;
+      if (source)
       {
-        var source = qx.util.ResourceManager.getInstance().toUri(value);
+        source = qx.util.ResourceManager.getInstance().toUri(source);
         var ImageLoader = qx.io.ImageLoader;
         if(!ImageLoader.isFailed(source)) {
           ImageLoader.load(source, this.__loaderCallback, this);
         }
-        this._setSource(source);
       }
+      this._setSource(source);
     },
 
 
@@ -169,7 +170,6 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     _setSource : function(source)
     {
       this._setAttribute("src", source);
-      this._domUpdated();
     }
   }
 });
