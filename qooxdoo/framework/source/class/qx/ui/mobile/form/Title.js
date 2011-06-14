@@ -27,6 +27,16 @@ qx.Class.define("qx.ui.mobile.form.Title",
   extend : qx.ui.mobile.basic.Label,
 
 
+  properties :
+  {
+    wrap :
+    {
+      refine : true,
+      init : false
+    }
+  },
+
+
   /*
   *****************************************************************************
      MEMBERS

@@ -54,6 +54,7 @@ qx.Class.define("qx.ui.mobile.basic.Label",
     if (value) {
       this.setValue(value);
     }
+    this.initWrap();
   },
 
 
@@ -91,6 +92,17 @@ qx.Class.define("qx.ui.mobile.basic.Label",
     {
       refine : true,
       init : true
+    },
+
+
+    /**
+     * Controls whether text wrap is activated or not.
+     */
+    wrap :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyWrap"
     }
   },
 
@@ -109,6 +121,16 @@ qx.Class.define("qx.ui.mobile.basic.Label",
     _applyValue : function(value, old)
     {
       this._setHtml(value);
+    },
+
+
+    _applyWrap : function(value, old)
+    {
+      if (value) {
+        this.removeCssClass("no-wrap")
+      } else {
+        this.addCssClass("no-wrap");
+      }
     }
   }
 });

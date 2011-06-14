@@ -77,6 +77,37 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
 
 
     /**
+     * Returns the image widget which is used for this renderer.
+     * 
+     * @return {qx.ui.mobile.basic.Image} The image widget
+     */
+    getImageWidget : function() {
+      return this.__image;
+    },
+
+
+    /**
+     * Returns the title widget which is used for this renderer.
+     * 
+     * @return {qx.ui.mobile.basic.Label} The title widget
+     */
+    getTitleWidget : function() {
+      return this.__title;
+    },
+
+
+    /**
+     * Returns the subtitle widget which is used for this renderer.
+     * 
+     * @return {qx.ui.mobile.basic.Label} The subtitle widget
+     */
+    getSubTitleWidget : function()
+    {
+      return this.__subTitle;
+    },
+
+
+    /**
      * Sets the source of the image widget.
      *
      * @param source {String} The source to set
@@ -132,10 +163,12 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
       container.add(right, {flex:1});
 
       this.__title = new qx.ui.mobile.basic.Label();
+      this.__title.setWrap(false);
       this.__title.addCssClass("list-itemlabel");
       right.add(this.__title);
 
       this.__subTitle = new qx.ui.mobile.basic.Label();
+      this.__subTitle.setWrap(false);
       this.__subTitle.addCssClass("subtitle");
 
       right.add(this.__subTitle);

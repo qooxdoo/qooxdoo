@@ -28,9 +28,6 @@ body > * {
 
 h1, h2 {
     font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 
@@ -65,9 +62,6 @@ a:hover {  color:rgb(76, 86, 108); }
 
 .button {
   cursor: pointer;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   font-weight: bold;
   color: black;
   background: #fff;
@@ -118,9 +112,6 @@ ul li {
 }
 
 ul li * {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 ul li.arrow {
@@ -331,7 +322,6 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
 .navigationbar-button, .navigationbar-backbutton {
     text-align: center;
     cursor: pointer;
-    overflow: hidden;
     border-width: 0 5px;
     padding: 0 3px;
     width: auto;
@@ -342,9 +332,7 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
     font-weight: bold;
     color: #fff;
     text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0;
-    text-overflow: ellipsis;
     text-decoration: none;
-    white-space: nowrap;
     background: none;
     -webkit-border-image: url(../../icon/ios/toolButton.png) 0 5 0 5;
 }

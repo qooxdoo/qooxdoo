@@ -27,9 +27,6 @@ body > * {
 
 h1, h2 {
     font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 
@@ -67,9 +64,6 @@ a:hover { color: #e89c00; }
 
 .button, .tabButton {
   cursor: pointer;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   font-weight: bold;
   color: black;
   background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#c4c4c4));
@@ -112,9 +106,7 @@ ul li {
 }
 
 ul li * {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+
 }
 
 ul li.arrow {
@@ -311,7 +303,6 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
     text-align: center;
     min-width:40px;
     cursor: pointer;
-    overflow: hidden;
     padding: 0 3px;
     width: auto;
     height: 30px;
@@ -320,11 +311,9 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
     font-size: 12px;
     font-weight: bold;
     color: #black;
-    text-overflow: ellipsis;
-    text-decoration: none;
-    white-space: nowrap;
     background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#c4c4c4));
     border: 2px solid #232323;
+    text-decoration: none;
     -webkit-border-radius: 4px;
     -webkit-background-clip: padding-box;
 }

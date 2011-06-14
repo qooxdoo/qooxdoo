@@ -41,27 +41,7 @@
  */
 qx.Class.define("qx.ui.mobile.form.Button",
 {
-  extend : qx.ui.mobile.core.Widget,
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  /**
-   * @param value {String?null} The value of the button
-   */
-  construct : function(value)
-  {
-    this.base(arguments);
-    if (value) {
-      this.setValue(value);
-    }
-  },
-
-
+  extend : qx.ui.mobile.basic.Label,
 
 
   /*
@@ -80,32 +60,18 @@ qx.Class.define("qx.ui.mobile.form.Button",
     },
 
 
-    /**
-     * The value of the widget.
-     */
-    value :
+    // overridden
+    anonymous :
     {
-      check : "String",
-      nullable : true,
-      init : null,
-      apply : "_applyValue"
-    }
-  },
+      refine : true,
+      init : false
+    },
 
 
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    // property apply
-    _applyValue : function(value, old) {
-      this._setHtml(value);
+    wrap :
+    {
+      refine : true,
+      init : false
     }
   }
 });
