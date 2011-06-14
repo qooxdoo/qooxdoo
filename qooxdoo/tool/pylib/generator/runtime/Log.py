@@ -16,6 +16,7 @@
 #
 #  Authors:
 #    * Sebastian Werner (wpbasti)
+#    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
@@ -94,13 +95,14 @@ class Log(object):
 
     def head(self, msg, main=False):
         if main:
-            line = "=" * 76
+            line = "-" * 76
         else:
             line = "-" * 76
 
         self.write("", "info")
         self.write(line, "info")
-        self.write("    %s" % msg.upper(), "info")
+        #self.write("    %s" % msg.upper(), "info")
+        self.write("    %s" % msg, "info")
         self.write(line, "info")
 
 
@@ -200,11 +202,23 @@ class Log(object):
         else:
             totalprefix = ''
 
+        if pos == 1:
+            prefix = ''
+        else:
+            prefix = '\b\b\b\b'
+            #prefix = ''
+
         thisstep = 10 * pos / length
         prevstep = 10 * (pos-1) / length
 
+        if thisstep and not prevstep:
+            prefix = ''
+        else:
+            prefix = '\b\b\b\b'
+
         if thisstep != prevstep:
-            sys.stdout.write("%s %s%%" % (totalprefix, thisstep * 10))
+            #sys.stdout.write("%s %s%%" % (totalprefix, thisstep * 10))
+            sys.stdout.write("%s%3s%%" % (prefix, thisstep * 10,))
             sys.stdout.flush()
 
         if pos == length:
@@ -213,7 +227,17 @@ class Log(object):
             sys.stdout.flush()
 
 
-    def dot(self, char='.'):
+    sigils = r"|/-\|/-\\"
+    sigils_len = len(sigils)
+
+    def dot(self, char='.', i=[0]):
+        self._inProgress = True
+        stream = sys.stdout
+        i[0] = (i[0] + 1) % self.sigils_len
+        stream.write("\b"+self.sigils[i[0]])
+        stream.flush()
+
+    def dot1(self, char='.'):
         self._inProgress = True
         stream = sys.stdout
         stream.write(char)
