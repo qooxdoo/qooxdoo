@@ -85,6 +85,15 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
         row.add(button, {flex:1});
         this._add(row);
+    },
+    
+    // override
+    showErrorForItem : function(item) {
+      var errorNode = qx.bom.Element.create('div');
+      errorNode.innerHTML = item.getInvalidMessage();
+      qx.bom.element.Class.add(errorNode, 'formElementError');
+      qx.dom.Element.insertAfter(errorNode, item.getContainerElement());
+      qx.bom.Element.focus(item.getContainerElement());
     }
   }
 });

@@ -53,6 +53,43 @@ qx.Class.define("qx.ui.mobile.form.Form",
     this.base(arguments);
     
     this._resetter = new qx.ui.mobile.form.Resetter();
+  },
+  
+  members :
+  {
+  
+    __renderer : null,
+    
+    setRenderer : function(renderer)
+    {
+      this.__renderer = renderer;
+    },
+    
+    // override
+    validate : function()
+    {
+      this.base(arguments);
+      var groups = this.getGroups();
+      for (var i = 0; i < groups.length; i++)
+      {
+        var group = groups[i];
+        for(var j=0; j<group.items.length; j++)
+        {
+          var item = group.items[j];
+          if(!item.isValid())
+          {
+            if(this.__renderer != null)
+            {
+              this.__renderer.showErrorForItem(item);
+            }
+            else
+            {
+              alert('error '+item.getInvalidMessage());
+            }
+          }
+        }
+      }
+    }
   }
 
 });

@@ -61,6 +61,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
     for (var i = 0; i < buttons.length; i++) {
       this.addButton(buttons[i], buttonOptions[i]);
     }
+    form.setRenderer(this);
   },
 
 
@@ -80,6 +81,15 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
 
     // interface implementation
     addButton : function(button) {
+      throw new Error("Abstract method call");
+    },
+    
+    /**
+     * Shows an error to the user when a form element is in invalid state
+     * usually it prints an error message, so that user can rectify the filling of the form element.
+     * @param item {qx.ui.mobile.core.Widget} the form item
+     */
+    showErrorForItem : function(item) {
       throw new Error("Abstract method call");
     }
   }

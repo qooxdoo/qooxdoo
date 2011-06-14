@@ -151,10 +151,6 @@ li:first-child, li:first-child a {
 /* FORMS */
 
 
-input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
-  border: 2px solid red;
-}
-
 input, select { vertical-align:middle; }
 input, select, textarea { 
   font-family: Helvetica;
@@ -272,6 +268,13 @@ input[type="checkbox"], input[type="radio"] {
   -webkit-background-clip: padding-box;
 }
 
+input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
+  border: 2px solid red;
+}
+
+.formElementError {
+  color: red;
+}
 
 /* TABBAR */
 
