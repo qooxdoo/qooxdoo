@@ -17,6 +17,13 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#optional(qx.data.IListData)
+#optional(qx.locale.LocalizedString)
+
+************************************************************************ */
+
 /**
  * This is an util class responsible for serializing qooxdoo objects.
  */
@@ -51,7 +58,8 @@ qx.Class.define("qx.util.Serializer",
 
         // handle arrays
         if (qx.lang.Type.isArray(value)) {
-          var isdataArray = value instanceof qx.data.Array;
+          var isdataArray = qx.data && qx.data.IListData &&
+            qx.Class.hasInterface(value && value.constructor, qx.data.IListData);
           for (var i = 0; i < value.length; i++) {
             var valueAtI = isdataArray ? value.getItem(i) : value[i];
             result += this.__toUriParameter(name, valueAtI, qxSerializer);
@@ -120,7 +128,7 @@ qx.Class.define("qx.util.Serializer",
       }
 
       // data array
-      if (qx.Class.hasInterface(object.constructor, qx.data.IListData))
+      if (qx.data && qx.data.IListData && qx.Class.hasInterface(object.constructor, qx.data.IListData))
       {
         result = [];
         for (var i = 0; i < object.getLength(); i++)
@@ -191,7 +199,7 @@ qx.Class.define("qx.util.Serializer",
       }
 
       // localized strings
-      if (object instanceof qx.locale.LocalizedString) {
+      if (qx.locale && qx.locale.LocalizedString && object instanceof qx.locale.LocalizedString) {
         return object.toString();
       }
 
@@ -237,7 +245,7 @@ qx.Class.define("qx.util.Serializer",
       }
 
       // data array
-      if (qx.Class.hasInterface(object.constructor, qx.data.IListData)) {
+      if (qx.data && qx.data.IListData && qx.Class.hasInterface(object.constructor, qx.data.IListData)) {
         result += "[";
         for (var i = 0; i < object.getLength(); i++) {
           result += qx.util.Serializer.toJson(object.getItem(i), qxSerializer, dateFormat) + ",";
