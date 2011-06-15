@@ -302,6 +302,11 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
     },
     
     
+    /**
+     * Replace the current selection with the passed selection Array.
+     * 
+     * @param newSelection {qx.data.Array} The new selection.
+     */
     __replaceSelection : function(newSelection)
     {
       var selection = this.getSelection();

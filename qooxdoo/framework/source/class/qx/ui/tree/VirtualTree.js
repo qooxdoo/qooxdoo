@@ -434,7 +434,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       return this.__lookupTable.getItem(row);
     },
     
-    
+    /**
+     * Returns the selectable model items.
+     * 
+     * @return {qx.data.Array} The selectable items.
+     */
     _getSelectables : function() {
       return this.__lookupTable;
     },
@@ -738,6 +742,13 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Hook method which is called from the {@link qx.ui.virtual.selection.MModel}.
+     * The hook method sets the first visible parent not as new selection when 
+     * the current selection is empty and the selection mode is one selection.
+     *
+     * @param newSelection {Array} The newSelection which will be set to the selection manager.  
+     */
     _beforeApplySelection : function(newSelection) 
     {
       if (newSelection.length === 0 &&
@@ -753,6 +764,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     },
     
     
+    /**
+     * Hook method which is called from the {@link qx.ui.virtual.selection.MModel}.
+     * The hook method builds the parent chain form the current selected item.
+     */
     _afterApplySelection : function() 
     {
       var selection = this.getSelection();

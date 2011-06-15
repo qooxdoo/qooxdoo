@@ -461,9 +461,15 @@ qx.Class.define("qx.ui.list.List",
     },
 
 
+    /**
+     * Returns the selectable model items.
+     * 
+     * @return {qx.data.Array} The selectable items.
+     */
     _getSelectables : function() {
       return this.getModel();
     },
+    
     
     /*
     ---------------------------------------------------------------------------
