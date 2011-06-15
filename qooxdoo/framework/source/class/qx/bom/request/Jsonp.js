@@ -238,7 +238,12 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      */
     _onNativeLoad: function() {
 
-      // Indicate erroneous status if callback was not called
+      // Indicate erroneous status (500) if callback was not called.
+      //
+      // Why 500? 5xx belongs to the range of server errors. If the callback was
+      // not called, it is assumed the server failed to provide an appropriate
+      // response. Since the exact reason of the error is unknown, the most
+      // generic message ("500 Internal Server Error") is chosen.
       this.status = this.__callbackCalled ? 200 : 500;
 
       this.__callBase("_onNativeLoad");
