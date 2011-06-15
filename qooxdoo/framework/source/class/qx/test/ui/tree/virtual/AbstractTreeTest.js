@@ -28,7 +28,10 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
 {
   type : "abstract",
   extend : qx.test.ui.LayoutTestCase,
-  include : qx.dev.unit.MMock,
+  include : [
+    qx.dev.unit.MMock,
+    qx.test.ui.list.MAssert
+  ],
 
   construct : function()
   {
