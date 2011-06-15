@@ -79,8 +79,13 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       tree.getSelection().addListener("change", function(e)
       {
         var selection = tree.getSelection();
-        if(selection.getLength() > 0) {
-          tCurrentInput.setValue(selection.getItem(0).getName());
+        if(selection.getLength() > 0)
+        {
+          if (tree.getSelectionMode() === "multi") {
+            tCurrentInput.setValue(selection.getLength() + " items");
+          } else {
+            tCurrentInput.setValue(selection.getItem(0).getName());
+          }
         } else {
           tCurrentInput.setValue("");
         }
@@ -110,6 +115,30 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
         tree.setOpenMode(e.getData()[0].getUserData("mode"));
       });
 
+      commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
+      commandFrame.add(new qx.ui.basic.Label("Selection:"), {row: row, column: 0});
+
+      var btnMultiSelect = new qx.ui.form.CheckBox("Enable multi selection");
+      commandFrame.add(btnMultiSelect, {row: row++, column: 1});
+
+      btnMultiSelect.addListener("changeValue", function(e)
+      {
+        var enable = e.getData();
+        tree.setSelectionMode(enable ? "multi": "single");
+      });
+      
+      var btnDragSelect = new qx.ui.form.CheckBox("Enable drag selection");
+      commandFrame.add(btnDragSelect, {row: row++, column: 1});
+
+      btnDragSelect.addListener("changeValue", function(e)
+      {
+        var enable = e.getData();
+        tree.setDragSelection(enable);
+
+        if (!btnMultiSelect.getValue()) {
+          btnMultiSelect.setValue(true);
+        }
+      });
 
       commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
       commandFrame.add(new qx.ui.basic.Label("Root node:"), {row: row, column: 0});
