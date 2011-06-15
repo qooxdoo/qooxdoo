@@ -231,7 +231,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
       else
       {
-        if (!this._getAnchorItem()) {
+        if (this._getAnchorItem() == null) {
           this._setAnchorItem(item);
         }
 
@@ -506,11 +506,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       var old = this.__anchorItem;
 
-      if (old) {
+      if (old != null) {
         this._styleSelectable(old, "anchor", false);
       }
 
-      if (value) {
+      if (value != null) {
         this._styleSelectable(value, "anchor", true);
       }
 
@@ -1017,7 +1017,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         (qx.core.Environment.get("os.name") == "osx" && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
 
-      if (!isCtrlPressed && !isShiftPressed && this.__mouseDownOnSelected)
+      if (!isCtrlPressed && !isShiftPressed && this.__mouseDownOnSelected != null)
       {
         var item = this._getSelectableFromMouseEvent(event);
         if (item === null || !this.isItemSelected(item)) {
@@ -1417,7 +1417,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       else if (key === "Space")
       {
         var lead = this.getLeadItem();
-        if (lead && !isShiftPressed)
+        if (lead != null && !isShiftPressed)
         {
           if (isCtrlPressed || mode === "additive") {
             this._toggleInSelection(lead);
@@ -1722,7 +1722,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       var hash = this._selectableToHashCode(item);
 
-      if (!this.__selection[hash] && this._isSelectable(item))
+      if (this.__selection[hash] == null && this._isSelectable(item))
       {
         this.__selection[hash] = item;
         this._styleSelectable(item, "selected", true);
@@ -1742,7 +1742,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       var hash = this._selectableToHashCode(item);
 
-      if (!this.__selection[hash])
+      if (this.__selection[hash] == null)
       {
         this.__selection[hash] = item;
         this._styleSelectable(item, "selected", true);
