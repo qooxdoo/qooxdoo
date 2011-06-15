@@ -194,7 +194,7 @@ class Generator(object):
         # Invoke the DependencyLoader to calculate the list of required classes
         # from include/exclude settings
         def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, variants, verifyDeps=False, script=None):
-            self._console.info("Resolving dependencies")
+            self._console.info("Collecting classes   ", feed=False)
             self._console.indent()
             classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, [], variants, verifyDeps, script)
             #buildType = script.buildType if script else ""

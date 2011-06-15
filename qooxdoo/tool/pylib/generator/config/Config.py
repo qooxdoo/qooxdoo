@@ -549,7 +549,7 @@ class Config(object):
 
     def resolveExtendsAndRuns(self, jobList):
         console = self._console
-        console.info("Resolving jobs...")
+        console.debug("Resolving jobs...")
         console.indent()
 
         # while there are still 'run' jobs or unresolved jobs in the job list...
@@ -616,7 +616,7 @@ class Config(object):
         config  = self.get("jobs")
         console = self._console
 
-        console.info("Resolving libs/manifests...")
+        console.debug("Resolving libs/manifests...")
         console.indent()
 
         for job in jobs:
@@ -678,7 +678,7 @@ class Config(object):
     def includeSystemDefaults(self, jobs):
         console = self._console
 
-        console.info("Incorporating job defaults...")
+        console.debug("Incorporating job defaults...")
         console.indent()
 
         for job in jobs:
@@ -691,7 +691,7 @@ class Config(object):
     def resolveMacros(self, jobs):
         console = self._console
 
-        console.info("Resolving macros...")
+        console.debug("Resolving macros...")
         console.indent()
 
         for job in jobs:

@@ -43,7 +43,7 @@ class Cache(object):
         self._downloads      = self._context['jobconf'].get("cache/downloads")
         self._check_file     = os.path.join(self._path, check_file)
         actionLib            = ActionLib(self._context['config'], self._console)
-        self._console.info("Initializing cache...")
+        self._console.debug("Initializing cache...")
         self._console.indent()
         self._check_path(self._path)
         self._locked_files   = set(())

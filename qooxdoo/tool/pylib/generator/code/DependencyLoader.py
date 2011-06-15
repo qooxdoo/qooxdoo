@@ -222,7 +222,7 @@ class DependencyLoader(object):
 
         # Calculate dependencies
         else:
-            self._console.info(" ", feed=False)
+            #self._console.info(" ", feed=False)
 
             # Multiple loop over class list calculation
             processedEnvironment = False
@@ -236,7 +236,7 @@ class DependencyLoader(object):
                     # calculate dependencies and add required classes
                     classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
 
-                print len(result)
+                print len(result),"  ",
 
                 # process qx.core.Environment
                 if ("qx.core.Environment" in resultNames 
@@ -274,7 +274,8 @@ class DependencyLoader(object):
 
 
             if self._console.getLevel() is "info":
-                self._console.nl()
+                #self._console.nl()
+                pass
 
             # extract names of depsItems
             result = [x.name for x in result]

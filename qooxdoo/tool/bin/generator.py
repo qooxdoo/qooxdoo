@@ -137,7 +137,8 @@ Arguments:
     # Initial user feedback
     appname = ((os.path.dirname(os.path.abspath(options.config)).split(os.sep)))[-1]
     console.head(u"Initializing: %s" % appname.decode('utf-8'), True)
-    console.info(u"Configuration: %s" % options.config)
+    console.info(u"Processing configuration")
+    console.debug(u"    file: %s" % options.config)
 
     # Load application configuration
     config = Config(console, options.config, **options.letmacros)
@@ -152,7 +153,7 @@ Arguments:
     #console.setFilter(config.get("log/filter/debug", []))
 
     # Resolve "include"-Keys
-    console.info("Resolving config includes...")
+    console.debug("Resolving config includes...")
     console.indent()
     config.resolveIncludes()
     console.outdent()
@@ -174,7 +175,7 @@ Arguments:
                 listJobs(console, availableJobs, config)
                 sys.exit(1)
 
-    console.info(u"Jobs: %s" % ", ".join(options.jobs))
+    console.debug(u"Jobs: %s" % ", ".join(options.jobs))
 
     # Resolve "extend"- and "run"-Keys
     expandedjobs = config.resolveExtendsAndRuns(options.jobs[:])

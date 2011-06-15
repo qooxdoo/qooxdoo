@@ -77,7 +77,7 @@ class CodeGenerator(object):
         # can take the code of the first ("boot") script of class code
         def generateLoader(script, compConf, globalCodes, bootCode='', ):
 
-            self._console.info("Generating loader script...")
+            self._console.info("Generate loader script")
             result = ""
             vals   = {}
 
@@ -453,12 +453,13 @@ class CodeGenerator(object):
             packageData = ("qx.$$packageData['%s']=" % package.id) + packageData
             package_classes = [y for x in package.classes for y in script.classesObj if y.id == x] # TODO: i need to make package.classes [Class]!
 
-            self._console.info("Package #%s:" % package.id, feed=False)
+            #self._console.info("Package #%s:" % package.id, feed=False)
             len_pack_classes = len(package_classes)
             # helper log function, to log progress here, but also in compileClasses()
             def log_progress(c=[0]):
                 c[0]+=1
-                self._console.progress(c[0],len_pack_classes)
+                #self._console.progress(c[0],len_pack_classes)
+                self._console.dot()
 
             for pos,clazz in enumerate(package_classes):
                 if sourceFilter.match(clazz.id):
@@ -522,7 +523,7 @@ class CodeGenerator(object):
         self._variants     = variants
         self._script       = script
 
-        self._console.info("Generate application...")
+        self._console.info("Generate application")
         self._console.indent()
 
         # - Evaluate job config ---------------------
@@ -614,8 +615,8 @@ class CodeGenerator(object):
             # @deprecated-end
 
             # - Generating packages ---------------------
-            self._console.info("Generating packages...")
-            self._console.indent()
+            self._console.info("Generate packages  ", feed=False)
+            #self._console.indent()
 
             if not len(packages):
                 raise RuntimeError("No valid boot package generated.")
@@ -627,7 +628,7 @@ class CodeGenerator(object):
             for packageIndex, package in enumerate(packages):
                 package = compileAndWritePackage(package, compConf, allClassVariants)
 
-            self._console.outdent()
+            #self._console.outdent()
 
             # generate loader
             if inlineBoot(script, compConf):
@@ -859,14 +860,14 @@ class CodeGenerator(object):
         if "C" not in locales:
             locales.append("C")
 
-        self._console.info("Processing translations for %s locales " % len(locales))
+        self._console.info("Processing %s locales  " % len(locales), feed=False)
         self._console.indent()
 
         packageTranslations = []
         i18n_with_packages  = self._job.get("packages/i18n-with-boot", True)
         for pos, package in enumerate(packages):
-            self._console.info("Package %s: " % pos, False)
-            self._console.indent()
+            self._console.debug("Package %s: " % pos, False)
+            #self._console.indent()
 
             pac_dat = self._locale.getTranslationData  (package.classes, variants, locales, addUntranslatedEntries) # .po data
             loc_dat = self._locale.getLocalizationData (package.classes, locales)  # cldr data
@@ -875,7 +876,7 @@ class CodeGenerator(object):
                 package.data.translations.update(pac_dat)
                 package.data.locales.update(loc_dat)
 
-            self._console.outdent()
+            #self._console.outdent()
 
         self._console.outdent()
         return packageTranslations

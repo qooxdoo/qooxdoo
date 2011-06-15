@@ -76,6 +76,7 @@ class PartBuilder(object):
         self._printPartStats(script)
 
         # Collapse parts by collapse order
+        self._console.info("Collapsing parts  ", feed=False)
         self.collapsePartsByOrder(script)
 
         # Collapse parts by package size
@@ -153,7 +154,7 @@ class PartBuilder(object):
         allpartsclasses = []
 
         # 5) Check consistency between package.part_mask and part.packages
-        self._console.info("Verifying packages-to-parts relations...")
+        self._console.debug("Verifying packages-to-parts relations...")
         self._console.indent()
         for package in script.packages:
             for part in partsMap.values():
@@ -162,8 +163,8 @@ class PartBuilder(object):
                         handleError("Package '%d' supposed to be in part '%s', but isn't" % (package.id, part.name))
         self._console.outdent()
 
-        self._console.info("Verifying individual parts...")
-        self._console.indent()
+        self._console.debug("Verifying individual parts...")
+        #self._console.indent()
         for part in partsMap.values():
             if part.is_ignored:  # skip ignored parts
                 continue
@@ -210,7 +211,7 @@ class PartBuilder(object):
                     #    self._console.warn("Unfullfilled load dependencies of class '%s': %r" % (classId, tuple(missingDeps)))
             self._console.outdent()
 
-        self._console.outdent()
+        #self._console.outdent()
 
         # 4) Check all classes from the global class list are contained in
         # *some* part
@@ -255,10 +256,11 @@ class PartBuilder(object):
         globalClassList = [x.id for x in script.classesObj]
 
         self._console.debug("")
-        self._console.info("Resolving part dependencies...")
+        self._console.info("Assembling parts")
         self._console.indent()
 
         for part in parts.values():
+            self._console.info("part %s:  " % part.name, feed=False)
             # Exclude initial classes of other parts
             partExcludes = []
             for otherPartId in parts:
@@ -394,7 +396,7 @@ class PartBuilder(object):
 
         variants  = script.variants
         self._console.debug("")
-        self._console.info("Collapsing parts by package sizes...")
+        self._console.debug("Collapsing parts by package sizes...")
         self._console.indent()
         self._console.debug("Minimum size: %sKB" % minPackageSize)
         self._console.indent()
@@ -605,7 +607,7 @@ class PartBuilder(object):
         # ---------------------------------------------------------------------
 
         self._console.debug("")
-        self._console.info("Collapsing parts by collapse order...")
+        self._console.debug("Collapsing parts by collapse order...")
         self._console.indent()
 
         if collapse_groups == None:
@@ -724,7 +726,7 @@ class PartBuilder(object):
 
         for package in packages:
             package.classes = self._depLoader.sortClasses(package.classes, script.variants, script.buildType)
-        self._console.nl() # terminate dots
+        #self._console.nl() # terminate dots
 
         #script.packageIdsSorted = [x.id for x in packages]
 

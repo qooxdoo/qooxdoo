@@ -364,7 +364,8 @@ class Locale(object):
             #translation, cached = self.getTranslation(classId, variants) # should be a method on clazz
             translation, cached = self._classesObj[classId].messageStrings(variants)
             #self._console.dot('.' if cached else '*')
-            self._console.progress(num+1, numClass)
+            #self._console.progress(num+1, numClass)
+            self._console.dot()
 
             for source in translation:
                 #msgid = self.parseAsUnicodeString(source["id"])  # parse raw data as string, to translate \escapes
