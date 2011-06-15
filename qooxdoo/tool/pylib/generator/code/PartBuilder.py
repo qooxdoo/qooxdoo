@@ -106,6 +106,7 @@ class PartBuilder(object):
         script = self._getFinalClassList(script)
         #resultClasses = util.dictToList(resultClasses) # turn map into list, easier for upstream methods
 
+        self._console.dotclear()
         if True: #self._console.getLevel() < self._console._levels["info"]: # - not working!
             self.verifyParts(script.parts, script)
 
@@ -421,6 +422,7 @@ class PartBuilder(object):
             
             # Test and optimize 'fromId'
             for fromPackage in allPackages:
+                self._console.dot()
                 # possibly protect part-private package from merging
                 if fromPackage.id in allPartBitMasks.keys():  # fromPackage.id == a part's bit mask
                     if allPartBitMasks[fromPackage.id].no_merge_private_package:
@@ -443,6 +445,7 @@ class PartBuilder(object):
 
                 self._console.outdent()
 
+        self._console.dotclear()
         self._console.outdent()
         self._console.outdent()
 
@@ -615,6 +618,7 @@ class PartBuilder(object):
         seen_targets    = set(())
 
         for collidx in sorted(collapse_groups.keys()): # go through groups in load order
+            self._console.dot()
             collgrp         = collapse_groups[collidx]
             self._console.debug("Collapse group %d %r" % (collidx, [x.name for x in collgrp]))
             self._console.indent()
@@ -624,6 +628,7 @@ class PartBuilder(object):
 
             self._console.outdent()
 
+        self._console.dotclear()
         self._console.outdent()
         return
 

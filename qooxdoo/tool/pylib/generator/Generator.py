@@ -523,91 +523,91 @@ class Generator(object):
         if takeout(jobTriggers, "slice-images"):
             self.runImageSlicing()
          
-        if not jobTriggers: return
+        if jobTriggers:
 
-        # -- Process job triggers that require a class list (and some)
-        prepareGenerator1()
+            # -- Process job triggers that require a class list (and some)
+            prepareGenerator1()
 
-        # Preprocess include/exclude lists
-        includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
-        excludeWithDeps, excludeNoDeps = getExcludes(self._job.get("exclude", []))
-        
-        # process classdep triggers
-        if takeout(jobTriggers, "api"):
-            # class list with no variants (all-encompassing)
-            classListProducer = functools.partial(#args are complete, but invocation shall be later
-                       computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
-                       {}, verifyDeps=True, script=Script())
-            self.runApiData(classListProducer)
-        if takeout(jobTriggers, "fix-files"):
-            self.runFix(self._classesObj)
-        if takeout(jobTriggers, "lint-check"):
-            self.runLint(self._classesObj)
-        if takeout(jobTriggers, "translate"):
-            self.runUpdateTranslation()
-        if takeout(jobTriggers, "pretty-print"):
-            self._codeGenerator.runPrettyPrinting(self._classesObj)
-        if takeout(jobTriggers, "provider"):
-            script = Script()
-            script.classesObj = self._classesObj.values()
-            environData = getVariants("environment") 
-            variantSets = util.computeCombinations(environData)
-            script.variants = variantSets[0] 
-            script.optimize = config.get("compile-options/code/optimize", [])
-            script.libraries = self._libraries
-            script.namespace = self.getAppName()
-            script.locales = config.get("compile-options/code/locales", [])
-            CodeProvider.runProvider(script, self)
+            # Preprocess include/exclude lists
+            includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
+            excludeWithDeps, excludeNoDeps = getExcludes(self._job.get("exclude", []))
+            
+            # process classdep triggers
+            if takeout(jobTriggers, "api"):
+                # class list with no variants (all-encompassing)
+                classListProducer = functools.partial(#args are complete, but invocation shall be later
+                           computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
+                           {}, verifyDeps=True, script=Script())
+                self.runApiData(classListProducer)
+            if takeout(jobTriggers, "fix-files"):
+                self.runFix(self._classesObj)
+            if takeout(jobTriggers, "lint-check"):
+                self.runLint(self._classesObj)
+            if takeout(jobTriggers, "translate"):
+                self.runUpdateTranslation()
+            if takeout(jobTriggers, "pretty-print"):
+                self._codeGenerator.runPrettyPrinting(self._classesObj)
+            if takeout(jobTriggers, "provider"):
+                script = Script()
+                script.classesObj = self._classesObj.values()
+                environData = getVariants("environment") 
+                variantSets = util.computeCombinations(environData)
+                script.variants = variantSets[0] 
+                script.optimize = config.get("compile-options/code/optimize", [])
+                script.libraries = self._libraries
+                script.namespace = self.getAppName()
+                script.locales = config.get("compile-options/code/locales", [])
+                CodeProvider.runProvider(script, self)
 
-        if not jobTriggers: return
+        if jobTriggers:
 
-        # -- Process job triggers that require the full tool chain
-        # Create tool chain instances
-        self._treeCompiler   = TreeCompiler(self._classesObj, self._context)
+            # -- Process job triggers that require the full tool chain
+            # Create tool chain instances
+            self._treeCompiler   = TreeCompiler(self._classesObj, self._context)
 
-        # Processing all combinations of variants
-        environData = getVariants("environment")   # e.g. {'qx.debug':false, 'qx.aspects':[true,false]}
-        variantSets  = util.computeCombinations(environData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
-        for variantSetNum, variantset in enumerate(variantSets):
+            # Processing all combinations of variants
+            environData = getVariants("environment")   # e.g. {'qx.debug':false, 'qx.aspects':[true,false]}
+            variantSets  = util.computeCombinations(environData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
+            for variantSetNum, variantset in enumerate(variantSets):
 
-            # some console output
-            printVariantInfo(variantSetNum, variantset, variantSets, environData)
+                # some console output
+                printVariantInfo(variantSetNum, variantset, variantSets, environData)
 
-            script           = Script()  # a new Script object represents the target code
-            script.namespace = self.getAppName()
-            script.variants  = variantset
-            script.optimize  = config.get("compile-options/code/optimize", [])
-            script.libraries = self._libraries
-            script.jobconfig = self._job
-            # set source/build version
-            if "compile" in jobTriggers:
-                script.buildType = config.get("compile/type", "")
-                if script.buildType not in ("source","build","hybrid"):
-                    raise ValueError("Unknown compile type '%s'" % script.buildType)
+                script           = Script()  # a new Script object represents the target code
+                script.namespace = self.getAppName()
+                script.variants  = variantset
+                script.optimize  = config.get("compile-options/code/optimize", [])
+                script.libraries = self._libraries
+                script.jobconfig = self._job
+                # set source/build version
+                if "compile" in jobTriggers:
+                    script.buildType = config.get("compile/type", "")
+                    if script.buildType not in ("source","build","hybrid"):
+                        raise ValueError("Unknown compile type '%s'" % script.buildType)
 
-            # get current class list
-            script.classes = computeClassList(includeWithDeps, excludeWithDeps, 
-                               includeNoDeps, variantset, script=script, verifyDeps=True)
-              # keep the list of class objects in sync
-            script.classesObj = [self._classesObj[id] for id in script.classes]
+                # get current class list
+                script.classes = computeClassList(includeWithDeps, excludeWithDeps, 
+                                   includeNoDeps, variantset, script=script, verifyDeps=True)
+                  # keep the list of class objects in sync
+                script.classesObj = [self._classesObj[id] for id in script.classes]
 
-            featureMap = self._depLoader.registerDependeeFeatures(script.classesObj, variantset, script.buildType)
-            self._treeCompiler._featureMap = featureMap
+                featureMap = self._depLoader.registerDependeeFeatures(script.classesObj, variantset, script.buildType)
+                self._treeCompiler._featureMap = featureMap
 
-            # prepare 'script' object
-            if set(("compile", "log")).intersection(jobTriggers):
-                partsConfigFromClassList(excludeWithDeps, script)
+                # prepare 'script' object
+                if set(("compile", "log")).intersection(jobTriggers):
+                    partsConfigFromClassList(excludeWithDeps, script)
 
-            # Execute real tasks
-            if "copy-resources" in jobTriggers:
-                self.runResources(script)
-            if "compile" in jobTriggers:
-                self._codeGenerator.runCompiled(script, self._treeCompiler)
-            if "log" in jobTriggers:
-                self.runLogDependencies(script)
-                self.runPrivateDebug()
-                self.runLogUnusedClasses(script)
-                self.runLogResources(script)
+                # Execute real tasks
+                if "copy-resources" in jobTriggers:
+                    self.runResources(script)
+                if "compile" in jobTriggers:
+                    self._codeGenerator.runCompiled(script, self._treeCompiler)
+                if "log" in jobTriggers:
+                    self.runLogDependencies(script)
+                    self.runPrivateDebug()
+                    self.runLogUnusedClasses(script)
+                    self.runLogResources(script)
                 
         elapsedsecs = time.time() - starttime
         self._console.info("Done (%dm%05.2f)" % (int(elapsedsecs/60), elapsedsecs % 60))

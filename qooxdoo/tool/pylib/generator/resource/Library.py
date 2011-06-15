@@ -155,7 +155,7 @@ class Library(object):
         return self.resources
 
     def scan(self):
-        self._console.info("Scanning %s..." % self._path)
+        self._console.debug("Scanning %s..." % self._path)
         self._console.indent()
 
         scanres = self._scanClassPath(self._classPath, self._classUri, self._encoding)

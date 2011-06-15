@@ -391,6 +391,7 @@ class Locale(object):
                     "column" : source["column"]
                 })
 
+        self._console.dotclear()
         self._console.debug("Package contains %s unique translation strings" % len(result))
         self._console.outdent()
         return result

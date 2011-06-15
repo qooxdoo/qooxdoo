@@ -629,6 +629,7 @@ class CodeGenerator(object):
                 package = compileAndWritePackage(package, compConf, allClassVariants)
 
             #self._console.outdent()
+            self._console.dotclear()
 
             # generate loader
             if inlineBoot(script, compConf):

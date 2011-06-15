@@ -231,6 +231,12 @@ class Log(object):
         stream.write("\b"+self.sigils[i[0]])
         stream.flush()
 
+    def dotclear(self, ok=' '):
+        self._inProcess = False
+        stream = sys.stdout
+        stream.write("\b"+ok)
+        stream.flush()
+
     def dot1(self, char='.'):
         self._inProgress = True
         stream = sys.stdout

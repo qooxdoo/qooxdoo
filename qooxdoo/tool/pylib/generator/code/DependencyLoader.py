@@ -236,6 +236,7 @@ class DependencyLoader(object):
                     # calculate dependencies and add required classes
                     classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
 
+                self._console.dotclear()
                 print len(result),"  ",
 
                 # process qx.core.Environment
