@@ -602,7 +602,7 @@ class Generator(object):
                 if "copy-resources" in jobTriggers:
                     self.runResources(script)
                 if "compile" in jobTriggers:
-                    self._codeGenerator.runCompiled(script, self._treeCompiler)
+                    self._codeGenerator.runCompiled(script)
                 if "log" in jobTriggers:
                     self.runLogDependencies(script)
                     self.runPrivateDebug()
