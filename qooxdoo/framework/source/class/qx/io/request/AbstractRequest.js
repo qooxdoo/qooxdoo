@@ -27,6 +27,7 @@
  * The general procedure to derive a new request is to choose a
  * transport (override {@link #_createTransport}) and link
  * the transport’s response (override {@link #_getParsedResponse}).
+ * The transport must implement {@link qx.bom.request.IRequest}.
  *
  * To adjust the behavior of {@link #send} override
  * {@link #_getConfiguredUrl} and {@link #_setRequestHeader}.

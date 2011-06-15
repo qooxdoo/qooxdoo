@@ -398,7 +398,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     },
 
     /**
-     * Event handler for an event that fires at every state change.
+     * Event handler for XHR event that fires at every state change.
      *
      * Replace with custom method to get informed about the communication progress.
      */
