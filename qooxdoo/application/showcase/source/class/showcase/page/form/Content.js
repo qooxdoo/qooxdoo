@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 /**
- * @lint ignoreUndefined(formdemo)
+ * @lint ignoreUndefined(qxc)
  */
 qx.Class.define("showcase.page.form.Content",
 {
@@ -28,6 +28,6 @@ qx.Class.define("showcase.page.form.Content",
   construct : function(page) {
     this.base(arguments, page);
 
-    this.setView(new formdemo.FormItems());
+    this.setView(new qxc.application.formdemo.FormItems());
   }
 });

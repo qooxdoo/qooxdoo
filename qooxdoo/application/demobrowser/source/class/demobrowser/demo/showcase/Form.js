@@ -29,13 +29,13 @@ qx.Class.define("demobrowser.demo.showcase.Form",
   members :
   {
     /**
-     * @lint ignoreUndefined(formdemo)
+     * @lint ignoreUndefined(qxc)
      */
     main: function()
     {
       this.base(arguments);
 
-      this.getRoot().add(new formdemo.FormItems());
+      this.getRoot().add(new qxc.application.formdemo.FormItems());
     }
   }
 });

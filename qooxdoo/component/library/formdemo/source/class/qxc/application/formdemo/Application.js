@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("formdemo.Application",
+qx.Class.define("qxc.application.formdemo.Application",
 {
   extend : qx.application.Standalone,
 
@@ -29,7 +29,7 @@ qx.Class.define("formdemo.Application",
     {
       this.base(arguments);
       
-      this.__items = new formdemo.FormItems();
+      this.__items = new qxc.application.formdemo.FormItems();
       this.getRoot().add(this.__items);
     }
   },

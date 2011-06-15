@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("formdemo.FormItems", {
+qx.Class.define("qxc.application.formdemo.FormItems", {
   extend : qx.ui.container.Composite,
 
   construct : function() {

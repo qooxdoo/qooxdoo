@@ -25,7 +25,7 @@
  * RadioButtonGroup, RepeatButton, SelectBox, Slider, Spinner, SplitButton,
  * TextArea, TextField, ToggleButton
  *
- * @lint ignoreUndefined(formdemo)
+ * @lint ignoreUndefined(qxc)
  */
 qx.Class.define("widgetbrowser.pages.Form",
 {
@@ -40,7 +40,7 @@ qx.Class.define("widgetbrowser.pages.Form",
   {
     this.base(arguments);
 
-    var formItems = new formdemo.FormItems();
+    var formItems = new qxc.application.formdemo.FormItems();
     this._widgets = formItems.getWidgets();
     this.add(formItems);
   }
