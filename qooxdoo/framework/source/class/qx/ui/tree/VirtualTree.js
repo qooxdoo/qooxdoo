@@ -300,6 +300,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     __itemWidth : 0,
 
 
+    /** {Array} internal parent chain form the last selected node */
+    __parentChain : null,
+    
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
@@ -728,7 +732,40 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.getPane().fullUpdate();
     },
 
+    /*
+    ---------------------------------------------------------------------------
+      SELECTION HOOK METHODS
+    ---------------------------------------------------------------------------
+    */
 
+    _beforeApplySelection : function(newSelection) 
+    {
+      if (newSelection.length === 0 &&
+          this.getSelectionMode() === "one")
+      {
+        var visibleParent = this.__getVisibleParent();
+        var row = this.getLookupTable().indexOf(visibleParent);
+        
+        if (row >= 0) {
+          newSelection.push(row);
+        }
+      }
+    },
+    
+    
+    _afterApplySelection : function() 
+    {
+      var selection = this.getSelection();
+      
+      if (selection.getLength() > 0 &&
+          this.getSelectionMode() === "one") {
+        this.__buildParentChain(selection.getItem(0));
+      } else {
+        this.__parentChain = [];
+      }
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
@@ -943,6 +980,48 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
 
       return null;
+    },
+    
+
+    /**
+     * Builds the parent chain form the passed item.
+     * 
+     * @param item {var} Item to build parent chain.
+     */
+    __buildParentChain : function(item)
+    {
+      this.__parentChain = [];
+      var parent = this.getParent(item); 
+      while(parent != null)
+      {
+        this.__parentChain.unshift(parent);
+        parent = this.getParent(parent); 
+      }
+    },
+    
+    
+    /**
+     * Return the first visible parent node from the last selected node.
+     * 
+     * @return {var} The first visible node.
+     */
+    __getVisibleParent : function()
+    {
+      if (this.__parentChain == null) {
+        return this.getModel();
+      }
+      
+      var lookupTable = this.getLookupTable();
+      var parent = this.__parentChain.pop();
+
+      while(parent != null)
+      {
+        if (lookupTable.contains(parent)) {
+          return parent;
+        }
+        parent = this.__parentChain.pop();
+      }
+      return this.getModel();
     }
   },
 

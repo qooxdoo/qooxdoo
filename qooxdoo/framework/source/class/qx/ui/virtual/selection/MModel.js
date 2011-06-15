@@ -119,10 +119,6 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
     /** {Boolean} flag to ignore the selection change from <code>_manager</code> */
     __ignoreManagerChangeSelection : false,
     
-    /** {Array} internal parent chain form the last selected node */
-    // TODO remove tree stuff
-    __parentChain : null,
-
 
     /**
      * Initialize the selection manager with his delegate.
@@ -255,19 +251,10 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
         }
       }
       
-      // set the first visible parent as selected
-      // TODO remove tree stuff
-      if (selection.getLength() === 0 &&
-          this.getSelectionMode() === "one" &&
-          qx.Class.isSubClassOf(this.constructor, qx.ui.tree.VirtualTree))
-      {
-        var visibleParent = this.__getVisibleParent();
-        var row = this.getLookupTable().indexOf(visibleParent);
-        
-        if (row >= 0) {
-          newSelection.push(row);
-        }
-      } 
+      if (this._beforeApplySelection != null &&
+          qx.lang.Type.isFunction(this._beforeApplySelection)) {
+        this._beforeApplySelection(newSelection);
+      }
 
       try {
         this._manager.replaceSelection(newSelection);
@@ -278,15 +265,9 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       }
       this.__synchronizeSelection();
 
-      // build parent chain
-      // TODO remove tree stuff
-      if (selection.getLength() > 0 &&
-          this.getSelectionMode() === "one"  &&
-          qx.Class.isSubClassOf(this.constructor, qx.ui.tree.VirtualTree))
-      {
-        this.__buildParentChain(selection.getItem(0));
-      } else {
-        this.__parentChain = [];
+      if (this._afterApplySelection != null &&
+          qx.lang.Type.isFunction(this._afterApplySelection)) {
+        this._afterApplySelection();
       }
 
       this.__ignoreChangeSelection = false;
@@ -369,52 +350,6 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
     },
     
 
-    /**
-     * Builds the parent chain form the passed item.
-     * 
-     * TODO remove tree stuff.
-     * 
-     * @param item {var} Item to build parent chain.
-     */
-    __buildParentChain : function(item)
-    {
-      this.__parentChain = [];
-      var parent = this.getParent(item); 
-      while(parent != null)
-      {
-        this.__parentChain.unshift(parent);
-        parent = this.getParent(parent); 
-      }
-    },
-    
-    
-    /**
-     * Return the first visible parent node from the last selected node.
-     * 
-     * TODO remove tree stuff.
-     * 
-     * @return {var} The first visible node.
-     */
-    __getVisibleParent : function()
-    {
-      if (this.__parentChain == null) {
-        return this.getModel();
-      }
-      
-      var lookupTable = this.getLookupTable();
-      var parent = this.__parentChain.pop();
-
-      while(parent != null)
-      {
-        if (lookupTable.contains(parent)) {
-          return parent;
-        }
-        parent = this.__parentChain.pop();
-      }
-      return this.getModel();
-    },
-
-    
     /**
      * Helper Method to select default item.
      */
