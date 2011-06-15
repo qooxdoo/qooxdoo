@@ -21,6 +21,7 @@
 
 #ignore(qx.test.Animal)
 #ignore(qx.test.Affe)
+#ignore(qx.test.Gibbon)
 
 ************************************************************************ */
 
@@ -43,6 +44,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
     /**
      * @lint ignoreUndefined(qx.test.Animal)
      * @lint ignoreUndefined(qx.test.Affe)
+     * @lint ignoreUndefined(qx.test.Gibbon)
      */
     setUp : function()
     {
@@ -51,7 +53,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       qx.Class.define("qx.test.Animal", {
         extend: qx.core.Object,
         members: {
-          getKind: function() { return ""; }
+          getKind: function() { return "Animal"; }
         }
       });
 
@@ -59,6 +61,13 @@ qx.Class.define("qx.test.dev.unit.Sinon",
         extend: qx.test.Animal,
         members: {
           scratch: function() { return true; }
+        }
+      });
+
+      qx.Class.define("qx.test.Gibbon", {
+        extend: qx.test.Affe,
+        members: {
+          climb: function() { return true; }
         }
       });
     },
@@ -220,6 +229,20 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       this.assertCalled(obj.getKind);
     },
 
+    "test: shallow stub": function() {
+      var obj = new qx.test.Gibbon();
+          obj = this.shallowStub(obj, qx.test.Affe);
+
+      obj.climb();
+      obj.scratch();
+      this.assertCalled(obj.climb);
+      this.assertCalled(obj.scratch);
+
+      // Not stubbed
+      this.assertEquals("Animal", obj.getKind(), "Must return original");
+      this.assertUndefined(obj.getKind.called, "Must not be stubbed");
+    },
+
     "test: inject stub of original": function() {
       this.injectStub(qx.test, "Affe");
       var affe = new qx.test.Affe();
@@ -281,6 +304,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
 
       qx.Class.undefine("qx.test.Affe");
       qx.Class.undefine("qx.test.Animal");
+      qx.Class.undefine("qx.test.Gibbon");
     }
   }
 });

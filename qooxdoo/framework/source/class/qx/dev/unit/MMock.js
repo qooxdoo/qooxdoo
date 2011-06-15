@@ -351,32 +351,49 @@ qx.Mixin.define("qx.dev.unit.MMock",
      * In contrast to the shallow {@link #stub}, also stubs out properties that
      * belong to the prototype chain.
      *
-     * @param object {Object} The object to stub deeply.
+     * @param object {Object} Object to stub deeply.
      * @return {Stub} A stub.
      */
     deepStub: function(object) {
-      return this.stub(this.__deepClone(object));
+      this.__getOwnProperties(object).forEach(function(prop) {
+        this.__stubProperty(object, prop);
+      }, this);
+
+      return object;
+    },
+
+    /**
+     * Shallowly stub methods that belong to classes found in inheritance
+     * chain up to (but including) the given class.
+     *
+     * @param object {Object} Object to stub shallowly.
+     * @param targetClazz {Object} Class which marks the end of the chain.
+     * @return {Object} A stub.
+     */
+    shallowStub: function(object, targetClazz) {
+      this.__getOwnProperties(object, targetClazz).forEach(function(prop) {
+        this.__stubProperty(object, prop);
+      }, this);
+
+      return object;
     },
 
     /**
      * Changes the given factory (e.g. a constructor) to return a stub. The
      * method itself returns this stub.
      *
-     * By default, the stub returned by the changed factory is a deep copied,
-     * API-identical stubbed out clone of the object built by the original
-     * factory. Alternatively, a custom stub may be given explicitly that is
-     * used instead.
+     * By default, the stub returned by the changed factory is the object built
+     * by the original factory, but deeply stubbed (see {@link #deepStub}).
+     * Alternatively, a custom stub may be given explicitly that is used instead.
      *
      * @param object {Object} Namespace to hold factory, e.g. qx.html.
      * @param property {String} Property as string that functions as
      *  constructor, e.g. "Element".
-     * @param customStub {Stub?} The stub to inject.
-     * @return {Stub} The injected stub.
+     * @param customStub {Stub?} Stub to inject.
+     * @return {Stub} Injected stub.
      */
     injectStub: function(object, property, customStub) {
-      var stub = customStub ||
-        // Include properties in prototype chain
-        this.stub(this.__deepClone(object[property].prototype));
+      var stub = customStub || this.deepStub(new object[property]);
 
       this.stub(object, property).returns(stub);
       return stub;
@@ -394,8 +411,8 @@ qx.Mixin.define("qx.dev.unit.MMock",
      * @param object {Object} Namespace to hold factory, e.g. qx.html.
      * @param property {String} Property as string that functions as
      *  constructor, e.g. "Element".
-     * @param customObject {Object?} The object to inject.
-     * @return {Mock} The mock of the object built.
+     * @param customObject {Object?} Object to inject.
+     * @return {Mock} Mock of the object built.
      */
     revealMock: function(object, property, customObject) {
       var source = customObject ||
@@ -406,10 +423,10 @@ qx.Mixin.define("qx.dev.unit.MMock",
     },
 
     /**
-     * Prepare object with it's prototype to be stubbed or mocked.
+     * Deep clone object by copying properties from prototype.
      *
-     * @param obj {Object} The object to prepare (that is, clone).
-     * @return {Object} The prepared (deeply cloned) object.
+     * @param obj {Object} Object to prepare (that is, clone).
+     * @return {Object} Prepared (deeply cloned) object.
      */
     __deepClone: function(obj) {
       var clone = {};
@@ -420,6 +437,62 @@ qx.Mixin.define("qx.dev.unit.MMock",
       }
 
       return clone;
+    },
+
+    /**
+     * Get the object’s own properties.
+     *
+     * @param object {Object} Object to analyse.
+     * @param targetClazz {Object} Class which marks the end of the chain.
+     * @return {Array} Array of the object’s own properties.
+     */
+    __getOwnProperties: function(object, targetClazz) {
+      var clazz = object.constructor,
+          clazzes = [],
+          properties = [];
+
+      // Find classes in inheritance chain up to targetClazz
+      if (targetClazz) {
+        while(clazz.superclass) {
+          clazzes.push(clazz);
+          clazz = clazz.superclass;
+          if (clazz == targetClazz.superclass) {
+            break;
+          }
+        }
+      }
+
+      // Check if property is own in one of the classes in chain
+      for (var prop in object) {
+
+        if (clazzes.length) {
+          var found = clazzes.some(function(clazz) {
+            return clazz.prototype.hasOwnProperty(prop);
+          });
+          if (!found) {
+            continue;
+          }
+        }
+
+        properties.push(prop);
+      }
+
+      return properties;
+    },
+
+    /**
+     * Safely stub property.
+     *
+     * @param object {Object} Object to stub.
+     * @param prop {String} Property to stub.
+     */
+    __stubProperty: function(object, prop) {
+      // Leave constructor and properties intact
+      if(prop === "constructor" || typeof object[prop] !== "function") {
+        return;
+      }
+
+      this.stub(object, prop);
     }
   }
 });
