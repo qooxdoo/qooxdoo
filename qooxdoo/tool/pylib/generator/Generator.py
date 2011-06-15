@@ -32,13 +32,11 @@ from generator.code.Class            import Class, CompileOptions
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.ClassList        import ClassList
 from generator.code.PartBuilder      import PartBuilder
-from generator.code.TreeCompiler     import TreeCompiler
 from generator.code.Script           import Script
 from generator.code.Package          import Package
 from generator.code.Part             import Part
 from generator.code.CodeGenerator    import CodeGenerator
 from generator.resource.Library      import Library
-#from generator.resource.ResourceHandler  import ResourceHandler
 from generator.resource.ImageClipping    import ImageClipping
 from generator.resource.Image        import Image
 from generator.action.ApiLoader      import ApiLoader
@@ -562,8 +560,6 @@ class Generator(object):
         if jobTriggers:
 
             # -- Process job triggers that require the full tool chain
-            # Create tool chain instances
-            self._treeCompiler   = TreeCompiler(self._classesObj, self._context)
 
             # Processing all combinations of variants
             environData = getVariants("environment")   # e.g. {'qx.debug':false, 'qx.aspects':[true,false]}
@@ -592,7 +588,7 @@ class Generator(object):
                 script.classesObj = [self._classesObj[id] for id in script.classes]
 
                 featureMap = self._depLoader.registerDependeeFeatures(script.classesObj, variantset, script.buildType)
-                self._treeCompiler._featureMap = featureMap
+                script._featureMap = featureMap
 
                 # prepare 'script' object
                 if set(("compile", "log")).intersection(jobTriggers):
