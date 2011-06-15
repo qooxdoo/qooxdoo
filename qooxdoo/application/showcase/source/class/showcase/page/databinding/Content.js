@@ -23,11 +23,11 @@ qx.Class.define("showcase.page.databinding.Content",
   extend : showcase.AbstractContent,
 
   /**
-   * @lint ignoreUndefined(twitterdemo)
+   * @lint ignoreUndefined(qxc)
    */
   construct : function(page) {
     this.base(arguments, page);
 
-    this.setView(new twitterdemo.Demo());
+    this.setView(new qxc.application.twitterdemo.Demo());
   }
 });

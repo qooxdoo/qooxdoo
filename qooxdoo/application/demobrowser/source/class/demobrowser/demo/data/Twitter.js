@@ -33,13 +33,13 @@ qx.Class.define("demobrowser.demo.data.Twitter",
   members :
   {
     /**
-     * @lint ignoreUndefined(twitterdemo)
+     * @lint ignoreUndefined(qxc)
      */
     main: function()
     {
       this.base(arguments);
 
-      this.getRoot().add(new twitterdemo.Demo());
+      this.getRoot().add(new qxc.application.twitterdemo.Demo());
     }
   }
 });
