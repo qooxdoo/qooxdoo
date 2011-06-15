@@ -36,10 +36,9 @@ from generator.config.Config import ConfigurationError
 
 class PartBuilder(object):
 
-    def __init__(self, console, depLoader, compiler):
+    def __init__(self, console, depLoader):
         self._console   = console
         self._depLoader = depLoader
-        self._compiler  = compiler
 
 
     ##

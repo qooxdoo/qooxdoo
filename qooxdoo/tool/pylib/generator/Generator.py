@@ -296,14 +296,14 @@ class Generator(object):
             # -----------------------------------------------------------
             classList  = script.classes
             variants   = script.variants
-            self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
+            self._partBuilder = PartBuilder(self._console, self._depLoader)
 
             # Check for package configuration
             if self._job.get("packages"):
                 (boot,
                 partPackages,           # partPackages[partId]=[0,1,3]
                 packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-                )              = evalPackagesConfig(excludeWithDeps, classList, variants)
+                )   = evalPackagesConfig(excludeWithDeps, classList, variants)
             else:
                 # Emulate configuration
                 boot           = "boot"
