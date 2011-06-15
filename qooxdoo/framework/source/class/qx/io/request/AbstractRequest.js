@@ -87,7 +87,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     /**
      * Fired when request completes with or without error.
      */
-    "loadend": "qx.event.type.Event",
+    "loadEnd": "qx.event.type.Event",
 
     /**
      * Fired when request is aborted.
@@ -596,10 +596,10 @@ qx.Class.define("qx.io.request.AbstractRequest",
     },
 
     /**
-     * Handle "loadend" event.
+     * Handle "loadEnd" event.
      */
     _onLoadEnd: function() {
-      this.fireEvent("loadend");
+      this.fireEvent("loadEnd");
     },
 
     /**

@@ -215,15 +215,15 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(load);
     },
 
-    "test: fire loadend": function() {
+    "test: fire loadEnd": function() {
       this.setUpFakeTransport();
       var req = this.req,
-          loadend = this.spy();
+          loadEnd = this.spy();
 
-      req.addListener("loadend", loadend);
+      req.addListener("loadEnd", loadEnd);
       this.respond();
 
-      this.assertCalledOnce(loadend);
+      this.assertCalledOnce(loadEnd);
     },
 
     "test: fire abort": function() {
