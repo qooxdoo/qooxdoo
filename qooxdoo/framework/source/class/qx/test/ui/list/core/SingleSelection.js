@@ -172,7 +172,7 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
 
       // check selection from manager
       var selection = this._list._manager.getSelection();
-      this.assertEquals(0, selection.length);
+      this.assertEquals(0, selection.length, "On Manager");
     },
 
     testApplySortingAfterSelection : function()
@@ -194,9 +194,9 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
         }
       });
       this.flush();
-      
+
       // check selection from list
-      this.assertEquals(1, this._list.getSelection().getLength(), "On List");
+      this.assertDataArrayEquals(new qx.data.Array([this._model.getItem(0)]), this._list.getSelection(), "On List");
 
       // check selection from manager
       var selection = this._list._manager.getSelection();

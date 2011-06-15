@@ -167,16 +167,28 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
 
       var selection = this.getSelection();
       var selectables = this._getSelectables();
-
-      this.__ignoreManagerChangeSelection = true;
-      for (var i = selection.getLength() - 1; i >= 0; i--)
+      var tmpSelection = [];
+      var isValidSelection = true;
+      
+      for (var i = 0; i < selection.getLength(); i++)
       {
-        if (!selectables.contains(selection.getItem(i))) {
-          selection.removeAt(i);
+        var item = selection.getItem(i);
+        var index = selectables.indexOf(item);
+        var row = this._reverseLookup(index);
+        
+        if (row >= 0) {
+          tmpSelection.push(item);
+        } else {
+          isValidSelection = false;
         }
       }
-      this.__ignoreManagerChangeSelection = false;
-      this._onChangeSelection();
+      
+      if (!isValidSelection) {
+        this.__replaceSelection(tmpSelection);
+      } else {
+        // Needed when only the order changed.
+        this._onChangeSelection();
+      }
     },
 
 
@@ -309,6 +321,12 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
         newSelection.push(this._getDataFromRow(managerSelection[i]));
       }
 
+      this.__replaceSelection(newSelection);
+    },
+    
+    
+    __replaceSelection : function(newSelection)
+    {
       var selection = this.getSelection();
       if (newSelection.length > 0)
       {
