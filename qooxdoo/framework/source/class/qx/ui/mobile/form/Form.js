@@ -68,7 +68,6 @@ qx.Class.define("qx.ui.mobile.form.Form",
     // override
     validate : function()
     {
-      this.base(arguments);
       var groups = this.getGroups();
       for (var i = 0; i < groups.length; i++)
       {
@@ -89,6 +88,7 @@ qx.Class.define("qx.ui.mobile.form.Form",
           }
         }
       }
+      return this.base(arguments);
     }
   }
 
