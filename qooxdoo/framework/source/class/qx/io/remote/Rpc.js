@@ -968,7 +968,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * @return {Boolean} Whether to convert.
      */
     _isConvertDates: function() {
-      return !!((qx.util.Json && qx.util.Json.CONVERT_DATES) || qx.io.remote.Rpc.CONVERT_DATES);
+      return !!((qx.util && qx.util.Json && qx.util.Json.CONVERT_DATES) || qx.io.remote.Rpc.CONVERT_DATES);
     },
 
 
