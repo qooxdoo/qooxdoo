@@ -165,30 +165,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
         return;
       }
 
-      var selection = this.getSelection();
-      var selectables = this._getSelectables();
-      var tmpSelection = [];
-      var isValidSelection = true;
-      
-      for (var i = 0; i < selection.getLength(); i++)
-      {
-        var item = selection.getItem(i);
-        var index = selectables.indexOf(item);
-        var row = this._reverseLookup(index);
-        
-        if (row >= 0) {
-          tmpSelection.push(item);
-        } else {
-          isValidSelection = false;
-        }
-      }
-      
-      if (!isValidSelection) {
-        this.__replaceSelection(tmpSelection);
-      } else {
-        // Needed when only the order changed.
-        this._onChangeSelection();
-      }
+      this._onChangeSelection();
     },
 
 

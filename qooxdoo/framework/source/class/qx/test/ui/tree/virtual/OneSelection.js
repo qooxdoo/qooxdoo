@@ -50,13 +50,21 @@ qx.Class.define("qx.test.ui.tree.virtual.OneSelection",
       this.assertEquals(1, selectionOnManager.length);
       this.assertEquals(this.tree.getLookupTable().indexOf(itemToSelect), selectionOnManager[0]);
 
-      this.tree.closeNode(parent);
-      
-      var selectionOnManager = this.tree._manager.getSelection();
-      this.assertEquals(1, selection.getLength(), "Selection not reset on Tree");
-      this.assertEquals(parent, selection.getItem(0), "Selection not reset on Tree");
-      this.assertEquals(1, selectionOnManager.length, "Selection not reset on manager");
-      this.assertEquals(this.tree.getLookupTable().indexOf(parent), selectionOnManager[0], "Selection not reset on manager");
+      var self = this;
+      this.assertEventFired(selection, "change",
+        function()
+        {
+          self.tree.closeNode(parent);
+        },
+        function(e)
+        {
+          var selectionOnManager = self.tree._manager.getSelection();
+          self.assertEquals(1, selection.getLength(), "Selection not reset on Tree");
+          self.assertEquals(parent, selection.getItem(0), "Selection not reset on Tree");
+          self.assertEquals(1, selectionOnManager.length, "Selection not reset on manager");
+          self.assertEquals(self.tree.getLookupTable().indexOf(parent), selectionOnManager[0], "Selection not reset on manager");
+        }
+      );
     },
 
     
@@ -80,13 +88,21 @@ qx.Class.define("qx.test.ui.tree.virtual.OneSelection",
       this.assertEquals(1, selectionOnManager.length);
       this.assertEquals(this.tree.getLookupTable().indexOf(itemToSelect), selectionOnManager[0]);
 
-      this.tree.closeNode(nodeToClose);
-      
-      var selectionOnManager = this.tree._manager.getSelection();
-      this.assertEquals(1, selection.getLength(), "Selection not reset on Tree");
-      this.assertEquals(nodeToClose, selection.getItem(0), "Selection not reset on Tree");
-      this.assertEquals(1, selectionOnManager.length, "Selection not reset on manager");
-      this.assertEquals(this.tree.getLookupTable().indexOf(nodeToClose), selectionOnManager[0], "Selection not reset on manager");
+      var self = this;
+      this.assertEventFired(selection, "change",
+        function()
+        {
+          self.tree.closeNode(nodeToClose);
+        },
+        function(e)
+        {
+          var selectionOnManager = self.tree._manager.getSelection();
+          self.assertEquals(1, selection.getLength(), "Selection not reset on Tree");
+          self.assertEquals(nodeToClose, selection.getItem(0), "Selection not reset on Tree");
+          self.assertEquals(1, selectionOnManager.length, "Selection not reset on manager");
+          self.assertEquals(self.tree.getLookupTable().indexOf(nodeToClose), selectionOnManager[0], "Selection not reset on manager");
+        }
+      );
     },
 
     testRemoveItem : function()
@@ -103,17 +119,25 @@ qx.Class.define("qx.test.ui.tree.virtual.OneSelection",
       this.assertEquals(1, selection.getLength(), "On Tree (setup)");
       this.assertEquals(itemToSelect, selection.getItem(0), "On Tree (setup)");
 
-      // remove selected item
-      parent.getChildren().removeAt(2);
-
-      // check selection from list
-      this.assertEquals(1, selection.getLength(), "On Tree");
-      this.assertEquals(parent, selection.getItem(0), "On Tree");
-
-      // check selection from manager
-      var selectionOnManager = this.tree._manager.getSelection();
-      this.assertEquals(1, selectionOnManager.length, "On Manager");
-      this.assertEquals(this.tree.getLookupTable().indexOf(parent), selectionOnManager[0], "On Manager");
+      var self = this;
+      this.assertEventFired(selection, "change",
+        function()
+        {
+          // remove selected item
+          parent.getChildren().removeAt(2);
+        },
+        function(e)
+        {
+          // check selection from list
+          self.assertEquals(1, selection.getLength(), "On Tree");
+          self.assertEquals(parent, selection.getItem(0), "On Tree");
+    
+          // check selection from manager
+          var selectionOnManager = self.tree._manager.getSelection();
+          self.assertEquals(1, selectionOnManager.length, "On Manager");
+          self.assertEquals(self.tree.getLookupTable().indexOf(parent), selectionOnManager[0], "On Manager");
+        }
+      );
     }
   }
 });
