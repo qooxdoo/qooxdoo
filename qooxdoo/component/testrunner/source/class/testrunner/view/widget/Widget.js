@@ -67,16 +67,19 @@ qx.Class.define("testrunner.view.widget.Widget", {
       });
     } catch(ex) {}
 
-    mainsplit.add(this.__createTestList(), 0);
+    var leftPane = this.__createTestList();
+    mainsplit.add(leftPane, 0);
 
     var outerPane = new qx.ui.splitpane.Pane("horizontal");
     outerPane.setDecorator(null);
 
     mainsplit.add(outerPane, 1);
 
-    outerPane.add(this.__createCenterPane(), 1);
+    var centerPane = this.__createCenterPane();
+    outerPane.add(centerPane, 1);
 
-    outerPane.add(this.__createAutPane(), 1);
+    var rightPane = this.__createAutPane();
+    outerPane.add(rightPane, 1);
 
     qx.ui.core.queue.Manager.flush();
 
@@ -84,6 +87,12 @@ qx.Class.define("testrunner.view.widget.Widget", {
     mainContainer.add(statuspane);
 
     this._makeCommands();
+    
+    this._applyPaneWidths(centerPane, rightPane);
+    
+    leftPane.addListener("resize", this.__onPaneResize);
+    centerPane.addListener("resize", this.__onPaneResize);
+    rightPane.addListener("resize", this.__onPaneResize);
   },
 
   statics :
@@ -501,7 +510,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
       }
 
       container.setUserData("pane", "left");
-      container.addListener("resize", this.__onPaneResize);
 
       var caption = new qx.ui.basic.Label(this.__app.tr("Tests")).set({
         font : "bold",
@@ -606,7 +614,8 @@ qx.Class.define("testrunner.view.widget.Widget", {
     __onPaneResize : function(e)
     {
       var pane = this.getUserData("pane");
-      qx.bom.Cookie.set("testrunner." + pane + "PaneWidth", e.getData().width, 365);
+      var width = e.getData().width;
+      qx.bom.Cookie.set("testrunner." + pane + "PaneWidth", width, 365);
     },
 
     /**
@@ -623,16 +632,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
         decorator : "main"
       });
 
-      var centerPaneWidth = qx.bom.Cookie.get("testrunner.centerPaneWidth");
-      if (centerPaneWidth !== null) {
-        p1.setWidth(parseInt(centerPaneWidth));
-      }
-      else {
-        p1.setWidth(400);
-      }
-
       p1.setUserData("pane", "center");
-      p1.addListener("resize", this.__onPaneResize);
 
       var inner = new qx.ui.container.Composite(new qx.ui.layout.Dock());
       p1.add(inner);
@@ -681,6 +681,8 @@ qx.Class.define("testrunner.view.widget.Widget", {
       pane2.add(this.__createIframeContainer(), 1);
       pane2.add(this.__createLogContainer(), 1);
 
+      pane2.setUserData("pane", "right");
+      
       return pane2;
     },
 
@@ -1144,6 +1146,24 @@ qx.Class.define("testrunner.view.widget.Widget", {
 
       var reloadAut = new qx.ui.core.Command("Ctrl+Shift+R");
       reloadAut.addListener("execute", this.__reloadAut, this);
+    },
+    
+    /**
+     * Applies the cookie width values to the center and right panes
+     * 
+     * @param centerPane {qx.ui.core.Widget} center pane
+     * @param rightPane {qx.ui.core.Widget} right pane
+     */    
+    _applyPaneWidths : function(centerPane, rightPane)
+    {
+      var centerPaneWidth = qx.bom.Cookie.get("testrunner.centerPaneWidth");
+      var rightPaneWidth = qx.bom.Cookie.get("testrunner.rightPaneWidth");
+      if (centerPaneWidth !== null && rightPaneWidth !== null) {
+        var centerWidth = parseInt(centerPaneWidth);
+        var rightWidth = parseInt(rightPaneWidth);
+        centerPane.setLayoutProperties({ flex : centerWidth });
+        rightPane.setLayoutProperties({ flex : rightWidth });
+      }
     }
   },
 
