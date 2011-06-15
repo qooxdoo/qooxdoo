@@ -149,7 +149,7 @@ class PartBuilder(object):
             else:
                 self._console.warn("! "+msg)
 
-        self._console.info("Verifying Parts")
+        self._console.info("Verifying parts  ", feed=False)
         self._console.indent()
         bomb_on_error = self._jobconf.get("packages/verifier-bombs-on-error", True)
         allpartsclasses = []
@@ -169,7 +169,8 @@ class PartBuilder(object):
         for part in partsMap.values():
             if part.is_ignored:  # skip ignored parts
                 continue
-            self._console.info("Part: %s" % part.name)
+            self._console.debug("Part: %s" % part.name)
+            self._console.dot()
             self._console.indent()
             # get set of current classes in this part
             classList = []
@@ -220,6 +221,7 @@ class PartBuilder(object):
         if missingclasses:
             handleError("These necessary classes are not covered by parts: %r" % list(missingclasses))
 
+        self._console.dotclear()
         self._console.outdent()
         return
     ##
@@ -261,7 +263,7 @@ class PartBuilder(object):
         self._console.indent()
 
         for part in parts.values():
-            self._console.info("part %s:  " % part.name, feed=False)
+            self._console.info("part %s  " % part.name, feed=False)
             # Exclude initial classes of other parts
             partExcludes = []
             for otherPartId in parts:
