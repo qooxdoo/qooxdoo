@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("log.LogView", {
+qx.Class.define("qxc.ui.logpane.LogView", {
   extend : qx.ui.container.Composite,
 
 

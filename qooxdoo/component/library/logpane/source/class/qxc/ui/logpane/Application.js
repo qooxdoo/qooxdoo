@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("log.Application",
+qx.Class.define("qxc.ui.logpane.Application",
 {
   extend : qx.application.Standalone,
 
@@ -27,7 +27,7 @@ qx.Class.define("log.Application",
     {
       this.base(arguments);
       
-      var view = new log.LogView();
+      var view = new qxc.ui.logpane.LogView();
       this.getRoot().add(view, {edge: 0});
       view.fetch();
 

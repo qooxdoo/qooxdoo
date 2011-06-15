@@ -727,12 +727,12 @@ qx.Class.define("testrunner.view.widget.Widget", {
     /**
      * Returns a container with the AUT log element
      *
-     * @lint ignoreUndefined(log)
+     * @lint ignoreUndefined(qxc)
      * @return {log.LogView} The log container
      */
     __createLogContainer : function()
     {
-      this.__logView = new log.LogView()
+      this.__logView = new qxc.ui.logpane.LogView()
       this.__logView.setShowLogLevel(true);
       this.__logView.bind("logLevel", this, "logLevel");
       return this.__logView;

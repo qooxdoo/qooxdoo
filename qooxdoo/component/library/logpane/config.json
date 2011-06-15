@@ -1,5 +1,5 @@
 {
-  "name"    : "log",
+  "name"    : "logpane",
 
   "include" :
   [
@@ -36,7 +36,7 @@
 
   "let" :
   {
-    "APPLICATION"  : "log",
+    "APPLICATION"  : "qxc.ui.logpane",
     "QOOXDOO_PATH" : "../../..",
     "QXTHEME"      : "qx.theme.Modern",
     "API_EXCLUDE"  : ["qx.test.*"],

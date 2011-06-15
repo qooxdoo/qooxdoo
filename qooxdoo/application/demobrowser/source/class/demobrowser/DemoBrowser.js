@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.DemoBrowser",
   */
 
   /**
-   * @lint ignoreUndefined(log)
+   * @lint ignoreUndefined(qxc)
    */
   construct : function()
   {
@@ -158,7 +158,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     var htmlView = this.__htmlView = this.__makeHtmlCodeView();
     var jsView = this.__jsView = this.__makeJsCodeView();
-    var logView = this.__logView = new log.LogView();
+    var logView = this.__logView = new qxc.ui.logpane.LogView();
 
     var stack = this.__stack = new qx.ui.container.Stack;
     stack.setDecorator("main");

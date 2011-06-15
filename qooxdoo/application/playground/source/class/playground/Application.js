@@ -94,7 +94,7 @@ qx.Class.define("playground.Application",
      * This method contains the initial application code and gets called
      * during startup of the application.
      * 
-     * @lint ignoreUndefined(log)
+     * @lint ignoreUndefined(qxc)
      */
     main : function()
     {
@@ -165,7 +165,7 @@ qx.Class.define("playground.Application",
         this.__editor.unblock();
       }, this);
 
-      this.__log = new log.LogView();
+      this.__log = new qxc.ui.logpane.LogView();
 
       infosplit.add(this.__log, 1);
       this.__log.exclude();

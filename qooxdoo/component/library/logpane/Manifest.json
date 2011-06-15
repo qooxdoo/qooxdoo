@@ -1,7 +1,7 @@
 {
   "info" : 
   {
-    "name" : "log",
+    "name" : "logpane",
 
     "summary" : "Common used log pannel.",
     "description" : "This is a view for the qooxdoo log.",
@@ -23,7 +23,7 @@
   
   "provides" : 
   {
-    "namespace"   : "log",
+    "namespace"   : "qxc.ui.logpane",
     "encoding"    : "utf-8",
     "class"       : "source/class",
     "resource"    : "source/resource",
