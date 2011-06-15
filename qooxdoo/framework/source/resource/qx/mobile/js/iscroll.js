@@ -650,14 +650,22 @@ function scrollbar (dir, wrapper, fade, shrink, color) {
   // Create main scrollbar
   that.bar = doc.createElement('div');
 
-  that.bar.style.cssText = 'position:absolute;top:0;left:0;-webkit-transition-timing-function:cubic-bezier(0,0,0.25,1);pointer-events:none;-webkit-transition-duration:0;-webkit-transition-delay:0;-webkit-transition-property:-webkit-transform;z-index:10;background:' + color + ';' +
+  var cssText = 'position:absolute;top:0;left:0;-webkit-transition-timing-function:cubic-bezier(0,0,0.25,1);pointer-events:none;-webkit-transition-duration:0;-webkit-transition-delay:0;-webkit-transition-property:-webkit-transform;z-index:10;' +
     '-webkit-transform:' + translateOpen + '0,0' + translateClose + ';' +
-    (dir == 'horizontal' ? '-webkit-border-radius:3px 2px;min-width:6px;min-height:5px' : '-webkit-border-radius:2px 3px;min-width:5px;min-height:6px');
+    (dir == 'horizontal' ? '-webkit-border-radius:3px 2px;min-width:6px;min-height:5px' : '-webkit-border-radius:2px 3px;min-width:5px;min-height:6px;');
 
+if('rgba(0,0,0,0.5)' == color) {
+    that.bar.className = 'scrollbar';
+  } else {
+    cssText += 'background-color: '+color+';';
+  }
+
+  that.bar.style.cssText = cssText;
+  
   // Create scrollbar wrapper
   that.wrapper = doc.createElement('div');
   that.wrapper.style.cssText = '-webkit-mask:-webkit-canvas(scrollbar' + that.uid + that.dir + ');position:absolute;z-index:10;pointer-events:none;overflow:hidden;opacity:0;-webkit-transition-duration:' + (fade ? '300ms' : '0') + ';-webkit-transition-delay:0;-webkit-transition-property:opacity;' +
-    (that.dir == 'horizontal' ? 'bottom:2px;left:2px;right:7px;height:5px' : 'top:2px;right:2px;bottom:7px;width:5px;');
+    (that.dir == 'horizontal' ? 'bottom:2px;left:2px;right:7px;height:5px' : 'top:2px;right:2px;bottom:7px;width:7px;');
 
   // Add scrollbar to the DOM
   that.wrapper.appendChild(that.bar);

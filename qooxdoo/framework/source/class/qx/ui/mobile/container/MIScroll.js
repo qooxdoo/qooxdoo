@@ -117,7 +117,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     __createScrollInstance : function()
     {
       var desktopCompatibility = qx.core.Environment.get("qx.mobile.emulatetouch");
-      var scroll = new iScroll(this.getContentElement(), {desktopCompatibility:desktopCompatibility});
+      var scroll = new iScroll(this.getContentElement(), {desktopCompatibility: desktopCompatibility});
       return scroll;
     },
 

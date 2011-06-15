@@ -356,22 +356,8 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
 /* SCROLLBAR */
 
 .scrollbar {
-    position: absolute;
-    z-index: 1;
-    width: 1px;
-    height: 1px;
-    border-width: 3px;
-    -webkit-border-image: url(../../icon/ios/scrollbar.png) 3;
-}
-
-.scrollbar.horizontal {
-    bottom: 1px;
-    left: 1px;
-}
-
-.scrollbar.vertical {
-    top: 1px;
-    right: 1px;
+    border: none;
+    background-color: #5b5b5b;
 }
 
 

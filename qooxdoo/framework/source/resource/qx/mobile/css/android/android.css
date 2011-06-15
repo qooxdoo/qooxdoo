@@ -326,22 +326,9 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
 /* SCROLLBAR */
 
 .scrollbar {
-    position: absolute;
-    z-index: 1;
-    width: 1px;
-    height: 1px;
-    border-width: 3px;
-    -webkit-border-image: url(../../icon/android/scrollbar.png) 3;
-}
-
-.scrollbar.horizontal {
-    bottom: 1px;
-    left: 1px;
-}
-
-.scrollbar.vertical {
-    top: 1px;
-    right: 1px;
+  border: 1px solid #000;
+  background-image: -webkit-gradient(linear, from(#b5b6b5), to(#949294));
+  background-image: -webkit-linear-gradient(left, #b5b6b5, #949294)
 }
 
 /* CHECKBOX */
