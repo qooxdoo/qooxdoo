@@ -129,16 +129,12 @@ class Scanner(IterObject):
         while cursor < lenData:
             if delimiter:
                 mo = self.stringEnd[delimiter].search(inData, pos=cursor)
-                #mo = self.stringEnd[delimiter].search(inData[cursor:])
             else:
                 mo = self.patt.match(inData, pos=cursor)
-                #mo = self.patt.match(inData[cursor:])
             if mo:
                 mo_lastgroup = mo.lastgroup
-                #mstart       = cursor
                 mstart       = mo.start()
                 mend         = mo.end()
-                #cursor       += mend
                 cursor       = mend # when using the 'pos' parameter, mo.start/end refer to the *entire* underlying string
                 delimiter = (yield (mo_lastgroup, mo.group(mo_lastgroup), mstart, mend))
             else:
