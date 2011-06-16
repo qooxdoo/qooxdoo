@@ -34,7 +34,7 @@ qx.Interface.define("qx.bom.request.IRequest",
     /**
      * {Object} Native transport.
      */
-    transport: {},
+    transport: null,
 
     /**
      * {Number} Ready state.
