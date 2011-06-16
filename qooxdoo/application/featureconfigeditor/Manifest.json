@@ -1,0 +1,34 @@
+{
+  "info" : 
+  {
+    "name" : "featureconfigeditor",
+
+    "summary" : "Feature Configuration Editor",
+    "description" : "Tool to help users create configurations for feature-based builds",
+    
+    "homepage" : "http://qooxdoo.org",
+
+    "license" : "LGPL/EPL",
+    "authors" : 
+    [
+      {
+        "name" : "Daniel Wagner (d_wagner)",
+        "email" : "daniel.wagner@1und1.de"
+      }
+    ],
+
+    "version" : "trunk",
+    "qooxdoo-versions": ["trunk"]
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "fce",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "application"
+  }
+}
+
