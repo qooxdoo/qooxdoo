@@ -36,6 +36,7 @@ qx.Class.define("fce.view.Table", {
     this.__columnIds = [];
     this._setUpDragDrop();
     
+    this.setDecorator("main");
     /*
     this.addListener("cellClick", function(ev) {
       var colIndex = ev.getColumn();
