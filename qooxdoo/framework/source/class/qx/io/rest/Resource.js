@@ -29,6 +29,11 @@ qx.Class.define("qx.io.rest.Resource",
     this.__routes = {};
   },
 
+  events:
+  {
+    "error": "qx.event.type.Rest"
+  },
+
   members:
   {
     __routes: null,
@@ -69,7 +74,8 @@ qx.Class.define("qx.io.rest.Resource",
           action + ") already exists. Choose another action name.");
       }
 
-      this.__declareEvent(action + "Success", "qx.event.type.Data");
+      this.__declareEvent(action + "Success");
+      this.__declareEvent(action + "Error");
 
       this[action] = qx.lang.Function.bind(function() {
         this._invoke(action);
@@ -91,14 +97,23 @@ qx.Class.define("qx.io.rest.Resource",
         this.__configureRequestCallback.call(this, req, action);
       }
 
+      // Set method and URL
       req.set({
         method: params[0],
         url: params[1]
       });
 
+      // Handle successful request
       req.addListener("success", function() {
-        var eventType = action + "Success";
-        this.fireDataEvent(eventType, req.getResponse());
+        var props = [req.getResponse(), null, false, req, action, req.getPhase()];
+        this.fireEvent(action + "Success", qx.event.type.Rest, props);
+      }, this);
+
+      // Handle erroneous request
+      req.addListener("fail", function() {
+        var props = [req.getResponse(), null, false, req, action, req.getPhase()];
+        this.fireEvent(action + "Error", qx.event.type.Rest, props);
+        this.fireEvent("error", qx.event.type.Rest, props);
       }, this);
 
       req.send();
@@ -112,16 +127,13 @@ qx.Class.define("qx.io.rest.Resource",
       return this.__routes[action];
     },
 
-    /**
-     * @param clazz {String}
-     */
-    __declareEvent: function(type, clazz) {
+    __declareEvent: function(type) {
       if (!this.constructor.$$events) {
         this.constructor.$$events = {};
       }
 
       if (!this.constructor.$$events[type]) {
-        this.constructor.$$events[type] = clazz;
+        this.constructor.$$events[type] = "qx.event.type.Rest";
       }
     }
   },

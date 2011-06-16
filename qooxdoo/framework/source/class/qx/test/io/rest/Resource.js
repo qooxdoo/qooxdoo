@@ -187,15 +187,46 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalled(req.send);
     },
 
-    "test: fire actionSuccess with response": function() {
+    "test: fire actionSuccess": function() {
       var res = this.res,
+          req = this.req,
           that = this;
 
-      res._invoke("index");
+      res.index();
       res.assertEventFired(res, "indexSuccess", function() {
         that.respond("Affe");
       }, function(e) {
         that.assertEquals("Affe", e.getData());
+        that.assertEquals("index", e.getAction());
+        that.assertIdentical(req, e.getRequest());
+      });
+    },
+
+    "test: fire actionError": function() {
+      var res = this.res,
+          req = this.req,
+          that = this;
+
+      res.index();
+      res.assertEventFired(res, "indexError", function() {
+        that.respondError("statusError");
+      }, function(e) {
+        that.assertEquals("statusError", e.getPhase());
+        that.assertIdentical(req, e.getRequest());
+      });
+    },
+
+    "test: fire error": function() {
+      var res = this.res,
+          req = this.req,
+          that = this;
+
+      res.index();
+      res.assertEventFired(res, "error", function() {
+        that.respondError("statusError");
+      }, function(e) {
+        that.assertEquals("statusError", e.getPhase());
+        that.assertIdentical(req, e.getRequest());
       });
     },
 
@@ -207,8 +238,16 @@ qx.Class.define("qx.test.io.rest.Resource",
     respond: function(response) {
       var req = this.req;
       response = response || "";
+      req.getPhase.returns("success");
       req.getResponse.returns(response);
       req.fireEvent("success");
+    },
+
+    respondError: function(phase) {
+      var req = this.req;
+      phase = phase || "statusError";
+      req.getPhase.returns(phase);
+      req.fireEvent("fail");
     }
 
   }
