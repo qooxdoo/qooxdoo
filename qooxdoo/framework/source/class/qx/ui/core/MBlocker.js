@@ -30,7 +30,7 @@
 qx.Mixin.define("qx.ui.core.MBlocker",
 {
   construct: function() {
-    this.__blocker = new qx.ui.core.Blocker(this);
+    this.__blocker = this._createBlocker();
   },
 
 
@@ -65,6 +65,16 @@ qx.Mixin.define("qx.ui.core.MBlocker",
   members :
   {
     __blocker : null,
+
+
+    /**
+     * Template method for creating the blocker item.
+     * @return {qx.ui.core.Blocker} The blocker to use.
+     */
+    _createBlocker : function() {
+      return new qx.ui.core.Blocker(this);
+    },
+
 
     // property apply
     _applyBlockerColor : function(value, old) {
