@@ -26,7 +26,7 @@
 qx.Class.define("qx.test.data.controller.Tree",
 {
   extend : qx.dev.unit.TestCase,
-
+  include : qx.dev.unit.MMock,
 
   construct : function() {
     this.base(arguments);
@@ -105,6 +105,9 @@ qx.Class.define("qx.test.data.controller.Tree",
 
     setUp : function()
     {
+      // prevent the icon laod error with this stub
+      this.stub(qx.io.ImageLoader, "load")
+      
       this.__tree = new qx.ui.tree.Tree();
 
       // create a model
@@ -154,6 +157,9 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.__controller = null;
       this.__model = null;
       this.__tree.dispose();
+      
+      // clear the stub
+      this.getSandbox().restore();
     },
 
 
