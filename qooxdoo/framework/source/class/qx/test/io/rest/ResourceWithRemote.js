@@ -22,7 +22,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
       var url = this.getUrl("qx/test/xmlhttp/sample.txt"),
           res = this.res;
 
-      res.route("GET", url, "index");
+      res.map("GET", url, "index");
       res.addListener("indexSuccess", function(e) {
         var response = e.getData();
         this.resume(function() {

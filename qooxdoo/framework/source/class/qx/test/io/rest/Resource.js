@@ -33,8 +33,14 @@ qx.Class.define("qx.test.io.rest.Resource",
   members:
   {
     setUp: function() {
-      this.res = new qx.io.rest.Resource();
       this.setUpDoubleRequest();
+      var res = this.res = new qx.io.rest.Resource();
+
+      // Default route
+      res.map("GET", "/photos", "index");
+
+      // Need to set up double request explicitly
+      qx.io.request.Xhr.restore();
     },
 
     setUpDoubleRequest : function() {
@@ -45,13 +51,73 @@ qx.Class.define("qx.test.io.rest.Resource",
       req = this.shallowStub(req, qx.io.request.AbstractRequest);
 
       // Inject double and return
-      this.stub(res, "_getRequest").returns(req);
+      this.injectStub(qx.io.request, "Xhr", req);
       return req;
     },
 
     tearDown: function() {
       this.res.dispose();
       this.getSandbox().restore();
+    },
+
+    //
+    // Configuration
+    //
+
+    "test: configure request": function() {
+      var res = this.res,
+          req = this.req,
+          msg,
+          callback;
+
+      callback = this.spy(qx.lang.Function.bind(function(req) {
+        this.assertIdentical(this.req, req, msg);
+      }, this));
+
+      msg = "Instantiation";
+      res.configureRequest(callback);
+
+      msg = "Map";
+      res.configureRequest(callback);
+
+      msg = "Invoke #1";
+      res.index();
+      res.configureRequest(callback);
+
+      // Setup new double and update request to assert identity of
+      req = this.setUpDoubleRequest();
+
+      msg = "Invoke #2";
+      res.index();
+      res.configureRequest(callback);
+
+      this.assertCalled(callback, "Must call configuration callback");
+    },
+
+    "test: configure request to accept": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.configureRequest(function(req) {
+        req.setAccept("application/json");
+      });
+
+      res.index();
+      this.assertCalledWith(req.setAccept, "application/json");
+    },
+
+    "test: configure request for individual action": function() {
+      var res = this.res,
+          req = this.req,
+          callback;
+
+      callback = this.spy(qx.lang.Function.bind(function(req, action) {
+        this.assertEquals("index", action);
+      }, this));
+      res.configureRequest(callback);
+
+      res.index();
+      this.assertCalled(callback, "Must call configuration callback");
     },
 
     //
@@ -62,7 +128,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           params;
 
-      res.route("GET", "/photos", "index");
       params = res._getRequestParams("index");
 
       this.assertEquals("GET", params[0]);
@@ -73,7 +138,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.route("GET", "/photos", "index");
       this.assertFunction(res.index);
     },
 
@@ -82,10 +146,10 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req;
 
       // For whatever reason
-      res.index = function() {};
+      res.current = function() {};
 
       this.assertException(function() {
-        res.route("GET", "/photos", "index");
+        res.map("GET", "/photos/current", "current");
       }, Error);
     },
 
@@ -93,7 +157,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.route("GET", "/photos", "index");
       this.assertEquals(res, res.index(), "Must return itself");
     },
 
@@ -101,12 +164,11 @@ qx.Class.define("qx.test.io.rest.Resource",
     // Invoke
     //
 
-    "test: invoke action": function() {
+    "test: invoke action generically": function() {
       var res = this.res,
           req = this.req,
           result;
 
-      res.route("GET", "/photos", "index");
       result = res._invoke("index");
 
       this.assertCalledWith(req.setMethod, "GET");
@@ -114,11 +176,10 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalled(req.send);
     },
 
-    "test: invoke dynamically created action": function() {
+    "test: invoke action": function() {
       var res = this.res,
           req = this.req;
 
-      res.route("GET", "/photos", "index");
       res.index();
 
       this.assertCalledWith(req.setMethod, "GET");
@@ -130,7 +191,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           that = this;
 
-      res.route("GET", "/photos", "index");
       res._invoke("index");
       res.assertEventFired(res, "indexSuccess", function() {
         that.respond("Affe");

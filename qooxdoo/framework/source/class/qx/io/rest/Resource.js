@@ -24,16 +24,25 @@ qx.Class.define("qx.io.rest.Resource",
   construct: function()
   {
     this.base(arguments);
+
+    this.__createRequest();
+    this.__routes = {};
   },
 
   members:
   {
-    __routes: {},
+    __routes: null,
     __request: null,
+    __invoked: null,
+    __configureRequestCallback: null,
 
     //
-    // Request handling
+    // Request
     //
+
+    configureRequest: function(callback) {
+      this.__configureRequestCallback = callback;
+    },
 
     _getRequest: function() {
       return new qx.io.request.Xhr();
@@ -52,13 +61,15 @@ qx.Class.define("qx.io.rest.Resource",
     // Routes and actions
     //
 
-    route: function(method, url, action) {
+    map: function(method, url, action) {
       this.__routes[action] = [method, url];
 
       if (typeof this[action] !== "undefined") {
         throw new Error("Method with name of action (" +
           action + ") already exists. Choose another action name.");
       }
+
+      this.__declareEvent(action + "Success", "qx.event.type.Data");
 
       this[action] = qx.lang.Function.bind(function() {
         this._invoke(action);
@@ -67,8 +78,18 @@ qx.Class.define("qx.io.rest.Resource",
     },
 
     _invoke: function(action) {
-      var req = this.__createRequest(),
+      var req = this.__request,
           params = this._getRequestParams(action);
+
+      // Create new request when invoked before
+      if (this.__invoked) {
+        req = this.__createRequest();
+      }
+
+      // Configure request
+      if (this.__configureRequestCallback) {
+        this.__configureRequestCallback.call(this, req, action);
+      }
 
       req.set({
         method: params[0],
@@ -76,10 +97,12 @@ qx.Class.define("qx.io.rest.Resource",
       });
 
       req.addListener("success", function() {
-        this.fireDataEvent(action + "Success", req.getResponse());
+        var eventType = action + "Success";
+        this.fireDataEvent(eventType, req.getResponse());
       }, this);
 
       req.send();
+      this.__invoked = true;
     },
 
     /**
@@ -87,6 +110,19 @@ qx.Class.define("qx.io.rest.Resource",
      */
     _getRequestParams: function(action) {
       return this.__routes[action];
+    },
+
+    /**
+     * @param clazz {String}
+     */
+    __declareEvent: function(type, clazz) {
+      if (!this.constructor.$$events) {
+        this.constructor.$$events = {};
+      }
+
+      if (!this.constructor.$$events[type]) {
+        this.constructor.$$events[type] = clazz;
+      }
     }
   },
 
