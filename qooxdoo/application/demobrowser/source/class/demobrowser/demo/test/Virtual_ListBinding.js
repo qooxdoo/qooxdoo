@@ -18,6 +18,11 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#ignore(demobrowser.demo.virtual.messenger.BuddyCell)
+#ignore(demobrowser.demo.virtual.messenger.BuddyModel)
+************************************************************************ */
+
 /**
  * @tag noPlayground
  * @tag test
