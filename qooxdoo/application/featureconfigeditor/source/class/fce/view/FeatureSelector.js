@@ -19,15 +19,15 @@
 
 /* ************************************************************************
 #asset(qx/icon/Tango/16/actions/edit-find.png)
+#asset(qx/icon/Tango/16/actions/window-new.png)
 #asset(qx/icon/Tango/16/actions/go-next.png)
 #asset(qx/icon/Tango/16/actions/go-previous.png)
 ************************************************************************ */
 
 /**
- * Visualizes the environment features determined by {@fce.Environment}
- * in a table. Individual features can be added to a list where their values can
- * be altered. The selected features are displayed in JSON-serialized form so
- * they can be copied into an application config file.
+ * Visualizes one or more feature sets. Individual features can be added to a 
+ * list where their values can be edited. The selected features are displayed in
+ * JSON-serialized form so they can be copied into an application config file.
  */
 qx.Class.define("fce.view.FeatureSelector", {
 
@@ -46,16 +46,18 @@ qx.Class.define("fce.view.FeatureSelector", {
   properties :
   {
     /**
-     * Map containing the data to be visualized 
+     * Map of feature sets
      */
-    data :
+    featureData :
     {
-      apply : "_applyData"
+      init : {},
+      nullable : true,
+      apply : "_applyFeatureData"
     },
     
     /**
-     * Data model representing the environment map. Automatically created from
-     * {@link #data} 
+     * Data model representing the feature sets. Automatically created from
+     * {@link #featureData} 
      */
     model :
     {
@@ -75,6 +77,7 @@ qx.Class.define("fce.view.FeatureSelector", {
   members :
   {
     __filterTextField : null,
+    __importWindow : null,
     
     _createChildControlImpl : function(id, hash)
     {
@@ -107,9 +110,18 @@ qx.Class.define("fce.view.FeatureSelector", {
     _createTableContainer : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+      var inner = new qx.ui.container.Composite(new qx.ui.layout.Dock());
+      container.add(inner);
       var label = new qx.ui.basic.Label("Available Features");
       label.setFont("bigger");
-      container.add(label);
+      inner.add(label, {edge : "west"});
+      label.setAlignY("bottom");
+      var importButton = new qx.ui.form.Button("Import Feature Map", "icon/16/actions/window-new.png");
+      importButton.addListener("execute", function(ev) {
+        this._getImportWindow().open();
+      }, this);
+      inner.add(importButton, {edge : "east"});
+      
       var table = this.getChildControl("table");
       
       container.add(table, {flex: 1});
@@ -188,12 +200,101 @@ qx.Class.define("fce.view.FeatureSelector", {
     },
     
     
-    //property apply
-    _applyData : function(value, old)
+    /**
+     * Creates an Import Window (if necessary) and returns it
+     * 
+     * @return {fce.view.ImportWindow} import window
+     */
+    _getImportWindow : function()
     {
-      //this.setModel(this._createModel(value));
-      var model = qx.data.marshal.Json.createModel(value, true);
-      this.setModel(model);
+      if (!this.__importWindow) {
+        this.__importWindow = new fce.view.ImportWindow();
+        this.__importWindow.addListener("changeFeatureMap", function (ev) {
+          var data = ev.getData();
+          this.addFeatureSet(data);
+        }, this);
+      }
+      return this.__importWindow;
+    },
+    
+    
+    /**
+     * Returns a list of maps. Each map represents one feature and holds all 
+     * known values
+     * 
+     * @param dataMap {Map} Map of feature data sets
+     * @return {Array} Array of feature maps
+     */
+    _getData : function(dataMap)
+    {
+      var data = [];
+      var uniqueKeys = [];
+      var setIds = [];
+      for (var setId in dataMap) {
+        setIds.push(setId);
+        var map = dataMap[setId];
+        for (var key in map) {
+          if (!qx.lang.Array.contains(uniqueKeys, key)) {
+            uniqueKeys.push(key);
+          }
+        }
+      }
+      
+      uniqueKeys.sort();
+      
+      for (var i=0, l=uniqueKeys.length; i<l;  i++) {
+        var keyName = uniqueKeys[i];
+        var item = {
+          name : keyName,
+          distinctValues : 1
+        }
+
+        var initialValue;
+        
+        for (var setId in dataMap) {
+          var setData = dataMap[setId];
+          if (setData[keyName] !== undefined) {
+            item[setId] = setData[keyName];
+            if (initialValue === undefined) {
+              initialValue = setData[keyName];
+            }
+            else if (initialValue !== setData[keyName]) {
+              item.distinctValues++;
+            }
+          }
+        }
+        
+        data.push(item);
+        initialValue = undefined;
+      }
+      return data;
+    },
+    
+    
+    /**
+     * Adds a new set to
+     * 
+     * @param {qx.event.type.Data} {@link fce.view.ImportWindow#featureMap} change 
+     * event
+     */
+    addFeatureSet : function(newData) {
+      var data = this.getFeatureData();
+      for (var setName in newData) {
+        data[setName] = newData[setName];
+      }
+      this.setFeatureData(null);
+      this.setFeatureData(data);
+    },
+    
+    
+    // property apply
+    _applyFeatureData : function(value, old)
+    {
+      if (value) {
+        var data = this._getData(value);
+        var model = qx.data.marshal.Json.createModel(data, true);
+        this.setModel(model);
+      }
     },
     
     
@@ -292,6 +393,6 @@ qx.Class.define("fce.view.FeatureSelector", {
   {
     this.getChildControl("list").getSelectedItems().removeListener("change", 
       this.__onSelectionChange, this);
-    this._disposeObjects("__filterTextField");
+    this._disposeObjects("__filterTextField", "__importWindow");
   }
 });

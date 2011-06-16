@@ -24,19 +24,6 @@ qx.Class.define("fce.Application",
 {
   extend : qx.application.Standalone,
 
-  properties :
-  {
-    /**
-     * Map of browser environment data sets
-     */
-    environmentData :
-    {
-      init : {},
-      nullable : true,
-      apply : "_applyEnvironmentData"
-    }
-  },
-
   /*
   *****************************************************************************
      MEMBERS
@@ -86,75 +73,13 @@ qx.Class.define("fce.Application",
           this.__reporter.sendReport(ev.getData());
         }
         
-        var envData = this.getEnvironmentData();
-        envData["detected"] = ev.getData();
-        this.setEnvironmentData(envData);
+        var envData = {
+          detected : ev.getData()
+        };
+        this.__featureSelector.setFeatureData(envData);
       }, this);
       env.check();
       
-    },
-    
-    
-    // property apply
-    _applyEnvironmentData : function(value, old)
-    {
-      if (value) {
-        var data = this._getData(value);
-        this.__featureSelector.setData(data);
-      }
-    },
-    
-    
-    /**
-     * Returns a list of maps. Each map represents one environment feature and
-     * holds all known values
-     * 
-     * @param dataMap {Map} Map of browser environment data sets
-     * @return {Array} Array of feature maps
-     */
-    _getData : function(dataMap)
-    {
-      var data = [];
-      var uniqueKeys = [];
-      var setIds = [];
-      for (var setId in dataMap) {
-        setIds.push(setId);
-        var map = dataMap[setId];
-        for (var key in map) {
-          if (!qx.lang.Array.contains(uniqueKeys, key)) {
-            uniqueKeys.push(key);
-          }
-        }
-      }
-      
-      uniqueKeys.sort();
-      
-      for (var i=0, l=uniqueKeys.length; i<l;  i++) {
-        var keyName = uniqueKeys[i];
-        var item = {
-          name : keyName,
-          distinctValues : 1
-        }
-
-        var initialValue;
-        
-        for (var setId in dataMap) {
-          var setData = dataMap[setId];
-          if (setData[keyName] !== undefined) {
-            item[setId] = setData[keyName];
-            if (initialValue === undefined) {
-              initialValue = setData[keyName];
-            }
-            else if (initialValue !== setData[keyName]) {
-              item.distinctValues++;
-            }
-          }
-        }
-        
-        data.push(item);
-        initialValue = undefined;
-      }
-      return data;
     },
     
     
