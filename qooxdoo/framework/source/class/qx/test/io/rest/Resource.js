@@ -193,7 +193,7 @@ qx.Class.define("qx.test.io.rest.Resource",
           that = this;
 
       res.index();
-      res.assertEventFired(res, "indexSuccess", function() {
+      this.assertEventFired(res, "indexSuccess", function() {
         that.respond("Affe");
       }, function(e) {
         that.assertEquals("Affe", e.getData());
@@ -208,7 +208,7 @@ qx.Class.define("qx.test.io.rest.Resource",
           that = this;
 
       res.index();
-      res.assertEventFired(res, "indexError", function() {
+      this.assertEventFired(res, "indexError", function() {
         that.respondError("statusError");
       }, function(e) {
         that.assertEquals("statusError", e.getPhase());
@@ -222,7 +222,7 @@ qx.Class.define("qx.test.io.rest.Resource",
           that = this;
 
       res.index();
-      res.assertEventFired(res, "error", function() {
+      this.assertEventFired(res, "error", function() {
         that.respondError("statusError");
       }, function(e) {
         that.assertEquals("statusError", e.getPhase());
