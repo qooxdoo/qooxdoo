@@ -94,7 +94,11 @@ qx.Bootstrap.define("qx.Interface",
       if (config)
       {
         // Normalize include
-        if (config.extend && !(qx.Bootstrap.getClass(config.extend) === "Array")) {
+        if (
+          config.extend && 
+          !(config.extend instanceof Array ||
+          qx.Bootstrap.getClass(config.extend) === "Array")
+        ) {
           config.extend = [config.extend];
         }
 
@@ -513,12 +517,9 @@ qx.Bootstrap.define("qx.Interface",
             var key = maps[i];
 
             if (config[key] !== undefined && 
-                ([
-                   "Array", 
-                   "RegExp", 
-                   "Date"
-                 ].indexOf(qx.Bootstrap.getClass(config[key])) != -1 ||
-                 config[key].classname !== undefined)) {
+              (["Array", "RegExp", "Date"].indexOf(qx.Bootstrap.getClass(config[key])) != -1 ||
+              config[key].classname !== undefined)
+            ) {
               throw new Error('Invalid key "' + key + '" in interface "' + name + '"! The value needs to be a map!');
             }
           }

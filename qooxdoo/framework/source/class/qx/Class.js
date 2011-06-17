@@ -153,12 +153,12 @@ qx.Bootstrap.define("qx.Class",
       }
 
       // Normalize include to array
-      if (config.include && !(qx.Bootstrap.getClass(config.include) === "Array")) {
+      if (config.include && !(config.include instanceof Array || qx.Bootstrap.getClass(config.include) === "Array")) {
         config.include = [config.include];
       }
 
       // Normalize implement to array
-      if (config.implement && !(qx.Bootstrap.getClass(config.implement) === "Array")) {
+      if (config.implement && !(config.implement instanceof Array || qx.Bootstrap.getClass(config.implement) === "Array")) {
         config.implement = [config.implement];
       }
 
@@ -796,7 +796,7 @@ qx.Bootstrap.define("qx.Class",
         // Validate include definition
         if (config.include)
         {
-          if (qx.Bootstrap.getClass(config.include) === "Array")
+          if (config.include instanceof Array || qx.Bootstrap.getClass(config.include) === "Array")
           {
             for (var i=0, a=config.include, l=a.length; i<l; i++)
             {
@@ -814,7 +814,7 @@ qx.Bootstrap.define("qx.Class",
         // Validate implement definition
         if (config.implement)
         {
-          if (qx.Bootstrap.getClass(config.implement) === "Array")
+          if (config.implement instanceof Array || qx.Bootstrap.getClass(config.implement) === "Array")
           {
             for (var i=0, a=config.implement, l=a.length; i<l; i++)
             {
