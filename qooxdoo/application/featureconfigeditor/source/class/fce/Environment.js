@@ -67,11 +67,10 @@ qx.Class.define("fce.Environment", {
         qx.core.Environment.getAsync(key, function(result) {
           features[key] = result;
           numberOfChecks--;
-          if (numberOfChecks === 0) {
-            this.setFeatures(features);
-          }
         }, this);
       }
+      
+      this.setFeatures(features);
     }
   }
 });
