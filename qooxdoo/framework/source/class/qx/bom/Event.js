@@ -87,6 +87,12 @@ qx.Class.define("qx.bom.Event",
         target.addEventListener(type, listener, !!useCapture);
       } else if (target.attachEvent) {
         target.attachEvent("on" + type, listener);
+      } else if (typeof target["on" + type] != "undefined") {
+        target["on" + type] = listener;
+      } else {
+        if (qx.core.Environment.get("qx.debug")) {
+          this.warn("No method available to add native listener to " + target);
+        }
       }
     },
 
@@ -119,6 +125,16 @@ qx.Class.define("qx.bom.Event",
           if(e.number !== -2146828218) {
             throw e;
           };
+        }
+      }
+      else if (typeof target["on" + type] != "undefined")
+      {
+        target["on" + type] = null;
+      } 
+      else
+      {
+        if (qx.core.Environment.get("qx.debug")) {
+          this.warn("No method available to remove native listener from " + target);
         }
       }
     },
