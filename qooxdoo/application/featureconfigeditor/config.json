@@ -13,6 +13,7 @@
     "api",
     "api-data",
     "build",
+    "build-lowlevel",
     "clean",
     "distclean",
     "fix",
@@ -25,6 +26,7 @@
     "source",
     "source-all",
     "source-hybrid",
+    "source-lowlevel",
     "simulation-build",
     "simulation-run",
     "test",
@@ -43,5 +45,107 @@
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."
+  },
+  
+  "jobs" :
+  {
+    
+    "build-script" :
+    {
+      "compile-options" :
+      {
+        "code" :
+        {
+          "=optimize" : ["basecalls", "variables", "privates", "strings", "comments"]
+        }
+      }
+    },
+  
+    "source-lowlevel" :
+    {
+      "let" :
+      {
+        "APPLICATION_MAIN_CLASS" : "${APPLICATION}.ApplicationLowLevel"
+      },
+    
+      "run" : ["source-lowlevel-script"]      
+    },
+    
+    "source-lowlevel-script" :
+    {
+      "extend" : ["source-script"],
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${ROOT}/source/script/${APPLICATION}-lowlevel.js"
+        }
+      },
+      
+      "exclude" :
+      [
+        "${APPLICATION}.theme.*",
+        "${APPLICATION}.test.*",
+        "${APPLICATION}.simulation.*"
+      ]
+    },
+    
+    "build-lowlevel" :
+    {
+      "let" :
+      {
+        "APPLICATION_MAIN_CLASS" : "${APPLICATION}.ApplicationLowLevel"
+      },
+      
+      "run" :
+      [
+        "build-resources",
+        "build-lowlevel-script",
+        "build-files"
+      ]
+    },
+    
+    "build-lowlevel-script" :
+    {
+    
+      "extend" : ["build-script"],
+
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/script/${APPLICATION}-lowlevel.js"
+        },
+        
+        "code"   :
+        {
+          "=optimize" : ["basecalls", "variables", "privates", "strings", "comments"]
+        }
+      },
+      
+      "exclude" :
+      [
+        "${APPLICATION}.theme.*",
+        "${APPLICATION}.test.*",
+        "${APPLICATION}.simulation.*"
+      ]
+    },
+    
+    "build-files" :
+    {
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index.html",
+          "index-gui.html",
+          "index-lowlevel.html"
+        ],
+
+        "source" : "${ROOT}/source",
+        "target" : "${BUILD_PATH}"
+      }
+    }
   }
 }
