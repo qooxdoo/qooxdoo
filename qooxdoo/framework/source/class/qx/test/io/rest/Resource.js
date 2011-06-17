@@ -124,7 +124,7 @@ qx.Class.define("qx.test.io.rest.Resource",
     // Route
     //
 
-    "test: route action": function() {
+    "test: map action": function() {
       var res = this.res,
           params;
 
@@ -134,14 +134,14 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertEquals("/photos", params[1]);
     },
 
-    "test: route action dynamically creates action": function() {
+    "test: mapping action creates method": function() {
       var res = this.res,
           req = this.req;
 
       this.assertFunction(res.index);
     },
 
-    "test: route action throws when existing action": function() {
+    "test: mapping action throws when existing method": function() {
       var res = this.res,
           req = this.req;
 
@@ -153,7 +153,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       }, Error);
     },
 
-    "test: dynamically created action is chainable": function() {
+    "test: dynamically created method is chainable": function() {
       var res = this.res,
           req = this.req;
 
@@ -243,6 +243,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       req.fireEvent("success");
     },
 
+    // Fake erroneous response
     respondError: function(phase) {
       var req = this.req;
       phase = phase || "statusError";
