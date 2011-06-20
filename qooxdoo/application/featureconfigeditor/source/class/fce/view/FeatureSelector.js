@@ -75,10 +75,34 @@ qx.Class.define("fce.view.FeatureSelector", {
     }
   },
   
+  statics :
+  {
+    /**
+     * Converts a string into a valid JavaScript identifier (lossy).
+     * 
+     * @param id {String} The identifier to sanitize
+     * @return {String} The sanitized identifier
+     */
+    sanitizeId : function(id)
+    {
+      if (/^[$A-Za-z_][0-9A-Za-z_]*$/.test(id)) {
+        return id;
+      }
+      
+      id = id.replace(/[^0-9a-z_]/gi, "");
+      
+      if (id.length == 0) {
+        id = "_" + new Date().getTime();
+      }
+      return id;
+    }
+  },
+  
   members :
   {
     __filterTextField : null,
     __importWindow : null,
+    
     
     _createChildControlImpl : function(id, hash)
     {
@@ -283,7 +307,8 @@ qx.Class.define("fce.view.FeatureSelector", {
     addFeatureSet : function(newData) {
       var data = this.getFeatureData();
       for (var setName in newData) {
-        data[setName] = newData[setName];
+        var cleanName = fce.view.FeatureSelector.sanitizeId(setName);
+        data[cleanName] = newData[setName];
       }
       this.setFeatureData(null);
       this.setFeatureData(data);
