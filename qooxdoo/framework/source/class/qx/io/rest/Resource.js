@@ -28,6 +28,7 @@ qx.Class.define("qx.io.rest.Resource",
     this.__createRequest();
     this.__routes = {};
     this.__pollTimers = {};
+    this.__invoked = {};
   },
 
   events:
@@ -94,7 +95,7 @@ qx.Class.define("qx.io.rest.Resource",
       this.__routes[action].params = params;
 
       // Create new request when invoked before
-      if (this.__invoked) {
+      if (this.__invoked && this.__invoked[action]) {
         req = this.__createRequest();
       }
 
@@ -123,7 +124,7 @@ qx.Class.define("qx.io.rest.Resource",
       }, this);
 
       req.send();
-      this.__invoked = true;
+      this.__invoked[action] = true;
     },
 
     refresh: function(action) {
@@ -158,9 +159,6 @@ qx.Class.define("qx.io.rest.Resource",
       }
     },
 
-    /**
-     * @internal
-     */
     _getRequestParams: function(action, params) {
       var route = this.__routes[action],
           method = route[0],
@@ -195,7 +193,7 @@ qx.Class.define("qx.io.rest.Resource",
       }
 
       // With g flag set, searching begins at the regex object's
-      // lastIndex, which is zero initially.
+      // lastIndex, which is zero initially and increments with each match.
       while ((match = placeholderRe.exec(url))) {
         placeholders.push(match[1]);
       }
@@ -227,10 +225,8 @@ qx.Class.define("qx.io.rest.Resource",
       }
     }
 
-    if (this.__request) {
-       this.__request.dispose();
-    }
+    this.__routes = this.__pollTimers = this.__invoked = null;
 
-    this.__routes = this.__pollTimers = null;
+    this._disposeObjects(this.__request);
   }
 });
