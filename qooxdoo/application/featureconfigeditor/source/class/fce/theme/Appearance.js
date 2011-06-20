@@ -25,6 +25,28 @@ qx.Theme.define("fce.theme.Appearance",
           padding : [0, 35, 0, 0]
         };
       }
+    },
+    
+    "featureselector" :
+    {
+    },
+    
+    "featureselector/list" :
+    {
+      alias : "list",
+      include : "list"
+    },
+    
+    "featureselector/table" :
+    {
+      alias : "table",
+      include : "table"
+    },
+    
+    "featureselector/textarea" :
+    {
+      alias : "textarea",
+      include : "textarea"
     }
   }
 });

@@ -36,7 +36,8 @@ qx.Class.define("fce.view.FeatureSelector", {
   construct : function()
   {
     var layout = new qx.ui.layout.HBox(20);
-    this.base(arguments, layout);  
+    this.base(arguments, layout);
+    this.setAppearance("featureselector");
     
     this.add(this._createTableContainer(), {flex: 0});
     this.add(this._createButtonContainer(), {flex: 0});
