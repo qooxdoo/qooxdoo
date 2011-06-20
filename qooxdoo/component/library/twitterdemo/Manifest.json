@@ -23,7 +23,7 @@
   
   "provides" : 
   {
-    "namespace"   : "twitterdemo",
+    "namespace"   : "qxc.application.twitterdemo",
     "encoding"    : "utf-8",
     "class"       : "source/class",
     "resource"    : "source/resource",
