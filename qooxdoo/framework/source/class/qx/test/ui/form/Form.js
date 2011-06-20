@@ -91,6 +91,8 @@ qx.Class.define("qx.test.ui.form.Form",
         window.setTimeout(function() {
           self.resume(function() {
             this.__testInvalidBorder(widget);
+
+            widget.destroy();
           }, self);
         }, 100);
         this.wait();
