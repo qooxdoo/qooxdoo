@@ -6,7 +6,7 @@
   <script type="text/javascript">
     var lowlevel = "";
     var ua = navigator.userAgent.toLowerCase();
-    if (/(mobile\s*safari|android)/i.exec(navigator.userAgent)) {
+    if (/(mobile.*?safari|android)/i.exec(ua)) {
       lowlevel = "-lowlevel";
     }
     document.write('<script type="text/javascript" src="script/fce' + lowlevel + '.js"><\/script>');
