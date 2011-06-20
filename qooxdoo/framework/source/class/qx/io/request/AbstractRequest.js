@@ -701,10 +701,10 @@ qx.Class.define("qx.io.request.AbstractRequest",
     __setUserRequestHeaders: function() {
       var requestHeaders = this.getRequestHeaders();
 
-      for (var key in requestHeaders) {
-        if (requestHeaders.hasOwnProperty(key)) {
+      if (requestHeaders) {
+        qx.lang.Object.getKeys(requestHeaders).forEach(function(key) {
           this._transport.setRequestHeader(key, requestHeaders[key]);
-        }
+        }, this);
       }
     },
 

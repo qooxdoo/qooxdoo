@@ -213,16 +213,12 @@ qx.Class.define("qx.io.rest.Resource",
   },
 
   destruct: function() {
-    var timer;
-
     if (this.__pollTimers) {
-      for (var action in this.__pollTimers) {
-        if (this.__pollTimers.hasOwnProperty(action)) {
-          timer = this.__pollTimers[action];
-          timer.stop();
-          timer.dispose();
-        }
-      }
+      qx.lang.Object.getKeys(this.__pollTimers).forEach(function(key) {
+        var timer = this.__pollTimers[key];
+        timer.stop();
+        timer.dispose();
+      }, this);
     }
 
     this.__routes = this.__pollTimers = this.__invoked = null;
