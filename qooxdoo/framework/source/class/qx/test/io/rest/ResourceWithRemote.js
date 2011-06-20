@@ -42,9 +42,11 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
     "test: invoke action and handle response shorthand": function() {
       // Handles GET
       var url = this.getUrl("qx/test/xmlhttp/sample.txt"),
-          res = this.res;
+          res;
 
-      res.map("GET", url, "index");
+      res = this.res = new qx.io.rest.Resource(
+        [{method: "GET", url: url, action: "index"}]);
+
       res.index().addListener("indexSuccess", function(e) {
         this.resume(function() {
           this.assertEquals("SAMPLE", e.getData());

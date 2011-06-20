@@ -21,7 +21,7 @@ qx.Class.define("qx.io.rest.Resource",
 {
   extend : qx.core.Object,
 
-  construct: function()
+  construct: function(description)
   {
     this.base(arguments);
 
@@ -29,6 +29,11 @@ qx.Class.define("qx.io.rest.Resource",
     this.__routes = {};
     this.__pollTimers = {};
     this.__invoked = {};
+
+    if (typeof description !== "undefined") {
+      qx.core.Assert.assertArray(description);
+      this.__mapFromDescription(description);
+    }
   },
 
   events:
@@ -160,8 +165,13 @@ qx.Class.define("qx.io.rest.Resource",
     },
 
     _getRequestParams: function(action, params) {
-      var route = this.__routes[action],
-          method = route[0],
+      var route = this.__routes[action];
+
+      if (!qx.lang.Type.isArray(route)) {
+        throw new Error("No route for action " + action);
+      }
+
+      var method = route[0],
           url = route[1],
           placeholders = this.__placeholdersFromUrl(url);
 
@@ -199,6 +209,20 @@ qx.Class.define("qx.io.rest.Resource",
       }
 
       return placeholders;
+    },
+
+    __mapFromDescription: function(description) {
+      description.forEach(function(route, index) {
+        var method = route["method"],
+            url = route["url"],
+            action = route["action"];
+
+        qx.core.Assert.assertString(method, "Method must be string for route #" + index);
+        qx.core.Assert.assertString(url, "Url must be string for route #" + index);
+        qx.core.Assert.assertString(action, "Action must be string for route #" + index);
+
+        this.map(route["method"], route["url"], route["action"]);
+      }, this);
     },
 
     __declareEvent: function(type) {

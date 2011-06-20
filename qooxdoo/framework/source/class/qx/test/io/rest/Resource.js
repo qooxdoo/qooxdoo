@@ -161,6 +161,54 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertEquals(res, res.index(), "Must return itself");
     },
 
+    "test: map actions from description": function() {
+      var req = this.req,
+          description,
+          res,
+          params;
+
+      description = [
+        {
+          method: "GET",
+          url: "/photos",
+          action: "index"
+        },
+        {
+          method: "POST",
+          url: "/photos",
+          action: "create"
+        }
+      ];
+
+      res = this.res = new qx.io.rest.Resource(description);
+
+      params = res._getRequestParams("index");
+      this.assertArrayEquals(["GET", "/photos"], params);
+
+      params = res._getRequestParams("create");
+      this.assertArrayEquals(["POST", "/photos"], params);
+    },
+
+    "test: map action from description throws with non-array": function() {
+      var that = this;
+
+      this.assertException(function() {
+        this.res = new qx.io.rest.Resource({});
+      });
+    },
+
+    "test: map action from description throws with incomplete route": function() {
+      var that = this;
+
+      this.assertException(function() {
+        var description = [
+          {method: "GET", url: "/photos", action: "index"},
+          {method: "GET", action: "show"}
+        ];
+        this.res = new qx.io.rest.Resource(description);
+      }, Error, "Url must be string for route #1");
+    },
+
     //
     // Invoke
     //
