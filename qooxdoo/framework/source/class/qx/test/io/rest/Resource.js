@@ -36,8 +36,9 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.setUpDoubleRequest();
       var res = this.res = new qx.io.rest.Resource();
 
-      // Default route
+      // Default routes
       res.map("GET", "/photos", "index");
+      res.map("GET", "/photos/current", "current");
 
       // Need to set up double request explicitly
       qx.io.request.Xhr.restore();
@@ -146,10 +147,10 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req;
 
       // For whatever reason
-      res.current = function() {};
+      res.popular = function() {};
 
       this.assertException(function() {
-        res.map("GET", "/photos/current", "current");
+        res.map("GET", "/photos/popular", "popular");
       }, Error);
     },
 
@@ -171,9 +172,7 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       result = res._invoke("index");
 
-      this.assertCalledWith(req.setMethod, "GET");
-      this.assertCalledWith(req.setUrl, "/photos");
-      this.assertCalled(req.send);
+      this.assertSend();
     },
 
     "test: invoke action": function() {
@@ -182,9 +181,7 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       res.index();
 
-      this.assertCalledWith(req.setMethod, "GET");
-      this.assertCalledWith(req.setUrl, "/photos");
-      this.assertCalled(req.send);
+      this.assertSend();
     },
 
     "test: invoke action with positional params": function() {
@@ -255,6 +252,178 @@ qx.Class.define("qx.test.io.rest.Resource",
       }, Error, "Missing parameter 'id'");
     },
 
+    //
+    // Helper
+    //
+
+    "test: refresh action": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.index();
+      this.assertSend();
+
+      req = this.setUpDoubleRequest();
+      res.refresh("index");
+      this.assertSend();
+    },
+
+    "test: refresh action replaying previous params": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.map("GET", "/photos/:id", "show");
+      res.show({id: "1"});
+      this.assertSend("GET", "/photos/1");
+
+      req = this.setUpDoubleRequest();
+      res.refresh("show");
+      this.assertSend("GET", "/photos/1");
+    },
+
+    "test: poll action": function() {
+      var res = this.res,
+          sandbox = this.getSandbox();
+
+      sandbox.useFakeTimers();
+      this.stub(res, "refresh");
+
+      res.poll("index", 10);
+      sandbox.clock.tick(100);
+      this.assertCalledWith(res.refresh, "index");
+
+      // 11 = 1 (initial) + 10 (tick)
+      this.assert(res.refresh.callCount == 11,
+        "Must be called 10 times but was " + res.refresh.callCount  + " times");
+    },
+
+    "test: poll action immediately": function() {
+      var res = this.res;
+
+      this.stub(res, "refresh");
+      res.poll("index", 10);
+      this.assertCalled(res.refresh);
+    },
+
+    "test: poll action sets initial params": function() {
+      var res = this.res;
+
+      res.map("GET", "/photos/:id", "show");
+      this.stub(res, "_invoke");
+
+      res.poll("show", 10, {id: "1"});
+      this.assertCalledWith(res._invoke, "show", {id: "1"});
+    },
+
+    "test: poll action replaying previous params": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.map("GET", "/photos/:id", "show");
+      res.show({id: "1"});
+      this.assertSend("GET", "/photos/1");
+
+      req = this.setUpDoubleRequest();
+      res.poll("show");
+      this.assertSend("GET", "/photos/1");
+    },
+
+    "test: poll many actions": function() {
+      var res = this.res,
+          sandbox = this.getSandbox(),
+          stub,
+          index,
+          current;
+
+      sandbox.useFakeTimers();
+
+      stub = this.stub(res, "refresh");
+      index = stub.withArgs("index");
+      current = stub.withArgs("current");
+
+      res.poll("index", 10);
+      res.poll("current", 10);
+
+      sandbox.clock.tick(10);
+      this.assert(index.callCount == 2,
+        "Action index must be called 2 times but was " + res.refresh.callCount  + " times");
+      this.assert(current.callCount == 2,
+        "Action index must be called 2 times but was " + res.refresh.callCount  + " times");
+    },
+
+    "test: end poll action": function() {
+      var res = this.res,
+          sandbox = this.getSandbox(),
+          numCalled;
+
+      sandbox.useFakeTimers();
+
+      this.stub(res, "refresh");
+      res.poll("index", 10);
+
+      sandbox.clock.tick(10);
+      numCalled = res.refresh.callCount;
+
+      res.endPoll("index");
+
+      sandbox.clock.tick(100);
+      this.assertEquals(numCalled, res.refresh.callCount,
+        "Must not refresh after endPoll");
+    },
+
+    "test: end poll action does not end polling of other action": function() {
+      var res = this.res,
+          sandbox = this.getSandbox(),
+          numCalled,
+          stub;
+
+      sandbox.useFakeTimers();
+
+      res.map("GET", "/photos/stub", "stub");
+
+      stub = this.stub(res, "refresh").withArgs("stub");
+      res.poll("index", 10);
+      res.poll("stub", 10);
+
+      sandbox.clock.tick(10);
+      numCalled = stub.callCount;
+      res.endPoll("index");
+
+      sandbox.clock.tick(100);
+      this.assert(stub.callCount > numCalled, "Must not end poll stub");
+    },
+
+    "test: resume poll action": function() {
+      var res = this.res,
+          sandbox = this.getSandbox(),
+          stub,
+          callCount;
+
+      sandbox.useFakeTimers();
+      stub = this.stub(res, "refresh");
+
+      res.poll("index", 10);
+      sandbox.clock.tick(10);
+      callCount = stub.callCount;
+      res.endPoll("index");
+
+      res.resumePoll("index");
+      sandbox.clock.tick(10);
+      this.assert(stub.callCount > callCount, "Must resume poll after end");
+    },
+
+    "test: handle end poll unknown action gracefully": function() {
+      this.res.endPoll("unknown");
+    },
+
+    "test: handle resume poll unknown action gracefully": function() {
+      this.res.resumePoll("unknown");
+    },
+
+    //
+    // Events
+    //
+
     "test: fire actionSuccess": function() {
       var res = this.res,
           req = this.req,
@@ -296,6 +465,17 @@ qx.Class.define("qx.test.io.rest.Resource",
         that.assertEquals("statusError", e.getPhase());
         that.assertIdentical(req, e.getRequest());
       });
+    },
+
+    assertSend: function(method, url) {
+      var req = this.req;
+
+      method = method || "GET";
+      url = url || "/photos";
+
+      this.assertCalledWith(req.setMethod, method);
+      this.assertCalledWith(req.setUrl, url);
+      this.assertCalled(req.send);
     },
 
     skip: function(msg) {

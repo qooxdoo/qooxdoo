@@ -27,6 +27,7 @@ qx.Class.define("qx.io.rest.Resource",
 
     this.__createRequest();
     this.__routes = {};
+    this.__pollTimers = {};
   },
 
   events:
@@ -89,6 +90,9 @@ qx.Class.define("qx.io.rest.Resource",
           method = requestParams[0],
           url = requestParams[1];
 
+      // Cache parameters
+      this.__routes[action].params = params;
+
       // Create new request when invoked before
       if (this.__invoked) {
         req = this.__createRequest();
@@ -120,6 +124,38 @@ qx.Class.define("qx.io.rest.Resource",
 
       req.send();
       this.__invoked = true;
+    },
+
+    refresh: function(action) {
+      this._invoke(action, this.__routes[action].params);
+    },
+
+    poll: function(action, interval, params) {
+      // Cache parameters
+      if (params) {
+        this.__routes[action].params = params;
+      }
+
+      // Refresh immediately
+      this.refresh(action);
+
+      var timer = this.__pollTimers[action] = new qx.event.Timer(interval);
+      timer.addListener("interval", function() {
+        this.refresh(action);
+      }, this);
+      timer.start();
+    },
+
+    endPoll: function(action) {
+      if (this.__pollTimers[action]) {
+        this.__pollTimers[action].stop();
+      }
+    },
+
+    resumePoll: function(action) {
+      if (this.__pollTimers[action]) {
+        this.__pollTimers[action].start();
+      }
     },
 
     /**
@@ -179,6 +215,22 @@ qx.Class.define("qx.io.rest.Resource",
   },
 
   destruct: function() {
-    this.__request && this.__request.dispose();
+    var timer;
+
+    if (this.__pollTimers) {
+      for (var action in this.__pollTimers) {
+        if (this.__pollTimers.hasOwnProperty(action)) {
+          timer = this.__pollTimers[action];
+          timer.stop();
+          timer.dispose();
+        }
+      }
+    }
+
+    if (this.__request) {
+       this.__request.dispose();
+    }
+
+    this.__routes = this.__pollTimers = null;
   }
 });
