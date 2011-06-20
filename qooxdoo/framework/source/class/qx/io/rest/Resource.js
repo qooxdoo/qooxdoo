@@ -73,8 +73,8 @@ qx.Class.define("qx.io.rest.Resource",
     // Routes and actions
     //
 
-    map: function(method, url, action) {
-      this.__routes[action] = [method, url];
+    map: function(method, url, action, check) {
+      this.__routes[action] = [method, url, check];
 
       if (typeof this[action] !== "undefined") {
         throw new Error("Method with name of action (" +
@@ -94,7 +94,17 @@ qx.Class.define("qx.io.rest.Resource",
       var req = this.__request,
           requestParams = this._getRequestParams(action, params),
           method = requestParams[0],
-          url = requestParams[1];
+          url = requestParams[1],
+          check = requestParams[2];
+
+      if(typeof check !== "undefined") {
+        qx.core.Assert.assertObject(check, "Check must be object with params as keys");
+        qx.lang.Object.getKeys(check).forEach(function(key) {
+          if (!check[key].test(params[key])) {
+            throw new Error("Parameter " + key + " is invalid");
+          }
+        });
+      }
 
       // Cache parameters
       this.__routes[action].params = params;
@@ -173,6 +183,7 @@ qx.Class.define("qx.io.rest.Resource",
 
       var method = route[0],
           url = route[1],
+          check = route[2],
           placeholders = this.__placeholdersFromUrl(url);
 
       params = params || {};
@@ -188,7 +199,7 @@ qx.Class.define("qx.io.rest.Resource",
         url = url.replace(re, params[placeholder]);
       });
 
-      return [method, url];
+      return [method, url, check];
     },
 
     __placeholdersFromUrl: function(url) {
@@ -215,13 +226,14 @@ qx.Class.define("qx.io.rest.Resource",
       description.forEach(function(route, index) {
         var method = route["method"],
             url = route["url"],
-            action = route["action"];
+            action = route["action"],
+            check = route["check"];
 
         qx.core.Assert.assertString(method, "Method must be string for route #" + index);
         qx.core.Assert.assertString(url, "Url must be string for route #" + index);
         qx.core.Assert.assertString(action, "Action must be string for route #" + index);
 
-        this.map(route["method"], route["url"], route["action"]);
+        this.map(method, url, action, check);
       }, this);
     },
 

@@ -165,6 +165,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var req = this.req,
           description,
           res,
+          check = {},
           params;
 
       description = [
@@ -176,30 +177,27 @@ qx.Class.define("qx.test.io.rest.Resource",
         {
           method: "POST",
           url: "/photos",
-          action: "create"
+          action: "create",
+          check: check
         }
       ];
 
       res = this.res = new qx.io.rest.Resource(description);
 
       params = res._getRequestParams("index");
-      this.assertArrayEquals(["GET", "/photos"], params);
+      this.assertArrayEquals(["GET", "/photos", undefined], params);
 
       params = res._getRequestParams("create");
-      this.assertArrayEquals(["POST", "/photos"], params);
+      this.assertArrayEquals(["POST", "/photos", check], params);
     },
 
     "test: map action from description throws with non-array": function() {
-      var that = this;
-
       this.assertException(function() {
         this.res = new qx.io.rest.Resource({});
       });
     },
 
     "test: map action from description throws with incomplete route": function() {
-      var that = this;
-
       this.assertException(function() {
         var description = [
           {method: "GET", url: "/photos", action: "index"},
@@ -290,6 +288,15 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalledWith(req.setUrl, "../index");
     },
 
+    "test: invoke action for route with check": function() {
+      var res = this.res;
+
+      res.map("GET", "/photos/zoom/:id", "zoom", {id: /\d+/});
+      res.zoom({id: "123"});
+
+      this.assertSend("GET", "/photos/zoom/123");
+    },
+
     "test: invoke action throws when missing positional param": function() {
       var res = this.res,
           params;
@@ -298,6 +305,15 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertException(function() {
         res.photoComments({photoId: "1"});
       }, Error, "Missing parameter 'id'");
+    },
+
+    "test: invoke action throws when param not match check": function() {
+      var res = this.res;
+
+      res.map("GET", "/photos/zoom/:id", "zoom", {id: /\d+/});
+      this.assertException(function() {
+        res.zoom({id: "FAIL"});
+      }, Error, "Parameter id is invalid");
     },
 
     //
