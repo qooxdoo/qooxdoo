@@ -305,30 +305,27 @@ qx.Class.define("demobrowser.DemoBrowser",
       if(theOtherGroup && selected) {
         theOtherGroup.setModelSelection([selected.getModel()]);
       }
-      if(e.getTarget() === this.__viewGroup)
+      var show = selected != null ? selected.getUserData("value") : "";
+      switch(show)
       {
-        var show = selected != null ? selected.getUserData("value") : "";
-        switch(show)
-        {
-          case "html":
-            this.__stack.setSelection([this.__htmlView]);
-            this.__stack.show();
-            break;
+        case "html":
+          this.__stack.setSelection([this.__htmlView]);
+          this.__stack.show();
+          break;
 
-          case "js":
-            this.__stack.setSelection([this.__jsView]);
-            this.__stack.show();
-            break;
+        case "js":
+          this.__stack.setSelection([this.__jsView]);
+          this.__stack.show();
+          break;
 
-          case "log":
-            this.__stack.setSelection([this.__logView]);
-            this.__stack.show();
-            break;
+        case "log":
+          this.__stack.setSelection([this.__logView]);
+          this.__stack.show();
+          break;
 
-          default:
-            this.__stack.resetSelection();
-            this.__stack.exclude();
-        }
+        default:
+          this.__stack.resetSelection();
+          this.__stack.exclude();
       }
     },
 
@@ -792,6 +789,11 @@ qx.Class.define("demobrowser.DemoBrowser",
               cachedItem.setUserData('value',partButtons[i].getUserData('value'));
               cachedItem.setModel(partButtons[i].getModel());
               partButtons[i].bind("enabled", cachedItem, "enabled");
+
+              // sync the value's
+              partButtons[i].bind("value", cachedItem, "value");
+              cachedItem.bind("value", partButtons[i], "value");
+
               if(!this.__menuViewRadioGroup)
               {
                 this.__menuViewRadioGroup = new qx.ui.form.RadioGroup();
