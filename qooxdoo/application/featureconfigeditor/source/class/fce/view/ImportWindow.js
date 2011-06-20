@@ -53,10 +53,19 @@ qx.Class.define("fce.view.ImportWindow", {
     this.add(featuresArea, {flex: 1});
     featuresLabel.setBuddy(featuresArea);
     
+    var errorMessage = new qx.ui.basic.Label("");
+    errorMessage.setTextColor("red");
+    this.add(errorMessage);
+    errorMessage.exclude();
+    this.__errorMessage = errorMessage;
+    window.em = errorMessage;
+    
     var importButton = new qx.ui.form.Button("Import");
     importButton.setAlignX("center");
     importButton.setAllowGrowX(false);
     this.add(importButton);
+    
+    this.addListener("close", this.reset, this);
     
     importButton.addListener("execute", this._onImport, this);
   },
@@ -66,17 +75,22 @@ qx.Class.define("fce.view.ImportWindow", {
     __nameField : null,
     __featuresArea : null,
     
+    reset : function()
+    {
+      this.__nameField.setValue("");
+      this.__featuresArea.setValue("");
+      this.__errorMessage.setValue("");
+      this.__errorMessage.exclude();
+    },
+    
     _onImport : function()
     {
       var name = this.__nameField.getValue();
       var json = this.__featuresArea.getValue();
       
-      if (!name) {
-        //TODO: Display error message
-      }
-      
       if (!json) {
-        //TODO: Display error message
+        this._showError("JSON field may not be empty!");
+        return;
       }
       
       var data;
@@ -84,16 +98,35 @@ qx.Class.define("fce.view.ImportWindow", {
         data = qx.lang.Json.parse(json);
       }
       catch(ex) {
-        //TODO: Display error message
+        this._showError(ex.message);
+        return;
+      }
+      
+      try {
+        qx.core.Assert.assertMap(data);
+      }
+      catch(ex) {
+        this._showError(ex.message);
         return;
       }
       
       var featureMap = {};
       featureMap[name] = data;
-      this.setFeatureMap(featureMap);
-      this.__nameField.setValue("");
-      this.__featuresArea.setValue("");
+      
+      try {
+        this.setFeatureMap(featureMap);
+      } catch(ex) {
+        this._showError(ex.message);
+        return;
+      }
+      
       this.close();
+    },
+    
+    _showError : function(msg)
+    {
+      this.__errorMessage.setValue(msg);
+      this.__errorMessage.setVisibility("visible");
     }
   }
 });
