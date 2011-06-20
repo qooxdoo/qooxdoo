@@ -92,6 +92,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
       // virtual combo box
       var virtualComboBox = new qx.ui.form.VirtualComboBox();
       virtualComboBox.setTabIndex(tabIndex++);
+      virtualComboBox.setPlaceholder("placeholder");
       label = new qx.ui.basic.Label("VirtualComboBox:");
       label.setBuddy(virtualComboBox);
       textGroupBox.add(label, {row: 4, column: 0});

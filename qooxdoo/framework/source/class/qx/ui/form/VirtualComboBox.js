@@ -83,6 +83,19 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
 
 
     /**
+     * String value which will be shown as a hint if the field is all of:
+     * unset, unfocused and enabled. Set to null to not show a placeholder
+     * text.
+     */
+    placeholder :
+    {
+      check : "String",
+      nullable : true,
+      apply : "_applyPlaceholder"
+    },
+
+
+    /**
      * Formatting function that will be applied to the value of a selected model
      * item's label before it is written to the text field. Also used to find
      * and preselect the first list entry that begins with the current content
@@ -330,6 +343,12 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     // property apply 
     // @deprecated since 1.5: The apply method is not needed anymore.
     _applyValue : function(value, old) {},
+
+
+    // property apply
+    _applyPlaceholder : function(value, old) {
+      this.getChildControl("textfield").setPlaceholder(value);
+    },
 
 
     /*
