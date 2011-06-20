@@ -202,7 +202,12 @@ qx.Class.define("qx.ui.form.RadioButton",
      * @return {void}
      */
     _onExecute : function(e) {
-      this.setValue(true);
+      var grp = this.getGroup();
+      if (grp && grp.getAllowEmptySelection()) {
+        this.toggleValue();
+      } else {
+        this.setValue(true);
+      }
     },
 
 

@@ -144,7 +144,12 @@ qx.Class.define("qx.ui.menu.RadioButton",
      * @param e {qx.event.type.Event} The execute event.
      */
     _onExecute : function(e) {
-      this.setValue(true);
+      var grp = this.getGroup();
+      if (grp && grp.getAllowEmptySelection()) {
+        this.toggleValue();
+      } else {
+        this.setValue(true);
+      }
     },
 
 
