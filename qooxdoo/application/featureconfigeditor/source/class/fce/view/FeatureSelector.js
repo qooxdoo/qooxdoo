@@ -96,6 +96,7 @@ qx.Class.define("fce.view.FeatureSelector", {
           break;
         case "jsonField":
           control = new qx.ui.form.TextArea();
+          control.setReadOnly(true);
       }
       
       return control;
@@ -210,6 +211,7 @@ qx.Class.define("fce.view.FeatureSelector", {
     {
       if (!this.__importWindow) {
         this.__importWindow = new fce.view.ImportWindow();
+        this.__importWindow.center();
         this.__importWindow.addListener("changeFeatureMap", function (ev) {
           var data = ev.getData();
           this.addFeatureSet(data);

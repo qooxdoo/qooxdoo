@@ -36,7 +36,7 @@ qx.Class.define("fce.view.ImportWindow", {
   construct : function()
   {
     this.base(arguments, "Import Feature Map", "icon/16/actions/window-new.png");
-    this.setWidth(250);
+    this.setWidth(300);
     this.setHeight(400);
     
     this.setLayout(new qx.ui.layout.VBox(10));
