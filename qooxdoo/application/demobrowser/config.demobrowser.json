@@ -156,7 +156,7 @@
         {
           "format" : true,
           "except" : [],
-          "optimize" : ["basecalls", "variables", "privates", "strings"]
+          "optimize" : ["basecalls", "variables", "privates", "strings", "variants"]
         }
       },
 
@@ -188,6 +188,13 @@
       "desc"    : "copy necessary resources for Demobrowser/demos to build dir",
 
       "extend" : ["db-common"],
+
+      // adding libraries that are used by demos, so resources are being picked up
+      "library" : 
+      [
+        { "manifest"   : "${QOOXDOO_PATH}/component/library/formdemo/Manifest.json" },
+        { "manifest"   : "${QOOXDOO_PATH}/component/library/twitterdemo/Manifest.json" }
+      ],
 
       "include" :
       [
