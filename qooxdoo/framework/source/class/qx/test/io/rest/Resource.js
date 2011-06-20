@@ -134,14 +134,14 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertEquals("/photos", params[1]);
     },
 
-    "test: mapping action creates method": function() {
+    "test: map action creates method": function() {
       var res = this.res,
           req = this.req;
 
       this.assertFunction(res.index);
     },
 
-    "test: mapping action throws when existing method": function() {
+    "test: map action throws when existing method": function() {
       var res = this.res,
           req = this.req;
 
@@ -185,6 +185,74 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalledWith(req.setMethod, "GET");
       this.assertCalledWith(req.setUrl, "/photos");
       this.assertCalled(req.send);
+    },
+
+    "test: invoke action with positional params": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.map("GET", "/photos/:id", "show");
+      res.show({id: "1"});
+
+      this.assertCalledWith(req.setUrl, "/photos/1");
+    },
+
+    "test: invoke action with multiple positional params": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.map("GET", "/photos/:id/comments/:commentId", "showComments");
+      res.showComments({id: "1", commentId: "2"});
+
+      this.assertCalledWith(req.setUrl, "/photos/1/comments/2");
+    },
+
+    "test: invoke action with positional params in query": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.map("GET", "/photos/:id/comments?id=:commentId", "showComments");
+      res.showComments({id: "1", commentId: "2"});
+
+      this.assertCalledWith(req.setUrl, "/photos/1/comments?id=2");
+    },
+
+    "test: invoke action for url with port": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.map("GET", "http://example.com:8080/photos/:id", "show");
+      res.show({id: "1"});
+
+      this.assertCalledWith(req.setUrl, "http://example.com:8080/photos/1");
+    },
+
+    "test: invoke action for relative url": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.map("GET", ":page", "show");
+      res.show({page: "index"});
+      this.assertCalledWith(req.setUrl, "index");
+    },
+
+    "test: invoke action for relative url with dots": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.map("GET", "../:page", "showParent");
+      res.showParent({page: "index"});
+      this.assertCalledWith(req.setUrl, "../index");
+    },
+
+    "test: invoke action throws when missing positional param": function() {
+      var res = this.res,
+          params;
+
+      res.map("GET", "/photos/:photoId/comments/:id", "photoComments");
+      this.assertException(function() {
+        res.photoComments({photoId: "1"});
+      }, Error, "Missing parameter 'id'");
     },
 
     "test: fire actionSuccess": function() {

@@ -77,15 +77,17 @@ qx.Class.define("qx.io.rest.Resource",
       this.__declareEvent(action + "Success");
       this.__declareEvent(action + "Error");
 
-      this[action] = qx.lang.Function.bind(function() {
-        this._invoke(action);
+      this[action] = qx.lang.Function.bind(function(params) {
+        this._invoke(action, params);
         return this;
       }, this);
     },
 
-    _invoke: function(action) {
+    _invoke: function(action, params) {
       var req = this.__request,
-          params = this._getRequestParams(action);
+          requestParams = this._getRequestParams(action, params),
+          method = requestParams[0],
+          url = requestParams[1];
 
       // Create new request when invoked before
       if (this.__invoked) {
@@ -99,8 +101,8 @@ qx.Class.define("qx.io.rest.Resource",
 
       // Set method and URL
       req.set({
-        method: params[0],
-        url: params[1]
+        method: method,
+        url: url
       });
 
       // Handle successful request
@@ -123,8 +125,46 @@ qx.Class.define("qx.io.rest.Resource",
     /**
      * @internal
      */
-    _getRequestParams: function(action) {
-      return this.__routes[action];
+    _getRequestParams: function(action, params) {
+      var route = this.__routes[action],
+          method = route[0],
+          url = route[1],
+          placeholders = this.__placeholdersFromUrl(url);
+
+      params = params || {};
+
+      placeholders.forEach(function(placeholder) {
+        // Require parameter for each placeholder
+        if (!params[placeholder]) {
+          throw new Error("Missing parameter '" + placeholder + "'");
+        }
+
+        // Replace placeholder with parameter
+        var re = new RegExp(":" + placeholder);
+        url = url.replace(re, params[placeholder]);
+      });
+
+      return [method, url];
+    },
+
+    __placeholdersFromUrl: function(url) {
+      var placeholderRe = /:(\w+)/g,
+          match,
+          placeholders = [],
+          parsedUri = qx.util.Uri.parseUri(url);
+
+      // Not confuse port with placeholder
+      if (parsedUri.port && parsedUri.relative) {
+        url = parsedUri.relative;
+      }
+
+      // With g flag set, searching begins at the regex object's
+      // lastIndex, which is zero initially.
+      while ((match = placeholderRe.exec(url))) {
+        placeholders.push(match[1]);
+      }
+
+      return placeholders;
     },
 
     __declareEvent: function(type) {
