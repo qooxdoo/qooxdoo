@@ -330,6 +330,30 @@ qx.Class.define("qx.test.data.controller.List",
     },
 
 
+    testSelectionSingleRemoveFirst: function() {
+      this.__setUpString();
+      var model = this.__model;
+
+      var sb = new qx.ui.form.SelectBox();
+      this.__controller.setTarget(sb);
+
+      this.__controller.getSelection().push(model.getItem(0));
+
+      var selection = this.__controller.getSelection();
+      
+      selection.addListener("change", function(e) {
+        this.resume(function() {
+          this.assertEquals("b", selection.getItem(0));
+          sb.dispose();
+        }, this);
+      }, this);
+
+      model.removeAt(0);
+
+      this.wait();
+    },
+
+
     testSelectionMultiple: function() {
       this.__setUpString();
 
