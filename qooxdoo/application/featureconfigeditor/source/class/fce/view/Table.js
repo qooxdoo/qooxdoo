@@ -62,6 +62,16 @@ qx.Class.define("fce.view.Table", {
       event : "changeSelectedItems"
     },
     
+    /** The column id/model item property that should act as the default data
+     * source, e.g. for drag and drop operations */
+    sourceProperty :
+    {
+      init : null,
+      nullable : true,
+      check : "String",
+      event : "changeSourceProperty"
+    },
+    
     /** Filter string for the table model */
     filter :
     {
@@ -238,6 +248,12 @@ qx.Class.define("fce.view.Table", {
     _configureColumnModel : function()
     {
       var columnModel = this.getTableColumnModel();
+      columnModel.addListener("orderChanged", function(ev) {
+        this.setSourceProperty(this._getFirstVisibleColumnId());
+      }, this);
+      columnModel.addListener("visibilityChanged", function(ev) {
+        this.setSourceProperty(this._getFirstVisibleColumnId());
+      }, this);
       var cellRendererFactory = new qx.ui.table.cellrenderer.Dynamic(this.__cellRendererFactoryFunction);
       var dataCellIndex = this.getTableModel().getColumnCount() - 1;
       for (var i=1; i<dataCellIndex; i++) {
@@ -247,6 +263,18 @@ qx.Class.define("fce.view.Table", {
       columnModel.setColumnVisible(dataCellIndex, false);
     },
     
+    _getFirstVisibleColumnId : function()
+    {
+      var model = this.getTableModel();
+      var cols = this.getTableColumnModel().getVisibleColumns();
+      for (var i=0, l=cols.length; i<l; i++) {
+        var colId = model.getColumnId(cols[i]);
+        if (colId !== "name" && colId !== "distinctValues") {
+          return model.getColumnId(cols[i]);
+        }
+      }
+      return null;
+    },
     
     // property apply
     _applyFilter : function(value, old)

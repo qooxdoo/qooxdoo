@@ -119,6 +119,7 @@ qx.Class.define("fce.view.FeatureSelector", {
           control.setMinWidth(440);
           this.bind("filter", control, "filter");
           control.addListener("cellDblclick", this.__onTableDoubleClick, this);
+          qx.data.SingleValueBinding.bind(control, "sourceProperty", this.getChildControl("list"), "modelValueProperty");
           break;
         case "list":
           control = new fce.view.List();
@@ -357,7 +358,9 @@ qx.Class.define("fce.view.FeatureSelector", {
      */
     __onSelectionChange : function()
     {
-      var data = this.__itemsToMap(this.getChildControl("list").getSelectedItems());
+      var valueProperty = this.getChildControl("list").getModelValueProperty();
+      var data = this.__itemsToMap(this.getChildControl("list").getSelectedItems(), 
+        valueProperty);
       var json = this._getJson(data);
       this.getChildControl("jsonField").setValue(json);
     },
@@ -381,18 +384,19 @@ qx.Class.define("fce.view.FeatureSelector", {
 
     /**
      * Takes a list of objects and returns a map with the values of each object's
-     * <pre>name</pre> property as the keys and the values of the <pre>userValue</pre>
-     * properties as values
+     * "name" property as the keys and the values of the given property as values
      * 
      * @param items {qx.data.Array} Data array of model items
+     * @param valueProperty {String} Name of the model property containing the
+     * desired value
      * @return {Map}
      */
-    __itemsToMap : function(items)
-    {
+    __itemsToMap : function(items, valueProperty)
+    { 
       var data = {};
       for (var i=0,l=items.length; i<l; i++) {
         var item = items.getItem(i);
-        data[item.getName()] = item.getDetected();
+        data[item.getName()] = item.get(valueProperty);
       }
       return data;
     },

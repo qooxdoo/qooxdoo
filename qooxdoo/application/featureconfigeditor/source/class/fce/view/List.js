@@ -56,14 +56,14 @@ qx.Class.define("fce.view.List", {
     selectedItems : 
     {
       event : "changeSelectedItems"
-    }
+    },
     
-    /*
+    /** The name of the model property holding the value to be displayed */
     modelValueProperty :
     {
-      init : "detected"
+      init : null,
+      nullable : true
     }
-    */
   },
   
   members :
@@ -95,15 +95,41 @@ qx.Class.define("fce.view.List", {
      */
     __onSelectionChange : function()
     {
+      if (!this.getModelValueProperty()) {
+        return;
+      }
       var items = this.getSelectedItems();
       for (var i=0, l=items.length; i<l; i++) {
         var modelItem = items.getItem(i);
-        if (!qx.lang.Array.contains(this.__listedItems, modelItem)) {
-          var listItem = new fce.view.ListItem(modelItem, "detected", "name");
+        if (!this.isItemListed(modelItem)) {
+          var listItem = new fce.view.ListItem(modelItem, this.getModelValueProperty(), "name");
           this.add(listItem);
           this.__listedItems.push(modelItem);
         }
       }
+    },
+    
+    
+    /**
+     * Checks whether the given item or another item with the same name are
+     * currently listed
+     * 
+     * @param item {qx.core.Object} model item to check for
+     * @return {Boolean} Whether the item or an equivalent item is listed
+     */
+    isItemListed : function(item)
+    {
+      if (qx.lang.Array.contains(this.__listedItems, item)) {
+        return true;
+      }
+      
+      var itemName = item.getName();
+      for (var i=0, l=this.__listedItems.length; i<l; i++) {
+        if (this.__listedItems[i].getName() === itemName) {
+          return true;
+        }
+      }
+      return false;
     },
     
     
