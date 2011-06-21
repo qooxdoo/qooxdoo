@@ -91,6 +91,7 @@ qx.Class.define("qx.io.rest.Resource",
     __routes: null,
     __request: null,
     __invoked: null,
+    __pollTimers: null,
     __configureRequestCallback: null,
 
     //
