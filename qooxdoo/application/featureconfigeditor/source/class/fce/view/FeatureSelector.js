@@ -22,6 +22,7 @@
 #asset(qx/icon/Tango/16/actions/window-new.png)
 #asset(qx/icon/Tango/16/actions/go-next.png)
 #asset(qx/icon/Tango/16/actions/go-previous.png)
+#asset(qx/icon/Tango/16/actions/view-restore.png)
 ************************************************************************ */
 
 /**
@@ -42,6 +43,8 @@ qx.Class.define("fce.view.FeatureSelector", {
     this.add(this._createTableContainer(), {flex: 0});
     this.add(this._createButtonContainer(), {flex: 0});
     this.add(this._createDisplayContainer(), {flex: 1});
+    
+    this.__stash = {};
   },
   
   properties :
@@ -102,6 +105,9 @@ qx.Class.define("fce.view.FeatureSelector", {
   {
     __filterTextField : null,
     __importWindow : null,
+    __setsMenu : null,
+    __setsMenuEntries : null,
+    __stash : null,
     
     
     _createChildControlImpl : function(id, hash)
@@ -136,17 +142,25 @@ qx.Class.define("fce.view.FeatureSelector", {
     _createTableContainer : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
-      var inner = new qx.ui.container.Composite(new qx.ui.layout.Dock());
+      var inner = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
       container.add(inner);
       var label = new qx.ui.basic.Label("Available Features");
       label.setFont("bigger");
-      inner.add(label, {edge : "west"});
+      inner.add(label);
       label.setAlignY("bottom");
+      
+      inner.add(new qx.ui.core.Spacer(), {flex: 1});
+      
+      var setsMenu = new qx.ui.menu.Menu();
+      this.__setsMenu = setsMenu;
+      var selectSetsButton = new qx.ui.form.MenuButton("Toggle Displayed Sets", "icon/16/actions/view-restore.png", setsMenu);
+      inner.add(selectSetsButton);
+      
       var importButton = new qx.ui.form.Button("Import Feature Map", "icon/16/actions/window-new.png");
       importButton.addListener("execute", function(ev) {
         this._getImportWindow().open();
       }, this);
-      inner.add(importButton, {edge : "east"});
+      inner.add(importButton);
       
       var table = this.getChildControl("table");
       
@@ -322,6 +336,7 @@ qx.Class.define("fce.view.FeatureSelector", {
         var data = this._getData(value);
         var model = qx.data.marshal.Json.createModel(data, true);
         this.setModel(model);
+        this._getSetsMenu(qx.lang.Object.getKeys(value));
       }
     },
     
@@ -397,6 +412,70 @@ qx.Class.define("fce.view.FeatureSelector", {
     
     
     /**
+     * Creates a menu with checkbox buttons for the given set ids
+     * @param setIds {String[]} List of set IDs (key names of the {@link #featureData}
+     *  map).
+     */
+    _getSetsMenu : function(setIds) {
+      if (!this.__setsMenuEntries) {
+        this.__setsMenuEntries = [];
+      }
+      
+      for (var i=0, l=setIds.length; i<l; i++) {
+        if (!qx.lang.Array.contains(this.__setsMenuEntries, setIds[i])) {
+          var checkBox = new qx.ui.menu.CheckBox(setIds[i]);
+          checkBox.setValue(true);
+          checkBox.setUserData("set", setIds[i]);
+          checkBox.addListener("changeValue", function(ev) {
+            var setId = ev.getTarget().getUserData("set");
+            var value = ev.getData();
+            if (value) {
+              this._unstashSet(setId);
+            }
+            else {
+              this._stashSet(setId);
+            }
+          }, this);
+          this.__setsMenu.add(checkBox);
+          this.__setsMenuEntries.push(setIds[i]);
+        }
+      }
+    },
+    
+    
+    /**
+     * Removes a data set from {@link #featureData} and stores it for later use
+     * 
+     * @param setId {String} One of the key names in {@link #featureData}
+     */
+    _stashSet : function(setId) {
+      var data = this.getFeatureData();
+      if (data[setId]) {
+        this.__stash[setId] = data[setId];
+        delete data[setId];
+        this.setFeatureData(null);
+        this.setFeatureData(data);
+      }
+    },
+    
+    
+    /**
+     * Adds a stored data set to {@link #featureData}
+     * 
+     * @param setId {String} One of the key names in {@link #featureData}
+     */
+    _unstashSet : function(setId) {
+      var data = this.getFeatureData();
+      if (this.__stash[setId]) {
+        data[setId] = this.__stash[setId];
+        delete this.__stash[setId];
+        this.setFeatureData(null);
+        this.setFeatureData(data);
+      }    
+    },
+    
+    
+    /**
      * Adds the currently selected model items to the list display
      */
     __addItemsToList : function()
@@ -421,6 +500,6 @@ qx.Class.define("fce.view.FeatureSelector", {
   {
     this.getChildControl("list").getSelectedItems().removeListener("change", 
       this.__onSelectionChange, this);
-    this._disposeObjects("__filterTextField", "__importWindow");
+    this._disposeObjects("__filterTextField", "__importWindow", "__setsMenu");
   }
 });
