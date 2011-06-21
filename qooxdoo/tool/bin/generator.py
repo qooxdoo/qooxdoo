@@ -37,7 +37,7 @@ from generator.runtime.InterruptRegistry import InterruptRegistry
 ## when working on string handling in other parts of the generator
 reload(sys)
 sys.setdefaultencoding('utf-8')
-sys.setrecursionlimit(1500)  # due to bug#2922; maybe this can be removed later
+sys.setrecursionlimit(3500)  # due to bug#2922; increased with bug#5265
 
 interruptRegistry = InterruptRegistry()
 
@@ -50,6 +50,21 @@ def interruptCleanup():
         except Error, e:
             print >>sys.stderr, e  # just keep on with the others
     
+##
+# This can be used with sys.settrace(). It records the max. stack size during
+# exection. Slows the whole thing down, of course.
+maxstacki = 0
+def stacktrace(frame, event, arg):
+    global maxstacki
+    currstacki = 0
+    f = frame
+    while f.f_back:
+        currstacki += 1
+        f = f.f_back
+    if currstacki > maxstacki:
+        maxstacki = currstacki
+
+
 def listJobs(console, jobs, config):
     console.info("Available jobs:")
     console.indent()
@@ -222,6 +237,7 @@ Arguments:
 if __name__ == '__main__':
     options = None
     try:
+        #sys.settrace(stacktrace)
         main()
 
     except KeyboardInterrupt:
