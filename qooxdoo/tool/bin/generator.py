@@ -116,6 +116,7 @@ Arguments:
     parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="log file")
     parser.add_option("-s", "--stacktrace", action="store_true", dest="stacktrace", default=False, help="enable stack traces on fatal exceptions")
     parser.add_option("-m", "--macro", dest="letmacros", metavar="KEY:VAL", action="map", type="string", default={}, help="define/overwrite a global 'let' macro KEY with value VAL")
+    parser.add_option("-d", "--daemon", dest="daemon", action="store_true", default=False, help="sends the generator in the background, listening on socket")
     
     # Dynamic options (currently not supported)
     #parser.add_option("--setting", action="extend", dest="settings", metavar="KEY:VALUE", type="string", default=[], help="Used settings")
@@ -180,8 +181,9 @@ Arguments:
         if default_job:
             options.jobs.append(default_job)
         else:
-            listJobs(console, availableJobs, config)
-            sys.exit(1)
+            if not options.daemon:
+                listJobs(console, availableJobs, config)
+                sys.exit(1)
         
     else:
         for job in options.jobs:
@@ -191,47 +193,59 @@ Arguments:
                 sys.exit(1)
 
     console.debug(u"Jobs: %s" % ", ".join(options.jobs))
-
-    # Resolve "extend"- and "run"-Keys
-    expandedjobs = config.resolveExtendsAndRuns(options.jobs[:])
-
-    # Include system defaults
-    config.includeSystemDefaults(expandedjobs)
-    
-    # Resolve "let"-Keys
-    config.resolveMacros(expandedjobs)
-
-    # Resolve libs/Manifests
-    config.resolveLibs(expandedjobs)
-
-    # To see fully expanded config:
-    #console.info(pprint.pformat(config.get(".")))
-
-    # Do some config schema checking
-    config.checkSchema(expandedjobs, checkJobTypes=True)
-
-    # Clean-up config
-    config.cleanUpJobs(expandedjobs)
-
-    # Reset console level
-    console.setLevel(level)
-    console.resetFilter()
-
-    # Processing jobs...
     context = {'config': config, 'console':console, 'jobconf':None, 'interruptRegistry':interruptRegistry}
-    for job in expandedjobs:
-        console.head("Executing: %s" % job.name, True)
-        if options.config_verbose:
-            console.setLevel("debug")
-            console.debug("Expanded job config:")
-            console.debug(pprint.pformat(config.getJob(job).getData()))
-            console.setLevel(level)
 
-        ctx = context.copy()
-        ctx['jobconf'] = config.getJob(job)
+    # CLI mode
+    if not options.daemon:
+        # Resolve "extend"- and "run"-Keys
+        expandedjobs = config.resolveExtendsAndRuns(options.jobs[:])
 
-        generatorObj = Generator(ctx)
-        generatorObj.run()
+        # Include system defaults
+        config.includeSystemDefaults(expandedjobs)
+        
+        # Resolve "let"-Keys
+        config.resolveMacros(expandedjobs)
+
+        # Resolve libs/Manifests
+        config.resolveLibs(expandedjobs)
+
+        # To see fully expanded config:
+        #console.info(pprint.pformat(config.get(".")))
+
+        # Do some config schema checking
+        config.checkSchema(expandedjobs, checkJobTypes=True)
+
+        # Clean-up config
+        config.cleanUpJobs(expandedjobs)
+
+        # Reset console level
+        console.setLevel(level)
+        console.resetFilter()
+
+        # Processing jobs...
+        for job in expandedjobs:
+            console.head("Executing: %s" % job.name, True)
+            if options.config_verbose:
+                console.setLevel("debug")
+                console.debug("Expanded job config:")
+                console.debug(pprint.pformat(config.getJob(job).getData()))
+                console.setLevel(level)
+
+            ctx = context.copy()
+            ctx['jobconf'] = config.getJob(job)
+
+            generatorObj = Generator(ctx)
+            generatorObj.run()
+
+    # Daemon mode
+    else: 
+        from generator.runtime.Generatord import Generatord
+        console.head("Executing: Daemon Mode", True)
+        generatord = Generatord()
+        console.info("Opening port %s on %s, serving in background..." % (generatord.servAddr[1], 
+            generatord.servAddr[0] if generatord.servAddr[0] else 'localhost')
+        )
+        generatord.serve()
 
 
 if __name__ == '__main__':

@@ -24,10 +24,9 @@ import os, sys, time, functools
 import cPickle as pickle
 from misc import filetool
 from misc.securehash import sha_construct
-from generator.action.ActionLib import ActionLib
+from generator.runtime.ShellCmd import ShellCmd
 
 memcache  = {} # {key: {'content':content, 'time': (time.time()}}
-actionLib = None
 check_file     = u".cache_check_file"
 CACHE_REVISION = 27530 # Change this to the current qooxdoo svn revision when existing caches need clearing
 
@@ -35,14 +34,12 @@ class Cache(object):
 
 
     def __init__(self, path, context):
-        global actionLib
         self._cache_revision = CACHE_REVISION
         self._path           = path
         self._context        = context
         self._console        = self._context['console']
         self._downloads      = self._context['jobconf'].get("cache/downloads")
         self._check_file     = os.path.join(self._path, check_file)
-        actionLib            = ActionLib(self._context['config'], self._console)
         self._console.debug("Initializing cache...")
         self._console.indent()
         self._check_path(self._path)
@@ -136,9 +133,11 @@ class Cache(object):
 
     def cleanDownloadCache(self):
         if self._downloads:
-            actionLib.clean({"Deleting download cache" : [self._downloads]})
-        else:
-            self._console.warn("Cannot clean download cache - no path information!")
+            downdir = self._downloads
+            if os.path.splitdrive(downdir)[1] == os.sep:
+                raise RuntimeError, "I'm not going to delete '/' recursively!"
+            self._console.info("Deleting download cache")
+            ShellCmd().rm_rf(downdir)
 
 
     ##

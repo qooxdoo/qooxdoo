@@ -221,7 +221,7 @@ class Generator(object):
 
             # - Main -----------------------------------------------------------
 
-            self._console.info("Scanning libraries...")
+            self._console.info("Scanning libraries  ", feed=False)
             self._console.indent()
 
             namespaces = []
@@ -258,6 +258,8 @@ class Generator(object):
                 translations[namespace] = libObj.getTranslations()
                 libraries.append(libObj)
 
+            self._console.dotclear()
+            self._console.nl()
             self._console.outdent()
             self._console.debug("Loaded %s libraries" % len(namespaces))
             self._console.debug("")

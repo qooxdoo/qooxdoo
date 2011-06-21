@@ -45,6 +45,9 @@ from ecmascript.backend import api
 from misc import filetool
 from generator.runtime.Log import Log
 from generator.runtime.Cache import Cache
+from generator.runtime.InterruptRegistry import InterruptRegistry
+
+#sys.setrecursionlimit(1500)
 
             
 def main():
@@ -63,6 +66,8 @@ def main():
     parser.add_option("-p", "--privates", action="store_true", dest="privates", default=False, help="optimize privates")
     parser.add_option("-b", "--basecalls", action="store_true", dest="basecalls", default=False, help="optimize basecalls")            
     parser.add_option("-i", "--inline", action="store_true", dest="inline", default=False, help="optimize inline")
+    parser.add_option("-r", "--variants", action="store_true", dest="variantsopt", default=False, help="optimize variants")
+    parser.add_option("-m", "--comments", action="store_true", dest="comments", default=False, help="optimize comments")
     parser.add_option("--all", action="store_true", dest="all", default=False, help="optimize all")            
 
     # Variant support
@@ -136,14 +141,19 @@ def main():
     if options.all or options.privates:
         if not options.quiet:
             print ">>> Optimizing privates..."
+        privates = {}
         if options.cache:
-            cache = Cache(options.cache, Log())
+            cache = Cache(options.cache, {
+                'console':Log(), 
+                'jobconf':{"cache/downloads":options.cache+"/downloads"}, # faked, not used
+                'interruptRegistry':interruptRegistry
+            })
             privates, _ = cache.read(options.privateskey)
-            if privates != None:
-                privateoptimizer.load(privates)
-        privateoptimizer.patch(tree, fileId)
+            if privates == None:
+                privates = {}
+        privateoptimizer.patch(tree, fileId, privates)
         if options.cache:
-            cache.write(options.privateskey, privateoptimizer.get())
+            cache.write(options.privateskey, privates)
          
          
     #
@@ -219,9 +229,19 @@ def _compileTree(tree, prettyFlag):
     return u''.join(result)
      
 
+def interruptCleanup(interruptRegistry):
+    for func in interruptRegistry.Callbacks:
+        try:
+            func()
+        except Error, e:
+            print >>sys.stderr, e  # just keep on with the others
+    
+
 #
 # Main routine
 #            
+
+interruptRegistry = InterruptRegistry()
             
 if __name__ == '__main__':
     try:
@@ -230,4 +250,5 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print
         print "Keyboard interrupt!"
+        interruptCleanup(interruptRegistry)
         sys.exit(1)

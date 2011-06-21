@@ -295,6 +295,7 @@ class Library(object):
                 # Ignore dot files
                 if fileName.startswith("."):
                     continue
+                self._console.dot()
 
                 # Process path data
                 filePath = os.path.join(root, fileName)

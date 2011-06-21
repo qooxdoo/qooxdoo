@@ -42,11 +42,11 @@ def log(level, msg, node=None):
     global verbose
     str = makeLogMessage(level, msg, node)
     if verbose:
-        print "      - " + str
+        print >> sys.stderr, "      - " + str
     else:
         if level != "Information":
-            print
-            print str
+            print >> sys.stderr
+            print >> sys.stderr, str
 
 
 def search(node, variantMap, fileId_="", verb=False):
