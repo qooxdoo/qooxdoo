@@ -91,7 +91,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
       // copy event listener structure
       var eventMgr = qx.event.Registration.getManager(window);
-      var listeners= eventMgr.__listeners;
+      var listeners = eventMgr.getAllListeners();
       var listenersCopy = {};
       for (var hash in listeners)
       {
@@ -124,7 +124,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
         );
       }
 
-      listeners = eventMgr.__listeners;
+      listeners = eventMgr.getAllListeners();
 
       for (var hash in listeners)
       {

@@ -222,6 +222,18 @@ qx.Class.define("qx.event.Manager",
 
 
     /**
+     * Returns all registered listeners.
+     * 
+     * @internal
+     * 
+     * @return {Map} All registered listeners. The key is the hash code form an object.
+     */
+    getAllListeners : function() {
+      return this.__listeners;
+    },
+
+
+    /**
      * Returns a serialized array of all events attached on the given target.
      *
      * @param target {Object} Any valid event target
