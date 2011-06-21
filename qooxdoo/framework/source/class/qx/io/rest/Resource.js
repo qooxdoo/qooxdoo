@@ -17,10 +17,41 @@
 
 ************************************************************************ */
 
+/**
+ * Client-side wrapper of a REST resource.
+ *
+ * Each instance represents a resource in terms of REST. A number of actions
+ * unique to the resource can be defined and invoked. A resource with it's
+ * actions is configured declaratively by passing a resource description to
+ * the constructor, or programatically using {@link #map}.
+ *
+ * Each action is associated to a route. A route is a combination of method,
+ * URL pattern and optional parameter constraints.
+ *
+ * An action is invoked by calling a method with the same name. When a URL
+ * pattern of a route contains positional parameters, those parameters must be
+ * passed when invoking the associated action. Also, constraints defined in the
+ * route must be satisfied.
+ *
+ * When an action is invoked, a request is configured according to the associated
+ * route, is passed the parameters and finally send. What kind of request is send
+ * can be configured by overwriting {@link #_getRequest}.
+ *
+ * In order to respond to successfull (or erroneous) invocations of actions,
+ * either listen to the generic "success" or "error" event and get the action
+ * from the event data, or listen to action specific events defined at runtime.
+ * Action specific events follow the pattern "<action>Success" and
+ * "<action>Error", e.g. "indexSuccess".
+ */
 qx.Class.define("qx.io.rest.Resource",
 {
   extend : qx.core.Object,
 
+  /**
+   * @param description {[]?} Array of maps. Each map describes a
+   *   route and must have the properties <code>action</code>,<code>method</code>,
+   *   <code>url</code>. <code>check</code> is optional.
+   */
   construct: function(description)
   {
     this.base(arguments);
@@ -38,7 +69,20 @@ qx.Class.define("qx.io.rest.Resource",
 
   events:
   {
+    /**
+     * Fired when request associated to action was successful.
+     *
+     * Additionally, action specific events are fired that follow the pattern
+     * "<action>Success", e.g. "indexSuccess".
+     */
     "success": "qx.event.type.Rest",
+
+    /**
+     * Fired when request associated to action fails.
+     *
+     * Additionally, action specific events are fired that follow the pattern
+     * "<action>Error", e.g. "indexError".
+     */
     "error": "qx.event.type.Rest"
   },
 
@@ -53,14 +97,36 @@ qx.Class.define("qx.io.rest.Resource",
     // Request
     //
 
+    /**
+     * Configure request.
+     *
+     * @param callback {Function} Function called before request is send.
+     *   Receives pre-configured request and action.
+     *
+     * <pre class="javascript">
+     * req.setConfigureRequest(function(req, action) {
+     *   if (action === "index") {
+     *     req.setAccept("application/json");
+     *   }
+     * });
+     * </pre>
+     */
     configureRequest: function(callback) {
       this.__configureRequestCallback = callback;
     },
 
+    /**
+     * Get request.
+     *
+     * May be overriden to change type of request.
+     */
     _getRequest: function() {
       return new qx.io.request.Xhr();
     },
 
+    /**
+     * Create request.
+     */
     __createRequest: function() {
       if (this.__request) {
         this.__request.dispose();
@@ -74,6 +140,24 @@ qx.Class.define("qx.io.rest.Resource",
     // Routes and actions
     //
 
+    /**
+     * Map action to combination of method and URL pattern.
+     *
+     * <pre class="javascript">
+     *   res.map("show", "GET", "/photos/:id", {id: /\d+/});
+     *
+     *   // GET /photos/123
+     *   res.show({id: "123"});
+     * </pre>
+     *
+     * @param action {String} Action to associate to request.
+     * @param method {String} Method to configure request with.
+     * @param url {String} URL to configure request with. May contain positional
+     *   parameters (:param) that are replaced by values given when the action
+     *   is invoked.
+     * @param check {Map?} Map defining parameter constraints,where the key is
+     *   the parameter and the value a regular expression.
+     */
     map: function(action, method, url, check) {
       this.__routes[action] = [method, url, check];
 
@@ -91,6 +175,17 @@ qx.Class.define("qx.io.rest.Resource",
       }, this);
     },
 
+    /**
+     * Invoke action with parameters.
+     *
+     * Internally called by actions dynamically created.
+     *
+     * May be overriden to customize action and parameter handling.
+     *
+     * @param action {String} Action to invoke.
+     * @param params {Map} Map of parameters to be send as part of the request.
+     *   Inserted into URL when a matching positional parameter is found.
+     */
     _invoke: function(action, params) {
       var req = this.__request,
           config = this._getRequestConfig(action, params),
@@ -141,10 +236,28 @@ qx.Class.define("qx.io.rest.Resource",
       this.__invoked[action] = true;
     },
 
+    /**
+     * Resend request associated to action.
+     *
+     * Replays parameters given when action was invoked originally.
+     *
+     * @param action {String} Action to refresh.
+     */
     refresh: function(action) {
       this._invoke(action, this.__routes[action].params);
     },
 
+    /**
+     * Periodically invoke action.
+     *
+     * Replays parameters given when action was invoked originally. When the
+     * action was not yet invoked and requires parameters, parameters must be
+     * given.
+     *
+     * @param action {String} Action to poll.
+     * @param interval {Number} Interval in ms.
+     * @param params {Map?} Map of parameters. See {@link #_invoke}.
+     */
     poll: function(action, interval, params) {
       // Cache parameters
       if (params) {
@@ -161,18 +274,38 @@ qx.Class.define("qx.io.rest.Resource",
       timer.start();
     },
 
+    /**
+     * End polling of action.
+     *
+     * @param action {String} Action for which to end polling.
+     */
     endPoll: function(action) {
       if (this.__pollTimers[action]) {
         this.__pollTimers[action].stop();
       }
     },
 
+    /**
+     * Resume polling of action that was previously stopped.
+     *
+     * @param action {String} Action for which to resume polling.
+     */
     resumePoll: function(action) {
       if (this.__pollTimers[action]) {
         this.__pollTimers[action].start();
       }
     },
 
+    /**
+     * Get request configuration for action and parameters.
+     *
+     * This is were placeholders are replaced with parameters.
+     *
+     * @param action {String} Action associated to request.
+     * @param params {Map} Parameters to embed in request.
+     * @return {Map} Map of configuration settings. Has the properties
+     *   <code>method</code>, <code>url</code> and <code>check</code>.
+     */
     _getRequestConfig: function(action, params) {
       var route = this.__routes[action];
 
@@ -201,6 +334,12 @@ qx.Class.define("qx.io.rest.Resource",
       return {method: method, url: url, check: check};
     },
 
+    /**
+     * Get placeholders from URL.
+     *
+     * @param url {String} The URL to parse for placeholders.
+     * @return {Array} Array of placeholders without the placeholder prefix.
+     */
     __placeholdersFromUrl: function(url) {
       var placeholderRe = /:(\w+)/g,
           match,
@@ -221,6 +360,13 @@ qx.Class.define("qx.io.rest.Resource",
       return placeholders;
     },
 
+    /**
+     * Map actions from description. Allows to decoratively define maps.
+     *
+     * @param description {[Map]?} Array of maps. Each map describes a
+     *   route and must have the properties <code>action</code>,<code>method</code>,
+     *   <code>url</code>. <code>check</code> is optional.
+     */
     __mapFromDescription: function(description) {
       description.forEach(function(route, index) {
         var method = route["method"],
@@ -236,6 +382,11 @@ qx.Class.define("qx.io.rest.Resource",
       }, this);
     },
 
+    /**
+     * Declare event at runtime.
+     *
+     * @param type {String} Type of event.
+     */
     __declareEvent: function(type) {
       if (!this.constructor.$$events) {
         this.constructor.$$events = {};
