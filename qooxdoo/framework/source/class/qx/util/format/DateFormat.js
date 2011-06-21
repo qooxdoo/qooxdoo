@@ -92,7 +92,7 @@ qx.Class.define("qx.util.format.DateFormat",
     if (!locale)
     {
       this.__locale = qx.locale.Manager.getInstance().getLocale();
-      qx.locale.Manager.getInstance().bind("locale", this, "locale");
+      this.__bindingId = qx.locale.Manager.getInstance().bind("locale", this, "locale");
     }
     else
     {
@@ -222,7 +222,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
   members :
   {
-
+    __bindingId : null,
     __locale : null,
     __initialLocale : null,
     __format : null,
@@ -1781,7 +1781,11 @@ qx.Class.define("qx.util.format.DateFormat",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function()
+  {
+    if (this.__bindingId != null) {
+      qx.locale.Manager.getInstance().removeBinding(this.__bindingId);
+    }
     this.__formatTree = this.__parseFeed = this.__parseRules = null;
   }
 });
