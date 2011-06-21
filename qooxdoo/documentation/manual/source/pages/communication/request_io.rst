@@ -17,7 +17,7 @@ Basic Setup
 
 Before a request can be send, it must be configured. Configuration is accomplished by setting properties. The most commonly used properties include:
 
-* **url** (mandatory): The HTTP resource to request
+* **url**: The HTTP resource to request
 * **method**: The HTTP method, sometimes also referred to as HTTP verb. ``Script`` only accepts the ``GET`` method.
 * **requestData**: Data to be send as part of the request.
 * **requestHeaders**: Headers to send with the request
@@ -50,9 +50,9 @@ Events and states
 
 Once a request is sent using the ``send()`` method, it traverses various states. There are two ways to query the current state of the request.
 
-* **readyState**: An integer (0-4) representing UNSENT, OPENED, HEADERS_RECEIVED, LOADING and DONE.
+* **getReadyState()**: An integer (0-4) representing UNSENT, OPENED, HEADERS_RECEIVED, LOADING and DONE.
 
-* **phase**: Symbolic state mapping to deterministic events (success, abort, timeout, statusError) and intermediate readyStates.
+* **getPhase()**: Symbolic state mapping to deterministic events (success, abort, timeout, statusError) and intermediate readyStates.
 
 Events are fired when the request is progressing from one state to the other. The most important events in the lifecycle of a request include:
 
@@ -77,50 +77,10 @@ For a complete list of events, please refer to the API Documentation of `qx.io.r
 Response
 ========
 
-Once the request completed, a range of properties (accessible via a getter) are populated.
+Once the request completed, a range of getters return details about the response.
 
-* **response**: Response processed according to content type (``Xhr``) or as JSON (``Jsonp``).
-* **responseText**: Raw, unprocessed response (``Xhr`` only).
-* **status**: The numerical status of the response. For ``Xhr`` the status is the HTTP status. ``Jsonp`` only knows ``200`` (when callback was executed) and ``500`` (when it was not).
-
-Additionally, when working with an instance of ``Xhr``, the following methods are available.
-
-* **getResponseHeader(header)**
-* **getAllResponseHeaders()**
-
-Parsing
-=======
-
-.. note::
-   This section applies to ``Xhr`` only. For ``Jsonp``, the JSON data interchange format is always assumed.
-
-By default, ``response`` is populated with the response parsed according to the response content type. For the built-in parsers, parsing results in a JavaScript object.
-
-The content type is read from ``Content-Type`` response header. If the response content type is unrecognized, no parsing is done and ``response`` equals ``responseText``. Parsers associated to a content type are:
-
-* **JSON**: application/json
-* **XML**: application/xml
-
-The parser can be explicitly set with ``setParser()``. This can be useful if the content type returned from the server is wrong or the response needs special parsing. The setter accepts either a symbolic string (``"json"`` or ``"xml"``) or a function. If a function is given, this function is called once the request completes. It receives the raw response as first argument. The return value determines the ``response``.
-
-Accepting
-=========
-
-.. note::
-   This section applies to ``Xhr`` only.
-
-Some servers send distinct *representations* of the same resource depending on the content type accepted. For instance, a server may respond with either a JSON, XML or a HTML representation while requesting the *same* URL. By default, requests accept every content type. In effect, the server will respond with it’s default representation. If the server has no default representation, it may respond with the status code ``406`` (Not Acceptable).
-
-In order to choose a representation, set the accepted response content type with ``setAccept()``. It is a good practice to always set the preferred representation to guard against possible changes of the server’s default behavior.
-
-For more details, see `Accept header <http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1>`_ in the HTTP 1.1 specification.
-
-Caching
-=======
-
-Usually, one or more caches sit between the browser sending the request and the server answering the request. The most important cache is arguably the browser cache, which is enabled by default in all modern browsers. Other caches include various kinds of proxy servers. Understanding caches is vital to reduce latency and save bandwidth. However, a detailed introduction of HTTP caching is beyond the scope of this section. For more information, refer to the `Caching tutorial <http://www.mnot.net/cache_docs/>`_.
-
-To control the behavior of caches on the client-side, a number of HTTP Cache-Control directives can be sent as part of the request by setting the ``cache`` property (only applies to ``Xhr``). To circumvent caching, a common trick is to add a random string to the URL's query part. This is accomplished by setting ``cache`` to ``true`` (supported by all transports).
+* **getResponse()**: Response processed according to parser settings or content type (``Xhr``). Always JSON for (``Jsonp``).
+* **getStatus()**: The numerical status of the response. For ``Xhr`` the status is the HTTP status. ``Jsonp`` only knows ``200`` (when callback was executed) and ``500`` (when it was not).
 
 Authentication
 ==============
@@ -139,3 +99,58 @@ The request’s response can be bound to a widget, model or any other object usi
   // req is an instance of qx.io.request.*,
   // label an instance of qx.ui.basic.Label
   req.bind("response", label, "value");
+
+Specific to XHR
+===============
+
+Features specific to ``Xhr``.
+
+Parsing
+-------
+
+By default, ``response`` is populated with the response parsed according to the response content type. For the built-in parsers, parsing always results in a JavaScript object.
+
+The content type is read from ``Content-Type`` response header. If the response content type is unrecognized, no parsing is done and ``response`` equals ``responseText``. Parsers associated to a content type are:
+
+* **JSON**: application/json
+* **XML**: application/xml
+
+The parser can be explicitly set with ``setParser()``. This can be useful if the content type returned from the server is wrong or the response needs special parsing. The setter accepts either a symbolic string (``"json"`` or ``"xml"``) or a function. If a function is given, this function is called once the request completes. It receives the raw response as first argument. The return value determines the ``response``.
+
+Response
+--------
+
+* **getResponseText()**: Raw, unprocessed response
+* **getResponseHeader(header)**
+* **getAllResponseHeaders()**
+
+Accepting
+---------
+
+Some servers send distinct *representations* of the same resource depending on the content type accepted. For instance, a server may respond with either a JSON, XML or a HTML representation while requesting the *same* URL. By default, requests accept every content type. In effect, the server will respond with it’s default representation. If the server has no default representation, it may respond with the status code ``406`` (Not Acceptable).
+
+In order to choose a representation, set the accepted response content type with ``setAccept()``. It is a good practice to always set the preferred representation to guard against possible changes of the server’s default behavior.
+
+For more details, see `Accept header <http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1>`_ in the HTTP 1.1 specification.
+
+Caching
+-------
+
+Usually, one or more caches sit between the browser sending the request and the server answering the request. The most important cache is arguably the browser cache, which is enabled by default in all modern browsers. Other caches include various kinds of proxy servers. Understanding caches is vital to reduce latency and save bandwidth. However, a detailed introduction of HTTP caching is beyond the scope of this section. For more information, refer to the `Caching tutorial <http://www.mnot.net/cache_docs/>`_.
+
+To control the behavior of caches on the client-side, a number of HTTP Cache-Control directives can be sent as part of the request by setting the ``cache`` property. To circumvent caching, a common trick is to add a random string to the URL's query part. This is accomplished by setting ``cache`` to ``false``.
+
+Specific to JSON
+================
+
+Features specific to ``Jsonp``.
+
+Callback
+--------
+
+Callback handling is done behind the scenes but can be customized. If the service only accepts a special callback parameter to read the desired callback function name from, this parameter can be set with ``setCallbackParam()``. Some services do not allow custom callback names at all. In this case, ``setCallbackName()`` wires the request to the fixed callback name.
+
+Caching
+-------
+
+No Cache-Control directives can be set, but caching can be disabled by setting ``cache`` to ``false``. Works by adding a random string to the URL's query part.
