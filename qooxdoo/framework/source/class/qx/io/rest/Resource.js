@@ -38,6 +38,7 @@ qx.Class.define("qx.io.rest.Resource",
 
   events:
   {
+    "success": "qx.event.type.Rest",
     "error": "qx.event.type.Rest"
   },
 
@@ -129,6 +130,7 @@ qx.Class.define("qx.io.rest.Resource",
       req.addListener("success", function() {
         var props = [req.getResponse(), null, false, req, action, req.getPhase()];
         this.fireEvent(action + "Success", qx.event.type.Rest, props);
+        this.fireEvent("success", qx.event.type.Rest, props);
       }, this);
 
       // Handle erroneous request

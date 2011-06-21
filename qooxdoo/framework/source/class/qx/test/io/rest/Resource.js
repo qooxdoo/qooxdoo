@@ -503,6 +503,21 @@ qx.Class.define("qx.test.io.rest.Resource",
       });
     },
 
+    "test: fire success": function() {
+      var res = this.res,
+          req = this.req,
+          that = this;
+
+      res.index();
+      this.assertEventFired(res, "success", function() {
+        that.respond("Affe");
+      }, function(e) {
+        that.assertEquals("Affe", e.getData());
+        that.assertEquals("index", e.getAction());
+        that.assertIdentical(req, e.getRequest());
+      });
+    },
+
     "test: fire actionError": function() {
       var res = this.res,
           req = this.req,
