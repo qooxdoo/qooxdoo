@@ -37,8 +37,8 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res = new qx.io.rest.Resource();
 
       // Default routes
-      res.map("GET", "/photos", "index");
-      res.map("GET", "/photos/current", "current");
+      res.map("index", "GET", "/photos");
+      res.map("current", "GET", "/photos/current");
 
       // Need to set up double request explicitly
       qx.io.request.Xhr.restore();
@@ -150,7 +150,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.popular = function() {};
 
       this.assertException(function() {
-        res.map("GET", "/photos/popular", "popular");
+        res.map("popular", "GET", "/photos/popular");
       }, Error);
     },
 
@@ -170,14 +170,14 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       description = [
         {
+          action: "index",
           method: "GET",
-          url: "/photos",
-          action: "index"
+          url: "/photos"
         },
         {
+          action: "create",
           method: "POST",
           url: "/photos",
-          action: "create",
           check: check
         }
       ];
@@ -234,7 +234,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("GET", "/photos/:id", "show");
+      res.map("show", "GET", "/photos/:id");
       res.show({id: "1"});
 
       this.assertCalledWith(req.setUrl, "/photos/1");
@@ -244,7 +244,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("GET", "/photos/:id/comments/:commentId", "showComments");
+      res.map("showComments", "GET", "/photos/:id/comments/:commentId");
       res.showComments({id: "1", commentId: "2"});
 
       this.assertCalledWith(req.setUrl, "/photos/1/comments/2");
@@ -254,7 +254,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("GET", "/photos/:id/comments?id=:commentId", "showComments");
+      res.map("showComments", "GET", "/photos/:id/comments?id=:commentId");
       res.showComments({id: "1", commentId: "2"});
 
       this.assertCalledWith(req.setUrl, "/photos/1/comments?id=2");
@@ -264,7 +264,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("GET", "http://example.com:8080/photos/:id", "show");
+      res.map("show", "GET", "http://example.com:8080/photos/:id");
       res.show({id: "1"});
 
       this.assertCalledWith(req.setUrl, "http://example.com:8080/photos/1");
@@ -274,7 +274,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("GET", ":page", "show");
+      res.map("show", "GET", ":page");
       res.show({page: "index"});
       this.assertCalledWith(req.setUrl, "index");
     },
@@ -283,7 +283,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("GET", "../:page", "showParent");
+      res.map("showParent", "GET", "../:page");
       res.showParent({page: "index"});
       this.assertCalledWith(req.setUrl, "../index");
     },
@@ -291,7 +291,7 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: invoke action for route with check": function() {
       var res = this.res;
 
-      res.map("GET", "/photos/zoom/:id", "zoom", {id: /\d+/});
+      res.map("zoom", "GET", "/photos/zoom/:id", {id: /\d+/});
       res.zoom({id: "123"});
 
       this.assertSend("GET", "/photos/zoom/123");
@@ -301,7 +301,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           params;
 
-      res.map("GET", "/photos/:photoId/comments/:id", "photoComments");
+      res.map("photoComments", "GET", "/photos/:photoId/comments/:id");
       this.assertException(function() {
         res.photoComments({photoId: "1"});
       }, Error, "Missing parameter 'id'");
@@ -310,7 +310,7 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: invoke action throws when param not match check": function() {
       var res = this.res;
 
-      res.map("GET", "/photos/zoom/:id", "zoom", {id: /\d+/});
+      res.map("zoom", "GET", "/photos/zoom/:id", {id: /\d+/});
       this.assertException(function() {
         res.zoom({id: "FAIL"});
       }, Error, "Parameter id is invalid");
@@ -336,7 +336,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("GET", "/photos/:id", "show");
+      res.map("show", "GET", "/photos/:id");
       res.show({id: "1"});
       this.assertSend("GET", "/photos/1");
 
@@ -372,7 +372,7 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: poll action sets initial params": function() {
       var res = this.res;
 
-      res.map("GET", "/photos/:id", "show");
+      res.map("show", "GET", "/photos/:id");
       this.stub(res, "_invoke");
 
       res.poll("show", 10, {id: "1"});
@@ -383,7 +383,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("GET", "/photos/:id", "show");
+      res.map("show", "GET", "/photos/:id");
       res.show({id: "1"});
       this.assertSend("GET", "/photos/1");
 
@@ -443,11 +443,11 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       sandbox.useFakeTimers();
 
-      res.map("GET", "/photos/stub", "stub");
+      res.map("other", "GET", "/photos/other");
 
-      stub = this.stub(res, "refresh").withArgs("stub");
+      stub = this.stub(res, "refresh").withArgs("other");
       res.poll("index", 10);
-      res.poll("stub", 10);
+      res.poll("other", 10);
 
       sandbox.clock.tick(10);
       numCalled = stub.callCount;

@@ -28,7 +28,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
       var url = this.getUrl("qx/test/xmlhttp/sample.txt"),
           res = this.res;
 
-      res.map("GET", url, "index");
+      res.map("index", "GET", url);
       res.addListener("indexSuccess", function(e) {
         this.resume(function() {
           this.assertEquals("SAMPLE", e.getData());
@@ -62,7 +62,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
       var url = "/not-found",
           res = this.res;
 
-      res.map("GET", url, "index");
+      res.map("index", "GET", url);
       res.addListener("error", function(e) {
         this.resume(function() {
           this.assertEquals("statusError", e.getPhase());
@@ -81,7 +81,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
           count = 0,
           previousResponse = "";
 
-      res.map("GET", url, "index");
+      res.map("index", "GET", url);
       res.addListener("indexSuccess", function(e) {
         var response = e.getData();
         count++;

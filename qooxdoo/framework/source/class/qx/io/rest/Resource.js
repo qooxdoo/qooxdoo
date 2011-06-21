@@ -73,12 +73,12 @@ qx.Class.define("qx.io.rest.Resource",
     // Routes and actions
     //
 
-    map: function(method, url, action, check) {
+    map: function(action, method, url, check) {
       this.__routes[action] = [method, url, check];
 
       if (typeof this[action] !== "undefined") {
         throw new Error("Method with name of action (" +
-          action + ") already exists. Choose another action name.");
+          action + ") already exists");
       }
 
       this.__declareEvent(action + "Success");
@@ -233,7 +233,7 @@ qx.Class.define("qx.io.rest.Resource",
         qx.core.Assert.assertString(url, "Url must be string for route #" + index);
         qx.core.Assert.assertString(action, "Action must be string for route #" + index);
 
-        this.map(method, url, action, check);
+        this.map(action, method, url, check);
       }, this);
     },
 
