@@ -78,9 +78,27 @@ a:hover { color: #e89c00; }
   -webkit-background-clip: padding-box;
 }
 
-
 .button.active {
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
+}
+
+.toolbar-button {
+  cursor: pointer;
+  font-weight: bold;
+  color: black;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#c4c4c4));
+  border: 1px solid #232323;
+  -webkit-border-radius: 4px;
+  font: bold 17px Helvetica;
+  line-height : 40px;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  -webkit-background-clip: padding-box;
+}
+
+.toolbar-button.active {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
 }
 
 /* LISTS */
@@ -350,4 +368,22 @@ input[type="checkbox"]:checked {
 
 input[type="checkbox"]:disabled {
 
+}
+
+/*  TOOLBAR  */
+.toolbar-separator {
+  width: 5px;
+  background-color: red;
+}
+
+.toolbar {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  z-index: 1;
+  -webkit-transition: bottom .65s;
+}
+
+.toolbar-hidden {
+  bottom: -100px;
 }

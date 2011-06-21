@@ -68,6 +68,20 @@ qx.Class.define("mobileshowcase.page.Overview",
         qx.ui.mobile.navigation.Manager.getInstance().executeGet("/"+path);
       }, this);
       this.getContent().add(list);
+      var toolbar = new qx.ui.mobile.toolbar.ToolBar();
+      this.add(toolbar);
+      toolbar.add(new qx.ui.mobile.toolbar.Button("search"));
+      toolbar.add(new qx.ui.mobile.toolbar.Separator());
+      toolbar.add(new qx.ui.mobile.toolbar.Button("settings"));
+      toolbar.add(new qx.ui.mobile.toolbar.Separator());
+      var closeButton = new qx.ui.mobile.toolbar.Button("Hide ToolBar");
+      toolbar.add(closeButton);
+      closeButton.addListener("tap", function(){
+        toolbar.toggle();
+      });
+      this.getContent().addListener("tap", function(){
+        toolbar.toggle();
+      });
     }
   }
 });

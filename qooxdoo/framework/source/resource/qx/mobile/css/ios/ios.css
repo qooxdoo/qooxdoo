@@ -384,3 +384,40 @@ input[type="checkbox"]:disabled {
   background: -webkit-gradient(linear,left top,left bottom,from(#ffffff), to(#ebebeb));
   background: -webkit-linear-gradient(top, #ffffff, #ebebeb);
 }
+
+/*  TOOLBAR  */
+
+.toolbar-button {
+  cursor: pointer;
+  font: normal 17px Helvetica;
+  line-height : 40px;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  -webkit-background-clip: padding-box;
+  color: #fff;
+}
+
+.toolbar-button.active {
+  font-weight: bold;
+}
+
+.toolbar-separator {
+  width: 5px;
+}
+
+.toolbar {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  z-index: 1;
+  border-top: 1px solid #2d3033;
+  background: -webkit-gradient(linear,left top,left bottom,from(#d8dee6), color-stop(0.05, #b0bbce), color-stop(0.5, #8e9fb6), color-stop(0.5, #8195af), to(#778ca8));
+  background: -webkit-linear-gradient(top, #d8dee6, #b0bbce 5%,#8e9fb6 50%, #8195af 50%, #778ca8);
+  -webkit-transition: bottom .65s;
+}
+
+
+.toolbar-hidden {
+  bottom: -100px;
+}
