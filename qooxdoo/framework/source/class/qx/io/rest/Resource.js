@@ -191,7 +191,8 @@ qx.Class.define("qx.io.rest.Resource",
           config = this._getRequestConfig(action, params),
           method = config.method,
           url = config.url,
-          check = config.check;
+          check = config.check,
+          requestData;
 
       if(typeof check !== "undefined") {
         qx.core.Assert.assertObject(check, "Check must be object with params as keys");
@@ -210,10 +211,19 @@ qx.Class.define("qx.io.rest.Resource",
         req = this.__createRequest();
       }
 
-      // Set method and URL
-      req.set({method: method, url: url});
+      // Remove positional parameters from request data (already in URL)
+      if (params) {
+        requestData = qx.lang.Object.clone(params);
+        this.__placeholdersFromUrl(this.__routes[action][1]).forEach(function(placeholder) {
+          delete requestData[placeholder];
+        });
+      }
 
       // Configure request
+      req.set({method: method, url: url});
+      if (requestData) {
+        req.setRequestData(requestData);
+      }
       if (this.__configureRequestCallback) {
         this.__configureRequestCallback.call(this, req, action);
       }

@@ -243,6 +243,44 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalledWith(req.setUrl, "/photos/1");
     },
 
+    "test: invoke action with additional params": function() {
+      var res = this.res,
+          req = this.req,
+          call,
+          msg;
+
+      res.map("show", "GET", "/photos/:id");
+      res.show({id: "1", width: "200"});
+
+      // GET /photos/1?width=200
+      call = req.setRequestData.getCall(0);
+      if (call) {
+        msg = "Request data must include additional param width";
+        this.assertEquals("200", call.args[0].width, msg);
+      } else {
+        this.fail("Must call setRequestData");
+      }
+    },
+
+    "test: invoke action with additional params not include positional params": function() {
+      var res = this.res,
+          req = this.req,
+          call,
+          msg;
+
+      res.map("show", "GET", "/photos/:id");
+      res.show({id: "1", width: "200"});
+
+      // GET /photos/1?width=200
+      call = req.setRequestData.getCall(0);
+      if (call) {
+        msg = "Request data must not include positional param id";
+        this.assertUndefined(call.args[0].id, msg);
+      } else {
+        this.fail("Must call setRequestData");
+      }
+    },
+
     "test: invoke action with multiple positional params": function() {
       var res = this.res,
           req = this.req;
