@@ -37,6 +37,12 @@ qx.Theme.define("fce.theme.Appearance",
       include : "list"
     },
     
+    "featureselector/listitem" :
+    {
+      alias : "listitem",
+      include : "listitem"
+    },
+    
     "featureselector/table" :
     {
       alias : "table",
