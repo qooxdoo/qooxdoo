@@ -415,7 +415,7 @@ qx.Class.define("qx.ui.form.DateField",
     if (qx.core.Environment.get("qx.dynlocale"))
     {
       if (this.__localeListenerId) {
-        this.removeListenerById(this.__localeListenerId);
+        qx.locale.Manager.getInstance().removeListenerById(this.__localeListenerId);
       }
     }
   }
