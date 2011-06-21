@@ -791,13 +791,14 @@ class Packer(object):
                     r += cls.write("(;")
 
             # operation
-            elif node.parent.type == "operation":
-                if node.isComplex():
-                    # (?: hook operation)
-                    if node.parent.get("operator") == "HOOK":
-                        cls.sep()
-                    else:
-                        cls.line()
+            #elif node.parent.type == "operation":
+            #    if node.isComplex():
+            #        # (?: hook operation)
+            #        if node.parent.get("operator") == "HOOK":
+            #            cls.sep()
+            #        else:
+            #            cls.line()
+
             return r
 
         @method(symbol("second"))
@@ -888,11 +889,12 @@ class Packer(object):
                         r += cls.write("(;;")
 
             # operation
-            elif node.parent.type == "operation":
-                # (?: hook operation)
-                if node.parent.get("operator") == "HOOK":
-                    if node.isComplex():
-                        cls.sep()
+            #elif node.parent.type == "operation":
+            #    # (?: hook operation)
+            #    if node.parent.get("operator") == "HOOK":
+            #        if node.isComplex():
+            #            cls.sep()
+
             return r
 
         @method(symbol("third"))
