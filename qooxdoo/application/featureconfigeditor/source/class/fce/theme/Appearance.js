@@ -37,10 +37,40 @@ qx.Theme.define("fce.theme.Appearance",
       include : "list"
     },
     
-    "featureselector/listitem" :
+    "listitem/textfield" :
     {
-      alias : "listitem",
-      include : "listitem"
+      style : function(states)
+      {
+        var textColor;
+        if (states.disabled) {
+          textColor = "text-disabled";
+        } else if (states.showingPlaceholder) {
+          textColor = "text-placeholder";
+        } else {
+          textColor = "text";
+        }
+
+        var decorator;
+        var padding;
+        if (states.disabled) {
+          decorator = "inset";
+          padding = [2, 3];
+        } else if (states.invalid) {
+          decorator = "border-invalid";
+          padding = [1, 2];
+        }
+        else {
+          padding = [2, 3];
+          decorator = "inset";
+        }
+
+        return {
+          decorator : decorator,
+          padding   : padding,
+          textColor : textColor,
+          backgroundColor : states.disabled ? "background-disabled" : "white"
+        };
+      }
     },
     
     "featureselector/table" :
