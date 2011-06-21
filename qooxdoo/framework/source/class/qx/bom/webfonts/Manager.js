@@ -470,6 +470,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     delete this.__createdStyles;
     this.removeStyleSheet();
     for (var prop in this.__validators) {
+      this.__validators[prop].removeListener("changeStatus", this.__onFontChangeStatus, this);
       this.__validators[prop].dispose();
     }
     qx.bom.webfonts.Validator.removeDefaultHelperElements();
