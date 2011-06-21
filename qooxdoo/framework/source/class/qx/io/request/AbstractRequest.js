@@ -483,10 +483,10 @@ qx.Class.define("qx.io.request.AbstractRequest",
     /**
      * Get a single response header from response.
      *
-     * @param  key {String}
-     *         Key of the header to get the value from.
+     * @param key {String}
+     *   Key of the header to get the value from.
      * @return {String}
-     *         Response header.
+     *   Response header.
      */
     getResponseHeader: function(key) {
       return this._transport.getResponseHeader(key);
@@ -496,7 +496,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Get the content type response header from response.
      *
      * @return {String}
-     *         Content type response header.
+     *   Content type response header.
      */
     getResponseContentType: function() {
       return this.getResponseHeader("Content-Type");
