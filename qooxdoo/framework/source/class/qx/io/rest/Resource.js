@@ -93,10 +93,10 @@ qx.Class.define("qx.io.rest.Resource",
 
     _invoke: function(action, params) {
       var req = this.__request,
-          requestParams = this._getRequestParams(action, params),
-          method = requestParams[0],
-          url = requestParams[1],
-          check = requestParams[2];
+          config = this._getRequestConfig(action, params),
+          method = config.method,
+          url = config.url,
+          check = config.check;
 
       if(typeof check !== "undefined") {
         qx.core.Assert.assertObject(check, "Check must be object with params as keys");
@@ -115,16 +115,13 @@ qx.Class.define("qx.io.rest.Resource",
         req = this.__createRequest();
       }
 
+      // Set method and URL
+      req.set({method: method, url: url});
+
       // Configure request
       if (this.__configureRequestCallback) {
         this.__configureRequestCallback.call(this, req, action);
       }
-
-      // Set method and URL
-      req.set({
-        method: method,
-        url: url
-      });
 
       // Handle successful request
       req.addListener("success", function() {
@@ -176,7 +173,7 @@ qx.Class.define("qx.io.rest.Resource",
       }
     },
 
-    _getRequestParams: function(action, params) {
+    _getRequestConfig: function(action, params) {
       var route = this.__routes[action];
 
       if (!qx.lang.Type.isArray(route)) {
@@ -201,7 +198,7 @@ qx.Class.define("qx.io.rest.Resource",
         url = url.replace(re, params[placeholder]);
       });
 
-      return [method, url, check];
+      return {method: method, url: url, check: check};
     },
 
     __placeholdersFromUrl: function(url) {

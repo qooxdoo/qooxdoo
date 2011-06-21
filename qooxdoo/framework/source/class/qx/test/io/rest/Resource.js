@@ -129,10 +129,10 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           params;
 
-      params = res._getRequestParams("index");
+      params = res._getRequestConfig("index");
 
-      this.assertEquals("GET", params[0]);
-      this.assertEquals("/photos", params[1]);
+      this.assertEquals("GET", params.method);
+      this.assertEquals("/photos", params.url);
     },
 
     "test: map action creates method": function() {
@@ -184,11 +184,14 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       res = this.res = new qx.io.rest.Resource(description);
 
-      params = res._getRequestParams("index");
-      this.assertArrayEquals(["GET", "/photos", undefined], params);
+      params = res._getRequestConfig("index");
+      this.assertEquals("GET", params.method);
+      this.assertEquals("/photos", params.url);
 
-      params = res._getRequestParams("create");
-      this.assertArrayEquals(["POST", "/photos", check], params);
+      params = res._getRequestConfig("create");
+      this.assertEquals("POST", params.method);
+      this.assertEquals("/photos", params.url);
+      this.assertEquals(check, params.check);
     },
 
     "test: map action from description throws with non-array": function() {
