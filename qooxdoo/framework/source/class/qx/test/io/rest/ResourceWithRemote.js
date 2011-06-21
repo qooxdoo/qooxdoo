@@ -93,7 +93,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
       this.wait();
     },
 
-    "test: invoke first poll later": function() {
+    "test: poll action": function() {
       // Handles GET
       var url = this.getUrl("qx/test/xmlhttp/random.php"),
           res = this.res,
@@ -101,6 +101,9 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
           previousResponse = "";
 
       res.map("index", "GET", url);
+
+      // Response headers must contain explicit cache control for this
+      // to work in IE
       res.addListener("indexSuccess", function(e) {
         var response = e.getData();
         count++;
@@ -115,10 +118,6 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
         }
 
       }, this);
-
-      qx.event.Timer.once(function() {
-        res.index();
-      }, this, 100);
 
       res.poll("index", 100);
       this.wait();

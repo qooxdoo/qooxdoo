@@ -265,6 +265,15 @@ qx.Class.define("qx.io.rest.Resource",
      * action was not yet invoked and requires parameters, parameters must be
      * given.
      *
+     * Please note that IE tends to cache overly agressive. One work-around is
+     * to disable caching on the client side by configuring the request with
+     * <code>setCache(false)</code>. If you control the server, a better
+     * work-around is to include appropriate headers to explicitly control
+     * caching. This way you still avoid requests that can be correctly answered
+     * from cache (e.g. when nothing has changed since the last poll). Please
+     * refer to <a href="http://www.mnot.net/javascript/xmlhttprequest/cache.html">
+     * XMLHttpRequest Caching Test</a> for available options.
+     *
      * @param action {String} Action to poll.
      * @param interval {Number} Interval in ms.
      * @param params {Map?} Map of parameters. See {@link #_invoke}.
