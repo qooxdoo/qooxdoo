@@ -61,7 +61,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
     },
 
 
-    // todo -> move selected / selectable to mixin
     /**
      * Whether the row is selected.
      */
