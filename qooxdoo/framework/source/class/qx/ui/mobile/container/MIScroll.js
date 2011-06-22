@@ -128,7 +128,6 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     __registerEventListeners : function()
     {
       qx.event.Registration.addListener(window, "orientationchange", this._refresh, this);
-      // TODO: only add this event for desktop browsers
       qx.event.Registration.addListener(window, "resize", this._refresh, this);
       this.addListener("domupdated", this._refresh, this);
     },
