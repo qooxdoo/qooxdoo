@@ -333,24 +333,15 @@ qx.Class.define("qx.test.data.controller.List",
     testSelectionSingleRemoveFirst: function() {
       this.__setUpString();
       var model = this.__model;
-
-      var sb = new qx.ui.form.SelectBox();
-      this.__controller.setTarget(sb);
-
-      this.__controller.getSelection().push(model.getItem(0));
+      this.__list.setSelectionMode("one");
 
       var selection = this.__controller.getSelection();
-      
-      selection.addListener("change", function(e) {
-        this.resume(function() {
-          this.assertEquals("b", selection.getItem(0));
-          sb.dispose();
-        }, this);
-      }, this);
 
-      model.removeAt(0);
+      this.assertEquals(model.getItem(0), this.__list.getSelection()[0].getModel());
 
-      this.wait();
+      this.assertEventFired(selection, "change", function() {
+        model.removeAt(0);
+      });
     },
 
 
