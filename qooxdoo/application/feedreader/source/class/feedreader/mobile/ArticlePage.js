@@ -58,6 +58,7 @@ qx.Class.define("feedreader.mobile.ArticlePage",
 
       // add the article embed
       this.__article = new qx.ui.mobile.embed.Html();
+      this.__article.addCssClass("whitearea");
       this.getContent().add(this.__article);
     },
 
