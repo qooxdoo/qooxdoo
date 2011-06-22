@@ -494,7 +494,7 @@ qx.Class.define("qx.ui.menu.Menu",
     // property apply
     _applyOpenedButton : function(value, old)
     {
-      if (old) {
+      if (old && old.getMenu()) {
         old.getMenu().exclude();
       }
 
