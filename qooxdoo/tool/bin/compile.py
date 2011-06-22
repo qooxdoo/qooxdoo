@@ -143,11 +143,9 @@ def main():
             print ">>> Optimizing privates..."
         privates = {}
         if options.cache:
-            cache = Cache(options.cache, {
-                'console':Log(), 
-                'jobconf':{"cache/downloads":options.cache+"/downloads"}, # faked, not used
-                'interruptRegistry':interruptRegistry
-            })
+            cache = Cache(options.cache, 
+                interruptRegistry=interruptRegistry
+            )
             privates, _ = cache.read(options.privateskey)
             if privates == None:
                 privates = {}

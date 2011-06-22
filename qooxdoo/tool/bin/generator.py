@@ -116,7 +116,7 @@ Arguments:
     parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="log file")
     parser.add_option("-s", "--stacktrace", action="store_true", dest="stacktrace", default=False, help="enable stack traces on fatal exceptions")
     parser.add_option("-m", "--macro", dest="letmacros", metavar="KEY:VAL", action="map", type="string", default={}, help="define/overwrite a global 'let' macro KEY with value VAL")
-    parser.add_option("-d", "--daemon", dest="daemon", action="store_true", default=False, help="sends the generator in the background, listening on socket")
+    parser.add_option("-d", "--daemon", dest="daemon", action="store_true", default=False, help="(EXPERIMENTAL - DON'T USE) puts the generator in daemon mode")
     
     # Dynamic options (currently not supported)
     #parser.add_option("--setting", action="extend", dest="settings", metavar="KEY:VALUE", type="string", default=[], help="Used settings")
@@ -241,7 +241,7 @@ Arguments:
     else: 
         from generator.runtime.Generatord import Generatord
         console.head("Executing: Daemon Mode", True)
-        generatord = Generatord()
+        generatord = Generatord(context)
         console.info("Opening port %s on %s, serving in background..." % (generatord.servAddr[1], 
             generatord.servAddr[0] if generatord.servAddr[0] else 'localhost')
         )

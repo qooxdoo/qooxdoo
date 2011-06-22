@@ -66,7 +66,12 @@ class Generator(object):
         else:
             cache_path  = self._job.get("cache/compile", "cache")
             cache_path  = self._config.absPath(cache_path)
-            self._cache = Cache(cache_path, context)
+            self._cache = Cache(cache_path, **{
+                'interruptRegistry' : context['interruptRegistry'],
+                'console' : context['console'],
+                'cache/downloads' : self._job.get("cache/downloads", cache_path + "/downloads"),
+                'cache/invalidate-on-tool-change' : self._job.get('cache/invalidate-on-tool-change', False),
+            })
             context['cache'] = self._cache
 
         console = self._console

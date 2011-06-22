@@ -25,6 +25,7 @@ import cPickle as pickle
 from misc import filetool
 from misc.securehash import sha_construct
 from generator.runtime.ShellCmd import ShellCmd
+from generator.runtime.Log import Log
 
 memcache  = {} # {key: {'content':content, 'time': (time.time()}}
 check_file     = u".cache_check_file"
@@ -33,12 +34,19 @@ CACHE_REVISION = 27530 # Change this to the current qooxdoo svn revision when ex
 class Cache(object):
 
 
-    def __init__(self, path, context):
+    ##
+    # kwargs:
+    #  'console' : Log()
+    #  'cache/downloads' : path
+    #  'interruptRegistry' : generator.runtime.InterruptRegistry (mandatory)
+    #  'cache/invalidate-on-tool-change' : True|False
+    #
+    def __init__(self, path, **kwargs):
         self._cache_revision = CACHE_REVISION
         self._path           = path
-        self._context        = context
-        self._console        = self._context['console']
-        self._downloads      = self._context['jobconf'].get("cache/downloads")
+        self._context        = kwargs
+        self._console        = kwargs.get('console', Log())
+        self._downloads      = kwargs.get("cache/downloads", path+"/downloads")
         self._check_file     = os.path.join(self._path, check_file)
         self._console.debug("Initializing cache...")
         self._console.indent()
@@ -59,7 +67,7 @@ class Cache(object):
     def _assureCacheIsValid(self, ):
         self._toolChainIsNewer = self._checkToolsNewer()
         if self._toolChainIsNewer:
-            if self._context['jobconf'].get("cache/invalidate-on-tool-change", False):
+            if self._context.get("cache/invalidate-on-tool-change", False):
                 self._console.info("Cleaning compile cache, as tool chain has changed")
                 self.cleanCompileCache()  # will also remove checkFile
             else:

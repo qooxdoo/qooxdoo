@@ -26,14 +26,25 @@
 ##
 
 import sys, os, re, string, types
+
+from generator import Context
+from generator.code.Class import Class
+from generator.runtime.Cache import Cache
+
+# -- BaseHTTPServer stuff ----
 import BaseHTTPServer, cgi
 
 # -- Pyro stuff ----
 import Pyro.core, Pyro.naming
 
+generator_context = None
+
 class Generatord(object):
 
-    def __init__(self):
+    def __init__(self, context):
+        global generator_context
+        generator_context = context
+        generator_context['cache'] = Cache("/tmp/qx1.5/cache", **generator_context) # TODO: cache path
         self.servAddr = ('',8008)
         #self.serv = BaseHTTPServer.HTTPServer(self.servAddr, httpServerHandler)
 
@@ -66,5 +77,12 @@ class httpServerHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 class JokeGen(Pyro.core.ObjBase):
     def joke(self,name):
         return "sorry "+name+", I don't know any jokes!"
+
+    def tree(self, classId, classPath, variantSet):
+        c = Class(classId, classPath, None, generator_context, {})
+        t = c.tree(variantSet)
+        return t
+
+
 
 
