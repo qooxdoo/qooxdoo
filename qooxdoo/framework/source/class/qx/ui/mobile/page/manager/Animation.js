@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
     /** All supported animations */
     ANIMATIONS :
     {
-      "slide" : true, // Todo: USE THIS FOR MORE INFORMATION
+      "slide" : true,
       "pop" : true,
       "fade" : true,
       "dissolve" : true,
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Animation",
     __startAnimation : function()
     {
       this.__inAnimation = true;
-      // TODO -> move animation code to an animation class
+
       this.fireDataEvent("animationStart", [this.__fromPage, this.__toPage]);
       var fromElement = this.__fromPage.getContainerElement();
       var toElement = this.__toPage.getContainerElement();
