@@ -182,7 +182,6 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     _refresh : function()
     {
       if (this.__scroll) {
-        // TODO: Set minHeight of containerElement?
         this.__scroll.refresh();
       }
     }
