@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
 
     // overridden
-    _createContentElement : function()
+    _getContentElement : function()
     {
       var contentElement = this.base(arguments);
       var scrollContentElement = this._getScrollContentElement();
