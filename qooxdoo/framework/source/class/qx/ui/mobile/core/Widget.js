@@ -567,6 +567,22 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
+     * Creates and returns the content DOM element of the widget.
+     * Override this method, to define another element as the content element.
+     *
+     * Note: Most times this element points to to the container element.
+     * When the widget has a more complex element structure,
+     * the function should return the element that should contain the content.
+     *
+     * @return {Element} the content DOM element of the widget
+     */
+    _createContentElement : function()
+    {
+      return this.getContainerElement();
+    },
+
+
+    /**
      * Triggers the {@link #scheduleDomUpdated} method. This method needs to be called
      * when the DOM has changed, e.g. an element was added / removed / styled.
      */
@@ -1259,25 +1275,9 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     getContentElement : function()
     {
       if (!this.__contentElement) {
-        this.__contentElement = this._getContentElement();
+        this.__contentElement = this._createContentElement();
       }
       return this.__contentElement;
-    },
-
-
-    /**
-     * Returns the content DOM element of the widget.
-     * Override this method, to define another element as the content element.
-     *
-     * Note: Most times this element points to to the container element.
-     * When the widget has a more complex element structure,
-     * the function should return the element that should contain the content.
-     *
-     * @return {Element} the content DOM element of the widget
-     */
-    _getContentElement : function()
-    {
-      return this.getContainerElement();
     },
 
 
