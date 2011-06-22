@@ -106,7 +106,6 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
         this.__backButtonHandler = qx.lang.Function.bind(this._onBackButton, this);
         this.__menuButtonHandler = qx.lang.Function.bind(this._onMenuButton, this);
         BackButton.override();
-        // TODO: Move this to an PhoneGap / Android Event Handler
         qx.bom.Event.addNativeListener(document, "backKeyDown", this.__backButtonHandler);
         qx.bom.Event.addNativeListener(document, "menuKeyDown", this.__menuButtonHandler);
       }
