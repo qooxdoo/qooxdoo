@@ -213,19 +213,6 @@ class Generator(object):
         # and resource lists etc.
         def scanLibrary(libraryKey):
 
-            def getJobsLib(path):
-                lib = None
-                libMaps = self._job.getFeature("library")
-                for l in libMaps:
-                    if l['path'] == path:
-                        lib = l
-                        break
-                if not lib:   # this must never happen
-                    raise RuntimeError("Unable to look up library \"%s\" in Job definition" % path)
-                return lib
-
-            # - Main -----------------------------------------------------------
-
             self._console.info("Scanning libraries  ", feed=False)
             self._console.indent()
 
