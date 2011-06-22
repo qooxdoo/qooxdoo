@@ -117,7 +117,6 @@ qx.Class.define("qx.ui.mobile.page.Page",
     qx.ui.mobile.page.Page.getManager().add(this);
     this._resize();
     qx.event.Registration.addListener(window, "orientationchange", this._resize, this);
-    // TODO: only add this event for desktop browsers
     qx.event.Registration.addListener(window, "resize", this._resize, this);
   },
 
@@ -459,7 +458,6 @@ qx.Class.define("qx.ui.mobile.page.Page",
   destruct : function()
   {
     qx.event.Registration.removeListener(window, "orientationchange", this._resize, this);
-    // TODO: only add this event for desktop browsers
     qx.event.Registration.removeListener(window, "resize", this._resize, this);
     this.__initialized = null;
     if (!qx.core.ObjectRegistry.inShutDown)
