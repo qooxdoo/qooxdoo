@@ -30,6 +30,21 @@
      License:
        MIT: http://www.opensource.org/licenses/mit-license.php
 
+   and
+
+   * XRegExp
+   http://xregexp.com/
+   Version 1.5
+
+   Copyright:
+       (c) 2006-2007, Steven Levithan <http://stevenlevithan.com>
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php
+
+     Authors:
+       * Steven Levithan
+
 ************************************************************************ */
 
 /**
