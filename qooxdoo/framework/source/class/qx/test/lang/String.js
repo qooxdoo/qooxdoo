@@ -149,6 +149,14 @@ qx.Class.define("qx.test.lang.String",
 
       this.assertEquals('"bread" & "butter"', qx.xml.String.unescape("&quot;bread&quot; &amp; &quot;butter&quot;"));
     },
+    
+    testCapitalize : function()
+    {
+      this.assertEquals("Alibaba", qx.lang.String.capitalize("alibaba"));
+      this.assertEquals("Über", qx.lang.String.capitalize("über"));
+      this.assertEquals("Aüber", qx.lang.String.capitalize("aüber"));
+      this.assertEquals("Die-Über", qx.lang.String.capitalize("die-über"));
+    },
 
     testClean: function()
     {
