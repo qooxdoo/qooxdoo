@@ -209,58 +209,6 @@ class Generator(object):
 
 
         ##
-        # Invoke the Library() objects on involved libraries, to collect class
-        # and resource lists etc.
-        def scanLibrary(libraryKey):
-
-            self._console.info("Scanning libraries  ", feed=False)
-            self._console.indent()
-
-            namespaces = []
-            classes = {}
-            docs = {}
-            translations = {}
-            libraries = []     # [generator.code.Library]
-            if not isinstance(libraryKey, types.ListType):
-                return (namespaces, classes, docs, translations, libraries)
-
-            for lib in libraryKey:
-
-                libObj    = Library(lib, self._console)
-                checkFile = libObj.mostRecentlyChangedFile()[0]
-                cacheId   = "lib-%s" % libObj.manifest
-                checkObj, _  = self._cache.read(cacheId, checkFile, memory=True)
-                if checkObj:
-                    self._console.debug("Use memory cache for %s" % libObj._path)
-                    libObj = checkObj  # continue with cached obj
-                else:
-                    libObj.scan()
-                    self._cache.write(cacheId, libObj, memory=True)
-
-                namespace = libObj.getNamespace()
-                namespaces.append(namespace)
-
-                classList = libObj.getClasses()
-
-                for entry in classList:
-                    entry._classesObj = classes
-                    classes[entry.id] = entry
-
-                docs.update(libObj.getDocs())
-                translations[namespace] = libObj.getTranslations()
-                libraries.append(libObj)
-
-            self._console.dotclear()
-            self._console.nl()
-            self._console.outdent()
-            self._console.debug("Loaded %s libraries" % len(namespaces))
-            self._console.debug("")
-
-            return (namespaces, classes, docs, translations, libraries)
-
-
-
-        ##
         # Invoke the PartBuilder to compute the packages for the configured
         # parts.
         def partsConfigFromClassList(excludeWithDeps, script):
@@ -459,7 +407,7 @@ class Generator(object):
              self._classesObj,
              self._docs,
              self._translations,
-             self._libraries)     = scanLibrary(config.get("library", []))
+             self._libraries)     = self.scanLibrary(config.get("library", []))
 
 
             # create tool chain instances
@@ -1894,5 +1842,58 @@ class Generator(object):
             else:
                 memo['appname'] = appname
         return memo['appname']
+
+
+    ##
+    # Invoke the Library() objects on involved libraries, to collect class
+    # and resource lists etc.
+    def scanLibrary(self, libraryKey):
+
+        self._console.info("Scanning libraries  ", feed=False)
+        self._console.indent()
+
+        namespaces = []
+        classes = {}
+        docs = {}
+        translations = {}
+        libraries = []     # [generator.code.Library]
+        if not isinstance(libraryKey, types.ListType):
+            return (namespaces, classes, docs, translations, libraries)
+
+        for lib in libraryKey:
+
+            libObj    = Library(lib, self._console)
+            checkFile = libObj.mostRecentlyChangedFile()[0]
+            cacheId   = "lib-%s" % libObj.manifest
+            checkObj, _  = self._cache.read(cacheId, checkFile, memory=True)
+            if checkObj:
+                self._console.debug("Use memory cache for %s" % libObj._path)
+                libObj = checkObj  # continue with cached obj
+            else:
+                libObj.scan()
+                self._cache.write(cacheId, libObj, memory=True)
+
+            namespace = libObj.getNamespace()
+            namespaces.append(namespace)
+
+            classList = libObj.getClasses()
+
+            for entry in classList:
+                entry._classesObj = classes
+                classes[entry.id] = entry
+
+            docs.update(libObj.getDocs())
+            translations[namespace] = libObj.getTranslations()
+            libraries.append(libObj)
+
+        self._console.dotclear()
+        self._console.nl()
+        self._console.outdent()
+        self._console.debug("Loaded %s libraries" % len(namespaces))
+        self._console.debug("")
+
+        return (namespaces, classes, docs, translations, libraries)
+
+
 
 
