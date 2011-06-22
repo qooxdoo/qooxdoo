@@ -62,6 +62,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
       this.addButton(buttons[i], buttonOptions[i]);
     }
     form.setRenderer(this);
+    this._form = form;
   },
 
 
@@ -73,6 +74,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
  
    members :
   {
+  
+    _form : null,
     
     // interface implementation
     addItems : function(items, names, title) {
@@ -90,6 +93,16 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
      * @param item {qx.ui.mobile.core.Widget} the form item
      */
     showErrorForItem : function(item) {
+      throw new Error("Abstract method call");
+    },
+    
+    /**
+     * 
+     * Resets the errors for the form by removing any error messages
+     * inserted into DOM in the case of invalid form elements
+     * 
+     */
+    resetForm : function() {
       throw new Error("Abstract method call");
     }
   }

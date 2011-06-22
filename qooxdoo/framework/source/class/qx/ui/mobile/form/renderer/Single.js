@@ -44,6 +44,9 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
   members :
   {
   
+    
+    __errorMessageContainers : [],
+    
     // override
     _getTagName : function()
     {
@@ -94,6 +97,15 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       qx.bom.element.Class.add(errorNode, 'formElementError');
       qx.dom.Element.insertAfter(errorNode, item.getContainerElement());
       qx.bom.Element.focus(item.getContainerElement());
+      this.__errorMessageContainers.push(errorNode);
+    },
+    
+    // override
+    resetForm : function() {
+      for(var i=0; i<this.__errorMessageContainers.length; i++) {
+        qx.dom.Element.remove(this.__errorMessageContainers[i]);
+      }
+      
     }
   }
 });

@@ -279,7 +279,7 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
-  border: 2px solid red;
+  border: 1px solid red;
 }
 
 .formElementError {
