@@ -156,6 +156,7 @@ qx.Class.define("qx.test.lang.String",
       this.assertEquals("Über", qx.lang.String.capitalize("über"));
       this.assertEquals("Aüber", qx.lang.String.capitalize("aüber"));
       this.assertEquals("Die-Über", qx.lang.String.capitalize("die-über"));
+      this.assertEquals("Die Über", qx.lang.String.capitalize("die über"));
     },
 
     testClean: function()

@@ -61,11 +61,6 @@ qx.Class.define("qx.lang.String",
 {
   statics :
   {
-    /**
-     * {Boolean} that tells whether the js regexp implementation is UTF-8 compatible or not.
-     * For example, in most current browsers, \b is only ASCII aware and matches character 'ö' as word boundary too.
-     */
-    __UTF8AwareRegexp: null,
     
     /**
      * Unicode letters.  they are taken from Steve Levithan's excellent XRegExp library [http://xregexp.com/plugins/xregexp-unicode-base.js]
@@ -78,27 +73,6 @@ qx.Class.define("qx.lang.String",
     
     __unicodeFirstLetterInWordRegexp : null,
     
-    /**
-     * This function implements a way of checking the unicode compliance of  the regexp in the current js engine.
-     * @return {Boolean} true if the regexp engine is unicode compliant, false otherwise
-     */
-    __checkUTF8RegexpAwareness : function()
-    {
-      if(this.__UTF8AwareRegexp === null)
-      {
-        var capitalize = function(str){
-          return str.replace(/\b[a-z]/g, function(match) {
-            return match.toUpperCase();
-          });
-        };
-        if(capitalize('öa').charCodeAt(1) === 97) {
-          this.__UTF8AwareRegexp = true;
-        } else {
-          this.__UTF8AwareRegexp = false;
-        }
-      }
-      return this.__UTF8AwareRegexp;
-    },
     /**
      * Converts a hyphenated string (separated by '-') to camel case.
      *
@@ -143,21 +117,12 @@ qx.Class.define("qx.lang.String",
      * @return {String} capitalized string
      */
     capitalize: function(str){
-      if(this.__checkUTF8RegexpAwareness())
-      {
-        return str.replace(/\b[a-z]/g, function(match) {
-          return match.toUpperCase();
-        });
+      if(this.__unicodeFirstLetterInWordRegexp === null) {
+        this.__unicodeFirstLetterInWordRegexp = new RegExp("(^|[^" + this.__unicodeLetters.replace(/[0-9A-F]{4}/g,function(match){return '\\\u'+match}) + "])[" + this.__unicodeLetters.replace(/[0-9A-F]{4}/g,function(match){return '\\\u'+match}) + "]", "g");
       }
-      else
-      {
-        if(this.__unicodeFirstLetterInWordRegexp === null) {
-          this.__unicodeFirstLetterInWordRegexp = new RegExp("(^|[^" + this.__unicodeLetters.replace(/[0-9A-F]{4}/g,function(match){return '\\\u'+match}) + "])[" + this.__unicodeLetters.replace(/[0-9A-F]{4}/g,function(match){return '\\\u'+match}) + "]", "g");
-        }
-        return str.replace(this.__unicodeFirstLetterInWordRegexp, function(match) {
-          return match.toUpperCase();
-        });
-      }
+      return str.replace(this.__unicodeFirstLetterInWordRegexp, function(match) {
+        return match.toUpperCase();
+      });
     },
 
 
