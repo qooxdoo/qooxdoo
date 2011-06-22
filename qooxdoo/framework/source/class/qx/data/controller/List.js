@@ -205,7 +205,6 @@ qx.Class.define("qx.data.controller.List",
   members :
   {
     // private members
-    __changeModelLengthListenerId : null,
     __changeModelListenerId : null,
     __lookupTable : null,
     __onUpdate : null,
@@ -312,9 +311,6 @@ qx.Class.define("qx.data.controller.List",
     _applyModel: function(value, old) {
       // remove the old listener
       if (old != undefined) {
-        if (this.__changeModelLengthListenerId != undefined) {
-          old.removeListenerById(this.__changeModelLengthListenerId);
-        }
         if (this.__changeModelListenerId != undefined) {
           old.removeListenerById(this.__changeModelListenerId);
         }
@@ -327,9 +323,7 @@ qx.Class.define("qx.data.controller.List",
 
       // if a model is set
       if (value != null) {
-        // add a new Listener
-        this.__changeModelLengthListenerId =
-          value.addListener("changeLength", this.__changeModelLength, this);
+        // add a new listener
         this.__changeModelListenerId =
           value.addListener("change", this.__changeModel, this);
 
