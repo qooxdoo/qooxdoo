@@ -1896,12 +1896,3 @@ class Generator(object):
         return memo['appname']
 
 
-##
-# String class, extensibel
-#
-class mstr(str):
-    def __init__(self,*args,**kwargs):
-        #super(mstr, self).__init__(*args,**kwargs) -- throws deprecWarning under 2.6+!
-        str.__init__(*args,**kwargs)
-        self.type = None
-
