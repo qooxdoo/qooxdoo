@@ -78,7 +78,7 @@ class CopyTool(object):
                     self.__console.debug("Removing write-protected target File %s prior to copy." %targetPath)
                     try:
                         os.remove(targetPath)
-                    except WindowsError:
+                    except OSError:
                         try:
                             os.chmod(targetPath, stat.S_IWUSR)
                         except Exception, e:
