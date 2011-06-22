@@ -71,7 +71,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     }
     this.addListener("tap", this._onTap, this);
     this.addListener("swipe", this._onSwipe, this);
-    // TODO: Add Child Control
     this.__child = this._createChild();
     this._add(this.__child);
   },
