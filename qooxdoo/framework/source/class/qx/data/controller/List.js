@@ -462,7 +462,8 @@ qx.Class.define("qx.data.controller.List",
         }
       }
 
-      // sync the target selection in case someone deleted a selected item [BUG #4839]
+      // sync the target selection in case someone deleted a item in
+      // selection mode "one" [BUG #4839]
       this.__syncTagetSelection = true;
       qx.ui.core.queue.Widget.add(this);
     },
