@@ -31,15 +31,29 @@ qx.Class.define("qx.util.Base64", {
      * Encode a string using base64 encoding (http://en.wikipedia.org/wiki/Base64).
      *
      * @param input {String} the input string to encode
+     *
+     * @param is8bit {Boolean?} Whether the character set is 8-bit, not
+     *   multi-byte.  If this parameter is not provided, the character set is
+     *   determined from the 'document' object.
+     *
      * @return {String} The base64 encoded input string.
      */
-    encode : function(input)
+    encode : function(input, is8bit)
     {
-      var charSet = document.characterSet || document.charset;
-      var isMultiByte = charSet.toLowerCase().indexOf('utf') != -1;
+      var isMultiByte;
 
-      if (!isMultiByte && window.btoa instanceof Function) {
-        return btoa(input);
+      if (typeof is8bit == "undefined")
+      {
+        var charSet = document.characterSet || document.charset;
+        isMultiByte = charSet.toLowerCase().indexOf('utf') != -1;
+
+        if (!isMultiByte && window.btoa instanceof Function) {
+          return btoa(input);
+        }
+      }
+      else
+      {
+        isMultiByte = ! is8bit;
       }
 
       var padding = '=';
@@ -190,17 +204,30 @@ qx.Class.define("qx.util.Base64", {
      * Decode a base64 string (http://en.wikipedia.org/wiki/Base64).
      *
      * @param input {String} the input string to decode
+     *
+     * @param is8bit {Boolean?} Whether the character set is 8-bit, not
+     *   multi-byte.  If this parameter is not provided, the character set is
+     *   determined from the 'document' object.
+     *
      * @return {String} The decoded input string.
      */
-    decode : function(input)
+    decode : function(input, is8bit)
     {
       var base64Chars = this.__base64Chars;
+      var isMultiByte;
 
-      var charSet = document.characterSet || document.charset;
-      var isMultiByte = charSet.toLowerCase().indexOf('utf') != -1;
+      if (typeof is8bit == "undefined")
+      {
+        var charSet = document.characterSet || document.charset;
+        isMultiByte = charSet.toLowerCase().indexOf('utf') != -1;
 
-      if (!isMultiByte && window.atob instanceof Function) {
-        return atob(input);
+        if (!isMultiByte && window.atob instanceof Function) {
+          return atob(input);
+        }
+      }
+      else
+      {
+        isMultiByte = ! is8bit;
       }
 
       var ilength = input.length;
