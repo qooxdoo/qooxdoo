@@ -99,12 +99,14 @@ qx.Class.define("qx.test.ui.Destroy",
       this.assertDestroy(function()
       {
         var widget = new qx.ui.form.MenuButton();
-        widget.setMenu(this.__createMenu());
+        var menu = this.__createMenu();
+        widget.setMenu(menu);
 
         this.getRoot().add(widget);
         this.flush();
 
         widget.destroy();
+        menu.destroy();
       }, this, "Dispose menu button");
     },
 
@@ -235,6 +237,7 @@ qx.Class.define("qx.test.ui.Destroy",
         menu.open();
         this.flush();
 
+        subMenu.destroy();
         menu.destroy();
       }, this, "Dispose configured menu");
     },
@@ -309,23 +312,27 @@ qx.Class.define("qx.test.ui.Destroy",
       this.assertDestroy(function()
       {
         var widget = new qx.ui.toolbar.MenuButton("juhu");
-        widget.setMenu(this.__createMenu());
+        var menu = this.__createMenu();
+        widget.setMenu(menu);
 
         this.getRoot().add(widget);
         this.flush();
 
         widget.destroy();
+        menu.destroy();
       }, this, "Dispose toolbar menu button");
 
       this.assertDestroy(function()
       {
         var widget = new qx.ui.toolbar.SplitButton("Juhu");
-        widget.setMenu(this.__createMenu());
+        var menu = this.__createMenu();
+        widget.setMenu(menu);
 
         this.getRoot().add(widget);
         this.flush();
 
         widget.destroy();
+        menu.destroy();
       }, this, "Dispose toolbar split button");
 
       this.assertDestroy(function()
