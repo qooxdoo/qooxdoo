@@ -65,9 +65,18 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
   members :
   {
   
+    /**
+     * 
+     * Flag to keep the show/hidden state of the toolbar
+     */
     __hidden: false,
     
-    //overide
+    /**
+     * Adds a new child widget.
+     *
+     * @param child {Widget} the widget to add.
+     * @param layoutProperties {Map?null} Optional layout data for widget.
+     */
     add : function(child, layoutProperties)
     {
       if(!(child instanceof qx.ui.mobile.toolbar.Separator))
@@ -78,18 +87,30 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
       this.base(arguments, child, layoutProperties);
     },
     
+    /**
+     * 
+     * Shows the toolbar
+     */
     show : function()
     {
       this.removeCssClass('toolbar-hidden');
       this.__hidden = false;
     },
     
+    /**
+     * 
+     * Hides the toolbar
+     */
     hide : function()
     {
       this.addCssClass('toolbar-hidden');
       this.__hidden = true;
     },
     
+    /**
+     * 
+     * Toggles the visibility of the toolbar
+     */
     toggle : function()
     {
       this.__hidden ? this.show() : this.hide();
