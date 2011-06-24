@@ -74,6 +74,7 @@ qx.Class.define("fce.view.ImportWindow", {
   {
     __nameField : null,
     __featuresArea : null,
+    __errorMessage : null,
     
     reset : function()
     {
