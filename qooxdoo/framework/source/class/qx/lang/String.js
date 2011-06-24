@@ -118,7 +118,7 @@ qx.Class.define("qx.lang.String",
      */
     capitalize: function(str){
       if(this.__unicodeFirstLetterInWordRegexp === null) {
-        var unicodeEscapePrefix = qx.core.Environment.get("engine.name") == "mshtml" ? '\\u' : '\\\\u';
+        var unicodeEscapePrefix = qx.core.Environment.get("engine.name") == "mshtml" ? '\\u' : '\\\u';
         this.__unicodeFirstLetterInWordRegexp = new RegExp("(^|[^" + this.__unicodeLetters.replace(/[0-9A-F]{4}/g,function(match){return unicodeEscapePrefix+match}) + "])[" + this.__unicodeLetters.replace(/[0-9A-F]{4}/g,function(match){return unicodeEscapePrefix+match}) + "]", "g");
       }
       return str.replace(this.__unicodeFirstLetterInWordRegexp, function(match) {
