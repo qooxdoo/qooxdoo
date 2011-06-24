@@ -53,7 +53,7 @@ qx.Class.define("qx.test.util.Base64", {
     testChineseCharsExplicitNot8bit : function() {
       var str = "Abecedariab语言工具";
       var encodedStr = qx.util.Base64.encode(str, false);
-      this.assertEquals(str, qx.util.Base64.decode(encodedStr));
+      this.assertEquals(str, qx.util.Base64.decode(encodedStr, false));
     },
 
 
