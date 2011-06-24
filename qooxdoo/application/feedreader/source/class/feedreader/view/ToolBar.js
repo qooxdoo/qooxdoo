@@ -230,6 +230,6 @@ qx.Class.define("feedreader.view.ToolBar",
    */
 
   destruct : function() {
-    this._disposeObjects("__removeBtn");
+    this._disposeObjects("__removeBtn", "__overflowMenu");
   }
 });
