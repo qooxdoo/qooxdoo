@@ -1853,9 +1853,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       "f1", "f2", "_history", "logappender", '_cmdObjectSummary',
       '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample',
       '_cmdSampleInOwnWindow', '_cmdDisposeSample', "__disposeBtn", "__debugButton",
-      "_navPart", "_runbutton", "_stopbutton", "__sobutt", "__themePart",
+      "_navPart", "_runbutton", "_stopbutton", "__sobutt", "__themePart", "__themeMenu",
       "__viewPart", "__viewGroup", "__menuBar", "_infosplit", "_searchTextField",
       "_status", "_tree", "_iframe", "_demoView", "__menuElements", "__summaryBtn",
-      "__logSync", "_leftComposite", "_urlWindow", "_nextButton", "_prevButton","__menuItemStore");
+      "__logSync", "_leftComposite", "_urlWindow", "_nextButton", "_prevButton",
+      "__menuItemStore", "__overflowMenu");
   }
 });
