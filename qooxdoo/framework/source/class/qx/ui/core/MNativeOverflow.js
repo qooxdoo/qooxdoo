@@ -33,7 +33,7 @@ qx.Mixin.define("qx.ui.core.MNativeOverflow",
   properties :
   {
     /**
-     * Whether the widget should have vertical scrollbars.
+     * Whether the widget should have horizontal scrollbars.
      */
     overflowX :
     {
@@ -43,7 +43,7 @@ qx.Mixin.define("qx.ui.core.MNativeOverflow",
     },
 
     /**
-     * Whether the widget should have horizontal scrollbars.
+     * Whether the widget should have vertical scrollbars.
      */
     overflowY :
     {
