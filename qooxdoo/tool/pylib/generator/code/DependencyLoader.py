@@ -103,12 +103,12 @@ class DependencyLoader(object):
         result = resolveDepsSmartCludes()
         result = processExplicitCludes(result, includeNoDeps, excludeWithDeps) # using excludeWithDeps here as well
         # Sort classes
-        #self._console.info("Sorting %s classes " % len(result), False)
+        self._console.info("Sorting %s classes " % len(result), False)
         #if  self._jobconf.get("dependencies/sort-topological", False):
         #    result = self.sortClassesTopological(result, variants)
         #else:
-        #    result = self.sortClasses(result, variants, buildType)
-        #self._console.nl()
+        result = self.sortClasses(result, variants, buildType)
+        self._console.nl()
 
         if self._console.getLevel() == "debug":
             self._console.indent()
@@ -148,7 +148,7 @@ class DependencyLoader(object):
             # reading dependencies
             self._console.debug("Gathering dependencies: %s" % depsItem.name)
             self._console.indent()
-            deps, cached = self.getCombinedDeps(depsItem.name, variants, buildType)
+            deps, cached = self.getCombinedDeps(depsItem.name, variants, buildType, genProxy=genProxyIter.next())
             self._console.outdent()
             if logInfos: self._console.dot("%s" % "." if cached else "*")
 
@@ -201,6 +201,44 @@ class DependencyLoader(object):
 
             return
 
+
+        def classlistFromClassIterative(depsItem, excludeWithDeps, variants, result, warn_deps, loadDepsChain, allowBlockLoaddeps=True):
+
+            def processNode(depsItem):
+                if depsItem.name in resultNames:
+                    node = None
+                else:
+                    result.append(depsItem)
+                    resultNames.append(depsItem.name)
+                    node = depsItem
+                return node
+
+            def getNodeChildren(depsItem):
+                deps, cached = self.getCombinedDeps(depsItem.name, variants, buildType=buildType, genProxy=genProxyIter.next())
+
+                # and evaluate them
+                deps["warn"] = self._checkDepsAreKnown(deps)  # add 'warn' key to deps
+                ignore_names = [x.name for x in deps["ignore"]]
+                if verifyDeps:
+                    for dep in deps["warn"]:
+                        if dep.name not in ignore_names:
+                            warn_deps.append(dep)
+
+                skipNames = [x.name for x in deps["warn"] + deps["ignore"]]
+                result = []
+                for dep in deps['load'] + deps['run']:
+                    if dep.name in skipNames or dep.name in resultNames:
+                        continue
+                    result.append(dep)
+
+                return result  # returns *all* deps (load, run, ...)
+
+            # ---------------------------------------------------------------------
+
+            self.agendaSearch([depsItem], processNode, getNodeChildren, mode="bf")
+
+            return
+
         # -------------------------------------------
 
         buildType = script.buildType  # source/build, for classlistFromClassRecursive
@@ -209,6 +247,21 @@ class DependencyLoader(object):
         logInfos = self._console.getLevel() == "info"
         ignored_names = set()
         firstTime = [True]
+
+        # Pyro servers
+        #import Pyro.core
+        #genProxies = [
+        #    Pyro.core.getProxyForURI("PYRONAME://genworker0"),
+        #    Pyro.core.getProxyForURI("PYRONAME://genworker1"),
+        #    Pyro.core.getProxyForURI("PYRONAME://genworker2"),
+        #    Pyro.core.getProxyForURI("PYRONAME://genworker3"),
+        #    Pyro.core.getProxyForURI("PYRONAME://genworker4"),
+        #    Pyro.core.getProxyForURI("PYRONAME://genworker5"),
+        #]
+        import itertools
+        #genProxyIter = itertools.cycle(genProxies)
+        genProxyIter = itertools.repeat(None)
+
 
         # No dependency calculation
         if len(includeWithDeps) == 0:
@@ -234,7 +287,8 @@ class DependencyLoader(object):
                 for item in includeWithDeps:
                     depsItem = DependencyItem(item, '', '|config|')
                     # calculate dependencies and add required classes
-                    classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
+                    #classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
+                    classlistFromClassIterative(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
 
                 self._console.dotclear()
                 print len(result),"  ",
@@ -302,7 +356,7 @@ class DependencyLoader(object):
     # expressed in config options
     # - interface method
 
-    def getCombinedDeps(self, fileId, variants, buildType="", stripSelfReferences=True, projectClassNames=True):
+    def getCombinedDeps(self, fileId, variants, buildType="", stripSelfReferences=True, projectClassNames=True, genProxy=None):
 
         # init lists
         loadFinal = []
@@ -311,7 +365,10 @@ class DependencyLoader(object):
         # add static dependencies
         classObj = self._classesObj[fileId]
 
-        static, cached = classObj.dependencies (variants)
+        if genProxy == None:
+            static, cached = classObj.dependencies (variants)
+        else:
+            static, cached = genProxy.dependencies(classObj.id, classObj.path, variants)
 
         loadFinal.extend(static["load"])
         runFinal.extend(static["run"])
@@ -494,4 +551,31 @@ class DependencyLoader(object):
         self._console.outdent()
 
         return featureMap
+
+
+    def agendaSearch(self, agenda, processNode, getNodeChildren, mode="df"):
+        while agenda:
+            node = agenda.pop(0)
+            node = processNode(node)
+            if node:
+                children = getNodeChildren(node)
+                if mode == "df":
+                    agenda[0:0] = children  # prepend
+                else:
+                    agenda.extend(children) # append
+        return
+
+
+    def agendaSearchMP(self, agenda, processNode, getNodeChildren, mode="df"):
+        while agenda:
+            node = agenda.pop(0)
+            node = processNode(node)
+            if node:
+                children = getNodeChildren(node)
+                if mode == "df":
+                    agenda[0:0] = children  # prepend
+                else:
+                    agenda.extend(children) # append
+        return
+
 
