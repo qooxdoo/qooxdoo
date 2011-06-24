@@ -57,7 +57,7 @@ qx.Class.define("qx.log.appender.Native",
     {
       "gecko" : function(entry)
       {
-        if (window.console && console.firebug) {
+        if (window.console) {
           console[entry.level].call(console, qx.log.appender.Util.toText(entry));
         }
       },
