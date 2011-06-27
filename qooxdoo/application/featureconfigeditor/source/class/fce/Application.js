@@ -33,6 +33,7 @@ qx.Class.define("fce.Application",
   members :
   {
     __featureSelector : null,
+    __nameSpace : null,
     
     /**
      * This method contains the initial application code and gets called 
@@ -52,6 +53,8 @@ qx.Class.define("fce.Application",
         qx.log.appender.Console;
       }
       
+      this.__nameSpace = qx.core.Environment.get("qx.application").split(".")[0];
+      
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(0));
       this.getRoot().add(container, {edge: 0});
       container.add(this._createHeader());
@@ -67,6 +70,7 @@ qx.Class.define("fce.Application",
       var env = new fce.Environment();
       env.addListenerOnce("changeFeatures", function(ev) {
         var clientFeatures = ev.getData();
+        this._stripOwnSettings(clientFeatures);
         var reporter = this.__getReporter();
         if (reporter) {
           reporter.compare(clientFeatures);
@@ -81,6 +85,25 @@ qx.Class.define("fce.Application",
       
     },
     
+    /**
+     * Removes application-specific settings (fce.*) from the detected 
+     * environment map. This modifies the given map.
+     * 
+     * @param features {Map} environment features map
+     */
+    _stripOwnSettings : function(features)
+    {
+      var reg = new RegExp("^" + this.__nameSpace + "\.");
+      var appSettings = [];
+      for (var key in features) {
+        if (reg.exec(key)) {
+          appSettings.push(key);
+        }
+      }
+      for (var i=0,l=appSettings.length; i<l; i++) {
+        delete features[appSettings[i]];
+      }
+    },
     
     /**
      * Creates the application header
