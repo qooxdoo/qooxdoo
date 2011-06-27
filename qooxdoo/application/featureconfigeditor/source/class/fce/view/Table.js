@@ -37,13 +37,14 @@ qx.Class.define("fce.view.Table", {
     this._setUpDragDrop();
     
     this.setDecorator("main");
-    /*
-    this.addListener("cellClick", function(ev) {
-      var colIndex = ev.getColumn();
-      var colId = this.getTableModel().getColumnId(colIndex);
-      this.setSelectedColumn(colId);
+    
+    this.addListener("keyup", function(ev) {
+      var key = ev.getKeyIdentifier();
+      if (key === "A" && ev.isCtrlPressed()) {
+        var rows = this.getTableModel().getRowCount() - 1;
+        this.getSelectionModel().addSelectionInterval(0, rows);
+      }
     }, this);
-    */
   },
   
   
