@@ -307,6 +307,22 @@ qx.Class.define("qx.io.rest.Resource",
       return timer;
     },
 
+    /**
+     *
+     * Long-poll action.
+     *
+     * Use Ajax long-polling to continously fetch a resource as soon as the
+     * server signals new data. The server determines when new data is available,
+     * while the client keeps open a request. Requires configuration on the
+     * server side. Basically, the server must not close a connection until
+     * new data is available. For a high level introduction to long-polling,
+     * refer to <a href="http://en.wikipedia.org/wiki/Comet_(programming)#Ajax_with_long_polling">
+     * Ajax with long polling</a>.
+     *
+     * Note no interval is given on the client side.
+     *
+     * @param action {String} Action to poll.
+     */
     longPoll: function(action) {
       this.__longPollHandlers[action] = this.addListener(action + "Success",
         function longPollHandler() {
