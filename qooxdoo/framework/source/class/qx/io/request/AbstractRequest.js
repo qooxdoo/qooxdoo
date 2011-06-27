@@ -427,10 +427,10 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * A more elaborate version of {@link #getReadyState}, this method indicates
      * the current phase of the request. Maps to stateful (i.e. deterministic)
      * events (success, abort, timeout, statusError) and intermediate
-     * readyStates (unsent, configured, loading).
+     * readyStates (unsent, configured, loading, load).
      *
      * When the requests is successful, it progresses the states:<br>
-     * 'unsent', 'opened', 'sent', 'loading', 'success'
+     * 'unsent', 'opened', 'sent', 'loading', 'load', 'success'
      *
      * In case of failure, the final state is one of:<br>
      * 'abort', 'timeout', 'statusError'
@@ -563,6 +563,8 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
       if (this.isDone()) {
 
+        this._fireStatefulEvent("load");
+
         if (qx.core.Environment.get("qx.debug.io")) {
           this.debug("Request completed with HTTP status: " + this.getStatus());
         }
@@ -662,7 +664,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertString(phase);
         qx.core.Assert.assertMatch(phase,
-          /^(unsent)|(opened)|(sent)|(loading)|(success)|(abort)|(timeout)|(statusError)$/);
+          /^(unsent)|(opened)|(sent)|(loading)|(load)|(success)|(abort)|(timeout)|(statusError)$/);
       }
 
       this.__phase = phase;

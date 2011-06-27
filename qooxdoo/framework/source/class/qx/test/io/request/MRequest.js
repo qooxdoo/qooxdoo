@@ -356,6 +356,23 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertEquals("loading", req.getPhase());
     },
 
+    "test: phase is load intermediately": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport,
+          phases = [];
+
+      req.addListener("changePhase", function() {
+        phases.push(req.getPhase());
+      });
+
+      transport.readyState = 4;
+      transport.onreadystatechange();
+
+      // phases = ["load", "statusError"]
+      this.assertEquals("load", phases[0]);
+    },
+
     "test: phase is success": function() {
       this.setUpFakeTransport();
       var req = this.req;
