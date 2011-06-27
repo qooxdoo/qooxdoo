@@ -34,17 +34,20 @@ qx.Class.define("qx.test.io.rest.Resource",
   {
     setUp: function() {
       this.setUpDoubleRequest();
-      var res = this.res = new qx.io.rest.Resource();
-
-      // Default routes
-      res.map("index", "GET", "/photos");
-      res.map("current", "GET", "/photos/current");
+      this.setUpResource();
 
       // Need to set up double request explicitly
+      //
+      // Use setUpPersistent() if you want a persistent double
       qx.io.request.Xhr.restore();
     },
 
-    setUpDoubleRequest : function() {
+    setUpPersistent: function() {
+      this.setUpDoubleRequest();
+      this.setUpResource();
+    },
+
+    setUpDoubleRequest: function() {
       var req = this.req = new qx.io.request.Xhr(),
           res = this.res;
 
@@ -54,6 +57,14 @@ qx.Class.define("qx.test.io.rest.Resource",
       // Inject double and return
       this.injectStub(qx.io.request, "Xhr", req);
       return req;
+    },
+
+    setUpResource: function() {
+      var res = this.res = new qx.io.rest.Resource();
+
+      // Default routes
+      res.map("index", "GET", "/photos");
+      res.map("current", "GET", "/photos/current");
     },
 
     tearDown: function() {
@@ -454,6 +465,27 @@ qx.Class.define("qx.test.io.rest.Resource",
         "Action index must be called 2 times but was " + res.refresh.callCount  + " times");
       this.assert(current.callCount == 2,
         "Action index must be called 2 times but was " + res.refresh.callCount  + " times");
+    },
+
+    "test: long poll action": function() {
+      this.setUpPersistent();
+
+      var res = this.res,
+          req = this.req,
+          responses = [];
+
+      this.stub(req, "dispose");
+
+      res.addListener("indexSuccess", function(e) {
+        responses.push(e.getData());
+      }, this);
+      res.longPoll("index");
+
+      this.respond("1");
+      this.respond("2");
+      this.respond("3");
+
+      this.assertArrayEquals(["1", "2", "3"], responses);
     },
 
     "test: end poll action": function() {

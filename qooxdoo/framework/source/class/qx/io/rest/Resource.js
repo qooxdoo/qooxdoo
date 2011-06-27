@@ -18,6 +18,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
  * Client-side wrapper of a REST resource.
  *
  * Each instance represents a resource in terms of REST. A number of actions
@@ -59,6 +61,7 @@ qx.Class.define("qx.io.rest.Resource",
     this.__createRequest();
     this.__routes = {};
     this.__pollTimers = {};
+    this.__longPollHandlers = {};
     this.__invoked = {};
 
     if (typeof description !== "undefined") {
@@ -92,6 +95,7 @@ qx.Class.define("qx.io.rest.Resource",
     __request: null,
     __invoked: null,
     __pollTimers: null,
+    __longPollHandlers: null,
     __configureRequestCallback: null,
 
     //
@@ -230,14 +234,14 @@ qx.Class.define("qx.io.rest.Resource",
       }
 
       // Handle successful request
-      req.addListener("success", function() {
+      req.addListenerOnce("success", function successHandler() {
         var props = [req.getResponse(), null, false, req, action, req.getPhase()];
         this.fireEvent(action + "Success", qx.event.type.Rest, props);
         this.fireEvent("success", qx.event.type.Rest, props);
       }, this);
 
       // Handle erroneous request
-      req.addListener("fail", function() {
+      req.addListenerOnce("fail", function failHandler() {
         var props = [req.getResponse(), null, false, req, action, req.getPhase()];
         this.fireEvent(action + "Error", qx.event.type.Rest, props);
         this.fireEvent("error", qx.event.type.Rest, props);
@@ -288,10 +292,23 @@ qx.Class.define("qx.io.rest.Resource",
       this.refresh(action);
 
       var timer = this.__pollTimers[action] = new qx.event.Timer(interval);
-      timer.addListener("interval", function() {
+      timer.addListener("interval", function intervalListener() {
         this.refresh(action);
       }, this);
       timer.start();
+    },
+
+    longPoll: function(action) {
+      this.__longPollHandlers[action] = this.addListener(action + "Success",
+        function longPollHandler() {
+          // Other handlers of the same event may have been run before and could
+          // potentially dispose the target
+          if (this.isDisposed()) {
+            return;
+          }
+        this.refresh(action);
+      }, this);
+      this._invoke(action);
     },
 
     /**
@@ -419,6 +436,8 @@ qx.Class.define("qx.io.rest.Resource",
   },
 
   destruct: function() {
+    this.__request.dispose();
+
     if (this.__pollTimers) {
       qx.lang.Object.getKeys(this.__pollTimers).forEach(function(key) {
         var timer = this.__pollTimers[key];
@@ -427,8 +446,13 @@ qx.Class.define("qx.io.rest.Resource",
       }, this);
     }
 
-    this.__routes = this.__pollTimers = this.__invoked = null;
+    if (this.__longPollHandlers) {
+      qx.lang.Object.getKeys(this.__longPollHandlers).forEach(function(key) {
+        var id = this.__longPollHandlers[key];
+        this.removeListenerById(id);
+      }, this);
+    }
 
-    this._disposeObjects(this.__request);
+    this.__routes = this.__pollTimers = this.__invoked = null;
   }
 });

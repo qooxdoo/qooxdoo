@@ -20,6 +20,7 @@
 /* ************************************************************************
 
 #asset(qx/test/xmlhttp/random.php)
+#asset(qx/test/xmlhttp/long_poll.php)
 #asset(qx/test/xmlhttp/sample.txt)
 
 ************************************************************************ */
@@ -120,6 +121,29 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
       }, this);
 
       res.poll("index", 100);
+      this.wait();
+    },
+
+    "test: long poll": function() {
+      var res = this.res,
+          url = this.getUrl("qx/test/xmlhttp/long_poll.php"),
+          count = 0,
+          responses = [];
+
+      res.map("index", "GET", url);
+      res.addListener("indexSuccess", function(e) {
+        var response = e.getData();
+        responses.push(response);
+
+        if (++count >= 5) {
+          this.resume(function() {
+            this.assert(parseFloat(responses[4]) > parseFloat(responses[0]),
+              "Must increase");
+          }, this);
+        }
+      }, this);
+
+      res.longPoll("index");
       this.wait();
     }
 
