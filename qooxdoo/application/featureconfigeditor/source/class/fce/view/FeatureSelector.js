@@ -314,16 +314,17 @@ qx.Class.define("fce.view.FeatureSelector", {
     
     
     /**
-     * Adds a new set to
+     * Adds a new feature set to the display. Data must be a map with one key 
+     * that will be used to identify the set. The value must be a map of 
+     * environment feature name/value pairs.
      * 
-     * @param {qx.event.type.Data} {@link fce.view.ImportWindow#featureMap} change 
-     * event
+     * @param featureSet {Map} Feature set to be added
      */
-    addFeatureSet : function(newData) {
+    addFeatureSet : function(featureSet) {
       var data = this.getFeatureData();
-      for (var setName in newData) {
+      for (var setName in featureSet) {
         var cleanName = fce.view.FeatureSelector.sanitizeId(setName);
-        data[cleanName] = newData[setName];
+        data[cleanName] = featureSet[setName];
       }
       this.setFeatureData(null);
       this.setFeatureData(data);

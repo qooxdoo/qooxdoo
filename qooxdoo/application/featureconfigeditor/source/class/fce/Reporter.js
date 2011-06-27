@@ -18,7 +18,11 @@
 ************************************************************************ */
 
 /**
- * Sends arbitrary data to a server using a simple GET request.
+ * Provides backend communication with a report server. The current client's 
+ * user agent and environment features map are sent to the server. If the server
+ * already has data for this user agent, the server data is compared to the 
+ * detected data to find any discrepancies which could indicate a regression
+ * in qooxdoo's feature detection.
  */
 qx.Class.define("fce.Reporter", {
 
@@ -26,13 +30,19 @@ qx.Class.define("fce.Reporter", {
   
   statics :
   {
+    /** Environment features matching any of these expressions will be ignored 
+     * when comparing server-side and detected feature maps **/
     IGNORED_FEATURES : [/^qx\./, /^plugin\./]
   },
   
   /**
+   * @param server {String} Server host name
+   *
+   * @param addUrl {String} URL (relative to host name) where client environment 
+   * data is sent to be added to the database
    * 
-   * @param serverUrl {String} Server URL
-   * @param parameterName {String} Name of the URI parameter to be used for the data
+   * @param getUrl {String} URL (relative to host name) by which server-side
+   * environment data is accessed
    */
   construct : function(server, addUrl, getUrl)
   {
@@ -57,12 +67,14 @@ qx.Class.define("fce.Reporter", {
       nullable : true
     },
     
+    /** Server URL for data insertion */
     addUrl :
     {
       init : null,
       nullable : true
     },
     
+    /** Server URL for data access */
     getUrl :
     {
       init : null,
@@ -113,6 +125,11 @@ qx.Class.define("fce.Reporter", {
       req.send();
     },
     
+    /**
+     * Compares the features detected for this client with server-side values
+     * 
+     * @param foundData {Map} Map of detected environment features
+     */
     compare : function(foundData)
     {
       this.__foundData = foundData;
@@ -124,6 +141,11 @@ qx.Class.define("fce.Reporter", {
       }
     },
     
+    /**
+     * Sends this client's detected features to the server. If the server 
+     * already has an entry for this client, the detected values are compared
+     * to the known server values
+     */
     getFeaturesFromServer : function()
     {
       var userAgent = navigator.userAgent;
@@ -156,6 +178,12 @@ qx.Class.define("fce.Reporter", {
       req.send();
     },
     
+    /**
+     * Compares the given features map to the one detected for this client and
+     * logs any keys with differing values.
+     * 
+     * @param expected {Map} Expected data
+     */
     _compareFeatureSets : function(expected)
     {
       if (!expected["browser.name"] || !this.__foundData["browser.name"]) {
@@ -182,6 +210,13 @@ qx.Class.define("fce.Reporter", {
       }
     },
     
+    /**
+     * Checks whether the given environment key name should be ignored for
+     * comparison purposes
+     * 
+     * @param setting {String} Environment feature (setting) name
+     * @return {Boolean} Whether the key should be ignored
+     */
     isIgnored : function(setting)
     {
       var ignoreList = fce.Reporter.IGNORED_FEATURES;

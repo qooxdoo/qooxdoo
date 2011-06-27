@@ -21,12 +21,17 @@
 #asset(qx/icon/Tango/16/actions/window-new.png)
 ************************************************************************ */
 
+/**
+ * Allows the user to add an environment features map to the display.
+ */
+ 
 qx.Class.define("fce.view.ImportWindow", {
 
   extend : qx.ui.window.Window,
   
   properties :
   {
+    /** User-defined map of environment features/values */
     featureMap :
     {
       event : "changeFeatureMap"
@@ -76,6 +81,9 @@ qx.Class.define("fce.view.ImportWindow", {
     __featuresArea : null,
     __errorMessage : null,
     
+    /**
+     * Deletes input field values and empties/hides any error message.
+     */
     reset : function()
     {
       this.__nameField.setValue("");
@@ -84,6 +92,10 @@ qx.Class.define("fce.view.ImportWindow", {
       this.__errorMessage.exclude();
     },
     
+    /**
+     * Converts the user's input to a map. Displays appropriate error messages 
+     * or closes the window if successful.
+     */
     _onImport : function()
     {
       var name = this.__nameField.getValue();
@@ -124,6 +136,11 @@ qx.Class.define("fce.view.ImportWindow", {
       this.close();
     },
     
+    /**
+     * Display the given error message
+     * 
+     * @param msg {String} Error message
+     */
     _showError : function(msg)
     {
       this.__errorMessage.setValue(msg);

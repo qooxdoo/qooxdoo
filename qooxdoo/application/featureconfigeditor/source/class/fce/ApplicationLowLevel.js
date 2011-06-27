@@ -30,6 +30,7 @@ qx.Class.define("fce.ApplicationLowLevel",
   
   properties :
   {
+    /** Map of detected client features */
     featureSet :
     {
       init : null,

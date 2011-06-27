@@ -263,6 +263,11 @@ qx.Class.define("fce.view.Table", {
       columnModel.setColumnVisible(dataCellIndex, false);
     },
     
+    /**
+     * Returns the ID of the leftmost visible table column
+     * 
+     * @return {String} column ID
+     */
     _getFirstVisibleColumnId : function()
     {
       var model = this.getTableModel();

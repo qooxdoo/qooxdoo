@@ -75,6 +75,7 @@ qx.Class.define("fce.view.ListItem", {
       nullable : true
     },
     
+    /** Necessary for theming support **/
     gap :
     {
       themeable : true
