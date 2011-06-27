@@ -511,7 +511,7 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: end poll action does not end polling of other action": function() {
       var res = this.res,
           sandbox = this.getSandbox(),
-          numCalled,
+          callCount,
           stub;
 
       sandbox.useFakeTimers();
@@ -523,11 +523,12 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.poll("other", 10);
 
       sandbox.clock.tick(10);
-      numCalled = stub.callCount;
+      callCount = stub.callCount;
       res.endPoll("index");
 
       sandbox.clock.tick(100);
-      this.assert(stub.callCount > numCalled, "Must not end poll stub");
+      this.assert(stub.callCount > callCount, "Must not end poll stub but was called " +
+        stub.callCount + " times which is not greater than " + callCount);
     },
 
     "test: resume poll action": function() {
@@ -546,7 +547,8 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       res.resumePoll("index");
       sandbox.clock.tick(10);
-      this.assert(stub.callCount > callCount, "Must resume poll after end");
+      this.assert(stub.callCount > callCount, "Must resume poll after end but was called " +
+        stub.callCount + " times which is not greather than " + callCount);
     },
 
     "test: handle end poll unknown action gracefully": function() {
