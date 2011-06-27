@@ -26,8 +26,7 @@ qx.Class.define("fce.Reporter", {
   
   statics :
   {
-    //IGNORED_FEATURES : ["qx.debug", "qx.revision", "qx.application", "qx.theme", "qx.allowUrlSettings"]
-    IGNORED_FEATURES : [/^qx\./]
+    IGNORED_FEATURES : [/^qx\./, /^plugin\./]
   },
   
   /**
@@ -73,6 +72,8 @@ qx.Class.define("fce.Reporter", {
   
   members :
   {
+    __foundData : null,
+    
     /**
      * Sends the given data to the server
      * 
@@ -112,14 +113,14 @@ qx.Class.define("fce.Reporter", {
       req.send();
     },
     
-    compare : function(detectedData)
+    compare : function(foundData)
     {
-      this.__detectedData = detectedData;
+      this.__foundData = foundData;
       if (this.getGetUrl()) {
         this.getFeaturesFromServer();
       }
       else {
-        this._sendReport(this.__detectedData);
+        this._sendReport(this.__foundData);
       }
     },
     
@@ -137,7 +138,7 @@ qx.Class.define("fce.Reporter", {
         if (qx.lang.Object.getKeys(serverData).length == 0) {
           // Server doesn't know about this client yet
           this.debug("Sending this client's environment data to the server");
-          this._sendReport(this.__detectedData);
+          this._sendReport(this.__foundData);
         }
         else {
           this._compareFeatureSets(serverData);
@@ -157,15 +158,15 @@ qx.Class.define("fce.Reporter", {
     
     _compareFeatureSets : function(expected)
     {
-      if (!expected["browser.name"] || !this.__detectedData["browser.name"]) {
+      if (!expected["browser.name"] || !this.__foundData["browser.name"]) {
         return;
       }
       
       var differing = [];
       
       for (var prop in expected) {
-        if (this.__detectedData[prop] && !this.isIgnored(prop)) {
-          if (expected[prop] !== this.__detectedData[prop]) {
+        if (this.__foundData[prop] && !this.isIgnored(prop)) {
+          if (expected[prop] !== this.__foundData[prop]) {
             differing.push(prop);
           }
         }
@@ -177,7 +178,7 @@ qx.Class.define("fce.Reporter", {
       
       for (var i=0, l=differing.length; i<l; i++) {
         var prop = differing[i];
-        this.error(prop, "expected", expected[prop], "found", this.__detectedData[prop]);
+        this.error(prop, "expected", expected[prop], "found", this.__foundData[prop]);
       }
     },
     
