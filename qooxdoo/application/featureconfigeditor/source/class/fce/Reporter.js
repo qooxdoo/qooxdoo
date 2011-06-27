@@ -24,33 +24,47 @@ qx.Class.define("fce.Reporter", {
 
   extend : qx.core.Object,
   
+  statics :
+  {
+    //IGNORED_FEATURES : ["qx.debug", "qx.revision", "qx.application", "qx.theme", "qx.allowUrlSettings"]
+    IGNORED_FEATURES : [/^qx\./]
+  },
+  
   /**
    * 
    * @param serverUrl {String} Server URL
    * @param parameterName {String} Name of the URI parameter to be used for the data
    */
-  construct : function(serverUrl, parameterName)
+  construct : function(server, addUrl, getUrl)
   {
     this.base(arguments);
-    if (serverUrl) {
-      this.setServerUrl(serverUrl);
+    if (server) {
+      this.setServer(server);
     }
-    if (parameterName) {
-      this.setParameterName(parameterName);
+    if (addUrl) {
+      this.setAddUrl(addUrl);
+    }
+    if (getUrl) {
+      this.setGetUrl(getUrl);
     }
   },
   
   properties :
   {
-    /** URI parameter for the data */
-    parameterName :
+    /** Server host name */
+    server :
     {
       init : null,
       nullable : true
     },
     
-    /** Server URL */
-    serverUrl :
+    addUrl :
+    {
+      init : null,
+      nullable : true
+    },
+    
+    getUrl :
     {
       init : null,
       nullable : true
@@ -65,10 +79,10 @@ qx.Class.define("fce.Reporter", {
      * @param data {var} Payload to send. Must be JSON-serializable, i.e. no 
      * qooxdoo objects
      */
-    sendReport : function(data)
+    _sendReport : function(data)
     {
-      if (this.getServerUrl() === null || this.getParameterName() === null) {
-        throw new Error("Report server URL or URL parameter name not specified!");
+      if (this.getServer() === null || this.getAddUrl() === null) {
+        throw new Error("Report server host or URL not specified!");
       }
       
       if (qx.core.Environment.get("qx.debug")) {
@@ -76,9 +90,9 @@ qx.Class.define("fce.Reporter", {
       }
       
       var jsonData = qx.lang.Json.stringify(data);
-
-      var req = new qx.io.remote.Request(this.getServerUrl(), "POST");
-      req.setData(this.getParameterName() + "=" + jsonData);
+      var url = this.getServer() + this.getAddUrl();
+      var req = new qx.io.remote.Request(url, "POST");
+      req.setData(jsonData);
       req.setCrossDomain(true);
       req.addListener("failed", function(ev) {
         this.error("Request failed!");
@@ -96,6 +110,89 @@ qx.Class.define("fce.Reporter", {
       }, this);
       
       req.send();
+    },
+    
+    compare : function(detectedData)
+    {
+      this.__detectedData = detectedData;
+      if (this.getGetUrl()) {
+        this.getFeaturesFromServer();
+      }
+      else {
+        this._sendReport(this.__detectedData);
+      }
+    },
+    
+    getFeaturesFromServer : function()
+    {
+      var userAgent = navigator.userAgent;
+      var serverUrl = this.getServer() + this.getGetUrl();
+      console.log("URL", serverUrl);
+      
+      var req = new qx.io.remote.Request(serverUrl, "GET", "application/json");
+      req.setCrossDomain(true);
+      req.setData("useragent=" + encodeURIComponent(userAgent));
+      
+      req.addListener("completed", function(response) {
+        var serverData = response.getContent();
+        if (qx.lang.Object.getKeys(serverData).length == 0) {
+          // Server doesn't know about this client yet
+          this.debug("Sending this client's environment data to the server");
+          this._sendReport(this.__detectedData);
+        }
+        else {
+          this._compareFeatureSets(serverData);
+        }
+      }, this);
+      
+      req.addListener("failed", function(ev) {
+        this.error("Request failed with status",req.getStatus());
+      }, this);
+      
+      req.addListener("timeout", function(ev) {
+        this.error("Request timed out");
+      }, this);
+      
+      req.send();
+    },
+    
+    _compareFeatureSets : function(expected)
+    {
+      if (!expected["browser.name"] || !this.__detectedData["browser.name"]) {
+        return;
+      }
+      
+      var differing = [];
+      
+      for (var prop in expected) {
+        if (this.__detectedData[prop] && !this.isIgnored(prop)) {
+          if (expected[prop] !== this.__detectedData[prop]) {
+            differing.push(prop);
+          }
+        }
+      }
+      
+      if (differing.length == 0) {
+        this.info("No differences found");
+      }
+      
+      for (var i=0, l=differing.length; i<l; i++) {
+        var prop = differing[i];
+        this.error(prop, "expected", expected[prop], "found", this.__detectedData[prop]);
+      }
+    },
+    
+    isIgnored : function(setting)
+    {
+      var ignoreList = fce.Reporter.IGNORED_FEATURES;
+      for (var i=0,l=ignoreList.length; i<l; i++) {
+        if (ignoreList[i] instanceof RegExp) {
+          return ignoreList[i].exec(setting);
+        }
+        if (setting === ignoreList[i]) {
+          return true;
+        }
+      }
     }
   }
 });

@@ -32,7 +32,6 @@ qx.Class.define("fce.Application",
 
   members :
   {
-    __reporter : null,
     __featureSelector : null,
     
     /**
@@ -53,8 +52,6 @@ qx.Class.define("fce.Application",
         qx.log.appender.Console;
       }
       
-      this.__reporter = this.__getReporter();
-      
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(0));
       this.getRoot().add(container, {edge: 0});
       container.add(this._createHeader());
@@ -69,12 +66,14 @@ qx.Class.define("fce.Application",
       
       var env = new fce.Environment();
       env.addListenerOnce("changeFeatures", function(ev) {
-        if (this.__reporter) {
-          this.__reporter.sendReport(ev.getData());
+        var clientFeatures = ev.getData();
+        var reporter = this.__getReporter();
+        if (reporter) {
+          reporter.compare(clientFeatures);
         }
         
         var envData = {
-          detected : ev.getData()
+          detected : clientFeatures
         };
         this.__featureSelector.setFeatureData(envData);
       }, this);
@@ -125,20 +124,20 @@ qx.Class.define("fce.Application",
     
     
     /**
-     * Creates a {@link fce.Reporter} object if the <em>reportServer</em>
-     * and <em>parameterName</em> URI parameters are defined.
+     * Creates a {@link fce.Reporter} instance if the <em>fce.reportServer.host</em>,
+     * <em>fce.reportServer.addUrl</em> and <em>fce.reportServer.getUrl</em> 
+     * environment settings are defined.
      * 
      * @return {fce.Reporter|null} Reporter instance or null
      */
     __getReporter : function()
     {
-      var parsedUri = qx.util.Uri.parseUri(window.location.href, true);
-      if (parsedUri.queryKey) {
-        var reportServer = parsedUri.queryKey.reportServer || null;
-        var parameterName = parsedUri.queryKey.parameterName || null;
-        if (reportServer && parameterName) {
-          return new fce.Reporter(reportServer, parameterName);
-        }
+      var server = qx.core.Environment.get("fce.reportServerHost");
+      var addUrl = qx.core.Environment.get("fce.reportServerAddUrl");
+      var getUrl = qx.core.Environment.get("fce.reportServerGetUrl");
+      
+      if (server && addUrl && getUrl) {
+        return new fce.Reporter(server, addUrl, getUrl);
       }
       
       return null;
@@ -147,6 +146,6 @@ qx.Class.define("fce.Application",
   
   destruct : function()
   {
-    this._disposeObjects("__featureSelector", "__reporter");
+    this._disposeObjects("__featureSelector");
   }
 });
