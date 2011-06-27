@@ -511,17 +511,18 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: end poll action": function() {
       var res = this.res,
           sandbox = this.getSandbox(),
+          timer,
           numCalled;
 
       sandbox.useFakeTimers();
 
       this.stub(res, "refresh");
-      res.poll("index", 10);
+      timer = res.poll("index", 10);
 
       sandbox.clock.tick(10);
       numCalled = res.refresh.callCount;
 
-      res.endPoll("index");
+      timer.stop();
 
       sandbox.clock.tick(100);
       this.assertEquals(numCalled, res.refresh.callCount,
@@ -531,6 +532,7 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: end poll action does not end polling of other action": function() {
       var res = this.res,
           sandbox = this.getSandbox(),
+          timer,
           callCount,
           stub;
 
@@ -539,44 +541,37 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.map("other", "GET", "/photos/other");
 
       stub = this.stub(res, "refresh").withArgs("other");
-      res.poll("index", 10);
+      timer = res.poll("index", 10);
       res.poll("other", 10);
 
       sandbox.clock.tick(10);
       callCount = stub.callCount;
-      res.endPoll("index");
+      timer.stop();
 
       sandbox.clock.tick(100);
       this.assert(stub.callCount > callCount, "Must not end poll stub but was called " +
         stub.callCount + " times which is not greater than " + callCount);
     },
 
-    "test: resume poll action": function() {
+    "test: restart poll action": function() {
       var res = this.res,
           sandbox = this.getSandbox(),
+          timer,
           stub,
           callCount;
 
       sandbox.useFakeTimers();
       stub = this.stub(res, "refresh");
 
-      res.poll("index", 10);
+      timer = res.poll("index", 10);
       sandbox.clock.tick(10);
       callCount = stub.callCount;
-      res.endPoll("index");
+      timer.stop();
 
-      res.resumePoll("index");
+      timer.restart();
       sandbox.clock.tick(10);
-      this.assert(stub.callCount > callCount, "Must resume poll after end but was called " +
+      this.assert(stub.callCount > callCount, "Must restart poll after end but was called " +
         stub.callCount + " times which is not greather than " + callCount);
-    },
-
-    "test: handle end poll unknown action gracefully": function() {
-      this.res.endPoll("unknown");
-    },
-
-    "test: handle resume poll unknown action gracefully": function() {
-      this.res.resumePoll("unknown");
     },
 
     //

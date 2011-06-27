@@ -281,6 +281,8 @@ qx.Class.define("qx.io.rest.Resource",
      * @param action {String} Action to poll.
      * @param interval {Number} Interval in ms.
      * @param params {Map?} Map of parameters. See {@link #_invoke}.
+     * @return {qx.event.Timer} Timer that periodically invokes action. Use to
+     *  stop or resume. Is automatically disposed on disposal of object.
      */
     poll: function(action, interval, params) {
       // Dispose timer previously created for action
@@ -301,6 +303,8 @@ qx.Class.define("qx.io.rest.Resource",
         this.refresh(action);
       }, this);
       timer.start();
+
+      return timer;
     },
 
     longPoll: function(action) {
@@ -314,28 +318,6 @@ qx.Class.define("qx.io.rest.Resource",
         this.refresh(action);
       }, this);
       this._invoke(action);
-    },
-
-    /**
-     * End polling of action.
-     *
-     * @param action {String} Action for which to end polling.
-     */
-    endPoll: function(action) {
-      if (this.__pollTimers[action]) {
-        this.__pollTimers[action].stop();
-      }
-    },
-
-    /**
-     * Resume polling of action that was previously stopped.
-     *
-     * @param action {String} Action for which to resume polling.
-     */
-    resumePoll: function(action) {
-      if (this.__pollTimers[action]) {
-        this.__pollTimers[action].start();
-      }
     },
 
     /**
