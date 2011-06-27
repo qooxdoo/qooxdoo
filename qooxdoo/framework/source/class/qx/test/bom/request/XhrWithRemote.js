@@ -515,7 +515,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
         req.abort();
       }, 0);
 
-      this.wait();
+      this.wait(10000);
     },
 
     //
