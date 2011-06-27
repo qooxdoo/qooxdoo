@@ -32,10 +32,8 @@ qx.Class.define("qx.test.io.request.Jsonp",
 {
   extend : qx.dev.unit.TestCase,
 
-  include : [qx.test.io.MRemoteTest,
-             qx.test.io.request.MRequest,
-             qx.dev.unit.MMock,
-             qx.dev.unit.MRequirements],
+  include : [qx.test.io.request.MRequest,
+             qx.dev.unit.MMock],
 
   members :
   {
@@ -62,27 +60,6 @@ qx.Class.define("qx.test.io.request.Jsonp",
 
       // May fail in IE
       try { qx.Class.undefine("Klass"); } catch(e) {}
-    },
-
-    //
-    // Full stack tests
-    //
-
-    "test: fetch json": function() {
-      var req = new qx.io.request.Jsonp(),
-          url = this.noCache(this.getUrl("qx/test/jsonp_primitive.php"));
-
-      req.addListener("load", function(e) {
-        this.resume(function() {
-          this.assertObject(req.getResponse());
-          this.assertTrue(req.getResponse()["boolean"]);
-        }, this);
-      }, this);
-
-      req.setUrl(url);
-      req.send();
-
-      this.wait();
     },
 
     //
