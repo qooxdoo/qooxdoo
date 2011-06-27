@@ -48,6 +48,10 @@ For a complete list of properties, please refer to the API Documentation of `qx.
 Events and states
 =================
 
+|iorequestphases.jpg|
+
+.. |iorequestphases.jpg| image:: iorequestphases.jpg
+
 Once a request is sent using the ``send()`` method, it traverses various states. There are two ways to query the current state of the request.
 
 * **getReadyState()**: An integer (0-4) representing UNSENT, OPENED, HEADERS_RECEIVED, LOADING and DONE.
@@ -99,6 +103,11 @@ The request’s response can be bound to a widget, model or any other object usi
   // req is an instance of qx.io.request.*,
   // label an instance of qx.ui.basic.Label
   req.bind("response", label, "value");
+
+Debugging
+=========
+
+If you encounter odd behavior, it might help to enable debugging of the IO classes. Debugging is controlled with the <code>qx.debug.io</code> setting. Provided you have allowed URL settings (<code>allowUrlSetting</code>), you can simply append <code>?qxenv:qx.debug.io:true</code> to the URL of your application.
 
 Specific to XHR
 ===============
