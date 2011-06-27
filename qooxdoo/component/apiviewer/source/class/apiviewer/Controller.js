@@ -60,6 +60,13 @@ qx.Class.define("apiviewer.Controller",
     this.__bindTree();
 
     this.__bindToolbar();
+    
+    var btn_inherited = this._widgetRegistry.getWidgetById("btn_inherited");
+    var btn_included = this._widgetRegistry.getWidgetById("btn_included");
+    
+    btn_inherited.addListener("changeValue", this.__syncMenuButton, this);
+    btn_included.addListener("changeValue", this.__syncMenuButton, this);
+    
 
     this._history = qx.bom.History.getInstance();
     this.__bindHistory();
@@ -231,7 +238,37 @@ qx.Class.define("apiviewer.Controller",
       btn_internal.bind("value", uiModel, "showInternal");
       uiModel.bind("showInternal", btn_internal, "value");
     },
-
+    
+    
+    /**
+     * Keeps the icon of the menubutton in sync with the menu checkboxes of inherited and mixin includes.
+     * 
+     */
+    __syncMenuButton : function()
+    {
+      var menuButton = this._widgetRegistry.getWidgetById("menubtn_includes");
+      var btn_inherited = this._widgetRegistry.getWidgetById("btn_inherited");
+      var btn_included = this._widgetRegistry.getWidgetById("btn_included");
+      var showInherited = btn_inherited.getValue();
+      var showMixins = btn_included.getValue();
+      if(showMixins && showInherited)
+      {
+        menuButton.setIcon('apiviewer/image/inherited_and_mixins_included.gif');
+      }
+      if(showInherited && !showMixins)
+      {
+        menuButton.setIcon('apiviewer/image/method_public_inherited18.gif');
+      }
+      if(!showInherited && showMixins)
+      {
+        menuButton.setIcon('apiviewer/image/overlay_mixin18.gif');
+      }
+      if(!showInherited && !showMixins)
+      {
+        menuButton.setIcon('apiviewer/image/includes.gif');
+      }
+      
+    },
 
     /**
      * bind history events

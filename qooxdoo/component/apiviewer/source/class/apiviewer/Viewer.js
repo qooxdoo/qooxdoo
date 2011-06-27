@@ -187,7 +187,8 @@ qx.Class.define("apiviewer.Viewer",
       expandBtn.setToolTipText(this.tr("Show/hide all generated property methods."));
       part.add(expandBtn);
 
-      var includesBtn = new qx.ui.toolbar.MenuButton(this.tr("Includes"), "apiviewer/image/includes.gif");
+      var includesBtn = new qx.ui.toolbar.MenuButton(this.tr("Includes"), "apiviewer/image/overlay_mixin18.gif");
+      includesBtn.setId("menubtn_includes");
       includesBtn.setToolTipText(this.tr("Show/hide members of other classes/mixins inherited/included in the current class"));
       part.add(includesBtn);
 
