@@ -308,7 +308,7 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertEventFired(req, "changePhase", function() {
         that.respond();
       }, function(evt) {
-        that.assertEquals("success", evt.getData());
+        that.assertMatch(evt.getData(), "load|success");
       });
     },
 

@@ -563,11 +563,12 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
       if (this.isDone()) {
 
-        this._fireStatefulEvent("load");
-
         if (qx.core.Environment.get("qx.debug.io")) {
           this.debug("Request completed with HTTP status: " + this.getStatus());
         }
+
+        // Event "load" fired in onLoad
+        this._setPhase("load");
 
         // Successful HTTP status
         if (qx.bom.request.Xhr.isSuccessful(this.getStatus())) {
