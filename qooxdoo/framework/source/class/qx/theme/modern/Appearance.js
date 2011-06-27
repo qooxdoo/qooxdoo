@@ -1123,11 +1123,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+        var useCSS = qx.core.Environment.get("css.borderradius") &&
+          qx.core.Environment.get("css.boxshadow") &&
+          qx.core.Environment.get("css.gradients");
+
         var result =
         {
           marginBottom : states.barTop ? -1 : 0,
-          marginTop : states.barBottom ? -4 : 0,
-          marginLeft : states.barRight ? -3 : 0,
+          marginTop : states.barBottom ? useCSS ? -4 : -7 : 0,
+          marginLeft : states.barRight ? useCSS ? -3 : -5 : 0,
           marginRight : states.barLeft ? -1 : 0,
           paddingTop : 0,
           paddingRight : 0,
