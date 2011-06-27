@@ -127,7 +127,6 @@ qx.Class.define("fce.Reporter", {
     {
       var userAgent = navigator.userAgent;
       var serverUrl = this.getServer() + this.getGetUrl();
-      console.log("URL", serverUrl);
       
       var req = new qx.io.remote.Request(serverUrl, "GET", "application/json");
       req.setCrossDomain(true);
