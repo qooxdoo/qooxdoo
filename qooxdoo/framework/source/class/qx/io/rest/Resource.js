@@ -283,6 +283,11 @@ qx.Class.define("qx.io.rest.Resource",
      * @param params {Map?} Map of parameters. See {@link #_invoke}.
      */
     poll: function(action, interval, params) {
+      // Dispose timer previously created for action
+      if (this.__pollTimers[action]) {
+        this.__pollTimers[action].dispose();
+      }
+
       // Cache parameters
       if (params) {
         this.__routes[action].params = params;

@@ -444,6 +444,26 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertSend("GET", "/photos/1");
     },
 
+    "test: poll action repeatedly": function() {
+      var res = this.res,
+          sandbox = this.getSandbox(),
+          msg;
+
+      sandbox.useFakeTimers();
+      this.stub(res, "refresh");
+
+      // 1 (immediate) + 10 invocations
+      res.poll("index", 10);
+      sandbox.clock.tick(100);
+
+      // 1 (immediate) + 5 invocations
+      res.poll("index", 20);
+      sandbox.clock.tick(100);
+
+      msg = "Renewed call of poll must stop previous timer of action";
+      this.assertEquals(17, res.refresh.callCount, msg);
+    },
+
     "test: poll many actions": function() {
       var res = this.res,
           sandbox = this.getSandbox(),
