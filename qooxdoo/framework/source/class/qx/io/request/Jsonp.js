@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Query JSONP services. Requests may be cross-origin.
  *
  * For an introduction to JSONP, please refer to

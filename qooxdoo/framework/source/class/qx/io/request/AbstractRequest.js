@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * AbstractRequest serves as a base class for {@link qx.io.request.Xhr}
  * and {@link qx.io.request.Jsonp}. It contains methods to conveniently
  * communicate with transports found in {@link qx.bom.request}.

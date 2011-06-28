@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * A special script loader handling JSONP responses. Automatically
  * provides callbacks and populates responseJson property.
  *

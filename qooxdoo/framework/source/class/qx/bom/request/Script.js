@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Script loader with interface similar to
  * <a href="http://www.w3.org/TR/XMLHttpRequest/">XmlHttpRequest</a>.
  *

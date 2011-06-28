@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Note: This class is going to replace {@link qx.io.HttpRequest} in a
  * future release.
  *
