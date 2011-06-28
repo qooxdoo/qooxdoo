@@ -192,6 +192,19 @@ qx.Class.define("qx.theme.manager.Decoration",
     },
 
 
+    /**
+     * Whether the given decorator is cached
+     *
+     * @param decorator {qx.ui.decoration.IDecorator} The decorator to check
+     * @return {Boolean} <code>true</code> if the decorator is cached
+     * @internal
+     */
+    isCached : function(decorator)
+    {
+      return qx.lang.Object.contains(this.__dynamic, decorator);
+    },
+
+
     // property apply
     _applyTheme : function(value, old)
     {
