@@ -119,6 +119,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
     __activeTarget : null,
     __scrollLeft : null,
     __scrollTop : null,
+    __startY : null,
     __timer : null,
 
 
@@ -135,6 +136,9 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
 
       EventHandler.__scrollLeft = qx.bom.Viewport.getScrollLeft();
       EventHandler.__scrollTop = qx.bom.Viewport.getScrollTop();
+      
+      var touch = domEvent.getChangedTargetTouches()[0];
+      EventHandler.__startY = touch.screenY;
 
       EventHandler.__cancelActiveStateTimer();
 
@@ -172,6 +176,15 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
     __onTouchMove : function(domEvent)
     {
       var EventHandler = qx.ui.mobile.core.EventHandler;
+
+      var touch = domEvent.getChangedTargetTouches()[0];
+
+      var deltaY = touch.screenY - EventHandler.__startY;
+
+      if (EventHandler.__activeTarget && Math.abs(deltaY) >= qx.event.handler.Touch.TAP_MAX_DISTANCE) {
+          EventHandler.__removeActiveState();
+      }
+
       if (EventHandler.__activeTarget
           && (EventHandler.__scrollLeft != qx.bom.Viewport.getScrollLeft()
               || EventHandler.__scrollTop != qx.bom.Viewport.getScrollTop())) {
