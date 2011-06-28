@@ -167,7 +167,7 @@ qx.Class.define("qx.io.rest.Resource",
      * @param url {String} URL to configure request with. May contain positional
      *   parameters (:param) that are replaced by values given when the action
      *   is invoked.
-     * @param check {Map?} Map defining parameter constraints,where the key is
+     * @param check {Map?} Map defining parameter constraints, where the key is
      *   the parameter and the value a regular expression.
      */
     map: function(action, method, url, check) {
@@ -195,8 +195,9 @@ qx.Class.define("qx.io.rest.Resource",
      * May be overriden to customize action and parameter handling.
      *
      * @param action {String} Action to invoke.
-     * @param params {Map} Map of parameters to be send as part of the request.
-     *   Inserted into URL when a matching positional parameter is found.
+     * @param params {Map} Map of parameters to be send as part of the request,
+     *  where the key is the parameter to match and the value a string. Inserted
+     *  into URL when a matching positional parameter is found.
      */
     _invoke: function(action, params) {
       var req = this.__request,

@@ -247,6 +247,16 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalledWith(req.setUrl, "/photos/1");
     },
 
+    "test: invoke action with non-string params": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.map("show", "GET", "/photos/:id");
+      res.show({id: 1});
+
+      this.assertCalledWith(req.setUrl, "/photos/1");
+    },
+
     "test: invoke action with additional params": function() {
       var res = this.res,
           req = this.req,
