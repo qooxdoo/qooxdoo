@@ -326,15 +326,17 @@ qx.Class.define("qx.io.rest.Resource",
      *  polling, remove handler using {@link qx.core.Object#removeListenerById}.
      */
     longPoll: function(action) {
+      var res = this;
+
+      // Work-around disposed context warning
+      var context = true;
+
       var handlerId = this.__longPollHandlers[action] = this.addListener(action + "Success",
         function longPollHandler() {
-          // Other handlers of the same event may have been run before and could
-          // potentially dispose the target
-          if (this.isDisposed()) {
-            return;
-          }
-        this.refresh(action);
-      }, this);
+          res.isDisposed() ? null : res.refresh(action);
+        },
+      context);
+
       this._invoke(action);
       return handlerId;
     },
