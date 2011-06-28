@@ -193,19 +193,29 @@ qx.Class.define("qx.ui.mobile.list.List",
     _applyModel : function(value, old)
     {
       if (old != null) {
-        old.removeListener("change", this.__render, this);
+        old.removeListener("change", this.__onModelChange, this);
       }
       if (value != null) {
-        value.addListener("change", this.__render, this);
+        value.addListener("change", this.__onModelChange, this);
       }
-      this.setItemCount(value ? value.getLength() : 0);
-      this.__render();
+      this.__onModelChange();
     },
 
 
     // property apply
     _applyDelegate : function(value, old) {
       this.__provider.setDelegate(value);
+    },
+
+
+    /**
+     * Reacts on model changes.
+     */
+    __onModelChange : function()
+    {
+      var model = this.getModel();
+      this.setItemCount(model ? model.getLength() : 0);
+      this.__render();
     },
 
 
