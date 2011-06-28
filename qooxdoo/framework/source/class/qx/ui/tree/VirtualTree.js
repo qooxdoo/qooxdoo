@@ -606,7 +606,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     _applyDelegate : function(value, old)
     {
       this._provider.setDelegate(value);
-      this.getPane().fullUpdate();
+      this.buildLookupTable();
     },
 
 
@@ -733,7 +733,6 @@ qx.Class.define("qx.ui.tree.VirtualTree",
             break;
         }
       }
-      this.getPane().fullUpdate();
     },
 
     /*
