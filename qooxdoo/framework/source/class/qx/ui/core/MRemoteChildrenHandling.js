@@ -191,9 +191,10 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * ignore the children order for the layout process.
      *
      * @param index {Integer} Index of the item to remove.
+     * @return {qx.ui.core.LayoutItem} The removed item
      */
     removeAt : function(index) {
-      this.__forward("removeAt", index);
+      return this.__forward("removeAt", index);
     }
   }
 });
