@@ -82,6 +82,24 @@ qx.Class.define("qx.data.Array",
 
   /*
   *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties : 
+  {
+    /**
+     * Flag to set the dispose behavior of the array. If the property is set to 
+     * <code>true</code>, the array will dispose its content on dispose too.
+     */
+    autoDisposeItems : {
+      check : "Boolean",
+      init : false
+    }
+  },
+
+  /*
+  *****************************************************************************
      EVENTS
   *****************************************************************************
   */
@@ -838,7 +856,13 @@ qx.Class.define("qx.data.Array",
 
   destruct : function() {
     for (var i = 0; i < this.__array.length; i++) {
-      this._applyEventPropagation(null, this.__array[i], i);
+      var item = this.__array[i];
+      this._applyEventPropagation(null, item, i);
+
+      // dispose the items on outo dispose
+      if (this.isAutoDisposeItems() && item && item instanceof qx.core.Object) {
+        item.dispose();
+      }
     }
 
     this.__array = null;

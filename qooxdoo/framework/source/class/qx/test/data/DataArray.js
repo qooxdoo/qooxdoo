@@ -563,6 +563,24 @@ qx.Class.define("qx.test.data.DataArray",
 
       // check if the handlers has been called
       this.assertTrue(handlerCalled);
+    },
+
+
+    testNotAutoDisposeItems : function() {
+      var o = new qx.core.Object();
+      this.__a.push(o);
+      this.__a.dispose();
+      this.assertFalse(o.isDisposed());
+      o.dispose();
+    },
+
+
+    testAutoDisposeItems : function() {
+      var o = new qx.core.Object();
+      this.__a.push(o);
+      this.__a.setAutoDisposeItems(true);
+      this.__a.dispose();
+      this.assertTrue(o.isDisposed());
     }
   }
 });

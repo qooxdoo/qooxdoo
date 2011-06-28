@@ -597,6 +597,14 @@ qx.Class.define("qx.test.data.marshal.Json",
     },
 
 
+    testDisposeListModel : function() {
+      var model = qx.data.marshal.Json.createModel([{name: "a"}]);
+      var item = model.getItem(0);
+      model.dispose();
+      this.assertTrue(item.isDisposed());
+    },
+
+
     testValidIdentifier: function() {
       // its a debug warning so only check on debug
       if (qx.core.Environment.get("qx.debug")) {
