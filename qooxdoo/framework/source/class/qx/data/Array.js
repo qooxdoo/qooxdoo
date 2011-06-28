@@ -613,7 +613,10 @@ qx.Class.define("qx.data.Array",
      * @return {var} The removed item.
      */
     removeAt : function(index) {
-      return this.splice(index, 1).getItem(0);
+      var returnArray = this.splice(index, 1);
+      var item = returnArray.getItem(0);
+      returnArray.dispose();
+      return item;
     },
 
 
