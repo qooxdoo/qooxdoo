@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * Interface describes the methods which the {@link qx.ui.tree.provider.WidgetProvider}
  * uses for communication.
  */

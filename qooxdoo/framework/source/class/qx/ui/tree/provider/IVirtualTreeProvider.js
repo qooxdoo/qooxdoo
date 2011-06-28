@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * This interface needs to implemented from all {@link qx.ui.tree.VirtualTree}
  * providers.
  *

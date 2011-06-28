@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * Virtual tree implementation.
  *
  * The virtual tree can be used to render node and leafs. Nodes and leafs are
