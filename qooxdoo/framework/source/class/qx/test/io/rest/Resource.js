@@ -487,27 +487,6 @@ qx.Class.define("qx.test.io.rest.Resource",
         "Action index must be called 2 times but was " + res.refresh.callCount  + " times");
     },
 
-    "test: long poll action": function() {
-      this.setUpPersistent();
-
-      var res = this.res,
-          req = this.req,
-          responses = [];
-
-      this.stub(req, "dispose");
-
-      res.addListener("indexSuccess", function(e) {
-        responses.push(e.getData());
-      }, this);
-      res.longPoll("index");
-
-      this.respond("1");
-      this.respond("2");
-      this.respond("3");
-
-      this.assertArrayEquals(["1", "2", "3"], responses);
-    },
-
     "test: end poll action": function() {
       var res = this.res,
           sandbox = this.getSandbox(),
@@ -572,6 +551,50 @@ qx.Class.define("qx.test.io.rest.Resource",
       sandbox.clock.tick(10);
       this.assert(stub.callCount > callCount, "Must restart poll after end but was called " +
         stub.callCount + " times which is not greather than " + callCount);
+    },
+
+    "test: long poll action": function() {
+      this.setUpPersistent();
+
+      var res = this.res,
+          req = this.req,
+          responses = [];
+
+      this.stub(req, "dispose");
+
+      res.addListener("indexSuccess", function(e) {
+        responses.push(e.getData());
+      }, this);
+      res.longPoll("index");
+
+      // longPoll() sets up new request when receiving a response
+      this.respond("1");
+      this.respond("2");
+      this.respond("3");
+
+      this.assertArrayEquals(["1", "2", "3"], responses);
+    },
+
+    "test: end long poll action": function() {
+      this.setUpPersistent();
+
+      var res = this.res,
+          req = this.req,
+          handlerId,
+          msg;
+
+      this.stub(req, "dispose");
+      this.spy(res, "refresh");
+
+      handlerId = res.longPoll("index");
+
+      this.respond();
+      this.respond();
+
+      res.removeListenerById(handlerId);
+      this.respond();
+
+      this.assertCalledTwice(res.refresh);
     },
 
     //

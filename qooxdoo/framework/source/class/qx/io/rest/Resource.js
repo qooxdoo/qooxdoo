@@ -322,9 +322,11 @@ qx.Class.define("qx.io.rest.Resource",
      * Note no interval is given on the client side.
      *
      * @param action {String} Action to poll.
+     * @return {String} Id of handler responsible for long-polling. To stop
+     *  polling, remove handler using {@link qx.core.Object#removeListenerById}.
      */
     longPoll: function(action) {
-      this.__longPollHandlers[action] = this.addListener(action + "Success",
+      var handlerId = this.__longPollHandlers[action] = this.addListener(action + "Success",
         function longPollHandler() {
           // Other handlers of the same event may have been run before and could
           // potentially dispose the target
@@ -334,6 +336,7 @@ qx.Class.define("qx.io.rest.Resource",
         this.refresh(action);
       }, this);
       this._invoke(action);
+      return handlerId;
     },
 
     /**
