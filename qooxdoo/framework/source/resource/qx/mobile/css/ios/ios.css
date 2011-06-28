@@ -355,11 +355,19 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
 
 /* SCROLLBAR */
 
-.scrollbar {
-    border: none;
-    background-color: #5b5b5b;
+.scrollbarV {
+  position:absolute;
+  z-index:100;
+  width:6px;bottom:7px;top:2px;right:2px
 }
 
+.scrollbarV > div {
+  border: none;
+  background:-webkit-gradient(linear, 0 0, 100% 0, from(#62666a), to(#65696c));
+  -webkit-background-clip:padding-box;
+  -webkit-box-sizing:border-box;
+  -webkit-border-radius:4px;
+}
 
 /* CHECKBOX */
 
