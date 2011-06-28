@@ -43,7 +43,8 @@ qx.Mixin.define("qx.data.controller.MSelection",
 
     // create a default selection array
     if (this.getSelection() == null) {
-      this.setSelection(new qx.data.Array());
+      this.__ownSelection = new qx.data.Array();
+      this.setSelection(this.__ownSelection);
     }
   },
 
@@ -85,6 +86,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
     _modifingSelection : 0,
     __selectionListenerId : null,
     __selectionArrayListenerId : null,
+    __ownSelection : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -155,6 +157,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
       var selection = this.getSelection();
       if (selection == null) {
         selection = new qx.data.Array();
+        this.__ownSelection = selection;
         this.setSelection(selection);
       }
 
@@ -369,5 +372,19 @@ qx.Mixin.define("qx.data.controller.MSelection",
       return this._modifingSelection > 0;
     }
 
+  },
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (this.__ownSelection) {
+      this.__ownSelection.dispose();
+    }
   }
 });
