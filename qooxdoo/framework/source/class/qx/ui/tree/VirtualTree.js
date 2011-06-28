@@ -318,7 +318,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       for (var row = firstRow; row < firstRow + rowSize; row++)
       {
         var widget = this._layer.getRenderedCellWidget(row, 0);
-        this.__itemWidth = Math.max(this.__itemWidth, widget.getSizeHint().width);
+        if (widget != null) {
+          this.__itemWidth = Math.max(this.__itemWidth, widget.getSizeHint().width);
+        }
       }
       var paneWidth = this.getPane().getBounds().width;
       this.getPane().getColumnConfig().setItemSize(0, Math.max(this.__itemWidth, paneWidth));
