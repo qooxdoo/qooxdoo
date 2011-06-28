@@ -278,5 +278,7 @@ qx.Class.define("qx.ui.form.Form",
   {
     // holding references to widgets --> must set to null
     this.__groups = this._buttons = this._buttonOptions = null;
+    this._validationManager.dispose();
+    this._resetter.dispose();
   }
 });
