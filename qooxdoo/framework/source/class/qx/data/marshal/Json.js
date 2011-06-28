@@ -241,14 +241,6 @@ qx.Class.define("qx.data.marshal.Json",
       if (item.isDisposed()) {
         return;
       }
-      // dispose all entires of an array
-      if (qx.Class.implementsInterface(item, qx.data.IListData)) {
-        // dispose all items of the array
-        for (var i=0; i < item.getLength(); i++) {
-          this.__disposeItem(item.getItem(i));
-        };
-      }
-
       item.dispose();
     },
 
@@ -299,6 +291,9 @@ qx.Class.define("qx.data.marshal.Json",
 
       } else if (qx.lang.Type.isArray(data)) {
         var array = new qx.data.Array();
+        // set the auto dispose for the array
+        array.setAutoDisposeItems(true);
+
         for (var i = 0; i < data.length; i++) {
           array.push(this.toModel(data[i]));
         }
