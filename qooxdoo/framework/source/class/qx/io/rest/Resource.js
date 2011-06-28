@@ -319,6 +319,9 @@ qx.Class.define("qx.io.rest.Resource",
      * refer to <a href="http://en.wikipedia.org/wiki/Comet_(programming)#Ajax_with_long_polling">
      * Ajax with long polling</a>.
      *
+     * Uses {@link #refresh} internally. Make sure you understand the
+     * implications of IE's tendency to cache overly agressive.
+     *
      * Note no interval is given on the client side.
      *
      * @param action {String} Action to poll.
