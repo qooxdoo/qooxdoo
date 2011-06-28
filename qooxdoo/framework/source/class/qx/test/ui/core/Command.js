@@ -214,6 +214,7 @@ qx.Class.define("qx.test.ui.core.Command",
       this.assertNull(this.__menuButton.getMenu());
 
       splitButton.dispose();
+      menu.dispose();
     },
 
 

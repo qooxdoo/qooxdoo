@@ -36,6 +36,9 @@ qx.Class.define("qx.test.event.type.Native",
       qx.lang.Object.empty(domEvent);
 
       clone.preventDefault();
+      
+      event.dispose();
+      clone.dispose();
     }
   }
 });

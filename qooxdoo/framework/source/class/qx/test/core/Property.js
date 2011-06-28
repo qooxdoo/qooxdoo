@@ -47,6 +47,7 @@ qx.Class.define("qx.test.core.Property",
 
       // Boolean property
       this.assertFunction(inst.toggleBooleanProp, "boolean toggler");
+      inst.dispose();
     },
 
 
@@ -97,6 +98,8 @@ qx.Class.define("qx.test.core.Property",
       var arr = new Array;
       this.assertIdentical(arr, inst.setArrayProp(arr), "array property, set");
       this.assertIdentical(arr, inst.getArrayProp(), "array property, get");
+      
+      inst.dispose();
     },
 
 
@@ -142,6 +145,14 @@ qx.Class.define("qx.test.core.Property",
       this.assertTrue(chh1.getEnabled(), "c3");
       this.assertTrue(chh2.getEnabled(), "c4");
       this.assertTrue(chh3.getEnabled(), "c5");
+      
+      pa.dispose();
+      ch1.dispose();
+      ch2.dispose();
+      ch3.dispose();
+      chh1.dispose();
+      chh2.dispose();
+      chh3.dispose();
     },
 
 
@@ -174,6 +185,11 @@ qx.Class.define("qx.test.core.Property",
       this.assertTrue(ch1.getEnabled(), "c2");
       this.assertTrue(ch2.getEnabled(), "c3");
       this.assertFalse(ch3.getEnabled(), "c4");
+      
+      pa.dispose();
+      ch1.dispose();
+      ch2.dispose();
+      ch3.dispose();
     },
 
 
@@ -211,6 +227,8 @@ qx.Class.define("qx.test.core.Property",
 
       // No prop
       this.assertIdentical(inst.getNoProp(), null, "c1");
+      
+      inst.dispose();
     },
 
 
@@ -236,6 +254,8 @@ qx.Class.define("qx.test.core.Property",
       inst.setInitApplyProp2(null); //set to init value
       this.assertJsonEquals([null, null], inst.lastApply);
       inst.lastApply = undefined;
+      
+      inst.dispose();
     },
 
 
@@ -254,6 +274,7 @@ qx.Class.define("qx.test.core.Property",
         inst.lastApply = undefined;
       });
       this.assertNotUndefined(inst, "instance");
+      inst.dispose();
     },
 
     testDefinesThanSubClassWithInterface : function()
@@ -289,6 +310,8 @@ qx.Class.define("qx.test.core.Property",
 
       var b = new qx.test.B();
       b.setEnabled(true);
+      a.dispose();
+      b.dispose();
     },
 
 
@@ -327,13 +350,15 @@ qx.Class.define("qx.test.core.Property",
         delete qx.test.clName;
 
         // qooxdoo class
+        var o = new qx.core.Object();
         this.assertException(function() {
           qx.Class.define("qx.test.clName", {
             extend : qx.core.Object,
-            properties : new qx.core.Object()
+            properties : o
           });
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
+        o.dispose();
 
         // RegExp
         this.assertException(function() {
@@ -406,6 +431,7 @@ qx.Class.define("qx.test.core.Property",
 
       root.setValue(-100);
       this.assertEquals(0, root.getValue());
+      root.dispose();
 
     },
 
@@ -439,6 +465,8 @@ qx.Class.define("qx.test.core.Property",
         self.assertTrue(e.getData(), "Wrong data in the event!");
         self.assertFalse(e.getOldData(), "Wrong old data in the event!");
       }, "Change event not fired!");
+      
+      object.dispose();
     },
 
 
@@ -471,6 +499,8 @@ qx.Class.define("qx.test.core.Property",
         self.assertTrue(e.getData(), "Wrong data in the event!");
         self.assertNull(e.getOldData(), "Wrong old data in the event!");
       }, "Change event not fired!");
+      
+      object.dispose();
     },
 
 
@@ -504,6 +534,8 @@ qx.Class.define("qx.test.core.Property",
         self.assertTrue(e.getData(), "Wrong data in the event!");
         self.assertFalse(e.getOldData(), "Wrong old data in the event!");
       }, "Change event not fired!");
+      
+      object.dispose();
     },
 
 
@@ -537,6 +569,8 @@ qx.Class.define("qx.test.core.Property",
         self.assertTrue(e.getData(), "Wrong data in the event!");
         self.assertNull(e.getOldData(), "Wrong old data in the event!");
       }, "Change event not fired!");
+      
+      object.dispose();
     }
   }
 });

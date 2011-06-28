@@ -52,6 +52,9 @@ qx.Class.define("qx.test.event.type.Dom",
       this.assertEquals(reference.ctrl, clone.isCtrlPressed());
       this.assertEquals(reference.alt, clone.isAltPressed());
       this.assertEquals(reference.meta, clone.isMetaPressed());
+      
+      event.dispose();
+      clone.dispose();
     }
   }
 });

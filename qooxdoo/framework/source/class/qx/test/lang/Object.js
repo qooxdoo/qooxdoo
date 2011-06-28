@@ -248,10 +248,12 @@ qx.Class.define("qx.test.lang.Object",
       this.assertIdentical(({a: 12}).constructor, objConstructor);
       this.assertIdentical(new Object().constructor, objConstructor);
 
-      this.assertNotIdentical(new qx.core.Object().constructor, objConstructor);
+      var qxObj = new qx.core.Object();
+      this.assertNotIdentical(qxObj.constructor, objConstructor);
       this.assertNotIdentical((1).constructor, objConstructor);
       this.assertNotIdentical(("Juhu").constructor, objConstructor);
       this.assertNotIdentical((/abc/).constructor, objConstructor);
+      qxObj.dispose();
     },
 
     testToUriParameter : function()

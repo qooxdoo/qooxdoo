@@ -42,7 +42,7 @@ qx.Class.define("qx.test.locale.Locale",
       var manager = qx.locale.Manager.getInstance();
       manager.setLocale(this.__defaultLocale);
       if (this.__listenerId) {
-        manager.removeListener(this.__listenerId);
+        manager.removeListenerById(this.__listenerId);
       }
     },
 
@@ -160,6 +160,7 @@ qx.Class.define("qx.test.locale.Locale",
 
       this.assertEquals("Eins!", textField.getInvalidMessage());
       this.assertEquals("Zwei!", textField.getRequiredInvalidMessage());
+      textField.dispose();
     },
 
 

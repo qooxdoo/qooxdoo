@@ -49,6 +49,7 @@ qx.Class.define("qx.test.bom.WebWorker",
     },
 
     tearDown: function() {
+      this._worker.dispose();
       this._worker = null;
       this._send = null;
       this._url = null;

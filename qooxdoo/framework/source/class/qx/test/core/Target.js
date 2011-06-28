@@ -42,6 +42,7 @@ qx.Class.define("qx.test.core.Target",
 
       var target = new qx.Event();
       target.addListener("click", function() {});
+      target.dispose();
     }
   }
 });

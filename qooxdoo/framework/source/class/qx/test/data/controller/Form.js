@@ -45,7 +45,7 @@ qx.Class.define("qx.test.data.controller.Form",
     tearDown : function() {
       this.__form.dispose();
       this.__model.dispose();
-      this.__tf1.destroy();
+      this.__tf1.dispose();
       this.__tf2.destroy();
       this.__cb.destroy();
     },
@@ -297,6 +297,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(true, this.__model.getCb());
 
       model2.dispose();
+      c.dispose();
     },
 
 
@@ -344,6 +345,7 @@ qx.Class.define("qx.test.data.controller.Form",
       tf1.destroy();
       tf2.destroy();
       cb.destroy();
+      c.dispose();
     },
 
 
@@ -750,8 +752,10 @@ qx.Class.define("qx.test.data.controller.Form",
 
       // form
       var form = new qx.ui.form.Form();
-      form.add(new qx.ui.form.TextField(), "Name", null, "name");
-      form.add(new qx.ui.form.Spinner(), "Age", null, "age");
+      var tf = new qx.ui.form.TextField();
+      var sp = new qx.ui.form.Spinner();
+      form.add(tf, "Name", null, "name");
+      form.add(sp, "Age", null, "age");
       var formController = new qx.data.controller.Form(null, form);
 
       // connection
@@ -792,6 +796,17 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(1, model.getItem(0).getAge());
       this.assertEquals(2, model.getItem(1).getAge());
       this.assertEquals(3, model.getItem(2).getAge());
+      
+      for (var i=0; i<model.length; i++) {
+        model.getItem(i).dispose();
+      }
+      model.dispose();
+      list.dispose();
+      listController.dispose();
+      form.dispose();
+      formController.dispose();
+      tf.dispose();
+      sp.dispose();
     },
 
 

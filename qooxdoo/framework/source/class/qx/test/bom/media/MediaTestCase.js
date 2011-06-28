@@ -102,6 +102,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
 
     testSource: function()
     {
+      this._media.dispose();
       this._media = new qx.bom.media.Audio();
 
       this._media.setSource(this._src);

@@ -170,6 +170,8 @@ qx.Class.define("qx.test.bom.Font",
       this.assertEquals(expected.textDecoration, found.textDecoration, "Wrong value for 'textDecoration'");
       this.assertEquals(expected.fontFamily, found.fontFamily, "Wrong value for 'fontFamily'");
       this.assertEquals(expected.textColor, found.textColor, "Wrong value for 'textColor'");
+      
+      font.dispose();
     },
 
 
@@ -193,6 +195,8 @@ qx.Class.define("qx.test.bom.Font",
       this.assertEquals(expected.fontSize, found.fontSize, "Wrong value for 'fontSize'");
       this.assertEquals(expected.textDecoration, found.textDecoration, "Wrong value for 'textDecoration'");
       this.assertEquals(expected.fontFamily, found.fontFamily, "Wrong value for 'fontFamily'");
+      
+      font.dispose();
     }
   }
 });

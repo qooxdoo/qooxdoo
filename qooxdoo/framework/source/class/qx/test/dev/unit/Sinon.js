@@ -227,6 +227,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
           obj = this.deepStub(obj);
       obj.getKind();
       this.assertCalled(obj.getKind);
+      obj.dispose();
     },
 
     "test: shallow stub": function() {
@@ -241,6 +242,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       // Not stubbed
       this.assertEquals("Animal", obj.getKind(), "Must return original");
       this.assertUndefined(obj.getKind.called, "Must not be stubbed");
+      obj.dispose();
     },
 
     "test: inject stub of original": function() {
@@ -249,6 +251,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
 
       affe.scratch.returns(false);
       this.assertFalse(affe.scratch());
+      affe.dispose();
     },
 
     "test: inject stub of original and return": function() {
@@ -257,6 +260,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
 
       stub.scratch.returns(false);
       this.assertFalse(affe.scratch());
+      affe.dispose();
     },
 
     "test: inject custom stub": function() {
@@ -282,6 +286,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       mock.expects("scratch").once();
       affe.scratch();
       mock.verify();
+      affe.dispose();
     },
 
     "test: reveal mock of custom and return": function() {

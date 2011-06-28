@@ -36,6 +36,7 @@ qx.Class.define("qx.test.html.Element",
     tearDown : function()
     {
       qx.html.Element.flush();
+      this._doc.dispose();
       var div = document.getElementById("doc");
       document.body.removeChild(div);
     },

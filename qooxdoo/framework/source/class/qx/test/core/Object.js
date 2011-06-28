@@ -134,6 +134,7 @@ qx.Class.define("qx.test.core.Object",
           self.assertEquals(data[i].old, e.getOldData());
         });
       }
+      emitter.dispose();
     },
 
 
@@ -168,6 +169,7 @@ qx.Class.define("qx.test.core.Object",
       this.assertEquals(2, called);
 
       qx.log.Logger.error = oldError;
+      emitter.dispose();
     },
 
 
@@ -187,6 +189,7 @@ qx.Class.define("qx.test.core.Object",
         extend : qx.core.Object,
         type : "singleton"
       });
+      o.dispose();
 
       var o = new qx.core.Object();
       o.s = qx.test.Single.getInstance();
@@ -194,6 +197,7 @@ qx.Class.define("qx.test.core.Object",
         o._disposeObjects("s");
       });
       qx.Class.undefine("qx.test.Single");
+      o.dispose();
     },
 
 
@@ -213,6 +217,7 @@ qx.Class.define("qx.test.core.Object",
       this.assertTrue(o.s == null);
 
       qx.Class.undefine("qx.test.Single");
+      o.dispose();
     }
   }
 });

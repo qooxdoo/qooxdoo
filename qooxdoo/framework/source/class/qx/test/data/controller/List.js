@@ -25,6 +25,7 @@
 qx.Class.define("qx.test.data.controller.List",
 {
   extend : qx.test.ui.LayoutTestCase,
+  include : qx.dev.unit.MMock,
 
   members :
   {
@@ -36,6 +37,9 @@ qx.Class.define("qx.test.data.controller.List",
 
     setUp : function()
     {
+      // prevent the icon laod error with this stub
+      this.stub(qx.io.ImageLoader, "load")
+      
       this.__list = new qx.ui.form.List();
     },
 
@@ -44,11 +48,17 @@ qx.Class.define("qx.test.data.controller.List",
     {
       this.__controller ? this.__controller.dispose() : null;
       this.__model ? this.__model.dispose() : null;
+      for (var i=0; i<this.__list.getChildren().length; i++) {
+        this.__list.getChildren()[i].destroy();
+      }
       this.__list.destroy();
       this.flush();
       this.__controller = null;
       this.__model = null;
       this.__data = null;
+      this.base(arguments);
+      // clear the stub
+      this.getSandbox().restore();
     },
 
 
@@ -150,6 +160,7 @@ qx.Class.define("qx.test.data.controller.List",
     testChangeModelSmaller: function() {
       this.__setUpString();
 
+      this.__model.dispose();
       // change one element
       this.__data = ["f", "g", "h", "i"];
       this.__model = new qx.data.Array(this.__data);
@@ -168,6 +179,7 @@ qx.Class.define("qx.test.data.controller.List",
     testChangeModelBigger: function() {
       this.__setUpString();
 
+      this.__model.dispose();
       // change one element
       this.__data = ["f", "g", "h", "i", "j", "k"];
       this.__model = new qx.data.Array(this.__data);
@@ -198,6 +210,8 @@ qx.Class.define("qx.test.data.controller.List",
       }
       // check the length of the old list
       this.assertEquals(0, this.__list.getChildren().length, "Wrong length!");
+
+      list.dispose();
     },
 
 
@@ -264,6 +278,7 @@ qx.Class.define("qx.test.data.controller.List",
         var label = box.getChildren()[i].getLabel();
         this.assertEquals(this.__data[i], label, "SelectBox-Binding " + i + " is wrong!");
       }
+      box.dispose();
     },
 
 
@@ -281,6 +296,7 @@ qx.Class.define("qx.test.data.controller.List",
         var label = box.getChildren()[i].getLabel();
         this.assertEquals(this.__data[i], label, "ComboBox-Binding " + i + " is wrong!");
       }
+      box.dispose();
     },
 
 
@@ -401,6 +417,7 @@ qx.Class.define("qx.test.data.controller.List",
         this.__list.getSelection()[0].getLabel(),
         "Change the selection array does not work."
       );
+      this.__controller.getSelection().dispose();
     },
 
 
@@ -579,6 +596,8 @@ qx.Class.define("qx.test.data.controller.List",
 
       // check for the Selection
       this.assertEquals("10", box.getSelection()[0].getLabel(), "Wrong selection");
+      
+      box.dispose();
     },
 
 
@@ -601,6 +620,7 @@ qx.Class.define("qx.test.data.controller.List",
 
       // test for the selection
       this.assertEquals("x", this.__controller.getSelection().getItem(0), "Selection is wrong.");
+      this.__controller.getModel().dispose();
     },
 
 
@@ -699,7 +719,8 @@ qx.Class.define("qx.test.data.controller.List",
       // check for the right length
       this.assertEquals(0, this.__list.getChildren().length, "Some list items created.");
 
-      this.__controller.setModel(new qx.data.Array("A", "B", "C", "D", "E"));
+      var model = new qx.data.Array("A", "B", "C", "D", "E");
+      this.__controller.setModel(model);
 
       // check the length
       this.assertEquals(3, this.__list.getChildren().length, "Wrong number of list items");
@@ -707,6 +728,7 @@ qx.Class.define("qx.test.data.controller.List",
       this.assertEquals("B", this.__list.getChildren()[0].getLabel(), "Binding is wrong!");
       this.assertEquals("C", this.__list.getChildren()[1].getLabel(), "Binding is wrong!");
       this.assertEquals("D", this.__list.getChildren()[2].getLabel(), "Binding is wrong!");
+      model.dispose();
     },
 
 
@@ -1052,6 +1074,7 @@ qx.Class.define("qx.test.data.controller.List",
       this.assertEquals("b", visibleModels.getItem(0));
       this.assertEquals("c", visibleModels.getItem(1));
       this.assertEquals("d", visibleModels.getItem(2));
+      visibleModels.dispose();
     },
 
 
@@ -1101,6 +1124,8 @@ qx.Class.define("qx.test.data.controller.List",
         // check that it has not been scrolled
         this.assertEquals(40, this.__list.getScrollY());
       }
+      
+      this.getRoot().destroy();
     },
 
 
@@ -1157,13 +1182,14 @@ qx.Class.define("qx.test.data.controller.List",
         }
       });
 
+      var kid = new qx.demo.Kid();
       qx.Class.define("qx.demo.Parent",
       {
         extend : qx.core.Object,
         construct : function()
         {
           this.base(arguments);
-          this.setKid(new qx.demo.Kid());
+          this.setKid(kid);
         },
 
         properties :
@@ -1201,6 +1227,14 @@ qx.Class.define("qx.test.data.controller.List",
       ctrl.bind("selection[0].Kid.Name", label, "value");
 
       ctrl.getSelection().push(parentA);
+      
+      parentA.dispose();
+      parentB.dispose();
+      kid.dispose();
+      list.dispose();
+      ctrl.dispose();
+      label.dispose();
+      parents.dispose();
     },
 
 
@@ -1221,6 +1255,7 @@ qx.Class.define("qx.test.data.controller.List",
         }
       });
 
+      //var kid = new qx.demo.Kid();
       qx.Class.define("qx.demo.Parent",
       {
         extend : qx.core.Object,
@@ -1275,6 +1310,15 @@ qx.Class.define("qx.test.data.controller.List",
       // select the second label
       list.addToSelection(list.getChildren()[1]);
       this.assertNull(label.getValue(), "Label has not been reseted.");
+      
+      parentA.getKid().dispose();
+      parentA.dispose();
+      parentB.getKid().dispose();
+      parentB.dispose();
+      list.dispose();
+      ctrl.dispose();
+      label.dispose();
+      parents.dispose();
     }
   }
 });
