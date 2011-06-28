@@ -65,7 +65,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
           res;
 
       res = this.res = new qx.io.rest.Resource(
-        [{method: "GET", url: url, action: "index"}]);
+        {index: {method: "GET", url: url} });
 
       res.index().addListener("indexSuccess", function(e) {
         this.resume(function() {

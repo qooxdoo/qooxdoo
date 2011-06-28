@@ -50,9 +50,16 @@ qx.Class.define("qx.io.rest.Resource",
   extend : qx.core.Object,
 
   /**
-   * @param description {[]?} Array of maps. Each map describes a
-   *   route and must have the properties <code>action</code>,<code>method</code>,
-   *   <code>url</code>. <code>check</code> is optional.
+   * @param description {Map?} Each key of the map is interpreted as
+   *  <code>action</code> name. The value associated to the key must be a map
+   *  with the properties <code>method</code> and <code>url</code>.
+   *  <code>check</code> is optional. Also see {@link #map}.
+   *
+   * For example:
+   *
+   * <pre lang="javascript">
+   * { show: {method: "GET", url: "/photos/:id", check: /\d+/} }
+   * </pre>
    */
   construct: function(description)
   {
@@ -65,7 +72,7 @@ qx.Class.define("qx.io.rest.Resource",
     this.__invoked = {};
 
     if (typeof description !== "undefined") {
-      qx.core.Assert.assertArray(description);
+      qx.core.Assert.assertMap(description);
       this.__mapFromDescription(description);
     }
   },
@@ -308,7 +315,6 @@ qx.Class.define("qx.io.rest.Resource",
     },
 
     /**
-     *
      * Long-poll action.
      *
      * Use Ajax long-polling to continously fetch a resource as soon as the
@@ -409,22 +415,21 @@ qx.Class.define("qx.io.rest.Resource",
     },
 
     /**
-     * Map actions from description. Allows to decoratively define maps.
+     * Map actions from description.
      *
-     * @param description {[Map]?} Array of maps. Each map describes a
-     *   route and must have the properties <code>action</code>,<code>method</code>,
-     *   <code>url</code>. <code>check</code> is optional.
+     * Allows to decoratively define routes.
+     *
+     * @param description {Map} Map that defines the routes.
      */
     __mapFromDescription: function(description) {
-      description.forEach(function(route, index) {
-        var method = route["method"],
-            url = route["url"],
-            action = route["action"],
-            check = route["check"];
+      qx.lang.Object.getKeys(description).forEach(function(action) {
+        var route = description[action],
+            method = route.method,
+            url = route.url,
+            check = route.check;
 
-        qx.core.Assert.assertString(method, "Method must be string for route #" + index);
-        qx.core.Assert.assertString(url, "Url must be string for route #" + index);
-        qx.core.Assert.assertString(action, "Action must be string for route #" + index);
+        qx.core.Assert.assertString(method, "Method must be string for route '" + action + "'");
+        qx.core.Assert.assertString(url, "URL must be string for route '" + action + "'");
 
         this.map(action, method, url, check);
       }, this);

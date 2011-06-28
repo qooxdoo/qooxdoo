@@ -179,19 +179,11 @@ qx.Class.define("qx.test.io.rest.Resource",
           check = {},
           params;
 
-      description = [
-        {
-          action: "index",
-          method: "GET",
-          url: "/photos"
-        },
-        {
-          action: "create",
-          method: "POST",
-          url: "/photos",
-          check: check
-        }
-      ];
+      description =
+      {
+        index: { method: "GET", url: "/photos" },
+        create: { method: "POST", url: "/photos", check: check }
+      };
 
       res = this.res = new qx.io.rest.Resource(description);
 
@@ -205,20 +197,21 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertEquals(check, params.check);
     },
 
-    "test: map action from description throws with non-array": function() {
+    "test: map action from description throws with non-object": function() {
       this.assertException(function() {
-        this.res = new qx.io.rest.Resource({});
+        this.res = new qx.io.rest.Resource([]);
       });
     },
 
     "test: map action from description throws with incomplete route": function() {
       this.assertException(function() {
-        var description = [
-          {method: "GET", url: "/photos", action: "index"},
-          {method: "GET", action: "show"}
-        ];
+        var description =
+        {
+          index: { method: "GET", url: "/photos" },
+          show: { method: "GET" }
+        };
         this.res = new qx.io.rest.Resource(description);
-      }, Error, "Url must be string for route #1");
+      }, Error, "URL must be string for route 'show'");
     },
 
     //
