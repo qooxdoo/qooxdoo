@@ -39,7 +39,7 @@ qx.Class.define("qx.data.marshal.Json",
 
   statics :
   {
-    __instance : null,
+    $$instance : null,
 
     /**
      * Creates a qooxdoo object based on the given json data. This function
@@ -54,13 +54,13 @@ qx.Class.define("qx.data.marshal.Json",
      */
     createModel : function(data, includeBubbleEvents) {
       // singleton for the json marshaler
-      if (this.__instance === null) {
-        this.__instance = new qx.data.marshal.Json();
+      if (this.$$instance === null) {
+        this.$$instance = new qx.data.marshal.Json();
       }
       // be sure to create the classes first
-      this.__instance.toClass(data, includeBubbleEvents);
+      this.$$instance.toClass(data, includeBubbleEvents);
       // return the model
-      return this.__instance.toModel(data);
+      return this.$$instance.toModel(data);
     }
   },
 
