@@ -318,7 +318,7 @@ qx.Class.define("qx.data.controller.List",
 
       // erase the selection if there is something selected
       if (this.getSelection() != undefined && this.getSelection().length > 0) {
-        this.getSelection().splice(0, this.getSelection().length);
+        this.getSelection().splice(0, this.getSelection().length).dispose();
       }
 
       // if a model is set
@@ -372,7 +372,10 @@ qx.Class.define("qx.data.controller.List",
       // if there was an old target
       if (old != undefined) {
         // remove all element of the old target
-        old.removeAll();
+        var removed = old.removeAll();
+        for (var i=0; i<removed.length; i++) {
+          removed[i].destroy();
+        }
         // remove all bindings
         this.removeAllBindings();
       }
@@ -846,7 +849,10 @@ qx.Class.define("qx.data.controller.List",
       }
 
       // remove all elements of the target
-      this.getTarget().removeAll();
+      var removed = this.getTarget().removeAll();
+      for (var i=0; i<removed.length; i++) {
+        removed[i].destroy();
+      }
 
       // update
       this.update();
@@ -900,7 +906,7 @@ qx.Class.define("qx.data.controller.List",
       if (oldTable.length > this.__lookupTable.length) {
         // remove the unnecessary ítems
         for (var j = oldTable.length; j > this.__lookupTable.length; j--) {
-          this.getTarget().removeAt(j - 1);
+          this.getTarget().removeAt(j - 1).destroy();
         }
       // if there are more items
       } else if (oldTable.length < this.__lookupTable.length) {
