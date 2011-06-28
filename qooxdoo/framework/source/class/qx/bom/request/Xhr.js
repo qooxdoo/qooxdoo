@@ -71,43 +71,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     OPENED: 1,
     HEADERS_RECEIVED: 2,
     LOADING: 3,
-    DONE: 4,
-
-    /**
-     * Whether URL given points to resource that is cross-domain,
-     * i.e. not of same origin.
-     *
-     * @param url {String} URL.
-     * @return {Boolean} Whether URL is cross domain.
-     */
-    isCrossDomain: function(url) {
-      var result = qx.util.Uri.parseUri(url),
-          location = window.location,
-          protocol = location.protocol;
-
-      // URL is relative in the sence that it points to origin host
-      if (!(url.indexOf("//") !== -1)) {
-        return false;
-      }
-
-      if (protocol.substr(0, protocol.length-1) == result.protocol &&
-          location.host === result.host &&
-          location.port === result.port) {
-        return false;
-      }
-
-      return true;
-    },
-
-    /**
-     * Determine if given HTTP status is considered successful.
-     *
-     * @param status {Number} HTTP status.
-     * @return {Boolean} Whether status is considered successful.
-     */
-    isSuccessful: function(status) {
-      return (status >= 200 && status < 300 || status === 304);
-    }
+    DONE: 4
   },
 
   members :

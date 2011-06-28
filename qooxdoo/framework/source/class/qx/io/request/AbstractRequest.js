@@ -571,7 +571,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
         this._setPhase("load");
 
         // Successful HTTP status
-        if (qx.bom.request.Xhr.isSuccessful(this.getStatus())) {
+        if (qx.util.Request.isSuccessful(this.getStatus())) {
 
           // Parse response
           if (qx.core.Environment.get("qx.debug.io")) {

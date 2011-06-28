@@ -688,42 +688,6 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertCalled(req.abort);
     },
 
-    //
-    // Helper
-    //
-
-    "test: isCrossDomain() returns true with cross-domain URL": function() {
-      var location = window.location,
-          origin = location.protocol + "//" + location.host,
-          isCrossDomain = qx.bom.request.Xhr.isCrossDomain;
-
-      this.assertTrue(isCrossDomain("http://cross.domain"), "cross");
-      this.assertTrue(isCrossDomain(origin + ":123456"), "port");
-      this.assertTrue(isCrossDomain("foobar" + "://" + location.host), "protocol");
-    },
-
-    "test: isCrossDomain() returns false with same-origin URL": function() {
-      var location = window.location,
-          origin = location.protocol + "//" + location.host,
-          isCrossDomain = qx.bom.request.Xhr.isCrossDomain;
-
-      this.assertFalse(isCrossDomain(origin));
-      this.assertFalse(isCrossDomain("data.json"), "simple url");
-      this.assertFalse(isCrossDomain("/data.json"), "absolute url");
-      this.assertFalse(isCrossDomain("../data.json"), "relative url");
-      this.assertFalse(isCrossDomain("../foo-bar/meep.in/data.json"), "strange url");
-    },
-
-    "test: isSuccessful() returns true with successful HTTP status": function() {
-      var Xhr = qx.bom.request.Xhr;
-
-      this.assertTrue(Xhr.isSuccessful(200));
-      this.assertTrue(Xhr.isSuccessful(304));
-
-      this.assertFalse(Xhr.isSuccessful(404));
-      this.assertFalse(Xhr.isSuccessful(500));
-    },
-
     fakeNativeXhr: function() {
       this.fakedXhr = this.useFakeXMLHttpRequest();
 

@@ -98,7 +98,7 @@ qx.Class.define("qx.io.request.Xhr",
     * Fired when request completes without eror and transport’s status
     * indicates success.
      *
-     * Refer to {@link qx.bom.request.Xhr#isSuccessful} for a list of HTTP
+     * Refer to {@link qx.util.Request#isSuccessful} for a list of HTTP
      * status considered successful.
      */
     "success": "qx.event.type.Event",
@@ -116,7 +116,7 @@ qx.Class.define("qx.io.request.Xhr",
     /**
      * Fired when request completes without error but erroneous HTTP status.
      *
-     * Refer to {@link qx.bom.request.Xhr#isSuccessful} for a list of HTTP
+     * Refer to {@link qx.util.Request#isSuccessful} for a list of HTTP
      * status considered successful.
      */
     "statusError": "qx.event.type.Event"
