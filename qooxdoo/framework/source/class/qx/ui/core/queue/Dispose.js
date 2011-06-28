@@ -51,6 +51,17 @@ qx.Class.define("qx.ui.core.queue.Dispose",
 
 
     /**
+     * Whether the dispose queue is empty
+     * @return {Boolean}
+     * @internal
+     */
+    isEmpty : function()
+    {
+      return this.__queue.length == 0;
+    },
+
+
+    /**
      * Flushes the dispose queue.
      *
      * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
