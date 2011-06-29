@@ -71,7 +71,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     "test: detect native XHR": function() {
-      var nativeXhr = this.req._getNativeXhr();
+      var nativeXhr = this.req.getRequest();
 
       this.assertObject(nativeXhr);
       this.assertNotNull(nativeXhr.readyState);
@@ -286,7 +286,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       req.send();
 
       fakeReq.respond();
-      this.assertUndefined(req._getNativeXhr().onreadystatechange());
+      this.assertUndefined(req.getRequest().onreadystatechange());
     },
 
     //
@@ -676,7 +676,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     "test: dispose() deletes native Xhr": function() {
       this.req.dispose();
 
-      this.assertNull(this.req._getNativeXhr());
+      this.assertNull(this.req.getRequest());
     },
 
     "test: dispose() aborts": function() {

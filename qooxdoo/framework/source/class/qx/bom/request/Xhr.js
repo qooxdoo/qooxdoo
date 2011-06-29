@@ -437,6 +437,17 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       return this.__nativeXhr.getAllResponseHeaders();
     },
 
+    /**
+     * Get wrapped native XMLHttpRequest (or equivalent).
+     *
+     * Can be XMLHttpRequest or ActiveX.
+     *
+     * @return {Object} XMLHttpRequest or equivalent.
+     */
+    getRequest: function() {
+      return this.__nativeXhr;
+    },
+
     /*
     ---------------------------------------------------------------------------
       HELPER
@@ -485,17 +496,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       PROTECTED
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Get wrapped native XMLHttpRequest (or equivalent).
-     *
-     * Can be XMLHttpRequest or ActiveX.
-     *
-     * @return {Object} XMLHttpRequest or equivalent.
-     */
-    _getNativeXhr: function() {
-      return this.__nativeXhr;
-    },
 
     /**
      * Create XMLHttpRequest (or equivalent).
