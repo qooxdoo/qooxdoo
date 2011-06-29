@@ -194,6 +194,8 @@ qx.Class.define("qx.io.rest.Resource",
      *
      * May be overriden to customize action and parameter handling.
      *
+     * @lint ignoreUnused(successHandler, failHandler)
+     *
      * @param action {String} Action to invoke.
      * @param params {Map} Map of parameters to be send as part of the request,
      *  where the key is the parameter to match and the value a string. Inserted
@@ -286,6 +288,8 @@ qx.Class.define("qx.io.rest.Resource",
      * refer to <a href="http://www.mnot.net/javascript/xmlhttprequest/cache.html">
      * XMLHttpRequest Caching Test</a> for available options.
      *
+     * @lint ignoreUnused(intervalListener)
+     *
      * @param action {String} Action to poll.
      * @param interval {Number} Interval in ms.
      * @param params {Map?} Map of parameters. See {@link #_invoke}.
@@ -330,6 +334,8 @@ qx.Class.define("qx.io.rest.Resource",
      * implications of IE's tendency to cache overly agressive.
      *
      * Note no interval is given on the client side.
+     *
+     * @lint ignoreUnused(longPollHandler)
      *
      * @param action {String} Action to poll.
      * @return {String} Id of handler responsible for long-polling. To stop
