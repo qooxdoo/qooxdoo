@@ -43,8 +43,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
   },
 
 
-
-
  /*
   *****************************************************************************
      PROPERTIES
@@ -124,6 +122,16 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
     _getTagName : function()
     {
       return "li";
+    },
+
+
+    getRowIndex : function(element)
+    {
+      
+      while (element.tagName != "LI") {
+        element = element.parentNode;
+      }
+      return qx.dom.Hierarchy.getElementIndex(element);
     },
 
 
