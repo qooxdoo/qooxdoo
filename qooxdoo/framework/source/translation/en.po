@@ -229,28 +229,28 @@ msgstr ""
 msgid "key_full_Apps"
 msgstr ""
 
-#: qx/test/locale/Locale.js:85 qx/test/locale/Locale.js:88
-#: qx/test/locale/Locale.js:91
+#: qx/test/locale/Locale.js:90 qx/test/locale/Locale.js:93
+#: qx/test/locale/Locale.js:96
 msgid "test One car"
 msgid_plural "test %1 cars"
 msgstr[0] ""
 msgstr[1] ""
 
 #: qx/test/ui/LocaleSwitch.js:85 qx/test/ui/LocaleSwitch.js:115
-#: qx/test/locale/Locale.js:73 qx/test/locale/Locale.js:148
+#: qx/test/locale/Locale.js:78 qx/test/locale/Locale.js:153
 msgid "test one"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:77
-#: qx/test/locale/Locale.js:81
+#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:82
+#: qx/test/locale/Locale.js:86
 msgid "test Hello %1!"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:81
+#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:86
 msgid "test Jonny"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:99 qx/test/locale/Locale.js:149
+#: qx/test/ui/LocaleSwitch.js:99 qx/test/locale/Locale.js:154
 msgid "test two"
 msgstr ""
 
@@ -327,13 +327,13 @@ msgstr ""
 msgid "This field is required"
 msgstr ""
 
-#: qx/ui/table/Table.js:1953
+#: qx/ui/table/Table.js:1952
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qx/ui/table/Table.js:1955
+#: qx/ui/table/Table.js:1954
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] ""

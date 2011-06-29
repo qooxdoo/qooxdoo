@@ -1,0 +1,378 @@
+﻿# Polish
+#
+
+msgid ""
+msgstr ""
+"Project-Id-Version: qooxdoo framework\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-05-19 10:11+0200\n"
+"PO-Revision-Date: 2010-04-22 17:53+0100\n"
+"Last-Translator: Thomas Herchenroeder <thron7 AT users DOT sourceforge DOT net>\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: qx/locale/Key.js:80
+msgid "key_short_Backspace"
+msgstr "Backspace"
+
+#: qx/locale/Key.js:81
+msgid "key_short_Tab"
+msgstr "Tab"
+
+#: qx/locale/Key.js:82
+msgid "key_short_Space"
+msgstr "Spacja"
+
+#: qx/locale/Key.js:83
+msgid "key_short_Enter"
+msgstr "Enter"
+
+#: qx/locale/Key.js:84
+msgid "key_short_Shift"
+msgstr "Shift"
+
+#: qx/locale/Key.js:85
+msgid "key_short_Control"
+msgstr "Ctrl"
+
+#: qx/locale/Key.js:86
+msgid "key_short_Control_Mac"
+msgstr "key_short_Control_Mac"
+
+#: qx/locale/Key.js:87
+msgid "key_short_Alt"
+msgstr "Alt"
+
+#: qx/locale/Key.js:88
+msgid "key_short_CapsLock"
+msgstr "Caps Lock"
+
+#: qx/locale/Key.js:89
+msgid "key_short_Meta"
+msgstr "Klawisz meta"
+
+#: qx/locale/Key.js:90
+msgid "key_short_Escape"
+msgstr "Esc"
+
+#: qx/locale/Key.js:91
+msgid "key_short_Left"
+msgstr "W lewo"
+
+#: qx/locale/Key.js:92
+msgid "key_short_Up"
+msgstr "W górę"
+
+#: qx/locale/Key.js:93
+msgid "key_short_Right"
+msgstr "W prawo"
+
+#: qx/locale/Key.js:94
+msgid "key_short_Down"
+msgstr "W dół"
+
+#: qx/locale/Key.js:95
+msgid "key_short_PageUp"
+msgstr "Page Up"
+
+#: qx/locale/Key.js:96
+msgid "key_short_PageDown"
+msgstr "Page Down"
+
+#: qx/locale/Key.js:97
+msgid "key_short_End"
+msgstr "End"
+
+#: qx/locale/Key.js:98
+msgid "key_short_Home"
+msgstr "Home"
+
+#: qx/locale/Key.js:99
+msgid "key_short_Insert"
+msgstr "Ins"
+
+#: qx/locale/Key.js:100
+msgid "key_short_Delete"
+msgstr "Del"
+
+#: qx/locale/Key.js:101
+msgid "key_short_NumLock"
+msgstr "Num"
+
+#: qx/locale/Key.js:102
+msgid "key_short_PrintScreen"
+msgstr "PtSc"
+
+#: qx/locale/Key.js:103
+msgid "key_short_Scroll"
+msgstr "ScLk"
+
+#: qx/locale/Key.js:104
+msgid "key_short_Pause"
+msgstr "Brk"
+
+#: qx/locale/Key.js:105
+msgid "key_short_Win"
+msgstr "Win Key"
+
+#: qx/locale/Key.js:106
+msgid "key_short_Apps"
+msgstr "Kontekst"
+
+#: qx/locale/Key.js:109
+msgid "key_full_Backspace"
+msgstr "Backspace"
+
+#: qx/locale/Key.js:110
+msgid "key_full_Tab"
+msgstr "Tabulator"
+
+#: qx/locale/Key.js:111
+msgid "key_full_Space"
+msgstr "Spacja"
+
+#: qx/locale/Key.js:112
+msgid "key_full_Enter"
+msgstr "Enter"
+
+#: qx/locale/Key.js:113
+msgid "key_full_Shift"
+msgstr "Shift"
+
+#: qx/locale/Key.js:114
+msgid "key_full_Control"
+msgstr "Control"
+
+#: qx/locale/Key.js:115
+msgid "key_full_Control_Mac"
+msgstr "key_full_Control_Mac"
+
+#: qx/locale/Key.js:116
+msgid "key_full_Alt"
+msgstr "Alt"
+
+#: qx/locale/Key.js:117
+msgid "key_full_CapsLock"
+msgstr "Caps Lock"
+
+#: qx/locale/Key.js:118
+msgid "key_full_Meta"
+msgstr "Klawisz meta"
+
+#: qx/locale/Key.js:119
+msgid "key_full_Escape"
+msgstr "Escape"
+
+#: qx/locale/Key.js:120
+msgid "key_full_Left"
+msgstr "Strzałka w lewo"
+
+#: qx/locale/Key.js:121
+msgid "key_full_Up"
+msgstr "Strzałka w górę"
+
+#: qx/locale/Key.js:122
+msgid "key_full_Right"
+msgstr "Strzałka w prawo"
+
+#: qx/locale/Key.js:123
+msgid "key_full_Down"
+msgstr "Strzałka w dół"
+
+#: qx/locale/Key.js:124
+msgid "key_full_PageUp"
+msgstr "Page Up"
+
+#: qx/locale/Key.js:125
+msgid "key_full_PageDown"
+msgstr "Page Down"
+
+#: qx/locale/Key.js:126
+msgid "key_full_End"
+msgstr "End"
+
+#: qx/locale/Key.js:127
+msgid "key_full_Home"
+msgstr "Home"
+
+#: qx/locale/Key.js:128
+msgid "key_full_Insert"
+msgstr "Insert"
+
+#: qx/locale/Key.js:129
+msgid "key_full_Delete"
+msgstr "Delete"
+
+#: qx/locale/Key.js:130
+msgid "key_full_NumLock"
+msgstr "Num Lock"
+
+#: qx/locale/Key.js:131
+msgid "key_full_PrintScreen"
+msgstr "Print Screen"
+
+#: qx/locale/Key.js:132
+msgid "key_full_Scroll"
+msgstr "Scroll Lock"
+
+#: qx/locale/Key.js:133
+msgid "key_full_Pause"
+msgstr "Break"
+
+#: qx/locale/Key.js:134
+msgid "key_full_Win"
+msgstr "Klawisz Windows"
+
+#: qx/locale/Key.js:135
+msgid "key_full_Apps"
+msgstr "Menu kontekstowe"
+
+#: qx/test/locale/Locale.js:85 qx/test/locale/Locale.js:88
+#: qx/test/locale/Locale.js:91
+msgid "test One car"
+msgid_plural "test %1 cars"
+msgstr[0] "test One car"
+msgstr[1] "test %1 cars"
+
+#: qx/test/ui/LocaleSwitch.js:85 qx/test/ui/LocaleSwitch.js:115
+#: qx/test/locale/Locale.js:73 qx/test/locale/Locale.js:148
+msgid "test one"
+msgstr "test one"
+
+#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:77
+#: qx/test/locale/Locale.js:81
+msgid "test Hello %1!"
+msgstr "test Hello %1!"
+
+#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:81
+msgid "test Jonny"
+msgstr "test Jonny"
+
+#: qx/test/ui/LocaleSwitch.js:99 qx/test/locale/Locale.js:149
+msgid "test two"
+msgstr "test two"
+
+#: qx/test/util/Serializer.js:489 qx/test/util/Serializer.js:494
+#: qx/test/util/Serializer.js:501
+msgid "test affe"
+msgstr "test affe"
+
+#: qx/ui/control/ColorPopup.js:147
+msgid "Automatic"
+msgstr "Automatycznie"
+
+#: qx/ui/control/ColorPopup.js:155
+msgid "Open ColorSelector"
+msgstr "Otwórz wybór kolorów"
+
+#: qx/ui/control/ColorPopup.js:180
+msgid "OK"
+msgstr "OK"
+
+#: qx/ui/control/ColorPopup.js:185
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: qx/ui/control/ColorPopup.js:242
+msgid "Color Selector"
+msgstr "Wybór kolorów"
+
+#: qx/ui/control/ColorSelector.js:256
+msgid "Visual"
+msgstr "Wizualny"
+
+#: qx/ui/control/ColorSelector.js:316
+msgid "Presets"
+msgstr "Ustawienia wstępne"
+
+#: qx/ui/control/ColorSelector.js:347
+msgid "Details"
+msgstr "Szczegóły"
+
+#: qx/ui/control/ColorSelector.js:358 qx/ui/control/ColorPopup.js:162
+msgid "Preview (Old/New)"
+msgstr "Podgląd (stary/nowy)"
+
+#: qx/ui/control/ColorSelector.js:376
+msgid "Hex"
+msgstr "hex"
+
+#: qx/ui/control/ColorSelector.js:398
+msgid "RGB"
+msgstr "RGB"
+
+#: qx/ui/control/ColorSelector.js:430
+msgid "HSB"
+msgstr "HSB"
+
+#: qx/ui/control/DateChooser.js:253
+msgid "Last year"
+msgstr "Poprzedni rok"
+
+#: qx/ui/control/DateChooser.js:265
+msgid "Last month"
+msgstr "Poprzedni miesiąc"
+
+#: qx/ui/control/DateChooser.js:277
+msgid "Next month"
+msgstr "Następny miesiąc"
+
+#: qx/ui/control/DateChooser.js:289
+msgid "Next year"
+msgstr "Następny rok"
+
+#: qx/ui/form/validation/Manager.js:35
+msgid "This field is required"
+msgstr "To pole jest obowiązkowe"
+
+#: qx/ui/table/Table.js:1953
+msgid "one row"
+msgid_plural "%1 rows"
+msgstr[0] "Wiersz"
+msgstr[1] "%1 wierszy"
+
+#: qx/ui/table/Table.js:1955
+msgid "one of one row"
+msgid_plural "%1 of %2 rows"
+msgstr[0] "z wierszy"
+msgstr[1] "%1 z %2 wierszy"
+
+#: qx/ui/table/columnmodel/Resize.js:199
+msgid "Reset column widths"
+msgstr "Zresetuj szerokość kolumny"
+
+#: qx/util/Validate.js:91
+msgid "%1 is not a number."
+msgstr "%1 nie jest liczbą."
+
+#: qx/util/Validate.js:130
+msgid "'%1' is not an email address."
+msgstr "'%1' nie jest adresem e-mail."
+
+#: qx/util/Validate.js:167
+msgid "%1 is not a string."
+msgstr "%1 nie jest ciągiem znaków."
+
+#: qx/util/Validate.js:203
+msgid "%1 is not an url."
+msgstr "%1 nie jest URL."
+
+#: qx/util/Validate.js:244
+msgid "%1 is not a color! %2"
+msgstr "%1 nie jest kolorem! %2"
+
+#: qx/util/Validate.js:268
+msgid "%1 is not in the range from [%2, %3]."
+msgstr "%1 nie leży w przedziale [%2, %3]."
+
+#: qx/util/Validate.js:291
+msgid "%1 is not in %2"
+msgstr "%1 nie jest w %2"
+
+#: qx/util/Validate.js:315
+msgid "%1 does not fit %2."
+msgstr "%1 nie pasuje do %2."
