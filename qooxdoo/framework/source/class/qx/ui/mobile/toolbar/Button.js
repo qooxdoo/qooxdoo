@@ -33,9 +33,10 @@ qx.Class.define("qx.ui.mobile.toolbar.Button",
   *****************************************************************************
   */
  
-    construct : function(value)
+    construct : function(label, icon)
     {
-      this.base(arguments,value);
+      this.base(arguments);
+      this._createChildren(label, icon);
     },
 
   /*
@@ -52,5 +53,61 @@ qx.Class.define("qx.ui.mobile.toolbar.Button",
         refine : true,
         init : "toolbar-button"
       }
+    },
+    
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    
+    // override
+    _applyValue : function(value, old) {
+      
+    },
+    
+    _createChildren : function(label, icon) {
+      var labelControl, iconControl, container;
+      if(label) {
+        labelControl = new qx.ui.mobile.basic.Label(label);
+        labelControl.setAnonymous(true);
+        labelControl.setWrap(false);
+      }
+      if(icon) {
+        iconControl = new qx.ui.mobile.basic.Image(icon);
+        iconControl.setAnonymous(true);
+      }
+      var layout = new qx.ui.mobile.layout.VBox().set({alignY: "middle"});
+      container = new qx.ui.mobile.container.Composite(layout);
+      container.setAnonymous(true);
+      if(iconControl) {
+        container.add(iconControl);
+      }
+      if(labelControl)
+      {
+        container.add(labelControl);
+      }
+      else
+      {
+        if(!iconControl) {
+          container.add(new qx.ui.mobile.basic.Label(" "));
+        }
+      }
+      this._add(container);
     }
+  },
+  
+ /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    // TODO
+  }
 });

@@ -72,6 +72,7 @@ qx.Class.define("mobileshowcase.Application",
       var events = new mobileshowcase.page.Event();
       var list = new mobileshowcase.page.List();
       var tab = new mobileshowcase.page.Tab();
+      var toolbar = new mobileshowcase.page.Toolbar();
       var form = new mobileshowcase.page.Form();
       var animation = new mobileshowcase.page.Animation();
       var animationLanding = new mobileshowcase.page.AnimationLanding();
@@ -91,6 +92,11 @@ qx.Class.define("mobileshowcase.Application",
       nm.onGet("/tab", function(data)
       {
         tab.show();
+      },this);
+      
+      nm.onGet("/toolbar", function(data)
+      {
+        toolbar.show();
       },this);
 
       nm.onGet("/list", function(data)

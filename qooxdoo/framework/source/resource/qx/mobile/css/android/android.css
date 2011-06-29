@@ -90,15 +90,30 @@ a:hover { color: #e89c00; }
   border: 1px solid #232323;
   -webkit-border-radius: 4px;
   font: bold 17px Helvetica;
-  line-height : 40px;
+  height : 50px;
   text-align: center;
   padding-left: 20px;
   padding-right: 20px;
   -webkit-background-clip: padding-box;
+  overflow: hidden;
+  width: 0; /* this is for equal sizes od the buttons when aded in a toolbar or other container with flex :1*/
 }
 
 .toolbar-button.active {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
+}
+
+.toolbar-button img {
+  vertical-align: middle;
+}
+
+.toolbar-button > div {
+  height: 50px;
+  overflow: hidden;
+}
+
+.toolbar-button .label {
+  height: auto;
 }
 
 /* LISTS */
@@ -299,6 +314,7 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
   line-height: 45px;
   margin:0 !important;
   -webkit-box-sizing: border-box;
+  width: 0; /* this is for equal sizes od the buttons when aded in a toolbar or other container with flex :1*/
 }
 
 .tabButton.active, .tabButton.selected {
@@ -395,6 +411,9 @@ input[type="checkbox"]:disabled {
   width: 100%;
   z-index: 1;
   -webkit-transition: bottom .65s;
+  height: 55px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#9a9a9a), to(#7c7e7c));
+  border-top: 1px solid #2d3642;
 }
 
 .toolbar-hidden {
