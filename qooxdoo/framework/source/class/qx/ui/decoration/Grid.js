@@ -224,6 +224,8 @@ qx.Class.define("qx.ui.decoration.Grid",
       var ResourceManager = qx.util.ResourceManager.getInstance();
 
       var topSlice = ResourceManager.getImageHeight(prefix + "-t" + ext);
+      var rightSlice = ResourceManager.getImageWidth(prefix + "-r" + ext);
+      var bottomSlice = ResourceManager.getImageHeight(prefix + "-b" + ext);
       var leftSlice = ResourceManager.getImageWidth(prefix + "-l" + ext);
 
       if (qx.core.Environment.get("qx.debug"))
@@ -231,14 +233,22 @@ qx.Class.define("qx.ui.decoration.Grid",
         var assertMessageTop = "The value of the property 'topSlice' is null! " +
           "Please verify the image '" + prefix + "-t" + ext + "' is present.";
 
+        var assertMessageRight = "The value of the property 'rightSlice' is null! " +
+          "Please verify the image '" + prefix + "-r" + ext + "' is present.";
+
+        var assertMessageBottom = "The value of the property 'bottomSlice' is null! " +
+        "Please verify the image '" + prefix + "-b" + ext + "' is present.";
+
         var assertMessageLeft = "The value of the property 'leftSlice' is null! " +
           "Please verify the image '" + prefix + "-l" + ext + "' is present.";
 
         qx.core.Assert.assertNotNull(topSlice, assertMessageTop);
+        qx.core.Assert.assertNotNull(rightSlice, assertMessageRight);
+        qx.core.Assert.assertNotNull(bottomSlice, assertMessageBottom);
         qx.core.Assert.assertNotNull(leftSlice, assertMessageLeft);
       }
 
-      this.__impl.setSlice([topSlice, leftSlice]);
+      this.__impl.setSlice([topSlice, rightSlice, bottomSlice, leftSlice]);
     }
   },
 
