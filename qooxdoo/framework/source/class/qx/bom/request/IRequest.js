@@ -20,6 +20,11 @@
 /**
  * Interface of a low-level transport compatible with
  * {@link qx.io.request.AbstractRequest}.
+ *
+ * Based on interface specified in
+ * <a href="http://www.w3.org/TR/XMLHttpRequest/">XmlHttpRequest</a>. Also
+ * borrows some methods as described in
+ * <a href="http://www.w3.org/TR/XMLHttpRequest2/">XmlHttpRequest2</a>.
  */
 qx.Interface.define("qx.bom.request.IRequest",
 {

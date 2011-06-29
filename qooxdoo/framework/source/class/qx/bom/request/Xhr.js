@@ -24,13 +24,11 @@
 ************************************************************************ */
 
 /**
- * A wrapper of the XMLHttpRequest host object (or equivalent).
+ * A wrapper of the XMLHttpRequest host object (or equivalent). The interface is
+ * similar to <a href="http://www.w3.org/TR/XMLHttpRequest/">XmlHttpRequest</a>.
  *
  * Hides browser inconsistencies and works around bugs found in popular
- * implementations. Follows the interface specified in
- * <a href="http://www.w3.org/TR/XMLHttpRequest/">XmlHttpRequest</a>. Also
- * borrows some methods as described in
- * <a href="http://www.w3.org/TR/XMLHttpRequest2/">XmlHttpRequest2</a>.
+ * implementations.
  *
  * Example:
  *
@@ -44,6 +42,8 @@
  *  req.open("GET", url);
  *  req.send();
  * </pre>
+ *
+ * Implements {@link qx.bom.request.IRequest}.
  */
 qx.Bootstrap.define("qx.bom.request.Xhr",
 {

@@ -37,6 +37,8 @@
  *  req.open("GET", url);
  *  req.send();
  * </pre>
+ *
+ * Implements {@link qx.bom.request.IRequest}.
  */
 qx.Bootstrap.define("qx.bom.request.Script",
 {
