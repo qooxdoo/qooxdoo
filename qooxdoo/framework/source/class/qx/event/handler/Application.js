@@ -49,6 +49,8 @@ qx.Class.define("qx.event.handler.Application",
 
     this.__domReady = false;
     this.__loaded = false;
+    this.__isReady = false;
+    this.__isUnloaded = false;
 
     // Initialize observers
     this._initObserver();
