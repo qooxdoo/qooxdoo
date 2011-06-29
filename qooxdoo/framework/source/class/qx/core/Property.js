@@ -123,6 +123,9 @@
  *     disconnecting DOM objects to allow the garbage collector to work
  *     properly.
  *   </td></tr>
+ *   <tr><th>deferredInit</th><td>Boolean</td><td>
+ *     Allow for a deferred initialization for reference types. Defaults to false.
+ *   </td></tr>
  * </table>
  *
  * *Property groups*
