@@ -18,13 +18,11 @@
 ************************************************************************ */
 
 /**
- * Note: This class is going to replace {@link qx.io.HttpRequest} in a
- * future release.
+ * Send HTTP requests and handle responses using the HTTP client API.
  *
- * Send HTTP requests and handle responses. Configuration of the request
- * is done with properties. Events are fired for various states in the life
- * cycle of a request, such as "success". Request data is transparently
- * processed.
+ * Configuration of the request is done with properties. Events are fired for
+ * various states in the life cycle of a request, such as "success". Request
+ * data is transparently processed.
  *
  * Here is how to request a JSON file and listen to the "success" event:
  *

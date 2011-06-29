@@ -18,7 +18,11 @@
 ************************************************************************ */
 
 /**
- * Query JSONP services. Requests may be cross-origin.
+ * Query JSONP services using the script element. Requests may be cross-origin.
+ *
+ * Configuration of the request is done with properties. Events are fired for
+ * various states in the life cycle of a request, such as "success". Request
+ * data is transparently processed.
  *
  * For an introduction to JSONP, please refer to
  * <a href="http://ajaxian.com/archives/jsonp-json-with-padding">Ajaxian.com</a>.
