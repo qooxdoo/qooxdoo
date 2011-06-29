@@ -129,7 +129,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
      * Returns the row index of a certain DOM element in the list.
      * 
      * @param element {Element} DOM element to retrieve the index from.
-     * @return {Index} the index of the row.
+     * @return {Integer} the index of the row.
      */
     getRowIndex : function(element)
     {
