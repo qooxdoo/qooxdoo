@@ -118,6 +118,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
     __oldValue : null,
     __fadeEffects : null,
     __notRunEffects : null,
+    __triggerFinish : false,
 
     beforeSetup : function() {
       this.__oldValue = qx.bom.element.Style.get(this._getElement(), "opacity");
@@ -131,6 +132,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
       }
 
       this.__notRunEffects = [];
+      this.__triggerFinish = false;
 
       var counter = 0;
       var self = this;
@@ -139,20 +141,50 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
       {
         this.__fadeEffects[i].id = counter;
         this.__notRunEffects.push(this.__fadeEffects[i]);
-        if (counter < 5)
+
+        this.__fadeEffects[i].afterFinishInternal = function()
         {
-          this.__fadeEffects[i].afterFinishInternal = function(){
-            qx.lang.Array.remove(self.__notRunEffects, this);
+          qx.lang.Array.remove(self.__notRunEffects, this);
+
+          // start the sub animations - the first 5
+          if (this.id < 5)
+          {
             self.__fadeEffects[this.id + 1].start();
-          };
+          }
+          else 
+          {
+            // last animation should trigger the finish methods if not already done
+            if (self.__triggerFinish) {
+              self.end();
+            }
+          }
         }
+
         counter++;
       }
       this.__fadeEffects[0].start();
     },
 
+    // overwritten
+    // to be able to control the end of the sub animations
+    // if the sub animations are not finished the pulsate animation itself
+    // should not signal the end. Otherwise a sub animation is still running 
+    // after the "finish" event of the Pulsate animation is fired
+    end : function()
+    {
+      if (this.__notRunEffects.length == 0)
+      {
+        this.base(arguments);
+      }
+      else
+      {
+        this.__triggerFinish = true;
+      }
+    },
 
-    afterFinish : function() {
+
+    afterFinish : function()
+    {
       qx.bom.element.Style.set(this._getElement(), "opacity", this.__oldValue);
     },
 

@@ -188,7 +188,6 @@ qx.Class.define("qx.fx.Base",
     {
       IDLE      : 'idle',
       PREPARING : 'preparing',
-      FINISHED  : 'finished',
       RUNNING   : 'running'
     }
 
@@ -383,7 +382,8 @@ qx.Class.define("qx.fx.Base",
      * Fires "finish" event.
      *
      */
-    finish  : function() {
+    finish : function()
+    {
       this.fireEvent("finish");
     },
 
