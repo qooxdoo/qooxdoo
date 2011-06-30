@@ -133,7 +133,7 @@ var m = Math,
     }
     
     if (that.options.checkDOMChanges) that.checkDOMTime = setInterval(function () {
-      that._checkDOMChanges()
+      that._checkDOMChanges();
     }, 500);
   };
 
