@@ -119,7 +119,7 @@ var m = Math,
     if (that.options.useTransition) that.scroller.style[vendor + 'TransitionTimingFunction'] = 'cubic-bezier(0.33,0.66,0.66,1)';
     
     if (that.options.useTransform) that.scroller.style[vendor + 'Transform'] = trnOpen + '0,0' + trnClose;
-    else that.scroller.style.cssText += ';top:0;left:0';
+    else that.scroller.style.cssText += ';position:absolute;top:0;left:0';
 
     if (that.options.useTransition) that.options.fixedScrollbar = true;
 
