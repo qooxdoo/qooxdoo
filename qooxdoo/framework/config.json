@@ -14,7 +14,7 @@
   [
     "api",
     "api-data",
-    //"build",
+    //"build-all",
     "clean",
     "distclean",
     "fix",
@@ -149,7 +149,7 @@
     },
     
     
-    "build" :
+    "build-all" :
     {
       "library" :
       [
