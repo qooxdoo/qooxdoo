@@ -344,7 +344,7 @@ input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
     font-family: inherit;
     font-size: 12px;
     font-weight: bold;
-    color: #black;
+    color: black;
     background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#c4c4c4));
     border: 2px solid #232323;
     text-decoration: none;
