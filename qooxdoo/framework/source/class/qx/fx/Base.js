@@ -188,7 +188,6 @@ qx.Class.define("qx.fx.Base",
     {
       IDLE      : 'idle',
       PREPARING : 'preparing',
-      FINISHED  : 'finished',
       RUNNING   : 'running'
     }
 
@@ -383,9 +382,8 @@ qx.Class.define("qx.fx.Base",
      * Fires "finish" event and sets the internal state to "finished".
      *
      */
-    finish  : function()
+    finish : function()
     {
-      this.__state = qx.fx.Base.EffectState.FINISHED;
       this.fireEvent("finish");
     },
 
