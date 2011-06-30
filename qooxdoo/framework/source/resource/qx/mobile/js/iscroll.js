@@ -237,7 +237,8 @@ iScroll.prototype = {
   },
   
   _resize: function () {
-    this.refresh();
+    var that = this;
+    setTimeout(function () { that.refresh(); }, isAndroid ? 200 : 0);
   },
   
   _pos: function (x, y) {
