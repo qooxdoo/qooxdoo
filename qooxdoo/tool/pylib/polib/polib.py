@@ -1128,6 +1128,7 @@ class POEntry(_BaseEntry):
         self.comment      = other.comment
         self.flags        = other.flags
         self.msgid_plural = other.msgid_plural
+        self.obsolete     = other.obsolete   # thron7, bug#1846
         if other.msgstr_plural:
             for pos in other.msgstr_plural:
                 try:
