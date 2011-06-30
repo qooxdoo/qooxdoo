@@ -251,6 +251,16 @@ qx.Theme.define("qx.theme.simple.Decoration",
       }
     },
 
+    "button-box-focused-right" :
+    {
+      include : "button-box-focused",
+
+      style :
+      {
+        radius : [0, 3, 3, 0]
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -593,6 +603,17 @@ qx.Theme.define("qx.theme.simple.Decoration",
     "button-box-hovered-left" :
     {
       include : "button-box-hovered",
+
+      style :
+      {
+        radius : [3, 0, 0, 3],
+        width : [1, 0, 1, 1]
+      }
+    },
+
+    "button-box-focused-left" :
+    {
+      include : "button-box-focused",
 
       style :
       {
