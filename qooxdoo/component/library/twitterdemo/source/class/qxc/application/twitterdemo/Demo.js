@@ -38,7 +38,7 @@ qx.Class.define("qxc.application.twitterdemo.Demo", {
     {
       this.setLayout(new qx.ui.layout.Canvas());
 
-      var logo = new qx.ui.basic.Image("twitterdemo/twitter_logo_outline.png");
+      var logo = new qx.ui.basic.Image("qxc/application/twitterdemo/twitter_logo_outline.png");
       this.add(logo, {left: 10, top: 15});
 
       // create and add the list
