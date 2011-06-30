@@ -39,13 +39,14 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
   construct : function(form)
   {
     this.base(arguments,form);
+    this.__errorMessageContainers = [];
   },
   
   members :
   {
   
     
-    __errorMessageContainers : [],
+    __errorMessageContainers : null,
     
     // override
     _getTagName : function()
