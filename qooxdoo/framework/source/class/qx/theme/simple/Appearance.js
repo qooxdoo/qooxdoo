@@ -1552,6 +1552,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
         if (states.disabled) {
           decorator = "button-box";
+        } else if (states.focused) {
+          decorator = "button-box-focused";
         } else if (states.hovered && !states.pressed && !states.checked) {
           decorator = "button-box-hovered";
         } else if (states.hovered && (states.pressed || states.checked)) {
@@ -1578,6 +1580,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
         if (states.disabled) {
           decorator = "button-box";
+        } else if (states.focused) {
+          decorator = "button-box-focused";
         } else if (states.hovered && !states.pressed && !states.checked) {
           decorator = "button-box-hovered";
         } else if (states.hovered && (states.pressed || states.checked)) {
