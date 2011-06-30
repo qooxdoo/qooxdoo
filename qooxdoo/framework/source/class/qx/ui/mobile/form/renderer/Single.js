@@ -45,7 +45,11 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
   members :
   {
   
-    
+    /**
+     * A collection of error containers used to keep the error messages
+     * resulted after  form validation.
+     * Also useful to clear them when the validation passes.
+     */
     __errorMessageContainers : null,
     
     // override
