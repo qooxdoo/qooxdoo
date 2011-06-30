@@ -36,7 +36,7 @@ qx.Class.define("qx.ui.mobile.toolbar.Button",
     construct : function(label, icon)
     {
       this.base(arguments);
-      this._createChildren(label, icon);
+      this.__createChildren(label, icon);
     },
 
   /*
@@ -69,7 +69,15 @@ qx.Class.define("qx.ui.mobile.toolbar.Button",
       
     },
     
-    _createChildren : function(label, icon) {
+    /**
+     *
+     * This function is responsible for creating and adding 2 children controls to the Button widget.
+     * A label and an icon.
+     * @param label {String} the text of the button
+     * @param icon {String} A path to an image resource
+     * 
+     */
+    __createChildren : function(label, icon) {
       var labelControl, iconControl, container;
       if(label) {
         labelControl = new qx.ui.mobile.basic.Label(label);
