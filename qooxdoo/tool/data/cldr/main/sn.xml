@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4763 $"/>
-		<generation date="$Date: 2010-02-27 01:03:37 -0600 (Sat, 27 Feb 2010) $"/>
+		<version number="$Revision: 5799 $"/>
+		<generation date="$Date: 2011-05-02 01:19:45 -0500 (Mon, 02 May 2011) $"/>
 		<language type="sn"/>
 	</identity>
 	<localeDisplayNames>
@@ -560,7 +560,7 @@
 				<displayName>Furenki re Jibhuti</displayName>
 			</currency>
 			<currency type="DZD">
-				<displayName>Dhinari  re Aljeria</displayName>
+				<displayName>Dhinari re Aljeria</displayName>
 			</currency>
 			<currency type="EGP">
 				<displayName>Paundi re Ijipita</displayName>

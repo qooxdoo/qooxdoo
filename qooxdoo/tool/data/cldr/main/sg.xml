@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4685 $"/>
-		<generation date="$Date: 2010-02-18 01:54:20 -0600 (Thu, 18 Feb 2010) $"/>
+		<version number="$Revision: 5799 $"/>
+		<generation date="$Date: 2011-05-02 01:19:45 -0500 (Mon, 02 May 2011) $"/>
 		<language type="sg"/>
 	</identity>
 	<localeDisplayNames>
@@ -164,7 +164,7 @@
 			<territory type="KP">Korëe tî Banga</territory>
 			<territory type="KR">Korëe tî Mbongo</territory>
 			<territory type="KW">Köwêti</territory>
-			<territory type="KY">Âzûâ Ngundë,  Kaimäni</territory>
+			<territory type="KY">Âzûâ Ngundë, Kaimäni</territory>
 			<territory type="KZ">Kazakisitäan</territory>
 			<territory type="LA">Lùaôsi</territory>
 			<territory type="LB">Libùaan</territory>
@@ -460,7 +460,6 @@
 					<availableFormats>
 						<dateFormatItem id="M">M</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="Med">EEE d/M</dateFormatItem>
 						<dateFormatItem id="MMd">d/MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMM">MMM</dateFormatItem>
@@ -522,7 +521,7 @@
 		</calendars>
 	</dates>
 	<numbers>
-		<symbols>
+		<symbols numberSystem="latn">
 			<decimal>,</decimal>
 			<group>.</group>
 		</symbols>
@@ -589,7 +588,7 @@
 				<displayName>pôndo tî Anglëe</displayName>
 			</currency>
 			<currency type="GHC">
-				<displayName>sêdi tî  Ganäa</displayName>
+				<displayName>sêdi tî Ganäa</displayName>
 			</currency>
 			<currency type="GMD">
 				<displayName>dalasi tî gambïi</displayName>

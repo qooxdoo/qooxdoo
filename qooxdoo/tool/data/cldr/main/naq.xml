@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4685 $"/>
-		<generation date="$Date: 2010-02-18 01:54:20 -0600 (Thu, 18 Feb 2010) $"/>
+		<version number="$Revision: 5799 $"/>
+		<generation date="$Date: 2011-05-02 01:19:45 -0500 (Mon, 02 May 2011) $"/>
 		<language type="naq"/>
 	</identity>
 	<localeDisplayNames>
@@ -635,6 +635,7 @@
 			</currency>
 			<currency type="NAD">
 				<displayName>Namibia Dollari</displayName>
+				<symbol>$</symbol>
 			</currency>
 			<currency type="NGN">
 				<displayName>Nigerian Naira</displayName>

@@ -2,31 +2,14 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4625 $"/>
-		<generation date="$Date: 2010-02-06 13:07:05 -0600 (Sat, 06 Feb 2010) $"/>
+		<version number="$Revision: 5884 $"/>
+		<generation date="$Date: 2011-05-10 15:58:32 -0500 (Tue, 10 May 2011) $"/>
 		<language type="es"/>
 		<territory type="AR"/>
 	</identity>
-	<localeDisplayNames>
-		<variants>
-			<variant type="REVISED" draft="contributed">Ortografía revisada</variant>
-		</variants>
-		<measurementSystemNames>
-			<measurementSystemName type="metric" draft="contributed">métrico</measurementSystemName>
-			<measurementSystemName type="US" draft="contributed">estadounidense</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
 	<dates>
 		<calendars>
 			<calendar type="gregorian">
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am" draft="contributed">a.m.</dayPeriod>
-							<dayPeriod type="pm" draft="contributed">p.m.</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
@@ -136,6 +119,10 @@
 		</calendars>
 	</dates>
 	<numbers>
+		<symbols numberSystem="latn">
+			<decimal>,</decimal>
+			<group>.</group>
+		</symbols>
 		<currencies>
 			<currency type="ARS">
 				<symbol>$</symbol>

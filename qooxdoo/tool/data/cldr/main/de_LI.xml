@@ -2,13 +2,13 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4123 $"/>
-		<generation date="$Date: 2009-05-05 18:06:42 -0500 (Tue, 05 May 2009) $"/>
+		<version number="$Revision: 5719 $"/>
+		<generation date="$Date: 2011-04-28 00:24:47 -0500 (Thu, 28 Apr 2011) $"/>
 		<language type="de"/>
 		<territory type="LI"/>
 	</identity>
 	<numbers>
-		<symbols>
+		<symbols numberSystem="latn">
 			<decimal>.</decimal>
 			<group>'</group>
 		</symbols>

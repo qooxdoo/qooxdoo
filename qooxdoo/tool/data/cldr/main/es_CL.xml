@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4582 $"/>
-		<generation date="$Date: 2010-02-05 10:51:25 -0600 (Fri, 05 Feb 2010) $"/>
+		<version number="$Revision: 5884 $"/>
+		<generation date="$Date: 2011-05-10 15:58:32 -0500 (Tue, 10 May 2011) $"/>
 		<language type="es"/>
 		<territory type="CL"/>
 	</identity>
@@ -12,9 +12,6 @@
 			<language type="arn" draft="unconfirmed">mapudungun</language>
 			<language type="ira" draft="unconfirmed">iraníes</language>
 		</languages>
-		<scripts>
-			<script type="Bali">balinés</script>
-		</scripts>
 		<territories>
 			<territory type="005">Sudamérica</territory>
 			<territory type="AN" draft="unconfirmed">Antillas Holandesas</territory>
@@ -65,6 +62,13 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="Md">dd-MM</dateFormatItem>
+						<dateFormatItem id="MEd">E, dd-MM</dateFormatItem>
+						<dateFormatItem id="yM">MM-yy</dateFormatItem>
+						<dateFormatItem id="yMd">dd-MM-yy</dateFormatItem>
+						<dateFormatItem id="yMEd">EEE dd-MM-yy</dateFormatItem>
+					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="unconfirmed">{0} a el {1}</intervalFormatFallback>
 						<intervalFormatItem id="d">
@@ -157,6 +161,10 @@
 		</calendars>
 	</dates>
 	<numbers>
+		<symbols numberSystem="latn">
+			<decimal>,</decimal>
+			<group>.</group>
+		</symbols>
 		<currencyFormats>
 			<currencyFormatLength>
 				<currencyFormat>
@@ -171,3 +179,4 @@
 		</currencies>
 	</numbers>
 </ldml>
+

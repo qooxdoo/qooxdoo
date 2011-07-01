@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4753 $"/>
-		<generation date="$Date: 2010-02-26 00:32:00 -0600 (Fri, 26 Feb 2010) $"/>
+		<version number="$Revision: 5806 $"/>
+		<generation date="$Date: 2011-05-02 13:42:02 -0500 (Mon, 02 May 2011) $"/>
 		<language type="ak"/>
 	</identity>
 	<localeDisplayNames>
@@ -440,6 +440,7 @@
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">yyyy</dateFormatItem>
 						<dateFormatItem id="yM">M/yyyy</dateFormatItem>
+						<dateFormatItem id="yMd">y/M/d</dateFormatItem>
 						<dateFormatItem id="yMEd">EEE, M/d/yyyy</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM yyyy</dateFormatItem>
 						<dateFormatItem id="yMMMEd">EEE, MMM d, yyyy</dateFormatItem>
@@ -491,7 +492,7 @@
 		</calendars>
 	</dates>
 	<numbers>
-		<symbols>
+		<symbols numberSystem="latn">
 			<group> </group>
 		</symbols>
 		<currencyFormats>
@@ -672,9 +673,5 @@
 			<nostr>Daabi:D</nostr>
 		</messages>
 	</posix>
-	<references>
-		<reference type="R003" uri="http://kasa.ghanathink.org/akan/lg/languageGuide.htm">Akan Language Guide</reference>
-		<reference type="R004" uri="http://www.omniglot.com/writing/akan.htm">Omniglot on Akan alphabet</reference>
-	</references>
 </ldml>
 

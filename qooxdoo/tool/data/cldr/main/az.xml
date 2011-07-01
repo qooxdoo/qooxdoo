@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4753 $"/>
-		<generation date="$Date: 2010-02-26 00:32:00 -0600 (Fri, 26 Feb 2010) $"/>
+		<version number="$Revision: 5798 $"/>
+		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
 		<language type="az"/>
 	</identity>
 	<localeDisplayNames>
@@ -1092,6 +1092,16 @@
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">EEE, d, MMM</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM, y</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">EEE, d, MMM, y</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
 				<fields>
 					<field type="era">
 						<displayName>era</displayName>
@@ -1651,13 +1661,11 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<symbols>
+		<symbols numberSystem="latn">
 			<decimal draft="contributed">,</decimal>
 			<group draft="contributed">.</group>
 			<list draft="contributed">;</list>
 			<percentSign draft="contributed">%</percentSign>
-			<nativeZeroDigit draft="contributed">0</nativeZeroDigit>
-			<patternDigit draft="contributed">#</patternDigit>
 			<plusSign draft="contributed">+</plusSign>
 			<minusSign draft="contributed">-</minusSign>
 			<exponential draft="contributed">E</exponential>
@@ -1748,6 +1756,7 @@
 			<currency type="AZN">
 				<displayName>Azərbaycan manatı</displayName>
 				<displayName count="other" draft="contributed">Azərbaycan manatı</displayName>
+				<symbol>man.</symbol>
 			</currency>
 			<currency type="BAD">
 				<displayName>Bosniya-Herzeqovina dinarı</displayName>
@@ -2689,4 +2698,3 @@
 		</messages>
 	</posix>
 </ldml>
-

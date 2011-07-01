@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5020 $"/>
-		<generation date="$Date: 2010-08-19 00:31:44 -0500 (Thu, 19 Aug 2010) $"/>
+		<version number="$Revision: 5695 $"/>
+		<generation date="$Date: 2011-04-26 13:39:31 -0500 (Tue, 26 Apr 2011) $"/>
 		<language type="ar"/>
 		<territory type="LB"/>
 	</identity>
@@ -28,20 +28,8 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">الأحد</day>
-							<day type="mon">الاثنين</day>
-							<day type="tue">الثلاثاء</day>
-							<day type="wed">الأربعاء</day>
-							<day type="thu">الخميس</day>
-							<day type="fri">الجمعة</day>
-							<day type="sat">السبت</day>
-						</dayWidth>
-					</dayContext>
-				</days>
 			</calendar>
 		</calendars>
 	</dates>
 </ldml>
+

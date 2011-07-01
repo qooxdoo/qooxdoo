@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4590 $"/>
-		<generation date="$Date: 2010-02-05 13:10:28 -0600 (Fri, 05 Feb 2010) $"/>
+		<version number="$Revision: 5799 $"/>
+		<generation date="$Date: 2011-05-02 01:19:45 -0500 (Mon, 02 May 2011) $"/>
 		<language type="rof"/>
 	</identity>
 	<fallback/>
@@ -672,6 +672,7 @@
 			</currency>
 			<currency type="TZS">
 				<displayName>heleri sa Tanzania</displayName>
+				<symbol>TSh</symbol>
 			</currency>
 			<currency type="UGX">
 				<displayName>heleri sa Uganda</displayName>

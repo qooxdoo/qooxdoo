@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4634 $"/>
-		<generation date="$Date: 2010-02-08 02:55:46 -0600 (Mon, 08 Feb 2010) $"/>
+		<version number="$Revision: 5806 $"/>
+		<generation date="$Date: 2011-05-02 13:42:02 -0500 (Mon, 02 May 2011) $"/>
 		<language type="chr"/>
 	</identity>
 	<fallback>en</fallback>
@@ -66,7 +66,7 @@
 	</localeDisplayNames>
 	<characters>
 		<exemplarCharacters>[Ꭰ Ꭱ Ꭲ Ꭳ Ꭴ Ꭵ Ꭶ Ꭷ Ꭸ Ꭹ Ꭺ Ꭻ Ꭼ Ꭽ Ꭾ Ꭿ Ꮀ Ꮁ Ꮂ Ꮃ Ꮄ Ꮅ Ꮆ Ꮇ Ꮈ Ꮉ Ꮊ Ꮋ Ꮌ Ꮍ Ꮎ Ꮏ Ꮐ Ꮑ Ꮒ Ꮓ Ꮔ Ꮕ Ꮖ Ꮗ Ꮘ Ꮙ Ꮚ Ꮛ Ꮜ Ꮝ Ꮞ Ꮟ Ꮠ Ꮡ Ꮢ Ꮣ Ꮤ Ꮥ Ꮦ Ꮧ Ꮨ Ꮩ Ꮪ Ꮫ Ꮬ Ꮭ Ꮮ Ꮯ Ꮰ Ꮱ Ꮲ Ꮳ Ꮴ Ꮵ Ꮶ Ꮷ Ꮸ Ꮹ Ꮺ Ꮻ Ꮼ Ꮽ Ꮾ Ꮿ Ᏸ Ᏹ Ᏺ Ᏻ Ᏼ]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
 		<exemplarCharacters type="index">[Ꭰ Ꭶ Ꭽ Ꮃ Ꮉ Ꮎ Ꮖ Ꮜ Ꮣ Ꮬ Ꮳ Ꮹ Ꮿ]</exemplarCharacters>
 	</characters>
 	<delimiters>
@@ -232,8 +232,10 @@
 						<dateFormatItem id="MEd">E, M/d</dateFormatItem>
 						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
 						<dateFormatItem id="yM">M/y</dateFormatItem>
+						<dateFormatItem id="yMd">M/d/y</dateFormatItem>
 						<dateFormatItem id="yMEd">EEE, M/d/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMd">MMM d, y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">EEE, MMM d, y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q y</dateFormatItem>
@@ -352,7 +354,7 @@
 			<metazone type="America_Eastern">
 				<long>
 					<generic>ᎧᎸᎬᎢᏗᏢ ᎢᏳᏩᎪᏗ</generic>
-					<standard>ᎧᎸᎬᎢᏗᏢ  ᏰᎵᏊ ᏗᏙᎳᎩ ᎢᏳᏩᎪᏗ</standard>
+					<standard>ᎧᎸᎬᎢᏗᏢ ᏰᎵᏊ ᏗᏙᎳᎩ ᎢᏳᏩᎪᏗ</standard>
 					<daylight>ᎧᎸᎬᎢᏗᏢ ᎢᎦ ᎢᏳᏩᎪᏗ</daylight>
 				</long>
 				<short>
@@ -375,9 +377,9 @@
 			</metazone>
 			<metazone type="America_Pacific">
 				<long>
-					<generic>ᏭᏕᎵᎬ  ᎢᏳᏩᎪᏗ</generic>
+					<generic>ᏭᏕᎵᎬ ᎢᏳᏩᎪᏗ</generic>
 					<standard>ᏭᏕᎵᎬ ᏰᎵᏊ ᏗᏙᎳᎩ ᎢᏳᏩᎪᏗ</standard>
-					<daylight>ᏭᏕᎵᎬ  ᎢᎦ ᎢᏳᏩᎪᏗ</daylight>
+					<daylight>ᏭᏕᎵᎬ ᎢᎦ ᎢᏳᏩᎪᏗ</daylight>
 				</long>
 				<short>
 					<generic>ᏭᎢ</generic>
@@ -401,13 +403,11 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<symbols>
+		<symbols numberSystem="latn">
 			<decimal>.</decimal>
 			<group>,</group>
 			<list>;</list>
 			<percentSign>%</percentSign>
-			<nativeZeroDigit>0</nativeZeroDigit>
-			<patternDigit>#</patternDigit>
 			<plusSign>+</plusSign>
 			<minusSign>-</minusSign>
 			<exponential>E</exponential>
@@ -517,8 +517,5 @@
 			<nostr>ᎥᏝ</nostr>
 		</messages>
 	</posix>
-	<references>
-		<reference type="RP1" uri="http://www.cherokee.org/Culture/Language/Default.aspx">Cherokee Nation Cultural Resource Center - Language Services</reference>
-	</references>
 </ldml>
 

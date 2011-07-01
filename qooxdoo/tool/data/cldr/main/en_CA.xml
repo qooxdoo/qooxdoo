@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4853 $"/>
-		<generation date="$Date: 2010-04-16 02:01:32 -0500 (Fri, 16 Apr 2010) $"/>
+		<version number="$Revision: 5806 $"/>
+		<generation date="$Date: 2011-05-02 13:42:02 -0500 (Mon, 02 May 2011) $"/>
 		<language type="en"/>
 		<territory type="CA"/>
 	</identity>
@@ -28,7 +28,7 @@
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern references="RP1">yy-MM-dd</pattern>
+							<pattern>yy-MM-dd</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -36,12 +36,14 @@
 					<availableFormats>
 						<dateFormatItem id="Md">M-d</dateFormatItem>
 						<dateFormatItem id="MEd">E, M-d</dateFormatItem>
-						<dateFormatItem id="MMdd" references="RP1">MM-dd</dateFormatItem>
+						<dateFormatItem id="MMdd">MM-dd</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMMEd">E, d MMMM</dateFormatItem>
+						<dateFormatItem id="yMd">y-M-d</dateFormatItem>
 						<dateFormatItem id="yMEd">EEE, y-M-d</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">EEE, d MMM, y</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM-yy</dateFormatItem>
 					</availableFormats>
@@ -142,3 +144,4 @@
 		</currencies>
 	</numbers>
 </ldml>
+

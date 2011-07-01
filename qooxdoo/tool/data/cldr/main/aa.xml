@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4753 $"/>
-		<generation date="$Date: 2010-02-26 00:32:00 -0600 (Fri, 26 Feb 2010) $"/>
+		<version number="$Revision: 5798 $"/>
+		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
 		<language type="aa"/>
 	</identity>
 	<localeDisplayNames>
@@ -197,6 +197,10 @@
 				</currencyFormat>
 			</currencyFormatLength>
 		</currencyFormats>
+		<currencies>
+			<currency type="ETB">
+				<symbol>Br</symbol>
+			</currency>
+		</currencies>
 	</numbers>
 </ldml>
-

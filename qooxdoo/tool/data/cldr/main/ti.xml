@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5107 $"/>
-		<generation date="$Date: 2010-10-15 16:50:41 -0500 (Fri, 15 Oct 2010) $"/>
+		<version number="$Revision: 5798 $"/>
+		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
 		<language type="ti"/>
 	</identity>
 	<localeDisplayNames>
@@ -548,6 +548,7 @@
 			</currency>
 			<currency type="ETB">
 				<displayName>የኢትዮጵያ ብር</displayName>
+				<symbol>Br</symbol>
 			</currency>
 			<currency type="EUR">
 				<displayName>አውሮ</displayName>

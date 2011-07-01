@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4752 $"/>
-		<generation date="$Date: 2010-02-25 23:53:32 -0600 (Thu, 25 Feb 2010) $"/>
+		<version number="$Revision: 5354 $"/>
+		<generation date="$Date: 2011-02-08 06:10:23 -0600 (Tue, 08 Feb 2011) $"/>
 		<language type="en"/>
 		<territory type="AU"/>
 	</identity>
@@ -38,7 +38,9 @@
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
+						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
 						<dateFormatItem id="yMEd">EEE, d/M/y</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
 						<dateFormatItem id="yyyyMM">MM/yyyy</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y</dateFormatItem>
 					</availableFormats>

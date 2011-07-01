@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4929 $"/>
-		<generation date="$Date: 2010-05-26 16:22:48 -0500 (Wed, 26 May 2010) $"/>
+		<version number="$Revision: 5798 $"/>
+		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
 		<language type="yo"/>
 	</identity>
 	<localeDisplayNames>
@@ -566,7 +566,7 @@
 				<displayName>Diami ti Awon Orílẹ́ède Arabu</displayName>
 			</currency>
 			<currency type="AOA">
-				<displayName>Wansa ti Orílẹ́ède  Àngólà</displayName>
+				<displayName>Wansa ti Orílẹ́ède Àngólà</displayName>
 			</currency>
 			<currency type="AUD">
 				<displayName>Dọla ti Orílẹ́ède Ástràlìá</displayName>
@@ -614,7 +614,7 @@
 				<displayName>Uro</displayName>
 			</currency>
 			<currency type="GBP">
-				<displayName>Pọọn ti Orílẹ́ède  Bírítísì</displayName>
+				<displayName>Pọọn ti Orílẹ́ède Bírítísì</displayName>
 			</currency>
 			<currency type="GHC">
 				<displayName>ṣidi ti Orílẹ́ède Gana</displayName>
@@ -669,6 +669,7 @@
 			</currency>
 			<currency type="NGN">
 				<displayName>Naira ti Orílẹ́ède Nàìjíríà</displayName>
+				<symbol>₦</symbol>
 			</currency>
 			<currency type="RWF">
 				<displayName>Faransi ti Orílẹ́ède Ruwanda</displayName>
@@ -736,4 +737,3 @@
 		</messages>
 	</posix>
 </ldml>
-

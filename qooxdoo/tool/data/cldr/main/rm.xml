@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5122 $"/>
-		<generation date="$Date: 2010-10-21 00:05:48 -0500 (Thu, 21 Oct 2010) $"/>
+		<version number="$Revision: 5859 $"/>
+		<generation date="$Date: 2011-05-07 04:18:01 -0500 (Sat, 07 May 2011) $"/>
 		<language type="rm"/>
 	</identity>
 	<localeDisplayNames>
@@ -1270,9 +1270,6 @@
 							<greatestDifference id="d" draft="contributed">E, d. - E, d. MMM</greatestDifference>
 							<greatestDifference id="M" draft="contributed">E, d. MMM - E, d. MMM</greatestDifference>
 						</intervalFormatItem>
-						<intervalFormatItem id="MMMM">
-							<greatestDifference id="M" draft="contributed">LLLL-LLLL</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="y">
 							<greatestDifference id="y" draft="contributed">y-y</greatestDifference>
 						</intervalFormatItem>
@@ -1357,7 +1354,6 @@
 		<timeZoneNames>
 			<hourFormat draft="contributed">+HH:mm;-HH:mm</hourFormat>
 			<gmtFormat draft="contributed">GMT{0}</gmtFormat>
-			<regionFormat draft="contributed">{0}</regionFormat>
 			<fallbackFormat draft="contributed">{1} ({0})</fallbackFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity draft="contributed">zona betg enconuschenta</exemplarCity>
@@ -1788,13 +1784,11 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<symbols>
+		<symbols numberSystem="latn">
 			<decimal draft="contributed">.</decimal>
 			<group draft="contributed">’</group>
 			<list draft="contributed">;</list>
 			<percentSign draft="contributed">%</percentSign>
-			<nativeZeroDigit draft="contributed">0</nativeZeroDigit>
-			<patternDigit draft="contributed">#</patternDigit>
 			<plusSign draft="contributed">+</plusSign>
 			<minusSign draft="contributed">−</minusSign>
 			<exponential draft="contributed">E</exponential>
@@ -2662,7 +2656,7 @@
 				<displayName draft="contributed">rial dal Jemen</displayName>
 			</currency>
 			<currency type="YUD">
-				<displayName draft="contributed">dinar jugoslav  (1966-1990)</displayName>
+				<displayName draft="contributed">dinar jugoslav (1966-1990)</displayName>
 			</currency>
 			<currency type="YUM">
 				<displayName draft="contributed">nov dinar jugoslav</displayName>
@@ -2744,4 +2738,3 @@
 		</messages>
 	</posix>
 </ldml>
-

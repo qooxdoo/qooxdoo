@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4582 $"/>
-		<generation date="$Date: 2010-02-05 10:51:25 -0600 (Fri, 05 Feb 2010) $"/>
+		<version number="$Revision: 5717 $"/>
+		<generation date="$Date: 2011-04-27 22:37:06 -0500 (Wed, 27 Apr 2011) $"/>
 		<language type="aa"/>
 		<territory type="DJ"/>
 	</identity>
@@ -13,8 +13,6 @@
 				<months>
 					<monthContext type="format">
 						<monthWidth type="wide">
-							<month type="2" draft="unconfirmed">Naharsi Kudo</month>
-							<month type="4" draft="unconfirmed">Agda Baxisso</month>
 							<month type="8" draft="unconfirmed">Leqeeni</month>
 						</monthWidth>
 					</monthContext>
@@ -22,4 +20,11 @@
 			</calendar>
 		</calendars>
 	</dates>
+	<numbers>
+		<currencies>
+			<currency type="DJF">
+				<symbol>Fdj</symbol>
+			</currency>
+		</currencies>
+	</numbers>
 </ldml>

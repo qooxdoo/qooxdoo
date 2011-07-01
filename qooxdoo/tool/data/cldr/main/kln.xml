@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4763 $"/>
-		<generation date="$Date: 2010-02-27 01:03:37 -0600 (Sat, 27 Feb 2010) $"/>
+		<version number="$Revision: 5799 $"/>
+		<generation date="$Date: 2011-05-02 01:19:45 -0500 (Mon, 02 May 2011) $"/>
 		<language type="kln"/>
 	</identity>
 	<localeDisplayNames>
@@ -160,7 +160,7 @@
 			<territory type="KH">Emetab Cambodia</territory>
 			<territory type="KI">Emetab Kiribati</territory>
 			<territory type="KM">Emetab Comoros</territory>
-			<territory type="KN">Emetab Saint Kitts  ak  Nevis</territory>
+			<territory type="KN">Emetab Saint Kitts ak Nevis</territory>
 			<territory type="KP">Emetab Korea nebo murot katam</territory>
 			<territory type="KR">Emetab korea nebo murot tai</territory>
 			<territory type="KW">Emetab Kuwait</territory>
@@ -217,7 +217,7 @@
 			<territory type="PH">Emetab Philippines</territory>
 			<territory type="PK">Emetab Pakistan</territory>
 			<territory type="PL">Emetab Poland</territory>
-			<territory type="PM">Emetab Peter Ne titil  ak Miquelon</territory>
+			<territory type="PM">Emetab Peter Ne titil ak Miquelon</territory>
 			<territory type="PN">Emetab Pitcairn</territory>
 			<territory type="PR">Emetab Puerto Rico</territory>
 			<territory type="PS">Emetab Palestine</territory>
@@ -247,7 +247,7 @@
 			<territory type="SV">Emetab El Salvador</territory>
 			<territory type="SY">Emetab Syria</territory>
 			<territory type="SZ">Emetab Swaziland</territory>
-			<territory type="TC">Ikwembeiyotab Turks ak  Caicos</territory>
+			<territory type="TC">Ikwembeiyotab Turks ak Caicos</territory>
 			<territory type="TD">Emetab Chad</territory>
 			<territory type="TG">Emetab Togo</territory>
 			<territory type="TH">Emetab Thailand</territory>
@@ -606,6 +606,7 @@
 			</currency>
 			<currency type="KES">
 				<displayName>Silingitab ya Kenya</displayName>
+				<symbol>Ksh</symbol>
 			</currency>
 			<currency type="KMF">
 				<displayName>Rabisiekab Komoro</displayName>

@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4599 $"/>
-		<generation date="$Date: 2010-02-05 18:15:28 -0600 (Fri, 05 Feb 2010) $"/>
+		<version number="$Revision: 5859 $"/>
+		<generation date="$Date: 2011-05-07 04:18:01 -0500 (Sat, 07 May 2011) $"/>
 		<language type="oc"/>
 	</identity>
 	<localeDisplayNames>
@@ -246,6 +246,7 @@
 		</calendars>
 		<timeZoneNames>
 			<regionFormat draft="unconfirmed">Ora de: {0}</regionFormat>
+			<fallbackRegionFormat draft="unconfirmed">Ora de: {1} ({0})</fallbackRegionFormat>
 		</timeZoneNames>
 	</dates>
 	<numbers>
@@ -279,4 +280,3 @@
 		</unit>
 	</units>
 </ldml>
-

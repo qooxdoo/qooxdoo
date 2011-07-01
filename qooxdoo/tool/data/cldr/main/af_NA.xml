@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4767 $"/>
-		<generation date="$Date: 2010-02-27 20:54:27 -0600 (Sat, 27 Feb 2010) $"/>
+		<version number="$Revision: 5806 $"/>
+		<generation date="$Date: 2011-05-02 13:42:02 -0500 (Mon, 02 May 2011) $"/>
 		<language type="af"/>
 		<territory type="NA"/>
 	</identity>
@@ -13,22 +13,22 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern references="R000" draft="unconfirmed">EEEE d MMMM y</pattern>
+							<pattern draft="unconfirmed">EEEE d MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern references="R000" draft="unconfirmed">d MMMM y</pattern>
+							<pattern draft="unconfirmed">d MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern references="R000" draft="unconfirmed">d MMM y</pattern>
+							<pattern draft="unconfirmed">d MMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern references="R000" draft="unconfirmed">yyyy-MM-dd</pattern>
+							<pattern draft="unconfirmed">yyyy-MM-dd</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -65,5 +65,11 @@
 				</currencyFormat>
 			</currencyFormatLength>
 		</currencyFormats>
+		<currencies>
+			<currency type="NAD">
+				<symbol>$</symbol>
+			</currency>
+		</currencies>
 	</numbers>
 </ldml>
+

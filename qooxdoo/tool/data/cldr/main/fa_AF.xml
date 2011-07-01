@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4753 $"/>
-		<generation date="$Date: 2010-02-26 00:32:00 -0600 (Fri, 26 Feb 2010) $"/>
+		<version number="$Revision: 5886 $"/>
+		<generation date="$Date: 2011-05-10 17:13:33 -0500 (Tue, 10 May 2011) $"/>
 		<language type="fa"/>
 		<territory type="AF"/>
 	</identity>
@@ -34,7 +34,6 @@
 		</scripts>
 		<territories>
 			<territory type="AD">اندورا</territory>
-			<territory type="AE">امارات متحدهٔ عربی</territory>
 			<territory type="AG">انتیگوا و باربودا</territory>
 			<territory type="AL">البانیا</territory>
 			<territory type="AO">انگولا</territory>
@@ -58,7 +57,6 @@
 			<territory type="CR">کاستریکا</territory>
 			<territory type="CU">کیوبا</territory>
 			<territory type="DK">دنمارک</territory>
-			<territory type="EC">اکوادور</territory>
 			<territory type="EE">استونیا</territory>
 			<territory type="ER">اریتریا</territory>
 			<territory type="ES">هسپانیه</territory>
@@ -123,7 +121,6 @@
 			<territory type="SV">السلوادور</territory>
 			<territory type="TJ">تاجکستان</territory>
 			<territory type="UA">اکراین</territory>
-			<territory type="US">ایالات متحدهٔ امریکا</territory>
 			<territory type="UY">یوروگوای</territory>
 			<territory type="VC">سنت وینسنت و گرینادین</territory>
 			<territory type="VE">ونزویلا</territory>
@@ -132,7 +129,7 @@
 		</territories>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters type="auxiliary" references="R445">[\u0656 \u0670 \u200C \u200D ټ ځ څ ډ ړ ږ ښ ګ ڼ ي]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[\u0656 \u0670 \u200C \u200D ټ ځ څ ډ ړ ږ ښ ګ ڼ ي]</exemplarCharacters>
 	</characters>
 	<dates>
 		<calendars>
@@ -213,9 +210,6 @@
 					</monthContext>
 				</months>
 				<eras>
-					<eraNames>
-						<era type="0">هجری شمسی</era>
-					</eraNames>
 					<eraAbbr>
 						<era type="0">ه‍. ش.</era>
 					</eraAbbr>

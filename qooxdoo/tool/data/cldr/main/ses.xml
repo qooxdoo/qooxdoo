@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4590 $"/>
-		<generation date="$Date: 2010-02-05 13:10:28 -0600 (Fri, 05 Feb 2010) $"/>
+		<version number="$Revision: 5799 $"/>
+		<generation date="$Date: 2011-05-02 01:19:45 -0500 (Mon, 02 May 2011) $"/>
 		<language type="ses"/>
 	</identity>
 	<localeDisplayNames>
@@ -460,7 +460,6 @@
 					<availableFormats>
 						<dateFormatItem id="M">M</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="Med">EEE d/M</dateFormatItem>
 						<dateFormatItem id="MMd">d/MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMM">MMM</dateFormatItem>
@@ -527,7 +526,7 @@
 		</calendars>
 	</dates>
 	<numbers>
-		<symbols>
+		<symbols numberSystem="latn">
 			<group> </group>
 		</symbols>
 		<currencyFormats>

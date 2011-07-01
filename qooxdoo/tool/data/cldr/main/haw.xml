@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4768 $"/>
-		<generation date="$Date: 2010-02-27 21:22:52 -0600 (Sat, 27 Feb 2010) $"/>
+		<version number="$Revision: 5798 $"/>
+		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
 		<language type="haw"/>
 	</identity>
 	<localeDisplayNames>
@@ -25,7 +25,7 @@
 			<language type="fr_CH">Kuikilani</language>
 			<language type="ga">ʻAiliki</language>
 			<language type="gsw">Kuikilani Kelemānia</language>
-			<language type="haw">ʻōlelo Hawaiʻi</language>
+			<language type="haw">ʻŌlelo Hawaiʻi</language>
 			<language type="he">Hebera</language>
 			<language type="it">ʻĪkālia</language>
 			<language type="ja">Kepanī</language>
@@ -215,4 +215,3 @@
 		</unit>
 	</units>
 </ldml>
-

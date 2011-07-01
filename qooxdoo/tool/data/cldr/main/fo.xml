@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4767 $"/>
-		<generation date="$Date: 2010-02-27 20:54:27 -0600 (Sat, 27 Feb 2010) $"/>
+		<version number="$Revision: 5798 $"/>
+		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
 		<language type="fo"/>
 	</identity>
 	<fallback draft="unconfirmed">is da sv en</fallback>
@@ -239,7 +239,6 @@
 			<territory type="CD" alt="variant" draft="unconfirmed">Kongo-Kinshasa</territory>
 			<territory type="CF">Miðafrikalýðveldið</territory>
 			<territory type="CG">Kongo</territory>
-			<territory type="CG" alt="proposed-x1001" draft="unconfirmed">Kongo-Brazzaville</territory>
 			<territory type="CG" alt="variant" draft="unconfirmed">Kongo-Brazzaville</territory>
 			<territory type="CH">Sveis</territory>
 			<territory type="CI">Fílabeinsstrondin</territory>
@@ -385,7 +384,6 @@
 			<territory type="PF" draft="unconfirmed">Franska Polynesia</territory>
 			<territory type="PG">Papua Nýguinea</territory>
 			<territory type="PH">Filipsoyggjar</territory>
-			<territory type="PH" alt="proposed-x1001" draft="unconfirmed">Filipsoyggjarnar</territory>
 			<territory type="PK" draft="unconfirmed">Pakistan</territory>
 			<territory type="PL">Pólland</territory>
 			<territory type="PM" draft="unconfirmed">Saint Pierre og Miquelon</territory>
@@ -404,7 +402,6 @@
 			<territory type="SA">Saudi-Arábia</territory>
 			<territory type="SB">Sálomonoyggjarnar</territory>
 			<territory type="SC">Seyskelloyggjarnar</territory>
-			<territory type="SC" alt="proposed-x1001" draft="unconfirmed">Seyskelloyggjarnarnar</territory>
 			<territory type="SD" draft="unconfirmed">Sudan</territory>
 			<territory type="SE">Svøríki</territory>
 			<territory type="SG">Singapor</territory>
@@ -418,7 +415,6 @@
 			<territory type="SO" draft="unconfirmed">Somalia</territory>
 			<territory type="SR">Surinam</territory>
 			<territory type="ST">Sao Tome og Prinsipi</territory>
-			<territory type="ST" alt="proposed-x1001" draft="unconfirmed">São Tomé og Príncipe</territory>
 			<territory type="SV" draft="unconfirmed">El Salvador</territory>
 			<territory type="SY" draft="unconfirmed">Syria</territory>
 			<territory type="SZ">Svasiland</territory>
@@ -446,7 +442,6 @@
 			<territory type="UZ">Usbekistan</territory>
 			<territory type="VA">Vatikan</territory>
 			<territory type="VC">Saint Vinsent og Grenadinoyggjar</territory>
-			<territory type="VC" alt="proposed-x1001" draft="unconfirmed">Saint Vinsent og Grenadinoyggjarnar</territory>
 			<territory type="VE">Venesuela</territory>
 			<territory type="VG" draft="unconfirmed">Stóra Bretlands Jómfrúoyggjarnar</territory>
 			<territory type="VI" draft="unconfirmed">Sambandsríki Amerikas Jómfrúoyggjarnar</territory>
@@ -702,9 +697,6 @@
 							<greatestDifference id="d" draft="unconfirmed">E, MM-d – E, MM-d</greatestDifference>
 							<greatestDifference id="M" draft="unconfirmed">E, MM-d – E, MM-d</greatestDifference>
 						</intervalFormatItem>
-						<intervalFormatItem id="MMMM">
-							<greatestDifference id="M" draft="unconfirmed">LLLL–LLLL</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="y">
 							<greatestDifference id="y" draft="unconfirmed">y–y</greatestDifference>
 						</intervalFormatItem>
@@ -788,14 +780,11 @@
 		</calendars>
 	</dates>
 	<numbers>
-		<symbols>
+		<symbols numberSystem="latn">
 			<decimal>,</decimal>
 			<group>.</group>
-			<group alt="proposed-x1001" draft="unconfirmed"> </group>
 			<list draft="unconfirmed">;</list>
 			<percentSign draft="unconfirmed">%</percentSign>
-			<nativeZeroDigit draft="unconfirmed">0</nativeZeroDigit>
-			<patternDigit draft="unconfirmed">#</patternDigit>
 			<plusSign draft="unconfirmed">+</plusSign>
 			<minusSign draft="unconfirmed">−</minusSign>
 			<exponential draft="unconfirmed">×10^</exponential>
@@ -828,7 +817,6 @@
 			<currencyFormatLength>
 				<currencyFormat>
 					<pattern>¤#,##0.00;¤-#,##0.00</pattern>
-					<pattern alt="proposed-x1001" draft="unconfirmed">#,##0.00 ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
 			<unitPattern count="one" draft="unconfirmed">{0} {1}</unitPattern>
@@ -926,4 +914,3 @@
 		</messages>
 	</posix>
 </ldml>
-

@@ -2,14 +2,14 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4599 $"/>
-		<generation date="$Date: 2010-02-05 18:15:28 -0600 (Fri, 05 Feb 2010) $"/>
+		<version number="$Revision: 5859 $"/>
+		<generation date="$Date: 2011-05-07 04:18:01 -0500 (Sat, 07 May 2011) $"/>
 		<language type="en"/>
 		<script type="Shaw"/>
 	</identity>
 	<characters>
 		<exemplarCharacters>[𐑐 𐑑 𐑒 𐑓 𐑔 𐑕 𐑖 𐑗 𐑘 𐑙 𐑚 𐑛 𐑜 𐑝 𐑞 𐑟 𐑠 𐑡 𐑢 𐑣 𐑤 𐑥 𐑦 𐑧 𐑨 𐑩 𐑪 𐑫 𐑬 𐑭 𐑮 𐑯 𐑰 𐑱 𐑲 𐑳 𐑴 𐑵 𐑶 𐑷 𐑸 𐑹 𐑺 𐑻 𐑼 𐑽 𐑾 𐑿]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
 		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="unconfirmed">[𐑐 𐑑 𐑒 𐑓 𐑔 𐑕 𐑖 𐑗 𐑘 𐑙 𐑚 𐑛 𐑜 𐑝 𐑞 𐑟 𐑠 𐑡 𐑢 𐑣 𐑤 𐑥 𐑦 𐑧 𐑨 𐑩 𐑪 𐑫 𐑬 𐑭 𐑮 𐑯 𐑰 𐑱 𐑲 𐑳 𐑴 𐑵 𐑶 𐑷 𐑸 𐑹 𐑺 𐑻 𐑼 𐑽 𐑾 𐑿]</exemplarCharacters>
 	</characters>
@@ -184,6 +184,7 @@
 			<gmtFormat>·𐑜𐑥𐑑{0}</gmtFormat>
 			<gmtZeroFormat>·𐑜𐑥𐑑</gmtZeroFormat>
 			<regionFormat>{0} 𐑑𐑲𐑥</regionFormat>
+			<fallbackRegionFormat draft="contributed">{1} 𐑑𐑲𐑥 ({0})</fallbackRegionFormat>
 		</timeZoneNames>
 	</dates>
 	<posix>
@@ -193,4 +194,3 @@
 		</messages>
 	</posix>
 </ldml>
-

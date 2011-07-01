@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4765 $"/>
-		<generation date="$Date: 2010-02-27 18:03:30 -0600 (Sat, 27 Feb 2010) $"/>
+		<version number="$Revision: 5859 $"/>
+		<generation date="$Date: 2011-05-07 04:18:01 -0500 (Sat, 07 May 2011) $"/>
 		<language type="trv"/>
 	</identity>
 	<localeDisplayNames>
@@ -314,6 +314,7 @@
 			<hourFormat draft="provisional">+HH:mm;-HH:mm</hourFormat>
 			<gmtFormat draft="provisional">JQG{0}</gmtFormat>
 			<regionFormat draft="provisional">Jikan {0}</regionFormat>
+			<fallbackRegionFormat draft="provisional">Jikan {1} ({0})</fallbackRegionFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity draft="provisional">Ini klayi ka Jikan hini</exemplarCity>
 			</zone>
@@ -451,7 +452,7 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<symbols>
+		<symbols numberSystem="latn">
 			<decimal draft="provisional">.</decimal>
 			<group draft="provisional">,</group>
 		</symbols>
@@ -558,4 +559,3 @@
 		</messages>
 	</posix>
 </ldml>
-

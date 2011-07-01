@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4679 $"/>
-		<generation date="$Date: 2010-02-17 14:02:04 -0600 (Wed, 17 Feb 2010) $"/>
+		<version number="$Revision: 5799 $"/>
+		<generation date="$Date: 2011-05-02 01:19:45 -0500 (Mon, 02 May 2011) $"/>
 		<language type="bem"/>
 	</identity>
 	<localeDisplayNames>
@@ -55,7 +55,7 @@
 			<language type="zu">Ichi Zulu</language>
 		</languages>
 		<territories>
-            <territory type="ZM">Zambia</territory>
+			<territory type="ZM">Zambia</territory>
 		</territories>
 	</localeDisplayNames>
 	<characters>
@@ -212,8 +212,10 @@
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/y</dateFormatItem>
+						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
 						<dateFormatItem id="yMEd">EEE, M/d/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">EEE, MMM d, y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQ">Q y</dateFormatItem>
@@ -266,6 +268,11 @@
 				</currencyFormat>
 			</currencyFormatLength>
 		</currencyFormats>
+		<currencies>
+			<currency type="ZMK">
+				<symbol>ZK</symbol>
+			</currency>
+		</currencies>
 	</numbers>
 	<posix>
 		<messages>

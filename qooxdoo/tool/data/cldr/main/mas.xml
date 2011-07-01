@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4685 $"/>
-		<generation date="$Date: 2010-02-18 01:54:20 -0600 (Thu, 18 Feb 2010) $"/>
+		<version number="$Revision: 5882 $"/>
+		<generation date="$Date: 2011-05-10 15:26:37 -0500 (Tue, 10 May 2011) $"/>
 		<language type="mas"/>
 	</identity>
 	<localeDisplayNames>
@@ -287,7 +287,7 @@
 		</measurementSystemNames>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[\u0301 \u0300 \u0302 a á à â ā b c d e é è ê ē ɛ g h i í ì î ī ɨ j k l m n {ny} ŋ o ó ò ô ō ɔ p r {rr} s {sh} t u ú ù û ū ʉ w {wu} y {yi}]</exemplarCharacters>
+		<exemplarCharacters>[a á à â ā b c d e é è ê ē ɛ g h i í ì î ī ɨ j k l m n {ny} ŋ o ó ò ô ō ɔ p r {rr} s {sh} t u ú ù û ū ʉ {ʉ\u0301} w {wu} y {yi}]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[f q v x z]</exemplarCharacters>
 		<exemplarCharacters type="index">[A B C D E Ɛ G H I Ɨ J K L M N Ŋ O Ɔ P R S T U Ʉ W Y]</exemplarCharacters>
 	</characters>
@@ -519,7 +519,7 @@
 		</currencyFormats>
 		<currencies>
 			<currency type="AED">
-				<displayName>Iropiyianí  ɔ́ɔ̄ lmarabu</displayName>
+				<displayName>Iropiyianí ɔ́ɔ̄ lmarabu</displayName>
 			</currency>
 			<currency type="AOA">
 				<displayName>Iropiyianí e Angola</displayName>
@@ -589,6 +589,7 @@
 			</currency>
 			<currency type="KES">
 				<displayName>Iropiyianí e Kenya</displayName>
+				<symbol>Ksh</symbol>
 			</currency>
 			<currency type="KMF">
 				<displayName>Iropiyianí e Komoro</displayName>
@@ -663,7 +664,7 @@
 				<displayName>Iropiyianí e Uganda</displayName>
 			</currency>
 			<currency type="USD">
-				<displayName>Iropiyianí  ɔ́ɔ̄ lamarekani</displayName>
+				<displayName>Iropiyianí ɔ́ɔ̄ lamarekani</displayName>
 			</currency>
 			<currency type="XAF">
 				<displayName>Iropiyianí e CFA BEAC</displayName>
@@ -689,3 +690,4 @@
 		</messages>
 	</posix>
 </ldml>
+

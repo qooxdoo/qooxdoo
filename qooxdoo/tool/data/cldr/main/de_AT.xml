@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4582 $"/>
-		<generation date="$Date: 2010-02-05 10:51:25 -0600 (Fri, 05 Feb 2010) $"/>
+		<version number="$Revision: 5663 $"/>
+		<generation date="$Date: 2011-04-25 14:35:18 -0500 (Mon, 25 Apr 2011) $"/>
 		<language type="de"/>
 		<territory type="AT"/>
 	</identity>
@@ -17,6 +17,11 @@
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">Jänner</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="abbreviated">
+							<month type="1">Jän</month>
 						</monthWidth>
 					</monthContext>
 				</months>

@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4743 $"/>
-		<generation date="$Date: 2010-02-25 11:36:22 -0600 (Thu, 25 Feb 2010) $"/>
+		<version number="$Revision: 5884 $"/>
+		<generation date="$Date: 2011-05-10 15:58:32 -0500 (Tue, 10 May 2011) $"/>
 		<language type="es"/>
 		<territory type="PE"/>
 	</identity>
@@ -117,9 +117,11 @@
 		</calendars>
 	</dates>
 	<numbers>
-		<symbols>
-			<decimal>.</decimal>
-			<group>,</group>
-		</symbols>
+		<currencies>
+			<currency type="PEN">
+				<symbol>S/.</symbol>
+			</currency>
+		</currencies>
 	</numbers>
 </ldml>
+

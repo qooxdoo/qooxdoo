@@ -2,15 +2,15 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4767 $"/>
-		<generation date="$Date: 2010-02-27 20:54:27 -0600 (Sat, 27 Feb 2010) $"/>
+		<version number="$Revision: 5806 $"/>
+		<generation date="$Date: 2011-05-02 13:42:02 -0500 (Mon, 02 May 2011) $"/>
 		<language type="as"/>
 	</identity>
 	<localeDisplayNames>
 		<languages>
-			<language type="as">অসমীয়া</language>
+			<language type="as">অসমীয়া</language>
 			<language type="ie" draft="unconfirmed">উপস্থাপন ভাষা</language>
-			<language type="km" draft="unconfirmed">কম্বোডিয়ান</language>
+			<language type="km" draft="unconfirmed">কম্বোডিয়ান</language>
 		</languages>
 		<scripts>
 			<script type="Beng" draft="contributed">বঙালী</script>
@@ -23,10 +23,10 @@
 			<territory type="DE" draft="contributed">জাৰ্মানি</territory>
 			<territory type="FR" draft="contributed">ফ্ৰান্স</territory>
 			<territory type="GB" draft="contributed">সংযুক্ত ৰাজ্য</territory>
-			<territory type="GS" draft="contributed">দক্ষিণ জৰ্জিয়া আৰু দক্ষিণ চেণ্ডৱিচ্‌ দ্বীপ</territory>
+			<territory type="GS" draft="contributed">দক্ষিণ জৰ্জিয়া আৰু দক্ষিণ চেণ্ডৱিচ্‌ দ্বীপ</territory>
 			<territory type="HM" draft="contributed">হাৰ্ড দ্বীপ আৰু মেক্‌ডোনাল্ড দ্বীপ</territory>
 			<territory type="IN">ভাৰত</territory>
-			<territory type="IO" draft="contributed">ব্ৰিটিশ্ব ইণ্ডিয়ান মহাসাগৰৰ অঞ্চল</territory>
+			<territory type="IO" draft="contributed">ব্ৰিটিশ্ব ইণ্ডিয়ান মহাসাগৰৰ অঞ্চল</territory>
 			<territory type="IT" draft="contributed">ইটালি</territory>
 			<territory type="JP" draft="contributed">জাপান</territory>
 			<territory type="RU" draft="contributed">ৰুচ</territory>
@@ -43,16 +43,16 @@
 			<type type="big5han" key="collation" draft="contributed">পৰম্পৰাগত চীনা শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম - Big5</type>
 			<type type="buddhist" key="calendar" draft="contributed">বৌদ্ধ পঞ্জিকা</type>
 			<type type="chinese" key="calendar" draft="contributed">চীনা পঞ্জিকা</type>
-			<type type="direct" key="collation" draft="contributed">পোনপটীয়াকৈ শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম</type>
+			<type type="direct" key="collation" draft="contributed">পোনপটীয়াকৈ শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম</type>
 			<type type="gb2312han" key="collation" draft="contributed">সৰল চীনা শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম - GB2312</type>
-			<type type="gregorian" key="calendar" draft="contributed">গ্ৰিগোৰীয় পঞ্জিকা</type>
+			<type type="gregorian" key="calendar" draft="contributed">গ্ৰিগোৰীয় পঞ্জিকা</type>
 			<type type="hebrew" key="calendar" draft="contributed">হীব্ৰু পঞ্জিকা</type>
-			<type type="indian" key="calendar" draft="contributed">ভাৰতীয় ৰাষ্ট্ৰীয় পঞ্জিকা</type>
+			<type type="indian" key="calendar" draft="contributed">ভাৰতীয় ৰাষ্ট্ৰীয় পঞ্জিকা</type>
 			<type type="islamic" key="calendar" draft="contributed">ইচলামী পঞ্জিকা</type>
 			<type type="islamic-civil" key="calendar" draft="contributed">ইচলামী-নাগৰিকৰ পঞ্জিকা</type>
 			<type type="japanese" key="calendar" draft="contributed">জাপানী পঞ্জিকা</type>
 			<type type="phonebook" key="collation" draft="contributed">টেলিফোন বহিৰ মতেশৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম</type>
-			<type type="pinyin" key="collation" draft="contributed">পিন্‌য়িন শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম</type>
+			<type type="pinyin" key="collation" draft="contributed">পিন্‌য়িন শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম</type>
 			<type type="roc" key="calendar" draft="contributed">চীনা গণৰাজ্যৰ পঞ্জিকা</type>
 			<type type="stroke" key="collation" draft="contributed">স্ট্ৰোক শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম</type>
 			<type type="traditional" key="collation" draft="contributed">পৰম্পৰাগতভাবে শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম</type>
@@ -63,8 +63,8 @@
 		</measurementSystemNames>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[অ আ ই ঈ উ ঊ ঋ এ ঐ ও ঔ ং ঁ ঃ ক খ গ ঘ ঙ চ ছ জ ঝ ঞ ট ঠ ড ড় ঢ ঢ় ণ ত থ দ ধ ন প ফ ব ভ ম য য় ৰ ল ৱ শ ষ স হ া ি ী ু ূ ৃ ে ৈ ো ৌ ্]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[\u200C \u200D ৲]</exemplarCharacters>
+		<exemplarCharacters>[অ আ ই ঈ উ ঊ ঋ এ ঐ ও ঔ ং \u0981 ঃ ক খ গ ঘ ঙ চ ছ জ ঝ ঞ ট ঠ ড {ড\u09BC}ড় ঢ {ঢ\u09BC}ঢ় ণ ত থ দ ধ ন প ফ ব ভ ম য {য\u09BC} ৰ ল ৱ শ ষ স হ া ি ী \u09C1 \u09C2 \u09C3 ে ৈ ো ৌ \u09CD]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[\u200C\u200D ৲]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="unconfirmed">[অ আ ই ঈ উ ঊ ঋ ৠ ঌ ৡ এ ঐ ও ঔ ক খ গ ঘ ঙ চ ছ জ ঝ ঞ ট ঠ ড ঢ ণ ত ৎ থ দ ধ ন প ফ ব ভ ম য ৰ ল ৱ শ ষ স হ ঽ]</exemplarCharacters>
 	</characters>
 	<dates>
@@ -128,8 +128,8 @@
 					<quarterContext type="format">
 						<quarterWidth type="wide">
 							<quarter type="1">প্ৰথম প্ৰহৰ</quarter>
-							<quarter type="2">দ্বিতীয় প্ৰহৰ</quarter>
-							<quarter type="3">তৃতীয় প্ৰহৰ</quarter>
+							<quarter type="2">দ্বিতীয় প্ৰহৰ</quarter>
+							<quarter type="3">তৃতীয় প্ৰহৰ</quarter>
 							<quarter type="4">চতুৰ্থ প্ৰহৰ</quarter>
 						</quarterWidth>
 					</quarterContext>
@@ -229,7 +229,7 @@
 			</zone>
 			<metazone type="India">
 				<long>
-					<standard>ভাৰতীয় সময়</standard>
+					<standard>ভাৰতীয় সময়</standard>
 				</long>
 				<short>
 					<standard>ভা. স.</standard>
@@ -239,6 +239,7 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
+		<defaultNumberingSystem>beng</defaultNumberingSystem>
 		<decimalFormats>
 			<decimalFormatLength>
 				<decimalFormat>
@@ -262,12 +263,9 @@
 		</currencyFormats>
 		<currencies>
 			<currency type="INR">
-				<symbol references="R006">টকা</symbol>
+				<symbol>টকা</symbol>
 			</currency>
 		</currencies>
 	</numbers>
-	<references>
-		<reference type="R006" uri="http://www.iitg.ernet.in/rcilts/newassamesedesign.pdf">Assamese Design Guide, IIT Guwahati</reference>
-	</references>
 </ldml>
 

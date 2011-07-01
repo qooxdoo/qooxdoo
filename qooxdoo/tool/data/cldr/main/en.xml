@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5159 $"/>
-		<generation date="$Date: 2010-10-27 19:16:55 -0500 (Wed, 27 Oct 2010) $"/>
+		<version number="$Revision: 5806 $"/>
+		<generation date="$Date: 2011-05-02 13:42:02 -0500 (Mon, 02 May 2011) $"/>
 		<language type="en"/>
 	</identity>
 	<fallback/>
@@ -23,6 +23,7 @@
 			<language type="af">Afrikaans</language>
 			<language type="afa">Afro-Asiatic Language</language>
 			<language type="afh">Afrihili</language>
+			<language type="agq">Aghem</language>
 			<language type="ain">Ainu</language>
 			<language type="ak">Akan</language>
 			<language type="akk">Akkadian</language>
@@ -55,7 +56,7 @@
 			<language type="bai">Bamileke Language</language>
 			<language type="bal">Baluchi</language>
 			<language type="ban">Balinese</language>
-			<language type="bas">Basa</language>
+			<language type="bas">Basaa</language>
 			<language type="bat">Baltic Language</language>
 			<language type="be">Belarusian</language>
 			<language type="bej">Beja</language>
@@ -136,6 +137,7 @@
 			<language type="dua">Duala</language>
 			<language type="dum">Middle Dutch</language>
 			<language type="dv">Divehi</language>
+			<language type="dyo">Jola-Fonyi</language>
 			<language type="dyu">Dyula</language>
 			<language type="dz">Dzongkha</language>
 			<language type="ebu">Embu</language>
@@ -277,6 +279,7 @@
 			<language type="kru">Kurukh</language>
 			<language type="ks">Kashmiri</language>
 			<language type="ksb">Shambala</language>
+			<language type="ksf">Bafia</language>
 			<language type="ksh">Colognian</language>
 			<language type="ku">Kurdish</language>
 			<language type="kum">Kumyk</language>
@@ -320,6 +323,7 @@
 			<language type="mfe">Morisyen</language>
 			<language type="mg">Malagasy</language>
 			<language type="mga">Middle Irish</language>
+			<language type="mgh">Makhuwa-Meetto</language>
 			<language type="mh">Marshallese</language>
 			<language type="mi">Maori</language>
 			<language type="mic">Micmac</language>
@@ -338,6 +342,7 @@
 			<language type="mr">Marathi</language>
 			<language type="ms">Malay</language>
 			<language type="mt">Maltese</language>
+			<language type="mua">Mundang</language>
 			<language type="mul">Multiple Languages</language>
 			<language type="mun">Munda Language</language>
 			<language type="mus">Creek</language>
@@ -362,6 +367,7 @@
 			<language type="niu">Niuean</language>
 			<language type="nl">Dutch</language>
 			<language type="nl_BE">Flemish</language>
+			<language type="nmg">Kwasio</language>
 			<language type="nn">Norwegian Nynorsk</language>
 			<language type="no">Norwegian</language>
 			<language type="nog">Nogai</language>
@@ -370,6 +376,7 @@
 			<language type="nr">South Ndebele</language>
 			<language type="nso">Northern Sotho</language>
 			<language type="nub">Nubian Language</language>
+			<language type="nus">Nuer</language>
 			<language type="nv">Navajo</language>
 			<language type="nwc">Classical Newari</language>
 			<language type="ny">Nyanja</language>
@@ -400,7 +407,7 @@
 			<language type="pon">Pohnpeian</language>
 			<language type="pra">Prakrit Language</language>
 			<language type="pro">Old Provençal</language>
-			<language type="ps" references="R034">Pashto</language>
+			<language type="ps">Pashto</language>
 			<language type="ps" alt="variant">Pushto</language>
 			<language type="pt">Portuguese</language>
 			<language type="pt_BR">Brazilian Portuguese</language>
@@ -422,13 +429,14 @@
 			<language type="rwk">Rwa</language>
 			<language type="sa">Sanskrit</language>
 			<language type="sad">Sandawe</language>
-			<language type="sah">Yakut</language>
+			<language type="sah">Sakha</language>
 			<language type="sai">South American Indian Language</language>
 			<language type="sal">Salishan Language</language>
 			<language type="sam">Samaritan Aramaic</language>
 			<language type="saq">Samburu</language>
 			<language type="sas">Sasak</language>
 			<language type="sat">Santali</language>
+			<language type="sbp">Sangu</language>
 			<language type="sc">Sardinian</language>
 			<language type="scn">Sicilian</language>
 			<language type="sco">Scots</language>
@@ -478,6 +486,7 @@
 			<language type="sv">Swedish</language>
 			<language type="sw">Swahili</language>
 			<language type="swb">Comorian</language>
+			<language type="swc">Congo Swahili</language>
 			<language type="syc">Classical Syriac</language>
 			<language type="syr">Syriac</language>
 			<language type="ta">Tamil</language>
@@ -532,6 +541,7 @@
 			<language type="vot">Votic</language>
 			<language type="vun">Vunjo</language>
 			<language type="wa">Walloon</language>
+			<language type="wae">Walser</language>
 			<language type="wak">Wakashan Language</language>
 			<language type="wal">Walamo</language>
 			<language type="war">Waray</language>
@@ -543,6 +553,7 @@
 			<language type="xog">Soga</language>
 			<language type="yao">Yao</language>
 			<language type="yap">Yapese</language>
+			<language type="yav">Yangben</language>
 			<language type="yi">Yiddish</language>
 			<language type="yo">Yoruba</language>
 			<language type="ypk">Yupik Language</language>
@@ -563,7 +574,7 @@
 		<scripts>
 			<script type="Arab">Arabic</script>
 			<script type="Arab" alt="variant">Perso-Arabic</script>
-			<script type="Armi" references="RP3">Imperial Aramaic</script>
+			<script type="Armi">Imperial Aramaic</script>
 			<script type="Armn">Armenian</script>
 			<script type="Avst">Avestan</script>
 			<script type="Bali">Balinese</script>
@@ -576,10 +587,10 @@
 			<script type="Brai">Braille</script>
 			<script type="Bugi">Buginese</script>
 			<script type="Buhd">Buhid</script>
-			<script type="Cakm" references="RP3">Chakma</script>
+			<script type="Cakm">Chakma</script>
 			<script type="Cans">Unified Canadian Aboriginal Syllabics</script>
 			<script type="Cari">Carian</script>
-			<script type="Cham" references="R035">Cham</script>
+			<script type="Cham">Cham</script>
 			<script type="Cher">Cherokee</script>
 			<script type="Cirt">Cirth</script>
 			<script type="Copt">Coptic</script>
@@ -603,8 +614,10 @@
 			<script type="Hang">Hangul</script>
 			<script type="Hani">Han</script>
 			<script type="Hano">Hanunoo</script>
-			<script type="Hans">Simplified Han</script>
-			<script type="Hant">Traditional Han</script>
+			<script type="Hans">Simplified</script>
+			<script type="Hans" alt="stand-alone">Simplified Han</script>
+			<script type="Hant">Traditional</script>
+			<script type="Hant" alt="stand-alone">Traditional Han</script>
 			<script type="Hebr">Hebrew</script>
 			<script type="Hira">Hiragana</script>
 			<script type="Hmng">Pahawh Hmong</script>
@@ -684,7 +697,7 @@
 			<script type="Tfng">Tifinagh</script>
 			<script type="Tglg">Tagalog</script>
 			<script type="Thaa">Thaana</script>
-			<script type="Thai" references="R035">Thai</script>
+			<script type="Thai">Thai</script>
 			<script type="Tibt">Tibetan</script>
 			<script type="Ugar">Ugaritic</script>
 			<script type="Vaii">Vai</script>
@@ -1009,7 +1022,7 @@
 			<territory type="WF">Wallis and Futuna</territory>
 			<territory type="WK">Wake Island</territory>
 			<territory type="WS">Samoa</territory>
-			<territory type="YD">People's Democratic Republic of Yemen</territory>
+			<territory type="YD">People’s Democratic Republic of Yemen</territory>
 			<territory type="YE">Yemen</territory>
 			<territory type="YT">Mayotte</territory>
 			<territory type="ZA">South Africa</territory>
@@ -1060,9 +1073,21 @@
 		</variants>
 		<keys>
 			<key type="calendar">Calendar</key>
-			<key type="collation">Collation</key>
+			<key type="colAlternate">Ignore Symbols Sorting</key>
+			<key type="colBackwards">Reversed Accent Sorting</key>
+			<key type="colCaseFirst">Uppercase/Lowercase Ordering</key>
+			<key type="colCaseLevel">Case Sensitive Sorting</key>
+			<key type="colHiraganaQuaternary">Kana Sorting</key>
+			<key type="collation">Sort Order</key>
+			<key type="colNormalization">Normalized Sorting</key>
+			<key type="colNumeric">Numeric Sorting</key>
+			<key type="colStrength">Sorting Strength</key>
 			<key type="currency">Currency</key>
 			<key type="numbers">Numbers</key>
+			<key type="timezone">Time Zone</key>
+			<key type="va">Locale Variant</key>
+			<key type="variableTop">Sort As Symbols</key>
+			<key type="x">Private-Use</key>
 		</keys>
 		<types>
 			<type type="arab" key="numbers">Arabic-Indic Digits</type>
@@ -1075,7 +1100,9 @@
 			<type type="chinese" key="calendar">Chinese Calendar</type>
 			<type type="coptic" key="calendar">Coptic Calendar</type>
 			<type type="deva" key="numbers">Devanagari Digits</type>
+			<type type="dictionary" key="collation">Dictionary Sort Order</type>
 			<type type="direct" key="collation">Direct Sort Order</type>
+			<type type="ducet" key="collation">Default Unicode Sort Order</type>
 			<type type="ethi" key="numbers">Ethiopic Numerals</type>
 			<type type="ethiopic" key="calendar">Ethiopic Calendar</type>
 			<type type="ethiopic-amete-alem" key="calendar">Ethiopic Amete Alem Calendar</type>
@@ -1087,12 +1114,14 @@
 			<type type="greklow" key="numbers">Greek Lowercase Numerals</type>
 			<type type="gujr" key="numbers">Gujarati Digits</type>
 			<type type="guru" key="numbers">Gurmukhi Digits</type>
+			<type type="hanidec" key="numbers">Chinese Decimal Numerals</type>
 			<type type="hans" key="numbers">Simplified Chinese Numerals</type>
 			<type type="hansfin" key="numbers">Simplified Chinese Financial Numerals</type>
 			<type type="hant" key="numbers">Traditional Chinese Numerals</type>
 			<type type="hantfin" key="numbers">Traditional Chinese Financial Numerals</type>
 			<type type="hebr" key="numbers">Hebrew Numerals</type>
 			<type type="hebrew" key="calendar">Hebrew Calendar</type>
+			<type type="identical" key="colStrength">Sort All</type>
 			<type type="indian" key="calendar">Indian National Calendar</type>
 			<type type="islamic" key="calendar">Islamic Calendar</type>
 			<type type="islamic-civil" key="calendar">Islamic-Civil Calendar</type>
@@ -1103,35 +1132,57 @@
 			<type type="knda" key="numbers">Kannada Digits</type>
 			<type type="laoo" key="numbers">Lao Digits</type>
 			<type type="latn" key="numbers">Western Digits</type>
+			<type type="lower" key="colCaseFirst">Sort Lowercase First</type>
 			<type type="mlym" key="numbers">Malayalam Digits</type>
 			<type type="mong" key="numbers">Mongolian Digits</type>
 			<type type="mymr" key="numbers">Myanmar Digits</type>
+			<type type="no" key="colBackwards">Sort Accents Normally</type>
+			<type type="no" key="colCaseFirst">Sort Normal Case Order</type>
+			<type type="no" key="colCaseLevel">Sort Case Insensitive</type>
+			<type type="no" key="colHiraganaQuaternary">Sort Kana Separately</type>
+			<type type="no" key="colNormalization">Sort Without Normalization</type>
+			<type type="no" key="colNumeric">Sort Digits Individually</type>
+			<type type="non-ignorable" key="colAlternate">Sort Symbols</type>
 			<type type="orya" key="numbers">Oriya Digits</type>
 			<type type="persian" key="calendar">Persian Calendar</type>
 			<type type="phonebook" key="collation">Phonebook Sort Order</type>
-			<type type="pinyin" key="collation">Simplified Chinese Pinyin Sort Order</type>
+			<type type="pinyin" key="collation">Pinyin Sort Order</type>
+			<type type="primary" key="colStrength">Sort Base Letters Only</type>
+			<type type="quaternary" key="colStrength">Sort Accents/Case/Width/Kana</type>
+			<type type="reformed" key="collation">Reformed Sort Order</type>
 			<type type="roc" key="calendar">Minguo Calendar</type>
 			<type type="roman" key="numbers">Roman Numerals</type>
 			<type type="romanlow" key="numbers">Roman Lowercase Numerals</type>
 			<type type="search" key="collation">General-Purpose Search</type>
-			<type type="stroke" key="collation">Traditional Chinese Stroke Sort Order</type>
-			<type type="taml" key="numbers">Tamil Numerals</type>
+			<type type="secondary" key="colStrength">Sort Accents</type>
+			<type type="shifted" key="colAlternate">Sort Ignoring Symbols</type>
+			<type type="stroke" key="collation">Stroke Sort Order</type>
+			<type type="taml" key="numbers">Traditional Tamil Numerals</type>
+			<type type="tamldec" key="numbers">Tamil Digits</type>
 			<type type="telu" key="numbers">Telugu Digits</type>
+			<type type="tertiary" key="colStrength">Sort Accents/Case/Width</type>
 			<type type="thai" key="numbers">Thai Digits</type>
 			<type type="tibt" key="numbers">Tibetan Digits</type>
 			<type type="traditional" key="collation">Traditional Sort Order</type>
+			<type type="unihan" key="collation">Radical-Stroke Sort Order</type>
+			<type type="upper" key="colCaseFirst">Sort Uppercase First</type>
+			<type type="yes" key="colBackwards">Sort Accents Reversed</type>
+			<type type="yes" key="colCaseLevel">Sort Case Sensitive</type>
+			<type type="yes" key="colHiraganaQuaternary">Sort Kana Differently</type>
+			<type type="yes" key="colNormalization">Sort Unicode Normalized</type>
+			<type type="yes" key="colNumeric">Sort Digits Numerically</type>
 		</types>
 		<transformNames>
-          <transformName type="UNGEGN">UNGEGN</transformName>
-          <transformName type="BGN">BGN</transformName>
-          <transformName type="Numeric">Numeric</transformName>
-          <transformName type="Tone">Tone</transformName>
-          <transformName type="x-Accents">Accents</transformName>
-          <transformName type="x-Fullwidth">Fullwidth</transformName>
-          <transformName type="x-Halfwidth">Halfwidth</transformName>
-          <transformName type="x-Jamo">Jamo</transformName>
-          <transformName type="x-Pinyin">Pinyin</transformName>
-          <transformName type="x-Publishing">Publishing</transformName>
+			<transformName type="BGN">BGN</transformName>
+			<transformName type="Numeric">Numeric</transformName>
+			<transformName type="Tone">Tone</transformName>
+			<transformName type="UNGEGN">UNGEGN</transformName>
+			<transformName type="x-Accents">Accents</transformName>
+			<transformName type="x-Fullwidth">Fullwidth</transformName>
+			<transformName type="x-Halfwidth">Halfwidth</transformName>
+			<transformName type="x-Jamo">Jamo</transformName>
+			<transformName type="x-Pinyin">Pinyin</transformName>
+			<transformName type="x-Publishing">Publishing</transformName>
 		</transformNames>
 		<measurementSystemNames>
 			<measurementSystemName type="metric">Metric</measurementSystemName>
@@ -1149,6 +1200,10 @@
 		<exemplarCharacters type="auxiliary">[á à ă â å ä ã ā æ ç é è ĕ ê ë ē í ì ĭ î ï ī ñ ó ò ŏ ô ö ø ō œ ú ù ŭ û ü ū ÿ]</exemplarCharacters>
 		<exemplarCharacters type="currencySymbol">[a b c č d e f g h i j k l ł m n o º p q r s t u v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
+		<exemplarCharacters type="punctuation">[\- ‐ – — , ; \: ! ? . … ' ‘ ’ &quot; “ ” ( ) \[ \] @ * / \&amp; # † ‡ ′ ″ §]</exemplarCharacters>
+		<stopwords>
+			<stopwordList type="collation">a an the</stopwordList>
+		</stopwords>
 	</characters>
 	<delimiters>
 		<quotationStart>“</quotationStart>
@@ -1159,7 +1214,8 @@
 	<dates>
 		<calendars>
 			<calendar type="buddhist">
-				<dateFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+				<dateFormats>
+					<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
 					<dateFormatLength type="full">
 						<dateFormat>
 							<pattern>EEEE, MMMM d, y G</pattern>
@@ -1177,14 +1233,16 @@
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>M/d/yy G</pattern>
+							<pattern>M/d/yy GGGGG</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<dateTimeFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+				<dateTimeFormats>
+					<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="EEEd">d EEE</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
@@ -1197,9 +1255,11 @@
 						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y G</dateFormatItem>
-						<dateFormatItem id="yM">M/y G</dateFormatItem>
-						<dateFormatItem id="yMEd">EEE, M/d/y G</dateFormatItem>
+						<dateFormatItem id="yM">M/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yMd">M/d/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yMEd">EEE, M/d/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yMMMd">MMM d, y G</dateFormatItem>
 						<dateFormatItem id="yMMMEd">EEE, MMM d, y G</dateFormatItem>
 						<dateFormatItem id="yQ">Q y G</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y G</dateFormatItem>
@@ -1314,6 +1374,11 @@
 				</quarters>
 				<dayPeriods>
 					<dayPeriodContext type="format">
+						<dayPeriodWidth type="narrow">
+							<dayPeriod type="am">a</dayPeriod>
+							<dayPeriod type="noon">n</dayPeriod>
+							<dayPeriod type="pm">p</dayPeriod>
+						</dayPeriodWidth>
 						<dayPeriodWidth type="wide">
 							<dayPeriod type="am">AM</dayPeriod>
 							<dayPeriod type="am" alt="variant">a.m.</dayPeriod>
@@ -1418,8 +1483,10 @@
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/y</dateFormatItem>
+						<dateFormatItem id="yMd">M/d/y</dateFormatItem>
 						<dateFormatItem id="yMEd">EEE, M/d/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMd">MMM d, y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">EEE, MMM d, y</dateFormatItem>
 						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
@@ -1469,9 +1536,6 @@
 							<greatestDifference id="d">E, MMM d – E, MMM d</greatestDifference>
 							<greatestDifference id="M">E, MMM d – E, MMM d</greatestDifference>
 						</intervalFormatItem>
-						<intervalFormatItem id="MMMM">
-							<greatestDifference id="M">LLLL-LLLL</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="y">
 							<greatestDifference id="y">y–y</greatestDifference>
 						</intervalFormatItem>
@@ -1515,12 +1579,21 @@
 					</field>
 					<field type="year">
 						<displayName>Year</displayName>
+						<relative type="-1">Last year</relative>
+						<relative type="0">This year</relative>
+						<relative type="1">Next year</relative>
 					</field>
 					<field type="month">
 						<displayName>Month</displayName>
+						<relative type="-1">Last month</relative>
+						<relative type="0">This month</relative>
+						<relative type="1">Next month</relative>
 					</field>
 					<field type="week">
 						<displayName>Week</displayName>
+						<relative type="-1">Last week</relative>
+						<relative type="0">This week</relative>
+						<relative type="1">Next week</relative>
 					</field>
 					<field type="day">
 						<displayName>Day</displayName>
@@ -1544,7 +1617,7 @@
 						<displayName>Second</displayName>
 					</field>
 					<field type="zone">
-						<displayName>Zone</displayName>
+						<displayName>Time Zone</displayName>
 					</field>
 				</fields>
 			</calendar>
@@ -1567,9 +1640,6 @@
 							<month type="11">Dhuʻl-Q.</month>
 							<month type="12">Dhuʻl-H.</month>
 						</monthWidth>
-						<monthWidth type="narrow">
-							<alias source="locale" path="../../monthContext[@type='stand-alone']/monthWidth[@type='narrow']"/>
-						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">Muharram</month>
 							<month type="2">Safar</month>
@@ -1586,9 +1656,6 @@
 						</monthWidth>
 					</monthContext>
 					<monthContext type="stand-alone">
-						<monthWidth type="abbreviated">
-							<alias source="locale" path="../../monthContext[@type='format']/monthWidth[@type='abbreviated']"/>
-						</monthWidth>
 						<monthWidth type="narrow">
 							<month type="1">1</month>
 							<month type="2">2</month>
@@ -1603,23 +1670,15 @@
 							<month type="11">11</month>
 							<month type="12">12</month>
 						</monthWidth>
-						<monthWidth type="wide">
-							<alias source="locale" path="../../monthContext[@type='format']/monthWidth[@type='wide']"/>
-						</monthWidth>
 					</monthContext>
 				</months>
 				<eras>
-					<eraNames>
-						<alias source="locale" path="../eraAbbr"/>
-					</eraNames>
 					<eraAbbr>
 						<era type="0">AH</era>
 					</eraAbbr>
-					<eraNarrow>
-						<alias source="locale" path="../eraAbbr"/>
-					</eraNarrow>
 				</eras>
-				<dateFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+				<dateFormats>
+					<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
 					<dateFormatLength type="full">
 						<dateFormat>
 							<pattern>EEEE, MMMM d, y G</pattern>
@@ -1641,7 +1700,8 @@
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<dateTimeFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+				<dateTimeFormats>
+					<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="EEEd">d EEE</dateFormatItem>
@@ -1658,8 +1718,10 @@
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMd">M/d/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMEd">EEE, M/d/y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">MMM d, y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMEd">EEE, MMM d, y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">Q y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
@@ -1667,7 +1729,8 @@
 				</dateTimeFormats>
 			</calendar>
 			<calendar type="japanese">
-				<dateFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+				<dateFormats>
+					<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
 					<dateFormatLength type="full">
 						<dateFormat>
 							<pattern>EEEE, MMMM d, y G</pattern>
@@ -1685,14 +1748,16 @@
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>M/d/yy G</pattern>
+							<pattern>M/d/yy GGGGG</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<dateTimeFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+				<dateTimeFormats>
+					<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="EEEd">d EEE</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
@@ -1704,10 +1769,13 @@
 						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">y G</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
-						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE, M/d/y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yyyyMd">M/d/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">EEE, M/d/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">MMM d, y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMEd">EEE, MMM d, y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">Q y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
@@ -1715,7 +1783,8 @@
 				</dateTimeFormats>
 			</calendar>
 			<calendar type="roc">
-				<dateFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+				<dateFormats>
+					<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
 					<dateFormatLength type="full">
 						<dateFormat>
 							<pattern>EEEE, MMMM d, y G</pattern>
@@ -1733,14 +1802,16 @@
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>M/d/yy G</pattern>
+							<pattern>M/d/yy GGGGG</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<dateTimeFormats> <!-- per cldrbug 2835, added from gregorian and adjusted for G -->
+				<dateTimeFormats>
+					<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="EEEd">d EEE</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
@@ -1752,10 +1823,13 @@
 						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">y G</dateFormatItem>
 						<dateFormatItem id="yyyy">y G</dateFormatItem>
-						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
-						<dateFormatItem id="yyyyMEd">EEE, M/d/y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yyyyMd">M/d/y GGGGG</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">EEE, M/d/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">MMM d, y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMEd">EEE, MMM d, y G</dateFormatItem>
 						<dateFormatItem id="yyyyQ">Q y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
@@ -1768,11 +1842,18 @@
 			<gmtFormat>GMT{0}</gmtFormat>
 			<regionFormat>{0} Time</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
+			<fallbackRegionFormat>{1} Time ({0})</fallbackRegionFormat>
 			<zone type="Etc/Unknown">
-				<exemplarCity>Unknown</exemplarCity>
+				<exemplarCity>Unknown City</exemplarCity>
+			</zone>
+			<zone type="America/Curacao">
+				<exemplarCity>Curaçao</exemplarCity>
 			</zone>
 			<zone type="Antarctica/DumontDUrville">
 				<exemplarCity>Dumont d’Urville</exemplarCity>
+			</zone>
+			<zone type="America/St_Barthelemy">
+				<exemplarCity>Saint Barthélemy</exemplarCity>
 			</zone>
 			<zone type="Europe/London">
 				<long>
@@ -1789,6 +1870,18 @@
 				<short>
 					<daylight>IST (Irish)</daylight>
 				</short>
+			</zone>
+			<zone type="America/Asuncion">
+				<exemplarCity>Asunción</exemplarCity>
+			</zone>
+			<zone type="Indian/Reunion">
+				<exemplarCity>Réunion</exemplarCity>
+			</zone>
+			<zone type="Africa/Sao_Tome">
+				<exemplarCity>São Tomé</exemplarCity>
+			</zone>
+			<zone type="Asia/Saigon">
+				<exemplarCity>Ho Chi Minh City</exemplarCity>
 			</zone>
 			<metazone type="Acre">
 				<long>
@@ -2142,7 +2235,7 @@
 			</metazone>
 			<metazone type="DumontDUrville">
 				<long>
-					<standard>Dumont-d'Urville Time</standard>
+					<standard>Dumont-d’Urville Time</standard>
 				</long>
 			</metazone>
 			<metazone type="Dushanbe">
@@ -2455,6 +2548,11 @@
 					<daylight>Macau Summer Time</daylight>
 				</long>
 			</metazone>
+			<metazone type="Macquarie">
+				<long>
+					<standard>Macquarie Island Time</standard>
+				</long>
+			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<standard>Magadan Time</standard>
@@ -2765,7 +2863,7 @@
 			</metazone>
 			<metazone type="Truk">
 				<long>
-					<standard>Truk Time</standard>
+					<standard>Chuuk Time</standard>
 				</long>
 			</metazone>
 			<metazone type="Turkey">
@@ -2787,8 +2885,8 @@
 			</metazone>
 			<metazone type="Uralsk">
 				<long>
-					<standard>Ural'sk Time</standard>
-					<daylight>Ural'sk Summer Time</daylight>
+					<standard>Uralʹsk Time</standard>
+					<daylight>Uralʹsk Summer Time</daylight>
 				</long>
 			</metazone>
 			<metazone type="Uruguay">
@@ -2874,13 +2972,11 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<symbols>
+		<symbols numberSystem="latn">
 			<decimal>.</decimal>
 			<group>,</group>
 			<list>;</list>
 			<percentSign>%</percentSign>
-			<nativeZeroDigit>0</nativeZeroDigit>
-			<patternDigit>#</patternDigit>
 			<plusSign>+</plusSign>
 			<minusSign>-</minusSign>
 			<exponential>E</exponential>
@@ -2895,20 +2991,20 @@
 				</decimalFormat>
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
-                <decimalFormat>
-                    <pattern type="1000">0.0K</pattern>
-                    <pattern type="10000">00K</pattern>
-                    <pattern type="100000">000K</pattern>
-                    <pattern type="1000000">0.0M</pattern>
-                    <pattern type="10000000">00M</pattern>
-                    <pattern type="100000000">000M</pattern>
-                    <pattern type="1000000000">0.0B</pattern>
-                    <pattern type="10000000000">00B</pattern>
-                    <pattern type="100000000000">000B</pattern>
-                    <pattern type="1000000000000">0.0T</pattern>
-                    <pattern type="10000000000000">00T</pattern>
-                    <pattern type="100000000000000">000T</pattern>
-                </decimalFormat>
+				<decimalFormat>
+					<pattern type="1000">0.0K</pattern>
+					<pattern type="10000">00K</pattern>
+					<pattern type="100000">000K</pattern>
+					<pattern type="1000000">0.0M</pattern>
+					<pattern type="10000000">00M</pattern>
+					<pattern type="100000000">000M</pattern>
+					<pattern type="1000000000">0.0B</pattern>
+					<pattern type="10000000000">00B</pattern>
+					<pattern type="100000000000">000B</pattern>
+					<pattern type="1000000000000">0.0T</pattern>
+					<pattern type="10000000000000">00T</pattern>
+					<pattern type="100000000000000">000T</pattern>
+				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
 		<scientificFormats>
@@ -2947,8 +3043,8 @@
 			</currency>
 			<currency type="AFA">
 				<displayName>Afghan Afghani (1927-2002)</displayName>
-				<displayName count="one">Afghan Afghani (AFA)</displayName>
-				<displayName count="other">Afghan Afghanis (AFA)</displayName>
+				<displayName count="one">Afghan afghani (1927-2002)</displayName>
+				<displayName count="other">Afghan afghanis (1927-2002)</displayName>
 			</currency>
 			<currency type="AFN">
 				<displayName>Afghan Afghani</displayName>
@@ -3256,9 +3352,9 @@
 				<displayName count="other">Chilean pesos</displayName>
 			</currency>
 			<currency type="CNX">
-				<displayName>Chinese People's Bank Dollar</displayName>
-				<displayName count="one">Chinese People's Bank dollar</displayName>
-				<displayName count="other">Chinese People's Bank dollars</displayName>
+				<displayName>Chinese People’s Bank Dollar</displayName>
+				<displayName count="one">Chinese People’s Bank dollar</displayName>
+				<displayName count="other">Chinese People’s Bank dollars</displayName>
 			</currency>
 			<currency type="CNY">
 				<displayName>Chinese Yuan</displayName>
@@ -4323,7 +4419,7 @@
 			</currency>
 			<currency type="XXX">
 				<displayName>Unknown Currency</displayName>
-				<displayName count="one">unknown/invalid currency</displayName>
+				<displayName count="one">unknown currency</displayName>
 			</currency>
 			<currency type="YDD">
 				<displayName>Yemeni Dinar</displayName>
@@ -4404,11 +4500,27 @@
 			<unitPattern count="other">{0} days</unitPattern>
 			<unitPattern count="other" alt="short">{0} days</unitPattern>
 		</unit>
+		<unit type="day-future">
+			<unitPattern count="one">In {0} day</unitPattern>
+			<unitPattern count="other">In {0} days</unitPattern>
+		</unit>
+		<unit type="day-past">
+			<unitPattern count="one">{0} day ago</unitPattern>
+			<unitPattern count="other">{0} days ago</unitPattern>
+		</unit>
 		<unit type="hour">
 			<unitPattern count="one">{0} hour</unitPattern>
 			<unitPattern count="one" alt="short">{0} hr</unitPattern>
 			<unitPattern count="other">{0} hours</unitPattern>
 			<unitPattern count="other" alt="short">{0} hrs</unitPattern>
+		</unit>
+		<unit type="hour-future">
+			<unitPattern count="one">In {0} hour</unitPattern>
+			<unitPattern count="other">In {0} hours</unitPattern>
+		</unit>
+		<unit type="hour-past">
+			<unitPattern count="one">{0} hour ago</unitPattern>
+			<unitPattern count="other">{0} hours ago</unitPattern>
 		</unit>
 		<unit type="minute">
 			<unitPattern count="one">{0} minute</unitPattern>
@@ -4416,11 +4528,27 @@
 			<unitPattern count="other">{0} minutes</unitPattern>
 			<unitPattern count="other" alt="short">{0} mins</unitPattern>
 		</unit>
+		<unit type="minute-future">
+			<unitPattern count="one">In {0} minute</unitPattern>
+			<unitPattern count="other">In {0} minutes</unitPattern>
+		</unit>
+		<unit type="minute-past">
+			<unitPattern count="one">{0} minute ago</unitPattern>
+			<unitPattern count="other">{0} minutes ago</unitPattern>
+		</unit>
 		<unit type="month">
 			<unitPattern count="one">{0} month</unitPattern>
 			<unitPattern count="one" alt="short">{0} mth</unitPattern>
 			<unitPattern count="other">{0} months</unitPattern>
 			<unitPattern count="other" alt="short">{0} mths</unitPattern>
+		</unit>
+		<unit type="month-future">
+			<unitPattern count="one">In {0} month</unitPattern>
+			<unitPattern count="other">In {0} months</unitPattern>
+		</unit>
+		<unit type="month-past">
+			<unitPattern count="one">{0} month ago</unitPattern>
+			<unitPattern count="other">{0} months ago</unitPattern>
 		</unit>
 		<unit type="second">
 			<unitPattern count="one">{0} second</unitPattern>
@@ -4428,17 +4556,41 @@
 			<unitPattern count="other">{0} seconds</unitPattern>
 			<unitPattern count="other" alt="short">{0} secs</unitPattern>
 		</unit>
+		<unit type="second-future">
+			<unitPattern count="one">In {0} second</unitPattern>
+			<unitPattern count="other">In {0} seconds</unitPattern>
+		</unit>
+		<unit type="second-past">
+			<unitPattern count="one">{0} second ago</unitPattern>
+			<unitPattern count="other">{0} seconds ago</unitPattern>
+		</unit>
 		<unit type="week">
 			<unitPattern count="one">{0} week</unitPattern>
 			<unitPattern count="one" alt="short">{0} wk</unitPattern>
 			<unitPattern count="other">{0} weeks</unitPattern>
 			<unitPattern count="other" alt="short">{0} wks</unitPattern>
 		</unit>
+		<unit type="week-future">
+			<unitPattern count="one">In {0} week</unitPattern>
+			<unitPattern count="other">In {0} weeks</unitPattern>
+		</unit>
+		<unit type="week-past">
+			<unitPattern count="one">{0} week ago</unitPattern>
+			<unitPattern count="other">{0} weeks ago</unitPattern>
+		</unit>
 		<unit type="year">
 			<unitPattern count="one">{0} year</unitPattern>
 			<unitPattern count="one" alt="short">{0} yr</unitPattern>
 			<unitPattern count="other">{0} years</unitPattern>
 			<unitPattern count="other" alt="short">{0} yrs</unitPattern>
+		</unit>
+		<unit type="year-future">
+			<unitPattern count="one">In {0} year</unitPattern>
+			<unitPattern count="other">In {0} years</unitPattern>
+		</unit>
+		<unit type="year-past">
+			<unitPattern count="one">{0} year ago</unitPattern>
+			<unitPattern count="other">{0} years ago</unitPattern>
 		</unit>
 	</units>
 	<listPatterns>
@@ -4453,18 +4605,5 @@
 			<nostr>no:n</nostr>
 		</messages>
 	</posix>
-	<references>
-		<reference type="R032"/>
-		<reference type="R033"/>
-		<reference type="R034" uri="isbn:0-321-18578-1">The Unicode Standard 4.0</reference>
-		<reference type="R035">Special reference used only to prevent minimalization</reference>
-		<reference type="R036">The Economist Style Guide</reference>
-		<reference type="R037" uri="http://unstats.un.org/unsd/geoinfo/">UN Geographical Names</reference>
-		<reference type="R434" uri="isbn:0-19-571804-6">South African Concise Oxford Dictionary 1999</reference>
-		<reference type="RP1">National Standard of Canada, CAN/CSA-Z234.4-89: All-Numeric Dates and Times. (Reaffirmed 2000-05-25)</reference>
-		<reference type="RP2" uri="http://www.iso.org/iso/en/prods-services/popstds/currencycodeslist.html">ISO 4217</reference>
-		<reference type="RP3" uri="http://www.unicode.org/iso15924/">ISO 15924 Registration Authority</reference>
-		<reference type="RP4" uri="http://fx.sauder.ubc.ca/currency_table.html">University of British Columbia - Currency Table</reference>
-	</references>
 </ldml>
 

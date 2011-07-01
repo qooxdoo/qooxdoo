@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4768 $"/>
-		<generation date="$Date: 2010-02-27 21:22:52 -0600 (Sat, 27 Feb 2010) $"/>
+		<version number="$Revision: 5798 $"/>
+		<generation date="$Date: 2011-05-02 01:05:34 -0500 (Mon, 02 May 2011) $"/>
 		<language type="so"/>
 	</identity>
 	<localeDisplayNames>
@@ -191,7 +191,7 @@
 			<territory type="DJ">Jabuuti</territory>
 			<territory type="DK">Denmark</territory>
 			<territory type="DM">Domeenika</territory>
-			<territory type="DO">Jamhuuriyadda  Domeenika</territory>
+			<territory type="DO">Jamhuuriyadda Domeenika</territory>
 			<territory type="DZ">Aljeeriya</territory>
 			<territory type="EC">Ikuwadoor</territory>
 			<territory type="EE">Estooniya</territory>
@@ -696,7 +696,7 @@
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<symbols>
+		<symbols numberSystem="latn">
 			<decimal>.</decimal>
 			<group>,</group>
 		</symbols>
@@ -741,4 +741,3 @@
 		</messages>
 	</posix>
 </ldml>
-

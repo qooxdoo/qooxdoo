@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4763 $"/>
-		<generation date="$Date: 2010-02-27 01:03:37 -0600 (Sat, 27 Feb 2010) $"/>
+		<version number="$Revision: 5799 $"/>
+		<generation date="$Date: 2011-05-02 01:19:45 -0500 (Mon, 02 May 2011) $"/>
 		<language type="lg"/>
 	</identity>
 	<localeDisplayNames>
@@ -284,8 +284,9 @@
 		</territories>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
+		<exemplarCharacters>[a b c d e f g i j k l m n {ny} ŋ o p r s t u v w y z]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[h q x]</exemplarCharacters>
+		<exemplarCharacters type="index">[A B C D E F G I J K L M N Ŋ O P R S T U V W Y Z]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>'</quotationStart>
@@ -668,6 +669,7 @@
 			</currency>
 			<currency type="UGX">
 				<displayName>Silingi eya Yuganda</displayName>
+				<symbol>USh</symbol>
 			</currency>
 			<currency type="USD">
 				<displayName>Doola ey'Amerika</displayName>

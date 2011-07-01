@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4753 $"/>
-		<generation date="$Date: 2010-02-26 00:32:00 -0600 (Fri, 26 Feb 2010) $"/>
+		<version number="$Revision: 5799 $"/>
+		<generation date="$Date: 2011-05-02 01:19:45 -0500 (Mon, 02 May 2011) $"/>
 		<language type="xog"/>
 	</identity>
 	<localeDisplayNames>
@@ -672,6 +672,7 @@
 			</currency>
 			<currency type="UGX">
 				<displayName>Silingi eya Yuganda</displayName>
+				<symbol>USh</symbol>
 			</currency>
 			<currency type="USD">
 				<displayName>Doola ey'Amerika</displayName>

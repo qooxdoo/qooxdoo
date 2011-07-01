@@ -2,16 +2,11 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4618 $"/>
-		<generation date="$Date: 2010-02-06 09:33:33 -0600 (Sat, 06 Feb 2010) $"/>
+		<version number="$Revision: 5695 $"/>
+		<generation date="$Date: 2011-04-26 13:39:31 -0500 (Tue, 26 Apr 2011) $"/>
 		<language type="ku"/>
 		<script type="Arab"/>
 		<territory type="IR"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="zh" draft="unconfirmed">چینی</language>
-		</languages>
-	</localeDisplayNames>
 </ldml>
 

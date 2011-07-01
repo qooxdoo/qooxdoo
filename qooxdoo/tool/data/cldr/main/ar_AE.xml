@@ -2,8 +2,8 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4753 $"/>
-		<generation date="$Date: 2010-02-26 00:32:00 -0600 (Fri, 26 Feb 2010) $"/>
+		<version number="$Revision: 5829 $"/>
+		<generation date="$Date: 2011-05-04 00:33:24 -0500 (Wed, 04 May 2011) $"/>
 		<language type="ar"/>
 		<territory type="AE"/>
 	</identity>

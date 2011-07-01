@@ -2,22 +2,18 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 4599 $"/>
-		<generation date="$Date: 2010-02-05 18:15:28 -0600 (Fri, 05 Feb 2010) $"/>
+		<version number="$Revision: 5884 $"/>
+		<generation date="$Date: 2011-05-10 15:58:32 -0500 (Tue, 10 May 2011) $"/>
 		<language type="sv"/>
 		<territory type="FI"/>
 	</identity>
 	<localeDisplayNames>
-		<territories>
-			<territory type="UM">USA:s yttre öar</territory>
-		</territories>
 		<variants>
 			<variant type="1996">1996 års stavning</variant>
 		</variants>
 		<types>
 			<type type="big5han" key="collation" draft="unconfirmed">kinesiska i big5-sorteringsordning</type>
 			<type type="gb2312han" key="collation" draft="unconfirmed">kinesiska i gb2312-sorteringsordning</type>
-			<type type="phonebook" key="collation" draft="unconfirmed">telefonkatalogssorteringsordning</type>
 			<type type="pinyin" key="collation" draft="unconfirmed">kinesiska i pinyin-sorteringsordning</type>
 			<type type="stroke" key="collation" draft="unconfirmed">kinesiska i strecksorteringsordning</type>
 			<type type="traditional" key="collation" draft="unconfirmed">traditionell sorteringsordning</type>

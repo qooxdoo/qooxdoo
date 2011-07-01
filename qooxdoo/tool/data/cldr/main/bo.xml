@@ -2,35 +2,59 @@
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 5030 $"/>
-		<generation date="$Date: 2010-08-26 13:08:30 -0500 (Thu, 26 Aug 2010) $"/>
+		<version number="$Revision: 5806 $"/>
+		<generation date="$Date: 2011-05-02 13:42:02 -0500 (Mon, 02 May 2011) $"/>
 		<language type="bo"/>
 	</identity>
 	<localeDisplayNames>
 		<languages>
+			<language type="bn" draft="unconfirmed">བྷང་ག་ལའི་སྐད།</language>
 			<language type="bo">པོད་སྐད་</language>
+			<language type="da" draft="unconfirmed">ཏེན་མག་གི་སྐད།</language>
 			<language type="de" draft="provisional">འཇར་མན་གྱི།</language>
 			<language type="dz">རྫོང་ཁ</language>
-			<language type="en" draft="unconfirmed">ཨིང་ལིཤ་སྐད།</language>
-			<language type="en_CA" draft="unconfirmed">ཨིང་ལིཤ་སྐད། (ཁེ་ན་ཌ་)</language>
-			<language type="en_GB" draft="unconfirmed">ཨིང་ལིཤ་སྐད། (རྦི་རི་ཊིཤ་)</language>
-			<language type="en_US" draft="unconfirmed">ཨིང་ལིཤ་སྐད། (ཨ་རི་)</language>
+			<language type="en" draft="unconfirmed">དབིན་ཇིའི་སྐད།</language>
+			<language type="en_CA" draft="unconfirmed">དབིན་ཇིའི་སྐད། (ཁེ་ན་ཌ་)</language>
+			<language type="en_GB" draft="unconfirmed">དབིན་ཇིའི་སྐད། (དབིན་ཇིའི་རྒྱལ་ཁབ་)</language>
+			<language type="en_US" draft="unconfirmed">དབིན་ཇིའི་སྐད། (ཨ་རི་)</language>
 			<language type="es" draft="provisional">ཞི་པན་ཡའི།</language>
 			<language type="fr" draft="provisional">ཧྥ་རན་སིའི་།</language>
 			<language type="gaa" draft="unconfirmed">གཱ་སྐད།</language>
 			<language type="gu" draft="unconfirmed">གུཇ་རཱཏི་སྐད།</language>
 			<language type="hi">ཧིན་དི</language>
+			<language type="id" draft="unconfirmed">ཨིན་དོ་ནི་སི་སྐད།</language>
 			<language type="it" draft="provisional">དབྱི་ཏ་་ལའི་མི།</language>
 			<language type="ja">རི་པིན་སྐད་</language>
-			<language type="la" draft="unconfirmed">ལེ་ཊིན་སྐད།</language>
+			<language type="kn" draft="unconfirmed">ཀནྣ་ཌ་སྐད།</language>
+			<language type="ko" draft="unconfirmed">ཁོ་རེ་ཡའི་སྐད།</language>
+			<language type="la" draft="unconfirmed">ལཱ་ཏིན་སྐད།</language>
+			<language type="mn" draft="unconfirmed">སོག་སྐད།</language>
+			<language type="mr" draft="unconfirmed">མ་ར་ཐི་སྐད།</language>
+			<language type="ms" draft="unconfirmed">མ་ལ་ཡ་སྐད།</language>
+			<language type="my" draft="unconfirmed">འབར་མའི་སྐད།</language>
 			<language type="ne">ནེ་པ་ལི</language>
+			<language type="nl" draft="unconfirmed">ཧའོ་ལན་སྐད།</language>
+			<language type="nn" draft="unconfirmed">ནོ་ཝེ་སྐད།</language>
+			<language type="or" draft="unconfirmed">ཨཽ་རི་ཡ་སྐད།</language>
+			<language type="pl" draft="unconfirmed">པོ་ལན་སྐད།</language>
 			<language type="pt" draft="provisional">ཕི་ཐོ་ཡའི།</language>
-			<language type="pt_BR" draft="provisional">པ་ཞའི་མི།  ཕི་ཐོ་ཡའི་མི།</language>
+			<language type="pt_BR" draft="provisional">པ་ཞའི་མི། ཕི་ཐོ་ཡའི་མི།</language>
 			<language type="ru">ཨུ་རུ་སུ་སྐད་</language>
+			<language type="sa" draft="unconfirmed">སཾ་སྐྲྀ་ཏ།</language>
+			<language type="si" draft="unconfirmed">ཞི་ལན་སྐད།</language>
+			<language type="sv" draft="unconfirmed">ཧྲུའི་ཏན་སྐད།</language>
+			<language type="ta" draft="unconfirmed">ཏཱ་མིལ་སྐད།</language>
+			<language type="te" draft="unconfirmed">ཏེ་ལུ་གུ་སྐད།</language>
+			<language type="th" draft="unconfirmed">ཐའའི་ཡུལ་སྐད།</language>
+			<language type="tr" draft="unconfirmed">ཐུར་ཁེའི་སྐད།</language>
+			<language type="ug" draft="unconfirmed">ཡུ་གུར་སྐད།</language>
+			<language type="uk" draft="unconfirmed">ཡུ་ཀྲ་ནི་སྐད།</language>
 			<language type="und" draft="provisional">མིའི་ཤེས་རྟོགས་མ་བྱུང་བ། ཡང་ན་ཆད་ལྷག་ཅན་གྱི་སྐད་བརྡ།</language>
+			<language type="ur" draft="unconfirmed">ཝུའུ་ཏུའུ་སྐད།</language>
+			<language type="vi" draft="unconfirmed">ཡོ་ནན་སྐད།</language>
 			<language type="zen" draft="unconfirmed">ཟེ་ན་གཱ་སྐད།</language>
 			<language type="zh">རྒྱ་སྐད་</language>
-			<language type="zh_Hans" draft="provisional">སྟབས་བརྡའི།  ཀྲུང་གོའི།</language>
+			<language type="zh_Hans" draft="provisional">སྟབས་བརྡའི། ཀྲུང་གོའི།</language>
 			<language type="zh_Hant" draft="provisional">སྲོལ་རྒྱུན་གྱི།</language>
 			<language type="zu" draft="unconfirmed">ཟུ་ལུ་སྐད།</language>
 			<language type="zun" draft="unconfirmed">ཟུ་ནི་སྐད།</language>
@@ -39,11 +63,14 @@
 		<scripts>
 			<script type="Arab" draft="provisional">འ་ལ་པོའི་སྐད་ཡིག་།</script>
 			<script type="Cyrl" draft="provisional">གོ་སའི་ལ་ཧྥུ་སྐད་ཡིག་།</script>
+			<script type="Deva" draft="unconfirmed">དེ་བ་ནཱ་ག་རཱི་སྐད་ཡིག</script>
+			<script type="Gujr" draft="unconfirmed">གུཇ་རཱཏི་སྐད།</script>
 			<script type="Hans" draft="provisional">སླ་བསྡུའི་རྒྱའི་སྐད་ཡིག།</script>
 			<script type="Hant" draft="provisional">གནའ་དུས་རྒྱའི་སྐད་ཡིག།</script>
 			<script type="Latn" draft="provisional">ལ་ཏིན་སྐད་ཡིག་།</script>
+			<script type="Mymr" draft="unconfirmed">འབར་མའི་སྐད་ཡིག</script>
 			<script type="Tibt">བོད་ཡིག་</script>
-			<script type="Zxxx" draft="provisional">སྙན་བརྒྱུད།  ཡིག་རིགས་སུ་མ་བཀོད་པའི་ཟིན་ཐོ།་</script>
+			<script type="Zxxx" draft="provisional">སྙན་བརྒྱུད། ཡིག་རིགས་སུ་མ་བཀོད་པའི་ཟིན་ཐོ།་</script>
 			<script type="Zzzz" draft="provisional">མིའི་ཤེས་རྟོགས་མ་བྱུང་བ། ཡང་ན་ཆད་ལྷག་ཅན་གྱི་ཟིན་བྲིས།</script>
 		</scripts>
 		<territories>
@@ -86,6 +113,7 @@
 			<territory type="BY" draft="unconfirmed">བེ་ལུ་རུ་སུ།</territory>
 			<territory type="BZ" draft="unconfirmed">བེ་ལིཛ།</territory>
 			<territory type="CA" draft="unconfirmed">ཁེ་ན་ཌ།</territory>
+			<territory type="CH" draft="unconfirmed">ཧྲུད་ཧྲི།</territory>
 			<territory type="CI" draft="unconfirmed">ཀོ་ཊེ་ཌི། ཨི་ཝོ་རེ།</territory>
 			<territory type="CK" draft="unconfirmed">ཀཱུག གླིང་ཕྲེན་རྒྱལ་ཁབ།</territory>
 			<territory type="CL" draft="unconfirmed">ཅི་ལི།</territory>
@@ -153,7 +181,7 @@
 			<territory type="LB" draft="unconfirmed">ལེབ་ནོན།</territory>
 			<territory type="LC" draft="unconfirmed">སེནྚ། ལུ་ཤི་ཡ།</territory>
 			<territory type="LI" draft="unconfirmed">ལེག་ཏེན་ཚིན།</territory>
-			<territory type="LK" draft="unconfirmed">ཤྲཱི་ལང་ཀ།</territory>
+			<territory type="LK" draft="unconfirmed">ཤྲཱི་ལངྐ་།</territory>
 			<territory type="LR" draft="unconfirmed">ལི་བེ་རི་ཡ།</territory>
 			<territory type="LS" draft="unconfirmed">ལེ་སོ་ཐོ།</territory>
 			<territory type="LT" draft="unconfirmed">ལི་ཐུ་ཨེ་ནི་ཡ།</territory>
@@ -180,7 +208,7 @@
 			<territory type="NE" draft="unconfirmed">ནའི་ཇར།</territory>
 			<territory type="NG" draft="unconfirmed">ནཱའི་ཇི་རི་ཡ།</territory>
 			<territory type="NI" draft="unconfirmed">ནི་ཀ་ར་གུ་ཨ།</territory>
-			<territory type="NL" draft="unconfirmed">ནེ་ཐར་ལནྜ།</territory>
+			<territory type="NL" draft="unconfirmed">ཧའོ་ལན།</territory>
 			<territory type="NO" draft="unconfirmed">ནོར་ཝེ།</territory>
 			<territory type="NP">བར་ཡུལ་</territory>
 			<territory type="NR" draft="unconfirmed">ནཽ་རུ།</territory>
@@ -205,6 +233,7 @@
 			<territory type="SB" draft="unconfirmed">སོ་ལོ་མོན། གླིང་ཕྲན་ཚོ་ཁག།</territory>
 			<territory type="SC" draft="unconfirmed">སཱ་ཤཻལ།</territory>
 			<territory type="SD" draft="unconfirmed">སུ་དཱན།</territory>
+			<territory type="SE" draft="unconfirmed">ཧྲུའི་ཏན།</territory>
 			<territory type="SG" draft="unconfirmed">སིངྒ་པུར།</territory>
 			<territory type="SH" draft="unconfirmed">སེནྚ། ཧེ་ལི་ན།</territory>
 			<territory type="SI" draft="unconfirmed">ས་ལཽ་ཝེ་ནི་ཡ།</territory>
@@ -219,7 +248,7 @@
 			<territory type="TD" draft="unconfirmed">ཅཻཌ།</territory>
 			<territory type="TR" draft="unconfirmed">ཏུརཀི།</territory>
 			<territory type="TV" draft="unconfirmed">ཐུ་ཝ་ལུ།</territory>
-			<territory type="UA" draft="unconfirmed">ཡུ་ཀརེན།</territory>
+			<territory type="UA" draft="unconfirmed">ཡུ་ཀྲན།</territory>
 			<territory type="UG" draft="unconfirmed">ཡུ་གན་ཌ།</territory>
 			<territory type="US">ཨ་མེ་རི་ཀ་</territory>
 			<territory type="UY" draft="unconfirmed">ཨུ་རུ་གྷེ།</territory>
@@ -227,7 +256,7 @@
 			<territory type="VA" draft="unconfirmed">ཝེ་ཊི་ཀན།</territory>
 			<territory type="VC" draft="unconfirmed">སེནྚ། ཝིན་སན། དང༌། གྷིརིན་ཌིན།</territory>
 			<territory type="VE" draft="unconfirmed">ཝེ་ནི་ཛུའེ་ལ།</territory>
-			<territory type="VN" draft="unconfirmed">ཝེད་ནམ།</territory>
+			<territory type="VN" draft="unconfirmed">བི་དི་ནམ།</territory>
 			<territory type="VU" draft="unconfirmed">ཝ་ནུ་ཨ་ཐུ།</territory>
 			<territory type="WS" draft="unconfirmed">ནུ་བ་ས་མོ་འ།</territory>
 			<territory type="YE" draft="unconfirmed">ཡེ་མེན།</territory>
@@ -236,14 +265,18 @@
 			<territory type="ZW" draft="unconfirmed">ཛིམ་བྷཱ་བེ།</territory>
 			<territory type="ZZ">མིའི་ཤེས་རྟོགས་མ་བྱུང་བའི་ཁོར་ཡུག</territory>
 		</territories>
+		<variants>
+			<variant type="PINYIN" draft="unconfirmed">པིན་ཡིན།</variant>
+		</variants>
 		<measurementSystemNames>
 			<measurementSystemName type="US" draft="unconfirmed">ཨ་མེ་རི་ཀའི།</measurementSystemName>
 		</measurementSystemNames>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[\u0F7E ཿ ཀ {ཀ\u0FB5} \u0F90 {\u0F90\u0FB5} ཁ \u0F91 ག {ག\u0FB7} \u0F92 {\u0F92\u0FB7} ང \u0F94 ཅ \u0F95 ཆ \u0F96 ཇ \u0F97 ཉ \u0F99 ཊ \u0F9A ཋ \u0F9B ཌ {ཌ\u0FB7} \u0F9C {\u0F9C\u0FB7} ཎ \u0F9E ཏ \u0F9F ཐ \u0FA0 ད {ད\u0FB7} \u0FA1 {\u0FA1\u0FB7} ན \u0FA3 པ \u0FA4 ཕ \u0FA5 བ {བ\u0FB7} \u0FA6 {\u0FA6\u0FB7} མ \u0FA8 ཙ \u0FA9 ཚ \u0FAA ཛ {ཛ\u0FB7} \u0FAB {\u0FAB\u0FB7} ཝ \u0FAD \u0FBA ཞ \u0FAE ཟ \u0FAF འ \u0FB0 ཡ \u0FB1 \u0FBB ར ཪ \u0FB2 \u0FBC ལ \u0FB3 ཤ \u0FB4 ཥ \u0FB5 ས \u0FB6 ཧ \u0FB7 ཨ \u0FB8 \u0F71 \u0F72 {\u0F71\u0F72} \u0F80 {\u0F71\u0F80} \u0F74 {\u0F71\u0F74} {\u0FB2\u0F80} \u0F77 {\u0FB3\u0F80} \u0F79-\u0F7D \u0F84]</exemplarCharacters>
+		<exemplarCharacters>[\u0F7E ཿ ཀ {ཀ\u0FB5} \u0F90 {\u0F90\u0FB5} ཁ \u0F91 ག {ག\u0FB7} \u0F92 {\u0F92\u0FB7} ང \u0F94 ཅ \u0F95 ཆ \u0F96 ཇ \u0F97 ཉ \u0F99 ཊ \u0F9A ཋ \u0F9B ཌ {ཌ\u0FB7} \u0F9C {\u0F9C\u0FB7} ཎ \u0F9E ཏ \u0F9F ཐ \u0FA0 ད {ད\u0FB7} \u0FA1 {\u0FA1\u0FB7} ན \u0FA3 པ \u0FA4 ཕ \u0FA5 བ {བ\u0FB7} \u0FA6 {\u0FA6\u0FB7} མ \u0FA8 ཙ \u0FA9 ཚ \u0FAA ཛ {ཛ\u0FB7} \u0FAB {\u0FAB\u0FB7} ཝ \u0FAD \u0FBA ཞ \u0FAE ཟ \u0FAF འ \u0FB0 ཡ \u0FB1 \u0FBB ར ཪ \u0FB2 \u0FBC ལ \u0FB3 ཤ \u0FB4 ཥ \u0FB5 ས \u0FB6 ཧ \u0FB7 ཨ \u0FB8 \u0F72 {\u0F71\u0F72} \u0F80 {\u0F71\u0F80} \u0F74 {\u0F71\u0F74} {\u0FB2\u0F80} \u0F77 {\u0FB3\u0F80} \u0F79-\u0F7D \u0F84]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[ༀ]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="contributed">[ཀ ཁ ག ང ཅ ཆ ཇ ཉ ཏ ཐ ད ན པ ཕ བ མ ཙ ཚ ཛ ཝ ཞ ཟ འ ཡ ར ལ ཤ ས ཧ ཨ]</exemplarCharacters>
+		<exemplarCharacters type="punctuation" draft="unconfirmed">[\: ་ །]</exemplarCharacters>
 	</characters>
 	<dates>
 		<calendars>
@@ -291,6 +324,9 @@
 							<day type="fri">སངས་</day>
 							<day type="sat">སྤེན་པ་</day>
 						</dayWidth>
+						<dayWidth type="narrow">
+							<day type="wed" draft="unconfirmed">ཧླག</day>
+						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun">གཟའ་ཉི་མ་</day>
 							<day type="mon">གཟའ་ཟླ་བ་</day>
@@ -302,6 +338,10 @@
 						</dayWidth>
 					</dayContext>
 					<dayContext type="stand-alone">
+						<dayWidth type="abbreviated">
+							<day type="wed" draft="unconfirmed">ལྷག་པ་</day>
+							<day type="fri" draft="unconfirmed">པ་སངས་</day>
+						</dayWidth>
 						<dayWidth type="narrow">
 							<day type="sun">ཉི</day>
 							<day type="mon">ཟླ</day>
@@ -310,6 +350,10 @@
 							<day type="thu">ཕུ</day>
 							<day type="fri">ས</day>
 							<day type="sat">སྤེ</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="wed" draft="unconfirmed">གཟའ་ལྷག་པ་</day>
+							<day type="fri" draft="unconfirmed">གཟའ་པ་སངས་</day>
 						</dayWidth>
 					</dayContext>
 				</days>
@@ -320,6 +364,14 @@
 							<quarter type="2" draft="provisional">དུས་ཚིགས་གཉིས་པ།</quarter>
 							<quarter type="3" draft="provisional">་དུས་ཚིགས་གསུམ་པ།</quarter>
 							<quarter type="4" draft="provisional">དུས་ཚིགས་བཞི་པ།</quarter>
+						</quarterWidth>
+					</quarterContext>
+					<quarterContext type="stand-alone">
+						<quarterWidth type="abbreviated">
+							<quarter type="3" draft="unconfirmed">དུས་ཚིགས་གསུམ་པ།</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="3" draft="unconfirmed">དུས་ཚིགས་གསུམ་པ།</quarter>
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
@@ -349,6 +401,12 @@
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="yMMMd">y ལོ་འི་MMMཙེས་d</dateFormatItem>
+						<dateFormatItem id="yMMMMd">སྦྱི་ལོ་y MMMMའི་ཙེས་dད</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
 				<fields>
 					<field type="era">
 						<displayName draft="provisional">ལོ་རིམ།</displayName>
@@ -374,7 +432,7 @@
 						<displayName draft="provisional">གཟའ་འཁོར་གཅིག</displayName>
 					</field>
 					<field type="dayperiod">
-						<displayName draft="provisional">སྔ་དྲོ།   ཕྱི་དྲོ།</displayName>
+						<displayName draft="provisional">སྔ་དྲོ། ཕྱི་དྲོ།</displayName>
 					</field>
 					<field type="hour">
 						<displayName>ཆུ་ཙོ་</displayName>
@@ -399,7 +457,7 @@
 	</dates>
 	<numbers>
 		<defaultNumberingSystem draft="unconfirmed">tibt</defaultNumberingSystem>
-		<symbols>
+		<symbols numberSystem="latn">
 			<decimal draft="provisional">.</decimal>
 			<group draft="contributed">,</group>
 			<nan>NaN</nan>
@@ -435,6 +493,9 @@
 			<currency type="INR">
 				<displayName>རྒྱ་གར་སྒོར་མོ་</displayName>
 			</currency>
+			<currency type="USD">
+				<displayName draft="unconfirmed">ཨ་རིའི་སྒོར་མོ།</displayName>
+			</currency>
 			<currency type="XXX">
 				<displayName>མ་རྟོགས་པའི་ནུས་མེད་དངུལ་ལོར</displayName>
 			</currency>
@@ -446,10 +507,5 @@
 			<nostr draft="unconfirmed">མེད།:N</nostr>
 		</messages>
 	</posix>
-	<references>
-		<reference type="RP1">チベッと語会話練習帳, 星実千代　大学書林　Tokyo 1897</reference>
-		<reference type="RP2" uri="http://www.ucpress.edu/books/pages/5872.html">Essentials of Modern Literary Tibetan, Goldstein, Gele Rimpoche and Lobsand Phuntshog</reference>
-		<reference type="RP3" uri="urn:isbn:8186627073" draft="unconfirmed">དབྱིན་བོད་ཚིག་མཛོད་གསར་མ།་The New English-Tibetan Dictionary,   Acharya Karma Monlam, Department of Education, CTA, Dharamshala, 2000</reference>
-		<reference type="RP4" draft="unconfirmed">སྒྲ་སྒྱུར་ལག་དེབ། མི་མིང་དངཡུལ་མིང་། Transliteration Manual, Proper Names: Person and Place. Karma Monlam, Department of Education, CTA, Dharamshala, 1998</reference>
-	</references>
 </ldml>
+
