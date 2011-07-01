@@ -37,6 +37,7 @@ qx.Class.define("qx.test.util.PropertyUtil",
 
 
     tearDown : function() {
+      this.base(arguments);
       this.button.destroy();
     },
 
