@@ -149,7 +149,7 @@ qx.Class.define("qx.test.mobile.tabbar.TabBar",
       view2.destroy();
       view3.destroy();
       tabBar.destroy();
-    },
+    }
   }
 
 });
