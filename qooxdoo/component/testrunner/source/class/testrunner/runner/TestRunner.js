@@ -616,7 +616,9 @@ qx.Class.define("testrunner.runner.TestRunner", {
     this.view.removeListener("runTests", this.__runTests, this);
     this.view.removeListener("stopTests", this.__stopTests, this);
     this.removeAllBindings();
-    testrunner.runner.ModelUtil.disposeModel(this.getTestModel());
+    if (this.getTestModel()) {
+      this.getTestModel().dispose();
+    }
     this._disposeArray("testsInView");
     this._disposeArray("testList");
     this._disposeArray("__testParts");
