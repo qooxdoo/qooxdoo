@@ -91,9 +91,11 @@ qx.Class.define("qx.test.mobile.tabbar.TabBar",
       var button1 = new qx.ui.mobile.tabbar.TabButton();
       tabBar.add(button1);
       this.assertEquals(tabBar.getSelection(), button1);
+
       var button2 = new qx.ui.mobile.tabbar.TabButton();
       tabBar.add(button2);
       this.assertEquals(tabBar.getSelection(), button1);
+
       var button3 = new qx.ui.mobile.tabbar.TabButton();
       tabBar.add(button3);
       this.assertEquals(tabBar.getSelection(), button1);
@@ -103,6 +105,10 @@ qx.Class.define("qx.test.mobile.tabbar.TabBar",
 
       tabBar.remove(button2);
       this.assertEquals(tabBar.getSelection(), null);
+
+      this.assertEventFired(tabBar, "changeSelection", function() {
+        tabBar.setSelection(button1);
+      });
 
       button1.destroy();
       button2.destroy();
@@ -132,7 +138,10 @@ qx.Class.define("qx.test.mobile.tabbar.TabBar",
       tabBar.add(button3);
       tabBar.setSelection(button3);
       var view3 = new qx.ui.mobile.basic.Label("3");
-      button3.setView(view3);
+
+      this.assertEventFired(button3, "changeView", function() {
+        button3.setView(view3);
+      });
 
       this.assertFalse(view1.isVisible());
       this.assertTrue(view3.isVisible());
