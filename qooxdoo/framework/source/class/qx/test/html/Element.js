@@ -686,6 +686,8 @@ qx.Class.define("qx.test.html.Element",
        *   - el4_1
        * - el5
        */
+      
+      el4_2.dispose();
     },
 
 
