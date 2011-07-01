@@ -142,7 +142,12 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
 
       EventHandler.__cancelActiveStateTimer();
 
-      EventHandler.__activeTarget = domEvent.getTarget();
+      var target = domEvent.getTarget();
+      while (target && target.parentNode && target.parentNode.nodeType == 1 && qx.bom.element.Attribute.get(target, "data-activatable") != "true") {
+        target = target.parentNode;
+      }
+
+      EventHandler.__activeTarget = target;
       EventHandler.___timer = window.setTimeout(function()
       {
         EventHandler.___timer =  null;
