@@ -21,6 +21,8 @@ qx.Class.define("qx.test.ui.form.TextArea",
 {
   extend : qx.test.ui.LayoutTestCase,
 
+  include : qx.dev.unit.MRequirements,
+
   members :
   {
     __textArea: null,
@@ -29,7 +31,6 @@ qx.Class.define("qx.test.ui.form.TextArea",
     {
       var textArea = this.__textArea = new qx.ui.form.TextArea();
       this.getRoot().add(textArea);
-      this.flush();
     },
 
     //
@@ -181,7 +182,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assertEquals("hidden", overflow);
     },
 
-    "test: textarea with autoSize takes initial value into consideration": function() {
+    "test: textarea with autoSize respects initial value": function() {
       var textArea = this.__textArea;
       textArea.set({
         autoSize: true,
@@ -234,7 +235,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
     "test: textarea with autoSize grows when long line is wrapped": function() {
 
       if (!this.__supportsLiveWrap()) {
-        return;
+        this.skip();
       }
 
       var textArea = this.__textArea;
@@ -284,7 +285,6 @@ qx.Class.define("qx.test.ui.form.TextArea",
     },
 
     __supportsLiveWrap: function() {
-
       // Opera and older versions of IE ignore changes to wrap settings
       // once the textarea is in the DOM
       if (
@@ -292,10 +292,13 @@ qx.Class.define("qx.test.ui.form.TextArea",
         (qx.core.Environment.get("engine.name") == "mshtml" &&
         parseFloat(qx.core.Environment.get("engine.version")) < 8))
       {
-        this.warn("Skipping test");
         return false;
       }
+      return true;
+    },
 
+    skip: function(msg) {
+      throw new qx.dev.unit.RequirementError(null, msg);
     },
 
     tearDown : function()
