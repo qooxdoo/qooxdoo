@@ -54,6 +54,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     this.initDefaultCssClass();
     this.initName();
     this.initAnonymous();
+    this.initActivatable();
   },
 
 
@@ -279,6 +280,14 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       init : "visible",
       apply : "_applyVisibility",
       event : "changeVisibility"
+    },
+
+
+    activatable :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyAttribute"
     }
   },
 
@@ -492,6 +501,15 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         {
           "true" : null,
           "false" : "false"
+        }
+      },
+      "activatable" :
+      {
+        attribute : "data-activatable",
+        values :
+        {
+          "true" :"true",
+          "false" : null
         }
       },
       "readOnly" :
