@@ -193,7 +193,7 @@ qx.Class.define("qx.ui.form.TextArea",
           this.addListenerOnce("appear", function() {
 
             // On init, the area has a scroll-bar – which is later hidden.
-            // Unfortunately, WebKit does not re-wrap text when the scroll-bar
+            // Unfortunately, WebKit does not rewrap text when the scroll-bar
             // disappears. Therefore, hide scroll-bar and force re-wrap in
             // WebKit. Otherwise, the height would be computed based on decreased
             // width due to the scroll-bar in content
@@ -238,6 +238,8 @@ qx.Class.define("qx.ui.form.TextArea",
         // for one line. Since this change appears instantly whereas the queue
         // is computed later, a flicker is visible.
         qx.ui.core.queue.Manager.flush();
+
+        this.__forceRewrap();
       }
     },
 
@@ -250,15 +252,6 @@ qx.Class.define("qx.ui.form.TextArea",
     _getScrolledAreaHeight: function() {
       var clone = this.__getAreaClone();
       var cloneDom = clone.getDomElement();
-
-      // Compute based on current value
-      var value = this.getValue();
-
-      // Force overflow "hidden", required in WebKit
-      cloneDom.style.overflow = "hidden";
-
-      clone.setValue(value);
-      clone.setWrap(this.getWrap(), true);
 
       if (cloneDom) {
 
@@ -276,6 +269,15 @@ qx.Class.define("qx.ui.form.TextArea",
           clone.setWrap(!this.getWrap(), true);
         }
 
+        clone.setWrap(this.getWrap(), true);
+
+        // Reset overflow CSS property implicitly changed by setWrap
+        cloneDom.style.overflow = "hidden";
+
+        // Update value
+        clone.setValue(this.getValue());
+
+        // Recompute
         this.__scrollCloneToBottom(clone);
 
         if (qx.core.Environment.get("engine.name") == "mshtml") {
@@ -306,7 +308,7 @@ qx.Class.define("qx.ui.form.TextArea",
     /**
     * Creates and prepares the area clone.
     *
-    * @return {Element} DOM Element
+    * @return {Element} Element
     */
     __createAreaClone: function() {
       var orig,
@@ -336,7 +338,7 @@ qx.Class.define("qx.ui.form.TextArea",
         top: 0,
         left: -9999,
         height: 0,
-        overflow: "visible"
+        overflow: "hidden"
       }, true);
 
       // Fix attributes
@@ -363,7 +365,7 @@ qx.Class.define("qx.ui.form.TextArea",
     * @param clone {Element} The <code>TextArea</code> to scroll
     */
     __scrollCloneToBottom: function(clone) {
-      var clone = clone.getDomElement();
+      clone = clone.getDomElement();
       if (clone) {
         clone.scrollTop = 10000;
       }
@@ -436,6 +438,32 @@ qx.Class.define("qx.ui.form.TextArea",
 
       if (value === this.getMaxHeight()) {
         this.__autoSize();
+      }
+    },
+
+    /**
+     * Force rewrapping of text.
+     *
+     * The distribution of characters depends on the space available.
+     * Unfortunately, browsers do not reliably (or not at all) rewrap text when
+     * the size of the text area changes.
+     *
+     * This method is called on change of the area's size.
+     */
+    __forceRewrap : function() {
+      var elem = this.getContentElement().getDomElement();
+      if (elem) {
+        var value = qx.bom.Input.getValue(elem);
+        if (value) {
+          // Set empty string
+          qx.bom.Input.setValue(elem, "");
+
+          // Force browser to render
+          qx.bom.element.Dimension.getWidth(elem);
+
+          // Restore original value
+          qx.bom.Input.setValue(elem, value);
+        }
       }
     },
 
