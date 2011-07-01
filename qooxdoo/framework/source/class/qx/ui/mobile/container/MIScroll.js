@@ -122,7 +122,9 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         onBeforeScrollStart : function(e) {
           // QOOXDOO ENHANCEMENT: Do not prevent default for form elements
           var target = e.target;
-          while (target.nodeType != 1) target = target.parentNode;
+          while (target.nodeType != 1) {
+            target = target.parentNode;
+          }
           if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
             e.preventDefault();
           }
