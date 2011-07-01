@@ -29,28 +29,26 @@ qx.Class.define("qx.test.ui.basic.Image",
 
   members :
   {
-    __image : null,
-
-
     testSwitchScaling : function()
     {
-      this.__image = new qx.ui.basic.Image;
-      this.__image.set({ source: "qx/icon/Tango/48/places/folder.png", scale: false });
-      this.getRoot().add(this.__image);
+      var image = new qx.ui.basic.Image;
+      image.set({ source: "qx/icon/Tango/48/places/folder.png", scale: false });
+      this.getRoot().add(image);
       this.flush();
 
-      var tagName = this.__image.getContentElement().getNodeName();
+      var tagName = image.getContentElement().getNodeName();
       this.assertTrue(tagName == "div");
 
-      this.__image.setScale(true);
+      image.setScale(true);
       this.flush();
 
-      var tagNameAfter = this.__image.getContentElement().getNodeName();
+      var tagNameAfter = image.getContentElement().getNodeName();
       if (qx.bom.element.Decoration.isAlphaImageLoaderEnabled()) {
         this.assertTrue(tagNameAfter == "div");
       } else {
         this.assertTrue(tagNameAfter == "img");
       }
+      image.destroy();
     },
 
 
@@ -69,6 +67,8 @@ qx.Class.define("qx.test.ui.basic.Image",
 
       var tagNameAfter = image.getContentElement().getNodeName();
       this.assertTrue(tagNameAfter == "div");
+      
+      image.destroy();
     },
 
 
@@ -91,6 +91,8 @@ qx.Class.define("qx.test.ui.basic.Image",
       } else {
         this.assertTrue(tagNameAfter == "img");
       }
+      
+      image.destroy();
     },
 
 
@@ -110,6 +112,8 @@ qx.Class.define("qx.test.ui.basic.Image",
 
       this.assertEquals(image.getContentElement().getStyle("width"), width);
       this.assertEquals(image.getContentElement().getStyle("height"), height);
+      
+      image.destroy();
     },
 
 
@@ -127,6 +131,8 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.flush();
 
       this.assertEquals(image.getContainerElement().getChild(2), decorator);
+      
+      image.destroy();
     },
 
 
@@ -146,6 +152,8 @@ qx.Class.define("qx.test.ui.basic.Image",
       var selectableAfter = image.getContentElement().getAttribute("qxselectable");
 
       this.assertEquals(selectable, selectableAfter);
+      
+      image.destroy();
     },
 
 
