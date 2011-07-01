@@ -32,7 +32,10 @@ qx.Class.define("qx.test.mobile.basic.Label",
       this.assertEquals(label.getValue(), "affe");
       this.assertEquals(label.getValue(), label.getContentElement().innerHTML);
 
-      label.setValue("");
+      this.assertEventFired(label, "changeValue", function() {
+        label.setValue("");
+      });
+
       this.assertEquals(label.getValue(), "");
       this.assertEquals(label.getValue(), label.getContentElement().innerHTML);
 
