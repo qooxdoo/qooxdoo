@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     selection :
     {
       check : "qx.ui.mobile.tabbar.TabButton",
-      nullable : false,
+      nullable : true,
       init : null,
       apply : "_applySelection",
       event : "changeSelection"
@@ -124,9 +124,11 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
           old.getView().exclude();
         }
       }
-      value.addCssClass("selected");
-      if (value.getView()) {
-        value.getView().show();
+      if (value) {
+        value.addCssClass("selected");
+        if (value.getView()) {
+          value.getView().show();
+        }
       }
     },
 
@@ -167,6 +169,9 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     remove : function(button)
     {
       this._remove(button);
+      if (this.getSelection() == button) {
+        this.setSelection(null);
+      }
       button.removeListener("changeView", this._onChangeView, this);
     }
   },
