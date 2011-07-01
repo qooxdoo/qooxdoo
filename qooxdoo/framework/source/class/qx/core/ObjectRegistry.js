@@ -47,6 +47,9 @@ qx.Class.define("qx.core.ObjectRegistry",
     /** {String} Post id for hash code creation. */
     __postId : "",
 
+    /** {Map} Object hashes to stack traces (for dispose profiling only) */
+    __stackTraces : {},
+
     /**
      * Registers an object into the database. This adds a hashcode
      * to the object (if not already done before) and stores it under
@@ -72,7 +75,7 @@ qx.Class.define("qx.core.ObjectRegistry",
       {
         // Create new hash code
         var cache = this.__freeHashes;
-        if (cache.length > 0) {
+        if (cache.length > 0 && !qx.core.Environment.get("qx.debug.dispose")) {
           hash = cache.pop();
         } else {
           hash = (this.__nextHash++) + this.__postId;
@@ -80,6 +83,12 @@ qx.Class.define("qx.core.ObjectRegistry",
 
         // Store hash code
         obj.$$hash = hash;
+        
+        if (qx.core.Environment.get("qx.debug.dispose") && qx.dev 
+          && qx.dev.Debug && qx.dev.Debug.disposeProfilingActive) 
+        {
+          this.__stackTraces[hash] = qx.dev.StackTrace.getStackTrace();
+        }
       }
 
       if (qx.core.Environment.get("qx.debug"))
@@ -277,6 +286,39 @@ qx.Class.define("qx.core.ObjectRegistry",
      */
     getRegistry : function() {
       return this.__registry;
+    },
+
+
+    /**
+     * Returns the next hash code that will be used
+     * 
+     * @return {Integer} The next hash code
+     * @internal
+     */
+    getNextHash : function() {
+      return this.__nextHash;
+    },
+
+
+    /**
+     * Returns the postfix that identifies the current iframe
+     * 
+     * @return {Integer} The next hash code
+     * @internal
+     */
+    getPostId : function() {
+      return this.__postId;
+    },
+
+
+    /**
+     * Returns the map of stack traces recorded when objects are registered
+     * (for dispose profiling)
+     * @return {Map} Map: object hash codes to stack traces 
+     * @internal
+     */
+    getStackTraces : function() {
+      return this.__stackTraces;
     }
   },
 

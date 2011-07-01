@@ -24,6 +24,12 @@ qx.Class.define("qx.dev.Debug",
 {
   statics :
   {
+    /** 
+     * Flag that shows whether dispose profiling is currently active
+     * @internal
+     */
+    disposeProfilingActive : false,
+
     /**
      * Recursively display an object (as a debug message)
      *
@@ -333,6 +339,97 @@ qx.Class.define("qx.dev.Debug",
         return message;
       }
       return "";
-    }
+    },
+
+
+    /**
+     * Starts a dispose profiling session. Use {@link #stopDisposeProfiling} to
+     * get the results
+     * 
+     * @signature function()
+     */
+    startDisposeProfiling : qx.core.Environment.select("qx.debug.dispose", {
+      "true" : function() {
+        this.disposeProfilingActive = true;
+        this.__nextHashFirst = qx.core.ObjectRegistry.getNextHash();
+      },
+      
+      "default" : qx.lang.Function.empty
+    }),
+
+
+    /**
+     * Returns a list of any (qx) objects that were created but not disposed since 
+     * {@link #startDisposeProfiling} was called. Also returns a stack trace
+     * recorded at the time the object was created.
+     * 
+     * @signature function(checkFunction)
+     * @param checkFunction {Function} Custom check function. It is called once 
+     * for each object that was created after dispose profiling was started, 
+     * with the object as the only parameter. If it returns false, the object 
+     * will not be included in the returned list
+     * @return {Map[]} List of maps. Each map contains two keys: 
+     * <code>object</code> and <code>stackTrace</code>
+     */
+    stopDisposeProfiling : qx.core.Environment.select("qx.debug.dispose", {
+      "true" : function(checkFunction) {
+        if (!this.__nextHashFirst) {
+          qx.log.Logger.error("Call " + this.classname + ".startDisposeProfiling first.");
+          return [];
+        }
+        
+        //qx.core.ObjectRegistry.saveStackTraces = false;
+        this.disposeProfilingActive = false;
+        
+        var undisposedObjects = [];
+        // If destroy calls another destroy, flushing the queue once is not enough
+        while (!qx.ui.core.queue.Dispose.isEmpty()) {
+          qx.ui.core.queue.Dispose.flush();
+        }
+        var nextHashLast = qx.core.ObjectRegistry.getNextHash();
+        var postId = qx.core.ObjectRegistry.getPostId();
+        var traces = qx.core.ObjectRegistry.getStackTraces();
+        for (var hash = this.__nextHashFirst; hash<nextHashLast; hash++) {
+          var obj = qx.core.ObjectRegistry.fromHashCode(hash + postId);
+          if (obj && obj.isDisposed && !obj.isDisposed()) {
+            // User-defined check
+            if (checkFunction && typeof checkFunction == "function" &&
+              !checkFunction(obj)) {
+                continue;
+            }
+            // Singleton instances
+            if (obj.constructor.$$instance === obj) {
+              continue;
+            }
+            // Event handlers
+            if (qx.Class.implementsInterface(obj, qx.event.IEventHandler)) {
+              continue;
+            }
+            // Pooled Decorators
+            if (obj.$$pooled) {
+              continue;
+            }
+            // Dynamic decorators
+            if (qx.Class.implementsInterface(obj, qx.ui.decoration.IDecorator) &&
+              qx.theme.manager.Decoration.getInstance().isCached(obj)) {
+              continue;
+            }
+            // Dynamic fonts
+            if (obj instanceof qx.bom.Font && 
+              qx.theme.manager.Font.getInstance().isDynamic(obj)) {
+              continue;
+            }
+            undisposedObjects.push({
+              object : obj,
+              stackTrace : traces[hash + postId] ? traces[hash + postId] : null
+            });
+          }
+        }
+        delete this.__nextHashFirst;
+        return undisposedObjects;
+      },
+      
+      "default" : qx.lang.Function.empty
+    })
   }
 });

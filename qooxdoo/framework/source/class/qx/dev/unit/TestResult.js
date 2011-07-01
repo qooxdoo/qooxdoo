@@ -154,6 +154,10 @@ qx.Class.define("qx.dev.unit.TestResult",
       }
 
       this.fireDataEvent("startTest", test);
+      
+      if (qx.core.Environment.get("qx.debug.dispose")) {
+        qx.dev.Debug.startDisposeProfiling();
+      }
 
       if (this._timeout[test.getFullName()])
       {
@@ -345,6 +349,22 @@ qx.Class.define("qx.dev.unit.TestResult",
       var specificTearDown = "tearDown" + qx.lang.String.firstUp(test.getName());
       if (testClass[specificTearDown]) {
         testClass[specificTearDown]();
+      }
+      
+      if (qx.core.Environment.get("qx.debug.dispose") 
+        && qx.dev.Debug.disposeProfilingActive)
+      {
+        var testName = test.getFullName();
+        var undisposed = qx.dev.Debug.stopDisposeProfiling();
+        for (var i=0; i<undisposed.length; i++) {
+          var trace;
+          if (undisposed[i].stackTrace) {
+            trace = undisposed[i].stackTrace.join("\n");
+          }
+          window.top.qx.log.Logger.warn("Undisposed object in " + testName + ": "
+          + undisposed[i].object.classname + "[" + undisposed[i].object.toHashCode()
+          + "]" + "\n" + trace);
+        }
       }
     }
   },

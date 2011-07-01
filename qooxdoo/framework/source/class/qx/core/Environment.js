@@ -377,6 +377,10 @@
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
+ *       <td>qx.debug.dispose</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
+ *     <tr>
  *       <td>qx.disposerDebugLevel</td><td><i>Integer</em></td><td><code>0</code></td>
  *       <td><i>default:</i> <code>0</code></td>
  *     </tr>
@@ -686,6 +690,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
       this.add("qx.dynamicmousewheel", function() {return true;});
       this.add("qx.debug.databinding", function() {return false;});
+      this.add("qx.debug.dispose", function() {return false;});
 
       // generator optimization vectors
       this.add("qx.optimization.basecalls", function() {return false;});
