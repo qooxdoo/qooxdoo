@@ -72,6 +72,7 @@ qx.Class.define("qx.ui.mobile.embed.Html",
       check : "String",
       init : null,
       nullable : true,
+      event : "changeHtml",
       apply : "_applyHtml"
     }
   },
