@@ -529,13 +529,15 @@ qx.Class.define("qx.fx.Base",
       this.__state = qx.fx.Base.EffectState.IDLE;
     },
 
+
     /**
-     * Returns whether the effect is in the state 'running'.
+     * Returns whether the effect is active
      * 
-     * @return {Boolean} Whether the effect is running.
+     * @return {Boolean} Whether the effect is active.
      */
-    isRunning : function() {
-      return this.__state === qx.fx.Base.EffectState.RUNNING;
+    isActive : function() {
+      return this.__state === qx.fx.Base.EffectState.RUNNING || 
+             this.__state === qx.fx.Base.EffectState.PREPARING;
     }
   },
 

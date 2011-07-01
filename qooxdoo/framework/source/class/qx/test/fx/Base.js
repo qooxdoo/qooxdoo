@@ -38,18 +38,21 @@ qx.Class.define("qx.test.fx.Base",
       this.__elementToAnimate = null;
     },
 
-    testIsRunning : function()
+
+    testIsActive : function()
     {
       var effect = new qx.fx.effect.core.Fade(this.__elementToAnimate);
 
-      this.assertFalse(effect.isRunning());
+      this.assertFalse(effect.isActive());
 
       effect.start();
+
+      this.assertTrue(effect.isActive());
 
       effect.addListener("setup", function(e) 
       {
         this.resume(function() {
-          this.assertTrue(effect.isRunning());
+          this.assertTrue(effect.isActive());
           effect.end();
         }, this);
       }, this);
