@@ -257,6 +257,7 @@ qx.Class.define("qx.test.Class",
 
       defer.setColor("red");
       this.assertEquals("red", defer.getColor());
+      defer.dispose();
     },
 
 
@@ -299,6 +300,7 @@ qx.Class.define("qx.test.Class",
       var funcName = new qx.FuncName();
       funcName.sayFooBar();
       this.assertNull(qx.dev.Debug.getFunctionName(function() {}));
+      funcName.dispose();
     },
 
 
@@ -469,6 +471,7 @@ qx.Class.define("qx.test.Class",
 
           df.setJuhu("23");
           self.assertEquals("23", df.getJuhu());
+          df.dispose();
         }
       });
 
