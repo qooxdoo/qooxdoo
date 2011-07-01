@@ -7,12 +7,34 @@ This page contains the complete list of configuration keys and their sub-structu
 
 Mandatory keys in a context are marked *'(required)'*, all other keys can be considered optional (most have default values). Special note boxes starting with *'peer-keys'* indicate interactions of the current key with other  configuration keys that should be present in the job for the current key to function properly. E.g. the key :ref:`pages/tool/generator_config_ref#compile` will use the peer-key :ref:`pages/tool/generator_config_ref#cache` in the job definition for its workings. Again, in many cases fall-back defaults will be in place, but relying on them might lead to sub-optimal results.
 
+.. _pages/tool/generator_config_ref#add-css:
+
+add-css
+==========
+
+Add CSS files to the application. Takes a list.
+
+::
+
+  "add-css" :
+  [
+    {
+      "uri" : "<css-uri>"
+    }
+  ]
+
+.. note::
+
+  peer-keys: :ref:`pages/tool/generator_config_ref#compile`
+
+* **uri** *(required)* : URI with which the css file will be loaded, relative to the index.html.
+
 .. _pages/tool/generator_config_ref#add-script:
 
 add-script
 ==========
 
-Add a pre-fabricated JS file to the application. Takes a list.
+Add pre-fabricated JS files to the application. Takes a list.
 
 ::
 
