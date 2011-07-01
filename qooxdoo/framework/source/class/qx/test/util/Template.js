@@ -29,6 +29,7 @@ qx.Class.define("qx.test.util.Template",
       var template = new qx.util.Template();
       template.setContent("Hello {name}");
       this.assertEquals("Hello Jonny", template.run({ name : "Jonny" }));
+      template.dispose();
     }
   }
 });
