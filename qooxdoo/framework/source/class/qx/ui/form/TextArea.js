@@ -268,6 +268,14 @@ qx.Class.define("qx.ui.form.TextArea",
           return this._getScrolledAreaHeight();
         }
 
+        // In WebKit, "wrap" must have been "soft" on DOM level before setting
+        // "off" can disable wrapping. To fix, make sure wrap is toggled.
+        // Otherwise, the height of an auto-size text area with wrapping
+        // disabled initially is incorrectly computed as if wrapping was enabled.
+        if (qx.core.Environment.get("engine.name") === "webkit") {
+          clone.setWrap(!this.getWrap(), true);
+        }
+
         this.__scrollCloneToBottom(clone);
 
         if (qx.core.Environment.get("engine.name") == "mshtml") {

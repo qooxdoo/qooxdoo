@@ -206,10 +206,34 @@ qx.Class.define("qx.test.ui.form.TextArea",
       textAreaNoValue.destroy();
     },
 
-    "test: textarea with autoSize shrinks when long line is unwrapped": function() {
+    "test: textarea with autoSize respects initial wrap": function() {
+      var textArea = this.__textArea;
+      textArea.set({
+        autoSize: true,
+        wrap: false,
+        minimalLineHeight: 2,
+        value: this.__getLongValue()
+      });
 
+      // No wrap
+      this.flush();
+      var heightInitial = textArea.getBounds().height;
+
+      // Wrap
+      textArea.setWrap(true);
+      this.flush();
+
+      // No wrap
+      textArea.setWrap(false);
+      this.flush();
+      var heightFinal = textArea.getBounds().height;
+
+      this.assertEquals(heightInitial, heightFinal);
+    },
+
+    "test: textarea with autoSize shrinks when long line is unwrapped": function() {
       if (!this.__supportsLiveWrap()) {
-        return;
+        this.skip();
       }
 
       var textArea = this.__textArea;
