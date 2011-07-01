@@ -30,7 +30,6 @@ from ecmascript.transform.optimizer  import privateoptimizer
 from misc.ExtMap                     import ExtMap
 from generator.code.Class            import Class, CompileOptions
 from generator.code.DependencyLoader import DependencyLoader
-from generator.code.ClassList        import ClassList
 from generator.code.PartBuilder      import PartBuilder
 from generator.code.Script           import Script
 from generator.code.Package          import Package

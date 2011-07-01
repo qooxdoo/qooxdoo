@@ -103,12 +103,12 @@ class DependencyLoader(object):
         result = resolveDepsSmartCludes()
         result = processExplicitCludes(result, includeNoDeps, excludeWithDeps) # using excludeWithDeps here as well
         # Sort classes
-        self._console.info("Sorting %s classes " % len(result), False)
+        #self._console.info("Sorting %s classes " % len(result), False)
         #if  self._jobconf.get("dependencies/sort-topological", False):
         #    result = self.sortClassesTopological(result, variants)
         #else:
-        result = self.sortClasses(result, variants, buildType)
-        self._console.nl()
+        #result = self.sortClasses(result, variants, buildType)
+        #self._console.nl()
 
         if self._console.getLevel() == "debug":
             self._console.indent()
@@ -287,11 +287,11 @@ class DependencyLoader(object):
                 for item in includeWithDeps:
                     depsItem = DependencyItem(item, '', '|config|')
                     # calculate dependencies and add required classes
-                    #classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
-                    classlistFromClassIterative(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
+                    classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
+                    #classlistFromClassIterative(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
 
                 self._console.dotclear()
-                print len(result),"  ",
+                #print len(result),"  ",
 
                 # process qx.core.Environment
                 if ("qx.core.Environment" in resultNames 
