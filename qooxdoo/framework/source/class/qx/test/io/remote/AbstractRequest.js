@@ -69,7 +69,7 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
     },
 
     tearDown : function() {
-      this._disposeArray("__request");
+      this._disposeArray("_requests");
     },
 
 
