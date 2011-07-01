@@ -1151,8 +1151,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       }
       else if(value == "visible")
       {
-        this._setStyle("display", null);
-        this._setStyle("visibility", null);
+        this._setStyle("display", "block");
+        this._setStyle("visibility", "visible");
       }
       else if (value == "hidden") {
         this._setStyle("visibility", "hidden");
