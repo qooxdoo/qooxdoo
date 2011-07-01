@@ -98,11 +98,6 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
     {
       this.__itemRenderer.reset();
       this._configureItem(data, row);
-      var selectable = this.__itemRenderer.getSelectable();
-      var children = this.__itemRenderer.getChildren();
-      for (var i = 0, length=children.length; i < length; i++) {
-        children[i].setAnonymous(selectable);
-      }
       // Clone the element and all it's events
       return qx.bom.Element.clone(this.__itemRenderer.getContainerElement(), true);
     },

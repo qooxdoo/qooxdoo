@@ -176,12 +176,15 @@ qx.Class.define("qx.ui.mobile.list.List",
      */
     _onTap : function(evt)
     {
-      var originalTarget = evt.getOriginalTarget();
+      var element = evt.getOriginalTarget();
       var index = -1;
-      if (qx.bom.element.Attribute.get(originalTarget, "data-selectable") != "false"
-          && qx.dom.Element.hasChild(this.getContainerElement(), originalTarget))
+      while (element.tagName != "LI") {
+        element = element.parentNode;
+      }
+      if (qx.bom.element.Attribute.get(element, "data-selectable") != "false"
+          && qx.dom.Element.hasChild(this.getContainerElement(), element))
       {
-        index = qx.dom.Hierarchy.getElementIndex(originalTarget);
+        index = qx.dom.Hierarchy.getElementIndex(element);
       }
       if (index != -1) {
         this.fireDataEvent("changeSelection", index);

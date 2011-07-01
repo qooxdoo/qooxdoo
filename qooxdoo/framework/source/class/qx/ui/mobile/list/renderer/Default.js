@@ -155,6 +155,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
       }));
 
       this.__image = new qx.ui.mobile.basic.Image();
+      this.__image.setAnonymous(true);
       this.__image.addCssClass("list-itemimage");
 
       container.add(this.__image);
