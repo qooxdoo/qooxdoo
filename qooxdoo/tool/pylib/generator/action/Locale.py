@@ -170,7 +170,7 @@ class Locale(object):
                 classList.append(classId)
                     
         self._console.debug("Compiling filter...")
-        pot = self.getPotFile(classList)
+        pot = self.getPotFile(classList)  # pot: source code => POFile object
         pot.sort()
 
         allLocales = self._translation[namespace]
@@ -195,7 +195,7 @@ class Locale(object):
             self._console.indent()
 
             entry = allLocales[locale]
-            po = polib.pofile(entry["path"])
+            po = polib.pofile(entry["path"])  # po: .po file from disk
             po.merge(pot)
             po.sort()
             self._console.debug("Percent translated: %d" % (po.percent_translated(),))
