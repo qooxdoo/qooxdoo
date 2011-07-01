@@ -123,6 +123,9 @@ class CodeGenerator(object):
             # Add potential extra scripts
             vals["UrisBefore"] = loaderUrisBefore(script, compConf)
 
+            # Add potential extra css
+            vals["CssBefore"] = loaderCssBefore(script, compConf)
+
             # Whether boot package is inline
             vals["BootIsInline"] = loaderBootInline(script, compConf)
                 
@@ -277,6 +280,14 @@ class CodeGenerator(object):
             for additional_script in additional_scripts:
                 urisBefore.append(additional_script["uri"])
             return json.dumpsCode(urisBefore)
+
+
+        def loaderCssBefore(script, compConf):
+            cssBefore = []
+            additional_csses = self._job.get("add-css",[])
+            for additional_css in additional_csses:
+                cssBefore.append(additional_css["uri"])
+            return json.dumpsCode(cssBefore)
 
 
         def loaderPartsList(script, compConf):

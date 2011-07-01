@@ -21,6 +21,7 @@ qx.$$loader = {
   parts : %{Parts},
   packages : %{Packages},
   urisBefore : %{UrisBefore},
+  cssBefore : %{CssBefore},
   boot : %{Boot},
   closureParts : %{ClosureParts},
   bootIsInline : %{BootIsInline},
@@ -54,14 +55,21 @@ function loadScript(uri, callback) {
   var elem = document.createElement("script");
   elem.charset = "utf-8";
   elem.src = uri;
-  elem.onreadystatechange = elem.onload = function()
-  {
-    if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")
-    {
+  elem.onreadystatechange = elem.onload = function() {
+    if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
       elem.onreadystatechange = elem.onload = null;
       callback();
     }
   };
+  var head = document.getElementsByTagName("head")[0];
+  head.appendChild(elem);
+}
+
+function loadCss(uri) {
+  var elem = document.createElement("link");
+  elem.rel = "stylesheet";
+  elem.type= "text/css";
+  elem.href= uri;
   var head = document.getElementsByTagName("head")[0];
   head.appendChild(elem);
 }
@@ -73,11 +81,10 @@ function loadScriptList(list, callback) {
     callback();
     return;
   }
-  loadScript(list.shift(), function() {
+  var item = list.shift();
+  loadScript(item,  function() {
     if (isWebkit) {
-      // force asynchronous load
-      // Safari fails with an "maximum recursion depth exceeded" error if it is
-      // called sync.      
+      // force async, else Safari fails with a "maximum recursion depth exceeded"
       window.setTimeout(function() {
         loadScriptList(list, callback);
       }, 0);
@@ -134,8 +141,14 @@ qx.$$loader.signalStartup = function ()
   }
 }
 
+// Load all stuff
 qx.$$loader.init = function(){
   var l=qx.$$loader;
+  if (l.cssBefore.length>0) {
+    for (var i=0, m=l.cssBefore.length; i<m; i++) {
+      loadCss(l.cssBefore[i]);
+    }
+  }
   if (l.urisBefore.length>0){
     loadScriptList(l.urisBefore, function(){
       l.initUris();
@@ -145,6 +158,7 @@ qx.$$loader.init = function(){
   }
 }
 
+// Load qooxdoo boot stuff
 qx.$$loader.initUris = function(){
   var l=qx.$$loader;
   var bootPackageHash=l.parts[l.boot][0];
