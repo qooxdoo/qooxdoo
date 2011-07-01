@@ -927,7 +927,7 @@ qx.Class.define("qx.test.util.DateFormat",
     dfFR.setLocale('de_DE');
     this.assertEquals(dfFR.format(d),dfDE.format(d));
 
-    dfFR.resetLocale(frenchFormatteddateString,dfFR.format(d));
+    dfFR.resetLocale();
 
   }
 
