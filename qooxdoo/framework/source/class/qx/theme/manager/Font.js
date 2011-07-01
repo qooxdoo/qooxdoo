@@ -186,5 +186,16 @@ qx.Class.define("qx.theme.manager.Font",
       }
       this._setDynamic(dest);
     }
+  },
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeMap("_dynamic");
   }
 });
