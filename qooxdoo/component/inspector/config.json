@@ -41,6 +41,14 @@
       {
         "qx.nativeScrollBars" : true
       }
+    },
+
+    "source" :
+    {
+      "environment" :
+      {
+        "inspector.selenium.extensions" : false
+      }
     }
   }
 }

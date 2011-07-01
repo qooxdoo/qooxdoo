@@ -83,7 +83,8 @@
       {
         "paths"  :
         {
-          "file" : "${INSPECTOR_PATH}/script/inspector.js"
+          "file" : "${INSPECTOR_PATH}/script/inspector.js",
+          "app-root" : "${INSPECTOR_PATH}"
         },
         "uris"   :
         {
@@ -94,7 +95,8 @@
         {
           "format"   : true,
           "locales"  : "${LOCALES}",
-          "optimize" : "${OPTIMIZE}"
+          "optimize" : "${OPTIMIZE}",
+          "except"   : []
         }
       },
       
@@ -169,14 +171,6 @@
       "environment" :
       {
         "inspector.selenium.extensions" : "script/user-extensions.js"
-      }
-    },
-    
-    "source" :
-    {
-      "environment" :
-      {
-        "inspector.selenium.extensions" : false
       }
     }
   }

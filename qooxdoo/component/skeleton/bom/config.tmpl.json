@@ -64,7 +64,8 @@
         "code" :
         {
           "format"   : true,
-          "optimize" : [ "variables", "basecalls", "privates", "strings" ]
+          "optimize" : [ "variables", "basecalls", "privates", "strings" ],
+          "except"   : []
         }
       },
       
