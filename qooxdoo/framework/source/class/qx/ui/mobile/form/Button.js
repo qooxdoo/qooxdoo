@@ -68,10 +68,19 @@ qx.Class.define("qx.ui.mobile.form.Button",
     },
 
 
+    // overridden
     wrap :
     {
       refine : true,
       init : false
+    },
+
+
+    // overridden
+    activatable :
+    {
+      refine :true,
+      init : true
     }
   }
 });
