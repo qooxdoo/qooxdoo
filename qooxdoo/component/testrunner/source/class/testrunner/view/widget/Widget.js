@@ -1254,7 +1254,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
     this._disposeObjects(
     "__iframe",
     "__overflowMenu",
-    "__menuItemStore",
     "__labelDeco",
     "__logElement",
     "__testTree",
@@ -1269,5 +1268,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
     "__loadingContainer",
     "__stack",
     "__app");
+    
+    this._disposeMap("__menuItemStore");
   }
 });
