@@ -270,15 +270,18 @@ qx.Class.define("qx.test.Mixin",
 
       var o = new qx.Patch1();
       this.assertEquals("Juhu Kinners", o.sayJuhu());
+      o.dispose();
 
       var o = new qx.Patch2();
       this.assertEquals("Huhu Kinners", o.sayJuhu());
+      o.dispose();
 
 
       // very special case with recursive calls from different classes to
       // the mixin member
       var o = new qx.Patch1();
       this.assertEquals("++bar__foo", o.foo());
+      o.dispose();
     }
   }
 });
