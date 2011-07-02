@@ -388,9 +388,21 @@ qx.Class.define("qx.io.remote.Rpc",
     {
       check : "Boolean",
       nullable : true
+    },
+    
+    /** 
+     * Whether to use the original qooxdoo RPC protocol or the
+     * now-standardized Version 2 protocol.  Defaults to the original qooxdoo
+     * protocol for backward compatibility.
+     * 
+     * Valid values are "qx1" and "2.0".
+     */
+    protocol :
+    {
+      init : "qx1", 
+      check : function(val) { return val == "qx1" || val == "2.0"; }
     }
   },
-
 
 
 
@@ -446,19 +458,49 @@ qx.Class.define("qx.io.remote.Rpc",
      */
     createRpcData: function(id, method, parameters, serverData)
     {
-      // Create the rpc data object
-      var requestObject =
-        {
-          "service" : method == "refreshSession" ? null : this.getServiceName(),
-    "method"  : method,
-    "id"      : id,
-    "params"  : parameters
-        };
-
-      // Only add the server_data member if there is actually server data
-      if (serverData)
+      var             requestObject;
+      var             service;
+      
+      // Create a protocol-dependent request object
+      if (this.getProtocol() == "qx1")
       {
-        requestObject.server_data = serverData;
+        // Create a qooxdoo-modified version 1.0 rpc data object
+        requestObject =
+          {
+            "service" :
+              method == "refreshSession" ? null : this.getServiceName(),
+            "method"  : method,
+            "id"      : id,
+            "params"  : parameters
+          };
+
+        // Only add the server_data member if there is actually server data
+        if (serverData)
+        {
+          requestObject.server_data = serverData;
+        }
+      }
+      else
+      {
+        // If there's a service name, we'll prepend it to the method name
+        service = this.getServiceName();
+        if (service && service != "")
+        {
+          service += ".";
+        }
+        else
+        {
+          service = "";
+        }
+        
+        // Create a standard version 2.0 rpc data object
+        requestObject =
+          {
+            "jsonrpc" : "2.0",
+            "method"  : service + method,
+            "id"      : id,
+            "params" : parameters
+          };
       }
 
       return requestObject;
@@ -492,6 +534,7 @@ qx.Class.define("qx.io.remote.Rpc",
       var handler = args[0];
       var argsArray = [];
       var eventTarget = this;
+      var protocol = this.getProtocol();
 
       for (var i=offset+1; i<args.length; ++i)
       {
@@ -563,34 +606,55 @@ qx.Class.define("qx.io.remote.Rpc",
 
       var addToStringToObject = function(obj)
       {
-        obj.toString = function()
+        if (protocol == "qx1")
         {
-          switch(obj.origin)
+          obj.toString = function()
           {
-            case qx.io.remote.Rpc.origin.server:
-              return "Server error " + obj.code + ": " + obj.message;
+            switch(obj.origin)
+            {
+              case qx.io.remote.Rpc.origin.server:
+                return "Server error " + obj.code + ": " + obj.message;
 
-            case qx.io.remote.Rpc.origin.application:
-              return "Application error " + obj.code + ": " + obj.message;
+              case qx.io.remote.Rpc.origin.application:
+                return "Application error " + obj.code + ": " + obj.message;
 
-            case qx.io.remote.Rpc.origin.transport:
-              return "Transport error " + obj.code + ": " + obj.message;
+              case qx.io.remote.Rpc.origin.transport:
+                return "Transport error " + obj.code + ": " + obj.message;
 
-            case qx.io.remote.Rpc.origin.local:
-              return "Local error " + obj.code + ": " + obj.message;
+              case qx.io.remote.Rpc.origin.local:
+                return "Local error " + obj.code + ": " + obj.message;
 
-            default:
-              return ("UNEXPECTED origin " + obj.origin +
-                      " error " + obj.code + ": " + obj.message);
-          }
-        };
+              default:
+                return ("UNEXPECTED origin " + obj.origin +
+                        " error " + obj.code + ": " + obj.message);
+            }
+          };
+        }
+        else // protocol == "2.0"
+        {
+          obj.toString = function()
+          {
+            var             ret;
+
+            ret =  "Error " + obj.code + ": " + obj.message;
+            if (obj.data)
+            {
+              ret += " (" + obj.data + ")";
+            }
+            
+            return ret;
+          };
+        }
       };
 
       var makeException = function(origin, code, message)
       {
         var ex = new Object();
 
-        ex.origin = origin;
+        if (protocol == "qx1")
+        {
+          ex.origin = origin;
+        }
         ex.code = code;
         ex.message = message;
         addToStringToObject(ex);
