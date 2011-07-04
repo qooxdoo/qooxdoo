@@ -11,10 +11,7 @@ The qooxdoo Test Runner
 
 Test Runner provides a convenient interface to test classes that have been written to that end. You can run single tests, or run a whole suite of them at once.
 
-.. image:: /pages/_static/testrunner.png
-   :width: 270 px
-   :height: 203 px
-   :target: ../../_images/testrunner.png
+.. image:: /pages/development/testrunner_widget.png
 
 .. note::
 
@@ -126,3 +123,50 @@ Create the Test Application
 
   After that, you just reload the backend application by hitting the reload button to the right to see and test your changes in the Test Runner.
 * If you're working on an application based on qx.application.Native or qx.application.Inline (e.g. by starting with an Inline skeleton), you can run ``generate.py test-native`` or ``generate.py test-inline`` to create a test application of the same type as your actual application. The Test Runner's index file will be called ``index-native.html`` or ``index-inline.html``, respectively.
+
+Testrunner Views
+----------------
+
+The Testrunner architecture is split between the logic that executes tests and the view that displays the results and allows the user to select which tests to run. 
+Views are selected by overriding the ``TESTRUNNER_VIEW`` configuration macro, specifying the desired view class. For example, to build the Test Runner using the HTML view, use the following shell command:
+
+::
+
+  ./generate.py test -m TESTRUNNER_VIEW:testrunner.view.Console
+ 
+Several views are included with the Test Runner:
+
+Widget
+^^^^^^
+
+This is the default view used for the GUI, Native and Inline skeletons' `test` and `test-source` jobs. It is the most fully-featured and convenient to use, making heavy use of data binding to list available tests in a Virtual Tree and to visualize the results. The downside is that can it feel sluggish in environments with poor JavaScript performance.
+
+HTML
+^^^^
+
+.. image:: /pages/development/testrunner_html.png
+
+As the name indicates, this view uses plain (D)HTML instead of qooxdoo's UI layer. It is intended for usage scenarios where speed is more important than good looks.
+
+Console
+^^^^^^^
+
+.. image:: /pages/development/testrunner_console.png
+
+Even more bare-bones than the HTML view, the Console view features no visual elements other than the Iframe containing the test application. Tests are started using the browser's JavaScript console. This is mostly intended as a base for specialized views.
+
+Performance
+^^^^^^^^^^^
+
+.. image:: /pages/development/testrunner_performance.png
+
+This view visualizes the results of performance tests using the `qx.test.performance.MMeasure <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.test.performance.MMeasure>`_ mixin. Take a look at the tests in the qx.test.performance namespace to see how you can implement performance tests measuring JavaScript execution and HTML rendering time for your application.
+
+Reporter
+^^^^^^^^
+
+The Reporter is a specialized view used for automated unit test runs. Based on the Console view, it features (almost) no GUI. The test suite is automatically started as soon as it's ready. A method that returns a map of failed tests is its only means of interaction:
+
+::
+
+  qx.core.Init.getApplication().runner.view.getFailedResults()
