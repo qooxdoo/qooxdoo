@@ -107,7 +107,7 @@ The request’s response can be bound to a widget, model or any other object usi
 Debugging
 =========
 
-If you encounter odd behavior, it might help to enable debugging of the IO classes. Debugging is controlled with the <code>qx.debug.io</code> setting. Provided you have allowed URL settings (<code>allowUrlSetting</code>), you can simply append <code>?qxenv:qx.debug.io:true</code> to the URL of your application.
+If you encounter odd behavior, it might help to enable debugging of the IO classes. Debugging is controlled with the ``qx.debug.io`` setting. Provided you have allowed URL settings (``allowUrlSetting``), you can simply append ``?qxenv:qx.debug.io:true`` to the URL of your application.
 
 Specific to XHR
 ===============
