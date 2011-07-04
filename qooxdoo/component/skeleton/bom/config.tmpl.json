@@ -13,6 +13,11 @@
   {
     "build" :
     {
+      "config-warnings" : 
+      { 
+        "exclude" : false 
+      },
+ 
       "library" :
       [
         {

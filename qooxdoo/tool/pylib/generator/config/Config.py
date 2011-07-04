@@ -750,8 +750,9 @@ class Config(object):
             return p
 
 
+    ##
+    # iterator for keys matching keyPatt; yields key (mode=="rel") or key path (mode=="abs")
     def findKey(self, keyPatt, mode):
-        '''iterator for keys matching keyPatt; yields key (mode=="rel") or key path (mode=="abs")'''
         if mode not in ("rel", "abs"):
             raise ValueError("mode must be one of (rel|abs)")
         keyRegex = re.compile(keyPatt)

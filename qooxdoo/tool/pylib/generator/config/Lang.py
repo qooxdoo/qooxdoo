@@ -58,6 +58,7 @@ class Key(object):
                 "combine-images": types.DictType,
                 "compile"       : types.DictType,
                 "compile-options"  : types.DictType,
+                "config-warnings"  : types.DictType,
                 "copy-files"    : types.DictType,
                 "copy-resources"   : types.DictType,
                 "dependencies"  : types.DictType,

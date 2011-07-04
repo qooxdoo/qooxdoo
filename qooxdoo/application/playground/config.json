@@ -24,6 +24,10 @@
     // this one so that source, build-script and build-resources use common settings
     "playground-compile" :
     {
+      "config-warnings" : 
+      { 
+        "exclude" : false 
+      },
       "include" :     
       [
         "${APPLICATION}.*",

@@ -302,6 +302,26 @@ Possible keys are
   * **decode-uris-plug** : path to a file containing JS code, which will be plugged into the loader script, into the ``qx.$$loader.decodeUris()`` method. This allows you to post-process script URIs, e.g. through pattern matching. The current produced script URI is available and can be modified in the variable ``euri``.
   * **except** : (*hybrid*) exclude the classes specified in the class pattern list from compilation when creating a :ref:`hybrid <pages/tool/generator_config_ref#compile>` version of the application
 
+
+.. _pages/tool/generator_config_ref#config-warnings:
+
+config-warnings
+===============
+
+Taylor configuration warnings. Takes a map.
+
+::
+
+  "config-warnings" :
+  {
+    "<config_key>" : (true|false)
+  }
+
+Turn off warnings printed by the generator to the console for specific configuration keys. If a given key is not used in the current job, it is ignored. Each key has to be a legal configuration key name (such as "let", "excludes", "packages",...). To turn off **all** warnings (independent of settings given in this key) use the generator ``-q`` :ref:`command line option <pages/tool/generator_usage#command-line_options>`.
+
+* **<config_key>** : whether warnings are printed for this configuration key (default: *true*)
+
+
 .. _pages/tool/generator_config_ref#copy-files:
 
 copy-files
@@ -1027,10 +1047,12 @@ Triggers cutting images into regions. Takes a map.
   peer-keys: :ref:`pages/tool/generator_config_ref#cache`
 
 * **images** : map with slice entries.
-* <input_image> :  path to input file for the slicing; may be relative to config file location
-* **prefix** *(required)* : file name prefix used for the output files; will be interpreted relative to the input file location (so a plain name will result in output files in the same directory, but you can also navigate away with ``../../....`` etc.)
-* **border-width** : pixel width to cut into original image when slicing borders etc. Takes either a single integer (common border width for all sides) or an array of four integers (top, right, bottom, left).
-* **trim-width** : reduce the width of the center slice to no more than 20 pixels. (default: *true*) 
+
+  * **<input_image>** :  path to input file for the slicing; may be relative to config file location
+
+    * **prefix** *(required)* : file name prefix used for the output files; will be interpreted relative to the input file location (so a plain name will result in output files in the same directory, but you can also navigate away with ``../../....`` etc.)
+    * **border-width** : pixel width to cut into original image when slicing borders etc. Takes either a single integer (common border width for all sides) or an array of four integers (top, right, bottom, left).
+    * **trim-width** : reduce the width of the center slice to no more than 20 pixels. (default: *true*) 
 
 .. _pages/tool/generator_config_ref#translate:
 
@@ -1074,6 +1096,5 @@ Define prerequisite classes needed at run time. Takes a map.
 
 Each key is a 
 
-* <class_name> : each value is an array of used classes of this class.
-
+* **<class_name>** : each value is an array of used classes of this class.
 

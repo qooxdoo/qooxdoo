@@ -295,7 +295,8 @@ class Generator(object):
             if len(excludeCfg) == 0:
                 return [], []
             else:
-                self._console.warn("Excludes may break code (%r)" % excludeCfg)
+                if self._job.get("config-warnings/exclude", True):
+                    self._console.warn("Excludes may break code (%r)" % excludeCfg)
 
             # Splitting lists
             self._console.debug("Preparing exclude configuration...")
@@ -305,7 +306,8 @@ class Generator(object):
             self._console.indent()
 
             if len(excludeNoDeps) > 0:
-                self._console.warn("Excluding without dependencies is not supported, treating them as normal excludes: %r" % excludeNoDeps)
+                if self._job.get("config-warnings/exclude", True):
+                    self._console.warn("Excluding without dependencies is not supported, treating them as normal excludes: %r" % excludeNoDeps)
                 excludeWithDeps.extend(excludeNoDeps)
                 excludeNoDeps = []
             self._console.debug("Excluding %s items smart, %s items explicit" % (len(excludeWithDeps), len(excludeNoDeps)))
@@ -321,7 +323,8 @@ class Generator(object):
                     expanded = self._expandRegExp(entry)
                     nexcludeWithDeps.extend(expanded)
                 except RuntimeError:
-                    self._console.warn("Skipping unresolvable exclude entry: \"%s\"" % entry)
+                    if self._job.get("config-warnings/exclude", True):
+                        self._console.warn("Skipping unresolvable exclude entry: \"%s\"" % entry)
             excludeWithDeps = nexcludeWithDeps
 
             self._console.outdent()
@@ -344,7 +347,8 @@ class Generator(object):
                 self._console.debug("Including %s items smart, %s items explicit" % (len(includeWithDeps), len(includeNoDeps)))
 
                 if len(includeNoDeps) > 0:
-                    self._console.warn("Explicitly included classes may not work")  # ?!
+                    if self._job.get("config-warnings/include", True):
+                        self._console.warn("Explicitly included classes may not work")  # ?!
 
                 # Resolve regexps
                 self._console.debug("Expanding expressions...")
@@ -1414,7 +1418,8 @@ class Generator(object):
         def extractFromPrefixSpec(prefixSpec):
             prefix = altprefix = ""
             if not prefixSpec or not isinstance(prefixSpec, types.ListType):
-                self._console.warn("Missing or incorrect prefix spec, might lead to incorrect resource id's.")
+                if self._job.get("config-warnings/combine-images", True):
+                    self._console.warn("Missing or incorrect prefix spec, might lead to incorrect resource id's.")
             elif len(prefixSpec) == 2 :  # prefixSpec = [ prefix, altprefix ]
                 prefix, altprefix = prefixSpec
             elif len(prefixSpec) == 1:
@@ -1610,20 +1615,10 @@ class Generator(object):
 
     def runMigration(self, libs):
         
-        def checkConfigFiles():
-            keyset = set(self._config.findKey(r'compile-dist|compile-source', "rel"))
-            for key in keyset:
-                self._console.warn("! DeprecationWarning: You are using deprecated config key '%s'" % key)
-            return
-
         if not self._job.get('migrate-files', False):
             return
 
-        self._console.info("Checking configuration files...")
-        self._console.indent()
-        checkConfigFiles()
-        self._console.outdent()
-
+        self._console.info("Please heed the warnings from the configuration file parsing")
         self._console.info("Migrating Javascript source code to most recent qooxdoo version...")
         self._console.indent()
 
