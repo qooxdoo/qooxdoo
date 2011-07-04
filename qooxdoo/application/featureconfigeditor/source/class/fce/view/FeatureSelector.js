@@ -298,7 +298,7 @@ qx.Class.define("fce.view.FeatureSelector", {
           if (setData[keyName] !== undefined) {
             item[setId] = setData[keyName];
             if (!qx.lang.Array.contains(distinctValues, setData[keyName])) {
-              distinctValues.push(setData[keyName])
+              distinctValues.push(setData[keyName]);
             }
           }
         }
