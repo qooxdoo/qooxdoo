@@ -404,7 +404,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.__form.addButton(b1);
 
       // just check if the rendere is created without an error
-      new qx.ui.form.renderer.Single(this.__form);
+      (new qx.ui.form.renderer.Single(this.__form)).dispose();
 
       b1.dispose();
     },
@@ -419,7 +419,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.__form.addButton(b1);
 
       // just check if the rendere is created without an error
-      new qx.ui.form.renderer.SinglePlaceholder(this.__form);
+      (new qx.ui.form.renderer.SinglePlaceholder(this.__form)).dispose();
 
       b1.dispose();
     },
@@ -434,7 +434,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.__form.addButton(b1);
 
       // just check if the rendere is created without an error
-      new qx.ui.form.renderer.Double(this.__form);
+      (new qx.ui.form.renderer.Double(this.__form)).dispose();
 
       b1.dispose();
     }
