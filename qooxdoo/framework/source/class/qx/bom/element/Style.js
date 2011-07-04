@@ -127,7 +127,7 @@ qx.Class.define("qx.bom.element.Style",
 
       this.__cssNames = {};
       for (var key in styleNames) {
-        this.__cssNames[key] = this.__hyphenate(styleNames[key]);
+        this.__cssNames[key] = qx.lang.String.hyphenate(styleNames[key]);
       }
 
       this.__styleNames["float"] = qx.core.Environment.select("engine.name", {
@@ -214,35 +214,12 @@ qx.Class.define("qx.bom.element.Style",
         if (special[name]) {
           html.push(special[name].compile(value));
         } else {
-          html.push(this.__hyphenate(name), ":", value, ";");
+          html.push(qx.lang.String.hyphenate(name), ":", value, ";");
         }
       }
 
       return html.join("");
     },
-
-
-    /** {Map} Caches hyphened style names e.g. marginTop => margin-top. */
-    __hyphens : {},
-
-
-    /**
-     * Hyphenate the given string. Replaces upper case letters with lower case
-     * letters prefixed with a hyphen.
-     *
-     * @param propName {String} A CSS property name
-     * @return {String} The hyphenated version of the property name
-     */
-    __hyphenate : function(propName)
-    {
-      var hyphens = this.__hyphens;
-      var prop = hyphens[propName];
-      if (!prop) {
-        prop = hyphens[propName] = qx.lang.String.hyphenate(propName);
-      }
-      return prop;
-    },
-
 
     /*
     ---------------------------------------------------------------------------

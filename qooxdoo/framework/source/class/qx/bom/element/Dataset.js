@@ -37,27 +37,6 @@ qx.Class.define("qx.bom.element.Dataset",
   statics :
   {
 
-    /** {Map} Caches hyphened style names e.g. marginTop => margin-top. */
-    __hyphens : {},
-
-
-    /**
-     * Hyphenate the given string. Replaces upper case letters with lower case
-     * letters prefixed with a hyphen.
-     *
-     * @param propName {String} A CSS property name
-     * @return {String} The hyphenated version of the property name
-     */
-    __hyphenate : function(propName)
-    {
-      var hyphens = this.__hyphens;
-      var prop = hyphens[propName];
-      if (!prop) {
-        prop = hyphens[propName] = qx.lang.String.hyphenate(propName);
-      }
-      return prop;
-    },
-
     /**
      * Sets an HTML attribute on the given DOM element
      *
@@ -80,7 +59,7 @@ qx.Class.define("qx.bom.element.Dataset",
       }
       else
       {
-        qx.bom.element.Attribute.set(element, "data-"+this.__hyphenate(name), value);
+        qx.bom.element.Attribute.set(element, "data-"+qx.lang.String.hyphenate(name), value);
       }
     },
     
@@ -101,7 +80,7 @@ qx.Class.define("qx.bom.element.Dataset",
       }
       else
       {
-        return qx.bom.element.Attribute.get(element, "data-"+this.__hyphenate(name));
+        return qx.bom.element.Attribute.get(element, "data-"+qx.lang.String.hyphenate(name));
       }
     },
     

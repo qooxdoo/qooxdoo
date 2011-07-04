@@ -70,23 +70,35 @@ qx.Class.define("qx.lang.String",
     /**
      * A RegExp that matches the first letter in a word - unicode aware
      */
-    
     __unicodeFirstLetterInWordRegexp : null,
+    
+    /**
+     * {Map} Cache for often used string operations [camelCasing and hyphenation]
+     * e.g. marginTop => margin-top
+     */
+    __stringsMap : {},
     
     /**
      * Converts a hyphenated string (separated by '-') to camel case.
      *
      * Example:
      * <pre class='javascript'>qx.lang.String.camelCase("I-like-cookies"); //returns "ILikeCookies"</pre>
+     * The implementation does not force a lowerCamelCase or upperCamelCase version.
+     * (think java variables that start with lower case versus classnames that start with capital letter)
+     * The first letter of the parameter keeps its case.
      *
      * @param str {String} hyphenated string
      * @return {String} camelcase string
      */
     camelCase : function(str)
     {
-      return str.replace(/\-([a-z])/g, function(match, chr) {
-        return chr.toUpperCase();
-      });
+      var result = this.__stringsMap[str];
+      if (!result) {
+        result = str.replace(/\-([a-z])/g, function(match, chr) {
+          return chr.toUpperCase();
+        });
+      }
+      return result;
     },
 
 
@@ -95,15 +107,22 @@ qx.Class.define("qx.lang.String",
      *
      * Example:
      * <pre class='javascript'>qx.lang.String.camelCase("ILikeCookies"); //returns "I-like-cookies"</pre>
+     * The implementation does not force a lowerCamelCase or upperCamelCase version.
+     * (think java variables that start with lower case versus classnames that start with capital letter)
+     * The first letter of the parameter keeps its case.
      *
      * @param str {String} camelcased string
      * @return {String} hyphenated string
      */
     hyphenate: function(str)
     {
-      return str.replace(/[A-Z]/g, function(match){
-        return ('-' + match.charAt(0).toLowerCase());
-      });
+      var result = this.__stringsMap[str];
+      if (!result) {
+        result = str.replace(/[A-Z]/g, function(match, offset){
+          return offset > 0 ? '-' + match.toLowerCase() : match;
+        });
+      }
+      return result;
     },
 
 
