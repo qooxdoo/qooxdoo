@@ -40,7 +40,7 @@ qx.Class.define("fce.view.FeatureSelector", {
     this.base(arguments, layout);
     this.setAppearance("featureselector");
     
-    this.add(this._createTableContainer(), {flex: 0});
+    this.add(this._createTableContainer(), {flex: 1});
     this.add(this._createButtonContainer(), {flex: 0});
     this.add(this._createDisplayContainer(), {flex: 1});
     
@@ -116,17 +116,19 @@ qx.Class.define("fce.view.FeatureSelector", {
       switch(id) {
         case "table":
           control = new fce.view.Table();
-          control.setMinWidth(440);
+          control.setMinWidth(330);
           this.bind("filter", control, "filter");
           control.addListener("cellDblclick", this.__onTableDoubleClick, this);
           qx.data.SingleValueBinding.bind(control, "sourceProperty", this.getChildControl("list"), "modelValueProperty");
           break;
         case "list":
           control = new fce.view.List();
+          control.setMinWidth(330);
           control.getSelectedItems().addListener("change", this.__onSelectionChange, this);
           break;
         case "jsonField":
           control = new qx.ui.form.TextArea();
+          control.setMinWidth(330);
           control.setReadOnly(true);
       }
       
