@@ -257,7 +257,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     //
     //   // Provided two concurrent requests are made (each 6s), 20 requests
     //   // (i.e. 10 packs of requests) should complete after 60s
-    //   this.wait(10000 + 1000);
+    //   this.wait(15000 + 1000);
     // },
 
     "test: open throws error with insecure method": function() {
@@ -515,7 +515,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
         req.abort();
       }, 0);
 
-      this.wait(10000);
+      this.wait(15000);
     },
 
     //
@@ -533,11 +533,14 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       };
 
       // Network error (async)
-      req.open("GET", "http://fail.tld");
-      req.send();
+      // Is sync in Opera >= 11.5
+      qx.event.Timer.once(function() {
+        req.open("GET", "http://fail.tld");
+        req.send();
+      }, this, 0);
 
       // May take a while to detect network error
-      this.wait(10000);
+      this.wait(15000);
     },
 
     "test: throw error on network error when sync": function() {
@@ -621,11 +624,14 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       };
 
       // Network error
-      req.open("GET", "http://fail.tld");
-      req.send();
+      // Is sync in Opera >= 11.5
+      qx.event.Timer.once(function() {
+        req.open("GET", "http://fail.tld");
+        req.send();
+      }, this, 0);
 
       // May take a while to detect network error
-      this.wait(10000);
+      this.wait(15000);
     },
 
     //
@@ -669,11 +675,15 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.spy(req, "onreadystatechange");
       this.spy(req, "onerror");
       this.spy(req, "onloadend");
-      req.open("GET", "http://fail.tld");
-      req.send();
+
+      // Is sync in Opera >= 11.5
+      qx.event.Timer.once(function() {
+        req.open("GET", "http://fail.tld");
+        req.send();
+      }, this, 0);
 
       // May take a while to detect network error
-      this.wait(10000);
+      this.wait(15000);
     },
 
     //

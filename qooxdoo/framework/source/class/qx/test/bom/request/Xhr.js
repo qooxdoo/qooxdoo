@@ -349,6 +349,13 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     "test: not call onerror when timeout": function() {
+
+      // Since Opera does not fire "error" on network error, fire additional
+      // "error" on timeout (may well be related to network error)
+      if (qx.core.Environment.get("engine.name") === "opera") {
+        this.skip();
+      }
+
       var req = this.req;
 
       this.spy(req, "onerror");
@@ -729,6 +736,10 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
     hasIEBelow8OrFFBelow35: function() {
       return this.hasIEBelow8() || this.hasFFBelow35();
+    },
+
+    skip: function(msg) {
+      throw new qx.dev.unit.RequirementError(null, msg);
     }
 
   }
