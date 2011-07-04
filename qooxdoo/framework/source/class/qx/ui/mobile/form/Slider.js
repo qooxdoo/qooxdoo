@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      * Returns the current position of the knob.
      *
      * @param documentLeft {Integer} The left positon of the knob
-     * @return {Integer} The current position of the container elemnt.
+     * @return {Integer} The current position of the container element.
      */
     _getPosition : function(documentLeft)
     {

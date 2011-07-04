@@ -129,13 +129,17 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      */
     _convertValue : function(value)
     {
-      if(typeof value !== 'boolean')
+      if(typeof value === 'boolean')
       {
-        return value || "";
+        return value;
+      }
+      else if (typeof value === 'number')
+      {
+        return value;
       }
       else
       {
-        return value;
+        return value || "";
       }
     },
 
