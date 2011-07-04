@@ -48,7 +48,7 @@ qx.Class.define("mobileshowcase.page.Form",
     _initialize : function()
     {
       this.base(arguments);
-      var title = new qx.ui.mobile.form.Title("Form");
+      var title = new qx.ui.mobile.form.Title("User Registration Form");
       this.getContent().add(title);
       this.__form = this.__createForm();
       this.getContent().add(new qx.ui.mobile.form.renderer.Single(this.__form));
@@ -57,7 +57,7 @@ qx.Class.define("mobileshowcase.page.Form",
       button.addListener("tap", this._onButtonTap, this);
       this.getContent().add(button);
 
-      var title = new qx.ui.mobile.form.Title("Form Content");
+      var title = new qx.ui.mobile.form.Title("Registration Result");
       this.getContent().add(title);
       this.__result = new qx.ui.mobile.embed.Html();
       this.getContent().add(this.__result);
@@ -75,13 +75,13 @@ qx.Class.define("mobileshowcase.page.Form",
       var form = new qx.ui.mobile.form.Form();
       var validationManager = form.getValidationManager();
 
-      this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username - value bound to checkbox's model"});
+      this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username"});
       this.__name.setRequired(true);
       form.add(this.__name, "Username: ");
       validationManager.add(this.__name, function(value, item){
         var valid = value != null && value.length>3;
         if(!valid) {
-          item.setInvalidMessage("value should have more than 3 characters!");
+          item.setInvalidMessage("username should have more than 3 characters!");
         }
         return valid;
       }, this);
@@ -91,41 +91,35 @@ qx.Class.define("mobileshowcase.page.Form",
       
       this.__rememberPass = new qx.ui.mobile.form.CheckBox();
       form.add(this.__rememberPass, "Remember password? ");
-      this.__rememberPass.setModel("checkbox model bound to textField value. check the Checkbox to see its model in the textarea");
-      this.__rememberPass.bind("model",this.__name,"value");
-      this.__name.bind("value",this.__rememberPass,"model");
+      this.__rememberPass.setModel("password_reminder");
+      this.__rememberPass.bind("model",this.__password,"value");
+      this.__password.bind("value",this.__rememberPass,"model");
       
-      this.__rememberPass.addListener('tap', this._onCheckBoxClick, this);
-      form.addGroupHeader("Countries");
+      
+      form.addGroupHeader("Gender");
       this.__radio1 = new qx.ui.mobile.form.RadioButton();
       this.__radio2 = new qx.ui.mobile.form.RadioButton();
-      this.__radio3 = new qx.ui.mobile.form.RadioButton();
-      var radioGroup = new qx.ui.form.RadioGroup(this.__radio1, this.__radio2, this.__radio3);
-      form.add(this.__radio1, "Germany");
-      form.add(this.__radio2, "UK");
-      form.add(this.__radio3, "USA");
+      var radioGroup = new qx.ui.form.RadioGroup(this.__radio1, this.__radio2);
+      form.add(this.__radio1, "Male");
+      form.add(this.__radio2, "Female");
       
-      this.__info = new qx.ui.mobile.form.TextArea().set({placeholder:"Some Info"});
-      form.add(this.__info,"Some Info: ");
+      this.__info = new qx.ui.mobile.form.TextArea().set({placeholder:"Terms of Service"});
+      form.add(this.__info,"Terms of Service: ");
+      this.__info.setValue("qooxdoo Licensing Information\n=============================\n\nqooxdoo may be used under the terms of either the\n\n  * GNU Lesser General Public License (LGPL)\n    http://www.gnu.org/licenses/lgpl.html\n\nor the\n\n  * Eclipse Public License (EPL)\n    http://www.eclipse.org/org/documents/epl-v10.php\n\nAs a recipient of qooxdoo, you may choose which license to receive the code \nunder. Certain files or entire directories may not be covered by this \ndual license, but are subject to licenses compatible to both LGPL and EPL.\nLicense exceptions are explicitly declared in all relevant files or in a \n\nLICENSE file in the relevant directories.");
 
       this.__save = new qx.ui.mobile.form.ToggleButton();
-      form.add(this.__save, "Save: ");
+      form.add(this.__save, "Agree? ");
 
       this.__slide = new qx.ui.mobile.form.Slider();
-      form.add(this.__slide,"Go: ");
+      form.add(this.__slide,"Are you human? Drag the slider to prove it.");
       
-      var dd = new qx.data.Array(["item 1", "Item 2", "Item 3"]);
+      var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad"]);
       this.__sel = new qx.ui.mobile.form.SelectBox();
       this.__sel.setModel(dd);
-      form.add(this.__sel, "Items ");
+      form.add(this.__sel, "How did you hear about us ?");
       
       return form;
       
-    },
-
-    _onCheckBoxClick : function(evt)
-    {
-      this.__info.setValue(this.__rememberPass.getValue() ? this.__rememberPass.getModel().toString() : "");
     },
 
     /**
@@ -140,9 +134,9 @@ qx.Class.define("mobileshowcase.page.Form",
         var result = [];
         result.push("Username: " +  this.__name.getValue());
         result.push("Password: " +  this.__password.getValue());
-        result.push("Info: " +  this.__info.getValue());
-        result.push("Save: " +  this.__save.getValue());
-        result.push("Slider: " +  this.__slide.getValue());
+        result.push("Agree on our terms: " +  this.__save.getValue());
+        result.push("How did you hear about us : " +  this.__sel.getValue());
+        result.push("Are you human? : " +  this.__slide.getValue() +"%");
         this.__result.setHtml(result.join("<br>"));
       }
     },
