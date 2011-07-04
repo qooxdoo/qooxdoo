@@ -291,23 +291,19 @@ qx.Class.define("fce.view.FeatureSelector", {
           distinctValues : 1
         }
 
-        var initialValue;
+        var distinctValues = [];
         
         for (var setId in dataMap) {
           var setData = dataMap[setId];
           if (setData[keyName] !== undefined) {
             item[setId] = setData[keyName];
-            if (initialValue === undefined) {
-              initialValue = setData[keyName];
-            }
-            else if (initialValue !== setData[keyName]) {
-              item.distinctValues++;
+            if (!qx.lang.Array.contains(distinctValues, setData[keyName])) {
+              distinctValues.push(setData[keyName])
             }
           }
         }
-        
+        item.distinctValues = distinctValues.length;
         data.push(item);
-        initialValue = undefined;
       }
       return data;
     },
