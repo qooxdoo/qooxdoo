@@ -189,7 +189,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       } catch(OpenError) {
 
         // Only work around exceptions caused by cross domain request attempts
-        if (!qx.bom.request.Xhr.isCrossDomain(url)) {
+        if (!qx.util.Request.isCrossDomain(url)) {
           // Is same origin
           throw OpenError;
         }
