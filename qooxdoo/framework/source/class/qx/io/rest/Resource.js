@@ -39,7 +39,7 @@
  * route, is passed the parameters and finally send. What kind of request is send
  * can be configured by overwriting {@link #_getRequest}.
  *
- * In order to respond to successfull (or erroneous) invocations of actions,
+ * In order to respond to successful (or erroneous) invocations of actions,
  * either listen to the generic "success" or "error" event and get the action
  * from the event data, or listen to action specific events defined at runtime.
  * Action specific events follow the pattern "<action>Success" and
@@ -94,6 +94,20 @@ qx.Class.define("qx.io.rest.Resource",
      * "<action>Error", e.g. "indexError".
      */
     "error": "qx.event.type.Rest"
+  },
+
+  statics:
+  {
+    /**
+     * Number of milliseconds below a request is considered immediate and
+     * subject to throttling checks.
+     */
+    POLL_THROTTLE_LIMIT: 100,
+
+    /**
+     * Number of immediate responses accepted before throttling takes place.
+     */
+    POLL_THROTTLE_COUNT: 30
   },
 
   members:
@@ -342,14 +356,47 @@ qx.Class.define("qx.io.rest.Resource",
      *  polling, remove handler using {@link qx.core.Object#removeListenerById}.
      */
     longPoll: function(action) {
-      var res = this;
+      var res = this,
+          context = true,             // Work-around disposed context warning
+          lastResponse,               // Keep track of last response
+          immediateResponseCount = 0; // Count immediate responses
 
-      // Work-around disposed context warning
-      var context = true;
+      // Throttle to prevent high load on server and client
+      function throttle() {
+        var isImmediateResponse =
+          lastResponse &&
+          ((new Date()) - lastResponse) < res._getThrottleLimit();
 
-      var handlerId = this.__longPollHandlers[action] = this.addListener(action + "Success",
-        function longPollHandler() {
-          res.isDisposed() ? null : res.refresh(action);
+        if (isImmediateResponse) {
+          immediateResponseCount += 1;
+          if (immediateResponseCount > res._getThrottleCount()) {
+            if (qx.core.Environment.get("qx.debug")) {
+              res.debug("Received successful response more than " +
+                res._getThrottleCount() + " times subsequently, each within " +
+                res._getThrottleLimit() + " ms. Throttling.");
+            }
+            return true;
+          }
+        }
+
+        // Reset counter on delayed response
+        if (!isImmediateResponse) {
+          immediateResponseCount = 0;
+        }
+
+        return false;
+      }
+
+      var handlerId = this.__longPollHandlers[action] =
+        this.addListener(action + "Success", function longPollHandler() {
+          if (res.isDisposed()) {
+            return;
+          }
+
+          if (!throttle()) {
+            lastResponse = new Date();
+            res.refresh(action);
+          }
         },
       context);
 
@@ -393,6 +440,20 @@ qx.Class.define("qx.io.rest.Resource",
       });
 
       return {method: method, url: url, check: check};
+    },
+
+    /**
+     * Override to adjust the throttle limit.
+     */
+    _getThrottleLimit: function() {
+      return qx.io.rest.Resource.POLL_THROTTLE_LIMIT;
+    },
+
+    /**
+     * Override to adjust the throttle count.
+     */
+    _getThrottleCount: function() {
+      return qx.io.rest.Resource.POLL_THROTTLE_COUNT;
     },
 
     /**

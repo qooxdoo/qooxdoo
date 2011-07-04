@@ -578,6 +578,86 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertArrayEquals(["1", "2", "3"], responses);
     },
 
+    "test: throttle long poll": function() {
+      this.setUpPersistent();
+
+      var res = this.res,
+          req = this.req;
+
+      this.stub(req, "dispose");
+      this.spy(res, "refresh");
+
+      res.longPoll("index");
+
+      // A number of immediate responses, above count
+      for (var i=0; i < 31; i++) {
+        this.respond();
+      }
+
+      res.refresh = function() {
+        throw new Error("With throttling in effect, " +
+          "must not make new request.");
+      };
+
+      // Throttling
+      this.respond();
+    },
+
+    "test: not throttle long poll when not received within limit": function() {
+      this.setUpPersistent();
+
+      var res = this.res,
+          req = this.req,
+          sandbox = this.getSandbox();
+
+      this.stub(req, "dispose");
+
+      sandbox.useFakeTimers();
+      res.longPoll("index");
+
+      // A number of delayed responses, above count
+      for (var i=0; i < 31; i++) {
+        sandbox.clock.tick(101);
+        this.respond();
+      }
+
+      this.spy(res, "refresh");
+      sandbox.clock.tick(101);
+
+      this.respond();
+      this.assertCalled(res.refresh);
+    },
+
+    "test: not throttle long poll when not received subsequently": function() {
+      this.setUpPersistent();
+
+      var res = this.res,
+          req = this.req,
+          sandbox = this.getSandbox();
+
+      this.stub(req, "dispose");
+
+      sandbox.useFakeTimers();
+      res.longPoll("index");
+
+      // A number of immediate responses
+      for (var i=0; i < 30; i++) {
+        this.respond();
+      }
+
+      // Delayed response
+      sandbox.clock.tick(101);
+      this.respond();
+
+      // More immediate responses, total count above limit
+      this.spy(res, "refresh");
+      for (i=0; i < 10; i++) {
+        this.respond();
+      }
+
+      this.assertCallCount(res.refresh, 10);
+    },
+
     "test: end long poll action": function() {
       this.setUpPersistent();
 
