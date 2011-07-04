@@ -47,7 +47,8 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     qx.ui.mobile.form.MValue,
     qx.ui.form.MForm,
     qx.ui.form.MModelProperty,
-    qx.ui.mobile.form.MState
+    qx.ui.mobile.form.MState,
+    qx.ui.mobile.form.MEnable
   ],
   implement : [
     qx.ui.form.IForm,
@@ -92,18 +93,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     {
       refine : true,
       init : "toggleButton"
-    },
-    
-    /**
-     * Whether this Slider is enabled or not
-     */
-    enabled :
-    {
-      init: true,
-      check : "Boolean",
-      nullable: false,
-      event : "changeEnabled",
-      apply: "_applyEnabled"
     }
     
   },
@@ -199,25 +188,8 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     _onSwipe : function(evt)
     {
       this.toggle();
-    },
-    
-    /**
-     * Sets the enable property to the new value
-     * @param value {Boolean}, the new value of the element
-     * @param old {Boolean?}, the old value of the element
-     * 
-     */
-    _applyEnabled : function(value,old)
-    {
-      if(value)
-      {
-        this._setAttribute("disabled",null)
-      }
-      else
-      {
-        this._setAttribute("disabled","disabled");
-      }
     }
+
   },
 
 

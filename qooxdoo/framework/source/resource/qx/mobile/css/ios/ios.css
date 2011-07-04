@@ -82,6 +82,9 @@ a:hover {  color:rgb(76, 86, 108); }
     color: #fff;
 }
 
+.button[disabled="disabled"] {
+  color: gray;
+}
 
 /* LISTS */
 

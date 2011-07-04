@@ -56,7 +56,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   extend : qx.ui.mobile.core.Widget,
   include : [
     qx.ui.mobile.form.MValue,
-    qx.ui.form.MForm
+    qx.ui.form.MForm,
+    qx.ui.mobile.form.MEnable
   ],
   implement : [
     qx.ui.form.IForm,
@@ -95,18 +96,6 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     },
     
     /**
-     * Whether this selectbox is enabled or not
-     */
-    enabled :
-    {
-      init: true,
-      check : "Boolean",
-      nullable: false,
-      event : "changeEnabled",
-      apply: "_applyEnabled"
-    },
-    
-    /**
      * The model to use to render the list.
      */
     model :
@@ -127,25 +116,6 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     _getTagName : function()
     {
       return "select";
-    },
-
-
-    /**
-     * Sets the enable property to the new value
-     * @param value {Boolean}, the new value of the textarea
-     * @param old {Boolean?}, the old value of the textarea
-     * 
-     */
-    _applyEnabled : function(value,old)
-    {
-      if(value)
-      {
-        this._setAttribute("disabled",null)
-      }
-      else
-      {
-        this._setAttribute("disabled","disabled");
-      }
     },
 
 
