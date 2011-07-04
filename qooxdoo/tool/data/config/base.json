@@ -164,7 +164,8 @@
         },
         "code" :
         {
-          "locales" : "${LOCALES}"
+          "locales" : "${LOCALES}",
+          "except"  : ["*"]
         }
       },
       
