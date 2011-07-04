@@ -42,8 +42,6 @@
 
 /**
  *
- * @deprecated since 1.5
- *
  * Cross browser compatible unified XMLHttp transport low-level implementation.
  * Mimics an ideal browser without any quirks and is API identical to
  * the W3C definition.
@@ -58,6 +56,8 @@
  *
  * These features are being considered for a future version of the XMLHttpRequest
  * specification by the W3C at http://www.w3.org/TR/XMLHttpRequest/.
+ *
+ * @deprecated since 1.5
  */
 qx.Class.define("qx.bom.Request",
 {
@@ -69,6 +69,9 @@ qx.Class.define("qx.bom.Request",
   *****************************************************************************
   */
 
+  /**
+   * @deprecated since 1.5
+   */
   construct : function()
   {
     qx.log.Logger.deprecatedClassWarning(qx.bom.Request,
