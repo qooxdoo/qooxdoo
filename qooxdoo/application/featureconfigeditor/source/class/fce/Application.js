@@ -55,8 +55,10 @@ qx.Class.define("fce.Application",
       
       this.__nameSpace = qx.core.Environment.get("qx.application").split(".")[0];
       
+      
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(0));
-      this.getRoot().add(container, {edge: 0});
+      var scroll = new qx.ui.container.Scroll(container);
+      this.getRoot().add(scroll, {edge: 0});
       container.add(this._createHeader());
       
       var innerContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
@@ -65,7 +67,7 @@ qx.Class.define("fce.Application",
       this.__featureSelector = new fce.view.FeatureSelector();
       this.__featureSelector.setMargin(20);
       innerContainer.add(this.__featureSelector, {flex: 1});
-      innerContainer.add(this._createHelpBox(), {flex: 1});
+      innerContainer.add(this._createHelpBox(), {flex: 0});
       
       var env = new fce.Environment();
       env.addListenerOnce("changeFeatures", function(ev) {
@@ -135,7 +137,10 @@ qx.Class.define("fce.Application",
     _createHelpBox : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
-      container.setMargin(20);
+      container.set({
+        margin : 20,
+        minWidth : 150
+      });
       var helpHeader = new qx.ui.basic.Label("Help");
       helpHeader.setFont("bigger");
       container.add(helpHeader);
