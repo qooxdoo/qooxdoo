@@ -38,6 +38,7 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
     this.base(arguments);
 
     this._visibilityBindingIds = [];
+    this._labels = [];
 
     // translation support
     if (qx.core.Environment.get("qx.dynlocale")) {
@@ -69,6 +70,7 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
   {
     _names : null,
     _visibilityBindingIds : null,
+    _labels : null,
 
 
     /**
@@ -153,6 +155,11 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
     this._names = null;
+
+    // remove all created lables
+    for (var i=0; i < this._labels.length; i++) {
+      this._labels[i].dispose();
+    };
 
     // remove the visibility bindings
     for (var i = 0; i < this._visibilityBindingIds.length; i++) {
