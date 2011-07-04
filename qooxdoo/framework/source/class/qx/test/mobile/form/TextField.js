@@ -30,17 +30,22 @@ qx.Class.define("qx.test.mobile.form.TextField",
 
       this.assertEquals('',textField.getValue());
       this.assertEquals(null,qx.bom.element.Attribute.get(textField.getContainerElement(),'value'));
-      textField.setValue('mytext');
+      this.assertEventFired(textField, "changeValue", function() {
+        textField.setValue("mytext");
+      });
       this.assertEquals('mytext',textField.getValue());
       this.assertEquals('mytext',qx.bom.element.Attribute.get(textField.getContainerElement(),'value'));
 
       textField.destroy();
-      
-      textField = new qx.ui.mobile.form.TextField('');
+
+      textField = new qx.ui.mobile.form.TextField('affe');
       this.getRoot().add(textField);
-      this.assertEquals('',textField.getValue());
+      this.assertEquals('affe',textField.getValue());
+      this.assertEquals('affe',qx.bom.element.Attribute.get(textField.getContainerElement(),'value'));
       textField.destroy();
     },
+
+
     testEnabled : function()
     {
       var textField = new qx.ui.mobile.form.TextField();
