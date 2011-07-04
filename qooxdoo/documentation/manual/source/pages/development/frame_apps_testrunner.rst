@@ -163,7 +163,7 @@ Performance
 
 .. image:: /pages/development/testrunner_performance.png
 
-This view visualizes the results of performance tests using the `qx.test.performance.MMeasure <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.test.performance.MMeasure>`_ mixin. Take a look at the tests in the qx.test.performance namespace to see how you can implement performance tests measuring JavaScript execution and HTML rendering time for your application.
+This view visualizes the results of performance tests using the `qx.test.performance.MMeasure <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.test.performance.MMeasure>`_ mixin. Take a look at the tests in the qx.test.performance namespace and the ``test-performance`` job in framework/config.json to see how you can implement performance tests measuring JavaScript execution and HTML rendering time for your application.
 
 Reporter
 ^^^^^^^^
