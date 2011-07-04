@@ -134,6 +134,8 @@ qx.Class.define("qx.ui.form.renderer.Double",
      */
     _createLabel : function(name, item) {
       var label = new qx.ui.basic.Label(this._createLabelText(name, item));
+      // store lables for disposal
+      this._labels.push(label);
       label.setRich(true);
       return label;
     },
@@ -147,6 +149,8 @@ qx.Class.define("qx.ui.form.renderer.Double",
      */
     _createHeader : function(title) {
       var header = new qx.ui.basic.Label(title);
+      // store lables for disposal
+      this._labels.push(header);
       header.setFont("bold");
       if (this._row != 0) {
         header.setMarginTop(10);
