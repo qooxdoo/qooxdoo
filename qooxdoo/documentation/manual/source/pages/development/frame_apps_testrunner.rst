@@ -124,6 +124,9 @@ Create the Test Application
   After that, you just reload the backend application by hitting the reload button to the right to see and test your changes in the Test Runner.
 * If you're working on an application based on qx.application.Native or qx.application.Inline (e.g. by starting with an Inline skeleton), you can run ``generate.py test-native`` or ``generate.py test-inline`` to create a test application of the same type as your actual application. The Test Runner's index file will be called ``index-native.html`` or ``index-inline.html``, respectively.
 
+
+.. _pages/frame_apps_testrunner#testrunner_views:
+
 Testrunner Views
 ----------------
 
