@@ -66,13 +66,16 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   construct : function(value)
   {
     this.base(arguments);
+    this.__child = this._createChild();
+    this._add(this.__child);
+
     if (value) {
       this.setValue(value);
     }
+
     this.addListener("tap", this._onTap, this);
     this.addListener("swipe", this._onSwipe, this);
-    this.__child = this._createChild();
-    this._add(this.__child);
+    
   },
 
 
