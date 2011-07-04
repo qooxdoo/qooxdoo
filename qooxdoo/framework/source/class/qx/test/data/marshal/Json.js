@@ -614,7 +614,7 @@ qx.Class.define("qx.test.data.marshal.Json",
           qx.data.marshal.Json.createModel(data).dispose();
         }, null, "The key '#affe' is not a valid JavaScript identifier.", "1");
 
-        data = {1 : 1, true: false};
+        data = {"1" : 1, "true": false};
         // just check if the creation worked
         qx.data.marshal.Json.createModel(data).dispose();
 
