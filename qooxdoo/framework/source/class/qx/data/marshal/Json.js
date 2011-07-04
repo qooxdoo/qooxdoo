@@ -147,9 +147,9 @@ qx.Class.define("qx.data.marshal.Json",
       for (var key in data) {
         // stip the unwanted characters
         key = key.replace(/-/g, "");
-        // check for valid JavaScript identifier
+        // check for valid JavaScript identifier (leading numbers are ok)
         if (qx.core.Environment.get("qx.debug")) {
-          this.assertTrue((/^[$A-Za-z_][0-9A-Za-z_]*$/).test(key),
+          this.assertTrue((/^[0-9A-Za-z_]*$/).test(key),
           "The key '" + key + "' is not a valid JavaScript identifier.")
         }
 
