@@ -237,8 +237,7 @@ We need Data, lots of Data!
 
 Ok, here we are. You have learned how to create two pages and to wire
 them by reacting on defined events. That is pretty cool, but without
-data to display our app is worthless (even if it is already fun to
-navigate back and forward between the pages ;)). To display the tweets
+data to display our app is worthless. To display the tweets
 of a user we will use the public Tweet service of Twitter. `Data
 binding`_ is a powerful concept of qooxdoo which you can leverage off in
 your mobile applications as well. Extend the ``members`` section of the
