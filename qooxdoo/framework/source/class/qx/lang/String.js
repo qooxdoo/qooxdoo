@@ -118,8 +118,8 @@ qx.Class.define("qx.lang.String",
     {
       var result = this.__stringsMap[str];
       if (!result) {
-        result = str.replace(/[A-Z]/g, function(match, offset){
-          return offset > 0 ? '-' + match.toLowerCase() : match;
+        result = str.replace(/[A-Z]/g, function(match){
+          return  ('-' + match.charAt(0).toLowerCase());
         });
       }
       return result;
