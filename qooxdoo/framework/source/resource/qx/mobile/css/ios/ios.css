@@ -400,17 +400,34 @@ input[type="checkbox"]:disabled {
 
 .toolbar-button {
   cursor: pointer;
-  font: normal 17px Helvetica;
-  line-height : 40px;
+  font-weight: bold;
+  color: #fff;
+  -webkit-border-radius: 4px;
+  font: bold 17px Helvetica;
+  height : 50px;
   text-align: center;
   padding-left: 20px;
   padding-right: 20px;
   -webkit-background-clip: padding-box;
-  color: #fff;
+  overflow: hidden;
+  width: 0; /* this is for equal sizes od the buttons when aded in a toolbar or other container with flex :1*/
 }
 
 .toolbar-button.active {
-  font-weight: bold;
+  font-weight: bolder;
+}
+
+.toolbar-button img {
+  vertical-align: middle;
+}
+
+.toolbar-button > div {
+  height: 50px;
+  overflow: hidden;
+}
+
+.toolbar-button .label {
+  height: auto;
 }
 
 .toolbar-separator {
@@ -428,7 +445,7 @@ input[type="checkbox"]:disabled {
   background: -webkit-linear-gradient(top, #d8dee6, #b0bbce 5%,#8e9fb6 50%, #8195af 50%, #778ca8);
   */
   border-top: 1px solid #2d3642;
-  height: 45px;
+  height: 55px;
   background: -webkit-gradient(linear, left top, left bottom, from(#cdd5df), to(#6d84a2), color-stop(0.5, #8195af));
   -webkit-transition: bottom .65s;
 }
