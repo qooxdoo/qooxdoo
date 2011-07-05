@@ -97,7 +97,6 @@ class Config(object):
         try:
             data = simplejson.loads(jsonstr)
         except ValueError, e:
-            #e.args = (e.message + "\nFile: %s" % fname,)
             e.args = (e.args[0] + "\nFile: %s" % fname,) + e.args[1:]
             raise e
             
@@ -315,10 +314,12 @@ class Config(object):
         configMap = self._data
         # check top-level
         tl_keys = configMap.keys()
+        tl_ignored_keys = self.get("config-warnings/tl-unknown-keys", [])
         for key in tl_keys:
             # does key exist?
             if key not in Key.TOP_LEVEL_KEYS.keys():
-                self._console.warn("! Unknown top-level config key \"%s\" - ignored." % key)
+                if key not in tl_ignored_keys:
+                    self._console.warn("! Unknown top-level config key \"%s\" - ignored." % key)
                 #raise RuntimeError("! Unknown top-level config key \"%s\" - ignored." % key)
             # does it have a correct value type?
             elif not isinstance(configMap[key], Key.TOP_LEVEL_KEYS[key]):
@@ -425,7 +426,9 @@ class Config(object):
         # alternate job name.
         def clashPrepare(jobname):
             # import external job under different name
-            console.warn("! Shadowing job \"%s\" with local one" % jobname)
+            jobs_ignored_shadowing = self.get("config-warnings/job-shadowing", [])
+            if jobname not in jobs_ignored_shadowing:
+                console.warn("! Shadowing job \"%s\" with local one" % jobname)
             # construct a name prefix
             extConfigName = extConfig._fname or self.SHADOW_PREFIX
             extConfigName = os.path.splitext(os.path.basename(extConfigName))[0]
@@ -523,7 +526,8 @@ class Config(object):
             if not extJob:
                 raise RuntimeError, "No such job: \"%s\" while including config: \"%s\")" % (extJobEntry, extConfig._fname)
             newJob = Job(newjobname, {}, self._console, self) # fake as local job, for _includeGlobalLet to run locally
-            newJob.includeGlobalLet()  # have to draw in local let before all the external let's are processed
+            #newJob.includeGlobalLet()  # have to draw in local let before all the external let's are processed
+            newJob.includeGlobalDefaults()  # have to draw in local let before all the external let's are processed
             newJob.mergeJob(extJob)    # now merge in the external guy
             newJob.setConfig(extJob.getConfig()) # retain link to original config
             if (newjobname != extJobEntry  # adapt modified names; otherwise, delay name resolution until resolveExtendsAndRun()

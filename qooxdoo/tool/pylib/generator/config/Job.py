@@ -118,10 +118,13 @@ class Job(object):
 
     def checkSchema(self, checkTypes=False):
         jobconf = self.getData()
+        ignored_job_keys = self.get("config-warnings/job-unknown-keys", [])
         for key in jobconf.keys():
             # does key exist?
             if key not in Key.JOB_LEVEL_KEYS.keys() + Key.META_KEYS:
-                self.warnConfigError("! Unknown job config key \"%s\" - ignored." % key)
+                if key not in ignored_job_keys:
+                    import pydb; pydb.debugger()
+                    self.warnConfigError("! Unknown job config key \"%s\" - ignored." % key)
             # does it have a correct value type?
             if checkTypes:
                 if key in Key.JOB_LEVEL_KEYS.keys() and not isinstance(jobconf[key], Key.JOB_LEVEL_KEYS[key]):
@@ -135,7 +138,8 @@ class Job(object):
         if self.hasFeature(Key.RESOLVED_KEY):
             return
 
-        self.includeGlobalLet() # make sure potential global let is included first
+        #self.includeGlobalLet() # make sure potential global let is included first
+        self.includeGlobalDefaults() # make sure potential global let is included first
 
         if self.hasFeature("extend"):
             # prepare a Let object for potential macro expansion
@@ -239,7 +243,8 @@ class Job(object):
 
 
     def resolveMacros(self):
-        self.includeGlobalLet() # make sure potential global let is included
+        #self.includeGlobalLet() # make sure potential global let is included
+        self.includeGlobalDefaults() # make sure potential global let is included
         if self.hasFeature(Key.LET_KEY):
             # exand macros in the let
             letMap = self.getFeature(Key.LET_KEY)
@@ -260,6 +265,14 @@ class Job(object):
             # apply dict to other values
             newdata = self._expandMacrosInValues(self._data, letmaps)
             self._data = newdata
+
+
+    def includeGlobalDefaults(self):
+        global_defaults = {}
+        global_defaults[Key.LET_KEY] = self._config.get(Key.LET_KEY, {})
+        global_defaults[Key.CONFIG_WARNINGS] = self._config.get(Key.CONFIG_WARNINGS, {})
+        global_defaults = ExtMap(global_defaults) # using ExtMap to fake a Job
+        self.mergeJob(global_defaults)
 
 
     def includeGlobalLet(self, additionalLet=None):
