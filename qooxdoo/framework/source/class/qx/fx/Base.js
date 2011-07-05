@@ -379,7 +379,7 @@ qx.Class.define("qx.fx.Base",
      * This internal function is called
      * when the effect has finished.
      *
-     * Fires "finish" event and sets the internal state to "finished".
+     * Fires "finish" event.
      *
      */
     finish : function()
