@@ -2106,48 +2106,6 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
          }
        },
 
-       "webkit" : function(value, commandObject)
-       {
-         var contextMap = this.__editorInstance.getContextInformation();
-         var focusNode = this.__editorInstance.getFocusNode();
-
-         // underline is already set as text-decoration, so remove it
-         if(contextMap.underline) {
-           focusNode.style.textDecoration = "none";
-         }
-         else
-         {
-           // Text decoration is set to strikethrough, so add a new element
-           // to apply both
-           if(contextMap.strikethrough)
-           {
-             // Create a new span tag, apply a style on it and append it
-             var helper = this.__doc.createElement("span");
-             qx.bom.element.Style.set(helper, "textDecoration", "underline");
-             focusNode.appendChild(helper);
-
-             // Set the cursor behind the created element
-             var sel = this.__editorInstance.getSelection();
-
-             if (sel)
-             {
-               sel.extend(helper, 0);
-
-               if (!sel.isCollapsed) {
-                 sel.collapseToEnd();
-               }
-             }
-           }
-           else
-           {
-             // Just add the value for text-decoration
-             focusNode.style.textDecoration = "underline";
-           }
-         }
-
-         return true;
-       },
-
        "default" : function(value, commandObject) {
          return this.__executeCommand(commandObject.identifier, false, value);
        }
@@ -2179,27 +2137,6 @@ qx.Class.define("qx.bom.htmlarea.manager.Command",
          } else {
            return this.__executeCommand(commandObject.identifier, false, value);
          }
-       },
-
-       "webkit" : function(value, commandObject)
-       {
-         var focusNode = this.__editorInstance.getFocusNode();
-         var helper = this.__doc.createElement("span");
-         qx.bom.element.Style.set(helper, "textDecoration", "line-through");
-         focusNode.appendChild(helper);
-
-         var sel = this.__editorInstance.getSelection();
-
-         if (sel)
-         {
-           sel.extend(helper, 0);
-
-           if (!sel.isCollapsed) {
-             sel.collapseToEnd();
-           }
-         }
-
-         return true;
        },
 
        "default" : function(value, commandObject) {
