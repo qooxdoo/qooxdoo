@@ -124,11 +124,13 @@ qx.Class.define("fce.view.FeatureSelector", {
         case "list":
           control = new fce.view.List();
           control.setMinWidth(330);
+          control.setMinHeight(75);
           control.getSelectedItems().addListener("change", this.__onSelectionChange, this);
           break;
         case "jsonField":
           control = new qx.ui.form.TextArea();
           control.setMinWidth(330);
+          control.setMinHeight(75);
           control.setReadOnly(true);
       }
       
