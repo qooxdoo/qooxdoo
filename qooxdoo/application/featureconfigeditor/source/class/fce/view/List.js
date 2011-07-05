@@ -46,6 +46,9 @@ qx.Class.define("fce.view.List", {
     selection.addListener("change", this.__onSelectionChange, this);
     this.setSelectedItems(selection);
     this.__listedItems = [];
+    
+    var manager = this._getManager();
+    this.removeListener("keypress", manager.handleKeyPress, manager);
   },
   
   properties :
