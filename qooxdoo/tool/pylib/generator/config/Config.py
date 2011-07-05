@@ -79,7 +79,8 @@ class Config(object):
         self.fixJobsTags()
 
         # do some schema sanity checking
-        self.checkSchema()
+        # - off for bug#4441, it's called for the job in generator.py anyway
+        #self.checkSchema()
 
         return
 

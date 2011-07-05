@@ -295,8 +295,11 @@ class Generator(object):
             if len(excludeCfg) == 0:
                 return [], []
             else:
-                if self._job.get("config-warnings/exclude", True):
-                    self._console.warn("Excludes may break code (%r)" % excludeCfg)
+                ignore_excludes = self._job.get("config-warnings/exclude", [])
+                if '*' not in ignore_excludes:  # check individually
+                    complain_excludes = [x for x in excludeCfg if not x in ignore_excludes]
+                    if complain_excludes:
+                        self._console.warn("Excludes may break code (%r)" % complain_excludes)
 
             # Splitting lists
             self._console.debug("Preparing exclude configuration...")

@@ -18,6 +18,11 @@
     "LOCALES"      : [ "en", "de", "ro", "sv"],
     "ROOT"         : "."
   },
+
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["source", "build-resources", "build-script"]
+  },
   
   "jobs" :
   {
@@ -26,7 +31,7 @@
     {
       "config-warnings" : 
       { 
-        "exclude" : false 
+        "exclude" : ["*"]
       },
       "include" :     
       [

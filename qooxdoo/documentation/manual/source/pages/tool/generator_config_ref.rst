@@ -308,18 +308,26 @@ Possible keys are
 config-warnings
 ===============
 
-Taylor configuration warnings. Takes a map.
+Taylor configuration warnings. This key can appear both at the config top-level, or at the job-level. Takes a map.
 
 ::
 
   "config-warnings" :
   {
-    "<config_key>" : (true|false)
+    "job-shadowing"    : ["source-script"],
+    "tl-unknown-keys"  : ["baz", "bar"],
+    "job-unknown-keys" : ["foo", "bar"],
+    "<config_key>"     : ["*"]
   }
 
-Turn off warnings printed by the generator to the console for specific configuration keys. If a given key is not used in the current job, it is ignored. Each key has to be a legal configuration key name (such as "let", "excludes", "packages",...). To turn off **all** warnings (independent of settings given in this key) use the generator ``-q`` :ref:`command line option <pages/tool/generator_usage#command-line_options>`.
+Turn off warnings printed by the generator to the console for specific configuration issues. The key is honored both at the top level of the configuration map, and within individual jobs, but some of the sub-keys are only sensible if used at the top-level (This is indicated with the individual key in the list below). Warnings are on by default (equivalent to assigning e.g. *["\*"]* to the corresponding key). Like with the global *let*, a top-level *config-warnings* key is inherited by every job in the config, so its settings are like job defaults. If a given key is not applicable in its context, it is ignored. To turn off **all** warnings for a single generator run (independent of settings given in this key) use the generator ``-q`` :ref:`command line option <pages/tool/generator_usage#command-line_options>`. 
 
-* **<config_key>** : whether warnings are printed for this configuration key (default: *true*)
+* **job-shadowing** *(top-level)* : Job names listed here are not warned about if the current config has a job of this name, and shadows another job of the same name from an included configuration.
+* **tl-unknown-keys** *(top-level)* : List of config keys on the top-level configuration map which are unknown to the generator, but should not be warned about.
+* **job-unknown-keys** : List of config keys within a job which are unknown to the generator, but should not be warned about.
+* **<config_key>** : This is a generic form, where *<config_key>* has to be a legal job-level configuration key (Unknown keys, as stated above, are silently skipped). Currently supported keys are ``exclude``, but more keys (like "let", "packages", ...) might follow. The usual value is a list, where the empty list *[]* means that config warnings for this key are generally on (none exempted), and *["\*"]* means they are generally off (all exempted). The interpretation of the value is key dependent.
+
+  * **exclude** : *[]* List of class patterns in the *exclude* key that the generator should not warn about.
 
 
 .. _pages/tool/generator_config_ref#copy-files:

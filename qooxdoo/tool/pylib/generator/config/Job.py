@@ -123,7 +123,6 @@ class Job(object):
             # does key exist?
             if key not in Key.JOB_LEVEL_KEYS.keys() + Key.META_KEYS:
                 if key not in ignored_job_keys:
-                    import pydb; pydb.debugger()
                     self.warnConfigError("! Unknown job config key \"%s\" - ignored." % key)
             # does it have a correct value type?
             if checkTypes:
