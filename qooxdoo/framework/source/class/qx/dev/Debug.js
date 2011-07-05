@@ -6,6 +6,7 @@
 
    Copyright:
      2006, 2007 Derrell Lipman
+     2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +15,7 @@
 
    Authors:
      * Derrell Lipman (derrell)
+     * Daniel Wagner (d_wagner)
 
 ************************************************************************ */
 
