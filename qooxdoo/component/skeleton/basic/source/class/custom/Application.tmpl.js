@@ -46,9 +46,9 @@ qx.Class.define("${Namespace}.Application",
      */
     main : function()
     {
-      if (typeof environment !== "undefined") { // Rhino runtime
+      if (qx.core.Environment.get("runtime.name") == "rhino") {
         qx.log.Logger.register(qx.log.appender.RhinoConsole);
-      } else if (typeof process !== "undefined") { // Node.js runtime
+      } else if (qx.core.Environment.get("runtime.name") == "node.js") {
         qx.log.Logger.register(qx.log.appender.NodeConsole);
       }
 

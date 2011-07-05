@@ -70,7 +70,13 @@
  *       <td>browser.version</td><td><i>String</em></td><td><code>11.0</code></td>
  *       <td>{@link qx.bom.client.Browser#getVersion}</td>
  *     </tr>
-
+ *     <tr>
+ *       <td colspan="4"><b>runtime</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>runtime.name</td><td><i> String </em></td><td><code> node.js </code></td>
+ *       <td>{@link qx.bom.client.Runtime#getName}</td>
+ *     </tr>
  *     <tr>
  *       <td colspan="4"><b>css</b></td>
  *     </tr>
@@ -814,6 +820,13 @@ qx.Bootstrap.define("qx.core.Environment",
       }
       if (this.useCheck("browser.quirksmode")) {
         this._checks["browser.quirksmode"] = qx.bom.client.Browser.getQuirksMode;
+      }
+
+      // /////////////////////////////////////////
+      // RUNTIME
+      // /////////////////////////////////////////
+      if (this.useCheck("runtime.name")) {
+        this._checks["runtime.name"] = qx.bom.client.Runtime.getName;
       }
 
       // /////////////////////////////////////////
