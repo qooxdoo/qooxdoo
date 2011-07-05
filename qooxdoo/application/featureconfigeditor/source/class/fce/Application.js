@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#asset(qx/icon/Tango/16/actions/help-contents.png)
+************************************************************************ */
+
 /**
  * Tool used to create configuration maps for feature-based builds
  */
@@ -34,6 +38,7 @@ qx.Class.define("fce.Application",
   {
     __featureSelector : null,
     __nameSpace : null,
+    __helpWindow : null,
     
     /**
      * This method contains the initial application code and gets called 
@@ -56,19 +61,25 @@ qx.Class.define("fce.Application",
       this.__nameSpace = qx.core.Environment.get("qx.application").split(".")[0];
       
       
-      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(0));
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
       var scroll = new qx.ui.container.Scroll(container);
       this.getRoot().add(scroll, {edge: 0});
       container.add(this._createHeader());
       
-      var innerContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
-      container.add(innerContainer, {flex: 1});
+      var helpButton = new qx.ui.form.Button("Help", "icon/16/actions/help-contents.png");
+      helpButton.set({
+        allowGrowX: false,
+        margin: [0, 0, 0, 20]
+      });
+      helpButton.addListener("execute", function(ev) {
+        this._getHelpWindow().open();
+      }, this);
+      container.add(helpButton);
       
       this.__featureSelector = new fce.view.FeatureSelector();
       this.__featureSelector.setMargin(20);
-      innerContainer.add(this.__featureSelector, {flex: 1});
-      innerContainer.add(this._createHelpBox(), {flex: 0});
-      
+      container.add(this.__featureSelector, {flex: 1});
+
       var env = new fce.Environment();
       env.addListenerOnce("changeFeatures", function(ev) {
         var clientFeatures = ev.getData();
@@ -130,28 +141,6 @@ qx.Class.define("fce.Application",
     
     
     /**
-     * Creates the help text box
-     * 
-     * @return {qx.ui.container.Composite} Help box
-     */
-    _createHelpBox : function()
-    {
-      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
-      container.set({
-        margin : 20,
-        minWidth : 150
-      });
-      var helpHeader = new qx.ui.basic.Label("Help");
-      helpHeader.setFont("bigger");
-      container.add(helpHeader);
-      var helpText = new qx.ui.basic.Label("Meaningful help text goes here...");
-      container.add(helpText);
-      
-      return container;
-    },
-    
-    
-    /**
      * Creates a {@link fce.Reporter} instance if the <em>fce.reportServer.host</em>,
      * <em>fce.reportServer.addUrl</em> and <em>fce.reportServer.getUrl</em> 
      * environment settings are defined.
@@ -169,6 +158,21 @@ qx.Class.define("fce.Application",
       }
       
       return null;
+    },
+
+
+    /**
+     * Creates a Help Window (if necessary) and returns it
+     * 
+     * @return {fce.view.HelpWindow} help window
+     */
+    _getHelpWindow : function()
+    {
+      if (!this.__helpWindow) {
+        this.__helpWindow = new fce.view.HelpWindow();
+        this.__helpWindow.center();
+      }
+      return this.__helpWindow;
     }
   },
   
