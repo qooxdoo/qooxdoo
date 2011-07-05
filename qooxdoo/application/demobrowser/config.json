@@ -35,7 +35,6 @@
     "api-data",
     "build",
     "build-data",
-    "build-demo-jobs",
     "clean",
     "distclean",
     "fix",
@@ -46,7 +45,6 @@
     "publish",
     "source",
     "source-data",
-    "source-demo-jobs",
     "source-hybrid",
     "test",
     "test-source",
@@ -66,6 +64,11 @@
     // need to include all locales used in demos here, so 'translation' job picks them up
     "LOCALES"      : ["en", "en_US", "de", "de_DE", "fr", "fr_FR"],
     "THEME"        : "demobrowser.Theme"
+  },
+
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["simulation-run"]
   },
 
   "jobs" :

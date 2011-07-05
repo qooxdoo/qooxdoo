@@ -119,6 +119,11 @@ def CreateDemoJson():
     # jobs section
     JSON['jobs'] = {}
 
+    # allow exported jobs to be shadowed
+    JSON['config-warnings'] = {}
+    shadowed_jobs = []
+    JSON['config-warnings']['job-shadowing'] = shadowed_jobs
+
     # Process demo html files
     while True:
         html = (yield)
@@ -133,6 +138,8 @@ def CreateDemoJson():
         config_file = os.path.splitext(html)[0] + ".json"
         if os.path.exists(config_file):
             JSON['include'].append({"path":"%s" % config_file})
+            demo_config = json.loadStripComments(config_file)
+            shadowed_jobs.extend(demo_config['export'])
 
         # build classname
         simple = "%s.%s" % (category,name)
