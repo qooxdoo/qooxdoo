@@ -37,6 +37,7 @@ qx.Class.define("qx.test.ui.core.Placement",
     },
 
     tearDown : function() {
+      this.base(arguments);
       qx.ui.core.MPlacement.setVisibleElement(null);
       this.__nogo.destroy();
     },

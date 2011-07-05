@@ -35,6 +35,7 @@ qx.Class.define("qx.test.ui.core.Appearance",
     },
 
     tearDown : function() {
+      this.base(arguments);
       qx.theme.manager.Appearance.getInstance().setTheme(this.__oldAppearance);
     },
 
