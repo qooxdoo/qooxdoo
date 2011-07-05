@@ -93,7 +93,13 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     {
       if (!window.iScroll)
       {
-        var path = qx.util.ResourceManager.getInstance().toUri("qx/mobile/js/iscroll.js");
+        var resource = "qx/mobile/js/iscroll";
+        if (qx.core.Environment.get("qx.debug"))
+        {
+          resource += "-debug"; 
+        }
+        resource += ".js";
+        var path = qx.util.ResourceManager.getInstance().toUri(resource);
         if (qx.core.Environment.get("qx.debug"))
         {
           path += "?" + new Date().getTime();
