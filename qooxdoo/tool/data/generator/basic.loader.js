@@ -93,10 +93,20 @@
                   }
                   p = require.resolve(p);
                   s = fs.readFileSync(p, "utf-8");
-                  eval(s);
+                  try {
+                    eval(s);
+                  } catch (e) {
+                    console.error("Unable to load uri: "+p);
+                    throw e;
+                  }
                 } else if (typeof environment !== "undefined") { // Rhino
                   p = uris[i];
-                  load(p);
+                  try {
+                    load(p);
+                  } catch (e) {
+                    java.lang.System.err.println("Unable to load uri: "+p);
+                    throw e;
+                  }
                 }
                 //log("loaded uri " + p);
             }
