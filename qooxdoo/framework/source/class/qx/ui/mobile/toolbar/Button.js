@@ -35,7 +35,7 @@ qx.Class.define("qx.ui.mobile.toolbar.Button",
 
   /**
    * @param label {String?null} optional label that will be used as the text of the button
-   * @param attributes {String?null} optional URI to an image, that will be used in the button
+   * @param icon {String?null} optional URI to an image, that will be used in the button
    */
     construct : function(label, icon)
     {
