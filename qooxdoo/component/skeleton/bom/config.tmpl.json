@@ -15,7 +15,12 @@
     {
       "config-warnings" : 
       { 
-        "exclude" : false 
+        "exclude" :
+        [
+          "qx.data.SingleValueBinding",
+          "qx.event.type.Drag",
+          "qx.event.handler.DragDrop"
+        ]
       },
  
       "library" :

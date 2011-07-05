@@ -23,6 +23,7 @@
 # An abstraction layer over the Json package we're using (e.g. simplejson)
 ##
 
+import sys, os, re, string, types, codecs
 import simplejson as json
 
 dumps = json.dumps
@@ -38,3 +39,11 @@ load = json.load
 def dumpsCode(data, **kwargs):
     return dumps(data, sort_keys=True, ensure_ascii=False, separators=(',', ':'), **kwargs)
 
+_eolComment = re.compile(r'(?<![a-zA-Z]:)//.*$', re.M)
+_mulComment = re.compile(r'/\*.*?\*/', re.S)
+
+def loadStripComments(path, **kwargs):
+    s = codecs.open(path, "r", "utf-8").read()
+    s = _eolComment.sub('',s)
+    s = _mulComment.sub('',s)
+    return loads(s, **kwargs)

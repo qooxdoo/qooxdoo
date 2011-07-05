@@ -40,6 +40,11 @@
     "ROOT"         : "."
   },
 
+  "config-warnings" :
+  {
+    "job-shadowing" : ["source", "build-resources", "build-script", "build-files"]
+  },
+
   // You only need to edit the remainder of this file, if you want to customize
   // specific jobs, or add own job definitions.
 
@@ -47,6 +52,15 @@
   {
     "basic-common" :
     {
+      "config-warnings" :
+      {
+        "exclude" :
+        [
+          "qx.event.GlobalError",
+          "qx.core.Init"
+        ]
+      },
+
       "library" :
       [
         {
