@@ -210,7 +210,7 @@ qx.Class.define("qx.data.controller.List",
     __onUpdate : null,
     __boundProperties : null,
     __boundPropertiesReverse : null,
-    __syncTagetSelection : null,
+    __syncTargetSelection : null,
     __syncModelSelection : null,
 
 
@@ -337,16 +337,16 @@ qx.Class.define("qx.data.controller.List",
         if (old == null) {
           this._changeTargetSelection();
         } else {
-          // update the selection async
-          this.__syncTagetSelection = true;
+          // update the selection asynchronously
+          this.__syncTargetSelection = true;
           qx.ui.core.queue.Widget.add(this);
         }
       } else {
         var target = this.getTarget();
         // if the model is set to null, we should remove all items in the target
         if (target != null) {
-          // we need to remove the bidnings too so use the controller method
-          // for remving items
+          // we need to remove the bindings too so use the controller method
+          // for removing items
           var length = target.getChildren().length;
           for (var i = 0; i < length; i++) {
             this.__removeItem();
@@ -402,9 +402,9 @@ qx.Class.define("qx.data.controller.List",
      * be done by the binding.
      */
     __changeModel: function() {
-      // need an asynchron selection update because the bindings have to be
+      // need an asynchronous selection update because the bindings have to be
       // executed to update the selection probably (using the widget queue)
-      // this.__syncTagetSelection = true;
+      // this.__syncTargetSelection = true;
       this.__syncModelSelection = true;
       qx.ui.core.queue.Widget.add(this);
 
@@ -417,20 +417,20 @@ qx.Class.define("qx.data.controller.List",
 
     /**
      * Internal method used to sync the selection. The controller uses the
-     * widget queue to schedule the selection update. An asynchron handling of
+     * widget queue to schedule the selection update. An asynchronous handling of
      * the selection is needed because the bindings (event listeners for the
      * binding) need to be executed before the selection is updated.
      * @internal
      */
     syncWidget : function()
     {
-      if (this.__syncTagetSelection) {
+      if (this.__syncTargetSelection) {
         this._changeTargetSelection();
       }
       if (this.__syncModelSelection) {
         this._updateSelection();
       }
-      this.__syncModelSelection = this.__syncTagetSelection = null;
+      this.__syncModelSelection = this.__syncTargetSelection = null;
     },
 
 
@@ -459,7 +459,7 @@ qx.Class.define("qx.data.controller.List",
         }
       // if there are less elements
       } else if (newLength < currentLength) {
-        // remove the unnecessary ítems
+        // remove the unnecessary items
         for (var j = currentLength; j > newLength; j--) {
           this.__removeItem();
         }
@@ -467,7 +467,7 @@ qx.Class.define("qx.data.controller.List",
 
       // sync the target selection in case someone deleted a item in
       // selection mode "one" [BUG #4839]
-      this.__syncTagetSelection = true;
+      this.__syncTargetSelection = true;
       qx.ui.core.queue.Widget.add(this);
     },
 
@@ -479,7 +479,7 @@ qx.Class.define("qx.data.controller.List",
      */
     __moveChangeListenerAtTheEnd : function() {
       var model = this.getModel();
-      // it can be that the bindings has been resetted without the model so
+      // it can be that the bindings has been reset without the model so
       // maybe there is no model in some scenarios
       if (model != null) {
         model.removeListenerById(this.__changeModelListenerId);
@@ -557,7 +557,7 @@ qx.Class.define("qx.data.controller.List",
      * Returns all models currently visible by the list. This method is only
      * useful if you use the filter via the {@link #delegate}.
      *
-     * @return {qx.data.Array} A new data array containiner all the models
+     * @return {qx.data.Array} A new data array container all the models
      *   which representation items are currently visible.
      */
     getVisibleModels : function()
@@ -734,7 +734,7 @@ qx.Class.define("qx.data.controller.List",
     /**
      * Internal helper method to remove the binding of the given item.
      *
-     * @param item {Number} The itemof which the binding which should
+     * @param item {Number} The item of which the binding which should
      *   be removed.
      */
     _removeBindingsFrom: function(item) {
@@ -777,7 +777,7 @@ qx.Class.define("qx.data.controller.List",
         this._bindListItem(items[i], this.__lookup(i));
       }
 
-      // move the controllers change handlder for the model to the end of the
+      // move the controllers change handler for the model to the end of the
       // listeners queue
       this.__moveChangeListenerAtTheEnd();
     },
@@ -904,7 +904,7 @@ qx.Class.define("qx.data.controller.List",
 
       // if there are lesser items
       if (oldTable.length > this.__lookupTable.length) {
-        // remove the unnecessary ítems
+        // remove the unnecessary items
         for (var j = oldTable.length; j > this.__lookupTable.length; j--) {
           this.getTarget().removeAt(j - 1).destroy();
         }
@@ -923,7 +923,7 @@ qx.Class.define("qx.data.controller.List",
         this._bindListItem(listItems[i], this.__lookup(i));
       }
 
-      // move the controllers change handlder for the model to the end of the
+      // move the controllers change handler for the model to the end of the
       // listeners queue
       this.__moveChangeListenerAtTheEnd();
 
@@ -945,7 +945,7 @@ qx.Class.define("qx.data.controller.List",
       // renew the bindings
       this.__renewBindings();
 
-      // need an asynchron selection update because the bindings have to be
+      // need an asynchronous selection update because the bindings have to be
       // executed to update the selection probably (using the widget queue)
       this.__syncModelSelection = true;
       qx.ui.core.queue.Widget.add(this);
