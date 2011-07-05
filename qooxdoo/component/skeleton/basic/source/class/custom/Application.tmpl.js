@@ -28,7 +28,7 @@
  */
 qx.Class.define("${Namespace}.Application",
 {
-  extend : qx.application.Native,
+  extend : qx.application.Basic,
 
 
 
