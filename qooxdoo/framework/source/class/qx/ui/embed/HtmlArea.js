@@ -338,6 +338,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     __postPonedProperties: null,
     __blockerElement : null,
     __initValues : null,
+    __onDOMNodeRemoved : null,
 
 
     /**
@@ -580,16 +581,24 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      */
     __setupInvalidateListener : function()
     {
+      this.__onDOMNodeRemoved = qx.lang.Function.bind(this.__invalidateEditor, this);
+
       var element = this.getContainerElement().getDomElement();
-
-      var invalidateEditor = function(e) {
-        this.__editorComponent.invalidateEditor();
-      };
-      var boundFunction = qx.lang.Function.bind(invalidateEditor, this);
-
-      qx.bom.Event.addNativeListener(element, "DOMNodeRemoved", qx.event.GlobalError.observeMethod(boundFunction));
+      qx.bom.Event.addNativeListener(element, "DOMNodeRemoved", this.__onDOMNodeRemoved);
     },
 
+
+    /**
+     * Invalidates the editor component if the connected DOM node is removed.
+     * 
+     * @param e {qx.event.type.Event} event instance
+     */
+    __invalidateEditor : qx.event.GlobalError.observeMethod(function(e)
+    {
+      if (this.__editorComponent && !this.__editorComponent.isDisposed()) {
+        this.__editorComponent.invalidateEditor();
+      }
+    }),
 
 
     /*
@@ -1391,6 +1400,9 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     qx.event.Registration.removeListener(document.body, "mousedown", this.block, this, true);
     qx.event.Registration.removeListener(document.body, "mouseup", this.release, this, true);
     qx.event.Registration.removeListener(document.body, "losecapture", this.release, this, true);
+
+    var element = this.getContainerElement().getDomElement();
+    qx.bom.Event.removeNativeListener(element, "DOMNodeRemoved", this.__onDOMNodeRemoved);
 
     this._disposeObjects("__blockerElement", "__editorComponent");
   }
