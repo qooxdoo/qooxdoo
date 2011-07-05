@@ -53,17 +53,17 @@ qx.Class.define("mobileshowcase.page.Tab",
     __createTabBar : function()
     {
       var tabBar = new qx.ui.mobile.tabbar.TabBar();
-      var tabButton1 = new qx.ui.mobile.tabbar.TabButton("1");
+      var tabButton1 = new qx.ui.mobile.tabbar.TabButton("Tab 1");
 
       tabBar.add(tabButton1);
       tabButton1.setView(this.__createView("View 1"));
-      var tabButton2 = new qx.ui.mobile.tabbar.TabButton("2");
+      var tabButton2 = new qx.ui.mobile.tabbar.TabButton("Tab 2");
       tabButton2.setView(this.__createView("View 2"));
       tabBar.add(tabButton2);
-      var tabButton3 = new qx.ui.mobile.tabbar.TabButton("3");
+      var tabButton3 = new qx.ui.mobile.tabbar.TabButton("Tab 3");
       tabButton3.setView(this.__createView("View 3"));
       tabBar.add(tabButton3);
-      var tabButton4 = new qx.ui.mobile.tabbar.TabButton("4");
+      var tabButton4 = new qx.ui.mobile.tabbar.TabButton("Tab 4");
       tabButton4.setView(this.__createView("View 4"));
       tabBar.add(tabButton4);
       return tabBar;
