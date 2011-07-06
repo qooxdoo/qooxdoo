@@ -677,6 +677,8 @@ The cure is to hint to the generator to create different output files during pro
 
 This will two output files in the *build/script* path, ``myapp_bar.js`` and ``myapp_baz.js``. 
 
+.. _pages/tool/generator_config_articles#browser-specific_builds:
+
 Browser-specific Builds
 -----------------------
 
@@ -717,8 +719,7 @@ The following job config example shows how to create an application variant cust
         "html.vml":true,
         "html.webworker":false,
         "html.xpath":false,
-        "html.xul":false,
-        "io.ssl":false
+        "html.xul":false
       },
       
       "compile-options" : 
@@ -747,7 +748,7 @@ By also running the default ``build-script`` job, an additional generic version 
 
 Finally, the application's ``index.html`` file must make sure the correct application variant is loaded based on the browser, e.g. by performing a simple user agent check:
 
-::
+.. code-block:: html
 
     <!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">

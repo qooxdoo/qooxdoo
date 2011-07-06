@@ -116,3 +116,14 @@ Developer Tools
 
   A framework to develop simulated interaction tests, using `Selenium <http://seleniumhq.org>`__.
   
+
+.. toctree::
+   :maxdepth: 1
+
+   application/featureconfigeditor
+
+..
+
+  Editing tool for environment configurations used for browser-specific builds.
+  
+  `Online demo <http://demo.qooxdoo.org/%{version}/featureconfigeditor>`__
