@@ -209,6 +209,8 @@ First, here is an overview table, to list all possible keys in a job (if the key
     - **Description**
   * - cache
     - Define the path to the cache directory.  
+  * - config-warnings (experimental)
+    - Suppress warnings relating to configuration.
   * - log
     - Tailor log output options.               
 
@@ -239,9 +241,11 @@ This shows the complete possible contents of the top-level configuration map. Fu
 
 * :ref:`default-job <pages/tool/generator_config_ref#default-job>` The name of a job to be run as default, i.e. when invoking the generator without job arguments.
 
+* :ref:`config-warnings <pages/tool/generator_config_ref#config-warnings>` *(experimental)* Suppress warnings from configuration aspects which you know are ok.
+
 * :ref:`jobs <pages/tool/generator_config_ref#jobs>` Map of jobs. Each key is the name of a job.
 
-  * *<jobname>* Each job's value is a map describing the job. The describing map can have any number of the following keys:
+  * **<jobname>** Each job's value is a map describing the job. The describing map can have any number of the following keys:
 
     * :ref:`add-script <pages/tool/generator_config_ref#api>` A list of URIs that will be loaded first thing when the app starts.
     * :ref:`api <pages/tool/generator_config_ref#api>` Triggers the generation of a custom Apiviewer application.
@@ -252,6 +256,7 @@ This shows the complete possible contents of the top-level configuration map. Fu
     * :ref:`combine-images <pages/tool/generator_config_ref#combine-images>` Triggers creation of a combined image file that contains various images.
     * :ref:`compile <pages/tool/generator_config_ref#compile>` Triggers the generation of a source or build version of the application.
     * :ref:`compile-options <pages/tool/generator_config_ref#compile-options>` Define various options that influence compile runs (both source and build version).
+    * :ref:`config-warnings <pages/tool/generator_config_ref#config-warnings>` *(experimental)* Suppress warnings from configuration aspects which you know are ok.
     * :ref:`copy-files <pages/tool/generator_config_ref#copy-files>` Triggers files/directories to be copied, usually between source and build version.
     * :ref:`copy-resources <pages/tool/generator_config_ref#copy-resources>` Triggers the copying of resources, usually between source and build version.
     * :ref:`dependencies <pages/tool/generator_config_ref#dependencies>` Fine-tune the processing of class dependencies.

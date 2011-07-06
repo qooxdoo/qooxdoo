@@ -308,6 +308,8 @@ Possible keys are
 config-warnings
 ===============
 
+*(experimental)*
+
 Taylor configuration warnings. This key can appear both at the config top-level, or at the job-level. Takes a map.
 
 ::
