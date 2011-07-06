@@ -281,7 +281,6 @@ class Job(object):
         global_let = self._config.get(Key.LET_KEY,False)
         if global_let:
             newlet = self.mapMerge(global_let, newlet)
-
         if newlet:
             self.setFeature(Key.LET_KEY, newlet) # set cumulative let value
 
@@ -536,7 +535,7 @@ class Job(object):
 
             # add new key
             else:
-                target[key] = source[key]
+                target[key] = copy.deepcopy(source[key]) # make sure we don't modify the source later
                 # carry over override protection:
                 # only add protection for new keys - don't add protection for keys that
                 # alreay exist in the target but are unprotected
@@ -560,7 +559,7 @@ class Job(object):
         t = []
         for e in source:
             if not e in target:
-                t.append(e)
+                t.append(copy.deepcopy(e)) # make sure we have our own copy of reference types
         return target + t
 
 
