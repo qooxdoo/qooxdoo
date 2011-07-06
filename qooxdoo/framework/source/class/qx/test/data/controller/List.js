@@ -1124,8 +1124,6 @@ qx.Class.define("qx.test.data.controller.List",
         // check that it has not been scrolled
         this.assertEquals(40, this.__list.getScrollY());
       }
-      
-      this.getRoot().destroy();
     },
 
 
