@@ -24,6 +24,11 @@
     "ROOT"         : "."
   },
 
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["build-resources", "common"]
+  },
+
   "jobs" :
   {
     "source" :

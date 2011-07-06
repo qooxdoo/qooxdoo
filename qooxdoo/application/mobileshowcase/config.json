@@ -40,6 +40,11 @@
     "ROOT"         : "."
   },
 
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["source-all-script", "build-files", "common"]
+  },
+
   "jobs" :
   {
     "common" :

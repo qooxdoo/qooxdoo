@@ -25,6 +25,11 @@
     "ROOT"         : "."
   },
 
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["build-files", "common"]
+  },
+
   "jobs" :
   {
     "common" :

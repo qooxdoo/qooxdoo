@@ -47,6 +47,11 @@
     "ROOT"         : "."
   },
   
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["build-script", "build-files", "common"]
+  },
+
   "jobs" :
   {
     
