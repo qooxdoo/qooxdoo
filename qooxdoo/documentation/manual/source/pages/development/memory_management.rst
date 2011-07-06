@@ -74,3 +74,30 @@ The nice thing here is that the log messages already indicate which dispose meth
 * for qooxdoo objects (e.g. qx.util.format.DateFormat, testgui.Report, ...) use ``_disposeObjects``
 * for arrays or maps of qooxdoo objects use ``_disposeArray`` or ``_disposeMap``.
 * be sure to cut all references to the DOM because garbage collection can not dispose object still connected to the DOM. This is also true for event listeners for example.
+
+.. _pages/memory_management#finding_memory_leaks:
+
+Finding memory leaks
+====================
+
+qooxdoo contains a built-in dispose profiling feature that finds undisposed objects. This is useful mainly for applications that create and destroy objects as needed during their lifetime (instead of creating them once and re-using them). It cannot be used to find undisposed objects left over after the application was shut down. 
+
+Dispose profiling works by disabling a feature in qooxdoo's Object Registry where the hash codes used to identify objects are reused. That way, it is possible to iterate over all objects created between two specified points in the application's lifecycle and check if they're disposed. Since hash reusing is a performance feature, dispose profiling should only be activated for the development version of an application.
+It is activated by enabling the **qx.debug.dispose** environment setting for a compile job, e.g. `source-script`:
+
+::
+
+  "source-script" :
+  {
+    "environment" :
+    {
+      "qx.debug.dispose" : true
+    }
+  }
+
+After building the application, the dispose debugging workflow is as follows:
+
+* Call `qx.dev.Debug.startDisposeProfiling <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.Debug.startDisposeProfiling>`_ before the code you wish to debug is executed. This effectively sets a marker saying "ignore any objects created before this point in time".
+* Execute the code to be debugged, e.g. create a view component, then destroy it.
+* Call `qx.dev.Debug.stopDisposeProfiling <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.Debug.stopDisposeProfiling>`_. It will return a list of maps containing references to the undisposed objects as well as stack traces taken at the time the objects were registered, which makes it easy to find where in the code they were instantiated. Go through the list and add ``destroy`` and/or ``dispose`` calls to the application as needed.
+ 
