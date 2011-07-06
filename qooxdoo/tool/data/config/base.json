@@ -138,6 +138,16 @@
 
       "extend" : ["common"],
 
+      "config-warnings" :
+      {
+        "exclude" :
+        [
+          "qx.test.*",
+          "${APPLICATION}.test.*",
+          "${APPLICATION}.simulation.*"
+        ]
+      },
+
       // include all (relevant) sources
       "include" :     
       [
@@ -312,7 +322,10 @@
     "provider-deps":
     {
       // will only run when invoked from "provider"
-      "include" : [ "=${APPLICATION}.*" ]
+      "config-warnings" : {
+        "exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
+      }
+      ,"include" : [ "=${APPLICATION}.*" ]
       ,"exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
 
       ,"log" : 
@@ -329,7 +342,10 @@
     "provider-classes" :
     {
       // will only run when invoked from "provider"
-      "compile-options" : 
+      "config-warnings" : {
+        "exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
+      }
+      ,"compile-options" : 
       {
         "code" : 
         {

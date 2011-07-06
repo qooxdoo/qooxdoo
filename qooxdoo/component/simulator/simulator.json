@@ -18,6 +18,14 @@
     {
       "extend" : ["cache"],
       
+      "config-warnings" :
+      {
+        "exclude" : [
+          "qx.core.Init",
+          "qx.event.GlobalError"
+        ]
+      },
+      
       "library" :
       [
         {

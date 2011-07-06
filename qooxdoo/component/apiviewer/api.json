@@ -168,6 +168,10 @@
 
     "build-data" :
     {
+      "config-warnings" : 
+      {
+        "exclude" : "${API_EXCLUDE}"
+      },
       "extend" : ["common"],
 
       "include" : "${API_INCLUDE}",

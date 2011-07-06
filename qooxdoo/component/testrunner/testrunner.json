@@ -216,6 +216,11 @@
     
     "tests-common" :
     {
+      "config-warnings" :
+      {
+        "exclude" : "${TEST_EXCLUDE}"  
+      },
+
       "extend"    : [ "libraries" ],
 
       "let" :

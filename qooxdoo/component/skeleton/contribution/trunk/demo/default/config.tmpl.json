@@ -39,10 +39,15 @@
     "APPLICATION"  : "${Namespace}.demo",
     "QOOXDOO_PATH" : "../../${REL_QOOXDOO_PATH}",
     "QXTHEME"      : "${Namespace}.demo.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "$${APPLICATION}.theme.*", "$${APPLICATION}.test.*"],
+    "API_EXCLUDE"  : ["qx.test.*", "$${APPLICATION}.theme.*", "$${APPLICATION}.test.*", "$${APPLICATION}.simulation.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
     "ROOT"         : "."
+  },
+
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["libraries"]
   },
 
   "jobs" :
