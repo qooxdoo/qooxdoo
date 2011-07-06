@@ -21,6 +21,8 @@
     "migration",
     "pretty",
     "profiling",
+    "simulation-build",
+    "simulation-run",
     "source",
     "source-all",
     "source-hybrid",
@@ -88,6 +90,30 @@
         "qx.test.*",
         "${APPLICATION}.test.*"
       ]
+    },
+
+    "simulation-run" :
+    {
+      "let" : 
+      {
+        "SIMULATOR_CLASSPATH" : ["../../../js.jar", "../../../selenium-java-client-driver.jar"],
+        "SELENIUM_SERVER" : "172.17.13.186",
+        "SELENIUM_PORT" : 4444,
+        "SELENIUM_BROWSER" : "*googlechrome",
+        "AUT_HOST" : "http://localhost",
+        "AUT_PATH" : "/~dwagner/workspace/qooxdoo.trunk/application/mobileshowcase/source/index.html"
+      },
+      
+      "environment" :
+      {
+        "simulator.selServer"   : "${SELENIUM_SERVER}",
+        "simulator.selPort"     : "${SELENIUM_PORT}",
+        "simulator.testBrowser" : "${SELENIUM_BROWSER}",
+        "simulator.autHost"     : "${AUT_HOST}",
+        "simulator.autPath"     : "${AUT_PATH}",
+        "simulator.applicationLog" : true,
+        "simulator.globalErrorLogging" : true
+      }
     }
   }
 }
