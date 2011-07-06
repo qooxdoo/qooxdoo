@@ -26,7 +26,7 @@
  * The idea of the object controller is to make the binding of one model object
  * containing one or more properties as easy as possible. Therefore the
  * controller can take a model as property. Every property in that model can be
- * bound to one ore more targets properties. The binding will be for
+ * bound to one or more target properties. The binding will be for
  * atomic types only like Numbers, Strings, ...
  *
  * *Features*

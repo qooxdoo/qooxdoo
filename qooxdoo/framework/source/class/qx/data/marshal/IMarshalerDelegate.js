@@ -79,7 +79,7 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
 
 
     /**
-     * Returns the validation rules which shold be added to the created class
+     * Returns the validation rules which should be added to the created class
      * for the given property. This method will be called for every property.
      *
      * @param properties {String} A sorted order of propertynames

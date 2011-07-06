@@ -19,7 +19,7 @@
 
 /**
  * @tag databinding
- * @tag list contorller
+ * @tag list controller
  * @tag form controller
  */
 qx.Class.define("demobrowser.demo.data.FormAndListController",

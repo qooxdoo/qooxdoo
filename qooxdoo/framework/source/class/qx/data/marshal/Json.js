@@ -75,7 +75,7 @@ qx.Class.define("qx.data.marshal.Json",
      * classes under the namespace <code>qx.data.model</code>.
      *
      * @param data {Object} The JavaScript object from which the hash is
-     *   requeired.
+     *   required.
      * @return {String} The hash representation of the given JavaScript object.
      */
     __jsonToHash: function(data) {

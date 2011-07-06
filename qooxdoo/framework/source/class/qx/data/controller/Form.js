@@ -21,8 +21,8 @@
  *
  * *General idea*
  *
- * The form controller is responsible for connecting a from with a model. If no
- * model is given, a model can be created. This created form will fit exactly
+ * The form controller is responsible for connecting a form with a model. If no
+ * model is given, a model can be created. This created model will fit exactly
  * to the given form and can be used for serialization. All the connections
  * between the form items and the model are handled by an internal
  * {@link qx.data.controller.Object}.
@@ -34,7 +34,7 @@
  *
  * *Usage*
  *
- * The controller only work if both, a controller and a model are set.
+ * The controller only works if both a controller and a model are set.
  * Creating a model will automatically set the created model.
  *
  * *Cross reference*
@@ -54,7 +54,7 @@ qx.Class.define("qx.data.controller.Form",
    *   items. The given form will be set as {@link #target} property.
    * @param selfUpdate {Boolean?false} If set to true, you need to call the
    *   {@link #updateModel} method to get the data in the form to the model.
-   *   Otherwise, the data will be synced automatically on every chagne of
+   *   Otherwise, the data will be synced automatically on every change of
    *   the form.
    */
   construct : function(model, target, selfUpdate)
