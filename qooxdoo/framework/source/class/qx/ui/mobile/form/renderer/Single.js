@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         var row = new qx.ui.mobile.form.Row();
         if(names[i] != null) {
           var label = new qx.ui.mobile.basic.Label(names[i]);
-          label._setStyle('marginBottom', '5px');
+          label._setStyle('marginBottom', '7px');
           row.add(label);
         }
         row.add(items[i]);
