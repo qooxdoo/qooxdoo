@@ -535,7 +535,13 @@ class Job(object):
 
             # add new key
             else:
-                target[key] = copy.deepcopy(source[key]) # make sure we don't modify the source later
+                if isinstance(source[key], types.ListType):
+                    s1 = source[key][:]
+                elif isinstance(source[key], types.DictType):
+                    s1 = source[key].copy()
+                else:
+                    s1 = source[key]
+                target[key] = s1
                 # carry over override protection:
                 # only add protection for new keys - don't add protection for keys that
                 # alreay exist in the target but are unprotected
@@ -559,7 +565,13 @@ class Job(object):
         t = []
         for e in source:
             if not e in target:
-                t.append(copy.deepcopy(e)) # make sure we have our own copy of reference types
+                if isinstance(e, types.ListType):
+                    e1 = e[:]
+                elif isinstance(e, types.DictType):
+                    e1 = e.copy()
+                else:
+                    e1 = e
+                t.append(e1) # make sure we have our own copy of container types
         return target + t
 
 
