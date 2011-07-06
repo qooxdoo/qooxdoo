@@ -577,16 +577,16 @@ native browser, in the App Stores or directly on your mobile device.
 
 
 .. _Twitter: http://twitter.com/
-.. _qooxdoo mobile: http://demo.qooxdoo.org/devel/apiviewer/#qx.ui.mobile
+.. _qooxdoo mobile: http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile
 .. _here: https://github.com/qooxdoo/mobiletweets/tree/master/source/class/mobiletweets
-.. _tool chain: http://manual.qooxdoo.org/devel/pages/tool.html
-.. _object oriented: http://manual.qooxdoo.org/devel/pages/core.html
-.. _qooxdoo environment: http://manual.qooxdoo.org/devel/pages/getting_started/requirements.html
+.. _tool chain: http://manual.qooxdoo.org/%{version}/pages/tool.html
+.. _object oriented: http://manual.qooxdoo.org/%{version}/pages/core.html
+.. _qooxdoo environment: http://manual.qooxdoo.org/%{version}/pages/getting_started/requirements.html
 .. _trunk: http://qooxdoo.org/documentation/general/checking_out_from_svn
 .. _Chrome: http://www.google.com/chrome/
 .. _Safari: http://www.apple.com/safari/
-.. _requirements: http://manual.qooxdoo.org/devel/pages/mobile/mobile_overview.html
-.. _animations: http://demo.qooxdoo.org/devel/apiviewer/#qx.ui.mobile.page.manager.Animation
-.. _Data binding: http://manual.qooxdoo.org/devel/pages/core.html#data-binding
-.. _JSONP: http://demo.qooxdoo.org/devel/apiviewer/#qx.data.store.Jsonp
+.. _requirements: http://manual.qooxdoo.org/%{version}/pages/mobile/mobile_overview.html
+.. _animations: http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile.page.manager.Animation
+.. _Data binding: http://manual.qooxdoo.org/%{version}/pages/core.html#data-binding
+.. _JSONP: http://demo.qooxdoo.org/%{version}/apiviewer/#qx.data.store.Jsonp
 .. _PhoneGap: http://www.phonegap.com/
