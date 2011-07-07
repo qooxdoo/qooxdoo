@@ -70,7 +70,6 @@ qx.Class.define("qx.lang.String",
     /**
      * A RegExp that matches the first letter in a word - unicode aware
      */
-    
     __unicodeFirstLetterInWordRegexp : null,
     
     /**
@@ -118,7 +117,7 @@ qx.Class.define("qx.lang.String",
      */
     capitalize: function(str){
       if(this.__unicodeFirstLetterInWordRegexp === null) {
-        this.__unicodeFirstLetterInWordRegexp = new RegExp("(^|[^" + this.__unicodeLetters.replace(/[0-9A-F]{4}/g,function(match){return '\\\u'+match}) + "])[" + this.__unicodeLetters.replace(/[0-9A-F]{4}/g,function(match){return '\\\u'+match}) + "]", "g");
+        this.__unicodeFirstLetterInWordRegexp = new RegExp("(^|[^" + this.__unicodeLetters.replace(/[0-9A-F]{4}/g,function(match){return '\\u'+match}) + "])[" + this.__unicodeLetters.replace(/[0-9A-F]{4}/g,function(match){return '\\u'+match}) + "]", "g");
       }
       return str.replace(this.__unicodeFirstLetterInWordRegexp, function(match) {
         return match.toUpperCase();
