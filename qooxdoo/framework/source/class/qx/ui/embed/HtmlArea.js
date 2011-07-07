@@ -1402,7 +1402,9 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     qx.event.Registration.removeListener(document.body, "losecapture", this.release, this, true);
 
     var element = this.getContainerElement().getDomElement();
-    qx.bom.Event.removeNativeListener(element, "DOMNodeRemoved", this.__onDOMNodeRemoved);
+    if (element) {
+      qx.bom.Event.removeNativeListener(element, "DOMNodeRemoved", this.__onDOMNodeRemoved);
+    }
 
     this._disposeObjects("__blockerElement", "__editorComponent");
   }
