@@ -39,7 +39,11 @@
 
     "source-script-classic" :
     {
-      "let"     : { "QXTHEME" : "qx.theme.Classic"},
+      "let"     : 
+      { 
+        "QXTHEME" : "qx.theme.Classic",
+        "QXICONTHEME" : ["Oxygen"]
+      },
       "extend"  : ["source-script"],
       "compile-options" : {
         "paths" :
@@ -104,7 +108,11 @@
 
     "build-script-classic" :
     {
-      "let"     : { "QXTHEME" : "qx.theme.Classic" },
+      "let"     : 
+      { 
+        "QXTHEME" : "qx.theme.Classic",
+        "QXICONTHEME" : ["Oxygen"]
+      },
       "extend"  : ["build-script"],
       "compile-options" : {
         "paths" :
