@@ -151,7 +151,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
           {
             self.__fadeEffects[this.id + 1].start();
           }
-          else 
+          else
           {
             // last animation should trigger the finish methods if not already done
             if (self.__triggerFinish) {
@@ -168,7 +168,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
     // overwritten
     // to be able to control the end of the sub animations
     // if the sub animations are not finished the pulsate animation itself
-    // should not signal the end. Otherwise a sub animation is still running 
+    // should not signal the end. Otherwise a sub animation is still running
     // after the "finish" event of the Pulsate animation is fired
     end : function()
     {

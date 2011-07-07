@@ -53,13 +53,13 @@ qx.Class.define("qx.test.bom.Label",
       this.__marginStyle = null;
       this.__allTogetherStyle = null;
     },
-    
+
     // test only XUL labels under windows to get comparable results
     // to ensure the change of bug #5011 does not break anything
 
     testMeasureSizeTextNormal : function()
     {
-      if (!qx.core.Environment.get("css.textoverflow") && 
+      if (!qx.core.Environment.get("css.textoverflow") &&
           qx.core.Environment.get("html.xul") &&
           qx.core.Environment.get("os.name") == "win")
       {
@@ -92,15 +92,15 @@ qx.Class.define("qx.test.bom.Label",
         this.assertEquals(125, size.width);
         this.assertEquals(25, size.height);
       }
-      else 
+      else
       {
         this.assertTrue(true);
       }
     },
-    
+
     testMeasureSizeTextBold : function()
     {
-      if (!qx.core.Environment.get("css.textoverflow") && 
+      if (!qx.core.Environment.get("css.textoverflow") &&
           qx.core.Environment.get("html.xul") &&
           qx.core.Environment.get("os.name") == "win")
       {
@@ -116,11 +116,11 @@ qx.Class.define("qx.test.bom.Label",
         this.assertTrue(true);
       }
     },
-    
-    
+
+
     testMeasureSizeTextItalic : function()
     {
-      if (!qx.core.Environment.get("css.textoverflow") && 
+      if (!qx.core.Environment.get("css.textoverflow") &&
           qx.core.Environment.get("html.xul") &&
           qx.core.Environment.get("os.name") == "win")
       {
@@ -136,11 +136,11 @@ qx.Class.define("qx.test.bom.Label",
         this.assertTrue(true);
       }
     },
-    
-    
+
+
     testMeasureSizeTextBoldItalic : function()
     {
-      if (!qx.core.Environment.get("css.textoverflow") && 
+      if (!qx.core.Environment.get("css.textoverflow") &&
           qx.core.Environment.get("html.xul") &&
           qx.core.Environment.get("os.name") == "win")
       {
@@ -156,11 +156,11 @@ qx.Class.define("qx.test.bom.Label",
         this.assertTrue(true);
       }
     },
-    
-    
+
+
     testMeasureSizeTextFontSize : function()
     {
-      if (!qx.core.Environment.get("css.textoverflow") && 
+      if (!qx.core.Environment.get("css.textoverflow") &&
           qx.core.Environment.get("html.xul") &&
           qx.core.Environment.get("os.name") == "win")
       {
@@ -176,11 +176,11 @@ qx.Class.define("qx.test.bom.Label",
         this.assertTrue(true);
       }
     },
-    
-    
+
+
     testMeasureSizeTextFontFamily : function()
     {
-      if (!qx.core.Environment.get("css.textoverflow") && 
+      if (!qx.core.Environment.get("css.textoverflow") &&
           qx.core.Environment.get("html.xul") &&
           qx.core.Environment.get("os.name") == "win")
       {
@@ -196,11 +196,11 @@ qx.Class.define("qx.test.bom.Label",
         this.assertTrue(true);
       }
     },
-    
-    
+
+
     testMeasureSizeTextPadding : function()
     {
-      if (!qx.core.Environment.get("css.textoverflow") && 
+      if (!qx.core.Environment.get("css.textoverflow") &&
           qx.core.Environment.get("html.xul") &&
           qx.core.Environment.get("os.name") == "win")
       {
@@ -216,11 +216,11 @@ qx.Class.define("qx.test.bom.Label",
         this.assertTrue(true);
       }
     },
-    
-    
+
+
     testMeasureSizeTextMargin : function()
     {
-      if (!qx.core.Environment.get("css.textoverflow") && 
+      if (!qx.core.Environment.get("css.textoverflow") &&
           qx.core.Environment.get("html.xul") &&
           qx.core.Environment.get("os.name") == "win")
       {
@@ -236,11 +236,11 @@ qx.Class.define("qx.test.bom.Label",
         this.assertTrue(true);
       }
     },
-    
-    
+
+
     testMeasureSizeTextAllTogether : function()
     {
-      if (!qx.core.Environment.get("css.textoverflow") && 
+      if (!qx.core.Environment.get("css.textoverflow") &&
           qx.core.Environment.get("html.xul") &&
           qx.core.Environment.get("os.name") == "win")
       {

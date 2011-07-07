@@ -86,10 +86,10 @@ qx.Class.define("qx.data.Array",
   *****************************************************************************
   */
 
-  properties : 
+  properties :
   {
     /**
-     * Flag to set the dispose behavior of the array. If the property is set to 
+     * Flag to set the dispose behavior of the array. If the property is set to
      * <code>true</code>, the array will dispose its content on dispose too.
      */
     autoDisposeItems : {

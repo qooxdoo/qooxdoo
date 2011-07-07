@@ -26,7 +26,7 @@ qx.Class.define("qx.test.ui.decoration.Double",
     testResize : function()
     {
       var dc = new qx.ui.decoration.Double();
-      dc.set({ 
+      dc.set({
         backgroundImage : "none",
         width: 1,
         color: "red",

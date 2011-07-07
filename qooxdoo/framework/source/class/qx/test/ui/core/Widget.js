@@ -339,7 +339,7 @@ qx.Class.define("qx.test.ui.core.Widget",
     testComputeSizeHintMinWidthBiggerMax : function() {
       var w = new qx.ui.core.Widget();
       w.setMaxWidth(100);
-      
+
       this.stub(w, "_getContentHint").returns({
         minWidth : 200
       });
@@ -354,7 +354,7 @@ qx.Class.define("qx.test.ui.core.Widget",
     testComputeSizeHintMinHeightBiggerMax : function() {
       var w = new qx.ui.core.Widget();
       w.setMaxHeight(100);
-      
+
       this.stub(w, "_getContentHint").returns({
         minHeight : 200
       });

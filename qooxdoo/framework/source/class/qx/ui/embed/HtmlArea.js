@@ -590,7 +590,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
 
     /**
      * Invalidates the editor component if the connected DOM node is removed.
-     * 
+     *
      * @param e {qx.event.type.Event} event instance
      */
     __invalidateEditor : qx.event.GlobalError.observeMethod(function(e)

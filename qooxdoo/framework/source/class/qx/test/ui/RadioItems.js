@@ -16,7 +16,7 @@
      * mw (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.RadioItems", 
+qx.Class.define("qx.test.ui.RadioItems",
 {
   extend : qx.test.ui.LayoutTestCase,
 
