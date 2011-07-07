@@ -29,6 +29,7 @@ from operator import attrgetter
 
 from misc                           import util, filetool, textutil
 from misc.NameSpace                 import NameSpace
+from misc.securehash                import sha_construct
 from ecmascript                     import compiler
 from ecmascript.frontend            import treeutil, tokenizer, treegenerator, lang
 from ecmascript.frontend.Script     import Script
@@ -70,7 +71,7 @@ class Class(Resource):
         self.scopes     = None # an ecmascript.frontend.Script instance
         self.translations = {} # map of translatable strings in this class
         self.resources  = set() # set of resource objects needed by the class
-        self._assetRegex= None  # regex from #asset hints, for resource matching
+        self._assetRegex= {}   # regex from #asset hints, for resource matching
         self.cacheId    = "class-%s" % self.path  # cache object for class-specific infos (outside tree, compile)
         
         console = context["console"]
@@ -1252,7 +1253,9 @@ class Class(Resource):
 
     def getAssets(self, assetMacros={}):
 
-        if self._assetRegex == None:
+        macroskey = util.toString(assetMacros)
+        macroskey = sha_construct(macroskey).hexdigest()
+        if macroskey not in self._assetRegex:
             # prepare a regex encompassing all asset hints, asset macros resolved
             classAssets = self.getHints()['assetDeps'][:]
             iresult  = []  # [AssetHint]
@@ -1272,9 +1275,9 @@ class Class(Resource):
                     assethint.regex = re.compile(e)
                     if assethint not in iresult:
                         iresult.append(assethint)
-            self._assetRegex = iresult
+            self._assetRegex[macroskey] = iresult
 
-        return self._assetRegex
+        return self._assetRegex[macroskey]
 
 
     ##
