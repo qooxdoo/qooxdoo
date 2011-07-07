@@ -91,6 +91,7 @@ qx.Class.define("demobrowser.demo.data.Tree_Columns",
       }
 
       this.extendData(data);
+      data.checked = true; // make sure the root node is open
       var model = qx.data.marshal.Json.createModel(data);
 
       // data binding
@@ -118,66 +119,20 @@ qx.Class.define("demobrowser.demo.data.Tree_Columns",
     // delegate implementation
     bindItem : function(controller, item, id) {
       controller.bindDefaultProperties(item, id);
-      controller.bindProperty("size", "value", null, item.getUserData("size"), id);
-      controller.bindProperty("checked", "value", null, item.getUserData("checkbox"), id);
-      controller.bindPropertyReverse("checked", "value", null, item.getUserData("checkbox"), id);
-      controller.bindProperty("date", "value", null, item.getUserData("date"), id);
-      controller.bindProperty("mode", "value", null, item.getUserData("mode"), id);
-      controller.bindProperty("light", "source", {
-        converter : function(data) {
-          return data ? "icon/16/status/dialog-information.png" : "";
-        }
-      }, item.getUserData("light"), id);
-
+      controller.bindProperty("size", "size", null, item, id);
+      controller.bindProperty("checked", "checked", null, item, id);
+      controller.bindPropertyReverse("checked", "checked", null, item, id);
+      controller.bindProperty("checked", "open", null, item, id);
+      controller.bindPropertyReverse("checked", "open", null, item, id);
+      controller.bindProperty("date", "date", null, item, id);
+      controller.bindProperty("mode", "mode", null, item, id);
+      controller.bindProperty("light", "light", null, item, id);
     },
 
 
     // delegate implementation
     createItem : function() {
-      var item = new qx.ui.tree.TreeFolder();
-      // fist image
-      var img = new qx.ui.basic.Image();
-      img.setWidth(16);
-      item.addWidget(img);
-      item.setUserData("light", img);
-
-      // Here's our indentation and tree-lines
-      item.addSpacer();
-      item.addOpenButton();
-
-      // The standard tree icon follows
-      item.addIcon();
-      item.setIcon("icon/16/places/user-desktop.png");
-
-      // A checkbox comes right after the tree icon
-      var checkbox = new qx.ui.form.CheckBox();
-      checkbox.setFocusable(false);
-      item.addWidget(checkbox);
-      item.setUserData("checkbox", checkbox);
-
-      // The label
-      item.addLabel("");
-
-      // All else should be right justified
-      item.addWidget(new qx.ui.core.Spacer(), {flex: 1});
-
-      // Add a file size, date and mode
-      var text = new qx.ui.basic.Label();
-      text.setWidth(50);
-      item.addWidget(text);
-      item.setUserData("size", text);
-
-      text = new qx.ui.basic.Label();
-      text.setWidth(150);
-      item.addWidget(text);
-      item.setUserData("date", text);
-
-      text = new qx.ui.basic.Label();
-      text.setWidth(80);
-      item.addWidget(text);
-      item.setUserData("mode", text);
-
-      return item;
+      return new demobrowser.demo.data.TreeColumn();
     }
   }
 });
