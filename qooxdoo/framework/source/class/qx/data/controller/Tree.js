@@ -573,7 +573,10 @@ qx.Class.define("qx.data.controller.Tree",
       if (root != null) {
         tree.setRoot(null);
         this.__removeAllFolders(root);
-        this.__removeBinding(root.getModel());
+        var model = root.getModel();
+        if (model) {
+          this.__removeBinding(model);
+        }
         root.destroy();
         this.__childrenRef = {};
       }
@@ -587,7 +590,7 @@ qx.Class.define("qx.data.controller.Tree",
      * @param node {qx.ui.tree.core.AbstractTreeItem} The used tree folder.
      */
     __removeAllFolders: function(node) {
-      var children = node.getChildren();
+      var children = node.getChildren() || [];
       // remove all subchildren
       for (var i = children.length - 1; i >= 0; i--) {
         if (children[i].getChildren().length > 0) {

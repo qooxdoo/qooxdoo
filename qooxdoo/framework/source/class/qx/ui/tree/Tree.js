@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.tree.Tree",
     {
       var container = this.getChildrenContainer();
 
-      if (old)
+      if (old && !old.isDisposed())
       {
         container.remove(old);
         if (old.hasChildren()) {
