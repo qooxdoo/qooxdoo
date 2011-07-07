@@ -39,7 +39,7 @@ qx.Class.define("qx.data.Array",
    *   added directly to the new array.<br/>
    *   If the parameter is a number, a new Array with the given length will be
    *   created.<br/>
-   *   If the parameter is a javascript array, a new array containing the given
+   *   If the parameter is a JavaScript array, a new array containing the given
    *   elements will be created.
    */
   construct : function(param)
@@ -86,11 +86,11 @@ qx.Class.define("qx.data.Array",
   *****************************************************************************
   */
 
-  properties : 
+  properties :
   {
     /**
-     * Flag to set the dispose behavior of the array. If the property is set to 
-     * <code>true</code>, the array will dispose its content on dispose too.
+     * Flag to set the dispose behavior of the array. If the property is set to
+     * <code>true</code>, the array will dispose its content on dispose, too.
      */
     autoDisposeItems : {
       check : "Boolean",
@@ -293,7 +293,7 @@ qx.Class.define("qx.data.Array",
 
 
     /**
-     * Returns a new array with the values specified by the parameter.
+     * Returns a new array based on the range specified by the parameters.
      *
      * @param from {Number} The start index.
      * @param to {Number?null} The end index. If omitted, slice extracts to the
@@ -307,11 +307,11 @@ qx.Class.define("qx.data.Array",
 
 
     /**
-     * Method to remove and add new element to the array. For every remove or
+     * Method to remove and add new elements to the array. For every remove or
      * add an event will be fired.
      *
      * @param startIndex {Integer} The index where the splice should start
-     * @param amount {Integer} Defines number of element which will be removed
+     * @param amount {Integer} Defines number of elements which will be removed
      *   at the given position.
      * @param varargs {var} All following parameters will be added at the given
      *   position to the array.
@@ -355,7 +355,7 @@ qx.Class.define("qx.data.Array",
       for (var i = 2; i < arguments.length; i++) {
         this._registerEventChaining(arguments[i], null, startIndex + i);
       }
-      // fire the changebubbles event
+      // fire the changeBubble event
       var value = [];
       for (var i=2; i < arguments.length; i++) {
         value[i-2] = arguments[i];
@@ -820,7 +820,7 @@ qx.Class.define("qx.data.Array",
      * Invokes the given function for every item in the array.
      *
      * @param callback {Function} The function which will be call for every
-     *   item in the array. It will be invoked with three parameter: 
+     *   item in the array. It will be invoked with three parameters:
      *   the item, the index and the array itself.
      * @param context {var} The context in which the callback will be invoked.
      */
@@ -862,7 +862,7 @@ qx.Class.define("qx.data.Array",
       var item = this.__array[i];
       this._applyEventPropagation(null, item, i);
 
-      // dispose the items on outo dispose
+      // dispose the items on auto dispose
       if (this.isAutoDisposeItems() && item && item instanceof qx.core.Object) {
         item.dispose();
       }

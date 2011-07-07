@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.embed.Iframe",
   */
 
   /**
-   * @param source {String} URL which should initally set.
+   * @param source {String} URL which should initially set.
    */
   construct : function(source)
   {
