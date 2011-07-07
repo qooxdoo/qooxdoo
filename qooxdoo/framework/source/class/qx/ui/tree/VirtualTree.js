@@ -23,6 +23,45 @@
  * The virtual tree can be used to render node and leafs. Nodes and leafs are
  * both items for a tree. The difference between a node and a leaf is that a
  * node has child items, but a leaf not.
+ * 
+ * With the {@link qx.ui.tree.core.IVirtualTreeDelegate} interface it is possible
+ * to configure the tree's behavior (item renderer configuration, etc.).
+ * 
+ * Here's an example of how to use the widget:
+ * <pre class="javascript">
+ * //create the model data
+ * var nodes = [];
+ * for (var i = 0; i < 2500; i++)
+ * {
+ *   nodes[i] = {name : "Item " + i};
+ *
+ *   // if its not the root node
+ *   if (i !== 0)
+ *   {
+ *     // add the children in some random order
+ *     var node = nodes[parseInt(Math.random() * i)];
+ *
+ *     if(node.children == null) {
+ *       node.children = [];
+ *     }
+ *     node.children.push(nodes[i]);
+ *   }
+ * }
+ *
+ * // converts the raw nodes to qooxdoo objects
+ * nodes = qx.data.marshal.Json.createModel(nodes, true);
+ * 
+ * // creates the tree
+ * var tree = new qx.ui.tree.VirtualTree(nodes.getItem(0), "name", "children").set({
+ *   width : 200,
+ *   height : 400
+ * });
+ * 
+ * //log selection changes
+ * tree.getSelection().addListener("change", function(e) {
+ *   this.debug("Selection: " + tree.getSelection().getItem(0).getName());
+ * }, this);
+ * </pre>
  */
 qx.Class.define("qx.ui.tree.VirtualTree",
 {
