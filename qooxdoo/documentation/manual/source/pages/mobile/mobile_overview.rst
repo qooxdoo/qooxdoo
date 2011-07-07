@@ -62,8 +62,12 @@ To create a mobile application ``mobileapp`` in your home directory with your sh
 Have a look into the API documentation of `qx.ui.mobile.page.Page <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile.page.Page>`_
 to understand the basic concepts of qooxdoo mobile.
 
+To learn how to develop a basic mobile application, you should try the `mobile Twitter client tutorial <tutorial.html>`_.
+
 If you are new to qooxdoo, make sure you have read the :ref:`getting started <pages/getting_started/helloworld#setup_the_framework>` tutorial to
 understand the basics of qooxdoo.
+
+
 
 Environment Keys
 ================
