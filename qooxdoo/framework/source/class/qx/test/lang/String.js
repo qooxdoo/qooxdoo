@@ -169,7 +169,7 @@ qx.Class.define("qx.test.lang.String",
     testHyphenate : function()
     {
       this.assertEquals("padding-top", qx.lang.String.hyphenate("paddingTop"));
-      this.assertEquals("I-like-cookies", qx.lang.String.hyphenate("ILikeCookies"));
+      this.assertEquals("-i-like-cookies", qx.lang.String.hyphenate("ILikeCookies"));
       this.assertEquals("i-like-cookies", qx.lang.String.hyphenate("iLikeCookies"));
     },
 
