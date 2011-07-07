@@ -586,11 +586,12 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       this.stub(req, "dispose");
       this.spy(res, "refresh");
+      this.stub(qx.io.rest.Resource, "POLL_THROTTLE_COUNT", "3");
 
       res.longPoll("index");
 
       // A number of immediate responses, above count
-      for (var i=0; i < 31; i++) {
+      for (var i=0; i < 4; i++) {
         this.respond();
       }
 
