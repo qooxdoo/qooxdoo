@@ -18,7 +18,7 @@
 ************************************************************************ */
 qx.Class.define("qx.test.type.Array",
 {
-  extend : qx.test.ui.LayoutTestCase,
+  extend : qx.dev.unit.TestCase,
 
   members :
   {
