@@ -451,20 +451,20 @@ qx.Class.define("qx.ui.form.TextArea",
      * This method is called on change of the area's size.
      */
     __forceRewrap : function() {
-      var elem = this.getContentElement().getDomElement();
-      if (elem) {
-        var value = qx.bom.Input.getValue(elem);
-        if (value) {
-          // Set empty string
-          qx.bom.Input.setValue(elem, "");
+      var content = this.getContentElement();
+      var element = content.getDomElement();
 
-          // Force browser to render
-          qx.bom.element.Dimension.getWidth(elem);
+      // Temporarily increase width
+      var width = content.getStyle("width");
+      content.setStyle("width", parseInt(width, 10) + 1000 + "px", true);
 
-          // Restore original value
-          qx.bom.Input.setValue(elem, value);
-        }
+      // Force browser to render
+      if (element) {
+        qx.bom.element.Dimension.getWidth(element);
       }
+
+      // Restore width
+      content.setStyle("width", width, true);
     },
 
     /**
