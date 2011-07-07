@@ -19,12 +19,19 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
+ * Handles response associated to a resource's action. The model property is
+ * populated with the marshaled response. Note the action is invoked on the
+ * resource, not the store.
  */
 qx.Class.define("qx.data.store.Rest",
 {
   extend: qx.core.Object,
 
   /**
+   * @param resource {qx.io.rest.Resource} The resource.
+   * @param actionName {String} The name of the resource's action to retrieve
+   *  the response from.
    * @param delegate {Object?null} The delegate containing one of the methods
    *  specified in {@link qx.data.store.IStoreDelegate}.
    */
@@ -47,14 +54,23 @@ qx.Class.define("qx.data.store.Rest",
 
   properties:
   {
+    /**
+     * The resource.
+     */
     resource: {
       check: "qx.io.rest.Resource"
     },
 
+    /**
+     * The name of the resource's action to retrieve the response from.
+     */
     actionName: {
       check: "String"
     },
 
+    /**
+     * Populated with the marshaled response.
+     */
     model: {
       nullable: true,
       event: "changeModel"
@@ -68,6 +84,9 @@ qx.Class.define("qx.data.store.Rest",
 
     __onActionSuccessBound: null,
 
+    /**
+     * Configure the resource's request by processing the delegate.
+     */
     __configureRequest: function() {
       var resource = this.getResource(),
           delegate = this._delegate;
@@ -76,6 +95,9 @@ qx.Class.define("qx.data.store.Rest",
       resource.configureRequest(delegate.configureRequest);
     },
 
+    /**
+     * Listen to events fired by the resource.
+     */
     __addListeners: function() {
       var resource = this.getResource(),
           actionName = this.getActionName();
@@ -85,12 +107,19 @@ qx.Class.define("qx.data.store.Rest",
       }
     },
 
+    /**
+     * Handle actionSuccess event.
+     *
+     * Updates model with marshaled response.
+     *
+     * @param e {qx.event.type.Rest} Rest event.
+     */
     __onActionSuccess: function(e) {
       var data = e.getData(),
           marshaler = this._marshaler,
+          model,
           oldModel = this.getModel(),
-          delegate = this._delegate,
-          model;
+          delegate = this._delegate;
 
       // Skip if data is empty
       if (data) {
