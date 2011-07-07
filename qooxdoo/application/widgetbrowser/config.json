@@ -26,15 +26,14 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["build-resources", "common"]
+    "job-shadowing" : ["source", "build-resources", "common"]
   },
 
   "jobs" :
   {
     "source" :
     {
-      "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple"],
-      "let" : { "QXICONTHEME" : ["Oxygen", "Tango"] }
+      "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple"]
     },
 
     "source-script-classic" :
