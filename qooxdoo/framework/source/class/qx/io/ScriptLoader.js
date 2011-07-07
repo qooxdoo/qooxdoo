@@ -203,26 +203,6 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
       }
     },
 
-    /**
-     * Set timeout in seconds.
-     *
-     * @param timeout {Number?10} Timeout limit in seconds
-     *
-     * @deprecated since 1.5
-     */
-    setTimeout: function(timeout) {
-    },
-
-    /**
-     * Get timeout in seconds.
-     *
-     * @return {Number} Timeout limit in seconds
-     *
-     * @deprecated since 1.5
-     */
-    getTimeout: function() {
-      return this._getTimeout();
-    },
 
     /**
      * Override to customize timeout limit.
@@ -234,6 +214,7 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
     _getTimeout: function() {
       return qx.io.ScriptLoader.TIMEOUT;
     },
+
 
     /**
      * Internal event listener for load and error events.
