@@ -271,8 +271,15 @@ qx.Class.define("qx.ui.form.TextArea",
 
         clone.setWrap(this.getWrap(), true);
 
-        // Reset overflow CSS property implicitly changed by setWrap
-        cloneDom.style.overflow = "hidden";
+        // Webkit needs overflow "hidden" in order to correctly compute height
+        if (qx.core.Environment.get("engine.name") == "webkit") {
+          cloneDom.style.overflow = "hidden";
+        }
+
+        // IE needs overflow "" in order to correctly compute height
+        if (qx.core.Environment.get("engine.name") == "mshtml") {
+          cloneDom.style.overflow = "";
+        }
 
         // Update value
         clone.setValue(this.getValue());
