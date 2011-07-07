@@ -86,6 +86,7 @@ qx.Class.define("qx.bom.Label",
       style.visibility = "hidden";
       style.position = "absolute";
       style.overflow = "visible";
+      style.display = "block";
 
       if (html)
       {
@@ -104,6 +105,8 @@ qx.Class.define("qx.bom.Label",
           // CSS "label" selector, See bug #1349 for details.
           var style = inner.style;
           style.padding = "0";
+          style.margin = "0";
+          style.width = "auto";
 
           for (var key in this.__styles) {
             style[key] = "inherit";
@@ -196,6 +199,8 @@ qx.Class.define("qx.bom.Label",
         style.overflow = "hidden";
         style.maxWidth = "100%";
         style.padding = "0";
+        style.margin = "0";
+        style.width = "auto";
 
         // Force style inheritance for font styles to omit usage of
         // CSS "label" selector, See bug #1349 for details.
