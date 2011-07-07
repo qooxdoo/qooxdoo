@@ -122,6 +122,7 @@ qx.Class.define("qx.data.controller.Tree",
       apply: "_applyTarget",
       event: "changeTarget",
       init: null,
+      nullable: true,
       dereference: true
     },
 
@@ -207,6 +208,8 @@ qx.Class.define("qx.data.controller.Tree",
     __childrenRef : null,
     __bindings : null,
     __boundProperties : null,
+    __oldChildrenPath : null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -262,10 +265,7 @@ qx.Class.define("qx.data.controller.Tree",
     _applyTarget: function(value, old) {
       // if there was an old target
       if (old != undefined) {
-        // get rid of the old stuff
-        var oldRoot = old.getRoot();
-        old.setRoot(null);
-        oldRoot.destroy();
+        this.__emptyTarget(old);
       }
 
       // if a model is set
@@ -299,7 +299,11 @@ qx.Class.define("qx.data.controller.Tree",
      * @param old {String|null} The old path to the children property.
      */
     _applyChildPath: function(value, old) {
+      // save the old name because it is needed to remove the old bindings
+      this.__oldChildrenPath = old;
       this.__buildTree();
+      // reset the old name
+      this.__oldChildrenPath = null;
     },
 
 
@@ -323,7 +327,7 @@ qx.Class.define("qx.data.controller.Tree",
      * @param old {String|null} The old path of the label property.
      */
     _applyLabelPath: function(value, old) {
-      this.__renewBindings();
+      this.__buildTree();
     },
 
 
@@ -444,14 +448,8 @@ qx.Class.define("qx.data.controller.Tree",
         return;
       }
 
-      // check for the old root node
-      var oldRoot = this.getTarget().getRoot();
-      if (oldRoot != null) {
-        this.getTarget().resetRoot();
-        oldRoot.destroy();
-        // get rid of the references [BUG #4293]
-        this.__childrenRef = {};
-      }
+      // Clean the target completely
+      this.__emptyTarget();
 
       // only build up a new tree if a model is given
       if (this.getModel() != null) {
@@ -560,16 +558,20 @@ qx.Class.define("qx.data.controller.Tree",
 
     /**
      * Removes all folders and bindings for the current set target.
+     * @param tree {qx.ui.tree.Tree} The tree to empty.
      */
-    __emptyTarget: function() {
+    __emptyTarget: function(tree) {
+      if (tree == null) {
+        tree = this.getTarget();
+      }
       // only do something if a tree is set
-      if (this.getTarget() == null) {
+      if (tree == null) {
         return;
       }
       // remove the root node
-      var root = this.getTarget().getRoot();
+      var root = tree.getRoot();
       if (root != null) {
-        this.getTarget().setRoot(null);
+        tree.setRoot(null);
         this.__removeAllFolders(root);
         this.__removeBinding(root.getModel());
         root.destroy();
@@ -608,7 +610,8 @@ qx.Class.define("qx.data.controller.Tree",
     __removeFolder: function(treeFolder, rootNode) {
       // get the model
       var model = treeFolder.getModel();
-      var childrenGetterName = "get" + qx.lang.String.firstUp(this.getChildPath());
+      var childPath = this.__oldChildrenPath || this.getChildPath()
+      var childrenGetterName = "get" + qx.lang.String.firstUp(childPath);
 
       // if the model does have a child path
       if (model[childrenGetterName] != undefined)
@@ -662,7 +665,12 @@ qx.Class.define("qx.data.controller.Tree",
       // store the binding reference
       var storage = this.__bindings[targetPath];
       if (storage[modelNode.toHashCode()]) {
-        storage[modelNode.toHashCode()].reverseId = id;
+        if (storage[modelNode.toHashCode()].id) {
+          throw new Error(
+            "Can not bind the same target property '" + targetPath + "' twice."
+          );
+        }
+        storage[modelNode.toHashCode()].id = id;
       } else {
         storage[modelNode.toHashCode()] = {
           id: id,
@@ -706,6 +714,11 @@ qx.Class.define("qx.data.controller.Tree",
       // check if there is already a stored item
       var storage = this.__bindings[sourcePath];
       if (storage[modelNode.toHashCode()]) {
+        if (storage[modelNode.toHashCode()].reverseId) {
+          throw new Error(
+            "Can not reverse bind the same target property '" + targetPath + "' twice."
+          );
+        }
         storage[modelNode.toHashCode()].reverseId = id;
       } else {
         storage[modelNode.toHashCode()] = {
@@ -805,9 +818,11 @@ qx.Class.define("qx.data.controller.Tree",
         if (bindingsMap != null) {
           if (bindingsMap.id) {
             modelNode.removeBinding(bindingsMap.id);
+            bindingsMap.id = null;
           }
           if (bindingsMap.reverseId) {
             bindingsMap.treeNode.removeBinding(bindingsMap.reverseId);
+            bindingsMap.reverseId = null;
           }
           delete this.__bindings[property][modelNode.toHashCode()];
         }
@@ -898,6 +913,8 @@ qx.Class.define("qx.data.controller.Tree",
    */
 
    destruct : function() {
+     this.setTarget(null);
+     this.setModel(null);
      this.__bindings = this.__childrenRef = this.__boundProperties = null;
    }
 });

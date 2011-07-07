@@ -151,8 +151,8 @@ qx.Class.define("qx.test.data.controller.Tree",
 
     tearDown : function()
     {
-      this.__controller = null;
-      this.__model = null;
+      this.__controller.dispose();
+      this.__model.dispose();
       this.__tree.dispose();
     },
 
@@ -531,6 +531,7 @@ qx.Class.define("qx.test.data.controller.Tree",
       };
 
       // create the controller
+      this.__controller.dispose();
       this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name");
       this.__controller.setLabelOptions(options);
 
@@ -554,6 +555,8 @@ qx.Class.define("qx.test.data.controller.Tree",
       };
 
       // create the controller
+      this.__controller.dispose();
+
       this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name");
       this.__controller.setIconPath("icon");
       this.__controller.setIconOptions(options);
@@ -601,6 +604,7 @@ qx.Class.define("qx.test.data.controller.Tree",
 
 
     testSetLateModel: function() {
+      this.__controller.dispose();
       // create the controller
       this.__controller = new qx.data.controller.Tree(null, this.__tree, "children", "name");
 
@@ -615,6 +619,7 @@ qx.Class.define("qx.test.data.controller.Tree",
 
 
     testSetLateTarget: function() {
+      this.__controller.dispose();
       // create the controller
       this.__controller = new qx.data.controller.Tree(this.__model, null, "children", "name");
 
@@ -629,6 +634,7 @@ qx.Class.define("qx.test.data.controller.Tree",
 
 
     testSetLateTargetAndModel: function() {
+      this.__controller.dispose();
       this.__controller = new qx.data.controller.Tree(null, null, "children", "name");
 
       this.__controller.setTarget(this.__tree);
@@ -641,6 +647,7 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");
 
       // redo the test and set the modeln and target in different order
+      this.__controller.dispose();
       this.__controller = new qx.data.controller.Tree(null, null, "children", "name");
 
       this.__controller.setModel(this.__model);
@@ -655,6 +662,8 @@ qx.Class.define("qx.test.data.controller.Tree",
 
 
     testSetLateChildPath: function() {
+      this.__controller.dispose();
+
       this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, null, "name");
 
       this.__controller.setChildPath("children");
@@ -668,6 +677,8 @@ qx.Class.define("qx.test.data.controller.Tree",
 
 
     testSetLateLabelPath: function() {
+      this.__controller.dispose();
+
       this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children");
 
       this.__controller.setLabelPath("name");
@@ -681,6 +692,8 @@ qx.Class.define("qx.test.data.controller.Tree",
 
 
     testSetLateAll: function() {
+      this.__controller.dispose();
+
       this.__controller = new qx.data.controller.Tree();
 
       // set the needed properties
@@ -717,7 +730,7 @@ qx.Class.define("qx.test.data.controller.Tree",
     testDelegateConfigureLate : function()
     {
       // clear up the setup
-      this.__controller.setModel(null);
+      this.__controller.dispose();
 
       var controller = new qx.data.controller.Tree(null, this.__tree, "children", "name");
 
@@ -763,6 +776,8 @@ qx.Class.define("qx.test.data.controller.Tree",
 
 
     testDelegateCreateFirst: function () {
+      this.__controller.dispose();
+
       this.__controller = new qx.data.controller.Tree();
       var delegate = {
         createItem : function() {
@@ -986,6 +1001,7 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.__model.getAltChildren().push(this.__c, this.__b, this.__a);
 
       // create the controller
+      this.__controller.dispose();
       this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name");
 
       // check the initial Labels
@@ -1016,12 +1032,40 @@ qx.Class.define("qx.test.data.controller.Tree",
         nodes[i].getChildren().removeAll(); // THIS THROWS AN EXCEPTION ON 2ND ELEMENT...
       }
 
-      tree.dispose();
       controller.dispose();
+      tree.dispose();
+
       for (var i = 0; i < nodes.length; ++i) {
         nodes[i].dispose();
       }
-    }
+    },
 
+
+    testBindItemDouble: function(){
+      var delegate = {
+        bindItem : function(controller, item, id) {
+          controller.bindProperty("color", "textColor", null, item, id);
+          controller.bindProperty("color", "textColor", null, item, id);
+        }
+      };
+      var self = this;
+      this.assertException(function() {
+        self.__controller.setDelegate(delegate);
+      }, Error, /textColor/.g);
+    },
+
+
+    testBindItemDoubleReverse: function(){
+      var delegate = {
+        bindItem : function(controller, item, id) {
+          controller.bindPropertyReverse("color", "textColor", null, item, id);
+          controller.bindPropertyReverse("color", "textColor", null, item, id);
+        }
+      };
+      var self = this;
+      this.assertException(function() {
+        self.__controller.setDelegate(delegate);
+      }, Error, /textColor/.g);
+    }
   }
 });
