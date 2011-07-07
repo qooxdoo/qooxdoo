@@ -11,8 +11,7 @@ Requirements
 
 Although this should be a basic tutorial, you should be at least
 familiar with the `tool chain`_ and the basic `object oriented`_
-principles of qooxdoo. A working `qooxdoo environment`_ is mandatory.
-Target version of this tutorial is the "`trunk`_" version of qooxdoo. As
+principles of qooxdoo. A working `qooxdoo environment`_ is mandatory. As
 qooxdoo is based on web technologies, you will need a running instance
 of Google `Chrome`_ or Apple `Safari`_ browser on your system to run the
 application (see qooxdoo mobile `requirements`_). An iOS or Android
