@@ -31,7 +31,7 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
   {
     this.__oneventWrapped = qx.Bootstrap.bind(this.__onevent, this);
     this.__elem = document.createElement("script");
-    this.__timeout = 10;
+    this.__timeout = 15;
   },
 
 
