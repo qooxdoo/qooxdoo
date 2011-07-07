@@ -42,17 +42,19 @@ and created a source version of the application. You can test the
 application by opening the ``source/index.html`` file in your Chrome /
 Safari browser. You should see a page “Page 1” with a button “Next
 Page”. When you click on the button, the next page “Page 2”, with a
-“Back” button in the upper left corner, is displayed. Congratulations,
-you have just created your first qooxdoo mobile application!
+“Back” button in the upper left corner, is displayed. 
+
+Congratulations, you have just created your first qooxdoo mobile application!
 
 Creating your first Page
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this section we will create two pages, one page for entering the
 username whose tweets should be shown and another page for displaying
-the tweets. But first of all we have to define what a page is:
+the tweets.
 
-Page:
+But first of all we have to define what a page is:
+
     *A page is a widget which provides a screen with which users can
     interact in order to do something. Most times a page provides a
     single task or a group of related tasks. A qooxdoo mobile
@@ -62,8 +64,9 @@ Page:
 Open the “mobiletweets” folder in your favorite IDE, so that you can
 edit all the files. Navigate to the “source/class/mobiletweets” folder,
 were all of the application class files are located. Now you are ready
-to create the application. First we have to create a new page class. In
-order to do so, create a new folder “page” under
+to create the application.
+
+First we have to create a new page class. In order to do so, create a new folder “page” under
 “source/class/mobiletweets”, representing a new “namespace”
 ``mobiletweets.page``. In this folder create a new JavaScript file named
 “Input.js”. This file will contain the “mobiletweets.page.Input” class.
@@ -84,8 +87,9 @@ The “Input” class inherits from ``qx.ui.mobile.page.NavigationPage``, a
 specialized page that consists of a
 ``qx.ui.mobile.navigationbar.NavigationBar`` with the a title, back and
 action buttons, and a scrollable content area. In the constructor of the
-class we set the title of the page to “Twitter Client”. To show the
-“Input” page, we have to create an instance of the class and to call the
+class we set the title of the page to “Twitter Client”.
+
+To show the “Input” page, we have to create an instance of the class and to call the
 ``show`` method of the page instance. Open the
 “source/class/mobiletweets/Application.js” class file. You will find a comment in the ``main`` method "*Below is your actual
 application code…*" with example code below. As we don’t need this
@@ -97,6 +101,7 @@ example code, we can safely replace it with the following lines of code:
 
 As we have changed the dependencies of our application, recreate the
 source version by calling the generator “source” target as above.
+
 Refresh the index.html in your browser. You will see a page with a
 navigation bar and a title “Twitter Client”. That is all you have to do
 when you want to display a page.
@@ -162,8 +167,9 @@ Lets try it! Create another page class “Tweets” in the
     });
 
 In the constructor we show the back button and set the text to “Back” .
-The title will be replaced later by the given username. Now we need a
-button on the “Input” page, so that we can navigate between the two
+The title will be replaced later by the given username.
+
+Now we need a button on the “Input” page, so that we can navigate between the two
 pages. Create a new instance of a ``qx.ui.mobile.form.Button`` in the
 “Input” class and add it to the content of the page. By listening to the
 ``tap`` event of the button, the application can handle when the user
@@ -226,8 +232,9 @@ After creating a new instance of our new “Tweets” class we listen to the
 ``requestTweet`` event of the “Input” page instance. In the event
 handler we call the ``show`` method of the ``tweetsPage`` page object to
 display the page. In the ``back`` event handler of the ``tweetsPage``,
-the “Input” page will be shown with a reversed animation. New classes
-mean new dependencies which means we have to generate the source code
+the “Input” page will be shown with a reversed animation.
+
+New classes mean new dependencies which means we have to generate the source code
 again. Refresh the application in the browser and navigate between the
 pages by clicking on the “Show” and on the “Back” button. Nice!
 
@@ -259,7 +266,9 @@ In the ``__loadTweets`` method we create a new `JSONP`_ store which will
 automatically retrieve the data from the given URL. By binding the
 ``model`` property to the ``tweets`` property, the ``tweets`` property
 will be automatically updated whenever the ``model`` property of the
-store is updated. As you might have noticed the ``__loadTweets`` method
+store is updated.
+
+As you might have noticed the ``__loadTweets`` method
 uses two properties, ``username`` and ``tweets``, that are not defined
 yet. We will define those properties now. Define a new section
 ``properties`` in the “Application” class and add the following two
@@ -336,8 +345,9 @@ setting the property ``required`` to true we indicate that the textfield
 requires an input. Finally we add the form instance to the page content,
 by using a `` qx.ui.mobile.form.renderer.SinglePlaceholder`` renderer.
 The renderer is responsible for the look and feel of the form. In this
-case only the input fields with their placeholders are displayed. In the
-``_onTap`` method we have to retrieve now the value of the input field.
+case only the input fields with their placeholders are displayed.
+
+In the ``_onTap`` method we have to retrieve now the value of the input field.
 Replace the code in the function body by the following code:
 ::
 
@@ -349,6 +359,7 @@ Replace the code in the function body by the following code:
 
 After successfully validating the form, we retrieve the value of the
 textfield from the member variable and pass it as the data to the event.
+
 As you surely remember we listen to the ``requestTweet`` event in the
 “Application” class. Open the Application class and add the following
 line to the event listener:
@@ -371,7 +382,9 @@ Displaying the tweets
 Now that we have the tweets for a certain user, it’s gonna be pretty
 easy to display them. All we need for that is a
 ``qx.ui.mobile.list.List`` and to set up some data binding. Lets proceed
-with the tutorial. First we have to add the following ``_initialize``
+with the tutorial.
+
+First we have to add the following ``_initialize``
 method to the members section of the “Tweets” page.
 ::
 
@@ -420,7 +433,9 @@ In this case the list item renderer is the
 ``subTitle`` and a ``icon`` property, which can be set individually per
 row. In addition to those properties, the ``showArrow`` property shows
 an arrow on the left corner of the row, indicating that we have more
-data to display. Finally the model of the list instance is bound to the
+data to display.
+
+Finally the model of the list instance is bound to the
 ``tweets`` property, which we will add to the “Tweets” class right above
 the ``member`` section:
 ::
