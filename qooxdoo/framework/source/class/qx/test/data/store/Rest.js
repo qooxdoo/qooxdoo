@@ -71,33 +71,6 @@ qx.Class.define("qx.test.data.store.Rest",
       this.assertIdentical(store.getActionName(), "index");
     },
 
-    "test: construct throws with missing res": function() {
-      var store;
-
-      // Unfortunately, qx.core.Property throws a generic error
-      this.assertException(function() {
-        store = new qx.data.store.Rest(null, "index");
-      }, Error, (/property res/));
-      store && store.dispose();
-    },
-
-    "test: construct throws with erroneous res": function() {
-      var store;
-      this.assertException(function() {
-        store = new qx.data.store.Rest({}, "index");
-      }, qx.core.AssertionError);
-      store && store.dispose();
-    },
-
-    "test: construct throws with missing action": function() {
-      var store,
-          res = this.res;
-      this.assertException(function() {
-        store = new qx.data.store.Rest(res, null);
-      }, Error, (/property actionName/));
-      store && store.dispose();
-    },
-
     "test: add listener for actionSuccess to res": function() {
       var res = this.res,
           store;
