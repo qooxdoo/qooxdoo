@@ -23,7 +23,7 @@
  * Client-side wrapper of a REST resource.
  *
  * Each instance represents a resource in terms of REST. A number of actions
- * unique to the resource can be defined and invoked. A resource with it's
+ * unique to the resource can be defined and invoked. A resource with its
  * actions is configured declaratively by passing a resource description to
  * the constructor, or programatically using {@link #map}.
  *

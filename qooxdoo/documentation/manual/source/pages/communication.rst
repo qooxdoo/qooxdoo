@@ -30,7 +30,14 @@ Note that historically, qooxdoo comes with two transport layers. The old transpo
    communication/remote_io
 
 
+REST
+=============
 
+``qx.io.rest.Resource`` is a client-side wrapper of a REST resource.
+
+.. toctree::
+
+  communication/rest
 
 Remote Procedure Calls (RPC)
 =========================================
