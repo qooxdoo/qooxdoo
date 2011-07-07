@@ -27,6 +27,8 @@ import sys, os, types, re, string, copy
 from generator.resource.AssetHint   import AssetHint
 from generator.resource.CombinedImage    import CombinedImage
 from generator import Context
+from misc import util
+from misc.securehash import sha_construct
 
 
 class MClassResources(object):
@@ -37,7 +39,11 @@ class MClassResources(object):
 
     def getAssets(self, assetMacros={}):
 
-        if self._assetRegex == None:
+        # Memoizing needs assetMacros in the key, otherwise you get wrong
+        # results with multiple builds in one generator run.
+        macroskey = util.toString(assetMacros)
+        macroskey = sha_construct(macroskey).hexdigest()
+        if macroskey not in self._assetRegex:
             # prepare a regex encompassing all asset hints, asset macros resolved
             classAssets = self.getHints()['assetDeps'][:]
             iresult  = []  # [AssetHint]
@@ -57,9 +63,9 @@ class MClassResources(object):
                     assethint.regex = re.compile(e)
                     if assethint not in iresult:
                         iresult.append(assethint)
-            self._assetRegex = iresult
+            self._assetRegex[macroskey] = iresult
 
-        return self._assetRegex
+        return self._assetRegex[macroskey]
 
 
     ##
