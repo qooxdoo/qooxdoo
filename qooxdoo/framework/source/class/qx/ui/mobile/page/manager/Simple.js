@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#ignore(BackButton)
-
-************************************************************************ */
-
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
@@ -96,8 +90,6 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
 
     /**
      * Registers all needed event listener.
-     *
-     * @lint ignoreUndefined(BackButton)
      */
     __registerEventListeners : function()
     {
@@ -105,9 +97,8 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
       {
         this.__backButtonHandler = qx.lang.Function.bind(this._onBackButton, this);
         this.__menuButtonHandler = qx.lang.Function.bind(this._onMenuButton, this);
-        BackButton.override();
-        qx.bom.Event.addNativeListener(document, "backKeyDown", this.__backButtonHandler);
-        qx.bom.Event.addNativeListener(document, "menuKeyDown", this.__menuButtonHandler);
+        qx.bom.Event.addNativeListener(document, "backbutton", this.__backButtonHandler);
+        qx.bom.Event.addNativeListener(document, "menubutton", this.__menuButtonHandler);
       }
     },
 
@@ -119,16 +110,14 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     {
       if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("os.name") == "android")
       {
-        qx.bom.Event.removeNativeListener(document, "backKeyDown", this.__backButtonHandler);
-        qx.bom.Event.removeNativeListener(document, "menuKeyDown", this.__menuButtonHandler);
+        qx.bom.Event.removeNativeListener(document, "backbutton", this.__backButtonHandler);
+        qx.bom.Event.removeNativeListener(document, "menubutton", this.__menuButtonHandler);
       }
     },
 
 
     /**
      * Event handler. Called when the back button of the device was pressed.
-     *
-     * @lint ignoreUndefined(BackButton)
      */
     _onBackButton : function()
     {
@@ -139,7 +128,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
           exit = this.__currentPage.back();
         }
         if (exit) {
-          BackButton.exitApp();
+          navigator.app.exitApp();
         }
       }
     },
