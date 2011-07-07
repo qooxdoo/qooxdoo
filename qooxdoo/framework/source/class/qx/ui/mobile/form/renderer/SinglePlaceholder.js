@@ -26,18 +26,18 @@
  */
 qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
 {
-  
+
   extend : qx.ui.mobile.form.renderer.Single,
- 
+
   construct : function(form)
   {
     this.base(arguments,form);
   },
-  
-    
+
+
   members :
   {
-  
+
     // override
     addItems : function(items, names, title) {
       if(title != null)

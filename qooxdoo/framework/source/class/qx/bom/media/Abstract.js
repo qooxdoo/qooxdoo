@@ -377,9 +377,9 @@ qx.Class.define("qx.bom.media.Abstract",
     {
       //ff doesn't have loop
       if (!this._hasLoop) {
-        if (value === true) { 
+        if (value === true) {
           this._loopId = this.addListener('ended', this.play, this);
-        } else if (value === false && this._loopId) { 
+        } else if (value === false && this._loopId) {
           this.removeListenerById(this._loopId);
           this._loopId = null;
         }

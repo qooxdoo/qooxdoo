@@ -23,9 +23,9 @@ qx.Class.define("qx.test.toolchain.PrivateOptimization",
 
   members :
   {
-	/*
-	 * The next test tests whether privates are renamed at all.
-	 */
+  /*
+   * The next test tests whether privates are renamed at all.
+   */
     testPrivatesRenaming: function() {
       // Can only fail in build version with all optimizations
       this.assertEquals("__te" + "st a", this.__test(), "Variable in a string renamed!");

@@ -29,8 +29,8 @@ qx.Class.define("qx.test.ui.tree.virtual.OneSelection",
 
       this.tree.setSelectionMode("one");
     },
-    
-    
+
+
     testSelectionWithClosedNode : function()
     {
       var root = this.createModelAndSetModel(2);
@@ -67,7 +67,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OneSelection",
       );
     },
 
-    
+
     testSelectionWithClosedParentNode : function()
     {
       var root = this.createModelAndSetModel(3);
@@ -131,7 +131,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OneSelection",
           // check selection from list
           self.assertEquals(1, selection.getLength(), "On Tree");
           self.assertEquals(parent, selection.getItem(0), "On Tree");
-    
+
           // check selection from manager
           var selectionOnManager = self.tree._manager.getSelection();
           self.assertEquals(1, selectionOnManager.length, "On Manager");

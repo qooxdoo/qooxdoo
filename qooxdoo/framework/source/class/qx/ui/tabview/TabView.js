@@ -239,7 +239,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       if(!(index == null) && index > children.length) {
         throw new Error("Index should be less than : " + children.length);
       }
-      
+
       if(index == null) {
         index = children.length;
       }
@@ -266,7 +266,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       if(index == children.length-1) {
         page.addState("lastTab");
       }
-      
+
       if (children[0] == page) {
         page.addState("firstTab");
       } else {

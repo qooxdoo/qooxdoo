@@ -429,7 +429,7 @@ qx.Class.define("qx.data.store.Json",
   destruct : function()
   {
     this._disposeObjects("__request");
-    // The marshaler internally uses the singleton pattern 
+    // The marshaler internally uses the singleton pattern
     // (constructor.$$instance.
     this._disposeSingletonObjects("_marshaler");
     this._delegate = null;

@@ -43,7 +43,7 @@ qx.Class.define("qx.test.toolchain.VariantOptimization",
       /*
        * "qx.test.bool_true" and "qx.test.bool_false" are custom environment
        * keys that are set in config.json for the framework's AUT.
-       * 
+       *
        * Faking "qx.test.bool_true" to temporarily evaluate to false here.
        * (Undone in the "tearDown" method).
        */

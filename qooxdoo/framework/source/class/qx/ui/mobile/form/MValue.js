@@ -105,7 +105,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       check : "Boolean",
       init : false
     }
-    
+
   },
 
 

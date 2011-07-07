@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
 
     this.bind("value", textField, "value");
     textField.bind("value", this, "value");
-    
+
     // @deprecated since 1.5: Remove warning when apply method is removed.
     if (qx.core.Environment.get("qx.debug")) {
       qx.log.Logger.deprecateMethodOverriding(this, qx.ui.form.VirtualComboBox, "_applyValue");
@@ -340,7 +340,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     */
 
 
-    // property apply 
+    // property apply
     // @deprecated since 1.5: The apply method is not needed anymore.
     _applyValue : function(value, old) {},
 

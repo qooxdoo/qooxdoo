@@ -154,7 +154,7 @@ qx.Class.define("qx.dev.unit.TestResult",
       }
 
       this.fireDataEvent("startTest", test);
-      
+
       if (qx.core.Environment.get("qx.debug.dispose")) {
         qx.dev.Debug.startDisposeProfiling();
       }
@@ -350,8 +350,8 @@ qx.Class.define("qx.dev.unit.TestResult",
       if (testClass[specificTearDown]) {
         testClass[specificTearDown]();
       }
-      
-      if (qx.core.Environment.get("qx.debug.dispose") 
+
+      if (qx.core.Environment.get("qx.debug.dispose")
         && qx.dev.Debug.disposeProfilingActive)
       {
         var testName = test.getFullName();

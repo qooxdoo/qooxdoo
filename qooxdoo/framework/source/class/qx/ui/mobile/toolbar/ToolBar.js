@@ -61,16 +61,16 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
       init : "toolbar"
     }
   },
-  
+
   members :
   {
-  
+
     /**
-     * 
+     *
      * Flag to keep the show/hidden state of the toolbar
      */
     __hidden: false,
-    
+
     /**
      * Adds a new child widget.
      *
@@ -86,9 +86,9 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
       }
       this.base(arguments, child, layoutProperties);
     },
-    
+
     /**
-     * 
+     *
      * Shows the toolbar
      */
     show : function()
@@ -96,9 +96,9 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
       this.removeCssClass('toolbar-hidden');
       this.__hidden = false;
     },
-    
+
     /**
-     * 
+     *
      * Hides the toolbar
      */
     hide : function()
@@ -106,9 +106,9 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
       this.addCssClass('toolbar-hidden');
       this.__hidden = true;
     },
-    
+
     /**
-     * 
+     *
      * Toggles the visibility of the toolbar
      */
     toggle : function()

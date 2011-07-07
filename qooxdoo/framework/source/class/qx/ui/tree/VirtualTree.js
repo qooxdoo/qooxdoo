@@ -23,10 +23,10 @@
  * The virtual tree can be used to render node and leafs. Nodes and leafs are
  * both items for a tree. The difference between a node and a leaf is that a
  * node has child items, but a leaf not.
- * 
+ *
  * With the {@link qx.ui.tree.core.IVirtualTreeDelegate} interface it is possible
  * to configure the tree's behavior (item renderer configuration, etc.).
- * 
+ *
  * Here's an example of how to use the widget:
  * <pre class="javascript">
  * //create the model data
@@ -50,13 +50,13 @@
  *
  * // converts the raw nodes to qooxdoo objects
  * nodes = qx.data.marshal.Json.createModel(nodes, true);
- * 
+ *
  * // creates the tree
  * var tree = new qx.ui.tree.VirtualTree(nodes.getItem(0), "name", "children").set({
  *   width : 200,
  *   height : 400
  * });
- * 
+ *
  * //log selection changes
  * tree.getSelection().addListener("change", function(e) {
  *   this.debug("Selection: " + tree.getSelection().getItem(0).getName());
@@ -107,14 +107,14 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * Fired when a node is opened.
      */
     open : "qx.event.type.Data",
-    
-    
+
+
     /**
      * Fired when a node is closed.
      */
     close : "qx.event.type.Data"
   },
-  
+
 
   properties :
   {
@@ -339,7 +339,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     /** {Array} internal parent chain form the last selected node */
     __parentChain : null,
-    
+
 
     /*
     ---------------------------------------------------------------------------
@@ -472,10 +472,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     _getDataFromRow : function(row) {
       return this.__lookupTable.getItem(row);
     },
-    
+
     /**
      * Returns the selectable model items.
-     * 
+     *
      * @return {qx.data.Array} The selectable items.
      */
     _getSelectables : function() {
@@ -782,34 +782,34 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     /**
      * Hook method which is called from the {@link qx.ui.virtual.selection.MModel}.
-     * The hook method sets the first visible parent not as new selection when 
+     * The hook method sets the first visible parent not as new selection when
      * the current selection is empty and the selection mode is one selection.
      *
-     * @param newSelection {Array} The newSelection which will be set to the selection manager.  
+     * @param newSelection {Array} The newSelection which will be set to the selection manager.
      */
-    _beforeApplySelection : function(newSelection) 
+    _beforeApplySelection : function(newSelection)
     {
       if (newSelection.length === 0 &&
           this.getSelectionMode() === "one")
       {
         var visibleParent = this.__getVisibleParent();
         var row = this.getLookupTable().indexOf(visibleParent);
-        
+
         if (row >= 0) {
           newSelection.push(row);
         }
       }
     },
-    
-    
+
+
     /**
      * Hook method which is called from the {@link qx.ui.virtual.selection.MModel}.
      * The hook method builds the parent chain form the current selected item.
      */
-    _afterApplySelection : function() 
+    _afterApplySelection : function()
     {
       var selection = this.getSelection();
-      
+
       if (selection.getLength() > 0 &&
           this.getSelectionMode() === "one") {
         this.__buildParentChain(selection.getItem(0));
@@ -817,25 +817,25 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         this.__parentChain = [];
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
     ---------------------------------------------------------------------------
     */
 
-    
+
     /**
      * Helper method to apply model changes. Normally build the lookup table and
-     * apply the default selection. 
+     * apply the default selection.
      */
     __applyModelChanges : function()
     {
       this.buildLookupTable();
       this._applyDefaultSelection();
     },
-    
+
 
     /**
      * Helper method to build the internal data structure.
@@ -1012,7 +1012,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * @param item {qx.core.Object} Node or leaf to get parent.
      * @return {qx.core.Object|null} The parent note or <code>null</code> when
      *   no parent found.
-     *   
+     *
      * @internal
      */
     getParent : function(item)
@@ -1034,28 +1034,28 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
       return null;
     },
-    
+
 
     /**
      * Builds the parent chain form the passed item.
-     * 
+     *
      * @param item {var} Item to build parent chain.
      */
     __buildParentChain : function(item)
     {
       this.__parentChain = [];
-      var parent = this.getParent(item); 
+      var parent = this.getParent(item);
       while(parent != null)
       {
         this.__parentChain.unshift(parent);
-        parent = this.getParent(parent); 
+        parent = this.getParent(parent);
       }
     },
-    
-    
+
+
     /**
      * Return the first visible parent node from the last selected node.
-     * 
+     *
      * @return {var} The first visible node.
      */
     __getVisibleParent : function()
@@ -1063,7 +1063,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       if (this.__parentChain == null) {
         return this.getModel();
       }
-      
+
       var lookupTable = this.getLookupTable();
       var parent = this.__parentChain.pop();
 

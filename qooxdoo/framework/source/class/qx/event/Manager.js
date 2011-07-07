@@ -223,9 +223,9 @@ qx.Class.define("qx.event.Manager",
 
     /**
      * Returns all registered listeners.
-     * 
+     *
      * @internal
-     * 
+     *
      * @return {Map} All registered listeners. The key is the hash code form an object.
      */
     getAllListeners : function() {

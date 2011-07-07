@@ -67,7 +67,7 @@ qx.Class.define("qx.test.ui.selection.TabView",
         return [];
       }
     },
-    
+
     testAddAtIndex : function()
     {
       var index = parseInt(this._widget.getChildren().length/2);
@@ -82,7 +82,7 @@ qx.Class.define("qx.test.ui.selection.TabView",
       this._widget.add(page);
       this.assertEquals(page.getLabel(),this._widget.getChildren()[this._widget.getChildren().length-1].getLabel());
     },
-    
+
     testAddAtLastIndex : function()
     {
       var index = this._widget.getChildren().length;

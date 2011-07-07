@@ -18,13 +18,13 @@
 ************************************************************************ */
 
 /**
- * Mixin holding the handler for the two axis mouse wheel scrolling. Please 
- * keep in mind that the including widget has to have the scroll bars 
- * implemented as child controls named <code>scrollbar-x</code> and 
- * <code>scrollbar-y</code> to get the handler working. Also, you have to 
+ * Mixin holding the handler for the two axis mouse wheel scrolling. Please
+ * keep in mind that the including widget has to have the scroll bars
+ * implemented as child controls named <code>scrollbar-x</code> and
+ * <code>scrollbar-y</code> to get the handler working. Also, you have to
  * attach the listener yourself.
  */
-qx.Mixin.define("qx.ui.core.scroll.MWheelHandling", 
+qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
 {
   members :
   {

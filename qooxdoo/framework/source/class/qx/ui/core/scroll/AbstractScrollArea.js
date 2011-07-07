@@ -31,7 +31,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 {
   extend : qx.ui.core.Widget,
   include : [
-    qx.ui.core.scroll.MScrollBarFactory, 
+    qx.ui.core.scroll.MScrollBarFactory,
     qx.ui.core.scroll.MWheelHandling
   ],
   type : "abstract",

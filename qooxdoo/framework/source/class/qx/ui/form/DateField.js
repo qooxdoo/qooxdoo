@@ -175,8 +175,8 @@ qx.Class.define("qx.ui.form.DateField",
 
 
     /**
-    * This method sets the date, which will be formatted according to 
-    * #dateFormat to the date field. It will also select the date in the 
+    * This method sets the date, which will be formatted according to
+    * #dateFormat to the date field. It will also select the date in the
     * calendar popup.
     *
     * @param value {Date} The date to set.

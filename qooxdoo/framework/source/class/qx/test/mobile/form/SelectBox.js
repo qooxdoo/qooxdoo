@@ -33,7 +33,7 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
       this.assertEquals("Item 3",selectBox.getValue());
       selectBox.destroy();
     },
-    
+
     testSelection : function()
     {
       var dd = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);

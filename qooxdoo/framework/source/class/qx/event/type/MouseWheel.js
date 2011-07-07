@@ -119,9 +119,9 @@ qx.Class.define("qx.event.type.MouseWheel",
     /**
      * Get the amount the wheel has been scrolled
      *
-     * @param axis {String?} Optional parameter which definex the scroll axis. 
-     *   The value can either be <code>"x"</code> or <code>"y"</code>. 
-     * @return {Integer} Scroll wheel movement for the given axis. If no axis 
+     * @param axis {String?} Optional parameter which definex the scroll axis.
+     *   The value can either be <code>"x"</code> or <code>"y"</code>.
+     * @return {Integer} Scroll wheel movement for the given axis. If no axis
      *   is given, the y axis is used.
      */
     getWheelDelta : function(axis) {
@@ -153,7 +153,7 @@ qx.Class.define("qx.event.type.MouseWheel",
         }
         return x;
       }
-      
+
       // get the y scroll delta
       if (axis === "y") {
         var y = 0;

@@ -49,10 +49,10 @@ qx.Class.define("qx.test.mobile.toolbar.Toolbar",
       var button3 = new qx.ui.mobile.toolbar.Button("Button 3");
       toolBar.add(button3);
       this.__assertChildNodesLength(toolBar, 3);
-      
+
       this.assertEquals(qx.bom.element.Dimension.getWidth(button1.getContainerElement()), qx.bom.element.Dimension.getWidth(button2.getContainerElement()));
       this.assertEquals(qx.bom.element.Dimension.getWidth(button3.getContainerElement()), qx.bom.element.Dimension.getWidth(button2.getContainerElement()));
-      
+
       button1.destroy();
       button2.destroy();
       button3.destroy();
@@ -72,7 +72,7 @@ qx.Class.define("qx.test.mobile.toolbar.Toolbar",
 
       var button3 = new qx.ui.mobile.toolbar.Button("Button 3");
       toolBar.add(button3);
-      
+
       this.__assertChildNodesLength(toolBar, 3);
 
       toolBar.remove(button2);

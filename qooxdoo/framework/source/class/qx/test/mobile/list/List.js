@@ -26,7 +26,7 @@ qx.Class.define("qx.test.mobile.list.List",
 
   members :
   {
-    __createModel : function() 
+    __createModel : function()
     {
       var data = [];
       data.push({title:"1", subTitle : "s1", image: "qx/icon/Tango/48/places/folder.png"});
@@ -46,7 +46,7 @@ qx.Class.define("qx.test.mobile.list.List",
         createItemRenderer :  createItemRenderer ? createItemRenderer : null
       });
       list.setModel(this.__createModel());
-      return list; 
+      return list;
     },
 
 
@@ -72,7 +72,7 @@ qx.Class.define("qx.test.mobile.list.List",
 
     testCustomRenderer : function() {
       var list = this.__createList(function() {
-        return new qx.ui.mobile.list.renderer.Default(); 
+        return new qx.ui.mobile.list.renderer.Default();
       });
       this.__assertItemsAndModelLength(list, 5);
       list.destroy();
@@ -82,7 +82,7 @@ qx.Class.define("qx.test.mobile.list.List",
     testSetModelNull : function()
     {
       var list = this.__createList(function() {
-        return new qx.ui.mobile.list.renderer.Default(); 
+        return new qx.ui.mobile.list.renderer.Default();
       });
       this.__assertItemsAndModelLength(list, 5);
       list.setModel(null);
@@ -94,7 +94,7 @@ qx.Class.define("qx.test.mobile.list.List",
     testModelChangeRemove : function()
     {
       var list = this.__createList(function() {
-        return new qx.ui.mobile.list.renderer.Default(); 
+        return new qx.ui.mobile.list.renderer.Default();
       });
       this.__assertItemsAndModelLength(list,5);
       list.getModel().removeAt(0);
@@ -105,7 +105,7 @@ qx.Class.define("qx.test.mobile.list.List",
     testModelChangeEdit : function()
     {
       var list = this.__createList(function() {
-        return new qx.ui.mobile.list.renderer.Default(); 
+        return new qx.ui.mobile.list.renderer.Default();
       });
       this.__assertItemsAndModelLength(list,5);
       // TODO: Add check for text here
@@ -120,7 +120,7 @@ qx.Class.define("qx.test.mobile.list.List",
     testModelChangeAdd : function()
     {
       var list = this.__createList(function() {
-        return new qx.ui.mobile.list.renderer.Default(); 
+        return new qx.ui.mobile.list.renderer.Default();
       });
       this.__assertItemsAndModelLength(list,5);
       list.getModel().push({title:"6", subTitle:"6", image:"qx/icon/Tango/48/places/folder.png"});

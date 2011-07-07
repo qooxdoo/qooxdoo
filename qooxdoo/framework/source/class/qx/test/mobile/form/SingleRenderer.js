@@ -42,16 +42,16 @@ qx.Class.define("qx.test.mobile.form.SingleRenderer",
       this.__form.dispose();
       this.__renderer.dispose();
     },
-    
+
     testItemRow : function() {
       this.assertNotNull(this.__renderer._getChildren()[0]);
       this.assertTrue(2=== this.__renderer._getChildren()[0]._getChildren().length); // we have a label and a form element in the row
     },
-    
+
     testButtonRow : function() {
       this.assertNotNull(this.__renderer._getChildren()[1]);
       this.assertTrue(1=== this.__renderer._getChildren()[1]._getChildren().length); // we have only the button in the row
     }
-    
+
   }
 });

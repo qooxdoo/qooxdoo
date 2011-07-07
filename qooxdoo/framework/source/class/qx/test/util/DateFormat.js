@@ -70,23 +70,23 @@ qx.Class.define("qx.test.util.DateFormat",
         }
         return yearsign === "-" ? (yearsign + expectedYear) : expectedYear;
     },
-    
+
     _testDateParse : function(date, formatString, locale)
     {
       var dateFmt = new qx.util.format.DateFormat(formatString, locale);
       var dateStr = dateFmt.format(date);
-      
+
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
       this.assertEquals(date.getMonth(), parsedDate.getMonth());
       this.assertEquals(date.getDate(), parsedDate.getDate());
       this.assertEquals(date.getDay(), parsedDate.getDay());
-      
+
       if (formatString.indexOf(":") > 0) {
         this.assertEquals(date.getHours(), parsedDate.getHours());
         this.assertEquals(date.getMinutes(), parsedDate.getMinutes());
       }
-      
+
       dateFmt.dispose();
     },
 
@@ -139,7 +139,7 @@ qx.Class.define("qx.test.util.DateFormat",
       date = new qx.test.util.DateMock({timezoneOffset: 90});
       this.assertEquals("GMT-01:30", dateFmt.format(date));
       date.dispose();
-      
+
       dateFmt.dispose();
     },
 
@@ -169,7 +169,7 @@ qx.Class.define("qx.test.util.DateFormat",
 
         var formatStr = qx.locale.Date.getDateFormat("long", "de_DE");
         this._testDateParse(date, formatStr, "de_DE");
-        
+
         var formatStr = qx.locale.Date.getDateFormat("full", "de_DE");
         this._testDateParse(date, formatStr, "de_DE");
       }
@@ -711,7 +711,7 @@ qx.Class.define("qx.test.util.DateFormat",
     }
 
   },
-  
+
   _testIsoMasks : function(date, isoFormat, dateFormat)
   {
     var isodf = new qx.util.format.DateFormat(isoFormat);
@@ -774,7 +774,7 @@ qx.Class.define("qx.test.util.DateFormat",
     this.assertEquals(dfFR.format(d),dfDE.format(d));
 
     dfFR.resetLocale();
-    
+
     df.dispose();
     dfFR.dispose();
     dfDE.dispose();

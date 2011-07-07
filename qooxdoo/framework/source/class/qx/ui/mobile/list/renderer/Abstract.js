@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
 
     /**
      * Returns the row index of a certain DOM element in the list from the given event.
-     * 
+     *
      * @param evt {qx.event.type.Event} The causing event.
      * @return {Integer} the index of the row.
      */
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
 
     /**
      * Returns the row index of a certain DOM element in the list.
-     * 
+     *
      * @param element {Element} DOM element to retrieve the index from.
      * @return {Integer} the index of the row.
      */

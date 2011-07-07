@@ -89,9 +89,9 @@ qx.Class.define("qx.core.ObjectRegistry",
 
         // Store hash code
         obj.$$hash = hash;
-        
-        if (qx.core.Environment.get("qx.debug.dispose") && qx.dev 
-          && qx.dev.Debug && qx.dev.Debug.disposeProfilingActive) 
+
+        if (qx.core.Environment.get("qx.debug.dispose") && qx.dev
+          && qx.dev.Debug && qx.dev.Debug.disposeProfilingActive)
         {
           this.__stackTraces[hash] = qx.dev.StackTrace.getStackTrace();
         }
@@ -297,7 +297,7 @@ qx.Class.define("qx.core.ObjectRegistry",
 
     /**
      * Returns the next hash code that will be used
-     * 
+     *
      * @return {Integer} The next hash code
      * @internal
      */
@@ -308,7 +308,7 @@ qx.Class.define("qx.core.ObjectRegistry",
 
     /**
      * Returns the postfix that identifies the current iframe
-     * 
+     *
      * @return {Integer} The next hash code
      * @internal
      */
@@ -320,7 +320,7 @@ qx.Class.define("qx.core.ObjectRegistry",
     /**
      * Returns the map of stack traces recorded when objects are registered
      * (for dispose profiling)
-     * @return {Map} Map: object hash codes to stack traces 
+     * @return {Map} Map: object hash codes to stack traces
      * @internal
      */
     getStackTraces : function() {

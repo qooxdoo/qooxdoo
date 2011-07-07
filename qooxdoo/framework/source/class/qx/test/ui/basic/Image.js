@@ -67,7 +67,7 @@ qx.Class.define("qx.test.ui.basic.Image",
 
       var tagNameAfter = image.getContentElement().getNodeName();
       this.assertTrue(tagNameAfter == "div");
-      
+
       image.destroy();
     },
 
@@ -91,7 +91,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       } else {
         this.assertTrue(tagNameAfter == "img");
       }
-      
+
       image.destroy();
     },
 
@@ -112,7 +112,7 @@ qx.Class.define("qx.test.ui.basic.Image",
 
       this.assertEquals(image.getContentElement().getStyle("width"), width);
       this.assertEquals(image.getContentElement().getStyle("height"), height);
-      
+
       image.destroy();
     },
 
@@ -131,7 +131,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.flush();
 
       this.assertEquals(image.getContainerElement().getChild(2), decorator);
-      
+
       image.destroy();
     },
 
@@ -152,7 +152,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       var selectableAfter = image.getContentElement().getAttribute("qxselectable");
 
       this.assertEquals(selectable, selectableAfter);
-      
+
       image.destroy();
     },
 

@@ -50,31 +50,31 @@ qx.Class.define("qx.ui.mobile.form.Form",
   construct : function()
   {
     this.base(arguments);
-    
+
     this._resetter = new qx.ui.mobile.form.Resetter();
   },
-  
+
   members :
   {
-  
+
     /**
      * the renderer this form uses to be displayed
-     * 
+     *
      */
     __renderer : null,
-    
-    
+
+
     /**
-     * 
+     *
      * setter for the renderer private variable
      * @param renderer {qx.ui.mobile.form.renderer.AbstractRenderer} the renderer
-     * 
+     *
      */
     setRenderer : function(renderer)
     {
       this.__renderer = renderer;
     },
-    
+
     // override
     validate : function()
     {
@@ -102,11 +102,11 @@ qx.Class.define("qx.ui.mobile.form.Form",
           }
         }
       }
-      
+
       if(this.__renderer != null) {
         this.__renderer._domUpdated();
       }
-      
+
       return validateResult;
     }
   }

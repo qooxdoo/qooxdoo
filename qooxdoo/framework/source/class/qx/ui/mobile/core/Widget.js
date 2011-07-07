@@ -286,7 +286,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Whether the widget can be activated or not. When the widget is activated
      * a css class <code>active</code> is automatically added to the widget, which
-     * can indicate the acitvation status.  
+     * can indicate the acitvation status.
      */
     activatable :
     {

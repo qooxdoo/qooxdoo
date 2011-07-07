@@ -313,7 +313,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     clearSelection : function()
     {
-      if (this.getMode() == "one") 
+      if (this.getMode() == "one")
       {
         var selected = this._applyDefaultSelection(true);
         if (selected != null) {
@@ -1875,13 +1875,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         delete this.__selectionModified;
       }
     },
-    
-    
+
+
     /**
      * Applies the default selection. The default item is the first item.
-     * 
-     * @param force {Boolean} Whether the default selection sould forced. 
-     * 
+     *
+     * @param force {Boolean} Whether the default selection sould forced.
+     *
      * @return {var} The selected item.
      */
     _applyDefaultSelection : function(force)

@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
 
       EventHandler.__scrollLeft = qx.bom.Viewport.getScrollLeft();
       EventHandler.__scrollTop = qx.bom.Viewport.getScrollTop();
-      
+
       var touch = domEvent.getChangedTargetTouches()[0];
       EventHandler.__startY = touch.screenY;
 

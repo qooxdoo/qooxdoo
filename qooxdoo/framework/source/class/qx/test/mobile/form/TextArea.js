@@ -52,7 +52,7 @@ qx.Class.define("qx.test.mobile.form.TextArea",
       this.getRoot().add(textArea);
       this.assertEquals(true,textArea.getEnabled());
       this.assertFalse(qx.bom.element.Attribute.get(textArea.getContainerElement(),'disabled'));
-      
+
       textArea.setEnabled(false);
       this.assertEquals(false,textArea.getEnabled());
       this.assertEquals(true,qx.bom.element.Attribute.get(textArea.getContainerElement(),'disabled'));

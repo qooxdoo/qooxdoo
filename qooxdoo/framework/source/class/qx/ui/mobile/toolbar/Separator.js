@@ -32,7 +32,7 @@ qx.Class.define("qx.ui.mobile.toolbar.Separator",
      CONSTRUCTOR
   *****************************************************************************
   */
- 
+
     construct : function()
     {
       this.base(arguments);

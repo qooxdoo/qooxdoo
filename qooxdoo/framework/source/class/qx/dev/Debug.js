@@ -26,7 +26,7 @@ qx.Class.define("qx.dev.Debug",
 {
   statics :
   {
-    /** 
+    /**
      * Flag that shows whether dispose profiling is currently active
      * @internal
      */
@@ -347,7 +347,7 @@ qx.Class.define("qx.dev.Debug",
     /**
      * Starts a dispose profiling session. Use {@link #stopDisposeProfiling} to
      * get the results
-     * 
+     *
      * @signature function()
      */
     startDisposeProfiling : qx.core.Environment.select("qx.debug.dispose", {
@@ -355,22 +355,22 @@ qx.Class.define("qx.dev.Debug",
         this.disposeProfilingActive = true;
         this.__nextHashFirst = qx.core.ObjectRegistry.getNextHash();
       },
-      
+
       "default" : qx.lang.Function.empty
     }),
 
 
     /**
-     * Returns a list of any (qx) objects that were created but not disposed since 
+     * Returns a list of any (qx) objects that were created but not disposed since
      * {@link #startDisposeProfiling} was called. Also returns a stack trace
      * recorded at the time the object was created.
-     * 
+     *
      * @signature function(checkFunction)
-     * @param checkFunction {Function} Custom check function. It is called once 
-     * for each object that was created after dispose profiling was started, 
-     * with the object as the only parameter. If it returns false, the object 
+     * @param checkFunction {Function} Custom check function. It is called once
+     * for each object that was created after dispose profiling was started,
+     * with the object as the only parameter. If it returns false, the object
      * will not be included in the returned list
-     * @return {Map[]} List of maps. Each map contains two keys: 
+     * @return {Map[]} List of maps. Each map contains two keys:
      * <code>object</code> and <code>stackTrace</code>
      */
     stopDisposeProfiling : qx.core.Environment.select("qx.debug.dispose", {
@@ -379,10 +379,10 @@ qx.Class.define("qx.dev.Debug",
           qx.log.Logger.error("Call " + this.classname + ".startDisposeProfiling first.");
           return [];
         }
-        
+
         //qx.core.ObjectRegistry.saveStackTraces = false;
         this.disposeProfilingActive = false;
-        
+
         var undisposedObjects = [];
         // If destroy calls another destroy, flushing the queue once is not enough
         while (!qx.ui.core.queue.Dispose.isEmpty()) {
@@ -417,7 +417,7 @@ qx.Class.define("qx.dev.Debug",
               continue;
             }
             // Dynamic fonts
-            if (obj instanceof qx.bom.Font && 
+            if (obj instanceof qx.bom.Font &&
               qx.theme.manager.Font.getInstance().isDynamic(obj)) {
               continue;
             }
@@ -430,7 +430,7 @@ qx.Class.define("qx.dev.Debug",
         delete this.__nextHashFirst;
         return undisposedObjects;
       },
-      
+
       "default" : qx.lang.Function.empty
     })
   }

@@ -37,8 +37,8 @@ qx.Bootstrap.define("qx.bom.client.Runtime",
   statics :
   {
     /**
-     * Checks for the name of the runtime and returns it. In general, it checks 
-     * for rhino and node.js and if that could not be detected, it falls back 
+     * Checks for the name of the runtime and returns it. In general, it checks
+     * for rhino and node.js and if that could not be detected, it falls back
      * to the browser name defined by {@link qx.bom.client.Browser#getName}.
      * @return {String} The name of the current runtime.
      * @internal

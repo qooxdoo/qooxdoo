@@ -532,11 +532,11 @@ qx.Class.define("qx.fx.Base",
 
     /**
      * Returns whether the effect is active
-     * 
+     *
      * @return {Boolean} Whether the effect is active.
      */
     isActive : function() {
-      return this.__state === qx.fx.Base.EffectState.RUNNING || 
+      return this.__state === qx.fx.Base.EffectState.RUNNING ||
              this.__state === qx.fx.Base.EffectState.PREPARING;
     }
   },

@@ -31,17 +31,17 @@ qx.Class.define("qx.test.mobile.form.Form",
       this.assertFalse(form.validate());
       this.assertEquals(3, renderer._getChildren()[0].getContainerElement().children.length);
       this.assertTrue(qx.bom.element.Class.has(renderer._getChildren()[0]._getChildren()[1].getContainerElement(), 'invalid'));
-      
+
       this.__username.setValue('myusername');
       this.assertTrue(form.validate());
       this.assertEquals(2, renderer._getChildren()[0].getContainerElement().children.length);
       this.assertFalse(qx.bom.element.Class.has(renderer._getChildren()[0]._getChildren()[1].getContainerElement(), 'invalid'));
-      
+
       this.__username.dispose();
       form.dispose();
       renderer.dispose();
     },
-    
+
     __createForm : function()
     {
       var form = new qx.ui.mobile.form.Form();
@@ -57,7 +57,7 @@ qx.Class.define("qx.test.mobile.form.Form",
         }
         return valid;
       }, this);
-      
+
       return form;
     }
 

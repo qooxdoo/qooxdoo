@@ -27,7 +27,7 @@
 /**
  * Log appender for qooxdoo applications running in Node.js. Writes log
  * messages to STDOUT/STDERR.
- * 
+ *
  * @lint ignoreUndefined(process)
  */
 

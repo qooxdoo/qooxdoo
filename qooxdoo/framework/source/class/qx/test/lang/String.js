@@ -149,7 +149,7 @@ qx.Class.define("qx.test.lang.String",
 
       this.assertEquals('"bread" & "butter"', qx.xml.String.unescape("&quot;bread&quot; &amp; &quot;butter&quot;"));
     },
-    
+
     testCapitalize : function()
     {
       this.assertEquals("Alibaba", qx.lang.String.capitalize("alibaba"));
@@ -158,14 +158,14 @@ qx.Class.define("qx.test.lang.String",
       this.assertEquals("Die-Über", qx.lang.String.capitalize("die-über"));
       this.assertEquals("Die Über", qx.lang.String.capitalize("die über"));
     },
-    
+
     testCamelCase : function()
     {
       this.assertEquals("paddingTop", qx.lang.String.camelCase("padding-top"));
       this.assertEquals("ILikeCookies", qx.lang.String.camelCase("I-like-cookies"));
       this.assertEquals("iLikeCookies", qx.lang.String.camelCase("i-like-cookies"));
     },
-    
+
     testHyphenate : function()
     {
       this.assertEquals("padding-top", qx.lang.String.hyphenate("paddingTop"));

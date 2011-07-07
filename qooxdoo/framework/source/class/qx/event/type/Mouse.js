@@ -134,7 +134,7 @@ qx.Class.define("qx.event.type.Mouse",
 
         case "click":
           // IE does not support buttons on click --> assume left button
-          if (qx.core.Environment.get("browser.name") === "ie" && 
+          if (qx.core.Environment.get("browser.name") === "ie" &&
           qx.core.Environment.get("browser.documentmode") < 9)
           {
             return "left";

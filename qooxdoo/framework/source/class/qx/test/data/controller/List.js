@@ -39,7 +39,7 @@ qx.Class.define("qx.test.data.controller.List",
     {
       // prevent the icon laod error with this stub
       this.stub(qx.io.ImageLoader, "load")
-      
+
       this.__list = new qx.ui.form.List();
     },
 
@@ -596,7 +596,7 @@ qx.Class.define("qx.test.data.controller.List",
 
       // check for the Selection
       this.assertEquals("10", box.getSelection()[0].getLabel(), "Wrong selection");
-      
+
       box.dispose();
     },
 
@@ -1225,7 +1225,7 @@ qx.Class.define("qx.test.data.controller.List",
       ctrl.bind("selection[0].Kid.Name", label, "value");
 
       ctrl.getSelection().push(parentA);
-      
+
       parentA.dispose();
       parentB.dispose();
       kid.dispose();
@@ -1308,7 +1308,7 @@ qx.Class.define("qx.test.data.controller.List",
       // select the second label
       list.addToSelection(list.getChildren()[1]);
       this.assertNull(label.getValue(), "Label has not been reseted.");
-      
+
       parentA.getKid().dispose();
       parentA.dispose();
       parentB.getKid().dispose();

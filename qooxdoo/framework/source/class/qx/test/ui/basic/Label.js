@@ -67,7 +67,7 @@ qx.Class.define("qx.test.ui.basic.Label",
       this.flush();
 
       this.assertEquals(width, label.getBounds().width);
-      
+
       container.destroy();
     },
 

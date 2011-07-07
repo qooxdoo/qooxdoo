@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       check : "Integer",
       init : 1
     }
-    
+
   },
 
 
@@ -345,7 +345,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _getValue : function() {
       return this.__value;
     },
-    
+
     /**
      * Updates the knob position based on the current value.
      */

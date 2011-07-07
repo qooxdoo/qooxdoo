@@ -66,7 +66,7 @@ qx.Class.define("qx.test.event.type.Mouse",
       this.assertEquals(reference.screenLeft, clone.getScreenLeft());
       this.assertEquals(reference.screenTop, clone.getScreenTop());
       this.assertEquals(reference.wheel, clone.getWheelDelta());
-      
+
       event.dispose();
       clone.dispose();
     }

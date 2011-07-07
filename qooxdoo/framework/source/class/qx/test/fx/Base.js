@@ -49,7 +49,7 @@ qx.Class.define("qx.test.fx.Base",
 
       this.assertTrue(effect.isActive());
 
-      effect.addListener("setup", function(e) 
+      effect.addListener("setup", function(e)
       {
         this.resume(function() {
           this.assertTrue(effect.isActive());

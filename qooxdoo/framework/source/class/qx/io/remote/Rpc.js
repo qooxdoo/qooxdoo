@@ -389,19 +389,19 @@ qx.Class.define("qx.io.remote.Rpc",
       check : "Boolean",
       nullable : true
     },
-    
-    /** 
+
+    /**
      * EXPERIMENTAL
-     * 
+     *
      * Whether to use the original qooxdoo RPC protocol or the
      * now-standardized Version 2 protocol.  Defaults to the original qooxdoo
      * protocol for backward compatibility.
-     * 
+     *
      * Valid values are "qx1" and "2.0".
      */
     protocol :
     {
-      init : "qx1", 
+      init : "qx1",
       check : function(val) { return val == "qx1" || val == "2.0"; }
     }
   },
@@ -462,7 +462,7 @@ qx.Class.define("qx.io.remote.Rpc",
     {
       var             requestObject;
       var             service;
-      
+
       // Create a protocol-dependent request object
       if (this.getProtocol() == "qx1")
       {
@@ -494,7 +494,7 @@ qx.Class.define("qx.io.remote.Rpc",
         {
           service = "";
         }
-        
+
         // Create a standard version 2.0 rpc data object
         requestObject =
           {
@@ -643,7 +643,7 @@ qx.Class.define("qx.io.remote.Rpc",
             {
               ret += " (" + obj.data + ")";
             }
-            
+
             return ret;
           };
         }

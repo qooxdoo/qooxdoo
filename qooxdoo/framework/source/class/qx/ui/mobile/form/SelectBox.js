@@ -21,10 +21,10 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * The SelectBox
- * 
+ *
  * an example of what can be done with the SelectBox:
  * *Example*
- * 
+ *
  * <pre class='javascript'>
  *     var page1 = new qx.ui.mobile.page.Page();
  *     page1.addListener("initialize", function()
@@ -34,20 +34,20 @@
  *       var model = new qx.data.Array(["item1","item2"]);
  *       sel.setModel(model);
  *       dd.push("item3");
- *       
- *     
+ *
+ *
  *       var but = new qx.ui.mobile.form.Button("setSelection");
  *       page1.add(but);
  *       but.addListener("tap", function(){
  *         sel.setSelection("item3");
  *       }, this);
- *     
+ *
  *       var title = new qx.ui.mobile.form.Title("item2");
  *       title.bind("value",sel,"value");
  *       sel.bind("value",title,"value");
- *       page1.add(title); 
+ *       page1.add(title);
  *     },this);
- *     
+ *
  *   page1.show();
  *  </pre>
  */
@@ -87,14 +87,14 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
   properties :
   {
-  
+
     // overridden
     defaultCssClass :
     {
       refine : true,
       init : "selectbox"
     },
-    
+
     /**
      * The model to use to render the list.
      */

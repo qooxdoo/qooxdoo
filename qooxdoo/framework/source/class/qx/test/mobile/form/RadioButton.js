@@ -31,7 +31,7 @@ qx.Class.define("qx.test.mobile.form.RadioButton",
       var group = new qx.ui.form.RadioGroup();
       group.setAllowEmptySelection(true);
       group.add(radio1);group.add(radio2);group.add(radio3);
-      
+
       this.getRoot().add(radio1);this.getRoot().add(radio2);this.getRoot().add(radio3);
 
       this.assertEquals(false,radio1.getValue());

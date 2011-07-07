@@ -25,11 +25,11 @@ qx.Class.define("qx.test.dev.Debug",
     {
       return qx.core.Environment.get("qx.debug.dispose");
     },
-    
+
     testDisposeProfilingCheckFunction : function()
     {
       this.require(["disposeDebug"]);
-      
+
       var n = new qx.core.Object();
       var ignoreHash = n.toHashCode();
       var checkFunction = function(object) {
@@ -38,7 +38,7 @@ qx.Class.define("qx.test.dev.Debug",
         }
         return true;
       }
-      
+
       var o = new qx.core.Object();
       // no need to call startDisposeProfiling - the Testrunner did that already
       var undisposed = qx.dev.Debug.stopDisposeProfiling(checkFunction);
@@ -47,7 +47,7 @@ qx.Class.define("qx.test.dev.Debug",
       this.assertEquals(o, undisposed[0].object);
       var stackOk = false;
       this.assertMatch(undisposed[0].stackTrace.join(" "), this.classname);
-      
+
       n.dispose();
       o.dispose();
     }

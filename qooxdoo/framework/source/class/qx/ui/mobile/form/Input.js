@@ -75,6 +75,6 @@ qx.Class.define("qx.ui.mobile.form.Input",
         throw new Error("Abstract method call");
       }
     }
-    
+
   }
 });

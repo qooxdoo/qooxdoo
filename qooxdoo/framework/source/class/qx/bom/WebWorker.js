@@ -94,7 +94,7 @@ qx.Class.define("qx.bom.WebWorker",
             that.fireDataEvent('message', e);
           };
           //set up context vars before evaluating the code
-          eval("var onmessage = null, postMessage = " + postMessage + ";" + 
+          eval("var onmessage = null, postMessage = " + postMessage + ";" +
             req.responseText);
 
           //pick the right onmessage because of the uglifier
@@ -103,7 +103,7 @@ qx.Class.define("qx.bom.WebWorker",
             postMessage: postMessage
           };
         })();
-      };  
+      };
 
       req.open("GET", src, false);
       req.send();
@@ -125,7 +125,7 @@ qx.Class.define("qx.bom.WebWorker",
             that.__fake.onmessage && that.__fake.onmessage({data: msg});
           } catch (ex) {
             that.fireDataEvent("error", ex);
-          } 
+          }
         }, 0);
       }
     },

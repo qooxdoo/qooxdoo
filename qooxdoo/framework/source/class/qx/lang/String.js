@@ -61,7 +61,7 @@ qx.Class.define("qx.lang.String",
 {
   statics :
   {
-    
+
     /**
      * Unicode letters.  they are taken from Steve Levithan's excellent XRegExp library [http://xregexp.com/plugins/xregexp-unicode-base.js]
      */
@@ -71,13 +71,13 @@ qx.Class.define("qx.lang.String",
      * A RegExp that matches the first letter in a word - unicode aware
      */
     __unicodeFirstLetterInWordRegexp : null,
-    
+
     /**
      * {Map} Cache for often used string operations [camelCasing and hyphenation]
      * e.g. marginTop => margin-top
      */
     __stringsMap : {},
-    
+
     /**
      * Converts a hyphenated string (separated by '-') to camel case.
      *

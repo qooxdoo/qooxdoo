@@ -326,7 +326,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
       };
       data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
     },
-    
+
     /**
      * Checks if dataset could be used
      *

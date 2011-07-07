@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 
     this.addListener("tap", this._onTap, this);
     this.addListener("swipe", this._onSwipe, this);
-    
+
   },
 
 
@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
       refine : true,
       init : "toggleButton"
     }
-    
+
   },
 
 

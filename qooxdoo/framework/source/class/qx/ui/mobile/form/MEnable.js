@@ -3,7 +3,7 @@
  *
  * The mixin contains all functionality to provide methods
  * for form elements to manipulate their state. [usually "valid" and "invalid"]
- * 
+ *
  */
 qx.Mixin.define("qx.ui.mobile.form.MEnable",
 {
@@ -28,7 +28,7 @@ qx.Mixin.define("qx.ui.mobile.form.MEnable",
       apply: "_applyEnabled"
     }
   },
-  
+
   /*
   *****************************************************************************
      MEMBERS
@@ -41,7 +41,7 @@ qx.Mixin.define("qx.ui.mobile.form.MEnable",
      * Sets the enable property to the new value
      * @param value {Boolean}, the new value of the input element
      * @param old {Boolean?}, the old value of the input element
-     * 
+     *
      */
     _applyEnabled : function(value,old)
     {

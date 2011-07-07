@@ -41,7 +41,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
     tearDown : function() {
       this.getRoot().removeAll();
-      
+
       if (qx.core.Environment.get("qx.debug.dispose")) {
         var cls = qx.test.ui.LayoutTestCase;
 
@@ -61,13 +61,13 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       if (cls._root) {
         return cls._root;
       }
-      
+
       qx.theme.manager.Meta.getInstance().initialize();
       cls._root = new qx.ui.root.Application(document);
 
       cls.__oldApplication = qx.core.Init.getApplication();
       cls.__oldGetApp = qx.core.Init.getApplication;
-      
+
       qx.core.Init.getApplication = function() {
         return {
           getRoot : function() {

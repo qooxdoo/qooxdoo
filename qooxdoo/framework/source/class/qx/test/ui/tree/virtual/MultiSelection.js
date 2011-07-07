@@ -112,14 +112,14 @@ qx.Class.define("qx.test.ui.tree.virtual.MultiSelection",
         }
       );
     },
-    
+
     testSelectionAfterCloseParentNode : function()
     {
       var root = this.createModelAndSetModel(3);
-      
+
       var parent = root.getChildren().getItem(1);
       this.tree.openNode(root.getChildren().getItem(1));
-      
+
       var selection = this.tree.getSelection();
       selection.push(root);
       selection.push(root.getChildren().getItem(0));
@@ -128,13 +128,13 @@ qx.Class.define("qx.test.ui.tree.virtual.MultiSelection",
       selection.push(parent.getChildren().getItem(5));
       selection.push(parent.getChildren().getItem(6));
       selection.push(root.getChildren().getItem(2));
-      
+
       // check selection before close parent
       this.assertEquals(7, this.tree.getSelection().getLength(), "On Tree");
       this.assertEquals(7, this.tree._manager.getSelection().length, "On selection manager");
-      
+
       this.tree.closeNode(parent);
-      
+
       // check selection on tree
       this.assertEquals(3, this.tree.getSelection().getLength(), "On Tree");
       this.assertDataArrayEquals(selection, new qx.data.Array(

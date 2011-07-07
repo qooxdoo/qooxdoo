@@ -512,10 +512,10 @@ qx.Bootstrap.define("qx.Interface",
           {
             var key = maps[i];
 
-            if (config[key] !== undefined && 
+            if (config[key] !== undefined &&
                 ([
-                   "Array", 
-                   "RegExp", 
+                   "Array",
+                   "RegExp",
                    "Date"
                  ].indexOf(qx.Bootstrap.getClass(config[key])) != -1 ||
                  config[key].classname !== undefined)) {

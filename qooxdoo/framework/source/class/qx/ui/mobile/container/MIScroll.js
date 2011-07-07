@@ -96,7 +96,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         var resource = "qx/mobile/js/iscroll";
         if (qx.core.Environment.get("qx.debug"))
         {
-          resource += "-debug"; 
+          resource += "-debug";
         }
         resource += ".js";
         var path = qx.util.ResourceManager.getInstance().toUri(resource);

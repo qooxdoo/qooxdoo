@@ -44,7 +44,7 @@ qx.Class.define("qx.bom.element.Dataset",
      * @param name {String} Name of the attribute [CamelCase variant]
      * @param value {var} New value of the attribute
      * @return {void}
-     * 
+     *
      */
     set : function(element, name, value)
     {
@@ -62,15 +62,15 @@ qx.Class.define("qx.bom.element.Dataset",
         qx.bom.element.Attribute.set(element, "data-"+qx.lang.String.hyphenate(name), value);
       }
     },
-    
+
     /**
-     * 
+     *
      * Returns the value of the given HTML "data-*" attribute
      *
      * @param element {Element} The DOM element to query
      * @param name {String} Name of the attribute [CamelCase variant]
      * @return {var} The value of the attribute
-     * 
+     *
      */
     get : function(element, name)
     {
@@ -83,14 +83,14 @@ qx.Class.define("qx.bom.element.Dataset",
         return qx.bom.element.Attribute.get(element, "data-"+qx.lang.String.hyphenate(name));
       }
     },
-    
+
     /**
      * Remove an HTML "data-*" attribute from the given DOM element
      *
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the attribute
      * @return {void}
-     * 
+     *
      */
     remove : function(element, name)
     {

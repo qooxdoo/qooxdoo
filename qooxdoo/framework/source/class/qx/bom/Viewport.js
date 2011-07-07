@@ -277,7 +277,7 @@ qx.Class.define("qx.bom.Viewport",
 
 
     /**
-     * Returns an orientation normalizer value that should be added to device orientation 
+     * Returns an orientation normalizer value that should be added to device orientation
      * to normalize behaviour on different devices.
      *
      * @return {Map} Orientation normalizing value

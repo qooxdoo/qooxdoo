@@ -24,7 +24,7 @@
  * behaviours of how a form can be rendered into a mobile page.
  * Its subclasses can extend it and override {@link #addItems} and {@link addButton}
  * methods in order to customize the way the form gets into the DOM.
- * 
+ *
  *
  */
 qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
@@ -71,12 +71,12 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
      MEMBERS
   *****************************************************************************
   */
- 
+
    members :
   {
-  
+
     _form : null,
-    
+
     // interface implementation
     addItems : function(items, names, title) {
       throw new Error("Abstract method call");
@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
     addButton : function(button) {
       throw new Error("Abstract method call");
     },
-    
+
     /**
      * Shows an error to the user when a form element is in invalid state
      * usually it prints an error message, so that user can rectify the filling of the form element.
@@ -95,16 +95,16 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
     showErrorForItem : function(item) {
       throw new Error("Abstract method call");
     },
-    
+
     /**
-     * 
+     *
      * Resets the errors for the form by removing any error messages
      * inserted into DOM in the case of invalid form elements
-     * 
+     *
      */
     resetForm : function() {
       throw new Error("Abstract method call");
     }
   }
-  
+
 });

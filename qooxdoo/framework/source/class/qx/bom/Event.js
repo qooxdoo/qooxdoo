@@ -130,7 +130,7 @@ qx.Class.define("qx.bom.Event",
       else if (typeof target["on" + type] != "undefined")
       {
         target["on" + type] = null;
-      } 
+      }
       else
       {
         if (qx.core.Environment.get("qx.debug")) {

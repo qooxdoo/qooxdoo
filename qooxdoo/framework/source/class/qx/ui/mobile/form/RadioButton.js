@@ -21,24 +21,24 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * The Radio button for mobile.
- * 
+ *
  * *Example*
- * 
+ *
  * <pre class='javascript'>
  *    var form = new qx.ui.mobile.form.Form();
  *    var radio1 = new qx.ui.mobile.form.RadioButton();
  *    var radio2 = new qx.ui.mobile.form.RadioButton();
  *    var radio3 = new qx.ui.mobile.form.RadioButton();
  *    var group = new qx.ui.form.RadioGroup(radio1, radio2, radio3);
-      
+
  *    form.add(radio1, "Germany");
  *    form.add(radio2, "UK");
  *    form.add(radio3, "USA");
  *
  *    this.getRoot.add(new qx.ui.mobile.form.renderer.Single(form));
  * </pre>
- * 
- * 
+ *
+ *
  */
 qx.Class.define("qx.ui.mobile.form.RadioButton",
 {
@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
       refine : true,
       init : "radio"
     },
-    
+
     /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons */
     group :
     {
@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     }
 
   },
-  
+
   members :
   {
     // overridden
@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
         value.add(this);
       }
     },
-    
+
     /**
      * Sets the value [true/false] of this radio button.
      * It is called by setValue method of qx.ui.mobile.form.MValue mixin
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     _setValue : function(value) {
       this._setAttribute("checked", value);
     },
-    
+
     /**
      * Gets the value [true/false] of this radio button.
      * It is called by getValue method of qx.ui.mobile.form.MValue mixin

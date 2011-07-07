@@ -796,7 +796,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(1, model.getItem(0).getAge());
       this.assertEquals(2, model.getItem(1).getAge());
       this.assertEquals(3, model.getItem(2).getAge());
-      
+
       for (var i=0; i<model.length; i++) {
         model.getItem(i).dispose();
       }

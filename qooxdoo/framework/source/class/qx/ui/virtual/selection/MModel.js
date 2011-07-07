@@ -118,7 +118,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
 
     /** {Boolean} flag to ignore the selection change from <code>_manager</code> */
     __ignoreManagerChangeSelection : false,
-    
+
 
     /**
      * Initialize the selection manager with his delegate.
@@ -153,8 +153,8 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       this._manager.attachKeyEvents(this);
       this._manager.addListener("changeSelection", this._onManagerChangeSelection, this);
     },
-    
-    
+
+
     /**
      * Method to update the selection, this method can be used when the model has
      * changes.
@@ -239,7 +239,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
           newSelection.push(row);
         }
       }
-      
+
       if (this._beforeApplySelection != null &&
           qx.lang.Type.isFunction(this._beforeApplySelection)) {
         this._beforeApplySelection(newSelection);
@@ -280,7 +280,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
 
       this.__ignoreManagerChangeSelection = false;
     },
-    
+
 
     /**
      * Synchronized the selection form the manager with the local one.
@@ -290,7 +290,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       if (this.__isSelectionEquals()) {
         return
       }
-      
+
       var managerSelection = this._manager.getSelection();
       var newSelection = [];
 
@@ -300,11 +300,11 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
 
       this.__replaceSelection(newSelection);
     },
-    
-    
+
+
     /**
      * Replace the current selection with the passed selection Array.
-     * 
+     *
      * @param newSelection {qx.data.Array} The new selection.
      */
     __replaceSelection : function(newSelection)
@@ -320,35 +320,35 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       }
     },
 
-    
+
     /**
      * Checks whether the local and the manager selection is equals.
-     * 
+     *
      * @return {Boolean} <code>true</code> when the selection is equals,
      *   <code>false</code> otherwise.
      */
     __isSelectionEquals : function()
     {
-      var selection = this.getSelection(); 
+      var selection = this.getSelection();
       var managerSelection = this._manager.getSelection();
-      
+
       if (selection.getLength() !== managerSelection.length) {
         return false;
       }
-      
+
       for (var i = 0; i < selection.getLength(); i++)
       {
         var item = selection.getItem(i);
         var index = this._getSelectables().indexOf(item);
         var row = this._reverseLookup(index);
-        
+
         if (row !== managerSelection[i]) {
           return false;
         };
       }
       return true;
     },
-    
+
 
     /**
      * Helper Method to select default item.

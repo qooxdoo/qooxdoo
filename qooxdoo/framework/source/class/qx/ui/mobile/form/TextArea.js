@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
       refine : true,
       init : "textArea"
     }
-    
+
   },
 
 
@@ -79,6 +79,6 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
     {
       return "textarea";
     }
-    
+
   }
 });
