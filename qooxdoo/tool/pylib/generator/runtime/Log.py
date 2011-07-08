@@ -222,6 +222,7 @@ class Log(object):
 
 
     sigils = r"|/-\|/-\\"
+    sigils1= r".o0O0o"
     sigils_len = len(sigils)
 
     def dot(self, char='.', i=[0]):
