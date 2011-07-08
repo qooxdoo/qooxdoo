@@ -101,8 +101,9 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
       // Attach handlers for all browsers
       script.onerror = script.onload = script.onreadystatechange = this.__oneventWrapped;
 
+      // BUGFIX: Browsers not supporting error handler
       var self = this;
-      if (this.getTimeout() > 0) {
+      if (qx.core.Environment.get("engine.name") === "opera" && this.getTimeout() > 0) {
         // No need to clear timeout since on success the callback is called
         // and the loader disposed, meaning the callback is called only once
         setTimeout(function() {
