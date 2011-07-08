@@ -22,6 +22,11 @@
     "ROOT"         : "."
   },
   
+  "config-warnings" :
+  {
+	"job-shadowing" : ["common", "simulation-build", "simulation-run"]
+  },
+  
   
   "jobs" :
   {
