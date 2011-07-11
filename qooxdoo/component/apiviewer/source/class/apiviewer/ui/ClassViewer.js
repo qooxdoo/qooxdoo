@@ -606,11 +606,12 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       // Handle mark
       if (this._markedElement) {
-        this._markedElement.className = "";
+        this._markedElement.className = apiviewer.ui.panels.InfoPanel.getItemCssClasses(this._markedItemNode);
       }
 
       elem.className = "marked";
       this._markedElement = elem;
+      this._markedItemNode = itemNode;
 
       // Use a timeout as pragmatic solution
       // Replace this later on with a kind of post-processing
@@ -693,6 +694,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
   */
 
   destruct : function() {
-    this._titleElem = this._classDescElem = this._markedElement = null;
+    this._titleElem = this._classDescElem = this._markedElement = this._markedItemNode = null;
   }
 });
