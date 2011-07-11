@@ -38,7 +38,6 @@ Widget Reference List
    stack.rst
    table.rst
    tabview.rst
-   template.rst
    textarea.rst
    textfield.rst
    themediframe.rst
