@@ -533,8 +533,8 @@ qx.Class.define("testrunner.view.Html", {
         qx.bom.element.Style.set(listItem, "display", "none");
       }
 
-      if ((state == "error" || state == "failure") && exceptions && 
-        exceptions.length > 0) 
+      if ((state == "error" || state == "failure") && exceptions &&
+        exceptions.length > 0)
       {
         var errorList = document.createElement("ul");
         for (var i=0,l=exceptions.length; i<l; i++) {
