@@ -476,6 +476,9 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
 
       var panel = this._getPanelForItemNode(itemNode);
+      if(!panel.getIsOpen()) {
+        this.togglePanelVisibility(panel);
+      }
       var itemElement = panel.getItemElement(itemNode.getName());
 
       if (!itemElement) {
@@ -486,11 +489,12 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       // Handle mark
       if (this._markedElement) {
-        this._markedElement.className = "";
+        this._markedElement.className = apiviewer.ui.panels.InfoPanel.getItemCssClasses(this._markedItemNode);
       }
 
       elem.className = "marked";
       this._markedElement = elem;
+      this._markedItemNode = itemNode;
 
       // Use a timeout as pragmatic solution
       // Replace this later on with a kind of post-processing
@@ -503,7 +507,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     },
 
     /**
-     * Programatically enables the butto to show private, protected function or
+     * Programatically enables the button to show private, protected function or
      * properties so that the selected item can be shown.
      *
      * @param itemName {String} the name of the item to highlight.
@@ -566,6 +570,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
   */
 
   destruct : function() {
-    this._titleElem = this._classDescElem = this._markedElement = null;
+    this._titleElem = this._classDescElem = this._markedElement = this._markedItemNode = null;
   }
 });
