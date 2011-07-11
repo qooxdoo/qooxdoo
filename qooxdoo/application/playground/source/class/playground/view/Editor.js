@@ -100,8 +100,8 @@ qx.Class.define("playground.view.Editor",
       var highlightDisabled = false;
       var badIE = qx.core.Environment.get("engine.name") == "mshtml";
       if (badIE) {
-        badIE = parseFloat(qx.core.Environment.get("browser.version")) < 8 ||
-          qx.core.Environment.get("browser.documentmode") < 8;
+        badIE = parseFloat(qx.core.Environment.get("browser.version")) <= 8 ||
+          qx.core.Environment.get("browser.documentmode") <= 8;
       }
 
       // FF2 does not have that...
