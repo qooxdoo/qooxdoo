@@ -303,7 +303,9 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     {
       var result = ev.getData();
       if (result.valid === false) {
-        this.remove(result.family);
+        qx.event.Timer.once(function() {
+          this.remove(result.family);
+        }, this, 250);
       }
     },
 
