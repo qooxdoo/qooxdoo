@@ -247,7 +247,9 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
 
       // radio button
       var radioButton = new qx.ui.form.RadioButton("RadioButton").set({tabIndex: tabIndex++});
-      booleanGroupBox.add(new qx.ui.basic.Label("RadioButtons:"), {row: 2, column: 0});
+      label = new qx.ui.basic.Label("RadioButtons:");
+      label.setBuddy(radioButton);
+      booleanGroupBox.add(label, {row: 2, column: 0});
       booleanGroupBox.add(radioButton, {row: 2, column: 1});
       this.__widgets.push(radioButton);
 
