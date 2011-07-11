@@ -735,7 +735,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           var border = "inset-thin";
           var padding = [ 3, 2, 1, 4 ];
         }
-        else if (states.hovered)
+        else if (states.hovered && !states.disabled)
         {
           var border = "outset-thin";
           var padding = [ 2, 3 ];
