@@ -900,7 +900,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
             padding : useCSS ? [3, 0, 3, paddingLeft] : [2, 0, 2, paddingLeft],
             icon : icon,
             width: 15,
-            height: 14
+            height: 14,
+            margin: 0
           };
         }
         else
