@@ -173,10 +173,19 @@ qx.Class.define("qx.test.io.ScriptLoader",
       var loader = new qx.io.ScriptLoader(),
           url = "http://fail.tld";
 
-      // Actually, in browsers that support the "error" event, the
-      // error is detected and handled (with status "fail") before
+      // In browsers that support the "error" event, the error
+      // is detected and handled (with status "fail") even before
       // the timeout is reached
+
+      // Opera does not support the "error" event. Work-around with timeout.
       loader.setTimeout(1);
+
+      // IE does not support the event either. Even worse, IE fires a false
+      // "load", making it impractical to work-around with timeout
+      if (qx.core.Environment.get("engine.name") === "mshtml") {
+        throw new qx.dev.unit.RequirementError(null);
+      }
+
       loader.load(url, function(status) {
         this.resume(function() {
           this.assertEquals("fail", status);
