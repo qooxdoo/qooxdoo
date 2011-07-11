@@ -249,6 +249,8 @@ qx.Class.define("widgetbrowser.pages.Window",
       win.setAllowMaximize(false);
 
       var wm1 = this.__getModalWindow1();
+      this._widgets.push(wm1);
+
       var btn1 = new qx.ui.form.Button("Open Modal Dialog 1", "icon/16/apps/office-calendar.png");
       btn1.addListener("execute", wm1.open, wm1);
       win.add(btn1);
@@ -266,6 +268,7 @@ qx.Class.define("widgetbrowser.pages.Window",
       this.__desktop.add(wm1);
 
       var wm2 = this.__getModalWindow2();
+      this._widgets.push(wm2);
 
       var btn2 = new qx.ui.form.Button("Open Modal Dialog 2", "icon/16/apps/office-calendar.png");
       btn2.addListener("execute", wm2.open, wm2);
