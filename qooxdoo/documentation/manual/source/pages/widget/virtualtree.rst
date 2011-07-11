@@ -2,7 +2,7 @@
 
 VirtualTree
 ************
-The VirtualTree is a widget which based on the virtual infrastructure from the framework.
+The VirtualTree is a widget based on the framework's virtual infrastructure.
 
 .. _pages/widget/virtualtree#preview_image:
 
@@ -20,12 +20,12 @@ Description
 
 The ``qx.ui.tree.VirtualTree`` is based on the virtual infrastructure and supports single selection, multi selection, data binding and custom rendering.
  
-Using the virtual infrastructure has considerable advantages when there is a huge amount of model items to render because the virtual infrastructure only creates widgets for visible items and reuses them. This saves both creation time and memory.
+Using the virtual infrastructure has considerable advantages when there is a huge amount of model items to render: Widgets are created only for visible items and reused. This saves both creation time and memory.
 
 With the `qx.ui.tree.core.IVirtualTreeDelegate <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.tree.core.IVirtualTreeDelegate>`_ interface it is possible to configure the tree's behavior (item renderer configuration, etc.).
 
 .. note::
-  At the moment we only support widget based rendering for tree items, but we are planing also to support HTML based rendering in a future release.
+  At the moment we only support widget based rendering for tree items, but we are planning to also support HTML based rendering in a future release.
 
 .. _pages/widget/virtualtree#codeexample:
 

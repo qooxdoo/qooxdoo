@@ -2,7 +2,7 @@
 
 Virtual SelectBox
 *****************
-The virtual SelectBox has the same act like the :doc:`selectbox`, but the virtual SelectBox is based on the virtual infrastructure from the framework.
+The virtual SelectBox acts like the :doc:`selectbox`, but is based on the framework's virtual infrastructure.
 
 .. _pages/widget/virtualselectbox#preview_image:
 
@@ -18,8 +18,8 @@ Preview Image
 Features
 --------
 * Mouse and keyboard support.
-* Items with plane text and/or icons
-* Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
+* Items with plain text and/or icons
+* Ellipsis: If the label does not fit into the widget's bounds an ellipsis (”...”) is rendered at the end of the label.
 * Supports filtering, sorting, grouping, data binding and custom rendering like the :doc:`virtuallist`.
 
 **Mouse and keyboard behavior:**
@@ -71,21 +71,21 @@ Features
 Description
 -----------
 
-The ``qx.ui.form.VirtualSelectBox`` is based on the virtual infrastructure. It can be used for one selection and uses the :doc:`virtuallist` as drop-down.
+The ``qx.ui.form.VirtualSelectBox`` is based on the virtual infrastructure. It can be used to select one item and uses the :doc:`virtuallist` as a drop-down.
  
-Using the virtual infrastructure has considerable advantages when there is a huge amount of model items to render because the virtual infrastructure only creates widgets for visible items and reuses them. This saves both creation time and memory.
+Using the virtual infrastructure has considerable advantages when there is a huge amount of model items to render: Widgets are created only for visible items and reused. This saves both creation time and memory.
 
-The virtual SelectBox uses the same `qx.ui.list.core.IListDelegate <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.list.core.IListDelegate>`_ interface like the :doc:`virtuallist` to configure the SelectBox's behavior (item and group renderer configuration, filtering, sorting, grouping, etc.).
+The virtual SelectBox uses the same `qx.ui.list.core.IListDelegate <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.list.core.IListDelegate>`_ interface as the :doc:`virtuallist` to configure the SelectBox's behavior (item and group renderer configuration, filtering, sorting, grouping, etc.).
 
 .. note::
-  At the moment we only support widget based rendering for list and group items, but we are planing also to support HTML based rendering in a future release.
+  At the moment we only support widget based rendering for list and group items, but we are planning to also support HTML based rendering in a future release.
 
 .. _pages/widget/virtualselectbox#codeexample:
 
 Code Example
 ------------
 
-Here's an example. We create a simple SelectBox example with 2500 items, sorting the items ascending, selecting the 20th item and we log each selection change.
+Here's an example. We create a simple SelectBox example with 2500 items, sort the items (ascending), select the 20th item and log each selection change.
 
 ::
 
