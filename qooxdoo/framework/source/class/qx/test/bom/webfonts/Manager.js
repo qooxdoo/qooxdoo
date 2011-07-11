@@ -31,9 +31,9 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
       finelinerScript :
       {
         family : "FinelinerScriptRegular",
-        source: [ qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script.woff"),
-                  qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script.ttf"),
-                  qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script.eot") ]
+        source: [ qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.woff"),
+                  qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.ttf"),
+                  qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.eot") ]
       },
       invalid :
       {
