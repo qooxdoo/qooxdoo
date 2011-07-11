@@ -703,7 +703,7 @@ Configure log/reporting features. Takes a map.
 
 .. note::
 
-  peer-keys: :ref:`pages/tool/generator_config_ref#cache`, :ref:`pages/tool/generator_config_ref#include`, :ref:`pages/tool/generator_config_ref#library`, :ref:`pages/tool/generator_config_ref# variants`, :ref:`pages/tool/generator_config_ref#compile-options` 
+  peer-keys: :ref:`pages/tool/generator_config_ref#cache`, :ref:`pages/tool/generator_config_ref#include`, :ref:`pages/tool/generator_config_ref#library`, :ref:`pages/tool/generator_config_ref#compile-options` 
 
 This key allows you to enable logging features along various axes. 
 
