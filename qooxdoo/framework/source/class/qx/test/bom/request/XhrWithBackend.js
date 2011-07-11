@@ -407,9 +407,12 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
         that.resume();
       }
 
-      // Network error
-      req.open("GET", "http://fail.tld");
-      req.send();
+      // Is sync in Opera >= 11.5
+      qx.event.Timer.once(function() {
+        // Network error
+        req.open("GET", "http://fail.tld");
+        req.send();
+      }, this, 0);
 
       // May take a while to detect network error
       this.wait(10000);
@@ -427,9 +430,12 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
         that.resume();
       }
 
-      // Network error
-      req.open("GET", "http://fail.tld");
-      req.send();
+      // Is sync in Opera >= 11.5
+      qx.event.Timer.once(function() {
+        // Network error
+        req.open("GET", "http://fail.tld");
+        req.send();
+      }, this, 0);
 
       // May take a while to detect network error
       this.wait(10000);
@@ -478,8 +484,12 @@ qx.Class.define("qx.test.bom.request.XhrWithBackend",
       this.spy(req, "onreadystatechange");
       this.spy(req, "onerror");
       this.spy(req, "onloadend");
-      req.open("GET", "http://fail.tld");
-      req.send();
+
+      // Is sync in Opera >= 11.5
+      qx.event.Timer.once(function() {
+        req.open("GET", "http://fail.tld");
+        req.send();
+      }, this, 0);
 
       // May take a while to detect network error
       this.wait(10000);
