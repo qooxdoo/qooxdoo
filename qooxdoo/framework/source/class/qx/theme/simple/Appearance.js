@@ -885,16 +885,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
     "virtual-tree" :
     {
-      include : "list",
-      alias : "list",
+      include : "tree",
+      alias : "tree",
 
       style : function(states)
       {
         return {
-          padding: states.focused ? 0 : 1
+          itemHeight : 21
         };
       }
     },
+
     "virtual-tree-folder" : "tree-folder",
     "virtual-tree-file" : "tree-file",
 

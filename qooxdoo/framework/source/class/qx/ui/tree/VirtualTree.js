@@ -67,7 +67,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 {
   extend : qx.ui.virtual.core.Scroller,
   implement : qx.ui.tree.core.IVirtualTree,
-  include : qx.ui.virtual.selection.MModel,
+  include : [
+    qx.ui.virtual.selection.MModel,
+    qx.ui.core.MContentPadding
+  ],
 
   /**
    * @param model {qx.core.Object?null} The model structure for the tree, for
@@ -528,6 +531,16 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         }
       }
       return false;
+    },
+
+
+    /**
+     * Returns the element, to which the content padding should be applied.
+     *
+     * @return {qx.ui.core.Widget} The content padding target.
+     */
+    _getContentPaddingTarget : function() {
+      return this.getPane();
     },
 
 

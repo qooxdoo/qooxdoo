@@ -3104,7 +3104,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
       alias : "virtual-list"
     },
 
-    "virtual-tree" : "list",
+    "virtual-tree" :
+    {
+      include : "tree",
+      alias : "tree",
+
+      style : function(states)
+      {
+        return {
+          itemHeight : 26
+        };
+      }
+    },
+
     "virtual-tree-folder" : "tree-folder",
     "virtual-tree-file" : "tree-file",
 
