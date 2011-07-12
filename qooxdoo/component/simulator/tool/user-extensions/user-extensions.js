@@ -913,9 +913,8 @@ PageBot.prototype.getQxWidgetByElement = function(element)
     LOG.debug("getQxWidgetByElement found widget " + widget.classname);
   }
   else {
-    LOG.error("getQxWidgetByElement did not find a widget");
     if (exception && exception.message) {
-      LOG.error(exception.message);
+      throw exception;
     }
   }
   
