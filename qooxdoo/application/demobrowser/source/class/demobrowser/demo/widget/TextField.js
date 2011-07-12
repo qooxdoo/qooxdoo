@@ -28,13 +28,16 @@ qx.Class.define("demobrowser.demo.widget.TextField",
     {
       this.base(arguments);
 
+      var rootContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox());
+      this.getRoot().add(rootContainer);
+
       var box = new qx.ui.layout.VBox();
       box.setSpacing(10);
 
       var container = new qx.ui.container.Composite(box);
       container.setPadding(20);
 
-      this.getRoot().add(container, {left:0,top:0});
+      rootContainer.add(container);
 
       var input1 = new qx.ui.form.TextField("max15").set({
         maxLength: 15
@@ -130,7 +133,7 @@ qx.Class.define("demobrowser.demo.widget.TextField",
       controls.add(btnSendTextSelectionEnd);
 
 
-      this.getRoot().add(controls, {left:200, top:0});
+      rootContainer.add(controls);
     }
   }
 });
