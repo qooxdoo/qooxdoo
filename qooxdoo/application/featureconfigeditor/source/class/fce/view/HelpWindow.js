@@ -59,8 +59,7 @@ qx.Class.define("fce.view.HelpWindow", {
       
       var qxVer = qx.core.Environment.get("qx.version");
       var manualLink = "http://manual.qooxdoo.org/" + qxVer 
-        + "/pages/tool/generator_config_articles.html#browser-specific-builds";
-      
+        + "/pages/application/featureconfigeditor.html#browser-specific-builds";
       var p1 = new qx.ui.basic.Label("The purpose of this application is to help"
         + " developers create configurations for <a href=\"" + manualLink + "\" "
         + "target=\"_blank\" style=\"" + linkStyle + "\">browser-specific builds</a>."
