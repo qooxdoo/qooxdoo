@@ -46,6 +46,17 @@ qx.Class.define("inspector.objects.table.HashModel",
   construct : function(model)
   {
     this.base(arguments, model, ["Hash", "Classname"]);
+    
+    // set the sorting method for the hash values
+    this.setSortMethods(0,
+    {
+      ascending : function(a, b) {
+        return parseInt(a) - parseInt(b);
+      },
+      descending : function(a, b) {
+        return parseInt(b) - parseInt(a);
+      }
+    });
   },
 
   members :
@@ -57,7 +68,7 @@ qx.Class.define("inspector.objects.table.HashModel",
       var data = [];
       for (var i = 0; i < objects.length; i++) {
         var object = objects[i];
-        data.push([parseInt(object.toHashCode()), object.classname]);
+        data.push([object.toHashCode(), object.classname]);
       }
 
       return data;
