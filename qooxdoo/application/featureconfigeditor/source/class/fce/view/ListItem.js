@@ -99,6 +99,7 @@ qx.Class.define("fce.view.ListItem", {
       label.setValue(labelText);
       
       var itemValue = null;
+      var isNumber = false;
       if(this.getValueProperty()) {
         var propName = this.getValueProperty();
         itemValue = modelItem.get(propName);
@@ -112,6 +113,7 @@ qx.Class.define("fce.view.ListItem", {
         input = this.getChildControl("textfield");
       }
       if (typeof itemValue === "number") {
+        isNumber = true;
         itemValue = itemValue.toString();
       }
       input.setValue(itemValue);
@@ -121,7 +123,7 @@ qx.Class.define("fce.view.ListItem", {
       if (this.getValueProperty()) {
         qx.data.SingleValueBinding.bind(input, "value", modelItem, this.getValueProperty(), {
           converter : function(data, modelObj, sourceObj, targetObj) {
-            if (typeof itemValue === "number") {
+            if (isNumber) {
               return parseInt(data, 10);
             }
             return data;
