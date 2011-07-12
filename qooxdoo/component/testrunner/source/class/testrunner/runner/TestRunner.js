@@ -518,6 +518,10 @@ qx.Class.define("testrunner.runner.TestRunner", {
         }
       }
 
+      if (this.__logAppender) {
+        this.__logAppender.clear();
+      }
+      
       this.__wrapAssertions(this.frameWindow);
       this.__getTestModel();
     },
