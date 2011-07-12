@@ -78,7 +78,7 @@ This will search recursively from the root for an object with label “Section 3
 * **app:** Three special operators at the beginning of a locator specify which object space you want to search:
 
   * *app:* signifies the object space down from ``qx.core.Init.getInstance().getApplication()``
-  * *inline:* signifies the object space down from the root widget of a "qooxdoo isle" in an inline application (see the TODO:LINK how-to page for details)
+  * *inline:* signifies the object space down from the root widget of a "qooxdoo isle" in an inline application. See `this article <http://qooxdoo.org/contrib/project/simulator/qooxdoo-tests-with-selenium#testing_inline_applications>`_ for details.
   * *doc:* (or anything else for that matter, including nothing) signifies the object space down from the application's root widget, i.e. ``qx.core.Init.getApplication().getRoot()``.
 
 As with all Selenium locators, there are no set-valued results (as with generic XPath), and each locator has to come up with at most one result element. Therefore, for each location step, the first match wins, i.e. if there are multiple children that match the current specification, the first child is taken as the root for the rest of the search. Backtracking is only done for wildcard (*) searches.
