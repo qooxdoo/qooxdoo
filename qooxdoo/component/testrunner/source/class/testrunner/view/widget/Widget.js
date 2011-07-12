@@ -195,6 +195,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
     __app : null,
     __iframe : null,
     __overflowMenu : null,
+    __logLevelMenu : null,
     __menuItemStore : null,
     __labelDeco : null,
     __logElement : null,
@@ -406,6 +407,8 @@ qx.Class.define("testrunner.view.widget.Widget", {
      * @param e {qx.event.type.Data} The event.
      */
     _onHideItem : function(e) {
+      // close the log level menu in any case
+      this.__logLevelMenu.hide();
       var partItem = e.getData();
       var menuItems = this._getMenuItems(partItem);
       for(var i=0,l=menuItems.length;i<l;i++){
@@ -540,9 +543,9 @@ qx.Class.define("testrunner.view.widget.Widget", {
      */
     __createLogLevelMenu : function()
     {
-      var logLevelMenu = new qx.ui.menu.Menu();
+      this.__logLevelMenu = new qx.ui.menu.Menu();
       var logLevelMenuButton = new qx.ui.toolbar.MenuButton(this.__app.tr("Log Level"), "icon/22/categories/system.png");
-      logLevelMenuButton.setMenu(logLevelMenu);
+      logLevelMenuButton.setMenu(this.__logLevelMenu);
 
       for (var i=0,l=this.__logLevelData.length; i<l; i++) {
         var data = this.__logLevelData[i];
@@ -553,7 +556,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
           this.setLogLevel(pressedButton.getUserData("model"));
           logLevelMenuButton.setIcon(pressedButton.getIcon());
         }, this);
-        logLevelMenu.add(button);
+        this.__logLevelMenu.add(button);
       }
 
       return logLevelMenuButton;
