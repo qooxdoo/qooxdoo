@@ -33,10 +33,7 @@ Rich Internet Applications (RIA)
 Mobile Apps
 -----------
 
-.. toctree::
-   :maxdepth: 1
-
-   mobile/tutorial
+* :doc:`Tutorial: Creating a Twitter Client with qooxdoo mobile <mobile/tutorial>`
 
 Tooling
 -------
