@@ -47,7 +47,7 @@ qx.Class.define("qx.event.type.GeoPosition",
      */
     timestamp :
     {
-      check : "Date"
+      check : "Number"
     },
 
     /**

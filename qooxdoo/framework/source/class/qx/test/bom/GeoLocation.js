@@ -36,7 +36,7 @@ qx.Class.define("qx.test.bom.GeoLocation",
 
     setUp: function() {
       this._position = {
-        timestamp: new Date(),
+        timestamp: (new Date()).getTime(),
         coords: {
           latitude: 1,
           longitude: 2,
