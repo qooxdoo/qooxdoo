@@ -144,6 +144,14 @@ qx.Class.define("playground.view.Editor",
       qx.event.Timer.once(function() {
         var container = this.__editor.getContentElement().getDomElement();
 
+        // HOTFIX for webkit to enable space entering
+        if (qx.core.Environment.get("engine.name") == "webkit") {
+          this.__editor.addListener("click", function(e) {
+            editor.textInput.blur();
+            editor.textInput.focus();
+          }, this);
+        }
+
         // create the editor
         var editor = this.__ace = ace.edit(container);
   
