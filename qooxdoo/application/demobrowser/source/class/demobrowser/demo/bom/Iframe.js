@@ -29,7 +29,7 @@ qx.Class.define("demobrowser.demo.bom.Iframe",
 
       var iframe = qx.bom.Iframe.create({
         name : "testFrame",
-        src : "http://gmx.com"
+        src : "http://www.qooxdoo.org"
       });
 
       qx.bom.Element.addListener(iframe, "load", function(e) {
