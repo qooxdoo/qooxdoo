@@ -1,5 +1,5 @@
-Mobile Tutorial: Creating a Twitter Client with qooxdoo mobile
-**************************************************************
+Tutorial: Creating a Twitter Client with qooxdoo mobile
+*******************************************************
 
 In this tutorial you will learn how to create a simple `Twitter`_ client
 with the new `qooxdoo mobile`_ widgets. The client should display all
