@@ -56,14 +56,19 @@ The Selenium Server (selenium-server.jar) can optionally run on a physically sep
 Generator Configuration
 =======================
 
-Unlike other framework components, the Simulator isn't ready to run out of the box: The application developer needs to specify the location of the required external libraries (Selenium's Java bindings and Mozilla Rhino). This is easily accomplished by redefining the *SIMULATOR_CLASSPATH* macro (in the applicaton's config.json file):
+Unlike other framework components, the Simulator isn't ready to run out of the box: The application developer needs to specify the location of the required external libraries (Selenium's Java bindings and Mozilla Rhino). This is easily accomplished by redefining the *SIMULATOR_CLASSPATH* macro (in the applicaton's config.json file; be sure to heed the :ref:`general information about paths <pages/tool/generator_config_articles#path_names>` in config files):
 
 ::
 
     "let" :
     {
-      "SIMULATOR_CLASSPATH" : ["../selenium/selenium-java-client-driver.jar", "../rhino/js.jar"]
+      "SIMULATOR_CLASSPATH" : 
+      [
+        "../selenium/selenium-java-client-driver.jar", 
+        "../rhino/js.jar"
+      ]
     } 
+
 
 The "environment" section of the "simulation-run" job configures where the AUT is located and how to reach the Selenium server that will launch the test browser and run the test commands.
 The following example shows the minimum configuration needed to launch a Simulator application that will test the source version of the current application in Firefox 3 using a Selenium server instance running on the same machine (localhost):
@@ -72,6 +77,12 @@ The following example shows the minimum configuration needed to launch a Simulat
 
     "simulation-run" :
     {
+      "let" :
+      {
+        "SIMULATOR_CLASSPATH" : [ "../selenium/selenium-java-client-driver.jar", 
+                                  "../rhino/js.jar" ]
+      },
+
       "environment" :
       {
         "simulator.testBrowser" : "*firefox3",

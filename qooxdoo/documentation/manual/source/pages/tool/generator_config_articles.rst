@@ -23,11 +23,21 @@ A good help when dealing with paths is also to use macros, if you need to abstra
 
 This should make it more intuitive to maintain a config file.
 
+
+.. _pages/tool/generator_config_articles#paths_with_spaces:
+
+Paths with Spaces
+-----------------
+
+Most file systems allow spaces in directory and file names these days, a notorious example of this being the ``C:\\Documents and Settings`` path on Windows. To enter such paths safely in your configuration Json structure, you need to escape the spaces with back-slash (\\). As the back-slash is also a meta-character in Json, it needs to be escaped as well. So a path with spaces would look like this in your config: ``".../foo/dir\\ with\\ spaces/bar/file\\ with\\ spaces.html"``. 
+
+**Nota bene**: As the configuration files are processed by Python, and Python is allowing forward-slash on Windows, the initial example can more easily be given as ``"c:/Documents\\ and \\Settings"`` (rather than the canonical ``"C:\\\\Documents\\ and\\ Settings"``).
+
 .. note::
 
-    **Implementor's note**:
+    **To Implementors**:
 
-    The configuration handler (``generator/config/Config.py``) handles relative paths in the obvious cases, like for the ``manifest`` entries in the ``library`` key, or in the top-level ``include`` key. But it cannot handle all possible cases, because it doesn't know beforehand which particluar key represents a path, and which doesn't. In a config entry like ``"foo" : "bar"`` it is hard to tell whether ``bar`` represents a relative file or directory. Therefore, part of the responsibility for relative paths is offloaded to the action implementations that make use of the particular keys.
+    The configuration handler (``generator/config/Config.py``) handles relative paths in the obvious cases, like for the ``manifest`` entries in the ``library`` key, or in the top-level ``include`` key. But it cannot handle all possible cases, because it doesn't know beforehand which particular key represents a path, and which doesn't. In a config entry like ``"foo" : "bar"`` it is hard to tell whether ``bar`` represents a relative file or directory. Therefore, part of the responsibility for relative paths is offloaded to the action implementations that make use of the particular keys.
 
     Since each config key, particularly action keys, interpret their corresponding config entries, they know which entries represent paths. To handle those paths correctly, the ``Config`` module provides a utility method ``Config.absPath(self, path)`` which will calculate the absolute path from the given path relative to the config file's location.
 
