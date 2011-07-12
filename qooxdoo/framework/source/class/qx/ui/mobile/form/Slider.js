@@ -31,12 +31,12 @@
  * Here is a little example of how to use the widget.
  *
  * <pre class='javascript'>
-     var slider= new qx.ui.mobile.form.Slider().set({
-        minimum : 0,
-        maximum : 10,
-        step : 2
-      });
-      slider.addListener("changeValue", handler, this);
+ *    var slider= new qx.ui.mobile.form.Slider().set({
+ *       minimum : 0,
+ *       maximum : 10,
+ *       step : 2
+ *     });
+ *     slider.addListener("changeValue", handler, this);
  *
  *   this.getRoot.add(slider);
  * </pre>
