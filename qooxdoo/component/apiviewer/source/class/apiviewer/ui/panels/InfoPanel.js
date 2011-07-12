@@ -983,7 +983,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
             listName == "methods"
           )
           ) {
-          qx.lang.Array.append(nodeArr, currClassNode.getNodesOfTypeFromMixins(this.getListName()));
+          qx.lang.Array.append(currNodeArr, currClassNode.getNodesOfTypeFromMixins(this.getListName()));
         }
         // Add the nodes from this class
         for (var i=0; i<currNodeArr.length; i++)
