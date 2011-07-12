@@ -226,6 +226,7 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
       var subContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       subContainer.setHeight(120);
       var buttonMenu = this.getButtonMenu();
+      this._widgets.push(buttonMenu);
       subContainer.add(label, {left: 0, top: 0});
       subContainer.add(buttonMenu, {left: 0, top: 0});
 
