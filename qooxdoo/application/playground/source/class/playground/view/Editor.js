@@ -196,6 +196,11 @@ qx.Class.define("playground.view.Editor",
     setCode : function(code) {
       if (this.__ace) {
         this.__ace.getSession().setValue(code);
+
+        // move cursor to start to prevent scrolling to the bottom
+        this.__ace.renderer.scrollToX(0);
+        this.__ace.renderer.scrollToY(0);
+        this.__ace.selection.moveCursorFileStart();
       }
       this.__textarea.setValue(code);
     },

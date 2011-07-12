@@ -452,7 +452,8 @@ slider2.bind("value", slider1, "value");</textarea>
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="YQL Binding">var query = "select * from feed where url='http://feeds.feedburner.com/qooxdoo/news/content'";
+<textarea class="qx_samples" title="YQL Binding">//YQL query for the qooxdoo news feed
+var query = "select * from feed where url='http://feeds.feedburner.com/qooxdoo/news/content'";
 
 var delegate = {manipulateData : function(data) {
   return data.query.results.item;
