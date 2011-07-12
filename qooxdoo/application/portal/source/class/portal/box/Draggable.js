@@ -195,6 +195,14 @@ qx.Class.define("portal.box.Draggable",
      */
     __onDragStart : function(e)
     {
+      // it may happen that this "dragStart" event is fired even if the drag
+      // session is still active - for example the user released the mouse button
+      // outside of the viewport
+      if (portal.dragdrop.Manager.getInstance().isSessionActive())
+      {
+        return;
+      }
+
       // set the current box as the active one
       portal.box.Manager.getInstance().setActiveBox(this.__box);
 
