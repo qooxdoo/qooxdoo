@@ -156,10 +156,12 @@ qx.Class.define("fce.view.FeatureSelector", {
       
       inner.add(new qx.ui.core.Spacer(), {flex: 1});
       
+      /*
       var setsMenu = new qx.ui.menu.Menu();
       this.__setsMenu = setsMenu;
       var selectSetsButton = new qx.ui.form.MenuButton("Toggle Displayed Sets", "icon/16/actions/view-restore.png", setsMenu);
       inner.add(selectSetsButton);
+      */
       
       var importButton = new qx.ui.form.Button("Import Feature Map", "icon/16/actions/window-new.png");
       importButton.addListener("execute", function(ev) {
@@ -338,7 +340,7 @@ qx.Class.define("fce.view.FeatureSelector", {
         var data = this._getData(value);
         var model = qx.data.marshal.Json.createModel(data, true);
         this.setModel(model);
-        this._getSetsMenu(qx.lang.Object.getKeys(value));
+        //this._getSetsMenu(qx.lang.Object.getKeys(value));
       }
     },
     
