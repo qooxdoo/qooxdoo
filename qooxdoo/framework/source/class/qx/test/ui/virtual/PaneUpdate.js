@@ -60,7 +60,9 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate",
     },
 
 
-    tearDown : function() {
+    tearDown : function()
+    {
+      this.base(arguments);
       this.pane.destroy();
     },
 
