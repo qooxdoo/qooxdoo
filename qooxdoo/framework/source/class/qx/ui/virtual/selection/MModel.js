@@ -47,7 +47,8 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
   construct : function()
   {
     this._initSelectionManager();
-    this.initSelection(new qx.data.Array());
+    this.__defaultSelection = new qx.data.Array();
+    this.initSelection(this.__defaultSelection);
   },
 
 
@@ -119,6 +120,8 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
     /** {Boolean} flag to ignore the selection change from <code>_manager</code> */
     __ignoreManagerChangeSelection : false,
 
+    __defaultSelection : null,
+    
 
     /**
      * Initialize the selection manager with his delegate.
@@ -314,7 +317,9 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       {
         var args = [0, selection.getLength()];
         args = args.concat(newSelection);
-        selection.splice.apply(selection, args);
+        // dispose data array returned by splice to avoid memory leak
+        var temp = selection.splice.apply(selection, args);
+        temp.dispose();
       } else {
         selection.removeAll();
       }
@@ -365,5 +370,8 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
   {
     this._manager.dispose();
     this._manager = null;
+    if (this.__defaultSelection) {
+      this.__defaultSelection.dispose();
+    }
   }
 });

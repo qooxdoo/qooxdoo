@@ -79,12 +79,14 @@ qx.Class.define("qx.ui.list.List",
 
     this._init();
 
-    this.initGroups(new qx.data.Array());
+    this.__defaultGroups = new qx.data.Array();
+    this.initGroups(this.__defaultGroups);
 
     if(model != null) {
       this.initModel(model);
     } else {
-      this.initModel(new qx.data.Array());
+      this.__defaultModel = new qx.data.Array();
+      this.initModel(this.__defaultModel);
     }
 
     this.initItemHeight();
@@ -306,6 +308,10 @@ qx.Class.define("qx.ui.list.List",
      * {Boolean} indicates when a default group is used for grouping.
      */
     __defaultGroupUsed : false,
+    
+    __defaultGroups : null,
+    
+    __defaultModel : null,
 
 
     /**
@@ -793,5 +799,12 @@ qx.Class.define("qx.ui.list.List",
     this._background = this._provider = this._layer =
       this.__lookupTable = this.__lookupTableForGroup =
       this.__groupHashMap = null;
+    
+    if (this.__defaultGroups) {
+      this.__defaultGroups.dispose();
+    }
+    if (this.__defaultModel) {
+      this.__defaultModel.dispose();
+    }
   }
 });

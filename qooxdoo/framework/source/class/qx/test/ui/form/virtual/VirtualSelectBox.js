@@ -44,6 +44,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualSelectBox",
 
       this.__selectBox.destroy();
       this.__selectBox = null;
+      this.__model.dispose();
       this.__model = null;
     },
 

@@ -55,7 +55,8 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     if (model != null) {
       this.initModel(model);
     } else {
-      this.initModel(new qx.data.Array());
+      this.__defaultModel = new qx.data.Array();
+      this.initModel(this.__defaultModel);
     }
   },
 
@@ -180,6 +181,8 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
   members :
   {
+    __defaultModel : null,
+    
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
@@ -468,6 +471,13 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     // property apply
     _applyMaxListHeight : function(value, old) {
       this.getChildControl("dropdown").getChildControl("list").setMaxHeight(value);
+    }
+  },
+  
+  destruct : function()
+  {
+    if (this.__defaultModel) {
+      this.__defaultModel.dispose();
     }
   }
 });

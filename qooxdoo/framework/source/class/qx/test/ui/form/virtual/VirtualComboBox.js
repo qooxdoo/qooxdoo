@@ -22,6 +22,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
   members :
   {
     __comboBox : null,
+    __model : null,
 
 
     setUp : function()
@@ -38,6 +39,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.base(arguments);
       this.__comboBox.destroy();
       this.__comboBox = null;
+      this.__model.dispose();
       this.flush();
     },
 
@@ -85,7 +87,8 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
 
     testPreselectOnOpen : function()
     {
-      this.__comboBox.setModel(this.__createSimpleModel());
+      this.__model = this.__createSimpleModel();
+      this.__comboBox.setModel(this.__model);
       this.__comboBox.setValue("i");
       this.flush();
       this.__comboBox.open();
@@ -99,7 +102,8 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
 
     testSelectFirstMatch : function()
     {
-      this.__comboBox.setModel(this.__createSimpleModel());
+      this.__model = this.__createSimpleModel();
+      this.__comboBox.setModel(this.__model);
       this.__comboBox.setValue("item 4");
       this.flush();
       this.__comboBox.open();
@@ -111,7 +115,8 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
 
     testSelectFirstMatchWithSortedModel : function()
     {
-      this.__comboBox.setModel(this.__createSimpleModel());
+      this.__model = this.__createSimpleModel();
+      this.__comboBox.setModel(this.__model);
       var delegate = {
         // invert sort order
         sorter : function(a, b) {
@@ -141,7 +146,8 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
 
     testSelectFirstMatchWithFilteredModel : function()
     {
-      this.__comboBox.setModel(this.__createSimpleModel());
+      this.__model = this.__createSimpleModel();
+      this.__comboBox.setModel(this.__model);
       var delegate = {
         // remove even-numbered items
         filter : function(item) {
@@ -162,7 +168,8 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
 
     testSelectFirstMatchWithFormatter : function()
     {
-      this.__comboBox.setModel(this.__createRichModel());
+      this.__model = this.__createRichModel();
+      this.__comboBox.setModel(this.__model);
       var delegate = {
         configureItem : function(item)
         {
@@ -188,8 +195,9 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
 
     testSelectFirstMatchByLabelPath : function()
     {
+      this.__model = this.__createNestedModel();
       this.__comboBox.setLabelPath("lastname");
-      this.__comboBox.setModel(this.__createNestedModel());
+      this.__comboBox.setModel(this.__model);
       this.__comboBox.setValue("Si");
       this.flush();
       this.__comboBox.open();

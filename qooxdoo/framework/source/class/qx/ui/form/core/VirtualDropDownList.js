@@ -48,7 +48,8 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
     this._createChildControl("list");
     this.addListener("changeVisibility", this.__onChangeVisibility, this);
 
-    this.initSelection(new qx.data.Array());
+    this.__defaultSelection = new qx.data.Array();
+    this.initSelection(this.__defaultSelection);
   },
 
 
@@ -101,6 +102,9 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
 
     /** {Boolean} Indicator to ignore selection changes from the list. */
     __ignoreListSelection : false,
+    
+    
+    __defaultSelection : null,
 
 
     /*
@@ -138,7 +142,9 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
       this._preselected = modelItem;
       this.__ignoreListSelection = true;
       var listSelection = this.getChildControl("list").getSelection();
-      this.__synchronizeSelection(new qx.data.Array([modelItem]), listSelection);
+      var helper = new qx.data.Array([modelItem]);
+      this.__synchronizeSelection(helper, listSelection);
+      helper.dispose();
       this.__ignoreListSelection = false;
     },
 
@@ -382,7 +388,9 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
         target.length = nativeArray.length;
 
         var lastIndex = target.getLength() - 1;
-        target.splice(lastIndex, 1, target.getItem(lastIndex));
+        // dispose data array returned by splice to avoid memory leak
+        var temp = target.splice(lastIndex, 1, target.getItem(lastIndex));
+        temp.dispose();
       }
     },
 
@@ -448,6 +456,13 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
       var toBottom = viewPortHeight - distance.bottom;
 
       return toTop > toBottom ? toTop : toBottom;
+    }
+  },
+  
+  destruct : function()
+  {
+    if (this.__defaultSelection) {
+      this.__defaultSelection.dispose();
     }
   }
 });

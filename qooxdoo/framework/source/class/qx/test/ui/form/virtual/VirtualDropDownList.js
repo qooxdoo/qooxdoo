@@ -79,6 +79,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
       this.__dropdown.destroy();
       this.__target = null;
       this.__dropdown = null;
+      this.__model.dispose();
       this.__model = null;
     },
 
@@ -93,9 +94,11 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
         new qx.ui.form.core.VirtualDropDownList(null);
       }, Error, "Invalid parameter 'target'!");
 
+      var widget = new qx.ui.core.Widget()
       this.assertException(function() {
-        new qx.ui.form.core.VirtualDropDownList(new qx.ui.core.Widget());
+        new qx.ui.form.core.VirtualDropDownList(widget);
       }, Error, "Invalid parameter 'target'!");
+      widget.dispose();
     },
 
 
@@ -114,6 +117,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
     {
       var sortedModel = this.__applySortingAndReturnSortedModel();
       this.__testCreation(sortedModel);
+      sortedModel.dispose();
     },
 
 
@@ -121,6 +125,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
     {
       var filteredModel = this.__applyFilterAndReturnFilteredModel();
       this.__testCreation(filteredModel);
+      filteredModel.dispose();
     },
 
 
@@ -144,6 +149,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
     {
       var sortedModel = this.__applySortingAndReturnSortedModel();
       this.__testSelection(sortedModel);
+      sortedModel.dispose();
     },
 
 
@@ -164,6 +170,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
       }, 2);
 
       this.__checkSelection(filteredModel.getItem(0));
+      filteredModel.dispose();
     },
 
 
@@ -183,7 +190,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
       var that = this;
       newItem = model.getItem(4);
       this.__checkEvent(selection, function() {
-        selection.splice(0, 1, newItem);
+        selection.splice(0, 1, newItem).dispose();
       }, 1);
 
       this.__checkSelection(newItem);
