@@ -75,7 +75,8 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
 
       } else if (
         input.indexOf("X11") != -1 ||
-        input.indexOf("BSD") != -1
+        input.indexOf("BSD") != -1 ||
+        input.indexOf("Darwin") != -1
       ) {
         return "unix";
 
