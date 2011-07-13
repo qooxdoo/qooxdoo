@@ -44,6 +44,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
     {
       var item = this.__cell.getCellWidget();
       this.assertQxWidget(item);
+      item.dispose();
     },
 
     testCreateWidgetWithDelegate : function()
@@ -51,6 +52,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
       this.__setUpDelegate();
       var item = this.__cell.getCellWidget();
       this.assertInterface(item, qx.ui.form.ListItem);
+      item.dispose();
     },
 
     testPoolOnDelegateChange : function()
@@ -67,6 +69,10 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
       this.__setUpDelegate();
       var item = this.__cell.getCellWidget();
       this.assertInterface(item, qx.ui.form.ListItem);
+      
+      item.dispose();
+      item1.dispose();
+      item2.dispose();
     },
 
     testEvent : function()
@@ -86,6 +92,8 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
       }, function(e) {
         that.assertQxWidget(e.getData());
       });
+      
+      widget.dispose();
     },
 
     testUpdateData : function()
@@ -100,6 +108,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
       this.__cell.updateData(item, data)
       this.assertEquals(data.label, item.getLabel());
       this.assertEquals(data.icon, item.getIcon());
+      item.dispose();
     },
 
     testUpdateEmptyData : function()
@@ -110,6 +119,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
       this.__cell.updateData(item)
       this.assertNull(item.getLabel());
       this.assertNull(item.getIcon());
+      item.dispose();
     },
 
     testUpdateWrongData : function()
@@ -123,6 +133,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
       this.assertException(function() {
         that.__cell.updateData(item, data)
       });
+      item.dispose();
     },
 
     __setUpDelegate : function()
