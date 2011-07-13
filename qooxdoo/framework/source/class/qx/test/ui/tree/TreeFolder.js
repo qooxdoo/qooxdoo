@@ -272,6 +272,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
 
     tearDown : function()
     {
+      this.base(arguments);
       this.__tree.destroy();
       this.__root.destroy();
       this.__aa.destroy();
