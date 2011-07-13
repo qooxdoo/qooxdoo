@@ -38,6 +38,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
 
     tearDown : function()
     {
+      this.base(arguments);
       this.cellSpan.dispose();
       this.rowConfig.dispose();
       this.columnConfig.dispose();

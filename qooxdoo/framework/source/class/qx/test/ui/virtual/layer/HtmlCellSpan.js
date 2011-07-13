@@ -27,19 +27,21 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCellSpan",
     tearDown : function() {
       this.base(arguments);
       this.__cellRenderer.dispose();
+      this.__rowConfig.dispose();
+      this.__columnConfig.dispose();
     },
 
     _createLayer : function()
     {
       this.__cellRenderer = new qx.ui.virtual.cell.Cell();
 
-      var rowConfig = new qx.ui.virtual.core.Axis(10, 100);
-      var columnConfig = new qx.ui.virtual.core.Axis(20, 100);
+      this.__rowConfig = new qx.ui.virtual.core.Axis(10, 100);
+      this.__columnConfig = new qx.ui.virtual.core.Axis(20, 100);
 
       return new qx.ui.virtual.layer.HtmlCellSpan(
         this,
-        rowConfig,
-        columnConfig
+        this.__rowConfig,
+        this.__columnConfig
       );
     },
 

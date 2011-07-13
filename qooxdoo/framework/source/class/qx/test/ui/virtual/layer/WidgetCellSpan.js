@@ -34,6 +34,8 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan",
       this.base(arguments);
       this._disposeArray("_pool");
       this.__cellRenderer.dispose();
+      this.__rowConfig.dispose();
+      this.__columnConfig.dispose();
     },
 
 
@@ -41,13 +43,13 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan",
     {
       this.__cellRenderer = new qx.ui.virtual.cell.Cell();
 
-      var rowConfig = new qx.ui.virtual.core.Axis(10, 100);
-      var columnConfig = new qx.ui.virtual.core.Axis(20, 100);
+      this.__rowConfig = new qx.ui.virtual.core.Axis(10, 100);
+      this.__columnConfig = new qx.ui.virtual.core.Axis(20, 100);
 
       return new qx.ui.virtual.layer.WidgetCellSpan(
         this,
-        rowConfig,
-        columnConfig
+        this.__rowConfig,
+        this.__columnConfig
       );
     },
 
@@ -92,17 +94,19 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan",
       var rowConfig = new qx.ui.virtual.core.Axis(10, 100);
       var columnConfig = new qx.ui.virtual.core.Axis(20, 100);
 
+      var pool = new qx.data.Array();
+      pool.setAutoDisposeItems(true);
       var layer = new qx.ui.virtual.layer.WidgetCellSpan(
         {
           getCellWidget: function(row, column)
           {
             var widget = new qx.ui.core.Widget();
             widget.setUserData("test", row+"/"+column);
+            pool.push(widget);
             return row == 1 && column == 2 ? null : widget;
           },
 
           poolCellWidget : function(widget) {
-            widget.destroy();
           }
         },
         rowConfig, columnConfig
@@ -141,6 +145,9 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan",
       this.assertEquals("2/2", layer.getRenderedCellWidget(3, 2).getUserData("test"));
 
       layer.destroy();
+      rowConfig.dispose();
+      columnConfig.dispose();
+      pool.dispose();
     }
   },
 

@@ -88,16 +88,18 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
 
     testGetRenderedCellWidget : function()
     {
+      var pool = new qx.data.Array();
+      pool.setAutoDisposeItems(true);
       var layer = new qx.ui.virtual.layer.WidgetCell({
         getCellWidget: function(row, column)
         {
           var widget = new qx.ui.core.Widget();
           widget.setUserData("test", row+"/"+column);
+          pool.push(widget);
           return row == 2 && column == 2 ? null : widget;
         },
 
         poolCellWidget : function(widget) {
-          widget.destroy();
         }
       });
 
@@ -121,6 +123,7 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
       this.assertEquals("3/3", layer.getRenderedCellWidget(3, 3).getUserData("test"));
 
       layer.destroy();
+      pool.dispose();
     },
 
 
