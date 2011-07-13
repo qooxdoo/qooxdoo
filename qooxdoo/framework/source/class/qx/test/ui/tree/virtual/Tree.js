@@ -62,6 +62,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       this.assertEquals(model, this.tree.getModel(), "Init value for 'model' is wrong!");
       this.assertEquals("name", this.tree.getLabelPath(), "Init value for 'labelPath' is wrong!");
       this.assertEquals("children", this.tree.getChildProperty(), "Init value for 'childProperty' is wrong!");
+      model.dispose();
     },
 
 
@@ -98,6 +99,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       this.assertException(function() {
         that.tree.setModel(model);
       }, Error, "Could not build tree, because 'childProperty' and/or 'labelPath' is 'null'!");
+      model.dispose();
     },
 
 
@@ -256,12 +258,18 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
 
       var spy = this.spy(this.tree, "buildLookupTable");
       var leaf = new qx.test.ui.tree.virtual.Leaf("New Leaf");
+      var helper = root.getChildren().getItem(2).getChildren();
       root.getChildren().getItem(2).setChildren(new qx.data.Array([leaf]));
       this.assertCalledOnce(spy);
+      helper.setAutoDisposeItems(true);
+      helper.dispose();
 
       leaf = new qx.test.ui.tree.virtual.Leaf("New Leaf");
+      helper = root.getChildren();
       root.setChildren(new qx.data.Array([leaf]));
       this.assertCalledTwice(spy);
+      helper.setAutoDisposeItems(true);
+      helper.dispose();
     },
 
 
@@ -270,10 +278,12 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       var root = this.createModelAndSetModel(2);
 
       var spy = this.spy(this.tree, "buildLookupTable");
-      root.getChildren().getItem(2).getChildren().removeAll();
+      var removed = root.getChildren().getItem(2).getChildren().removeAll();
+      this.__disposeChildren(removed);
       this.assertCalledOnce(spy);
 
-      root.getChildren().removeAll();
+      removed = root.getChildren().removeAll();
+      this.__disposeChildren(removed);
       this.assertCalledTwice(spy);
     },
 
@@ -554,6 +564,14 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     {
       for (var i = 0; i < nodes.length; i++) {
         this.tree.openNode(nodes[i]);
+      }
+    },
+    
+    
+    __disposeChildren : function(nativeArray)
+    {
+      for (var i=0; i<nativeArray.length; i++) {
+        nativeArray[i].dispose();
       }
     }
   },

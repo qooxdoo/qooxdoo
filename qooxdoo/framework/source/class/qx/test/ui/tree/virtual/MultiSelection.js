@@ -40,12 +40,14 @@ qx.Class.define("qx.test.ui.tree.virtual.MultiSelection",
 
       // check selection on tree
       this.assertEquals(3, this.tree.getSelection().getLength(), "On Tree");
-      this.assertDataArrayEquals(selection, new qx.data.Array(
+      var expectedSelection = new qx.data.Array(
       [
         root,
         root.getChildren().getItem(0),
         root.getChildren().getItem(1)
-      ]), "On Tree");
+      ]);
+      this.assertDataArrayEquals(selection, expectedSelection, "On Tree");
+      expectedSelection.dispose();
 
       // check selection on manager
       var selectionFromManager = this.tree._manager.getSelection();
@@ -53,7 +55,9 @@ qx.Class.define("qx.test.ui.tree.virtual.MultiSelection",
         selectionFromManager[i] = this.tree._getDataFromRow(selectionFromManager[i]);
       }
       this.assertEquals(3, selectionFromManager.length, "On selection manager");
-      this.assertDataArrayEquals(selection, new qx.data.Array(selectionFromManager), "On selection manager");
+      expectedSelection = new qx.data.Array(selectionFromManager);
+      this.assertDataArrayEquals(selection, expectedSelection, "On selection manager");
+      expectedSelection.dispose();
     },
 
     testSelectionByUserInteraction : function()
@@ -68,16 +72,20 @@ qx.Class.define("qx.test.ui.tree.virtual.MultiSelection",
         selectionFromManager[i] = this.tree._getDataFromRow(selectionFromManager[i]);
       }
       this.assertEquals(3, selectionFromManager.length, "On selection manager");
-      this.assertTrue(selection.equals(new qx.data.Array(selectionFromManager)), "On selection manager");
-
+      var expectedSelection = new qx.data.Array(selectionFromManager);
+      this.assertTrue(selection.equals(expectedSelection), "On selection manager");
+      expectedSelection.dispose();
+      
       // check selection on tree
-      this.assertEquals(3, selection.getLength(), "On Tree");
-      this.assertDataArrayEquals(selection, new qx.data.Array(
+      expectedSelection = new qx.data.Array(
       [
         root.getChildren().getItem(0),
         root.getChildren().getItem(2),
         root.getChildren().getItem(4)
-      ]), "On Tree");
+      ]);
+      this.assertEquals(3, selection.getLength(), "On Tree");
+      this.assertDataArrayEquals(selection, expectedSelection, "On Tree");
+      expectedSelection.dispose();
     },
 
     testSelectionEventByUserInteraction : function()
@@ -99,16 +107,20 @@ qx.Class.define("qx.test.ui.tree.virtual.MultiSelection",
             selectionFromManager[i] = self.tree._getDataFromRow(selectionFromManager[i]);
           }
           self.assertEquals(3, selectionFromManager.length, "On selection manager");
-          self.assertDataArrayEquals(selection, new qx.data.Array(selectionFromManager), "On selection manager");
+          var expectedSelection = new qx.data.Array(selectionFromManager);
+          self.assertDataArrayEquals(selection, expectedSelection, "On selection manager");
+          expectedSelection.dispose();
 
           // check selection on tree
           self.assertEquals(3, selection.getLength(), "On Tree");
-          self.assertDataArrayEquals(selection, new qx.data.Array(
+          expectedSelection = new qx.data.Array(
           [
             root.getChildren().getItem(0),
             root.getChildren().getItem(2),
             root.getChildren().getItem(4)
-          ]), "On Tree");
+          ]);
+          self.assertDataArrayEquals(selection, expectedSelection, "On Tree");
+          expectedSelection.dispose();
         }
       );
     },
@@ -137,12 +149,14 @@ qx.Class.define("qx.test.ui.tree.virtual.MultiSelection",
 
       // check selection on tree
       this.assertEquals(3, this.tree.getSelection().getLength(), "On Tree");
-      this.assertDataArrayEquals(selection, new qx.data.Array(
+      var expectedSelection = new qx.data.Array(
       [
         root,
         root.getChildren().getItem(0),
         root.getChildren().getItem(2)
-      ]), "On Tree");
+      ]);
+      this.assertDataArrayEquals(selection, expectedSelection, "On Tree");
+      expectedSelection.dispose();
 
       // check selection on manager
       var selectionFromManager = this.tree._manager.getSelection();
@@ -150,7 +164,9 @@ qx.Class.define("qx.test.ui.tree.virtual.MultiSelection",
         selectionFromManager[i] = this.tree._getDataFromRow(selectionFromManager[i]);
       }
       this.assertEquals(3, selectionFromManager.length, "On selection manager");
-      this.assertDataArrayEquals(selection, new qx.data.Array(selectionFromManager), "On selection manager");
+      expectedSelection = new qx.data.Array(selectionFromManager);
+      this.assertDataArrayEquals(selection, expectedSelection, "On selection manager");
+      expectedSelection.dispose();
     }
   }
 });

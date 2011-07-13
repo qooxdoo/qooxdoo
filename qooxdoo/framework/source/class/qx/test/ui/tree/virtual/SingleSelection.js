@@ -131,7 +131,7 @@ qx.Class.define("qx.test.ui.tree.virtual.SingleSelection",
       this.assertEquals(itemToSelect, selection.getItem(0), "On Tree (setup)");
 
       // remove selected item
-      parent.getChildren().removeAt(2);
+      parent.getChildren().removeAt(2).dispose();
 
       // check selection from list
       this.assertEquals(0, selection.getLength(), "On Tree");

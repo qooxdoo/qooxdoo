@@ -124,7 +124,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OneSelection",
         function()
         {
           // remove selected item
-          parent.getChildren().removeAt(2);
+          parent.getChildren().removeAt(2).dispose();
         },
         function(e)
         {
