@@ -337,6 +337,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
 
   destruct : function()
   {
+    //TODO: Don't destroy children because they aren't created here
     var children = this._getChildren();
     for (var i=0; i<children.length; i++) {
       children[i].dispose();
