@@ -63,6 +63,11 @@
 
     "qxoo" : 
     {
+      "config-warnings" :
+      {
+        "exclude" : ["qx.event.GlobalError"] 
+      },
+
       "library" :
       [
         {
@@ -116,11 +121,13 @@
       {
         "paths" :
         {
-          "file" : "build/script/qx-oo.js"
+          "file" : "build/script/qx-oo.js",
+          "app-root" : "."
         },
         "code" :
         {
           "format"   : true,
+          "except"   : [],
           "optimize" : [ "variables", "basecalls", "privates", "strings", "variants" ]
         }
       },
@@ -137,11 +144,13 @@
       {
         "paths" :
         {
-          "file" : "build/script/qx-oo-noopt.js"
+          "file" : "build/script/qx-oo-noopt.js",
+          "app-root" : "."
         },
         "code" :
         {
           "format"   : true,
+          "except"   : [],
           "optimize" : [ ]
         }
       },
@@ -187,11 +196,13 @@
       {
         "paths" :
         {
-          "file"     : "build/script/qx.js"
+          "file"     : "build/script/qx.js",
+          "app-root" : "./build"
         },
         "code"  :
         {
           "format"   : "on",
+          "except"   : [],
           "optimize" : ["basecalls", "variables", "privates", "strings"]
         }
       },
