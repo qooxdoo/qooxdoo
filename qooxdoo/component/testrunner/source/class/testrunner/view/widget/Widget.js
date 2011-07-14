@@ -1098,6 +1098,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
      */
     __reloadAut : function()
     {
+      this.__stack.setSelection([this.__loadingContainer]);
       this.getSelectedTests().removeAll();
       var src = this.__autUriField.getValue();
       this.resetAutUri();
