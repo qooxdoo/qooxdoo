@@ -32,6 +32,22 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
   /*
   *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  /**
+   * @param root {Element?null} Optiona. The root DOM element of the widget. Default is the body of the document.
+   */
+  construct : function(root)
+  {
+    this.__root = root || document.body;
+    this.base(arguments);
+  },
+
+
+  /*
+  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -68,9 +84,11 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
   members :
   {
+    __root : null,  
+
     // overridden
     _createContainerElement : function() {
-      return document.body;
+      return this.__root;
     },
 
 
@@ -81,6 +99,17 @@ qx.Class.define("qx.ui.mobile.core.Root",
   },
 
 
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this.__root = null; 
+  },
 
 
   /*

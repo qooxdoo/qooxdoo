@@ -1,6 +1,6 @@
 /* MAIN */
 
-body {
+.root {
     background: rgb(197,204,211) url(../../icon/ios/pinstripes.png);
     font-family: Helvetica;
     color : #666;
@@ -8,7 +8,7 @@ body {
     font-size:0.8em;
 }
 
-body > * {
+.root > * {
     background: rgb(197,204,211) url(../../icon/ios/pinstripes.png);
 }
 

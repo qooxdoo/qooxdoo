@@ -4,7 +4,7 @@
     padding: 0;
 }
 
-body {
+.root {
     overflow-x: hidden;
     -webkit-user-select: none;
     -webkit-text-size-adjust: none;
@@ -13,7 +13,7 @@ body {
     -webkit-transform-style: preserve-3d;
 }
 
-body > * {
+.root > * {
     -webkit-backface-visibility: hidden;
     -webkit-box-sizing: border-box;
     position: absolute;

@@ -1,5 +1,5 @@
 /* MAIN */
-body {
+.root {
     background: #181818;
     font-family: Helvetica;
     color : #ffffff;
@@ -7,7 +7,7 @@ body {
     font-size:0.9em;
 }
 
-body > * {
+.root > * {
     background: #181818;
 }
 
