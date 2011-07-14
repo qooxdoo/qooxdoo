@@ -8,10 +8,10 @@
     var ua = navigator.userAgent.toLowerCase();
     if (/(mobile.*?safari|android)/i.exec(ua)) {
       lowlevel = "-lowlevel";
+      document.write('<link rel="stylesheet" type="text/css" media="all" href="resource/fce/lowlevel/css/style.css" \/>');
     }
     document.write('<script type="text/javascript" src="script/fce' + lowlevel + '.js"><\/script>');
   </script>
-  <link rel="stylesheet" type="text/css" media="all" href="resource/fce/lowlevel/css/style.css" />
 </head>
 <body></body>
 </html>
