@@ -48,7 +48,7 @@
         "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/component/apiviewer",
         "BUILD_PATH"     : "${ROOT}/api",
         "API_INCLUDE"    : ["qx.*", "${APPLICATION}.*"],
-        "API_EXCLUDE"    : ["qx.test.*", "${APPLICATION}.test.*"]
+        "API_EXCLUDE"    : ["qx.test.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"]
       }
     },
 
