@@ -21,6 +21,8 @@
     "migration",
     "pretty",
     "profiling",
+    "simulation-build",
+    "simulation-run",
     "source",
     "source-all",
     "source-hybrid",
@@ -88,7 +90,8 @@
       "=exclude" : 
       [
         "qx.test.*",
-        "$${APPLICATION}.test.*"
+        "$${APPLICATION}.test.*",
+        "$${APPLICATION}.simulation.*"
       ]
     }
     // Uncomment the following entry to add a contrib or library to your
