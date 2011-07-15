@@ -50,24 +50,58 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
 
     /**
      * Verifies a list of infrastructure requirements by checking for
-     * corresponding "has" methods. Throws RequirementErrors for unmet
-     * requirements.
+     * corresponding "has" methods. If no such method was found, 
+     * {@link qx.core.Environment} will be checked for a key matching the given 
+     * feature name. Note that asynchronous environment checks are not supported! 
+     * 
+     * See the manual for further details:
+     * {@link http://manual.qooxdoo.org/current/pages/development/frame_apps_testrunner.html#defining-test-requirements}
+     * 
+     * @throws RequirementError if any requirement check returned 
+     * <code>false</code>
+     * @throws if no valid check was found for a feature.
      *
      * @param featureList {String[]} List of infrastructure requirements
      */
     require : function(featureList) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertArray(featureList);
+      }
+      
       for (var i=0,l=featureList.length; i<l; i++) {
         var feature = featureList[i];
         var hasMethodName = "has" + qx.lang.String.capitalize(feature);
 
-        if (!this[hasMethodName]) {
-          throw new Error('Unable to verify requirement: No method "'
-                           + hasMethodName + '" found');
+        if (this[hasMethodName]) {
+          if (this[hasMethodName]() === true) {
+            continue;
+          }
+          else {
+            throw new qx.dev.unit.RequirementError(feature);
+          }
         }
-
-        if (!this[hasMethodName]()) {
-          throw new qx.dev.unit.RequirementError(feature);
+        
+        if (qx.core.Environment._checks[feature]) {
+          var envValue = qx.core.Environment.get(feature);
+          if (envValue === true) {
+            continue;
+          }
+          if (envValue === false) {
+            throw new qx.dev.unit.RequirementError(feature);
+          }
+          else {
+            throw new Error("The Environment key " + feature + " cannot be used"
+             + " as a Test Requirement since its value is not boolean!");
+          }
         }
+        
+        if (qx.core.Environment._asyncChecks[feature]) {
+          throw new Error('Unable to verify requirement ' + feature + ': '
+          + 'Asynchronous environment checks are not supported!');
+        }
+        
+        throw new Error('Unable to verify requirement: No method "'
+          + hasMethodName + '" or valid Environment key "' + feature + '" found');
       }
     },
 
@@ -76,10 +110,13 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      * Checks if the application has been loaded over HTTPS.
      *
      * @return {Boolean} Whether SSL is currently used
+     * @deprecated since 1.6
      */
     hasSsl : function()
     {
-      return qx.core.Environment.get("io.ssl");
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+      "use require([\"io.ssl\"]) instead.");
+      return this.require(["io.ssl"]);
     },
 
 
@@ -183,10 +220,13 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      *
      * @return {Boolean} Whether the application is running on a touch-enabled
      * device
+     * @deprecated since 1.6
      */
     hasTouch : function()
     {
-      return qx.core.Environment.get("event.touch");
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+      "use require([\"event.touch\"]) instead.");
+      return this.require(["event.touch"]);
     },
 
 
@@ -194,10 +234,13 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      * Checks if the browser running the application has a Flash plugin
      *
      * @return {Boolean} Whether the browser has a Flash plugin
+     * @deprecated since 1.6
      */
     hasFlash : function()
     {
-      return qx.core.Environment.get("plugin.flash");
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+      "use require([\"plugin.flash\"]) instead.");
+      return this.require(["plugin.flash"]);
     },
 
 

@@ -94,20 +94,26 @@ Requirements are defined for individual tests; if one or more aren't satisfied, 
 Using Requirements
 ^^^^^^^^^^^^^^^^^^
 
-The make use of the requirements feature, test classes must include the `MRequirements mixin <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MRequirements>`_.
+To make use of the requirements feature, test classes must include the `MRequirements mixin <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MRequirements>`_.
 The mixin defines a method ``require`` that takes an array of strings: The requirement IDs. This method is either called from the ``setUp`` method or from a test function **before** the actual logic of the test, e.g.:
 
 ::
 
-    testSslRequest : function()
+    testBackendRequest : function()
     {
-      this.require(["ssl"]);
+      this.require(["backend"]);
       // test code goes here
     }
     
-``require`` then searches the current test instance for a method that verifies the listed requirements: The naming convention is "has" + the requirement ID with the first letter capitalized, e.g. ``hasSsl``. This method is the called with the requirement ID as the only parameter. If it returns ``true``, the test code will be executed. Otherwise a `RequirementError <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.RequirementError>`_ is thrown. The Test Runner will catch these and mark the test as "skipped" in the results list. Any test code after the ``require`` call will not be executed.
+``require`` then searches the current test instance for a method that verifies the listed requirements: The naming convention is "has" + the requirement ID with the first letter capitalized, e.g. ``hasBackend``. This method is the called with the requirement ID as the only parameter. If it returns ``true``, the test code will be executed. Otherwise a `RequirementError <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.RequirementError>`_ is thrown. The Test Runner will catch these and mark the test as "skipped" in the results list. Any test code after the ``require`` call will not be executed.
 
-In addition to the verification methods in MRequirements, test developers can define their own right in the test class.
+If no "has" method for a given feature is found, `qx.core.Environment <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Environment>`_ will be checked for a key that matches the feature name. This way, any Environment key that has a boolean value can be used as a test requirement, e.g.:
+
+::
+
+    this.require(["event.touch", "css.textoverflow"]);
+
+Note that only Environment keys with **synchronous** checks are supported.
 
 .. _pages/frame_apps_testrunner#create_the_test_application:
 
