@@ -86,7 +86,8 @@ class CodeGenerator(object):
                 globalCodes["Translations"] = {}
                 globalCodes["Locales"]      = {}
             else:
-                if script.buildType == "build":
+                #if script.buildType == "build":
+                if True:
                     # also remove them here, as this info is now with the packages
                     globalCodes["Translations"] = {}
                     globalCodes["Locales"]      = {}
@@ -102,7 +103,8 @@ class CodeGenerator(object):
 
             vals.update(globalCodes)
 
-            if script.buildType =="build":
+            #if script.buildType =="build":
+            if True:
                 vals["Resources"] = json.dumpsCode({})  # TODO: undo Resources from globalCodes!!!
 
             # Name of the boot part
