@@ -63,6 +63,7 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertModelEqualsRowData(this._model, this._list);
       this.assertEquals(this._model.getLength(), this._list.getPane().getRowConfig().getItemCount());
 
+      this._model.dispose();
       this._model = new qx.data.Array();
       this._model.push("item");
       this._list.setModel(this._model);
@@ -101,6 +102,7 @@ qx.Class.define("qx.test.ui.list.List",
 
       this.assertEquals(this._model, this._list.getModel());
       this.assertEquals(this._list.getModel().getLength(), this._list.getPane().getRowConfig().getItemCount(), "b");
+      model.dispose();
     },
 
 
@@ -122,6 +124,7 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertEquals(model.getLength(), this._list.getPane().getRowConfig().getItemCount());
       this.assertEquals("Item 5", this._list._layer.getRenderedCellWidget(5,0).getLabel());
       this.assertEquals("icon/16/places/folder.png", this._list._layer.getRenderedCellWidget(0,0).getIcon());
+      model.dispose();
     },
 
 
@@ -167,6 +170,7 @@ qx.Class.define("qx.test.ui.list.List",
 
       this.assertModelEqualsRowData(filteredModel, this._list);
       this.assertEquals(filteredModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "two");
+      filteredModel.dispose();
     },
 
 
@@ -190,6 +194,7 @@ qx.Class.define("qx.test.ui.list.List",
 
       this.assertModelEqualsRowData(sortedModel, this._list);
       this.assertEquals(sortedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "two");
+      sortedModel.dispose();
     },
 
 
@@ -224,6 +229,8 @@ qx.Class.define("qx.test.ui.list.List",
 
       this.assertModelEqualsRowData(sortedModel, this._list);
       this.assertEquals(sortedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "two");
+      sortedModel.dispose();
+      filteredModel.dispose();
     },
 
 
@@ -263,6 +270,7 @@ qx.Class.define("qx.test.ui.list.List",
           this.assertFalse(widget.isEnabled());
         }
       }
+      model.dispose();
     }
   }
 });

@@ -42,7 +42,9 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
 
       // check selection from list
       this.assertEquals(1, this._list.getSelection().getLength(), "On List");
-      this.assertDataArrayEquals(selection, new qx.data.Array([this._model.getItem(1)]), "On List");
+      var expectedSelection = new qx.data.Array([this._model.getItem(1)]);
+      this.assertDataArrayEquals(selection, expectedSelection, "On List");
+      expectedSelection.dispose();
 
       // check selection from manager
       var item = this._list._manager.getSelectedItem();
@@ -60,7 +62,9 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
 
       // check selection from list
       this.assertEquals(1, this._list.getSelection().getLength(), "On List");
-      this.assertDataArrayEquals(selection, new qx.data.Array([this._model.getItem(2)]), "On List");
+      var expectedSelection = new qx.data.Array([this._model.getItem(2)]);
+      this.assertDataArrayEquals(selection, expectedSelection, "On List");
+      expectedSelection.dispose();
 
       // check selection from manager
       var selection = this._list._manager.getSelection();
@@ -126,7 +130,9 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
 
       // check selection from list
       this.assertEquals(1, this._list.getSelection().getLength(), "On List");
-      this.assertDataArrayEquals(selection, new qx.data.Array([this._model.getItem(1)]), "On List");
+      var expectedSelection = new qx.data.Array([this._model.getItem(1)]);
+      this.assertDataArrayEquals(selection, expectedSelection, "On List");
+      expectedSelection.dispose();
 
       // check selection from manager
       var selection = this._list._manager.getSelection();
@@ -196,7 +202,9 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
       this.flush();
 
       // check selection from list
-      this.assertDataArrayEquals(new qx.data.Array([this._model.getItem(0)]), this._list.getSelection(), "On List");
+      var expectedSelection = new qx.data.Array([this._model.getItem(0)]);
+      this.assertDataArrayEquals(expectedSelection, this._list.getSelection(), "On List");
+      expectedSelection.dispose();
 
       // check selection from manager
       var selection = this._list._manager.getSelection();

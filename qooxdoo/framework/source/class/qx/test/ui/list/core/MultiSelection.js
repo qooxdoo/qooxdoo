@@ -50,12 +50,14 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
 
       // check selection on list
       this.assertEquals(3, this._list.getSelection().getLength(), "On List");
-      this.assertDataArrayEquals(selection, new qx.data.Array(
+      var expectedSelection = new qx.data.Array(
       [
         this._model.getItem(1),
         this._model.getItem(2),
         this._model.getItem(3)
-      ]), "On List");
+      ]);
+      this.assertDataArrayEquals(selection, expectedSelection, "On List");
+      expectedSelection.dispose();
 
       // check selection on manager
       var selectionFromManager = this._list._manager.getSelection();
@@ -63,7 +65,9 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
         selectionFromManager[i] = this._list._getDataFromRow(selectionFromManager[i]);
       }
       this.assertEquals(3, selectionFromManager.length, "On selection manager");
-      this.assertDataArrayEquals(selection, new qx.data.Array(selectionFromManager), "On selection manager");
+      expectedSelection = new qx.data.Array(selectionFromManager);
+      this.assertDataArrayEquals(selection, expectedSelection, "On selection manager");
+      expectedSelection.dispose();
     },
 
     testSelectionByUserInteraction : function()
@@ -78,11 +82,13 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
         selectionFromManager[i] = this._list._getDataFromRow(selectionFromManager[i]);
       }
       this.assertEquals(6, selectionFromManager.length, "On selection manager");
-      this.assertTrue(selection.equals(new qx.data.Array(selectionFromManager)), "On selection manager");
+      var expectedSelection = new qx.data.Array(selectionFromManager)
+      this.assertTrue(selection.equals(expectedSelection), "On selection manager");
+      expectedSelection.dispose();
 
       // check selection on list
       this.assertEquals(6, selection.getLength(), "On List");
-      this.assertDataArrayEquals(selection, new qx.data.Array(
+      expectedSelection = new qx.data.Array(
       [
         this._model.getItem(2),
         this._model.getItem(3),
@@ -90,7 +96,9 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
         this._model.getItem(7),
         this._model.getItem(8),
         this._model.getItem(9)
-      ]), "On List");
+      ]);
+      this.assertDataArrayEquals(selection, expectedSelection, "On List");
+      expectedSelection.dispose();
     },
 
     testSelectionEventByUserInteraction : function()
@@ -112,11 +120,13 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
             selectionFromManager[i] = self._list._getDataFromRow(selectionFromManager[i]);
           }
           self.assertEquals(6, selectionFromManager.length, "On selection manager");
-          self.assertDataArrayEquals(selection, new qx.data.Array(selectionFromManager), "On selection manager");
+          var expectedSelection = new qx.data.Array(selectionFromManager);
+          self.assertDataArrayEquals(selection, expectedSelection, "On selection manager");
+          expectedSelection.dispose();
 
           // check selection on list
           self.assertEquals(6, selection.getLength(), "On List");
-          self.assertDataArrayEquals(selection, new qx.data.Array(
+          expectedSelection = new qx.data.Array(
           [
             self._model.getItem(2),
             self._model.getItem(3),
@@ -124,7 +134,9 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
             self._model.getItem(7),
             self._model.getItem(8),
             self._model.getItem(9)
-          ]), "On List");
+          ]);
+          self.assertDataArrayEquals(selection, expectedSelection, "On List");
+          expectedSelection.dispose();
         }
       );
     },
@@ -152,7 +164,7 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
       this.assertEquals(this._model.getItem(0), selection.getItem(0));
     },
 
-    testOneSelectionByChangingyModel : function()
+    testOneSelectionByChangingModel : function()
     {
       var selection = this._list.getSelection();
 
@@ -164,6 +176,7 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
       this._list.setSelectionMode("one");
       this.assertEquals(0, selection.getLength());
 
+      this._model.dispose();
       this._model = oldModel;
       this._list.setModel(this._model);
 
@@ -184,6 +197,7 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
 
       this.assertEquals(1, selection.getLength());
       this.assertEquals(this._model.getItem(0), selection.getItem(0));
+      oldModel.dispose();
     }
   }
 });

@@ -32,6 +32,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
 
     createModelData : function() {
       var model = new qx.data.Array();
+      model.setAutoDisposeItems(true);
       var groups = this.__groups = {};
 
       for (var i = 0; i < this.__names.length; i++) {
@@ -63,8 +64,14 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
 
     tearDown : function() {
       this.base(arguments);
+      for (var key in this.__groups)
+      {
+        if (this.__groups.hasOwnProperty(key)) {
+          this.__groups[key].dispose();
+        }
+      }
 
-      this.__groups == null;
+      this.__groups = null;
     },
 
 
@@ -96,6 +103,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       this.assertModelEqualsRowData(groupedModel, this._list);
       this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
       this.assertEquals(12, this._list.getGroups().getLength(), "On List");
+      groupedModel.dispose();
     },
 
     testMixWithObjectsAndDefaultGroup : function()
@@ -221,6 +229,8 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       this.assertModelEqualsRowData(groupedModel, this._list);
       this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
       this.assertEquals(12, this._list.getGroups().getLength(), "On List");
+      groupedModel.dispose();
+      sortedModel.dispose();
     },
 
     __convertModel : function(model) {

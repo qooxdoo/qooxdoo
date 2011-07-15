@@ -61,6 +61,7 @@ qx.Class.define("qx.test.ui.list.Group",
       this.assertModelEqualsRowData(groupedModel, this._list);
       this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
       this.assertEquals(12, this._list.getGroups().getLength(), "On List");
+      groupedModel.dispose();
     },
 
     testDefaultGroup : function()
@@ -95,6 +96,7 @@ qx.Class.define("qx.test.ui.list.Group",
       this.assertModelEqualsRowData(groupedModel, this._list);
       this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
       this.assertEquals(12, this._list.getGroups().getLength(), "On List");
+      groupedModel.dispose();
     },
 
     testGroupWithSorter : function()
@@ -128,6 +130,7 @@ qx.Class.define("qx.test.ui.list.Group",
       this.assertModelEqualsRowData(groupedModel, this._list);
       this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
       this.assertEquals(12, this._list.getGroups().getLength(), "On List");
+      groupedModel.dispose();
     }
   }
 });
