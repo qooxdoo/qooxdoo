@@ -26,3 +26,26 @@ function autonumbering() {
   }
 }
 
+
+/**
+ * Replace occurrences of $(qxversion) with the value of var qxversion.
+ */
+
+var qxversion = "1.5";
+
+function expandVersion(s){
+  while (s.indexOf('$(qxversion)') > -1) {
+    s  = s.replace('$(qxversion)', qxversion);
+  }
+  return s;
+}
+
+//  Call this in onload handlers.
+function adjustVersionStrings(){
+  var elems = document.getElementsByName("versstring");
+  for (var i=0, l=elems.length; i<l; i++){
+    var e = elems[i];
+    e.innerHTML = expandVersion(e.innerHTML);
+  }
+}
+
