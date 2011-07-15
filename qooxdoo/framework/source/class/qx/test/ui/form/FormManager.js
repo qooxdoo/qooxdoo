@@ -113,6 +113,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       // check the names
       this.assertEquals(view.groups[0].names[0], "TF1");
       this.assertEquals(view.groups[0].names[1], "TF2");
+      view.dispose();
     },
 
 
@@ -161,6 +162,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
 
       // check the title
       this.assertEquals("affe", view.groups[0].title);
+      view.dispose();
     },
 
 
@@ -184,6 +186,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       // check the title
       this.assertEquals("affe", view.groups[0].title);
       this.assertEquals("affee", view.groups[1].title);
+      view.dispose();
     },
 
 
@@ -203,6 +206,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
 
       b2.dispose();
       b1.dispose();
+      view.dispose();
     },
 
 
@@ -233,6 +237,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
 
       b2.dispose();
       b1.dispose();
+      view.dispose();
     },
 
 
@@ -247,6 +252,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       // check the items
       this.assertEquals(1, view.groups[0].options[0].a);
       this.assertEquals(2, view.groups[0].options[1].a);
+      view.dispose();
     },
 
 
@@ -269,6 +275,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
 
       b2.dispose();
       b1.dispose();
+      view.dispose();
     },
 
 
@@ -284,6 +291,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       // check the title
       this.assertEquals(1, view.groups[0].headerOptions.a);
       this.assertEquals(2, view.groups[1].headerOptions.a);
+      view.dispose();
     },
 
 

@@ -41,17 +41,20 @@ qx.Class.define("qx.test.ui.indicator.ProgressBar",
 
       //value
       val = 10;
+      this.__pb.dispose();
       this.__pb = new qx.ui.indicator.ProgressBar(val);
       this.assertIdentical(val, this.__pb.getValue());
       this.assertIdentical(max, this.__pb.getMaximum());
 
       //value, max
       max = 120;
+      this.__pb.dispose();
       this.__pb = new qx.ui.indicator.ProgressBar(val, max);
       this.assertIdentical(val, this.__pb.getValue());
       this.assertIdentical(max, this.__pb.getMaximum());
 
       //limit value to max
+      this.__pb.dispose();
       this.__pb = new qx.ui.indicator.ProgressBar(1200, 1000);
       this.assertIdentical(1000, this.__pb.getValue());
       this.assertIdentical(1000, this.__pb.getMaximum());
@@ -130,6 +133,7 @@ qx.Class.define("qx.test.ui.indicator.ProgressBar",
       }, null, "event not fired.");
 
       max = 200;
+      this.__pb.dispose();
       this.__pb = new qx.ui.indicator.ProgressBar(0, max);
       this.assertEventFired(this.__pb, "complete", function() {
         that.__pb.setValue(max);

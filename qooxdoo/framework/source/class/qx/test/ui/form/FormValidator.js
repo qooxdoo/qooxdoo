@@ -111,6 +111,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.__manager.add(this.__username, asyncValidator, {a: 1});
 
       this.__manager.validate();
+      asyncValidator.dispose();
     },
 
 
@@ -134,6 +135,8 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.__manager.add(this.__password1, asyncValidator2, {a: 2});
 
       this.__manager.validate();
+      asyncValidator.dispose();
+      asyncValidator2.dispose();
     },
 
 
@@ -152,14 +155,15 @@ qx.Class.define("qx.test.ui.form.FormValidator",
     testAsyncFormContext : function()
     {
       var self = this;
-      this.__manager.setValidator(new qx.ui.form.validation.AsyncValidator(
-        function() {
-          self.assertEquals(1, this.a);
-        })
-      );
+      var asyncValidator = new qx.ui.form.validation.AsyncValidator(
+      function() {
+        self.assertEquals(1, this.a);
+      })
+      this.__manager.setValidator(asyncValidator);
       this.__manager.setContext({a: 1});
 
       this.__manager.validate();
+      asyncValidator.dispose();
     },
     // //////////////////////////////
 
@@ -217,6 +221,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.assertTrue(this.__manager.validate());
       this.assertTrue(this.__manager.getValid());
       this.assertTrue(rbg.getValid());
+      rbg.dispose();
     },
 
 

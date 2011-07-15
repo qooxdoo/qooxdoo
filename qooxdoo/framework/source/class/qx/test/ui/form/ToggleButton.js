@@ -131,6 +131,7 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
 
     tearDown : function()
     {
+      this.base(arguments);
       this.__button.destroy();
     }
   }

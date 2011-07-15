@@ -41,6 +41,7 @@ qx.Class.define("qx.test.ui.form.RadioGroup",
 
     tearDown : function()
     {
+      this.base(arguments);
       var radioButton;
       for (var i=0, j=this.__radioButtons.length; i<j; i++)
       {

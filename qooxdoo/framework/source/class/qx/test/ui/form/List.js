@@ -59,10 +59,12 @@ qx.Class.define("qx.test.ui.form.List",
       var container = this.__list._createListItemContainer();
 
       this.assertInstance(container, qx.ui.container.Composite, "Wrong return value of '_createListItemContainer'");
+      container.dispose();
     },
 
     tearDown : function()
     {
+      this.base(arguments);
       this.__list.destroy();
     }
   }

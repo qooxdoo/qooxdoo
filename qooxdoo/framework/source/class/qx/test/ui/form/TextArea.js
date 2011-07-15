@@ -327,6 +327,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
 
     tearDown : function()
     {
+      this.base(arguments);
       this.__textArea.destroy();
     }
   }

@@ -49,8 +49,9 @@ qx.Class.define("qx.test.ui.list.AbstractListTest",
     {
       this.base(arguments);
 
-      this._list.destroy();
+      this._list.dispose();
       this._list = null;
+      this._model.dispose();
       this._model = null;
     },
 
