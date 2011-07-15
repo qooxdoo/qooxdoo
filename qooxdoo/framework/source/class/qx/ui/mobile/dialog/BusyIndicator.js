@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
   {
     this.base(arguments);
     
-    this.__createChildren(infoText ? infoText : "Loading...");
+    this.__createChildren(infoText);
     
   },
 
@@ -63,8 +63,10 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
       this.__spinner.addCssClass("spinner");
       this.__widgetContainer.add(this.__spinner);
       
-      this.__infoLabel = new qx.ui.mobile.basic.Label(labelText);
-      this.__widgetContainer.add(this.__infoLabel);
+      if(labelText) {
+        this.__infoLabel = new qx.ui.mobile.basic.Label(labelText);
+        this.__widgetContainer.add(this.__infoLabel);
+      }
       
       this._add(this.__widgetContainer);
     }

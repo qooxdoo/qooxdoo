@@ -432,8 +432,9 @@ input[type="checkbox"]:disabled {
   height:100%;
   left:0;
   top:0;
-  background-color:gray;
+  background-color: #818181;
   opacity : 0.7;
+  color: black;
 }
 
 .spinnerContainer {
