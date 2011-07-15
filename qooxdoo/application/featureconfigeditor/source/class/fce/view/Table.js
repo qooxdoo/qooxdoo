@@ -40,7 +40,7 @@ qx.Class.define("fce.view.Table", {
     
     this.addListener("keyup", function(ev) {
       var key = ev.getKeyIdentifier();
-      if (key === "A" && ev.isCtrlPressed()) {
+      if (key === "A" && ev.isCtrlOrCommandPressed()) {
         var rows = this.getTableModel().getRowCount() - 1;
         this.getSelectionModel().addSelectionInterval(0, rows);
       }
