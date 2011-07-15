@@ -64,16 +64,19 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       var button = new qx.ui.mobile.form.Button("Toggle the toolbar");
       button.addListener("tap", this._onButtonTap, this);
       this.getContent().add(button);
+      
+        var busyIndicator = new qx.ui.mobile.dialog.BusyIndicator("We are searching...");
+        this.add(busyIndicator);
 
       var toolbar = this.__toolbar = new qx.ui.mobile.toolbar.ToolBar();
       this.add(toolbar); // getContent()
       var searchBtn = new qx.ui.mobile.toolbar.Button("search");
       toolbar.add(searchBtn);
       searchBtn.addListener("tap", function(){
-        label.setValue("Searching...");
+        busyIndicator.show();
         qx.lang.Function.delay(function(){
-          this.setValue("Search");
-        }, 2000, label);
+          this.hide();
+        }, 2000, busyIndicator);
       }, this);
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
       var goBackBtn = new qx.ui.mobile.toolbar.Button(null,"mobileshowcase/icon/arrowleft.png");
