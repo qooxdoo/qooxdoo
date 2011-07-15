@@ -65,15 +65,21 @@ qx.Class.define("qx.io.rest.Resource",
   {
     this.base(arguments);
 
-    this.__createRequest();
     this.__routes = {};
     this.__pollTimers = {};
     this.__longPollHandlers = {};
     this.__invoked = {};
 
-    if (typeof description !== "undefined") {
-      qx.core.Assert.assertMap(description);
-      this.__mapFromDescription(description);
+    this.__createRequest();
+
+    try {
+      if (typeof description !== "undefined") {
+        qx.core.Assert.assertMap(description);
+        this.__mapFromDescription(description);
+      }
+    } catch(e) {
+      this.dispose();
+      throw e;
     }
   },
 
@@ -520,7 +526,7 @@ qx.Class.define("qx.io.rest.Resource",
   },
 
   destruct: function() {
-    this.__request.dispose();
+    this.__request && this.__request.dispose();
 
     if (this.__pollTimers) {
       qx.lang.Object.getKeys(this.__pollTimers).forEach(function(key) {
