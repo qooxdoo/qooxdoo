@@ -62,6 +62,7 @@ qx.Class.define("qx.test.data.store.Json",
 
     tearDown : function()
     {
+      this.getSandbox().restore();
       this.__store.dispose();
 
       // remove the former created classes
@@ -71,8 +72,6 @@ qx.Class.define("qx.test.data.store.Json",
           delete qx.Class.$$registry[name];
         }
       }
-
-      this.getSandbox().restore();
     },
 
 

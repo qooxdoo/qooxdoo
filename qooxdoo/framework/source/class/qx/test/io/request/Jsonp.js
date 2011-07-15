@@ -42,6 +42,7 @@ qx.Class.define("qx.test.io.request.Jsonp",
     },
 
     setUpRequest: function() {
+      this.req && this.req.dispose();
       this.req = new qx.io.request.Jsonp;
       this.req.setUrl("url");
     },
@@ -69,6 +70,7 @@ qx.Class.define("qx.test.io.request.Jsonp",
     "test: set url property on construct": function() {
       var req = new qx.io.request.Jsonp("url");
       this.assertEquals("url", req.getUrl());
+      req.dispose();
     },
 
     //

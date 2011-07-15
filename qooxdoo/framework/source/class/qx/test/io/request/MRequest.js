@@ -135,6 +135,7 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "url?affe=true");
+      obj.dispose();
     },
 
     //

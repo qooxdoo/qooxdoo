@@ -57,6 +57,7 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     setUpRequest: function() {
+      this.req && this.req.dispose();
       this.req = new qx.io.request.Xhr;
       this.req.setUrl("url");
     },
@@ -96,11 +97,13 @@ qx.Class.define("qx.test.io.request.Xhr",
     "test: set url property on construct": function() {
       var req = new qx.io.request.Xhr("url");
       this.assertEquals("url", req.getUrl());
+      req.dispose();
     },
 
     "test: set method property on construct": function() {
       var req = new qx.io.request.Xhr("url", "POST");
       this.assertEquals("POST", req.getMethod());
+      req.dispose();
     },
 
     //
@@ -167,6 +170,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.req.send();
 
       this.assertCalledWith(this.transport.send, "affe=true");
+      obj.dispose();
     },
 
     //

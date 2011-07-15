@@ -51,8 +51,8 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     tearDown: function() {
-      this.req.dispose();
       this.getSandbox().restore();
+      this.req.dispose();
     },
 
     //

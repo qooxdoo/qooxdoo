@@ -48,6 +48,7 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     setUpDoubleRequest: function() {
+      this.req && this.req.dispose();
       var req = this.req = new qx.io.request.Xhr(),
           res = this.res;
 
@@ -60,6 +61,7 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     setUpResource: function() {
+      this.res && this.res.dispose();
       var res = this.res = new qx.io.rest.Resource();
 
       // Default routes
@@ -68,8 +70,9 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     tearDown: function() {
-      this.res.dispose();
       this.getSandbox().restore();
+      this.res.dispose();
+      this.req.dispose();
     },
 
     //
@@ -185,7 +188,7 @@ qx.Class.define("qx.test.io.rest.Resource",
         create: { method: "POST", url: "/photos", check: check }
       };
 
-      res = this.res = new qx.io.rest.Resource(description);
+      res = new qx.io.rest.Resource(description);
 
       params = res._getRequestConfig("index");
       this.assertEquals("GET", params.method);
@@ -195,15 +198,18 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertEquals("POST", params.method);
       this.assertEquals("/photos", params.url);
       this.assertEquals(check, params.check);
+
+      res.dispose();
     },
 
     "test: map action from description throws with non-object": function() {
       this.assertException(function() {
-        this.res = new qx.io.rest.Resource([]);
+        var res = new qx.io.rest.Resource([]);
       });
     },
 
     "test: map action from description throws with incomplete route": function() {
+      this.res.dispose();
       this.assertException(function() {
         var description =
         {

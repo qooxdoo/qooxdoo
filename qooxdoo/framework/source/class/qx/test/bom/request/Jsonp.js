@@ -52,8 +52,8 @@ qx.Class.define("qx.test.bom.request.Jsonp",
     tearDown: function() {
       window.SCRIPT_LOADED = undefined;
       window.myExistingCallback = undefined;
-      this.req.dispose();
       this.getSandbox().restore();
+      this.req.dispose();
     },
 
     //
