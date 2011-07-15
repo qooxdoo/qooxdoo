@@ -225,18 +225,17 @@ qx.Class.define("qx.dev.unit.TestResult",
             this.fireDataEvent("wait", test);
           }
 
-        } else if (ex.classname == "qx.core.AssertionError") {
+        } else {
           try {
             this.tearDown(test);
           } catch(except) {}
-          this._createError("failure", [ex], test);
-        } else if (ex.classname == "qx.dev.unit.RequirementError") {
+          if (ex.classname == "qx.core.AssertionError") {
+            this._createError("failure", [ex], test);
+          } else if (ex.classname == "qx.dev.unit.RequirementError") {
             this._createError("skip", [ex], test);
           } else {
-          try {
-            this.tearDown(test);
-          } catch(except) {}
-          this._createError("error", [ex], test);
+            this._createError("error", [ex], test);
+          }
         }
       }
 
