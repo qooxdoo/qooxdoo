@@ -1122,23 +1122,19 @@ class CodeGenerator(object):
                 package_classes   = [x for x in script.classesObj if x.id in package.classes]
                 for clazz in package_classes:
                     package_resources.extend(clazz.resources)
-                package.data.resources = Script.createResourceStruct(package_resources, formatAsTree=resources_tree,
+                package.data.resources = Script.createResourceStruct(package_resources, formatAsTree=False,
                                                              updateOnlyExistingSprites=True)
             return
 
 
         # -- main --------------------------------------------------------------
 
-        compConf       = self._job.get ("compile-options")
-        compConf       = ExtMap (compConf)
-        resources_tree = compConf.get ("code/resources-tree", False)
-
         classes = Class.mapResourcesToClasses (libraries, script.classesObj,
                                             self._job.get("asset-let", {}))
         filteredResources = []
         for clazz in classes:
             filteredResources.extend(clazz.resources)
-        resdata = Script.createResourceStruct (filteredResources, formatAsTree=resources_tree,
+        resdata = Script.createResourceStruct (filteredResources, formatAsTree=False,
                                            updateOnlyExistingSprites=True)
         # add resource info to packages
         addResourceInfoToPackages(script)
