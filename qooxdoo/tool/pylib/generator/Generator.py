@@ -1194,8 +1194,7 @@ class Generator(object):
 
         allresources = {}
         # get resource info
-        # -- the next call is fake, just to populate package.data.resources!
-        _ = self._codeGenerator.generateResourceInfoCode(script, self._settings, self._job.get("library",[]))
+        self._codeGenerator.packagesResourceInfo(script) # populate package.data.resources
         for packageId, package in enumerate(packages):
             allresources.update(package.data.resources)
         

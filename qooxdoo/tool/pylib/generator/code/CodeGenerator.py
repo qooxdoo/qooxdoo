@@ -103,9 +103,7 @@ class CodeGenerator(object):
 
             vals.update(globalCodes)
 
-            #if script.buildType =="build":
-            if True:
-                vals["Resources"] = json.dumpsCode({})  # TODO: undo Resources from globalCodes!!!
+            vals["Resources"] = json.dumpsCode({})  # just init with empty map
 
             # Name of the boot part
             vals["Boot"] = loaderBootName(script, compConf)
@@ -771,7 +769,7 @@ class CodeGenerator(object):
             out_sourceUri = self._computeResourceUri({'class': ".", 'path': os.path.dirname(script.baseScriptPath)}, OsPath(""), rType="class", appRoot=self.approot)
             out_sourceUri = out_sourceUri.encodedValue()
         globalCodes["Libinfo"]['__out__'] = { 'sourceUri': out_sourceUri }
-        globalCodes["Resources"]    = self.generateResourceInfoCode(script, settings, libraries, format)
+        self.packagesResourceInfo(script)
         globalCodes["Translations"],                                      \
         globalCodes["Locales"]      = mergeTranslationMaps(translationMaps)
 
@@ -1108,38 +1106,27 @@ class CodeGenerator(object):
 
 
     ##
-    # Create a data structure to be textually included in the final script
-    # that represents information about relevant resources, like images, style
-    # sheets, etc. 
-    # For images, this information includes pre-calculated sizes, and
-    # being part of a combined image.
-    def generateResourceInfoCode(self, script, settings, libraries, format=False):
-
-        def addResourceInfoToPackages(script):
-            for package in script.packages:
-                package_resources = []
-                # TODO: the next is a hack, since package.classes are still id's
-                package_classes   = [x for x in script.classesObj if x.id in package.classes]
-                for clazz in package_classes:
-                    package_resources.extend(clazz.resources)
-                package.data.resources = Script.createResourceStruct(package_resources, formatAsTree=False,
-                                                             updateOnlyExistingSprites=True)
-            return
-
-
-        # -- main --------------------------------------------------------------
-
-        classes = Class.mapResourcesToClasses (libraries, script.classesObj,
+    # For every package, calculate its needed resources and attach the info to
+    # the package.
+    #
+    # The created data structure is in the form suitable for inclusion in the
+    # generated scripts.For images, the information includes pre-calculated 
+    # sizes, and being part of a combined image.
+    def packagesResourceInfo(self, script):
+        classes = Class.mapResourcesToClasses (script.libraries, script.classesObj,
                                             self._job.get("asset-let", {}))
-        filteredResources = []
-        for clazz in classes:
-            filteredResources.extend(clazz.resources)
-        resdata = Script.createResourceStruct (filteredResources, formatAsTree=False,
-                                           updateOnlyExistingSprites=True)
-        # add resource info to packages
-        addResourceInfoToPackages(script)
 
-        return resdata # end: generateResourceInfoCode()
+        for package in script.packages:
+            package_resources = []
+            # TODO: the next is a hack, since package.classes are still id's
+            package_classes   = [x for x in script.classesObj if x.id in package.classes]
+            for clazz in package_classes:
+                package_resources.extend(clazz.resources)
+            package.data.resources = Script.createResourceStruct(package_resources, formatAsTree=False,
+                                                         updateOnlyExistingSprites=True)
+        return script
+    
+
 
 
     def packagesFileNames(self, basename, packagesLen, classPackagesOnly=False):

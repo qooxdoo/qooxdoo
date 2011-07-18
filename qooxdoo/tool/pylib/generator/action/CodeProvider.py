@@ -133,8 +133,7 @@ def _handleResources(script, generator, filtered=True):
 
     allresources = {}
     if filtered:
-        # -- the next call is fake, just to populate package.data.resources!
-        _ = generator._codeGenerator.generateResourceInfoCode(script, generator._settings, context.jobconf.get("library",[]))
+        generator._codeGenerator.packagesResourceInfo(script)
         for packageId, package in enumerate(packages):
             allresources.update(package.data.resources)
     else:
