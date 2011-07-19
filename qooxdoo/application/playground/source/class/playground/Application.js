@@ -154,7 +154,7 @@ qx.Class.define("playground.Application",
 
       mainsplit.add(this.__editor);
       mainsplit.add(infosplit, 1);
-      this.__playArea = new playground.view.PlayArea();
+      this.__playArea = new playground.view.MobilePlayArea();
       infosplit.add(this.__playArea, 2);
 
       mainsplit.getChildControl("splitter").addListener("mousedown", function() {

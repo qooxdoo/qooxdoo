@@ -46,8 +46,8 @@ qx.Class.define("playground.view.PlayArea",
     this.__playField.getChildControl("scrollbar-y");
     this.__playField.getChildControl("corner");
 
-    this.__dummy = new qx.ui.core.Widget();
-    this.__playField.add(this.__dummy);
+    this._dummy = new qx.ui.core.Widget();
+    this.__playField.add(this._dummy);
 
     this.add(this.__playField, {flex : 1});
   },
@@ -56,10 +56,10 @@ qx.Class.define("playground.view.PlayArea",
   members :
   {
     __playFieldCaption : null,
-    __dummy : null,
-    __playRoot : null,
+    _dummy : null,
+    _playRoot : null,
     __playField : null,
-    __playApp : null,
+    _playApp : null,
 
 
     /**
@@ -70,30 +70,30 @@ qx.Class.define("playground.view.PlayArea",
     {
       qx.html.Element.flush();
 
-      var playRootEl = this.__dummy.getContainerElement().getDomElement();
-      this.__playRoot = new qx.ui.root.Inline(playRootEl);
-      this.__playRoot._setLayout(new qx.ui.layout.Canvas());
+      var playRootEl = this._dummy.getContainerElement().getDomElement();
+      this._playRoot = new qx.ui.root.Inline(playRootEl);
+      this._playRoot._setLayout(new qx.ui.layout.Canvas());
 
       var self = this;
-      this.__playRoot.getLayoutParent = function() { return self.__playField; };
+      this._playRoot.getLayoutParent = function() { return self.__playField; };
       this.__playField.getChildren = this.__playField._getChildren =
-        function() { return [self.__playRoot]; };
+        function() { return [self._playRoot]; };
 
       this.__playField.addListener("resize", function(e) {
         var data = e.getData();
-        this.__playRoot.setMinWidth(data.width);
-        this.__playRoot.setMinHeight(data.height);
+        this._playRoot.setMinWidth(data.width);
+        this._playRoot.setMinHeight(data.height);
       }, this);
 
-      this.__playApp = app.clone();
-      this.__playApp.getRoot = function() {
-        return self.__playRoot;
+      this._playApp = app.clone();
+      this._playApp.getRoot = function() {
+        return self._playRoot;
       };
 
-      this.__playRoot.addListener("resize", function(e) {
+      this._playRoot.addListener("resize", function(e) {
         var data = e.getData();
-        this.__dummy.setMinWidth(data.width);
-        this.__dummy.setMinHeight(data.height);
+        this._dummy.setMinWidth(data.width);
+        this._dummy.setMinHeight(data.height);
       }, this);
     },
 
@@ -126,7 +126,7 @@ qx.Class.define("playground.view.PlayArea",
      * @param code {String} The code of the application as string.
      */
     reset : function(beforeReg, afterReg, code) {
-      var ch = this.__playRoot.getChildren();
+      var ch = this._playRoot.getChildren();
       var i = ch.length;
       while(i--)
       {
@@ -135,8 +135,8 @@ qx.Class.define("playground.view.PlayArea",
         }
       }
 
-      var layout = this.__playRoot.getLayout();
-      this.__playRoot.setLayout(new qx.ui.layout.Canvas());
+      var layout = this._playRoot.getLayout();
+      this._playRoot.setLayout(new qx.ui.layout.Canvas());
       layout.dispose();
 
       if (!beforeReg) {
@@ -166,7 +166,7 @@ qx.Class.define("playground.view.PlayArea",
      */
     getApp : function()
     {
-      return this.__playApp;
+      return this._playApp;
     }
   },
 
@@ -181,7 +181,7 @@ qx.Class.define("playground.view.PlayArea",
   destruct : function()
   {
     this._disposeObjects(
-      "__playFieldCaption", "__playField", "__dummy", "__playRoot", "__playApp"
+      "__playFieldCaption", "__playField", "_dummy", "_playRoot", "_playApp"
     );
   }
 });

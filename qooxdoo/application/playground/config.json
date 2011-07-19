@@ -48,15 +48,15 @@
       [
         "qx.test.*",
         "qx.dev.unit.*",
-        "playground.test.*",
-        "qx.ui.mobile.*"
+        "playground.test.*"
       ],
 
       "environment" :
       {
         "qx.debug" : true,
         "qx.nativeScrollBars" : true,
-        "qx.allowUrlSettings" : true
+        "qx.allowUrlSettings" : true,
+        "qx.mobile.emulatetouch" : true
       }
     },
 
