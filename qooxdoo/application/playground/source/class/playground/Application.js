@@ -51,6 +51,7 @@ qx.Class.define("playground.Application",
     }
   },
 
+
   /*
    *****************************************************************************
       MEMBERS
@@ -60,6 +61,7 @@ qx.Class.define("playground.Application",
   members :
   {
     // UI Components
+    __header : null,
     __toolbar : null,
     __log : null,
     __editor : null,
@@ -89,6 +91,8 @@ qx.Class.define("playground.Application",
       " This may prevent the playground application to run properly.||"
     ),
 
+    __mode : null,
+
 
     /**
      * This method contains the initial application code and gets called
@@ -109,7 +113,9 @@ qx.Class.define("playground.Application",
       this.getRoot().add(mainContainer, { edge : 0 });
 
       // qooxdoo header
-      mainContainer.add(new playground.view.Header(), { flex : 0 });
+      this.__header = new playground.view.Header();
+      mainContainer.add(this.__header, { flex : 0 });
+      this.__header.addListener("changeMode", this._onChangeMode, this);
 
       // data stuff
       this.__samples = new playground.Samples();
@@ -154,7 +160,7 @@ qx.Class.define("playground.Application",
 
       mainsplit.add(this.__editor);
       mainsplit.add(infosplit, 1);
-      this.__playArea = new playground.view.MobilePlayArea();
+      this.__playArea = new playground.view.PlayArea();
       infosplit.add(this.__playArea, 2);
 
       mainsplit.getChildControl("splitter").addListener("mousedown", function() {
@@ -169,12 +175,17 @@ qx.Class.define("playground.Application",
 
       infosplit.add(this.__log, 1);
       this.__log.exclude();
-
-      this.__playArea.init(this);
     },
 
 
     finalize: function() {
+      // check for the mode cookie
+      if (qx.bom.Cookie.get("playgroundMode") === "mobile") {
+        this.setMode("mobile");
+      } else {
+        this.setMode("ria");
+      }
+
       // Back button and bookmark support
       this.__initBookmarkSupport();
 
@@ -189,6 +200,9 @@ qx.Class.define("playground.Application",
     // PROPERTY APPLY
     // ***************************************************
     _applyName : function(value, old) {
+      if (!this.__playArea) {
+        return;
+      }
       this.__playArea.updateCaption(value);
       this.__updateTitle(value);
     },
@@ -198,28 +212,80 @@ qx.Class.define("playground.Application",
     },
 
 
+    _onChangeMode : function(e, old) {
+      var mode = e.getData();
+      // ignore setting the same mode
+      if (mode == this.__mode) {
+        return;
+      }
+
+      if (!this.setMode(mode)) {
+        this.setMode(old);
+      } else {
+        // select the first sample
+        var names = this.__samples.getNames();
+        for (var i = 0; i < names.length; i++) {
+          if (names[i].split("-")[1] == mode) {
+            this._updateSample(names[i]);
+            break;
+          }
+        }
+      }
+    },
+
+
+    setMode : function(mode) {
+      if (this.__discardChanges()) {
+        return false;
+      }
+
+      // store the mode
+      qx.bom.Cookie.set("playgroundMode", mode, 100);
+      this.__mode = mode;
+
+      // update the view (changes the play application)
+      this.__playArea.setMode(mode);
+      this.__toolbar.setMode(mode);
+      this.__header.setMode(mode);
+
+      return true;
+    },
+
+
     // ***************************************************
     // TOOLBAR HANDLER
     // ***************************************************
     /**
+     * @lint ignoreDeprecated(confirm)
+     * @return {Boolean} <code>true</code> if the code has been modified
+     */
+    __discardChanges : function() {
+      var userCode = this.__editor.getCode();
+      if (userCode && this.__isCodeNotEqual(userCode, this.getOriginCode()))
+      {
+        if (!confirm(this.tr("Click OK to discard your changes.")))
+        {
+          return true;
+        }
+      }
+      return false;
+    },
+
+
+    /**
      * Handler for sample changes of the toolbar.
      * @param e {qx.event.type.Data} Data event containing the new name of
      *   the sample.
-     *
-     * @lint ignoreDeprecated(confirm)
      */
     __onSampleChange : function(e) {
-      var userCode = this.__editor.getCode();
-      if (this.__isCodeNotEqual(userCode, this.getOriginCode()))
-      {
-        if (!confirm(this.tr("You changed the code of the current sample.|" +
-          "Click OK to discard your changes.").replace(/\|/g, "\n")))
-        {
-          return;
-        }
-      }
+      this._updateSample(e.getData());
+    }, 
 
-      var sampleName = e.getData();
+
+    _updateSample : function(sampleName) {
+      if (this.__discardChanges()) {
+        return;
+      }
 
       // set the new sample data
       var newSample = this.__samples.get(sampleName);
@@ -229,7 +295,8 @@ qx.Class.define("playground.Application",
       this.setOriginCode(this.__editor.getCode());
 
       this.__history.addToHistory(sampleName);
-      this.setName(e.getData());
+      var name = sampleName.split("-");
+      this.setName(name[0]);
       // run the new sample
       this.run();
     },
@@ -417,6 +484,10 @@ qx.Class.define("playground.Application",
     {
       try {
         var data = qx.lang.Json.parse(state);
+        // change the mode in case a different mode is given
+        if (data.mode && data.mode != this.__mode) {
+          this.setMode(data.mode);
+        }
         return decodeURIComponent(data.code).replace(/%0D/g, "");
       } catch (e) {
         var error = this.tr("// Could not handle URL parameter! \n// %1", e);
@@ -436,7 +507,8 @@ qx.Class.define("playground.Application",
      * @lint ignoreDeprecated(confirm)
      */
     __addCodeToHistory : function(code) {
-      var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
+      var codeJson = 
+        '{"code":' + '"' + encodeURIComponent(code) + '", "mode":"' + this.__mode + '"}';
       if (qx.core.Environment.get("engine.name") == "mshtml" && codeJson.length > 1300) {
         if (!this.__ignoreSaveFaults && confirm(
           this.tr("Cannot append sample code to URL, as it is too long. " +
@@ -649,8 +721,7 @@ qx.Class.define("playground.Application",
         this.fun.call(this.__playArea.getApp());
         qx.ui.core.queue.Manager.flush();
         this.__afterReg = qx.lang.Object.clone(qx.core.ObjectRegistry.getRegistry());
-      }
-      catch(ex) {
+      } catch(ex) {
         var exc = ex;
       }
 

@@ -29,9 +29,52 @@ qx.Class.define("playground.view.Header",
     this.setAppearance("app-header");
 
     var versionTag = this.tr("qooxdoo %1", qx.core.Environment.get("qx.version"));
+    var riaButton = new qx.ui.form.RadioButton(this.tr("RIA"));
+    riaButton.set({
+      model: "ria",
+      appearance: "modeButton"
+    });
+    var mobileButton = new qx.ui.form.RadioButton(this.tr("Mobile"))
+    mobileButton.set({
+      model: "mobile",
+      appearance: "modeButton"
+    });
+
+    this.__buttons = [riaButton, mobileButton];
+
+    this.__group = new qx.ui.form.RadioGroup(riaButton, mobileButton);
+    this.__group.bind("modelSelection[0]", this, "mode");
 
     this.add(new qx.ui.basic.Label(this.tr("Playground")));
-    this.add(new qx.ui.core.Spacer, { flex : 1 });
-    this.add(new qx.ui.basic.Label(versionTag));
+    this.add(new qx.ui.core.Spacer(30));
+    this.add(riaButton);
+    this.add(mobileButton);
+    this.add(new qx.ui.core.Spacer(), { flex : 1 });
+    this.add(new qx.ui.basic.Label(versionTag).set({font: "bold"}));
+  },
+
+
+  properties : {
+    mode : {
+      event : "changeMode",
+      check : "String",
+      init : "RIA",
+      apply : "_applyMode"
+    }
+  },
+
+
+  members : {
+    __buttons : null,
+    __group : null,
+    
+    _applyMode : function(value) {
+      for (var i=0; i < this.__buttons.length; i++) {
+        if (this.__buttons[i].getModel() == value) {
+          this.__group.setSelection([this.__buttons[i]]);
+          return;
+        }
+      };
+    }
   }
 });
