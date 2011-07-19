@@ -29,7 +29,7 @@ qx.Class.define("playground.view.Header",
     this.setAppearance("app-header");
 
     var versionTag = this.tr("qooxdoo %1", qx.core.Environment.get("qx.version"));
-    var riaButton = new qx.ui.form.RadioButton(this.tr("RIA"));
+    var riaButton = new qx.ui.form.RadioButton(this.tr("Desktop"));
     riaButton.set({
       model: "ria",
       appearance: "modeButton"
