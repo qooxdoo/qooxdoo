@@ -21,13 +21,17 @@
  */
 qx.Class.define("playground.view.MobilePlayArea",
 {
-  extend : playground.view.PlayArea,
+  extend : playground.view.RiaPlayArea,
 
   members :
   {
     // overridden
     init : function(app)
     {
+      if (this._initialized) {
+        return;
+      }
+
       qx.html.Element.flush();
 
       var playRootEl = this._dummy.getContentElement().getDomElement();
@@ -46,23 +50,20 @@ qx.Class.define("playground.view.MobilePlayArea",
       this._playApp.getRoot = function() {
         return self._playRoot;
       };
+
+      this._initialized = true;
     },
 
 
     // overridden
     reset : function(beforeReg, afterReg, code) {
-      return; // TODO
-      var ch = this._playRoot.getChildren();
-      var i = ch.length;
-      while(i--)
-      {
-        if (ch[i]) {
-          ch[i].destroy();
-        }
+      this._playRoot.removeAll();
+      var manager = qx.ui.mobile.page.Page.getManager();
+      if (manager) {
+        qx.ui.mobile.page.Page.setManager(null);
+        manager.dispose();
       }
-
-      // flush the dispose queue to get the ui controlls disposed
-      qx.ui.core.queue.Dispose.flush();
+      qx.ui.mobile.page.Page.setManager(new qx.ui.mobile.page.manager.Animation(this._playRoot));
     }
   }
 });
