@@ -22,6 +22,7 @@
  * following line to make use of them.
 
 #asset(mobileshowcase/*)
+#asset(qx/mobile/icon/common/*)
 #asset(qx/mobile/icon/android/*)
 #asset(qx/mobile/icon/ios/*)
 
