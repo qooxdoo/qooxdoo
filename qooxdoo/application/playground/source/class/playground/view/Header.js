@@ -77,6 +77,15 @@ qx.Class.define("playground.view.Header",
           return;
         }
       };
+    },
+
+
+
+    setEnabledMobile : function(value) {
+      var button = this.__buttons[1];
+      var label = value ? this.tr("Mobile") : this.tr("Mobile (Webkit only)");
+      button.setEnabled(value);
+      button.setLabel(label);
     }
   }
 });

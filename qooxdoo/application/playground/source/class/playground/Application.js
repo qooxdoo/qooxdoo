@@ -179,11 +179,17 @@ qx.Class.define("playground.Application",
 
 
     finalize: function() {
-      // check for the mode cookie
-      if (qx.bom.Cookie.get("playgroundMode") === "mobile") {
-        this.setMode("mobile");
+      // check if mobile chould be used
+      if (this.__supportsMode("mobile")) {
+        // check for the mode cookie
+        if (qx.bom.Cookie.get("playgroundMode") === "mobile") {
+          this.setMode("mobile");
+        } else {
+          this.setMode("ria");
+        }
       } else {
         this.setMode("ria");
+        this.__header.setEnabledMobile(false);
       }
 
       // Back button and bookmark support
@@ -235,7 +241,22 @@ qx.Class.define("playground.Application",
     },
 
 
+    __supportsMode : function(mode) {
+      if (mode == "mobile") {
+        return qx.core.Environment.get("engine.name") == "webkit";
+      } else if (mode == "ria") {
+        return true;
+      }
+      return false;
+    },
+
+
     setMode : function(mode) {
+      // check if the mode is supported
+      if (!this.__supportsMode(mode)) {
+        throw new Error("Mode '" + mode + "' not supported");
+      }
+      
       if (this.__discardChanges()) {
         return false;
       }
@@ -248,6 +269,9 @@ qx.Class.define("playground.Application",
       this.__playArea.setMode(mode);
       this.__toolbar.setMode(mode);
       this.__header.setMode(mode);
+
+      // erase the code
+      this.__editor.setCode("");
 
       return true;
     },
