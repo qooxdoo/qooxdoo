@@ -86,7 +86,7 @@ qx.Class.define("playground.Samples",
      *   no sample has been requests to this point.
      */
     getCurrentName : function() {
-      return this.__currentName || "";
+      return this.__currentName || ""
     },
 
 
