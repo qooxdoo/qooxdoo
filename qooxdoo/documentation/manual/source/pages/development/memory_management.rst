@@ -97,7 +97,7 @@ It is activated by enabling the **qx.debug.dispose** environment setting for a c
 
 After building the application, the dispose debugging workflow is as follows:
 
-* Call `qx.dev.Debug.startDisposeProfiling <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.Debug.startDisposeProfiling>`_ before the code you wish to debug is executed. This effectively sets a marker saying "ignore any objects created before this point in time".
+* Call `qx.dev.Debug.startDisposeProfiling <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.Debug~startDisposeProfiling>`_ before the code you wish to debug is executed. This effectively sets a marker saying "ignore any objects created before this point in time".
 * Execute the code to be debugged, e.g. create a view component, then destroy it.
-* Call `qx.dev.Debug.stopDisposeProfiling <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.Debug.stopDisposeProfiling>`_. It will return a list of maps containing references to the undisposed objects as well as stack traces taken at the time the objects were registered, which makes it easy to find where in the code they were instantiated. Go through the list and add ``destroy`` and/or ``dispose`` calls to the application as needed.
+* Call `qx.dev.Debug.stopDisposeProfiling <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.Debug~stopDisposeProfiling>`_. It will return a list of maps containing references to the undisposed objects as well as stack traces taken at the time the objects were registered, which makes it easy to find where in the code they were instantiated. Go through the list and add ``destroy`` and/or ``dispose`` calls to the application as needed.
  
