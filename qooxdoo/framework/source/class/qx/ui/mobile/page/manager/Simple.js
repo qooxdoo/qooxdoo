@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.mobile.page.manager.Simple",
     remove : function(id)
     {
       var page = this.getPage(id);
-      delete this.__pages[page.getId()];
+      delete this.__pages[id];
       this.fireDataEvent("remove", page);
     },
 
