@@ -811,8 +811,8 @@ Define packages for this app. Takes a map.
       "min-package-unshared"  : 1
     },
     "init"             : "<part_name>",
-    "loader-with-boot" : (true|false),
-    "i18n-with-boot"   : (true|false),
+    "separate-loader"  : (true|false),
+    "i18n-as-parts"    : (true|false),
     "additional-merge-constraints" : (true|false),
     "verifier-bombs-on-error"      : (true|false)
   }
@@ -837,8 +837,8 @@ Keys are
   * **min-package-unshared** : minimal size of an unshared package in KB (default: <min-package>)
 
 * **init** : name of the initial part, i.e. the part to be loaded first (default: *"boot"*)
-* **loader-with-boot** : whether loader information should be included with the boot part, or be separate; if set false, the loader package will contain no class code (default: *true*)
-* **i18n-with-boot** : whether internationalization information (translations, CLDR data, ...) should be included with the boot part, or be separate; if set false, the loader package will contain no i18n data; rather, i18n data will be generated in dedicated parts, which have to be loaded by the application explicitly; see :ref:`special section <pages/tool/generator_config_articles#packages_key>` (default: *true*)
+* **separate-loader** : whether loader information should be included with the boot package, or be separate; if set true, the loader package will contain no class code (default: *false*)
+* **i18n-as-parts** : whether internationalization information (translations, CLDR data) should be included with the packages, or be separate; if set true, the code packages will contain no i18n data; rather, i18n data will be generated in dedicated parts, which have to be loaded by the application explicitly; see :ref:`special section <pages/tool/generator_config_articles#packages_key>` (default: *false*)
 * **additional-merge-constraints** : if set to false, the generator will be more permissive when merging one package into another, which might result in fewer packages at the end, but can also result in consistencies which the part verifier will complain about (default: *true*)
 * **verifier-bombs-on-error** : whether the part verifier should raise an exception, or just warn and continue (default: *true*)
 

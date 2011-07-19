@@ -238,7 +238,7 @@ class CodeGenerator(object):
                     return True
 
             # ------------------------------------------------------
-            configWithBoot = self._job.get("packages/loader-with-boot", True)
+            configWithBoot = not self._job.get("packages/separate-loader", False)
             if configWithBoot and firstScriptCompiled(script, compConf):
                 return True
             else:
@@ -743,8 +743,7 @@ class CodeGenerator(object):
         self.packagesI18NInfo(script)     # attach I18N info to packages
 
         # Potentally create dedicated I18N packages
-        i18n_as_parts = not self._job.get("packages/i18n-with-boot", True)
-        if i18n_as_parts:
+        if self._job.get("packages/i18n-as-parts", False):
             script = self.generateI18NParts(script, locales)
             self.writePackages([p for p in script.packages if getattr(p, "__localeflag", False)], script)
 
@@ -1048,32 +1047,6 @@ class CodeGenerator(object):
         return variats
 
 
-    def getTranslationMaps_1(self, packages, variants, locales, addUntranslatedEntries=False):
-        if "C" not in locales:
-            locales.append("C")
-
-        self._console.info("Processing %s locales  " % len(locales), feed=False)
-        self._console.indent()
-
-        packageTranslations = []
-        i18n_with_packages  = self._job.get("packages/i18n-with-boot", True)
-        for pos, package in enumerate(packages):
-            self._console.debug("Package %s: " % pos, False)
-            #self._console.indent()
-
-            pac_dat = self._locale.getTranslationData(package.classes, variants, locales, addUntranslatedEntries) # .po data
-            loc_dat = self._locale.getLocalizationData(package.classes, locales)  # cldr data
-            packageTranslations.append((pac_dat,loc_dat))
-            if i18n_with_packages:
-                package.data.translations.update(pac_dat)
-                package.data.locales.update(loc_dat)
-
-            #self._console.outdent()
-
-        self._console.outdent()
-        return packageTranslations
-
-
     ##
     # Get translation and locale data from all involved classes, and attach it
     # to the corresponding packages.
@@ -1154,20 +1127,6 @@ class CodeGenerator(object):
                                                          updateOnlyExistingSprites=True)
         return script
     
-
-
-
-    def packagesFileNames(self, basename, packagesLen, classPackagesOnly=False):
-        loader_with_boot = self._job.get("packages/loader-with-boot", True)
-        for packageId in range(packagesLen):
-            suffix = packageId -1
-            if suffix < 0:
-                suffix = ""  # this is the loader package
-                if (not loader_with_boot and classPackagesOnly):  # skip the loader package
-                    continue
-            packageFileName = self._resolveFileName(basename, self._variants, self._settings, suffix)
-            yield packageFileName
-
 
     def writePackages(self, packages, script):
 

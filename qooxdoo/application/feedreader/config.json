@@ -45,8 +45,8 @@
 
       "packages" : 
       {
-        "loader-with-boot" : false,
-        "i18n-with-boot"   : false,
+        "separate-loader"  : true,
+        "i18n-as-parts"    : true,
         "parts" : 
         {          
           "boot": 
