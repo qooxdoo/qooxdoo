@@ -105,7 +105,7 @@ qx.Class.define("playground.view.RiaPlayArea",
 
 
     /**
-     * Sets the caoption of the playarea to the given text.
+     * Sets the caption of the playarea to the given text.
      * @param text {String} The new text of the caption.
      */
     updateCaption : function(text) {

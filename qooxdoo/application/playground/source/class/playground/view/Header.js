@@ -55,6 +55,7 @@ qx.Class.define("playground.view.Header",
 
 
   properties : {
+    /** The mode the header should be currently in. */
     mode : {
       event : "changeMode",
       check : "String",
@@ -80,6 +81,11 @@ qx.Class.define("playground.view.Header",
     },
 
 
+    /**
+     * Enables or disabled the button for the given mode.
+     * @param mode {String} the mode to change the enabled state.
+     * @param value {boolean} <code>true</true> if the button should be enabled.
+     */
     setEnabledMode : function(mode, value) {
       for (var i=0; i < this.__buttons.length; i++) {
         if (this.__buttons[i].getModel() == mode) {

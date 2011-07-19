@@ -278,6 +278,10 @@ qx.Class.define("playground.view.Toolbar",
     },
 
 
+    /**
+     * Sets the mode in which the toolbar should be in.
+     * @param mode {String} The mode to use.
+     */
     setMode : function(mode) {
       if (this.__mode == mode) {
         return;

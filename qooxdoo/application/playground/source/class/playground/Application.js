@@ -178,6 +178,7 @@ qx.Class.define("playground.Application",
     },
 
 
+    // overridden
     finalize: function() {
       // check if mobile chould be used
       if (this.__supportsMode("mobile")) {
@@ -205,6 +206,7 @@ qx.Class.define("playground.Application",
     // ***************************************************
     // PROPERTY APPLY
     // ***************************************************
+    // property apply
     _applyName : function(value, old) {
       if (!this.__playArea) {
         return;
@@ -213,11 +215,20 @@ qx.Class.define("playground.Application",
       this.__updateTitle(value);
     },
 
+
+    // property apply
     _applyOriginCode : function(value, old) {
       this.__modified = false;
     },
 
 
+    // ***************************************************
+    // MODE HANDLING
+    // ***************************************************
+    /**
+     * Event handler for changing the mode of the palyground.
+     * @param e {qx.event.type.Data} The data event containing the mode.
+     */
     _onChangeMode : function(e) {
       var mode = e.getData();
       // ignore setting the same mode
@@ -241,6 +252,12 @@ qx.Class.define("playground.Application",
     },
 
 
+    /**
+     * Helper to determinate if the mode is currently supported e.g. mobile 
+     * in the current runtime.
+     * @param mode {String} The name of the mode.
+     * @return {boolean} <code>true</code>, if the given mode can be used.
+     */
     __supportsMode : function(mode) {
       if (mode == "mobile") {
         return qx.core.Environment.get("engine.name") == "webkit";
@@ -251,12 +268,16 @@ qx.Class.define("playground.Application",
     },
 
 
+    /**
+     * Setter and dispatcher for the current mode the playground is in.
+     * @param mode {String} The mode to use.
+     */
     setMode : function(mode) {
       // check if the mode is supported
       if (!this.__supportsMode(mode)) {
         throw new Error("Mode '" + mode + "' not supported");
       }
-      
+
       if (this.__discardChanges()) {
         return false;
       }
@@ -281,23 +302,6 @@ qx.Class.define("playground.Application",
     // TOOLBAR HANDLER
     // ***************************************************
     /**
-     * @lint ignoreDeprecated(confirm)
-     * @return {Boolean} <code>true</code> if the code has been modified
-     */
-    __discardChanges : function() {
-      var userCode = this.__editor.getCode();
-      if (userCode && this.__isCodeNotEqual(userCode, this.getOriginCode()))
-      {
-        if (!confirm(this.tr("Click OK to discard your changes.")))
-        {
-          return true;
-        }
-      }
-      return false;
-    },
-
-
-    /**
      * Handler for sample changes of the toolbar.
      * @param e {qx.event.type.Data} Data event containing the new name of
      *   the sample.
@@ -307,6 +311,10 @@ qx.Class.define("playground.Application",
     }, 
 
 
+    /**
+     * Helper to update the sample to the given sample name.
+     * @param sampleName {String} The name of the sample to use.
+     */
     _updateSample : function(sampleName) {
       if (this.__discardChanges()) {
         return;
@@ -674,6 +682,26 @@ qx.Class.define("playground.Application",
     // ***************************************************
     // UPDATE & RUN & COMPARE
     // ***************************************************
+    /**
+     * Checcks if the code is changed. If that is the case, the user will be 
+     * prompted to discard the changes.
+     * 
+     * @lint ignoreDeprecated(confirm)
+     * @return {Boolean} <code>true</code> if the code has been modified
+     */
+    __discardChanges : function() {
+      var userCode = this.__editor.getCode();
+      if (userCode && this.__isCodeNotEqual(userCode, this.getOriginCode()))
+      {
+        if (!confirm(this.tr("Click OK to discard your changes.")))
+        {
+          return true;
+        }
+      }
+      return false;
+    },
+
+
     /**
      * Special compare method for IE.
      * @param code1 {String} The first code to compare.

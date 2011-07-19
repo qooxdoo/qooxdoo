@@ -62,6 +62,11 @@ qx.Class.define("playground.Samples",
     },
 
 
+    /**
+     * Get the first available sample for the given mode.
+     * @param mode {String} The mode to look for.
+     * @return {Object} An object containing the code and the sample name.
+     */
     getFirstSample : function(mode) {
       for (var name in this.__samples) {
         if (name.split("-")[1] == mode) {

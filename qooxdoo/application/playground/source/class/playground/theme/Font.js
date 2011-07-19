@@ -19,7 +19,7 @@
 ************************************************************************* */
 
 /**
- * The modern font theme.
+ * The custom font theme for the playground.
  */
 qx.Theme.define("playground.theme.Font",
 {

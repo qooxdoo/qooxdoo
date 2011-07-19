@@ -16,7 +16,9 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-
+/**
+ * Playgrounds default theme, mostly the modern theme.
+ */
 qx.Theme.define("playground.theme.Theme",
 {
   meta :

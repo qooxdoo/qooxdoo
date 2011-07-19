@@ -16,6 +16,10 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * Abstraction layer for all play areas which forwards the calls and offers a 
+ * common interface to the playground application.
+ */
 qx.Class.define("playground.view.PlayArea", 
 {
   extend : qx.ui.container.Stack,
@@ -25,7 +29,6 @@ qx.Class.define("playground.view.PlayArea",
   {
     this.base(arguments);
     this.setDynamic(true);
-    p = this;
 
     this.__riaArea = new playground.view.RiaPlayArea();
     this.__mobileArea = new playground.view.MobilePlayArea();
@@ -36,6 +39,7 @@ qx.Class.define("playground.view.PlayArea",
 
 
   properties : {
+    /** The mode the play area is currently in. */
     mode : {
       check : "String",
       apply : "_applyMode"
@@ -60,17 +64,33 @@ qx.Class.define("playground.view.PlayArea",
     },
 
 
+    /**
+     * Sets the caption of the playareas to the given text.
+     * @param text {String} The new text of the caption.
+     */
     updateCaption : function(text) {
       this.__riaArea.updateCaption(text);
       this.__mobileArea.updateCaption(text);
     },
 
 
+    /**
+     * Returns the application object of the current selected playarea.
+     * @return {qx.ui.container.Composite} The current playarea.
+     */
     getApp : function() {
       return this.getSelection()[0].getApp();
     },
 
 
+    /**
+     * Used to reset the current selected playarea.
+     * @param beforeReg {Object} A copy of the qx object registry before running
+     *   the application.
+     * @param afterReg {Object} A copy of the qx object registry after running
+     *   the application
+     * @param code {String} The code of the application as string.
+     */
     reset : function(beforeReg, afterReg, code) {
       this.getSelection()[0].reset(beforeReg, afterReg, code);
     }

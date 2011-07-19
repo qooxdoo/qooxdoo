@@ -16,6 +16,9 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * A custom apperance theme for the playground.
+ */
 qx.Theme.define("playground.theme.Appearance",
 {
   extend : qx.theme.modern.Appearance,

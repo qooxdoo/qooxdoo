@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 /**
- * Widget responsible for hosting the run code.
+ * Widget responsible for hosting the run code for mobile apps.
  */
 qx.Class.define("playground.view.MobilePlayArea",
 {
@@ -26,7 +26,7 @@ qx.Class.define("playground.view.MobilePlayArea",
   members :
   {
     // overridden
-    init : function(app)
+    init : function()
     {
       if (this._initialized) {
         return;
