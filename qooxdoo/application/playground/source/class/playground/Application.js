@@ -424,8 +424,9 @@ qx.Class.define("playground.Application",
         code = this.__parseURLCode(state);
       // if no state is given
       } else {
-        var name = this.__samples.getNames()[0];
-        code = this.__samples.get(name);
+        var sampleData = this.__samples.getFirstSample(this.__mode);
+        code = sampleData.code;
+        name = sampleData.name.split("-")[0];
       }
 
       // need to get the code from the editor in case he changes something

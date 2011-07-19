@@ -62,6 +62,16 @@ qx.Class.define("playground.Samples",
     },
 
 
+    getFirstSample : function(mode) {
+      for (var name in this.__samples) {
+        if (name.split("-")[1] == mode) {
+          return {name: name, code: this.__samples[name]};
+        }
+      };
+      return "";
+    },
+
+
     /**
      * Returns an array of all stored sample names.
      * @return {Array} The names of all samples.
