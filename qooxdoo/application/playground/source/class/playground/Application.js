@@ -212,7 +212,7 @@ qx.Class.define("playground.Application",
     },
 
 
-    _onChangeMode : function(e, old) {
+    _onChangeMode : function(e) {
       var mode = e.getData();
       // ignore setting the same mode
       if (mode == this.__mode) {
@@ -220,12 +220,13 @@ qx.Class.define("playground.Application",
       }
 
       if (!this.setMode(mode)) {
-        this.setMode(old);
+        this.__header.setMode(e.getOldData());
       } else {
         // select the first sample
         var names = this.__samples.getNames();
         for (var i = 0; i < names.length; i++) {
           if (names[i].split("-")[1] == mode) {
+            // set the origin code to the new sample to prevent the confirm
             this._updateSample(names[i]);
             break;
           }
@@ -422,6 +423,7 @@ qx.Class.define("playground.Application",
       } else if (state && state.charAt(0) == "{") {
         var name = this.tr("Custom Code");
         code = this.__parseURLCode(state);
+
       // if no state is given
       } else {
         var sampleData = this.__samples.getFirstSample(this.__mode);

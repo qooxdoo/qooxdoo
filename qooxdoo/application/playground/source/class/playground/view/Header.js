@@ -34,7 +34,7 @@ qx.Class.define("playground.view.Header",
       model: "ria",
       appearance: "modeButton"
     });
-    var mobileButton = new qx.ui.form.RadioButton(this.tr("Mobile"))
+    var mobileButton = new qx.ui.form.RadioButton(this.tr("Mobile"));
     mobileButton.set({
       model: "mobile",
       appearance: "modeButton"
@@ -67,7 +67,9 @@ qx.Class.define("playground.view.Header",
   members : {
     __buttons : null,
     __group : null,
-    
+
+
+    // property apply
     _applyMode : function(value) {
       for (var i=0; i < this.__buttons.length; i++) {
         if (this.__buttons[i].getModel() == value) {
