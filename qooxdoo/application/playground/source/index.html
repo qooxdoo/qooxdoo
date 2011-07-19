@@ -83,35 +83,21 @@
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="Mobile">var page1 = new qx.ui.mobile.page.NavigationPage();
-page1.setTitle("Page 1");
+<textarea class="qx_samples" title="Hello World-mobile">var page1 = new qx.ui.mobile.page.NavigationPage();
+page1.setTitle("Hello World");
 page1.addListener("initialize", function()
 {
-  var button = new qx.ui.mobile.form.Button("Next Page");
+  var button = new qx.ui.mobile.form.Button("First Button");
   page1.getContent().add(button);          
 
   button.addListener("tap", function() {
-    page2.show();
+    alert("Hello World");
   }, this);
 },this);
 
-var page2 = new qx.ui.mobile.page.NavigationPage();
-page2.setTitle("Page 2");
-page2.setShowBackButton(true);
-page2.setBackButtonText("Back");
-page2.addListener("initialize", function()
-{
-  var label = new qx.ui.mobile.basic.Label("Content of Page 2");
-  page2.getContent().add(label);
-},this);
-
-page2.addListener("back", function() {
-  page1.show({reverse:true});
-}, this);
-
 page1.show();</textarea>
 
-<textarea class="qx_samples" title="Hello World">// Create a button
+<textarea class="qx_samples" title="Hello World-ria">// Create a button
 var button1 = new qx.ui.form.Button("First Button", "icon/22/apps/internet-web-browser.png");
 
 // Document is the application root
@@ -134,7 +120,7 @@ button1.addListener("execute", function(e) {
 <div id="compare_div1" visibility="hidden"></div>
 <div id="compare_div2" visibility="hidden"></div>
 
-<textarea class="qx_samples" title="Window">var win = new qx.ui.window.Window("First Window");
+<textarea class="qx_samples" title="Window-ria">var win = new qx.ui.window.Window("First Window");
 win.setWidth(300);
 win.setHeight(200);
 win.setShowMinimize(false);
@@ -144,7 +130,7 @@ win.open();</textarea>
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="Webbrowser">var surfTo = function(url)
+<textarea class="qx_samples" title="Webbrowser-ria">var surfTo = function(url)
 {
   if (url.indexOf("http://") !== 0) {
     url = "http://" + url;
@@ -228,7 +214,7 @@ this.getRoot().add(win, {left: 40, top: 30});</textarea>
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="Dialog">var layout = new qx.ui.layout.Grid(9, 5);
+<textarea class="qx_samples" title="Dialog-ria">var layout = new qx.ui.layout.Grid(9, 5);
 layout.setColumnAlign(0, "right", "top");
 layout.setColumnAlign(2, "right", "top");
 layout.setColumnWidth(1, 160);
@@ -311,7 +297,7 @@ buttonPane.add(cancelButton);</textarea>
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="Calculator">var win = new qx.ui.window.Window("Calculator");
+<textarea class="qx_samples" title="Calculator-ria">var win = new qx.ui.window.Window("Calculator");
 win.setLayout(new qx.ui.layout.VBox(3));
 win.setShowMinimize(false);
 this.getRoot().add(win, {left:100, top:50}); 
@@ -373,7 +359,7 @@ win.addListener("keypress", function(e) {
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="Table">function createRandomRows(rowCount) {
+<textarea class="qx_samples" title="Table-ria">function createRandomRows(rowCount) {
   var rowData = [];
   var now = new Date().getTime();
   var dateRange = 400 * 24 * 60 * 60 * 1000; // 400 days
@@ -421,7 +407,7 @@ tcm.setHeaderCellRenderer(2, new qx.ui.table.headerrenderer.Icon("icon/16/apps/o
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="Tree">// create the tree
+<textarea class="qx_samples" title="Tree-ria">// create the tree
 var tree = new qx.ui.tree.Tree();
 tree.set({
   width: 150,
@@ -456,7 +442,7 @@ f1.setOpen(true);</textarea>
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="Data Binding">/**
+<textarea class="qx_samples" title="Data Binding-ria">/**
  * Bind a textfield to a label
  */
 var textfield = new qx.ui.form.TextField("Change me...");
@@ -483,7 +469,7 @@ slider2.bind("value", slider1, "value");</textarea>
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="YQL Binding">//YQL query for the qooxdoo news feed
+<textarea class="qx_samples" title="YQL Binding-ria">//YQL query for the qooxdoo news feed
 var query = "select * from feed where url='http://feeds.feedburner.com/qooxdoo/news/content'";
 
 var delegate = {manipulateData : function(data) {

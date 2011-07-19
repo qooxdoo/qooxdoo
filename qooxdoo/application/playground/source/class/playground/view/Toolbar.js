@@ -56,7 +56,8 @@ qx.Class.define("playground.view.Toolbar",
     );
     this.add(selectSampleButton);
     selectSampleButton.setToolTipText(this.tr("Select a sample"));
-    selectSampleButton.setMenu(this.__createSampleMenu(sampleNames));
+    this.__sampleMenu = this.__createSampleMenu(sampleNames);
+    selectSampleButton.setMenu(this.__sampleMenu);
 
     // highlighting button
     this.__highlightButton = new qx.ui.form.ToggleButton(
@@ -265,6 +266,8 @@ qx.Class.define("playground.view.Toolbar",
     __highlightButton : null,
     __logCheckButton : null,
     __gistMenu : null,
+    __sampleMenu : null,
+    __mode : null,
 
     /**
      * Controlls the presed state of the log button.
@@ -272,6 +275,19 @@ qx.Class.define("playground.view.Toolbar",
      */
     showLog : function(show) {
       this.__logCheckButton.setValue(show);
+    },
+
+
+    setMode : function(mode) {
+      if (this.__mode == mode) {
+        return;
+      }
+      this.__mode = mode;
+      var samples = this.__sampleMenu.getChildren();
+      for (var i = 0; i < samples.length; i++) {
+        var sample = samples[i];
+        sample.getUserData("mode") == mode ? sample.show() : sample.exclude();
+      };
     },
 
 
@@ -299,17 +315,20 @@ qx.Class.define("playground.view.Toolbar",
 
       for (var i = 0; i < sampleNames.length; i++)
       {
-        var name = sampleNames[i];
+        var sample = sampleNames[i].split("-");
+        var name = sample[0];
+        var mode = sample[1];
 
         var sampleEntryButton = new qx.ui.menu.Button(
           name, "icon/22/actions/edit-paste.png"
         );
+        sampleEntryButton.setUserData("mode", mode);
         menu.add(sampleEntryButton);
 
         sampleEntryButton.addListener(
-          "execute", qx.lang.Function.bind(function(sample, e) {
-            this.fireDataEvent("changeSample", sample);
-          }, this, name)
+          "execute", qx.lang.Function.bind(function(name, e) {
+            this.fireDataEvent("changeSample", name);
+          }, this, sampleNames[i])
         );
       }
 
