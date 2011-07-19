@@ -189,7 +189,7 @@ qx.Class.define("playground.Application",
         }
       } else {
         this.setMode("ria");
-        this.__header.setEnabledMobile(false);
+        this.__header.setEnabledMode("mobile", false);
       }
 
       // Back button and bookmark support

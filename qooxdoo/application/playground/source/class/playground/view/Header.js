@@ -80,9 +80,14 @@ qx.Class.define("playground.view.Header",
     },
 
 
+    setEnabledMode : function(mode, value) {
+      for (var i=0; i < this.__buttons.length; i++) {
+        if (this.__buttons[i].getModel() == mode) {
+          var button = this.__buttons[i];
+          break;
+        }
+      };
 
-    setEnabledMobile : function(value) {
-      var button = this.__buttons[1];
       var label = value ? this.tr("Mobile") : this.tr("Mobile (Webkit only)");
       button.setEnabled(value);
       button.setLabel(label);
