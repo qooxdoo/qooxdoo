@@ -170,7 +170,7 @@ qx.Class.define("playground.view.Editor",
         }
   
         // copy the inital value
-        session.setValue(this.__textarea.getValue());
+        session.setValue(this.__textarea.getValue() || "");
   
         var self = this;
         // append resize listener
