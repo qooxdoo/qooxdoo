@@ -83,19 +83,87 @@
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="Hello World-mobile">var page1 = new qx.ui.mobile.page.NavigationPage();
-page1.setTitle("Hello World");
-page1.addListener("initialize", function()
+<textarea class="qx_samples" title="Hello World-mobile">var page = new qx.ui.mobile.page.NavigationPage();
+page.setTitle("Hello World");
+page.addListener("initialize", function()
 {
   var button = new qx.ui.mobile.form.Button("First Button");
-  page1.getContent().add(button);          
+  page.getContent().add(button);          
 
   button.addListener("tap", function() {
     alert("Hello World");
   }, this);
 },this);
 
-page1.show();</textarea>
+page.show();</textarea>
+
+
+<!-- ********************************************************************** -->
+
+
+<textarea class="qx_samples" title="List-mobile">var page = new qx.ui.mobile.page.NavigationPage();
+page.setTitle("List");
+page.addListener("initialize", function()
+{
+  var list = new qx.ui.mobile.list.List({
+    configureItem : function(item, data, row)
+    {
+      item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
+      item.setTitle(row<4 ? ("Selectable " + data.title) : data.title);
+      item.setSubTitle(data.subTitle);
+      item.setSelectable(row<4);
+      item.setShowArrow(row<4);
+    }
+  });
+
+  var data = [];
+  for (var i=0; i < 50; i++) {
+    data.push({title:"Item" + i, subTitle:"Subtitle for Item #" + i});
+  }
+
+  list.setModel(new qx.data.Array(data));
+  list.addListener("changeSelection", function(evt) {
+    alert("Item Selected #" + evt.getData());
+  }, this);
+  page.getContent().add(list);
+},this);
+
+page.show();</textarea>
+
+
+<!-- ********************************************************************** -->
+
+
+<textarea class="qx_samples" title="YQL Binding-mobile">//YQL query for the qooxdoo news feed
+var query = "select * from feed where url='http://feeds.feedburner.com/qooxdoo/news/content'";
+
+var delegate = {manipulateData : function(data) {
+  return data.query.results.item;
+}};
+
+var store = new qx.data.store.Yql(query, delegate);
+
+var page = new qx.ui.mobile.page.NavigationPage();
+page.setTitle("qooxdoo news");
+page.addListener("initialize", function()
+{
+  var list = new qx.ui.mobile.list.List({
+    configureItem : function(item, data, row)
+    {
+      item.setTitle(data.getTitle());
+      item.setSubTitle(data.getPubDate());
+    }
+  });
+
+  store.bind("model", list, "model");
+  page.getContent().add(list);
+},this);
+
+page.show();</textarea>
+
+
+<!-- ********************************************************************** -->
+
 
 <textarea class="qx_samples" title="Hello World-ria">// Create a button
 var button1 = new qx.ui.form.Button("First Button", "icon/22/apps/internet-web-browser.png");
