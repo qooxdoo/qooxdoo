@@ -81,17 +81,6 @@ class CodeGenerator(object):
             result = ""
             vals   = {}
 
-            if not self._job.get("packages/i18n-with-boot", True):
-                # remove I18N info from globalCodes, so they don't go into the loader
-                globalCodes["Translations"] = {}
-                globalCodes["Locales"]      = {}
-            else:
-                #if script.buildType == "build":
-                if True:
-                    # also remove them here, as this info is now with the packages
-                    globalCodes["Translations"] = {}
-                    globalCodes["Locales"]      = {}
-
             if not script.parts:
                 return result
 
@@ -103,7 +92,9 @@ class CodeGenerator(object):
 
             vals.update(globalCodes)
 
-            vals["Resources"] = json.dumpsCode({})  # just init with empty map
+            vals["Resources"]    = json.dumpsCode({})  # just init with empty map
+            vals["Translations"] = json.dumpsCode({})
+            vals["Locales"]      = json.dumpsCode({})
 
             # Name of the boot part
             vals["Boot"] = loaderBootName(script, compConf)
@@ -680,26 +671,6 @@ class CodeGenerator(object):
             
 
 
-        ##
-        # takes an array of (po-data, locale-data) dict pairs
-        # merge all po data and all cldr data in a single dict each
-        def mergeTranslationMaps(transMaps):
-            poData = {}
-            cldrData = {}
-
-            for pac_dat, loc_dat in transMaps:
-                for loc in pac_dat:
-                    if loc not in poData:
-                        poData[loc] = {}
-                    poData[loc].update(pac_dat[loc])
-                for loc in loc_dat:
-                    if loc not in cldrData:
-                        cldrData[loc] = {}
-                    cldrData[loc].update(loc_dat[loc])
-
-            return (poData, cldrData)
-
-
         # -- Main - runCompiled ------------------------------------------------
 
         packages   = script.packagesSorted()
@@ -735,7 +706,6 @@ class CodeGenerator(object):
 
         # Get translation maps
         locales = compConf.get("code/locales", [])
-        translationMaps = self.getTranslationMaps(packages, variants, locales)
 
         # Read in base file name
         fileRelPath = getOutputFile(script.buildType)
@@ -769,14 +739,13 @@ class CodeGenerator(object):
             out_sourceUri = self._computeResourceUri({'class': ".", 'path': os.path.dirname(script.baseScriptPath)}, OsPath(""), rType="class", appRoot=self.approot)
             out_sourceUri = out_sourceUri.encodedValue()
         globalCodes["Libinfo"]['__out__'] = { 'sourceUri': out_sourceUri }
-        self.packagesResourceInfo(script)
-        globalCodes["Translations"],                                      \
-        globalCodes["Locales"]      = mergeTranslationMaps(translationMaps)
+        self.packagesResourceInfo(script) # attach resource info to packages
+        self.packagesI18NInfo(script)     # attach I18N info to packages
 
         # Potentally create dedicated I18N packages
         i18n_as_parts = not self._job.get("packages/i18n-with-boot", True)
         if i18n_as_parts:
-            script = self.generateI18NParts(script, globalCodes)
+            script = self.generateI18NParts(script, locales)
             self.writePackages([p for p in script.packages if getattr(p, "__localeflag", False)], script)
 
         # ---- create script files ---------------------------------------------
@@ -968,11 +937,45 @@ class CodeGenerator(object):
     ##
     # collect translation and locale data into dedicated parts and packages,
     # one for each language code
-    def generateI18NParts(self, script, globalCodes):
+    def generateI18NParts(self, script, locales):
 
+        ##
+        # collect translation and locale info from the packages
+        def getTranslationMaps(packages):
+            packageTranslations = []
+            for package in packages:
+                trans_dat = package.data.translations
+                loc_dat   = package.data.locales
+                packageTranslations.append((trans_dat,loc_dat))
+            return packageTranslations
+
+        ##
+        # takes an array of (po-data, locale-data) dict pairs
+        # merge all po data and all cldr data in a single dict each
+        def mergeTranslationMaps(transMaps):
+            poData = {}
+            cldrData = {}
+
+            for pac_dat, loc_dat in transMaps:
+                for loc in pac_dat:
+                    if loc not in poData:
+                        poData[loc] = {}
+                    poData[loc].update(pac_dat[loc])
+                for loc in loc_dat:
+                    if loc not in cldrData:
+                        cldrData[loc] = {}
+                    cldrData[loc].update(loc_dat[loc])
+
+            return (poData, cldrData)
+
+        # ----------------------------------------------------------------------
+
+        translationMaps = getTranslationMaps(script.packages)
+        translationData ,                                      \
+        localeData      = mergeTranslationMaps(translationMaps)
         # for each locale code, collect mappings
-        transKeys  = globalCodes['Translations'].keys()
-        localeKeys = globalCodes['Locales'].keys()
+        transKeys  = translationData.keys()
+        localeKeys = localeData.keys()
         newParts   = {}    # language codes to part objects,    {"C": part}
         newPackages= {}    # language codes to private package objects, {"C": package}
         for localeCode in set(transKeys + localeKeys):
@@ -987,11 +990,11 @@ class CodeGenerator(object):
             data = {}
             data[localeCode] = { 'Translations': {}, 'Locales': {} }  # we want to have the locale code in the data
             if localeCode in transKeys:
-                data[localeCode]['Translations']     = globalCodes['Translations'][localeCode]
-                package.data.translations[localeCode] = globalCodes['Translations'][localeCode]
+                data[localeCode]['Translations']     = translationData[localeCode]
+                package.data.translations[localeCode] = translationData[localeCode]
             if localeCode in localeKeys:
-                data[localeCode]['Locales']     = globalCodes['Locales'][localeCode]
-                package.data.locales[localeCode] = globalCodes['Locales'][localeCode]
+                data[localeCode]['Locales']     = localeData[localeCode]
+                package.data.locales[localeCode] = localeData[localeCode]
 
             # file name and hash code
             hash_, dataS  = package.packageContent()  # TODO: this currently works only for pure data packages
@@ -1045,7 +1048,7 @@ class CodeGenerator(object):
         return variats
 
 
-    def getTranslationMaps(self, packages, variants, locales, addUntranslatedEntries=False):
+    def getTranslationMaps_1(self, packages, variants, locales, addUntranslatedEntries=False):
         if "C" not in locales:
             locales.append("C")
 
@@ -1058,8 +1061,8 @@ class CodeGenerator(object):
             self._console.debug("Package %s: " % pos, False)
             #self._console.indent()
 
-            pac_dat = self._locale.getTranslationData  (package.classes, variants, locales, addUntranslatedEntries) # .po data
-            loc_dat = self._locale.getLocalizationData (package.classes, locales)  # cldr data
+            pac_dat = self._locale.getTranslationData(package.classes, variants, locales, addUntranslatedEntries) # .po data
+            loc_dat = self._locale.getLocalizationData(package.classes, locales)  # cldr data
             packageTranslations.append((pac_dat,loc_dat))
             if i18n_with_packages:
                 package.data.translations.update(pac_dat)
@@ -1069,6 +1072,31 @@ class CodeGenerator(object):
 
         self._console.outdent()
         return packageTranslations
+
+
+    ##
+    # Get translation and locale data from all involved classes, and attach it
+    # to the corresponding packages.
+    def packagesI18NInfo(self, script, addUntranslatedEntries=False):
+        locales = script.locales
+
+        if "C" not in locales:
+            locales.append("C")
+
+        self._console.info("Processing %s locales  " % len(locales), feed=False)
+        self._console.indent()
+
+        for pos, package in enumerate(script.packages):
+            self._console.debug("Package %s: " % pos, False)
+
+            pac_dat = self._locale.getTranslationData(package.classes, script.variants, locales, addUntranslatedEntries) # .po data
+            loc_dat = self._locale.getLocalizationData(package.classes, locales)  # cldr data
+            package.data.translations.update(pac_dat)
+            package.data.locales.update(loc_dat)
+
+        self._console.outdent()
+        return
+
 
 
     def generateLibInfoCode(self, libs, format, forceResourceUri=None, forceScriptUri=None):

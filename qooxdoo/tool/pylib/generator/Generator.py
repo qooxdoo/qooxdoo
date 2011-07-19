@@ -521,6 +521,7 @@ class Generator(object):
                 script.namespace = self.getAppName()
                 script.variants  = variantset
                 script.optimize  = config.get("compile-options/code/optimize", [])
+                script.locales   = config.get("compile-options/code/locales", [])
                 script.libraries = self._libraries
                 script.jobconfig = self._job
                 # set source/build version
