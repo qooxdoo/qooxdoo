@@ -838,7 +838,7 @@ Keys are
 
 * **init** : name of the initial part, i.e. the part to be loaded first (default: *"boot"*)
 * **separate-loader** : whether loader information should be included with the boot package, or be separate; if set true, the loader package will contain no class code (default: *false*)
-* **i18n-as-parts** : whether internationalization information (translations, CLDR data) should be included with the packages, or be separate; if set true, the code packages will contain no i18n data; rather, i18n data will be generated in dedicated parts, which have to be loaded by the application explicitly; see :ref:`special section <pages/tool/generator_config_articles#packages_key>` (default: *false*)
+* **i18n-as-parts** : whether internationalization information (translations, CLDR data) should be included with the packages, or be separate; if set true, the code packages will contain no i18n data; rather, i18n data will be generated in dedicated parts, which have to be loaded by the application explicitly; see :ref:`special section <pages/tool/generator_config_articles#i18n-with-boot>` (default: *false*)
 * **additional-merge-constraints** : if set to false, the generator will be more permissive when merging one package into another, which might result in fewer packages at the end, but can also result in consistencies which the part verifier will complain about (default: *true*)
 * **verifier-bombs-on-error** : whether the part verifier should raise an exception, or just warn and continue (default: *true*)
 

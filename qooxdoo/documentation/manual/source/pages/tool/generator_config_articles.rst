@@ -500,20 +500,20 @@ c) Any class that is listed in a part's *include* (file globs expanded) will  no
 
 .. _pages/tool/generator_config_articles#i18n-with-boot:
 
-i18n-with-boot
+i18n-as-parts
 --------------
 
-Setting this sub-key to *false* will result in I18N information (translations, CLDR data, ...) being put in their own separate parts. The utility of this is:
+Setting this sub-key to *true* will result in I18N information (translations, CLDR data, ...) being put in their own separate parts. The utility of this is:
 
 * The code packages get smaller, which allows for faster application startup.
-* You can handle I18N data more individually.
+* Data is not loaded for *all* configured locales when a package is loaded (which is usually not necessary, as you are mostly interested in a single locale across all packages). Rather, you can handle I18N data more individually.
 
 Here are the details:
 
-* By default, I18N data, i.e. translations from the .po files and CLDR data, is integrated as Javascript data in the application packages. In the source version, where there are no generated packages, this data is integrated with the loader. Setting *packages/i18n-with-boot: false* removes this data from the code packages (loader or otherwise; don't think too much about the key name).
-* Rather, data for *each individual locale* (en, en_US, de, de_DE, ...) will be collated in a dedicated *part*, the part name being that of the respective language code. As usual, each part is made up of packages. In the case of an I18N part, these are the corresponding data package plus fall-back packages for key lookup (e.g. ["C", "en", "en_US"] for the part *en_US*). Each package is a normal qooxdoo package with only the data section, and without the code section.
+* By default, I18N data, i.e. translations from the .po files and CLDR data, is integrated as Javascript data with the application packages (either as part of the first .js file of a package, or in its own .js file). This package-specific data will encompass the data for all configured locales needed in this package (Think: Data cumulated by package).
+* Setting *packages/i18n-as-parts: true* removes this data from the packages. Rather, data for *each individual locale* (en, en_US, de, de_DE, ...) will be collated in a dedicated *part*, the part name being that of the respective language code (Think: Data cumulated by locale). As usual, each part is made up of packages. In the case of an I18N part, these are the corresponding data package plus fall-back packages for key lookup (e.g. ["C", "en", "en_US"] for the part *en_US*). Each package is a normal qooxdoo package with only the data section, and without the code section.
 
-So far, so good. This is the point where the application developer has to take over. The application will not load the I18N parts by itself. You have to do it using the usual part loading API (e.g. ``qx.io.PartLoader.require(["en_US"])``). You might want to do that early in the application run cycle, e.g. during application start-up and before the first translateable string or localizable data is to be displayed. After loading the part, the corresponding locale is ready to be used in the normal way in your application. The `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_ application uses this technique to load a different I18N part when the language is changed in its *Preferences* dialog.
+So far, so good. With the config key set to *true*, this is the point where the application developer has to take over. The application will not load the I18N parts by itself. You have to do it using the usual part loading API (e.g. ``qx.io.PartLoader.require(["en_US"])``). You might want to do that early in the application run cycle, e.g. during application start-up and before the first translatable string or localizable data is to be displayed. After loading the part, the corresponding locale is ready to be used in the normal way in your application. The `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_ application uses this technique to load a different I18N part when the language is changed in its *Preferences* dialog.
 
 .. _pages/tool/generator_config_articles#include_key_top-level_-_adding_features:
 
