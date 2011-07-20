@@ -57,21 +57,21 @@
         "qx.nativeScrollBars" : true,
         "qx.allowUrlSettings" : true,
         "qx.mobile.emulatetouch" : true
-      },
-      "add-css" :
-      [
-        {
-          "uri" : "../../../framework/source/resource/qx/mobile/css/common/main.css"
-        },
-        {
-          "uri" : "../../../framework/source/resource/qx/mobile/css/android/android.css"
-        }
-      ]
+      }
     },
 
     "build-script" :
     {
-      "extend" : [ "playground-compile" ]
+      "extend" : [ "playground-compile" ],
+      "add-css" :
+      [
+        {
+          "uri" : "resource/qx/mobile/css/common/main.css"
+        },
+        {
+          "uri" : "resource/qx/mobile/css/android/android.css"
+        }
+      ]
     },
 
 
@@ -83,7 +83,16 @@
     
     "source" :
     {
-      "extend" : [ "playground-compile" ]
-    }    
+      "extend" : [ "playground-compile" ],
+      "add-css" :
+      [
+        {
+          "uri" : "../../../framework/source/resource/qx/mobile/css/common/main.css"
+        },
+        {
+          "uri" : "../../../framework/source/resource/qx/mobile/css/android/android.css"
+        }
+      ]
+    }
   }
 }
