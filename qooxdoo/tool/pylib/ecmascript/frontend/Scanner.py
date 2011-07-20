@@ -124,8 +124,9 @@ class Scanner(IterObject):
                 mo_lastgroup = mo.lastgroup
                 mstart       = mo.start()
                 mend         = mo.end()
-                cursor       = mend # when using the 'pos' parameter, mo.start/end refer to the *entire* underlying string
-                delimiter = (yield (mo_lastgroup, mo.group(mo_lastgroup), mstart, mend))
+                mlength      = mend - mstart
+                cursor       = mend # when using the 'pos' parameter in re.search, mo.start/end refer to the *entire* underlying string
+                delimiter = (yield (mo_lastgroup, mo.group(mo_lastgroup), mstart, mlength))
             else:
                 raise SyntaxError("Unable to tokenize text starting with: \"%s\"" % inData[cursor:cursor+200])
 
