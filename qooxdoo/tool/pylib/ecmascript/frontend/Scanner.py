@@ -107,20 +107,9 @@ class Scanner(IterObject):
     stringEnd['"']    = re.compile(r'(?P<dquote>.*?")', re.UNICODE)
     stringEnd["'"]    = re.compile(r"(?P<squote>.*?')", re.UNICODE)
 
+    ##
     # yields :
     # ( <group_name> , <scan_string> , <start_pos> , <scan_length> )
-    def __iter__1(self):
-        miter = self.patt.finditer(self.inData)
-        for mo in miter:
-            mo_lastgroup = mo.lastgroup
-            mstart       = mo.start()
-            mend         = mo.end()
-            if mstart != self.next_start:  # assure compactness of scan
-                raise AssertionError, "There's a scan gap before: %s (at pos %d)" % (mo.group(), self.next_start)
-            self.next_start = mend   # match range is [mo.start(), mo.end()[
-            yield (mo_lastgroup, mo.group(mo_lastgroup), mstart, mend - mstart)
-
-
     def __iter__(self):
         delimiter  = None
         inData     = self.inData
