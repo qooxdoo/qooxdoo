@@ -51,6 +51,7 @@ class Key(object):
                 CONFIG_WARNINGS : types.DictType,
                 }
     JOB_LEVEL_KEYS = {
+                "add-css"       : types.ListType,
                 "add-script"    : types.ListType,
                 "api"           : types.DictType,
                 "asset-let"     : types.DictType,
