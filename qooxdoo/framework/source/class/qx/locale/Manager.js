@@ -214,17 +214,25 @@ qx.Class.define("qx.locale.Manager",
     /**
      * Return the available application locales
      *
-     * This corresponds to the LOCALES setting in config.json
+     * This corresponds to the LOCALES setting in config.json. Without argument,
+     * it only returns the currently loaded locales, with an argument of true
+     * all locales that went into the build. This is particularly interesting if
+     * locales were generated as dedicated I18N parts, and have to be loaded
+     * explicitly before being available.
      *
+     * @param includeNonloaded {Boolean?null} include locales not yet loaded
      * @return {String[]} array of available locales
      */
-    getAvailableLocales : function()
+    getAvailableLocales : function(includeNonloaded)
     {
       var locales = [];
 
       for (var locale in this.__locales)
       {
         if (locale != this.__defaultLocale) {
+          if (this.__locales[locale] === null && !includeNonloaded) {
+            continue;  // skip not yet loaded locales
+          }
           locales.push(locale);
         }
       }

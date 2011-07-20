@@ -93,8 +93,8 @@ class CodeGenerator(object):
             vals.update(globalCodes)
 
             vals["Resources"]    = json.dumpsCode({})  # just init with empty map
-            vals["Translations"] = json.dumpsCode({})
-            vals["Locales"]      = json.dumpsCode({})
+            vals["Translations"] = json.dumpsCode(dict((l,None) for l in script.locales))  # init with configured locales
+            vals["Locales"]      = json.dumpsCode(dict((l,None) for l in script.locales))
 
             # Name of the boot part
             vals["Boot"] = loaderBootName(script, compConf)
