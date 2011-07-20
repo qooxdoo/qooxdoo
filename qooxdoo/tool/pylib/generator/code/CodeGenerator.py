@@ -390,8 +390,9 @@ class CodeGenerator(object):
         def getPackageData(package):
             data = {}
             data["resources"]    = package.data.resources
-            data["translations"] = package.data.translations
-            data["locales"]      = package.data.locales
+            if not self._job.get("packages/i18n-as-parts", False):
+                data["translations"] = package.data.translations
+                data["locales"]      = package.data.locales
             data = json.dumpsCode(data)
             data += ';\n'
             return data
@@ -978,53 +979,53 @@ class CodeGenerator(object):
         newParts   = {}    # language codes to part objects,    {"C": part}
         newPackages= {}    # language codes to private package objects, {"C": package}
         for localeCode in set(transKeys + localeKeys):
-            # new: also provide a localeCode "part" with corresponding packages
-            part = Part(localeCode)
-            part.bit_mask = script.getPartBitMask()
-            newParts[localeCode] = part
-            package = Package(part.bit_mask)  # this might be modified later
-            newPackages[localeCode] = package
-            part.packages.append(package)
+            # also provide a localeCode "part" with corresponding packages
+            intpart = Part(localeCode)
+            intpart.bit_mask = script.getPartBitMask()
+            newParts[localeCode] = intpart
+            intpackage = Package(intpart.bit_mask)  # this might be modified later
+            newPackages[localeCode] = intpackage
+            intpart.packages.append(intpackage)
 
             data = {}
             data[localeCode] = { 'Translations': {}, 'Locales': {} }  # we want to have the locale code in the data
             if localeCode in transKeys:
                 data[localeCode]['Translations']     = translationData[localeCode]
-                package.data.translations[localeCode] = translationData[localeCode]
+                intpackage.data.translations[localeCode] = translationData[localeCode]
             if localeCode in localeKeys:
                 data[localeCode]['Locales']     = localeData[localeCode]
-                package.data.locales[localeCode] = localeData[localeCode]
+                intpackage.data.locales[localeCode] = localeData[localeCode]
 
             # file name and hash code
-            hash_, dataS  = package.packageContent()  # TODO: this currently works only for pure data packages
+            hash_, dataS  = intpackage.packageContent()  # TODO: this currently works only for pure data packages
             dataS        = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
-            package.compiled.append(dataS)
-            package.hash     = hash_
+            intpackage.compiled.append(dataS)
+            intpackage.hash     = hash_
             fPath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, localeCode)
-            package.file = os.path.basename(fPath)
+            intpackage.file = os.path.basename(fPath)
             if self._job.get("compile-options/paths/scripts-add-hash", False):
-                package.file = self._fileNameWithHash(package.file, package.hash)
-            package.files = ["%s:%s" % ("__out__", package.file)]
-            setattr(package,"__localeflag", True)   # TODO: temp. hack for writeI18NPackages()
+                intpackage.file = self._fileNameWithHash(intpackage.file, intpackage.hash)
+            intpackage.files = ["%s:%s" % ("__out__", intpackage.file)]
+            setattr(intpackage,"__localeflag", True)   # TODO: temp. hack for writeI18NPackages()
 
         # Finalize the new packages and parts
         # - add prerequisite languages to parts; e.g. ["C", "en", "en_EN"]
-        for partId, part in newParts.items():
-            if newPackages["C"] not in part.packages:
-                package = newPackages["C"]
-                part.packages.append(package)   # all need "C"
-                package.part_mask |= part.bit_mask     # adapt package's bit string
+        for partId, intpart in newParts.items():
+            if newPackages["C"] not in intpart.packages:
+                intpackage = newPackages["C"]
+                intpart.packages.append(intpackage)   # all need "C"
+                intpackage.part_mask |= intpart.bit_mask     # adapt package's bit string
             if len(partId) > 2 and partId[2] == "_":  # it's a sub-language -> include main language
                 mainlang = partId[:2]
                 if mainlang not in newPackages:
                     raise RuntimeError("Locale '%s' specified, but not base locale '%s'" % (partId, mainlang))
-                if newPackages[mainlang] not in part.packages:
-                    part.packages.append(newPackages[mainlang])   # add main language
-                    newPackages[mainlang].part_mask |= part.bit_mask     # adapt package's bit string
+                if newPackages[mainlang] not in intpart.packages:
+                    intpart.packages.append(newPackages[mainlang])   # add main language
+                    newPackages[mainlang].part_mask |= intpart.bit_mask     # adapt package's bit string
 
         # finally, sort packages
-        for part in newParts.values():
-            part.packagesSorted
+        for intpart in newParts.values():
+            intpart.packagesSorted
 
         # - add to script object
         for partId in newParts:
