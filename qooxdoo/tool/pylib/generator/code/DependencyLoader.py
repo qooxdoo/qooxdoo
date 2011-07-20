@@ -103,12 +103,13 @@ class DependencyLoader(object):
         result = resolveDepsSmartCludes()
         result = processExplicitCludes(result, includeNoDeps, excludeWithDeps) # using excludeWithDeps here as well
         # Sort classes
-        self._console.info("Sorting %s classes " % len(result), False)
+        self._console.info("Sorting %s classes  " % len(result), False)
         #if  self._jobconf.get("dependencies/sort-topological", False):
         #    result = self.sortClassesTopological(result, variants)
         #else:
         result = self.sortClasses(result, variants, buildType)
-        self._console.nl()
+        self._console.dotclear()
+        #self._console.nl()
 
         if self._console.getLevel() == "debug":
             self._console.indent()
