@@ -57,7 +57,16 @@
         "qx.nativeScrollBars" : true,
         "qx.allowUrlSettings" : true,
         "qx.mobile.emulatetouch" : true
-      }
+      },
+      "add-css" :
+      [
+        {
+          "uri" : "../../../framework/source/resource/qx/mobile/css/common/main.css"
+        },
+        {
+          "uri" : "../../../framework/source/resource/qx/mobile/css/android/android.css"
+        }
+      ]
     },
 
     "build-script" :
