@@ -85,8 +85,7 @@
 
 <textarea class="qx_samples" title="Hello World-mobile">var page = new qx.ui.mobile.page.NavigationPage();
 page.setTitle("Hello World");
-page.addListener("initialize", function()
-{
+page.addListener("initialize", function() {
   var button = new qx.ui.mobile.form.Button("First Button");
   page.getContent().add(button);          
 
@@ -103,11 +102,10 @@ page.show();</textarea>
 
 <textarea class="qx_samples" title="List-mobile">var page = new qx.ui.mobile.page.NavigationPage();
 page.setTitle("List");
-page.addListener("initialize", function()
-{
+page.addListener("initialize", function() {
+  // List creation
   var list = new qx.ui.mobile.list.List({
-    configureItem : function(item, data, row)
-    {
+    configureItem : function(item, data, row) {
       item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
       item.setTitle(row<4 ? ("Selectable " + data.title) : data.title);
       item.setSubTitle(data.subTitle);
@@ -116,6 +114,7 @@ page.addListener("initialize", function()
     }
   });
 
+  // Create the data
   var data = [];
   for (var i=0; i < 50; i++) {
     data.push({title:"Item" + i, subTitle:"Subtitle for Item #" + i});
@@ -125,6 +124,7 @@ page.addListener("initialize", function()
   list.addListener("changeSelection", function(evt) {
     alert("Item Selected #" + evt.getData());
   }, this);
+  
   page.getContent().add(list);
 },this);
 
@@ -134,15 +134,120 @@ page.show();</textarea>
 <!-- ********************************************************************** -->
 
 
-<textarea class="qx_samples" title="YQL Binding-mobile">//YQL query for the qooxdoo news feed
+<textarea class="qx_samples" title="Pages-mobile">// Page 1
+var page1 = new qx.ui.mobile.page.NavigationPage();
+page1.setTitle("Page 1");
+page1.addListener("initialize", function() {
+  var button = new qx.ui.mobile.form.Button("Next Page");
+  page1.getContent().add(button);
+
+  button.addListener("tap", function() {
+    page2.show();
+  }, this);
+},this);
+
+// Page 2
+var page2 = new qx.ui.mobile.page.NavigationPage();
+page2.set({
+  title : "Page 2",
+  showBackButton : true,
+  backButtonText : "Back"
+});
+page2.addListener("initialize", function() {
+  var label = new qx.ui.mobile.basic.Label("Content of Page 2");
+  page2.getContent().add(label);
+},this);
+
+page2.addListener("back", function() {
+  page1.show({reverse:true});
+}, this);
+
+page1.show();</textarea>
+
+
+
+
+<!-- ********************************************************************** -->
+
+
+<textarea class="qx_samples" title="List-mobile">var page = new qx.ui.mobile.page.NavigationPage();
+page.setTitle("List");
+page.addListener("initialize", function() {
+  // List creation
+  var list = new qx.ui.mobile.list.List({
+    configureItem : function(item, data, row) {
+      item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
+      item.setTitle(row<4 ? ("Selectable " + data.title) : data.title);
+      item.setSubTitle(data.subTitle);
+      item.setSelectable(row<4);
+      item.setShowArrow(row<4);
+    }
+  });
+
+  // Create the data
+  var data = [];
+  for (var i=0; i < 50; i++) {
+    data.push({title:"Item" + i, subTitle:"Subtitle for Item #" + i});
+  }
+
+  list.setModel(new qx.data.Array(data));
+  list.addListener("changeSelection", function(evt) {
+    alert("Item Selected #" + evt.getData());
+  }, this);
+  
+  page.getContent().add(list);
+},this);
+
+page.show();</textarea>
+
+
+<!-- ********************************************************************** -->
+
+
+<textarea class="qx_samples" title="Form-mobile">var page = new qx.ui.mobile.page.NavigationPage();
+page.setTitle("Login");
+page.addListener("initialize", function() {
+  var form = new qx.ui.mobile.form.Form();
+  
+  // User name
+  var user = new qx.ui.mobile.form.TextField();
+  user.setRequired(true);
+  form.add(user, "Username");
+  
+  // Password
+  var pwd = new qx.ui.mobile.form.PasswordField();
+  pwd.setRequired(true);
+  form.add(pwd, "Password");
+  
+  // Use form renderer
+  page.getContent().add(new qx.ui.mobile.form.renderer.SinglePlaceholder(form));
+  
+  // login button
+  var button = new qx.ui.mobile.form.Button("Login");
+  page.getContent().add(button);
+  
+  button.addListener("tap", function() {
+    if (form.validate()) {  // use form validation
+      alert("Loggin in " + user.getValue());
+    }
+  }, this);
+},this);
+
+page.show();</textarea>
+
+
+<!-- ********************************************************************** -->
+
+
+<textarea class="qx_samples" title="YQL Binding-mobile">// Data model
 var query = "select * from feed where url='http://feeds.feedburner.com/qooxdoo/news/content'";
 
 var delegate = {manipulateData : function(data) {
   return data.query.results.item;
 }};
-
 var store = new qx.data.store.Yql(query, delegate);
 
+// View
 var page = new qx.ui.mobile.page.NavigationPage();
 page.setTitle("qooxdoo news");
 page.addListener("initialize", function()
@@ -454,7 +559,7 @@ slider2.bind("value", slider1, "value");</textarea>
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="YQL Binding-ria">//YQL query for the qooxdoo news feed
+<textarea class="qx_samples" title="YQL Binding-ria">// Data model
 var query = "select * from feed where url='http://feeds.feedburner.com/qooxdoo/news/content'";
 
 var delegate = {manipulateData : function(data) {
@@ -463,9 +568,9 @@ var delegate = {manipulateData : function(data) {
 
 var store = new qx.data.store.Yql(query, delegate);
 
+// View
 var list = new qx.ui.form.List();
-list.setWidth(250);
-this.getRoot().add(list);
+this.getRoot().add(list, {left: 0, right: 0});
 
 var controller = new qx.data.controller.List(null, list, "title");
 

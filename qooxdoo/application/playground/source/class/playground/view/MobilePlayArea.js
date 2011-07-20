@@ -37,7 +37,10 @@ qx.Class.define("playground.view.MobilePlayArea",
       var playRootEl = this._dummy.getContentElement().getDomElement();
 
       // hotfix for chrome bug
-      playRootEl.style["background"] = "none";
+      if (qx.core.Environment.get("browser.name") == "chrome") {
+        playRootEl.style["background"] = "none";
+      }
+
 
       this._playRoot = new qx.ui.mobile.core.Root(playRootEl);
 
