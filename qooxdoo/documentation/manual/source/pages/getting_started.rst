@@ -38,10 +38,7 @@ Mobile Apps
 Tooling
 -------
 
-.. toctree::
-   :maxdepth: 1
-
-   tool/tutorial_basics
+* :doc:`tool/tutorial_basics`
 
 
 Video Tutorials
