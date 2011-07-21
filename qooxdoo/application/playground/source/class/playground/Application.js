@@ -443,7 +443,20 @@ qx.Class.define("playground.Application",
       if (state && this.__samples.isAvailable(state))
       {
         var sample = this.__samples.get(state);
+        this.setMode(state.split("-")[1]);
         code = sample;
+
+      // check if a mode is given
+      } else if (state.indexOf("mode=") == 0) {
+        var mode = state.substring(5, state.length);
+        if (mode == "mobile") {
+          this.setMode("mobile");
+        } else {
+          this.setMode("ria");
+        }
+        var sampleData = this.__samples.getFirstSample(this.__mode);
+        code = sampleData.code;
+        name = sampleData.name.split("-")[0];
 
       // check if a gist id is given
       } else if (state.indexOf("gist=") == 0) {
