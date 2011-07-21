@@ -31,5 +31,5 @@ Manual |version|
    :maxdepth: 1
    :hidden:
 
-   index_list
+   toc
 
