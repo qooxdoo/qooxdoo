@@ -824,6 +824,7 @@ class CodeGenerator(object):
                 # read first script file from script dir
                 bfile = packages[0].files[0]  # "__out__:foo.js"
                 bfile = bfile.split(':')[1]   # "foo.js"
+                bfile = urllib.unquote(bfile) # undo url-encoding
                 bfile = os.path.join(os.path.dirname(script.baseScriptPath), os.path.basename(bfile))
                 bcode = filetool.read(bfile)
                 os.unlink(bfile)
