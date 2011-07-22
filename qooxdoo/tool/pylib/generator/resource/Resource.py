@@ -27,15 +27,26 @@
 # JavaScript application.
 ##
 
-import re, os, sys, types
+import re, os, sys, types, unicodedata as unidata
 
 class Resource(object):
     
     def __init__(self, path=None):
-        self.id     = None
         self.path   = path
+        self.id     = u''
         self.library= None
         self.m_time_= None  # last-modified time stamp
+
+
+    def _id_get(s):
+        return s._id
+
+    def _id_set(s,v):
+        # id's are often derived from file names, which might encode ö as o\u0308, etc.
+        # but they have to match strings from *within* files (e.g. class id's)
+        s._id = unidata.normalize("NFC", v)
+
+    id = property(_id_get, _id_set)
 
     def __str__(self):
         return self.id
