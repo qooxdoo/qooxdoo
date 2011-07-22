@@ -44,7 +44,7 @@
         "qx.Class",
         "qx.Mixin",
         "qx.Interface",
-        "simulator.Init",
+        "qx.core.BaseInit",
         "${SIMULATOR_APPLICATION}",
         "${SIMULATION_INCLUDE}"
       ],
@@ -71,7 +71,7 @@
         "paths" :
         {
           "file" : "${BUILD_PATH}/script/simulator.js",
-          "loader-template" : "${QOOXDOO_PATH}/component/simulator/tool/simulator.loader.tmpl.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/basic.loader.js",
           "app-root" : "${BUILD_PATH}"
         },
         "uris" :
