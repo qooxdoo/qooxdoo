@@ -258,6 +258,7 @@ qx.Class.define("qx.test.util.Serializer",
       this.assertEquals(this.__model.getData1(), model.getData1());
       this.assertEquals(this.__model.getData2()[0], model.getData2().getItem(0));
       this.assertEquals(this.__model.getData3(), model.getData3());
+      model.dispose();
     },
 
     testJsonLateObjectSet : function()

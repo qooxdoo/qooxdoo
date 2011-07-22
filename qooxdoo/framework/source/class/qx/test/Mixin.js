@@ -247,8 +247,8 @@ qx.Class.define("qx.test.Mixin",
           {
             var s = "";
             if (!dontRecurs) {
-              var b = new qx.Patch2();
-              s += "++" + b.foo(true) + "__";
+              this.__b = new qx.Patch2();
+              s += "++" + this.__b.foo(true) + "__";
             }
 
             s += this.base(arguments);
@@ -281,6 +281,7 @@ qx.Class.define("qx.test.Mixin",
       // the mixin member
       var o = new qx.Patch1();
       this.assertEquals("++bar__foo", o.foo());
+      o.__b.dispose();
       o.dispose();
     }
   }
