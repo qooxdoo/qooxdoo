@@ -19,7 +19,7 @@
  */
 qx.Class.define("simulator.Application", {
 
-  extend : qx.application.Native,
+  extend : qx.application.Basic,
 
   members :
   {
