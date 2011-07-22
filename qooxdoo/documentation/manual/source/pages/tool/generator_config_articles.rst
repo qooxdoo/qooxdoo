@@ -446,9 +446,9 @@ From the above discussion, there is one important point to take away, in order t
 
 .. note::
 
-    You have to either specify the library's *uri* parameter ([1]) or the URI-relevant keys in the compile jobs ([1.1])  in your config.
+    The generator needs either the library's *uri* parameter ([1]) or the URI-relevant keys in the compile keys ([1.1])  in the config.
 
-While either are optional in their respective contexts, it is mandatory to at least specify *one* of them for the URI generation to work.
+While either are optional in their respective contexts, it is mandatory to have at least *one* of them for the URI generation to work. Mind though, that qooxdoo provides sensible defaults for the URIs in compile keys.
 
 .. _pages/tool/generator_config_articles#overriding_the_uri_settings_of_libraries:
 
