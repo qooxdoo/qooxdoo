@@ -404,8 +404,8 @@ So how does the generator create all of those URIs in the final application code
 So for example a graphics file in the qooxdoo framework might get referenced using the following components 
 
 * [1] *"../../qooxdoo-%{version}-sdk/framework/"* 
-* [2] *"source/resource/qx/"*
-* [3] *"static/blank.gif"*
+* [2] *"source/resource/"*
+* [3] *"qx/static/blank.gif"*
 
 to produce the final URI 
 *"../../qooxdoo-%{version}-sdk/framework/source/resource/qx/static/ blank.gif"*.
