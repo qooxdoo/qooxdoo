@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import os, re, sys
+import os, re, sys, unicodedata as unidata
 
 from misc                         import filetool, Path
 from misc.NameSpace               import NameSpace
@@ -309,6 +309,7 @@ class Library(object):
 
                 # Compute identifier from relative path
                 filePathId = fileRel.replace(fileExt, "").replace(os.sep, ".")
+                filePathId = unidata.normalize("NFC", filePathId)  # combine combining chars: o" -> ö
 
                 # Extract package ID
                 filePackage = filePathId[:filePathId.rfind(".")]
