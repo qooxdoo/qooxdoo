@@ -38,6 +38,15 @@ Installation
 
 Unzip the SDK archive.
 
+Disk Space
+^^^^^^^^^^^
+
+The unpacked SDK will require around **%{sdk_unpacked} MB** disk space (most of this is due to media files, like images).
+
+The tool chain also uses a directory in your system's TMP path, to cache intermediate results and downloaded files. Depending on your activities this cache directory can become between **%{cache_average_min}** and **%{cache_average_max} GB** in size. If the `default cache path <http://qooxdoo.org/documentation/general/snippets#finding_your_system-wide_tmp_directory>`__ does not suite you, you can change it in your configuration.
+
+
+
 .. _pages/getting_started/helloworld#create_your_application:
 
 Create your Application
