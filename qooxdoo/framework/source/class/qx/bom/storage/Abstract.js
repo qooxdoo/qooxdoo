@@ -195,7 +195,6 @@ qx.Class.define("qx.bom.storage.Abstract",
 
   destruct: function()
   {
-    this.clear();
     this._storage = null;
 
     if ((qx.core.Environment.get("engine.name") == "mshtml") &&
