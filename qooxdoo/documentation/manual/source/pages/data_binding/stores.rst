@@ -91,6 +91,24 @@ The following code demonstrates how to fetch some twitter messages.
   var query = "select * from twitter.user.timeline where id='wittemann'";
   var store = new qx.data.store.Yql(query);
 
+
+.. _pages/data_binding/stores#offline_store:
+
+Offline Store
+-------------
+
+The Offline store uses HTML local or session storage to store the data on the client. That can be used for offline storage as well as for other storage purposes on the client. You should use the environment checks to make sure that the used storage technologie is supported by the environment you want to run your code in.
+
+The following code demonstrates how to initialize the data store.
+
+::
+
+  var store = new qx.data.store.Offline("my-test-key");
+  if (store.getModel() == null) {
+    // initialize model ...
+  }
+
+
 .. _pages/data_binding/stores#combining_with_controllers:
 
 Combining with controllers
