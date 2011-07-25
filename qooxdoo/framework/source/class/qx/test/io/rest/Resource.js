@@ -559,7 +559,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       timer.restart();
       sandbox.clock.tick(10);
       this.assert(stub.callCount > callCount, "Must restart poll after end but was called " +
-        stub.callCount + " times which is not greather than " + callCount);
+        stub.callCount + " times which is not greater than " + callCount);
     },
 
     "test: long poll action": function() {
