@@ -198,6 +198,34 @@
       }
     },
     
+    "test-basic" :
+    {
+      "desc" : "create a basic (server-side/headless) test runner app for unit tests of the current library",
+      
+      "extend" : ["testrunner::build-basic"],
+      
+      "let" :
+      {
+        "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
+        "TEST_INCLUDE"    : "${APPLICATION}.test.*",
+        "BUILD_PATH"      : "${ROOT}/test"
+      }
+    },
+    
+    "test-basic-source" :
+    {
+      "desc" : "create a basic (server-side/headless) test runner app for unit tests (source version) of the current library",
+      
+      "extend" : ["testrunner::source-basic"],
+      
+      "let" :
+      {
+        "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
+        "TEST_INCLUDE"    : "${APPLICATION}.test.*",
+        "BUILD_PATH"      : "${ROOT}/test"
+      }
+    },
+    
     "simulation-run" :
     {
       "desc" : "launches simulated interaction tests generated with simulation-build",
