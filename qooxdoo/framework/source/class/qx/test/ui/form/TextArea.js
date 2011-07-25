@@ -314,7 +314,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       if (
         qx.core.Environment.get("engine.name") == "opera" ||
         (qx.core.Environment.get("engine.name") == "mshtml" &&
-        parseFloat(qx.core.Environment.get("engine.version")) < 8))
+        parseFloat(qx.core.Environment.get("engine.version")) < 7))
       {
         return false;
       }

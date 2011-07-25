@@ -276,9 +276,10 @@ qx.Class.define("qx.ui.form.TextArea",
           cloneDom.style.overflow = "hidden";
         }
 
-        // IE needs overflow "" in order to correctly compute height
-        if (qx.core.Environment.get("engine.name") == "mshtml") {
-          cloneDom.style.overflow = "";
+        // IE >= 8 needs overflow "visible" in order to correctly compute height
+        if (qx.core.Environment.get("engine.name") == "mshtml" &&
+          qx.core.Environment.get("browser.documentmode") >= 8) {
+          cloneDom.style.overflow = "visible";
         }
 
         // Update value
