@@ -14,7 +14,7 @@
   
   "jobs" :
   {
-    "simulation-build" :
+    "simulator-common" :
     {
       "extend" : ["cache"],
       
@@ -30,20 +30,19 @@
       [
         {
           "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json",
-          "uri" : ".."
+          "uri" : "${QOOXDOO_PATH}/framework"
         },
         {
-          "manifest" : "${QOOXDOO_PATH}/component/simulator/Manifest.json"          
+          "manifest" : "${QOOXDOO_PATH}/component/simulator/Manifest.json",
+          "uri" : "${QOOXDOO_PATH}/component/simulator"
         },
         {
-          "manifest" : "${ROOT}/Manifest.json"          
+          "manifest" : "${ROOT}/Manifest.json",
+          "uri" : "."
         }
       ],
       
       "include" : [
-        "qx.Class",
-        "qx.Mixin",
-        "qx.Interface",
         "qx.core.BaseInit",
         "${SIMULATOR_APPLICATION}",
         "${SIMULATION_INCLUDE}"
@@ -64,24 +63,14 @@
       {
         "code" :
         {
-          "format"   : true,
-          "optimize" : [ "variables", "basecalls", "privates" ],
           "except" : []
         },
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/simulator.js",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/basic.loader.js",
           "app-root" : "${BUILD_PATH}"
-        },
-        "uris" :
-        {
-          "script"   : ".",
-          "resource" : "."
         }
       },
-      
-      "compile" : { "type" : "build" },
       
       "environment" :
       {
@@ -94,6 +83,63 @@
       
     },
     
+    /*
+    "source" :
+    {
+      "extend" : [ "simulator-common" ],
+      
+      "environment" :
+      {
+        "qx.debug" : true
+      },
+      
+      "compile-options" :
+      {
+        "code" :
+        {
+          "except" : ["*"]
+        },
+        
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/script/simulator-source.js"
+        }
+      },
+      
+      "compile" : { "type" : "source" }
+    },
+    */
+
+    "build" :
+    {
+      "run" : ["build-script"]
+    },
+
+    "build-script" :
+    {
+      "extend" : [ "simulator-common" ],
+      "environment" :
+      {
+        "qx.debug" : false
+      },
+      
+      "compile-options" :
+      {
+        "code" :
+        {
+          "format"   : true,
+          "optimize" : [ "variables", "basecalls", "privates" ]
+        },
+        
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/script/simulator.js"
+        }
+      },
+      
+      "compile" : { "type" : "build" }
+    },
+
     "simulation-run" :
     {
       "extend"   : [ "cache" ],
@@ -121,6 +167,18 @@
         "simulator.disposerDebug" : false,
         "simulator.threadSafe" : false
       }
+    },
+    
+    /*
+    "simulation-run-source" :
+    {
+      "extend" : ["simulation-run"],
+      
+      "simulate" :
+      {
+        "simulator-script" : "${BUILD_PATH}/script/simulator-source.js"
+      }
     }
+    */
   }
 }

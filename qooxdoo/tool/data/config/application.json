@@ -200,7 +200,7 @@
     
     "simulation-run" :
     {
-      "desc" : "(experimental) launches simulated interaction tests generated with simulation-build",
+      "desc" : "launches simulated interaction tests generated with simulation-build",
     
       "extend" : ["simulator::simulation-run"],
       
@@ -213,9 +213,9 @@
     
     "simulation-build" :
     {
-      "desc" : "(experimental) create a runner app for simulated interaction tests",
+      "desc" : "create a runner app for simulated interaction tests",
     
-      "extend" : ["simulator::simulation-build"],
+      "extend" : ["simulator::build"],
       
       "let" :
       {
