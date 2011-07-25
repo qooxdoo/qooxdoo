@@ -16,6 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
 qx.Class.define("qx.data.store.Offline", 
 {
   extend : qx.core.Object,
@@ -25,10 +26,14 @@ qx.Class.define("qx.data.store.Offline",
   {
     this.base(arguments);
 
-    if (storage == "local") {
-      this._storage = qx.bom.storage.Local.getInstance();
-    } else {
+    if (qx.core.Environment.get("qx.debug")) {
+      this.assertNotUndefined(key);
+    }
+
+    if (storage == "session") {
       this._storage = qx.bom.storage.Session.getInstance();
+    } else {
+      this._storage = qx.bom.storage.Local.getInstance();
     }
 
     this._marshaler = new qx.data.marshal.Json();
@@ -36,6 +41,7 @@ qx.Class.define("qx.data.store.Offline",
 
     this._initializeModel();
   },
+
 
   properties : 
   {
@@ -71,6 +77,7 @@ qx.Class.define("qx.data.store.Offline",
       }
     },
 
+
     __storeModel : function() {
       var value = qx.util.Serializer.toNativeObject(this.getModel());
       this._storage.setItem(this._key, value);
@@ -85,6 +92,11 @@ qx.Class.define("qx.data.store.Offline",
     _setModel : function(data) {
       this._marshaler.toClass(data, true);
       this.setModel(this._marshaler.toModel(data, true));
+    },
+
+
+    getKey : function() {
+      return this._key;
     }
   }
 });
