@@ -16,12 +16,23 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-
+/**
+ * This store is a read / write store for local or session storage.
+ * It can be used like any other store by setting and manipulating the model 
+ * property or the model itsef. Please keep in mind that if you want to have 
+ * the update functionality, you have to use a model which supports the 
+ * "changeBubble" event.
+ */
 qx.Class.define("qx.data.store.Offline", 
 {
   extend : qx.core.Object,
 
 
+  /**
+   * @param key {String} A unique key which is used to store the data.
+   * @param storage {String?} Either "local" or "session" to determinate which 
+   *   storage should be used.
+   */
   construct : function(key, storage)
   {
     this.base(arguments);
@@ -46,7 +57,8 @@ qx.Class.define("qx.data.store.Offline",
   properties : 
   {
     /**
-     * Property for holding the loaded model instance.
+     * Property for holding the loaded model instance. Please keep in mind to 
+     * use a model supporting the changeBubble event.
      */
     model : {
       nullable: true,
@@ -62,7 +74,9 @@ qx.Class.define("qx.data.store.Offline",
     __modelListenerId : null,
 
 
+    // property apply
     _applyModel : function(value, old) {
+      // take care of the old stuff.
       if (old) {
         old.removeListenerById(this.__modelListenerId);
         old.dispose();
@@ -78,23 +92,37 @@ qx.Class.define("qx.data.store.Offline",
     },
 
 
+    /**
+     * Internal helper for writing the set model to the browser storage.
+     */
     __storeModel : function() {
       var value = qx.util.Serializer.toNativeObject(this.getModel());
       this._storage.setItem(this._key, value);
     },
 
 
+    /**
+     * Helper for reading the model from the browser storage.
+     */
     _initializeModel : function() {
       this._setModel(this._storage.getItem(this._key));
     },
 
 
+    /**
+     * Responsible for creating the model read from the brwoser storage.
+     * @param data {var} The data read from the storage.
+     */
     _setModel : function(data) {
       this._marshaler.toClass(data, true);
       this.setModel(this._marshaler.toModel(data, true));
     },
 
 
+    /**
+     * Accessor for the unique key used to store the data.
+     * @return {String} The key.
+     */
     getKey : function() {
       return this._key;
     }
