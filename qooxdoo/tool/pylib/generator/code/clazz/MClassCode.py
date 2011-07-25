@@ -39,23 +39,23 @@ class MClassCode(object):
     #   Tree Interface
     # --------------------------------------------------------------------------
 
-    def tree(self, variantSet={}):
+    def tree(self, variantSet={}, treegen=treegenerator):
         context = self.context
         cache   = context['cache']
         tradeSpaceForSpeed = False  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
 
         # Construct the right cache id
-        unoptCacheId     = "tree-%s-%s" % (self.path, util.toString({}))
+        unoptCacheId     = "tree%s-%s-%s" % (treegen.tag, self.path, util.toString({}))
 
         classVariants    = []
         tree             = None
         classVariants    = self.classVariants(generate=False) # just check the cache
         if classVariants == None:
-            tree = self._getSourceTree(unoptCacheId, tradeSpaceForSpeed)
+            tree = self._getSourceTree(unoptCacheId, tradeSpaceForSpeed, treegen)
             classVariants= self._variantsFromTree(tree)
 
         relevantVariants = self.projectClassVariantsToCurrent(classVariants, variantSet)
-        cacheId          = "tree-%s-%s" % (self.path, util.toString(relevantVariants))
+        cacheId          = "tree%s-%s-%s" % (treegen.tag, self.path, util.toString(relevantVariants))
 
         # Get the right tree to return
         if cacheId == unoptCacheId and tree:  # early return optimization
@@ -67,7 +67,7 @@ class MClassCode(object):
             if tree:
                 opttree = tree
             else:
-                opttree = self._getSourceTree(unoptCacheId, tradeSpaceForSpeed)
+                opttree = self._getSourceTree(unoptCacheId, tradeSpaceForSpeed, treegen)
             # do we have to optimze?
             if cacheId == unoptCacheId:
                 return opttree
@@ -83,7 +83,7 @@ class MClassCode(object):
         return opttree
 
 
-    def _getSourceTree(self, cacheId, tradeSpaceForSpeed):
+    def _getSourceTree(self, cacheId, tradeSpaceForSpeed, treegen):
 
         cache = self.context['cache']
         console = self.context['console']
@@ -102,7 +102,7 @@ class MClassCode(object):
             console.outdent()
             console.debug("Generating tree: %s..." % self.id)
             console.indent()
-            tree = treegenerator.createSyntaxTree(tokens)  # allow exceptions to propagate
+            tree = treegen.createSyntaxTree(tokens)  # allow exceptions to propagate
 
             # store unoptimized tree
             #print "Caching %s" % cacheId
@@ -183,7 +183,7 @@ class MClassCode(object):
 
     ##
     # Interface method: selects the right code version to return
-    def getCode(self, compOptions):
+    def getCode(self, compOptions, treegen=treegenerator):
 
         result = u''
         # source versions
@@ -193,13 +193,13 @@ class MClassCode(object):
                 result += '\n'
         # compiled versions
         else:
-            result = self._getCompiled(compOptions)
+            result = self._getCompiled(compOptions, treegen)
 
         return result
 
     ##
     # Checking the cache for the appropriate code, and pot. invoking ecmascript.backend
-    def _getCompiled(self, compOptions):
+    def _getCompiled(self, compOptions, treegen):
 
         ##
         # Interface to ecmascript.backend
@@ -235,7 +235,7 @@ class MClassCode(object):
         compiled, _ = cache.read(cacheId, self.path)
 
         if compiled == None:
-            tree   = self.tree(variants)
+            tree   = self.tree(variants, treegen=treegen)
             tree   = self.optimize(tree, optimize)
             if optimize == ["comments"]:
                 compiled = serializeFormatted(tree)

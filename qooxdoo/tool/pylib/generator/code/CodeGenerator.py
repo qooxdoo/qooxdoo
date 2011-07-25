@@ -28,7 +28,7 @@ from generator.code.Part        import Part
 from generator.code.Package     import Package
 from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.Script      import Script
-#from generator.resource.ResourceHandler import ResourceHandler
+from ecmascript.frontend        import treegenerator, treegenerator_new_ast
 from ecmascript.backend         import pretty
 from ecmascript.backend.Packer  import Packer
 from ecmascript.transform.optimizer    import variantoptimizer, privateoptimizer
@@ -570,7 +570,8 @@ class CodeGenerator(object):
                     if clazz.id == "qx.core.Environment" and "variants" in compConf.optimize:
                         code = optimizeEnvironmentClass(clazz, compConf)
                     else:
-                        code = clazz.getCode(compConf)
+                        #code = clazz.getCode(compConf, treegen=treegenerator_new_ast) # choose parser frontend
+                        code = clazz.getCode(compConf, treegen=treegenerator) # choose parser frontend
                     result.append(code)
                     log_progress()
                 return u''.join(result)
