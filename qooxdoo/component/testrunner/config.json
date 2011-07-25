@@ -51,6 +51,22 @@
           "app-root" : "source/html"
         }
       }
+    },
+
+    "build-basic" :
+    {
+      "let" :
+      {
+        "TEST_NAMESPACE" : "${APPLICATION}.test.basic"
+      }
+    },
+
+    "source-basic" :
+    {
+      "let" :
+      {
+        "TEST_NAMESPACE" : "${APPLICATION}.test.basic"
+      }
     }
     /*
     "source-script-packages" :

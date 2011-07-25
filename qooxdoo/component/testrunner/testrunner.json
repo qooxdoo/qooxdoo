@@ -443,6 +443,145 @@
         "testrunner.view" : "${TESTRUNNER_VIEW}",
         "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}"
       }
+    },
+
+    "testrunner-basic-common" :
+    {
+      "extend" : ["cache", "libraries"],
+      
+      "config-warnings" :
+      {
+        "exclude" : [
+          "qx.core.Init",
+          "qx.event.GlobalError"
+        ]
+      },
+      
+      "library" :
+      [
+        {
+          "manifest" : "${TESTRUNNER_ROOT}/Manifest.json"
+        }
+      ],
+      
+      "include" : [
+        "qx.core.BaseInit",
+        "${TESTRUNNER_MAIN_CLASS}",
+        "${TEST_INCLUDE}"
+      ],
+      
+      "exclude" : [
+        "qx.core.Init",
+        "qx.event.GlobalError",
+        "${TEST_EXCLUDE}"
+      ],
+      
+       "environment" :
+      {
+        "qx.debug" : true,
+        "qx.aspects" : false
+      },
+      
+      "compile-options" :
+      {
+        "code" :
+        {
+          "except" : []
+        },
+        "paths" :
+        {
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/basic.loader.js",
+          "app-root" : "${BUILD_PATH}"
+        }
+      },
+      
+      "environment" :
+      {
+        "qx.version"     : "${QOOXDOO_VERSION}",
+        "qx.revision"    : "${QOOXDOO_REVISION}",
+        "qx.application" : "${TESTRUNNER_MAIN_CLASS}",
+        "qx.testNameSpace" : "${TEST_NAMESPACE}",
+        "qx.globalErrorHandling" : false
+      }
+    },
+
+    "build-basic" :
+    {
+      "let" :
+      {
+        "TESTRUNNER_MAIN_CLASS" : "testrunner.ApplicationBasic"
+      },
+      
+      "run" : ["build-basic-script"]
+    },
+    
+    "build-basic-script" :
+    {
+      "extend" : [ "testrunner-basic-common" ],
+      
+      "environment" :
+      {
+        "qx.debug" : false
+      },
+      
+      "compile-options" :
+      {
+        "code" :
+        {
+          "format"   : true,
+          "optimize" : [ "variables", "basecalls", "privates" ]
+        },
+        
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/script/testrunner-basic.js"
+        }
+      },
+      
+      "compile" : { "type" : "build" }
+    },
+    
+    "source-basic" :
+    {
+      "let" :
+      {
+        "TESTRUNNER_MAIN_CLASS" : "testrunner.ApplicationBasic"
+      },
+      
+      "run" : ["source-basic-script"]
+    },
+    
+    "source-basic-script" :
+    {
+      "let" :
+      {
+        "TESTRUNNER_MAIN_CLASS" : "testrunner.ApplicationBasic",
+        "TEST_NAMESPACE" : "${APPLICATION}.test.basic"
+      },
+    
+      "extend" : [ "testrunner-basic-common" ],
+      
+      "environment" :
+      {
+        "qx.debug" : true
+      },
+      
+      "compile-options" :
+      {
+        "code" :
+        {
+          "format"   : true,
+          "optimize" : [],
+          "except" : ["*"]
+        },
+        
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/script/testrunner-basic-source.js"
+        }
+      },
+      
+      "compile" : { "type" : "source" }
     }
   }
 }
