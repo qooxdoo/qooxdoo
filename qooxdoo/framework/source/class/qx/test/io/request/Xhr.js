@@ -177,6 +177,13 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Header and Params (cont.)
     //
 
+    "test: set requested-with header": function() {
+      this.setUpFakeTransport();
+      this.req.send();
+
+      this.assertCalledWith(this.transport.setRequestHeader, "X-Requested-With", "XMLHttpRequest");
+    },
+
     "test: set cache control header": function() {
       this.setUpFakeTransport();
       this.req.setCache("no-cache");
@@ -392,7 +399,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.req.setAuthentication(auth);
       this.req.send();
 
-      call = transport.setRequestHeader.getCall(0);
+      call = transport.setRequestHeader.getCall(1);
       key = "Authorization";
       credentials = /Basic\s(.*)/.exec(call.args[1])[1];
       this.assertEquals(key, call.args[0]);

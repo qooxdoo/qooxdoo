@@ -259,6 +259,9 @@ qx.Class.define("qx.io.request.Xhr",
     _setRequestHeaders: function() {
       var transport = this._transport;
 
+      // Follow convention to include X-Requested-With header
+      transport.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
       // Align headers to configuration of instance
       if (qx.lang.Type.isString(this.getCache())) {
         transport.setRequestHeader("Cache-Control", this.getCache());
