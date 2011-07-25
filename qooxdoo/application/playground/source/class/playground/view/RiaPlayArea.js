@@ -163,6 +163,10 @@ qx.Class.define("playground.view.RiaPlayArea",
           if (code.indexOf(afterReg[hash].classname) != -1) {
             // if yes, dispose it
             var item = afterReg[hash];
+            // skip singletons
+            if (item.constructor.$$instance === item) {
+              continue;
+            }
             item.destroy ? item.destroy() : item.dispose();
           }
         }
