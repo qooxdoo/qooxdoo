@@ -283,9 +283,6 @@ def raiseSyntaxException (token, expectedDesc = None):
 # @return             tree.Node - the root node of the AST
 #
 def createSyntaxTree (tokenArr):
-    """Creates a syntax tree from a token stream.
-
-    tokens: the token stream."""
 
     stream = TokenStream(tokenArr)
     stream.next()

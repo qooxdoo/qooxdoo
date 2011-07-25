@@ -15,1035 +15,924 @@
 #    See the LICENSE file in the project's top-level directory for details.
 #
 #  Authors:
-#    * Sebastian Werner (wpbasti)
 #    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
-from ecmascript.frontend                 import tree
+##
+# A variant of the classical treegenerator.py that uses TDOP parsing for
+# efficiency and correct precedences, delivering an improved syntax tree.
+#
+# Part of this code is based on Frederik Lundh's article about TDOP parsing, which
+# is at http://effbot.org/zone/simple-top-down-parsing.htm and is
+#                  Copyright (c) 1995-2008 by Fredrik Lundh
+# See http://effbot.org/zone/copyright.htm for accompanying license text
+#
+# Part of this code is inspired by Douglas Crockford's article about TDOP parsing
+# which is at http://javascript.crockford.com/tdop/tdop.html
+# Since Douglas' code is in Javascript, the code here is at times a re-formulation
+# of his code in Python (much like Frederik did in his article). Since neither
+# anywhere on his web site, nor in the code files accompanying the article I
+# could find any kind of copyright notice, I believe it is fine to use his code
+# in such a manner. Also, O'Reilly's "Beautiful Code", edited by Andy Oram and
+# Greg Wilson, O'Reilly Media Inc. 2007, which reproduces Douglas' online
+# article verbatim, states that readers are free to use the code from the book
+# for their own programming without prior permission (p.xx).
+##
+
+import sys, os, re, types, string
+from ecmascript.frontend                 import tree, lang, tokenizer
 from ecmascript.frontend.SyntaxException import SyntaxException
+from ecmascript.frontend.tree            import Node
+from ecmascript.frontend.Scanner         import IterObject, LQueue, is_last_escaped
+from misc                                import filetool
 
 tag = 2  # to discriminate tree generators
 
-ATOMS = ["string", "number", "identifier"]
-
-SINGLE_LEFT_OPERATORS = ["NOT", "BITNOT", "ADD", "SUB", "INC", "DEC"]
-
-SINGLE_RIGHT_OPERATORS = ["INC", "DEC"]
-
-MULTI_TOKEN_OPERATORS = ["HOOK", "ADD", "SUB", "MUL", "DIV", "MOD", \
-    "LT", "LE", "GT", "GE", "EQ", "NE", "SHEQ", "SHNE", \
-    "AND", "OR", "BITOR", "BITXOR", "BITAND", "POWEROF", \
-    "LSH", "RSH", "URSH"]
-
-MULTI_PROTECTED_OPERATORS = ["INSTANCEOF", "IN"]
-
-ASSIGN_OPERATORS = ["ASSIGN", "ASSIGN_ADD", "ASSIGN_SUB", "ASSIGN_MUL", \
-    "ASSIGN_DIV", "ASSIGN_MOD", "ASSIGN_BITOR", "ASSIGN_BITXOR", "ASSIGN_BITAND", \
-    "ASSIGN_LSH", "ASSIGN_RSH", "ASSIGN_URSH"]
-
-LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
-
 
 ##
-# Represents the tokens of a file as a stream.
-#
-class TokenStream(object):
-    ##
-    # Some nice short description of foo(); this can contain html and
-    # {@link #foo Links} to items in the current file.
-    #
-    # @param     tokens   Array of Tokenizer.token that will be represented by
-    #                     the new object
-    # @return             The new object instance
-    # @defreturn          TokenStream
-    #
-    def __init__ (self, tokens):
-        self.tokens = tokens
-        self.length = len(self.tokens)
-        self.commentsBefore = None
-        self.parsepos = -1
-        self.eolBefore = False
+# the main purpose of this class is to instantiate parser symbol objects from
+# low-level tokens
+class TokenStream(IterObject):
 
-    def curr (self):
-        """Returns the current token."""
-        return self._curr
+    def __init__(self, inData):
+        self.line       = 0
+        self.spos       = 0  # current char pos
+        self.sol        = 0  # last start-of-line char pos
+        super(TokenStream, self).__init__(inData)
 
-    def currType (self):
-        return self._curr["type"]
+    def resetIter(self):
+        self.tokenStream= LQueue(iter(self.inData))
+        self.tok_stream = iter(self.tokenStream)
+        super(TokenStream, self).resetIter()
 
-    def currDetail (self):
-        return self._curr["detail"]
+    def peek(self, n=1):
+        "peek n tokens ahead"
+        toks = []
+        cnt  = 0
 
-    def currSource (self):
-        return self._curr["source"]
-
-    def currLine (self):
-        return self._curr["line"]
-
-    def currColumn (self):
-        return self._curr["column"]
-
-    def currMultiline (self):
-        return self._curr["multiline"]
-
-    def currConnection (self):
-        return self._curr["connection"]
-
-    def currIsType (self, tokenType, tokenDetail = None):
-        if self.currType() != tokenType:
-            return False
-        else:
-            if tokenDetail == None:
-                return True
-            elif type(tokenDetail) == list:
-                return self.currDetail() in tokenDetail
-            else:
-                return self.currDetail() == tokenDetail
-
-    def expectCurrType (self, tokenType, tokenDetail = None):
-        if not self.currIsType(tokenType, tokenDetail):
-            expectedDesc = tokenType
-            if type(tokenDetail) == str:
-                expectedDesc += "/" + tokenDetail
-            raiseSyntaxException(self.curr(), expectedDesc)
-
-    def finished (self):
-        # NOTE: the last token is end of file
-        return self.parsepos >= len(self.tokens) - 1
-
-    ##
-    # Iterator that returns the next token. Also takes special care if the next
-    # token is a comment.
-    #
-    # @param     item     a tree.Node item (might be used to attach comment nodes)
-    # @param     after    ??
-    # @return             the next (non-comment) token or the EOF token
-    # @defreturn          tokenizer.token
-    #
-    def next (self, item=None, after=False):
-        self.eolBefore = False
-        self.breakBefore = False
-
-        token = None
-        while self.parsepos < self.length - 1:
-            self.parsepos += 1
-            self._curr     = self.tokens[self.parsepos]
-            token          = self._curr
-
-            # EOL treatment
-            if token["type"] == "eol":
-                if self.eolBefore:
-                    self.breakBefore = True
-
-                self.eolBefore = True
-                # ignore end of line
-                pass
-
-            #
-            # Special treatment of comments
-            #
-            elif token["type"] == "comment":
-                # After current item
-                if token["connection"] == "after":
-                    if "inserted" not in token or not token["inserted"]:
-                        if item:
-                            # Generating new tree node
-                            commentNode = createCommentNode(token)
-                            # Attach the new node to current position in tree
-                            if after:
-                                item.addListChild("commentsAfter", commentNode)
-                            else:
-                                item.addChild(commentNode)
-
-                            self.eolBefore = False
-                            self.breakBefore = False
-
-                        else:
-                            print "Found unresolved after comment in line %s, column %s" % (token["line"], token["column"])
-                            print token["source"]
-                            pass
-
-                # Documentation and Block comments of next item
-                else:  # token["connection"] != "after"
-                    if not self.commentsBefore: self.commentsBefore = []
-
-                    # Generating new tree node
-                    commentNode = createCommentNode(token)
-                    # Store the new node with this generator (TokenStream) instance
-                    self.commentsBefore.append(commentNode)
-
-                    self.eolBefore = False
-                    self.breakBefore = False
-
-            else:
+        # get the desired token
+        while cnt < n:
+            t = self.tok_stream.next()
+            toks.append(t)
+            if t.name == "eof":
                 break
-
-        #print "next token: " + str(token)
-
-        if token == None:
-            # return end of file token
-            return self.tokens[self.length - 1]
-        else:
-            return token
-
-    ##
-    # Alternative to use, when we want to check if the next token
-    # is a comment, but are not able to use next() because if there is
-    # no comment we want to stay in the current position
-    #
-    def comment (self, item, after=False):
-        token = None
-        pos = self.parsepos
-
-        while pos < self.length - 1:
-            pos += 1
-            token = self.tokens[pos]
-
-            if token["type"] == "comment" and token["connection"] == "after" and ("inserted" not in token or not token["inserted"]):
-
-                commentNode = createCommentNode(token)
-                token["inserted"] = True
-                if after:
-                    item.addListChild("commentsAfter", commentNode)
-                else:
-                    item.addChild(commentNode)
-
-            else:
-                break
-
-        return
-
-    def hadEolBefore(self):
-        return self.eolBefore
-
-    def hadBreakBefore(self):
-        return self.breakBefore
-
-    def clearCommentsBefore(self):
-        commentsBefore = self.commentsBefore
-        self.commentsBefore = None
-        return commentsBefore
-
-
-
-def createItemNode(type, stream):
-    # print "CREATE %s" % type
-
-    node = tree.Node(type)
-    node.set("line", stream.currLine())
-    node.set("column", stream.currColumn())
-
-    commentsBefore = stream.clearCommentsBefore()
-    if commentsBefore:
-        for comment in commentsBefore:
-            node.addListChild("commentsBefore", comment)
-
-    return node
-
-##
-# Creates a new comment tree node from token
-#
-def createCommentNode(token):
-    commentNode = tree.Node("comment")
-    commentNode.set("line", token["line"])
-    commentNode.set("column", token["column"])
-    commentNode.set("text", token["source"])
-    commentNode.set("detail", token["detail"])
-    commentNode.set("multiline", token["multiline"])
-    commentNode.set("connection", token["connection"])
-    commentNode.set("begin", token["begin"])
-    commentNode.set("end", token["end"])
-
-    return commentNode
-
-
-def raiseSyntaxException (token, expectedDesc = None):
-    if expectedDesc:
-        msg = "Expected " + expectedDesc + " but found "
-    else:
-        msg = "Unexpected "
-
-    msg += token["type"]
-
-    if token["detail"]:
-        msg += "/" + token["detail"]
-
-    msg += ": '" + token["source"] + "'. file:" + \
-        token["id"] + ", line:" + str(token["line"]) + \
-        ", column:" + str(token["column"])
-
-    raise SyntaxException(msg)
-
-
-
-##
-# Main worker; creates AST from token array
-#
-# @param     tokenArr array of JavaScript tokens, as generated by tokenizer.py
-# @return             tree.Node - the root node of the AST
-#
-def createSyntaxTree (tokenArr):
-    """Creates a syntax tree from a token stream.
-
-    tokens: the token stream."""
-
-    stream = TokenStream(tokenArr)
-    stream.next()
-
-    from pprint import pprint
-    #pprint([(x['detail'],x['source']) for x in tokenArr])
-    #pprint([x for x in tokenArr if x['type']=="comment"])
-
-    rootBlock = tree.Node("file")
-    rootBlock.set("file", stream.curr()["id"])
-
-    while not stream.finished():
-        rootBlock.addChild(readStatement(stream))
-
-    # collect prob. pending comments
-    try:
-        for c in stream.commentsBefore:  # stream.commentsBefore might not be defined
-            rootBlock.addChild(c)
-    except:
-        pass
-
-    return rootBlock
-
-
-
-def readExpression (stream, **kwargs):
-    if not 'inStatementList' in kwargs:
-        kwargs['inStatementList'] = True  # this means: allow list expressions .. , ..
-    return readStatement(stream, True, **kwargs)
-
-
-
-def readStatement (stream, expressionMode = False, overrunSemicolon = True, inStatementList = False):
-    item = None
-
-    eolBefore = stream.hadEolBefore()
-    breakBefore = stream.hadBreakBefore()
-
-    # print "PROGRESS: %s - %s (%s) [expr=%s]" % (stream.currType(), stream.currDetail(), stream.currLine(), expressionMode)
-
-    if currIsIdentifier(stream, True):
-        # statement starts with an identifier
-        variable = readVariable(stream, True)
-        variable = readObjectOperation(stream, variable)
-
-        if stream.currIsType("token", ASSIGN_OPERATORS):
-            # This is an assignment
-            item = createItemNode("assignment", stream)
-            item.set("operator", stream.currDetail())
-            stream.next(item)
-
-            item.addListChild("left", variable)
-            item.addListChild("right", readExpression(stream))
-        elif stream.currIsType("token", "COLON") and not expressionMode:
-            # This is a label
-            item = variable
-            item.type = "label"
-            stream.next(variable)
-        else:
-            # Something else comes after the variable -> It's a sole variable
-            item = variable
-
-        # Any comments found for the variable belong to the extracted item
-        commentsChild = variable.getChild("commentsBefore", False)
-        if item and commentsChild != None:
-            variable.removeChild(commentsChild)
-            item.addChild(commentsChild, 0)
-
-    elif stream.currIsType("reserved", "FUNCTION"):
-        item = createItemNode("function", stream)
-        stream.next(item)
-
-        # Read optional function name
-        if stream.currIsType("name") or stream.currIsType("builtin"):
-            item.set("name", stream.currSource())
-            stream.next(item)
-
-        readParamList(item, stream)
-        item.addListChild("body", readBlock(stream))
-
-        # Check for direct execution: function() {}()
-        if stream.currIsType("token", "LP"):
-            # The function is executed directly
-            functionItem = item
-            item = createItemNode("call", stream)
-            item.addListChild("operand", functionItem)
-            readParamList(item, stream)
-            item = readObjectOperation(stream, item)
-    elif stream.currIsType("reserved", "VOID"):
-        item = createItemNode("void", stream)
-        item.set("left", True)
-        stream.next(item)
-        item.addListChild("first", readExpression(stream))
-    elif stream.currIsType("token", "LP"):
-        igroup = createItemNode("group", stream)
-        stream.next(igroup)
-        igroup.addChild(readStatement(stream, expressionMode))
-        #igroup.addChild(readExpression(stream, ))   # -- should be like this, but it doesn't work!?
-        stream.expectCurrType("token", "RP")
-        stream.next(igroup, True)
-        oper = readObjectOperation(stream, igroup)
-
-        # supports e.g. (this.editor.object || this.editor.iframe).style.marginTop = null;
-        if stream.currIsType("token", ASSIGN_OPERATORS):
-            # This is an assignment
-            item = createItemNode("assignment", stream)
-            item.set("operator", stream.currDetail())
-            stream.next(item)
-
-            item.addListChild("left", oper)
-            item.addListChild("right", readExpression(stream))
-        else:
-            # Something else comes after the variable -> It's a sole variable
-            item = oper
-
-    elif stream.currIsType("string"):
-        item = createItemNode("constant", stream)
-        item.set("constantType", "string")
-        item.set("value", stream.currSource())
-        item.set("detail", stream.currDetail())
-        stream.next(item, True)
-        # This is a member accessor (E.g. "bla.blubb")
-        item = readObjectOperation(stream, item)
-    elif stream.currIsType("number"):
-        item = createItemNode("constant", stream)
-        item.set("constantType", "number")
-        item.set("value", stream.currSource())
-        item.set("detail", stream.currDetail())
-        stream.next(item, True)
-        # This is a member accessor (E.g. "bla.blubb")
-        item = readObjectOperation(stream, item)
-    elif stream.currIsType("regexp"):
-        item = createItemNode("constant", stream)
-        item.set("constantType", "regexp")
-        item.set("value", stream.currSource())
-        stream.next(item, True)
-        # This is a member accessor (E.g. "bla.blubb")
-        item = readObjectOperation(stream, item)
-    elif expressionMode and (stream.currIsType("reserved", "TRUE") or stream.currIsType("reserved", "FALSE")):
-        item = createItemNode("constant", stream)
-        item.set("constantType", "boolean")
-        item.set("value", stream.currSource())
-        stream.next(item, True)
-    elif expressionMode and stream.currIsType("reserved", "NULL"):
-        item = createItemNode("constant", stream)
-        item.set("constantType", "null")
-        item.set("value", stream.currSource())
-        stream.next(item, True)
-    elif expressionMode and stream.currIsType("token", "LC"):
-        item = readMap(stream)
-        if stream.currIsType("token", "LB") or stream.currIsType("token", "DOT"):  # {...}[] or {...}.___
-            item = readObjectOperation(stream, item)
-    #elif expressionMode and stream.currIsType("token", "LB"):
-    elif stream.currIsType("token", "LB"):
-        item = readArray(stream)
-        if stream.currIsType("token", "LB"):
-            item = readObjectOperation(stream, item)
-    elif stream.currIsType("token", SINGLE_LEFT_OPERATORS):
-        item = createItemNode("operation", stream)
-        item.set("operator", stream.currDetail())
-        item.set("left", True)
-        stream.next(item)
-        item.addListChild("first", readExpression(stream))
-    elif stream.currIsType("reserved", "TYPEOF"):
-        item = createItemNode("operation", stream)
-        item.set("operator", "TYPEOF")
-        item.set("left", True)
-        stream.next(item)
-        item.addListChild("first", readExpression(stream))
-    elif stream.currIsType("reserved", "NEW"):
-        item = readInstantiation(stream)
-        item = readObjectOperation(stream, item)
-    elif not expressionMode and stream.currIsType("reserved", "VAR"):
-        item = createItemNode("definitionList", stream)
-        stream.next(item)
-        finished = False
-        while not finished:
-            if not currIsIdentifier(stream, False):
-                raiseSyntaxException(stream.curr(), "identifier")
-
-            childitem = createItemNode("definition", stream)
-            childitem.set("identifier", stream.currSource())
-            stream.next(childitem)
-            if stream.currIsType("token", "ASSIGN"):
-                assign = createItemNode("assignment", stream)
-                childitem.addChild(assign)
-                stream.next(assign)
-                assign.addChild(readExpression(stream))
-
-            item.addChild(childitem)
-
-            # Check whether anothe definition follows, e.g. "var a, b=1, c=4"
-            if stream.currIsType("token", "COMMA"):
-                stream.next(item)
-            else:
-                finished = True
-
-        stream.comment(item, True)
-
-    elif not expressionMode and stream.currIsType("reserved", LOOP_KEYWORDS):
-        item = readLoop(stream)
-    elif not expressionMode and stream.currIsType("reserved", "DO"):
-        item = readDoWhile(stream)
-    elif not expressionMode and stream.currIsType("reserved", "SWITCH"):
-        item = readSwitch(stream)
-    elif not expressionMode and stream.currIsType("reserved", "TRY"):
-        item = readTryCatch(stream)
-    elif not expressionMode and stream.currIsType("token", "LC"):
-        item = readBlock(stream)
-    elif not expressionMode and stream.currIsType("reserved", "RETURN"):
-        item = createItemNode("return", stream)
-        stream.next(item)
-        # NOTE: The expression after the return keyword is optional
-        if not stream.currIsType("token", "SEMICOLON") and not stream.currIsType("token", "RC"):
-            item.addListChild("expression", readExpression(stream))
-            stream.comment(item, True)
-    elif not expressionMode and stream.currIsType("reserved", "THROW"):
-        item = createItemNode("throw", stream)
-        stream.next(item)
-        item.addListChild("expression", readExpression(stream))
-        stream.comment(item, True)
-    elif stream.currIsType("reserved", "DELETE"):
-        # this covers both statement and expression context!
-        item = createItemNode("delete", stream)
-        item.set("left", True)
-        stream.next(item)
-        item.addListChild("expression", readExpression(stream))
-        stream.comment(item, True)
-    elif not expressionMode and stream.currIsType("reserved", "BREAK"):
-        item = createItemNode("break", stream)
-        stream.next(item)
-        # NOTE: The label after the break keyword is optional
-        if not stream.hadEolBefore() and stream.currIsType("name"):
-            item.set("label", stream.currSource())
-            # As the label is an attribute, we need to put following comments into after
-            # to differenciate between comments before and after the label
-            stream.next(item, True)
-    elif not expressionMode and stream.currIsType("reserved", "CONTINUE"):
-        item = createItemNode("continue", stream)
-        stream.next(item)
-        # NOTE: The label after the continue keyword is optional
-        if not stream.hadEolBefore() and stream.currIsType("name"):
-            item.set("label", stream.currSource())
-            stream.next(item, True)
-
-    if not item:
-        if stream.currIsType("token", "SEMICOLON") and not expressionMode:
-            # This is an empty statement
-            item = createItemNode("emptyStatement", stream)
-            stream.next(item)
-        else:
-            if expressionMode:
-                expectedDesc = "expression"
-            else:
-                expectedDesc = "statement"
-            raiseSyntaxException(stream.curr(), expectedDesc)
-
-    advanced = False # currently unused - I wanted to use this to detect recursive processing, but it somehow doesn't work
-    # check whether this is an operation
-    if (stream.currIsType("token", MULTI_TOKEN_OPERATORS) 
-    or stream.currIsType("reserved", MULTI_PROTECTED_OPERATORS) 
-    or (stream.currIsType("token", SINGLE_RIGHT_OPERATORS) and not stream.hadEolBefore())):
-        advanced = True
-        # its an operation -> We've already parsed the first operand (in item)
-        parsedItem = item
-
-        oper = stream.currDetail()
-
-        item = createItemNode("operation", stream)
-        item.addListChild("first", parsedItem)
-        item.set("operator", oper)
-        stream.next(item)
-
-        if oper in MULTI_TOKEN_OPERATORS or oper in MULTI_PROTECTED_OPERATORS:
-            # It's a multi operator -> There must be a second argument
-            item.addListChild("second", readExpression(stream))
-            if oper == "HOOK":
-                # It's a "? :" operation -> There must be a third argument
-                stream.expectCurrType("token", "COLON")
-                stream.next(item)
-                item.addListChild("third", readExpression(stream))
-
-        # Deep scan on single right operators e.g. if(i-- > 4)
-        if oper in SINGLE_RIGHT_OPERATORS and stream.currIsType("token", MULTI_TOKEN_OPERATORS) and expressionMode:
-            paroper = stream.currDetail()
-
-            paritem = createItemNode("operation", stream)
-            paritem.addListChild("first", item)
-            paritem.set("operator", paroper)
-            stream.next(item)
-
-            if paroper in MULTI_TOKEN_OPERATORS or paroper in MULTI_PROTECTED_OPERATORS:
-                # It's a multi operator -> There must be a second argument
-                paritem.addListChild("second", readExpression(stream))
-                if paroper == "HOOK":
-                    # It's a "? :" operation -> There must be a third argument
-                    stream.expectCurrType("token", "COLON")
-                    stream.next(item)
-                    paritem.addListChild("third", readExpression(stream))
-
-            # return parent item
-            item = paritem
-
-
-
-    # check whether this is a combined statement, e.g. "bla(), i++"
-    if stream.currIsType("token", "COMMA"):
-        advanced = True
-        if not inStatementList:  # only create a list node if this is the beginning
-            expressionList = createItemNode("expressionList", stream)
-            expressionList.addChild(item)
-            while stream.currIsType("token", "COMMA"):
-                stream.next(expressionList)
-                if expressionMode:
-                    expressionList.addChild(readStatement(stream, True, False, True))
-                else:
-                    expressionList.addChild(readStatement(stream, False, False, True))
-            item = expressionList
-
-    # go over the optional semicolon
-    if  stream.currIsType("token", "SEMICOLON") and not expressionMode and overrunSemicolon:
-        advanced = True
-        stream.next(item, True)
-
-    #if expressionMode and not advanced: # we have an item but couldn't use the next token in stream
-    if expressionMode and stream.currType() in ATOMS : # we have an item but couldn't use the next token in stream
-        # must be an invalid expression
-        raiseSyntaxException(stream.curr(), "operator or terminator")
-
-
-    item.set("eolBefore", eolBefore)
-    item.set("breakBefore", breakBefore)
-
-    return item
-
-
-
-def currIsIdentifier (stream, allowThis):
-    det = stream.currDetail()
-    return (stream.currIsType("name") or stream.currIsType("builtin")
-        or (stream.currIsType("reserved") and allowThis and det == "THIS")
-    )
-
-
-
-def readVariable (stream, allowArrays):
-    # Note: keywords may be used as identifiers, too
-    item = createItemNode("variable", stream)
-
-    done = False
-    firstIdentifier = True
-    while not done:
-        if not currIsIdentifier(stream, firstIdentifier):
-            raiseSyntaxException(stream.curr(), "identifier")
-
-        identifier = createItemNode("identifier", stream)
-        identifier.set("name", stream.currSource())
-        stream.next(identifier)
-
-        if allowArrays:
-            while stream.currIsType("token", "LB"):
-                accessor = createItemNode("accessor", stream)
-                stream.next(accessor)
-                accessor.addChild(identifier)
-                accessor.addListChild("key", readExpression(stream))
-
-                stream.expectCurrType("token", "RB")
-                stream.next(accessor, True)
-
-                identifier = accessor
-
-        item.addChild(identifier)
-
-        firstIdentifier = False
-
-        if stream.currIsType("token", "DOT"):
-            stream.next(item)
-        else:
-            done = True
-
-    return item
-
-
-
-def readObjectOperation(stream, operand, onlyAllowMemberAccess = False):
-    if stream.currIsType("token", "DOT"):
-        # This is a member accessor (E.g. "bla.blubb")
-        item = createItemNode("accessor", stream)
-        stream.next(item)
-        item.addListChild("left", operand)
-
-        # special mode for constants which should be assigned to an accessor first
-        if operand.type == "constant":
-            item.addListChild("right", readVariable(stream, False))
-            item = readObjectOperation(stream, item)
-        else:
-            item.addListChild("right", readObjectOperation(stream, readVariable(stream, False)))
-
-    elif stream.currIsType("token", "LP"):
-        # This is a function call (E.g. "bla(...)")
-        item = createItemNode("call", stream)
-        item.addListChild("operand", operand)
-        readParamList(item, stream)
-        item = readObjectOperation(stream, item)
-    elif stream.currIsType("token", "LB"):
-        # This is an array access (E.g. "bla[...]")
-        item = createItemNode("accessor", stream)
-        stream.next(item)
-        item.addListChild("identifier", operand)
-        item.addListChild("key", readExpression(stream))
-
-        stream.expectCurrType("token", "RB")
-        stream.next(item, True)
-        item = readObjectOperation(stream, item)
-    else:
-        item = operand
-
-    # Any comments found for the operand belong to the item
-    if operand != item:
-        commentsChild = operand.getChild("commentsBefore", False)
-        if commentsChild != None:
-            operand.removeChild(commentsChild)
-            item.addChild(commentsChild, 0)
-
-    return item
-
-
-
-def readParamList (node, stream):
-    stream.expectCurrType("token", "LP")
-
-    params = createItemNode("params", stream)
-    node.addChild(params)
-
-    stream.next(params)
-
-    firstParam = True
-    lastExpr = None
-    while not stream.currIsType("token", "RP"):
-        if firstParam:
-            firstParam = False
-        else:
-            stream.expectCurrType("token", "COMMA")
-            stream.next(lastExpr, True)
-
-        lastExpr = readExpression(stream)
-        params.addChild(lastExpr)
-
-    # Has an end defined by the loop above
-    # This means that all comments following are after item
-    stream.next(params, True)
-
-    return
-
-
-##
-# Parses a block of source code. Most work is delegated to stream.next() and
-# readStatement(). Handles opening and closing \"{}\".
-#
-# @param     stream   TokenStream to parse
-# @return             tokenizer.token - next item after the closing \"}\"
-#
-def readBlock(stream):
-    stream.expectCurrType("token", "LC")
-    item = createItemNode("block", stream)
-
-    # Iterate through children
-    stream.next(item)
-    while not stream.currIsType("token", "RC"):
-        item.addChild(readStatement(stream))
-
-    # Has an end defined by the loop above
-    # This means that all comments following are after item
-    stream.next(item, True)
-
-    return item
-
-
-def readMap(stream):
-    stream.expectCurrType("token", "LC")
-
-    item = createItemNode("map", stream)
-    stream.next(item)
-
-    # NOTE: We use our own flag for checking whether the array already has entries
-    #       and not item.hasChildren(), because item.hasChildren() is also true
-    #       when there are comments before the array
-    hasEntries = False
-
-    while not stream.currIsType("token", "RC"):
-        if hasEntries:
-            stream.expectCurrType("token", "COMMA")
-            stream.next(item)
-
-        if not currIsIdentifier(stream, True) and not stream.currIsType("string") and not stream.currIsType("number"):
-            raiseSyntaxException(stream.curr(), "map key (identifier, string or number)")
-
-        keyvalue = createItemNode("keyvalue", stream)
-        keyvalue.set("key", stream.currSource())
-
-        if stream.currIsType("string"):
-            keyvalue.set("quote", stream.currDetail())
-
-        stream.next(keyvalue)
-        stream.expectCurrType("token", "COLON")
-        stream.next(keyvalue, True)
-        keyvalue.addListChild("value", readExpression(stream))
-
-        item.addChild(keyvalue)
-
-        hasEntries = True
-
-    # Has an end defined by the loop above
-    # This means that all comments following are after item
-    stream.next(item, True)
-
-    return item
-
-
-
-def readArray(stream):
-    stream.expectCurrType("token", "LB")
-
-    item = createItemNode("array", stream)
-    stream.next(item)
-
-    # NOTE: We use our own flag for checking whether the array already has entries
-    #       and not item.hasChildren(), because item.hasChildren() is also true
-    #       when there are comments before the array
-    hasEntries = False
-    while not stream.currIsType("token", "RB"):
-        if hasEntries:
-            stream.expectCurrType("token", "COMMA")
-            stream.next(item)
-
-        item.addChild(readExpression(stream))
-        hasEntries = True
-
-    # Has an end defined by the loop above
-    # This means that all comments following are after item
-    stream.next(item, True)
-
-    # Support constructs like ["foo", "bar" ].join("")
-    item = readObjectOperation(stream, item)
-
-    return item
-
-
-
-def readInstantiation(stream):
-    stream.expectCurrType("reserved", "NEW")
-
-    item = createItemNode("instantiation", stream)
-    stream.next(item)
-
-    # Could be a simple variable or a just-in-time function declaration (closure)
-    # Read this as expression
-    stmnt = readStatement(stream, True, False, True)
-    item.addListChild("expression", stmnt)
-
-    return item
-
-
-
-def readLoop(stream):
-    stream.expectCurrType("reserved", LOOP_KEYWORDS)
-
-    loopType = stream.currDetail()
-
-    item = createItemNode("loop", stream)
-    item.set("loopType", loopType)
-
-    stream.next(item)
-    stream.expectCurrType("token", "LP")
-
-    if loopType == "FOR":
-        stream.next(item)
-
-        if not stream.currIsType("token", "SEMICOLON"):
-            # Read the optional first statement
-            first = createItemNode("first", stream)
-            item.addChild(first)
-            first.addChild(readStatement(stream, expressionMode=False, overrunSemicolon=False))
-            stream.comment(first, True)
-
-        if stream.currIsType("token", "SEMICOLON"):
-            # It's a for (;;) loop
-            item.set("forVariant", "iter")
-
-            stream.next(item)
-            if not stream.currIsType("token", "SEMICOLON"):
-                # Read the optional second expression
-                second = createItemNode("second", stream)
-                item.addChild(second)
-                second.addChild(readStatement(stream, expressionMode=True, inStatementList=False))
-                stream.comment(second, True)
-
-            stream.expectCurrType("token", "SEMICOLON")
-            stream.next(item)
-
-            if not stream.currIsType("token", "RP"):
-                # Read the optional third statement
-                third = createItemNode("third", stream)
-                item.addChild(third)
-                third.addChild(readStatement(stream, expressionMode=False, overrunSemicolon=False))
-                stream.comment(third, True)
-
-        elif stream.currIsType("token", "RP"):
-            # It's a for ( in ) loop
-            item.set("forVariant", "in")
+            while self._nonGrammaticalToken(t):
+                t = self.tok_stream.next()
+                toks.append(t)
+            cnt += 1
+
+        # put all retrieved tokens back
+        for t in toks[::-1]:
+            self.tokenStream.putBack(t)
+
+        return self._symbolFromToken(toks[-1])
+
+    def _nonGrammaticalToken(self, tok):
+        return tok.name in ['white', 'commentI', 'commentM', 'nl']
+
+
+    def _symbolFromToken(self, tok):
+        s = None
+        # tok isinstanceof Scanner.Token()
+        if (tok.name == 'white'
+            or tok.name == 'commentI'
+            or tok.name == 'commentM'):
             pass
-
+        elif tok.name == 'eof':
+            symbol = symbol_table.get('(eof)')
+            s = symbol()
+            s.value = ""
+        elif tok.name == 'nl':
+            self.line += 1                  # increase line count
+            self.sol  = tok.spos + tok.len  # char pos of next line start
+            self.spos = tok.spos
+            pass # don't yield this (yet)
+        elif tok.name in ('float','number','stringD','stringS'):
+            symbol = symbol_table["(literal)"]
+            s = symbol()
+            s.value = tok.value
         else:
-            raiseSyntaxException(stream.curr(), "semicolon or in")
+            # name or operator
+            symbol = symbol_table.get(tok.value)
+            if symbol:
+                s = symbol()
+                s.value = tok.value
+            elif tok.name == "ident":
+                symbol = symbol_table['(ident)']
+                s = symbol()
+                s.value = tok.value
+            else:
+                # don't make assumptions about correct tokens here, as we might be in the
+                # middle of a regexp
+                #raise SyntaxError("Unknown operator %r (pos %d)" % (tok.value, tok.spos))
+                symbol = symbol_table['(unknown)']
+                s = symbol()
+                s.value = tok.value
 
-        stream.expectCurrType("token", "RP")
+        return s
 
+    def __iter__(self):
+        for t in self.tok_stream:
+            tok = Token()
+            tok.name = t["type"]
+            tok.value = t["source"]
+            tok.detail = getattr(t, "detail", None)
+            tok.line = getattr(t, "line", None)
+            tok.column = getattr(t, "column", None)
+            tok.spos = tok.column
+            tok.multiline = getattr(t, "multiline", None)
+            tok.connection = getattr(t, "connection", None)
+            tok.begin = getattr(t, "begin", None)
+            tok.end = getattr(t, "end", None)
+            s = self._symbolFromToken(tok)
+            if not s:
+                continue
+            self.spos = tok.spos
+            s.spos    = tok.spos
+            yield s
+
+
+class Token(object):
+    pass
+
+# - Grammar Infrastructure -------------------------------------------------
+
+
+# symbol (token type) registry
+symbol_table = {}
+next = None
+token= None
+
+
+class symbol_base(Node):
+
+    id = None
+    value = None
+    first = second = third = None
+
+    def __init__(self):  # to override Node.__init__(self,type)
+        self.attributes = {}  # compat with Node.attributes
+        self.children   = []  # compat with Node.children
+
+    def nud(self):
+        raise SyntaxError("Syntax error %r (pos %d)." % (self.id, self.spos))
+
+    def led(self, left):
+        raise SyntaxError("Unknown operator %r (pos %d)." % (self.id, self.spos))
+
+    def __repr__(self):
+        if self.id == "(ident)" or self.id == "(literal)":
+            return "(%s %r)" % (self.id[1:-1], self.value)
+        id  = self.id
+        if hasattr(self, 'optype'):
+            id += '('+self.optype+')'
+        out = [id, self.first, self.second, self.third]
+        out = map(repr, filter(None, out))
+        return "(" + " ".join(out) + ")"
+
+    def __toXml(self):  # don't override Node.toXml()
+        if self.id == "(ident)" or self.id == "(literal)":
+            return "<%s value=\"%r\"/>" % (self.id[1:-1], self.value)
+        out = "<%s" % self.id
+        if hasattr(self, 'optype'):
+            out += " optype=\"%s\"" % self.optype
+        out += ">"
+        for child in filter(None, [self.first, self.second, self.third]):
+            if isinstance(child, (types.ListType, types.TupleType)):
+                for e in child:
+                    out += e.toXml()
+            elif isinstance(child, symbol_base):
+                out += child.toXml()
+            else:
+                raise RuntimeError("Cannot toXml %s" % self)
+        out += "</%s>" % self.id
+        return out
+
+# -- class factory ------------------
+
+def symbol(id, bp=0):
+    try:
+        s = symbol_table[id]
+    except KeyError:
+        class s(symbol_base):
+            pass
+        s.__name__ = "symbol-" + id # for debugging
+        s.type     = id  # compat with Node.type
+        s.id       = id
+        s.value    = None
+        s.lbp      = bp
+        symbol_table[id] = s
     else:
-        expr = createItemNode("expression", stream)
-        stream.next(expr)
-        expr.addChild(readExpression(stream))
-        item.addChild(expr)
-        stream.comment(expr, True)
-        stream.expectCurrType("token", "RP")
+        s.lbp = max(bp, s.lbp)
+    return s
 
-    # comments should be already completed from the above code
-    stmnt = createItemNode("statement", stream)
-    item.addChild(stmnt)
-    stream.next()
-    stmnt.addChild(readStatement(stream))
+# helpers
 
-    if loopType == "IF" and stream.currIsType("reserved", "ELSE"):
-        elseStmnt = createItemNode("elseStatement", stream)
-        item.addChild(elseStmnt)
-        stream.next(elseStmnt)
-        elseStmnt.addChild(readStatement(stream))
+def infix(id, bp):
+    def led(self, left):
+        self.first = left
+        self.second = expression(bp)
+        return self
+    symbol(id, bp).led = led
 
-    return item
+def infix_r(id, bp):
+    def led(self, left):
+        self.first = left
+        self.second = expression(bp-1)
+        return self
+    symbol(id, bp).led = led
+
+def prefix(id, bp):
+    def nud(self):
+        self.first = expression(bp)
+        return self
+    symbol(id).nud = nud
+
+def advance(id=None):
+    global token
+    if id and token.id != id:
+        raise SyntaxError("Expected %r (pos %d)" % (id, token.spos))
+    token = next()
+
+# decorator
+
+def method(s):
+    assert issubclass(s, symbol_base)
+    def bind(fn):
+        setattr(s, fn.__name__, fn)
+    return bind
+
+# - Grammar ----------------------------------------------------------------
+
+# from Flanagan, "Javascript Pocket Reference" 2nd, p.10f
+
+symbol(".",   150); symbol("[", 150); symbol("(", 150)
+prefix("new", 150)
+
+symbol("++", 140); symbol("--", 140)  # pre/post increment (unary)
+prefix("-",  140); prefix("+",  140); prefix("~", 140); prefix("!", 140)
+prefix("/",  140)
+
+prefix("delete", 140); prefix("typeof", 140); prefix("void", 140)
+
+infix("*",  130); infix("/", 130); infix("%", 130)
+
+infix("+",  120); infix("-", 120)      # '+' addition, concatenation
+
+infix("<<", 110); infix(">>", 110); infix(">>>", 110)
+
+infix("<",  100); infix("<=", 100)
+infix(">",  100); infix(">=", 100)
+infix("in", 100); infix("instanceof", 100)
+
+infix("!=",  90); infix("==",  90)      # (in)equality
+infix("!==", 90); infix("===", 90)      # (non-)identity
+
+infix("&",  80)
+infix("^",  70)
+infix("|",  60)
+infix("&&", 50)
+infix("||", 40)
+
+symbol("?", 30)   # ternary operator (.nud takes care of ':')
+
+infix("=",  20)   # assignment
+infix("<<=",20); infix("-=", 20); infix("+=", 20); infix("*=", 20)
+infix("/=", 20); infix("%=", 20); infix("|=", 20); infix("^=", 20)
+infix("&=", 20); infix(">>=",20); infix(">>>=",20)
+
+symbol(":") #infix(":", 15)    # ?: and {1:2,...}
+prefix("function", 15)
+
+symbol(",") #infix(",",  10)
+symbol(";")
+symbol("*/")  # have to register this in case a regexp ends in this string
+symbol("\\")  # escape char in strings ("\")
 
 
 
-def readDoWhile(stream):
-    stream.expectCurrType("reserved", "DO")
+# additional behaviour
 
-    item = createItemNode("loop", stream)
-    item.set("loopType", "DO")
-    stream.next(item)
+symbol("(ident)").nud   = lambda self: self
+symbol("(literal)").nud = lambda self: self
+symbol("(unknown)").nud = lambda self: self
+symbol("(eof)")
 
-    stmnt = createItemNode("statement", stream)
-    item.addChild(stmnt)
-    stmnt.addChild(readStatement(stream))
+#@method(symbol(",", 10))   # parse any kind of lists into array
+#def led(self, left):
+#    result = []
+#    result.extend(left if isinstance(left, types.ListType) else (left,))
+#    result.extend(expression(10))
+#    self.first = result
+#    return result
 
-    stream.expectCurrType("reserved", "WHILE")
-    stream.next(item)
+@method(symbol("/"))   # regexp literals
+def nud(self):
+    # problem: "/".led() and "/".nud() return similar ASTs, e.g. with "/" as root
+    # and 2 childs; it is not clear from this AST whether it is division or literal regexp,
+    # and the types of the childs have to be inspected to decide this.
 
-    stream.expectCurrType("token", "LP")
+    rexp = ""
+    while True:
+        rexp += token.value      # accumulate token strings
+        if rexp.endswith("/"):   # check for end of regexp
+            # make sure "/" is not escaped, ie. preceded by an odd number of "\"
+            if not is_last_escaped(rexp):
+                rexp = rexp[:-1] # remove closing "/"
+                break
+        advance()
+    advance()  # this might be either advance("/") or advance("*/")
+    s       = (symbol_table["(literal)"])()  # create a symbol object for the regexp
+    s.value = rexp
+    self.first  = s
+    if token.id == "(ident)":   # pick up regexp modifiers
+        self.second = token
+        advance()
+    return self
 
-    expr = createItemNode("expression", stream)
-    item.addChild(expr)
-    stream.next(expr)
 
-    expr.addChild(readExpression(stream))
+# ternary op ?:
+@method(symbol("?"))
+def led(self, left):
+    self.first = left
+    self.second = expression()
+    advance(":")
+    self.third = expression()
+    return self
 
-    stream.expectCurrType("token", "RP")
-    stream.next(item, True)
+@method(symbol("."))
+def led(self, left):
+    if token.id != "(ident)":
+        SyntaxError("Expected an attribute name (pos %d)." % self.spos)
+    self.first = left
+    self.second = token
+    advance()
+    return self
 
-    return item
+# pre-/postfix ops
+
+@method(symbol("++"))
+def nud(self):
+    self.optype = "pre"
+    self.first = expression()  # overgenerating! only lvals allowed
+    return self
+
+@method(symbol("++"))
+def led(self, left):
+    # assert(left, lval)
+    self.optype = "post"
+    self.first = left
+    return self
+
+@method(symbol("--"))
+def nud(self):
+    self.optype = "pre"
+    self.first = expression()  # overgenerating! only lvals allowed
+    return self
+
+@method(symbol("--"))
+def led(self, left):
+    # assert(left, lval)
+    self.optype = "post"
+    self.first = left
+    return self
 
 
-def readSwitch(stream):
-    stream.expectCurrType("reserved", "SWITCH")
+# constants
 
-    item = createItemNode("switch", stream)
-    item.set("switchType", "case")
+def constant(id):
+    @method(symbol(id))
+    def nud(self):
+        self.id = "(literal)"
+        self.value = id
+        return self
 
-    stream.next(item)
-    stream.expectCurrType("token", "LP")
+constant("null")
+constant("true")
+constant("false")
 
-    expr = createItemNode("expression", stream)
-    stream.next(expr)
-    item.addChild(expr)
-    expr.addChild(readExpression(stream))
+# bracket expressions
 
-    stream.expectCurrType("token", "RP")
-    stream.next(expr, True)
+symbol(")")
 
-    stream.expectCurrType("token", "LC")
-    stmnt = createItemNode("statement", stream)
-    item.addChild(stmnt)
-    stream.next(stmnt)
+@method(symbol("("))
+def led(self, left):
+    self.first = left
+    self.second = []
+    if token.id != ")":
+        while True:
+            self.second.append(expression())
+            if token.id != ",":
+                break
+            advance(",")
+    advance(")")
+    return self
 
-    while not stream.currIsType("token", "RC"):
-        if stream.currIsType("reserved", "CASE"):
-            caseItem = createItemNode("case", stream)
-            stream.next(caseItem)
-            caseItem.addListChild("expression", readExpression(stream))
-            stmnt.addChild(caseItem)
+@method(symbol("("))
+def nud(self):
+    self.first = []
+    comma = False
+    if token.id != ")":
+        while True:
+            if token.id == ")":
+                break
+            self.first.append(expression())
+            if token.id != ",":
+                break
+            comma = True
+            advance(",")
+    advance(")")
+    if not self.first or comma:
+        return self # tuple
+    else:
+        return self.first[0]
 
-            stream.expectCurrType("token", "COLON")
-            stream.next(caseItem, True)
+symbol("]")
 
-        elif stream.currIsType("reserved", "DEFAULT"):
-            defaultItem = createItemNode("default", stream)
-            stmnt.addChild(defaultItem)
-            stream.next(defaultItem)
+@method(symbol("["))
+def led(self, left):
+    self.first = left
+    self.second = expression()
+    advance("]")
+    return self
 
-            stream.expectCurrType("token", "COLON")
-            stream.next(defaultItem, True)
+@method(symbol("["))
+def nud(self):
+    self.first = []
+    if token.id != "]":
+        while True:
+            if token.id == "]":
+                break
+            self.first.append(expression())
+            if token.id != ",":
+                break
+            advance(",")
+    advance("]")
+    return self
 
+symbol("}")
+
+@method(symbol("{"))                    # object literals
+def nud(self):
+    self.first = []
+    if token.id != "}":
+        while True:
+            if token.id == "}":
+                break
+            key = expression()
+            advance(":")
+            val = expression()
+            #self.first.append((key, val))
+            s = symbol(":")()  # this is an attempt to add a true symbol instance (for .toXml)
+            s.left = key
+            s.right= val
+            self.first.append(s)
+            if token.id != ",":
+                break
+            advance(",")
+    advance("}")
+    return self
+
+@method(symbol("function"))
+def nud(self):
+    # optional name
+    if token.id == "(ident)":
+        #self.third = token.value
+        self.third = token
+        advance()
+    # params
+    assert isinstance(token, symbol("("))
+    self.first = expression()
+    # body
+    advance("{")
+    self.second = statements()
+    advance("}")
+    return self
+
+
+# -- statements ------------------------------------------------------------
+
+@method(symbol("{"))                    # blocks
+def std(self):
+    a = statements()
+    advance("}")
+    return a
+
+symbol("var")
+
+@method(symbol("var"))
+def std(self):
+    self.first = []
+    while True:
+        n = token
+        if n.id != "(ident)":
+            raise SyntaxError("Expected a new variable name (pos %d)" % self.spos)
+        advance()
+        if token.id == "=":  # initialization
+            t = token
+            advance("=")
+            t.first = n
+            t.second = expression()
+            self.first.append(t)
+        if token.id != ",":
+            break
+        advance(",")
+    advance(";")
+    if len(self.first) != 1:
+        return self
+    else:
+        return self.first[0]
+
+
+# but "var" also needs a nud method, since it can appear in expressions
+@method(symbol("var"))
+def nud(self):
+    self.first = []
+    while True:
+        n = token
+        if n.id != "(ident)":
+            raise SyntaxError("Expected a new variable name (pos %d)" % self.spos)
+        advance()
+        if token.id == "=":  # initialization
+            t = token
+            advance("=")
+            t.first = n
+            t.second = expression()
+            self.first.append(t)
+        if token.id != ",":
+            break
+        advance(",")
+    if len(self.first) != 1:
+        return self
+    else:
+        return self.first[0]
+
+
+symbol("while")
+
+@method(symbol("while"))
+def std(self):
+    advance("(")
+    self.first = expression()
+    advance(")")
+    self.second = block()
+    return self
+
+
+symbol("do")
+
+@method(symbol("do"))
+def std(self):
+    self.first = block()
+    advance("while")
+    advance("(")
+    self.second = expression(0)
+    advance(")")
+    advance(";")
+
+
+symbol("if"); symbol("else")
+
+@method(symbol("if"))
+def std(self):
+    advance("(")
+    self.first = expression(0)
+    advance(")")
+    self.second = block()
+    if (token.id == "else"):
+        advance("else")
+        if token.id == "if":
+            self.third = statement()
         else:
-            raiseSyntaxException(stream.curr(), "case or default")
-
-        while not stream.currIsType("token", "RC") and not stream.currIsType("reserved", "CASE") and not stream.currIsType("reserved", "DEFAULT"):
-            stmnt.addChild(readStatement(stream))
-
-    stream.next(stmnt, True)
-
-    return item
+            self.third = block()
+    else:
+        self.third = None
+    return self
 
 
-def readTryCatch(stream):
-    stream.expectCurrType("reserved", "TRY")
+symbol("break")
 
-    item = createItemNode("switch", stream)
-    item.set("switchType", "catch")
-    stream.next(item)
+@method(symbol("break"))
+def std(self):
+    if token.id != ";":
+        self.first = expression(0)   # this is over-generating! (should be 'label')
+    advance(";")
+    return self
 
-    item.addListChild("statement", readStatement(stream))
 
-    while stream.currIsType("reserved", "CATCH"):
-        catchItem = createItemNode("catch", stream)
-        stream.next(catchItem)
+symbol("continue")
 
-        stream.expectCurrType("token", "LP")
+@method(symbol("continue"))
+def std(self):
+    if token.id != ";":
+        self.first = expression(0)   # this is over-generating! (should be 'label')
+    advance(";")
+    return self
 
-        exprItem = createItemNode("expression", stream)
-        catchItem.addChild(exprItem)
-        stream.next(exprItem)
-        exprItem.addChild(readExpression(stream))
 
-        stream.expectCurrType("token", "RP")
-        stream.next(exprItem, True)
+symbol("return")
 
-        stmnt = createItemNode("statement", stream)
-        catchItem.addChild(stmnt)
-        stmnt.addChild(readStatement(stream))
+@method(symbol("return"))
+def std(self):
+    if token.id != ";":
+        self.first = expression(0)
+    if token.id != "}":
+      advance(";")
+    if token.id != "}":
+        token.error("Unreachable statement")
+    return self
 
-        item.addChild(catchItem)
 
-    if stream.currIsType("reserved", "FINALLY"):
-        finallyItem = createItemNode("finally", stream)
-        stream.next(finallyItem)
+symbol("for"); symbol("in")
 
-        stmnt = createItemNode("statement", stream)
-        finallyItem.addChild(stmnt)
-        stmnt.addChild(readStatement(stream))
+@method(symbol("for"))
+def std(self):
+    advance("(")
+    self.first = []
+    var_s = None
+    if Parser.tokenStream.peek(2 if token.id=="var" else 1).id == "in":   # for (.. in ..)
+        elem = token    # "var" or ident
+        if elem.id == "var":
+            elem.first = []
+            advance("var")
+            elem.first.append(token)
+        advance("(ident)")
+        op = token      # "in"
+        advance("in")
+        op.first = elem
+        op.second= expression()
+    else:                                                     # for (;;)
+        lst = []
+        var_s = None
+        if token.id == "var":
+            var_s = token
+            advance("var")
+        lst = init_list()
+        op  = token    #  ";"
+        if var_s:
+            var_s.first = lst
+            op.first = var_s
+        else:
+            op.first = lst
+        advance(";")
+        op.second = expression()
+        advance(";")
+        op.third  = expression()
+    advance(")")
+    self.first  = op
+    self.second = block()
+    return self
 
-        item.addChild(finallyItem)
 
-    return item
+symbol("switch"); symbol("case"); symbol("default")
+
+@method(symbol("switch"))
+def std(self):
+    advance("(")
+    self.first = expression(0)
+    advance(")")
+    advance("{")
+    self.second = []
+    while True:
+        if token.id == "}": break
+        if token.id == "case":
+            advance("case")
+            c_exp = expression(0)
+            advance(":")
+            c_stm = statements()
+            self.second.append((c_exp, c_stm))   # TODO: do I want this?
+        if token.id == "default":
+            c_exp = token
+            advance("default")
+            advance(":")
+            c_stm = statements()
+            self.second.append((c_exp, c_stm))   # TODO: do I want this?
+    advance("}")
+    return self
+
+
+symbol("try"); symbol("catch"); symbol("finally")
+
+@method(symbol("try"))
+def std(self):
+    self.first = block()
+    if token.id == "catch":
+        advance("catch")
+        advance("(")
+        self.second = expression(0)
+        advance(")")
+        self.second = block()   # TODO: cannot assign to self.second twice!
+    if token.id == "finally":
+        self.third = block()
+    return self
+
+symbol("throw")
+
+@method(symbol("throw"))
+def std(self):
+    if token.id != ";":
+        self.first = expression(0)
+    advance(";")
+    return self
+
+symbol("with")
+
+@method(symbol("with"))
+def std(self):
+    advance("(")
+    self.first = expression(0)
+    advance(")")
+    self.second = block()
+    
+    
+def expression(rbp=0):
+    global token
+    t = token
+    token = next()
+    left = t.nud()
+    while rbp < token.lbp:
+        t = token
+        token = next()
+        left = t.led(left)
+    return left
+
+def statement():
+    n = token
+    if getattr(token, 'std', None):
+        advance()
+        s = n.std()
+    else:
+        s = expression()
+        # Crockford's too tight here
+        #if not (s.id == "=" or s.id == "("):
+        #    raise SyntaxError("Bad expression statement (pos %d)" % token.spos)
+        advance(";")
+    return s
+
+def statements():  # plural!
+    s = symbol("{")()
+    s.first = []
+    a = s.first
+    while True:
+        if (token.id == "}" or token.id == "(eof)"):
+            break
+        s = statement()
+        if s:
+            a.append(s)
+    #if len(a) == 0:
+    #    return None
+    #elif len(a) == 1:
+    #    return a[0]
+    #else:
+    #    return a
+    return s
+
+def block():
+    t = token
+    advance("{")
+    return t.std()
+
+def init_list():  # parse anything from "i" to "i, j=3, k,..."
+    lst = []
+    while True:
+        if token.id != "(ident)":
+            break
+        elem = token
+        advance("(ident)")
+        if token.id == "=":
+            t    = elem
+            elem = token
+            elem.first = t
+            advance("=")
+            elem.second= expression()
+        lst.append(elem)
+        if token.id != ",":
+            break
+        else:
+            advance(",")
+    return lst
+
+# next is not used!
+def argument_list(list):
+    while 1:
+        if token.id != "(ident)":
+            SyntaxError("Expected an argument name (pos %d)." % token.spos)
+        list.append(token)
+        advance()
+        if token.id == "=":
+            advance()
+            list.append(expression())
+        else:
+            list.append(None)
+        if token.id != ",":
+            break
+        advance(",")
+
+
+# - Class Frontend for the Grammar Infrastructure ------------------------------
+
+class TreeGenerator(object):
+
+    def parse(self, tokenArr):
+        global token, next
+        self.stream = TokenStream(tokenArr) # TODO: adapt TokenStream to token array arg
+        next   = iter(self.stream).next
+        token  = next()
+        return statements()
+
+
+
+# - Interface -----------------------------------------------------------------
+
+createSyntaxTree = TreeGenerator().parse
+
+
+# - Main ----------------------------------------------------------------------
+
+e = 0
+s = 1
+b = 2
+
+def test(x, program):
+    global token, next
+    print ">>>", program
+    tokenArr = tokenizer.parseStream(program)
+    next = TokenStream(tokenArr)
+    next = iter(next).next
+    token = next()
+    if x == e:
+        print expression().toXml()
+    elif x == s:
+        print statements().toXml()
+    elif x == b:
+        print block().toXml()
+    else:
+        raise RuntimeError("Wrong test parameter: %s" % x)
+
+
+if __name__ == "__main__":
+    if len(sys.argv)>1:
+        arg1 = sys.argv[1]
+        p = TreeGenerator()
+        if os.path.isfile(arg1):
+            text = filetool.read(sys.argv[1])
+        else:
+            text = arg1
+        print p.parse(text).toXml()
+    else:
+        test(e,"1")
+        test(e,"+1")
+        test(e,"-1")
+        test(e,"1+2")
+        test(e,"1+2+3")
+        test(e,"1+2*3")
+        test(e,"(1+2)*3")
+        test(e,"(1)")
+        test(e,"{}")
+        test(e,"1 ? 2 : 3")
+        test(e,"{1: 'one', 2: 'two'}")
+        test(e,"{1: 'one', 2: 'two', 3: 'three'}")
+        test(e,"(1,)")
+        test(e,"(1, 2)")
+        test(e,"[1, 2, 3]")
+        test(e,"1.0*2+3")
+        test(e,"'hello'+'world'")
+        test(e,"1 and 2")
+        test(e,"foo.bar")
+        test(e,"1 + hello")
+        test(e,"'hello'[0]")
+        test(e,"hello()")
+        test(e,"hello(1,2,3)")
+        test(e,"function () { a = 1; }")
+        test(e,"function foo() { a = 1; }")
+        test(e,"function foo(a,b) { a = 1; }")
+        test(e,"function foo(a,b) { a = 1; b = 2;}")
+        test(e,"([dojo._listener, del, node_listener][listener]).remove(obj, event, handle);") # from bug#2178
+        # statements
+        test(s,"var a = 1, b;")
+        test(s,"var a = 'foo \\' bar';")                 # scanner has to provide "foo ' bar" literal
+        test(s,"while(a<10){ b.append(a); }")
+        test(e,"i=2")
+        test(e,"2")
+        test(s,"for(i=0; i<j; i++){ a=3; }")
+        test(s,"for(i=0, j=a; i<j; i++){ a=3; }")
+        test(s,"for(var i=0, j=a; i<j; i++){ a=3; }")
+        test(s,"for(var key in config){process(key);}")
+        # regexp literals
+        test(s,"var a = /123/;")
+        test(s,"var a = /123/mgi;")
+        test(e,"foo(1, /a.*b/mgi)")
+        test(s,"var a = /a.*/;")
+        test(s,r"var a = /^ab.*?[f-g]+x\/yz[^\.\/]?a.*\\/;")
+        test(s,r"var a = /^(?:(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?)?(?:T(\d{2}):(\d{2})(?::(\d{2})(.\d+)?)?((?:[+-](\d{2}):(\d{2}))|Z)?)?$/;")  # from bug#2180
+        test(s,"var a = 10/123/2;")
+        # pre-/post-ops
+        test(e,"++i")
+        test(e,"i++")
+        test(e,"++a[0]")
+        test(e,"a[0]++")
+        test(e,"++(a[0])")
+        test(e,"(a[0])++")
+        test(e,"--i")
+        test(e,"i--")
