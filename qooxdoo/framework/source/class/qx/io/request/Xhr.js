@@ -257,15 +257,18 @@ qx.Class.define("qx.io.request.Xhr",
      * Set additional headers required by XHR transport.
      */
     _setRequestHeaders: function() {
-      var transport = this._transport;
+      var transport = this._transport,
+          requestHeaders = this.getRequestHeaders();
 
       // Align headers to configuration of instance
       if (qx.lang.Type.isString(this.getCache())) {
         transport.setRequestHeader("Cache-Control", this.getCache());
       }
 
-      // POST with request data needs special content-type
-      if (this.getMethod() === "POST") {
+      // By default, set content-type urlencoded for POST requests.
+      // A user-defined content-type takes precedence.
+      if (this.getMethod() === "POST" && !requestHeaders || (requestHeaders &&
+        !requestHeaders["Content-Type"])) {
         transport.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       }
 
