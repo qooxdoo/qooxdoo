@@ -75,7 +75,7 @@ class TokenStream(IterObject):
         while cnt < n:
             t = self.tok_stream.next()
             toks.append(t)
-            if t.name == "eof":
+            if t['type'] == "eof":
                 break
             while self._nonGrammaticalToken(t):
                 t = self.tok_stream.next()
@@ -86,39 +86,39 @@ class TokenStream(IterObject):
         for t in toks[::-1]:
             self.tokenStream.putBack(t)
 
-        return self._symbolFromToken(toks[-1])
+        return self._symbolFromToken(Token(toks[-1]))
 
     def _nonGrammaticalToken(self, tok):
-        return tok.name in ['white', 'commentI', 'commentM', 'nl']
+        return tok['type'] in ['white', 'comment', 'eol']
 
 
     def _symbolFromToken(self, tok):
         s = None
-        # tok isinstanceof Scanner.Token()
-        if (tok.name == 'white'
-            or tok.name == 'commentI'
-            or tok.name == 'commentM'):
+        # tok isinstanceof Token()
+        if (tok.name == 'white' # TODO: 'white'?!
+            or tok.name == 'comment'):
             pass
         elif tok.name == 'eof':
             symbol = symbol_table.get('(eof)')
             s = symbol()
             s.value = ""
-        elif tok.name == 'nl':
+        elif tok.name == 'eol':
             self.line += 1                  # increase line count
             self.sol  = tok.spos + tok.len  # char pos of next line start
             self.spos = tok.spos
             pass # don't yield this (yet)
-        elif tok.name in ('float','number','stringD','stringS'):
+        elif tok.name in ('number','string'):
             symbol = symbol_table["(literal)"]
             s = symbol()
             s.value = tok.value
         else:
+            # TODO: regexp, token, reserved, builtin
             # name or operator
             symbol = symbol_table.get(tok.value)
             if symbol:
                 s = symbol()
                 s.value = tok.value
-            elif tok.name == "ident":
+            elif tok.name == "name":
                 symbol = symbol_table['(ident)']
                 s = symbol()
                 s.value = tok.value
@@ -134,17 +134,7 @@ class TokenStream(IterObject):
 
     def __iter__(self):
         for t in self.tok_stream:
-            tok = Token()
-            tok.name = t["type"]
-            tok.value = t["source"]
-            tok.detail = getattr(t, "detail", None)
-            tok.line = getattr(t, "line", None)
-            tok.column = getattr(t, "column", None)
-            tok.spos = tok.column
-            tok.multiline = getattr(t, "multiline", None)
-            tok.connection = getattr(t, "connection", None)
-            tok.begin = getattr(t, "begin", None)
-            tok.end = getattr(t, "end", None)
+            tok = Token(t)
             s = self._symbolFromToken(tok)
             if not s:
                 continue
@@ -154,7 +144,17 @@ class TokenStream(IterObject):
 
 
 class Token(object):
-    pass
+    def __init__(tok, t):
+        tok.name = t["type"]
+        tok.value = t["source"]
+        tok.detail = getattr(t, "detail", None)
+        tok.line = getattr(t, "line", None)
+        tok.column = getattr(t, "column", None)
+        tok.spos = tok.column
+        tok.multiline = getattr(t, "multiline", None)
+        tok.connection = getattr(t, "connection", None)
+        tok.begin = getattr(t, "begin", None)
+        tok.end = getattr(t, "end", None)
 
 # - Grammar Infrastructure -------------------------------------------------
 
@@ -163,6 +163,7 @@ class Token(object):
 symbol_table = {}
 next = None
 token= None
+tokenStream = None
 
 
 class symbol_base(Node):
@@ -651,7 +652,7 @@ def std(self):
     advance("(")
     self.first = []
     var_s = None
-    if Parser.tokenStream.peek(2 if token.id=="var" else 1).id == "in":   # for (.. in ..)
+    if tokenStream.peek(2 if token.id=="var" else 1).id == "in":   # for (.. in ..)
         elem = token    # "var" or ident
         if elem.id == "var":
             elem.first = []
@@ -835,9 +836,9 @@ def argument_list(list):
 class TreeGenerator(object):
 
     def parse(self, tokenArr):
-        global token, next
-        self.stream = TokenStream(tokenArr) # TODO: adapt TokenStream to token array arg
-        next   = iter(self.stream).next
+        global token, next, tokenStream
+        tokenStream = TokenStream(tokenArr) # TODO: adapt TokenStream to token array arg
+        next   = iter(tokenStream).next
         token  = next()
         return statements()
 
@@ -855,18 +856,25 @@ s = 1
 b = 2
 
 def test(x, program):
-    global token, next
+    global token, next, tokenStream
     print ">>>", program
     tokenArr = tokenizer.parseStream(program)
-    next = TokenStream(tokenArr)
-    next = iter(next).next
+    tokenStream = TokenStream(tokenArr)
+    next = iter(tokenStream).next
     token = next()
     if x == e:
-        print expression().toXml()
+        res =  expression()
+        #import pydb; pydb.debugger()
+        #print res.toXml()
+        print repr(res)
     elif x == s:
-        print statements().toXml()
+        res =  statements()
+        #print res.toXml()
+        print repr(res)
     elif x == b:
-        print block().toXml()
+        res = block()\
+        #print res.toXml()
+        print repr(res)
     else:
         raise RuntimeError("Wrong test parameter: %s" % x)
 
