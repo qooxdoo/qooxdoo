@@ -167,7 +167,7 @@
         "simulator.disposerDebug" : false,
         "simulator.threadSafe" : false
       }
-    },
+    }
     
     /*
     "simulation-run-source" :
