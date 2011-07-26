@@ -7,7 +7,8 @@
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "SIMULATOR_ROOT" : ".",
     "BUILD_PATH"      : "${ROOT}/simulator",
-    "SIMULATION_INCLUDE" : "${APPLICATION}.simulation.*",
+    "SIMULATION_NAMESPACE" : "${APPLICATION}.simulation",
+    "SIMULATION_INCLUDE" : "${SIMULATION_NAMESPACE}.*",
     "SIMULATOR_CLASSPATH" : ["${SIMULATOR_ROOT}/tool/js.jar", "${SIMULATOR_ROOT}/tool/selenium-java-client-driver.jar"],
     "SIMULATOR_APPLICATION" : "simulator.Application"
   },
@@ -35,6 +36,10 @@
         {
           "manifest" : "${QOOXDOO_PATH}/component/simulator/Manifest.json",
           "uri" : "${QOOXDOO_PATH}/component/simulator"
+        },
+        {
+          "manifest" : "${QOOXDOO_PATH}/component/testrunner/Manifest.json",
+          "uri" : "${QOOXDOO_PATH}/component/testrunner"
         },
         {
           "manifest" : "${ROOT}/Manifest.json",
@@ -77,7 +82,7 @@
         "qx.version"     : "${QOOXDOO_VERSION}",
         "qx.revision"    : "${QOOXDOO_REVISION}",
         "qx.application" : "${SIMULATOR_APPLICATION}",
-        "simulator.nameSpace" : "${APPLICATION}.simulation",
+        "qx.testNameSpace" : "${SIMULATION_NAMESPACE}",
         "qx.globalErrorHandling" : false
       }
       
