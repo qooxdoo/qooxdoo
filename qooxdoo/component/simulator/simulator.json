@@ -17,7 +17,7 @@
   {
     "simulator-common" :
     {
-      "extend" : ["cache"],
+      "extend" : ["cache", "libraries"],
       
       "config-warnings" :
       {
@@ -30,20 +30,12 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json",
-          "uri" : "${QOOXDOO_PATH}/framework"
-        },
-        {
           "manifest" : "${QOOXDOO_PATH}/component/simulator/Manifest.json",
           "uri" : "${QOOXDOO_PATH}/component/simulator"
         },
         {
           "manifest" : "${QOOXDOO_PATH}/component/testrunner/Manifest.json",
           "uri" : "${QOOXDOO_PATH}/component/testrunner"
-        },
-        {
-          "manifest" : "${ROOT}/Manifest.json",
-          "uri" : "."
         }
       ],
       
@@ -87,33 +79,6 @@
       }
       
     },
-    
-    /*
-    "source" :
-    {
-      "extend" : [ "simulator-common" ],
-      
-      "environment" :
-      {
-        "qx.debug" : true
-      },
-      
-      "compile-options" :
-      {
-        "code" :
-        {
-          "except" : ["*"]
-        },
-        
-        "paths" :
-        {
-          "file" : "${BUILD_PATH}/script/simulator-source.js"
-        }
-      },
-      
-      "compile" : { "type" : "source" }
-    },
-    */
 
     "build" :
     {
@@ -123,6 +88,7 @@
     "build-script" :
     {
       "extend" : [ "simulator-common" ],
+      
       "environment" :
       {
         "qx.debug" : false
@@ -143,6 +109,38 @@
       },
       
       "compile" : { "type" : "build" }
+    },
+    
+    "source" :
+    {
+      "run" : ["source-script"]
+    },
+    
+    "source-script" :
+    {
+      "extend" : [ "simulator-common" ],
+      
+      "environment" :
+      {
+        "qx.debug" : true
+      },
+      
+      "compile-options" :
+      {
+        "code" :
+        {
+          "format"   : true,
+          "optimize" : [],
+          "except" : ["*"]
+        },
+        
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/script/simulator-source.js"
+        }
+      },
+      
+      "compile" : { "type" : "source" }
     },
 
     "simulation-run" :
@@ -173,17 +171,5 @@
         "simulator.threadSafe" : false
       }
     }
-    
-    /*
-    "simulation-run-source" :
-    {
-      "extend" : ["simulation-run"],
-      
-      "simulate" :
-      {
-        "simulator-script" : "${BUILD_PATH}/script/simulator-source.js"
-      }
-    }
-    */
   }
 }
