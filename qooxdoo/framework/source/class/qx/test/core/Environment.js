@@ -39,7 +39,7 @@ qx.Class.define("qx.test.core.Environment",
       // fake the check
       qx.core.Environment._checks["affe"] = function() {
         return "affe";
-      }
+      };
       this.assertEquals("affe", qx.core.Environment.get("affe"));
       // clear the fake check
       delete qx.core.Environment._checks["affe"];
@@ -52,7 +52,7 @@ qx.Class.define("qx.test.core.Environment",
         window.setTimeout(function() {
           clb.call(self, "affe");
         }, 0);
-      }
+      };
 
       qx.core.Environment.getAsync("affe", function(result) {
         this.resume(function() {
@@ -70,7 +70,7 @@ qx.Class.define("qx.test.core.Environment",
       // fake the check
       qx.core.Environment._checks["affe"] = function() {
         return "affe";
-      }
+      };
       var test;
       test = qx.core.Environment.select("affe", {
         "affe" : "affe"
@@ -86,7 +86,7 @@ qx.Class.define("qx.test.core.Environment",
       // fake the check
       qx.core.Environment._checks["affe"] = function() {
         return "affe";
-      }
+      };
       var test;
       test = qx.core.Environment.select("affe", {
         "default" : "affe"
@@ -127,7 +127,7 @@ qx.Class.define("qx.test.core.Environment",
       // fake the check
       qx.core.Environment._checks["affe"] = function() {
         return "affe";
-      }
+      };
       this.assertEquals("affe", qx.core.Environment.get("affe"));
       // clear the fake check
       delete qx.core.Environment._checks["affe"];
@@ -141,7 +141,7 @@ qx.Class.define("qx.test.core.Environment",
       // fake the check
       qx.core.Environment._checks["affe"] = function() {
         return "affe";
-      }
+      };
       this.assertEquals("affe", qx.core.Environment.get("affe"));
 
       qx.core.Environment.invalidateCacheKey("affe");
@@ -149,7 +149,7 @@ qx.Class.define("qx.test.core.Environment",
       // fake another check
       qx.core.Environment._checks["affe"] = function() {
         return "affe2";
-      }
+      };
       this.assertEquals("affe2", qx.core.Environment.get("affe"));
 
       // clear the fake check
