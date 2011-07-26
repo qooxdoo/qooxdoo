@@ -16,6 +16,16 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+/* ************************************************************************
+
+#require(qx.bom.htmlarea.HtmlArea)
+#require(qx.io.remote.Request)
+#require(qx.util.Json)
+#require(qx.ui.core.scroll.MScrollBarFactory)
+
+************************************************************************ */
+
 qx.Class.define("qx.test.core.Environment",
 {
   extend : qx.test.ui.LayoutTestCase,
