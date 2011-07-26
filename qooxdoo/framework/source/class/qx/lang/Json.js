@@ -47,19 +47,13 @@ qx.Class.define("qx.lang.Json",
      *   this member points to <code>window.JSON</code>. Otherwise it points to
      *   the qooxdoo implementation {@link JsonImpl}.
      */
-    JSON : (
-      qx.lang.Type.getClass(window.JSON) == "JSON" &&
-
-      // Parsing actually works.
-      JSON.parse('{"x":1}').x === 1 &&
-
-      // Stringify supports replacer.
-      //
-      // Catches browser bug found in Firefox >=3.5 && < 4, see
-      // https://bugzilla.mozilla.org/show_bug.cgi?id=509184
-      JSON.stringify({"prop":"val"}, function(k,v) {
-        return k === "prop" ? "repl" : v;
-      }).indexOf("repl") > 0) ? window.JSON : new qx.lang.JsonImpl(),
+    JSON : (function() {
+      if (qx.core.Environment.get("json")) {
+        return window.JSON;
+      } else {
+        return new qx.lang.JsonImpl();
+      }
+    })(),
 
     /**
      * This method produces a JSON text from a JavaScript value.
