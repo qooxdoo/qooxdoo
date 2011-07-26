@@ -52,7 +52,7 @@ qx.Class.define("qx.test.data.store.Rest",
       // Stub request methods, leave event system intact
       req = this.shallowStub(req, qx.io.request.AbstractRequest);
 
-      // Not dispose stub
+      // Not dispose stub yet
       this.stub(req, "dispose");
 
       // Inject double and return
@@ -73,6 +73,41 @@ qx.Class.define("qx.test.data.store.Rest",
 
       this.assertIdentical(store.getResource(), this.res);
       this.assertIdentical(store.getActionName(), "index");
+    },
+
+    "test: construct throws with missing res": function() {
+      this.require(["debug"]);
+
+      var store;
+
+      // Unfortunately, qx.core.Property throws a generic error
+      this.assertException(function() {
+        store = new qx.data.store.Rest(null, "index");
+      }, Error, (/property res/));
+      store && store.dispose();
+    },
+
+    "test: construct throws with erroneous res": function() {
+      this.require(["debug"]);
+
+      var store;
+
+      this.assertException(function() {
+        store = new qx.data.store.Rest({}, "index");
+      }, qx.core.AssertionError);
+      store && store.dispose();
+    },
+
+    "test: construct throws with missing action": function() {
+      this.require(["debug"]);
+
+      var store,
+          res = this.res;
+
+      this.assertException(function() {
+        store = new qx.data.store.Rest(res, null);
+      }, Error, (/property actionName/));
+      store && store.dispose();
     },
 
     "test: add listener for actionSuccess to res": function() {
@@ -173,6 +208,10 @@ qx.Class.define("qx.test.data.store.Rest",
       this.assertCalledWith(this.marshal.toModel, {"name": "Maus"});
 
       store.dispose();
+    },
+
+    hasDebug: function() {
+      return qx.core.Environment.get("qx.debug");
     },
 
     // Fake response
