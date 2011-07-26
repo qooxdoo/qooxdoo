@@ -38,8 +38,14 @@ qx.Class.define("qx.data.store.Rest",
   construct: function(resource, actionName, delegate)
   {
     this.base(arguments);
-    this.setResource(resource);
-    this.setActionName(actionName);
+
+    try {
+      this.setResource(resource);
+      this.setActionName(actionName);
+    } catch(e) {
+      this.dispose();
+      throw e;
+    }
 
     this._delegate = delegate;
     this._marshaler = new qx.data.marshal.Json(delegate);
