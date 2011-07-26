@@ -1,14 +1,6 @@
 {
   "name"    : "Simulator (export) config",
-
-  "include" :
-  [
-    {
-      "path" : "${QOOXDOO_PATH}/component/testrunner/testrunner.json",
-      "as"   : "testrunner"
-    }
-  ],
-
+  
   "let" :
   {
     "QOOXDOO_PATH" : "../..",
@@ -25,7 +17,15 @@
   {
     "simulator-common" :
     {
-      "extend" : ["testrunner::testrunner-basic-common"],
+      "extend" : ["cache", "libraries"],
+      
+      "config-warnings" :
+      {
+        "exclude" : [
+          "qx.core.Init",
+          "qx.event.GlobalError"
+        ]
+      },
       
       "library" :
       [
@@ -39,17 +39,43 @@
         }
       ],
       
-      "=include" : [
+      "include" : [
         "qx.core.BaseInit",
         "${SIMULATOR_APPLICATION}",
         "${SIMULATION_INCLUDE}"
       ],
       
+      "exclude" : [
+        "qx.core.Init",
+        "qx.event.GlobalError"
+      ],
+      
+       "environment" :
+      {
+        "qx.debug" : true,
+        "qx.aspects" : false
+      },
+      
+      "compile-options" :
+      {
+        "code" :
+        {
+          "except" : []
+        },
+        "paths" :
+        {
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/basic.loader.js",
+          "app-root" : "${BUILD_PATH}"
+        }
+      },
+      
       "environment" :
       {
-        "qx.aspects" : false,
+        "qx.version"     : "${QOOXDOO_VERSION}",
+        "qx.revision"    : "${QOOXDOO_REVISION}",
         "qx.application" : "${SIMULATOR_APPLICATION}",
-        "qx.testNameSpace" : "${SIMULATION_NAMESPACE}"
+        "qx.testNameSpace" : "${SIMULATION_NAMESPACE}",
+        "qx.globalErrorHandling" : false
       }
       
     },
