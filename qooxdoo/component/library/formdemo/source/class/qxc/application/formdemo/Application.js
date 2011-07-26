@@ -28,7 +28,7 @@ qx.Class.define("qxc.application.formdemo.Application",
     main : function()
     {
       this.base(arguments);
-      
+
       this.__items = new qxc.application.formdemo.FormItems();
       this.getRoot().add(this.__items);
     }

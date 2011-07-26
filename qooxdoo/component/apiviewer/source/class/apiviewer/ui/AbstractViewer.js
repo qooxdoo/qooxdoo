@@ -89,7 +89,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       init: false,
       apply: "_updatePanels"
     },
-    
+
     /** whether to display internal items */
     showInternal : {
       check: "Boolean",
@@ -203,7 +203,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     {
       throw new Error("Abstract method called!");
     },
-    
+
     _getTocHtml : function(classNode)
     {
       throw new Error("Abstract method called!");
@@ -276,7 +276,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       }
       apiviewer.LoadingIndicator.getInstance().hide();
     },
-    
+
     /**
      * Updates all info panels and TOC with items reflecting appearance/disappearance of panels
      * due to inherited members

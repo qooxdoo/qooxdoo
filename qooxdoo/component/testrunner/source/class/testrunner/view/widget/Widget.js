@@ -87,9 +87,9 @@ qx.Class.define("testrunner.view.widget.Widget", {
     mainContainer.add(statuspane);
 
     this._makeCommands();
-    
+
     this._applyPaneWidths(centerPane, rightPane);
-    
+
     leftPane.addListener("resize", this.__onPaneResize);
     centerPane.addListener("resize", this.__onPaneResize);
     rightPane.addListener("resize", this.__onPaneResize);
@@ -521,7 +521,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
       container.add(caption);
 
       var stack = this.__stack = new qx.ui.container.Stack();
-      
+
       this.__testTree = new qx.ui.tree.VirtualTree();
       this.__testTree.set({
         labelPath : "name",
@@ -541,7 +541,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
       this.setSelectedTests(this.__testTree.getSelection());
 
       stack.add(this.__testTree);
-      
+
       var loadingContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       loadingContainer.setDecorator("separator-vertical");
       loadingContainer.setBackgroundColor("white");
@@ -549,7 +549,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
       stack.add(loadingContainer);
       var loadingImg = new qx.ui.basic.Image("testrunner/view/widget/image/loading66.gif");
       loadingContainer.add(loadingImg, {left: "40%", top: "40%"});
-      
+
       container.add(stack, {flex : 1});
 
       return container;
@@ -644,7 +644,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
         allowGrowY : true
       });
       inner.add(caption1, {edge: "west"});
-      
+
       // Stack trace toggle
       var stacktoggle = new qx.ui.form.ToggleButton(this.__app.tr("Show Stack Trace"), "icon/16/actions/document-properties.png");
       inner.add(stacktoggle, {edge: "east"});
@@ -655,7 +655,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
       });
       //stacktoggle.setShow("both");
       stacktoggle.bind("value", this, "showStackTrace");
-      
+
 
       p1.add(this.__createProgressBar());
 
@@ -682,7 +682,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
       pane2.add(this.__createLogContainer(), 1);
 
       pane2.setUserData("pane", "right");
-      
+
       return pane2;
     },
 
@@ -929,7 +929,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
           this._setActiveButton(this.__runButton);
           this._applyTestCount(this.getTestCount());
           this.__testTree.setEnabled(true);
-          // Don't apply the cookie selection if the previous state was 
+          // Don't apply the cookie selection if the previous state was
           // "aborted" (user clicked stop, then run)
           if (old === "loading") {
             this.__setSelectionFromCookie();
@@ -938,7 +938,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
           if (this.getSelectedTests().length === 0) {
             this.__testTree.getSelection().push(this.getTestModel());
           }
-          
+
           if ( (this.getReloadAfterEachPackage() && this.__lastAutoRunItemName)
               || (this.getAutoReload() && this.__autoReloadActive == true) ) {
             this.fireEvent("runTests");
@@ -1119,7 +1119,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
           this.getSelectedTests().removeAll();
           this.getSelectedTests().push(found);
         }
-      }    
+      }
     },
 
     // overridden
@@ -1153,13 +1153,13 @@ qx.Class.define("testrunner.view.widget.Widget", {
       var reloadAut = new qx.ui.core.Command("Ctrl+Shift+R");
       reloadAut.addListener("execute", this.__reloadAut, this);
     },
-    
+
     /**
      * Applies the cookie width values to the center and right panes
-     * 
+     *
      * @param centerPane {qx.ui.core.Widget} center pane
      * @param rightPane {qx.ui.core.Widget} right pane
-     */    
+     */
     _applyPaneWidths : function(centerPane, rightPane)
     {
       var centerPaneWidth = qx.bom.Cookie.get("testrunner.centerPaneWidth");
@@ -1191,7 +1191,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
     "__loadingContainer",
     "__stack",
     "__app");
-    
+
     this._disposeMap("__menuItemStore");
   }
 });

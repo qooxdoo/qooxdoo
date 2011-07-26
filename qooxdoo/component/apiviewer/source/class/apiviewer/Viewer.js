@@ -193,18 +193,18 @@ qx.Class.define("apiviewer.Viewer",
       part.add(includesBtn);
 
       var includesMenu = new qx.ui.menu.Menu();
-      
+
       var inheritBtn = new qx.ui.menu.CheckBox(this.tr("Inherited"));
       inheritBtn.setId("btn_inherited");
       inheritBtn.setToolTipText(this.tr("Show/hide inherited members of the current class."));
       includesMenu.add(inheritBtn);
-      
+
       var mixinIncludedBtn = new qx.ui.menu.CheckBox(this.tr("Mixin Included"));
       mixinIncludedBtn.setId("btn_included");
       mixinIncludedBtn.setToolTipText(this.tr("Show/hide included members of the current class."));
       mixinIncludedBtn.setValue(true);
       includesMenu.add(mixinIncludedBtn);
-      
+
       includesBtn.setMenu(includesMenu);
 
       var protectedBtn = new qx.ui.toolbar.CheckBox(this.tr("Protected"), "apiviewer/image/method_protected18.gif");
@@ -216,7 +216,7 @@ qx.Class.define("apiviewer.Viewer",
       privateBtn.setId("btn_private");
       privateBtn.setToolTipText(this.tr("Show/hide private members of the current class."));
       part.add(privateBtn);
-      
+
       var internalBtn = new qx.ui.toolbar.CheckBox(this.tr("Internal"), "apiviewer/image/method_internal18.gif");
       internalBtn.setId("btn_internal");
       internalBtn.setToolTipText(this.tr("Show/hide internal members of the current class."));
@@ -310,7 +310,7 @@ qx.Class.define("apiviewer.Viewer",
             toolbarItem.bind("enabled", cachedItem, "enabled");
           }
           else
-          {  
+          {
             cachedItem = new qx.ui.menu.CheckBox(toolbarItem.getLabel());
             // bidirectional binding takes care of everything
             toolbarItem.bind("value", cachedItem, "value");

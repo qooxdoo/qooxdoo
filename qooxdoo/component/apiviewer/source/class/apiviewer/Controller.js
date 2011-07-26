@@ -60,13 +60,13 @@ qx.Class.define("apiviewer.Controller",
     this.__bindTree();
 
     this.__bindToolbar();
-    
+
     var btn_inherited = this._widgetRegistry.getWidgetById("btn_inherited");
     var btn_included = this._widgetRegistry.getWidgetById("btn_included");
-    
+
     btn_inherited.addListener("changeValue", this.__syncMenuButton, this);
     btn_included.addListener("changeValue", this.__syncMenuButton, this);
-    
+
 
     this._history = qx.bom.History.getInstance();
     this.__bindHistory();
@@ -233,16 +233,16 @@ qx.Class.define("apiviewer.Controller",
       var btn_private = this._widgetRegistry.getWidgetById("btn_private");
       btn_private.bind("value", uiModel, "showPrivate");
       uiModel.bind("showPrivate", btn_private, "value");
-      
+
       var btn_internal = this._widgetRegistry.getWidgetById("btn_internal");
       btn_internal.bind("value", uiModel, "showInternal");
       uiModel.bind("showInternal", btn_internal, "value");
     },
-    
-    
+
+
     /**
      * Keeps the icon of the menubutton in sync with the menu checkboxes of inherited and mixin includes.
-     * 
+     *
      */
     __syncMenuButton : function()
     {
@@ -267,7 +267,7 @@ qx.Class.define("apiviewer.Controller",
       {
         menuButton.setIcon('apiviewer/image/includes.gif');
       }
-      
+
     },
 
     /**

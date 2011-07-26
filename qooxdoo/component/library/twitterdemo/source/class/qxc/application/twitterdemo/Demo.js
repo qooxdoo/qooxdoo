@@ -25,13 +25,13 @@
 
 qx.Class.define("qxc.application.twitterdemo.Demo", {
   extend : qx.ui.container.Composite,
-  
+
   construct : function() {
     this.base(arguments);
-    
+
     this._createView();
   },
-  
+
   members : {
 
     _createView : function()

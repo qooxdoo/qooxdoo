@@ -98,7 +98,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       "Window"    : true,
       "Event"     : true
     },
-    
+
     MDC_LINKS :
     {
       "Event" : "https://developer.mozilla.org/en/DOM/event",
@@ -266,15 +266,15 @@ qx.Class.define("apiviewer.ui.ClassViewer",
                                 "childControls" : "apiviewer/image/childcontrol18.gif"};
       var panels = this.getPanels();
       var panelByName = {};
-      
+
       for(var i=0, l=panels.length; i<l; i++)
       {
         var listName = panels[i].getListName();
         panelByName[listName] = panels[i];
       }
-      
+
       var lastTocItem = null;
-      
+
       for(var i=0, l=members.length; i<l; i++)
       {
         var memberList = classNode.getItemList(members[i]);
@@ -315,7 +315,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
               }
           }
         }
-        
+
         if(showTOC)
         {
           if(lastTocItem) {
@@ -323,10 +323,10 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           }
           var tocItem = qx.bom.Element.create('span');
           qx.bom.element.Class.add(tocItem,'tocitem');
-          
+
           // add icon in front of the TOC item
           tocItem.innerHTML = apiviewer.ui.ClassViewer.createImageHtml(iconURL[members[i]],members[i])+' ';
-          
+
           qx.bom.Element.addListener(tocItem,'click',(function(panel,firstItem){
             return function()
             {
@@ -347,7 +347,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           lastTocItem = tocItem;
         }
       }
-      
+
       return tocHtml;
     },
 

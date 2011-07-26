@@ -39,7 +39,7 @@ qx.Class.define("qxc.ui.logpane.LogView", {
       ["warn", "Warning", "icon/16/status/dialog-warning.png"],
       ["error", "Error", "icon/16/status/dialog-error.png"]
     ];
-    
+
     var layout = new qx.ui.layout.VBox();
     layout.setSeparator("separator-vertical");
     this.base(arguments, layout);
@@ -129,7 +129,7 @@ qx.Class.define("qxc.ui.logpane.LogView", {
     /**
      * Fetches all logged data from the qx logging system and puts in into the
      * log widget.
-     * 
+     *
      * @param Class {Logger?null} The logger class.
      */
     fetch : function(Logger)

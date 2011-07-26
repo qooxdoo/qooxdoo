@@ -26,7 +26,7 @@ qx.Class.define("qxc.ui.logpane.Application",
     main : function()
     {
       this.base(arguments);
-      
+
       var view = new qxc.ui.logpane.LogView();
       this.getRoot().add(view, {edge: 0});
       view.fetch();

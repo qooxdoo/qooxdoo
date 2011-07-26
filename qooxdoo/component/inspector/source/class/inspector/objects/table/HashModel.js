@@ -46,7 +46,7 @@ qx.Class.define("inspector.objects.table.HashModel",
   construct : function(model)
   {
     this.base(arguments, model, ["Hash", "Classname"]);
-    
+
     // set the sorting method for the hash values
     this.setSortMethods(0,
     {

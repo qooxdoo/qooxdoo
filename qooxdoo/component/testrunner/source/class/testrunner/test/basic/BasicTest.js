@@ -20,7 +20,7 @@
 qx.Class.define("testrunner.test.basic.BasicTest", {
 
   extend : qx.dev.unit.TestCase,
-  
+
   members :
   {
     testSuccess : function()

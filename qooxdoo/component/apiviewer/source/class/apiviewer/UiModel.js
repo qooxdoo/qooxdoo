@@ -44,7 +44,7 @@ qx.Class.define("apiviewer.UiModel",
       init: false,
       event : "changeShowPrivate"
     },
-    
+
     /** whether to display internal items */
     showInternal :
     {
