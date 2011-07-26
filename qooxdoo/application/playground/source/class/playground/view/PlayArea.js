@@ -17,10 +17,10 @@
 
 ************************************************************************ */
 /**
- * Abstraction layer for all play areas which forwards the calls and offers a 
+ * Abstraction layer for all play areas which forwards the calls and offers a
  * common interface to the playground application.
  */
-qx.Class.define("playground.view.PlayArea", 
+qx.Class.define("playground.view.PlayArea",
 {
   extend : qx.ui.container.Stack,
 

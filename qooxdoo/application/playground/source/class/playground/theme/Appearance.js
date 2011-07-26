@@ -51,7 +51,7 @@ qx.Theme.define("playground.theme.Appearance",
         }  else {
           decorator = "button-checked";
         }
-        
+
         // feature detect if we should use the CSS decorators
         if (qx.core.Environment.get("css.borderradius") &&
           qx.core.Environment.get("css.gradients")) {

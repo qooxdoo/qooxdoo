@@ -26,27 +26,27 @@
 ************************************************************************ */
 
 /**
- * Visualizes one or more feature sets. Individual features can be added to a 
+ * Visualizes one or more feature sets. Individual features can be added to a
  * list where their values can be edited. The selected features are displayed in
  * JSON-serialized form so they can be copied into an application config file.
  */
 qx.Class.define("fce.view.FeatureSelector", {
 
   extend : qx.ui.container.Composite,
-  
+
   construct : function()
   {
     var layout = new qx.ui.layout.HBox(20);
     this.base(arguments, layout);
     this.setAppearance("featureselector");
-    
+
     this.add(this._createTableContainer(), {flex: 1});
     this.add(this._createButtonContainer(), {flex: 0});
     this.add(this._createDisplayContainer(), {flex: 1});
-    
+
     this.__stash = {};
   },
-  
+
   properties :
   {
     /**
@@ -58,18 +58,18 @@ qx.Class.define("fce.view.FeatureSelector", {
       nullable : true,
       apply : "_applyFeatureData"
     },
-    
+
     /**
      * Data model representing the feature sets. Automatically created from
-     * {@link #featureData} 
+     * {@link #featureData}
      */
     model :
     {
       apply : "_applyModel"
     },
-    
+
     /**
-     * String to be used as a filter for the table view. 
+     * String to be used as a filter for the table view.
      */
     filter :
     {
@@ -77,12 +77,12 @@ qx.Class.define("fce.view.FeatureSelector", {
       event : "changeFilter"
     }
   },
-  
+
   statics :
   {
     /**
      * Converts a string into a valid JavaScript identifier (lossy).
-     * 
+     *
      * @param id {String} The identifier to sanitize
      * @return {String} The sanitized identifier
      */
@@ -91,16 +91,16 @@ qx.Class.define("fce.view.FeatureSelector", {
       if (/^[$A-Za-z_][0-9A-Za-z_]*$/.test(id)) {
         return id;
       }
-      
+
       id = id.replace(/[^0-9a-z_]/gi, "");
-      
+
       if (id.length == 0) {
         id = "_" + new Date().getTime();
       }
       return id;
     }
   },
-  
+
   members :
   {
     __filterTextField : null,
@@ -108,8 +108,8 @@ qx.Class.define("fce.view.FeatureSelector", {
     __setsMenu : null,
     __setsMenuEntries : null,
     __stash : null,
-    
-    
+
+
     _createChildControlImpl : function(id, hash)
     {
       var control;
@@ -133,15 +133,15 @@ qx.Class.define("fce.view.FeatureSelector", {
           control.setMinHeight(75);
           control.setReadOnly(true);
       }
-      
+
       return control;
     },
-    
-    
+
+
     /**
      * Returns the table view consisting of the filter text field and the actual
      * table.
-     * 
+     *
      * @return {qx.ui.container.Composite} Table view container
      */
     _createTableContainer : function()
@@ -153,33 +153,33 @@ qx.Class.define("fce.view.FeatureSelector", {
       label.setFont("bigger");
       inner.add(label);
       label.setAlignY("bottom");
-      
+
       inner.add(new qx.ui.core.Spacer(), {flex: 1});
-      
+
       /*
       var setsMenu = new qx.ui.menu.Menu();
       this.__setsMenu = setsMenu;
       var selectSetsButton = new qx.ui.form.MenuButton("Toggle Displayed Sets", "icon/16/actions/view-restore.png", setsMenu);
       inner.add(selectSetsButton);
       */
-      
+
       var importButton = new qx.ui.form.Button("Import Feature Map", "icon/16/actions/window-new.png");
       importButton.addListener("execute", function(ev) {
         this._getImportWindow().open();
       }, this);
       inner.add(importButton);
-      
+
       var table = this.getChildControl("table");
-      
+
       container.add(table, {flex: 1});
       container.addBefore(this._createFilterBox(), table);
       return container;
     },
-    
-    
+
+
     /**
      * Returns a container with the "add" and "remove" buttons.
-     * 
+     *
      * @return {qx.ui.container.Composite} Button container
      */
     _createButtonContainer : function()
@@ -193,11 +193,11 @@ qx.Class.define("fce.view.FeatureSelector", {
       container.add(removeButton);
       return container;
     },
-    
-    
+
+
     /**
-     * Returns the list view. 
-     * 
+     * Returns the list view.
+     *
      * @return {qx.ui.container.Composite} List view container
      */
     _createDisplayContainer : function()
@@ -207,18 +207,18 @@ qx.Class.define("fce.view.FeatureSelector", {
       container.add(selectionLabel);
       selectionLabel.setFont("bigger");
       container.add(this.getChildControl("list"), {flex: 1});
-      
+
       var jsonLabel = new qx.ui.basic.Label("JSON");
       jsonLabel.setFont("bigger");
       container.add(jsonLabel);
       container.add(this.getChildControl("jsonField"), {flex: 1});
       return container;
     },
-    
-    
+
+
     /**
      * Returns the filter text box.
-     * 
+     *
      * @return {qx.ui.container.Composite} Filter box container
      */
     _createFilterBox : function()
@@ -245,11 +245,11 @@ qx.Class.define("fce.view.FeatureSelector", {
 
       return container;
     },
-    
-    
+
+
     /**
      * Creates an Import Window (if necessary) and returns it
-     * 
+     *
      * @return {fce.view.ImportWindow} import window
      */
     _getImportWindow : function()
@@ -264,12 +264,12 @@ qx.Class.define("fce.view.FeatureSelector", {
       }
       return this.__importWindow;
     },
-    
-    
+
+
     /**
-     * Returns a list of maps. Each map represents one feature and holds all 
+     * Returns a list of maps. Each map represents one feature and holds all
      * known values
-     * 
+     *
      * @param dataMap {Map} Map of feature data sets
      * @return {Array} Array of feature maps
      */
@@ -287,9 +287,9 @@ qx.Class.define("fce.view.FeatureSelector", {
           }
         }
       }
-      
+
       uniqueKeys.sort();
-      
+
       for (var i=0, l=uniqueKeys.length; i<l;  i++) {
         var keyName = uniqueKeys[i];
         var item = {
@@ -298,7 +298,7 @@ qx.Class.define("fce.view.FeatureSelector", {
         }
 
         var distinctValues = [];
-        
+
         for (var setId in dataMap) {
           var setData = dataMap[setId];
           if (setData[keyName] !== undefined) {
@@ -313,13 +313,13 @@ qx.Class.define("fce.view.FeatureSelector", {
       }
       return data;
     },
-    
-    
+
+
     /**
-     * Adds a new feature set to the display. Data must be a map with one key 
-     * that will be used to identify the set. The value must be a map of 
+     * Adds a new feature set to the display. Data must be a map with one key
+     * that will be used to identify the set. The value must be a map of
      * environment feature name/value pairs.
-     * 
+     *
      * @param featureSet {Map} Feature set to be added
      */
     addFeatureSet : function(featureSet) {
@@ -331,8 +331,8 @@ qx.Class.define("fce.view.FeatureSelector", {
       this.setFeatureData(null);
       this.setFeatureData(data);
     },
-    
-    
+
+
     // property apply
     _applyFeatureData : function(value, old)
     {
@@ -343,8 +343,8 @@ qx.Class.define("fce.view.FeatureSelector", {
         //this._getSetsMenu(qx.lang.Object.getKeys(value));
       }
     },
-    
-    
+
+
     // property apply
     _applyModel : function(value, old)
     {
@@ -354,24 +354,24 @@ qx.Class.define("fce.view.FeatureSelector", {
       value.addListener("changeBubble", this.__onSelectionChange, this);
       this.getChildControl("table").setModel(value);
     },
-    
-    
+
+
     /**
-     * Displays the selected data 
+     * Displays the selected data
      */
     __onSelectionChange : function()
     {
       var valueProperty = this.getChildControl("list").getModelValueProperty();
-      var data = this.__itemsToMap(this.getChildControl("list").getSelectedItems(), 
+      var data = this.__itemsToMap(this.getChildControl("list").getSelectedItems(),
         valueProperty);
       var json = this._getJson(data);
       this.getChildControl("jsonField").setValue(json);
     },
-    
-    
+
+
     /**
      * Adds a double-clicked table row's item to the list
-     * 
+     *
      * @param ev {qx.ui.table.pane.CellEvent} cell event
      */
     __onTableDoubleClick : function(ev)
@@ -383,19 +383,19 @@ qx.Class.define("fce.view.FeatureSelector", {
       var item = tableModel.getValue(dataColumnIndex, row);
       this.getChildControl("list").addItemsUnique(new qx.data.Array([item]));
     },
-    
+
 
     /**
      * Takes a list of objects and returns a map with the values of each object's
      * "name" property as the keys and the values of the given property as values
-     * 
+     *
      * @param items {qx.data.Array} Data array of model items
      * @param valueProperty {String} Name of the model property containing the
      * desired value
      * @return {Map}
      */
     __itemsToMap : function(items, valueProperty)
-    { 
+    {
       var data = {};
       for (var i=0,l=items.length; i<l; i++) {
         var item = items.getItem(i);
@@ -403,11 +403,11 @@ qx.Class.define("fce.view.FeatureSelector", {
       }
       return data;
     },
-    
-    
+
+
     /**
      * Stringifies a map and does a little pretty-printing.
-     * 
+     *
      * @param data {Map} Map to be serialized
      * @return {String} Formatted JSON representation of the data
      */
@@ -416,8 +416,8 @@ qx.Class.define("fce.view.FeatureSelector", {
       var json = qx.lang.Json.stringify(data);
       return json.replace(/{/, "{\n  ").replace(/}/, "\n}").replace(/,/g, ",\n  ");
     },
-    
-    
+
+
     /**
      * Creates a menu with checkbox buttons for the given set ids
      * @param setIds {String[]} List of set IDs (key names of the {@link #featureData}
@@ -427,7 +427,7 @@ qx.Class.define("fce.view.FeatureSelector", {
       if (!this.__setsMenuEntries) {
         this.__setsMenuEntries = [];
       }
-      
+
       for (var i=0, l=setIds.length; i<l; i++) {
         if (!qx.lang.Array.contains(this.__setsMenuEntries, setIds[i])) {
           var checkBox = new qx.ui.menu.CheckBox(setIds[i]);
@@ -448,11 +448,11 @@ qx.Class.define("fce.view.FeatureSelector", {
         }
       }
     },
-    
-    
+
+
     /**
      * Removes a data set from {@link #featureData} and stores it for later use
-     * 
+     *
      * @param setId {String} One of the key names in {@link #featureData}
      */
     _stashSet : function(setId) {
@@ -464,11 +464,11 @@ qx.Class.define("fce.view.FeatureSelector", {
         this.setFeatureData(data);
       }
     },
-    
-    
+
+
     /**
      * Adds a stored data set to {@link #featureData}
-     * 
+     *
      * @param setId {String} One of the key names in {@link #featureData}
      */
     _unstashSet : function(setId) {
@@ -478,10 +478,10 @@ qx.Class.define("fce.view.FeatureSelector", {
         delete this.__stash[setId];
         this.setFeatureData(null);
         this.setFeatureData(data);
-      }    
+      }
     },
-    
-    
+
+
     /**
      * Adds the currently selected model items to the list display
      */
@@ -490,8 +490,8 @@ qx.Class.define("fce.view.FeatureSelector", {
       var selectedItems = this.getChildControl("table").getSelectedItems();
       this.getChildControl("list").addItemsUnique(selectedItems);
     },
-    
-    
+
+
     /**
      * Instructs the list to remove its selected items
      */
@@ -499,13 +499,13 @@ qx.Class.define("fce.view.FeatureSelector", {
     {
       this.getChildControl("list").removeSelected();
     }
-    
+
   },
-  
-  
+
+
   destruct : function()
   {
-    this.getChildControl("list").getSelectedItems().removeListener("change", 
+    this.getChildControl("list").getSelectedItems().removeListener("change",
       this.__onSelectionChange, this);
     this._disposeObjects("__filterTextField", "__importWindow", "__setsMenu");
   }

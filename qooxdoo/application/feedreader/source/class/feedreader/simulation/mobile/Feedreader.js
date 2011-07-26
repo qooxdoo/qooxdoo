@@ -23,7 +23,7 @@
 qx.Class.define("feedreader.simulation.mobile.Feedreader", {
 
   extend : simulator.unit.TestCase,
-  
+
   construct : function()
   {
     this.base(arguments);
@@ -32,17 +32,17 @@ qx.Class.define("feedreader.simulation.mobile.Feedreader", {
       backButton : "qxhv=*/[@classname=qx.ui.mobile.navigationbar.BackButton]"
     };
   },
-  
+
   members : {
-    
+
     __feedTitles : null,
-    
+
     _getFeedTitles : function()
     {
       if (this.__feedTitles) {
         return this.__feedTitles;
       }
-      
+
       var getFeedTitles = 'function() {'
       +   'var titles = [];'
       +   'var items = selenium.qxStoredVars["autWindow"].document.getElementsByClassName("listItem");'
@@ -52,48 +52,48 @@ qx.Class.define("feedreader.simulation.mobile.Feedreader", {
       +   '}'
       +   'return JSON.stringify(titles);'
       + '};';
-      
+
       this.getSimulation()._addOwnFunction("getFeedTitles", getFeedTitles);
       var functionCall = 'selenium.qxStoredVars["autWindow"].qx.Simulation.getFeedTitles()';
       var result = String(this.getQxSelenium().getEval(functionCall));
       this.__feedTitles = eval(result);
       return this.__feedTitles;
     },
-    
+
     setUp : function()
     {
       this.getQxSelenium().setSpeed(1000);
     },
-    
+
     tearDown : function()
     {
       this.getQxSelenium().setSpeed(250);
     },
-    
+
     "test feeds displayed" : function()
     {
       var feedTitles = this._getFeedTitles();
       this.assertNotEquals(0, feedTitles.length, "No feeds displayed!");
     },
-    
+
     "test select each feed" : function()
     {
       var titles = this._getFeedTitles();
-      
+
       for (var i=0, l=titles.length; i<l; i++) {
         var feedTitle = titles[i];
         var subLocator = '//div[text()="' + feedTitle + '"]/../../..';
         var fullLocator = "qxhybrid=" + this.locators.feedList +  "&&" + subLocator;
-        
+
         this.getQxSelenium().qxClick(fullLocator);
         this.getSimulation().wait(250);
         var back = this.getSimulation().getWidgetOrNull(this.locators.backButton);
         this.assertNotNull(back, "Back button not present after clicking " + feedTitle);
-        
+
         this.getQxSelenium().qxClick(this.locators.backButton);
         this.getSimulation().wait(250);
         back = this.getSimulation().getWidgetOrNull(this.locators.backButton);
-        
+
         if (back) {
           this.getQxSelenium().qxClick(this.locators.backButton);
           this.getSimulation().wait(250);
@@ -102,6 +102,6 @@ qx.Class.define("feedreader.simulation.mobile.Feedreader", {
         this.assertNull(back, "Back button still present! Feed: " + feedTitle);
       }
     }
-    
+
   }
 });

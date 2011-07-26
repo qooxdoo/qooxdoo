@@ -23,7 +23,7 @@
 qx.Class.define("mobileshowcase.simulation.Mobileshowcase", {
 
   extend : simulator.unit.TestCase,
-  
+
   members :
   {
     /*
@@ -31,7 +31,7 @@ qx.Class.define("mobileshowcase.simulation.Mobileshowcase", {
       TESTS
     ---------------------------------------------------------------------------
     */
-    
+
     _testGeneric : function(elementToClick, newElement)
     {
       this.getQxSelenium().qxClick(elementToClick);
@@ -41,36 +41,36 @@ qx.Class.define("mobileshowcase.simulation.Mobileshowcase", {
       this.getQxSelenium().qxClick("qxhv=*/[@classname=qx.ui.mobile.navigationbar.BackButton]");
       this.getSimulation().wait(1000);
     },
-    
+
     testFormElements : function()
     {
       this._testGeneric('//div[text()="Form Elements"]', '//div[text()="Password: "]');
     },
-    
+
     testList : function()
     {
       this._testGeneric('//div[text()="List"]', '//div[text()="Selectable Item0"]')
     },
-    
+
     testTabBar : function()
     {
       this._testGeneric('//div[text()="Tab Bar"]', '//div[text()="View 1"]');
     },
-    
+
     testToolbar : function()
     {
       this._testGeneric('//div[text()="Toolbar"]', '//h2[text()="Search"]');
     },
-    
+
     testEvents : function()
     {
       this._testGeneric('//div[text()="Events"]', '//div[text()="Touch / Tap / Swipe this area"]');
     },
-    
+
     testPageTransitions : function()
     {
       this._testGeneric('//div[text()="Page Transitions"]', '//div[text()="Slide"]');
     }
   }
-  
+
 });

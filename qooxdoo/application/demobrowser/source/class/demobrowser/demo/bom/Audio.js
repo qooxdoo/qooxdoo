@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.bom.Audio",
           audio.play();
         } else {
           audio.pause();
-        } 
+        }
       }, this);
 
       var mute = new qx.ui.form.ToggleButton("Mute");
@@ -67,7 +67,7 @@ qx.Class.define("demobrowser.demo.bom.Audio",
           audio.setMuted(false);
         } else {
           audio.setMuted(true);
-        } 
+        }
       }, this);
 
       var loop = new qx.ui.form.ToggleButton("Loop");
@@ -76,7 +76,7 @@ qx.Class.define("demobrowser.demo.bom.Audio",
           audio.setLoop(false);
         } else {
           audio.setLoop(true);
-        } 
+        }
       }, this);
 
       var duration = new qx.ui.basic.Label("0:00");

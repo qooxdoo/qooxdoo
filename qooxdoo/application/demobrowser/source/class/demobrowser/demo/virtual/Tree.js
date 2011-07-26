@@ -126,7 +126,7 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
         var enable = e.getData();
         tree.setSelectionMode(enable ? "multi": "single");
       });
-      
+
       var btnDragSelect = new qx.ui.form.CheckBox("Enable drag selection");
       commandFrame.add(btnDragSelect, {row: row++, column: 1});
 

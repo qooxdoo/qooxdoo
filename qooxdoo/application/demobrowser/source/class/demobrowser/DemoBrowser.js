@@ -68,7 +68,7 @@ qx.Class.define("demobrowser.DemoBrowser",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.__menuItemStore = {};
 
     // Configure layout
@@ -412,14 +412,14 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     /**
      * Handler for to hide/show all test demos.
-     * 
+     *
      * @param event {qx.event.type.Data} The event.
      */
     _onHideShowTests : function(event)
     {
       var search = window.location.search;
       var anchor = window.location.hash;
-      
+
       var url = "index.html";
       if (search == "") {
         url += "?qxenv:demobrowser.withTests:true";
@@ -428,7 +428,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       location.replace(url);
     },
 
-    
+
     /**
      * TODOC
      * @param e {Event} TODOC
@@ -671,17 +671,17 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (qx.core.Environment.get("qx.contrib") == false) {
         viewGroup.add(htmlView, jsView);
       }
-      
+
 
       // enable overflow handling
       bar.setOverflowHandling(true);
-    
+
       // add a button for overflow handling
       var chevron = new qx.ui.toolbar.MenuButton(null, "icon/22/actions/media-seek-forward.png");
       chevron.setAppearance("toolbar-button");  // hide the down arrow icon
       bar.add(chevron);
       bar.setOverflowIndicator(chevron);
-    
+
       // set priorities for overflow handling
       bar.setRemovePriority(viewPart, 6);
       bar.setRemovePriority(menuPart, 5);
@@ -689,15 +689,15 @@ qx.Class.define("demobrowser.DemoBrowser",
       bar.setRemovePriority(externLinksPart1, 3);
       bar.setRemovePriority(prevNextPart, 2);
       bar.setRemovePriority(this._navPart, 1);
-      
+
       // add the overflow menu
       this.__overflowMenu = new qx.ui.menu.Menu();
       chevron.setMenu(this.__overflowMenu);
-    
+
       // add the listener
       bar.addListener("hideItem", this._onHideItem, this);
       bar.addListener("showItem", this._onShowItem, this);
-    
+
 
       // DONE
       // -----------------------------------------------------
@@ -719,12 +719,12 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }
     },
-    
-    
+
+
     /**
      * Handler for the overflow handling which will be called on show.
      * @param e {qx.event.type.Data} The event.
-     */    
+     */
     _onShowItem : function(e) {
       var partItem = e.getData();
       var menuItems = this._getMenuItems(partItem);
@@ -740,12 +740,12 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }
     },
-    
-        
+
+
     /**
-     * Helper for the overflow handling. It is responsible for returning a 
+     * Helper for the overflow handling. It is responsible for returning a
      * corresponding menu item for the given toolbar item.
-     * 
+     *
      * @param toolbarItem {qx.ui.core.Widget} The toolbar item to look for.
      * @return {qx.ui.core.Widget} The coresponding menu items.
      */
@@ -778,7 +778,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             continue;
           }
           var cachedItem = this.__menuItemStore[partButtons[i].toHashCode()];
-      
+
           if (!cachedItem)
           {
             if(partButtons[i] instanceof qx.ui.toolbar.RadioButton)
@@ -862,7 +862,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       return cachedItems;
     },
-    
+
     __makeDemoView : function()
     {
       var iframe = new qx.ui.embed.Iframe().set({
@@ -1066,7 +1066,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             if (!currNode.type) {
               continue;
             }
-            
+
             t = new qx.ui.tree.TreeFile(that.polish(currNode.label));
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             if (currNode.tags) {

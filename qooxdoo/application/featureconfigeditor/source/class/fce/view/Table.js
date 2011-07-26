@@ -23,21 +23,21 @@
 qx.Class.define("fce.view.Table", {
 
   extend : qx.ui.table.Table,
-  
+
   construct : function()
   {
     this.base(arguments);
     this.setColumnVisibilityButtonVisible(false);
-    
+
     var selectionModel = this.getSelectionModel();
     selectionModel.setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
     selectionModel.addListener("changeSelection", this.__onTableSelectionChange, this);
-    
+
     this.__columnIds = [];
     this._setUpDragDrop();
-    
+
     this.setDecorator("main");
-    
+
     this.addListener("keyup", function(ev) {
       var key = ev.getKeyIdentifier();
       if (key === "A" && ev.isCtrlOrCommandPressed()) {
@@ -46,8 +46,8 @@ qx.Class.define("fce.view.Table", {
       }
     }, this);
   },
-  
-  
+
+
   properties :
   {
     /** Data model */
@@ -55,14 +55,14 @@ qx.Class.define("fce.view.Table", {
     {
       apply : "_applyModel"
     },
-    
-    /** Data array of model items selected by the user */ 
-    selectedItems : 
+
+    /** Data array of model items selected by the user */
+    selectedItems :
     {
       init : new qx.data.Array(),
       event : "changeSelectedItems"
     },
-    
+
     /** The column id/model item property that should act as the default data
      * source, e.g. for drag and drop operations */
     sourceProperty :
@@ -72,16 +72,16 @@ qx.Class.define("fce.view.Table", {
       check : "String",
       event : "changeSourceProperty"
     },
-    
+
     /** Filter string for the table model */
     filter :
     {
       apply : "_applyFilter"
     }
-    
+
     /*
     ,
-    
+
     selectedColumn :
     {
       init : "detected",
@@ -89,12 +89,12 @@ qx.Class.define("fce.view.Table", {
     }
     */
   },
-  
+
   members :
   {
-    
+
     __columnIds : null,
-    
+
     /**
      * Returns the approriate renderer (boolean, number or string) for the given
      * cell data
@@ -115,8 +115,8 @@ qx.Class.define("fce.view.Table", {
           return new qx.ui.table.cellrenderer.String();
       }
     },
-    
-    
+
+
     /**
      * Sets the table up for drag and drop
      */
@@ -128,21 +128,21 @@ qx.Class.define("fce.view.Table", {
         e.addType("items");
         e.addAction("copy");
       });
-      
+
       this.addListener("droprequest", function(e) {
         var action = e.getCurrentAction();
         var type = e.getCurrentType();
-        
+
         if (type == "items" && action == "copy") {
           var items = this.getSelectedItems();
           e.addData(type, items);
         }
-        
+
       }, this);
-      
+
     },
-    
-    
+
+
     /**
      * Adds the model items corresponding with the selected table rows to the
      * {@link #selectedItems} property
@@ -156,29 +156,29 @@ qx.Class.define("fce.view.Table", {
         this.getSelectedItems().push(item);
       }, this);
     },
-    
-    
+
+
     // property apply
     _applyModel : function(value, old)
     {
       var tableModel = new qx.ui.table.model.Filtered();
       this.__columnIds = this._getModelProperties(value);
-      
+
       if (this.__columnIds.indexOf("distinctValues") >= 0) {
-        this.__columnIds.push(qx.lang.Array.removeAt(this.__columnIds, 
+        this.__columnIds.push(qx.lang.Array.removeAt(this.__columnIds,
           this.__columnIds.indexOf("distinctValues")));
       }
       this.__columnIds.push("item");
       tableModel.setColumns(this.__columnIds);
       tableModel.setData(this._getRowData(value));
       this.setTableModel(tableModel);
-      
+
       this._configureColumnModel();
     },
-    
+
     /**
      * Returns a list of all model item property names
-     * 
+     *
      * @param dataModel {qx.data.Array} data array of model items
      * @return {String[]} List of item property names
      */
@@ -196,8 +196,8 @@ qx.Class.define("fce.view.Table", {
       }
       return uniquePropertyNames;
     },
-    
-    
+
+
     /*
     _getColumnHeadersFromIds : function(idList)
     {
@@ -210,11 +210,11 @@ qx.Class.define("fce.view.Table", {
       return headers;
     },
     */
-    
-    
+
+
     /**
      * Converts the given data model to a row data array
-     * 
+     *
      * @param dataModel {qx.data.Array} data model
      * @return {Array} row data array
      */
@@ -241,9 +241,9 @@ qx.Class.define("fce.view.Table", {
       }
       return rowData;
     },
-    
+
     /**
-     * Assigns the default cell renderer to all data columns (all except the 
+     * Assigns the default cell renderer to all data columns (all except the
      * first and last column)
      */
     _configureColumnModel : function()
@@ -263,10 +263,10 @@ qx.Class.define("fce.view.Table", {
       columnModel.setColumnWidth(0, 200);
       columnModel.setColumnVisible(dataCellIndex, false);
     },
-    
+
     /**
      * Returns the ID of the leftmost visible table column
-     * 
+     *
      * @return {String} column ID
      */
     _getFirstVisibleColumnId : function()
@@ -281,7 +281,7 @@ qx.Class.define("fce.view.Table", {
       }
       return null;
     },
-    
+
     // property apply
     _applyFilter : function(value, old)
     {
@@ -289,7 +289,7 @@ qx.Class.define("fce.view.Table", {
       if (old) {
         tableModel.resetHiddenRows();
       }
-      
+
       if (value && value !== "") {
         tableModel.addNotRegex(value, "name");
         tableModel.applyFilters();

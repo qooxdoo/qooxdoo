@@ -39,9 +39,9 @@ qx.Class.define("fce.Application",
     __featureSelector : null,
     __nameSpace : null,
     __helpWindow : null,
-    
+
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -57,15 +57,15 @@ qx.Class.define("fce.Application",
         // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
       }
-      
+
       this.__nameSpace = qx.core.Environment.get("qx.application").split(".")[0];
-      
-      
+
+
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
       var scroll = new qx.ui.container.Scroll(container);
       this.getRoot().add(scroll, {edge: 0});
       container.add(this._createHeader());
-      
+
       var helpButton = new qx.ui.form.Button("Help", "icon/16/actions/help-contents.png");
       helpButton.set({
         allowGrowX: false,
@@ -75,7 +75,7 @@ qx.Class.define("fce.Application",
         this._getHelpWindow().open();
       }, this);
       container.add(helpButton);
-      
+
       this.__featureSelector = new fce.view.FeatureSelector();
       this.__featureSelector.setMargin(20);
       container.add(this.__featureSelector, {flex: 1});
@@ -88,20 +88,20 @@ qx.Class.define("fce.Application",
         if (reporter) {
           reporter.compare(clientFeatures);
         }
-        
+
         var envData = {
           detected : clientFeatures
         };
         this.__featureSelector.setFeatureData(envData);
       }, this);
       env.check();
-      
+
     },
-    
+
     /**
-     * Removes application-specific settings (fce.*) from the detected 
+     * Removes application-specific settings (fce.*) from the detected
      * environment map. This modifies the given map.
-     * 
+     *
      * @param features {Map} environment features map
      */
     _stripOwnSettings : function(features)
@@ -117,10 +117,10 @@ qx.Class.define("fce.Application",
         delete features[appSettings[i]];
       }
     },
-    
+
     /**
      * Creates the application header
-     * 
+     *
      * @return {qx.ui.container.Composite} Header widget
      */
     _createHeader : function()
@@ -138,13 +138,13 @@ qx.Class.define("fce.Application",
 
       return header;
     },
-    
-    
+
+
     /**
      * Creates a {@link fce.Reporter} instance if the <em>fce.reportServer.host</em>,
-     * <em>fce.reportServer.addUrl</em> and <em>fce.reportServer.getUrl</em> 
+     * <em>fce.reportServer.addUrl</em> and <em>fce.reportServer.getUrl</em>
      * environment settings are defined.
-     * 
+     *
      * @return {fce.Reporter|null} Reporter instance or null
      */
     __getReporter : function()
@@ -152,18 +152,18 @@ qx.Class.define("fce.Application",
       var server = qx.core.Environment.get("fce.reportServerHost");
       var addUrl = qx.core.Environment.get("fce.reportServerAddUrl");
       var getUrl = qx.core.Environment.get("fce.reportServerGetUrl");
-      
+
       if (server && addUrl && getUrl) {
         return new fce.Reporter(server, addUrl, getUrl);
       }
-      
+
       return null;
     },
 
 
     /**
      * Creates a Help Window (if necessary) and returns it
-     * 
+     *
      * @return {fce.view.HelpWindow} help window
      */
     _getHelpWindow : function()
@@ -175,7 +175,7 @@ qx.Class.define("fce.Application",
       return this.__helpWindow;
     }
   },
-  
+
   destruct : function()
   {
     this._disposeObjects("__featureSelector");

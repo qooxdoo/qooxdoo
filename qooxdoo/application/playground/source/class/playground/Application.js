@@ -97,7 +97,7 @@ qx.Class.define("playground.Application",
     /**
      * This method contains the initial application code and gets called
      * during startup of the application.
-     * 
+     *
      * @lint ignoreUndefined(qxc)
      */
     main : function()
@@ -253,7 +253,7 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * Helper to determinate if the mode is currently supported e.g. mobile 
+     * Helper to determinate if the mode is currently supported e.g. mobile
      * in the current runtime.
      * @param mode {String} The name of the mode.
      * @return {boolean} <code>true</code>, if the given mode can be used.
@@ -308,7 +308,7 @@ qx.Class.define("playground.Application",
      */
     __onSampleChange : function(e) {
       this._updateSample(e.getData());
-    }, 
+    },
 
 
     /**
@@ -555,7 +555,7 @@ qx.Class.define("playground.Application",
      * @lint ignoreDeprecated(confirm)
      */
     __addCodeToHistory : function(code) {
-      var codeJson = 
+      var codeJson =
         '{"code":' + '"' + encodeURIComponent(code) + '", "mode":"' + this.__mode + '"}';
       if (qx.core.Environment.get("engine.name") == "mshtml" && codeJson.length > 1300) {
         if (!this.__ignoreSaveFaults && confirm(
@@ -696,9 +696,9 @@ qx.Class.define("playground.Application",
     // UPDATE & RUN & COMPARE
     // ***************************************************
     /**
-     * Checcks if the code is changed. If that is the case, the user will be 
+     * Checcks if the code is changed. If that is the case, the user will be
      * prompted to discard the changes.
-     * 
+     *
      * @lint ignoreDeprecated(confirm)
      * @return {Boolean} <code>true</code> if the code has been modified
      */

@@ -42,7 +42,7 @@ qx.Class.define("demobrowser.demo.bom.Geolocation",
       geo.addListener("position", function(position) {
         //todo: maybe add a map here
         qx.bom.Label.setValue(label1,
-        "<p>Latitude: " + position.getLatitude() + "</p>" + 
+        "<p>Latitude: " + position.getLatitude() + "</p>" +
         "<p>Longitude: " + position.getLongitude() + "</p>");
       }, this);
 

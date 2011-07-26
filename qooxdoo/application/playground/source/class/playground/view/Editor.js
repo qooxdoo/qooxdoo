@@ -139,7 +139,7 @@ qx.Class.define("playground.view.Editor",
      * @lint ignoreUndefined(ace,require)
      */
     __onEditorAppear : function() {
-      // timout needed for chrome to not get the ACE layout wrong and show the 
+      // timout needed for chrome to not get the ACE layout wrong and show the
       // text on top of the gutter
       qx.event.Timer.once(function() {
         var container = this.__editor.getContentElement().getDomElement();
@@ -154,24 +154,24 @@ qx.Class.define("playground.view.Editor",
 
         // create the editor
         var editor = this.__ace = ace.edit(container);
-  
+
         // set javascript mode
         var JavaScriptMode = require("ace/mode/javascript").Mode;
         editor.getSession().setMode(new JavaScriptMode());
-        
+
         // configure the editor
         var session = editor.getSession();
         session.setUseSoftTabs(true);
         session.setTabSize(2);
-  
+
         // disable the lint check in opera. Its not working anyway!
         if (qx.core.Environment.get("browser.name") == "opera") {
           session.setAnnotations = function() {};
         }
-  
+
         // copy the inital value
         session.setValue(this.__textarea.getValue() || "");
-  
+
         var self = this;
         // append resize listener
         this.__editor.addListener("resize", function() {

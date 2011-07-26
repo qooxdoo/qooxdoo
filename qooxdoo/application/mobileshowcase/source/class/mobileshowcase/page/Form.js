@@ -74,7 +74,7 @@ qx.Class.define("mobileshowcase.page.Form",
      */
     __createForm : function()
     {
-     
+
       var form = new qx.ui.mobile.form.Form();
       var validationManager = form.getValidationManager();
 
@@ -91,21 +91,21 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__password = new qx.ui.mobile.form.PasswordField().set({placeholder:"Password"});
       form.add(this.__password, "Password: ");
-      
+
       this.__rememberPass = new qx.ui.mobile.form.CheckBox();
       form.add(this.__rememberPass, "Remember password? ");
       this.__rememberPass.setModel("password_reminder");
       this.__rememberPass.bind("model",this.__password,"value");
       this.__password.bind("value",this.__rememberPass,"model");
-      
-      
+
+
       form.addGroupHeader("Gender");
       this.__radio1 = new qx.ui.mobile.form.RadioButton();
       this.__radio2 = new qx.ui.mobile.form.RadioButton();
       var radioGroup = new qx.ui.form.RadioGroup(this.__radio1, this.__radio2);
       form.add(this.__radio1, "Male");
       form.add(this.__radio2, "Female");
-      
+
       this.__info = new qx.ui.mobile.form.TextArea().set({placeholder:"Terms of Service"});
       form.add(this.__info,"Terms of Service: ");
       this.__info.setValue("qooxdoo Licensing Information\n=============================\n\nqooxdoo may be used under the terms of either the\n\n  * GNU Lesser General Public License (LGPL)\n    http://www.gnu.org/licenses/lgpl.html\n\nor the\n\n  * Eclipse Public License (EPL)\n    http://www.eclipse.org/org/documents/epl-v10.php\n\nAs a recipient of qooxdoo, you may choose which license to receive the code \nunder. Certain files or entire directories may not be covered by this \ndual license, but are subject to licenses compatible to both LGPL and EPL.\nLicense exceptions are explicitly declared in all relevant files or in a \n\nLICENSE file in the relevant directories.");
@@ -115,14 +115,14 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__slide = new qx.ui.mobile.form.Slider();
       form.add(this.__slide,"Are you human? Drag the slider to prove it.");
-      
+
       var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad"]);
       this.__sel = new qx.ui.mobile.form.SelectBox();
       this.__sel.setModel(dd);
       form.add(this.__sel, "How did you hear about us ?");
-      
+
       return form;
-      
+
     },
 
     /**

@@ -47,24 +47,24 @@ qx.Class.define("mobileshowcase.page.Toolbar",
 
   members :
   {
-  
+
     /**
      * The toolbar
      */
     __toolbar : null,
-    
+
     // overridden
     _initialize : function()
     {
       this.base(arguments);
-      
+
       var label = new qx.ui.mobile.form.Title("Search");
       this.getContent().add(label);
 
       var button = new qx.ui.mobile.form.Button("Toggle the toolbar");
       button.addListener("tap", this._onButtonTap, this);
       this.getContent().add(button);
-      
+
         var busyIndicator = new qx.ui.mobile.dialog.BusyIndicator("We are searching...");
         this.add(busyIndicator);
 
@@ -87,12 +87,12 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
       var closeButton = new qx.ui.mobile.toolbar.Button("Take Picture","mobileshowcase/icon/camera.png");
       toolbar.add(closeButton);
-      
+
       closeButton.addListener("tap", function(){
         label.setValue("Take a Picture");
       });
     },
-    
+
     /**
      * Handler for the main button in the page
      */
@@ -100,7 +100,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
     {
       this.__toolbar.toggle();
     },
-    
+
     // overridden
     _back : function()
     {

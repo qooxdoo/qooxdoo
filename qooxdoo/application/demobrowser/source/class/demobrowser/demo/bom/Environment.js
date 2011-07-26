@@ -68,7 +68,7 @@ qx.Class.define("demobrowser.demo.bom.Environment",
       var numberOfChecks = qx.lang.Object.getLength(checks);
       keys = qx.lang.Object.getKeys(checks);
 
-      if (numberOfChecks) 
+      if (numberOfChecks)
       {
         for (var i = 0; i < keys.length; i++)
         {

@@ -16,13 +16,13 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.TreeColumn", 
+qx.Class.define("demobrowser.demo.data.TreeColumn",
 {
   extend : qx.ui.tree.TreeFolder,
 
   construct : function() {
     this.base(arguments);
-    
+
     // fist item: light bulb image
     var img = new qx.ui.basic.Image();
     img.setWidth(16);
@@ -62,7 +62,7 @@ qx.Class.define("demobrowser.demo.data.TreeColumn",
     mode.setWidth(80);
     this.addWidget(mode);
 
-    // set up the connection between the treefolders properties and the 
+    // set up the connection between the treefolders properties and the
     // properties of the children
     this.bind("light", img, "source", {
       converter : function(data) {

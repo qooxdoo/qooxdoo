@@ -158,7 +158,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
         {
           var tags = struct.tests[j].tags;
           var ignoreNode = false;
-          
+
           if (!qx.core.Environment.get("demobrowser.withTests"))
           {
             for (var k=0; k < tags.length; k++)

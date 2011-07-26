@@ -14,11 +14,11 @@ qx.Theme.define("fce.theme.Appearance",
 
   appearances :
   {
-    "listitem/checkbox" : 
+    "listitem/checkbox" :
     {
       alias : "checkbox",
       include : "checkbox",
-      
+
       style : function(states)
       {
         return {
@@ -26,17 +26,17 @@ qx.Theme.define("fce.theme.Appearance",
         };
       }
     },
-    
+
     "featureselector" :
     {
     },
-    
+
     "featureselector/list" :
     {
       alias : "list",
       include : "list"
     },
-    
+
     "listitem/textfield" :
     {
       style : function(states)
@@ -72,13 +72,13 @@ qx.Theme.define("fce.theme.Appearance",
         };
       }
     },
-    
+
     "featureselector/table" :
     {
       alias : "table",
       include : "table"
     },
-    
+
     "featureselector/textarea" :
     {
       alias : "textarea",

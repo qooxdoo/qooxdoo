@@ -18,15 +18,15 @@
 ************************************************************************ */
 
 /**
- * Creates a map with all known environment settings as defined in 
- * {@link qx.core.Environment} and their values as detected for the current 
+ * Creates a map with all known environment settings as defined in
+ * {@link qx.core.Environment} and their values as detected for the current
  * runtime. The <pre>changeFeatures</pre> event is fired when all checks are
  * done and the map is complete.
  */
 qx.Class.define("fce.Environment", {
 
   extend : qx.core.Object,
-  
+
   properties :
   {
     /**
@@ -39,11 +39,11 @@ qx.Class.define("fce.Environment", {
       event : "changeFeatures"
     }
   },
-  
+
   members :
   {
     __form : null,
-    
+
     /**
      * Queries qx.core.Environment to retrieve all settings/values
      */
@@ -51,17 +51,17 @@ qx.Class.define("fce.Environment", {
     {
       var checks = qx.core.Environment._checks;
       var keys = qx.lang.Object.getKeys(checks);
-      
+
       var features = {};
       for (var i=0,l=keys.length; i<l; i++) {
         var key = keys[i];
         features[key] = qx.core.Environment.get(key);
       }
-      
+
       checks = qx.core.Environment._asyncChecks;
       var numberOfChecks = qx.lang.Object.getLength(checks);
       keys = qx.lang.Object.getKeys(checks);
-      
+
       for (var i=0,l=keys.length; i<l; i++) {
         var key = keys[i];
         qx.core.Environment.getAsync(key, function(result) {
@@ -69,7 +69,7 @@ qx.Class.define("fce.Environment", {
           numberOfChecks--;
         }, this);
       }
-      
+
       this.setFeatures(features);
     }
   }

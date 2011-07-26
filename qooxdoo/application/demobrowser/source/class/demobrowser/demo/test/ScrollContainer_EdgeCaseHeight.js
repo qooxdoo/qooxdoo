@@ -22,7 +22,7 @@
  * Test the edge case were the available height is normally enough. The content
  * however requires a higher width than the available width. This means it creates
  * a horizontal scrollbar and this way stoles the height the required size.
- * 
+ *
  * @tag test
  */
 qx.Class.define("demobrowser.demo.test.ScrollContainer_EdgeCaseHeight",

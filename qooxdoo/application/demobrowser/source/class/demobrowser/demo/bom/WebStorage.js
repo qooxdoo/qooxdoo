@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.bom.WebStorage",
         var key = keyField.getValue();
         var value = valueField.getValue();
         local.setItem(key, value);
-        
+
         if (!list.findItem(key)) {
           list.add(new qx.ui.form.ListItem(key));
         }

@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Dynamic",
   members :
   {
     count : 0,
-    
+
     main : function()
     {
       this.base(arguments);
@@ -45,10 +45,10 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Dynamic",
       };
       root = qx.data.marshal.Json.createModel(root, true)
       this.createRandomData(root);
-      
+
       var tree = new qx.ui.tree.VirtualTree(root, "label", "children");
       this.getRoot().add(tree, {edge: 20});
-      
+
       tree.setIconPath("icon");
       tree.setIconOptions({
         converter : function(value, model)
@@ -64,13 +64,13 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Dynamic",
           }
         }
       });
-            
+
       var that = this;
       var delegate = {
         bindItem : function(controller, item, index)
         {
           controller.bindDefaultProperties(item, index);
-          
+
           controller.bindProperty("", "open",
           {
             converter : function(value, model, source, target)
@@ -79,14 +79,14 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Dynamic",
               if (isOpen && !value.getLoaded())
               {
                 value.setLoaded(true);
-                
+
                 qx.event.Timer.once(function()
                 {
                   value.getChildren().removeAll();
                   this.createRandomData(value);
                 }, that, 1000);
               }
-              
+
               return isOpen;
             }
           }, item, index);
@@ -98,23 +98,23 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Dynamic",
     createRandomData : function(parent)
     {
       var items = parseInt(Math.random() * 50);
-      
+
       for (var i = 0; i < items; i++) {
         var node = {
           label: "Item " + this.count++,
           icon: "default",
           loaded: true
         }
-        
+
         if (Math.random() > 0.3)
         {
           node["loaded"] = false;
           node["children"] = [{
             label: "Loading",
             icon: "loading"
-          }]; 
+          }];
         }
-        
+
         parent.getChildren().push(qx.data.marshal.Json.createModel(node, true));
       }
     }
