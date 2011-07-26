@@ -1020,6 +1020,13 @@ qx.Bootstrap.define("qx.core.Environment",
       }
 
       // /////////////////////////////////////////
+      // JSON
+      // /////////////////////////////////////////
+      if (this.useCheck("json")) {
+        this._checks["json"] = qx.bom.client.Json.getJson;
+      }
+
+      // /////////////////////////////////////////
       // CSS
       // /////////////////////////////////////////
       if (this.useCheck("css.textoverflow")) {
