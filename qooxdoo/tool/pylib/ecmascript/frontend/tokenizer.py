@@ -386,3 +386,11 @@ def alignMultiLines(text, firstColumn):
     return '\n'.join(nlines)
 
 
+if __name__ == "__main__":
+    from misc import filetool
+    if len(sys.argv)>1:
+        fname = sys.argv[1]
+        text = filetool.read(fname)
+        toks = parseStream(text)
+        for tok in toks:
+            print tok
