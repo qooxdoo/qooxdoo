@@ -38,7 +38,7 @@ qx.Class.define("fce.view.Table", {
 
     this.setDecorator("main");
 
-    this.addListener("keyup", function(ev) {
+    this.addListener("keydown", function(ev) {
       var key = ev.getKeyIdentifier();
       if (key === "A" && ev.isCtrlOrCommandPressed()) {
         var rows = this.getTableModel().getRowCount() - 1;
