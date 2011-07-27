@@ -4,7 +4,8 @@
   "include" :
   [
     {
-      "path" : "$${QOOXDOO_PATH}/tool/data/config/application.json"
+      "path" : "$${QOOXDOO_PATH}/tool/data/config/application.json",
+      "block" : ["test", "test-source"]
     }
   ],
 
@@ -154,6 +155,16 @@
     "run-build" : {
       "extend" : ["run"],
       "let"    : { "BUILD" : "build" }
+    },
+
+    "test" :
+    {
+      "extend" : ["test-basic"]
+    },
+
+    "test-source" :
+    {
+      "extend" : ["test-basic-source"]
     }
   }
 }
