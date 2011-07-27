@@ -21,7 +21,13 @@
     "QOOXDOO_PATH" : "../..",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "ROOT"         : "."
+    "ROOT"         : ".",
+    "SELENIUM_SERVER" : "localhost",
+    "SELENIUM_PORT" : 4444,
+    "SELENIUM_BROWSER" : "*googlechrome",
+    "AUT_HOST" : null,
+    "AUT_PATH" : null,
+    "SIMULATOR_REPORTSERVER" : null
   },
 
   "config-warnings" : 
@@ -227,6 +233,21 @@
           }
 
         }
+      }
+    },
+    
+    "simulation-run" :
+    {
+      "environment" :
+      {
+        "simulator.selServer"   : "${SELENIUM_SERVER}",
+        "simulator.selPort"     : "${SELENIUM_PORT}",
+        "simulator.testBrowser" : "${SELENIUM_BROWSER}",
+        "simulator.autHost"     : "${AUT_HOST}",
+        "simulator.autPath"     : "${AUT_PATH}",
+        "simulator.reportServer": "${SIMULATOR_REPORTSERVER}",
+        "simulator.applicationLog" : true,
+        "simulator.globalErrorLogging" : true
       }
     }
   }
