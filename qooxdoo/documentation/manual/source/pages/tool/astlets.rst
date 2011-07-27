@@ -165,3 +165,63 @@ function () {return 3;}()
               return
                 expression
                   constant ("3")
+
+
+if (1) {} else {}
+-----------------
+
+::
+
+    loop
+      expression
+        constant ("1")
+      statement
+        block
+      elseStatement
+        block
+
+
+for (var i=0; i<l; i++) {}
+--------------------------
+
+::
+
+    loop
+      first
+        definitionList
+          definition
+            assignment
+              constant ("0")
+      second
+        operation
+          first
+            variable
+              identifier ("i")
+          second
+            variable
+              identifier ("j")
+      third
+        operation ("inc")
+          first
+            variable
+              identifier ("i")
+      statement
+        block
+
+
+for (var i in j) {}
+--------------------
+
+::
+
+    loop
+      first
+        operation ("in")
+          first
+            definitionList
+              definition ("i")
+          second
+            variable
+              identifier ("j")
+      statement
+        block
