@@ -29,8 +29,10 @@ qx.Class.define("testrunner.ApplicationBasic", {
 
     main : function()
     {
-      if (qx.core.Environment.get("runtime.name") == "rhino" ) {
+      if (qx.core.Environment.get("runtime.name") == "rhino") {
         qx.log.Logger.register(qx.log.appender.RhinoConsole);
+      } else if (qx.core.Environment.get("runtime.name") == "node.js") {
+        qx.log.Logger.register(qx.log.appender.NodeConsole);
       }
 
       if (window.arguments) {
