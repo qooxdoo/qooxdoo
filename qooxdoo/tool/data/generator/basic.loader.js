@@ -29,6 +29,42 @@
       
     }
 
+    if (!window.setTimeout && environment && environment["java.version"]) {
+      // Emulate setTimeout/setInterval features in Rhino
+      // http://stackoverflow.com/questions/2261705/how-to-run-a-javascript-function-asynchronously-without-using-settimeout
+      var timer = new java.util.Timer();
+      var counter = 1; 
+      var ids = {};
+
+      window.setTimeout = function (fn,delay) 
+      {
+        var id = counter++;
+        ids[id] = new JavaAdapter(java.util.TimerTask,{run: fn});
+        timer.schedule(ids[id],delay);
+        return id;
+      };
+
+      window.clearTimeout = function (id) 
+      {
+        if (ids[id])
+        {
+          ids[id].cancel();
+          timer.purge();
+          delete ids[id];
+        }
+      };
+
+      window.setInterval = function (fn,delay) 
+      {
+        var id = counter++; 
+        ids[id] = new JavaAdapter(java.util.TimerTask,{run: fn});
+        timer.schedule(ids[id],delay,delay);
+        return id;
+      };
+
+      window.clearInterval = window.clearTimeout;
+    }
+
     if (!window.qx) window.qx = {};
 
     if (!qx.$$environment) qx.$$environment = {};
