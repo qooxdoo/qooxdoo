@@ -29,7 +29,9 @@ qx.Class.define("testrunner.ApplicationBasic", {
 
     main : function()
     {
-      qx.log.Logger.register(qx.log.appender.RhinoConsole);
+      if (qx.core.Environment.get("runtime.name") == "rhino" ) {
+        qx.log.Logger.register(qx.log.appender.RhinoConsole);
+      }
 
       if (window.arguments) {
         try {
