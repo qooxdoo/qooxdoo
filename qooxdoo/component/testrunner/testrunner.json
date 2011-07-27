@@ -491,7 +491,7 @@
         "paths" :
         {
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/basic.loader.js",
-          "app-root" : "${BUILD_PATH}"
+          "app-root" : "."
         }
       },
       
