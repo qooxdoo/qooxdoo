@@ -452,7 +452,7 @@ qx.Class.define("qx.ui.list.List",
      */
     _reverseLookup : function(index) {
       if (index < 0) {
-        //return -1;
+        return -1;
       }
       return this.__lookupTable.indexOf(index);
     },
