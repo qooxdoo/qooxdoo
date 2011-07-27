@@ -81,6 +81,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       testResult.addListener("wait", this._testWaiting, this);
       testResult.addListener("error", this._testError, this);
       testResult.addListener("failure", this._testFailed, this);
+      testResult.addListener("skip", this._testSkipped, this);
       testResult.addListener("endTest", this._testEnded, this);
 
       return testResult;
@@ -117,7 +118,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     {
       var exception = ev.getData();
       this._addExceptionToTest(exception);
-      this.error("ERROR " + this._currentTest.getFullName() + ": " + exception);
+      this.error("ERROR " + this._currentTest.getFullName());
       this.logTestExceptions();
     },
 
@@ -158,6 +159,20 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       if (qx.core.Environment.get("qx.debug")) {
         this.info("WAIT " + this._currentTest.getFullName());
       }
+    },
+    
+    /**
+     * Called if a test was skipped due to unsatisfied requirements
+     *
+     * @param ev {qx.event.type.Data} the "data" property holds a reference to
+     * the exception
+     */
+    _testSkipped : function(ev)
+    {
+      var exception = ev.getData();
+      this._addExceptionToTest(exception);
+      this.error("SKIP " + this._currentTest.getFullName());
+      this.logTestExceptions();
     },
 
     /**
