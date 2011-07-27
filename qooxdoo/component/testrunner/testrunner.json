@@ -453,7 +453,7 @@
       {
         "exclude" : [
           "qx.core.Init",
-          "qx.event.GlobalError"
+          "qx.dev.Debug"
         ]
       },
       
@@ -472,7 +472,7 @@
       
       "exclude" : [
         "qx.core.Init",
-        "qx.event.GlobalError",
+        "qx.dev.Debug", // Can be removed once qx bug #5330 is fixed
         "${TEST_EXCLUDE}"
       ],
       

@@ -50,15 +50,35 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     },
 
     /**
+     * Log any exceptions attached to the current test object
+     */
+    logTestExceptions : function()
+    {
+      if (!this._currentTest.exceptions) {
+        return;
+      }
+      
+      for (var i=0, l=this._currentTest.exceptions.length; i<l; i++) {
+        var exMap = this._currentTest.exceptions[i];
+        if (exMap.exception) {
+          var exception = exMap.exception;
+          var msg = exception.toString ? exception.toString() : exception;
+          this.error(msg);
+        }
+      }
+    },
+
+    /**
      * Creates a TestResult object and attaches listeners to its events
      *
      * @return {qx.dev.unit.TestResultBasic}
      */
     _initTestResult : function()
     {
-      var testResult = new qx.dev.unit.TestResultBasic();
+      var testResult = new qx.dev.unit.TestResult();
 
       testResult.addListener("startTest", this._testStarted, this);
+      testResult.addListener("wait", this._testWaiting, this);
       testResult.addListener("error", this._testError, this);
       testResult.addListener("failure", this._testFailed, this);
       testResult.addListener("endTest", this._testEnded, this);
@@ -67,14 +87,24 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     },
 
     /**
-     * Called every time a test is started.
+     * Called every time a test is started, or a waiting test is resumed.
      *
      * @param ev {qx.event.type.Data} the "data" property holds a reference to
      * the test function
      */
     _testStarted : function(ev)
     {
-      this._currentTest = ev.getData();
+      var state;
+      if (this._currentTest !== ev.getData()) {
+        this._currentTest = ev.getData();
+        state = "START";
+      }
+      else {
+        state = "RESUME";
+      }
+      if (qx.core.Environment.get("qx.debug")) {
+        this.info(state + " " + ev.getData().getFullName());
+      }
     },
 
     /**
@@ -88,19 +118,21 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       var exception = ev.getData();
       this._addExceptionToTest(exception);
       this.error("ERROR " + this._currentTest.getFullName() + ": " + exception);
+      this.logTestExceptions();
     },
 
     /**
      * Called if an assertion failed
      *
      * @param ev {qx.event.type.Data} the "data" property holds a reference to
-     * the exception
+     * the exception map
      */
     _testFailed : function(ev)
     {
-      var exception = ev.getData();
-      this._addExceptionToTest(exception);
-      this.error("FAIL  " + this._currentTest.getFullName() + ": " + exception);
+      var exceptionMap = ev.getData();
+      this._addExceptionToTest(exceptionMap);
+      this.error("FAIL  " + this._currentTest.getFullName());
+      this.logTestExceptions();
     },
 
     /**
@@ -115,19 +147,34 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
         this.info("PASS  " + this._currentTest.getFullName());
       }
     },
+    
+    /**
+     * Called if an async test enters the "waiting" stage.
+     * @param ev {} {qx.event.type.Data} the "data" property holds a reference to
+     * the test function
+     */
+    _testWaiting : function(ev)
+    {
+      if (qx.core.Environment.get("qx.debug")) {
+        this.info("WAIT " + this._currentTest.getFullName());
+      }
+    },
 
     /**
-     * Stores a test exception by adding it to an "exceptions" array attached to
+     * Stores a test exception map by adding it to an "exceptions" array attached to
      * the test object itself.
      *
      * @param exception {Error} Error object to store
      */
-    _addExceptionToTest : function(exception)
+    _addExceptionToTest : function(exceptionList)
     {
       if (!this._currentTest.exceptions) {
-        this._currentTest.exceptions = [];
+        this._currentTest.exceptions = exceptionList;
       }
-      this._currentTest.exceptions.push(exception);
+      else {
+        var fullList = this._currentTest.exceptions.concat(exceptionList);
+        this._currentTest.exceptions = fullList;
+      }
     }
   }
 
