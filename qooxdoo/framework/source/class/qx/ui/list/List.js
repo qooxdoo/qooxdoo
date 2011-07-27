@@ -451,6 +451,9 @@ qx.Class.define("qx.ui.list.List",
      *  if the index is not a model index.
      */
     _reverseLookup : function(index) {
+      if (index < 0) {
+        //return -1;
+      }
       return this.__lookupTable.indexOf(index);
     },
 
