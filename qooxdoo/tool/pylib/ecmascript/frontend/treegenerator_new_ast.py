@@ -381,10 +381,16 @@ symbol("\\")  # escape char in strings ("\")
 
 # additional behaviour
 
-symbol("identifier").nud   = lambda self: self
+#symbol("identifier").nud   = lambda self: self
 symbol("constant").nud = lambda self: self
 symbol("(unknown)").nud = lambda self: self
 symbol("eof")
+
+@method(symbol("identifier"))
+def nud(self):
+    s = symbol("variable")()
+    s.children.append(self)
+    return s
 
 #@method(symbol(",", 10))   # parse any kind of lists into array
 #def led(self, left):
@@ -439,30 +445,36 @@ def led(self, left):
 
 # pre-/postfix ops
 
-@method(symbol("++"))
+@method(symbol("++")) # prefix
 def nud(self):
-    self.optype = "pre"
-    self.children.append(expression())  # overgenerating! only lvals allowed
+    self.set("left", "true")
+    s = symbol("first")()
+    self.children.append(s)
+    s.children.append(expression())  # overgenerating! only lvals allowed
     return self
 
-@method(symbol("++"))
+@method(symbol("++")) # postfix
 def led(self, left):
     # assert(left, lval)
-    self.optype = "post"
-    self.children.append(left)
+    s = symbol("first")()
+    self.children.append(s)
+    s.children.append(left)
     return self
 
-@method(symbol("--"))
+@method(symbol("--")) # prefix
 def nud(self):
-    self.optype = "pre"
-    self.children.append(expression())  # overgenerating! only lvals allowed
+    self.set("left", "true")
+    s = symbol("first")()
+    self.children.append(s)
+    s.children.append(expression())  # overgenerating! only lvals allowed
     return self
 
-@method(symbol("--"))
+@method(symbol("--")) # postfix
 def led(self, left):
     # assert(left, lval)
-    self.optype = "post"
-    self.children.append(left)
+    s = symbol("first")()
+    self.children.append(s)
+    s.children.append(left)
     return self
 
 
@@ -713,7 +725,9 @@ def std(self):
     self.set("loopType", "FOR")
     # condition
     advance("(")
-    if tokenStream.peek(2 if token.id=="var" else 1).id == "in":   # for (.. in ..)
+    
+    # for (.. in ..)
+    if tokenStream.peek(2 if token.id=="var" else 1).id == "in":
         self.set("forVariant", "in")
         var_s = None
         first = symbol("first")()
@@ -742,7 +756,9 @@ def std(self):
         op_second = symbol("second")()
         operation.children.append(op_second)
         op_second.children.append(expression())
-    else:                                                     # for (;;)
+        
+    # for (;;)
+    else:
         self.set("forVariant", "iter")
         first = symbol("first")()
         var_s = None
@@ -777,8 +793,9 @@ def std(self):
         third = symbol("third")()
         third.children.append(expression())
         self.children.extend([first, second,third])
-    advance(")")
+
     # block
+    advance(")")
     statement = symbol("statement")()
     statement.children.append(block())
     self.children.append(statement)
@@ -889,7 +906,9 @@ def statements():  # plural!
 def block():
     t = token
     advance("{")
-    return t.std()
+    s = symbol("block")()
+    s.children.append(t.std())
+    return s
 
 def init_list():  # parse anything from "i" to "i, j=3, k,..."
     lst = []
