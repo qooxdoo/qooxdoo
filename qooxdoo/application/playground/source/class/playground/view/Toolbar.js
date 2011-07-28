@@ -71,27 +71,6 @@ qx.Class.define("playground.view.Toolbar",
     var initValue = qx.bom.Cookie.get("playgroundHighlight") !== "false";
     this.__highlightButton.setValue(initValue);
 
-    // gist button
-    var gistButton = new qx.ui.toolbar.MenuButton(
-      null, "playground/images/logo_gist.png"
-    );
-    this.add(gistButton);
-    gistButton.setToolTipText(this.tr("gist support"));
-    this.__gistMenu = new playground.view.gist.GistMenu();
-    gistButton.setMenu(this.__gistMenu);
-    this.__gistMenu.addListener("changeGist", function(e) {
-      this.fireDataEvent("changeGist", e.getData());
-    }, this);
-    this.__gistMenu.addListener("reload", function(e) {
-      this.fireDataEvent("reloadGists", e.getData());
-    }, this);
-    this.__gistMenu.addListener("newGist", function() {
-      this.fireEvent("newGist");
-    }, this);
-    this.__gistMenu.addListener("editGist", function(e) {
-      this.fireDataEvent("editGist", e.getData());
-    }, this);
-
     // spacer
     this.addSpacer();
 
@@ -154,7 +133,6 @@ qx.Class.define("playground.view.Toolbar",
     this.setRemovePriority(this.__logCheckButton, 5);
     this.setRemovePriority(selectSampleButton, 4);
     this.setRemovePriority(this.__highlightButton, 3);
-    this.setRemovePriority(gistButton, 2);
     this.setRemovePriority(urlShortButton, 1);
 
     // add a button for overflow handling
@@ -235,27 +213,7 @@ qx.Class.define("playground.view.Toolbar",
     /**
      * Event which will be fired to open the demo browser.
      */
-    "openDemoBrowser" : "qx.event.type.Event",
-
-    /**
-     * Event signaling that a new gist has been selected.
-     */
-    "changeGist" : "qx.event.type.Data",
-
-    /**
-     * Event which will be fireed if the gists should be reloaded.
-     */
-    "reloadGists" : "qx.event.type.Data",
-
-    /**
-     * Fired if a new gist should be created.
-     */
-    "newGist" : "qx.event.type.Event",
-
-    /**
-     * Fired if the gist should be edited.
-     */
-    "editGist" : "qx.event.type.Event"
+    "openDemoBrowser" : "qx.event.type.Event"
   },
 
 
@@ -265,7 +223,6 @@ qx.Class.define("playground.view.Toolbar",
     __overflowMenu : null,
     __highlightButton : null,
     __logCheckButton : null,
-    __gistMenu : null,
     __sampleMenu : null,
     __mode : null,
 
@@ -341,27 +298,6 @@ qx.Class.define("playground.view.Toolbar",
 
 
     /**
-     * Updates the gists shown in the toolbar.
-     * @param names {Array} An array of gist names.
-     * @param texts {Array} An array of gist contents.
-     * @param ids {Array} An array of gist ids.
-     */
-    updateGists: function(names, texts, ids) {
-      this.__gistMenu.updateGists(names, texts, ids);
-    },
-
-
-    /**
-     * Signals that something went wrong during the loading of the gists.
-     * @param invalid {Boolean} true, if something was wrong
-     * @param message {String} The message what was wrong.
-     */
-    invalidGist : function(invalid, message) {
-      this.__gistMenu.invalidUser(invalid, message);
-    },
-
-
-    /**
      * Helper for the overflow handling. It is responsible for returning a
      * corresponding menu item for the given toolbar item.
      *
@@ -376,11 +312,6 @@ qx.Class.define("playground.view.Toolbar",
           cachedItem = new qx.ui.menu.CheckBox(toolbarItem.getLabel());
         } else {
           cachedItem = new qx.ui.menu.Button(toolbarItem.getLabel(), toolbarItem.getIcon());
-          // special case for the gist button
-          if (toolbarItem.getLabel() == null) {
-            cachedItem.setLabel("gist");
-            cachedItem.setIcon(null);
-          }
         }
 
         // connect the execute
@@ -404,7 +335,7 @@ qx.Class.define("playground.view.Toolbar",
    */
 
   destruct : function() {
-    this._disposeObjects("__highlightButton", "__logCheckButton", "__gistMenu",
+    this._disposeObjects("__highlightButton", "__logCheckButton",
     "__overflowMenu");
   }
 });

@@ -69,7 +69,6 @@ qx.Class.define("playground.Application",
 
     // storages
     __samples : null,
-    __gists : null,
 
     __history : null,
     __urlShorter : null,
@@ -119,10 +118,6 @@ qx.Class.define("playground.Application",
 
       // data stuff
       this.__samples = new playground.Samples();
-      var initUserName = qx.bom.Cookie.get("playgroundUser");
-      if (initUserName) {
-        this.__loadGistsForUser(initUserName);
-      }
 
       // toolbar
       this.__toolbar = new playground.view.Toolbar(this.__samples.getNames());
@@ -132,12 +127,6 @@ qx.Class.define("playground.Application",
       this.__toolbar.addListener("run", this.run, this);
       this.__toolbar.addListener("changeSample", this.__onSampleChange, this);
       this.__toolbar.addListener("changeHighlight", this.__onHighlightChange, this);
-      this.__toolbar.addListener("changeGist", this.__onGistChange, this);
-      this.__toolbar.addListener("reloadGists", function(e) {
-        this.__loadGistsForUser(e.getData());
-      }, this);
-      this.__toolbar.addListener("newGist", this.__newGist, this);
-      this.__toolbar.addListener("editGist", this.__onEditGist, this);
       this.__toolbar.addListener("changeLog", this.__onLogChange, this);
       this.__toolbar.addListener("shortenUrl", this.__onUrlShorten, this);
       this.__toolbar.addListener("openApi", this.__onApiOpen, this);
@@ -336,26 +325,6 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * Handler for changeGist which set the given text to the editor and
-     * runs it.
-     * @param e {qx.event.type.Data} The data event containing the gist content.
-     */
-    __onGistChange : function(e) {
-      var code = e.getData().code;
-      // need to get the code from the editor in case he changes something
-      // in the code
-      this.__editor.setCode(code);
-      this.setOriginCode(this.__editor.getCode());
-      this.setName(e.getData().name);
-      this.run();
-
-      // update the URL
-      var id = e.getData().id;
-      this.__history.addToHistory("gist=" + id);
-    },
-
-
-    /**
      * Handler for the changeHighlight event of the toolbar.
      * @param e {qx.event.type.Data} Data event containing the boolean to change
      *   the highlighted code view.
@@ -458,12 +427,6 @@ qx.Class.define("playground.Application",
         code = sampleData.code;
         name = sampleData.name.split("-")[0];
 
-      // check if a gist id is given
-      } else if (state.indexOf("gist=") == 0) {
-        var id = state.substring(5, state.length);
-        var name = this.tr("Showing gist %1", id);
-        this.__loadGist(id);
-
       // if there is a state given
       } else if (state && state.charAt(0) == "{") {
         var name = this.tr("Custom Code");
@@ -503,12 +466,6 @@ qx.Class.define("playground.Application",
           this.setName(state);
           this.run();
         }
-
-      // is a gist id given
-      } else if (state.indexOf("gist=") == 0) {
-        var id = state.substring(5, state.length);
-        this.__loadGist(id);
-        this.setName(this.tr("Showing gist %1", id));
 
       // is code given
       } else if (state != "") {
@@ -567,128 +524,6 @@ qx.Class.define("playground.Application",
         return;
       }
       this.__history.addToHistory(codeJson);
-    },
-
-
-    // ***************************************************
-    // GIST SUPPORT
-    // ***************************************************
-    /**
-     * Handler for working with the new loaded gists.
-     * @param e {qx.event.type.Data} The loaded event of the store.
-     */
-    __onGistsLoaded : function(e) {
-      var model = e.getData();
-      this.__gists = model;
-
-      // error handling
-      if (model == "FAIL!") {
-        this.__toolbar.invalidGist(true, this.tr("No such user found."));
-        this.__toolbar.updateGists([], []);
-        return;
-      } else {
-        this.__toolbar.invalidGist(false);
-      }
-
-      var names = [];
-      var texts = [];
-      var ids = [];
-      for (var i = 0; i < model.getLength(); i++) {
-        var item = model.getItem(i);
-        var desc = qx.lang.Type.isString(item.getDescription()) ?
-          item.getDescription() : item.getRepo();
-        names.push(desc);
-
-        texts.push(item.getContent ? item.getContent() : "");
-        ids.push(item.getRepo());
-      };
-      this.__toolbar.updateGists(names, texts, ids);
-    },
-
-
-    /**
-     * Load all gists viy YQL for the given username.
-     * @param username {String} The username to load the gists for.
-     */
-    __loadGistsForUser : function(username)
-    {
-      var query = 'select * from github.gist.list where user="' + username + '"';
-      var delegate = {manipulateData : function(data) {
-        if (data && data.query && data.query.results) {
-          if (data.query.results.gists.gist) {
-            if (qx.lang.Type.isArray(data.query.results.gists.gist)) {
-              return data.query.results.gists.gist;
-            } else {
-              // single gists are transfered without an array
-              return [data.query.results.gists.gist];
-            }
-
-          } else {
-            return [];
-          }
-        } else {
-          return "FAIL!";
-        }
-      }};
-      var store = new qx.data.store.Yql(query, delegate, qx.core.Environment.get("io.ssl"));
-      store.addListener("loaded", this.__onGistsLoaded, this);
-    },
-
-
-    /**
-     * Responsible for loading and running the gist stored with the given id.
-     * @param id {String} The id of the gist to run.
-     */
-    __loadGist : function(id)
-    {
-      var query = 'USE "http://github.com/wittemann/yql-tables/raw/master/github/github.gist.content.xml" AS gh; SELECT * FROM gh WHERE repo="' + id + '"';
-      var store = new qx.data.store.Yql(query, null, qx.core.Environment.get("io.ssl"));
-
-      store.addListener("loaded", function(e) {
-        try {
-          var code = e.getData().getQuery().getResults().getContent();
-          if (code == null) {
-            this.setName(this.tr("Gist contains no content."));
-          }
-          this.__editor.setCode(code);
-          this.setName("gist " + id);
-          this.__updatePlayground();
-        } catch (e) {
-          this.info(this.tr("Can't load the gist."));
-        }
-      }, this);
-    },
-
-
-    /**
-     * Handler for creating a new gists. (Opens up a window
-     * for creating a new gist)
-     */
-    __newGist : function() {
-      window.open("http://gist.github.com");
-    },
-
-
-    /**
-     * Handler for editing gists.
-     * @param e {qx.event.type.Data} The data event containing the name of
-     *   the gist.
-     */
-    __onEditGist : function(e) {
-      var name = e.getData();
-
-      // if the name is not in the description of any item, its the repo itself
-      var repo = name;
-
-      // search for the fitting repo number
-      for (var i = 0; i < this.__gists.getLength(); i++) {
-        if (this.__gists.getItem(i).getDescription() == name) {
-          repo = this.__gists.getItem(i).getRepo();
-          break;
-        }
-      }
-
-      window.open("http://gist.github.com/gists/" + repo + "/edit");
     },
 
 
