@@ -76,6 +76,7 @@ qx.Class.define("playground.Application",
     __editor : null,
     __playArea : null,
     __samplesPane : null,
+    __editorsplit : null,
 
     // storages
     __samples : null,
@@ -102,7 +103,7 @@ qx.Class.define("playground.Application",
     ),
 
     __mode : null,
-
+    __maximized : null,
 
     /**
      * This method contains the initial application code and gets called
@@ -146,8 +147,8 @@ qx.Class.define("playground.Application",
       mainContainer.add(mainsplit, { flex : 1 });
 
       // editor split (left side of main split)
-      var editorsplit = new qx.ui.splitpane.Pane("horizontal");
-      editorsplit.setDecorator(null); // get rid of the 3px broder
+      this.__editorsplit = new qx.ui.splitpane.Pane("horizontal");
+      this.__editorsplit.setDecorator(null); // get rid of the 3px broder
       // info split (right side of the main split)
       var infosplit = new qx.ui.splitpane.Pane("vertical");
       infosplit.setDecorator(null);
@@ -193,13 +194,14 @@ qx.Class.define("playground.Application",
       }, this);
       this.__editor.init();
 
-      editorsplit.add(this.__samplesPane, 1);
-      editorsplit.add(this.__editor, 4);
+      this.__editorsplit.add(this.__samplesPane, 1);
+      this.__editorsplit.add(this.__editor, 4);
 
-      mainsplit.add(editorsplit, 6);
+      mainsplit.add(this.__editorsplit, 6);
       mainsplit.add(infosplit, 5);
 
       this.__playArea = new playground.view.PlayArea();
+      this.__playArea.addListener("toggleMaximize", this._onToggleMaximize, this);
       infosplit.add(this.__playArea, 2);
 
       mainsplit.getChildControl("splitter").addListener("mousedown", function() {
@@ -431,6 +433,20 @@ qx.Class.define("playground.Application",
         }
         // just write the new name to the to the sample
         current.setName(name);
+      }
+    },
+
+
+    /**
+     * Helper to toggle the editors split pane which means togglinge the 
+     * visibility of the editor and the samples pane.
+     */
+    _onToggleMaximize : function() {
+      this.__maximized = !this.__maximized;
+      if (this.__maximized) {
+        this.__editorsplit.exclude();
+      } else {
+        this.__editorsplit.show();
       }
     },
 

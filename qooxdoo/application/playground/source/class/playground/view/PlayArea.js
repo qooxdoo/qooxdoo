@@ -33,6 +33,9 @@ qx.Class.define("playground.view.PlayArea",
     this.__riaArea = new playground.view.RiaPlayArea();
     this.__mobileArea = new playground.view.MobilePlayArea();
 
+    this.__riaArea.addListener("toggleMaximize", this._onToggleMaximize, this);
+    this.__mobileArea.addListener("toggleMaximize", this._onToggleMaximize, this);
+
     this.add(this.__riaArea);
     this.add(this.__mobileArea);
   },
@@ -46,10 +49,26 @@ qx.Class.define("playground.view.PlayArea",
     }
   },
 
+
+  events : {
+    /** Event to signal the the fields should be maximized / restored. */
+    "toggleMaximize" : "qx.event.type.Event"
+  },
+
+
   members :
   {
     __riaArea : null,
     __mobileArea : null,
+
+
+    /**
+     * Helper to forward the toggle maximize event.
+     */
+    _onToggleMaximize : function() {
+      this.fireEvent("toggleMaximize");
+    },
+
 
     // property apply
     _applyMode : function(value) {

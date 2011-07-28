@@ -11,45 +11,45 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: playground/Application.js:99
+#: playground/Application.js:100
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
 msgstr ""
 
-#: playground/Application.js:375 playground/Application.js:428
+#: playground/Application.js:377 playground/Application.js:430
 msgid "Please enter a name"
 msgstr ""
 
-#: playground/Application.js:561 playground/Application.js:604
+#: playground/Application.js:577 playground/Application.js:620
 msgid "Custom Code"
 msgstr ""
 
-#: playground/Application.js:627
+#: playground/Application.js:643
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
 msgstr ""
 
-#: playground/Application.js:630
+#: playground/Application.js:646
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
 msgstr ""
 
-#: playground/Application.js:648
+#: playground/Application.js:664
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
 msgstr ""
 
-#: playground/Application.js:673
+#: playground/Application.js:689
 msgid "Click OK to discard your changes."
 msgstr ""
 
-#: playground/Application.js:733
+#: playground/Application.js:749
 msgid "Starting application"
 msgstr ""
 
-#: playground/Application.js:736
+#: playground/Application.js:752
 msgid "Successfully started"
 msgstr ""
 
-#: playground/Application.js:794
+#: playground/Application.js:810
 msgid "%1 (modified)"
 msgstr ""
 
@@ -75,6 +75,14 @@ msgstr ""
 
 #: playground/view/Header.js:94
 msgid "Mobile (Webkit only)"
+msgstr ""
+
+#: playground/view/RiaPlayArea.js:53 playground/view/RiaPlayArea.js:61
+msgid "Maximize"
+msgstr ""
+
+#: playground/view/RiaPlayArea.js:58
+msgid "Restore"
 msgstr ""
 
 #: playground/view/Samples.js:46 playground/view/Toolbar.js:51

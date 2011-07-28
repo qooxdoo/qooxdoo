@@ -33,15 +33,43 @@ qx.Class.define("playground.view.RiaPlayArea",
     this.setDecorator("main");
 
     // caption
-    this.__playFieldCaption = new qx.ui.basic.Label().set({
+    var caption = new qx.ui.container.Composite();
+    caption.setLayout(new qx.ui.layout.HBox());
+
+    // caption label
+    this.__captionLabel = new qx.ui.basic.Label().set({
       font       : "bold",
       padding    : 5,
       allowGrowX : true,
       allowGrowY : true
     });
 
-    this.add(this.__playFieldCaption);
+    // button for max / min the play area
+    var maxIcon = "decoration/window/maximize-inactive.png";
+    var restoreIcon = "decoration/window/restore-inactive.png";
+    var maxButton = new qx.ui.form.Button(null, "decoration/window/maximize-inactive.png");
+    maxButton.setAppearance("toolbar-button");
+    maxButton.setMarginRight(6);
+    maxButton.setToolTipText(this.tr("Maximize"));
+    maxButton.addListener("execute", function() {
+      // toggle the icons
+      if (maxButton.getIcon() == maxIcon) {
+        maxButton.setIcon(restoreIcon);
+        maxButton.setToolTipText(this.tr("Restore"));
+      } else {
+        maxButton.setIcon(maxIcon);
+        maxButton.setToolTipText(this.tr("Maximize"));
+      }
+      this.fireEvent("toggleMaximize");
+    }, this)
 
+    // combine all parts for the caption
+    caption.add(this.__captionLabel);
+    caption.add(new qx.ui.core.Spacer(), {flex: 1});
+    caption.add(maxButton);
+    this.add(caption);
+
+    // playfield
     this.__playField = new qx.ui.container.Scroll();
     this.__playField.getChildControl("scrollbar-x");
     this.__playField.getChildControl("scrollbar-y");
@@ -54,9 +82,15 @@ qx.Class.define("playground.view.RiaPlayArea",
   },
 
 
+  events : {
+    /** Event to signal the the fields should be maximized / restored. */
+    "toggleMaximize" : "qx.event.type.Event"
+  },
+
+
   members :
   {
-    __playFieldCaption : null,
+    __captionLabel : null,
     _dummy : null,
     _playRoot : null,
     __playField : null,
@@ -109,7 +143,7 @@ qx.Class.define("playground.view.RiaPlayArea",
      * @param text {String} The new text of the caption.
      */
     updateCaption : function(text) {
-      this.__playFieldCaption.setValue(text);
+      this.__captionLabel.setValue(text);
     },
 
 
@@ -195,7 +229,7 @@ qx.Class.define("playground.view.RiaPlayArea",
   destruct : function()
   {
     this._disposeObjects(
-      "__playFieldCaption", "__playField", "_dummy", "_playRoot", "_playApp"
+      "__captionLabel", "__playField", "_dummy", "_playRoot", "_playApp"
     );
   }
 });
