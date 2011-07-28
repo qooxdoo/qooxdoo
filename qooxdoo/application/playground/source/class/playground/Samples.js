@@ -22,30 +22,53 @@
  */
 qx.Class.define("playground.Samples",
 {
-  extend : qx.data.Array,
+  extend : qx.core.Object,
 
-
-  construct : function()
+  /**
+   * @param array {qx.data.Array?} The array to which the objects should be 
+   *   added.
+   */
+  construct : function(array)
   {
     this.base(arguments);
 
+    // initialize the model
+    if (!array) {
+      array = new qx.data.Array()
+    }
+    this.setModel(array);
+
+    // remove all stored static samples
+    for (var i = array.length - 1; i >= 0; i--) {
+      var item = array.getItem(i);
+      if (item.getCategory() == "static") {
+        array.remove(item);
+      }
+    };
+
     var textAreas = document.getElementsByTagName("TEXTAREA");
 
-    for (var i=0; i < textAreas.length; i++)
+    for (var i = textAreas.length -1; i >= 0; i--)
     {
       if (textAreas[i].className == "qx_samples") {
         var name = textAreas[i].title.split("-")[0];
         var mode = textAreas[i].title.split("-")[1];
-        var code = textAreas[i].value
+        var code = textAreas[i].value;
         var data = {
           name: name, 
           code: code, 
           mode: mode, 
           category: "static"
         };
-        this.push(qx.data.marshal.Json.createModel(data))
+        array.unshift(qx.data.marshal.Json.createModel(data, true));
       }
     }
+  },
+
+
+  properties : {
+    /** Model property to hald the data array. */
+    model : {}
   },
 
 
@@ -53,14 +76,18 @@ qx.Class.define("playground.Samples",
   {
     /**
      * Returns the sample stored with the given name.
-     * @param name {String} the name of the sample code.
-     * @return {String|Undefined} Returns the sample code, if available.
+     * @param nameandmode {String} the name and mode of the sample code.
+     * @return {String|null} Returns the sample code, if available.
      */
     get : function(nameandmode) {
+      // split the name and mode into separate parts
       var name = nameandmode.split("-")[0];
       var mode = nameandmode.split("-")[1];
-      for (var i = 0; i < this.length; i++) {
-        var sample = this.getItem(i);
+      // get the data
+      var model = this.getModel();
+      for (var i = 0; i < model.length; i++) {
+        var sample = model.getItem(i);
+        // check if name AND mode are fitting
         if (sample.getName() == name && sample.getMode() == mode) {
           return sample;
         }
@@ -72,11 +99,12 @@ qx.Class.define("playground.Samples",
     /**
      * Get the first available sample for the given mode.
      * @param mode {String} The mode to look for.
-     * @return {Object} A sample object.
+     * @return {Object|null} A sample object.
      */
     getFirstSample : function(mode) {
-      for (var i = 0; i < this.length; i++) {
-        var sample = this.getItem(i);
+      var model = this.getModel();
+      for (var i = 0; i < model.length; i++) {
+        var sample = model.getItem(i);
         if (sample.getMode() == mode) {
           return sample;
         }
@@ -84,33 +112,23 @@ qx.Class.define("playground.Samples",
       return null;
     },
 
+
     /**
-     * Check if a sample with the given name is available.
-     * @param name {String} The name of the sample.
+     * Check if a sample with the given name and mode is available.
+     * @param nameandmode {String} The name and mode of the sample.
      * @return {Boolean} true, if the sample is available.
      */
     isAvailable : function(nameandmode) {
       var name = nameandmode.split("-")[0];
       var mode = nameandmode.split("-")[1];
-      for (var i = 0; i < this.length; i++) {
-        var sample = this.getItem(i);
+      var model = this.getModel();
+      for (var i = 0; i < model.length; i++) {
+        var sample = model.getItem(i);
         if (sample.getName() == name && sample.getMode() == mode) {
           return true;
         }
       };
       return false;
     }
-  },
-
-
-
-  /*
-   *****************************************************************************
-      DESTRUCTOR
-   *****************************************************************************
-   */
-
-  destruct : function() {
-    this.__samples = null;
   }
 });

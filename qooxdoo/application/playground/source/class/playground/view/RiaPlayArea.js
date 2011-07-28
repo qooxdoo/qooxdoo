@@ -89,7 +89,7 @@ qx.Class.define("playground.view.RiaPlayArea",
         this._playRoot.setMinHeight(data.height);
       }, this);
 
-      this._playApp = qx.core.Init.getApplication().clone();
+      this._playApp = new qx.application.Standalone();
       this._playApp.getRoot = function() {
         return self._playRoot;
       };
