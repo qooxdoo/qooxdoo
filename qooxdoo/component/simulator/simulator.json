@@ -23,7 +23,7 @@
       {
         "exclude" : [
           "qx.core.Init",
-          "qx.event.GlobalError"
+           "qx.dev.Debug"
         ]
       },
       
@@ -47,7 +47,7 @@
       
       "exclude" : [
         "qx.core.Init",
-        "qx.event.GlobalError"
+        "qx.dev.Debug"
       ],
       
        "environment" :
@@ -136,7 +136,8 @@
         
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/simulator-source.js"
+          "file" : "${BUILD_PATH}/script/simulator-source.js",
+          "app-root" : "."
         }
       },
       
