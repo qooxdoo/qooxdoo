@@ -30,11 +30,7 @@ qx.Class.define("playground.view.Toolbar",
   extend : qx.ui.toolbar.ToolBar,
 
 
-  /**
-   * @param sampleNames {Array} An array containing all names of the samples as
-   *   String.
-   */
-  construct : function(sampleNames)
+  construct : function()
   {
     this.base(arguments);
 
@@ -50,14 +46,17 @@ qx.Class.define("playground.view.Toolbar",
       this.fireEvent("run");
     }, this);
 
-    // select sample button
-    var selectSampleButton = new qx.ui.toolbar.MenuButton(
+    // sample button
+    this.__samplesCheckButton = new qx.ui.form.ToggleButton(
       this.tr("Samples"), "icon/22/actions/edit-copy.png"
     );
-    this.add(selectSampleButton);
-    selectSampleButton.setToolTipText(this.tr("Select a sample"));
-    this.__sampleMenu = this.__createSampleMenu(sampleNames);
-    selectSampleButton.setMenu(this.__sampleMenu);
+    this.__samplesCheckButton.setValue(true);
+    this.add(this.__samplesCheckButton);
+    this.__samplesCheckButton.setToolTipText(this.tr("Show samples"));
+    this.__samplesCheckButton.setAppearance("toolbar-button");
+    this.__samplesCheckButton.addListener("changeValue", function(e) {
+      this.fireDataEvent("changeSample", e.getData(), e.getOldData());
+    }, this);
 
     // highlighting button
     this.__highlightButton = new qx.ui.form.ToggleButton(
@@ -131,7 +130,7 @@ qx.Class.define("playground.view.Toolbar",
     this.setRemovePriority(helpButton, 7);
     this.setRemovePriority(apiButton, 6);
     this.setRemovePriority(this.__logCheckButton, 5);
-    this.setRemovePriority(selectSampleButton, 4);
+    this.setRemovePriority(this.__samplesCheckButton, 4);
     this.setRemovePriority(this.__highlightButton, 3);
     this.setRemovePriority(urlShortButton, 1);
 
@@ -223,8 +222,7 @@ qx.Class.define("playground.view.Toolbar",
     __overflowMenu : null,
     __highlightButton : null,
     __logCheckButton : null,
-    __sampleMenu : null,
-    __mode : null,
+    __samplesCheckButton : null,
 
     /**
      * Controlls the presed state of the log button.
@@ -236,19 +234,11 @@ qx.Class.define("playground.view.Toolbar",
 
 
     /**
-     * Sets the mode in which the toolbar should be in.
-     * @param mode {String} The mode to use.
+     * Controlls the presed state of the samples button.
+     * @param show {Boolean} True, if the button should be pressed.
      */
-    setMode : function(mode) {
-      if (this.__mode == mode) {
-        return;
-      }
-      this.__mode = mode;
-      var samples = this.__sampleMenu.getChildren();
-      for (var i = 0; i < samples.length; i++) {
-        var sample = samples[i];
-        sample.getUserData("mode") == mode ? sample.show() : sample.exclude();
-      };
+    showExamples : function(show) {
+      this.__samplesCheckButton.setValue(show);
     },
 
 
@@ -262,38 +252,6 @@ qx.Class.define("playground.view.Toolbar",
       if (!value) {
         this.__highlightButton.setValue(false);
       }
-    },
-
-
-    /**
-     * Generates a menu to select the samples.
-     * @param sampleNames {Array} An array containing all names of the samples.
-     * @return {qx.ui.menu.Menu} Menu of the samples.
-     */
-    __createSampleMenu : function(sampleNames)
-    {
-      var menu = new qx.ui.menu.Menu;
-
-      for (var i = 0; i < sampleNames.length; i++)
-      {
-        var sample = sampleNames[i].split("-");
-        var name = sample[0];
-        var mode = sample[1];
-
-        var sampleEntryButton = new qx.ui.menu.Button(
-          name, "icon/22/actions/edit-paste.png"
-        );
-        sampleEntryButton.setUserData("mode", mode);
-        menu.add(sampleEntryButton);
-
-        sampleEntryButton.addListener(
-          "execute", qx.lang.Function.bind(function(name, e) {
-            this.fireDataEvent("changeSample", name);
-          }, this, sampleNames[i])
-        );
-      }
-
-      return menu;
     },
 
 

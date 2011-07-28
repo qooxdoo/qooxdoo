@@ -72,12 +72,9 @@ qx.Class.define("playground.view.Header",
 
     // property apply
     _applyMode : function(value) {
-      for (var i=0; i < this.__buttons.length; i++) {
-        if (this.__buttons[i].getModel() == value) {
-          this.__group.setSelection([this.__buttons[i]]);
-          return;
-        }
-      };
+      if (this.__group.getModelSelection().getItem(0) != value) {
+        this.__group.setModelSelection([value]);
+      }
     },
 
 

@@ -48,6 +48,13 @@ qx.Class.define("playground.Application",
       check : "String",
       apply : "_applyOriginCode",
       init : ""
+    },
+
+
+    currentSample : {
+      apply : "_applyCurrentSample",
+      event : "changeCurrentSample",
+      nullable : true
     }
   },
 
@@ -92,6 +99,8 @@ qx.Class.define("playground.Application",
 
     __mode : null,
 
+    __samplesPane : null,
+
 
     /**
      * This method contains the initial application code and gets called
@@ -120,7 +129,7 @@ qx.Class.define("playground.Application",
       this.__samples = new playground.Samples();
 
       // toolbar
-      this.__toolbar = new playground.view.Toolbar(this.__samples.getNames());
+      this.__toolbar = new playground.view.Toolbar();
       mainContainer.add(this.__toolbar, { flex : 0 });
 
       // toolbar listener
@@ -133,12 +142,31 @@ qx.Class.define("playground.Application",
       this.__toolbar.addListener("openManual", this.__onManualOpen, this);
       this.__toolbar.addListener("openDemoBrowser",this.__onDemoBrowser,this);
 
-      // mainsplit, contains the editor and the info splitpane
+      // mainsplit, contains the editor splitpane and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
       mainContainer.add(mainsplit, { flex : 1 });
 
+      var editorsplit = new qx.ui.splitpane.Pane("horizontal");
+      editorsplit.setDecorator(null); // get rid of the 3px broder
       var infosplit = new qx.ui.splitpane.Pane("vertical");
       infosplit.setDecorator(null);
+
+      // initialize custom samples
+      if (qx.core.Environment.get("html.storage.local")) {
+        var store = new qx.data.store.Offline("qooxdoo-playground-samples");
+        var model = this.__samples;
+        if (store.getModel() != null) {
+          model = model.concat(store.getModel());
+        }
+      }
+
+      // examples pane
+      this.__samplesPane = new playground.view.Samples();
+      this.__samplesPane.setModel(model);
+      this.__samplesPane.addListener("selectSample", function(e) {
+        this.setCurrentSample(e.getData());
+      }, this);
+      this.bind("currentSample", this.__samplesPane, "currentSample");
 
       // need to split up the creation process
       this.__editor = new playground.view.Editor();
@@ -147,8 +175,11 @@ qx.Class.define("playground.Application",
       }, this);
       this.__editor.init();
 
-      mainsplit.add(this.__editor);
-      mainsplit.add(infosplit, 1);
+      editorsplit.add(this.__samplesPane, 1);
+      editorsplit.add(this.__editor, 4);
+
+      mainsplit.add(editorsplit, 6);
+      mainsplit.add(infosplit, 5);
       this.__playArea = new playground.view.PlayArea();
       infosplit.add(this.__playArea, 2);
 
@@ -185,9 +216,12 @@ qx.Class.define("playground.Application",
       // Back button and bookmark support
       this.__initBookmarkSupport();
 
-      // check for the highlight cookie
+      // check for the highlight and examples cookie
       if (qx.bom.Cookie.get("playgroundHighlight") === "false") {
         this.__editor.useHighlight(false);
+      }
+      if (qx.bom.Cookie.get("playgroundShowExamples") === "false") {
+        this.__toolbar.showExamples(false);
       }
     },
 
@@ -229,14 +263,7 @@ qx.Class.define("playground.Application",
         this.__header.setMode(e.getOldData());
       } else {
         // select the first sample
-        var names = this.__samples.getNames();
-        for (var i = 0; i < names.length; i++) {
-          if (names[i].split("-")[1] == mode) {
-            // set the origin code to the new sample to prevent the confirm
-            this._updateSample(names[i]);
-            break;
-          }
-        }
+        this.setCurrentSample(this.__samples.getFirstSample(mode));
       }
     },
 
@@ -275,10 +302,10 @@ qx.Class.define("playground.Application",
       qx.bom.Cookie.set("playgroundMode", mode, 100);
       this.__mode = mode;
 
-      // update the view (changes the play application)
+      // update the views (changes the play application)
       this.__playArea.setMode(mode);
-      this.__toolbar.setMode(mode);
       this.__header.setMode(mode);
+      this.__samplesPane.setMode(mode);
 
       // erase the code
       this.__editor.setCode("");
@@ -292,33 +319,40 @@ qx.Class.define("playground.Application",
     // ***************************************************
     /**
      * Handler for sample changes of the toolbar.
-     * @param e {qx.event.type.Data} Data event containing the new name of
-     *   the sample.
+     * @param e {qx.event.type.Data} Data event containing the boolean 
+     * weather the examples should be shown.
      */
     __onSampleChange : function(e) {
+<<<<<<< HEAD
       this._updateSample(e.getData());
     },
+=======
+      qx.bom.Cookie.set("playgroundShowExamples", e.getData(), 100);
+      if (e.getData()) {
+        this.__samplesPane.show();
+      } else {
+        this.__samplesPane.exclude();
+      }
+    }, 
+>>>>>>> [BUG #5356] Moved the playgrounds examples menu to the left side.
 
 
     /**
      * Helper to update the sample to the given sample name.
-     * @param sampleName {String} The name of the sample to use.
+     * @param newSample {qx.core.Object} The change event containig the sample object-
      */
-    _updateSample : function(sampleName) {
+    _applyCurrentSample : function(newSample) {
       if (this.__discardChanges()) {
         return;
       }
 
-      // set the new sample data
-      var newSample = this.__samples.get(sampleName);
       // need to get the code from the editor in case he changes something
       // in the code
-      this.__editor.setCode(newSample);
+      this.__editor.setCode(newSample.getCode());
       this.setOriginCode(this.__editor.getCode());
 
-      this.__history.addToHistory(sampleName);
-      var name = sampleName.split("-");
-      this.setName(name[0]);
+      this.__history.addToHistory(newSample.getName() + "-" + newSample.getMode());
+      this.setName(newSample.getName());
       // run the new sample
       this.run();
     },
@@ -412,8 +446,8 @@ qx.Class.define("playground.Application",
       if (state && this.__samples.isAvailable(state))
       {
         var sample = this.__samples.get(state);
-        this.setMode(state.split("-")[1]);
-        code = sample;
+        this.setCurrentSample(sample);
+        return;
 
       // check if a mode is given
       } else if (state.indexOf("mode=") == 0) {
@@ -423,29 +457,28 @@ qx.Class.define("playground.Application",
         } else {
           this.setMode("ria");
         }
-        var sampleData = this.__samples.getFirstSample(this.__mode);
-        code = sampleData.code;
-        name = sampleData.name.split("-")[0];
+        var sample = this.__samples.getFirstSample(this.__mode);
+        this.setCurrentSample(sample);
+        return;
 
       // if there is a state given
       } else if (state && state.charAt(0) == "{") {
         var name = this.tr("Custom Code");
         code = this.__parseURLCode(state);
+        // need to get the code from the editor in case he changes something
+        // in the code
+        this.__editor.setCode(code);
+        this.setOriginCode(this.__editor.getCode());
+
+        this.setName(name);
+        this.run();
 
       // if no state is given
       } else {
-        var sampleData = this.__samples.getFirstSample(this.__mode);
-        code = sampleData.code;
-        name = sampleData.name.split("-")[0];
+        var sample = this.__samples.getFirstSample(this.__mode);
+        this.setCurrentSample(sample);
+        return;
       }
-
-      // need to get the code from the editor in case he changes something
-      // in the code
-      this.__editor.setCode(code);
-      this.setOriginCode(this.__editor.getCode());
-
-      this.setName(name);
-      this.run();
     },
 
 
@@ -461,10 +494,8 @@ qx.Class.define("playground.Application",
       if (this.__samples.isAvailable(state))
       {
         var sample = this.__samples.get(state);
-        if (this.__isCodeNotEqual(sample, this.__editor.getCode())) {
-          this.__editor.setCode(sample);
-          this.setName(state);
-          this.run();
+        if (this.__isCodeNotEqual(sample.getCode(), this.__editor.getCode())) {
+          this.setCurrentSample(sample);
         }
 
       // is code given
