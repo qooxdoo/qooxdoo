@@ -21,15 +21,72 @@
 Manual |version|
 ****************
 
-.. only:: html
-
-   **Download** offline version (`.pdf <qooxdoo.pdf>`__)
-
-
-
 .. toctree::
    :maxdepth: 1
    :hidden:
 
    toc
+
+
+.. |apiviewer| image:: _static/apiviewer.png
+.. |fce_thumb| image:: _static/fce_thumb.png
+.. |feedreadermobile_ios| image:: _static/feedreadermobile_ios.png
+.. |portal| image:: _static/portal.png
+.. |widgetbrowser| image:: _static/widgetbrowser.png
+.. |g_background| image:: _static/g_background.png
+.. |g_book| image:: _static/utilities-notes.png
+.. |o_star| image:: _static/development.png
+.. .. |g_write| image:: _static/internet-blog.png
+.. |g_write| image:: _static/office-contact.png
+.. |o_background| image:: _static/o_background.png
+.. |o_folder| image:: _static/utilities-dictionary.png
+.. |o_save| image:: _static/document-open.png
+.. |g_faq| image:: _static/engineering.png
+
+Welcome to the qooxdo manual. Here is an overview of what you can find here.
+
+
+  +----------+-------------------------------------------------------------------------------------+
+  | |o_star| | **Getting Started**                                                                 |
+  |          |   * :ref:`Prerequisites <pages/getting_started/helloworld#requirements>`            |
+  |          |   * :ref:`Download <pages/getting_started/helloworld#download>`                     |
+  |          |   * :ref:`Installation <pages/getting_started/helloworld#installation>`             |
+  |          |   * :ref:`"Hello World" <pages/getting_started/helloworld#create_your_application>` |
+  +----------+-------------------------------------------------------------------------------------+
+
+  +----------+-------------------------------------------------------------------------------------+
+  ||o_folder|| **Reference**                                                                       |
+  |          |   * :doc:`Table of Contents <toc>`                                                  |
+  |          |   * :doc:`Collection of technical references <pages/references>`                    |
+  +----------+-------------------------------------------------------------------------------------+
+
+
+  +----------+-------------------------------------------------------------------------------------+
+  | |o_save| | **Download**                                                                        |
+  |          |   * `Get the PDF <qooxdoo.pdf>`__                                                   |
+  +----------+-------------------------------------------------------------------------------------+
+
+
+  +----------+-------------------------------------------------------------------------------------+
+  | |g_book| | **Core Concepts**                                                                   |
+  |          |   * :doc:`Classes       <pages/core/oo_introduction>`                               |
+  |          |   * :doc:`Properties <pages/core/understanding_properties>`                         |
+  |          |   * :doc:`Data Binding <pages/data_binding/data_binding>`                           |
+  |          |   * :doc:`Environment   <pages/core/environment>`                                   |
+  +----------+-------------------------------------------------------------------------------------+
+
+
+  +----------+-------------------------------------------------------------------------------------+
+  ||g_write| | **APIs**                                                                            |
+  |          |   * :doc:`Widgets       <pages/gui_toolkit/ui_widgets>`                             |
+  |          |   * :doc:`Low-level  <pages/low_level/low_level_apis>`                              |
+  |          |   * :doc:`Mobile       <pages/mobile/mobile_overview>`                              |
+  +----------+-------------------------------------------------------------------------------------+
+
+
+  +----------+-------------------------------------------------------------------------------------+
+  ||g_faq|   | **Migration**                                                                       |
+  |          |   * :doc:`Migration Guide <pages/migration/migration_guide>`                        |
+  +----------+-------------------------------------------------------------------------------------+
+
 
