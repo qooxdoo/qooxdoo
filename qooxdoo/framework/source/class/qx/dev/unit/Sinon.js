@@ -1355,8 +1355,14 @@ if (typeof module == "object" && typeof require == "function") {
         var fakes = getFakes(fakeCollection);
 
         for (var i = 0, l = fakes.length; i < l; i += 1) {
+            if (fakes[i] == null) {
+              continue;
+            }
             if (typeof fakes[i][method] == "function") {
                 fakes[i][method]();
+                if (method === "restore") {
+                  fakes[i] = null;
+                }
             }
         }
     }
