@@ -11,19 +11,19 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: playground/Application.js:89
+#: playground/Application.js:99
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
 msgstr "Din păcate, o eroare internă gravă a fost determinată de codul tău. Acest lucru face ca aplicația playground să nu ruleze corect.||"
 
-#: playground/Application.js:451 playground/Application.js:498
-msgid "Showing gist %1"
-msgstr "Afișez gist %1"
+#: playground/Application.js:375 playground/Application.js:428
+msgid "Please enter a name"
+msgstr ""
 
-#: playground/Application.js:456 playground/Application.js:505
+#: playground/Application.js:561 playground/Application.js:604
 msgid "Custom Code"
 msgstr "Cod propriu"
 
-#: playground/Application.js:528
+#: playground/Application.js:627
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
@@ -31,39 +31,27 @@ msgstr ""
 "// Nu am putut lucra cu acest parametru URL! \n"
 "// %1"
 
-#: playground/Application.js:531
+#: playground/Application.js:630
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
 msgstr "// Browserul tău are o restricție privind lunfimea URL-ului, lucru care e posibil sa fi cauzat problema."
 
-#: playground/Application.js:549
+#: playground/Application.js:648
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
 msgstr "Nu pot adăuga codul furnizat la URL, e prea lung. Anulez acest avertisment în viitor?"
 
-#: playground/Application.js:573
-msgid "No such user found."
-msgstr "Nu am găsit nici un astfel de utilizator."
-
-#: playground/Application.js:638
-msgid "Gist contains no content."
-msgstr "Gist nu conține nimic."
-
-#: playground/Application.js:644
-msgid "Can't load the gist."
-msgstr "nu pot încărca gist."
-
-#: playground/Application.js:696
+#: playground/Application.js:673
 msgid "Click OK to discard your changes."
 msgstr "Apasă OK pentru a nu salva modificările."
 
-#: playground/Application.js:756
+#: playground/Application.js:733
 msgid "Starting application"
 msgstr "aplicația se pornește"
 
-#: playground/Application.js:759
+#: playground/Application.js:736
 msgid "Successfully started"
 msgstr "A pornit cu succes"
 
-#: playground/Application.js:817
+#: playground/Application.js:794
 msgid "%1 (modified)"
 msgstr "%1 (modificată)"
 
@@ -79,7 +67,7 @@ msgstr "qooxdoo %1"
 msgid "Desktop"
 msgstr ""
 
-#: playground/view/Header.js:37 playground/view/Header.js:97
+#: playground/view/Header.js:37 playground/view/Header.js:94
 msgid "Mobile"
 msgstr ""
 
@@ -87,98 +75,86 @@ msgstr ""
 msgid "Playground"
 msgstr "Loc de joacă"
 
-#: playground/view/Header.js:97
+#: playground/view/Header.js:94
 msgid "Mobile (Webkit only)"
 msgstr ""
 
-#: playground/view/Toolbar.js:45
+#: playground/view/Samples.js:46 playground/view/Toolbar.js:51
+msgid "Samples"
+msgstr "Exemple"
+
+#: playground/view/Samples.js:172
+msgid "Static"
+msgstr "Static"
+
+#: playground/view/Samples.js:174
+msgid "User"
+msgstr "Utilizator"
+
+#: playground/view/Samples.js:204
+msgid "Save"
+msgstr "Salvează"
+
+#: playground/view/Samples.js:214
+msgid "Delete"
+msgstr "Şterge"
+
+#: playground/view/Samples.js:224
+msgid "Rename"
+msgstr "Redenumeşte"
+
+#: playground/view/Toolbar.js:41
 msgid "Run"
 msgstr "Rulează"
 
-#: playground/view/Toolbar.js:48
+#: playground/view/Toolbar.js:44
 msgid "Run the source code"
 msgstr "Rulează codul sursă"
 
 #: playground/view/Toolbar.js:55
-msgid "Samples"
-msgstr "Exemple"
+msgid "Show samples"
+msgstr "Prezintă demo-urile"
 
-#: playground/view/Toolbar.js:58
-msgid "Select a sample"
-msgstr "selectează un exemplu"
-
-#: playground/view/Toolbar.js:64
+#: playground/view/Toolbar.js:63
 msgid "Syntax Highlighting"
 msgstr "Sublinierea sintaxei"
 
-#: playground/view/Toolbar.js:79
-msgid "gist support"
-msgstr "suport gist"
-
-#: playground/view/Toolbar.js:100
+#: playground/view/Toolbar.js:78
 msgid "Log"
 msgstr "Jurnal"
 
-#: playground/view/Toolbar.js:103
+#: playground/view/Toolbar.js:81
 msgid "Show log output"
 msgstr "Arată conținutul jurnalului"
 
-#: playground/view/Toolbar.js:110
+#: playground/view/Toolbar.js:88
 msgid "Shorten URL"
 msgstr "Scurtează URL-ul"
 
-#: playground/view/Toolbar.js:113
+#: playground/view/Toolbar.js:91
 msgid "Use tinyurl to shorten the url."
 msgstr "Folosește tinyurl pentru a scurta URL-ul."
 
-#: playground/view/Toolbar.js:120
+#: playground/view/Toolbar.js:98
 msgid "API Viewer"
 msgstr "API Viewer"
 
-#: playground/view/Toolbar.js:123
+#: playground/view/Toolbar.js:101
 msgid "Open the qooxdoo API Viewer"
 msgstr "Deschide qooxdoo API Viewer"
 
-#: playground/view/Toolbar.js:130
+#: playground/view/Toolbar.js:108
 msgid "Manual"
 msgstr "Manual"
 
-#: playground/view/Toolbar.js:133
+#: playground/view/Toolbar.js:111
 msgid "Open the qooxdoo Manual"
 msgstr "Deschide manualul qooxdoo"
 
-#: playground/view/Toolbar.js:140
+#: playground/view/Toolbar.js:118
 msgid "Demo Browser"
 msgstr ""
 
-#: playground/view/Toolbar.js:143
+#: playground/view/Toolbar.js:121
 msgid "Open the qooxdoo Demo Browser"
 msgstr "Deschide qooxdoo Demo Browser"
-
-#: playground/view/gist/GistMenu.js:44
-msgid "Activate filter for [qx]"
-msgstr "Activează filtrul pentru [qx]"
-
-#: playground/view/gist/GistMenu.js:52
-msgid "New gist"
-msgstr "Gist nou"
-
-#: playground/view/gist/GistMenu.js:63
-msgid "<em>No gist to show.</em>"
-msgstr "<em>Nici un gist de arătat.</em>"
-
-#: playground/view/gist/GistMenu.js:69
-msgid "Loading..."
-msgstr "se incarcă..."
-
-#: playground/view/gist/MenuButton.js:59
-msgid "Open an edit page for this gist."
-msgstr "Deschide o pagină de modificare pentru acest gist."
-
-#: playground/view/gist/UserNameMenuItem.js:42
-msgid "Username"
-msgstr "Utilizator"
-
-#: playground/view/gist/UserNameMenuItem.js:55
-msgid "Load / reload the gists."
-msgstr "Încarcă / reîncarcă gist-urile."

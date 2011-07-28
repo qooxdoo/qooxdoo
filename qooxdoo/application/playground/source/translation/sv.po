@@ -11,19 +11,19 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: playground/Application.js:89
+#: playground/Application.js:99
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
 msgstr "Tyvärr har ett oåterkalleligt internt fel orsakat av din kod inträffat. Detta kan förhindra testeditorn att köra riktigt.||"
 
-#: playground/Application.js:451 playground/Application.js:498
-msgid "Showing gist %1"
-msgstr "Visa kärna %1"
+#: playground/Application.js:375 playground/Application.js:428
+msgid "Please enter a name"
+msgstr "Ange ett namn"
 
-#: playground/Application.js:456 playground/Application.js:505
+#: playground/Application.js:561 playground/Application.js:604
 msgid "Custom Code"
 msgstr "Egen kod"
 
-#: playground/Application.js:528
+#: playground/Application.js:627
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
@@ -31,39 +31,27 @@ msgstr ""
 "// Kunde inte hanter URL-parametern! \n"
 "// %1"
 
-#: playground/Application.js:531
+#: playground/Application.js:630
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
 msgstr "// Din webbläsare har en längdbegränsning för URL-parametrar vilket kan ha orsakat problemet."
 
-#: playground/Application.js:549
+#: playground/Application.js:648
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
 msgstr "Kan inte lägga till exempelkoden till URL:en eftersom den är för lång. Vill du fortsättningsvis inaktivera denna varning?"
 
-#: playground/Application.js:573
-msgid "No such user found."
-msgstr "Ingen sådan användare har hittats."
-
-#: playground/Application.js:638
-msgid "Gist contains no content."
-msgstr "Kärnan innehåller inget."
-
-#: playground/Application.js:644
-msgid "Can't load the gist."
-msgstr "Kan inte ladda kärnan."
-
-#: playground/Application.js:696
+#: playground/Application.js:673
 msgid "Click OK to discard your changes."
 msgstr "Klicka Ok för att överge dina ändringar."
 
-#: playground/Application.js:756
+#: playground/Application.js:733
 msgid "Starting application"
 msgstr "Startar applikationen"
 
-#: playground/Application.js:759
+#: playground/Application.js:736
 msgid "Successfully started"
 msgstr "Lyckad uppstart"
 
-#: playground/Application.js:817
+#: playground/Application.js:794
 msgid "%1 (modified)"
 msgstr "%1 (modifierad)"
 
@@ -79,7 +67,7 @@ msgstr "qooxdoo %1"
 msgid "Desktop"
 msgstr ""
 
-#: playground/view/Header.js:37 playground/view/Header.js:97
+#: playground/view/Header.js:37 playground/view/Header.js:94
 msgid "Mobile"
 msgstr ""
 
@@ -87,98 +75,86 @@ msgstr ""
 msgid "Playground"
 msgstr "Testeditor"
 
-#: playground/view/Header.js:97
+#: playground/view/Header.js:94
 msgid "Mobile (Webkit only)"
 msgstr ""
 
-#: playground/view/Toolbar.js:45
+#: playground/view/Samples.js:46 playground/view/Toolbar.js:51
+msgid "Samples"
+msgstr "Exempel"
+
+#: playground/view/Samples.js:172
+msgid "Static"
+msgstr "Statisk"
+
+#: playground/view/Samples.js:174
+msgid "User"
+msgstr "Användare"
+
+#: playground/view/Samples.js:204
+msgid "Save"
+msgstr "Spara"
+
+#: playground/view/Samples.js:214
+msgid "Delete"
+msgstr "Radera"
+
+#: playground/view/Samples.js:224
+msgid "Rename"
+msgstr "Byt namn"
+
+#: playground/view/Toolbar.js:41
 msgid "Run"
 msgstr "Kör"
 
-#: playground/view/Toolbar.js:48
+#: playground/view/Toolbar.js:44
 msgid "Run the source code"
 msgstr "Kör källkoden"
 
 #: playground/view/Toolbar.js:55
-msgid "Samples"
-msgstr "Exempel"
+msgid "Show samples"
+msgstr "Visa exempel"
 
-#: playground/view/Toolbar.js:58
-msgid "Select a sample"
-msgstr "Välj ett exempel"
-
-#: playground/view/Toolbar.js:64
+#: playground/view/Toolbar.js:63
 msgid "Syntax Highlighting"
 msgstr "Syntaxmarkering"
 
-#: playground/view/Toolbar.js:79
-msgid "gist support"
-msgstr "kärnstöd"
-
-#: playground/view/Toolbar.js:100
+#: playground/view/Toolbar.js:78
 msgid "Log"
 msgstr "Logga"
 
-#: playground/view/Toolbar.js:103
+#: playground/view/Toolbar.js:81
 msgid "Show log output"
 msgstr "Visa loggen"
 
-#: playground/view/Toolbar.js:110
+#: playground/view/Toolbar.js:88
 msgid "Shorten URL"
 msgstr "Förkorta URL:en"
 
-#: playground/view/Toolbar.js:113
+#: playground/view/Toolbar.js:91
 msgid "Use tinyurl to shorten the url."
 msgstr "Använd tinyurl för att förkorta url:en."
 
-#: playground/view/Toolbar.js:120
+#: playground/view/Toolbar.js:98
 msgid "API Viewer"
 msgstr "API-presentatör"
 
-#: playground/view/Toolbar.js:123
+#: playground/view/Toolbar.js:101
 msgid "Open the qooxdoo API Viewer"
 msgstr "Öppna qooxdoo API-presentatör"
 
-#: playground/view/Toolbar.js:130
+#: playground/view/Toolbar.js:108
 msgid "Manual"
 msgstr "Handledning"
 
-#: playground/view/Toolbar.js:133
+#: playground/view/Toolbar.js:111
 msgid "Open the qooxdoo Manual"
 msgstr "Öppna qooxdoo-handledningen"
 
-#: playground/view/Toolbar.js:140
+#: playground/view/Toolbar.js:118
 msgid "Demo Browser"
 msgstr "Demopresentatör"
 
-#: playground/view/Toolbar.js:143
+#: playground/view/Toolbar.js:121
 msgid "Open the qooxdoo Demo Browser"
 msgstr "Öppna qooxdoo demopresentatör"
-
-#: playground/view/gist/GistMenu.js:44
-msgid "Activate filter for [qx]"
-msgstr "Aktivera filter för [qx]"
-
-#: playground/view/gist/GistMenu.js:52
-msgid "New gist"
-msgstr "Ny kärna"
-
-#: playground/view/gist/GistMenu.js:63
-msgid "<em>No gist to show.</em>"
-msgstr "<em>Ny kärna att visa.</em>"
-
-#: playground/view/gist/GistMenu.js:69
-msgid "Loading..."
-msgstr "Laddar..."
-
-#: playground/view/gist/MenuButton.js:59
-msgid "Open an edit page for this gist."
-msgstr "Öppna editeringssidan för kärnan."
-
-#: playground/view/gist/UserNameMenuItem.js:42
-msgid "Username"
-msgstr "Användarnamn"
-
-#: playground/view/gist/UserNameMenuItem.js:55
-msgid "Load / reload the gists."
-msgstr "Ladda / Återladda kärnan."

@@ -11,57 +11,45 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: playground/Application.js:89
+#: playground/Application.js:99
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
 msgstr ""
 
-#: playground/Application.js:451 playground/Application.js:498
-msgid "Showing gist %1"
+#: playground/Application.js:375 playground/Application.js:428
+msgid "Please enter a name"
 msgstr ""
 
-#: playground/Application.js:456 playground/Application.js:505
+#: playground/Application.js:561 playground/Application.js:604
 msgid "Custom Code"
 msgstr ""
 
-#: playground/Application.js:528
+#: playground/Application.js:627
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
 msgstr ""
 
-#: playground/Application.js:531
+#: playground/Application.js:630
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
 msgstr ""
 
-#: playground/Application.js:549
+#: playground/Application.js:648
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
 msgstr ""
 
-#: playground/Application.js:573
-msgid "No such user found."
-msgstr ""
-
-#: playground/Application.js:638
-msgid "Gist contains no content."
-msgstr ""
-
-#: playground/Application.js:644
-msgid "Can't load the gist."
-msgstr ""
-
-#: playground/Application.js:696
+#: playground/Application.js:673
 msgid "Click OK to discard your changes."
 msgstr ""
 
-#: playground/Application.js:756
+#: playground/Application.js:733
 msgid "Starting application"
 msgstr ""
 
-#: playground/Application.js:759
+#: playground/Application.js:736
 msgid "Successfully started"
 msgstr ""
 
-#: playground/Application.js:817
+#: playground/Application.js:794
 msgid "%1 (modified)"
 msgstr ""
 
@@ -77,7 +65,7 @@ msgstr ""
 msgid "Desktop"
 msgstr ""
 
-#: playground/view/Header.js:37 playground/view/Header.js:97
+#: playground/view/Header.js:37 playground/view/Header.js:94
 msgid "Mobile"
 msgstr ""
 
@@ -85,98 +73,86 @@ msgstr ""
 msgid "Playground"
 msgstr ""
 
-#: playground/view/Header.js:97
+#: playground/view/Header.js:94
 msgid "Mobile (Webkit only)"
 msgstr ""
 
-#: playground/view/Toolbar.js:45
+#: playground/view/Samples.js:46 playground/view/Toolbar.js:51
+msgid "Samples"
+msgstr ""
+
+#: playground/view/Samples.js:172
+msgid "Static"
+msgstr ""
+
+#: playground/view/Samples.js:174
+msgid "User"
+msgstr ""
+
+#: playground/view/Samples.js:204
+msgid "Save"
+msgstr ""
+
+#: playground/view/Samples.js:214
+msgid "Delete"
+msgstr ""
+
+#: playground/view/Samples.js:224
+msgid "Rename"
+msgstr ""
+
+#: playground/view/Toolbar.js:41
 msgid "Run"
 msgstr ""
 
-#: playground/view/Toolbar.js:48
+#: playground/view/Toolbar.js:44
 msgid "Run the source code"
 msgstr ""
 
 #: playground/view/Toolbar.js:55
-msgid "Samples"
+msgid "Show samples"
 msgstr ""
 
-#: playground/view/Toolbar.js:58
-msgid "Select a sample"
-msgstr ""
-
-#: playground/view/Toolbar.js:64
+#: playground/view/Toolbar.js:63
 msgid "Syntax Highlighting"
 msgstr ""
 
-#: playground/view/Toolbar.js:79
-msgid "gist support"
-msgstr ""
-
-#: playground/view/Toolbar.js:100
+#: playground/view/Toolbar.js:78
 msgid "Log"
 msgstr ""
 
-#: playground/view/Toolbar.js:103
+#: playground/view/Toolbar.js:81
 msgid "Show log output"
 msgstr ""
 
-#: playground/view/Toolbar.js:110
+#: playground/view/Toolbar.js:88
 msgid "Shorten URL"
 msgstr ""
 
-#: playground/view/Toolbar.js:113
+#: playground/view/Toolbar.js:91
 msgid "Use tinyurl to shorten the url."
 msgstr ""
 
-#: playground/view/Toolbar.js:120
+#: playground/view/Toolbar.js:98
 msgid "API Viewer"
 msgstr ""
 
-#: playground/view/Toolbar.js:123
+#: playground/view/Toolbar.js:101
 msgid "Open the qooxdoo API Viewer"
 msgstr ""
 
-#: playground/view/Toolbar.js:130
+#: playground/view/Toolbar.js:108
 msgid "Manual"
 msgstr ""
 
-#: playground/view/Toolbar.js:133
+#: playground/view/Toolbar.js:111
 msgid "Open the qooxdoo Manual"
 msgstr ""
 
-#: playground/view/Toolbar.js:140
+#: playground/view/Toolbar.js:118
 msgid "Demo Browser"
 msgstr ""
 
-#: playground/view/Toolbar.js:143
+#: playground/view/Toolbar.js:121
 msgid "Open the qooxdoo Demo Browser"
-msgstr ""
-
-#: playground/view/gist/GistMenu.js:44
-msgid "Activate filter for [qx]"
-msgstr ""
-
-#: playground/view/gist/GistMenu.js:52
-msgid "New gist"
-msgstr ""
-
-#: playground/view/gist/GistMenu.js:63
-msgid "<em>No gist to show.</em>"
-msgstr ""
-
-#: playground/view/gist/GistMenu.js:69
-msgid "Loading..."
-msgstr ""
-
-#: playground/view/gist/MenuButton.js:59
-msgid "Open an edit page for this gist."
-msgstr ""
-
-#: playground/view/gist/UserNameMenuItem.js:42
-msgid "Username"
-msgstr ""
-
-#: playground/view/gist/UserNameMenuItem.js:55
-msgid "Load / reload the gists."
 msgstr ""
