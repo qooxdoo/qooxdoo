@@ -51,7 +51,10 @@ qx.Class.define("playground.view.Samples",
     });
     this.add(caption);
 
+    // list
     this.add(this._createList(), {flex: 1});
+
+    // toolbar
     if (qx.core.Environment.get("html.storage.local")) {
       this.add(this._createToolbar());
     }
@@ -59,31 +62,39 @@ qx.Class.define("playground.view.Samples",
 
 
   events : {
-
+    /** Change event which signals the change of an example.*/
     "selectSample" : "qx.event.type.Data",
 
+    /** Event triggered by the save button. */
     "save" : "qx.event.type.Event",
 
+    /** Event triggered by the delete button. */
     "delete" : "qx.event.type.Event",
 
+    /** Event triggered by the rename button. */
     "rename" : "qx.event.type.Event",
-    
+
+    /** Cancelable event fired before the selection changes. */
     "beforeSelectSample" : "qx.event.type.Event"
   },
 
 
   properties : {
+    /** Model property which contains the data for showing the examples. */ 
     model : {
+      check : "qx.data.IListData",
       event : "changeModel",
       apply : "_applyModel"
     },
 
+    /** Storage for the application mode. */
     mode : {
       check : "String",
       apply : "_applyMode",
       init : ""
     },
 
+    /** Storage for the current selected sample, if any. */
     currentSample : {
       apply : "_applyCurrentSample",
       nullable : true
@@ -98,11 +109,20 @@ qx.Class.define("playground.view.Samples",
     __renameButton : null,
 
 
+    /**
+     * Selects the given example. If non is given, the selection will be 
+     * removed.
+     * @param sample {qx.core.Obejct} The sample to select.
+     */
     select : function(sample) {
       this.__list.getSelection().setItem(0, sample);
     },
 
 
+    /**
+     * Selects a sample by the given code.
+     * @param code {String} The code which the sample contains.
+     */
     selectByCode : function(code) {
       var model = this.__list.getModel();
       for (var i=0; i < model.length; i++) {
@@ -114,27 +134,39 @@ qx.Class.define("playground.view.Samples",
     },
 
 
+    /**
+     * Creating helper which is responsible for creating the list.
+     */
     _createList : function() {
+      // create and configure the list
       this.__list = new qx.ui.list.List();
       this.__list.setDecorator("separator-vertical");
       this.__list.setLabelPath("name");
 
+      // CARFULL: HACK TO GET THE SELECTION PREVENTED
       this.__list._manager.detatchMouseEvents();
-
+      // store the old hous handler
       var oldHandler = this.__list._manager.handleMouseDown;
       var self = this;
+      // attach a new handler function
       this.__list._manager.handleMouseDown = function(e) {
+        // fire the cancleable event
         var changeOk = self.fireEvent("beforeSelectSample", qx.event.type.Event, [false, true]);
         if (changeOk) {
+          // if not canceled, execute the original handler
           oldHandler.call(self.__list._manager, e);
         }
       };
       this.__list._manager.attachMouseEvents();
+      // ////////////////////////////////////////////
 
+      // set the delegate
       this.__list.setDelegate({
+        // filder: only show samples for the current mode
         filter : function(data) {
           return data.getMode() == self.getMode();
         },
+        // group the samples by category
         group : function(data) {
           if (data.getCategory() == "static") {
             return qx.locale.Manager.tr("Static");
@@ -144,6 +176,7 @@ qx.Class.define("playground.view.Samples",
         }
       });
 
+      // selection change handler
       this.__list.getSelection().addListener("change", function() {
         var sample = this.__list.getSelection().getItem(0);
         if (sample) {
@@ -155,8 +188,11 @@ qx.Class.define("playground.view.Samples",
     },
 
 
+    /**
+     * Helper for creating the toolbar.
+     */
     _createToolbar : function() {
-      // toolbar
+      // crate and initialize the toolbar
       var toolbar = new qx.ui.toolbar.ToolBar();
       toolbar.setDecorator("separator-vertical");
 
@@ -220,6 +256,7 @@ qx.Class.define("playground.view.Samples",
 
     // property apply
     _applyMode : function(value) {
+      // refresh is needed because the filter has changed
       this.__list.refresh();
     }
   }

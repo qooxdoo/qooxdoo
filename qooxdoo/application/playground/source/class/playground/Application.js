@@ -28,11 +28,12 @@
 
 /**
  * Playground application, which allows for source code editing and live
- * previews of a simple custom application
+ * previews of a simple custom application.
  */
 qx.Class.define("playground.Application",
 {
   extend : qx.application.Standalone,
+
 
   properties :
   {
@@ -43,6 +44,7 @@ qx.Class.define("playground.Application",
       init: ""
     },
 
+
     /** Code to check agains as unchanged source of the loaded code.*/
     originCode : {
       check : "String",
@@ -51,6 +53,7 @@ qx.Class.define("playground.Application",
     },
 
 
+    /** The current selected sample model. */
     currentSample : {
       apply : "_applyCurrentSample",
       event : "changeCurrentSample",
@@ -64,7 +67,6 @@ qx.Class.define("playground.Application",
       MEMBERS
    *****************************************************************************
   */
-
   members :
   {
     // UI Components
@@ -73,9 +75,11 @@ qx.Class.define("playground.Application",
     __log : null,
     __editor : null,
     __playArea : null,
+    __samplesPane : null,
 
     // storages
     __samples : null,
+    __store : null,
 
     __history : null,
     __urlShorter : null,
@@ -99,8 +103,6 @@ qx.Class.define("playground.Application",
 
     __mode : null,
 
-    __samplesPane : null,
-    __store : null,
 
     /**
      * This method contains the initial application code and gets called
@@ -143,33 +145,37 @@ qx.Class.define("playground.Application",
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
       mainContainer.add(mainsplit, { flex : 1 });
 
+      // editor split (left side of main split)
       var editorsplit = new qx.ui.splitpane.Pane("horizontal");
       editorsplit.setDecorator(null); // get rid of the 3px broder
+      // info split (right side of the main split)
       var infosplit = new qx.ui.splitpane.Pane("vertical");
       infosplit.setDecorator(null);
 
       // examples pane
       this.__samplesPane = new playground.view.Samples();
-      this.__samplesPane.addListener("selectSample", function(e) {
-        this.setCurrentSample(e.getData());
-      }, this);
       this.__samplesPane.addListener("save", this.__onSave, this);
       this.__samplesPane.addListener("delete", this.__onDelete, this);
       this.__samplesPane.addListener("rename", this.__onRename, this);
       this.bind("currentSample", this.__samplesPane, "currentSample");
-
       this.__samplesPane.addListener("beforeSelectSample", function(e) {
         if (this.__discardChanges()) {
           e.stop();
         }
       }, this);
+      this.__samplesPane.addListener("selectSample", function(e) {
+        this.setCurrentSample(e.getData());
+      }, this);
 
       // initialize custom samples
       if (qx.core.Environment.get("html.storage.local")) {
         this.__store = new qx.data.store.Offline("qooxdoo-playground-samples");
+        // if the local storage is not empty
         if (this.__store.getModel() != null) {
+          // use the stored array to initialize the built in samples
           this.__samples = new playground.Samples(this.__store.getModel());
         } else {
+          // init the samples and store in the local storage
           this.__samples = new playground.Samples();
           this.__store.setModel(this.__samples.getModel());
         }
@@ -192,6 +198,7 @@ qx.Class.define("playground.Application",
 
       mainsplit.add(editorsplit, 6);
       mainsplit.add(infosplit, 5);
+
       this.__playArea = new playground.view.PlayArea();
       infosplit.add(this.__playArea, 2);
 
@@ -257,6 +264,31 @@ qx.Class.define("playground.Application",
     },
 
 
+    // property apply
+    _applyCurrentSample : function(newSample, old) {
+      // ignore wenn the sample is set to null
+      if (!newSample) {
+        return;
+      }
+
+      // need to get the code from the editor in case he changes something
+      // in the code
+      this.__editor.setCode(newSample.getCode());
+      this.setOriginCode(this.__editor.getCode());
+
+      // only add static samples to the url as name
+      if (newSample.getCategory() == "static") {
+        this.__history.addToHistory(newSample.getName() + "-" + newSample.getMode());        
+      } else {
+        this.__addCodeToHistory(newSample.getCode());
+      }
+
+      this.setName(newSample.getName());
+      // run the new sample
+      this.run();
+    },
+
+
     // ***************************************************
     // MODE HANDLING
     // ***************************************************
@@ -306,6 +338,7 @@ qx.Class.define("playground.Application",
         throw new Error("Mode '" + mode + "' not supported");
       }
 
+      // only change the mode if no code gets lost
       if (this.__discardChanges()) {
         return false;
       }
@@ -329,15 +362,21 @@ qx.Class.define("playground.Application",
     // ***************************************************
     // SAMPEL SAVE / DELETE
     // ***************************************************
+    /**
+     * Helper to write the current code to the model and with that to the 
+     * offline store.
+     */
     __onSave : function() {
       var current = this.getCurrentSample();
 
+      // if we don't have a current sample and the sample is a static one
       if (!current || current.getCategory() == "static") {
+        // ask the user for a new name for the property
         var name = prompt(this.tr("Please enter a name"));
         if (!name) {
           return;
         }
-        // create new sampel
+        // create new sample
         var data = {
           name: name, 
           code: this.__editor.getCode(), 
@@ -345,9 +384,12 @@ qx.Class.define("playground.Application",
           category: "user"
         };
         var sample = qx.data.marshal.Json.createModel(data, true);
+        // push the data to the model (storest automatically)
         this.__store.getModel().push(sample);
+        // store the origin code and select the new sample
         this.setOriginCode(sample.getCode());
         this.__samplesPane.select(sample);
+      // if its a user sample which is selected, we just store the new code
       } else {
         // store in curent sample
         current.setCode(this.__editor.getCode());
@@ -358,8 +400,12 @@ qx.Class.define("playground.Application",
     },
 
 
+    /**
+     * Helper to delete the selected sample.
+     */
     __onDelete : function() {
       var current = this.getCurrentSample();
+      // if we have a sample selected and its not a static one
       if (current || current.getCategory() != "static") {
         // remove the selection
         this.__samplesPane.select(null);
@@ -371,13 +417,19 @@ qx.Class.define("playground.Application",
     },
 
 
+    /**
+     * Helper to rename a sample.
+     */
     __onRename : function() {
       var current = this.getCurrentSample();
+      // if we have a sample and its not a static one
       if (current || current.getCategory() != "static") {
+        // ask the user for a new name
         var name = prompt(this.tr("Please enter a name"), current.getName());
         if (!name) {
           return;
         }
+        // just write the new name to the to the sample
         current.setName(name);
       }
     },
@@ -399,33 +451,6 @@ qx.Class.define("playground.Application",
         this.__samplesPane.exclude();
       }
     }, 
-
-
-    /**
-     * Helper to update the sample to the given sample name.
-     * @param newSample {qx.core.Object} The change event containig the sample object-
-     */
-    _applyCurrentSample : function(newSample, old) {
-      // ignore wenn the sample is set to null
-      if (!newSample) {
-        return;
-      }
-
-      // need to get the code from the editor in case he changes something
-      // in the code
-      this.__editor.setCode(newSample.getCode());
-      this.setOriginCode(this.__editor.getCode());
-
-      if (newSample.getCategory() == "static") {
-        this.__history.addToHistory(newSample.getName() + "-" + newSample.getMode());        
-      } else {
-        this.__addCodeToHistory(newSample.getCode());
-      }
-
-      this.setName(newSample.getName());
-      // run the new sample
-      this.run();
-    },
 
 
     /**
