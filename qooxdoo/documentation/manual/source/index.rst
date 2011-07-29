@@ -33,12 +33,10 @@ Manual |version|
 .. |feedreadermobile_ios| image:: _static/feedreadermobile_ios.png
 .. |portal| image:: _static/portal.png
 .. |widgetbrowser| image:: _static/widgetbrowser.png
-.. |g_background| image:: _static/g_background.png
 .. |g_book| image:: _static/utilities-notes.png
 .. |o_star| image:: _static/development.png
 .. .. |g_write| image:: _static/internet-blog.png
 .. |g_write| image:: _static/office-contact.png
-.. |o_background| image:: _static/o_background.png
 .. |o_folder| image:: _static/utilities-dictionary.png
 .. |o_save| image:: _static/document-open.png
 .. |g_faq| image:: _static/engineering.png
