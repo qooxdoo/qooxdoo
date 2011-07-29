@@ -188,10 +188,10 @@ htmlhelp_basename = 'qooxdoo doc'
 #latex_font_size = '10pt'
 
 # Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title, author, documentclass [howto/manual]).
+# (source start file, target name, title, author, documentclass [howto/manual], toctree_only [True/False]).
 latex_documents = [
   ('index', 'qooxdoo.tex', u'qooxdoo Documentation',
-   u'qooxdoo developers', 'manual'),
+   u'qooxdoo developers', 'manual', True),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
