@@ -564,7 +564,12 @@ qx.Class.define("playground.Application",
       } else if (state.indexOf("mode=") == 0) {
         var mode = state.substring(5, state.length);
         if (mode == "mobile") {
-          this.setMode("mobile");
+          // try to set the mobile mode but if its not supported, take ria
+          try {
+            this.setMode("mobile");
+          } catch (e) {
+            this.setMode("ria");
+          }
         } else {
           this.setMode("ria");
         }
