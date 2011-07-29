@@ -553,12 +553,6 @@
     
     "source-basic-script" :
     {
-      "let" :
-      {
-        "TESTRUNNER_MAIN_CLASS" : "testrunner.ApplicationBasic",
-        "TEST_NAMESPACE" : "${APPLICATION}.test.basic"
-      },
-    
       "extend" : [ "testrunner-basic-common" ],
       
       "environment" :
