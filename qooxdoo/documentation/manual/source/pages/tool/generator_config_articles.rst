@@ -615,7 +615,7 @@ So in short, the ``ROOT``, ``BUILD_PATH``, ``API_INCLUDE`` and ``API_EXCLUDE`` m
 "optimize" Key
 ==============
 
-The *optimize* key is a subkey of the :ref:`compile-options key<pages/tool/generator_config_ref#compile>`. It allows you to tailor the forms of code optimization that is applied to the Javascript code when the *build* version is created. The best way to set this key is by setting the :doc:`OPTIMIZE macro </pages/tool/generator_config_macros>` in your config's global *let* section. The individual optimization categories are described in their own :doc:`manual section </pages/tool/generator_optimizations>`.
+The *optimize* key is a subkey of the :ref:`compile-options key<pages/tool/generator_config_ref#compile-options>`. It allows you to tailor the forms of code optimization that is applied to the Javascript code when the *build* version is created. The best way to set this key is by setting the :doc:`OPTIMIZE macro </pages/tool/generator_config_macros>` in your config's global *let* section. The individual optimization categories are described in their own :doc:`manual section </pages/tool/generator_optimizations>`.
 
 
 .. _pages/tool/generator_config_articles#environment_key:
@@ -693,3 +693,5 @@ Browser-specific Builds
 -----------------------
 
 By predefining select environment keys, builds can be tailored towards specific clients. See the :ref:`Feature Configuration Editor article <pages/application/featureconfigeditor#featureconfigeditor>` for instructions.
+
+.. index: compiler hint
