@@ -1,8 +1,14 @@
 Development
 ***********
 
+Application Creation
+====================
 
-.. _index#debugging:
+.. toctree::
+  :maxdepth: 2
+
+  development/skeletons
+
 
 Debugging
 ==========
@@ -13,8 +19,6 @@ Debugging
    development/logging
    development/debugging
 
-
-.. _index#performance:
 
 Performance
 ===========
@@ -38,8 +42,6 @@ Testing
    development/simulator
    development/simulator_locators
 
-
-.. _index#parts:
 
 Parts
 =====
@@ -66,7 +68,6 @@ Internationalization
 
    Internationalization, Localization <development/internationalization>
 
-.. _index#other:
 
 Miscellaneous
 =============
