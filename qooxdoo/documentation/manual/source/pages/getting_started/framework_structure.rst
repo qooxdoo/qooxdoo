@@ -11,12 +11,15 @@ When exploring the framework source, the following overview will give you an ide
 * ``feedreader`` - a sample rich internet application (`online <http://demo.qooxdoo.org/%{version}/feedreader>`__)
 * ``portal`` - a showcase for low-level features, i.e. without widgets (`online <http://demo.qooxdoo.org/%{version}/portal>`__)
 * ``playground`` - an interactive playground without the need to install qooxdoo (`online <http://demo.qooxdoo.org/%{version}/playground>`__)
+* ``featureconfigeditor`` -- a tool to create configurations for browser-specific builds (`online <http://demo.qooxdoo.org/%{version}/featureconfigeditor>`__)
 
 **component** - helper applications (used internally)
 
 * ``apiviewer`` - API reference (for ``generate.py api``) (`online <http://api.qooxdoo.org>`__)
 * ``skeleton`` - blue print for custom applications (for ``create-application.py``)
 * ``testrunner`` - unit testing framework (for ``generate.py test / test-source``) (`online <http://demo.qooxdoo.org/%{version}/testrunner>`__)
+* ``simulator`` - GUI testing framework (for ``generate.py simulation-build / simulation-run``)
+* ``library`` - common components used by multiple applications
 
 **framework** - main frontend part of the framework
 
