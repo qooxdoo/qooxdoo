@@ -29,7 +29,7 @@ Configuration
 
    tool/generator_config
    tool/generator_config_articles
-.. tool/generator_config_background
+   tool/generator_config_background
 .. tool/generator_config_howto
 
 Reference Material
