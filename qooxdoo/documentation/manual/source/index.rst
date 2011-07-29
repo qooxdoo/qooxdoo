@@ -40,6 +40,7 @@ Manual |version|
 .. |o_folder| image:: _static/utilities-dictionary.png
 .. |o_save| image:: _static/document-open.png
 .. |g_faq| image:: _static/engineering.png
+.. |tutorial| image:: _static/internet-blog1.png
 
 Welcome to the qooxdo manual. Here is an overview of what you can find here.
 
@@ -53,20 +54,15 @@ Welcome to the qooxdo manual. Here is an overview of what you can find here.
   +----------+-------------------------------------------------------------------------------------+
 
   +----------+-------------------------------------------------------------------------------------+
-  ||o_folder|| **Reference**                                                                       |
-  |          |   * :doc:`Table of Contents <toc>`                                                  |
-  |          |   * :doc:`Collection of technical references <pages/references>`                    |
+  ||tutorial|| **Tutorials**                                                                       |
+  |          |   * :doc:`Rich Internet Applications  <pages/tutorials/tutorial-part-1>`            |
+  |          |   * :doc:`Mobile Apps <pages/mobile/tutorial>`                                      |
+  |          |   * :doc:`Tooling      <pages/tool/tutorial_basics>`                                |
   +----------+-------------------------------------------------------------------------------------+
 
 
   +----------+-------------------------------------------------------------------------------------+
-  | |o_save| | **Download**                                                                        |
-  |          |   * `Get the PDF <qooxdoo.pdf>`__                                                   |
-  +----------+-------------------------------------------------------------------------------------+
-
-
-  +----------+-------------------------------------------------------------------------------------+
-  | |g_book| | **Core Concepts**                                                                   |
+  ||g_book|  | **Core Concepts**                                                                   |
   |          |   * :doc:`Classes       <pages/core/oo_introduction>`                               |
   |          |   * :doc:`Properties <pages/core/understanding_properties>`                         |
   |          |   * :doc:`Data Binding <pages/data_binding/data_binding>`                           |
@@ -83,8 +79,21 @@ Welcome to the qooxdo manual. Here is an overview of what you can find here.
 
 
   +----------+-------------------------------------------------------------------------------------+
+  ||o_folder|| **Reference**                                                                       |
+  |          |   * :doc:`Table of Contents <toc>`                                                  |
+  |          |   * :doc:`Collection of technical references <pages/references>`                    |
+  +----------+-------------------------------------------------------------------------------------+
+
+
+  +----------+-------------------------------------------------------------------------------------+
   ||g_faq|   | **Migration**                                                                       |
   |          |   * :doc:`Migration Guide <pages/migration/migration_guide>`                        |
+  +----------+-------------------------------------------------------------------------------------+
+
+
+  +----------+-------------------------------------------------------------------------------------+
+  | |o_save| | **Offline Manual**                                                                  |
+  |          |   * `Get the PDF <qooxdoo.pdf>`__                                                   |
   +----------+-------------------------------------------------------------------------------------+
 
 
