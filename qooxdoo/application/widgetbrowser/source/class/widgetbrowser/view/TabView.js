@@ -72,6 +72,12 @@ qx.Class.define("widgetbrowser.view.TabView",
       var win = new widgetbrowser.view.TabPage("Window", classname, controls);
       this.add(win);
 
+      // Tab
+      classname = "widgetbrowser.pages.Tab";
+      controls = {disabled: true};
+      var tab = new widgetbrowser.view.TabPage("Tab", classname, controls);
+      this.add(tab);
+
       // Control
       classname = "widgetbrowser.pages.Control";
       controls = {disabled: true};

@@ -31,6 +31,7 @@
 #use(widgetbrowser.pages.Form)
 #use(widgetbrowser.pages.ToolBar)
 #use(widgetbrowser.pages.Window)
+#use(widgetbrowser.pages.Tab)
 #use(widgetbrowser.pages.Control)
 #use(widgetbrowser.pages.Embed)
 #use(widgetbrowser.pages.EmbedFrame)
