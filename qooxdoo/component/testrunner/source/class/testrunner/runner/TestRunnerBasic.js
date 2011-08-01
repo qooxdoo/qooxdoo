@@ -172,7 +172,10 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       this.setTestModel(null);
 
       var testRep = this.__getTestRep();
-      if (!testRep) {
+      if (!testRep || testRep.length === 0 || 
+        (testRep.length === 1 && testRep[0].tests.length === 0)) 
+      {
+        this.setTestSuiteState("error");
         return;
       }
       var modelData = testrunner.runner.ModelUtil.createModelData(testRep);
