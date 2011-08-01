@@ -57,8 +57,8 @@ qx.Class.define("widgetbrowser.view.TabView",
       // Table
       classname = "widgetbrowser.pages.Table";
       controls = {disabled: true};
-      var tree = new widgetbrowser.view.TabPage("Table", classname, controls);
-      this.add(tree);
+      var table = new widgetbrowser.view.TabPage("Table", classname, controls);
+      this.add(table);
 
       // Menu
       classname = "widgetbrowser.pages.ToolBar";
@@ -77,12 +77,6 @@ qx.Class.define("widgetbrowser.view.TabView",
       controls = {disabled: true};
       var control = new widgetbrowser.view.TabPage("Control", classname, controls);
       this.add(control);
-
-      // TreeVirtual
-      classname = "widgetbrowser.pages.TreeVirtual";
-      controls = {};
-      var treeVirtual = new widgetbrowser.view.TabPage("TreeVirtual", classname, controls);
-      this.add(treeVirtual);
 
       // Embed
       classname = "widgetbrowser.pages.Embed";

@@ -207,11 +207,6 @@
             "include" : [ "widgetbrowser.pages.Control" ]
           },
 
-          "treevirtual" :
-          {
-            "include" : [ "widgetbrowser.pages.TreeVirtual" ]
-          },
-
           "embed" :
           {
             "include" : [ "widgetbrowser.pages.Embed" ]

@@ -28,6 +28,10 @@
  *
  * Tree, TreeVirtual, TreeFile, TreeFolder
  *
+ * ... and qx.ui.treevirtual(...):
+ *
+ * TreeVirtual
+ *
  */
 
 qx.Class.define("widgetbrowser.pages.Tree",
@@ -61,9 +65,20 @@ qx.Class.define("widgetbrowser.pages.Tree",
 
       // VirtualTree
       label = new qx.ui.basic.Label("VirtualTree");
+      label.setToolTip(new qx.ui.tooltip.ToolTip(
+        "Virtual implementation of Tree. Shares appearance."));
       this.__grid.add(label, {row: 0, column: 1});
+      var virtualTree = this.__getVirtualTree();
+      this.__grid.add(virtualTree, {row: 1, column: 1});
+      widgets.push(virtualTree);
+
+      // TreeVirtual
+      label = new qx.ui.basic.Label("TreeVirtual (Legacy)");
+      label.setToolTip(new qx.ui.tooltip.ToolTip(
+        "Inherits from qx.ui.table.Table. Suited for multi-column trees."));
+      this.__grid.add(label, {row: 0, column: 2});
       var treeVirtual = this.__getTreeVirtual();
-      this.__grid.add(treeVirtual, {row: 1, column: 1});
+      this.__grid.add(treeVirtual, {row: 1, column: 2});
       widgets.push(treeVirtual);
     },
 
@@ -115,7 +130,7 @@ qx.Class.define("widgetbrowser.pages.Tree",
       return tree;
     },
 
-    __getTreeVirtual: function() {
+    __getVirtualTree: function() {
       var tree = new qx.ui.tree.VirtualTree(null, "name", "children").set({
         width : 200,
         height : 400
@@ -129,6 +144,30 @@ qx.Class.define("widgetbrowser.pages.Tree",
       store.addListener("loaded", function() {
         tree.openNode(tree.getModel().getChildren().getItem(0));
       }, this);
+
+      return tree;
+    },
+
+    __getTreeVirtual: function() {
+      var tree = new qx.ui.treevirtual.TreeVirtual("TreeVirtual");
+      tree.setWidth(200);
+      var dataModel = tree.getDataModel();
+
+      var te2 = dataModel.addBranch(
+        null, "Inbox", true, false);
+
+      var te = dataModel.addBranch(te2, "Spam", false);
+
+      for (var i = 1; i < 3000; i++) {
+        dataModel.addLeaf(te, "Spam Message #" + i);
+      }
+
+      dataModel.addBranch(te2, "Sent", true);
+      dataModel.addBranch(te2, "Trash", true);
+      dataModel.addBranch(te2, "Data", true);
+      dataModel.addBranch(te2, "Edit", true);
+
+      dataModel.setData();
 
       return tree;
     }
