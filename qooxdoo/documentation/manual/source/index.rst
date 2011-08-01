@@ -82,6 +82,8 @@ Welcome to the qooxdo manual. Here are some highlights of what you can find here
   ||o_folder|| **Reference**                                                                       |
   |          |   * :doc:`Table of Contents <toc>`                                                  |
   |          |   * :doc:`Collection of technical references <pages/references>`                    |
+  |          |   * :doc:`Glossary                <pages/glossary>`                                 |
+  |          |   * :ref:`Index                              <genindex>`                            |
   +----------+-------------------------------------------------------------------------------------+
 
 
