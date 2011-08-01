@@ -4066,6 +4066,10 @@ qx.Class.define("qx.ui.core.Widget",
       qx.ui.core.queue.Widget.remove(this);
     }
 
+    if (this.getContextMenu()) {
+      this.setContextMenu(null);
+    }
+
     // pool decorators if not in global shutdown
     if (!qx.core.ObjectRegistry.inShutDown)
     {
