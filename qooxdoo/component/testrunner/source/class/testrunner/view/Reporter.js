@@ -283,6 +283,16 @@ qx.Class.define("testrunner.view.Reporter", {
       }
       return failedTests;
     },
+    
+    /**
+     * Returns a JSON serialization of {@link #getFailedResults}
+     * 
+     *  @return {String} Failed results map as JSON
+     */
+    getFailedResultsAsJson : function()
+    {
+      return qx.lang.Json.stringify(this.getFailedResults());
+    },
 
     /**
      * Adds environment information to a test result map and sends it to the
