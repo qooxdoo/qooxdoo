@@ -76,11 +76,19 @@ qx.Class.define("feedreader.io.FeedLoader",
               data[i].title = data[i].title.content;
             }
           };
+          // locale storage support
+          if (qx.core.Environment.get("html.storage.local")) {
+            var key = "qx-feeds-" + feed.getUrl();
+            qx.bom.storage.Local.getInstance().setItem(key, data);
+          }
           return data;
         } catch (e) {
           return "failed";
         }
+      }, configureRequest : function(req) {
+        req.setTimeout(10);
       }}, qx.core.Environment.get("io.ssl"));
+
       store.addListener("loaded", this.__createOnLoaded(feed), this);
       store.addListener("changeState",
         qx.lang.Function.bind(this.__onChangeState, this, feed)
@@ -97,8 +105,20 @@ qx.Class.define("feedreader.io.FeedLoader",
     {
       if (e.getData() == "aborted" ||
         e.getData() == "timeout" ||
-        e.getData() == "failed") {
-          feed.setState("error");
+        e.getData() == "failed") 
+      {
+        var state = "error";
+        // locale storage support
+        if (qx.core.Environment.get("html.storage.local")) {
+          var key = "qx-feeds-" + feed.getUrl();
+          var oldData = qx.bom.storage.Local.getInstance().getItem(key);
+          if (oldData) {
+            var articles = qx.data.marshal.Json.createModel(oldData);
+            feed.setArticles(articles);
+            state = "cached";
+          }
+        }
+        feed.setState(state);
       }
     },
 

@@ -24,6 +24,7 @@
 #asset(feedreader/*)
 #asset(qx/icon/Tango/22/apps/internet-feed-reader.png)
 #asset(qx/icon/Tango/22/actions/process-stop.png)
+#asset(qx/icon/Tango/22/apps/preferences-clock.png)
 #asset(qx/icon/Tango/22/places/folder.png)
 
 ************************************************************************ */
@@ -239,6 +240,8 @@ qx.Class.define("feedreader.Application",
         return "icon/22/apps/internet-feed-reader.png";
       } else if (value == "error") {
         return "icon/22/actions/process-stop.png";
+      } else if (value == "cached") {
+        return "icon/22/apps/preferences-clock.png";
       }
       return "icon/22/places/folder.png";
     },

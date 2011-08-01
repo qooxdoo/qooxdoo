@@ -106,7 +106,7 @@ qx.Class.define("feedreader.model.Feed",
     /** The current loading state */
     state :
     {
-      check : ["new", "loading", "loaded", "error"],
+      check : ["new", "loading", "loaded", "error", "cached"],
       init : "new",
       event : "stateModified"
     }
