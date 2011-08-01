@@ -42,7 +42,7 @@ Manual |version|
 .. |g_faq| image:: _static/engineering.png
 .. |tutorial| image:: _static/internet-blog1.png
 
-Welcome to the qooxdo manual. Here is an overview of what you can find here.
+Welcome to the qooxdo manual. Here are some highlights of what you can find here. For a full overview proceed to the :doc:`table of contents <toc>`.
 
 
   +----------+-------------------------------------------------------------------------------------+
