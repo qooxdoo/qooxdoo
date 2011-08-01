@@ -37,8 +37,44 @@ qx.Class.define("simulator.Application", {
         }
       }
 
-      this.runner = new simulator.TestRunner();
-      this.runner.runTests();
+      this._initLogFile();
+      this.runner = new testrunner.runner.TestRunnerBasic();
+      this.simulation = simulator.Simulation.getInstance();
+      
+      this.runner.addListener("changeTestSuiteState", function(ev) {
+        var state = ev.getData();
+        
+        switch(state) {
+          // async test suite loading
+          case "ready":
+            this._runSuite();
+            break;
+          case "finished":
+            this.simulation.logRunTime();
+            simulator.QxSelenium.getInstance().stop();
+            break;
+          case "error":
+            simulator.QxSelenium.getInstance().stop();
+            break;
+        }
+      }, this);
+      
+      // sync test suite loading
+      if (this.runner.getTestSuiteState() === "ready") {
+        this._runSuite();
+      }
+    },
+    
+    
+    /**
+     * TODOC
+     */
+    _runSuite : function()
+    {
+      this.simulation.startSession();
+      this.simulation.logEnvironment();
+      this.simulation.logUserAgent();
+      this.runner.view.run();
     },
 
     /**
@@ -80,7 +116,36 @@ qx.Class.define("simulator.Application", {
           }
         }
       }
+    },
+    
+    
+    /**
+     * Creates a log file using {@link qx.log.appender.RhinoFile}
+     */
+    _initLogFile : function()
+    {
+      var filename = null;
+      filename = qx.core.Environment.get("simulator.logFile");
+      if (!filename) {
+        return;
+      }
+
+      if (qx.log.appender.RhinoFile.FILENAME !== filename) {
+        qx.log.appender.RhinoFile.FILENAME = filename;
+        qx.log.Logger.register(qx.log.appender.RhinoFile);
+      }
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("runner");
   }
 
 });

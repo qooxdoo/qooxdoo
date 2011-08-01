@@ -10,7 +10,8 @@
     "SIMULATION_NAMESPACE" : "${APPLICATION}.simulation",
     "SIMULATION_INCLUDE" : "${SIMULATION_NAMESPACE}.*",
     "SIMULATOR_CLASSPATH" : ["${SIMULATOR_ROOT}/tool/js.jar", "${SIMULATOR_ROOT}/tool/selenium-java-client-driver.jar"],
-    "SIMULATOR_APPLICATION" : "simulator.Application"
+    "SIMULATOR_APPLICATION" : "simulator.Application",
+    "TESTRUNNER_VIEW" : "testrunner.view.Basic"
   },
   
   "jobs" :
@@ -23,7 +24,7 @@
       {
         "exclude" : [
           "qx.core.Init",
-           "qx.dev.Debug"
+          "qx.dev.Debug"
         ]
       },
       
@@ -42,6 +43,7 @@
       "include" : [
         "qx.core.BaseInit",
         "${SIMULATOR_APPLICATION}",
+        "${TESTRUNNER_VIEW}",
         "${SIMULATION_INCLUDE}"
       ],
       
@@ -49,12 +51,6 @@
         "qx.core.Init",
         "qx.dev.Debug"
       ],
-      
-       "environment" :
-      {
-        "qx.debug" : true,
-        "qx.aspects" : false
-      },
       
       "compile-options" :
       {
@@ -71,11 +67,14 @@
       
       "environment" :
       {
+        "qx.debug" : true,
+        "qx.aspects" : false,
         "qx.version"     : "${QOOXDOO_VERSION}",
         "qx.revision"    : "${QOOXDOO_REVISION}",
         "qx.application" : "${SIMULATOR_APPLICATION}",
         "qx.testNameSpace" : "${SIMULATION_NAMESPACE}",
-        "qx.globalErrorHandling" : false
+        "qx.globalErrorHandling" : false,
+        "testrunner.view" : "${TESTRUNNER_VIEW}"
       }
       
     },
