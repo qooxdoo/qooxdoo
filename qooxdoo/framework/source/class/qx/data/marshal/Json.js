@@ -106,6 +106,7 @@ qx.Class.define("qx.data.marshal.Json",
       // break on all primitive json types and qooxdoo objects
       if (
         !qx.lang.Type.isObject(data)
+        || !!data.$$isString // check for localized strings
         || data instanceof qx.core.Object
       ) {
         // check for arrays
@@ -277,6 +278,7 @@ qx.Class.define("qx.data.marshal.Json",
 
       if (
         (!isObject && !isArray)
+        || !!data.$$isString // check for localized strings
         || data instanceof qx.core.Object
       ) {
         return data;
