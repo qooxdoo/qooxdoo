@@ -173,25 +173,29 @@ qx.Class.define("testrunner.view.Basic", {
       var level;
       var msg;
       switch(state) {
+        case "start":
+          level = "debug";
+          msg = "RESUME";
+          break;
         case "skip":
           level = "warn";
-          msg = "SKIP";
+          msg = "SKIP  ";
           break;
         case "error":
           level = "error";
-          msg = "ERR ";
+          msg = "ERROR ";
           break;
         case "failure":
           level = "error";
-          msg = "FAIL";
+          msg = "FAIL  ";
           break;
         case "success":
           level = "info";
-          msg = "PASS";
+          msg = "PASS  ";
           break;
         case "wait":
           level = "debug";
-          msg = "WAIT";
+          msg = "WAIT  ";
           break;
         default:
           level = "error";
