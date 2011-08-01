@@ -119,18 +119,19 @@ class TokenStream(IterObject):
         # provided the tokens with the right attributes (esp. name, detail).
 
         # tok isinstanceof Token()
-        if (tok.name == 'white' # TODO: 'white'?!
+        if (tok.name == "white" # TODO: 'white'?!
             or tok.name == 'comment'):
             pass
-        elif tok.name == 'eof':
-            symbol = symbol_table.get('eof')
+        elif tok.name == "eof":
+            symbol = symbol_table.get("eof")
             s = symbol()
             s.value = ""
-        elif tok.name == 'eol':
+        elif tok.name == "eol":
             self.line += 1                  # increase line count
             self.sol  = tok.spos + tok.len  # char pos of next line start
             self.spos = tok.spos
-            pass # don't yield this (yet)
+            #pass # don't yield this (yet)
+            s = symbol_table.get("eol")()
         # 'operation' nodes
         elif tok.detail in (
             MULTI_TOKEN_OPERATORS
@@ -213,6 +214,7 @@ class Token(object):
         tok.connection = t.get( "connection")
         tok.begin = t.get( "begin")
         tok.end = t.get( "end")
+        tok.len = len(tok.value)
 
 # - Grammar Infrastructure -------------------------------------------------
 
@@ -243,7 +245,7 @@ class symbol_base(Node):
 
     def __repr__(self):
         if self.id == "identifier" or self.id == "constant":
-            return "(%s %r)" % (self.id[1:-1], self.value)
+            return "(%s %r)" % (self.id, self.value)
         id  = self.id
         if hasattr(self, 'optype'):
             id += '('+self.optype+')'
@@ -320,7 +322,8 @@ def advance(id=None):
     global token
     if id and token.id != id:
         raise SyntaxError("Expected %r (pos %d)" % (id, token.spos))
-    token = next()
+    if token.id != "eof":
+        token = next()
 
 # decorator
 
@@ -384,6 +387,7 @@ symbol("\\")  # escape char in strings ("\")
 #symbol("identifier").nud   = lambda self: self
 symbol("constant").nud = lambda self: self
 symbol("(unknown)").nud = lambda self: self
+symbol("eol")
 symbol("eof")
 
 @method(symbol("identifier"))
@@ -612,7 +616,7 @@ def std(self):
         if token.id != ",":
             break
         advance(",")
-    advance(";")
+    #advance(";")
     if len(self.children) != 1:
         return self
     else:
@@ -662,7 +666,7 @@ def std(self):
     advance("(")
     self.children.append(expression(0))
     advance(")")
-    advance(";")
+    #advance(";")
 
 
 symbol("if"); symbol("else")
@@ -688,9 +692,9 @@ symbol("break")
 
 @method(symbol("break"))
 def std(self):
-    if token.id != ";":
+    if token.id not in ("eol",  ";"):
         self.children.append(expression(0))   # this is over-generating! (should be 'label')
-    advance(";")
+    #advance(";")
     return self
 
 
@@ -698,9 +702,9 @@ symbol("continue")
 
 @method(symbol("continue"))
 def std(self):
-    if token.id != ";":
+    if token.id not in ("eol",  ";"):
         self.children.append(expression(0))   # this is over-generating! (should be 'label')
-    advance(";")
+    #advance(";")
     return self
 
 
@@ -847,9 +851,9 @@ symbol("throw")
 
 @method(symbol("throw"))
 def std(self):
-    if token.id != ";":
+    if token.id not in ("eol",  ";"):
         self.children.append(expression(0))
-    advance(";")
+    #advance(";")
     return self
 
 symbol("with")
@@ -873,6 +877,7 @@ def expression(rbp=0):
         left = t.led(left)
     return left
 
+
 def statement():
     n = token
     if getattr(token, 'std', None):
@@ -883,8 +888,19 @@ def statement():
         # Crockford's too tight here
         #if not (s.id == "=" or s.id == "("):
         #    raise SyntaxError("Bad expression statement (pos %d)" % token.spos)
-        advance(";")
+    semicolonOrLineEnd()
     return s
+
+
+def semicolonOrLineEnd():
+    try:
+        advance("eof")
+    except:
+        try:
+            advance("eol")
+        except:
+            advance(";")
+    
 
 def statements():  # plural!
     s = symbol("{")()
@@ -895,13 +911,8 @@ def statements():  # plural!
         s = statement()
         if s:
             a.append(s)
-    #if len(a) == 0:
-    #    return None
-    #elif len(a) == 1:
-    #    return a[0]
-    #else:
-    #    return a
     return s
+
 
 def block():
     t = token
@@ -944,6 +955,10 @@ def argument_list(list):
 
 class TreeGenerator(object):
 
+    ##
+    # To pass a tokenArr rather than a text string is due to the current usage
+    # in the generator, which does the tokenization on its own, and then calls
+    # 'createSyntaxTree'.
     def parse(self, tokenArr):
         global token, next, tokenStream
         tokenStream = TokenStream(tokenArr) # TODO: adapt TokenStream to token array arg
@@ -996,7 +1011,8 @@ if __name__ == "__main__":
             text = filetool.read(sys.argv[1])
         else:
             text = arg1
-        print p.parse(text).toXml()
+        tokenArr = tokenizer.parseStream(text)
+        print p.parse(tokenArr).toXml()
     else:
         test(e,"1")
         test(e,"+1")
