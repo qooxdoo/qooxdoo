@@ -346,6 +346,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
       FORM FIELDS
     ---------------------------------------------------------------------------
     */
+    "form-renderer-label" : {
+      include : "label",
+      style : function() {
+        return {
+          paddingTop: 4
+        };
+      }
+    },
 
     "textfield" :
     {
