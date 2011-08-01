@@ -112,7 +112,7 @@ qx.Class.define("testrunner.view.Basic", {
           this.setStatus(this.getSelectedTests().length + " tests ready");
           break;
         case "error" :
-          this.setStatus("Couldn't load test suite!");
+          this.setStatus("Error loading test suite or no tests in suite!");
           break;
         case "running" :
           this.setStatus("Running tests...");
