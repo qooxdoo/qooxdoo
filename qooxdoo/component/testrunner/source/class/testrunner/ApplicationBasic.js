@@ -45,7 +45,22 @@ qx.Class.define("testrunner.ApplicationBasic", {
       }
 
       this.runner = new testrunner.runner.TestRunnerBasic();
-      this.runner.view.run();
+      
+      this.runner.addListener("changeTestSuiteState", function(ev) {
+        var state = ev.getData();
+        
+        switch(state) {
+          // async test suite loading
+          case "ready":
+            this.runner.view.run();
+            break;
+        }
+      }, this);
+      
+      // sync test suite loading
+      if (this.runner.getTestSuiteState() === "ready") {
+        this.runner.view.run();
+      }
     },
 
     /**
