@@ -467,6 +467,7 @@
       "include" : [
         "qx.core.BaseInit",
         "${TESTRUNNER_MAIN_CLASS}",
+        "${TESTRUNNER_VIEW}",
         "${TEST_INCLUDE}"
       ],
       
@@ -476,7 +477,7 @@
         "${TEST_EXCLUDE}"
       ],
       
-       "environment" :
+      "environment" :
       {
         "qx.debug" : true,
         "qx.aspects" : false
@@ -509,7 +510,8 @@
     {
       "let" :
       {
-        "TESTRUNNER_MAIN_CLASS" : "testrunner.ApplicationBasic"
+        "TESTRUNNER_MAIN_CLASS" : "testrunner.ApplicationBasic",
+        "TESTRUNNER_VIEW" : "testrunner.view.Basic"
       },
       
       "run" : ["build-basic-script"]
@@ -521,7 +523,8 @@
       
       "environment" :
       {
-        "qx.debug" : false
+        "qx.debug" : false,
+        "testrunner.view" : "${TESTRUNNER_VIEW}"
       },
       
       "compile-options" :
@@ -545,7 +548,8 @@
     {
       "let" :
       {
-        "TESTRUNNER_MAIN_CLASS" : "testrunner.ApplicationBasic"
+        "TESTRUNNER_MAIN_CLASS" : "testrunner.ApplicationBasic",
+        "TESTRUNNER_VIEW" : "testrunner.view.Basic"
       },
       
       "run" : ["source-basic-script"]
@@ -557,7 +561,8 @@
       
       "environment" :
       {
-        "qx.debug" : true
+        "qx.debug" : true,
+        "testrunner.view" : "${TESTRUNNER_VIEW}"
       },
       
       "compile-options" :
