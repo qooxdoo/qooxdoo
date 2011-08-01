@@ -45,7 +45,7 @@ qx.Class.define("testrunner.ApplicationBasic", {
       }
 
       this.runner = new testrunner.runner.TestRunnerBasic();
-      this.runner.runTests();
+      this.runner.view.run();
     },
 
     /**

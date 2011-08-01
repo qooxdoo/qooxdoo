@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2011 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -18,179 +18,458 @@
 ************************************************************************ */
 
 /**
- * Basic "headless" test runner.
+ * The TestRunner is responsible for loading the test classes and keeping track
+ * of the test suite's state.
  */
-
 qx.Class.define("testrunner.runner.TestRunnerBasic", {
 
   extend : qx.core.Object,
 
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
   construct : function()
   {
-    this.base(arguments);
+    if (qx.core.Environment.get("qx.globalErrorHandling")) {
+      qx.event.GlobalError.setErrorHandler(this._handleGlobalError, this);
+    }
 
-    var testNameSpace = qx.core.Environment.get("qx.testNameSpace");
-    var loader = new qx.dev.unit.TestLoaderBasic(testNameSpace);
-    this.suite = loader.getSuite();
+    // Create view
+    this.__testsInView = [];
+    var viewSetting = qx.core.Environment.get("testrunner.view");
+    var viewClass = qx.Class.getByName(viewSetting);
+    this.view = new viewClass();
+
+    // Connect view and controller
+    this.view.addListener("runTests", this._runTests, this);
+
+    this.view.addListener("stopTests", this._stopTests, this);
+    this.bind("testSuiteState", this.view, "testSuiteState");
+    this.bind("testCount", this.view, "testCount");
+    this.bind("testModel", this.view, "testModel");
+    qx.data.SingleValueBinding.bind(this.view, "selectedTests", this, "selectedTests");
+
+    this._testNameSpace = this._getTestNameSpace();
+
+    this._loadTests();
+
+    // TODO: Check if any test parts are defined
+    this._testParts = [];
+    //var parts = qx.core.Environment.get("testrunner.testParts");
+    var parts = null;
+    if (parts) {
+      this._testParts = this._testParts.concat(parts);
+    }
   },
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /** Current state of the test suite */
+    testSuiteState :
+    {
+      init : "init",
+      check : [ "init", "loading", "ready", "running", "finished", "aborted", "error" ],
+      event : "changeTestSuiteState"
+    },
+
+    /** Number of tests that haven't run yet */
+    testCount :
+    {
+      init : null,
+      nullable : true,
+      check : "Integer",
+      event : "changeTestCount"
+    },
+
+    /** Model object representing the test namespace. */
+    testModel :
+    {
+      init : null,
+      nullable : true,
+      event : "changeTestModel"
+    },
+
+    /** List of tests selected by the user */
+    selectedTests :
+    {
+      nullable : true,
+      init : null,
+      apply : "_applySelectedTests"
+    }
+  },
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
-    simulation : null,
-    suite : null,
-    _currentTest : null,
+    loader : null,
+    _testParts : null,
+    __testsInView : null,
+    _testNameSpace : null,
+
+    
+    _getTestNameSpace : function()
+    {
+      return qx.core.Environment.get("qx.testNameSpace");
+    },
+    
+    
+    _loadTests : function()
+    {
+      this.setTestSuiteState("loading");
+      this.loader = new qx.dev.unit.TestLoaderBasic(this._testNameSpace);
+      this._wrapAssertions();
+      this._getTestModel();
+    },
+    
 
     /**
-     * Runs all tests in the current suite.
+     * Returns the loader's test representation object
+     *
+     * @return {Object} Test representation
      */
-    runTests : function()
+    __getTestRep : function()
     {
-      var testResult = this._initTestResult();
-      this.suite.run(testResult);
+      var testRep = this.loader.getTestDescriptions();
+      if (!testRep) {
+        this.error("Couldn't get test descriptions from loader!");
+        return null;
+      }
+      return qx.lang.Json.parse(testRep);
     },
 
+
     /**
-     * Log any exceptions attached to the current test object
+     * Constructs a model of the test suite from the loader's test
+     * representation data
      */
-    logTestExceptions : function()
+    _getTestModel : function()
     {
-      if (!this._currentTest.exceptions) {
+      if (this.currentTestData) {
+        this.currentTestData = null;
+        delete this.currentTestData;
+      }
+      var oldModel = this.getTestModel();
+      if (oldModel) {
+        this.getTestModel().dispose();
+        this.__testsInView = [];
+      }
+      this.setTestModel(null);
+
+      var testRep = this.__getTestRep();
+      if (!testRep) {
         return;
       }
-      
-      for (var i=0, l=this._currentTest.exceptions.length; i<l; i++) {
-        var exMap = this._currentTest.exceptions[i];
-        if (exMap.exception) {
-          var exception = exMap.exception;
-          var msg = exception.toString ? exception.toString() : exception;
-          this.error(msg);
+      var modelData = testrunner.runner.ModelUtil.createModelData(testRep);
+      var delegate = {
+        getModelSuperClass : function(properties) {
+          return testrunner.runner.TestItem;
+        }
+      };
+      var marshal = new qx.data.marshal.Json(delegate);
+      marshal.toClass(modelData.children[0], true);
+      var model = marshal.toModel(modelData.children[0]);
+      testrunner.runner.ModelUtil.addDataFields(model);
+      this.setTestModel(model);
+      this.setTestSuiteState("ready");
+    },
+
+
+    /**
+     * Wraps all assert* methods included in qx.dev.unit.TestCase in try/catch
+     * blocks. For each caught exception, a data event containing the Error
+     * object will be fired on the test class. This allows the Testrunner to
+     * mark the test as failed while any code following an assertion call will
+     * still be executed. Aborting the test execution whenever an assertion
+     * fails has caused some extremely hard to debug problems in the qooxdoo
+     * framework unit tests in the past.
+     *
+     * Doing this in the Testrunner application is a temporary solution: It
+     * really should be done in qx.dev.unit.TestCase, but that would break
+     * backwards compatibility with the existing testrunner component. Once
+     * testrunner has fully replaced testrunner, this code should be moved.
+     *
+     * @param autWindow {DOMWindow?} The test application's window. Default: The
+     * Testrunner's window.
+     */
+    _wrapAssertions : function(autWindow)
+    {
+      var win = autWindow || window;
+      var tCase = win.qx.dev.unit.TestCase.prototype;
+      for (var prop in tCase) {
+        if ((prop.indexOf("assert") == 0 || prop === "fail") &&
+            typeof tCase[prop] == "function") {
+          // store original assertion func
+          var originalName = "__" + prop;
+          tCase[originalName] = tCase[prop];
+          // create wrapped assertion func
+          var body = 'var argumentsArray = qx.lang.Array.fromArguments(arguments);'
+            + 'try {'
+            + 'this[arguments.callee.originalName].apply(this, argumentsArray);'
+            + '} catch(ex) {'
+            + 'this.fireDataEvent("assertionFailed", ex);'
+            + '}';
+
+          // need to use the AUT window's Function since IE 6/7/8 can't catch
+          // exceptions from other windows.
+          tCase[prop] = new win.Function(body);
+          tCase[prop].originalName = originalName;
         }
       }
     },
 
-    /**
-     * Creates a TestResult object and attaches listeners to its events
-     *
-     * @return {qx.dev.unit.TestResultBasic}
-     */
-    _initTestResult : function()
-    {
-      var testResult = new qx.dev.unit.TestResult();
 
-      testResult.addListener("startTest", this._testStarted, this);
-      testResult.addListener("wait", this._testWaiting, this);
-      testResult.addListener("error", this._testError, this);
-      testResult.addListener("failure", this._testFailed, this);
-      testResult.addListener("skip", this._testSkipped, this);
-      testResult.addListener("endTest", this._testEnded, this);
+    _runTests : function() {
+      if (this.getTestSuiteState() === "aborted") {
+        this.setTestSuiteState("ready");
+      }
+      this.runTests();
+    },
+
+    _stopTests : function() {
+      this.setTestSuiteState("aborted");
+    },
+
+
+    /**
+     * Runs all tests in the list.
+     */
+    runTests : function()
+    {
+      var suiteState = this.getTestSuiteState();
+      switch (suiteState) {
+        case "loading":
+          this.__testsInView = [];
+          break;
+        case "ready":
+        case "finished":
+          if (this.testList.length > 0) {
+            this.setTestSuiteState("running");
+            break;
+          } else {
+            return;
+          }
+        case "aborted":
+        case "error":
+          return;
+      }
+
+      if (this.testList.length == 0) {
+        /* TODO: Reactivate part loading
+        if (this._testParts && this._testParts.length > 0) {
+          var nextPart = this._testParts.shift();
+          qx.io.PartLoader.require([nextPart], function()
+          {
+            this._loadInlineTests(nextPart);
+            this.runTests();
+          }, this);
+          return;
+        }
+        else {
+        */
+          var self = this;
+          /*
+           * Ugly hack: Since the tests are run asynchronously we can't rely on
+           * the queue to determine when everything is done.
+           * TODO: de-uglify this.
+           */
+          window.setTimeout(function() {
+            self.setTestSuiteState("finished");
+          }, 250);
+          return;
+        //}
+      }
+
+      var currentTest = this.currentTestData = this.testList.shift();
+      currentTest.resetState();
+      this.setTestCount(this.testList.length);
+      var className = currentTest.parent.fullName;
+      var functionName = currentTest.getName();
+      var testResult = this.__initTestResult(currentTest);
+
+      var self = this;
+      window.setTimeout(function() {
+        self.loader.runTests(testResult, className, functionName);
+      }, 0);
+    },
+
+
+    _getTestResult : function()
+    {
+      return new qx.dev.unit.TestResult();
+    },
+
+
+    /**
+     * Creates the TestResult object that will run the actual test functions.
+     * @return {qx.dev.unit.TestResult} The configured TestResult object
+     */
+    __initTestResult : function()
+    {
+      var testResult = this._getTestResult();
+
+      testResult.addListener("startTest", function(e) {
+        var test = e.getData();
+
+        if (this.currentTestData && this.currentTestData.fullName === test.getFullName()
+          && this.currentTestData.getState() == "wait") {
+          this.currentTestData.setState("start");
+          return;
+        }
+
+        if (!qx.lang.Array.contains(this.__testsInView, this.currentTestData.fullName)) {
+          this.view.addTestResult(this.currentTestData);
+          this.__testsInView.push(this.currentTestData.fullName);
+        }
+      }, this);
+
+      testResult.addListener("wait", this._onTestWait, this);
+
+      testResult.addListener("failure", this._onTestFailure, this);
+
+      testResult.addListener("error", this._onTestError, this);
+
+      testResult.addListener("skip", this._onTestSkip, this);
+
+      testResult.addListener("endTest", this._onTestEnd, this);
 
       return testResult;
     },
-
-    /**
-     * Called every time a test is started, or a waiting test is resumed.
-     *
-     * @param ev {qx.event.type.Data} the "data" property holds a reference to
-     * the test function
-     */
-    _testStarted : function(ev)
+    
+    
+    _onTestWait : function(ev)
     {
-      var state;
-      if (this._currentTest !== ev.getData()) {
-        this._currentTest = ev.getData();
-        state = "START";
-      }
-      else {
-        state = "RESUME";
-      }
-      if (qx.core.Environment.get("qx.debug")) {
-        this.info(state + " " + ev.getData().getFullName());
-      }
-    },
-
-    /**
-     * Called if an exception was thrown during test execution.
-     *
-     * @param ev {qx.event.type.Data} the "data" property holds a reference to
-     * the exception
-     */
-    _testError : function(ev)
-    {
-      var exception = ev.getData();
-      this._addExceptionToTest(exception);
-      this.error("ERROR " + this._currentTest.getFullName());
-      this.logTestExceptions();
-    },
-
-    /**
-     * Called if an assertion failed
-     *
-     * @param ev {qx.event.type.Data} the "data" property holds a reference to
-     * the exception map
-     */
-    _testFailed : function(ev)
-    {
-      var exceptionMap = ev.getData();
-      this._addExceptionToTest(exceptionMap);
-      this.error("FAIL  " + this._currentTest.getFullName());
-      this.logTestExceptions();
-    },
-
-    /**
-     * Called every time a test is finished.
-     *
-     * @param ev {qx.event.type.Data} the "data" property holds a reference to
-     * the test function
-     */
-    _testEnded : function(ev)
-    {
-      if (!this._currentTest.exceptions) {
-        this.info("PASS  " + this._currentTest.getFullName());
-      }
+      this.currentTestData.setState("wait");
     },
     
-    /**
-     * Called if an async test enters the "waiting" stage.
-     * @param ev {} {qx.event.type.Data} the "data" property holds a reference to
-     * the test function
-     */
-    _testWaiting : function(ev)
+    
+    _onTestFailure : function(ev)
     {
-      if (qx.core.Environment.get("qx.debug")) {
-        this.info("WAIT " + this._currentTest.getFullName());
-      }
+      this.currentTestData.setExceptions(ev.getData());
+      this.currentTestData.setState("failure");
     },
     
-    /**
-     * Called if a test was skipped due to unsatisfied requirements
-     *
-     * @param ev {qx.event.type.Data} the "data" property holds a reference to
-     * the exception
-     */
-    _testSkipped : function(ev)
+    
+    _onTestError : function(ev)
     {
-      var exception = ev.getData();
-      this._addExceptionToTest(exception);
-      this.error("SKIP " + this._currentTest.getFullName());
-      this.logTestExceptions();
+      this.currentTestData.setExceptions(ev.getData());
+      this.currentTestData.setState("error");
+    },
+    
+    
+    _onTestSkip : function(ev)
+    {
+      this.currentTestData.setExceptions(ev.getData());
+      this.currentTestData.setState("skip");
+    },
+    
+    
+    _onTestEnd : function(ev)
+    {
+      var state = this.currentTestData.getState();
+      if (state == "start") {
+        this.currentTestData.setState("success");
+      }
+
+      qx.event.Timer.once(this.runTests, this, 0);
     },
 
+
     /**
-     * Stores a test exception map by adding it to an "exceptions" array attached to
-     * the test object itself.
+     * Sets the list of pending tests to those selected by the user.
      *
-     * @param exception {Error} Error object to store
+     * @param value {String[]} Selected tests
+     * @param old {String[]} Previous value
      */
-    _addExceptionToTest : function(exceptionList)
+    _applySelectedTests : function(value, old)
     {
-      if (!this._currentTest.exceptions) {
-        this._currentTest.exceptions = exceptionList;
+      if (!value) {
+        return;
       }
-      else {
-        var fullList = this._currentTest.exceptions.concat(exceptionList);
-        this._currentTest.exceptions = fullList;
+      if (old) {
+        old.removeListener("change", this._onChangeTestSelection, this);
       }
+      value.addListener("change", this._onChangeTestSelection, this);
+      this._onChangeTestSelection();
+    },
+
+
+    /**
+     * Sets the pending test list and count according to the selection
+     */
+    _onChangeTestSelection : function() {
+      this.testList = this._getFlatTestList();
+      // Make sure the value is applied even if it didn't change so the view is
+      // updated
+      if (this.testList.length == this.getTestCount()) {
+        this.resetTestCount();
+      }
+      this.setTestCount(this.testList.length);
+    },
+
+
+    /**
+     * Returns an array containing all "test" children of the current test
+     * selection
+     *
+     * @return {Object[]} Test array
+     */
+    _getFlatTestList : function()
+    {
+      var selection = this.getSelectedTests();
+      if (selection.length == 0) {
+        return new qx.data.Array();
+      }
+
+      var testList = [];
+      for (var i=0,l=selection.length; i<l; i++) {
+        var item = selection.getItem(i);
+        var testsFromItem = testrunner.runner.ModelUtil.getItemsByProperty(item, "type", "test");
+        testList = testList.concat(testsFromItem);
+      }
+      return testList;
+    },
+
+
+    /**
+     * Logs any errors caught by qooxdoo's global error handling.
+     *
+     * @param ex{Error} Caught exception
+     */
+    _handleGlobalError : function(ex)
+    {
+      this.error(ex);
     }
+
+  },
+
+  destruct : function()
+  {
+    this.view.removeListener("runTests", this._runTests, this);
+    this.view.removeListener("stopTests", this._stopTests, this);
+    this.removeAllBindings();
+    if (this.getTestModel()) {
+      this.getTestModel().dispose();
+    }
+    this._disposeArray("testsInView");
+    this._disposeArray("testList");
+    this._disposeArray("testPackageList");
+    this._disposeObjects("view", "currentTestData", "loader");
   }
 
 });
