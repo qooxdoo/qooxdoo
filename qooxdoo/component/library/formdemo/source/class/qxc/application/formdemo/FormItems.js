@@ -43,72 +43,55 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
        * TEXT INPUT
        ****************************************/
 
+      var form = new qx.ui.form.Form();
+
       var textGroupBox = new qx.ui.groupbox.GroupBox("Text");
-      textGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       textGroupBox.setWidth(290);
+      textGroupBox.setLayout(new qx.ui.layout.Canvas());
       this.add(textGroupBox, {row: 0, column: 0});
 
       // text field
       var textField = new qx.ui.form.TextField();
-      textField.setPlaceholder("placeholder");
       textField.setTabIndex(tabIndex++);
-      var label = new qx.ui.basic.Label("TextField:");
-      label.setBuddy(textField);
-      textGroupBox.add(label, {row: 0, column: 0});
-      textGroupBox.add(textField, {row: 0, column: 1});
+      textField.setRequired(true);
       this.__widgets.push(textField);
+      form.add(textField, "TextField");
 
       // password field
       var passwordField = new qx.ui.form.PasswordField();
       passwordField.setTabIndex(tabIndex++);
-      passwordField.setPlaceholder("password");
-      label = new qx.ui.basic.Label("PasswordField:");
-      label.setBuddy(passwordField);
-      textGroupBox.add(label, {row: 1, column: 0});
-      textGroupBox.add(passwordField, {row: 1, column: 1});
+      textField.setRequired(true);
       this.__widgets.push(passwordField);
+      form.add(passwordField, "PasswordField");
 
       // text area
       var textArea = new qx.ui.form.TextArea();
       textArea.setTabIndex(tabIndex++);
-      textArea.setPlaceholder("placeholder");
-      label = new qx.ui.basic.Label("TextArea:");
-      label.setBuddy(textArea);
-      textGroupBox.add(label, {row: 2, column: 0});
-      textGroupBox.add(textArea, {row: 2, column: 1});
       this.__widgets.push(textArea);
+      form.add(textArea, "TextArea");
 
       // combo box
       var comboBox = new qx.ui.form.ComboBox();
       comboBox.setTabIndex(tabIndex++);
-      comboBox.setPlaceholder("placeholder");
-      label = new qx.ui.basic.Label("ComboBox:");
-      label.setBuddy(comboBox);
-      textGroupBox.add(label, {row: 3, column: 0});
-      textGroupBox.add(comboBox, {row: 3, column: 1});
       this.__createItems(comboBox);
       this.__widgets.push(comboBox);
+      form.add(comboBox, "ComboBox");
 
       // virtual combo box
       var virtualComboBox = new qx.ui.form.VirtualComboBox();
       virtualComboBox.setTabIndex(tabIndex++);
-      virtualComboBox.setPlaceholder("placeholder");
-      label = new qx.ui.basic.Label("VirtualComboBox:");
-      label.setBuddy(virtualComboBox);
-      textGroupBox.add(label, {row: 4, column: 0});
-      textGroupBox.add(virtualComboBox, {row: 4, column: 1});
       this.__createItemsVirtual(virtualComboBox);
       this.__widgets.push(virtualComboBox);
+      form.add(virtualComboBox, "VirtualComboBox");
 
       // date field
       var dateField = new qx.ui.form.DateField();
       dateField.setTabIndex(tabIndex++);
-      dateField.setPlaceholder("dd.mm.YYYY");
-      label = new qx.ui.basic.Label("DateField:");
-      label.setBuddy(dateField);
-      textGroupBox.add(label, {row: 5, column: 0});
-      textGroupBox.add(dateField, {row: 5, column: 1});
       this.__widgets.push(dateField);
+      form.add(dateField, "DateField");
+
+      var renderedForm = new qx.ui.form.renderer.SinglePlaceholder(form);
+      textGroupBox.add(renderedForm);
 
       /*****************************************
        * SELECTION
@@ -122,7 +105,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
       // select box
       var selectBox = new qx.ui.form.SelectBox();
       selectBox.setTabIndex(tabIndex++);
-      label = new qx.ui.basic.Label("SelectBox:");
+      var label = new qx.ui.basic.Label("SelectBox:");
       label.setBuddy(selectBox);
       selectionGroupBox.add(label, {row: 0, column: 0});
       selectionGroupBox.add(selectBox, {row: 0, column: 1});
