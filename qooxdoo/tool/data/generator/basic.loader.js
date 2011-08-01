@@ -38,6 +38,9 @@
 
       window.setTimeout = function (fn,delay) 
       {
+        if (delay === 0) {
+          delay = 1;
+        }
         var id = counter++;
         ids[id] = new JavaAdapter(java.util.TimerTask,{run: fn});
         timer.schedule(ids[id],delay);
@@ -56,6 +59,9 @@
 
       window.setInterval = function (fn,delay) 
       {
+        if (delay === 0) {
+          delay = 1;
+        }
         var id = counter++; 
         ids[id] = new JavaAdapter(java.util.TimerTask,{run: fn});
         timer.schedule(ids[id],delay,delay);
