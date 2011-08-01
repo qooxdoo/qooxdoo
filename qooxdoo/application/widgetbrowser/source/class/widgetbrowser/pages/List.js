@@ -38,30 +38,77 @@ qx.Class.define("widgetbrowser.pages.List",
   {
     this.base(arguments);
 
+    this.__grid = new qx.ui.container.Composite(new qx.ui.layout.Grid(10));
+    this.__listUrl = qx.util.ResourceManager.getInstance().toUri("widgetbrowser/people.json");
+    this.add(this.__grid);
+
     this.initWidgets();
-    this.loadData();
   },
 
   members :
   {
 
-    __listGroupedByName: null,
-
     initWidgets: function()
     {
       var widgets = this._widgets;
 
-      // Creates the list and configure it
-      var list = this.__listGroupedByName = new qx.ui.list.List().set({
+      var label = new qx.ui.basic.Label("List");
+      this.__grid.add(label, {row: 0, column: 0});
+      var list = this.__getList();
+      this.__grid.add(list, {row: 1, column: 0});
+      widgets.push(list);
+
+      label = new qx.ui.basic.Label("List (virtual)");
+      this.__grid.add(label, {row: 0, column: 1});
+      var virtualList = this.__getVirtualList();
+      this.__grid.add(virtualList, {row: 1, column: 1});
+      widgets.push(virtualList);
+
+      label = new qx.ui.basic.Label("List (virtual, grouped)");
+      this.__grid.add(label, {row: 0, column: 2});
+      var groupedVirtualList = this.__getGroupedVirtualList();
+      this.__grid.add(groupedVirtualList, {row: 1, column: 2});
+      widgets.push(groupedVirtualList);
+    },
+
+    __getList: function() {
+      var list = new qx.ui.form.List();
+      list.setWidth(150);
+
+      var req = new qx.io.request.Xhr(this.__listUrl);
+      req.setParser("json");
+      req.addListener("success", function() {
+        var people = req.getResponse().people;
+        people.forEach(function(person) {
+          var item = new qx.ui.form.ListItem("" + person.lastname + ", " + person.firstname);
+          item.setHeight(25);
+          list.add(item);
+        });
+      });
+      req.send();
+
+      return list;
+    },
+
+    __getVirtualList: function() {
+      var list = new qx.ui.list.List().set({
         height: 280,
         width: 150,
         labelPath: "firstname",
-        labelOptions: {converter: function(data, model) {
-          return model ? model.getLastname() + ", " + data : "no model...";
-        }}
+        labelOptions: {
+          converter: function(data, model) {
+            return model ? model.getLastname() + ", " + data : "no model...";
+          }
+        }
       });
-      widgets.push(list);
-      this.add(list);
+
+      this.__attachStore(list);
+
+      return list;
+    },
+
+    __getGroupedVirtualList: function() {
+      var list = this.__getVirtualList();
 
       // Creates the delegate for sorting and grouping
       var delegate = {
@@ -81,14 +128,13 @@ qx.Class.define("widgetbrowser.pages.List",
         }
       };
       list.setDelegate(delegate);
+
+      return list;
     },
 
-    loadData : function()
-    {
-      var url = "widgetbrowser/people.json";
-      url = qx.util.ResourceManager.getInstance().toUri(url);
-      var store = new qx.data.store.Json(url);
-      store.bind("model.people", this.__listGroupedByName, "model");
+    __attachStore: function(widget) {
+      var store = new qx.data.store.Json(this.__listUrl);
+      store.bind("model.people", widget, "model");
     }
   }
 });
