@@ -18,20 +18,14 @@
 ************************************************************************ */
 
 /**
- * Very simple test loader for server-side/"headless" environments
+ * Test loader for server-side/"headless" environments
  */
 
 qx.Class.define("qx.dev.unit.TestLoaderBasic", {
 
   extend : qx.core.Object,
-
-  properties :
-  {
-    /** The test suite */
-    suite : {
-      check    : "qx.dev.unit.TestSuite"
-    }
-  },
+  
+  include : [qx.dev.unit.MTestLoader],
 
   /**
    *
@@ -39,8 +33,9 @@ qx.Class.define("qx.dev.unit.TestLoaderBasic", {
    */
   construct : function(nameSpace)
   {
-    var suite = new qx.dev.unit.TestSuite(nameSpace);
-    this.setSuite(suite);
+    if (nameSpace) {
+      this.setTestNamespace(nameSpace);
+    }
   }
 });
 
