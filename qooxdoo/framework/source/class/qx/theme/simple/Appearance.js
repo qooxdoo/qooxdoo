@@ -226,8 +226,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           decorator : "statusbar",
-          padding : [2, 5],
-          backgroundColor: "light-background"
+          padding : [2, 5]
         };
       }
     },
@@ -385,7 +384,15 @@ qx.Theme.define("qx.theme.simple.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "treevirtual" : "table",
+    "treevirtual" : {
+      include : "textfield",
+      alias : "table",
+      style : function(states, superStyles) {
+        return {
+          padding : [superStyles.padding[0] + 2, superStyles.padding[1] + 1]
+        }
+      }
+    },
 
     "treevirtual-folder" :
     {
