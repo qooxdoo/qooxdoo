@@ -206,6 +206,27 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
                   cleanItemName = qx.lang.String.trim(cleanItemName.substring(0, parenPos));
                 }
                 itemNode = this.__getItemFromClassHierarchy(cleanItemName,classNode);
+                if(!itemNode && apiviewer.UiModel.getInstance().getShowIncluded())
+                {
+                  if(apiviewer.UiModel.getInstance().getShowInherited())
+                  {
+                    var classNodes = [classNode];
+                    if (classNode.getType() == "interface") {
+                      classNodes = classNode.getInterfaceHierarchy();
+                    } else {
+                      classNodes = classNode.getClassHierarchy();
+                    }
+                    for(var i=0,l=classNodes.length; i<l; i++)
+                    {
+                      itemNode = classNodes[i].getItemByNameFromMixins(cleanItemName);
+                      if(itemNode) {
+                        break;
+                      }
+                    }
+                  } else {
+                    itemNode = classNode.getItemByNameFromMixins(cleanItemName);
+                  }
+                }
               }
               else
               {
@@ -983,7 +1004,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
             listName == "methods"
           )
           ) {
-          qx.lang.Array.append(currNodeArr, currClassNode.getNodesOfTypeFromMixins(this.getListName()));
+          currNodeArr = currNodeArr.concat(currClassNode.getNodesOfTypeFromMixins(this.getListName()));
         }
         // Add the nodes from this class
         for (var i=0; i<currNodeArr.length; i++)

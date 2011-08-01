@@ -665,10 +665,10 @@ qx.Class.define("apiviewer.dao.Class",
     /**
      * Return a list of all class items of from all mixins of a class
      *
-     * @param itemName {String} name if the item list. e.g. "constants", "methods-static", "methods", ...
+     * @param itemListName {String} name if the item list. e.g. "constants", "methods-static", "methods", ...
      * @return {apiviewer.dao.ClassItem[]} list of all class items of a panel from all mixins of the class
      */
-    getNodesOfTypeFromMixins : function(itemName)
+    getNodesOfTypeFromMixins : function(itemListName)
     {
       var mixins = this.getMixins();
       var classItems = []
@@ -676,7 +676,7 @@ qx.Class.define("apiviewer.dao.Class",
       {
         var mixinRecurser = function(mixinNode)
         {
-          var items = mixinNode.getItemList(itemName);
+          var items = mixinNode.getItemList(itemListName);
           for (var i=0; i<items.length; i++) {
             classItems.push(items[i]);
           }
@@ -693,6 +693,37 @@ qx.Class.define("apiviewer.dao.Class",
 
       }
       return classItems;
+    },
+    
+
+    /**
+     * Return a class item matching the given name.
+     *
+     * @param itemName {String} name of the class item
+     * @return {apiviewer.dao.ClassItem} the class item.
+     */
+    getItemByNameFromMixins : function(itemName)
+    {
+      var mixins = this.getMixins();
+      var itemNode;
+      var mixinRecurser = function(mixinNode)
+      {
+        itemNode = mixinNode.getItem(itemName);
+
+        // recursive decent
+        if(!itemNode) {
+          var superClasses = mixinNode.getSuperMixins();
+          for (var i=0; i<superClasses.length; i++) {
+            mixinRecurser(apiviewer.dao.Class.getClassByName(superClasses[i].getName()));
+          }
+        }
+      }
+      for (var mixinIndex=0; mixinIndex<mixins.length; mixinIndex++)
+      {
+        var mixinNode = apiviewer.dao.Class.getClassByName(mixins[mixinIndex]);
+        mixinRecurser(mixinNode);
+      }
+      return itemNode;
     },
 
 
