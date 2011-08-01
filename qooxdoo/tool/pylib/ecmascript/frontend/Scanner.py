@@ -104,8 +104,8 @@ class Scanner(IterObject):
     stringEnd         = {}
     stringEnd['\n']   = re.compile('(?P<commI>.*(?=\n|$))', re.UNICODE)
     stringEnd[r'\*/'] = re.compile(r'(?P<commM>.*?\*/)',  re.DOTALL|re.MULTILINE|re.UNICODE)
-    stringEnd['"']    = re.compile(r'(?P<dquote>.*?")', re.UNICODE)
-    stringEnd["'"]    = re.compile(r"(?P<squote>.*?')", re.UNICODE)
+    stringEnd['"']    = re.compile(r'(?P<dquote>.*?")', re.DOTALL|re.UNICODE)
+    stringEnd["'"]    = re.compile(r"(?P<squote>.*?')", re.DOTALL|re.UNICODE)
 
     ##
     # yields :
@@ -125,6 +125,8 @@ class Scanner(IterObject):
                 mstart       = mo.start()
                 mend         = mo.end()
                 mlength      = mend - mstart
+                if cursor != mstart:
+                    raise RuntimeError("(This should never happen). There is a scan gap AFTER:\n \"%s\"\nAND BEFORE:\n \"%s\"" % (inData[cursor-100:cursor], inData[mstart:mstart+100]))
                 cursor       = mend # when using the 'pos' parameter in re.search, mo.start/end refer to the *entire* underlying string
                 delimiter = (yield (mo_lastgroup, mo.group(mo_lastgroup), mstart, mlength))
             else:
