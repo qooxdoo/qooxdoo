@@ -77,6 +77,20 @@ qx.Class.define("qx.test.data.marshal.Json",
     },
 
 
+    testLocalizedString : function () {
+      var str = qx.locale.Manager.tr("test one");
+      var data = {a : str};
+      this.__marshaler.toClass(data);
+      return;
+      var model = this.__marshaler.toModel(data);
+
+      this.assertEquals(str, model.getA());
+
+      model.dispose();
+      qx.Class.undefine('qx.data.model.a');
+    },
+
+
     testClassCreationSingle: function() {
       this.__marshaler.toClass(this.__data);
 
