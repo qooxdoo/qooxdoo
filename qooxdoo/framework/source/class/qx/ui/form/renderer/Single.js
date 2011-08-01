@@ -130,6 +130,7 @@ qx.Class.define("qx.ui.form.renderer.Single",
       // store lables for disposal
       this._labels.push(label);
       label.setRich(true);
+      label.setAppearance("form-renderer-label");
       return label;
     },
 

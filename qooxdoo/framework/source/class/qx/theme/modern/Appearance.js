@@ -297,6 +297,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
+    "form-renderer-label" : {
+      include : "label",
+      style : function() {
+        return {
+          paddingTop: 4
+        };
+      }
+    },
+
     "checkbox":
     {
       alias : "atom",
