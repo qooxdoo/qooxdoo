@@ -46,12 +46,12 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
       var form = new qx.ui.form.Form();
 
       var textGroupBox = new qx.ui.groupbox.GroupBox("Text");
-      textGroupBox.setWidth(290);
       textGroupBox.setLayout(new qx.ui.layout.Canvas());
       this.add(textGroupBox, {row: 0, column: 0});
 
       // text field
       var textField = new qx.ui.form.TextField();
+      textField.setPlaceholder("required");
       textField.setTabIndex(tabIndex++);
       textField.setRequired(true);
       this.__widgets.push(textField);
@@ -66,6 +66,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
 
       // text area
       var textArea = new qx.ui.form.TextArea();
+      textArea.setPlaceholder("placeholder test...");
       textArea.setTabIndex(tabIndex++);
       this.__widgets.push(textArea);
       form.add(textArea, "TextArea");
@@ -90,34 +91,29 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
       this.__widgets.push(dateField);
       form.add(dateField, "DateField");
 
-      var renderedForm = new qx.ui.form.renderer.SinglePlaceholder(form);
+      var renderedForm = new qx.ui.form.renderer.Single(form);
       textGroupBox.add(renderedForm);
 
       /*****************************************
        * SELECTION
        ****************************************/
 
+      form = new qx.ui.form.Form();
+
       var selectionGroupBox = new qx.ui.groupbox.GroupBox("Selection");
-      selectionGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
-      selectionGroupBox.setWidth(290);
+      selectionGroupBox.setLayout(new qx.ui.layout.Canvas());
       this.add(selectionGroupBox, {row:1, column: 0, rowSpan: 2});
 
       // select box
       var selectBox = new qx.ui.form.SelectBox();
       selectBox.setTabIndex(tabIndex++);
-      var label = new qx.ui.basic.Label("SelectBox:");
-      label.setBuddy(selectBox);
-      selectionGroupBox.add(label, {row: 0, column: 0});
-      selectionGroupBox.add(selectBox, {row: 0, column: 1});
+      form.add(selectBox, "SelectBox");
       this.__createItems(selectBox);
       this.__widgets.push(selectBox);
 
       // virtual select box
       var virtualSelectBox = new qx.ui.form.VirtualSelectBox();
-      label = new qx.ui.basic.Label("VirtualSelectBox:");
-      label.setBuddy(virtualSelectBox);
-      selectionGroupBox.add(label, {row: 1, column: 0});
-      selectionGroupBox.add(virtualSelectBox, {row: 1, column: 1});
+      //form.add(virtualSelectBox, "VirtualSelectBox");
       this.__createItemsVirtual(virtualSelectBox);
       this.__widgets.push(virtualSelectBox);
 
@@ -126,10 +122,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
       list.setTabIndex(tabIndex++);
       list.setHeight(60);
       list.setWidth(155);
-      label = new qx.ui.basic.Label("List:");
-      label.setBuddy(list);
-      selectionGroupBox.add(label, {row: 2, column: 0});
-      selectionGroupBox.add(list, {row: 2, column: 1});
+      form.add(list, "List");
       this.__createItems(list);
       this.__widgets.push(list);
 
@@ -138,24 +131,25 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
       radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 1").set({tabIndex: tabIndex++}));
       radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 2").set({tabIndex: tabIndex++}));
       radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 3").set({tabIndex: tabIndex++}));
-      label = new qx.ui.basic.Label("RadioButtonGroup:");
-      label.setBuddy(radioButtonGroup);
-      selectionGroupBox.add(label, {row: 4, column: 0});
-      selectionGroupBox.add(radioButtonGroup, {row: 4, column: 1});
+      form.add(radioButtonGroup, "RadioButtonGroup")
       this.__widgets.push(radioButtonGroup);
+
+      renderedForm = new qx.ui.form.renderer.Single(form);
+      selectionGroupBox.add(renderedForm);
 
       /*****************************************
        * BUTTONS
        ****************************************/
 
       var buttonGroupBox = new qx.ui.groupbox.GroupBox("Buttons");
-      buttonGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
-      buttonGroupBox.setWidth(250);
+      var layout = new qx.ui.layout.Grid(8, 8);
+      buttonGroupBox.setLayout(layout);
+      layout.setColumnAlign(0, "right", "middle");
       this.add(buttonGroupBox, {row: 0, column: 1});
 
       // button
       var button = new qx.ui.form.Button("Button").set({tabIndex: tabIndex++});
-      label = new qx.ui.basic.Label("Button:");
+      var label = new qx.ui.basic.Label("Button :");
       label.setBuddy(button);
       buttonGroupBox.add(label, {row: 0, column: 0});
       buttonGroupBox.add(button, {row: 0, column: 1});
@@ -163,7 +157,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
 
       // toggle button
       var toggleButton = new qx.ui.form.ToggleButton("ToggleButton").set({tabIndex: tabIndex++});
-      label = new qx.ui.basic.Label("ToggleButton:");
+      label = new qx.ui.basic.Label("ToggleButton :");
       label.setBuddy(toggleButton);
       buttonGroupBox.add(label, {row: 1, column: 0});
       buttonGroupBox.add(toggleButton, {row: 1, column: 1});
@@ -171,7 +165,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
 
       // toggle button
       var repeatButton = new qx.ui.form.RepeatButton("0").set({tabIndex: tabIndex++});
-      label = new qx.ui.basic.Label("RepeatButton:");
+      label = new qx.ui.basic.Label("RepeatButton :");
       label.setBuddy(repeatButton);
       buttonGroupBox.add(label, {row: 2, column: 0});
       buttonGroupBox.add(repeatButton, {row: 2, column: 1});
@@ -179,7 +173,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
 
       // menu button
       var menueButton = new qx.ui.form.MenuButton("MenuButton", null, this.__createMenuForMenuButton()).set({tabIndex: tabIndex++});
-      label = new qx.ui.basic.Label("MenuButton:");
+      label = new qx.ui.basic.Label("MenuButton :");
       label.setBuddy(menueButton);
       buttonGroupBox.add(label, {row: 3, column: 0});
       buttonGroupBox.add(menueButton, {row: 3, column: 1});
@@ -187,7 +181,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
 
       // split button
       var splitButton = new qx.ui.form.SplitButton("SplitButton", null, this.__createMenuForSplitButton()).set({tabIndex: tabIndex++});
-      label = new qx.ui.basic.Label("SplitButton:");
+      label = new qx.ui.basic.Label("SplitButton :");
       label.setBuddy(splitButton);
       buttonGroupBox.add(label, {row: 4, column: 0});
       buttonGroupBox.add(splitButton, {row: 4, column: 1});
@@ -204,66 +198,59 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
        * BOOLEAN INPUT
        ****************************************/
 
+      form = new qx.ui.form.Form();
+
       var booleanGroupBox = new qx.ui.groupbox.GroupBox("Boolean");
-      booleanGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
-      booleanGroupBox.setWidth(250);
+      booleanGroupBox.setLayout(new qx.ui.layout.Canvas());
       this.add(booleanGroupBox, {row:1, column: 1});
 
       // check box
-      var checkBox = new qx.ui.form.CheckBox("CheckBox").set({tabIndex: tabIndex++});
-      label = new qx.ui.basic.Label("CheckBox:");
-      label.setBuddy(checkBox);
-      booleanGroupBox.add(label, {row: 0, column: 0});
-      booleanGroupBox.add(checkBox, {row: 0, column: 1});
+      var checkBox = new qx.ui.form.CheckBox().set({tabIndex: tabIndex++});
+      form.add(checkBox, "CheckBox");
       this.__widgets.push(checkBox);
 
       // Tri-State check box
-      var triCheckBox = new qx.ui.form.CheckBox("Tri-State CheckBox").set({
+      var triCheckBox = new qx.ui.form.CheckBox().set({
         triState: true,
         value: null
       });
-      label = new qx.ui.basic.Label("Tri-State CheckBox:");
-      label.setBuddy(triCheckBox);
-      booleanGroupBox.add(label, {row: 1, column: 0});
-      booleanGroupBox.add(triCheckBox, {row: 1, column: 1});
+      form.add(triCheckBox, "Tri-State CheckBox")
       this.__widgets.push(triCheckBox);
 
       // radio button
-      var radioButton = new qx.ui.form.RadioButton("RadioButton").set({tabIndex: tabIndex++});
-      label = new qx.ui.basic.Label("RadioButtons:");
-      label.setBuddy(radioButton);
-      booleanGroupBox.add(label, {row: 2, column: 0});
-      booleanGroupBox.add(radioButton, {row: 2, column: 1});
+      var radioButton = new qx.ui.form.RadioButton().set({tabIndex: tabIndex++});
+      form.add(radioButton, "RadioButton")
       this.__widgets.push(radioButton);
+
+      renderedForm = new qx.ui.form.renderer.Single(form);
+      booleanGroupBox.add(renderedForm);
 
       /*****************************************
        * NUMBER INPUT
        ****************************************/
 
+      form = new qx.ui.form.Form();
+
       var numberGroupBox = new qx.ui.groupbox.GroupBox("Number");
-      numberGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
-      numberGroupBox.setWidth(250);
+      numberGroupBox.setLayout(new qx.ui.layout.Canvas());
       this.add(numberGroupBox, {row: 2, column: 1});
 
       // spinner
       var spinner = new qx.ui.form.Spinner(0, 50, 100).set({tabIndex: tabIndex++});
-      label = new qx.ui.basic.Label("Spinner:");
-      label.setBuddy(spinner);
-      numberGroupBox.add(label, {row: 0, column: 0});
-      numberGroupBox.add(spinner, {row: 0, column: 1});
+      form.add(spinner, "Spinner");
       this.__widgets.push(spinner);
 
       // slider
       var slider = new qx.ui.form.Slider().set({tabIndex: tabIndex++});
       slider.setWidth(130);
-      label = new qx.ui.basic.Label("Slider:");
-      label.setBuddy(slider);
-      numberGroupBox.add(label, {row: 1, column: 0});
-      numberGroupBox.add(slider, {row: 1, column: 1});
+      form.add(slider, "Slider");
       this.__widgets.push(slider);
 
       slider.bind("value", spinner, "value");
       spinner.bind("value", slider, "value");
+      
+      renderedForm = new qx.ui.form.renderer.Single(form);
+      numberGroupBox.add(renderedForm);
     },
 
 
