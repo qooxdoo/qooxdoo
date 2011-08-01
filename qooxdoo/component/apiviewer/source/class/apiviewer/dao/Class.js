@@ -697,6 +697,37 @@ qx.Class.define("apiviewer.dao.Class",
 
 
     /**
+     * Return a class item matching the given name.
+     *
+     * @param itemName {String} name of the class item
+     * @return {apiviewer.dao.ClassItem} the class item.
+     */
+    getItemByNameFromMixins : function(itemName)
+    {
+      var mixins = this.getMixins();
+      var itemNode;
+      var mixinRecurser = function(mixinNode)
+      {
+        itemNode = mixinNode.getItem(itemName);
+
+        // recursive decent
+        if(!itemNode) {
+          var superClasses = mixinNode.getSuperMixins();
+          for (var i=0; i<superClasses.length; i++) {
+            mixinRecurser(apiviewer.dao.Class.getClassByName(superClasses[i].getName()));
+          }
+        }
+      }
+      for (var mixinIndex=0; mixinIndex<mixins.length; mixinIndex++)
+      {
+        var mixinNode = apiviewer.dao.Class.getClassByName(mixins[mixinIndex]);
+        mixinRecurser(mixinNode);
+      }
+      return itemNode;
+    },
+
+
+    /**
      * Return a list of all classes, mixins and interfaces this class depends on.
      * This includes all super classes and their mixins/interfaces and the class itself.
      *
