@@ -190,6 +190,8 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
       var radioButtonActive = new qx.ui.menu.RadioButton("Menu RadioButton").set({value: true});
       this._widgets.push(radioButtonActive);
 
+      var radioButtonGroup = new qx.ui.form.RadioGroup(radioButton, radioButtonActive);
+
       menu.add(button);
       menu.add(checkBox);
       menu.add(checkBoxChecked);
