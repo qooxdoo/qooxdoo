@@ -23,7 +23,9 @@
 #ignore(qx.Test)
 
 ************************************************************************ */
-
+/**
+ * @lint ignoreDeprecated(eval)
+ */
 qx.Class.define("qx.test.data.marshal.Json",
 {
   extend : qx.dev.unit.TestCase,
@@ -54,6 +56,24 @@ qx.Class.define("qx.test.data.marshal.Json",
           delete qx.Class.$$registry[name];
         }
       }
+    },
+
+
+    "test$$member" : function() {
+      var data = {$$a : "b"};
+      this.__marshaler.toClass(data);
+
+      // check if the class is defined
+      this.assertTrue(qx.Class.isDefined('qx.data.model.$$a'), "Class not created.");
+
+      var clazz = qx.Class.getByName('qx.data.model.$$a');
+      // check for the property
+      for (var name in clazz.$$properties) {
+        this.assertEquals("$$a", name, "Property $$a does have the wrong name.");
+        this.assertEquals("change" + qx.lang.String.firstUp("$$a"), clazz.$$properties[name].event, "event has a wrong name.");
+      }
+
+      qx.Class.undefine('qx.data.model.$$a');
     },
 
 
@@ -526,11 +546,11 @@ qx.Class.define("qx.test.data.marshal.Json",
       var propertiesSaved;
 
       var valN = function(data) {
-        if (data < 10) throw new qx.core.ValidationError("NNN");
+        if (data < 10) { throw new qx.core.ValidationError("NNN")};
       };
 
       var valS = function(data) {
-        if (data.length > 10) throw new qx.core.ValidationError("SSS");
+        if (data.length > 10) {throw new qx.core.ValidationError("SSS")};
       };
 
       var delegate = {getValidationRule : function(properties, propertyName) {

@@ -149,7 +149,7 @@ qx.Class.define("qx.data.marshal.Json",
         key = key.replace(/-/g, "");
         // check for valid JavaScript identifier (leading numbers are ok)
         if (qx.core.Environment.get("qx.debug")) {
-          this.assertTrue((/^[0-9A-Za-z_]*$/).test(key),
+          this.assertTrue((/^[$0-9A-Za-z_]*$/).test(key),
           "The key '" + key + "' is not a valid JavaScript identifier.")
         }
 
