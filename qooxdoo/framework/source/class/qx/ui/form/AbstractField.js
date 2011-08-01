@@ -435,7 +435,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       }
       else
       {
-        styles = qx.bom.Font.getDefaultStyles()
+        styles = qx.bom.Font.getDefaultStyles();
       }
       // apply the font to the content element
       this.getContentElement().setStyles(styles);
@@ -505,6 +505,11 @@ qx.Class.define("qx.ui.form.AbstractField",
       var fireEvents = true;
 
       this.__nullValue = false;
+
+      // value unchanged; Firefox fires "input" when pressing ESC [BUG #5309]
+      if (this.__oldInputValue && this.__oldInputValue === value) {
+        fireEvents = false;
+      }
 
       // check for the filter
       if (this.getFilter() != null)
