@@ -85,6 +85,17 @@ qx.Class.define("qx.ui.form.MenuButton",
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
+    // overridden
+    _applyVisibility : function(value, old) {
+      this.base(arguments, value, old);
+
+      // hide the menu too
+      var menu = this.getMenu();
+      if (value != "visible" && menu) {
+        menu.hide();
+      }
+    },
+
 
     // property apply
     _applyMenu : function(value, old)
