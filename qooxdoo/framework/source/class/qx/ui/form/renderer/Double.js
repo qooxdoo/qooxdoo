@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Double column rendere for {@link qx.ui.form.Form}.
+ * Double column renderer for {@link qx.ui.form.Form}.
  */
 qx.Class.define("qx.ui.form.renderer.Double",
 {

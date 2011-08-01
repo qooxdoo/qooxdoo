@@ -411,7 +411,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.__form.add(this.__tf1, "TF1");
       this.__form.addButton(b1);
 
-      // just check if the rendere is created without an error
+      // just check if the renderer is created without an error
       (new qx.ui.form.renderer.Single(this.__form)).dispose();
 
       b1.dispose();
@@ -426,7 +426,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.__form.add(this.__tf1, "TF1");
       this.__form.addButton(b1);
 
-      // just check if the rendere is created without an error
+      // just check if the renderer is created without an error
       (new qx.ui.form.renderer.SinglePlaceholder(this.__form)).dispose();
 
       b1.dispose();
@@ -441,7 +441,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.__form.add(this.__tf1, "TF1");
       this.__form.addButton(b1);
 
-      // just check if the rendere is created without an error
+      // just check if the renderer is created without an error
       (new qx.ui.form.renderer.Double(this.__form)).dispose();
 
       b1.dispose();

@@ -342,9 +342,9 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param col {Integer} the model index of the column.
      * @param renderer {qx.ui.table.ICellRenderer} the new data renderer
      *   the column should get.
-     * @return {qx.ui.table.ICellRenderer?null} If an old rendere was set and
-     *   it was not the default rendere, the old rendere is returnd for
-     *   pooling or dipsosing.
+     * @return {qx.ui.table.ICellRenderer?null} If an old renderer was set and
+     *   it was not the default renderer, the old renderer is returned for
+     *   pooling or disposing.
      */
     setDataCellRenderer : function(col, renderer)
     {

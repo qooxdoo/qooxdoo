@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 /**
- * This interface defines the necessary features a form rendere should have.
+ * This interface defines the necessary features a form renderer should have.
  * Keep in mind that all renderes has to be widgets.
  */
 qx.Interface.define("qx.ui.form.renderer.IFormRenderer",
