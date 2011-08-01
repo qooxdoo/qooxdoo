@@ -19,9 +19,13 @@
 
 ************************************************************************ */
 
-/*
+/* ************************************************************************
+
 #use(qx.event.handler.ElementResize)
-*/
+#optional(qx.ui.popup.Manager)
+#optional(qx.ui.menu.Manager)
+
+************************************************************************ */
 
 
 /**
@@ -104,6 +108,10 @@ qx.Class.define("qx.ui.root.Inline",
     if ((qx.core.Environment.get("engine.name") == "mshtml")) {
       this.setKeepFocus(true);
     }
+
+    // Resize handling for the window
+    var window = qx.dom.Node.getWindow(el);
+    qx.event.Registration.addListener(window, "resize", this._onWindowResize, this);
   },
 
 
@@ -233,6 +241,22 @@ qx.Class.define("qx.ui.root.Inline",
         (data.oldHeight !== data.height) && this.__dynY
       ) {
         qx.ui.core.queue.Layout.add(this);
+      }
+    },
+
+
+    /**
+     * Listener for the window's resize event.
+     */
+    _onWindowResize : function() {
+      // close all popups
+      if (qx.ui.popup && qx.ui.popup.Manager) {
+        qx.ui.popup.Manager.getInstance().hideAll();
+      }
+
+      // close all menus
+      if (qx.ui.menu && qx.ui.menu.Manager) {
+        qx.ui.menu.Manager.getInstance().hideAll();
       }
     },
 

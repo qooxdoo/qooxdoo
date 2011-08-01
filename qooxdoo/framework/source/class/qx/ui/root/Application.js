@@ -21,6 +21,8 @@
 /* ************************************************************************
 
 #require(qx.event.handler.Window)
+#optional(qx.ui.popup.Manager)
+#optional(qx.ui.menu.Manager)
 
 ************************************************************************ */
 
@@ -140,6 +142,16 @@ qx.Class.define("qx.ui.root.Application",
      */
     _onResize : function(e) {
       qx.ui.core.queue.Layout.add(this);
+
+      // close all popups
+      if (qx.ui.popup && qx.ui.popup.Manager) {
+        qx.ui.popup.Manager.getInstance().hideAll();
+      }
+
+      // close all menus
+      if (qx.ui.menu && qx.ui.menu.Manager) {
+        qx.ui.menu.Manager.getInstance().hideAll();
+      }
     },
 
 
