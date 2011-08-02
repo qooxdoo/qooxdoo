@@ -52,9 +52,11 @@ qx.Class.define("simulator.Application", {
           case "finished":
             this.simulation.logRunTime();
             simulator.QxSelenium.getInstance().stop();
+            quit();
             break;
           case "error":
             simulator.QxSelenium.getInstance().stop();
+            quit();
             break;
         }
       }, this);
