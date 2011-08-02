@@ -13,7 +13,9 @@
      See the LICENSE file in the project's top-level directory for details.
 
 ************************************************************************ */
-
+/* ************************************************************************
+#ignore(quit)
+************************************************************************ */
 /**
  * Simulator main application class.
  */
@@ -41,33 +43,40 @@ qx.Class.define("simulator.Application", {
       this.runner = new testrunner.runner.TestRunnerBasic();
       this.simulation = simulator.Simulation.getInstance();
       
-      this.runner.addListener("changeTestSuiteState", function(ev) {
-        var state = ev.getData();
-        
-        switch(state) {
-          // async test suite loading
-          case "ready":
-            this._runSuite();
-            break;
-          case "finished":
-            this.simulation.logRunTime();
-            simulator.QxSelenium.getInstance().stop();
-            quit();
-            break;
-          case "error":
-            simulator.QxSelenium.getInstance().stop();
-            quit();
-            break;
-        }
-      }, this);
+      this.runner.addListener("changeTestSuiteState", this._onChangeTestSuiteState, this);
       
       // sync test suite loading
       if (this.runner.getTestSuiteState() === "ready") {
         this._runSuite();
       }
     },
-    
-    
+
+
+    /**
+     * @lint ignoreUndefined(quit)
+     * @param {qx.event.type.Data} The testrunner's changeTestSuiteState event
+     */
+    _onChangeTestSuiteState : function(ev) {
+      var state = ev.getData();
+      
+      switch(state) {
+        // async test suite loading
+        case "ready":
+          this._runSuite();
+          break;
+        case "finished":
+          this.simulation.logRunTime();
+          simulator.QxSelenium.getInstance().stop();
+          quit();
+          break;
+        case "error":
+          simulator.QxSelenium.getInstance().stop();
+          quit();
+          break;
+      }
+    },
+
+
     /**
      * TODOC
      */
