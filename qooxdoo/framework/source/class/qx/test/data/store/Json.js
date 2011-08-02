@@ -54,7 +54,8 @@ qx.Class.define("qx.test.data.store.Json",
     setUpFakeRequest : function()
     {
       var req = new qx.io.request.Xhr(this.url);
-      req.send = req.setParser = req.dispose = function() {};
+      req.send = req.setParser = function() {};
+      req.dispose = qx.io.request.Xhr.prototype.dispose;
       this.request = this.stub(req);
       this.stub(qx.io.request, "Xhr").returns(this.request);
     },
@@ -65,7 +66,7 @@ qx.Class.define("qx.test.data.store.Json",
       this.getSandbox().restore();
       this.__store.dispose();
 
-      // remove the former created classes
+      // Remove the former created classes
       qx.data.model = {};
       for (var name in qx.Class.$$registry) {
         if (name.search("qx.data.model") != -1) {
