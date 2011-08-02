@@ -40,21 +40,26 @@ qx.Class.define("qx.test.data.DataArray",
       // create empty array
       var a = new qx.data.Array();
       this.assertEquals(0, a.length, "Length does not fit an an empty array!");
+      a.dispose();
 
       // create an array with a length
-      var a = new qx.data.Array(10);
+      a = new qx.data.Array(10);
       this.assertEquals(10, a.length, "Length does not fit an an empty array!");
+      a.dispose();
 
       // create an array with only elements
-      var a = new qx.data.Array("one", "two", "three");
+      a = new qx.data.Array("one", "two", "three");
       this.assertEquals(3, a.length, "Length does not fit an an empty array!");
-      var a = new qx.data.Array(1, 2, 3);
+      a.dispose();
+      a = new qx.data.Array(1, 2, 3);
       this.assertEquals(3, a.length, "Length does not fit an an empty array!");
+      a.dispose();
 
       // create an array with an given native array
       var newArray = ["one", "two", "three"];
-      var a = new qx.data.Array(newArray);
+      a = new qx.data.Array(newArray);
       this.assertEquals(3, a.length, "Length does not fit an an empty array!");
+      a.dispose();
 
       // test some wrong inputs
       this.assertException(function() {
@@ -108,6 +113,7 @@ qx.Class.define("qx.test.data.DataArray",
         self.assertEquals(2, e.getData().end, "Wrong end index in the event.");
         self.assertEquals("order", e.getData().type, "Wrong type in the event.");
       }, "Change event not fired!");
+      a.dispose();
     },
 
 
@@ -129,20 +135,30 @@ qx.Class.define("qx.test.data.DataArray",
         self.assertEquals(2, e.getData().end, "Wrong end index in the event.");
         self.assertEquals("order", e.getData().type, "Wrong type in the event.");
       }, "Change event not fired!");
+      a.dispose();
     },
 
 
     testConcat: function() {
        var b = this.__a.concat(["four", "five"]);
        this.assertEquals("one two three four five", b.join(" "), "Concat does not work");
+       b.dispose();
     },
 
 
     testSlice: function() {
-      this.assertEquals("one", this.__a.slice(0, 1).getItem(0), "Slice does not work");
-      this.assertEquals("two", this.__a.slice(1, 2).getItem(0), "Slice does not work");
-      this.assertEquals("one", this.__a.slice(0, 2).getItem(0), "Slice does not work");
-      this.assertEquals("two", this.__a.slice(0, 2).getItem(1), "Slice does not work");
+      var slice = this.__a.slice(0, 1);
+      this.assertEquals("one", slice.getItem(0), "Slice does not work");
+      slice.dispose();
+      slice = this.__a.slice(1, 2);
+      this.assertEquals("two", slice.getItem(0), "Slice does not work");
+      slice.dispose();
+      slice = this.__a.slice(0, 2);
+      this.assertEquals("one", slice.getItem(0), "Slice does not work");
+      slice.dispose();
+      slice = this.__a.slice(0, 2);
+      this.assertEquals("two", slice.getItem(1), "Slice does not work");
+      slice.dispose();
     },
 
 
@@ -159,6 +175,7 @@ qx.Class.define("qx.test.data.DataArray",
       this.assertEquals(4, this.__a.push("four"), "Push does not give the right length back.");
       this.assertEquals("one two three four", this.__a.join(" "), "Single push does not work.");
       this.assertEquals(4, this.__a.length, "Single push does not work.");
+      this.__a.dispose();
       this.__a = new qx.data.Array();
       this.__a.push(1, 2, 3);
       this.assertEquals("1 2 3", this.__a.join(" "), "Multiple push does not work.");
@@ -179,6 +196,7 @@ qx.Class.define("qx.test.data.DataArray",
       };
       var model = qx.data.marshal.Json.createModel( data, true );
       this.assertEquals(1, model.getBar().shift());
+      model.dispose();
     },
 
 
@@ -193,18 +211,30 @@ qx.Class.define("qx.test.data.DataArray",
     testSplice: function() {
       var a = new qx.data.Array(1, 2, 3, 4, 5, 6, 7, 8);
 
-      this.assertEquals("5 6 7 8", a.splice(4, a.length - 1).join(" "), "Splice does not work");
+      var splice = a.splice(4, a.length - 1);
+      this.assertEquals("5 6 7 8", splice.join(" "), "Splice does not work");
+      splice.dispose();
       this.assertEquals("1 2 3 4", a.join(" "), "Splice does not work");
-      this.assertEquals("2 3", a.splice(1, 2).join(" "), "Splice does not work");
+      splice = a.splice(1, 2);
+      this.assertEquals("2 3", splice.join(" "), "Splice does not work");
+      splice.dispose();
       this.assertEquals("1 4", a.join(" "), "Splice does not work");
+      a.dispose();
 
       var a = new qx.data.Array(1, 2, 3, 4, 5);
-      this.assertEquals("", a.splice(2, 0, "a", "b").join(" "), "Splice does not work");
+      splice = a.splice(2, 0, "a", "b");
+      this.assertEquals("", splice.join(" "), "Splice does not work");
+      splice.dispose();
       this.assertEquals("1 2 a b 3 4 5", a.join(" "), "Splice does not work");
-      this.assertEquals("a b", a.splice(2, 2, "c", 3).join(" "), "Splice does not work");
+      splice = a.splice(2, 2, "c", 3);
+      this.assertEquals("a b", splice.join(" "), "Splice does not work");
+      splice.dispose();
       this.assertEquals("1 2 c 3 3 4 5", a.join(" "), "Splice does not work");
 
-      this.assertInstance(a.splice(1), qx.data.Array, "Wrong return type");
+      splice = a.splice(1);
+      this.assertInstance(splice, qx.data.Array, "Wrong return type");
+      splice.dispose();
+      a.dispose();
     },
 
 
@@ -224,6 +254,7 @@ qx.Class.define("qx.test.data.DataArray",
         self.assertEquals(2, e.getData());
         self.assertEquals(3, e.getOldData());
       }, "ChangeLength event not fired!");
+      a.dispose();
     },
 
 
@@ -342,7 +373,8 @@ qx.Class.define("qx.test.data.DataArray",
 
 
     testAppend: function() {
-      this.__a.append(new qx.data.Array("4", "5").toArray());
+      var dArray = new qx.data.Array("4", "5");
+      this.__a.append(dArray.toArray());
 
       // check the value
       this.assertEquals("one", this.__a.getItem(0), "append does not work");
@@ -350,10 +382,13 @@ qx.Class.define("qx.test.data.DataArray",
       this.assertEquals("three", this.__a.getItem(2), "append does not work");
       this.assertEquals("4", this.__a.getItem(3), "append does not work");
       this.assertEquals("5", this.__a.getItem(4), "append does not work");
+      dArray.dispose();
 
       // check if qx arrays work
-      this.__a.append(new qx.data.Array(["sechs"]));
+      dArray = new qx.data.Array(["sechs"]);
+      this.__a.append(dArray);
       this.assertEquals("sechs", this.__a.getItem(5), "append does not work");
+      dArray.dispose();
     },
 
 
@@ -483,18 +518,19 @@ qx.Class.define("qx.test.data.DataArray",
       var a = new qx.data.Array(1, 2, 3);
       var self = this;
       this.assertEventFired(a, "change", function () {
-        a.splice(1, 1);
+        a.splice(1, 1).dispose();
       }, function(e) {
         self.assertEquals(1, e.getData().start, "Wrong start index in the event.");
         self.assertEquals(1, e.getData().end, "Wrong end index in the event.");
         self.assertEquals("remove", e.getData().type, "Wrong type in the event.");
         self.assertEquals(2, e.getData().items[0], "Wrong item in the event.");
       }, "Change event not fired!");
+      a.dispose();
 
       // test for the event (add)
       a = new qx.data.Array(1, 2, 3);
       this.assertEventFired(a, "change", function () {
-        a.splice(0, 0, 0);
+        a.splice(0, 0, 0).dispose();
       }, function(e) {
         self.assertEquals(0, e.getData().start, "Wrong start index in the event.");
         self.assertEquals(3, e.getData().end, "Wrong end index in the event.");

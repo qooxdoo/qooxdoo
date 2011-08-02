@@ -567,7 +567,7 @@ qx.Class.define("qx.data.Array",
      */
     insertAt : function(index, item)
     {
-      this.splice(index, 0, item);
+      this.splice(index, 0, item).dispose();
     },
 
 
@@ -584,7 +584,7 @@ qx.Class.define("qx.data.Array",
       if (index == -1) {
         this.push(item);
       } else {
-        this.splice(index, 0, item);
+        this.splice(index, 0, item).dispose();
       }
     },
 
@@ -602,7 +602,7 @@ qx.Class.define("qx.data.Array",
       if (index == -1 || index == (this.length - 1)) {
         this.push(item);
       } else {
-        this.splice(index + 1, 0, item);
+        this.splice(index + 1, 0, item).dispose();
       }
     },
 
@@ -726,7 +726,7 @@ qx.Class.define("qx.data.Array",
 
       if (index != -1)
       {
-        this.splice(index, 1);
+        this.splice(index, 1).dispose();
         return item;
       }
     },

@@ -356,7 +356,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
       var spy = this.spy(handler);
       this.testObject.addListener("changeBubble", spy, this);
 
-      this.array.splice(2, 3, "D", "E", "F");
+      this.array.splice(2, 3, "D", "E", "F").dispose();
 
       this.assertCalledOnce(spy);
       this.assertArrayEquals(["A", "B", "D", "E", "F"], this.array.toArray(), "Changes are not applied!");
@@ -377,7 +377,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
       var spy = this.spy(handler);
       this.testObject.addListener("changeBubble", spy, this);
 
-      this.array.splice(1, 2);
+      this.array.splice(1, 2).dispose();
 
       this.assertCalledOnce(spy);
       this.assertArrayEquals(["A"], this.array.toArray(), "Changes are not applied!");
