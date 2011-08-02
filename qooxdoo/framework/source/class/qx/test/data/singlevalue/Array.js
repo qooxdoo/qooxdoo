@@ -132,6 +132,7 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       qx.data.SingleValueBinding.bind(this.__a, "array[0]", this.__label, "value");
 
       // change the array itself
+      this.__a.getArray().dispose();
       this.__a.setArray(new qx.data.Array(1, 2, 3));
       qx.log.Logger.debug(this.__a.getArray().getItem(0));
       // check the binding
@@ -190,7 +191,9 @@ qx.Class.define("qx.test.data.singlevalue.Array",
     testChildArray: function() {
       // create the objects
       this.__a.setChild(this.__b1);
+      this.__b1.getArray().dispose();
       this.__b1.setArray(new qx.data.Array("eins", "zwei", "drei"));
+      this.__b2.getArray().dispose();
       this.__b2.setArray(new qx.data.Array("1", "2", "3"));
 
       // bind the last element
@@ -304,6 +307,7 @@ qx.Class.define("qx.test.data.singlevalue.Array",
 
     testLateBinding: function() {
       // create the precondition
+      this.__a.getArray().dispose();
       this.__a.setArray(new qx.data.Array());
       // bind the last element
       qx.data.SingleValueBinding.bind(this.__a, "array[last]", this.__label, "value");

@@ -174,6 +174,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertEquals(10, model.getA(), "getA does not work.");
       this.assertEquals(-15, model.getB(), "getB does not work.");
       this.assertEquals(10.5e10, model.getC(), "getC does not work.");
+      model.dispose();
     },
 
 
@@ -187,6 +188,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       // check the model
       this.assertEquals(true, model.getA(), "getA does not work.");
       this.assertEquals(false, model.getB(), "getB does not work.");
+      model.dispose();
     },
 
 
@@ -200,6 +202,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       // check the model
       this.assertEquals("affe", model.getA(), "getA does not work.");
       this.assertEquals("AFFE", model.getB(), "getB does not work.");
+      model.dispose();
     },
 
 
@@ -214,6 +217,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertEquals("affe", model.getA(), "getA does not work.");
       this.assertEquals(true, model.getB(), "getB does not work.");
       this.assertEquals(156, model.getC(), "getC does not work.");
+      model.dispose();
     },
 
 
@@ -231,6 +235,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertEquals("affe", a.getItem(0), "Item 0 is wrong");
       this.assertEquals("affen", a.getItem(1), "Item 1 is wrong");
       this.assertEquals("AFFE", a.getItem(2), "Item 2 is wrong");
+      model.dispose();
     },
 
 
@@ -255,6 +260,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertEquals("qx.data.Array", a1.classname, "Its not an data array.");
       this.assertEquals(10, a1.getItem(0), "Item 0 is wrong");
       this.assertEquals(15, a1.getItem(1), "Item 1 is wrong");
+      model.dispose();
     },
 
 
@@ -275,6 +281,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertNotNull(aa, "Nothing stored in the property a.");
       this.assertEquals(15, aa.getC(), "c is not set");
       this.assertEquals(-89, aa.getCc(), "cc is not set");
+      model.dispose();
     },
 
 
@@ -293,6 +300,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertEquals("qx.data.Array", b.classname, "b is not an data array");
       this.assertEquals("affe", b.getItem(0), "Item 0 is wrong.");
       this.assertEquals("AFFE", b.getItem(1), "Item 1 is wrong.");
+      model.dispose();
     },
 
 
@@ -315,6 +323,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertEquals(model.classname, a.getItem(0).classname, "Differen classes");
       this.assertEquals(model.classname, a.getItem(1).classname, "Differen classes");
       this.assertEquals(a.getItem(0).classname, a.getItem(1).classname, "Differen classes");
+      model.dispose();
     },
 
 
@@ -327,6 +336,7 @@ qx.Class.define("qx.test.data.marshal.Json",
 
       // check the model
       this.assertEquals("affe", model.getA().getA().getA(), "No affe is there!");
+      model.dispose();
     },
 
 
@@ -338,6 +348,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model = this.__marshaler.toModel(this.__data);
 
       this.assertNotNull(model, "No model set.");
+      model.dispose();
     },
 
 
@@ -366,6 +377,7 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals(-15, e.getData().old, "Not the right old value in the event.");
         self.assertEquals("b", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
+      model.dispose();
     },
 
 
@@ -393,6 +405,7 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals(true, e.getData().value, "Not the right value in the event.");
         self.assertEquals("a", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
+      model.dispose();
     },
 
 
@@ -412,6 +425,7 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals(10, e.getData().old, "Not the right old value in the event.");
         self.assertEquals("a.b.c", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
+      model.dispose();
     },
 
 
@@ -430,6 +444,8 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals(1, e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[0]", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
+      
+      model.dispose();
     },
 
 
@@ -448,6 +464,7 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals(0, e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[0].b", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
+      model.dispose();
     },
 
 
@@ -466,6 +483,7 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals(0, e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[0][0][0][0].b", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
+      model.dispose();
     },
 
 
@@ -484,6 +502,7 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals(12, e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[0].b[0][0].c.d[1]", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
+      model.dispose();
     },
 
 
@@ -502,6 +521,7 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals("AFFE", e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[10]", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
+      model.dispose();
     },
 
 
@@ -522,6 +542,7 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals("AFFE", e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[0]", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
+      model.dispose();
     },
 
 
@@ -539,7 +560,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       });
 
       var model = new qx.Test();
-      model.setFonts(new qx.data.Array());
+      var fonts = new qx.data.Array();
+      model.setFonts(fonts);
       model.getFonts().push("one", "two", "three");
 
       model.addListener("changeBubble", function(e) {
@@ -552,6 +574,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       model.getFonts().removeAll();
 
       this.assertEquals(0, model.getFonts().length, "The remove did not work.");
+      fonts.dispose();
+      model.dispose();
     },
 
 
@@ -576,6 +600,7 @@ qx.Class.define("qx.test.data.marshal.Json",
         propertiesSaved = properties;
       }};
 
+      this.__marshaler.dispose();
       this.__marshaler = new qx.data.marshal.Json(delegate);
       this.__marshaler.toClass(this.__data);
       var model = this.__marshaler.toModel(this.__data);
@@ -595,6 +620,8 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertException(function() {
         model.setN(1);
       }, qx.core.ValidationError);
+      
+      model.dispose();
     },
 
 
@@ -610,6 +637,7 @@ qx.Class.define("qx.test.data.marshal.Json",
 
       // check the model
       this.assertEquals(qxObject, model.getA().getB(), "wrong qx object!");
+      model.dispose();
     },
 
 
@@ -628,6 +656,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertTrue(a.isDisposed(), "array");
       this.assertTrue(c0.isDisposed(), "array item");
       this.assertTrue(c1.isDisposed(), "array item");
+      model.dispose();
     },
 
 
