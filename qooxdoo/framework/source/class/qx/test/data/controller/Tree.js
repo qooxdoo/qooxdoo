@@ -87,6 +87,18 @@ qx.Class.define("qx.test.data.controller.Tree",
           init: "green",
           nullable: true
         }
+      },
+      
+      destruct : function()
+      {
+        if (this.getChildren()) {
+          this.getChildren().setAutoDisposeItems(true);
+          this.getChildren().dispose();
+        }
+        if (this.getAltChildren()) {
+          this.getAltChildren().setAutoDisposeItems(true);
+          this.getAltChildren().dispose();
+        }
       }
     });
   },
@@ -402,6 +414,7 @@ qx.Class.define("qx.test.data.controller.Tree",
 
       // check if the old tree is empty
       this.assertNull(this.__tree.getRoot(), "Former tree is not empty.");
+      tree.dispose();
     },
 
 
@@ -423,6 +436,9 @@ qx.Class.define("qx.test.data.controller.Tree",
       // check the folders
       this.assertEquals("A", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
       this.assertEquals("B", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      
+      this.__controller.setModel(null);
+      model.dispose();
     },
 
 
@@ -503,7 +519,9 @@ qx.Class.define("qx.test.data.controller.Tree",
       // add c to the selection
       this.__controller.getSelection().push(this.__c);
       // remove the c node
-      this.__model.getChildren().splice(2, 1);
+      var temp = this.__model.getChildren().splice(2, 1);
+      temp.setAutoDisposeItems(true);
+      temp.dispose();
       // check if the selection is empty
       this.assertEquals(0, this.__controller.getSelection().length, "Remove from selection does not work!");
 
@@ -511,7 +529,8 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.__controller.getSelection().push(this.__b);
 
       // remove the first element of the controller 'this.__a'
-      this.__model.getChildren().shift();
+      temp = this.__model.getChildren().shift();
+      temp.dispose();
 
       // check if the selected item in the list is "b"
       this.assertTrue(this.__controller.getSelection().contains(this.__b), "Selection array wrong!");
@@ -730,6 +749,9 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertTrue(this.__tree.getRoot().getChildren()[0].getUserData("a"), "Delegation not working.");
       this.assertTrue(this.__tree.getRoot().getChildren()[1].getUserData("a"), "Delegation not working.");
       this.assertTrue(this.__tree.getRoot().getChildren()[2].getUserData("a"), "Delegation not working.");
+      
+      this.__controller.setDelegate(null);
+      delegate.dispose();
     },
 
 
@@ -754,6 +776,8 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertTrue(this.__tree.getRoot().getChildren()[0].getUserData("a"), "Delegation not working.");
       this.assertTrue(this.__tree.getRoot().getChildren()[1].getUserData("a"), "Delegation not working.");
       this.assertTrue(this.__tree.getRoot().getChildren()[2].getUserData("a"), "Delegation not working.");
+      
+      controller.dispose();
     },
 
 
@@ -872,6 +896,8 @@ qx.Class.define("qx.test.data.controller.Tree",
 
       this.__model.setColor("black");
       this.assertEquals("black", tree.getRoot().getTextColor(), "Root node has a wrong name");
+      
+      tree.dispose();
     },
 
 
@@ -921,12 +947,10 @@ qx.Class.define("qx.test.data.controller.Tree",
         }
       });
 
-      // slush the dispose queue
+      // flush the dispose queue
       qx.ui.core.queue.Dispose.flush();
       // add the new model
       this.__model.getChildren().push(a);
-
-      a.dispose();
     },
 
 
@@ -942,6 +966,8 @@ qx.Class.define("qx.test.data.controller.Tree",
       var a = new qx.test.TreeNode();
       a.setName("new");
       children.push(a);
+      
+      var oldChildren = this.__a.getChildren();
 
       // change the children array
       //        this.__model
@@ -950,6 +976,8 @@ qx.Class.define("qx.test.data.controller.Tree",
       //    |
       //   a
       this.__a.setChildren(children);
+      
+      oldChildren.dispose();
 
       // Test if the tree nodes exist
       this.assertNotUndefined(this.__tree.getRoot(), "Root node does not exist");
@@ -968,6 +996,11 @@ qx.Class.define("qx.test.data.controller.Tree",
       });
 
       // init (copy of setUp)
+      this.__tree.dispose();
+      this.__model.dispose();
+      this.__a.dispose();
+      this.__b.dispose();
+      this.__c.dispose();
       this.__tree = new qx.ui.tree.Tree();
 
       // create a model

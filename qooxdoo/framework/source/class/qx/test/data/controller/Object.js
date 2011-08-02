@@ -43,6 +43,7 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__model.dispose();
       this.__label2.dispose();
       this.__label1.dispose();
+      this.__controller.dispose();
     },
 
 
@@ -94,6 +95,8 @@ qx.Class.define("qx.test.data.controller.Object",
       // test for the binding
       this.assertEquals("20", this.__label1.getValue(), "Binding1 does not work!");
       this.assertEquals("20", this.__label2.getValue(), "Binding2 does not work!");
+      
+      newModel.dispose();
     },
 
 
@@ -231,6 +234,8 @@ qx.Class.define("qx.test.data.controller.Object",
       this.assertEquals("11", this.__label1.getValue(), "Binding1 does not work!");
       this.assertEquals(11, newModel.getZIndex(), "Reverse-Binding does not work!");
       this.assertEquals(10, this.__model.getZIndex(), "Binding has not been removed.");
+      
+      newModel.dispose();
     },
 
 
@@ -327,10 +332,13 @@ qx.Class.define("qx.test.data.controller.Object",
       // test for the binding
       this.assertEquals("A", this.__label1.getValue(), "Binding1 does not work!");
       this.assertEquals("A", this.__label2.getValue(), "Binding2 does not work!");
+      
+      newModel.dispose();
     },
 
 
     testSetLateModel: function() {
+      this.__controller.dispose();
       // create a blank controller
       this.__controller = new qx.data.controller.Object();
 
