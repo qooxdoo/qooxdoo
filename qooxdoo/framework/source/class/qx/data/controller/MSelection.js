@@ -258,7 +258,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
       } else if (this.__targetSupportsSingleSelection()) {
         // get the model which should be selected
         var item = this.getSelection().getItem(this.getSelection().length - 1);
-        if (item) {
+        if (item !== undefined) {
           // select the last selected item (old selection will be removed anyway)
           this.__selectItem(item);
           // remove the other items from the selection data array and get

@@ -72,6 +72,22 @@ qx.Class.define("qx.test.data.controller.List",
     },
 
 
+    testNumberModel : function() {
+      var selectBox = new qx.ui.form.SelectBox();
+
+      var model = qx.data.marshal.Json.createModel([1, 0]);
+      var controller = new qx.data.controller.List(model, selectBox);
+
+      controller.getSelection().push(0);
+      this.assertEquals(1, controller.getSelection().length);
+      this.assertEquals(0, controller.getSelection().getItem(0));
+
+      selectBox.destroy();
+      model.dispose();
+      controller.dispose();
+    },
+
+
     testModelChangeCombobox : function() {
       var model2 = new qx.data.Array(["A", "B"]);
       var box = new qx.ui.form.ComboBox();
