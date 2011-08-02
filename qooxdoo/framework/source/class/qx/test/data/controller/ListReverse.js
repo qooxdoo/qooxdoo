@@ -78,7 +78,9 @@ qx.Class.define("qx.test.data.controller.ListReverse",
     tearDown : function()
     {
       this.flush();
+      this.__controller.dispose();
       this.__controller = null;
+      this.__model.dispose();
       this.__model = null;
       this.__data = null;
       this.__list.dispose();
@@ -210,6 +212,7 @@ qx.Class.define("qx.test.data.controller.ListReverse",
 
       // get rid of the created items
       for (var i = 0; i < items.length; i++) {
+        items[i].getChild().dispose();
         items[i].setChild(null);
       };
     },
@@ -222,8 +225,9 @@ qx.Class.define("qx.test.data.controller.ListReverse",
         controller.bindPropertyReverse("", "children[0].label", null, item, id);
       }
 
+      var childItems = new qx.data.Array(new qx.test.ListItem(), new qx.test.ListItem());
       this.__delegate.configureItem = function(item) {
-        item.setChildren(new qx.data.Array(new qx.test.ListItem(), new qx.test.ListItem()));
+        item.setChildren(childItems);
       }
 
       this.__controller.set({
@@ -254,10 +258,18 @@ qx.Class.define("qx.test.data.controller.ListReverse",
 
       // get rid of the created items
       for (var i = 0; i < items.length; i++) {
+        if (items[i].getChildren().getItem(0)) {
+          items[i].getChildren().getItem(0).dispose();
+        }
         items[i].getChildren().setItem(0, null);
+        if (items[i].getChildren().getItem(1)) {
+          items[i].getChildren().getItem(1).dispose();
+        }
         items[i].getChildren().setItem(1, null);
         items[i].setChildren(null);
       };
+      
+      childItems.dispose();
     }
   }
 });

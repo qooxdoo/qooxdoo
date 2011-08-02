@@ -81,7 +81,10 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
     tearDown : function()
     {
       this.flush();
+      this.__controller.dispose();
       this.__controller = null;
+      this.__model.setAutoDisposeItems(true);
+      this.__model.dispose();
       this.__model = null;
       this.__data = null;
       this.__list.dispose();
@@ -171,6 +174,8 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
         this.__data.push(obj);
       }
       // create a new array
+      this.__model.setAutoDisposeItems(true);
+      this.__model.dispose();
       this.__model = new qx.data.Array(this.__data);
       this.__controller.setModel(this.__model);
 
@@ -321,9 +326,9 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
       this.__controller = new qx.data.controller.List(this.__model, this.__list, "name");
       this.__controller.setLabelOptions(options);
 
-      // change something to inkoe a change of a binding
-      this.__data.pop();
-      this.__model.pop();
+      // change something to invoke a change of a binding
+      this.__data.pop().dispose();
+      this.__model.pop().dispose();
 
       // check the binding
       for (var i = 0; i < this.__data.length; i++) {
@@ -400,10 +405,20 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
 
       this.assertEquals(parentC.getName(), this.__list.getChildren()[2].getModel().getName(), "Wrong model stored before the splice.");
 
-      parents.splice(parents.indexOf(parentB), 1);
+      var temp = parents.splice(parents.indexOf(parentB), 1);
+      temp.getItem(0).getKid().dispose();
+      temp.setAutoDisposeItems(true);
+      temp.dispose();
 
       this.assertEquals("parentC", this.__list.getChildren()[1].getLabel(), "Wrong name of the parent.");
       this.assertEquals(parentC, this.__list.getChildren()[1].getModel(), "Wrong model stored after the splice.");
+      
+      // clean up
+      for (var i=0; i<parents.length; i++) {
+        parents.getItem(i).getKid().dispose();
+      }
+      parents.setAutoDisposeItems(true);
+      parents.dispose();
     },
 
     testModelProperty : function()
