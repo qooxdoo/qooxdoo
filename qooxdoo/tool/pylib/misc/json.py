@@ -35,9 +35,13 @@ load = json.load
 ##
 # default compact encoding to serialize JS code
 #
-
 def dumpsCode(data, **kwargs):
     return dumps(data, sort_keys=True, ensure_ascii=False, separators=(',', ':'), **kwargs)
+
+
+def dumpsPretty(data, **kwargs):
+    return dumps(data, ensure_ascii=False, indent=2, separators=(', ', ' : '), **kwargs)
+
 
 _eolComment = re.compile(r'(?<![a-zA-Z]:)//.*$', re.M)
 _mulComment = re.compile(r'/\*.*?\*/', re.S)
@@ -47,3 +51,4 @@ def loadStripComments(path, **kwargs):
     s = _eolComment.sub('',s)
     s = _mulComment.sub('',s)
     return loads(s, **kwargs)
+

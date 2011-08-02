@@ -23,8 +23,8 @@
 import re, os, sys, shutil, logging, optparse
 import qxenviron
 from misc.ExtendAction import ExtendAction
-from misc import filetool
-from misc import textutil
+from misc import filetool, textutil, json
+from misc.ExtMap import ExtMap
 from ecmascript.frontend import tokenizer
 from ecmascript.frontend import treegenerator
 from ecmascript.backend  import pretty
@@ -647,6 +647,86 @@ def migrate(fileList, options, migrationTarget,
 
 
 
+def patchConfig(configPath, migVersions):
+
+    def loadConfpy(confpyPath):
+        namespace = {}
+        execfile(confpyPath, namespace)
+        return namespace
+
+    def handleMap(extmap, key, action):
+        changed = False
+        # string-value action
+        if key in extmap:
+            if isinstance(action, types.StringTypes): # it's a rename
+                if action == "": # it's a delete
+                    extmap.delete(key)
+                else:
+                    extmap.rename(key, action)
+            # function-value action
+            elif isinstance(action, types.FunctionType):
+                currval = extmap.get(key)
+                action(extmap, key, currval)
+            changed = True
+        return changed
+
+    def applyToConfig(config, confpy):
+        # load conf.py
+        confMig = loadConfpy(confpy)
+        changed = False
+
+        for key, action in confMig["transformations"].items():
+            if not key.startswith("/"):  # job-level key
+                for job in config.get("jobs").values():
+                    job = ExtMap(job)
+                    changed = handleMap(job, key, action) or changed
+        return changed
+
+
+    def write_new(config):
+        conf_str = json.dumpsPretty(config.getData())
+        filetool.save(configPath, conf_str)
+        return
+
+    def write_backup(configPath):
+        import shutil
+        configPathBackup = configPath + ".orig"
+        if not os.path.exists(configPathBackup):
+            shutil.copy(configPath, configPathBackup)
+        return
+
+    def get_confpy(vers):
+        res = None
+        versionPatchPath = os.path.join(getPatchDirectory(), vers)
+        # require a potential config.py in the root directory
+        if os.path.exists(versionPatchPath + '/' + "config.py"):
+            res = os.path.join(versionPatchPath, "config.py")
+        return res
+
+    # --------------------------------------------------------------------------
+
+    # get current config
+    config = json.loadStripComments(configPath)
+    config = ExtMap(config)
+
+    # apply migration files
+    changed = False
+    for vers in migVersions:
+        confpy = get_confpy(vers)
+        if confpy:
+            changed = applyToConfig(config, confpy) or changed
+
+    # write new config
+    if changed:
+        # backup old config
+        write_backup(configPath)
+        # write new config
+        write_new(config)
+
+    return
+
+
+
 def patchMakefile(makefilePath, newVersion, oldVersion):
     patchMakefileRe = re.compile("^(\s*QOOXDOO_VERSION\s*=\s*)%s" % oldVersion)
     patchProjectMk = re.compile("\bproject.mk\b")
@@ -706,6 +786,11 @@ def main():
           "-m", "--from-makefile",
           dest="makefile", metavar="MAKEFILE",
           help="Makefile of the skeleton project to migrate (optional)"
+    )
+    migrator_options.add_option(
+          "-c", "--migrate-config",
+          dest="config", metavar="CONFIG_JSON",
+          help="Configuration file of the skeleton project to migrate (optional)"
     )
     migrator_options.add_option(
           "--from-version", dest="from_version",
@@ -882,6 +967,10 @@ Do you want to start the migration now? [no] : """ % LOGFILE)
     # patch makefile
     if not options.makefile is None:
       patchMakefile(options.makefile, MIGRATION_ORDER[-1], options.from_version)
+
+    # patch config
+    if options.config is not None:
+        patchConfig(options.config, neededUpdates)
 
     print """
 

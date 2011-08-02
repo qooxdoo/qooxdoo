@@ -94,10 +94,46 @@ class ExtMap(object):
         return
 
     
+    def __delitem__(self, key):
+        data = self._data
+
+        if key in data:
+            del data[key]
+        else:
+            splits = key.split('/')
+            splitslen = len(splits)
+            for i in range(splitslen):
+                part = splits[i]
+                if part in (".", ""):
+                    pass
+                elif isinstance(data, types.DictionaryType):
+                    if i == splitslen-1: # it's the last
+                        del data[part]
+                    else:
+                        if part not in data:
+                            return # nothing to delete
+                        else:
+                            data = data[part]
+                else:  # the given key doesn't lead to a map
+                    raise ValueError("Cannot delete from non-dict data value: %s" % "/".join(splits[:i+1]))
+
+
+    def delete(self, key):
+        self.__delitem__(key)
+
+
     def set(self, key, value):
         """Sets a (possibly nested) data element in the dict
         """
         return self.__setitem__(key, value)
+
+    ##
+    # Rename a map key.
+    def rename(self, key, newkey):
+        val = self.get(key)
+        self.set(newkey, val)
+        self.delete(key)
+        return
 
 
     def __contains__(self, item):
