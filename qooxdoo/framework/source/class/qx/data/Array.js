@@ -67,6 +67,7 @@ qx.Class.define("qx.data.Array",
     // error case
     } else {
       this.__array = [];
+      this.dispose();
       throw new Error("Type of the parameter not supported!");
     }
 
