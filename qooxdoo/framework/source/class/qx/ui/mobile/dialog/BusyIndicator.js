@@ -32,7 +32,10 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
      CONSTRUCTOR
   *****************************************************************************
   */
-
+ 
+  /**
+   * @param infoText {String?null} the message to be shown.
+   */
   construct : function(infoText)
   {
     this.base(arguments);
@@ -54,6 +57,11 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
     __infoLabel : null,
     __widgetContainer : null,
     
+    /**
+     * Creates the DOM elements necessary to show the indicator.
+     * @param labelText {String?null} the message to be shown.
+     * 
+     */
     __createChildren : function(labelText)
     {
       this.__widgetContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY: "middle"}));
