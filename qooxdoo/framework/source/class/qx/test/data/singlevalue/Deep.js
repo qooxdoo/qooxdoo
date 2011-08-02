@@ -288,6 +288,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
 
     testArrayDeep: function() {
+      this.__a.getArray().dispose();
       this.__a.setArray(new qx.data.Array([this.__b1]));
       this.__b1.setChild(this.__b2);
       this.__b2.setChild(this.__b1);
@@ -327,6 +328,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
     },
 
     testDeepTargetArray: function() {
+      this.__a.getArray().dispose();
       this.__a.setArray(new qx.data.Array([this.__b1]));
 
       qx.data.SingleValueBinding.bind(this.__a, "name", this.__a, "array[0].lab.value");
@@ -335,6 +337,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
     },
 
     testDeepTargetArrayLast: function() {
+      this.__a.getArray().dispose();
       this.__a.setArray(new qx.data.Array([this.__b1]));
 
       qx.data.SingleValueBinding.bind(this.__a, "name", this.__a, "array[last].lab.value");

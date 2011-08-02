@@ -474,6 +474,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
       this.assertTrue(fail, "onSetFail not called.");
       this.assertFalse(ok, "onUpdate called?!");
+      target.dispose();
     },
 
 
@@ -537,6 +538,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       o.setA(0);
       this.assertEquals(false, o.getB(), "Number -> Boolean");
       qx.data.SingleValueBinding.removeBindingFromObject(o, id);
+      o.dispose();
     },
 
 
