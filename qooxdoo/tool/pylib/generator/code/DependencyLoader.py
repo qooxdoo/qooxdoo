@@ -142,7 +142,7 @@ class DependencyLoader(object):
             # Handle qx.core.Environment
             if depsItem.name == "qx.core.Environment" and firstTime[0]:
                 envObj = self._classesObj["qx.core.Environment"]
-                envTreeId = "tree-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
+                envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
                 self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
                 firstTime[0] = False
 
@@ -181,8 +181,8 @@ class DependencyLoader(object):
                         classlistFromClassRecursive(subitem, excludeWithDeps, variants, result, warn_deps, loadDepsChain, allowBlockLoaddeps)
 
                 ##
-                # putting this here allows sorting and expanding of the class
-                # list in one go!
+                # putting this here allows expanding and partially sorting of the class
+                # list in one go
                 if depsItem.name not in resultNames:
                     result.append(depsItem)
                     resultNames.append(depsItem.name)
@@ -299,8 +299,8 @@ class DependencyLoader(object):
                     and "variants" in script.optimize
                     and not processedEnvironment):
                     envObj = self._classesObj["qx.core.Environment"]
-                    envTreeId = "tree-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
-                    compOpts = CompileOptions(optimize=[], variants=variants)
+                    envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
+                    compOpts = CompileOptions(optimize=["variants"], variants=variants)
                     compOpts.allClassVariants = script.classVariants([self._classesObj[x] for x in resultNames])
                     tree = Class.optimizeEnvironmentClass(envObj, compOpts)
                     self._cache.write(envTreeId, tree, memory=True, writeToFile=False)
@@ -458,7 +458,7 @@ class DependencyLoader(object):
             # reading dependencies
             if classId == "qx.core.Environment":
                 envObj = self._classesObj["qx.core.Environment"]
-                envTreeId = "tree-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
+                envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
                 self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
             deps, cached = self.getCombinedDeps(classId, variants, buildType)
 

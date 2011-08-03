@@ -195,10 +195,6 @@ class MClassDependencies(object):
                 classInfo[cacheId] = (deps, time.time())
                 self._writeClassCache(classInfo)
         
-        if self.id == "qx.core.Environment":
-            #print (sorted(deps['load'], key=str))
-            #print len(deps['load'])
-            pass
         return deps, cached
 
         # end:dependencies()
