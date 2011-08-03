@@ -530,7 +530,7 @@ qx.Class.define("qx.lang.Array",
         }
         else
         {
-          hash = value[key]
+          var hash = value[key];
 
           if (hash == null) {
             hash = value[key] = count++;
