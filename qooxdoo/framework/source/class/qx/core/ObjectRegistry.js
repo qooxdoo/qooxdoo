@@ -90,10 +90,10 @@ qx.Class.define("qx.core.ObjectRegistry",
         // Store hash code
         obj.$$hash = hash;
 
-        if (qx.core.Environment.get("qx.debug.dispose") && qx.dev
-          && qx.dev.Debug && qx.dev.Debug.disposeProfilingActive)
-        {
-          this.__stackTraces[hash] = qx.dev.StackTrace.getStackTrace();
+        if (qx.core.Environment.get("qx.debug.dispose")) {
+          if (qx.dev && qx.dev.Debug && qx.dev.Debug.disposeProfilingActive) {
+            this.__stackTraces[hash] = qx.dev.StackTrace.getStackTrace();
+          }
         }
       }
 
