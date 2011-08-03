@@ -218,7 +218,9 @@
 
       "environment" :
       {
-        "qx.debug" : false
+        "qx.debug" : false,
+        "qx.debug.databinding" : false,
+        "qx.debug.dispose" : false
       },
 
       "compile-options" :
@@ -274,7 +276,9 @@
 
       "environment" :
       {
-        "qx.debug" : false
+        "qx.debug" : false,
+        "qx.debug.databinding" : false,
+        "qx.debug.dispose" : false
       },
 
       "copy-resources" :
@@ -360,7 +364,9 @@
 
       ,"environment" :
       {
-        "qx.debug" : false
+        "qx.debug" : false,
+        "qx.debug.databinding" : false,
+        "qx.debug.dispose" : false
       }
 
       ,"provider" : 
