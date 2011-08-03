@@ -32,6 +32,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#optional(qx.data.IListData)
+
+************************************************************************ */
+
 /**
  * Static helper functions for arrays with a lot of often used convenience
  * methods like <code>remove</code> or <code>contains</code>.
@@ -80,9 +86,12 @@ qx.Class.define("qx.lang.Array",
         return object;
       }
 
-      if (qx.Class.hasInterface(object, qx.data.IListData)) {
-        var object = object.toArray();
+      if (qx.data && qx.data.IListData) {
+        if (qx.Class.hasInterface(object, qx.data.IListData)) {
+          var object = object.toArray();
+        }
       }
+
 
       // Create from given constructor
       var ret = new constructor;
