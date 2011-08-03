@@ -745,7 +745,7 @@ class MClassDependencies(object):
                     console.debug( "shallow dependencies: %r" % (depslist,))
 
                     # This depends on attribNode belonging to current class
-                    my_ignores = self.getHints("ignoreDeps")
+                    my_ignores = self.getHints("ignoreDeps") + self.getHints("optionalDeps")
 
                     for depsItem in depslist:
                         if depsItem in totalDeps:
