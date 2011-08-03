@@ -1105,7 +1105,7 @@ class Generator(object):
                     graphAddNode(gr, depId)
                 if loadOrRun == 'load' and pLoadOrRun != "runtime":
                     gr.add_edge(classId, depId, attrs = loadAttrs)
-                elif loadOrRun == 'run' and pLoadOrRun != "loadtime":
+                if loadOrRun == 'run' and pLoadOrRun != "loadtime":
                     gr.add_edge(classId, depId, attrs = runAttrs)
 
             return
