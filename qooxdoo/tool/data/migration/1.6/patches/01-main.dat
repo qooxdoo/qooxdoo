@@ -1,0 +1,1 @@
+^(\s*#)optional(\(.*\))$=\1ignore\2
