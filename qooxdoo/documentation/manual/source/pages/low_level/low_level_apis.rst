@@ -35,6 +35,8 @@ The ``qx.bom.element`` package allows you to manipulate DOM elements in almost a
 
 The following manipulations are offered by the ``qx.bom.element`` package:
 
+.. index:: dimension, location, scroll, overflow, style, CSS, decoration, opacity, animation, attribute, property, background, cursor
+
 * Dimension and location
 * Box-sizing - supports the modes ``content-box`` (W3C model) and ``border-box`` (Microsoft model)
 * Scroll and overflow

@@ -248,6 +248,8 @@ In the overall queue of jobs to be performed, the initial job is replaced by the
 "asset-let" Key
 ===============
 
+.. index:: compiler hint
+
 The ``asset-let`` key is basically a :ref:`macro <pages/tool/generator_config_articles#let_key>` definition for ``#asset`` compiler hints, but with a special semantics. Keys defined in the "asset-let" map will be looked for in *#asset* hints in source files. Like with macros, references have to be in curly braces and prefixed with ``$``. So a "asset-let" entry in the config might look like this:
 
 ::
@@ -694,4 +696,3 @@ Browser-specific Builds
 
 By predefining select environment keys, builds can be tailored towards specific clients. See the :ref:`Feature Configuration Editor article <pages/application/featureconfigeditor#featureconfigeditor>` for instructions.
 
-.. index: compiler hint

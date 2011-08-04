@@ -1,16 +1,8 @@
-.. .. rubric:: Table of Contents
-.. .. title:: Tabel of Contents
-.. .. header:: Table of Contents
-
 .. only:: html
 
   ====================
   Table of Contents
   ====================
-
-.. _index#introduction:
-
-.. Introduction
 
 .. toctree::
    :maxdepth: 3

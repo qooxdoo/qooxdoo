@@ -1,5 +1,7 @@
 .. _pages/qooxdoo_animation#qooxdoo_animation:
 
+.. index:: animation
+
 qooxdoo Animation
 *****************
 

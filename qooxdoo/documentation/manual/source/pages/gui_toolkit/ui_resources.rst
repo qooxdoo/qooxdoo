@@ -23,6 +23,8 @@ The libraries are searched in the order they are declared in your config.json fi
 Declaring resources in the code
 ===============================
 
+.. index:: compiler hint
+
 You have to declare the resources you wish to use in your application code in an ``#asset`` compiler hint near the top of your source file.
 
 ::
@@ -116,4 +118,5 @@ To obtain a URL for a resource, use the `ResourceManager <http://demo.qooxdoo.or
 
     var iframe = new
     qx.ui.embed.Iframe(qx.util.ResourceManager.getInstance().toUri("myapp/html/FAQ.htm"));
+
 

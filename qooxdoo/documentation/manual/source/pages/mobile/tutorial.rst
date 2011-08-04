@@ -109,6 +109,8 @@ when you want to display a page.
 Navigation between Pages
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. index:: animation, page
+
 qooxdoo mobile comes with different `animations`_ for page transitions.
 Showing a second page is as easy as showing one page. Just call the
 ``show`` method of the second page and qooxdoo will do the rest. To
