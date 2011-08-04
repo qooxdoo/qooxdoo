@@ -83,8 +83,15 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
      * @param styles {Map} A map to add the styles.
      */
     _styleBoxShadow : function(styles) {
-      var Color = qx.theme.manager.Color.getInstance();
-      var color = Color.resolve(this.getShadowColor());
+      if (qx.core.Environment.get("qx.theme"))
+      {
+        var Color = qx.theme.manager.Color.getInstance();
+        var color = Color.resolve(this.getShadowColor());
+      }
+      else
+      {
+        var color = this.getShadowColor();
+      }
 
       if (color != null) {
         var vLength = this.getShadowVerticalLength() || 0;

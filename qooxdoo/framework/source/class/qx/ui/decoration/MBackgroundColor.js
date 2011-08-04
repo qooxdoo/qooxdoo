@@ -45,13 +45,16 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
      * @param styles {Map} A map of styles to apply.
      */
     _tintBackgroundColor : function(element, bgcolor, styles) {
-      var Color = qx.theme.manager.Color.getInstance();
-
       if (bgcolor == null) {
         bgcolor = this.getBackgroundColor();
       }
 
-      styles.backgroundColor = Color.resolve(bgcolor) || "";
+      if (qx.core.Environment.get("qx.theme"))
+      {
+        bgcolor = qx.theme.manager.Color.getInstance().resolve(bgcolor);
+      }
+
+      styles.backgroundColor = bgcolor || "";
     },
 
 

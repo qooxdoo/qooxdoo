@@ -107,7 +107,18 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
      * @param styles {Map} A map to add the styles.
      */
     _styleLinearBackgroundGradient : function(styles) {
-      var Color = qx.theme.manager.Color.getInstance();
+      if (qx.core.Environment.get("qx.theme"))
+      {
+        var Color = qx.theme.manager.Color.getInstance();
+        var startColor = Color.resolve(this.getStartColor());
+        var endColor = Color.resolve(this.getEndColor());
+      }
+      else
+      {
+        var startColor = this.getStartColor();
+        var endColor = this.getEndColor();
+      }
+
       var unit = this.getColorPositionUnit();
 
       // new implementation for webkit is available since chrome 10 --> verison
@@ -126,8 +137,8 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         }
 
         var color =
-          "from(" + Color.resolve(this.getStartColor()) +
-          "),to(" + Color.resolve(this.getEndColor()) + ")";
+          "from(" + startColor +
+          "),to(" + endColor + ")";
 
         var value = "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")";
         styles["background"] = value;
@@ -135,8 +146,8 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       // spec like syntax
       } else {
         var deg = this.getOrientation() == "horizontal" ? 0 : 270;
-        var start = Color.resolve(this.getStartColor()) + " " + this.getStartColorPosition() + unit;
-        var end = Color.resolve(this.getEndColor()) + " " + this.getEndColorPosition() + unit;
+        var start = startColor + " " + this.getStartColorPosition() + unit;
+        var end = endColor + " " + this.getEndColorPosition() + unit;
 
         var prefix = "";
         if (qx.core.Environment.get("engine.name") == "gecko") {

@@ -56,7 +56,8 @@
       {
         "qx.debug" : false,
         "qx.aspects" : false,
-        "qx.globalErrorHandling" : false
+        "qx.globalErrorHandling" : false,
+        "qx.theme" : null
       },
 
       "compile-options" :
@@ -74,7 +75,7 @@
         "code" :
         {
           "format"   : true,
-          "optimize" : [ "variables", "basecalls", "privates", "strings" ],
+          "optimize" : [ "variables", "basecalls", "privates", "strings", "variants" ],
           "except"   : []
         }
       },
