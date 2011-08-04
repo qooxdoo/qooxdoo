@@ -28,6 +28,45 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
 
   members :
   {
+    /**
+     * Returns the styles of the decorator as a map with property names written
+     * in javascript style (e.g. <code>fontWeight</code> instead of <code>font-weight</code>).
+     * 
+     * @return {Map} style information
+     */
+    getStyles : function()
+    {
+      var jsStyles = {};
+      var cssStyles = this._getStyles();
+
+      for (var property in cssStyles)
+      {
+        jsStyles[qx.lang.String.camelCase(property)] = cssStyles[property];
+      }
+
+      return jsStyles;
+    },
+
+
+    /**
+     * Collects all the style information of the decorators which is necessary
+     * to create the markup.
+     *
+     * @return {Map} style information
+     */
+    _getStyles : function()
+    {
+      var styles = {};
+
+      for (var name in this) {
+        if (name.indexOf("_style") == 0 && this[name] instanceof Function) {
+          this[name](styles);
+        }
+      }
+
+      return styles;
+    },
+
     // overridden
     getMarkup : function() {
       if (this._markup) {
@@ -35,12 +74,7 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
       }
 
       // get the styles
-      var styles = {};
-      for (var name in this) {
-        if (name.indexOf("_style") == 0 && this[name] instanceof Function) {
-          this[name](styles);
-        }
-      }
+      var styles = this._getStyles();
 
       // build the markup
       if (!this._generateMarkup) {
