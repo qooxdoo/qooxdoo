@@ -23,6 +23,7 @@
 #require(qx.event.handler.Window)
 #optional(qx.ui.popup.Manager)
 #optional(qx.ui.menu.Manager)
+#ignore(qx.ui)
 
 ************************************************************************ */
 
