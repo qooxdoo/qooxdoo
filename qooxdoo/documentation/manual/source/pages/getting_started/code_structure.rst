@@ -12,28 +12,27 @@ This is how a single source file should look like. Ahead of the detailed listing
 * The base **class name** (like "Application" in *"custom.Application"*) has to match the **file name** (e.g. *"Application.js"*).
 * The class **name space** (like "custom" in *"custom.Application"*) has to match the **directory path** of the file under the ``source/class`` root (like e.g. *"custom/Application.js"*).
 
-  * This applies recursively for sub-directories. E.g. a class in the file *"custom/foo/Bar.js"* has to be named "custom.foo.Bar".
+  * This applies recursively for sub-directories. E.g. a class in the file *"custom/foo/Bar.js"* has to be named *"custom.foo.Bar"*.
 
 
 Details
 =======
 
-* **UTF-8 encoding**:All source files should be encoded in UTF-8.
-* **(optional) Header**:A comment holding author, copyrights, etc.
-* **(optional) Compiler Hints**:Can be any number of the following:
+* **UTF-8 encoding** : All source files should be encoded in UTF-8.
+* **Header** *(optional)* : A comment holding author, copyrights, etc.
+* **Compiler Hints** *(optional)* : Enclosed in a block comment you can have any number of the following lines (leading white space is ignored):
 
-  * **#use**\ (classname) -- other class that has to be added to the application; a "run" dependency that has to be available when the current class is actually used (instantiation, method invocation)
-  * **#require**\ (classname)  -- other class that has to be added to the application before this class; a "load" dependency that has to be available when the current class is loaded into the browser (its code being evaluated)
-  * **#ignore**\ (classname)  -- unknown global symbol (like a class name) that the compiler should not care about (i.e. you know it will be available in the running application). Ignored symbols will not be warned about. Besides proper class names there are two special symbols you can use:
+  * **#use**\ *(classname)* : Other class that has to be added to the application; a "run" dependency that has to be available when the current class is actually used (instantiation, method invocation)
+  * **#require**\ *(classname)*  : Other class that has to be added to the application before this class; a "load" dependency that has to be available when the current class is loaded into the browser (i.e. its code is being evaluated)
+  * **#ignore**\ *(symbol)*  : Unknown global symbol (like a class name) that the compiler should not care about (i.e. you know it will be available in the running application). Ignored symbols will not be added to either the run or load dependencies of the class, and will not be warned about. Besides proper identifiers there are two special symbols you can use:
 
-    * *auto-require*  -- ignore all *require* dependencies detected by the automatic analysis; they will not be added to the class' load dependencies
-    * *auto-use*  -- ignore all *use* dependencies detected by the automatic analysis; they will not be added to the class' run dependencies
+    * **auto-require** : Ignore all *require* dependencies detected by the automatic analysis; they will not be added to the class' load dependencies
+    * **auto-use** : Ignore all *use* dependencies detected by the automatic analysis; they will not be added to the class' run dependencies
 
-  * **#optional**\ (classname) -- this symbol will not be added to either the run or load dependencies of the current class, even if it was detected as a dependency by the automatic analysis
-  * **#asset**\ (resourcepattern)  -- resources that are used by this class (required if the class uses resources such as icons)
-  * **#cldr** -- indicates that this class requires CLDR data at runtime
+  * **#asset**\ *(resourcepattern)* : Resources that are used by this class (required if the class uses resources such as icons)
+  * **#cldr** : Indicates that this class requires CLDR data at runtime
 
-* **Single Definition**: One call to a *define()* method, such as qx.(:doc:`Class </pages/core/classes>`\|\ :doc:`Theme </pages/gui_toolkit/ui_theming>`\|\ :doc:`Interface </pages/core/interfaces>`\|\ :doc:`Mixin </pages/core/mixins>`\|...).define().
+* **Single Definition** : One call to a *define()* method, such as qx.(:doc:`Class </pages/core/classes>`\|\ :doc:`Theme </pages/gui_toolkit/ui_theming>`\|\ :doc:`Interface </pages/core/interfaces>`\|\ :doc:`Mixin </pages/core/mixins>`\|...).define().
 
 Example:
 
