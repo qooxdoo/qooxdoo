@@ -75,6 +75,7 @@ MIGRATION_ORDER = [
     "1.4.1",
     "1.4.2",
     "1.5",
+    "1.6",
 ]
 
 
@@ -839,7 +840,7 @@ def main():
     (options, args) = parser.parse_args()
     pretty.defaultOptions(options)
 
-    default_old_version = "1.4"
+    default_old_version = "1.5"
 
     while options.from_version == "":
         choice = raw_input("""
