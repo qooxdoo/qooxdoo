@@ -271,6 +271,10 @@
       /**
        * Converts a HTML string into a collection
        *
+       * Please make sure you understand the security implications of this
+       * method when passing HTML strings from untrusted input. See
+       * {@link qx.bom.Html#clean}.
+       *
        * @param html {String} String containing one or multiple elements or pure text content
        * @param context {Element|Document?document} Context in which newly DOM elements are created from the markup
        * @return {Collection} Collection containing the create DOM elements
@@ -291,6 +295,10 @@
 
       /**
        * Processes the input and translates it to a collection instance.
+       *
+       * Please make sure you understand the security implications of this
+       * method when passing HTML strings from untrusted input. See
+       * {@link qx.bom.Html#clean}.
        *
        * @see #query
        * @see #id
@@ -1437,6 +1445,10 @@
        * Supports lists of DOM elements or HTML strings through a variable
        * argument list.
        *
+       * Please make sure you understand the security implications of this
+       * method when passing HTML strings from untrusted input. See
+       * {@link qx.bom.Html#clean}.
+       *
        * @param varargs {Element|String} A reference to an DOM element or a HTML string
        * @return {Collection} The collection is returned for chaining proposes
        */
@@ -1450,6 +1462,10 @@
        *
        * Supports lists of DOM elements or HTML strings through a variable
        * argument list.
+       *
+       * Please make sure you understand the security implications of this
+       * method when passing HTML strings from untrusted input. See
+       * {@link qx.bom.Html#clean}.
        *
        * @param varargs {Element|String} A reference to an DOM element or a HTML string
        * @return {Collection} The collection is returned for chaining proposes
