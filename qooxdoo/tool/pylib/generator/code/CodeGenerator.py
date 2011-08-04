@@ -585,7 +585,7 @@ class CodeGenerator(object):
         #
         def optimizeEnvironmentClass(envClass, compConf):
             assert envClass.id == "qx.core.Environment"
-            tree = Class.optimizeEnvironmentClass(envClass, compConf)
+            tree = envClass.optimizeEnvironmentClass(compConf)
             code = Packer().serializeNode(tree, None, [u''], compConf.format)
             code = u''.join(code)
             return code

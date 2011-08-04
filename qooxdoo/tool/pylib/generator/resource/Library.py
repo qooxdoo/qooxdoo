@@ -26,6 +26,7 @@ from misc                         import filetool, Path
 from misc.NameSpace               import NameSpace
 from ecmascript.frontend          import lang
 from generator.code.Class         import Class
+from generator.code.qcEnvClass    import qcEnvClass
 from generator.resource.Resource  import Resource
 from generator.resource.Image     import Image
 from generator.resource.CombinedImage import CombinedImage
@@ -368,7 +369,10 @@ class Library(object):
                 contextdict["console"] = context.console
                 contextdict["cache"] = context.cache
                 contextdict["jobconf"] = context.jobconf
-                clazz = Class(filePathId, filePath, self, contextdict, self._classesObj)
+                if filePathId == "qx.core.Environment":
+                    clazz = qcEnvClass(filePathId, filePath, self, contextdict, self._classesObj)
+                else:
+                    clazz = Class(filePathId, filePath, self, contextdict, self._classesObj)
                 clazz.encoding = encoding
                 clazz.size     = fileSize     # dependency logging uses this
                 clazz.package  = filePackage  # Apiloader uses this

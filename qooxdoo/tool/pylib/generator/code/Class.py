@@ -145,16 +145,6 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
         return False #self.id == "qx.core.Environment"
 
 
-    @staticmethod
-    def optimizeEnvironmentClass(envClass, compOptions):
-        tree = envClass.tree(compOptions.variantset)
-        # has to come before string optimization, or the "qx.debug" etc args are gone
-        tree = variantoptimizer.processEnvironmentClass(tree, compOptions.allClassVariants)
-        if compOptions.optimize:
-            tree = envClass.optimize(tree, compOptions.optimize)
-        return tree
-
-
 
 ##
 # Duplication with clazz.ClassDependencies.DependencyItem

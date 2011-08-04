@@ -141,9 +141,10 @@ class DependencyLoader(object):
 
             # Handle qx.core.Environment
             if depsItem.name == "qx.core.Environment" and firstTime[0]:
-                envObj = self._classesObj["qx.core.Environment"]
-                envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
-                self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
+                #envObj = self._classesObj["qx.core.Environment"]
+                #envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
+                #self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
+                self._classesObj["qx.core.Environment"].clearTreeCache(variants)
                 firstTime[0] = False
 
             # reading dependencies
@@ -298,17 +299,20 @@ class DependencyLoader(object):
                 if ("qx.core.Environment" in resultNames 
                     and "variants" in script.optimize
                     and not processedEnvironment):
-                    envObj = self._classesObj["qx.core.Environment"]
-                    envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
-                    compOpts = CompileOptions(optimize=["variants"], variants=variants)
-                    compOpts.allClassVariants = script.classVariants([self._classesObj[x] for x in resultNames])
-                    tree = Class.optimizeEnvironmentClass(envObj, compOpts)
-                    self._cache.write(envTreeId, tree, memory=True, writeToFile=False)
-                    # this is for the side-effect of leaving a modified tree for qx.core.Environmet
-                    # in the cache!
-                    _ = envObj.dependencies(variants, force=True)
-                    # this is for the side-effect of re-calculating the transitive dependencies
-                    # of qx.core.Environment!
+                    #envObj = self._classesObj["qx.core.Environment"]
+                    #envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
+                    #compOpts = CompileOptions(optimize=["variants"], variants=variants)
+                    #compOpts.allClassVariants = script.classVariants([self._classesObj[x] for x in resultNames])
+                    #tree = Class.optimizeEnvironmentClass(envObj, compOpts)
+                    #self._cache.write(envTreeId, tree, memory=True, writeToFile=False)
+                    ## this is for the side-effect of leaving a modified tree for qx.core.Environmet
+                    ## in the cache!
+                    #_ = envObj.dependencies(variants, force=True)
+                    ## this is for the side-effect of re-calculating the transitive dependencies
+                    ## of qx.core.Environment!
+                    
+                    self._classesObj["qx.core.Environment"].optimizeTree(variants, script.classVariants([self._classesObj[x] for x in resultNames]))
+
                     processedEnvironment = True
                 else:
                     # We currently know that one additional iteration is enough,
@@ -457,9 +461,11 @@ class DependencyLoader(object):
 
             # reading dependencies
             if classId == "qx.core.Environment":
-                envObj = self._classesObj["qx.core.Environment"]
-                envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
-                self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
+                #envObj = self._classesObj["qx.core.Environment"]
+                #envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
+                #self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
+                #print envTreeId
+                self._classesObj["qx.core.Environment"].clearTreeCache(variants)
             deps, cached = self.getCombinedDeps(classId, variants, buildType)
 
             if self._console.getLevel() is "info":
