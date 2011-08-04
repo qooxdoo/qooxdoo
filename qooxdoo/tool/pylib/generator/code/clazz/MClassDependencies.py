@@ -27,6 +27,7 @@ import sys, os, types, re, string, time
 from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.Script     import Script
 from ecmascript.frontend.tree       import Node, NodeAccessException
+from ecmascript.transform.optimizer import variantoptimizer
 from misc import util
 
 QXGLOBALS = [
