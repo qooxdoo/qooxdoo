@@ -7,8 +7,8 @@
 # Transformation functions have to have this signature:
 #   foo(extMap, key, val)
 # where
-# - extMap : a generator Json map, wrapped as misc.ExtMap
-# - key    : the (path-like) to be changed
+# - extMap : a generator config.json map, wrapped as misc.ExtMap
+# - key    : the (path-like) key to be changed
 # - val    : the current value of the key
 
 # As an example, this is a structure changing
