@@ -47,13 +47,7 @@ qx.Class.define("qx.lang.Json",
      *   this member points to <code>window.JSON</code>. Otherwise it points to
      *   the qooxdoo implementation {@link JsonImpl}.
      */
-    JSON : (function() {
-      if (qx.core.Environment.get("json")) {
-        return window.JSON;
-      } else {
-        return new qx.lang.JsonImpl();
-      }
-    })(),
+    JSON : qx.core.Environment.get("json") ? window.JSON : new qx.lang.JsonImpl(),
 
     /**
      * This method produces a JSON text from a JavaScript value.
