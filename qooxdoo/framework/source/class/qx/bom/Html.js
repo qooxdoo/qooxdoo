@@ -171,6 +171,11 @@ qx.Class.define("qx.bom.Html",
      * When a <code>fragment</code> is given the nodes are appended to this
      * fragment except the script tags. These are returned in a separate Array.
      *
+     * Please note: HTML coming from user input must be validated prior
+     * to passing it to this method. HTML is temporarily inserted to the DOM
+     * using <code>innerHTML</code>. As a consequence, scripts included in
+     * attribute event handlers may be executed.
+     *
      * @param objs {Element[]|String[]} Array of DOM elements or HTML strings
      * @param context {Document?document} Context in which the elements should be created
      * @param fragment {Element?null} Document fragment to appends elements to

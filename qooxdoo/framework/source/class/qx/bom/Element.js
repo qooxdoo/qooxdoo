@@ -154,6 +154,10 @@ qx.Class.define("qx.bom.Element",
      * Attributes may be given directly with this call. This is critical
      * for some attributes e.g. name, type, ... in many clients.
      *
+     * Depending on the kind of attributes passed, <code>innerHTML</code> may be
+     * used internally to assemble the element. Please make sure you understand
+     * the security implications. See {@link qx.bom.Html#clean}.
+     *
      * @param name {String} Tag name of the element
      * @param attributes {Map?} Map of attributes to apply
      * @param win {Window?} Window to create the element for
