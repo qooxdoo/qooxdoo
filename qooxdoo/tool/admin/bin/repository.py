@@ -31,6 +31,14 @@ console = Log(None, "info")
 global shell
 shell = ShellCmd()
 
+qxPatchReleases = {
+  "1.4" : "1.4.2",
+  "1.3" : "1.3.1",
+  "1.2" : "1.2.2",
+  "1.1" : "1.1.2",
+  "1.0" : "1.0.1"
+}
+
 class Repository:
   def __init__(self, repoDir, config=None):
     self.dir = os.path.abspath(repoDir)
@@ -454,11 +462,13 @@ class LibraryVersion:
       if buildTarget == "build":
         #get the compatible qooxdoo versions of the library version
         for qxVersion in qxVersions:
-          if not qxVersion in buildQueue:
-            buildQueue[qxVersion] = []
           if qxVersion[:2] == "0.":
             console.info("Skipping build against legacy qooxdoo version %s for %s %s %s" %(qxVersion, self.parent.name, self.name, variantName))
             continue
+          if qxVersion in qxPatchReleases:
+            qxVersion = qxPatchReleases[qxVersion]
+          if not qxVersion in buildQueue:
+            buildQueue[qxVersion] = []
           
           if not (demoBrowser and options.copydemos):
             buildPath = qxVersion
