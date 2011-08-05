@@ -80,6 +80,7 @@ class MClassDependencies(object):
             metaRun      = meta.get("runtimeDeps" , [])
             metaOptional = meta.get("optionalDeps", [])
             metaIgnore   = meta.get("ignoreDeps"  , [])
+            metaIgnore.extend(metaOptional)
 
             # Parse all meta keys for '#'
             for container,provider in ((load,metaLoad), (run,metaRun), (ignore,metaIgnore)):
@@ -98,7 +99,7 @@ class MClassDependencies(object):
                 if dep.isLoadDep:
                     if not "auto-require" in metaIgnore:
                         item = dep.name
-                        if item in metaOptional:
+                        if item in metaIgnore:
                             pass
                         elif item in metaLoad:
                             console.warn("%s: #require(%s) is auto-detected" % (self.id, item))
@@ -109,7 +110,7 @@ class MClassDependencies(object):
                 else: # runDep
                     if not "auto-use" in metaIgnore:
                         item = dep.name
-                        if item in metaOptional:
+                        if item in metaIgnore:
                             pass
                         #elif item in (x.name for x in load):
                         #    pass
