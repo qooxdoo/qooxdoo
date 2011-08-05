@@ -464,7 +464,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
     // property apply
     _applyRowHeight : function(value, old) {
-      this.getChildControl("dropdown").getChildControl("list").setRowHeight(value);
+      this.getChildControl("dropdown").getChildControl("list").setItemHeight(value);
     },
 
 
