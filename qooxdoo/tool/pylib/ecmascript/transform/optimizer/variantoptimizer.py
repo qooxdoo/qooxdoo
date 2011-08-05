@@ -616,6 +616,39 @@ def getSelectParams(callNode):
 
 
 ##
+# Returns e.g.
+#  {
+#    "module.property" : <ecmascript.frontend.tree.Node>, # e.g. qx.core.MProperty
+#    "module.logging"  : <ecmascript.frontend.tree.Node>  # e.g. qx.core.MLogging
+#  }
+#
+def getFilterMap(callNode):
+    result = []
+    if callNode.type != "call":
+        return result
+
+    operand = callNode.getChild("operand")
+    if not operand or treeutil.assembleVariable(operand.getChildByPosition(0)) != "qx.core.Environment.filter":
+        log("Warning", "Can only work on qx.core.Environment.filter call. Ignoring this occurrence.", operand)
+        return result
+
+    params = callNode.getChild("params")
+    if len(params.children) != 1:
+        log("Warning", "Expecting exactly one argument for qx.core.Environment.filter. Ignoring this occurrence.", params)
+        return result
+
+    # Get the map from the find call
+    firstParam = params.getChildByPosition(0)
+    if not firstParam.type == "map":
+        log("Warning", "First argument must be a map! Ignoring this occurrence.", firstParam)
+        return result
+    filterMap = treeutil.mapNodeToMap(firstParam)
+
+    return filterMap
+
+
+
+##
 # Selector generator that yields all nodes in tree <node> where variant-specific
 # code is executed.
 #

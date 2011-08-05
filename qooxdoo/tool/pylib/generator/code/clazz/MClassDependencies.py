@@ -584,13 +584,25 @@ class MClassDependencies(object):
             if includeVal.type in ('variable', 'array'):
                 includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
             
-            # assume qx.core.Variant.select() call
+            ## assume qx.core.Variant.select() call
+            #else:
+            #    _, branchMap = variantoptimizer.getSelectParams(includeVal)
+            #    includeVal = set()
+            #    for key in branchMap: # just pick up all possible include values
+            #        includeVal.update(treeutil.variableOrArrayNodeToArray(branchMap[key]))
+            #    includeVal = list(includeVal)
+
+            # assume qx.core.Environment.filter() call
             else:
-                _, branchMap = variantoptimizer.getSelectParams(includeVal)
-                includeVal = set()
-                for key in branchMap: # just pick up all possible include values
-                    includeVal.update(treeutil.variableOrArrayNodeToArray(branchMap[key]))
-                includeVal = list(includeVal)
+                filterMap = variantoptimizer.getFilterMap(includeVal)
+                includeSymbols = []
+                for key, node in filterMap.items():
+                    # only consider true or undefined 
+                    #if key not in variants or (key in variants and bool(variants[key]):
+                    assert node.type == "variable"
+                    symbol = treeutil.assembleVariable(node)
+                    includeSymbols.append(symbol)
+                includeVal = includeSymbols
 
             parents.extend(includeVal)
 
