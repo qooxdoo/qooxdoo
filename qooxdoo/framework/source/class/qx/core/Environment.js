@@ -628,6 +628,27 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
+     * Takes a given map containing the check names as keys and converts 
+     * the map to an array only containing the values for check evaluating 
+     * to <code>true</code>. This is especailly handy for conditional 
+     * includes of mixins.
+     * @param map {Map} A map containing check names as keys and values.
+     * @return {Array} An array containing the values.
+     */
+    filter : function(map) {
+      var returnArray = [];
+
+      for (var check in map) {
+        if (this.get(check)) {
+          returnArray.push(map[check]);
+        }
+      }
+
+      return returnArray;
+    },
+
+
+    /**
      * Invalidates the cache for the given key.
      *
      * @param key {String} The key of the check.

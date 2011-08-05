@@ -202,6 +202,37 @@ qx.Class.define("qx.test.core.Environment",
     },
 
 
+    testFilter : function() {
+      // fake the checks
+      qx.core.Environment._checks["affe1"] = function() {
+        return true;
+      };
+      qx.core.Environment._checks["affe2"] = function() {
+        return false;
+      };
+      qx.core.Environment._checks["affe3"] = function() {
+        return true;
+      };
+
+      var array = qx.core.Environment.filter({
+        "affe1" : 1,
+        "affe2" : 2,
+        "affe3" : 3
+      });
+
+      this.assertEquals(2, array.length);
+      this.assertEquals(1, array[0]);
+      this.assertEquals(3, array[1]);
+
+      // clear the fake check
+      delete qx.core.Environment._checks["affe1"];
+      delete qx.core.Environment._checks["affe2"];
+      delete qx.core.Environment._checks["affe3"];
+      qx.core.Environment.invalidateCacheKey("affe1");
+      qx.core.Environment.invalidateCacheKey("affe2");
+      qx.core.Environment.invalidateCacheKey("affe3");
+    },
+
     // //////////////////////////////
     // TESTS FOR THE CHECKS
     // //////////////////////////////
