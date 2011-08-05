@@ -82,13 +82,17 @@ class MClassDependencies(object):
             metaIgnore   = meta.get("ignoreDeps"  , [])
             metaIgnore.extend(metaOptional)
 
+            # regexify globs in metaignore
+            metaIgnore = map(MetaIgnore, metaIgnore)
+
             # Parse all meta keys for '#'
             for container,provider in ((load,metaLoad), (run,metaRun), (ignore,metaIgnore)):
                 for key in provider:
-                    sig = key.split('#',1)
-                    className = sig[0]
-                    attrName  = sig[1] if len(sig)>1 else ''
-                    container.append(DependencyItem(className, attrName, self.id, "|hints|"))
+                    if isinstance(key, types.StringTypes):
+                        sig = key.split('#',1)
+                        className = sig[0]
+                        attrName  = sig[1] if len(sig)>1 else ''
+                        container.append(DependencyItem(className, attrName, self.id, "|hints|"))
 
             # Read source tree data
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
@@ -97,7 +101,7 @@ class MClassDependencies(object):
             # Process source tree data
             for dep in treeDeps:
                 if dep.isLoadDep:
-                    if not "auto-require" in metaIgnore:
+                    if "auto-require" not in metaIgnore:
                         item = dep.name
                         if item in metaIgnore:
                             pass
@@ -108,7 +112,7 @@ class MClassDependencies(object):
                             load.append(dep)
 
                 else: # runDep
-                    if not "auto-use" in metaIgnore:
+                    if "auto-use" not in metaIgnore:
                         item = dep.name
                         if item in metaIgnore:
                             pass
@@ -748,6 +752,7 @@ class MClassDependencies(object):
 
                     # This depends on attribNode belonging to current class
                     my_ignores = self.getHints("ignoreDeps") + self.getHints("optionalDeps")
+                    my_ignores = map(MetaIgnore, my_ignores)
 
                     for depsItem in depslist:
                         if depsItem in totalDeps:
@@ -778,6 +783,23 @@ class MClassDependencies(object):
         deps = getTransitiveDepsR(depsItem, variantString, checkset) # checkset is currently not used, leaving it for now
 
         return deps
+
+
+
+##
+# #ignore hints can have globs (like 'qx.test.*')
+# This class provides a wrapper around those entries so you can immediately match
+# agaist the regexp.
+class MetaIgnore(object):
+
+    def __init__ (self, source=""):
+        self.source   = source  # "qx/test/*"
+        self.regex    = re.compile(r'^%s$' % source.replace('.', r'\.').replace('*', '.*')) # re.compile("qx/test.*")
+
+    ##
+    # Overloading __eq__ so that 'in' tests will use a regex match
+    def __eq__ (self, other):
+        return self.regex.match(other)
 
 
 
