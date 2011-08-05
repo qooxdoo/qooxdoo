@@ -794,7 +794,9 @@ class MetaIgnore(object):
 
     def __init__ (self, source=""):
         self.source   = source  # "qx/test/*"
-        self.regex    = re.compile(r'^%s$' % source.replace('.', r'\.').replace('*', '.*')) # re.compile("qx/test.*")
+        so = re.escape(source)  # for '.', '$'
+        so = so.replace(r'\*', '.*')  # re-activate '*'
+        self.regex    = re.compile(r'^%s$' % so) # re.compile("qx\.test\.*")
 
     ##
     # Overloading __eq__ so that 'in' tests will use a regex match
