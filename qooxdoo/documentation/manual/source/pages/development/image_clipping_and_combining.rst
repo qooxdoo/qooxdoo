@@ -38,6 +38,7 @@ At the first look the configuration file for the image jobs is basically the sam
           {
              "compile" : "../../cache"
           }
+        }
       }
     }
 
