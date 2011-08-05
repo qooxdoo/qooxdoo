@@ -416,6 +416,8 @@ qx.Class.define("qx.ui.form.SelectBox",
     // overridden
     _onPopupChangeVisibility : function(e)
     {
+      this.base(arguments, e);
+
       // Synchronize the current selection to the list selection
       // when the popup is closed. The list selection may be invalid
       // because of the quick selection handling which is not

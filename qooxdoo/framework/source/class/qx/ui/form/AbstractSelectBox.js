@@ -371,7 +371,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * @param e {qx.event.type.Data} Property change event
      */
     _onPopupChangeVisibility : function(e) {
-      throw new Error("Abstract method: _onPopupChangeVisibility()");
+      e.getData() == "visible" ? this.addState("popupOpen") : this.removeState("popupOpen");
     }
   },
 

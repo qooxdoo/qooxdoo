@@ -346,6 +346,8 @@ qx.Class.define("qx.ui.form.ComboBox",
     // overridden
     _onPopupChangeVisibility : function(e)
     {
+      this.base(arguments, e);
+
       // Synchronize the list with the current value on every
       // opening of the popup. This is useful because through
       // the quick selection mode, the list may keep an invalid

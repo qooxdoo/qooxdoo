@@ -256,6 +256,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
       {
         case "dropdown":
           control = new qx.ui.form.core.VirtualDropDownList(this);
+          control.addListener("changeVisibility", this._onPopupChangeVisibility, this);
           break;
       }
 
@@ -406,6 +407,17 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
      */
     _onResize : function(event){
       this.getChildControl("dropdown").setMinWidth(event.getData().width);
+    },
+
+
+    /**
+     * Adds/removes the state 'popupOpen' depending on the visibility of the popup
+     * 
+     * @param event {qx.event.type.Data} Data event
+     */
+    _onPopupChangeVisibility : function(event)
+    {
+      event.getData() == "visible" ? this.addState("popupOpen") : this.removeState("popupOpen");
     },
 
 

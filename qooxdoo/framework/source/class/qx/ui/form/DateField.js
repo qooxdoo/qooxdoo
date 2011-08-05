@@ -363,6 +363,8 @@ qx.Class.define("qx.ui.form.DateField",
     // overridden
     _onPopupChangeVisibility : function(e)
     {
+      e.getData() == "visible" ? this.addState("popupOpen") : this.removeState("popupOpen");
+
       // Synchronize the chooser with the current value on every
       // opening of the popup. This is needed when the value has been
       // modified and not saved yet (e.g. no blur)
