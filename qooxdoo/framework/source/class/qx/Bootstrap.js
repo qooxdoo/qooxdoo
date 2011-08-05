@@ -21,7 +21,6 @@
 
 /* ************************************************************************
 
-#resource(qx.static:qx/static)
 #ignore(qx.data)
 #optional(qx.data.IListData)
 
