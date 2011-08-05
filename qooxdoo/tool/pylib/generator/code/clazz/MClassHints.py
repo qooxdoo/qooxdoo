@@ -40,6 +40,7 @@ class MClassHints(object):
         "ignore"   : re.compile(r"^\s* \#ignore   \(\s* (%s+)     \s*\)" % (lang.IDENTIFIER_CHARS[:-1]+'#]',), re.M|re.X),
         "asset"    : re.compile(r"^\s* \#asset    \(\s* ([^)]+?)  \s*\)"                        , re.M|re.X),
         "cldr"     : re.compile(r"^\s*(\#cldr) (?:\(\s* ([^)]+?)  \s*\))?"                      , re.M|re.X),
+        "_unknown_": re.compile(r"^\s* \#(\w+)    \(\s* [^)]+?    \s*\)"                        , re.M|re.X),
     }
 
 
@@ -113,6 +114,19 @@ class MClassHints(object):
 
             return cldr
 
+        def _extractUnknownDeps(data):
+            unknown_keys = []
+            known_keys   = [x for x in self.HEAD if x != "_unknown_"]
+
+            # here, i'm interested in the key rather than the value
+            for item in self.HEAD["_unknown_"].findall(data):
+                if item in known_keys:
+                    continue
+                elif item not in unknown_keys:
+                    unknown_keys.append(item)
+
+            return unknown_keys
+
         # ----------------------------------------------------------
 
         fileEntry = self
@@ -145,6 +159,11 @@ class MClassHints(object):
             e.args = (e.args[0] + u' in: %r' % filePath,) + e.args[1:]
             raise e
         meta["cldr"]         = _extractCLDRDeps(content)
+
+        # warn unknown compiler hints
+        _unknown_  = _extractUnknownDeps(content)
+        for item in _unknown_:
+            console.error(u"Unknown compiler hint '#%s' in %s" % (item, self.id))
 
         console.outdent()
 
