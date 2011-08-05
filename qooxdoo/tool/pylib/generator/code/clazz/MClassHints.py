@@ -37,7 +37,7 @@ class MClassHints(object):
         "require"  : re.compile(r"^\s* \#require  \(\s* (%s+)     \s*\)" % (lang.IDENTIFIER_CHARS[:-1]+'#]',), re.M|re.X),
         "use"      : re.compile(r"^\s* \#use      \(\s* (%s+)     \s*\)" % (lang.IDENTIFIER_CHARS[:-1]+'#]',), re.M|re.X),
         "optional" : re.compile(r"^\s* \#optional \(\s* (%s+)     \s*\)" % (lang.IDENTIFIER_CHARS[:-1]+'#]',), re.M|re.X),
-        "ignore"   : re.compile(r"^\s* \#ignore   \(\s* (%s+)     \s*\)" % (lang.IDENTIFIER_CHARS[:-1]+'#]',), re.M|re.X),
+        "ignore"   : re.compile(r"^\s* \#ignore   \(\s* (%s+)     \s*\)" % (lang.IDENTIFIER_CHARS[:-1]+'#*]',), re.M|re.X),
         "asset"    : re.compile(r"^\s* \#asset    \(\s* ([^)]+?)  \s*\)"                        , re.M|re.X),
         "cldr"     : re.compile(r"^\s*(\#cldr) (?:\(\s* ([^)]+?)  \s*\))?"                      , re.M|re.X),
         "_unknown_": re.compile(r"^\s* \#(\w+)    \(\s* [^)]+?    \s*\)"                        , re.M|re.X),
