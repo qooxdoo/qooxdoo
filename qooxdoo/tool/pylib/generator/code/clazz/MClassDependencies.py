@@ -594,13 +594,16 @@ class MClassDependencies(object):
 
             # assume qx.core.Environment.filter() call
             else:
-                filterMap = variantoptimizer.getFilterMap(includeVal)
+                filterMap = variantoptimizer.getFilterMap(includeVal, self.id)
                 includeSymbols = []
                 for key, node in filterMap.items():
                     # only consider true or undefined 
                     #if key not in variants or (key in variants and bool(variants[key]):
-                    assert node.type == "variable"
-                    symbol = treeutil.assembleVariable(node)
+                    # map value has to be value/variable
+                    variable =  node.children[0]
+                    assert variable.type == "variable"
+                    symbol, isComplete = treeutil.assembleVariable(variable)
+                    assert isComplete
                     includeSymbols.append(symbol)
                 includeVal = includeSymbols
 

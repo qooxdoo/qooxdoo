@@ -622,13 +622,19 @@ def getSelectParams(callNode):
 #    "module.logging"  : <ecmascript.frontend.tree.Node>  # e.g. qx.core.MLogging
 #  }
 #
-def getFilterMap(callNode):
-    result = []
+def getFilterMap(callNode, fileId_):
+    global fileId, verbose
+    verbose = True
+    fileId = fileId_
+
+    result = {}
     if callNode.type != "call":
         return result
 
     operand = callNode.getChild("operand")
-    if not operand or treeutil.assembleVariable(operand.getChildByPosition(0)) != "qx.core.Environment.filter":
+    if operand:
+        operand_string, isComplete = treeutil.assembleVariable(operand.getChildByPosition(0))
+    if not operand or not isComplete or operand_string != "qx.core.Environment.filter":
         log("Warning", "Can only work on qx.core.Environment.filter call. Ignoring this occurrence.", operand)
         return result
 
@@ -642,9 +648,9 @@ def getFilterMap(callNode):
     if not firstParam.type == "map":
         log("Warning", "First argument must be a map! Ignoring this occurrence.", firstParam)
         return result
-    filterMap = treeutil.mapNodeToMap(firstParam)
+    result = treeutil.mapNodeToMap(firstParam)
 
-    return filterMap
+    return result
 
 
 
