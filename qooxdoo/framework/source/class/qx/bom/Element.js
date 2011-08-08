@@ -27,6 +27,7 @@
 #require(qx.event.handler.Element)
 #require(qx.event.handler.Appear)
 #require(qx.event.handler.Touch)
+#require(qx.event.handler.Offline)
 
 ************************************************************************ */
 
