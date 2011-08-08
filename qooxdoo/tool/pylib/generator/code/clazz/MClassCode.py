@@ -154,13 +154,17 @@ class MClassCode(object):
     #
     def _variantsFromTree(self, node):
         console = self.context['console']
-        classvariants = set([])
+        classvariants = set()
         for variantNode in variantoptimizer.findVariantNodes(node):
             firstParam = treeutil.selectNode(variantNode, "../../params/1")
-            if firstParam and treeutil.isStringLiteral(firstParam):
-                classvariants.add(firstParam.get("value"))
-            else:
-                console.warn("qx.core.Environment call without literal argument (%s:%s)" % (self.id, variantNode.get("line", False)))
+            if firstParam:
+                if treeutil.isStringLiteral(firstParam):
+                    classvariants.add(firstParam.get("value"))
+                elif firstParam.type == "map": # e.g. .filter() method
+                    mapMap = treeutil.mapNodeToMap(firstParam)
+                    classvariants.update(mapMap.keys())
+                else:
+                    console.warn("qx.core.Environment call with alien first argument (%s:%s)" % (self.id, variantNode.get("line", False)))
         return classvariants
 
 
