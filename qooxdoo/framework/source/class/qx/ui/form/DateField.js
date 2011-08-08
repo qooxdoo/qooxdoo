@@ -38,9 +38,15 @@
  */
 qx.Class.define("qx.ui.form.DateField",
 {
-  extend : qx.ui.form.ComboBox,
-  implement : [qx.ui.form.IDateForm],
-
+  extend : qx.ui.core.Widget,
+  include : [
+    qx.ui.core.MRemoteChildrenHandling,
+    qx.ui.form.MForm
+  ],
+  implement : [
+    qx.ui.form.IForm,
+    qx.ui.form.IDateForm
+  ],
 
 
   /*
@@ -53,10 +59,52 @@ qx.Class.define("qx.ui.form.DateField",
   {
     this.base(arguments);
 
+    // set the layout
+    var layout = new qx.ui.layout.HBox();
+    this._setLayout(layout);
+    layout.setAlignY("middle");
+
+    // text field
+    var textField = this._createChildControl("textfield");
+    this._createChildControl("button");
+
+    // register listeners
+    this.addListener("click", this._onClick, this);
+    this.addListener("blur", this._onBlur, this);
+
+    // forward the focusin and focusout events to the textfield. The textfield
+    // is not focusable so the events need to be forwarded manually.
+    this.addListener("focusin", function(e) {
+      textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
+    }, this);
+
+    this.addListener("focusout", function(e) {
+      textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
+    }, this);
+
     // initializes the DateField with the default format
     this._setDefaultDateFormat();
+
     // adds a locale change listener
     this._addLocaleChangeLeistener();
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** Whenever the value is changed this event is fired
+     *
+     *  Event data: The new text value of the field.
+     */
+    "changeValue" : "qx.event.type.Data"
   },
 
 
@@ -82,6 +130,20 @@ qx.Class.define("qx.ui.form.DateField",
     {
       check : "qx.util.format.DateFormat",
       apply : "_applyDateFormat"
+    },
+
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
+    },
+
+    // overridden
+    width :
+    {
+      refine : true,
+      init : 120
     }
   },
 
@@ -232,6 +294,46 @@ qx.Class.define("qx.ui.form.DateField",
 
     /*
     ---------------------------------------------------------------------------
+      LIST STUFF
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Shows the date chooser popup.
+     */
+    open : function()
+    {
+      var popup = this.getChildControl("popup");
+
+      popup.placeToWidget(this, true);
+      popup.show();
+    },
+
+
+    /**
+     * Hides the date chooser popup.
+     */
+    close : function() {
+      this.getChildControl("popup").hide();
+    },
+
+
+    /**
+     * Toggles the date chooser popup visibility.
+     */
+    toggle : function()
+    {
+      var isListOpen = this.getChildControl("popup").isVisible();
+      if (isListOpen) {
+        this.close();
+      } else {
+        this.open();
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
       PROPERTY APPLY METHODS
     ---------------------------------------------------------------------------
     */
@@ -273,6 +375,23 @@ qx.Class.define("qx.ui.form.DateField",
 
       switch(id)
       {
+        case "textfield":
+          control = new qx.ui.form.TextField();
+          control.setFocusable(false);
+          control.addState("inner");
+          control.addListener("changeValue", this._onTextFieldChangeValue, this);
+          control.addListener("blur", this.close, this);
+          this._add(control, {flex: 1});
+          break;
+
+        case "button":
+          control = new qx.ui.form.Button();
+          control.setFocusable(false);
+          control.setKeepActive(true);
+          control.addState("inner");
+          this._add(control);
+          break;
+
         case "list":
           control = new qx.ui.control.DateChooser();
           control.setFocusable(false);
@@ -313,6 +432,33 @@ qx.Class.define("qx.ui.form.DateField",
       var selectedDate = this.getChildControl("list").getValue();
 
       textField.setValue(this.getDateFormat().format(selectedDate));
+      this.close();
+    },
+
+
+    /**
+     * Toggles the popup's visibility.
+     *
+     * @param e {qx.event.type.Mouse} Mouse click event
+     */
+    _onClick : function(e)
+    {
+      var target = e.getTarget();
+      if (target == this.getChildControl("button")) {
+        this.toggle();
+      } else {
+        this.close();
+      }
+    },
+
+
+    /**
+     * Handler for the blur event of the current widget.
+     *
+     * @param e {qx.event.type.Focus} The blur event.
+     */
+    _onBlur : function(e)
+    {
       this.close();
     },
 
@@ -360,7 +506,11 @@ qx.Class.define("qx.ui.form.DateField",
     },
 
 
-    // overridden
+    /**
+     * Redirects changeVisibility event from the list to this widget.
+     *
+     * @param e {qx.event.type.Data} Property change event
+     */
     _onPopupChangeVisibility : function(e)
     {
       e.getData() == "visible" ? this.addState("popupOpen") : this.removeState("popupOpen");
