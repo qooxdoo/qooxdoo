@@ -71,6 +71,8 @@ def search(node, variantMap, fileId_="", verb=False):
         elif variantMethod in ["get"]:
             #modified = processVariantGet(selectNode(variantNode, "../.."), variantMap) or modified
             modified = processVariantGet(selectCallNode(variantNode), variantMap) or modified
+        elif variantMethod in ["filter"]:
+            modified = processVariantFilter(selectCallNode(variantNode), variantMap) or modified
 
     return modified
 
@@ -615,6 +617,38 @@ def getSelectParams(callNode):
     return variantKey, branchMap
 
 
+def processVariantFilter(callNode, variantMap):
+
+    def isExcluded(mapkey, variantMap):
+        return mapkey in variantMap and bool(variantMap[mapkey]) == False
+
+    changed = False
+    if callNode.type != "call":
+        return changed
+
+    params = callNode.getChild("params")
+    if len(params.children) != 1:
+        log("Warning", "Expecting exactly one argument for qx.core.Environment.filter. Ignoring this occurrence.", params)
+        return changed
+
+    # Get the map from the find call
+    firstParam = params.getChildByPosition(0)
+    if not firstParam.type == "map":
+        log("Warning", "First argument must be a map! Ignoring this occurrence.", firstParam)
+        return changed
+    filterMap = firstParam
+
+    for keyvalue in filterMap.getChildren(True):
+        mapkey = keyvalue.get("key")
+        if isExcluded(mapkey, variantMap):
+            filterMap.removeChild(keyvalue)
+            changed = True
+        else:
+            continue
+
+    return changed
+
+
 ##
 # Returns e.g.
 #  {
@@ -660,7 +694,7 @@ def getFilterMap(callNode, fileId_):
 #
 # @return {Iter<Node>} node generator
 #
-InterestingEnvMethods = ["select", "selectAsync", "getAsync", "get"]
+InterestingEnvMethods = ["select", "selectAsync", "get", "getAsync", "filter"]
 def findVariantNodes(node):
     variantNodes = treeutil.findVariablePrefix(node, "qx.core.Environment")
     for variantNode in variantNodes:

@@ -270,8 +270,6 @@ class Node(object):
         else:
             makeComplex = False
 
-
-
         if self.type == "comment":
             makeComplex = True
 
