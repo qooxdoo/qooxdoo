@@ -519,7 +519,6 @@ class Generator(object):
 
                 script           = Script()  # a new Script object represents the target code
                 script.namespace = self.getAppName()
-                script.variants  = variantset
                 script.optimize  = config.get("compile-options/code/optimize", [])
                 script.locales   = config.get("compile-options/code/locales", [])
                 script.libraries = self._libraries
@@ -530,13 +529,19 @@ class Generator(object):
                     if script.buildType not in ("source","build","hybrid"):
                         raise ValueError("Unknown compile type '%s'" % script.buildType)
 
+                # reset variantSet for source (no variant-optimized class list)
+                if script.buildType == "source":
+                    script.variants = {}  # TODO: source processing could be placed outside the variant loop
+                else:
+                    script.varaints = variantset
+
                 # get current class list
                 script.classes = computeClassList(includeWithDeps, excludeWithDeps, 
-                                   includeNoDeps, variantset, script=script, verifyDeps=True)
+                                   includeNoDeps, script.variants, script=script, verifyDeps=True)
                   # keep the list of class objects in sync
                 script.classesObj = [self._classesObj[id] for id in script.classes]
 
-                featureMap = self._depLoader.registerDependeeFeatures(script.classesObj, variantset, script.buildType)
+                featureMap = self._depLoader.registerDependeeFeatures(script.classesObj, script.variants, script.buildType)
                 script._featureMap = featureMap
 
                 # prepare 'script' object
