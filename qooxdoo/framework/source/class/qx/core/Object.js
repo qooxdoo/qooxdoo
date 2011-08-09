@@ -21,7 +21,6 @@
 
 /* ************************************************************************
 
-#require(qx.core.Property)
 #require(qx.core.ObjectRegistry)
 #use(qx.event.dispatch.Direct)
 #use(qx.event.handler.Object)
@@ -45,6 +44,7 @@ qx.Class.define("qx.core.Object",
   include : [
     qx.core.Environment.get("module.databinding") ? qx.data.MBinding : -1,
     qx.core.Environment.get("module.logger") ? qx.core.MLogging : -1,
+    qx.core.Environment.get("module.property") ? qx.core.MProperty : -1,
     qx.core.Environment.get("qx.debug") ? qx.core.MAssert : -1
   ].filter(function(data) { return data !== -1;}),
 
@@ -91,6 +91,9 @@ qx.Class.define("qx.core.Object",
 
   members :
   {
+    __Property : qx.core.Environment.get("module.property") ? qx.core.Property : null,
+
+
     /*
     ---------------------------------------------------------------------------
       BASICS
@@ -175,11 +178,15 @@ qx.Class.define("qx.core.Object",
      */
     clone : function()
     {
+      if (!qx.core.Environment.get("module.property")) {
+        throw new Error("Clonging only possible with properties.");
+      }
+
       var clazz = this.constructor;
       var clone = new clazz;
       var props = qx.Class.getProperties(clazz);
-      var user = qx.core.Property.$$store.user;
-      var setter = qx.core.Property.$$method.set;
+      var user = this.__Property.$$store.user;
+      var setter = this.__Property.$$method.set;
       var name;
 
       // Iterate through properties
@@ -198,131 +205,6 @@ qx.Class.define("qx.core.Object",
 
     /*
     ---------------------------------------------------------------------------
-      COMMON SETTER/GETTER/RESETTER SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Sets multiple properties at once by using a property list or
-     * sets one property and its value by the first and second argument.
-     * As a fallback, if no generated property setter could be found, a
-     * handwritten setter will be searched and invoked if available.
-     *
-     * @param data {Map | String} a map of property values. The key is the name of the property.
-     * @param value {var?} the value, only used when <code>data</code> is a string.
-     * @return {Object} this instance.
-     * @throws an Exception if a property defined does not exist
-     */
-    set : function(data, value)
-    {
-      var setter = qx.core.Property.$$method.set;
-
-      if (qx.Bootstrap.isString(data))
-      {
-        if (!this[setter[data]])
-        {
-          if (this["set" + qx.Bootstrap.firstUp(data)] != undefined) {
-            this["set" + qx.Bootstrap.firstUp(data)](value);
-            return this;
-          }
-
-          if (qx.core.Environment.get("qx.debug"))
-          {
-            qx.Bootstrap.error(new Error("No such property: " + data));
-            return this;
-          }
-        }
-
-
-        return this[setter[data]](value);
-      }
-      else
-      {
-        for (var prop in data)
-        {
-          if (!this[setter[prop]])
-          {
-            if (this["set" + qx.Bootstrap.firstUp(prop)] != undefined) {
-              this["set" + qx.Bootstrap.firstUp(prop)](data[prop]);
-              continue;
-            }
-
-            if (qx.core.Environment.get("qx.debug"))
-            {
-              qx.Bootstrap.error(new Error("No such property: " + prop));
-              return this;
-            }
-          }
-
-          this[setter[prop]](data[prop]);
-        }
-
-        return this;
-      }
-    },
-
-
-    /**
-     * Returns the value of the given property. If no generated getter could be
-     * found, a fallback tries to access a handwritten getter.
-     *
-     * @param prop {String} Name of the property.
-     * @return {var} The value of the value
-     * @throws an Exception if a property defined does not exist
-     */
-    get : function(prop)
-    {
-      var getter = qx.core.Property.$$method.get;
-
-      if (!this[getter[prop]])
-      {
-        if (this["get" + qx.Bootstrap.firstUp(prop)] != undefined) {
-          return this["get" + qx.Bootstrap.firstUp(prop)]();
-        }
-
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          qx.Bootstrap.error(new Error("No such property: " + prop));
-          return this;
-        }
-      }
-
-
-      return this[getter[prop]]();
-    },
-
-
-    /**
-     * Resets the value of the given property. If no generated resetter could be
-     * found, a handwritten resetter will be invoked, if available.
-     *
-     * @param prop {String} Name of the property.
-     * @throws an Exception if a property defined does not exist
-     */
-    reset : function(prop)
-    {
-      var resetter = qx.core.Property.$$method.reset;
-
-      if (!this[resetter[prop]])
-      {
-        if (this["reset" + qx.Bootstrap.firstUp(prop)] != undefined) {
-          this["reset" + qx.Bootstrap.firstUp(prop)]();
-          return;
-        }
-
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          qx.Bootstrap.error(new Error("No such property: " + prop));
-          return;
-        }
-      }
-
-
-      this[resetter[prop]]();
-    },
-
-
-
 
 
     /*
@@ -822,31 +704,33 @@ qx.Class.define("qx.core.Object",
     // Cleanup user data
     this.__userData = null;
 
-    // Cleanup properties
-    // TODO: Is this really needed for non DOM/JS links?
-    var clazz = this.constructor;
-    var properties;
-    var store = qx.core.Property.$$store;
-    var storeUser = store.user;
-    var storeTheme = store.theme;
-    var storeInherit = store.inherit;
-    var storeUseinit = store.useinit;
-    var storeInit = store.init;
+    // only of properties are available
+    if (qx.core.Environment.get("module.property")) {
+      // Cleanup properties
+      var clazz = this.constructor;
+      var properties;
+      var store = this.__Property.$$store;
+      var storeUser = store.user;
+      var storeTheme = store.theme;
+      var storeInherit = store.inherit;
+      var storeUseinit = store.useinit;
+      var storeInit = store.init;
 
-    while(clazz)
-    {
-      properties = clazz.$$properties;
-      if (properties)
+      while(clazz)
       {
-        for (var name in properties)
+        properties = clazz.$$properties;
+        if (properties)
         {
-          if (properties[name].dereference) {
-            this[storeUser[name]] = this[storeTheme[name]] = this[storeInherit[name]] = this[storeUseinit[name]] = this[storeInit[name]] = undefined;
+          for (var name in properties)
+          {
+            if (properties[name].dereference) {
+              this[storeUser[name]] = this[storeTheme[name]] = this[storeInherit[name]] = this[storeUseinit[name]] = this[storeInit[name]] = undefined;
+            }
           }
         }
-      }
 
-      clazz = clazz.superclass;
+        clazz = clazz.superclass;
+      }
     }
   }
 });
