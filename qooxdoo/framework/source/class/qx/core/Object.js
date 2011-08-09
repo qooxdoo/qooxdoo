@@ -39,14 +39,13 @@
 qx.Class.define("qx.core.Object",
 {
   extend : Object,
-  include : [
-    qx.core.Environment.get("module.databinding") ? qx.data.MBinding : -1,
-    qx.core.Environment.get("module.logger") ? qx.core.MLogging : -1,
-    qx.core.Environment.get("module.events") ? qx.core.MEvents : -1,
-    qx.core.Environment.get("module.property") ? qx.core.MProperty : -1,
-    qx.core.Environment.get("qx.debug") ? qx.core.MAssert : -1
-  ].filter(function(data) { return data !== -1;}),
-
+  include : qx.core.Environment.filter({
+    "module.databinding" : qx.data.MBinding,
+    "module.logger" : qx.core.MLogging,
+    "module.events" : qx.core.MEvents,
+    "module.property" : qx.core.MProperty,
+    "qx.debug" : qx.core.MAssert
+  }),
 
 
   /*
