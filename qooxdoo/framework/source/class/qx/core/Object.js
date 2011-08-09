@@ -42,7 +42,9 @@
 qx.Class.define("qx.core.Object",
 {
   extend : Object,
-  include : [qx.data.MBinding],
+  include : [
+    qx.core.Environment.get("module.databinding") ? qx.data.MBinding : -1
+  ].filter(function(data) { return data !== -1;}),
 
 
 
