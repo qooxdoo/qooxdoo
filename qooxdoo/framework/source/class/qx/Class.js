@@ -22,7 +22,6 @@
 
 #require(qx.Interface)
 #require(qx.Mixin)
-#require(qx.core.Property)
 #require(qx.lang.Core)
 
 #use(qx.lang.Generics)
@@ -73,6 +72,8 @@ qx.Bootstrap.define("qx.Class",
 {
   statics :
   {
+    __Property : qx.core.Environment.get("module.property") ? qx.core.Property : null,
+
     /*
     ---------------------------------------------------------------------------
        PUBLIC METHODS
@@ -1096,6 +1097,11 @@ qx.Bootstrap.define("qx.Class",
      */
     __addProperties : function(clazz, properties, patch)
     {
+      // check for the property module
+      if (!qx.core.Environment.get("module.property")) {
+        throw new Error("Property modul disabled.");
+      }
+
       var config;
 
       if (patch === undefined) {
@@ -1142,14 +1148,14 @@ qx.Bootstrap.define("qx.Class",
         // Remember inheritable properties
         if (config.inheritable)
         {
-          qx.core.Property.$$inheritable[name] = true;
+          this.__Property.$$inheritable[name] = true;
           if (!proto.$$refreshInheritables) {
-            qx.core.Property.attachRefreshInheritables(clazz);
+            this.__Property.attachRefreshInheritables(clazz);
           }
         }
 
         if (!config.refine) {
-          qx.core.Property.attachMethods(clazz, name, config);
+          this.__Property.attachMethods(clazz, name, config);
         }
       }
     },
@@ -1167,6 +1173,11 @@ qx.Bootstrap.define("qx.Class",
     {
       "true": function(clazz, name, config, patch)
       {
+        // check for properties
+        if (!qx.core.Environment.get("module.property")) {
+          throw new Error("Property modul disabled.");
+        }
+        
         var has = this.hasProperty(clazz, name);
 
         if (has)
@@ -1201,7 +1212,7 @@ qx.Bootstrap.define("qx.Class",
         }
 
         // Check 0.7 keys
-        var allowed = config.group ? qx.core.Property.$$allowedGroupKeys : qx.core.Property.$$allowedKeys;
+        var allowed = config.group ? this.__Property.$$allowedGroupKeys : this.__Property.$$allowedKeys;
         for (var key in config)
         {
           if (allowed[key] === undefined) {
