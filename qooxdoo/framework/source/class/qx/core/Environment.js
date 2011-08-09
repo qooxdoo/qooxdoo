@@ -448,6 +448,26 @@
  *     <tr>
  *       <td>qx.version</td><td><i>String</em></td><td><code>1.5</code></td>
  *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>module</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>module.databinding</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>true</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>module.logger</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>true</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>module.property</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>true</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td>module.events</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>true</code></td>
+ *     </tr>
  *     <tr>
  *       <td colspan="4"><h3>Asynchronous checks</h3>
  *       </td>
@@ -726,6 +746,12 @@ qx.Bootstrap.define("qx.core.Environment",
       this.add("qx.optimization.strings", function() {return false;});
       this.add("qx.optimization.variables", function() {return false;});
       this.add("qx.optimization.variants", function() {return false;});
+
+      // qooxdoo modules
+      this.add("module.databinding", function() {return true;});
+      this.add("module.logger", function() {return true;});
+      this.add("module.property", function() {return true;});
+      this.add("module.events", function() {return true;});
     },
 
 
