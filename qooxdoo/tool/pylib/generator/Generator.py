@@ -519,6 +519,8 @@ class Generator(object):
 
                 script           = Script()  # a new Script object represents the target code
                 script.namespace = self.getAppName()
+                script.variants  = variantset
+                script.variants1 = variantset
                 script.optimize  = config.get("compile-options/code/optimize", [])
                 script.locales   = config.get("compile-options/code/locales", [])
                 script.libraries = self._libraries
@@ -529,11 +531,8 @@ class Generator(object):
                     if script.buildType not in ("source","build","hybrid"):
                         raise ValueError("Unknown compile type '%s'" % script.buildType)
 
-                # reset variantSet for source (no variant-optimized class list)
                 if script.buildType == "source":
                     script.variants = {}  # TODO: source processing could be placed outside the variant loop
-                else:
-                    script.variants = variantset
 
                 # get current class list
                 script.classes = computeClassList(includeWithDeps, excludeWithDeps, 

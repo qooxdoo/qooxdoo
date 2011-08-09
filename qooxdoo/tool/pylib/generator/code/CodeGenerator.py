@@ -730,7 +730,7 @@ class CodeGenerator(object):
 
         # Get global script data (like qxlibraries, qxresources,...)
         globalCodes = {}
-        globalCodes["EnvSettings"] = self.generateVariantsCode(variants)
+        globalCodes["EnvSettings"] = self.generateVariantsCode(script.variants1)
         # add optimizations
         for val in optimize:
             globalCodes["EnvSettings"]["qx.optimization."+val] = True
