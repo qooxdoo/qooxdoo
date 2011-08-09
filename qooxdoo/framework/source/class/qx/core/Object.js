@@ -44,7 +44,7 @@ qx.Class.define("qx.core.Object",
   extend : Object,
   include : [
     qx.core.Environment.get("module.databinding") ? qx.data.MBinding : -1,
-    qx.core.Environment.get("module.logger") ? qx.core.MDebug : -1
+    qx.core.Environment.get("module.logger") ? qx.core.MLogging : -1,
   ].filter(function(data) { return data !== -1;}),
 
 

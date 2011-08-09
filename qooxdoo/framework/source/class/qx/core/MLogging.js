@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Mixin.define("qx.core.MDebug", 
+qx.Mixin.define("qx.core.MLogging", 
 {
   members :
   {
