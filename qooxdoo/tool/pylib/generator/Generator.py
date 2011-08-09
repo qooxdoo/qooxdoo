@@ -520,7 +520,7 @@ class Generator(object):
                 script           = Script()  # a new Script object represents the target code
                 script.namespace = self.getAppName()
                 script.variants  = variantset
-                script.variants1 = variantset
+                script.environment = variantset
                 script.optimize  = config.get("compile-options/code/optimize", [])
                 script.locales   = config.get("compile-options/code/locales", [])
                 script.libraries = self._libraries

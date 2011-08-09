@@ -40,6 +40,7 @@ class Script(object):
         self.classesObj = []   # temp. alternative list of class objects, [generator.code.Class, ...]
         self.jobconfig  = None # Job() config object
         self.variants   = {}   # current variant set
+        self.environment= {}   # dito. i know, shame for violating DRY, but the above is to control compilation, this one is not
         self.optimize   = []   # optimize settings
         self.parts      = {}   # parts defined by the configuration (if any); {part.name : Part()}
         self.packages   = []   # .js files for this application / library;  [Package()]
