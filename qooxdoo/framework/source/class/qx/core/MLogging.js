@@ -16,6 +16,10 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+/**
+ * This mixin offers the basic logging features offered by {@link qx.log.Logger}.
+ */
 qx.Mixin.define("qx.core.MLogging", 
 {
   members :

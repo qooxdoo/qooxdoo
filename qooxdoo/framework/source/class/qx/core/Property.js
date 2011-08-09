@@ -149,6 +149,10 @@ qx.Bootstrap.define("qx.core.Property",
 {
   statics :
   {
+    /**
+     * This is a method which does nothing than gethering dependencies for the 
+     * modul system. Calling this method is useless because it does nothing.
+     */
     __gatherDependency : function() {
       if (qx.core.Environment.get("module.events")) {
         qx.event.type.Data;

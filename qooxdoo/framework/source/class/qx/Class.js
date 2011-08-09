@@ -72,6 +72,10 @@ qx.Bootstrap.define("qx.Class",
 {
   statics :
   {
+    /**
+     * A static reference to the property implementation in the case it 
+     * should be included.
+     */
     __Property : qx.core.Environment.get("module.property") ? qx.core.Property : null,
 
     /*
