@@ -61,11 +61,7 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
 
     this._createChildControl("progress");
 
-    this.set({
-      width: 200,
-      height: 20,
-      layout: new qx.ui.layout.HBox()
-    });
+    this.setLayout(new qx.ui.layout.HBox());
 
     if (maximum != null) {
       this.setMaximum(maximum);
