@@ -1140,6 +1140,10 @@ qx.Bootstrap.define("qx.Class",
 
         // register event name
         if (config.event !== undefined) {
+          // break if no events layer loaded
+          if (!qx.core.Environment.get("module.events")) {
+            throw new Error("Events mudul not enabled.");
+          }
           var event = {}
           event[config.event] = "qx.event.type.Data";
           this.__addEvents(clazz, event, patch);

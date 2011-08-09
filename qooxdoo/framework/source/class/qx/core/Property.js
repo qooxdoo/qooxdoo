@@ -22,8 +22,6 @@
 /* ************************************************************************
 
 #optional(qx.Interface)
-#use(qx.event.type.Data)
-#use(qx.event.dispatch.Direct)
 
 ************************************************************************ */
 
@@ -151,6 +149,14 @@ qx.Bootstrap.define("qx.core.Property",
 {
   statics :
   {
+    __gatherDependency : function() {
+      if (qx.core.Environment.get("module.events")) {
+        qx.event.type.Data;
+        qx.event.dispatch.Direct;
+      }
+    },
+
+
     /**
      * Built-in checks
      * The keys could be used in the check of the properties
