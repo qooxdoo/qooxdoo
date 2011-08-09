@@ -533,7 +533,7 @@ class Generator(object):
                 if script.buildType == "source":
                     script.variants = {}  # TODO: source processing could be placed outside the variant loop
                 else:
-                    script.varaints = variantset
+                    script.variants = variantset
 
                 # get current class list
                 script.classes = computeClassList(includeWithDeps, excludeWithDeps, 
