@@ -2629,7 +2629,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           decorator: "progressbar",
           padding: [1],
-          backgroundColor: "white"
+          backgroundColor: "white",
+          width : 200,
+          height : 20
         }
       }
     },
