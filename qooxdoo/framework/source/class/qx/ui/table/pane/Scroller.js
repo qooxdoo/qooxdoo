@@ -1579,6 +1579,11 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       this.__header.setMouseOverColumn(null);
+
+      // in case the focus follows the mouse, it should be remove on mouseout
+      if (this.getFocusCellOnMouseMove()) {
+        this.__table.setFocusedCell();
+      }
     },
 
 
