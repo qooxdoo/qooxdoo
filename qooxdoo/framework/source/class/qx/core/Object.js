@@ -45,6 +45,7 @@ qx.Class.define("qx.core.Object",
   include : [
     qx.core.Environment.get("module.databinding") ? qx.data.MBinding : -1,
     qx.core.Environment.get("module.logger") ? qx.core.MLogging : -1,
+    qx.core.Environment.get("qx.debug") ? qx.core.MAssert : -1
   ].filter(function(data) { return data !== -1;}),
 
 
@@ -784,11 +785,6 @@ qx.Class.define("qx.core.Object",
 
   defer : function(statics, members)
   {
-    // add asserts into each debug build
-    if (qx.core.Environment.get("qx.debug")) {
-      qx.Class.include(statics, qx.core.MAssert);
-    }
-
     // special treatment for IE6 and FF2
     var ie6 = navigator.userAgent.indexOf("MSIE 6.0") != -1;
     var ff2 = navigator.userAgent.indexOf("rv:1.8.1") != -1;
