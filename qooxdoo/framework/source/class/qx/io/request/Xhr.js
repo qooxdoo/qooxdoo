@@ -362,7 +362,8 @@ qx.Class.define("qx.io.request.Xhr",
      *
      */
     _getParser: function() {
-      var parser = this.__parser;
+      var parser = this.__parser,
+          contentType;
 
       // Use user-provided parser, if any
       if (parser) {
@@ -374,20 +375,14 @@ qx.Class.define("qx.io.request.Xhr",
         return;
       }
 
-      // Auto-detect parser based on content type
-      switch (this.getResponseContentType()) {
-        case "application/json":
-          parser = qx.io.request.Xhr.PARSER["json"];
-          break;
+      contentType = this.getResponseContentType();
 
-        case "application/xml":
-          parser = qx.io.request.Xhr.PARSER["xml"];
-          break;
+      if ((/^application\/json/).test(contentType)) {
+        parser = qx.io.request.Xhr.PARSER["json"];
+      }
 
-        default:
-          parser = null;
-          break;
-
+      if ((/^application\/xml/).test(contentType)) {
+        parser = qx.io.request.Xhr.PARSER["xml"];
       }
 
       // Content type ending with +xml
