@@ -1103,7 +1103,7 @@ qx.Bootstrap.define("qx.Class",
     {
       // check for the property module
       if (!qx.core.Environment.get("module.property")) {
-        throw new Error("Property modul disabled.");
+        throw new Error("Property module disabled.");
       }
 
       var config;
@@ -1146,7 +1146,7 @@ qx.Bootstrap.define("qx.Class",
         if (config.event !== undefined) {
           // break if no events layer loaded
           if (!qx.core.Environment.get("module.events")) {
-            throw new Error("Events modul not enabled.");
+            throw new Error("Events module not enabled.");
           }
           var event = {}
           event[config.event] = "qx.event.type.Data";
@@ -1183,7 +1183,7 @@ qx.Bootstrap.define("qx.Class",
       {
         // check for properties
         if (!qx.core.Environment.get("module.property")) {
-          throw new Error("Property modul disabled.");
+          throw new Error("Property module disabled.");
         }
         
         var has = this.hasProperty(clazz, name);
