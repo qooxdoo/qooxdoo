@@ -15,8 +15,6 @@
    Authors:
      * Derrell Lipman (derrell)
 
-#module(treevirtual)
-
 ************************************************************************ */
 
 /**
