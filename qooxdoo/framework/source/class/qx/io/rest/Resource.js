@@ -436,7 +436,7 @@ qx.Class.define("qx.io.rest.Resource",
 
       placeholders.forEach(function(placeholder) {
         // Require parameter for each placeholder
-        if (!params[placeholder]) {
+        if (typeof (params[placeholder]) === "undefined") {
           throw new Error("Missing parameter '" + placeholder + "'");
         }
 
