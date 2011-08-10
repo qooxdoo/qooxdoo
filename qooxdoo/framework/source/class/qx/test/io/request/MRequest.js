@@ -397,7 +397,31 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       var req = this.req,
           transport = this.transport;
 
+      req.abort();
       transport.onabort();
+
+      // Transport switches to readyState DONE on abort
+      transport.readyState = 4;
+      transport.onreadystatechange();
+
+      this.assertEquals("abort", req.getPhase());
+    },
+
+    "test: phase is abort when from cache": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport;
+
+      req.abort();
+      transport.onabort();
+
+      // Synchronously served from cached
+      transport.status = 304;
+
+      // Transport switches to readyState DONE on abort
+      transport.readyState = 4;
+      transport.onreadystatechange();
+
       this.assertEquals("abort", req.getPhase());
     },
 
