@@ -68,6 +68,9 @@ qx.Class.define("playground.view.Samples",
     /** Event triggered by the save button. */
     "save" : "qx.event.type.Event",
 
+    /** Event triggered by the save as button. */
+    "saveAs" : "qx.event.type.Event",
+
     /** Event triggered by the delete button. */
     "delete" : "qx.event.type.Event",
 
@@ -198,12 +201,22 @@ qx.Class.define("playground.view.Samples",
 
       // save button
       var saveButton = new qx.ui.toolbar.Button(
-        null, "icon/16/devices/drive-harddisk.png"
+        null, "icon/16/actions/document-save.png"
       );
       toolbar.add(saveButton);
       saveButton.setToolTipText(this.tr("Save"));
       saveButton.addListener("execute", function() {
         this.fireEvent("save");
+      }, this);
+
+      // save as button
+      var saveAsButton = new qx.ui.toolbar.Button(
+        null, "icon/16/actions/document-save-as.png"
+      );
+      toolbar.add(saveAsButton);
+      saveAsButton.setToolTipText(this.tr("Save As"));
+      saveAsButton.addListener("execute", function() {
+        this.fireEvent("saveAs");
       }, this);
 
       // delete button
@@ -218,7 +231,7 @@ qx.Class.define("playground.view.Samples",
 
       // rename button
       this.__renameButton = new qx.ui.toolbar.Button(
-        null, "icon/16/actions/insert-text.png"
+        null, "icon/16/actions/format-text-direction-ltr.png"
       );
       toolbar.add(this.__renameButton);
       this.__renameButton.setToolTipText(this.tr("Rename"));

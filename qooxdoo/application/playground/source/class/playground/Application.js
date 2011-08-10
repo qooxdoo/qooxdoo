@@ -156,6 +156,7 @@ qx.Class.define("playground.Application",
       // examples pane
       this.__samplesPane = new playground.view.Samples();
       this.__samplesPane.addListener("save", this.__onSave, this);
+      this.__samplesPane.addListener("saveAs", this.__onSaveAs, this);
       this.__samplesPane.addListener("delete", this.__onDelete, this);
       this.__samplesPane.addListener("rename", this.__onRename, this);
       this.bind("currentSample", this.__samplesPane, "currentSample");
@@ -373,24 +374,7 @@ qx.Class.define("playground.Application",
 
       // if we don't have a current sample and the sample is a static one
       if (!current || current.getCategory() == "static") {
-        // ask the user for a new name for the property
-        var name = prompt(this.tr("Please enter a name"));
-        if (!name) {
-          return;
-        }
-        // create new sample
-        var data = {
-          name: name, 
-          code: this.__editor.getCode(), 
-          mode: this.__mode, 
-          category: "user"
-        };
-        var sample = qx.data.marshal.Json.createModel(data, true);
-        // push the data to the model (storest automatically)
-        this.__store.getModel().push(sample);
-        // store the origin code and select the new sample
-        this.setOriginCode(sample.getCode());
-        this.__samplesPane.select(sample);
+        this.__onSaveAs();
       // if its a user sample which is selected, we just store the new code
       } else {
         // store in curent sample
@@ -399,6 +383,32 @@ qx.Class.define("playground.Application",
         // set the name to make sure no "changed" state is displayed
         this.setName(current.getName());
       }
+    },
+
+
+    /**
+     * Helper to write the current code to the model and with that to the 
+     * offline store.
+     */
+    __onSaveAs : function() {
+      // ask the user for a new name for the property
+      var name = prompt(this.tr("Please enter a name"));
+      if (!name) {
+        return;
+      }
+      // create new sample
+      var data = {
+        name: name, 
+        code: this.__editor.getCode(), 
+        mode: this.__mode, 
+        category: "user"
+      };
+      var sample = qx.data.marshal.Json.createModel(data, true);
+      // push the data to the model (storest automatically)
+      this.__store.getModel().push(sample);
+      // store the origin code and select the new sample
+      this.setOriginCode(sample.getCode());
+      this.__samplesPane.select(sample);
     },
 
 

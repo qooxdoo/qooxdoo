@@ -15,15 +15,15 @@ msgstr ""
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
 msgstr "Tyvärr har ett oåterkalleligt internt fel orsakat av din kod inträffat. Detta kan förhindra testeditorn att köra riktigt.||"
 
-#: playground/Application.js:377 playground/Application.js:430
+#: playground/Application.js:395 playground/Application.js:440
 msgid "Please enter a name"
 msgstr "Ange ett namn"
 
-#: playground/Application.js:577 playground/Application.js:620
+#: playground/Application.js:592 playground/Application.js:635
 msgid "Custom Code"
 msgstr "Egen kod"
 
-#: playground/Application.js:643
+#: playground/Application.js:658
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
@@ -31,27 +31,27 @@ msgstr ""
 "// Kunde inte hanter URL-parametern! \n"
 "// %1"
 
-#: playground/Application.js:646
+#: playground/Application.js:661
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
 msgstr "// Din webbläsare har en längdbegränsning för URL-parametrar vilket kan ha orsakat problemet."
 
-#: playground/Application.js:664
+#: playground/Application.js:679
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
 msgstr "Kan inte lägga till exempelkoden till URL:en eftersom den är för lång. Vill du fortsättningsvis inaktivera denna varning?"
 
-#: playground/Application.js:689
+#: playground/Application.js:704
 msgid "Click OK to discard your changes."
 msgstr "Klicka Ok för att överge dina ändringar."
 
-#: playground/Application.js:749
+#: playground/Application.js:764
 msgid "Starting application"
 msgstr "Startar applikationen"
 
-#: playground/Application.js:752
+#: playground/Application.js:767
 msgid "Successfully started"
 msgstr "Lyckad uppstart"
 
-#: playground/Application.js:810
+#: playground/Application.js:825
 msgid "%1 (modified)"
 msgstr "%1 (modifierad)"
 
@@ -91,23 +91,27 @@ msgstr "Återställ"
 msgid "Samples"
 msgstr "Exempel"
 
-#: playground/view/Samples.js:172
+#: playground/view/Samples.js:175
 msgid "Static"
 msgstr "Statisk"
 
-#: playground/view/Samples.js:174
+#: playground/view/Samples.js:177
 msgid "User"
 msgstr "Användare"
 
-#: playground/view/Samples.js:204
+#: playground/view/Samples.js:207
 msgid "Save"
 msgstr "Spara"
 
-#: playground/view/Samples.js:214
+#: playground/view/Samples.js:217
+msgid "Save As"
+msgstr "Spara som"
+
+#: playground/view/Samples.js:227
 msgid "Delete"
 msgstr "Radera"
 
-#: playground/view/Samples.js:224
+#: playground/view/Samples.js:237
 msgid "Rename"
 msgstr "Byt namn"
 
