@@ -791,7 +791,7 @@ qx.Class.define("playground.Application",
       // store the new standalone app if available
       for(var name in reg)
       {
-        if(this.__isStandaloneApp(name))
+        if(this.__isAppClass(name))
         {
           this.__currentStandalone = name;
           this.__executeStandaloneApp(name);
@@ -837,21 +837,31 @@ qx.Class.define("playground.Application",
 
     /**
      * Determines whether the class (given by name) exists in the object
-     * registry and is a qooxdoo standalone application class
+     * registry and is a qooxdoo application class.
      *
      * @param name {String} Name of the class to examine
-     * @return {Boolean} Whether it is a registered standalone application class
+     * @return {Boolean} Whether it is a registered application class
      */
-    __isStandaloneApp : function(name)
+    __isAppClass : function(name)
     {
       if (name === "playground.Application") {
         return false;
       }
       var clazz = qx.Class.$$registry[name];
-      return (
-        clazz && clazz.superclass &&
-        clazz.superclass.classname === "qx.application.Standalone"
-      )
+      // ria mode supports standalone applications
+      if (this.__mode == "ria") {
+        return (
+          clazz && clazz.superclass &&
+          clazz.superclass.classname === "qx.application.Standalone"
+        )
+      // mobile mode supports mobild applications
+      } else if (this.__mode == "mobile") {
+        return (
+          clazz && clazz.superclass &&
+          clazz.superclass.classname === "qx.application.Mobile"
+        )
+      }
+      return false;
     },
 
 
