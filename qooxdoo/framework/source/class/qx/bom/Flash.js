@@ -21,7 +21,7 @@
    This class contains code based on the following work:
 
    * SWFFix
-     http://www.swffix.org
+     http://code.google.com/p/swffix/
      Version 0.3 (r17)
 
      Copyright:
