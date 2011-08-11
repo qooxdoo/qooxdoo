@@ -348,6 +348,22 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     },
 
 
+    testOnPool : function() {
+      var delegate = {
+        onPool : function(item) {}
+      };
+
+      var spy = this.spy(delegate, "onPool");
+      this.provider.setDelegate(delegate);
+
+      var widget = this.provider.getCellWidget(4,0);
+      this.provider.poolCellWidget(widget);
+      this.assertCalledOnce(spy);
+      this.assertCalledWith(spy, widget);
+      widget.dispose();
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       MOCK API

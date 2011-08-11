@@ -113,6 +113,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       widget.removeListener("changeOpen", this.__onOpenChanged, this);
       this._removeBindingsFrom(widget);
       this._renderer.pool(widget);
+      this._onPool(widget);
     },
 
 
@@ -202,6 +203,22 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       }
 
       this._renderer.updateStates(widget, {});
+    },
+
+
+    /**
+     * Calls the delegate <code>onPool</code> method when it is used in the
+     * {@link #delegate} property.
+     * 
+     * @param item {qx.ui.core.Widget} Item to modify.
+     */
+    _onPool : function(item)
+    {
+      var onPool = qx.util.Delegate.getMethod(this.getDelegate(), "onPool");
+
+      if (onPool != null) {
+        onPool(item);
+      }
     },
 
 

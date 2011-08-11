@@ -64,6 +64,14 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
      * @param item {qx.ui.core.Widget} The created and used item.
      * @param id {Integer} The id for the binding.
      */
-    bindItem : function(controller, item, id) {}
+    bindItem : function(controller, item, id) {},
+
+
+    /**
+     * Gives the user the opportunity to reset properties or states.
+     * 
+     * @param item {qx.ui.core.Widget} Item to modify.
+     */
+    onPool : function(item) {}
   }
 });
