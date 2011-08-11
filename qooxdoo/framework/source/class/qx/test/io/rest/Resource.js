@@ -168,6 +168,16 @@ qx.Class.define("qx.test.io.rest.Resource",
       }, Error);
     },
 
+    "test: map action does not throw when existing method is empty": function() {
+      var res = this.res,
+          req = this.req;
+
+      // For documentation purposes
+      res.popular = qx.lang.Function.empty;
+
+      res.map("popular", "GET", "/photos/popular");
+    },
+
     "test: dynamically created method is chainable": function() {
       var res = this.res,
           req = this.req;

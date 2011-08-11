@@ -193,9 +193,15 @@ qx.Class.define("qx.io.rest.Resource",
     map: function(action, method, url, check) {
       this.__routes[action] = [method, url, check];
 
+      // Not overwrite existing methods
       if (typeof this[action] !== "undefined") {
-        throw new Error("Method with name of action (" +
-          action + ") already exists");
+
+        // Unless the method is an empty function
+        if (this[action] !== qx.lang.Function.empty) {
+          throw new Error("Method with name of action (" +
+            action + ") already exists");
+        }
+
       }
 
       this.__declareEvent(action + "Success");
