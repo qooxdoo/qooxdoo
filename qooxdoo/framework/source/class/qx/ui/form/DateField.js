@@ -118,18 +118,31 @@ qx.Class.define("qx.ui.form.DateField",
 
   properties :
   {
-    // overridden
-    appearance :
-    {
-      refine : true,
-      init : "datefield"
-    },
 
     /** The formatter, which converts the selected date to a string. **/
     dateFormat :
     {
       check : "qx.util.format.DateFormat",
       apply : "_applyDateFormat"
+    },
+
+    /**
+     * String value which will be shown as a hint if the field is all of:
+     * unset, unfocused and enabled. Set to null to not show a placeholder
+     * text.
+     */
+    placeholder :
+    {
+      check : "String",
+      nullable : true,
+      apply : "_applyPlaceholder"
+    },
+
+    // overridden
+    appearance :
+    {
+      refine : true,
+      init : "datefield"
     },
 
     // overridden
@@ -360,6 +373,10 @@ qx.Class.define("qx.ui.form.DateField",
     },
 
 
+    // property apply routine
+    _applyPlaceholder : function(value, old) {
+      this.getChildControl("textfield").setPlaceholder(value);
+    },
 
 
     /*
