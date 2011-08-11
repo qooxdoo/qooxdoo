@@ -29,7 +29,8 @@ qx.Class.define("qx.test.ui.form.DateField",
     },
 
     tearDown: function() {
-      this.__datefield.dispose();
+      this.__datefield.destroy();
+      this.base(arguments);
     },
 
     "test: setting value sets date of chooser": function() {
