@@ -38,7 +38,7 @@ qx.Bootstrap.define("qx.bom.client.Json",
       return (
 
       // Exists
-      qx.lang.Type.getClass(window.JSON) == "JSON" &&
+      qx.Bootstrap.getClass(window.JSON) == "JSON" &&
 
       // Can parse
       JSON.parse('{"x":1}').x === 1 &&
