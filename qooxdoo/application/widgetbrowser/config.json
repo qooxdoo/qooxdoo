@@ -32,7 +32,7 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["source", "build-resources", "common"]
+    "job-shadowing" : ["source", "build-resources", "common", "simulation-run"]
   },
 
   "jobs" :
