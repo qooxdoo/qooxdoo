@@ -26,8 +26,6 @@ qx.Class.define("demobrowser.demo.bom.WebStorage",
     main : function()
     {
       this.base(arguments);
-      console.log("Web Storage");
-
 
       // scroll container
       var scroller = new qx.ui.container.Scroll();
