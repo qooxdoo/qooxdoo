@@ -805,7 +805,11 @@ Selenium.prototype.getQxObjectFunction = function(locator, functionName)
   var qxObject = this.getQxWidgetByLocator(locator);
 
   if (qxObject[functionName]) {
-    return qxObject[functionName]();
+    var result = qxObject[functionName]();
+    if (typeof result === "undefined") {
+      result = "undefined";
+    }
+    return result;
   } 
   else {
     throw new SeleniumError("Object does not have function (" + functionName + "), " + locator);
@@ -832,6 +836,11 @@ Selenium.prototype.getRunInContext = function(locator, script)
   var func = new Function(script);
   var boundFunc = qx.lang.Function.bind(func, qxObject);
   var result =  boundFunc();
+  
+  if (typeof result === "undefined") {
+    return "undefined";
+  }
+  
   if (! (typeof(result) == "string" || typeof(result) == "number" ) ) {
     result = this.toJson(result);
   }
