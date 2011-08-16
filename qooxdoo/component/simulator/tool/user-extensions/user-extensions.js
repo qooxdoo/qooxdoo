@@ -1670,7 +1670,10 @@ Selenium.prototype.getChildControls = function(parentWidget, classNames)
   */
  
   // Check the parent as well
-  var widgets = [parentWidget].concat(children);
+  var widgets = [parentWidget];
+  for (var i=0, l=children.length; i<l; i++) {
+    widgets.push(children[i]);
+  }
   
   var childControls = [];
 
@@ -2928,7 +2931,7 @@ PageBot.prototype._getQxNodeDescendants = function(node)
       // store a reference to the iframe's qx object. This is used by 
       // Selenium.getQxWidgetByLocator
       this._iframeQxObject = node.getWindow().qx;
-      descArr = descArr.concat(node.getWindow().qx.core.Init.getApplication().getRoot());
+      descArr = descArr.push(node.getWindow().qx.core.Init.getApplication().getRoot());
     } 
     catch (ex) {
     }
@@ -2944,14 +2947,20 @@ PageBot.prototype._getQxNodeDescendants = function(node)
       } catch(ex) {
         c = [];      
       }
-      descArr = descArr.concat(c);
+      
+      for (var i=0; i<c.length; i++) {
+        descArr.push(c[i]);
+      }
     }
     
     // check TreeFolder items: Only neccessary for qooxdoo versions < 0.8.3
     else {
       if (node.getItems) {
         LOG.debug("getQxNodeDescendants: using getItems() to retrieve descendants");
-        descArr = descArr.concat(node.getItems());
+        var c = node.getItems();
+        for (var i=0; i<c.length; i++) {
+          descArr.push(c[i]);
+        }
       }
     }
     
@@ -2964,7 +2973,9 @@ PageBot.prototype._getQxNodeDescendants = function(node)
     if (node._getChildren) {
       LOG.debug("getQxNodeDescendants: using _getChildren() to retrieve descendants of " + node);
       c = node._getChildren();
-      descArr = descArr.concat(c);
+      for (var i=0; i<c.length; i++) {
+        descArr.push(c[i]);
+      }
     }
     
     // use JS object members
