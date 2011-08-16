@@ -33,6 +33,11 @@
     "ROOT"         : "."
   },
   
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["source", "common", "inspector::common"]
+  },
+  
   "jobs" :
   {
     "common" :
