@@ -2468,6 +2468,15 @@ PageBot.prototype.qx.ATTRIB = /^\[.*\]$/;
 
 PageBot.prototype.qx.findOnlyVisible = false;
 
+PageBot.prototype._arrayContainsObject = function(array, object)
+{
+  for (var i=0, l=array.length; i<l; i++) {
+    if (object.toHashCode() === array[i].toHashCode()) {
+      return true;
+    }
+  }
+  return false;
+};
 
 /**
  * TODOC
@@ -2546,7 +2555,7 @@ PageBot.prototype._searchQxObjectByQxHierarchy = function(root, path)
       try
       {
         LOG.debug("Qxh Locator: recursing with root: "+childs[i]+", path: "+path.join('/'));
-        if (qx.lang.Array.contains(this.qx.seenNodes, childs[i])) {
+        if (this._arrayContainsObject(this.qx.seenNodes, childs[i])) {
           continue;
         }
         this.qx.seenNodes.push(childs[i]);
@@ -3005,12 +3014,12 @@ PageBot.prototype._getQxNodeDescendants = function(node)
       }
       if (!curr.getVisibility) {
         // always select a subnode if we can't check its visibility
-        if (!qx.lang.Array.contains(descArr1, curr)) {
+        if (!this._arrayContainsObject(descArr1, curr)) {
           descArr1.push(curr);
         }
       } else if (!this.qx.findOnlyVisible || (this.qx.findOnlyVisible && curr.getVisibility() == "visible")) {
         // if findOnlyVisible is active, check the subnode's visibility property
-        if (!qx.lang.Array.contains(descArr1, curr)) {
+        if (!this._arrayContainsObject(descArr1, curr)) {
           descArr1.push(curr);
         }
       }
