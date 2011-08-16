@@ -162,7 +162,7 @@ qx.Class.define("qx.ui.form.renderer.Single",
   */
   destruct : function()
   {
-    // first, remove all buttons from the botton row because they
+    // first, remove all buttons from the button row because they
     // should not be disposed
     if (this._buttonRow) {
       this._buttonRow.removeAll();
