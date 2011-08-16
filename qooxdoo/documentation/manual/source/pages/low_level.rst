@@ -7,12 +7,19 @@ General
 Overview
 --------
 
-* `Overview <http://qooxdoo.org/documentation/general/lowleveloverview>`_
+.. toctree::
+
+  low_level/overview
+
 
 Scenarios
 ---------
 
-* `Scenarios <http://qooxdoo.org/documentation/general/lowlevelscenarios>`_
+.. toctree::
+
+  low_level/scenarios
+
+
 
 Tutorials
 =========
