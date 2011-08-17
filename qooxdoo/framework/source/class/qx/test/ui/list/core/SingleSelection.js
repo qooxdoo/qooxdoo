@@ -229,6 +229,31 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection",
       // check selection from manager
       var selection = this._list._manager.getSelection();
       this.assertEquals(0, selection.length, "On Manager");
+    },
+    
+    testRemoveItemWithGrouping : function()
+    {
+      this._list.setDelegate({
+        group : function(data) {
+          return data;
+        }
+      });
+
+      var lastIndex = this._model.getLength() - 1;
+      
+      var selection = this._list.getSelection();
+      selection.push(this._model.getItem(lastIndex));
+      this.flush();
+
+      this._model.removeAt(lastIndex);
+      this.flush();
+
+      // check selection from list
+      this.assertEquals(0, this._list.getSelection().getLength(), "On List");
+
+      // check selection from manager
+      var selection = this._list._manager.getSelection();
+      this.assertEquals(0, selection.length, "On Manager");
     }
   }
 });
