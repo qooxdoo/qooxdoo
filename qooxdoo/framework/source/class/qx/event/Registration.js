@@ -377,7 +377,7 @@ qx.Class.define("qx.event.Registration",
     /**
      * Register an event handler.
      *
-     * @param handler {qx.event.handler.AbstractEventHandler} Event handler to add
+     * @param handler {qx.event.IEventHandler} Event handler to add
      * @return {void}
      * @throws an error if the handler does not have the IEventHandler interface.
      */
@@ -400,7 +400,7 @@ qx.Class.define("qx.event.Registration",
     /**
      * Get a list of registered event handlers.
      *
-     * @return {qx.event.handler.AbstractEventHandler[]} registered event handlers
+     * @return {qx.event.IEventHandler[]} registered event handlers
      */
     getHandlers : function() {
       return this.__handlers;
@@ -422,7 +422,7 @@ qx.Class.define("qx.event.Registration",
     /**
      * Register an event dispatcher.
      *
-     * @param dispatcher {qx.event.dispatch.IEventDispatch} Event dispatcher to add
+     * @param dispatcher {qx.event.IEventDispatcher} Event dispatcher to add
      * @param priority {Integer} One of
      * {@link qx.event.Registration#PRIORITY_FIRST},
      * {@link qx.event.Registration#PRIORITY_NORMAL}
@@ -449,7 +449,7 @@ qx.Class.define("qx.event.Registration",
     /**
      * Get a list of registered event dispatchers.
      *
-     * @return {qx.event.dispatch.IEventDispatch[]} all registered event dispatcher
+     * @return {qx.event.IEventDispatcher[]} all registered event dispatcher
      */
     getDispatchers : function() {
       return this.__dispatchers;
