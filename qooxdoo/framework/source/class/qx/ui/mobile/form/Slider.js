@@ -98,7 +98,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       check : "Integer",
       init : 0,
-      apply : "_setValue"
+      apply : "_updateKnobPosition",
+      event : "changeMinimum"
     },
 
 
@@ -110,7 +111,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       check : "Integer",
       init : 100,
-      apply : "_setValue"
+      apply : "_updateKnobPosition",
+      event : "changeMaximum"
     },
 
 
@@ -121,7 +123,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     step :
     {
       check : "Integer",
-      init : 1
+      init : 1,
+      event : "changeStep"
     }
 
   },
