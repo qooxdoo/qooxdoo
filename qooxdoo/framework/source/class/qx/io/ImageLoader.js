@@ -104,8 +104,9 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * Returns the size of a previously loaded image
      *
      * @param source {String} Image source to query
-     * @return {Map} The dimension of the image. If the image is not yet loaded,
-     *    the dimensions are given as nullxnull pixel.
+     * @return {Map} The dimension of the image (<code>width</code> and 
+     *    <code>height</code> as key). If the image is not yet loaded, the 
+     *    dimensions are given as <code>null</code> for width and height.
      */
     getSize : function(source) {
       var entry = this.__data[source];
@@ -117,7 +118,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * Returns the image width
      *
      * @param source {String} Image source to query
-     * @return {Boolean} The width or <code>null</code> when the image is not loaded
+     * @return {Integer} The width or <code>null</code> when the image is not loaded
      */
     getWidth : function(source)
     {
@@ -130,7 +131,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * Returns the image height
      *
      * @param source {String} Image source to query
-     * @return {Boolean} The height or <code>null</code> when the image is not loaded
+     * @return {Integer} The height or <code>null</code> when the image is not loaded
      */
     getHeight : function(source)
     {
