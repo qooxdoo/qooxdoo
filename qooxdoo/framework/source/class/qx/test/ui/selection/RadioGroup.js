@@ -54,11 +54,12 @@ qx.Class.define("qx.test.ui.selection.RadioGroup",
 
     tearDown : function()
     {
-      this.getRoot().removeAll();
+      this.base(arguments);
       for (var i = 0; i < this.__radioButtons.length; i++) {
         this.__radioButtons[i].destroy();
       }
       this.__radioButtons = null;
+      this._widget.dispose();
       this._widget = null;
       this._selection = null;
       this._notInSelection = null;

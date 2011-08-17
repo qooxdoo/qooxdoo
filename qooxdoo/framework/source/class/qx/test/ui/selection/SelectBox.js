@@ -49,7 +49,7 @@ qx.Class.define("qx.test.ui.selection.SelectBox",
 
     tearDown : function()
     {
-      this.getRoot().removeAll();
+      this.base(arguments);
       this._widget.destroy();
       this._widget = null;
       this._selection = null;

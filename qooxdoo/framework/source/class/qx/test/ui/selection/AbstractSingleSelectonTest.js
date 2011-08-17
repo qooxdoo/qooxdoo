@@ -41,14 +41,6 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
       throw new Error("Abstract method call: _createTestElement()");
     },
 
-    setUp : function() {
-      throw new Error("Abstract method call: setUp()");
-    },
-
-    tearDown : function() {
-      throw new Error("Abstract method call: tearDown()");
-    },
-
     _assertArrayEquals : function(expected, found, message)
     {
       expected.sort();
