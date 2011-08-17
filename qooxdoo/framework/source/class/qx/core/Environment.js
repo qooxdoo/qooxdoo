@@ -492,6 +492,78 @@ qx.Bootstrap.define("qx.core.Environment",
     /** Internal cache for all checks. */
     __cache : {},
 
+    /** Internal map for environment keys to check methods. */
+    _checksMap:
+      {
+        "engine.version"              : "qx.bom.client.Engine.getVersion",
+        "engine.name"                 : "qx.bom.client.Engine.getName",
+        "browser.name"                : "qx.bom.client.Browser.getName",
+        "browser.version"             : "qx.bom.client.Browser.getVersion",
+        "browser.documentmode"        : "qx.bom.client.Browser.getDocumentMode",
+        "browser.quirksmode"          : "qx.bom.client.Browser.getQuirksMode",
+        "runtime.name"                : "qx.bom.client.Runtime.getName",
+        "device.name"                 : "qx.bom.client.Device.getName",
+        "locale"                      : "qx.bom.client.Locale.getLocale",
+        "locale.variant"              : "qx.bom.client.Locale.getVariant",
+        "os.name"                     : "qx.bom.client.OperatingSystem.getName",
+        "os.version"                  : "qx.bom.client.OperatingSystem.getVersion",
+        "plugin.gears"                : "qx.bom.client.Plugin.getGears",
+        "plugin.quicktime"            : "qx.bom.client.Plugin.getQuicktime",
+        "plugin.quicktime.version"    : "qx.bom.client.Plugin.getQuicktimeVersion",
+        "plugin.windowsmedia"         : "qx.bom.client.Plugin.getWindowsMedia",
+        "plugin.windowsmedia.version" : "qx.bom.client.Plugin.getWindowsMediaVersion",
+        "plugin.divx"                 : "qx.bom.client.Plugin.getDivX",
+        "plugin.divx.version"         : "qx.bom.client.Plugin.getDivXVersion",
+        "plugin.silverlight"          : "qx.bom.client.Plugin.getSilverlight",
+        "plugin.silverlight.version"  : "qx.bom.client.Plugin.getSilverlightVersion",
+        "plugin.flash"                : "qx.bom.client.Flash.isAvailable",
+        "plugin.flash.version"        : "qx.bom.client.Flash.getVersion",
+        "plugin.flash.express"        : "qx.bom.client.Flash.getExpressInstall",
+        "plugin.flash.strictsecurity" : "qx.bom.client.Flash.getStrictSecurityModel",
+        "plugin.pdf"                  : "qx.bom.client.Plugin.getPdf",
+        "plugin.pdf.version"          : "qx.bom.client.Plugin.getPdfVersion",
+        "io.maxrequests"              : "qx.bom.client.Transport.getMaxConcurrentRequestCount",
+        "io.ssl"                      : "qx.bom.client.Transport.getSsl",
+        "io.xhr"                      : "qx.bom.client.Transport.getXmlHttpRequest",
+        "event.touch"                 : "qx.bom.client.Event.getTouch",
+        "event.pointer"               : "qx.bom.client.Event.getPointer",
+        "ecmascript.objectcount"      : "qx.bom.client.EcmaScript.getObjectCount",
+        "html.webworker"              : "qx.bom.client.Html.getWebWorker",
+        "html.filereader"             : "qx.bom.client.Html.getFileReader",
+        "html.geolocation"            : "qx.bom.client.Html.getGeoLocation",
+        "html.audio"                  : "qx.bom.client.Html.getAudio",
+        "html.audio.ogg"              : "qx.bom.client.Html.getAudioOgg",
+        "html.audio.mp3"              : "qx.bom.client.Html.getAudioMp3",
+        "html.audio.wav"              : "qx.bom.client.Html.getAudioWav",
+        "html.audio.au"               : "qx.bom.client.Html.getAudioAu",
+        "html.audio.aif"              : "qx.bom.client.Html.getAudioAif",
+        "html.video"                  : "qx.bom.client.Html.getVideo",
+        "html.video.ogg"              : "qx.bom.client.Html.getVideoOgg",
+        "html.video.h264"             : "qx.bom.client.Html.getVideoH264",
+        "html.video.webm"             : "qx.bom.client.Html.getVideoWebm",
+        "html.storage.local"          : "qx.bom.client.Html.getLocalStorage",
+        "html.storage.session"        : "qx.bom.client.Html.getSessionStorage",
+        "html.classlist"              : "qx.bom.client.Html.getClassList",
+        "html.xpath"                  : "qx.bom.client.Html.getXPath",
+        "html.xul"                    : "qx.bom.client.Html.getXul",
+        "html.canvas"                 : "qx.bom.client.Html.getCanvas",
+        "html.svg"                    : "qx.bom.client.Html.getSvg",
+        "html.vml"                    : "qx.bom.client.Html.getVml",
+        "html.dataset"                : "qx.bom.client.Html.getDataset",
+        "html.dataurl"                : "qx.bom.client.Html.getDataUrl",
+        "json"                        : "qx.bom.client.Json.getJson",
+        "css.textoverflow"            : "qx.bom.client.Css.getTextOverflow",
+        "css.placeholder"             : "qx.bom.client.Css.getPlaceholder",
+        "css.borderradius"            : "qx.bom.client.Css.getBorderRadius",
+        "css.boxshadow"               : "qx.bom.client.Css.getBoxShadow",
+        "css.gradients"               : "qx.bom.client.Css.getGradients",
+        "css.boxmodel"                : "qx.bom.client.Css.getBoxModel",
+        "css.translate3d"             : "qx.bom.client.Css.getTranslate3d",
+        "css.rgba"                    : "qx.bom.client.Css.getRgba",
+        "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
+        "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification"
+      },
+
 
     /**
      * The default accessor for the checks. It returns the value the current
@@ -511,11 +583,21 @@ qx.Bootstrap.define("qx.core.Environment",
         return this.__cache[key];
       }
 
-      // search for a fitting check
+      // search for a matching check
       var check = this._checks[key];
       if (check) {
         // execute the check and write the result in the cache
         var value = check();
+        this.__cache[key] = value;
+        return value;
+      }
+
+      // try class lookup
+      var classAndMethod = this._getClassNameFromEnvKey(key);
+      if (classAndMethod[0] != undefined) {
+        var clazz = classAndMethod[0];
+        var method= classAndMethod[1];
+        var value = clazz[method]();  // call the check method
         this.__cache[key] = value;
         return value;
       }
@@ -531,6 +613,29 @@ qx.Bootstrap.define("qx.core.Environment",
     },
 
 
+    /**
+     * Maps an environment key to a check class and method name.
+     */
+    _getClassNameFromEnvKey : function (key) {
+      
+      var envmappings = this._checksMap;
+      if (envmappings[key] != undefined) {
+        var implementation = envmappings[key];
+        // separate class from method
+        var lastdot = implementation.lastIndexOf(".");
+        if (lastdot > -1) {
+          var classname = implementation.slice(0,lastdot);
+          var methodname= implementation.slice(lastdot+1);
+          var clazz = qx.Bootstrap.getByName(classname);
+          if (clazz != undefined) {
+            return [clazz, methodname];
+          }
+        }
+      }
+      return [undefined, undefined];
+    },
+
+    
     /**
      * Invokes the callback as soon as the check has been done. If no check
      * could be found, a warning will be printed.
@@ -555,6 +660,18 @@ qx.Bootstrap.define("qx.core.Environment",
       var check = this._asyncChecks[key];
       if (check) {
         check(function(result) {
+          env.__cache[key] = result;
+          callback.call(self, result);
+        });
+        return;
+      }
+
+      // try class lookup
+      var classAndMethod = this._getClassNameFromEnvKey(key);
+      if (classAndMethod[0] != undefined) {
+        var clazz = classAndMethod[0];
+        var method= classAndMethod[1];
+        clazz[method](function(result) {  // call the check method
           env.__cache[key] = result;
           callback.call(self, result);
         });
@@ -987,8 +1104,7 @@ qx.Bootstrap.define("qx.core.Environment",
       // ECMA SCRIPT
       // /////////////////////////////////////////
       if (this.useCheck("ecmascript.objectcount")) {
-        this._checks["ecmascript.objectcount"] =
-          qx.bom.client.EcmaScript.getObjectCount;
+        this._checks["ecmascript.objectcount"] = qx.bom.client.EcmaScript.getObjectCount;
       }
 
       // /////////////////////////////////////////
@@ -1126,7 +1242,7 @@ qx.Bootstrap.define("qx.core.Environment",
     // create default values for the environment class
     statics._initDefaultQxValues();
     // first initialize the defined checks
-    statics._initChecksMap();
+    //statics._initChecksMap();
     // load the checks from the generator
     statics.__importFromGenerator();
     // load the checks from the url

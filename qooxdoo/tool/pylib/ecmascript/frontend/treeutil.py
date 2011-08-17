@@ -125,6 +125,8 @@ def selectNode(node, path, ignoreComments=False):
     """
     Selects a node using a XPath like path expression.
     This function returns None if no matching node was found.
+    The <path> argument is always anchored to the <node> argument
+    (think 're.match' in Python).
 
     Warning: This function uses a depth first search without backtracking!!
 

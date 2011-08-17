@@ -310,6 +310,16 @@ class MClassDependencies(object):
                 if self.followCallDeps(node, self.id, className, inLoadContext):
                     depsItem.needsRecursion = True
 
+        # check e.g. qx.core.Environment.get("runtime.name")
+        elif node.type == "constant" and node.hasParentContext("call/params"):
+            callnode = treeutil.selectNode(node, "../..")
+            if variantoptimizer.isEnvironmentCall(callnode):
+                className, classAttribute = self.getClassNameFromEnvKey(node.get("value", ""))
+                if className:
+                    depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1), inLoadContext)
+                    depsList.append(depsItem)
+
+
         elif node.type == "body" and node.parent.type == "function":
             if (node.parent.hasParentContext("call/operand") 
                 or node.parent.hasParentContext("call/operand/group")):
@@ -325,6 +335,38 @@ class MClassDependencies(object):
         return
 
         # end:_analyzeClassDepsNode
+
+
+    ##
+    # Looks up the environment key in a map that yields the full class plus
+    # method name as a string.
+    def getClassNameFromEnvKey(self, key):
+        result = '',''
+        #envmappings = self.context['jobconf'].get("environment-prefixes", {})
+        envmappings = self.context['envchecksmap']
+        if key in envmappings:
+            implementation = envmappings[key]
+            fullname, methname = implementation.rsplit(".", 1)
+            if fullname in self._classesObj:
+                result = fullname, methname
+        return result
+
+
+    ##
+    # Trys to calculate a full class name and method name from environment
+    # key.
+    def getClassNameFromEnvKey_1(self, key):
+        result = '',''
+        prefixes = self.context['jobconf'].get("environment-prefixes", {})
+        prefixes = prefixes.get("*", [])
+        parts = key.split(".")
+        clsname = parts[0].capitalize() # TODO: handle more than 2 parts
+        methname = "get" + parts[-1].capitalize()
+        for prefix in prefixes:
+            fullname = prefix + "." + clsname
+            if fullname in self._classesObj:
+                result = fullname, methname
+        return result
 
 
     def _isInterestingReference(self, assembled, node, fileId, inDefer):

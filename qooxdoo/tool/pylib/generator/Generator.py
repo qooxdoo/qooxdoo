@@ -421,6 +421,14 @@ class Generator(object):
             self._depLoader      = DependencyLoader(self._classesObj, self._cache, self._console, require, use, self._context)
             self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._classesObj)
 
+            # distribute environment checks map
+            # TODO : this could also be passed as a parameter to Class.dependencies()
+            if "qx.core.Environment" in self._classesObj:
+                envChecksMap = self._classesObj["qx.core.Environment"].extractChecksMap()
+                for clazz in self._classesObj.values():
+                    clazz.context['envchecksmap'] = envChecksMap
+
+
 
         ##
         # Safely take out a member from a set. Returns the member if it could

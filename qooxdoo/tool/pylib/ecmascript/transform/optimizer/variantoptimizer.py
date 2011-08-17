@@ -706,3 +706,14 @@ def findVariantNodes(node):
         else:
             continue
 
+def isEnvironmentCall(callNode):
+    if callNode.type != "call":
+        return False
+    operandNode = treeutil.selectNode(callNode, "operand")
+    environNodes = treeutil.findVariablePrefix(operandNode, "qx.core.Environment")
+    if len(environNodes) != 1:
+        return False
+    environMethod = treeutil.selectNode(environNodes[0], "identifier[4]/@name")
+    if environMethod in InterestingEnvMethods:
+        return True
+    return False

@@ -25,7 +25,7 @@
 
 from generator.code.Class import Class, CompileOptions
 from generator.code.Script import Script
-from ecmascript.frontend  import treegenerator
+from ecmascript.frontend  import treegenerator, treeutil
 from ecmascript.transform.optimizer import variantoptimizer
 from misc                 import util
 
@@ -61,4 +61,19 @@ class qcEnvClass(Class):
             tree = self.optimize(tree, compOptions.optimize)
         return tree
 
+    def extractChecksMap(self):
+        tree = self.tree({})
+        checksMap = None
+        for node in treeutil.nodeIterator(tree, "keyvalue"):
+            if node.get("key", "") == "_checksMap":
+                checksMap = node
+                break
+        assert checksMap
+        assert checksMap.hasParentContext("keyvalue/value/map") # 'statics/_checksMap'
+        checksMap = treeutil.selectNode(checksMap, "value/map")
+        checksMap = treeutil.mapNodeToMap(checksMap)
+        # stringify map values
+        for key in checksMap:
+            checksMap[key] = checksMap[key].children[0].get("value")
+        return checksMap
 

@@ -369,6 +369,7 @@ class Library(object):
                 contextdict["console"] = context.console
                 contextdict["cache"] = context.cache
                 contextdict["jobconf"] = context.jobconf
+                contextdict["envchecksmap"] = {}
                 if filePathId == "qx.core.Environment":
                     clazz = qcEnvClass(filePathId, filePath, self, contextdict, self._classesObj)
                 else:
