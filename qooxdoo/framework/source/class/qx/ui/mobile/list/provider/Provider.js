@@ -160,6 +160,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
   destruct : function()
   {
+    this.__itemRenderer.dispose();
     this.__itemRenderer = null;
   }
 });

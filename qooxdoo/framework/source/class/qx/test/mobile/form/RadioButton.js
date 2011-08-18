@@ -47,6 +47,7 @@ qx.Class.define("qx.test.mobile.form.RadioButton",
       radio1.destroy();
       radio2.destroy();
       radio3.destroy();
+      group.dispose();
     },
     testEnabled : function()
     {

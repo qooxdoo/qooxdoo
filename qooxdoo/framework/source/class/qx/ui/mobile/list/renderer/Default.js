@@ -74,6 +74,8 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     __image : null,
     __title : null,
     __subTitle : null,
+    __container : null,
+    __rightContainer : null,
 
 
     /**
@@ -150,7 +152,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     {
       var Composite = qx.ui.mobile.container.Composite;
 
-      var container = new Composite(new qx.ui.mobile.layout.HBox().set({
+      this.__container = new Composite(new qx.ui.mobile.layout.HBox().set({
         alignY : "middle"
       }));
 
@@ -158,23 +160,23 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
       this.__image.setAnonymous(true);
       this.__image.addCssClass("list-itemimage");
 
-      container.add(this.__image);
+      this.__container.add(this.__image);
 
-      var right = new Composite(new qx.ui.mobile.layout.VBox());
-      container.add(right, {flex:1});
+      this.__rightContainer = new Composite(new qx.ui.mobile.layout.VBox());
+      this.__container.add(this.__rightContainer, {flex:1});
 
       this.__title = new qx.ui.mobile.basic.Label();
       this.__title.setWrap(false);
       this.__title.addCssClass("list-itemlabel");
-      right.add(this.__title);
+      this.__rightContainer.add(this.__title);
 
       this.__subTitle = new qx.ui.mobile.basic.Label();
       this.__subTitle.setWrap(false);
       this.__subTitle.addCssClass("subtitle");
 
-      right.add(this.__subTitle);
+      this.__rightContainer.add(this.__subTitle);
 
-      return container;
+      return this.__container;
     },
 
 
@@ -185,5 +187,25 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
       this.__title.setValue("");
       this.__subTitle.setValue("");
     }
+  },
+  
+ /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this.__image.dispose();
+    this.__image = null;
+    this.__title.dispose();
+    this.__title = null;
+    this.__subTitle.dispose();
+    this.__subTitle = null;
+    this.__container.dispose();
+    this.__container = null;
+    this.__rightContainer.dispose();
+    this.__rightContainer = null;
   }
 });

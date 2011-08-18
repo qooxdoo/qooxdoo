@@ -1351,7 +1351,9 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     }
 
     this.__layoutParent = this.__containerElement = this.__contentElement = null;
-
+    if(this.__layoutManager) {
+      this.__layoutManager.dispose();
+    }
     this.__layoutManager = null;
   },
 

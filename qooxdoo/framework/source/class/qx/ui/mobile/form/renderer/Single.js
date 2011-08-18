@@ -38,12 +38,17 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
   construct : function(form)
   {
-    this.base(arguments,form);
     this.__errorMessageContainers = [];
+    this.__rows = [];
+    this.__labels = [];
+    this.base(arguments,form);
   },
 
   members :
   {
+  
+    __rows : null,
+    __labels : null,
 
     /**
      * A collection of error containers used to keep the error messages
@@ -71,9 +76,11 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
           var label = new qx.ui.mobile.basic.Label(names[i]);
           label._setStyle('marginBottom', '7px');
           row.add(label);
+          this.__labels.push(label);
         }
         row.add(items[i]);
         this._add(row);
+        this.__rows.push(row);
       }
     },
 
@@ -86,8 +93,11 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
     _showGroupHeader : function(title)
     {
       var row = new qx.ui.mobile.form.Row();
-      row.add(new qx.ui.mobile.basic.Label(title));
+      var titleLabel = new qx.ui.mobile.basic.Label(title);
+      row.add(titleLabel);
       this._add(row);
+      this.__labels.push(titleLabel);
+      this.__rows.push(row);
     },
 
     // override
@@ -95,6 +105,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
         row.add(button, {flex:1});
         this._add(row);
+        this.__rows.push(row);
     },
 
     // override
@@ -113,6 +124,24 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         qx.dom.Element.remove(this.__errorMessageContainers[i]);
       }
 
+    }
+  },
+  
+  
+ /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this.resetForm();
+    for(var i=0, l=this.__labels.length; i<l; i++) {
+      this.__labels[i].dispose();
+    }
+    for(var i=0, l=this.__rows.length; i<l; i++) {
+      this.__rows[i].dispose();
     }
   }
 });

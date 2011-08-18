@@ -54,6 +54,14 @@ qx.Class.define("qx.test.mobile.MobileTestCase",
     {
       this.getRoot().removeAll();
       qx.core.Init.getApplication = qx.test.mobile.MobileTestCase._oldApplicationFunction;
+      if (qx.core.Environment.get("qx.debug.dispose"))
+      {
+        if (qx.test.mobile.MobileTestCase._root)
+        {
+          qx.test.mobile.MobileTestCase._root.destroy();
+          qx.test.mobile.MobileTestCase._root = null;
+        }
+      }
     },
 
 

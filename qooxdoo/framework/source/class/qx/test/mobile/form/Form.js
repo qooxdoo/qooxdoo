@@ -23,6 +23,9 @@ qx.Class.define("qx.test.mobile.form.Form",
 
   members :
   {
+  
+    __username : null,
+    
     testValidation : function()
     {
       var form = this.__createForm();
@@ -38,8 +41,8 @@ qx.Class.define("qx.test.mobile.form.Form",
       this.assertFalse(qx.bom.element.Class.has(renderer._getChildren()[0]._getChildren()[1].getContainerElement(), 'invalid'));
 
       this.__username.dispose();
-      form.dispose();
       renderer.dispose();
+      form.dispose();
     },
 
     __createForm : function()

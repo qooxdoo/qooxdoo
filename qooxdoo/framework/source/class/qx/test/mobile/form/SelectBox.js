@@ -23,6 +23,7 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
 
   members :
   {
+  
     testValue : function()
     {
       var dd = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
@@ -32,6 +33,8 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
       selectBox.setSelection("Item 3");
       this.assertEquals("Item 3",selectBox.getValue());
       selectBox.destroy();
+      dd.dispose();
+      dd = null;
     },
 
     testSelection : function()
@@ -44,17 +47,8 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
       this.assertEquals("Item 3",selectBox.getSelection());
       this.assertEquals(2, selectBox.getContainerElement().selectedIndex);
       selectBox.destroy();
-    },
-
-    testEnabled : function()
-    {
-      var radio1 = new qx.ui.mobile.form.RadioButton();
-      this.getRoot().add(radio1);
-      radio1.setEnabled(false);
-      this.assertEquals(false, radio1.getEnabled());
-      this.assertEquals(true, qx.bom.element.Attribute.get(radio1.getContainerElement(), 'disabled'));
-
-      radio1.destroy();
+      dd.dispose();
+      dd = null;
     }
 
   }

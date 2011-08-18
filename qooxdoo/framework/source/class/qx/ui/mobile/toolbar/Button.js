@@ -72,6 +72,11 @@ qx.Class.define("qx.ui.mobile.toolbar.Button",
     _applyValue : function(value, old) {
 
     },
+    
+    __label : null,
+    __icon : null,
+    __childrenContainer : null,
+    __emptyLabel : null,
 
     /**
      *
@@ -82,33 +87,34 @@ qx.Class.define("qx.ui.mobile.toolbar.Button",
      *
      */
     __createChildren : function(label, icon) {
-      var labelControl, iconControl, container;
-      if(label) {
-        labelControl = new qx.ui.mobile.basic.Label(label);
-        labelControl.setAnonymous(true);
-        labelControl.setWrap(false);
-      }
-      if(icon) {
-        iconControl = new qx.ui.mobile.basic.Image(icon);
-        iconControl.setAnonymous(true);
-      }
-      var layout = new qx.ui.mobile.layout.VBox().set({alignY: "middle"});
-      container = new qx.ui.mobile.container.Composite(layout);
-      container.setAnonymous(true);
-      if(iconControl) {
-        container.add(iconControl);
-      }
-      if(labelControl)
+      if(label)
       {
-        container.add(labelControl);
+        this.__label = new qx.ui.mobile.basic.Label(label);
+        this.__label.setAnonymous(true);
+        this.__label.setWrap(false);
+      }
+      if(icon)
+      {
+        this.__icon = new qx.ui.mobile.basic.Image(icon);
+        this.__icon.setAnonymous(true);
+      }
+      this.__childrenContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY: "middle"}));
+      this.__childrenContainer.setAnonymous(true);
+      if(this.__icon) {
+        this.__childrenContainer.add(this.__icon);
+      }
+      if(this.__label) {
+        this.__childrenContainer.add(this.__label);
       }
       else
       {
-        if(!iconControl) {
-          container.add(new qx.ui.mobile.basic.Label(" "));
+        if(!this.__icon)
+        {
+          this.__emptyLabel = new qx.ui.mobile.basic.Label(" ");
+          this.__childrenContainer.add(this.__emptyLabel);
         }
       }
-      this._add(container);
+      this._add(this.__childrenContainer);
     }
   },
 
@@ -120,6 +126,18 @@ qx.Class.define("qx.ui.mobile.toolbar.Button",
 
   destruct : function()
   {
-    // TODO
+    if(this.__label) {
+      this.__label.dispose();
+    }
+    if(this.__emptyLabel) {
+      this.__emptyLabel.dispose();
+    }
+    if(this.__icon) {
+      this.__icon.dispose();
+    }
+    if(this.__childrenContainer) {
+      this.__childrenContainer.dispose();
+    }
+    this.__label = this.__icon = this.__childrenContainer = this.__emptyLabel = null;
   }
 });

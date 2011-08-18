@@ -106,7 +106,10 @@ qx.Class.define("qx.test.mobile.core.Widget",
       this.getRoot().add(widget);
 
       var clazz =  qx.ui.mobile.core.Widget;
-      var id = clazz.ID_PREFIX + (clazz.getCurrentId() - 1);
+      // decrement is 2 when qx.core.Environment.get("qx.debug.dispose") because the _root is recreated on every test,
+      // and it is a widget too
+      var decrement = qx.core.Environment.get("qx.debug.dispose") ? 2 : 1;
+      var id = clazz.ID_PREFIX + (clazz.getCurrentId() - decrement);
       var element = document.getElementById(id);
       this.assertElement(element);
 

@@ -61,12 +61,21 @@ qx.Class.define("qx.test.mobile.list.List",
       var childrenLength = list.getContentElement().childNodes.length;
       this.assertEquals(dataLength, childrenLength);
     },
+    
+    __cleanUp : function(list) {
+      list.destroy();
+      var modelData = list.getModel();
+      if(modelData) {
+        modelData.dispose();
+        modelData = null;
+      }
+    },
 
     testCreate : function()
     {
       var list = this.__createList();
       this.__assertItemsAndModelLength(list, 5);
-      list.destroy();
+      this.__cleanUp(list);
     },
 
 
@@ -75,7 +84,7 @@ qx.Class.define("qx.test.mobile.list.List",
         return new qx.ui.mobile.list.renderer.Default();
       });
       this.__assertItemsAndModelLength(list, 5);
-      list.destroy();
+      this.__cleanUp(list);
     },
 
 
@@ -85,9 +94,10 @@ qx.Class.define("qx.test.mobile.list.List",
         return new qx.ui.mobile.list.renderer.Default();
       });
       this.__assertItemsAndModelLength(list, 5);
+      list.getModel().dispose();
       list.setModel(null);
       this.__assertItemsAndModelLength(list, 0);
-      list.destroy();
+      this.__cleanUp(list);
     },
 
 
@@ -99,7 +109,7 @@ qx.Class.define("qx.test.mobile.list.List",
       this.__assertItemsAndModelLength(list,5);
       list.getModel().removeAt(0);
       this.__assertItemsAndModelLength(list,4);
-      list.destroy();
+      this.__cleanUp(list);
     },
 
     testModelChangeEdit : function()
@@ -113,7 +123,7 @@ qx.Class.define("qx.test.mobile.list.List",
       this.__assertItemsAndModelLength(list,5);
       var text = list.getContentElement().childNodes[0].childNodes[0].childNodes[1].childNodes[0].innerHTML;
       this.assertEquals("affe", text);
-      list.destroy();
+      this.__cleanUp(list);
     },
 
 
@@ -125,7 +135,7 @@ qx.Class.define("qx.test.mobile.list.List",
       this.__assertItemsAndModelLength(list,5);
       list.getModel().push({title:"6", subTitle:"6", image:"qx/icon/Tango/48/places/folder.png"});
       this.__assertItemsAndModelLength(list,6);
-      list.destroy();
+      this.__cleanUp(list);
     }
   }
 });

@@ -25,9 +25,11 @@ qx.Class.define("qx.test.mobile.form.SingleRenderer",
   {
     __form : null,
     __b : null,
+    __t : null,
 
 
     setUp : function() {
+      this.base(arguments);
       this.__form = new qx.ui.mobile.form.Form();
       this.__b = new qx.ui.mobile.form.Button("a");
       this.__form.addButton(this.__b);
@@ -39,8 +41,10 @@ qx.Class.define("qx.test.mobile.form.SingleRenderer",
 
     tearDown : function() {
       this.__b.dispose();
+      this.__t.dispose();
       this.__form.dispose();
       this.__renderer.dispose();
+      this.base(arguments);
     },
 
     testItemRow : function() {
