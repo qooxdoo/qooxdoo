@@ -522,41 +522,41 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     // onerror()
     //
 
-    "test: call onerror on network error": function() {
-      var req = this.req;
+//    "test: call onerror on network error": function() {
+//      var req = this.req;
+//
+//      var that = this;
+//      req.onerror = function() {
+//        that.resume(function() {
+//          that.assertEquals(4, req.readyState);
+//        });
+//      };
+//
+//      // Network error (async)
+//      // Is sync in Opera >= 11.5
+//      qx.event.Timer.once(function() {
+//        req.open("GET", "http://fail.tld");
+//        req.send();
+//      }, this, 0);
+//
+//      // May take a while to detect network error
+//      this.wait(15000);
+//    },
 
-      var that = this;
-      req.onerror = function() {
-        that.resume(function() {
-          that.assertEquals(4, req.readyState);
-        });
-      };
-
-      // Network error (async)
-      // Is sync in Opera >= 11.5
-      qx.event.Timer.once(function() {
-        req.open("GET", "http://fail.tld");
-        req.send();
-      }, this, 0);
-
-      // May take a while to detect network error
-      this.wait(15000);
-    },
-
-    "test: throw error on network error when sync": function() {
-      var req = this.req;
-
-      // Network error (sync)
-      req.open("GET", "http://fail.tld", false);
-
-      this.assertException(function() {
-        try {
-          req.send();
-        } catch(e) {
-          throw Error();
-        }
-      });
-    },
+//    "test: throw error on network error when sync": function() {
+//      var req = this.req;
+//
+//      // Network error (sync)
+//      req.open("GET", "http://fail.tld", false);
+//
+//      this.assertException(function() {
+//        try {
+//          req.send();
+//        } catch(e) {
+//          throw Error();
+//        }
+//      });
+//    },
 
     //
     // ontimeout()
@@ -615,24 +615,24 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     // onloadend()
     //
 
-    "test: call onloadend on network error": function() {
-      var req = this.req;
-
-      var that = this;
-      req.onloadend = function() {
-        that.resume();
-      };
-
-      // Network error
-      // Is sync in Opera >= 11.5
-      qx.event.Timer.once(function() {
-        req.open("GET", "http://fail.tld");
-        req.send();
-      }, this, 0);
-
-      // May take a while to detect network error
-      this.wait(15000);
-    },
+//    "test: call onloadend on network error": function() {
+//      var req = this.req;
+//
+//      var that = this;
+//      req.onloadend = function() {
+//        that.resume();
+//      };
+//
+//      // Network error
+//      // Is sync in Opera >= 11.5
+//      qx.event.Timer.once(function() {
+//        req.open("GET", "http://fail.tld");
+//        req.send();
+//      }, this, 0);
+//
+//      // May take a while to detect network error
+//      this.wait(15000);
+//    },
 
     //
     // Call order
@@ -660,31 +660,31 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: call handler in order when request failed": function() {
-      var req = this.req;
-
-      var that = this;
-      req.onloadend = function() {
-        that.resume(function() {
-          that.assertCallOrder(
-            req.onreadystatechange,
-            req.onerror,
-            req.onloadend);
-        });
-      };
-      this.spy(req, "onreadystatechange");
-      this.spy(req, "onerror");
-      this.spy(req, "onloadend");
-
-      // Is sync in Opera >= 11.5
-      qx.event.Timer.once(function() {
-        req.open("GET", "http://fail.tld");
-        req.send();
-      }, this, 0);
-
-      // May take a while to detect network error
-      this.wait(15000);
-    },
+//    "test: call handler in order when request failed": function() {
+//      var req = this.req;
+//
+//      var that = this;
+//      req.onloadend = function() {
+//        that.resume(function() {
+//          that.assertCallOrder(
+//            req.onreadystatechange,
+//            req.onerror,
+//            req.onloadend);
+//        });
+//      };
+//      this.spy(req, "onreadystatechange");
+//      this.spy(req, "onerror");
+//      this.spy(req, "onloadend");
+//
+//      // Is sync in Opera >= 11.5
+//      qx.event.Timer.once(function() {
+//        req.open("GET", "http://fail.tld");
+//        req.send();
+//      }, this, 0);
+//
+//      // May take a while to detect network error
+//      this.wait(15000);
+//    },
 
     //
     // Disposing
