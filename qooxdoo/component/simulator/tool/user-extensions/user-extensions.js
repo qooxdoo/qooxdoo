@@ -923,7 +923,7 @@ PageBot.prototype.getQxWidgetByElement = function(element)
   }
   else {
     if (exception && exception.message) {
-      throw exception;
+      LOG.error("getQxWidgetByElement failed: " + exception.message);
     }
   }
   
@@ -2103,7 +2103,14 @@ PageBot.prototype.locateElementByQxidv = function(qxLocator, inDocument, inWindo
     return null;
   }
   
-  var qx = this.getQxGlobalObject();
+  var qx;
+  try {
+    qx = this.getQxGlobalObject();
+  }
+  catch(ex) {
+    LOG.error(ex.message);
+    return null;
+  }
   
   for (var i=0,l=result.length; i<l; i++) {
     var element = result[i];
@@ -2148,14 +2155,22 @@ PageBot.prototype.locateElementByQxhybrid = function(qxLocator, inDocument, inWi
       domElem = domElem.wrappedJSObject;
     }
   } catch(ex) {
-    throw new SeleniumError("Hybrid locator couldn't find element using " + 
+    LOG.error("Hybrid locator couldn't find element using " + 
       firstPart + ": " + ex);
+    return null;
   }
   
   if (inWindow.wrappedJSObject) {
     inWindow = inWindow.wrappedJSObject; 
   }
-  var qx = this.getQxGlobalObject();
+  var qx;
+  try {
+    qx = this.getQxGlobalObject();
+  }
+  catch(ex) {
+    LOG.error(ex.message);
+    return null;
+  }
   
   var nextPart = locatorParts.shift();
   while (nextPart) {
@@ -2178,8 +2193,9 @@ PageBot.prototype.locateElementByQxhybrid = function(qxLocator, inDocument, inWi
         }
       }
       catch(e) {
-        throw new SeleniumError("Hybrid locator couldn't find element using " + 
+        LOG.error("Hybrid locator couldn't find element using " + 
           nextPart);
+        return null;
       }
     }
     else if (nextPart.indexOf("//") == 0) {
@@ -2242,26 +2258,24 @@ PageBot.prototype._findQxObjectInWindowQxh = function(qxLocator, inWindow)
 
   var qxResultObject = null;
 
-  // the AUT window must contain the qx-Object
-  var qxAppRoot;
-
-  if (this.getQxGlobalObject()) {
-    LOG.debug("qxLocator: qooxdoo seems to be present in AUT window. Try to get the Instance");
-    
-    var locAndRoot = this._getLocatorAndRoot(qxLocator, inWindow);
-    qxLocator = locAndRoot.qxLocator;
-    var qxAppRoot = locAndRoot.qxAppRoot;
+  var qx;
+  try {
+    qx = this.getQxGlobalObject();
   }
-
-  else
-  {
-    LOG.debug("qx-Locator: qx-Object not defined, object not found. inWindow=" + inWindow.location.href + ", inWindow.qx=" + inWindow.qx);
-
-    // do not throw here, as if the locator fails in the first place selenium will call this
-    // again with all frames (and windows?) which won't result in "element not found" but in
-    // qooxdoo not beeing availabel.
+  catch(ex) {
+    LOG.error(ex.message);
     return null;
   }
+  
+  LOG.debug("qxLocator: qooxdoo seems to be present in AUT window. Try to get the Instance");
+  
+  var locAndRoot = this._getLocatorAndRoot(qxLocator, inWindow);
+  if (!locAndRoot) {
+    return null;
+  }
+  
+  qxLocator = locAndRoot.qxLocator;
+  var qxAppRoot = locAndRoot.qxAppRoot;
 
   LOG.debug("qxLocator All basic checks passed.");
 
@@ -2274,17 +2288,15 @@ PageBot.prototype._findQxObjectInWindowQxh = function(qxLocator, inWindow)
   }
   catch(e)
   {
-    if (e.a instanceof Array)
+    if (e.a && e.a instanceof Array)
     {
-      // throw new SeleniumError("qooxdoo-Element " + e.join('/') + " not found");
-      LOG.debug("Qxh Locator: Could not resolve last element of: " + e.a.join('/'));
-
-      // return null; // for now just return null
-      throw e;
+      LOG.info("Qxh Locator: Could not resolve last element of: " + e.a.join('/'));
+      return null; // for now just return null
     }
     else
-    {  // re-raise
-      throw e;
+    {
+      LOG.error("Error while processing qxh locator: " + e.message);
+      return null;
     }
   }
 
@@ -2310,7 +2322,7 @@ PageBot.prototype._getLocatorAndRoot = function(locator, inWindow)
   else {
     appRoot = this._getClientDocument(inWindow);
     if (appRoot == null){
-      LOG.debug("qx-Locator: Cannot access Init.getApplication() (yet), cannot search. inWindow=" + inWindow.location.href + ", inWindow.qx=" + inWindow.qx);
+      LOG.warn("qx-Locator: Cannot access Init.getApplication() (yet), cannot search. inWindow=" + inWindow.location.href + ", inWindow.qx=" + inWindow.qx);
       return null;
     }
   }
@@ -2329,8 +2341,9 @@ PageBot.prototype._getLocatorAndRoot = function(locator, inWindow)
         domElem = domElem.wrappedJSObject;
       }
     } catch(ex) {
-      throw new SeleniumError("Inline locator couldn't find element using" + 
+      LOG.error("Inline locator couldn't find element using" + 
         locatorParts[0] + ": " + ex);
+      return null;
     }
     
     // Get the inline root widget
@@ -2343,7 +2356,8 @@ PageBot.prototype._getLocatorAndRoot = function(locator, inWindow)
       }
       
     } catch(ex) {
-      throw new SeleniumError("Inline locator couldn't find Inline root: " + ex);
+      LOG.error("Inline locator couldn't find Inline root: " + ex);
+      return null;
     }
     
     locator = locatorParts[1];
@@ -2461,7 +2475,7 @@ PageBot.prototype._searchQxObjectByQxUserData = function(obj, userDataSearchStri
 
 
 PageBot.prototype.qx = {};  // create qx name space
-// some regexps, to safe stack space
+// some regexps, to save stack space
 PageBot.prototype.qx.IDENTIFIER = new RegExp('^[a-z$][a-z0-9_\.$]*$', 'i');
 PageBot.prototype.qx.NTHCHILD = /^child\[-?\d+\]$/i;
 PageBot.prototype.qx.ATTRIB = /^\[.*\]$/;
@@ -2499,7 +2513,8 @@ PageBot.prototype._searchQxObjectByQxHierarchy = function(root, path)
     return null;
   }
   if (root == null) {
-    throw new SeleniumError("QxhPath: Cannot determine descendant from null root for: " + path);
+    LOG.error("Qxh Locator: Cannot determine descendant from null root for: " + path);
+    return null;
   }
 
   var el = null;  // the yet to find current element
@@ -2992,7 +3007,8 @@ PageBot.prototype._getQxNodeDescendants = function(node)
       LOG.debug("getQxNodeDescendants: using JS properties to retrieve descendants");
       for (var m in node) {
         var objMember = node[m];
-        if (!objMember || typeof objMember !== "object" || !node.hasOwnProperty(m)) {
+        if (!objMember || typeof objMember !== "object" || 
+        !node.hasOwnProperty(m) || !objMember.toHashCode) {
           continue;
         }
         descArr.push(objMember);
