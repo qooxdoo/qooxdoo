@@ -95,7 +95,7 @@
 
     "source-script" :
     {
-      "desc"    : "create includer script of current application",
+      "desc"    : "create a hybrid version (app classes as source files, others compiled)",
 
       "extend" : ["common"],
 
@@ -113,7 +113,7 @@
         "code" :
         {
           "locales" : "${LOCALES}",
-          "except"  : ["*"]
+          "except"  : ["${APPLICATION}*"]
         }
       },
 
@@ -193,18 +193,21 @@
       ]
     },
 
-    "source-hybrid" :
+    //"source-single" : 
+    //"source-discrete" : 
+    //"source-individual" : 
+    "source-each" : 
     {
-      "desc"    : "create a hybrid version (app classes as source files, others compiled)",
+      "desc"    : "create a source version with each class from its individual file",
 
       "extend"  : [ "source" ],
 
       "compile-options" : 
       {
-        "code" : { "=except" : [ "${APPLICATION}.*" ] }
+        "code" : { "=except" : [ "*" ] }
       },
 
-      "compile" : { "type" : "hybrid" }
+      "compile" : { "type" : "source" }
     },
 
 
