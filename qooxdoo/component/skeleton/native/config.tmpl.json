@@ -23,7 +23,7 @@
     "profiling",
     "source",
     "source-all",
-    "source-hybrid",
+    "source-each",
     "test",
     "test-source",
     "translation"

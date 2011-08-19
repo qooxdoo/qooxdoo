@@ -25,7 +25,7 @@
     "profiling",
     "source",
     "source-all",
-    "source-hybrid",
+    "source-each",
     "source-lowlevel",
     "simulation-build",
     "simulation-run",
