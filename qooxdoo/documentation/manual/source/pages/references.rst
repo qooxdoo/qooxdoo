@@ -35,6 +35,15 @@ Tooling
    tool/ebnf_like
    tool/astlets
 
+Miscellaneous
+=============
+
+.. toctree::
+   :maxdepth: 1
+
+   introduction/third_party_components
+
+
 Glossary
 ========
 

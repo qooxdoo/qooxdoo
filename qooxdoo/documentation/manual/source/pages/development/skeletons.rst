@@ -49,7 +49,7 @@ Included layers
 
 Mobile
 ------
-For a :ref:`mobile application<pages/mobile#overview>` running in a WebKit-based browser on iOS or Android (and also on desktop machines). Supports the `mobile widget set <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_. 
+For a :ref:`mobile application <pages/mobile/mobile_overview#overview>` running in a WebKit-based browser on iOS or Android (and also on desktop machines). Supports the `mobile widget set <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_. 
 
 Inherits from `qx.application.Mobile <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Mobile>`_
 

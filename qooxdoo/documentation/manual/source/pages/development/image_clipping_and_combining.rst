@@ -11,7 +11,7 @@ Setup
 
 .. note::
 
-    To be able to use image clipping and combining you need an installed :doc:`ImageMagick </pages/tool/tools_beyond_python_sdk>` package.
+    To be able to use image clipping and combining you need an installed :doc:`ImageMagick </pages/introduction/third_party_components>` package.
 
 
 To use the two features you have to create a config file which can be used by the generator to clip or combine images. Altough it is possible to integrate the jobs for clipping and combining in your ``config.json`` file of your application, **the better way** is to create an own config file for the image manipuations to separate it from the application configuration. 

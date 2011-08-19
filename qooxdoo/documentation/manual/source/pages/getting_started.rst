@@ -60,5 +60,4 @@ SDK
    getting_started/manifest
    getting_started/code_structure
    getting_started/architecture
-   tool/tools_beyond_python_sdk
 
