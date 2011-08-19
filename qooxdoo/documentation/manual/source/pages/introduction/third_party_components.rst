@@ -22,6 +22,12 @@ These are components that are integrated into the %{JS} class code.
   * - `Sizzle <http://sizzlejs.com/>`_
     - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
 
+  * - `SWFFix <http://code.google.com/p/swffix/>`_
+    - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
+
+  * - `Sinon.JS <http://sinonjs.org/>`_
+    - `BSD <http://www.opensource.org/licenses/bsd-license.php>`_
+
 
 .. _pages/introduction/third_party_components#resources:
 
