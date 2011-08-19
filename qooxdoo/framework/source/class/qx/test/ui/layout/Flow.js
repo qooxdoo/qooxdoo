@@ -23,12 +23,22 @@ qx.Class.define("qx.test.ui.layout.Flow",
 
   members :
   {
+    _container : null,
+
     setUp : function() {
       this.root = new qx.test.ui.layout.LayoutRoot();
     },
 
     tearDown : function() {
       this.root.dispose();
+      var children = this._container.getLayoutChildren();
+      for (var i=0, l=children.length; i<l; i++) {
+        this._container.remove(children[i]);
+        children[i].dispose();
+      }
+      this.root.remove(this._container);
+      this._container._getLayout().dispose();
+      this._container.dispose();
     },
 
     flush : function() {
@@ -38,7 +48,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testChildrenFitInLine : function()
     {
       var layout = new qx.ui.layout.Flow();
-      var container = new qx.test.ui.layout.LayoutItem(400, 50).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(400, 50).set({
         layout: layout
       });
       this.root.add(container);
@@ -78,7 +88,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testAutoSize : function()
     {
       var layout = new qx.ui.layout.Flow();
-      var container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
         layout: layout
       });
       this.root.add(container);
@@ -109,7 +119,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testWrapThirdChild : function()
     {
       var layout = new qx.ui.layout.Flow();
-      var container = new qx.test.ui.layout.LayoutItem(250, 300).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(250, 300).set({
         layout: layout
       });
       this.root.add(container);
@@ -133,7 +143,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testAlignX : function()
     {
       var layout = new qx.ui.layout.Flow();
-      var container = new qx.test.ui.layout.LayoutItem(500, 300).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(500, 300).set({
         layout: layout
       });
       this.root.add(container);
@@ -168,7 +178,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testAlignXWithWrapping : function()
     {
       var layout = new qx.ui.layout.Flow();
-      var container = new qx.test.ui.layout.LayoutItem(80, 300).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(80, 300).set({
         layout: layout
       });
       this.root.add(container);
@@ -196,7 +206,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testLayoutAlignY : function()
     {
       var layout = new qx.ui.layout.Flow();
-      var container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
         layout: layout
       });
       this.root.add(container);
@@ -234,7 +244,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testChildAlignY : function()
     {
       var layout = new qx.ui.layout.Flow();
-      var container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
         layout: layout
       });
       this.root.add(container);
@@ -267,7 +277,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
       var layout = new qx.ui.layout.Flow().set({
         reversed: false
       });
-      var container = new qx.test.ui.layout.LayoutItem(400, 50).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(400, 50).set({
         layout: layout
       });
       this.root.add(container);
@@ -294,7 +304,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testLineBreakAutoSize : function()
     {
       var layout = new qx.ui.layout.Flow();
-      var container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
         layout: layout
       });
       this.root.add(container);
@@ -322,7 +332,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testMargins : function()
     {
       var layout = new qx.ui.layout.Flow().set();
-      var container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
         layout: layout
       });
       this.root.add(container);
@@ -358,7 +368,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testMarginXCollapse : function()
     {
       var layout = new qx.ui.layout.Flow().set();
-      var container = new qx.test.ui.layout.LayoutItem(300, null).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(300, null).set({
         layout: layout
       });
       this.root.add(container);
@@ -394,7 +404,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testSpacingX : function()
     {
       var layout = new qx.ui.layout.Flow();
-      var container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
         layout: layout
       });
       this.root.add(container);
@@ -420,7 +430,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testSpacingXAndMarginCollapsing : function()
     {
       var layout = new qx.ui.layout.Flow();
-      var container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
         layout: layout
       });
       this.root.add(container);
@@ -451,7 +461,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testSpacingY : function()
     {
       var layout = new qx.ui.layout.Flow();
-      var container = new qx.test.ui.layout.LayoutItem(110, null).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(110, null).set({
         layout: layout
       });
       this.root.add(container);
@@ -477,7 +487,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testHeightForWidth : function()
     {
       var layout = new qx.ui.layout.Flow();
-      var container = new qx.test.ui.layout.LayoutItem(110, null).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(110, null).set({
         layout: layout
       });
       this.root.add(container);
@@ -507,7 +517,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     testLargeChildInLine : function()
     {
       var layout = new qx.ui.layout.Flow();
-      var container = new qx.test.ui.layout.LayoutItem(100, null).set({
+      var container = this._container = new qx.test.ui.layout.LayoutItem(100, null).set({
         layout: layout
       });
       this.root.add(container);

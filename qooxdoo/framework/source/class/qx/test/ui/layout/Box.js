@@ -68,6 +68,7 @@ qx.Class.define("qx.test.ui.layout.Box",
         var width = c1.getSizeHint().width;
         this.assertEquals(width, computedWidth, "width");
       }
+      comp.destroy();
     },
 
 
