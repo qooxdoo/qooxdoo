@@ -47,5 +47,10 @@ qx.Bootstrap.define("qx.bom.client.PhoneGap",
     getNotification : function() {
       return "notification" in navigator;
     }
+  },
+
+  defer : function(statics) {
+    qx.core.Environment.add("phonegap", statics.getPhoneGap);
+    qx.core.Environment.add("phonegap.notification", statics.getNotification);
   }
 });

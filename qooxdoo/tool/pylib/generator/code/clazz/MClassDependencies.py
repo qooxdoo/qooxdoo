@@ -310,6 +310,11 @@ class MClassDependencies(object):
                 if self.followCallDeps(node, self.id, className, inLoadContext):
                     depsItem.needsRecursion = True
 
+            ##
+            # TODO: This API is highly experimental.
+            if className == "qx.core.Environment" and classAttribute == "requireAll":
+                depsList.extend(self.getAllEnvChecks(node, inLoadContext))
+
         # check e.g. qx.core.Environment.get("runtime.name")
         elif node.type == "constant" and node.hasParentContext("call/params"):
             callnode = treeutil.selectNode(node, "../..")
@@ -337,6 +342,13 @@ class MClassDependencies(object):
         # end:_analyzeClassDepsNode
 
 
+    def getAllEnvChecks(self, node, inLoadContext):
+        result = []
+        envmappings = self.context['envchecksmap']
+        for key in envmappings:
+            clsname, clsattribute = self.getClassNameFromEnvKey(key)
+            result.append(DependencyItem(clsname, clsattribute, self.id, node.get('line', -1), inLoadContext))
+        return result
     ##
     # Looks up the environment key in a map that yields the full class plus
     # method name as a string.

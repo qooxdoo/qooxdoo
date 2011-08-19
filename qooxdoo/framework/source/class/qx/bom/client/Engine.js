@@ -181,5 +181,10 @@ qx.Bootstrap.define("qx.bom.client.Engine",
       return window.navigator.cpuClass &&
         /MSIE\s+([^\);]+)(\)|;)/.test(window.navigator.userAgent);
     }
+  },
+
+  defer : function(statics) {
+    qx.core.Environment.add("engine.version", statics.getVersion);
+    qx.core.Environment.add("engine.name", statics.getName);
   }
 });

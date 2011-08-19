@@ -60,5 +60,9 @@ qx.Bootstrap.define("qx.bom.client.Runtime",
 
       return name;
     }
+  },
+
+  defer : function(statics) {
+    qx.core.Environment.add("runtime.name", statics.getName);
   }
 });

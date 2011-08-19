@@ -188,5 +188,12 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       // Keep "Opera" the last one to correctly prefer/match the mobile clients
       "opera" : "Opera Mini|Opera Mobi|Opera"
     }[qx.bom.client.Engine.getName()]
+  },
+
+  defer : function(statics) {
+    qx.core.Environment.add("browser.name", statics.getName),
+    qx.core.Environment.add("browser.version", statics.getVersion),
+    qx.core.Environment.add("browser.documentmode", statics.getDocumentMode),
+    qx.core.Environment.add("browser.quirksmode", statics.getQuirksMode)
   }
 });

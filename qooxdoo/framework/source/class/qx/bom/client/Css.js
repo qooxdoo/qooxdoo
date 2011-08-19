@@ -165,5 +165,16 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
       return false;
     }
+  },
+
+  defer : function(statics) {
+    qx.core.Environment.add("css.textoverflow", statics.getTextOverflow);
+    qx.core.Environment.add("css.placeholder", statics.getPlaceholder);
+    qx.core.Environment.add("css.borderradius", statics.getBorderRadius);
+    qx.core.Environment.add("css.boxshadow", statics.getBoxShadow);
+    qx.core.Environment.add("css.gradients", statics.getGradients);
+    qx.core.Environment.add("css.boxmodel", statics.getBoxModel);
+    qx.core.Environment.add("css.translate3d", statics.getTranslate3d);
+    qx.core.Environment.add("css.rgba", statics.getRgba);
   }
 });

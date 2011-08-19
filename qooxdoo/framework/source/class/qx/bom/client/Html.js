@@ -336,5 +336,31 @@ qx.Bootstrap.define("qx.bom.client.Html",
     getDataset : function() {
       return !!document.documentElement.dataset;
     }
+  },
+
+  defer : function (statics) {
+    qx.core.Environment.add("html.webworker", statics.getWebWorker),
+    qx.core.Environment.add("html.filereader", statics.getFileReader),
+    qx.core.Environment.add("html.geolocation", statics.getGeoLocation),
+    qx.core.Environment.add("html.audio", statics.getAudio),
+    qx.core.Environment.add("html.audio.ogg", statics.getAudioOgg),
+    qx.core.Environment.add("html.audio.mp3", statics.getAudioMp3),
+    qx.core.Environment.add("html.audio.wav", statics.getAudioWav),
+    qx.core.Environment.add("html.audio.au", statics.getAudioAu),
+    qx.core.Environment.add("html.audio.aif", statics.getAudioAif),
+    qx.core.Environment.add("html.video", statics.getVideo),
+    qx.core.Environment.add("html.video.ogg", statics.getVideoOgg),
+    qx.core.Environment.add("html.video.h264", statics.getVideoH264),
+    qx.core.Environment.add("html.video.webm", statics.getVideoWebm),
+    qx.core.Environment.add("html.storage.local", statics.getLocalStorage),
+    qx.core.Environment.add("html.storage.session", statics.getSessionStorage),
+    qx.core.Environment.add("html.classlist", statics.getClassList),
+    qx.core.Environment.add("html.xpath", statics.getXPath),
+    qx.core.Environment.add("html.xul", statics.getXul),
+    qx.core.Environment.add("html.canvas", statics.getCanvas),
+    qx.core.Environment.add("html.svg", statics.getSvg),
+    qx.core.Environment.add("html.vml", statics.getVml),
+    qx.core.Environment.add("html.dataset", statics.getDataset),
+    qx.core.Environment.addAsync("html.dataurl", statics.getDataUrl)
   }
 });

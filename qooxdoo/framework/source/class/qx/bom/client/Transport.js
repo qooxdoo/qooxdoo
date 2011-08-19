@@ -165,5 +165,11 @@ qx.Bootstrap.define("qx.bom.client.Transport",
 
       return supports || "";
     }
+  },
+
+  defer : function(statics) {
+    qx.core.Environment.add("io.maxrequests", statics.getMaxConcurrentRequestCount);
+    qx.core.Environment.add("io.ssl", statics.getSsl);
+    qx.core.Environment.add("io.xhr", statics.getXmlHttpRequest);
   }
 });

@@ -58,6 +58,8 @@ qx.Class.define("fce.Application",
         qx.log.appender.Console;
       }
 
+      qx.core.Environment.requireAll;  // TODO: This is highly experimental API
+
       this.__nameSpace = qx.core.Environment.get("qx.application").split(".")[0];
 
 

@@ -66,5 +66,9 @@ qx.Bootstrap.define("qx.bom.client.Device",
       }
       return "pc";
     }
+  },
+
+  defer : function(statics) {
+    qx.core.Environment.add("device.name", statics.getName);
   }
 });

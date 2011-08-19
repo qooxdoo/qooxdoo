@@ -39,5 +39,9 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     getObjectCount : function() {
       return (({}).__count__ == 0);
     }
+  },
+
+  defer : function(statics) {
+    qx.core.Environment.add("ecmascript.objectcount", statics.getObjectCount);
   }
 });

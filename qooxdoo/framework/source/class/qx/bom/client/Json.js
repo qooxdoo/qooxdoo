@@ -51,5 +51,9 @@ qx.Bootstrap.define("qx.bom.client.Json",
         return k === "prop" ? "repl" : v;
       }).indexOf("repl") > 0);
     }
+  },
+
+  defer : function(statics) {
+    qx.core.Environment.add("json", statics.getJson);
   }
 });

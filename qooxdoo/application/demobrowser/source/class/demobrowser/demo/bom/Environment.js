@@ -28,6 +28,8 @@ qx.Class.define("demobrowser.demo.bom.Environment",
     {
       this.base(arguments);
 
+      qx.core.Environment.requireAll;  // TODO: Highly experimental API
+
       var output = new qx.util.StringBuilder();
 
 

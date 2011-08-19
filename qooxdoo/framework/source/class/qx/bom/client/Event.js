@@ -59,5 +59,10 @@ qx.Bootstrap.define("qx.bom.client.Event",
       }
       return false;
     }
+  },
+
+  defer : function(statics) {
+    qx.core.Environment.add("event.touch", statics.getTouch);
+    qx.core.Environment.add("event.pointer", statics.getPointer);
   }
 });

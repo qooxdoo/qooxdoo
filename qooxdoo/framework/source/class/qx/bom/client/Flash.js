@@ -222,5 +222,12 @@ qx.Bootstrap.define("qx.bom.client.Flash",
       }
       return true;
     }
+  },
+
+  defer : function(statics) {
+    qx.core.Environment.add("plugin.flash", statics.isAvailable);
+    qx.core.Environment.add("plugin.flash.version", statics.getVersion);
+    qx.core.Environment.add("plugin.flash.express", statics.getExpressInstall);
+    qx.core.Environment.add("plugin.flash.strictsecurity", statics.getStrictSecurityModel);
   }
 });
