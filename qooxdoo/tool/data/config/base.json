@@ -210,6 +210,13 @@
       "compile" : { "type" : "source" }
     },
 
+    "source-hybrid" :
+    {
+      "desc" : "DEPRECATED - use 'source' instead.",
+
+      "run" : [ "source" ]
+    },
+
 
     // -- build jobs ---------------------------------------------------
 

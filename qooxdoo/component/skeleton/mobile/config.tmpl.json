@@ -26,6 +26,7 @@
     "source",
     "source-all",
     "source-each",
+    "source-hybrid",
     "test",
     "test-source",
     "translation"
