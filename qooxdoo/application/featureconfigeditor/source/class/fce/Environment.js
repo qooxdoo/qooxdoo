@@ -67,10 +67,17 @@ qx.Class.define("fce.Environment", {
         qx.core.Environment.getAsync(key, function(result) {
           features[key] = result;
           numberOfChecks--;
+          if (numberOfChecks == 0) {
+            // all async checks done
+            this.setFeatures(features);
+          }
         }, this);
       }
 
-      this.setFeatures(features);
+      if (numberOfChecks == 0) {
+        // no pending async checks
+        this.setFeatures(features);
+      }
     }
   }
 });
