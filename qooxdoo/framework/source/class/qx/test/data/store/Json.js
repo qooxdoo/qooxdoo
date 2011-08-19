@@ -80,12 +80,14 @@ qx.Class.define("qx.test.data.store.Json",
     {
       var store = new qx.data.store.Json();
       this.assertFalse(store.isDeprecatedTransport());
+      store.dispose();
     },
 
 
     testConfigureNewTransportConstructor : function()
     {
       var store = new qx.data.store.Json(this.url, null, false);
+      store.dispose();
     },
 
 
