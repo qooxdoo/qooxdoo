@@ -205,19 +205,64 @@ Pretty-formatting of the source code of the current library.
 
 source
 ------
-Create source version of current application.
+Create a source version of the application.
+
+The source version of an application is tailored towards development activities. It
+makes it easy to write code, run the application, test, debug and
+inspect the application code, fix issues, add enhancements, and repeat.
+
+The *source* job concatenates the contents of the classes that make up the application into a few files, only leaving your own
+application classes separate. Those are in their original source form, and their
+files are directly loaded from their original paths on the file system.
+If you inspect your application in a JavaScript debugger like Firebug or
+Chrome Developer Tools, you can identify each file individually, read
+its code and comments, set breakpoints, inspect variables and so forth.
+
+Having the other class files (framework, libraries, contribs) chunked together in a few files you get the loading speed of nearly the build version. You have to re-run this job  when you introduce new
+dependencies, e.g. by instantiating a class you haven't used before.
+This changes the set of necessary classes for your application, and the
+generator has to re-create the corresponding loader. 
+
+There are two variants of the *source* job available which you might find interesting.
+One is called ``source-all`` and will include all the known classes of all involved libraries, the other is ``source-each`` which will load only the necessary files for your application (like *source*), but each directly from its individual path. See their respective entries.
+
 
 .. _pages/tool/generator_default_jobs#source-all:
 
 source-all
 ----------
-Create source version of current application, with all classes.
+Create a source version of the application, with all classes.
+
+*source-all* will include all known classes, be they
+part of your application, the qooxdoo framework, or any other qooxdoo
+library or contribution you might be using. All those classes are
+included in the build, whether they are currently required or not. This
+allows you develop your code more freely as you don't have to
+re-generate the application when introducing new dependencies to existing classes. All
+classes are already there. The downside is that due to the
+number of classes your application loads slower in the browser, so it's a
+trade-off between development speed and loading speed. 
 
 .. _pages/tool/generator_default_jobs#source-each:
 
 source-each
 -------------
-So if you find yourself in a situation where you want to inspect more than your current application's class files in the debugger (e.g. because you are debugging another library along the way), then you might prefer "source-each".
+Create a source version of the application, using the original file path for each class. 
+
+All the classes of the application are in their original source form, and their
+files are directly loaded from their original paths on the file system.
+If you find yourself in a situation where you want to inspect more than your current application's class files in the debugger (e.g. because you are debugging another library along the way), this job is preferable.
+Only the classes necessary for the application are considered, so you have to re-run this job when you introduce new dependencies.
+
+To review the three different source jobs, if you are just getting
+started with qooxdoo development, use the *source-all* version, which is
+the most convenient if you are not too impatient. If you are concerned
+about loading speed during development, but don't mind hitting the up
+and return keys in your shell window once in a while, go with the default
+*source* job. If your emphasis on the other hand is on
+inspection, and you want to see exactly which class files get loaded
+into your application and which code they provide, the *source-each* version
+might be your preference.
 
 
 .. _pages/tool/generator_default_jobs#source-hybrid:
@@ -226,7 +271,8 @@ source-hybrid
 -------------
 *(deprecated with 1.6)*
 
-Create hybrid source version of current application, where the class files of the current application are loaded as individual files (as with *source*), but the others are collected into common .js files, for faster application start-up.
+See the description for the ``source`` job.
+
 
 .. _pages/tool/generator_default_jobs#test:
 
