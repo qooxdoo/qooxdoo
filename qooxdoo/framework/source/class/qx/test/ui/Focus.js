@@ -63,6 +63,7 @@ qx.Class.define("qx.test.ui.Focus",
 
     tearDown : function()
     {
+      this.base(arguments);
       if (this.input) {
         this.input.destroy();
       }
