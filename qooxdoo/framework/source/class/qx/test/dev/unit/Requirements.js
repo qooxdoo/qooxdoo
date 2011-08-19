@@ -102,8 +102,9 @@ qx.Class.define("qx.test.dev.unit.Requirements", {
       }, Error, /Asynchronous environment checks are not supported/);
       
       delete qx.core.Environment._asyncChecks["qx.test.requirement.async"];
-    },
+    }
     
+    /* Disabled until we've come up with a solution for bug #5516
     testEnvironmentNonBoolean : function()
     {
       var self = this;
@@ -111,5 +112,6 @@ qx.Class.define("qx.test.dev.unit.Requirements", {
         self.require(["browser.name"]);
       }, Error, /value is not boolean/);
     }
+    */
   }
 });

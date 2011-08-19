@@ -24,6 +24,11 @@ qx.Class.define("qx.test.bom.element.Style",
 
   members :
   {
+    hasCssBoxshadow : function()
+    {
+      return qx.core.Environment.get("css.boxshadow");
+    },
+    
     setUp : function()
     {
       this.__element = document.createElement("div");
@@ -40,7 +45,8 @@ qx.Class.define("qx.test.bom.element.Style",
 
     testSetStylesWithCss3 : function()
     {
-      if (this.require(["css.boxshadow"]))
+      //if (this.require(["css.boxshadow"]))
+      if (this.require(["cssBoxshadow"]))
       {
         var styles = 
         {
