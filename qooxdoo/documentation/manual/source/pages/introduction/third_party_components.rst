@@ -104,3 +104,9 @@ Components or tools that are not included with the SDK
 
    * - `Sphinx <http://sphinx.pocoo.org/>`_
      - `BSD <http://www.opensource.org/licenses/bsd-license.php>`_
+
+   * - `Mozilla Rhino <http://developer.mozilla.org/en/Rhino>`_
+     - `MPL 1.1 <http://www.mozilla.org/MPL/MPL-1.1.html>`_/`GPL 2.0 <http://www.gnu.org/licenses/gpl-2.0.html>`_, `Unnamed License <https://developer.mozilla.org/en/Rhino_License#License_for_portions_of_the_Rhino_debugger>`_
+
+   * - `Selenium <seleniumhq.org>`_
+     - `Apache License 2.0 <http://www.apache.org/licenses/LICENSE-2.0>`_
