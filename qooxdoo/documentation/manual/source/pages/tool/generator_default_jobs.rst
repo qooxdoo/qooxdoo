@@ -213,10 +213,19 @@ source-all
 ----------
 Create source version of current application, with all classes.
 
+.. _pages/tool/generator_default_jobs#source-each:
+
+source-each
+-------------
+So if you find yourself in a situation where you want to inspect more than your current application's class files in the debugger (e.g. because you are debugging another library along the way), then you might prefer "source-each".
+
+
 .. _pages/tool/generator_default_jobs#source-hybrid:
 
 source-hybrid
 -------------
+*(deprecated with 1.6)*
+
 Create hybrid source version of current application, where the class files of the current application are loaded as individual files (as with *source*), but the others are collected into common .js files, for faster application start-up.
 
 .. _pages/tool/generator_default_jobs#test:
