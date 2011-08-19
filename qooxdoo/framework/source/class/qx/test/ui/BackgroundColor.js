@@ -68,6 +68,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
 
       this.getRoot().remove(widget);
       widget.dispose();
+      deco.dispose();
     },
 
 
@@ -95,6 +96,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
 
       this.getRoot().remove(widget);
       widget.dispose();
+      deco.dispose();
     },
 
 
@@ -125,6 +127,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
 
       this.getRoot().remove(widget);
       widget.dispose();
+      deco.dispose();
     },
 
 
@@ -135,7 +138,8 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       this.assertStyle(widget, "backgroundColor", "");
 
       // set decoration
-      widget.setDecorator(new qx.ui.decoration.Single(1));
+      var deco = new qx.ui.decoration.Single(1);
+      widget.setDecorator(deco);
 
       // set background color
       widget.setBackgroundColor("red");
@@ -154,6 +158,8 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       this.assertStyle(widget, "backgroundColor", "red");
 
       widget.destroy();
+      deco.dispose();
+      repl.dispose();
     },
 
 
@@ -187,6 +193,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
 
       this.getRoot().remove(widget);
       widget.dispose();
+      deco.dispose();
     }
 
   }
