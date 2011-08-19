@@ -49,6 +49,7 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
 
     tearDown : function()
     {
+      this.base(arguments);
       var self = this;
       this.__b1.destroy();
       this.__b2.destroy();

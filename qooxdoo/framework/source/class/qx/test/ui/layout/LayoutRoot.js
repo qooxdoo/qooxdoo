@@ -33,5 +33,10 @@ qx.Class.define("qx.test.ui.layout.LayoutRoot",
     isRootWidget : function() {
       return true;
     }
+  },
+  
+  destruct : function()
+  {
+    this._getLayout().dispose();
   }
 })
