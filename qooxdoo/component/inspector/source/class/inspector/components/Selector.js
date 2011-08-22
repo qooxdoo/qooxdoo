@@ -65,6 +65,8 @@ qx.Class.define("inspector.components.Selector",
 
   members :
   {
+    __isMobileApp : false,
+
     /** {inspector.components.IInspectorModel} The inspector model instance */
     __model : null,
 
@@ -128,8 +130,19 @@ qx.Class.define("inspector.components.Selector",
         return;
       }
 
+      if (this.__applicationWindow.qx.core.Init.getApplication().getRoot().classname 
+        == "qx.ui.mobile.core.Root")
+      {
+        this.__isMobileApp = true;
+      }
+
       this.__catchClickLayer = this.__createCatchClickLayer();
-      this.__highlighter = this.__createHighlighter();
+      if (this.__isMobileApp) {
+        this.__highlighter = this.__createMobileHighlighter();
+      }
+      else {
+        this.__highlighter = this.__createHighlighter();
+      }
 
       applicationRoot.addListener("resize", this.__updateCatchClickLayer, this);
     },
@@ -194,6 +207,37 @@ qx.Class.define("inspector.components.Selector",
     },
 
     /**
+     * Helper method to create and add the highlighter (mobile version) to the 
+     * inspected application, also adds the highlighter to the excludes list 
+     * from the inspector model.
+     *
+     * @return {qx.ui.mobile.core.Widget} the created highlighter.
+     */
+    __createMobileHighlighter : function()
+    {
+      var highlightOverlay = new this.__applicationWindow.qx.ui.mobile.core.Widget();
+      var selector = this.self(arguments);
+      var borderWidth = this.self(arguments).BORDER;
+      var borderColor = this.self(arguments).BORDER_COLOR;
+      highlightOverlay.addListenerOnce("appear", function(ev) {
+        var style = this.getContainerElement().style;
+        style.position = "absolute";
+        style.display = "block";
+        style.backgroundColor = "transparent";
+        style.zIndex = selector.Z_INDEX - 2;
+        style.border = borderWidth + "px solid " + borderColor; 
+      });
+
+      this.__model.addToExcludes(highlightOverlay);
+      highlightOverlay.hide();
+
+      var applicationRoot = this.__model.getApplication().getRoot();
+      applicationRoot.add(highlightOverlay);
+
+      return highlightOverlay;
+    },
+
+    /**
      * Helper method to create and add the click layer to the inspected application,
      * also adds the click layer to the excludes list from the inspector model.
      *
@@ -201,11 +245,28 @@ qx.Class.define("inspector.components.Selector",
      */
     __createCatchClickLayer : function()
     {
-      var catchClickLayer = new this.__applicationWindow.qx.ui.core.Widget();
+      var catchClickLayer;
+      if (this.__isMobileApp) {
+        var appWindow = this.__applicationWindow;
+        var bgCol = this.self(arguments).BACKGROUND_COLOR;
+        var zIndex = this.self(arguments).Z_INDEX - 1;
+        var opacity = this.self(arguments).OPACITY;
+        catchClickLayer = new this.__applicationWindow.qx.ui.mobile.core.Widget();
+        catchClickLayer.addListenerOnce("appear", function() {
+          var el = this.getContainerElement();
+          el.style.position = "absolute";
+          el.style.backgroundColor = bgCol;
+          el.style.zIndex = zIndex;
+          el.style.opacity = opacity;
+        });
+      }
+      else {
+        catchClickLayer = new this.__applicationWindow.qx.ui.core.Widget();
+        catchClickLayer.setBackgroundColor(this.self(arguments).BACKGROUND_COLOR);
+        catchClickLayer.setOpacity(this.self(arguments).OPACITY);
+        catchClickLayer.setZIndex(this.self(arguments).Z_INDEX - 1);
+      }
       this.__model.addToExcludes(catchClickLayer);
-      catchClickLayer.setBackgroundColor(this.self(arguments).BACKGROUND_COLOR);
-      catchClickLayer.setOpacity(this.self(arguments).OPACITY);
-      catchClickLayer.setZIndex(this.self(arguments).Z_INDEX - 1);
       catchClickLayer.testId = "catchClickLayer";
       catchClickLayer.hide();
 
@@ -227,13 +288,20 @@ qx.Class.define("inspector.components.Selector",
       var applicationRoot = this.__model.getApplication().getRoot();
       var win = this.__applicationWindow;
 
-      if (win.qx.Class.isSubClassOf(widget.constructor, win.qx.ui.root.Application)) {
+      if (win.qx.ui.root && win.qx.Class.isSubClassOf(widget.constructor, win.qx.ui.root.Application)) {
         applicationRoot.add(widget, {edge: 0});
       }
       else
       {
-        widget.setHeight(qx.bom.Document.getHeight(win));
-        widget.setWidth(qx.bom.Document.getWidth(win));
+        if (widget.setHeight) {
+          widget.setHeight(qx.bom.Document.getHeight(win));
+          widget.setWidth(qx.bom.Document.getWidth(win));
+        }
+        else {
+          var el = widget.getContainerElement();
+          el.style.width = qx.bom.Document.getHeight(win) + "px";
+          el.style.height = qx.bom.Document.getWidth(win) + "px";
+        }
         applicationRoot.add(widget, {left: 0, top: 0});
       }
     },
@@ -328,6 +396,8 @@ qx.Class.define("inspector.components.Selector",
         var domElement = null;
         if (this.__isWidget(childWidget)) {
           domElement = childWidget.getContainerElement().getDomElement();
+        } else if (this.__isMobileWidget(childWidget)) {
+          domElement = childWidget.getContainerElement();
         } else if (this.__isQxHtmlElement(childWidget)) {
           domElement = childWidget.getDomElement();
         } else {
@@ -378,6 +448,8 @@ qx.Class.define("inspector.components.Selector",
       var element = null;
       if (this.__isWidget(object) && !this.__isRootElement(object)) {
         element = object.getContainerElement().getDomElement();
+      } else if (this.__isMobileWidget(object)) {
+        element = object.getContainerElement();
       } else if (this.__isQxHtmlElement(object)) {
         element = object.getDomElement();
       } else {
@@ -401,7 +473,16 @@ qx.Class.define("inspector.components.Selector",
       var top = coordinates.top - this.self(arguments).BORDER;
       var bottom = coordinates.bottom + this.self(arguments).BORDER;
 
-      this.__highlighter.renderLayout(left, top, right - left, bottom - top);
+      if (this.__applicationWindow.qx.ui.core) {
+        this.__highlighter.renderLayout(left, top, right - left, bottom - top);
+      }
+      else {
+        var el = this.__highlighter.getContainerElement();
+        el.style.left = left + "px";
+        el.style.top = top + "px";
+        el.style.width = right - left + "px";
+        el.style.height = bottom - top + "px";
+      }
       this.__highlighter.show();
 
       // Flush queue before next user interaction occurs.
@@ -417,7 +498,12 @@ qx.Class.define("inspector.components.Selector",
     __isRootElement : function (object)
     {
       var win = this.__applicationWindow;
-      return win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.root.Abstract);
+      if (win.qx.ui.core) {
+        return win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.root.Abstract);
+      }
+      else if (win.qx.ui.mobile) {
+        return win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.mobile.core.Root);
+      }
     },
 
     /**
@@ -429,7 +515,29 @@ qx.Class.define("inspector.components.Selector",
     __isWidget : function (object)
     {
       var win = this.__applicationWindow;
-      return win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.core.Widget);
+      if (win.qx.ui.core) {
+        return win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.core.Widget);
+      }
+      else {
+        return null;
+      }
+    },
+
+    /**
+     * Helper method to check if the passed object is a mobile widget.
+     *
+     * @param object {qx.core.Object} object to check.
+     * @return <code>true</code> if widget, <code>false</code> otherwise.
+     */
+    __isMobileWidget : function(object)
+    {
+      var win = this.__applicationWindow;
+      if (win.qx.ui.mobile) {
+        return win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.mobile.core.Widget);
+      }
+      else {
+        return null;
+      }
     },
 
     /**
@@ -441,7 +549,12 @@ qx.Class.define("inspector.components.Selector",
     __isQxHtmlElement : function (object)
     {
       var win = this.__applicationWindow;
-      return win.qx.Class.isSubClassOf(object.constructor, win.qx.html.Element);
+      if (win.qx.html) {
+        return win.qx.Class.isSubClassOf(object.constructor, win.qx.html.Element);
+      }
+      else {
+        return false;
+      }
     },
 
     /**
@@ -463,8 +576,14 @@ qx.Class.define("inspector.components.Selector",
         qx.ui.core.queue.Manager.flush();
         qx.event.Timer.once(function()
         {
-          this.__catchClickLayer.setHeight(qx.bom.Document.getHeight(win));
-          this.__catchClickLayer.setWidth(qx.bom.Document.getWidth(win));
+          if (this.__catchClickLayer.setHeight) {
+            this.__catchClickLayer.setHeight(qx.bom.Document.getHeight(win));
+            this.__catchClickLayer.setWidth(qx.bom.Document.getWidth(win));
+          }
+          else if (this.__catchClickLayer._getContentElement) {
+            this.__catchClickLayer._getContentElement().style.height = qx.bom.Document.getHeight(win) + "px";
+            this.__catchClickLayer._getContentElement().style.width = qx.bom.Document.getWidth(win) + "px";
+          }
 
           // Flush queue before next user interaction occurs.
           qx.ui.core.queue.Manager.flush();
