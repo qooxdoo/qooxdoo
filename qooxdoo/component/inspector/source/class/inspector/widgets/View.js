@@ -306,7 +306,7 @@ qx.Class.define("inspector.widgets.View",
       this._iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
       // check for null references
       if (widget == null || 
-        (this._iFrameWindow.qx.ui.core && !(widget instanceof this._iFrameWindow.qx.ui.core.Widget)) ||
+        ((this._iFrameWindow.qx.ui.core && this._iFrameWindow.qx.ui.core.Widget) && !(widget instanceof this._iFrameWindow.qx.ui.core.Widget)) ||
         (this._iFrameWindow.qx.ui.mobile && !(widget instanceof this._iFrameWindow.qx.ui.mobile.core.Widget)))
       {
         this._tree.resetSelection();

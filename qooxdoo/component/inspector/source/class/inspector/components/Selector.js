@@ -396,7 +396,7 @@ qx.Class.define("inspector.components.Selector",
           var win = this.__applicationWindow;
 
           if (qx.lang.Array.contains(excludes, childWidget) ||
-              win.qx.Class.isSubClassOf(childWidget.constructor, win.qx.ui.core.Spacer)) {
+              (!this.__isMobileApp && win.qx.Class.isSubClassOf(childWidget.constructor, win.qx.ui.core.Spacer))) {
             continue;
           }
         } catch (ex) {}
@@ -520,7 +520,7 @@ qx.Class.define("inspector.components.Selector",
     __isWidget : function (object)
     {
       var win = this.__applicationWindow;
-      if (win.qx.ui.core) {
+      if (win.qx.ui.core && win.qx.ui.core.Widget) {
         return win.qx.Class.isSubClassOf(object.constructor, win.qx.ui.core.Widget);
       }
       else {
