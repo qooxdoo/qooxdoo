@@ -60,7 +60,9 @@ qx.Class.define("inspector.components.Selector",
     OPACITY : 0.1,
 
     /** {Integer} The duration in msec how long the highlighter is shown. */
-    DURATION : 1000
+    DURATION : 1000,
+    
+    HIGHLIGHTER_CLASS : "qxInspectorHighlighter"
   },
 
   members :
@@ -207,34 +209,38 @@ qx.Class.define("inspector.components.Selector",
     },
 
     /**
-     * Helper method to create and add the highlighter (mobile version) to the 
-     * inspected application, also adds the highlighter to the excludes list 
-     * from the inspector model.
+     * Adds a CSS class to the inspected application that is used to highlight
+     * objects on mouseover
      *
-     * @return {qx.ui.mobile.core.Widget} the created highlighter.
+     * @return {Object} the created highlighter.
      */
     __createMobileHighlighter : function()
     {
-      var highlightOverlay = new this.__applicationWindow.qx.ui.mobile.core.Widget();
-      var selector = this.self(arguments);
+      var win = this.__applicationWindow;
+      var elem = win.document.createElement("style");
+      elem.type = "text/css";
+      
+      var cssClass = this.self(arguments).HIGHLIGHTER_CLASS;
+      var zIndex = this.self(arguments).Z_INDEX - 2;
       var borderWidth = this.self(arguments).BORDER;
       var borderColor = this.self(arguments).BORDER_COLOR;
-      highlightOverlay.addListenerOnce("appear", function(ev) {
-        var style = this.getContainerElement().style;
-        style.position = "absolute";
-        style.display = "block";
-        style.backgroundColor = "transparent";
-        style.zIndex = selector.Z_INDEX - 2;
-        style.border = borderWidth + "px solid " + borderColor; 
-      });
-
-      this.__model.addToExcludes(highlightOverlay);
-      highlightOverlay.hide();
-
-      var applicationRoot = this.__model.getApplication().getRoot();
-      applicationRoot.add(highlightOverlay);
-
-      return highlightOverlay;
+      var rule = "." + cssClass + " {" +
+        "outline: " + borderWidth + "px solid " + borderColor + ";"; 
+      "}";
+      elem.appendChild(document.createTextNode(rule));
+      win.document.getElementsByTagName("head")[0].appendChild(elem);
+      
+      var doc = win.document;
+      // return an object that supports the widget-based highlighter's API
+      return {
+        hide : function() {
+          var els = doc.getElementsByClassName(cssClass);
+          for (var i=0, l=els.length; i<l; i++) {
+            var widget = win.qx.ui.mobile.core.Widget.getWidgetById(els[i].id);
+            widget.removeCssClass(cssClass);
+          }
+        }
+      };
     },
 
     /**
@@ -247,7 +253,6 @@ qx.Class.define("inspector.components.Selector",
     {
       var catchClickLayer;
       if (this.__isMobileApp) {
-        var appWindow = this.__applicationWindow;
         var bgCol = this.self(arguments).BACKGROUND_COLOR;
         var zIndex = this.self(arguments).Z_INDEX - 1;
         var opacity = this.self(arguments).OPACITY;
@@ -442,6 +447,12 @@ qx.Class.define("inspector.components.Selector",
      * @param object {qx.ui.core.Widget|qx.html.Element} object to highlight.
      */
     __highlight: function(object) {
+      if (this.__isMobileApp) {
+        this.__highlighter.hide();
+        object.addCssClass(this.self(arguments).HIGHLIGHTER_CLASS);
+        return;
+      }
+      
       // Flush queue before compute size
       qx.ui.core.queue.Manager.flush();
 
@@ -473,16 +484,7 @@ qx.Class.define("inspector.components.Selector",
       var top = coordinates.top - this.self(arguments).BORDER;
       var bottom = coordinates.bottom + this.self(arguments).BORDER;
 
-      if (this.__applicationWindow.qx.ui.core) {
-        this.__highlighter.renderLayout(left, top, right - left, bottom - top);
-      }
-      else {
-        var el = this.__highlighter.getContainerElement();
-        el.style.left = left + "px";
-        el.style.top = top + "px";
-        el.style.width = right - left + "px";
-        el.style.height = bottom - top + "px";
-      }
+      this.__highlighter.renderLayout(left, top, right - left, bottom - top);
       this.__highlighter.show();
 
       // Flush queue before next user interaction occurs.
