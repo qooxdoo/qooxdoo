@@ -398,6 +398,7 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals("a.b", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
 
+      model.getA().dispose();
       // check the event for a
       this.assertEventFired(model, "changeBubble", function() {
         model.setA(true);
