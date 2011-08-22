@@ -214,7 +214,7 @@
     {
       "desc" : "DEPRECATED - use 'source' instead.",
 
-      "run" : [ "source" ]
+      "extend" : [ "source" ]
     },
 
 
