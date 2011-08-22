@@ -224,7 +224,7 @@ This changes the set of necessary classes for your application, and the
 generator has to re-create the corresponding loader. 
 
 There are two variants of the *source* job available which you might find interesting.
-One is called ``source-all`` and will include all the known classes of all involved libraries, the other is ``source-each`` which will load only the necessary files for your application (like *source*), but each directly from its individual path. See their respective entries.
+One is called source-all_ and will include all the known classes of all involved libraries, the other is source-each_ which will load only the necessary files for your application (like *source*), but each directly from its individual path. See their respective entries.
 
 
 .. _pages/tool/generator_default_jobs#source-all:
@@ -255,13 +255,13 @@ If you find yourself in a situation where you want to inspect more than your cur
 Only the classes necessary for the application are considered, so you have to re-run this job when you introduce new dependencies.
 
 To review the three different source jobs, if you are just getting
-started with qooxdoo development, use the *source-all* version, which is
+started with qooxdoo development, use the source-all_ version, which is
 the most convenient if you are not too impatient. If you are concerned
 about loading speed during development, but don't mind hitting the up
 and return keys in your shell window once in a while, go with the default
-*source* job. If your emphasis on the other hand is on
+source_ job. If your emphasis on the other hand is on
 inspection, and you want to see exactly which class files get loaded
-into your application and which code they provide, the *source-each* version
+into your application and which code they provide, the source-each_ version
 might be your preference.
 
 
@@ -271,7 +271,7 @@ source-hybrid
 -------------
 *(deprecated with 1.6)*
 
-See the description for the ``source`` job.
+See the description for the source_ job.
 
 
 .. _pages/tool/generator_default_jobs#test:

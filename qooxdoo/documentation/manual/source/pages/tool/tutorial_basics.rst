@@ -57,53 +57,48 @@ Use the Source, Luke
 
 The tool chain is able to generate your application in various flavors.
 This is reflected by the available generation jobs, "source", "source-all",
-"source-hybrid" and "build". The most important for starting and
+"source-each" and "build". The most important for starting and
 building up your app, the one you came across several times during the
-Twitter tutorials, is the ``source`` job. Running ::
+Twitter tutorials, is the *source* job. Running ::
 
     generate.py source
 
 will generate the so-called source version of your application. 
 
-The source version of an app is tailored towards development activities. It
+The ``source`` version of an app is tailored towards development activities. It
 makes it easy to write code, run the application, test, debug and
 inspect the application code, fix issues, add enhancements, and repeat.
-All the classes of the app are in their original source form, and their
-files are directly loaded from their original paths on the file system.
-If you inspect your application in a JavaScript debugger like Firebug or
-Chrome Developer Tools, you can identify each file individually, read
+
+All the classes of the app are in their original source form. The generator either concatenates a bunch of class files into individual script files, or, in the case of you application classes, have them loaded directly from their original path on the file system. This allows for a reasonable loading speed of your application in the browser. On the other hand, if you inspect your application in a JavaScript debugger like Firebug or
+Chrome Developer Tools, you can identify each of your custom files individually, read
 its code and comments, set breakpoints, inspect variables and so forth.
-You only have to re-run the generator when you introduce new
+
+You only have to re-run this generator job when you introduce new
 dependencies, e.g. by instantiating a class you haven't used before.
 This changes the set of necessary classes for your application, and the
 generator has to re-create the corresponding loader. 
 
-For the source
-build there are two variants which you might find interesting. One is
+For the source build there are two variants which you might find interesting. One is
 called ``source-all`` and will include all the known classes, be they
 part of your application, the qooxdoo framework, or any other qooxdoo
 library or contribution you might be using. All those classes are
-included in the build, whether are currently required or not. This
+included in the build, whether they are currently required or not. This
 allows you develop your code even more freely as you don't have to
 re-generate the application when introducing new dependencies. All
 classes are already there, after all. The down-side is that due to the
-number of classes your app loads even slower in the browser, so it's a
+number of classes your app loads slower in the browser, so it's a
 trade-off between development speed and loading speed. 
 
-Another variant,
-``source-hybrid``, addresses the loading speed of the source version. It
-does not load all classes from the original source path, but
-concatenates their contents into a few files, only leaving your own
-application classes untouched. Now you get the loading speed of nearly
-the build version, but can inspect and debug your own class files as
-before. Best of both worlds, so to speak. So if you are just getting
-started with qooxdoo development, use the "source-all" version, which is
+Another variant, ``source-each``, is like *source* but loads *any* class file of the application from its original path on the file system, whether the class belongs to your own application library or not. This is interesting when you want to debug classes outside your custom application, e.g. if you are debugging another library along the way.
+
+So if you are just getting
+started with qooxdoo development, use the *source-all* version, which is
 the most convenient if you are not too impatient. If you are concerned
 about loading speed during development, but don't mind hitting the up
 and return keys in your shell window once in a while, go with the
-"source-hybrid" job. If your emphasis on the other hand is on
+default *source* job. If your emphasis on the other hand is on
 inspection, and you want to see exactly which class files get loaded
-into your app and which code they provide, the plain "source" version
+into your app and which code they provide, the *source-each* version
 might be your preference.
 
 A Deployment Build
