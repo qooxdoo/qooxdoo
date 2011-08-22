@@ -137,6 +137,9 @@ qx.Class.define("inspector.components.Selector",
       {
         this.__isMobileApp = true;
       }
+      else {
+        this.__isMobileApp = false;
+      }
 
       this.__catchClickLayer = this.__createCatchClickLayer();
       if (this.__isMobileApp) {
