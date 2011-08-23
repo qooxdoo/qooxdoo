@@ -295,6 +295,9 @@ class DependencyLoader(object):
                 self._console.dotclear()
                 #print len(result),"  ",
 
+                # TODO: (bug#5516) no double loop necessary any more - remove rest of loop body
+                break
+
                 # process qx.core.Environment
                 if ("qx.core.Environment" in resultNames 
                     and "variants" in script.optimize

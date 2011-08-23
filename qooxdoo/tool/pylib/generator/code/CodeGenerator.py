@@ -468,11 +468,12 @@ class CodeGenerator(object):
                 if len(processes) > maxproc:
                     reap_processes()  # collect finished processes' results to make room
 
-                if clazz.id == "qx.core.Environment" and "variants" in compConf.optimize:
-                    content = optimizeEnvironmentClass(clazz, compConf)
-                    contA[pos][CONTENT] = content
-                    contA[pos][INCACHE] = True  # fake, to later not write it
-                    continue
+                # TODO: (bug#5516) - not necessary anymore
+                #if clazz.id == "qx.core.Environment" and "variants" in compConf.optimize:
+                #    content = optimizeEnvironmentClass(clazz, compConf)
+                #    contA[pos][CONTENT] = content
+                #    contA[pos][INCACHE] = True  # fake, to later not write it
+                #    continue
 
                 cacheId, content = _checkCache(clazz, variants, optimize, format_)
                 contA[pos][CACHEID] = cacheId
@@ -567,9 +568,11 @@ class CodeGenerator(object):
             if num_proc == 0:
                 result = []
                 for clazz in classList:
-                    if clazz.id == "qx.core.Environment" and "variants" in compConf.optimize:
-                        code = optimizeEnvironmentClass(clazz, compConf)
-                    else:
+                    # TODO: (bug#5516) - not necessary anymore
+                    #if clazz.id == "qx.core.Environment" and "variants" in compConf.optimize:
+                    #    code = optimizeEnvironmentClass(clazz, compConf)
+                    #else:
+                    if True:
                         #code = clazz.getCode(compConf, treegen=treegenerator_new_ast) # choose parser frontend
                         code = clazz.getCode(compConf, treegen=treegenerator) # choose parser frontend
                     result.append(code)

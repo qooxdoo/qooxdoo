@@ -953,12 +953,13 @@ qx.Bootstrap.define("qx.core.Environment",
      */
     useCheck : function(key) {
       return true;
-    },
+    }//,
 
 
     /**
      * Initializer for the checks which are available on runtime.
      */
+    /*
     _initChecksMap : function() {
       // CAUTION! If you edit this function, be sure to use the following
       // pattern to asure the removal of the generator on demand.
@@ -1243,6 +1244,7 @@ qx.Bootstrap.define("qx.core.Environment",
         this._checks["phonegap.notification"] = qx.bom.client.PhoneGap.getNotification;
       }
     }
+    */
   },
 
 
