@@ -227,7 +227,7 @@ qx.Class.define("inspector.components.Selector",
       var borderWidth = this.self(arguments).BORDER;
       var borderColor = this.self(arguments).BORDER_COLOR;
       var rule = "." + cssClass + " {" +
-        "outline: " + borderWidth + "px solid " + borderColor + ";"; 
+        "outline: " + borderWidth + "px solid " + borderColor + ";" + 
       "}";
       elem.appendChild(document.createTextNode(rule));
       win.document.getElementsByTagName("head")[0].appendChild(elem);
