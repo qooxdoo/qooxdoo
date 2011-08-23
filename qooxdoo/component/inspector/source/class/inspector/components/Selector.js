@@ -224,7 +224,6 @@ qx.Class.define("inspector.components.Selector",
       elem.type = "text/css";
       
       var cssClass = this.self(arguments).HIGHLIGHTER_CLASS;
-      var zIndex = this.self(arguments).Z_INDEX - 2;
       var borderWidth = this.self(arguments).BORDER;
       var borderColor = this.self(arguments).BORDER_COLOR;
       var rule = "." + cssClass + " {" +
