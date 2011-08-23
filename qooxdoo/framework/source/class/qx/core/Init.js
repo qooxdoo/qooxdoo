@@ -64,7 +64,7 @@ qx.Class.define("qx.core.Init",
      */
     __close : function(e)
     {
-      var app = this.__application;
+      var app = this.getApplication();
       if (app) {
         e.setReturnValue(app.close());
       }
@@ -79,7 +79,7 @@ qx.Class.define("qx.core.Init",
      */
     __shutdown : function()
     {
-      var app = this.__application;
+      var app = this.getApplication();
 
       if (app) {
         app.terminate();
