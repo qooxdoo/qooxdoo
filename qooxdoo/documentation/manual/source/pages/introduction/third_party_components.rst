@@ -29,7 +29,7 @@ These are components that are integrated into the %{JS} class code.
     - `BSD`_
     
   * - `iScroll <http://cubiq.org/iscroll-4/>`_
-    - `MIT`_
+    - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
 
 
 .. _pages/introduction/third_party_components#resources:
@@ -37,7 +37,7 @@ These are components that are integrated into the %{JS} class code.
 Resources
 =========
 
-Static resource files, like images.
+Static resource files, like images, CSS, etc..
 
 .. list-table::
   :header-rows: 1
@@ -54,8 +54,12 @@ Static resource files, like images.
 
   * - `CLDR Data <http://cldr.unicode.org/>`_
     - `Unicode Terms of Use <http://www.unicode.org/copyright.html>`_
-
-
+    
+  * - `JQTouch Project <http://www.jqtouch.com/>`_
+    - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
+    
+  * - `iScroll <http://cubiq.org/iscroll-4/>`_
+    - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
 
 .. _pages/introduction/third_party_components#tool_chain:
 
