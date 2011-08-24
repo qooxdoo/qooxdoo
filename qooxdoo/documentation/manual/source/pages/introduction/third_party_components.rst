@@ -27,6 +27,9 @@ These are components that are integrated into the %{JS} class code.
 
   * - `Sinon.JS <http://sinonjs.org/>`_
     - `BSD`_
+    
+  * - `iScroll <http://cubiq.org/iscroll-4/>`_
+    - `MIT`_
 
 
 .. _pages/introduction/third_party_components#resources:
