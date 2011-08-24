@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      */
     _getNavigationBar : function()
     {
-      return this.__navigationBar();
+      return this.__navigationBar;
     },
 
 
