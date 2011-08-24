@@ -35,7 +35,6 @@ qx.Class.define("fce.view.ListItem", {
     var layout = new qx.ui.layout.HBox(10);
     this.base(arguments, layout);
     this.set({
-      padding: 5,
       appearance: "listitem"
     });
 
