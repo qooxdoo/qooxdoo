@@ -44,7 +44,9 @@ qx.Class.define("qx.test.mobile.MobileTestCase",
         return {
           getRoot : function() {
             return self.getRoot();
-          }
+          },
+          close : function() {},
+          terminate : function() {}
         }
       }
     },
