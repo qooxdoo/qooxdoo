@@ -19,7 +19,7 @@ The Simulator enables developers to:
 * Define test jobs using the qooxdoo toolchain's configuration system
 * Utilize the standard Selenium API as well as qooxdoo-specific user extensions to locate and interact with qooxdoo widgets
 * Capture and log uncaught exceptions thrown in the tested application
-* Use Selenium RC to run tests in `many different browser/platform combinations <http://seleniumhq.org/about/platforms.html#browsers>`_
+* Use Selenium Server to run tests in `many different browser/platform combinations <http://seleniumhq.org/about/platforms.html#browsers>`_
 * Write custom log appenders using qooxdoo's flexible logging system
 
 How it works
@@ -31,7 +31,7 @@ The main API that is used to define the test logic is **QxSelenium**, which mean
 
 As with qooxdoo's unit testing framework, the Generator is used to create a test runner application (the Simulator). User-defined test classes are included into this application, which extends `qx.application.Native <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Native>`_ and uses a simplified loader so it can run in Rhino.
 
-A separate Generator job is used to start Rhino and instruct it to load the Simulator application, which uses Selenium's Java API to send test commands to a Selenium RC server (over HTTP, so the server can run on a separate machine). The Server then launches the selected browser, loads the qooxdoo application to be tested and executes the commands specified in the test case.
+A separate Generator job is used to start Rhino and instruct it to load the Simulator application, which uses Selenium's Java API to send test commands to a Selenium server (over HTTP, so the server can run on a separate machine). The Server then launches the selected browser, loads the qooxdoo application to be tested and executes the commands specified in the test case.
 
 
 Setting up the test environment
@@ -44,13 +44,13 @@ Required Libraries
 
 The Simulator needs the following external resources to run: 
 
-* Java Runtime Environment: Version 1.6 is known to work 
-* `Selenium RC <http://code.google.com/p/selenium/downloads/detail?name=selenium-remote-control-1.0.3.zip&can=2&q=>`_: **Version 1.0.3 is recommended.** Version 2.0b3 has problems using Internet Explorer as a test browser. 
+* Java Runtime Environment: Version 1.6 is known to work.
+* `Selenium Server and Java Client Driver <http://seleniumhq.org/download>`_: Version 1.0.3  or later. Later versions should generally be OK as long as the Selenium API remains stable.
 * `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Version 1.7R1 or later.
 
-The Selenium Client Driver (selenium-java-client-driver.jar) and Rhino (js.jar) archives must be located on the same machine as the application to be tested.
+The Java archives for the Selenium client driver and Rhino must be located on the same machine as the application to be tested. For Rhino, this means js.jar. Older versions of Selenium provide a single archive (selenium-java-client-driver.jar), while newer ones are split up into the actual driver (selenium-java-<x.y.z>.jar) and several external libraries found in the "libs" folder of the ZIP archive.
 
-The Selenium Server (selenium-server.jar) can optionally run on a physically separate host (see the Selenium RC documentation for details). The qooxdoo user extensions must be located on the same machine as the server (see below).
+The Selenium Server (selenium-server.jar, or selenium-server-standalone.jar for newer releases) can optionally run on a physically separate host (see the Selenium RC documentation for details). The qooxdoo user extensions must be located on the same machine as the server (see below).
 
 
 Generator Configuration
@@ -64,7 +64,8 @@ Unlike other framework components, the Simulator isn't ready to run out of the b
     {
       "SIMULATOR_CLASSPATH" : 
       [
-        "../selenium/selenium-java-client-driver.jar", 
+        "../selenium/selenium-java-2.4.0.jar",
+        "../selenium/libs/*",
         "../rhino/js.jar"
       ]
     } 
@@ -79,8 +80,12 @@ The following example shows the minimum configuration needed to launch a Simulat
     {
       "let" :
       {
-        "SIMULATOR_CLASSPATH" : [ "../selenium/selenium-java-client-driver.jar", 
-                                  "../rhino/js.jar" ]
+        "SIMULATOR_CLASSPATH" :
+        [
+          "../selenium/selenium-java-2.4.0.jar",
+          "../selenium/libs/*", 
+          "../rhino/js.jar"
+        ]
       },
 
       "environment" :
@@ -146,19 +151,19 @@ The "simulation-build" job explained above is used to generate the Simulator app
 
 Note that the Simulator application contains the test classes. This means that it must be re-generated whenever existing tests are modified or new ones are added.
 
-Starting the Selenium RC server
--------------------------------
+Starting the Selenium server
+----------------------------
 
-The Selenium RC server must be started with the *-userExtensions* command line option pointing to the qooxdoo user extenions for Selenium mentioned above:
+The Selenium server must be started with the *-userExtensions* command line option pointing to the qooxdoo user extenions for Selenium mentioned above:
 
 ::
 
-  java -jar selenium-server.jar -userExtensions <QOOXDOO-TRUNK>/component/simulator/tool/user-extensions/user-extensions.js
+  java -jar selenium-server-standalone.jar -userExtensions <QOOXDOO-TRUNK>/component/simulator/tool/user-extensions/user-extensions.js
 
 Running the Tests
 -----------------
 
-Once the Simulator application is configured and compiled and the Selenium RC server is running, the test suite can be executed using the "simulation-run" job:
+Once the Simulator application is configured and compiled and the Selenium server is running, the test suite can be executed using the "simulation-run" job:
 
 ::
 
@@ -226,7 +231,7 @@ When testing with IE, the Selenium server **must** be started with the *-singleW
 
 ::
 
-  java -jar selenium-server.jar -singleWindow -userExtension [...]
+  java -jar selenium-server-standalone.jar -singleWindow -userExtension [...]
 
 
 Launching the browser
