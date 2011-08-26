@@ -44,7 +44,7 @@ class ApiLoader(object):
         self._console = console
 
 
-    def getApi(self, fileId):
+    def getApi(self, fileId, variantSet):
         filePath = self._classesObj[fileId].path
 
         cacheId = "api-%s" % filePath
@@ -56,7 +56,7 @@ class ApiLoader(object):
 
         self._console.indent()
         #tree = self._treeLoader.getTree(fileId)
-        tree = self._classesObj[fileId].tree()
+        tree = self._classesObj[fileId].tree(variantSet)
         (data, hasError) = api.createDoc(tree)
         self._console.outdent()
         
@@ -81,7 +81,7 @@ class ApiLoader(object):
         return node
         
 
-    def storeApi(self, include, apiPath):
+    def storeApi(self, include, apiPath, variantSet):
         self._console.info("Generating API data...")
         self._console.indent()
 
@@ -95,7 +95,7 @@ class ApiLoader(object):
         hasErrors = False
         for pos, fileId in enumerate(include):
             self._console.progress(pos+1, length)
-            fileApi = self.getApi(fileId)
+            fileApi = self.getApi(fileId, variantSet)
             if fileApi == None:
                 hasErrors = True
             

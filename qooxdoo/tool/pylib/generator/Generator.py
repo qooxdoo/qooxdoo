@@ -487,12 +487,6 @@ class Generator(object):
             excludeWithDeps, excludeNoDeps = getExcludes(self._job.get("exclude", []))
             
             # process classdep triggers
-            if takeout(jobTriggers, "api"):
-                # class list with no variants (all-encompassing)
-                classListProducer = functools.partial(#args are complete, but invocation shall be later
-                           computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
-                           {}, verifyDeps=True, script=Script())
-                self.runApiData(classListProducer)
             if takeout(jobTriggers, "fix-files"):
                 self.runFix(self._classesObj)
             if takeout(jobTriggers, "lint-check"):
@@ -556,6 +550,12 @@ class Generator(object):
                     partsConfigFromClassList(excludeWithDeps, script)
 
                 # Execute real tasks
+                if "api" in jobTriggers:
+                    # class list with no variants (all-encompassing)
+                    classListProducer = functools.partial(#args are complete, but invocation shall be later
+                               computeClassList, includeWithDeps, excludeWithDeps, includeNoDeps, 
+                               {}, verifyDeps=True, script=Script())
+                    self.runApiData(classListProducer, variantset)
                 if "copy-resources" in jobTriggers:
                     self.runResources(script)
                 if "compile" in jobTriggers:
@@ -581,7 +581,7 @@ class Generator(object):
 
 
 
-    def runApiData(self, classListProducer):
+    def runApiData(self, classListProducer, variantset):
         apiPath = self._job.get("api/path")
         if not apiPath:
             return
@@ -593,7 +593,7 @@ class Generator(object):
         if not classList:
             classList = classListProducer()
 
-        self._apiLoader.storeApi(classList, apiPath)
+        self._apiLoader.storeApi(classList, apiPath, variantset)
         
         verify = self._job.get("api/verify", [])
         if "links" in verify:
