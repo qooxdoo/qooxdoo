@@ -50,16 +50,16 @@ Static resource files, like images, CSS, etc..
     - `CC BY-SA 2.5 <http://creativecommons.org/licenses/by-sa/2.5/>`_
 
   * - `Oxygen Icons <http://www.oxygen-icons.org/>`_
-    - `LGPLv3 <http://www.gnu.org/licenses/lgpl.html>`_
+    - `LGPLv3 <http://www.gnu.org/licenses/lgpl-3.0.html>`_
 
   * - `CLDR Data <http://cldr.unicode.org/>`_
     - `Unicode Terms of Use <http://www.unicode.org/copyright.html>`_
     
   * - `JQTouch Project <http://www.jqtouch.com/>`_
-    - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
+    - `MIT`_
     
   * - `iScroll <http://cubiq.org/iscroll-4/>`_
-    - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
+    - `MIT`_
 
 .. _pages/introduction/third_party_components#tool_chain:
 
@@ -75,6 +75,9 @@ These are the Python modules we use that are not self-written, nor part of a van
    * - Module
      - License
 
+   * - `cssmin <http://pypi.python.org/pypi/cssmin/>`_
+     - `BSD-compat <https://github.com/zacharyvoase/cssmin/blob/master/LICENSE>`_
+ 
    * - `elementtree <http://effbot.org/zone/element-index.htm>`_
      - `old-style Python <http://effbot.org/zone/copyright.htm>`_ `(HPND) <http://www.opensource.org/licenses/historical.php>`_
  
@@ -84,14 +87,14 @@ These are the Python modules we use that are not self-written, nor part of a van
    * - `polib <http://pypi.python.org/pypi/polib>`_
      - `MIT`_
  
+   * - `pyparsing <http://pypi.python.org/pypi/pyparsing/>`_
+     - `MIT`_
+ 
    * - `simplejson <http://pypi.python.org/pypi/simplejson>`_
      - `MIT`_
  
    * - `textile <http://code.google.com/p/pytextile/>`_
      - `new BSD <http://www.opensource.org/licenses/bsd-license.php>`_
- 
-   * - `pyparsing <http://pypi.python.org/pypi/pyparsing/>`_
-     - `MIT`_
 
 
 .. _pages/introduction/third_party_components#other:
@@ -109,11 +112,11 @@ Components or tools that are not included with the SDK
    * - `ImageMagick <http://www.imagemagick.org/script/index.php>`_ 
      - `GPL-compat <http://www.imagemagick.org/script/license.php>`_
 
-   * - `Sphinx <http://sphinx.pocoo.org/>`_
-     - `BSD <http://www.opensource.org/licenses/bsd-license.php>`_
-
    * - `Mozilla Rhino <http://developer.mozilla.org/en/Rhino>`_
      - `MPL 1.1 <http://www.mozilla.org/MPL/MPL-1.1.html>`_/`GPL 2.0 <http://www.gnu.org/licenses/gpl-2.0.html>`_, `Unnamed License <https://developer.mozilla.org/en/Rhino_License#License_for_portions_of_the_Rhino_debugger>`_
 
    * - `Selenium <seleniumhq.org>`_
      - `Apache License 2.0 <http://www.apache.org/licenses/LICENSE-2.0>`_
+
+   * - `Sphinx <http://sphinx.pocoo.org/>`_
+     - `BSD <http://www.opensource.org/licenses/bsd-license.php>`_
