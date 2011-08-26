@@ -52,6 +52,7 @@ FILES_EXEC = \( -name "*.py" -o -name "*.sh" \)
 
 CMD_SYNC_ONLINE = $(CMD_NICE) rsync --checksum --recursive --delete --inplace --links --safe-links --exclude .svn
 CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --safe-links --exclude .svn
+CMD_SYNC_BACKUP = $(CMD_NICE) rsync --recursive --delete --inplace --copy-links --exclude .svn
 
 # Directories
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
@@ -404,7 +405,7 @@ publish-production:
 
 publish-backup:
 	@echo "  * Backing up devel version on server; this will take some time..."
-	@ssh $(STAGING_HOST) 'cd /var/www/qooxdoo/demo/; cp -R -H devel 0.0.devel_backlog'
+	@ssh $(STAGING_HOST) "$(CMD_SYNC_BACKUP) /var/www/qooxdoo/demo/devel /var/www/qooxdoo/demo/0.0.devel_backlog/"
 
 publish-staging: publish-check publish-backup publish-index publish-apps publish-docs
 
