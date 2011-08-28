@@ -85,6 +85,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
       if (this.__count <= 0)
       {
         this.__count = 0;
+        this.__unregisterEventListener();
         this.exclude();
       }
     },
