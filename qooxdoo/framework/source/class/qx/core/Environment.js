@@ -623,6 +623,10 @@ qx.Bootstrap.define("qx.core.Environment",
 
     /**
      * Maps an environment key to a check class and method name.
+     *
+     * @param key {String} The name of the check you want to query.
+     * @return {Array} [className, methodName] of
+     *  the corresponding implementation.
      */
     _getClassNameFromEnvKey : function (key) {
       

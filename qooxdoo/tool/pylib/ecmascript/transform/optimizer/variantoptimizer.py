@@ -650,6 +650,7 @@ def processVariantFilter(callNode, variantMap):
 
 
 ##
+# Returns the filter map from calls to qx.core.Environment.filter().
 # Returns e.g.
 #  {
 #    "module.property" : <ecmascript.frontend.tree.Node>, # e.g. qx.core.MProperty

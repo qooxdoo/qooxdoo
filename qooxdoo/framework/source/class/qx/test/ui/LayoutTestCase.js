@@ -72,7 +72,9 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
         return {
           getRoot : function() {
             return cls._root;
-          }
+          },
+          close : function() {},
+          terminate : function() {}
         }
       }
 

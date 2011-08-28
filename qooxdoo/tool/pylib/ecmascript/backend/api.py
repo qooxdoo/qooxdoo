@@ -35,6 +35,7 @@
 import sys, os, re
 from ecmascript.frontend import tree, comment
 from ecmascript.frontend.treeutil import *
+from ecmascript.transform.optimizer import variantoptimizer  # ugly here
 from generator import Context
 
 
@@ -243,11 +244,27 @@ def handleInterfaceExtend(valueItem, classNode, docTree, className):
 
 def handleMixins(item, classNode, docTree, className):
     try:
+        # direct symbol or list of symbols
         mixins = variableOrArrayNodeToArray(item)
     except tree.NodeAccessException:
-        Context.console.warn("")
-        Context.console.warn("Illegal include definition in " + classNode.get("fullName"))
-        return
+        try:
+            # call to qx.core.Environment.filter
+            filterMap = variantoptimizer.getFilterMap(item, classNode.get("fullName"))
+            assert filterMap
+            includeSymbols = []
+            for key, node in filterMap.items():
+                # only consider true or undefined 
+                #if key not in variants or (key in variants and bool(variants[key]):
+                # map value has to be value/variable
+                variable =  node.children[0]
+                assert variable.type == "variable"
+                symbol, isComplete = assembleVariable(variable)
+                assert isComplete
+                includeSymbols.append(symbol)
+            mixins = includeSymbols
+        except AssertionError:
+            Context.console.warn("Illegal include definition in " + classNode.get("fullName"))
+            return
     for mixin in mixins:
         mixinNode = getClassNode(docTree, mixin)
         includer = mixinNode.get("includer", False)
@@ -1433,7 +1450,7 @@ def postWorkItemList(docTree, classNode, listName, overridable):
                 for item in dependendClassIterator(docTree, classNode):
                     if item == classNode:
                         continue
-                    if item.get("type", False) == "interface":
+                    if item.get("type", False) in ("interface", "mixin"):
                         interfaceItemNode = item.getListChildByAttribute(listName, "name", name, False)
                         if not interfaceItemNode:
                             continue
