@@ -678,7 +678,8 @@ Configure log/reporting features. Takes a map.
     "dependencies"   : 
     {
       "type"         : ("using"|"used-by"),
-      "phase"        : ("runtime"|"loadtime")
+      "phase"        : ("runtime"|"loadtime"),
+      "include-transitives" : (true|false),
       "format"       : ("txt"|"dot"|"json"|"provider"|"flare"|"term"),
       "dot"          :
       {
@@ -724,7 +725,8 @@ This key allows you to enable logging features along various axes.
     * ``using``: dependencies of the current class to other classes; uses the **using** key; supports ``txt``, ``dot``, ``json`` and ``flare`` output formats
     * ``used-by``: dependencies of other classes to the current class; supports only ``txt`` format
 
-  * **phase** : limit logging to runtime or loadtime dependencies (default: *both*)
+  * **phase** : limit logging to run-time or load-time dependencies (default: *loadtime*)
+  * **include-transitives** : for *load-time* dependencies, whether transitive dependencies (i.e. dependencies that are not lexically in the code, but are required at load-time by some lexical dependency) should be included (default: *true*)
   * **format** : format of the dependency output (default: *txt*)
 
     * ``txt``: textual output to the console

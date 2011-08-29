@@ -680,7 +680,7 @@ class Generator(object):
 
         ##
         # A generator to yield all using dependencies of classes in packages;
-        def lookupUsingDeps(packages, ):
+        def lookupUsingDeps(packages, includeTransitives):
 
             ##
             # has classId been yielded?
@@ -694,10 +694,29 @@ class Generator(object):
                 for classId in sorted(package.classes):
                     classObj = ClassIdToObject[classId]
                     #classDeps, _ = classObj.dependencies(variants)
-                    classDeps, _ = self._depLoader.getCombinedDeps(classObj.id, variants)
+                    classDeps, _ = self._depLoader.getCombinedDeps(classObj.id, variants, projectClassNames=False)
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     loads = classDeps["load"]
-                    runs  = classDeps["run"]
+                    runs = classDeps["run"]
+
+                    # strip transitive dependencies
+                    if not includeTransitives:
+                        loads1, loads = loads[:], []
+                        for dep in loads1:
+                            # if the .requestor is different from classId, it must be included
+                            # through a transitive analysis
+                            if dep.requestor == classId:
+                                loads.append(dep)
+
+                    # project class names
+                    loads1, loads = loads[:], []
+                    for dep in loads1:
+                        if dep.name not in (x.name for x in loads):
+                            loads.append(dep)
+                    runs1, runs = runs[:], []
+                    for dep in runs1:
+                        if dep.name not in (x.name for x in runs):
+                            runs.append(dep)
 
                     # yield dependencies
                     for dep in loads:
@@ -720,7 +739,7 @@ class Generator(object):
         ##
         # A generator to yield all used-by dependencies of classes in packages;
         # will report used-by relations of a specific class in sequence
-        def lookupUsedByDeps(packages, ):
+        def lookupUsedByDeps(packages, includeTransitives):
 
             depsMap = {}
 
@@ -731,10 +750,29 @@ class Generator(object):
                         depsMap[classId] = (packageId, [], [])
                     classObj = ClassIdToObject[classId]
                     #classDeps, _ = classObj.dependencies(variants)
-                    classDeps, _ = self._depLoader.getCombinedDeps(classObj.id, variants)
+                    classDeps, _ = self._depLoader.getCombinedDeps(classObj.id, variants, projectClassNames=False)
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     loads = classDeps["load"]
                     runs  = classDeps["run"]
+
+                    # strip transitive dependencies
+                    if not includeTransitives:
+                        loads1, loads = loads[:], []
+                        for dep in loads1:
+                            # if the .requestor is different from classId, it must be included
+                            # through a transitive analysis
+                            if dep.requestor == classId:
+                                loads.append(dep)
+
+                    # project class names
+                    loads1, loads = loads[:], []
+                    for dep in loads1:
+                        if dep.name not in (x.name for x in loads):
+                            loads.append(dep)
+                    runs1, runs = runs[:], []
+                    for dep in runs1:
+                        if dep.name not in (x.name for x in runs):
+                            runs.append(dep)
 
                     # collect dependencies
                     for dep in loads:
@@ -1130,10 +1168,11 @@ class Generator(object):
         def logDeps(depsLogConf, type):
 
             mainformat = depsLogConf.get('format', None)
+            includeTransitives = depsLogConf.get('include-transitives', True)
             if type == "using":
-                classDepsIter = lookupUsingDeps(packages,)
+                classDepsIter = lookupUsingDeps(packages, includeTransitives)
             else:
-                classDepsIter = lookupUsedByDeps(packages,)
+                classDepsIter = lookupUsedByDeps(packages, includeTransitives)
 
             if mainformat == 'dot':
                 depsToDotFile(classDepsIter, depsLogConf)
