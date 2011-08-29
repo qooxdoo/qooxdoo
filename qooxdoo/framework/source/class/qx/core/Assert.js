@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#ignore(qx.util.ColorUtil)
+?#ignore(qx.util.ColorUtil)
 #ignore(qx.ui.core.Widget)
 #require(qx.lang.Type)
 
