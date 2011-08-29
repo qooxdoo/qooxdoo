@@ -693,19 +693,11 @@ class Generator(object):
             for packageId, package in enumerate(packages):
                 for classId in sorted(package.classes):
                     classObj = ClassIdToObject[classId]
-                    classDeps, _ = classObj.dependencies(variants)
+                    #classDeps, _ = classObj.dependencies(variants)
+                    classDeps, _ = self._depLoader.getCombinedDeps(classObj.id, variants)
                     ignored_names = [x.name for x in classDeps["ignore"]]
-                    ignored_names.append(classId) # fix self-references from Class.dependencies()
-
-                    # collapse multiple occurrences of same class
-                    loads = []
-                    for dep in classDeps["load"]:
-                        if dep.name not in (x.name for x in loads):
-                            loads.append(dep)
-                    runs = []
-                    for dep in classDeps["run"]:
-                        if dep.name not in (x.name for x in runs):
-                            runs.append(dep)
+                    loads = classDeps["load"]
+                    runs  = classDeps["run"]
 
                     # yield dependencies
                     for dep in loads:
@@ -738,19 +730,11 @@ class Generator(object):
                     if classId not in depsMap:
                         depsMap[classId] = (packageId, [], [])
                     classObj = ClassIdToObject[classId]
-                    classDeps, _ = classObj.dependencies(variants)
+                    #classDeps, _ = classObj.dependencies(variants)
+                    classDeps, _ = self._depLoader.getCombinedDeps(classObj.id, variants)
                     ignored_names = [x.name for x in classDeps["ignore"]]
-                    ignored_names.append(classId) # fix self-references from Class.dependencies()
-
-                    # collapse multiple occurrences of same class
-                    loads = []
-                    for dep in classDeps["load"]:
-                        if dep.name not in (x.name for x in loads):
-                            loads.append(dep)
-                    runs = []
-                    for dep in classDeps["run"]:
-                        if dep.name not in (x.name for x in runs):
-                            runs.append(dep)
+                    loads = classDeps["load"]
+                    runs  = classDeps["run"]
 
                     # collect dependencies
                     for dep in loads:
