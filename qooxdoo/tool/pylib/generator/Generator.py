@@ -1168,7 +1168,7 @@ class Generator(object):
         def logDeps(depsLogConf, type):
 
             mainformat = depsLogConf.get('format', None)
-            includeTransitives = depsLogConf.get('include-transitives', True)
+            includeTransitives = depsLogConf.get('include-transitive-load-deps', True)
             if type == "using":
                 classDepsIter = lookupUsingDeps(packages, includeTransitives)
             else:
