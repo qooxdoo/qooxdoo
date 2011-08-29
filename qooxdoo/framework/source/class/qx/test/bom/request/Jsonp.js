@@ -153,7 +153,6 @@ qx.Class.define("qx.test.bom.request.Jsonp",
         });
       };
 
-      this.req.setCallbackName("myCallback");
       this.request();
       this.wait();
     },
