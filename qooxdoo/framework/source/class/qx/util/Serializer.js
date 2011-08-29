@@ -19,8 +19,8 @@
 
 /* ************************************************************************
 
-#optional(qx.data.IListData)
-#optional(qx.locale.LocalizedString)
+#ignore(qx.data.IListData)
+#ignore(qx.locale.LocalizedString)
 
 ************************************************************************ */
 

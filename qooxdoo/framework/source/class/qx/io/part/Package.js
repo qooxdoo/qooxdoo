@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /*
- #optional(qx.util.ResourceManager)
+ #ignore(qx.util.ResourceManager)
  */
 
 /**

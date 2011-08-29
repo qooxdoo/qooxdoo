@@ -19,8 +19,8 @@
 
 /* ************************************************************************
 
-#optional(qx.util.ColorUtil)
-#optional(qx.ui.core.Widget)
+#ignore(qx.util.ColorUtil)
+#ignore(qx.ui.core.Widget)
 #require(qx.lang.Type)
 
 ************************************************************************ */

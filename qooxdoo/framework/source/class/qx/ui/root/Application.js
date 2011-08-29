@@ -21,8 +21,8 @@
 /* ************************************************************************
 
 #require(qx.event.handler.Window)
-#optional(qx.ui.popup.Manager)
-#optional(qx.ui.menu.Manager)
+#ignore(qx.ui.popup.Manager)
+#ignore(qx.ui.menu.Manager)
 #ignore(qx.ui)
 
 ************************************************************************ */
