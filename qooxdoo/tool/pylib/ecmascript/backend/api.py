@@ -423,8 +423,6 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
  * inheritance value depeneding on the property configuration and value availability.
  *
  * For further details take a look at the property definition: {@link #%s}.
- *
- * @return {void}
  */
  function () {}; """ % (propertyName, propertyName),
 

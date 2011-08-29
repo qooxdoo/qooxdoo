@@ -776,13 +776,14 @@ def fromFunction(func, assignType, name, alternative, old=[]):
                 newType = "Boolean"
 
         # Add documentation hint in non void cases
-        if newType != "void" and newText == "":
-            newText = "TODOC"
+        if newType != "void":
+            if newText == "":
+                newText = "TODOC"
 
-        s += " * @return {%s}%s" % (newType, splitText(newText))
+            s += " * @return {%s}%s" % (newType, splitText(newText))
 
-        if not s.endswith("\n"):
-            s += "\n"
+            if not s.endswith("\n"):
+                s += "\n"
 
 
 
