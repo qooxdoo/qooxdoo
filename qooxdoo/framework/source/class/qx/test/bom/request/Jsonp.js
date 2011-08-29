@@ -51,7 +51,6 @@ qx.Class.define("qx.test.bom.request.Jsonp",
 
     tearDown: function() {
       window.SCRIPT_LOADED = undefined;
-      window.myExistingCallback = undefined;
       this.getSandbox().restore();
       this.req.dispose();
     },
@@ -93,12 +92,22 @@ qx.Class.define("qx.test.bom.request.Jsonp",
     },
 
     "test: not overwrite existing callback": function() {
+      var that = this;
+
       // User provided callback that must not be overwritten
-      myExistingCallback = "Affe";
+      window.myExistingCallback = function() { return "Affe"; };
 
       this.req.setCallbackName("myExistingCallback");
+
+      this.req.onload = function() {
+        that.resume(function() {
+          that.assertEquals("Affe", myExistingCallback());
+          window.myExistingCallback = undefined;
+        });
+      };
+
       this.request();
-      this.assertEquals("Affe", myExistingCallback);
+      this.wait();
     },
 
     //
