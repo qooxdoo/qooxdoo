@@ -63,7 +63,6 @@ qx.Class.define("fce.view.ImportWindow", {
     this.add(errorMessage);
     errorMessage.exclude();
     this.__errorMessage = errorMessage;
-    window.em = errorMessage;
 
     var importButton = new qx.ui.form.Button("Import");
     importButton.setAlignX("center");
