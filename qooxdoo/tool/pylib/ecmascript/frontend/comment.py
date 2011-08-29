@@ -821,7 +821,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
     for attrib in old:
         cat = attrib["category"]
 
-        if cat in ["see", "author", "deprecated", "exception", "since", "version", "abstract", "overridden"]:
+        if cat in ["see", "author", "deprecated", "exception", "since", "version", "abstract", "overridden", "lint"]:
             s += " * @%s" % cat
 
             if cat == "see":
