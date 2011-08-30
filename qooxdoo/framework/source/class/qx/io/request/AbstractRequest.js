@@ -239,6 +239,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
     __response: null,
 
     /**
+     * Abort flag.
+     */
+     __abort: null,
+
+    /**
      * Current phase.
      */
     __phase: null,
@@ -368,6 +373,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
        if (qx.core.Environment.get("qx.debug.io")) {
          this.debug("Abort request");
        }
+       this.__abort = true;
        this._transport.abort();
      },
 
@@ -554,6 +560,14 @@ qx.Class.define("qx.io.request.AbstractRequest",
       }
 
       this.fireEvent("readyStateChange");
+
+      // Transport switches to readyState DONE on abort and may already
+      // have successful HTTP status when response is served from cache.
+      //
+      // Not fire "loading" (and "success" when cached).
+      if (this.__abort) {
+        return;
+      }
 
       if (readyState === 3) {
         this._setPhase("loading");

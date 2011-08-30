@@ -98,6 +98,26 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
       this.wait();
     },
 
+    "test: progress phases when abort after send": function() {
+      var req = this.req,
+          phases = [],
+          expectedPhases = ["opened", "sent", "abort"],
+          url = this.getUrl("qx/test/xmlhttp/sample.txt");
+
+      req.addListener("changePhase", function() {
+        phases.push(req.getPhase());
+
+        if (req.getPhase() === "abort") {
+          this.assertArrayEquals(expectedPhases, phases);
+        }
+
+      }, this);
+
+      req.setUrl(url);
+      req.send();
+      req.abort();
+    },
+
     // "test: fetch resources simultaneously": function() {
     //   this.require(["php"]);
     //
