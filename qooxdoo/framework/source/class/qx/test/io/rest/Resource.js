@@ -35,16 +35,6 @@ qx.Class.define("qx.test.io.rest.Resource",
     setUp: function() {
       this.setUpDoubleRequest();
       this.setUpResource();
-
-      // Need to set up double request explicitly
-      //
-      // Use setUpPersistent() if you want a persistent double
-      qx.io.request.Xhr.restore();
-    },
-
-    setUpPersistent: function() {
-      this.setUpDoubleRequest();
-      this.setUpResource();
     },
 
     setUpDoubleRequest: function() {
@@ -95,9 +85,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       msg = "Invoke #1";
       res.index();
       res.configureRequest(callback);
-
-      // Setup new double and update request to assert identity of
-      req = this.setUpDoubleRequest();
 
       msg = "Invoke #2";
       res.index();
@@ -235,6 +222,23 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.index();
 
       this.assertSend();
+    },
+
+    "test: invoke action while other is in progress": function() {
+      var res = this.res,
+          req1, req2;
+
+      req1 = this.req;
+      res.index();
+
+      qx.io.request.Xhr.restore();
+      this.setUpDoubleRequest();
+
+      req2 = this.req;
+      res.current();
+
+      this.assertCalledOnce(req1.send);
+      this.assertCalledOnce(req2.send);
     },
 
     "test: invoke action with positional params": function() {
@@ -392,7 +396,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.index();
       this.assertSend();
 
-      req = this.setUpDoubleRequest();
       res.refresh("index");
       this.assertSend();
     },
@@ -405,7 +408,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.show({id: "1"});
       this.assertSend("GET", "/photos/1");
 
-      req = this.setUpDoubleRequest();
       res.refresh("show");
       this.assertSend("GET", "/photos/1");
     },
@@ -452,7 +454,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.show({id: "1"});
       this.assertSend("GET", "/photos/1");
 
-      req = this.setUpDoubleRequest();
       res.poll("show");
       this.assertSend("GET", "/photos/1");
     },
@@ -567,8 +568,6 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     "test: long poll action": function() {
-      this.setUpPersistent();
-
       var res = this.res,
           req = this.req,
           responses = [];
@@ -589,8 +588,6 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     "test: throttle long poll": function() {
-      this.setUpPersistent();
-
       var res = this.res,
           req = this.req;
 
@@ -615,8 +612,6 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     "test: not throttle long poll when not received within limit": function() {
-      this.setUpPersistent();
-
       var res = this.res,
           req = this.req,
           sandbox = this.getSandbox();
@@ -640,8 +635,6 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     "test: not throttle long poll when not received subsequently": function() {
-      this.setUpPersistent();
-
       var res = this.res,
           req = this.req,
           sandbox = this.getSandbox();
@@ -670,8 +663,6 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     "test: end long poll action": function() {
-      this.setUpPersistent();
-
       var res = this.res,
           req = this.req,
           handlerId,

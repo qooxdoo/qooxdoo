@@ -65,15 +65,19 @@ qx.Class.define("qx.io.rest.Resource",
   {
     this.base(arguments);
 
-    this.__createRequest();
+    this.__requests = [];
     this.__routes = {};
     this.__pollTimers = {};
     this.__longPollHandlers = {};
-    this.__invoked = {};
 
-    if (typeof description !== "undefined") {
-      qx.core.Assert.assertMap(description);
-      this.__mapFromDescription(description);
+    try {
+      if (typeof description !== "undefined") {
+        qx.core.Assert.assertMap(description);
+        this.__mapFromDescription(description);
+      }
+    } catch(e) {
+      this.dispose();
+      throw e;
     }
   },
 
@@ -112,9 +116,8 @@ qx.Class.define("qx.io.rest.Resource",
 
   members:
   {
+    __requests: null,
     __routes: null,
-    __request: null,
-    __invoked: null,
     __pollTimers: null,
     __longPollHandlers: null,
     __configureRequestCallback: null,
@@ -154,12 +157,9 @@ qx.Class.define("qx.io.rest.Resource",
      * Create request.
      */
     __createRequest: function() {
-      if (this.__request) {
-        this.__request.dispose();
-      }
-
-      this.__request = this._getRequest();
-      return this.__request;
+      var req = this._getRequest();
+      this.__requests.push(req);
+      return req;
     },
 
     //
@@ -216,7 +216,7 @@ qx.Class.define("qx.io.rest.Resource",
      *  into URL when a matching positional parameter is found.
      */
     _invoke: function(action, params) {
-      var req = this.__request,
+      var req = this.__createRequest(),
           config = this._getRequestConfig(action, params),
           method = config.method,
           url = config.url,
@@ -234,11 +234,6 @@ qx.Class.define("qx.io.rest.Resource",
 
       // Cache parameters
       this.__routes[action].params = params;
-
-      // Create new request when invoked before
-      if (this.__invoked && this.__invoked[action]) {
-        req = this.__createRequest();
-      }
 
       // Remove positional parameters from request data (already in URL)
       if (params) {
@@ -272,7 +267,6 @@ qx.Class.define("qx.io.rest.Resource",
       }, this);
 
       req.send();
-      this.__invoked[action] = true;
     },
 
     /**
@@ -520,7 +514,9 @@ qx.Class.define("qx.io.rest.Resource",
   },
 
   destruct: function() {
-    this.__request.dispose();
+    this.__requests.forEach(function(req) {
+      req.dispose();
+    });
 
     if (this.__pollTimers) {
       qx.lang.Object.getKeys(this.__pollTimers).forEach(function(key) {
@@ -537,6 +533,6 @@ qx.Class.define("qx.io.rest.Resource",
       }, this);
     }
 
-    this.__routes = this.__pollTimers = this.__invoked = null;
+    this.__routes = this.__pollTimers = null;
   }
 });
