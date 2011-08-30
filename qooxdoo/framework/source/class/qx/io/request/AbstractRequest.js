@@ -374,6 +374,10 @@ qx.Class.define("qx.io.request.AbstractRequest",
          this.debug("Abort request");
        }
        this.__abort = true;
+
+       // Update phase to "abort" before user handler are invoked [BUG #5485]
+       this.__phase = "abort";
+
        this._transport.abort();
      },
 
@@ -564,7 +568,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
       // Transport switches to readyState DONE on abort and may already
       // have successful HTTP status when response is served from cache.
       //
-      // Not fire "loading" (and "success" when cached).
+      // Not fire custom event "loading" (or "success", when cached).
       if (this.__abort) {
         return;
       }

@@ -118,6 +118,34 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
       req.abort();
     },
 
+    "test: progress phases when abort after loading": function() {
+      var req = this.req,
+          phases = [],
+          expectedPhases = ["opened", "sent", "loading", "abort"],
+          url = this.noCache(this.getUrl("qx/test/xmlhttp/loading.php")) + "&duration=100";
+
+      req.addListener("changePhase", function() {
+        phases.push(req.getPhase());
+
+        if (req.getPhase() === "abort") {
+          this.resume(function() {
+            this.assertArrayEquals(expectedPhases, phases);
+          });
+        }
+
+      }, this);
+
+      req.setUrl(url);
+      req.send();
+
+      // Abort loading. Give remote some time to respond.
+      qx.event.Timer.once(function() {
+        req.abort();
+      }, this, 500);
+
+      this.wait();
+    },
+
     // "test: fetch resources simultaneously": function() {
     //   this.require(["php"]);
     //
