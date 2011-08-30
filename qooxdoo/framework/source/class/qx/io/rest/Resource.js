@@ -272,6 +272,12 @@ qx.Class.define("qx.io.rest.Resource",
         this.fireEvent("error", qx.event.type.Rest, props);
       }, this);
 
+      // Dispose request on loadEnd
+      // (Note that loadEnd is fired after "success")
+      req.addListenerOnce("loadEnd", function loadEndHandler() {
+        req.dispose();
+      }, this);
+
       req.send();
     },
 

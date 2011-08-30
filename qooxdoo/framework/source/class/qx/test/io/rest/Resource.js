@@ -760,6 +760,49 @@ qx.Class.define("qx.test.io.rest.Resource",
       });
     },
 
+    //
+    // Dispose
+    //
+
+    "test: dispose requests": function() {
+      var res = this.res,
+          req1, req2;
+
+      req1 = this.req;
+      res.index();
+
+      qx.io.request.Xhr.restore();
+      this.setUpDoubleRequest();
+
+      req2 = this.req;
+      res.current();
+
+      this.spy(req1, "dispose");
+      this.spy(req2, "dispose");
+
+      res.dispose();
+
+      this.assertCalled(req1.dispose);
+      this.assertCalled(req2.dispose);
+
+      req1.dispose.restore();
+      req2.dispose.restore();
+    },
+
+    "test: dispose request on loadEnd": function() {
+      var res = this.res,
+          req = this.req;
+
+      this.spy(req, "dispose");
+
+      res.index();
+      this.respond();
+
+      this.assertCalledOnce(req.dispose);
+
+      req.dispose.restore();
+    },
+
     assertSend: function(method, url) {
       var req = this.req;
 
@@ -782,6 +825,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       req.getPhase.returns("success");
       req.getResponse.returns(response);
       req.fireEvent("success");
+      req.fireEvent("loadEnd");
     },
 
     // Fake erroneous response
