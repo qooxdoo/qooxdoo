@@ -10,6 +10,7 @@ while((time() - $time) < $_GET['duration']) {
     echo ".\n";
 
     // Write to client
+    ob_flush();
     flush();
 
     usleep(100000);
