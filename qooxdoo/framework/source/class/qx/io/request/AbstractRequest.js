@@ -261,6 +261,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
     __requestHeaders: null,
 
     /**
+     * Request headers (deprecated).
+     */
+    __requestHeadersDeprecated: null,
+
+    /**
      * Holds transport.
      */
     _transport: null,
@@ -466,6 +471,37 @@ qx.Class.define("qx.io.request.AbstractRequest",
      */
     _getAllRequestHeaders: function() {
       return this.__requestHeaders;
+    },
+
+    // DEPRECATION OF requestHeaders PROPERTY.
+
+    /**
+     * Sets the user value of the property <code>requestHeaders</code>.
+     *
+     * @deprecated since 1.6.
+     *
+     * @param value {Map} New value for property <code>requestHeaders</code>.
+     */
+    setRequestHeaders: function(value) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use setRequestHeader() instead.");
+
+      qx.core.Assert.assertObject(value);
+      this.__requestHeadersDeprecated = value;
+    },
+
+    /**
+     * Returns the (computed) value of the property <code>requestHeaders</code>.
+     *
+     * @deprecated since 1.6.
+     *
+     * @return {Map} (Computed) value of <code>requestHeaders</code>.
+     */
+    getRequestHeaders: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use getRequestHeader() instead.");
+
+      return this.__requestHeadersDeprecated;
     },
 
     /*
@@ -824,7 +860,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
       var requestHeaders;
 
       // Evaluate requestHeaders property.
-      requestHeaders = this.getRequestHeaders();
+      requestHeaders = this.__requestHeadersDeprecated;
       if (requestHeaders) {
         for (var key in requestHeaders) {
           this._transport.setRequestHeader(key, requestHeaders[key]);
