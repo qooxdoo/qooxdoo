@@ -284,6 +284,16 @@ qx.Class.define("qx.io.request.Xhr",
       }
     },
 
+    // overridden
+    _getMethod: function() {
+      return this.getMethod();
+    },
+
+    // overridden
+    _isAsync: function() {
+      return this.isAsync();
+    },
+
     /*
     ---------------------------------------------------------------------------
       PARSING

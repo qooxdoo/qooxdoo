@@ -308,6 +308,30 @@ qx.Class.define("qx.io.request.AbstractRequest",
       throw new Error("Abstract method call");
     },
 
+    /**
+     * Get method.
+     *
+     * This method MAY be overridden. It is called in {@link #send}
+     * before the request is initialized.
+     *
+     * @return {String} The method.
+     */
+    _getMethod: function() {
+      return "GET";
+    },
+
+    /**
+     * Whether async.
+     *
+     * This method MAY be overridden. It is called in {@link #send}
+     * before the request is initialized.
+     *
+     * @return {Boolean} Whether to process asynchronously.
+     */
+    _isAsync: function() {
+      return true;
+    },
+
     /*
     ---------------------------------------------------------------------------
       INTERACT WITH TRANSPORT
@@ -336,8 +360,8 @@ qx.Class.define("qx.io.request.AbstractRequest",
       transport.timeout = this.getTimeout() * 1000;
 
       // Support transports with enhanced feature set
-      method = qx.lang.Type.isFunction(this.getMethod) ? this.getMethod() : "GET";
-      async = qx.lang.Type.isFunction(this.getAsync) ? this.getAsync() : true;
+      method = this._getMethod();
+      async = this._isAsync();
 
       // Open
       if (qx.core.Environment.get("qx.debug.io")) {
