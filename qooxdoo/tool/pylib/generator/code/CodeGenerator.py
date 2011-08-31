@@ -365,8 +365,8 @@ class CodeGenerator(object):
                     packageUris = package.files
                 else: # "source" :
                     for clazz in package.classes:
-                        namespace  = self._classes[clazz].library.namespace
-                        relpath    = OsPath(self._classes[clazz].relpath)
+                        namespace  = clazz.library.namespace
+                        relpath    = OsPath(clazz.relpath)
                         shortUri   = Uri(relpath.toUri())
                         entry      = "%s:%s" % (namespace, shortUri.encodedValue())
                         packageUris.append(entry)
@@ -636,7 +636,7 @@ class CodeGenerator(object):
             compiledClasses = []
             packageData = getPackageData(package)
             packageData = ("qx.$$packageData['%s']=" % package.id) + packageData
-            package_classes = [y for x in package.classes for y in script.classesObj if y.id == x] # TODO: i need to make package.classes [Class]!
+            package_classes = package.classes
 
             #self._console.info("Package #%s:" % package.id, feed=False)
             len_pack_classes = len(package_classes)
@@ -1125,8 +1125,7 @@ class CodeGenerator(object):
 
         for package in script.packages:
             package_resources = []
-            # TODO: the next is a hack, since package.classes are still id's
-            package_classes   = [x for x in script.classesObj if x.id in package.classes]
+            package_classes   = package.classes
             for clazz in package_classes:
                 package_resources.extend(clazz.resources)
             package.data.resources = Script.createResourceStruct(package_resources, formatAsTree=False,

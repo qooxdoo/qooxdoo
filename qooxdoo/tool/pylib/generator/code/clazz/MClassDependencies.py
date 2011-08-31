@@ -859,6 +859,8 @@ class MClassDependencies(object):
                 return set()
             
             defDepsItem = DependencyItem(defClassId, methodId, classId)
+            if dependencyItem.isCall:
+                defDepsItem.isCall = True  # if the dep is an inherited method being called, pursue the parent method as call
             localDeps   = set()
 
             # inherited feature

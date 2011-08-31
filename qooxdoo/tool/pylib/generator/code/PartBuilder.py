@@ -135,7 +135,7 @@ class PartBuilder(object):
         allpackageclasses = set([])
         for package in script.packages:
             allpackageclasses.update(package.classes)
-        missingclasses = set(x.id for x in script.classesObj).difference(allpackageclasses)
+        missingclasses = set(script.classesObj).difference(allpackageclasses)
         if missingclasses:
             raise ValueError("These necessary classes are not covered by parts: %r" % list(missingclasses))
 
@@ -176,7 +176,7 @@ class PartBuilder(object):
             classList = []
             classPackage = []
             for packageIdx, package in enumerate(part.packages): # TODO: not sure this is sorted
-                for pos,classId in enumerate(package.classes):
+                for pos,classId in enumerate(x.id for x in package.classes):
                     classList.append(classId)
                     classPackage.append((package.id,pos))
             allpartsclasses.extend(classList)
@@ -190,10 +190,10 @@ class PartBuilder(object):
             # alternative: check part.deps against classSet
             classIdx = -1
             for packageIdx, package in enumerate(part.packages):
-                for classId in package.classes:
+                for clazz in package.classes:
                     classIdx   += 1
                     #classDeps, _   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
-                    classDeps, _   = classesObj[classId].getCombinedDeps(script.variants, script.jobconfig)
+                    classDeps, _   = clazz.getCombinedDeps(script.variants, script.jobconfig)
                     loadDeps    = set(x.name for x in classDeps['load'])
                     ignoreDeps  = set(x.name for x in classDeps['ignore'])
                     # we cannot enforce runDeps here, as e.g. the 'boot'
@@ -204,11 +204,11 @@ class PartBuilder(object):
                             depsIdx = classList.index(depsId)
                         except ValueError:
                             handleError("Unfullfilled dependency of class '%s'[%d,%d]: '%s'" % 
-                               (classId, package.id, classIdx, depsId))
+                               (clazz.id, package.id, classIdx, depsId))
                             continue
                         if depsId in loadDeps and classIdx < depsIdx:
                             handleError("Load-dep loaded after using class ('%s'[%d,%d]):  '%s'[%d,%d]" % 
-                               (classId, package.id, classIdx, 
+                               (clazz.id, package.id, classIdx, 
                                 depsId, classPackage[depsIdx][0], classPackage[depsIdx][1]))
                     #if missingDeps:  # there is a load dep not in the part
                     #    self._console.warn("Unfullfilled load dependencies of class '%s': %r" % (classId, tuple(missingDeps)))
@@ -330,7 +330,8 @@ class PartBuilder(object):
                     package = Package(pkgId)
                     packages[pkgId] = package
                 # store classId with this package
-                packages[pkgId].classes.append(classId)
+                #packages[pkgId].classes.append(classId)
+                packages[pkgId].classes.append(classesObj[classId])
             return packages.values()
 
         # ---------------------------------------------------------------
@@ -356,16 +357,16 @@ class PartBuilder(object):
         for package in packages:
             # get all direct (load)deps of this package
             allDeps = set(())
-            for classId in package.classes:
+            for clazz in package.classes:
                 #classDeps, _ = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
-                classDeps, _ = classesObj[classId].getCombinedDeps(script.variants, script.jobconfig)
+                classDeps, _ = clazz.getCombinedDeps(script.variants, script.jobconfig)
                 loadDeps = set(x.name for x in classDeps['load'])
                 allDeps.update(loadDeps)
 
             # record the other packages in which these classes are contained
             for classId in allDeps:
                 for otherpackage in packages:
-                    if otherpackage != package and classId in otherpackage.classes:
+                    if otherpackage != package and classId in (x.id for x in otherpackage.classes):
                         package.packageDeps.add(otherpackage)
          
         self._console.outdent()
@@ -378,11 +379,10 @@ class PartBuilder(object):
         compOptions.optimize = script.optimize
         compOptions.format = True
         compOptions.variantset = variants
-        classesObj = dict((x.id,x) for x in script.classesObj if x.id in package.classes)
 
         self._console.indent()
-        for classId in package.classes:
-            packageSize += classesObj[classId].getCompiledSize(compOptions)
+        for clazz in package.classes:
+            packageSize += clazz.getCompiledSize(compOptions)
         self._console.outdent()
 
         return packageSize
@@ -735,10 +735,11 @@ class PartBuilder(object):
         packages   = script.packagesSorted()
 
         for package in packages:
-            package.classes = self._depLoader.sortClasses(package.classes, script.variants, script.buildType)
-        #self._console.nl() # terminate dots
-
-        #script.packageIdsSorted = [x.id for x in packages]
+            # TODO: temp. kludge, to pass classIds to sortClasses()
+            #       sortClasses() should take Class() objects directly
+            classMap = dict((cls.id, cls) for cls in package.classes)
+            classIds = self._depLoader.sortClasses(classMap.keys(), script.variants, script.buildType)
+            package.classes = [classMap[x] for x in classIds]
 
         return script
 

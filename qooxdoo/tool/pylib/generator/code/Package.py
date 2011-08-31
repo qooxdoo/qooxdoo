@@ -47,7 +47,7 @@ class Package(object):
         self.part_mask  = id   # will be modified during mergers
         self.file       = ""   # potential file (base-)name that makes up the package, if desired
         self.files      = []   # list of compiled/source files making up this package; TODO: supersedes self.file
-        self.classes    = []   # list of classes in this package
+        self.classes    = []   # list of classes in this package, [generator.code.Class]
         #self.part_count       # property
         #self.parts      = []   # list of parts using this package  -- currently not used
         self.data       = NameSpace() # an extensible container

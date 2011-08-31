@@ -69,8 +69,8 @@ class Locale(object):
 
         # check need for cldr data in this classlist
         need_cldr = False
-        for classId in classList:
-            if self._classesObj[classId].getHints('cldr'):
+        for clazz in classList:
+            if clazz.getHints('cldr'):
                 need_cldr = True
                 break
 
@@ -215,7 +215,7 @@ class Locale(object):
         return s.replace(r'\\', '\\')
 
 
-    def getTranslationData(self, classList, variants, targetLocales, addUntranslatedEntries=False):
+    def getTranslationData(self, clazzList, variants, targetLocales, addUntranslatedEntries=False):
 
         def extractTranslations(pot, po):
             po.getIdIndex()
@@ -234,8 +234,9 @@ class Locale(object):
 
         # Find all influenced namespaces
         libnames = {}
-        for classId in classList:
-            ns = self._classesObj[classId].library.namespace
+        classList = [x.id for x in clazzList]
+        for clazz in clazzList:
+            ns = clazz.library.namespace
             libnames[ns] = True
 
         # Create a map of locale => [pofiles]

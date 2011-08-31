@@ -251,11 +251,9 @@ class Generator(object):
                 # patch script object
                 script.boot        = boot
                 packageObj         = Package(0)
-                packageObj.classes = classList
+                packageObj.classes = script.classesObj
                 script.packages.append(packageObj)
-                #script.packageIdsSorted = [0]
                 partObj            = Part("boot")
-                #partObj.packages   = [0]
                 partObj.packages.append(packageObj)
                 script.parts       = { "boot" : partObj }
 
@@ -624,7 +622,7 @@ class Generator(object):
         # used classes of interest
         for packageId, package in enumerate(packages):
             for namespace in namespaces:
-                packageClasses = self._expandRegExps([namespace], package.classes)
+                packageClasses = self._expandRegExps([namespace], [x.id for x in package.classes])
                 usedClassesArr[namespace].extend(packageClasses)
         
         # available classes of interest
@@ -691,7 +689,7 @@ class Generator(object):
                 return set(load_names).union(run_names).difference(ignored_names)
 
             for packageId, package in enumerate(packages):
-                for classId in sorted(package.classes):
+                for classId in sorted(x.id for x in package.classes):
                     classObj = ClassIdToObject[classId]
                     #classDeps, _ = classObj.dependencies(variants)
                     #classDeps, _ = self._depLoader.getCombinedDeps(classObj.id, variants, projectClassNames=False)
@@ -746,7 +744,7 @@ class Generator(object):
 
             # build up depsMap {"classId" : ("packageId", [<load_deps>,...], [<run_deps>, ...]) }
             for packageId, package in enumerate(packages):
-                for classId in sorted(package.classes):
+                for classId in sorted(x.id for x in package.classes):
                     if classId not in depsMap:
                         depsMap[classId] = (packageId, [], [])
                     classObj = ClassIdToObject[classId]
