@@ -214,7 +214,7 @@ qx.Class.define("qx.io.rest.Resource",
      *
      * May be overriden to customize action and parameter handling.
      *
-     * @lint ignoreUnused(successHandler, failHandler)
+     * @lint ignoreUnused(successHandler, failHandler, loadEndHandler)
      *
      * @param action {String} Action to invoke.
      * @param params {Map} Map of parameters to be send as part of the request,
