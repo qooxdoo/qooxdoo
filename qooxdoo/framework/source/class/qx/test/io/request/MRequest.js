@@ -151,6 +151,43 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledWith(this.transport.setRequestHeader, "key2", "value");
     },
 
+    "test: set request header": function() {
+      this.setUpFakeTransport();
+      this.req.setRequestHeader("key", "value");
+      this.req.send();
+
+      this.assertCalledWith(this.transport.setRequestHeader, "key", "value");
+    },
+
+    "test: get request header": function() {
+      this.setUpFakeTransport();
+      this.req.setRequestHeader("key", "value");
+
+      this.assertEquals("value", this.req.getRequestHeader("key"));
+    },
+
+    "test: remove request header": function() {
+      var stub;
+
+      this.setUpFakeTransport();
+      this.req.setRequestHeader("key", "value");
+      this.req.removeRequestHeader("key");
+
+      stub = this.transport.setRequestHeader.withArgs("key", "value");
+      this.req.send();
+
+      this.assertNotCalled(stub);
+    },
+
+    "test: get all request headers": function() {
+      this.setUpFakeTransport();
+      this.req.setRequestHeader("key", "value");
+      this.req.setRequestHeader("otherkey", "value");
+
+      this.assertEquals("value", this.req._getAllRequestHeaders()["key"]);
+      this.assertEquals("value", this.req._getAllRequestHeaders()["otherkey"]);
+    },
+
     "test: not append cache parameter to URL": function() {
       this.setUpFakeTransport();
       this.req.send();

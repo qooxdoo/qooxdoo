@@ -47,6 +47,8 @@ qx.Class.define("qx.io.request.AbstractRequest",
       this.setUrl(url);
     }
 
+    this.__requestHeaders = {};
+
     var transport = this._transport = this._createTransport();
     this._setPhase("unsent");
 
@@ -164,6 +166,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Note: Depending on the HTTP method used (e.g. POST),
      * additional headers may be set automagically.
      *
+     * Also note: This property is deprecated. Please use
+     * {@link #setRequestHeader} instead.
+     *
+     * @deprecated since 1.6.
+     *
      */
     requestHeaders: {
       check: "Map",
@@ -247,6 +254,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Current phase.
      */
     __phase: null,
+
+    /**
+     * Request headers.
+     */
+    __requestHeaders: null,
 
     /**
      * Holds transport.
@@ -380,6 +392,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
       this._setRequestHeaders();
       this.__setAuthRequestHeaders();
+      this.__setUserRequestHeadersDeprecated();
       this.__setUserRequestHeaders();
 
       // Send
@@ -393,7 +406,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     /**
      * Abort request.
      */
-     abort: function() {
+    abort: function() {
        if (qx.core.Environment.get("qx.debug.io")) {
          this.debug("Abort request");
        }
@@ -403,13 +416,63 @@ qx.Class.define("qx.io.request.AbstractRequest",
        this.__phase = "abort";
 
        this._transport.abort();
-     },
+    },
 
-     /*
-     ---------------------------------------------------------------------------
-       QUERY TRANSPORT
-     ---------------------------------------------------------------------------
+    /*
+    ---------------------------------------------------------------------------
+     REQUEST HEADERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Set a request header.
+     *
+     * Note: Setting request headers has no effect after the request was send.
+     *
+     * @param key {String} Key of the header.
+     * @param value {String} Value of the header.
      */
+    setRequestHeader: function(key, value) {
+      this.__requestHeaders[key] = value;
+    },
+
+    /**
+     * Get a request header.
+     *
+     * @param key {String} Key of the header.
+     * @return {String} The value of the header.
+     */
+    getRequestHeader: function(key) {
+       return this.__requestHeaders[key];
+    },
+
+    /**
+     * Remove a request header.
+     *
+     * Note: Removing request headers has no effect after the request was send.
+     *
+     * @param key {String} Key of the header.
+     */
+    removeRequestHeader: function(key) {
+      if (this.__requestHeaders[key]) {
+       delete this.__requestHeaders[key];
+      }
+    },
+
+    /**
+     * Get all request headers.
+     *
+     * @return {Map} All user-configured request headers.
+     */
+    _getAllRequestHeaders: function() {
+      return this.__requestHeaders;
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+     QUERY TRANSPORT
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Get low-level transport.
@@ -742,12 +805,30 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Set request headers.
      */
     __setUserRequestHeaders: function() {
-      var requestHeaders = this.getRequestHeaders();
+      var requestHeaders;
 
+      requestHeaders = this._getAllRequestHeaders();
       if (requestHeaders) {
-        qx.lang.Object.getKeys(requestHeaders).forEach(function(key) {
+        for (var key in requestHeaders) {
           this._transport.setRequestHeader(key, requestHeaders[key]);
-        }, this);
+        }
+      }
+    },
+
+    /**
+     * Set request headers by reading the request headers property.
+     *
+     * @deprecated since 1.6
+     */
+    __setUserRequestHeadersDeprecated: function() {
+      var requestHeaders;
+
+      // Evaluate requestHeaders property.
+      requestHeaders = this.getRequestHeaders();
+      if (requestHeaders) {
+        for (var key in requestHeaders) {
+          this._transport.setRequestHeader(key, requestHeaders[key]);
+        }
       }
     },
 
