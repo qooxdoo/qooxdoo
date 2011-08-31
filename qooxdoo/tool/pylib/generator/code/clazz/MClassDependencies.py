@@ -206,6 +206,74 @@ class MClassDependencies(object):
         # end:dependencies()
 
 
+    def getCombinedDeps(self, variants, config, stripSelfReferences=True, projectClassNames=True, genProxy=None):
+
+        # init lists
+        loadFinal = []
+        runFinal  = []
+
+        # add static dependencies
+        if genProxy == None:
+            static, cached = self.dependencies (variants)
+        else:
+            static, cached = genProxy.dependencies(self.id, self.path, variants)
+
+        loadFinal.extend(static["load"])
+        runFinal.extend(static["run"])
+
+        # fix self-references
+        if stripSelfReferences:
+            loadFinal = [x for x in loadFinal if x.name != self.id]
+            runFinal  = [x for x in runFinal  if x.name != self.id]
+
+        # collapse multiple occurrences of the same class
+        if projectClassNames:
+            loads = loadFinal
+            loadFinal = []
+            for dep in loads:
+                if dep.name not in (x.name for x in loadFinal):
+                    loadFinal.append(dep)
+            runs = runFinal
+            runFinal = []
+            for dep in runs:
+                if dep.name not in (x.name for x in runFinal):
+                    runFinal.append(dep)
+
+
+        # TODO: this should be removed, as it cannot happen anymore (source is not variant-optimized)
+        # fix dependency to classes that get removed with variant optimization
+        variantSelectClasses = ("qx.core.Environment",)
+        if len(variants) and (self.id not in variantSelectClasses):
+            depsUnOpt, _ = self.dependencies({})  # get unopt deps
+            # this might incur extra generation if unoptimized deps
+            # haven't computed before for this fileId
+            for depItem in depsUnOpt["load"]:
+                if depItem.name in variantSelectClasses and depItem.name not in [x.name for x in loadFinal]:
+                    loadFinal.append(depItem)
+            for depItem in depsUnOpt["run"]:
+                if depItem.name in variantSelectClasses and depItem.name not in [x.name for x in runFinal]:
+                    runFinal.append(depItem)
+
+
+        # add config dependencies
+        crequire = config.get("require", {})
+        if self.id in crequire:
+            loadFinal.extend(DependencyItem(x, '', "|config|") for x in crequire[self.id])
+
+        cuse = config.get("use", {})
+        if self.id in cuse:
+            runFinal.extend(DependencyItem(x, '', "|config|") for x in cuse[self.id])
+
+        # result dict
+        deps = {
+            "load"   : loadFinal,
+            "run"    : runFinal,
+            "ignore" : static['ignore'],
+        }
+
+        return deps, cached
+
+
     # ----------------------------------------------------------------------------------
     # -- all methods below this line up to _analyzeClassDepsNode() are only used by that
     

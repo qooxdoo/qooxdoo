@@ -954,12 +954,10 @@ def fill(node):
                   commentNode = tree.Node("comment")
                   commentNode.set("detail", "javadoc")
 
-                """
-                if node.type == "function":
-                    commentNode.set("text", fromFunction(node, assignType, name, alternative, old))
-                else:
-                    commentNode.set("text", fromNode(node, assignType, name, alternative, old))
-                """
+                #if node.type == "function":
+                #    commentNode.set("text", fromFunction(node, assignType, name, alternative, old))
+                #else:
+                #    commentNode.set("text", fromNode(node, assignType, name, alternative, old))
 
                 commentNode.set("text", fromFunction(node, assignType, name, alternative, old))
 

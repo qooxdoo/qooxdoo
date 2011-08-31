@@ -152,6 +152,7 @@ class PartBuilder(object):
         self._console.indent()
         bomb_on_error = self._jobconf.get("packages/verifier-bombs-on-error", True)
         allpartsclasses = []
+        classesObj = dict((cls.id, cls) for cls in script.classesObj)
 
         # 5) Check consistency between package.part_mask and part.packages
         self._console.debug("Verifying packages-to-parts relations...")
@@ -191,7 +192,8 @@ class PartBuilder(object):
             for packageIdx, package in enumerate(part.packages):
                 for classId in package.classes:
                     classIdx   += 1
-                    classDeps, _   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
+                    #classDeps, _   = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
+                    classDeps, _   = classesObj[classId].getCombinedDeps(script.variants, script.jobconfig)
                     loadDeps    = set(x.name for x in classDeps['load'])
                     ignoreDeps  = set(x.name for x in classDeps['ignore'])
                     # we cannot enforce runDeps here, as e.g. the 'boot'
@@ -336,6 +338,7 @@ class PartBuilder(object):
         self._console.indent()
 
         parts = script.parts.values()
+        classesObj = dict((cls.id, cls) for cls in script.classesObj)
         # generate list of all classes from the part dependencies
         allClasses = getClassesFromParts(parts)
 
@@ -354,7 +357,8 @@ class PartBuilder(object):
             # get all direct (load)deps of this package
             allDeps = set(())
             for classId in package.classes:
-                classDeps, _ = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
+                #classDeps, _ = self._depLoader.getCombinedDeps(classId, script.variants, script.buildType)
+                classDeps, _ = classesObj[classId].getCombinedDeps(script.variants, script.jobconfig)
                 loadDeps = set(x.name for x in classDeps['load'])
                 allDeps.update(loadDeps)
 

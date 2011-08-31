@@ -150,7 +150,8 @@ class DependencyLoader(object):
             # reading dependencies
             self._console.debug("Gathering dependencies: %s" % depsItem.name)
             self._console.indent()
-            deps, cached = self.getCombinedDeps(depsItem.name, variants, buildType, genProxy=genProxyIter.next())
+            #deps, cached = self.getCombinedDeps(depsItem.name, variants, buildType, genProxy=genProxyIter.next())
+            deps, cached = self._classesObj[depsItem.name].getCombinedDeps(variants, self._jobconf, genProxy=genProxyIter.next())
             self._console.outdent()
             if logInfos: self._console.dot("%s" % "." if cached else "*")
 
@@ -216,7 +217,8 @@ class DependencyLoader(object):
                 return node
 
             def getNodeChildren(depsItem):
-                deps, cached = self.getCombinedDeps(depsItem.name, variants, buildType=buildType, genProxy=genProxyIter.next())
+                #deps, cached = self.getCombinedDeps(depsItem.name, variants, buildType=buildType, genProxy=genProxyIter.next())
+                deps, cached = self._classesObj[depsItem.name].getCombinedDeps(variants, self._jobconf, genProxy=genProxyIter.next())
 
                 # and evaluate them
                 deps["warn"] = self._checkDepsAreKnown(deps)  # add 'warn' key to deps
@@ -364,7 +366,7 @@ class DependencyLoader(object):
     # expressed in config options
     # - interface method
 
-    def getCombinedDeps(self, fileId, variants, buildType="", stripSelfReferences=True, projectClassNames=True, genProxy=None):
+    def getCombinedDeps_NOTUSED(self, fileId, variants, buildType="", stripSelfReferences=True, projectClassNames=True, genProxy=None):
 
         # init lists
         loadFinal = []
@@ -399,6 +401,7 @@ class DependencyLoader(object):
                 if dep.name not in (x.name for x in runFinal):
                     runFinal.append(dep)
 
+        # TODO: this should be removed, as it cannot happen anymore (source is not variant-optimized)
         # fix dependency to classes that get removed with variant optimization
         variantSelectClasses = ("qx.core.Environment",)
         if len(variants) and (classObj.id not in variantSelectClasses):
@@ -469,7 +472,8 @@ class DependencyLoader(object):
                 #self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
                 #print envTreeId
                 self._classesObj["qx.core.Environment"].clearTreeCache(variants)
-            deps, cached = self.getCombinedDeps(classId, variants, buildType)
+            #deps, cached = self.getCombinedDeps(classId, variants, buildType)
+            deps, cached = self._classesObj[classId].getCombinedDeps(variants, self._jobconf)
 
             if self._console.getLevel() is "info":
                 self._console.dot("%s" % "." if cached else "*")
@@ -521,7 +525,8 @@ class DependencyLoader(object):
 
         # for each load dependency add a directed edge
         for classId in includeWithDeps:
-            deps, _ = self.getCombinedDeps(classId, variants)
+            #deps, _ = self.getCombinedDeps(classId, variants)
+            deps, _ = self._classesObj[classId].getCombinedDeps(variants, self._jobconf)
             for depClassId in deps["load"]:
                 if depClassId in includeWithDeps:
                     gr.add_edge(depClassId, classId)
@@ -546,7 +551,8 @@ class DependencyLoader(object):
             # make sure every class is at least listed
             if clazz.id not in featureMap:
                 featureMap[clazz.id] = {}
-            deps, _ = self.getCombinedDeps(clazz.id, variants, buildType, stripSelfReferences=False, projectClassNames=False)
+            #deps, _ = self.getCombinedDeps(clazz.id, variants, buildType, stripSelfReferences=False, projectClassNames=False)
+            deps, _ = clazz.getCombinedDeps(variants, self._jobconf, stripSelfReferences=False, projectClassNames=False)
             ignored_names = map(attrgetter("name"), deps['ignore'])
             for dep in deps['load'] + deps['run']:
                 if dep.name in ignored_names:
