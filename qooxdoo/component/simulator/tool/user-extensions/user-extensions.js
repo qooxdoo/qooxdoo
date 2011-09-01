@@ -578,11 +578,12 @@ Selenium.prototype.getQxGlobalObject = function ()
  * @parame qxclass {String} The string name of the qx class type to compare against
  * @return returns true of object instanceof qxclass, false if not.
  */
-Selenium.prototype.isQxInstanceOf = function (object, qxclass) {
+PageBot.prototype.isQxInstanceOf = function (object, qxclass) {
   var qx = this.getQxGlobalObject();
   var myClass = qx.Class.getByName(qxclass);
 
   LOG.debug("isQxInstanceOf checking (" + object.classname + ") against class (" + qxclass + ")");
+  // instanceof will not work in Selenium IDE
   try {
     if (object instanceof myClass) {
       return true;
@@ -592,8 +593,34 @@ Selenium.prototype.isQxInstanceOf = function (object, qxclass) {
     if (object.classname === qxclass) {
       return true;
     }
+    
+    // check parent chain
+    var superclass = qx.Class.getByName(object.classname).superclass;
+    while (superclass) {
+      var superclassName = superclass.toString().match(/\[Class\ (.*?)\]/)[1];
+      LOG.debug("isQxInstanceOf checking super class (" + superclassName + ") against class (" + qxclass + ")");
+      if (superclassName == qxclass) {
+        return true;
+      }
+      superclass = superclass.superclass;
+    }
   }
   return false;
+};
+
+/**
+ * Utility function to do {object instanceof qxclass} comparisons.
+ * Since the qx. namespace is not directly available, we have to go through
+ * some extra steps.
+ * <p>
+ * Use quotes around qxclass when you pass it in.
+ *
+ * @param object {Object} The object to check
+ * @parame qxclass {String} The string name of the qx class type to compare against
+ * @return returns true of object instanceof qxclass, false if not.
+ */
+Selenium.prototype.isQxInstanceOf = function(object, qxclass) {
+  return this.page().isQxInstanceOf(object, qxclass);
 };
 
 /**
@@ -2734,15 +2761,8 @@ PageBot.prototype._getQxElementFromStep2 = function(root, qxclass)
       continue;
     }
     LOG.debug("Qxh Locator: Comparing found child " + curr.classname + " to wanted class " + qxclass);
-    try {
-      if (curr instanceof myClass || curr.classname === qxclass) {
-        return curr;
-      }
-    } catch(e) {
-      if (curr.classname === qxclass) {
-        LOG.info("instanceof test failed for " + qxclass + ", falling back to classname string comparison. ");
-        return curr;
-      }
+    if (this.isQxInstanceOf(curr, qxclass)) {
+      return curr;
     }
   }
 
