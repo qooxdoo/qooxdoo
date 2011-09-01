@@ -54,6 +54,7 @@ qx.Class.define("qx.test.io.request.Xhr",
   {
     setUp: function() {
       this.setUpRequest();
+      this.setUpFakeTransport();
     },
 
     setUpRequest: function() {
@@ -63,12 +64,16 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     setUpFakeTransport: function() {
+      if (this.transport && this.transport.send.restore) { return; }
       this.transport = this.injectStub(qx.io.request.Xhr.prototype,
         "_createTransport", this.deepStub(new qx.bom.request.Xhr()));
       this.setUpRequest();
     },
 
     setUpFakeServer: function() {
+      // Not fake transport
+      this.getSandbox().restore();
+
       this.useFakeServer();
       this.setUpRequest();
 
@@ -85,6 +90,9 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     setUpFakeXhr: function() {
+      // Not fake transport
+      this.getSandbox().restore();
+
       this.useFakeXMLHttpRequest();
       this.setUpRequest();
     },
@@ -402,6 +410,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     respondXml: function(contentType) {
       this.setUpFakeXhr();
+      this.stub(qx.io.request.Xhr.PARSER, "xml");
       var body = "XML: " + contentType;
 
       this.req.setUrl("/found.xml");
@@ -410,13 +419,11 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: parse xml response": function() {
-      this.stub(qx.io.request.Xhr.PARSER, "xml");
       this.respondXml("application/xml");
       this.assertCalledWith(qx.io.request.Xhr.PARSER.xml, "XML: application/xml");
     },
 
     "test: parse arbitrary xml response": function() {
-      this.stub(qx.io.request.Xhr.PARSER, "xml");
       this.respondXml("animal/affe+xml");
       this.assertCalledWith(qx.io.request.Xhr.PARSER.xml, "XML: animal/affe+xml");
     },

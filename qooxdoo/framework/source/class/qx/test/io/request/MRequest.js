@@ -57,14 +57,12 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     //
 
     "test: dispose transport on destruct": function() {
-      this.setUpFakeTransport();
       this.req.dispose();
 
       this.assertCalled(this.transport.dispose);
     },
 
     "test: getTransport()": function() {
-      this.setUpFakeTransport();
       this.assertEquals(this.transport, this.req.getTransport());
     },
 
@@ -73,7 +71,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     //
 
     "test: send() GET": function() {
-      this.setUpFakeTransport();
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "url");
@@ -81,7 +78,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: drop fragment from URL": function() {
-      this.setUpFakeTransport();
       this.req.setUrl("example.com#fragment");
       this.req.send();
 
@@ -93,7 +89,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     //
 
     "test: abort request": function() {
-      this.setUpFakeTransport();
       this.req.abort();
 
       this.assertCalled(this.transport.abort);
@@ -104,7 +99,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     //
 
     "test: not send data with GET request": function() {
-      this.setUpFakeTransport();
       this.req.setRequestData("str");
       this.req.send();
 
@@ -112,7 +106,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: append string data to URL with GET request": function() {
-      this.setUpFakeTransport();
       this.req.setRequestData("str");
       this.req.send();
 
@@ -120,7 +113,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: append obj data to URL with GET request": function() {
-      this.setUpFakeTransport();
       this.req.setRequestData({affe: true});
       this.req.send();
 
@@ -128,7 +120,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: append qooxdoo obj data to URL with GET request": function() {
-      this.setUpFakeTransport();
       this.setUpKlass();
       var obj = new Klass();
       this.req.setRequestData(obj);
@@ -143,7 +134,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     //
 
     "test: set request header": function() {
-      this.setUpFakeTransport();
       this.req.setRequestHeader("key", "value");
       this.req.send();
 
@@ -151,8 +141,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: set request header does not append": function() {
-      this.setUpFakeTransport();
-
       var stub = this.transport.setRequestHeader.withArgs("key", "value");
 
       this.req.setRequestHeader("key", "value");
@@ -163,7 +151,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: get request header": function() {
-      this.setUpFakeTransport();
       this.req.setRequestHeader("key", "value");
 
       this.assertEquals("value", this.req.getRequestHeader("key"));
@@ -172,7 +159,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     "test: remove request header": function() {
       var stub;
 
-      this.setUpFakeTransport();
       this.req.setRequestHeader("key", "value");
       this.req.removeRequestHeader("key");
 
@@ -183,7 +169,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: get all request headers": function() {
-      this.setUpFakeTransport();
       this.req.setRequestHeader("key", "value");
       this.req.setRequestHeader("otherkey", "value");
 
@@ -192,7 +177,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: get all request headers includes configuration dependent headers": function() {
-      this.setUpFakeTransport();
       this.req.setRequestHeader("key", "value");
       this.req._getConfiguredRequestHeaders = function() { return {"otherkey": "value"}; };
 
@@ -202,7 +186,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
 
     // DEPRECATED
     "test: set request headers": function() {
-      this.setUpFakeTransport();
       this.req.setRequestHeaders({key1: "value", key2: "value"});
       this.req.send();
 
@@ -211,7 +194,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: not append cache parameter to URL": function() {
-      this.setUpFakeTransport();
       this.req.send();
 
       var msg = "nocache parameter must not be set";
@@ -219,7 +201,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: append nocache parameter to URL": function() {
-      this.setUpFakeTransport();
       this.req.setCache(false);
       this.req.send();
 
@@ -232,7 +213,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     //
 
     "test: fire readyStateChange": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           readystatechange = this.spy();
 
@@ -243,7 +223,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: fire success": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           success = this.spy();
 
@@ -254,7 +233,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: not fire success on erroneous status": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           success = this.spy();
 
@@ -265,7 +243,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: fire load": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           load = this.spy();
 
@@ -276,7 +253,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: fire loadEnd": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           loadEnd = this.spy();
 
@@ -287,7 +263,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: fire abort": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           abort = this.spy();
 
@@ -298,7 +273,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: fire timeout": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport,
           timeout = this.spy();
@@ -314,7 +288,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: fire error": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           error = this.spy();
 
@@ -325,7 +298,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: fire statusError": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           statusError = this.spy();
 
@@ -336,7 +308,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: fire fail on erroneous status": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           fail = this.spy();
 
@@ -347,7 +318,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: fire fail on network error": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           fail = this.spy();
 
@@ -361,7 +331,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: fire changePhase": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           that = this;
 
@@ -381,7 +350,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: phase was open before send": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           phases = [];
 
@@ -396,7 +364,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: phase is sent": function() {
-      this.setUpFakeTransport();
       var req = this.req;
 
       req.setUrl("/url");
@@ -406,7 +373,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: phase is loading": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport;
 
@@ -417,7 +383,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: phase is load intermediately": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport,
           phases = [];
@@ -434,7 +399,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: phase is success": function() {
-      this.setUpFakeTransport();
       var req = this.req;
 
       this.respond();
@@ -444,7 +408,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     // Error handling
 
     "test: phase is statusError": function() {
-      this.setUpFakeTransport();
       var req = this.req;
 
       this.respond(500);
@@ -452,7 +415,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: phase is abort": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport;
 
@@ -467,7 +429,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: phase is abort when from cache": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport;
 
@@ -485,7 +446,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: phase is abort on readyState DONE when aborted before": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport;
 
@@ -506,7 +466,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: phase is abort on readyState DONE when aborting loading": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport;
 
@@ -532,7 +491,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: phase is abort on loadEnd when aborted before": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport;
 
@@ -551,7 +509,6 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     "test: phase is timeout": function() {
-      this.setUpFakeTransport();
       var req = this.req,
           transport = this.transport;
 

@@ -39,6 +39,7 @@ qx.Class.define("qx.test.io.request.Jsonp",
   {
     setUp: function() {
       this.setUpRequest();
+      this.setUpFakeTransport();
     },
 
     setUpRequest: function() {
@@ -78,8 +79,6 @@ qx.Class.define("qx.test.io.request.Jsonp",
     //
 
     "test: setCallbackParam()": function() {
-      this.setUpFakeTransport();
-
       var req = this.req,
           transport = this.transport;
 
@@ -88,8 +87,6 @@ qx.Class.define("qx.test.io.request.Jsonp",
     },
 
     "test: setCallbackName()": function() {
-      this.setUpFakeTransport();
-
       var req = this.req,
           transport = this.transport;
 
