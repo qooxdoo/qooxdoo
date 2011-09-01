@@ -253,26 +253,21 @@ qx.Class.define("qx.io.request.Xhr",
       return url;
     },
 
-    /**
-     * Set additional headers required by XHR transport.
-     */
-    _setRequestHeaders: function() {
-      var transport = this._transport,
-          requestHeaders = this.getRequestHeaders();
+    // overridden
+    _getConfiguredRequestHeaders: function() {
+      var headers = {};
 
       // Follow convention to include X-Requested-With header
-      transport.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+      headers["X-Requested-With"] = "XMLHttpRequest";
 
-      // Align headers to configuration of instance
+      // Include Cache-Control header if configured
       if (qx.lang.Type.isString(this.getCache())) {
-        transport.setRequestHeader("Cache-Control", this.getCache());
+        headers["Cache-Control"] = this.getCache();
       }
 
-      // By default, set content-type urlencoded for POST requests.
-      // A user-defined content-type takes precedence.
-      if (this.getMethod() === "POST" && !requestHeaders || (requestHeaders &&
-        !requestHeaders["Content-Type"])) {
-        transport.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      // By default, set content-type urlencoded for POST requests
+      if (this.getMethod() === "POST") {
+        headers["Content-Type"] = "application/x-www-form-urlencoded";
       }
 
       // What representations to accept
@@ -280,8 +275,10 @@ qx.Class.define("qx.io.request.Xhr",
         if (qx.core.Environment.get("qx.debug.io")) {
           this.debug("Accepting: '" + this.getAccept() + "'");
         }
-        transport.setRequestHeader("Accept", this.getAccept());
+        headers["Accept"] = this.getAccept();
       }
+
+      return headers;
     },
 
     // overridden

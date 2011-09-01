@@ -28,7 +28,7 @@
  * The transport must implement {@link qx.bom.request.IRequest}.
  *
  * To adjust the behavior of {@link #send} override
- * {@link #_getConfiguredUrl} and {@link #_setRequestHeader}.
+ * {@link #_getConfiguredUrl} and {@link #_getConfiguredRequestHeaders}.
  */
 qx.Class.define("qx.io.request.AbstractRequest",
 {
@@ -304,12 +304,14 @@ qx.Class.define("qx.io.request.AbstractRequest",
     _getConfiguredUrl: function() {},
 
     /**
-     * A request may include additional headers depending on the transport.
+     * Get configuration related request headers.
      *
-     * This method MAY be overridden. It is called in {@link #send}
-     * after the request is initialized.
+     * This method MAY be overridden to add request headers for features limited
+     * to a certain transport.
+     *
+     * @return {Map} Map of request headers.
      */
-    _setRequestHeaders: function() {},
+    _getConfiguredRequestHeaders: function() {},
 
     /**
      * Get parsed response.
@@ -396,9 +398,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
       serializedData = this._serializeData(this.getRequestData());
 
       this._setRequestHeaders();
-      this.__setAuthRequestHeaders();
-      this.__setUserRequestHeadersDeprecated();
-      this.__setUserRequestHeaders();
 
       // Send
       if (qx.core.Environment.get("qx.debug.io")) {
@@ -428,6 +427,55 @@ qx.Class.define("qx.io.request.AbstractRequest",
      REQUEST HEADERS
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * Apply configured request headers to transport.
+     *
+     * This method MAY be overridden to customize application of request headers
+     * to transport.
+     */
+    _setRequestHeaders: function() {
+      var transport = this._transport,
+          requestHeaders = this._getAllRequestHeaders();
+
+      for (var key in requestHeaders) {
+        transport.setRequestHeader(key, requestHeaders[key]);
+      }
+
+    },
+
+    /**
+     * Get all request headers.
+     *
+     * @return {Map} All request headers.
+     */
+    _getAllRequestHeaders: function() {
+      var requestHeaders = qx.lang.Object.merge(
+        {},                                   // Merged into
+        this._getConfiguredRequestHeaders(),  // Transport specific headers
+        this.__getAuthRequestHeaders(),       // Authentication delegate
+        this.__requestHeadersDeprecated,      // requestHeaders property (deprecated)
+        this.__requestHeaders);
+
+      return requestHeaders;
+    },
+
+    /**
+    * Retrieve authentication headers from auth delegate.
+    *
+    * @return {Map} Authentication related request headers.
+    */
+    __getAuthRequestHeaders: function() {
+      var auth = this.getAuthentication(),
+          headers = {};
+
+      if (auth) {
+        auth.getAuthHeaders().forEach(function(header) {
+          headers[header.key] = header.value;
+        });
+        return headers;
+      }
+    },
 
     /**
      * Set a request header.
@@ -462,15 +510,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
       if (this.__requestHeaders[key]) {
        delete this.__requestHeaders[key];
       }
-    },
-
-    /**
-     * Get all request headers.
-     *
-     * @return {Map} All user-configured request headers.
-     */
-    _getAllRequestHeaders: function() {
-      return this.__requestHeaders;
     },
 
     // DEPRECATION OF requestHeaders PROPERTY.
@@ -865,33 +904,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
         for (var key in requestHeaders) {
           this._transport.setRequestHeader(key, requestHeaders[key]);
         }
-      }
-    },
-
-    /**
-    * Read auth delegate and set headers accordingly.
-    */
-    __setAuthRequestHeaders: function() {
-      var auth = this.getAuthentication(),
-          transport = this._transport;
-
-      if (auth) {
-        auth.getAuthHeaders().forEach(function(header) {
-
-          if (qx.core.Environment.get("qx.debug")) {
-            qx.core.Assert.assertString(header.key);
-            qx.core.Assert.assertString(header.value);
-          }
-
-          if (header.key && header.value) {
-            if (qx.core.Environment.get("qx.debug.io")) {
-              this.debug(
-                "Set authentication header '" + header.key +
-                "' to '" + header.value + "'");
-            }
-            transport.setRequestHeader(header.key, header.value);
-          }
-        }, this);
       }
     }
   },

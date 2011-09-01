@@ -142,21 +142,24 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     // Header and Params
     //
 
-    "test: set request headers": function() {
-      this.setUpFakeTransport();
-      this.req.setRequestHeaders({key1: "value", key2: "value"});
-      this.req.send();
-
-      this.assertCalledWith(this.transport.setRequestHeader, "key1", "value");
-      this.assertCalledWith(this.transport.setRequestHeader, "key2", "value");
-    },
-
     "test: set request header": function() {
       this.setUpFakeTransport();
       this.req.setRequestHeader("key", "value");
       this.req.send();
 
       this.assertCalledWith(this.transport.setRequestHeader, "key", "value");
+    },
+
+    "test: set request header does not append": function() {
+      this.setUpFakeTransport();
+
+      var stub = this.transport.setRequestHeader.withArgs("key", "value");
+
+      this.req.setRequestHeader("key", "value");
+      this.req.setRequestHeader("key", "value");
+      this.req.send();
+
+      this.assertCalledOnce(stub.withArgs("key", "value"));
     },
 
     "test: get request header": function() {
@@ -186,6 +189,25 @@ qx.Mixin.define("qx.test.io.request.MRequest",
 
       this.assertEquals("value", this.req._getAllRequestHeaders()["key"]);
       this.assertEquals("value", this.req._getAllRequestHeaders()["otherkey"]);
+    },
+
+    "test: get all request headers includes configuration dependent headers": function() {
+      this.setUpFakeTransport();
+      this.req.setRequestHeader("key", "value");
+      this.req._getConfiguredRequestHeaders = function() { return {"otherkey": "value"}; };
+
+      this.assertEquals("value", this.req._getAllRequestHeaders()["key"]);
+      this.assertEquals("value", this.req._getAllRequestHeaders()["otherkey"]);
+    },
+
+    // DEPRECATED
+    "test: set request headers": function() {
+      this.setUpFakeTransport();
+      this.req.setRequestHeaders({key1: "value", key2: "value"});
+      this.req.send();
+
+      this.assertCalledWith(this.transport.setRequestHeader, "key1", "value");
+      this.assertCalledWith(this.transport.setRequestHeader, "key2", "value");
     },
 
     "test: not append cache parameter to URL": function() {
