@@ -597,7 +597,12 @@ PageBot.prototype.isQxInstanceOf = function (object, qxclass) {
     // check parent chain
     var superclass = qx.Class.getByName(object.classname).superclass;
     while (superclass) {
-      var superclassName = superclass.toString().match(/\[Class\ (.*?)\]/)[1];
+      var match = superclass.toString().match(/\[Class\ (.*?)\]/);
+      if (!match) {
+        superclass = false;
+        continue;
+      }
+      var superclassName = match[1];
       LOG.debug("isQxInstanceOf checking super class (" + superclassName + ") against class (" + qxclass + ")");
       if (superclassName == qxclass) {
         return true;
