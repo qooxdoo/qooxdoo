@@ -119,6 +119,8 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
     },
 
     "test: progress phases when abort after loading": function() {
+      this.require(["noSelenium"]);
+
       var req = this.req,
           phases = [],
           expectedPhases = ["opened", "sent", "loading", "abort"],
