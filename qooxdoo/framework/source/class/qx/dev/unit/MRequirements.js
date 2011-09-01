@@ -321,6 +321,18 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
     hasWebkit : function()
     {
       return qx.core.Environment.get("engine.name") == "webkit";
+    },
+
+
+    /**
+     * Checks if the application is controlled by Selenium
+     * 
+     * @return {Boolean} Whether the application is controlled by Selenium
+     */
+    hasNoSelenium : function()
+    {
+      var win = window.top || window;
+      return win.opener ? !win.opener.selenium : true;
     }
   }
 
