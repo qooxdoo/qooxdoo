@@ -88,7 +88,7 @@ qx.Class.define("qx.io.request.Xhr",
      *
      * See {@link qx.bom.request.Xhr#readyState} for available readyStates.
      */
-    "readystatechange": "qx.event.type.Event",
+    "readyStateChange": "qx.event.type.Event",
 
     /**
     * Fired when request completes without eror and transport’s status
