@@ -864,8 +864,9 @@ Selenium.prototype.getRunInContext = function(locator, script)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
   var qx = this.getQxGlobalObject();
-    
-  var func = new Function(script);
+  
+  var autWindow = this.browserbot.getCurrentWindow();
+  var func = new autWindow.Function(script);
   var boundFunc = qx.lang.Function.bind(func, qxObject);
   var result =  boundFunc();
   
