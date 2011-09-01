@@ -54,10 +54,12 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
   *****************************************************************************
   */
 
-  construct : function()
+  construct : function(layout)
   {
-    this.base(arguments);
-    this.add(this._create());
+    this.base(arguments, layout || new qx.ui.mobile.layout.HBox().set({
+        alignY : "middle"
+      }));
+    this.add(this._create(), {flex:1});
   },
 
 
@@ -152,9 +154,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     {
       var Composite = qx.ui.mobile.container.Composite;
 
-      this.__container = new Composite(new qx.ui.mobile.layout.HBox().set({
-        alignY : "middle"
-      }));
+      this.__container = new Composite(new qx.ui.mobile.layout.HBox());
 
       this.__image = new qx.ui.mobile.basic.Image();
       this.__image.setAnonymous(true);

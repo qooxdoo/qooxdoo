@@ -24,9 +24,8 @@
  */
 qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
 {
-  extend : qx.ui.mobile.core.Widget,
+  extend : qx.ui.mobile.container.Composite,
   type : "abstract",
-  include : [ qx.ui.mobile.core.MChildrenHandling ],
 
 
  /*
@@ -35,9 +34,9 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
   *****************************************************************************
   */
 
-  construct : function()
+  construct : function(layout)
   {
-    this.base(arguments);
+    this.base(arguments, layout);
     this.initSelectable();
     this.initShowArrow();
   },
