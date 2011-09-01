@@ -255,7 +255,8 @@ qx.Class.define("qx.io.request.Xhr",
 
     // overridden
     _getConfiguredRequestHeaders: function() {
-      var headers = {};
+      var headers = {},
+          isAllowsBody = qx.util.Request.methodAllowsRequestBody(this.getMethod());
 
       // Follow convention to include X-Requested-With header
       headers["X-Requested-With"] = "XMLHttpRequest";
@@ -265,8 +266,8 @@ qx.Class.define("qx.io.request.Xhr",
         headers["Cache-Control"] = this.getCache();
       }
 
-      // By default, set content-type urlencoded for POST requests
-      if (this.getMethod() === "POST") {
+      // By default, set content-type urlencoded for requests with body
+      if (this.getRequestData() !== "null" && isAllowsBody) {
         headers["Content-Type"] = "application/x-www-form-urlencoded";
       }
 

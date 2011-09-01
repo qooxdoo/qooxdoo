@@ -149,21 +149,22 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Data (cont.)
     //
 
-    "test: set content type urlencoded for POST request when no type given": function() {
+    "test: set content type urlencoded for POST request with body when no type given": function() {
       this.setUpFakeTransport();
       this.req.setMethod("POST");
-      this.req.setRequestHeader("X-Animal", "Affe");
+      this.req.setRequestData("Affe");
       this.req.send();
 
       this.assertCalledWith(this.transport.setRequestHeader,
            "Content-Type", "application/x-www-form-urlencoded");
     },
 
-    "test: not set content type urlencoded for POST request when type given": function() {
+    "test: not set content type urlencoded for POST request with body when type given": function() {
       var msg;
 
       this.setUpFakeTransport();
       this.req.setMethod("POST");
+      this.req.setRequestData("Affe");
       this.req.setRequestHeader("Content-Type", "application/json");
       this.req.send();
 

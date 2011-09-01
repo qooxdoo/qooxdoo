@@ -53,6 +53,14 @@ qx.Class.define("qx.test.util.Request",
 
       this.assertFalse(isSuccessful(404));
       this.assertFalse(isSuccessful(500));
+    },
+
+    "test: methodAllowsRequestBody() returns false when GET": function() {
+      this.assertFalse(qx.util.Request.methodAllowsRequestBody("GET"));
+    },
+
+    "test: methodAllowsRequestBody() returns true when POST": function() {
+      this.assertTrue(qx.util.Request.methodAllowsRequestBody("POST"));
     }
   }
 });

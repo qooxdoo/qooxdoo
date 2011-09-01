@@ -58,6 +58,18 @@ qx.Class.define("qx.util.Request",
      */
     isSuccessful: function(status) {
       return (status >= 200 && status < 300 || status === 304);
+    },
+
+    /**
+     * Request body is ignored for HTTP method GET and HEAD.
+     *
+     * See http://www.w3.org/TR/XMLHttpRequest2/#the-send-method.
+     *
+     * @param method {String} The HTTP method.
+     * @return {Boolean} Whether request may contain body.
+     */
+    methodAllowsRequestBody: function(method) {
+      return !((/^(GET)|(HEAD)$/).test(method));
     }
   }
 });
