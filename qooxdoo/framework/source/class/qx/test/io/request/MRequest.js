@@ -186,6 +186,9 @@ qx.Mixin.define("qx.test.io.request.MRequest",
 
     // DEPRECATED
     "test: set request headers": function() {
+      // Ignore expected deprecation warning
+      this.stub(qx.log.Logger, "deprecatedMethodWarning");
+
       this.req.setRequestHeaders({key1: "value", key2: "value"});
       this.req.send();
 
