@@ -329,6 +329,19 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertCalled(req.onabort);
     },
 
+    "test: call onabort before onloadend": function() {
+      var req = this.req;
+
+      this.spy(req, "onabort");
+      this.spy(req, "onloadend");
+
+      req.open();
+      req.send();
+      req.abort();
+
+      this.assertCallOrder(req.onabort, req.onloadend);
+    },
+
     //
     // ontimeout()
     //
@@ -367,6 +380,18 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.wait(20, function() {
         this.assertNotCalled(req.onerror);
       }, this);
+    },
+
+    "test: not call onerror when aborted immediately": function() {
+      var req = this.req;
+
+      this.spy(req, "onerror");
+
+      req.open();
+      req.send();
+      req.abort();
+
+      this.assertNotCalled(req.onerror);
     },
 
     "test: cancel timeout when DONE": function() {
