@@ -356,8 +356,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       if (skipCallback) {
         return;
       }
-
-      this.onabort();
     },
 
     /**
@@ -767,13 +765,19 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
           this.__timeout = false;
 
-        // Fire either "load" or "error"
+        // Fire either "abort", "load" or "error"
         //
-        // Infer the XHR internal error flag from statusText.
+        // Infer the XHR internal error flag from statusText when not aborted.
         // See http://www.w3.org/TR/XMLHttpRequest2/#error-flag and
         // http://www.w3.org/TR/XMLHttpRequest2/#the-statustext-attribute
         } else {
-          this.statusText ? this.onload() : this.onerror();
+
+          if (this.__abort) {
+            this.onabort();
+          } else {
+            this.statusText ? this.onload() : this.onerror();
+          }
+
         }
 
         // Always fire "onloadend" when DONE
