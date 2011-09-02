@@ -154,7 +154,9 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     {
       var Composite = qx.ui.mobile.container.Composite;
 
-      this.__container = new Composite(new qx.ui.mobile.layout.HBox());
+      this.__container = new Composite(new qx.ui.mobile.layout.HBox().set({
+        alignY : "middle"
+      }));
 
       this.__image = new qx.ui.mobile.basic.Image();
       this.__image.setAnonymous(true);
