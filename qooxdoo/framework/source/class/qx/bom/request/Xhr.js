@@ -50,6 +50,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
   construct: function() {
     this.__onNativeReadyStateChangeBound = qx.Bootstrap.bind(this.__onNativeReadyStateChange, this);
+    this.__onNativeAbortBound = qx.Bootstrap.bind(this.__onNativeAbort, this);
     this.__onTimeoutBound = qx.Bootstrap.bind(this.__onTimeout, this);
 
     this.__initNativeXhr();
@@ -547,6 +548,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __onNativeReadyStateChangeBound: null,
 
     /**
+     * {Function} Bound __onNativeAbort handler.
+     */
+    __onNativeAbortBound: null,
+
+    /**
      * {Function} Bound __onUnload handler.
      */
     __onUnloadBound: null,
@@ -596,8 +602,27 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // Track native ready state changes
       this.__nativeXhr.onreadystatechange = this.__onNativeReadyStateChangeBound;
 
+      // Track native abort, when supported
+      if (this.__nativeXhr.onabort) {
+        this.__nativeXhr.onabort = this.__onNativeAbortBound;
+      }
+
       // Reset flags
       this.__disposed = this.__send = this.__abort = false;
+    },
+
+    /**
+     * Track native abort.
+     *
+     * In case the end user cancels the request by other
+     * means than calling abort().
+     */
+    __onNativeAbort: function() {
+      // When the abort that triggered this method was not a result from
+      // calling abort()
+      if (!this.__abort) {
+        this.abort();
+      }
     },
 
     /**
