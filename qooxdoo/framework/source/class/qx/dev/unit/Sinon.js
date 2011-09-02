@@ -1903,7 +1903,7 @@ sinon.FakeXMLHttpRequest = (function () {
             this.errorFlag = true;
             this.requestHeaders = {};
 
-            if (this.readyState > sinon.FakeXMLHttpRequest.OPENED) {
+            if (this.readyState > sinon.FakeXMLHttpRequest.UNSENT && this.sendFlag) {
                 this.readyStateChange(sinon.FakeXMLHttpRequest.DONE);
                 this.sendFlag = false;
             }
