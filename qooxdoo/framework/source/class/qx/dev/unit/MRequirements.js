@@ -332,7 +332,14 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
     hasNoSelenium : function()
     {
       var win = window.top || window;
-      return win.opener ? !win.opener.selenium : true;
+      var opener = win.opener || win;
+      try {
+        // Firefox denies permission here
+        return typeof opener.selenium == "undefined";
+      }
+      catch(ex) {
+        return win.name.indexOf("selenium") < 0;
+      }
     }
   }
 
