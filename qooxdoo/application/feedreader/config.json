@@ -19,7 +19,16 @@
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : ["en", "de", "es", "fr", "it", "nl", "sv", "ro"],
-    "ROOT"         : "."
+    "ROOT"         : ".",
+    "SELENIUM_SERVER" : "localhost",
+    "SELENIUM_PORT" : 4444,
+    "SELENIUM_BROWSER" : "*firefox3",
+    "SIMULATOR_APPLICATION" : "simulator.reporter.Application",
+    //set by shell macro definition:
+    "AUT_HOST" : null,
+    "AUT_PATH" : null,
+    "SIMULATOR_REPORTSERVER" : null,
+    "SIMULATOR_CLASSPATH" : ["/home/dwagner/workspace/js.jar","/home/dwagner/workspace/selenium-java-client-driver.jar"]
   },
   
   "config-warnings" :
@@ -147,18 +156,6 @@
 
     "simulation-run" :
     {
-      "let" : 
-      {
-        "SELENIUM_SERVER" : "localhost",
-        "SELENIUM_PORT" : 4444,
-        "SELENIUM_BROWSER" : "*firefox3",
-        "SIMULATOR_APPLICATION" : "simulator.reporter.Application",
-        //set by shell macro definition:
-        "AUT_HOST" : null,
-        "AUT_PATH" : null,
-        "SIMULATOR_REPORTSERVER" : null
-      },
-      
       "environment" :
       {
         "simulator.selServer"   : "${SELENIUM_SERVER}",
