@@ -84,20 +84,39 @@ qx.Class.define("qx.io.rest.Resource",
   events:
   {
     /**
-     * Fired when request associated to action was successful.
+     * Fired when any request was successful.
      *
-     * Additionally, action specific events are fired that follow the pattern
+     * The action the successful request is associated to, as well as the
+     * request itself, can be retrieved from the event’s properties.
+     * Additionally, an action specific event is fired that follows the pattern
      * "<action>Success", e.g. "indexSuccess".
      */
     "success": "qx.event.type.Rest",
 
     /**
-     * Fired when request associated to action fails.
+     * Fired when request associated to action given in prefix was successful.
      *
-     * Additionally, action specific events are fired that follow the pattern
+     * For example, "indexSuccess" is fired when <code>index()</code> was
+     * successful.
+     */
+     "actionSuccess": "qx.event.type.Rest",
+
+    /**
+     * Fired when any request fails.
+     *
+     * The action the failed request is associated to, as well as the
+     * request itself, can be retrieved from the event’s properties.
+     * Additionally, an action specific event is fired that follows the pattern
      * "<action>Error", e.g. "indexError".
      */
-    "error": "qx.event.type.Rest"
+    "error": "qx.event.type.Rest",
+
+    /**
+     * Fired when any request associated to action given in prefix fails.
+     *
+     * For example, "indexError" is fired when <code>index()</code> failed.
+     */
+     "actionError": "qx.event.type.Rest"
   },
 
   statics:
