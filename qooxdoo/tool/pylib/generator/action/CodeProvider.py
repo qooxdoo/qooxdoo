@@ -177,7 +177,7 @@ def _handleI18N(script, generator):
     needs_cldr = False
     for classObj in script.classesObj:
         if passesOutputfilter(classObj.id):
-            class_list.append(classObj.id)
+            class_list.append(classObj)
             if not needs_cldr and classObj.getHints('cldr'):
                 needs_cldr = True
 
