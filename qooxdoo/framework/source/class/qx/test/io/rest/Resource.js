@@ -257,6 +257,23 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalledOnce(req2.send);
     },
 
+    "test: invoke same action twice aborts previous": function() {
+      var res = this.res,
+          req1, res2;
+
+      req1 = this.req;
+      res.index();
+
+      qx.io.request.Xhr.restore();
+      this.setUpDoubleRequest();
+
+      req2 = this.req;
+      res.index();
+
+      this.assertCalledOnce(req1.abort);
+      this.assertCalledOnce(req2.send);
+    },
+
     "test: invoke action with positional params": function() {
       var res = this.res,
           req = this.req;
@@ -399,6 +416,20 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertException(function() {
         res.zoom({id: "FAIL"});
       }, Error, "Parameter id is invalid");
+    },
+
+    //
+    // Abort
+    //
+
+    "test: abort action": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.index();
+      res.abort("index");
+
+      this.assertCalledOnce(req.abort);
     },
 
     //

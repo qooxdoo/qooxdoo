@@ -65,7 +65,7 @@ qx.Class.define("qx.io.rest.Resource",
   {
     this.base(arguments);
 
-    this.__requests = [];
+    this.__requests = {};
     this.__routes = {};
     this.__pollTimers = {};
     this.__longPollHandlers = {};
@@ -155,10 +155,19 @@ qx.Class.define("qx.io.rest.Resource",
 
     /**
      * Create request.
+     *
+     * @param action {String} The action the created request is associated to.
      */
-    __createRequest: function() {
+    __createRequest: function(action) {
       var req = this._getRequest();
-      this.__requests.push(req);
+
+      if (this.__requests[action]) {
+        this.__requests[action].abort();
+        this.__requests[action] = req;
+      } else {
+        this.__requests[action] = req;
+      }
+
       return req;
     },
 
@@ -222,7 +231,7 @@ qx.Class.define("qx.io.rest.Resource",
      *  into URL when a matching positional parameter is found.
      */
     _invoke: function(action, params) {
-      var req = this.__createRequest(),
+      var req = this.__createRequest(action),
           config = this._getRequestConfig(action, params),
           method = config.method,
           url = config.url,
@@ -279,6 +288,18 @@ qx.Class.define("qx.io.rest.Resource",
       }, this);
 
       req.send();
+    },
+
+    /**
+     * Abort action
+     *
+     * @param action {String} Action to abort.
+     */
+    abort: function(action) {
+      var req = this.__requests[action];
+      if (req) {
+        req.abort();
+      }
     },
 
     /**
@@ -526,9 +547,9 @@ qx.Class.define("qx.io.rest.Resource",
   },
 
   destruct: function() {
-    this.__requests.forEach(function(req) {
-      req.dispose();
-    });
+    for (var req in this.__requests) {
+      this.__requests[req].dispose();
+    }
 
     if (this.__pollTimers) {
       qx.lang.Object.getKeys(this.__pollTimers).forEach(function(key) {
