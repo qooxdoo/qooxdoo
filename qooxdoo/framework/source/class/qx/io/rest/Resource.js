@@ -547,25 +547,27 @@ qx.Class.define("qx.io.rest.Resource",
   },
 
   destruct: function() {
-    for (var req in this.__requests) {
-      this.__requests[req].dispose();
+    var action;
+
+    for (action in this.__requests) {
+      this.__requests[action].dispose();
     }
 
     if (this.__pollTimers) {
-      qx.lang.Object.getKeys(this.__pollTimers).forEach(function(key) {
-        var timer = this.__pollTimers[key];
+      for (action in this.__pollTimers) {
+        var timer = this.__pollTimers[action];
         timer.stop();
         timer.dispose();
-      }, this);
+      }
     }
 
     if (this.__longPollHandlers) {
-      qx.lang.Object.getKeys(this.__longPollHandlers).forEach(function(key) {
-        var id = this.__longPollHandlers[key];
+      for (action in this.__longPollHandlers) {
+        var id = this.__longPollHandlers[action];
         this.removeListenerById(id);
-      }, this);
+      }
     }
 
-    this.__routes = this.__pollTimers = null;
+    this.__requests = this.__routes = this.__pollTimers = null;
   }
 });
