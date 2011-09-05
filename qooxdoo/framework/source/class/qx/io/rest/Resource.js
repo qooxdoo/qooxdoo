@@ -211,7 +211,7 @@ qx.Class.define("qx.io.rest.Resource",
       this.__declareEvent(action + "Error");
 
       this[action] = qx.lang.Function.bind(function(params) {
-        this._invoke(action, params);
+        this.invoke(action, params);
         return this;
       }, this);
     },
@@ -230,7 +230,7 @@ qx.Class.define("qx.io.rest.Resource",
      *  where the key is the parameter to match and the value a string. Inserted
      *  into URL when a matching positional parameter is found.
      */
-    _invoke: function(action, params) {
+    invoke: function(action, params) {
       var req = this.__createRequest(action),
           config = this._getRequestConfig(action, params),
           method = config.method,
@@ -310,7 +310,7 @@ qx.Class.define("qx.io.rest.Resource",
      * @param action {String} Action to refresh.
      */
     refresh: function(action) {
-      this._invoke(action, this.__routes[action].params);
+      this.invoke(action, this.__routes[action].params);
     },
 
     /**
@@ -333,7 +333,7 @@ qx.Class.define("qx.io.rest.Resource",
      *
      * @param action {String} Action to poll.
      * @param interval {Number} Interval in ms.
-     * @param params {Map?} Map of parameters. See {@link #_invoke}.
+     * @param params {Map?} Map of parameters. See {@link #invoke}.
      * @return {qx.event.Timer} Timer that periodically invokes action. Use to
      *  stop or resume. Is automatically disposed on disposal of object.
      */
@@ -427,7 +427,7 @@ qx.Class.define("qx.io.rest.Resource",
         },
       context);
 
-      this._invoke(action);
+      this.invoke(action);
       return handlerId;
     },
 

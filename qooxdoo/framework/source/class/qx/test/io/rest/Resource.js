@@ -226,7 +226,7 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req,
           result;
 
-      result = res._invoke("index");
+      result = res.invoke("index");
 
       this.assertSend();
     },
@@ -487,10 +487,10 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res;
 
       res.map("show", "GET", "/photos/:id");
-      this.stub(res, "_invoke");
+      this.stub(res, "invoke");
 
       res.poll("show", 10, {id: "1"});
-      this.assertCalledWith(res._invoke, "show", {id: "1"});
+      this.assertCalledWith(res.invoke, "show", {id: "1"});
     },
 
     "test: poll action replaying previous params": function() {
