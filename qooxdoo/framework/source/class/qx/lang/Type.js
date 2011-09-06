@@ -26,7 +26,7 @@ qx.Class.define("qx.lang.Type",
   {
     /**
      * Get the internal class of the value. See
-     * http://thinkweb2.com/projects/prototype/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/
+     * http://perfectionkills.com/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/
      * for details.
      *
      * @signature function(value)
