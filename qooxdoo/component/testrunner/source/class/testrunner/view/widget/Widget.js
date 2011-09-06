@@ -93,6 +93,11 @@ qx.Class.define("testrunner.view.widget.Widget", {
     leftPane.addListener("resize", this.__onPaneResize);
     centerPane.addListener("resize", this.__onPaneResize);
     rightPane.addListener("resize", this.__onPaneResize);
+    
+    var parsedUri = qx.util.Uri.parseUri(location.href, true);
+    if (parsedUri.queryKey && parsedUri.queryKey.autorun) {
+      this.setAutoRun(true);
+    }
   },
 
   statics :
@@ -157,6 +162,13 @@ qx.Class.define("testrunner.view.widget.Widget", {
 
     /** Reload the test suite before running the selected tests */
     autoReload :
+    {
+      check :"Boolean",
+      init : false
+    },
+
+    /** Automatically run the selected tests after loading */
+    autoRun :
     {
       check :"Boolean",
       init : false
@@ -334,6 +346,10 @@ qx.Class.define("testrunner.view.widget.Widget", {
       toolbar.add(part3);
 
       var autoReloadToggle = new qx.ui.toolbar.CheckBox(this.__app.tr("Auto Reload"), "icon/22/actions/system-run.png");
+      var autoReloadValue = qx.bom.Cookie.get("testrunner.autoReload");
+      if (autoReloadValue !== null) {
+        autoReloadToggle.setValue(eval(autoReloadValue));
+      }
       autoReloadToggle.bind("value", this, "autoReload", {
         converter : function(data)
         {
@@ -341,10 +357,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
           return data
         }
       });
-      var autoReloadValue = qx.bom.Cookie.get("testrunner.autoReload");
-      if (autoReloadValue !== null) {
-        autoReloadToggle.setValue(eval(autoReloadValue));
-      }
       part3.add(autoReloadToggle);
 
       // enable overflow handling
@@ -916,7 +928,9 @@ qx.Class.define("testrunner.view.widget.Widget", {
             this.__testTree.getSelection().push(this.getTestModel());
           }
 
-          if (this.getAutoReload() && this.__autoReloadActive == true) {
+          if ((this.getAutoReload() && this.__autoReloadActive) 
+          || this.getAutoRun()) 
+          {
             this.fireEvent("runTests");
           }
           else {
@@ -936,7 +950,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
           this._setActiveButton(this.__runButton);
           this.__testTree.setEnabled(true);
 
-          if (this.getAutoReload() && this.__autoReloadActive == true) {
+          if (this.getAutoReload() && this.__autoReloadActive) {
             this.__autoReloadActive = false;
           }
           break;
