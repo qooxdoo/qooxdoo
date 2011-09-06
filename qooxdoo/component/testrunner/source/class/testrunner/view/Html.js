@@ -29,6 +29,8 @@
 qx.Class.define("testrunner.view.Html", {
 
   extend : testrunner.view.Abstract,
+  
+  include : [testrunner.view.MAutoRun],
 
 
   /*
@@ -667,6 +669,9 @@ qx.Class.define("testrunner.view.Html", {
           this.__domElements.stopButton.disabled = true;
           this.setFailedTestCount(0);
           this.setSuccessfulTestCount(0);
+          if (this.getAutoRun()) {
+            this.__runTests();
+          }
           break;
         case "running" :
           this.setStatus("Running tests...");

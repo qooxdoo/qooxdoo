@@ -36,6 +36,8 @@
 qx.Class.define("testrunner.view.widget.Widget", {
 
   extend : testrunner.view.Abstract,
+  
+  include : [testrunner.view.MAutoRun],
 
   construct : function()
   {
@@ -93,11 +95,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
     leftPane.addListener("resize", this.__onPaneResize);
     centerPane.addListener("resize", this.__onPaneResize);
     rightPane.addListener("resize", this.__onPaneResize);
-    
-    var parsedUri = qx.util.Uri.parseUri(location.href, true);
-    if (parsedUri.queryKey && parsedUri.queryKey.autorun) {
-      this.setAutoRun(true);
-    }
   },
 
   statics :
@@ -162,13 +159,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
 
     /** Reload the test suite before running the selected tests */
     autoReload :
-    {
-      check :"Boolean",
-      init : false
-    },
-
-    /** Automatically run the selected tests after loading */
-    autoRun :
     {
       check :"Boolean",
       init : false
