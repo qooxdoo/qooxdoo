@@ -184,7 +184,7 @@ The Reporter is a specialized view used for automated unit test runs. Based on t
 
 URI parameters
 --------------
-The following URI parameters can be used to modify the Trestrunner's behavior:
+The following URI parameters can be used to modify the Testrunner's behavior:
 
 * **testclass** Restrict the tests to be loaded. Takes a fully qualified class name or namespace that is a subset of the classes included in the test application, e.g. *custom.test.gui* or *custom.test.gui.PreferencesDialog*
 * **autorun** Automatically execute all selected tests as soon as the suite is loaded. Takes any parameter, e.g. *1*.
