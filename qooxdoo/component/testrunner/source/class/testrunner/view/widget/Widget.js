@@ -162,14 +162,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
       init : false
     },
 
-    /** Reload after running each package in the qx.test namespace (Workaround
-     * for qooxdoo bug #4257) */
-    reloadAfterEachPackage :
-    {
-      check :"Boolean",
-      init : false
-    },
-
     /** Log level for the AUT log appender */
     logLevel :
     {
@@ -199,7 +191,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
     __testCountField : null,
     __selectedTestField : null,
     __statusField : null,
-    __lastAutoRunItemName : null,
     __autoReloadActive : false,
     __loadingContainer : null,
     __stack : null,
@@ -879,20 +870,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
         if (selectedTests !== null && selectedTests.length > 0) {
           count = testrunner.runner.ModelUtil.getItemsByProperty(selectedTests.getItem(0), "type", "test").length;
           selectedName = this.getSelectedTests().getItem(0).getFullName();
-
-          // Prevent qooxdoo's framework tests from being executed all in one go.
-          // If the top node is selected, select the first child instead to
-          // enable the reloadAfterEachPackage feature
-          /*
-          if (selectedName == "qx") {
-            var firstChild = selectedTests.getItem(0).getChildren().getItem(0);
-            this.getSelectedTests().removeAll();
-            this.getSelectedTests().push(firstChild);
-          }
-          if (selectedName == "qx.test") {
-            this.setReloadAfterEachPackage(true);
-          }
-          */
         }
         this.__selectedTestField.setValue(selectedName);
         this.__testCountField.setValue(count.toString());
@@ -939,8 +916,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
             this.__testTree.getSelection().push(this.getTestModel());
           }
 
-          if ( (this.getReloadAfterEachPackage() && this.__lastAutoRunItemName)
-              || (this.getAutoReload() && this.__autoReloadActive == true) ) {
+          if (this.getAutoReload() && this.__autoReloadActive == true) {
             this.fireEvent("runTests");
           }
           else {
@@ -960,27 +936,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
           this._setActiveButton(this.__runButton);
           this.__testTree.setEnabled(true);
 
-          if (this.getReloadAfterEachPackage()) {
-            if (this.__lastAutoRunItemName) {
-              var lastAutoRunItem = testrunner.runner.ModelUtil.getItemByFullName(this.getTestModel(), this.__lastAutoRunItemName);
-            }
-            if (lastAutoRunItem) {
-              var nextAutoRunItem = testrunner.runner.ModelUtil.getNextSiblingOf(lastAutoRunItem);
-              if (nextAutoRunItem) {
-                this.__lastAutoRunItemName = nextAutoRunItem.getFullName();
-                this.getSelectedTests().removeAll();
-                this.getSelectedTests().push(nextAutoRunItem);
-                this.__reloadAut();
-              }
-              else {
-                this.__lastAutoRunItemName = null;
-              }
-            }
-            else {
-              this.__lastAutoRunItemName = null;
-            }
-          }
-          else if (this.getAutoReload() && this.__autoReloadActive == true) {
+          if (this.getAutoReload() && this.__autoReloadActive == true) {
             this.__autoReloadActive = false;
           }
           break;
@@ -1061,18 +1017,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
      */
     __runTests : function()
     {
-      if (this.getReloadAfterEachPackage()) {
-        if (!this.__lastAutoRunItemName) {
-          var selection = this.getSelectedTests().getItem(0);
-          if (selection.getChildren && selection.getChildren().length > 1) {
-            var firstChild = selection.getChildren().getItem(0);
-            this.__lastAutoRunItemName = firstChild.getFullName();
-            this.getSelectedTests().removeAll();
-            this.getSelectedTests().push(firstChild);
-          }
-        }
-      }
-      else if (this.getAutoReload()) {
+      if (this.getAutoReload()) {
         this.__autoReloadActive = true;
         this.__reloadAut();
         return;
@@ -1094,7 +1039,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
      */
     __stopTests : function()
     {
-      this.setReloadAfterEachPackage(false);
       this.fireEvent("stopTests");
     },
 
