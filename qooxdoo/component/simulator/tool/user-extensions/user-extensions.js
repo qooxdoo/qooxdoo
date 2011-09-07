@@ -790,12 +790,28 @@ Selenium.prototype.getQxTableSelectedRowData = function(locator)
   var tableModel = qxObject.getTableModel();
   var rowData = [];
   var selectionModel = qxObject.getSelectionModel();
-  var iterator = function(index) {
-    rowData.push(tableModel.getRowData(index));
-  };
-  selectionModel.iterateSelection(iterator, this);
   
-  return this.toJson(rowData);
+  /*
+   * In Firefox 6, we can't use a function created in the Selenium window with
+   * the iterateSelection method of a table in the AUT window since qx's 
+   * Bootstrap.isFunction won't recognize it as a valid function object. So we
+   * need to use the AUT window's Function object instead.
+   */
+  var autWindow = this.browserbot.getCurrentWindow();
+  var tempMapName = "_qxSelenium" + new Date().getTime();
+  // Need to store these references since the function won't have access to 
+  // variables from the current scope.
+  autWindow[tempMapName] = {
+    tableModel : tableModel,
+    rowData : []
+  };
+  
+  var iterator = new autWindow.Function("index", tempMapName + ".rowData.push(" + tempMapName + ".tableModel.getRowData(index));");
+  selectionModel.iterateSelection(iterator, this);
+  var result = this.toJson(autWindow[tempMapName].rowData) || "undefined";
+  delete autWindow[tempMapName];
+  
+  return result;
 };
 
 /**
