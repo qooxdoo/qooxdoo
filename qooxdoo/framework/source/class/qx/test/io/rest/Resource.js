@@ -259,7 +259,7 @@ qx.Class.define("qx.test.io.rest.Resource",
 
     "test: invoke same action twice aborts previous": function() {
       var res = this.res,
-          req1, res2;
+          req1, req2;
 
       req1 = this.req;
       res.index();
