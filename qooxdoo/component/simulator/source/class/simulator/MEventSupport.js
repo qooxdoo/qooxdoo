@@ -37,7 +37,7 @@ qx.Mixin.define("simulator.MEventSupport",
      */
     _addListenerSupport : function()
     {
-      simulator.QxSelenium.getInstance().getEval('selenium.qxStoredVars["eventStore"] = [];');
+      simulator.QxSelenium.getInstance().getEval('selenium.qxStoredVars["autWindow"].qx.Simulation.eventStore = [];');
 
       var addListener = function(objectHash, event, callback, context) {
         var context = context || selenium.qxStoredVars['autWindow'].qx.core.Init.getApplication();
@@ -59,8 +59,8 @@ qx.Mixin.define("simulator.MEventSupport",
      * @param locator {String} A (Qx)Selenium locator string that finds a
      * qooxdoo widget
      * @param event {String} Name of the event to listen for
-     * @param callback {Function} Javascript code to be executed if the event is
-     * fired
+     * @param callback {String} Javascript code to be executed if the event is
+     * fired. The local variable "ev" will reference the event object
      * @param script {String?} JavaScript snippet to be executed in the context
      * of the widget determined by the locator. The listener will be attached
      * to the object returned by this snippet
@@ -74,7 +74,14 @@ qx.Mixin.define("simulator.MEventSupport",
         var objectHash = simulator.QxSelenium.getInstance().getQxObjectHash(locator);
       }
       var callbackName = event + "_" + new Date().getTime();
-      this._addOwnFunction(callbackName, callback);
+      
+      if (!qx.lang.Type.isString(callback)) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "The callback parameter must be a string!");
+        this._addOwnFunction(callbackName, callback);
+      }
+      else {
+        this.addOwnFunctionFromString(callbackName, callback, ["ev"]);
+      }
       var callbackInContext = 'selenium.qxStoredVars["autWindow"].qx.Simulation["' + callbackName + '"]';
       var cmd = 'selenium.qxStoredVars["autWindow"].qx.Simulation.addListener("' + objectHash + '", "' + event + '", ' + callbackInContext + ')';
       return simulator.QxSelenium.getInstance().getEval(cmd);
@@ -107,17 +114,14 @@ qx.Mixin.define("simulator.MEventSupport",
      * qooxdoo widget
      * @param event {String} The name of the event to listen for
      * @param script {String?} Javascript snippet to be executed in the widget's
-     * context
+     * context.
      * @return {String} The listener's ID as returned by addListener
      *
      * @lint ignoreUndefined(selenium)
      */
     storeEvent : function(locator, event, script)
     {
-      var callback = function(ev)
-      {
-        selenium.qxStoredVars["eventStore"].push(ev.clone());
-      };
+      var callback = 'qx.Simulation.eventStore.push(ev.clone());';
       return this.addListener(locator, event, callback, script);
     },
 
@@ -131,7 +135,7 @@ qx.Mixin.define("simulator.MEventSupport",
      */
     getStoredEventDetail : function(index, detailString)
     {
-      var cmd = 'selenium.qxStoredVars["eventStore"][' + index + ']';
+      var cmd = 'selenium.qxStoredVars["autWindow"].qx.Simulation.eventStore[' + index + ']';
       if (detailString[0] != "[" && detailString[0] != ".") {
         cmd += ".";
       }
@@ -144,7 +148,7 @@ qx.Mixin.define("simulator.MEventSupport",
      */
     clearEventStore : function()
     {
-      simulator.QxSelenium.getInstance().getEval('selenium.qxStoredVars["eventStore"] = []');
+      simulator.QxSelenium.getInstance().getEval('selenium.qxStoredVars["autWindow"].qx.Simulation.eventStore = []');
     },
 
     /**
@@ -154,7 +158,7 @@ qx.Mixin.define("simulator.MEventSupport",
      */
     getStoredEventCount : function()
     {
-      var storedEvents = simulator.QxSelenium.getInstance().getEval('selenium.qxStoredVars["eventStore"].length');
+      var storedEvents = simulator.QxSelenium.getInstance().getEval('selenium.qxStoredVars["autWindow"].qx.Simulation.eventStore.length');
       return parseInt(storedEvents, 10);
     }
   }
