@@ -122,13 +122,13 @@ qx.Class.define("qx.io.rest.Resource",
   statics:
   {
     /**
-     * Number of milliseconds below a request is considered immediate and
+     * Number of milliseconds below a long-poll request is considered immediate and
      * subject to throttling checks.
      */
     POLL_THROTTLE_LIMIT: 100,
 
     /**
-     * Number of immediate responses accepted before throttling takes place.
+     * Number of immediate long-poll responses accepted before throttling takes place.
      */
     POLL_THROTTLE_COUNT: 30
   },
