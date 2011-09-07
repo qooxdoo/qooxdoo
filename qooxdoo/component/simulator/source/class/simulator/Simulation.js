@@ -291,6 +291,27 @@ qx.Class.define("simulator.Simulation", {
 
       simulator.QxSelenium.getInstance().getEval('selenium.browserbot.getCurrentWindow().qx.Simulation.' + funcName + ' = ' + func);
     },
+    
+    /**
+     * Adds a user-defined function to the "qx.Simulation" namespace of the
+     * application under test. This function can then be called using
+     * <code>selenium.getEval("selenium.browserbot.getCurrentWindow().qx.Simulation[functionName]();")</code>
+     *
+     * @param name {String} name of the function to be added
+     * @param body {String} JS statements to be used as the function body
+     * @parm args {String[]?} Optional list of arguments for the function 
+     */
+    addOwnFunctionFromString : function(name, body, args)
+    {
+      var argStr = args ? '"' + args.join('", "') + '", ' : "";
+      body = body.replace(/"/g, '\\"');
+      // Use the AUT window's Function object to create a new function. This is
+      // necessary for FF6, otherwise qx.Bootstrap.isFunction will return false
+      // for the function, meaning it can't be used as qx event listener callback.
+      var code = '(function() {var autWin = selenium.browserbot.getCurrentWindow(); autWin.qx.Simulation.'
+      + name + ' = new autWin.Function(' + argStr + ' "' + body +'")})()';
+      simulator.QxSelenium.getInstance().getEval(code);
+    },
 
 
     /**
