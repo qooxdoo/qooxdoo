@@ -38,9 +38,14 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     setUpDoubleRequest: function() {
+      // Restore Xhr when wrapped before
+      if (typeof qx.io.request.Xhr.restore == "function") {
+        qx.io.request.Xhr.restore();
+      }
+
+      // Obsolete and dispose previous request
       this.req && this.req.dispose();
-      var req = this.req = new qx.io.request.Xhr(),
-          res = this.res;
+      var req = this.req = new qx.io.request.Xhr();
 
       // Stub request methods, leave event system intact
       req = this.shallowStub(req, qx.io.request.AbstractRequest);
@@ -247,7 +252,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       req1 = this.req;
       res.index();
 
-      qx.io.request.Xhr.restore();
       this.setUpDoubleRequest();
 
       req2 = this.req;
@@ -264,7 +268,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       req1 = this.req;
       res.index();
 
-      qx.io.request.Xhr.restore();
       this.setUpDoubleRequest();
 
       req2 = this.req;
@@ -464,21 +467,22 @@ qx.Class.define("qx.test.io.rest.Resource",
           sandbox = this.getSandbox();
 
       sandbox.useFakeTimers();
-      this.stub(res, "refresh");
+      this.spy(res, "refresh");
 
       res.poll("index", 10);
-      sandbox.clock.tick(100);
-      this.assertCalledWith(res.refresh, "index");
+      this.respond();
+      sandbox.clock.tick(10);
 
-      // 11 = 1 (initial) + 10 (tick)
-      this.assert(res.refresh.callCount == 11,
-        "Must be called 10 times but was " + res.refresh.callCount  + " times");
+      this.assertCalledWith(res.refresh, "index");
+      this.assertCalledTwice(res.refresh);
+    },
+
     },
 
     "test: poll action immediately": function() {
       var res = this.res;
 
-      this.stub(res, "refresh");
+      this.spy(res, "refresh");
       res.poll("index", 10);
       this.assertCalled(res.refresh);
     },
@@ -505,7 +509,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertSend("GET", "/photos/1");
     },
 
-    "test: poll action repeatedly": function() {
+    "test: poll action repeatedly ends previous timer": function() {
       var res = this.res,
           sandbox = this.getSandbox(),
           msg;
@@ -513,39 +517,37 @@ qx.Class.define("qx.test.io.rest.Resource",
       sandbox.useFakeTimers();
       this.stub(res, "refresh");
 
-      // 1 (immediate) + 10 invocations
       res.poll("index", 10);
+      this.respond();
+      sandbox.clock.tick(10);
+
+      res.poll("index", 100);
+      this.respond();
       sandbox.clock.tick(100);
 
-      // 1 (immediate) + 5 invocations
-      res.poll("index", 20);
-      sandbox.clock.tick(100);
-
-      msg = "Renewed call of poll must stop previous timer of action";
-      this.assertEquals(17, res.refresh.callCount, msg);
+      this.assertCalledTwice(res.refresh);
     },
 
     "test: poll many actions": function() {
       var res = this.res,
           sandbox = this.getSandbox(),
-          stub,
+          spy,
           index,
           current;
 
       sandbox.useFakeTimers();
 
-      stub = this.stub(res, "refresh");
-      index = stub.withArgs("index");
-      current = stub.withArgs("current");
+      spy = this.spy(res, "refresh");
+      index = spy.withArgs("index");
+      current = spy.withArgs("current");
 
       res.poll("index", 10);
       res.poll("current", 10);
-
+      this.respond();
       sandbox.clock.tick(10);
-      this.assert(index.callCount == 2,
-        "Action index must be called 2 times but was " + res.refresh.callCount  + " times");
-      this.assert(current.callCount == 2,
-        "Action index must be called 2 times but was " + res.refresh.callCount  + " times");
+
+      this.assertCalledTwice(index);
+      this.assertCalledTwice(current);
     },
 
     "test: end poll action": function() {
@@ -573,45 +575,38 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           sandbox = this.getSandbox(),
           timer,
-          callCount,
-          stub;
+          spy;
 
       sandbox.useFakeTimers();
-
       res.map("other", "GET", "/photos/other");
+      spy = this.spy(res, "refresh").withArgs("index");
+      this.respond();
 
-      stub = this.stub(res, "refresh").withArgs("other");
-      timer = res.poll("index", 10);
-      res.poll("other", 10);
-
+      res.poll("index", 10);
+      timer = res.poll("other", 10);
       sandbox.clock.tick(10);
-      callCount = stub.callCount;
       timer.stop();
+      sandbox.clock.tick(10);
 
-      sandbox.clock.tick(100);
-      this.assert(stub.callCount > callCount, "Must not end poll stub but was called " +
-        stub.callCount + " times which is not greater than " + callCount);
+      this.assertCalledThrice(spy);
     },
 
     "test: restart poll action": function() {
       var res = this.res,
           sandbox = this.getSandbox(),
-          timer,
-          stub,
-          callCount;
+          timer;
 
       sandbox.useFakeTimers();
-      stub = this.stub(res, "refresh");
+      this.respond();
 
       timer = res.poll("index", 10);
       sandbox.clock.tick(10);
-      callCount = stub.callCount;
       timer.stop();
 
+      this.spy(res, "refresh");
       timer.restart();
       sandbox.clock.tick(10);
-      this.assert(stub.callCount > callCount, "Must restart poll after end but was called " +
-        stub.callCount + " times which is not greater than " + callCount);
+      this.assertCalled(res.refresh);
     },
 
     "test: long poll action": function() {
@@ -802,7 +797,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       req1 = this.req;
       res.index();
 
-      qx.io.request.Xhr.restore();
       this.setUpDoubleRequest();
 
       req2 = this.req;
@@ -815,9 +809,6 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       this.assertCalled(req1.dispose);
       this.assertCalled(req2.dispose);
-
-      req1.dispose.restore();
-      req2.dispose.restore();
     },
 
     "test: dispose request on loadEnd": function() {
@@ -830,8 +821,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.respond();
 
       this.assertCalledOnce(req.dispose);
-
-      req.dispose.restore();
     },
 
     assertSend: function(method, url) {
@@ -853,6 +842,7 @@ qx.Class.define("qx.test.io.rest.Resource",
     respond: function(response) {
       var req = this.req;
       response = response || "";
+      req.isDone.returns(true);
       req.getPhase.returns("success");
       req.getResponse.returns(response);
       req.fireEvent("success");
@@ -865,6 +855,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       phase = phase || "statusError";
       req.getPhase.returns(phase);
       req.fireEvent("fail");
+      req.fireEvent("loadEnd");
     }
 
   }
