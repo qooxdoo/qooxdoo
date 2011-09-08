@@ -338,10 +338,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      *
      * Cancels any network activity.
      *
-     * @param skipCallback {Boolean?false}
-     *  Whether onabort should be called.
      */
-    abort: function(skipCallback) {
+    abort: function() {
       if (this.__disposed) {
         return;
       }
@@ -351,10 +349,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       if (this.__nativeXhr) {
         this.readyState = this.__nativeXhr.readyState;
-      }
-
-      if (skipCallback) {
-        return;
       }
     },
 
@@ -480,8 +474,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__nativeXhr.onload = noop;
       this.__nativeXhr.onerror = noop;
 
-      // Abort any network activity. Skip onabort callback.
-      this.abort(true);
+      // Abort any network activity
+      this.abort();
 
       // Remove reference to native XHR
       this.__nativeXhr = null;
