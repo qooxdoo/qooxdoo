@@ -478,6 +478,7 @@ qx.Class.define("qx.bom.media.Abstract",
       this.pause();
     } catch(ex) {}
 
+    this.setSource("");
     this._media = null;
   }
 });
