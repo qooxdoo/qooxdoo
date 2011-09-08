@@ -101,7 +101,7 @@ Example
     ...
     // later in your application code:
     obj.addListener("changeLabel", function(e) {
-      alert(e.getValue());
+      alert(e.getData());
     });
 
 .. _pages/defining_properties#supporting_init_values:
