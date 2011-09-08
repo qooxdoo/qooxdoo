@@ -477,6 +477,17 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalledTwice(res.refresh);
     },
 
+    "test: not poll action when no response received yet": function() {
+      var res = this.res,
+          sandbox = this.getSandbox();
+
+      sandbox.useFakeTimers();
+      this.spy(res, "refresh");
+
+      res.poll("index", 10);
+      sandbox.clock.tick(10);
+
+      this.assertCalledOnce(res.refresh);
     },
 
     "test: poll action immediately": function() {

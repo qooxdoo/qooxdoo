@@ -372,7 +372,10 @@ qx.Class.define("qx.io.rest.Resource",
 
       var timer = this.__pollTimers[action] = new qx.event.Timer(interval);
       timer.addListener("interval", function intervalListener() {
-        this.refresh(action);
+        var req = this.__requests[action];
+        if (req.isDone() || req.isDisposed()) {
+          this.refresh(action);
+        }
       }, this);
       timer.start();
 
