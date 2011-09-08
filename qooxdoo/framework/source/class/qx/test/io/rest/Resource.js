@@ -546,6 +546,7 @@ qx.Class.define("qx.test.io.rest.Resource",
           index,
           current;
 
+      this.stub(this.req, "dispose");
       sandbox.useFakeTimers();
 
       spy = this.spy(res, "refresh");
@@ -559,6 +560,9 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       this.assertCalledTwice(index);
       this.assertCalledTwice(current);
+
+      this.req.dispose.restore();
+      this.req.dispose();
     },
 
     "test: end poll action": function() {
