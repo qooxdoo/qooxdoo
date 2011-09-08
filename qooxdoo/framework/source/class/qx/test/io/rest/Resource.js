@@ -474,7 +474,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       sandbox.clock.tick(10);
 
       this.assertCalledWith(res.refresh, "index");
-      this.assertCalledTwice(res.refresh);
+      this.assertCalledOnce(res.refresh);
     },
 
     "test: not poll action when no response received yet": function() {
@@ -487,15 +487,15 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.poll("index", 10);
       sandbox.clock.tick(10);
 
-      this.assertCalledOnce(res.refresh);
+      this.assertNotCalled(res.refresh);
     },
 
     "test: poll action immediately": function() {
       var res = this.res;
 
-      this.spy(res, "refresh");
+      this.spy(res, "invoke");
       res.poll("index", 10);
-      this.assertCalled(res.refresh);
+      this.assertCalled(res.invoke);
     },
 
     "test: poll action sets initial params": function() {
@@ -558,8 +558,8 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.respond();
       sandbox.clock.tick(10);
 
-      this.assertCalledTwice(index);
-      this.assertCalledTwice(current);
+      this.assertCalledOnce(index);
+      this.assertCalledOnce(current);
 
       this.req.dispose.restore();
       this.req.dispose();
@@ -573,17 +573,15 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       sandbox.useFakeTimers();
 
-      this.stub(res, "refresh");
+      this.spy(res, "refresh");
       timer = res.poll("index", 10);
+      this.respond();
 
       sandbox.clock.tick(10);
-      numCalled = res.refresh.callCount;
-
       timer.stop();
-
       sandbox.clock.tick(100);
-      this.assertEquals(numCalled, res.refresh.callCount,
-        "Must not refresh after endPoll");
+
+      this.assertCalledOnce(res.refresh);
     },
 
     "test: end poll action does not end polling of other action": function() {
@@ -603,7 +601,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       timer.stop();
       sandbox.clock.tick(10);
 
-      this.assertCalledThrice(spy);
+      this.assertCalledTwice(spy);
     },
 
     "test: restart poll action": function() {

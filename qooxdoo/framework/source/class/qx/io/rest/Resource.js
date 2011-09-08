@@ -362,13 +362,13 @@ qx.Class.define("qx.io.rest.Resource",
         this.__pollTimers[action].dispose();
       }
 
-      // Cache parameters
-      if (params) {
-        this.__routes[action].params = params;
+      // Fallback to previous params
+      if (typeof params == "undefined") {
+        params = this.__routes[action].params;
       }
 
-      // Refresh immediately
-      this.refresh(action);
+      // Invoke immediately
+      this.invoke(action, params);
 
       var timer = this.__pollTimers[action] = new qx.event.Timer(interval);
       timer.addListener("interval", function intervalListener() {
