@@ -574,7 +574,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       include : "scrollbar-slider-horizontal-css",
       style : {
-        color : "button-border-disabeld"
+        color : "button-border-disabled"
       }
     },
 
@@ -582,7 +582,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       include : "scrollbar-slider-vertical-css",
       style : {
-        color : "button-border-disabeld"
+        color : "button-border-disabled"
       }
     },
 
@@ -617,7 +617,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       include : "button-css",
       style : {
-        color : "button-border-disabeld",
+        color : "button-border-disabled",
         startColor: "button-disabled-start",
         endColor: "button-disabled-end"
       }

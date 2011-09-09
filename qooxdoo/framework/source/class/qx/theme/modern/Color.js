@@ -244,7 +244,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "scrollbar-slider-start" : "#EEEEEE",
     "scrollbar-slider-end" : "#C3C3C3",
 
-    "button-border-disabeld" : "#959595",
+    "button-border-disabled" : "#959595",
     "button-start" : "#F0F0F0",
     "button-end" : "#AFAFAF",
     "button-disabled-start" : "#F4F4F4",
