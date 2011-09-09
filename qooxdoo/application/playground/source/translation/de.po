@@ -17,15 +17,19 @@ msgstr ""
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||"
 msgstr "Leider ist bei der Ausführung Ihres Codes ein Fehler aufgetreten, der nicht abgefangen werden konnte.||"
 
-#: playground/Application.js:395 playground/Application.js:440
+#: playground/Application.js:396 playground/Application.js:451
 msgid "Please enter a name"
 msgstr "Bitte einen Namen eingeben"
 
-#: playground/Application.js:592 playground/Application.js:635
+#: playground/Application.js:404
+msgid "Sample already exists. Do you want to overwrite?"
+msgstr "Beispiel existiert bereits. Möchten sie es überschreiben?"
+
+#: playground/Application.js:603 playground/Application.js:646
 msgid "Custom Code"
 msgstr "Eigener Code"
 
-#: playground/Application.js:658
+#: playground/Application.js:669
 msgid ""
 "// Could not handle URL parameter! \n"
 "// %1"
@@ -33,27 +37,27 @@ msgstr ""
 "// Konnte den URL Parameter nicht verarbeiten! \n"
 "// %1"
 
-#: playground/Application.js:661
+#: playground/Application.js:672
 msgid "// Your browser has a length restriction of the URL parameter which could have caused the problem."
 msgstr "// Ihr Browser hat eine Längenbeschränkung des URL Parameters, was das Problem verursacht haben könnte."
 
-#: playground/Application.js:679
+#: playground/Application.js:690
 msgid "Cannot append sample code to URL, as it is too long. Disable this warning in the future?"
 msgstr "Der Code kann nicht an die URL angehängt werden, da er zu lang ist. Diese Warnung nicht mehr anzeigen?"
 
-#: playground/Application.js:704
+#: playground/Application.js:715
 msgid "Click OK to discard your changes."
 msgstr "Bitte wählen Sie OK, um die Änderungen zu verwerfen."
 
-#: playground/Application.js:764
+#: playground/Application.js:775
 msgid "Starting application"
 msgstr "Starte Anwendung"
 
-#: playground/Application.js:767
+#: playground/Application.js:778
 msgid "Successfully started"
 msgstr "Anwendung gestartet"
 
-#: playground/Application.js:825
+#: playground/Application.js:836
 msgid "%1 (modified)"
 msgstr "%1 (geändert)"
 

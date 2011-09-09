@@ -389,6 +389,7 @@ qx.Class.define("playground.Application",
     /**
      * Helper to write the current code to the model and with that to the 
      * offline store.
+     * @lint ignoreDeprecated(confirm)
      */
     __onSaveAs : function() {
       // ask the user for a new name for the property
@@ -396,6 +397,16 @@ qx.Class.define("playground.Application",
       if (!name) {
         return;
       }
+      // check for overriding sample names
+      var samples = this.__store.getModel();
+      for (var i = 0; i < samples.length; i++) {
+        if (samples.getItem(i).getName() == name) {
+          if (confirm(this.tr("Sample already exists. Do you want to overwrite?"))) {
+            this.__onSave();
+          }
+          return;
+        }
+      };
       // create new sample
       var data = {
         name: name, 
