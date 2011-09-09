@@ -37,9 +37,16 @@ qx.Class.define("demobrowser.demo.data.Offline",
         return;
       }
 
+      // content container which holds the demo in a grid
+      var content = new qx.ui.container.Composite();
+      var grid = new qx.ui.layout.Grid();
+      grid.setSpacing(10);
+      content.setLayout(grid);
+      this.getRoot().add(content, {left: 10, top: 80});
+
       // create and add the list
       var list = new qx.ui.form.List();
-      this.getRoot().add(list, {left: 10, top: 80});
+      content.add(list, {row: 0, column: 0, rowSpan: 2});
 
       // create the controller
       var controller = new qx.data.controller.List(null, list);
@@ -67,9 +74,16 @@ qx.Class.define("demobrowser.demo.data.Offline",
       var item = new qx.ui.form.TextField();
       item.setValue("item " + store.getModel().length);
 
-      this.getRoot().add(item, {left: 120, top: 80});
-      this.getRoot().add(addButton, {left: 220, top: 79});
-      this.getRoot().add(removeButton, {left: 220, top: 110});
+      content.add(item, {row: 0, column: 1, rowSpan: 2});
+      content.add(addButton, {row: 0, column: 2});
+      content.add(removeButton, {row: 1, column: 2});
+
+      // prevent growing of the buttons in the grid
+      addButton.setAllowGrowY(false);
+      removeButton.setAllowGrowY(false);
+
+      // align the buttons top
+      grid.setRowFlex(1, 1);
 
       // add handler
       addButton.addListener("execute", function() {
