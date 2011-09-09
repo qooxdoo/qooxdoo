@@ -115,15 +115,15 @@ As a unique feature of the list controller a filtering method is included. You c
 Tree Controller
 ---------------
 
-Of course, also the tree does have its own controller. With that controller the Tree widget can automatically be filled with data from qooxdoo objects containing the data. As model nodes for the tree, only qooxdoo widgets are allowed containing at least two properties, one for holding its own children in a data array and a second one holding the name of the node which should be showed as the label of the tree folder widgets. 
-Imagine that a model class called Node is available containing the two already mentioned properties called ch for the children and n for the name. The following code will bind a data model containing Node objects to a tree widget:
+Of course, also the tree does have its own controller. With that controller the Tree widget can automatically be filled with data from qooxdoo objects containing the data. As model nodes for the tree, only qooxdoo objects are allowed containing at least two properties, one for holding its own children in a data array and a second one holding the name of the node which should be showed as the label of the tree folder widgets. 
+Imagine that a model class called Node (inheriting from qx.core.Object) is available containing the two already mentioned properties called ch for the children and n for the name. The following code will bind a data model containing Node objects to a tree widget:
 
 ::
 
     // create the model
-    var rootNode = new qx.Node();
+    var rootNode = new Node();
     rootNode.setN("root");
-    var childNode = new qx.Node();
+    var childNode = new Node();
     childNode.setN("child");
     rootNode.getCh().push(childNode);
     // create the tree view
