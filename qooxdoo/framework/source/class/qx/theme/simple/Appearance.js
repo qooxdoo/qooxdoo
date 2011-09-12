@@ -306,7 +306,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           font : "bold",
           paddingTop: 3,
           paddingLeft: 5,
-          cursor : "pointer",
+          cursor : states.disabled ? undefined : "pointer",
           sortIcon : states.sorted ?
               (qx.theme.simple.Image.URLS["table-" +
                  (states.sortedAscending ? "ascending" : "descending")
@@ -985,7 +985,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           height : 14,
           width : 14,
-          cursor : "pointer",
+          cursor : states.disabled ? undefined : "pointer",
           decorator : decorator,
           minHeight : states.horizontal ? undefined : 20,
           minWidth : states.horizontal ? 20 : undefined
@@ -1359,7 +1359,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
         return {
           icon : qx.theme.simple.Image.URLS["arrow-down"],
-          cursor : "pointer",
           decorator : decorator,
           padding : [0, 5],
           width: 19
@@ -1494,12 +1493,14 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         var decorator = "button-box";
 
-        if (states.hovered && !states.pressed && !states.checked) {
-          decorator = "button-box-hovered";
-        } else if (states.hovered && (states.pressed || states.checked)) {
-          decorator = "button-box-pressed-hovered";
-        } else if (states.pressed || states.checked) {
-          decorator = "button-box-pressed";
+        if (!states.disabled) {
+          if (states.hovered && !states.pressed && !states.checked) {
+            decorator = "button-box-hovered";
+          } else if (states.hovered && (states.pressed || states.checked)) {
+            decorator = "button-box-pressed-hovered";
+          } else if (states.pressed || states.checked) {
+            decorator = "button-box-pressed";
+          }
         }
 
         if (states.invalid && !states.disabled) {
@@ -1616,7 +1617,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           icon : qx.theme.simple.Image.URLS["arrow-down"],
           decorator : decorator,
-          cursor : "pointer",
+          cursor : states.disabled ? undefined : "pointer",
           padding: [3, 4]
         };
       }
@@ -1958,7 +1959,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         var result = {
           width  : 17,
           show   : "icon",
-          cursor : "pointer"
+          cursor : states.disabled ? undefined : "pointer"
         };
 
         if (states.lastYear) {
@@ -2149,7 +2150,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         }
 
         return {
-          cursor  : "pointer",
+          cursor  : states.disabled ? undefined : "pointer",
           decorator : decorator,
           margin : margin,
           padding: [3, 5]
@@ -2179,7 +2180,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           source : qx.theme.simple.Image.URLS["arrow-down"],
-          cursor : "pointer",
+          cursor : states.disabled ? undefined : "pointer",
           padding : [0, 5],
           marginLeft: 2
         };
