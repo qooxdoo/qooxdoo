@@ -393,7 +393,7 @@ qx.Class.define("playground.Application",
      */
     __onSaveAs : function() {
       // ask the user for a new name for the property
-      var name = prompt(this.tr("Please enter a name"));
+      var name = prompt(this.tr("Please enter a name"), ""); // empty value string of IE
       if (!name) {
         return;
       }
