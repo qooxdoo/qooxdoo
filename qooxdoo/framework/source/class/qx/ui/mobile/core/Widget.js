@@ -385,7 +385,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Schedules the {@link #domUpdated} method. The method will be called after a timeout
-     * to prevent the triggered events to be fired to often, during massive DOM manipulations.
+     * to prevent the triggered events to be fired too often, during massive DOM manipulations.
      *
      * @internal
      */
