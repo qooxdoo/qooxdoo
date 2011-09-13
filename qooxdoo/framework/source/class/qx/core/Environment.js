@@ -278,6 +278,10 @@
  *       <td>os.version</td><td><i>String</em></td><td><code>10.6</code></td>
  *       <td>{@link qx.bom.client.OperatingSystem#getVersion}</td>
  *     </tr>
+ *     <tr>
+ *       <td>os.scrollBarOverlayed</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.element.Overflow#scollBarOverlayed}</td>
+ *     </tr>
 
  *     <tr>
  *       <td colspan="4"><b>phonegap</b></td>

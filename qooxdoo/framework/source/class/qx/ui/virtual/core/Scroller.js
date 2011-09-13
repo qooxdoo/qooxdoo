@@ -46,7 +46,12 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     this.__pane.addListener("scrollX", this._onScrollPaneX, this);
     this.__pane.addListener("scrollY", this._onScrollPaneY, this);
 
-    this._add(this.__pane, {row: 0, column: 0});
+    if (qx.core.Environment.get("os.scrollBarOverlayed")) {
+      this._add(this.__pane, {edge: 0});
+    } else {
+      this._add(this.__pane, {row: 0, column: 0});
+    }
+
   },
 
 
