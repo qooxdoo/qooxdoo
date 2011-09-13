@@ -195,6 +195,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       qx.bom.Element.addListener(this._getKnobElement(), "touchstart", this._onTouchStart, this);
       qx.bom.Element.addListener(this._getKnobElement(), "transitionEnd", this._onTransitionEnd, this);
       qx.event.Registration.addListener(window, "resize", this._refresh, this);
+      this.addListenerOnce("domupdated", this._refresh, this);
     },
 
 
