@@ -30,6 +30,28 @@ qx.Class.define("qx.bom.element.Overflow",
 
   statics :
   {
+    /**
+     * The default width which is used for the width of the scroll bar if 
+     * overlayed.
+     */
+    DEFAULT_SCROLLBAR_WIDTH : 14,
+
+    /**
+     * Check if the scrollbars should be positioned on top of the content. This
+     * is true of OSX Lion when the scrollbars dissapear automatically.
+     * 
+     * @return {Boolean} <code>true</code> if the scrollbars should be 
+     *   positioned on top of the content.
+     */
+    scollBarOverlayed : function() {
+      var scrollBarWidth = qx.bom.element.Overflow.getScrollbarWidth();
+      var osx = qx.core.Environment.get("os.name") === "osx";
+      var nativeScrollBars = qx.core.Environment.get("qx.nativeScrollBars");
+
+      return scrollBarWidth == 0 && osx && nativeScrollBars;
+    },
+
+
     /** {Integer} The typical native scrollbar size in the environment */
     __scrollbarSize : null,
 
@@ -115,7 +137,7 @@ qx.Class.define("qx.bom.element.Overflow",
 
       document.body.appendChild(t);
       var c = getScrollBarSizeRight(t);
-      this.__scrollbarSize = c ? c : 16;
+      this.__scrollbarSize = c;
       document.body.removeChild(t);
 
       return this.__scrollbarSize;

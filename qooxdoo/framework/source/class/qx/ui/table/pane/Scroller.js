@@ -61,8 +61,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._setLayout(grid);
 
     // init child controls
-    this.__horScrollBar = this._showChildControl("scrollbar-x");
-    this.__verScrollBar = this._showChildControl("scrollbar-y");
     this.__header = this._showChildControl("header");
     this.__tablePane = this._showChildControl("pane");
 
@@ -94,7 +92,19 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__paneClipper.addListener("dblclick", this._onDblclickPane, this);
     this.__paneClipper.addListener("resize", this._onResizePane, this);
 
-    this._add(this.__paneClipper, {row: 1, column: 0});
+    // if we have overlayed scroll bars, we should use a separate container
+    if (qx.core.Environment.get("os.scrollBarOverlayed")) {
+      this.__clipperContainer = new qx.ui.container.Composite();
+      this.__clipperContainer.setLayout(new qx.ui.layout.Canvas());
+      this.__clipperContainer.add(this.__paneClipper, {edge: 0});
+      this._add(this.__clipperContainer, {row: 1, column: 0});      
+    } else {
+      this._add(this.__paneClipper, {row: 1, column: 0});
+    }
+
+    // init scroll bars
+    this.__horScrollBar = this._showChildControl("scrollbar-x");
+    this.__verScrollBar = this._showChildControl("scrollbar-y");
 
     // init focus indicator
     this.__focusIndicator = this.getChildControl("focus-indicator");
@@ -371,6 +381,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __headerClipper : null,
     __tablePane : null,
     __paneClipper : null,
+    __clipperContainer : null,
     __focusIndicator : null,
     __top : null,
 
@@ -452,13 +463,25 @@ qx.Class.define("qx.ui.table.pane.Scroller",
             alignY: "bottom"
           });
           control.addListener("scroll", this._onScrollX, this);
-          this._add(control, {row: 2, column: 0});
+
+          if (this.__clipperContainer != null) {
+            control.setMinHeight(qx.bom.element.Overflow.DEFAULT_SCROLLBAR_WIDTH);
+            this.__clipperContainer.add(control, {bottom: 0, right: 0, left: 0});
+          } else {
+            this._add(control, {row: 2, column: 0});
+          }
           break;
 
         case "scrollbar-y":
           control = this._createScrollBar("vertical");
           control.addListener("scroll", this._onScrollY, this);
-          this._add(control, {row: 1, column: 1});
+
+          if (this.__clipperContainer != null) {
+            control.setMinWidth(qx.bom.element.Overflow.DEFAULT_SCROLLBAR_WIDTH);
+            this.__clipperContainer.add(control, {right: 0, bottom: 0, top: 0});
+          } else {
+            this._add(control, {row: 1, column: 1});
+          }
           break;
       }
 
@@ -2386,6 +2409,15 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__lastMouseDownCell = this.__topRightWidget = this.__table = null;
     this._disposeObjects("__horScrollBar", "__verScrollBar",
                          "__headerClipper", "__paneClipper", "__focusIndicator",
-                         "__header", "__tablePane", "__top", "__timer");
+                         "__header", "__tablePane", "__top", "__timer", 
+                         "__clipperContainer");
+  },
+
+
+  defer : function() {
+    qx.core.Environment.add(
+      "os.scrollBarOverlayed", 
+      qx.bom.element.Overflow.scollBarOverlayed
+    );
   }
 });

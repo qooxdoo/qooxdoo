@@ -47,11 +47,16 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
   {
     this.base(arguments);
 
-    // Create 'fixed' grid layout
-    var grid = new qx.ui.layout.Grid();
-    grid.setColumnFlex(0, 1);
-    grid.setRowFlex(0, 1);
-    this._setLayout(grid);
+    if (qx.core.Environment.get("os.scrollBarOverlayed")) {
+      // use a plain canvas to overlay the scroll bars
+      this._setLayout(new qx.ui.layout.Canvas());
+    } else {
+      // Create 'fixed' grid layout
+      var grid = new qx.ui.layout.Grid();
+      grid.setColumnFlex(0, 1);
+      grid.setRowFlex(0, 1);
+      this._setLayout(grid);
+    }
 
     // Mousewheel listener to scroll vertically
     this.addListener("mousewheel", this._onMouseWheel, this);
@@ -185,7 +190,12 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
           control.addListener("update", this._computeScrollbars, this);
           control.addListener("scrollX", this._onScrollPaneX, this);
           control.addListener("scrollY", this._onScrollPaneY, this);
-          this._add(control, {row: 0, column: 0});
+
+          if (qx.core.Environment.get("os.scrollBarOverlayed")) {
+            this._add(control, {edge: 0});
+          } else {
+            this._add(control, {row: 0, column: 0});
+          }
           break;
 
 
@@ -197,7 +207,12 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
           control.addListener("scroll", this._onScrollBarX, this);
           control.addListener("changeVisibility", this._onChangeScrollbarXVisibility, this);
 
-          this._add(control, {row: 1, column: 0});
+          if (qx.core.Environment.get("os.scrollBarOverlayed")) {
+            control.setMinHeight(qx.bom.element.Overflow.DEFAULT_SCROLLBAR_WIDTH);
+            this._add(control, {bottom: 0, right: 0, left: 0});
+          } else {
+            this._add(control, {row: 1, column: 0});
+          }
           break;
 
 
@@ -209,7 +224,13 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
           control.addListener("scroll", this._onScrollBarY, this);
           control.addListener("changeVisibility", this._onChangeScrollbarYVisibility, this);
 
-          this._add(control, {row: 0, column: 1});
+
+          if (qx.core.Environment.get("os.scrollBarOverlayed")) {
+            control.setMinWidth(qx.bom.element.Overflow.DEFAULT_SCROLLBAR_WIDTH);
+            this._add(control, {right: 0, bottom: 0, top: 0});
+          } else {
+            this._add(control, {row: 0, column: 1});
+          }
           break;
 
 
@@ -219,7 +240,10 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
           control.setHeight(0);
           control.exclude();
 
-          this._add(control, {row: 1, column: 1});
+          if (!qx.core.Environment.get("os.scrollBarOverlayed")) {
+            // only add for non overlayed scroll bars
+            this._add(control, {row: 1, column: 1});
+          }
           break;
       }
 
@@ -671,5 +695,13 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
         this._excludeChildControl("scrollbar-y");
       }
     }
+  },
+
+
+  defer : function() {
+    qx.core.Environment.add(
+      "os.scrollBarOverlayed", 
+      qx.bom.element.Overflow.scollBarOverlayed
+    );
   }
 });
