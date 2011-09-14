@@ -116,11 +116,17 @@ qx.Class.define("qx.test.util.DateFormat",
       }
 
     },
-
+    
+    testInvalidDate : function()
+    {
+      var invalidDate = new Date("2011-11-32");
+      var dateFmt = new qx.util.format.DateFormat();
+      this.assertNull(dateFmt.format(invalidDate));
+    },
 
     testTimeZone : function()
     {
-      var date = new qx.test.util.DateMock({timezoneOffset: -60});
+      var date = new qx.test.util.DateMock({timezoneOffset: -60, time: 1316000836451});
 
       var formatStr = "z";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
@@ -128,15 +134,15 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("GMT+01:00", dateFmt.format(date));
       date.dispose();
 
-      date = new qx.test.util.DateMock({timezoneOffset: 60});
+      date = new qx.test.util.DateMock({timezoneOffset: 60, time: 1316000836451});
       this.assertEquals("GMT-01:00", dateFmt.format(date));
       date.dispose();
 
-      date = new qx.test.util.DateMock({timezoneOffset: -90});
+      date = new qx.test.util.DateMock({timezoneOffset: -90, time: 1316000836451});
       this.assertEquals("GMT+01:30", dateFmt.format(date));
       date.dispose();
 
-      date = new qx.test.util.DateMock({timezoneOffset: 90});
+      date = new qx.test.util.DateMock({timezoneOffset: 90, time: 1316000836451});
       this.assertEquals("GMT-01:30", dateFmt.format(date));
       date.dispose();
 
