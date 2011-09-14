@@ -56,7 +56,6 @@ qx.Class.define("qx.test.io.remote.Rpc",
 
     "test: send request": function() {
       var mock = this.setUpMockRequest(),
-          req = this.request,
           rpc = new qx.io.remote.Rpc();
 
       mock.expects("send").once();
@@ -66,8 +65,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
 
     "test: request data for params with date contains date literal when convert dates": function() {
       this.setUpFakeRequest();
-      var req = this.request,
-          obj = { date: new Date(Date.UTC(2020,0,1,0,0,0,123)) },
+      var obj = { date: new Date(Date.UTC(2020,0,1,0,0,0,123)) },
           msg,
           data;
 
@@ -83,8 +81,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
 
     "test: request data for params with nested date contains date literal when convert dates": function() {
       this.setUpFakeRequest();
-      var req = this.request,
-          obj = {nested: {date: new Date(Date.UTC(2020,0,1,0,0,0,123))} },
+      var obj = {nested: {date: new Date(Date.UTC(2020,0,1,0,0,0,123))} },
           msg,
           data;
 
@@ -204,24 +201,12 @@ qx.Class.define("qx.test.io.remote.Rpc",
     // isConvertDates()
     //
 
-    "test: isConvertDates() returns true when Json true": function() {
-      var rpc = new qx.io.remote.Rpc();
-      this.stub(qx.util.Json, "CONVERT_DATES", true);
-      this.assertEquals(true, rpc._isConvertDates());
-    },
-
-    "test: isConvertDates() returns true when Rpc true and no util.Json": function() {
+    "test: isConvertDates() returns true when Rpc true": function() {
       var rpc = new qx.io.remote.Rpc();
       this.stub(qx.io.remote.Rpc, "CONVERT_DATES", true);
       this.assertEquals(true, rpc._isConvertDates());
     },
 
-    "test: isConvertDates() returns true when Json true, Rpc false": function() {
-      var rpc = new qx.io.remote.Rpc();
-      this.stub(qx.util.Json, "CONVERT_DATES", true);
-      this.stub(qx.io.remote.Rpc, "CONVERT_DATES", true);
-      this.assertEquals(true, rpc._isConvertDates());
-    },
 
     skip: function(msg) {
       throw new qx.dev.unit.RequirementError(null, msg);

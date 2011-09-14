@@ -21,7 +21,6 @@
 
 #require(qx.bom.htmlarea.HtmlArea)
 #require(qx.io.remote.Request)
-#require(qx.util.Json)
 #require(qx.ui.core.scroll.MScrollBarFactory)
 
 ************************************************************************ */
@@ -404,10 +403,8 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("qx.globalErrorHandling"), "6");
       this.assertBoolean(qx.core.Environment.get("qx.ioRemoteDebug"), "7");
       this.assertBoolean(qx.core.Environment.get("qx.ioRemoteDebugData"), "8");
-      this.assertBoolean(qx.core.Environment.get("qx.jsonEncodeUndefined"), "9");
-      this.assertBoolean(qx.core.Environment.get("qx.jsonDebugging"), "10");
-      this.assertBoolean(qx.core.Environment.get("qx.nativeScrollBars"), "11");
-      this.assertNumber(qx.core.Environment.get("qx.propertyDebugLevel"), "12");
+      this.assertBoolean(qx.core.Environment.get("qx.nativeScrollBars"), "9");
+      this.assertNumber(qx.core.Environment.get("qx.propertyDebugLevel"), "10");
     },
 
     testOldVariants : function() {

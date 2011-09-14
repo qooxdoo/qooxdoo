@@ -170,38 +170,6 @@ qx.Class.define("qx.data.store.Json",
 
 
     /**
-     * Set whether to use the old transport layer.
-     *
-     * @param value {Boolean} Whether to use the old transport layer.
-     *
-     * @deprecated In a future release, this setter will be removed and
-     * the new transport used by default.
-     */
-    setDeprecatedTransport: function(value) {
-      qx.core.Assert.assertBoolean(value);
-
-      if (value) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
-      }
-
-      this.__deprecatedTransport = value;
-    },
-
-
-    /**
-     * Get whether to use the old transport layer.
-     *
-     * @return {Boolean} Whether to use the old transport layer.
-     *
-     * @deprecated In a future release, this getter will be removed and
-     * the new transport used by default.
-     */
-    isDeprecatedTransport: function() {
-      return !!this.__deprecatedTransport;
-    },
-
-
-    /**
      * Creates and sends a GET request with the given url.
      *
      * Listeners will be added to respond to the request’s "success",
@@ -210,11 +178,6 @@ qx.Class.define("qx.data.store.Json",
      * @param url {String} The url for the request.
      */
     _createRequest: function(url) {
-      if (this.isDeprecatedTransport()) {
-        this._warnDeprecated();
-        return this.__createRequestRemote(url);
-      }
-
       var req = new qx.io.request.Xhr(url);
       this._setRequest(req);
 
@@ -239,42 +202,6 @@ qx.Class.define("qx.data.store.Json",
 
       // add failed, aborted and timeout listeners
       req.addListener("fail", this._onFail, this);
-
-      req.send();
-    },
-
-    /**
-     * Creates and configures an instance of {@link qx.io.remote.Request}.
-     *
-     * @param url {String} The url for the request.
-     *
-     * @deprecated since 1.5
-     */
-    __createRequestRemote: function(url) {
-      // create the request
-      var req = new qx.io.remote.Request(url, "GET", "application/json");
-      this._setRequest(req);
-
-      // register the internal even before the user has the change to
-      // register its own event in the delegate
-      req.addListener("completed", this.__onSuccessRemote, this);
-
-      // check for the request configuration hook
-      var del = this._delegate;
-      if (del && qx.lang.Type.isFunction(del.configureRequest)) {
-        this._delegate.configureRequest(req);
-      }
-
-      // map the state to its own state
-      req.addListener("changeState", function(ev) {
-        var state = ev.getData();
-        this.setState(state);
-      }, this);
-
-      // add failed, aborted and timeout listeners
-      req.addListener("failed", this.__onFailRemote, this);
-      req.addListener("aborted", this.__onFailRemote, this);
-      req.addListener("timeout", this.__onFailRemote, this);
 
       req.send();
     },
@@ -317,17 +244,6 @@ qx.Class.define("qx.data.store.Json",
     _onFail : function(ev) {
       var req = ev.getTarget();
       this.fireDataEvent("error", req);
-    },
-
-    /**
-     * Handler called when not completing the legacy request successfully.
-     *
-     * @param ev {qx.io.remote.Response} The response object of the request.
-     *
-     * @deprecated since 1.5
-     */
-    __onFailRemote : function(ev) {
-      this.fireDataEvent("error", ev);
     },
 
 
@@ -407,16 +323,6 @@ qx.Class.define("qx.data.store.Json",
       if (url != null) {
         this._createRequest(url);
       }
-    },
-
-    /**
-     * Warn about deprecated usage.
-     *
-     * @deprecated since 1.5
-     */
-    _warnDeprecated: function() {
-      qx.log.Logger.warn("Using qx.io.remote.Request in qx.data.store.Json " +
-        "is deprecated. Please consult the API documentation.");
     }
   },
 

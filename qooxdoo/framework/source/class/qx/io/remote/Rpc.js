@@ -19,10 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#ignore(qx.util.Json)
-************************************************************************ */
-
 /**
  * Provides a Remote Procedure Call (RPC) implementation.
  *
@@ -1028,13 +1024,12 @@ qx.Class.define("qx.io.remote.Rpc",
      * Whether to convert date objects to pseudo literals and
      * parse with eval.
      *
-     * Controlled by {@link qx.util.Json.CONVERT_DATES}
-     * and {@link #CONVERT_DATES} (in this order).
+     * Controlled by {@link #CONVERT_DATES}.
      *
      * @return {Boolean} Whether to convert.
      */
     _isConvertDates: function() {
-      return !!((qx.util && qx.util.Json && qx.util.Json.CONVERT_DATES) || qx.io.remote.Rpc.CONVERT_DATES);
+      return !!(qx.io.remote.Rpc.CONVERT_DATES);
     },
 
 

@@ -79,11 +79,6 @@ qx.Class.define("qx.data.store.Jsonp",
 
     // overridden
     _createRequest: function(url) {
-      if (this.isDeprecatedTransport()) {
-        this._warnDeprecated();
-        return this.__createRequestLoader(url);
-      }
-
       // dispose old request
       if (this._getRequest()) {
         this._getRequest().dispose();
@@ -116,101 +111,6 @@ qx.Class.define("qx.data.store.Jsonp",
       req.addListener("fail", this._onFail, this);
 
       req.send();
-    },
-
-    /**
-     * Creates and configures an instance of {@link qx.io.ScriptLoader}.
-     *
-     * @param url {String} The url for the request.
-     *
-     * @deprecated since 1.5
-     */
-    __createRequestLoader: function(url) {
-      // if there is an old loader, dispose it
-      if (this._getRequest()) {
-        this._getRequest().dispose();
-      }
-
-      var req = new qx.io.ScriptLoader();
-      this._setRequest(req);
-
-      // check for the request configuration hook
-      var del = this._delegate;
-      if (del && qx.lang.Type.isFunction(del.configureRequest)) {
-        this._delegate.configureRequest(req);
-      }
-
-      var prefix = url.indexOf("?") == -1 ? "?" : "&";
-      url += prefix + this.getCallbackParam() + "=";
-      var id = parseInt(this.toHashCode(), 10);
-
-      qx.data.store.Jsonp[id] = this;
-      url += 'qx.data.store.Jsonp[' + id + '].callback';
-      req.load(url, function(status) {
-        delete this[id];
-        if (status === "fail") {
-          this.fireDataEvent("error");
-        }
-      }, this);
-    },
-
-
-    /**
-     * The used callback for the JSON-P.
-     *
-     * @param data {Object} The returned JSON data.
-     * @internal
-     *
-     * @deprecated since 1.5
-     *
-     */
-    callback : function(data) {
-      // check for disposed callback calls
-      if (this.isDisposed()) {
-        return;
-      }
-      this.__loadedLoader(data);
-    },
-
-
-    /**
-     * Handles the completion of the legacy request and the building of the model.
-     *
-     * @param data {Object} The JSON data from the request.
-     *
-     * @deprecated since 1.5
-     */
-    __loadedLoader: function(data) {
-      if (data == undefined) {
-        this.setState("failed");
-        this.fireEvent("error");
-        return;
-      }
-
-      // check for the data manipulation hook
-      var del = this._delegate;
-      if (del && qx.lang.Type.isFunction(del.manipulateData)) {
-        data = this._delegate.manipulateData(data);
-      }
-
-      // create the class
-      this._marshaler.toClass(data);
-      // set the initial data
-      this.setModel(this._marshaler.toModel(data));
-
-      // fire complete event
-      this.fireDataEvent("loaded", this.getModel());
-    },
-
-
-    /**
-     * Warn about deprecated usage.
-     *
-     * @deprecated since 1.5
-     */
-    _warnDeprecated: function() {
-      qx.log.Logger.warn("Using qx.io.ScriptLoader in qx.data.store.Jsonp " +
-        "is deprecated. Please consult the API documentation.");
     }
   }
 });
