@@ -442,6 +442,13 @@ qx.Class.define("qx.util.format.DateFormat",
         return null;
       }
 
+      if(isNaN(date.getTime())) {
+        if (qx.core.Environment.get("qx.debug")) {
+          throw new Error("Provided date is invalid");
+        }
+        return null;
+      }
+
       if(this.__UTC) {
         date = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds(),date.getUTCMilliseconds());
       }
