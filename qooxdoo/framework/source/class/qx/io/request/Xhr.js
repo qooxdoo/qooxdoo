@@ -258,8 +258,10 @@ qx.Class.define("qx.io.request.Xhr",
       var headers = {},
           isAllowsBody = qx.util.Request.methodAllowsRequestBody(this.getMethod());
 
-      // Follow convention to include X-Requested-With header
-      headers["X-Requested-With"] = "XMLHttpRequest";
+      // Follow convention to include X-Requested-With header when same origin
+      if (!qx.util.Request.isCrossDomain(this.getUrl())) {
+        headers["X-Requested-With"] = "XMLHttpRequest";
+      }
 
       // Include Cache-Control header if configured
       if (qx.lang.Type.isString(this.getCache())) {

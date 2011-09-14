@@ -59,7 +59,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     setUpRequest: function() {
       this.req && this.req.dispose();
-      this.req = new qx.io.request.Xhr;
+      this.req = new qx.io.request.Xhr();
       this.req.setUrl("url");
     },
 
@@ -243,6 +243,16 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.req.send();
 
       this.assertCalledWith(this.transport.setRequestHeader, "X-Requested-With", "XMLHttpRequest");
+    },
+
+    "test: not set requested-with header when cross-origin": function() {
+      this.setUpFakeTransport();
+      var spy = this.transport.setRequestHeader.withArgs("X-Requested-With", "XMLHttpRequest");
+
+      this.req.setUrl("http://example.com");
+      this.req.send();
+
+      this.assertNotCalled(spy);
     },
 
     "test: set cache control header": function() {
