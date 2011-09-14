@@ -69,6 +69,9 @@ qooxdoo/application/performance/test
 qooxdoo/application/showcase/source/script
 qooxdoo/application/showcase/build
 qooxdoo/application/showcase/cache
+qooxdoo/application/featureconfigeditor/source/script
+qooxdoo/application/featureconfigeditor/build
+qooxdoo/application/featureconfigeditor/cache
 qooxdoo/component/testrunner/source/script/
 qooxdoo/component/testrunner/build/
 qooxdoo/frontend/application/demobrowser/source/script
