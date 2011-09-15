@@ -27,6 +27,7 @@ Rich Internet Applications (RIA)
    tutorials/tutorial-part-4-2
    tutorials/tutorial-part-4-2-1
    tutorials/tutorial-part-4-3
+   tutorials/tutorial-part-4-3-1
    tutorials/tutorial-part-4-4-1
    tutorials/tutorial-part-4-5
 
