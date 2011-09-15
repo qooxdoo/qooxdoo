@@ -444,7 +444,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
       if(isNaN(date.getTime())) {
         if (qx.core.Environment.get("qx.debug")) {
-          throw new Error("Provided date is invalid");
+          qx.log.Logger.error("Provided date is invalid");
         }
         return null;
       }
