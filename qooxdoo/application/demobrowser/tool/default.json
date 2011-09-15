@@ -30,8 +30,7 @@
         "${DTHEME}",
         "qx.log.appender.Native",
         "qx.log.appender.Console",
-        "qx.dev.ObjectSummary",
-        "qx.dev.Pollution"
+        "qx.dev.ObjectSummary"
       ],
       "asset-let" : {
         "qx.icontheme" : ["Oxygen", "Tango"],
