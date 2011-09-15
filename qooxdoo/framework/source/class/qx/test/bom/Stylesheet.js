@@ -99,7 +99,18 @@ qx.Class.define("qx.test.bom.Stylesheet",
     
     testRemoveAllImports : function()
     {
-      //TODO
+      var sheet = this.__sheet = qx.bom.Stylesheet.createElement();
+      var uri = qx.util.ResourceManager.getInstance().toUri("qx/test/style.css");
+      qx.bom.Stylesheet.addImport(sheet, uri);
+      qx.bom.Stylesheet.addImport(sheet, uri);
+      qx.bom.Stylesheet.removeAllImports(sheet);
+      if (sheet.cssRules) {
+        var rules = sheet.cssRules || sheet.rules;
+        this.assertEquals(0, sheet.cssRules.length);
+      }
+      else if (typeof sheet.cssText == "string") {
+        this.assertEquals("", sheet.cssText);
+      }
     },
     
     testRemoveAllRules : function()
