@@ -28,7 +28,8 @@
     "source-each",
     "test",
     "test-source",
-    "translation"
+    "translation",
+    "minify-css"
   ],
   
   "default-job" : "source",
@@ -69,6 +70,8 @@
 
     "build-files" :
     {
+      "run" : ["minify-css"],
+      
       "copy-files" :
       {
         "files" :
@@ -90,6 +93,25 @@
         "qx.test.*",
         "${APPLICATION}.test.*"
       ]
+    },
+
+    "minify-css" :
+    {
+      "let" :
+      {
+        "BUILD_PATH"  : "${ROOT}/build",
+        "CATCMD" : "cat"
+      },
+
+      "shell" :
+      {
+        "command" :
+        [
+          "${CATCMD} ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/android/android.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py > ${BUILD_PATH}/resource/mobileshowcase/css/android-styles-min.css",
+          "${CATCMD} ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/ios/ios.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py > ${BUILD_PATH}/resource/mobileshowcase/css/ios-styles-min.css"
+        ]
+      }
+
     },
 
     "simulation-run" :
