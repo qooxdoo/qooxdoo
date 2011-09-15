@@ -98,6 +98,20 @@ qx.Class.define("qx.util.Uri",
       }
 
       return url += (/\?/).test(url) ? "&" + params : "?" + params;
+    },
+
+
+    /**
+     * Takes a relative URI and returns an absolute one.
+     * 
+     * @param uri {String} relative URI
+     * @return {String} absolute URI
+     */
+    getAbsolute : function(uri)
+    {
+      var div = document.createElement("div");
+      div.innerHTML = '<a href="' + uri + '">0</a>';
+      return div.firstChild.href;
     }
   }
 });

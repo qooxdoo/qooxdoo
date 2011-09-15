@@ -237,7 +237,9 @@ qx.Class.define("qx.bom.Stylesheet",
 
         for (var i=len-1; i>=0; i--)
         {
-          if (rules[i].href == url) {
+          if (imports[i].href == url || 
+          imports[i].href == qx.util.Uri.getAbsolute(url)) 
+          {
             sheet.deleteRule(i);
           }
         }
