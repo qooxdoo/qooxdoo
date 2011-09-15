@@ -23,6 +23,8 @@ qooxdoo-specific locators
 
 These are custom locator strategies designed specifically for qooxdoo applications.
 
+.. _pages/development/simulator_locators#qxh:
+
 qxh Locator: Search the qooxdoo widget hierarchy
 ================================================
 
@@ -83,16 +85,19 @@ This will search recursively from the root for an object with label “Section 3
 
 As with all Selenium locators, there are no set-valued results (as with generic XPath), and each locator has to come up with at most one result element. Therefore, for each location step, the first match wins, i.e. if there are multiple children that match the current specification, the first child is taken as the root for the rest of the search. Backtracking is only done for wildcard (*) searches.
 
+.. _pages/development/simulator_locators#qxhv:
 
 qxhv Locator: Search visible widgets only
 =========================================
 The ``qxhv=`` locator works just like ``qxh=``, except that for each step, only qooxdoo widgets with the "visibility" property set to "visible" are considered. This means that no descendants of invisible container widgets will be found. In some cases, this can lead to unexpected results. For example, in many qooxdoo applications, the root folder of a qx.ui.tree.Tree is set to be invisible. In that case, the ``qxhv`` locator would never find the root node's descendants, even though they are visible in the GUI.
 
+.. _pages/development/simulator_locators#qxidv:
 
 qxidv Locator: Search visible widgets using HTML IDs
 ====================================================
 The ``qxidv=`` locator searches for an HTML element with the given ID and looks at the qooxdoo widget it belongs to. Only if the widget is visible is the element returned, otherwise the locator will fail.
 
+.. _pages/development/simulator_locators#qxhybrid:
 
 qxhybrid locator: Combine locator strategies
 ============================================

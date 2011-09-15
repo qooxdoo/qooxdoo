@@ -33,6 +33,7 @@ As with qooxdoo's unit testing framework, the Generator is used to create a test
 
 A separate Generator job is used to start Rhino and instruct it to load the Simulator application, which uses Selenium's Java API to send test commands to a Selenium server (over HTTP, so the server can run on a separate machine). The Server then launches the selected browser, loads the qooxdoo application to be tested and executes the commands specified in the test case.
 
+.. _pages/development/simulator#setup:
 
 Setting up the test environment
 -------------------------------
@@ -101,6 +102,8 @@ The following example shows the minimum configuration needed to launch a Simulat
 See the :ref:`job reference <pages/tool/generator_default_jobs#simulation-run>` for a listing of all supported settings and their default values.
 Additional runtime options are available, although their default settings should be fine for most cases. See the :ref:`simulate job key reference <pages/tool/generator_config_ref#simulate>` for details.
 
+.. _pages/development/simulator#writing_tests:
+
 Writing Test Cases
 ------------------
 
@@ -109,6 +112,8 @@ They inherit from simulator.unit.TestCase, which includes the assertion function
 Simulator tests look very similar to qooxdoo unit tests as they follow the same pattern of **setUp**, **testSomething**, **tearDown**. Typically, each test* method will use the QxSelenium API to interact with some part of the AUT,
 then use assertions to check if the AUT's state has changed as expected, e.g. by querying the value of a qooxdoo property.
 
+.. _pages/development/simulator#locators:
+
 Locating Elements
 -----------------
 
@@ -116,15 +121,19 @@ In order to simulate interaction with a qooxdoo widget, Selenium needs to locate
 
 * :ref:`Locating elements <pages/development/simulator_locators#simulator_locators>`
 
+.. _pages/development/simulator#interaction:
 
 Simulating Interaction
 ----------------------
 
 In addition to Selenium's built-in commands, a number of qooxdoo-specific methods are available in the simulator.QxSelenium and simulator.Simulation classes. Run **generate.py api** in the *component/simulator* directory of the qooxdoo SDK to create an API Viewer for these classes.
 
+.. _pages/development/simulator#tools:
 
 Test Development Tools
 ----------------------
+
+.. _pages/development/simulator#selenium_ide:
 
 Selenium IDE
 ============
@@ -140,6 +149,7 @@ Inspector
 
 qooxdoo's :ref:`Inspector component <pages/application/inspector_selenium#using_the_qooxdoo_inspector_to_write_selenium_tests>` can provide assistance to test developers by automatically determining locators for widgets.
 
+.. _pages/development/simulator#generating:
 
 Generating the Simulator
 ------------------------
@@ -151,6 +161,8 @@ The "simulation-build" job explained above is used to generate the Simulator app
 
 Note that the Simulator application contains the test classes. This means that it must be re-generated whenever existing tests are modified or new ones are added.
 
+.. _pages/development/simulator#server_start:
+
 Starting the Selenium server
 ----------------------------
 
@@ -159,6 +171,8 @@ The Selenium server must be started with the *-userExtensions* command line opti
 ::
 
   java -jar selenium-server-standalone.jar -userExtensions <QOOXDOO-TRUNK>/component/simulator/tool/user-extensions/user-extensions.js
+
+.. _pages/development/simulator#running_tests:
 
 Running the Tests
 -----------------
@@ -189,6 +203,7 @@ The Simulator's default logger writes the result of each test to the shell as it
   >>> Finalize runtime: 0ms
   >>> Done
 
+.. _pages/development/simulator#platforms:
 
 Testing multiple browser/OS combinations
 ----------------------------------------
