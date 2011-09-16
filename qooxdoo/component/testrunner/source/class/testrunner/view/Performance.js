@@ -44,6 +44,7 @@ qx.Class.define("testrunner.view.Performance", {
     document.body.innerHTML += '<input type="submit" id="qxtestrunner_run" value="Run Tests"></input><br/>';
     var run = document.getElementById("qxtestrunner_run");
     run.disabled = true;
+    document.body.innerHTML += '<strong>Status: </strong><span id="status"></span>';
     document.body.innerHTML += '<div id="autlog"></div><br/>';
     this.__logElem = document.getElementById("autlog");
     this.__logElem.style.height = "300px";
@@ -98,22 +99,32 @@ qx.Class.define("testrunner.view.Performance", {
       switch(value)
       {
         case "loading" :
-          console.log("Loading tests");
+          this.setStatus("Loading tests");
           break;
         case "ready" :
           document.getElementById("qxtestrunner_run").disabled = false;
-          console.log("Test suite ready");
+          this.setStatus("Test suite ready");
           break;
         case "running":
-          console.log("Running tests...");
+          this.setStatus("Running tests...");
           break;
         case "error" :
-          console.log("Couldn't load test suite!");
+          this.setStatus("Couldn't load test suite!");
           break;
         case "finished" :
+          this.setStatus("Finished");
           console.log(this.__measurements.join("\n"));
           break;
       };
+    },
+    
+    _applyStatus : function(value, old)
+    {
+      this.info(value);
+      var statusElement = document.getElementById("status");
+      if (statusElement) {
+        statusElement.innerHTML = value;
+      }
     },
 
     __logElem : null,
