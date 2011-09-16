@@ -41,7 +41,7 @@
       [
         "qx.event.handler.Application",
         "qx.bom.Collection",
-        "qx.bom.Request",
+        "qx.bom.request.*",
         "qx.bom.element.Background"
       ],
       
