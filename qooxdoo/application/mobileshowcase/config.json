@@ -45,7 +45,7 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["source-all-script", "build-files", "common"]
+    "job-shadowing" : ["source-all-script", "build-files", "common", "simulation-run"]
   },
 
   "jobs" :
