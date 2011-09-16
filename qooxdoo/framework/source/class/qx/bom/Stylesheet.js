@@ -224,7 +224,9 @@ qx.Class.define("qx.bom.Stylesheet",
 
         for (var i=len-1; i>=0; i--)
         {
-          if (imports[i].href == url) {
+          if (imports[i].href == url || 
+          imports[i].href == qx.util.Uri.getAbsolute(url)) 
+          {
             sheet.removeImport(i);
           }
         }
@@ -237,9 +239,7 @@ qx.Class.define("qx.bom.Stylesheet",
 
         for (var i=len-1; i>=0; i--)
         {
-          if (imports[i].href == url || 
-          imports[i].href == qx.util.Uri.getAbsolute(url)) 
-          {
+          if (rules[i].href == url) {
             sheet.deleteRule(i);
           }
         }
