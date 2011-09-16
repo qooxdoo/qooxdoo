@@ -24,6 +24,29 @@ qx.Class.define("qx.test.performance.Object",
         },
         this.CREATE_ITERATIONS
       );
+    },
+
+
+    testToHashCode : function()
+    {
+      var objects = [];
+      var self = this;
+      this.measure(
+        "toHashCode qx.core.Object",
+        function() {
+          for (var i=0; i<self.CREATE_ITERATIONS; i++) {
+            var object = {};
+            qx.core.ObjectRegistry.toHashCode(object);
+            objects.push(object);
+          }
+        },
+        function() {
+          for (var i=0; i<objects.length; i++) {
+            qx.core.ObjectRegistry.clearHashCode(objects[i]);
+          }
+        },
+        this.CREATE_ITERATIONS
+      );
     }
   }
 });
