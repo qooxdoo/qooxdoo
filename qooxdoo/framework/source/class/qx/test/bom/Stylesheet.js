@@ -137,11 +137,8 @@ qx.Class.define("qx.test.bom.Stylesheet",
         var rules = sheet.cssRules || sheet.rules;
         this.assertEquals(0, sheet.cssRules.length);
       }
-      else if (sheet.cssText) {
-        // Fails in IE because IE absolutizes the URI when adding the @import rule,
-        // so removeImport won't find it
-        // TODO: Make removeImport smarter? Add warning to removeImport doc? 
-        //this.assertEquals(-1, sheet.cssText.indexOf("style.css"));
+      else if (typeof sheet.cssText == "string") {
+        this.assertEquals("", sheet.cssText);
       }
     },
     
