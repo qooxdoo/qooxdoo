@@ -161,11 +161,28 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
         return qx.bom.client.OperatingSystem.__ids[match[1]];
       }
       return "";
+    },
+
+
+    /**
+     * Check if the scrollbars should be positioned on top of the content. This
+     * is true of OSX Lion when the scrollbars dissapear automatically.
+     * 
+     * @return {Boolean} <code>true</code> if the scrollbars should be 
+     *   positioned on top of the content.
+     */
+    scollBarOverlayed : function() {
+      var scrollBarWidth = qx.bom.element.Overflow.getScrollbarWidth();
+      var osx = qx.bom.client.OperatingSystem.getName() === "osx";
+      var nativeScrollBars = qx.core.Environment.get("qx.nativeScrollBars");
+
+      return scrollBarWidth == 0 && osx && nativeScrollBars;
     }
   },
 
   defer : function(statics) {
     qx.core.Environment.add("os.name", statics.getName);
     qx.core.Environment.add("os.version", statics.getVersion);
+    qx.core.Environment.add("os.scrollBarOverlayed", statics.scollBarOverlayed);
   }
 });
