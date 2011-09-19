@@ -42,9 +42,6 @@
 qx.Class.define("qx.ui.mobile.form.Button",
 {
   extend : qx.ui.mobile.basic.Label,
-  include : [
-    qx.ui.mobile.form.MEnable
-  ],
 
   /*
   *****************************************************************************

@@ -613,3 +613,8 @@
         -moz-box-flex-group: 2;
         box-flex-group: 2;
 }
+
+.disabled {
+  opacity: 0.35;
+  cursor: default;
+}

@@ -30,8 +30,7 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
     qx.ui.mobile.form.MText,
     qx.ui.form.MForm,
     qx.ui.form.MModelProperty,
-    qx.ui.mobile.form.MState,
-    qx.ui.mobile.form.MEnable
+    qx.ui.mobile.form.MState
   ],
   implement : [
     qx.ui.form.IForm,

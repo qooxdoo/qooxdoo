@@ -224,6 +224,19 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
+     * Whether this widget is enabled or not
+     */
+    enabled :
+    {
+      init: true,
+      check : "Boolean",
+      nullable: false,
+      event : "changeEnabled",
+      apply: "_applyEnabled"
+    },
+
+
+    /**
      * The name attribute of the container element. Usefull when you want to find
      * an element by its name attribute.
      */
@@ -637,6 +650,28 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       // Register the widget
       qx.ui.mobile.core.Widget.registerWidget(this);
 
+    },
+    
+    /**
+     * Sets the enable property to the new value
+     * @param value {Boolean}, the new value of the widget
+     * @param old {Boolean?}, the old value of the widget
+     *
+     */
+    _applyEnabled : function(value,old)
+    {
+      if(value)
+      {
+        this.removeCssClass("disabled");
+        if(this.getAnonymous()) {
+          this.setAnonymous(false);
+        }
+      }
+      else
+      {
+        this.addCssClass("disabled");
+        this.setAnonymous(true);
+      }
     },
 
 

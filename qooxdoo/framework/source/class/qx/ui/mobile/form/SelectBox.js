@@ -56,8 +56,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   extend : qx.ui.mobile.core.Widget,
   include : [
     qx.ui.mobile.form.MValue,
-    qx.ui.form.MForm,
-    qx.ui.mobile.form.MEnable
+    qx.ui.form.MForm
   ],
   implement : [
     qx.ui.form.IForm,

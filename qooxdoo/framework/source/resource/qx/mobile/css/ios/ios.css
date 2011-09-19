@@ -82,10 +82,6 @@ a:hover {  color:rgb(76, 86, 108); }
     color: #fff;
 }
 
-.button[disabled="disabled"] {
-  color: gray;
-}
-
 /* LISTS */
 
 .list-itemimage {
@@ -388,12 +384,6 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked {
   background: url(../../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
   background: url(../../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
-}
-
-input[type="checkbox"]:disabled {
-  border: 2px solid #b8b8b8;
-  background: -webkit-gradient(linear,left top,left bottom,from(#ffffff), to(#ebebeb));
-  background: -webkit-linear-gradient(top, #ffffff, #ebebeb);
 }
 
 /*  TOOLBAR  */

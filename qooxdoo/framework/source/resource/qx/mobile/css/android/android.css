@@ -82,10 +82,6 @@ a:hover { color: #e89c00; }
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdb66), color-stop(50%,#e89c00),color-stop(100%,#fdd824));
 }
 
-.button[disabled="disabled"] {
-  color: gray;
-}
-
 .toolbar-button {
   cursor: pointer;
   font-weight: bold;
@@ -399,9 +395,6 @@ input[type="checkbox"]:checked {
   background: url(../../icon/android/checkbox-green.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #f1f1f1, #c1c1c1 90%, #d0d0d0) 0px 0px no-repeat;
 }
 
-input[type="checkbox"]:disabled {
-
-}
 
 /*  TOOLBAR  */
 .toolbar-separator {
