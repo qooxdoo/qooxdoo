@@ -1,0 +1,34 @@
+{
+  "info" : 
+  {
+    "name" : "twitter",
+
+    "summary" : "twitter tutorial app",
+    "description" : "This is a demo twitter client.",
+    
+    "homepage" : "http://qooxdoo.org/",
+
+    "license" : "LGPL/EPL",
+    "authors" : 
+    [
+      {
+        "name" : "Martin Wittemann (martinwittemann)",
+        "email" : "martin DOT wittemann AT 1und1 DOT de"
+      }
+    ],
+
+    "version" : "trunk",
+    "qooxdoo-versions": ["trunk"]
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "twitter",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "application"
+  }
+}
+
