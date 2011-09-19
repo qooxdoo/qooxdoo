@@ -60,8 +60,8 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res = new qx.io.rest.Resource();
 
       // Default routes
-      res.map("index", "GET", "/photos");
-      res.map("current", "GET", "/photos/current");
+      res.map("get", "GET", "/photos");
+      res.map("post", "POST", "/photos");
     },
 
     tearDown: function() {
@@ -91,11 +91,11 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.configureRequest(callback);
 
       msg = "Invoke #1";
-      res.index();
+      res.get();
       res.configureRequest(callback);
 
       msg = "Invoke #2";
-      res.index();
+      res.get();
       res.configureRequest(callback);
 
       this.assertCalled(callback, "Must call configuration callback");
@@ -109,7 +109,7 @@ qx.Class.define("qx.test.io.rest.Resource",
         req.setAccept("application/json");
       });
 
-      res.index();
+      res.get();
       this.assertCalledWith(req.setAccept, "application/json");
     },
 
@@ -119,11 +119,11 @@ qx.Class.define("qx.test.io.rest.Resource",
           callback;
 
       callback = this.spy(qx.lang.Function.bind(function(req, action) {
-        this.assertEquals("index", action);
+        this.assertEquals("get", action);
       }, this));
       res.configureRequest(callback);
 
-      res.index();
+      res.get();
       this.assertCalled(callback, "Must call configuration callback");
     },
 
@@ -135,7 +135,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           params;
 
-      params = res._getRequestConfig("index");
+      params = res._getRequestConfig("get");
 
       this.assertEquals("GET", params.method);
       this.assertEquals("/photos", params.url);
@@ -145,7 +145,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      this.assertFunction(res.index);
+      this.assertFunction(res.get);
     },
 
     "test: map action throws when existing method": function() {
@@ -174,7 +174,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      this.assertEquals(res, res.index(), "Must return itself");
+      this.assertEquals(res, res.get(), "Must return itself");
     },
 
     "test: map actions from description": function() {
@@ -186,13 +186,13 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       description =
       {
-        index: { method: "GET", url: "/photos" },
+        get: { method: "GET", url: "/photos" },
         create: { method: "POST", url: "/photos", check: check }
       };
 
       res = new qx.io.rest.Resource(description);
 
-      params = res._getRequestConfig("index");
+      params = res._getRequestConfig("get");
       this.assertEquals("GET", params.method);
       this.assertEquals("/photos", params.url);
 
@@ -215,11 +215,10 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertException(function() {
         var description =
         {
-          index: { method: "GET", url: "/photos" },
-          show: { method: "GET" }
+          get: { method: "GET"}
         };
         this.res = new qx.io.rest.Resource(description);
-      }, Error, "URL must be string for route 'show'");
+      }, Error, "URL must be string for route 'get'");
     },
 
     //
@@ -231,7 +230,7 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req,
           result;
 
-      result = res.invoke("index");
+      result = res.invoke("get");
 
       this.assertSend();
     },
@@ -240,7 +239,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.index();
+      res.get();
 
       this.assertSend();
     },
@@ -250,12 +249,12 @@ qx.Class.define("qx.test.io.rest.Resource",
           req1, req2;
 
       req1 = this.req;
-      res.index();
+      res.get();
 
       this.setUpDoubleRequest();
 
       req2 = this.req;
-      res.current();
+      res.post();
 
       this.assertCalledOnce(req1.send);
       this.assertCalledOnce(req2.send);
@@ -266,12 +265,12 @@ qx.Class.define("qx.test.io.rest.Resource",
           req1, req2;
 
       req1 = this.req;
-      res.index();
+      res.get();
 
       this.setUpDoubleRequest();
 
       req2 = this.req;
-      res.index();
+      res.get();
 
       this.assertCalledOnce(req1.abort);
       this.assertCalledOnce(req2.send);
@@ -281,8 +280,8 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("show", "GET", "/photos/:id");
-      res.show({id: "1"});
+      res.map("get", "GET", "/photos/:id");
+      res.get({id: "1"});
 
       this.assertCalledWith(req.setUrl, "/photos/1");
     },
@@ -291,8 +290,8 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("show", "GET", "/photos/:id");
-      res.show({id: 0});
+      res.map("get", "GET", "/photos/:id");
+      res.get({id: 0});
 
       this.assertCalledWith(req.setUrl, "/photos/0");
     },
@@ -301,8 +300,8 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("show", "GET", "/photos/:id");
-      res.show({id: 1});
+      res.map("get", "GET", "/photos/:id");
+      res.get({id: 1});
 
       this.assertCalledWith(req.setUrl, "/photos/1");
     },
@@ -313,8 +312,8 @@ qx.Class.define("qx.test.io.rest.Resource",
           call,
           msg;
 
-      res.map("show", "GET", "/photos/:id");
-      res.show({id: "1", width: "200"});
+      res.map("get", "GET", "/photos/:id");
+      res.get({id: "1", width: "200"});
 
       // GET /photos/1?width=200
       call = req.setRequestData.getCall(0);
@@ -332,8 +331,8 @@ qx.Class.define("qx.test.io.rest.Resource",
           call,
           msg;
 
-      res.map("show", "GET", "/photos/:id");
-      res.show({id: "1", width: "200"});
+      res.map("get", "GET", "/photos/:id");
+      res.get({id: "1", width: "200"});
 
       // GET /photos/1?width=200
       call = req.setRequestData.getCall(0);
@@ -349,8 +348,8 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("showComments", "GET", "/photos/:id/comments/:commentId");
-      res.showComments({id: "1", commentId: "2"});
+      res.map("get", "GET", "/photos/:id/comments/:commentId");
+      res.get({id: "1", commentId: "2"});
 
       this.assertCalledWith(req.setUrl, "/photos/1/comments/2");
     },
@@ -359,8 +358,8 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("showComments", "GET", "/photos/:id/comments?id=:commentId");
-      res.showComments({id: "1", commentId: "2"});
+      res.map("get", "GET", "/photos/:id/comments?id=:commentId");
+      res.get({id: "1", commentId: "2"});
 
       this.assertCalledWith(req.setUrl, "/photos/1/comments?id=2");
     },
@@ -369,8 +368,8 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("show", "GET", "http://example.com:8080/photos/:id");
-      res.show({id: "1"});
+      res.map("get", "GET", "http://example.com:8080/photos/:id");
+      res.get({id: "1"});
 
       this.assertCalledWith(req.setUrl, "http://example.com:8080/photos/1");
     },
@@ -379,8 +378,8 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("show", "GET", ":page");
-      res.show({page: "index"});
+      res.map("get", "GET", ":page");
+      res.get({page: "index"});
       this.assertCalledWith(req.setUrl, "index");
     },
 
@@ -388,16 +387,16 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("showParent", "GET", "../:page");
-      res.showParent({page: "index"});
+      res.map("get", "GET", "../:page");
+      res.get({page: "index"});
       this.assertCalledWith(req.setUrl, "../index");
     },
 
     "test: invoke action for route with check": function() {
       var res = this.res;
 
-      res.map("zoom", "GET", "/photos/zoom/:id", {id: /\d+/});
-      res.zoom({id: "123"});
+      res.map("get", "GET", "/photos/zoom/:id", {id: /\d+/});
+      res.get({id: "123"});
 
       this.assertSend("GET", "/photos/zoom/123");
     },
@@ -429,8 +428,8 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.index();
-      res.abort("index");
+      res.get();
+      res.abort("get");
 
       this.assertCalledOnce(req.abort);
     },
@@ -443,10 +442,10 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.index();
+      res.get();
       this.assertSend();
 
-      res.refresh("index");
+      res.refresh("get");
       this.assertSend();
     },
 
@@ -454,11 +453,11 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("show", "GET", "/photos/:id");
-      res.show({id: "1"});
+      res.map("get", "GET", "/photos/:id");
+      res.get({id: "1"});
       this.assertSend("GET", "/photos/1");
 
-      res.refresh("show");
+      res.refresh("get");
       this.assertSend("GET", "/photos/1");
     },
 
@@ -469,11 +468,11 @@ qx.Class.define("qx.test.io.rest.Resource",
       sandbox.useFakeTimers();
       this.spy(res, "refresh");
 
-      res.poll("index", 10);
+      res.poll("get", 10);
       this.respond();
       sandbox.clock.tick(10);
 
-      this.assertCalledWith(res.refresh, "index");
+      this.assertCalledWith(res.refresh, "get");
       this.assertCalledOnce(res.refresh);
     },
 
@@ -484,7 +483,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       sandbox.useFakeTimers();
       this.spy(res, "refresh");
 
-      res.poll("index", 10);
+      res.poll("get", 10);
       sandbox.clock.tick(10);
 
       this.assertNotCalled(res.refresh);
@@ -494,29 +493,29 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res;
 
       this.spy(res, "invoke");
-      res.poll("index", 10);
+      res.poll("get", 10);
       this.assertCalled(res.invoke);
     },
 
     "test: poll action sets initial params": function() {
       var res = this.res;
 
-      res.map("show", "GET", "/photos/:id");
+      res.map("get", "GET", "/photos/:id");
       this.stub(res, "invoke");
 
-      res.poll("show", 10, {id: "1"});
-      this.assertCalledWith(res.invoke, "show", {id: "1"});
+      res.poll("get", 10, {id: "1"});
+      this.assertCalledWith(res.invoke, "get", {id: "1"});
     },
 
     "test: poll action replaying previous params": function() {
       var res = this.res,
           req = this.req;
 
-      res.map("show", "GET", "/photos/:id");
-      res.show({id: "1"});
+      res.map("get", "GET", "/photos/:id");
+      res.get({id: "1"});
       this.assertSend("GET", "/photos/1");
 
-      res.poll("show");
+      res.poll("get");
       this.assertSend("GET", "/photos/1");
     },
 
@@ -528,11 +527,11 @@ qx.Class.define("qx.test.io.rest.Resource",
       sandbox.useFakeTimers();
       this.stub(res, "refresh");
 
-      res.poll("index", 10);
+      res.poll("get", 10);
       this.respond();
       sandbox.clock.tick(10);
 
-      res.poll("index", 100);
+      res.poll("get", 100);
       this.respond();
       sandbox.clock.tick(100);
 
@@ -543,23 +542,23 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           sandbox = this.getSandbox(),
           spy,
-          index,
-          current;
+          get,
+          post;
 
       this.stub(this.req, "dispose");
       sandbox.useFakeTimers();
 
       spy = this.spy(res, "refresh");
-      index = spy.withArgs("index");
-      current = spy.withArgs("current");
+      get = spy.withArgs("get");
+      post = spy.withArgs("post");
 
-      res.poll("index", 10);
-      res.poll("current", 10);
+      res.poll("get", 10);
+      res.poll("post", 10);
       this.respond();
       sandbox.clock.tick(10);
 
-      this.assertCalledOnce(index);
-      this.assertCalledOnce(current);
+      this.assertCalledOnce(get);
+      this.assertCalledOnce(post);
 
       this.req.dispose.restore();
       this.req.dispose();
@@ -574,7 +573,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       sandbox.useFakeTimers();
 
       this.spy(res, "refresh");
-      timer = res.poll("index", 10);
+      timer = res.poll("get", 10);
       this.respond();
 
       sandbox.clock.tick(10);
@@ -591,12 +590,11 @@ qx.Class.define("qx.test.io.rest.Resource",
           spy;
 
       sandbox.useFakeTimers();
-      res.map("other", "GET", "/photos/other");
-      spy = this.spy(res, "refresh").withArgs("index");
+      spy = this.spy(res, "refresh").withArgs("get");
       this.respond();
 
-      res.poll("index", 10);
-      timer = res.poll("other", 10);
+      res.poll("get", 10);
+      timer = res.poll("post", 10);
       sandbox.clock.tick(10);
       timer.stop();
       sandbox.clock.tick(10);
@@ -612,7 +610,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       sandbox.useFakeTimers();
       this.respond();
 
-      timer = res.poll("index", 10);
+      timer = res.poll("get", 10);
       sandbox.clock.tick(10);
       timer.stop();
 
@@ -629,10 +627,10 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       this.stub(req, "dispose");
 
-      res.addListener("indexSuccess", function(e) {
+      res.addListener("getSuccess", function(e) {
         responses.push(e.getData());
       }, this);
-      res.longPoll("index");
+      res.longPoll("get");
 
       // longPoll() sets up new request when receiving a response
       this.respond("1");
@@ -650,7 +648,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.spy(res, "refresh");
       this.stub(qx.io.rest.Resource, "POLL_THROTTLE_COUNT", "3");
 
-      res.longPoll("index");
+      res.longPoll("get");
 
       // A number of immediate responses, above count
       for (var i=0; i < 4; i++) {
@@ -674,7 +672,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.stub(req, "dispose");
 
       sandbox.useFakeTimers();
-      res.longPoll("index");
+      res.longPoll("get");
 
       // A number of delayed responses, above count
       for (var i=0; i < 31; i++) {
@@ -697,7 +695,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.stub(req, "dispose");
 
       sandbox.useFakeTimers();
-      res.longPoll("index");
+      res.longPoll("get");
 
       // A number of immediate responses
       for (var i=0; i < 30; i++) {
@@ -726,7 +724,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.stub(req, "dispose");
       this.spy(res, "refresh");
 
-      handlerId = res.longPoll("index");
+      handlerId = res.longPoll("get");
 
       this.respond();
       this.respond();
@@ -746,12 +744,12 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req,
           that = this;
 
-      res.index();
-      this.assertEventFired(res, "indexSuccess", function() {
+      res.get();
+      this.assertEventFired(res, "getSuccess", function() {
         that.respond("Affe");
       }, function(e) {
         that.assertEquals("Affe", e.getData());
-        that.assertEquals("index", e.getAction());
+        that.assertEquals("get", e.getAction());
         that.assertIdentical(req, e.getRequest());
       });
     },
@@ -761,12 +759,12 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req,
           that = this;
 
-      res.index();
+      res.get();
       this.assertEventFired(res, "success", function() {
         that.respond("Affe");
       }, function(e) {
         that.assertEquals("Affe", e.getData());
-        that.assertEquals("index", e.getAction());
+        that.assertEquals("get", e.getAction());
         that.assertIdentical(req, e.getRequest());
       });
     },
@@ -776,8 +774,8 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req,
           that = this;
 
-      res.index();
-      this.assertEventFired(res, "indexError", function() {
+      res.get();
+      this.assertEventFired(res, "getError", function() {
         that.respondError("statusError");
       }, function(e) {
         that.assertEquals("statusError", e.getPhase());
@@ -790,7 +788,7 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req,
           that = this;
 
-      res.index();
+      res.get();
       this.assertEventFired(res, "error", function() {
         that.respondError("statusError");
       }, function(e) {
@@ -808,12 +806,12 @@ qx.Class.define("qx.test.io.rest.Resource",
           req1, req2;
 
       req1 = this.req;
-      res.index();
+      res.get();
 
       this.setUpDoubleRequest();
 
       req2 = this.req;
-      res.current();
+      res.post();
 
       this.spy(req1, "dispose");
       this.spy(req2, "dispose");
@@ -830,7 +828,7 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       this.spy(req, "dispose");
 
-      res.index();
+      res.get();
       this.respond();
 
       this.assertCalledOnce(req.dispose);
