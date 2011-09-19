@@ -215,6 +215,11 @@ qx.Class.define("qx.io.rest.Resource",
     map: function(action, method, url, check) {
       this.__routes[action] = [method, url, check];
 
+      // Undefine generic getter when action is named "get"
+      if (action == "get") {
+        this[action] = undefined;
+      }
+
       // Not overwrite existing methods
       if (typeof this[action] !== "undefined") {
 
