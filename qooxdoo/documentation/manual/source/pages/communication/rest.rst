@@ -14,54 +14,57 @@ Given a REST-like interface with URLs that comply to the following pattern.
 
 ::
 
-  GET      /photos           index       display a list of all photos
-  POST     /photos           create      create a new photo
-  GET      /photos/:id       show        display a specific photo
-  PUT      /photos/:id       update      update a specific photo
-  DELETE   /photos/:id       destroy     delete a specific photo
+  GET      /photos/:id
+  PUT      /photos/:id
+  DELETE   /photos/:id
 
-Note ``:id`` stands for a placeholder replaced by
+  GET      /photos
+  POST     /photos
 
-The specifics of the REST interface can be expressed declaratively.
+Note ``:id`` stands for a placeholder.
+
+This interface comprises of two resources: ``photo`` and ``photos``.
+
+To declare the specifics of the REST interface declaratively, pass a description to the constructor.
 
 ::
 
-  var description = {
-    index: {
+  // Singular resource
+  var photo = new qx.io.rest.Resource({
+    // Retrieve photo
+    get: {
+     method: "GET",
+     url: "/photo/:id"
+    },
+
+    // Update photo
+    put: {
+      method: "POST",
+      url: "/photo/:id"
+    }
+  });
+
+  // Plural resource
+  var photos = new qx.io.rest.Resource({
+    // Retrieve list of photos
+    get: {
      method: "GET",
      url: "/photos"
     },
 
-    create: {
+    // Create photo
+    post: {
       method: "POST",
       url: "/photos"
-    },
-
-    show: {
-      method: "GET",
-      url: "/photos/:id"
-    },
-
-    update: {
-      method: "PUT",
-      url: "/photos/:id"
-    },
-
-    destroy: {
-      method: "DELETE",
-      url: "/photos/:id"
     }
-  }
+  });
 
-  var photos = new qx.io.rest.Resource(description);
-
-
-Or programatically.
+Or programatically, for each action.
 
 ::
 
-  var photos = new qx.io.rest.Resource();
-  photos.map("index", "GET", "/photos");
+  var photo = new qx.io.rest.Resource();
+  photos.map("get", "GET", "/photo/:id");
 
 
 Invoking actions
@@ -71,11 +74,13 @@ Once configured, actions can be invoked. They are invoked by calling a method th
 
 ::
 
-  photos.index();
-  // --> GET /photos
+  photo.get({id: 1});
+  // Alternatively: photo.invoke("get", {id: 1});
+  // --> GET /photo/1
 
-  photos.show({id: 1});
-  // --> GET /photos/1
+  photos.get();
+  // Alternatively: photos.invoke("get");
+  // --> GET /photos
 
 When an action is invoked, an appropriate request is configured and send automatically.
 
@@ -86,19 +91,19 @@ Events are fired by the resource when the request was sucessful or any kind of e
 
 ::
 
-  photos.index();
-  photos.show({id: 1});
+  photo.get({id: 1});
+  photo.put({id: 1});
 
   // "success" is fired when any request associated to resource receives a response
   photos.addListener("success", function(e) {
     e.getAction();
-    // --> "index" or "show"
+    // --> "get" or "put"
   });
 
-  // "indexSuccess" is fired when the request associated to the index action receives a response
-  photos.addListener("indexSuccess", function(e) {
+  // "getSuccess" is fired when the request associated to the get action receives a response
+  photos.addListener("getSuccess", function(e) {
     e.getAction();
-    // --> "index"
+    // --> "get"
   });
 
 Helpers
@@ -117,7 +122,7 @@ A ``qx.data.store.Rest`` store can be attached to an action. Whenever a response
 
 ::
 
-  var store = new qx.data.store.Rest(photos, "index");
+  var store = new qx.data.store.Rest(photos, "get");
   var controller = new qx.data.controller.List();
   store.bind("model", controller, "model");
-  photos.longPoll("index");
+  photos.longPoll("get");

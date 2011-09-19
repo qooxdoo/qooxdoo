@@ -23,9 +23,9 @@
  * Client-side wrapper of a REST resource.
  *
  * Each instance represents a resource in terms of REST. A number of actions
- * unique to the resource can be defined and invoked. A resource with its
- * actions is configured declaratively by passing a resource description to
- * the constructor, or programatically using {@link #map}.
+ * (usually HTTP methods) unique to the resource can be defined and invoked.
+ * A resource with its actions is configured declaratively by passing a resource
+ * description to the constructor, or programatically using {@link #map}.
  *
  * Each action is associated to a route. A route is a combination of method,
  * URL pattern and optional parameter constraints.
@@ -38,6 +38,52 @@
  * When an action is invoked, a request is configured according to the associated
  * route, is passed the parameters and finally send. What kind of request is send
  * can be configured by overwriting {@link #_getRequest}.
+ *
+ * No contraints on the action's name or the scope of the URLs are imposed. However,
+ * if you want to follow RESTful design patterns it is recommended to name actions
+ * the same as the HTTP action.
+ *
+ * <pre class="javascript">
+ * var description = {
+ *  "get": { method: "GET", url: "/photo/:id"},
+ *  "put": { method: "POST", url: "/photo"}
+ * };
+ * var photo = new qx.io.rest.Resource(description);
+ * photo.get({id: 1});
+ * photo.put();
+ * </pre>
+ *
+ * If your description happens to use the same action more than once, consider
+ * defining another resource.
+ *
+ * <pre class="javascript">
+ * var description = {
+ *  "get": { method: "GET", url: "/photos"},
+ * };
+ * // Distinguish "photo" (singular) and "photos" (plural) resource
+ * var photos = new qx.io.rest.Resource(description);
+ * photos.get();
+ * </pre>
+ *
+ * Basically, all routes of a resource should point to the same URL (resource in
+ * terms of HTTP). One acceptable exception of this constraint are resources where
+ * required parameters are part of the URL (<code>/photos/1/</code>) or filter
+ * resources. For instance:
+ *
+ * <pre class="javascript">
+ * var description = {
+ *  "get": { method: "GET", url: "/photos/:tag"}
+ * };
+ * var photos = new qx.io.rest.Resource(description);
+ * photos.get();
+ * photos.get({tag: "wildlife"})
+ * </pre>
+ *
+ * Strictly speaking, the <code>photos</code> instance represents two distinct resources
+ * and could therefore just as well mapped to two distinct resources (for instance,
+ * named photos and photosTagged). What style to choose depends on the kind of data
+ * returned. For instance, it seems sensible to stick with one resource if the filter
+ * only limits the result set (i.e. the invidual results have the same properties).
  *
  * In order to respond to successful (or erroneous) invocations of actions,
  * either listen to the generic "success" or "error" event and get the action
@@ -57,8 +103,8 @@ qx.Class.define("qx.io.rest.Resource",
    *
    * For example:
    *
-   * <pre lang="javascript">
-   * { show: {method: "GET", url: "/photos/:id", check: /\d+/} }
+   * <pre class="javascript">
+   * { get: {method: "GET", url: "/photos/:id", check: /\d+/} }
    * </pre>
    */
   construct: function(description)
@@ -198,10 +244,10 @@ qx.Class.define("qx.io.rest.Resource",
      * Map action to combination of method and URL pattern.
      *
      * <pre class="javascript">
-     *   res.map("show", "GET", "/photos/:id", {id: /\d+/});
+     *   res.map("get", "GET", "/photos/:id", {id: /\d+/});
      *
      *   // GET /photos/123
-     *   res.show({id: "123"});
+     *   res.get({id: "123"});
      * </pre>
      *
      * @param action {String} Action to associate to request.
