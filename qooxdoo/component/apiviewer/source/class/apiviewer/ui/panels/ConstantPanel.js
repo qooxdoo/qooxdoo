@@ -82,7 +82,7 @@ qx.Class.define("apiviewer.ui.panels.ConstantPanel", {
         var html = new qx.util.StringBuilder(
           '<div class="item-detail-headline">', "Value: ",
           '</div>', '<div class="item-detail-text">',
-          qx.bom.String.escape(qx.util.Json.stringify(node.getValue())),
+          qx.bom.String.escape(qx.lang.Json.stringify(node.getValue())),
           '</div>'
         )
         return html.get();

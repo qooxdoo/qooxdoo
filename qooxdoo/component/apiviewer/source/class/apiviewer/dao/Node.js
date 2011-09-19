@@ -41,7 +41,7 @@ qx.Class.define("apiviewer.dao.Node", {
     for (var i=0; i<classDocNode.children.length; i++) {
       var childNode = classDocNode.children[i];
       if (!this._addChildNode(childNode)) {
-        throw new Error("Unknown child type: " + childNode.type + " node: " + qx.util.Json.stringify(childNode));
+        throw new Error("Unknown child type: " + childNode.type + " node: " + qx.lang.Json.stringify(childNode));
       }
     }
   },
