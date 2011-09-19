@@ -32,11 +32,11 @@ qx.Class.define("qx.test.bom.media.Video",
   {
     _getSrc: function() {
       if (qx.core.Environment.get("html.video.h264")) {
-        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/videotest.mp4");
+        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/qx.mp4");
       } else if(qx.core.Environment.get("html.video.ogg")) {
-        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/videotest.ogv");
+        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/qx.ogv");
       } else if(qx.core.Environment.get("html.video.webm")) {
-        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/videotest.webm");
+        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/qx.webm");
       }
     },
 

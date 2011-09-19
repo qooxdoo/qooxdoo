@@ -32,11 +32,11 @@ qx.Class.define("qx.test.bom.media.Audio",
   {
     _getSrc: function() {
       if (qx.core.Environment.get("html.audio.mp3")) {
-        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/audiotest.mp3");
+        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/knock.mp3");
       } else if(qx.core.Environment.get("html.audio.ogg")) {
-        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/audiotest.ogg");
+        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/knock.ogg");
       } else if(qx.core.Environment.get("html.audio.wav")) {
-        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/audiotest.wav");
+        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/knock.wav");
       }
     },
 
