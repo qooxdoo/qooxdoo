@@ -85,14 +85,18 @@ class MClassDependencies(object):
             # regexify globs in metaignore
             metaIgnore = map(MetaIgnore, metaIgnore)
 
-            # Parse all meta keys for '#'
-            for container,provider in ((load,metaLoad), (run,metaRun), (ignore,metaIgnore)):
-                for key in provider:
-                    if isinstance(key, types.StringTypes):
+            # Turn strings into DependencyItems()
+            for target,metaHint in ((load,metaLoad), (run,metaRun), (ignore,metaIgnore)):
+                for key in metaHint:
+                    # add all feature checks if requested
+                    if key == "feature-checks" and metaHint in (metaLoad, metaRun):
+                        target.extend(self.getAllEnvChecks(-1, metaHint==metaLoad))
+                    # turn an entry into a DependencyItem
+                    elif isinstance(key, types.StringTypes):
                         sig = key.split('#',1)
                         className = sig[0]
                         attrName  = sig[1] if len(sig)>1 else ''
-                        container.append(DependencyItem(className, attrName, self.id, "|hints|"))
+                        target.append(DependencyItem(className, attrName, self.id, "|hints|"))
 
             # Read source tree data
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
@@ -380,8 +384,8 @@ class MClassDependencies(object):
 
             ##
             # TODO: This API is highly experimental.
-            if className == "qx.core.Environment" and classAttribute == "requireAll":
-                depsList.extend(self.getAllEnvChecks(node, inLoadContext))
+            #if className == "qx.core.Environment" and classAttribute == "requireAll":
+            #    depsList.extend(self.getAllEnvChecks(node.get('line',-1), inLoadContext))
 
         # check e.g. qx.core.Environment.get("runtime.name")
         elif node.type == "constant" and node.hasParentContext("call/params"):
@@ -410,12 +414,12 @@ class MClassDependencies(object):
         # end:_analyzeClassDepsNode
 
 
-    def getAllEnvChecks(self, node, inLoadContext):
+    def getAllEnvChecks(self, nodeline, inLoadContext):
         result = []
         envmappings = self.context['envchecksmap']
         for key in envmappings:
             clsname, clsattribute = self.getClassNameFromEnvKey(key)
-            result.append(DependencyItem(clsname, clsattribute, self.id, node.get('line', -1), inLoadContext))
+            result.append(DependencyItem(clsname, clsattribute, self.id, nodeline, inLoadContext))
         return result
     ##
     # Looks up the environment key in a map that yields the full class plus

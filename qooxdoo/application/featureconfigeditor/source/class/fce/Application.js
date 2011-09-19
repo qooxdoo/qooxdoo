@@ -18,7 +18,10 @@
 ************************************************************************ */
 
 /* ************************************************************************
+
 #asset(qx/icon/Tango/16/actions/help-contents.png)
+#use(feature-checks)
+
 ************************************************************************ */
 
 /**
@@ -57,8 +60,6 @@ qx.Class.define("fce.Application",
         // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
       }
-
-      qx.core.Environment.requireAll;  // TODO: This is highly experimental API
 
       this.__nameSpace = qx.core.Environment.get("qx.application").split(".")[0];
 

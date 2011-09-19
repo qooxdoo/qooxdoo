@@ -576,14 +576,6 @@ qx.Bootstrap.define("qx.core.Environment",
 
 
     /**
-     * EXPERIMENTAL!
-     * Nop function to mark required environment keys in application code. Used
-     * by the generator.
-     */
-    requireAll : null,
-
-
-    /**
      * The default accessor for the checks. It returns the value the current
      * environment has for the given key. The key could be something like
      * "qx.debug", "css.textoverflow" or "io.ssl". A complete list of

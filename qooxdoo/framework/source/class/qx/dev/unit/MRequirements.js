@@ -19,6 +19,7 @@
 
 /* *********************************************************************
 #asset(qx/test/xmlhttp/php_version.php)
+#use(feature-checks)
 ************************************************************************ */
 
 /**
@@ -64,8 +65,6 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      * @param featureList {String[]} List of infrastructure requirements
      */
     require : function(featureList) {
-      
-      qx.core.Environment.requireAll;  // TODO: Highly experimental API
       
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertArray(featureList);
