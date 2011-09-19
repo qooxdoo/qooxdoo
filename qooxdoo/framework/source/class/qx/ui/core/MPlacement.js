@@ -27,6 +27,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
   statics : {
     __visible : null,
+    __direction : "left",
 
     /**
      * Set the always visible element. If an element is set, the
@@ -47,6 +48,33 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      */
     getVisibleElement : function() {
       return this.__visible;
+    },
+
+    /**
+     * Set the move direction for an element which hides always visible element.
+     * The value has only an effect when the {@link #setVisibleElement} is set.
+     *
+     * @param direction {String} The direction <code>left</code> or <code>top</code>.
+     */
+    setMoveDirection : function(direction)
+    {
+      if (direction === "top" || direction === "left") {
+        this.__direction = direction;
+      } else {
+        throw new Error("Invalid value for the parameter 'direction' " +
+          "[qx.ui.core.MPlacement.setMoveDirection()], the value was '" + direction + "' " +
+          "but 'top' or 'left' are allowed.");
+      }
+    },
+
+    /**
+     * Returns the move direction for an element which hides always visible element.
+     * See {@link #setMoveDirection} for more details.
+     *
+     * @return {String} The move direction.
+     */
+    getMoveDirection : function() {
+      return this.__direction;
     }
   },
 
@@ -293,7 +321,13 @@ qx.Mixin.define("qx.ui.core.MPlacement",
             (right > elemLocation.left && left < elemLocation.right) &&
             (bottom > elemLocation.top && top < elemLocation.bottom)
           ) {
-            left = Math.max(elemLocation.left - bounds.width, 0);
+            var direction = qx.ui.core.MPlacement.getMoveDirection();
+            
+            if (direction === "left") {
+              left = Math.max(elemLocation.left - bounds.width, 0);
+            } else {
+              top = Math.max(elemLocation.top - bounds.height, 0);
+            }
           }
         }
       }
