@@ -1,0 +1,73 @@
+{
+  "name"    : "twitter",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "build",
+    "clean",
+    "distclean",
+    "fix",
+    "info",
+    "inspector",
+    "lint",
+    "migration",
+    "pretty",
+    "profiling",
+    "simulation-build",
+    "simulation-run",
+    "source",
+    "source-all",
+    "test",
+    "test-source",
+    "translation"
+  ],
+
+  "let" :
+  {
+    "APPLICATION"  : "twitter",
+    "QOOXDOO_PATH" : "../../../..",
+    "QXTHEME"      : "twitter.theme.Theme",
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
+    "LOCALES"      : [ "en" , "de" , "fr", "ro" ],
+    "CACHE"        : "${TMPDIR}/cache",
+    "ROOT"         : "."
+  },
+
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["simulation-run"]
+  },
+
+  "jobs" :
+  {
+    "simulation-run" :
+    {
+      "let" :
+      {
+        "SIMULATOR_CLASSPATH" : 
+        [
+          "../selenium-java-2.5.0.jar",
+          "../libs/*",
+          "../js.jar"
+        ]
+      },
+
+      "environment" :
+      {
+        "simulator.selServer"   : "localhost",
+        "simulator.selPort"     : 4444,
+        "simulator.testBrowser" : "*firefox",
+        "simulator.autHost"     : "http://localhost",
+        "simulator.autPath"     : "/qooxdoo-tutorial/build/index.html"
+      }
+    }
+  }
+}
