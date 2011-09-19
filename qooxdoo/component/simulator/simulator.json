@@ -170,6 +170,16 @@
         "simulator.disposerDebug" : false,
         "simulator.threadSafe" : false
       }
+    },
+    
+    "simulation-run-source" :
+    {
+      "extend" : [ "simulation-run" ],
+      
+      "simulate" :
+      {
+        "simulator-script" : "${BUILD_PATH}/script/simulator-source.js"
+      }
     }
   }
 }

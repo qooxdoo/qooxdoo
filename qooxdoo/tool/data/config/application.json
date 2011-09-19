@@ -239,11 +239,36 @@
       }
     },
     
+    "simulation-run-source" :
+    {
+      "desc" : "launches simulated interaction tests generated with simulation-build",
+    
+      "extend" : ["simulator::simulation-run-source"],
+      
+      "let" :
+      {
+        "SIMULATOR_ROOT" : "${QOOXDOO_PATH}/component/simulator",
+        "BUILD_PATH"      : "${ROOT}/simulator"
+      }
+    },
+    
     "simulation-build" :
     {
       "desc" : "create a runner app for simulated interaction tests",
     
       "extend" : ["simulator::build"],
+      
+      "let" :
+      {
+        "SIMULATION_INCLUDE" : "${APPLICATION}.simulation.*"
+      }
+    },
+    
+    "simulation-source" :
+    {
+      "desc" : "create a runner app (source version) for simulated interaction tests",
+    
+      "extend" : ["simulator::source"],
       
       "let" :
       {
