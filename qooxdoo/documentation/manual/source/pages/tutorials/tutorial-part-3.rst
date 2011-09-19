@@ -209,7 +209,7 @@ As you have seen in the last paragraphs, creating the data access layer is not t
 * twitter does only offer an OAuth authentification. Don't make your self too much work by implementing the whole OAuth thing.
 * Tweets can be set to twitters web view by just giving a decoded parameter to the URL: `http://twitter.com/?status=123 <http://twitter.com/?status=123>`_
 
-That should be possible for you right now! If you need to take a look at an implementation, you can always take a look at the `code on github <http://github.com/wittemann/qooxdoo-tutorial/tree/Step3>`_ or fork the project.
+That should be possible for you right now! If you need to take a look at an implementation, you can always take a look at the `code on github <https://github.com/qooxdoo/qooxdoo/tree/master/qooxdoo/component/tutorials/twitter/step3>`_ or fork the project.
 
 That's it for the third part of the tutorial. With this tutorial, the application should be ready and we can continue our next tutorial lines based on this state of the application. As always, if you have any feedback, please let us know!
 

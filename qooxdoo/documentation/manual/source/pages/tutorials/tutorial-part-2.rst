@@ -206,6 +206,6 @@ Now go back to the browser and test your new tweaks. It should look like this.
 
 .. |step 2| image:: /pages/tutorials/step21.png
 
-That's it for building the UI. Again, if you want to take a `look at the code <http://github.com/wittemann/qooxdoo-tutorial/tree/Step2>`_, fork the project on github.
+That's it for building the UI. Again, if you want to take a `look at the code <https://github.com/qooxdoo/qooxdoo/tree/master/qooxdoo/component/tutorials/twitter/step2>`_, fork the project on github.
 Next time we take care of getting the data. If you have feedback on this post, just let us know!
 

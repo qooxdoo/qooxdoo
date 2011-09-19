@@ -107,4 +107,4 @@ Now we only need to run the generator to resolve the new dependencies:
 
 The virtual List supports some more features like grouping, for
 additional details have a look at the `virtual demos <http://demo.qooxdoo.org/%{version}/demobrowser/#virtual~List.html>`_. As always, the
-`code of the tutorial <https://github.com/wittemann/qooxdoo-tutorial>`_ is on github.
+`code of the tutorial <https://github.com/qooxdoo/qooxdoo/tree/master/qooxdoo/component/tutorials/twitter/>`_ is on github.

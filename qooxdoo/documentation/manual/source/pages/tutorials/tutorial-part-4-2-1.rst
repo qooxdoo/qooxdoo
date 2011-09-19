@@ -3,7 +3,7 @@
 Tutorial Part 4.2.1: Basic Theming
 **********************************
 This time, we continue with a very exciting topic for the :doc:`tutorials <../getting_started>`: Theming. As you might already know, the theming system in qooxdoo is not based on CSS which means you, as an application developer, don't have to bother with cross browser CSS. The qooxdoo framework takes care of all that for you.
-As a base for theming an app, we use the already known twitter client we built in the :doc:`former tutorials <../getting_started>`. On the left is a picture how it should look to get you started. The the code of the tutorial `on GitHub <http://github.com/wittemann/qooxdoo-tutorial/tree/Step4-2-1-Theming>`_.
+As a base for theming an app, we use the already known twitter client we built in the :doc:`former tutorials <../getting_started>`. On the left is a picture how it should look to get you started. The the code of the tutorial `on GitHub <https://github.com/qooxdoo/qooxdoo/tree/master/qooxdoo/component/tutorials/twitter/step4.2.1>`_.
 
 .. image:: tutorial_4_2_1-1.png
 
@@ -127,4 +127,4 @@ This is a named color which comes from the frameworks Simple theme. You can find
 
 Job done
 ========
-With the last step, we have finally managed to change the three basic things we wanted to change. If you are interessted in more details about the theming possibilities in qooxdoo, :doc:`check out the manual <../gui_toolkit>` for more information. As always, the code of the tutorial is `on GitHub <http://github.com/wittemann/qooxdoo-tutorial/tree/Step4-2-1-Theming>`_.
+With the last step, we have finally managed to change the three basic things we wanted to change. If you are interessted in more details about the theming possibilities in qooxdoo, :doc:`check out the manual <../gui_toolkit>` for more information. As always, the code of the tutorial is `on GitHub <https://github.com/qooxdoo/qooxdoo/tree/master/qooxdoo/component/tutorials/twitter/step4.2.1>`_.
