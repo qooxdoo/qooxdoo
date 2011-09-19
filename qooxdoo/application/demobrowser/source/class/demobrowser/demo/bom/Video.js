@@ -19,9 +19,9 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/media/video1.m4v)
-#asset(demobrowser/demo/media/video1.ogv)
-#asset(demobrowser/demo/media/video1.webm)
+#asset(demobrowser/demo/media/qx.m4v)
+#asset(demobrowser/demo/media/qx.ogv)
+#asset(demobrowser/demo/media/qx.webm)
 
 ************************************************************************ */
 
@@ -41,13 +41,13 @@ qx.Class.define("demobrowser.demo.bom.Video",
 
 
       if (qx.core.Environment.get("html.video.h264")) {
-        var videoUrl = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/video1.m4v");
-      }
-      else if(qx.core.Environment.get("html.video.ogg")) {
-        var videoUrl = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/video1.ogv");
+        var videoUrl = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/qx.m4v");
       }
       else if(qx.core.Environment.get("html.video.webm")) {
-        var videoUrl = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/video1.webm");
+        var videoUrl = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/qx.webm");
+      }
+      else if(qx.core.Environment.get("html.video.ogg")) {
+        var videoUrl = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/qx.ogv");
       }
       else {
         doc.add(new qx.ui.basic.Label("It seems that your browser doesn't support HTML5 video", {left: 10, top: 10}));
@@ -126,7 +126,6 @@ qx.Class.define("demobrowser.demo.bom.Video",
       }, this);
 
       video.addListener("ended", function() {
-        console.log('ended');
         if (!video.isLoop()) {
           play.resetValue();
         }

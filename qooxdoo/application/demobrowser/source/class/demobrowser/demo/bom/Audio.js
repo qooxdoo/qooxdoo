@@ -19,9 +19,9 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/media/audiotest.mp3)
-#asset(demobrowser/demo/media/audiotest.ogg)
-#asset(demobrowser/demo/media/audiotest.wav)
+#asset(demobrowser/demo/media/knock.mp3)
+#asset(demobrowser/demo/media/knock.ogg)
+#asset(demobrowser/demo/media/knock.wav)
 
 ************************************************************************ */
 
@@ -37,14 +37,13 @@ qx.Class.define("demobrowser.demo.bom.Audio",
       var doc = this.getRoot();
 
       var container = new qx.ui.container.Composite(new qx.ui.layout.Basic());
-      //container.setPadding(10);
       doc.add(container, {left:10, top: 40});
 
       if (qx.core.Environment.get("html.audio.mp3")) {
-        var uri = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/audiotest.mp3");
+        var uri = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/knock.mp3");
       }
       else if(qx.core.Environment.get("html.audio.ogg")) {
-        var uri = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/audiotest.ogg");
+        var uri = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/media/knock.ogg");
       } else {
         doc.add(new qx.ui.basic.Label("It seems that your browser doesn't support HTML5 audio", {left: 10, top: 10}));
         return;
