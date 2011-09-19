@@ -67,12 +67,10 @@ qx.Class.define("qx.bom.Stylesheet",
      *
      * @param text? {String} optional string of css rules
      * @return {Stylesheet} the generates stylesheet element
-     * @signature function(text)
      */
-    createElement : qx.core.Environment.select("engine.name",
+    createElement : function(text)
     {
-      "mshtml" : function(text)
-      {
+      if (qx.core.Environment.get("html.createstylesheet")) {
         var sheet = document.createStyleSheet();
 
         if (text) {
@@ -80,10 +78,8 @@ qx.Class.define("qx.bom.Stylesheet",
         }
 
         return sheet;
-      },
-
-      "default" : function(text)
-      {
+      }
+      else {
         var elem = document.createElement("style");
         elem.type = "text/css";
 
@@ -94,8 +90,7 @@ qx.Class.define("qx.bom.Stylesheet",
         document.getElementsByTagName("head")[0].appendChild(elem);
         return elem.sheet;
       }
-    }),
-
+    },
 
     /**
      * Insert a new CSS rule into a given Stylesheet
@@ -103,19 +98,16 @@ qx.Class.define("qx.bom.Stylesheet",
      * @param sheet {Object} the target Stylesheet object
      * @param selector {String} the selector
      * @param entry {String} style rule
-     * @return {void}
-     * @signature function(sheet, selector, entry)
      */
-    addRule : qx.core.Environment.select("engine.name",
+    addRule : function(sheet, selector, entry)
     {
-      "mshtml" : function(sheet, selector, entry) {
-        sheet.addRule(selector, entry);
-      },
-
-      "default" : function(sheet, selector, entry) {
+      if (qx.core.Environment.get("html.stylesheet.insertrule")) {
         sheet.insertRule(selector + "{" + entry + "}", sheet.cssRules.length);
       }
-    }),
+      else {
+        sheet.addRule(selector, entry);
+      }
+    },
 
 
     /**
@@ -124,25 +116,10 @@ qx.Class.define("qx.bom.Stylesheet",
      * @param sheet {Object} the Stylesheet
      * @param selector {String} the Selector of the rule to remove
      * @return {void}
-     * @signature function(sheet, selector)
      */
-    removeRule : qx.core.Environment.select("engine.name",
+    removeRule : function(sheet, selector)
     {
-      "mshtml" : function(sheet, selector)
-      {
-        var rules = sheet.rules;
-        var len = rules.length;
-
-        for (var i=len-1; i>=0; --i)
-        {
-          if (rules[i].selectorText == selector) {
-            sheet.removeRule(i);
-          }
-        }
-      },
-
-      "default" : function(sheet, selector)
-      {
+      if (qx.core.Environment.get("html.stylesheet.deleterule")) {
         var rules = sheet.cssRules;
         var len = rules.length;
 
@@ -153,7 +130,18 @@ qx.Class.define("qx.bom.Stylesheet",
           }
         }
       }
-    }),
+      else {
+        var rules = sheet.rules;
+        var len = rules.length;
+
+        for (var i=len-1; i>=0; --i)
+        {
+          if (rules[i].selectorText == selector) {
+            sheet.removeRule(i);
+          }
+        }
+      }
+    },
 
 
     /**
@@ -161,30 +149,25 @@ qx.Class.define("qx.bom.Stylesheet",
      *
      * @param sheet {Object} the stylesheet object
      * @return {void}
-     * @signature function(sheet)
      */
-    removeAllRules : qx.core.Environment.select("engine.name",
+    removeAllRules : function(sheet)
     {
-      "mshtml" : function(sheet)
-      {
-        var rules = sheet.rules;
-        var len = rules.length;
-
-        for (var i=len-1; i>=0; i--) {
-          sheet.removeRule(i);
-        }
-      },
-
-      "default" : function(sheet)
-      {
+      if (qx.core.Environment.get("html.stylesheet.deleterule")) {
         var rules = sheet.cssRules;
         var len = rules.length;
 
         for (var i=len-1; i>=0; i--) {
           sheet.deleteRule(i);
         }
+      } else {
+        var rules = sheet.rules;
+        var len = rules.length;
+
+        for (var i=len-1; i>=0; i--) {
+          sheet.removeRule(i);
+        }
       }
-    }),
+    },
 
 
     /**
@@ -193,18 +176,16 @@ qx.Class.define("qx.bom.Stylesheet",
      * @param sheet {Object} the stylesheet object
      * @param url {String} URL of the external stylesheet file
      * @return {void}
-     * @signature function(sheet, url)
      */
-    addImport : qx.core.Environment.select("engine.name",
+    addImport : function(sheet, url)
     {
-      "mshtml" : function(sheet, url) {
+      if (qx.core.Environment.get("html.stylesheet.addimport")) {
         sheet.addImport(url);
-      },
-
-      "default" : function(sheet, url) {
+      }
+      else {
         sheet.insertRule('@import "' + url + '";', sheet.cssRules.length);
       }
-    }),
+    },
 
 
     /**
@@ -213,27 +194,23 @@ qx.Class.define("qx.bom.Stylesheet",
      * @param sheet {Object} the stylesheet object
      * @param url {String} URL of the imported CSS file
      * @return {void}
-     * @signature function(sheet, url)
      */
-    removeImport : qx.core.Environment.select("engine.name",
+    removeImport : function(sheet, url)
     {
-      "mshtml" : function(sheet, url)
-      {
+      if (qx.core.Environment.get("html.stylesheet.removeimport")) {
         var imports = sheet.imports;
         var len = imports.length;
 
         for (var i=len-1; i>=0; i--)
         {
           if (imports[i].href == url || 
-          imports[i].href == qx.util.Uri.getAbsolute(url)) 
+          imports[i].href == qx.util.Uri.getAbsolute(url))
           {
             sheet.removeImport(i);
           }
         }
-      },
-
-      "default" : function(sheet, url)
-      {
+      }
+      else {
         var rules = sheet.cssRules;
         var len = rules.length;
 
@@ -244,7 +221,7 @@ qx.Class.define("qx.bom.Stylesheet",
           }
         }
       }
-    }),
+    },
 
 
     /**
@@ -252,22 +229,18 @@ qx.Class.define("qx.bom.Stylesheet",
      *
      * @param sheet {Object} the stylesheet object
      * @return {void}
-     * @signature function(sheet)
      */
-    removeAllImports : qx.core.Environment.select("engine.name",
+    removeAllImports : function(sheet)
     {
-      "mshtml" : function(sheet)
-      {
+      if (qx.core.Environment.get("html.stylesheet.removeimport")) {
         var imports = sheet.imports;
         var len = imports.length;
 
         for (var i=len-1; i>=0; i--) {
           sheet.removeImport(i);
         }
-      },
-
-      "default" : function(sheet)
-      {
+      }
+      else {
         var rules = sheet.cssRules;
         var len = rules.length;
 
@@ -278,6 +251,6 @@ qx.Class.define("qx.bom.Stylesheet",
           }
         }
       }
-    })
+    }
   }
 });
