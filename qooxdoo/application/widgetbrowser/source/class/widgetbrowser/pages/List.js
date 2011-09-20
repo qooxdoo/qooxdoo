@@ -82,7 +82,6 @@ qx.Class.define("widgetbrowser.pages.List",
         people.forEach(function(person) {
           var item = new qx.ui.form.ListItem("" + person.lastname + ", " + person.firstname);
           item.setHeight(25);
-          item.setBackgroundColor("white");
           list.add(item);
         });
       });
