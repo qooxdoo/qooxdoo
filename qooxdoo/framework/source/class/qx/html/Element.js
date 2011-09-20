@@ -1334,7 +1334,7 @@ qx.Class.define("qx.html.Element",
      * It is better to make all changes to the object itself using the public
      * API rather than to the underlying DOM element.
      *
-     * @return {Element} The DOM element node
+     * @return {Element|null} The DOM element node, if available.
      */
     getDomElement : function() {
       return this.__element || null;
