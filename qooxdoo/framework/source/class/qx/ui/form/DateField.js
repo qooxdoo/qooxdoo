@@ -211,6 +211,16 @@ qx.Class.define("qx.ui.form.DateField",
   {
     __localeListenerId : null,
 
+
+    /**
+     * @lint ignoreReferenceField(_forwardStates)
+     */
+    _forwardStates : {
+      focused : true,
+      invalid : true
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       PROTECTED METHODS

@@ -184,7 +184,8 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
      * @lint ignoreReferenceField(_forwardStates)
      */
     _forwardStates : {
-      focused : true
+      focused : true,
+      invalid : true
     },
 
 
