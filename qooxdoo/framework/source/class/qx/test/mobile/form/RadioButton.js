@@ -55,7 +55,7 @@ qx.Class.define("qx.test.mobile.form.RadioButton",
       this.getRoot().add(radio1);
       radio1.setEnabled(false);
       this.assertEquals(false,radio1.getEnabled());
-      this.assertEquals(true,qx.bom.element.Attribute.get(radio1.getContainerElement(),'disabled'));
+      this.assertEquals(true,qx.bom.element.Class.has(radio1.getContainerElement(),'disabled'));
 
       radio1.destroy();
     }

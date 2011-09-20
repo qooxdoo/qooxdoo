@@ -42,7 +42,7 @@ qx.Class.define("qx.test.mobile.form.CheckBox",
       this.getRoot().add(checkBox);
       checkBox.setEnabled(false);
       this.assertEquals(false,checkBox.getEnabled());
-      this.assertEquals(true,qx.bom.element.Attribute.get(checkBox.getContainerElement(),'disabled'));
+      this.assertEquals(true,qx.bom.element.Class.has(checkBox.getContainerElement(),'disabled'));
 
       checkBox.destroy();
     }

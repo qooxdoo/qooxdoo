@@ -663,15 +663,16 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       if(value)
       {
         this.removeCssClass("disabled");
-        if(this.getAnonymous()) {
-          this.setAnonymous(false);
-        }
+        this._setStyle('anonymous',this.getAnonymous());
+        console.log(this+' set anonymous state to this.getAnonymous()='+this.getAnonymous());
       }
       else
       {
         this.addCssClass("disabled");
-        this.setAnonymous(true);
+        this._setStyle('anonymous',true);
+        console.log(this+' set anonymous state to true');
       }
+      console.log(this+' '+this.getAnonymous());
     },
 
 
@@ -1108,7 +1109,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         style = mapping.style || style;
         value = mapping.values[value];
       }
-
+      
       var element = this.getContainerElement();
       if (value != null) {
         qx.bom.element.Style.set(element, style, value);

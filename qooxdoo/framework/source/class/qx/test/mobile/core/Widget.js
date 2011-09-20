@@ -221,6 +221,39 @@ qx.Class.define("qx.test.mobile.core.Widget",
       this.assertTrue(widget.isSeeable(), "Show: Widget should be seeable");
       this.assertEquals("block", widget._getStyle("display"), "Show: Display style should be null");
       this.assertEquals("visible", widget._getStyle("visibility"), "Show: Visibility style should be null");
+    },
+    
+    testEnabled : function()
+    {
+      var widget = new qx.ui.mobile.core.Widget();
+      this.getRoot().add(widget);
+      this.assertEquals(true,widget.getEnabled());
+      this.assertFalse(qx.bom.element.Class.has(widget.getContainerElement(),'disabled'));
+
+      widget.setEnabled(false);
+      this.assertEquals(false,widget.getEnabled());
+      this.assertEquals(true,qx.bom.element.Class.has(widget.getContainerElement(),'disabled'));
+      this.assertEquals('none', qx.bom.element.Style.get(widget.getContainerElement(),'pointer-events'));
+
+      widget.destroy();
+      
+      widget = new qx.ui.mobile.core.Widget();
+      this.getRoot().add(widget);
+      
+      widget.setEnabled(true);
+      widget.setAnonymous(true);
+      this.assertFalse(qx.bom.element.Class.has(widget.getContainerElement(),'disabled'));
+      this.assertEquals('none', qx.bom.element.Style.get(widget.getContainerElement(),'pointer-events'));
+      
+      widget.setEnabled(false);
+      this.assertEquals(true,qx.bom.element.Class.has(widget.getContainerElement(),'disabled'));
+      this.assertEquals('none', qx.bom.element.Style.get(widget.getContainerElement(),'pointer-events'));
+      
+      widget.setEnabled(true);
+      this.assertEquals('none', qx.bom.element.Style.get(widget.getContainerElement(),'pointer-events'));
+      
+      widget.destroy();
+      
     }
   }
 });

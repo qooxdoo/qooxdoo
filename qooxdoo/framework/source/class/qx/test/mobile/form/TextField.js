@@ -51,11 +51,11 @@ qx.Class.define("qx.test.mobile.form.TextField",
       var textField = new qx.ui.mobile.form.TextField();
       this.getRoot().add(textField);
       this.assertEquals(true,textField.getEnabled());
-      this.assertFalse(qx.bom.element.Attribute.get(textField.getContainerElement(),'disabled'));
+      this.assertFalse(qx.bom.element.Class.has(textField.getContainerElement(),'disabled'));
 
       textField.setEnabled(false);
       this.assertEquals(false,textField.getEnabled());
-      this.assertEquals(true,qx.bom.element.Attribute.get(textField.getContainerElement(),'disabled'));
+      this.assertEquals(true,qx.bom.element.Class.has(textField.getContainerElement(),'disabled'));
 
       textField.destroy();
     }

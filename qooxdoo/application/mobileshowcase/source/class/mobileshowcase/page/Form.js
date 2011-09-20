@@ -46,6 +46,7 @@ qx.Class.define("mobileshowcase.page.Form",
     __radio1 : null,
     __radio2 : null,
     __form : null,
+    __submitButton : null,
 
     // overridden
     _initialize : function()
@@ -56,9 +57,10 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__form = this.__createForm();
       this.getContent().add(new qx.ui.mobile.form.renderer.Single(this.__form));
 
-      var button = new qx.ui.mobile.form.Button("Submit");
-      button.addListener("tap", this._onButtonTap, this);
-      this.getContent().add(button);
+      this.__submitButton = new qx.ui.mobile.form.Button("Submit");
+      this.__submitButton.addListener("tap", this._onButtonTap, this);
+      this.__submitButton.setEnabled(false);
+      this.getContent().add(this.__submitButton);
 
       var title = new qx.ui.mobile.form.Title("Registration Result");
       this.getContent().add(title);
@@ -111,6 +113,7 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__info.setValue("qooxdoo Licensing Information\n=============================\n\nqooxdoo may be used under the terms of either the\n\n  * GNU Lesser General Public License (LGPL)\n    http://www.gnu.org/licenses/lgpl.html\n\nor the\n\n  * Eclipse Public License (EPL)\n    http://www.eclipse.org/org/documents/epl-v10.php\n\nAs a recipient of qooxdoo, you may choose which license to receive the code \nunder. Certain files or entire directories may not be covered by this \ndual license, but are subject to licenses compatible to both LGPL and EPL.\nLicense exceptions are explicitly declared in all relevant files or in a \n\nLICENSE file in the relevant directories.");
 
       this.__save = new qx.ui.mobile.form.ToggleButton();
+      this.__save.addListener("changeValue", this._enableFormSubmitting, this);
       form.add(this.__save, "Agree? ");
 
       this.__slide = new qx.ui.mobile.form.Slider();
@@ -125,6 +128,9 @@ qx.Class.define("mobileshowcase.page.Form",
 
     },
 
+    _enableFormSubmitting : function(evt) {
+      this.__submitButton.setEnabled(evt.getData());
+    },
     /**
      * Event handler.
      *

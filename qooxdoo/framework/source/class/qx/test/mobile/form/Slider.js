@@ -44,7 +44,7 @@ qx.Class.define("qx.test.mobile.form.Slider",
       this.getRoot().add(slider);
       slider.setEnabled(false);
       this.assertEquals(false,slider.getEnabled());
-      this.assertEquals('disabled',slider.getContainerElement().getAttribute('disabled'));
+      this.assertEquals(true,qx.bom.element.Class.has(slider.getContainerElement(),'disabled'));
 
       slider.destroy();
     }
