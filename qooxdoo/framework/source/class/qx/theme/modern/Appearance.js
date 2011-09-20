@@ -3074,16 +3074,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "virtual-list" : "list",
     "virtual-list/row-layer" : "row-layer",
 
-    "row-layer" :
-    {
-      style : function(states)
-      {
-        return {
-          colorEven : "virtual-row-layer-background-even",
-          colorOdd : "virtual-row-layer-background-odd"
-        };
-      }
-    },
+    "row-layer" : "widget",
 
     "group-item" :
     {
