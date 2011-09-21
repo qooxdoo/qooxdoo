@@ -350,6 +350,21 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertFunction(req._getParser());
     },
 
+    "test: not parse empty response": function() {
+      this.setUpFakeXhr();
+
+      var req = this.req,
+          parser = this.spy();
+
+      req.send();
+      this.stub(req, "_getParser").returns(parser);
+      this.getFakeReq().respond(200, {}, "");
+
+      this.assertNotCalled(parser);
+    },
+
+    // JSON
+
     "test: parse json response": function() {
       this.setUpFakeServer();
       var req = this.req,

@@ -298,7 +298,9 @@ qx.Class.define("qx.io.request.Xhr",
           parser = this._getParser();
 
       if (typeof parser === "function") {
-        return parser.call(this, response);
+        if (response !== "") {
+          return parser.call(this, response);
+        }
       }
 
       return response;
