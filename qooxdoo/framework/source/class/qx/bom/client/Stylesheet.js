@@ -66,7 +66,7 @@ qx.Bootstrap.define("qx.bom.client.Stylesheet",
      */
     getInsertRule : function()
     {
-      return typeof qx.bom.client.Html.__getStylesheet().insertRule === "function";
+      return typeof qx.bom.client.Stylesheet.__getStylesheet().insertRule === "function";
     },
 
 
@@ -78,7 +78,7 @@ qx.Bootstrap.define("qx.bom.client.Stylesheet",
      */
     getDeleteRule : function()
     {
-      return typeof qx.bom.client.Html.__getStylesheet().deleteRule === "function";
+      return typeof qx.bom.client.Stylesheet.__getStylesheet().deleteRule === "function";
     },
 
 
@@ -91,7 +91,7 @@ qx.Bootstrap.define("qx.bom.client.Stylesheet",
      */
     getAddImport : function()
     {
-      return (typeof qx.bom.client.Html.__getStylesheet().addImport === "object");
+      return (typeof qx.bom.client.Stylesheet.__getStylesheet().addImport === "object");
     },
 
 
@@ -104,7 +104,7 @@ qx.Bootstrap.define("qx.bom.client.Stylesheet",
      */
     getRemoveImport : function()
     {
-      return (typeof qx.bom.client.Html.__getStylesheet().removeImport === "object");
+      return (typeof qx.bom.client.Stylesheet.__getStylesheet().removeImport === "object");
     }
 
   },
