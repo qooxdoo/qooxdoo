@@ -126,25 +126,24 @@ qx.Class.define("qx.dev.unit.TestLoader",
      */
     runStandAlone : function()
     {
-      this.warn(this.getTestDescriptions());
-
       var testResult = new qx.dev.unit.TestResult();
-
+      
       testResult.addListener("failure", function(e)
       {
-        var ex = e.getData().exception;
-        var test = e.getData().test;
+        var ex = e.getData()[0].exception;
+        var test = e.getData()[0].test;
         this.error("Test '" + test.getFullName() + "' failed: " + ex.message + " - " + ex.getComment());
         if (ex.getStackTrace) {
           this.error("Stack trace: " + ex.getStackTrace().join("\n"));
         }
-      });
+      }, this);
 
       testResult.addListener("error", function(e)
       {
-        var ex = e.getData().exception;
-        this.error("The test '" + e.getData().test.getFullName() + "' had an error: " + ex, ex);
-      });
+        var ex = e.getData()[0].exception;
+        var test = e.getData()[0].test;
+        this.error("The test '" + test.getFullName() + "' had an error: " + ex, ex);
+      }, this);
 
       this.getSuite().run(testResult);
     },
