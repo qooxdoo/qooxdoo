@@ -55,68 +55,68 @@
  *       <td colspan="4"><b>browser</b></td>
  *     </tr>
  *     <tr>
- *       <td>browser.documentmode</td><td><i>Integer</em></td><td><code>0</code></td>
+ *       <td>browser.documentmode</td><td><i>Integer</i></td><td><code>0</code></td>
  *       <td>{@link qx.bom.client.Browser#getDocumentMode}</td>
  *     </tr>
  *     <tr>
- *       <td>browser.name</td><td><i>String</em></td><td><code> chrome </code></td>
+ *       <td>browser.name</td><td><i>String</i></td><td><code> chrome </code></td>
  *       <td>{@link qx.bom.client.Browser#getName}</td>
  *     </tr>
  *     <tr>
- *       <td>browser.quirksmode</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>browser.quirksmode</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Browser#getQuirksMode}</td>
  *     </tr>
  *     <tr>
- *       <td>browser.version</td><td><i>String</em></td><td><code>11.0</code></td>
+ *       <td>browser.version</td><td><i>String</i></td><td><code>11.0</code></td>
  *       <td>{@link qx.bom.client.Browser#getVersion}</td>
  *     </tr>
  *     <tr>
  *       <td colspan="4"><b>runtime</b></td>
  *     </tr>
  *     <tr>
- *       <td>runtime.name</td><td><i> String </em></td><td><code> node.js </code></td>
+ *       <td>runtime.name</td><td><i> String </i></td><td><code> node.js </code></td>
  *       <td>{@link qx.bom.client.Runtime#getName}</td>
  *     </tr>
  *     <tr>
  *       <td colspan="4"><b>css</b></td>
  *     </tr>
  *     <tr>
- *       <td>css.borderradius</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>css.borderradius</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getBorderRadius}</td>
  *     </tr>
  *     <tr>
- *       <td>css.boxmodel</td><td><i>String</em></td><td><code>content</code></td>
+ *       <td>css.boxmodel</td><td><i>String</i></td><td><code>content</code></td>
  *       <td>{@link qx.bom.client.Css#getBoxModel}</td>
  *     </tr>
  *     <tr>
- *       <td>css.boxshadow</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>css.boxshadow</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getBoxShadow}</td>
  *     </tr>
  *     <tr>
- *       <td>css.gradients</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>css.gradients</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getGradients}</td>
  *     </tr>
  *     <tr>
- *       <td>css.placeholder</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>css.placeholder</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getPlaceholder}</td>
  *     </tr>
  *     <tr>
- *       <td>css.textoverflow</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>css.textoverflow</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getTextOverflow}</td>
  *     </tr>
  *     <tr>
- *       <td>css.translate3d</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>css.translate3d</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getTranslate3d}</td>
  *     </tr>
  *     <tr>
- *       <td>css.rgba</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>css.rgba</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getRgba}</td>
  *     </tr>
  *     <tr>
  *       <td colspan="4"><b>device</b></td>
  *     </tr>
  *     <tr>
- *       <td>device.name</td><td><i>String</em></td><td><code>pc</code></td>
+ *       <td>device.name</td><td><i>String</i></td><td><code>pc</code></td>
  *       <td>{@link qx.bom.client.Device#getName}</td>
  *     </tr>
 
@@ -124,7 +124,7 @@
  *       <td colspan="4"><b>ecmascript</b></td>
  *     </tr>
  *     <tr>
- *       <td>ecmascript.objectcount</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>ecmascript.objectcount</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getObjectCount}</td>
  *     </tr>
 
@@ -132,11 +132,11 @@
  *       <td colspan="4"><b>engine</b></td>
  *     </tr>
  *     <tr>
- *       <td>engine.name</td><td><i>String</em></td><td><code>webkit</code></td>
+ *       <td>engine.name</td><td><i>String</i></td><td><code>webkit</code></td>
  *       <td>{@link qx.bom.client.Engine#getName}</td>
  *     </tr>
  *     <tr>
- *       <td>engine.version</td><td><i>String</em></td><td><code>534.24</code></td>
+ *       <td>engine.version</td><td><i>String</i></td><td><code>534.24</code></td>
  *       <td>{@link qx.bom.client.Engine#getVersion}</td>
  *     </tr>
 
@@ -144,11 +144,11 @@
  *       <td colspan="4"><b>event</b></td>
  *     </tr>
  *     <tr>
- *       <td>event.pointer</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>event.pointer</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Event#getPointer}</td>
  *     </tr>
  *     <tr>
- *       <td>event.touch</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>event.touch</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Event#getTouch}</td>
  *     </tr>
 
@@ -156,98 +156,98 @@
  *       <td colspan="4"><b>html</b></td>
  *     </tr>
  *     <tr>
- *       <td>html.audio</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.audio</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getAudio}</td>
  *     </tr>
  *     <tr>
- *       <td>html.audio.mp3</td><td><i>String</em></td><td><code>""</code></td>
+ *       <td>html.audio.mp3</td><td><i>String</i></td><td><code>""</code></td>
  *       <td>{@link qx.bom.client.Html#getAudioMp3}</td>
  *     </tr>
  *     <tr>
- *       <td>html.audio.ogg</td><td><i>String</em></td><td><code>"maybe"</code></td>
+ *       <td>html.audio.ogg</td><td><i>String</i></td><td><code>"maybe"</code></td>
  *       <td>{@link qx.bom.client.Html#getAudioOgg}</td>
  *     </tr>
  *     <tr>
- *       <td>html.audio.wav</td><td><i>String</em></td><td><code>"probably"</code></td>
+ *       <td>html.audio.wav</td><td><i>String</i></td><td><code>"probably"</code></td>
  *       <td>{@link qx.bom.client.Html#getAudioWav}</td>
  *     </tr>
  *     <tr>
- *       <td>html.audio.au</td><td><i>String</em></td><td><code>"maybe"</code></td>
+ *       <td>html.audio.au</td><td><i>String</i></td><td><code>"maybe"</code></td>
  *       <td>{@link qx.bom.client.Html#getAudioAu}</td>
  *     </tr>
  *     <tr>
- *       <td>html.audio.aif</td><td><i>String</em></td><td><code>"probably"</code></td>
+ *       <td>html.audio.aif</td><td><i>String</i></td><td><code>"probably"</code></td>
  *       <td>{@link qx.bom.client.Html#getAudioAif}</td>
  *     </tr>
  *     <tr>
- *       <td>html.canvas</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.canvas</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getCanvas}</td>
  *     </tr>
  *     <tr>
- *       <td>html.classlist</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.classlist</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getClassList}</td>
  *     </tr>
  *     <tr>
- *       <td>html.geolocation</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.geolocation</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getGeoLocation}</td>
  *     </tr>
  *     <tr>
- *       <td>html.storage.local</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.storage.local</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getLocalStorage}</td>
  *     </tr>
  *     <tr>
- *       <td>html.storage.session</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.storage.session</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getSessionStorage}</td>
  *     </tr>
  *     <tr>
- *       <td>html.svg</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.svg</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getSvg}</td>
  *     </tr>
  *     <tr>
- *       <td>html.video</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.video</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getVideo}</td>
  *     </tr>
  *     <tr>
- *       <td>html.video.h264</td><td><i>String</em></td><td><code>"probably"</code></td>
+ *       <td>html.video.h264</td><td><i>String</i></td><td><code>"probably"</code></td>
  *       <td>{@link qx.bom.client.Html#getVideoH264}</td>
  *     </tr>
  *     <tr>
- *       <td>html.video.ogg</td><td><i>String</em></td><td><code>""</code></td>
+ *       <td>html.video.ogg</td><td><i>String</i></td><td><code>""</code></td>
  *       <td>{@link qx.bom.client.Html#getVideoOgg}</td>
  *     </tr>
  *     <tr>
- *       <td>html.video.webm</td><td><i>String</em></td><td><code>"maybe"</code></td>
+ *       <td>html.video.webm</td><td><i>String</i></td><td><code>"maybe"</code></td>
  *       <td>{@link qx.bom.client.Html#getVideoWebm}</td>
  *     </tr>
  *     <tr>
- *       <td>html.vml</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>html.vml</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Html#getVml}</td>
  *     </tr>
  *     <tr>
- *       <td>html.webworker</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.webworker</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getWebWorker}</td>
  *     <tr>
- *       <td>html.filereader</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.filereader</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getFileReader}</td>
  *     </tr>
  *     <tr>
- *       <td>html.xpath</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.xpath</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getXPath}</td>
  *     </tr>
  *     <tr>
- *       <td>html.xul</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.xul</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getXul}</td>
  *     </tr>
  *     <tr>
- *       <td>html.element.contains</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.element.contains</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getContains}</td>
  *     </tr>
  *     <tr>
- *       <td>html.element.compareDocumentPosition</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.element.compareDocumentPosition</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getCompareDocumentPosition}</td>
  *     </tr>
  *     <tr>
- *       <td>html.element.textContent</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.element.textContent</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getTextContent}</td>
  *     </tr>
 
@@ -255,23 +255,23 @@
  *       <td colspan="4"><b>Stylesheets</b></td>
  *     </tr>
  *     <tr>
- *       <td>html.stylesheet.createstylesheet</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>html.stylesheet.createstylesheet</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Stylesheet#getCreateStyleSheet}</td>
  *     </tr>
  *     <tr>
- *       <td>html.stylesheet.insertrule</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.stylesheet.insertrule</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Stylesheet#getInsertRule}</td>
  *     </tr>
  *     <tr>
- *       <td>html.stylesheet.deleterule</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.stylesheet.deleterule</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Stylesheet#getDeleteRule}</td>
  *     </tr>
  *     <tr>
- *       <td>html.stylesheet.addimport</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>html.stylesheet.addimport</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Stylesheet#getAddImport}</td>
  *     </tr>
  *     <tr>
- *       <td>html.stylesheet.removeimport</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>html.stylesheet.removeimport</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Stylesheet#getRemoveImport}</td>
  *     </tr>
 
@@ -279,15 +279,15 @@
  *       <td colspan="4"><b>io</b></td>
  *     </tr>
  *     <tr>
- *       <td>io.maxrequests</td><td><i>Integer</em></td><td><code>4</code></td>
+ *       <td>io.maxrequests</td><td><i>Integer</i></td><td><code>4</code></td>
  *       <td>{@link qx.bom.client.Transport#getMaxConcurrentRequestCount}</td>
  *     </tr>
  *     <tr>
- *       <td>io.ssl</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>io.ssl</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Transport#getSsl}</td>
  *     </tr>
  *     <tr>
- *       <td>io.xhr</td><td><i>String</em></td><td><code>xhr</code></td>
+ *       <td>io.xhr</td><td><i>String</i></td><td><code>xhr</code></td>
  *       <td>{@link qx.bom.client.Transport#getXmlHttpRequest}</td>
  *     </tr>
 
@@ -295,11 +295,11 @@
  *       <td colspan="4"><b>locale</b></td>
  *     </tr>
  *     <tr>
- *       <td>locale</td><td><i>String</em></td><td><code>de</code></td>
+ *       <td>locale</td><td><i>String</i></td><td><code>de</code></td>
  *       <td>{@link qx.bom.client.Locale#getLocale}</td>
  *     </tr>
  *     <tr>
- *       <td>locale.variant</td><td><i>String</em></td><td><code>de</code></td>
+ *       <td>locale.variant</td><td><i>String</i></td><td><code>de</code></td>
  *       <td>{@link qx.bom.client.Locale#getVariant}</td>
  *     </tr>
 
@@ -307,15 +307,15 @@
  *       <td colspan="4"><b>os</b></td>
  *     </tr>
  *     <tr>
- *       <td>os.name</td><td><i>String</em></td><td><code>osx</code></td>
+ *       <td>os.name</td><td><i>String</i></td><td><code>osx</code></td>
  *       <td>{@link qx.bom.client.OperatingSystem#getName}</td>
  *     </tr>
  *     <tr>
- *       <td>os.version</td><td><i>String</em></td><td><code>10.6</code></td>
+ *       <td>os.version</td><td><i>String</i></td><td><code>10.6</code></td>
  *       <td>{@link qx.bom.client.OperatingSystem#getVersion}</td>
  *     </tr>
  *     <tr>
- *       <td>os.scrollBarOverlayed</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>os.scrollBarOverlayed</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Scroll#scollBarOverlayed}</td>
  *     </tr>
 
@@ -323,11 +323,11 @@
  *       <td colspan="4"><b>phonegap</b></td>
  *     </tr>
  *     <tr>
- *       <td>phonegap</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>phonegap</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.PhoneGap#getPhoneGap}</td>
  *     </tr>
  *     <tr>
- *       <td>phonegap.notification</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>phonegap.notification</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.PhoneGap#getNotification}</td>
  *     </tr>
 
@@ -335,63 +335,63 @@
  *       <td colspan="4"><b>plugin</b></td>
  *     </tr>
  *     <tr>
- *       <td>plugin.divx</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>plugin.divx</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Plugin#getDivX}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.divx.version</td><td><i>String</em></td><td></td>
+ *       <td>plugin.divx.version</td><td><i>String</i></td><td></td>
  *       <td>{@link qx.bom.client.Plugin#getDivXVersion}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.flash</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>plugin.flash</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Flash#isAvailable}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.flash.express</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>plugin.flash.express</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Flash#getExpressInstall}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.flash.strictsecurity</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>plugin.flash.strictsecurity</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Flash#getStrictSecurityModel}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.flash.version</td><td><i>String</em></td><td><code>10.2.154</code></td>
+ *       <td>plugin.flash.version</td><td><i>String</i></td><td><code>10.2.154</code></td>
  *       <td>{@link qx.bom.client.Flash#getVersion}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.gears</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>plugin.gears</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Plugin#getGears}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.pdf</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>plugin.pdf</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Plugin#getPdf}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.pdf.version</td><td><i>String</em></td><td></td>
+ *       <td>plugin.pdf.version</td><td><i>String</i></td><td></td>
  *       <td>{@link qx.bom.client.Plugin#getPdfVersion}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.quicktime</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>plugin.quicktime</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Plugin#getQuicktime}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.quicktime.version</td><td><i>String</em></td><td><code>7.6</code></td>
+ *       <td>plugin.quicktime.version</td><td><i>String</i></td><td><code>7.6</code></td>
  *       <td>{@link qx.bom.client.Plugin#getQuicktimeVersion}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.silverlight</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>plugin.silverlight</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Plugin#getSilverlight}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.silverlight.version</td><td><i>String</em></td><td></td>
+ *       <td>plugin.silverlight.version</td><td><i>String</i></td><td></td>
  *       <td>{@link qx.bom.client.Plugin#getSilverlightVersion}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.windowsmedia</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>plugin.windowsmedia</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Plugin#getWindowsMedia}</td>
  *     </tr>
  *     <tr>
- *       <td>plugin.windowsmedia.version</td><td><i>String</em></td><td></td>
+ *       <td>plugin.windowsmedia.version</td><td><i>String</i></td><td></td>
  *       <td>{@link qx.bom.client.Plugin#getWindowsMediaVersion}</td>
  *     </tr>
 
@@ -399,113 +399,113 @@
  *       <td colspan="4"><b>qx</b></td>
  *     </tr>
  *     <tr>
- *       <td>qx.allowUrlSettings</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>qx.allowUrlSettings</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.allowUrlVariants</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>qx.allowUrlVariants</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.application</td><td><i>String</em></td><td><code>name.space</code></td>
+ *       <td>qx.application</td><td><i>String</i></td><td><code>name.space</code></td>
  *       <td><i>default:</i> <code>&lt;&lt;application name&gt;&gt;</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.aspects</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>qx.aspects</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.debug</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>qx.debug</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.debug.databinding</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>qx.debug.databinding</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.debug.dispose</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>qx.debug.dispose</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.disposerDebugLevel</td><td><i>Integer</em></td><td><code>0</code></td>
+ *       <td>qx.disposerDebugLevel</td><td><i>Integer</i></td><td><code>0</code></td>
  *       <td><i>default:</i> <code>0</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.dynamicmousewheel</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>qx.dynamicmousewheel</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.dynlocale</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>qx.dynlocale</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.globalErrorHandling</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>qx.globalErrorHandling</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.mobile.emulatetouch</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>qx.mobile.emulatetouch</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.mobile.nativescroll</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>qx.mobile.nativescroll</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.optimization.basecalls</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>qx.optimization.basecalls</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
- *       <td>qx.optimization.comments</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>qx.optimization.comments</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
- *       <td>qx.optimization.privates</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>qx.optimization.privates</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
- *       <td>qx.optimization.strings</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>qx.optimization.strings</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
- *       <td>qx.optimization.variables</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>qx.optimization.variables</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
- *       <td>qx.optimization.variants</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>qx.optimization.variants</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
- *       <td>qx.propertyDebugLevel</td><td><i>Integer</em></td><td><code>0</code></td>
+ *       <td>qx.propertyDebugLevel</td><td><i>Integer</i></td><td><code>0</code></td>
  *       <td><i>default:</i> <code>0</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.revision</td><td><i>String</em></td><td><code>27348</code></td>
+ *       <td>qx.revision</td><td><i>String</i></td><td><code>27348</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.theme</td><td><i>String</em></td><td><code>qx.theme.Modern</code></td>
+ *       <td>qx.theme</td><td><i>String</i></td><td><code>qx.theme.Modern</code></td>
  *       <td><i>default:</i> <code>&lt;&lt;theme name&gt;&gt;</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.version</td><td><i>String</em></td><td><code>1.5</code></td>
+ *       <td>qx.version</td><td><i>String</i></td><td><code>1.5</code></td>
  *     </tr>
 
  *     <tr>
  *       <td colspan="4"><b>module</b></td>
  *     </tr>
  *     <tr>
- *       <td>module.databinding</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>module.databinding</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
- *       <td>module.logger</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>module.logger</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
- *       <td>module.property</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>module.property</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
- *       <td>module.events</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>module.events</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
@@ -513,7 +513,7 @@
  *       </td>
  *     </tr>
  *     <tr>
- *       <td>html.dataurl</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>html.dataurl</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getDataUrl}</td>
  *     </tr>
  *   </tbody>
