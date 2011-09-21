@@ -238,6 +238,42 @@
  *       <td>html.xul</td><td><i>Boolean</em></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getXul}</td>
  *     </tr>
+ *     <tr>
+ *       <td>html.element.contains</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getContains}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.element.compareDocumentPosition</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getCompareDocumentPosition}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.element.textContent</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getTextContent}</td>
+ *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>Stylesheets</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.stylesheet.createstylesheet</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Stylesheet#getCreateStyleSheet}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.stylesheet.insertrule</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Stylesheet#getInsertRule}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.stylesheet.deleterule</td><td><i>Boolean</em></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Stylesheet#getDeleteRule}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.stylesheet.addimport</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Stylesheet#getAddImport}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.stylesheet.removeimport</td><td><i>Boolean</em></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Stylesheet#getRemoveImport}</td>
+ *     </tr>
 
  *     <tr>
  *       <td colspan="4"><b>io</b></td>
