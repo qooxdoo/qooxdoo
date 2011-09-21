@@ -70,17 +70,19 @@ qx.Class.define("qx.core.Assert",
       }
       var errorMsg = "Assertion error! " + fullComment;
 
-      if (this.__logError) {
-        qx.Bootstrap.error(errorMsg);
-      }
       if (qx.Class.isDefined("qx.core.AssertionError"))
       {
         var err = new qx.core.AssertionError(comment, msg);
         if (this.__logError) {
-          qx.Bootstrap.error("Stack trace: \n" + err.getStackTrace());
+          qx.Bootstrap.error(errorMsg + "\n Stack trace: \n" + err.getStackTrace());
         }
         throw err;
-      } else {
+      } 
+      else
+      {
+        if (this.__logError) {
+          qx.Bootstrap.error(errorMsg);
+        }
         throw new Error(errorMsg);
       }
     },
