@@ -540,7 +540,7 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     _onMouseDown : function(e)
     {
-      if (this.__sessionActive) {
+      if (this.__sessionActive || e.getButton() !== "left") {
         return;
       }
 
