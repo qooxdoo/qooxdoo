@@ -280,7 +280,7 @@
  *     </tr>
  *     <tr>
  *       <td>os.scrollBarOverlayed</td><td><i>Boolean</em></td><td><code>false</code></td>
- *       <td>{@link qx.bom.element.Overflow#scollBarOverlayed}</td>
+ *       <td>{@link qx.bom.client.Scroll#scollBarOverlayed}</td>
  *     </tr>
 
  *     <tr>
@@ -511,7 +511,7 @@ qx.Bootstrap.define("qx.core.Environment",
         "locale.variant"              : "qx.bom.client.Locale.getVariant",
         "os.name"                     : "qx.bom.client.OperatingSystem.getName",
         "os.version"                  : "qx.bom.client.OperatingSystem.getVersion",
-        "os.scrollBarOverlayed"       : "qx.bom.client.OperatingSystem.scollBarOverlayed",
+        "os.scrollBarOverlayed"       : "qx.bom.client.Scroll.scollBarOverlayed",
         "plugin.gears"                : "qx.bom.client.Plugin.getGears",
         "plugin.quicktime"            : "qx.bom.client.Plugin.getQuicktime",
         "plugin.quicktime.version"    : "qx.bom.client.Plugin.getQuicktimeVersion",
