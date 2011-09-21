@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * This mixins contains the methods needed to implement a loader that will 
+ * This mixin contains the methods needed to implement a loader that will 
  * create a suite of unit tests from a given namespace and run it directly or
  * provide the necessary information to a more advanced runner application 
  */
@@ -99,25 +99,24 @@ qx.Mixin.define("qx.dev.unit.MTestLoader", {
      */
     runStandAlone : function()
     {
-      this.warn(this.getTestDescriptions());
-
       var testResult = new qx.dev.unit.TestResult();
-
+      
       testResult.addListener("failure", function(e)
       {
-        var ex = e.getData().exception;
-        var test = e.getData().test;
+        var ex = e.getData()[0].exception;
+        var test = e.getData()[0].test;
         this.error("Test '" + test.getFullName() + "' failed: " + ex.message + " - " + ex.getComment());
         if (ex.getStackTrace) {
           this.error("Stack trace: " + ex.getStackTrace().join("\n"));
         }
-      });
+      }, this);
 
       testResult.addListener("error", function(e)
       {
-        var ex = e.getData().exception;
-        this.error("The test '" + e.getData().test.getFullName() + "' had an error: " + ex, ex);
-      });
+        var ex = e.getData()[0].exception;
+        var test = e.getData()[0].test;
+        this.error("The test '" + test.getFullName() + "' had an error: " + ex, ex);
+      }, this);
 
       this.getSuite().run(testResult);
     },
