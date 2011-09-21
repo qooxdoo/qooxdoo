@@ -280,7 +280,7 @@
  *     </tr>
  *     <tr>
  *       <td>os.scrollBarOverlayed</td><td><i>Boolean</em></td><td><code>false</code></td>
- *       <td>{@link qx.bom.element.Overflow#scollBarOverlayed}</td>
+ *       <td>{@link qx.bom.client.Scroll#scollBarOverlayed}</td>
  *     </tr>
 
  *     <tr>
@@ -475,7 +475,6 @@ qx.Bootstrap.define("qx.core.Environment",
 
     /** Internal cache for all checks. */
     __cache : {},
-
 
     /**
      * The default accessor for the checks. It returns the value the current
@@ -859,6 +858,9 @@ qx.Bootstrap.define("qx.core.Environment",
       }
       if (this.useCheck("os.version")) {
         this._checks["os.version"] = qx.bom.client.OperatingSystem.getVersion;
+      }
+      if (this.useCheck("os.scrollBarOverlayed")) {
+        this._checks["os.scrollBarOverlayed"] = qx.bom.client.Scroll.scollBarOverlayed;
       }
 
       // /////////////////////////////////////////
