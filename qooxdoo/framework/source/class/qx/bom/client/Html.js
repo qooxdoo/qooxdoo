@@ -414,6 +414,45 @@ qx.Bootstrap.define("qx.bom.client.Html",
     getRemoveImport : function()
     {
       return (typeof qx.bom.client.Html.__getStylesheet().removeImport === "object");
+    },
+
+
+    /**
+     * Check for element.contains
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if element.contains is supported
+     */
+    getContains : function()
+    {
+      // "object" in IE6/7/8, "function" in IE9
+      return (typeof document.documentElement.contains !== "undefined");
+    },
+    
+    
+    /**
+     * Check for element.compareDocumentPosition
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if element.compareDocumentPosition is supported
+     */
+    getCompareDocumentPosition : function()
+    {
+      return (typeof document.documentElement.compareDocumentPosition === "function");
+    },
+
+
+    /**
+     * Check for element.textContent. Legacy IEs do not support this, use
+     * innerText instead.
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if textContent is supported
+     */
+    getTextContent : function()
+    {
+      var el = document.createElement("span");
+      return (typeof el.textContent !== "undefined");
     }
   },
 
@@ -446,5 +485,8 @@ qx.Bootstrap.define("qx.bom.client.Html",
     qx.core.Environment.add("html.stylesheet.deleterule", statics.getDeleteRule),
     qx.core.Environment.add("html.stylesheet.addimport", statics.getAddImport);
     qx.core.Environment.add("html.stylesheet.removeimport", statics.getRemoveImport);
+    qx.core.Environment.add("html.element.contains", statics.getContains);
+    qx.core.Environment.add("html.element.compareDocumentPosition", statics.getCompareDocumentPosition);
+    qx.core.Environment.add("html.element.textcontent", statics.getTextContent);
   }
 });

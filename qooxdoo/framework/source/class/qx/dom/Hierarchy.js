@@ -147,15 +147,13 @@ qx.Class.define("qx.dom.Hierarchy",
      * Uses native non-standard contains() in Internet Explorer,
      * Opera and Webkit (supported since Safari 3.0 beta)
      *
-     * @signature function(element, target)
      * @param element {Element} Parent element
      * @param target {Node} Child node
      * @return {Boolean}
      */
-    contains : qx.core.Environment.select("engine.name",
+    contains : function(element, target)
     {
-      "webkit|mshtml|opera" : function(element, target)
-      {
+      if (qx.core.Environment.get("html.element.contains")) {
         if (qx.dom.Node.isDocument(element))
         {
           var doc = qx.dom.Node.getDocument(target);
@@ -169,15 +167,12 @@ qx.Class.define("qx.dom.Hierarchy",
         {
           return element.contains(target);
         }
-      },
-
-      // http://developer.mozilla.org/en/docs/DOM:Node.compareDocumentPosition
-      "gecko" : function(element, target) {
+      }
+      else if (qx.core.Environment.get("html.element.compareDocumentPosition")) {
+        // http://developer.mozilla.org/en/docs/DOM:Node.compareDocumentPosition
         return !!(element.compareDocumentPosition(target) & 16);
-      },
-
-      "default" : function(element, target)
-      {
+      }
+      else {
         while(target)
         {
           if (element == target) {
@@ -189,8 +184,7 @@ qx.Class.define("qx.dom.Hierarchy",
 
         return false;
       }
-    }),
-
+    },
 
     /**
      * Whether the element is inserted into the document
@@ -259,19 +253,17 @@ qx.Class.define("qx.dom.Hierarchy",
      *
      * Uses native non-standard contains() in Opera and Internet Explorer
      *
-     * @signature function(element1, element2)
      * @param element1 {Element} First element
      * @param element2 {Element} Second element
      * @return {Element} the found parent, if none was found <code>null</code>
      */
-    getCommonParent : qx.core.Environment.select("engine.name",
+    getCommonParent : function(element1, element2)
     {
-      "mshtml|opera" : function(element1, element2)
-      {
-        if (element1 === element2) {
-          return element1;
-        }
-
+      if (element1 === element2) {
+        return element1;
+      }
+      
+      if (qx.core.Environment.get("html.element.contains")) {
         while (element1 && qx.dom.Node.isElement(element1))
         {
           if (element1.contains(element2)) {
@@ -282,14 +274,8 @@ qx.Class.define("qx.dom.Hierarchy",
         }
 
         return null;
-      },
-
-      "default" : function(element1, element2)
-      {
-        if (element1 === element2) {
-          return element1;
-        }
-
+      }
+      else {
         var known = {};
         var obj = qx.core.ObjectRegistry;
         var h1, h2;
@@ -323,7 +309,7 @@ qx.Class.define("qx.dom.Hierarchy",
 
         return null;
       }
-    }),
+    },
 
 
     /**
