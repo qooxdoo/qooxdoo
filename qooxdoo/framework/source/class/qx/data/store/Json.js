@@ -282,38 +282,6 @@ qx.Class.define("qx.data.store.Json",
        this.fireDataEvent("loaded", this.getModel());
     },
 
-    /**
-     * Handler for the completion of legacy requests.
-     *
-     * @param ev {qx.io.remote.Response} The event fired by the request.
-     */
-    __onSuccessRemote : function(ev)
-    {
-       var data = ev.getContent();
-
-       // check for the data manipulation hook
-       var del = this._delegate;
-       if (del && qx.lang.Type.isFunction(del.manipulateData)) {
-         data = this._delegate.manipulateData(data);
-       }
-
-       // create the class
-       this._marshaler.toClass(data, true);
-
-       var oldModel = this.getModel();
-
-       // set the initial data
-       this.setModel(this._marshaler.toModel(data));
-
-       // get rid of the old model
-       if (oldModel && oldModel.dispose) {
-         oldModel.dispose();
-       }
-
-       // fire complete event
-       this.fireDataEvent("loaded", this.getModel());
-    },
-
 
     /**
      * Reloads the data with the url set in the {@link #url} property.
