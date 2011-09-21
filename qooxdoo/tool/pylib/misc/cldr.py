@@ -20,7 +20,6 @@
 #
 ################################################################################
 
-#from xml.etree import cElementTree as ElementTree
 from elementtree import ElementTree
 
 def getLocale(calendarElement):
