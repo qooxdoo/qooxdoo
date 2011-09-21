@@ -70,7 +70,7 @@ qx.Class.define("qx.bom.Stylesheet",
      */
     createElement : function(text)
     {
-      if (qx.core.Environment.get("html.createstylesheet")) {
+      if (qx.core.Environment.get("html.stylesheet.createstylesheet")) {
         var sheet = document.createStyleSheet();
 
         if (text) {

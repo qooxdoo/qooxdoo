@@ -339,85 +339,6 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
 
     /**
-     * Returns a stylesheet to be used for feature checks
-     * 
-     * @return {Stylesheet} Stylesheet element
-     */
-    __getStylesheet : function()
-    {
-      if (!qx.bom.client.Html.__stylesheet) {
-        qx.bom.client.Html.__stylesheet = qx.bom.Stylesheet.createElement();
-      }
-      return qx.bom.client.Html.__stylesheet;
-    },
-    
-    /**
-     * Check for IE's non-standard document.createStyleSheet function.
-     * In IE9 (standards mode), the typeof check returns "function" so false is
-     * returned. This is intended since IE9 supports the DOM-standard 
-     * createElement("style") which should be used instead.
-     *
-     * @internal
-     * @return {Boolean} <code>true</code> if the browser supports 
-     * document.createStyleSheet
-     */
-    getCreateStyleSheet : function()
-    {
-      return typeof document.createStyleSheet === "object";
-    },
-
-
-    /**
-     * Check for stylesheet.insertRule. Legacy IEs do not support this.
-     * 
-     * @internal
-     * @return {Boolean} <code>true</code> if insertRule is supported
-     */
-    getInsertRule : function()
-    {
-      return typeof qx.bom.client.Html.__getStylesheet().insertRule === "function";
-    },
-
-
-    /**
-     * Check for stylesheet.deleteRule. Legacy IEs do not support this.
-     *
-     * @internal
-     * @return {Boolean} <code>true</code> if deleteRule is supported
-     */
-    getDeleteRule : function()
-    {
-      return typeof qx.bom.client.Html.__getStylesheet().deleteRule === "function";
-    },
-
-
-    /**
-     * Decides whether to use the legacy IE-only stylesheet.addImport or the 
-     * DOM-standard stylesheet.insertRule('@import [...]')
-     * 
-     * @internal
-     * @return {Boolean} <code>true</code> if stylesheet.addImport is supported
-     */
-    getAddImport : function()
-    {
-      return (typeof qx.bom.client.Html.__getStylesheet().addImport === "object");
-    },
-
-
-    /**
-     * Decides whether to use the legacy IE-only stylesheet.removeImport or the 
-     * DOM-standard stylesheet.deleteRule('@import [...]')
-     * 
-     * @internal
-     * @return {Boolean} <code>true</code> if stylesheet.removeImport is supported
-     */
-    getRemoveImport : function()
-    {
-      return (typeof qx.bom.client.Html.__getStylesheet().removeImport === "object");
-    },
-
-
-    /**
      * Check for element.contains
      * 
      * @internal
@@ -480,11 +401,6 @@ qx.Bootstrap.define("qx.bom.client.Html",
     qx.core.Environment.add("html.vml", statics.getVml),
     qx.core.Environment.add("html.dataset", statics.getDataset),
     qx.core.Environment.addAsync("html.dataurl", statics.getDataUrl)
-    qx.core.Environment.add("html.createstylesheet", statics.getCreateStyleSheet),
-    qx.core.Environment.add("html.stylesheet.insertrule", statics.getInsertRule),
-    qx.core.Environment.add("html.stylesheet.deleterule", statics.getDeleteRule),
-    qx.core.Environment.add("html.stylesheet.addimport", statics.getAddImport);
-    qx.core.Environment.add("html.stylesheet.removeimport", statics.getRemoveImport);
     qx.core.Environment.add("html.element.contains", statics.getContains);
     qx.core.Environment.add("html.element.compareDocumentPosition", statics.getCompareDocumentPosition);
     qx.core.Environment.add("html.element.textcontent", statics.getTextContent);
