@@ -2429,10 +2429,12 @@ qx.Theme.define("qx.theme.simple.Appearance",
             paddingTop += 1;
             paddingBottom += 1;
             paddingLeft += 4;
+            paddingRight += 2;
           } else if (states.barRight) {
             paddingTop += 1;
             paddingBottom += 1;
             paddingLeft += 2;
+            paddingRight += 4;
           }
         } else {
           if (states.barTop) {
@@ -2474,8 +2476,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          padding : [0, 1, 0, 1],
-          margin : states.focused ? 0 : 1
+          padding : [0, 1, 0, 1]
         };
       }
     },
