@@ -209,71 +209,39 @@ qx.Class.define("qx.bom.Viewport",
     /**
      * Returns the scroll position of the viewport
      *
-     * All clients except MSHTML supports the non-standard property <code>pageXOffset</code>.
+     * All clients except IE < 9 support the non-standard property <code>pageXOffset</code>.
      * As this is easier to evaluate we prefer this property over <code>scrollLeft</code>.
+     * Since the window could differ from the one the application is running in, we can't
+     * use a one-time environment check to decide which property to use.
      *
-     * For MSHTML the access method differs between standard and quirks mode;
-     * as this can differ from document to document this test must be made on
-     * each query.
-     *
-     * Verified to correctly work with:
-     *
-     * * Mozilla Firefox 2.0.0.4
-     * * Opera 9.2.1
-     * * Safari 3.0 beta (3.0.2)
-     * * Internet Explorer 7.0
-     *
-     * @signature function(win)
      * @param win {Window?window} The window to query
      * @return {Integer} Scroll position from left edge, always a positive integer
      */
-    getScrollLeft : qx.core.Environment.select("engine.name",
+    getScrollLeft : function(win)
     {
-      "mshtml" : function(win)
-      {
-        var doc = (win||window).document;
-        return doc.documentElement.scrollLeft || doc.body.scrollLeft;
-      },
-
-      "default" : function(win) {
-        return (win||window).pageXOffset;
-      }
-    }),
+      var doc = (win||window).document;
+      return (win||window).pageXOffset || doc.documentElement.scrollLeft || 
+      doc.body.scrollLeft;
+    },
 
 
     /**
      * Returns the scroll position of the viewport
      *
-     * All clients except MSHTML supports the non-standard property <code>pageYOffset</code>.
+     * All clients except MSHTML support the non-standard property <code>pageYOffset</code>.
      * As this is easier to evaluate we prefer this property over <code>scrollTop</code>.
-     *
-     * For MSHTML the access method differs between standard and quirks mode;
-     * as this can differ from document to document this test must be made on
-     * each query.
-     *
-     * Verified to correctly work with:
-     *
-     * * Mozilla Firefox 2.0.0.4
-     * * Opera 9.2.1
-     * * Safari 3.0 beta (3.0.2)
-     * * Internet Explorer 7.0
-     *
-     * @signature function(win)
+     * Since the window could differ from the one the application is running in, we can't
+     * use a one-time environment check to decide which property to use.
+     * 
      * @param win {Window?window} The window to query
      * @return {Integer} Scroll position from top edge, always a positive integer
      */
-    getScrollTop : qx.core.Environment.select("engine.name",
+    getScrollTop : function(win)
     {
-      "mshtml" : function(win)
-      {
-        var doc = (win||window).document;
-        return doc.documentElement.scrollTop || doc.body.scrollTop;
-      },
-
-      "default" : function(win) {
-        return (win||window).pageYOffset;
-      }
-    }),
+      var doc = (win||window).document;
+      return (win||window).pageYOffset || doc.documentElement.scrollTop || 
+      doc.body.scrollTop;
+    },
 
 
     /**
