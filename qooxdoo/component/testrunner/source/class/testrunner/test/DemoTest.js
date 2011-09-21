@@ -92,7 +92,7 @@ qx.Class.define("testrunner.test.DemoTest",
 
     testSsl : function()
     {
-      this.require(["ssl"]);
+      this.require(["io.ssl"]);
       this.assert(qx.core.Environment.get("io.ssl"), "This test should have been skipped!");
     },
 
