@@ -47,6 +47,16 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
 
     this.bind("value", textField, "value");
     textField.bind("value", this, "value");
+
+    // forward the focusin and focusout events to the textfield. The textfield
+    // is not focusable so the events need to be forwarded manually.
+    this.addListener("focusin", function(e) {
+      textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
+    }, this);
+
+    this.addListener("focusout", function(e) {
+      textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
+    }, this);
   },
 
   properties :
