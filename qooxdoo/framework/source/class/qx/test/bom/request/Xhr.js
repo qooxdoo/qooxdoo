@@ -593,6 +593,15 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertIdentical(0, req.status);
     },
 
+    "test: http status is 0 when aborted immediately": function() {
+      var req = this.req;
+      req.open();
+      req.send();
+      req.abort();
+
+      this.assertIdentical(0, req.status);
+    },
+
     "test: http status when DONE": function() {
       var req = this.req;
       var fakeReq = this.getFakeReq();
