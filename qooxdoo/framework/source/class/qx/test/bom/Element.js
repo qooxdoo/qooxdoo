@@ -129,17 +129,6 @@ qx.Class.define("qx.test.bom.Element",
       this.warn("needs better test!");
     },
 
-    testGetCommonParent : function()
-    {
-      if ((qx.core.Environment.get("engine.name") == "opera")) {
-        this.assertNull(qx.dom.Hierarchy.getCommonParent(this._el, document));
-      } else if ((qx.core.Environment.get("engine.name") == "mshtml")) {
-        this.assertIdentical(document.body, qx.dom.Hierarchy.getCommonParent(this._el, document.body));
-      } else {
-        this.assertIdentical(document, qx.dom.Hierarchy.getCommonParent(this._el, document));
-      }
-    },
-
     testClone : function()
     {
       var clone = qx.bom.Element.clone(this._el);
