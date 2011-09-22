@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.menu.Manager",
       for (var i=start; i<length && i>=0; i+=iter)
       {
         child = children[i];
-        if (child.isEnabled() && !child.isAnonymous()) {
+        if (child.isEnabled() && !child.isAnonymous() && child.isVisible()) {
           return child;
         }
       }
@@ -129,7 +129,7 @@ qx.Class.define("qx.ui.menu.Manager",
         for (; i!=start; i+=iter)
         {
           child = children[i];
-          if (child.isEnabled() && !child.isAnonymous()) {
+          if (child.isEnabled() && !child.isAnonymous() && child.isVisible()) {
             return child;
           }
         }
@@ -655,7 +655,7 @@ qx.Class.define("qx.ui.menu.Manager",
         for (var i = 1; i <= length; i++)
         {
           var button = buttons[(index - i + length) % length];
-          if(button.isEnabled()) {
+          if(button.isEnabled() && button.isVisible()) {
             prevButton = button;
             break;
           }
@@ -762,7 +762,7 @@ qx.Class.define("qx.ui.menu.Manager",
         for (var i = 1; i <= length; i++)
         {
           var button = buttons[(index + i) % length];
-          if(button.isEnabled()) {
+          if(button.isEnabled() && button.isVisible()) {
             nextButton = button;
             break;
           }
