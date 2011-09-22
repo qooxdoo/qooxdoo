@@ -143,6 +143,16 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * @param data {var} The data to be checked.
      * @return {String|Object|null} The group identifier for the data.
      */
-    group : function(data) {}
+    group : function(data) {},
+
+
+
+
+    /**
+     * Gives the user the opportunity to reset properties or states.
+     * 
+     * @param item {qx.ui.core.Widget} Item to modify.
+     */
+    onPool : function(item) {}
   }
 });

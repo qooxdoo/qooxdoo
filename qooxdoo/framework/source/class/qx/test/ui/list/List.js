@@ -26,6 +26,7 @@
 qx.Class.define("qx.test.ui.list.List",
 {
   extend : qx.test.ui.list.AbstractListTest,
+  include : qx.dev.unit.MMock,
 
   members :
   {
@@ -271,6 +272,23 @@ qx.Class.define("qx.test.ui.list.List",
         }
       }
       model.dispose();
+    },
+
+
+    testOnPool : function()
+    {
+      var delegate = {
+        onPool : function(item) {}
+      };
+
+      var spy = this.spy(delegate, "onPool");
+      this._list._provider.setDelegate(delegate);
+
+      var widget = this._list._provider.getCellWidget(4, 0);
+      this._list._provider.poolCellWidget(widget);
+      this.assertCalledOnce(spy);
+      this.assertCalledWith(spy, widget);
+      widget.dispose();
     }
   }
 });

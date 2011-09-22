@@ -110,6 +110,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       } else if (widget.getUserData("cell.type") == "group") {
         this._groupRenderer.pool(widget);
       }
+      this._onPool(widget);
     },
 
 
@@ -220,6 +221,22 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
      */
     _styleUnselectabled : function(widget) {
       this.__updateStates(widget, {});
+    },
+
+
+    /**
+     * Calls the delegate <code>onPool</code> method when it is used in the
+     * {@link #delegate} property.
+     * 
+     * @param item {qx.ui.core.Widget} Item to modify.
+     */
+    _onPool : function(item)
+    {
+      var onPool = qx.util.Delegate.getMethod(this.getDelegate(), "onPool");
+
+      if (onPool != null) {
+        onPool(item);
+      }
     },
 
 
