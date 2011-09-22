@@ -141,11 +141,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         return;
       }
 
-      // Send flag may have been set on previous request
-      this.__send = false;
-
-      // Abort flag may have been set on previous request
+      // Reset flags that may have been set on previous request
       this.__abort = false;
+      this.__send = false;
+      this.__conditional = false;
 
       if (typeof async == "undefined") {
         async = true;
@@ -260,6 +259,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     setRequestHeader: function(key, value) {
       if (this.__disposed) {
         return;
+      }
+
+      // Detect conditional requests
+      if (key == "If-Match" || key == "If-Modified-Since" ||
+        key == "If-None-Match" || key == "If-Range") {
+        this.__conditional = true;
       }
 
       this.__nativeXhr.setRequestHeader(key, value);
@@ -585,6 +590,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __openError: null,
 
     /**
+     * {Boolean} Conditional get flag
+     */
+     __conditional: null,
+
+    /**
      * Init native XHR.
      */
     __initNativeXhr: function() {
@@ -803,7 +813,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * Normalize status property across browsers.
      */
     __normalizeStatus: function() {
-      var nxhr = this.__nativeXhr;
+      var nxhr = this.__nativeXhr,
+          isDone = this.readyState === qx.bom.request.Xhr.DONE;
 
       // BUGFIX: Most browsers
       // Most browsers tell status 0 when it should be 200 for local files
@@ -818,9 +829,18 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // BUGFIX: Opera
-      // Opera tells 0 when it should be 304
-      if (!this.__abort && nxhr.readyState === qx.bom.request.Xhr.DONE && this.status === 0) {
-        this.status = 304;
+      // Opera tells 0 for conditional requests when it should be 304
+      //
+      // Detect response to conditional request that signals fresh cache.
+      if (qx.core.Environment.get("engine.name") === "opera") {
+        if (
+          isDone &&                 // Done
+          this.__conditional &&     // Conditional request
+          !this.__abort &&          // Not aborted
+          this.status === 0         // But status 0!
+        ) {
+          this.status = 304;
+        }
       }
     },
 
