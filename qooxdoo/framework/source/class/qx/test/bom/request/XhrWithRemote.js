@@ -562,6 +562,22 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     // ontimeout()
     //
 
+    "test: not call ontimeout when DONE and sync": function() {
+      var req = this.req;
+      var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
+      this.spy(req, "ontimeout");
+
+      // Assume that request completes in given interval
+      req.timeout = 400;
+
+      req.open("GET", url, false);
+      req.send();
+
+      this.wait(function() {
+        this.assertNotCalled(req.ontimeout);
+      }, 500, this);
+    },
+
     "test: timeout triggers timeout error": function() {
       // "timeout error" is specified here
       // http://www.w3.org/TR/XMLHttpRequest2/#timeout-error
