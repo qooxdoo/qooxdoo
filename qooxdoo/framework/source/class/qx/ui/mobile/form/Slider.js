@@ -208,6 +208,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       qx.bom.Element.removeListener(this._getKnobElement(), "touchstart", this._onTouchStart, this);
       qx.bom.Element.removeListener(this._getKnobElement(), "transitionEnd", this._onTransitionEnd, this);
       qx.event.Registration.removeListener(window, "resize", this._refresh, this);
+      this.removeListener("domupdated", this._refresh, this);
     },
 
 
@@ -391,7 +392,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       {
         qx.bom.element.Style.set(knobElement, "left", percent + "%");
         // Fix knob position, so that it can't be moved over the slider area
-        var marginLeft = this._knobWidth * (percent / 100);
+        var knobWidth = this._knobWidth || qx.bom.element.Dimension.getWidth(knobElement);
+        var marginLeft = knobWidth * (percent / 100);
         qx.bom.element.Style.set(knobElement, "margin-left", "-" + marginLeft + "px");
       }
     },
