@@ -173,14 +173,6 @@ qx.Class.define("inspector.widgets.View",
         }
       }
 
-      // TODO remove hotfix for bug #5388
-      try {
-        parentWidget[kids]()
-      } catch(e) {
-        // return when an error occurs
-        return
-      }
-
       // if parent widget contains no more widgets
       if (parentWidget[kids]().length == 0) {
         if (items.length > 1) {
