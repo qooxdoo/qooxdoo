@@ -90,11 +90,21 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
         );
         // add the listener
         var id = value.addListener("changeBubble", listener, this);
-        value.setUserData("idBubble", id);
+        var listeners = value.getUserData("idBubble-" + this.$$hash);
+        if (listeners == null)
+        {
+          listeners = [];
+          value.setUserData("idBubble-" + this.$$hash, listeners);
+        }
+        listeners.push(id);
       }
       // if an old value is given, remove the old listener if possible
-      if (old != null && old.getUserData && old.getUserData("idBubble") != null) {
-        old.removeListenerById(old.getUserData("idBubble"));
+      if (old != null && old.getUserData && old.getUserData("idBubble-" + this.$$hash) != null) {
+        var listeners = old.getUserData("idBubble-" + this.$$hash);
+        for (var i = 0; i < listeners.length; i++) {
+          old.removeListenerById(listeners[i]);
+        }
+        old.setUserData("idBubble-" + this.$$hash, null);
       }
     },
 
