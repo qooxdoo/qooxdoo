@@ -39,6 +39,18 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
     getGears : function() {
       return !!(window.google && window.google.gears);
     },
+    
+    
+    /**
+     * Checks for ActiveX availability.
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if ActiveX is available
+     */
+    getActiveX : function()
+    {
+      return (typeof window.ActiveXObject === "function");
+    },
 
 
     /**
@@ -331,5 +343,6 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
     qx.core.Environment.add("plugin.silverlight.version", statics.getSilverlightVersion);
     qx.core.Environment.add("plugin.pdf", statics.getPdf);
     qx.core.Environment.add("plugin.pdf.version", statics.getPdfVersion);
+    qx.core.Environment.add("plugin.activex", statics.getActiveX);
   }
 });

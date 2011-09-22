@@ -362,6 +362,10 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("plugin.gears"));
     },
 
+    testActiveX : function() {
+      this.assertBoolean(qx.core.Environment.get("plugin.activex"));
+    },
+
     testCss : function() {
       this.assertNotEquals("", qx.core.Environment.get("css.boxmodel"));
       this.assertBoolean(qx.core.Environment.get("css.textoverflow"));

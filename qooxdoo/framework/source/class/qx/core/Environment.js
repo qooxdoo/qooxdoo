@@ -363,6 +363,10 @@
  *       <td>{@link qx.bom.client.Plugin#getGears}</td>
  *     </tr>
  *     <tr>
+ *       <td>plugin.activex</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Plugin#getActiveX}</td>
+ *     </tr>
+ *     <tr>
  *       <td>plugin.pdf</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Plugin#getPdf}</td>
  *     </tr>
@@ -549,6 +553,7 @@ qx.Bootstrap.define("qx.core.Environment",
         "os.version"                  : "qx.bom.client.OperatingSystem.getVersion",
         "os.scrollBarOverlayed"       : "qx.bom.client.Scroll.scollBarOverlayed",
         "plugin.gears"                : "qx.bom.client.Plugin.getGears",
+        "plugin.activex"              : "qx.bom.client.Plugin.getActiveX",
         "plugin.quicktime"            : "qx.bom.client.Plugin.getQuicktime",
         "plugin.quicktime.version"    : "qx.bom.client.Plugin.getQuicktimeVersion",
         "plugin.windowsmedia"         : "qx.bom.client.Plugin.getWindowsMedia",
