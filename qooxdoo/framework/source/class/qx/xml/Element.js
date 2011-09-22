@@ -67,43 +67,14 @@ qx.Class.define("qx.xml.Element",
     /**
      * Selects the first XmlNode that matches the XPath expression.
      *
-     * <p>Note: XPath queries containing namespace prefixes won't work in
-     * Chromium-based browsers until Chromium bug #671
-     * [<a href="http://code.google.com/p/chromium/issues/detail?id=671">1</a>]
-     * is fixed. Opera versions < 9.52 do not seem to support namespaces in
-     * XPath queries at all.</p>
-     *
      * @param element {Element | Document} root element for the search
      * @param query {String} XPath query
      * @param namespaces {Map} optional map of prefixes and their namespace URIs
      * @return {Element} first matching element
-     * @signature function(element, query, namespaces)
      */
-    selectSingleNode : qx.core.Environment.select("engine.name",
+    selectSingleNode : function(element, query, namespaces)
     {
-      "mshtml": function(element, query, namespaces) {
-        if (namespaces) {
-          var namespaceString = "";
-          for (var prefix in namespaces) {
-            namespaceString += "xmlns:" + prefix + "='" + namespaces[prefix] + "' ";
-          }
-
-          // If the element is a node, set the selection namespace on its parent document.
-          if (element.ownerDocument) {
-            element.ownerDocument.setProperty("SelectionNamespaces", namespaceString);
-          }
-          // element is a document
-          else {
-            element.setProperty("SelectionNamespaces", namespaceString);
-          }
-
-        }
-
-        return element.selectSingleNode(query);
-      },
-
-      "default": function(element, query, namespaces)
-      {
+      if (qx.core.Environment.get("html.xpath")) {
         if(!this.__xpe) {
           this.__xpe = new XPathEvaluator();
         }
@@ -127,27 +98,8 @@ qx.Class.define("qx.xml.Element",
           throw new Error("selectSingleNode: query: " + query + ", element: " + element + ", error: " + err);
         }
       }
-    }),
 
-
-    /**
-     * Selects a list of nodes matching the XPath expression.
-     *
-     * <p>Note: XPath queries containing namespace prefixes won't work in
-     * Chromium-based browsers until Chromium bug #671
-     * [<a href="http://code.google.com/p/chromium/issues/detail?id=671">1</a>]
-     * is fixed. Opera versions < 9.52 do not seem to support namespaces in
-     * XPath queries at all.</p>
-     *
-     * @param element {Element | Document} root element for the search
-     * @param query {String} XPath query
-     * @param namespaces {Map} optional map of prefixes and their namespace URIs
-     * @return {Element[]} List of matching elements
-     * @signature function(element, query, namespaces)
-     */
-    selectNodes : qx.core.Environment.select("engine.name",
-    {
-      "mshtml": function(element, query, namespaces) {
+      if (qx.core.Environment.get("xml.selectsinglenode")) {
         if (namespaces) {
           var namespaceString = "";
           for (var prefix in namespaces) {
@@ -165,11 +117,24 @@ qx.Class.define("qx.xml.Element",
 
         }
 
-        return element.selectNodes(query);
-      },
+        return element.selectSingleNode(query);
+      }
 
-      "default": function(element, query, namespaces)
-      {
+      throw new Error("No XPath implementation available!");
+    },
+
+
+    /**
+     * Selects a list of nodes matching the XPath expression.
+     *
+     * @param element {Element | Document} root element for the search
+     * @param query {String} XPath query
+     * @param namespaces {Map} optional map of prefixes and their namespace URIs
+     * @return {Element[]} List of matching elements
+     */
+    selectNodes : function(element, query, namespaces)
+    {
+      if (qx.core.Environment.get("html.xpath")) {
         var xpe = this.__xpe;
 
         if(!xpe) {
@@ -200,7 +165,30 @@ qx.Class.define("qx.xml.Element",
 
         return nodes;
       }
-    }),
+
+      if (qx.core.Environment.get("xml.selectnodes")) {
+        if (namespaces) {
+          var namespaceString = "";
+          for (var prefix in namespaces) {
+            namespaceString += "xmlns:" + prefix + "='" + namespaces[prefix] + "' ";
+          }
+
+          // If the element is a node, set the selection namespace on its parent document.
+          if (element.ownerDocument) {
+            element.ownerDocument.setProperty("SelectionNamespaces", namespaceString);
+          }
+          // element is a document
+          else {
+            element.setProperty("SelectionNamespaces", namespaceString);
+          }
+
+        }
+
+        return element.selectNodes(query);
+      }
+      
+      throw new Error("No XPath implementation available!");
+    },
 
 
     /**

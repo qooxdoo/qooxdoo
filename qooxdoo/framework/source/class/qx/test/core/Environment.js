@@ -358,6 +358,14 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("html.element.textcontent"));
     },
 
+    testXml : function()
+    {
+      this.assertBoolean(qx.core.Environment.get("xml.implementation"));
+      this.assertBoolean(qx.core.Environment.get("xml.domparser"));
+      this.assertBoolean(qx.core.Environment.get("xml.selectsinglenode"));
+      this.assertBoolean(qx.core.Environment.get("xml.selectnodes"));
+    },
+
     testGears : function() {
       this.assertBoolean(qx.core.Environment.get("plugin.gears"));
     },

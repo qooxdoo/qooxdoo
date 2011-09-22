@@ -224,6 +224,22 @@
  *       <td>{@link qx.bom.client.Html#getVml}</td>
  *     </tr>
  *     <tr>
+ *       <td>xml.implementation</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Xml#getImplementation}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>xml.domparser</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Xml#getDomParser}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>xml.selectsinglenode</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Xml#getSelectSingleNode}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>xml.selectnodes</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Xml#getSelectNodes}</td>
+ *     </tr>
+ *     <tr>
  *       <td>html.webworker</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getWebWorker}</td>
  *     <tr>
@@ -615,7 +631,11 @@ qx.Bootstrap.define("qx.core.Environment",
         "css.translate3d"             : "qx.bom.client.Css.getTranslate3d",
         "css.rgba"                    : "qx.bom.client.Css.getRgba",
         "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
-        "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification"
+        "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification",
+        "xml.implementation"          : "qx.bom.client.Xml.getImplementation",
+        "xml.domparser"               : "qx.bom.client.Xml.getDomParser",
+        "xml.selectsinglenode"        : "qx.bom.client.Xml.getSelectSingleNode",
+        "xml.selectnodes"             : "qx.bom.client.Xml.getSelectNodes"
       },
 
 

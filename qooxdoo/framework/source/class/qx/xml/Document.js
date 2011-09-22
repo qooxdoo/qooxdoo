@@ -70,15 +70,15 @@ qx.Class.define("qx.xml.Document",
      *
      * Returns a native DOM document object, set up for XML.
      *
-     * @signature function(namespaceUri, qualifiedName)
      * @param namespaceUri {String ? null} The namespace URI of the document element to create or null.
      * @param qualifiedName {String ? null} The qualified name of the document element to be created or null.
      * @return {Document} empty XML object
      */
-    create : qx.core.Environment.select("engine.name",
+    create : function(namespaceUri, qualifiedName)
     {
-      "mshtml": function(namespaceUri, qualifiedName)
-      {
+      // ActiveX - This is the preferred way for IE9 as well since it has no XPath
+      // support when using the native implementation.createDocument
+      if (qx.core.Environment.get("plugin.activex")) {
         var obj = new ActiveXObject(this.DOMDOC);
         //The SelectionLanguage property is no longer needed in MSXML 6; trying
         // to set it causes an exception in IE9.
@@ -101,12 +101,14 @@ qx.Class.define("qx.xml.Document",
         }
 
         return obj;
-      },
+      }
 
-      "default": function(namespaceUri, qualifiedName) {
+      if (qx.core.Environment.get("xml.implementation")) {
         return document.implementation.createDocument(namespaceUri || "", qualifiedName || "", null);
       }
-    }),
+
+      throw new Error("No XML implementation available!");
+    },
 
 
     /**
@@ -116,22 +118,22 @@ qx.Class.define("qx.xml.Document",
      * @return {Document} XML document with given content
      * @signature function(str)
      */
-    fromString : qx.core.Environment.select("engine.name",
+    fromString : function(str)
     {
-      "mshtml": function(str)
-      {
+      // Legacy IE/ActiveX
+      if (qx.core.Environment.get("plugin.activex")) {
         var dom = qx.xml.Document.create();
         dom.loadXML(str);
-
         return dom;
-      },
+      }
 
-      "default": function(str)
-      {
+      if (qx.core.Environment.get("xml.domparser")) {
         var parser = new DOMParser();
         return parser.parseFromString(str, "text/xml");
       }
-    })
+
+      throw new Error("No XML implementation available!");
+    }
   },
 
 
@@ -146,7 +148,7 @@ qx.Class.define("qx.xml.Document",
   defer : function(statics)
   {
     // Detecting available ActiveX implementations.
-    if ((qx.core.Environment.get("engine.name") == "mshtml"))
+    if (qx.core.Environment.get("plugin.activex"))
     {
       // According to information on the Microsoft XML Team's WebLog
       // it is recommended to check for availability of MSXML versions 6.0 and 3.0.
