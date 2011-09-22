@@ -73,17 +73,28 @@ qx.Bootstrap.define("qx.bom.client.Flash",
 
     /**
      * Checks for the version of flash and returns it as a string. If the
-     * version could not be detected, an empty string will be returnd.
+     * version could not be detected, an empty string will be returned.
      *
      * @return {String} The version number as string.
      * @internal
      */
-    getVersion : function() {
-      if (qx.bom.client.Engine.getName() == "mshtml") {
-        if (!window.ActiveXObject) {
-          return "";
+    getVersion : function()
+    {
+      if (navigator.plugins && typeof navigator.plugins["Shockwave Flash"] === "object") {
+        var full = [0,0,0];
+        var desc = navigator.plugins["Shockwave Flash"].description;
+
+        if (typeof desc != "undefined")
+        {
+          desc = desc.replace(/^.*\s+(\S+\s+\S+$)/, "$1");
+          full[0] = parseInt(desc.replace(/^(.*)\..*$/, "$1"), 10);
+          full[1] = parseInt(desc.replace(/^.*\.(.*)\s.*$/, "$1"), 10);
+          full[2] = /r/.test(desc) ? parseInt(desc.replace(/^.*r(.*)$/, "$1"), 10) : 0;
         }
 
+        return full.join(".");
+      }
+      else if (window.ActiveXObject) {
         var full = [0,0,0];
         var fp6Crash = false;
 
@@ -127,25 +138,9 @@ qx.Bootstrap.define("qx.bom.client.Flash",
         }
 
         return full.join(".");
-
-      // all other browsers
-      } else {
-        if (!navigator.plugins || typeof navigator.plugins["Shockwave Flash"] !== "object") {
-          return "";
-        }
-
-        var full = [0,0,0];
-        var desc = navigator.plugins["Shockwave Flash"].description;
-
-        if (typeof desc != "undefined")
-        {
-          desc = desc.replace(/^.*\s+(\S+\s+\S+$)/, "$1");
-          full[0] = parseInt(desc.replace(/^(.*)\..*$/, "$1"), 10);
-          full[1] = parseInt(desc.replace(/^.*\.(.*)\s.*$/, "$1"), 10);
-          full[2] = /r/.test(desc) ? parseInt(desc.replace(/^.*r(.*)$/, "$1"), 10) : 0;
-        }
-
-        return full.join(".");
+      }
+      else {
+        return "";
       }
     },
 
