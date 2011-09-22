@@ -92,6 +92,21 @@ qx.Class.define("qx.test.dom.Hierarchy",
       this.__siblingElement = qx.bom.Element.create("div");
       document.body.appendChild(this.__siblingElement);
       this.assertFalse(qx.dom.Hierarchy.contains(this.__renderedElement, this.__siblingElement));
+    },
+
+
+    testGetCommonParent : function()
+    {
+      this.__siblingElement = qx.bom.Element.create("div");
+      document.body.appendChild(this.__siblingElement);
+      
+      this.assertEquals(document.body, 
+      qx.dom.Hierarchy.getCommonParent(this.__renderedElement, this.__siblingElement));
+      
+      this.__childElement = qx.bom.Element.create("div");
+      this.__renderedElement.appendChild(this.__childElement);
+      this.assertEquals(this.__renderedElement, 
+      qx.dom.Hierarchy.getCommonParent(this.__renderedElement, this.__childElement));
     }
   }
 });
