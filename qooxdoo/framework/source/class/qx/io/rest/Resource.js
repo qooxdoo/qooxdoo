@@ -198,7 +198,7 @@ qx.Class.define("qx.io.rest.Resource",
      *   Receives pre-configured request and action.
      *
      * <pre class="javascript">
-     * req.setConfigureRequest(function(req, action) {
+     * res.configureRequest(function(req, action) {
      *   if (action === "index") {
      *     req.setAccept("application/json");
      *   }
