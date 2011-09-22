@@ -237,7 +237,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      */
     getScrollMaxX : function()
     {
-      var paneSize = this.getBounds();
+      var paneSize = this.getInnerSize();
 
       if (paneSize) {
         return Math.max(0, this.__columnConfig.getTotalSize() - paneSize.width);
@@ -254,7 +254,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      */
     getScrollMaxY : function()
     {
-      var paneSize = this.getBounds();
+      var paneSize = this.getInnerSize();
 
       if (paneSize) {
         return Math.max(0, this.__rowConfig.getTotalSize() - paneSize.height);
