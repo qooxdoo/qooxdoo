@@ -253,10 +253,11 @@ qx.Class.define("qx.io.rest.Resource",
      * @param action {String} Action to associate to request.
      * @param method {String} Method to configure request with.
      * @param url {String} URL to configure request with. May contain positional
-     *   parameters ({param}) that are replaced by values given when the action
+     *   parameters (<code>{param}</code>) that are replaced by values given when the action
      *   is invoked.
      * @param check {Map?} Map defining parameter constraints, where the key is
-     *   the parameter and the value a regular expression.
+     *   the parameter and the value a regular expression (to match string) or
+     *   <code>true</code> (to verify existence).
      */
     map: function(action, method, url, check) {
       this.__routes[action] = [method, url, check];
