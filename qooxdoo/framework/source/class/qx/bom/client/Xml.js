@@ -48,7 +48,7 @@ qx.Bootstrap.define("qx.bom.client.Xml",
      * @return {Boolean} <code>true</code> if DOMParser is supported
      */
     getDomParser : function() {
-      return typeof window.DOMParser === "function";
+      return typeof window.DOMParser !== "undefined";
     },
 
 
