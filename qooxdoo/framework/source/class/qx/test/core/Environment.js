@@ -364,6 +364,12 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("xml.domparser"));
       this.assertBoolean(qx.core.Environment.get("xml.selectsinglenode"));
       this.assertBoolean(qx.core.Environment.get("xml.selectnodes"));
+      this.assertBoolean(qx.core.Environment.get("xml.getelementsbytagnamens"));
+      this.assertBoolean(qx.core.Environment.get("xml.domproperties"));
+      this.assertBoolean(qx.core.Environment.get("xml.attributens"));
+      this.assertBoolean(qx.core.Environment.get("xml.createnode"));
+      this.assertBoolean(qx.core.Environment.get("xml.getqualifieditem"));
+      this.assertBoolean(qx.core.Environment.get("xml.createelementns"));
     },
 
     testGears : function() {

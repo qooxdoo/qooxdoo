@@ -204,24 +204,24 @@ qx.Class.define("qx.xml.Element",
      *       for XHTML elements, use the XHTML namespace URI, <tt>http://www.w3.org/1999/xhtml</tt>.
      * @param tagname {String} the tagname to look for
      * @return {Element[]} a list of found elements in the order they appear in the tree.
-     * @signature function(element, namespaceURI, tagname)
      */
-    getElementsByTagNameNS : qx.core.Environment.select("engine.name",
+    getElementsByTagNameNS : function(element, namespaceURI, tagname)
     {
-      "mshtml": function(element, namespaceURI, tagname)
-      {
+      if (qx.core.Environment.get("xml.getelementsbytagnamens")) {
+        return element.getElementsByTagNameNS(namespaceURI, tagname);
+      }
+      
+      if (qx.core.Environment.get("xml.domproperties")) {
         var doc = element.ownerDocument || element;
 
         doc.setProperty("SelectionLanguage", "XPath");
         doc.setProperty("SelectionNamespaces", "xmlns:ns='" + namespaceURI + "'");
 
         return qx.xml.Element.selectNodes(element, 'descendant-or-self::ns:' + tagname);
-      },
-
-      "default": function(element, namespaceURI, tagname) {
-        return element.getElementsByTagNameNS(namespaceURI, tagname);
       }
-    }),
+      
+      throw new Error("The client does not support this operation!");
+    },
 
 
     /**
@@ -230,7 +230,6 @@ qx.Class.define("qx.xml.Element",
      * @param element {Element|Document} root element for the search
      * @param query {String}  XPath query
      * @return {String} the joined text content of the found element or null if not appropriate.
-     * @signature function(element, query)
      */
     getSingleNodeText : function(element, query)
     {
@@ -248,20 +247,23 @@ qx.Class.define("qx.xml.Element",
      * @param namespaceUri {String} Namespace URI
      * @param name {String} Attribute name
      * @param value {String} Attribute value
-     * @signature function(document, element, namespaceUri, name, value)
      */
-    setAttributeNS : qx.core.Environment.select("engine.name",
+    setAttributeNS : function(document, element, namespaceUri, name, value)
     {
-      "mshtml": function(document, element, namespaceUri, name, value) {
+      if (qx.core.Environment.get("xml.attributens")) {
+        element.setAttributeNS(namespaceUri, name, value);
+      }
+      
+      else if (qx.core.Environment.get("xml.createnode")) {
         var attr = document.createNode(2, name, namespaceUri);
         attr.nodeValue = value;
         element.setAttributeNode(attr);
-      },
-
-      "default" : function(document, element, namespaceUri, name, value) {
-        element.setAttributeNS(namespaceUri, name, value);
       }
-    }),
+      
+      else {
+        throw new Error("The client does not support this operation!");
+      }
+    },
 
     /**
      * Get the value of the attribute with the given namespace and name
@@ -270,11 +272,15 @@ qx.Class.define("qx.xml.Element",
      * @param namespaceUri {String} Namespace URI
      * @param name {String} Attribute name
      * @return {String} the value of the attribute, empty string if not found
-     * @signature function(element, namespaceUri, name)
      */
-    getAttributeNS : qx.core.Environment.select("engine.name",
+    getAttributeNS : function(element, namespaceUri, name)
     {
-      "mshtml": function(element, namespaceUri, name) {
+      if (qx.core.Environment.get("xml.attributens")) {
+        var value = element.getAttributeNS(namespaceUri, name);
+        return value === null ? '' : value;
+      }
+      
+      if (qx.core.Environment.get("xml.getqualifieditem")) {
         var attributes = element.attributes;
         var value = null;
         if(attributes)
@@ -286,13 +292,10 @@ qx.Class.define("qx.xml.Element",
           }
         }
         return value === null ? '' : value;
-      },
-
-      "default" : function(element, namespaceUri, name) {
-        var value = element.getAttributeNS(namespaceUri, name);
-        return value === null ? '' : value;
       }
-    }),
+      
+      throw new Error("The client does not support this operation!");
+    },
 
 
     /**
@@ -304,19 +307,11 @@ qx.Class.define("qx.xml.Element",
      * @param parent {Element} The parent element for the new sub-element
      * @param name {String} The new element's name
      * @param namespaceUri {String} Namespace URI for the new element
-     * @signature function(document, parent, name, namespaceUri)
      *
      * @return {Element} The newly created sub-element
      */
-    createSubElementNS: qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(document, parent, name, namespaceUri) {
-        var node = document.createNode(1, name, namespaceUri);
-        parent.appendChild(node);
-        return node;
-      },
-
-      "default" : function(document, parent, name, namespaceUri) {
+    createSubElementNS : function(document, parent, name, namespaceUri) {
+      if (qx.core.Environment.get("xml.createelementns")) {
         // the "x" prefix has no importance. when there's a conflict,
         // mozilla engine assigns an alternative prefix automatically.
         // not putting a prefix means to assign default namespace prefix
@@ -325,9 +320,16 @@ qx.Class.define("qx.xml.Element",
         parent.appendChild(node);
         return node;
       }
-    })
+      
+      if (qx.core.Environment.get("xml.createnode")) {
+        var node = document.createNode(1, name, namespaceUri);
+        parent.appendChild(node);
+        return node;
+      }
+      
+      throw new Error("The client does not support this operation!");
+    }
   },
-
 
   /*
   *****************************************************************************

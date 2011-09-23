@@ -224,22 +224,6 @@
  *       <td>{@link qx.bom.client.Html#getVml}</td>
  *     </tr>
  *     <tr>
- *       <td>xml.implementation</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>{@link qx.bom.client.Xml#getImplementation}</td>
- *     </tr>
- *     <tr>
- *       <td>xml.domparser</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>{@link qx.bom.client.Xml#getDomParser}</td>
- *     </tr>
- *     <tr>
- *       <td>xml.selectsinglenode</td><td><i>Boolean</i></td><td><code>false</code></td>
- *       <td>{@link qx.bom.client.Xml#getSelectSingleNode}</td>
- *     </tr>
- *     <tr>
- *       <td>xml.selectnodes</td><td><i>Boolean</i></td><td><code>false</code></td>
- *       <td>{@link qx.bom.client.Xml#getSelectNodes}</td>
- *     </tr>
- *     <tr>
  *       <td>html.webworker</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getWebWorker}</td>
  *     <tr>
@@ -265,6 +249,50 @@
  *     <tr>
  *       <td>html.element.textContent</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getTextContent}</td>
+ *     </tr>
+
+ *     <tr>
+ *       <td colspan="4"><b>XML</b></td>
+ *     </tr>
+ *     <tr>
+ *       <td>xml.implementation</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Xml#getImplementation}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>xml.domparser</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Xml#getDomParser}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>xml.selectsinglenode</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Xml#getSelectSingleNode}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>xml.selectnodes</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Xml#getSelectNodes}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>xml.getelementsbytagnamens</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Xml#getElementsByTagNameNS}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>xml.domproperties</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Xml#getDomProperties}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>xml.attributens</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Xml#getAttributeNS}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>xml.createelementns</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Xml#getCreateElementNS}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>xml.createnode</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Xml#getCreateNode}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>xml.getqualifieditem</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Xml#getQualifiedItem}</td>
  *     </tr>
 
  *     <tr>
@@ -635,7 +663,13 @@ qx.Bootstrap.define("qx.core.Environment",
         "xml.implementation"          : "qx.bom.client.Xml.getImplementation",
         "xml.domparser"               : "qx.bom.client.Xml.getDomParser",
         "xml.selectsinglenode"        : "qx.bom.client.Xml.getSelectSingleNode",
-        "xml.selectnodes"             : "qx.bom.client.Xml.getSelectNodes"
+        "xml.selectnodes"             : "qx.bom.client.Xml.getSelectNodes",
+        "xml.getelementsbytagnamens"  : "qx.bom.client.Xml.getElementsByTagNameNS",
+        "xml.domproperties"           : "qx.bom.client.Xml.getDomProperties",
+        "xml.attributens"             : "qx.bom.client.Xml.getAttributeNS",
+        "xml.createnode"              : "qx.bom.client.Xml.getCreateNode",
+        "xml.getqualifieditem"        : "qx.bom.client.Xml.getQualifiedItem",
+        "xml.createelementns"         : "qx.bom.client.Xml.getCreateElementNS"
       },
 
 
