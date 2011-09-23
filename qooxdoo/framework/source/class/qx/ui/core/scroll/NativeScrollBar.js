@@ -63,7 +63,9 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     this.addListener("mouseup", this._stopPropagation, this);
     this.addListener("mousemove", this._stopPropagation, this);
 
-    if ((qx.core.Environment.get("engine.name") == "opera")) {
+    if ((qx.core.Environment.get("engine.name") == "opera") &&
+      parseFloat(qx.core.Environment.get("engine.version")) < 11.5)
+    {
       this.addListener("appear", this._onAppear, this);
     }
 
