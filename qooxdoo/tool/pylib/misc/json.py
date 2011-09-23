@@ -46,9 +46,12 @@ def dumpsPretty(data, **kwargs):
 _eolComment = re.compile(r'(?<![a-zA-Z]:)//.*$', re.M)
 _mulComment = re.compile(r'/\*.*?\*/', re.S)
 
+def loadsStripComments(s, **kwargs):
+    b = _eolComment.sub('',s)
+    b = _mulComment.sub('',b)
+    return loads(b, **kwargs)
+
 def loadStripComments(path, **kwargs):
     s = codecs.open(path, "r", "utf-8").read()
-    s = _eolComment.sub('',s)
-    s = _mulComment.sub('',s)
-    return loads(s, **kwargs)
+    return loadsStripComments(s, **kwargs)
 

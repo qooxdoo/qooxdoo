@@ -22,13 +22,13 @@
 ################################################################################
 
 import os, sys, re, types, string, copy
-import simplejson
 from generator.config.Manifest import Manifest
 from generator.config.Lang import Key, Let
 from generator.resource.Library import Library
 from generator.runtime.ShellCmd import ShellCmd
 from generator.action.ContribLoader import ContribLoader
 from misc.NameSpace import NameSpace
+from misc import json
 # see late imports at the bottom of this file
 
 console = None
@@ -92,16 +92,11 @@ class Config(object):
             self._dirname = os.getcwd()
 
     def __init_fname(self, fname):
-        obj = open(fname)
-        jsonstr = obj.read()
-        jsonstr = self._stripComments(jsonstr)
         try:
-            data = simplejson.loads(jsonstr)
+            data = json.loadStripComments(fname)
         except ValueError, e:
             e.args = (e.args[0] + "\nFile: %s" % fname,) + e.args[1:]
             raise e
-            
-        obj.close()
 
         self._data  = data
         self._fname = os.path.abspath(fname)
@@ -707,14 +702,6 @@ class Config(object):
             console.outdent()
 
         console.outdent()
-
-
-    def _stripComments(self,jsonstr):
-        eolComment = re.compile(r'(?<![a-zA-Z]:)//.*$', re.M)
-        mulComment = re.compile(r'/\*.*?\*/', re.S)
-        result = eolComment.sub('',jsonstr)
-        result = mulComment.sub('',result)
-        return result
 
 
     def _download_contrib(self, libs, contrib, contribCache):
