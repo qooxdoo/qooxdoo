@@ -223,7 +223,7 @@ qx.Class.define("qx.event.handler.Input",
         ) {
           qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
 
-          if (target.type === "text" || target.type === "password")
+          if (target.type === "text" || target.type === "password" || target.type === "textarea")
           {
             // Fixed input for delete and backspace key
             this._inputFixWrapper = qx.lang.Function.listener(this._inputFix, this, target);
@@ -331,7 +331,7 @@ qx.Class.define("qx.event.handler.Input",
         ) {
           qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
 
-          if (target.type === "text" || target.type === "password") {
+          if (target.type === "text" || target.type === "password" || target.type === "textarea") {
             // Fixed input for delete and backspace key
             qx.bom.Event.removeNativeListener(target, "keyup", this._inputFixWrapper);
           }
