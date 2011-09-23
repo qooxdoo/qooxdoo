@@ -192,6 +192,8 @@ qx.Class.define("qx.ui.tabview.TabButton",
 
         case "close-button":
           control = new qx.ui.form.Button();
+          control.setFocusable(false);
+          control.setKeepActive(true);
           control.addListener("click", this._onCloseButtonClick, this);
           this._add(control, {row: 0, column: 4});
 
