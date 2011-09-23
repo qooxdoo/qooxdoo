@@ -201,7 +201,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
      *
      * Depending on the underlying transport and it's configuration, the request
      * data is transparently included as URL query parameters or embedded in the
-     * request header as form data.
+     * request body as form data.
      *
      * If a string is given the user must make sure it is properly formatted and
      * escaped. See {@link qx.lang.Object#toUriParameter}.

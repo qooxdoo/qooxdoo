@@ -401,22 +401,41 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertSend("GET", "/photos/zoom/123");
     },
 
-    "test: invoke action throws when missing positional param": function() {
-      var res = this.res,
-          params;
+    "test: invoke action fills in empty string when missing param": function() {
+      var res = this.res;
 
-      res.map("photoComments", "GET", "/photos/{photoId}/comments/{id}");
+      res.map("get", "GET", "/photos/{tag}");
+      res.get();
+
+      this.assertSend("GET", "/photos/");
+    },
+
+    "test: invoke action throws when missing required positional param": function() {
+      var res = this.res;
+
+      // Require positional param
+      res.map("get", "GET", "/photos/{tag}", {tag: true});
       this.assertException(function() {
-        res.photoComments({photoId: "1"});
-      }, Error, "Missing parameter 'id'");
+        res.get();
+      }, Error, "Missing parameter 'tag'");
+    },
+
+    "test: invoke action throws when missing required request param": function() {
+      var res = new qx.io.rest.Resource();
+
+      // Require request body param
+      res.map("post", "POST", "/photos/", {photo: true});
+      this.assertException(function() {
+        res.post();
+      }, Error, "Missing parameter 'photo'");
     },
 
     "test: invoke action throws when param not match check": function() {
       var res = this.res;
 
-      res.map("zoom", "GET", "/photos/zoom/{id}", {id: /\d+/});
+      res.map("get", "GET", "/photos/zoom/{id}", {id: /\d+/});
       this.assertException(function() {
-        res.zoom({id: "FAIL"});
+        res.get({id: "FAIL"});
       }, Error, "Parameter id is invalid");
     },
 

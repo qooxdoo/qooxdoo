@@ -306,11 +306,15 @@ qx.Class.define("qx.io.rest.Resource",
           method = config.method,
           url = config.url,
           check = config.check,
+          params = typeof params === "undefined" ? {} : params,
           requestData;
 
       if(typeof check !== "undefined") {
         qx.core.Assert.assertObject(check, "Check must be object with params as keys");
         qx.lang.Object.getKeys(check).forEach(function(key) {
+          if (check[key] === true && typeof params[key] === "undefined") {
+            throw new Error("Missing parameter '" + key + "'");
+          }
           if (!check[key].test(params[key])) {
             throw new Error("Parameter " + key + " is invalid");
           }
@@ -529,13 +533,14 @@ qx.Class.define("qx.io.rest.Resource",
       params = params || {};
 
       placeholders.forEach(function(placeholder) {
-        // Require parameter for each placeholder
-        if (typeof (params[placeholder]) === "undefined") {
-          throw new Error("Missing parameter '" + placeholder + "'");
-        }
-
         // Replace placeholder with parameter
         var re = new RegExp("{" + placeholder + "}");
+
+        // Fill in empty string when missing
+        if (typeof params[placeholder] === "undefined") {
+          params[placeholder] = "";
+        }
+
         url = url.replace(re, params[placeholder]);
       });
 
