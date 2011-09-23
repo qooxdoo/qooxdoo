@@ -401,13 +401,22 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertSend("GET", "/photos/zoom/123");
     },
 
-    "test: invoke action fills in empty string when missing param": function() {
+    "test: invoke action fills in empty string when missing param and no default": function() {
       var res = this.res;
 
       res.map("get", "GET", "/photos/{tag}");
       res.get();
 
       this.assertSend("GET", "/photos/");
+    },
+
+    "test: invoke action fills in default when missing param": function() {
+      var res = this.res;
+
+      res.map("get", "GET", "/photos/{tag=recent}/{size}");
+      res.get({size: "large"});
+
+      this.assertSend("GET", "/photos/recent/large");
     },
 
     "test: invoke action throws when missing required positional param": function() {

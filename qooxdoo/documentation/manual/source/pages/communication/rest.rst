@@ -66,7 +66,6 @@ Or programatically, for each action.
   var photo = new qx.io.rest.Resource();
   photos.map("get", "GET", "/photo/{id}");
 
-
 Invoking actions
 ================
 
@@ -83,6 +82,25 @@ Once configured, actions can be invoked. They are invoked by calling a method th
   // --> GET /photos
 
 When an action is invoked, an appropriate request is configured and send automatically.
+
+Parameters
+==========
+
+Parameters are optional unless a check is defined. A default value can be provided.
+
+::
+
+  var photo = new qx.io.rest.Resource();
+  photo.map("get", "GET", "/photo/{id}/{size=medium}", {id: true});
+
+  photo.get({id: 1, size: "large"});
+  // --> GET /photo/1/large
+
+  photo.get({id: 1});
+  // --> GET /photo/1/medium
+
+  photo.get();
+  // --> Error: Missing parameter 'id'
 
 Events
 ======

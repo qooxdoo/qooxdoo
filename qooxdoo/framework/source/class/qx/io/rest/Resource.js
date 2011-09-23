@@ -254,7 +254,8 @@ qx.Class.define("qx.io.rest.Resource",
      * @param method {String} Method to configure request with.
      * @param url {String} URL to configure request with. May contain positional
      *   parameters (<code>{param}</code>) that are replaced by values given when the action
-     *   is invoked.
+     *   is invoked. Parameters are optional, unless a check is defined. A default
+     *   value can be provided (<code>{param=default}</code>).
      * @param check {Map?} Map defining parameter constraints, where the key is
      *   the parameter and the value a regular expression (to match string) or
      *   <code>true</code> (to verify existence).
@@ -534,12 +535,17 @@ qx.Class.define("qx.io.rest.Resource",
       params = params || {};
 
       placeholders.forEach(function(placeholder) {
-        // Replace placeholder with parameter
-        var re = new RegExp("{" + placeholder + "}");
+        // Placeholder part of template and default value
+        var re = new RegExp("{" + placeholder + "=?(\\w+)?}"),
+            defaultValue = url.match(re)[1];
 
-        // Fill in empty string when missing
+        // Fill in default or empty string when missing
         if (typeof params[placeholder] === "undefined") {
-          params[placeholder] = "";
+          if (defaultValue) {
+            params[placeholder] = defaultValue;
+          } else {
+            params[placeholder] = "";
+          }
         }
 
         url = url.replace(re, params[placeholder]);
@@ -569,7 +575,7 @@ qx.Class.define("qx.io.rest.Resource",
      * @return {Array} Array of placeholders without the placeholder prefix.
      */
     __placeholdersFromUrl: function(url) {
-      var placeholderRe = /\{(\w+)\}/g,
+      var placeholderRe = /\{(\w+)(=\w+)?\}/g,
           match,
           placeholders = [],
           parsedUri = qx.util.Uri.parseUri(url);
