@@ -813,8 +813,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * Normalize status property across browsers.
      */
     __normalizeStatus: function() {
-      var nxhr = this.__nativeXhr,
-          isDone = this.readyState === qx.bom.request.Xhr.DONE;
+      var isDone = this.readyState === qx.bom.request.Xhr.DONE;
 
       // BUGFIX: Most browsers
       // Most browsers tell status 0 when it should be 200 for local files
