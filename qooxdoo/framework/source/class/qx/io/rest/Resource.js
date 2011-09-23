@@ -45,7 +45,7 @@
  *
  * <pre class="javascript">
  * var description = {
- *  "get": { method: "GET", url: "/photo/:id"},
+ *  "get": { method: "GET", url: "/photo/{id}" },
  *  "put": { method: "POST", url: "/photo"}
  * };
  * var photo = new qx.io.rest.Resource(description);
@@ -72,7 +72,7 @@
  *
  * <pre class="javascript">
  * var description = {
- *  "get": { method: "GET", url: "/photos/:tag"}
+ *  "get": { method: "GET", url: "/photos/{tag}" }
  * };
  * var photos = new qx.io.rest.Resource(description);
  * photos.get();
@@ -104,7 +104,7 @@ qx.Class.define("qx.io.rest.Resource",
    * For example:
    *
    * <pre class="javascript">
-   * { get: {method: "GET", url: "/photos/:id", check: /\d+/} }
+   * { get: {method: "GET", url: "/photos/{id}", check: /\d+/} }
    * </pre>
    */
   construct: function(description)
@@ -244,7 +244,7 @@ qx.Class.define("qx.io.rest.Resource",
      * Map action to combination of method and URL pattern.
      *
      * <pre class="javascript">
-     *   res.map("get", "GET", "/photos/:id", {id: /\d+/});
+     *   res.map("get", "GET", "/photos/{id}", {id: /\d+/});
      *
      *   // GET /photos/123
      *   res.get({id: "123"});
@@ -253,7 +253,7 @@ qx.Class.define("qx.io.rest.Resource",
      * @param action {String} Action to associate to request.
      * @param method {String} Method to configure request with.
      * @param url {String} URL to configure request with. May contain positional
-     *   parameters (:param) that are replaced by values given when the action
+     *   parameters ({param}) that are replaced by values given when the action
      *   is invoked.
      * @param check {Map?} Map defining parameter constraints, where the key is
      *   the parameter and the value a regular expression.
@@ -535,7 +535,7 @@ qx.Class.define("qx.io.rest.Resource",
         }
 
         // Replace placeholder with parameter
-        var re = new RegExp(":" + placeholder);
+        var re = new RegExp("{" + placeholder + "}");
         url = url.replace(re, params[placeholder]);
       });
 
@@ -563,15 +563,10 @@ qx.Class.define("qx.io.rest.Resource",
      * @return {Array} Array of placeholders without the placeholder prefix.
      */
     __placeholdersFromUrl: function(url) {
-      var placeholderRe = /:(\w+)/g,
+      var placeholderRe = /\{(\w+)\}/g,
           match,
           placeholders = [],
           parsedUri = qx.util.Uri.parseUri(url);
-
-      // Not confuse port with placeholder
-      if (parsedUri.port && parsedUri.relative) {
-        url = parsedUri.relative;
-      }
 
       // With g flag set, searching begins at the regex object's
       // lastIndex, which is zero initially and increments with each match.

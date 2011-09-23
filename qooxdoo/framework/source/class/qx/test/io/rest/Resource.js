@@ -280,7 +280,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("get", "GET", "/photos/:id");
+      res.map("get", "GET", "/photos/{id}");
       res.get({id: "1"});
 
       this.assertCalledWith(req.setUrl, "/photos/1");
@@ -290,7 +290,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("get", "GET", "/photos/:id");
+      res.map("get", "GET", "/photos/{id}");
       res.get({id: 0});
 
       this.assertCalledWith(req.setUrl, "/photos/0");
@@ -300,7 +300,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("get", "GET", "/photos/:id");
+      res.map("get", "GET", "/photos/{id}");
       res.get({id: 1});
 
       this.assertCalledWith(req.setUrl, "/photos/1");
@@ -312,7 +312,7 @@ qx.Class.define("qx.test.io.rest.Resource",
           call,
           msg;
 
-      res.map("get", "GET", "/photos/:id");
+      res.map("get", "GET", "/photos/{id}");
       res.get({id: "1", width: "200"});
 
       // GET /photos/1?width=200
@@ -331,7 +331,7 @@ qx.Class.define("qx.test.io.rest.Resource",
           call,
           msg;
 
-      res.map("get", "GET", "/photos/:id");
+      res.map("get", "GET", "/photos/{id}");
       res.get({id: "1", width: "200"});
 
       // GET /photos/1?width=200
@@ -348,7 +348,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("get", "GET", "/photos/:id/comments/:commentId");
+      res.map("get", "GET", "/photos/{id}/comments/{commentId}");
       res.get({id: "1", commentId: "2"});
 
       this.assertCalledWith(req.setUrl, "/photos/1/comments/2");
@@ -358,7 +358,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("get", "GET", "/photos/:id/comments?id=:commentId");
+      res.map("get", "GET", "/photos/{id}/comments?id={commentId}");
       res.get({id: "1", commentId: "2"});
 
       this.assertCalledWith(req.setUrl, "/photos/1/comments?id=2");
@@ -368,7 +368,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("get", "GET", "http://example.com:8080/photos/:id");
+      res.map("get", "GET", "http://example.com:8080/photos/{id}");
       res.get({id: "1"});
 
       this.assertCalledWith(req.setUrl, "http://example.com:8080/photos/1");
@@ -378,7 +378,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("get", "GET", ":page");
+      res.map("get", "GET", "{page}");
       res.get({page: "index"});
       this.assertCalledWith(req.setUrl, "index");
     },
@@ -387,7 +387,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("get", "GET", "../:page");
+      res.map("get", "GET", "../{page}");
       res.get({page: "index"});
       this.assertCalledWith(req.setUrl, "../index");
     },
@@ -395,7 +395,7 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: invoke action for route with check": function() {
       var res = this.res;
 
-      res.map("get", "GET", "/photos/zoom/:id", {id: /\d+/});
+      res.map("get", "GET", "/photos/zoom/{id}", {id: /\d+/});
       res.get({id: "123"});
 
       this.assertSend("GET", "/photos/zoom/123");
@@ -405,7 +405,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           params;
 
-      res.map("photoComments", "GET", "/photos/:photoId/comments/:id");
+      res.map("photoComments", "GET", "/photos/{photoId}/comments/{id}");
       this.assertException(function() {
         res.photoComments({photoId: "1"});
       }, Error, "Missing parameter 'id'");
@@ -414,7 +414,7 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: invoke action throws when param not match check": function() {
       var res = this.res;
 
-      res.map("zoom", "GET", "/photos/zoom/:id", {id: /\d+/});
+      res.map("zoom", "GET", "/photos/zoom/{id}", {id: /\d+/});
       this.assertException(function() {
         res.zoom({id: "FAIL"});
       }, Error, "Parameter id is invalid");
@@ -453,7 +453,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("get", "GET", "/photos/:id");
+      res.map("get", "GET", "/photos/{id}");
       res.get({id: "1"});
       this.assertSend("GET", "/photos/1");
 
@@ -500,7 +500,7 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: poll action sets initial params": function() {
       var res = this.res;
 
-      res.map("get", "GET", "/photos/:id");
+      res.map("get", "GET", "/photos/{id}");
       this.stub(res, "invoke");
 
       res.poll("get", 10, {id: "1"});
@@ -511,7 +511,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      res.map("get", "GET", "/photos/:id");
+      res.map("get", "GET", "/photos/{id}");
       res.get({id: "1"});
       this.assertSend("GET", "/photos/1");
 

@@ -14,14 +14,14 @@ Given a REST-like interface with URLs that comply to the following pattern.
 
 ::
 
-  GET      /photos/:id
-  PUT      /photos/:id
-  DELETE   /photos/:id
+  GET      /photos/{id}
+  PUT      /photos/{id}
+  DELETE   /photos/{id}
 
   GET      /photos
   POST     /photos
 
-Note ``:id`` stands for a placeholder.
+Note ``{id}`` stands for a placeholder.
 
 This interface comprises of two resources: ``photo`` and ``photos``.
 
@@ -34,13 +34,13 @@ To declare the specifics of the REST interface declaratively, pass a description
     // Retrieve photo
     get: {
      method: "GET",
-     url: "/photo/:id"
+     url: "/photo/{id}"
     },
 
     // Update photo
     put: {
       method: "POST",
-      url: "/photo/:id"
+      url: "/photo/{id}"
     }
   });
 
@@ -64,7 +64,7 @@ Or programatically, for each action.
 ::
 
   var photo = new qx.io.rest.Resource();
-  photos.map("get", "GET", "/photo/:id");
+  photos.map("get", "GET", "/photo/{id}");
 
 
 Invoking actions
