@@ -76,8 +76,6 @@ class MClassCode(object):
                 context["console"].indent()
                 variantoptimizer.search(opttree, variantSet, self.id)
                 context["console"].outdent()
-                # store optimized tree
-                #print "Caching %s" % cacheId
                 cache.write(cacheId, opttree, memory=tradeSpaceForSpeed, writeToFile=True)
 
         return opttree
