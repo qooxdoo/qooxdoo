@@ -4,16 +4,18 @@ Standard Applications
 Demo Applications
 =================
 
-.. toctree::
-   :maxdepth: 1
+.. ifconfig:: qxcomponents in ('all', 'mobile', 'gui', 'website')
 
-   application/demobrowser
+  .. toctree::
+     :maxdepth: 1
 
-..
+     application/demobrowser
 
-  Contains many examples and tests for widgets, layouts and other framework functionality.
-  
-  `Online demo <http://demo.qooxdoo.org/%{version}/demobrowser>`__
+  ..
+
+    Contains many examples and tests for widgets, layouts and other framework functionality.
+    
+    `Online demo <http://demo.qooxdoo.org/%{version}/demobrowser>`__
 
 .. toctree::
    :maxdepth: 1
@@ -85,45 +87,47 @@ Developer Tools
   
   `Online demo <http://demo.qooxdoo.org/%{version}/apiviewer>`__
 
-.. toctree::
-   :maxdepth: 1
+.. ifconfig:: qxcomponents in ('all', 'mobile', 'gui', 'website')
 
-   application/testrunner
+  .. toctree::
+     :maxdepth: 1
 
-..
+     application/testrunner
 
-  Integrated unit testing framework similar to (but not requiring) JSUnit.
-  
-  `Online demo <http://demo.qooxdoo.org/%{version}/testrunner>`__
+  ..
 
-.. toctree::
-   :maxdepth: 1
+    Integrated unit testing framework similar to (but not requiring) JSUnit.
+    
+    `Online demo <http://demo.qooxdoo.org/%{version}/testrunner>`__
 
-   application/inspector
+  .. toctree::
+     :maxdepth: 1
 
-..
+     application/inspector
 
-  A debugging tool to inspect a qooxdoo application, featuring an interactive console, an object and widget finder, and a property editor.
-  
-  `Online demo <http://demo.qooxdoo.org/%{version}/inspector>`__
+  ..
 
-.. toctree::
-   :maxdepth: 1
+    A debugging tool to inspect a qooxdoo application, featuring an interactive console, an object and widget finder, and a property editor.
+    
+    `Online demo <http://demo.qooxdoo.org/%{version}/inspector>`__
 
-   development/simulator
+  .. toctree::
+     :maxdepth: 1
 
-..
+     development/simulator
 
-  A framework to develop simulated interaction tests, using `Selenium <http://seleniumhq.org>`__.
-  
+  ..
 
-.. toctree::
-   :maxdepth: 1
+    A framework to develop simulated interaction tests, using `Selenium <http://seleniumhq.org>`__.
+    
 
-   application/featureconfigeditor
+  .. toctree::
+     :maxdepth: 1
 
-..
+     application/featureconfigeditor
 
-  Editing tool for environment configurations used for browser-specific builds.
-  
-  `Online demo <http://demo.qooxdoo.org/%{version}/featureconfigeditor>`__
+  ..
+
+    Editing tool for environment configurations used for browser-specific builds.
+    
+    `Online demo <http://demo.qooxdoo.org/%{version}/featureconfigeditor>`__

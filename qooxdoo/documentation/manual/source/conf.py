@@ -219,9 +219,13 @@ latex_elements = {
 
 # -- Custom options ------------------------------------------------------------
 
+# config vars
+qxcomponents = 'all'
+
 # Make this file an extension
 def setup(app):
     app.connect('source-read', qxmacro_resolve)
+    app.add_config_value('qxcomponents', 'all', 'env')
     
 ##
 # qooxdoo macro extension
