@@ -37,6 +37,12 @@ qx.Class.define("feedreader.simulation.mobile.Feedreader", {
 
     __feedTitles : null,
 
+    /**
+     * Returns a list with the titles of all displayed feeds
+     * 
+     * @lint ignoreDeprecated(eval)
+     * @return {String[]} Feed titles
+     */
     _getFeedTitles : function()
     {
       if (this.__feedTitles) {
