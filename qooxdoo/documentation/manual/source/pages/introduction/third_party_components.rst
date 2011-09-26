@@ -34,6 +34,21 @@ These are components that are integrated into the %{JS} class code.
   * - `iScroll <http://cubiq.org/iscroll-4/>`_
     - `MIT`_
 
+Application %{JS} Code
+============================
+
+These are components that are integrated into the %{JS} class code from our demo apps.
+
+.. list-table::
+  :header-rows: 1
+  :widths: 50 50
+
+  * - Component
+    - License
+
+  * - `ACE <http://ajaxorg.github.com/ace/>`_
+    - `MPL/GPL/LGPL <https://github.com/ajaxorg/ace/blob/master/LICENSE>`_
+
 
 .. _pages/introduction/third_party_components#resources:
 
