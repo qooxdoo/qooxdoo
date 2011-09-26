@@ -285,7 +285,7 @@ class PartBuilder(object):
 
             # Finally resolve the dependencies
             # do not allow blocked loaddeps, as this would make the part unloadable
-            partClasses = self._depLoader.classlistFromInclude(part.deps, partExcludes, variants, script=script, allowBlockLoaddeps=False)
+            partClasses = self._depLoader.classlistFromInclude(part.deps, partExcludes, variants, script=script, allowBlockLoaddeps=False, fromPartBuilder=True)
 
             # Remove all unknown classes  -- TODO: Can this ever happen here?!
             for classId in partClasses[:]:  # need to work on a copy because of changes in the loop

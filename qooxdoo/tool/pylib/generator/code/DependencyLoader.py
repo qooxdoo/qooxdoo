@@ -125,7 +125,7 @@ class DependencyLoader(object):
 
 
     def classlistFromInclude(self, includeWithDeps, excludeWithDeps, variants, 
-                             verifyDeps=False, script=None, allowBlockLoaddeps=True):
+                             verifyDeps=False, script=None, allowBlockLoaddeps=True, fromPartBuilder=False):
 
         def classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, loadDepsChain, allowBlockLoaddeps=True):
             # support blocking
@@ -300,7 +300,10 @@ class DependencyLoader(object):
                     envObj = self._classesObj["qx.core.Environment"]
                     envTreeId = "tree-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
                     compOpts = CompileOptions(optimize=[], variants=variants)
-                    compOpts.allClassVariants = script.classVariants([self._classesObj[x] for x in resultNames])
+                    if fromPartBuilder :
+                        compOpts.allClassVariants = script.classVariants()
+                    else:
+                        compOpts.allClassVariants = script.classVariants([self._classesObj[x] for x in resultNames])
                     tree = Class.optimizeEnvironmentClass(envObj, compOpts)
                     self._cache.write(envTreeId, tree, memory=True, writeToFile=False)
                     # this is for the side-effect of leaving a modified tree for qx.core.Environmet
