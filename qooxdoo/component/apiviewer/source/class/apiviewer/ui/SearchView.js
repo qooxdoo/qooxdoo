@@ -538,6 +538,7 @@ qx.Class.define("apiviewer.ui.SearchView",
 
     /**
      * Load the api index
+     * @lint ignoreDeprecated(eval)
      */
     _load : function()
     {

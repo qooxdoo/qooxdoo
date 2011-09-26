@@ -33,6 +33,16 @@ qx.Class.define("apiviewer.ClassLoader",
 
   members :
   {
+    /**
+     * TODOC
+     * 
+     * @param className {} 
+     * @param async {} 
+     * @param callback {} 
+     * @param self {} 
+     * @lint ignoreDeprecated(eval)
+     * @return {apiviewer.dao.Class}
+     */
     load : function(className, async, callback, self)
     {
       var url = this._baseUri + "/" + className + ".json";

@@ -88,6 +88,7 @@ qx.Class.define("apiviewer.Controller",
      * Loads the API doc tree from a URL. The URL must point to a JSON encoded
      * doc tree.
      *
+     * @lint ignoreDeprecated(eval,alert)
      * @param url {String} the URL.
      */
     load : function(url)
