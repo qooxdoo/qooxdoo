@@ -53,6 +53,12 @@ qx.Class.define("widgetbrowser.simulation.Widgetbrowser", {
       this.getSimulation().logAutLogEntries();
     },
     
+    /**
+     * Get the tabs' labels
+     * 
+     * @lint ignoreDeprecated(eval)
+     * @return {String[]} Array of tab labels
+     */
     _getTabNames : function()
     {
       this.getSimulation().wait(5000);

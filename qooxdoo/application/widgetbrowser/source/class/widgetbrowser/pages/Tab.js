@@ -49,6 +49,8 @@ qx.Class.define("widgetbrowser.pages.Tab",
   members :
   {
 
+    __grid : null,
+
     initWidgets: function() {
       var widgets = this._widgets;
 

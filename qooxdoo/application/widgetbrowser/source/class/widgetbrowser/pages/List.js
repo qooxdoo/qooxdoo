@@ -48,6 +48,9 @@ qx.Class.define("widgetbrowser.pages.List",
   members :
   {
 
+    __grid : null,
+    __listUrl : null,
+
     initWidgets: function()
     {
       var widgets = this._widgets;
