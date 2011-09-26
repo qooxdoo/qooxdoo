@@ -170,6 +170,12 @@ qx.Class.define("inspector.Application",
     -------------------------------------------------------------------------
     */
 
+    /**
+     * TODOC
+     * 
+     * @lint ignoreDeprecated(alert)
+     * @return {Boolean}
+     */
     __checkWorking: function() {
       // try to access the javascript objects in the iframe
       try {

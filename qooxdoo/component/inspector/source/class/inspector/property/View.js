@@ -369,6 +369,8 @@ qx.Class.define("inspector.property.View",
     /**
      * This method is responsible for enabling and disabling the property
      * relevant buttons like "set null".
+     * 
+     * @lint ignoreDeprecated(alert)
      */
     _switchPropertyButtons: function() {
       // check if a property is set
@@ -505,6 +507,8 @@ qx.Class.define("inspector.property.View",
      * Handler function to handle the execution on the "set null" button.
      * The function tries to set the current selected property of the widget
      * to null. If that fails, an alert shows the exception message.
+     * 
+     * @lint ignoreDeprecated(alert)
      */
     _setNullButtonEventListener: function () {
       // get the corresponding classname of the currently selected property
@@ -533,6 +537,8 @@ qx.Class.define("inspector.property.View",
      * function resets the selected property to its initial value given in
      * the property declaration. If that fails, the exception message will
      * be shown to the user in an alert.
+     * 
+     * @lint ignoreDeprecated(alert)
      */
     _setPropertyToDefaultButtonEventListener: function () {
       // get the corresponding classname of the currently selected property

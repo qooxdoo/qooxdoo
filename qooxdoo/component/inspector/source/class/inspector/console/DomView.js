@@ -64,6 +64,13 @@ qx.Class.define("inspector.console.DomView",
     },
 
 
+    /**
+     * TODOC 
+     * 
+     * @lint ignoreDeprecated(eval)
+     * @param object {} 
+     * @param name {} 
+     */
     setObject: function(object, name) {
       this._iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
       // empty the breadcrumbs
@@ -98,6 +105,14 @@ qx.Class.define("inspector.console.DomView",
 
 
 
+    /**
+     * TODOC
+     * 
+     * @lint ignoreDeprecated(alert)
+     * 
+     * @param index {} 
+     * @param key {} 
+     */
     setObjectByIndex: function(index, key) {
       // reset the filter
       this._filter = "";
@@ -363,6 +378,13 @@ qx.Class.define("inspector.console.DomView",
 
 
 
+    /**
+     * TODOC
+     * 
+     * @lint ignoreDeprecated(alert)
+     * @param o {}
+     * @return {}
+     */
     _sortAndFilterProperties: function(o) {
       // if a filter is given
       if (this._filter != "") {

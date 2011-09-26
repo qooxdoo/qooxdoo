@@ -169,6 +169,12 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
       this._textArea.setValue(this.getSelenese());
     },
 
+    /**
+     * Imports the Selenium commands from a Selenese (HTML) test case pasted 
+     * into the text area
+     * 
+     * @lint ignoreDeprecated(alert)
+     */
     __importSelenese : function()
     {
       var sel = this._textArea.getValue();
@@ -184,7 +190,7 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
         alert("Invalid Selenese 2");
         return;
       }
-      // too lazy to parse Selenese HTMl, let the browser handle it
+      // too lazy to parse Selenese HTML, let the browser handle it
       this.__helperDiv.innerHTML = body[1];
 
       var rows = qx.bom.Selector.query("tbody tr", this.__helperDiv);
