@@ -27,9 +27,12 @@ These are components that are integrated into the %{JS} class code.
 
   * - `Sinon.JS <http://sinonjs.org/>`_
     - `BSD`_
+
+  * - `parseUri <http://blog.stevenlevithan.com/archives/parseuri>`_
+    - `MIT`_
     
   * - `iScroll <http://cubiq.org/iscroll-4/>`_
-    - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
+    - `MIT`_
 
 
 .. _pages/introduction/third_party_components#resources:
