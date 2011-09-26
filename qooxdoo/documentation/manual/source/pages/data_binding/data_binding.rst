@@ -43,8 +43,7 @@ The store component is responsible for fetching the data from its source and for
 Model
 ^^^^^
 
-The model is the centerpiece of data binding. It holds the data and acts as an integration point for the store and for the controller. Almost all models are plain qooxdoo classes holding the data in properties, which are configured to fire events on every change. Since native JavaScript arrays do not fire events when items are changed, a complementary array is added for data binding purposes. It is available with most of the native array API as ``qx.data.Array``.
-But there is no need to manually write own model classes for every data source you want to work with. The stores provide a smart way to automatically create these classes during runtime. Take a look at the :doc:`stores section <stores>` for details.
+The model is the centerpiece of data binding. It holds the data and acts as an integration point for the store and for the controller. The stores provide a smart way to automatically the models classes during runtime. Take a look at the :doc:`models<models>` for details.
 
 .. _pages/data_binding#controller:
 
