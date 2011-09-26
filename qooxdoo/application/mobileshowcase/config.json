@@ -83,7 +83,7 @@
         "source" : "${ROOT}/source/resource",
         "target" : "${BUILD_PATH}"
       }
-    },
+      },
 
 
     "source-all-script" :
@@ -107,8 +107,8 @@
       {
         "command" :
         [
-          "${CATCMD} ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/android/android.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py > ${BUILD_PATH}/resource/mobileshowcase/css/android-styles-min.css",
-          "${CATCMD} ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/ios/ios.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py > ${BUILD_PATH}/resource/mobileshowcase/css/ios-styles-min.css"
+          "${CATCMD} ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/android/android.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py > ${BUILD_PATH}/resource/qx/mobile/css/android/android-styles-min.css",
+          "${CATCMD} ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/ios/ios.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py > ${BUILD_PATH}/resource/qx/mobile/css/ios/ios-styles-min.css"
         ]
       }
 
