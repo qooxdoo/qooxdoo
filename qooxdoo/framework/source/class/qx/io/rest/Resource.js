@@ -577,8 +577,7 @@ qx.Class.define("qx.io.rest.Resource",
     __placeholdersFromUrl: function(url) {
       var placeholderRe = /\{(\w+)(=\w+)?\}/g,
           match,
-          placeholders = [],
-          parsedUri = qx.util.Uri.parseUri(url);
+          placeholders = [];
 
       // With g flag set, searching begins at the regex object's
       // lastIndex, which is zero initially and increments with each match.
