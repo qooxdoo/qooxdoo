@@ -571,6 +571,8 @@ qx.Class.define("inspector.selenium.View", {
 
     /**
      * Deletes all commands after asking for confirmation.
+     * 
+     * @lint ignoreDeprecated(confirm)
      */
     clearTable : function()
     {
@@ -630,6 +632,7 @@ qx.Class.define("inspector.selenium.View", {
     /**
      * Loads the Selenium Core and qooxdoo user extensions scripts
      *
+     * @lint ignoreDeprecated(alert)
      * @param value {String[]} Array containing the URIs for the Selenium Core
      * and qooxdoo user extenions scripts
      * @param old {String[]|null} Old value
@@ -673,6 +676,12 @@ qx.Class.define("inspector.selenium.View", {
       loader.load(coreQueue);
     },
 
+    /**
+     * TODOC
+     * 
+     * @lint ignoreDeprecated(confirm)
+     * @param ev {}
+     */
     __importCommands : function(ev)
     {
       var rows = ev.getData();
@@ -702,6 +711,7 @@ qx.Class.define("inspector.selenium.View", {
      * Called once the script loader is done. Checks if the Selenium scripts
      * were loaded correctly and, if so, enables the toolbar
      *
+     * @lint ignoreDeprecated(alert)
      * @param ev {qx.event.type.Data} The script loader's "finished" event
      */
     __scriptsLoaded : function(ev)

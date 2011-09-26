@@ -169,6 +169,12 @@ qx.Class.define("inspector.selenium.SeleneseTestCase", {
       this._textArea.setValue(this.getSelenese());
     },
 
+    /**
+     * Imports the Selenium commands from a Selenese (HTML) test case pasted 
+     * into the text area
+     * 
+     * @lint ignoreDeprecated(alert)
+     */
     __importSelenese : function()
     {
       var sel = this._textArea.getValue();

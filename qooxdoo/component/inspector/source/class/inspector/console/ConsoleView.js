@@ -93,6 +93,12 @@ qx.Class.define("inspector.console.ConsoleView",
     },
 
 
+    /**
+     * TODOC
+     * 
+     * @lint ignoreDeprecated(alert)
+     * @param filter {}
+     */
     filter: function(filter) {
       // store the new filter
       this._filter = filter;
