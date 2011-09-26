@@ -286,6 +286,12 @@ qx.Class.define("widgetbrowser.pages.Window",
     },
 
 
+    /**
+     * TODOC
+     * 
+     * @lint ignoreDeprecated(alert)
+     * @return {qx.ui.window.Window} Modal dialog window
+     */
     __getModalWindow2 : function()
     {
       var wm2 = new qx.ui.window.Window("Second Modal Dialog");
