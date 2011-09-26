@@ -104,7 +104,7 @@ qx.Class.define("mobileshowcase.page.Form",
       form.addGroupHeader("Gender");
       this.__radio1 = new qx.ui.mobile.form.RadioButton();
       this.__radio2 = new qx.ui.mobile.form.RadioButton();
-      var radioGroup = new qx.ui.form.RadioGroup(this.__radio1, this.__radio2);
+      //var radioGroup = new qx.ui.form.RadioGroup(this.__radio1, this.__radio2);
       form.add(this.__radio1, "Male");
       form.add(this.__radio2, "Female");
 
