@@ -75,11 +75,14 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Filter",
       dataModel.addBranch(te2, "Data", false);
       dataModel.addBranch(te2, "Edit", false);
 
-      var commandFrame = new qx.ui.groupbox.GroupBox("Filter");
-      commandFrame.setMaxHeight(50);
-      commandFrame.setLayout(new qx.ui.layout.VBox());
-
+      var commandFrame = new qx.ui.groupbox.GroupBox("Control");
+      commandFrame.setLayout(new qx.ui.layout.VBox(2));
+      
       hBox.add(commandFrame);
+      
+      // Create a combo box for the selection type
+      var filterLabel = new qx.ui.basic.Label("Filter:");
+      commandFrame.add(filterLabel);
 
       var textField = new qx.ui.form.TextField();
       textField.setValue("100");
