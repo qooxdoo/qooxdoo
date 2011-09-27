@@ -47,7 +47,7 @@
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
     "PLATFORM"     : "ios",  // provide a default
-    "CSS_MINIFIED" : "$${BULID_PATH}/resource/$${APPLICATION}/css/$${PLATFORM}-style-min.css",
+    "CSS_MINIFIED" : "$${BUILD_PATH}/resource/$${APPLICATION}/css/$${PLATFORM}-style-min.css",
     "ROOT"         : "."
   },
 
