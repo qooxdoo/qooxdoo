@@ -42,7 +42,7 @@
   "let" :
   {
     "APPLICATION"  : "${Namespace}",
-    "APPLICATION_CSS" : "$${APPLICATION}/css/style.css",  // resource id of custom css
+    "APPLICATION_CSS" : "$${APPLICATION}/css/styles.css",  // resource id of custom css
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
