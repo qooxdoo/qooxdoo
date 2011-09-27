@@ -575,13 +575,36 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     showItem : function(itemName)
     {
       var itemNode;
+      
+      var nameMap = {
+                      "event": "events",
+                      "method_public": "methods",
+                      "method_protected": "methods",
+                      "method_private": "methods",
+                      "property" : "properties",
+                      "property_private" : "properties",
+                      "property_protected" : "properties",
+                      "constant" : "constants",
+                      "childcontrol": "childcontrols"
+                    };
 
       // special handling for constructor methods since the constructor
       // cannot be obtained with the "getItem" (which works on lists)
       if (itemName == "construct") {
         itemNode = this.getDocNode().getConstructor();
       } else {
-        itemNode = this.getDocNode().getItem(itemName);
+        if(itemName.indexOf('!')!=-1)
+        {
+          var parts = itemName.split('!');
+          itemNode = this.getDocNode().getItemByListAndName(nameMap[parts[1]], parts[0]);
+          if(!itemNode) {
+            itemNode = this.getDocNode().getItem(parts[0]);
+          }
+        }
+        else
+        {
+          itemNode = this.getDocNode().getItem(itemName);
+        }
       }
 
       if (!itemNode) {

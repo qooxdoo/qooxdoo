@@ -574,16 +574,9 @@ qx.Class.define("apiviewer.ui.SearchView",
       {
         var fullItemName = selected[1];
         var itemType = selected[0];
-
-        var className = fullItemName;
-        var itemName = null;
-        var hashPos = fullItemName.indexOf("#");
-
-        if (hashPos != -1)
-        {
-          className = fullItemName.substring(0, hashPos);
-          itemName = fullItemName.substring(hashPos + 1);
-        }
+        
+        var elemType = itemType.substr(itemType.lastIndexOf("/")+1);
+        elemType = elemType.substr(0, elemType.length-6);
 
         // Display protected stated items
         if (/protected/.test(itemType)) {
@@ -598,7 +591,14 @@ qx.Class.define("apiviewer.ui.SearchView",
           uiModel.setShowInternal(true);
         }
         // Highlight item
-        controller._updateHistory(fullItemName);
+        if(elemType.indexOf("method")!=-1 || elemType.indexOf("property")!=-1 || elemType.indexOf("event")!=-1 || elemType.indexOf("constant")!=-1 || elemType.indexOf("childcontrol")!=-1)
+        {
+          controller._updateHistory(fullItemName+'!'+elemType);
+        }
+        else
+        {
+          controller._updateHistory(fullItemName);
+        }
       }
     },
 
