@@ -1,3 +1,6 @@
+/**
+ * @lint ignoreUndefined(simulator)
+*/
 qx.Class.define("twitter.simulation.Settings", {
 
   extend : simulator.unit.TestCase,
