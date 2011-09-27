@@ -137,7 +137,7 @@ qx.Class.define("qx.locale.Date",
      * @param context {String} (default: "format") intended context.
      *       Possible values: "format", "stand-alone"
      * @param withFallback {Boolean?} if true, the previous parameter's other value is tried
-     * in order to find a localized name for the day
+     * in order to find a localized name for the month
      * @return {String[]} array of localized month names starting with january.
      */
     getMonthNames : function(length, locale, context, withFallback)
@@ -171,7 +171,7 @@ qx.Class.define("qx.locale.Date",
      * @param context {String} (default: "format") intended context.
      *       Possible values: "format", "stand-alone"
      * @param withFallback {Boolean?} if true, the previous parameter's other value is tried
-     * in order to find a localized name for the day
+     * in order to find a localized name for the month
      * @return {String} localized month name
      */
     getMonthName : function(length, month, locale, context, withFallback)
