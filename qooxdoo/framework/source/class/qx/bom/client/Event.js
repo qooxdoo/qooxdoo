@@ -58,11 +58,23 @@ qx.Bootstrap.define("qx.bom.client.Event",
         return browserName != "opera" && browserName != "mshtml";
       }
       return false;
+    },
+
+
+    /**
+     * Checks if the proprietary "help" event is available.
+     * 
+     * @return {Boolean} <code>true</code> if the "help" event is supported.
+     */
+    getHelp : function()
+    {
+      return ("onhelp" in document);
     }
   },
 
   defer : function(statics) {
     qx.core.Environment.add("event.touch", statics.getTouch);
     qx.core.Environment.add("event.pointer", statics.getPointer);
+    qx.core.Environment.add("event.help", statics.getHelp);
   }
 });

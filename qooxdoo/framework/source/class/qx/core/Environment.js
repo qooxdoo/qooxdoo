@@ -151,6 +151,10 @@
  *       <td>event.touch</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Event#getTouch}</td>
  *     </tr>
+ *     <tr>
+ *       <td>event.help</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Event#getHelp}</td>
+ *     </tr>
 
  *     <tr>
  *       <td colspan="4"><b>html</b></td>
@@ -617,6 +621,7 @@ qx.Bootstrap.define("qx.core.Environment",
         "io.xhr"                      : "qx.bom.client.Transport.getXmlHttpRequest",
         "event.touch"                 : "qx.bom.client.Event.getTouch",
         "event.pointer"               : "qx.bom.client.Event.getPointer",
+        "event.help"                  : "qx.bom.client.Event.getHelp",
         "ecmascript.objectcount"      : "qx.bom.client.EcmaScript.getObjectCount",
         "html.webworker"              : "qx.bom.client.Html.getWebWorker",
         "html.filereader"             : "qx.bom.client.Html.getFileReader",

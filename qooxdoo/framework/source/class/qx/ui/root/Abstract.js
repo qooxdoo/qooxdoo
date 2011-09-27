@@ -263,10 +263,9 @@ qx.Class.define("qx.ui.root.Abstract",
 
 
     // property apply
-    _applyNativeHelp : qx.core.Environment.select("engine.name",
+    _applyNativeHelp : function(value, old)
     {
-      "mshtml" : function(value, old)
-      {
+      if (qx.core.Environment.get("event.help")) {
         if (old === false) {
           qx.bom.Event.removeNativeListener(document, "help", qx.lang.Function.returnFalse);
         }
@@ -274,10 +273,8 @@ qx.Class.define("qx.ui.root.Abstract",
         if (value === false) {
           qx.bom.Event.addNativeListener(document, "help", qx.lang.Function.returnFalse);
         }
-      },
-
-      "default" : function() {}
-    })
+      }
+    }
   },
 
 
