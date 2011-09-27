@@ -187,8 +187,7 @@
       {
         "command" :
         [
-          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/android/android.css $${ROOT}/source/resource/$${APPLICATION_CSS} | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${CSS_MINIFIED}",
-          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/ios/ios.css $${ROOT}/source/resource/$${APPLICATION_CSS} | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${CSS_MINIFIED}"
+          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css $${ROOT}/source/resource/$${APPLICATION_CSS} | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${CSS_MINIFIED}"
         ]
       }
     }
