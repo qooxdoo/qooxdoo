@@ -177,6 +177,7 @@
 
     "minify-css" :
     {
+      "extend" : ["cache"],
       "let" :
       {
         "CATCMD"     : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/cat.py",
