@@ -29,7 +29,12 @@
     "source-hybrid",
     "test",
     "test-source",
-    "translation"
+    "translation",
+    "minify-css",
+    "source-ios",
+    "source-android",
+    "build-ios",
+    "build-android"
   ],
   
   "default-job" : "source",
@@ -37,15 +42,18 @@
   "let" :
   {
     "APPLICATION"  : "${Namespace}",
+    "APPLICATION_CSS" : "$${APPLICATION}/css/style.css",  // resource id of custom css
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
+    "PLATFORM"     : "ios",  // provide a default
+    "CSS_MINIFIED" : "$${BULID_PATH}/resource/$${APPLICATION}/css/$${PLATFORM}-style-min.css",
     "ROOT"         : "."
   },
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["source-all-script", "build-files", "common"]
+    "job-shadowing" : ["source-all-script", "build-files", "build-script", "source-script"]
   },
 
   // You only need to edit the remainder of this file, if you want to customize
@@ -53,7 +61,23 @@
 
   "jobs" :
   {
-    "common" :
+    // Uncomment the following entry to add a contrib or library to your
+    // project; make sure to adapt the path to the Manifest.json; if you are
+    // using a contrib: library, it will be downloaded into the path specified
+    // by the 'cache/downloads' config key
+    /*
+    , "libraries" : 
+    {
+      "library" :
+      [
+        {
+          "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json"
+        }
+      ]
+    },
+    */
+
+    "mobile-common" :
     {
       "=include" :
       [
@@ -70,6 +94,61 @@
       }
     },
 
+    "source-ios" :
+    {
+      "extend" : ["source"],
+      "let" : { "PLATFORM" : "ios" }
+    },
+
+    "source-android" :
+    {
+      "extend" : ["source"],
+      "let" : { "PLATFORM" : "android" }
+    },
+
+    "build-ios" :
+    {
+      "extend" : ["build"],
+      "let" : { "PLATFORM" : "ios" }
+    },
+
+    "build-android" :
+    {
+      "extend" : ["build"],
+      "let" : { "PLATFORM" : "android" }
+    },
+
+    "source" :
+    {
+      "let" : { 
+        "BUILD_TYPE" : "source",
+        "BUILD_PATH" : "$${ROOT}/source"
+      },
+      "run" : ["minify-css"]
+    },
+
+
+    "build" :
+    {
+      "let" : { 
+        "BUILD_TYPE" : "build",
+        "BUILD_PATH" : "$${ROOT}/build-$${PLATFORM}" 
+      },
+      "=run" : ["build-resources", "build-files", "build-script", "minify-css"]
+    },
+
+
+    "source-script" :
+    {
+      "extend" : ["mobile-common"],
+      "add-css" : [ { "uri" : "$${CSS_MINIFIED}" } ]
+    },
+
+    "build-script" :
+    {
+      "extend" : ["mobile-common"],
+      "add-css" : [ { "uri" : "$${CSS_MINIFIED}" } ]
+    },
 
     "build-files" :
     {
@@ -94,37 +173,24 @@
         "$${APPLICATION}.test.*",
         "$${APPLICATION}.simulation.*"
       ]
-    }
-    // Uncomment the following entry to add a contrib or library to your
-    // project; make sure to adapt the path to the Manifest.json; if you are
-    // using a contrib: library, it will be downloaded into the path specified
-    // by the 'cache/downloads' config key
-    /*
-    , "libraries" : 
-    {
-      "library" :
-      [
-        {
-          "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json"
-        }
-      ]
-    }
-    */
+    },
 
-    // If you want to tweak a job setting, see the following sample where
-    // the "format" feature of the "build-script" job is overridden.
-    // To see a list of available jobs, invoke 'generate.py x'.
-    /*
-    , "build-script" :
+    "minify-css" :
     {
-      "compile-options" : 
+      "let" :
       {
-        "code" :
-        {
-          "format" : false
-        }
+        "CATCMD"     : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/cat.py",
+        "CSSMIN_CMD" : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/cssmin.py"
+      },
+
+      "shell" :
+      {
+        "command" :
+        [
+          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/android/android.css $${ROOT}/source}/resource/$${APPLICATION_CSS} | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${CSS_MINIFIED}",
+          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/ios/ios.css $${ROOT}/source/resource/$${APPLICATION_CSS} | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${CSS_MINIFIED}"
+        ]
       }
     }
-    */
   }
 }
