@@ -254,13 +254,13 @@ qx.Class.define("qx.test.util.DateFormat",
         this.assertEquals(expectedYear + "/" + realMonth, df.format(date));
         df.dispose();
         df = new qx.util.format.DateFormat("yyyy/MMM");
-        this.assertEquals(expectedYear + "/" + qx.locale.Date.getMonthName("abbreviated", month , locale, "format"), df.format(date));
+        this.assertEquals(expectedYear + "/" + qx.locale.Date.getMonthName("abbreviated", month , locale, "format", true), df.format(date));
         df.dispose();
         df = new qx.util.format.DateFormat("yyyy/MMMM");
-        this.assertEquals(expectedYear + "/" + qx.locale.Date.getMonthName("wide", month, locale, "format"), df.format(date));
+        this.assertEquals(expectedYear + "/" + qx.locale.Date.getMonthName("wide", month, locale, "format", true), df.format(date));
         df.dispose();
         df = new qx.util.format.DateFormat("yyyy/MMMMM");
-        this.assertEquals(expectedYear + "/" + qx.locale.Date.getMonthName("narrow", month, locale, "stand-alone"), df.format(date));
+        this.assertEquals(expectedYear + "/" + qx.locale.Date.getMonthName("narrow", month, locale, "format", true), df.format(date));
         df.dispose();
       }
 
@@ -282,13 +282,13 @@ qx.Class.define("qx.test.util.DateFormat",
         this.assertEquals(realMonth, df.format(date));
         df.dispose();
         df = new qx.util.format.DateFormat("LLL");
-        this.assertEquals(qx.locale.Date.getMonthName("abbreviated", month, locale, "format"), df.format(date));
+        this.assertEquals(qx.locale.Date.getMonthName("abbreviated", month, locale, "stand-alone", true), df.format(date));
         df.dispose();
         df = new qx.util.format.DateFormat("LLLL");
-        this.assertEquals(qx.locale.Date.getMonthName("wide", month, locale, "format"), df.format(date));
+        this.assertEquals(qx.locale.Date.getMonthName("wide", month, locale, "stand-alone", true), df.format(date));
         df.dispose();
         df = new qx.util.format.DateFormat("LLLLL");
-        this.assertEquals(qx.locale.Date.getMonthName("narrow", month, locale, "stand-alone"), df.format(date));
+        this.assertEquals(qx.locale.Date.getMonthName("narrow", month, locale, "stand-alone", true), df.format(date));
         df.dispose();
       }
     },
@@ -378,19 +378,19 @@ qx.Class.define("qx.test.util.DateFormat",
           var dayOfWeek = this.__dates[i].result.dayOfWeek;
 
           df = new qx.util.format.DateFormat("yyyy/E");
-          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format"), df.format(date));
+          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format", true), df.format(date));
           df.dispose();
           df = new qx.util.format.DateFormat("yyyy/EE");
-          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format"), df.format(date));
+          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format", true), df.format(date));
           df.dispose();
           df = new qx.util.format.DateFormat("yyyy/EEE");
-          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format"), df.format(date));
+          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format", true), df.format(date));
           df.dispose();
           df = new qx.util.format.DateFormat("yyyy/EEEE");
-          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format"), df.format(date));
+          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format", true), df.format(date));
           df.dispose();
           df = new qx.util.format.DateFormat("yyyy/EEEEE");
-          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone"), df.format(date));
+          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "format", true), df.format(date));
           df.dispose();
         }
       }
@@ -416,15 +416,15 @@ qx.Class.define("qx.test.util.DateFormat",
           df.dispose();
 
           df = new qx.util.format.DateFormat("ccc",locales[k]);
-          this.assertEquals(qx.locale.Date.getDayName("abbreviated", dayOfWeek, locales[k], "format"), df.format(date));
+          this.assertEquals(qx.locale.Date.getDayName("abbreviated", dayOfWeek, locales[k], "stand-alone", true), df.format(date));
           df.dispose();
 
           df = new qx.util.format.DateFormat("cccc",locales[k]);
-          this.assertEquals(qx.locale.Date.getDayName("wide", dayOfWeek, locales[k], "format"), df.format(date));
+          this.assertEquals(qx.locale.Date.getDayName("wide", dayOfWeek, locales[k], "stand-alone", true), df.format(date));
           df.dispose();
 
           df = new qx.util.format.DateFormat("ccccc",locales[k]);
-          this.assertEquals(qx.locale.Date.getDayName("narrow", dayOfWeek, locales[k], "stand-alone"), df.format(date));
+          this.assertEquals(qx.locale.Date.getDayName("narrow", dayOfWeek, locales[k], "stand-alone", true), df.format(date));
           df.dispose();
         }
       }
@@ -450,15 +450,15 @@ qx.Class.define("qx.test.util.DateFormat",
         df.dispose();
 
         df = new qx.util.format.DateFormat("eee");
-        this.assertEquals(qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format"), df.format(date));
+        this.assertEquals(qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format", true), df.format(date));
         df.dispose();
 
         df = new qx.util.format.DateFormat("eeee");
-        this.assertEquals(qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format"), df.format(date));
+        this.assertEquals(qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format", true), df.format(date));
         df.dispose();
 
         df = new qx.util.format.DateFormat("eeeee");
-        this.assertEquals(qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone"), df.format(date));
+        this.assertEquals(qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "format", true), df.format(date));
         df.dispose();
       }
     },

@@ -69,9 +69,11 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String} optional locale to be used
      * @param context {String} (default: "format") intended context.
      *       Possible values: "format", "stand-alone"
+     * @param withFallback {Boolean?} if true, the previous parameter's other value is tried
+     * in order to find a localized name for the day
      * @return {String[]} array of localized day names starting with sunday.
      */
-    getDayNames : function(length, locale, context)
+    getDayNames : function(length, locale, context, withFallback)
     {
       var context = context ? context : "format";
 
@@ -87,8 +89,7 @@ qx.Class.define("qx.locale.Date",
       for (var i=0; i<days.length; i++)
       {
         var key = "cldr_day_" + context + "_" + length + "_" + days[i];
-        names.push(this.__mgr.localize(key, [], locale));
-
+        names.push(withFallback ? this.__localizeWithFallback(context, context === 'format' ? 'stand-alone' : 'format', key, locale) : this.__mgr.localize(key, [], locale));
       }
 
       return names;
@@ -104,9 +105,11 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String} optional locale to be used
      * @param context {String} (default: "format") intended context.
      *       Possible values: "format", "stand-alone"
+     * @param withFallback {Boolean?} if true, the previous parameter's other value is tried
+     * in order to find a localized name for the day
      * @return {String} localized day name
      */
-    getDayName : function(length, day, locale, context)
+    getDayName : function(length, day, locale, context, withFallback)
     {
       var context = context ? context : "format";
 
@@ -121,7 +124,7 @@ qx.Class.define("qx.locale.Date",
       var days = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];
 
       var key = "cldr_day_" + context + "_" + length + "_" + days[day];
-      return this.__mgr.localize(key, [], locale);
+      return withFallback ? this.__localizeWithFallback(context, context === 'format' ? 'stand-alone' : 'format', key, locale) : this.__mgr.localize(key, [], locale);
     },
 
 
@@ -133,9 +136,11 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String} optional locale to be used
      * @param context {String} (default: "format") intended context.
      *       Possible values: "format", "stand-alone"
+     * @param withFallback {Boolean?} if true, the previous parameter's other value is tried
+     * in order to find a localized name for the day
      * @return {String[]} array of localized month names starting with january.
      */
-    getMonthNames : function(length, locale, context)
+    getMonthNames : function(length, locale, context, withFallback)
     {
       var context = context ? context : "format";
 
@@ -149,7 +154,7 @@ qx.Class.define("qx.locale.Date",
       for (var i=0; i<12; i++)
       {
         var key = "cldr_month_" + context + "_" + length + "_" + (i + 1);
-        names.push(this.__mgr.localize(key, [], locale));
+        names.push(withFallback ? this.__localizeWithFallback(context, context === 'format' ? 'stand-alone' : 'format', key, locale) : this.__mgr.localize(key, [], locale));
       }
 
       return names;
@@ -165,9 +170,11 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String} optional locale to be used
      * @param context {String} (default: "format") intended context.
      *       Possible values: "format", "stand-alone"
+     * @param withFallback {Boolean?} if true, the previous parameter's other value is tried
+     * in order to find a localized name for the day
      * @return {String} localized month name
      */
-    getMonthName : function(length, month, locale, context)
+    getMonthName : function(length, month, locale, context, withFallback)
     {
       var context = context ? context : "format";
 
@@ -177,7 +184,7 @@ qx.Class.define("qx.locale.Date",
       }
 
       var key = "cldr_month_" + context + "_" + length + "_" + (month + 1);
-      return this.__mgr.localize(key, [], locale)
+      return withFallback ? this.__localizeWithFallback(context, context === 'format' ? 'stand-alone' : 'format', key, locale) : this.__mgr.localize(key, [], locale);
     },
 
 
@@ -467,6 +474,20 @@ qx.Class.define("qx.locale.Date",
       }
 
       return territory.toUpperCase();
+    },
+    
+    __localizeWithFallback : function(context, fallbackContext, key, locale)
+    {
+      var localizedString = this.__mgr.localize(key, [], locale);
+      if(localizedString == key)
+      {
+        var newKey = key.replace('_' + context + '_', '_' + fallbackContext + '_');
+        return this.__mgr.localize(newKey, [], locale);
+      }
+      else
+      {
+        return localizedString;
+      }
     }
   }
 });

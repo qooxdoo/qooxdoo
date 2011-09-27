@@ -573,11 +573,11 @@ qx.Class.define("qx.util.format.DateFormat",
 
             case 'E': // Day in week
               if (wildcardSize >= 1 && wildcardSize <= 3) {
-                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format");
+                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format", true);
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format");
+                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format", true);
               } else if (wildcardSize == 5) {
-                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone");
+                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "format", true);
               }
 
               break;
@@ -589,11 +589,11 @@ qx.Class.define("qx.util.format.DateFormat",
               if (wildcardSize >= 1 && wildcardSize <= 2) {
                 replacement = this.__fillNumber(localeDayOfWeek, wildcardSize);
               } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format");
+                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format", true);
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format");
+                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format", true);
               } else if (wildcardSize == 5) {
-                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone");
+                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "format", true);
               }
 
               break;
@@ -605,11 +605,11 @@ qx.Class.define("qx.util.format.DateFormat",
               if (wildcardSize == 1) {
                 replacement = ''+localeDayOfWeek;
               } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format");
+                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "stand-alone", true);
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format");
+                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "stand-alone", true);
               } else if (wildcardSize == 5) {
-                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone");
+                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone", true);
               }
 
               break;
@@ -618,11 +618,12 @@ qx.Class.define("qx.util.format.DateFormat",
               if (wildcardSize == 1 || wildcardSize == 2) {
                 replacement = this.__fillNumber(month + 1, wildcardSize);
               } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "format");
+                replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "format", true);
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getMonthName("wide", month, locale, "format");
+                replacement = qx.locale.Date.getMonthName("wide", month, locale, "format", true);
               } else if (wildcardSize == 5) {
-                replacement = qx.locale.Date.getMonthName("narrow", month, locale, "stand-alone");
+                replacement = qx.locale.Date.getMonthName("narrow", month, locale, "format", true);
+                
               }
 
               break;
@@ -631,11 +632,11 @@ qx.Class.define("qx.util.format.DateFormat",
               if (wildcardSize == 1 || wildcardSize == 2) {
                 replacement = this.__fillNumber(month + 1, wildcardSize);
               } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "format");
+                replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "stand-alone", true);
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getMonthName("wide", month, locale, "format");
+                replacement = qx.locale.Date.getMonthName("wide", month, locale, "stand-alone", true);
               } else if (wildcardSize == 5) {
-                replacement = qx.locale.Date.getMonthName("narrow", month, locale, "stand-alone");
+                replacement = qx.locale.Date.getMonthName("narrow", month, locale, "stand-alone", true);
               }
 
               break;
@@ -772,7 +773,7 @@ qx.Class.define("qx.util.format.DateFormat",
         if (rule.field != null) {
           dateValues[rule.field] = parseInt(value, 10);
         } else {
-          rule.manipulator(dateValues, value);
+          rule.manipulator(dateValues, value, rule.pattern);
         }
 
         if(rule.pattern == "Y+")
@@ -1235,65 +1236,53 @@ qx.Class.define("qx.util.format.DateFormat",
       var fullQuarterManipulator = function(dateValues, value) {
         dateValues.quarter = fullQuarterNames.indexOf(value);
       }
+      
+      var cache = {};
+      
+      var dateNamesManipulator = function(pattern){
+        var monthPatternLetters = ['L','M'];
+        var dayPatternLetters = ['c', 'e', 'E'];
+        var firstLetterInPattern = pattern.charAt(0);
+        var isMonth = monthPatternLetters.indexOf(firstLetterInPattern)>=0;
+        
+        var getContext = function() {
+          var letters = isMonth ? monthPatternLetters : dayPatternLetters;
+          var context = firstLetterInPattern === letters[0] ? "stand-alone" : "format" ;
+          var patternLength = pattern.length;
+          var lengthName = 'abbreviated';
+          switch(patternLength)
+          {
+            case 4:
+              lengthName = 'wide';
+              break;
+            case 5:
+              lengthName = 'narrow';
+              break;
+            default:
+              lengthName = 'abbreviated';
+          }
+          return [context, lengthName];
+        }
 
-      var shortMonthNames = qx.locale.Date.getMonthNames("abbreviated", locale, "format");
-      for (var i=0; i<shortMonthNames.length; i++) {
-        shortMonthNames[i] = LString.escapeRegexpChars(shortMonthNames[i].toString());
-      }
-
-      var shortMonthNamesManipulator = function(dateValues, value) {
-        value = LString.escapeRegexpChars(value);
-        dateValues.month = shortMonthNames.indexOf(value);
-      }
-
-      var fullMonthNames = qx.locale.Date.getMonthNames("wide", locale, "format");
-      for (var i=0; i<fullMonthNames.length; i++) {
-        fullMonthNames[i] = LString.escapeRegexpChars(fullMonthNames[i].toString());
-      }
-
-      var fullMonthNamesManipulator = function(dateValues, value) {
-        value = LString.escapeRegexpChars(value);
-        dateValues.month = fullMonthNames.indexOf(value);
-      }
-
-      var narrowMonthNames = qx.locale.Date.getMonthNames("narrow", locale, "stand-alone");
-      for (var i=0; i<narrowMonthNames.length; i++) {
-        narrowMonthNames[i] = LString.escapeRegexpChars(narrowMonthNames[i].toString());
-      }
-
-      var narrowMonthNamesManipulator = function(dateValues, value) {
-        value = LString.escapeRegexpChars(value);
-        dateValues.month = narrowMonthNames.indexOf(value);
-      }
-
-      var narrowDayNames = qx.locale.Date.getDayNames("narrow", locale, "stand-alone");
-      for (var i=0; i<narrowDayNames.length; i++) {
-        narrowDayNames[i] = LString.escapeRegexpChars(narrowDayNames[i].toString());
-      }
-
-      var narrowDayNamesManipulator = function(dateValues, value) {
-        value = LString.escapeRegexpChars(value);
-        dateValues.weekDay = narrowDayNames.indexOf(value);
-      }
-
-      var abbrDayNames = qx.locale.Date.getDayNames("abbreviated", locale, "format");
-      for (var i=0; i<abbrDayNames.length; i++) {
-        abbrDayNames[i] = LString.escapeRegexpChars(abbrDayNames[i].toString());
-      }
-
-      var abbrDayNamesManipulator = function(dateValues, value) {
-        value = LString.escapeRegexpChars(value);
-        dateValues.weekDay = abbrDayNames.indexOf(value);
-      }
-
-      var fullDayNames = qx.locale.Date.getDayNames("wide", locale, "format");
-      for (var i=0; i<fullDayNames.length; i++) {
-        fullDayNames[i] = LString.escapeRegexpChars(fullDayNames[i].toString());
-      }
-
-      var fullDayNamesManipulator = function(dateValues, value) {
-        value = LString.escapeRegexpChars(value);
-        dateValues.weekDay = fullDayNames.indexOf(value);
+        if(!cache[pattern])
+        {
+          cache[pattern] = {};
+          var context = getContext();
+          var func = isMonth ? qx.locale.Date.getMonthNames : qx.locale.Date.getDayNames;
+          var names = func.call(qx.locale.Date, context[1], locale, context[0], true);
+          for(var i=0, l=names.length; i<l; i++)
+          {
+            names[i] = LString.escapeRegexpChars(names[i].toString());
+          }
+          cache[pattern].data = names;
+          cache[pattern].func = function(dateValues, value)
+          {
+            value = LString.escapeRegexpChars(value);
+            dateValues[isMonth ? 'month' : 'weekDay'] = names.indexOf(value);
+          }
+        }
+        
+        return cache[pattern];
       }
 
       // Unsupported: F (Day of week in month)
@@ -1444,22 +1433,22 @@ qx.Class.define("qx.util.format.DateFormat",
       rules.push(
       {
         pattern     : "MMM",
-        regex       : "(" + shortMonthNames.join("|") + ")",
-        manipulator : shortMonthNamesManipulator
+        regex       : "(" + dateNamesManipulator("MMM").data.join("|") + ")",
+        manipulator : dateNamesManipulator("MMM").func
       });
 
       rules.push(
       {
         pattern     : "MMMM",
-        regex       : "(" + fullMonthNames.join("|") + ")",
-        manipulator : fullMonthNamesManipulator
+        regex       : "(" + dateNamesManipulator("MMMM").data.join("|") + ")",
+        manipulator : dateNamesManipulator("MMMM").func
       });
 
       rules.push(
       {
         pattern     : "MMMMM",
-        regex       : "(" + narrowMonthNames.join("|") + ")",
-        manipulator : narrowMonthNamesManipulator
+        regex       : "(" + dateNamesManipulator("MMMMM").data.join("|") + ")",
+        manipulator : dateNamesManipulator("MMMMM").func
       });
 
       rules.push(
@@ -1479,22 +1468,22 @@ qx.Class.define("qx.util.format.DateFormat",
       rules.push(
       {
         pattern     : "LLL",
-        regex       : "(" + shortMonthNames.join("|") + ")",
-        manipulator : shortMonthNamesManipulator
+        regex       : "(" + dateNamesManipulator("LLL").data.join("|") + ")",
+        manipulator : dateNamesManipulator("LLL").func
       });
 
       rules.push(
       {
         pattern     : "LLLL",
-        regex       : "(" + fullMonthNames.join("|") + ")",
-        manipulator : fullMonthNamesManipulator
+        regex       : "(" + dateNamesManipulator("LLLL").data.join("|") + ")",
+        manipulator : dateNamesManipulator("LLLL").func
       });
 
       rules.push(
       {
         pattern     : "LLLLL",
-        regex       : "(" + narrowMonthNames.join("|") + ")",
-        manipulator : narrowMonthNamesManipulator
+        regex       : "(" + dateNamesManipulator("LLLLL").data.join("|") + ")",
+        manipulator : dateNamesManipulator("LLLLL").func
       });
 
       rules.push(
@@ -1535,36 +1524,36 @@ qx.Class.define("qx.util.format.DateFormat",
       rules.push(
       {
         pattern     : "E",
-        regex       : "(" + abbrDayNames.join("|") + ")",
-        manipulator : abbrDayNamesManipulator
+        regex       : "(" + dateNamesManipulator("E").data.join("|") + ")",
+        manipulator : dateNamesManipulator("E").func
       });
 
       rules.push(
       {
         pattern     : "EE",
-        regex       : "(" + abbrDayNames.join("|") + ")",
-        manipulator : abbrDayNamesManipulator
+        regex       : "(" + dateNamesManipulator("EE").data.join("|") + ")",
+        manipulator : dateNamesManipulator("EE").func
       });
 
       rules.push(
       {
         pattern     : "EEE",
-        regex       : "(" + abbrDayNames.join("|") + ")",
-        manipulator : abbrDayNamesManipulator
+        regex       : "(" + dateNamesManipulator("EEE").data.join("|") + ")",
+        manipulator : dateNamesManipulator("EEE").func
       });
 
       rules.push(
       {
         pattern     : "EEEE",
-        regex       : "(" + fullDayNames.join("|") + ")",
-        manipulator : fullDayNamesManipulator
+        regex       : "(" + dateNamesManipulator("EEEE").data.join("|") + ")",
+        manipulator : dateNamesManipulator("EEEE").func
       });
 
       rules.push(
       {
         pattern     : "EEEEE",
-        regex       : "(" + narrowDayNames.join("|") + ")",
-        manipulator : narrowDayNamesManipulator
+        regex       : "(" + dateNamesManipulator("EEEEE").data.join("|") + ")",
+        manipulator : dateNamesManipulator("EEEEE").func
       });
 
       rules.push(
@@ -1584,22 +1573,22 @@ qx.Class.define("qx.util.format.DateFormat",
       rules.push(
       {
         pattern     : "eee",
-        regex       : "(" + abbrDayNames.join("|") + ")",
-        manipulator : abbrDayNamesManipulator
+        regex       : "(" + dateNamesManipulator("eee").data.join("|") + ")",
+        manipulator : dateNamesManipulator("eee").func
       });
 
       rules.push(
       {
         pattern     : "eeee",
-        regex       : "(" + fullDayNames.join("|") + ")",
-        manipulator : fullDayNamesManipulator
+        regex       : "(" + dateNamesManipulator("eeee").data.join("|") + ")",
+        manipulator : dateNamesManipulator("eeee").func
       });
 
       rules.push(
       {
         pattern     : "eeeee",
-        regex       : "(" + narrowDayNames.join("|") + ")",
-        manipulator : narrowDayNamesManipulator
+        regex       : "(" + dateNamesManipulator("eeeee").data.join("|") + ")",
+        manipulator : dateNamesManipulator("eeeee").func
       });
 
       rules.push(
@@ -1612,22 +1601,22 @@ qx.Class.define("qx.util.format.DateFormat",
       rules.push(
       {
         pattern     : "ccc",
-        regex       : "(" + abbrDayNames.join("|") + ")",
-        manipulator : abbrDayNamesManipulator
+        regex       : "(" + dateNamesManipulator("ccc").data.join("|") + ")",
+        manipulator : dateNamesManipulator("ccc").func
       });
 
       rules.push(
       {
         pattern     : "cccc",
-        regex       : "(" + fullDayNames.join("|") + ")",
-        manipulator : fullDayNamesManipulator
+        regex       : "(" + dateNamesManipulator("cccc").data.join("|") + ")",
+        manipulator : dateNamesManipulator("cccc").func
       });
 
       rules.push(
       {
         pattern     : "ccccc",
-        regex       : "(" + narrowDayNames.join("|") + ")",
-        manipulator : narrowDayNamesManipulator
+        regex       : "(" + dateNamesManipulator("ccccc").data.join("|") + ")",
+        manipulator : dateNamesManipulator("ccccc").func
       });
 
       rules.push(
