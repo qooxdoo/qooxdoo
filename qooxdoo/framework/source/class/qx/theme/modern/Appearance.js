@@ -1842,8 +1842,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator : decorator,
           shadow : shadow,
           contentPadding : [ 10, 10, 10, 10 ],
-          margin : [0, 5, 5, 0]
-
+          margin : states.maximized ? 0 : [0, 5, 5, 0]
         };
       }
     },
