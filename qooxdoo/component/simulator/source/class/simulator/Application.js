@@ -56,8 +56,11 @@ qx.Class.define("simulator.Application", {
 
 
     /**
+     * Runs the suite once it's loaded. Also stops the Selenium session after 
+     * the suite is finished or if there was an error during loading.
+     *  
      * @lint ignoreUndefined(quit)
-     * @param {qx.event.type.Data} The testrunner's changeTestSuiteState event
+     * @param ev {qx.event.type.Data} The testrunner's changeTestSuiteState event
      */
     _onChangeTestSuiteState : function(ev) {
       var state = ev.getData();
@@ -81,7 +84,8 @@ qx.Class.define("simulator.Application", {
 
 
     /**
-     * TODOC
+     * Starts a QxSelenium session, logs some environment info and runs the
+     * test suite.
      */
     _runSuite : function()
     {

@@ -299,7 +299,7 @@ qx.Class.define("simulator.Simulation", {
      *
      * @param name {String} name of the function to be added
      * @param body {String} JS statements to be used as the function body
-     * @parm args {String[]?} Optional list of arguments for the function 
+     * @param args {String[]?} Optional list of arguments for the function 
      */
     addOwnFunctionFromString : function(name, body, args)
     {
