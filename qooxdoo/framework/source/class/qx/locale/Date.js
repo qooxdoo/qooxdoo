@@ -475,7 +475,19 @@ qx.Class.define("qx.locale.Date",
 
       return territory.toUpperCase();
     },
-    
+
+    /**
+     * Provide localisation (CLDR) data with fallback between "format" and "stand-alone" contexts.
+     * It is used in {@link #getDayName} and {@link #getMonthName} methods.
+     * 
+     * @param context {String} intended context.
+     *       Possible values: "format", "stand-alone".
+     * @param fallbackContext {String} the context used in case no localisation is found for the key.
+     * @param key {String} message id (may contain format strings)
+     * @param locale {String} the locale
+     * @return {String} localized name for the key
+     * 
+     */
     __localizeWithFallback : function(context, fallbackContext, key, locale)
     {
       var localizedString = this.__mgr.localize(key, [], locale);
