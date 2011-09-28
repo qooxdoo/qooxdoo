@@ -124,8 +124,7 @@
       "let" : { 
         "BUILD_TYPE" : "source",
         "BUILD_PATH" : "$${ROOT}/source"
-      },
-      "run" : ["minify-css"]
+      }
     },
 
 
@@ -142,7 +141,11 @@
     "source-script" :
     {
       "extend" : ["mobile-common"],
-      "add-css" : [ { "uri" : "$${CSS_COMB_URI}" } ]
+      "add-css" : [ 
+        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css" },
+        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css" },
+        { "uri" : "./resource/$${APPLICATION_CSS}" }
+      ]
     },
 
     "build-script" :
