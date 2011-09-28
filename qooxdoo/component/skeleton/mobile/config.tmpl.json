@@ -101,7 +101,7 @@
         "engine.name" : "webkit"
       }
     },
-
+    
     "source-ios" :
     {
       "extend" : ["source"],
@@ -187,11 +187,20 @@
 
     "source-all-script" :
     {
+      "extend" : ["mobile-common"],
       "=exclude" : 
       [
         "qx.test.*",
         "$${APPLICATION}.test.*",
         "$${APPLICATION}.simulation.*"
+      ],
+      "asset-let" : {
+        "qx.mobile.platform" : [ "$${PLATFORM}" ]
+      },
+      "add-css" : [ 
+        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css" },
+        { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css" },
+        { "uri" : "./resource/$${APPLICATION_CSS}" }
       ]
     },
 
