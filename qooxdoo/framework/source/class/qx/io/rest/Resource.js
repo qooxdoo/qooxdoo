@@ -273,8 +273,8 @@ qx.Class.define("qx.io.rest.Resource",
         this[action] = undefined;
       }
 
-      // Not overwrite existing methods
-      if (typeof this[action] !== "undefined") {
+      // Not overwrite existing "non-action" methods
+      if (typeof this[action] !== "undefined" && this[action].action !== true) {
 
         // Unless the method is an empty function
         if (this[action] !== qx.lang.Function.empty) {
@@ -291,6 +291,9 @@ qx.Class.define("qx.io.rest.Resource",
         this.invoke(action, params);
         return this;
       }, this);
+
+      // Method is safe to overwrite
+      this[action].action = true;
     },
 
     /**

@@ -141,6 +141,16 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertEquals("/photos", params.url);
     },
 
+    "test: map existing action": function() {
+      var res = this.res,
+          params;
+
+      res.map("post", "GET", "/articles");
+      params = res._getRequestConfig("post");
+
+      this.assertEquals("/articles", params.url);
+    },
+
     "test: map action creates method": function() {
       var res = this.res,
           req = this.req;
@@ -165,9 +175,9 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req;
 
       // For documentation purposes
-      res.popular = qx.lang.Function.empty;
+      res.get = qx.lang.Function.empty;
 
-      res.map("popular", "GET", "/photos/popular");
+      res.map("get", "GET", "/photos/popular");
     },
 
     "test: dynamically created method is chainable": function() {
