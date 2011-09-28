@@ -54,7 +54,14 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["source-all-script", "build-files", "build-script", "source-script"]
+    "job-shadowing" : [
+      "source",
+      "build",
+      "source-all-script", 
+      "build-files", 
+      "build-script", 
+      "source-script"
+    ]
   },
 
   // You only need to edit the remainder of this file, if you want to customize
@@ -122,8 +129,10 @@
     "source" :
     {
       "let" : { 
-        "BUILD_TYPE" : "source",
         "BUILD_PATH" : "$${ROOT}/source"
+      },
+      "asset-let" : {
+        "qx.mobile.platform" : [ "$${PLATFORM}" ]
       }
     },
 
@@ -131,8 +140,10 @@
     "build" :
     {
       "let" : { 
-        "BUILD_TYPE" : "build",
         "BUILD_PATH" : "$${ROOT}/build-$${PLATFORM}" 
+      },
+      "asset-let" : {
+        "qx.mobile.platform" : [ "$${PLATFORM}" ]
       },
       "=run" : ["build-resources", "build-files", "build-script", "minify-css"]
     },
@@ -151,7 +162,12 @@
     "build-script" :
     {
       "extend" : ["mobile-common"],
-      "add-css" : [ { "uri" : "$${CSS_COMB_URI}" } ]
+      //"add-css" : [ { "uri" : "$${CSS_COMB_URI}" } ]
+      "add-css" : [ 
+        { "uri" : "./resource/qx/mobile/css/common/main.css" },
+        { "uri" : "./resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css" },
+        { "uri" : "./resource/$${APPLICATION_CSS}" }
+      ]
     },
 
     "build-files" :
@@ -179,7 +195,7 @@
       ]
     },
 
-    "minify-css" :
+    "minify-combine-css" :
     {
       "extend" : ["cache"],
       "let" :
@@ -195,6 +211,26 @@
           "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css $${ROOT}/source/resource/$${APPLICATION_CSS} | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${CSS_COMBINED}"
         ]
       }
-    }
+    },
+
+    "minify-css" :
+    {
+      "extend" : ["cache"],
+      "let" :
+      {
+        "CATCMD"     : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/cat.py",
+        "CSSMIN_CMD" : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/cssmin.py"
+      },
+
+      "shell" :
+      {
+        "command" :
+        [
+          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${BUILD_PATH}/resource/qx/mobile/css/common/main.css",
+          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css  | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${BUILD_PATH}/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css",
+          "$${CATCMD} $${ROOT}/source/resource/$${APPLICATION_CSS} | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${BUILD_PATH}/resource/$${APPLICATION_CSS}"
+        ]
+      }
+    } 
   }
 }

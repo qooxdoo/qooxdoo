@@ -10,8 +10,8 @@
 
 /* ************************************************************************
 
-#asset(${Namespace}/css/styles.css)
-#asset(qx/mobile/icon/android/*)
+#asset(${Namespace}/*)
+#asset(qx/mobile/icon/$${qx.mobile.platform}/*)
 
 ************************************************************************ */
 
