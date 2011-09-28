@@ -41,7 +41,9 @@
         "qx.application" : "${DCLASS}",
         "qx.theme"       : "${DTHEME}",
         "qx.allowUrlVariants" : true,
-        "qx.allowUrlSettings" : true
+        "qx.allowUrlSettings" : true,
+        "locale" : "en",
+        "locale.variant" : "US"
       },
       "compile-options" : {
         "paths" : {
