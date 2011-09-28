@@ -921,10 +921,8 @@ qx.Class.define("testrunner.view.widget.Widget", {
           if ((this.getAutoReload() && this.__autoReloadActive) 
           || this.getAutoRun()) 
           {
-            this.fireEvent("runTests");
-          }
-          else {
             this.reset();
+            this.fireEvent("runTests");
           }
           break;
         case "running" :
@@ -1035,6 +1033,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
        * one item.
        */
       this.getSelectedTests().reverse();
+      this.reset();
       this.fireEvent("runTests");
     },
 
