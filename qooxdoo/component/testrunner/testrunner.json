@@ -198,6 +198,7 @@
       "environment" :
       {
         "qx.application"   : "${TESTRUNNER_MAIN_CLASS}",
+        "qx.theme"         : "${THEME}",
         "qx.version"       : "${QOOXDOO_VERSION}",
         "qx.revision"      : "${QOOXDOO_REVISION}",
         "qx.testNameSpace" : "${TEST_NAMESPACE}",
