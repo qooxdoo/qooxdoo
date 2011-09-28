@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.menu.Button",
 
 
     // overridden
-    _onMouseUp : function(e)
+    _onClick : function(e)
     {
       if (e.isLeftPressed())
       {
