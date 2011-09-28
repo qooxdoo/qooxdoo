@@ -47,7 +47,8 @@
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
     "PLATFORM"     : "ios",  // provide a default
-    "CSS_MINIFIED" : "$${BUILD_PATH}/resource/$${APPLICATION}/css/$${PLATFORM}-style-min.css",
+    "CSS_COMB_URI" : "./resource/$${APPLICATION}/css/$${PLATFORM}-style-min.css",
+    "CSS_COMBINED" : "$${BUILD_PATH}/$${CSS_COMB_URI}",
     "ROOT"         : "."
   },
 
@@ -141,13 +142,13 @@
     "source-script" :
     {
       "extend" : ["mobile-common"],
-      "add-css" : [ { "uri" : "$${CSS_MINIFIED}" } ]
+      "add-css" : [ { "uri" : "$${CSS_COMB_URI}" } ]
     },
 
     "build-script" :
     {
       "extend" : ["mobile-common"],
-      "add-css" : [ { "uri" : "$${CSS_MINIFIED}" } ]
+      "add-css" : [ { "uri" : "$${CSS_COMB_URI}" } ]
     },
 
     "build-files" :
@@ -188,7 +189,7 @@
       {
         "command" :
         [
-          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css $${ROOT}/source/resource/$${APPLICATION_CSS} | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${CSS_MINIFIED}"
+          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css $${ROOT}/source/resource/$${APPLICATION_CSS} | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${CSS_COMBINED}"
         ]
       }
     }
