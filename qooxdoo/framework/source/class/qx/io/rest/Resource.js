@@ -305,55 +305,22 @@ qx.Class.define("qx.io.rest.Resource",
     invoke: function(action, params) {
       var req = this.__createRequest(action),
           config = this._getRequestConfig(action, params),
-          method = config.method,
-          url = config.url,
-          check = config.check,
           params = typeof params === "undefined" ? {} : params,
-          requestData;
-
-      if(typeof check !== "undefined") {
-
-        if (qx.core.Environment.get("qx.debug")) {
-          qx.core.Assert.assertObject(check, "Check must be object with params as keys");
-        }
-
-        qx.lang.Object.getKeys(check).forEach(function(key) {
-
-          if (qx.core.Environment.get("qx.debug")) {
-            if (check[key] !== true) {
-              qx.core.Assert.assertRegExp(check[key]);
-            }
-          }
-
-          if (check[key] === true && typeof params[key] === "undefined") {
-            throw new Error("Missing parameter '" + key + "'");
-          }
-
-          // Ignore invalid checks
-          if (check[key] && typeof check[key].test == "function") {
-            if (!check[key].test(params[key])) {
-              throw new Error("Parameter '" + key + "' is invalid");
-            }
-          }
-        });
-      }
+          data = qx.lang.Object.clone(params);
 
       // Cache parameters
       this.__routes[action].params = params;
 
       // Remove positional parameters from request data (already in URL)
       if (params) {
-        requestData = qx.lang.Object.clone(params);
         this.__placeholdersFromUrl(this.__routes[action][1]).forEach(function(placeholder) {
-          delete requestData[placeholder];
+          delete data[placeholder];
         });
       }
 
-      // Configure request
-      req.set({method: method, url: url});
-      if (requestData) {
-        req.setRequestData(requestData);
-      }
+      this.__checkParameters(params, config.check);
+
+      this.__configureRequest(req, data, action, config);
       if (this.__configureRequestCallback) {
         this.__configureRequestCallback.call(this, req, action);
       }
@@ -379,6 +346,63 @@ qx.Class.define("qx.io.rest.Resource",
       }, this);
 
       req.send();
+    },
+
+    /**
+     * Check parameters.
+     *
+     * @param params {Map} Parameters.
+     * @param check {Map} Checks.
+     */
+    __checkParameters: function(params, check) {
+      if(typeof check !== "undefined") {
+
+        // Warn about missing check
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.core.Assert.assertObject(check, "Check must be object with params as keys");
+        }
+
+        qx.lang.Object.getKeys(check).forEach(function(key) {
+
+          // Warn about invalid check
+          if (qx.core.Environment.get("qx.debug")) {
+            if (check[key] !== true) {
+              qx.core.Assert.assertRegExp(check[key]);
+            }
+          }
+
+          // Missing parameter
+          if (check[key] === true && typeof params[key] === "undefined") {
+            throw new Error("Missing parameter '" + key + "'");
+          }
+
+          // Ignore invalid checks
+          if (!(check[key] && typeof check[key].test == "function")) {
+            return;
+          }
+
+          // Invalid parameter
+          if (!check[key].test(params[key])) {
+            throw new Error("Parameter '" + key + "' is invalid");
+          }
+        });
+      }
+    },
+
+    /**
+     * Configure request.
+     *
+     * @param req {qx.io.request.AbstractRequest} Request.
+     * @param data {Map} Data.
+     * @param action {String} Action.
+     * @param config {Map} Configuration.
+     */
+    __configureRequest: function(req, data, action, config) {
+      req.set({method: config.method, url: config.url});
+
+      if (data) {
+        req.setRequestData(data);
+      }
     },
 
     /**
