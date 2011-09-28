@@ -370,6 +370,8 @@ class MClassDependencies(object):
                 if not classAttribute:  # see if we have to provide 'construct'
                     if node.hasParentContext("instantiation/*/*/operand"): # 'new ...' position
                         classAttribute = 'construct'
+                elif classAttribute == 'getInstance':  # erase 'getInstance' and introduce 'construct' dependency
+                    classAttribute = 'construct'
                 depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1), inLoadContext)
                 #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
                 if node.hasParentContext("call/operand"): # it's a function call
@@ -657,8 +659,6 @@ class MClassDependencies(object):
         clazzId = self.id
         if  featureId == u'':  # corner case: bare class reference outside "new ..."
             return clazzId, featureId
-        elif featureId == "getInstance": # corner case: singletons get this from qx.Class
-            clazzId = "qx.Class"
         elif featureId in ('call', 'apply'):  # this might get overridden, oh well...
             clazzId = "Function"
         # TODO: getter/setter are also not lexically available!
