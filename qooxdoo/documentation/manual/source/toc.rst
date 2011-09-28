@@ -49,6 +49,16 @@
 
     pages/mobile.rst
 
+.. server
+
+.. ifconfig:: qxcomponents in ('all', 'server')
+
+  .. toctree::
+     :maxdepth: 3
+
+     pages/server
+
+
 .. io
 
 .. ifconfig:: qxcomponents in ('all', 'mobile', 'gui', 'website')
