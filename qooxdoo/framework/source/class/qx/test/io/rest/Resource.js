@@ -442,10 +442,23 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: invoke action throws when param not match check": function() {
       var res = this.res;
 
-      res.map("get", "GET", "/photos/zoom/{id}", {id: /\d+/});
+      res.map("get", "GET", "/photos/{id}", {id: /\d+/});
       this.assertException(function() {
         res.get({id: "FAIL"});
-      }, Error, "Parameter id is invalid");
+      }, Error, "Parameter 'id' is invalid");
+    },
+
+    "test: invoke action ignores invalid check in production": function() {
+      this.require(["debug"]);
+
+      var res = this.res;
+
+      var setting = this.stub(qx.core.Environment, "get").withArgs("qx.debug");
+      setting.returns(false);
+
+      // Invalid check
+      res.map("get", "GET", "/photos/{id}", {id: ""});
+      res.get({id: 1});
     },
 
     //
@@ -875,6 +888,10 @@ qx.Class.define("qx.test.io.rest.Resource",
 
     skip: function(msg) {
       throw new qx.dev.unit.RequirementError(null, msg);
+    },
+
+    hasDebug: function() {
+      return qx.core.Environment.get("qx.debug");
     },
 
     // Fake response

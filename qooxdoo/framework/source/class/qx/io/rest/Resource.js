@@ -312,13 +312,28 @@ qx.Class.define("qx.io.rest.Resource",
           requestData;
 
       if(typeof check !== "undefined") {
-        qx.core.Assert.assertObject(check, "Check must be object with params as keys");
+
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.core.Assert.assertObject(check, "Check must be object with params as keys");
+        }
+
         qx.lang.Object.getKeys(check).forEach(function(key) {
+
+          if (qx.core.Environment.get("qx.debug")) {
+            if (check[key] !== true) {
+              qx.core.Assert.assertRegExp(check[key]);
+            }
+          }
+
           if (check[key] === true && typeof params[key] === "undefined") {
             throw new Error("Missing parameter '" + key + "'");
           }
-          if (!check[key].test(params[key])) {
-            throw new Error("Parameter " + key + " is invalid");
+
+          // Ignore invalid checks
+          if (check[key] && typeof check[key].test == "function") {
+            if (!check[key].test(params[key])) {
+              throw new Error("Parameter '" + key + "' is invalid");
+            }
           }
         });
       }
