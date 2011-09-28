@@ -374,6 +374,18 @@ qx.Bootstrap.define("qx.bom.client.Html",
     {
       var el = document.createElement("span");
       return (typeof el.textContent !== "undefined");
+    },
+
+
+    /**
+     * Check for a console object.
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if a console is available.
+     */
+    getConsole : function()
+    {
+      return typeof window.console !== "undefined";
     }
   },
 
@@ -404,5 +416,6 @@ qx.Bootstrap.define("qx.bom.client.Html",
     qx.core.Environment.add("html.element.contains", statics.getContains);
     qx.core.Environment.add("html.element.compareDocumentPosition", statics.getCompareDocumentPosition);
     qx.core.Environment.add("html.element.textcontent", statics.getTextContent);
+    qx.core.Environment.add("html.console", statics.getConsole);
   }
 });

@@ -28,13 +28,14 @@
  * logging capabilities of the client.
  *
  * Supported browsers:
- * * Firefox using an installed FireBug.
- * * Safari using newer features of Web Inspector.
- * * Internet Explorer 8.
+ * * Firefox <4 using FireBug (if available).
+ * * Firefox >=4 using the Web Console.
+ * * WebKit browsers using the Web Inspector/Developer Tools.
+ * * Internet Explorer 8+ using the F12 Developer Tools.
+ * * Opera >=10.60 using either the Error Console or Dragonfly
  *
  * Currently unsupported browsers:
- * * Opera using the <code>postError</code> (disabled due to missing
- *     functionality in opera as of version 9.6).
+ * * Opera <10.60
  */
 qx.Class.define("qx.log.appender.Native",
 {
@@ -49,64 +50,19 @@ qx.Class.define("qx.log.appender.Native",
     /**
      * Processes a single log entry
      *
-     * @signature function(entry)
      * @param entry {Map} The entry to process
-     * @return {void}
      */
-    process : qx.core.Environment.select("engine.name",
+    process : function(entry)
     {
-      "gecko" : function(entry)
-      {
-        if (window.console) {
-          var level = console[entry.level] ? entry.level : "log";
-          if (console[level]) {
-            console[level].call(console, qx.log.appender.Util.toText(entry));
-          }
-        }
-      },
-
-      "mshtml" : function(entry)
-      {
-        if (window.console)
-        {
-          var level = entry.level;
-          if (level == "debug") {
-            level = "log";
-          }
-
-          // IE8 as of RC1 does not support "apply" on the console object methods
+      if (qx.core.Environment.get("html.console")) {
+        // Firefox 4's Web Console doesn't support "debug"
+        var level = console[entry.level] ? entry.level : "log";
+        if (console[level]) {
           var args = qx.log.appender.Util.toText(entry);
           console[level](args);
         }
-      },
-
-      "webkit" : function(entry)
-      {
-        if (window.console)
-        {
-          var level = entry.level;
-          if (level == "debug") {
-            level = "log";
-          }
-
-          // Webkit does not support "apply" on the console object methods
-          var args = qx.log.appender.Util.toText(entry);
-          console[level](args);
-        }
-      },
-
-      "opera" : function(entry)
-      {
-        // Opera's debugging as of 9.6 is not really useful, so currently
-        // qooxdoo's own console makes more sense
-
-        /*
-        if (window.opera && opera.postError) {
-          opera.postError.apply(opera, qx.log.appender.Util.toTextArray(entry));
-        }
-        */
       }
-    })
+    }
   },
 
 

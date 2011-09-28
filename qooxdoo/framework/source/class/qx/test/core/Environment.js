@@ -346,6 +346,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("html.canvas"));
       this.assertBoolean(qx.core.Environment.get("html.svg"));
       this.assertBoolean(qx.core.Environment.get("html.vml"));
+      this.assertBoolean(qx.core.Environment.get("html.console"));
       
       this.assertBoolean(qx.core.Environment.get("html.stylesheet.createstylesheet"));
       this.assertBoolean(qx.core.Environment.get("html.stylesheet.insertrule"));

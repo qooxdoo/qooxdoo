@@ -243,6 +243,10 @@
  *       <td>{@link qx.bom.client.Html#getXul}</td>
  *     </tr>
  *     <tr>
+ *       <td>html.console</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getConsole}</td>
+ *     </tr>
+ *     <tr>
  *       <td>html.element.contains</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getContains}</td>
  *     </tr>
@@ -646,6 +650,7 @@ qx.Bootstrap.define("qx.core.Environment",
         "html.vml"                    : "qx.bom.client.Html.getVml",
         "html.dataset"                : "qx.bom.client.Html.getDataset",
         "html.dataurl"                : "qx.bom.client.Html.getDataUrl",
+        "html.console"                : "qx.bom.client.Html.getConsole",
         "html.stylesheet.createstylesheet" : "qx.bom.client.Stylesheet.getCreateStyleSheet",
         "html.stylesheet.insertrule"  : "qx.bom.client.Stylesheet.getInsertRule",
         "html.stylesheet.deleterule"  : "qx.bom.client.Stylesheet.getDeleteRule",
