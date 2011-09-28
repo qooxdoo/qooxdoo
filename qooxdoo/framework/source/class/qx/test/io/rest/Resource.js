@@ -433,7 +433,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = new qx.io.rest.Resource();
 
       // Require request body param
-      res.map("post", "POST", "/photos/", {photo: true});
+      res.map("post", "POST", "/photos/", {photo: qx.io.rest.Resource.REQUIRED});
       this.assertException(function() {
         res.post();
       }, Error, "Missing parameter 'photo'");

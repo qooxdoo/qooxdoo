@@ -93,7 +93,7 @@
  */
 qx.Class.define("qx.io.rest.Resource",
 {
-  extend : qx.core.Object,
+  extend: qx.core.Object,
 
   /**
    * @param description {Map?} Each key of the map is interpreted as
@@ -176,7 +176,12 @@ qx.Class.define("qx.io.rest.Resource",
     /**
      * Number of immediate long-poll responses accepted before throttling takes place.
      */
-    POLL_THROTTLE_COUNT: 30
+    POLL_THROTTLE_COUNT: 30,
+
+    /**
+     * A symbol used in checks to declare required parameter.
+     */
+    REQUIRED: true
   },
 
   members:
@@ -258,7 +263,7 @@ qx.Class.define("qx.io.rest.Resource",
      *   value can be provided (<code>{param=default}</code>).
      * @param check {Map?} Map defining parameter constraints, where the key is
      *   the parameter and the value a regular expression (to match string) or
-     *   <code>true</code> (to verify existence).
+     *   <code>qx.io.rest.Resource.REQUIRED</code> (to verify existence).
      */
     map: function(action, method, url, check) {
       this.__routes[action] = [method, url, check];
@@ -372,7 +377,7 @@ qx.Class.define("qx.io.rest.Resource",
           }
 
           // Missing parameter
-          if (check[key] === true && typeof params[key] === "undefined") {
+          if (check[key] === qx.io.rest.Resource.REQUIRED && typeof params[key] === "undefined") {
             throw new Error("Missing parameter '" + key + "'");
           }
 
