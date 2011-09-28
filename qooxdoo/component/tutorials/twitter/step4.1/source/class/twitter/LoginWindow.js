@@ -24,7 +24,7 @@ qx.Class.define("twitter.LoginWindow",
     form.add(password, "Password", null, "password");
     
     var controller = new qx.data.controller.Form(null, form);
-    var model = controller.createModel();
+    controller.createModel();
     
     var loginbutton = new qx.ui.form.Button("Login");
     form.addButton(loginbutton);
