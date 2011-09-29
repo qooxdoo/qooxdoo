@@ -82,7 +82,7 @@
       "environment" :
       {
         "qx.aspects" : false,
-        "qx.debug" : true
+        "qx.debug" : false
       },
 
       "compile-options" :
