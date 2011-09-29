@@ -938,13 +938,12 @@ qx.Class.define("testrunner.view.widget.Widget", {
           if (this.getSelectedTests().length === 0) {
             this.__testTree.getSelection().push(this.getTestModel());
           }
-          
-          if ( (this.getReloadAfterEachPackage() && this.__lastAutoRunItemName)
-              || (this.getAutoReload() && this.__autoReloadActive == true) ) {
-            this.fireEvent("runTests");
-          }
-          else {
+
+          if ((this.getAutoReload() && this.__autoReloadActive) 
+          || this.getAutoRun()) 
+          {
             this.reset();
+            this.fireEvent("runTests");
           }
           break;
         case "running" :
@@ -1086,6 +1085,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
        * one item.
        */
       this.getSelectedTests().reverse();
+      this.reset();
       this.fireEvent("runTests");
     },
 
