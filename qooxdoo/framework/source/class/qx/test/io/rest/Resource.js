@@ -319,20 +319,20 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: invoke action with additional params": function() {
       var res = this.res,
           req = this.req,
-          call,
-          msg;
+          spy;
 
-      res.map("get", "GET", "/photos/{id}");
-      res.get({id: "1", width: "200"});
+      spy = req.setRequestData.withArgs({article: '{title: "Affe"}'});
 
-      // GET /photos/1?width=200
-      call = req.setRequestData.getCall(0);
-      if (call) {
-        msg = "Request data must include additional param width";
-        this.assertEquals("200", call.args[0].width, msg);
-      } else {
-        this.fail("Must call setRequestData");
-      }
+      res.map("put", "PUT", "/articles/{id}");
+      res.put({id: "1", article: '{title: "Affe"}'});
+
+      // Note that with method GET, parameters are appended to the URLs query part.
+      // Please refer to the API docs of qx.io.request.AbstractRequest#requestData.
+      //
+      // res.get({id: "1", : lang: "de"});
+      // --> /articles/1/?lang=de
+
+      this.assertCalled(spy);
     },
 
     "test: invoke action with additional params not include positional params": function() {
@@ -344,7 +344,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.map("get", "GET", "/photos/{id}");
       res.get({id: "1", width: "200"});
 
-      // GET /photos/1?width=200
       call = req.setRequestData.getCall(0);
       if (call) {
         msg = "Request data must not include positional param id";
