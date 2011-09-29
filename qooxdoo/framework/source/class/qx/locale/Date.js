@@ -20,6 +20,7 @@
 ************************************************************************ */
 
 /*
+#require(qx.bom.client.Locale)  -- this is a dep of qx.locale.Manager.getInstance/construct
 #cldr
 */
 

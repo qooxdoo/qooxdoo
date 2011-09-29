@@ -370,8 +370,10 @@ class MClassDependencies(object):
                 if not classAttribute:  # see if we have to provide 'construct'
                     if node.hasParentContext("instantiation/*/*/operand"): # 'new ...' position
                         classAttribute = 'construct'
-                elif classAttribute == 'getInstance':  # erase 'getInstance' and introduce 'construct' dependency
-                    classAttribute = 'construct'
+                # Can't do the next; it's catching too many occurrences of 'getInstance' that have
+                # nothing to do with the singleton 'getInstance' method (just grep in the framework)
+                #elif classAttribute == 'getInstance':  # erase 'getInstance' and introduce 'construct' dependency
+                #    classAttribute = 'construct'
                 depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1), inLoadContext)
                 #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
                 if node.hasParentContext("call/operand"): # it's a function call
@@ -659,6 +661,11 @@ class MClassDependencies(object):
         clazzId = self.id
         if  featureId == u'':  # corner case: bare class reference outside "new ..."
             return clazzId, featureId
+        # The next doesn't provide much, qx.Class.getInstance has no new dependencies
+        # currently (aside from "new this", which I cannot relate back to 'construct'
+        # ATM). Leave it in anyway, to not break bug#5660.
+        elif featureId == "getInstance": # corner case: singletons get this from qx.Class
+            clazzId = "qx.Class"
         elif featureId in ('call', 'apply'):  # this might get overridden, oh well...
             clazzId = "Function"
         # TODO: getter/setter are also not lexically available!
