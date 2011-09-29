@@ -8,6 +8,8 @@ qx.Class.define("twitter.test.TweetView", {
   
   members :
   {
+    __tweetView : null,
+    
     setUp : function()
     {
       this.__tweetView = new twitter.TweetView();
