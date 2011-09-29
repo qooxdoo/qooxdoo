@@ -81,7 +81,7 @@
       
       "environment" :
       {
-        "qx.aspects" : false
+        "qx.aspects" : false,
         "qx.debug" : false
       },
 
