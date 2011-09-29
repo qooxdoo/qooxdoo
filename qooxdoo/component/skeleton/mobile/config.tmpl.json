@@ -235,9 +235,9 @@
       {
         "command" :
         [
-          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${BUILD_PATH}/resource/qx/mobile/css/common/main.css",
-          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css  | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${BUILD_PATH}/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css",
-          "$${CATCMD} $${ROOT}/source/resource/$${APPLICATION_CSS} | $${QOOXDOO_PATH}/tool/bin/cssmin.py > $${BUILD_PATH}/resource/$${APPLICATION_CSS}"
+          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/common/main.css | $${CSSMIN_CMD} > $${BUILD_PATH}/resource/qx/mobile/css/common/main.css",
+          "$${CATCMD} $${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css  | $${CSSMIN_CMD} > $${BUILD_PATH}/resource/qx/mobile/css/$${PLATFORM}/$${PLATFORM}.css",
+          "$${CATCMD} $${ROOT}/source/resource/$${APPLICATION_CSS} | $${CSSMIN_CMD} > $${BUILD_PATH}/resource/$${APPLICATION_CSS}"
         ]
       }
     } 
