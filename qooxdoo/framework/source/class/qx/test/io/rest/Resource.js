@@ -101,30 +101,33 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalled(callback, "Must call configuration callback");
     },
 
-    "test: configure request to accept": function() {
-      var res = this.res,
-          req = this.req;
-
-      res.configureRequest(function(req) {
-        req.setAccept("application/json");
-      });
-
-      res.get();
-      this.assertCalledWith(req.setAccept, "application/json");
-    },
-
-    "test: configure request for individual action": function() {
+    "test: configure request receives action and parameters": function() {
       var res = this.res,
           req = this.req,
+          params = {},
           callback;
 
-      callback = this.spy(qx.lang.Function.bind(function(req, action) {
-        this.assertEquals("get", action);
+      callback = this.spy(qx.lang.Function.bind(function(req, _action, _params) {
+        this.assertEquals("get", _action, "Unexpected action");
+        this.assertEquals(params, _params, "Unexpected params");
       }, this));
       res.configureRequest(callback);
 
+      res.get(params);
+      this.assertCalled(callback);
+    },
+
+    "test: configure request receives pre-configured but unsent request": function() {
+      var res = this.res,
+          req = this.req;
+
+      res.configureRequest(qx.lang.Function.bind(function(req) {
+        this.assertCalledWith(req.setMethod, "GET");
+        this.assertCalledWith(req.setUrl, "/photos");
+        this.assertNotCalled(req.send);
+      }, this));
+
       res.get();
-      this.assertCalled(callback, "Must call configuration callback");
     },
 
     //

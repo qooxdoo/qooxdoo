@@ -330,7 +330,7 @@ qx.Class.define("qx.io.rest.Resource",
 
       this.__configureRequest(req, data, action, config);
       if (this.__configureRequestCallback) {
-        this.__configureRequestCallback.call(this, req, action);
+        this.__configureRequestCallback.call(this, req, action, params);
       }
 
       // Handle successful request
