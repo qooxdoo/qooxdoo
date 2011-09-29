@@ -695,13 +695,5 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
         this._excludeChildControl("scrollbar-y");
       }
     }
-  },
-
-
-  defer : function() {
-    qx.core.Environment.add(
-      "os.scrollBarOverlayed", 
-      qx.bom.element.Overflow.scollBarOverlayed
-    );
   }
 });

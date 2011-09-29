@@ -2411,13 +2411,5 @@ qx.Class.define("qx.ui.table.pane.Scroller",
                          "__headerClipper", "__paneClipper", "__focusIndicator",
                          "__header", "__tablePane", "__top", "__timer", 
                          "__clipperContainer");
-  },
-
-
-  defer : function() {
-    qx.core.Environment.add(
-      "os.scrollBarOverlayed", 
-      qx.bom.element.Overflow.scollBarOverlayed
-    );
   }
 });
