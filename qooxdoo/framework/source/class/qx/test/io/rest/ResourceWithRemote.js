@@ -48,14 +48,14 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
       var url = this.getUrl("qx/test/xmlhttp/sample.txt"),
           res = this.res;
 
-      res.map("index", "GET", url);
-      res.addListener("indexSuccess", function(e) {
+      res.map("get", "GET", url);
+      res.addListener("getSuccess", function(e) {
         this.resume(function() {
           this.assertEquals("SAMPLE", e.getData());
         }, this);
       }, this);
 
-      res.index();
+      res.get();
       this.wait();
     },
 
@@ -65,9 +65,9 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
           res;
 
       res = this.res = new qx.io.rest.Resource(
-        {index: {method: "GET", url: url} });
+        {get: {method: "GET", url: url} });
 
-      res.index().addListener("indexSuccess", function(e) {
+      res.get().addListener("getSuccess", function(e) {
         this.resume(function() {
           this.assertEquals("SAMPLE", e.getData());
         }, this);
@@ -82,15 +82,15 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
       var url = "/not-found",
           res = this.res;
 
-      res.map("index", "GET", url);
+      res.map("get", "GET", url);
       res.addListener("error", function(e) {
         this.resume(function() {
           this.assertEquals("statusError", e.getPhase());
-          this.assertEquals("index", e.getAction());
+          this.assertEquals("get", e.getAction());
         }, this);
       }, this);
 
-      res.index();
+      res.get();
       this.wait();
     },
 
@@ -101,11 +101,11 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
           count = 0,
           previousResponse = "";
 
-      res.map("index", "GET", url);
+      res.map("get", "GET", url);
 
       // Response headers must contain explicit cache control for this
       // to work in IE
-      res.addListener("indexSuccess", function(e) {
+      res.addListener("getSuccess", function(e) {
         var response = e.getData();
         count++;
 
@@ -120,7 +120,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
 
       }, this);
 
-      res.poll("index", 100);
+      res.poll("get", 100);
       this.wait();
     },
 
@@ -130,8 +130,8 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
           count = 0,
           responses = [];
 
-      res.map("index", "GET", url);
-      res.addListener("indexSuccess", function(e) {
+      res.map("get", "GET", url);
+      res.addListener("getSuccess", function(e) {
         var response = e.getData();
         responses.push(response);
 
@@ -143,7 +143,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
         }
       }, this);
 
-      res.longPoll("index");
+      res.longPoll("get");
       this.wait();
     }
 
