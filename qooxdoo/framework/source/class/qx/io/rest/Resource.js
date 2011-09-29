@@ -287,8 +287,9 @@ qx.Class.define("qx.io.rest.Resource",
       this.__declareEvent(action + "Success");
       this.__declareEvent(action + "Error");
 
-      this[action] = qx.lang.Function.bind(function(params) {
-        this.invoke(action, params);
+      this[action] = qx.lang.Function.bind(function() {
+        Array.prototype.unshift.call(arguments, action);
+        this.invoke.apply(this, arguments);
         return this;
       }, this);
 

@@ -190,6 +190,16 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertEquals(res, res.get(), "Must return itself");
     },
 
+    "test: dynamically created method forwards arguments": function() {
+      var res = this.res,
+          req = this.req;
+
+      this.spy(res, "invoke");
+      res.get({}, 1, 2, 3);
+
+      this.assertCalledWith(res.invoke, "get", {}, 1, 2, 3);
+    },
+
     "test: map actions from description": function() {
       var req = this.req,
           description,
