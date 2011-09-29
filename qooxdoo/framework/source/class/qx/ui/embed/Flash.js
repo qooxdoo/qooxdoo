@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.embed.Flash",
      */
     scale :
     {
-      check : ["showall", "noborder", "excactfit", "noscale"],
+      check : ["showall", "noborder", "exactfit", "noscale"],
       nullable : true,
       apply : "_applyScale"
     },
