@@ -365,7 +365,6 @@ qx.Class.define("qx.io.rest.Resource",
     __checkParameters: function(params, check) {
       if(typeof check !== "undefined") {
 
-        // Warn about missing check
         if (qx.core.Environment.get("qx.debug")) {
           qx.core.Assert.assertObject(check, "Check must be object with params as keys");
         }

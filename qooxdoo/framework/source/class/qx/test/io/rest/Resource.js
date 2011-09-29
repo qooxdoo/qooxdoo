@@ -433,7 +433,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res;
 
       // Require positional param
-      res.map("get", "GET", "/photos/{tag}", {tag: true});
+      res.map("get", "GET", "/photos/{tag}", {tag: qx.io.rest.Resource.REQUIRED});
       this.assertException(function() {
         res.get();
       }, Error, "Missing parameter 'tag'");
