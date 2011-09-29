@@ -37,7 +37,7 @@ qx.Bootstrap.define("qx.bom.client.Scroll",
      * @return {Boolean} <code>true</code> if the scrollbars should be 
      *   positioned on top of the content.
      */
-    scollBarOverlayed : function() {
+    scrollBarOverlayed : function() {
       var scrollBarWidth = qx.bom.element.Overflow.getScrollbarWidth();
       var osx = qx.bom.client.OperatingSystem.getName() === "osx";
       var nativeScrollBars = qx.core.Environment.get("qx.nativeScrollBars");
@@ -48,6 +48,6 @@ qx.Bootstrap.define("qx.bom.client.Scroll",
 
 
   defer : function(statics) {
-    qx.core.Environment.add("os.scrollBarOverlayed", statics.scollBarOverlayed);
+    qx.core.Environment.add("os.scrollBarOverlayed", statics.scrollBarOverlayed);
   }
 });

@@ -368,7 +368,7 @@
  *     </tr>
  *     <tr>
  *       <td>os.scrollBarOverlayed</td><td><i>Boolean</i></td><td><code>false</code></td>
- *       <td>{@link qx.bom.client.Scroll#scollBarOverlayed}</td>
+ *       <td>{@link qx.bom.client.Scroll#scrollBarOverlayed}</td>
  *     </tr>
 
  *     <tr>
@@ -603,7 +603,7 @@ qx.Bootstrap.define("qx.core.Environment",
         "locale.variant"              : "qx.bom.client.Locale.getVariant",
         "os.name"                     : "qx.bom.client.OperatingSystem.getName",
         "os.version"                  : "qx.bom.client.OperatingSystem.getVersion",
-        "os.scrollBarOverlayed"       : "qx.bom.client.Scroll.scollBarOverlayed",
+        "os.scrollBarOverlayed"       : "qx.bom.client.Scroll.scrollBarOverlayed",
         "plugin.gears"                : "qx.bom.client.Plugin.getGears",
         "plugin.activex"              : "qx.bom.client.Plugin.getActiveX",
         "plugin.quicktime"            : "qx.bom.client.Plugin.getQuicktime",
