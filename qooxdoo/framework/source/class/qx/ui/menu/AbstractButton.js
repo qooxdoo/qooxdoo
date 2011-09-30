@@ -53,7 +53,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     this.addListener("keypress", this._onKeyPress);
 
     // @deprecated since 1.5: Please use _onClick instead.
-    this.addListener("mouseup", this._onMouseUp);
+    qx.log.Logger.deprecateMethodOverriding(this, qx.ui.menu.AbstractButton, "_onMouseUp");
 
     // Add command listener
     this.addListener("changeCommand", this._onChangeCommand, this);
