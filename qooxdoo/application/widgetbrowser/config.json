@@ -9,7 +9,6 @@
       [
         // need to define them locally, as the base.json versions fix qx.theme, QXTHEME, etc.
         "source",
-        "source-each",
         "build"
       ]
     }
@@ -42,16 +41,6 @@
     "source" :
     {
       "=run" : ["source-script-classic", "source-script-modern",  "source-script-simple"]
-    },
-
-    "source-each" : 
-    {
-      "extend"  : [ "source" ],
-
-      "compile-options" : 
-      {
-        "code" : { "=except" : [ "*" ] }
-      }
     },
 
     "source-script-classic" :
