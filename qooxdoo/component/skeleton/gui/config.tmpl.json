@@ -33,7 +33,7 @@
     "translation"
   ],
   
-  "default-job" : "source",
+  "default-job" : "source-hybrid",
 
   "let" :
   {
