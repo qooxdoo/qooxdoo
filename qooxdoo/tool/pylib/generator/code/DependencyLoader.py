@@ -140,12 +140,12 @@ class DependencyLoader(object):
                 return
 
             # Handle qx.core.Environment
-            if depsItem.name == "qx.core.Environment" and firstTime[0]:
-                #envObj = self._classesObj["qx.core.Environment"]
-                #envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
-                #self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
-                self._classesObj["qx.core.Environment"].clearTreeCache(variants)
-                firstTime[0] = False
+            #if depsItem.name == "qx.core.Environment" and firstTime[0]:
+            #    #envObj = self._classesObj["qx.core.Environment"]
+            #    #envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
+            #    #self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
+            #    self._classesObj["qx.core.Environment"].clearTreeCache(variants)
+            #    firstTime[0] = False
 
             # reading dependencies
             self._console.debug("Gathering dependencies: %s" % depsItem.name)
@@ -360,17 +360,17 @@ class DependencyLoader(object):
 
         # TODO: this should be removed, as it cannot happen anymore (source is not variant-optimized)
         # fix dependency to classes that get removed with variant optimization
-        variantSelectClasses = ("qx.core.Environment",)
-        if len(variants) and (classObj.id not in variantSelectClasses):
-            depsUnOpt, _ = classObj.dependencies({})  # get unopt deps
-            # this might incur extra generation if unoptimized deps
-            # haven't computed before for this fileId
-            for depItem in depsUnOpt["load"]:
-                if depItem.name in variantSelectClasses and depItem.name not in [x.name for x in loadFinal]:
-                    loadFinal.append(depItem)
-            for depItem in depsUnOpt["run"]:
-                if depItem.name in variantSelectClasses and depItem.name not in [x.name for x in runFinal]:
-                    runFinal.append(depItem)
+        #variantSelectClasses = ("qx.core.Environment",)
+        #if len(variants) and (classObj.id not in variantSelectClasses):
+        #    depsUnOpt, _ = classObj.dependencies({})  # get unopt deps
+        #    # this might incur extra generation if unoptimized deps
+        #    # haven't computed before for this fileId
+        #    for depItem in depsUnOpt["load"]:
+        #        if depItem.name in variantSelectClasses and depItem.name not in [x.name for x in loadFinal]:
+        #            loadFinal.append(depItem)
+        #    for depItem in depsUnOpt["run"]:
+        #        if depItem.name in variantSelectClasses and depItem.name not in [x.name for x in runFinal]:
+        #            runFinal.append(depItem)
 
         # add config dependencies
         if fileId in self._require:
@@ -423,12 +423,13 @@ class DependencyLoader(object):
                 return
 
             # reading dependencies
-            if classId == "qx.core.Environment":
-                #envObj = self._classesObj["qx.core.Environment"]
-                #envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
-                #self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
-                #print envTreeId
-                self._classesObj["qx.core.Environment"].clearTreeCache(variants)
+            #if classId == "qx.core.Environment":
+            #    #envObj = self._classesObj["qx.core.Environment"]
+            #    #envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
+            #    #self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
+            #    #print envTreeId
+            #    self._classesObj["qx.core.Environment"].clearTreeCache(variants)
+
             #deps, cached = self.getCombinedDeps(classId, variants, buildType)
             deps, cached = self._classesObj[classId].getCombinedDeps(variants, self._jobconf)
 
