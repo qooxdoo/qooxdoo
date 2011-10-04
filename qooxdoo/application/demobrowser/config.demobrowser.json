@@ -125,8 +125,8 @@
 
 
     // Repeating this job from base.json, as the original draws in too many
-    // macros from base.json's global 'let' (!)
-    "source-each" : 
+    // macros from base.json's global 'let' (!) 
+    "source-hybrid" : 
     {
       "extend"  : [ "source" ],
 

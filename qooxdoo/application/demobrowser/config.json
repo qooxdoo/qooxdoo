@@ -16,7 +16,7 @@
         "common",
         "source", 
         "source-script", 
-        "source-each",
+        "source-hybrid",
         "build",
         "build-script",
         "build-files",
@@ -45,7 +45,7 @@
     "publish",
     "source",
     "source-data",
-    "source-each",
+    "source-hybrid",
     "test",
     "test-source",
     "translation",
@@ -145,33 +145,33 @@
 
       "run" :
       [
-        // preparations
+        // preparations  
         "source-data",
-        // do the compiling with a different config
+        // do the compiling with a different config 
         "source-demobrowser"
       ]
     },
 
 
-    "source-each-demobrowser" :
+    "source-hybrid-demobrowser" :
     {
       "extend" : ["common"],
 
       "shell" :
       {
-        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py -c config.demobrowser.json source-each"
+        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py -c config.demobrowser.json source-hybrid"
       }
     },
 
 
-    "source-each" :
+    "source-hybrid" :
     {
-      "desc"    : "create source-each version of Demobrowser",
+      "desc"    : "create source-hybrid version of Demobrowser",
 
       "run" :
       [
         "source-data",
-        "source-each-demobrowser"
+        "source-hybrid-demobrowser"
       ]
     },
 
