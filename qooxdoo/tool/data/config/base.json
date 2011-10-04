@@ -95,7 +95,7 @@
 
     "source-script" :
     {
-      "desc"    : "create a hybrid version (app classes as source files, others compiled)",
+      "desc"    : "create a source loader (all classes as source files)",
 
       "extend" : ["common"],
 
@@ -112,8 +112,7 @@
         },
         "code" :
         {
-          "locales" : "${LOCALES}",
-          "except"  : ["${APPLICATION}*"]
+          "locales" : "${LOCALES}"
         }
       },
 
@@ -124,6 +123,12 @@
     "source" :
     {
       "desc"    : "create source version of current application",
+
+      "compile-options" : 
+      {
+        "code" : { "except" : [ "*" ] }
+      },
+
 
       "run" :
       [
@@ -193,28 +198,20 @@
       ]
     },
 
-    //"source-single" : 
-    //"source-discrete" : 
-    //"source-individual" : 
-    "source-each" : 
+    "source-hybrid" : 
     {
-      "desc"    : "create a source version with each class from its individual file",
-
-      "extend"  : [ "source" ],
+      "desc"    : "create a hybrid application (application classes as individual files, others catenated)",
 
       "compile-options" : 
       {
-        "code" : { "=except" : [ "*" ] }
+        "code" : { "except" : [ "${APPLICATION}.*" ] }
       },
 
-      "compile" : { "type" : "source" }
-    },
+      "run" : 
+      [
+        "source-script"
+      ]
 
-    "source-hybrid" :
-    {
-      "desc" : "DEPRECATED - use 'source' instead.",
-
-      "extend" : [ "source" ]
     },
 
 
