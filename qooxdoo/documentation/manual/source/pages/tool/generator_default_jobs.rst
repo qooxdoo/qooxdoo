@@ -205,26 +205,27 @@ Pretty-formatting of the source code of the current library.
 
 source
 ------
-Create a source version of the application.
+Create a source version of the application, using the original file path for each class. 
 
 The source version of an application is tailored towards development activities. It
 makes it easy to write code, run the application, test, debug and
 inspect the application code, fix issues, add enhancements, and repeat.
 
-The *source* job concatenates the contents of the classes that make up the application into a few files, only leaving your own
-application classes separate. Those are in their original source form, and their
-files are directly loaded from their original paths on the file system.
-If you inspect your application in a JavaScript debugger like Firebug or
-Chrome Developer Tools, you can identify each file individually, read
-its code and comments, set breakpoints, inspect variables and so forth.
+With the *source* job all the classes of the application are in their original source form, and their
+files are directly loaded from their original paths on the file system. If you inspect your
+application in a JavaScript debugger like Firebug or Chrome Developer Tools,
+you can identify each file individually, read its code and comments, set
+breakpoints, inspect variables and so forth.
 
-Having the other class files (framework, libraries, contribs) chunked together in a few files you get the loading speed of nearly the build version. You have to re-run this job  when you introduce new
-dependencies, e.g. by instantiating a class you haven't used before.
-This changes the set of necessary classes for your application, and the
-generator has to re-create the corresponding loader. 
+If you find yourself in a situation where you want to inspect more than your current application's class files in the debugger (e.g. because you are debugging another library along the way), this job is preferable.
+
+You have to re-run this job  when you introduce new dependencies, e.g.
+by instantiating a class you haven't used before.  This changes the set of
+necessary classes for your application, and the generator has to re-create the
+corresponding loader. 
 
 There are two variants of the *source* job available which you might find interesting.
-One is called source-all_ and will include all the known classes of all involved libraries, the other is source-each_ which will load only the necessary files for your application (like *source*), but each directly from its individual path. See their respective entries.
+One is called source-all_ and will include all available classes of all involved libraries, the other is source-hybrid_ which improves loading speed by concatenating some of the class code. See their respective entries.
 
 
 .. _pages/tool/generator_default_jobs#source-all:
@@ -239,39 +240,36 @@ library or contribution you might be using. All those classes are
 included in the build, whether they are currently required or not. This
 allows you develop your code more freely as you don't have to
 re-generate the application when introducing new dependencies to existing classes. All
-classes are already there. The downside is that due to the
-number of classes your application loads slower in the browser, so it's a
+classes are already there. You only have to re-run this job when you add an entirely new class that you want to use.
+
+The downside of this job is that due to the
+number of classes your application is larger and loads slower in the browser, so it is a
 trade-off between development speed and loading speed. 
-
-.. _pages/tool/generator_default_jobs#source-each:
-
-source-each
--------------
-Create a source version of the application, using the original file path for each class. 
-
-All the classes of the application are in their original source form, and their
-files are directly loaded from their original paths on the file system.
-If you find yourself in a situation where you want to inspect more than your current application's class files in the debugger (e.g. because you are debugging another library along the way), this job is preferable.
-Only the classes necessary for the application are considered, so you have to re-run this job when you introduce new dependencies.
-
-To review the three different source jobs, if you are just getting
-started with qooxdoo development, use the source-all_ version, which is
-the most convenient if you are not too impatient. If you are concerned
-about loading speed during development, but don't mind hitting the up
-and return keys in your shell window once in a while, go with the default
-source_ job. If your emphasis on the other hand is on
-inspection, and you want to see exactly which class files get loaded
-into your application and which code they provide, the source-each_ version
-might be your preference.
 
 
 .. _pages/tool/generator_default_jobs#source-hybrid:
 
 source-hybrid
 -------------
-*(deprecated with 1.6)*
+Create a source version of the application, concatenating some of the class code.
 
-See the description for the source_ job.
+The *source-hybrid* job concatenates the contents of the classes that make up
+the application into a few files, only leaving your own application classes
+separate.  Having the other class files (framework, libraries, contribs)
+chunked together you get the loading speed of nearly the build
+version, while at the same time retaining the accessibility of your own application files for debugging. This makes this job ideal for fast and focussed development of the application-specific classes. 
+
+Only the classes that are actually needed for the application are included, so you have to re-run this job when you introduce new dependencies.
+
+To review the three different source jobs, if you are just getting
+started with qooxdoo development, use the source-all_ version, which is
+the most convenient if you are not too impatient. If you are concerned
+about loading speed during development, but don't mind hitting the up
+and return keys in your shell window once in a while, go with the default
+source-hybrid_ job. If your emphasis on the other hand is on
+inspection, and you want to see exactly which class files get loaded
+into your application and which code they provide, the source_ version
+will be your choice.
 
 
 .. _pages/tool/generator_default_jobs#test:
