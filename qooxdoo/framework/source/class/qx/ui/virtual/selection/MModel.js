@@ -235,7 +235,13 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       for (var i = 0; i < selection.getLength(); i++)
       {
         var item = selection.getItem(i);
-        var index = this._getSelectables().indexOf(item);
+        var selectables = this._getSelectables();
+        var index = -1;
+        
+        if (selectables != null) {
+          index = selectables.indexOf(item);
+        }
+        
         var row = this._reverseLookup(index);
 
         if (row >= 0) {
@@ -344,7 +350,12 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       for (var i = 0; i < selection.getLength(); i++)
       {
         var item = selection.getItem(i);
-        var index = this._getSelectables().indexOf(item);
+        var selectables = this._getSelectables()
+        var index = -1;
+        
+        if (selectables != null) {
+          index = selectables.indexOf(item);
+        }
         var row = this._reverseLookup(index);
 
         if (row !== managerSelection[i]) {

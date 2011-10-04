@@ -57,6 +57,15 @@ qx.Class.define("qx.test.ui.list.List",
     },
 
 
+    testNullModel : function()
+    {
+      this._list.setModel(null);
+      
+      this.assertEquals(0, this._list.getPane().getRowConfig().getItemCount());
+      this.assertEquals(0, this._list.getSelection().getLength());
+    },
+
+
     testChangeModelSize : function()
     {
       this._model.push("new item");

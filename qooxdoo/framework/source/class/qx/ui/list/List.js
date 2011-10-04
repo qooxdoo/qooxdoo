@@ -84,9 +84,6 @@ qx.Class.define("qx.ui.list.List",
 
     if(model != null) {
       this.initModel(model);
-    } else {
-      this.__defaultModel = new qx.data.Array();
-      this.initModel(this.__defaultModel);
     }
 
     this.initItemHeight();
@@ -133,7 +130,7 @@ qx.Class.define("qx.ui.list.List",
       check : "qx.data.Array",
       apply : "_applyModel",
       event: "changeModel",
-      nullable : false,
+      nullable : true,
       deferredInit : true
     },
 
@@ -311,8 +308,6 @@ qx.Class.define("qx.ui.list.List",
     
     __defaultGroups : null,
     
-    __defaultModel : null,
-
 
     /**
      * Trigger a rebuild from the internal data structure.
@@ -394,10 +389,15 @@ qx.Class.define("qx.ui.list.List",
     _getDataFromRow : function(row) {
       var data = null;
 
+      var model = this.getModel();
+      if (model == null) {
+        return null;
+      }
+
       if (this._isGroup(row)) {
         data = this.getGroups().getItem(this._lookupGroup(row));
       } else {
-        data = this.getModel().getItem(this._lookup(row));
+        data = model.getItem(this._lookup(row));
       }
 
       if (data != null) {
@@ -473,7 +473,7 @@ qx.Class.define("qx.ui.list.List",
     /**
      * Returns the selectable model items.
      *
-     * @return {qx.data.Array} The selectable items.
+     * @return {qx.data.Array | null} The selectable items.
      */
     _getSelectables : function() {
       return this.getModel();
@@ -490,7 +490,9 @@ qx.Class.define("qx.ui.list.List",
     // apply method
     _applyModel : function(value, old)
     {
-      value.addListener("change", this._onModelChange, this);
+      if (value != null) {
+        value.addListener("change", this._onModelChange, this);
+      }
 
       if (old != null) {
         old.removeListener("change", this._onModelChange, this);
@@ -610,13 +612,12 @@ qx.Class.define("qx.ui.list.List",
 
       var model = this.getModel();
 
-      if (model == null) {
-        return;
+      if (model != null) {
+        this._runDelegateFilter(model);
+        this._runDelegateSorter(model);
+        this._runDelegateGroup(model);
       }
 
-      this._runDelegateFilter(model);
-      this._runDelegateSorter(model);
-      this._runDelegateGroup(model);
       this._updateSelection();
       this.__updateRowCount();
     },
@@ -805,9 +806,6 @@ qx.Class.define("qx.ui.list.List",
     
     if (this.__defaultGroups) {
       this.__defaultGroups.dispose();
-    }
-    if (this.__defaultModel) {
-      this.__defaultModel.dispose();
     }
   }
 });
