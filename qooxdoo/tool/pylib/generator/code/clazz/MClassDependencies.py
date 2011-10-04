@@ -386,11 +386,6 @@ class MClassDependencies(object):
                 if self.followCallDeps(node, self.id, className, inLoadContext):
                     depsItem.needsRecursion = True
 
-            ##
-            # TODO: This API is highly experimental.
-            #if className == "qx.core.Environment" and classAttribute == "requireAll":
-            #    depsList.extend(self.getAllEnvChecks(node.get('line',-1), inLoadContext))
-
         # check e.g. qx.core.Environment.get("runtime.name")
         elif node.type == "constant" and node.hasParentContext("call/params"):
             callnode = treeutil.selectNode(node, "../..")
@@ -717,14 +712,6 @@ class MClassDependencies(object):
             if includeVal.type in ('variable', 'array'):
                 includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
             
-            ## assume qx.core.Variant.select() call
-            #else:
-            #    _, branchMap = variantoptimizer.getSelectParams(includeVal)
-            #    includeVal = set()
-            #    for key in branchMap: # just pick up all possible include values
-            #        includeVal.update(treeutil.variableOrArrayNodeToArray(branchMap[key]))
-            #    includeVal = list(includeVal)
-
             # assume qx.core.Environment.filter() call
             else:
                 filterMap = variantoptimizer.getFilterMap(includeVal, self.id)

@@ -283,61 +283,18 @@ class DependencyLoader(object):
 
             # Multiple loop over class list calculation
             processedEnvironment = False
-            while True:
-                result      = []          # reset any previous results for this iteration
-                resultNames = []
+            result      = []          # reset any previous results for this iteration
+            resultNames = []
 
-                # calculate class list recursively
-                for item in includeWithDeps:
-                    depsItem = DependencyItem(item, '', '|config|')
-                    # calculate dependencies and add required classes
-                    classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
-                    #classlistFromClassIterative(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
+            # calculate class list recursively
+            for item in includeWithDeps:
+                depsItem = DependencyItem(item, '', '|config|')
+                # calculate dependencies and add required classes
+                classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
+                #classlistFromClassIterative(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
 
-                self._console.dotclear()
-                #print len(result),"  ",
-
-                # TODO: (bug#5516) no double loop necessary any more - remove rest of loop body
-                break
-
-                # process qx.core.Environment
-                if ("qx.core.Environment" in resultNames 
-                    and "variants" in script.optimize
-                    and not processedEnvironment):
-                    #envObj = self._classesObj["qx.core.Environment"]
-                    #envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
-                    #compOpts = CompileOptions(optimize=["variants"], variants=variants)
-                    #compOpts.allClassVariants = script.classVariants([self._classesObj[x] for x in resultNames])
-                    #tree = Class.optimizeEnvironmentClass(envObj, compOpts)
-                    #self._cache.write(envTreeId, tree, memory=True, writeToFile=False)
-                    ## this is for the side-effect of leaving a modified tree for qx.core.Environmet
-                    ## in the cache!
-                    #_ = envObj.dependencies(variants, force=True)
-                    ## this is for the side-effect of re-calculating the transitive dependencies
-                    ## of qx.core.Environment!
+            self._console.dotclear()
                     
-                    self._classesObj["qx.core.Environment"].optimizeTree(variants, script.classVariants([self._classesObj[x] for x in resultNames]))
-
-                    processedEnvironment = True
-                else:
-                    # We currently know that one additional iteration is enough,
-                    # after optimizeEnvironmentClass() has run. This has to do
-                    # with the fact that it only removes dependencies to
-                    # qx.bom.client.* classes, which in turn do not use
-                    # qx.core.Env calls. So after calculating the new class
-                    # list, allClassVariants will not have changed. If it would,
-                    # we would need to re-calculate until the class list is
-                    # stable.
-                    processedEnvironment = False  # to force break after a single run through the 'then' part
-
-                if not processedEnvironment:
-                    break
-                else:
-                    # signify repetition
-                    self._console.dot("(@)")
-                    
-
-
             if self._console.getLevel() is "info":
                 #self._console.nl()
                 pass
