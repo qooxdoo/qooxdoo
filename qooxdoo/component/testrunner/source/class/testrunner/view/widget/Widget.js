@@ -939,8 +939,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
             this.__testTree.getSelection().push(this.getTestModel());
           }
 
-          if ((this.getAutoReload() && this.__autoReloadActive) 
-          || this.getAutoRun()) 
+          if (this.getAutoReload() && this.__autoReloadActive) 
           {
             this.reset();
             this.fireEvent("runTests");
