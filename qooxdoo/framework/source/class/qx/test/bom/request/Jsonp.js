@@ -35,11 +35,14 @@ qx.Class.define("qx.test.bom.request.Jsonp",
   extend : qx.dev.unit.TestCase,
 
   include : [qx.test.io.MRemoteTest,
+             qx.dev.unit.MRequirements,
              qx.dev.unit.MMock],
 
   members :
   {
     setUp: function() {
+      this.require(["php"]);
+
       var req = this.req = new qx.bom.request.Jsonp();
       this.url = this.getUrl("qx/test/jsonp_primitive.php");
 
