@@ -102,7 +102,7 @@ qx.Class.define("feedreader.model.Model",
       );
       staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
-          "Ajaxian","http://feeds2.feedburner.com/ajaxian", "static"
+          "FunctionSource","http://functionsource.com/feeds/entries", "static"
         )
       );
 
