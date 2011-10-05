@@ -19,7 +19,7 @@
 
 qx.Class.define("qx.test.bom.Font",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : qx.test.ui.LayoutTestCase,
 
   members :
   {
@@ -119,7 +119,22 @@ qx.Class.define("qx.test.bom.Font",
       this.__font.setColor("red");
 
       var styles = this.__font.getStyles();
-      this.assertEquals("red", styles.textColor, "Wrong style value for 'color' property!");
+      this.assertEquals("red", styles.color, "Wrong style value for 'color' property!");
+    },
+
+
+    testColorAtWidget : function()
+    {
+      this.__font.setColor("#ff0000");
+
+      var label= new qx.ui.basic.Label("myLabel");
+      label.setFont(this.__font);
+
+      this.getRoot().add(label);
+      this.flush();
+
+      var color = label.getContentElement().getDomElement().style["color"];
+      this.assertEquals("rgb(26, 26, 26)", color, "Wrong style applied for 'color' property!");
     },
 
 
@@ -133,7 +148,7 @@ qx.Class.define("qx.test.bom.Font",
       this.assertKeyInMap("fontWeight", styles, "Key 'fontWeight' is missing in map!");
       this.assertKeyInMap("fontStyle", styles, "Key 'fontStyle' is missing in map!");
       this.assertKeyInMap("lineHeight", styles, "Key 'lineHeight' is missing in map!");
-      this.assertKeyInMap("textColor", styles, "Key 'textColor' is missing in map!");
+      this.assertKeyInMap("color", styles, "Key 'color' is missing in map!");
     },
 
 
@@ -159,7 +174,7 @@ qx.Class.define("qx.test.bom.Font",
         lineHeight: 1.2,
         fontSize: "20px",
         fontFamily: "Arial",
-        textColor: "red"
+        color: "red"
       };
       var found = font.getStyles();
 

@@ -316,13 +316,13 @@ qx.Class.define("qx.bom.Font",
     getStyles : function()
     {
       return {
-        fontFamily : this.__family,
-        fontSize : this.__size,
-        fontWeight : this.__bold,
-        fontStyle : this.__italic,
-        textDecoration : this.__decoration,
-        lineHeight : this.__lineHeight,
-        textColor : this.__color
+        fontFamily: this.__family,
+        fontSize: this.__size,
+        fontWeight: this.__bold,
+        fontStyle: this.__italic,
+        textDecoration: this.__decoration,
+        lineHeight: this.__lineHeight,
+        color: this.__color
       }
     }
   }
