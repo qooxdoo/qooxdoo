@@ -34,10 +34,38 @@ qx.Class.define("qx.test.bom.WebWorker",
     _url: null,
     _worker: null,
     _send: null,
+    
+    /*
+     * Firefox 8+ throws an exception ("Could not get domain") when trying
+     * to create a worker using a source URI that doesn't contain a TLD, e.g.
+     * "localhost" or an IP address.
+     * 
+     * http://bugzilla.qooxdoo.org/show_bug.cgi?id=5565
+     * https://bugzilla.mozilla.org/show_bug.cgi?id=683280
+     */
+    _isBuggyGecko : function()
+    {
+      return qx.core.Environment.get("engine.name") === "gecko" && 
+        parseInt(qx.core.Environment.get("engine.version"), 10) >= 8;
+    },
 
     setUp: function() {
       this._url = qx.util.ResourceManager.getInstance().toUri("qx/test/webworker.js");
-      this._worker = new qx.bom.WebWorker(this._url);
+      
+      if (this._isBuggyGecko()) {
+        try {
+          this._worker = new qx.bom.WebWorker(this._url);
+        }
+        catch(ex) {
+          throw new qx.dev.unit.RequirementError("foo", "Test skipped due to Firefox bug #683280");
+        }
+        throw new Error(
+          "Firefox bug #683280 seems to be fixed, close qx bug #5565 and remove the workaround from " + this.classname);
+      }
+      
+      else {
+        this._worker = new qx.bom.WebWorker(this._url);
+      }
 
       this._send = function(message, fn) {
         this._worker.addListener("message", function(e) {
