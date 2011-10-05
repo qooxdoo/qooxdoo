@@ -263,7 +263,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     assertContentStyle : function(widget, style, value, msg)
     {
       this.flush();
-      var widgetStyle = widget.getContainerElement().getDomElement().style[style];
+      var widgetStyle = widget.getContentElement().getDomElement().style[style];
       if (value && style.match(/color/i)) {
         this.assertCssColor(value, widgetStyle, msg);
       } else {
