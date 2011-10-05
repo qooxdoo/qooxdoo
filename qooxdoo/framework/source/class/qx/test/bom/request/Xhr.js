@@ -594,6 +594,8 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     "test: http status is 0 when aborted immediately": function() {
+      this.require(["http"]);
+
       var req = this.req;
       req.open();
       req.send();

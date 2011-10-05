@@ -36,6 +36,7 @@ qx.Class.define("qx.test.bom.request.Script",
   extend : qx.dev.unit.TestCase,
 
   include : [qx.test.io.MRemoteTest,
+             qx.dev.unit.MRequirements,
              qx.dev.unit.MMock],
 
   members :
@@ -551,6 +552,7 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     requestPending: function(sleep) {
+      this.require(["php"]);
       var url = this.noCache(this.getUrl("qx/test/jsonp_primitive.php"));
 
       // In legacy browser, a long running script request blocks subsequent requests
