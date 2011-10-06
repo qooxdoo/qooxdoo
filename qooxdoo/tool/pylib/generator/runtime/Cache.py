@@ -291,7 +291,7 @@ class Cache(object):
             return content, cacheModTime
 
         except (IOError, EOFError, pickle.PickleError, pickle.UnpicklingError):
-            self._console.error("Could not read cache from %s" % self._path)
+            self._console.warn("Could not read cache object from %s, recalculating..." % self._path)
             return None, cacheModTime
 
 
