@@ -409,8 +409,14 @@ qx.Class.define("qx.ui.container.SlideBar",
     _onRemoveChild : function()
     {
       qx.event.Timer.once(
-        function() {
-          this.scrollBy(this.getChildControl("scrollpane").getScrollX());
+        function()
+        {
+          // It might happen that the child control is already disposed in very
+          // seldom cases - anyway check against that (Bug #5339)
+          var scrollpane = this.getChildControl("scrollpane");
+          if (!scrollpane.isDisposed()) {
+            this.scrollBy(scrollpane.getScrollX());
+          }
         },
         this,
         50
