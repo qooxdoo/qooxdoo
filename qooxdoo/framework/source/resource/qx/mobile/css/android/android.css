@@ -456,3 +456,23 @@ input[type="checkbox"]:checked {
 		-webkit-transform:rotate(360deg);
 	}
 }
+
+.popup {
+  position: absolute;
+  background-color: #a1a1a1;
+  display: none;
+  width: auto;
+  padding: 3px;
+  border: 1px solid white;
+  -webkit-border-radius: .3em;
+}
+
+dialog {
+  position: fixed;
+  background-color: #a1a1a1;
+  display: none;
+  width: auto;
+  padding: 3px;
+  border: 1px solid white;
+  -webkit-border-radius: .3em;
+}
