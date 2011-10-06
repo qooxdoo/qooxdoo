@@ -49,7 +49,7 @@ Adding the list should look familiar now.
         var list = new qx.ui.form.List();
         this.add(list, {row: 1, column: 0});
 
-Now its time to see our work in the browser. But again, we have added new class dependencies so we need to invoke the generator with ``./generate.py source``. After that, we can see the result in the browser. I guess it's not the way we like it to be. You cannot see any toolbar, the list has too much padding against the window border and doesn't fit the whole window. That's something we should take care of now.
+Now its time to see our work in the browser. But again, we have added new class dependencies so we need to invoke the generator with ``./generate.py``. After that, we can see the result in the browser. I guess it's not the way we like it to be. You cannot see any toolbar, the list has too much padding against the window border and doesn't fit the whole window. That's something we should take care of now.
 
 First, get rid of that padding we don't need. The window object has a default content padding which we just  to set to ``0``.
 

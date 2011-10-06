@@ -81,7 +81,7 @@ You may have already realized that the rest of the file is a list of blocks simi
 Give it a try
 =============
 
-After adding these translations, we should rebuild the application using ``./generate.py source`` and load it in any browser. If your browser uses the locale you added by default, you should already see the application in the new language. If not, just tell qooxdoo's locale manager to switch the locale using e.g. the Firebug console.
+After adding these translations, we should rebuild the application using ``./generate.py`` and load it in any browser. If your browser uses the locale you added by default, you should already see the application in the new language. If not, just tell qooxdoo's locale manager to switch the locale using e.g. the Firebug console.
 
 :: 
 

@@ -56,13 +56,12 @@ Use the Source, Luke
 ~~~~~~~~~~~~~~~~~~~~
 
 The tool chain is able to generate your application in various flavors.
-This is reflected by the available generation jobs, "source", "source-all",
-"source-each" and "build". The most important for starting and
+This is reflected by the available generation jobs, "source", "hybrid", "source-all" and "build". The most important for starting and
 building up your app, are the source jobs. Running ::
 
     generate.py
 
-will generate the so-called "source version" of your application in the default variant (currently *source-hybrid*). 
+will generate the so-called "source version" of your application in the default variant. 
 
 In general, the source version of an app is tailored towards development activities. It
 makes it easy to write code, run the application, test, debug and

@@ -319,7 +319,7 @@ The converter method creates a date object from the given String. Don't be confu
 
 The ``configureItem`` method should be known from :doc:`tutorial part 3 <tutorial-part-3>`, there are only some improvements to keep the same behavior as before.
 
-Great, now we've got it! Run ``generate.py source`` to create the application.
+Great, now we've got it! Run ``generate.py`` to create the application.
 
 |Step 4-2|
 

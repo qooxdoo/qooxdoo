@@ -35,7 +35,7 @@ to the created folder and call the qooxdoo generator with the following
 command:
 ::
 
-    ./generate.py source
+    ./generate.py
 
 After a few seconds the generator has analyzed all class dependencies
 and created a source version of the application. You can test the

@@ -31,7 +31,7 @@ The first step is to get a working qooxdoo application where we can start our de
 
     create-application.py -n twitter
 
-After that, we should check if everything works as expected. Change the directory to twitter and run ``./generate.py source``. Now the skeleton application is ready to run and you can open the index file located in the ``source`` directory. After that, open the ``Application.js`` file located in ``source/class/twitter/Application.js`` with your favorite editor and we are set up for development!
+After that, we should check if everything works as expected. Change the directory to twitter and run ``./generate.py``. Now the skeleton application is ready to run and you can open the index file located in the ``source`` directory. After that, open the ``Application.js`` file located in ``source/class/twitter/Application.js`` with your favorite editor and we are set up for development!
 
 You should see the unchanged skeleton code of the application containing the creation of a button. We don't need that anymore so you can delete it including all the listener stuff.
 
@@ -57,7 +57,7 @@ To test the window, we need to create an instance of it in the main application.
     var main = new twitter.MainWindow();
           main.open();
 
-Now its time to test the whole thing in the browser. But before we can do that, we need to run the generator once more because we added the window class as new dependency. So run ``./generate.py source`` and open the page in the browser. You should see a window in the top left corner having the name "twitter".
+Now its time to test the whole thing in the browser. But before we can do that, we need to run the generator once more because we added the window class as new dependency. So run ``./generate.py`` and open the page in the browser. You should see a window in the top left corner having the name "twitter".
 
 .. _pages/tutorial-part-1#programming_as_configuring:
 

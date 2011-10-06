@@ -163,7 +163,7 @@ And finally, we'll attach a listener to ``changeLoginData``:
 
 Note how all the other calls to ``service.fetchTweets`` can remain unchanged: By making the login window modal, we've made sure the first call, which creates the store, contains the login data. Any subsequent calls (i.e. after reloading or posting an update) will use the same store so they won't need the login details.
 
-OK, time to run ``generate.py source`` and load the application in a browser to make sure everything works like it's supposed to.
+OK, time to run ``generate.py`` and load the application in a browser to make sure everything works like it's supposed to.
 
 
 |Twitter client application with login window|
