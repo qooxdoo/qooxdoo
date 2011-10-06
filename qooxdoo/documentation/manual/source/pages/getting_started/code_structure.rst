@@ -22,8 +22,14 @@ Details
 * **Header** *(optional)* : A comment holding author, copyrights, etc.
 * **Compiler Hints** *(optional)* : Enclosed in a block comment you can have any number of the following lines (leading white space is ignored):
 
-  * **#use**\ *(classname)* : Other class that has to be added to the application; a "run" dependency that has to be available when the current class is actually used (instantiation, method invocation)
-  * **#require**\ *(classname)*  : Other class that has to be added to the application before this class; a "load" dependency that has to be available when the current class is loaded into the browser (i.e. its code is being evaluated)
+  * **#use**\ *(classname)* : Other class that has to be added to the application; a "run" dependency that has to be available when the current class is actually used (instantiation, method invocation). (There is one special symbol, which is reserved for internal use and shouldn't be used in normal application code:
+
+    * *feature-checks* : Use all known feature checks. This will add all known feature check classes as run time dependencies to the current class.)
+
+  * **#require**\ *(classname)*  : Other class that has to be added to the application before this class; a "load" dependency that has to be available when the current class is loaded into the browser (i.e. its code is being evaluated). (There is one special symbol, which is reserved for internal use and shouldn't be used in normal application code:
+
+    * *feature-checks* : Require all known feature checks. This will add all known feature check classes as load time dependencies to the current class.)
+
   * **#ignore**\ *(symbol)*  : Unknown global symbol (like a class name) that the compiler should not care about (i.e. you know it will be available in the running application). Ignored symbols will not be added to either the run or load dependencies of the class, and will not be warned about. Besides proper identifiers there are two special symbols you can use:
 
     * **auto-require** : Ignore all *require* dependencies detected by the automatic analysis; they will not be added to the class' load dependencies
