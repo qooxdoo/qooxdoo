@@ -1,9 +1,9 @@
 .. _pages/tool/generator_config_macros#configuration_macro_reference:
 
-Configuration Macro Reference
-*****************************
+Generator Config Macros
+******************************
 
-This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be overridden in custom configuration files.
+This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be overridden in custom configuration files. (Others, like PYTHON_CMD or QOOXDOO_VERSION, you would only want to reference, but not set).
 
 .. list-table::
    :header-rows: 1
@@ -47,7 +47,7 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
  
    * - OPTIMIZE 
      - list of optimization options for build version 
-     - ["basecalls", "variables", "privates", "strings"] 
+     - ["basecalls", "comments", "privates", "strings", "variables", "variants"]
  
    * - QOOXDOO_PATH 
      - path to the qooxdoo installation root dir 
@@ -57,6 +57,10 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
      - the current qooxdoo version
      - %{version}
  
+   * - QOOXDOO_REVISION 
+     - (read-only) the current qooxdoo repository revision
+     - (only defined in a repository checkout)
+ 
    * - QXICONTHEME 
      - icon theme to use for this application 
      - ["Tango"] 
@@ -65,6 +69,10 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
      - theme to use for this application 
      - "qx.theme.Modern" 
  
+   * - PYTHON_CMD 
+     - (read-only) Python executable
+     - (your system's default Python executable)
+     
    * - ROOT 
      - application root dir (rel. to config dir) 
      - "."
@@ -79,7 +87,7 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
 
    * - SIMULATOR_ROOT
      - path to the framework's simulator component
-     - "${QOOXDOO_PATH}/component/simulator"
+     - "${QOOXDOO_PATH}/ component/ simulator"
 
    * - TEST_INCLUDE 
      - class pattern to search for unit test classes 

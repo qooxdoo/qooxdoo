@@ -1,6 +1,6 @@
 .. _pages/tool/generator_config_ref#reference_listing_of_config_keys:
 
-Reference Listing of Config Keys
+Generator Config Keys
 ********************************
 
 This page contains the complete list of configuration keys and their sub-structures.
