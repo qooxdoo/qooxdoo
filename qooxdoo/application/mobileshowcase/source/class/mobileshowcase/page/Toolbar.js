@@ -52,6 +52,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
      * The toolbar
      */
     __toolbar : null,
+    __popup: null,
 
     // overridden
     _initialize : function()
@@ -83,6 +84,8 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       toolbar.add(goBackBtn);
       goBackBtn.addListener("tap", function(){
         label.setValue("Go Back");
+        var popup = this.__createPopup(label);
+        popup.show();
       }, this);
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
       var closeButton = new qx.ui.mobile.toolbar.Button("Take Picture","mobileshowcase/icon/camera.png");
@@ -99,6 +102,33 @@ qx.Class.define("mobileshowcase.page.Toolbar",
     _onButtonTap : function()
     {
       this.__toolbar.toggle();
+    },
+    
+    /**
+     * Creates the popup widget to show when backButton is tapped
+     */
+    __createPopup : function(attachedToWidget)
+    {
+      if(this.__popup) {
+        return this.__popup;
+      }
+      var popupWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
+      popupWidget.add(new qx.ui.mobile.form.Title("Are you sure?"));
+      var buttonsWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+      var okButton = new qx.ui.mobile.form.Button("Yes");
+      var cancelButton = new qx.ui.mobile.form.Button("No");
+      popupWidget.add(okButton);
+      popupWidget.add(cancelButton);
+      popupWidget.add(buttonsWidget);
+      okButton.addListener("tap", function(){
+        this.__popup.hide();
+      }, this);
+      cancelButton.addListener("tap", function(){
+        this.__popup.hide();
+      }, this);
+      //return new qx.ui.mobile.dialog.Popup(popupWidget, attachedToWidget);
+      this.__popup = new qx.ui.mobile.dialog.Popup(popupWidget);
+      return this.__popup;
     },
 
     // overridden
