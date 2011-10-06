@@ -57,7 +57,8 @@
         "exclude" :
         [
           "qx.event.GlobalError",
-          "qx.core.Init"
+          "qx.core.Init",
+          "qx.bom.element.Overflow"
         ]
       },
 
@@ -72,9 +73,6 @@
       
       "=include" : 
       [
-        //"qx.Class",
-        //"qx.Mixin",
-        //"qx.Interface",
         "qx.core.BaseInit",
         "$${APPLICATION}.Application"
       ],
@@ -82,7 +80,8 @@
       "exclude" :
       [
         "qx.event.GlobalError",
-        "qx.core.Init"
+        "qx.core.Init",
+        "qx.bom.element.Overflow"  // to block "document" but have client.Scroll
       ],
 
       "environment" :
