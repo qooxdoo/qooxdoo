@@ -664,15 +664,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       {
         this.removeCssClass("disabled");
         this._setStyle('anonymous',this.getAnonymous());
-        console.log(this+' set anonymous state to this.getAnonymous()='+this.getAnonymous());
       }
       else
       {
         this.addCssClass("disabled");
         this._setStyle('anonymous',true);
-        console.log(this+' set anonymous state to true');
       }
-      console.log(this+' '+this.getAnonymous());
     },
 
 

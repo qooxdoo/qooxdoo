@@ -269,9 +269,17 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     removeWidget : function()
     {
-      if(this.__widget) {
+      if(this.__widget)
+      {
         this.__childrenContainer.remove(this.__widget);
         return this.__widget;
+      }
+      else
+      {
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.log.Logger.debug(this, "this popup has no widget attached yet");
+        }
+        return null;
       }
     }
   },
