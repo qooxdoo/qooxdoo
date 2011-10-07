@@ -120,6 +120,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __top : null,
     __percentageTop : null,
     __anchor: null,
+    __widget: null,
     
     /**
      * Event handler. Called whenever the position of the popup should be updated.
@@ -242,9 +243,36 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     __initializeChild : function(widget)
     {
-      this.__childrenContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY: "middle"}));
+      if(this.__childrenContainer == null) {
+        this.__childrenContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY: "middle"}));
+        this._add(this.__childrenContainer);
+      }
       this.__childrenContainer.add(widget);
-      this._add(this.__childrenContainer);
+      this.__widget = widget;
+    },
+    
+    /**
+     * Adds the widget that will be shown in this popup. This method can be used in the case when you have removed the widget from the popup
+     * or you haven't passed it in the constructor. Useful when playing with complex view and the popup
+     * is part of that. See the SplitPane, where the widget is removed from the left container
+     * and shown in a popup.
+     * @param widget {qx.ui.mobile.core.Widget} - what to show in the popup
+     */
+    add : function(widget)
+    {
+      this.removeWidget();
+      this.__initializeChild(widget);
+    },
+    
+    /**
+     * This method removes the widget shown in the popup.
+     */
+    removeWidget : function()
+    {
+      if(this.__widget) {
+        this.__childrenContainer.remove(this.__widget);
+        return this.__widget;
+      }
     }
   },
 
