@@ -713,3 +713,17 @@ rrdtool update nightly_builds.rrd 1316462401:223:5670:282:515:486:232:101:224
 rrdtool update nightly_builds.rrd 1316548801:218:5674:280:509:485:232:102:225
 rrdtool update nightly_builds.rrd 1316635201:219:5680:279:516:482:232:101:224
 rrdtool update nightly_builds.rrd 1316721601:203:5678:279:513:489:233:101:224
+rrdtool update nightly_builds.rrd 1316808002:221:5711:283:515:487:233:102:227
+rrdtool update nightly_builds.rrd 1316894401:215:5699:282:515:480:232:103:225
+rrdtool update nightly_builds.rrd 1316980801:192:5695:277:513:485:233:102:225
+rrdtool update nightly_builds.rrd 1317067201:195:5688:278:517:494:239:104:228
+rrdtool update nightly_builds.rrd 1317153601:196:5710:277:512:480:231:101:225
+rrdtool update nightly_builds.rrd 1317240002:198:5731:282:515:503:232:105:225
+rrdtool update nightly_builds.rrd 1317326402:194:5709:278:515:486:223:102:223
+rrdtool update nightly_builds.rrd 1317412802:200:5707:282:517:481:220:103:225
+rrdtool update nightly_builds.rrd 1317499201:217:5705:280:512:481:220:100:227
+rrdtool update nightly_builds.rrd 1317585601:196:5701:277:519:484:217:108:226
+rrdtool update nightly_builds.rrd 1317672001:224:5696:280:517:487:224:100:228
+rrdtool update nightly_builds.rrd 1317758401:196:5708:278:516:493:221:102:225
+rrdtool update nightly_builds.rrd 1317844801:196:5708:288:515:481:217:102:226
+rrdtool update nightly_builds.rrd 1317931201:191:4154:270:504:475:209:100:225
