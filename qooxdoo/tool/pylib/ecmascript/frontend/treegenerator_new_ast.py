@@ -581,11 +581,16 @@ def nud(self):
         advance()
     # params
     assert isinstance(token, symbol("("))
-    self.children.append(expression())
+    params = Node("params")
+    self.children.append(params)
+    params.children.append(expression())
     # body
-    advance("{")
-    self.children.append(statements())
-    advance("}")
+    body = Node("body")
+    self.children.append(body)
+    if token.id == "{":
+        body.children.append(block())
+    else:
+        body.children.append(statement())
     return self
 
 
@@ -599,9 +604,28 @@ def std(self):
 
 symbol("var")
 
+##
+# TODO: deviation from old ast
+# This does (for "var a=1")
+#  <definitionList>
+#    <definition>
+#      <assignment>
+#        <identifier>
+#        <constant>
+# (with assignment/2)
+# which seems more sane than the older
+#  <definitionList>
+#    <definition>
+#      <assignment identifier=a>
+#        <constant>
+# (with assignment/1, where it is /2 elsewhere)
+#
 @method(symbol("var"))
 def std(self):
+    vardecl = Node("definitionList")
     while True:
+        var = Node("definition")
+        vardecl.children.append(var)
         n = token
         if n.id != "identifier":
             raise SyntaxError("Expected a new variable name (pos %d)" % self.spos)
@@ -611,15 +635,15 @@ def std(self):
             advance("=")
             t.children.append(n)
             t.children.append(expression())
-            self.children.append(t)
+            var.children.append(t)
+        else:
+            var.children.append(n)
         if token.id != ",":
             break
-        advance(",")
+        else:
+            advance(",")
     #advance(";")
-    if len(self.children) != 1:
-        return self
-    else:
-        return self.children[0]
+    return vardecl
 
 
 # but "var" also needs a nud method, since it can appear in expressions
@@ -917,8 +941,8 @@ def statements():  # plural!
 def block():
     t = token
     advance("{")
-    s = symbol("block")()
-    s.children.append(t.std())
+    s = Node("block")
+    s.children.append(t.std())  # the "{".std takes care of closing "}"
     return s
 
 def init_list():  # parse anything from "i" to "i, j=3, k,..."
@@ -1046,7 +1070,8 @@ if __name__ == "__main__":
         test(e,"function foo(a,b) { a = 1; b = 2;}")
         test(e,"([dojo._listener, del, node_listener][listener]).remove(obj, event, handle);") # from bug#2178
         # statements
-        test(s,"var a = 1, b;")
+        test(s,"var a = 1, b;")                          # DEVIATION: using assigment/2 
+        #sys.exit()
         test(s,"var a = 'foo \\' bar';")                 # scanner has to provide "foo ' bar" literal
         test(s,"while(a<10){ b.append(a); }")
         test(e,"i=2")

@@ -573,8 +573,8 @@ class CodeGenerator(object):
                     #    code = optimizeEnvironmentClass(clazz, compConf)
                     #else:
                     if True:
-                        code = clazz.getCode(compConf, treegen=treegenerator_new_ast) # choose parser frontend
-                        #code = clazz.getCode(compConf, treegen=treegenerator) # choose parser frontend
+                        #code = clazz.getCode(compConf, treegen=treegenerator_new_ast) # choose parser frontend
+                        code = clazz.getCode(compConf, treegen=treegenerator) # choose parser frontend
                     result.append(code)
                     log_progress()
                 return u''.join(result)

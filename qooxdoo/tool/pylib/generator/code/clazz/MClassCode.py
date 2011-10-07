@@ -27,7 +27,9 @@ import sys, os, types, re, string, copy
 import optparse 
 from ecmascript.backend.Packer      import Packer
 from ecmascript.backend             import pretty
-from ecmascript.frontend import treeutil, tokenizer, treegenerator
+from ecmascript.frontend import treeutil, tokenizer
+from ecmascript.frontend import treegenerator
+#from ecmascript.frontend import treegenerator_new_ast as treegenerator
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, commentoptimizer
 from ecmascript.transform.optimizer import stringoptimizer, basecalloptimizer, privateoptimizer
 from misc import util, filetool
