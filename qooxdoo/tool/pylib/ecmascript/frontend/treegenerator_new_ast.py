@@ -41,7 +41,6 @@
 ##
 
 import sys, os, re, types, string
-from ecmascript.frontend                 import tree, lang, tokenizer
 from ecmascript.frontend.SyntaxException import SyntaxException
 from ecmascript.frontend.tree            import Node
 from ecmascript.frontend.Scanner         import IterObject, LQueue, is_last_escaped
@@ -880,10 +879,11 @@ def expression(rbp=0):
 
 def statement():
     n = token
+    s = None
     if getattr(token, 'std', None):
         advance()
         s = n.std()
-    else:
+    elif token.type != 'eol': # it's not an empty line
         s = expression()
         # Crockford's too tight here
         #if not (s.id == "=" or s.id == "("):
@@ -983,6 +983,8 @@ def test(x, program):
     global token, next, tokenStream
     print ">>>", program
     tokenArr = tokenizer.parseStream(program)
+    from pprint import pprint
+    #pprint (tokenArr)
     tokenStream = TokenStream(tokenArr)
     next = iter(tokenStream).next
     token = next()
@@ -1004,6 +1006,7 @@ def test(x, program):
 
 
 if __name__ == "__main__":
+    from ecmascript.frontend import tokenizer
     if len(sys.argv)>1:
         arg1 = sys.argv[1]
         p = TreeGenerator()
@@ -1070,3 +1073,25 @@ if __name__ == "__main__":
         test(e,"(a[0])++")
         test(e,"--i")
         test(e,"i--")
+        # comments
+        test(s,"/* this is a comment */\nvar a = 4711;")
+        test(s,"var a = 4711;/* this is a post-comment */")
+        test(s,"/* this is a \n * multi-line comment */\nvar a = 4711;")
+        test(s,"var a = /* this is an embedded comment */4711;")
+        test(e,"function (/* comment in args */x) {var a=4711;}")
+
+
+
+
+##
+# A plan for the new parser:
+#
+#  - main::tests must pass
+#  - check the astlet's!
+#  - if all is well, activate treegenerator_new_ast in compile.py
+#  - compile single files (from skeleton Application.js to qx/Class.js), checken results
+#  - if all is well, activate treegenerator_new_ast for *compile* jobs:
+#    - 'source' - check dependencies, check app runs (this also checks the
+#      class list)
+#    - 'build' - check app runs (this also checks compression)
+
