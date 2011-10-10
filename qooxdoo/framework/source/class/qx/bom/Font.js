@@ -44,6 +44,17 @@ qx.Class.define("qx.bom.Font",
   {
     this.base(arguments);
 
+    this.__lookupMap =
+    {
+      fontFamily: "",
+      fontSize: null,
+      fontWeight: null,
+      fontStyle: null,
+      textDecoration: null,
+      lineHeight: null,
+      color: null
+    };
+
     if (size !== undefined) {
       this.setSize(size);
     }
@@ -239,23 +250,17 @@ qx.Class.define("qx.bom.Font",
 
   members :
   {
-    __size : null,
-    __family : null,
-    __bold : null,
-    __italic : null,
-    __decoration : null,
-    __lineHeight : null,
-    __color : null,
+    __lookupMap : null,
 
 
     // property apply
     _applySize : function(value, old) {
-      this.__size = value === null ? null : value + "px";
+      this.__lookupMap.fontSize = value === null ? null : value + "px";
     },
 
 
     _applyLineHeight : function(value, old) {
-      this.__lineHeight = value === null ? null : value;
+      this.__lookupMap.lineHeight = value === null ? null : value;
     },
 
 
@@ -279,35 +284,39 @@ qx.Class.define("qx.bom.Font",
         }
       }
 
-      this.__family = family;
+      // font family is a special case. In order to render the labels correctly
+      // we have to return a font family - even if it's an empty string to prevent
+      // the browser from applying the element style
+      this.__lookupMap.fontFamily = family;
     },
 
 
     // property apply
     _applyBold : function(value, old) {
-      this.__bold = value === null ? null : value ? "bold" : "normal";
+      this.__lookupMap.fontWeight = value === null ? null : value ? "bold" : "normal";
     },
 
 
     // property apply
     _applyItalic : function(value, old) {
-      this.__italic = value === null ? null : value ? "italic" : "normal";
+      this.__lookupMap.fontStyle = value === null ? null : value ? "italic" : "normal";
     },
 
 
     // property apply
     _applyDecoration : function(value, old) {
-      this.__decoration = value === null ? null : value;
+      this.__lookupMap.textDecoration = value === null ? null : value;
     },
 
     // property apply
     _applyColor : function(value, old) {
-      this.__color = value === null ? null : value;
+      this.__lookupMap.color = value === null ? null : value;
     },
 
 
     /**
-     * Get a map of all CSS styles, which will be applied to the widget
+     * Get a map of all CSS styles, which will be applied to the widget. Only
+     * the styles which are set are returned.
      *
      * @return {Map} Map containing the current styles. The keys are property
      * names which can directly be used with the <code>set</code> method of each
@@ -315,15 +324,16 @@ qx.Class.define("qx.bom.Font",
      */
     getStyles : function()
     {
-      return {
-        fontFamily: this.__family,
-        fontSize: this.__size,
-        fontWeight: this.__bold,
-        fontStyle: this.__italic,
-        textDecoration: this.__decoration,
-        lineHeight: this.__lineHeight,
-        color: this.__color
+      var result = {};
+
+      for (var key in this.__lookupMap)
+      {
+        if (this.__lookupMap[key] !== null) {
+          result[key] = this.__lookupMap[key];
+        }
       }
+
+      return result;
     }
   }
 });
