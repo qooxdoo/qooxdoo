@@ -147,9 +147,14 @@ qx.Class.define("qx.test.bom.Font",
       var keys = qx.lang.Object.getKeys(styles);
 
       this.assertMap(styles, "Method 'getStyles' should return a map!");
-      this.assertEquals(1, qx.lang.Object.getLength(styles), "Map should only contain one key!");
-      this.assertEquals("fontFamily", keys[0], "Key 'fontFamily' has to be present!");
-      this.assertEquals("", styles.fontFamily, "'fontFamily' has to have the value ''!");
+      this.assertEquals(7, qx.lang.Object.getLength(styles), "Map should contain 7 key!");
+      this.assertNotUndefined(styles.fontFamily, "Key 'fontFamily' has to be present!");
+      this.assertNotUndefined(styles.fontStyle, "Key 'fontStyle' has to be present!");
+      this.assertNotUndefined(styles.fontWeight, "Key 'fontWeight' has to be present!");
+      this.assertNotUndefined(styles.fontSize, "Key 'fontSize' has to be present!");
+      this.assertNotUndefined(styles.lineHeight, "Key 'lineHeight' has to be present!");
+      this.assertNotUndefined(styles.textDecoration, "Key 'textDecoration' has to be present!");
+      this.assertNotUndefined(styles.color, "Key 'color' has to be present!");
     },
 
 
@@ -158,17 +163,18 @@ qx.Class.define("qx.test.bom.Font",
       this.__font.setBold(true);
       this.__font.setItalic(true);
       this.__font.setColor("#3f3f3f");
+      this.__font.setDecoration("underline");
 
       var styles = this.__font.getStyles();
       var keys = qx.lang.Object.getKeys(styles);
 
       this.assertMap(styles, "Method 'getStyles' should return a map!");
-      this.assertEquals(4, qx.lang.Object.getLength(styles), "Map should contain three keys!");
       this.assertEquals("fontFamily", keys[0], "Key 'fontFamily' has to be present!");
       this.assertEquals("", styles.fontFamily, "'fontFamily' has to have the value ''!");
       this.assertEquals("italic", styles.fontStyle, "Wrong value for 'fontStyle'!");
       this.assertEquals("bold", styles.fontWeight, "Wrong value for 'fontWeight'!");
       this.assertEquals("#3f3f3f", styles.color, "Wrong value for 'color'!");
+      this.assertEquals("underline", styles.textDecoration, "Wrong value for 'textDecoration'!");
     },
 
 
