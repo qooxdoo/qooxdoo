@@ -999,10 +999,6 @@ createSyntaxTree = TreeGenerator().parse
 
 # - Main ----------------------------------------------------------------------
 
-e = 0
-s = 1
-b = 2
-
 def test(x, program):
     global token, next, tokenStream
     print ">>>", program
@@ -1041,69 +1037,9 @@ if __name__ == "__main__":
         tokenArr = tokenizer.parseStream(text)
         print p.parse(tokenArr).toXml()
     else:
-        test(e,"1")
-        test(e,"+1")
-        test(e,"-1")
-        test(e,"1+2")
-        test(e,"1+2+3")
-        test(e,"1+2*3")
-        test(e,"(1+2)*3")
-        test(e,"(1)")
-        test(e,"{}")
-        test(e,"1 ? 2 : 3")
-        test(e,"{1: 'one', 2: 'two'}")
-        test(e,"{1: 'one', 2: 'two', 3: 'three'}")
-        test(e,"(1,)")
-        test(e,"(1, 2)")
-        test(e,"[1, 2, 3]")
-        test(e,"1.0*2+3")
-        test(e,"'hello'+'world'")
-        test(e,"1 and 2")
-        test(e,"foo.bar")
-        test(e,"1 + hello")
-        test(e,"'hello'[0]")
-        test(e,"hello()")
-        test(e,"hello(1,2,3)")
-        test(e,"function () { a = 1; }")
-        test(e,"function foo() { a = 1; }")
-        test(e,"function foo(a,b) { a = 1; }")
-        test(e,"function foo(a,b) { a = 1; b = 2;}")
-        test(e,"([dojo._listener, del, node_listener][listener]).remove(obj, event, handle);") # from bug#2178
-        # statements
-        test(s,"var a = 1, b;")                          # DEVIATION: using assigment/2 
-        #sys.exit()
-        test(s,"var a = 'foo \\' bar';")                 # scanner has to provide "foo ' bar" literal
-        test(s,"while(a<10){ b.append(a); }")
-        test(e,"i=2")
-        test(e,"2")
-        test(s,"for(i=0; i<j; i++){ a=3; }")
-        test(s,"for(i=0, j=a; i<j; i++){ a=3; }")
-        test(s,"for(var i=0, j=a; i<j; i++){ a=3; }")
-        test(s,"for(i in j){}")
-        test(s,"for(var key in config){process(key);}")
-        # regexp literals
-        test(s,"var a = /123/;")
-        test(s,"var a = /123/mgi;")
-        test(e,"foo(1, /a.*b/mgi)")
-        test(s,"var a = /a.*/;")
-        test(s,r"var a = /^ab.*?[f-g]+x\/yz[^\.\/]?a.*\\/;")
-        test(s,r"var a = /^(?:(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?)?(?:T(\d{2}):(\d{2})(?::(\d{2})(.\d+)?)?((?:[+-](\d{2}):(\d{2}))|Z)?)?$/;")  # from bug#2180
-        test(s,"var a = 10/123/2;")
-        # pre-/post-ops
-        test(e,"++i")
-        test(e,"i++")
-        test(e,"++a[0]")
-        test(e,"a[0]++")
-        test(e,"++(a[0])")
-        test(e,"(a[0])++")
-        test(e,"--i")
-        test(e,"i--")
-        # comments
-        test(s,"/* this is a comment */\nvar a = 4711;")
-        test(s,"var a = 4711;/* this is a post-comment */")
-        test(s,"/* this is a \n * multi-line comment */\nvar a = 4711;")
-        test(s,"var a = /* this is an embedded comment */4711;")
-        test(e,"function (/* comment in args */x) {var a=4711;}")
+        execfile (os.path.normpath(os.path.join(__file__, "../../../../test/compiler/treegenerator.py")))
+        for t in tests:
+            test(*t)
 
 
 

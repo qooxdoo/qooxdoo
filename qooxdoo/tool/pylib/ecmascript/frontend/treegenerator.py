@@ -1043,3 +1043,50 @@ def readTryCatch(stream):
         item.addChild(finallyItem)
 
     return item
+
+
+# - Main ----------------------------------------------------------------------
+
+def test(x, program):
+    global token, next, tokenStream
+    print ">>>", program
+    tokenArr = tokenizer.parseStream(program)
+    from pprint import pprint
+    #pprint (tokenArr)
+    tokenStream = TokenStream(tokenArr)
+    #next = iter(tokenStream).next
+    #token = next()
+    tokenStream.next()
+    if x == e:
+        res = readExpression(tokenStream)
+        print res.toXml()
+    elif x == s:
+        res = readStatement(tokenStream)
+        print res.toXml()
+    elif x == b:
+        res = readBlock(tokenStream)
+        print res.toXml()
+    else:
+        raise RuntimeError("Wrong test parameter: %s" % x)
+
+
+if __name__ == "__main__":
+    import sys, os
+    from ecmascript.frontend import tokenizer
+    if len(sys.argv)>1:
+        arg1 = sys.argv[1]
+        p = TreeGenerator()
+        if os.path.isfile(arg1):
+            text = filetool.read(sys.argv[1])
+        else:
+            text = arg1
+        tokenArr = tokenizer.parseStream(text)
+        print p.parse(tokenArr).toXml()
+    else:
+        execfile (os.path.normpath(os.path.join(__file__, "../../../../test/compiler/treegenerator.py")))
+        for t in tests:
+            try:
+                test(*t)
+            except SyntaxException:
+                print "PARSE FAILED:", repr(t)
+
