@@ -437,6 +437,12 @@ qx.Class.define("qx.ui.form.AbstractField",
       {
         styles = qx.bom.Font.getDefaultStyles();
       }
+
+      // check if text color already set - if so this local value has higher priority
+      if (this.getTextColor() != null) {
+        delete styles["color"];
+      }
+
       // apply the font to the content element
       this.getContentElement().setStyles(styles);
 

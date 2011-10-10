@@ -150,7 +150,7 @@ qx.Class.define("qx.bom.Font",
       fontStyle: "",
       textDecoration: "",
       lineHeight: 1.2,
-      textColor: ""
+      color: ""
     },
 
 
