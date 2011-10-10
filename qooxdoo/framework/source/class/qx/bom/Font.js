@@ -322,18 +322,8 @@ qx.Class.define("qx.bom.Font",
      * names which can directly be used with the <code>set</code> method of each
      * widget.
      */
-    getStyles : function()
-    {
-      var result = {};
-
-      for (var key in this.__lookupMap)
-      {
-        if (this.__lookupMap[key] !== null) {
-          result[key] = this.__lookupMap[key];
-        }
-      }
-
-      return result;
+    getStyles : function() {
+      return this.__lookupMap;
     }
   }
 });

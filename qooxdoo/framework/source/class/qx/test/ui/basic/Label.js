@@ -152,6 +152,24 @@ qx.Class.define("qx.test.ui.basic.Label",
       }, this, 1000);
 
       this.wait(2000);
+    },
+
+    testApplyFontColorAndTextColor: function()
+    {
+      var font1 = new qx.bom.Font();
+      font1.setColor("#FF0000");
+
+      var label1 = new qx.ui.basic.Label("test 1");
+      label1.setTextColor("#00FF00");
+      label1.setFont(font1);
+
+      this.getRoot().add(label1);
+      this.flush();
+
+      this.assertEquals("#00FF00", label1.getContentElement().getStyle("color"), "Color property should have more priority than font color.");
+
+      label1.destroy();
+      font1.dispose();
     }
   }
 });

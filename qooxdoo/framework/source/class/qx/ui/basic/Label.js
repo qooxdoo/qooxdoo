@@ -358,6 +358,12 @@ qx.Class.define("qx.ui.basic.Label",
         styles = qx.bom.Font.getDefaultStyles();
       }
 
+      // check if text color already set - if so this local value has more
+      // priority
+      if (this.getTextColor() != null) {
+        delete styles["color"];
+      }
+
       this.getContentElement().setStyles(styles);
 
       // Invalidate text size
