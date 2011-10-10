@@ -192,6 +192,12 @@ qx.Class.define("qx.ui.embed.Html",
     _applyFont : function(value, old)
     {
       var styles = value ? qx.theme.manager.Font.getInstance().resolve(value).getStyles() : qx.bom.Font.getDefaultStyles();
+
+      // check if text color already set - if so this local value has higher priority
+      if (this.getTextColor() != null) {
+        delete styles["color"];
+      }
+
       this.getContentElement().setStyles(styles);
     },
 
