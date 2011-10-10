@@ -131,6 +131,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
 
       // virtual select box
       var virtualSelectBox = new qx.ui.form.VirtualSelectBox();
+      virtualSelectBox.setTabIndex(tabIndex++);
       label = new qx.ui.basic.Label("VirtualSelectBox:");
       label.setBuddy(virtualSelectBox);
       selectionGroupBox.add(label, {row: 1, column: 0});
@@ -236,6 +237,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
 
       // Tri-State check box
       var triCheckBox = new qx.ui.form.CheckBox("Tri-State CheckBox").set({
+        tabIndex: tabIndex++,
         triState: true,
         value: null
       });
