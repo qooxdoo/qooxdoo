@@ -131,7 +131,7 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
       radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 1").set({tabIndex: tabIndex++}));
       radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 2").set({tabIndex: tabIndex++}));
       radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 3").set({tabIndex: tabIndex++}));
-      form.add(radioButtonGroup, "RadioButtonGroup")
+      form.add(radioButtonGroup, "RadioButtonGroup");
       this.__widgets.push(radioButtonGroup);
 
       renderedForm = new qx.ui.form.renderer.Single(form);
@@ -209,17 +209,17 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
       form.add(checkBox, "CheckBox");
       this.__widgets.push(checkBox);
 
-      // Tri-State check box
+      // tri-state check box
       var triCheckBox = new qx.ui.form.CheckBox().set({
         triState: true,
         value: null
       });
-      form.add(triCheckBox, "Tri-State CheckBox")
+      form.add(triCheckBox, "Tri-State CheckBox");
       this.__widgets.push(triCheckBox);
 
       // radio button
       var radioButton = new qx.ui.form.RadioButton().set({tabIndex: tabIndex++});
-      form.add(radioButton, "RadioButton")
+      form.add(radioButton, "RadioButton");
       this.__widgets.push(radioButton);
 
       renderedForm = new qx.ui.form.renderer.Single(form);
