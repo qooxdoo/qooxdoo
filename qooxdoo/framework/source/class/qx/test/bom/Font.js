@@ -142,13 +142,33 @@ qx.Class.define("qx.test.bom.Font",
     {
       var styles = this.__font.getStyles();
 
-      this.assertKeyInMap("fontFamily", styles, "Key 'fontFamily' is missing in map!");
-      this.assertKeyInMap("fontSize", styles, "Key 'fontSize' is missing in map!");
-      this.assertKeyInMap("textDecoration", styles, "Key 'textDecoration' is missing in map!");
-      this.assertKeyInMap("fontWeight", styles, "Key 'fontWeight' is missing in map!");
-      this.assertKeyInMap("fontStyle", styles, "Key 'fontStyle' is missing in map!");
-      this.assertKeyInMap("lineHeight", styles, "Key 'lineHeight' is missing in map!");
-      this.assertKeyInMap("color", styles, "Key 'color' is missing in map!");
+      // we expect a map with only 'fontFamily' set, otherwise the null values 
+      // which are returned are overwriting styles. Only return styles which are set.
+      var keys = qx.lang.Object.getKeys(styles);
+
+      this.assertMap(styles, "Method 'getStyles' should return a map!");
+      this.assertEquals(1, qx.lang.Object.getLength(styles), "Map should only contain one key!");
+      this.assertEquals("fontFamily", keys[0], "Key 'fontFamily' has to be present!");
+      this.assertEquals("", styles.fontFamily, "'fontFamily' has to have the value ''!");
+    },
+
+
+    testGetSomeStyles : function()
+    {
+      this.__font.setBold(true);
+      this.__font.setItalic(true);
+      this.__font.setColor("#3f3f3f");
+
+      var styles = this.__font.getStyles();
+      var keys = qx.lang.Object.getKeys(styles);
+
+      this.assertMap(styles, "Method 'getStyles' should return a map!");
+      this.assertEquals(4, qx.lang.Object.getLength(styles), "Map should contain three keys!");
+      this.assertEquals("fontFamily", keys[0], "Key 'fontFamily' has to be present!");
+      this.assertEquals("", styles.fontFamily, "'fontFamily' has to have the value ''!");
+      this.assertEquals("italic", styles.fontStyle, "Wrong value for 'fontStyle'!");
+      this.assertEquals("bold", styles.fontWeight, "Wrong value for 'fontWeight'!");
+      this.assertEquals("#3f3f3f", styles.color, "Wrong value for 'color'!");
     },
 
 
