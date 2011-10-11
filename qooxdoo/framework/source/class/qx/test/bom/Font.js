@@ -133,8 +133,13 @@ qx.Class.define("qx.test.bom.Font",
       this.getRoot().add(label);
       this.flush();
 
+      var checkValue = qx.core.Environment.get("browser.name") == "ie" ? "#1a1a1a" : "rgb(26, 26, 26)";
       var color = label.getContentElement().getDomElement().style["color"];
-      this.assertEquals("rgb(26, 26, 26)", color, "Wrong style applied for 'color' property!");
+
+      // the current implementation has a higher priority for the color which is
+      // set using the color theme. So this default color should show up and not
+      // the defined color of the font.
+      this.assertEquals(checkValue, color, "Wrong style applied for 'color' property!");
     },
 
 
