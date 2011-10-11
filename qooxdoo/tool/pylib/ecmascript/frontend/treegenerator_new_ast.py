@@ -334,50 +334,55 @@ def method(s):
 
 # - Grammar ----------------------------------------------------------------
 
-# from Flanagan, "Javascript Pocket Reference" 2nd, p.10f
+# from https://developer.mozilla.org/en/JavaScript/Reference/Operators/Operator_Precedence
+# (but comp. Flanagan, "Javascript Pocket Reference" 2nd, p.10f !)
 
-symbol(".",   150); symbol("[", 150); symbol("(", 150)
-prefix("new", 150)
+symbol(".",   160); symbol("[", 160)
+prefix("new", 160)
+
+symbol("(", 150)
 
 symbol("++", 140); symbol("--", 140)  # pre/post increment (unary)
-prefix("-",  140); prefix("+",  140); prefix("~", 140); prefix("!", 140)
-prefix("/",  140)
 
-prefix("delete", 140); prefix("typeof", 140); prefix("void", 140)
+prefix("-",  130); prefix("+",  130); prefix("~", 130); prefix("!", 130)
+prefix("delete", 130); prefix("typeof", 130); prefix("void", 130)
 
-infix("*",  130); infix("/", 130); infix("%", 130)
+prefix("/",  130)  # regexp
 
-infix("+",  120); infix("-", 120)      # '+' addition, concatenation
 
-infix("<<", 110); infix(">>", 110); infix(">>>", 110)
+infix("*",  120); infix("/", 120); infix("%", 120)
 
-infix("<",  100); infix("<=", 100)
-infix(">",  100); infix(">=", 100)
-infix("in", 100); infix("instanceof", 100)
+infix("+",  110); infix("-", 110)      # '+' addition, concatenation
 
-infix("!=",  90); infix("==",  90)      # (in)equality
-infix("!==", 90); infix("===", 90)      # (non-)identity
+infix("<<", 100); infix(">>", 100); infix(">>>", 100)
 
-infix("&",  80)
-infix("^",  70)
-infix("|",  60)
-infix("&&", 50)
-infix("||", 40)
+infix("<",  90); infix("<=", 90)
+infix(">",  90); infix(">=", 90)
+infix("in", 90); infix("instanceof", 90)
 
-symbol("?", 30)   # ternary operator (.nud takes care of ':')
+infix("!=",  80); infix("==",  80)      # (in)equality
+infix("!==", 80); infix("===", 80)      # (non-)identity
 
-infix("=",  20)   # assignment
-infix("<<=",20); infix("-=", 20); infix("+=", 20); infix("*=", 20)
-infix("/=", 20); infix("%=", 20); infix("|=", 20); infix("^=", 20)
-infix("&=", 20); infix(">>=",20); infix(">>>=",20)
+infix("&",  70)
+infix("^",  60)
+infix("|",  50)
+infix("&&", 40)
+infix("||", 30)
 
-symbol(":") #infix(":", 15)    # ?: and {1:2,...}
+symbol("?", 20)   # ternary operator (.nud takes care of ':')
+
+infix("=",  10)   # assignment
+infix("<<=",10); infix("-=", 10); infix("+=", 10); infix("*=", 10)
+infix("/=", 10); infix("%=", 10); infix("|=", 10); infix("^=", 10)
+infix("&=", 10); infix(">>=",10); infix(">>>=",10)
+
+symbol(":", 0) #infix(":", 15)    # ?: and {1:2,...}
 prefix("function", 15)
 
-symbol(",") #infix(",",  10)
-symbol(";")
-symbol("*/")  # have to register this in case a regexp ends in this string
-symbol("\\")  # escape char in strings ("\")
+symbol(",", 0) #infix(",",  10)
+symbol(";", 0)
+symbol("*/", 0)  # have to register this in case a regexp ends in this string
+symbol("\\", 0)  # escape char in strings ("\")
 
 
 
@@ -431,20 +436,36 @@ def nud(self):
 # ternary op ?:
 @method(symbol("?"))
 def led(self, left):
-    self.children.append(left)
-    self.children.append(expression())
+    # first
+    first = Node("first")
+    first.children.append(left)
+    self.children.append(first)
+    # second
+    second = Node("second")
+    second.children.append(expression())
+    self.children.append(second)
     advance(":")
-    self.children.append(expression())
+    # third
+    third = Node("third")
+    third.children.append(expression())
+    self.children.append(third)
     return self
+
 
 @method(symbol("."))
 def led(self, left):
     if token.id != "identifier":
         SyntaxError("Expected an attribute name (pos %d)." % self.spos)
-    self.children.append(left)
-    self.children.append(token)
-    advance()
-    return self
+    variable = Node("variable")
+    #variable.children.append(left.getChild("identifier")) # unwrap from <variable/>
+    variable.children.append(left)
+    while True:
+        #variable.children.append(expression().getChildByPosition(0)) # unwrap from <variable/>
+        variable.children.append(expression())
+        if token.id != ".":
+            break
+        advance(".")
+    return variable
 
 # pre-/postfix ops
 
@@ -498,79 +519,102 @@ constant("false")
 
 symbol(")")
 
-@method(symbol("("))
+@method(symbol("("))  # <call>
 def led(self, left):
-    self.children.append(left)
+    call = Node("call")
+    # operand
+    operand = Node("operand")
+    call.children.append(operand)
+    operand.children.append(left)
+    # params
+    params = Node("params")
+    call.children.append(params)
     if token.id != ")":
         while True:
-            self.children.append(expression())
+            params.children.append(expression())
             if token.id != ",":
                 break
             advance(",")
     advance(")")
-    return self
+    return call
 
-@method(symbol("("))
+@method(symbol("("))  # <group>
 def nud(self):
     comma = False
+    group = Node("group")
     if token.id != ")":
         while True:
             if token.id == ")":
                 break
-            self.children.append(expression())
+            group.children.append(expression())
             if token.id != ",":
                 break
             comma = True
             advance(",")
     advance(")")
-    if not self.children or comma:
-        return self # tuple
-    else:
-        return self.children[0]
+    return group
 
 symbol("]")
 
-@method(symbol("["))
+@method(symbol("["))             # "foo[0]" and "foo[bar]"
 def led(self, left):
-    self.children.append(left)
-    self.children.append(expression())
+    variable = Node("variable")  # this is a bit strange, but in the old AST
+    accessor = Node("accessor")
+    variable.children.append(accessor)
+    # identifier
+    accessor.children.append(left)
+    # selector
+    key = Node("key")
+    accessor.children.append(key)
+    key.children.append(expression())
     advance("]")
-    return self
+    return variable
 
 @method(symbol("["))
 def nud(self):
+    arr = Node("array")
     if token.id != "]":
         while True:
             if token.id == "]":
                 break
-            self.children.append(expression())
+            arr.children.append(expression())
             if token.id != ",":
                 break
             advance(",")
     advance("]")
-    return self
+    return arr
 
 symbol("}")
 
 @method(symbol("{"))                    # object literals
 def nud(self):
+    mmap = Node("map")
     if token.id != "}":
         while True:
             if token.id == "}":
                 break
-            key = expression()
+            # key
+            keyname = expression()
+            key = Node("keyvalue")
+            key.set("key", keyname.get("value"))
+            mmap.children.append(key)
             advance(":")
-            val = expression()
-            #self.children.append((key, val))
-            s = symbol(":")()  # this is an attempt to add a true symbol instance (for .toXml)
-            s.left = key
-            s.right= val
-            self.children.append(s)
+            # value
+            keyval = expression()
+            val = Node("value")
+            val.children.append(keyval)
+            key.children.append(val)  # <value> is a child of <keyvalue>
             if token.id != ",":
                 break
             advance(",")
     advance("}")
-    return self
+    return mmap
+
+@method(symbol("{"))                    # blocks
+def std(self):
+    a = statements()
+    advance("}")
+    return a
 
 @method(symbol("function"))
 def nud(self):
@@ -595,12 +639,6 @@ def nud(self):
 
 
 # -- statements ------------------------------------------------------------
-
-@method(symbol("{"))                    # blocks
-def std(self):
-    a = statements()
-    advance("}")
-    return a
 
 symbol("var")
 
@@ -1037,7 +1075,7 @@ if __name__ == "__main__":
         tokenArr = tokenizer.parseStream(text)
         print p.parse(tokenArr).toXml()
     else:
-        execfile (os.path.normpath(os.path.join(__file__, "../../../../test/compiler/treegenerator.py")))
+        execfile (os.path.normpath(os.path.join(os.environ["QOOXDOO_PATH"], "tool/test/compiler/treegenerator.py")))
         for t in tests:
             test(*t)
 
