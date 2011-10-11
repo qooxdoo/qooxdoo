@@ -23,6 +23,17 @@
   ],
   
   "default-job" : "source",
+  
+  "config-warnings": {
+    "job-shadowing": [
+      "source-tests-script",
+      "build-basic",
+      "source-basic",
+      "testrunner::source-tests-script",
+      "testrunner::build-basic",
+      "testrunner::source-basic"
+    ]
+  },
 
   "let" :
   {
