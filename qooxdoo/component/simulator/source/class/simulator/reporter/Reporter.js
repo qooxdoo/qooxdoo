@@ -14,14 +14,8 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#ignore(readUrl)
-************************************************************************ */
-
 /**
  * Sends test report data to a server using HTTP.
- *
- * @lint ignoreUndefined(readUrl)
  */
 qx.Class.define("simulator.reporter.Reporter", {
 
@@ -37,7 +31,9 @@ qx.Class.define("simulator.reporter.Reporter", {
      * @param logMessage {String} Message to be logged
      * @param level {String} Log level. One of "debug", "info", "warn", "error"
      *
-     * @lint ignoreUndefined(readUrl)
+     * The 'A' is needed because without it Textile will interpret the following
+     * line as an acronym definition:
+     * @lint ignoreUndefined(readUrl, A)
      */
     log : function(logMessage, level)
     {
@@ -124,7 +120,7 @@ qx.Class.define("simulator.reporter.Reporter", {
      * Collects environment information and sends initial test data to the
      * server.
      *
-     * @lint ignoreUndefined(readUrl)
+     * @lint ignoreUndefined(readUrl, A)
      */
     __createReport : function()
     {
