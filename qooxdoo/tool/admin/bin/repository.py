@@ -458,65 +458,43 @@ class LibraryVersion:
       demoBrowser = None
     buildQueue = {}
     qxVersions = self.manifest["info"]["qooxdoo-versions"]
-    for variantName, variant in self.children.iteritems():
-      # build version: link demo against each compatible qooxdoo version
-      if buildTarget == "build":
-        #get the compatible qooxdoo versions of the library version
-        for qxVersion in qxVersions:
-          if qxVersion[:2] == "0.":
-            console.info("Skipping build against legacy qooxdoo version %s for %s %s %s" %(qxVersion, self.parent.name, self.name, variantName))
-            continue
-          if qxVersion in qxPatchReleases:
-            qxVersion = qxPatchReleases[qxVersion]
-          if not qxVersion in buildQueue:
-            buildQueue[qxVersion] = []
-          
-          qxPath = os.path.join(self.parent.parent.dir, "qooxdoo", qxVersion)
-          
-          if not (demoBrowser and options.copydemos):
-            buildPath = qxVersion
-          else:
-            demoPath = os.path.join(demoBrowser, "demo", self.parent.name, self.name)
-            buildPath = os.path.join(demoPath, variantName, qxVersion)
-          
-          if options.cachedir and os.path.isdir(options.cachedir):
-            tempdir = options.cachedir
-          else:
-            tempdir = tempfile.gettempdir()
-          macro = {
-            "BUILD_PATH" : buildPath,
-            "QOOXDOO_PATH" : qxPath,
-            "CACHE"        : tempdir + "/cache/" + qxVersion
-          }
-          
-          jobData = (variant, buildTarget, macro, demoBrowser)
-          buildQueue[qxVersion].append(jobData)
-          
-      elif buildTarget == "source":
-        qxVersion = None
-        for compatibleVersion in self.manifest["info"]["qooxdoo-versions"]:
-          if compatibleVersion[:2] != "0.":
-            qxVersion = compatibleVersion
-        if qxVersion:
-          if qxVersion in qxPatchReleases:
-            qxVersion = qxPatchReleases[qxVersion]
-          if not qxVersion in buildQueue:
-            buildQueue[qxVersion] = []
-          
-          qxPath = os.path.join(self.parent.parent.dir, "qooxdoo", qxVersion)
-          
-          if options.cachedir and os.path.isdir(options.cachedir):
-            tempdir = options.cachedir
-          else:
-            tempdir = tempfile.gettempdir()
-          
-          macro = {
-            "QOOXDOO_PATH" : qxPath,
-            "CACHE"        : tempdir + "/cache/" + qxVersion
-          }
-          jobData = (variant, buildTarget, macro, demoBrowser)
-          buildQueue[qxVersion].append(jobData)
+    qxVersions.sort()
+    qxVersions.reverse()
+    # Only build the source version against one qx version
+    if buildTarget == "source":
+      del qxVersions[1:]
     
+    for variantName, variant in self.children.iteritems():
+      #get the compatible qooxdoo versions of the library version
+      for qxVersion in qxVersions:
+        if qxVersion[:2] == "0.":
+          console.info("Skipping build against legacy qooxdoo version %s for %s %s %s" %(qxVersion, self.parent.name, self.name, variantName))
+          continue
+        if qxVersion in qxPatchReleases:
+          qxVersion = qxPatchReleases[qxVersion]
+        if not qxVersion in buildQueue:
+          buildQueue[qxVersion] = []
+        
+        qxPath = os.path.join(self.parent.parent.dir, "qooxdoo", qxVersion)
+        
+        if not (demoBrowser and options.copydemos):
+          buildPath = qxVersion
+        else:
+          demoPath = os.path.join(demoBrowser, "demo", self.parent.name, self.name)
+          buildPath = os.path.join(demoPath, variantName, qxVersion)
+        
+        if options.cachedir and os.path.isdir(options.cachedir):
+          tempdir = options.cachedir
+        else:
+          tempdir = tempfile.gettempdir()
+        macro = {
+          "BUILD_PATH" : buildPath,
+          "QOOXDOO_PATH" : qxPath,
+          "CACHE"        : tempdir + "/cache/" + qxVersion
+        }
+        
+        jobData = (variant, buildTarget, macro, demoBrowser)
+        buildQueue[qxVersion].append(jobData)
     
     return buildQueue
 
