@@ -186,6 +186,8 @@ class TokenStream(IterObject):
             s.value = tok.value
             s.set('column', tok.column)
             s.set('line', tok.line)
+
+        #print tok
         return s
 
     ##
@@ -214,6 +216,11 @@ class Token(object):
         tok.begin = t.get( "begin")
         tok.end = t.get( "end")
         tok.len = len(tok.value)
+
+    def __str__(s):
+        return "(%s[\"%s...\"](%s:%s))" % (s.name, s.value[:10],s.line, s.column)
+
+    __repr__ = __str__
 
 # - Grammar Infrastructure -------------------------------------------------
 
@@ -273,7 +280,7 @@ class symbol_base(Node):
 
 # -- class factory ------------------
 
-def symbol(id, bp=0):
+def symbol(id, lbp=0):
     try:
         s = symbol_table[id]
     except KeyError:
@@ -283,10 +290,10 @@ def symbol(id, bp=0):
         s.type     = id  # compat with Node.type
         s.id       = id
         s.value    = None
-        s.lbp      = bp
+        s.lbp      = lbp
         symbol_table[id] = s
     else:
-        s.lbp = max(bp, s.lbp)
+        s.lbp = max(lbp, s.lbp)
     return s
 
 # helpers
@@ -452,19 +459,38 @@ def led(self, left):
     return self
 
 
+##
+# The case of <variable>:
+# <variable> is an important node in the old ast, I think because as it mainly
+# guides dependency analysis, which has to look for variable names. So it might
+# be a good trap to have a <variable> node wrapper on all interesting places.
+#   I'm keeping it here for the "." (dotaccessor) and for the <identifier>'s,
+# because these are the interesting nodes that contain variable names. I'm not
+# keeping it for the "[" (accessor) construct, as "foo[bar]" seems more naturally
+# divided into the variable part "foo", and something else in the selector.
+# Dep.analysis has then just to parse <dotaccessor> and <identifier> nodes.
+
 @method(symbol("."))
 def led(self, left):
     if token.id != "identifier":
         SyntaxError("Expected an attribute name (pos %d)." % self.spos)
-    variable = Node("variable")
+    #variable = Node("variable")
     #variable.children.append(left.getChild("identifier")) # unwrap from <variable/>
-    variable.children.append(left)
-    while True:
-        #variable.children.append(expression().getChildByPosition(0)) # unwrap from <variable/>
-        variable.children.append(expression())
-        if token.id != ".":
-            break
-        advance(".")
+    #variable.children.append(left)
+    #while True:
+    #    #variable.children.append(expression().getChildByPosition(0)) # unwrap from <variable/>
+    #    variable.children.append(expression())
+    #    if token.id != ".":
+    #        break
+    #    advance(".")
+    variable = Node("variable")
+    accessor = Node("dotaccessor")
+    variable.children.append(accessor)
+    accessor.children.append(left)
+    accessor.children.append(expression(symbol(".").lbp)) 
+        # i'm providing the rbp to expression() here explicitly, so "foo.bar(baz)" gets parsed
+        # as (call (dotaccessor ...) (param baz)), and not (dotaccessor foo
+        # (call bar (param baz))).
     return variable
 
 # pre-/postfix ops
@@ -556,11 +582,9 @@ def nud(self):
 
 symbol("]")
 
-@method(symbol("["))             # "foo[0]" and "foo[bar]"
+@method(symbol("["))             # "foo[0]", "foo[bar]", "foo['baz']"
 def led(self, left):
-    variable = Node("variable")  # this is a bit strange, but in the old AST
     accessor = Node("accessor")
-    variable.children.append(accessor)
     # identifier
     accessor.children.append(left)
     # selector
@@ -568,7 +592,7 @@ def led(self, left):
     accessor.children.append(key)
     key.children.append(expression())
     advance("]")
-    return variable
+    return accessor
 
 @method(symbol("["))
 def nud(self):
@@ -615,6 +639,17 @@ def std(self):
     a = statements()
     advance("}")
     return a
+
+##
+# The next is a shallow wrapper around "{".std, to have a more explicit rule to
+# call for constructs that have blocks, like "for", "while", etc.
+
+def block():
+    t = token
+    advance("{")
+    s = Node("block")
+    s.children.append(t.std())  # the "{".std takes care of closing "}"
+    return s
 
 @method(symbol("function"))
 def nud(self):
@@ -942,6 +977,7 @@ def expression(rbp=0):
 def statement():
     n = token
     s = None
+    #import pydb; pydb.debugger()
     if getattr(token, 'std', None):
         advance()
         s = n.std()
@@ -965,23 +1001,15 @@ def semicolonOrLineEnd():
     
 
 def statements():  # plural!
-    s = symbol("{")()
-    a = s.children
+    s = Node("statements")
     while True:
-        if (token.id == "}" or token.id == "eof"):
+        if token.id == "}" or token.id == "eof":
             break
-        s = statement()
-        if s:
-            a.append(s)
+        st = statement()
+        if st:
+            s.children.append(st)
     return s
 
-
-def block():
-    t = token
-    advance("{")
-    s = Node("block")
-    s.children.append(t.std())  # the "{".std takes care of closing "}"
-    return s
 
 def init_list():  # parse anything from "i" to "i, j=3, k,..."
     lst = []

@@ -40,7 +40,6 @@ tests = [
         (e,"([dojo._listener, del, node_listener][listener]).remove(obj, event, handle);"), # from bug#2178
         # statements
         (s,"var a = 1, b;"),                          # DEVIATION: using assigment/2 
-        #sys.exit()
         (s,"var a = 'foo \\' bar';"),                 # scanner has to provide "foo ' bar" literal
         (s,"while(a<10){ b.append(a); }"),
         (e,"i=2"),
@@ -50,6 +49,8 @@ tests = [
         (s,"for(var i=0, j=a; i<j; i++){ a=3; }"),
         (s,"for(i in j){}"),
         (s,"for(var key in config){process(key);}"),
+        (s,"qx.Class.define('foo', {\n  extend: object,\n  bar: function() {return 1;}\n}"),
+        (s,"qx.Class.define('foo', {extend: object, bar: function() {return 1;}}"),
         # regexp literals
         (s,"var a = /123/;"),
         (s,"var a = /123/mgi;"),
