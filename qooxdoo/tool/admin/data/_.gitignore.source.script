@@ -1,3 +1,2 @@
-# .gitignore template for <skeleton>/source/script folders
-!.gitignore
-*
+# .gitignore template for <skeleton>/source folders
+script/
