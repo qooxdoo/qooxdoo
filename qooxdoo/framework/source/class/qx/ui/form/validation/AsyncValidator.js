@@ -21,7 +21,7 @@
  * should always be used with {@link qx.ui.form.validation.Manager}.
  *
  *
- * It acts like a wrapper for asynchron validation functions. These
+ * It acts like a wrapper for asynchronous validation functions. These
  * validation function must be set in the constructor. The form manager will
  * invoke the validation and the validator function will be called with two
  * arguments:
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
 
 
     /**
-     * This method should be called within the asynchron callback to tell the
+     * This method should be called within the asynchronous callback to tell the
      * validator the result of the validation.
      *
      * @param valid {boolean} The boolean state of the validation.
