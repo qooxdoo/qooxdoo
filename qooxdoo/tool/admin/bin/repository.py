@@ -219,7 +219,7 @@ class Repository:
           itemData["children"].append(childData)
         elif "tests" in itemData:
           #itemData["tests"].append(childData)
-          pass              
+          pass
       
       return itemData
     
@@ -441,10 +441,11 @@ class LibraryVersion:
     demos = {}
     demoPath = os.path.join(self.path, "demo")
     for root, dirs, files in filetool.walk(demoPath, topdown=True):
-      for name in dirs:        
-        if root == demoPath and name[0] != "." and name != "source" and name != "build":
-          foundPath = os.path.join(demoPath, name)
-          foundDemo = Demo(name, foundPath, self)
+      for name in dirs:
+        path = os.path.join(root, name)
+        manifestPath = os.path.join(path, "Manifest.json")
+        if os.path.isfile(manifestPath):
+          foundDemo = Demo(name, path, self)
           demos[name] = foundDemo
     
     return demos
@@ -470,6 +471,8 @@ class LibraryVersion:
           if not qxVersion in buildQueue:
             buildQueue[qxVersion] = []
           
+          qxPath = os.path.join(self.parent.parent.dir, "qooxdoo", qxVersion)
+          
           if not (demoBrowser and options.copydemos):
             buildPath = qxVersion
           else:
@@ -482,7 +485,7 @@ class LibraryVersion:
             tempdir = tempfile.gettempdir()
           macro = {
             "BUILD_PATH" : buildPath,
-            "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion,
+            "QOOXDOO_PATH" : qxPath,
             "CACHE"        : tempdir + "/cache/" + qxVersion
           }
           
@@ -495,8 +498,12 @@ class LibraryVersion:
           if compatibleVersion[:2] != "0.":
             qxVersion = compatibleVersion
         if qxVersion:
+          if qxVersion in qxPatchReleases:
+            qxVersion = qxPatchReleases[qxVersion]
           if not qxVersion in buildQueue:
             buildQueue[qxVersion] = []
+          
+          qxPath = os.path.join(self.parent.parent.dir, "qooxdoo", qxVersion)
           
           if options.cachedir and os.path.isdir(options.cachedir):
             tempdir = options.cachedir
@@ -504,7 +511,7 @@ class LibraryVersion:
             tempdir = tempfile.gettempdir()
           
           macro = {
-            "QOOXDOO_PATH" : "../../../../qooxdoo/" + qxVersion,
+            "QOOXDOO_PATH" : qxPath,
             "CACHE"        : tempdir + "/cache/" + qxVersion
           }
           jobData = (variant, buildTarget, macro, demoBrowser)
