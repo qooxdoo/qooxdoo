@@ -238,6 +238,7 @@ msgstr[1] "test %1 cars"
 
 #: qx/test/ui/LocaleSwitch.js:85 qx/test/ui/LocaleSwitch.js:115
 #: qx/test/locale/Locale.js:78 qx/test/locale/Locale.js:153
+#: qx/test/data/marshal/Json.js:81
 msgid "test one"
 msgstr "test one"
 
@@ -254,8 +255,8 @@ msgstr "test Jonny"
 msgid "test two"
 msgstr "test two"
 
-#: qx/test/util/Serializer.js:489 qx/test/util/Serializer.js:494
-#: qx/test/util/Serializer.js:501
+#: qx/test/util/Serializer.js:490 qx/test/util/Serializer.js:495
+#: qx/test/util/Serializer.js:502
 msgid "test affe"
 msgstr "test affe"
 

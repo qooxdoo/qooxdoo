@@ -13,11 +13,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: feedreader/Application.js:497
+#: feedreader/Application.js:500
 msgid "FeedReader (qooxdoo powered)"
 msgstr ""
 
-#: feedreader/mobile/ArticlePage.js:32 feedreader/mobile/FeedPage.js:32
+#: feedreader/mobile/FeedPage.js:32 feedreader/mobile/ArticlePage.js:32
 msgid "Back"
 msgstr ""
 
@@ -53,6 +53,10 @@ msgstr ""
 msgid "Posts"
 msgstr ""
 
+#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:85
+msgid "Preferences"
+msgstr ""
+
 #: feedreader/view/PreferenceWindow.js:85
 msgid "Language"
 msgstr ""
@@ -79,10 +83,6 @@ msgstr ""
 
 #: feedreader/view/ToolBar.js:76
 msgid "Reload the feeds. (%1)"
-msgstr ""
-
-#: feedreader/view/ToolBar.js:85 feedreader/view/PreferenceWindow.js:48
-msgid "Preferences"
 msgstr ""
 
 #: feedreader/view/ToolBar.js:87

@@ -13,11 +13,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: feedreader/Application.js:497
+#: feedreader/Application.js:500
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo driven)"
 
-#: feedreader/mobile/ArticlePage.js:32 feedreader/mobile/FeedPage.js:32
+#: feedreader/mobile/FeedPage.js:32 feedreader/mobile/ArticlePage.js:32
 msgid "Back"
 msgstr ""
 
@@ -53,6 +53,10 @@ msgstr "Lägg till"
 msgid "Posts"
 msgstr "Poster"
 
+#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:85
+msgid "Preferences"
+msgstr "Inställningar"
+
 #: feedreader/view/PreferenceWindow.js:85
 msgid "Language"
 msgstr "Språk"
@@ -80,10 +84,6 @@ msgstr "Uppdatera"
 #: feedreader/view/ToolBar.js:76
 msgid "Reload the feeds. (%1)"
 msgstr "Ladda om flödena. (%1)"
-
-#: feedreader/view/ToolBar.js:85 feedreader/view/PreferenceWindow.js:48
-msgid "Preferences"
-msgstr "Inställningar"
 
 #: feedreader/view/ToolBar.js:87
 msgid "Open preferences window."

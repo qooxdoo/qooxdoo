@@ -14,11 +14,11 @@ msgstr ""
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: COLOMBIA\n"
 
-#: feedreader/Application.js:497
+#: feedreader/Application.js:500
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
 
-#: feedreader/mobile/ArticlePage.js:32 feedreader/mobile/FeedPage.js:32
+#: feedreader/mobile/FeedPage.js:32 feedreader/mobile/ArticlePage.js:32
 msgid "Back"
 msgstr ""
 
@@ -54,6 +54,10 @@ msgstr "Agregar"
 msgid "Posts"
 msgstr "Posts"
 
+#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:85
+msgid "Preferences"
+msgstr "Preferencias"
+
 #: feedreader/view/PreferenceWindow.js:85
 msgid "Language"
 msgstr "Lenguaje"
@@ -81,10 +85,6 @@ msgstr "Actualizar"
 #: feedreader/view/ToolBar.js:76
 msgid "Reload the feeds. (%1)"
 msgstr "Recargar los feeds (%1)"
-
-#: feedreader/view/ToolBar.js:85 feedreader/view/PreferenceWindow.js:48
-msgid "Preferences"
-msgstr "Preferencias"
 
 #: feedreader/view/ToolBar.js:87
 msgid "Open preferences window."

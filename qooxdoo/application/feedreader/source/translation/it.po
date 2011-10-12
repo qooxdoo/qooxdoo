@@ -14,11 +14,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: feedreader/Application.js:497
+#: feedreader/Application.js:500
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (realizzato con qooxdoo)"
 
-#: feedreader/mobile/ArticlePage.js:32 feedreader/mobile/FeedPage.js:32
+#: feedreader/mobile/FeedPage.js:32 feedreader/mobile/ArticlePage.js:32
 msgid "Back"
 msgstr ""
 
@@ -54,6 +54,10 @@ msgstr "Aggiungi"
 msgid "Posts"
 msgstr "Messaggi"
 
+#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:85
+msgid "Preferences"
+msgstr "Preferenze"
+
 #: feedreader/view/PreferenceWindow.js:85
 msgid "Language"
 msgstr "Lingua"
@@ -81,10 +85,6 @@ msgstr "Ricarica"
 #: feedreader/view/ToolBar.js:76
 msgid "Reload the feeds. (%1)"
 msgstr "Ricarica i feed. (%1)"
-
-#: feedreader/view/ToolBar.js:85 feedreader/view/PreferenceWindow.js:48
-msgid "Preferences"
-msgstr "Preferenze"
 
 #: feedreader/view/ToolBar.js:87
 msgid "Open preferences window."
