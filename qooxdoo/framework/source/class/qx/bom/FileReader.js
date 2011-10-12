@@ -22,7 +22,7 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * FileReaders allow retrieving the data from a local file, after the file
- * name was selected by an <input type="file"> element.
+ * name was selected by an &lt;input type="file"&gt; element.
  *
  * For more information see:
  * http://www.w3.org/TR/FileAPI/
@@ -110,11 +110,11 @@ qx.Class.define("qx.bom.FileReader",
   statics :
   {
     /**
-     * Return the number of files selected by the user, from an <input
-     * type="file"> element.
+     * Return the number of files selected by the user, from an &lt;input
+     * type="file"&gt; element.
      *
      * @param inputElement {Element}
-     *   The Element created as a result of an <input type="file"> tag.
+     *   The Element created as a result of an &lt;input type="file"&gt; tag.
      *
      * @return {Integer}
      *   The number of selected files.
@@ -125,11 +125,11 @@ qx.Class.define("qx.bom.FileReader",
     },
 
     /**
-     * Return the native File object selected from an <input type="file">
+     * Return the native File object selected from an &lt;input type="file"&gt;
      * element.
      *
      * @param inputElement {Element}
-     *   The Element created as a result of an <input type="file"> tag.
+     *   The Element created as a result of an &lt;input type="file"&gt; tag.
      *
      * @param index {Integer}
      *   The index of the selected file to return.
@@ -162,7 +162,7 @@ qx.Class.define("qx.bom.FileReader",
      *
      * @param fileObj {File}
      *   A File object, as obtained by calling {@link #getFile} with an
-     *   element of type <input type="file">.
+     *   element of type &lt;input type="file"&gt;.
      */
     readAsBinaryString : function(fileObj)
     {
@@ -181,7 +181,7 @@ qx.Class.define("qx.bom.FileReader",
      *
      * @param fileObj {File}
      *   A File object, as obtained by calling {@link #getFile} with an
-     *   element of type <input type="file">.
+     *   element of type &lt;input type="file"&gt;.
      *
      * @param encoding {String?"UTF-8"}
      *   The encoding for the resulting string.
@@ -203,7 +203,7 @@ qx.Class.define("qx.bom.FileReader",
      *
      * @param fileObj {File}
      *   A File object, as obtained by calling {@link #getFile} with an
-     *   element of type <input type="file">.
+     *   element of type &lt;input type="file"&gt;.
      */
     readAsDataURL : function(fileObj)
     {
