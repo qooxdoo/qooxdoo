@@ -50,7 +50,7 @@
        "no",
        "pl",
        "ro",
-       "sl",
+       "si",
        "sv"
     ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
