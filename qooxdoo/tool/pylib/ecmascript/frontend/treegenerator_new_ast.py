@@ -249,6 +249,9 @@ class symbol_base(Node):
     def led(self, left):
         raise SyntaxError("Unknown operator %r (pos %d)." % (self.id, self.spos))
 
+    def isVar(self):
+        return self.type in ("dotaccessor", "identifier")
+
     def __repr__(self):
         if self.id == "identifier" or self.id == "constant":
             return "(%s %r)" % (self.id, self.value)
@@ -403,9 +406,9 @@ symbol("eof")
 
 @method(symbol("identifier"))
 def nud(self):
-    s = symbol("variable")()
-    s.children.append(self)
-    return s
+    #s = symbol("variable")()
+    #s.children.append(self)
+    return self
 
 #@method(symbol(",", 10))   # parse any kind of lists into array
 #def led(self, left):
@@ -469,6 +472,10 @@ def led(self, left):
 # keeping it for the "[" (accessor) construct, as "foo[bar]" seems more naturally
 # divided into the variable part "foo", and something else in the selector.
 # Dep.analysis has then just to parse <dotaccessor> and <identifier> nodes.
+# Nope.
+# I revert. I remove the <variable> nodes. Later when parsing the ast, I will
+# either check for ("dotaccessor", "identifier"), or, maybe better, provide a
+# Node.isVar() method that returns true for those two node types.
 
 @method(symbol("."))
 def led(self, left):
@@ -483,15 +490,13 @@ def led(self, left):
     #    if token.id != ".":
     #        break
     #    advance(".")
-    variable = Node("variable")
     accessor = Node("dotaccessor")
-    variable.children.append(accessor)
     accessor.children.append(left)
     accessor.children.append(expression(symbol(".").lbp)) 
         # i'm providing the rbp to expression() here explicitly, so "foo.bar(baz)" gets parsed
         # as (call (dotaccessor ...) (param baz)), and not (dotaccessor foo
         # (call bar (param baz))).
-    return variable
+    return accessor
 
 # pre-/postfix ops
 
@@ -656,13 +661,15 @@ def nud(self):
     # optional name
     if token.id == "identifier":
         #self.children.append(token.value)
-        self.children.append(token)
+        #self.children.append(token)
+        self.set("name", token.value)
         advance()
     # params
     assert isinstance(token, symbol("("))
     params = Node("params")
     self.children.append(params)
-    params.children.append(expression())
+    group = expression()
+    params.children = group.children
     # body
     body = Node("body")
     self.children.append(body)
