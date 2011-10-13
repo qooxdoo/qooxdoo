@@ -79,9 +79,9 @@ qx.Class.define("feedreader.MobileApplication",
     buildUpGui : function()
     {
       // create the pages
-      var overview = new feedreader.mobile.OverviewPage();
-      var feedpage = new feedreader.mobile.FeedPage();
-      var articlePage = new feedreader.mobile.ArticlePage();
+      var overview = new feedreader.view.mobile.OverviewPage();
+      var feedpage = new feedreader.view.mobile.FeedPage();
+      var articlePage = new feedreader.view.mobile.ArticlePage();
 
       // show the first page and set the feeds
       overview.show();

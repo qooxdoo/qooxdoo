@@ -18,9 +18,9 @@
 
 ************************************************************************ */
 /**
- * The main page of the mobile part of the feed reader.
+ * Responsible for showing a list of articles for the mobile UI.
  */
-qx.Class.define("feedreader.mobile.OverviewPage",
+qx.Class.define("feedreader.view.mobile.FeedPage",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
@@ -28,26 +28,28 @@ qx.Class.define("feedreader.mobile.OverviewPage",
   construct : function()
   {
     this.base(arguments);
-    this.setTitle("Feed Reader");
+    this.setShowBackButton(true);
+    this.setBackButtonText(this.tr("Back"));
   },
 
 
   properties : {
     /**
-     * Model for all feeds which should be shown.
+     * Model object holding the feed which should be shown.
      */
-    feeds : {
-      event : "changeFeeds",
+    feed : {
+      event : "changeFeed",
       init : null,
-      apply : "_applyFeeds"
+      nullable : true,
+      apply : "_applyFeed"
     },
 
 
     /**
-     * The current selected feed of the view.
+     * Model of the currently selected article.
      */
-    selectedFeed : {
-      event : "changeSelectedFeed",
+    selectedArticle : {
+      event : "changeSelectedArticle",
       init : null,
       nullable : true
     }
@@ -57,7 +59,8 @@ qx.Class.define("feedreader.mobile.OverviewPage",
   members :
   {
     __list : null,
-    __predefinedFeeds : null,
+    __articles : null,
+
 
     // overridden
     _initialize : function()
@@ -75,8 +78,8 @@ qx.Class.define("feedreader.mobile.OverviewPage",
       });
 
       this.__list.addListener("changeSelection", function(e) {
-        var item = this.__predefinedFeeds.getItem(e.getData());
-        this.setSelectedFeed(item);
+        var item = this.__articles.getItem(e.getData());
+        this.setSelectedArticle(item);
       }, this);
 
       this.getContent().add(this.__list);
@@ -84,9 +87,14 @@ qx.Class.define("feedreader.mobile.OverviewPage",
 
 
     // property apply
-    _applyFeeds : function(value, old) {
-      this.__predefinedFeeds = value.getFeeds().getItem(0).getFeeds();
-      this.__list.setModel(this.__predefinedFeeds);
+    _applyFeed : function(value, old)
+    {
+      if (value != null)
+      {
+        this.__articles = value.getArticles();
+        this.__list.setModel(this.__articles);
+        this.setTitle(value.getTitle());
+      }
     }
   }
 });

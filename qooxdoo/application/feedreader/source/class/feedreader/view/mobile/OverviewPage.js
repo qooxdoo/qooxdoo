@@ -18,9 +18,9 @@
 
 ************************************************************************ */
 /**
- * Responsible for showing a list of articles for the mobile UI.
+ * The main page of the mobile part of the feed reader.
  */
-qx.Class.define("feedreader.mobile.FeedPage",
+qx.Class.define("feedreader.view.mobile.OverviewPage",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
@@ -28,28 +28,26 @@ qx.Class.define("feedreader.mobile.FeedPage",
   construct : function()
   {
     this.base(arguments);
-    this.setShowBackButton(true);
-    this.setBackButtonText(this.tr("Back"));
+    this.setTitle("Feed Reader");
   },
 
 
   properties : {
     /**
-     * Model object holding the feed which should be shown.
+     * Model for all feeds which should be shown.
      */
-    feed : {
-      event : "changeFeed",
+    feeds : {
+      event : "changeFeeds",
       init : null,
-      nullable : true,
-      apply : "_applyFeed"
+      apply : "_applyFeeds"
     },
 
 
     /**
-     * Model of the currently selected article.
+     * The current selected feed of the view.
      */
-    selectedArticle : {
-      event : "changeSelectedArticle",
+    selectedFeed : {
+      event : "changeSelectedFeed",
       init : null,
       nullable : true
     }
@@ -59,8 +57,7 @@ qx.Class.define("feedreader.mobile.FeedPage",
   members :
   {
     __list : null,
-    __articles : null,
-
+    __predefinedFeeds : null,
 
     // overridden
     _initialize : function()
@@ -78,8 +75,8 @@ qx.Class.define("feedreader.mobile.FeedPage",
       });
 
       this.__list.addListener("changeSelection", function(e) {
-        var item = this.__articles.getItem(e.getData());
-        this.setSelectedArticle(item);
+        var item = this.__predefinedFeeds.getItem(e.getData());
+        this.setSelectedFeed(item);
       }, this);
 
       this.getContent().add(this.__list);
@@ -87,14 +84,9 @@ qx.Class.define("feedreader.mobile.FeedPage",
 
 
     // property apply
-    _applyFeed : function(value, old)
-    {
-      if (value != null)
-      {
-        this.__articles = value.getArticles();
-        this.__list.setModel(this.__articles);
-        this.setTitle(value.getTitle());
-      }
+    _applyFeeds : function(value, old) {
+      this.__predefinedFeeds = value.getFeeds().getItem(0).getFeeds();
+      this.__list.setModel(this.__predefinedFeeds);
     }
   }
 });

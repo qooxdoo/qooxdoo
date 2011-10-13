@@ -28,7 +28,7 @@ qx.Class.define("feedreader.simulation.mobile.Feedreader", {
   {
     this.base(arguments);
     this.locators = {
-      feedList : "qxhv=[@classname=feedreader.mobile.OverviewPage]/qx.ui.mobile.container.Scroll/qx.ui.mobile.container.Composite/qx.ui.mobile.list.List",
+      feedList : "qxhv=[@classname=feedreader.view.mobile.OverviewPage]/qx.ui.mobile.container.Scroll/qx.ui.mobile.container.Composite/qx.ui.mobile.list.List",
       backButton : "qxhv=*/[@classname=qx.ui.mobile.navigationbar.BackButton]"
     };
   },
