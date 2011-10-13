@@ -751,47 +751,6 @@ The last example shows how to use the ``IForm`` interface and how to mark a widg
 
 All examples work in the Playground application.
 
-.. _pages/gui_toolkit/ui_form_handling#migrating_to_the_new_api:
-
-Migrating to the new API
-========================
-
-There are some important topics you have to keep in mind if you want to migrate from the former Form API to the new one.
-
-.. _pages/gui_toolkit/ui_form_handling#iformelement:
-
-IFormElement
-------------
-The previous form interface called ``qx.ui.form.IFormElement`` is deprecated now. Therefore, the name and value properties for storing string information for serialization are gone also. If you are using those constructs, you can instead use regular user data:
-
-::
-
-    widget.setName("field1");  // old
-    widget.setUserData("name", "field1");  // new
-
-This works identically to the old code. The HTML name property will not be set after the call in both cases.
-
-.. _pages/gui_toolkit/ui_form_handling#checkbox_and_radiobutton:
-
-CheckBox and RadioButton
-------------------------
-
-Widgets like CheckBox or RadioButton had a ``checked`` property for their state. This property is deprecated and is now called ``value``.
-
-.. _pages/gui_toolkit/ui_form_handling#changevalue_on_list_and_selectbox:
-
-changeValue on List and SelectBox
----------------------------------
-
-It was quite common to use the ``changeValue`` event of a ``SelectBox`` or ``List`` to handle a change of the selection. Due to the removal of ``value``, the ``changeValue`` event has also been removed. Please use the ``changeSelection`` event instead.
-
-.. _pages/gui_toolkit/ui_form_handling#label:
-
-Label
------
-
-The former ``content`` property of the Label class has been renamed to make it consistent with the rest of the framework. So the new name is the same as in every other widget: ``value``.
-
 .. _pages/gui_toolkit/ui_form_handling#validation:
 
 Validation
