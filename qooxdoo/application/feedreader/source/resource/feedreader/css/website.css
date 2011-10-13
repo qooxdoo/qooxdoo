@@ -7,6 +7,10 @@ body {
   font-size: 1.1em
 }
 
+.template {
+  display: none;
+}
+
 #qxTag {
   position: absolute;
   top: 5px;

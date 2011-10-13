@@ -132,8 +132,8 @@ qx.Class.define("feedreader.WebsiteApplication",
           // special handling for the initial selection
           if (i === 0 && j === 0) {
             // mark the first one as selected by default
-            item.childNodes[0].checked = true;
-            qx.bom.element.Class.add(item.childNodes[1], "selectedFeed");
+            item.children[0].checked = true;
+            qx.bom.element.Class.add(item.children[1], "selectedFeed");
             // fill the list as soon as the data is available
             var self = this;
             feed.addListener("stateModified", function(e) {

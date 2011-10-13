@@ -75,6 +75,7 @@
  *   https://github.com/janl/mustache.js/blob/master/README.md
  */
 qx.Class.define("qx.bom.Template", {
+  extend : qx.core.Object,
   statics : {
     /** Contains the mustache.js version. */
     version: null,
