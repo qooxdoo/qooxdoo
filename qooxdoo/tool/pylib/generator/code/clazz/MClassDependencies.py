@@ -244,22 +244,6 @@ class MClassDependencies(object):
                 if dep.name not in (x.name for x in runFinal):
                     runFinal.append(dep)
 
-
-        # TODO: this should be removed, as it cannot happen anymore (source is not variant-optimized)
-        # fix dependency to classes that get removed with variant optimization
-        #variantSelectClasses = ("qx.core.Environment",)
-        #if len(variants) and (self.id not in variantSelectClasses):
-        #    depsUnOpt, _ = self.dependencies({})  # get unopt deps
-        #    # this might incur extra generation if unoptimized deps
-        #    # haven't computed before for this fileId
-        #    for depItem in depsUnOpt["load"]:
-        #        if depItem.name in variantSelectClasses and depItem.name not in [x.name for x in loadFinal]:
-        #            loadFinal.append(depItem)
-        #    for depItem in depsUnOpt["run"]:
-        #        if depItem.name in variantSelectClasses and depItem.name not in [x.name for x in runFinal]:
-        #            runFinal.append(depItem)
-
-
         # add config dependencies
         crequire = config.get("require", {})
         if self.id in crequire:
