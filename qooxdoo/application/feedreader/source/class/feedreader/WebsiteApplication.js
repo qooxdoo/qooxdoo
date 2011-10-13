@@ -16,6 +16,12 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/* ************************************************************************
+
+#asset(feedreader/css/website.css)
+
+************************************************************************ */
+
 qx.Class.define("feedreader.WebsiteApplication",
 {
   extend : qx.application.Native,

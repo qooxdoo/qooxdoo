@@ -125,6 +125,17 @@
         }
       },
 
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index.html"
+        ],
+
+        "source" : "${ROOT}/source/resource/website/",
+        "target" : "${BUILD_PATH}"
+      },
+
       "=packages" : {}
     },
 
