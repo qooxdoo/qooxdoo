@@ -133,7 +133,9 @@ qx.Class.define("qx.test.bom.Font",
       this.getRoot().add(label);
       this.flush();
 
-      var checkValue = qx.core.Environment.get("browser.name") == "ie" ? "#1a1a1a" : "rgb(26, 26, 26)";
+      var useRgbValue = qx.core.Environment.get("browser.name") == "ie" && 
+                        qx.core.Environment.get("browser.version") >= 9;
+      var checkValue = useRgbValue ? "rgb(26, 26, 26)" : "#1a1a1a";
       var color = label.getContentElement().getDomElement().style["color"];
 
       // the current implementation has a higher priority for the color which is
