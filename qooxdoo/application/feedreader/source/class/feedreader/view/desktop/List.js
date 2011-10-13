@@ -22,7 +22,7 @@
 /**
  * The list displayes the articles of a feed as a list.
  */
-qx.Class.define("feedreader.view.List",
+qx.Class.define("feedreader.view.desktop.List",
 {
   extend : qx.ui.core.Widget,
 

@@ -29,7 +29,7 @@
 /**
  * Add new feed window
  */
-qx.Class.define("feedreader.view.AddFeedWindow",
+qx.Class.define("feedreader.view.desktop.AddFeedWindow",
 {
   extend : qx.ui.window.Window,
 

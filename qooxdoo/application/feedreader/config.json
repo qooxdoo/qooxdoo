@@ -64,12 +64,12 @@
           },
           "settings": 
           {
-            "include" : ["feedreader.view.PreferenceWindow"]
+            "include" : ["feedreader.view.desktop.PreferenceWindow"]
             //,"expected-load-order" : 1
           },
           "addfeed": 
           {
-            "include" : ["feedreader.view.AddFeedWindow"]
+            "include" : ["feedreader.view.desktop.AddFeedWindow"]
             //,"expected-load-order" : 1
           }
         },
@@ -86,7 +86,7 @@
     {
       "extend" : ["source", "log-dependencies-dot"]
       // override the default root class for the dot diagram
-      ,"log" : { "dependencies" : { "dot" : { "root" : "feedreader.view.PreferenceWindow" }}}
+      ,"log" : { "dependencies" : { "dot" : { "root" : "feedreader.view.desktop.PreferenceWindow" }}}
     },
 
     // -- Website App -----------------------------------------------------------

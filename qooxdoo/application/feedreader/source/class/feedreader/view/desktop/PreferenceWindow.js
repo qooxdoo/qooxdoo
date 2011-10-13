@@ -31,7 +31,7 @@
 /**
  * The feed reader preference window
  */
-qx.Class.define("feedreader.view.PreferenceWindow",
+qx.Class.define("feedreader.view.desktop.PreferenceWindow",
 {
   extend : qx.ui.window.Window,
 

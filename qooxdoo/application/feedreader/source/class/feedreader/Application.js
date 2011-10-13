@@ -321,11 +321,11 @@ qx.Class.define("feedreader.Application",
       this.getRoot().add(dockLayoutComposite, {edge:0});
 
       // Create header
-      this.__header = new feedreader.view.Header();
+      this.__header = new feedreader.view.desktop.Header();
       dockLayoutComposite.add(this.__header, {edge: "north"});
 
       // Create toolbar
-      this.__toolBarView = new feedreader.view.ToolBar(this);
+      this.__toolBarView = new feedreader.view.desktop.ToolBar(this);
       dockLayoutComposite.add(this.__toolBarView, {edge: "north"});
 
       // Create horizontal splitpane for tree and list+article view
@@ -345,13 +345,13 @@ qx.Class.define("feedreader.Application",
       this.__horizontalSplitPane.add(this.__verticalSplitPane, 1);
 
       // Create the list view
-      this.__listView = new feedreader.view.List(this.__feedFolder);
+      this.__listView = new feedreader.view.desktop.List(this.__feedFolder);
       this.__listView.setHeight(200);
       this.__listView.setDecorator("main");
       this.__verticalSplitPane.add(this.__listView, 0);
 
       // Create article view
-      this.__articleView = new feedreader.view.Article();
+      this.__articleView = new feedreader.view.desktop.Article();
       this.__articleView.setDecorator("main");
       this.__verticalSplitPane.add(this.__articleView, 1);
     },
@@ -478,7 +478,7 @@ qx.Class.define("feedreader.Application",
         if (!this.__prefWindow)
         {
           // create it
-          this.__prefWindow = new feedreader.view.PreferenceWindow();
+          this.__prefWindow = new feedreader.view.desktop.PreferenceWindow();
           this.getRoot().add(this.__prefWindow);
         }
 
@@ -517,7 +517,7 @@ qx.Class.define("feedreader.Application",
         if (!this.__addFeedWindow)
         {
             // create it
-          this.__addFeedWindow = new feedreader.view.AddFeedWindow(this);
+          this.__addFeedWindow = new feedreader.view.desktop.AddFeedWindow(this);
           this.getRoot().add(this.__addFeedWindow);
         }
 

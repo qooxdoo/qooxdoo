@@ -33,7 +33,7 @@
 /**
  * The main tool bar widget
  */
-qx.Class.define("feedreader.view.ToolBar",
+qx.Class.define("feedreader.view.desktop.ToolBar",
 {
   extend : qx.ui.toolbar.ToolBar,
 

@@ -21,7 +21,7 @@
  * The Application's header
  */
 
-qx.Class.define("feedreader.view.Header",
+qx.Class.define("feedreader.view.desktop.Header",
 {
   extend : qx.ui.container.Composite,
 

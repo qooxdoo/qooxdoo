@@ -22,7 +22,7 @@
 /**
  * This widgets displays a feed article
  */
-qx.Class.define("feedreader.view.Article",
+qx.Class.define("feedreader.view.desktop.Article",
 {
   extend : qx.ui.embed.Html,
 
@@ -38,9 +38,9 @@ qx.Class.define("feedreader.view.Article",
     this.base(arguments);
 
     // Include CSS file
-    if (!feedreader.view.Article.__styleSheetIncluded)
+    if (!feedreader.view.desktop.Article.__styleSheetIncluded)
     {
-      feedreader.view.Article.__styleSheetIncluded = true;
+      feedreader.view.desktop.Article.__styleSheetIncluded = true;
       qx.bom.Stylesheet.includeFile("feedreader/css/reader.css");
     }
 
