@@ -53,6 +53,7 @@ qx.Class.define("testrunner.view.Abstract", {
     /** Status message to be displayed in the view */
     status :
     {
+      init : "",
       check : "String",
       apply : "_applyStatus"
     },
