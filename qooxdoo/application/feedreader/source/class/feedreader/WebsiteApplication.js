@@ -22,23 +22,16 @@
 
 ************************************************************************ */
 
+/**
+ * The feed reader's website main application class.
+ */
 qx.Class.define("feedreader.WebsiteApplication",
 {
   extend : qx.application.Native,
 
 
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
-    __feedFolder : null,
-
-
     /**
      * This method contains the initial application code and gets called 
      * during startup of the application
@@ -57,11 +50,6 @@ qx.Class.define("feedreader.WebsiteApplication",
         qx.log.appender.Console;
       }
 
-      /*
-      -------------------------------------------------------------------------
-        Below is your actual application code...
-      -------------------------------------------------------------------------
-      */
 
       // set the qooxdoo version
       document.getElementById("qxTag").innerHTML = 
@@ -69,37 +57,47 @@ qx.Class.define("feedreader.WebsiteApplication",
 
       // Initialize the model
       var model = new feedreader.model.Model();
-      this.__feedFolder = model.getFeedFolder();
+
+      // get list and tree
       var tree = document.getElementById("tree");
       var list = document.getElementById("list");
+      // fill the tree with the feeds
       this.fillTree(tree, model);
 
+      // add a listener to the tree to change the selected feed
       var self = this;
       qx.bom.Event.addNativeListener(tree, "change", function(e) {
         var feed = qx.bom.Event.getTarget(e).feed;
-        self.fillList(list, feed);
+        // if the selected feed is loaded
+        if (feed.getState() === "loaded") {
+          self.fillList(list, feed);
+        } else {
+          // if not loaded, add a listener 
+          feed.addListener("stateModified", function(e) {
+            if (e.getData() == "loaded") {
+              self.fillList(list, feed);
+            }
+          });
+        }
       });
 
-      var firstFeed = model.getStaticFeedFolder().getFeeds().getItem(0);
-      firstFeed.addListener("stateModified", function(e) {
-        if (e.getData() == "loaded") {
-          this.fillList(list, firstFeed);
-        }
-      }, this);
-
-      this.reload();
-    },
-
-
-    reload : function() {
+      // load the feeds
       var loader = feedreader.io.FeedLoader.getInstance();
-      loader.loadAll(this.__feedFolder);
+      loader.loadAll(model.getFeedFolder());
     },
 
 
+    /**
+     * Fills the given list with the data of the given feed.
+     * 
+     * @param el {DomNode} A DOM node which will be filled.
+     * @param feed {qx.core.Object} The model for the feed.
+     */
     fillList : function(el, feed) {
+      // delete the current content
       el.innerHTML = "";
 
+      /// putt all articles in the list
       var articles = feed.getArticles();
       for (var i=0; i < articles.length; i++) {
         var article = articles.getItem(i);
@@ -108,24 +106,41 @@ qx.Class.define("feedreader.WebsiteApplication",
     },
 
 
+    /**
+     * Fills the given tree with the data of the given model.
+     * 
+     * @param el {DomNode} The DOM node which will be filled.
+     * @param model {qx.core.Object} The model to take the data from.
+     */
     fillTree : function(el, model) {
       // empty loading text
       el.innerHTML = "";
 
+      // take both folders
       var folders = [model.getStaticFeedFolder(), model.getUserFeedFolder()];
       var names = ["Static Feeds", "User Feeds"];
-      
+
       for (var i=0; i < folders.length; i++) {
-        
+        // create a folder item in the tree
         var feeds = folders[i].getFeeds();
         el.appendChild(feedreader.website.Factory.createTreeFolder(names[i]));
 
+        // create a feed item for every feed in the folder
         for (var j=0; j < feeds.length; j++) {
           var feed = feeds.getItem(j);
           var item = feedreader.website.Factory.createTreeItem(feed);
+          // special handling for the initial selection
           if (i === 0 && j === 0) {
+            // mark the first one as selected by default
             item.childNodes[0].checked = true;
             qx.bom.element.Class.add(item.childNodes[1], "selectedFeed");
+            // fill the list as soon as the data is available
+            var self = this;
+            feed.addListener("stateModified", function(e) {
+              if (e.getData() == "loaded") {
+                self.fillList(document.getElementById("list"), e.getTarget());
+              }
+            });
           }
           el.appendChild(item);
         };
