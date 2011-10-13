@@ -22,6 +22,9 @@ These are components that are integrated into the %{JS} class code.
   * - `Sizzle <http://sizzlejs.com/>`_
     - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
 
+  * - `mustache.js <https://github.com/janl/mustache.js/>`_
+    - `MIT <http://www.opensource.org/licenses/mit-license.php>`_
+
   * - `SWFFix <http://code.google.com/p/swffix/>`_
     - `MIT`_
 
