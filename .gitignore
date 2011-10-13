@@ -42,6 +42,7 @@ qooxdoo/application/feedreader/inspector
 qooxdoo/application/feedreader/source/script/
 qooxdoo/application/feedreader/build
 qooxdoo/application/feedreader/build-mobile
+qooxdoo/application/feedreader/build-website
 
 #portal demo
 qooxdoo/application/portal/source/script

@@ -89,6 +89,46 @@
       ,"log" : { "dependencies" : { "dot" : { "root" : "feedreader.view.PreferenceWindow" }}}
     },
 
+    // -- Website App -----------------------------------------------------------
+
+    "source-website" : 
+    {
+      "extend" : ["source"],
+      "let" : 
+      {
+        "APPLICATION_MAIN_CLASS" : "${APPLICATION}.WebsiteApplication"
+      },
+
+      "compile-options" :
+      {
+        "paths" : { "file" : "source/script/${APPLICATION}-website.js" }
+      },
+
+      "=packages" : {}
+    },
+
+
+    "build-website" : 
+    {
+      "extend" : ["build"],
+      "let" :
+      {
+        "APPLICATION_MAIN_CLASS" : "${APPLICATION}.WebsiteApplication",
+        "BUILD_PATH" : "build-website"
+      },
+
+      "compile-options" :
+      {
+        "paths" : { 
+          "file" : "build-website/script/${APPLICATION}.js",
+          "scripts-add-hash" : false
+        }
+      },
+
+      "=packages" : {}
+    },
+
+
 
     // -- Mobile App -----------------------------------------------------------
 
