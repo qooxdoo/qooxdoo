@@ -21,6 +21,8 @@
  * Class to process string content with placeholders into a resulting string.
  * This is especially interesting to use in combination with database
  * driven creation of HTML markup etc.
+ * 
+ * @deprecated since 1.6. Please use qx.bom.Template instead.
  */
 qx.Class.define("qx.util.Template",
 {
@@ -36,10 +38,16 @@ qx.Class.define("qx.util.Template",
 
   /**
    * @param content {String} The source content
+   * @deprecated since 1.6. Please use qx.bom.Template instead.
    */
   construct : function(content)
   {
     this.base(arguments);
+
+
+    qx.log.Logger.deprecatedClassWarning(
+      this.constructor, "Please use qx.bom.Template instead."
+    );
 
     if (content != null) {
       this.setContent(content);
@@ -107,6 +115,8 @@ qx.Class.define("qx.util.Template",
      *
      * @param values {Map} Map of keys used in the template
      * @return {String} The result
+     * 
+     * @deprecated since 1.6. Please use qx.bom.Template instead.
      */
     run : function(values) {
       throw new Error("Please define any content first!");
