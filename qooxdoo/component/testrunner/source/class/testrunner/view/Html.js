@@ -19,6 +19,7 @@
 
 /* ************************************************************************
 
+#ignore($)
 #asset(testrunner/view/html/*)
 
 ************************************************************************ */
@@ -137,32 +138,32 @@ qx.Class.define("testrunner.view.Html", {
     _attachMainControls : function()
     {
       var elemControls = document.createElement("div");
-      elemControls.id = "qxtestrunner_controls";
-      elemControls.innerHTML = '<input type="submit" title="Run selected tests (Ctrl+R)" id="qxtestrunner_run" value="Run Tests"></input>';
-      elemControls.innerHTML += '<input type="submit" title="Stop the test suite (Ctrl+S)" id="qxtestrunner_stop" value="Stop Tests"></input>';
+      elemControls.id = "controls";
+      elemControls.innerHTML = '<input type="submit" title="Run selected tests (Ctrl+R)" id="run" value="Run Tests"></input>';
+      elemControls.innerHTML += '<input type="submit" title="Stop the test suite (Ctrl+S)" id="stop" value="Stop Tests"></input>';
 
-      var stackToggle = qx.bom.Input.create("checkbox", {id: "qxtestrunner_togglestack", checked: "checked"});
+      var stackToggle = qx.bom.Input.create("checkbox", {id: "togglestack", checked: "checked"});
       elemControls.appendChild(stackToggle);
-      elemControls.innerHTML += '<label for="qxtestrunner_togglestack">Show stack trace</label>';
+      elemControls.innerHTML += '<label for="togglestack">Show stack trace</label>';
 
-      var passedToggle = qx.bom.Input.create("checkbox", {id: "qxtestrunner_togglepassed", checked: "checked"});
+      var passedToggle = qx.bom.Input.create("checkbox", {id: "togglepassed", checked: "checked"});
       elemControls.appendChild(passedToggle);
-      elemControls.innerHTML += '<label for="qxtestrunner_togglepassed">Show successful tests</label>';
+      elemControls.innerHTML += '<label for="togglepassed">Show successful tests</label>';
 
       this.__domElements.rootElement.appendChild(elemControls);
 
-      this.__domElements.runButton = document.getElementById("qxtestrunner_run");
+      this.__domElements.runButton = document.getElementById("run");
       qx.event.Registration.addListener(this.__domElements.runButton, "click", this.__runTests, this);
 
-      this.__domElements.stopButton = document.getElementById("qxtestrunner_stop");
+      this.__domElements.stopButton = document.getElementById("stop");
       qx.event.Registration.addListener(this.__domElements.stopButton, "click", this.__stopTests, this);
 
-      var stackToggle = document.getElementById("qxtestrunner_togglestack");
+      var stackToggle = document.getElementById("togglestack");
       qx.event.Registration.addListener(stackToggle, "change", function(ev) {
         this.setShowStack(ev.getData());
       }, this);
 
-      var passedToggle = document.getElementById("qxtestrunner_togglepassed");
+      var passedToggle = document.getElementById("togglepassed");
       qx.event.Registration.addListener(passedToggle, "change", function(ev) {
         this.setShowPassed(ev.getData());
       }, this);
@@ -175,16 +176,16 @@ qx.Class.define("testrunner.view.Html", {
     _attachTestControls : function()
     {
       var elemTestControls = document.createElement("div");
-      elemTestControls.id = "qxtestrunner_testcontrols";
-      var allTestsToggle = qx.bom.Input.create("checkbox", {id: "qxtestrunner_togglealltests", checked: "checked"});
-      elemTestControls.innerHTML += '<label for="qxtestrunner_testfilter">Filter tests</label>';
-      elemTestControls.innerHTML += '<input type="text" id="qxtestrunner_testfilter" />';
+      elemTestControls.id = "testcontrols";
+      var allTestsToggle = qx.bom.Input.create("checkbox", {id: "togglealltests", checked: "checked"});
+      elemTestControls.innerHTML += '<label for="testfilter">Filter tests</label>';
+      elemTestControls.innerHTML += '<input type="text" id="testfilter" />';
       elemTestControls.appendChild(allTestsToggle);
-      elemTestControls.innerHTML += '<label for="qxtestrunner_togglealltests">Select/deselect all listed tests</label>';
+      elemTestControls.innerHTML += '<label for="togglealltests">Select/deselect all listed tests</label>';
 
       this.__domElements.rootElement.appendChild(elemTestControls);
 
-      this.__domElements.allTestsToggle = document.getElementById("qxtestrunner_togglealltests");
+      this.__domElements.allTestsToggle = document.getElementById("togglealltests");
       qx.event.Registration.addListener(this.__domElements.allTestsToggle, "change", function(ev) {
         var checked = ev.getTarget().checked;
         this.toggleAllTests(checked, true);
@@ -197,7 +198,7 @@ qx.Class.define("testrunner.view.Html", {
         this.filterTests(filter);
       }, this);
 
-      this.__domElements.filterInput = document.getElementById("qxtestrunner_testfilter");
+      this.__domElements.filterInput = document.getElementById("testfilter");
       qx.event.Registration.addListener(this.__domElements.filterInput, "input", function(ev) {
         this.__filterTimer.restart();
       }, this);
@@ -210,17 +211,17 @@ qx.Class.define("testrunner.view.Html", {
      */
     _attachTestList : function()
     {
-      var parent = document.getElementById("qxtestrunner_testscontainer");
+      var parent = document.getElementById("testscontainer");
       if (!parent) {
         parent = document.createElement("div");
-        parent.id = "qxtestrunner_testscontainer";
+        parent.id = "testscontainer";
         this.__domElements.rootElement.appendChild(parent);
       }
       var listContainer = document.createElement("div");
-      listContainer.id = "qxtestrunner_tests";
-      listContainer.innerHTML += '<ul id="qxtestrunner_testlist"></ul>';
+      listContainer.id = "tests";
+      listContainer.innerHTML += '<ul id="testlist"></ul>';
       parent.appendChild(listContainer);
-      this.__domElements.elemTestList = document.getElementById("qxtestrunner_testlist");
+      this.__domElements.elemTestList = document.getElementById("testlist");
     },
 
 
@@ -229,17 +230,17 @@ qx.Class.define("testrunner.view.Html", {
      */
     _attachResultsList : function()
     {
-      var parent = document.getElementById("qxtestrunner_testscontainer");
+      var parent = document.getElementById("testscontainer");
       if (!parent) {
         parent = document.createElement("div");
-        parent.id = "qxtestrunner_testscontainer";
+        parent.id = "testscontainer";
         this.__domElements.rootElement.appendChild(parent);
       }
       var elemResults = document.createElement("div");
-      elemResults.id = "qxtestrunner_results";
-      elemResults.innerHTML = '<ul id="qxtestrunner_resultslist"></ul>';
+      elemResults.id = "results";
+      elemResults.innerHTML = '<ul id="resultslist"></ul>';
       parent.appendChild(elemResults);
-      this.__domElements.elemResultsList = document.getElementById("qxtestrunner_resultslist");
+      this.__domElements.elemResultsList = document.getElementById("resultslist");
     },
 
 
@@ -249,21 +250,24 @@ qx.Class.define("testrunner.view.Html", {
     _attachFooter : function()
     {
       var elemFooter = document.createElement("div");
-      elemFooter.id = "qxtestrunner_footer";
-      elemFooter.innerHTML = '<p id="qxtestrunner_status"></p>';
+      elemFooter.id = "footer";
+      elemFooter.innerHTML = '<p id="status"></p>';
 
       this.__domElements.rootElement.appendChild(elemFooter);
 
-      this.__domElements.elemStatus = document.getElementById("qxtestrunner_status");
+      this.__domElements.elemStatus = document.getElementById("status");
     },
 
 
     /**
      * Empties the results display.
+     * 
+     * @lint ignoreUndefined($)
      */
     clearResults : function()
     {
       this.__domElements.elemResultsList.innerHTML = "";
+      $("#testlist li label").setAttribute("class", "")
     },
 
     /**
@@ -315,27 +319,27 @@ qx.Class.define("testrunner.view.Html", {
         return this.__domElements.elemIframe;
       }
 
-      var parent = document.getElementById("qxtestrunner_framelogcontainer");
+      var parent = document.getElementById("framelogcontainer");
       if (!parent) {
         parent = document.createElement("div");
-        parent.id = "qxtestrunner_framelogcontainer";
-        var controls = document.getElementById("qxtestrunner_controls");
+        parent.id = "framelogcontainer";
+        var controls = document.getElementById("controls");
         qx.dom.Element.insertAfter(parent, controls);
       }
 
       var frameContainer = document.createElement("div");
-      frameContainer.id = "qxtestrunner_framecontainer";
+      frameContainer.id = "framecontainer";
       parent.appendChild(frameContainer);
-      frameContainer.innerHTML += '<input type="text" id="qxtestrunner_iframesrc"></input>';
-      frameContainer.innerHTML += '<input type="submit" title="Reload the test suite (Ctrl+Shift+R)" id="qxtestrunner_setiframesrc" value="Reload"></input>';
+      frameContainer.innerHTML += '<input type="text" id="iframesrc"></input>';
+      frameContainer.innerHTML += '<input type="submit" title="Reload the test suite (Ctrl+Shift+R)" id="setiframesrc" value="Reload"></input>';
 
       var elemAut = document.createElement("div");
-      elemAut.id = "qxtestrunner_aut";
-      this.__domElements.elemIframe = qx.bom.Iframe.create({id : "qxtestrunner_autframe"});
+      elemAut.id = "aut";
+      this.__domElements.elemIframe = qx.bom.Iframe.create({id : "autframe"});
       frameContainer.appendChild(this.__domElements.elemIframe);
 
-      this.__domElements.iframeSourceInput = document.getElementById("qxtestrunner_iframesrc");
-      var reloadBtn = document.getElementById("qxtestrunner_setiframesrc");
+      this.__domElements.iframeSourceInput = document.getElementById("iframesrc");
+      var reloadBtn = document.getElementById("setiframesrc");
       qx.event.Registration.addListener(reloadBtn, "click", this.__reloadAut, this);
 
       return this.__domElements.elemIframe;
@@ -353,17 +357,17 @@ qx.Class.define("testrunner.view.Html", {
         return this.__domElements.elemLogAppender;
       }
 
-      var parent = document.getElementById("qxtestrunner_framelogcontainer");
+      var parent = document.getElementById("framelogcontainer");
       if (!parent) {
         parent = document.createElement("div");
-        parent.id = "qxtestrunner_framelogcontainer";
-        var controls = document.getElementById("qxtestrunner_controls");
+        parent.id = "framelogcontainer";
+        var controls = document.getElementById("controls");
         qx.dom.Element.insertAfter(parent, controls);
       }
 
       // Directly create DOM element to use
       var logelem = this.__domElements.elemLogAppender = document.createElement("div");
-      logelem.id = "qxtestrunner_log";
+      logelem.id = "log";
       parent.appendChild(logelem);
 
       return this.__domElements.elemLogAppender;
@@ -478,22 +482,6 @@ qx.Class.define("testrunner.view.Html", {
 
 
     /**
-     * Sets the CSS "display" attribute of all nodes with the given CSS class.
-     *
-     * @param cssClass {String} CSS class name
-     * @param display {Boolean} Display value: true for "block", false for "none"
-     */
-    __setDisplayForClass : function(cssClass, display)
-    {
-      var displayVal = display ? "block" : "none";
-      var elems = qx.bom.Selector.query(cssClass, this.__domElements.rootElement);
-      for (var i=0,l=elems.length; i<l; i++) {
-        qx.bom.element.Style.set(elems[i], "display", displayVal);
-      }
-    },
-
-
-    /**
      * Visualizes the status of a single test result as it changes during test
      * execution.
      *
@@ -517,6 +505,8 @@ qx.Class.define("testrunner.view.Html", {
 
       var exceptions =  testResultData.getExceptions();
       var key = this.__simplifyName(testName);
+      
+      this._markTestInList(testName, state);
       var listItem = document.getElementById(key);
       if (listItem) {
         qx.bom.element.Attribute.set(listItem, "class", state);
@@ -562,6 +552,24 @@ qx.Class.define("testrunner.view.Html", {
 
 
     /**
+     * Applies a CSS class corresponding to the test's state to its entry in the
+     * list
+     * 
+     * @param testName {String} The test methods' fully qualified name
+     * @param state {String} The test's current state
+     * 
+     * @lint ignoreUndefined($)
+     */
+    _markTestInList : function(testName, state)
+    {
+      var key = this.__simplifyName(testName);
+      var selector = "[for=cb_" + key + "]";
+      $(selector).setAttribute("class", "");
+      $(selector).addClass("t_" + state);
+    },
+    
+
+    /**
      * Listener for the checkbox associated with each test in the suite.
      *
      * @param ev {qx.event.type.Event} change event
@@ -583,7 +591,6 @@ qx.Class.define("testrunner.view.Html", {
      */
     __toggleTestsSelected : function(tests, selected)
     {
-      //var selectedTests = qx.lang.Array.clone(this.getSelectedTests());
       var selectedTests = this.getSelectedTests().copy();
 
       for (var i=0,l=tests.length; i<l; i++) {
@@ -598,11 +605,14 @@ qx.Class.define("testrunner.view.Html", {
         }
       }
 
-      //selectedTests.sort();
       this.setSelectedTests(selectedTests);
       this._writeCookie();
     },
 
+    
+    /**
+     * Stores the current test selection in a cookie
+     */
     _writeCookie : function()
     {
       var selected = this.getSelectedTests();
@@ -641,6 +651,8 @@ qx.Class.define("testrunner.view.Html", {
      *
      * @param value {String} The test suite's status
      * @param value {String} The previous status
+     * 
+     * @lint ignoreUndefined($)
      */
     _applyTestSuiteState : function(value, old)
     {
@@ -648,10 +660,10 @@ qx.Class.define("testrunner.view.Html", {
       {
         case "loading" :
           this.setStatus("Loading tests...");
-          this.__domElements.filterInput.disabled = true;
-          this.__domElements.allTestsToggle.disabled = true;
-          this.__domElements.runButton.disabled = true;
-          this.__domElements.stopButton.disabled = true;
+          $("#testfilter," +
+            "#togglealltests, " +
+            "#run, " +
+            "#stop").setAttribute("disabled", "disabled");
           break;
         case "ready" :
           this.setStatus("Test suite ready");
@@ -663,10 +675,10 @@ qx.Class.define("testrunner.view.Html", {
           else {
             this._applyTestCount(this.getTestCount());
           }
-          this.__domElements.filterInput.disabled = false;
-          this.__domElements.allTestsToggle.disabled = false;
-          this.__domElements.runButton.disabled = false;
-          this.__domElements.stopButton.disabled = true;
+          $("#testfilter," +
+            "#togglealltests, " +
+            "#run").setAttribute("disabled", "");
+          $("#stop").setAttribute("disabled", "disabled")
           this.setFailedTestCount(0);
           this.setSuccessfulTestCount(0);
           if (this.getAutoRun()) {
@@ -734,6 +746,9 @@ qx.Class.define("testrunner.view.Html", {
     },
 
 
+    /**
+     * Selects the tests saved in the cookie
+     */
     _applyCookieSelection : function()
     {
       var cookieSelection = qx.bom.Cookie.get("selectedTests");
@@ -762,11 +777,19 @@ qx.Class.define("testrunner.view.Html", {
       }
     },
 
+    
+    /**
+     * Sets the <code>checked</code> attribute of a checkbox corresponding to a 
+     * single test
+     * 
+     * @param testName {String} The test method's fully qualified name
+     * @param checked {Boolean} <code>true</code> if the test's checkbox should be checked
+     */
     _setTestChecked : function(testName, checked)
     {
       var value = checked ? "checked" : "";
       var target = testName ? "#cb_" + this.__simplifyName(testName) : "input";
-      qx.bom.Collection.query("#qxtestrunner_testlist " + target).setAttribute("checked", value);
+      qx.bom.Collection.query("#testlist " + target).setAttribute("checked", value);
     },
 
     /**
@@ -871,6 +894,8 @@ qx.Class.define("testrunner.view.Html", {
      *
      * @param value {Boolean} Incoming property value
      * @param value {Boolean} Previous property value
+     * 
+     * @lint ignoreUndefined($)
      */
     _applyShowStack : function(value, old)
     {
@@ -878,7 +903,7 @@ qx.Class.define("testrunner.view.Html", {
         return;
       }
 
-      this.__setDisplayForClass(".stacktrace", value);
+      $(".stacktrace").setStyle("display", value ? "block" : "none");
     },
 
 
@@ -887,13 +912,15 @@ qx.Class.define("testrunner.view.Html", {
      *
      * @param value {Boolean} Incoming property value
      * @param value {Boolean} Previous property value
+     * 
+     * @lint ignoreUndefined($)
      */
     _applyShowPassed : function(value, old)
     {
       if (value === null || value === old) {
         return;
       }
-      this.__setDisplayForClass(".success", value);
+      $(".success").setStyle("display", value ? "block" : "none");
     },
 
     /**

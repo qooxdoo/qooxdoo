@@ -47,42 +47,42 @@ label {
   font-size: 0.9em;
 }
 
-#qxtestrunner_controls {
+#controls {
   margin: 0 10px 15px 10px;
 }
 
-#qxtestrunner_run {
+#run {
   margin-right: 10px;
   background-color: #007F00;
 }
 
-#qxtestrunner_run:disabled {
+#run:disabled {
   background-color: #659E67;
   color: #ACDDAE !important
 }
 
-#qxtestrunner_stop {
+#stop {
   margin-right: 10px;
   background-color: #9E0000;
 }
 
-#qxtestrunner_stop:disabled {
+#stop:disabled {
   background-color: #9E5E5E;
   color: #C9B8B8 !important;
 }
 
-#qxtestrunner_framelogcontainer {
+#framelogcontainer {
   height: 150px;
   margin: 0 10px 10px 10px;
 }
 
-#qxtestrunner_framecontainer {
+#framecontainer {
   height: 150px;
   float: left;
   width: 50%;
 }
 
-#qxtestrunner_log {
+#log {
   width: 49%;
   height: 150px;
   float: right;
@@ -92,7 +92,7 @@ label {
   border: 1px solid #B5B5B5;
 }
 
-#qxtestrunner_autframe {
+#autframe {
   display: inline-block;
   border: 1px solid #B5B5B5;
   margin-top: 5px;
@@ -100,64 +100,65 @@ label {
   width: 99%;
 }
 
-#qxtestrunner_iframesrc {
+#iframesrc {
   width: 83%;
   margin-right: 10px;
 }
 
-#qxtestrunner_setiframesrc {
+#setiframesrc {
   background-color: #777777;
   padding-top: 2px;
   padding-bottom: 2px;
 }
 
-#qxtestrunner_testcontrols {
+#testcontrols {
   clear: both;
   font-size: 1em;
   padding: 0 10px 0 10px;
   margin-bottom: 10px;
 }
 
-#qxtestrunner_testcontrols input {
+#testcontrols input {
   margin-left: 10px;
 }
 
-#qxtestrunner_testscontainer {
+#testscontainer {
 }
 
-#qxtestrunner_tests {
+#tests {
   float: left;
-  width: 42%;
+  width: 50%;
   padding-bottom: 30px;
   font-size: 0.9em;
 }
 
-#qxtestrunner_tests ul {
+#tests ul {
   border-top: 1px solid #E5E5E5;
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 
-#qxtestrunner_tests ul li {
+#tests ul li {
   border-bottom: 1px solid #E5E5E5;
   border-top: 1px solid #fff;
   background-color: #F4F4F4;
 }
 
-#qxtestrunner_results {
-  width: 58%;
-  margin: 0 0 30px 42%;
+#results {
+  float: right;
+  width: 49%;
+  margin: 0 0 30px 0;
   font-size: 0.9em;
 }
 
-#qxtestrunner_results ul {
+#results ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 
-#qxtestrunner_results ul li {
+#results ul li {
   margin: 0 0 2px 0;
   padding: 2px;
   font-family: "Consolas", "Courier New", monospace;
@@ -166,41 +167,58 @@ label {
   color: #134275;  
 }
 
-#qxtestrunner_results ul li ul li {
+#results ul li ul li {
   margin: 3px 0 3px 10px;
 }
 
-#qxtestrunner_results .stacktrace {
+.stacktrace {
   font-weight: normal;
 }
 
-#qxtestrunner_results .success {
+.success {
   background-color: #FAFFED;
   border-left: 2px solid #DEFF83;
 }
 
-#qxtestrunner_results .wait {
+.t_success {
+  color: #007F00;
+}
+
+.wait {
   background-color: #FFFBC4;
   border-left: 2px solid #FFFFD8;
 }
 
-#qxtestrunner_results .skip {
+.t_wait {
+  color: #FF7F00;
+}
+
+.skip {
   background-color: #F4F4F4;
   border-left: 2px solid #E5E5E5;
   color: #6EA4BC;
 }
 
-#qxtestrunner_results .failure,
-#qxtestrunner_results .error {
+.t_skip {
+  color: #666666;
+}
+
+.failure,
+.error {
   background-color: #FEF4F4;
   border-left: 2px solid #9D1111;
+}
+
+.t_fail,
+.t_error {
+	color: #9E0000;
 }
 
 #aut iframe {
   width: 100%;
 }
 
-#qxtestrunner_footer {
+#footer {
   position: fixed;
   bottom: 0px;
   width: 100%;
@@ -210,11 +228,11 @@ label {
   color: #000;
 }
 
-#qxtestrunner_status {
+#status {
   margin: 6px 8px;
   font-size: 0.9em;
 }
 
-#qxtestrunner_status .error {
+#status .error {
   color: #FF0000;
 }
