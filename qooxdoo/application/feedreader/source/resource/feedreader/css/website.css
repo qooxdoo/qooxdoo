@@ -7,6 +7,14 @@ body {
   font-size: 1.1em
 }
 
+#qxTag {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 0.6em;
+  text-decoration: none;
+  color: #666;
+}
 
 
 /* HEADER */
@@ -80,4 +88,5 @@ h1 {
 
 .article-content {
   padding: 10px;
+  font-size: 0.8em;
 }

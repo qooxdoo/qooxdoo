@@ -57,6 +57,10 @@ qx.Class.define("feedreader.WebsiteApplication",
       -------------------------------------------------------------------------
       */
 
+      // set the qooxdoo version
+      document.getElementById("qxTag").innerHTML = 
+        "qooxdoo " + qx.core.Environment.get("qx.version");
+
       // Initialize the model
       var model = new feedreader.model.Model();
       this.__feedFolder = model.getFeedFolder();
