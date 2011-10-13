@@ -68,6 +68,8 @@ ASSIGN_OPERATORS = ["ASSIGN", "ASSIGN_ADD", "ASSIGN_SUB", "ASSIGN_MUL", \
 
 LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
 
+StmntTerminatorTokens = ("eol", ";")
+
 ##
 # the main purpose of this class is to instantiate parser symbol objects from
 # low-level tokens
@@ -187,6 +189,7 @@ class TokenStream(IterObject):
             s.set('column', tok.column)
             s.set('line', tok.line)
 
+        # SPY-POINT
         #print tok
         return s
 
@@ -234,6 +237,7 @@ tokenStream = None # stream of symbol_base() nodes
 
 class symbol_base(Node):
 
+    # TODO: I should remove those.
     id = None
     value = None
     first = second = third = None
@@ -340,6 +344,7 @@ def method(s):
     assert issubclass(s, symbol_base)
     def bind(fn):
         setattr(s, fn.__name__, fn)
+        #fn.__name__ = "%s.%s" % (s.id, fn.__name__)
     return bind
 
 # - Grammar ----------------------------------------------------------------
@@ -815,12 +820,8 @@ symbol("return")
 
 @method(symbol("return"))
 def std(self):
-    if token.id != ";":
+    if token.id not in StmntTerminatorTokens:
         self.children.append(expression(0))
-    if token.id != "}":
-      advance(";")
-    if token.id != "}":
-        token.error("Unreachable statement")
     return self
 
 
@@ -984,7 +985,6 @@ def expression(rbp=0):
 def statement():
     n = token
     s = None
-    #import pydb; pydb.debugger()
     if getattr(token, 'std', None):
         advance()
         s = n.std()
