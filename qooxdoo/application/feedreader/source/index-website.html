@@ -24,15 +24,15 @@
 
   <div id="tree-folder" class="template">
     <div class="feed-folder">
-      {name}
+      {{name}}
     </div>
   </div>
 
 
   <div id="tree-item" class="template">
     <div>
-      <input type="radio" name="feeds" style="display: none;" id="{id}">
-      <label for="{id}" name="feedslabel" class="feed-item">{title}</label>
+      <input type="radio" name="feeds" style="display: none;" id="{{id}}">
+      <label for="{{id}}" name="feedslabel" class="feed-item">{{title}}</label>
     </div>
   </div>
 
@@ -40,8 +40,8 @@
   <div id="article" class="template">
     <div class="article-container">
       <div class="article-indicator">[+]</div>
-      <label class="article-title">{title}</label>
-      <div class="article-content" style="display: none;">{content}</div>
+      <label class="article-title">{{title}}</label>
+      <div class="article-content" style="display: none;">{{{content}}}</div>
     </div>
   </div>
 
