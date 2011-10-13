@@ -20,7 +20,7 @@
  * This is a static factory for creating the DOM nodes needed for the webseite 
  * view of the feedreader.
  */
-qx.Bootstrap.define("feedreader.website.Factory", 
+qx.Bootstrap.define("feedreader.view.website.Factory", 
 {
   statics :
   {

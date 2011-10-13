@@ -101,7 +101,7 @@ qx.Class.define("feedreader.WebsiteApplication",
       var articles = feed.getArticles();
       for (var i=0; i < articles.length; i++) {
         var article = articles.getItem(i);
-        el.appendChild(feedreader.website.Factory.createArticleView(article));
+        el.appendChild(feedreader.view.website.Factory.createArticleView(article));
       };
     },
 
@@ -123,12 +123,12 @@ qx.Class.define("feedreader.WebsiteApplication",
       for (var i=0; i < folders.length; i++) {
         // create a folder item in the tree
         var feeds = folders[i].getFeeds();
-        el.appendChild(feedreader.website.Factory.createTreeFolder(names[i]));
+        el.appendChild(feedreader.view.website.Factory.createTreeFolder(names[i]));
 
         // create a feed item for every feed in the folder
         for (var j=0; j < feeds.length; j++) {
           var feed = feeds.getItem(j);
-          var item = feedreader.website.Factory.createTreeItem(feed);
+          var item = feedreader.view.website.Factory.createTreeItem(feed);
           // special handling for the initial selection
           if (i === 0 && j === 0) {
             // mark the first one as selected by default
