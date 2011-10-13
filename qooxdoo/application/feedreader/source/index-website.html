@@ -4,64 +4,19 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>qooxdoo &raquo; Feed Reader</title>
   <script type="text/javascript" src="script/feedreader-website.js"></script>
+  <link href="resource/feedreader/css/website.css" rel="stylesheet" type="text/css">
+
+  <link href='http://fonts.googleapis.com/css?family=Alike+Angular' rel='stylesheet' type='text/css'>
+
   <script type="text/javascript">if (location.hostname === "demo.qooxdoo.org") document.write('<script src="http://resources.qooxdoo.org/script/analytics.js" type="text/javascript"></scr' + 'ipt>');</script>
-  <style type="text/css" media="screen">
-    body {
-      padding: 0px;
-      margin: 0px;
-    }
-    h1 {
-      background-color: blue;
-      margin: 0px;
-    }
-
-    #tree {
-      width: 250px;
-      float: left;
-      background-color: yellow;
-      width: 20%;
-    }
-    #list {
-      background-color: magenta;
-      float: left;
-      width: 80%;
-    }
-
-    .feed-item {
-      cursor: pointer;
-    }
-
-    .feed-folder {
-      font-weight: bold;
-    }
-
-    .selectedFeed {
-      color: red;
-    }
-
-    .article-indicator {
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      float: left;
-      margin-right: 10px;
-      font-family: "Courier New", Courier, monospace;
-    }
-
-    .article-title {
-      font-size: 15px;
-      cursor: pointer;
-      font-family: "Courier New", Courier, monospace;
-    }
-
-    .article-content {
-      padding: 10px;
-    }
-  </style>
 </head>
 <body>
   <h1>Feed Reader</h1>
-  <div id="tree">Loading...</div>
-  <div id="list">Loading...</div>
+  <div id="treeContainer">
+    <div id="tree">Loading...</div>
+  </div>
+  <div id="listContainer">
+    <div id="list">Loading...</div>
+  </div>
 </body>
 </html>

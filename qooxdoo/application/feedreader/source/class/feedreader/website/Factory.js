@@ -7,6 +7,7 @@ qx.Bootstrap.define("feedreader.website.Factory",
 
     createArticleView : function (article) {
       var container = qx.bom.Element.create("div");
+      qx.bom.element.Class.add(container, "article-container");
 
       var indicator = qx.bom.Element.create("div");
       indicator.innerHTML = "[+]";
@@ -18,7 +19,7 @@ qx.Bootstrap.define("feedreader.website.Factory",
       qx.bom.element.Class.add(title, "article-title");
       container.appendChild(title);
 
-      var content = qx.bom.Element.create("label");
+      var content = qx.bom.Element.create("div");
       qx.bom.element.Class.add(content, "article-content");
       content.innerHTML = feedreader.ArticleBuilder.createHtml(article, false);
       qx.bom.element.Style.set(content, "display", "none");
@@ -39,6 +40,7 @@ qx.Bootstrap.define("feedreader.website.Factory",
 
       return container;
     },
+
 
     createTreeFolder : function(name) {
       var folder = qx.bom.Element.create("div");
