@@ -131,8 +131,8 @@ class TokenStream(IterObject):
             self.line += 1                  # increase line count
             self.sol  = tok.spos + tok.len  # char pos of next line start
             self.spos = tok.spos
-            #pass # don't yield this (yet)
-            s = symbol_table.get("eol")()
+            pass # don't yield this (yet)
+            #s = symbol_table.get("eol")()
         # 'operation' nodes
         elif tok.detail in (
             MULTI_TOKEN_OPERATORS
@@ -1106,11 +1106,12 @@ if __name__ == "__main__":
         if os.path.isfile(arg1):
             text = filetool.read(sys.argv[1])
         else:
-            text = arg1
+            text = arg1.decode('unicode_escape')  # 'string_escape' would work too
         tokenArr = tokenizer.parseStream(text)
         print p.parse(tokenArr).toXml()
     else:
-        execfile (os.path.normpath(os.path.join(os.environ["QOOXDOO_PATH"], "tool/test/compiler/treegenerator.py")))
+        #execfile (os.path.normpath(os.path.join(os.environ["QOOXDOO_PATH"], "tool/test/compiler/treegenerator.py")))
+        execfile (os.path.normpath(os.path.join(__file__, "../../../../test/compiler/treegenerator.py"))) # __file__ doesn't seem to work in pydb
         for t in tests:
             test(*t)
 
