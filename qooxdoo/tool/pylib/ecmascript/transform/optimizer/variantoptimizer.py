@@ -59,9 +59,6 @@ def search(node, variantMap, fileId_="", verb=False):
     fileId = fileId_
     modified = False
 
-    #if fileId_ == "qx.core.Environment":
-        #modified = processEnvironmentClass(node, variantMap)
-
     variantNodes = findVariantNodes(node)
     for variantNode in variantNodes:
         variantMethod = selectNode(variantNode, "identifier[4]/@name")
