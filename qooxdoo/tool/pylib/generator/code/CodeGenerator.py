@@ -468,13 +468,6 @@ class CodeGenerator(object):
                 if len(processes) > maxproc:
                     reap_processes()  # collect finished processes' results to make room
 
-                # TODO: (bug#5516) - not necessary anymore
-                #if clazz.id == "qx.core.Environment" and "variants" in compConf.optimize:
-                #    content = optimizeEnvironmentClass(clazz, compConf)
-                #    contA[pos][CONTENT] = content
-                #    contA[pos][INCACHE] = True  # fake, to later not write it
-                #    continue
-
                 cacheId, content = _checkCache(clazz, variants, optimize, format_)
                 contA[pos][CACHEID] = cacheId
                 if content:
@@ -568,30 +561,14 @@ class CodeGenerator(object):
             if num_proc == 0:
                 result = []
                 for clazz in classList:
-                    # TODO: (bug#5516) - not necessary anymore
-                    #if clazz.id == "qx.core.Environment" and "variants" in compConf.optimize:
-                    #    code = optimizeEnvironmentClass(clazz, compConf)
-                    #else:
-                    if True:
-                        #code = clazz.getCode(compConf, treegen=treegenerator_new_ast) # choose parser frontend
-                        code = clazz.getCode(compConf, treegen=treegenerator) # choose parser frontend
+                    #code = clazz.getCode(compConf, treegen=treegenerator_new_ast) # choose parser frontend
+                    code = clazz.getCode(compConf, treegen=treegenerator) # choose parser frontend
                     result.append(code)
                     log_progress()
                 return u''.join(result)
             else:
                 # multi-core version
                 return _compileClassesMP(classList, compConf, log_progress, num_proc)
-
-
-        ##
-        # optimize qx.core.Environment.useCheck()
-        #
-        def optimizeEnvironmentClass(envClass, compConf):
-            assert envClass.id == "qx.core.Environment"
-            tree = envClass.optimizeEnvironmentClass(compConf)
-            code = Packer().serializeNode(tree, None, [u''], compConf.format)
-            code = u''.join(code)
-            return code
 
 
         ##

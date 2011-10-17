@@ -216,68 +216,6 @@ def processVariantGet(callNode, variantMap):
 
 
 ##
-# qx.core.Environment gets special treatment, as it uses a pseudo-method,
-# to indicate optimizable code
-#
-def processEnvironmentClass(tree, usedVariantKeys):
-    
-    def useCheckNodes(node):
-        variantNodes = treeutil.findVariablePrefix(node, "this.useCheck")
-        for variantNode in variantNodes:
-            #print variantNode.toXml()
-            if not variantNode.hasParentContext("call/operand"):
-                continue
-            else:
-                yield selectCallNode(variantNode)
-
-    # -----------------------------------------------------------------
-    global verbose
-    global fileId
-    verbose = False
-    fileId = "qx.core.Environment"
-
-    for callNode in useCheckNodes(tree):
-
-        # Simple sanity checks
-        params = callNode.getChild("params")
-        if len(params.children) != 1:
-            log("Warning", "Expecting exactly one argument for qx.core.Environment.get. Ignoring this occurrence.", params)
-            continue
-
-        firstParam = params.getChildByPosition(0)
-        if not isStringLiteral(firstParam):
-            log("Warning", "First argument must be a string literal! Ignoring this occurrence.", firstParam)
-            continue
-
-        variantKey = firstParam.get("value");
-        if variantKey in usedVariantKeys:
-            continue  # need these checks at run time
-
-        # Processing
-        # are we in a if/loop condition expression, i.e. a "loop/expression/..." context?
-        conditionNode = None
-        loopType = None
-        node = callNode
-        while (node):
-            if node.type == "expression" and node.parent and node.parent.type == "loop":
-                conditionNode = node
-                break
-            node = node.parent
-
-        if not conditionNode:
-            continue
-
-        # handle "if" statements
-        if conditionNode.parent.get("loopType") == "IF":
-            loopNode = conditionNode.parent
-            # useCheck() call is only condition
-            if callNode.parent == conditionNode:
-                treeutil.inlineIfStatement(loopNode, False) # use 'else' branch (if any)
-
-    return tree
-
-
-##
 # 
 def isDirectDescendant(child, ancestor):
     result = False
