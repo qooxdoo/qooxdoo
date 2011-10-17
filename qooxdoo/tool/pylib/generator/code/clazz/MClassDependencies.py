@@ -641,11 +641,13 @@ class MClassDependencies(object):
         clazzId = self.id
         if  featureId == u'':  # corner case: bare class reference outside "new ..."
             return clazzId, featureId
-        # The next doesn't provide much, qx.Class.getInstance has no new dependencies
+        # TODO: The next doesn't provide much, qx.Class.getInstance has no new dependencies
         # currently (aside from "new this", which I cannot relate back to 'construct'
         # ATM). Leave it in anyway, to not break bug#5660.
-        elif featureId == "getInstance": # corner case: singletons get this from qx.Class
-            clazzId = "qx.Class"
+        #elif featureId == "getInstance": # corner case: singletons get this from qx.Class
+        #    clazzId = "qx.Class"
+        elif featureId == "getInstance" and self.type == "singleton":
+            featureId = "construct"
         elif featureId in ('call', 'apply'):  # this might get overridden, oh well...
             clazzId = "Function"
         # TODO: getter/setter are also not lexically available!
@@ -829,7 +831,7 @@ class MClassDependencies(object):
             # Check other class
             elif classId != self.id:
                 classObj = self._classesObj[classId]
-                otherdeps = classObj.getTransitiveDeps(dependencyItem, variants, classMaps, totalDeps)
+                otherdeps = classObj.getTransitiveDeps(dependencyItem, variants, classMaps, totalDeps, force)
                 return otherdeps
 
             # Check own hierarchy
@@ -850,7 +852,7 @@ class MClassDependencies(object):
             if defClassId != classId:
                 self.resultAdd(defDepsItem, localDeps)
                 defClass = self._classesObj[defClassId]
-                otherdeps = defClass.getTransitiveDeps(defDepsItem, variants, classMaps, totalDeps)
+                otherdeps = defClass.getTransitiveDeps(defDepsItem, variants, classMaps, totalDeps, force)
                 localDeps.update(otherdeps)
                 return localDeps
 
