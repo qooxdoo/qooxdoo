@@ -81,15 +81,19 @@
  *       <td colspan="4"><b>css</b></td>
  *     </tr>
  *     <tr>
- *       <td>css.borderradius</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>css.borderradius</td><td><i>String</i> or <i>null</i></td><td><code>borderRadius</code></td>
  *       <td>{@link qx.bom.client.Css#getBorderRadius}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.borderimage</td><td><i>String</i> or <i>null</i></td><td><code>WebkitBorderImage</code></td>
+ *       <td>{@link qx.bom.client.Css#getBorderImage}</td>
  *     </tr>
  *     <tr>
  *       <td>css.boxmodel</td><td><i>String</i></td><td><code>content</code></td>
  *       <td>{@link qx.bom.client.Css#getBoxModel}</td>
  *     </tr>
  *     <tr>
- *       <td>css.boxshadow</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>css.boxshadow</td><td><i>String</i> or <i>null</i></td><td><code>boxShadow</code></td>
  *       <td>{@link qx.bom.client.Css#getBoxShadow}</td>
  *     </tr>
  *     <tr>
@@ -101,7 +105,7 @@
  *       <td>{@link qx.bom.client.Css#getPlaceholder}</td>
  *     </tr>
  *     <tr>
- *       <td>css.textoverflow</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>css.textoverflow</td><td><i>String</i> or <i>null</i></td><td><code>textOverflow</code></td>
  *       <td>{@link qx.bom.client.Css#getTextOverflow}</td>
  *     </tr>
  *     <tr>
@@ -111,6 +115,18 @@
  *     <tr>
  *       <td>css.rgba</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Css#getRgba}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.usermodify</td><td><i>String</i> or <i>null</i></td><td><code>WebkitUserModify</code></td>
+ *       <td>{@link qx.bom.client.Css#getUserModify}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.appearance</td><td><i>String</i> or <i>null</i></td><td><code>WebkitAppearance</code></td>
+ *       <td>{@link qx.bom.client.Css#getAppearance}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.userselect</td><td><i>String</i> or <i>null</i></td><td><code>WebkitUserSelect</code></td>
+ *       <td>{@link qx.bom.client.Css#getUserSelect}</td>
  *     </tr>
  *     <tr>
  *       <td colspan="4"><b>device</b></td>
@@ -663,11 +679,15 @@ qx.Bootstrap.define("qx.core.Environment",
         "css.textoverflow"            : "qx.bom.client.Css.getTextOverflow",
         "css.placeholder"             : "qx.bom.client.Css.getPlaceholder",
         "css.borderradius"            : "qx.bom.client.Css.getBorderRadius",
+        "css.borderimage"             : "qx.bom.client.Css.getBorderImage",
         "css.boxshadow"               : "qx.bom.client.Css.getBoxShadow",
         "css.gradients"               : "qx.bom.client.Css.getGradients",
         "css.boxmodel"                : "qx.bom.client.Css.getBoxModel",
         "css.translate3d"             : "qx.bom.client.Css.getTranslate3d",
         "css.rgba"                    : "qx.bom.client.Css.getRgba",
+        "css.userselect"              : "qx.bom.client.Css.getUserSelect",
+        "css.usermodify"              : "qx.bom.client.Css.getUserModify",
+        "css.appearance"              : "qx.bom.client.Css.getAppearance",
         "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
         "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification",
         "xml.implementation"          : "qx.bom.client.Xml.getImplementation",

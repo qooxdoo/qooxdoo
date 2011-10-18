@@ -35,6 +35,10 @@ qx.Bootstrap.define("qx.bom.client.Css",
 {
   statics :
   {
+    /** Vendor-specific style property prefixes **/
+    VENDOR_PREFIXES : ["Webkit", "Moz", "O", "ms", "Khtml"],
+
+
     /**
      * Checks what box model is used in the current environemnt.
      * @return {String} It either returns "content" or "border".
@@ -49,13 +53,15 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Checks if text overflow could be used.
-     * @return {Boolean} <code>true</code>, if it could be used.
+     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * <code>textOverflow</code> style property.
+     * 
+     * @return {String|null} textOverflow property name or <code>null</code> if
+     * textOverflow is not supported.
      * @internal
      */
     getTextOverflow : function() {
-      return "textOverflow" in document.documentElement.style ||
-        "OTextOverflow" in document.documentElement.style;
+      return qx.bom.client.Css.__getStylePropertyName("textOverflow");
     },
 
 
@@ -68,29 +74,83 @@ qx.Bootstrap.define("qx.bom.client.Css",
       var i = document.createElement("input");
       return "placeholder" in i;
     },
-
-
+    
+    
     /**
-     * Checks if border radius could be used.
-     * @return {Boolean} <code>true</code>, if it could be used.
+     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * <code>appearance</code> style property.
+     * 
+     * @return {String|null} appearance property name or <code>null</code> if
+     * appearance is not supported.
      * @internal
      */
-    getBorderRadius : function() {
-      return "borderRadius" in document.documentElement.style ||
-        "MozBorderRadius" in document.documentElement.style ||
-        "WebkitBorderRadius" in document.documentElement.style;
+    getAppearance : function() {
+      return qx.bom.client.Css.__getStylePropertyName("appearance");
     },
 
 
     /**
-     * Checks if box shadow could be used.
-     * @return {Boolean} <code>true</code>, if it could be used.
+     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * <code>borderRadius</code> style property.
+     * 
+     * @return {String|null} borderRadius property name or <code>null</code> if
+     * borderRadius is not supported.
+     * @internal
+     */
+    getBorderRadius : function() {
+      return qx.bom.client.Css.__getStylePropertyName("borderRadius");
+    },
+
+
+    /**
+     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * <code>boxShadow</code> style property.
+     * 
+     * @return {String|null} boxShadow property name or <code>null</code> if
+     * boxShadow is not supported.
      * @internal
      */
     getBoxShadow : function() {
-      return "boxShadow" in document.documentElement.style ||
-        "MozBoxShadow" in document.documentElement.style ||
-        "WebkitBoxShadow" in document.documentElement.style;
+      return qx.bom.client.Css.__getStylePropertyName("boxShadow");
+    },
+    
+    
+    /**
+     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * <code>borderImage</code> style property.
+     * 
+     * @return {String|null} borderImage property name or <code>null</code> if
+     * borderImage is not supported.
+     * @internal
+     */
+    getBorderImage : function() {
+      return qx.bom.client.Css.__getStylePropertyName("borderImage");
+    },
+    
+    
+    /**
+     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * <code>userSelect</code> style property.
+     * 
+     * @return {String|null} userSelect property name or <code>null</code> if
+     * userSelect is not supported.
+     * @internal
+     */
+    getUserSelect : function() {
+      return qx.bom.client.Css.__getStylePropertyName("userSelect");
+    },
+    
+    
+    /**
+     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * <code>userModify</code> style property.
+     * 
+     * @return {String|null} userModify property name or <code>null</code> if
+     * userModify is not supported.
+     * @internal
+     */
+    getUserModify : function() {
+      return qx.bom.client.Css.__getStylePropertyName("userModify");
     },
 
 
@@ -164,6 +224,31 @@ qx.Bootstrap.define("qx.bom.client.Css",
       } catch (ex) {}
 
       return false;
+    },
+    
+    
+    /**
+     * Takes the name of a style property and returns the name the browser uses
+     * for its implementation, which might include a vendor prefix.
+     * 
+     * @internal
+     * @param propertyName {String} Style property name to check
+     * @return {String|null} The supported property name or null if not supported
+     */
+    __getStylePropertyName : function(propertyName)
+    {
+      var style = document.documentElement.style;
+      if (style[propertyName] !== undefined) {
+        return propertyName;
+      }
+      for (var i=0, l=qx.bom.client.Css.VENDOR_PREFIXES.length; i<l; i++) {
+        var prefixedProp = qx.bom.client.Css.VENDOR_PREFIXES[i] + 
+          qx.lang.String.firstUp(propertyName);
+        if (style[prefixedProp] !== undefined) {
+          return prefixedProp;
+        }
+      }
+      return null;
     }
   },
 
@@ -176,5 +261,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.boxmodel", statics.getBoxModel);
     qx.core.Environment.add("css.translate3d", statics.getTranslate3d);
     qx.core.Environment.add("css.rgba", statics.getRgba);
+    qx.core.Environment.add("css.borderimage", statics.getBorderImage);
+    qx.core.Environment.add("css.usermodify", statics.getUserModify);
+    qx.core.Environment.add("css.userselect", statics.getUserSelect);
+    qx.core.Environment.add("css.appearance", statics.getAppearance);
   }
 });

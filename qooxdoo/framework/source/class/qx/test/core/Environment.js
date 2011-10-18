@@ -383,13 +383,24 @@ qx.Class.define("qx.test.core.Environment",
 
     testCss : function() {
       this.assertNotEquals("", qx.core.Environment.get("css.boxmodel"));
-      this.assertBoolean(qx.core.Environment.get("css.textoverflow"));
       this.assertBoolean(qx.core.Environment.get("css.placeholder"));
-      this.assertBoolean(qx.core.Environment.get("css.borderradius"));
-      this.assertBoolean(qx.core.Environment.get("css.boxshadow"));
       this.assertBoolean(qx.core.Environment.get("css.gradients"));
       this.assertBoolean(qx.core.Environment.get("css.translate3d"));
       this.assertBoolean(qx.core.Environment.get("css.rgba"));
+      var boxShadow = qx.core.Environment.get("css.boxshadow");
+      this.assert(typeof boxShadow === "string" || boxShadow === null);
+      var borderRadius = qx.core.Environment.get("css.borderradius");
+      this.assert(typeof borderRadius == "string" || borderRadius === null);
+      var borderImage = qx.core.Environment.get("css.borderimage");
+      this.assert(typeof borderImage == "string" || borderImage === null);
+      var textOverflow = qx.core.Environment.get("css.textoverflow");
+      this.assert(typeof textOverflow == "string" || textOverflow === null);
+      var userSelect = qx.core.Environment.get("css.userselect");
+      this.assert(typeof userSelect == "string" || userSelect === null);
+      var userModify = qx.core.Environment.get("css.usermodify");
+      this.assert(typeof userModify == "string" || userModify === null);
+      var appearance = qx.core.Environment.get("css.appearance");
+      this.assert(typeof appearance == "string" || appearance === null);
     },
 
     testPhoneGap : function() {
