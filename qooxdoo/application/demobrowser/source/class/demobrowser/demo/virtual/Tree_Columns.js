@@ -26,6 +26,10 @@
 
 ************************************************************************ */
 
+
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.virtual.Tree_Columns",
 {
   extend : qx.application.Standalone,
