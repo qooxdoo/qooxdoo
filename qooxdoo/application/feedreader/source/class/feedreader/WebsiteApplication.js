@@ -52,21 +52,20 @@ qx.Class.define("feedreader.WebsiteApplication",
 
 
       // set the qooxdoo version
-      document.getElementById("qxTag").innerHTML = 
-        "qooxdoo " + qx.core.Environment.get("qx.version");
+      qx.bom.Collection.id("qxTag").setAttribute("html", "qooxdoo " + qx.core.Environment.get("qx.version"));
 
       // Initialize the model
       var model = new feedreader.model.Model();
 
       // get list and tree
-      var tree = document.getElementById("tree");
-      var list = document.getElementById("list");
+      var tree = qx.bom.Collection.id("tree");
+      var list = qx.bom.Collection.id("list");
       // fill the tree with the feeds
       this.fillTree(tree, model);
 
       // add a listener to the tree to change the selected feed
       var self = this;
-      qx.bom.Event.addNativeListener(tree, "change", function(e) {
+      qx.bom.Event.addNativeListener(tree[0], "change", function(e) {
         var feed = qx.bom.Event.getTarget(e).feed;
         // if the selected feed is loaded
         if (feed.getState() === "loaded") {
@@ -90,18 +89,18 @@ qx.Class.define("feedreader.WebsiteApplication",
     /**
      * Fills the given list with the data of the given feed.
      * 
-     * @param el {DomNode} A DOM node which will be filled.
+     * @param col {qx.bom.Collection} A collection which will be filled.
      * @param feed {qx.core.Object} The model for the feed.
      */
-    fillList : function(el, feed) {
+    fillList : function(col, feed) {
       // delete the current content
-      el.innerHTML = "";
+      col[0].innerHTML = "";
 
       /// putt all articles in the list
       var articles = feed.getArticles();
       for (var i=0; i < articles.length; i++) {
         var article = articles.getItem(i);
-        el.appendChild(feedreader.view.website.Factory.createArticleView(article));
+        col.append(feedreader.view.website.Factory.createArticleView(article));
       };
     },
 
@@ -109,12 +108,12 @@ qx.Class.define("feedreader.WebsiteApplication",
     /**
      * Fills the given tree with the data of the given model.
      * 
-     * @param el {DomNode} The DOM node which will be filled.
+     * @param col {qx.bom.Collection} The collection which will be filled.
      * @param model {qx.core.Object} The model to take the data from.
      */
-    fillTree : function(el, model) {
+    fillTree : function(col, model) {
       // empty loading text
-      el.innerHTML = "";
+      col[0].innerHTML = "";
 
       // take both folders
       var folders = [model.getStaticFeedFolder(), model.getUserFeedFolder()];
@@ -123,7 +122,7 @@ qx.Class.define("feedreader.WebsiteApplication",
       for (var i=0; i < folders.length; i++) {
         // create a folder item in the tree
         var feeds = folders[i].getFeeds();
-        el.appendChild(feedreader.view.website.Factory.createTreeFolder(names[i]));
+        col.append(feedreader.view.website.Factory.createTreeFolder(names[i]));
 
         // create a feed item for every feed in the folder
         for (var j=0; j < feeds.length; j++) {
@@ -135,14 +134,13 @@ qx.Class.define("feedreader.WebsiteApplication",
             item.children[0].checked = true;
             qx.bom.element.Class.add(item.children[1], "selectedFeed");
             // fill the list as soon as the data is available
-            var self = this;
             feed.addListener("stateModified", function(e) {
               if (e.getData() == "loaded") {
-                self.fillList(document.getElementById("list"), e.getTarget());
+                this.fillList(qx.bom.Collection.id("list"), e.getTarget());
               }
-            });
+            }, this);
           }
-          el.appendChild(item);
+          col.append(item);
         };
       };
     }
