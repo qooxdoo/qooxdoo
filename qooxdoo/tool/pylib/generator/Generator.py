@@ -1252,7 +1252,7 @@ class Generator(object):
         self._console.indent()
         for namespace in namespaces:
             lib = [x for x in self._libraries if x.namespace == namespace][0]
-            self._locale.updateTranslations(namespace, lib._translationPath, locales)
+            self._locale.updateTranslations(namespace, lib.translationPath, locales)
 
         self._console.outdent()
 
