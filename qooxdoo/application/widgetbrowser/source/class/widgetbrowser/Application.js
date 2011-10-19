@@ -69,7 +69,7 @@ qx.Class.define("widgetbrowser.Application",
         minWidth: 800,
         minHeight: 800,
         padding: 15
-      })
+      });
       scroll.add(this.__tabs);
 
     },
@@ -77,6 +77,14 @@ qx.Class.define("widgetbrowser.Application",
     getScroll: function()
     {
       return this.__scroll;
+    },
+
+    getThemes: function() {
+      return ([
+        {"Modern" : "qx.theme.Modern"},
+        {"Simple" : "qx.theme.Simple"},
+        {"Classic" : "qx.theme.Classic"}
+      ]);
     }
   }
 });
