@@ -244,6 +244,9 @@
 
     "test" :
     {
+      "config-warnings" : {
+        "environment" : ["non-literal-keys"]
+      },
       "run" : ["test-copy-files"],
 
       "let" :

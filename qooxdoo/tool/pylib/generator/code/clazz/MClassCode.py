@@ -154,12 +154,19 @@ class MClassCode(object):
     #
     def _variantsFromTree(self, node):
         console = self.context['console']
+        config  = self.context['jobconf']
+        warn_non_literal_keys = "non-literal-keys" not in config.get("config-warnings/environment",[])
         classvariants = set()
         for variantNode in variantoptimizer.findVariantNodes(node):
             firstParam = treeutil.selectNode(variantNode, "../../params/1")
             if firstParam:
+                #if self.id == "qx.dev.unit.MRequirements":
+                #    import pydb; pydb.debugger()
                 if treeutil.isStringLiteral(firstParam):
                     classvariants.add(firstParam.get("value"))
+                elif firstParam.type == "variable":
+                    if warn_non_literal_keys:
+                        console.warn("qx.core.Environment call with non-literal key (%s:%s)" % (self.id, variantNode.get("line", False)))
                 elif firstParam.type == "map": # e.g. .filter() method
                     mapMap = treeutil.mapNodeToMap(firstParam)
                     classvariants.update(mapMap.keys())

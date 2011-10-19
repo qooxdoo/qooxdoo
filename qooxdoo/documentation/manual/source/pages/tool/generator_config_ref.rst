@@ -331,6 +331,10 @@ Turn off warnings printed by the generator to the console for specific configura
 
   * **exclude** : *[]* List of class patterns in the *exclude* key that the generator should not warn about.
 
+  * **environment** : *[]* This key has specific sub-keys:
+
+    * **non-literal-keys** : Don't warn if calls to `qx.core.Environment` use non-literal keys (e.g. *"qx.core.Environment.get(foo)"* where *foo* is a variable).
+
 
 .. _pages/tool/generator_config_ref#copy-files:
 
