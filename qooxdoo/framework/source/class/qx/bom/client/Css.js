@@ -152,6 +152,20 @@ qx.Bootstrap.define("qx.bom.client.Css",
     getUserModify : function() {
       return qx.bom.client.Css.__getStylePropertyName("userModify");
     },
+    
+    /**
+     * Returns the vendor-specific name of the <code>float</code> style property 
+     * 
+     * @return {String|null} <code>cssFloat</code> for standards-compliant 
+     * browsers, <code>styleFloat</code> for legacy IEs, <code>null</code> if 
+     * the client supports neither property.
+     * @internal
+     */
+    getFloat : function() {
+      var style = document.documentElement.style;
+      return style.cssFloat !== undefined ? "cssFloat" : 
+        style.styleFloat !== undefined ? "styleFloat" : null;
+    },
 
 
     /**
@@ -265,5 +279,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.usermodify", statics.getUserModify);
     qx.core.Environment.add("css.userselect", statics.getUserSelect);
     qx.core.Environment.add("css.appearance", statics.getAppearance);
+    qx.core.Environment.add("css.float", statics.getFloat);
   }
 });

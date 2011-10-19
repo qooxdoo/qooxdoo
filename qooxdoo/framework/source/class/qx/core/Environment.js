@@ -125,6 +125,10 @@
  *       <td>{@link qx.bom.client.Css#getAppearance}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.float</td><td><i>String</i> or <i>null</i></td><td><code>cssFloat</code></td>
+ *       <td>{@link qx.bom.client.Css#getFloat}</td>
+ *     </tr>
+ *     <tr>
  *       <td>css.userselect</td><td><i>String</i> or <i>null</i></td><td><code>WebkitUserSelect</code></td>
  *       <td>{@link qx.bom.client.Css#getUserSelect}</td>
  *     </tr>
@@ -688,6 +692,7 @@ qx.Bootstrap.define("qx.core.Environment",
         "css.userselect"              : "qx.bom.client.Css.getUserSelect",
         "css.usermodify"              : "qx.bom.client.Css.getUserModify",
         "css.appearance"              : "qx.bom.client.Css.getAppearance",
+        "css.float"                   : "qx.bom.client.Css.getFloat",
         "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
         "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification",
         "xml.implementation"          : "qx.bom.client.Xml.getImplementation",

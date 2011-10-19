@@ -58,6 +58,7 @@
 /* ************************************************************************
 
 #require(qx.lang.String)
+#require(qx.bom.client.Css)
 
 ************************************************************************ */
 
@@ -82,58 +83,28 @@ qx.Class.define("qx.bom.element.Style",
      */
     __detectVendorProperties : function()
     {
-      var vendorProperties = [
-        "appearance",
-        "userSelect",
-        "textOverflow",
-        "borderImage"
-      ];
-
-      var styleNames = {};
-
-      var style = document.documentElement.style;
-      var prefixes = ['Moz', 'Webkit', 'Khtml', 'O', 'Ms'];
-      for (var i=0,l=vendorProperties.length; i<l; i++)
-      {
-        var propName = vendorProperties[i];
-        var key = propName;
-        if (style[propName])
-        {
-          styleNames[key] = propName;
-          continue;
-        }
-
-        propName = qx.lang.String.firstUp(propName);
-
-        for (var j=0, pl=prefixes.length; j<pl; j++)
-        {
-          var prefixed = prefixes[j] + propName;
-          if (typeof style[prefixed] == 'string')
-          {
-            styleNames[key] = prefixed;
-            break;
-          };
-
-        }
-      }
-
-      this.__styleNames = styleNames;
-
-      this.__styleNames["userModify"] = qx.core.Environment.select("engine.name", {
-        "gecko" : "MozUserModify",
-        "webkit" : "WebkitUserModify",
-        "default" : "userSelect"
-      });
+      var styleNames = {
+        "appearance" : qx.core.Environment.get("css.appearance"),
+        "userSelect" : qx.core.Environment.get("css.userselect"),
+        "textOverflow" : qx.core.Environment.get("css.textoverflow"),
+        "borderImage" : qx.core.Environment.get("css.borderimage"),
+        "float" : qx.core.Environment.get("css.float"),
+        "userSelect" : qx.core.Environment.get("css.userselect"),
+        "userModify" : qx.core.Environment.get("css.usermodify")
+      };
 
       this.__cssNames = {};
-      for (var key in styleNames) {
-        this.__cssNames[key] = qx.lang.String.hyphenate(styleNames[key]);
+      for (var key in qx.lang.Object.clone(styleNames)) {
+        if (!styleNames[key]) {
+          delete styleNames[key];
+        }
+        else {
+          this.__cssNames[key] = key == "float" ? "float" : 
+            qx.lang.String.hyphenate(styleNames[key]);
+        }
       }
-
-      this.__styleNames["float"] = qx.core.Environment.select("engine.name", {
-        "mshtml" : "styleFloat",
-        "default" : "cssFloat"
-      });
+      
+      this.__styleNames = styleNames;
     },
 
 
