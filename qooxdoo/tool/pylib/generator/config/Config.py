@@ -27,6 +27,7 @@ from generator.resource.Library import Library
 from generator.runtime.ShellCmd import ShellCmd
 from generator.action.ContribLoader import ContribLoader
 from generator.config.ConfigurationError import ConfigurationError
+from generator.config.Manifest import Manifest
 from misc.NameSpace import NameSpace
 from misc import json
 # see late imports at the bottom of this file
@@ -628,49 +629,8 @@ class Config(object):
                     seen   = []
                     oldlib = jobObj.getFeature('library')
                     for lib in oldlib:
-                        oldway = False
-                        if oldway:
-                            # handle downloads
-                            manifest = lib['manifest']
-                            manidir = os.path.dirname(manifest)
-                            manifile = os.path.basename(manifest)
-                            
-                            # wpbasti: Seems a bit crazy to handle this here
-                            # What's about to process all "remote" manifest initially on file loading?
-                            if manidir.startswith("contrib://"): # it's a contrib:// lib
-                                contrib = manidir.replace("contrib://","")
-                                cacheMap = jobObj.getFeature('cache')
-                                if cacheMap and 'downloads' in cacheMap:
-                                    contribCachePath = cacheMap['downloads']
-                                    contribCachePath = self.absPath(contribCachePath)
-                                else:
-                                    contribCachePath = "cache-downloads"
-                                self._download_contrib(oldlib, contrib, contribCachePath)
-                                manifest = os.path.normpath(os.path.join(contribCachePath, contrib, manifile))
-                                lib['manifest'] = manifest  # patch 'manifest' entry to download path
-                            else:  # patch the path which is local to the current config
-                                pass # TODO: use manidir and config._dirname, or fix it when including the config
-                            lib['manifest'] = self.absPath(lib['manifest'])  # abs manifest path
-                                
-                            # get the local Manifest
-                            manifest = Manifest(self.absPath(manifest))
-                            lib = manifest.patchLibEntry(lib)
-                            # absolutize paths (this might not be the best place to do that)
-                            for entry in ('path',):
-                                lib[entry] = self.absPath(lib[entry])
-                            # retain uri setting here
-                            # add to newlib
-                            if lib['namespace'] not in seen:  # enforce uniqueness
-                                seen.append(lib['namespace'])
-                                newlib.append(lib)
-                                #TODO: newlib.append(Library(lib, self._console))
-                            else:
-                                self._console.debug("Skipping duplicate library \"%s\"" % lib['namespace'])
-
-                        # newway
-                        else:
-                            libObj = Library(lib, self._console)
-                            newlib.append(libObj)
+                        libObj = Library(lib, self._console)
+                        newlib.append(libObj)
 
                     jobObj.setFeature('library', newlib)
 
@@ -776,4 +736,3 @@ class Config(object):
 
 # Late imports, for cross-importing
 from generator.config.Job import Job
-from generator.config.Manifest import Manifest

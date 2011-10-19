@@ -51,10 +51,7 @@ class Library(object):
         self._translations = {}
         self.resources  = set()
 
-        if "namespace" not in libconfig:
-            self._init_from_sparse(libconfig)
-        else:
-            self._init_from_rich(libconfig)
+        self._init_from_manifest(libconfig)
 
         #TODO: clean up the others later
         self.categories = {}
@@ -73,7 +70,7 @@ class Library(object):
         self.__youngest = (None, None) # to memoize youngest file in lib
 
 
-    def _init_from_sparse(self, libconfig):
+    def _init_from_manifest(self, libconfig):
 
         manipath = libconfig['manifest']
 
@@ -96,30 +93,6 @@ class Library(object):
         self.translationPath = os.path.join(self.path, manifest.translation)
         self.resourcePath = os.path.join(self.path, manifest.resource)
         self.namespace = manifest.namespace
-
-
-    def _init_from_rich(self, libconfig):
-        self._config = libconfig
-
-        self.path = context.config.absPath(self._config.get("path", ""))
-        self.manifest = context.config.absPath(self._config.get("manifest", ""))
-
-        if self.path == "":
-            raise ValueError("Missing path information!")
-
-        if not os.path.exists(self.path):
-            raise ValueError("Path does not exist: %s" % self.path)
-
-        self.uri = self._config.get("uri", self.path)
-        self.encoding = self._config.get("encoding", "utf-8")
-
-        self.classPath = os.path.join(self.path, self._config.get("class","source/class"))
-        self.classUri  = os.path.join(self.uri,  self._config.get("class","source/class"))
-
-        self.translationPath = os.path.join(self.path, self._config.get("translation","source/translation"))
-        self.resourcePath    = os.path.join(self.path, self._config.get("resource","source/resource"))
-        self.namespace = self._config.get("namespace")
-
 
 
     def _download_contrib(self, contribUri):
