@@ -131,8 +131,23 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     
     _loadTests : function()
     {
+      var origin = qx.core.Environment.get("testrunner.testOrigin");
+      switch(origin) {
+        default:
+          this._loadInlineTests(this._testNameSpace);
+      }
+    },
+    
+    
+    /**
+     * Loads test classes that are a part of the TestRunner application.
+     *
+     * @param nameSpace {String|Object} Test namespace to be loaded
+     */
+    _loadInlineTests : function(nameSpace)
+    {
       this.setTestSuiteState("loading");
-      this.loader = new qx.dev.unit.TestLoaderBasic(this._testNameSpace);
+      this.loader = new qx.dev.unit.TestLoaderBasic(nameSpace);
       this._wrapAssertions();
       this._getTestModel();
     },

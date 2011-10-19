@@ -75,17 +75,20 @@ qx.Class.define("testrunner.runner.TestRunner", {
     
     _loadTests : function()
     {
-      if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
-        // Load the tests from a standalone AUT
-        this.__iframe = this.view.getIframe();
-        qx.event.Registration.addListener(this.__iframe, "load", this._onLoadIframe, this);
-        var src = qx.core.Environment.get("qx.testPageUri");
-        src += "?testclass=" + this._testNameSpace;
-        this.setTestSuiteState("loading");
-        this.view.setAutUri(src);
-      }
-      else {
-        this._loadInlineTests();
+      var origin = qx.core.Environment.get("testrunner.testOrigin");
+      switch(origin) {
+        case "iframe":
+          // Load the tests from a standalone AUT
+          this.__iframe = this.view.getIframe();
+          qx.event.Registration.addListener(this.__iframe, "load", this._onLoadIframe, this);
+          var src = qx.core.Environment.get("qx.testPageUri");
+          src += "?testclass=" + this._testNameSpace;
+          this.setTestSuiteState("loading");
+          this.view.setAutUri(src);
+          break;
+        case "inline":
+          this._loadInlineTests();
+          break;
       }
     },
     
