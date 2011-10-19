@@ -64,7 +64,7 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
         console = context["console"]
         cache   = context["cache"]
         
-        self.defaultIgnoredNamesDynamic = [lib["namespace"] for lib in self.context['jobconf'].get("library", [])]
+        self.defaultIgnoredNamesDynamic = [lib.namespace for lib in self.context['jobconf'].get("library", [])]
 
 
     def __getstate__(self):
@@ -77,7 +77,8 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
     def __setstate__(self, d):
         if hasattr(Context, "cache"):
             d['context']['cache'] = Context.cache
-        d['defaultIgnoredNamesDynamic'] = [lib["namespace"] for lib in d['context']['jobconf'].get("library", [])]
+        #d['defaultIgnoredNamesDynamic'] = [lib.namespace for lib in d['context']['jobconf'].get("library", [])]
+        d['defaultIgnoredNamesDynamic'] = [lib.namespace for lib in Context.jobconf.get("library", [])]
         self.__dict__ = d
 
 

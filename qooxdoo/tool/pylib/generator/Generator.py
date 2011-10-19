@@ -75,10 +75,8 @@ class Generator(object):
 
         console = self._console
         console.resetFilter()   # reset potential filters from a previous job
-        Context.config  = context['config']  #config
-        Context.jobconf = context['jobconf'] #config.getJob(job)
-        Context.console = context['console']
-        Context.cache   = context['cache']
+
+        Context.cache = self._cache
         
         return
 
@@ -1892,14 +1890,14 @@ class Generator(object):
         if not isinstance(libraryKey, types.ListType):
             return (namespaces, classes, docs, translations, libraries)
 
-        for lib in libraryKey:
+        for libObj in libraryKey:
 
-            libObj    = Library(lib, self._console)
+            #libObj    = Library(lib, self._console)
             checkFile = libObj.mostRecentlyChangedFile()[0]
             cacheId   = "lib-%s" % libObj.manifest
             checkObj, _  = self._cache.read(cacheId, checkFile, memory=True)
             if checkObj:
-                self._console.debug("Use memory cache for %s" % libObj._path)
+                self._console.debug("Use memory cache for %s" % libObj.path)
                 libObj = checkObj  # continue with cached obj
             else:
                 libObj.scan()

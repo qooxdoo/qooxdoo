@@ -25,16 +25,25 @@
 #
 ##
 
-import os, sys, re, types, string, copy
-import simplejson
+import os, sys, re, types, string, copy, codecs
+from misc import json
+from generator.config.ConfigurationError import ConfigurationError
 
 
 class Manifest(object):
     def __init__(self, path):
-        mf = open(path)
-        manifest = simplejson.loads(mf.read())
+        mf = codecs.open(path, "r", "utf-8")
+        manifest = json.loads(mf.read())
         mf.close()
         self._manifest = manifest
+        libinfo       = self._manifest['info']
+        libprovides   = self._manifest['provides']
+        self.classpath = libprovides['class']
+        self.translation = libprovides['translation']
+        self.namespace = libprovides['namespace']
+        self.encoding = libprovides['encoding']
+        self.resource = libprovides['resource']
+        self.type = libprovides['type']
 
     def patchLibEntry(self, libentry):
         '''Patches a "library" entry with the information from Manifest'''
@@ -48,7 +57,10 @@ class Manifest(object):
         if 'translation' in libprovides:
             libentry['translation']   = os.path.join(uriprefix,libprovides['translation'])
         libentry['encoding']    = libprovides['encoding']
-        if 'namespace' not in libentry:
+        if 'namespace' in libentry:
+            if libentry['namespace'] != libprovides['namespace']:
+                raise ConfigurationError("Mismatch between Manifest namespace and directory namespaces")
+        else:
             libentry['namespace']   = libprovides['namespace']
         libentry['type']        = libprovides['type']
         libentry['path']        = os.path.dirname(libentry['manifest']) or '.'

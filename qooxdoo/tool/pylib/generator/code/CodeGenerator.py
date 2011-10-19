@@ -28,6 +28,7 @@ from generator.code.Part        import Part
 from generator.code.Package     import Package
 from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.Script      import Script
+import generator.resource.Library # just need the .Library type
 from ecmascript.frontend        import treegenerator, treegenerator_new_ast
 from ecmascript.backend         import pretty
 from ecmascript.backend.Packer  import Packer
@@ -869,14 +870,25 @@ class CodeGenerator(object):
     # from the information given in lib and, if lib doesn't provide a
     # general uri prefix for it, use appRoot and lib path to construct
     # one
-    def _computeResourceUri(self, lib, resourcePath, rType="class", appRoot=None):
+    def _computeResourceUri(self, lib_, resourcePath, rType="class", appRoot=None):
+
+        # i still use dict-type lib representation to create _output_ pseudo-lib
+        if isinstance(lib_, generator.resource.Library.Library):
+            lib = {
+                'class' : lib_.classPath,
+                'uri'   : lib_.uri,
+                'path'  : lib_.path,
+                'resource' : lib_.resourcePath,
+            }
+        else:
+            lib = lib_
 
         if 'uri' in lib:
             libBaseUri = Uri(lib['uri'])
         elif appRoot:
             libBaseUri = Uri(Path.rel_from_to(self._config.absPath(appRoot), lib['path']))
         else:
-            raise RuntimeError, "Need either lib['uri'] or appRoot, to calculate final URI"
+            raise RuntimeError, "Need either lib.uri or appRoot, to calculate final URI"
         #libBaseUri = Uri(libBaseUri.toUri())
 
         if rType in lib:
@@ -1040,7 +1052,7 @@ class CodeGenerator(object):
 
         for lib in libs:
             # add library key
-            qxlibs[lib['namespace']] = {}
+            qxlibs[lib.namespace] = {}
 
             # add resource root URI
             if forceResourceUri:
@@ -1049,7 +1061,7 @@ class CodeGenerator(object):
                 resUriRoot = self._computeResourceUri(lib, OsPath(""), rType="resource", appRoot=self.approot)
                 resUriRoot = resUriRoot.encodedValue()
                 
-            qxlibs[lib['namespace']]['resourceUri'] = "%s" % (resUriRoot,)
+            qxlibs[lib.namespace]['resourceUri'] = "%s" % (resUriRoot,)
             
             # add code root URI
             if forceScriptUri:
@@ -1058,13 +1070,13 @@ class CodeGenerator(object):
                 sourceUriRoot = self._computeResourceUri(lib, OsPath(""), rType="class", appRoot=self.approot)
                 sourceUriRoot = sourceUriRoot.encodedValue()
             
-            qxlibs[lib['namespace']]['sourceUri'] = "%s" % (sourceUriRoot,)
+            qxlibs[lib.namespace]['sourceUri'] = "%s" % (sourceUriRoot,)
             
             # TODO: Add version, svn revision, maybe even authors, but at least homepage link, ...
 
             # add version info
-            if 'version' in lib:
-                qxlibs[lib['namespace']]['version'] = "%s" % lib['version']
+            if hasattr(lib, 'version'):
+                qxlibs[lib.namespace]['version'] = "%s" % lib.version
 
         return qxlibs
 

@@ -194,6 +194,8 @@ Arguments:
 
     console.debug(u"Jobs: %s" % ", ".join(options.jobs))
     context = {'config': config, 'console':console, 'jobconf':None, 'interruptRegistry':interruptRegistry}
+    Context.config = config # TODO: clean up overlap between context dict and Context module
+    Context.console = console
 
     # CLI mode
     if not options.daemon:
@@ -233,6 +235,7 @@ Arguments:
 
             ctx = context.copy()
             ctx['jobconf'] = config.getJob(job)
+            Context.jobconf = ctx['jobconf']
 
             generatorObj = Generator(ctx)
             generatorObj.run()

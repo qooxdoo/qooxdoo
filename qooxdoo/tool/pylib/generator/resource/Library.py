@@ -30,6 +30,7 @@ from generator.code.qcEnvClass    import qcEnvClass
 from generator.resource.Resource  import Resource
 from generator.resource.Image     import Image
 from generator.resource.CombinedImage import CombinedImage
+from generator.config.Manifest    import Manifest
 from generator                    import Context as context
 
 ##
@@ -41,49 +42,112 @@ class C(object): pass
 class Library(object):
     # is called with a "library" entry from the config.json
     def __init__(self, libconfig, console):
-        self._config = libconfig
+
         self._console = console
 
         self._classes = {}
         self._classesObj = []
         self._docs = {}
         self._translations = {}
-
         self.resources  = set()
 
-        self._path = context.config.absPath(self._config.get("path", ""))
-        self.manifest = context.config.absPath(self._config.get("manifest", ""))
+        if "namespace" not in libconfig:
+            self._init_from_sparse(libconfig)
+        else:
+            self._init_from_rich(libconfig)
 
-        if self._path == "":
-            raise ValueError("Missing path information!")
-
-        if not os.path.exists(self._path):
-            raise ValueError("Path does not exist: %s" % self._path)
-
-        self._uri = self._config.get("uri", self._path)
-        self._encoding = self._config.get("encoding", "utf-8")
-
-        self._classPath = os.path.join(self._path, self._config.get("class","source/class"))
-        self._classUri  = os.path.join(self._uri,  self._config.get("class","source/class"))
-
-        self._translationPath = os.path.join(self._path, self._config.get("translation","source/translation"))
-        self._resourcePath    = os.path.join(self._path, self._config.get("resource","source/resource"))
         #TODO: clean up the others later
         self.categories = {}
         self.categories["classes"] = {}
         self.categories["translations"] = {}
         self.categories["resources"] = {}
 
-        self.categories["classes"]["path"]  = self._classPath
-        self.categories["translations"]["path"]  = self._translationPath
-        self.categories["resources"]["path"] = self._resourcePath
+        self.categories["classes"]["path"]  = self.classPath
+        self.categories["translations"]["path"]  = self.translationPath
+        self.categories["resources"]["path"] = self.resourcePath
 
-        self.namespace = self._config.get("namespace")
-        if not self.namespace: raise RuntimeError
-        self._checkNamespace(self._classPath)
+        if not self.namespace: 
+            raise RuntimeError
+        self._checkNamespace(self.classPath)
         
         self.__youngest = (None, None) # to memoize youngest file in lib
 
+
+    def _init_from_sparse(self, libconfig):
+
+        manipath = libconfig['manifest']
+
+        # check contrib:// URI
+        if manipath.startswith("contrib://"):
+            newmanipath = self._download_contrib(manipath)
+            if not newmanipath:
+                raise RuntimeError("Unable to get contribution from internet: %s" % manipath)
+            else:
+                manipath = newmanipath
+
+        self.manifest = context.config.absPath(os.path.normpath(manipath))
+        manifest = Manifest(self.manifest)
+        
+        self.path = os.path.dirname(self.manifest)
+        self.uri = libconfig.get("uri", self.path)
+        self.encoding = manifest.encoding
+        self.classPath = os.path.join(self.path, manifest.classpath)
+        self.classUri  = os.path.join(self.uri, manifest.classpath)
+        self.translationPath = os.path.join(self.path, manifest.translation)
+        self.resourcePath = os.path.join(self.path, manifest.resource)
+        self.namespace = manifest.namespace
+
+
+    def _init_from_rich(self, libconfig):
+        self._config = libconfig
+
+        self.path = context.config.absPath(self._config.get("path", ""))
+        self.manifest = context.config.absPath(self._config.get("manifest", ""))
+
+        if self.path == "":
+            raise ValueError("Missing path information!")
+
+        if not os.path.exists(self.path):
+            raise ValueError("Path does not exist: %s" % self.path)
+
+        self.uri = self._config.get("uri", self.path)
+        self.encoding = self._config.get("encoding", "utf-8")
+
+        self.classPath = os.path.join(self.path, self._config.get("class","source/class"))
+        self.classUri  = os.path.join(self.uri,  self._config.get("class","source/class"))
+
+        self.translationPath = os.path.join(self.path, self._config.get("translation","source/translation"))
+        self.resourcePath    = os.path.join(self.path, self._config.get("resource","source/resource"))
+        self.namespace = self._config.get("namespace")
+
+
+
+    def _download_contrib(self, contribUri):
+        manifest = contribUri.replace("contrib://", "")
+        contrib  = os.path.dirname(manifest)
+        manifile = os.path.basename(contrib)
+        cacheMap = context.jobconf.getFeature("cache")
+        if cacheMap and 'downloads' in cacheMap:
+            contribCachePath = cacheMap['downloads']
+            contribCachePath = context.config.absPath(contribCachePath)
+        else:
+            contribCachePath = "cache-downloads"
+
+        self._console.debug("Checking network-based contrib: %s" % contribUri)
+        self._console.indent()
+
+        dloader = ContribLoader()
+        (updatedP, revNo) = dloader.download(contrib, contribCachePath)
+
+        if updatedP:
+            self._console.info("downloaded contrib: %s" % contrib)
+        else:
+            self._console.debug("using cached version")
+        self._console.outdent()
+
+        manipath = os.path.join(contribCachePath, contrib, manifile)
+
+        return manipath
 
 
     ##
@@ -156,14 +220,14 @@ class Library(object):
         return self.resources
 
     def scan(self):
-        self._console.debug("Scanning %s..." % self._path)
+        self._console.debug("Scanning %s..." % self.path)
         self._console.indent()
 
-        scanres = self._scanClassPath(self._classPath, self._classUri, self._encoding)
+        scanres = self._scanClassPath(self.classPath, self.classUri, self.encoding)
         self._classes = scanres[0]
         self._docs    = scanres[1]
-        self._scanTranslationPath(self._translationPath)
-        self._scanResourcePath(self._resourcePath)
+        self._scanTranslationPath(self.translationPath)
+        self._scanResourcePath(self.resourcePath)
 
         self._console.outdent()
 
@@ -228,7 +292,7 @@ class Library(object):
 
     def scanResourcePath(self):
         # path to the lib resource root
-        libpath = os.path.normpath(self._resourcePath)  # normalize "./..."
+        libpath = os.path.normpath(self.resourcePath)  # normalize "./..."
         liblist = filetool.find(libpath)  # liblist is a generator
         return liblist
 
