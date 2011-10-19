@@ -329,9 +329,16 @@ class Library(object):
                 if self._ignoredDirectories.match(ignoredDir):
                     dirs.remove(ignoredDir)
 
+            # Skip empty (namespace) directories
+            if not files:
+                continue
+
             # Add good directories
             currNameSpace = root[len(path+os.sep):]
             currNameSpace = currNameSpace.replace(os.sep, ".")
+            
+            if not currNameSpace.startswith(self.namespace):
+                raise RuntimeError ("Mismatch between Manifest and file system namespace ('%s' vs. '%s')" % (self.namespace, currNameSpace))
 
             # Searching for files
             for fileName in files:
