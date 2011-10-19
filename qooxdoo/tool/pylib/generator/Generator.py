@@ -1890,6 +1890,10 @@ class Generator(object):
         if not isinstance(libraryKey, types.ListType):
             return (namespaces, classes, docs, translations, libraries)
 
+        # have Libs read their Manifest's
+        for libObj in libraryKey:
+            libObj._init_from_manifest()  # delayed until here, where jobconf is in effect
+
         for libObj in libraryKey:
 
             #libObj    = Library(lib, self._console)

@@ -30,6 +30,7 @@ from generator.code.qcEnvClass    import qcEnvClass
 from generator.resource.Resource  import Resource
 from generator.resource.Image     import Image
 from generator.resource.CombinedImage import CombinedImage
+from generator.action.ContribLoader   import ContribLoader
 from generator.config.Manifest    import Manifest
 from generator                    import Context as context
 
@@ -51,26 +52,22 @@ class Library(object):
         self._translations = {}
         self.resources  = set()
 
-        self._init_from_manifest(libconfig)
+        #self._init_from_manifest(libconfig)
+        self._libconfig = libconfig
 
         #TODO: clean up the others later
         self.categories = {}
         self.categories["classes"] = {}
         self.categories["translations"] = {}
         self.categories["resources"] = {}
-
-        self.categories["classes"]["path"]  = self.classPath
-        self.categories["translations"]["path"]  = self.translationPath
-        self.categories["resources"]["path"] = self.resourcePath
-
-        if not self.namespace: 
-            raise RuntimeError
-        self._checkNamespace(self.classPath)
         
         self.__youngest = (None, None) # to memoize youngest file in lib
 
 
-    def _init_from_manifest(self, libconfig):
+    def _init_from_manifest(self, libconfig=None):
+
+        if libconfig is None:
+            libconfig = self._libconfig
 
         manipath = libconfig['manifest']
 
@@ -94,11 +91,19 @@ class Library(object):
         self.resourcePath = os.path.join(self.path, manifest.resource)
         self.namespace = manifest.namespace
 
+        self.categories["classes"]["path"]  = self.classPath
+        self.categories["translations"]["path"]  = self.translationPath
+        self.categories["resources"]["path"] = self.resourcePath
+
+        if not self.namespace: 
+            raise RuntimeError
+        self._checkNamespace(self.classPath)
+
 
     def _download_contrib(self, contribUri):
         manifest = contribUri.replace("contrib://", "")
         contrib  = os.path.dirname(manifest)
-        manifile = os.path.basename(contrib)
+        manifile = os.path.basename(manifest)
         cacheMap = context.jobconf.getFeature("cache")
         if cacheMap and 'downloads' in cacheMap:
             contribCachePath = cacheMap['downloads']
@@ -106,7 +111,7 @@ class Library(object):
         else:
             contribCachePath = "cache-downloads"
 
-        self._console.debug("Checking network-based contrib: %s" % contribUri)
+        self._console.info("Checking network-based contrib: %s" % contribUri)
         self._console.indent()
 
         dloader = ContribLoader()
