@@ -883,7 +883,7 @@ class CodeGenerator(object):
         else:
             lib = lib_
 
-        if 'uri' in lib:
+        if 'uri' in lib and lib['uri'] is not None:
             libBaseUri = Uri(lib['uri'])
         elif appRoot:
             libBaseUri = Uri(Path.rel_from_to(self._config.absPath(appRoot), lib['path']))

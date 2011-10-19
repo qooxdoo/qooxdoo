@@ -83,12 +83,12 @@ class Library(object):
         manifest = Manifest(self.manifest)
         
         self.path = os.path.dirname(self.manifest)
-        self.uri = libconfig.get("uri", self.path)
+        self.uri = libconfig.get("uri", None)
         self.encoding = manifest.encoding
-        self.classPath = os.path.join(self.path, manifest.classpath)
-        self.classUri  = os.path.join(self.uri, manifest.classpath)
-        self.translationPath = os.path.join(self.path, manifest.translation)
-        self.resourcePath = os.path.join(self.path, manifest.resource)
+        self.classPath = manifest.classpath
+        self.classUri  = manifest.classpath # TODO: ???
+        self.translationPath = manifest.translation
+        self.resourcePath = manifest.resource
         self.namespace = manifest.namespace
 
         self.categories["classes"]["path"]  = self.classPath
@@ -201,11 +201,11 @@ class Library(object):
         self._console.debug("Scanning %s..." % self.path)
         self._console.indent()
 
-        scanres = self._scanClassPath(self.classPath, self.classUri, self.encoding)
+        scanres = self._scanClassPath(os.path.join(self.path, self.classPath), self.classUri, self.encoding)
         self._classes = scanres[0]
         self._docs    = scanres[1]
-        self._scanTranslationPath(self.translationPath)
-        self._scanResourcePath(self.resourcePath)
+        self._scanTranslationPath(os.path.join(self.path, self.translationPath))
+        self._scanResourcePath(os.path.join(self.path, self.resourcePath))
 
         self._console.outdent()
 

@@ -139,14 +139,6 @@ class DependencyLoader(object):
             if depsItem.name in resultNames:  # string compares are perceivably faster than object compares (as DependencyItem defines __eq__)
                 return
 
-            # Handle qx.core.Environment
-            #if depsItem.name == "qx.core.Environment" and firstTime[0]:
-            #    #envObj = self._classesObj["qx.core.Environment"]
-            #    #envTreeId = "tree1-%s-%s" % (envObj.path, util.toString({})) # TODO: {} is a temp. hack
-            #    #self._cache.remove(envTreeId)  # clear pot. memcache, so already (string) optimized tree is not optimized again (e.g. with Demobrowser)
-            #    self._classesObj["qx.core.Environment"].clearTreeCache(variants)
-            #    firstTime[0] = False
-
             # reading dependencies
             self._console.debug("Gathering dependencies: %s" % depsItem.name)
             self._console.indent()
