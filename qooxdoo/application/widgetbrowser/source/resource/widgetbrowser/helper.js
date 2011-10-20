@@ -53,8 +53,8 @@
   {
     var uri = parseUri(location.href);
     var theme = uri.queryKey["qx.theme"] || "qx.theme.Modern";
-    theme = theme.split(".")[2].toLowerCase();
-    
+    theme = theme.split(".").pop().toLowerCase();
+
     jsFileURL = "script/widgetbrowser." + theme + ".js";
   }
 
