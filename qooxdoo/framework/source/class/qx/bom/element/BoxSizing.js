@@ -135,7 +135,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
     {
       "mshtml" : function(element)
       {
-        if (qx.bom.Document.isStandardMode(qx.dom.Node.getDocument(element)))
+        if (qx.bom.Document.isStandardMode(qx.dom.Node.getWindow(element)))
         {
           if (!this.__usesNativeBorderBox(element)) {
             return "content-box";
