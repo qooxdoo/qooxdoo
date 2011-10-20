@@ -29,9 +29,10 @@ from generator.code.Class         import Class
 from generator.code.qcEnvClass    import qcEnvClass
 from generator.resource.Resource  import Resource
 from generator.resource.Image     import Image
-from generator.resource.CombinedImage import CombinedImage
-from generator.action.ContribLoader   import ContribLoader
+from generator.resource.CombinedImage    import CombinedImage
+from generator.action.ContribLoader      import ContribLoader
 from generator.config.Manifest    import Manifest
+from generator.config.ConfigurationError import ConfigurationError
 from generator                    import Context as context
 
 ##
@@ -201,7 +202,7 @@ class Library(object):
         self._console.debug("Scanning %s..." % self.path)
         self._console.indent()
 
-        scanres = self._scanClassPath(os.path.join(self.path, self.classPath), self.classUri, self.encoding)
+        scanres = self._scanClassPath()
         self._classes = scanres[0]
         self._docs    = scanres[1]
         self._scanTranslationPath(os.path.join(self.path, self.translationPath))
@@ -313,33 +314,39 @@ class Library(object):
 
 
 
-    def _scanClassPath(self, path, uri, encoding):
-        if not os.path.exists(path):
-            raise ValueError("The given class path does not exist: %s" % path)
+    def _scanClassPath(self):
 
+        # Check class path
+        classPath = os.path.join(self.path, self.classPath)
+        if not os.path.isdir(classPath):
+            raise ConfigurationError("Class path from Manifest doesn't exist: %s" % self.classPath)
+
+        # Check multiple namespaces
+        if not len([d for d in os.listdir(classPath) if not d.startswith(".")]) == 1:
+            self._console.warn ("The class path must contain exactly one namespace; ignoring everything else: '%s'" % (classPath,))
+
+        # Check Manifest namespace matches file system
+        nsPrefix    = self.namespace.replace(".", os.sep)
+        classNSRoot = os.path.join(classPath, nsPrefix)
+        if not os.path.isdir(classNSRoot):
+            raise ValueError ("Manifest namespace does not exist on file system:  '%s'" % (classNSRoot))
+            
         self._console.debug("Scanning class folder...")
 
         classList = []
         docs = {}
 
         # Iterate...
-        for root, dirs, files in filetool.walk(path):
+        for root, dirs, files in filetool.walk(classNSRoot):
             # Filter ignored directories
             for ignoredDir in dirs:
                 if self._ignoredDirectories.match(ignoredDir):
                     dirs.remove(ignoredDir)
 
-            # Skip empty (namespace) directories
-            if not files:
-                continue
-
             # Add good directories
-            currNameSpace = root[len(path+os.sep):]
+            currNameSpace = root[len(classNSRoot+os.sep):]
             currNameSpace = currNameSpace.replace(os.sep, ".")
             
-            if not currNameSpace.startswith(self.namespace):
-                raise RuntimeError ("Mismatch between Manifest and file system namespace ('%s' vs. '%s')" % (self.namespace, currNameSpace))
-
             # Searching for files
             for fileName in files:
                 # Ignore dot files
@@ -349,16 +356,17 @@ class Library(object):
 
                 # Process path data
                 filePath = os.path.join(root, fileName)
-                fileRel  = filePath.replace(path + os.sep, "")
+                fileRel  = filePath.replace(classNSRoot + os.sep, "")
                 fileExt  = os.path.splitext(fileName)[-1]
                 fileStat = os.stat(filePath)
                 fileSize = fileStat.st_size
 
                 # Compute full URI from relative path
-                fileUri = uri + "/" + fileRel.replace(os.sep, "/")
+                fileUri = self.classUri + "/" + fileRel.replace(os.sep, "/")
 
                 # Compute identifier from relative path
                 filePathId = fileRel.replace(fileExt, "").replace(os.sep, ".")
+                filePathId = self.namespace + "." + filePathId
                 filePathId = unidata.normalize("NFC", filePathId)  # combine combining chars: o" -> ö
 
                 # Extract package ID
@@ -370,7 +378,7 @@ class Library(object):
                     docs[filePackage] = {
                         "relpath" : fileRel,
                         "path" : filePath,
-                        "encoding" : encoding,
+                        "encoding" : self.encoding,
                         "namespace" : self.namespace,
                         "id" : filePathId,
                         "package" : filePackage,
@@ -385,7 +393,7 @@ class Library(object):
                     continue
 
                 # Read content
-                fileContent = filetool.read(filePath, encoding)
+                fileContent = filetool.read(filePath, self.encoding)
 
                 # Extract code ID (e.g. class name, mixin name, ...)
                 try:
@@ -423,7 +431,7 @@ class Library(object):
                     clazz = qcEnvClass(filePathId, filePath, self, contextdict, self._classesObj)
                 else:
                     clazz = Class(filePathId, filePath, self, contextdict, self._classesObj)
-                clazz.encoding = encoding
+                clazz.encoding = self.encoding
                 clazz.size     = fileSize     # dependency logging uses this
                 clazz.package  = filePackage  # Apiloader uses this
                 clazz.relpath  = fileRel      # Locale uses this
