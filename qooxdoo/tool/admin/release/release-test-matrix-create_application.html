@@ -40,7 +40,7 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
       <td>source-<br>
 all<sup>[a]</sup></td>
       <td style="vertical-align: top;">source-<br>
-each<sup><br>
+hybrid<sup><br>
 [a]</sup> </td>
       <td>build<sup><br>
 [a]</sup></td>
@@ -174,7 +174,7 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
       <td>source-<br>
 all<sup>[a]</sup></td>
       <td style="vertical-align: top;">source-<br>
-each<sup><br>
+hybrid<sup><br>
 [a]</sup> </td>
       <td>build<sup><br>
 [a]</sup></td>
@@ -306,7 +306,7 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
       <td>source-<br>
 all<sup>[a]</sup></td>
       <td style="vertical-align: top;">source-<br>
-each<sup><br>
+hybrid<sup><br>
 [a]</sup></td>
       <td>build<sup><br>
 [a]</sup></td>
@@ -438,7 +438,7 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
       <td>source-<br>
 all<sup>[a]</sup></td>
       <td style="vertical-align: top;">source-<br>
-each<sup><br>
+hybrid<sup><br>
 [a]</sup></td>
       <td>build<sup><br>
 [a]</sup></td>
@@ -570,7 +570,7 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
       <td>source-<br>
 all<sup>[a]</sup></td>
       <td style="vertical-align: top;">source-<br>
-each<sup><br>
+hybrid<sup><br>
 [a]</sup></td>
       <td>build<sup><br>
 [a]</sup></td>
@@ -703,7 +703,7 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
       <td>source-<br>
 all<sup>[a]</sup></td>
       <td style="vertical-align: top;">source-<br>
-each<sup><br>
+hybrid<sup><br>
 [a]</sup></td>
       <td>build<sup><br>
 [a]</sup></td>
@@ -769,7 +769,7 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
       <td>source-<br>
 all<sup>[a]</sup></td>
       <td style="vertical-align: top;">source-<br>
-each<sup><br>
+hybrid<sup><br>
 [a]</sup></td>
       <td>build<sup><br>
 [a]</sup></td>
@@ -852,9 +852,7 @@ accessible folder, e.g. <em>/home/affe/workspace/simulator</em>:
           <li><a
  href="http://webtechfe-test01.schlund.de/%7Eqooxdoo/workspace/simulator/js.jar">Rhino</a></li>
           <li><a
- href="http://webtechfe-test01.schlund.de/%7Eqooxdoo/workspace/simulator/selenium-java-client-driver.jar">Selenium
-Java
-Client</a></li>
+ href="http://webtechfe-test01.schlund.de/%7Eqooxdoo/workspace/simulator/selenium-java-client-driver.jar">Selenium Java Client</a></li>
           <li><a
  href="http://webtechfe-test01.schlund.de/%7Eqooxdoo/workspace/simulator/selenium-server.jar">Selenium
 Server</a></li>
@@ -879,7 +877,24 @@ running <em>python -m CGIHTTPServer</em> </li>
       <li>Edit the config.json file of the application.
         <ul>
           <li>Add the following job configuration:
-            <pre>    "simulation-run" :<br>    {<br>      "let" :<br>      {<br>        "SIMULATOR_CLASSPATH" : [ "/home/affe/workspace/simulator/selenium-java-client-driver.jar",<br>                                  "/home/affe/workspace/simulator/js.jar" ]<br>      },<br>      <br>      "environment" :<br>      {<br>        "simulator.selServer" : "localhost",<br>        "simulator.selPort" : 4444,<br>        "simulator.testBrowser" : "*firefox3",<br>        "simulator.autHost" : "http://localhost",<br>        "simulator.autPath" : "/home/affe/workspace/myapplication/build/index.html"<br>      }<br>    }<br>          </pre>
+            <pre>    "simulation-run" :
+    {
+      "let" :
+      {
+        "SIMULATOR_CLASSPATH" : [ "/home/affe/workspace/simulator/selenium-java-client-driver.jar",
+                                  "/home/affe/workspace/simulator/js.jar" ]
+      },
+      
+      "environment" :
+      {
+        "simulator.selServer" : "localhost",
+        "simulator.selPort" : 4444,
+        "simulator.testBrowser" : "*firefox3",
+        "simulator.autHost" : "http://localhost",
+        "simulator.autPath" : "/home/affe/workspace/myapplication/build/index.html"
+      }
+    }
+          </pre>
           </li>
           <li>Use the file system path of the directory where you
 downloaded the files earlier for the two entries in <em>SIMULATOR_CLASSPATH</em>
@@ -907,9 +922,7 @@ The Generator's shell output should list two tests as passed.</li>
   <dt>[k]</dt>
   <dd> This is to test the default demo of a contribution skeleton.
 After creating the skeleton, change dir to <em>trunk/demo/default</em>.
-If
-you're
-not testing in a <em>qooxdoo-contrib</em> checkout, you need
+If you're not testing in a <em>qooxdoo-contrib</em> checkout, you need
 to adapt <em>QOOXDOO_PATH</em> in config.json. Then, run the normal
 tests. </dd>
   <dt>[l]</dt>
