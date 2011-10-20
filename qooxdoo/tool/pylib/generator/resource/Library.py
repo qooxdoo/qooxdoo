@@ -98,7 +98,7 @@ class Library(object):
 
         if not self.namespace: 
             raise RuntimeError
-        self._checkNamespace(self.classPath)
+        self._checkNamespace()
 
 
     def _download_contrib(self, contribUri):
@@ -153,7 +153,7 @@ class Library(object):
         youngFiles = {} # {timestamp: "filepath"}
         # for each interesting library part
         for category in self.categories:
-            catPath = self.categories[category]["path"]
+            catPath = os.path.join(self.path, self.categories[category]["path"])
             if category == "translation" and not os.path.isdir(catPath):
                 continue
             # find youngest file
@@ -221,7 +221,8 @@ class Library(object):
         return None
 
 
-    def _checkNamespace(self, path):
+    def _checkNamespace(self, ):
+        path = os.path.join(self.path, self.classPath)
         if not os.path.exists(path):
             raise ValueError("The given path does not contain a class folder: %s" % path)
 
