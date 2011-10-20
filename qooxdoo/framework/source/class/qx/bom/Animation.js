@@ -173,7 +173,7 @@ qx.Bootstrap.define("qx.bom.Animation",
       Helper.removeListener(el, ctx.Anni.__getStyleName("animationend"), ctx.Anni.__onAnimationEnd);
 
       if (animation.onEnd) {
-        animation.onEnd();
+        animation.onEnd(el);
       }
       
       delete el.$$animation;
@@ -321,7 +321,7 @@ qx.Bootstrap.define("qx.bom.Animation",
 
   // expose to qooxdoo
   qx.bom.Animation.animate = function(el, desc) {
-    ctx.Anni.animate.call(ctx.Anni, el, desc)
+    return ctx.Anni.animate.call(ctx.Anni, el, desc)
   }
   qx.bom.Animation.supports3d = ctx.Anni.supports3d;
 })({});
