@@ -1897,15 +1897,22 @@ class Generator(object):
         for libObj in libraryKey:
 
             #libObj    = Library(lib, self._console)
-            checkFile = libObj.mostRecentlyChangedFile()[0]
+            checkFile, fsTime = libObj.mostRecentlyChangedFile()
             cacheId   = "lib-%s" % libObj.manifest
-            checkObj, _  = self._cache.read(cacheId, checkFile, memory=True)
+            #checkObj, _  = self._cache.read(cacheId, checkFile, memory=True)
+            checkObj, cacheTime  = self._cache.read(cacheId, memory=True)
             if checkObj:
-                self._console.debug("Use memory cache for %s" % libObj.path)
                 libObj = checkObj  # continue with cached obj
-            else:
-                libObj.scan()
+            # need re-scan?
+            if cacheTime < fsTime:
+                libObj.scan(cacheTime)
                 self._cache.write(cacheId, libObj, memory=True)
+            #if checkObj:
+            #    self._console.debug("Use memory cache for %s" % libObj.path)
+            #    libObj = checkObj  # continue with cached obj
+            #else:
+            #    libObj.scan()
+            #    self._cache.write(cacheId, libObj, memory=True)
 
             namespace = libObj.getNamespace()
             namespaces.append(namespace)

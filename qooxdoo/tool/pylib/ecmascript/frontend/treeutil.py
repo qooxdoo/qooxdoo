@@ -656,6 +656,42 @@ def getClassMap(classNode):
 
     return classMap
 
+
+##
+# return the class name, given a qx.*.define() call node
+#
+def getClassName(classNode):
+
+    className = u''
+
+    # check start node
+    if classNode.type == "call":
+        qxDefine = selectNode(classNode, "operand/variable")
+        if qxDefine:
+            qxDefineParts = qxDefine.children
+    else:
+        qxDefineParts = []
+    if (qxDefineParts and 
+        len(qxDefineParts) > 2 and
+        qxDefineParts[0].get('name') == "qx" and
+        qxDefineParts[2].get('name') == "define"
+       ):
+        pass  # ok
+    else:
+        raise tree.NodeAccessException("Expected qx define node (as from findQxDefine())", classNode)
+
+    # get top-level class map
+    nameNode = selectNode(classNode, "params/constant")
+
+    if not nameNode or nameNode.type != "constant":
+        raise tree.NodeAccessException("Expected a constant node!", nameNode)
+
+    className = nameNode.get("value")
+
+    return className
+
+
+
 # ------------------------------------------------------------------------------
 # Support for chained identifier expressions, like a.b().c[0].d()
 #

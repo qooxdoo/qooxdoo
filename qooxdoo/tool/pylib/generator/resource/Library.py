@@ -24,7 +24,7 @@ import os, re, sys, unicodedata as unidata
 
 from misc                         import filetool, Path
 from misc.NameSpace               import NameSpace
-from ecmascript.frontend          import lang
+from ecmascript.frontend          import lang, treeutil
 from generator.code.Class         import Class
 from generator.code.qcEnvClass    import qcEnvClass
 from generator.resource.Resource  import Resource
@@ -47,7 +47,7 @@ class Library(object):
 
         self._console = console
 
-        self._classes = {}
+        self._classes = []
         self._classesObj = []
         self._docs = {}
         self._translations = {}
@@ -198,11 +198,11 @@ class Library(object):
     def getResources(self):
         return self.resources
 
-    def scan(self):
+    def scan(self, timeOfLastScan=0):
         self._console.debug("Scanning %s..." % self.path)
         self._console.indent()
 
-        scanres = self._scanClassPath()
+        scanres = self._scanClassPath(timeOfLastScan)
         self._classes = scanres[0]
         self._docs    = scanres[1]
         self._scanTranslationPath(os.path.join(self.path, self.translationPath))
@@ -211,14 +211,28 @@ class Library(object):
         self._console.outdent()
 
 
-    def _getCodeId(self, fileContent):
+    def _getCodeId1(self, fileContent):
         for item in self._codeExpr.findall(fileContent):
             illegal = self._illegalIdentifierExpr.search(item[1])
             if illegal:
                 raise ValueError, "Item name '%s' contains illegal character '%s'" % (item[1],illegal.group(0))
+            #print "found", item[1]
             return item[1]
 
         return None
+
+
+    def _getCodeId(self, clazz):
+        tree     = clazz.tree()
+        qxDefine = treeutil.findQxDefine (tree)
+        className = treeutil.getClassName (qxDefine)
+
+        illegal = self._illegalIdentifierExpr.search(className)
+        if illegal:
+            raise ValueError, "Item name '%s' contains illegal character '%s'" % (className,illegal.group(0))
+
+        #print "found", className
+        return className
 
 
     def _checkNamespace(self, ):
@@ -315,7 +329,9 @@ class Library(object):
 
 
 
-    def _scanClassPath(self):
+    def _scanClassPath(self, timeOfLastScan=0):
+
+        codeIdFromTree = True  # switch between regex- and tree-based codeId search
 
         # Check class path
         classPath = os.path.join(self.path, self.classPath)
@@ -335,7 +351,16 @@ class Library(object):
         self._console.debug("Scanning class folder...")
 
         classList = []
+        existClassIds = dict([(x.id,x) for x in self._classes])  # if we scanned before
         docs = {}
+
+
+        # TODO: Clazz still relies on a context dict!
+        contextdict = {}
+        contextdict["console"] = context.console
+        contextdict["cache"] = context.cache
+        contextdict["jobconf"] = context.jobconf
+        contextdict["envchecksmap"] = {}
 
         # Iterate...
         for root, dirs, files in filetool.walk(classNSRoot):
@@ -361,6 +386,7 @@ class Library(object):
                 fileExt  = os.path.splitext(fileName)[-1]
                 fileStat = os.stat(filePath)
                 fileSize = fileStat.st_size
+                fileMTime= fileStat.st_mtime
 
                 # Compute full URI from relative path
                 fileUri = self.classUri + "/" + fileRel.replace(os.sep, "/")
@@ -369,6 +395,13 @@ class Library(object):
                 filePathId = fileRel.replace(fileExt, "").replace(os.sep, ".")
                 filePathId = self.namespace + "." + filePathId
                 filePathId = unidata.normalize("NFC", filePathId)  # combine combining chars: o" -> ö
+
+                # check if known and fresh
+                if (filePathId in existClassIds
+                    and fileMTime < timeOfLastScan):
+                    classList.append(existClassIds[filePathId])
+                    #print "re-using existing", filePathId
+                    continue # re-use known class
 
                 # Extract package ID
                 filePackage = filePathId[:filePathId.rfind(".")]
@@ -393,12 +426,19 @@ class Library(object):
                 if os.path.splitext(fileName)[-1] != ".js":
                     continue
 
-                # Read content
-                fileContent = filetool.read(filePath, self.encoding)
+                if filePathId == "qx.core.Environment":
+                    clazz = qcEnvClass(filePathId, filePath, self, contextdict, self._classesObj)
+                else:
+                    clazz = Class(filePathId, filePath, self, contextdict, self._classesObj)
 
                 # Extract code ID (e.g. class name, mixin name, ...)
                 try:
-                    fileCodeId = self._getCodeId(fileContent)
+                    if codeIdFromTree:
+                        fileCodeId = self._getCodeId(clazz)
+                    else:
+                        # Read content
+                        fileContent = filetool.read(filePath, self.encoding)
+                        fileCodeId = self._getCodeId1(fileContent)
                 except ValueError, e:
                     argsList = []
                     for arg in e.args:
@@ -422,16 +462,6 @@ class Library(object):
 
                 # Store file data
                 self._console.debug("Adding class %s" % filePathId)
-                # TODO: Clazz still relies on a context dict!
-                contextdict = {}
-                contextdict["console"] = context.console
-                contextdict["cache"] = context.cache
-                contextdict["jobconf"] = context.jobconf
-                contextdict["envchecksmap"] = {}
-                if filePathId == "qx.core.Environment":
-                    clazz = qcEnvClass(filePathId, filePath, self, contextdict, self._classesObj)
-                else:
-                    clazz = Class(filePathId, filePath, self, contextdict, self._classesObj)
                 clazz.encoding = self.encoding
                 clazz.size     = fileSize     # dependency logging uses this
                 clazz.package  = filePackage  # Apiloader uses this

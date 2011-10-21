@@ -39,7 +39,10 @@ class Resource(object):
 
 
     def _id_get(s):
-        return s._id
+        if hasattr(s, '_id'):
+            return s._id
+        else:   # this can happen on unpickling
+            return u''
 
     def _id_set(s,v):
         # id's are often derived from file names, which might encode ö as o\u0308, etc.
@@ -47,6 +50,11 @@ class Resource(object):
         s._id = unidata.normalize("NFC", v)
 
     id = property(_id_get, _id_set)
+
+    def __getstate__(self):
+        d = self.__dict__.copy()
+        d['_id'] = self.id
+        return d
 
     def __str__(self):
         return self.id
@@ -62,7 +70,10 @@ class Resource(object):
     ##
     # make the .id significant for set() operations
     def __hash__(self):
-        return hash(self.id)
+        if self.id:
+            return hash(self.id)
+        else:
+            return id(self)
     
     def toResinfo(self):
         return self.library.namespace
