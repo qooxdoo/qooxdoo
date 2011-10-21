@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
       }) +
       "} ";
 
-    if (!(qx.core.Environment.get("engine.name") == "mshtml")) {
+    if (qx.core.Environment.get("css.boxsizing")) {
       stylesheet += ".qx-cell {" + qx.bom.element.BoxSizing.compile("content-box") + "}";
     }
 
