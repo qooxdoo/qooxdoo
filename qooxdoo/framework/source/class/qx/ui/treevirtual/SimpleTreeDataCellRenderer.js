@@ -281,7 +281,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
         html.push('<div style="position:absolute;');
 
-        if (!(qx.core.Environment.get("engine.name") == "mshtml"))
+        if (qx.core.Environment.get("css.boxsizing"))
         {
           html.push(qx.bom.element.BoxSizing.compile("content-box"));
         }
