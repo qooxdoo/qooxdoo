@@ -95,6 +95,11 @@ qooxdoo/application/showcase/source/script
 qooxdoo/application/showcase/build
 qooxdoo/application/showcase/cache
 
+#todo
+qooxdoo/application/todo/source/script
+qooxdoo/application/todo/build
+qooxdoo/application/todo/cache
+
 #featureconfigeditor
 qooxdoo/application/featureconfigeditor/source/script
 qooxdoo/application/featureconfigeditor/build

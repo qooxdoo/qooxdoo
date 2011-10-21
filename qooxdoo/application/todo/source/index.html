@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>todo</title>
+  <script type="text/javascript" src="script/todo.js"></script>
+</head>
+<body>
+  <h1>ToDo</h1>
+  <div id="add">Add</div>
+  <div id="clear">Clear</div>
+  <div id="tasks"></div>
+
+  <script type="template" id="task-list">
+    <ul>
+      {{#tasks}}
+        <li><input type="checkbox" {{#done}}checked{{/done}}>{{name}}</li>
+      {{/tasks}}
+    </ul>
+  </script>
+</body>
+</html>

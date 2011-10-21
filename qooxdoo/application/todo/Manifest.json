@@ -1,0 +1,35 @@
+{
+  "info" : 
+  {
+    "name" : "todo",
+
+    "summary" : "todo app",
+    "description" : "This is a simple demo showing how to implement a todo page.",
+    
+    "keywords" : ["todo"],
+    "homepage" : "http://demo.qooxdoo.org/current/todo",
+
+    "license" : "LGPL/EPL",
+    "authors" : 
+    [
+      {
+        "name" : "Martin Wittemann (martinwittemann)",
+        "email" : "martin.wittemann@1und1.de"
+      }
+    ],
+
+    "version" : "trunk",
+    "qooxdoo-versions": ["1.6"]
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "todo",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "application"
+  }
+}
+
