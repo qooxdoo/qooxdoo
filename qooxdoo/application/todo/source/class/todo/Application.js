@@ -17,19 +17,11 @@
 
 ************************************************************************ */
 /**
- * This is the main application class of your custom application "todo"
+ * This is a simple app for storing todos.
  */
 qx.Class.define("todo.Application",
 {
   extend : qx.application.Native,
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -37,26 +29,11 @@ qx.Class.define("todo.Application",
      * This method contains the initial application code and gets called 
      * during startup of the application
      */
-    main : function()
-    {
+    main : function() {
       // Call super class
       this.base(arguments);
 
-      // Enable logging in debug variant
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        // support native logging capabilities, e.g. Firebug for Firefox
-        qx.log.appender.Native;
-        // support additional cross-browser console. Press F7 to toggle visibility
-        qx.log.appender.Console;
-      }
-
-      /*
-      -------------------------------------------------------------------------
-        Below is your actual application code...
-      -------------------------------------------------------------------------
-      */
-
+      // create the store and the model
       var model;
       if (qx.core.Environment.get("html.storage.local")) {
         var store = new qx.data.store.Offline("qx-todo");
@@ -64,6 +41,7 @@ qx.Class.define("todo.Application",
         model = store.getModel();
       }
 
+      // initialize the model
       if (model == null) {
         model = qx.data.marshal.Json.createModel([{done: false, name: "My first ToDo"}], true);
         store && store.setModel(model);
@@ -75,6 +53,7 @@ qx.Class.define("todo.Application",
       var target = document.getElementById("tasks");
       var controller = new qx.data.controller.website.List(model, target, "task");
       controller.setDelegate({configureItem : function(item) {
+        // attach a change listener to the checkbox
         var checkbox = item.children[0];
         qx.bom.Event.addNativeListener(checkbox, "change", self.__onChange);
       }});
@@ -86,7 +65,6 @@ qx.Class.define("todo.Application",
         self.__add(model, name);
       });
 
-
       // clear button
       var clearButton = document.getElementById("clear");
       qx.bom.Event.addNativeListener(clearButton, "click", function() {
@@ -95,15 +73,25 @@ qx.Class.define("todo.Application",
     },
 
 
+    /**
+     * Clears all checked items from the list.
+     * @param model {qx.core.Object} The model object holding the todo's.
+     */
     __clear : function(model) {
-      model.forEach(function(item) {
+      for (var i = model.length - 1; i >= 0; i--) {
+        var item = model.getItem(i);
         if (item.getDone()) {
           model.remove(item);
         }
-      });
+      }
     },
 
 
+    /**
+     * Adds a todo with the given name to the given model.
+     * @param model {qx.core.Object} The model to add the todo.
+     * @param name {String} The name of the todo.
+     */
     __add : function(model, name) {
       var task = qx.data.marshal.Json.createModel(
         {done: false, name: name}
@@ -112,6 +100,9 @@ qx.Class.define("todo.Application",
     },
 
 
+    /**
+     * Handler for changes of the checkbox.
+     */
     __onChange : function(e) {
       var el = e.target;
       el.parentNode.$$model.setDone(el.checked);
