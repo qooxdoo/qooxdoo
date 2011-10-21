@@ -93,15 +93,12 @@ qx.Class.define("qx.dom.Node",
     /**
      * Returns the DOM2 <code>defaultView</code> (window).
      *
-     * @signature function(node)
      * @param node {Node|Document|Window} node to inspect
      * @return {Window} the <code>defaultView</code> of the given node
      */
-    getWindow : qx.core.Environment.select("engine.name",
+    getWindow : function(node)
     {
-      "mshtml" : function(node)
-      {
-        // is a window already
+      // is a window already
         if (node.nodeType == null) {
           return node;
         }
@@ -112,25 +109,8 @@ qx.Class.define("qx.dom.Node",
         }
 
         // jump to window
-        return node.parentWindow;
-      },
-
-      "default" : function(node)
-      {
-        // is a window already
-        if (node.nodeType == null) {
-          return node;
-        }
-
-        // jump to document
-        if (node.nodeType !== this.DOCUMENT) {
-          node = node.ownerDocument;
-        }
-
-        // jump to window
-        return node.defaultView;
-      }
-    }),
+        return node.defaultView || node.parentWindow;
+    },
 
 
     /**
