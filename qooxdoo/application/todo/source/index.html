@@ -4,15 +4,60 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>todo</title>
   <script type="text/javascript" src="script/todo.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
+  <style type="text/css" media="screen">
+    #todo {
+      font-family: 'Gochi Hand', cursive;
+      margin: 20px;
+      border-color: #DEE184;
+      background-color: #F4F39E;
+      padding: 10px 20px;
+      -moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+      -webkit-box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+      box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+      -webkit-transform: rotate(-1deg); 
+      -moz-transform: rotate(-1deg); 
+      -o-transform: rotate(-1deg);
+
+      position: absolute;
+      min-width: 150px;
+      min-height: 200px;
+    }
+
+    #todo h1 {
+      margin: 0;
+    }
+
+    #todo ul {
+      clear: both;
+      padding-left: 10px;
+      list-style-type: none;
+      padding-top: 3px;
+    }
+    
+    #todo li {
+      paddling-left: 30px;
+    }
+
+    #todo .button {
+      float: left;
+      margin-right: 10px;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 1.1em;
+    }
+  </style>
 </head>
 <body>
-  <h1>ToDo</h1>
-  <div id="add">Add</div>
-  <div id="clear">Clear</div>
-  <ul id="tasks"></ul>
+  <div id="todo">
+    <h1>ToDo</h1>
+    <div class="button" id="add">Add</div>
+    <div class="button" id="clear">Clear</div>
+    <ul id="tasks">Loading...</ul>
 
-  <script type="template" id="task">
-    <li><input type="checkbox" {{#done}}checked{{/done}}>{{name}}</li>
-  </script>
+    <script type="template" id="task">
+      <li><input type="checkbox" {{#done}}checked{{/done}}> {{name}}</li>
+    </script>
+  </div>
 </body>
 </html>
