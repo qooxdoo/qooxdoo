@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.data.controller.bom.List", 
+qx.Class.define("qx.data.controller.website.List", 
 {
   extend : qx.core.Object,
 
@@ -24,7 +24,6 @@ qx.Class.define("qx.data.controller.bom.List",
   construct : function(model, target, templateId)
   {
     this.base(arguments);
-
 
     if (templateId != null) {
       this.setTemplateId(templateId);
@@ -37,11 +36,12 @@ qx.Class.define("qx.data.controller.bom.List",
     }
   },
 
+
   properties : {
     /** Data array containing the data which should be shown in the list. */
     model :
     {
-      check: "qx.data.IListData",
+      check: "Array",
       apply: "_applyModel",
       event: "changeModel",
       nullable: true,
@@ -52,13 +52,15 @@ qx.Class.define("qx.data.controller.bom.List",
     /** The target DOM node which should show the data. */
     target :
     {
+      check: "Element",
       apply: "_applyTarget",
       event: "changeTarget",
       nullable: true,
       init: null,
       dereference: true
     },
-    
+
+
     templateId : 
     {
       apply: "_applyTemplateId",
@@ -81,6 +83,7 @@ qx.Class.define("qx.data.controller.bom.List",
   members :
   {
     __changeModelListenerId : null,
+    __changeBubbleModelListenerId : null,
 
     _applyModel : function(value, old) {
       // remove the old listener
@@ -88,13 +91,21 @@ qx.Class.define("qx.data.controller.bom.List",
         if (this.__changeModelListenerId != undefined) {
           old.removeListenerById(this.__changeModelListenerId);
         }
+        if (this.__changeBubbleModelListenerId != undefined) {
+          old.removeListenerById(this.__changeBubbleModelListenerId);
+        }
       }
 
       // if a model is set
       if (value != null) {
-        // add a new listener
-        this.__changeModelListenerId =
-          value.addListener("change", this._update, this);
+        // only for qooxdoo models
+        if (value instanceof qx.core.Object) {
+          // add new listeners
+          this.__changeModelListenerId = 
+            value.addListener("change", this.update, this);
+          this.__changeBubbleModelListenerId = 
+            value.addListener("changeBubble", this.update, this);
+        }
       } else {
         var target = this.getTarget();
         // if the model is set to null, we should remove all items in the target
@@ -103,22 +114,22 @@ qx.Class.define("qx.data.controller.bom.List",
         }
       }
 
-      this._update();
+      this.update();
     },
 
 
     _applyTarget : function(value, old) {
-      this._update();
+      this.update();
     },
 
 
     _applyTemplateId : function(value, old) {
-      this._update();
+      this.update();
     },
 
 
     _applyDelegate : function(value, old) {
-      this._update();
+      this.update();
     },
 
 
@@ -132,9 +143,14 @@ qx.Class.define("qx.data.controller.bom.List",
     },
 
 
-    _update : function() {
+    update : function() {
       var target = this.getTarget();
-      var data = qx.util.Serializer.toNativeObject(this.getModel());
+
+      // get the plain data
+      var data = this.getModel();
+      if (data instanceof qx.core.Object) {
+        data = qx.util.Serializer.toNativeObject(this.getModel());
+      }
       var templateId = this.getTemplateId();
 
       // only do something if everyhing is given
@@ -145,14 +161,47 @@ qx.Class.define("qx.data.controller.bom.List",
       // empty the target
       this.__emptyTarget();
 
+      // delegate methods
       var configureItem = this.getDelegate() && this.getDelegate().configureItem;
+      var filter = this.getDelegate() && this.getDelegate().filter;
+      var createItem = this.getDelegate() && this.getDelegate().createItem;
+
       // get all items in the model
       for (var i=0; i < data.length; i++) {
-        var template = qx.bom.Template.get(templateId, data[i]);
+        var entry = data[i];
+        // filter delegate
+        if (filter && !filter(entry)) {
+          continue;
+        }
+
+        // special case for printing the content of the array
+        if (typeof entry != "object") {
+          entry = {"." : data[i]}
+        }
+
+        // create the DOM object
+        var template;
+        if (createItem) {
+          template = createItem(data[i]);
+        } else {
+          template = qx.bom.Template.get(templateId, entry);
+        }
+
+        // handling for wrong template IDs
+        if (qx.core.Environment.get("qx.debug")) {
+          this.assertNotNull(template);
+        }
+
+        // configutre item
         if (configureItem) {
           configureItem(template);
         }
-        template.$$model = this.getModel().getItem(i);
+
+        // append the model to the dom item
+        var model = this.getModel();
+        var item = model.getItem ? model.getItem(i) : model[i];
+        template.$$model = item;
+
         qx.dom.Element.insertEnd(template, target);
       };
     }
