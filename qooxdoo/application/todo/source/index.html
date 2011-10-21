@@ -9,14 +9,10 @@
   <h1>ToDo</h1>
   <div id="add">Add</div>
   <div id="clear">Clear</div>
-  <div id="tasks"></div>
+  <ul id="tasks"></ul>
 
-  <script type="template" id="task-list">
-    <ul>
-      {{#tasks}}
-        <li><input type="checkbox" {{#done}}checked{{/done}}>{{name}}</li>
-      {{/tasks}}
-    </ul>
+  <script type="template" id="task">
+    <li><input type="checkbox" {{#done}}checked{{/done}}>{{name}}</li>
   </script>
 </body>
 </html>

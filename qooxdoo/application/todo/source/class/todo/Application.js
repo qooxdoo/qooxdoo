@@ -57,17 +57,28 @@ qx.Class.define("todo.Application",
       -------------------------------------------------------------------------
       */
 
-      var store = new qx.data.store.Offline("qx-todo");
-      // initialize the data
-      var model = store.getModel();
-      if (model == null) {
-        model = qx.data.marshal.Json.createModel([{done: false, name: "My first ToDo"}], true);
-        store.setModel(model);
+      var model;
+      if (qx.core.Environment.get("html.storage.local")) {
+        var store = new qx.data.store.Offline("qx-todo");
+        // initialize the data
+        model = store.getModel();
       }
 
-      this.__updateView(model);
+      if (model == null) {
+        model = qx.data.marshal.Json.createModel([{done: false, name: "My first ToDo"}], true);
+        store && store.setModel(model);
+      }
 
       var self = this;
+
+      // data binding
+      var target = document.getElementById("tasks");
+      var controller = new qx.data.controller.website.List(model, target, "task");
+      controller.setDelegate({configureItem : function(item) {
+        var checkbox = item.children[0];
+        qx.bom.Event.addNativeListener(checkbox, "change", self.__onChange);
+      }});
+
       // add button
       var addButton = document.getElementById("add");
       qx.bom.Event.addNativeListener(addButton, "click", function() {
@@ -84,43 +95,26 @@ qx.Class.define("todo.Application",
     },
 
 
-    __updateView : function(model) {
-      var tasks = document.getElementById("tasks");
-      tasks.innerHTML = "";
-
-      var data = qx.util.Serializer.toNativeObject(model);
-      var list = qx.bom.Template.get("task-list", {tasks: data});
-      tasks.appendChild(list);
-
-      for (var i=0; i < list.children.length; i++) {
-        var checkbox = list.children[i].children[0];
-        checkbox.$$model = model.getItem(i);
-        qx.bom.Event.addNativeListener(checkbox, "change", this.__onChange);
-      };
-    },
-
-
     __clear : function(model) {
-      for (var i = model.length -1; i >= 0; i--) {
-        var task = model.getItem(i);
-        if (task.getDone()) {
-          model.remove(task);
+      model.forEach(function(item) {
+        if (item.getDone()) {
+          model.remove(item);
         }
-      }
-      this.__updateView(model);
+      });
     },
 
 
     __add : function(model, name) {
-      var task = qx.data.marshal.Json.createModel({done: false, name: name}, true);
+      var task = qx.data.marshal.Json.createModel(
+        {done: false, name: name}
+      , true);
       model.push(task);
-      this.__updateView(model);
     },
 
 
     __onChange : function(e) {
       var el = e.target;
-      el.$$model.setDone(el.checked);
+      el.parentNode.$$model.setDone(el.checked);
     }
   }
 });
