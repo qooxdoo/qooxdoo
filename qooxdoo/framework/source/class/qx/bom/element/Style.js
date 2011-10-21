@@ -89,7 +89,6 @@ qx.Class.define("qx.bom.element.Style",
         "textOverflow" : qx.core.Environment.get("css.textoverflow"),
         "borderImage" : qx.core.Environment.get("css.borderimage"),
         "float" : qx.core.Environment.get("css.float"),
-        "userSelect" : qx.core.Environment.get("css.userselect"),
         "userModify" : qx.core.Environment.get("css.usermodify"),
         "boxSizing" : qx.core.Environment.get("css.boxsizing")
       };
