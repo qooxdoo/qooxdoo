@@ -195,13 +195,9 @@ qx.Class.define("qx.dom.Hierarchy",
      * @return {Boolean} <code>true</code> when the element is inserted
      *    into the document.
      */
-    isRendered : qx.core.Environment.select("engine.name",
+    isRendered : function(element)
     {
-      // This module is highly used by new qx.html.Element
-      // Copied over details from qx.dom.Node.getDocument() and
-      // this.contains() for performance reasons.
-      "mshtml" : function(element)
-      {
+      if (qx.core.Environment.get("html.element.contains")) {
         // Fast check for all elements which are not in the DOM
         if (!element.parentNode || !element.offsetParent) {
           return false;
@@ -209,30 +205,13 @@ qx.Class.define("qx.dom.Hierarchy",
 
         var doc = element.ownerDocument || element.document;
         return doc.body.contains(element);
-      },
-
-      "gecko" : function(element)
-      {
+      }
+      else {
         // Gecko way, DOM3 method
         var doc = element.ownerDocument || element.document;
         return !!(doc.compareDocumentPosition(element) & 16);
-      },
-
-      "default" : function(element)
-      {
-        // Fast check for all elements which are not in the DOM
-        if (!element.parentNode || !element.offsetParent) {
-          return false;
-        }
-
-        var doc = element.ownerDocument || element.document;
-
-        // This is available after most browser excluding gecko have copied it
-        // from mshtml.
-        // Contains() is only available on real elements in webkit and not on the document.
-        return doc.body.contains(element);
       }
-    }),
+    },
 
 
     /**
