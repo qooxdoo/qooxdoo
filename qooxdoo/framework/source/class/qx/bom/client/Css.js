@@ -242,6 +242,20 @@ qx.Bootstrap.define("qx.bom.client.Css",
     
     
     /**
+     * Returns the (possibly vendor-prefixed) name the browser uses for the 
+     * <code>boxSizing</code> style property.
+     * 
+     * @return {String|null} boxSizing property name or <code>null</code> if
+     * boxSizing is not supported.
+     * @internal
+     */
+    getBoxSizing : function()
+    {
+      return qx.bom.client.Css.__getStylePropertyName("boxSizing");
+    },
+    
+    
+    /**
      * Takes the name of a style property and returns the name the browser uses
      * for its implementation, which might include a vendor prefix.
      * 
@@ -280,5 +294,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.userselect", statics.getUserSelect);
     qx.core.Environment.add("css.appearance", statics.getAppearance);
     qx.core.Environment.add("css.float", statics.getFloat);
+    qx.core.Environment.add("css.boxsizing", statics.getBoxSizing);
   }
 });

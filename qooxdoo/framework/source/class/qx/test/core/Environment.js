@@ -403,6 +403,8 @@ qx.Class.define("qx.test.core.Environment",
       this.assert(typeof appearance == "string" || appearance === null);
       var floatProp = qx.core.Environment.get("css.float");
       this.assert(floatProp === "cssFloat" || floatProp === "styleFloat");
+      var boxSizing = qx.core.Environment.get("css.boxsizing");
+      this.assert(typeof boxSizing == "string" || boxSizing === null);
     },
 
     testPhoneGap : function() {

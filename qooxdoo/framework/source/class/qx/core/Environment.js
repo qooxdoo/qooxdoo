@@ -133,6 +133,10 @@
  *       <td>{@link qx.bom.client.Css#getUserSelect}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.boxsizing</td><td><i>String</i> or <i>null</i></td><td><code>boxSizing</code></td>
+ *       <td>{@link qx.bom.client.Css#getBoxSizing}</td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><b>device</b></td>
  *     </tr>
  *     <tr>
@@ -693,6 +697,7 @@ qx.Bootstrap.define("qx.core.Environment",
         "css.usermodify"              : "qx.bom.client.Css.getUserModify",
         "css.appearance"              : "qx.bom.client.Css.getAppearance",
         "css.float"                   : "qx.bom.client.Css.getFloat",
+        "css.boxsizing"               : "qx.bom.client.Css.getBoxSizing",
         "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
         "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification",
         "xml.implementation"          : "qx.bom.client.Xml.getImplementation",
