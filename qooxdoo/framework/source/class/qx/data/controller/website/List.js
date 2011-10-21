@@ -16,11 +16,36 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * <h2>website List Controller</h2>
+ *
+ * *General idea*
+ * The list controller is responsible for synchronizing data given as model 
+ * to a DOM element. As definition for a single item, tempaltes are used. More 
+ * details on tempaltes can be found in {@link qx.bom.Tempalate}.
+ *
+ * *Features*
+ *
+ * * Synchronize the model and the target
+ * * Filtering
+ *
+ * *Usage*
+ *
+ * As model, {@link qx.data.Array}s and plain JavaScript Arrays work. As a 
+ * Target, you have to use a DOM element e.g. a plain DIV element. Make sure 
+ * you have the template you are referencing in the DOM.
+ */
 qx.Class.define("qx.data.controller.website.List", 
 {
   extend : qx.core.Object,
 
-
+  /**
+   * @param model {qx.data.IListData||Array?} The mode which can either be a 
+   *   native array or a qooxdoo data list. Maps to the model property.
+   * @param target {Element?} A DOM element which should is the target for 
+   *   the generation.
+   * @param templateId {String?} The id of the template.
+   */
   construct : function(model, target, templateId)
   {
     this.base(arguments);
@@ -38,7 +63,7 @@ qx.Class.define("qx.data.controller.website.List",
 
 
   properties : {
-    /** Data array containing the data which should be shown in the list. */
+    /** Array containing the data which should be shown in the list. */
     model :
     {
       check: "Array",
@@ -61,6 +86,10 @@ qx.Class.define("qx.data.controller.website.List",
     },
 
 
+    /**
+     * The id of the template which should be use. Check out 
+     * {@link qx.bom.Template} for details on templating.
+     */
     templateId : 
     {
       apply: "_applyTemplateId",
@@ -70,6 +99,11 @@ qx.Class.define("qx.data.controller.website.List",
     },
 
 
+    /**
+     * The delegate for the list conotroller which supports almost all methods 
+     * documented in {@link qx.data.controller.IControllerDelegate} except 
+     * <code>bindItem</code>.
+     */
     delegate :
     {
       apply: "_applyDelegate",
@@ -85,6 +119,7 @@ qx.Class.define("qx.data.controller.website.List",
     __changeModelListenerId : null,
     __changeBubbleModelListenerId : null,
 
+    // property apply
     _applyModel : function(value, old) {
       // remove the old listener
       if (old != undefined) {
@@ -118,21 +153,27 @@ qx.Class.define("qx.data.controller.website.List",
     },
 
 
+    // property apply
     _applyTarget : function(value, old) {
       this.update();
     },
 
 
+    // property apply
     _applyTemplateId : function(value, old) {
       this.update();
     },
 
 
+    // property apply
     _applyDelegate : function(value, old) {
       this.update();
     },
 
 
+    /**
+     * Responsible for removing all items from the targe element.
+     */
     __emptyTarget : function() {
       var target = this.getTarget();
       for (var i= target.children.length -1; i >= 0; i--) {
@@ -143,6 +184,15 @@ qx.Class.define("qx.data.controller.website.List",
     },
 
 
+    /**
+     * This is the main method which will take the data from the model and 
+     * push it to the target view. If you are using a plain Array as model, 
+     * you need to call that method every time you want to see the changed model
+     * in the view while using {@link qx.data.Array}s will do that 
+     * automatically for you.
+     * This method also attaches to every created DOM element the model object 
+     * which was used to create it at <code>.$$model</code>.
+     */
     update : function() {
       var target = this.getTarget();
 
