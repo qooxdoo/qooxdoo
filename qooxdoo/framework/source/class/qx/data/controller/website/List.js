@@ -181,6 +181,7 @@ qx.Class.define("qx.data.controller.website.List",
         el.$$model = null;
         qx.dom.Element.remove(el);
       };
+      target.innerHTML = "";
     },
 
 
