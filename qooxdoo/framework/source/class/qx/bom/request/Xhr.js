@@ -324,6 +324,25 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         if (!this.__async) {
           throw SendError;
         }
+
+        // BUGFIX
+        // Some browsers throws error when file not found via file:// protocol.
+        // Synthesize readyState changes.
+        if (this._getProtocol() === "file:") {
+          this.readyState = 2;
+          this.__readyStateChange();
+
+          var that = this;
+          window.setTimeout(function() {
+            that.readyState = 3;
+            that.__readyStateChange();
+
+            that.readyState = 4;
+            that.__readyStateChange();
+          });
+
+        }
+
       }
 
       // BUGFIX: Firefox

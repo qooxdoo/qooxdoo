@@ -555,6 +555,24 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait(15000);
     },
 
+    "test: call onerror on file error": function() {
+      this.require(["file"]);
+
+      var req = this.req;
+
+      var that = this;
+      req.onerror = function() {
+        that.resume(function() {
+          that.assertEquals(4, req.readyState);
+        });
+      };
+
+      req.open("GET", "not-found");
+      req.send();
+
+      this.wait();
+    },
+
     "test: throw error on network error when sync": function() {
       var req = this.req;
 
@@ -743,6 +761,10 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
 
     noCache: function(url) {
       return url + "?nocache=" + (new Date()).valueOf();
+    },
+
+    hasFile: function() {
+      return location.protocol === "file:";
     }
   }
 });
