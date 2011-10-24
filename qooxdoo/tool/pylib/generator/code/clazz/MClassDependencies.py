@@ -379,6 +379,7 @@ class MClassDependencies(object):
                 className, classAttribute = self.getClassNameFromEnvKey(node.get("value", ""))
                 if className:
                     depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1), inLoadContext)
+                    depsItem.isCall = True  # treat as if actual call, to collect recursive deps
                     depsList.append(depsItem)
 
 
@@ -419,8 +420,6 @@ class MClassDependencies(object):
             fullname, methname = implementation.rsplit(".", 1)
             if fullname in self._classesObj:
                 result = fullname, methname
-        if key.startswith("locale"):
-            import pydb; pydb.debugger()
         return result
 
 
@@ -865,6 +864,8 @@ class MClassDependencies(object):
                     my_ignores = self.getHints("ignoreDeps") + self.getHints("optionalDeps")
                     my_ignores = map(MetaIgnore, my_ignores)
 
+                    #if (dependencyItem.name, dependencyItem.attribute) == ("qx.locale.Manager","getInstance"):
+                    #    import pydb; pydb.debugger()
                     for depsItem in depslist:
                         if depsItem in totalDeps:
                             continue
