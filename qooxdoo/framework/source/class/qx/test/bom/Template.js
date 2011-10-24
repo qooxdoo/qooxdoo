@@ -22,6 +22,15 @@ qx.Class.define("qx.test.bom.Template",
 
   members :
   {
+    __tmpl: null,
+    
+    tearDown : function() {
+      if (this.__tmpl) {
+        qx.dom.Element.removeChild(this.__tmpl, document.body);
+      }
+    },
+
+
     testReplace : function() {
       var template = "{{name}} xyz";
       var view = {name: "abc"};
@@ -119,6 +128,81 @@ qx.Class.define("qx.test.bom.Template",
       var expected = "<a>";
 
       this.assertEquals(expected, result);
+    },
+
+
+    /**
+     * TEST THE GET METHOD
+     */
+
+    testGet : function() {
+      // add template
+      this.__tmpl = qx.bom.Element.create("div");
+      qx.bom.element.Attribute.set(this.__tmpl, "id", "qx-test-template");
+      qx.bom.element.Style.set(this.__tmpl, "display", "none");
+      this.__tmpl.innerHTML = "<div>{{a}}</div>";
+      qx.dom.Element.insertEnd(this.__tmpl, document.body);
+
+      // test the get method
+      var el = qx.bom.Template.get("qx-test-template", {a: 123});
+      this.assertEquals("DIV", el.childNodes[0].tagName);
+      this.assertEquals("123", el.childNodes[0].innerHTML);
+    },
+
+
+    testMoreThanOne : function() {
+      // add template
+      this.__tmpl = qx.bom.Element.create("div");
+      qx.bom.element.Attribute.set(this.__tmpl, "id", "qx-test-template");
+      qx.bom.element.Style.set(this.__tmpl, "display", "none");
+      this.__tmpl.innerHTML = "<div>{{a}}</div><div>{{b}}</div>";
+      qx.dom.Element.insertEnd(this.__tmpl, document.body);
+
+
+      // test the get method
+      var el = qx.bom.Template.get("qx-test-template", {a: 123, b: 234});
+
+      this.assertEquals(2, el.childNodes.length);
+      // child 0
+      this.assertEquals("DIV", el.childNodes[0].tagName);
+      this.assertEquals("123", el.childNodes[0].innerHTML);
+      // child 1
+      this.assertEquals("DIV", el.childNodes[1].tagName);
+      this.assertEquals("234", el.childNodes[1].innerHTML);
+    },
+
+
+    testPlainText : function() {
+      // add template
+      this.__tmpl = qx.bom.Element.create("div");
+      qx.bom.element.Attribute.set(this.__tmpl, "id", "qx-test-template");
+      qx.bom.element.Style.set(this.__tmpl, "display", "none");
+      this.__tmpl.innerHTML = "{{a}}.{{b}}";
+      qx.dom.Element.insertEnd(this.__tmpl, document.body);
+
+      // test the get method
+      var el = qx.bom.Template.get("qx-test-template", {a: 123, b: 234});
+      this.assertEquals("123.234", el);
+    },
+
+
+    testGetMixed : function() {
+      // add template
+      this.__tmpl = qx.bom.Element.create("div");
+      qx.bom.element.Attribute.set(this.__tmpl, "id", "qx-test-template");
+      qx.bom.element.Style.set(this.__tmpl, "display", "none");
+      this.__tmpl.innerHTML = "{{a}}<span>{{b}}</span>";
+      qx.dom.Element.insertEnd(this.__tmpl, document.body);
+
+      // test the get method
+      var el = qx.bom.Template.get("qx-test-template", {a: 123, b: 234});
+
+      this.assertEquals(2, el.childNodes.length);
+
+      this.assertEquals("123", el.childNodes[0].textContent);
+
+      this.assertEquals("SPAN", el.childNodes[1].tagName);
+      this.assertEquals("234", el.childNodes[1].innerHTML);
     }
   }
 });
