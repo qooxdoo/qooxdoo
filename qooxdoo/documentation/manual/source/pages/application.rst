@@ -42,6 +42,19 @@ Demo Applications
 .. toctree::
    :maxdepth: 1
 
+
+   application/todo
+
+..
+
+   A DOM-oriented application using data binding and CSS styling.
+
+   `Online demo <http://demo.qooxdoo.org/%{version}/todo>`__
+
+.. toctree::
+   :maxdepth: 1
+
+
    application/portal
 
 ..
