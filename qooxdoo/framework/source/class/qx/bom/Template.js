@@ -98,7 +98,8 @@ qx.Class.define("qx.bom.Template", {
      * Helper method which provides you with a direct access to templates 
      * stored as HTML in the DOM. The DOM node with the given ID will be reated 
      * as a template, parsed and a new DOM node will be returned containing the 
-     * parsed data.
+     * parsed data. Keep in mind to have only one root DOM element in the the 
+     * template.
      *
      * @param id {String} The id of the HTML template in the DOM.
      * @param view {Object} The object holding the data to render.
@@ -122,13 +123,7 @@ qx.Class.define("qx.bom.Template", {
       var helper = qx.bom.Element.create("div");
       helper.innerHTML = inner;
 
-      // use a document fragment to return more than one note
-      var docFragment = document.createDocumentFragment();
-      for (var i = helper.childNodes.length - 1; i >= 0; i--) {
-        qx.dom.Element.insertBegin(helper.childNodes[i], docFragment);
-      };
-
-      return docFragment;
+      return helper.children[0];
     }
   }
 });

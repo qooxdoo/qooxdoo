@@ -145,30 +145,9 @@ qx.Class.define("qx.test.bom.Template",
 
       // test the get method
       var el = qx.bom.Template.get("qx-test-template", {a: 123});
-      this.assertEquals("DIV", el.childNodes[0].tagName);
-      this.assertEquals("123", el.childNodes[0].innerHTML);
-    },
 
-
-    testMoreThanOne : function() {
-      // add template
-      this.__tmpl = qx.bom.Element.create("div");
-      qx.bom.element.Attribute.set(this.__tmpl, "id", "qx-test-template");
-      qx.bom.element.Style.set(this.__tmpl, "display", "none");
-      this.__tmpl.innerHTML = "<div>{{a}}</div><div>{{b}}</div>";
-      qx.dom.Element.insertEnd(this.__tmpl, document.body);
-
-
-      // test the get method
-      var el = qx.bom.Template.get("qx-test-template", {a: 123, b: 234});
-
-      this.assertEquals(2, el.childNodes.length);
-      // child 0
-      this.assertEquals("DIV", el.childNodes[0].tagName);
-      this.assertEquals("123", el.childNodes[0].innerHTML);
-      // child 1
-      this.assertEquals("DIV", el.childNodes[1].tagName);
-      this.assertEquals("234", el.childNodes[1].innerHTML);
+      this.assertEquals("DIV", el.tagName);
+      this.assertEquals("123", el.innerHTML);
     },
 
 
@@ -191,18 +170,13 @@ qx.Class.define("qx.test.bom.Template",
       this.__tmpl = qx.bom.Element.create("div");
       qx.bom.element.Attribute.set(this.__tmpl, "id", "qx-test-template");
       qx.bom.element.Style.set(this.__tmpl, "display", "none");
-      this.__tmpl.innerHTML = "{{a}}<span>{{b}}</span>";
+      this.__tmpl.innerHTML = "<div>{{a}}<span>{{b}}</span></div>";
       qx.dom.Element.insertEnd(this.__tmpl, document.body);
 
       // test the get method
       var el = qx.bom.Template.get("qx-test-template", {a: 123, b: 234});
 
-      this.assertEquals(2, el.childNodes.length);
-
-      this.assertEquals("123", el.childNodes[0].textContent);
-
-      this.assertEquals("SPAN", el.childNodes[1].tagName);
-      this.assertEquals("234", el.childNodes[1].innerHTML);
+      this.assertEquals("123<span>234</span>", el.innerHTML);
     }
   }
 });
