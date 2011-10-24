@@ -39,6 +39,10 @@
       paddling-left: 30px;
     }
 
+    #todo li label {
+      cursor: pointer;
+    }
+
     #todo .button {
       float: left;
       margin-right: 10px;
@@ -56,7 +60,10 @@
     <ul id="tasks">Loading...</ul>
 
     <script type="template" id="task">
-      <li><input type="checkbox" {{#done}}checked{{/done}}> {{name}}</li>
+      <li>
+        <input id="{{id}}" type="checkbox" {{#done}}checked{{/done}}>
+        <label for="{{id}}">{{name}}</label>
+      </li>
     </script>
   </div>
 </body>

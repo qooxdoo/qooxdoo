@@ -25,6 +25,9 @@ qx.Class.define("todo.Application",
 
   members :
   {
+    __id : 0,
+
+
     /**
      * This method contains the initial application code and gets called 
      * during startup of the application
@@ -54,8 +57,12 @@ qx.Class.define("todo.Application",
       var controller = new qx.data.controller.website.List(model, target, "task");
       controller.setDelegate({configureItem : function(item) {
         // attach a change listener to the checkbox
-        var checkbox = item.children[0];
+        var checkbox = item.childNodes[1];
         qx.bom.Event.addNativeListener(checkbox, "change", self.__onChange);
+      }, createItem : function(data) {
+        // add an automatic id for the label / checkbox connection
+        data.id = "task-" + self.__id++;
+        return qx.bom.Template.get("task", data);
       }});
 
       // add button
