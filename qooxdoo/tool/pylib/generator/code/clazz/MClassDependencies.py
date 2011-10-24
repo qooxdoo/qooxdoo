@@ -577,6 +577,7 @@ class MClassDependencies(object):
             if _memo1_[0] == rootNode:
                 script = _memo1_[1]
             else:
+                # TODO: disentagle use of ecmascript.frontend.Script and generator.code.Script
                 script = Script(rootNode, fileId)
                 _memo1_[0], _memo1_[1] = rootNode, script
             return script
@@ -864,8 +865,6 @@ class MClassDependencies(object):
                     my_ignores = self.getHints("ignoreDeps") + self.getHints("optionalDeps")
                     my_ignores = map(MetaIgnore, my_ignores)
 
-                    #if (dependencyItem.name, dependencyItem.attribute) == ("qx.locale.Manager","getInstance"):
-                    #    import pydb; pydb.debugger()
                     for depsItem in depslist:
                         if depsItem in totalDeps:
                             continue

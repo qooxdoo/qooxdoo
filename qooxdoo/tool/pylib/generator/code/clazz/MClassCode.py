@@ -32,6 +32,7 @@ from ecmascript.frontend import treegenerator
 #from ecmascript.frontend import treegenerator_new_ast as treegenerator
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, commentoptimizer
 from ecmascript.transform.optimizer import stringoptimizer, basecalloptimizer, privateoptimizer
+from ecmascript.transform.optimizer import featureoptimizer
 from misc import util, filetool
 
 
@@ -194,7 +195,7 @@ class MClassCode(object):
 
     ##
     # Interface method: selects the right code version to return
-    def getCode(self, compOptions, treegen=treegenerator):
+    def getCode(self, compOptions, treegen=treegenerator, featuremap={}):
 
         result = u''
         # source versions
@@ -204,13 +205,13 @@ class MClassCode(object):
                 result += '\n'
         # compiled versions
         else:
-            result = self._getCompiled(compOptions, treegen)
+            result = self._getCompiled(compOptions, treegen, featuremap)
 
         return result
 
     ##
     # Checking the cache for the appropriate code, and pot. invoking ecmascript.backend
-    def _getCompiled(self, compOptions, treegen):
+    def _getCompiled(self, compOptions, treegen, featuremap):
 
         ##
         # Interface to ecmascript.backend
@@ -247,7 +248,7 @@ class MClassCode(object):
 
         if compiled == None:
             tree   = self.tree(variants, treegen=treegen)
-            tree   = self.optimize(tree, optimize)
+            tree   = self.optimize(tree, optimize, featuremap)
             if optimize == ["comments"]:
                 compiled = serializeFormatted(tree)
                 if compiled[-1:] != "\n": # assure trailing \n
