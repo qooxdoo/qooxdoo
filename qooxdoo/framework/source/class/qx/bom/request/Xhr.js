@@ -774,12 +774,21 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         // Infer the XHR internal error flag from statusText when not aborted.
         // See http://www.w3.org/TR/XMLHttpRequest2/#error-flag and
         // http://www.w3.org/TR/XMLHttpRequest2/#the-statustext-attribute
+        //
+        // With file://, statusText is always falsy. Assume network error when
+        // response is empty.
         } else {
 
           if (this.__abort) {
             this.onabort();
           } else {
-            this.statusText ? this.onload() : this.onerror();
+
+            if (this._getProtocol() === "file:") {
+              this.responseText ? this.onload() : this.onerror();
+            } else {
+              this.statusText ? this.onload() : this.onerror();
+            }
+
           }
 
         }

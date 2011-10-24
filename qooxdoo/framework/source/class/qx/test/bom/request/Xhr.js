@@ -301,8 +301,8 @@ qx.Class.define("qx.test.bom.request.Xhr",
       req.open();
       req.send();
 
-      // Status does not matter
-      fakeReq.respond();
+      // Status does not matter. Set a non-empty response for file:// workaround.
+      fakeReq.respond(200, {}, "RESPONSE");
 
       this.assertCalled(req.onload);
     },
