@@ -370,7 +370,7 @@ def graph(args, opts):
     template = ''
     #template += "echo "
     template += '''rrdtool graph %(outpng)s --start %(fromepoch)d --end %(toepoch)d \
-    --vertical-label "build duration (min)" --zoom 1.3 \
+    --vertical-label "build duration (min)" --zoom 1.3 --logarithmic --units=si \
     DEF:feedreader=nightly_builds.rrd:feedreader:AVERAGE \
     CDEF:mfeedreader=feedreader,60,/ LINE2:mfeedreader#FF0000:Feedreader \
     DEF:showcase=nightly_builds.rrd:showcase:AVERAGE \
