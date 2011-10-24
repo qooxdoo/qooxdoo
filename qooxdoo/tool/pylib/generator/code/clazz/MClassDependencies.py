@@ -420,23 +420,6 @@ class MClassDependencies(object):
         return result
 
 
-    ##
-    # Trys to calculate a full class name and method name from environment
-    # key.
-    def getClassNameFromEnvKey_1(self, key):
-        result = '',''
-        prefixes = self.context['jobconf'].get("environment-prefixes", {})
-        prefixes = prefixes.get("*", [])
-        parts = key.split(".")
-        clsname = parts[0].capitalize() # TODO: handle more than 2 parts
-        methname = "get" + parts[-1].capitalize()
-        for prefix in prefixes:
-            fullname = prefix + "." + clsname
-            if fullname in self._classesObj:
-                result = fullname, methname
-        return result
-
-
     def _isInterestingReference(self, assembled, node, fileId, inDefer):
 
         def checkNodeContext(node):
