@@ -36,6 +36,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
     setUp : function()
     {
+      this.require(["php"]);
       this.__store = new qx.data.store.Jsonp();
 
       this.url = qx.util.ResourceManager.getInstance().
@@ -97,8 +98,6 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
 
     testWholePrimitive: function() {
-      this.require(["php"]);
-
       this.__store.addListener("loaded", function() {
         this.resume(function() {
           var model = this.__store.getModel();
@@ -117,8 +116,6 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
 
     testManipulatePrimitive: function() {
-      this.require(["php"]);
-
       var manipulated = false;
       var delegate = {manipulateData : function(data) {
         manipulated = true;
