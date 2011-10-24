@@ -42,5 +42,5 @@ Manifest.json
       }
     }
 
-The file paths of the ``class``, ``resource`` and ``translation`` keys are taken to be relative to the directory of the Manifest file. The ``namespace`` attribute can be overridden in the importing config file (in the :ref:`pages/tool/generator_config_ref#library` key).
+The file paths of the ``class``, ``resource`` and ``translation`` keys are taken to be relative to the directory of the Manifest file. To build applications, manifests are linked in the corresponding `config.json` (in the :ref:`pages/tool/generator_config_ref#library` key), to identify the library they describe.
 
