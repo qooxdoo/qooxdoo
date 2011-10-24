@@ -53,7 +53,6 @@ qx.Class.define("qx.test.data.store.Offline",
       }
       // erase the data from the storages
       qx.bom.storage.Local.getInstance().removeItem(this.__testKey);
-      qx.bom.storage.Session.getInstance().removeItem(this.__testKey);
     },
 
 
