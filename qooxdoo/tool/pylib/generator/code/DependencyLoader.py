@@ -46,7 +46,8 @@ import graph
 from misc.ExtMap                import ExtMap
 from misc                       import util
 from ecmascript.frontend        import lang
-from generator.code.Class       import Class, DependencyItem, DependencyError, CompileOptions
+from generator.code.Class       import Class, DependencyError, CompileOptions
+from generator.code.DependencyItem  import DependencyItem
 
 class DependencyLoader(object):
 

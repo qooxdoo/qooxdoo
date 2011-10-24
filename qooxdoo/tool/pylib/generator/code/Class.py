@@ -148,28 +148,6 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
 
 
 ##
-# Duplication with clazz.ClassDependencies.DependencyItem
-class DependencyItem(object):
-    def __init__(self, name, attribute, requestor, line=-1, isLoadDep=False):
-        self.name           = name       # "qx.Class" [dependency to (class)]
-        assert isinstance(name, types.StringTypes)
-        self.attribute      = attribute  # "methodA"   [dependency to (class.attribute)]
-        self.requestor      = requestor  # "gui.Application" [the one depending on this item]
-        self.line           = line       # 147        [source line in dependent's file]
-        self.isLoadDep      = isLoadDep  # True       [load or run dependency]
-        self.needsRecursion = False      # this is a load-time dep that draws in external deps recursively
-        self.isCall         = False      # whether the reference is a function call
-    def __repr__(self):
-        return "<DepItem>:" + self.name + "#" + self.attribute
-    def __str__(self):
-        return self.name + "#" + self.attribute
-    def __eq__(self, other):
-        return self.name == other.name and self.attribute == other.attribute
-    def __hash__(self):
-        return hash(self.name + self.attribute)
-
-
-##
 # Throw this in cases of dependency problems
 class DependencyError(ValueError): pass
 

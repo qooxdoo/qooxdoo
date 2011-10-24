@@ -28,6 +28,7 @@ from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.Script     import Script
 from ecmascript.frontend.tree       import Node, NodeAccessException
 from ecmascript.transform.optimizer import variantoptimizer
+from generator.code.DependencyItem  import DependencyItem
 from misc import util
 
 QXGLOBALS = [
@@ -405,18 +406,21 @@ class MClassDependencies(object):
             clsname, clsattribute = self.getClassNameFromEnvKey(key)
             result.append(DependencyItem(clsname, clsattribute, self.id, nodeline, inLoadContext))
         return result
+
+
     ##
     # Looks up the environment key in a map that yields the full class plus
     # method name as a string.
     def getClassNameFromEnvKey(self, key):
         result = '',''
-        #envmappings = self.context['jobconf'].get("environment-prefixes", {})
         envmappings = self.context['envchecksmap']
         if key in envmappings:
             implementation = envmappings[key]
             fullname, methname = implementation.rsplit(".", 1)
             if fullname in self._classesObj:
                 result = fullname, methname
+        if key.startswith("locale"):
+            import pydb; pydb.debugger()
         return result
 
 
@@ -909,27 +913,6 @@ class MetaIgnore(object):
     # Overloading __eq__ so that 'in' tests will use a regex match
     def __eq__ (self, other):
         return self.regex.match(other)
-
-
-
-class DependencyItem(object):
-    def __init__(self, name, attribute, requestor, line=-1, isLoadDep=False):
-        self.name           = name       # "qx.Class" [dependency to (class)]
-        assert isinstance(name, types.StringTypes)
-        self.attribute      = attribute  # "methodA"   [dependency to (class.attribute)]
-        self.requestor      = requestor  # "gui.Application" [the one depending on this item]
-        self.line           = line       # 147        [source line in dependent's file]
-        self.isLoadDep      = isLoadDep  # True       [load or run dependency]
-        self.needsRecursion = False      # this is a load-time dep that draws in external deps recursively
-        self.isCall         = False      # whether the reference is a function call
-    def __repr__(self):
-        return "<DepItem>:" + self.name + "#" + self.attribute
-    def __str__(self):
-        return self.name + "#" + self.attribute
-    def __eq__(self, other):
-        return self.name == other.name and self.attribute == other.attribute
-    def __hash__(self):
-        return hash(self.name + self.attribute)
 
 
 
