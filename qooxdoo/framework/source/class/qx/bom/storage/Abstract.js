@@ -88,7 +88,12 @@ qx.Class.define("qx.bom.storage.Abstract",
      */
     setItem: function(key, value)
     {
-      this._storage.setItem(key, qx.lang.Json.stringify(value));
+      value = qx.lang.Json.stringify(value);
+      try {
+        this._storage.setItem(key, value);
+      } catch (e) {
+        throw new Error("Storage full.");
+      }
     },
 
 
