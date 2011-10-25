@@ -3,7 +3,10 @@
 Third-party Components
 ***************************
 
-The qooxdoo project makes use of components and tools from other projects and endeavours. This applies to the framework %{JS} class code, the tool chain, and static resources. This page gives an overview over those components. Please refer to the framework files for version information of a particular component.
+The qooxdoo project makes use of components and tools from other projects and endeavours. This applies to the framework %{JS} class code, the tool chain, and static resources. This page gives an overview over those components which are included with the SDK or other deliverables. Please refer to the contained files for version information of a particular component.
+
+Besides foreign files we have included in the project, we also want to list the tools we use to either produce or consume genuine files of our source tree (beyond basic text editors ;-), so it is easy to oversee all the project's dependencies.
+
 
 .. _pages/introduction/third_party_components#js_code:
 
@@ -133,6 +136,9 @@ Components or tools that are not included with the SDK
    * - `ImageMagick <http://www.imagemagick.org/script/index.php>`_ 
      - `GPL-compat <http://www.imagemagick.org/script/license.php>`_
 
+   * - `Make <http://www.gnu.org/s/make/>`_
+     - `GPL 3.0 <http://www.gnu.org/licenses/gpl-3.0.html>`_ or later
+
    * - `Mozilla Rhino <http://developer.mozilla.org/en/Rhino>`_
      - `MPL 1.1 <http://www.mozilla.org/MPL/MPL-1.1.html>`_/`GPL 2.0 <http://www.gnu.org/licenses/gpl-2.0.html>`_, `Unnamed License <https://developer.mozilla.org/en/Rhino_License#License_for_portions_of_the_Rhino_debugger>`_
 
@@ -141,3 +147,6 @@ Components or tools that are not included with the SDK
 
    * - `Sphinx <http://sphinx.pocoo.org/>`_
      - `BSD <http://www.opensource.org/licenses/bsd-license.php>`_
+
+   * - `TeX Live <http://www.tug.org/texlive/>`_
+     - `mixed free licenses <http://tug.org/texlive/LICENSE.TL>`_
