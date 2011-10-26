@@ -133,8 +133,17 @@ qx.Class.define("qx.test.bom.Font",
       this.getRoot().add(label);
       this.flush();
 
-      var useRgbValue = qx.core.Environment.get("browser.name") == "ie" && 
-                        qx.core.Environment.get("browser.version") >= 9;
+      var useRgbValue = true;
+
+      if (qx.core.Environment.get("browser.name") == "ie" && 
+          qx.core.Environment.get("browser.version") < 9) {
+        useRgbValue = false;
+      }
+
+      if (qx.core.Environment.get("browser.name") == "opera") {
+        useRgbValue = false;
+      }
+
       var checkValue = useRgbValue ? "rgb(26, 26, 26)" : "#1a1a1a";
       var color = label.getContentElement().getDomElement().style["color"];
 
