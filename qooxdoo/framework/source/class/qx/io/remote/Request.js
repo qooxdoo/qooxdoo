@@ -24,7 +24,7 @@
  * This class is used to send HTTP requests to the server.
  *
  * Note: This class will be deprecated in a future release. Instead,
- * classes found in {@link qx.io.request} will offer request handling.
+ * please use classes found in {@link qx.io.request}.
  */
 qx.Class.define("qx.io.remote.Request",
 {
