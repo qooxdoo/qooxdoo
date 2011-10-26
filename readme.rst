@@ -1,4 +1,4 @@
 qooxdoo - universal javascript framework
 ========================================
 
-Please see `qooxdoo/readme.txt` for details.
+Please see *qooxdoo/readme.txt* for details.
