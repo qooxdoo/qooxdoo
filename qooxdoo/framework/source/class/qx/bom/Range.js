@@ -20,7 +20,9 @@
 
 
 /**
- * Low-level Range API which is used together with the low-level Selection API
+ * Low-level Range API which is used together with the low-level Selection API.
+ * This is especially useful whenever a developer want to work on text level,
+ * e.g. for an editor.
  */
 qx.Class.define("qx.bom.Range",
 {
