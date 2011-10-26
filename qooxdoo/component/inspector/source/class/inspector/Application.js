@@ -70,6 +70,7 @@ qx.Class.define("inspector.Application",
     __inspectorModel : null,
     __state : null,
 
+
     /**
      * This method contains the initial application code and gets called
      * during startup of the application
@@ -123,7 +124,9 @@ qx.Class.define("inspector.Application",
       this._toolbar.getTextField().setValue(startUrl);
     },
 
-    __onLoad : function() {
+
+    __onLoad : function()
+    {
       this.__checkCount = 0;
       this.__inspectorModel.setWindow(null);
       this.__inspectorModel.setInspected(null);
@@ -141,6 +144,7 @@ qx.Class.define("inspector.Application",
       // save the url in a cookie
       qx.bom.Cookie.set("url", iFrameSource, 7);
     },
+
 
     __initInspector : function()
     {
@@ -164,19 +168,20 @@ qx.Class.define("inspector.Application",
       this.__state.restoreState();
     },
 
+
     /*
     -------------------------------------------------------------------------
       Initialize helper
     -------------------------------------------------------------------------
     */
 
+
     /**
-     * TODOC
-     * 
      * @lint ignoreDeprecated(alert)
      * @return {Boolean}
      */
-    __checkWorking: function() {
+    __checkWorking: function()
+    {
       // try to access the javascript objects in the iframe
       try {
         this.__checkCount++;
@@ -230,7 +235,10 @@ qx.Class.define("inspector.Application",
       Create helper
     -------------------------------------------------------------------------
     */
-    __createToolbar: function() {
+
+
+    __createToolbar: function()
+    {
       // create the toolbar itself
       this._toolbar = new inspector.view.ToolBar(this.__inspectorModel, this.__state);
       this._container.add(this._toolbar);
@@ -247,7 +255,8 @@ qx.Class.define("inspector.Application",
     },
 
 
-    _reloadIframe: function(e) {
+    _reloadIframe: function(e)
+    {
       this._loading = true;
 
       var iFrameSource = this._iFrame.getSource();
@@ -281,12 +290,15 @@ qx.Class.define("inspector.Application",
       Selection functions
     -------------------------------------------------------------------------
     */
+
+
     getSelectedObject : function() {
       return this.__inspectorModel.getInspected();
     },
 
 
-    setWidgetByHash : function(hash, initiator) {
+    setWidgetByHash : function(hash, initiator)
+    {
       // check the initiator
       if (initiator == "console") {
         initiator = this._toolbar.getConsoleWindow();
@@ -298,14 +310,16 @@ qx.Class.define("inspector.Application",
     },
 
 
-    inspectObjectByDomSelecet: function(index, key) {
+    inspectObjectByDomSelecet: function(index, key)
+    {
       if (this._toolbar.getConsoleWindow() != null) {
           this._toolbar.getConsoleWindow().inspectObjectByDomSelecet(index, key);
       }
     },
 
 
-    inspectObjectByInternalId: function(id) {
+    inspectObjectByInternalId: function(id)
+    {
       // if the console exists
       if (this._toolbar.getConsoleWindow() != null) {
         // tell the consol to do the rest
@@ -314,7 +328,8 @@ qx.Class.define("inspector.Application",
     },
 
 
-    select: function(object, initiator) {
+    select: function(object, initiator)
+    {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee);
       // if its currently loaiding, do nothing
       if (this._loading || !object) {
@@ -329,10 +344,13 @@ qx.Class.define("inspector.Application",
       Internal stuff
     -------------------------------------------------------------------------
     */
+
+
     getIframeWindowObject : function() {
       return this._loadedWindow;
     }
   },
+
 
   destruct : function()
   {
