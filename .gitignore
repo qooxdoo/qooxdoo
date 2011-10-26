@@ -135,3 +135,4 @@ qooxdoo/component/tutorials/twitter/step4.5/build
 # Single Files
 #
 qooxdoo/application/feedreader/deps.dot
+/.project
