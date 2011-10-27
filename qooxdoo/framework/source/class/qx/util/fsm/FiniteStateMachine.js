@@ -470,7 +470,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     getFriendlyName : function(obj)
     {
-      var hash = obj.toHashCode();
+      var hash = obj ? obj.toHashCode() : null;
       return hash ? this.__hashToFriendly[hash] : null;
     },
 
