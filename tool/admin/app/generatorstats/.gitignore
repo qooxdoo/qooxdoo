@@ -1,1 +1,3 @@
-*.png
+generating four_week_stats.png
+generating one_year_stats.png
+nightly_builds.rrd
