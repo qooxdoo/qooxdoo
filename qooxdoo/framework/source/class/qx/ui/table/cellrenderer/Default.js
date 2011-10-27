@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
           qx.ui.table.cellrenderer.Default._numberFormat.setMaximumFractionDigits(2);
         }
 
-        var res = qx.ui.table.cellrenderer.Default._numberFormat.format(value);
+        res = qx.ui.table.cellrenderer.Default._numberFormat.format(value);
       }
       else if (value instanceof Date)
       {
