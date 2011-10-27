@@ -41,7 +41,7 @@
  */
 qx.Class.define("qx.ui.mobile.form.Button",
 {
-  extend : qx.ui.mobile.basic.Label,
+  extend : qx.ui.mobile.basic.Atom,
 
   /*
   *****************************************************************************
@@ -58,28 +58,22 @@ qx.Class.define("qx.ui.mobile.form.Button",
       init : "button"
     },
 
-
-    // overridden
-    anonymous :
-    {
-      refine : true,
-      init : false
-    },
-
-
-    // overridden
-    wrap :
-    {
-      refine : true,
-      init : false
-    },
-
-
     // overridden
     activatable :
     {
       refine :true,
       init : true
+    }
+  },
+  
+  members :
+  {
+    setValue : function(value) {
+      this.setLabel(value);
+    },
+    
+    getValue : function() {
+      return this.getLabel();
     }
   }
 });

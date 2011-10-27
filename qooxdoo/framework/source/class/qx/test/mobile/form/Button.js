@@ -23,21 +23,21 @@ qx.Class.define("qx.test.mobile.form.Button",
 
   members :
   {
-    testValue : function()
+    testLabel : function()
     {
       var button = new qx.ui.mobile.form.Button("affe");
       this.getRoot().add(button);
 
-      this.assertString(button.getValue());
-      this.assertEquals(button.getValue(), "affe");
-      this.assertEquals(button.getValue(), button.getContentElement().innerHTML);
+      this.assertString(button.getLabel());
+      this.assertEquals("affe", button.getLabel() );
+      this.assertEquals(button.getLabel(), button.getLabelWidget().getContentElement().innerHTML);
 
-      this.assertEventFired(button, "changeValue", function() {
-        button.setValue("");
+      this.assertEventFired(button, "changeLabel", function() {
+        button.setLabel("");
       });
 
-      this.assertEquals(button.getValue(), "");
-      this.assertEquals(button.getValue(), button.getContentElement().innerHTML);
+      this.assertEquals("", button.getLabel());
+      this.assertEquals(button.getLabel(), button.getLabelWidget().getContentElement().innerHTML);
 
       button.destroy();
     }

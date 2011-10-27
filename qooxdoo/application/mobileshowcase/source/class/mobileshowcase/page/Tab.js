@@ -78,9 +78,24 @@ qx.Class.define("mobileshowcase.page.Tab",
      */
     __createView : function(text)
     {
-      var label = new qx.ui.mobile.basic.Label(text);
-      this.getContent().add(label);
-      return label;
+      if(text == 'View 4')
+      {
+       var label = new qx.ui.mobile.basic.Label(text);
+       this.getContent().add(label);
+       return label;
+      }
+      else
+      {
+        var atom = new qx.ui.mobile.basic.Atom(text, "http://demo.qooxdoo.org/1.4/demobrowser/resource/qx/icon/Tango/32/actions/go-previous.png");
+        this.getContent().add(atom);
+        if(text.indexOf('3')!=-1) {
+          atom.setIconPosition('top');
+        }
+        if(text.indexOf('2')!=-1) {
+          atom.setIconPosition('right');
+        }
+        return atom;
+      }
     },
 
 
