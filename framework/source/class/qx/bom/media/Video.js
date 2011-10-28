@@ -60,7 +60,7 @@ qx.Class.define("qx.bom.media.Video",
      * @param value {Number} The new value of width.
      */
     setWidth: function(value) {
-      this._video.height = value;
+      this._video.width = value;
     },
 
 
@@ -80,7 +80,7 @@ qx.Class.define("qx.bom.media.Video",
      * @param value {Number} The new value of height.
      */
     setHeight: function(value) {
-      this._video.width = value;
+      this._video.height = value;
     },
 
 
