@@ -50,6 +50,11 @@ qx.Class.define("widgetbrowser.view.Header",
       var item = new qx.ui.form.ListItem(name + " Theme");
       item.setUserData("value", "qx.theme." + name);
       select.add(item);
+
+      var value = theme[name];
+      if (value == qx.core.Environment.get("qx.theme")) {
+        select.setSelection( [item] );
+      }
     });
     select.setFont("default");
 
