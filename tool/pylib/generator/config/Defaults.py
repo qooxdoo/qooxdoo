@@ -32,10 +32,11 @@ def getQooxdooVersion():
 def getQooxdooRevision():
     shellCmd = ShellCmd()
     rcode, out, err = shellCmd.execute_piped("svnversion")
-    if rcode > 0 or out == "exported":
-        return "unknown"
+    if rcode > 0 or "exported" in out:
+        result =  ""
     else:
-        return out.rstrip()
+        result =  out.rstrip()
+    return result
         
 
 def getUserHome(default=""):
