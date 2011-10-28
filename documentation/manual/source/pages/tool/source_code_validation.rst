@@ -89,7 +89,7 @@ Multiply declared identifier
 Explicitly ignoring messages
 ============================
 
-Starting with qooxdoo 0.8.3 the following three doc comments can be used to explicitly ignore specific lint messages:
+The following doc comments can be used to explicitly ignore specific lint messages:
 
 ::
 
