@@ -466,6 +466,8 @@ qx.Bootstrap.define("qx.Theme",
      */
     patch : function(theme, mixinTheme)
     {
+      this.__checkForInvalidTheme(mixinTheme);
+
       var type = this.__extractType(mixinTheme);
       if (type !== this.__extractType(theme)) {
         throw new Error("The mixins '" + theme.name + "' are not compatible '" + mixinTheme.name + "'!");
@@ -491,6 +493,8 @@ qx.Bootstrap.define("qx.Theme",
      */
     include : function(theme, mixinTheme)
     {
+      this.__checkForInvalidTheme(mixinTheme);
+
       var type = mixinTheme.type;
       if (type !== theme.type) {
         throw new Error("The mixins '" + theme.name + "' are not compatible '" + mixinTheme.name + "'!");
@@ -507,6 +511,27 @@ qx.Bootstrap.define("qx.Theme",
         }
 
         target[key] = source[key];
+      }
+    },
+    
+    /**
+     * Helper method to check for an invalid theme
+     * 
+     * @param mixinTheme {qx,Theme?null} theme to check
+     * @throws an error if the theme is not valid
+     */
+    __checkForInvalidTheme: function(mixinTheme)
+    {
+      if (typeof mixinTheme === "undefined" || mixinTheme == null)
+      {
+        var errorObj = new Error("Mixin theme is not a valid theme!");
+
+        if (qx.core.Environment.get("qx.debug")) {
+          var stackTrace = qx.dev.StackTrace.getStackTraceFromError(errorObj);
+          qx.Bootstrap.error(this, stackTrace);
+        }
+
+        throw errorObj;
       }
     }
   }
