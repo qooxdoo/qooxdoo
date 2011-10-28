@@ -79,6 +79,32 @@ qx.Class.define("qx.test.Theme",
     },
 
 
+    testIncludeInvalidTheme : function()
+    {
+      qx.Theme.define("qx.test.Theme.themes.A", {
+        decorations : {
+          "basic" : {
+            decorator : qx.ui.decoration.Uniform,
+            style : {}
+          }
+        }
+      });
+
+      var decorationManager = qx.theme.manager.Decoration.getInstance();
+      decorationManager.setTheme(qx.test.Theme.themes.A);
+
+      this.assertException(function() {
+        var invalidTheme = qx.theme.Foo;
+        qx.Theme.include(qx.test.Theme.themes.A, invalidTheme);
+      }, Error, "Mixin theme is not a valid theme!");
+
+      this.assertException(function() {
+        var invalidTheme = null;
+        qx.Theme.include(qx.test.Theme.themes.A, invalidTheme);
+      }, Error, "Mixin theme is not a valid theme!");
+    },
+
+
     testPatchTheme : function()
     {
       qx.Theme.define("qx.test.Theme.themes.A", {
@@ -103,6 +129,32 @@ qx.Class.define("qx.test.Theme",
       var decorationManager = qx.theme.manager.Decoration.getInstance();
       decorationManager.setTheme(qx.test.Theme.themes.B);
       this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Uniform);
+    },
+    
+    
+    testPatchInvalidTheme : function()
+    {
+      qx.Theme.define("qx.test.Theme.themes.A", {
+        decorations : {
+          "basic" : {
+            decorator : qx.ui.decoration.Uniform,
+            style : {}
+          }
+        }
+      });
+
+      var decorationManager = qx.theme.manager.Decoration.getInstance();
+      decorationManager.setTheme(qx.test.Theme.themes.A);
+
+      this.assertException(function() {
+        var invalidTheme = qx.theme.Foo;
+        qx.Theme.patch(qx.test.Theme.themes.A, invalidTheme);
+      }, Error, "Mixin theme is not a valid theme!");
+
+      this.assertException(function() {
+        var invalidTheme = null;
+        qx.Theme.patch(qx.test.Theme.themes.A, invalidTheme);
+      }, Error, "Mixin theme is not a valid theme!");
     },
 
 
