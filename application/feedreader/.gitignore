@@ -1,4 +1,3 @@
-# .gitignore template for skeleton-based apps
 api/
 build/
 build-mobile/
@@ -7,3 +6,5 @@ inspector/
 provider/
 simulator/
 test/
+source/script
+deps.dot
