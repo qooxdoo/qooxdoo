@@ -5,7 +5,7 @@
 ##
 
 # - Config section -------------------------------------------------------------
-generatorstats=/home/qooxdoo/workspace/qooxdoo.git/qooxdoo/tool/admin/app/generatorstats
+generatorstats=/home/qooxdoo/workspace/qooxdoo.git/tool/admin/app/generatorstats
 # - Config end -----------------------------------------------------------------
 
 # chdir, so that relative paths (e.g. to *.rrd) are correct
