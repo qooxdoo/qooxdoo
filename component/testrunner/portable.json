@@ -1,0 +1,117 @@
+{
+  "name"    : "testrunner-portable",
+
+  "include" :
+  [
+    {
+      "path" : "testrunner.json"  
+    },
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
+      "block"   : 
+      [ 
+        "common",
+        "source",
+        "source-script",
+        "build",
+        "build-script",
+        "build-resources",
+        "build-files",
+        "clean" 
+      ]
+    }
+  ],
+  
+  "default-job" : "source",
+  
+  "let" :
+  {
+    "APPLICATION"  : "testrunner",
+    "QOOXDOO_PATH" : "../..",
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "ROOT"         : "."
+  },
+  
+  "jobs" :
+  {
+
+    "source" :
+    {
+      "extend" : ["source-script"],
+      
+      "let" :
+      {
+        "TESTRUNNER_ORIGIN" : "external",
+        "TESTRUNNER_MAIN_CLASS" : "testrunner.Application",
+        "TESTRUNNER_VIEW" : "testrunner.view.Html"
+      }
+    },
+    
+    "build-script-portable" :
+    {
+      "extend" : ["build-script"],
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/script/testrunner-portable.js"
+        }
+      }
+    },
+    
+    "build" :
+    {
+      "let" :
+      {
+        "TESTRUNNER_ORIGIN" : "external",
+        "TESTRUNNER_MAIN_CLASS" : "testrunner.Application",
+        "TESTRUNNER_VIEW" : "testrunner.view.Html"
+      },
+    
+      "=run" : [
+        "build-resources",
+        "build-script-portable"
+      ]
+    },
+    
+    
+    "build-basic-portable-script" :
+    {
+      "extend" : ["build-basic-script"],
+      
+      "=include" : [
+        "qx.core.BaseInit",
+        "${TESTRUNNER_MAIN_CLASS}",
+        "${TESTRUNNER_VIEW}"
+      ],
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/script/testrunner-portable-basic.js"
+        }
+      }
+    },
+    
+    "build-basic" :
+    {
+      "let" :
+      {
+        "TESTRUNNER_ORIGIN" : "external",
+        "TESTRUNNER_MAIN_CLASS" : "testrunner.ApplicationBasic",
+        "TESTRUNNER_VIEW" : "testrunner.view.Basic"
+      },
+      
+      "=run" : ["build-basic-portable-script"],
+      
+      "environment" :
+      {
+        "testrunner.testOrigin" : "external"
+      }
+    }
+  }
+}
