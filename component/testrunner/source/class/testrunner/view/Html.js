@@ -833,19 +833,20 @@ qx.Class.define("testrunner.view.Html", {
      */
     _createTestList : function(testList)
     {
+      var template = '<li><input checked="checked" type="checkbox" id="{{id}}"><label for="{{id}}">{{name}}</label></li>';
       for (var i=0,l=testList.length; i<l; i++) {
-        var listItem = document.createElement("li");
         var testName = testList[i];
         var key = this.__simplifyName(testName);
         this.__testNameToId[key] = testName;
-        var checkboxId = "cb_" + key;
-        var cb = qx.bom.Input.create("checkbox", {id: checkboxId, checked: "checked"});
-        listItem.appendChild(cb);
-        listItem.innerHTML += '<label for="' + checkboxId + '">' + testName + '</label>';
-        this.__domElements.elemTestList.appendChild(listItem);
-        cb = document.getElementById(checkboxId);
-        qx.event.Registration.addListener(cb, "change", this.__onToggleTest, this);
+
+        var itemHtml = qx.bom.Template.toHtml(template, {
+          id : "cb_" + key,
+          name : testName
+        });
+        this.__domElements.elemTestList.innerHTML += itemHtml;
       }
+
+      $("#testlist input:checkbox").addListener("change", this.__onToggleTest, this);
     },
 
 
