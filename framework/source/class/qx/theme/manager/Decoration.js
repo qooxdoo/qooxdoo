@@ -201,7 +201,8 @@ qx.Class.define("qx.theme.manager.Decoration",
      */
     isCached : function(decorator)
     {
-      return qx.lang.Object.contains(this.__dynamic, decorator);
+      return !this.__dynamic ? false : 
+        qx.lang.Object.contains(this.__dynamic, decorator);
     },
 
 
