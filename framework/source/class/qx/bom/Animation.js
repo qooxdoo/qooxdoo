@@ -1,71 +1,25 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Martin Wittemann (wittemann)
+
+************************************************************************ */
+
 qx.Bootstrap.define("qx.bom.Animation", 
-{ 
-  statics :
-  {
-    animate : null,
-    supports3d : null
-  }
-});
-
-/**
- * @lint ignoreUndefined(Anni)
- */
-(function(ctx) {
-  /**
-    * Helper object which contains the cross browser stuff.
-    */
-   var Helper = {
-     isArray : qx.Bootstrap.isArray,
-     createSheet : qx.bom.Stylesheet.createElement,
-     addRule : qx.bom.Stylesheet.addRule,
-     addListener : qx.bom.Event.addNativeListener,
-     removeListener : qx.bom.Event.removeNativeListener,
-     isWebkit : function() {
-       // return window.navigator.userAgent.indexOf("AppleWebKit/") != -1;
-       return qx.core.Environment.get("engine.name") == "webkit";
-     },
-     isGecko : function() {
-       // return window.controllers && window.navigator.product === "Gecko";
-       return qx.core.Environment.get("engine.name") == "gecko";
-     },
-     supports3d : function() {
-       // borrowed from modernizr
-       var div = document.createElement('div'),
-         ret = false,
-         properties = ['perspectiveProperty', 'WebkitPerspective'];
-       for (var i = properties.length - 1; i >= 0; i--){
-         ret = ret ? ret : div.style[properties[i]] != undefined;
-       };
-
-       // webkit has 3d transforms disabled for chrome, though
-       //   it works fine in safari on leopard and snow leopard
-       // as a result, it 'recognizes' the syntax and throws a false positive
-       // thus we must do a more thorough check:
-       if (ret){
-         var st = document.createElement('style');
-         // webkit allows this media query to succeed only if the feature is enabled.    
-         // "@media (transform-3d),(-o-transform-3d),(-moz-transform-3d),(-ms-transform-3d),(-webkit-transform-3d),(modernizr){#modernizr{height:3px}}"
-         st.textContent = '@media (-webkit-transform-3d){#test3d{height:3px}}';
-         document.getElementsByTagName('head')[0].appendChild(st);
-         div.id = 'test3d';
-         document.body.appendChild(div);
-
-         ret = div.offsetHeight === 3;
-
-         st.parentNode.removeChild(st);
-         div.parentNode.removeChild(div);
-       }
-       return ret;
-     }
-   };
-
-
-  /**
-   * Main object.
-   * 
-   * @lint ignoreUndefined(Anni)
-   */
-  ctx.Anni = {
+{
+  statics : {
     // initialization
     __sheet : null,
     __rules : {},
@@ -79,39 +33,14 @@ qx.Bootstrap.define("qx.bom.Animation",
       "translate" : true
     },
 
+
     __dimensions : ["X", "Y", "Z"],
-
-
-    __getStyleName : function(name) {
-      if (Helper.isGecko()) {
-        if (name == "transform") {
-          return "-moz-transform";
-        }
-        if (name == "@keyframes") {
-          return "@-moz-keyframes";
-        }
-        if (name == "animationend") {
-          return "animationend";
-        }
-        return ("-moz-" + name).replace(/-(.)/g, function(x) {return x.charAt(1).toUpperCase();});
-      } else if (Helper.isWebkit()) {
-        if (name == "@keyframes") {
-          return "@-webkit-keyframes";
-        }
-        if (name == "animationend") {
-          return "webkitAnimationEnd";
-        }
-        return "-webkit-" + name;
-      }
-      // return the names defined in the spec as fallback
-      return name;
-    },
 
 
     animate : function(el, desc) {
       this.__normalizeDesc(desc);
       if (!this.__sheet) {
-        this.__sheet = Helper.createSheet();
+        this.__sheet = qx.bom.Stylesheet.createElement();
       }
       var keyFrames = desc.keyFrames;
       var name = this.__addKeyFrames(keyFrames, desc.reverse);
@@ -123,17 +52,18 @@ qx.Bootstrap.define("qx.bom.Animation",
         desc.timing + " " +
         (desc.alternate ? "alternate" : "");
 
-      var animation = new Animation();
+      var animation = new qx.bom.AnimationHandle();
       animation.desc = desc;
       animation.el = el;
       el.$$animation = animation;
-      Helper.addListener(el, this.__getStyleName("animationend"), this.__onAnimationEnd);
+      var eventName = qx.core.Environment.get("css.animation.endevent");
+      qx.bom.Event.addNativeListener(el, eventName, this.__onAnimationEnd);
 
-      el.style[this.__getStyleName("animation")] = style;
+      el.style[qx.core.Environment.get("css.animation.style")] = style;
 
       // additional transform keys
       if (desc.origin != null) {
-        el.style[this.__getStyleName("transform-origin")] = desc.origin;
+        el.style[qx.core.Environment.get("css.animation.transformorigin")] = desc.origin;
       }
 
       return animation;
@@ -145,9 +75,9 @@ qx.Bootstrap.define("qx.bom.Animation",
       var animation = el.$$animation;
       var desc = animation.desc;
       // reset the styling
-      el.style[ctx.Anni.__getStyleName("animation")] = "";
+      el.style[qx.core.Environment.get("css.animation.style")] = "";
       if (desc.origin != null) {
-        el.style[ctx.Anni.__getStyleName("transform-origin")] = "";
+        el.style[qx.core.Environment.get("css.animation.transformorigin")] = "";
       }
 
       if (desc.keep != null) {
@@ -155,7 +85,7 @@ qx.Bootstrap.define("qx.bom.Animation",
         var endFrame = desc.keyFrames[desc.keep];
         var transforms = {};
         for (var style in endFrame) {
-          if (style in ctx.Anni.__transitionKeys) {
+          if (style in qx.bom.Animation.__transitionKeys) {
             transforms[style] = endFrame[style];
           } else {
             el.style[style] = endFrame[style];
@@ -163,14 +93,18 @@ qx.Bootstrap.define("qx.bom.Animation",
         }
 
         // transform keeping
-        var transformCss = ctx.Anni.__transformsMapToCss(transforms);
+        var transformCss = qx.bom.Animation.__transformsMapToCss(transforms);
         if (transformCss != "") {
-          var style = ctx.Anni.__getStyleName("transform");
+          var style = qx.core.Environment.get("css.animation.transform");
           el.style[style] = transformCss;
         }
       }
 
-      Helper.removeListener(el, ctx.Anni.__getStyleName("animationend"), ctx.Anni.__onAnimationEnd);
+      qx.bom.Event.removeNativeListener(
+        el, 
+        qx.core.Environment.get("css.animation.endevent"),
+        qx.bom.Animation.__onAnimationEnd
+      );
 
       if (animation.onEnd) {
         animation.onEnd(el);
@@ -228,8 +162,8 @@ qx.Bootstrap.define("qx.bom.Animation",
         // transform handling
         var value = this.__transformsMapToCss(transforms);
         if (value != "") {
-          var style = this.__getStyleName("transform");
-          rule += style + ":" + value + ";";
+          var style = qx.core.Environment.get("css.animation.transform");
+          rule += qx.lang.String.hyphenate(style) + ":" + value + ";";
         }
 
         rule += "} ";
@@ -241,8 +175,8 @@ qx.Bootstrap.define("qx.bom.Animation",
       }
 
       var name = this.__rulePrefix + this.__id++;
-      var selector = this.__getStyleName("@keyframes") + " " + name;
-      Helper.addRule(this.__sheet, selector, rule);
+      var selector = qx.core.Environment.get("css.animation.keyframes") + " " + name;
+      qx.bom.Stylesheet.addRule(this.__sheet, selector, rule);
 
       this.__rules[rule] = name;
 
@@ -256,7 +190,7 @@ qx.Bootstrap.define("qx.bom.Animation",
 
         var params = transforms[func];
         // if an array is given
-        if (Helper.isArray(params)) {
+        if (qx.lang.Type.isArray(params)) {
           for (var i=0; i < params.length; i++) {
             if (params[i] == undefined) {
               continue;
@@ -273,55 +207,6 @@ qx.Bootstrap.define("qx.bom.Animation",
       }
 
       return value;
-    },
-
-
-    supports3d : Helper.supports3d
-  };
-
-
-
-
-  /**
-   * Animation object which will be the return type of an animation call.
-   */
-  function Animation() {
-    this.playing = true;
-    this.ended = false;
-  };
-
-  Animation.prototype.pause = function() {
-    if (this.el) {
-      this.el.style[ctx.Anni.__getStyleName("animation-play-state")] = "paused";
-      this.el.$$animation.playing = false;    
-    } else {
-      console.log("already done.");
     }
-  };
-
-  Animation.prototype.play = function() {
-    if (this.el) {
-      this.el.style[ctx.Anni.__getStyleName("animation-play-state")] = "running";
-      this.el.$$animation.playing = true;    
-    } else {
-      console.log("already done.");
-    }
-  };
-
-  Animation.prototype.stop = function() {
-    if (this.el) {
-      this.el.style[ctx.Anni.__getStyleName("animation-play-state")] = "";
-      this.el.style[ctx.Anni.__getStyleName("animation")] = "";
-      this.el.$$animation.playing = false;
-      this.el.$$animation.ended = true;
-    } else {
-      console.log("already done.");
-    }
-  };
-
-  // expose to qooxdoo
-  qx.bom.Animation.animate = function(el, desc) {
-    return ctx.Anni.animate.call(ctx.Anni, el, desc)
   }
-  qx.bom.Animation.supports3d = ctx.Anni.supports3d;
-})({});
+});
