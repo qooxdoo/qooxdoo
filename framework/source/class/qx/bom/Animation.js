@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Bootstrap.define("qx.bom.Animation", 
+qx.Bootstrap.define("qx.bom.Animation",
 {
   statics : {
     // initialization
@@ -32,7 +32,6 @@ qx.Bootstrap.define("qx.bom.Animation",
       "skew" : true,
       "translate" : true
     },
-
 
     __dimensions : ["X", "Y", "Z"],
 
@@ -106,10 +105,11 @@ qx.Bootstrap.define("qx.bom.Animation",
         qx.bom.Animation.__onAnimationEnd
       );
 
-      if (animation.onEnd) {
-        animation.onEnd(el);
-      }
-      
+      var onEnd = animation.getOnEnd();
+      for (var i=0; i < onEnd.length; i++) {
+        onEnd[i].call(animation, el);
+      };
+
       delete el.$$animation;
       animation.el = null;
       animation.ended = true;
