@@ -1,9 +1,17 @@
 #
 # All directories
 #
+# Please comment on purpose.
+
+# Python bytecode
 *.pyc
 *.pyo
-*.pot
+
+# OSX file system
 .DS_Store
+
+# ???
 .project
+
+# Eclipse
 .pydevproject
