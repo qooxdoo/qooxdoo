@@ -701,13 +701,16 @@ qx.Bootstrap.define("qx.core.Environment",
         // TODO deprecate
         "css.translate3d"             : "qx.bom.client.Css.getTranslate3d",
 
-        "css.animation.keyframes" : "qx.bom.client.CssAnimation.getKeyFrames",
-        "css.animation.transform" : "qx.bom.client.CssAnimation.getTransform",
-        "css.animation.transformorigin" : "qx.bom.client.CssAnimation.getTransformOrigin",
-        "css.animation.endevent" : "qx.bom.client.CssAnimation.getAnmiationEnd",
+        "css.animation" : "qx.bom.client.CssAnimation.getAnimationSupport",
         "css.animation.style" : "qx.bom.client.CssAnimation.getAnimation",
+        "css.animation.keyframes" : "qx.bom.client.CssAnimation.getKeyFrames",
+        "css.animation.endevent" : "qx.bom.client.CssAnimation.getAnmiationEnd",
         "css.animation.playstate" : "qx.bom.client.CssAnimation.getPlayState",
-        "css.animation.3d" : "qx.bom.client.CssAnimation.get3D",
+
+        "css.transform" : "qx.bom.client.CssTransform.getTransformSupport",
+        "css.transform.style" : "qx.bom.client.CssAnimation.getTransform",
+        "css.transform.origin" : "qx.bom.client.CssAnimation.getTransformOrigin",
+        "css.transform.3d" : "qx.bom.client.CssTransform.get3D",
 
         "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
         "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification",

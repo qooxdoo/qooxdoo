@@ -144,7 +144,7 @@ qx.Class.define("demobrowser.demo.bom.Animation",
         button.innerHTML = test;
         button.className = "button";
         document.body.appendChild(button);
-        if (test.indexOf("3D") != -1 && !qx.core.Environment.get("css.animation.3d")) {
+        if (test.indexOf("3D") != -1 && !qx.core.Environment.get("css.transform.3d")) {
           button.style.color = "red";
           button.style.cursor = "not-allowed";
           continue;

@@ -1,6 +1,32 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Martin Wittemann (wittemann)
+
+************************************************************************ */
+
+
 qx.Bootstrap.define("qx.bom.client.CssAnimation", 
 {
   statics : {
+    // TODO use proper implementation
+    getAnimationSupport : function() {
+      return true;
+    },
+
+    // TODO use proper implementation
     getPlayState : function() {
       if (qx.core.Environment.get("engine.name") == "gecko") {
         return "MozAnimationPlayState";
@@ -11,7 +37,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
       return "AnimationPlayState";
     },
 
-
+    // TODO use proper implementation
     getAnimation : function() {
       if (qx.core.Environment.get("engine.name") == "gecko") {
         return "MozAnimation";
@@ -22,7 +48,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
       return "Animation";
     },
 
-
+    // TODO use proper implementation
     getAnmiationEnd : function() {
       if (qx.core.Environment.get("engine.name") == "gecko") {
         return "animationend";
@@ -33,29 +59,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
       return "animationend";
     },
 
-
-    getTransformOrigin : function() {
-      if (qx.core.Environment.get("engine.name") == "gecko") {
-        return "MozTransformOrigin";
-      } else if (qx.core.Environment.get("engine.name") == "webkit") {
-        return "WebkitTransformOrigin";
-      }
-      // return the names defined in the spec as fallback
-      return "TransformOrigin";
-    },
-
-
-    getTransform : function() {
-      if (qx.core.Environment.get("engine.name") == "gecko") {
-        return "MozTransform";
-      } else if (qx.core.Environment.get("engine.name") == "webkit") {
-        return "WebkitTransform";
-      }
-      // return the names defined in the spec as fallback
-      return "Transform";
-    },
-
-
+    // TODO use proper implementation
     getKeyFrames : function() {
       if (qx.core.Environment.get("engine.name") == "gecko") {
         return "@-moz-keyframes";
@@ -64,29 +68,15 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
       }
       // return the names defined in the spec as fallback
       return "@keyframes";
-    },
-    
-    
-    get3D : function() {
-      var div = document.createElement('div');
-      var ret = false;
-      var properties = ["perspectiveProperty", "WebkitPerspective", "MozPerspective"];
-      for (var i = properties.length - 1; i >= 0; i--){
-        ret = ret ? ret : div.style[properties[i]] != undefined;
-      };
-
-      return ret;
     }
   },
 
 
   defer : function(statics) {
+    qx.core.Environment.add("css.animation", statics.getAnimationSupport);
     qx.core.Environment.add("css.animation.keyframes", statics.getKeyFrames);
-    qx.core.Environment.add("css.animation.transform", statics.getTransform);
-    qx.core.Environment.add("css.animation.transformorigin", statics.getTransformOrigin);
     qx.core.Environment.add("css.animation.endevent", statics.getAnmiationEnd);
     qx.core.Environment.add("css.animation.style", statics.getAnimation);
     qx.core.Environment.add("css.animation.playstate", statics.getPlayState);
-    qx.core.Environment.add("css.animation.3d", statics.get3D);
   }
 });
