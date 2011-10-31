@@ -59,6 +59,8 @@ qx.Class.define("testrunner.view.Html", {
     this._attachResultsList();
     this._attachFooter();
     this._makeCommands();
+    
+    this.__testResults = {};
   },
 
 
@@ -122,6 +124,7 @@ qx.Class.define("testrunner.view.Html", {
     __filterTimer : null,
     __testModel : null,
     __testNamesList : null,
+    __testResults : null,
 
     /**
      * Creates the header and attaches it to the root node.
@@ -472,6 +475,7 @@ qx.Class.define("testrunner.view.Html", {
       this.resetSuccessfulTestCount();
       this.resetSkippedTestCount();
       this.clearResults();
+      this.__testResults = {};
 
       var selected = this.getSelectedTests();
       // trigger a "change" event on the selection to allow running it again
@@ -493,14 +497,23 @@ qx.Class.define("testrunner.view.Html", {
 
       switch (state) {
         case "skip":
-          this.setSkippedTestCount(this.getSkippedTestCount() + 1);
+          if (!this.__testResults[testName]) {
+            this.__testResults[testName] = state;
+            this.setSkippedTestCount(this.getSkippedTestCount() + 1);
+          }
           break;
         case "error":
         case "failure":
-          this.setFailedTestCount(this.getFailedTestCount() + 1);
+          if (!this.__testResults[testName]) {
+            this.__testResults[testName] = state;
+            this.setFailedTestCount(this.getFailedTestCount() + 1);
+          }
           break;
         case "success":
-          this.setSuccessfulTestCount(this.getSuccessfulTestCount() + 1);
+          if (!this.__testResults[testName]) {
+            this.__testResults[testName] = state;
+            this.setSuccessfulTestCount(this.getSuccessfulTestCount() + 1);
+          }
       }
 
       var exceptions =  testResultData.getExceptions();
@@ -510,6 +523,7 @@ qx.Class.define("testrunner.view.Html", {
       var listItem = document.getElementById(key);
       if (listItem) {
         qx.bom.element.Attribute.set(listItem, "class", state);
+        qx.bom.Collection.create(listItem).children("ul").destroy();
       } else {
         var item = qx.bom.Element.create("li", {id : key, "class" : state});
         if (this.__domElements.elemResultsList.firstChild) {

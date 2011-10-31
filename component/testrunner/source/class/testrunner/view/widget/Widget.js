@@ -197,6 +197,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
     __loadingContainer : null,
     __stack : null,
     __logView : null,
+    __testResults : null,
 
     /**
      * Returns the iframe element the AUT should be loaded in.
@@ -982,19 +983,29 @@ qx.Class.define("testrunner.view.widget.Widget", {
     _onTestChangeState : function(testResultData)
     {
       var state = testResultData.getState();
+      var testName = testResultData.getFullName();
       switch (state) {
         case "skip":
-          this.__progressBar.setValue(this.__progressBar.getValue() + 1);
-          this.setSkippedTestCount(this.getSkippedTestCount() + 1);
+          if (!this.__testResults[testName]) {
+            this.__testResults[testName] = state;
+            this.__progressBar.setValue(this.__progressBar.getValue() + 1);
+            this.setSkippedTestCount(this.getSkippedTestCount() + 1);
+          }
           break;
         case "error":
         case "failure":
-          this.__progressBar.setValue(this.__progressBar.getValue() + 1);
-          this.setFailedTestCount(this.getFailedTestCount() + 1);
+          if (!this.__testResults[testName]) {
+            this.__testResults[testName] = state;
+            this.__progressBar.setValue(this.__progressBar.getValue() + 1);
+            this.setFailedTestCount(this.getFailedTestCount() + 1);
+          }
           break;
         case "success":
-          this.__progressBar.setValue(this.__progressBar.getValue() + 1);
-          this.setSuccessfulTestCount(this.getSuccessfulTestCount() + 1);
+          if (!this.__testResults[testName]) {
+            this.__testResults[testName] = state;
+            this.__progressBar.setValue(this.__progressBar.getValue() + 1);
+            this.setSuccessfulTestCount(this.getSuccessfulTestCount() + 1);
+          }
       }
     },
 
@@ -1081,6 +1092,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
      */
     reset : function()
     {
+      this.__testResults = {};
       this.resetFailedTestCount();
       this.resetSuccessfulTestCount();
       this.resetSkippedTestCount();

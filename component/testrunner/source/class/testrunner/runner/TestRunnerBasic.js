@@ -394,21 +394,33 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     
     _onTestFailure : function(ev)
     {
-      this.currentTestData.setExceptions(ev.getData());
+      this.__addExceptions(this.currentTestData, ev.getData());
+      
+      if (this.currentTestData.getState() === "failure") {
+        this.currentTestData.resetState();
+      }
       this.currentTestData.setState("failure");
     },
     
     
     _onTestError : function(ev)
     {
-      this.currentTestData.setExceptions(ev.getData());
+      this.__addExceptions(this.currentTestData, ev.getData());
+      
+      if (this.currentTestData.getState() === "error") {
+        this.currentTestData.resetState();
+      }
       this.currentTestData.setState("error");
     },
     
     
     _onTestSkip : function(ev)
     {
-      this.currentTestData.setExceptions(ev.getData());
+      this.__addExceptions(this.currentTestData, ev.getData());
+      
+      if (this.currentTestData.getState() === "skip") {
+        this.currentTestData.resetState();
+      }
       this.currentTestData.setState("skip");
     },
     
@@ -421,6 +433,35 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       }
 
       qx.event.Timer.once(this.runTests, this, 0);
+    },
+    
+    /**
+     * Adds exception information to an existing TestResult object, making sure
+     * no duplicates are recorded.
+     * 
+     * @param testResult {qx.dev.unit.TestResult} TestResult object
+     * @param exceptions {Object[]} List of exception objects
+     */
+    __addExceptions : function(testResult, exceptions)
+    {
+      var oldEx = testResult.getExceptions();
+      var newEx = oldEx.concat();
+      
+      for (var i=0,l=exceptions.length; i<l; i++) {
+        var newExMsg = exceptions[i].exception.toString();
+        var dupe = false;
+        for (var j=0,m=oldEx.length; j<m; j++) {
+          var oldExMsg = oldEx[j].exception.toString();
+          if (newExMsg === oldExMsg) {
+            dupe = true;
+            break;
+          }
+        }
+        if (!dupe) {
+          newEx.push(exceptions[i]);
+        }
+      }
+      testResult.setExceptions(newEx);
     },
 
 
