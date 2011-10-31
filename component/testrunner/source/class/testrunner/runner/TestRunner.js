@@ -89,6 +89,9 @@ qx.Class.define("testrunner.runner.TestRunner", {
         case "inline":
           this._loadInlineTests();
           break;
+        case "external":
+          this._loadExternalTests();
+          break;
       }
     },
     
