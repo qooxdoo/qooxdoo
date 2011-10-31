@@ -133,6 +133,9 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     {
       var origin = qx.core.Environment.get("testrunner.testOrigin");
       switch(origin) {
+        case "external":
+          this._loadExternalTests();
+          break;
         default:
           this._loadInlineTests(this._testNameSpace);
       }
@@ -152,6 +155,19 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       this._getTestModel();
     },
     
+    
+    /**
+     * Loads externally defined test code by calling the static function
+     * <code>testrunner.ready</code> which should return the common top-level 
+     * namespace (String) of the test classes.
+     */
+    _loadExternalTests : function()
+    {
+      if (testrunner.ready && typeof testrunner.ready == "function") {
+        var nameSpace = testrunner.ready();
+        this._loadInlineTests(nameSpace);
+      }
+    },
 
     /**
      * Returns the loader's test representation object
