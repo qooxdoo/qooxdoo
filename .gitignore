@@ -6,3 +6,4 @@
 *.pot
 .DS_Store
 .project
+.pydevproject
