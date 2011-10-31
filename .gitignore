@@ -10,8 +10,6 @@
 # OSX file system
 .DS_Store
 
-# ???
-.project
-
 # Eclipse
+.project
 .pydevproject
