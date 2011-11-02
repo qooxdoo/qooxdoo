@@ -37,7 +37,6 @@ qx.Class.define("qxc.ui.versionlabel.VersionLabel",
     var versstring = qx.core.Environment.get("qx.revision") ? qx.core.Environment.get("qx.revision") :
       qx.core.Environment.get("qx.version");
     labeltext += " " + versstring;
-    debugger;
     this.base(arguments, labeltext);
   }
 });
