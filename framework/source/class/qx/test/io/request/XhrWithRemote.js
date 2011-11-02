@@ -153,7 +153,9 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
           url = this.noCache(this.getUrl("qx/test/xmlhttp/loading.php")) + "&duration=100";
 
       req.addListener("timeout", function() {
-        this.resume();
+        this.resume(function() {
+          this.assertEquals("timeout", req.getPhase());
+        });
       }, this);
 
       req.setUrl(url);
