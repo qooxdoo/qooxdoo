@@ -17,11 +17,33 @@
 
 ************************************************************************ */
 
-
+/**
+ * Responsible for checking all relevant CSS transform properties.
+ * 
+ * Specs: 
+ * http://www.w3.org/TR/css3-2d-transforms/
+ * http://www.w3.org/TR/css3-3d-transforms/
+ * 
+ * @internal
+ */
 qx.Bootstrap.define("qx.bom.client.CssTransform", 
 {
   statics :
   {
+    /**
+     * Main check method which returns an object if CSS animations are 
+     * supported. This object contains all necessary keys to work with CSS 
+     * animations.
+     * <ul>
+     *  <li><code>style</code> The name of the css transform style</li>
+     *  <li><code>origin</code> The name of the transform-origin style</li>
+     *  <li><code>3d</code> Whether 3d transforms are supported</li>
+     * </ul>
+     * 
+     * @internal
+     * @return {Object|null} The described object or null, if animations are 
+     *   not supported.
+     */
     getSupport : function() {
       var style = qx.bom.client.CssTransform.getStyle();
       if (style != null) {
@@ -35,16 +57,33 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
     },
 
 
+    /**
+     * Checks for the style name used to set the transform origin.
+     * @internal
+     * @return {String|null} The name of the style or null, if the style is 
+     *   not supported.
+     */
     getOrigin : function() {
       return qx.bom.Style.getPropertyName("TransformOrigin");
     },
 
 
+    /**
+     * Checks for the style name used for transforms.
+     * @internal
+     * @return {String|null} The name of the style or null, if the style is 
+     *   not supported.
+     */
     getStyle : function() {
       return qx.bom.Style.getPropertyName("Transform");
     },
 
 
+    /**
+     * Checks if 3D transforms are supported.
+     * @internal
+     * @return {Boolean} <code>true</code>, if 3D transformations are supported
+     */
     get3D : function() {
       var div = document.createElement('div');
       var ret = false;

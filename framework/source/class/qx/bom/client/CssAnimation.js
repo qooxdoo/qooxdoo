@@ -17,10 +17,31 @@
 
 ************************************************************************ */
 
-
+/**
+ * Responsible for checking all relevant animation properties.
+ * 
+ * Spec: http://www.w3.org/TR/css3-animations/
+ * 
+ * @internal
+ */
 qx.Bootstrap.define("qx.bom.client.CssAnimation", 
 {
   statics : {
+    /**
+     * Main check method which returns an object if CSS animations are 
+     * supported. This object contains all necessary keys to work with CSS 
+     * animations.
+     * <ul>
+     *  <li><code>style</code> The name of the css animation style</li>
+     *  <li><code>play-state</code> The name of the play-state style</li>
+     *  <li><code>end-event</code> The name of the end event</li>
+     *  <li><code>keyframes</code> The name of the keyframes selector.</li>
+     * </ul>
+     * 
+     * @internal
+     * @return {Object|null} The described object or null, if animations are 
+     *   not supported.
+     */
     getSupport : function() {
       var style = qx.bom.client.CssAnimation.getStyle();
       if (style != null) {
@@ -35,25 +56,48 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
     },
 
 
+    /**
+     * Checks for the 'animation-play-state' CSS style.
+     * @internal
+     * @return {String|null} The name of the style or null, if the style is 
+     *   not supported.
+     */
     getPlayState : function() {
       return qx.bom.Style.getPropertyName("AnimationPlayState");
     },
 
 
+    /**
+     * Checks for the style name used for animations.
+     * @internal
+     * @return {String|null} The name of the style or null, if the style is 
+     *   not supported.
+     */
     getStyle : function() {
       return qx.bom.Style.getPropertyName("animation");
     },
 
 
+    /**
+     * Checks for the event name of animation end.
+     * @internal
+     * @return {String} The name of the event.
+     */
     getAnimationEnd : function() {
       if (qx.core.Environment.get("engine.name") == "webkit") {
         return "webkitAnimationEnd";
       }
-      // return the names defined in the spec as fallback (works for gecko)
+
       return "animationend";
     },
 
 
+    /**
+     * Checks what selector should be used to add keyframes to stylesheets.
+     * @internal
+     * @return {String|null} The name of the selector or null, if the selector
+     *   is not supported.
+     */
     getKeyFrames : function() {
       var prefixes = qx.bom.Style.VENDOR_PREFIXES;
       var keyFrames = [];
