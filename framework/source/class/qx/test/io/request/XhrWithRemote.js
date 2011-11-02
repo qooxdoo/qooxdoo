@@ -148,6 +148,22 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
       this.wait();
     },
 
+    "test: timeout": function() {
+      var req = this.req,
+          url = this.noCache(this.getUrl("qx/test/xmlhttp/loading.php")) + "&duration=100";
+
+      req.addListener("timeout", function() {
+        this.resume(function() {
+          this.assertEquals("timeout", req.getPhase());
+        });
+      }, this);
+
+      req.setUrl(url);
+      req.setTimeout(1/1000);
+      req.send();
+      this.wait();
+    },
+
     // "test: fetch resources simultaneously": function() {
     //   this.require(["php"]);
     //
