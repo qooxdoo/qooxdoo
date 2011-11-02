@@ -22,9 +22,15 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
 {
   statics : {
     // TODO use proper implementation
-    getAnimationSupport : function() {
-      return true;
+    getSupport : function() {
+      return {
+        "play-state" : qx.bom.client.CssAnimation.getPlayState(),
+        "style" : qx.bom.client.CssAnimation.getStyle(),
+        "end-event" : qx.bom.client.CssAnimation.getAnimationEnd(),
+        "keyframes" : qx.bom.client.CssAnimation.getKeyFrames()
+      };
     },
+
 
     // TODO use proper implementation
     getPlayState : function() {
@@ -37,8 +43,9 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
       return "AnimationPlayState";
     },
 
+
     // TODO use proper implementation
-    getAnimation : function() {
+    getStyle : function() {
       if (qx.core.Environment.get("engine.name") == "gecko") {
         return "MozAnimation";
       } else if (qx.core.Environment.get("engine.name") == "webkit") {
@@ -49,7 +56,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
     },
 
     // TODO use proper implementation
-    getAnmiationEnd : function() {
+    getAnimationEnd : function() {
       if (qx.core.Environment.get("engine.name") == "gecko") {
         return "animationend";
       } else if (qx.core.Environment.get("engine.name") == "webkit") {
@@ -58,6 +65,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
       // return the names defined in the spec as fallback
       return "animationend";
     },
+
 
     // TODO use proper implementation
     getKeyFrames : function() {
@@ -73,10 +81,6 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
 
 
   defer : function(statics) {
-    qx.core.Environment.add("css.animation", statics.getAnimationSupport);
-    qx.core.Environment.add("css.animation.keyframes", statics.getKeyFrames);
-    qx.core.Environment.add("css.animation.endevent", statics.getAnmiationEnd);
-    qx.core.Environment.add("css.animation.style", statics.getAnimation);
-    qx.core.Environment.add("css.animation.playstate", statics.getPlayState);
+    qx.core.Environment.add("css.animation", statics.getSupport);
   }
 });

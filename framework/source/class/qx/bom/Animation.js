@@ -36,6 +36,10 @@ qx.Bootstrap.define("qx.bom.Animation",
     __dimensions : ["X", "Y", "Z"],
 
 
+    __cssAnimationKeys : qx.core.Environment.get("css.animation"),
+    __cssTransformKeys : qx.core.Environment.get("css.transform"),
+
+
     animate : function(el, desc) {
       this.__normalizeDesc(desc);
       if (!this.__sheet) {
@@ -55,14 +59,14 @@ qx.Bootstrap.define("qx.bom.Animation",
       animation.desc = desc;
       animation.el = el;
       el.$$animation = animation;
-      var eventName = qx.core.Environment.get("css.animation.endevent");
+      var eventName = this.__cssAnimationKeys["end-event"];
       qx.bom.Event.addNativeListener(el, eventName, this.__onAnimationEnd);
 
-      el.style[qx.core.Environment.get("css.animation.style")] = style;
+      el.style[this.__cssAnimationKeys["style"]] = style;
 
       // additional transform keys
       if (desc.origin != null) {
-        el.style[qx.core.Environment.get("css.animation.transformorigin")] = desc.origin;
+        el.style[this.__cssTransformKeys["origin"]] = desc.origin;
       }
 
       return animation;
@@ -74,9 +78,9 @@ qx.Bootstrap.define("qx.bom.Animation",
       var animation = el.$$animation;
       var desc = animation.desc;
       // reset the styling
-      el.style[qx.core.Environment.get("css.animation.style")] = "";
+      el.style[qx.bom.Animation.__cssAnimationKeys["style"]] = "";
       if (desc.origin != null) {
-        el.style[qx.core.Environment.get("css.animation.transformorigin")] = "";
+        el.style[qx.bom.Animation.__cssTransformKeys["origin"]] = "";
       }
 
       if (desc.keep != null) {
@@ -94,14 +98,14 @@ qx.Bootstrap.define("qx.bom.Animation",
         // transform keeping
         var transformCss = qx.bom.Animation.__transformsMapToCss(transforms);
         if (transformCss != "") {
-          var style = qx.core.Environment.get("css.animation.transform");
+          var style = qx.bom.Animation.__cssTransformKeys["style"];
           el.style[style] = transformCss;
         }
       }
 
       qx.bom.Event.removeNativeListener(
         el, 
-        qx.core.Environment.get("css.animation.endevent"),
+        qx.bom.Animation.__cssAnimationKeys["style"],
         qx.bom.Animation.__onAnimationEnd
       );
 
@@ -138,9 +142,7 @@ qx.Bootstrap.define("qx.bom.Animation",
     },
 
 
-    /** 
-     * CSS HELPER
-     */
+
     __addKeyFrames : function(frames, reverse) {
       var rule = "";
 
@@ -162,7 +164,7 @@ qx.Bootstrap.define("qx.bom.Animation",
         // transform handling
         var value = this.__transformsMapToCss(transforms);
         if (value != "") {
-          var style = qx.core.Environment.get("css.animation.transform");
+          var style = this.__cssTransformKeys["style"];
           rule += qx.lang.String.hyphenate(style) + ":" + value + ";";
         }
 
@@ -175,7 +177,7 @@ qx.Bootstrap.define("qx.bom.Animation",
       }
 
       var name = this.__rulePrefix + this.__id++;
-      var selector = qx.core.Environment.get("css.animation.keyframes") + " " + name;
+      var selector = this.__cssAnimationKeys["keyframes"] + " " + name;
       qx.bom.Stylesheet.addRule(this.__sheet, selector, rule);
 
       this.__rules[rule] = name;

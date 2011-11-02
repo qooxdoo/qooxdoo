@@ -461,22 +461,10 @@ qx.Class.define("qx.test.core.Environment",
     },
 
 
-    testAnimation : function() {
-      this.assertBoolean(qx.core.Environment.get("css.animation"), "1");
-      // smoke test, just check that the keys are working
-      qx.core.Environment.get("css.animation.style");
-      qx.core.Environment.get("css.animation.keyframes");
-      qx.core.Environment.get("css.animation.endevent");
-      qx.core.Environment.get("css.animation.playstate");
-    },
-
-
-    testTransform : function() {
-      this.assertBoolean(qx.core.Environment.get("css.transform"), "1");
-      this.assertBoolean(qx.core.Environment.get("css.transform.3d"), "2");
-      // smoke test, just check that the keys are working
-      qx.core.Environment.get("css.transform.style");
-      qx.core.Environment.get("css.transform.origin");
+    testAnimationAndTransform : function() {
+      // smoke test... make sure the method is doing something
+      qx.core.Environment.get("css.animation");
+      qx.core.Environment.get("css.transform")
     }
   }
 });

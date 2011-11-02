@@ -42,7 +42,7 @@ qx.Bootstrap.define("qx.bom.AnimationHandle",
 
 
   construct : function() {
-    this.__playState = qx.core.Environment.get("css.animation.playstate");
+    this.__playState = qx.core.Environment.get("css.animation")["playstate"];
     this.__onEnd = [];
   },
 
