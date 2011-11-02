@@ -44,27 +44,33 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
       return qx.bom.Style.getPropertyName("animation");
     },
 
-    // TODO use proper implementation
+
     getAnimationEnd : function() {
-      if (qx.core.Environment.get("engine.name") == "gecko") {
-        return "animationend";
-      } else if (qx.core.Environment.get("engine.name") == "webkit") {
+      if (qx.core.Environment.get("engine.name") == "webkit") {
         return "webkitAnimationEnd";
       }
-      // return the names defined in the spec as fallback
+      // return the names defined in the spec as fallback (works for gecko)
       return "animationend";
     },
 
 
-    // TODO use proper implementation
     getKeyFrames : function() {
-      if (qx.core.Environment.get("engine.name") == "gecko") {
-        return "@-moz-keyframes";
-      } else if (qx.core.Environment.get("engine.name") == "webkit") {
-        return "@-webkit-keyframes";
-      }
-      // return the names defined in the spec as fallback
-      return "@keyframes";
+      var prefixes = qx.bom.Style.VENDOR_PREFIXES;
+      var keyFrames = [];
+      for (var i=0; i < prefixes.length; i++) {
+        keyFrames.push("@" + qx.lang.String.hyphenate(prefixes[i]) + "-keyframes");
+      };
+      keyFrames.unshift("@keyframes");
+
+      var sheet = qx.bom.Stylesheet.createElement();
+      for (var i=0; i < keyFrames.length; i++) {
+        try {
+          qx.bom.Stylesheet.addRule(sheet, keyFrames[i] + " name", "");
+          return keyFrames[i];
+        } catch (e) {}
+      };
+
+      return null;
     }
   },
 
