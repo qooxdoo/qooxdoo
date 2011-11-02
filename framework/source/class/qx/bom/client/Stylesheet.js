@@ -41,7 +41,8 @@ qx.Bootstrap.define("qx.bom.client.Stylesheet",
       }
       return qx.bom.client.Stylesheet.__stylesheet;
     },
-    
+
+
     /**
      * Check for IE's non-standard document.createStyleSheet function.
      * In IE9 (standards mode), the typeof check returns "function" so false is
@@ -106,9 +107,10 @@ qx.Bootstrap.define("qx.bom.client.Stylesheet",
     {
       return (typeof qx.bom.client.Stylesheet.__getStylesheet().removeImport === "object");
     }
-
   },
-  
+
+
+
   defer : function (statics) {
     qx.core.Environment.add("html.stylesheet.createstylesheet", statics.getCreateStyleSheet),
     qx.core.Environment.add("html.stylesheet.insertrule", statics.getInsertRule),

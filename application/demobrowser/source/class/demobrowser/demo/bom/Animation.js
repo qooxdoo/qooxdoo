@@ -138,11 +138,21 @@ qx.Class.define("demobrowser.demo.bom.Animation",
         "3D Fall" : fall
       };
 
+      // check for annimation support
+      if (qx.core.Environment.get("css.animation") == null) {
+        var label = document.createElement('label');
+        label.innerHTML = "CSS animations not supported, sorry!";
+        document.body.appendChild(label);
+        return;
+      }
+
       for (var test in tests) {
         var button = document.createElement("div");
         button.innerHTML = test;
         button.className = "button";
         document.body.appendChild(button);
+
+        // check for 3D animations
         if (test.indexOf("3D") != -1 && !(qx.core.Environment.get("css.transform")["3d"])) {
           button.style.color = "red";
           button.style.cursor = "not-allowed";
