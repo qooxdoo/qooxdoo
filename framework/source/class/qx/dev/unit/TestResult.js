@@ -141,7 +141,7 @@ qx.Class.define("qx.dev.unit.TestResult",
             exception : ev.getData(),
             test      : test
           }];
-          this.fireDataEvent("error", error);
+          this.fireDataEvent("failure", error);
         }, this);
       }
 
