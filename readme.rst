@@ -54,7 +54,7 @@ API Reference
 
 You might also want to open the API viewer in a separate browser window,
 which offers the qooxdoo framework API in a convenient way (See the
-top-level 'index.html' file next to this readme.txt).
+top-level 'index.html' file next to this readme).
 
 
 Learn more
