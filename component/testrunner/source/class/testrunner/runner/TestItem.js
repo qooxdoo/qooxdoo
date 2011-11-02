@@ -45,7 +45,7 @@ qx.Class.define("testrunner.runner.TestItem", {
      */
     exceptions :
     {
-      init : null,
+      init : [],
       nullable : true,
       event : "changeExceptions"
     }

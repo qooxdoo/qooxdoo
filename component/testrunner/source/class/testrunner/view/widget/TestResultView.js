@@ -113,17 +113,15 @@ qx.Class.define("testrunner.view.widget.TestResultView",
         html.add("<h3>", testResult.getFullName(), "</h3>");
 
         if (testResult.getState() == "failure" || testResult.getState() == "error") {
-          html.add("Error message is: <br />", qx.bom.String.escape(testResult.getMessage()), "<br />");
-
-          if (testResult.getExceptions()) {
-            var exceptArr = testResult.getExceptions();
-            if (exceptArr.length > 0) {
-              html.add("<div class='trace");
-              if (!this.getShowStackTrace()) {
-                html.add(" hiddenST");
-              }
-              html.add("'>Stack trace: <br />", testResult.getStackTrace(exceptArr[0].exception), "</div>");
+          var exceptArr = testResult.getExceptions();
+          for (var i=0,l=exceptArr.length; i<l; i++) {
+            var message = exceptArr[i].exception.toString();
+            html.add("<strong>Error message is: <br />", qx.bom.String.escape(message), "</strong><br />");
+            html.add("<div class='trace");
+            if (!this.getShowStackTrace()) {
+              html.add(" hiddenST");
             }
+            html.add("'>Stack trace: <br />", testResult.getStackTrace(exceptArr[i].exception), "</div><br />");
           }
         }
 

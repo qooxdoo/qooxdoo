@@ -385,17 +385,26 @@ qx.Class.define("testrunner.runner.TestRunner", {
       }, this);
 
       testResult.addListener("failure", function(e) {
-        this.currentTestData.setExceptions(e.getData());
+        this.__addExceptions(this.currentTestData, e.getData());
+        if (this.currentTestData.getState() === "failure") {
+          this.currentTestData.resetState();
+        }
         this.currentTestData.setState("failure");
       }, this);
 
       testResult.addListener("error", function(e) {
-        this.currentTestData.setExceptions(e.getData());
+        this.__addExceptions(this.currentTestData, e.getData());
+        if (this.currentTestData.getState() === "error") {
+          this.currentTestData.resetState();
+        }
         this.currentTestData.setState("error");
       }, this);
 
       testResult.addListener("skip", function(e) {
-        this.currentTestData.setExceptions(e.getData());
+        this.__addExceptions(this.currentTestData, e.getData());
+        if (this.currentTestData.getState() === "skip") {
+          this.currentTestData.resetState();
+        }
         this.currentTestData.setState("skip");
       }, this);
 
@@ -612,6 +621,36 @@ qx.Class.define("testrunner.runner.TestRunner", {
         logger.clear();
         logger.unregister(this.__logAppender);
       }
+    },
+    
+    
+    /**
+     * Adds exception information to an existing TestResult object, making sure
+     * no duplicates are recorded.
+     * 
+     * @param testResult {qx.dev.unit.TestResult} TestResult object
+     * @param exceptions {Object[]} List of exception objects
+     */
+    __addExceptions : function(testResult, exceptions)
+    {
+      var oldEx = testResult.getExceptions();
+      var newEx = oldEx.concat();
+      
+      for (var i=0,l=exceptions.length; i<l; i++) {
+        var newExMsg = exceptions[i].exception.toString();
+        var dupe = false;
+        for (var j=0,m=oldEx.length; j<m; j++) {
+          var oldExMsg = oldEx[j].exception.toString();
+          if (newExMsg === oldExMsg) {
+            dupe = true;
+            break;
+          }
+        }
+        if (!dupe) {
+          newEx.push(exceptions[i]);
+        }
+      }
+      testResult.setExceptions(newEx);
     }
   },
 
