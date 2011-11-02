@@ -190,26 +190,37 @@ qx.Class.define("qx.dom.Hierarchy",
      * Whether the element is inserted into the document
      * for which it was created.
      *
-     * @signature function(element)
      * @param element {Element} DOM element to check
      * @return {Boolean} <code>true</code> when the element is inserted
      *    into the document.
      */
     isRendered : function(element)
     {
+      var doc = element.ownerDocument || element.document;
+      
       if (qx.core.Environment.get("html.element.contains")) {
         // Fast check for all elements which are not in the DOM
         if (!element.parentNode || !element.offsetParent) {
           return false;
         }
-
-        var doc = element.ownerDocument || element.document;
+        
         return doc.body.contains(element);
       }
-      else {
+      else if (qx.core.Environment.get("html.element.compareDocumentPosition")) {
         // Gecko way, DOM3 method
-        var doc = element.ownerDocument || element.document;
         return !!(doc.compareDocumentPosition(element) & 16);
+      }
+      else {
+        while(element)
+        {
+          if (element == doc.body) {
+            return true;
+          }
+
+          element = element.parentNode;
+        }
+
+        return false;
       }
     },
 
