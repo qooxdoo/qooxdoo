@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -39,9 +39,7 @@ qx.Class.define("feedreader.view.desktop.Header",
     this.setAppearance("app-header");
 
     var title = new qx.ui.basic.Label("Feed Reader");
-    var versstring = qx.core.Environment.get("qx.revision") ? qx.core.Environment.get("qx.revision") :
-      qx.core.Environment.get("qx.version");
-    var version = new qx.ui.basic.Label("qooxdoo " + versstring);
+    var version = new qxc.ui.versionlabel.VersionLabel();
     version.setFont("default");
 
     this.add(title);
