@@ -108,6 +108,14 @@ release-sdk-svn-collect:
 	@$(CMD_REMOVE) $(RELEASE_SDK)/.svnauthors.txt
 
 	@echo "  * Synchronizing applications/components..."
+	@for APPLICATION in $(APPLICATIONS); do \
+		$(CMD_MKDIR) $(RELEASE_SDK)/application/$$APPLICATION/source/script; \
+		if [ "$$APPLICATION" = "widgetbrowser" ]; then \
+	    $(CMD_SYNC_OFFLINE) ./tool/data/publish/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.modern.js; \
+		else \
+	    $(CMD_SYNC_OFFLINE) ./tool/data/publish/needs_generation.js $(RELEASE_SDK)/application/$$APPLICATION/source/script/$$APPLICATION.js; \
+		fi; \
+	done
 	@$(CMD_SYNC_OFFLINE) application/showcase/build/* $(RELEASE_SDK)/application/showcase/build
 
 	@echo "  * Synchronizing framework..."
