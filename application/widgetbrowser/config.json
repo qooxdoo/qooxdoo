@@ -102,8 +102,7 @@
       [
         "qx.theme.Classic",
         "qx.theme.Simple",
-        "qx.theme.Modern",
-        "widgetbrowser.*"
+        "qx.theme.Modern"
       ],
 
       "copy-resources" :
