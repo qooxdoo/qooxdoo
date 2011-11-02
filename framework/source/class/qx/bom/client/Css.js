@@ -259,7 +259,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.boxshadow", statics.getBoxShadow);
     qx.core.Environment.add("css.gradients", statics.getGradients);
     qx.core.Environment.add("css.boxmodel", statics.getBoxModel);
-    qx.core.Environment.add("css.translate3d", statics.getTranslate3d);
     qx.core.Environment.add("css.rgba", statics.getRgba);
     qx.core.Environment.add("css.borderimage", statics.getBorderImage);
     qx.core.Environment.add("css.usermodify", statics.getUserModify);

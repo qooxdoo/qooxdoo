@@ -1,1 +1,3 @@
 ^(\s*#)optional(\(.*\))$=\1ignore\2
+\bqx\.core\.Environment\.get\("css\.translate3d"\)=qx.core.Environment.get("css.transform.3d")
+\bqx\.core\.Environment\.select\("css\.translate3d"=qx.core.Environment.select("css.transform.3d"

@@ -110,7 +110,7 @@
  *     </tr>
  *     <tr>
  *       <td>css.translate3d</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>{@link qx.bom.client.Css#getTranslate3d}</td>
+ *       <td>{@link qx.bom.client.CssTransfrom#get3D}</td>
  *     </tr>
  *     <tr>
  *       <td>css.rgba</td><td><i>Boolean</i></td><td><code>true</code></td>
@@ -135,6 +135,18 @@
  *     <tr>
  *       <td>css.boxsizing</td><td><i>String</i> or <i>null</i></td><td><code>boxSizing</code></td>
  *       <td>{@link qx.bom.client.Css#getBoxSizing}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.animation</td><td><i>Object</i> or <i>null</i></td><td><code>{end-event: "webkitAnimationEnd", keyframes: "@-webkit-keyframes", play-state: null, style: "WebkitAnimation"}</code></td>
+ *       <td>{@link qx.bom.client.CssAnimation#getSupport}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.transform</td><td><i>Object</i> or <i>null</i></td><td><code>{3d: true, origin: "WebkitTransformOrigin", style: "WebkitTransform"}</code></td>
+ *       <td>{@link qx.bom.client.CssTransform#getSupport}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>css.transform.3d</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.CssTransform#get3D}</td>
  *     </tr>
  *     <tr>
  *       <td colspan="4"><b>device</b></td>
@@ -614,109 +626,106 @@ qx.Bootstrap.define("qx.core.Environment",
 
     /** Internal map for environment keys to check methods. */
     _checksMap:
-      {
-        "engine.version"              : "qx.bom.client.Engine.getVersion",
-        "engine.name"                 : "qx.bom.client.Engine.getName",
-        "browser.name"                : "qx.bom.client.Browser.getName",
-        "browser.version"             : "qx.bom.client.Browser.getVersion",
-        "browser.documentmode"        : "qx.bom.client.Browser.getDocumentMode",
-        "browser.quirksmode"          : "qx.bom.client.Browser.getQuirksMode",
-        "runtime.name"                : "qx.bom.client.Runtime.getName",
-        "device.name"                 : "qx.bom.client.Device.getName",
-        "locale"                      : "qx.bom.client.Locale.getLocale",
-        "locale.variant"              : "qx.bom.client.Locale.getVariant",
-        "os.name"                     : "qx.bom.client.OperatingSystem.getName",
-        "os.version"                  : "qx.bom.client.OperatingSystem.getVersion",
-        "os.scrollBarOverlayed"       : "qx.bom.client.Scroll.scrollBarOverlayed",
-        "plugin.gears"                : "qx.bom.client.Plugin.getGears",
-        "plugin.activex"              : "qx.bom.client.Plugin.getActiveX",
-        "plugin.quicktime"            : "qx.bom.client.Plugin.getQuicktime",
-        "plugin.quicktime.version"    : "qx.bom.client.Plugin.getQuicktimeVersion",
-        "plugin.windowsmedia"         : "qx.bom.client.Plugin.getWindowsMedia",
-        "plugin.windowsmedia.version" : "qx.bom.client.Plugin.getWindowsMediaVersion",
-        "plugin.divx"                 : "qx.bom.client.Plugin.getDivX",
-        "plugin.divx.version"         : "qx.bom.client.Plugin.getDivXVersion",
-        "plugin.silverlight"          : "qx.bom.client.Plugin.getSilverlight",
-        "plugin.silverlight.version"  : "qx.bom.client.Plugin.getSilverlightVersion",
-        "plugin.flash"                : "qx.bom.client.Flash.isAvailable",
-        "plugin.flash.version"        : "qx.bom.client.Flash.getVersion",
-        "plugin.flash.express"        : "qx.bom.client.Flash.getExpressInstall",
-        "plugin.flash.strictsecurity" : "qx.bom.client.Flash.getStrictSecurityModel",
-        "plugin.pdf"                  : "qx.bom.client.Plugin.getPdf",
-        "plugin.pdf.version"          : "qx.bom.client.Plugin.getPdfVersion",
-        "io.maxrequests"              : "qx.bom.client.Transport.getMaxConcurrentRequestCount",
-        "io.ssl"                      : "qx.bom.client.Transport.getSsl",
-        "io.xhr"                      : "qx.bom.client.Transport.getXmlHttpRequest",
-        "event.touch"                 : "qx.bom.client.Event.getTouch",
-        "event.pointer"               : "qx.bom.client.Event.getPointer",
-        "event.help"                  : "qx.bom.client.Event.getHelp",
-        "ecmascript.objectcount"      : "qx.bom.client.EcmaScript.getObjectCount",
-        "html.webworker"              : "qx.bom.client.Html.getWebWorker",
-        "html.filereader"             : "qx.bom.client.Html.getFileReader",
-        "html.geolocation"            : "qx.bom.client.Html.getGeoLocation",
-        "html.audio"                  : "qx.bom.client.Html.getAudio",
-        "html.audio.ogg"              : "qx.bom.client.Html.getAudioOgg",
-        "html.audio.mp3"              : "qx.bom.client.Html.getAudioMp3",
-        "html.audio.wav"              : "qx.bom.client.Html.getAudioWav",
-        "html.audio.au"               : "qx.bom.client.Html.getAudioAu",
-        "html.audio.aif"              : "qx.bom.client.Html.getAudioAif",
-        "html.video"                  : "qx.bom.client.Html.getVideo",
-        "html.video.ogg"              : "qx.bom.client.Html.getVideoOgg",
-        "html.video.h264"             : "qx.bom.client.Html.getVideoH264",
-        "html.video.webm"             : "qx.bom.client.Html.getVideoWebm",
-        "html.storage.local"          : "qx.bom.client.Html.getLocalStorage",
-        "html.storage.session"        : "qx.bom.client.Html.getSessionStorage",
-        "html.classlist"              : "qx.bom.client.Html.getClassList",
-        "html.xpath"                  : "qx.bom.client.Html.getXPath",
-        "html.xul"                    : "qx.bom.client.Html.getXul",
-        "html.canvas"                 : "qx.bom.client.Html.getCanvas",
-        "html.svg"                    : "qx.bom.client.Html.getSvg",
-        "html.vml"                    : "qx.bom.client.Html.getVml",
-        "html.dataset"                : "qx.bom.client.Html.getDataset",
-        "html.dataurl"                : "qx.bom.client.Html.getDataUrl",
-        "html.console"                : "qx.bom.client.Html.getConsole",
-        "html.stylesheet.createstylesheet" : "qx.bom.client.Stylesheet.getCreateStyleSheet",
-        "html.stylesheet.insertrule"  : "qx.bom.client.Stylesheet.getInsertRule",
-        "html.stylesheet.deleterule"  : "qx.bom.client.Stylesheet.getDeleteRule",
-        "html.stylesheet.addimport"   : "qx.bom.client.Stylesheet.getAddImport",
-        "html.stylesheet.removeimport": "qx.bom.client.Stylesheet.getRemoveImport",
-        "html.element.contains"       : "qx.bom.client.Html.getContains",
-        "html.element.compareDocumentPosition" : "qx.bom.client.Html.getCompareDocumentPosition",
-        "html.element.textcontent"    : "qx.bom.client.Html.getTextContent",
-        "json"                        : "qx.bom.client.Json.getJson",
-        "css.textoverflow"            : "qx.bom.client.Css.getTextOverflow",
-        "css.placeholder"             : "qx.bom.client.Css.getPlaceholder",
-        "css.borderradius"            : "qx.bom.client.Css.getBorderRadius",
-        "css.borderimage"             : "qx.bom.client.Css.getBorderImage",
-        "css.boxshadow"               : "qx.bom.client.Css.getBoxShadow",
-        "css.gradients"               : "qx.bom.client.Css.getGradients",
-        "css.boxmodel"                : "qx.bom.client.Css.getBoxModel",
-        "css.rgba"                    : "qx.bom.client.Css.getRgba",
-        "css.userselect"              : "qx.bom.client.Css.getUserSelect",
-        "css.usermodify"              : "qx.bom.client.Css.getUserModify",
-        "css.appearance"              : "qx.bom.client.Css.getAppearance",
-        "css.float"                   : "qx.bom.client.Css.getFloat",
-        "css.boxsizing"               : "qx.bom.client.Css.getBoxSizing",
-
-        // TODO deprecate
-        "css.translate3d"             : "qx.bom.client.Css.getTranslate3d",
-
-        "css.animation" : "qx.bom.client.CssAnimation.getSupport",
-        "css.transform" : "qx.bom.client.CssTransform.getSupport",
-
-        "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
-        "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification",
-        "xml.implementation"          : "qx.bom.client.Xml.getImplementation",
-        "xml.domparser"               : "qx.bom.client.Xml.getDomParser",
-        "xml.selectsinglenode"        : "qx.bom.client.Xml.getSelectSingleNode",
-        "xml.selectnodes"             : "qx.bom.client.Xml.getSelectNodes",
-        "xml.getelementsbytagnamens"  : "qx.bom.client.Xml.getElementsByTagNameNS",
-        "xml.domproperties"           : "qx.bom.client.Xml.getDomProperties",
-        "xml.attributens"             : "qx.bom.client.Xml.getAttributeNS",
-        "xml.createnode"              : "qx.bom.client.Xml.getCreateNode",
-        "xml.getqualifieditem"        : "qx.bom.client.Xml.getQualifiedItem",
-        "xml.createelementns"         : "qx.bom.client.Xml.getCreateElementNS"
-      },
+    {
+      "engine.version"              : "qx.bom.client.Engine.getVersion",
+      "engine.name"                 : "qx.bom.client.Engine.getName",
+      "browser.name"                : "qx.bom.client.Browser.getName",
+      "browser.version"             : "qx.bom.client.Browser.getVersion",
+      "browser.documentmode"        : "qx.bom.client.Browser.getDocumentMode",
+      "browser.quirksmode"          : "qx.bom.client.Browser.getQuirksMode",
+      "runtime.name"                : "qx.bom.client.Runtime.getName",
+      "device.name"                 : "qx.bom.client.Device.getName",
+      "locale"                      : "qx.bom.client.Locale.getLocale",
+      "locale.variant"              : "qx.bom.client.Locale.getVariant",
+      "os.name"                     : "qx.bom.client.OperatingSystem.getName",
+      "os.version"                  : "qx.bom.client.OperatingSystem.getVersion",
+      "os.scrollBarOverlayed"       : "qx.bom.client.Scroll.scrollBarOverlayed",
+      "plugin.gears"                : "qx.bom.client.Plugin.getGears",
+      "plugin.activex"              : "qx.bom.client.Plugin.getActiveX",
+      "plugin.quicktime"            : "qx.bom.client.Plugin.getQuicktime",
+      "plugin.quicktime.version"    : "qx.bom.client.Plugin.getQuicktimeVersion",
+      "plugin.windowsmedia"         : "qx.bom.client.Plugin.getWindowsMedia",
+      "plugin.windowsmedia.version" : "qx.bom.client.Plugin.getWindowsMediaVersion",
+      "plugin.divx"                 : "qx.bom.client.Plugin.getDivX",
+      "plugin.divx.version"         : "qx.bom.client.Plugin.getDivXVersion",
+      "plugin.silverlight"          : "qx.bom.client.Plugin.getSilverlight",
+      "plugin.silverlight.version"  : "qx.bom.client.Plugin.getSilverlightVersion",
+      "plugin.flash"                : "qx.bom.client.Flash.isAvailable",
+      "plugin.flash.version"        : "qx.bom.client.Flash.getVersion",
+      "plugin.flash.express"        : "qx.bom.client.Flash.getExpressInstall",
+      "plugin.flash.strictsecurity" : "qx.bom.client.Flash.getStrictSecurityModel",
+      "plugin.pdf"                  : "qx.bom.client.Plugin.getPdf",
+      "plugin.pdf.version"          : "qx.bom.client.Plugin.getPdfVersion",
+      "io.maxrequests"              : "qx.bom.client.Transport.getMaxConcurrentRequestCount",
+      "io.ssl"                      : "qx.bom.client.Transport.getSsl",
+      "io.xhr"                      : "qx.bom.client.Transport.getXmlHttpRequest",
+      "event.touch"                 : "qx.bom.client.Event.getTouch",
+      "event.pointer"               : "qx.bom.client.Event.getPointer",
+      "event.help"                  : "qx.bom.client.Event.getHelp",
+      "ecmascript.objectcount"      : "qx.bom.client.EcmaScript.getObjectCount",
+      "html.webworker"              : "qx.bom.client.Html.getWebWorker",
+      "html.filereader"             : "qx.bom.client.Html.getFileReader",
+      "html.geolocation"            : "qx.bom.client.Html.getGeoLocation",
+      "html.audio"                  : "qx.bom.client.Html.getAudio",
+      "html.audio.ogg"              : "qx.bom.client.Html.getAudioOgg",
+      "html.audio.mp3"              : "qx.bom.client.Html.getAudioMp3",
+      "html.audio.wav"              : "qx.bom.client.Html.getAudioWav",
+      "html.audio.au"               : "qx.bom.client.Html.getAudioAu",
+      "html.audio.aif"              : "qx.bom.client.Html.getAudioAif",
+      "html.video"                  : "qx.bom.client.Html.getVideo",
+      "html.video.ogg"              : "qx.bom.client.Html.getVideoOgg",
+      "html.video.h264"             : "qx.bom.client.Html.getVideoH264",
+      "html.video.webm"             : "qx.bom.client.Html.getVideoWebm",
+      "html.storage.local"          : "qx.bom.client.Html.getLocalStorage",
+      "html.storage.session"        : "qx.bom.client.Html.getSessionStorage",
+      "html.classlist"              : "qx.bom.client.Html.getClassList",
+      "html.xpath"                  : "qx.bom.client.Html.getXPath",
+      "html.xul"                    : "qx.bom.client.Html.getXul",
+      "html.canvas"                 : "qx.bom.client.Html.getCanvas",
+      "html.svg"                    : "qx.bom.client.Html.getSvg",
+      "html.vml"                    : "qx.bom.client.Html.getVml",
+      "html.dataset"                : "qx.bom.client.Html.getDataset",
+      "html.dataurl"                : "qx.bom.client.Html.getDataUrl",
+      "html.console"                : "qx.bom.client.Html.getConsole",
+      "html.stylesheet.createstylesheet" : "qx.bom.client.Stylesheet.getCreateStyleSheet",
+      "html.stylesheet.insertrule"  : "qx.bom.client.Stylesheet.getInsertRule",
+      "html.stylesheet.deleterule"  : "qx.bom.client.Stylesheet.getDeleteRule",
+      "html.stylesheet.addimport"   : "qx.bom.client.Stylesheet.getAddImport",
+      "html.stylesheet.removeimport": "qx.bom.client.Stylesheet.getRemoveImport",
+      "html.element.contains"       : "qx.bom.client.Html.getContains",
+      "html.element.compareDocumentPosition" : "qx.bom.client.Html.getCompareDocumentPosition",
+      "html.element.textcontent"    : "qx.bom.client.Html.getTextContent",
+      "json"                        : "qx.bom.client.Json.getJson",
+      "css.textoverflow"            : "qx.bom.client.Css.getTextOverflow",
+      "css.placeholder"             : "qx.bom.client.Css.getPlaceholder",
+      "css.borderradius"            : "qx.bom.client.Css.getBorderRadius",
+      "css.borderimage"             : "qx.bom.client.Css.getBorderImage",
+      "css.boxshadow"               : "qx.bom.client.Css.getBoxShadow",
+      "css.gradients"               : "qx.bom.client.Css.getGradients",
+      "css.boxmodel"                : "qx.bom.client.Css.getBoxModel",
+      "css.rgba"                    : "qx.bom.client.Css.getRgba",
+      "css.userselect"              : "qx.bom.client.Css.getUserSelect",
+      "css.usermodify"              : "qx.bom.client.Css.getUserModify",
+      "css.appearance"              : "qx.bom.client.Css.getAppearance",
+      "css.float"                   : "qx.bom.client.Css.getFloat",
+      "css.boxsizing"               : "qx.bom.client.Css.getBoxSizing",
+      "css.translate3d"             : "qx.bom.client.CssTransform.get3D", // @deprecated since 1.6
+      "css.animation" : "qx.bom.client.CssAnimation.getSupport",
+      "css.transform" : "qx.bom.client.CssTransform.getSupport",
+      "css.transform.3d" : "qx.bom.client.CssTransform.get3D",
+      "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
+      "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification",
+      "xml.implementation"          : "qx.bom.client.Xml.getImplementation",
+      "xml.domparser"               : "qx.bom.client.Xml.getDomParser",
+      "xml.selectsinglenode"        : "qx.bom.client.Xml.getSelectSingleNode",
+      "xml.selectnodes"             : "qx.bom.client.Xml.getSelectNodes",
+      "xml.getelementsbytagnamens"  : "qx.bom.client.Xml.getElementsByTagNameNS",
+      "xml.domproperties"           : "qx.bom.client.Xml.getDomProperties",
+      "xml.attributens"             : "qx.bom.client.Xml.getAttributeNS",
+      "xml.createnode"              : "qx.bom.client.Xml.getCreateNode",
+      "xml.getqualifieditem"        : "qx.bom.client.Xml.getQualifiedItem",
+      "xml.createelementns"         : "qx.bom.client.Xml.getCreateElementNS"
+    },
 
 
     /**
@@ -732,6 +741,13 @@ qx.Bootstrap.define("qx.core.Environment",
      * @param key {String} The name of the check you want to query.
      */
     get : function(key) {
+      if (qx.DEBUG && key == "css.translate3d") {
+        qx.Bootstrap.warn(
+          "The key 'css.translate3d' is deprecated. " + 
+          "Please use 'css.transform.3d' instead."
+        );
+      }
+
       // check the cache
       if (this.__cache[key] != undefined) {
         return this.__cache[key];

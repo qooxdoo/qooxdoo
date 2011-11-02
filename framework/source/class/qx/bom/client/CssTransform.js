@@ -22,37 +22,26 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
 {
   statics :
   {
-    // TODO use proper implementation
     getSupport : function() {
-      return {
-        "style" : qx.bom.client.CssTransform.getStyle(),
-        "origin" : qx.bom.client.CssTransform.getOrigin(),
-        "3d" : qx.bom.client.CssTransform.get3D()
-      };
+      var style = qx.bom.client.CssTransform.getStyle();
+      if (style != null) {
+        return {
+          "style" : style,
+          "origin" : qx.bom.client.CssTransform.getOrigin(),
+          "3d" : qx.bom.client.CssTransform.get3D()
+        };
+      }
+      return null;
     },
 
 
-    // TODO use proper implementation
     getOrigin : function() {
-      if (qx.core.Environment.get("engine.name") == "gecko") {
-        return "MozTransformOrigin";
-      } else if (qx.core.Environment.get("engine.name") == "webkit") {
-        return "WebkitTransformOrigin";
-      }
-      // return the names defined in the spec as fallback
-      return "TransformOrigin";
+      return qx.bom.Style.getPropertyName("TransformOrigin");
     },
 
 
-    // TODO use proper implementation
     getStyle : function() {
-      if (qx.core.Environment.get("engine.name") == "gecko") {
-        return "MozTransform";
-      } else if (qx.core.Environment.get("engine.name") == "webkit") {
-        return "WebkitTransform";
-      }
-      // return the names defined in the spec as fallback
-      return "Transform";
+      return qx.bom.Style.getPropertyName("Transform");
     },
 
 
@@ -72,5 +61,6 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
 
   defer : function(statics) {
     qx.core.Environment.add("css.transform", statics.getSupport);
+    qx.core.Environment.add("css.transform.3d", statics.get3D);
   }
 });

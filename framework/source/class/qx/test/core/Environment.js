@@ -385,7 +385,6 @@ qx.Class.define("qx.test.core.Environment",
       this.assertNotEquals("", qx.core.Environment.get("css.boxmodel"));
       this.assertBoolean(qx.core.Environment.get("css.placeholder"));
       this.assertBoolean(qx.core.Environment.get("css.gradients"));
-      this.assertBoolean(qx.core.Environment.get("css.translate3d"));
       this.assertBoolean(qx.core.Environment.get("css.rgba"));
       var boxShadow = qx.core.Environment.get("css.boxshadow");
       this.assert(typeof boxShadow === "string" || boxShadow === null);
@@ -464,7 +463,10 @@ qx.Class.define("qx.test.core.Environment",
     testAnimationAndTransform : function() {
       // smoke test... make sure the method is doing something
       qx.core.Environment.get("css.animation");
-      qx.core.Environment.get("css.transform")
+      qx.core.Environment.get("css.transform");
+
+      // 3d transform support
+      this.assertBoolean(qx.core.Environment.get("css.transform.3d"));
     }
   }
 });

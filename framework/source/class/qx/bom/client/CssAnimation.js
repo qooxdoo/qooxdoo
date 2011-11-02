@@ -21,38 +21,27 @@
 qx.Bootstrap.define("qx.bom.client.CssAnimation", 
 {
   statics : {
-    // TODO use proper implementation
     getSupport : function() {
-      return {
-        "play-state" : qx.bom.client.CssAnimation.getPlayState(),
-        "style" : qx.bom.client.CssAnimation.getStyle(),
-        "end-event" : qx.bom.client.CssAnimation.getAnimationEnd(),
-        "keyframes" : qx.bom.client.CssAnimation.getKeyFrames()
-      };
+      var style = qx.bom.client.CssAnimation.getStyle();
+      if (style != null) {
+        return {
+          "style" : style,
+          "play-state" : qx.bom.client.CssAnimation.getPlayState(),
+          "end-event" : qx.bom.client.CssAnimation.getAnimationEnd(),
+          "keyframes" : qx.bom.client.CssAnimation.getKeyFrames()
+        };
+      }
+      return null;
     },
 
 
-    // TODO use proper implementation
     getPlayState : function() {
-      if (qx.core.Environment.get("engine.name") == "gecko") {
-        return "MozAnimationPlayState";
-      } else if (qx.core.Environment.get("engine.name") == "webkit") {
-        return "WebkitAnimationPlayState";
-      }
-      // return the names defined in the spec as fallback
-      return "AnimationPlayState";
+      return qx.bom.Style.getPropertyName("AnimationPlayState");
     },
 
 
-    // TODO use proper implementation
     getStyle : function() {
-      if (qx.core.Environment.get("engine.name") == "gecko") {
-        return "MozAnimation";
-      } else if (qx.core.Environment.get("engine.name") == "webkit") {
-        return "WebkitAnimation";
-      }
-      // return the names defined in the spec as fallback
-      return "Animation";
+      return qx.bom.Style.getPropertyName("animation");
     },
 
     // TODO use proper implementation

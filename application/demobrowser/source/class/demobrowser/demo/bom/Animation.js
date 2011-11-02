@@ -26,7 +26,6 @@ qx.Class.define("demobrowser.demo.bom.Animation",
     {
       this.base(arguments);
 
-
       var css = {duration: 1000, timing: "ease-out", keyFrames : {
         0 : {"width" : "30px"},
         70 : {"width" : "100px"},
