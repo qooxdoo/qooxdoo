@@ -35,10 +35,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
 {
   statics :
   {
-    /** Vendor-specific style property prefixes **/
-    VENDOR_PREFIXES : ["Webkit", "Moz", "O", "ms", "Khtml"],
-
-
     /**
      * Checks what box model is used in the current environemnt.
      * @return {String} It either returns "content" or "border".
@@ -61,7 +57,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      */
     getTextOverflow : function() {
-      return qx.bom.client.Css.__getStylePropertyName("textOverflow");
+      return qx.bom.Style.getPropertyName("textOverflow");
     },
 
 
@@ -74,8 +70,8 @@ qx.Bootstrap.define("qx.bom.client.Css",
       var i = document.createElement("input");
       return "placeholder" in i;
     },
-    
-    
+
+
     /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the 
      * <code>appearance</code> style property.
@@ -85,7 +81,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      */
     getAppearance : function() {
-      return qx.bom.client.Css.__getStylePropertyName("appearance");
+      return qx.bom.Style.getPropertyName("appearance");
     },
 
 
@@ -98,7 +94,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      */
     getBorderRadius : function() {
-      return qx.bom.client.Css.__getStylePropertyName("borderRadius");
+      return qx.bom.Style.getPropertyName("borderRadius");
     },
 
 
@@ -111,10 +107,10 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      */
     getBoxShadow : function() {
-      return qx.bom.client.Css.__getStylePropertyName("boxShadow");
+      return qx.bom.Style.getPropertyName("boxShadow");
     },
-    
-    
+
+
     /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the 
      * <code>borderImage</code> style property.
@@ -124,10 +120,10 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      */
     getBorderImage : function() {
-      return qx.bom.client.Css.__getStylePropertyName("borderImage");
+      return qx.bom.Style.getPropertyName("borderImage");
     },
-    
-    
+
+
     /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the 
      * <code>userSelect</code> style property.
@@ -137,10 +133,10 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      */
     getUserSelect : function() {
-      return qx.bom.client.Css.__getStylePropertyName("userSelect");
+      return qx.bom.Style.getPropertyName("userSelect");
     },
-    
-    
+
+
     /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the 
      * <code>userModify</code> style property.
@@ -150,7 +146,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      */
     getUserModify : function() {
-      return qx.bom.client.Css.__getStylePropertyName("userModify");
+      return qx.bom.Style.getPropertyName("userModify");
     },
     
     /**
@@ -249,36 +245,12 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * boxSizing is not supported.
      * @internal
      */
-    getBoxSizing : function()
-    {
-      return qx.bom.client.Css.__getStylePropertyName("boxSizing");
-    },
-    
-    
-    /**
-     * Takes the name of a style property and returns the name the browser uses
-     * for its implementation, which might include a vendor prefix.
-     * 
-     * @internal
-     * @param propertyName {String} Style property name to check
-     * @return {String|null} The supported property name or null if not supported
-     */
-    __getStylePropertyName : function(propertyName)
-    {
-      var style = document.documentElement.style;
-      if (style[propertyName] !== undefined) {
-        return propertyName;
-      }
-      for (var i=0, l=qx.bom.client.Css.VENDOR_PREFIXES.length; i<l; i++) {
-        var prefixedProp = qx.bom.client.Css.VENDOR_PREFIXES[i] + 
-          qx.lang.String.firstUp(propertyName);
-        if (style[prefixedProp] !== undefined) {
-          return prefixedProp;
-        }
-      }
-      return null;
+    getBoxSizing : function() {
+      return qx.bom.Style.getPropertyName("boxSizing");
     }
   },
+
+
 
   defer : function(statics) {
     qx.core.Environment.add("css.textoverflow", statics.getTextOverflow);
