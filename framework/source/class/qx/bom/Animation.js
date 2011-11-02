@@ -42,6 +42,12 @@ qx.Bootstrap.define("qx.bom.Animation",
 
     animate : function(el, desc) {
       this.__normalizeDesc(desc);
+
+      // debug validation
+      if (qx.core.Environment.get("qx.debug")) {
+        this.__validateDesc(desc);
+      }
+
       if (!this.__sheet) {
         this.__sheet = qx.bom.Stylesheet.createElement();
       }
@@ -141,6 +147,42 @@ qx.Bootstrap.define("qx.bom.Animation",
       }
     },
 
+
+    /**
+     * @signature function(desc)
+     */
+    __validateDesc : qx.core.Environment.select("qx.debug", {
+      "true" : function(desc) {
+        var possibleKeys = [
+          "origin", "duration", "keep", "keyFrames", "repeat",
+          "timing", "alternate", "reverse"
+        ];
+
+        // check for unknown keys
+        for (var name in desc) {
+          if (!(possibleKeys.indexOf(name) != -1)) {
+            qx.Bootstrap.warn("Unknown key '" + name + "' in the animation description.");
+          }
+        };
+
+        // check for mandatory keys
+        if (desc.duration == null || desc.duration <= 0) {
+          qx.Bootstrap.warn("No 'duration' given > 0");
+        }
+        if (desc.keyFrames == null) {
+          qx.Bootstrap.warn("No 'keyFrames' given > 0");
+        } else {
+          // check the key frames
+          for (var pos in desc.keyFrames) {
+            if (pos < 0 || pos > 100) {
+              qx.Bootstrap.warn("Keyframe position needs to be between 0 and 100");
+            }
+          }
+        }
+      },
+      
+      "default" : null
+    }),
 
 
     __addKeyFrames : function(frames, reverse) {
