@@ -33,6 +33,7 @@ qx.Bootstrap.define("qx.bom.Animation",
       "translate" : true
     },
 
+
     __dimensions : ["X", "Y", "Z"],
 
 
@@ -154,8 +155,8 @@ qx.Bootstrap.define("qx.bom.Animation",
     __validateDesc : qx.core.Environment.select("qx.debug", {
       "true" : function(desc) {
         var possibleKeys = [
-          "origin", "duration", "keep", "keyFrames", "repeat",
-          "timing", "alternate", "reverse"
+          "origin", "duration", "keep", "keyFrames", 
+          "repeat", "timing", "alternate", "reverse"
         ];
 
         // check for unknown keys
@@ -180,7 +181,7 @@ qx.Bootstrap.define("qx.bom.Animation",
           }
         }
       },
-      
+
       "default" : null
     }),
 

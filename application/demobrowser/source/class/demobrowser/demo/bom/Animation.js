@@ -117,9 +117,10 @@ qx.Class.define("demobrowser.demo.bom.Animation",
         100 : {translate : [null, "-50px"], opacity: 0}
       }};
 
-      var fall = {duration: 1000, timing: "ease-in", origin: "bottom center", keyFrames : {
+      var fall = {duration: 1000, keep: 100, timing: "ease-in", origin: "bottom center", keyFrames : {
         0: {rotate : ["0deg"], skew: ["0deg"]},
-        100 : {rotate : ["90deg"], skew: ["-20deg"]}
+        30 : {rotate : ["90deg"], skew: ["-20deg"]},
+        100: {rotate : ["0deg"], skew: ["0deg"]}
       }};
 
       var tests = {
