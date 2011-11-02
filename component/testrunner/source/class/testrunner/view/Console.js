@@ -148,8 +148,10 @@ qx.Class.define("testrunner.view.Console", {
         this.__testResults[testName].exceptions = exceptions;
         var messages = [];
         for (var i=0,l=exceptions.length; i<l; i++) {
-          var message = exceptions[i].exception.toString() + "\n";
-          //message += testResultData.getStackTrace(exceptions[i].exception);
+          var message = exceptions[i].exception.toString()
+          var trace = testResultData.getStackTrace(exceptions[i].exception);
+          trace = trace.replace(/<br>/g, "\n");
+          message += "\n" + trace;
           messages.push(message);
         }
         this.__testResults[testName].messages = messages;
