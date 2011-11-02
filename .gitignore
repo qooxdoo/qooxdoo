@@ -3,6 +3,9 @@
 #
 # Please comment on purpose.
 
+# SDK build dir
+release/
+
 # Python bytecode
 *.pyc
 *.pyo
