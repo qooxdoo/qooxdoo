@@ -243,7 +243,7 @@ def build_packet(target,revision,generate):
 def build_targets(targList):
     rc = 0
     for target in targList:
-        if svn_check(target,0) or options.noSvnCheck:
+        if options.noSvnCheck or svn_check(target,0):
             goto_workdir(options.stagedir)
             if (options.generate):
                 print "Target: "+target
