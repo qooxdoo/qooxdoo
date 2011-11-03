@@ -20,13 +20,6 @@ qx.Bootstrap.define("qx.bom.element.Transform",
 {
   statics :
   {
-    __transitionKeys : {
-      "scale": true,
-      "rotate" : true,
-      "skew" : true,
-      "translate" : true
-    },
-
     __dimensions : ["X", "Y", "Z"],
 
     __cssKeys : qx.core.Environment.get("css.transform"),
@@ -50,12 +43,16 @@ qx.Bootstrap.define("qx.bom.element.Transform",
 
     transform : function(el, transforms) {
       var transformCss = this.__mapToCss(transforms);
-      if (transformCss != "") {
-        var style = this.__cssKeys["name"];
-        el.style[style] = transformCss;
-      }
+      var style = this.__cssKeys["name"];
+      el.style[style] = transformCss;
     },
 
+
+    getCss : function(transforms) {
+      var transformCss = this.__mapToCss(transforms);
+      var style = this.__cssKeys["name"];
+      return qx.lang.String.hyphenate(style) + ":" + transformCss + ";"
+    },
 
 
 

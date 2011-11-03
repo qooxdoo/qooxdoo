@@ -34,11 +34,7 @@ qx.Bootstrap.define("qx.bom.Animation",
     },
 
 
-    __dimensions : ["X", "Y", "Z"],
-
-
     __cssAnimationKeys : qx.core.Environment.get("css.animation"),
-    __cssTransformKeys : qx.core.Environment.get("css.transform"),
 
 
     animate : function(el, desc) {
@@ -73,7 +69,7 @@ qx.Bootstrap.define("qx.bom.Animation",
 
       // additional transform keys
       if (desc.origin != null) {
-        el.style[this.__cssTransformKeys["origin"]] = desc.origin;
+        qx.bom.element.Transform.setOrigin(el, desc.origin);
       }
 
       return animation;
@@ -87,15 +83,18 @@ qx.Bootstrap.define("qx.bom.Animation",
       // reset the styling
       el.style[qx.bom.Animation.__cssAnimationKeys["name"]] = "";
       if (desc.origin != null) {
-        el.style[qx.bom.Animation.__cssTransformKeys["origin"]] = "";
+        qx.bom.element.Transform.transform(el);
       }
 
       if (desc.keep != null) {
         // keep the element at this animation step
         var endFrame = desc.keyFrames[desc.keep];
-        var transforms = {};
+        var transforms;
         for (var style in endFrame) {
           if (style in qx.bom.Animation.__transitionKeys) {
+            if (!transforms) {
+              transforms = {};
+            }
             transforms[style] = endFrame[style];
           } else {
             el.style[style] = endFrame[style];
@@ -103,10 +102,8 @@ qx.Bootstrap.define("qx.bom.Animation",
         }
 
         // transform keeping
-        var transformCss = qx.bom.Animation.__transformsMapToCss(transforms);
-        if (transformCss != "") {
-          var style = qx.bom.Animation.__cssTransformKeys["name"];
-          el.style[style] = transformCss;
+        if (transforms) {
+          qx.bom.element.Transform.transform(el, transforms);
         }
       }
 
@@ -155,7 +152,7 @@ qx.Bootstrap.define("qx.bom.Animation",
     __validateDesc : qx.core.Environment.select("qx.debug", {
       "true" : function(desc) {
         var possibleKeys = [
-          "origin", "duration", "keep", "keyFrames", 
+          "origin", "duration", "keep", "keyFrames",
           "repeat", "timing", "alternate", "reverse"
         ];
 
@@ -194,10 +191,13 @@ qx.Bootstrap.define("qx.bom.Animation",
         rule += (reverse ? -(position - 100) : position) + "% {";
 
         var frame = frames[position];
-        var transforms = {};
+        var transforms;
         // each style
         for (var style in frame) {
           if (style in this.__transitionKeys) {
+            if (!transforms) {
+              transforms = {};
+            }
             transforms[style] = frame[style];
           } else {
             rule += style + ":" + frame[style] + ";";
@@ -205,10 +205,8 @@ qx.Bootstrap.define("qx.bom.Animation",
         }
 
         // transform handling
-        var value = this.__transformsMapToCss(transforms);
-        if (value != "") {
-          var style = this.__cssTransformKeys["name"];
-          rule += qx.lang.String.hyphenate(style) + ":" + value + ";";
+        if (transforms) {
+          rule += qx.bom.element.Transform.getCss(transforms);
         }
 
         rule += "} ";
@@ -226,32 +224,6 @@ qx.Bootstrap.define("qx.bom.Animation",
       this.__rules[rule] = name;
 
       return name;
-    },
-
-
-    __transformsMapToCss : function(transforms) {
-      var value = "";
-      for (var func in transforms) {
-
-        var params = transforms[func];
-        // if an array is given
-        if (qx.lang.Type.isArray(params)) {
-          for (var i=0; i < params.length; i++) {
-            if (params[i] == undefined) {
-              continue;
-            }
-            value += func + this.__dimensions[i] + "(";
-            value += params[i];
-            value += ") ";
-          };
-        // case for single values given
-        } else {
-          // single value case
-          value += func + "(" + transforms[func] + ") ";
-        }
-      }
-
-      return value;
     }
   }
 });
