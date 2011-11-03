@@ -180,9 +180,10 @@ qx.Class.define("qx.bom.Label",
         win = window;
       }
 
-      if (html)
+      var el = win.document.createElement("div");
+
+      if (html) 
       {
-        var el = win.document.createElement("div");
         el.useHtml = true;
       }
       else if (!qx.core.Environment.get("css.textoverflow") &&
@@ -190,7 +191,6 @@ qx.Class.define("qx.bom.Label",
       {
         // Gecko as of Firefox 2.x and 3.0 does not support ellipsis
         // for text overflow. We use this feature from XUL instead.
-        var el = win.document.createElement("div");
         var xulel = win.document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
 
         var style = xulel.style;
@@ -214,7 +214,6 @@ qx.Class.define("qx.bom.Label",
       }
       else
       {
-        var el = win.document.createElement("div");
         qx.bom.element.Style.setStyles(el, this.__getStyles(html));
       }
 
