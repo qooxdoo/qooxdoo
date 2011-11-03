@@ -348,7 +348,6 @@ class QxTest:
   
   def buildTarget(self, target, buildConf):
     buildResult = {
-      "SVNRevision" : None,
       "BuildError"  : None,
       "BuildWarning" : None,
       "BuildStarted" : time.strftime(self.timeFormat),
@@ -408,7 +407,13 @@ class QxTest:
       self.log(target + " build finished without errors.")
       buildResult["BuildFinished"] = time.strftime(self.timeFormat)
         
-    buildResult["SVNRevision"] = self.getLocalRevision()
+    revision = self.getLocalRevision()
+    reg = re.compile("^\d+M?")
+    found = reg.search(revision)
+    if found:
+      buildResult["SVNRevision"] = revision
+    else:
+      buildResult["GitRevision"] = revision.rstrip()
     
     return buildResult
     
@@ -606,27 +611,39 @@ class QxTest:
       return False
 
 
+  def getLocalRevision(self):
+    svnDir = os.path.join(self.testConf["qxPathAbs"], ".svn")
+    if os.path.isdir(svnDir):
+      return self.getLocalSvnRevision()
+    gitDir = os.path.join(self.testConf["qxPathAbs"], ".git")
+    if os.path.isdir(gitDir):
+      return self.getLocalGitDescription()
+  
   ##
   # Retrieves a local qooxdoo SVN checkout's revision number
   #
   # @return The revision number (String)
-  def getLocalRevision(self):
+  def getLocalSvnRevision(self):
     ret,out,err = invokePiped("svnversion " + self.testConf["qxPathAbs"])
     if ret > 0:
       self.log("Error determining SVN revision: " + err)
       return False
       
     rev = out.rstrip('\n')
-    self.log("Local qooxdoo checkout at revision " + rev)
+    self.log("Local qooxdoo SVN checkout at revision " + rev)
     return rev
   
-
+  
+  def getLocalGitDescription(self):
+    desc = git("describe --tags", self.testConf["qxPathAbs"])
+    self.log("Local qooxdoo Git repository description " + desc)
+    return desc
   ##
   # Writes the current revision number of the local qooxdoo checkout to a file
   # named 'revision.txt' in the qooxdoo checkout's root directory.
   def storeRevision(self):
     if not self.qxRevision:
-      self.log("No SVN revision number to store!")
+      self.log("No revision number to store!")
       return
       
     fPath = os.path.join(self.testConf['qxPathAbs'],'revision.txt')
@@ -660,11 +677,7 @@ class QxTest:
       except Exception, e:
         self.logError(e, "Opening remote revision file")
         return False
-
-      reg = re.compile("\d+M?")
-      found = reg.search(rev)
-      if not found:
-        self.log("ERROR: Remote revision has unexpected format: %s" %rev)
+      
       else:
         self.log("Remote qooxdoo checkout at revision " + rev)
         return rev
@@ -1586,3 +1599,21 @@ def sendMultipartMail(configuration):
   mailServer.ehlo()
   mailServer.sendmail(configuration['mailFrom'], configuration['mailTo'], msg.as_string())
   mailServer.close()
+
+
+def git(cmd, repoPath):
+  cwd = os.getcwd()
+  os.chdir(repoPath)
+  ret, out, err = invokePiped("git " + cmd)
+  if ret > 0:
+    msg = ""
+    if err:
+      msg = err
+    else :
+      msg = "Error executing git command " + cmd
+    raise RuntimeError(msg)
+  os.chdir(cwd)
+  if out:
+    return out
+  else:
+    return ""
