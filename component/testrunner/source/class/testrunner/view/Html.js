@@ -844,6 +844,8 @@ qx.Class.define("testrunner.view.Html", {
     /**
      * Creates an entry in the HTML test list for each test in the given list
      * @param testList {String[]} Array of test names
+     * 
+     * @lint ignoreUndefined($)
      */
     _createTestList : function(testList)
     {
