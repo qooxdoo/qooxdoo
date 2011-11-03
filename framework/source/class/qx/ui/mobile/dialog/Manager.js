@@ -52,6 +52,21 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
   /*
   *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics:
+  {
+    INPUT_DIALOG: 1,
+    MESSAGE_DIALOG: 2,
+    WARNING_DIALOG: 3,
+    ERROR_DIALOG: 4,
+    WAITING_DIALOG: 5
+  },
+  
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -82,24 +97,12 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
             handler.call(scope);
           }
         }
-        // Make sure we have strings
-        if (text) {
-          text = ""+ text;
-        }
-        if (title) {
-          title = ""+title;
-        }
-        if (button) {
-          button = ""+button;
-        }
+        this.__processDialogTextParameters(title, text, button);
         navigator.notification.alert(text, callback, title, button);
       }
       else
       {
-        alert(text);
-        if (handler) {
-          handler.call(scope);
-        }
+        this.__showNonNativeDialog(title, text, handler, scope, button, qx.ui.mobile.dialog.Manager.MESSAGE_DIALOG);
       }
     },
 
@@ -127,23 +130,197 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
         {
           handler.call(scope, index);
         }
-        if (text) {
-          text = ""+ text;
-        }
-        if (title) {
-          title = ""+title;
-        }
-        if (buttons) {
-          buttons = buttons.join(",");
-        }
+        this.__processDialogTextParameters(title, text, buttons);
         navigator.notification.confirm(text, callback, title, buttons);
       }
       else
       {
-        var result = confirm(text);
-        var index = result ? 1 : 2;
-        handler.call(scope, index);
+        this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.MESSAGE_DIALOG);
       }
+    },
+    
+    /**
+     * Displays a confirm box. When the application is running in an PhoneGap
+     * environment, a native confirm box is shown. For debugging in a browser, a
+     * browser confirm is shown.
+     *
+     * @param title {String} The title of the alert box
+     * @param text {String} The text to display in the alert box
+     * @param handler {Function} The handler to call when the <code>OK</code> button
+     *     was pressed. The first parameter of the function is the <code>index</code>
+     *     of the pressed button, starting from 1.
+     * @param scope {Object} The scope of the handler
+     * @param buttons {String[]} Each text entry of the array represents a button and
+     *     its title
+     * @lint ignoreDeprecated(confirm)
+     */
+    input : function(title, text, handler, scope, buttons)
+    {
+      this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.INPUT_DIALOG);
+    },
+    
+    /**
+     * Displays a confirm box. When the application is running in an PhoneGap
+     * environment, a native confirm box is shown. For debugging in a browser, a
+     * browser confirm is shown.
+     *
+     * @param title {String} The title of the alert box
+     * @param text {String} The text to display in the alert box
+     * @param handler {Function} The handler to call when the <code>OK</code> button
+     *     was pressed. The first parameter of the function is the <code>index</code>
+     *     of the pressed button, starting from 1.
+     * @param scope {Object} The scope of the handler
+     * @param buttons {String[]} Each text entry of the array represents a button and
+     *     its title
+     * @lint ignoreDeprecated(confirm)
+     */
+    error : function(title, text, handler, scope, button)
+    {
+      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("phonegap.notification")) {
+        var callback = function() {
+          if (handler) {
+            handler.call(scope);
+          }
+        }
+        this.__processDialogTextParameters(title, text, button);
+        navigator.notification.alert(text, callback, title, button);
+      }
+      else
+      {
+        this.__showNonNativeDialog(title, text, handler, scope, button, qx.ui.mobile.dialog.Manager.ERROR_DIALOG);
+      }
+    },
+    
+    
+    /**
+     * Displays a confirm box. When the application is running in an PhoneGap
+     * environment, a native confirm box is shown. For debugging in a browser, a
+     * browser confirm is shown.
+     *
+     * @param title {String} The title of the alert box
+     * @param text {String} The text to display in the alert box
+     * @param handler {Function} The handler to call when the <code>OK</code> button
+     *     was pressed. The first parameter of the function is the <code>index</code>
+     *     of the pressed button, starting from 1.
+     * @param scope {Object} The scope of the handler
+     * @param buttons {String[]} Each text entry of the array represents a button and
+     *     its title
+     * @lint ignoreDeprecated(confirm)
+     */
+    warning : function(title, text, handler, scope, button)
+    {
+      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("phonegap.notification")) {
+        var callback = function() {
+          if (handler) {
+            handler.call(scope);
+          }
+        }
+        this.__processDialogTextParameters(title, text, button);
+        navigator.notification.alert(text, callback, title, button);
+      }
+      else
+      {
+        this.__showNonNativeDialog(title, text, handler, scope, button, qx.ui.mobile.dialog.Manager.WARNING_DIALOG);
+      }
+    },
+
+    
+    /**
+     * Displays a confirm box. When the application is running in an PhoneGap
+     * environment, a native confirm box is shown. For debugging in a browser, a
+     * browser confirm is shown.
+     *
+     * @param title {String} The title of the alert box
+     * @param text {String} The text to display in the alert box
+     * @param handler {Function} The handler to call when the <code>OK</code> button
+     *     was pressed. The first parameter of the function is the <code>index</code>
+     *     of the pressed button, starting from 1.
+     * @param scope {Object} The scope of the handler
+     * @param buttons {String[]} Each text entry of the array represents a button and
+     *     its title
+     * @lint ignoreDeprecated(confirm)
+     */
+    wait : function(title, text, handler, scope, buttons)
+    {
+      this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.WAITING_DIALOG);
+    },
+
+    __processDialogTextParameters: function(title, text, buttons)
+    {
+      if (text) {
+        text = ""+ text;
+      }
+      if (title) {
+        title = ""+title;
+      }
+      if(buttons) {
+        if(buttons instanceof Array) {
+          buttons = buttons.join(",");
+        } else {
+          buttons = ""+buttons;
+        }
+      }
+    },
+    
+    __showNonNativeDialog: function(title, text, handler, scope, buttons, dialogType)
+    {
+      var widget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY: "middle"}));
+      var titleWidget = new qx.ui.mobile.form.Title(title);
+
+      if(dialogType == qx.ui.mobile.dialog.Manager.ERROR_DIALOG) {
+        qx.bom.element.Style.set(titleWidget.getContainerElement(), 'backgroundColor', '#990000');
+      }
+      if(dialogType == qx.ui.mobile.dialog.Manager.WARNING_DIALOG) {
+        qx.bom.element.Style.set(titleWidget.getContainerElement(), 'backgroundColor', '#AAAA00');
+      }
+      
+      widget.add(titleWidget);
+      var dialog = new qx.ui.mobile.dialog.Dialog(widget);
+      
+      if(dialogType == qx.ui.mobile.dialog.Manager.WAITING_DIALOG)
+      {
+        var waitingWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
+        widget.add(waitingWidget);
+        waitingWidget.add(new qx.ui.mobile.dialog.BusyIndicator(text));        
+      }
+      else
+      {
+        var labelWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
+        labelWidget.add(new qx.ui.mobile.basic.Label(text));
+        widget.add(labelWidget);
+        if(dialogType == qx.ui.mobile.dialog.Manager.INPUT_DIALOG)
+        {
+          var inputWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
+          var inputText = new qx.ui.mobile.form.TextField();
+          inputWidget.add(inputText);
+          widget.add(inputWidget);
+        }
+
+        var buttonsContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
+        for(var i=0, l=buttons.length; i<l; i++)
+        {
+          var button = new qx.ui.mobile.form.Button(buttons[i]);
+          buttonsContainer.add(button);
+          var callback = (function(index){ 
+            return function()
+            {
+              dialog.hide();
+              if(handler) {
+                handler.call(scope, index, inputText.getValue());
+              }
+              dialog.destroy();
+            };
+          })(i);
+          button.addListener("tap", callback);
+        }
+        widget.add(buttonsContainer);
+      }
+      dialog.setModal(true);
+      dialog.show();
+      if(inputText) {
+        inputText.getContainerElement().focus();
+      }
+      return dialog;
     }
   }
 });

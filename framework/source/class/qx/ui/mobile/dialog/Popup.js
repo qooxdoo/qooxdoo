@@ -80,6 +80,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
   {
     this.base(arguments);
     qx.core.Init.getApplication().getRoot().add(this);
+    this.exclude();
     if(widget) {
       this.__initializeChild(widget);
     }
@@ -162,6 +163,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this._updatePosition();
         this.__registerEventListener();
         this.base(arguments);
+        this._updatePosition();
       }
       this.__isShown = true;
     },
@@ -208,14 +210,14 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __registerEventListener : function()
     {
       qx.event.Registration.addListener(window, "resize", this._updatePosition, this);
-      if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
+      /*if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
       {
         qx.event.message.Bus.getInstance().subscribe("iscrollstart", this.hide, this);
       }
       else
       {
         qx.event.Registration.addListener(window, "scroll", this.hide, this);
-      }
+      }*/
     },
 
 
@@ -225,14 +227,14 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __unregisterEventListener : function()
     {
       qx.event.Registration.removeListener(window, "resize", this._updatePosition, this);
-      if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
+      /*if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
       {
         qx.event.Registration.removeListener(window, "iscrollstart", this.hide, this);
       }
       else
       {
         qx.event.Registration.removeListener(window, "scroll", this.hide, this);
-      }
+      }*/
     },
     
     /**
@@ -262,6 +264,10 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     {
       this.removeWidget();
       this.__initializeChild(widget);
+    },
+    
+    setAnchor : function(widget) {
+      this.__anchor = widget;
     },
     
     /**

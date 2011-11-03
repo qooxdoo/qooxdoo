@@ -369,7 +369,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         this.__icon.exclude();
       }
       var verticalCenteredContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY:"middle"}));
-      verticalCenteredContainer.setAnonymous(false);
+      verticalCenteredContainer.setAnonymous(true);
       verticalCenteredContainer.add(this.__childrenContainer, {'flex': 0});
       this._add(verticalCenteredContainer);
     }

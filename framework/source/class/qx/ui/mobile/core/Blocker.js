@@ -116,10 +116,19 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
      */
     _updateSize : function()
     {
-      this.getContainerElement().style.top = qx.bom.Viewport.getScrollTop() + "px";
-      this.getContainerElement().style.left = qx.bom.Viewport.getScrollLeft() + "px";
-      this.getContainerElement().style.width = qx.bom.Viewport.getWidth() + "px";
-      this.getContainerElement().style.height = qx.bom.Viewport.getHeight()  + "px";
+      if(qx.core.Init.getApplication().getRoot() == this.getLayoutParent())
+      {
+        this.getContainerElement().style.top = qx.bom.Viewport.getScrollTop() + "px";
+        this.getContainerElement().style.left = qx.bom.Viewport.getScrollLeft() + "px";
+        this.getContainerElement().style.width = qx.bom.Viewport.getWidth() + "px";
+        this.getContainerElement().style.height = qx.bom.Viewport.getHeight()  + "px";
+      }
+      else
+      {
+        var dimension = qx.bom.element.Dimension.getSize(this.getLayoutParent().getContainerElement());
+        this.getContainerElement().style.width = dimension.width + "px";
+        this.getContainerElement().style.height = dimension.height  + "px";
+      }
     },
 
 

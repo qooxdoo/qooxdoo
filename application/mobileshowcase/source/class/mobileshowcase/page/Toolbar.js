@@ -53,6 +53,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
      */
     __toolbar : null,
     __popup: null,
+    __busyIndicator: null,
 
     // overridden
     _initialize : function()
@@ -66,18 +67,15 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       button.addListener("tap", this._onButtonTap, this);
       this.getContent().add(button);
 
-        var busyIndicator = new qx.ui.mobile.dialog.BusyIndicator("We are searching...");
-        this.add(busyIndicator);
-
       var toolbar = this.__toolbar = new qx.ui.mobile.toolbar.ToolBar();
       this.add(toolbar); // getContent()
       var searchBtn = new qx.ui.mobile.toolbar.Button("search");
       toolbar.add(searchBtn);
       searchBtn.addListener("tap", function(){
-        busyIndicator.show();
+        this.__getBusyIndicator().show();
         qx.lang.Function.delay(function(){
           this.hide();
-        }, 2000, busyIndicator);
+        }, 2000, this.__getBusyIndicator());
       }, this);
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
       var goBackBtn = new qx.ui.mobile.toolbar.Button(null,"mobileshowcase/icon/arrowleft.png");
@@ -102,6 +100,16 @@ qx.Class.define("mobileshowcase.page.Toolbar",
     _onButtonTap : function()
     {
       this.__toolbar.toggle();
+    },
+    
+    __getBusyIndicator : function()
+    {
+      if(this.__busyIndicator) {
+        return this.__busyIndicator;
+      }
+      var busyIndicator = this.__busyIndicator = new qx.ui.mobile.dialog.BusyIndicator("We are searching...");
+      this.getContent().add(busyIndicator);
+      return busyIndicator;
     },
     
     /**

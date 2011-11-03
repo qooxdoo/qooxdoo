@@ -25,7 +25,7 @@
  */
 qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
 {
-  extend : qx.ui.mobile.core.Blocker,
+  extend : qx.ui.mobile.core.Widget,
 
   /*
   *****************************************************************************
