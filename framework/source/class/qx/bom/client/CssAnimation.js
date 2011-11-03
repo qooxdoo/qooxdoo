@@ -32,7 +32,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      * supported. This object contains all necessary keys to work with CSS 
      * animations.
      * <ul>
-     *  <li><code>style</code> The name of the css animation style</li>
+     *  <li><code>name</code> The name of the css animation style</li>
      *  <li><code>play-state</code> The name of the play-state style</li>
      *  <li><code>end-event</code> The name of the end event</li>
      *  <li><code>keyframes</code> The name of the keyframes selector.</li>
@@ -43,10 +43,10 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      *   not supported.
      */
     getSupport : function() {
-      var style = qx.bom.client.CssAnimation.getStyle();
-      if (style != null) {
+      var name = qx.bom.client.CssAnimation.getName();
+      if (name != null) {
         return {
-          "style" : style,
+          "name" : name,
           "play-state" : qx.bom.client.CssAnimation.getPlayState(),
           "end-event" : qx.bom.client.CssAnimation.getAnimationEnd(),
           "keyframes" : qx.bom.client.CssAnimation.getKeyFrames()
@@ -73,7 +73,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      * @return {String|null} The name of the style or null, if the style is 
      *   not supported.
      */
-    getStyle : function() {
+    getName : function() {
       return qx.bom.Style.getPropertyName("animation");
     },
 

@@ -137,11 +137,11 @@
  *       <td>{@link qx.bom.client.Css#getBoxSizing}</td>
  *     </tr>
  *     <tr>
- *       <td>css.animation</td><td><i>Object</i> or <i>null</i></td><td><code>{end-event: "webkitAnimationEnd", keyframes: "@-webkit-keyframes", play-state: null, style: "WebkitAnimation"}</code></td>
+ *       <td>css.animation</td><td><i>Object</i> or <i>null</i></td><td><code>{end-event: "webkitAnimationEnd", keyframes: "@-webkit-keyframes", play-state: null, name: "WebkitAnimation"}</code></td>
  *       <td>{@link qx.bom.client.CssAnimation#getSupport}</td>
  *     </tr>
  *     <tr>
- *       <td>css.transform</td><td><i>Object</i> or <i>null</i></td><td><code>{3d: true, origin: "WebkitTransformOrigin", style: "WebkitTransform"}</code></td>
+ *       <td>css.transform</td><td><i>Object</i> or <i>null</i></td><td><code>{3d: true, origin: "WebkitTransformOrigin", name: "WebkitTransform", style: "WebkitTransformStyle", perspective: "WebkitPerspective", perspective-origin: "WebkitPerspectiveOrigin", backface-visibility: "WebkitBackfaceVisibility"}</code></td>
  *       <td>{@link qx.bom.client.CssTransform#getSupport}</td>
  *     </tr>
  *     <tr>

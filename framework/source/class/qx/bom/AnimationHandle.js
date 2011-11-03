@@ -96,7 +96,7 @@ qx.Bootstrap.define("qx.bom.AnimationHandle",
     stop : function() {
       if (this.el) {
         this.el.style[this.__playState] = "";
-        this.el.style[qx.core.Environment.get("css.animation.style")] = "";
+        this.el.style[qx.core.Environment.get("css.animation").name] = "";
         this.el.$$animation.__playing = false;
         this.el.$$animation.__ended = true;
       }
