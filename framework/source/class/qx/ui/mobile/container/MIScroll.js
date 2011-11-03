@@ -142,6 +142,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           }
         }
       });
+      qx.bom.element.Class.addClasses(this._getScrollContentElement(), ['vbox', 'boxFlex1']);
       return scroll;
     },
     

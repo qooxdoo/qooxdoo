@@ -316,7 +316,8 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       this.__scrollContainer = this._createScrollContainer();
       this.__content = this._createContent();
       if (this.__content) {
-        this.__scrollContainer.add(this.__content);
+        this.__scrollContainer._setLayout(new qx.ui.mobile.layout.VBox());
+        this.__scrollContainer.add(this.__content, {flex :1});
       }
       if (this.__scrollContainer) {
         this.add(this.__scrollContainer, {flex:1});
