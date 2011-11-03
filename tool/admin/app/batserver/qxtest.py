@@ -329,65 +329,10 @@ class QxTest:
     
     buildResults = {}
     for target in buildConf['targets']:
-      # Assemble batbuild command line
-      if (os.path.isabs(buildConf['batbuild'])):
-        cmd = buildConf['batbuild']
-      else:
-        cmd = os.path.join(self.testConf['qxPathAbs'], buildConf['batbuild']) 
-      cmd += " -w " + buildConf['stageDir']
-      if target[0] == target[0].capitalize():
-        cmd += " " + buildConf['targets'][target]
-        self.log("Building " + target + "\n  " + cmd)
-        reg = re.compile("-g\ (.*?)\ -n")
-        match = reg.search(cmd)
-        if match:
-          job = match.group(1)
-        else:
-          job = cmd
-        buildResults[target] = {
-          "SVNRevision" : False,
-          "BuildError"  : False,
-          "BuildWarning" : False,
-          "BuildStarted" : time.strftime(self.timeFormat),
-          "BuildFinished" : False,
-          "BuildJob" : job
-        }
-        if (self.sim):
-          status = 0
-          self.log("SIMULATION: Invoking build command:\n  " + cmd)
-        else:
-          status, std, err = invokePiped(cmd)
-          if status > 0:
-            if ('buildLogDir' in buildConf):      
-              buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"], target)
-              self.logBuildErrors(buildLogFile, target, cmd, err)
-              buildLogFile.close()
-            
-            buildResults[target]["BuildError"] = "Unknown build error"
-            
-            """Get the last line of batbuild.py's STDERR output which contains
-            the actual error message. """
-            nre = re.compile('[\n\r](.*)$')
-            m = nre.search(err)
-            if m:
-              buildResults[target]["BuildError"] = m.group(1)
-          elif err != "":
-            self.log("Warning while building " + target + ", see build log file for details.")
-            err = err.rstrip('\n')
-            err = err.rstrip('\r')
-            if ('buildLogDir' in buildConf):      
-              buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"], target)
-              buildLogFile.write(target + "\n" + cmd + "\n" + err)
-              buildLogFile.write("\n========================================================\n\n")
-              buildLogFile.close()
-            buildResults[target]["BuildFinished"] = time.strftime(self.timeFormat)
-            buildResults[target]["BuildWarning"] = err
-          else:
-            self.log(target + " build finished without errors.")
-            buildResults[target]["BuildFinished"] = time.strftime(self.timeFormat)
-              
-          buildResults[target]["SVNRevision"] = self.getLocalRevision()
-          
+      buildResult = self.buildTarget(target, buildConf)
+      if buildResult:
+        buildResults[target] = buildResult
+      
     # Store the results of this build run
     self.storeBuildStatus(buildConf["buildLogDir"], buildResults)
     # Update the 'total' build status with the results of this run
@@ -395,11 +340,77 @@ class QxTest:
       self.buildStatus[target] = buildResults[target]
     # Store results including the last result of any job that wasn't in this
     # config
-    self.storeBuildStatus(buildConf["buildLogDir"])    
+    self.storeBuildStatus(buildConf["buildLogDir"])
     
     self.qxRevision = self.getLocalRevision()
     self.storeRevision()
     
+  
+  def buildTarget(self, target, buildConf):
+    buildResult = {
+      "SVNRevision" : None,
+      "BuildError"  : None,
+      "BuildWarning" : None,
+      "BuildStarted" : time.strftime(self.timeFormat),
+      "BuildFinished" : False,
+      "BuildJob" : None
+    }
+    
+    # Assemble batbuild command line
+    if (os.path.isabs(buildConf['batbuild'])):
+      cmd = buildConf['batbuild']
+    else:
+      cmd = os.path.join(self.testConf['qxPathAbs'], buildConf['batbuild'])
+    cmd += " -w " + buildConf['stageDir']
+    #if target[0] == target[0].capitalize():
+    cmd += " " + buildConf['targets'][target]
+    self.log("Building " + target + "\n  " + cmd)
+    reg = re.compile("-g\ (.*?)\ -")
+    match = reg.search(cmd)
+    if match:
+      job = match.group(1)
+    else:
+      job = cmd
+    buildResult["BuildJob"] = job
+    
+    if (self.sim):
+      status = 0
+      self.log("SIMULATION: Invoking build command:\n  " + cmd)
+      return buildResult
+    
+    status, std, err = invokePiped(cmd)
+    if status > 0:
+      if ('buildLogDir' in buildConf):
+        buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"], target)
+        self.logBuildErrors(buildLogFile, target, cmd, err)
+        buildLogFile.close()
+      
+      buildResult["BuildError"] = "Unknown build error"
+      
+      """Get the last line of batbuild.py's STDERR output which contains
+      the actual error message. """
+      nre = re.compile('[\n\r](.*)$')
+      m = nre.search(err)
+      if m:
+        buildResult["BuildError"] = m.group(1)
+    elif err != "":
+      self.log("Warning while building " + target + ", see build log file for details.")
+      err = err.rstrip('\n')
+      err = err.rstrip('\r')
+      if ('buildLogDir' in buildConf):
+        buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"], target)
+        buildLogFile.write(target + "\n" + cmd + "\n" + err)
+        buildLogFile.write("\n========================================================\n\n")
+        buildLogFile.close()
+      buildResult["BuildFinished"] = time.strftime(self.timeFormat)
+      buildResult["BuildWarning"] = err
+    else:
+      self.log(target + " build finished without errors.")
+      buildResult["BuildFinished"] = time.strftime(self.timeFormat)
+        
+    buildResult["SVNRevision"] = self.getLocalRevision()
+    
+    return buildResult
     
   ##
   # Generates one or more application skeletons. Logs any 
