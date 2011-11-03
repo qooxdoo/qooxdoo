@@ -7,6 +7,8 @@
 # - Config section -------------------------------------------------------------
 generatorstats=/home/qooxdoo/workspace/qooxdoo.git/tool/admin/app/generatorstats
 logdir=/home/qooxdoo/workspace/githop/git.qooxdoo.generator-stats
+# suck in ssh-agent stuff, for git push
+. $HOME/.ssh/agent/agent.env
 # - Config end -----------------------------------------------------------------
 
 # chdir, so that relative paths (e.g. to *.rrd) are correct
