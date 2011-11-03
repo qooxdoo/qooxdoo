@@ -417,8 +417,8 @@ input[type="checkbox"]:checked {
   bottom: -100px;
 }
 
+/*  BLOCKER  */
 .blocker {
-  display:none;
   position : absolute;
   z-index:100;
   width:100%;
@@ -430,6 +430,8 @@ input[type="checkbox"]:checked {
   color: black;
 }
 
+
+/*  SPINNER  */
 .spinnerContainer {
   margin: 0 auto;
   height: 100%;
@@ -460,17 +462,18 @@ input[type="checkbox"]:checked {
 .popup {
   position: absolute;
   background-color: #a1a1a1;
-  display: none;
   width: auto;
   padding: 3px;
   border: 1px solid white;
   -webkit-border-radius: .3em;
+  z-index: 99;  
 }
 
-dialog {
+
+/*  DIALOG  */
+.dialog {
   position: fixed;
   background-color: #a1a1a1;
-  display: none;
   width: auto;
   padding: 3px;
   border: 1px solid white;

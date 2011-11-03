@@ -4,22 +4,17 @@
     padding: 0;
 }
 
+
+html {
+  height:100%;
+}
+
 .root {
     overflow-x: hidden;
     -webkit-user-select: none;
     -webkit-text-size-adjust: none;
     font-family: Helvetica;
-    -webkit-perspective: 800;
-    -webkit-transform-style: preserve-3d;
-}
-
-.root > * {
-    -webkit-backface-visibility: hidden;
-    -webkit-box-sizing: border-box;
-    position: absolute;
-    left: 0;
-    width: 100%;
-    -webkit-transform: translate3d(0,0,0) rotate(0) scale(1);
+    height:100%;
 }
 
 .selectable, input, textarea {
@@ -495,6 +490,22 @@
 
 /* Layout */
 
+
+.layout-card {
+  -webkit-perspective: 800;
+  -webkit-transform-style: preserve-3d;
+  overflow:hidden;
+}
+
+.layout-card-item {
+    -webkit-backface-visibility: hidden;
+    -webkit-box-sizing: border-box;
+    -webkit-transform: translate3d(0,0,0) rotate(0) scale(1);
+    position: relative;
+    left:0px;
+    width: 100%;
+}
+
 .hbox {
         display: -webkit-box;
         -webkit-box-orient: horizontal;
@@ -617,4 +628,8 @@
 .disabled {
   opacity: 0.35;
   cursor: default;
+}
+
+.transparent {
+  opacity: 0 !important;
 }
