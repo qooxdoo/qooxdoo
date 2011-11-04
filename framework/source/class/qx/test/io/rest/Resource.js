@@ -162,6 +162,8 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     "test: map action throws when existing method": function() {
+      this.require(["debug"]);
+
       var res = this.res,
           req = this.req;
 
@@ -174,6 +176,8 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     "test: map action does not throw when existing method is empty": function() {
+      this.require(["debug"]);
+
       var res = this.res,
           req = this.req;
 
@@ -228,6 +232,8 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     "test: map action from description throws with non-object": function() {
+      this.require(["debug"]);
+
       this.assertException(function() {
         var res = new qx.io.rest.Resource([]);
       });
