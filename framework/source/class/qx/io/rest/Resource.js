@@ -118,7 +118,9 @@ qx.Class.define("qx.io.rest.Resource",
 
     try {
       if (typeof description !== "undefined") {
-        qx.core.Assert.assertMap(description);
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.core.Assert.assertMap(description);
+        }
         this.__mapFromDescription(description);
       }
     } catch(e) {
@@ -375,7 +377,9 @@ qx.Class.define("qx.io.rest.Resource",
           // Warn about invalid check
           if (qx.core.Environment.get("qx.debug")) {
             if (check[key] !== true) {
-              qx.core.Assert.assertRegExp(check[key]);
+              if (qx.core.Environment.get("qx.debug")) {
+                qx.core.Assert.assertRegExp(check[key]);
+              }
             }
           }
 
@@ -649,8 +653,10 @@ qx.Class.define("qx.io.rest.Resource",
             url = route.url,
             check = route.check;
 
-        qx.core.Assert.assertString(method, "Method must be string for route '" + action + "'");
-        qx.core.Assert.assertString(url, "URL must be string for route '" + action + "'");
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.core.Assert.assertString(method, "Method must be string for route '" + action + "'");
+          qx.core.Assert.assertString(url, "URL must be string for route '" + action + "'");
+        }
 
         this.map(action, method, url, check);
       }, this);
