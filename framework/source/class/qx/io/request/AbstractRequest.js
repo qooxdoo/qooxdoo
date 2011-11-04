@@ -740,33 +740,39 @@ qx.Class.define("qx.io.request.AbstractRequest",
       }
 
       if (this.isDone()) {
+        this.__onReadyStateDone();
+      }
+    },
 
+    /**
+     * Called internally when readyState is DONE.
+     */
+    __onReadyStateDone: function() {
+      if (qx.core.Environment.get("qx.debug.io")) {
+        this.debug("Request completed with HTTP status: " + this.getStatus());
+      }
+
+      // Event "load" fired in onLoad
+      this._setPhase("load");
+
+      // Successful HTTP status
+      if (qx.util.Request.isSuccessful(this.getStatus())) {
+
+        // Parse response
         if (qx.core.Environment.get("qx.debug.io")) {
-          this.debug("Request completed with HTTP status: " + this.getStatus());
+          this.debug("Response is of type: '" + this.getResponseContentType() + "'");
         }
+        parsedResponse = this._getParsedResponse();
+        this._setResponse(parsedResponse);
 
-        // Event "load" fired in onLoad
-        this._setPhase("load");
+        this._fireStatefulEvent("success");
 
-        // Successful HTTP status
-        if (qx.util.Request.isSuccessful(this.getStatus())) {
+      // Erroneous HTTP status
+      } else {
 
-          // Parse response
-          if (qx.core.Environment.get("qx.debug.io")) {
-            this.debug("Response is of type: '" + this.getResponseContentType() + "'");
-          }
-          parsedResponse = this._getParsedResponse();
-          this._setResponse(parsedResponse);
-
-          this._fireStatefulEvent("success");
-
-        // Erroneous HTTP status
-        } else {
-          this._fireStatefulEvent("statusError");
-
-          // A remote error failure
-          this.fireEvent("fail");
-        }
+        // A remote error failure
+        this._fireStatefulEvent("statusError");
+        this.fireEvent("fail");
       }
     },
 

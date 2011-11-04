@@ -763,7 +763,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       // Always fire "readystatechange"
       this.onreadystatechange();
-      this.__readyStateChangeDone();
+      if (this.readyState === qx.bom.request.Xhr.DONE) {
+        this.__readyStateChangeDone();
+      }
     },
 
     /**
@@ -771,50 +773,48 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * {@link #__readyStateChange} when readyState is DONE.
      */
     __readyStateChangeDone: function() {
-      if (this.readyState === qx.bom.request.Xhr.DONE) {
-        // Request determined DONE. Cancel timeout.
-        window.clearTimeout(this.__timerId);
+      // Request determined DONE. Cancel timeout.
+      window.clearTimeout(this.__timerId);
 
-        // Fire "timeout" if timeout flag is set
-        if (this.__timeout) {
-          this.ontimeout();
+      // Fire "timeout" if timeout flag is set
+      if (this.__timeout) {
+        this.ontimeout();
 
-          // BUGFIX: Opera
-          // Since Opera does not fire "error" on network error, fire additional
-          // "error" on timeout (may well be related to network error)
-          if (qx.core.Environment.get("engine.name") === "opera") {
-            this.onerror();
-          }
+        // BUGFIX: Opera
+        // Since Opera does not fire "error" on network error, fire additional
+        // "error" on timeout (may well be related to network error)
+        if (qx.core.Environment.get("engine.name") === "opera") {
+          this.onerror();
+        }
 
-          this.__timeout = false;
+        this.__timeout = false;
 
-        // Fire either "abort", "load" or "error"
-        //
-        // Infer the XHR internal error flag from statusText when not aborted.
-        // See http://www.w3.org/TR/XMLHttpRequest2/#error-flag and
-        // http://www.w3.org/TR/XMLHttpRequest2/#the-statustext-attribute
-        //
-        // With file://, statusText is always falsy. Assume network error when
-        // response is empty.
+      // Fire either "abort", "load" or "error"
+      //
+      // Infer the XHR internal error flag from statusText when not aborted.
+      // See http://www.w3.org/TR/XMLHttpRequest2/#error-flag and
+      // http://www.w3.org/TR/XMLHttpRequest2/#the-statustext-attribute
+      //
+      // With file://, statusText is always falsy. Assume network error when
+      // response is empty.
+      } else {
+
+        if (this.__abort) {
+          this.onabort();
         } else {
 
-          if (this.__abort) {
-            this.onabort();
+          if (this._getProtocol() === "file:") {
+            this.responseText ? this.onload() : this.onerror();
           } else {
-
-            if (this._getProtocol() === "file:") {
-              this.responseText ? this.onload() : this.onerror();
-            } else {
-              this.statusText ? this.onload() : this.onerror();
-            }
-
+            this.statusText ? this.onload() : this.onerror();
           }
 
         }
 
-        // Always fire "onloadend" when DONE
-        this.onloadend();
       }
+
+      // Always fire "onloadend" when DONE
+      this.onloadend();
     },
 
     /**
