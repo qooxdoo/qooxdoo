@@ -45,7 +45,7 @@ Files = {
     "./index.html"  : [
         r'var qxversion = "(%s)"'    % qxversion_regexp
         ],
-    "./readme.txt"  : [ 
+    "./readme.rst"  : [ 
         r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp 
         ],
     "./framework/Manifest.json" : [
