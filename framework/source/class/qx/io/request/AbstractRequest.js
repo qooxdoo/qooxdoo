@@ -771,8 +771,10 @@ qx.Class.define("qx.io.request.AbstractRequest",
       } else {
 
         // A remote error failure
-        this._fireStatefulEvent("statusError");
-        this.fireEvent("fail");
+        if (this.getStatus() !== 0) {
+          this._fireStatefulEvent("statusError");
+          this.fireEvent("fail");
+        }
       }
     },
 
