@@ -49,13 +49,22 @@ def getUserHome(default=""):
     else:
         return default
 
+def getGenArgs():
+    arg_string = ""
+    #print sys.argv
+    return arg_string
+
 class Defaults(object):
 
     let = {
+        u"GENERATOR_ARGS"  : getGenArgs(),
+        u"HOME"            : getUserHome("."),
+        u"PYTHON_CMD"      : sys.executable,
         u"TMPDIR"          : tempfile.gettempdir(),
         u"QOOXDOO_VERSION" : getQooxdooVersion(),
         u"QOOXDOO_REVISION": getQooxdooRevision(),
         u"USERNAME"        : os.getenv("USERNAME"),
-        u"HOME"            : getUserHome("."),
-        u"PYTHON_CMD"      : sys.executable,
     }
+
+# import os env
+Defaults.let.update(os.environ)
