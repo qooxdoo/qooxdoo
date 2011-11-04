@@ -292,10 +292,19 @@ qx.Mixin.define("qx.test.io.request.MRequest",
           fail = this.spy();
 
       req.addListener("fail", fail);
-
-      // When a network error occured, an HTTP status can never be set
-      // (If it was, two fail events would be fired)
       this.respondError();
+
+      this.assertCalledOnce(fail);
+    },
+
+    "test: fire fail on timeout": function() {
+      this.setUpFakeTransport();
+
+      var req = this.req,
+          fail = this.spy();
+
+      req.addListener("fail", fail);
+      this.timeout();
 
       this.assertCalledOnce(fail);
     },
@@ -492,10 +501,10 @@ qx.Mixin.define("qx.test.io.request.MRequest",
 
     "test: phase is timeout": function() {
       this.setUpFakeTransport();
-      var req = this.req,
-          transport = this.transport;
 
-      transport.ontimeout();
+      var req = this.req;
+
+      this.timeout();
       this.assertEquals("timeout", req.getPhase());
     },
 
@@ -510,16 +519,33 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     respond: function(status, error) {
       var transport = this.transport;
 
-      transport.status = status || 200;
+      transport.status = typeof status === "undefined" ? 200 : status;
       transport.readyState = 4;
-
       transport.onreadystatechange();
-      error ? transport.onerror() : transport.onload();
+
+      (function() {
+        if (error === "timeout") {
+          transport.ontimeout();
+          return;
+        }
+
+        if (error === "network") {
+          transport.onerror();
+          return;
+        }
+
+        transport.onload();
+      })();
+
       transport.onloadend();
     },
 
-    respondError: function(status) {
-      this.respond(status || 0, true);
+    respondError: function() {
+      this.respond(0, "network");
+    },
+
+    timeout: function() {
+      this.respond(0, "timeout");
     }
   }
 });
