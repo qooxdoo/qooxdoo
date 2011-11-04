@@ -600,10 +600,12 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
         // Erroneous HTTP status
         } else {
-          this._fireStatefulEvent("statusError");
 
           // A remote error failure
-          this.fireEvent("fail");
+          if (this.getStatus() !== 0) {
+            this._fireStatefulEvent("statusError");
+            this.fireEvent("fail");
+          }
         }
       }
     },
