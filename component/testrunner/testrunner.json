@@ -180,6 +180,10 @@
         },
 
         {
+          "manifest" : "${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
+        },
+
+        {
           "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
         },
 
