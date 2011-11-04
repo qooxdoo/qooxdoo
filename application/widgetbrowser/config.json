@@ -156,10 +156,13 @@
       "library" : 
       [
         {
-          "manifest"   : "${QOOXDOO_PATH}/component/library/formdemo/Manifest.json"
+          "manifest" : "${QOOXDOO_PATH}/component/library/formdemo/Manifest.json"
+        },
+        {
+          "manifest" : "${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
         }
       ],
-      "environment" :
+      "environment"  :
       {
         "qx.nativeScrollBars" : true
       },

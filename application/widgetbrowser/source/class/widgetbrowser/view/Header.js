@@ -40,7 +40,7 @@ qx.Class.define("widgetbrowser.view.Header",
     this.setAppearance("app-header");
 
     var title = new qx.ui.basic.Label("Widget Browser");
-    var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Environment.get("qx.version"));
+    var version = new qxc.ui.versionlabel.VersionLabel();
     version.setFont("default");
     version.setAppearance("app-header-label");
 
