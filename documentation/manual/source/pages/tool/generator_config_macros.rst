@@ -37,9 +37,13 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
      - path to the compile cache (can be rel. to config dir) 
      - ${TMPDIR}/cache 
  
+   * - CACHE_KEY
+     - takes the value of a complete :ref:`cache <pages/tool/generator_config_ref#cache>` configuration key (i.e. a map)
+     - { "compile" : "${CACHE}", "downloads" : "${CACHE}/downloads", "invalidate-on-tool-change" : true }
+ 
    * - HOME 
      - (read-only) value of the (process) environment variable "HOME"
-     - "."
+     - "." *(for safety reasons)*
  
    * - LOCALES 
      - list of locales for this application 
@@ -103,7 +107,7 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
  
    * - TMPDIR 
      - (read-only) path to tmp directory 
-     - (platform-dependent, like /tmp etc.) 
+     - (platform-dependent, like /tmp etc.; run *generate.py info* to find out) 
  
    * - USERNAME 
      - (read-only) value of the (process) environment variable "USERNAME"
