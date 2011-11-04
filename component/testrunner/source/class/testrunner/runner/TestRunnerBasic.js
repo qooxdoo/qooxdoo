@@ -121,6 +121,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     _testParts : null,
     __testsInView : null,
     _testNameSpace : null,
+    __externalTestClasses : 0,
 
     
     _getTestNameSpace : function()
@@ -156,16 +157,48 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     },
     
     
+    _addTestClass : function(membersMap)
+    {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertMap(membersMap);
+      }
+      this.setTestSuiteState("loading");
+      var testClass = qx.Class.define("test.TestClass" + (this.__externalTestClasses += 1) ,
+      {
+        extend : qx.dev.unit.TestCase,
+        include : [qx.dev.unit.MMock, qx.dev.unit.MRequirements],
+        members : membersMap
+      });
+      
+      if (this.loader) {
+        this.loader.getSuite().add(testClass);
+      }
+      else {
+        this.loader = new qx.dev.unit.TestLoaderBasic("test");
+      }
+    },
+    
+    
+    define : function(membersMap)
+    {
+      this._addTestClass(membersMap);
+      this._getTestModel();
+    },
+    
     /**
-     * Loads externally defined test code by calling the static function
-     * <code>testrunner.ready</code> which should return the common top-level 
-     * namespace (String) of the test classes.
+     * TODOC
      */
     _loadExternalTests : function()
     {
-      if (testrunner.ready && typeof testrunner.ready == "function") {
-        var nameSpace = testrunner.ready();
-        this._loadInlineTests(nameSpace);
+      if (window.testrunner.testDefinitions instanceof Array) {
+        for (var i=0,l=testrunner.testDefinitions.length; i<l; i++) {
+          this._addTestClass(testrunner.testDefinitions[i]);
+        }
+        if (this.loader) {
+          //FIXME: Assertion wrapping causes weird errors
+          //this._wrapAssertions();
+          this._getTestModel();
+        }
       }
     },
 
