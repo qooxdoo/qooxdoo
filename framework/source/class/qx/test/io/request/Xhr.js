@@ -65,8 +65,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     setUpFakeTransport: function() {
       if (this.transport && this.transport.send.restore) { return; }
-      this.transport = this.injectStub(qx.io.request.Xhr.prototype,
-        "_createTransport", this.deepStub(new qx.bom.request.Xhr()));
+      this.transport = this.injectStub(qx.io.request.Xhr.prototype, "_createTransport");
       this.setUpRequest();
     },
 
