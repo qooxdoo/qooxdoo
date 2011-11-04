@@ -159,6 +159,39 @@ When assembling a job to run, the precedence of all the various *let* maps is
 
 With imported jobs top-level definitions will take precedence over any definitions from the external config file (as if they were the 'first' let section in the chain).
 
+
+.. _pages/tool/generator_config_articles#let_key_osenviron:
+
+
+OS Environment Variables as Configuration Macros
+------------------------------------------------
+
+*(experimental)*
+
+On startup, the generator will read the operating system environment settings, and provide them as configuration macros, as if you had defined them with *let*. This can be handy as an alterative to hard-coding macros in a configuration file, or providing them on the generator command line (with the *-m* command-line option).
+
+Here is an example. Suppose in your *config.json* you have section like this::
+
+  "jobs" : {
+    "myjob" : {
+      "environment" : {
+        "myapp.foosetting" : ${FOOVALUE}
+      }
+    }
+  }
+
+then you can provide a value for *FOOVALUE* by just providing an environment setting for it. E.g. if you are using *bash* to invoke the generator, you could something like this::
+
+  bash> env FOOVALUE=17 ./generate.py myjob
+
+which will result in *myapp.foosetting* getting the value 17.
+
+A few things are important to note in this respect:
+
+* The generator includes all the environment settings that the operating system provides. There is no filtering of any kind. This can lead to surprises when you are not aware which settings are available and which not. If in doubt use your operating system's facilities to list the environment settings in effect when you launch the generator.
+* In the parsing of config files and the expansion of generator jobs, the environment settings have high priority. They will take precedence over all settings giving in the configuration files given with *let* keys. Only macro settings passed through the generator command-line option *-m* will take higher precedence, and will override environment keys.
+
+
 .. _pages/tool/generator_config_articles#log_key:
 
 "log" Key
