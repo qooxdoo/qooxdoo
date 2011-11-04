@@ -28,7 +28,7 @@ qx.Class.define("playground.view.Header",
     this.base(arguments, new qx.ui.layout.HBox());
     this.setAppearance("app-header");
 
-    var versionTag = this.tr("qooxdoo %1", qx.core.Environment.get("qx.version"));
+    var version = new qxc.ui.versionlabel.VersionLabel(this.tr("qooxdoo"));
     var riaButton = new qx.ui.form.RadioButton(this.tr("Desktop"));
     riaButton.set({
       model: "ria",
@@ -50,7 +50,7 @@ qx.Class.define("playground.view.Header",
     this.add(riaButton);
     this.add(mobileButton);
     this.add(new qx.ui.core.Spacer(), { flex : 1 });
-    this.add(new qx.ui.basic.Label(versionTag).set({font: "bold"}));
+    this.add(version);
   },
 
 

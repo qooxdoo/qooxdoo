@@ -41,7 +41,10 @@
       "library" : 
       [
         {
-          "manifest"   : "${QOOXDOO_PATH}/component/library/logpane/Manifest.json"
+          "manifest" : "${QOOXDOO_PATH}/component/library/logpane/Manifest.json"
+        },
+        {
+          "manifest" : "${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
         }
       ],
       "exclude" :
