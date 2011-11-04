@@ -134,7 +134,7 @@
 
       "shell" :
       {
-        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py -c config.demobrowser.json source"
+        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py ${GENERATOR_OPTS} -c config.demobrowser.json source"
       }
     },
 
@@ -159,7 +159,7 @@
 
       "shell" :
       {
-        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py -c config.demobrowser.json source-hybrid"
+        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py ${GENERATOR_OPTS} -c config.demobrowser.json source-hybrid"
       }
     },
 
@@ -197,7 +197,7 @@
 
       "shell" :
       {
-        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py -c ./config.demobrowser.json build"
+        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py ${GENERATOR_OPTS} -c ./config.demobrowser.json build"
       }
       
     },
@@ -248,7 +248,7 @@
     {
       "shell" :
       {
-        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py -c ./config.demobrowser.json info"
+        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py ${GENERATOR_OPTS} -c ./config.demobrowser.json info"
       }
     }
   }

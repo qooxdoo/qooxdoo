@@ -26,6 +26,7 @@ from misc.ExtendAction import ExtendAction
 from generator import Context
 from generator.Generator import Generator
 from generator.config.Config import Config
+from generator.config.GeneratorArguments import GeneratorArguments
 from generator.runtime.Log import Log
 from generator.runtime.InterruptRegistry import InterruptRegistry
 
@@ -96,35 +97,7 @@ def getAdditonalArgs(config, args):
 
 def main():
     global options
-    parser = optparse.OptionParser(option_class=ExtendAction)
-
-    usage_str = '''%prog [options] job,...
-
-Arguments:
-  job,...               a list of jobs (like 'source' or 'copy-files',
-                        without the quotes) to run
-  x                     use 'x' (or some undefined job name) to get a 
-                        list of all available jobs from the configuration file'''
-    parser.set_usage(usage_str)
-
-
-    # Common options
-    parser.add_option("-c", "--config", dest="config", metavar="CFGFILE", default="config.json", help="path to configuration file containing job definitions (default: %default)")
-    parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="quiet output mode (extra quiet)")
-    parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode of job processing")
-    parser.add_option("-w", "--config-verbose", action="store_true", dest="config_verbose", default=False, help="verbose output mode of configuration processing")
-    parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="log file")
-    parser.add_option("-s", "--stacktrace", action="store_true", dest="stacktrace", default=False, help="enable stack traces on fatal exceptions")
-    parser.add_option("-m", "--macro", dest="letmacros", metavar="KEY:VAL", action="map", type="string", default={}, help="define/overwrite a global 'let' macro KEY with value VAL")
-    parser.add_option("-d", "--daemon", dest="daemon", action="store_true", default=False, help="(EXPERIMENTAL - DON'T USE) puts the generator in daemon mode")
-    
-    # Dynamic options (currently not supported)
-    #parser.add_option("--setting", action="extend", dest="settings", metavar="KEY:VALUE", type="string", default=[], help="Used settings")
-    #parser.add_option("--variant", action="extend", dest="variants", metavar="KEY:VALUE", type="string", default=[], help="Selected variants")
-    #parser.add_option("--require", action="extend", dest="require", metavar="CLASS1:CLASS2", type="string", default=[], help="Special loadtime class dependencies")
-    #parser.add_option("--use", action="extend", dest="use", metavar="CLASS1:CLASS2", type="string", default=[], help="Special runtime class dependencies")
-
-    (options, args) = parser.parse_args(sys.argv[1:])
+    (options, args) = GeneratorArguments(option_class=ExtendAction).parse_args(sys.argv[1:])
 
     if args:
         options.jobs = args[0].split(',')

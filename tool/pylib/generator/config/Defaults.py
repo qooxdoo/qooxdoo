@@ -21,7 +21,9 @@
 ################################################################################
 
 import os, sys, re, types, string, codecs, copy, tempfile
+from misc.ExtendAction import ExtendAction
 from generator.runtime.ShellCmd import ShellCmd
+from generator.config.GeneratorArguments import GeneratorArguments
 
 def getQooxdooVersion():
     versionFile = os.path.join(os.path.dirname(__file__), "../../../../version.txt")   # TODO: get rid of hard-coded path
@@ -49,15 +51,26 @@ def getUserHome(default=""):
     else:
         return default
 
-def getGenArgs():
-    arg_string = ""
-    #print sys.argv
-    return arg_string
+def getGenOpts():
+    opts_string = ""
+    sysargv = sys.argv[1:]
+    _,args = GeneratorArguments(option_class=ExtendAction).parse_args(sysargv[:])
+    opts = [x for x in sysargv if x not in args] # remove the jobs list
+    opts_string = u" ".join(opts)
+    return opts_string
 
 class Defaults(object):
 
     let = {
-        u"GENERATOR_ARGS"  : getGenArgs(),
+        ##
+        # GENERATOR_OPTS
+        # You can use the generator options string returned here for the invocation
+        # of child generator (or other, of course) processes. Putting this macro
+        # first you can override options subsequently, like
+        # "generate.py ${GENERATOR_OPTS} -c otherconfig.json -m FOO:baz"
+        # will insert all options passed to this generator invocation, but
+        # overriding the config file and the FOO macro.
+        u"GENERATOR_OPTS"  : getGenOpts(),
         u"HOME"            : getUserHome("."),
         u"PYTHON_CMD"      : sys.executable,
         u"TMPDIR"          : tempfile.gettempdir(),
