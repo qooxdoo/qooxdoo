@@ -1826,7 +1826,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       header.setAppearance("app-header");
 
       var title = new qx.ui.basic.Label("Demo Browser");
-      var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Environment.get("qx.version"));
+      var version = new qxc.ui.versionlabel.VersionLabel();
 
       header.add(title);
       header.add(new qx.ui.core.Spacer, {flex : 1});
