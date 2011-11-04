@@ -896,6 +896,9 @@ qx.Class.define("testrunner.view.widget.Widget", {
     {
       switch(value)
       {
+        case "init":
+          this.setStatus("Waiting for tests");
+          break;
         case "loading" :
           this.__stack.setSelection([this.__loadingContainer]);
           this.setStatus("Loading tests...");

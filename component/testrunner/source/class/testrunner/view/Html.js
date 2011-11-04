@@ -672,6 +672,9 @@ qx.Class.define("testrunner.view.Html", {
     {
       switch(value)
       {
+        case "init":
+          this.setStatus("Waiting for tests");
+          break;
         case "loading" :
           this.setStatus("Loading tests...");
           $("#testfilter," +
