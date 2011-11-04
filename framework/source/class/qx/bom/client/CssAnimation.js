@@ -84,11 +84,14 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      * @return {String} The name of the event.
      */
     getAnimationEnd : function() {
-      if (qx.core.Environment.get("engine.name") == "webkit") {
-        return "webkitAnimationEnd";
+      var mapping = {
+        "MsAnimation" : "MSAnimationEnd",
+        "WebkitAnimation" : "webkitAnimationEnd",
+        "MozAnimation" : "animationend",
+        "OAnimation" : "oAnimationEnd"
       }
 
-      return "animationend";
+      return mapping[this.getName()];
     },
 
 
