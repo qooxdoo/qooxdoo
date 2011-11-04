@@ -54,6 +54,15 @@
   "jobs" :
   {
     
+    "libraries" :
+    {
+      "library" : [
+        {
+          "manifest" : "${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
+        }
+      ]
+    },
+
     "build-script" :
     {
       "compile-options" :
