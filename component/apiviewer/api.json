@@ -25,6 +25,10 @@
 
         {
           "manifest" : "${APIVIEWER_ROOT}/Manifest.json"
+        },
+
+        {
+          "manifest" : "${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
         }
       ],
 
