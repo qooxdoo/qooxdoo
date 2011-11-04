@@ -79,5 +79,3 @@ class Defaults(object):
         u"USERNAME"        : os.getenv("USERNAME"),
     }
 
-# import os env
-Defaults.let.update(os.environ)

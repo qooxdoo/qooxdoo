@@ -103,16 +103,20 @@ class Config(object):
     
     def expandTopLevelKeys(self):
         if Key.LET_KEY in self._data:
-            letObj = Let(self._data[Key.LET_KEY])  # create a Let object from let map
-            letObj.expandMacrosInLet()              # do self-expansion of macros
-            for key in self._data:
-                if key == Key.JOBS_KEY:            # skip 'jobs'; they expand later
-                    continue
-                elif key == Key.LET_KEY:           # macro definitions have to remain re-evaluable
-                    continue
-                else:
-                    dat = letObj.expandMacros(self._data[key])
-                    self._data[key] = dat
+            letDict = self._data[Key.LET_KEY]
+        else:
+            letDict = {}
+        letDict.update(os.environ)             # include OS env - this is permanent!
+        letObj = Let(letDict)                  # create a Let object from let map
+        letObj.expandMacrosInLet()             # do self-expansion of macros
+        for key in self._data:
+            if key == Key.JOBS_KEY:            # skip 'jobs'; they expand later
+                continue
+            elif key == Key.LET_KEY:           # macro definitions have to remain re-evaluable
+                continue
+            else:
+                dat = letObj.expandMacros(self._data[key])
+                self._data[key] = dat
         return
 
 
