@@ -86,11 +86,23 @@ qx.Bootstrap.define("qx.bom.client.CssTransform",
     },
 
 
+    /**
+     * Checks for the style name used to set the perspective origin.
+     * @internal
+     * @return {String|null} The name of the style or null, if the style is 
+     *   not supported.
+     */
     getPerspectiveOrigin : function() {
       return qx.bom.Style.getPropertyName("PerspectiveOrigin");
     },
 
 
+    /**
+     * Checks for the style name used to set the backface visibility.
+     * @internal
+     * @return {String|null} The name of the style or null, if the style is 
+     *   not supported.
+     */
     getBackFaceVisibility : function() {
       return qx.bom.Style.getPropertyName("BackfaceVisibility");
     },
