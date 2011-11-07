@@ -98,61 +98,62 @@
   </div>
 
 
-  <h1>Transform Style</h1>
-  <div class="row">
-    <div class="container">
-      <div class="orig">flat</div>
-      <div class="orig">preserve-3d</div>
+  <div id="3dpart">
+    <h1>Transform Style</h1>
+    <div class="row">
+      <div class="container">
+        <div class="orig">flat</div>
+        <div class="orig">preserve-3d</div>
+      </div>
+      <div class="container">
+        <div id="flat" class="box"><div class="innerbox">flat</div></div>
+        <div id="3d" class="box"><div class="innerbox">preserve-3d</div></div>
+      </div>
     </div>
-    <div class="container">
-      <div id="flat" class="box"><div class="innerbox">flat</div></div>
-      <div id="3d" class="box"><div class="innerbox">preserve-3d</div></div>
+    
+    <h1>Perspective</h1>
+    <div class="row">
+      <div class="container">
+        <div class="orig">10</div>
+        <div class="orig">100</div>
+        <div class="orig">500</div>
+        <div class="orig">1000</div>
+      </div>
+      <div class="container">
+        <div id="perspective30" style="float: left"><div class="box">30</div></div>
+        <div id="perspective100" style="float: left"><div class="box">100</div></div>
+        <div id="perspective500" style="float: left"><div class="box">500</div></div>
+        <div id="perspective1000" style="float: left"><div class="box">1000</div></div>
+      </div>
+    </div>
+    
+    
+    <h1>Perspective Origin</h1>
+    <div class="row">
+      <div class="container">
+        <div class="orig">center</div>
+        <div class="orig">bottom left</div>
+        <div class="orig">bottom right</div>
+      </div>
+      <div class="container">
+        <div id="perorig-c" style="float: left"><div class="box">center</div></div>
+        <div id="perorig-bl" style="float: left"><div class="box">bottom left</div></div>
+        <div id="perorig-br" style="float: left"><div class="box">bottom right</div></div>
+      </div>
+    </div>
+    
+    
+    <h1>Backface Visibility</h1>
+    <div class="row">
+      <div class="container">
+        <div class="orig">visible</div>
+        <div class="orig">hidden</div>
+      </div>
+      <div class="container">
+        <div id="visible" class="box">visible</div>
+        <div id="hidden" class="box">hidden</div>
+      </div>
     </div>
   </div>
-
-  <h1>Perspective</h1>
-  <div class="row">
-    <div class="container">
-      <div class="orig">10</div>
-      <div class="orig">100</div>
-      <div class="orig">500</div>
-      <div class="orig">1000</div>
-    </div>
-    <div class="container">
-      <div id="perspective30" style="float: left"><div class="box">30</div></div>
-      <div id="perspective100" style="float: left"><div class="box">100</div></div>
-      <div id="perspective500" style="float: left"><div class="box">500</div></div>
-      <div id="perspective1000" style="float: left"><div class="box">1000</div></div>
-    </div>
-  </div>
-
-
-  <h1>Perspective Origin</h1>
-  <div class="row">
-    <div class="container">
-      <div class="orig">center</div>
-      <div class="orig">bottom left</div>
-      <div class="orig">bottom right</div>
-    </div>
-    <div class="container">
-      <div id="perorig-c" style="float: left"><div class="box">center</div></div>
-      <div id="perorig-bl" style="float: left"><div class="box">bottom left</div></div>
-      <div id="perorig-br" style="float: left"><div class="box">bottom right</div></div>
-    </div>
-  </div>
-
-
-  <h1>Backface Visibility</h1>
-  <div class="row">
-    <div class="container">
-      <div class="orig">visible</div>
-      <div class="orig">hidden</div>
-    </div>
-    <div class="container">
-      <div id="visible" class="box">visible</div>
-      <div id="hidden" class="box">hidden</div>
-    </div>
-  </div>
-
 </body>
 </html>
