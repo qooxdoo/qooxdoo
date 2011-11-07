@@ -101,7 +101,7 @@ class MClassDependencies(object):
 
             # Read source tree data
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
-            self._analyzeClassDepsNode(self.tree(variantSet), treeDeps, variantSet, inLoadContext=True)
+            self._analyzeClassDepsNode(self.tree(relevantVariants), treeDeps, relevantVariants, inLoadContext=True)
 
             # Process source tree data
             for dep in treeDeps:
@@ -146,7 +146,7 @@ class MClassDependencies(object):
             classMaps = {}
             for dep in shallowDeps['load']:
                 if dep.needsRecursion:
-                    recDeps = self.getTransitiveDeps(dep, variantSet, classMaps, force=force)
+                    recDeps = self.getTransitiveDeps(dep, variantSet, classMaps, force=force)  # need variantSet here (not relevantVariants), as the recursive deps might depend on any of those
                     newLoad.update(recDeps)
             shallowDeps['load'] = list(newLoad)
 

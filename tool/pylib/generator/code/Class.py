@@ -29,7 +29,6 @@ from pprint import pprint
 
 from misc                           import textutil
 from ecmascript.frontend            import treeutil
-from ecmascript.transform.optimizer import variantoptimizer
 from generator.resource.Resource    import Resource
 from generator                      import Context
 from generator.code.clazz.MClassHints        import MClassHints

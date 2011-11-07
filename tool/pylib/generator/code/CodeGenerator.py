@@ -32,7 +32,7 @@ import generator.resource.Library # just need the .Library type
 from ecmascript.frontend        import treegenerator, treegenerator_new_ast
 from ecmascript.backend         import pretty
 from ecmascript.backend.Packer  import Packer
-from ecmascript.transform.optimizer    import variantoptimizer, privateoptimizer
+from ecmascript.transform.optimizer    import privateoptimizer
 from misc                       import filetool, json, Path, securehash as sha, util
 from misc.ExtMap                import ExtMap
 from misc.Path                  import OsPath, Uri

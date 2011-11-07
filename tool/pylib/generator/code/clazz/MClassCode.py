@@ -42,46 +42,26 @@ class MClassCode(object):
     #   Tree Interface
     # --------------------------------------------------------------------------
 
+    ##
+    # Interface method. Delivers class syntax tree:
+    # - handles cache
+    # - can be called with alternative parser (treegenerator)
+    #
     def tree(self, variantSet={}, treegen=treegenerator):
         context = self.context
         cache   = context['cache']
         tradeSpaceForSpeed = False  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
 
         # Construct the right cache id
-        unoptCacheId     = "tree%s-%s-%s" % (treegen.tag, self.path, util.toString({}))
-
-        classVariants    = []
+        cacheId     = "tree%s-%s-%s" % (treegen.tag, self.path, util.toString({}))
         tree             = None
-        classVariants    = self.classVariants(generate=False) # just check the cache
-        if classVariants == None:
-            tree = self._getSourceTree(unoptCacheId, tradeSpaceForSpeed, treegen)
-            classVariants= self._variantsFromTree(tree)
 
-        relevantVariants = self.projectClassVariantsToCurrent(classVariants, variantSet)
-        cacheId          = "tree%s-%s-%s" % (treegen.tag, self.path, util.toString(relevantVariants))
+        tree, cacheMod = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
+        if not tree:
+            tree = self._getSourceTree(cacheId, tradeSpaceForSpeed, treegen)
+            cache.write(cacheId, tree, memory=tradeSpaceForSpeed, writeToFile=True)
 
-        # Get the right tree to return
-        if cacheId == unoptCacheId and tree:  # early return optimization
-            return tree
-
-        opttree, cacheMod = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
-        if not opttree:
-            # start from source tree
-            if tree:
-                opttree = tree
-            else:
-                opttree = self._getSourceTree(unoptCacheId, tradeSpaceForSpeed, treegen)
-            # do we have to optimze?
-            if cacheId == unoptCacheId:
-                return opttree
-            else:
-                context["console"].debug("Selecting variants: %s..." % self.id)
-                context["console"].indent()
-                variantoptimizer.search(opttree, variantSet, self.id)
-                context["console"].outdent()
-                cache.write(cacheId, opttree, memory=tradeSpaceForSpeed, writeToFile=True)
-
-        return opttree
+        return tree
 
 
     def _getSourceTree(self, cacheId, tradeSpaceForSpeed, treegen):
@@ -161,8 +141,6 @@ class MClassCode(object):
         for variantNode in variantoptimizer.findVariantNodes(node):
             firstParam = treeutil.selectNode(variantNode, "../../params/1")
             if firstParam:
-                #if self.id == "qx.dev.unit.MRequirements":
-                #    import pydb; pydb.debugger()
                 if treeutil.isStringLiteral(firstParam):
                     classvariants.add(firstParam.get("value"))
                 elif firstParam.type == "variable":
@@ -248,7 +226,7 @@ class MClassCode(object):
 
         if compiled == None:
             tree   = self.tree(variants, treegen=treegen)
-            tree   = self.optimize(tree, optimize, featuremap)
+            tree   = self.optimize(tree, optimize, variants, featuremap)
             if optimize == ["comments"]:
                 compiled = serializeFormatted(tree)
                 if compiled[-1:] != "\n": # assure trailing \n
@@ -262,13 +240,17 @@ class MClassCode(object):
 
     ##
     # Create an id from the optimize list
+    #
     def _optimizeId(self, optimize):
         optimize = copy.copy(optimize)
         optimize.sort()
         return "[%s]" % ("-".join(optimize))
 
 
-    def optimize(self, tree, optimize=[], featureMap={}):
+    ##
+    # Optimize class tree.
+    #
+    def optimize(self, tree, optimize=[], variantSet={}, featureMap={}):
 
         def load_privates():
             cacheId  = privateoptimizer.privatesCacheId
@@ -293,6 +275,10 @@ class MClassCode(object):
             # do a mere comment stripping
             commentoptimizer.patch(tree)
             return tree
+
+        # "variants" prunes parts of the tree, so all subsequent optimizations benefit
+        if "variants" in optimize:
+            variantoptimizer.search(tree, variantSet, self.id)
 
         # 'statics' has to come before 'privates', as it needs the original key names in tree
         if "statics" in optimize:
