@@ -103,6 +103,21 @@ class Config(object):
     
     def expandTopLevelKeys(self):
         if Key.LET_KEY in self._data:
+           letObj = Let(self._data[Key.LET_KEY])  # create a Let object from let map
+           letObj.expandMacrosInLet()              # do self-expansion of macros
+           for key in self._data:
+               if key == Key.JOBS_KEY:            # skip 'jobs'; they expand later
+                   continue
+               elif key == Key.LET_KEY:           # macro definitions have to remain re-evaluable
+                   continue
+               else:
+                   dat = letObj.expandMacros(self._data[key])
+                   self._data[key] = dat
+        return
+
+
+    def expandTopLevelKeys_1(self):
+        if Key.LET_KEY in self._data:
             letDict = self._data[Key.LET_KEY]
         else:
             letDict = {}
@@ -376,6 +391,7 @@ class Config(object):
 
                 # cycle check
                 if os.path.abspath(fname) in includeTrace:
+                    #import pydb; pydb.debugger()
                     raise RuntimeError, "Include config already seen: %s" % str(includeTrace+[os.path.abspath(fname)])
                 
                 # calculate path relative to config file if necessary
