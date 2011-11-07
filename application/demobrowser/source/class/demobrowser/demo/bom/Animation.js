@@ -26,6 +26,14 @@ qx.Class.define("demobrowser.demo.bom.Animation",
     {
       this.base(arguments);
 
+      // check for annimation support
+      if (qx.core.Environment.get("css.animation") == null) {
+        var label = document.createElement('label');
+        label.innerHTML = "CSS animations not supported, sorry!";
+        document.body.appendChild(label);
+        return;
+      }
+
       var css = {duration: 1000, timing: "ease-out", keyFrames : {
         0 : {"width" : "30px"},
         70 : {"width" : "100px"},
@@ -138,14 +146,6 @@ qx.Class.define("demobrowser.demo.bom.Animation",
         "3D Transform" : transform,
         "3D Fall" : fall
       };
-
-      // check for annimation support
-      if (qx.core.Environment.get("css.animation") == null) {
-        var label = document.createElement('label');
-        label.innerHTML = "CSS animations not supported, sorry!";
-        document.body.appendChild(label);
-        return;
-      }
 
       for (var test in tests) {
         var button = document.createElement("div");
