@@ -718,8 +718,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Handle "readyStateChange" event.
      */
     _onReadyStateChange: function() {
-      var parsedResponse,
-          readyState = this.getReadyState();
+      var readyState = this.getReadyState();
 
       if (qx.core.Environment.get("qx.debug.io")) {
         this.debug("Fire readyState: " + readyState);
@@ -748,6 +747,8 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Called internally when readyState is DONE.
      */
     __onReadyStateDone: function() {
+      var parsedResponse;
+
       if (qx.core.Environment.get("qx.debug.io")) {
         this.debug("Request completed with HTTP status: " + this.getStatus());
       }
