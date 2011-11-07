@@ -162,7 +162,7 @@ qx.Class.define("demobrowser.demo.bom.Animation",
         button.addEventListener("click", 
           (function(animation) { 
             return function(e) {
-              qx.bom.Animation.animate(e.target, animation);
+              qx.bom.element.Animation.animate(e.target, animation);
             }
           })(tests[test])
         );

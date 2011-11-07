@@ -36,7 +36,7 @@
 ************************************************************************ */
 
 
-qx.Bootstrap.define("qx.bom.AnimationHandle", 
+qx.Bootstrap.define("qx.bom.element.AnimationHandle", 
 {
   extend : Object,
 

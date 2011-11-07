@@ -33,7 +33,7 @@ qx.Class.define("demobrowser.demo.bom.Animation_3d",
       }};
 
       var parent = document.getElementById("parent");
-      qx.bom.Animation.animate(parent, spin);
+      qx.bom.element.Animation.animate(parent, spin);
 
       qx.bom.element.Transform.setStyle(parent, "preserve-3d");
 

@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Bootstrap.define("qx.bom.Animation",
+qx.Bootstrap.define("qx.bom.element.Animation",
 {
   statics : {
     // initialization
@@ -58,7 +58,7 @@ qx.Bootstrap.define("qx.bom.Animation",
         desc.timing + " " +
         (desc.alternate ? "alternate" : "");
 
-      var animation = new qx.bom.AnimationHandle();
+      var animation = new qx.bom.element.AnimationHandle();
       animation.desc = desc;
       animation.el = el;
       el.$$animation = animation;
@@ -81,7 +81,7 @@ qx.Bootstrap.define("qx.bom.Animation",
       var animation = el.$$animation;
       var desc = animation.desc;
       // reset the styling
-      el.style[qx.bom.Animation.__cssAnimationKeys["name"]] = "";
+      el.style[qx.bom.element.Animation.__cssAnimationKeys["name"]] = "";
       if (desc.origin != null) {
         qx.bom.element.Transform.transform(el);
       }
@@ -91,7 +91,7 @@ qx.Bootstrap.define("qx.bom.Animation",
         var endFrame = desc.keyFrames[desc.keep];
         var transforms;
         for (var style in endFrame) {
-          if (style in qx.bom.Animation.__transitionKeys) {
+          if (style in qx.bom.element.Animation.__transitionKeys) {
             if (!transforms) {
               transforms = {};
             }
@@ -109,8 +109,8 @@ qx.Bootstrap.define("qx.bom.Animation",
 
       qx.bom.Event.removeNativeListener(
         el, 
-        qx.bom.Animation.__cssAnimationKeys["name"],
-        qx.bom.Animation.__onAnimationEnd
+        qx.bom.element.Animation.__cssAnimationKeys["name"],
+        qx.bom.element.Animation.__onAnimationEnd
       );
 
       var onEnd = animation.getOnEnd();
