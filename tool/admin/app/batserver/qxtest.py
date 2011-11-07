@@ -636,8 +636,15 @@ class QxTest:
   
   def getLocalGitDescription(self):
     desc = git("describe --tags", self.testConf["qxPathAbs"])
+    reg = re.compile("(\w+$)")
+    match = reg.search(desc)
+    if match:
+      desc = match.group(1)
+    desc = desc.rstrip()
     self.log("Local qooxdoo Git repository description " + desc)
     return desc
+
+
   ##
   # Writes the current revision number of the local qooxdoo checkout to a file
   # named 'revision.txt' in the qooxdoo checkout's root directory.
