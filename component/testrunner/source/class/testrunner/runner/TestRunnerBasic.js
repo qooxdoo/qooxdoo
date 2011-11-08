@@ -170,7 +170,8 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
         qx.core.Assert.assertMap(membersMap);
       }
       this.setTestSuiteState("loading");
-      var testClass = qx.Class.define("test.TestClass" + (this.__externalTestClasses += 1) ,
+      var qxClass = qx.Class;
+      var testClass = qxClass.define("test.TestClass" + (this.__externalTestClasses += 1) ,
       {
         extend : qx.dev.unit.TestCase,
         include : [qx.dev.unit.MMock, qx.dev.unit.MRequirements],
