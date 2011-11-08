@@ -49,27 +49,39 @@ qx.Bootstrap.define("qx.bom.element.Animation",
         this.__sheet = qx.bom.Stylesheet.createElement();
       }
       var keyFrames = desc.keyFrames;
-      var name = this.__addKeyFrames(keyFrames, desc.reverse);
 
-      var style = 
-        name + " " + 
-        desc.duration + "ms " + 
-        desc.repeat + " " + 
-        desc.timing + " " +
-        (desc.alternate ? "alternate" : "");
+      // if animations are supported
+      if (this.__cssAnimationKeys != null) {
+        var name = this.__addKeyFrames(keyFrames, desc.reverse);
+
+        var style = 
+          name + " " + 
+          desc.duration + "ms " + 
+          desc.repeat + " " + 
+          desc.timing + " " +
+          (desc.alternate ? "alternate" : "");        
+
+        var eventName = this.__cssAnimationKeys["end-event"];
+        qx.bom.Event.addNativeListener(el, eventName, this.__onAnimationEnd);
+
+        el.style[this.__cssAnimationKeys["name"]] = style;
+      }
 
       var animation = new qx.bom.element.AnimationHandle();
       animation.desc = desc;
       animation.el = el;
       el.$$animation = animation;
-      var eventName = this.__cssAnimationKeys["end-event"];
-      qx.bom.Event.addNativeListener(el, eventName, this.__onAnimationEnd);
-
-      el.style[this.__cssAnimationKeys["name"]] = style;
 
       // additional transform keys
       if (desc.origin != null) {
         qx.bom.element.Transform.setOrigin(el, desc.origin);
+      }
+
+      // fallback for browsers not supporting animations
+      if (this.__cssAnimationKeys == null) {
+        window.setTimeout(function() {
+          qx.bom.element.Animation.__onAnimationEnd({target: el});
+        }, 0);
       }
 
       return animation;
@@ -80,47 +92,55 @@ qx.Bootstrap.define("qx.bom.element.Animation",
       var el = e.target;
       var animation = el.$$animation;
       var desc = animation.desc;
-      // reset the styling
-      el.style[qx.bom.element.Animation.__cssAnimationKeys["name"]] = "";
+
+      if (qx.bom.element.Animation.__cssAnimationKeys != null) {
+        // reset the styling
+        el.style[qx.bom.element.Animation.__cssAnimationKeys["name"]] = "";
+
+        qx.bom.Event.removeNativeListener(
+          el, 
+          qx.bom.element.Animation.__cssAnimationKeys["name"],
+          qx.bom.element.Animation.__onAnimationEnd
+        );
+      }
+
       if (desc.origin != null) {
         qx.bom.element.Transform.transform(el);
       }
 
       if (desc.keep != null) {
-        // keep the element at this animation step
-        var endFrame = desc.keyFrames[desc.keep];
-        var transforms;
-        for (var style in endFrame) {
-          if (style in qx.bom.element.Animation.__transitionKeys) {
-            if (!transforms) {
-              transforms = {};
-            }
-            transforms[style] = endFrame[style];
-          } else {
-            el.style[style] = endFrame[style];
-          }
-        }
-
-        // transform keeping
-        if (transforms) {
-          qx.bom.element.Transform.transform(el, transforms);
-        }
+        qx.bom.element.Animation.__keepFrame(el, desc.keyFrames[desc.keep]);
       }
 
-      qx.bom.Event.removeNativeListener(
-        el, 
-        qx.bom.element.Animation.__cssAnimationKeys["name"],
-        qx.bom.element.Animation.__onAnimationEnd
-      );
+      delete el.$$animation;
+      animation.el = null;
+      animation.ended = true;
 
       var onEnd = animation.getOnEnd();
       for (var i=0; i < onEnd.length; i++) {
         onEnd[i].callback.call(onEnd[i].ctx, el);
       };
+    },
 
-      delete el.$$animation;
-      animation.el = null;
-      animation.ended = true;
+
+    __keepFrame : function(el, endFrame) {
+      // keep the element at this animation step
+      var transforms;
+      for (var style in endFrame) {
+        if (style in qx.bom.element.Animation.__transitionKeys) {
+          if (!transforms) {
+            transforms = {};
+          }
+          transforms[style] = endFrame[style];
+        } else {
+          el.style[style] = endFrame[style];
+        }
+      }
+
+      // transform keeping
+      if (transforms) {
+        qx.bom.element.Transform.transform(el, transforms);
+      }
     },
 
 
