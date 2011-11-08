@@ -22,6 +22,7 @@
 ################################################################################
 
 import os, sys, re, types, string, copy
+import graph
 from generator.config.Lang import Key, Let
 from generator.resource.Library import Library
 from generator.runtime.ShellCmd import ShellCmd
@@ -108,8 +109,7 @@ class Config(object):
             letDict = self._data[Key.LET_KEY] = {}
         #letDict.update(os.environ)             # include OS env - this is permanent!
         if "QOOXDOO_PATH" in os.environ:
-            #letDict["QOOXDOO_PATH"] = os.environ["QOOXDOO_PATH"]  # this is causing an "include already seen" !
-            pass
+            letDict["QOOXDOO_PATH"] = os.environ["QOOXDOO_PATH"]
         letObj = Let(letDict)                  # create a Let object from let map
         letObj.expandMacrosInLet()             # do self-expansion of macros
         for key in self._data:
@@ -120,6 +120,7 @@ class Config(object):
             else:
                 dat = letObj.expandMacros(self._data[key])
                 self._data[key] = dat
+
         return
 
 
@@ -355,14 +356,15 @@ class Config(object):
     # external config are kept in a member of the current config, all their jobs
     # are available in their original form for later perusal (e.g. reference
     # lookup).
-    def resolveIncludes(self, includeTrace=[]):
+    def resolveIncludes(self, includeTree=graph.digraph()):
 
         console.debug("including %s" % (self._fname.decode('utf-8') or "<unknown>",))
         config  = self._data
         jobsmap = self.getJobsMap({})
 
         if self._fname:   # we stem from a file
-            includeTrace.append(self._fname)   # expand the include trace
+            if self._fname not in includeTree:
+                includeTree.add_node(self._fname) # only for the top-level config - others will be inserted by the parent
             
         if 'include' in config:
             for i in range(len(config['include'])):
@@ -376,14 +378,14 @@ class Config(object):
                     raise RuntimeError, "Unknown include spec: %s" % repr(incspec)
 
                 fname = fname.encode('utf-8')
+                fapath = self.absPath(fname) # calculate path relative to config file
 
                 # cycle check
-                if os.path.abspath(fname) in includeTrace:
-                    #import pydb; pydb.debugger()
-                    raise RuntimeError, "Include config already seen: %s" % str(includeTrace+[os.path.abspath(fname)])
-                
-                # calculate path relative to config file if necessary
-                fpath = self.absPath(fname)
+                includeTree.add_node(fapath)  # add the child
+                includeTree.add_edge(self._fname, fapath) # add edge to child
+                cycle_nodes = includeTree.find_cycle()
+                if cycle_nodes:
+                    raise RuntimeError("Detected circular inclusion of config files: %r" % cycle_nodes)
         
                 # see if we use a namespace prefix for the imported jobs
                 if isinstance(incspec, types.DictType) and 'as' in incspec:
@@ -391,8 +393,8 @@ class Config(object):
                 else:
                     namespace = ""
 
-                econfig = Config(self._console, fpath.decode('utf-8'))
-                econfig.resolveIncludes(includeTrace)   # recursive include
+                econfig = Config(self._console, fapath.decode('utf-8'))
+                econfig.resolveIncludes(includeTree)   # recursive include
                 # check include/import
                 if 'import' in incspec:
                     importList = incspec['import']
