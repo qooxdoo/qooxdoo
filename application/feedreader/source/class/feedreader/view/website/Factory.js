@@ -37,7 +37,7 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
          title : article.getTitle(),
          content : feedreader.ArticleBuilder.createHtml(article, false)
        };
-       
+
        var container = qx.bom.Template.get("article", data);
        var indicator = container.children[0];
        var title = container.children[1];
@@ -46,17 +46,59 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
        // handler for the click on either the title or the indicator
        var onClick = function(e) {
          if (qx.bom.element.Style.get(content, "display") == "none") {
+
            qx.bom.element.Style.set(content, "display", "");
-           indicator.innerHTML = "[-]";
+           qx.bom.element.Transform.scale(content, [null, 0]);
+           qx.bom.element.Animation.animate(content, {
+             duration: 500,
+             origin: "top center",
+             keyFrames: {
+               0: {
+                 "padding-bottom": "0px", 
+                 "padding-top": "0px", 
+                 "scale": [null, 0],
+                 "height": "0px"
+                },
+               100: {
+                 "padding-bottom": "10px", 
+                 "padding-top": "10px", 
+                 "scale": [null, 1],
+                 "height": content.offsetHeight-20 + "px"
+                }
+             }
+           }).onEnd(function() {
+             qx.bom.element.Transform.scale(content, 1);
+             indicator.innerHTML = "[-]";
+           });
+
          } else {
-           qx.bom.element.Style.set(content, "display", "none");
-           indicator.innerHTML = "[+]";
+           qx.bom.element.Animation.animate(content, {
+             duration: 500, 
+             origin: "top center",
+             keyFrames: {
+               0: {
+                 "padding-bottom": "10px", 
+                 "padding-top": "10px", 
+                 "scale": [null, 1], 
+                 "height": content.offsetHeight-20 + "px"
+                },
+               100: {
+                 "padding-bottom": "0px", 
+                 "padding-top": "0px", 
+                 "scale": [null, 0], 
+                 "height": "0px"
+                }
+             }
+           }).onEnd(function(el) {
+             qx.bom.element.Style.set(el, "display", "none");
+             indicator.innerHTML = "[+]";
+           });
          }
        };
-     
+
        qx.bom.Event.addNativeListener(title, "click", onClick);
        qx.bom.Event.addNativeListener(indicator, "click", onClick);
-     
+
        return container;
      },
 

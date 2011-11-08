@@ -30,6 +30,18 @@ qx.Class.define("feedreader.WebsiteApplication",
   extend : qx.application.Native,
 
 
+  statics : {
+    fadeOut : {duration : 300, keep: 100, keyFrames : {
+      0: {opacity: 1},
+      100: {opacity: 0}
+    }},
+
+    fadeIn : {duration : 300, keep: 100, keyFrames : {
+      0: {opacity: 0},
+      100: {opacity: 1}
+    }}
+  },
+
   members :
   {
     /**
@@ -93,15 +105,20 @@ qx.Class.define("feedreader.WebsiteApplication",
      * @param feed {qx.core.Object} The model for the feed.
      */
     fillList : function(col, feed) {
-      // delete the current content
-      col[0].innerHTML = "";
+      var fadeOut = feedreader.WebsiteApplication.fadeOut;
+      var fadeIn = feedreader.WebsiteApplication.fadeIn;
+      qx.bom.element.Animation.animate(col[0], fadeOut).onEnd(function() {
+        // delete the current content
+        col[0].innerHTML = "";
 
-      /// putt all articles in the list
-      var articles = feed.getArticles();
-      for (var i=0; i < articles.length; i++) {
-        var article = articles.getItem(i);
-        col.append(feedreader.view.website.Factory.createArticleView(article));
-      };
+        /// putt all articles in the list
+        var articles = feed.getArticles();
+        for (var i=0; i < articles.length; i++) {
+          var article = articles.getItem(i);
+          col.append(feedreader.view.website.Factory.createArticleView(article));
+        };
+        qx.bom.element.Animation.animate(col[0], fadeIn);
+      });
     },
 
 
@@ -112,37 +129,42 @@ qx.Class.define("feedreader.WebsiteApplication",
      * @param model {qx.core.Object} The model to take the data from.
      */
     fillTree : function(col, model) {
-      // empty loading text
-      col[0].innerHTML = "";
-
-      // take both folders
-      var folders = [model.getStaticFeedFolder(), model.getUserFeedFolder()];
-      var names = ["Static Feeds", "User Feeds"];
-
-      for (var i=0; i < folders.length; i++) {
-        // create a folder item in the tree
-        var feeds = folders[i].getFeeds();
-        col.append(feedreader.view.website.Factory.createTreeFolder(names[i]));
-
-        // create a feed item for every feed in the folder
-        for (var j=0; j < feeds.length; j++) {
-          var feed = feeds.getItem(j);
-          var item = feedreader.view.website.Factory.createTreeItem(feed);
-          // special handling for the initial selection
-          if (i === 0 && j === 0) {
-            // mark the first one as selected by default
-            item.children[0].checked = true;
-            qx.bom.element.Class.add(item.children[1], "selectedFeed");
-            // fill the list as soon as the data is available
-            feed.addListener("stateModified", function(e) {
-              if (e.getData() == "loaded") {
-                this.fillList(qx.bom.Collection.id("list"), e.getTarget());
-              }
-            }, this);
-          }
-          col.append(item);
+      var fadeOut = feedreader.WebsiteApplication.fadeOut;
+      var fadeIn = feedreader.WebsiteApplication.fadeIn;
+      qx.bom.element.Animation.animate(col[0], fadeOut).onEnd(function() {
+        // empty loading text
+        col[0].innerHTML = "";
+        
+        // take both folders
+        var folders = [model.getStaticFeedFolder(), model.getUserFeedFolder()];
+        var names = ["Static Feeds", "User Feeds"];
+        
+        for (var i=0; i < folders.length; i++) {
+          // create a folder item in the tree
+          var feeds = folders[i].getFeeds();
+          col.append(feedreader.view.website.Factory.createTreeFolder(names[i]));
+        
+          // create a feed item for every feed in the folder
+          for (var j=0; j < feeds.length; j++) {
+            var feed = feeds.getItem(j);
+            var item = feedreader.view.website.Factory.createTreeItem(feed);
+            // special handling for the initial selection
+            if (i === 0 && j === 0) {
+              // mark the first one as selected by default
+              item.children[0].checked = true;
+              qx.bom.element.Class.add(item.children[1], "selectedFeed");
+              // fill the list as soon as the data is available
+              feed.addListener("stateModified", function(e) {
+                if (e.getData() == "loaded") {
+                  this.fillList(qx.bom.Collection.id("list"), e.getTarget());
+                }
+              }, this);
+            }
+            col.append(item);
+          };
         };
-      };
+        qx.bom.element.Animation.animate(col[0], fadeIn);
+      }, this);
     }
   }
 });
