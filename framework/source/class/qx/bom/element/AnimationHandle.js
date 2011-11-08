@@ -55,8 +55,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
     __onEnd : null,
 
 
-    onEnd : function(onEnd) {
-      this.__onEnd.push(onEnd);
+    onEnd : function(onEnd, ctx) {
+      this.__onEnd.push({ctx : ctx || this, callback: onEnd});
     },
 
 

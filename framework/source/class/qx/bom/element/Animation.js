@@ -115,7 +115,7 @@ qx.Bootstrap.define("qx.bom.element.Animation",
 
       var onEnd = animation.getOnEnd();
       for (var i=0; i < onEnd.length; i++) {
-        onEnd[i].call(animation, el);
+        onEnd[i].callback.call(onEnd[i].ctx, el);
       };
 
       delete el.$$animation;
