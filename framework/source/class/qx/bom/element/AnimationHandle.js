@@ -45,6 +45,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
     /**
      * Method to add callbacks to the end event of the animation.
      * @param onEnd {Function} The end callback.
+     * @param ctx {var?} The context of the handler.
      */
     onEnd : function(onEnd, ctx) {
       this.__onEnd.push({ctx : ctx || this, callback: onEnd});
