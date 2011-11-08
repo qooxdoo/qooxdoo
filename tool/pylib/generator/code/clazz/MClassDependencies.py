@@ -101,7 +101,7 @@ class MClassDependencies(object):
 
             # Read source tree data
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
-            self._analyzeClassDepsNode(self.tree(relevantVariants), treeDeps, relevantVariants, inLoadContext=True)
+            self._analyzeClassDepsNode(self.tree(relevantVariants), treeDeps, inLoadContext=True)
 
             # Process source tree data
             for dep in treeDeps:
@@ -331,7 +331,7 @@ class MClassDependencies(object):
     # sure how to handle this sub-recursion when the main body is an iteration.
     # TODO:
     # - <recurse> seems artificial, and should be removed when cleaning up dependencies1()
-    def _analyzeClassDepsNode(self, node, depsList, variants, inLoadContext, inDefer=False):
+    def _analyzeClassDepsNode(self, node, depsList, inLoadContext, inDefer=False):
 
         if node.type == "variable":
             assembled = (treeutil.assembleVariable(node))[0]
@@ -339,7 +339,7 @@ class MClassDependencies(object):
             # treat dependencies in defer as requires
             deferNode = self.checkDeferNode(assembled, node)
             if deferNode != None:
-                self._analyzeClassDepsNode(deferNode, depsList, variants, inLoadContext=True, inDefer=True)
+                self._analyzeClassDepsNode(deferNode, depsList, inLoadContext=True, inDefer=True)
 
             (context, className, classAttribute) = self._isInterestingReference(assembled, node, self.id, inDefer)
             # postcond: 
@@ -393,7 +393,7 @@ class MClassDependencies(object):
 
         if node.hasChildren():
             for child in node.children:
-                self._analyzeClassDepsNode(child, depsList, variants, inLoadContext, inDefer)
+                self._analyzeClassDepsNode(child, depsList, inLoadContext, inDefer)
 
         return
 
@@ -858,7 +858,7 @@ class MClassDependencies(object):
                     # Get the method's immediate deps
                     # TODO: is this the right API?!
                     depslist = []
-                    self._analyzeClassDepsNode(attribNode, depslist, variants, inLoadContext=False)
+                    self._analyzeClassDepsNode(attribNode, depslist, inLoadContext=False)
                     console.debug( "shallow dependencies: %r" % (depslist,))
 
                     # This depends on attribNode belonging to current class
