@@ -91,6 +91,8 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      * 
      * @param el {Element} The element to animate.
      * @param desc {Map} The animations description.
+     * @return {qx.bom.element.AnimationHandle} AnimationHandle instance to control 
+     *   the animation.
      */
     animate : function(el, desc) {
       this.__normalizeDesc(desc);
