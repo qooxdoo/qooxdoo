@@ -91,6 +91,12 @@ qx.Bootstrap.define("qx.bom.element.Animation",
     __onAnimationEnd : function(e) {
       var el = e.target;
       var animation = el.$$animation;
+
+      // ignore events when already cleaned up
+      if (!animation) {
+        return;
+      }
+
       var desc = animation.desc;
 
       if (qx.bom.element.Animation.__cssAnimationKeys != null) {
@@ -105,7 +111,7 @@ qx.Bootstrap.define("qx.bom.element.Animation",
       }
 
       if (desc.origin != null) {
-        qx.bom.element.Transform.transform(el);
+        qx.bom.element.Transform.setOrigin(el, "");
       }
 
       if (desc.keep != null) {
