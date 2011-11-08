@@ -16,26 +16,12 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-/* ************************************************************************
 
-   qooxdoo - the new era of web development
-
-   http://qooxdoo.org
-
-   Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
-
-   License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
-     See the LICENSE file in the project's top-level directory for details.
-
-   Authors:
-     * Martin Wittemann (wittemann)
-
-************************************************************************ */
-
-
+/**
+ * This is a simple handle which will be returnd when an animation is stared 
+ * using the {@link qx.bom.element.Animation#animate} method. It basically 
+ * controls the animation.
+ */
 qx.Bootstrap.define("qx.bom.element.AnimationHandle", 
 {
   extend : Object,
@@ -56,28 +42,46 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
     __onEnd : null,
 
 
+    /**
+     * Method to add callbacks to the end event of the animation.
+     * @param onEnd {Function} The end callback.
+     */
     onEnd : function(onEnd, ctx) {
       this.__onEnd.push({ctx : ctx || this, callback: onEnd});
     },
 
 
     /**
+     * Internal helper to get all end callbacks.
      * @internal
+     * @return {Array} An array of Functions.
      */
     getOnEnd : function() {
       return this.__onEnd;
     },
 
 
+    /**
+     * Accessor of the playing state.
+     * @return {Boolean} <code>true</code>, if the animations is playing.
+     */
     isPlaying : function() {
       return this.__playing;
     },
 
 
+    /**
+     * Accessor of the ended state.
+     * @return {Boolean} <code>true</code>, if the animations has ended.
+     */
     isEnded : function() {
       return this.__ended;
     },
 
+
+    /**
+     * Pauses the animation, if running. if not, the pause will be ignored.
+     */
     pause : function() {
       if (this.el) {
         this.el.style[this.__playState] = "paused";
@@ -86,6 +90,9 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
     },
 
 
+    /**
+     * Resumes a animation. This does not start the animaion once it is ended.
+     */
     play : function() {
       if (this.el) {
         this.el.style[this.__playState] = "running";
@@ -94,6 +101,9 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
     },
 
 
+    /**
+     * Stops the animation if running.
+     */
     stop : function() {
       if (this.el) {
         this.el.style[this.__playState] = "";
