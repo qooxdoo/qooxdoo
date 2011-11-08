@@ -636,7 +636,7 @@ class QxTest:
   
   def getLocalGitDescription(self):
     desc = git("describe --tags", self.testConf["qxPathAbs"])
-    reg = re.compile("(\w+$)")
+    reg = re.compile("\-g(.*?)$")
     match = reg.search(desc)
     if match:
       desc = match.group(1)
