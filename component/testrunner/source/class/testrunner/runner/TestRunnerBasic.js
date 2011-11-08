@@ -25,6 +25,13 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
 
   extend : qx.core.Object,
 
+  statics :
+  {
+    start : function()
+    {
+      qx.core.Init.getApplication().runner._loadExternalTests();
+    }
+  },
 
   /*
   *****************************************************************************
@@ -135,7 +142,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       var origin = qx.core.Environment.get("testrunner.testOrigin");
       switch(origin) {
         case "external":
-          this._loadExternalTests();
+          //this._loadExternalTests();
           break;
         default:
           this._loadInlineTests(this._testNameSpace);
