@@ -53,6 +53,18 @@
  * photo.put();
  * </pre>
  *
+ * To constrain parameters to a certain format, you can add a <code>check</code>
+ * property to the description. See {@link #map} for details.
+ *
+ * <pre class="javascript">
+ * var description = {
+ *  "get": { method: "GET", url: "/photo/{id}", check: { id: /\d+/ } }
+ * };
+ * var photo = new qx.io.rest.Resource(description);
+ * // photo.get({id: "FAIL"});
+ * // -- Error: "Parameter 'id' is invalid"
+ * </pre>
+ *
  * If your description happens to use the same action more than once, consider
  * defining another resource.
  *
@@ -88,8 +100,8 @@
  * In order to respond to successful (or erroneous) invocations of actions,
  * either listen to the generic "success" or "error" event and get the action
  * from the event data, or listen to action specific events defined at runtime.
- * Action specific events follow the pattern "<action>Success" and
- * "<action>Error", e.g. "indexSuccess".
+ * Action specific events follow the pattern "&lt;action&gt;Success" and
+ * "&lt;action&gt;Error", e.g. "indexSuccess".
  */
 qx.Class.define("qx.io.rest.Resource",
 {
