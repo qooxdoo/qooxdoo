@@ -556,9 +556,42 @@ class CodeGenerator(object):
 
         # - end: _compileClassesMP stuff --------------------------------
 
+        def removeDeadCode(classList, featureMap, treegen):
+            
+            ##
+            # define a criterion when optimization is saturated
+            # (here: when nullrefs hasn't changed in 4 times)
+            def atLimit(nullrefs, lmin=[]):
+                cmin = len(nullrefs)
+                lmin.append(cmin)
+                # use the last 4 length values
+                if len(lmin)>3 and all([x==cmin for x in lmin[-4:]]):
+                    return True
+                else:
+                    return False
+
+            # this relies on the side effect of changing the syntax trees in cache
+            # first, prune features that are not even registered
+            for clazz in classList:
+                clazz.optimize(clazz.tree(treegen), ["statics"], featureMap=featureMap)
+            # then, prune as long as we have ref counts == 0 on features
+            while True:
+                null_refs = [(cls, feat) for cls in featureMap for feat in featureMap[cls] if not featureMap[cls][feat].hasref()]
+                if atLimit(null_refs):
+                    break
+                print len(null_refs)
+                for clazz in (clz for clz in classList if clz.id in [x[0] for x in null_refs]):
+                    clazz.optimize(clazz.tree(treegen), ["statics"], featureMap=featureMap)
+
+            return
+
 
         def compileClasses(classList, compConf, log_progress=lambda:None):
             num_proc = self._job.get('run-time/num-processes', 0)
+            # do "statics" optimization out of line
+            if "statics" in compConf.optimize:
+                removeDeadCode(classList, script._featureMap, treegen=treegenerator)
+                compConf.optimize.remove("statics")
             if num_proc == 0:
                 result = []
                 for clazz in classList:

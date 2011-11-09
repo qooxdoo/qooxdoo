@@ -510,7 +510,12 @@ class DependencyLoader(object):
                     continue
                 if dep.name not in featureMap:
                     featureMap[dep.name] = {}
-                featureMap[dep.name][dep.attribute] = ("r",)  # use 'r' for all currently
+                if dep.attribute in featureMap[dep.name]:
+                    # increment
+                    featureMap[dep.name][dep.attribute].incref()
+                else:
+                    # create
+                    featureMap[dep.name][dep.attribute] = UsedFeature()
         
         self._console.indent()
         for clazz in featureMap:
@@ -546,3 +551,20 @@ class DependencyLoader(object):
         return
 
 
+##
+# Helper class, to represent reference counts in the FeatureMap
+#
+class UsedFeature(object):
+
+    def __init__(s):
+        s._ref_cnt = 1
+
+    def incref(s):
+        s._ref_cnt += 1
+
+    def decref(s):
+        if s._ref_cnt > 0:
+            s._ref_cnt -= 1
+
+    def hasref(s):
+        return s._ref_cnt > 0

@@ -22,30 +22,36 @@
 import os, sys, re, types
 from ecmascript.frontend import treeutil
 
-def patch(tree, id, feature_names):
+def patch(tree, classObj, featureMap):
     
+    feature_names = featureMap[classObj.id]
     # get class map
     qxDefine = treeutil.findQxDefine(tree)
     classMap = treeutil.getClassMap(qxDefine)
     # go through features in 'members' and 'statics'
     for section in ("statics", "members"):
         if section in classMap:
-            for key, node in classMap[section].items():
-                # skip registered keys
-                if key in feature_names:
+            for feature, node in classMap[section].items():
+                # skip registered and used keys
+                if feature in feature_names and feature_names[feature].hasref():
                     continue
-                # skip non-function attribs
-                meth = None
-                if node.type == 'function':
-                    meth = node
-                else:
-                    meth = treeutil.selectNode(node, "function")
-                if not meth:
-                    continue
-                # prune
                 else:
                     parent = node.parent
                     assert parent.type == "keyvalue"
-                    #print "pruning: %s#%s" % (id, key)
-                    parent.parent.removeChild(parent)  # remove the entire key from the map
+                    #print "pruning: %s#%s" % (classObj.id, feature)
+                    parent.parent.removeChild(parent)  # remove the entire feature from the map
+                    # remove from featureMap
+                    if feature in feature_names:
+                        del featureMap[classObj.id][feature]
+                    # decrease the ref counts of the contained dependees
+                    deps = []
+                    classObj._analyzeClassDepsNode(node, deps, inLoadContext=False)
+                        # TODO: this is expensive (re-calculating deps)!
+                        #   and it doesn't honor #ignores, so might decrease ref count of ignored
+                        #   items! (which could lead to inconsistencies)
+                        #   also, i'm calling a protected method outside the class hierarchy.
+                    for depItem in deps:
+                        if depItem.name in featureMap and depItem.attribute in featureMap[depItem.name]:
+                            depFeature = featureMap[depItem.name][depItem.attribute]
+                            depFeature.decref()  # decrease reference count
 

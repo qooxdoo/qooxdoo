@@ -50,7 +50,7 @@ class MClassCode(object):
     def tree(self, variantSet={}, treegen=treegenerator):
         context = self.context
         cache   = context['cache']
-        tradeSpaceForSpeed = False  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
+        tradeSpaceForSpeed = True  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
 
         # Construct the right cache id
         cacheId     = "tree%s-%s-%s" % (treegen.tag, self.path, util.toString({}))
@@ -281,11 +281,13 @@ class MClassCode(object):
             variantoptimizer.search(tree, variantSet, self.id)
 
         # 'statics' has to come before 'privates', as it needs the original key names in tree
+        # if features should be removed recursively, this has to be controlled on the calling
+        # level.
         if "statics" in optimize:
             if not featureMap:
                 console.warn("Empty feature map passed to static methods optimization; skipping")
             elif self.type == 'static' and self.id in featureMap:
-                featureoptimizer.patch(tree, self.id, featureMap[self.id])
+                featureoptimizer.patch(tree, self, featureMap)
 
         if "basecalls" in optimize:
             basecalloptimizer.patch(tree)
