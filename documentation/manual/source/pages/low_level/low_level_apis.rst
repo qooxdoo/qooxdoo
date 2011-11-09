@@ -45,6 +45,7 @@ The following manipulations are offered by the ``qx.bom.element`` package:
 * Scroll elements into view
 * powerful low-level decoration support
 * cross-browser support for opacity - optimized for animations
+* CSS3 transforms and animations
 * Attribute/Property handling
 * Background images and support for the clip property
 * Cursor property
