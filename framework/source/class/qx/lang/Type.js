@@ -20,7 +20,7 @@
 /**
  * Utility class with type check for all native JavaScript data types.
  */
-qx.Class.define("qx.lang.Type",
+qx.Bootstrap.define("qx.lang.Type",
 {
   statics :
   {

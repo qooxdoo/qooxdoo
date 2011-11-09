@@ -29,7 +29,7 @@
 /**
  * Cross-browser wrapper to work with CSS stylesheets.
  */
-qx.Class.define("qx.bom.Stylesheet",
+qx.Bootstrap.define("qx.bom.Stylesheet",
 {
   /*
   *****************************************************************************
