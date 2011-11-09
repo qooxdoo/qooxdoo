@@ -20,6 +20,9 @@
 /* *********************************************************************
 #asset(qx/test/xmlhttp/php_version.php)
 #use(feature-checks)
+#optional(qx.application.Standalone)
+#optional(qx.application.Inline)
+#optional(qx.application.Native)
 ************************************************************************ */
 
 /**
