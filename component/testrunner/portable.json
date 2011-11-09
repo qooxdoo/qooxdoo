@@ -39,20 +39,18 @@
     
     "source" :
     {
-      "=run" : ["source-script-portable"],
-      
       "let" :
       {
         "TESTRUNNER_ORIGIN" : "external",
         "TESTRUNNER_MAIN_CLASS" : "testrunner.Application",
         "TESTRUNNER_VIEW" : "testrunner.view.Html"
-      }
+      },
+      
+      "=run" : [ "source-script" ]
     },
     
-    "source-script-portable" :
+    "source-script" :
     {
-      "extend" : ["source-script"],
-      
       "compile-options" :
       {
         "paths" :
@@ -64,10 +62,8 @@
       }
     },
     
-    "build-script-portable" :
+    "build-script" :
     {
-      "extend" : ["build-script"],
-      
       "compile-options" :
       {
         "paths" :
@@ -88,24 +84,9 @@
       },
     
       "=run" : [
-        "build-files-portable",
         "build-resources",
-        "build-script-portable"
+        "build-script"
       ]
-    },
-    
-    "build-files-portable" :
-    {
-      "copy-files" :
-      {
-        "files" :
-        [
-          "index-portable.html"
-        ],
-
-        "target" : "${BUILD_PATH}",
-        "source" : "${TESTRUNNER_ROOT}/source"
-      }
     },
     
     "build-basic-portable-script" :
