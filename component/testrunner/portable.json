@@ -34,6 +34,30 @@
     "ROOT"         : "."
   },
   
+  "config-warnings" :
+  {
+    "job-shadowing": [
+      "build-basic",
+      "source",
+      "build",
+      "source-script",
+      "build-script",
+      "testrunner::source-script",
+      "testrunner::build",
+      "testrunner::build-script",
+      "testrunner::source",
+      "testrunner::build-basic"
+    ],
+    
+    "exclude" : [
+      "testrunner.view.widget.*",
+      "testrunner.TestLoader",
+      "testrunner.TestLoaderInline",
+      "testrunner.TestLoaderNative",
+      "qx.dev.unit.TestLoaderInline"
+    ]
+  },
+  
   "jobs" :
   {
     
@@ -71,7 +95,22 @@
           "file" : "${BUILD_PATH}/script/testrunner-portable.js",
           "loader-template" : "tool/portable.loader.tmpl.js"
         }
-      }
+      },
+      
+      "=include" :
+      [
+        "${TESTRUNNER_MAIN_CLASS}",
+        "${TESTRUNNER_VIEW}"
+      ],
+      
+      "exclude" :
+      [
+        "testrunner.view.widget.*",
+        "testrunner.TestLoader",
+        "testrunner.TestLoaderInline",
+        "testrunner.TestLoaderNative",
+        "qx.dev.unit.TestLoaderInline"
+      ]
     },
     
     "build" :
