@@ -114,7 +114,7 @@ def _handleResources(script, generator, filtered=True):
         return resinfo
 
     def copyResource(res, library):
-        sourcepath = os.path.join(library._resourcePath, res)
+        sourcepath = os.path.join(library.resourcePath, res)
         targetpath = approot + "/resource/" + res
         filetool.directory(os.path.dirname(targetpath))
         shutil.copy(sourcepath, targetpath)
