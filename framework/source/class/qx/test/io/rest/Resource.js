@@ -240,6 +240,8 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     "test: map action from description throws with incomplete route": function() {
+      this.require(["debug"]);
+
       this.res.dispose();
       this.assertException(function() {
         var description =
