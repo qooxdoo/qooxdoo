@@ -116,7 +116,7 @@ qx.Class.define("qx.io.rest.Resource",
    * For example:
    *
    * <pre class="javascript">
-   * { get: {method: "GET", url: "/photos/{id}", check: /\d+/} }
+   * { get: {method: "GET", url: "/photos/{id}", check: { id: /\d+/ } }
    * </pre>
    */
   construct: function(description)
