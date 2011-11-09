@@ -66,7 +66,8 @@ class QxTest:
       'proxyDisable'        : 'wscript ../../tool/proxyDisable.vbs',
       'compatEnable'        : 'wscript ../../tool/compatEnable.vbs',
       'compatDisable'       : 'wscript ../../tool/compatDisable.vbs',
-      'killSelenium'        : 'wscript ../../tool/killselenium.vbs'
+      'killSelenium'        : 'wscript ../../tool/killselenium.vbs',
+      'remoteLogDir'        : None
     }
     
     self.testType = testType
@@ -343,7 +344,7 @@ class QxTest:
     self.storeBuildStatus(buildConf["buildLogDir"])
     
     self.qxRevision = self.getLocalRevision()
-    self.storeRevision()
+    self.storeRevision(buildConf["buildLogDir"])
     
   
   def buildTarget(self, target, buildConf):
@@ -464,7 +465,7 @@ class QxTest:
     
     self.storeBuildStatus(buildConf["buildLogDir"])
     self.qxRevision = self.getLocalRevision()
-    self.storeRevision()
+    self.storeRevision(buildConf["buildLogDir"])
 
   ##
   # Runs an SVN update on a Simulator contribution checkout
@@ -559,9 +560,12 @@ class QxTest:
         self.log("ERROR: simplejson module not found, unable to retrieve remote build status!")
         return status
 
-    remoteFile = self.autConf['autHost']
-    if 'autQxPath' in self.autConf:
-      remoteFile += self.autConf['autQxPath']
+    if "remoteLogDir" in self.testConf:
+      remoteFile = self.testConf["remoteLogDir"]
+    else:
+      remoteFile = self.autConf['autHost']
+      if 'autQxPath' in self.autConf:
+        remoteFile += self.autConf['autQxPath']
     remoteFile += '/buildStatus.json'
     self.log("Retrieving remote build status from file " + remoteFile)
     try:
@@ -648,12 +652,15 @@ class QxTest:
   ##
   # Writes the current revision number of the local qooxdoo checkout to a file
   # named 'revision.txt' in the qooxdoo checkout's root directory.
-  def storeRevision(self):
+  def storeRevision(self, logDir=None):
     if not self.qxRevision:
       self.log("No revision number to store!")
       return
+    if not logDir:
+      self.log("No log directory specified!")
+      return
       
-    fPath = os.path.join(self.testConf['qxPathAbs'],'revision.txt')
+    fPath = os.path.join(logDir,'revision.txt')
     if (self.sim):
       self.log("SIMULATION: Storing revision number " + self.qxRevision 
                + " in file " + fPath)
@@ -671,12 +678,21 @@ class QxTest:
   # @return The revision number (String)
   def getRemoteRevision(self):
     import urllib, re
-    remoteFile = self.autConf['autHost']
-    if 'autQxPath' in self.autConf:
+    if "remoteLogDir" in self.testConf:
+      remoteFile = self.testConf["remoteLogDir"]
+      remoteFile += '/revision.txt'
+    elif 'autQxPath' in self.autConf:
+      remoteFile = self.autConf['autHost']
       remoteFile += self.autConf['autQxPath']
       remoteFile += '/revision.txt'
+    if remoteFile:
       try:
-        rev = urllib.urlopen(remoteFile).read()
+        handle = urllib.urlopen(remoteFile)
+        if handle.getcode() != 404:
+          rev = handle.read()
+        else:
+          self.log("ERROR: Remote revision file " + remoteFile + " not found!")
+          return False
       except IOError, e:
         self.log("ERROR: Unable to open remote revision file " + remoteFile + ": "
                  + e.message)
@@ -688,6 +704,7 @@ class QxTest:
       else:
         self.log("Remote qooxdoo checkout at revision " + rev)
         return rev
+    return False
 
 
   ##
