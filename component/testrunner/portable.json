@@ -36,16 +36,31 @@
   
   "jobs" :
   {
-
+    
     "source" :
     {
-      "extend" : ["source-script"],
+      "=run" : ["source-script-portable"],
       
       "let" :
       {
         "TESTRUNNER_ORIGIN" : "external",
         "TESTRUNNER_MAIN_CLASS" : "testrunner.Application",
         "TESTRUNNER_VIEW" : "testrunner.view.Html"
+      }
+    },
+    
+    "source-script-portable" :
+    {
+      "extend" : ["source-script"],
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "app-root" : "source",
+          "file" : "source/script/testrunner-portable.js",
+          "loader-template" : "tool/portable.loader.tmpl.js"
+        }
       }
     },
     
@@ -57,7 +72,8 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/script/testrunner-portable.js"
+          "file" : "${BUILD_PATH}/script/testrunner-portable.js",
+          "loader-template" : "tool/portable.loader.tmpl.js"
         }
       }
     },
@@ -72,11 +88,25 @@
       },
     
       "=run" : [
+        "build-files-portable",
         "build-resources",
         "build-script-portable"
       ]
     },
     
+    "build-files-portable" :
+    {
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index-portable.html"
+        ],
+
+        "target" : "${BUILD_PATH}",
+        "source" : "${TESTRUNNER_ROOT}/source"
+      }
+    },
     
     "build-basic-portable-script" :
     {
