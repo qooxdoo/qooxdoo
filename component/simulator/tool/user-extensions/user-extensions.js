@@ -181,7 +181,8 @@ Selenium.prototype.qx.MouseEventParameters.MOUSE_BUTTON_MAPPING_OTHER =
  */
 Selenium.prototype.qx.MouseEventParameters.prototype.getButtonValue = function(buttonName)
 {
-  if (document.createEventObject && (!document.documentMode || document.documentMode < 9))
+  var doc = selenium.browserbot.getCurrentWindow().document;
+  if (doc.createEventObject && (!doc.documentMode || doc.documentMode < 9))
   {
     LOG.debug("MouseEventParameters.prototype.getButtonValue - using IE Button-Mapping");
     return Selenium.prototype.qx.MouseEventParameters.MOUSE_BUTTON_MAPPING_IE[buttonName];
@@ -314,16 +315,17 @@ Selenium.prototype.qx.triggerMouseEventQx = function (eventType, element, eventP
 
   var evt = null;
 
-  if (document.createEvent)
+  var doc = selenium.browserbot.getCurrentWindow().document;
+  if (doc.createEvent)
   {
     LOG.debug("triggerMouseEventQx: default-user-agent-path");
-    evt = document.createEvent("MouseEvents");
+    evt = doc.createEvent("MouseEvents");
 
     // rz: has to be "initMouseEvent" otherwise parameters like clientX won't be set
-    evt.initMouseEvent(eventType, bubbles, cancelable, document.defaultView, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, null);
+    evt.initMouseEvent(eventType, bubbles, cancelable, doc.defaultView, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, null);
     element.dispatchEvent(evt);
   }
-  else if (document.createEventObject)
+  else if (doc.createEventObject)
   {
     LOG.debug("triggerMouseEventQx: IE-path");
     evt = element.ownerDocument.createEventObject();
@@ -825,16 +827,17 @@ Selenium.prototype.getQxTableSelectedRowData = function(locator)
  */
 Selenium.prototype.toJson = function(data)
 {
- var qx = this.getQxGlobalObject();
- if (window.JSON && typeof window.JSON.stringify == "function") {
-   // browser's native JSON implementation
-   return window.JSON.stringify(data);
- } else if (qx.lang && qx.lang.Json && qx.lang.Json.stringify) {
-   // qooxdoo's JSON implementation
-   return qx.lang.Json.stringify(data);
- } else {
-   return data;
- }
+  var win = selenium.browserbot.getCurrentWindow();
+  var qx = this.getQxGlobalObject();
+  if (win.JSON && typeof win.JSON.stringify == "function") {
+    // browser's native JSON implementation
+    return win.JSON.stringify(data);
+  } else if (qx.lang && qx.lang.Json && qx.lang.Json.stringify) {
+    // qooxdoo's JSON implementation
+    return qx.lang.Json.stringify(data);
+  } else {
+    return data;
+  }
 };
 
 /**
@@ -3163,7 +3166,7 @@ PageBot.prototype._removeEventListener = function(vElement, vType, vFunction)
 
 PageBot.prototype._getWinWidth = function(w)
 {
-  var win = w||window;
+  var win = w || this.getCurrentWindow();
   //if (win.document.body && win.document.body.clientWidth)
   if (browserVersion.isOpera)
   {
@@ -3184,7 +3187,7 @@ PageBot.prototype._getWinWidth = function(w)
 
 PageBot.prototype._getWinHeight = function(w)
 {
-  var win = w||window;
+  var win = w || this.getCurrentWindow();
   if (browserVersion.isOpera)
   {
     return win.document.body.clientHeight;
@@ -3318,7 +3321,7 @@ Selenium.prototype.getElementPositionLeft = function(locator) {
   var elementParent = element.offsetParent;
   while (elementParent != null)
   {
-    if(document.all)
+    if(selenium.browserbot.getCurrentWindow().document.all)
     {
       if( (elementParent.tagName != "TABLE") && (elementParent.tagName != "BODY") )
       {
@@ -3369,7 +3372,7 @@ Selenium.prototype.getElementPositionTop = function(locator) {
 
   while (element != null)
   {
-    if(document.all)
+    if(selenium.browserbot.getCurrentWindow().document.all)
     {
       if( (element.tagName != "TABLE") && (element.tagName != "BODY") )
       {
