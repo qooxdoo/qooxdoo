@@ -679,7 +679,7 @@ class Generator(object):
 
         ##
         # A generator to yield all using dependencies of classes in packages;
-        def lookupUsingDeps(packages, includeTransitives):
+        def lookupUsingDeps(packages, includeTransitives, forceFreshDeps=False):
 
             ##
             # has classId been yielded?
@@ -692,7 +692,7 @@ class Generator(object):
             for packageId, package in enumerate(packages):
                 for classId in sorted(x.id for x in package.classes):
                     classObj = ClassIdToObject[classId]
-                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=False)
+                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=forceFreshDeps)
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     loads = classDeps["load"]
                     runs = classDeps["run"]
@@ -737,7 +737,7 @@ class Generator(object):
         ##
         # A generator to yield all used-by dependencies of classes in packages;
         # will report used-by relations of a specific class in sequence
-        def lookupUsedByDeps(packages, includeTransitives):
+        def lookupUsedByDeps(packages, includeTransitives, forceFreshDeps=False):
 
             depsMap = {}
 
@@ -747,7 +747,7 @@ class Generator(object):
                     if classId not in depsMap:
                         depsMap[classId] = (packageId, [], [])
                     classObj = ClassIdToObject[classId]
-                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=False)
+                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=forceFreshDeps)
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     loads = classDeps["load"]
                     runs  = classDeps["run"]
@@ -1166,10 +1166,11 @@ class Generator(object):
 
             mainformat = depsLogConf.get('format', None)
             includeTransitives = depsLogConf.get('include-transitive-load-deps', True)
+            forceFreshDeps = depsLogConf.get('force-fresh-deps', True)
             if type == "using":
-                classDepsIter = lookupUsingDeps(packages, includeTransitives)
+                classDepsIter = lookupUsingDeps(packages, includeTransitives, forceFreshDeps)
             else:
-                classDepsIter = lookupUsedByDeps(packages, includeTransitives)
+                classDepsIter = lookupUsedByDeps(packages, includeTransitives, forceFreshDeps)
 
             if mainformat == 'dot':
                 depsToDotFile(classDepsIter, depsLogConf)

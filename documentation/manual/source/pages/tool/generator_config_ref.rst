@@ -684,6 +684,7 @@ Configure log/reporting features. Takes a map.
       "type"         : ("using"|"used-by"),
       "phase"        : ("runtime"|"loadtime"),
       "include-transitive-load-deps" : (true|false),
+      "force-fresh-deps" : (true|false),
       "format"       : ("txt"|"dot"|"json"|"provider"|"flare"|"term"),
       "dot"          :
       {
@@ -731,6 +732,7 @@ This key allows you to enable logging features along various axes.
 
   * **phase** : limit logging to run-time or load-time dependencies (default: *loadtime*)
   * **include-transitive-load-deps** : for *load-time* dependencies, whether transitive dependencies (i.e. dependencies that are not lexically in the code, but are required at load-time by some lexical dependency) should be included (default: *true*)
+  * **force-fresh-deps** : force to re-calculate the class dependencies before logging them; this will take considerably longer but assures that the dependencies match exactly the latest state of the source trees (interesting after *statics* optimization; default: *false*)
   * **format** : format of the dependency output (default: *txt*)
 
     * ``txt``: textual output to the console
