@@ -49,8 +49,19 @@ qx.Class.define("testrunner.view.Html", {
     this.__domElements = {
       rootElement : rootElement || document.body
     }
-    var styleSrc = qx.util.ResourceManager.getInstance().toUri("testrunner/view/html/css/testrunner.css");
-    qx.bom.Stylesheet.includeFile(styleSrc);
+    
+    // "portable" TR: Run the generator job "gen-css" to replace %{Styles} with
+    // the (minified) contents of testrunner.css in the generated script file 
+    // (build version)
+    if (!qx.core.Environment.get("qx.debug") && 
+      qx.core.Environment.get("testrunner.testOrigin") == "external") 
+    {
+      qx.bom.Stylesheet.createElement('%{Styles}');
+    }
+    else {
+      var styleSrc = qx.util.ResourceManager.getInstance().toUri("testrunner/view/html/css/testrunner.css");
+      qx.bom.Stylesheet.includeFile(styleSrc);
+    }
 
     this._attachHeader();
     this._attachMainControls();

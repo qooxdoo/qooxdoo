@@ -118,6 +118,17 @@
       }
     },
     
+    "gen-css" :
+    {
+      "shell" :
+      {
+        "command" :
+        [
+          "foo=`cat source/resource/testrunner/view/html/css/testrunner.css | ${QOOXDOO_PATH}/tool/bin/cssmin.py`;sed -i \"s/%{Styles}/$${foo}/\" ${BUILD_PATH}/script/testrunner-portable.js"
+        ]
+      }
+    },
+    
     "build-resources" :
     {
       "extend" : [ "portable-common" ]
@@ -126,8 +137,9 @@
     "build" :
     {
       "=run" : [
-        "build-resources",
-        "build-script"
+        //"build-resources",
+        "build-script",
+        "gen-css"
       ]
     },
     
