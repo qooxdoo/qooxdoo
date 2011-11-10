@@ -512,16 +512,11 @@ class DependencyLoader(object):
                     featureMap[dep.name] = {}
                 if dep.attribute in featureMap[dep.name]:
                     # increment
-                    featureMap[dep.name][dep.attribute].incref()
+                    featureMap[dep.name][dep.attribute].addref(dep)
                 else:
                     # create
-                    featureMap[dep.name][dep.attribute] = UsedFeature()
+                    featureMap[dep.name][dep.attribute] = UsedFeature(dep)
         
-        self._console.indent()
-        for clazz in featureMap:
-            self._console.debug("'%s': used features: %r" % (clazz, featureMap[clazz].keys()))
-        self._console.outdent()
-
         return featureMap
 
 
@@ -556,11 +551,22 @@ class DependencyLoader(object):
 #
 class UsedFeature(object):
 
-    def __init__(s):
+    def __init__(s, dep):
         s._ref_cnt = 1
+        s._refs = [dep]
 
-    def incref(s):
+    def __str__(s):
+        return "<UsedFeature:%d:%r>" % (s._ref_cnt, [("%s:%s" % (x.requestor, x.line)) for x in s._refs])
+
+    def __repr__(s):
+        return str(s)
+
+    def addref(s, dep):
+        s._refs.append(dep)
         s._ref_cnt += 1
+
+    #def incref(s):
+    #    s._ref_cnt += 1
 
     def decref(s):
         if s._ref_cnt > 0:

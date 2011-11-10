@@ -556,7 +556,10 @@ class CodeGenerator(object):
 
         # - end: _compileClassesMP stuff --------------------------------
 
-        def removeDeadCode(classList, featureMap, treegen):
+        ##
+        # process "statics" optimization
+        #
+        def optimizeDeadCode(classList, featureMap, treegen):
             
             ##
             # define a criterion when optimization is saturated
@@ -570,18 +573,68 @@ class CodeGenerator(object):
                 else:
                     return False
 
+            # ------------------------------------------------------------
+
+            # collect all head classes, so they are not removed
+            # TODO: this is probably over-protective
+            head_classes = []
+            [head_classes.extend(x.initial_deps) for x in script.parts.values()]
+
+            # a class list that skips the head classes
+            def classlistiter():
+                return (c for c in classList if c.id not in head_classes)
+
+            from pprint import pprint
+            #pprint(featureMap)
             # this relies on the side effect of changing the syntax trees in cache
             # first, prune features that are not even registered
-            for clazz in classList:
+            for clazz in classlistiter():
                 clazz.optimize(clazz.tree(treegen), ["statics"], featureMap=featureMap)
             # then, prune as long as we have ref counts == 0 on features
             while True:
                 null_refs = [(cls, feat) for cls in featureMap for feat in featureMap[cls] if not featureMap[cls][feat].hasref()]
                 if atLimit(null_refs):
                     break
-                print len(null_refs)
-                for clazz in (clz for clz in classList if clz.id in [x[0] for x in null_refs]):
+                #print len(null_refs)
+                for clazz in (clz for clz in classlistiter() if clz.id in [x[0] for x in null_refs]):
                     clazz.optimize(clazz.tree(treegen), ["statics"], featureMap=featureMap)
+
+            # last, remove classes with no used feature from classlist
+            for clazz in classlistiter():
+                if clazz.id in featureMap:
+                    is_removed = False
+                    if not featureMap[clazz.id]:
+                        # no feature is used
+                        is_removed = True
+                        del featureMap[clazz.id]
+                        classList.remove(clazz)
+                    else:
+                        # features might be only used by the class itself
+                        external_use = False
+                        class_features = featureMap[clazz.id]
+                        for feat in class_features:
+                            if not class_features[feat].hasref():
+                                continue
+                            else:
+                                external_classes = [x for x in class_features[feat]._refs if x.requestor != clazz.id]
+                                if external_classes:
+                                    external_use = True
+                                    break
+                        if not external_use:
+                            is_removed = True
+                            del featureMap[clazz.id]
+                            classList.remove(clazz)
+
+                    if is_removed:
+                        #print "removing", clazz.id
+                        pass
+
+
+            #pprint(featureMap)
+            self._console.indent()
+            for clazz in featureMap:
+                self._console.debug("'%s': used features: %r" % (clazz, featureMap[clazz].keys()))
+            self._console.outdent()
 
             return
 
@@ -590,8 +643,9 @@ class CodeGenerator(object):
             num_proc = self._job.get('run-time/num-processes', 0)
             # do "statics" optimization out of line
             if "statics" in compConf.optimize:
-                removeDeadCode(classList, script._featureMap, treegen=treegenerator)
-                compConf.optimize.remove("statics")
+                optimizeDeadCode(classList, script._featureMap, treegen=treegenerator)
+                if len(compConf.optimize) > 1:  # cannot completely empty optimize array
+                    compConf.optimize.remove("statics")
             if num_proc == 0:
                 result = []
                 for clazz in classList:
@@ -657,12 +711,14 @@ class CodeGenerator(object):
                 #self._console.progress(c[0],len_pack_classes)
                 self._console.dot()
 
+            new_package_classes = []
             for pos,clazz in enumerate(package_classes):
                 if sourceFilter.match(clazz.id):
                     package.has_source = True
                     if packageData or compiledClasses:
                         # treat compiled classes so far
                         packageUris = compileAndAdd(compiledClasses, packageUris, packageData)
+                        new_package_classes += compiledClasses
                         compiledClasses = []  # reset the collection
                         packageData = ""
                     # for a source class, just include the file uri
@@ -681,7 +737,9 @@ class CodeGenerator(object):
                     if isClosurePackage(package, bootPackageId(script)):
                         closureWrap = u'''qx.Part.$$notifyLoad("%s", function() {\n%%s\n});''' % package.id
                     packageUris = compileAndAdd(compiledClasses, packageUris, packageData, closureWrap)
+                    new_package_classes += compiledClasses
 
+            package.classes = new_package_classes
             package.files = packageUris
             return package
             

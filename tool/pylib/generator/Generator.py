@@ -210,7 +210,7 @@ class Generator(object):
         ##
         # Invoke the PartBuilder to compute the packages for the configured
         # parts.
-        def partsConfigFromClassList(excludeWithDeps, script):
+        def partsConfigFromClassList(includeWithDeps, excludeWithDeps, script):
 
             def evalPackagesConfig(excludeWithDeps, classList, variants):
                 
@@ -255,6 +255,7 @@ class Generator(object):
                 script.packages.append(packageObj)
                 partObj            = Part("boot")
                 partObj.packages.append(packageObj)
+                partObj.initial_deps = includeWithDeps
                 script.parts       = { "boot" : partObj }
 
             return boot, partPackages, packageClasses
@@ -545,7 +546,7 @@ class Generator(object):
 
                 # prepare 'script' object
                 if set(("compile", "log")).intersection(jobTriggers):
-                    partsConfigFromClassList(excludeWithDeps, script)
+                    partsConfigFromClassList(includeWithDeps, excludeWithDeps, script)
 
                 # Execute real tasks
                 if "api" in jobTriggers:
@@ -691,9 +692,7 @@ class Generator(object):
             for packageId, package in enumerate(packages):
                 for classId in sorted(x.id for x in package.classes):
                     classObj = ClassIdToObject[classId]
-                    #classDeps, _ = classObj.dependencies(variants)
-                    #classDeps, _ = self._depLoader.getCombinedDeps(classObj.id, variants, projectClassNames=False)
-                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False)
+                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=True)
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     loads = classDeps["load"]
                     runs = classDeps["run"]
@@ -748,9 +747,7 @@ class Generator(object):
                     if classId not in depsMap:
                         depsMap[classId] = (packageId, [], [])
                     classObj = ClassIdToObject[classId]
-                    #classDeps, _ = classObj.dependencies(variants)
-                    #classDeps, _ = self._depLoader.getCombinedDeps(classObj.id, variants, projectClassNames=False)
-                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False)
+                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=True)
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     loads = classDeps["load"]
                     runs  = classDeps["run"]

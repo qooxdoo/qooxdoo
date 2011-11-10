@@ -212,7 +212,7 @@ class MClassDependencies(object):
         # end:dependencies()
 
 
-    def getCombinedDeps(self, variants, config, stripSelfReferences=True, projectClassNames=True, genProxy=None):
+    def getCombinedDeps(self, variants, config, stripSelfReferences=True, projectClassNames=True, genProxy=None, force=False):
 
         # init lists
         loadFinal = []
@@ -220,7 +220,7 @@ class MClassDependencies(object):
 
         # add static dependencies
         if genProxy == None:
-            static, cached = self.dependencies (variants)
+            static, cached = self.dependencies (variants, force)
         else:
             static, cached = genProxy.dependencies(self.id, self.path, variants)
 
