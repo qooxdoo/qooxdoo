@@ -47,7 +47,7 @@ class MClassCode(object):
     # - handles cache
     # - can be called with alternative parser (treegenerator)
     #
-    def tree(self, variantSet={}, treegen=treegenerator):
+    def tree(self, treegen=treegenerator, force=False):
 
         cache = self.context['cache']
         console = self.context['console']
@@ -58,7 +58,7 @@ class MClassCode(object):
         tree, _ = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
 
         # Tree still undefined?, create it!
-        if tree == None:
+        if tree == None or force:
             console.debug("Parsing file: %s..." % self.id)
             console.indent()
 
@@ -98,7 +98,7 @@ class MClassCode(object):
         classvariants = None
         if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
             if generate:
-                tree = self.tree({})  # get complete tree
+                tree = self.tree()  # get complete tree
                 classvariants = self._variantsFromTree(tree) # get list of variant keys
                 if classinfo == None:
                     classinfo = {}
@@ -210,7 +210,7 @@ class MClassCode(object):
         compiled, _ = cache.read(cacheId, self.path)
 
         if compiled == None:
-            tree   = self.tree(variants, treegen=treegen)
+            tree   = self.tree(treegen=treegen)
             tree   = self.optimize(tree, optimize, variants, featuremap)
             if optimize == ["comments"]:
                 compiled = serializeFormatted(tree)

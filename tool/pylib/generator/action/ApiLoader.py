@@ -56,7 +56,7 @@ class ApiLoader(object):
 
         self._console.indent()
         #tree = self._treeLoader.getTree(fileId)
-        tree = self._classesObj[fileId].tree(variantSet)
+        tree = self._classesObj[fileId].tree()
         (data, hasError) = api.createDoc(tree)
         self._console.outdent()
         

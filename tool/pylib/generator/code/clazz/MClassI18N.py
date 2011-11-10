@@ -57,7 +57,7 @@ class MClassI18N(object):
         console.indent()
         cached = False
 
-        tree = self.tree(variants)
+        tree = self.tree()
 
         try:
             messages = self._findTranslationBlocks(tree, [])

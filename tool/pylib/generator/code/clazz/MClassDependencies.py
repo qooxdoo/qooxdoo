@@ -101,7 +101,7 @@ class MClassDependencies(object):
 
             # Read source tree data
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
-            self._analyzeClassDepsNode(self.tree(relevantVariants), treeDeps, inLoadContext=True)
+            self._analyzeClassDepsNode(self.tree(), treeDeps, inLoadContext=True)
 
             # Process source tree data
             for dep in treeDeps:
@@ -739,7 +739,7 @@ class MClassDependencies(object):
 
 
     def getClassMap(self, variants):
-        tree = self.tree (variants)
+        tree = self.tree ()
         qxDefine = treeutil.findQxDefine (tree)
         classMap = treeutil.getClassMap (qxDefine)
 

@@ -84,7 +84,7 @@ class GeneratordWorker(Pyro.core.ObjBase):
 
     def tree(self, classId, classPath, variantSet):
         c = Class(classId, classPath, None, generator_context, {})
-        t = c.tree(variantSet)
+        t = c.tree()
         return t
 
     def dependencies(self, classId, classPath, variantSet, force=False):

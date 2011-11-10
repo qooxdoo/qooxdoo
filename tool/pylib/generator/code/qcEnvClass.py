@@ -54,7 +54,7 @@ class qcEnvClass(Class):
         return
 
     def optimizeEnvironmentClass(self, compOptions):
-        tree = self.tree(compOptions.variantset)
+        tree = self.tree()
         ## has to come before string optimization, or the "qx.debug", etc. args are gone
         tree = variantoptimizer.processEnvironmentClass(tree, compOptions.allClassVariants)
         if compOptions.optimize:
@@ -62,7 +62,7 @@ class qcEnvClass(Class):
         return tree
 
     def extractChecksMap(self):
-        tree = self.tree({})
+        tree = self.tree()
         checksMap = None
         for node in treeutil.nodeIterator(tree, "keyvalue"):
             if node.get("key", "") == "_checksMap":
