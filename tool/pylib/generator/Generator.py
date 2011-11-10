@@ -1667,7 +1667,8 @@ class Generator(object):
 
         libPaths = []
         for lib in libs:
-            libPaths.append(os.path.join(lib['path'], lib['class']))
+            lib._init_from_manifest() # Lib()'s aren't initialized yet
+            libPaths.append(os.path.join(lib.path, lib.classPath))
 
         mig_opts = []
         if migSettings.get('from-version', False):
