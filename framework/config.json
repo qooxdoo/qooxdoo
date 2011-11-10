@@ -19,6 +19,7 @@
     "distclean",
     "fix",
     "images",
+    "info",
     "lint",
     "lint-test",
     "provider",
