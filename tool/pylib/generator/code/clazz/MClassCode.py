@@ -48,26 +48,11 @@ class MClassCode(object):
     # - can be called with alternative parser (treegenerator)
     #
     def tree(self, variantSet={}, treegen=treegenerator):
-        context = self.context
-        cache   = context['cache']
-        tradeSpaceForSpeed = True  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
-
-        # Construct the right cache id
-        cacheId     = "tree%s-%s-%s" % (treegen.tag, self.path, util.toString({}))
-        tree             = None
-
-        tree, cacheMod = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
-        if not tree:
-            tree = self._getSourceTree(cacheId, tradeSpaceForSpeed, treegen)
-            cache.write(cacheId, tree, memory=tradeSpaceForSpeed, writeToFile=True)
-
-        return tree
-
-
-    def _getSourceTree(self, cacheId, tradeSpaceForSpeed, treegen):
 
         cache = self.context['cache']
         console = self.context['console']
+        tradeSpaceForSpeed = True  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
+        cacheId     = "tree%s-%s-%s" % (treegen.tag, self.path, util.toString({}))
 
         # Lookup for unoptimized tree
         tree, _ = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
