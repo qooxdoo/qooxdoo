@@ -4,21 +4,7 @@
   "include" :
   [
     {
-      "path" : "testrunner.json"  
-    },
-    {
-      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
-      "block"   : 
-      [ 
-        "common",
-        "source",
-        "source-script",
-        "build",
-        "build-script",
-        "build-resources",
-        "build-files",
-        "clean" 
-      ]
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
     }
   ],
   
@@ -31,22 +17,23 @@
     "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "ROOT"         : "."
+    "ROOT"         : ".",
+    "BUILD_PATH"   : "build",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    
+    "TESTRUNNER_ROOT" : ".",
+    "TESTRUNNER_ORIGIN" : "external",
+    "TESTRUNNER_MAIN_CLASS" : "testrunner.Application",
+    "TESTRUNNER_VIEW" : "testrunner.view.Html"
   },
   
   "config-warnings" :
   {
     "job-shadowing": [
-      "build-basic",
-      "source",
-      "build",
       "source-script",
+      "build",
       "build-script",
-      "testrunner::source-script",
-      "testrunner::build",
-      "testrunner::build-script",
-      "testrunner::source",
-      "testrunner::build-basic"
+      "build-resources"
     ],
     
     "exclude" : [
@@ -60,42 +47,31 @@
   
   "jobs" :
   {
-    
-    "source" :
+    "portable-common" :
     {
-      "let" :
+      "environment" :
       {
-        "TESTRUNNER_ORIGIN" : "external",
-        "TESTRUNNER_MAIN_CLASS" : "testrunner.Application",
-        "TESTRUNNER_VIEW" : "testrunner.view.Html"
+        "qx.application"   : "${TESTRUNNER_MAIN_CLASS}",
+        "qx.version"       : "${QOOXDOO_VERSION}",
+        "qx.revision"      : "${QOOXDOO_REVISION}",
+        "qx.testNameSpace" : "",
+        "testrunner.view" : "${TESTRUNNER_VIEW}",
+        "testrunner.testOrigin" : "${TESTRUNNER_ORIGIN}",
+        "testrunner.title" : "${APPLICATION}",
+        "testrunner.testParts" : false,
+        "testrunner.reportServer" : null
       },
       
-      "=run" : [ "source-script" ]
-    },
-    
-    "source-script" :
-    {
-      "compile-options" :
-      {
-        "paths" :
+      "library" :
+      [
         {
-          "app-root" : "source",
-          "file" : "source/script/testrunner-portable.js",
-          "loader-template" : "tool/portable.loader.tmpl.js"
-        }
-      }
-    },
-    
-    "build-script" :
-    {
-      "compile-options" :
-      {
-        "paths" :
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
+        },
+
         {
-          "file" : "${BUILD_PATH}/script/testrunner-portable.js",
-          "loader-template" : "tool/portable.loader.tmpl.js"
+          "manifest" : "${TESTRUNNER_ROOT}/Manifest.json"
         }
-      },
+      ],
       
       "=include" :
       [
@@ -113,15 +89,42 @@
       ]
     },
     
+    "source-script" :
+    {
+      "extend" : [ "portable-common" ],
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "app-root" : "source",
+          "file" : "source/script/testrunner-portable.js",
+          "loader-template" : "tool/portable.loader.tmpl.js"
+        }
+      }
+    },
+    
+    "build-script" :
+    {
+      "extend" : [ "portable-common" ],
+      
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/script/testrunner-portable.js",
+          "loader-template" : "tool/portable.loader.tmpl.js"
+        }
+      }
+    },
+    
+    "build-resources" :
+    {
+      "extend" : [ "portable-common" ]
+    },
+    
     "build" :
     {
-      "let" :
-      {
-        "TESTRUNNER_ORIGIN" : "external",
-        "TESTRUNNER_MAIN_CLASS" : "testrunner.Application",
-        "TESTRUNNER_VIEW" : "testrunner.view.Html"
-      },
-    
       "=run" : [
         "build-resources",
         "build-script"
@@ -151,17 +154,11 @@
     {
       "let" :
       {
-        "TESTRUNNER_ORIGIN" : "external",
         "TESTRUNNER_MAIN_CLASS" : "testrunner.ApplicationBasic",
         "TESTRUNNER_VIEW" : "testrunner.view.Basic"
       },
       
-      "=run" : ["build-basic-portable-script"],
-      
-      "environment" :
-      {
-        "testrunner.testOrigin" : "external"
-      }
+      "=run" : ["build-basic-portable-script"]
     }
   }
 }
