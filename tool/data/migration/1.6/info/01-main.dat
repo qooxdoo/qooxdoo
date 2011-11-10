@@ -1,0 +1,1 @@
+\b\.setTimeout\((\d\d?|[a-zA-Z_]+[\w_\.]*)(?!\s*,)\)=Timeout interval changed from seconds to milliseconds.

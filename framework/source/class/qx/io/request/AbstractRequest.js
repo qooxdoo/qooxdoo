@@ -178,7 +178,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     },
 
     /**
-     * Timeout limit in seconds. Default (0) means no limit.
+     * Timeout limit in milliseconds. Default (0) means no limit.
      */
     timeout: {
       check: "Number",
@@ -376,7 +376,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
         url = url.replace(/\#.*/, "");
       }
 
-      transport.timeout = this.getTimeout() * 1000;
+      transport.timeout = this.getTimeout();
 
       // Support transports with enhanced feature set
       method = this._getMethod();

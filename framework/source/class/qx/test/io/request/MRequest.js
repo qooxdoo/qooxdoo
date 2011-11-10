@@ -280,13 +280,13 @@ qx.Mixin.define("qx.test.io.request.MRequest",
           transport = this.transport,
           timeout = this.spy();
 
-      req.setTimeout(1);
+      req.setTimeout(100);
       req.send();
 
       req.addListener("timeout", timeout);
       transport.ontimeout();
 
-      this.assertEquals(1000, transport.timeout);
+      this.assertEquals(100, transport.timeout);
       this.assertCalledOnce(timeout);
     },
 
