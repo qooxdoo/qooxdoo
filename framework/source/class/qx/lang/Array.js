@@ -49,7 +49,7 @@
  * The string/array generics introduced in JavaScript 1.6 are supported by
  * {@link qx.lang.Generics}.
  */
-qx.Class.define("qx.lang.Array",
+qx.Bootstrap.define("qx.lang.Array",
 {
   statics :
   {

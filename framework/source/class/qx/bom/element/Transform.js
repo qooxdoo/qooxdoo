@@ -250,7 +250,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
 
         var params = transforms[func];
         // if an array is given
-        if (qx.lang.Type.isArray(params)) {
+        if (qx.Bootstrap.isArray(params)) {
           for (var i=0; i < params.length; i++) {
             if (params[i] == undefined) {
               continue;
