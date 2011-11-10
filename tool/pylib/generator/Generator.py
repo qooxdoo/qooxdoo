@@ -692,7 +692,7 @@ class Generator(object):
             for packageId, package in enumerate(packages):
                 for classId in sorted(x.id for x in package.classes):
                     classObj = ClassIdToObject[classId]
-                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=True)
+                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=False)
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     loads = classDeps["load"]
                     runs = classDeps["run"]
@@ -747,7 +747,7 @@ class Generator(object):
                     if classId not in depsMap:
                         depsMap[classId] = (packageId, [], [])
                     classObj = ClassIdToObject[classId]
-                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=True)
+                    classDeps, _ = classObj.getCombinedDeps(variants, script.jobconfig, projectClassNames=False, force=False)
                     ignored_names = [x.name for x in classDeps["ignore"]]
                     loads = classDeps["load"]
                     runs  = classDeps["run"]

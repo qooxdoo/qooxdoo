@@ -51,7 +51,7 @@ class MClassCode(object):
 
         cache = self.context['cache']
         console = self.context['console']
-        tradeSpaceForSpeed = True  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
+        tradeSpaceForSpeed = False  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
         cacheId = "tree%s-%s-%s" % (treegen.tag, self.path, util.toString({}))
 
         # Lookup for unoptimized tree
