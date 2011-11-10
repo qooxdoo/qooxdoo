@@ -140,10 +140,6 @@ qx.Class.define("qx.test.bom.Font",
         useRgbValue = false;
       }
 
-      if (qx.core.Environment.get("browser.name") == "opera") {
-        useRgbValue = false;
-      }
-
       var checkValue = useRgbValue ? "rgb(26, 26, 26)" : "#1a1a1a";
       var color = label.getContentElement().getDomElement().style["color"];
 
