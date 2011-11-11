@@ -675,18 +675,57 @@ qx.Class.define("qx.test.bom.request.Xhr",
       req.send();
 
       this.stub(req, "_getProtocol").returns("file:");
-      fakeReq.respond(0);
+      fakeReq.respond(0, {}, "Response");
 
       this.assertEquals(200, req.status);
     },
 
-    "test: not normalize status 0 when OPENED and file protocol": function() {
+    "test: keep status 0 when not yet DONE and file protocol": function() {
+      var fakeReq = this.getFakeReq();
       var req = this.req;
       this.stub(req, "_getProtocol").returns("file:");
+      req.open("GET", "/");
 
-      req.open();
+      fakeReq.readyState = 3;
+      fakeReq.onreadystatechange();
 
-      this.assertNotEquals(200, req.status);
+      this.assertEquals(0, req.status);
+    },
+
+    "test: keep status 0 when DONE with network error and file protocol": function() {
+      var fakeReq = this.getFakeReq();
+      var req = this.req;
+      req.open("GET", "/");
+      req.send();
+
+      this.stub(req, "_getProtocol").returns("file:");
+
+      // Indicate network error
+      fakeReq.readyState = 4;
+      fakeReq.responseText = "";
+      fakeReq.onreadystatechange();
+
+      this.assertEquals(0, req.status);
+    },
+
+    //
+    // _getProtocol()
+    //
+
+    "test: read protocol from requested URL when it contains protocol": function() {
+      var req = this.req;
+      req.open("GET", "http://example.org/index.html");
+
+      this.assertEquals("http:", req._getProtocol());
+    },
+
+    "test: read protocol from window if requested URL is without protocol": function() {
+      this.require(["http"]);
+
+      var req = this.req;
+      req.open("GET", "index.html");
+
+      this.assertEquals("http:", req._getProtocol());
     },
 
     //

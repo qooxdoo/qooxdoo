@@ -151,6 +151,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__send = false;
       this.__conditional = false;
 
+      // Store URL for later checks
+      this.__url = url;
+
       if (typeof async == "undefined") {
         async = true;
       }
@@ -539,11 +542,22 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     },
 
     /**
-     * Get protocol.
+     * Get protocol of requested URL.
      *
-     * @return {String} The current protocol.
+     * @return {String} The used protocol.
      */
     _getProtocol: function() {
+      var url = this.__url;
+      var protocolRe = /(\w+:)\/\//;
+
+      // Could be http:// from file://
+      if (url !== null && url.match) {
+        var match = url.match(protocolRe);
+        if (match && match[1]) {
+          return match[1];
+        }
+      }
+
       return window.location.protocol;
     },
 
@@ -587,6 +601,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * {Boolean} Send flag
      */
     __send: null,
+
+    /**
+     * {String} Requested URL
+     */
+    __url: null,
 
     /**
      * {Boolean} Abort flag
@@ -698,7 +717,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.statusText = this.responseText = "";
       this.responseXML = null;
 
-      if (this.readyState > qx.bom.request.Xhr.OPENED) {
+      if (this.readyState >= qx.bom.request.Xhr.HEADERS_RECEIVED) {
         // In some browsers, XHR properties are not readable
         // while request is in progress.
         try {
@@ -795,31 +814,39 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.__timeout = false;
 
       // Fire either "abort", "load" or "error"
-      //
+      } else {
+        if (this.__abort) {
+          this.onabort();
+        } else {
+          this.__isNetworkError() ? this.onerror() : this.onload();
+        }
+      }
+
+      // Always fire "onloadend" when DONE
+      this.onloadend();
+    },
+
+    /**
+     * Check for network error.
+     *
+     * @return {Boolean} Whether a network error occured.
+     */
+    __isNetworkError: function() {
+      var error;
+
       // Infer the XHR internal error flag from statusText when not aborted.
       // See http://www.w3.org/TR/XMLHttpRequest2/#error-flag and
       // http://www.w3.org/TR/XMLHttpRequest2/#the-statustext-attribute
       //
       // With file://, statusText is always falsy. Assume network error when
       // response is empty.
+      if (this._getProtocol() === "file:") {
+        error = !this.responseText;
       } else {
-
-        if (this.__abort) {
-          this.onabort();
-        } else {
-
-          if (this._getProtocol() === "file:") {
-            this.responseText ? this.onload() : this.onerror();
-          } else {
-            this.statusText ? this.onload() : this.onerror();
-          }
-
-        }
-
+        error = !this.statusText;
       }
 
-      // Always fire "onloadend" when DONE
-      this.onloadend();
+      return error;
     },
 
     /**
@@ -850,8 +877,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       // BUGFIX: Most browsers
       // Most browsers tell status 0 when it should be 200 for local files
-      if (this._getProtocol() === "file:" && this.status === 0) {
-        this.status = 200;
+      if (this._getProtocol() === "file:" && this.status === 0 && isDone) {
+        if (!this.__isNetworkError()) {
+          this.status = 200;
+        }
       }
 
       // BUGFIX: IE
