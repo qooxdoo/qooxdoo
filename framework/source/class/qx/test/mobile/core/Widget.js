@@ -89,12 +89,10 @@ qx.Class.define("qx.test.mobile.core.Widget",
       this.assertEquals(className, "");
 
       widget.addCssClass("affe");
-      var className = qx.bom.element.Class.get(element);
-      this.assertEquals(className, "affe");
+      this.assertTrue(qx.bom.element.Class.has(element, "affe"));
 
       widget.removeCssClass("affe");
-      var className = qx.bom.element.Class.get(element);
-      this.assertEquals(className, "");
+      this.assertFalse(qx.bom.element.Class.has(element, "affe"));
 
       widget.destroy();
     },
