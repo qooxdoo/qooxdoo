@@ -113,11 +113,19 @@ def _handleResources(script, generator, filtered=True):
         #filetool.save(approot+"/data/resource/" + res + ".json", json.dumpsCode(resinfo))
         return resinfo
 
+    skip_expression = re.compile(r'%s' % '|'.join(filetool.VERSIONCONTROL_DIR_PATTS),re.I)
+
     def copyResource(res, library):
+        if skip_expression.search(os.path.basename(res)):
+            return
         sourcepath = os.path.join(library.resourcePath, res)
         targetpath = approot + "/resource/" + res
         filetool.directory(os.path.dirname(targetpath))
         shutil.copy(sourcepath, targetpath)
+        #copier = copytool.CopyTool(context.console)
+        #args   = ['-x', ','.join(filetool.VERSIONCONTROL_DIR_PATTS), sourcepath, targetpath]
+        #copier.parse_args(args)
+        #copier.do_work()
         return
 
     # ----------------------------------------------------------------------

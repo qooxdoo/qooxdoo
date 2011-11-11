@@ -24,7 +24,7 @@ import os, codecs, cPickle, sys, re, time, base64
 import gzip as sys_gzip
 import textutil
 
-VERSIONCONTROL_DIR_PATTS = (r'^\.svn$', r'^_svn$', r'^CVS$', r'^\.git$', r'^\.DS_Store$')
+VERSIONCONTROL_DIR_PATTS = (r'^\.svn$', r'^_svn$', r'^CVS$', r'^\.git.*', r'^\.DS_Store$')
 
 def gzip(filePath, content, encoding="utf-8"):
     if not filePath.endswith(".gz"):
