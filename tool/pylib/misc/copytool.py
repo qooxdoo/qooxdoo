@@ -17,6 +17,11 @@
 #  Authors:
 #    * Daniel Wagner (d_wagner)
 #
+#  This code was inspired by pyrobocopy.py, by Anand B Pillai
+#  - url: http://code.activestate.com/recipes/231501/
+#  - license: http://www.python.org/psf/license/
+#    (see also: http://code.activestate.com/help/terms/)
+#
 ################################################################################
 
 import os, sys, re
