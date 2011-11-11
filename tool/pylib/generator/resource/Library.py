@@ -180,8 +180,8 @@ class Library(object):
 
     _codeExpr = re.compile(r'''qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["']((?u)[^"']+)["']''', re.M)
     _illegalIdentifierExpr = re.compile(lang.IDENTIFIER_ILLEGAL_CHARS)
-    _ignoredDirectories    = re.compile(r'%s' % '|'.join(filetool.VERSIONCONTROL_DIR_PATTS), re.I)
-    _docFilename           = "__init__.js"
+    _ignoredDirEntries = re.compile(r'%s' % '|'.join(filetool.VERSIONCONTROL_DIR_PATTS), re.I)
+    _docFilename = "__init__.js"
 
 
     def getClasses(self):
@@ -251,7 +251,7 @@ class Library(object):
         files = os.listdir(path)
 
         for entry in files:
-            if entry.startswith(".") or self._ignoredDirectories.match(entry):
+            if entry.startswith(".") or self._ignoredDirEntries.match(entry):
                 continue
 
             full = os.path.join(path, entry)
@@ -273,7 +273,7 @@ class Library(object):
         files = os.listdir(path)
 
         for entry in files:
-            if entry.startswith(".") or self._ignoredDirectories.match(entry):
+            if entry.startswith(".") or self._ignoredDirEntries.match(entry):
                 continue
 
             full = os.path.join(path, entry)
@@ -312,10 +312,12 @@ class Library(object):
         for root, dirs, files in filetool.walk(path):
             # filter ignored directories
             for dir in dirs:
-                if self._ignoredDirectories.match(dir):
+                if self._ignoredDirEntries.match(dir):
                     dirs.remove(dir)
 
             for file in files:
+                if self._ignoredDirEntries.match(file):
+                    continue
                 fpath = os.path.join(root, file)
                 fpath = os.path.normpath(fpath)
                 if Image.isImage(fpath):
@@ -373,7 +375,7 @@ class Library(object):
         for root, dirs, files in filetool.walk(classNSRoot):
             # Filter ignored directories
             for ignoredDir in dirs:
-                if self._ignoredDirectories.match(ignoredDir):
+                if self._ignoredDirEntries.match(ignoredDir):
                     dirs.remove(ignoredDir)
 
             # Add good directories
@@ -383,7 +385,7 @@ class Library(object):
             # Searching for files
             for fileName in files:
                 # Ignore dot files
-                if fileName.startswith("."):
+                if fileName.startswith(".") or self._ignoredDirEntries.match(fileName):
                     continue
                 self._console.dot()
 
@@ -496,7 +498,7 @@ class Library(object):
         for root, dirs, files in filetool.walk(path):
             # Filter ignored directories
             for ignoredDir in dirs:
-                if self._ignoredDirectories.match(ignoredDir):
+                if self._ignoredDirEntries.match(ignoredDir):
                     dirs.remove(ignoredDir)
 
             # Searching for files

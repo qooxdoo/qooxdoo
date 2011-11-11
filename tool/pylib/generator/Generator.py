@@ -846,19 +846,19 @@ class Generator(object):
             inclregexps = map(textutil.toRegExp, inclregexps)
             exclregexps = map(textutil.toRegExp, exclregexps)
 
-            data = {}
+            classToDeps = {}
             # Class deps
             for (packageId, classId, depId, loadOrRun) in classDepsIter:                             
                 if passesOutputFilter(classId):
-                    if classId not in data:
-                        data[classId] = {}
-                        data[classId]["load"] = []
-                        data[classId]["run"] = []
+                    if classId not in classToDeps:
+                        classToDeps[classId] = {}
+                        classToDeps[classId]["load"] = []
+                        classToDeps[classId]["run"] = []
                     if depId != None:
-                        data[classId][loadOrRun].append(depId)
+                        classToDeps[classId][loadOrRun].append(depId)
 
             # transform dep items
-            for key, val in data.items():
+            for key, val in classToDeps.items():
                 newval = []
                 for ldep in val["load"]:
                     newdep = ldep.replace(".", "/")
@@ -872,37 +872,37 @@ class Generator(object):
 
             # Resource deps
             # class list
-            classObjs = [x for x in script.classesObj if x.id in data.keys()]
+            classObjs = [x for x in script.classesObj if x.id in classToDeps.keys()]
             # map resources to class.resources
             classObjs = Class.mapResourcesToClasses(script.libraries, classObjs, self._job.get("asset-let", {}))
 
             for clazz in classObjs:
                 reskeys = ["/resource/resources#"+x.id for x in clazz.resources]
-                data[clazz.id]["run"].extend(reskeys)
+                classToDeps[clazz.id]["run"].extend(reskeys)
 
             # Message key deps
-            for classId in data:
+            for classId in classToDeps:
                 #classKeys, _ = self._locale.getTranslation(classId, {})
                 classKeys, _ = self._classesObj[classId].messageStrings({})
                 transIds  = set(x['id'] for x in classKeys) # get the msgid's, uniquely
                 transIds.update(x['plural'] for x in classKeys if 'plural' in x) # add plural keys
                 transKeys = ["/translation/i18n-${lang}#" + x for x in transIds]
-                data[classId]["run"].extend(transKeys)
+                classToDeps[classId]["run"].extend(transKeys)
 
             # CLDR dependency
-            for classId in data:
+            for classId in classToDeps:
                 if self._classesObj[classId].getHints("cldr"):
-                    data[classId]["run"].append("/locale/locale-${lang}#cldr")
+                    classToDeps[classId]["run"].append("/locale/locale-${lang}#cldr")
 
             # transform dep keys ("qx.Class" -> "qx/Class.js")
-            for key, val in data.items():
+            for key, val in classToDeps.items():
                 newkey = key.replace(".", "/")
                 #newkey += ".js"
-                data[newkey] = data[key]
-                del data[key]
+                classToDeps[newkey] = classToDeps[key]
+                del classToDeps[key]
 
             # sort information for each class (for stable output)
-            for classvals in data.values():
+            for classvals in classToDeps.values():
                 for key in classvals:
                     classvals[key] = sorted(classvals[key], reverse=True)
 
@@ -916,7 +916,7 @@ class Generator(object):
             else:
                 indent     = None
                 separators = (',', ':')
-            filetool.save(file, json.dumps(data, sort_keys=True, indent=indent, separators=separators))
+            filetool.save(file, json.dumps(classToDeps, sort_keys=True, indent=indent, separators=separators))
             
             return
 
