@@ -1900,6 +1900,9 @@ Selenium.prototype._getDomElementFromWidget = function(qxObject)
  */
 PageBot.prototype.getQxGlobalObject = function()
 {
+  if (this._iframeQxObject) {
+    return this._iframeQxObject;
+  }
   if (this._qxGlobalObject && !this._qxGlobalObject.core.ObjectRegistry.inShutDown
     && !this._qxGlobalObject.core.Init.getApplication().$$disposed) {
     return this._qxGlobalObject;
@@ -3000,7 +3003,7 @@ PageBot.prototype._getQxNodeDescendants = function(node)
       // store a reference to the iframe's qx object. This is used by 
       // Selenium.getQxWidgetByLocator
       this._iframeQxObject = node.getWindow().qx;
-      descArr = descArr.push(node.getWindow().qx.core.Init.getApplication().getRoot());
+      descArr.push(node.getWindow().qx.core.Init.getApplication().getRoot());
     } 
     catch (ex) {
     }
