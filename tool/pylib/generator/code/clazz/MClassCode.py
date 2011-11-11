@@ -210,7 +210,10 @@ class MClassCode(object):
         compiled, _ = cache.read(cacheId, self.path)
 
         if compiled == None:
-            tree   = self.tree(treegen=treegen)
+            if self._tmp_tree: # TODO: hack to capture out-of-band optimization
+                tree = self._tmp_tree
+            else:
+                tree   = self.tree(treegen=treegen)
             tree   = self.optimize(tree, optimize, variants, featuremap)
             if optimize == ["comments"]:
                 compiled = serializeFormatted(tree)
@@ -221,15 +224,6 @@ class MClassCode(object):
             cache.write(cacheId, compiled)
 
         return compiled
-
-
-    ##
-    # Create an id from the optimize list
-    #
-    def _optimizeId(self, optimize):
-        optimize = copy.copy(optimize)
-        optimize.sort()
-        return "[%s]" % ("-".join(optimize))
 
 
     ##
@@ -289,6 +283,15 @@ class MClassCode(object):
             variableoptimizer.search(tree)
 
         return tree
+
+
+    ##
+    # Create an id from the optimize list
+    #
+    def _optimizeId(self, optimize):
+        optimize = copy.copy(optimize)
+        optimize.sort()
+        return "[%s]" % ("-".join(optimize))
 
 
     def _stringOptimizer(self, tree):

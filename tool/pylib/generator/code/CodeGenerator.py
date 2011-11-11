@@ -582,22 +582,27 @@ class CodeGenerator(object):
 
             # a class list that skips the head classes
             def classlistiter():
-                return (c for c in classList if c.id not in head_classes)
+                for c in classList:
+                    if c.id not in head_classes:
+                        yield c
 
             from pprint import pprint
             #pprint(featureMap)
             # this relies on the side effect of changing the syntax trees in cache
             # first, prune features that are not even registered
             for clazz in classlistiter():
-                clazz.optimize(clazz.tree(treegen), ["statics"], featureMap=featureMap)
+                clazz._tmp_tree = clazz.optimize(clazz.tree(treegen), ["statics"], featureMap=featureMap)
             # then, prune as long as we have ref counts == 0 on features
+            #pprint(featureMap)
             while True:
                 null_refs = [(cls, feat) for cls in featureMap for feat in featureMap[cls] if not featureMap[cls][feat].hasref()]
                 if atLimit(null_refs):
                     break
-                #print len(null_refs)
-                for clazz in (clz for clz in classlistiter() if clz.id in [x[0] for x in null_refs]):
-                    clazz.optimize(clazz.tree(treegen), ["statics"], featureMap=featureMap)
+                print len(null_refs)
+                #for clazz in (clz for clz in classlistiter() if clz.id in [x[0] for x in null_refs]):
+                for clazz in classlistiter():
+                    clazz._tmp_tree = clazz.optimize(clazz._tmp_tree, ["statics"], featureMap=featureMap)
+                #pprint(featureMap)
 
             # last, remove classes with no used feature from classlist
             for clazz in classlistiter():
@@ -644,8 +649,11 @@ class CodeGenerator(object):
             # do "statics" optimization out of line
             if "statics" in compConf.optimize:
                 optimizeDeadCode(classList, script._featureMap, treegen=treegenerator)
-                if len(compConf.optimize) > 1:  # cannot completely empty optimize array
-                    compConf.optimize.remove("statics")
+                compConf.optimize.remove("statics")
+                if len(compConf.optimize) == 0:  # cannot completely empty optimize array
+                    # TODO: leaving "statics" in would potentially optimize the head classes!
+                    # adding an "nop" optimization at this point
+                    compConf.optimize.append("continue")
             if num_proc == 0:
                 result = []
                 for clazz in classList:

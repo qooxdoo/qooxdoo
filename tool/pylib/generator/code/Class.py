@@ -59,6 +59,7 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
         self.resources  = set() # set of resource objects needed by the class
         self._assetRegex= {}  # [AssetHint], to hold regex's from #asset hints, for resource matching
         self.cacheId    = "class-%s" % self.path  # cache object for class-specific infos (outside tree, compile)
+        self._tmp_tree  = None # for out-of-band optimization
         
         console = context["console"]
         cache   = context["cache"]
