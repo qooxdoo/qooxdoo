@@ -176,7 +176,8 @@ qx.Class.define("qx.test.bom.Template",
       // test the get method
       var el = qx.bom.Template.get("qx-test-template", {a: 123, b: 234});
 
-      this.assertEquals("123<span>234</span>", el.innerHTML);
+      // IE uses uppercase tag names
+      this.assertEquals("123<span>234</span>", el.innerHTML.toLowerCase());
     }
   }
 });
