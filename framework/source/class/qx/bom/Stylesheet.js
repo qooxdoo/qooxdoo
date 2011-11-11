@@ -36,7 +36,12 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
     /**
      * Include a CSS file
      *
-     * @param href {String} Href value
+     * <em>Note:</em> Using a resource ID as the <code>href</code> parameter 
+     * will no longer be supported. Call 
+     * <code>qx.util.ResourceManager.getInstance().toUri(href)</code> to get 
+     * valid URI to be used with this method.
+     *
+     * @param href {String} Href value 
      * @param doc? {Document} Document to modify
      * @return {void}
      */
@@ -49,7 +54,13 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
       var el = doc.createElement("link");
       el.type = "text/css";
       el.rel = "stylesheet";
-      el.href = qx.util.ResourceManager.getInstance().toUri(href);
+      var resolvedUri = qx.util.ResourceManager.getInstance().toUri(href);
+      if (resolvedUri !== href) {
+        qx.log.Logger.warn("qx.bom.Stylesheet.includeFile: Resource IDs will no " +
+          "longer be resolved, please call this method " +
+          "with a valid URI as the first argument!");
+      }
+      el.href = resolvedUri;
 
       var head = doc.getElementsByTagName("head")[0];
       head.appendChild(el);
