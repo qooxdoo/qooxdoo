@@ -141,6 +141,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         return;
       }
 
+      // Mimick native behavior
+      if (typeof method === "undefined" || typeof url === "undefined") {
+        throw new Error("Not enough arguments");
+      }
+
       // Reset flags that may have been set on previous request
       this.__abort = false;
       this.__send = false;
