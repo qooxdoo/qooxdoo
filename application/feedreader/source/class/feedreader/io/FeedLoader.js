@@ -86,7 +86,7 @@ qx.Class.define("feedreader.io.FeedLoader",
           return "failed";
         }
       }, configureRequest : function(req) {
-        req.setTimeout(10);
+        req.setTimeout(10000);
       }}, qx.core.Environment.get("io.ssl"));
 
       store.addListener("loaded", this.__createOnLoaded(feed), this);
