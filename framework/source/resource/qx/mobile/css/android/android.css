@@ -96,7 +96,10 @@ a:hover { color: #e89c00; }
   padding-right: 20px;
   -webkit-background-clip: padding-box;
   overflow: hidden;
-  width: 0; /* this is for equal sizes od the buttons when aded in a toolbar or other container with flex :1*/
+  width: 0; /* this is for equal sizes of the buttons when aded in a toolbar or other container with flex :1*/
+  /* unfortunately, this can be used only in the case where the buttons are similar in size, and the text is small
+  if we will have a button with 100 characters text and a button with 2 characters text
+  the one with 100 characters gets clipped*/
 }
 
 .toolbar-button.active {
@@ -398,23 +401,15 @@ input[type="checkbox"]:checked {
 
 /*  TOOLBAR  */
 .toolbar-separator {
-  width: 5px;
+  width: 4px;
   background-color: red;
 }
 
 .toolbar {
-  position: absolute;
-  bottom: 0px;
-  width: 100%;
-  z-index: 1;
-  -webkit-transition: bottom .65s;
+  padding: 2px;
   height: 55px;
   background: -webkit-gradient(linear, left top, left bottom, from(#9a9a9a), to(#7c7e7c));
   border-top: 1px solid #2d3642;
-}
-
-.toolbar-hidden {
-  bottom: -100px;
 }
 
 /*  BLOCKER  */
@@ -450,6 +445,18 @@ input[type="checkbox"]:checked {
   vertical-align: middle;
 }
 
+.altSpinner {
+  height: 20px;
+  width: 20px;
+  background-image: url(../../icon/android/spinner.png);
+  -webkit-animation-name: spinnerRotate;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  margin: 0 auto;
+  vertical-align: middle;
+}
+
 @-webkit-keyframes spinnerRotate {
 	from {
 		-webkit-transform:rotate(0deg);
@@ -461,21 +468,70 @@ input[type="checkbox"]:checked {
 
 .popup {
   position: absolute;
-  background-color: #a1a1a1;
+  background-color: #424242;
   width: auto;
-  padding: 3px;
-  border: 1px solid white;
+  padding: 6px;
+  border: 2px solid #ffffff;
   -webkit-border-radius: .3em;
-  z-index: 99;  
+  z-index: 99;
+  clear: both;
 }
 
+.popupAnchorPointer {
+  height: 0;
+  width: 0;
+  float: left;
+}
+
+.popupAnchorPointerBottom {
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-top: 10px solid white;
+}
+
+.popupAnchorPointerTop {
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-bottom: 10px solid white;
+}
+
+.popupAnchorPointerLeft {
+  border-right: 10px solid white;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+.popupAnchorPointerRight {
+  border-left: 10px solid white;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
 
 /*  DIALOG  */
 .dialog {
   position: fixed;
-  background-color: #a1a1a1;
+  background-color: #424242;
   width: auto;
-  padding: 3px;
-  border: 1px solid white;
+  padding: 6px;
+  border: 2px solid #ffffff;
   -webkit-border-radius: .3em;
+  z-index: 99;
+  min-width: 200px;
+}
+
+.dialogTitleUnderline {
+  font-weight: 800;
+  font-size: 16px;
+  margin: 0 0 5px 0;
+}
+
+.dialogTitleUnderline:after {
+  line-height: 1px;
+  content: ' ';
+  background: -webkit-gradient(linear,left top,right bottom,from(#424242), color-stop(0.3, #ffffff), color-stop(0.7, #ffffff), to(#424242)) 0px 0px no-repeat;
+  height: 1px;
+  width: 100%;
+  display: block;
+  margin: 3px 0 0 0;
+  padding: 0;
 }

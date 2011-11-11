@@ -98,11 +98,11 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
           }
         }
         this.__processDialogTextParameters(title, text, button);
-        navigator.notification.alert(text, callback, title, button);
+        return navigator.notification.alert(text, callback, title, button);
       }
       else
       {
-        this.__showNonNativeDialog(title, text, handler, scope, button, qx.ui.mobile.dialog.Manager.MESSAGE_DIALOG);
+        return this.__showNonNativeDialog(title, text, handler, scope, button, qx.ui.mobile.dialog.Manager.MESSAGE_DIALOG);
       }
     },
 
@@ -131,11 +131,11 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
           handler.call(scope, index);
         }
         this.__processDialogTextParameters(title, text, buttons);
-        navigator.notification.confirm(text, callback, title, buttons);
+        return navigator.notification.confirm(text, callback, title, buttons);
       }
       else
       {
-        this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.MESSAGE_DIALOG);
+        return this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.MESSAGE_DIALOG);
       }
     },
     
@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      */
     input : function(title, text, handler, scope, buttons)
     {
-      this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.INPUT_DIALOG);
+      return this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.INPUT_DIALOG);
     },
     
     /**
@@ -183,11 +183,11 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
           }
         }
         this.__processDialogTextParameters(title, text, button);
-        navigator.notification.alert(text, callback, title, button);
+        return navigator.notification.alert(text, callback, title, button);
       }
       else
       {
-        this.__showNonNativeDialog(title, text, handler, scope, button, qx.ui.mobile.dialog.Manager.ERROR_DIALOG);
+        return this.__showNonNativeDialog(title, text, handler, scope, button, qx.ui.mobile.dialog.Manager.ERROR_DIALOG);
       }
     },
     
@@ -216,11 +216,11 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
           }
         }
         this.__processDialogTextParameters(title, text, button);
-        navigator.notification.alert(text, callback, title, button);
+        return navigator.notification.alert(text, callback, title, button);
       }
       else
       {
-        this.__showNonNativeDialog(title, text, handler, scope, button, qx.ui.mobile.dialog.Manager.WARNING_DIALOG);
+        return this.__showNonNativeDialog(title, text, handler, scope, button, qx.ui.mobile.dialog.Manager.WARNING_DIALOG);
       }
     },
 
@@ -242,7 +242,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      */
     wait : function(title, text, handler, scope, buttons)
     {
-      this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.WAITING_DIALOG);
+      return this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.WAITING_DIALOG);
     },
 
     __processDialogTextParameters: function(title, text, buttons)
@@ -265,17 +265,15 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
     __showNonNativeDialog: function(title, text, handler, scope, buttons, dialogType)
     {
       var widget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY: "middle"}));
-      var titleWidget = new qx.ui.mobile.form.Title(title);
+      var dialog = new qx.ui.mobile.dialog.Dialog(widget);
+      dialog.setTitle(title);
 
       if(dialogType == qx.ui.mobile.dialog.Manager.ERROR_DIALOG) {
-        qx.bom.element.Style.set(titleWidget.getContainerElement(), 'backgroundColor', '#990000');
+        dialog.setIcon('qx/mobile/icon/android/warning.png');
       }
       if(dialogType == qx.ui.mobile.dialog.Manager.WARNING_DIALOG) {
-        qx.bom.element.Style.set(titleWidget.getContainerElement(), 'backgroundColor', '#AAAA00');
+        dialog.setIcon('qx/mobile/icon/android/warning.png');
       }
-      
-      widget.add(titleWidget);
-      var dialog = new qx.ui.mobile.dialog.Dialog(widget);
       
       if(dialogType == qx.ui.mobile.dialog.Manager.WAITING_DIALOG)
       {
@@ -296,24 +294,29 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
           widget.add(inputWidget);
         }
 
-        var buttonsContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
+        var toolbar = new qx.ui.mobile.toolbar.ToolBar();
         for(var i=0, l=buttons.length; i<l; i++)
         {
-          var button = new qx.ui.mobile.form.Button(buttons[i]);
-          buttonsContainer.add(button);
+          var button = new qx.ui.mobile.toolbar.Button(buttons[i]);
+          /* see the comment in android.css for width: 0 for toolbar-button class*/
+          //button._setStyle('width', 'auto');
+          toolbar.add(button);
+          if(i < l-1) {
+            toolbar.add(new qx.ui.mobile.toolbar.Separator());
+          }
           var callback = (function(index){ 
             return function()
             {
               dialog.hide();
               if(handler) {
-                handler.call(scope, index, inputText.getValue());
+                handler.call(scope, index, inputText ? inputText.getValue() : null);
               }
               dialog.destroy();
             };
           })(i);
           button.addListener("tap", callback);
         }
-        widget.add(buttonsContainer);
+        widget.add(toolbar);
       }
       dialog.setModal(true);
       dialog.show();

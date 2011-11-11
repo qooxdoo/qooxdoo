@@ -25,25 +25,46 @@
  */
 qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
 {
-  extend : qx.ui.mobile.core.Widget,
+  extend : qx.ui.mobile.basic.Atom,
 
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
- 
+
   /**
-   * @param infoText {String?null} the message to be shown.
+   * @param label {String} Label to use
+   * @param icon {String?null} Icon to use
    */
-  construct : function(infoText)
+  construct : function(label)
   {
-    this.base(arguments);
-    
-    this.__createChildren(infoText);
-    
+    // the image passed as second argument is a blank 20x20 transparent png
+    this.base(arguments, label, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAQAAAAngNWGAAAAAXNSR0IArs4c6QAAAAJiS0dEAP+Hj8y/AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAB3RJTUUH2wsJDS8ybObCaQAAABBJREFUKM9jYBgFo2AUkAIAAzQAATnIy0MAAAAASUVORK5CYII=');
   },
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    // overridden
+    defaultCssClass :
+    {
+      refine : true,
+      init : "spinnerContainer"
+    },
+    spinnerClass :
+    {
+      apply : "_applySpinnerClass",
+      nullable : false,
+      check : "String",
+      init : "spinner"
+    }
+  },
 
   /*
   *****************************************************************************
@@ -53,30 +74,18 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
 
   members :
   {
-    __spinner : null,
-    __infoLabel : null,
-    __widgetContainer : null,
-    
-    /**
-     * Creates the DOM elements necessary to show the indicator.
-     * @param labelText {String?null} the message to be shown.
-     * 
-     */
-    __createChildren : function(labelText)
+    _createIconWidget : function(iconURL)
     {
-      this.__widgetContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY: "middle"}));
-      this.__widgetContainer.addCssClass("spinnerContainer");
-
-      this.__spinner = new qx.ui.mobile.core.Widget();
-      this.__spinner.addCssClass("spinner");
-      this.__widgetContainer.add(this.__spinner);
-      
-      if(labelText) {
-        this.__infoLabel = new qx.ui.mobile.basic.Label(labelText);
-        this.__widgetContainer.add(this.__infoLabel);
+      var iconWidget = this.base(arguments)
+      iconWidget.addCssClass(this.getSpinnerClass());
+      return iconWidget;
+    },
+    
+    _applySpinnerClass : function(value, old)
+    {
+      if(value) {
+        this.getIconWidget().addCssClass(value);
       }
-      
-      this._add(this.__widgetContainer);
     }
   }
 });

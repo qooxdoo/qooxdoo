@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       }
       else
       {
-        this.__label = this.__createLabelWidget(value);
+        this.__label = this._createLabelWidget(value);
         if(this.__icon)
         {
           var iconFirst = [ "top", "left" ].indexOf(this.getIconPosition()) != -1;
@@ -267,7 +267,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       }
       else
       {
-        this.__icon = this.__createIconWidget(value);
+        this.__icon = this._createIconWidget(value);
         var iconFirst = [ "top", "left" ].indexOf(this.getIconPosition()) != -1;
         if(iconFirst) {
           this.__childrenContainer._addBefore(this.__icon, this.__label);
@@ -285,7 +285,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       return this.__label;
     },
     
-    __createIconWidget : function(iconURL)
+    _createIconWidget : function(iconURL)
     {
       var iconWidget = new qx.ui.mobile.basic.Image(iconURL);
       iconWidget.setAnonymous(true);
@@ -293,7 +293,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       return iconWidget;
     },
     
-    __createLabelWidget : function(label)
+    _createLabelWidget : function(label)
     {
       var labelWidget = new qx.ui.mobile.basic.Label(label);
       labelWidget.setAnonymous(true);
@@ -316,12 +316,12 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     __createChildren : function(label, icon) {
       if(label)
       {
-        this.__label = this.__createLabelWidget(label);
+        this.__label = this._createLabelWidget(label);
         this.setLabel(label);
       }
       if(icon)
       {
-        this.__icon = this.__createIconWidget(icon);
+        this.__icon = this._createIconWidget(icon);
         this.setIcon(icon);
       }
       var verticalLayout = [ "top", "bottom" ].indexOf(this.getIconPosition()) != -1;

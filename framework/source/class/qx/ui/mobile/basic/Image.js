@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     _applySource : function(value, old)
     {
       var source = value;
-      if (source)
+      if (source && source.indexOf('data:')!=0)
       {
         source = qx.util.ResourceManager.getInstance().toUri(source);
         var ImageLoader = qx.io.ImageLoader;

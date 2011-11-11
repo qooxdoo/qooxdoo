@@ -85,35 +85,6 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
         qx.lang.Object.carefullyMergeWith(layoutProperties, {flex: 1});
       }
       this.base(arguments, child, layoutProperties);
-    },
-
-    /**
-     *
-     * Shows the toolbar
-     */
-    show : function()
-    {
-      this.removeCssClass('toolbar-hidden');
-      this.__hidden = false;
-    },
-
-    /**
-     *
-     * Hides the toolbar
-     */
-    hide : function()
-    {
-      this.addCssClass('toolbar-hidden');
-      this.__hidden = true;
-    },
-
-    /**
-     *
-     * Toggles the visibility of the toolbar
-     */
-    toggle : function()
-    {
-      this.__hidden ? this.show() : this.hide();
     }
   }
 });

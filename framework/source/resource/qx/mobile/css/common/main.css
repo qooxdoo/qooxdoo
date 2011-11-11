@@ -4,8 +4,16 @@
     padding: 0;
 }
 
+.page {
+    -webkit-backface-visibility: hidden;
+    -webkit-box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    -webkit-transform: translate3d(0,0,0) rotate(0) scale(1);
+}
 
-html {
+html, body {
   height:100%;
 }
 

@@ -73,18 +73,6 @@ qx.Class.define("qx.ui.mobile.dialog.Dialog",
       this.base(arguments);
     },
     
-    __getBlocker : function()
-    {
-      if(!this.__blocker) {
-        this.__blocker = new qx.ui.mobile.core.Blocker();
-        this.__blocker.addCssClass('transparent');
-        qx.core.Init.getApplication().getRoot().add(this.__blocker);
-        var blockerZIndex = qx.bom.element.Style.get(this.__blocker.getContainerElement(), 'zIndex');
-        blockerZIndex = parseInt(blockerZIndex) +1;
-        qx.bom.element.Style.set(this.getContainerElement(), 'zIndex', blockerZIndex);
-      }
-      return this.__blocker;
-    },
 
     /**
      * Hides the blocker. The blocker is only hidden when the hide method
@@ -97,6 +85,18 @@ qx.Class.define("qx.ui.mobile.dialog.Dialog",
         this.__getBlocker().hide();
       }
       this.base(arguments);
+    },
+
+    __getBlocker : function()
+    {
+      if(!this.__blocker) {
+        this.__blocker = new qx.ui.mobile.core.Blocker();
+        qx.core.Init.getApplication().getRoot().add(this.__blocker);
+        var blockerZIndex = qx.bom.element.Style.get(this.__blocker.getContainerElement(), 'zIndex');
+        blockerZIndex = parseInt(blockerZIndex) +1;
+        qx.bom.element.Style.set(this.getContainerElement(), 'zIndex', blockerZIndex);
+      }
+      return this.__blocker;
     }
 
   }
