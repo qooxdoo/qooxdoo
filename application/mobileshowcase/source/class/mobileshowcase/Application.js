@@ -77,6 +77,7 @@ qx.Class.define("mobileshowcase.Application",
       var form = new mobileshowcase.page.Form();
       var animation = new mobileshowcase.page.Animation();
       var animationLanding = new mobileshowcase.page.AnimationLanding();
+      var atoms = new mobileshowcase.page.Atom();
 
 
       // Navigation
@@ -108,6 +109,11 @@ qx.Class.define("mobileshowcase.Application",
       nm.onGet("/form", function(data)
       {
         form.show();
+      },this);
+      
+      nm.onGet("/atom", function(data)
+      {
+        atoms.show();
       },this);
 
       nm.onGet("/animation", function(data) {
