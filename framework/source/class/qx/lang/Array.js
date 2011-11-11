@@ -35,6 +35,7 @@
 /* ************************************************************************
 
 #ignore(qx.data.IListData)
+#ignore(qx.Class)
 
 ************************************************************************ */
 
@@ -87,7 +88,7 @@ qx.Bootstrap.define("qx.lang.Array",
       }
 
       if (qx.data && qx.data.IListData) {
-        if (qx.Class.hasInterface(object, qx.data.IListData)) {
+        if (qx.Class && qx.Class.hasInterface(object, qx.data.IListData)) {
           var object = object.toArray();
         }
       }
