@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import os, sys
+import os, sys, re
 import optparse
 import shutil
 import filecmp
@@ -33,6 +33,17 @@ class DummyConsole(object):
         pass
     def error(self, msg):
         print msg
+
+
+class SkipList(object):
+
+    def __init__(self,lst):
+        self._skip_elements   = lst
+        self._skip_relist     = [re.compile(e, re.I) for e in lst]
+        self._skip_expression = re.compile(r'%s' % '|'.join(lst),re.I)
+
+    def __contains__(self, e):
+        return bool(self._skip_expression.match(e))
 
 
 class CopyTool(object):

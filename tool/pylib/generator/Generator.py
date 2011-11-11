@@ -1842,7 +1842,8 @@ class Generator(object):
     #                   [['-x', x.strip("^\\$")] for x in filetool.VERSIONCONTROL_DIR_PATTS],
     #                   [])
 
-    skip_list = [x.strip("^\\$") for x in filetool.VERSIONCONTROL_DIR_PATTS]
+    #skip_list = [x.strip("^\\$") for x in filetool.VERSIONCONTROL_DIR_PATTS]
+    skip_list = filetool.VERSIONCONTROL_DIR_PATTS
 
 
     def _copyResources(self, srcPath, targPath):
