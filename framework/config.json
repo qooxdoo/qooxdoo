@@ -199,7 +199,7 @@
       "extend" : [ "cache" ],
 
       "include": ["qx.*"],
-      "exclude": ["=qx.test.*"],
+      "exclude": ["qx.test.*"],
 
       "environment" :
       {
@@ -329,7 +329,7 @@
 
     "lint" :
     {
-      "exclude": ["=qx.test.*", "=qx.dev.unit.Sinon"]
+      "exclude": ["qx.test.*", "qx.dev.unit.Sinon"]
     },
 
     "lint-test" :
