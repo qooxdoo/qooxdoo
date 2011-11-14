@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.layout.Grid",
           throw new Error(
             "Cannot add widget '" + child + "'!. " +
             "There is already a widget '" + grid[row][column] +
-            "' in this cell (" + row + ", " + column + ")"
+            "' in this cell (" + row + ", " + column + ") for '" + this + "'"
           );
         }
 

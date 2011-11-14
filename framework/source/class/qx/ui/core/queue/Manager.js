@@ -104,19 +104,46 @@ qx.Class.define("qx.ui.core.queue.Manager",
           if (jobs.widget)
           {
             delete jobs.widget;
-            qx.ui.core.queue.Widget.flush();
+
+            if (qx.core.Environment.get("qx.debug")) {
+              try {
+                qx.ui.core.queue.Widget.flush();
+              } catch (e) {
+                qx.log.Logger.error("Error in the 'Widget' queue:" + e);
+              }
+            } else {
+              qx.ui.core.queue.Widget.flush();
+            }
           }
 
           if (jobs.visibility)
           {
             delete jobs.visibility;
-            qx.ui.core.queue.Visibility.flush();
+
+            if (qx.core.Environment.get("qx.debug")) {
+              try {
+                qx.ui.core.queue.Visibility.flush();
+              } catch (e) {
+                qx.log.Logger.error("Error in the 'Visibility' queue:" + e);
+              }
+            } else {
+              qx.ui.core.queue.Visibility.flush();
+            }
           }
 
           if (jobs.appearance)
           {
             delete jobs.appearance;
-            qx.ui.core.queue.Appearance.flush();
+
+            if (qx.core.Environment.get("qx.debug")) {
+              try {
+                qx.ui.core.queue.Appearance.flush();
+              } catch (e) {
+                qx.log.Logger.error("Error in the 'Appearance' queue:" + e);
+              }
+            } else {
+              qx.ui.core.queue.Appearance.flush();
+            }
           }
 
           // Defer layout as long as possible
@@ -127,7 +154,16 @@ qx.Class.define("qx.ui.core.queue.Manager",
           if (jobs.layout)
           {
             delete jobs.layout;
-            qx.ui.core.queue.Layout.flush();
+
+            if (qx.core.Environment.get("qx.debug")) {
+              try {
+                qx.ui.core.queue.Layout.flush();
+              } catch (e) {
+                qx.log.Logger.error("Error in the 'Layout' queue:" + e);
+              }
+            } else {
+              qx.ui.core.queue.Layout.flush();
+            }
           }
 
           // Defer element as long as possible
@@ -150,7 +186,16 @@ qx.Class.define("qx.ui.core.queue.Manager",
         if (jobs.dispose)
         {
           delete jobs.dispose;
-          qx.ui.core.queue.Dispose.flush();
+
+          if (qx.core.Environment.get("qx.debug")) {
+            try {
+              qx.ui.core.queue.Dispose.flush();
+            } catch (e) {
+              qx.log.Logger.error("Error in the 'Dispose' queue:" + e);
+            }
+          } else {
+            qx.ui.core.queue.Dispose.flush();
+          }
         }
       }, function() {
         // Clear flag
