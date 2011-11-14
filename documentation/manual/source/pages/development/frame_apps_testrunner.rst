@@ -61,7 +61,7 @@ For cases where the generic class-wide ``tearDown`` isn't enough, methods using 
 
 Asynchronous Tests
 ^^^^^^^^^^^^^^^^^^
-Starting with qooxdoo 0.8.2, the unit testing framework supports asynchronous tests. This enables testing for methods that aren't called directly, such as event handlers:
+Asynchronous tests enable testing for methods that aren't called directly, such as event handlers:
 
 * Test classes inheriting from ``qx.dev.unit.TestCase`` have a ``wait()`` method that stops the test's execution and sets a timeout. ``wait()`` should always be the last function to be called in a test since any code following it is ignored. ``wait()`` has two optional arguments: The **amount of time to wait** in milliseconds (defaults to 5000) and a **function to be executed** when the timeout is reached. If no function is specified, reaching the timeout will cause an exception to be thrown and the test to fail.
 * The ``resume()`` method is used to (surprise!) resume a waiting test. It takes two arguments, a **function to be executed** when the test is resumed, typically containing assertions, and the object context it should be executed in.
@@ -72,10 +72,10 @@ Here's an example: In our test, we want to send an AJAX request to the local web
 
     testAjaxRequest : function()
     {
-      var request = new qx.io.remote.Request("/myWebApp/index.html");
-      request.addListener("completed", function (e) {
+      var request = new qx.io.request.Xhr("/index.html");
+      request.addListener("success", function (e) {
         this.resume(function() {
-          this.assertEquals(200, e.getStatusCode());
+          this.assertEquals(200, request.getStatus());
         }, this);
       }, this);
       request.send();
