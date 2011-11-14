@@ -94,8 +94,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         "  top: 0px;" +
         "  height: 100%;" +
         "  overflow:hidden;" +
-        "  text-overflow:ellipsis;" +
-        "  -o-text-overflow: ellipsis;" +
+        (qx.core.Environment.get("css.textoverflow") ?
+        qx.lang.String.hyphenate(qx.core.Environment.get("css.textoverflow")) +
+        ':ellipsis;' : "") +
         "  white-space:nowrap;" +
         "  border-right:1px solid #f2f2f2;" +
         "  border-bottom:1px solid #eeeeee;" +
@@ -104,7 +105,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         "  font-size: 11px;" +
         "  font-family: 'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif;" +
         (qx.core.Environment.get("css.userselect") ? 
-        ';' + qx.lang.String.hyphenate(qx.core.Environment.get("css.userselect")) + 
+        qx.lang.String.hyphenate(qx.core.Environment.get("css.userselect")) + 
         ':' + qx.core.Environment.get("css.userselect.none") + ';'
         : '')
   },
