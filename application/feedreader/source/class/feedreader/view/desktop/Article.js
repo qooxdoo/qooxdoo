@@ -41,7 +41,8 @@ qx.Class.define("feedreader.view.desktop.Article",
     if (!feedreader.view.desktop.Article.__styleSheetIncluded)
     {
       feedreader.view.desktop.Article.__styleSheetIncluded = true;
-      qx.bom.Stylesheet.includeFile("feedreader/css/reader.css");
+      var uri = qx.util.ResourceManager.getInstance().toUri("feedreader/css/reader.css");
+      qx.bom.Stylesheet.includeFile(uri);
     }
 
     // Configure

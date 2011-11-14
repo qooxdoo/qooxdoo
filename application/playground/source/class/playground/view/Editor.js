@@ -118,8 +118,10 @@ qx.Class.define("playground.view.Editor",
 
 
       // load the CSS files for the code editor
-      qx.bom.Stylesheet.includeFile("resource/playground/css/editor.css");
-      qx.bom.Stylesheet.includeFile("resource/playground/css/tm.css");
+      var uri = qx.util.ResourceManager.getInstance().toUri("resource/playground/css/editor.css");
+      qx.bom.Stylesheet.includeFile(uri);
+      uri = qx.util.ResourceManager.getInstance().toUri("resource/playground/css/tm.css");
+      qx.bom.Stylesheet.includeFile(uri);
 
       // override the focus border CSS of the editor
       qx.bom.Stylesheet.createElement(

@@ -35,10 +35,14 @@ qx.Class.define("inspector.Application",
   {
     this.base(arguments);
 
-    qx.bom.Stylesheet.includeFile("inspector/css/domview.css");
-    qx.bom.Stylesheet.includeFile("inspector/css/consoleview.css");
-    qx.bom.Stylesheet.includeFile("inspector/css/sourceview.css");
-    qx.bom.Stylesheet.includeFile("inspector/css/propertylisthtml.css");
+    var uri = qx.util.ResourceManager.getInstance().toUri("inspector/css/domview.css");
+    qx.bom.Stylesheet.includeFile(uri);
+    uri = qx.util.ResourceManager.getInstance().toUri("inspector/css/consoleview.css");
+    qx.bom.Stylesheet.includeFile(uri);
+    uri = qx.util.ResourceManager.getInstance().toUri("inspector/css/sourceview.css");
+    qx.bom.Stylesheet.includeFile(uri);
+    uri = qx.util.ResourceManager.getInstance().toUri("inspector/css/propertylisthtml.css");
+    qx.bom.Stylesheet.includeFile(uri);
   },
 
   /*

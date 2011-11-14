@@ -37,8 +37,10 @@ qx.Class.define("demobrowser.Application",
     this.base(arguments);
 
     // Include CSS files
-    qx.bom.Stylesheet.includeFile("demobrowser/css/style.css");
-    qx.bom.Stylesheet.includeFile("demobrowser/css/sourceview.css");
+    var uri = qx.util.ResourceManager.getInstance().toUri("demobrowser/css/style.css");
+    qx.bom.Stylesheet.includeFile(uri);
+    uri = qx.util.ResourceManager.getInstance().toUri("demobrowser/css/sourceview.css");
+    qx.bom.Stylesheet.includeFile(uri);
   },
 
 

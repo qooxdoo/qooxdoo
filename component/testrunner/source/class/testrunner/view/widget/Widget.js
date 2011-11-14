@@ -653,7 +653,8 @@ qx.Class.define("testrunner.view.widget.Widget", {
 
       p1.add(this.__createProgressBar());
 
-      qx.bom.Stylesheet.includeFile("testrunner/view/widget/css/testrunner.css");
+      var uri = qx.util.ResourceManager.getInstance().toUri("testrunner/view/widget/css/testrunner.css");
+      qx.bom.Stylesheet.includeFile(uri);
       this.__testResultView = new testrunner.view.widget.TestResultView();
       p1.add(this.__testResultView, {flex : 1});
       this.bind("showStackTrace", this.__testResultView, "showStackTrace");
