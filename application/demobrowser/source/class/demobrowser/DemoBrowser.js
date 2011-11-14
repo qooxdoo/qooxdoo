@@ -1422,14 +1422,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
       // create a and config request to the given url
-      var req = new qx.io.remote.Request(url);
+      var req = new qx.io.request.Xhr(url);
       req.setTimeout(180000);
-      req.setProhibitCaching(false);
 
-      req.addListener("completed", function(evt)
+      req.addListener("success", function(evt)
       {
         // get the content of the request
-        var content = evt.getContent();
+        var content = evt.getTarget().getResponse();
         // if there is a content
         if (content) {
           if (qx.core.Environment.get("qx.contrib") == false) {
@@ -1451,11 +1450,11 @@ qx.Class.define("demobrowser.DemoBrowser",
             jsSourceFileName = u;
 
             // get the javascript code
-            var reqJSFile = new qx.io.remote.Request(jsSourceFileName);
-            reqJSFile.setTimeout(180000);
-            reqJSFile.setProhibitCaching(false);
-            reqJSFile.addListener("completed", function(evt2) {
-              var jsCode = evt2.getContent();
+            var reqJSFile = new qx.bom.request.Script();
+            reqJSFile.timeout = 18000;
+
+            reqJSFile.onload = qx.lang.Function.bind(function() {
+              var jsCode = reqJSFile.responseText;
 
               // store the current visible code
               this.__setCurrentJSCode(jsCode);
@@ -1465,11 +1464,13 @@ qx.Class.define("demobrowser.DemoBrowser",
                 this.widgets["outputviews.sourcepage.js.page"].setHtml(this.__beautySource(jsCode, "javascript"));
               }
             }, this);
-            // add a listener which handles the failure of the request
-            reqJSFile.addListener("failed", function(evt) {
+
+            reqJSFile.onerror = reqJSFile.ontimeout = qx.lang.Function.bind(function() {
               this.error("Couldn't load file: " + url);
             }, this);
+
             // send the request for the javascript code
+            reqJSFile.open("GET", jsSourceFileName);
             reqJSFile.send();
 
             // write the html code to the html page
@@ -1478,7 +1479,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }, this);
       // add a listener which handles the failure of the request
-      req.addListener("failed", function(evt) {
+      req.addListener("fail", function(evt) {
         this.error("Couldn't load file: " + url);
       }, this);
       // send the request for the html file
@@ -1495,10 +1496,8 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     dataLoader : function(url)
     {
-      var req = new qx.io.remote.Request(url);
-
+      var req = new qx.io.request.Xhr(url);
       req.setTimeout(180000);
-      req.setProhibitCaching(false);
 
       /**
        * TODOC
@@ -1506,9 +1505,9 @@ qx.Class.define("demobrowser.DemoBrowser",
        * @param evt {var} TODOC
        * @lint ignoreDeprecated(alert, eval)
        */
-      req.addListener("completed", function(evt)
+      req.addListener("success", function(evt)
       {
-        var content = evt.getContent();
+        var content = evt.getTarget().getResponse();
 
         // For reasons unknown, requests made here that fail because of security
         // restrictions fire a "completed" event. In other applications such as
@@ -1544,7 +1543,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       },
       this);
 
-      req.addListener("failed", function(evt) {
+      req.addListener("fail", function(evt) {
         this.error("Couldn't load file: " + url);
       }, this);
 
