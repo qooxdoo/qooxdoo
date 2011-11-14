@@ -110,6 +110,29 @@ qx.Class.define("testrunner.runner.TestRunner", {
       this._wrapAssertions();
       this._getTestModel();
     },
+    
+    
+    _addTestClass : function(membersMap)
+    {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertMap(membersMap);
+      }
+      this.setTestSuiteState("loading");
+      var qxClass = qx.Class;
+      var testClass = qxClass.define("test.TestClass" + (this.__externalTestClasses += 1) ,
+      {
+        extend : qx.dev.unit.TestCase,
+        include : [qx.dev.unit.MMock, qx.dev.unit.MRequirements],
+        members : membersMap
+      });
+      
+      if (this.loader) {
+        this.loader.getSuite().add(testClass);
+      }
+      else {
+        this.loader = new qx.dev.unit.TestLoaderBasic("test");
+      }
+    },
 
 
     _runTests : function() {

@@ -178,7 +178,6 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       var testClass = qxClass.define("test.TestClass" + (this.__externalTestClasses += 1) ,
       {
         extend : qx.dev.unit.TestCase,
-        include : [qx.dev.unit.MMock, qx.dev.unit.MRequirements],
         members : membersMap
       });
       
