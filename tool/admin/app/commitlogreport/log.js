@@ -89,7 +89,7 @@ var loadFiles = function(i) {
   }
   // git command for fetching the changed files
   var gitCommand = 'git show --pretty="format:" --name-only ' + commits[i].hash;
-  exec(gitCommand, function (error, stdout, stderr) {
+  exec(gitCommand, {maxBuffer: 2000000*1024}, function (error, stdout, stderr) {
     // error handling
     if (error !== null) {
       console.log('Could not get changed files for ' + commits[i].hash + ': ' + error);
