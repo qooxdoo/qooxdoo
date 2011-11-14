@@ -216,7 +216,7 @@ def parseTestJson(jsonString):
     format_in = "%Y-%m-%d_%H-%M-%S" 
     format_out = "%Y-%m-%d_%H:%M:%S" 
     for app, appVals in jData.items():
-        if appVals['BuildError'] != False:
+        if appVals['BuildError'] != None:
             continue
         apps[app] = {}
         # build start time
