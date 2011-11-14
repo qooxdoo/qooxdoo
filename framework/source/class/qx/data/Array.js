@@ -78,6 +78,11 @@ qx.Class.define("qx.data.Array",
 
     // update the length at startup
     this.__updateLength();
+
+    // work against the console printout of the array
+    if (qx.core.Environment.get("qx.debug")) {
+      this[0] = "Please use 'toArray()' to see the content.";
+    }
   },
 
 
