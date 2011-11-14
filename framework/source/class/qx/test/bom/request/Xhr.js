@@ -725,7 +725,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var req = this.req;
       req.open("GET", "index.html");
 
-      this.assertEquals("http:", req._getProtocol());
+      this.assertMatch(req._getProtocol(), (/http\s?:/));
     },
 
     //
