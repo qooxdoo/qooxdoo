@@ -33,7 +33,7 @@ qx.Class.define("qx.event.type.Native",
      * it can be dispatched.
      *
      * @param nativeEvent {Event} The DOM event to use
-     * @param target {Object} The event target
+     * @param target {Object?} The event target
      * @param relatedTarget {Object?null} The related event target
      * @param canBubble {Boolean?false} Whether or not the event is a bubbling event.
      *     If the event is bubbling, the bubbling can be stopped using
