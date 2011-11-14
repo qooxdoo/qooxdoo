@@ -268,6 +268,27 @@ qx.Bootstrap.define("qx.bom.client.Css",
      */
     getBoxSizing : function() {
       return qx.bom.Style.getPropertyName("boxSizing");
+    },
+
+
+    /**
+     * Returns the browser-specific name used for the <code>display</code> style
+     * property's <code>inline-block</code> value.
+     * 
+     * @internal
+     * @return {String|null} 
+     */
+    getInlineBlock : function() {
+      var el = document.createElement("span");
+      el.style.display = "inline-block";
+      if (el.style.display == "inline-block") {
+        return "inline-block";
+      }
+      el.style.display = "-moz-inline-box";
+      if (el.style.display !== "-moz-inline-box") {
+        return "-moz-inline-box";
+      }
+      return null;
     }
   },
 
@@ -288,5 +309,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.appearance", statics.getAppearance);
     qx.core.Environment.add("css.float", statics.getFloat);
     qx.core.Environment.add("css.boxsizing", statics.getBoxSizing);
+    qx.core.Environment.add("css.inlineblock", statics.getInlineBlock);
   }
 });

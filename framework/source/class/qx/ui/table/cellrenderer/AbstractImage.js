@@ -242,8 +242,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
           {
           width: this.__imageData.width + "px",
           height: this.__imageData.height + "px",
-          display: qx.core.Environment.get("engine.name") == "gecko" &&
-            qx.core.Environment.get("engine.version") < 1.9 ? "-moz-inline-box" : "inline-block",
+          display: qx.core.Environment.get("css.inlineblock"),
           verticalAlign: "top",
           position: "static"
         });

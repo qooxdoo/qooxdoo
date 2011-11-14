@@ -153,6 +153,10 @@
  *       <td>{@link qx.bom.client.CssTransform#get3D}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.inlineblock</td><td><i>String</i> or <i>null</i></td><td><code>inline-block</code></td>
+ *       <td>{@link qx.bom.client.Css#getInlineBlock}</td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><b>device</b></td>
  *     </tr>
  *     <tr>
@@ -723,6 +727,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.animation" : "qx.bom.client.CssAnimation.getSupport",
       "css.transform" : "qx.bom.client.CssTransform.getSupport",
       "css.transform.3d" : "qx.bom.client.CssTransform.get3D",
+      "css.inlineblock" : "qx.bom.client.Css.getInlineBlock",
       "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
       "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification",
       "xml.implementation"          : "qx.bom.client.Xml.getImplementation",
