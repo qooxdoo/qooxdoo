@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
           "if (value == '0') " +
           "{";
 
-        if ((qx.core.Environment.get("engine.name") == "mshtml") &&
+        if (qx.bom.element.Decoration.isAlphaImageLoaderEnabled() &&
             /\.png$/i.test(this.__iconUrlTrue))
         {
           imageData.extras +=
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
           "else " +
           "{";
 
-        if ((qx.core.Environment.get("engine.name") == "mshtml") &&
+        if (qx.bom.element.Decoration.isAlphaImageLoaderEnabled() &&
             /\.png$/i.test(this.__iconUrlFalse))
         {
           imageData.extras +=
