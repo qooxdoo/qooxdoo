@@ -153,6 +153,12 @@ qx.Class.define("qx.test.data.store.Json",
     },
 
 
+    testDispose: function() {
+      this.__store.setUrl(this.url);
+      this.__store.dispose();
+    },
+
+
     testWholePrimitive: function() {
       this.__store.addListener("loaded", function() {
         this.resume(function() {

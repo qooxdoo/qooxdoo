@@ -256,6 +256,10 @@ qx.Class.define("qx.data.store.Json",
      */
     _onSuccess : function(ev)
     {
+      if (this.isDisposed()) {
+        return;
+      }
+
        var req = ev.getTarget(),
            data = req.getResponse();
 
@@ -280,6 +284,12 @@ qx.Class.define("qx.data.store.Json",
 
        // fire complete event
        this.fireDataEvent("loaded", this.getModel());
+
+       // get rid of the request object
+       if (this.__request) {
+         this.__request.dispose();
+         this.__request = null;
+       }
     },
 
 
@@ -302,7 +312,10 @@ qx.Class.define("qx.data.store.Json",
 
   destruct : function()
   {
-    this._disposeObjects("__request");
+    if (this.__request != null) {
+      this._disposeObjects("__request");
+    }
+
     // The marshaler internally uses the singleton pattern
     // (constructor.$$instance.
     this._disposeSingletonObjects("_marshaler");
