@@ -105,7 +105,7 @@ qx.Class.define("playground.view.Editor",
       }
 
       // FF2 does not have that...
-      if (!document.createElement("div").getBoundingClientRect || badIE) {
+      if (!document.createElement("div").getBoundingClientRect || badIE || !window.ace) {
         this.fireEvent("disableHighlighting");
         highlightDisabled = true;
       } else {
