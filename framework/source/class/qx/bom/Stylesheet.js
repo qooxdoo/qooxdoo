@@ -54,6 +54,7 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
       var el = doc.createElement("link");
       el.type = "text/css";
       el.rel = "stylesheet";
+      // @deprecated since 1.6: usage of ResourceManager
       var resolvedUri = qx.util.ResourceManager.getInstance().toUri(href);
       if (resolvedUri !== href) {
         qx.log.Logger.warn("qx.bom.Stylesheet.includeFile: Resource IDs will no " +
