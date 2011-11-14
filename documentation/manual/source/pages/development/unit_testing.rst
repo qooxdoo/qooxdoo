@@ -11,5 +11,4 @@ But the Test Runner framework can be deployed for your *own application*. It pro
 
 * `Test Tools <http://qooxdoo.org/documentation/general/test_tools>`_ -- an overview over test tools and approaches
 * :doc:`frame_apps_testrunner`  -- how to deploy the Testrunner component for your own application
-* :doc:`framework_unit_testing` -- a developer's notebook about unit testing of the qooxdoo framework
 
