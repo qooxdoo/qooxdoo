@@ -115,6 +115,126 @@ If no "has" method for a given feature is found, `qx.core.Environment <http://de
 
 Note that only Environment keys with **synchronous** checks are supported.
 
+.. _pages/frame_apps_testrunner#spies-stubs-mocks:
+
+Spies, stubs and mocks
+^^^^^^^^^^^^^^^^^^^^^^
+
+Spies are test functions that records details for all its calls. Stubs are spies with pre-programmed behavior. Mocks are fake methods are like spies and stubs, but also come with pre-programmed expectations. Generally speaking, spies, stubs and mocks are fakes that allow fine-grained unit testing. They constitute important tools for test driven development.
+
+In order to use fakes in your tests, test classes must include the `MMock <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock>`_ mixin. Here are some example tests that demonstrate the usage of spies and stubs.
+
+::
+
+  "test: spy": function() {
+    var spy = this.spy();
+    spy();
+    this.assertCalled(spy);
+  },
+
+  "test: stub": function() {
+    var whoami = this.stub();
+    whoami.returns("Affe");
+    this.assertEquals("Affe", whoami());
+  }
+
+`MMock <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock>`_ also provides custom assertions tailored to work with fakes. Whenever possible, custom assertions should be used instead of lower level assertions because they provide more detailed error messages.
+
+::
+
+  "test: assert called": function() {
+    var spy = this.sinon.spy();
+
+    // Fail test deliberately
+    // spy();
+
+    // Recommended
+    this.assertCalledOnce(spy);
+    // --> expected spy to have been called once but was called 0 times
+
+    // Lower level assertion
+    this.assertTrue(spy.called);
+    this.assertEquals(1, spy.callCount);
+    // --> Called assertTrue with 'false'
+    // --> Expected '1' but found '0'!
+  }
+
+For more details, please refer to the API documentation of `MMock <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock>`_. Additional examples can be found in ``qx.test.dev.unit.Sinon``.
+
+MMock is based on `Sinon.JS <http://sinonjs.org/>`_. The original ``sinon`` object can be retrieved by calling ``this.getSinon()``.
+
+.. _pages/frame_apps_testrunner#sandboxing:
+
+Sandboxing
+..........
+
+Stubs can override original behavior. To prevent tests from leaking, it is recommended to restore fakes on tear down. Every fake (including stubs) created by `MMock <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock>`_ is contained within a sandbox. Here is how to restore all fakes recorded in the sandbox.
+
+::
+
+  tearDown: function() {
+    this.getSandbox().restore();
+  }
+
+.. _pages/frame_apps_testrunner#faking-xhr:
+
+Faking XMLHttpRequest
+.....................
+
+To replace the native implementation of ``XMLHttpRequest`` (XHR), call ``useFakeXMLHttpRequest()``. The fake implementation behaves just like the original implementation only that no HTTP backend is required. Additional methods allow to simulate HTTP interaction. For example, the following test demonstrates the basic functionality of XHR.
+
+::
+
+  "test: GET with XMLHttpRequest": function() {
+    // Replace XMLHttpRequest host object with fake implementation
+    this.useFakeXMLHttpRequest();
+
+    var readyStates = [];
+    var req = new XMLHttpRequest();
+
+    req.open("GET", "/");
+    req.onreadystatechange = this.spy(function() {
+      readyStates.push(req.readyState);
+    });
+
+    req.send();
+
+    // Fake server response
+    // - Fires "readystatechange" event
+    // - Updates status, responseText properties
+    req.respond(200, {}, "Response");
+
+    this.assertCalled(req.onreadystatechange);
+    this.assertArrayEquals([1,2,3,4], readyStates);
+    this.assertEquals(200, req.status);
+    this.assertEquals("Response", req.responseText);
+  }
+
+Usually, the unit under test does not directly expose requests. Rather, some other part of the programm calls the XMLHttpRequest constructor. Whenever the request is not directly available within the test (or complicated to access), each request created by the fake implementation can be retrieved with ``getRequests()``.
+
+::
+
+  "test: GET with qx.io.request.Xhr": function() {
+    this.useFakeXMLHttpRequest();
+    var req = new qx.io.request.Xhr("GET", "/");
+    var fakeReq = this.getRequests()[1];
+
+    // qx.io.request.Xhr indirectly uses an instance of XMLHttpRequest.
+    // The test should not be concerned with the implementation detail
+    // about how to retrieve the instance. Instead, getRequests()
+    // above provides an implementation indepent way to retrieve the
+    // used object.
+    //
+    // this.assertEquals(fakeReq, req.getTransport().getRequest());
+
+    req.send();
+
+    this.assertEventFired(req, "statusError", function() {
+      fakeReq.respond(500, {}, "Error");
+    });
+    this.assertEquals(500, req.getStatus());
+  }
+
 .. _pages/frame_apps_testrunner#create_the_test_application:
 
 Create the Test Application
