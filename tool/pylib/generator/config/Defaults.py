@@ -31,13 +31,12 @@ def getQooxdooVersion():
     version = version.strip()
     return version
 
+##
+# Don't return a real value currently, so to enforce setting this macro explicitly
+# (e.g. via command line option). This makes it easier to switch between devel and
+# release builds.
 def getQooxdooRevision():
-    shellCmd = ShellCmd()
-    rcode, out, err = shellCmd.execute_piped("svnversion")
-    if rcode > 0 or "exported" in out:
-        result =  ""
-    else:
-        result =  out.rstrip()
+    result =  ""
     return result
         
 
