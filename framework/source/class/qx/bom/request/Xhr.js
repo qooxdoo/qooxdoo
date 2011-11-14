@@ -548,7 +548,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     _getProtocol: function() {
       var url = this.__url;
-      var protocolRe = /(\w+:)\/\//;
+      var protocolRe = /^(\w+:)\/\//;
 
       // Could be http:// from file://
       if (url !== null && url.match) {
