@@ -75,7 +75,6 @@
  *   https://github.com/janl/mustache.js/blob/master/README.md
  */
 qx.Class.define("qx.bom.Template", {
-  extend : qx.core.Object,
   statics : {
     /** Contains the mustache.js version. */
     version: null,
@@ -405,10 +404,20 @@ var Mustache = function() {
       }
 
       var value;
-      if(is_kinda_truthy(context[name])) {
-        value = context[name];
-      } else if(is_kinda_truthy(this.context[name])) {
-        value = this.context[name];
+      
+      // check for dot notation eg. foo.bar
+      if(name.match(/([a-z_]+)\./ig)){
+        var childValue = this.walk_context(name, context);
+        if(is_kinda_truthy(childValue)) {
+          value = childValue;
+        }
+      }
+      else{
+        if(is_kinda_truthy(context[name])) {
+          value = context[name];
+        } else if(is_kinda_truthy(this.context[name])) {
+          value = this.context[name];
+        }
       }
 
       if(typeof value === "function") {
@@ -419,6 +428,22 @@ var Mustache = function() {
       }
       // silently ignore unkown variables
       return "";
+    },
+
+    walk_context: function(name, context){
+      var path = name.split('.');
+      // if the var doesn't exist in current context, check the top level context
+      var value_context = (context[path[0]] != undefined) ? context : this.context;
+      var value = value_context[path.shift()];
+      while(value != undefined && path.length > 0){
+        value_context = value;
+        value = value[path.shift()];
+      }
+      // if the value is a function, call it, binding the correct context
+      if(typeof value === "function") {
+        return value.apply(value_context);
+      }
+      return value;
     },
 
     // Utility methods
@@ -435,7 +460,7 @@ var Mustache = function() {
       s = String(s === null ? "" : s);
       return s.replace(/&(?!\w+;)|["'<>\\]/g, function(s) {
         switch(s) {
-        case "&": return "&amp;";        
+        case "&": return "&amp;";
         case '"': return '&quot;';
         case "'": return '&#39;';
         case "<": return "&lt;";
