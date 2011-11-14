@@ -138,6 +138,27 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
+     * Returns the (possibly vendor-prefixed) value for the 
+     * <code>userSelect</code> style property that disables selection. For Gecko,
+     * "-moz-none" is returned since "none" only makes the target element appear
+     * as if its text could not be selected
+     * 
+     * @internal
+     * @return {String|null} the userSelect property value that disables 
+     * selection or <code>null</code> if userSelect is not supported
+     */
+    getUserSelectNone : function() {
+      var styleProperty = qx.bom.client.Css.getUserSelect();
+      if (styleProperty) {
+        var el = document.createElement("span");
+        el.style[styleProperty] = "-moz-none";
+        return el.style[styleProperty] === "-moz-none" ? "-moz-none" : "none";
+      }
+      return null;
+    },
+
+
+    /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the 
      * <code>userModify</code> style property.
      * 
@@ -263,6 +284,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.borderimage", statics.getBorderImage);
     qx.core.Environment.add("css.usermodify", statics.getUserModify);
     qx.core.Environment.add("css.userselect", statics.getUserSelect);
+    qx.core.Environment.add("css.userselect.none", statics.getUserSelectNone);
     qx.core.Environment.add("css.appearance", statics.getAppearance);
     qx.core.Environment.add("css.float", statics.getFloat);
     qx.core.Environment.add("css.boxsizing", statics.getBoxSizing);

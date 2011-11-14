@@ -1448,31 +1448,17 @@ qx.Class.define("qx.html.Element",
      * qxSelectable with the values 'on' or 'off'.
      * In webkit, a special css property will be used (-webkit-user-select).
      *
-     * @signature function(value)
      * @param value {Boolean} True, if the element should be selectable.
      */
-    setSelectable : qx.core.Environment.select("engine.name",
+    setSelectable : function(value)
     {
-      "webkit" : function(value)
-      {
-        // Apply qooxdoo attribute
-        this.setAttribute("qxSelectable", value ? "on" : "off");
-        this.setStyle("userSelect", value ? "text" : "none");
-      },
-
-      "gecko" : function(value)
-      {
-        // Apply qooxdoo attribute
-        this.setAttribute("qxSelectable", value ? "on" : "off");
-        this.setStyle("MozUserSelect", value ? "text" : "-moz-none");
-      },
-
-      "default" : function(value)
-      {
-        // Apply qooxdoo attribute
-        this.setAttribute("qxSelectable", value ? "on" : "off");
+      this.setAttribute("qxSelectable", value ? "on" : "off");
+      var userSelect = qx.core.Environment.get("css.userselect");
+      if (userSelect) {
+        this.setStyle(userSelect, value ? "text" : 
+          qx.core.Environment.get("css.userselect.none"));
       }
-    }),
+    },
 
 
     /**

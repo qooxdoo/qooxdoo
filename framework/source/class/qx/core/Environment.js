@@ -133,6 +133,10 @@
  *       <td>{@link qx.bom.client.Css#getUserSelect}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.userselect.none</td><td><i>String</i> or <i>null</i></td><td><code>-moz-none</code></td>
+ *       <td>{@link qx.bom.client.Css#getUserSelectNone}</td>
+ *     </tr>
+ *     <tr>
  *       <td>css.boxsizing</td><td><i>String</i> or <i>null</i></td><td><code>boxSizing</code></td>
  *       <td>{@link qx.bom.client.Css#getBoxSizing}</td>
  *     </tr>
@@ -710,6 +714,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.boxmodel"                : "qx.bom.client.Css.getBoxModel",
       "css.rgba"                    : "qx.bom.client.Css.getRgba",
       "css.userselect"              : "qx.bom.client.Css.getUserSelect",
+      "css.userselect.none"         : "qx.bom.client.Css.getUserSelectNone",
       "css.usermodify"              : "qx.bom.client.Css.getUserModify",
       "css.appearance"              : "qx.bom.client.Css.getAppearance",
       "css.float"                   : "qx.bom.client.Css.getFloat",

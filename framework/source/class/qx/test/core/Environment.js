@@ -397,6 +397,8 @@ qx.Class.define("qx.test.core.Environment",
       this.assert(typeof textOverflow == "string" || textOverflow === null);
       var userSelect = qx.core.Environment.get("css.userselect");
       this.assert(typeof userSelect == "string" || userSelect === null);
+      var userSelectNone = qx.core.Environment.get("css.userselect.none");
+      this.assert(typeof userSelectNone == "string" || userSelectNone === null);
       var userModify = qx.core.Environment.get("css.usermodify");
       this.assert(typeof userModify == "string" || userModify === null);
       var appearance = qx.core.Environment.get("css.appearance");
