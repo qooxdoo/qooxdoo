@@ -210,6 +210,12 @@ qx.Class.define("qx.data.store.Json",
      * @param url {String} The url for the request.
      */
     _createRequest: function(url) {
+      // dispose old request
+      if (this.__request) {
+        this.__request.dispose();
+        this.__request = null;
+      }
+
       if (this.isDeprecatedTransport()) {
         this._warnDeprecated();
         return this.__createRequestRemote(url);
