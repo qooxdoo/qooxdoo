@@ -386,6 +386,21 @@ qx.Bootstrap.define("qx.bom.client.Html",
     getConsole : function()
     {
       return typeof window.console !== "undefined";
+    },
+
+
+    /**
+     * Check for the <code>naturalHeight</code> and <code>naturalWidth</code> 
+     * image element attributes.
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if both attributes are supported
+     */
+    getNaturalDimensions : function()
+    {
+      var img = document.createElement("img");
+      return typeof img.naturalHeight === "number" && 
+        typeof img.naturalWidth === "number";
     }
   },
 
@@ -417,5 +432,6 @@ qx.Bootstrap.define("qx.bom.client.Html",
     qx.core.Environment.add("html.element.compareDocumentPosition", statics.getCompareDocumentPosition);
     qx.core.Environment.add("html.element.textcontent", statics.getTextContent);
     qx.core.Environment.add("html.console", statics.getConsole);
+    qx.core.Environment.add("html.image.naturaldimensions", statics.getNaturalDimensions);
   }
 });

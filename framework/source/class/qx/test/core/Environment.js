@@ -357,6 +357,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("html.element.contains"));
       this.assertBoolean(qx.core.Environment.get("html.element.compareDocumentPosition"));
       this.assertBoolean(qx.core.Environment.get("html.element.textcontent"));
+      this.assertBoolean(qx.core.Environment.get("html.image.naturaldimensions"));
     },
 
     testXml : function()

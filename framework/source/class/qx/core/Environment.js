@@ -294,6 +294,10 @@
  *       <td>html.element.textContent</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getTextContent}</td>
  *     </tr>
+ *     <tr>
+ *       <td>html.image.naturaldimensions</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getNaturalDimensions}</td>
+ *     </tr>
 
  *     <tr>
  *       <td colspan="4"><b>XML</b></td>
@@ -695,6 +699,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "html.element.contains"       : "qx.bom.client.Html.getContains",
       "html.element.compareDocumentPosition" : "qx.bom.client.Html.getCompareDocumentPosition",
       "html.element.textcontent"    : "qx.bom.client.Html.getTextContent",
+      "html.image.naturaldimensions" : "qx.bom.client.Html.getNaturalDimensions",
       "json"                        : "qx.bom.client.Json.getJson",
       "css.textoverflow"            : "qx.bom.client.Css.getTextOverflow",
       "css.placeholder"             : "qx.bom.client.Css.getPlaceholder",

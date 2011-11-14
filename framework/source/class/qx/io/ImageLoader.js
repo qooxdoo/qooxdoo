@@ -298,16 +298,11 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * @param element {Element} DOM element which represents the image
      * @return {Integer} Image width
      */
-    __getWidth : qx.core.Environment.select("engine.name",
+    __getWidth : function(element)
     {
-      "gecko" : function(element) {
-        return element.naturalWidth;
-      },
-
-      "default" : function(element) {
-        return element.width;
-      }
-    }),
+      return qx.core.Environment.get("html.image.naturaldimensions") ? 
+        element.naturalWidth : element.width;
+    },
 
 
     /**
@@ -316,15 +311,10 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * @param element {Element} DOM element which represents the image
      * @return {Integer} Image height
      */
-    __getHeight : qx.core.Environment.select("engine.name",
+    __getHeight : function(element)
     {
-      "gecko" : function(element) {
-        return element.naturalHeight;
-      },
-
-      "default" : function(element) {
-        return element.height;
-      }
-    })
+      return qx.core.Environment.get("html.image.naturaldimensions") ? 
+        element.naturalHeight : element.height;
+    }
   }
 });
