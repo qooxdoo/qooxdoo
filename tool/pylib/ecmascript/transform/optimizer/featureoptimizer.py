@@ -53,5 +53,8 @@ def patch(tree, classObj, featureMap):
                     for depItem in deps:
                         if depItem.name in featureMap and depItem.attribute in featureMap[depItem.name]:
                             depFeature = featureMap[depItem.name][depItem.attribute]
-                            depFeature.decref()  # decrease reference count
+                            res = depFeature.decref(depItem.requestor, depItem.line)  # decrease reference count
+                            if not res:
+                                #print "Warning could not remove '%s:%s' from '%s:%s'" % (depItem.requestor, depItem.line, depItem.name, depItem.attribute)
+                                pass
 

@@ -251,7 +251,6 @@ class MClassCode(object):
         if not optimize:
             return tree
         
-        cache = self.context['cache']
         console = self.context['console']
 
         if ["comments"] == optimize:

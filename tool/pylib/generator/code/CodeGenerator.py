@@ -22,6 +22,7 @@
 
 import os, sys, string, types, re, zlib, time
 import urllib, urlparse, optparse, pprint, copy
+import graph
 
 from generator.config.Lang      import Key
 from generator.code.Part        import Part
@@ -576,7 +577,6 @@ class CodeGenerator(object):
             # ------------------------------------------------------------
 
             # collect all head classes, so they are not removed
-            # TODO: this is probably over-protective
             head_classes = []
             [head_classes.extend(x.initial_deps) for x in script.parts.values()]
 
@@ -595,7 +595,7 @@ class CodeGenerator(object):
             if "variants" in compConf.optimize:  # need to do this here too, if it's on
                 optimize.append("variants")
             for clazz in classlistiter():
-                clazz._tmp_tree = clazz.optimize(clazz.tree(treegen), optimize, featureMap=featureMap)
+                clazz._tmp_tree = clazz.optimize(clazz.tree(treegen), optimize, compConf.variantset, featureMap=featureMap)
 
             #pprint(featureMap)
             # then, prune as long as we have ref counts == 0 on features
@@ -609,41 +609,79 @@ class CodeGenerator(object):
                     clazz._tmp_tree = clazz.optimize(clazz._tmp_tree, ["statics"], featureMap=featureMap)
                 #pprint(featureMap)
 
-            # last, remove classes with no used feature from classlist
-            for clazz in classlistiter():
-                if clazz.id in featureMap:
-                    is_removed = False
-                    if not featureMap[clazz.id]:
-                        # no feature is used
-                        is_removed = True
-                        del featureMap[clazz.id]
-                        classList.remove(clazz)
-                    else:
-                        # features might be only used by the class itself
-                        external_use = False
-                        class_features = featureMap[clazz.id]
-                        for feat in class_features:
-                            if not class_features[feat].hasref():
-                                continue
-                            else:
-                                external_classes = [x for x in class_features[feat]._refs if x.requestor != clazz.id]
-                                if external_classes:
-                                    external_use = True
-                                    break
-                        if not external_use:
+                # last, remove classes with no used feature from classlist
+                for clazz in classlistiter():
+                    if clazz.id in featureMap:
+                        is_removed = False
+                        if not featureMap[clazz.id]:
+                            # no feature is used
                             is_removed = True
                             del featureMap[clazz.id]
                             classList.remove(clazz)
+                        else:
+                            # features might be only used by the class itself
+                            external_use = False
+                            class_features = featureMap[clazz.id]
+                            for feat in class_features:
+                                if not class_features[feat].hasref():
+                                    continue
+                                else:
+                                    external_classes = [x for x in class_features[feat]._refs if x.requestor != clazz.id]
+                                    if external_classes:
+                                        external_use = True
+                                        break
+                            if not external_use:
+                                is_removed = True
+                                del featureMap[clazz.id]
+                                classList.remove(clazz)
 
-                    if is_removed:
-                        #print "removing", clazz.id
-                        pass
+                        if is_removed:
+                            print "removing", clazz.id
+                            # need to remove all the class' UsedFeature entries as well
+                            for key in featureMap:
+                                for feat in featureMap[key]:
+                                    uf = featureMap[key][feat]
+                                    for ref in uf._refs[:]:
+                                        if ref.requestor == clazz.id:
+                                            uf.decref(clazz.id)
+                                            print "removing %s from %s:%s" % (clazz.id, key, feat)
+                            pass
 
+
+
+            #import pydb; pydb.debugger()
+            # Check reachability graph of head classes
+            gr = graph.digraph()
+            [gr.add_node(s) for s in featureMap.keys()]  # featureMap.keys() == [classList.id's]
+            # add "using" edges, 
+            for cls in featureMap:
+                other_using = [dep.name for x in featureMap for y in featureMap[x] for dep in featureMap[x][y]._refs if dep.requestor==cls and dep.name!=cls]
+                for other in other_using:
+                    gr.add_edge(cls, other)
+            access_matrix = gr.accessibility()
+            reachable_nodes = set()
+            for head_class in head_classes:
+                reachable_nodes.update(access_matrix[head_class])
+            # purge unreachable nodes
+            for cls in classList[:]:
+                if cls.id not in reachable_nodes:
+                    classList.remove(cls)
 
             #pprint(featureMap)
+            if 0:
+                # print features with external usages
+                for key in featureMap:
+                    print key
+                    features =  featureMap[key]
+                    for feat in features:
+                        ext_refs = set(["%s:%s" % (ref.requestor, ref.line) for ref in features[feat]._refs if ref.requestor != key])
+                        print "\t", feat, ":", features[feat]._ref_cnt, "%r" % list(ext_refs)
+
             for cls in classList:
                 #print cls.id, id(cls._tmp_tree)
                 pass
+
+            self._console.info("Number of classes after static optimization: %d" % len(classList))
 
             self._console.indent()
             for clazz in featureMap:

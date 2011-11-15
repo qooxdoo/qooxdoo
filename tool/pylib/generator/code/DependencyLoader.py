@@ -502,8 +502,7 @@ class DependencyLoader(object):
             # make sure every class is at least listed
             if clazz.id not in featureMap:
                 featureMap[clazz.id] = {}
-            #deps, _ = self.getCombinedDeps(clazz.id, variants, buildType, stripSelfReferences=False, projectClassNames=False)
-            deps, _ = clazz.getCombinedDeps(variants, self._jobconf, stripSelfReferences=False, projectClassNames=False)
+            deps, _ = clazz.getCombinedDeps(variants, self._jobconf, stripSelfReferences=False, projectClassNames=False, force=True)
             ignored_names = map(attrgetter("name"), deps['ignore'])
             for dep in deps['load'] + deps['run']:
                 if dep.name in ignored_names:
@@ -568,9 +567,46 @@ class UsedFeature(object):
     #def incref(s):
     #    s._ref_cnt += 1
 
-    def decref(s):
+    def decref(s, req_name='', req_line=''):
         if s._ref_cnt > 0:
             s._ref_cnt -= 1
+        ref_removed = False
+        if req_name:
+            for ref in s._refs[:]:
+                if ((ref.requestor == req_name and not req_line) or
+                    (ref.requestor == req_name and ref.line == req_line)):
+                    ref_removed = True
+                    s._refs.remove(ref)
+        return ref_removed
 
     def hasref(s):
         return s._ref_cnt > 0
+
+
+class UsedFeatureSet(object):
+    
+    def __init__(s):
+        s._data = set()
+
+    def add(s, o):
+        found = False
+        for i in s._data:
+            if (i.name == o.name and
+                i.attribute == o.attribute and
+                i.requestor == o.requestor and
+                i.line == o.line):
+                found = True
+        if not found:
+            s._data.add(o)
+
+    def remove(s,o):
+        for i in list(s._data):
+            if (i.name == o.name and
+                i.attribute == o.attribute and
+                i.requestor == o.requestor and
+                i.line == o.line):
+                s._data.remove(i)
+
+    def __len__(s):
+        return len(s._data)
+        
