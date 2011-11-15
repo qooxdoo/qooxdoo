@@ -1450,11 +1450,11 @@ qx.Class.define("demobrowser.DemoBrowser",
             jsSourceFileName = u;
 
             // get the javascript code
-            var reqJSFile = new qx.bom.request.Script();
-            reqJSFile.timeout = 18000;
+            var reqJSFile = new qx.io.request.Xhr(jsSourceFileName);
+            reqJSFile.setTimeout(18000);
 
-            reqJSFile.onload = qx.lang.Function.bind(function() {
-              var jsCode = reqJSFile.responseText;
+            reqJSFile.addListener("success", function() {
+              var jsCode = reqJSFile.getResponse();
 
               // store the current visible code
               this.__setCurrentJSCode(jsCode);
@@ -1465,12 +1465,11 @@ qx.Class.define("demobrowser.DemoBrowser",
               }
             }, this);
 
-            reqJSFile.onerror = reqJSFile.ontimeout = qx.lang.Function.bind(function() {
+            reqJSFile.addListener("fail", function() {
               this.error("Couldn't load file: " + url);
             }, this);
 
             // send the request for the javascript code
-            reqJSFile.open("GET", jsSourceFileName);
             reqJSFile.send();
 
             // write the html code to the html page
