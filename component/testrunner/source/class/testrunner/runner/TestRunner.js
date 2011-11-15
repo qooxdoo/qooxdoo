@@ -60,6 +60,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
     __loadAttempts : null,
     __loadTimer : null,
     __logAppender : null,
+    __externalTestClasses : null,
     
     
     _getTestNameSpace : function()
