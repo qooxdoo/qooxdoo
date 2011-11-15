@@ -113,7 +113,15 @@ qooxdoo supports full-featured event-based programming throughout the framework.
 
 Each property may optionally behave as an observable. This means it can send out an event at any time the property value changes. Such a change event (an instance of ``qx.event.type.Data``) is declared by providing a custom name in the ``event`` key of the property definition. While you are free to choose any event name you like, the qooxdoo framework tries to consistently use the naming convention ``"change + Propertyname"``, e.g. ``"changeWidth"`` for a change of property ``width``. In order to get notified of any value changes, you simply attach an event listener to the object instance containing the property in question.
 
-For example, if you would like the ``element`` property of a Widget instance ``widget`` to fire an event named ``"changeElement"`` any time the value changes. If this happens, you would like to set the DOM element's content:
+For example, if you would like the ``element`` property of a Widget instance ``widget`` to fire an event named ``"changeElement"`` any time the value changes. 
+
+::
+
+    properties : {
+      element: { event: "changeElement" }
+    }
+
+If this happens, you would like to set the DOM element's content:
 
 ::
 
