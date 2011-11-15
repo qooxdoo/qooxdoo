@@ -74,7 +74,8 @@
         "qx.application" : "${SIMULATOR_APPLICATION}",
         "qx.testNameSpace" : "${SIMULATION_NAMESPACE}",
         "qx.globalErrorHandling" : false,
-        "testrunner.view" : "${TESTRUNNER_VIEW}"
+        "testrunner.view" : "${TESTRUNNER_VIEW}",
+        "testrunner.testOrigin" : "internal"
       }
       
     },
