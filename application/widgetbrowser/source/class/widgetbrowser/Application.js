@@ -64,7 +64,7 @@ qx.Class.define("widgetbrowser.Application",
       var scroll = this.__scroll = new qx.ui.container.Scroll();
       dockLayoutComposite.add(scroll);
 
-      this.__tabs = new widgetbrowser.view.TabView();
+      this.__tabs = this._createTabView();
       this.__tabs.set({
         minWidth: 800,
         minHeight: 800,
@@ -72,6 +72,12 @@ qx.Class.define("widgetbrowser.Application",
       });
       scroll.add(this.__tabs);
 
+    },
+
+    _createTabView: function()
+    {
+      this.__tabs = new widgetbrowser.view.TabView();
+      return this.__tabs;
     },
 
     getScroll: function()
