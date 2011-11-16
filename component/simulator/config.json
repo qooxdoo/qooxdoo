@@ -24,6 +24,11 @@
   ],
 
   "default-job" : "simulation-build",
+  
+  "config-warnings" : 
+  {
+    "job-shadowing" : [ "simulation-run", "simulation-run-source" ]
+  },
 
   "let" :
   {

@@ -21,7 +21,9 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["source", "build-resources", "build-script"]
+    "job-shadowing" : ["source", "source-hybrid", "build-resources", "build-script"],
+    
+    "environment" : [ "non-literal-keys" ]
   },
   
   "jobs" :

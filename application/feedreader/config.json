@@ -33,7 +33,7 @@
   
   "config-warnings" :
   {
-	"job-shadowing" : ["common", "simulation-build", "simulation-run"]
+	"job-shadowing" : ["libraries", "common", "simulation-build", "simulation-run"]
   },
   
   
