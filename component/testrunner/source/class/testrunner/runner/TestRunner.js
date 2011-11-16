@@ -60,7 +60,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
     __loadAttempts : null,
     __loadTimer : null,
     __logAppender : null,
-    __externalTestClasses : null,
+    _externalTestClasses : null,
     
     
     _getTestNameSpace : function()
@@ -120,7 +120,7 @@ qx.Class.define("testrunner.runner.TestRunner", {
       }
       this.setTestSuiteState("loading");
       var qxClass = qx.Class;
-      var testClass = qxClass.define("test.TestClass" + (this.__externalTestClasses += 1) ,
+      var testClass = qxClass.define("test.TestClass" + (this._externalTestClasses += 1) ,
       {
         extend : qx.dev.unit.TestCase,
         include : [qx.dev.unit.MMock, qx.dev.unit.MRequirements],

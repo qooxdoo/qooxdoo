@@ -132,7 +132,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     _testParts : null,
     __testsInView : null,
     _testNameSpace : null,
-    __externalTestClasses : 0,
+    _externalTestClasses : 0,
 
     
     _getTestNameSpace : function()
@@ -175,7 +175,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       }
       this.setTestSuiteState("loading");
       var qxClass = qx.Class;
-      var testClass = qxClass.define("test.TestClass" + (this.__externalTestClasses += 1) ,
+      var testClass = qxClass.define("test.TestClass" + (this._externalTestClasses += 1) ,
       {
         extend : qx.dev.unit.TestCase,
         members : membersMap
