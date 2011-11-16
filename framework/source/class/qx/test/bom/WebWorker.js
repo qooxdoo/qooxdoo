@@ -46,7 +46,8 @@ qx.Class.define("qx.test.bom.WebWorker",
     _isBuggyGecko : function()
     {
       return qx.core.Environment.get("engine.name") === "gecko" && 
-        parseInt(qx.core.Environment.get("engine.version"), 10) >= 8;
+        parseInt(qx.core.Environment.get("engine.version"), 10) >= 8 &&
+        parseInt(qx.core.Environment.get("engine.version"), 10) < 10;
     },
     
     setUp: function() {
