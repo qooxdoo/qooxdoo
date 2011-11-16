@@ -16,6 +16,20 @@
      * Sebastian Werner (wpbasti)
      * Martin Wittemann (martinwittemann)
 
+   ======================================================================
+
+   This class contains code from:
+
+     Copyright:
+       2011 Pocket Widget S.L., Spain, http://www.pocketwidget.com
+
+     License:
+       LGPL: http://www.gnu.org/licenses/lgpl.html
+       EPL: http://www.eclipse.org/org/documents/epl-v10.php
+
+     Authors:
+       * Javier Martinez Villacampa
+
 ************************************************************************ */
 
 /**
@@ -32,6 +46,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
   // General: http://en.wikipedia.org/wiki/Browser_timeline
   // Webkit: http://developer.apple.com/internet/safari/uamatrix.html
   // Firefox: http://en.wikipedia.org/wiki/History_of_Mozilla_Firefox
+  // Maple: http://www.scribd.com/doc/46675822/2011-SDK2-0-Maple-Browser-Specification-V1-00
   statics :
   {
     /**
@@ -79,7 +94,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
             version = version.slice(0, invalidCharacter.index);
           }
         }
-      } else if (qx.bom.client.Engine.__isGecko()) {
+      } else if (qx.bom.client.Engine.__isGecko() || qx.bom.client.Engine.__isMaple()) {
         // Parse "rv" section in user agent string
         if (/rv\:([^\);]+)(\)|;)/.test(agent)) {
           version = RegExp.$1;
@@ -126,7 +141,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         name = "opera";
       } else if (qx.bom.client.Engine.__isWebkit()) {
         name = "webkit";
-      } else if (qx.bom.client.Engine.__isGecko()) {
+      } else if (qx.bom.client.Engine.__isGecko() || qx.bom.client.Engine.__isMaple()) {
         name = "gecko";
       } else if (qx.bom.client.Engine.__isMshtml()) {
         name = "mshtml";
@@ -165,11 +180,23 @@ qx.Bootstrap.define("qx.bom.client.Engine",
 
 
     /**
+     * Internal helper for checking for Maple .
+     * Maple is used in Samsung SMART TV 2010-2011 models. It's based on Gecko 
+     * engine 1.8.1.11. 
+     * @return {boolean} true, if its maple.
+     */
+    __isMaple : function() {
+      return window.navigator.userAgent.indexOf("Maple") != -1;
+    },
+    
+    
+    /**
      * Internal helper for checking for gecko.
      * @return {boolean} true, if its gecko.
      */
     __isGecko : function() {
-      return window.controllers && window.navigator.product === "Gecko";
+      return window.controllers && window.navigator.product === "Gecko" &&
+        window.navigator.userAgent.indexOf("Maple") == -1;
     },
 
 
