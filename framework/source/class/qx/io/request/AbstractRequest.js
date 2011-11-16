@@ -883,37 +883,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
       if (qx.lang.Type.isObject(data)) {
         return qx.lang.Object.toUriParameter(data, isPost);
       }
-    },
-
-    /**
-     * Set request headers.
-     */
-    __setUserRequestHeaders: function() {
-      var requestHeaders;
-
-      requestHeaders = this._getAllRequestHeaders();
-      if (requestHeaders) {
-        for (var key in requestHeaders) {
-          this._transport.setRequestHeader(key, requestHeaders[key]);
-        }
-      }
-    },
-
-    /**
-     * Set request headers by reading the request headers property.
-     *
-     * @deprecated since 1.6
-     */
-    __setUserRequestHeadersDeprecated: function() {
-      var requestHeaders;
-
-      // Evaluate requestHeaders property.
-      requestHeaders = this.__requestHeadersDeprecated;
-      if (requestHeaders) {
-        for (var key in requestHeaders) {
-          this._transport.setRequestHeader(key, requestHeaders[key]);
-        }
-      }
     }
   },
 
