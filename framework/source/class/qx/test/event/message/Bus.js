@@ -164,6 +164,31 @@ qx.Class.define("qx.test.event.message.Bus",
       msg2.dispose();
     },
 
+    testUnsubscribeAll : function()
+    {
+      var flag = false;
+      function handler() {
+         flag = true;
+      };
+
+      function anotherHandler() {};
+
+      var messageBus = qx.event.message.Bus.getInstance();
+      messageBus.subscribe("message", handler, this);
+      var msg1 = new qx.event.message.Message("message", true);
+      this.assertTrue(messageBus.dispatch(msg1), "Message not dispatched");
+      this.assertTrue(flag, "Handler was not called.");
+
+      flag = false;
+      messageBus.unsubscribe("message");
+      var msg2 = new qx.event.message.Message("message", true);
+      this.assertFalse(messageBus.dispatch(msg2), "Message not dispatched");
+      this.assertFalse(flag, "Handler was called although unsubscribed.");
+
+      msg1.dispose();
+      msg2.dispose();
+    },
+
     testWrongDispatch : function() {
       var flag = false;
       function handler() {
