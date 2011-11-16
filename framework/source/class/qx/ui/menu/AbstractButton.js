@@ -51,8 +51,6 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     // Add listeners
     this.addListener("click", this._onClick);
     this.addListener("keypress", this._onKeyPress);
-
-    // @deprecated since 1.5: Please use _onClick instead.
     this.addListener("mouseup", this._onMouseUp);
 
     // Add command listener
@@ -220,7 +218,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
      * @param e {qx.event.type.Mouse} mouseup event
      */
     _onMouseUp : function(e) {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      // pass
     },
 
 
