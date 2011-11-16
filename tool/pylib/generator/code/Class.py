@@ -27,7 +27,7 @@ import os, sys, re, types, copy
 import time, math
 from pprint import pprint
 
-from misc                           import textutil
+from misc                           import textutil, util
 from ecmascript.frontend            import treeutil
 from generator.resource.Resource    import Resource
 from generator                      import Context
@@ -59,6 +59,7 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
         self.resources  = set() # set of resource objects needed by the class
         self._assetRegex= {}  # [AssetHint], to hold regex's from #asset hints, for resource matching
         self.cacheId    = "class-%s" % self.path  # cache object for class-specific infos (outside tree, compile)
+        self.treeId     = None # cache id for the source tree; filled in tree()
         self._tmp_tree  = None # for out-of-band optimization
         
         console = context["console"]

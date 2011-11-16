@@ -57,6 +57,7 @@ class MClassCode(object):
         console = self.context['console']
         tradeSpaceForSpeed = False  # Caution: setting this to True seems to make builds slower, at least on some platforms!?
         cacheId = "tree%s-%s-%s" % (treegen.tag, self.path, util.toString({}))
+        self.treeId = cacheId
 
         # Lookup for unoptimized tree
         tree, _ = cache.read(cacheId, self.path, memory=tradeSpaceForSpeed)
@@ -251,6 +252,7 @@ class MClassCode(object):
         if not optimize:
             return tree
         
+        cache   = self.context['cache']
         console = self.context['console']
 
         if ["comments"] == optimize:

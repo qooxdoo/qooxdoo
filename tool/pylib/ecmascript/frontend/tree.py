@@ -69,6 +69,7 @@ class Node(object):
         self.parent = None
         self.children = []
         self.attributes = {}
+        self.dep = None # a potential DependencyItem()
 
     def __str__(self):
         return nodeToXmlStringNR(self)

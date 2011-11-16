@@ -101,7 +101,14 @@ class MClassDependencies(object):
 
             # Read source tree data
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
-            self._analyzeClassDepsNode(self.tree(), treeDeps, inLoadContext=True)
+            tree = self.tree()
+            tree_had_deps = getattr(tree, "_has_deps", False)
+            self._analyzeClassDepsNode(tree, treeDeps, inLoadContext=True)
+
+            # with deps attached to tree nodes, we want to cache the resulting tree
+            if not tree_had_deps:
+                tree._has_deps = True
+                self.context['cache'].write(self.treeId, tree)
 
             # Process source tree data
             for dep in treeDeps:
@@ -334,6 +341,10 @@ class MClassDependencies(object):
     def _analyzeClassDepsNode(self, node, depsList, inLoadContext, inDefer=False):
 
         if node.type == "variable":
+            if node.dep:
+                depsList.append(node.dep)
+                return
+                
             assembled = (treeutil.assembleVariable(node))[0]
 
             # treat dependencies in defer as requires
@@ -367,6 +378,7 @@ class MClassDependencies(object):
 
                 # Adding all items to list; let caller sort things out
                 depsList.append(depsItem)
+                node.dep = depsItem
 
                 # Mark items that need recursive analysis of their dependencies (bug#1455)
                 if self.followCallDeps(node, self.id, className, inLoadContext):
@@ -374,6 +386,9 @@ class MClassDependencies(object):
 
         # check e.g. qx.core.Environment.get("runtime.name")
         elif node.type == "constant" and node.hasParentContext("call/params"):
+            if node.dep:
+                depsList.append(node.dep)
+                return
             callnode = treeutil.selectNode(node, "../..")
             if variantoptimizer.isEnvironmentCall(callnode):
                 className, classAttribute = self.getClassNameFromEnvKey(node.get("value", ""))
@@ -381,6 +396,7 @@ class MClassDependencies(object):
                     depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1), inLoadContext)
                     depsItem.isCall = True  # treat as if actual call, to collect recursive deps
                     depsList.append(depsItem)
+                    node.dep = depsItem
 
 
         elif node.type == "body" and node.parent.type == "function":
