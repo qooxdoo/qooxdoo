@@ -96,6 +96,20 @@
           "uri" : "../../../framework/source/resource/qx/mobile/css/android/android.css"
         }
       ]
+    },
+
+    "source-hybrid" :
+    {
+      "extend" : [ "playground-compile" ],
+      "add-css" :
+      [
+        {
+          "uri" : "../../../framework/source/resource/qx/mobile/css/common/main.css"
+        },
+        {
+          "uri" : "../../../framework/source/resource/qx/mobile/css/android/android.css"
+        }
+      ]
     }
   }
 }
