@@ -454,8 +454,8 @@ qx.Class.define("qx.io.request.AbstractRequest",
         {},                                   // Merged into
         this._getConfiguredRequestHeaders(),  // Transport specific headers
         this.__getAuthRequestHeaders(),       // Authentication delegate
-        this.__requestHeadersDeprecated,      // requestHeaders property (deprecated)
-        this.__requestHeaders);
+        this.__requestHeadersDeprecated,      // User-defined, requestHeaders property (deprecated)
+        this.__requestHeaders);               // User-defined
 
       return requestHeaders;
     },
