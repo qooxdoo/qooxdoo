@@ -243,22 +243,28 @@ qx.Class.define("qx.event.message.Bus",
        var sub = this.getSubscriptions();
        var subscrList = sub[message];
        if (subscrList) {
+         if (!subscriber) {
+           sub[message] = null;
+           delete sub[message];
+           return true;
+         } else {
            if (! context) {
-               context = null;
+             context = null;
            }
            var i = subscrList.length;
            var subscription;
            do {
-               subscription = subscrList[--i];
-               if (subscription.subscriber === subscriber && subscription.context === context) {
-                   subscrList.splice(i, 1);
-                   if (subscrList.length === 0) {
-                       sub[message] = null;
-                       delete sub[message];
-                   }
-                   return true;
+             subscription = subscrList[--i];
+             if (subscription.subscriber === subscriber && subscription.context === context) {
+               subscrList.splice(i, 1);
+               if (subscrList.length === 0) {
+                 sub[message] = null;
+                 delete sub[message];
                }
+               return true;
+             }
            } while (i);
+         }
        }
        return false;
     },
