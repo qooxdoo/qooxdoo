@@ -117,13 +117,13 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalled(callback);
     },
 
-    "test: configure request receives pre-configured but unsent request": function() {
+    "test: configure request receives vanilla request": function() {
       var res = this.res,
           req = this.req;
 
       res.configureRequest(qx.lang.Function.bind(function(req) {
-        this.assertCalledWith(req.setMethod, "GET");
-        this.assertCalledWith(req.setUrl, "/photos");
+        this.assertNotCalled(req.setMethod);
+        this.assertNotCalled(req.setUrl);
         this.assertNotCalled(req.send);
       }, this));
 
@@ -392,6 +392,37 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.get({id: "1", commentId: "2"});
 
       this.assertCalledWith(req.setUrl, "/photos/1/comments?id=2");
+    },
+
+    "test: invoke action when content type json": function() {
+      var res = this.res,
+          req = this.req;
+
+      req.setRequestHeader.restore();
+      req.getRequestHeader.restore();
+
+      res.configureRequest(function(req) {
+        req.setRequestHeader("Content-Type", "application/json");
+      });
+
+      res.map("post", "POST", "/photos/{id}/meta");
+      res.post({id: 1, location: "Karlsruhe"});
+
+      this.assertCalledWith(req.setRequestData, '{"location":"Karlsruhe"}');
+    },
+
+    "test: invoke action when content type json and get": function() {
+      var res = this.res,
+          req = this.req;
+
+      req.setMethod.restore();
+      req.getMethod.restore();
+
+      this.spy(qx.lang.Json, "stringify");
+      req.getRequestHeader.withArgs("Content-Type").returns("application/json");
+      res.get();
+
+      this.assertNotCalled(qx.lang.Json.stringify);
     },
 
     "test: invoke action for url with port": function() {

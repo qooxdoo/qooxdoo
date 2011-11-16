@@ -343,10 +343,11 @@ qx.Class.define("qx.io.rest.Resource",
 
       this.__checkParameters(params, config.check);
 
-      this.__configureRequest(req, data, action, config);
       if (this.__configureRequestCallback) {
         this.__configureRequestCallback.call(this, req, action, params);
       }
+
+      this.__configureRequest(req, data, action, config);
 
       // Handle successful request
       req.addListenerOnce("success", function successHandler() {
@@ -425,6 +426,14 @@ qx.Class.define("qx.io.rest.Resource",
       req.set({method: config.method, url: config.url});
 
       if (data) {
+        var contentType = req.getRequestHeader("Content-Type");
+
+        if (qx.util.Request.methodAllowsRequestBody(req.getMethod())) {
+          if ((/application\/.*\+?json/).test(contentType)) {
+            data = qx.lang.Json.stringify(data);
+          }
+        }
+
         req.setRequestData(data);
       }
     },
