@@ -23,6 +23,7 @@
 
 #ignore(qx.data)
 #ignore(qx.data.IListData)
+#ignore(qx.util.OOUtil)
 
 ************************************************************************ */
 
@@ -651,7 +652,7 @@ qx.Bootstrap.define("qx.Bootstrap",
       return (
         value !== null && (
         value instanceof Array ||
-        (value && qx.data && qx.data.IListData && qx.Bootstrap.hasInterface(value.constructor, qx.data.IListData) ) ||
+        (value && qx.data && qx.data.IListData && qx.util.OOUtil.hasInterface(value.constructor, qx.data.IListData) ) ||
         qx.Bootstrap.getClass(value) == "Array" ||
         (!!value && !!value.$$isArray))
       );
@@ -695,6 +696,8 @@ qx.Bootstrap.define("qx.Bootstrap",
     /**
      * Whether the given class exists
      *
+     * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
+     *
      * @param name {String} class name to check
      * @return {Boolean} true if class exists
      */
@@ -708,6 +711,8 @@ qx.Bootstrap.define("qx.Bootstrap",
      *
      * TODO: Correctly support refined properties?
      *
+     * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
+     * 
      * @param clazz {Class} class to check
      * @param name {String} name of the event to check for
      * @return {Map|null} whether the object support the given event.
@@ -730,6 +735,8 @@ qx.Bootstrap.define("qx.Bootstrap",
     /**
      * Whether a class has the given property
      *
+     * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
+     * 
      * @param clazz {Class} class to check
      * @param name {String} name of the property to check for
      * @return {Boolean} whether the class includes the given property.
@@ -743,6 +750,8 @@ qx.Bootstrap.define("qx.Bootstrap",
      * Returns the event type of the given event. Returns null if
      * the event does not exist.
      *
+     * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
+     * 
      * @param clazz {Class} class to check
      * @param name {String} name of the event
      * @return {Map|null} Event type of the given event.
@@ -767,6 +776,8 @@ qx.Bootstrap.define("qx.Bootstrap",
     /**
      * Whether a class supports the given event type
      *
+     * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
+     * 
      * @param clazz {Class} class to check
      * @param name {String} name of the event to check for
      * @return {Boolean} whether the class supports the given event.
@@ -781,6 +792,8 @@ qx.Bootstrap.define("qx.Bootstrap",
      * declaration of the given interface. Returns null if the interface is not
      * specified anywhere.
      *
+     * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
+     * 
      * @param clazz {Class} class to look for the interface
      * @param iface {Interface} interface to look for
      * @return {Class | null} the class which directly implements the given interface
@@ -818,6 +831,8 @@ qx.Bootstrap.define("qx.Bootstrap",
      * or any of its super classes using the "implement"
      * key.
      *
+     * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
+     * 
      * @param clazz {Class} class to check
      * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class includes the interface.
@@ -830,6 +845,8 @@ qx.Bootstrap.define("qx.Bootstrap",
     /**
      * Returns a list of all mixins available in a given class.
      *
+     * @deprecated since 1.6: please use 'qx.util.OOUtil' instead of 'qx.Bootstrap'
+     * 
      * @param clazz {Class} class which should be inspected
      * @return {Mixin[]} array of mixins this class uses
      */

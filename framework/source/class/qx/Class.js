@@ -298,7 +298,7 @@ qx.Bootstrap.define("qx.Class",
      * @param name {String} class name to check
      * @return {Boolean} true if class exists
      */
-    isDefined : qx.Bootstrap.classIsDefined,
+    isDefined : qx.util.OOUtil.classIsDefined,
 
 
     /**
@@ -409,7 +409,7 @@ qx.Bootstrap.define("qx.Class",
      * @param name {String} name of the event to check for
      * @return {Map|null} whether the object support the given event.
      */
-    getPropertyDefinition : qx.Bootstrap.getPropertyDefinition,
+    getPropertyDefinition : qx.util.OOUtil.getPropertyDefinition,
 
 
     /**
@@ -467,7 +467,7 @@ qx.Bootstrap.define("qx.Class",
      * @param name {String} name of the property to check for
      * @return {Boolean} whether the class includes the given property.
      */
-    hasProperty : qx.Bootstrap.hasProperty,
+    hasProperty : qx.util.OOUtil.hasProperty,
 
 
     /**
@@ -479,7 +479,7 @@ qx.Bootstrap.define("qx.Class",
      * @param name {String} name of the event
      * @return {String|null} Event type of the given event.
      */
-    getEventType : qx.Bootstrap.getEventType,
+    getEventType : qx.util.OOUtil.getEventType,
 
 
     /**
@@ -490,7 +490,7 @@ qx.Bootstrap.define("qx.Class",
      * @param name {String} name of the event to check for
      * @return {Boolean} whether the class supports the given event.
      */
-    supportsEvent : qx.Bootstrap.supportsEvent,
+    supportsEvent : qx.util.OOUtil.supportsEvent,
 
 
     /**
@@ -546,7 +546,7 @@ qx.Bootstrap.define("qx.Class",
      * @param clazz {Class} class which should be inspected
      * @return {Mixin[]} array of mixins this class uses
      */
-    getMixins : qx.Bootstrap.getMixins,
+    getMixins : qx.util.OOUtil.getMixins,
 
 
     /**
@@ -587,7 +587,7 @@ qx.Bootstrap.define("qx.Class",
      * @param iface {Interface} interface to look for
      * @return {Class | null} the class which directly implements the given interface
      */
-    getByInterface : qx.Bootstrap.getByInterface,
+    getByInterface : qx.util.OOUtil.getByInterface,
 
 
     /**
@@ -626,7 +626,7 @@ qx.Bootstrap.define("qx.Class",
      * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class includes the interface.
      */
-    hasInterface : qx.Bootstrap.hasInterface,
+    hasInterface : qx.util.OOUtil.hasInterface,
 
 
     /**

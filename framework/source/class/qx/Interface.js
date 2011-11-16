@@ -242,7 +242,7 @@ qx.Bootstrap.define("qx.Interface",
             var shouldWrapFunction =
               wrap === true &&
               !isPropertyMethod &&
-              !qx.Bootstrap.hasInterface(clazz, iface);
+              !qx.util.OOUtil.hasInterface(clazz, iface);
 
             if (shouldWrapFunction) {
               object[key] = this.__wrapInterfaceMember(
@@ -289,14 +289,14 @@ qx.Bootstrap.define("qx.Interface",
       }
 
       var propertyName = qx.Bootstrap.firstLow(match[2]);
-      var isPropertyMethod = qx.Bootstrap.getPropertyDefinition(clazz, propertyName);
+      var isPropertyMethod = qx.util.OOUtil.getPropertyDefinition(clazz, propertyName);
       if (!isPropertyMethod) {
         return false;
       }
 
       var isBoolean = match[0] == "is" || match[0] == "toggle";
       if (isBoolean) {
-        return qx.Bootstrap.getPropertyDefinition(clazz, propertyName).check == "Boolean";
+        return qx.util.OOUtil.getPropertyDefinition(clazz, propertyName).check == "Boolean";
       }
 
       return true;
@@ -315,7 +315,7 @@ qx.Bootstrap.define("qx.Interface",
       {
         for (var key in iface.$$properties)
         {
-          if (!qx.Bootstrap.getPropertyDefinition(clazz, key)) {
+          if (!qx.util.OOUtil.getPropertyDefinition(clazz, key)) {
             throw new Error(
               'The property "' + key + '" is not supported by Class "' +
               clazz.classname + '"!'
@@ -338,7 +338,7 @@ qx.Bootstrap.define("qx.Interface",
       {
         for (var key in iface.$$events)
         {
-          if (!qx.Bootstrap.supportsEvent(clazz, key)) {
+          if (!qx.util.OOUtil.supportsEvent(clazz, key)) {
             throw new Error(
               'The event "' + key + '" is not supported by Class "' +
               clazz.classname + '"!'

@@ -631,7 +631,7 @@ qx.Bootstrap.define("qx.core.Property",
     __shouldBeDereferencedOld : function(check)
     {
       return this.__dereference[check] ||
-      qx.Bootstrap.classIsDefined(check) ||
+      qx.util.OOUtil.classIsDefined(check) ||
       (qx.Interface && qx.Interface.isDefined(check));
     },
 

@@ -231,7 +231,7 @@ qx.Bootstrap.define("qx.Mixin",
      */
     isCompatible : function(mixin, clazz)
     {
-      var list = qx.Bootstrap.getMixins(clazz);
+      var list = qx.util.OOUtil.getMixins(clazz);
       list.push(mixin);
       return qx.Mixin.checkCompatibility(list);
     },
