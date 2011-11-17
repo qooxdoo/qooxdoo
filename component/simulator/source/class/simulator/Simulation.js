@@ -296,18 +296,35 @@ qx.Class.define("simulator.Simulation", {
      * Adds a user-defined function to the "qx.Simulation" namespace of the
      * application under test. This function can then be called using
      * <code>selenium.getEval("selenium.browserbot.getCurrentWindow().qx.Simulation[functionName]();")</code>
+     * 
+     * In contrast to {@link _addOwnFunction}, the AUT window's Function object is
+     * used to instantiate a "local" function. This is necessary e.g. in FF6+, 
+     * where function obejcts from other windows don't have the same properties 
+     * and methods, meaning e.g. they can't be used as qx event listener callbacks.
      *
+     * @internal
      * @param name {String} name of the function to be added
-     * @param body {String} JS statements to be used as the function body
+     * @param func {Function} The function to be added
      * @param args {String[]?} Optional list of arguments for the function 
      */
-    addOwnFunctionFromString : function(name, body, args)
+    addFunctionToAut : function(name, func, args)
     {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertString(name, "simulator.Simulation.addFunctionToAut: First argument must be a String!");
+        qx.core.Assert.assertFunction(func, "simulator.Simulation.addFunctionToAut: Second argument must be a function!");
+      }
+      
+      // replace newlines and double quotes
+      func = func.toString().replace(/\n/g, "").replace(/\r/g, "").replace(/"/g, '\\"');
+      var match = /\((.*?)\)\s*?\{(.*)\}/.exec(func);
+      
+      if (!match || !match[2]) {
+        throw new Error("simulator.Simulation.addFunctionToAut: Couldn't parse function " + func);
+      }
+      
       var argStr = args ? '"' + args.join('", "') + '", ' : "";
-      body = body.replace(/"/g, '\\"');
-      // Use the AUT window's Function object to create a new function. This is
-      // necessary for FF6, otherwise qx.Bootstrap.isFunction will return false
-      // for the function, meaning it can't be used as qx event listener callback.
+      var body = match[2];
+      
       var code = '(function() {var autWin = selenium.browserbot.getCurrentWindow(); autWin.qx.Simulation.'
       + name + ' = new autWin.Function(' + argStr + ' "' + body +'")})()';
       simulator.QxSelenium.getInstance().getEval(code);

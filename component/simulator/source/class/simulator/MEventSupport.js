@@ -19,6 +19,7 @@
 
 /* ************************************************************************
 #ignore(selenium)
+#ignore(qx.Simulation.eventStore)
 ************************************************************************ */
 
 /**
@@ -59,7 +60,7 @@ qx.Mixin.define("simulator.MEventSupport",
      * @param locator {String} A (Qx)Selenium locator string that finds a
      * qooxdoo widget
      * @param event {String} Name of the event to listen for
-     * @param callback {String} Javascript code to be executed if the event is
+     * @param callback {Function} Function to be executed if the event is
      * fired. The local variable "ev" will reference the event object
      * @param script {String?} JavaScript snippet to be executed in the context
      * of the widget determined by the locator. The listener will be attached
@@ -74,14 +75,7 @@ qx.Mixin.define("simulator.MEventSupport",
         var objectHash = simulator.QxSelenium.getInstance().getQxObjectHash(locator);
       }
       var callbackName = event + "_" + new Date().getTime();
-      
-      if (!qx.lang.Type.isString(callback)) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "The callback parameter must be a string!");
-        this._addOwnFunction(callbackName, callback);
-      }
-      else {
-        this.addOwnFunctionFromString(callbackName, callback, ["ev"]);
-      }
+      this.addFunctionToAut(callbackName, callback, ["ev"]);
       var callbackInContext = 'selenium.qxStoredVars["autWindow"].qx.Simulation["' + callbackName + '"]';
       var cmd = 'selenium.qxStoredVars["autWindow"].qx.Simulation.addListener("' + objectHash + '", "' + event + '", ' + callbackInContext + ')';
       return simulator.QxSelenium.getInstance().getEval(cmd);
@@ -121,7 +115,9 @@ qx.Mixin.define("simulator.MEventSupport",
      */
     storeEvent : function(locator, event, script)
     {
-      var callback = 'qx.Simulation.eventStore.push(ev.clone());';
+      var callback = function(ev) {
+        qx.Simulation.eventStore.push(ev.clone());
+      };
       return this.addListener(locator, event, callback, script);
     },
 
