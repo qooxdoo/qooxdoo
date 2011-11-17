@@ -61,6 +61,7 @@
   {
     "job-shadowing" : 
     [
+      "api",
       "common",
       "lint",
       "test",
@@ -340,6 +341,14 @@
     "translation" :
     {
       "=include": ["qx.*"]
+    },
+    
+    "api" :
+    {
+      "config-warnings" :
+      {
+        "environment" : [ "non-literal-keys" ]
+      }
     }
   }
 }
