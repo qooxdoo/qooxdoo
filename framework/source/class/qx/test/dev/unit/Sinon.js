@@ -177,7 +177,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
 
       this.assertException(function() {
         obj.method();
-      }, Error, /ExpectationError/);
+      }, Error, /Unexpected call/);
     },
 
     "test: assert": function() {
