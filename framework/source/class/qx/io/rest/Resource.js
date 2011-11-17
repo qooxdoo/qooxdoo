@@ -326,7 +326,7 @@ qx.Class.define("qx.io.rest.Resource",
      * @param params {Map} Map of parameters to be send as part of the request,
      *  where the key is the parameter to match and the value a string. Inserted
      *  into URL when a matching positional parameter is found.
-     * @return {String} Id of the request.
+     * @return {Number} Id of the action's invocation.
      */
     invoke: function(action, params) {
       var req = this.__createRequest(action),
@@ -375,7 +375,7 @@ qx.Class.define("qx.io.rest.Resource",
 
       req.send();
 
-      return req.toHashCode();
+      return parseInt(req.toHashCode(), 10);
     },
 
     /**
@@ -457,18 +457,43 @@ qx.Class.define("qx.io.rest.Resource",
     },
 
     /**
-     * Abort action
+     * Abort action.
      *
-     * @param action {String} Action to abort.
+     * Example:
+     *
+     * <pre class="javascript">
+     *   // Abort all invocations of action
+     *   res.get({id: 1});
+     *   res.get({id: 2});
+     *   res.abort();
+     *
+     *   // Abort specific invocation of action (by id)
+     *   var actionId = res.get({id: 1});
+     *   res.abort(actionId);
+     * </pre>
+     *
+     * @param varargs {String|Number} Action of which all invocations to abort
+     *  (when string), or a single invocation of an action to abort (when number)
      */
-    abort: function(action) {
-      var reqs = this.__requests[action];
+    abort: function(varargs) {
 
-      if (this.__requests[action]) {
-        reqs.forEach(function(req) {
+      if (qx.lang.Type.isNumber(varargs)) {
+        var id = varargs;
+        var post = qx.core.ObjectRegistry.getPostId();
+        var req = qx.core.ObjectRegistry.fromHashCode(id + post);
+        if (req) {
           req.abort();
-        });
+        }
+      } else {
+        var action = varargs;
+        var reqs = this.__requests[action];
+        if (this.__requests[action]) {
+          reqs.forEach(function(req) {
+            req.abort();
+          });
+        }
       }
+
     },
 
     /**

@@ -293,7 +293,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      this.assertEquals(req.toHashCode(), res.invoke("get"));
+      this.assertNumber(res.invoke("get"));
     },
 
     "test: invoke action while other is in progress": function() {
@@ -576,6 +576,16 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       this.assertCalledOnce(req1.abort);
       this.assertCalledOnce(req2.abort);
+    },
+
+    "test: abort by action id": function() {
+      var res = this.res,
+          req = this.req;
+
+      var id = res.get();
+      res.abort(id);
+
+      this.assertCalledOnce(req.abort);
     },
 
     //
