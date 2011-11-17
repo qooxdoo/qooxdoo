@@ -325,6 +325,7 @@ qx.Class.define("qx.io.rest.Resource",
      * @param params {Map} Map of parameters to be send as part of the request,
      *  where the key is the parameter to match and the value a string. Inserted
      *  into URL when a matching positional parameter is found.
+     * @return {String} Id of the request.
      */
     invoke: function(action, params) {
       var req = this.__createRequest(action),
