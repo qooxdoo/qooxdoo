@@ -47,6 +47,13 @@ qx.Class.define("qx.event.type.Rest",
      */
     phase: {
       check: "String"
+    },
+
+    /**
+     * The id of the request.
+     */
+    id: {
+      check: "String"
     }
   },
 
@@ -74,6 +81,7 @@ qx.Class.define("qx.event.type.Rest",
       this.setRequest(request);
       this.setAction(action);
       this.setPhase(phase);
+      this.setId(request.toHashCode());
     },
 
     /**
