@@ -43,8 +43,6 @@ qx.Class.define("qx.test.io.rest.Resource",
         qx.io.request.Xhr.restore();
       }
 
-      // Obsolete and dispose previous request
-      this.req && this.req.dispose();
       var req = this.req = new qx.io.request.Xhr();
 
       // Stub request methods, leave event system intact
@@ -52,6 +50,11 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       // Inject double and return
       this.injectStub(qx.io.request, "Xhr", req);
+
+      // Remember request for later disposal
+      this.__reqs = this.__reqs || [];
+      this.__reqs.push(this.req);
+
       return req;
     },
 
@@ -67,7 +70,9 @@ qx.Class.define("qx.test.io.rest.Resource",
     tearDown: function() {
       this.getSandbox().restore();
       this.res.dispose();
-      this.req.dispose();
+      this.__reqs.forEach(function(req) {
+        req.dispose();
+      });
     },
 
     //
@@ -291,9 +296,12 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalledOnce(req2.send);
     },
 
-    "test: invoke same action twice aborts previous": function() {
+    "test: invoke same action handles multiple requests": function() {
       var res = this.res,
-          req1, req2;
+          req1, req2,
+          getSuccess = this.spy();
+
+      res.addListener("getSuccess", getSuccess);
 
       req1 = this.req;
       res.get();
@@ -303,8 +311,10 @@ qx.Class.define("qx.test.io.rest.Resource",
       req2 = this.req;
       res.get();
 
-      this.assertCalledOnce(req1.abort);
-      this.assertCalledOnce(req2.send);
+      this.respond("", req1);
+      this.respond("", req2);
+
+      this.assertCalledTwice(getSuccess);
     },
 
     "test: invoke action with positional params": function() {
@@ -534,6 +544,22 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.abort("get");
 
       this.assertCalledOnce(req.abort);
+    },
+
+    "test: abort action when multiple requests": function() {
+      var res = this.res,
+          req1, req2;
+
+      req1 = this.setUpDoubleRequest();
+      res.get();
+
+      req2 = this.setUpDoubleRequest();
+      res.get();
+
+      res.abort("get");
+
+      this.assertCalledOnce(req1.abort);
+      this.assertCalledOnce(req2.abort);
     },
 
     //
@@ -924,6 +950,27 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertCalled(req2.dispose);
     },
 
+    "test: dispose requests of same action": function() {
+      var res = this.res,
+          req1, req2;
+
+      req1 = this.req;
+      res.get();
+
+      this.setUpDoubleRequest();
+
+      req2 = this.req;
+      res.get();
+
+      this.spy(req1, "dispose");
+      this.spy(req2, "dispose");
+
+      res.dispose();
+
+      this.assertCalled(req1.dispose);
+      this.assertCalled(req2.dispose);
+    },
+
     "test: dispose request on loadEnd": function() {
       var res = this.res,
           req = this.req;
@@ -956,8 +1003,8 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     // Fake response
-    respond: function(response) {
-      var req = this.req;
+    respond: function(response, req) {
+      var req = req || this.req;
       response = response || "";
       req.isDone.returns(true);
       req.getPhase.returns("success");

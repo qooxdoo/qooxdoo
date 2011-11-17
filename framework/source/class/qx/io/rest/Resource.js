@@ -249,12 +249,7 @@ qx.Class.define("qx.io.rest.Resource",
         this.__requests[action] = [];
       }
 
-      if (this.__requests[action].length) {
-        this.__requests[action][0].abort();
-        this.__requests[action][0] = req;
-      } else {
-        this.__requests[action][0] = req;
-      }
+      this.__requests[action].push(req);
 
       return req;
     },
@@ -285,6 +280,9 @@ qx.Class.define("qx.io.rest.Resource",
      */
     map: function(action, method, url, check) {
       this.__routes[action] = [method, url, check];
+
+      // Track requests
+      this.__requests[action] = [];
 
       // Undefine generic getter when action is named "get"
       if (action == "get") {
@@ -352,6 +350,7 @@ qx.Class.define("qx.io.rest.Resource",
       }
 
       this.__configureRequest(req, data, action, config);
+
 
       // Handle successful request
       req.addListenerOnce("success", function successHandler() {
@@ -448,9 +447,12 @@ qx.Class.define("qx.io.rest.Resource",
      * @param action {String} Action to abort.
      */
     abort: function(action) {
-      var req = this.__requests[action][0];
-      if (req) {
-        req.abort();
+      var reqs = this.__requests[action];
+
+      if (this.__requests[action]) {
+        reqs.forEach(function(req) {
+          req.abort();
+        });
       }
     },
 
@@ -707,7 +709,11 @@ qx.Class.define("qx.io.rest.Resource",
     var action;
 
     for (action in this.__requests) {
-      this.__requests[action][0].dispose();
+      if (this.__requests[action]) {
+        this.__requests[action].forEach(function(req) {
+          req.dispose();
+        });
+      }
     }
 
     if (this.__pollTimers) {
