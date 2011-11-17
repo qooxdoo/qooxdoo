@@ -59,23 +59,6 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
       this.wait();
     },
 
-    "test: invoke action and handle response shorthand": function() {
-      // Handles GET
-      var url = this.getUrl("qx/test/xmlhttp/sample.txt"),
-          res;
-
-      res = this.res = new qx.io.rest.Resource(
-        {get: {method: "GET", url: url} });
-
-      res.get().addListener("getSuccess", function(e) {
-        this.resume(function() {
-          this.assertEquals("SAMPLE", e.getData());
-        }, this);
-      }, this);
-
-      this.wait();
-    },
-
     "test: invoke action and handle failure": function() {
       this.require(["http"]);
 

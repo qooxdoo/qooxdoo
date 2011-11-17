@@ -305,8 +305,7 @@ qx.Class.define("qx.io.rest.Resource",
 
       this[action] = qx.lang.Function.bind(function() {
         Array.prototype.unshift.call(arguments, action);
-        this.invoke.apply(this, arguments);
-        return this;
+        return this.invoke.apply(this, arguments);
       }, this);
 
       // Method is safe to overwrite
@@ -373,6 +372,8 @@ qx.Class.define("qx.io.rest.Resource",
       }, this);
 
       req.send();
+
+      return req.toHashCode();
     },
 
     /**

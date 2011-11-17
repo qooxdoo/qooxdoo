@@ -192,14 +192,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.map("get", "GET", "/photos/popular");
     },
 
-    "test: dynamically created method is chainable": function() {
-      var res = this.res,
-          req = this.req;
-
-      this.assertEquals(res, res.get(), "Must return itself");
-    },
-
-    "test: dynamically created method forwards arguments": function() {
+    "test: dynamically created action forwards arguments": function() {
       var res = this.res,
           req = this.req;
 
@@ -207,6 +200,12 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.get({}, 1, 2, 3);
 
       this.assertCalledWith(res.invoke, "get", {}, 1, 2, 3);
+    },
+
+    "test: dynamically created action returns what invoke returns": function() {
+      var id = 1;
+      this.stub(this.res, "invoke").returns(id);
+      this.assertEquals(id, this.res.get());
     },
 
     "test: map actions from description": function() {
@@ -278,6 +277,13 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.get();
 
       this.assertSend();
+    },
+
+    "test: invoke action returns id of request": function() {
+      var res = this.res,
+          req = this.req;
+
+      this.assertEquals(req.toHashCode(), res.invoke("get"));
     },
 
     "test: invoke action while other is in progress": function() {
