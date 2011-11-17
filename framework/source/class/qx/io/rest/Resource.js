@@ -245,11 +245,15 @@ qx.Class.define("qx.io.rest.Resource",
     __createRequest: function(action) {
       var req = this._getRequest();
 
-      if (this.__requests[action]) {
-        this.__requests[action].abort();
-        this.__requests[action] = req;
+      if (!qx.lang.Type.isArray(this.__requests[action])) {
+        this.__requests[action] = [];
+      }
+
+      if (this.__requests[action].length) {
+        this.__requests[action][0].abort();
+        this.__requests[action][0] = req;
       } else {
-        this.__requests[action] = req;
+        this.__requests[action][0] = req;
       }
 
       return req;
@@ -444,7 +448,7 @@ qx.Class.define("qx.io.rest.Resource",
      * @param action {String} Action to abort.
      */
     abort: function(action) {
-      var req = this.__requests[action];
+      var req = this.__requests[action][0];
       if (req) {
         req.abort();
       }
@@ -501,7 +505,7 @@ qx.Class.define("qx.io.rest.Resource",
 
       var timer = this.__pollTimers[action] = new qx.event.Timer(interval);
       timer.addListener("interval", function intervalListener() {
-        var req = this.__requests[action];
+        var req = this.__requests[action][0];
         if (req.isDone() || req.isDisposed()) {
           this.refresh(action);
         }
@@ -703,7 +707,7 @@ qx.Class.define("qx.io.rest.Resource",
     var action;
 
     for (action in this.__requests) {
-      this.__requests[action].dispose();
+      this.__requests[action][0].dispose();
     }
 
     if (this.__pollTimers) {
