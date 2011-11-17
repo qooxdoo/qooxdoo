@@ -26,6 +26,7 @@
 from generator.code.Class import Class, CompileOptions
 from generator.code.Script import Script
 from ecmascript.frontend  import treegenerator, treeutil
+from ecmascript.frontend.tree  import NodeAccessException
 from ecmascript.transform.optimizer import variantoptimizer
 from misc                 import util
 
@@ -74,6 +75,11 @@ class qcEnvClass(Class):
         checksMap = treeutil.mapNodeToMap(checksMap)
         # stringify map values
         for key in checksMap:
-            checksMap[key] = checksMap[key].children[0].get("value")
+            try:
+                checksMap[key] = checksMap[key].children[0].get("value")
+            except NodeAccessException:
+                raise ValueError(("Error extracting checks map from %s: " +
+                                  "expected string value for key '%s' (found %s)") % 
+                                  (self.id, key, checksMap[key].children[0].type))
         return checksMap
 
