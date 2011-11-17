@@ -141,6 +141,7 @@ A ``qx.data.store.Rest`` store can be attached to an action. Whenever a response
 ::
 
   var store = new qx.data.store.Rest(photos, "get");
-  var controller = new qx.data.controller.List();
+  var list = new qx.ui.form.List();
+  var controller = new qx.data.controller.List(null, list);
   store.bind("model", controller, "model");
   photos.longPoll("get");
