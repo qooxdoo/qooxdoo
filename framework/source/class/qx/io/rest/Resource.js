@@ -202,6 +202,7 @@ qx.Class.define("qx.io.rest.Resource",
   {
     __requests: null,
     __routes: null,
+    __baseUrl: null,
     __pollTimers: null,
     __longPollHandlers: null,
     __configureRequestCallback: null,
@@ -375,6 +376,18 @@ qx.Class.define("qx.io.rest.Resource",
       req.send();
 
       return req.toHashCode();
+    },
+
+    /**
+     * Set base URL.
+     *
+     * The base URL is prepended to the URLs given in the description.
+     * Changes affect all future invocations.
+     *
+     * @param baseUrl {String} Base URL.
+     */
+    setBaseUrl: function(baseUrl) {
+      this.__baseUrl = baseUrl;
     },
 
     /**
@@ -608,7 +621,7 @@ qx.Class.define("qx.io.rest.Resource",
       }
 
       var method = route[0],
-          url = route[1],
+          url = this.__baseUrl !== null ? this.__baseUrl + route[1] : route[1],
           check = route[2],
           placeholders = this.__placeholdersFromUrl(url);
 

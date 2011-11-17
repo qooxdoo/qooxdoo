@@ -149,6 +149,16 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertEquals("/photos", params.url);
     },
 
+    "test: map action when base URL": function() {
+      var res = this.res,
+          params;
+
+      res.setBaseUrl("http://example.com");
+      params = res._getRequestConfig("get");
+
+      this.assertEquals("http://example.com/photos", params.url);
+    },
+
     "test: map existing action": function() {
       var res = this.res,
           params;
