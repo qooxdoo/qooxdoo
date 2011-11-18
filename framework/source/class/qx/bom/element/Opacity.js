@@ -115,11 +115,7 @@ qx.Class.define("qx.bom.element.Opacity",
           opacity = 0.999999;
         }
 
-        if (!qx.bom.element.Opacity.SUPPORT_CSS3_OPACITY) {
-          return "-moz-opacity:" + opacity + ";";
-        } else {
-          return "opacity:" + opacity + ";";
-        }
+        return "opacity:" + opacity + ";";
       },
 
       "default" : function(opacity)
