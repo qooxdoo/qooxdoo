@@ -679,6 +679,29 @@ qx.Bootstrap.define("qx.core.Environment",
     },
 
 
+    /**
+     * Returns all currently defined synchronous checks.
+     * 
+     * @internal
+     * @return {Map} The map of synchronous checks
+     */
+    getChecks : function()
+    {
+      return this._checks;
+    },
+
+
+    /**
+     * Returns all currently defined asynchronous checks.
+     * 
+     * @internal
+     * @return {Map} The map of asynchronous checks
+     */
+    getAsyncChecks : function()
+    {
+      return this._asyncChecks;
+    },
+
 
     /**
      * Initializer for the default values of the framework settings.

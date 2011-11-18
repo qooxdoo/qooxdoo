@@ -49,7 +49,7 @@ qx.Class.define("fce.Environment", {
      */
     check : function()
     {
-      var checks = qx.core.Environment._checks;
+      var checks = qx.core.Environment.getChecks();
       var keys = qx.lang.Object.getKeys(checks);
 
       var features = {};
@@ -58,7 +58,7 @@ qx.Class.define("fce.Environment", {
         features[key] = qx.core.Environment.get(key);
       }
 
-      checks = qx.core.Environment._asyncChecks;
+      checks = qx.core.Environment.getAsyncChecks();
       var numberOfChecks = qx.lang.Object.getLength(checks);
       keys = qx.lang.Object.getKeys(checks);
 

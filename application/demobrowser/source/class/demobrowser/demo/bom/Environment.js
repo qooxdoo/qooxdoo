@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.bom.Environment",
       output.add("<table border='0'>");
 
       // this should not be used directly. Its just to show all added checks
-      var checks = qx.core.Environment._checks;
+      var checks = qx.core.Environment.getChecks();
       var keys = qx.lang.Object.getKeys(checks);
       keys.sort();
 
@@ -64,7 +64,7 @@ qx.Class.define("demobrowser.demo.bom.Environment",
       output.add("<tr><td colspan='2'><h2>Asynchronous checks</h2></td></tr>");
 
       // this should not be used directly. Its just to show all added checks
-      checks = qx.core.Environment._asyncChecks;
+      checks = qx.core.Environment.getAsyncChecks();
       var numberOfChecks = qx.lang.Object.getLength(checks);
       keys = qx.lang.Object.getKeys(checks);
 
