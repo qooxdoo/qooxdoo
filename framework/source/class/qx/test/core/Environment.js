@@ -36,18 +36,18 @@ qx.Class.define("qx.test.core.Environment",
     // ////////////////////////////// //
     testGet : function() {
       // fake the check
-      qx.core.Environment._checks["affe"] = function() {
+      qx.core.Environment.getChecks()["affe"] = function() {
         return "affe";
       };
       this.assertEquals("affe", qx.core.Environment.get("affe"));
       // clear the fake check
-      delete qx.core.Environment._checks["affe"];
+      delete qx.core.Environment.getChecks()["affe"];
       qx.core.Environment.invalidateCacheKey("affe");
     },
 
     testGetAsync : function() {
       // fake the check
-      qx.core.Environment._asyncChecks["affe"] = function(clb, self) {
+      qx.core.Environment.getAsyncChecks()["affe"] = function(clb, self) {
         window.setTimeout(function() {
           clb.call(self, "affe");
         }, 0);
@@ -57,7 +57,7 @@ qx.Class.define("qx.test.core.Environment",
         this.resume(function() {
           this.assertEquals("affe", result);
           // clear the fake check
-          delete qx.core.Environment._asyncChecks["affe"];
+          delete qx.core.Environment.getAsyncChecks()["affe"];
           qx.core.Environment.invalidateCacheKey("affe");
         }, this);
       }, this);
@@ -67,7 +67,7 @@ qx.Class.define("qx.test.core.Environment",
 
     testSelect : function() {
       // fake the check
-      qx.core.Environment._checks["affe"] = function() {
+      qx.core.Environment.getChecks()["affe"] = function() {
         return "affe";
       };
       var test;
@@ -77,13 +77,13 @@ qx.Class.define("qx.test.core.Environment",
 
       this.assertEquals(test, "affe");
       // clear the fake check
-      delete qx.core.Environment._checks["affe"];
+      delete qx.core.Environment.getChecks()["affe"];
       qx.core.Environment.invalidateCacheKey("affe");
     },
 
     testSelectDefault : function() {
       // fake the check
-      qx.core.Environment._checks["affe"] = function() {
+      qx.core.Environment.getChecks()["affe"] = function() {
         return "affe";
       };
       var test;
@@ -93,7 +93,7 @@ qx.Class.define("qx.test.core.Environment",
 
       this.assertEquals(test, "affe");
       // clear the fake check
-      delete qx.core.Environment._checks["affe"];
+      delete qx.core.Environment.getChecks()["affe"];
       qx.core.Environment.invalidateCacheKey("affe");
     },
 
@@ -111,7 +111,7 @@ qx.Class.define("qx.test.core.Environment",
         "affe" : function(result) {
           this.resume(function() {
             // clear the fake check
-            delete qx.core.Environment._checks["affe"];
+            delete qx.core.Environment.getChecks()["affe"];
             qx.core.Environment.invalidateCacheKey("affe");
             this.assertEquals("AFFE", result);
           }, this);
@@ -124,12 +124,12 @@ qx.Class.define("qx.test.core.Environment",
 
     testCache: function() {
       // fake the check
-      qx.core.Environment._checks["affe"] = function() {
+      qx.core.Environment.getChecks()["affe"] = function() {
         return "affe";
       };
       this.assertEquals("affe", qx.core.Environment.get("affe"));
       // clear the fake check
-      delete qx.core.Environment._checks["affe"];
+      delete qx.core.Environment.getChecks()["affe"];
 
       this.assertEquals("affe", qx.core.Environment.get("affe"));
 
@@ -138,7 +138,7 @@ qx.Class.define("qx.test.core.Environment",
 
     testCacheInvalidation: function() {
       // fake the check
-      qx.core.Environment._checks["affe"] = function() {
+      qx.core.Environment.getChecks()["affe"] = function() {
         return "affe";
       };
       this.assertEquals("affe", qx.core.Environment.get("affe"));
@@ -146,13 +146,13 @@ qx.Class.define("qx.test.core.Environment",
       qx.core.Environment.invalidateCacheKey("affe");
 
       // fake another check
-      qx.core.Environment._checks["affe"] = function() {
+      qx.core.Environment.getChecks()["affe"] = function() {
         return "affe2";
       };
       this.assertEquals("affe2", qx.core.Environment.get("affe"));
 
       // clear the fake check
-      delete qx.core.Environment._checks["affe"];
+      delete qx.core.Environment.getChecks()["affe"];
       qx.core.Environment.invalidateCacheKey("affe");
     },
 
@@ -165,7 +165,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assertEquals("AFFE", qx.core.Environment.get("affe"));
 
       // clear the check
-      delete qx.core.Environment._checks["affe"];
+      delete qx.core.Environment.getChecks()["affe"];
       qx.core.Environment.invalidateCacheKey("affe");
     },
 
@@ -176,7 +176,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assertEquals("AFFE", qx.core.Environment.get("affe"));
 
       // clear the check
-      delete qx.core.Environment._checks["affe"];
+      delete qx.core.Environment.getChecks()["affe"];
       qx.core.Environment.invalidateCacheKey("affe");
     },
 
@@ -192,7 +192,7 @@ qx.Class.define("qx.test.core.Environment",
         this.resume(function() {
           this.assertEquals("AFFE", result);
           // clear the fake check
-          delete qx.core.Environment._asyncChecks["affe"];
+          delete qx.core.Environment.getAsyncChecks()["affe"];
           qx.core.Environment.invalidateCacheKey("affe");
         }, this);
       }, this);
@@ -203,13 +203,13 @@ qx.Class.define("qx.test.core.Environment",
 
     testFilter : function() {
       // fake the checks
-      qx.core.Environment._checks["affe1"] = function() {
+      qx.core.Environment.getChecks()["affe1"] = function() {
         return true;
       };
-      qx.core.Environment._checks["affe2"] = function() {
+      qx.core.Environment.getChecks()["affe2"] = function() {
         return false;
       };
-      qx.core.Environment._checks["affe3"] = function() {
+      qx.core.Environment.getChecks()["affe3"] = function() {
         return true;
       };
 
@@ -224,9 +224,9 @@ qx.Class.define("qx.test.core.Environment",
       this.assertEquals(3, array[1]);
 
       // clear the fake check
-      delete qx.core.Environment._checks["affe1"];
-      delete qx.core.Environment._checks["affe2"];
-      delete qx.core.Environment._checks["affe3"];
+      delete qx.core.Environment.getChecks()["affe1"];
+      delete qx.core.Environment.getChecks()["affe2"];
+      delete qx.core.Environment.getChecks()["affe3"];
       qx.core.Environment.invalidateCacheKey("affe1");
       qx.core.Environment.invalidateCacheKey("affe2");
       qx.core.Environment.invalidateCacheKey("affe3");

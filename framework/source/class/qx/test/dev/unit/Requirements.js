@@ -74,7 +74,7 @@ qx.Class.define("qx.test.dev.unit.Requirements", {
         this.fail("Check for environment key failed!");
       }
       
-      delete qx.core.Environment._checks["qx.test.requirement.syncTrue"];
+      delete qx.core.Environment.getChecks()["qx.test.requirement.syncTrue"];
     },
     
     testEnvironmentFail : function()
@@ -88,12 +88,12 @@ qx.Class.define("qx.test.dev.unit.Requirements", {
         self.require(["fulfilledReq", "qx.test.requirement.syncFalse"]);
       }, qx.dev.unit.RequirementError);
       
-      delete qx.core.Environment._checks["qx.test.requirement.syncFalse"];
+      delete qx.core.Environment.getChecks()["qx.test.requirement.syncFalse"];
     },
     
     testEnvironmentAsync : function()
     {
-      qx.core.Environment._asyncChecks["qx.test.requirement.async"] = function() {
+      qx.core.Environment.getAsyncChecks()["qx.test.requirement.async"] = function() {
         return false;      
       };
       var self = this;
@@ -101,7 +101,7 @@ qx.Class.define("qx.test.dev.unit.Requirements", {
         self.require(["qx.test.requirement.async"]);
       }, Error, /Asynchronous environment checks are not supported/);
       
-      delete qx.core.Environment._asyncChecks["qx.test.requirement.async"];
+      delete qx.core.Environment.getAsyncChecks()["qx.test.requirement.async"];
     }
     
     /* Disabled until we've come up with a solution for bug #5516

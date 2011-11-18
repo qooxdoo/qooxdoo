@@ -86,7 +86,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
           }
         }
         
-        if (qx.core.Environment._checks[feature]) {
+        if (qx.core.Environment.getChecks()[feature]) {
           var envValue = qx.core.Environment.get(feature);
           if (envValue === true) {
             continue;
@@ -100,7 +100,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
           }
         }
         
-        if (qx.core.Environment._asyncChecks[feature]) {
+        if (qx.core.Environment.getAsyncChecks()[feature]) {
           throw new Error('Unable to verify requirement ' + feature + ': '
           + 'Asynchronous environment checks are not supported!');
         }
