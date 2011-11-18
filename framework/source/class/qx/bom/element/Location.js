@@ -494,45 +494,27 @@ qx.Class.define("qx.bom.element.Location",
      * Get the location of the body element relative to the document.
      * @param body {Element} The body element.
      */
-    __getBodyLocation : qx.core.Environment.select("engine.name",
+    __getBodyLocation : function(body)
     {
-      "default" : function(body)
-      {
-        var top = body.offsetTop + this.__num(body, "marginTop");
-        var left = body.offsetLeft + this.__num(body, "marginLeft");
-        return {left: left, top: top};
-      },
-
-      "mshtml" : function(body)
-      {
-        var top = body.offsetTop;
-        var left = body.offsetLeft;
-        if (!((parseFloat(qx.core.Environment.get("engine.version")) < 8 ||
+      var top = body.offsetTop;
+      var left = body.offsetLeft;
+      
+      if (qx.core.Environment.get("engine.name") !== "mshtml" ||
+         !((parseFloat(qx.core.Environment.get("engine.version")) < 8 ||
           qx.core.Environment.get("browser.documentmode") < 8) &&
           !qx.core.Environment.get("browser.quirksmode")))
-        {
-          top += this.__num(body, "marginTop");
-          left += this.__num(body, "marginLeft");
-        }
-
-        return {left: left, top: top};
-      },
-
-      "gecko" : function(body)
       {
-        var top =
-          body.offsetTop +
-          this.__num(body, "marginTop") +
-          this.__num(body, "borderLeftWidth");
-
-        var left =
-          body.offsetLeft +
-          this.__num(body, "marginLeft") +
-          this.__num(body, "borderTopWidth");
-
-        return {left: left, top: top};
+        top += this.__num(body, "marginTop");
+        left += this.__num(body, "marginLeft");
       }
-    }),
+      
+      if (qx.core.Environment.get("engine.name") === "gecko") {
+        top += this.__num(body, "borderLeftWidth");
+        left +=this.__num(body, "borderTopWidth");
+      }
+      
+      return {left: left, top: top};
+    },
 
 
     /**
