@@ -76,7 +76,7 @@ qx.Class.define('demobrowser.demo.table.RemoteTableModel', {
 
       this.__checkingForPHP = true;
 
-      this.__call("", function(data) {
+      this.__call("method=checkphp", function(data) {
         this.__checkingForPHP = false;
         this.__PHPSupported = (data == "WTF PHP");
         this._loadRowCount();

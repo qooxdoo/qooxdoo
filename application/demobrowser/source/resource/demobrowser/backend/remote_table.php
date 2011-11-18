@@ -11,9 +11,9 @@
   if ($method == "getRowCount") {
     echo 10000;
   } else if ($method == "getRowData") {
-    if (!isset($_GET['start']) || !isset($_GET['end']) {
+    if (!isset($_GET['start']) || !isset($_GET['end'])) {
       echo 'Start or end not set';exit;
-    }}
+    }
 
     if ($_GET['end'] - $_GET['start'] > 10001) {
       echo 'Nice try attacker';exit;
