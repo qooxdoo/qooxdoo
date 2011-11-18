@@ -300,6 +300,19 @@ qx.Bootstrap.define("qx.bom.client.Css",
      */
     getOpacity : function() {
       return (typeof document.documentElement.style.opacity == "string");
+    },
+    
+    
+    /**
+     * Checks if the overflowX and overflowY style properties are supported
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if overflow-x and overflow-y can be
+     * used
+     */
+    getOverflowXY : function() {
+      return (typeof document.documentElement.style.overflowX == "string") &&
+        (typeof document.documentElement.style.overflowY == "string");
     }
   },
 
@@ -322,5 +335,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.boxsizing", statics.getBoxSizing);
     qx.core.Environment.add("css.inlineblock", statics.getInlineBlock);
     qx.core.Environment.add("css.opacity", statics.getOpacity);
+    qx.core.Environment.add("css.overflowxy", statics.getOverflowXY);
   }
 });
