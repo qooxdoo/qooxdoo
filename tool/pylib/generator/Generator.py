@@ -541,8 +541,11 @@ class Generator(object):
                   # keep the list of class objects in sync
                 script.classesObj = [self._classesObj[id] for id in script.classes]
 
-                featureMap = self._depLoader.registerDependeeFeatures(script.classesObj, script.variants, script.buildType)
-                script._featureMap = featureMap
+                if "statics" in script.optimize:
+                    featureMap = self._depLoader.registerDependeeFeatures(script.classesObj, script.variants, script.buildType)
+                    script._featureMap = featureMap
+                else:
+                    script._featureMap = {}
 
                 # prepare 'script' object
                 if set(("compile", "log")).intersection(jobTriggers):
@@ -1904,10 +1907,8 @@ class Generator(object):
 
         for libObj in libraryKey:
 
-            #libObj    = Library(lib, self._console)
             checkFile, fsTime = libObj.mostRecentlyChangedFile()
             cacheId   = "lib-%s" % libObj.manifest
-            #checkObj, _  = self._cache.read(cacheId, checkFile, memory=True)
             checkObj, cacheTime  = self._cache.read(cacheId, memory=True)
             if checkObj:
                 libObj = checkObj  # continue with cached obj
@@ -1915,12 +1916,6 @@ class Generator(object):
             if cacheTime < fsTime:
                 libObj.scan(cacheTime)
                 self._cache.write(cacheId, libObj, memory=True)
-            #if checkObj:
-            #    self._console.debug("Use memory cache for %s" % libObj.path)
-            #    libObj = checkObj  # continue with cached obj
-            #else:
-            #    libObj.scan()
-            #    self._cache.write(cacheId, libObj, memory=True)
 
             namespace = libObj.getNamespace()
             namespaces.append(namespace)
@@ -1934,6 +1929,11 @@ class Generator(object):
             docs.update(libObj.getDocs())
             translations[namespace] = libObj.getTranslations()
             libraries.append(libObj)
+
+        # make sure there are no dangling trees in memory
+        for libObj in libraries:
+            for cls in libObj.getClasses():
+                cls._tmp_tree = None
 
         self._console.dotclear()
         self._console.nl()

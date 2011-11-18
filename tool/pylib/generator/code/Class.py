@@ -73,6 +73,7 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
         # need to copy nested map, or i will modify original one
         d['context'] = d['context'].copy()
         del d['context']['cache']
+        d['_tmp_tree'] = None # remove memoized run time tree
         return d
 
     def __setstate__(self, d):

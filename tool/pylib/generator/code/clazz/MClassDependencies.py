@@ -207,10 +207,7 @@ class MClassDependencies(object):
             cached = False
             deps = buildShallowDeps()
             deps = buildTransitiveDeps(deps)
-            #if self.id != "qx.core.Environment":
-            #    # Mustn't cache q.c.Env deps across runs, as they depend on the entire
-            #    # class list
-            if True:
+            if 1:
                 classInfo[cacheId] = (deps, time.time())
                 self._writeClassCache(classInfo)
         

@@ -38,8 +38,9 @@ class DependencyItem(object):
     def __str__(self):
         return self.name + "#" + self.attribute
     def __eq__(self, other):
-        return (self.name == other.name and self.attribute == other.attribute and
-                self.requestor == other.requestor and self.line == other.line)
+        return (self.name == other.name and self.attribute == other.attribute
+                and self.requestor == other.requestor and self.line == other.line
+                )
     def __hash__(self):
         return hash(self.name + self.attribute)
 

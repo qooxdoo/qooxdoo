@@ -574,6 +574,16 @@ class CodeGenerator(object):
                 else:
                     return False
 
+            ##
+            # print features with external usages
+            def debugFeatureMap(featureMap):
+                for key in featureMap:
+                    print key
+                    features =  featureMap[key]
+                    for feat in features:
+                        ext_refs = set(["%s:%s" % (ref.requestor, ref.line) for ref in features[feat]._refs if ref.requestor != key])
+                        print "\t", feat, ":", features[feat]._ref_cnt, "%r" % list(ext_refs)
+
             # ------------------------------------------------------------
 
             # collect all head classes, so they are not removed
@@ -588,6 +598,7 @@ class CodeGenerator(object):
 
             from pprint import pprint
             #pprint(featureMap)
+            #pprint(featureMap['qx.lang.String']['firstUp'])
             # this relies on the side effect of changing the syntax trees in cache
 
             # first, prune features that are not even registered
@@ -603,13 +614,14 @@ class CodeGenerator(object):
                 null_refs = [(cls, feat) for cls in featureMap for feat in featureMap[cls] if not featureMap[cls][feat].hasref()]
                 if atLimit(null_refs):
                     break
-                print len(null_refs)
+                #print len(null_refs)
                 #for clazz in (clz for clz in classlistiter() if clz.id in [x[0] for x in null_refs]):
+                # (a) first, let clazz.optimize remove those features
                 for clazz in classlistiter():
                     clazz._tmp_tree = clazz.optimize(clazz._tmp_tree, ["statics"], featureMap=featureMap)
                 #pprint(featureMap)
 
-                # last, remove classes with no used feature from classlist
+                # (b) then, remove entire classes with no used feature from classlist
                 for clazz in classlistiter():
                     if clazz.id in featureMap:
                         is_removed = False
@@ -636,7 +648,7 @@ class CodeGenerator(object):
                                 classList.remove(clazz)
 
                         if is_removed:
-                            print "removing", clazz.id
+                            #print "removing", clazz.id
                             # need to remove all the class' UsedFeature entries as well
                             for key in featureMap:
                                 for feat in featureMap[key]:
@@ -644,16 +656,16 @@ class CodeGenerator(object):
                                     for ref in uf._refs[:]:
                                         if ref.requestor == clazz.id:
                                             uf.decref(clazz.id)
-                                            print "removing %s from %s:%s" % (clazz.id, key, feat)
-                            pass
+                                            #print "removing %s from %s:%s" % (clazz.id, key, feat)
 
+                # removing entire classes might remove dependencies of construct, defer, extend, etc,
+                # so this might have again zero'ed usage counts of remaining features, so we have to loop
 
-
-            #import pydb; pydb.debugger()
-            # Check reachability graph of head classes
+            # Lastly, when we cannot reduce anymore by looking at feature usage,
+            # check reachability graph of head classes
             gr = graph.digraph()
-            [gr.add_node(s) for s in featureMap.keys()]  # featureMap.keys() == [classList.id's]
-            # add "using" edges, 
+            [gr.add_node(s) for s in featureMap.keys()]  # assert featureMap.keys() == [classList.id's]
+            # add "using" edges (featureMap is a used-by mapping)
             for cls in featureMap:
                 other_using = [dep.name for x in featureMap for y in featureMap[x] for dep in featureMap[x][y]._refs if dep.requestor==cls and dep.name!=cls]
                 for other in other_using:
@@ -668,17 +680,11 @@ class CodeGenerator(object):
                     classList.remove(cls)
 
             #pprint(featureMap)
-            if 0:
-                # print features with external usages
-                for key in featureMap:
-                    print key
-                    features =  featureMap[key]
-                    for feat in features:
-                        ext_refs = set(["%s:%s" % (ref.requestor, ref.line) for ref in features[feat]._refs if ref.requestor != key])
-                        print "\t", feat, ":", features[feat]._ref_cnt, "%r" % list(ext_refs)
+            if 0: debugFeatureMap(featureMap)
 
             for cls in classList:
                 #print cls.id, id(cls._tmp_tree)
+                self._console.info(cls.id)
                 pass
 
             self._console.info("Number of classes after static optimization: %d" % len(classList))
