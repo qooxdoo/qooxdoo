@@ -143,8 +143,11 @@ class DependencyLoader(object):
             # reading dependencies
             self._console.debug("Gathering dependencies: %s" % depsItem.name)
             self._console.indent()
-            #deps, cached = self.getCombinedDeps(depsItem.name, variants, buildType, genProxy=genProxyIter.next())
-            deps, cached = self._classesObj[depsItem.name].getCombinedDeps(variants, self._jobconf, genProxy=genProxyIter.next())
+            classObj = self._classesObj[depsItem.name] # get class from depsItem
+            if variants: # here we rely on the fact that if true(variants) "variants" optimization is actually wanted
+                # here we rely on the fact that class.tree() will use class._tmp_tree during class.getCombinedDeps()
+                classObj._tmp_tree = classObj.optimize(classObj.tree(), ["variants"], variants)
+            deps, cached = classObj.getCombinedDeps(variants, self._jobconf, genProxy=genProxyIter.next())
             self._console.outdent()
             if logInfos: self._console.dot("%s" % "." if cached else "*")
 
@@ -497,12 +500,13 @@ class DependencyLoader(object):
     # { 'qx.core.Object' : {'myFeature': ('r',)} }  -- ('r',) is currently a way to say 'True'
     def registerDependeeFeatures(self, classList, variants, buildType=""):
         featureMap = {}
+        self._console.info("Registering used class features  ", False)
 
         for clazz in classList:
             # make sure every class is at least listed
             if clazz.id not in featureMap:
                 featureMap[clazz.id] = {}
-            deps, _ = clazz.getCombinedDeps(variants, self._jobconf, stripSelfReferences=False, projectClassNames=False, force=True)
+            deps, _ = clazz.getCombinedDeps(variants, self._jobconf, stripSelfReferences=False, projectClassNames=False, force=0)
             ignored_names = map(attrgetter("name"), deps['ignore'])
             for dep in deps['load'] + deps['run']:
                 if dep.name in ignored_names:
@@ -516,6 +520,7 @@ class DependencyLoader(object):
                     # create
                     featureMap[dep.name][dep.attribute] = UsedFeature(dep)
         
+        self._console.nl()
         return featureMap
 
 
@@ -576,37 +581,25 @@ class UsedFeature(object):
                 if ((ref.requestor == req_name and not req_line) or
                     (ref.requestor == req_name and ref.line == req_line)):
                     ref_removed = True
-                    s._refs.remove(ref)
+                    s._refs.remove(ref) # TODO: this is very delicate, as [].remove uses __eq__ of the elements!
         return ref_removed
 
     def hasref(s):
         return s._ref_cnt > 0
 
-
-class UsedFeatureSet(object):
-    
-    def __init__(s):
-        s._data = set()
-
-    def add(s, o):
-        found = False
-        for i in s._data:
-            if (i.name == o.name and
-                i.attribute == o.attribute and
-                i.requestor == o.requestor and
-                i.line == o.line):
-                found = True
-        if not found:
-            s._data.add(o)
-
-    def remove(s,o):
-        for i in list(s._data):
-            if (i.name == o.name and
-                i.attribute == o.attribute and
-                i.requestor == o.requestor and
-                i.line == o.line):
-                s._data.remove(i)
-
     def __len__(s):
-        return len(s._data)
-        
+        return len(s._refs)
+
+    # this is more specific than DependencyItem.__eq__
+    # compare name, attribute, requestor and line
+    _depattribs = 'name attribute requestor line'.split()
+    def _depmatches(s, dep, odep):
+        return all([(getattr(dep,f)==getattr(odep,f)) for f in s._depattribs])
+
+    def __contains__(s, odep):
+        for dep in s._refs:
+            if s._depmatches(dep, odep):
+                return True
+        return False
+
+
