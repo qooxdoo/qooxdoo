@@ -72,8 +72,15 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.setUpRequest();
 
       this.server = this.getServer();
-      this.server.respondWith("GET", "/found", [200, {"Content-Type": "text/html"}, "FOUND"]);
-      this.server.respondWith("GET", "/found.json", [200, {"Content-Type": "application/json"}, "JSON"]);
+
+      this.server.respondWith("GET", "/found",
+        [200, {"Content-Type": "text/html"}, "FOUND"]);
+
+      this.server.respondWith("GET", "/found.json",
+        [200, {"Content-Type": "application/json; charset=utf-8"}, "JSON"]);
+
+      this.server.respondWith("GET", "/found.other",
+        [200, {"Content-Type": "application/other"}, "OTHER"]);
     },
 
     setUpFakeXhr: function() {
@@ -361,6 +368,19 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.getFakeReq().respond(200, {}, "");
 
       this.assertNotCalled(parser);
+    },
+
+    "test: not parse unknown response": function() {
+      this.setUpFakeServer();
+      var req = this.req,
+          server = this.server,
+          that = this;
+
+      req.setUrl("/found.other");
+      req.send();
+      server.respond();
+
+      this.assertNull(req._getParser());
     },
 
     // JSON
