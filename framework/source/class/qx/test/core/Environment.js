@@ -409,6 +409,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assert(typeof boxSizing == "string" || boxSizing === null);
       var inlineBlock = qx.core.Environment.get("css.inlineblock");
       this.assert(typeof inlineBlock == "string" || inlineBlock === null);
+      this.assertBoolean(qx.core.Environment.get("css.opacity"));
     },
 
     testPhoneGap : function() {

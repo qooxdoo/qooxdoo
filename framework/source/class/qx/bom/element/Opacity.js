@@ -315,6 +315,6 @@ qx.Class.define("qx.bom.element.Opacity",
   },
 
   defer : function(statics) {
-    statics.SUPPORT_CSS3_OPACITY = (typeof document.documentElement.style.opacity == "string");
+    statics.SUPPORT_CSS3_OPACITY = qx.core.Environment.get("css.opacity");
   }
 });

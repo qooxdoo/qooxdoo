@@ -289,6 +289,17 @@ qx.Bootstrap.define("qx.bom.client.Css",
         return "-moz-inline-box";
       }
       return null;
+    },
+    
+    
+    /**
+     * Checks if CSS opacity is supported
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if opacity is supported
+     */
+    getOpacity : function() {
+      return (typeof document.documentElement.style.opacity == "string");
     }
   },
 
@@ -310,5 +321,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.float", statics.getFloat);
     qx.core.Environment.add("css.boxsizing", statics.getBoxSizing);
     qx.core.Environment.add("css.inlineblock", statics.getInlineBlock);
+    qx.core.Environment.add("css.opacity", statics.getOpacity);
   }
 });
