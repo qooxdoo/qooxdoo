@@ -175,11 +175,8 @@ qx.Class.define("qx.bom.element.Decoration",
      */
     getTagName : function(repeat, source)
     {
-      if ((qx.core.Environment.get("engine.name") == "mshtml"))
-      {
-        if (source && this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && qx.lang.String.endsWith(source, ".png")) {
-          return "div";
-        }
+      if (source && this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && qx.lang.String.endsWith(source, ".png")) {
+        return "div";
       }
 
       return this.__repeatToTagname[repeat];
@@ -613,18 +610,11 @@ qx.Class.define("qx.bom.element.Decoration",
      * method provides an API for high-level classes to check if the alpha image
      * loader is enabled.
      *
-     * @signature function()
      * @return {Boolean} <code>true</code> when the AlphaImageLoader is used, <code>false</code> otherwise.
      */
-    isAlphaImageLoaderEnabled : qx.core.Environment.select("engine.name",
+    isAlphaImageLoaderEnabled : function ()
     {
-      "mshtml" : function() {
-        return qx.bom.element.Decoration.__enableAlphaFix;
-      },
-
-      "default" : function() {
-        return false;
-      }
-    })
+      return qx.bom.element.Decoration.__enableAlphaFix;
+    }
   }
 });
