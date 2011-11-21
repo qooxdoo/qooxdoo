@@ -235,87 +235,49 @@ qx.Class.define("qx.bom.element.Attribute",
      * @param element {Element} The DOM element to query
      * @param name {String} Name of the attribute
      * @return {var} The value of the attribute
-     * @signature function(element, name)
      */
-    get : qx.core.Environment.select("engine.name",
+    get : function(element, name)
     {
-      "mshtml" : function(element, name)
+      var hints = this.__hints;
+      var value;
+
+      // normalize name
+      name = hints.names[name] || name;
+
+      // respect original values
+      // http://msdn2.microsoft.com/en-us/library/ms536429.aspx
+      if (qx.core.Environment.get("engine.name") == "mshtml" && 
+        parseInt(qx.core.Environment.get("browser.documentmode"), 10) < 8 &&
+        hints.original[name]) 
       {
-        var hints = this.__hints;
-        var value;
-
-        // normalize name
-        name = hints.names[name] || name;
-
-        // respect original values
-        // http://msdn2.microsoft.com/en-us/library/ms536429.aspx
-        if (hints.original[name]) {
-          value = element.getAttribute(name, 2);
-        }
-
-        // respect properties
-        else if (hints.property[name])
-        {
-          value = element[name];
-
-          if (typeof hints.propertyDefault[name] !== "undefined" &&
-              value == hints.propertyDefault[name])
-          {
-            // only return null for all non-boolean properties
-            if (typeof hints.bools[name] === "undefined") {
-              return null;
-            } else {
-              return value;
-            }
-          }
-        } else { // fallback to attribute
-          value = element.getAttribute(name);
-        }
-
-        // TODO: Is this enough, what's about string false values?
-        if (hints.bools[name]) {
-          return !!value;
-        }
-
-        return value;
-      },
-
-      // currently supported by gecko, opera and webkit
-      "default" : function(element, name)
-      {
-        var hints = this.__hints;
-        var value;
-
-        // normalize name
-        name = hints.names[name] || name;
-
-        // respect properties
-        if (hints.property[name])
-        {
-          value = element[name];
-
-          if (typeof hints.propertyDefault[name] !== "undefined" &&
-              value == hints.propertyDefault[name])
-          {
-            // only return null for all non-boolean properties
-            if (typeof hints.bools[name] === "undefined") {
-              return null;
-            } else {
-              return value;
-            }
-          }
-        } else { // fallback to attribute
-          value = element.getAttribute(name);
-        }
-
-        // TODO: Is this enough, what's about string false values?
-        if (hints.bools[name]) {
-          return !!value;
-        }
-
-        return value;
+        value = element.getAttribute(name, 2);
       }
-    }),
+      // respect properties
+      else if (hints.property[name])
+      {
+        value = element[name];
+
+        if (typeof hints.propertyDefault[name] !== "undefined" &&
+            value == hints.propertyDefault[name])
+        {
+          // only return null for all non-boolean properties
+          if (typeof hints.bools[name] === "undefined") {
+            return null;
+          } else {
+            return value;
+          }
+        }
+      } else { // fallback to attribute
+        value = element.getAttribute(name);
+      }
+
+      // TODO: Is this enough, what's about string false values?
+      if (hints.bools[name]) {
+        return !!value;
+      }
+
+      return value;
+    },
 
 
     /**

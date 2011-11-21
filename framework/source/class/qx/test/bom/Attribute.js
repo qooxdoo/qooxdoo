@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#asset(qx/icon/Tango/48/places/folder.png)
+************************************************************************ */
+
 qx.Class.define("qx.test.bom.Attribute",
 {
   extend : qx.dev.unit.TestCase,
@@ -40,12 +44,17 @@ qx.Class.define("qx.test.bom.Attribute",
 
       this._checkBox = checkBox;
       document.body.appendChild(checkBox);
+      
+      var img = document.createElement("img");
+      this._img = img;
+      document.body.appendChild(img);
     },
 
 
     tearDown : function() {
       document.body.removeChild(this._el);
       document.body.removeChild(this._checkBox);
+      document.body.removeChild(this._img);
     },
 
 
@@ -64,6 +73,10 @@ qx.Class.define("qx.test.bom.Attribute",
 
       Attribute.set(this._el, "selected", true);
       this.assertEquals("selected", this._el.getAttribute("selected"));
+      
+      var imgSrc = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/folder.png");
+      Attribute.set(this._img, "src", imgSrc);
+      this.assertEquals(imgSrc, this._img.getAttribute("src", 2));
 
     },
 
@@ -120,6 +133,10 @@ qx.Class.define("qx.test.bom.Attribute",
 
       this._checkBox["value"] = "vanillebaer";
       this.assertEquals("vanillebaer", Attribute.get(this._checkBox, "value"));
+      
+      var imgSrc = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/folder.png");
+      Attribute.set(this._img, "src", imgSrc);
+      this.assertEquals(imgSrc, Attribute.get(this._img, "src"));
     },
 
     testRemoveAttribute : function()
