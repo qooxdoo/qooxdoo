@@ -1,0 +1,53 @@
+{
+  "name"    : "library",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" :
+  [
+    "build-q"
+  ],
+  
+
+  "let" :
+  {
+    "APPLICATION"  : "library",
+    "QOOXDOO_PATH" : "..",
+    "API_EXCLUDE"  : ["qx.test.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "ROOT"         : "."
+  },
+
+  "jobs" :
+  {
+    "build-q" :
+    {
+      "extend" : ["build"],
+
+      "=include" :
+      [
+        "qx.module.Style"
+      ],
+
+      "=environment" :
+      {
+        "qx.version"     : "1.6",
+        "qx.debug" : false
+      },
+      
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "q.js"
+        }
+      }
+    }
+  }
+}
