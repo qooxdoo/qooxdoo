@@ -48,11 +48,11 @@ qx.Class.define("qx.bom.storage.Abstract",
     this._storage = window[this._type + "Storage"];
     this._handleStorageEventBound = qx.lang.Function.bind(this._handleStorageEvent, this);
 
-    if ((qx.core.Environment.get("engine.name") == "mshtml") &&
-        (parseInt(qx.core.Environment.get("browser.documentmode")) < 9)) {
-      qx.bom.Event.addNativeListener(document, "storage", this._handleStorageEventBound);
-    } else {
+    if (qx.bom.Event.supportsEvent(window, "storage")) {
       qx.bom.Event.addNativeListener(window, "storage", this._handleStorageEventBound);
+    }
+    else if (qx.bom.Event.supportsEvent(document, "storage")) {
+      qx.bom.Event.addNativeListener(document, "storage", this._handleStorageEventBound);
     }
   },
 
