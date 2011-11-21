@@ -422,6 +422,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("event.touch"));
       this.assertBoolean(qx.core.Environment.get("event.pointer"));
       this.assertBoolean(qx.core.Environment.get("event.help"));
+      this.assertBoolean(qx.core.Environment.get("event.hashchange"));
     },
 
     testEcmaScript : function() {

@@ -62,13 +62,31 @@ qx.Bootstrap.define("qx.bom.client.Event",
 
 
     /**
-     * Checks if the proprietary "help" event is available.
+     * Checks if the proprietary <code>help</code> event is available.
      * 
+     * @internal
      * @return {Boolean} <code>true</code> if the "help" event is supported.
      */
     getHelp : function()
     {
       return ("onhelp" in document);
+    },
+    
+    
+    /**
+     * Checks if the <code>hashchange</code> event is available
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if the "hashchange" event is supported.
+     */
+    getHashChange : function()
+    {
+      // avoid false positive in IE7
+      var engine = qx.bom.client.Engine.getName();
+      var hashchange = "onhashchange" in window;
+      return (engine !== "mshtml" && hashchange) ||
+      (engine === "mshtml" && document.documentMode && 
+       document.documentMode >= 8 && hashchange);
     }
   },
 
@@ -76,5 +94,6 @@ qx.Bootstrap.define("qx.bom.client.Event",
     qx.core.Environment.add("event.touch", statics.getTouch);
     qx.core.Environment.add("event.pointer", statics.getPointer);
     qx.core.Environment.add("event.help", statics.getHelp);
+    qx.core.Environment.add("event.hashchange", statics.getHashChange);
   }
 });
