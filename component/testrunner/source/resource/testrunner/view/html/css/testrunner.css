@@ -209,7 +209,7 @@ label {
   border-left: 2px solid #9D1111;
 }
 
-.t_fail,
+.t_failure,
 .t_error {
 	color: #9E0000;
 }
