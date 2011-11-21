@@ -34,7 +34,8 @@
       [
         "qx.module.Css",
         "qx.module.Attribute",
-        "qx.module.Manipulating"
+        "qx.module.Manipulating",
+        "qx.module.Animation"
       ],
 
       "=environment" :
