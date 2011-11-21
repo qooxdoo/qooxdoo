@@ -24,8 +24,8 @@
     var d = qx.q('div');
     var a = qx.q('a');
 
-    a.setStyle("color", "green");
-    d.setStyle("color", "red");
+    a.setStyle("color", "#CCC");
+    d.setStyle("color", "#666");
 
     d.setHtml(d.getStyle("color"));
     console.log("getHtml", d.getHtml());
@@ -49,10 +49,22 @@
     window.setTimeout(function() {
       h1.remove();
       console.log("removed h1");
-    }, 2000);
+    }, 1000);
 
     qx.q("p").empty();
 
+
+    var input = qx.q.create("<input type='checkbox' alt='text'>");
+    input.appendTo(document.body);
+    input.setAttribute("checked", true);
+    console.log("getAttributes", input.getAttributes(["checked", "alt"]));
+
+
+    a.setProperty("innerHTML", "link");
+    console.log("getProperty", a.getProperty("innerHTML"));
+    
+    a.setProperties({a: 1, b: 2});
+    console.log("getProperties", a.getProperties(["a", "b"]));
   </script>
 </body>
 </html>
