@@ -4,15 +4,21 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>test q</title>
   <script type="text/javascript" src="q.js"></script>
+  <style type="text/css" media="screen">
+    .test {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <div>
+  <div class="test">
     CONTENT1
   </div>
-  <div>
+  <div id="test">
     CONTENT2
   </div>
   <a>A</a>
+  <p>not empty</p>
   
   <script type="text/javascript" charset="utf-8">
     var d = qx.q('div');
@@ -21,10 +27,32 @@
     a.setStyle("color", "green");
     d.setStyle("color", "red");
 
-    d[0].innerHTML = d.getStyle("color");
+    d.setHtml(d.getStyle("color"));
+    console.log("getHtml", d.getHtml());
 
     d.setStyles({"font-weight": "bold", "font-size": "20px"});
     console.log("getStyles", d.getStyles(["font-weight", "font-size"]));
+
+    d.removeClass("test");
+    var test = qx.q.warp(document.getElementById("test"));
+    test.addClass("test");
+    console.log("hasClass", test.hasClass("test"));
+
+    window.setInterval(function() {
+      test.toggleClass("test");
+    }, 333);
+
+    var h1 = qx.q.create("<h1>H1</h1>");
+    h1.appendTo(document.body);
+
+
+    window.setTimeout(function() {
+      h1.remove();
+      console.log("removed h1");
+    }, 2000);
+
+    qx.q("p").empty();
+
   </script>
 </body>
 </html>
